@@ -359,7 +359,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         {
                             for (var col = 0; col < JpegConstants.DCTSIZE; col++)
                             {
-                                fdtbl[i] = (float)(1.0 / ((qtbl.quantval[i] * aanscalefactor[row] * aanscalefactor[col] * (compptr.component_needed ? 16.0 : 8.0))));
+                                fdtbl[i] = (float)(1.0 / (qtbl.quantval[i] * aanscalefactor[row] * aanscalefactor[col] * (compptr.component_needed ? 16.0 : 8.0)));
                                 i++;
                             }
                         }
@@ -877,20 +877,20 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* Add fudge factor here for final descale. */
                 z1 += 1 << (SLOW_INTEGER_CONST_BITS - SLOW_INTEGER_PASS1_BITS - 1);
 
-                tmp12 = tmp12 * (-SLOW_INTEGER_FIX_0_390180644);          /* -c3+c5 */
-                tmp13 = tmp13 * (-SLOW_INTEGER_FIX_1_961570560);          /* -c3-c5 */
+                tmp12 *= (-SLOW_INTEGER_FIX_0_390180644);          /* -c3+c5 */
+                tmp13 *= (-SLOW_INTEGER_FIX_1_961570560);          /* -c3-c5 */
                 tmp12 += z1;
                 tmp13 += z1;
 
                 z1 = (tmp0 + tmp3) * (-SLOW_INTEGER_FIX_0_899976223);       /* -c3+c7 */
-                tmp0 = tmp0 * SLOW_INTEGER_FIX_1_501321110;              /*  c1+c3-c5-c7 */
-                tmp3 = tmp3 * SLOW_INTEGER_FIX_0_298631336;              /* -c1+c3+c5-c7 */
+                tmp0 *= SLOW_INTEGER_FIX_1_501321110;              /*  c1+c3-c5-c7 */
+                tmp3 *= SLOW_INTEGER_FIX_0_298631336;              /* -c1+c3+c5-c7 */
                 tmp0 += z1 + tmp12;
                 tmp3 += z1 + tmp13;
 
                 z1 = (tmp1 + tmp2) * (-SLOW_INTEGER_FIX_2_562915447);       /* -c1-c3 */
-                tmp1 = tmp1 * SLOW_INTEGER_FIX_3_072711026;              /*  c1+c3+c5-c7 */
-                tmp2 = tmp2 * SLOW_INTEGER_FIX_2_053119869;              /*  c1+c3-c5+c7 */
+                tmp1 *= SLOW_INTEGER_FIX_3_072711026;              /*  c1+c3+c5-c7 */
+                tmp2 *= SLOW_INTEGER_FIX_2_053119869;              /*  c1+c3-c5+c7 */
                 tmp1 += z1 + tmp13;
                 tmp2 += z1 + tmp12;
 
@@ -955,20 +955,20 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* Add fudge factor here for final descale. */
                 z1 += 1 << (SLOW_INTEGER_CONST_BITS + SLOW_INTEGER_PASS1_BITS - 1);
 
-                tmp12 = tmp12 * (-SLOW_INTEGER_FIX_0_390180644);          /* -c3+c5 */
-                tmp13 = tmp13 * (-SLOW_INTEGER_FIX_1_961570560);          /* -c3-c5 */
+                tmp12 *= (-SLOW_INTEGER_FIX_0_390180644);          /* -c3+c5 */
+                tmp13 *= (-SLOW_INTEGER_FIX_1_961570560);          /* -c3-c5 */
                 tmp12 += z1;
                 tmp13 += z1;
 
                 z1 = (tmp0 + tmp3) * (-SLOW_INTEGER_FIX_0_899976223);       /* -c3+c7 */
-                tmp0 = tmp0 * SLOW_INTEGER_FIX_1_501321110;              /*  c1+c3-c5-c7 */
-                tmp3 = tmp3 * SLOW_INTEGER_FIX_0_298631336;              /* -c1+c3+c5-c7 */
+                tmp0 *= SLOW_INTEGER_FIX_1_501321110;              /*  c1+c3-c5-c7 */
+                tmp3 *= SLOW_INTEGER_FIX_0_298631336;              /* -c1+c3+c5-c7 */
                 tmp0 += z1 + tmp12;
                 tmp3 += z1 + tmp13;
 
                 z1 = (tmp1 + tmp2) * (-SLOW_INTEGER_FIX_2_562915447);       /* -c1-c3 */
-                tmp1 = tmp1 * SLOW_INTEGER_FIX_3_072711026;              /*  c1+c3+c5-c7 */
-                tmp2 = tmp2 * SLOW_INTEGER_FIX_2_053119869;              /*  c1+c3-c5+c7 */
+                tmp1 *= SLOW_INTEGER_FIX_3_072711026;              /*  c1+c3+c5-c7 */
+                tmp2 *= SLOW_INTEGER_FIX_2_053119869;              /*  c1+c3-c5+c7 */
                 tmp1 += z1 + tmp13;
                 tmp2 += z1 + tmp12;
 
@@ -988,15 +988,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private static int FAST_INTEGER_MULTIPLY(int var, int c)
         {
 #if !USE_ACCURATE_ROUNDING
-            return (JpegUtils.RIGHT_SHIFT((var) * (c), FAST_INTEGER_CONST_BITS));
+            return JpegUtils.RIGHT_SHIFT(var * c, FAST_INTEGER_CONST_BITS);
 #else
-            return (JpegUtils.DESCALE((var) * (c), FAST_INTEGER_CONST_BITS));
+            return JpegUtils.DESCALE(var * c, FAST_INTEGER_CONST_BITS);
 #endif
         }
 
         private static int SLOW_INTEGER_FIX(double x)
         {
-            return ((int)((x) * (1 << SLOW_INTEGER_CONST_BITS) + 0.5));
+            return (int)(x * (1 << SLOW_INTEGER_CONST_BITS) + 0.5);
         }
 
         private void jpeg_fdct_1x1(int[] data, byte[][] sample_data, int start_row, int start_col)

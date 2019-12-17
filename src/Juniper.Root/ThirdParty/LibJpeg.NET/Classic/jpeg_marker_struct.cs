@@ -11,28 +11,18 @@ namespace BitMiracle.LibJpeg.Classic
     /// <seealso href="81c88818-a5d7-4550-9ce5-024a768f7b1e.htm" target="_self">Special markers</seealso>
     public class jpeg_marker_struct
     {
-        private readonly byte m_marker;           /* marker code: JPEG_COM, or JPEG_APP0+n */
-        private readonly int m_originalLength;   /* # bytes of data in the file */
-        private readonly byte[] m_data;       /* the data contained in the marker */
-
         internal jpeg_marker_struct(byte marker, int originalDataLength, int lengthLimit)
         {
-            m_marker = marker;
-            m_originalLength = originalDataLength;
-            m_data = new byte[lengthLimit];
+            Marker = marker;
+            OriginalLength = originalDataLength;
+            Data = new byte[lengthLimit];
         }
 
         /// <summary>
         /// Gets the special marker.
         /// </summary>
         /// <value>The marker value.</value>
-        public byte Marker
-        {
-            get
-            {
-                return m_marker;
-            }
-        }
+        public byte Marker { get; }
 
         /// <summary>
         /// Gets the full length of original data associated with the marker.
@@ -41,13 +31,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <remarks>This length excludes the marker length word, whereas the stored representation 
         /// within the JPEG file includes it. (Hence the maximum data length is really only 65533.)
         /// </remarks>
-        public int OriginalLength
-        {
-            get
-            {
-                return m_originalLength;
-            }
-        }
+        public int OriginalLength { get; }
 
         /// <summary>
         /// Gets the data associated with the marker.
@@ -57,12 +41,6 @@ namespace BitMiracle.LibJpeg.Classic
         /// Note that this length excludes the marker length word, whereas the stored representation 
         /// within the JPEG file includes it. (Hence the maximum data length is really only 65533.)
         /// </remarks>
-        public byte[] Data
-        {
-            get
-            {
-                return m_data;
-            }
-        }
+        public byte[] Data { get; }
     }
 }

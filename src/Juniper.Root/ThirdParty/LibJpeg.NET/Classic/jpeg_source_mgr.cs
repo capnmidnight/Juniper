@@ -72,24 +72,28 @@ namespace BitMiracle.LibJpeg.Classic
         /// <param name="cinfo">An instance of <see cref="jpeg_decompress_struct"/></param>
         /// <param name="desired">The desired</param>
         /// <returns><c>false</c> if suspension is required.</returns>
-        /// <remarks>That method assumes that no backtracking is possible. 
+        /// <remarks><para>
+        /// That method assumes that no backtracking is possible. 
         /// Some data source managers may be able to back up, or may have 
         /// additional knowledge about the data which permits a more 
         /// intelligent recovery strategy; such managers would
         /// presumably supply their own resync method.<br/><br/>
-        /// 
+        /// </para>
+        /// <para>
         /// read_restart_marker calls resync_to_restart if it finds a marker other than
         /// the restart marker it was expecting.  (This code is *not* used unless
         /// a nonzero restart interval has been declared.)  cinfo.unread_marker is
         /// the marker code actually found (might be anything, except 0 or FF).
         /// The desired restart marker number (0..7) is passed as a parameter.<br/><br/>
-        /// 
+        /// </para>
+        /// <para>
         /// This routine is supposed to apply whatever error recovery strategy seems
         /// appropriate in order to position the input stream to the next data segment.
         /// Note that cinfo.unread_marker is treated as a marker appearing before
         /// the current data-source input point; usually it should be reset to zero
         /// before returning.<br/><br/>
-        /// 
+        /// </para>
+        /// <para>
         /// This implementation is substantially constrained by wanting to treat the
         /// input as a data stream; this means we can't back up.  Therefore, we have
         /// only the following actions to work with:<br/>
@@ -103,7 +107,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// 3. Leave the marker unread (by failing to zero cinfo.unread_marker).
         /// This will cause the entropy decoder to process an empty data segment,
         /// inserting dummy zeroes, and then we will reprocess the marker.<br/>
-        /// 
+        /// </para>
+        /// <para>
         /// #2 is appropriate if we think the desired marker lies ahead, while #3 is
         /// appropriate if the found marker is a future restart marker (indicating
         /// that we have missed the desired restart marker, probably because it got
@@ -117,16 +122,16 @@ namespace BitMiracle.LibJpeg.Classic
         /// For any valid non-restart JPEG marker, we apply #3.  This keeps us from
         /// overrunning the end of a scan.  An implementation limited to single-scan
         /// files might find it better to apply #2 for markers other than EOI, since
-        /// any other marker would have to be bogus data in that case.</remarks>
+        /// any other marker would have to be bogus data in that case.
+        /// </para></remarks>
         public virtual bool resync_to_restart(jpeg_decompress_struct cinfo, int desired)
         {
             /* Always put up a warning. */
             cinfo.WARNMS(J_MESSAGE_CODE.JWRN_MUST_RESYNC, cinfo.m_unread_marker, desired);
-
-            /* Outer loop handles repeated decision after scanning forward. */
-            var action = 1;
-            for (; ; )
+            while (true)
             {
+                /* Outer loop handles repeated decision after scanning forward. */
+                int action;
                 if (cinfo.m_unread_marker < (int)JPEG_MARKER.SOF0)
                 {
                     /* invalid marker */

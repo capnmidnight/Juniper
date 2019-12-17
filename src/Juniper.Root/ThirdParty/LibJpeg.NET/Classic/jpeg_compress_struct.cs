@@ -252,14 +252,14 @@ namespace BitMiracle.LibJpeg.Classic
          * Links to compression subobjects (methods and private variables of modules)
          */
         internal jpeg_comp_master m_master;
-        internal jpeg_c_main_controller m_main;
-        internal jpeg_c_prep_controller m_prep;
-        internal jpeg_c_coef_controller m_coef;
+        internal JpegCMainController m_main;
+        internal JpegCPrepController m_prep;
+        internal JpegCCoefController m_coef;
         internal jpeg_marker_writer m_marker;
         internal jpeg_color_converter m_cconvert;
-        internal jpeg_downsampler m_downsample;
+        internal JpegDownsampler m_downsample;
         internal jpeg_forward_dct m_fdct;
-        internal jpeg_entropy_encoder m_entropy;
+        internal JpegEntropyEncoder m_entropy;
         internal jpeg_scan_info[] m_script_space; /* workspace for jpeg_simple_progression */
         internal int m_script_space_size;
 
@@ -760,7 +760,7 @@ namespace BitMiracle.LibJpeg.Classic
                     /* We bypass the main controller and invoke coef controller directly;
                     * all work is being done from the coefficient buffer.
                     */
-                    if (!m_coef.compress_data(null))
+                    if (!m_coef.CompressData(null))
                     {
                         ERREXIT(J_MESSAGE_CODE.JERR_CANT_SUSPEND);
                     }
@@ -1561,7 +1561,7 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* Directly compress the row. */
-            if (!m_coef.compress_data(data))
+            if (!m_coef.CompressData(data))
             {
                 /* If compressor did not consume the whole row, suspend processing. */
                 return 0;
@@ -1821,8 +1821,8 @@ namespace BitMiracle.LibJpeg.Classic
             if (!m_raw_data_in)
             {
                 m_cconvert = new jpeg_color_converter(this);
-                m_downsample = new jpeg_downsampler(this);
-                m_prep = new jpeg_c_prep_controller(this);
+                m_downsample = new JpegDownsampler(this);
+                m_prep = new JpegCPrepController(this);
             }
 
             /* Forward DCT */
@@ -1831,11 +1831,11 @@ namespace BitMiracle.LibJpeg.Classic
             /* Entropy encoding: either Huffman or arithmetic coding. */
             if (arith_code)
             {
-                m_entropy = new arith_entropy_encoder(this);
+                m_entropy = new ArithEntropyEncoder(this);
             }
             else
             {
-                m_entropy = new huff_entropy_encoder(this);
+                m_entropy = new HuffmanEntropyEncoder(this);
             }
 
             /* Need a full-image coefficient buffer in any multi-pass mode. */
@@ -1907,7 +1907,7 @@ namespace BitMiracle.LibJpeg.Classic
             }
             else
             {
-                m_main = new jpeg_c_main_controller(this);
+                m_main = new JpegCMainController(this);
             }
         }
 
@@ -1922,11 +1922,11 @@ namespace BitMiracle.LibJpeg.Classic
             /* Entropy encoding: only Huffman or arithmetic coding. */
             if (arith_code)
             {
-                m_entropy = new arith_entropy_encoder(this);
+                m_entropy = new ArithEntropyEncoder(this);
             }
             else
             {
-                m_entropy = new huff_entropy_encoder(this);
+                m_entropy = new HuffmanEntropyEncoder(this);
             }
 
             /* We need a special coefficient buffer controller. */

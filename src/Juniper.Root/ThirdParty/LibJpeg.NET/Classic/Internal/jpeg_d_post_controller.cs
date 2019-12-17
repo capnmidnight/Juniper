@@ -78,11 +78,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// <summary>
         /// Initialize for a processing pass.
         /// </summary>
-        public void start_pass(J_BUF_MODE pass_mode)
+        public void start_pass(JBufMode pass_mode)
         {
             switch (pass_mode)
             {
-                case J_BUF_MODE.JBUF_PASS_THRU:
+                case JBufMode.PassThrough:
                     if (m_cinfo.m_quantize_colors)
                     {
                         /* Single-pass processing with color quantization. */
@@ -104,7 +104,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         m_processor = ProcessorType.Upsample;
                     }
                     break;
-                case J_BUF_MODE.JBUF_SAVE_AND_PASS:
+                case JBufMode.SaveAndPass:
                     /* First pass of 2-pass quantization */
                     if (m_whole_image == null)
                     {
@@ -113,7 +113,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                     m_processor = ProcessorType.PrePass;
                     break;
-                case J_BUF_MODE.JBUF_CRANK_DEST:
+                case JBufMode.CrankDest:
                     /* Second pass of 2-pass quantization */
                     if (m_whole_image == null)
                     {

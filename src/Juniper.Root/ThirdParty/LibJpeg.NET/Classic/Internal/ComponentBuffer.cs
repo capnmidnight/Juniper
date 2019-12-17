@@ -1,4 +1,4 @@
-﻿namespace BitMiracle.LibJpeg.Classic.Internal
+namespace BitMiracle.LibJpeg.Classic.Internal
 {
     /// <summary>
     /// Encapsulates buffer of image samples for one color component
@@ -7,15 +7,15 @@
     /// </summary>
     internal class ComponentBuffer
     {
-        private byte[][] m_buffer;
+        private byte[][] buffer;
 
         // array of funny indices
-        private int[] m_funnyIndices;
+        private int[] funnyIndices;
 
         // index of "first funny index" (used because some code uses negative 
         // indices when retrieve rows)
         // see for example my_upsampler.h2v2_fancy_upsample
-        private int m_funnyOffset;
+        private int funnyOffset;
 
         public ComponentBuffer()
         {
@@ -30,20 +30,20 @@
         {
             get
             {
-                if (m_funnyIndices == null)
+                if (funnyIndices == null)
                 {
-                    return m_buffer[i];
+                    return buffer[i];
                 }
 
-                return m_buffer[m_funnyIndices[i + m_funnyOffset]];
+                return buffer[funnyIndices[i + funnyOffset]];
             }
         }
 
         public void SetBuffer(byte[][] buf, int[] funnyIndices, int funnyOffset)
         {
-            m_buffer = buf;
-            m_funnyIndices = funnyIndices;
-            m_funnyOffset = funnyOffset;
+            buffer = buf;
+            this.funnyIndices = funnyIndices;
+            this.funnyOffset = funnyOffset;
         }
     }
 }

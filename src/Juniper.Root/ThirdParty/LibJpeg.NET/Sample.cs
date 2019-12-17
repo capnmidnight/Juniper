@@ -12,26 +12,25 @@ namespace BitMiracle.LibJpeg
     public class Sample
     {
         private readonly short[] m_components;
-        private readonly byte m_bitsPerComponent;
 
         internal Sample(BitStream bitStream, byte bitsPerComponent, byte componentCount)
         {
             if (bitStream == null)
             {
-                throw new ArgumentNullException("bitStream");
+                throw new ArgumentNullException(nameof(bitStream));
             }
 
             if (bitsPerComponent <= 0 || bitsPerComponent > 16)
             {
-                throw new ArgumentOutOfRangeException("bitsPerComponent");
+                throw new ArgumentOutOfRangeException(nameof(bitsPerComponent));
             }
 
             if (componentCount <= 0 || componentCount > 5)
             {
-                throw new ArgumentOutOfRangeException("componentCount");
+                throw new ArgumentOutOfRangeException(nameof(componentCount));
             }
 
-            m_bitsPerComponent = bitsPerComponent;
+            BitsPerComponent = bitsPerComponent;
 
             m_components = new short[componentCount];
             for (short i = 0; i < componentCount; ++i)
@@ -44,7 +43,7 @@ namespace BitMiracle.LibJpeg
         {
             if (components == null)
             {
-                throw new ArgumentNullException("components");
+                throw new ArgumentNullException(nameof(components));
             }
 
             if (components.Length == 0 || components.Length > 5)
@@ -54,10 +53,10 @@ namespace BitMiracle.LibJpeg
 
             if (bitsPerComponent <= 0 || bitsPerComponent > 16)
             {
-                throw new ArgumentOutOfRangeException("bitsPerComponent");
+                throw new ArgumentOutOfRangeException(nameof(bitsPerComponent));
             }
 
-            m_bitsPerComponent = bitsPerComponent;
+            BitsPerComponent = bitsPerComponent;
 
             m_components = new short[components.Length];
             Buffer.BlockCopy(components, 0, m_components, 0, components.Length * sizeof(short));
@@ -67,13 +66,7 @@ namespace BitMiracle.LibJpeg
         /// Gets the number of bits per color component.
         /// </summary>
         /// <value>The number of bits per color component.</value>
-        public byte BitsPerComponent
-        {
-            get
-            {
-                return m_bitsPerComponent;
-            }
-        }
+        public byte BitsPerComponent { get; }
 
         /// <summary>
         /// Gets the number of color components.

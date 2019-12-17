@@ -141,11 +141,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
-        /// Control routine to do upsampling (and color conversion).
-        /// 
+        /// <para>Control routine to do upsampling (and color conversion).</para>
+        /// <para>
         /// In this version we upsample each component independently.
         /// We upsample one row group into the conversion buffer, then apply
         /// color conversion a row at a time.
+        /// </para>
         /// </summary>
         public override void upsample(ComponentBuffer[] input_buf, ref int in_row_group_ctr, int in_row_groups_avail, byte[][] output_buf, ref int out_row_ctr, int out_rows_avail)
         {

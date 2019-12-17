@@ -9,7 +9,7 @@ namespace BitMiracle.LibJpeg
         {
             if (stream == null)
             {
-                throw new ArgumentNullException("stream");
+                throw new ArgumentNullException(nameof(stream));
             }
 
             var positionBefore = stream.Position;

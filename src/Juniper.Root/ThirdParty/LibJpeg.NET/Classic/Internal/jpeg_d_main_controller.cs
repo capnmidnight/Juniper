@@ -175,11 +175,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// <summary>
         /// Initialize for a processing pass.
         /// </summary>
-        public void start_pass(J_BUF_MODE pass_mode)
+        public void start_pass(JBufMode pass_mode)
         {
             switch (pass_mode)
             {
-                case J_BUF_MODE.JBUF_PASS_THRU:
+                case JBufMode.PassThrough:
                     if (m_cinfo.m_upsample.NeedContextRows())
                     {
                         m_dataProcessor = DataProcessor.context_main;
@@ -196,7 +196,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     m_buffer_full = false;  /* Mark buffer empty */
                     m_rowgroup_ctr = 0;
                     break;
-                case J_BUF_MODE.JBUF_CRANK_DEST:
+                case JBufMode.CrankDest:
                     /* For last pass of 2-pass quantization, just crank the postprocessor */
                     m_dataProcessor = DataProcessor.crank_post;
                     break;

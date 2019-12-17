@@ -50,14 +50,14 @@ namespace Hjg.Pngcs.Chunks
                 {
                     if (SampleDepth == 8)
                     {
-                        PngHelperInternal.WriteByte(ba, (byte)Palette[n * 5 + i]);
+                        PngHelperInternal.WriteByte(ba, (byte)Palette[(n * 5) + i]);
                     }
                     else
                     {
-                        PngHelperInternal.WriteInt2(ba, Palette[n * 5 + i]);
+                        PngHelperInternal.WriteInt2(ba, Palette[(n * 5) + i]);
                     }
                 }
-                PngHelperInternal.WriteInt2(ba, Palette[n * 5 + 4]);
+                PngHelperInternal.WriteInt2(ba, Palette[(n * 5) + 4]);
             }
             var b = ba.ToArray();
             var chunk = createEmptyChunk(b.Length, false);

@@ -18,12 +18,12 @@ namespace Hjg.Pngcs.Zlib
         {
             if (!initdone)
             {
-                doInit();
+                DoInit();
             }
 
             if (deflateStream == null)
             {
-                initStream();
+                InitStream();
             }
 
             base.WriteByte(value);
@@ -39,12 +39,12 @@ namespace Hjg.Pngcs.Zlib
 
             if (!initdone)
             {
-                doInit();
+                DoInit();
             }
 
             if (deflateStream == null)
             {
-                initStream();
+                InitStream();
             }
 
             deflateStream.Write(array, offset, count);
@@ -55,7 +55,7 @@ namespace Hjg.Pngcs.Zlib
         {
             if (!initdone)
             {
-                doInit(); // can happen if never called write
+                DoInit(); // can happen if never called write
             }
 
             if (closed)
@@ -80,14 +80,14 @@ namespace Hjg.Pngcs.Zlib
             rawStream.WriteByte((byte)((crcv >> 24) & 0xFF));
             rawStream.WriteByte((byte)((crcv >> 16) & 0xFF));
             rawStream.WriteByte((byte)((crcv >> 8) & 0xFF));
-            rawStream.WriteByte((byte)((crcv) & 0xFF));
+            rawStream.WriteByte((byte)(crcv & 0xFF));
             if (!leaveOpen)
             {
                 rawStream.Close();
             }
         }
 
-        private void initStream()
+        private void InitStream()
         {
             if (deflateStream != null)
             {
@@ -109,7 +109,7 @@ namespace Hjg.Pngcs.Zlib
             deflateStream = new DeflateStream(rawStream, clevel, true);
         }
 
-        private void doInit()
+        private void DoInit()
         {
             if (initdone)
             {
@@ -133,7 +133,7 @@ namespace Hjg.Pngcs.Zlib
                 flg = 1;
             }
 
-            flg -= ((cmf * 256 + flg) % 31); // just in case
+            flg -= (((cmf * 256) + flg) % 31); // just in case
             if (flg < 0)
             {
                 flg += 31;
@@ -145,10 +145,7 @@ namespace Hjg.Pngcs.Zlib
 
         public override void Flush()
         {
-            if (deflateStream != null)
-            {
-                deflateStream.Flush();
-            }
+            deflateStream?.Flush();
         }
 
         public override string GetImplementationId()

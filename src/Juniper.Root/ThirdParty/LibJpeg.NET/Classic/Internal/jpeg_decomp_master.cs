@@ -48,8 +48,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* Final pass of 2-pass quantization */
                 m_is_dummy_pass = false;
                 m_cinfo.m_cquantize.start_pass(false);
-                m_cinfo.m_post.start_pass(J_BUF_MODE.JBUF_CRANK_DEST);
-                m_cinfo.m_main.start_pass(J_BUF_MODE.JBUF_CRANK_DEST);
+                m_cinfo.m_post.start_pass(JBufMode.CrankDest);
+                m_cinfo.m_main.start_pass(JBufMode.CrankDest);
             }
             else
             {
@@ -83,8 +83,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         m_cinfo.m_cquantize.start_pass(m_is_dummy_pass);
                     }
 
-                    m_cinfo.m_post.start_pass((m_is_dummy_pass ? J_BUF_MODE.JBUF_SAVE_AND_PASS : J_BUF_MODE.JBUF_PASS_THRU));
-                    m_cinfo.m_main.start_pass(J_BUF_MODE.JBUF_PASS_THRU);
+                    m_cinfo.m_post.start_pass(m_is_dummy_pass ? JBufMode.SaveAndPass : JBufMode.PassThrough);
+                    m_cinfo.m_main.start_pass(JBufMode.PassThrough);
                 }
             }
 
@@ -245,11 +245,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             if (m_cinfo.arith_code)
             {
-                m_cinfo.m_entropy = new arith_entropy_decoder(m_cinfo);
+                m_cinfo.m_entropy = new ArithEntropyDecoder(m_cinfo);
             }
             else
             {
-                m_cinfo.m_entropy = new huff_entropy_decoder(m_cinfo);
+                m_cinfo.m_entropy = new HuffmanEntropyDecoder(m_cinfo);
             }
 
             /* Initialize principal buffer controllers. */

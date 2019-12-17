@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains library routines for transcoding compression,
  * that is, writing raw DCT coefficient arrays to an output JPEG file.
  */
@@ -12,7 +12,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// dummy padding blocks on-the-fly rather than expecting them to be present
     /// in the arrays.
     /// </summary>
-    internal class my_trans_c_coef_controller : jpeg_c_coef_controller
+    internal class my_trans_c_coef_controller : JpegCCoefController
     {
         private readonly jpeg_compress_struct m_cinfo;
 
@@ -28,11 +28,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private readonly JBLOCK[][] m_dummy_buffer = new JBLOCK[JpegConstants.C_MAX_BLOCKS_IN_MCU][];
 
         /// <summary>
-        /// Initialize coefficient buffer controller.
-        /// 
+        /// <para>Initialize coefficient buffer controller.</para>
+        /// <para>
         /// Each passed coefficient array must be the right size for that
         /// coefficient: width_in_blocks wide and height_in_blocks high,
         /// with unit height at least v_samp_factor.
+        /// </para>
         /// </summary>
         public my_trans_c_coef_controller(jpeg_compress_struct cinfo, jvirt_array<JBLOCK>[] coef_arrays)
         {
@@ -61,9 +62,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// <summary>
         /// Initialize for a processing pass.
         /// </summary>
-        public virtual void start_pass(J_BUF_MODE pass_mode)
+        public virtual void StartPass(JBufMode pass_mode)
         {
-            if (pass_mode != J_BUF_MODE.JBUF_CRANK_DEST)
+            if (pass_mode != JBufMode.CrankDest)
             {
                 m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_BUFFER_MODE);
             }
@@ -73,15 +74,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
+        /// <para>
         /// Process some data.
         /// We process the equivalent of one fully interleaved MCU row ("iMCU" row)
         /// per call, ie, v_samp_factor block rows for each component in the scan.
         /// The data is obtained from the virtual arrays and fed to the entropy coder.
         /// Returns true if the iMCU row is completed, false if suspended.
-        /// 
-        /// NB: input_buf is ignored; it is likely to be a null pointer.
+        /// </para>
+        /// <para>NB: input_buf is ignored; it is likely to be a null pointer.</para>
         /// </summary>
-        public virtual bool compress_data(byte[][][] input_buf)
+        public virtual bool CompressData(byte[][][] input_buf)
         {
             /* Align the virtual buffers for the components used in this scan. */
             var buffer = new JBLOCK[JpegConstants.MAX_COMPS_IN_SCAN][][];
@@ -109,7 +111,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         var blockcnt = (MCU_col_num < last_MCU_col) ? componentInfo.MCU_width : componentInfo.last_col_width;
                         for (var yindex = 0; yindex < componentInfo.MCU_height; yindex++)
                         {
-                            var xindex = 0;
+                            int xindex;
                             if (m_iMCU_row_num < last_iMCU_row || yindex + yoffset < componentInfo.last_row_height)
                             {
                                 /* Fill in pointers to real blocks in this row */
@@ -148,7 +150,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     }
 
                     /* Try to write the MCU. */
-                    if (!m_cinfo.m_entropy.encode_mcu(MCU_buffer))
+                    if (!m_cinfo.m_entropy.encodeMcu(MCU_buffer))
                     {
                         /* Suspension forced; update state counters and exit */
                         m_MCU_vert_offset = yoffset;

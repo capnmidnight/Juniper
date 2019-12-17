@@ -166,7 +166,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     }
 
                     /* Try to fetch the MCU. */
-                    if (!m_cinfo.m_entropy.decode_mcu(m_MCU_buffer))
+                    if (!m_cinfo.m_entropy.decodeMcu(m_MCU_buffer))
                     {
                         /* Suspension forced; update state counters and exit */
                         m_MCU_vert_offset = yoffset;
@@ -269,7 +269,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         }
                     }
 
-                    if (!m_cinfo.m_entropy.decode_mcu(m_MCU_buffer))
+                    if (!m_cinfo.m_entropy.decodeMcu(m_MCU_buffer))
                     {
                         /* Suspension forced; update state counters and exit */
                         m_MCU_vert_offset = yoffset;
@@ -480,10 +480,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     last_row = true;
                 }
 
-                /* Align the virtual buffer for this component. */
-                JBLOCK[][] buffer = null;
                 bool first_row;
                 var bufferRowOffset = 0;
+
+                /* Align the virtual buffer for this component. */
+                JBLOCK[][] buffer;
                 if (m_cinfo.m_output_iMCU_row > 0)
                 {
                     access_rows += componentInfo.V_samp_factor; /* prior iMCU row too */
@@ -512,7 +513,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 {
                     var bufferIndex = bufferRowOffset + block_row;
 
-                    var prev_block_row = 0;
+                    int prev_block_row;
                     if (first_row && block_row == 0)
                     {
                         prev_block_row = bufferIndex;
@@ -522,7 +523,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         prev_block_row = bufferIndex - 1;
                     }
 
-                    var next_block_row = 0;
+                    int next_block_row;
                     if (last_row && block_row == block_rows - 1)
                     {
                         next_block_row = bufferIndex;

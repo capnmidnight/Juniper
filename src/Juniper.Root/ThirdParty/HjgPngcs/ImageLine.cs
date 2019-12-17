@@ -59,7 +59,7 @@ namespace Hjg.Pngcs
         /// <summary>
         /// Maximum sample value that this line admits: typically 255; less if bitdepth less than 8, 65535 if 16bits
         /// </summary>
-        public int maxSampleVal { get; }
+        public int MaxSampleVal { get; }
 
         public enum ESampleType
         {
@@ -118,13 +118,13 @@ namespace Hjg.Pngcs
             {
                 Scanline = sci ?? (new int[ElementsPerRow]);
                 ScanlineB = null;
-                maxSampleVal = bitDepth == 16 ? 0xFFFF : GetMaskForPackedFormatsLs(bitDepth);
+                MaxSampleVal = bitDepth == 16 ? 0xFFFF : GetMaskForPackedFormatsLs(bitDepth);
             }
             else if (stype == ESampleType.BYTE)
             {
                 ScanlineB = scb ?? (new byte[ElementsPerRow]);
                 Scanline = null;
-                maxSampleVal = bitDepth == 16 ? 0xFF : GetMaskForPackedFormatsLs(bitDepth);
+                MaxSampleVal = bitDepth == 16 ? 0xFF : GetMaskForPackedFormatsLs(bitDepth);
             }
             else
             {
@@ -134,7 +134,7 @@ namespace Hjg.Pngcs
             Rown = -1;
         }
 
-        static internal void unpackInplaceInt(ImageInfo iminfo, int[] src, int[] dst,
+        static internal void UnpackInplaceInt(ImageInfo iminfo, int[] src, int[] dst,
             bool Scale)
         {
             var bitDepth = iminfo.BitDepth;
@@ -145,7 +145,7 @@ namespace Hjg.Pngcs
 
             var mask0 = GetMaskForPackedFormatsLs(bitDepth);
             var scalefactor = 8 - bitDepth;
-            var offset0 = 8 * iminfo.SamplesPerRowPacked - bitDepth * iminfo.SamplesPerRow;
+            var offset0 = (8 * iminfo.SamplesPerRowPacked) - (bitDepth * iminfo.SamplesPerRow);
             int mask, offset, v;
             if (offset0 != 8)
             {
@@ -177,7 +177,7 @@ namespace Hjg.Pngcs
             }
         }
 
-        static internal void packInplaceInt(ImageInfo iminfo, int[] src, int[] dst,
+        static internal void PackInplaceInt(ImageInfo iminfo, int[] src, int[] dst,
             bool scaled)
         {
             var bitDepth = iminfo.BitDepth;
@@ -219,7 +219,7 @@ namespace Hjg.Pngcs
             dst[0] |= v0;
         }
 
-        static internal void unpackInplaceByte(ImageInfo iminfo, byte[] src,
+        static internal void UnpackInplaceByte(ImageInfo iminfo, byte[] src,
              byte[] dst, bool scale)
         {
             var bitDepth = iminfo.BitDepth;
@@ -230,7 +230,7 @@ namespace Hjg.Pngcs
 
             var mask0 = GetMaskForPackedFormatsLs(bitDepth);
             var scalefactor = 8 - bitDepth;
-            var offset0 = 8 * iminfo.SamplesPerRowPacked - bitDepth * iminfo.SamplesPerRow;
+            var offset0 = (8 * iminfo.SamplesPerRowPacked) - (bitDepth * iminfo.SamplesPerRow);
             int mask, offset, v;
             if (offset0 != 8)
             {
@@ -264,7 +264,7 @@ namespace Hjg.Pngcs
 
         /** size original: samplesPerRow sizeFinal: samplesPerRowPacked (trailing elements are trash!) **/
 
-        static internal void packInplaceByte(ImageInfo iminfo, byte[] src, byte[] dst,
+        static internal void PackInplaceByte(ImageInfo iminfo, byte[] src, byte[] dst,
                  bool scaled)
         {
             var bitDepth = iminfo.BitDepth;
@@ -332,31 +332,31 @@ namespace Hjg.Pngcs
             return b;
         }
 
-        public ImageLine unpackToNewImageLine()
+        public ImageLine UnpackToNewImageLine()
         {
             var newline = new ImageLine(ImgInfo, SampleType, true);
             if (SampleType == ESampleType.INT)
             {
-                unpackInplaceInt(ImgInfo, Scanline, newline.Scanline, false);
+                UnpackInplaceInt(ImgInfo, Scanline, newline.Scanline, false);
             }
             else
             {
-                unpackInplaceByte(ImgInfo, ScanlineB, newline.ScanlineB, false);
+                UnpackInplaceByte(ImgInfo, ScanlineB, newline.ScanlineB, false);
             }
 
             return newline;
         }
 
-        public ImageLine packToNewImageLine()
+        public ImageLine PackToNewImageLine()
         {
             var newline = new ImageLine(ImgInfo, SampleType, false);
             if (SampleType == ESampleType.INT)
             {
-                packInplaceInt(ImgInfo, Scanline, newline.Scanline, false);
+                PackInplaceInt(ImgInfo, Scanline, newline.Scanline, false);
             }
             else
             {
-                packInplaceByte(ImgInfo, ScanlineB, newline.ScanlineB, false);
+                PackInplaceByte(ImgInfo, ScanlineB, newline.ScanlineB, false);
             }
 
             return newline;

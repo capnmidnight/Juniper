@@ -25,12 +25,12 @@ namespace Hjg.Pngcs.Chunks
                 return false;
             }
 
-            if (c is PngChunkTextVar && !((PngChunkTextVar)c).GetKey().Equals(innerid))
+            if (c is PngChunkTextVar pngChunkTextVar && !pngChunkTextVar.GetKey().Equals(innerid))
             {
                 return false;
             }
 
-            if (c is PngChunkSPLT && !((PngChunkSPLT)c).PalName.Equals(innerid))
+            if (c is PngChunkSPLT pngChunkSPLT && !pngChunkSPLT.PalName.Equals(innerid))
             {
                 return false;
             }

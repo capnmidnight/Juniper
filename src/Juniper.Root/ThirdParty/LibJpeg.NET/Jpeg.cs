@@ -182,7 +182,7 @@ namespace BitMiracle.LibJpeg
         /* Install a special processing method for COM or APPn markers. */
         public void SetMarkerProcessor(int markerCode, MarkerParser routine)
         {
-            bool f(jpeg_decompress_struct cinfo) { return routine(this); }
+            bool f(jpeg_decompress_struct _) { return routine(this); }
             ClassicDecompressor.jpeg_set_marker_processor(markerCode, f);
         }
 

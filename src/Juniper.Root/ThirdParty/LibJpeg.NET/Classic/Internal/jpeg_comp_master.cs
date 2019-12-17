@@ -128,7 +128,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* The entropy coder always needs an end-of-pass call,
             * either to analyze statistics or to flush its output buffer.
             */
-            m_cinfo.m_entropy.finish_pass();
+            m_cinfo.m_entropy.finishPass();
 
             /* Update state for next pass */
             switch (m_pass_type)
@@ -183,13 +183,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             if (!m_cinfo.m_raw_data_in)
             {
                 m_cinfo.m_cconvert.start_pass();
-                m_cinfo.m_prep.start_pass(J_BUF_MODE.JBUF_PASS_THRU);
+                m_cinfo.m_prep.StartPass(JBufMode.PassThrough);
             }
 
             m_cinfo.m_fdct.start_pass();
-            m_cinfo.m_entropy.start_pass(m_cinfo.m_optimize_coding);
-            m_cinfo.m_coef.start_pass((m_total_passes > 1 ? J_BUF_MODE.JBUF_SAVE_AND_PASS : J_BUF_MODE.JBUF_PASS_THRU));
-            m_cinfo.m_main.start_pass(J_BUF_MODE.JBUF_PASS_THRU);
+            m_cinfo.m_entropy.StartPass(m_cinfo.m_optimize_coding);
+            m_cinfo.m_coef.StartPass(m_total_passes > 1 ? JBufMode.SaveAndPass : JBufMode.PassThrough);
+            m_cinfo.m_main.start_pass(JBufMode.PassThrough);
 
             if (m_cinfo.m_optimize_coding)
             {
@@ -211,8 +211,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             if (m_cinfo.m_Ss != 0 || m_cinfo.m_Ah == 0)
             {
-                m_cinfo.m_entropy.start_pass(true);
-                m_cinfo.m_coef.start_pass(J_BUF_MODE.JBUF_CRANK_DEST);
+                m_cinfo.m_entropy.StartPass(true);
+                m_cinfo.m_coef.StartPass(JBufMode.CrankDest);
                 m_call_pass_startup = false;
                 return false;
             }
@@ -235,8 +235,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 per_scan_setup();
             }
 
-            m_cinfo.m_entropy.start_pass(false);
-            m_cinfo.m_coef.start_pass(J_BUF_MODE.JBUF_CRANK_DEST);
+            m_cinfo.m_entropy.StartPass(false);
+            m_cinfo.m_coef.StartPass(JBufMode.CrankDest);
 
             /* We emit frame/scan headers now */
             if (m_scan_number == 0)

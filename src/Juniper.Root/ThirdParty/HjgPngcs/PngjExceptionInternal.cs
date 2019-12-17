@@ -9,10 +9,7 @@ namespace Hjg.Pngcs
     [Serializable]
     public class PngjExceptionInternal : Exception
     {
-        private const long serialVersionUID = 1L;
-
         public PngjExceptionInternal()
-            : base()
         {
         }
 

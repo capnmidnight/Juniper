@@ -132,7 +132,7 @@ namespace Hjg.Pngcs
             Packed = bitdepth < 8;
             BitspPixel = (Channels * BitDepth);
             BytesPixel = (BitspPixel + 7) / 8;
-            BytesPerRow = (BitspPixel * cols + 7) / 8;
+            BytesPerRow = ((BitspPixel * cols) + 7) / 8;
             SamplesPerRow = Channels * Cols;
             SamplesPerRowPacked = (Packed) ? BytesPerRow : SamplesPerRow;
             // checks
@@ -192,13 +192,13 @@ namespace Hjg.Pngcs
         {
             const int prime = 31;
             var result = 1;
-            result = prime * result + ((Alpha) ? 1231 : 1237);
-            result = prime * result + BitDepth;
-            result = prime * result + Channels;
-            result = prime * result + Cols;
-            result = prime * result + ((Greyscale) ? 1231 : 1237);
-            result = prime * result + ((Indexed) ? 1231 : 1237);
-            result = prime * result + Rows;
+            result = (prime * result) + ((Alpha) ? 1231 : 1237);
+            result = (prime * result) + BitDepth;
+            result = (prime * result) + Channels;
+            result = (prime * result) + Cols;
+            result = (prime * result) + ((Greyscale) ? 1231 : 1237);
+            result = (prime * result) + ((Indexed) ? 1231 : 1237);
+            result = (prime * result) + Rows;
             return result;
         }
 

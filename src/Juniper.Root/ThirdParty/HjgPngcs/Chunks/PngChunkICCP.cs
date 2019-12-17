@@ -62,8 +62,8 @@ namespace Hjg.Pngcs.Chunks
         /// Sets profile name and profile
         /// </summary>
         /// <param name="name">profile name </param>
-        /// <param name="profile">profile (latin1 string)</param>
-        public void SetProfileNameAndContent(string name, string profile)
+        /// <param name="profileName">profile (latin1 string)</param>
+        public void SetProfileNameAndContent(string name, string profileName)
         {
             SetProfileNameAndContent(name, ChunkHelper.ToBytes(profileName));
         }

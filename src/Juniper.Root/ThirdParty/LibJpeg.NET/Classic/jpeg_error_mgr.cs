@@ -89,11 +89,14 @@ namespace BitMiracle.LibJpeg.Classic
         /// 1: first level of tracing detail.<br/>
         /// 2, 3, ...: successively more detailed tracing messages.
         /// </param>
-        /// <remarks>The main reason for overriding this method would be to abort on warnings.
+        /// <remarks><para>
+        /// The main reason for overriding this method would be to abort on warnings.
         /// This method calls <see cref="jpeg_error_mgr.output_message">output_message</see> for message showing.<br/>
-        /// 
+        /// </para>
+        /// <para>
         /// An application might override this method if it wanted to abort on 
         /// warnings or change the policy about which messages to display.
+        /// </para>
         /// </remarks>
         /// <seealso href="41dc1a3b-0dea-4594-87d2-c213ab1049e1.htm" target="_self">Error handling</seealso>
         public virtual void emit_message(int msg_level)

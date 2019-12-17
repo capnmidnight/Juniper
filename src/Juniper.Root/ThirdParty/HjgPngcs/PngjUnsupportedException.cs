@@ -9,10 +9,7 @@ namespace Hjg.Pngcs
     [Serializable]
     public class PngjUnsupportedException : Exception
     {
-        private const long serialVersionUID = 1L;
-
         public PngjUnsupportedException()
-            : base()
         {
         }
 

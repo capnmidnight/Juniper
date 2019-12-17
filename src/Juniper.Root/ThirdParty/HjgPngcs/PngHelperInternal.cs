@@ -32,7 +32,7 @@ namespace Hjg.Pngcs
 
         public static int DoubleToInt100000(double d)
         {
-            return (int)(d * 100000.0 + 0.5);
+            return (int)((d * 100000.0) + 0.5);
         }
 
         public static double IntToDouble100000(int i)
@@ -96,12 +96,12 @@ namespace Hjg.Pngcs
 
         public static int ReadInt1fromByte(byte[] b, int offset)
         {
-            return (b[offset] & 0xff);
+            return b[offset] & 0xff;
         }
 
         public static int ReadInt2fromBytes(byte[] b, int offset)
         {
-            return ((b[offset] & 0xff) << 16) | ((b[offset + 1] & 0xff));
+            return ((b[offset] & 0xff) << 16) | (b[offset + 1] & 0xff);
         }
 
         public static int ReadInt4fromBytes(byte[] b, int offset)

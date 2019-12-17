@@ -55,17 +55,17 @@ namespace BitMiracle.LibJpeg
         {
             if (m_parameters.Colorspace == Colorspace.Grayscale || m_parameters.QuantizeColors)
             {
-                putGrayRow(row);
+                PutGrayRow(row);
             }
             else
             {
                 if (m_parameters.Colorspace == Colorspace.CMYK)
                 {
-                    putCmykRow(row);
+                    PutCmykRow(row);
                 }
                 else
                 {
-                    putRgbRow(row);
+                    PutRgbRow(row);
                 }
             }
 
@@ -78,8 +78,8 @@ namespace BitMiracle.LibJpeg
         /// </summary>
         public void EndWrite()
         {
-            writeHeader();
-            writePixels();
+            WriteHeader();
+            WritePixels();
 
             /* Make sure we wrote the output file OK */
             Output.Flush();
@@ -88,7 +88,7 @@ namespace BitMiracle.LibJpeg
         /// <summary>
         /// This version is for grayscale OR quantized color output
         /// </summary>
-        private void putGrayRow(byte[] row)
+        private void PutGrayRow(byte[] row)
         {
             for (var i = 0; i < m_parameters.Width; ++i)
             {
@@ -99,7 +99,7 @@ namespace BitMiracle.LibJpeg
         /// <summary>
         /// This version is for writing 24-bit pixels
         /// </summary>
-        private void putRgbRow(byte[] row)
+        private void PutRgbRow(byte[] row)
         {
             /* Transfer data.  Note destination values must be in BGR order
              * (even though Microsoft's own documents say the opposite).
@@ -119,7 +119,7 @@ namespace BitMiracle.LibJpeg
         /// <summary>
         /// This version is for writing 24-bit pixels
         /// </summary>
-        private void putCmykRow(byte[] row)
+        private void PutCmykRow(byte[] row)
         {
             /* Transfer data.  Note destination values must be in BGR order
              * (even though Microsoft's own documents say the opposite).
@@ -137,7 +137,7 @@ namespace BitMiracle.LibJpeg
         /// <summary>
         /// Write a Windows-style BMP file header, including colormap if needed
         /// </summary>
-        private void writeHeader()
+        private void WriteHeader()
         {
             int bits_per_pixel;
             int cmap_entries;
@@ -169,11 +169,11 @@ namespace BitMiracle.LibJpeg
             byte[] infoHeader;
             if (m_parameters.Colorspace == Colorspace.RGB)
             {
-                infoHeader = createBitmapInfoHeader(bits_per_pixel, cmap_entries);
+                infoHeader = CreateBitmapInfoHeader(bits_per_pixel, cmap_entries);
             }
             else
             {
-                infoHeader = createBitmapV4InfoHeader(bits_per_pixel);
+                infoHeader = CreateBitmapV4InfoHeader(bits_per_pixel);
             }
 
             /* File size */
@@ -181,20 +181,20 @@ namespace BitMiracle.LibJpeg
             var infoHeaderSize = infoHeader.Length;
             var paletteSize = cmap_entries * 4;
             var offsetToPixels = fileHeaderSize + infoHeaderSize + paletteSize; /* Header and colormap */
-            var fileSize = offsetToPixels + m_rowWidth * m_parameters.Height;
+            var fileSize = offsetToPixels + (m_rowWidth * m_parameters.Height);
 
-            var fileHeader = createBitmapFileHeader(offsetToPixels, fileSize);
+            var fileHeader = CreateBitmapFileHeader(offsetToPixels, fileSize);
 
             Output.Write(fileHeader, 0, fileHeader.Length);
             Output.Write(infoHeader, 0, infoHeader.Length);
 
             if (cmap_entries > 0)
             {
-                writeColormap(cmap_entries, 4);
+                WriteColormap(cmap_entries, 4);
             }
         }
 
-        private static byte[] createBitmapFileHeader(int offsetToPixels, int fileSize)
+        private static byte[] CreateBitmapFileHeader(int offsetToPixels, int fileSize)
         {
             var bmpfileheader = new byte[14];
             bmpfileheader[0] = 0x42;    /* first 2 bytes are ASCII 'B', 'M' */
@@ -205,14 +205,14 @@ namespace BitMiracle.LibJpeg
             return bmpfileheader;
         }
 
-        private byte[] createBitmapInfoHeader(int bits_per_pixel, int cmap_entries)
+        private byte[] CreateBitmapInfoHeader(int bits_per_pixel, int cmap_entries)
         {
             var bmpinfoheader = new byte[40];
-            fillBitmapInfoHeader(bits_per_pixel, cmap_entries, bmpinfoheader);
+            FillBitmapInfoHeader(bits_per_pixel, cmap_entries, bmpinfoheader);
             return bmpinfoheader;
         }
 
-        private void fillBitmapInfoHeader(int bitsPerPixel, int cmap_entries, byte[] infoHeader)
+        private void FillBitmapInfoHeader(int bitsPerPixel, int cmap_entries, byte[] infoHeader)
         {
             /* Fill the info header (Microsoft calls this a BITMAPINFOHEADER) */
             PUT_2B(infoHeader, 0, infoHeader.Length);   /* biSize */
@@ -233,10 +233,10 @@ namespace BitMiracle.LibJpeg
             /* we leave biClrImportant = 0 */
         }
 
-        private byte[] createBitmapV4InfoHeader(int bitsPerPixel)
+        private byte[] CreateBitmapV4InfoHeader(int bitsPerPixel)
         {
             var infoHeader = new byte[40 + 68];
-            fillBitmapInfoHeader(bitsPerPixel, 0, infoHeader);
+            FillBitmapInfoHeader(bitsPerPixel, 0, infoHeader);
 
             PUT_4B(infoHeader, 56, 0x02); /* CSType == 0x02 (CMYK) */
 
@@ -247,7 +247,7 @@ namespace BitMiracle.LibJpeg
         /// Write the colormap.
         /// Windows uses BGR0 map entries; OS/2 uses BGR entries.
         /// </summary>
-        private void writeColormap(int map_colors, int map_entry_size)
+        private void WriteColormap(int map_colors, int map_entry_size)
         {
             var colormap = m_parameters.Colormap;
             var num_colors = m_parameters.ActualNumberOfColors;
@@ -317,7 +317,7 @@ namespace BitMiracle.LibJpeg
             }
         }
 
-        private void writePixels()
+        private void WritePixels()
         {
             for (var row = m_parameters.Height - 1; row >= 0; --row)
             {

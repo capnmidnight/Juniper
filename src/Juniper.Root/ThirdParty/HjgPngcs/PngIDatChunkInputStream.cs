@@ -128,7 +128,7 @@ namespace Hjg.Pngcs
                 ended = !PngCsUtils.arraysEqual4(idLastChunk, Chunks.ChunkHelper.b_IDAT);
                 if (!ended)
                 {
-                    foundChunksInfo.Add(new IdatChunkInfo(lenLastChunk, (offset - 8)));
+                    foundChunksInfo.Add(new IdatChunkInfo(lenLastChunk, offset - 8));
                     if (checkCrc)
                     {
                         crcEngine.Update(idLastChunk, 0, 4);

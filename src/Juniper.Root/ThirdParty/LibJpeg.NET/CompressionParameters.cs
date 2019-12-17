@@ -8,10 +8,6 @@ namespace BitMiracle.LibJpeg
     /// <remarks>Being used in <see cref="M:BitMiracle.LibJpeg.JpegImage.WriteJpeg(System.IO.Stream,BitMiracle.LibJpeg.CompressionParameters)"/></remarks>
     public class CompressionParameters
     {
-        private int m_quality = 75;
-        private int m_smoothingFactor;
-        private bool m_simpleProgressive;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CompressionParameters"/> class.
         /// </summary>
@@ -23,12 +19,12 @@ namespace BitMiracle.LibJpeg
         {
             if (parameters == null)
             {
-                throw new ArgumentNullException("parameters");
+                throw new ArgumentNullException(nameof(parameters));
             }
 
-            m_quality = parameters.m_quality;
-            m_smoothingFactor = parameters.m_smoothingFactor;
-            m_simpleProgressive = parameters.m_simpleProgressive;
+            Quality = parameters.Quality;
+            SmoothingFactor = parameters.SmoothingFactor;
+            SimpleProgressive = parameters.SimpleProgressive;
         }
 
         /// <summary>
@@ -40,15 +36,14 @@ namespace BitMiracle.LibJpeg
         /// </returns>
         public override bool Equals(object obj)
         {
-            var parameters = obj as CompressionParameters;
-            if (parameters == null)
+            if (!(obj is CompressionParameters parameters))
             {
                 return false;
             }
 
-            return (m_quality == parameters.m_quality &&
-                    m_smoothingFactor == parameters.m_smoothingFactor &&
-                    m_simpleProgressive == parameters.m_simpleProgressive);
+            return Quality == parameters.Quality &&
+                    SmoothingFactor == parameters.SmoothingFactor &&
+                    SimpleProgressive == parameters.SimpleProgressive;
         }
 
         /// <summary>
@@ -70,11 +65,7 @@ namespace BitMiracle.LibJpeg
         /// The quality value is expressed on the 0..100 scale.
         /// </remarks>
         /// <value>The quality of JPEG image.</value>
-        public int Quality
-        {
-            get { return m_quality; }
-            set { m_quality = value; }
-        }
+        public int Quality { get; set; } = 75;
 
         /// <summary>
         /// Gets or sets the coefficient of image smoothing.
@@ -84,11 +75,7 @@ namespace BitMiracle.LibJpeg
         /// minimal smoothing to 100 for maximum smoothing.
         /// </remarks>
         /// <value>The coefficient of image smoothing.</value>
-        public int SmoothingFactor
-        {
-            get { return m_smoothingFactor; }
-            set { m_smoothingFactor = value; }
-        }
+        public int SmoothingFactor { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to write a progressive-JPEG file.
@@ -97,10 +84,6 @@ namespace BitMiracle.LibJpeg
         /// <c>true</c> for writing a progressive-JPEG file; <c>false</c> 
         /// for non-progressive JPEG files.
         /// </value>
-        public bool SimpleProgressive
-        {
-            get { return m_simpleProgressive; }
-            set { m_simpleProgressive = value; }
-        }
+        public bool SimpleProgressive { get; set; }
     }
 }

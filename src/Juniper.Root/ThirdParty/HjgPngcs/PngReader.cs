@@ -445,10 +445,9 @@ namespace Hjg.Pngcs
             var chunkid = iIdatCstream.GetIdLastChunk();
             var endfound = false;
             var first = true;
-            var skip = false;
             while (!endfound)
             {
-                skip = false;
+                var skip = false;
                 if (!first)
                 {
                     clen = PngHelperInternal.ReadInt4(inputStream);
@@ -505,7 +504,6 @@ namespace Hjg.Pngcs
             }
 
             var chunkidstr = ChunkHelper.ToString(chunkid);
-            PngChunk pngChunk = null;
             var critical = ChunkHelper.IsCritical(chunkidstr);
             var skip = skipforced;
             if (MaxTotalBytesRead > 0 && clen + offset > MaxTotalBytesRead)
@@ -521,6 +519,7 @@ namespace Hjg.Pngcs
                         || !ChunkHelper.ShouldLoad(chunkidstr, ChunkLoadBehaviour);
             }
 
+            PngChunk pngChunk;
             if (skip)
             {
                 PngHelperInternal.SkipBytes(inputStream, clen);
@@ -666,12 +665,12 @@ namespace Hjg.Pngcs
             }
             else
             { // interlaced
-                if (deinterlacer.getImageInt() == null)
+                if (deinterlacer.GetImageInt() == null)
                 {
-                    deinterlacer.setImageInt(ReadRowsInt().Scanlines); // read all image and store it in deinterlacer
+                    deinterlacer.SetImageInt(ReadRowsInt().Scanlines); // read all image and store it in deinterlacer
                 }
 
-                Array.Copy(deinterlacer.getImageInt()[nrow], 0, buffer, 0, unpackedMode ? ImgInfo.SamplesPerRow
+                Array.Copy(deinterlacer.GetImageInt()[nrow], 0, buffer, 0, unpackedMode ? ImgInfo.SamplesPerRow
                         : ImgInfo.SamplesPerRowPacked);
             }
             return buffer;
@@ -701,12 +700,12 @@ namespace Hjg.Pngcs
             }
             else
             { // interlaced
-                if (deinterlacer.getImageByte() == null)
+                if (deinterlacer.GetImageByte() == null)
                 {
-                    deinterlacer.setImageByte(ReadRowsByte().ScanlinesB); // read all image and store it in deinterlacer
+                    deinterlacer.SetImageByte(ReadRowsByte().ScanlinesB); // read all image and store it in deinterlacer
                 }
 
-                Array.Copy(deinterlacer.getImageByte()[nrow], 0, buffer, 0, unpackedMode ? ImgInfo.SamplesPerRow
+                Array.Copy(deinterlacer.GetImageByte()[nrow], 0, buffer, 0, unpackedMode ? ImgInfo.SamplesPerRow
                         : ImgInfo.SamplesPerRowPacked);
             }
             return buffer;
@@ -736,7 +735,7 @@ namespace Hjg.Pngcs
             }
             if (ImgInfo.Packed && unpackedMode)
             {
-                ImageLine.unpackInplaceInt(ImgInfo, buffer, buffer, false);
+                ImageLine.UnpackInplaceInt(ImgInfo, buffer, buffer, false);
             }
         }
 
@@ -755,7 +754,7 @@ namespace Hjg.Pngcs
             }
             if (ImgInfo.Packed && unpackedMode)
             {
-                ImageLine.unpackInplaceByte(ImgInfo, buffer, buffer, false);
+                ImageLine.UnpackInplaceByte(ImgInfo, buffer, buffer, false);
             }
         }
 
@@ -791,16 +790,16 @@ namespace Hjg.Pngcs
                 var buf = new int[unpackedMode ? ImgInfo.SamplesPerRow : ImgInfo.SamplesPerRowPacked];
                 for (var p = 1; p <= 7; p++)
                 {
-                    deinterlacer.setPass(p);
-                    for (var i = 0; i < deinterlacer.getRows(); i++)
+                    deinterlacer.SetPass(p);
+                    for (var i = 0; i < deinterlacer.GetRows(); i++)
                     {
                         var bytesread = ReadRowRaw(i);
-                        var j = deinterlacer.getCurrRowReal();
+                        var j = deinterlacer.GetCurrRowReal();
                         var mrow = imlines.ImageRowToMatrixRowStrict(j);
                         if (mrow >= 0)
                         {
                             decodeLastReadRowToInt(buf, bytesread);
-                            deinterlacer.deinterlaceInt(buf, imlines.Scanlines[mrow], !unpackedMode);
+                            deinterlacer.DeinterlaceInt(buf, imlines.Scanlines[mrow], !unpackedMode);
                         }
                     }
                 }
@@ -846,16 +845,16 @@ namespace Hjg.Pngcs
                 var buf = new byte[unpackedMode ? ImgInfo.SamplesPerRow : ImgInfo.SamplesPerRowPacked];
                 for (var p = 1; p <= 7; p++)
                 {
-                    deinterlacer.setPass(p);
-                    for (var i = 0; i < deinterlacer.getRows(); i++)
+                    deinterlacer.SetPass(p);
+                    for (var i = 0; i < deinterlacer.GetRows(); i++)
                     {
                         var bytesread = ReadRowRaw(i);
-                        var j = deinterlacer.getCurrRowReal();
+                        var j = deinterlacer.GetCurrRowReal();
                         var mrow = imlines.ImageRowToMatrixRowStrict(j);
                         if (mrow >= 0)
                         {
                             decodeLastReadRowToByte(buf, bytesread);
-                            deinterlacer.deinterlaceByte(buf, imlines.ScanlinesB[mrow], !unpackedMode);
+                            deinterlacer.DeinterlaceByte(buf, imlines.ScanlinesB[mrow], !unpackedMode);
                         }
                     }
                 }
@@ -885,13 +884,13 @@ namespace Hjg.Pngcs
             var bytesRead = ImgInfo.BytesPerRow; // NOT including the filter byte
             if (interlaced)
             {
-                if (nrow < 0 || nrow > deinterlacer.getRows() || (nrow != 0 && nrow != deinterlacer.getCurrRowSubimg() + 1))
+                if (nrow < 0 || nrow > deinterlacer.GetRows() || (nrow != 0 && nrow != deinterlacer.GetCurrRowSubimg() + 1))
                 {
                     throw new PngjInputException("invalid row in interlaced mode: " + nrow);
                 }
 
-                deinterlacer.setRow(nrow);
-                bytesRead = ((ImgInfo.BitspPixel * deinterlacer.getPixelsToRead()) + 7) / 8;
+                deinterlacer.SetRow(nrow);
+                bytesRead = ((ImgInfo.BitspPixel * deinterlacer.GetPixelsToRead()) + 7) / 8;
                 if (bytesRead < 1)
                 {
                     throw new PngjExceptionInternal("wtf??");
@@ -926,7 +925,7 @@ namespace Hjg.Pngcs
             rowb[0] = 0;
             UnfilterRow(bytesRead);
             rowb[0] = rowbfilter[0];
-            if ((rowNum == ImgInfo.Rows - 1 && !interlaced) || (interlaced && deinterlacer.isAtLastRow()))
+            if ((rowNum == ImgInfo.Rows - 1 && !interlaced) || (interlaced && deinterlacer.IsAtLastRow()))
             {
                 ReadLastAndClose();
             }

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains decompression data source routines for the case of
  * reading JPEG data from memory or from a file (or any stdio stream).
  * While these routines are sufficient for most applications,
@@ -52,14 +52,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
-        /// Fill the input buffer - called whenever buffer is emptied.
-        /// 
+        /// <para>Fill the input buffer - called whenever buffer is emptied.</para>
+        /// <para>
         /// In typical applications, this should read fresh data into the buffer
         /// (ignoring the current state of next_input_byte and bytes_in_buffer),
         /// reset the pointer and count to the start of the buffer, and return true
         /// indicating that the buffer has been reloaded.  It is not necessary to
         /// fill the buffer entirely, only to obtain at least one more byte.
-        /// 
+        /// </para>
+        /// <para>
         /// There is no such thing as an EOF return.  If the end of the file has been
         /// reached, the routine has a choice of ERREXIT() or inserting fake data into
         /// the buffer.  In most cases, generating a warning message and inserting a
@@ -67,7 +68,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// decompressor to output however much of the image is there.  However,
         /// the resulting error message is misleading if the real problem is an empty
         /// input file, so we handle that case specially.
-        /// 
+        /// </para>
+        /// <para>
         /// In applications that need to be able to suspend compression due to input
         /// not being available yet, a false return indicates that no more data can be
         /// obtained right now, but more may be forthcoming later.  In this situation,
@@ -76,12 +78,14 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// decompression after it has loaded more data into the input buffer.  Note
         /// that there are substantial restrictions on the use of suspension --- see
         /// the documentation.
-        /// 
+        /// </para>
+        /// <para>
         /// When suspending, the decompressor will back up to a convenient restart point
         /// (typically the start of the current MCU). next_input_byte and bytes_in_buffer
         /// indicate where the restart point will be if the current call returns false.
         /// Data beyond this point must be rescanned after resumption, so move it to
         /// the front of the buffer rather than discarding it.
+        /// </para>
         /// </summary>
         public override bool fill_input_buffer()
         {

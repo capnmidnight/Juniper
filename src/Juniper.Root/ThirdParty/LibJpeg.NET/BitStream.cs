@@ -26,7 +26,7 @@ namespace BitMiracle.LibJpeg
             }
 
             m_stream = new MemoryStream(buffer);
-            m_size = bitsAllocated();
+            m_size = BitsAllocated();
         }
 
         public void Dispose()
@@ -62,76 +62,17 @@ namespace BitMiracle.LibJpeg
             }
         }
 
-        public virtual int Read(int bitCount)
+        public virtual int Read(int bitsCount)
         {
-            if (Tell() + bitCount > bitsAllocated())
+            if (Tell() + bitsCount > BitsAllocated())
             {
-                throw new ArgumentOutOfRangeException(nameof(bitCount));
+                throw new ArgumentOutOfRangeException(nameof(bitsCount));
             }
 
-            return read(bitCount);
-        }
-
-        public int Write(int bitStorage, int bitCount)
-        {
-            if (bitCount == 0)
-            {
-                return 0;
-            }
-
-            const int maxBitsInStorage = sizeof(int) * bitsInByte;
-            if (bitCount > maxBitsInStorage)
-            {
-                throw new ArgumentOutOfRangeException(nameof(bitCount));
-            }
-
-            for (var i = 0; i < bitCount; ++i)
-            {
-                var bit = (byte)((bitStorage << (maxBitsInStorage - (bitCount - i))) >> (maxBitsInStorage - 1));
-                if (!writeBit(bit))
-                {
-                    return i;
-                }
-            }
-
-            return bitCount;
-        }
-
-        public void Seek(int pos, SeekOrigin mode)
-        {
-            switch (mode)
-            {
-                case SeekOrigin.Begin:
-                    seekSet(pos);
-                    break;
-
-                case SeekOrigin.Current:
-                    seekCurrent(pos);
-                    break;
-
-                case SeekOrigin.End:
-                    seekSet(Size() + pos);
-                    break;
-            }
-        }
-
-        public int Tell()
-        {
-            return (int)m_stream.Position * bitsInByte + m_positionInByte;
-        }
-
-        private int bitsAllocated()
-        {
-            return (int)m_stream.Length * bitsInByte;
-        }
-
-        private int read(int bitsCount)
-        {
             //Codes are packed into a continuous bit stream, high-order bit first. 
             //This stream is then divided into 8-bit bytes, high-order bit first. 
             //Thus, codes can straddle byte boundaries arbitrarily. After the EOD marker (code value 257), 
             //any leftover bits in the final byte are set to 0.
-
             if (bitsCount < 0 || bitsCount > 32)
             {
                 throw new ArgumentOutOfRangeException(nameof(bitsCount));
@@ -172,7 +113,60 @@ namespace BitMiracle.LibJpeg
             return result;
         }
 
-        private bool writeBit(byte bit)
+        public int Write(int bitStorage, int bitCount)
+        {
+            if (bitCount == 0)
+            {
+                return 0;
+            }
+
+            const int maxBitsInStorage = sizeof(int) * bitsInByte;
+            if (bitCount > maxBitsInStorage)
+            {
+                throw new ArgumentOutOfRangeException(nameof(bitCount));
+            }
+
+            for (var i = 0; i < bitCount; ++i)
+            {
+                var bit = (byte)((bitStorage << (maxBitsInStorage - (bitCount - i))) >> (maxBitsInStorage - 1));
+                if (!WriteBit(bit))
+                {
+                    return i;
+                }
+            }
+
+            return bitCount;
+        }
+
+        public void Seek(int pos, SeekOrigin mode)
+        {
+            switch (mode)
+            {
+                case SeekOrigin.Begin:
+                    SeekSet(pos);
+                    break;
+
+                case SeekOrigin.Current:
+                    SeekCurrent(pos);
+                    break;
+
+                case SeekOrigin.End:
+                    SeekSet(Size() + pos);
+                    break;
+            }
+        }
+
+        public int Tell()
+        {
+            return ((int)m_stream.Position * bitsInByte) + m_positionInByte;
+        }
+
+        private int BitsAllocated()
+        {
+            return (int)m_stream.Length * bitsInByte;
+        }
+
+        private bool WriteBit(byte bit)
         {
             if (m_stream.Position == m_stream.Length)
             {
@@ -205,7 +199,7 @@ namespace BitMiracle.LibJpeg
             return true;
         }
 
-        private void seekSet(int pos)
+        private void SeekSet(int pos)
         {
             if (pos < 0)
             {
@@ -218,15 +212,15 @@ namespace BitMiracle.LibJpeg
             m_positionInByte = pos - (byteDisplacement * bitsInByte);
         }
 
-        private void seekCurrent(int pos)
+        private void SeekCurrent(int pos)
         {
             var result = Tell() + pos;
-            if (result < 0 || result > bitsAllocated())
+            if (result < 0 || result > BitsAllocated())
             {
                 throw new ArgumentOutOfRangeException(nameof(pos));
             }
 
-            seekSet(result);
+            SeekSet(result);
         }
     }
 }

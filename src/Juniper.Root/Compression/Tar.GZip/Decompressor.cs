@@ -38,21 +38,26 @@ namespace Juniper.Compression.Tar.GZip
                 throw new FileNotFoundException("File not found! " + inputPackageFile, inputPackageFile);
             }
 
-            using (var tar = Open(inputPackageFile))
+            return UnityPackageEntries2();
+
+            IEnumerable<CompressedFileInfo> UnityPackageEntries2()
             {
-                var fileSize = 0L;
-                foreach (var item in tar.Entries)
+                using (var tar = Open(inputPackageFile))
                 {
-                    if (item.FullName.EndsWith("/asset"))
+                    var fileSize = 0L;
+                    foreach (var item in tar.Entries)
                     {
-                        fileSize = item.Length;
-                    }
-                    else if (item.FullName.EndsWith("/pathname"))
-                    {
-                        using (var streamReader = new StreamReader(item.Open()))
+                        if (item.FullName.EndsWith("/asset"))
                         {
-                            var path = streamReader.ReadLine();
-                            yield return new CompressedFileInfo(path, true, fileSize);
+                            fileSize = item.Length;
+                        }
+                        else if (item.FullName.EndsWith("/pathname"))
+                        {
+                            using (var streamReader = new StreamReader(item.Open()))
+                            {
+                                var path = streamReader.ReadLine();
+                                yield return new CompressedFileInfo(path, true, fileSize);
+                            }
                         }
                     }
                 }

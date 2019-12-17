@@ -332,13 +332,13 @@ namespace Hjg.Pngcs.Chunks
                 return true;
             }
 
-            if (c1 is PngChunkTextVar)
+            if (c1 is PngChunkTextVar pngChunkTextVar)
             {
-                return ((PngChunkTextVar)c1).GetKey().Equals(((PngChunkTextVar)c2).GetKey());
+                return pngChunkTextVar.GetKey().Equals(((PngChunkTextVar)c2).GetKey());
             }
-            if (c1 is PngChunkSPLT)
+            if (c1 is PngChunkSPLT pngChunkSPLT)
             {
-                return ((PngChunkSPLT)c1).PalName.Equals(((PngChunkSPLT)c2).PalName);
+                return pngChunkSPLT.PalName.Equals(((PngChunkSPLT)c2).PalName);
             }
             // unknown chunks that allow multiple? consider they don't match
             return false;

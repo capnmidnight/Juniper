@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains the inverse-DCT management logic.
  * This code selects a particular IDCT implementation to be used,
  * and it performs related housekeeping chores.  No code in this file
@@ -12,6 +12,7 @@
 namespace BitMiracle.LibJpeg.Classic.Internal
 {
     /// <summary>
+    /// <para>
     /// An inverse DCT routine is given a pointer to the input JBLOCK and a pointer
     /// to an output sample array.  The routine must dequantize the input data as
     /// well as perform the IDCT; for dequantization, it uses the multiplier table
@@ -20,9 +21,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// be applied to the array pointer before it is passed to the IDCT code)
     /// Note that the number of samples emitted by the IDCT routine is
     /// DCT_h_scaled_size * DCT_v_scaled_size.
-    /// 
-    /// Each IDCT routine has its own ideas about the best dct_table element type.
-    /// 
+    /// </para>
+    /// <para>Each IDCT routine has its own ideas about the best dct_table element type.</para>
+    /// <para>
     /// The decompressor input side saves away the appropriate
     /// quantization table for each component at the start of the first scan
     /// involving that component.  (This is necessary in order to correctly
@@ -36,6 +37,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// has been seen for some components, and thus before their Q-tables have
     /// been saved away.  To handle this case, multiplier tables are preset
     /// to zeroes; the result of the IDCT will be a neutral gray level.
+    /// </para>
     /// </summary>
     internal class jpeg_inverse_dct
     {
@@ -438,17 +440,20 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
+        /// <para>
         /// Perform dequantization and inverse DCT on one block of coefficients.
         /// NOTE: this code only copes with 8x8 DCTs.
         /// A slow-but-accurate integer implementation of the
         /// inverse DCT (Discrete Cosine Transform).  In the IJG code, this routine
         /// must also perform dequantization of the input coefficients.
-        /// 
+        /// </para>
+        /// <para>
         /// A 2-D IDCT can be done by 1-D IDCT on each column followed by 1-D IDCT
         /// on each row (or vice versa, but it's more convenient to emit a row at
         /// a time).  Direct algorithms are also available, but they are much more
         /// complex and seem not to be any faster when reduced to code.
-        /// 
+        /// </para>
+        /// <para>
         /// This implementation is based on an algorithm described in
         /// C. Loeffler, A. Ligtenberg and G. Moschytz, "Practical Fast 1-D DCT
         /// Algorithms with 11 Multiplications", Proc. Int'l. Conf. on Acoustics,
@@ -458,16 +463,17 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// The advantage of this method is that no data path contains more than one
         /// multiplication; this allows a very simple and accurate implementation in
         /// scaled fixed-point arithmetic, with a minimal number of shifts.
-        /// 
-        /// The poop on this scaling stuff is as follows:
-        /// 
+        /// </para>
+        /// <para>The poop on this scaling stuff is as follows:</para>
+        /// <para>
         /// Each 1-D IDCT step produces outputs which are a factor of sqrt(N)
         /// larger than the true IDCT outputs.  The final outputs are therefore
         /// a factor of N larger than desired; since N=8 this can be cured by
         /// a simple right shift at the end of the algorithm.  The advantage of
         /// this arrangement is that we save two multiplications per 1-D IDCT,
         /// because the y0 and y4 inputs need not be divided by sqrt(N).
-        /// 
+        /// </para>
+        /// <para>
         /// We have to do addition and subtraction of the integer inputs, which
         /// is no problem, and multiplication by fractional constants, which is
         /// a problem to do in integer arithmetic.  We multiply all the constants
@@ -478,16 +484,19 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// cheaply as a right shift of SLOW_INTEGER_CONST_BITS bits.  We postpone shifting
         /// as long as possible so that partial sums can be added together with
         /// full fractional precision.
-        /// 
+        /// </para>
+        /// <para>
         /// The outputs of the first pass are scaled up by SLOW_INTEGER_PASS1_BITS bits so that
         /// they are represented to better-than-integral precision.  These outputs
         /// require BITS_IN_JSAMPLE + SLOW_INTEGER_PASS1_BITS + 3 bits; this fits in a 16-bit word
         /// with the recommended scaling.  (To scale up 12-bit sample data further, an
         /// intermediate int array would be needed.)
-        /// 
+        /// </para>
+        /// <para>
         /// To avoid overflow of the 32-bit intermediate results in pass 2, we must
         /// have BITS_IN_JSAMPLE + SLOW_INTEGER_CONST_BITS + SLOW_INTEGER_PASS1_BITS &lt;= 26.  Error analysis
         /// shows that the values given below are the most effective.
+        /// </para>
         /// </summary>
         private void jpeg_idct_islow(int component_index, short[] coef_block, int output_row, int output_col)
         {
@@ -591,33 +600,33 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 z3 = tmp1 + tmp3;
 
                 z1 = (z2 + z3) * SLOW_INTEGER_FIX_1_175875602;       /*  c3 */
-                z2 = z2 * (-SLOW_INTEGER_FIX_1_961570560);          /* -c3-c5 */
-                z3 = z3 * (-SLOW_INTEGER_FIX_0_390180644);          /* -c3+c5 */
+                z2 *= (-SLOW_INTEGER_FIX_1_961570560);          /* -c3-c5 */
+                z3 *= (-SLOW_INTEGER_FIX_0_390180644);          /* -c3+c5 */
                 z2 += z1;
                 z3 += z1;
 
                 z1 = (tmp0 + tmp3) * (-SLOW_INTEGER_FIX_0_899976223); /* -c3+c7 */
-                tmp0 = tmp0 * SLOW_INTEGER_FIX_0_298631336;        /* -c1+c3+c5-c7 */
-                tmp3 = tmp3 * SLOW_INTEGER_FIX_1_501321110;        /*  c1+c3-c5-c7 */
+                tmp0 *= SLOW_INTEGER_FIX_0_298631336;        /* -c1+c3+c5-c7 */
+                tmp3 *= SLOW_INTEGER_FIX_1_501321110;        /*  c1+c3-c5-c7 */
                 tmp0 += z1 + z2;
                 tmp3 += z1 + z3;
 
                 z1 = (tmp1 + tmp2) * (-SLOW_INTEGER_FIX_2_562915447); /* -c1-c3 */
-                tmp1 = tmp1 * SLOW_INTEGER_FIX_2_053119869;        /*  c1+c3-c5+c7 */
-                tmp2 = tmp2 * SLOW_INTEGER_FIX_3_072711026;        /*  c1+c3+c5-c7 */
+                tmp1 *= SLOW_INTEGER_FIX_2_053119869;        /*  c1+c3-c5+c7 */
+                tmp2 *= SLOW_INTEGER_FIX_3_072711026;        /*  c1+c3+c5-c7 */
                 tmp1 += z1 + z3;
                 tmp2 += z1 + z2;
 
                 /* Final output stage: inputs are tmp10..tmp13, tmp0..tmp3 */
 
-                workspace[workspaceIndex + JpegConstants.DCTSIZE * 0] = JpegUtils.RIGHT_SHIFT(tmp10 + tmp3, SLOW_INTEGER_CONST_BITS - SLOW_INTEGER_PASS1_BITS);
-                workspace[workspaceIndex + JpegConstants.DCTSIZE * 7] = JpegUtils.RIGHT_SHIFT(tmp10 - tmp3, SLOW_INTEGER_CONST_BITS - SLOW_INTEGER_PASS1_BITS);
-                workspace[workspaceIndex + JpegConstants.DCTSIZE * 1] = JpegUtils.RIGHT_SHIFT(tmp11 + tmp2, SLOW_INTEGER_CONST_BITS - SLOW_INTEGER_PASS1_BITS);
-                workspace[workspaceIndex + JpegConstants.DCTSIZE * 6] = JpegUtils.RIGHT_SHIFT(tmp11 - tmp2, SLOW_INTEGER_CONST_BITS - SLOW_INTEGER_PASS1_BITS);
-                workspace[workspaceIndex + JpegConstants.DCTSIZE * 2] = JpegUtils.RIGHT_SHIFT(tmp12 + tmp1, SLOW_INTEGER_CONST_BITS - SLOW_INTEGER_PASS1_BITS);
-                workspace[workspaceIndex + JpegConstants.DCTSIZE * 5] = JpegUtils.RIGHT_SHIFT(tmp12 - tmp1, SLOW_INTEGER_CONST_BITS - SLOW_INTEGER_PASS1_BITS);
-                workspace[workspaceIndex + JpegConstants.DCTSIZE * 3] = JpegUtils.RIGHT_SHIFT(tmp13 + tmp0, SLOW_INTEGER_CONST_BITS - SLOW_INTEGER_PASS1_BITS);
-                workspace[workspaceIndex + JpegConstants.DCTSIZE * 4] = JpegUtils.RIGHT_SHIFT(tmp13 - tmp0, SLOW_INTEGER_CONST_BITS - SLOW_INTEGER_PASS1_BITS);
+                workspace[workspaceIndex + (JpegConstants.DCTSIZE * 0)] = JpegUtils.RIGHT_SHIFT(tmp10 + tmp3, SLOW_INTEGER_CONST_BITS - SLOW_INTEGER_PASS1_BITS);
+                workspace[workspaceIndex + (JpegConstants.DCTSIZE * 7)] = JpegUtils.RIGHT_SHIFT(tmp10 - tmp3, SLOW_INTEGER_CONST_BITS - SLOW_INTEGER_PASS1_BITS);
+                workspace[workspaceIndex + (JpegConstants.DCTSIZE * 1)] = JpegUtils.RIGHT_SHIFT(tmp11 + tmp2, SLOW_INTEGER_CONST_BITS - SLOW_INTEGER_PASS1_BITS);
+                workspace[workspaceIndex + (JpegConstants.DCTSIZE * 6)] = JpegUtils.RIGHT_SHIFT(tmp11 - tmp2, SLOW_INTEGER_CONST_BITS - SLOW_INTEGER_PASS1_BITS);
+                workspace[workspaceIndex + (JpegConstants.DCTSIZE * 2)] = JpegUtils.RIGHT_SHIFT(tmp12 + tmp1, SLOW_INTEGER_CONST_BITS - SLOW_INTEGER_PASS1_BITS);
+                workspace[workspaceIndex + (JpegConstants.DCTSIZE * 5)] = JpegUtils.RIGHT_SHIFT(tmp12 - tmp1, SLOW_INTEGER_CONST_BITS - SLOW_INTEGER_PASS1_BITS);
+                workspace[workspaceIndex + (JpegConstants.DCTSIZE * 3)] = JpegUtils.RIGHT_SHIFT(tmp13 + tmp0, SLOW_INTEGER_CONST_BITS - SLOW_INTEGER_PASS1_BITS);
+                workspace[workspaceIndex + (JpegConstants.DCTSIZE * 4)] = JpegUtils.RIGHT_SHIFT(tmp13 - tmp0, SLOW_INTEGER_CONST_BITS - SLOW_INTEGER_PASS1_BITS);
 
                 /* advance pointers to next column */
                 coefBlockIndex++;
@@ -705,20 +714,20 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 z3 = tmp1 + tmp3;
 
                 z1 = (z2 + z3) * SLOW_INTEGER_FIX_1_175875602;       /*  c3 */
-                z2 = z2 * (-SLOW_INTEGER_FIX_1_961570560);          /* -c3-c5 */
-                z3 = z3 * (-SLOW_INTEGER_FIX_0_390180644);          /* -c3+c5 */
+                z2 *= (-SLOW_INTEGER_FIX_1_961570560);          /* -c3-c5 */
+                z3 *= (-SLOW_INTEGER_FIX_0_390180644);          /* -c3+c5 */
                 z2 += z1;
                 z3 += z1;
 
                 z1 = (tmp0 + tmp3) * (-SLOW_INTEGER_FIX_0_899976223); /* -c3+c7 */
-                tmp0 = tmp0 * SLOW_INTEGER_FIX_0_298631336;        /* -c1+c3+c5-c7 */
-                tmp3 = tmp3 * SLOW_INTEGER_FIX_1_501321110;        /*  c1+c3-c5-c7 */
+                tmp0 *= SLOW_INTEGER_FIX_0_298631336;        /* -c1+c3+c5-c7 */
+                tmp3 *= SLOW_INTEGER_FIX_1_501321110;        /*  c1+c3-c5-c7 */
                 tmp0 += z1 + z2;
                 tmp3 += z1 + z3;
 
                 z1 = (tmp1 + tmp2) * (-SLOW_INTEGER_FIX_2_562915447); /* -c1-c3 */
-                tmp1 = tmp1 * SLOW_INTEGER_FIX_2_053119869;        /*  c1+c3-c5+c7 */
-                tmp2 = tmp2 * SLOW_INTEGER_FIX_3_072711026;        /*  c1+c3+c5-c7 */
+                tmp1 *= SLOW_INTEGER_FIX_2_053119869;        /*  c1+c3-c5+c7 */
+                tmp2 *= SLOW_INTEGER_FIX_3_072711026;        /*  c1+c3+c5-c7 */
                 tmp1 += z1 + z3;
                 tmp2 += z1 + z2;
 
@@ -745,7 +754,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private static int SLOW_INTEGER_DEQUANTIZE(int coef, int quantval)
         {
-            return (coef * quantval);
+            return coef * quantval;
         }
 
         private static int SLOW_INTEGER_FIX(double x)
@@ -754,18 +763,22 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
+        /// <para>
         /// Perform dequantization and inverse DCT on one block of coefficients.
         /// NOTE: this code only copes with 8x8 DCTs.
-        /// 
+        /// </para>
+        /// <para>
         /// A fast, not so accurate integer implementation of the
         /// inverse DCT (Discrete Cosine Transform).  In the IJG code, this routine
         /// must also perform dequantization of the input coefficients.
-        /// 
+        /// </para>
+        /// <para>
         /// A 2-D IDCT can be done by 1-D IDCT on each column followed by 1-D IDCT
         /// on each row (or vice versa, but it's more convenient to emit a row at
         /// a time).  Direct algorithms are also available, but they are much more
         /// complex and seem not to be any faster when reduced to code.
-        /// 
+        /// </para>
+        /// <para>
         /// This implementation is based on Arai, Agui, and Nakajima's algorithm for
         /// scaled DCT.  Their original paper (Trans. IEICE E-71(11):1095) is in
         /// Japanese, but the algorithm is described in the Pennebaker &amp; Mitchell
@@ -782,7 +795,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// quantization values.  The smaller the quantization table entry, the less
         /// precise the scaled value, so this implementation does worse with high-
         /// quality-setting files than with low-quality ones.
-        /// 
+        /// </para>
+        /// <para>
         /// Scaling decisions are generally the same as in the LL&amp;M algorithm;
         /// However, we choose to descale
         /// (right shift) multiplication products as soon as they are formed,
@@ -791,7 +805,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// More importantly, 16-bit arithmetic is then adequate (for 8-bit samples)
         /// everywhere except in the multiplications proper; this saves a good deal
         /// of work on 16-bit-int machines.
-        /// 
+        /// </para>
+        /// <para>
         /// The dequantized coefficients are not integers because the AA&amp;N scaling
         /// factors have been incorporated.  We represent them scaled up by FAST_INTEGER_PASS1_BITS,
         /// so that the first and second IDCT rounds have the same input scaling.
@@ -800,11 +815,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// for small quantization table entries, but it saves a lot of shifts.
         /// For 12-bit JSAMPLEs, there's no hope of using 16x16 multiplies anyway,
         /// so we use a much larger scaling factor to preserve accuracy.
-        /// 
+        /// </para>
+        /// <para>
         /// A final compromise is to represent the multiplicative constants to only
         /// 8 fractional bits, rather than 13.  This saves some shifting work on some
         /// machines, and may also reduce the cost of multiplication (since there
         /// are fewer one-bits in the constants).
+        /// </para>
         /// </summary>
         private void jpeg_idct_ifast(int component_index, short[] coef_block, int output_row, int output_col)
         {
@@ -1027,9 +1044,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private static int FAST_INTEGER_MULTIPLY(int var, int c)
         {
 #if !USE_ACCURATE_ROUNDING
-            return (JpegUtils.RIGHT_SHIFT(var * c, FAST_INTEGER_CONST_BITS));
+            return JpegUtils.RIGHT_SHIFT(var * c, FAST_INTEGER_CONST_BITS);
 #else
-            return (JpegUtils.DESCALE(var * c, FAST_INTEGER_CONST_BITS));
+            return JpegUtils.DESCALE(var * c, FAST_INTEGER_CONST_BITS);
 #endif
         }
 
@@ -1041,7 +1058,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private static int FAST_INTEGER_DEQUANTIZE(short coef, int quantval)
         {
-            return (coef * quantval);
+            return coef * quantval;
         }
 
         /// <summary>
@@ -1050,36 +1067,32 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private static int FAST_INTEGER_IRIGHT_SHIFT(int x, int shft)
         {
-            return (x >> shft);
-        }
-
-        private static int FAST_INTEGER_IDESCALE(int x, int n)
-        {
-#if USE_ACCURATE_ROUNDING
-            return (FAST_INTEGER_IRIGHT_SHIFT((x) + (1 << ((n) - 1)), n));
-#else
-            return (FAST_INTEGER_IRIGHT_SHIFT(x, n));
-#endif
+            return x >> shft;
         }
 
         /// <summary>
+        /// <para>
         /// Perform dequantization and inverse DCT on one block of coefficients.
         /// NOTE: this code only copes with 8x8 DCTs.
-        /// 
+        /// </para>
+        /// <para>
         /// A floating-point implementation of the
         /// inverse DCT (Discrete Cosine Transform).  In the IJG code, this routine
         /// must also perform dequantization of the input coefficients.
-        /// 
+        /// </para>
+        /// <para>
         /// This implementation should be more accurate than either of the integer
         /// IDCT implementations.  However, it may not give the same results on all
         /// machines because of differences in roundoff behavior.  Speed will depend
         /// on the hardware's floating point capacity.
-        /// 
+        /// </para>
+        /// <para>
         /// A 2-D IDCT can be done by 1-D IDCT on each column followed by 1-D IDCT
         /// on each row (or vice versa, but it's more convenient to emit a row at
         /// a time).  Direct algorithms are also available, but they are much more
         /// complex and seem not to be any faster when reduced to code.
-        /// 
+        /// </para>
+        /// <para>
         /// This implementation is based on Arai, Agui, and Nakajima's algorithm for
         /// scaled DCT.  Their original paper (Trans. IEICE E-71(11):1095) is in
         /// Japanese, but the algorithm is described in the Pennebaker &amp; Mitchell
@@ -1095,6 +1108,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// implementation, accuracy is lost due to imprecise representation of the
         /// scaled quantization values.  However, that problem does not arise if
         /// we use floating point arithmetic.
+        /// </para>
         /// </summary>
         private void jpeg_idct_float(int component_index, short[] coef_block, int output_row, int output_col)
         {
@@ -1277,26 +1291,28 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private static float FLOAT_DEQUANTIZE(short coef, float quantval)
         {
-            return (coef * (quantval));
+            return coef * quantval;
         }
 
         /// <summary>
+        /// <para>
         /// Inverse-DCT routines that produce reduced-size output:
         /// either 4x4, 2x2, or 1x1 pixels from an 8x8 DCT block.
-        /// 
-        /// NOTE: this code only copes with 8x8 DCTs.
-        /// 
+        /// </para>
+        /// <para>NOTE: this code only copes with 8x8 DCTs.</para>
+        /// <para>
         /// The implementation is based on the Loeffler, Ligtenberg and Moschytz (LL&amp;M)
         /// algorithm. We simply replace each 8-to-8 1-D IDCT step
         /// with an 8-to-4 step that produces the four averages of two adjacent outputs
         /// (or an 8-to-2 step producing two averages of four outputs, for 2x2 output).
         /// These steps were derived by computing the corresponding values at the end
         /// of the normal LL&amp;M code, then simplifying as much as possible.
-        /// 
-        /// 1x1 is trivial: just take the DC coefficient divided by 8.
-        /// 
+        /// </para>
+        /// <para>1x1 is trivial: just take the DC coefficient divided by 8.</para>
+        /// <para>
         /// Perform dequantization and inverse DCT on one block of coefficients,
         /// producing a reduced-size 4x4 output block.
+        /// </para>
         /// </summary>
         private void jpeg_idct_4x4(int component_index, short[] coef_block, int output_row, int output_col)
         {
@@ -1585,7 +1601,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private static int REDUCED_DEQUANTIZE(short coef, int quantval)
         {
-            return (coef * quantval);
+            return coef * quantval;
         }
 
         private void jpeg_idct_3x3(int component_index, short[] coef_block, int output_row, int output_col)
@@ -1681,7 +1697,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     quantTable[quantTableIndex + JpegConstants.DCTSIZE * 6]);
                 var z3 = z1 - z2;
                 var z4 = z3 * SLOW_INTEGER_FIX(0.275899379);        /* c14[16] = c7[8] */
-                z3 = z3 * SLOW_INTEGER_FIX(1.387039845);        /* c2[16] = c1[8] */
+                z3 *= SLOW_INTEGER_FIX(1.387039845);        /* c2[16] = c1[8] */
 
                 tmp0 = z3 + z2 * SLOW_INTEGER_FIX_2_562915447;  /* (c6+c2)[16] = (c3+c1)[8] */
                 tmp1 = z4 + z1 * SLOW_INTEGER_FIX_0_899976223;  /* (c6-c14)[16] = (c3-c7)[8] */
@@ -1714,7 +1730,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 tmp2 = tmp11 * SLOW_INTEGER_FIX(1.247225013);   /* c5 */
                 tmp3 = (z1 + z4) * SLOW_INTEGER_FIX(1.093201867);   /* c7 */
                 tmp10 = (z1 - z4) * SLOW_INTEGER_FIX(0.897167586);   /* c9 */
-                tmp11 = tmp11 * SLOW_INTEGER_FIX(0.666655658);   /* c11 */
+                tmp11 *= SLOW_INTEGER_FIX(0.666655658);   /* c11 */
                 tmp12 = (z1 - z2) * SLOW_INTEGER_FIX(0.410524528);   /* c13 */
                 tmp0 = tmp1 + tmp2 + tmp3 - z1 * SLOW_INTEGER_FIX(2.286341144);        /* c7+c5+c3-c1 */
                 tmp13 = tmp10 + tmp11 + tmp12 - z1 * SLOW_INTEGER_FIX(1.835730603);        /* c9+c11+c13-c15 */
@@ -1728,7 +1744,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 z1 = z2 * (-SLOW_INTEGER_FIX(0.666655658));      /* -c11 */
                 tmp1 += z1;
                 tmp3 += z1 + z4 * SLOW_INTEGER_FIX(1.065388962);  /* c3+c11+c15-c7 */
-                z2 = z2 * (-SLOW_INTEGER_FIX(1.247225013));      /* -c5 */
+                z2 *= (-SLOW_INTEGER_FIX(1.247225013));      /* -c5 */
                 tmp10 += z2 + z4 * SLOW_INTEGER_FIX(3.141271809);  /* c1+c5+c9-c13 */
                 tmp12 += z2;
                 z2 = (z3 + z4) * (-SLOW_INTEGER_FIX(1.353318001)); /* -c3 */
@@ -1792,7 +1808,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 var z2 = workspace[workspaceIndex + 6];
                 var z3 = z1 - z2;
                 var z4 = z3 * SLOW_INTEGER_FIX(0.275899379);        /* c14[16] = c7[8] */
-                z3 = z3 * SLOW_INTEGER_FIX(1.387039845);        /* c2[16] = c1[8] */
+                z3 *= SLOW_INTEGER_FIX(1.387039845);        /* c2[16] = c1[8] */
 
                 tmp0 = z3 + z2 * SLOW_INTEGER_FIX_2_562915447;  /* (c6+c2)[16] = (c3+c1)[8] */
                 tmp1 = z4 + z1 * SLOW_INTEGER_FIX_0_899976223;  /* (c6-c14)[16] = (c3-c7)[8] */
@@ -1821,7 +1837,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 tmp2 = tmp11 * SLOW_INTEGER_FIX(1.247225013);   /* c5 */
                 tmp3 = (z1 + z4) * SLOW_INTEGER_FIX(1.093201867);   /* c7 */
                 tmp10 = (z1 - z4) * SLOW_INTEGER_FIX(0.897167586);   /* c9 */
-                tmp11 = tmp11 * SLOW_INTEGER_FIX(0.666655658);   /* c11 */
+                tmp11 *= SLOW_INTEGER_FIX(0.666655658);   /* c11 */
                 tmp12 = (z1 - z2) * SLOW_INTEGER_FIX(0.410524528);   /* c13 */
                 tmp0 = tmp1 + tmp2 + tmp3 - z1 * SLOW_INTEGER_FIX(2.286341144);        /* c7+c5+c3-c1 */
                 tmp13 = tmp10 + tmp11 + tmp12 - z1 * SLOW_INTEGER_FIX(1.835730603);        /* c9+c11+c13-c15 */
@@ -1835,7 +1851,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 z1 = z2 * (-SLOW_INTEGER_FIX(0.666655658));      /* -c11 */
                 tmp1 += z1;
                 tmp3 += z1 + z4 * SLOW_INTEGER_FIX(1.065388962);  /* c3+c11+c15-c7 */
-                z2 = z2 * (-SLOW_INTEGER_FIX(1.247225013));      /* -c5 */
+                z2 *= (-SLOW_INTEGER_FIX(1.247225013));      /* -c5 */
                 tmp10 += z2 + z4 * SLOW_INTEGER_FIX(3.141271809);  /* c1+c5+c9-c13 */
                 tmp12 += z2;
                 z2 = (z3 + z4) * (-SLOW_INTEGER_FIX(1.353318001)); /* -c3 */
@@ -1987,20 +2003,20 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 z3 = tmp1 + tmp3;
 
                 z1 = (z2 + z3) * SLOW_INTEGER_FIX_1_175875602;       /*  c3 */
-                z2 = z2 * (-SLOW_INTEGER_FIX_1_961570560);          /* -c3-c5 */
-                z3 = z3 * (-SLOW_INTEGER_FIX_0_390180644);          /* -c3+c5 */
+                z2 *= (-SLOW_INTEGER_FIX_1_961570560);          /* -c3-c5 */
+                z3 *= (-SLOW_INTEGER_FIX_0_390180644);          /* -c3+c5 */
                 z2 += z1;
                 z3 += z1;
 
                 z1 = (tmp0 + tmp3) * (-SLOW_INTEGER_FIX_0_899976223); /* -c3+c7 */
-                tmp0 = tmp0 * SLOW_INTEGER_FIX_0_298631336;        /* -c1+c3+c5-c7 */
-                tmp3 = tmp3 * SLOW_INTEGER_FIX_1_501321110;        /*  c1+c3-c5-c7 */
+                tmp0 *= SLOW_INTEGER_FIX_0_298631336;        /* -c1+c3+c5-c7 */
+                tmp3 *= SLOW_INTEGER_FIX_1_501321110;        /*  c1+c3-c5-c7 */
                 tmp0 += z1 + z2;
                 tmp3 += z1 + z3;
 
                 z1 = (tmp1 + tmp2) * (-SLOW_INTEGER_FIX_2_562915447); /* -c1-c3 */
-                tmp1 = tmp1 * SLOW_INTEGER_FIX_2_053119869;        /*  c1+c3-c5+c7 */
-                tmp2 = tmp2 * SLOW_INTEGER_FIX_3_072711026;        /*  c1+c3+c5-c7 */
+                tmp1 *= SLOW_INTEGER_FIX_2_053119869;        /*  c1+c3-c5+c7 */
+                tmp2 *= SLOW_INTEGER_FIX_3_072711026;        /*  c1+c3+c5-c7 */
                 tmp1 += z1 + z3;
                 tmp2 += z1 + z2;
 
@@ -2051,7 +2067,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 var z2 = workspace[workspaceIndex + 6];
                 var z3 = z1 - z2;
                 var z4 = z3 * SLOW_INTEGER_FIX(0.275899379);        /* c14[16] = c7[8] */
-                z3 = z3 * SLOW_INTEGER_FIX(1.387039845);        /* c2[16] = c1[8] */
+                z3 *= SLOW_INTEGER_FIX(1.387039845);        /* c2[16] = c1[8] */
 
                 tmp0 = z3 + z2 * SLOW_INTEGER_FIX_2_562915447;  /* (c6+c2)[16] = (c3+c1)[8] */
                 tmp1 = z4 + z1 * SLOW_INTEGER_FIX_0_899976223;  /* (c6-c14)[16] = (c3-c7)[8] */
@@ -2080,7 +2096,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 tmp2 = tmp11 * SLOW_INTEGER_FIX(1.247225013);   /* c5 */
                 tmp3 = (z1 + z4) * SLOW_INTEGER_FIX(1.093201867);   /* c7 */
                 tmp10 = (z1 - z4) * SLOW_INTEGER_FIX(0.897167586);   /* c9 */
-                tmp11 = tmp11 * SLOW_INTEGER_FIX(0.666655658);   /* c11 */
+                tmp11 *= SLOW_INTEGER_FIX(0.666655658);   /* c11 */
                 tmp12 = (z1 - z2) * SLOW_INTEGER_FIX(0.410524528);   /* c13 */
                 tmp0 = tmp1 + tmp2 + tmp3 - z1 * SLOW_INTEGER_FIX(2.286341144);        /* c7+c5+c3-c1 */
                 tmp13 = tmp10 + tmp11 + tmp12 - z1 * SLOW_INTEGER_FIX(1.835730603);        /* c9+c11+c13-c15 */
@@ -2094,7 +2110,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 z1 = z2 * (-SLOW_INTEGER_FIX(0.666655658));      /* -c11 */
                 tmp1 += z1;
                 tmp3 += z1 + z4 * SLOW_INTEGER_FIX(1.065388962);  /* c3+c11+c15-c7 */
-                z2 = z2 * (-SLOW_INTEGER_FIX(1.247225013));      /* -c5 */
+                z2 *= (-SLOW_INTEGER_FIX(1.247225013));      /* -c5 */
                 tmp10 += z2 + z4 * SLOW_INTEGER_FIX(3.141271809);  /* c1+c5+c9-c13 */
                 tmp12 += z2;
                 z2 = (z3 + z4) * (-SLOW_INTEGER_FIX(1.353318001)); /* -c3 */
@@ -2217,7 +2233,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     quantTable[quantTableIndex + JpegConstants.DCTSIZE * 6]);
                 var z3 = z1 - z2;
                 var z4 = z3 * SLOW_INTEGER_FIX(0.275899379);        /* c14[16] = c7[8] */
-                z3 = z3 * SLOW_INTEGER_FIX(1.387039845);        /* c2[16] = c1[8] */
+                z3 *= SLOW_INTEGER_FIX(1.387039845);        /* c2[16] = c1[8] */
 
                 tmp0 = z3 + z2 * SLOW_INTEGER_FIX_2_562915447;  /* (c6+c2)[16] = (c3+c1)[8] */
                 tmp1 = z4 + z1 * SLOW_INTEGER_FIX_0_899976223;  /* (c6-c14)[16] = (c3-c7)[8] */
@@ -2250,7 +2266,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 tmp2 = tmp11 * SLOW_INTEGER_FIX(1.247225013);   /* c5 */
                 tmp3 = (z1 + z4) * SLOW_INTEGER_FIX(1.093201867);   /* c7 */
                 tmp10 = (z1 - z4) * SLOW_INTEGER_FIX(0.897167586);   /* c9 */
-                tmp11 = tmp11 * SLOW_INTEGER_FIX(0.666655658);   /* c11 */
+                tmp11 *= SLOW_INTEGER_FIX(0.666655658);   /* c11 */
                 tmp12 = (z1 - z2) * SLOW_INTEGER_FIX(0.410524528);   /* c13 */
                 tmp0 = tmp1 + tmp2 + tmp3 - z1 * SLOW_INTEGER_FIX(2.286341144);        /* c7+c5+c3-c1 */
                 tmp13 = tmp10 + tmp11 + tmp12 - z1 * SLOW_INTEGER_FIX(1.835730603);        /* c9+c11+c13-c15 */
@@ -2264,7 +2280,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 z1 = z2 * (-SLOW_INTEGER_FIX(0.666655658));      /* -c11 */
                 tmp1 += z1;
                 tmp3 += z1 + z4 * SLOW_INTEGER_FIX(1.065388962);  /* c3+c11+c15-c7 */
-                z2 = z2 * (-SLOW_INTEGER_FIX(1.247225013));      /* -c5 */
+                z2 *= (-SLOW_INTEGER_FIX(1.247225013));      /* -c5 */
                 tmp10 += z2 + z4 * SLOW_INTEGER_FIX(3.141271809);  /* c1+c5+c9-c13 */
                 tmp12 += z2;
                 z2 = (z3 + z4) * (-SLOW_INTEGER_FIX(1.353318001)); /* -c3 */
@@ -2348,20 +2364,20 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 z3 = tmp1 + tmp3;
 
                 z1 = (z2 + z3) * SLOW_INTEGER_FIX_1_175875602;       /*  c3 */
-                z2 = z2 * (-SLOW_INTEGER_FIX_1_961570560);          /* -c3-c5 */
-                z3 = z3 * (-SLOW_INTEGER_FIX_0_390180644);          /* -c3+c5 */
+                z2 *= (-SLOW_INTEGER_FIX_1_961570560);          /* -c3-c5 */
+                z3 *= (-SLOW_INTEGER_FIX_0_390180644);          /* -c3+c5 */
                 z2 += z1;
                 z3 += z1;
 
                 z1 = (tmp0 + tmp3) * (-SLOW_INTEGER_FIX_0_899976223); /* -c3+c7 */
-                tmp0 = tmp0 * SLOW_INTEGER_FIX_0_298631336;        /* -c1+c3+c5-c7 */
-                tmp3 = tmp3 * SLOW_INTEGER_FIX_1_501321110;        /*  c1+c3-c5-c7 */
+                tmp0 *= SLOW_INTEGER_FIX_0_298631336;        /* -c1+c3+c5-c7 */
+                tmp3 *= SLOW_INTEGER_FIX_1_501321110;        /*  c1+c3-c5-c7 */
                 tmp0 += z1 + z2;
                 tmp3 += z1 + z3;
 
                 z1 = (tmp1 + tmp2) * (-SLOW_INTEGER_FIX_2_562915447); /* -c1-c3 */
-                tmp1 = tmp1 * SLOW_INTEGER_FIX_2_053119869;        /*  c1+c3-c5+c7 */
-                tmp2 = tmp2 * SLOW_INTEGER_FIX_3_072711026;        /*  c1+c3+c5-c7 */
+                tmp1 *= SLOW_INTEGER_FIX_2_053119869;        /*  c1+c3-c5+c7 */
+                tmp2 *= SLOW_INTEGER_FIX_3_072711026;        /*  c1+c3+c5-c7 */
                 tmp1 += z1 + z3;
                 tmp2 += z1 + z2;
 

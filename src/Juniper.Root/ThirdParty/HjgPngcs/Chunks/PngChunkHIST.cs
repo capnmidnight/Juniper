@@ -22,13 +22,12 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            ChunkRaw c = null;
             if (!ImgInfo.Indexed)
             {
                 throw new PngjException("only indexed images accept a HIST chunk");
             }
 
-            c = createEmptyChunk(hist.Length * 2, true);
+            var c = createEmptyChunk(hist.Length * 2, true);
             for (var i = 0; i < hist.Length; i++)
             {
                 PngHelperInternal.WriteInt2tobytes(hist[i], c.Data, i * 2);

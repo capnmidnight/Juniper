@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace BitMiracle.LibJpeg
@@ -6,7 +6,6 @@ namespace BitMiracle.LibJpeg
     internal class RawImage : IRawImage
     {
         private readonly List<SampleRow> m_samples;
-        private readonly Colorspace m_colorspace;
 
         private int m_currentRow = -1;
 
@@ -17,7 +16,7 @@ namespace BitMiracle.LibJpeg
             Debug.Assert(colorspace != Colorspace.Unknown);
 
             m_samples = samples;
-            m_colorspace = colorspace;
+            Colorspace = colorspace;
         }
 
         public int Width
@@ -36,13 +35,7 @@ namespace BitMiracle.LibJpeg
             }
         }
 
-        public Colorspace Colorspace
-        {
-            get
-            {
-                return m_colorspace;
-            }
-        }
+        public Colorspace Colorspace { get; }
 
         public int ComponentsPerPixel
         {

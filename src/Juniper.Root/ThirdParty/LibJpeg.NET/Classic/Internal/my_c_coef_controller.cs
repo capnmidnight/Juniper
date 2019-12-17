@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains the coefficient buffer controller for compression.
  * This controller is the top level of the JPEG compressor proper.
  * The coefficient buffer lies between forward-DCT and entropy encoding steps.
@@ -14,9 +14,9 @@ using System;
 
 namespace BitMiracle.LibJpeg.Classic.Internal
 {
-    internal class my_c_coef_controller : jpeg_c_coef_controller
+    internal class my_c_coef_controller : JpegCCoefController
     {
-        private J_BUF_MODE m_passModeSetByLastStartPass;
+        private JBufMode m_passModeSetByLastStartPass;
         private readonly jpeg_compress_struct m_cinfo;
 
         private int m_iMCU_row_num;    /* iMCU row # within image */
@@ -79,14 +79,14 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         // Initialize for a processing pass.
-        public virtual void start_pass(J_BUF_MODE pass_mode)
+        public virtual void StartPass(JBufMode pass_mode)
         {
             m_iMCU_row_num = 0;
             start_iMCU_row();
 
             switch (pass_mode)
             {
-                case J_BUF_MODE.JBUF_PASS_THRU:
+                case JBufMode.PassThrough:
                     if (m_whole_image[0] != null)
                     {
                         m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_BUFFER_MODE);
@@ -94,7 +94,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                     break;
 
-                case J_BUF_MODE.JBUF_SAVE_AND_PASS:
+                case JBufMode.SaveAndPass:
                     if (m_whole_image[0] == null)
                     {
                         m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_BUFFER_MODE);
@@ -102,7 +102,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                     break;
 
-                case J_BUF_MODE.JBUF_CRANK_DEST:
+                case JBufMode.CrankDest:
                     if (m_whole_image[0] == null)
                     {
                         m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_BUFFER_MODE);
@@ -118,17 +118,17 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             m_passModeSetByLastStartPass = pass_mode;
         }
 
-        public virtual bool compress_data(byte[][][] input_buf)
+        public virtual bool CompressData(byte[][][] input_buf)
         {
             switch (m_passModeSetByLastStartPass)
             {
-                case J_BUF_MODE.JBUF_PASS_THRU:
+                case JBufMode.PassThrough:
                     return compressDataImpl(input_buf);
 
-                case J_BUF_MODE.JBUF_SAVE_AND_PASS:
+                case JBufMode.SaveAndPass:
                     return compressFirstPass(input_buf);
 
-                case J_BUF_MODE.JBUF_CRANK_DEST:
+                case JBufMode.CrankDest:
                     return compressOutput();
             }
 
@@ -136,13 +136,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
+        /// <para>
         /// Process some data in the single-pass case.
         /// We process the equivalent of one fully interleaved MCU row ("iMCU" row)
         /// per call, ie, v_samp_factor block rows for each component in the image.
         /// Returns true if the iMCU row is completed, false if suspended.
-        /// 
+        /// </para>
+        /// <para>
         /// NB: input_buf contains a plane for each component in image,
         /// which we index according to the component's SOF position.
+        /// </para>
         /// </summary>
         private bool compressDataImpl(byte[][][] input_buf)
         {
@@ -216,7 +219,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     /* Try to write the MCU.  In event of a suspension failure, we will
                      * re-DCT the MCU on restart (a bit inefficient, could be fixed...)
                      */
-                    if (!m_cinfo.m_entropy.encode_mcu(m_MCU_buffer))
+                    if (!m_cinfo.m_entropy.encodeMcu(m_MCU_buffer))
                     {
                         /* Suspension forced; update state counters and exit */
                         m_MCU_vert_offset = yoffset;
@@ -236,6 +239,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
+        /// <para>
         /// Process some data in the first pass of a multi-pass case.
         /// We process the equivalent of one fully interleaved MCU row ("iMCU" row)
         /// per call, ie, v_samp_factor block rows for each component in the image.
@@ -244,16 +248,19 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// as needed at the right and lower edges.  (The dummy blocks are constructed
         /// in the virtual arrays, which have been padded appropriately.)  This makes
         /// it possible for subsequent passes not to worry about real vs. dummy blocks.
-        /// 
+        /// </para>
+        /// <para>
         /// We must also emit the data to the entropy encoder.  This is conveniently
         /// done by calling compress_output() after we've loaded the current strip
         /// of the virtual arrays.
-        /// 
+        /// </para>
+        /// <para>
         /// NB: input_buf contains a plane for each component in image.  All
         /// components are DCT'd and loaded into the virtual arrays in this pass.
         /// However, it may be that only a subset of the components are emitted to
         /// the entropy encoder during this first pass; be careful about looking
         /// at the scan-dependent variables (MCU dimensions, etc).
+        /// </para>
         /// </summary>
         private bool compressFirstPass(byte[][][] input_buf)
         {
@@ -404,7 +411,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     }
 
                     /* Try to write the MCU. */
-                    if (!m_cinfo.m_entropy.encode_mcu(m_MCU_buffer))
+                    if (!m_cinfo.m_entropy.encodeMcu(m_MCU_buffer))
                     {
                         /* Suspension forced; update state counters and exit */
                         m_MCU_vert_offset = yoffset;

@@ -88,7 +88,7 @@ namespace Hjg.Pngcs
         /// <returns></returns>
         public int MatrixRowToImageRow(int mrow)
         {
-            return mrow * RowStep + RowOffset;
+            return (mrow * RowStep) + RowOffset;
         }
 
         /// <summary>

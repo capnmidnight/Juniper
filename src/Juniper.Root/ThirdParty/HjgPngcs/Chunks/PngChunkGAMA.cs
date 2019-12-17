@@ -24,7 +24,7 @@ namespace Hjg.Pngcs.Chunks
         public override ChunkRaw CreateRawChunk()
         {
             var c = createEmptyChunk(4, true);
-            var g = (int)(gamma * 100000 + 0.5d);
+            var g = (int)((gamma * 100000) + 0.5d);
             Hjg.Pngcs.PngHelperInternal.WriteInt4tobytes(g, c.Data, 0);
             return c;
         }

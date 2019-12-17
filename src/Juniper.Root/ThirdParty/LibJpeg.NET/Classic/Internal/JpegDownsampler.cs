@@ -44,9 +44,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// <summary>
     /// Downsampling
     /// </summary>
-    internal class jpeg_downsampler
+    internal class JpegDownsampler
     {
-        private enum downSampleMethod
+        private enum DownSampleMethod
         {
             fullsize_smooth_downsampler,
             fullsize_downsampler,
@@ -57,7 +57,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         };
 
         /* Downsamplers, one per component */
-        private readonly downSampleMethod[] m_downSamplers = new downSampleMethod[JpegConstants.MAX_COMPONENTS];
+        private readonly DownSampleMethod[] m_downSamplers = new DownSampleMethod[JpegConstants.MAX_COMPONENTS];
 
         /* Height of an output row group for each component. */
         private readonly int[] rowgroup_height = new int[JpegConstants.MAX_COMPONENTS];
@@ -71,7 +71,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private readonly jpeg_compress_struct m_cinfo;
         private readonly bool m_need_context_rows; /* true if need rows above & below */
 
-        public jpeg_downsampler(jpeg_compress_struct cinfo)
+        public JpegDownsampler(jpeg_compress_struct cinfo)
         {
             m_cinfo = cinfo;
             m_need_context_rows = false;
@@ -101,35 +101,35 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 {
                     if (cinfo.m_smoothing_factor != 0)
                     {
-                        m_downSamplers[ci] = downSampleMethod.fullsize_smooth_downsampler;
+                        m_downSamplers[ci] = DownSampleMethod.fullsize_smooth_downsampler;
                         m_need_context_rows = true;
                     }
                     else
                     {
-                        m_downSamplers[ci] = downSampleMethod.fullsize_downsampler;
+                        m_downSamplers[ci] = DownSampleMethod.fullsize_downsampler;
                     }
                 }
                 else if (h_in_group == h_out_group * 2 && v_in_group == v_out_group)
                 {
                     smoothok = false;
-                    m_downSamplers[ci] = downSampleMethod.h2v1_downsampler;
+                    m_downSamplers[ci] = DownSampleMethod.h2v1_downsampler;
                 }
                 else if (h_in_group == h_out_group * 2 && v_in_group == v_out_group * 2)
                 {
                     if (cinfo.m_smoothing_factor != 0)
                     {
-                        m_downSamplers[ci] = downSampleMethod.h2v2_smooth_downsampler;
+                        m_downSamplers[ci] = DownSampleMethod.h2v2_smooth_downsampler;
                         m_need_context_rows = true;
                     }
                     else
                     {
-                        m_downSamplers[ci] = downSampleMethod.h2v2_downsampler;
+                        m_downSamplers[ci] = DownSampleMethod.h2v2_downsampler;
                     }
                 }
                 else if ((h_in_group % h_out_group) == 0 && (v_in_group % v_out_group) == 0)
                 {
                     smoothok = false;
-                    m_downSamplers[ci] = downSampleMethod.int_downsampler;
+                    m_downSamplers[ci] = DownSampleMethod.int_downsampler;
                     h_expand[ci] = (byte)(h_in_group / h_out_group);
                     v_expand[ci] = (byte)(v_in_group / v_out_group);
                 }
@@ -149,35 +149,35 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// <para>Do downsampling for a whole row group (all components).</para>
         /// <para>In this version we simply downsample each component independently.</para>
         /// </summary>
-        public void downsample(byte[][][] input_buf, int in_row_index, byte[][][] output_buf, int out_row_group_index)
+        public void Downsample(byte[][][] input_buf, int in_row_index, byte[][][] output_buf, int out_row_group_index)
         {
             for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
             {
                 var outIndex = out_row_group_index * rowgroup_height[ci];
                 switch (m_downSamplers[ci])
                 {
-                    case downSampleMethod.fullsize_smooth_downsampler:
-                        fullsize_smooth_downsample(ci, input_buf[ci], in_row_index, output_buf[ci], outIndex);
+                    case DownSampleMethod.fullsize_smooth_downsampler:
+                        FullsizeSmoothDownsample(ci, input_buf[ci], in_row_index, output_buf[ci], outIndex);
                         break;
 
-                    case downSampleMethod.fullsize_downsampler:
-                        fullsize_downsample(ci, input_buf[ci], in_row_index, output_buf[ci], outIndex);
+                    case DownSampleMethod.fullsize_downsampler:
+                        FullsizeDownsample(ci, input_buf[ci], in_row_index, output_buf[ci], outIndex);
                         break;
 
-                    case downSampleMethod.h2v1_downsampler:
-                        h2v1_downsample(ci, input_buf[ci], in_row_index, output_buf[ci], outIndex);
+                    case DownSampleMethod.h2v1_downsampler:
+                        H2V1Downsample(ci, input_buf[ci], in_row_index, output_buf[ci], outIndex);
                         break;
 
-                    case downSampleMethod.h2v2_smooth_downsampler:
-                        h2v2_smooth_downsample(ci, input_buf[ci], in_row_index, output_buf[ci], outIndex);
+                    case DownSampleMethod.h2v2_smooth_downsampler:
+                        H2V2SmoothDownsample(ci, input_buf[ci], in_row_index, output_buf[ci], outIndex);
                         break;
 
-                    case downSampleMethod.h2v2_downsampler:
-                        h2v2_downsample(ci, input_buf[ci], in_row_index, output_buf[ci], outIndex);
+                    case DownSampleMethod.h2v2_downsampler:
+                        H2V2Downsample(ci, input_buf[ci], in_row_index, output_buf[ci], outIndex);
                         break;
 
-                    case downSampleMethod.int_downsampler:
-                        int_downsample(ci, input_buf[ci], in_row_index, output_buf[ci], outIndex);
+                    case DownSampleMethod.int_downsampler:
+                        IntDownsample(ci, input_buf[ci], in_row_index, output_buf[ci], outIndex);
                         break;
                 }
             }
@@ -194,7 +194,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// This version handles arbitrary integral sampling ratios, without smoothing.
         /// Note that this version is not actually used for customary sampling ratios.
         /// </summary>
-        private void int_downsample(int componentIndex, byte[][] input_data, int startInputRow, byte[][] output_data, int startOutRow)
+        private void IntDownsample(int componentIndex, byte[][] input_data, int startInputRow, byte[][] output_data, int startOutRow)
         {
             /* Expand input data enough to let all the output samples be generated
              * by the standard loop.  Special-casing padded output would be more
@@ -203,7 +203,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             var compptr = m_cinfo.Component_info[componentIndex];
             var output_cols = compptr.Width_in_blocks * compptr.DCT_h_scaled_size;
             int h_expand = this.h_expand[compptr.Component_index];
-            expand_right_edge(input_data, startInputRow, m_cinfo.m_max_v_samp_factor, m_cinfo.m_image_width, output_cols * h_expand);
+            ExpandRightEdge(input_data, startInputRow, m_cinfo.m_max_v_samp_factor, m_cinfo.m_image_width, output_cols * h_expand);
 
             int v_expand = this.v_expand[compptr.Component_index];
             var numpix = h_expand * v_expand;
@@ -234,14 +234,14 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// This version handles the special case of a full-size component,
         /// without smoothing.
         /// </summary>
-        private void fullsize_downsample(int componentIndex, byte[][] input_data, int startInputRow, byte[][] output_data, int startOutRow)
+        private void FullsizeDownsample(int componentIndex, byte[][] input_data, int startInputRow, byte[][] output_data, int startOutRow)
         {
             /* Copy the data */
             JpegUtils.jcopy_sample_rows(input_data, startInputRow, output_data, startOutRow, m_cinfo.m_max_v_samp_factor, m_cinfo.m_image_width);
 
             /* Edge-expand */
             var compptr = m_cinfo.Component_info[componentIndex];
-            expand_right_edge(output_data, startOutRow, m_cinfo.m_max_v_samp_factor,
+            ExpandRightEdge(output_data, startOutRow, m_cinfo.m_max_v_samp_factor,
                 m_cinfo.m_image_width, compptr.Width_in_blocks * compptr.DCT_h_scaled_size);
         }
 
@@ -259,7 +259,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// alternate pixel locations (a simple ordered dither pattern).
         /// </para>
         /// </summary>
-        private void h2v1_downsample(int componentIndex, byte[][] input_data, int startInputRow, byte[][] output_data, int startOutRow)
+        private void H2V1Downsample(int componentIndex, byte[][] input_data, int startInputRow, byte[][] output_data, int startOutRow)
         {
             /* Expand input data enough to let all the output samples be generated
              * by the standard loop.  Special-casing padded output would be more
@@ -267,7 +267,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              */
             var compptr = m_cinfo.Component_info[componentIndex];
             var output_cols = compptr.Width_in_blocks * compptr.DCT_h_scaled_size;
-            expand_right_edge(input_data, startInputRow, m_cinfo.m_max_v_samp_factor, m_cinfo.m_image_width, output_cols * 2);
+            ExpandRightEdge(input_data, startInputRow, m_cinfo.m_max_v_samp_factor, m_cinfo.m_image_width, output_cols * 2);
 
             for (var outrow = 0; outrow < m_cinfo.m_max_v_samp_factor; outrow++)
             {
@@ -291,7 +291,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// This version handles the standard case of 2:1 horizontal and 2:1 vertical,
         /// without smoothing.
         /// </summary>
-        private void h2v2_downsample(int componentIndex, byte[][] input_data, int startInputRow, byte[][] output_data, int startOutRow)
+        private void H2V2Downsample(int componentIndex, byte[][] input_data, int startInputRow, byte[][] output_data, int startOutRow)
         {
             /* Expand input data enough to let all the output samples be generated
              * by the standard loop.  Special-casing padded output would be more
@@ -299,7 +299,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              */
             var compptr = m_cinfo.Component_info[componentIndex];
             var output_cols = compptr.Width_in_blocks * compptr.DCT_h_scaled_size;
-            expand_right_edge(input_data, startInputRow, m_cinfo.m_max_v_samp_factor, m_cinfo.m_image_width, output_cols * 2);
+            ExpandRightEdge(input_data, startInputRow, m_cinfo.m_max_v_samp_factor, m_cinfo.m_image_width, output_cols * 2);
 
             var inrow = 0;
             for (var outrow = 0; inrow < m_cinfo.m_max_v_samp_factor; outrow++)
@@ -328,7 +328,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// This version handles the standard case of 2:1 horizontal and 2:1 vertical,
         /// with smoothing.  One row of context is required.
         /// </summary>
-        private void h2v2_smooth_downsample(int componentIndex, byte[][] input_data, int startInputRow, byte[][] output_data, int startOutRow)
+        private void H2V2SmoothDownsample(int componentIndex, byte[][] input_data, int startInputRow, byte[][] output_data, int startOutRow)
         {
             /* Expand input data enough to let all the output samples be generated
              * by the standard loop.  Special-casing padded output would be more
@@ -336,7 +336,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              */
             var compptr = m_cinfo.Component_info[componentIndex];
             var output_cols = compptr.Width_in_blocks * compptr.DCT_h_scaled_size;
-            expand_right_edge(input_data, startInputRow - 1, m_cinfo.m_max_v_samp_factor + 2, m_cinfo.m_image_width, output_cols * 2);
+            ExpandRightEdge(input_data, startInputRow - 1, m_cinfo.m_max_v_samp_factor + 2, m_cinfo.m_image_width, output_cols * 2);
 
             /* We don't bother to form the individual "smoothed" input pixel values;
              * we can directly compute the output which is the average of the four
@@ -351,7 +351,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * Also recall that SF = smoothing_factor / 1024.
              */
 
-            var memberscale = 16384 - m_cinfo.m_smoothing_factor * 80; /* scaled (1-5*SF)/4 */
+            var memberscale = 16384 - (m_cinfo.m_smoothing_factor * 80); /* scaled (1-5*SF)/4 */
             var neighscale = m_cinfo.m_smoothing_factor * 16; /* scaled SF/4 */
 
             var inrow = 0;
@@ -384,7 +384,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     input_data[startInputRow + inrow + 2][belowIndex] +
                     input_data[startInputRow + inrow + 2][belowIndex + 2];
 
-                membersum = membersum * memberscale + neighsum * neighscale;
+                membersum = (membersum * memberscale) + (neighsum * neighscale);
                 output_data[startOutRow + outrow][outIndex] = (byte)((membersum + 32768) >> 16);
                 outIndex++;
 
@@ -421,7 +421,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         input_data[startInputRow + inrow + 2][belowIndex + 2];
 
                     /* form final output scaled up by 2^16 */
-                    membersum = membersum * memberscale + neighsum * neighscale;
+                    membersum = (membersum * memberscale) + (neighsum * neighscale);
 
                     /* round, descale and output it */
                     output_data[startOutRow + outrow][outIndex] = (byte)((membersum + 32768) >> 16);
@@ -454,7 +454,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     input_data[startInputRow + inrow + 2][belowIndex - 1] +
                     input_data[startInputRow + inrow + 2][belowIndex + 1];
 
-                membersum = membersum * memberscale + neighsum * neighscale;
+                membersum = (membersum * memberscale) + (neighsum * neighscale);
                 output_data[startOutRow + outrow][outIndex] = (byte)((membersum + 32768) >> 16);
 
                 inrow += 2;
@@ -466,7 +466,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// This version handles the special case of a full-size component,
         /// with smoothing.  One row of context is required.
         /// </summary>
-        private void fullsize_smooth_downsample(int componentIndex, byte[][] input_data, int startInputRow, byte[][] output_data, int startOutRow)
+        private void FullsizeSmoothDownsample(int componentIndex, byte[][] input_data, int startInputRow, byte[][] output_data, int startOutRow)
         {
             /* Expand input data enough to let all the output samples be generated
              * by the standard loop.  Special-casing padded output would be more
@@ -474,7 +474,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              */
             var compptr = m_cinfo.Component_info[componentIndex];
             var output_cols = compptr.Width_in_blocks * compptr.DCT_h_scaled_size;
-            expand_right_edge(input_data, startInputRow - 1, m_cinfo.m_max_v_samp_factor + 2, m_cinfo.m_image_width, output_cols);
+            ExpandRightEdge(input_data, startInputRow - 1, m_cinfo.m_max_v_samp_factor + 2, m_cinfo.m_image_width, output_cols);
 
             /* Each of the eight neighbor pixels contributes a fraction SF to the
              * smoothed pixel, while the main pixel contributes (1-8*SF).  In order
@@ -482,7 +482,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * Also recall that SF = smoothing_factor / 1024.
              */
 
-            var memberscale = 65536 - m_cinfo.m_smoothing_factor * 512; /* scaled 1-8*SF */
+            var memberscale = 65536 - (m_cinfo.m_smoothing_factor * 512); /* scaled 1-8*SF */
             var neighscale = m_cinfo.m_smoothing_factor * 64; /* scaled SF */
 
             for (var outrow = 0; outrow < m_cinfo.m_max_v_samp_factor; outrow++)
@@ -509,7 +509,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 var neighsum = colsum + (colsum - membersum) + nextcolsum;
 
-                membersum = membersum * memberscale + neighsum * neighscale;
+                membersum = (membersum * memberscale) + (neighsum * neighscale);
                 output_data[startOutRow + outrow][outIndex] = (byte)((membersum + 32768) >> 16);
                 outIndex++;
 
@@ -529,7 +529,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         input_data[startInputRow + outrow][inIndex];
 
                     neighsum = lastcolsum + (colsum - membersum) + nextcolsum;
-                    membersum = membersum * memberscale + neighsum * neighscale;
+                    membersum = (membersum * memberscale) + (neighsum * neighscale);
 
                     output_data[startOutRow + outrow][outIndex] = (byte)((membersum + 32768) >> 16);
                     outIndex++;
@@ -541,7 +541,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* Special case for last column */
                 membersum = input_data[startInputRow + outrow][inIndex];
                 neighsum = lastcolsum + (colsum - membersum) + colsum;
-                membersum = membersum * memberscale + neighsum * neighscale;
+                membersum = (membersum * memberscale) + (neighsum * neighscale);
                 output_data[startOutRow + outrow][outIndex] = (byte)((membersum + 32768) >> 16);
             }
         }
@@ -550,7 +550,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// Expand a component horizontally from width input_cols to width output_cols,
         /// by duplicating the rightmost samples.
         /// </summary>
-        private static void expand_right_edge(byte[][] image_data, int startInputRow, int num_rows, int input_cols, int output_cols)
+        private static void ExpandRightEdge(byte[][] image_data, int startInputRow, int num_rows, int input_cols, int output_cols)
         {
             var numcols = output_cols - input_cols;
             if (numcols > 0)

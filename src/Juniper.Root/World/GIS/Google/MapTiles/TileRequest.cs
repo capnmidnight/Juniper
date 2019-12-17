@@ -10,7 +10,6 @@ namespace Juniper.World.GIS.Google.MapTiles
     public class TileRequest : AbstractGoogleMapsRequest<MediaType.Image>
     {
         private readonly List<Marker> markers = new List<Marker>();
-        private LinePath path;
         private int scale;
         private string language;
         private string region;
@@ -117,11 +116,7 @@ namespace Juniper.World.GIS.Google.MapTiles
             }
         }
 
-        public LinePath Path
-        {
-            get { return path; }
-            set { path = value; }
-        }
+        public LinePath Path { get; set; }
 
         protected override Uri BaseURI
         {
@@ -137,9 +132,9 @@ namespace Juniper.World.GIS.Google.MapTiles
                     }
                 }
 
-                if (path != null)
+                if (Path != null)
                 {
-                    SetQuery(nameof(path), path);
+                    SetQuery(nameof(Path), Path);
                 }
 
                 return base.BaseURI;

@@ -33,25 +33,25 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// trouble on the compression side.
     /// </para>
     /// </summary>
-    internal class jpeg_c_prep_controller
+    internal class JpegCPrepController
     {
-        private readonly jpeg_compress_struct m_cinfo;
+        private readonly jpeg_compress_struct cinfo;
 
         /* Downsampling input buffer.  This buffer holds color-converted data
         * until we have enough to do a downsample step.
         */
-        private readonly byte[][][] m_color_buf = new byte[JpegConstants.MAX_COMPONENTS][][];
-        private int m_colorBufRowsOffset;
+        private readonly byte[][][] colorBuf = new byte[JpegConstants.MAX_COMPONENTS][][];
+        private int colorBufRowsOffset;
 
-        private int m_rows_to_go;  /* counts rows remaining in source image */
-        private int m_next_buf_row;       /* index of next row to store in color_buf */
+        private int rowsToGo;  /* counts rows remaining in source image */
+        private int nextBufRow;       /* index of next row to store in color_buf */
 
-        private int m_this_row_group;     /* starting row index of group to process */
-        private int m_next_buf_stop;      /* downsample when we reach this index */
+        private int thisRowGroup;     /* starting row index of group to process */
+        private int nextBufStop;      /* downsample when we reach this index */
 
-        public jpeg_c_prep_controller(jpeg_compress_struct cinfo)
+        public JpegCPrepController(jpeg_compress_struct cinfo)
         {
-            m_cinfo = cinfo;
+            this.cinfo = cinfo;
 
             /* Allocate the color conversion buffer.
             * We make the buffer wide enough to allow the downsampler to edge-expand
@@ -67,8 +67,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* No context, just make it tall enough for one row group */
                 for (var ci = 0; ci < cinfo.m_num_components; ci++)
                 {
-                    m_colorBufRowsOffset = 0;
-                    m_color_buf[ci] = jpeg_compress_struct.AllocJpegSamples(
+                    colorBufRowsOffset = 0;
+                    colorBuf[ci] = jpeg_common_struct.AllocJpegSamples(
                         (cinfo.Component_info[ci].Width_in_blocks *
                         cinfo.min_DCT_h_scaled_size * cinfo.m_max_h_samp_factor) /
                         cinfo.Component_info[ci].H_samp_factor,
@@ -80,31 +80,31 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// <summary>
         /// Initialize for a processing pass.
         /// </summary>
-        public void start_pass(J_BUF_MODE pass_mode)
+        public void StartPass(JBufMode pass_mode)
         {
-            if (pass_mode != J_BUF_MODE.JBUF_PASS_THRU)
+            if (pass_mode != JBufMode.PassThrough)
             {
-                m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_BUFFER_MODE);
+                cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_BUFFER_MODE);
             }
 
             /* Initialize total-height counter for detecting bottom of image */
-            m_rows_to_go = m_cinfo.m_image_height;
+            rowsToGo = cinfo.m_image_height;
 
             /* Mark the conversion buffer empty */
-            m_next_buf_row = 0;
+            nextBufRow = 0;
 
             /* Preset additional state variables for context mode.
              * These aren't used in non-context mode, so we needn't test which mode.
              */
-            m_this_row_group = 0;
+            thisRowGroup = 0;
 
             /* Set next_buf_stop to stop after two row groups have been read in. */
-            m_next_buf_stop = 2 * m_cinfo.m_max_v_samp_factor;
+            nextBufStop = 2 * cinfo.m_max_v_samp_factor;
         }
 
-        public void pre_process_data(byte[][] input_buf, ref int in_row_ctr, int in_rows_avail, byte[][][] output_buf, ref int out_row_group_ctr, int out_row_groups_avail)
+        public void PreProcessData(byte[][] input_buf, ref int in_row_ctr, int in_rows_avail, byte[][][] output_buf, ref int out_row_group_ctr, int out_row_groups_avail)
         {
-            if (m_cinfo.m_downsample.NeedContextRows())
+            if (cinfo.m_downsample.NeedContextRows())
             {
                 pre_process_context(input_buf, ref in_row_ctr, in_rows_avail, output_buf, ref out_row_group_ctr, out_row_groups_avail);
             }
@@ -119,12 +119,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void create_context_buffer()
         {
-            var rgroup_height = m_cinfo.m_max_v_samp_factor;
-            for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
+            var rgroup_height = cinfo.m_max_v_samp_factor;
+            for (var ci = 0; ci < cinfo.m_num_components; ci++)
             {
-                var samplesPerRow = (m_cinfo.Component_info[ci].Width_in_blocks *
-                    m_cinfo.min_DCT_h_scaled_size * m_cinfo.m_max_h_samp_factor) /
-                    m_cinfo.Component_info[ci].H_samp_factor;
+                var samplesPerRow = (cinfo.Component_info[ci].Width_in_blocks *
+                    cinfo.min_DCT_h_scaled_size * cinfo.m_max_h_samp_factor) /
+                    cinfo.Component_info[ci].H_samp_factor;
 
                 var fake_buffer = new byte[5 * rgroup_height][];
                 for (var i = 1; i < 4 * rgroup_height; i++)
@@ -151,8 +151,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     fake_buffer[4 * rgroup_height + i] = true_buffer[i];
                 }
 
-                m_color_buf[ci] = fake_buffer;
-                m_colorBufRowsOffset = rgroup_height;
+                colorBuf[ci] = fake_buffer;
+                colorBufRowsOffset = rgroup_height;
             }
         }
 
@@ -171,42 +171,42 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Do color conversion to fill the conversion buffer. */
                 var inrows = in_rows_avail - in_row_ctr;
-                var numrows = m_cinfo.m_max_v_samp_factor - m_next_buf_row;
+                var numrows = cinfo.m_max_v_samp_factor - nextBufRow;
                 numrows = Math.Min(numrows, inrows);
-                m_cinfo.m_cconvert.color_convert(input_buf, in_row_ctr, m_color_buf, m_colorBufRowsOffset + m_next_buf_row, numrows);
+                cinfo.m_cconvert.color_convert(input_buf, in_row_ctr, colorBuf, colorBufRowsOffset + nextBufRow, numrows);
                 in_row_ctr += numrows;
-                m_next_buf_row += numrows;
-                m_rows_to_go -= numrows;
+                nextBufRow += numrows;
+                rowsToGo -= numrows;
 
                 /* If at bottom of image, pad to fill the conversion buffer. */
-                if (m_rows_to_go == 0 && m_next_buf_row < m_cinfo.m_max_v_samp_factor)
+                if (rowsToGo == 0 && nextBufRow < cinfo.m_max_v_samp_factor)
                 {
-                    for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
+                    for (var ci = 0; ci < cinfo.m_num_components; ci++)
                     {
-                        expand_bottom_edge(m_color_buf[ci], m_colorBufRowsOffset, m_cinfo.m_image_width, m_next_buf_row, m_cinfo.m_max_v_samp_factor);
+                        expand_bottom_edge(colorBuf[ci], colorBufRowsOffset, cinfo.m_image_width, nextBufRow, cinfo.m_max_v_samp_factor);
                     }
 
-                    m_next_buf_row = m_cinfo.m_max_v_samp_factor;
+                    nextBufRow = cinfo.m_max_v_samp_factor;
                 }
 
                 /* If we've filled the conversion buffer, empty it. */
-                if (m_next_buf_row == m_cinfo.m_max_v_samp_factor)
+                if (nextBufRow == cinfo.m_max_v_samp_factor)
                 {
-                    m_cinfo.m_downsample.downsample(m_color_buf, m_colorBufRowsOffset, output_buf, out_row_group_ctr);
-                    m_next_buf_row = 0;
+                    cinfo.m_downsample.Downsample(colorBuf, colorBufRowsOffset, output_buf, out_row_group_ctr);
+                    nextBufRow = 0;
                     out_row_group_ctr++;
                 }
 
                 /* If at bottom of image, pad the output to a full iMCU height.
                  * Note we assume the caller is providing a one-iMCU-height output buffer!
                  */
-                if (m_rows_to_go == 0 && out_row_group_ctr < out_row_groups_avail)
+                if (rowsToGo == 0 && out_row_group_ctr < out_row_groups_avail)
                 {
-                    for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
+                    for (var ci = 0; ci < cinfo.m_num_components; ci++)
                     {
-                        var componentInfo = m_cinfo.Component_info[ci];
+                        var componentInfo = cinfo.Component_info[ci];
                         numrows = (componentInfo.V_samp_factor * componentInfo.DCT_v_scaled_size) /
-                            m_cinfo.min_DCT_v_scaled_size;
+                            cinfo.min_DCT_v_scaled_size;
 
                         expand_bottom_edge(output_buf[ci], 0,
                             componentInfo.Width_in_blocks * componentInfo.DCT_h_scaled_size,
@@ -231,67 +231,67 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 {
                     /* Do color conversion to fill the conversion buffer. */
                     var inrows = in_rows_avail - in_row_ctr;
-                    var numrows = m_next_buf_stop - m_next_buf_row;
+                    var numrows = nextBufStop - nextBufRow;
                     numrows = Math.Min(numrows, inrows);
-                    m_cinfo.m_cconvert.color_convert(input_buf, in_row_ctr, m_color_buf, m_colorBufRowsOffset + m_next_buf_row, numrows);
+                    cinfo.m_cconvert.color_convert(input_buf, in_row_ctr, colorBuf, colorBufRowsOffset + nextBufRow, numrows);
 
                     /* Pad at top of image, if first time through */
-                    if (m_rows_to_go == m_cinfo.m_image_height)
+                    if (rowsToGo == cinfo.m_image_height)
                     {
-                        for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
+                        for (var ci = 0; ci < cinfo.m_num_components; ci++)
                         {
-                            for (var row = 1; row <= m_cinfo.m_max_v_samp_factor; row++)
+                            for (var row = 1; row <= cinfo.m_max_v_samp_factor; row++)
                             {
-                                JpegUtils.jcopy_sample_rows(m_color_buf[ci], m_colorBufRowsOffset, m_color_buf[ci], m_colorBufRowsOffset - row, 1, m_cinfo.m_image_width);
+                                JpegUtils.jcopy_sample_rows(colorBuf[ci], colorBufRowsOffset, colorBuf[ci], colorBufRowsOffset - row, 1, cinfo.m_image_width);
                             }
                         }
                     }
 
                     in_row_ctr += numrows;
-                    m_next_buf_row += numrows;
-                    m_rows_to_go -= numrows;
+                    nextBufRow += numrows;
+                    rowsToGo -= numrows;
                 }
                 else
                 {
                     /* Return for more data, unless we are at the bottom of the image. */
-                    if (m_rows_to_go != 0)
+                    if (rowsToGo != 0)
                     {
                         break;
                     }
 
                     /* When at bottom of image, pad to fill the conversion buffer. */
-                    if (m_next_buf_row < m_next_buf_stop)
+                    if (nextBufRow < nextBufStop)
                     {
-                        for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
+                        for (var ci = 0; ci < cinfo.m_num_components; ci++)
                         {
-                            expand_bottom_edge(m_color_buf[ci], m_colorBufRowsOffset, m_cinfo.m_image_width, m_next_buf_row, m_next_buf_stop);
+                            expand_bottom_edge(colorBuf[ci], colorBufRowsOffset, cinfo.m_image_width, nextBufRow, nextBufStop);
                         }
 
-                        m_next_buf_row = m_next_buf_stop;
+                        nextBufRow = nextBufStop;
                     }
                 }
 
                 /* If we've gotten enough data, downsample a row group. */
-                if (m_next_buf_row == m_next_buf_stop)
+                if (nextBufRow == nextBufStop)
                 {
-                    m_cinfo.m_downsample.downsample(m_color_buf, m_colorBufRowsOffset + m_this_row_group, output_buf, out_row_group_ctr);
+                    cinfo.m_downsample.Downsample(colorBuf, colorBufRowsOffset + thisRowGroup, output_buf, out_row_group_ctr);
                     out_row_group_ctr++;
 
                     /* Advance pointers with wraparound as necessary. */
-                    m_this_row_group += m_cinfo.m_max_v_samp_factor;
-                    var buf_height = m_cinfo.m_max_v_samp_factor * 3;
+                    thisRowGroup += cinfo.m_max_v_samp_factor;
+                    var buf_height = cinfo.m_max_v_samp_factor * 3;
 
-                    if (m_this_row_group >= buf_height)
+                    if (thisRowGroup >= buf_height)
                     {
-                        m_this_row_group = 0;
+                        thisRowGroup = 0;
                     }
 
-                    if (m_next_buf_row >= buf_height)
+                    if (nextBufRow >= buf_height)
                     {
-                        m_next_buf_row = 0;
+                        nextBufRow = 0;
                     }
 
-                    m_next_buf_stop = m_next_buf_row + m_cinfo.m_max_v_samp_factor;
+                    nextBufStop = nextBufRow + cinfo.m_max_v_samp_factor;
                 }
             }
         }

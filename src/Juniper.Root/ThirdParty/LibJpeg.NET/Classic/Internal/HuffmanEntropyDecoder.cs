@@ -20,7 +20,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// but must not be updated permanently until we complete the MCU.
     /// </para>
     /// </summary>
-    internal class huff_entropy_decoder : jpeg_entropy_decoder
+    internal class HuffmanEntropyDecoder : JpegEntropyDecoder
     {
         /* Fetching the next N bits from the input stream is a time-critical operation
         * for the Huffman decoders.  We implement it with a combination of inline
@@ -127,12 +127,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             new int[] { 2, 3 }
         };
 
-        private class savable_state
+        private class SavableState
         {
             public uint EOBRUN;			/* remaining EOBs in EOBRUN */
             public int[] last_dc_val = new int[JpegConstants.MAX_COMPS_IN_SCAN]; /* last DC coef for each component */
 
-            public void Assign(savable_state ss)
+            public void Assign(SavableState ss)
             {
                 EOBRUN = ss.EOBRUN;
                 Buffer.BlockCopy(ss.last_dc_val, 0, last_dc_val, 0, last_dc_val.Length * sizeof(int));
@@ -142,44 +142,44 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /* These fields are loaded into local variables at start of each MCU.
         * In case of suspension, we exit WITHOUT updating them.
         */
-        private bitread_perm_state m_bitstate;    /* Bit buffer at start of MCU */
-        private readonly savable_state m_saved = new savable_state();        /* Other state at start of MCU */
+        private BitreadPermState bitState;    /* Bit buffer at start of MCU */
+        private readonly SavableState saved = new SavableState();        /* Other state at start of MCU */
 
         /* These fields are NOT loaded into local working state. */
-        private bool m_insufficient_data;	/* set TRUE after emitting warning */
-        private int m_restarts_to_go;    /* MCUs left in this restart interval */
+        private bool insufficientData;	/* set TRUE after emitting warning */
+        private int restartsToGo;    /* MCUs left in this restart interval */
 
         /* Following two fields used only in progressive mode */
 
         /* Pointers to derived tables (these workspaces have image lifespan) */
-        private readonly d_derived_tbl[] derived_tbls = new d_derived_tbl[JpegConstants.NUM_HUFF_TBLS];
+        private readonly DDerivedTable[] DerivedTables = new DDerivedTable[JpegConstants.NUM_HUFF_TBLS];
 
-        private d_derived_tbl ac_derived_tbl; /* active table during an AC scan */
+        private DDerivedTable acDerivedTable; /* active table during an AC scan */
 
         /* Following fields used only in sequential mode */
 
         /* Pointers to derived tables (these workspaces have image lifespan) */
-        private readonly d_derived_tbl[] m_dc_derived_tbls = new d_derived_tbl[JpegConstants.NUM_HUFF_TBLS];
-        private readonly d_derived_tbl[] m_ac_derived_tbls = new d_derived_tbl[JpegConstants.NUM_HUFF_TBLS];
+        private readonly DDerivedTable[] dcDerivedTables = new DDerivedTable[JpegConstants.NUM_HUFF_TBLS];
+        private readonly DDerivedTable[] acDerivedTables = new DDerivedTable[JpegConstants.NUM_HUFF_TBLS];
 
         /* Precalculated info set up by start_pass for use in decode_mcu: */
 
         /* Pointers to derived tables to be used for each block within an MCU */
-        private readonly d_derived_tbl[] m_dc_cur_tbls = new d_derived_tbl[JpegConstants.D_MAX_BLOCKS_IN_MCU];
-        private readonly d_derived_tbl[] m_ac_cur_tbls = new d_derived_tbl[JpegConstants.D_MAX_BLOCKS_IN_MCU];
+        private readonly DDerivedTable[] dcCurTables = new DDerivedTable[JpegConstants.D_MAX_BLOCKS_IN_MCU];
+        private readonly DDerivedTable[] acCurTables = new DDerivedTable[JpegConstants.D_MAX_BLOCKS_IN_MCU];
 
         /* Whether we care about the DC and AC coefficient values for each block */
-        private readonly int[] coef_limit = new int[JpegConstants.D_MAX_BLOCKS_IN_MCU];
+        private readonly int[] coefLimit = new int[JpegConstants.D_MAX_BLOCKS_IN_MCU];
 
-        private readonly jpeg_decompress_struct m_cinfo;
+        private readonly jpeg_decompress_struct cinfo;
 
-        public huff_entropy_decoder(jpeg_decompress_struct cinfo)
+        public HuffmanEntropyDecoder(jpeg_decompress_struct cinfo)
         {
-            m_cinfo = cinfo;
+            this.cinfo = cinfo;
 
-            finish_pass = finish_pass_huff;
+            finishPass = FinishPassHuffman;
 
-            if (m_cinfo.m_progressive_mode)
+            if (this.cinfo.m_progressive_mode)
             {
                 /* Create progression status table */
                 cinfo.m_coef_bits = new int[cinfo.m_num_components][];
@@ -199,7 +199,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* Mark derived tables unallocated */
                 for (var i = 0; i < JpegConstants.NUM_HUFF_TBLS; i++)
                 {
-                    derived_tbls[i] = null;
+                    DerivedTables[i] = null;
                 }
             }
             else
@@ -207,8 +207,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* Mark tables unallocated */
                 for (var i = 0; i < JpegConstants.NUM_HUFF_TBLS; i++)
                 {
-                    m_dc_derived_tbls[i] = null;
-                    m_ac_derived_tbls[i] = null;
+                    dcDerivedTables[i] = null;
+                    acDerivedTables[i] = null;
                 }
             }
         }
@@ -216,15 +216,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// <summary>
         /// Initialize for a Huffman-compressed scan.
         /// </summary>
-        public override void start_pass()
+        public override void StartPass()
         {
-            if (m_cinfo.m_progressive_mode)
+            if (cinfo.m_progressive_mode)
             {
                 var bad = false;
                 /* Validate progressive scan parameters */
-                if (m_cinfo.m_Ss == 0)
+                if (cinfo.m_Ss == 0)
                 {
-                    if (m_cinfo.m_Se != 0)
+                    if (cinfo.m_Se != 0)
                     {
                         bad = true;
                     }
@@ -232,28 +232,28 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 else
                 {
                     /* need not check Ss/Se < 0 since they came from unsigned bytes */
-                    if (m_cinfo.m_Se < m_cinfo.m_Ss || m_cinfo.m_Se > m_cinfo.lim_Se)
+                    if (cinfo.m_Se < cinfo.m_Ss || cinfo.m_Se > cinfo.lim_Se)
                     {
                         bad = true;
                     }
 
                     /* AC scans may have only one component */
-                    if (m_cinfo.m_comps_in_scan != 1)
+                    if (cinfo.m_comps_in_scan != 1)
                     {
                         bad = true;
                     }
                 }
 
-                if (m_cinfo.m_Ah != 0)
+                if (cinfo.m_Ah != 0)
                 {
                     /* Successive approximation refinement scan: must have Al = Ah-1. */
-                    if (m_cinfo.m_Ah - 1 != m_cinfo.m_Al)
+                    if (cinfo.m_Ah - 1 != cinfo.m_Al)
                     {
                         bad = true;
                     }
                 }
 
-                if (m_cinfo.m_Al > 13)
+                if (cinfo.m_Al > 13)
                 {
                     /* need not check for < 0 */
                     /* Arguably the maximum Al value should be less than 13 for 8-bit precision,
@@ -267,95 +267,95 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 if (bad)
                 {
-                    m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_PROGRESSION,
-                        m_cinfo.m_Ss, m_cinfo.m_Se, m_cinfo.m_Ah, m_cinfo.m_Al);
+                    cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_PROGRESSION,
+                        cinfo.m_Ss, cinfo.m_Se, cinfo.m_Ah, cinfo.m_Al);
                 }
 
                 /* Update progression status, and verify that scan order is legal.
                  * Note that inter-scan inconsistencies are treated as warnings
                  * not fatal errors ... not clear if this is right way to behave.
                  */
-                for (var ci = 0; ci < m_cinfo.m_comps_in_scan; ci++)
+                for (var ci = 0; ci < cinfo.m_comps_in_scan; ci++)
                 {
-                    var cindex = m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[ci]].Component_index;
-                    if (m_cinfo.m_Ss != 0 && m_cinfo.m_coef_bits[cindex][0] < 0)
+                    var cindex = cinfo.Comp_info[cinfo.m_cur_comp_info[ci]].Component_index;
+                    if (cinfo.m_Ss != 0 && cinfo.m_coef_bits[cindex][0] < 0)
                     {
                         /* AC without prior DC scan */
-                        m_cinfo.WARNMS(J_MESSAGE_CODE.JWRN_BOGUS_PROGRESSION, cindex, 0);
+                        cinfo.WARNMS(J_MESSAGE_CODE.JWRN_BOGUS_PROGRESSION, cindex, 0);
                     }
 
-                    for (var coefi = m_cinfo.m_Ss; coefi <= m_cinfo.m_Se; coefi++)
+                    for (var coefi = cinfo.m_Ss; coefi <= cinfo.m_Se; coefi++)
                     {
-                        var expected = m_cinfo.m_coef_bits[cindex][coefi];
+                        var expected = cinfo.m_coef_bits[cindex][coefi];
                         if (expected < 0)
                         {
                             expected = 0;
                         }
 
-                        if (m_cinfo.m_Ah != expected)
+                        if (cinfo.m_Ah != expected)
                         {
-                            m_cinfo.WARNMS(J_MESSAGE_CODE.JWRN_BOGUS_PROGRESSION, cindex, coefi);
+                            cinfo.WARNMS(J_MESSAGE_CODE.JWRN_BOGUS_PROGRESSION, cindex, coefi);
                         }
 
-                        m_cinfo.m_coef_bits[cindex][coefi] = m_cinfo.m_Al;
+                        cinfo.m_coef_bits[cindex][coefi] = cinfo.m_Al;
                     }
                 }
 
                 /* Select MCU decoding routine */
-                if (m_cinfo.m_Ah == 0)
+                if (cinfo.m_Ah == 0)
                 {
-                    if (m_cinfo.m_Ss == 0)
+                    if (cinfo.m_Ss == 0)
                     {
-                        decode_mcu = decode_mcu_DC_first;
+                        decodeMcu = DecodeMcuDCFirst;
                     }
                     else
                     {
-                        decode_mcu = decode_mcu_AC_first;
+                        decodeMcu = DecodeMcuACFirst;
                     }
                 }
                 else
                 {
-                    if (m_cinfo.m_Ss == 0)
+                    if (cinfo.m_Ss == 0)
                     {
-                        decode_mcu = decode_mcu_DC_refine;
+                        decodeMcu = DecodeMcuDCRefine;
                     }
                     else
                     {
-                        decode_mcu = decode_mcu_AC_refine;
+                        decodeMcu = DecodeMcuACRefine;
                     }
                 }
 
-                for (var ci = 0; ci < m_cinfo.m_comps_in_scan; ci++)
+                for (var ci = 0; ci < cinfo.m_comps_in_scan; ci++)
                 {
-                    var compptr = m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[ci]];
+                    var compptr = cinfo.Comp_info[cinfo.m_cur_comp_info[ci]];
 
                     /* Make sure requested tables are present, and compute derived tables.
                      * We may build same derived table more than once, but it's not expensive.
                      */
-                    if (m_cinfo.m_Ss == 0)
+                    if (cinfo.m_Ss == 0)
                     {
-                        if (m_cinfo.m_Ah == 0)
+                        if (cinfo.m_Ah == 0)
                         {
                             /* DC refinement needs no table */
                             var tbl = compptr.Dc_tbl_no;
-                            jpeg_make_d_derived_tbl(true, tbl, ref derived_tbls[tbl]);
+                            JpegMakeDDerivedTable(true, tbl, ref DerivedTables[tbl]);
                         }
                     }
                     else
                     {
                         var tbl = compptr.Ac_tbl_no;
-                        jpeg_make_d_derived_tbl(false, tbl, ref derived_tbls[tbl]);
+                        JpegMakeDDerivedTable(false, tbl, ref DerivedTables[tbl]);
 
                         /* remember the single active table */
-                        ac_derived_tbl = derived_tbls[tbl];
+                        acDerivedTable = DerivedTables[tbl];
                     }
 
                     /* Initialize DC predictions to 0 */
-                    m_saved.last_dc_val[ci] = 0;
+                    saved.last_dc_val[ci] = 0;
                 }
 
                 /* Initialize private state variables */
-                m_saved.EOBRUN = 0;
+                saved.EOBRUN = 0;
             }
             else
             {
@@ -363,11 +363,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                  * This ought to be an error condition, but we make it a warning because
                  * there are some baseline files out there with all zeroes in these bytes.
                  */
-                if (m_cinfo.m_Ss != 0 || m_cinfo.m_Ah != 0 || m_cinfo.m_Al != 0 ||
-                    ((m_cinfo.is_baseline || m_cinfo.m_Se < JpegConstants.DCTSIZE2) &&
-                    m_cinfo.m_Se != m_cinfo.lim_Se))
+                if (cinfo.m_Ss != 0 || cinfo.m_Ah != 0 || cinfo.m_Al != 0 ||
+                    ((cinfo.is_baseline || cinfo.m_Se < JpegConstants.DCTSIZE2) &&
+                    cinfo.m_Se != cinfo.lim_Se))
                 {
-                    m_cinfo.WARNMS(J_MESSAGE_CODE.JWRN_NOT_SEQUENTIAL);
+                    cinfo.WARNMS(J_MESSAGE_CODE.JWRN_NOT_SEQUENTIAL);
                 }
 
                 /* Select MCU decoding routine */
@@ -377,58 +377,58 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                  * With an improved implementation we would prefer a single optimized
                  * function.
                  */
-                if (m_cinfo.lim_Se != JpegConstants.DCTSIZE2 - 1)
+                if (cinfo.lim_Se != JpegConstants.DCTSIZE2 - 1)
                 {
-                    decode_mcu = decode_mcu_sub;
+                    decodeMcu = DecodeMcuSub;
                 }
                 else
                 {
-                    decode_mcu = decode_mcu_full;
+                    decodeMcu = DecodeMcuFull;
                 }
 
-                for (var ci = 0; ci < m_cinfo.m_comps_in_scan; ci++)
+                for (var ci = 0; ci < cinfo.m_comps_in_scan; ci++)
                 {
-                    var componentInfo = m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[ci]];
+                    var componentInfo = cinfo.Comp_info[cinfo.m_cur_comp_info[ci]];
 
                     /* Compute derived values for Huffman tables */
                     /* We may do this more than once for a table, but it's not expensive */
 
                     var tbl = componentInfo.Dc_tbl_no;
-                    jpeg_make_d_derived_tbl(true, tbl, ref m_dc_derived_tbls[tbl]);
+                    JpegMakeDDerivedTable(true, tbl, ref dcDerivedTables[tbl]);
 
-                    if (m_cinfo.lim_Se != 0)
+                    if (cinfo.lim_Se != 0)
                     {
                         /* AC needs no table when not present */
                         tbl = componentInfo.Ac_tbl_no;
-                        jpeg_make_d_derived_tbl(false, tbl, ref m_ac_derived_tbls[tbl]);
+                        JpegMakeDDerivedTable(false, tbl, ref acDerivedTables[tbl]);
                     }
 
                     /* Initialize DC predictions to 0 */
-                    m_saved.last_dc_val[ci] = 0;
+                    saved.last_dc_val[ci] = 0;
                 }
 
                 /* Precalculate decoding info for each block in an MCU of this scan */
-                for (var blkn = 0; blkn < m_cinfo.m_blocks_in_MCU; blkn++)
+                for (var blkn = 0; blkn < cinfo.m_blocks_in_MCU; blkn++)
                 {
-                    var ci = m_cinfo.m_MCU_membership[blkn];
-                    var componentInfo = m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[ci]];
+                    var ci = cinfo.m_MCU_membership[blkn];
+                    var componentInfo = cinfo.Comp_info[cinfo.m_cur_comp_info[ci]];
 
                     /* Precalculate which table to use for each block */
-                    m_dc_cur_tbls[blkn] = m_dc_derived_tbls[componentInfo.Dc_tbl_no];
-                    m_ac_cur_tbls[blkn] = m_ac_derived_tbls[componentInfo.Ac_tbl_no];
+                    dcCurTables[blkn] = dcDerivedTables[componentInfo.Dc_tbl_no];
+                    acCurTables[blkn] = acDerivedTables[componentInfo.Ac_tbl_no];
 
                     /* Decide whether we really care about the coefficient values */
                     if (componentInfo.component_needed)
                     {
                         ci = componentInfo.DCT_v_scaled_size;
                         var i = componentInfo.DCT_h_scaled_size;
-                        switch (m_cinfo.lim_Se)
+                        switch (cinfo.lim_Se)
                         {
-                            case (1 * 1 - 1):
-                                coef_limit[blkn] = 1;
+                            case 0:
+                                coefLimit[blkn] = 1;
                                 break;
 
-                            case (2 * 2 - 1):
+                            case 3:
                                 if (ci <= 0 || ci > 2)
                                 {
                                     ci = 2;
@@ -439,10 +439,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                                     i = 2;
                                 }
 
-                                coef_limit[blkn] = 1 + jpeg_zigzag_order2[ci - 1][i - 1];
+                                coefLimit[blkn] = 1 + jpeg_zigzag_order2[ci - 1][i - 1];
                                 break;
 
-                            case (3 * 3 - 1):
+                            case 8:
                                 if (ci <= 0 || ci > 3)
                                 {
                                     ci = 3;
@@ -453,10 +453,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                                     i = 3;
                                 }
 
-                                coef_limit[blkn] = 1 + jpeg_zigzag_order3[ci - 1][i - 1];
+                                coefLimit[blkn] = 1 + jpeg_zigzag_order3[ci - 1][i - 1];
                                 break;
 
-                            case (4 * 4 - 1):
+                            case 15:
                                 if (ci <= 0 || ci > 4)
                                 {
                                     ci = 4;
@@ -467,10 +467,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                                     i = 4;
                                 }
 
-                                coef_limit[blkn] = 1 + jpeg_zigzag_order4[ci - 1][i - 1];
+                                coefLimit[blkn] = 1 + jpeg_zigzag_order4[ci - 1][i - 1];
                                 break;
 
-                            case (5 * 5 - 1):
+                            case 24:
                                 if (ci <= 0 || ci > 5)
                                 {
                                     ci = 5;
@@ -481,10 +481,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                                     i = 5;
                                 }
 
-                                coef_limit[blkn] = 1 + jpeg_zigzag_order5[ci - 1][i - 1];
+                                coefLimit[blkn] = 1 + jpeg_zigzag_order5[ci - 1][i - 1];
                                 break;
 
-                            case (6 * 6 - 1):
+                            case 35:
                                 if (ci <= 0 || ci > 6)
                                 {
                                     ci = 6;
@@ -495,10 +495,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                                     i = 6;
                                 }
 
-                                coef_limit[blkn] = 1 + jpeg_zigzag_order6[ci - 1][i - 1];
+                                coefLimit[blkn] = 1 + jpeg_zigzag_order6[ci - 1][i - 1];
                                 break;
 
-                            case (7 * 7 - 1):
+                            case 48:
                                 if (ci <= 0 || ci > 7)
                                 {
                                     ci = 7;
@@ -509,7 +509,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                                     i = 7;
                                 }
 
-                                coef_limit[blkn] = 1 + jpeg_zigzag_order7[ci - 1][i - 1];
+                                coefLimit[blkn] = 1 + jpeg_zigzag_order7[ci - 1][i - 1];
                                 break;
 
                             default:
@@ -523,37 +523,37 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                                     i = 8;
                                 }
 
-                                coef_limit[blkn] = 1 + jpeg_zigzag_order[ci - 1][i - 1];
+                                coefLimit[blkn] = 1 + jpeg_zigzag_order[ci - 1][i - 1];
                                 break;
                         }
                     }
                     else
                     {
-                        coef_limit[blkn] = 0;
+                        coefLimit[blkn] = 0;
                     }
                 }
 
                 /* Initialize bitread state variables */
-                m_bitstate.bits_left = 0;
-                m_bitstate.get_buffer = 0;
-                m_insufficient_data = false;
+                bitState.bitsLeft = 0;
+                bitState.getBuffer = 0;
+                insufficientData = false;
 
                 /* Initialize restart counter */
-                m_restarts_to_go = m_cinfo.m_restart_interval;
+                restartsToGo = cinfo.m_restart_interval;
             }
         }
 
         /// <summary>
         /// Decode one MCU's worth of Huffman-compressed coefficients, full-size blocks.
         /// </summary>
-        private bool decode_mcu_full(JBLOCK[] MCU_data)
+        private bool DecodeMcuFull(JBLOCK[] MCU_data)
         {
             /* Process restart marker if needed; may have to suspend */
-            if (m_cinfo.m_restart_interval != 0)
+            if (cinfo.m_restart_interval != 0)
             {
-                if (m_restarts_to_go == 0)
+                if (restartsToGo == 0)
                 {
-                    if (!process_restart())
+                    if (!ProcessRestart())
                     {
                         return false;
                     }
@@ -563,27 +563,27 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* If we've run out of data, just leave the MCU set to zeroes.
              * This way, we return uniform gray for the remainder of the segment.
              */
-            if (!m_insufficient_data)
+            if (!insufficientData)
             {
                 /* Load up working state */
-                var br_state = new bitread_working_state();
-                BITREAD_LOAD_STATE(m_bitstate, out var get_buffer, out var bits_left, ref br_state);
-                var state = new savable_state();
-                state.Assign(m_saved);
+                var br_state = new BitreadWorkingState();
+                BITREAD_LOAD_STATE(bitState, out var get_buffer, out var bits_left, ref br_state);
+                var state = new SavableState();
+                state.Assign(saved);
 
                 /* Outer loop handles each block in the MCU */
 
-                for (var blkn = 0; blkn < m_cinfo.m_blocks_in_MCU; blkn++)
+                for (var blkn = 0; blkn < cinfo.m_blocks_in_MCU; blkn++)
                 {
                     /* Decode a single block's worth of coefficients */
 
                     /* Section F.2.2.1: decode the DC coefficient difference */
-                    var htbl = m_dc_cur_tbls[blkn];
+                    var htbl = dcCurTables[blkn];
                     HUFF_DECODE(out var s, ref br_state, htbl, ref get_buffer, ref bits_left);
 
-                    htbl = m_ac_cur_tbls[blkn];
+                    htbl = acCurTables[blkn];
                     var k = 1;
-                    var coef_limit = this.coef_limit[blkn];
+                    var coef_limit = this.coefLimit[blkn];
                     var endThisBlock = false;
 
                     if (coef_limit != 0)
@@ -597,7 +597,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                             s = HUFF_EXTEND(r, s);
                         }
 
-                        var ci = m_cinfo.m_MCU_membership[blkn];
+                        var ci = cinfo.m_MCU_membership[blkn];
                         s += state.last_dc_val[ci];
                         state.last_dc_val[ci] = s;
 
@@ -680,12 +680,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 }
 
                 /* Completed MCU, so update state */
-                BITREAD_SAVE_STATE(ref m_bitstate, get_buffer, bits_left);
-                m_saved.Assign(state);
+                BITREAD_SAVE_STATE(ref bitState, get_buffer, bits_left);
+                saved.Assign(state);
             }
 
             /* Account for restart interval (no-op if not using restarts) */
-            m_restarts_to_go--;
+            restartsToGo--;
 
             return true;
         }
@@ -693,14 +693,14 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// <summary>
         /// Decode one MCU's worth of Huffman-compressed coefficients, partial blocks.
         /// </summary>
-        private bool decode_mcu_sub(JBLOCK[] MCU_data)
+        private bool DecodeMcuSub(JBLOCK[] MCU_data)
         {
             /* Process restart marker if needed; may have to suspend */
-            if (m_cinfo.m_restart_interval != 0)
+            if (cinfo.m_restart_interval != 0)
             {
-                if (m_restarts_to_go == 0)
+                if (restartsToGo == 0)
                 {
-                    if (!process_restart())
+                    if (!ProcessRestart())
                     {
                         return false;
                     }
@@ -710,30 +710,30 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* If we've run out of data, just leave the MCU set to zeroes.
              * This way, we return uniform gray for the remainder of the segment.
              */
-            if (!m_insufficient_data)
+            if (!insufficientData)
             {
-                var natural_order = m_cinfo.natural_order;
-                var Se = m_cinfo.m_Se;
+                var natural_order = cinfo.natural_order;
+                var Se = cinfo.m_Se;
 
                 /* Load up working state */
-                var br_state = new bitread_working_state();
-                BITREAD_LOAD_STATE(m_bitstate, out var get_buffer, out var bits_left, ref br_state);
-                var state = new savable_state();
-                state.Assign(m_saved);
+                var br_state = new BitreadWorkingState();
+                BITREAD_LOAD_STATE(bitState, out var get_buffer, out var bits_left, ref br_state);
+                var state = new SavableState();
+                state.Assign(saved);
 
                 /* Outer loop handles each block in the MCU */
 
-                for (var blkn = 0; blkn < m_cinfo.m_blocks_in_MCU; blkn++)
+                for (var blkn = 0; blkn < cinfo.m_blocks_in_MCU; blkn++)
                 {
                     /* Decode a single block's worth of coefficients */
 
                     /* Section F.2.2.1: decode the DC coefficient difference */
-                    var htbl = m_dc_cur_tbls[blkn];
+                    var htbl = dcCurTables[blkn];
                     HUFF_DECODE(out var s, ref br_state, htbl, ref get_buffer, ref bits_left);
 
-                    htbl = m_ac_cur_tbls[blkn];
+                    htbl = acCurTables[blkn];
                     var k = 1;
-                    var coef_limit = this.coef_limit[blkn];
+                    var coef_limit = this.coefLimit[blkn];
 
                     if (coef_limit != 0)
                     {
@@ -746,7 +746,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                             s = HUFF_EXTEND(r, s);
                         }
 
-                        var ci = m_cinfo.m_MCU_membership[blkn];
+                        var ci = cinfo.m_MCU_membership[blkn];
                         s += state.last_dc_val[ci];
                         state.last_dc_val[ci] = s;
 
@@ -824,12 +824,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 }
 
                 /* Completed MCU, so update state */
-                BITREAD_SAVE_STATE(ref m_bitstate, get_buffer, bits_left);
-                m_saved.Assign(state);
+                BITREAD_SAVE_STATE(ref bitState, get_buffer, bits_left);
+                saved.Assign(state);
             }
 
             /* Account for restart interval (no-op if not using restarts) */
-            m_restarts_to_go--;
+            restartsToGo--;
 
             return true;
         }
@@ -856,14 +856,14 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// MCU decoding for DC initial scan (either spectral selection,
         /// or first pass of successive approximation).
         /// </summary>
-        private bool decode_mcu_DC_first(JBLOCK[] MCU_data)
+        private bool DecodeMcuDCFirst(JBLOCK[] MCU_data)
         {
             /* Process restart marker if needed; may have to suspend */
-            if (m_cinfo.m_restart_interval != 0)
+            if (cinfo.m_restart_interval != 0)
             {
-                if (m_restarts_to_go == 0)
+                if (restartsToGo == 0)
                 {
-                    if (!process_restart())
+                    if (!ProcessRestart())
                     {
                         return false;
                     }
@@ -873,23 +873,23 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* If we've run out of data, just leave the MCU set to zeroes.
              * This way, we return uniform gray for the remainder of the segment.
              */
-            if (!m_insufficient_data)
+            if (!insufficientData)
             {
                 /* Load up working state */
-                var br_state = new bitread_working_state();
-                BITREAD_LOAD_STATE(m_bitstate, out var get_buffer, out var bits_left, ref br_state);
-                var state = new savable_state();
-                state.Assign(m_saved);
+                var br_state = new BitreadWorkingState();
+                BITREAD_LOAD_STATE(bitState, out var get_buffer, out var bits_left, ref br_state);
+                var state = new SavableState();
+                state.Assign(saved);
 
                 /* Outer loop handles each block in the MCU */
-                for (var blkn = 0; blkn < m_cinfo.m_blocks_in_MCU; blkn++)
+                for (var blkn = 0; blkn < cinfo.m_blocks_in_MCU; blkn++)
                 {
-                    var ci = m_cinfo.m_MCU_membership[blkn];
+                    var ci = cinfo.m_MCU_membership[blkn];
 
                     /* Decode a single block's worth of coefficients */
 
                     /* Section F.2.2.1: decode the DC coefficient difference */
-                    HUFF_DECODE(out var s, ref br_state, derived_tbls[m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[ci]].Dc_tbl_no], ref get_buffer, ref bits_left);
+                    HUFF_DECODE(out var s, ref br_state, DerivedTables[cinfo.Comp_info[cinfo.m_cur_comp_info[ci]].Dc_tbl_no], ref get_buffer, ref bits_left);
 
                     if (s != 0)
                     {
@@ -904,16 +904,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     state.last_dc_val[ci] = s;
 
                     /* Scale and output the coefficient (assumes jpeg_natural_order[0]=0) */
-                    MCU_data[blkn][0] = (short)(s << m_cinfo.m_Al);
+                    MCU_data[blkn][0] = (short)(s << cinfo.m_Al);
                 }
 
                 /* Completed MCU, so update state */
-                BITREAD_SAVE_STATE(ref m_bitstate, get_buffer, bits_left);
-                m_saved.Assign(state);
+                BITREAD_SAVE_STATE(ref bitState, get_buffer, bits_left);
+                saved.Assign(state);
             }
 
             /* Account for restart interval (no-op if not using restarts) */
-            m_restarts_to_go--;
+            restartsToGo--;
 
             return true;
         }
@@ -922,14 +922,14 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// MCU decoding for AC initial scan (either spectral selection,
         /// or first pass of successive approximation).
         /// </summary>
-        private bool decode_mcu_AC_first(JBLOCK[] MCU_data)
+        private bool DecodeMcuACFirst(JBLOCK[] MCU_data)
         {
             /* Process restart marker if needed; may have to suspend */
-            if (m_cinfo.m_restart_interval != 0)
+            if (cinfo.m_restart_interval != 0)
             {
-                if (m_restarts_to_go == 0)
+                if (restartsToGo == 0)
                 {
-                    if (!process_restart())
+                    if (!ProcessRestart())
                     {
                         return false;
                     }
@@ -939,13 +939,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* If we've run out of data, just leave the MCU set to zeroes.
              * This way, we return uniform gray for the remainder of the segment.
              */
-            if (!m_insufficient_data)
+            if (!insufficientData)
             {
                 /* Load up working state.
                  * We can avoid loading/saving bitread state if in an EOB run.
                  */
-                var EOBRUN = m_saved.EOBRUN; /* only part of saved state we need */
-                var natural_order = m_cinfo.natural_order;
+                var EOBRUN = saved.EOBRUN; /* only part of saved state we need */
+                var natural_order = cinfo.natural_order;
 
                 /* There is always only one block per MCU */
 
@@ -957,12 +957,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 }
                 else
                 {
-                    var br_state = new bitread_working_state();
-                    BITREAD_LOAD_STATE(m_bitstate, out var get_buffer, out var bits_left, ref br_state);
+                    var br_state = new BitreadWorkingState();
+                    BITREAD_LOAD_STATE(bitState, out var get_buffer, out var bits_left, ref br_state);
 
-                    for (var k = m_cinfo.m_Ss; k <= m_cinfo.m_Se; k++)
+                    for (var k = cinfo.m_Ss; k <= cinfo.m_Se; k++)
                     {
-                        HUFF_DECODE(out var s, ref br_state, ac_derived_tbl, ref get_buffer, ref bits_left);
+                        HUFF_DECODE(out var s, ref br_state, acDerivedTable, ref get_buffer, ref bits_left);
 
                         var r = s >> 4;
                         s &= 15;
@@ -976,7 +976,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                             s = HUFF_EXTEND(r, s);
 
                             /* Scale and output coefficient in natural (dezigzagged) order */
-                            MCU_data[0][natural_order[k]] = (short)(s << m_cinfo.m_Al);
+                            MCU_data[0][natural_order[k]] = (short)(s << cinfo.m_Al);
                         }
                         else
                         {
@@ -1001,15 +1001,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         }
                     }
 
-                    BITREAD_SAVE_STATE(ref m_bitstate, get_buffer, bits_left);
+                    BITREAD_SAVE_STATE(ref bitState, get_buffer, bits_left);
                 }
 
                 /* Completed MCU, so update state */
-                m_saved.EOBRUN = EOBRUN; /* only part of saved state we need */
+                saved.EOBRUN = EOBRUN; /* only part of saved state we need */
             }
 
             /* Account for restart interval (no-op if not using restarts) */
-            m_restarts_to_go--;
+            restartsToGo--;
 
             return true;
         }
@@ -1019,14 +1019,14 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// Note: we assume such scans can be multi-component,
         /// although the spec is not very clear on the point.
         /// </summary>
-        private bool decode_mcu_DC_refine(JBLOCK[] MCU_data)
+        private bool DecodeMcuDCRefine(JBLOCK[] MCU_data)
         {
             /* Process restart marker if needed; may have to suspend */
-            if (m_cinfo.m_restart_interval != 0)
+            if (cinfo.m_restart_interval != 0)
             {
-                if (m_restarts_to_go == 0)
+                if (restartsToGo == 0)
                 {
-                    if (!process_restart())
+                    if (!ProcessRestart())
                     {
                         return false;
                     }
@@ -1038,14 +1038,14 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              */
 
             /* Load up working state */
-            var br_state = new bitread_working_state();
-            BITREAD_LOAD_STATE(m_bitstate, out var get_buffer, out var bits_left, ref br_state);
+            var br_state = new BitreadWorkingState();
+            BITREAD_LOAD_STATE(bitState, out var get_buffer, out var bits_left, ref br_state);
 
-            var p1 = 1 << m_cinfo.m_Al;
+            var p1 = 1 << cinfo.m_Al;
 
             /* Outer loop handles each block in the MCU */
 
-            for (var blkn = 0; blkn < m_cinfo.m_blocks_in_MCU; blkn++)
+            for (var blkn = 0; blkn < cinfo.m_blocks_in_MCU; blkn++)
             {
                 /* Encoded data is simply the next bit of the two's-complement DC value */
                 CHECK_BIT_BUFFER(ref br_state, 1, ref get_buffer, ref bits_left);
@@ -1060,23 +1060,23 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Completed MCU, so update state */
-            BITREAD_SAVE_STATE(ref m_bitstate, get_buffer, bits_left);
+            BITREAD_SAVE_STATE(ref bitState, get_buffer, bits_left);
 
             /* Account for restart interval (no-op if not using restarts) */
-            m_restarts_to_go--;
+            restartsToGo--;
 
             return true;
         }
 
         // There is always only one block per MCU
-        private bool decode_mcu_AC_refine(JBLOCK[] MCU_data)
+        private bool DecodeMcuACRefine(JBLOCK[] MCU_data)
         {
             /* Process restart marker if needed; may have to suspend */
-            if (m_cinfo.m_restart_interval != 0)
+            if (cinfo.m_restart_interval != 0)
             {
-                if (m_restarts_to_go == 0)
+                if (restartsToGo == 0)
                 {
-                    if (!process_restart())
+                    if (!ProcessRestart())
                     {
                         return false;
                     }
@@ -1085,16 +1085,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             /* If we've run out of data, don't modify the MCU.
              */
-            if (!m_insufficient_data)
+            if (!insufficientData)
             {
-                var p1 = 1 << m_cinfo.m_Al;    /* 1 in the bit position being coded */
-                var m1 = -1 << m_cinfo.m_Al; /* -1 in the bit position being coded */
-                var natural_order = m_cinfo.natural_order;
+                var p1 = 1 << cinfo.m_Al;    /* 1 in the bit position being coded */
+                var m1 = -1 << cinfo.m_Al; /* -1 in the bit position being coded */
+                var natural_order = cinfo.natural_order;
 
                 /* Load up working state */
-                var br_state = new bitread_working_state();
-                BITREAD_LOAD_STATE(m_bitstate, out var get_buffer, out var bits_left, ref br_state);
-                var EOBRUN = m_saved.EOBRUN; /* only part of saved state we need */
+                var br_state = new BitreadWorkingState();
+                BITREAD_LOAD_STATE(bitState, out var get_buffer, out var bits_left, ref br_state);
+                var EOBRUN = saved.EOBRUN; /* only part of saved state we need */
 
                 /* If we are forced to suspend, we must undo the assignments to any newly
                  * nonzero coefficients in the block, because otherwise we'd get confused
@@ -1106,13 +1106,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 var newnz_pos = new int[JpegConstants.DCTSIZE2];
 
                 /* initialize coefficient loop counter to start of band */
-                var k = m_cinfo.m_Ss;
+                var k = cinfo.m_Ss;
 
                 if (EOBRUN == 0)
                 {
                     do
                     {
-                        HUFF_DECODE(out var s, ref br_state, ac_derived_tbl, ref get_buffer, ref bits_left);
+                        HUFF_DECODE(out var s, ref br_state, acDerivedTable, ref get_buffer, ref bits_left);
 
                         var r = s >> 4;
                         s &= 15;
@@ -1121,7 +1121,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                             if (s != 1)
                             {
                                 /* size of new coef should always be 1 */
-                                m_cinfo.WARNMS(J_MESSAGE_CODE.JWRN_HUFF_BAD_CODE);
+                                cinfo.WARNMS(J_MESSAGE_CODE.JWRN_HUFF_BAD_CODE);
                             }
 
                             CHECK_BIT_BUFFER(ref br_state, 1, ref get_buffer, ref bits_left);
@@ -1191,7 +1191,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                             k++;
                         }
-                        while (k <= m_cinfo.m_Se);
+                        while (k <= cinfo.m_Se);
 
                         if (s != 0)
                         {
@@ -1205,7 +1205,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         }
 
                         k++;
-                    } while (k <= m_cinfo.m_Se);
+                    } while (k <= cinfo.m_Se);
                 }
 
                 if (EOBRUN != 0)
@@ -1241,19 +1241,19 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         }
 
                         k++;
-                    } while (k <= m_cinfo.m_Se);
+                    } while (k <= cinfo.m_Se);
 
                     /* Count one block completed in EOB run */
                     EOBRUN--;
                 }
 
                 /* Completed MCU, so update state */
-                BITREAD_SAVE_STATE(ref m_bitstate, get_buffer, bits_left);
-                m_saved.EOBRUN = EOBRUN; /* only part of saved state we need */
+                BITREAD_SAVE_STATE(ref bitState, get_buffer, bits_left);
+                saved.EOBRUN = EOBRUN; /* only part of saved state we need */
             }
 
             /* Account for restart interval (no-op if not using restarts) */
-            m_restarts_to_go--;
+            restartsToGo--;
 
             return true;
         }
@@ -1261,48 +1261,48 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /*
          * Finish up at the end of a Huffman-compressed scan.
          */
-        public void finish_pass_huff()
+        public void FinishPassHuffman()
         {
             /* Throw away any unused bits remaining in bit buffer; */
             /* include any full bytes in next_marker's count of discarded bytes */
-            m_cinfo.m_marker.SkipBytes(m_bitstate.bits_left / 8);
-            m_bitstate.bits_left = 0;
+            cinfo.m_marker.SkipBytes(bitState.bitsLeft / 8);
+            bitState.bitsLeft = 0;
         }
 
         /// <summary>
         /// Check for a restart marker and resynchronize decoder.
         /// Returns false if must suspend.
         /// </summary>
-        private bool process_restart()
+        private bool ProcessRestart()
         {
-            finish_pass_huff();
+            FinishPassHuffman();
 
             /* Advance past the RSTn marker */
-            if (!m_cinfo.m_marker.read_restart_marker())
+            if (!cinfo.m_marker.read_restart_marker())
             {
                 return false;
             }
 
             /* Re-initialize DC predictions to 0 */
-            for (var ci = 0; ci < m_cinfo.m_comps_in_scan; ci++)
+            for (var ci = 0; ci < cinfo.m_comps_in_scan; ci++)
             {
-                m_saved.last_dc_val[ci] = 0;
+                saved.last_dc_val[ci] = 0;
             }
 
             /* Re-init EOB run count, too */
-            m_saved.EOBRUN = 0;
+            saved.EOBRUN = 0;
 
             /* Reset restart counter */
-            m_restarts_to_go = m_cinfo.m_restart_interval;
+            restartsToGo = cinfo.m_restart_interval;
 
             /* Reset out-of-data flag, unless read_restart_marker left us smack up
              * against a marker.  In that case we will end up treating the next data
              * segment as empty, and we can avoid producing bogus output pixels by
              * leaving the flag set.
              */
-            if (m_cinfo.m_unread_marker == 0)
+            if (cinfo.m_unread_marker == 0)
             {
-                m_insufficient_data = false;
+                insufficientData = false;
             }
 
             return true;
@@ -1313,17 +1313,17 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             return x <= bmask[s - 1] ? x - bmask[s] : x;
         }
 
-        private void BITREAD_LOAD_STATE(bitread_perm_state bitstate, out int get_buffer, out int bits_left, ref bitread_working_state br_state)
+        private void BITREAD_LOAD_STATE(BitreadPermState bitstate, out int get_buffer, out int bits_left, ref BitreadWorkingState br_state)
         {
-            br_state.cinfo = m_cinfo;
-            get_buffer = bitstate.get_buffer;
-            bits_left = bitstate.bits_left;
+            br_state.cinfo = cinfo;
+            get_buffer = bitstate.getBuffer;
+            bits_left = bitstate.bitsLeft;
         }
 
-        private static void BITREAD_SAVE_STATE(ref bitread_perm_state bitstate, int get_buffer, int bits_left)
+        private static void BITREAD_SAVE_STATE(ref BitreadPermState bitstate, int get_buffer, int bits_left)
         {
-            bitstate.get_buffer = get_buffer;
-            bitstate.bits_left = bits_left;
+            bitstate.getBuffer = get_buffer;
+            bitstate.bitsLeft = bits_left;
         }
 
         /*
@@ -1343,13 +1343,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         * The value N should be a simple variable, not an expression, because it
         * is evaluated multiple times.
         */
-        private static void CHECK_BIT_BUFFER(ref bitread_working_state state, int nbits, ref int get_buffer, ref int bits_left)
+        private static void CHECK_BIT_BUFFER(ref BitreadWorkingState state, int nbits, ref int get_buffer, ref int bits_left)
         {
             if (bits_left < nbits)
             {
-                jpeg_fill_bit_buffer(ref state, get_buffer, bits_left, nbits);
-                get_buffer = state.get_buffer;
-                bits_left = state.bits_left;
+                JpegFillBitBuffer(ref state, get_buffer, bits_left, nbits);
+                get_buffer = state.getBuffer;
+                bits_left = state.bitsLeft;
             }
         }
 
@@ -1384,17 +1384,17 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         *    more than HUFF_LOOKAHEAD bits long.
         * 3. jpeg_huff_decode returns -1 if forced to suspend.
         */
-        private static void HUFF_DECODE(out int result, ref bitread_working_state state, d_derived_tbl htbl, ref int get_buffer, ref int bits_left)
+        private static void HUFF_DECODE(out int result, ref BitreadWorkingState state, DDerivedTable htbl, ref int get_buffer, ref int bits_left)
         {
             var nb = 0;
             var doSlow = false;
 
             if (bits_left < JpegConstants.HUFF_LOOKAHEAD)
             {
-                jpeg_fill_bit_buffer(ref state, get_buffer, bits_left, 0);
+                JpegFillBitBuffer(ref state, get_buffer, bits_left, 0);
 
-                get_buffer = state.get_buffer;
-                bits_left = state.bits_left;
+                get_buffer = state.getBuffer;
+                bits_left = state.bitsLeft;
                 if (bits_left < JpegConstants.HUFF_LOOKAHEAD)
                 {
                     nb = 1;
@@ -1405,24 +1405,24 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             if (!doSlow)
             {
                 var look = PEEK_BITS(JpegConstants.HUFF_LOOKAHEAD, get_buffer, bits_left);
-                if ((nb = htbl.look_nbits[look]) != 0)
+                if ((nb = htbl.lookNBits[look]) != 0)
                 {
                     DROP_BITS(nb, ref bits_left);
-                    result = htbl.look_sym[look];
+                    result = htbl.lookSym[look];
                     return;
                 }
 
                 nb = JpegConstants.HUFF_LOOKAHEAD + 1;
             }
 
-            result = jpeg_huff_decode(ref state, get_buffer, bits_left, htbl, nb);
+            result = JpegHuffmanDecode(ref state, get_buffer, bits_left, htbl, nb);
 
-            get_buffer = state.get_buffer;
-            bits_left = state.bits_left;
+            get_buffer = state.getBuffer;
+            bits_left = state.bitsLeft;
         }
 
         /* Load up the bit buffer to a depth of at least nbits */
-        private static void jpeg_fill_bit_buffer(ref bitread_working_state state, int get_buffer, int bits_left, int nbits)
+        private static void JpegFillBitBuffer(ref BitreadWorkingState state, int get_buffer, int bits_left, int nbits)
         {
             /* Attempt to load at least MIN_GET_BITS bits into get_buffer. */
             /* (It is assumed that no request will be for more than that many bits.) */
@@ -1496,11 +1496,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     * We use a nonvolatile flag to ensure that only one warning message
                     * appears per data segment.
                     */
-                    var entropy = (huff_entropy_decoder)state.cinfo.m_entropy;
-                    if (!entropy.m_insufficient_data)
+                    var entropy = (HuffmanEntropyDecoder)state.cinfo.m_entropy;
+                    if (!entropy.insufficientData)
                     {
                         state.cinfo.WARNMS(J_MESSAGE_CODE.JWRN_HIT_MARKER);
-                        entropy.m_insufficient_data = true;
+                        entropy.insufficientData = true;
                     }
 
                     /* Fill the buffer with zero bits */
@@ -1510,15 +1510,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Unload the local registers */
-            state.get_buffer = get_buffer;
-            state.bits_left = bits_left;
+            state.getBuffer = get_buffer;
+            state.bitsLeft = bits_left;
         }
 
         /// <summary>
         /// Expand a Huffman table definition into the derived format
         /// This routine also performs some validation checks on the table.
         /// </summary>
-        private void jpeg_make_d_derived_tbl(bool isDC, int tblno, ref d_derived_tbl dtbl)
+        private void JpegMakeDDerivedTable(bool isDC, int tblno, ref DDerivedTable dtbl)
         {
             /* Note that huffsize[] and huffcode[] are filled in code-length order,
             * paralleling the order of the symbols themselves in htbl.huffval[].
@@ -1527,19 +1527,19 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* Find the input Huffman table */
             if (tblno < 0 || tblno >= JpegConstants.NUM_HUFF_TBLS)
             {
-                m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_NO_HUFF_TABLE, tblno);
+                cinfo.ERREXIT(J_MESSAGE_CODE.JERR_NO_HUFF_TABLE, tblno);
             }
 
-            var htbl = isDC ? m_cinfo.m_dc_huff_tbl_ptrs[tblno] : m_cinfo.m_ac_huff_tbl_ptrs[tblno];
+            var htbl = isDC ? cinfo.m_dc_huff_tbl_ptrs[tblno] : cinfo.m_ac_huff_tbl_ptrs[tblno];
             if (htbl == null)
             {
-                m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_NO_HUFF_TABLE, tblno);
+                cinfo.ERREXIT(J_MESSAGE_CODE.JERR_NO_HUFF_TABLE, tblno);
             }
 
             /* Allocate a workspace if we haven't already done so. */
             if (dtbl == null)
             {
-                dtbl = new d_derived_tbl();
+                dtbl = new DDerivedTable();
             }
 
             dtbl.pub = htbl;       /* fill in back link */
@@ -1553,7 +1553,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 int i = htbl.Bits[l];
                 if (p + i > 256)    /* protect against table overrun */
                 {
-                    m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_HUFF_TABLE);
+                    cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_HUFF_TABLE);
                 }
 
                 while ((i--) != 0)
@@ -1584,7 +1584,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 */
                 if (code >= (1 << si))
                 {
-                    m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_HUFF_TABLE);
+                    cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_HUFF_TABLE);
                 }
 
                 code <<= 1;
@@ -1601,17 +1601,17 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     /* valoffset[l] = huffval[] index of 1st symbol of code length l,
                     * minus the minimum code of length l
                     */
-                    dtbl.valoffset[l] = p - huffcode[p];
+                    dtbl.valOffset[l] = p - huffcode[p];
                     p += htbl.Bits[l];
-                    dtbl.maxcode[l] = huffcode[p - 1]; /* maximum code of length l */
+                    dtbl.maxCode[l] = huffcode[p - 1]; /* maximum code of length l */
                 }
                 else
                 {
                     /* -1 if no codes of this length */
-                    dtbl.maxcode[l] = -1;
+                    dtbl.maxCode[l] = -1;
                 }
             }
-            dtbl.maxcode[17] = 0xFFFFF; /* ensures jpeg_huff_decode terminates */
+            dtbl.maxCode[17] = 0xFFFFF; /* ensures jpeg_huff_decode terminates */
 
             /* Compute lookahead tables to speed up decoding.
             * First we set all the table entries to 0, indicating "too long";
@@ -1620,7 +1620,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             * with that code.
             */
 
-            Array.Clear(dtbl.look_nbits, 0, dtbl.look_nbits.Length);
+            Array.Clear(dtbl.lookNBits, 0, dtbl.lookNBits.Length);
             p = 0;
             for (var l = 1; l <= JpegConstants.HUFF_LOOKAHEAD; l++)
             {
@@ -1631,8 +1631,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     var lookbits = huffcode[p] << (JpegConstants.HUFF_LOOKAHEAD - l);
                     for (var ctr = 1 << (JpegConstants.HUFF_LOOKAHEAD - l); ctr > 0; ctr--)
                     {
-                        dtbl.look_nbits[lookbits] = l;
-                        dtbl.look_sym[lookbits] = htbl.Huffval[p];
+                        dtbl.lookNBits[lookbits] = l;
+                        dtbl.lookSym[lookbits] = htbl.Huffval[p];
                         lookbits++;
                     }
                 }
@@ -1651,14 +1651,14 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     int sym = htbl.Huffval[i];
                     if (sym > 15)
                     {
-                        m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_HUFF_TABLE);
+                        cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_HUFF_TABLE);
                     }
                 }
             }
         }
 
         /* Out-of-line case for Huffman code fetching */
-        protected static int jpeg_huff_decode(ref bitread_working_state state, int get_buffer, int bits_left, d_derived_tbl htbl, int min_bits)
+        protected static int JpegHuffmanDecode(ref BitreadWorkingState state, int get_buffer, int bits_left, DDerivedTable htbl, int min_bits)
         {
             /* HUFF_DECODE has determined that the code is at least min_bits */
             /* bits long, so fetch that many bits in one swoop. */
@@ -1670,7 +1670,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* Collect the rest of the Huffman code one bit at a time. */
             /* This is per Figure F.16 in the JPEG spec. */
 
-            while (code > htbl.maxcode[l])
+            while (code > htbl.maxCode[l])
             {
                 code <<= 1;
                 CHECK_BIT_BUFFER(ref state, 1, ref get_buffer, ref bits_left);
@@ -1680,8 +1680,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Unload the local registers */
-            state.get_buffer = get_buffer;
-            state.bits_left = bits_left;
+            state.getBuffer = get_buffer;
+            state.bitsLeft = bits_left;
 
             /* With garbage input we may reach the sentinel value l = 17. */
 
@@ -1692,7 +1692,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 return 0;
             }
 
-            return htbl.pub.Huffval[code + htbl.valoffset[l]];
+            return htbl.pub.Huffval[code + htbl.valOffset[l]];
         }
     }
 }

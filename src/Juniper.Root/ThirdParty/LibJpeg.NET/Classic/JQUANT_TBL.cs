@@ -5,13 +5,6 @@ namespace BitMiracle.LibJpeg.Classic
     /// </summary>
     public class JQUANT_TBL
     {
-        /* This field is used only during compression.  It's initialized false when
-         * the table is created, and set true when it's been output to the file.
-         * You could suppress output of a table by setting this to true.
-         * (See jpeg_suppress_tables for an example.)
-         */
-        private bool m_sent_table;        /* true when table has been output */
-
         /* This array gives the coefficient quantizers in natural array order
          * (not the zigzag order in which they are stored in a JPEG DQT marker).
          * CAUTION: IJG versions prior to v6a kept this array in zigzag order.
@@ -30,10 +23,6 @@ namespace BitMiracle.LibJpeg.Classic
         /// </value>
         /// <remarks>This property is used only during compression.</remarks>
         /// <seealso cref="jpeg_compress_struct.jpeg_suppress_tables"/>
-        public bool Sent_table
-        {
-            get { return m_sent_table; }
-            set { m_sent_table = value; }
-        }
+        public bool Sent_table { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains code for merged upsampling/color conversion.
  *
  * This file combines functions from my_upsampler and jpeg_color_deconverter;
@@ -409,7 +409,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
         private static int FIX(double x)
         {
-            return ((int)((x) * (1L << SCALEBITS) + 0.5));
+            return (int)((x * (1L << SCALEBITS)) + 0.5);
         }
     }
 }

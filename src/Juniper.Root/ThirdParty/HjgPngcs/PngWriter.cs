@@ -173,7 +173,7 @@ namespace Hjg.Pngcs
 
                 histox[v & 0xFF]++;
             }
-            filterStrat.fillResultsForFilter(rown, type, s, histox, tentative);
+            filterStrat.FillResultsForFilter(rown, type, s, histox, tentative);
         }
 
         private void WriteEndChunk()
@@ -282,7 +282,7 @@ namespace Hjg.Pngcs
                 // perhaps we need to pack?
                 if (row.Length >= ImgInfo.SamplesPerRow && needsPack)
                 {
-                    ImageLine.packInplaceByte(ImgInfo, row, row, false); // row is packed in place!
+                    ImageLine.PackInplaceByte(ImgInfo, row, row, false); // row is packed in place!
                 }
 
                 if (ImgInfo.BitDepth <= 8)
@@ -330,7 +330,7 @@ namespace Hjg.Pngcs
                 // perhaps we need to pack?
                 if (row.Length >= ImgInfo.SamplesPerRow && needsPack)
                 {
-                    ImageLine.packInplaceInt(ImgInfo, row, row, false); // row is packed in place!
+                    ImageLine.PackInplaceInt(ImgInfo, row, row, false); // row is packed in place!
                 }
 
                 if (ImgInfo.BitDepth <= 8)
@@ -355,7 +355,7 @@ namespace Hjg.Pngcs
         {
             // warning: filters operation rely on: "previos row" (rowbprev) is
             // initialized to 0 the first time
-            if (filterStrat.shouldTestAll(rown))
+            if (filterStrat.ShouldTestAll(rown))
             {
                 FilterRowNone();
                 reportResultsForFilter(rown, FilterType.FILTER_NONE, true);
@@ -368,7 +368,7 @@ namespace Hjg.Pngcs
                 FilterRowPaeth();
                 reportResultsForFilter(rown, FilterType.FILTER_PAETH, true);
             }
-            var filterType = filterStrat.gimmeFilterType(rown, true);
+            var filterType = filterStrat.GimmeFilterType(rown, true);
             rowbfilter[0] = (byte)(int)filterType;
             switch (filterType)
             {

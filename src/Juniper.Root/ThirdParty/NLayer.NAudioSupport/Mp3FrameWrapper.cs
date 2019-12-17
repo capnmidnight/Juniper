@@ -130,7 +130,7 @@ namespace NLayer.NAudioSupport
         {
             if (bitCount < 1 || bitCount > 32)
             {
-                throw new ArgumentOutOfRangeException("bitCount");
+                throw new ArgumentOutOfRangeException(nameof(bitCount));
             }
 
             while (_bitsRead < bitCount)

@@ -33,7 +33,7 @@ namespace Hjg.Pngcs.Zlib
             {
                 unchecked
                 {
-                    hash = (hash >> 8) ^ table[buffer[j] ^ hash & 0xff];
+                    hash = (hash >> 8) ^ table[buffer[j] ^ (hash & 0xff)];
                 }
             }
         }
@@ -67,7 +67,7 @@ namespace Hjg.Pngcs.Zlib
                     }
                     else
                     {
-                        entry = entry >> 1;
+                        entry >>= 1;
                     }
                 }
 

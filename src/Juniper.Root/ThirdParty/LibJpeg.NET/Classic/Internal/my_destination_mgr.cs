@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains compression data destination routines for the case of
  * emitting JPEG data to memory or to a file (or any stdio stream).
  * While these routines are sufficient for most applications,
@@ -43,13 +43,14 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
-        /// Empty the output buffer --- called whenever buffer fills up.
-        /// 
+        /// <para>Empty the output buffer --- called whenever buffer fills up.</para>
+        /// <para>
         /// In typical applications, this should write the entire output buffer
         /// (ignoring the current state of next_output_byte and free_in_buffer),
         /// reset the pointer and count to the start of the buffer, and return true
         /// indicating that the buffer has been dumped.
-        /// 
+        /// </para>
+        /// <para>
         /// In applications that need to be able to suspend compression due to output
         /// overrun, a false return indicates that the buffer cannot be emptied now.
         /// In this situation, the compressor will return to its caller (possibly with
@@ -57,12 +58,14 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// application should resume compression after it has made more room in the
         /// output buffer.  Note that there are substantial restrictions on the use of
         /// suspension --- see the documentation.
-        /// 
+        /// </para>
+        /// <para>
         /// When suspending, the compressor will back up to a convenient restart point
         /// (typically the start of the current MCU). next_output_byte and free_in_buffer
         /// indicate where the restart point will be if the current call returns false.
         /// Data beyond this point will be regenerated after resumption, so do not
         /// write it out when emptying the buffer externally.
+        /// </para>
         /// </summary>
         public override bool empty_output_buffer()
         {
@@ -72,12 +75,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
+        /// <para>
         /// Terminate destination --- called by jpeg_finish_compress
         /// after all data has been written.  Usually needs to flush buffer.
-        /// 
+        /// </para>
+        /// <para>
         /// NB: *not* called by jpeg_abort or jpeg_destroy; surrounding
         /// application must deal with any cleanup that should happen even
         /// for error exit.
+        /// </para>
         /// </summary>
         public override void term_destination()
         {

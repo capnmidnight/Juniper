@@ -958,6 +958,11 @@ namespace Juniper.Primrose
 
             private object Eval(string script)
             {
+                if (string.IsNullOrEmpty(script))
+                {
+                    throw new ArgumentException(nameof(script));
+                }
+
                 throw new NotImplementedException();
             }
         }

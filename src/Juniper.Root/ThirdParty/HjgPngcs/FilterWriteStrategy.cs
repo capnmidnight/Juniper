@@ -51,7 +51,7 @@ namespace Hjg.Pngcs
             }
         }
 
-        internal bool shouldTestAll(int rown)
+        internal bool ShouldTestAll(int rown)
         {
             if (discoverEachLines > 0 && lastRowTested + discoverEachLines <= rown)
             {
@@ -64,17 +64,17 @@ namespace Hjg.Pngcs
             }
         }
 
-        internal void setPreference(double none, double sub, double up, double ave, double paeth)
+        internal void SetPreference(double none, double sub, double up, double ave, double paeth)
         {
             preference = new double[] { none, sub, up, ave, paeth };
         }
 
-        internal bool computesStatistics()
+        internal bool ComputesStatistics()
         {
-            return (discoverEachLines > 0);
+            return discoverEachLines > 0;
         }
 
-        internal void fillResultsForFilter(int rown, FilterType type, double sum, int[] histo, bool tentative)
+        internal void FillResultsForFilter(int rown, FilterType type, double sum, int[] histo, bool tentative)
         {
             lastRowTested = rown;
             lastSums[(int)type] = sum;
@@ -87,7 +87,7 @@ namespace Hjg.Pngcs
                 for (var i = 0; i < 256; i++)
                 {
                     v = ((double)histo[i]) / imgInfo.Cols;
-                    v = histogram1[i] * alfa + v * beta;
+                    v = (histogram1[i] * alfa) + (v * beta);
                     if (tentative)
                     {
                         e += v > 0.00000001 ? v * Math.Log(v) : 0.0;
@@ -101,7 +101,7 @@ namespace Hjg.Pngcs
             }
         }
 
-        internal FilterType gimmeFilterType(int rown, bool useEntropy)
+        internal FilterType GimmeFilterType(int rown, bool useEntropy)
         {
             if (currentType == FilterType.FILTER_UNKNOWN)
             { // get better

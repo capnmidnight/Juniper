@@ -60,10 +60,7 @@ namespace Hjg.Pngcs.Zlib
             }
 
             closed = true;
-            if (deflateStream != null)
-            {
-                deflateStream.Close();
-            }
+            deflateStream?.Close();
             if (crcread == null)
             { // eat trailing 4 bytes
                 crcread = new byte[4];
@@ -122,10 +119,7 @@ namespace Hjg.Pngcs.Zlib
 
         public override void Flush()
         {
-            if (deflateStream != null)
-            {
-                deflateStream.Flush();
-            }
+            deflateStream?.Flush();
         }
 
         public override string GetImplementationId()

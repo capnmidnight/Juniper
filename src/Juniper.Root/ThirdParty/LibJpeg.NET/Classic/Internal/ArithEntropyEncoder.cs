@@ -2,14 +2,14 @@ using System;
 
 namespace BitMiracle.LibJpeg.Classic.Internal
 {
-    internal class arith_entropy_decoder : jpeg_entropy_decoder
+    internal class ArithEntropyEncoder : JpegEntropyEncoder
     {
-        public arith_entropy_decoder(jpeg_decompress_struct cinfo)
+        public ArithEntropyEncoder(jpeg_compress_struct cinfo)
         {
             cinfo.ERREXIT(J_MESSAGE_CODE.JERR_NOTIMPL);
         }
 
-        public override void start_pass()
+        public override void StartPass(bool gather_statistics)
         {
             throw new NotImplementedException();
         }

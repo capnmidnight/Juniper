@@ -30,8 +30,6 @@ namespace BitMiracle.LibJpeg.Classic
     {
         internal delegate T[][] Allocator(int width, int height);
 
-        private jpeg_common_struct m_cinfo;
-
         private readonly T[][] m_buffer;   /* => the in-memory buffer */
 
         /// <summary>
@@ -42,7 +40,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <param name="allocator">The allocator.</param>
         internal jvirt_array(int width, int height, Allocator allocator)
         {
-            m_cinfo = null;
+            ErrorProcessor = null;
             m_buffer = allocator(width, height);
 
             Debug.Assert(m_buffer != null);
@@ -57,11 +55,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <remarks>Uses only for calling 
         /// <see cref="M:BitMiracle.LibJpeg.Classic.jpeg_common_struct.ERREXIT(BitMiracle.LibJpeg.Classic.J_MESSAGE_CODE)">jpeg_common_struct.ERREXIT</see>
         /// on error.</remarks>
-        public jpeg_common_struct ErrorProcessor
-        {
-            get { return m_cinfo; }
-            set { m_cinfo = value; }
-        }
+        public jpeg_common_struct ErrorProcessor { get; set; }
 
         /// <summary>
         /// Access the part of a virtual array.
@@ -74,9 +68,9 @@ namespace BitMiracle.LibJpeg.Classic
             /* debugging check */
             if (startRow + numberOfRows > m_buffer.Length)
             {
-                if (m_cinfo != null)
+                if (ErrorProcessor != null)
                 {
-                    m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_VIRTUAL_ACCESS);
+                    ErrorProcessor.ERREXIT(J_MESSAGE_CODE.JERR_BAD_VIRTUAL_ACCESS);
                 }
                 else
                 {

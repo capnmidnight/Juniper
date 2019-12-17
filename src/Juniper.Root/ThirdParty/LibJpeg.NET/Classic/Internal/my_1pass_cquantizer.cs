@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains 1-pass color quantization (color mapping) routines.
  * These routines provide mapping to a fixed color map using equally spaced
  * color values.  Optional Floyd-Steinberg or ordered dithering is available.
@@ -9,18 +9,21 @@ using System;
 namespace BitMiracle.LibJpeg.Classic.Internal
 {
     /// <summary>
+    /// <para>
     /// The main purpose of 1-pass quantization is to provide a fast, if not very
     /// high quality, colormapped output capability.  A 2-pass quantizer usually
     /// gives better visual quality; however, for quantized grayscale output this
     /// quantizer is perfectly adequate.  Dithering is highly recommended with this
     /// quantizer, though you can turn it off if you really want to.
-    /// 
+    /// </para>
+    /// <para>
     /// In 1-pass quantization the colormap must be chosen in advance of seeing the
     /// image.  We use a map consisting of all combinations of Ncolors[i] color
     /// values for the i'th component.  The Ncolors[] values are chosen so that
     /// their product, the total number of colors, is no more than that requested.
     /// (In most cases, the product will be somewhat less.)
-    /// 
+    /// </para>
+    /// <para>
     /// Since the colormap is orthogonal, the representative value for each color
     /// component can be determined without considering the other components;
     /// then these indexes can be combined into a colormap index by a standard
@@ -33,36 +36,37 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     ///     sum( colorindex[component-number][pixel-component-value] )
     /// Aside from being fast, this scheme allows for variable spacing between
     /// representative values with no additional lookup cost.
-    /// 
+    /// </para>
+    /// <para>
     /// If gamma correction has been applied in color conversion, it might be wise
     /// to adjust the color grid spacing so that the representative colors are
     /// equidistant in linear space.  At this writing, gamma correction is not
     /// implemented, so nothing is done here.
-    /// 
-    /// 
-    /// Declarations for Floyd-Steinberg dithering.
-    /// 
+    /// </para>
+    /// <para>Declarations for Floyd-Steinberg dithering.</para>
+    /// <para>
     /// Errors are accumulated into the array fserrors[], at a resolution of
     /// 1/16th of a pixel count.  The error at a given pixel is propagated
     /// to its not-yet-processed neighbors using the standard F-S fractions,
     ///     ...	(here)	7/16
     ///    3/16	5/16	1/16
     /// We work left-to-right on even rows, right-to-left on odd rows.
-    /// 
+    /// </para>
+    /// <para>
     /// We can get away with a single array (holding one row's worth of errors)
     /// by using it to store the current row's errors at pixel columns not yet
     /// processed, but the next row's errors at columns already processed.  We
     /// need only a few extra variables to hold the errors immediately around the
     /// current column.  (If we are lucky, those variables are in registers, but
     /// even if not, they're probably cheaper to access than array elements are.)
-    /// 
+    /// </para>
+    /// <para>
     /// The fserrors[] array is indexed [component#][position].
     /// We provide (#columns + 2) entries per component; the extra entry at each
     /// end saves us from special-casing the first and last pixels.
-    /// 
-    /// 
-    /// Declarations for ordered dithering.
-    /// 
+    /// </para>
+    /// <para>Declarations for ordered dithering.</para>
+    /// <para>
     /// We use a standard 16x16 ordered dither array.  The basic concept of ordered
     /// dithering is described in many references, for instance Dale Schumacher's
     /// chapter II.2 of Graphics Gems II (James Arvo, ed. Academic Press, 1991).
@@ -72,11 +76,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// the distance between output values.  For ordered dithering, we assume that
     /// the output colors are equally spaced; if not, results will probably be
     /// worse, since the dither may be too much or too little at a given point.
-    /// 
+    /// </para>
+    /// <para>
     /// The normal calculation would be to form pixel value + dither, range-limit
     /// this to 0..MAXJSAMPLE, and then index into the colorindex table as usual.
     /// We can skip the separate range-limiting step by extending the colorindex
     /// table in both directions.
+    /// </para>
     /// </summary>
     internal class my_1pass_cquantizer : jpeg_color_quantizer
     {
@@ -480,9 +486,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                     var outIndex = 0;
                     var outRow = out_row + row;
-
-                    var errorIndex = 0;
                     int dir;            /* 1 for left-to-right, -1 for right-to-left */
+
+                    int errorIndex;
                     if (m_on_odd_row)
                     {
                         /* work right to left in this row */
@@ -655,7 +661,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* fill in colorindex entries for i'th color component */
                 var nci = m_Ncolors[i]; /* # of distinct values for this color */
-                blksize = blksize / nci;
+                blksize /= nci;
 
                 /* adjust colorindex pointers to provide padding at negative indexes. */
                 if (pad != 0)
@@ -787,7 +793,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* We can allocate at least the nc'th root of max_colors per component. */
             /* Compute floor(nc'th root of max_colors). */
             var iroot = 1;
-            long temp = 0;
+            long temp;
             do
             {
                 iroot++;
@@ -822,7 +828,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * (Example: for 16 colors, we start at 2*2*2, go to 3*2*2, then 4*2*2.)
              * In RGB colorspace, try to increment G first, then R, then B.
              */
-            var changed = false;
+            bool changed;
             do
             {
                 changed = false;

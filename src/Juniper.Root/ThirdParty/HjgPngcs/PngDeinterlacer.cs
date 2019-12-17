@@ -43,23 +43,23 @@ namespace Hjg.Pngcs
             {
                 packedMask = packedShift = packedValsPerPixel = 1;// dont care
             }
-            setPass(1);
-            setRow(0);
+            SetPass(1);
+            SetRow(0);
         }
 
         /** this refers to the row currRowSubimg */
 
-        internal void setRow(int n)
+        internal void SetRow(int n)
         {
             currRowSubimg = n;
-            currRowReal = n * dY + oY;
+            currRowReal = (n * dY) + oY;
             if (currRowReal < 0 || currRowReal >= imi.Rows)
             {
                 throw new PngjExceptionInternal("bad row - this should not happen");
             }
         }
 
-        internal void setPass(int p)
+        internal void SetPass(int p)
         {
             if (pass == p)
             {
@@ -116,14 +116,14 @@ namespace Hjg.Pngcs
                 default:
                     throw new PngjExceptionInternal("bad interlace pass" + pass);
             }
-            rows = (imi.Rows - oY) / dY + 1;
-            if ((rows - 1) * dY + oY >= imi.Rows)
+            rows = ((imi.Rows - oY) / dY) + 1;
+            if (((rows - 1) * dY) + oY >= imi.Rows)
             {
                 rows--; // can be 0
             }
 
-            cols = (imi.Cols - oX) / dX + 1;
-            if ((cols - 1) * dX + oX >= imi.Cols)
+            cols = ((imi.Cols - oX) / dX) + 1;
+            if (((cols - 1) * dX) + oX >= imi.Cols)
             {
                 cols--; // can be 0
             }
@@ -138,7 +138,7 @@ namespace Hjg.Pngcs
         }
 
         // notice that this is a "partial" deinterlace, it will be called several times for the same row!
-        internal void deinterlaceInt(int[] src, int[] dst, bool readInPackedFormat)
+        internal void DeinterlaceInt(int[] src, int[] dst, bool readInPackedFormat)
         {
             if (!(imi.Packed && readInPackedFormat))
             {
@@ -152,12 +152,12 @@ namespace Hjg.Pngcs
             }
             else
             {
-                deinterlaceIntPacked(src, dst);
+                DeinterlaceIntPacked(src, dst);
             }
         }
 
         // interlaced+packed = monster; this is very clumsy!
-        private void deinterlaceIntPacked(int[] src, int[] dst)
+        private void DeinterlaceIntPacked(int[] src, int[] dst)
         {
             int spos, smod, smask; // source byte position, bits to shift to left (01,2,3,4
             int tpos, tmod, p, d;
@@ -197,7 +197,7 @@ namespace Hjg.Pngcs
         }
 
         // yes, duplication of code is evil, normally
-        internal void deinterlaceByte(byte[] src, byte[] dst, bool readInPackedFormat)
+        internal void DeinterlaceByte(byte[] src, byte[] dst, bool readInPackedFormat)
         {
             if (!(imi.Packed && readInPackedFormat))
             {
@@ -211,11 +211,11 @@ namespace Hjg.Pngcs
             }
             else
             {
-                deinterlacePackedByte(src, dst);
+                DeinterlacePackedByte(src, dst);
             }
         }
 
-        private void deinterlacePackedByte(byte[] src, byte[] dst)
+        private void DeinterlacePackedByte(byte[] src, byte[] dst)
         {
             int spos, smod, smask; // source byte position, bits to shift to left (01,2,3,4
             int tpos, tmod, p, d;
@@ -259,7 +259,7 @@ namespace Hjg.Pngcs
          * Is current row the last row for the lass pass??
          */
 
-        internal bool isAtLastRow()
+        internal bool IsAtLastRow()
         {
             return pass == 7 && currRowSubimg == rows - 1;
         }
@@ -268,7 +268,7 @@ namespace Hjg.Pngcs
          * current row number inside the "sub image"
          */
 
-        internal int getCurrRowSubimg()
+        internal int GetCurrRowSubimg()
         {
             return currRowSubimg;
         }
@@ -277,7 +277,7 @@ namespace Hjg.Pngcs
          * current row number inside the "real image"
          */
 
-        internal int getCurrRowReal()
+        internal int GetCurrRowReal()
         {
             return currRowReal;
         }
@@ -286,7 +286,7 @@ namespace Hjg.Pngcs
          * current pass number (1-7)
          */
 
-        internal int getPass()
+        internal int GetPass()
         {
             return pass;
         }
@@ -295,7 +295,7 @@ namespace Hjg.Pngcs
          * How many rows has the current pass?
          **/
 
-        internal int getRows()
+        internal int GetRows()
         {
             return rows;
         }
@@ -304,32 +304,32 @@ namespace Hjg.Pngcs
          * How many columns (pixels) are there in the current row
          */
 
-        internal int getCols()
+        internal int GetCols()
         {
             return cols;
         }
 
-        internal int getPixelsToRead()
+        internal int GetPixelsToRead()
         {
-            return getCols();
+            return GetCols();
         }
 
-        internal int[][] getImageInt()
+        internal int[][] GetImageInt()
         {
             return imageInt;
         }
 
-        internal void setImageInt(int[][] imageInt)
+        internal void SetImageInt(int[][] imageInt)
         {
             this.imageInt = imageInt;
         }
 
-        internal byte[][] getImageByte()
+        internal byte[][] GetImageByte()
         {
             return imageByte;
         }
 
-        internal void setImageByte(byte[][] imageByte)
+        internal void SetImageByte(byte[][] imageByte)
         {
             this.imageByte = imageByte;
         }

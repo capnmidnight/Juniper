@@ -71,7 +71,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         {
             per_scan_setup();
             latch_quant_tables();
-            m_cinfo.m_entropy.start_pass();
+            m_cinfo.m_entropy.StartPass();
             m_cinfo.m_coef.start_input_pass();
             m_consumeData = true;
         }
@@ -83,7 +83,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         public void finish_input_pass()
         {
-            m_cinfo.m_entropy.finish_pass();
+            m_cinfo.m_entropy.finishPass();
             m_consumeData = false;
         }
 
@@ -279,17 +279,21 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
+        /// <para>
         /// Read JPEG markers before, between, or after compressed-data scans.
         /// Change state as necessary when a new scan is reached.
         /// Return value is JPEG_SUSPENDED, JPEG_REACHED_SOS, or JPEG_REACHED_EOI.
-        /// 
+        /// </para>
+        /// <para>
         /// The consume_input method pointer points either here or to the
         /// coefficient controller's consume_data routine, depending on whether
         /// we are reading a compressed data segment or inter-segment markers.
-        /// 
+        /// </para>
+        /// <para>
         /// Note: This function should NOT return a pseudo SOS marker(with zero
         /// component number) to the caller.A pseudo marker received by
         /// read_markers is processed and then skipped for other markers.
+        /// </para>
         /// </summary>
         private ReadResult consume_markers()
         {
@@ -574,9 +578,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
+        /// <para>
         /// Save away a copy of the Q-table referenced by each component present
         /// in the current scan, unless already saved during a prior scan.
-        /// 
+        /// </para>
+        /// <para>
         /// In a multiple-scan JPEG file, the encoder could assign different components
         /// the same Q-table slot number, but change table definitions between scans
         /// so that each component uses a different Q-table.  (The IJG encoder is not
@@ -589,9 +595,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// slot between scans of a component using that slot.  If the encoder does so
         /// anyway, this decoder will simply use the Q-table values that were current
         /// at the start of the first scan for the component.
-        /// 
+        /// </para>
+        /// <para>
         /// The decompressor output side looks only at the saved quant tables,
         /// not at the current Q-table slots.
+        /// </para>
         /// </summary>
         private void latch_quant_tables()
         {

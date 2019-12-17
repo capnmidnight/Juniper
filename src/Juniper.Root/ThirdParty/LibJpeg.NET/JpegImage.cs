@@ -155,21 +155,12 @@ namespace BitMiracle.LibJpeg
                 if (disposing)
                 {
                     // dispose managed resources
-                    if (m_compressedData != null)
-                    {
-                        m_compressedData.Dispose();
-                    }
+                    m_compressedData?.Dispose();
 
-                    if (m_decompressedData != null)
-                    {
-                        m_decompressedData.Dispose();
-                    }
+                    m_decompressedData?.Dispose();
 
 #if !NETSTANDARD
-                    if (m_bitmap != null)
-                    {
-                        m_bitmap.Dispose();
-                    }
+                    m_bitmap?.Dispose();
 #endif
                 }
 
@@ -417,8 +408,7 @@ namespace BitMiracle.LibJpeg
         private bool needCompressWith(CompressionParameters parameters)
         {
             return m_compressedData == null ||
-                   m_compressionParameters == null ||
-                   !m_compressionParameters.Equals(parameters);
+                   m_compressionParameters?.Equals(parameters) != true;
         }
 
         private void decompress()

@@ -9,8 +9,6 @@ namespace Hjg.Pngcs
     [Serializable]
     public class PngjInputException : PngjException
     {
-        private const long serialVersionUID = 1L;
-
         public PngjInputException(string message, Exception cause)
             : base(message, cause)
         {
@@ -27,7 +25,6 @@ namespace Hjg.Pngcs
         }
 
         public PngjInputException()
-            : base()
         {
         }
 

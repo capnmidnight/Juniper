@@ -31,7 +31,7 @@ namespace Hjg.Pngcs
 
             if (!line.SamplesUnpacked)
             {
-                line = line.unpackToNewImageLine();
+                line = line.UnpackToNewImageLine();
             }
 
             var isbyte = line.SampleType == Hjg.Pngcs.ImageLine.ESampleType.BYTE;
@@ -153,18 +153,18 @@ namespace Hjg.Pngcs
 
         public static void SetPixel(ImageLine line, int col, int r, int g, int b)
         {
-            SetPixel(line, col, r, g, b, line.maxSampleVal);
+            SetPixel(line, col, r, g, b, line.MaxSampleVal);
         }
 
         public static double ReadDouble(ImageLine line, int pos)
         {
             if (line.IsInt())
             {
-                return line.Scanline[pos] / (line.maxSampleVal + 0.9);
+                return line.Scanline[pos] / (line.MaxSampleVal + 0.9);
             }
             else
             {
-                return (line.ScanlineB[pos]) / (line.maxSampleVal + 0.9);
+                return (line.ScanlineB[pos]) / (line.MaxSampleVal + 0.9);
             }
         }
 
@@ -172,11 +172,11 @@ namespace Hjg.Pngcs
         {
             if (line.IsInt())
             {
-                line.Scanline[pos] = (int)(d * (line.maxSampleVal + 0.99));
+                line.Scanline[pos] = (int)(d * (line.MaxSampleVal + 0.99));
             }
             else
             {
-                line.ScanlineB[pos] = (byte)(d * (line.maxSampleVal + 0.99));
+                line.ScanlineB[pos] = (byte)(d * (line.MaxSampleVal + 0.99));
             }
         }
 
@@ -224,7 +224,7 @@ namespace Hjg.Pngcs
 
             if (imgInfo.Packed)
             {
-                ImageLine.unpackInplaceInt(imgInfo, src, dst, scale);
+                ImageLine.UnpackInplaceInt(imgInfo, src, dst, scale);
             }
             else
             {
@@ -245,7 +245,7 @@ namespace Hjg.Pngcs
 
             if (imgInfo.Packed)
             {
-                ImageLine.unpackInplaceByte(imgInfo, src, dst, scale);
+                ImageLine.UnpackInplaceByte(imgInfo, src, dst, scale);
             }
             else
             {
@@ -265,7 +265,7 @@ namespace Hjg.Pngcs
 
             if (imgInfo.Packed)
             {
-                ImageLine.packInplaceInt(imgInfo, src, dst, scale);
+                ImageLine.PackInplaceInt(imgInfo, src, dst, scale);
             }
             else
             {
@@ -285,7 +285,7 @@ namespace Hjg.Pngcs
 
             if (imgInfo.Packed)
             {
-                ImageLine.packInplaceByte(imgInfo, src, dst, scale);
+                ImageLine.PackInplaceByte(imgInfo, src, dst, scale);
             }
             else
             {

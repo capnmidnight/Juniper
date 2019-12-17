@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains the main buffer controller for compression.
  * The main buffer lies between the pre-processor and the JPEG
  * compressor proper; it holds downsampled data in the JPEG colorspace.
@@ -9,7 +9,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// <summary>
     /// Main buffer control (downsampled-data buffer)
     /// </summary>
-    internal class jpeg_c_main_controller
+    internal class JpegCMainController
     {
         private readonly jpeg_compress_struct m_cinfo;
 
@@ -23,7 +23,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         */
         private readonly byte[][][] m_buffer = new byte[JpegConstants.MAX_COMPONENTS][][];
 
-        public jpeg_c_main_controller(jpeg_compress_struct cinfo)
+        public JpegCMainController(jpeg_compress_struct cinfo)
         {
             m_cinfo = cinfo;
 
@@ -38,7 +38,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         // Initialize for a processing pass.
-        public void start_pass(J_BUF_MODE pass_mode)
+        public void start_pass(JBufMode pass_mode)
         {
             /* Do nothing in raw-data mode. */
             if (m_cinfo.m_raw_data_in)
@@ -50,7 +50,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             m_rowgroup_ctr = 0;
             m_suspended = false;
 
-            if (pass_mode != J_BUF_MODE.JBUF_PASS_THRU)
+            if (pass_mode != JBufMode.PassThrough)
             {
                 m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_BUFFER_MODE);
             }
@@ -68,7 +68,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* Read input data if we haven't filled the main buffer yet */
                 if (m_rowgroup_ctr < m_cinfo.min_DCT_v_scaled_size)
                 {
-                    m_cinfo.m_prep.pre_process_data(input_buf, ref in_row_ctr, in_rows_avail, m_buffer,
+                    m_cinfo.m_prep.PreProcessData(input_buf, ref in_row_ctr, in_rows_avail, m_buffer,
                         ref m_rowgroup_ctr, m_cinfo.min_DCT_v_scaled_size);
                 }
 
@@ -82,7 +82,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 }
 
                 /* Send the completed row to the compressor */
-                if (!m_cinfo.m_coef.compress_data(m_buffer))
+                if (!m_cinfo.m_coef.CompressData(m_buffer))
                 {
                     /* If compressor did not consume the whole row, then we must need to
                      * suspend processing and return to the application.  In this situation

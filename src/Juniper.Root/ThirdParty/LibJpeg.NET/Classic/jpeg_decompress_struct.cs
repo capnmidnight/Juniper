@@ -97,9 +97,6 @@ namespace BitMiracle.LibJpeg.Classic
 
         internal int m_data_precision;     /* bits of precision in image data */
 
-        /* m_comp_info[i] describes component that appears i'th in SOF */
-        private jpeg_component_info[] m_comp_info;
-
         internal bool is_baseline;		/* TRUE if Baseline SOF0 encountered */
         internal bool m_progressive_mode;  /* true if SOFn specifies progressive mode */
         internal bool arith_code;     /* TRUE=arithmetic coding, FALSE=Huffman */
@@ -200,7 +197,7 @@ namespace BitMiracle.LibJpeg.Classic
         internal jpeg_d_post_controller m_post;
         internal jpeg_input_controller m_inputctl;
         internal jpeg_marker_reader m_marker;
-        internal jpeg_entropy_decoder m_entropy;
+        internal JpegEntropyDecoder m_entropy;
         internal jpeg_inverse_dct m_idct;
         internal jpeg_upsampler m_upsample;
         internal jpeg_color_deconverter m_cconvert;
@@ -596,10 +593,12 @@ namespace BitMiracle.LibJpeg.Classic
         /// </summary>
         /// <value>In high-quality modes, <c>Rec_outbuf_height</c> is always 1, but some faster, 
         /// lower-quality modes set it to larger values (typically 2 to 4).</value>
-        /// <remarks>Computed by <see cref="jpeg_decompress_struct.jpeg_start_decompress"/>.
+        /// <remarks><para>
+        /// Computed by <see cref="jpeg_decompress_struct.jpeg_start_decompress"/>.
         /// You can also use <see cref="jpeg_decompress_struct.jpeg_calc_output_dimensions"/> to determine this value
         /// in advance of calling <see cref="jpeg_decompress_struct.jpeg_start_decompress"/>.<br/>
-        /// 
+        /// </para>
+        /// <para>
         /// <c>Rec_outbuf_height</c> is the recommended minimum height (in scanlines) 
         /// of the buffer passed to <see cref="jpeg_decompress_struct.jpeg_read_scanlines"/>.
         /// If the buffer is smaller, the library will still work, but time will be wasted due 
@@ -607,6 +606,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// you may as well go to the trouble of honoring <c>Rec_outbuf_height</c> so as to avoid data copying.
         /// (An output buffer larger than <c>Rec_outbuf_height</c> lines is OK, but won't provide 
         /// any material speed improvement over that height.)
+        /// </para>
         /// </remarks>
         /// <seealso href="../articles/KB/decompression-parameter-selection.html">Decompression parameter selection</seealso>
         public int Rec_outbuf_height
@@ -821,11 +821,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// </summary>
         /// <value>The components in SOF.</value>
         /// <seealso cref="jpeg_component_info"/>
-        public jpeg_component_info[] Comp_info
-        {
-            get { return m_comp_info; }
-            internal set { m_comp_info = value; }
-        }
+        public jpeg_component_info[] Comp_info { get; internal set; }
 
         /// <summary>
         /// Sets input stream.
@@ -851,8 +847,7 @@ namespace BitMiracle.LibJpeg.Classic
                 m_src = new my_source_mgr(this);
             }
 
-            var m = m_src as my_source_mgr;
-            if (m != null)
+            if (m_src is my_source_mgr m)
             {
                 m.Attach(infile);
             }
@@ -863,11 +858,13 @@ namespace BitMiracle.LibJpeg.Classic
         /// </summary>
         /// <param name="require_image">Read a description of <b>Return Value</b>.</param>
         /// <returns>
+        /// <para>
         /// If you pass <c>require_image=true</c> (normal case), you need not check for a
         /// <see cref="ReadResult.JPEG_HEADER_TABLES_ONLY"/> return code; an abbreviated file will cause
         /// an error exit. <see cref="ReadResult.JPEG_SUSPENDED"/> is only possible if you use a data source
         /// module that can give a suspension return.<br/><br/>
-        /// 
+        /// </para>
+        /// <para>
         /// This method will read as far as the first SOS marker (ie, actual start of compressed data),
         /// and will save all tables and parameters in the JPEG object. It will also initialize the
         /// decompression parameters to default values, and finally return <see cref="ReadResult.JPEG_HEADER_OK"/>.
@@ -875,7 +872,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <see cref="jpeg_decompress_struct.jpeg_start_decompress"/>. (Or, if the application only wanted to
         /// determine the image parameters, the data need not be decompressed. In that case, call
         /// <see cref="jpeg_common_struct.jpeg_abort"/> to release any temporary space.)<br/><br/>
-        /// 
+        /// </para>
+        /// <para>
         /// If an abbreviated (tables only) datastream is presented, the routine will return
         /// <see cref="ReadResult.JPEG_HEADER_TABLES_ONLY"/> upon reaching EOI. The application may then re-use
         /// the JPEG object to read the abbreviated image datastream(s). It is unnecessary (but OK) to call
@@ -883,9 +881,11 @@ namespace BitMiracle.LibJpeg.Classic
         /// The <see cref="ReadResult.JPEG_SUSPENDED"/> return code only occurs if the data source module
         /// requests suspension of the decompressor. In this case the application should load more source
         /// data and then re-call <c>jpeg_read_header</c> to resume processing.<br/><br/>
-        /// 
+        /// </para>
+        /// <para>
         /// If a non-suspending data source is used and <c>require_image</c> is <c>true</c>,
         /// then the return code need not be inspected since only <see cref="ReadResult.JPEG_HEADER_OK"/> is possible.
+        /// </para>
         /// </returns>
         /// <remarks>Need only initialize JPEG object and supply a data source before calling.<br/>
         /// On return, the image dimensions and other info have been stored in the JPEG object.
@@ -936,9 +936,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <returns>Returns <c>false</c> if suspended. The return value need be inspected 
         /// only if a suspending data source is used.
         /// </returns>
-        /// <remarks><see cref="jpeg_decompress_struct.jpeg_read_header">jpeg_read_header</see> must be completed before calling this.<br/>
-        /// 
-        /// If a multipass operating mode was selected, this will do all but the last pass, and thus may take a great deal of time.
+        /// <remarks><para><see cref="jpeg_decompress_struct.jpeg_read_header">jpeg_read_header</see> must be completed before calling this.<br/></para>
+        /// <para>If a multipass operating mode was selected, this will do all but the last pass, and thus may take a great deal of time.</para>
         /// </remarks>
         /// <seealso cref="jpeg_decompress_struct.jpeg_finish_decompress"/>
         /// <seealso href="../articles/KB/decompression-details.html">Decompression details</seealso>
@@ -966,10 +965,7 @@ namespace BitMiracle.LibJpeg.Classic
                     {
                         ReadResult retcode;
                         /* Call progress monitor hook if present */
-                        if (m_progress != null)
-                        {
-                            m_progress.Updated();
-                        }
+                        m_progress?.Updated();
 
                         /* Absorb some more input */
                         retcode = m_inputctl.consume_input();
@@ -1331,12 +1327,12 @@ namespace BitMiracle.LibJpeg.Classic
             {
                 var ssize = 1;
 
-                var compptr = m_comp_info[ci];
+                var compptr = Comp_info[ci];
                 while (min_DCT_h_scaled_size * ssize <=
                     (m_do_fancy_upsampling ? JpegConstants.DCTSIZE : JpegConstants.DCTSIZE / 2) &&
                     (m_max_h_samp_factor % (compptr.H_samp_factor * ssize * 2)) == 0)
                 {
-                    ssize = ssize * 2;
+                    ssize *= 2;
                 }
 
                 compptr.DCT_h_scaled_size = min_DCT_h_scaled_size * ssize;
@@ -1346,7 +1342,7 @@ namespace BitMiracle.LibJpeg.Classic
                    (m_do_fancy_upsampling ? JpegConstants.DCTSIZE : JpegConstants.DCTSIZE / 2) &&
                    (m_max_v_samp_factor % (compptr.V_samp_factor * ssize * 2)) == 0)
                 {
-                    ssize = ssize * 2;
+                    ssize *= 2;
                 }
                 compptr.DCT_v_scaled_size = min_DCT_v_scaled_size * ssize;
 
@@ -1367,12 +1363,12 @@ namespace BitMiracle.LibJpeg.Classic
             for (var ci = 0; ci < m_num_components; ci++)
             {
                 /* Size in samples, after IDCT scaling */
-                m_comp_info[ci].downsampled_width = (int)JpegUtils.jdiv_round_up(
-                    m_image_width * m_comp_info[ci].H_samp_factor * m_comp_info[ci].DCT_h_scaled_size,
+                Comp_info[ci].downsampled_width = (int)JpegUtils.jdiv_round_up(
+                    m_image_width * Comp_info[ci].H_samp_factor * Comp_info[ci].DCT_h_scaled_size,
                     m_max_h_samp_factor * block_size);
 
-                m_comp_info[ci].downsampled_height = (int)JpegUtils.jdiv_round_up(
-                    m_image_height * m_comp_info[ci].V_samp_factor * m_comp_info[ci].DCT_v_scaled_size,
+                Comp_info[ci].downsampled_height = (int)JpegUtils.jdiv_round_up(
+                    m_image_height * Comp_info[ci].V_samp_factor * Comp_info[ci].DCT_v_scaled_size,
                     m_max_v_samp_factor * block_size);
             }
 
@@ -1425,17 +1421,19 @@ namespace BitMiracle.LibJpeg.Classic
         /// if a suspending data source is used.
         /// </returns>
         /// <remarks>
-        /// <see cref="jpeg_decompress_struct.jpeg_read_header">jpeg_read_header</see> must be completed before calling this.<br/>
-        /// 
+        /// <para><see cref="jpeg_decompress_struct.jpeg_read_header">jpeg_read_header</see> must be completed before calling this.<br/></para>
+        /// <para>
         /// The entire image is read into a set of virtual coefficient-block arrays, one per component.
         /// The return value is an array of virtual-array descriptors.<br/>
-        /// 
+        /// </para>
+        /// <para>
         /// An alternative usage is to simply obtain access to the coefficient arrays during a 
         /// <see href="../articles/KB/buffered-image-mode.html">buffered-image mode</see> decompression operation. This is allowed after any 
         /// <see cref="jpeg_decompress_struct.jpeg_finish_output">jpeg_finish_output</see> call. The arrays can be accessed 
         /// until <see cref="jpeg_decompress_struct.jpeg_finish_decompress">jpeg_finish_decompress</see> is called. 
         /// Note that any call to the library may reposition the arrays, 
         /// so don't rely on <see cref="jvirt_array{T}.Access"/> results to stay valid across library calls.
+        /// </para>
         /// </remarks>
         public jvirt_array<JBLOCK>[] jpeg_read_coefficients()
         {
@@ -1453,10 +1451,7 @@ namespace BitMiracle.LibJpeg.Classic
                 {
                     ReadResult retcode;
                     /* Call progress monitor hook if present */
-                    if (m_progress != null)
-                    {
-                        m_progress.Updated();
-                    }
+                    m_progress?.Updated();
 
                     /* Absorb some more input */
                     retcode = m_inputctl.consume_input();
@@ -1568,10 +1563,10 @@ namespace BitMiracle.LibJpeg.Classic
 
             for (var ci = 0; ci < dstinfo.m_num_components; ci++)
             {
-                dstinfo.Component_info[ci].Component_id = m_comp_info[ci].Component_id;
-                dstinfo.Component_info[ci].H_samp_factor = m_comp_info[ci].H_samp_factor;
-                dstinfo.Component_info[ci].V_samp_factor = m_comp_info[ci].V_samp_factor;
-                dstinfo.Component_info[ci].Quant_tbl_no = m_comp_info[ci].Quant_tbl_no;
+                dstinfo.Component_info[ci].Component_id = Comp_info[ci].Component_id;
+                dstinfo.Component_info[ci].H_samp_factor = Comp_info[ci].H_samp_factor;
+                dstinfo.Component_info[ci].V_samp_factor = Comp_info[ci].V_samp_factor;
+                dstinfo.Component_info[ci].Quant_tbl_no = Comp_info[ci].Quant_tbl_no;
 
                 /* Make sure saved quantization table for component matches the qtable
                 * slot.  If not, the input file re-used this qtable slot.
@@ -1583,7 +1578,7 @@ namespace BitMiracle.LibJpeg.Classic
                     ERREXIT(J_MESSAGE_CODE.JERR_NO_QUANT_TABLE, tblno);
                 }
 
-                var c_quant = m_comp_info[ci].quant_table;
+                var c_quant = Comp_info[ci].quant_table;
                 if (c_quant != null)
                 {
                     var slot_quant = m_quant_tbl_ptrs[tblno];
@@ -1694,20 +1689,20 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* and it only handles 2h1v or 2h2v sampling ratios */
-            if (m_comp_info[0].H_samp_factor != 2 || m_comp_info[1].H_samp_factor != 1 ||
-                m_comp_info[2].H_samp_factor != 1 || m_comp_info[0].V_samp_factor > 2 ||
-                m_comp_info[1].V_samp_factor != 1 || m_comp_info[2].V_samp_factor != 1)
+            if (Comp_info[0].H_samp_factor != 2 || Comp_info[1].H_samp_factor != 1 ||
+                Comp_info[2].H_samp_factor != 1 || Comp_info[0].V_samp_factor > 2 ||
+                Comp_info[1].V_samp_factor != 1 || Comp_info[2].V_samp_factor != 1)
             {
                 return false;
             }
 
             /* furthermore, it doesn't work if we've scaled the IDCTs differently */
-            if (m_comp_info[0].DCT_h_scaled_size != min_DCT_h_scaled_size ||
-                m_comp_info[1].DCT_h_scaled_size != min_DCT_h_scaled_size ||
-                m_comp_info[2].DCT_h_scaled_size != min_DCT_h_scaled_size ||
-                m_comp_info[0].DCT_v_scaled_size != min_DCT_v_scaled_size ||
-                m_comp_info[1].DCT_v_scaled_size != min_DCT_v_scaled_size ||
-                m_comp_info[2].DCT_v_scaled_size != min_DCT_v_scaled_size)
+            if (Comp_info[0].DCT_h_scaled_size != min_DCT_h_scaled_size ||
+                Comp_info[1].DCT_h_scaled_size != min_DCT_h_scaled_size ||
+                Comp_info[2].DCT_h_scaled_size != min_DCT_h_scaled_size ||
+                Comp_info[0].DCT_v_scaled_size != min_DCT_v_scaled_size ||
+                Comp_info[1].DCT_v_scaled_size != min_DCT_v_scaled_size ||
+                Comp_info[2].DCT_v_scaled_size != min_DCT_v_scaled_size)
             {
                 return false;
             }
@@ -1766,11 +1761,11 @@ namespace BitMiracle.LibJpeg.Classic
 
             if (arith_code)
             {
-                m_entropy = new arith_entropy_decoder(this);
+                m_entropy = new ArithEntropyDecoder(this);
             }
             else
             {
-                m_entropy = new huff_entropy_decoder(this);
+                m_entropy = new HuffmanEntropyDecoder(this);
             }
 
             /* Always get a full-image coefficient buffer. */
@@ -1872,9 +1867,9 @@ namespace BitMiracle.LibJpeg.Classic
                     break;
 
                 case 3:
-                    var cid0 = m_comp_info[0].Component_id;
-                    var cid1 = m_comp_info[1].Component_id;
-                    var cid2 = m_comp_info[2].Component_id;
+                    var cid0 = Comp_info[0].Component_id;
+                    var cid1 = Comp_info[1].Component_id;
+                    var cid2 = Comp_info[2].Component_id;
 
                     // Use Adobe marker info, otherwise try to guess from the component IDs
                     if (m_saw_Adobe_marker)

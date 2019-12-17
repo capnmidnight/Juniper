@@ -28,7 +28,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            ChunkRaw c = null;
+            ChunkRaw c;
             if (ImgInfo.Greyscale)
             {
                 c = createEmptyChunk(2, true);
