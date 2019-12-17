@@ -79,7 +79,7 @@ namespace Juniper.Audio
         /// <returns></returns>
         protected override int InternalRead(byte[] buffer, int offset, int count)
         {
-            int read = 0;
+            var read = 0;
             while (read + sizeof(float) - 1 < count)
             {
                 sourceStream.Read(tempBuffer, 0, bytesPerFloat);
@@ -99,7 +99,7 @@ namespace Juniper.Audio
         /// <param name="count"></param>
         protected override void InternalWrite(byte[] buffer, int offset, int count)
         {
-            int wrote = 0;
+            var wrote = 0;
             while (wrote < count)
             {
                 FloatToPCM(buffer, offset + wrote, tempBuffer, 0);

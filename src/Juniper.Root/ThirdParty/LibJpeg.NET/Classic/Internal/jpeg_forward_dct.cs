@@ -27,7 +27,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// 
     /// Each IDCT routine has its own ideas about the best dct_table element type.
     /// </summary>
-    class jpeg_forward_dct
+    internal class jpeg_forward_dct
     {
         private const int FAST_INTEGER_CONST_BITS = 8;
 
@@ -101,14 +101,14 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             1.0, 1.387039845, 1.306562965, 1.175875602, 1.0,
             0.785694958, 0.541196100, 0.275899379 };
 
-        private jpeg_compress_struct m_cinfo;
+        private readonly jpeg_compress_struct m_cinfo;
 
         private delegate void forward_DCT_method_ptr(int[] data, byte[][] sample_data, int start_row, int start_col);
-        private forward_DCT_method_ptr[] do_dct = new forward_DCT_method_ptr[JpegConstants.MAX_COMPONENTS];
+        private readonly forward_DCT_method_ptr[] do_dct = new forward_DCT_method_ptr[JpegConstants.MAX_COMPONENTS];
 
         /* Same as above for the floating-point case. */
         private delegate void float_DCT_method_ptr(float[] data, byte[][] sample_data, int start_row, int start_col);
-        private float_DCT_method_ptr[] do_float_dct = new float_DCT_method_ptr[JpegConstants.MAX_COMPONENTS];
+        private readonly float_DCT_method_ptr[] do_float_dct = new float_DCT_method_ptr[JpegConstants.MAX_COMPONENTS];
 
         /// <summary>
         /// Perform forward DCT on one or more blocks of a component.
@@ -133,14 +133,14 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             public float[] float_array = new float[JpegConstants.DCTSIZE2];
         };
 
-        private divisor_table[] m_dctTables;
+        private readonly divisor_table[] m_dctTables;
 
         public jpeg_forward_dct(jpeg_compress_struct cinfo)
         {
             m_cinfo = cinfo;
             m_dctTables = new divisor_table[m_cinfo.m_num_components];
 
-            for (int ci = 0; ci < m_cinfo.m_num_components; ci++)
+            for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
             {
                 /* Allocate a divisor table for each component */
                 m_dctTables[ci] = new divisor_table();
@@ -158,10 +158,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         public virtual void start_pass()
         {
             J_DCT_METHOD method = 0;
-            for (int ci = 0; ci < m_cinfo.m_num_components; ci++)
+            for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
             {
                 /* Select the proper DCT routine for this component's scaling */
-                jpeg_component_info compptr = m_cinfo.Component_info[ci];
+                var compptr = m_cinfo.Component_info[ci];
                 switch ((compptr.DCT_h_scaled_size << 8) + compptr.DCT_v_scaled_size)
                 {
                     case ((1 << 8) + 1):
@@ -313,17 +313,19 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         break;
                 }
 
-                int qtblno = m_cinfo.Component_info[ci].Quant_tbl_no;
+                var qtblno = m_cinfo.Component_info[ci].Quant_tbl_no;
 
                 /* Make sure specified quantization table is present */
                 if (qtblno < 0 || qtblno >= JpegConstants.NUM_QUANT_TBLS || m_cinfo.m_quant_tbl_ptrs[qtblno] == null)
+                {
                     m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_NO_QUANT_TABLE, qtblno);
+                }
 
-                JQUANT_TBL qtbl = m_cinfo.m_quant_tbl_ptrs[qtblno];
+                var qtbl = m_cinfo.m_quant_tbl_ptrs[qtblno];
                 int[] dtbl;
 
                 /* Create divisor table from quant table */
-                int i = 0;
+                var i = 0;
                 switch (method)
                 {
                     case J_DCT_METHOD.JDCT_ISLOW:
@@ -332,25 +334,31 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                          */
                         dtbl = m_dctTables[ci].int_array;
                         for (i = 0; i < JpegConstants.DCTSIZE2; i++)
-                            dtbl[i] = ((int)qtbl.quantval[i]) << (compptr.component_needed ? 4 : 3);
+                        {
+                            dtbl[i] = qtbl.quantval[i] << (compptr.component_needed ? 4 : 3);
+                        }
+
                         forward_DCT[ci] = forwardDCTImpl;
                         break;
 
                     case J_DCT_METHOD.JDCT_IFAST:
                         dtbl = m_dctTables[ci].int_array;
                         for (i = 0; i < JpegConstants.DCTSIZE2; i++)
-                            dtbl[i] = JpegUtils.DESCALE((int)qtbl.quantval[i] * (int)aanscales[i], compptr.component_needed ? CONST_BITS - 4 : CONST_BITS - 3);
+                        {
+                            dtbl[i] = JpegUtils.DESCALE(qtbl.quantval[i] * aanscales[i], compptr.component_needed ? CONST_BITS - 4 : CONST_BITS - 3);
+                        }
+
                         forward_DCT[ci] = forwardDCTImpl;
                         break;
 
                     case J_DCT_METHOD.JDCT_FLOAT:
-                        float[] fdtbl = m_dctTables[ci].float_array;
+                        var fdtbl = m_dctTables[ci].float_array;
                         i = 0;
-                        for (int row = 0; row < JpegConstants.DCTSIZE; row++)
+                        for (var row = 0; row < JpegConstants.DCTSIZE; row++)
                         {
-                            for (int col = 0; col < JpegConstants.DCTSIZE; col++)
+                            for (var col = 0; col < JpegConstants.DCTSIZE; col++)
                             {
-                                fdtbl[i] = (float)(1.0 / (((double)qtbl.quantval[i] * aanscalefactor[row] * aanscalefactor[col] * (compptr.component_needed ? 16.0 : 8.0))));
+                                fdtbl[i] = (float)(1.0 / ((qtbl.quantval[i] * aanscalefactor[row] * aanscalefactor[col] * (compptr.component_needed ? 16.0 : 8.0))));
                                 i++;
                             }
                         }
@@ -368,19 +376,19 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private void forwardDCTImpl(jpeg_component_info compptr, byte[][] sample_data, JBLOCK[] coef_blocks, int start_row, int start_col, int num_blocks)
         {
             /* This routine is heavily used, so it's worth coding it tightly. */
-            forward_DCT_method_ptr do_dct = this.do_dct[compptr.Component_index];
-            int[] divisors = m_dctTables[compptr.Component_index].int_array;
-            int[] workspace = new int[JpegConstants.DCTSIZE2];    /* work area for FDCT subroutine */
-            for (int bi = 0; bi < num_blocks; bi++, start_col += compptr.DCT_h_scaled_size)
+            var do_dct = this.do_dct[compptr.Component_index];
+            var divisors = m_dctTables[compptr.Component_index].int_array;
+            var workspace = new int[JpegConstants.DCTSIZE2];    /* work area for FDCT subroutine */
+            for (var bi = 0; bi < num_blocks; bi++, start_col += compptr.DCT_h_scaled_size)
             {
                 /* Perform the DCT */
                 do_dct(workspace, sample_data, start_row, start_col);
 
                 /* Quantize/descale the coefficients, and store into coef_blocks[] */
-                for (int i = 0; i < JpegConstants.DCTSIZE2; i++)
+                for (var i = 0; i < JpegConstants.DCTSIZE2; i++)
                 {
-                    int qval = divisors[i];
-                    int temp = workspace[i];
+                    var qval = divisors[i];
+                    var temp = workspace[i];
 
                     if (temp < 0)
                     {
@@ -388,9 +396,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         temp += qval >> 1;  /* for rounding */
 
                         if (temp >= qval)
+                        {
                             temp /= qval;
+                        }
                         else
+                        {
                             temp = 0;
+                        }
 
                         temp = -temp;
                     }
@@ -399,9 +411,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         temp += qval >> 1;  /* for rounding */
 
                         if (temp >= qval)
+                        {
                             temp /= qval;
+                        }
                         else
+                        {
                             temp = 0;
+                        }
                     }
 
                     coef_blocks[bi][i] = (short)temp;
@@ -413,19 +429,19 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private void forwardDCTFloatImpl(jpeg_component_info compptr, byte[][] sample_data, JBLOCK[] coef_blocks, int start_row, int start_col, int num_blocks)
         {
             /* This routine is heavily used, so it's worth coding it tightly. */
-            float_DCT_method_ptr do_dct = do_float_dct[compptr.Component_index];
-            float[] divisors = m_dctTables[compptr.Component_index].float_array;
-            float[] workspace = new float[JpegConstants.DCTSIZE2]; /* work area for FDCT subroutine */
-            for (int bi = 0; bi < num_blocks; bi++, start_col += compptr.DCT_h_scaled_size)
+            var do_dct = do_float_dct[compptr.Component_index];
+            var divisors = m_dctTables[compptr.Component_index].float_array;
+            var workspace = new float[JpegConstants.DCTSIZE2]; /* work area for FDCT subroutine */
+            for (var bi = 0; bi < num_blocks; bi++, start_col += compptr.DCT_h_scaled_size)
             {
                 /* Perform the DCT */
                 do_dct(workspace, sample_data, start_row, start_col);
 
                 /* Quantize/descale the coefficients, and store into coef_blocks[] */
-                for (int i = 0; i < JpegConstants.DCTSIZE2; i++)
+                for (var i = 0; i < JpegConstants.DCTSIZE2; i++)
                 {
                     /* Apply the quantization and scaling factor */
-                    float temp = workspace[i] * divisors[i];
+                    var temp = workspace[i] * divisors[i];
 
                     /* Round to nearest integer.
                      * Since C does not specify the direction of rounding for negative
@@ -473,11 +489,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private static void jpeg_fdct_float(float[] data, byte[][] sample_data, int start_row, int start_col)
         {
             /* Pass 1: process rows. */
-            int dataIndex = 0;
-            for (int ctr = 0; ctr < JpegConstants.DCTSIZE; ctr++)
+            var dataIndex = 0;
+            for (var ctr = 0; ctr < JpegConstants.DCTSIZE; ctr++)
             {
-                byte[] elem = sample_data[start_row + ctr];
-                int elemIndex = start_col;
+                var elem = sample_data[start_row + ctr];
+                var elemIndex = start_col;
 
                 /* Load data into workspace */
                 float tmp0 = elem[elemIndex + 0] + elem[elemIndex + 7];
@@ -491,16 +507,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 /* Even part */
 
-                float tmp10 = tmp0 + tmp3;    /* phase 2 */
-                float tmp13 = tmp0 - tmp3;
-                float tmp11 = tmp1 + tmp2;
-                float tmp12 = tmp1 - tmp2;
+                var tmp10 = tmp0 + tmp3;    /* phase 2 */
+                var tmp13 = tmp0 - tmp3;
+                var tmp11 = tmp1 + tmp2;
+                var tmp12 = tmp1 - tmp2;
 
                 /* Apply unsigned->signed conversion. */
                 data[dataIndex + 0] = tmp10 + tmp11 - 8 * JpegConstants.CENTERJSAMPLE; /* phase 3 */
                 data[dataIndex + 4] = tmp10 - tmp11;
 
-                float z1 = (tmp12 + tmp13) * ((float)0.707106781); /* c4 */
+                var z1 = (tmp12 + tmp13) * ((float)0.707106781); /* c4 */
                 data[dataIndex + 2] = tmp13 + z1;    /* phase 5 */
                 data[dataIndex + 6] = tmp13 - z1;
 
@@ -511,13 +527,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 tmp12 = tmp6 + tmp7;
 
                 /* The rotator is modified from fig 4-8 to avoid extra negations. */
-                float z5 = (tmp10 - tmp12) * ((float)0.382683433); /* c6 */
-                float z2 = ((float)0.541196100) * tmp10 + z5; /* c2-c6 */
-                float z4 = ((float)1.306562965) * tmp12 + z5; /* c2+c6 */
-                float z3 = tmp11 * ((float)0.707106781); /* c4 */
+                var z5 = (tmp10 - tmp12) * ((float)0.382683433); /* c6 */
+                var z2 = ((float)0.541196100) * tmp10 + z5; /* c2-c6 */
+                var z4 = ((float)1.306562965) * tmp12 + z5; /* c2+c6 */
+                var z3 = tmp11 * ((float)0.707106781); /* c4 */
 
-                float z11 = tmp7 + z3;        /* phase 5 */
-                float z13 = tmp7 - z3;
+                var z11 = tmp7 + z3;        /* phase 5 */
+                var z13 = tmp7 - z3;
 
                 data[dataIndex + 5] = z13 + z2;  /* phase 6 */
                 data[dataIndex + 3] = z13 - z2;
@@ -530,28 +546,28 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* Pass 2: process columns. */
 
             dataIndex = 0;
-            for (int ctr = JpegConstants.DCTSIZE - 1; ctr >= 0; ctr--)
+            for (var ctr = JpegConstants.DCTSIZE - 1; ctr >= 0; ctr--)
             {
-                float tmp0 = data[dataIndex + JpegConstants.DCTSIZE * 0] + data[dataIndex + JpegConstants.DCTSIZE * 7];
-                float tmp7 = data[dataIndex + JpegConstants.DCTSIZE * 0] - data[dataIndex + JpegConstants.DCTSIZE * 7];
-                float tmp1 = data[dataIndex + JpegConstants.DCTSIZE * 1] + data[dataIndex + JpegConstants.DCTSIZE * 6];
-                float tmp6 = data[dataIndex + JpegConstants.DCTSIZE * 1] - data[dataIndex + JpegConstants.DCTSIZE * 6];
-                float tmp2 = data[dataIndex + JpegConstants.DCTSIZE * 2] + data[dataIndex + JpegConstants.DCTSIZE * 5];
-                float tmp5 = data[dataIndex + JpegConstants.DCTSIZE * 2] - data[dataIndex + JpegConstants.DCTSIZE * 5];
-                float tmp3 = data[dataIndex + JpegConstants.DCTSIZE * 3] + data[dataIndex + JpegConstants.DCTSIZE * 4];
-                float tmp4 = data[dataIndex + JpegConstants.DCTSIZE * 3] - data[dataIndex + JpegConstants.DCTSIZE * 4];
+                var tmp0 = data[dataIndex + JpegConstants.DCTSIZE * 0] + data[dataIndex + JpegConstants.DCTSIZE * 7];
+                var tmp7 = data[dataIndex + JpegConstants.DCTSIZE * 0] - data[dataIndex + JpegConstants.DCTSIZE * 7];
+                var tmp1 = data[dataIndex + JpegConstants.DCTSIZE * 1] + data[dataIndex + JpegConstants.DCTSIZE * 6];
+                var tmp6 = data[dataIndex + JpegConstants.DCTSIZE * 1] - data[dataIndex + JpegConstants.DCTSIZE * 6];
+                var tmp2 = data[dataIndex + JpegConstants.DCTSIZE * 2] + data[dataIndex + JpegConstants.DCTSIZE * 5];
+                var tmp5 = data[dataIndex + JpegConstants.DCTSIZE * 2] - data[dataIndex + JpegConstants.DCTSIZE * 5];
+                var tmp3 = data[dataIndex + JpegConstants.DCTSIZE * 3] + data[dataIndex + JpegConstants.DCTSIZE * 4];
+                var tmp4 = data[dataIndex + JpegConstants.DCTSIZE * 3] - data[dataIndex + JpegConstants.DCTSIZE * 4];
 
                 /* Even part */
 
-                float tmp10 = tmp0 + tmp3;    /* phase 2 */
-                float tmp13 = tmp0 - tmp3;
-                float tmp11 = tmp1 + tmp2;
-                float tmp12 = tmp1 - tmp2;
+                var tmp10 = tmp0 + tmp3;    /* phase 2 */
+                var tmp13 = tmp0 - tmp3;
+                var tmp11 = tmp1 + tmp2;
+                var tmp12 = tmp1 - tmp2;
 
                 data[dataIndex + JpegConstants.DCTSIZE * 0] = tmp10 + tmp11; /* phase 3 */
                 data[dataIndex + JpegConstants.DCTSIZE * 4] = tmp10 - tmp11;
 
-                float z1 = (tmp12 + tmp13) * ((float)0.707106781); /* c4 */
+                var z1 = (tmp12 + tmp13) * ((float)0.707106781); /* c4 */
                 data[dataIndex + JpegConstants.DCTSIZE * 2] = tmp13 + z1; /* phase 5 */
                 data[dataIndex + JpegConstants.DCTSIZE * 6] = tmp13 - z1;
 
@@ -562,13 +578,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 tmp12 = tmp6 + tmp7;
 
                 /* The rotator is modified from fig 4-8 to avoid extra negations. */
-                float z5 = (tmp10 - tmp12) * ((float)0.382683433); /* c6 */
-                float z2 = ((float)0.541196100) * tmp10 + z5; /* c2-c6 */
-                float z4 = ((float)1.306562965) * tmp12 + z5; /* c2+c6 */
-                float z3 = tmp11 * ((float)0.707106781); /* c4 */
+                var z5 = (tmp10 - tmp12) * ((float)0.382683433); /* c6 */
+                var z2 = ((float)0.541196100) * tmp10 + z5; /* c2-c6 */
+                var z4 = ((float)1.306562965) * tmp12 + z5; /* c2+c6 */
+                var z3 = tmp11 * ((float)0.707106781); /* c4 */
 
-                float z11 = tmp7 + z3;        /* phase 5 */
-                float z13 = tmp7 - z3;
+                var z11 = tmp7 + z3;        /* phase 5 */
+                var z13 = tmp7 - z3;
 
                 data[dataIndex + JpegConstants.DCTSIZE * 5] = z13 + z2; /* phase 6 */
                 data[dataIndex + JpegConstants.DCTSIZE * 3] = z13 - z2;
@@ -626,34 +642,34 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private static void jpeg_fdct_ifast(int[] data, byte[][] sample_data, int start_row, int start_col)
         {
             /* Pass 1: process rows. */
-            int dataIndex = 0;
-            for (int ctr = 0; ctr < JpegConstants.DCTSIZE; ctr++)
+            var dataIndex = 0;
+            for (var ctr = 0; ctr < JpegConstants.DCTSIZE; ctr++)
             {
-                byte[] elem = sample_data[start_row + ctr];
-                int elemIndex = start_col;
+                var elem = sample_data[start_row + ctr];
+                var elemIndex = start_col;
 
                 /* Load data into workspace */
-                int tmp0 = elem[elemIndex + 0] + elem[elemIndex + 7];
-                int tmp7 = elem[elemIndex + 0] - elem[elemIndex + 7];
-                int tmp1 = elem[elemIndex + 1] + elem[elemIndex + 6];
-                int tmp6 = elem[elemIndex + 1] - elem[elemIndex + 6];
-                int tmp2 = elem[elemIndex + 2] + elem[elemIndex + 5];
-                int tmp5 = elem[elemIndex + 2] - elem[elemIndex + 5];
-                int tmp3 = elem[elemIndex + 3] + elem[elemIndex + 4];
-                int tmp4 = elem[elemIndex + 3] - elem[elemIndex + 4];
+                var tmp0 = elem[elemIndex + 0] + elem[elemIndex + 7];
+                var tmp7 = elem[elemIndex + 0] - elem[elemIndex + 7];
+                var tmp1 = elem[elemIndex + 1] + elem[elemIndex + 6];
+                var tmp6 = elem[elemIndex + 1] - elem[elemIndex + 6];
+                var tmp2 = elem[elemIndex + 2] + elem[elemIndex + 5];
+                var tmp5 = elem[elemIndex + 2] - elem[elemIndex + 5];
+                var tmp3 = elem[elemIndex + 3] + elem[elemIndex + 4];
+                var tmp4 = elem[elemIndex + 3] - elem[elemIndex + 4];
 
                 /* Even part */
 
-                int tmp10 = tmp0 + tmp3;    /* phase 2 */
-                int tmp13 = tmp0 - tmp3;
-                int tmp11 = tmp1 + tmp2;
-                int tmp12 = tmp1 - tmp2;
+                var tmp10 = tmp0 + tmp3;    /* phase 2 */
+                var tmp13 = tmp0 - tmp3;
+                var tmp11 = tmp1 + tmp2;
+                var tmp12 = tmp1 - tmp2;
 
                 /* Apply unsigned->signed conversion. */
                 data[dataIndex + 0] = tmp10 + tmp11 - 8 * JpegConstants.CENTERJSAMPLE; /* phase 3 */
                 data[dataIndex + 4] = tmp10 - tmp11;
 
-                int z1 = FAST_INTEGER_MULTIPLY(tmp12 + tmp13, FAST_INTEGER_FIX_0_707106781); /* c4 */
+                var z1 = FAST_INTEGER_MULTIPLY(tmp12 + tmp13, FAST_INTEGER_FIX_0_707106781); /* c4 */
                 data[dataIndex + 2] = tmp13 + z1;    /* phase 5 */
                 data[dataIndex + 6] = tmp13 - z1;
 
@@ -664,13 +680,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 tmp12 = tmp6 + tmp7;
 
                 /* The rotator is modified from fig 4-8 to avoid extra negations. */
-                int z5 = FAST_INTEGER_MULTIPLY(tmp10 - tmp12, FAST_INTEGER_FIX_0_382683433); /* c6 */
-                int z2 = FAST_INTEGER_MULTIPLY(tmp10, FAST_INTEGER_FIX_0_541196100) + z5; /* c2-c6 */
-                int z4 = FAST_INTEGER_MULTIPLY(tmp12, FAST_INTEGER_FIX_1_306562965) + z5; /* c2+c6 */
-                int z3 = FAST_INTEGER_MULTIPLY(tmp11, FAST_INTEGER_FIX_0_707106781); /* c4 */
+                var z5 = FAST_INTEGER_MULTIPLY(tmp10 - tmp12, FAST_INTEGER_FIX_0_382683433); /* c6 */
+                var z2 = FAST_INTEGER_MULTIPLY(tmp10, FAST_INTEGER_FIX_0_541196100) + z5; /* c2-c6 */
+                var z4 = FAST_INTEGER_MULTIPLY(tmp12, FAST_INTEGER_FIX_1_306562965) + z5; /* c2+c6 */
+                var z3 = FAST_INTEGER_MULTIPLY(tmp11, FAST_INTEGER_FIX_0_707106781); /* c4 */
 
-                int z11 = tmp7 + z3;        /* phase 5 */
-                int z13 = tmp7 - z3;
+                var z11 = tmp7 + z3;        /* phase 5 */
+                var z13 = tmp7 - z3;
 
                 data[dataIndex + 5] = z13 + z2;  /* phase 6 */
                 data[dataIndex + 3] = z13 - z2;
@@ -683,28 +699,28 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* Pass 2: process columns. */
 
             dataIndex = 0;
-            for (int ctr = JpegConstants.DCTSIZE - 1; ctr >= 0; ctr--)
+            for (var ctr = JpegConstants.DCTSIZE - 1; ctr >= 0; ctr--)
             {
-                int tmp0 = data[dataIndex + JpegConstants.DCTSIZE * 0] + data[dataIndex + JpegConstants.DCTSIZE * 7];
-                int tmp7 = data[dataIndex + JpegConstants.DCTSIZE * 0] - data[dataIndex + JpegConstants.DCTSIZE * 7];
-                int tmp1 = data[dataIndex + JpegConstants.DCTSIZE * 1] + data[dataIndex + JpegConstants.DCTSIZE * 6];
-                int tmp6 = data[dataIndex + JpegConstants.DCTSIZE * 1] - data[dataIndex + JpegConstants.DCTSIZE * 6];
-                int tmp2 = data[dataIndex + JpegConstants.DCTSIZE * 2] + data[dataIndex + JpegConstants.DCTSIZE * 5];
-                int tmp5 = data[dataIndex + JpegConstants.DCTSIZE * 2] - data[dataIndex + JpegConstants.DCTSIZE * 5];
-                int tmp3 = data[dataIndex + JpegConstants.DCTSIZE * 3] + data[dataIndex + JpegConstants.DCTSIZE * 4];
-                int tmp4 = data[dataIndex + JpegConstants.DCTSIZE * 3] - data[dataIndex + JpegConstants.DCTSIZE * 4];
+                var tmp0 = data[dataIndex + JpegConstants.DCTSIZE * 0] + data[dataIndex + JpegConstants.DCTSIZE * 7];
+                var tmp7 = data[dataIndex + JpegConstants.DCTSIZE * 0] - data[dataIndex + JpegConstants.DCTSIZE * 7];
+                var tmp1 = data[dataIndex + JpegConstants.DCTSIZE * 1] + data[dataIndex + JpegConstants.DCTSIZE * 6];
+                var tmp6 = data[dataIndex + JpegConstants.DCTSIZE * 1] - data[dataIndex + JpegConstants.DCTSIZE * 6];
+                var tmp2 = data[dataIndex + JpegConstants.DCTSIZE * 2] + data[dataIndex + JpegConstants.DCTSIZE * 5];
+                var tmp5 = data[dataIndex + JpegConstants.DCTSIZE * 2] - data[dataIndex + JpegConstants.DCTSIZE * 5];
+                var tmp3 = data[dataIndex + JpegConstants.DCTSIZE * 3] + data[dataIndex + JpegConstants.DCTSIZE * 4];
+                var tmp4 = data[dataIndex + JpegConstants.DCTSIZE * 3] - data[dataIndex + JpegConstants.DCTSIZE * 4];
 
                 /* Even part */
 
-                int tmp10 = tmp0 + tmp3;    /* phase 2 */
-                int tmp13 = tmp0 - tmp3;
-                int tmp11 = tmp1 + tmp2;
-                int tmp12 = tmp1 - tmp2;
+                var tmp10 = tmp0 + tmp3;    /* phase 2 */
+                var tmp13 = tmp0 - tmp3;
+                var tmp11 = tmp1 + tmp2;
+                var tmp12 = tmp1 - tmp2;
 
                 data[dataIndex + JpegConstants.DCTSIZE * 0] = tmp10 + tmp11; /* phase 3 */
                 data[dataIndex + JpegConstants.DCTSIZE * 4] = tmp10 - tmp11;
 
-                int z1 = FAST_INTEGER_MULTIPLY(tmp12 + tmp13, FAST_INTEGER_FIX_0_707106781); /* c4 */
+                var z1 = FAST_INTEGER_MULTIPLY(tmp12 + tmp13, FAST_INTEGER_FIX_0_707106781); /* c4 */
                 data[dataIndex + JpegConstants.DCTSIZE * 2] = tmp13 + z1; /* phase 5 */
                 data[dataIndex + JpegConstants.DCTSIZE * 6] = tmp13 - z1;
 
@@ -715,13 +731,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 tmp12 = tmp6 + tmp7;
 
                 /* The rotator is modified from fig 4-8 to avoid extra negations. */
-                int z5 = FAST_INTEGER_MULTIPLY(tmp10 - tmp12, FAST_INTEGER_FIX_0_382683433); /* c6 */
-                int z2 = FAST_INTEGER_MULTIPLY(tmp10, FAST_INTEGER_FIX_0_541196100) + z5; /* c2-c6 */
-                int z4 = FAST_INTEGER_MULTIPLY(tmp12, FAST_INTEGER_FIX_1_306562965) + z5; /* c2+c6 */
-                int z3 = FAST_INTEGER_MULTIPLY(tmp11, FAST_INTEGER_FIX_0_707106781); /* c4 */
+                var z5 = FAST_INTEGER_MULTIPLY(tmp10 - tmp12, FAST_INTEGER_FIX_0_382683433); /* c6 */
+                var z2 = FAST_INTEGER_MULTIPLY(tmp10, FAST_INTEGER_FIX_0_541196100) + z5; /* c2-c6 */
+                var z4 = FAST_INTEGER_MULTIPLY(tmp12, FAST_INTEGER_FIX_1_306562965) + z5; /* c2+c6 */
+                var z3 = FAST_INTEGER_MULTIPLY(tmp11, FAST_INTEGER_FIX_0_707106781); /* c4 */
 
-                int z11 = tmp7 + z3;        /* phase 5 */
-                int z13 = tmp7 - z3;
+                var z11 = tmp7 + z3;        /* phase 5 */
+                var z13 = tmp7 - z3;
 
                 data[dataIndex + JpegConstants.DCTSIZE * 5] = z13 + z2; /* phase 6 */
                 data[dataIndex + JpegConstants.DCTSIZE * 3] = z13 - z2;
@@ -790,25 +806,25 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* Pass 1: process rows. */
             /* Note results are scaled up by sqrt(8) compared to a true DCT; */
             /* furthermore, we scale the results by 2**SLOW_INTEGER_PASS1_BITS. */
-            int dataIndex = 0;
-            for (int ctr = 0; ctr < JpegConstants.DCTSIZE; ctr++)
+            var dataIndex = 0;
+            for (var ctr = 0; ctr < JpegConstants.DCTSIZE; ctr++)
             {
-                byte[] elem = sample_data[start_row + ctr];
-                int elemIndex = start_col;
+                var elem = sample_data[start_row + ctr];
+                var elemIndex = start_col;
 
-                int tmp0 = elem[elemIndex + 0] + elem[elemIndex + 7];
-                int tmp1 = elem[elemIndex + 1] + elem[elemIndex + 6];
-                int tmp2 = elem[elemIndex + 2] + elem[elemIndex + 5];
-                int tmp3 = elem[elemIndex + 3] + elem[elemIndex + 4];
+                var tmp0 = elem[elemIndex + 0] + elem[elemIndex + 7];
+                var tmp1 = elem[elemIndex + 1] + elem[elemIndex + 6];
+                var tmp2 = elem[elemIndex + 2] + elem[elemIndex + 5];
+                var tmp3 = elem[elemIndex + 3] + elem[elemIndex + 4];
 
                 /* Even part per LL&M figure 1 --- note that published figure is faulty;
                 * rotator "sqrt(2)*c1" should be "sqrt(2)*c6".
                 */
 
-                int tmp10 = tmp0 + tmp3;
-                int tmp12 = tmp0 - tmp3;
-                int tmp11 = tmp1 + tmp2;
-                int tmp13 = tmp1 - tmp2;
+                var tmp10 = tmp0 + tmp3;
+                var tmp12 = tmp0 - tmp3;
+                var tmp11 = tmp1 + tmp2;
+                var tmp13 = tmp1 - tmp2;
 
                 tmp0 = elem[elemIndex + 0] - elem[elemIndex + 7];
                 tmp1 = elem[elemIndex + 1] - elem[elemIndex + 6];
@@ -818,7 +834,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 data[dataIndex + 0] = (tmp10 + tmp11 - 8 * JpegConstants.CENTERJSAMPLE) << SLOW_INTEGER_PASS1_BITS;
                 data[dataIndex + 4] = (tmp10 - tmp11) << SLOW_INTEGER_PASS1_BITS;
 
-                int z1 = (tmp12 + tmp13) * SLOW_INTEGER_FIX_0_541196100;
+                var z1 = (tmp12 + tmp13) * SLOW_INTEGER_FIX_0_541196100;
                 /* Add fudge factor here for final descale. */
                 z1 += 1 << (SLOW_INTEGER_CONST_BITS - SLOW_INTEGER_PASS1_BITS - 1);
 
@@ -871,21 +887,21 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             */
 
             dataIndex = 0;
-            for (int ctr = JpegConstants.DCTSIZE - 1; ctr >= 0; ctr--)
+            for (var ctr = JpegConstants.DCTSIZE - 1; ctr >= 0; ctr--)
             {
                 /* Even part per LL&M figure 1 --- note that published figure is faulty;
                  * rotator "sqrt(2)*c1" should be "sqrt(2)*c6".
                  */
-                int tmp0 = data[dataIndex + JpegConstants.DCTSIZE * 0] + data[dataIndex + JpegConstants.DCTSIZE * 7];
-                int tmp1 = data[dataIndex + JpegConstants.DCTSIZE * 1] + data[dataIndex + JpegConstants.DCTSIZE * 6];
-                int tmp2 = data[dataIndex + JpegConstants.DCTSIZE * 2] + data[dataIndex + JpegConstants.DCTSIZE * 5];
-                int tmp3 = data[dataIndex + JpegConstants.DCTSIZE * 3] + data[dataIndex + JpegConstants.DCTSIZE * 4];
+                var tmp0 = data[dataIndex + JpegConstants.DCTSIZE * 0] + data[dataIndex + JpegConstants.DCTSIZE * 7];
+                var tmp1 = data[dataIndex + JpegConstants.DCTSIZE * 1] + data[dataIndex + JpegConstants.DCTSIZE * 6];
+                var tmp2 = data[dataIndex + JpegConstants.DCTSIZE * 2] + data[dataIndex + JpegConstants.DCTSIZE * 5];
+                var tmp3 = data[dataIndex + JpegConstants.DCTSIZE * 3] + data[dataIndex + JpegConstants.DCTSIZE * 4];
 
                 /* Add fudge factor here for final descale. */
-                int tmp10 = tmp0 + tmp3 + (1 << (SLOW_INTEGER_PASS1_BITS - 1));
-                int tmp12 = tmp0 - tmp3;
-                int tmp11 = tmp1 + tmp2;
-                int tmp13 = tmp1 - tmp2;
+                var tmp10 = tmp0 + tmp3 + (1 << (SLOW_INTEGER_PASS1_BITS - 1));
+                var tmp12 = tmp0 - tmp3;
+                var tmp11 = tmp1 + tmp2;
+                var tmp13 = tmp1 - tmp2;
 
                 tmp0 = data[dataIndex + JpegConstants.DCTSIZE * 0] - data[dataIndex + JpegConstants.DCTSIZE * 7];
                 tmp1 = data[dataIndex + JpegConstants.DCTSIZE * 1] - data[dataIndex + JpegConstants.DCTSIZE * 6];
@@ -895,7 +911,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 data[dataIndex + JpegConstants.DCTSIZE * 0] = JpegUtils.RIGHT_SHIFT(tmp10 + tmp11, SLOW_INTEGER_PASS1_BITS);
                 data[dataIndex + JpegConstants.DCTSIZE * 4] = JpegUtils.RIGHT_SHIFT(tmp10 - tmp11, SLOW_INTEGER_PASS1_BITS);
 
-                int z1 = (tmp12 + tmp13) * SLOW_INTEGER_FIX_0_541196100;       /* c6 */
+                var z1 = (tmp12 + tmp13) * SLOW_INTEGER_FIX_0_541196100;       /* c6 */
                 /* Add fudge factor here for final descale. */
                 z1 += 1 << (SLOW_INTEGER_CONST_BITS + SLOW_INTEGER_PASS1_BITS - 1);
 
@@ -956,9 +972,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 #endif
         }
 
-        static int SLOW_INTEGER_FIX(double x)
+        private static int SLOW_INTEGER_FIX(double x)
         {
-            return ((int)((x) * (((int)1) << SLOW_INTEGER_CONST_BITS) + 0.5));
+            return ((int)((x) * (1 << SLOW_INTEGER_CONST_BITS) + 0.5));
         }
 
         private void jpeg_fdct_1x1(int[] data, byte[][] sample_data, int start_row, int start_col)
@@ -1041,36 +1057,36 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * furthermore, we scale the results by 2**PASS1_BITS.
              * cK represents sqrt(2) * cos(K*pi/32).
              */
-            int[] workspace = new int[JpegConstants.DCTSIZE2];
+            var workspace = new int[JpegConstants.DCTSIZE2];
 
-            int dataIndex = 0;
-            int[] data = data1;
+            var dataIndex = 0;
+            var data = data1;
 
-            int ctr = 0;
-            for (;;)
+            var ctr = 0;
+            for (; ; )
             {
-                byte[] elem = sample_data[start_row + ctr];
-                int elemIndex = start_col;
+                var elem = sample_data[start_row + ctr];
+                var elemIndex = start_col;
 
                 /* Even part */
 
-                int tmp0 = elem[elemIndex + 0] + elem[elemIndex + 15];
-                int tmp1 = elem[elemIndex + 1] + elem[elemIndex + 14];
-                int tmp2 = elem[elemIndex + 2] + elem[elemIndex + 13];
-                int tmp3 = elem[elemIndex + 3] + elem[elemIndex + 12];
-                int tmp4 = elem[elemIndex + 4] + elem[elemIndex + 11];
-                int tmp5 = elem[elemIndex + 5] + elem[elemIndex + 10];
-                int tmp6 = elem[elemIndex + 6] + elem[elemIndex + 9];
-                int tmp7 = elem[elemIndex + 7] + elem[elemIndex + 8];
+                var tmp0 = elem[elemIndex + 0] + elem[elemIndex + 15];
+                var tmp1 = elem[elemIndex + 1] + elem[elemIndex + 14];
+                var tmp2 = elem[elemIndex + 2] + elem[elemIndex + 13];
+                var tmp3 = elem[elemIndex + 3] + elem[elemIndex + 12];
+                var tmp4 = elem[elemIndex + 4] + elem[elemIndex + 11];
+                var tmp5 = elem[elemIndex + 5] + elem[elemIndex + 10];
+                var tmp6 = elem[elemIndex + 6] + elem[elemIndex + 9];
+                var tmp7 = elem[elemIndex + 7] + elem[elemIndex + 8];
 
-                int tmp10 = tmp0 + tmp7;
-                int tmp14 = tmp0 - tmp7;
-                int tmp11 = tmp1 + tmp6;
-                int tmp15 = tmp1 - tmp6;
-                int tmp12 = tmp2 + tmp5;
-                int tmp16 = tmp2 - tmp5;
-                int tmp13 = tmp3 + tmp4;
-                int tmp17 = tmp3 - tmp4;
+                var tmp10 = tmp0 + tmp7;
+                var tmp14 = tmp0 - tmp7;
+                var tmp11 = tmp1 + tmp6;
+                var tmp15 = tmp1 - tmp6;
+                var tmp12 = tmp2 + tmp5;
+                var tmp16 = tmp2 - tmp5;
+                var tmp13 = tmp3 + tmp4;
+                var tmp17 = tmp3 - tmp4;
 
                 tmp0 = elem[elemIndex + 0] - elem[elemIndex + 15];
                 tmp1 = elem[elemIndex + 1] - elem[elemIndex + 14];
@@ -1161,27 +1177,27 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             data = data1;
             dataIndex = 0;
-            int workspaceIndex = 0;
+            var workspaceIndex = 0;
             for (ctr = JpegConstants.DCTSIZE - 1; ctr >= 0; ctr--)
             {
                 /* Even part */
-                int tmp0 = data[dataIndex + JpegConstants.DCTSIZE * 0] + workspace[workspaceIndex + JpegConstants.DCTSIZE * 7];
-                int tmp1 = data[dataIndex + JpegConstants.DCTSIZE * 1] + workspace[workspaceIndex + JpegConstants.DCTSIZE * 6];
-                int tmp2 = data[dataIndex + JpegConstants.DCTSIZE * 2] + workspace[workspaceIndex + JpegConstants.DCTSIZE * 5];
-                int tmp3 = data[dataIndex + JpegConstants.DCTSIZE * 3] + workspace[workspaceIndex + JpegConstants.DCTSIZE * 4];
-                int tmp4 = data[dataIndex + JpegConstants.DCTSIZE * 4] + workspace[workspaceIndex + JpegConstants.DCTSIZE * 3];
-                int tmp5 = data[dataIndex + JpegConstants.DCTSIZE * 5] + workspace[workspaceIndex + JpegConstants.DCTSIZE * 2];
-                int tmp6 = data[dataIndex + JpegConstants.DCTSIZE * 6] + workspace[workspaceIndex + JpegConstants.DCTSIZE * 1];
-                int tmp7 = data[dataIndex + JpegConstants.DCTSIZE * 7] + workspace[workspaceIndex + JpegConstants.DCTSIZE * 0];
+                var tmp0 = data[dataIndex + JpegConstants.DCTSIZE * 0] + workspace[workspaceIndex + JpegConstants.DCTSIZE * 7];
+                var tmp1 = data[dataIndex + JpegConstants.DCTSIZE * 1] + workspace[workspaceIndex + JpegConstants.DCTSIZE * 6];
+                var tmp2 = data[dataIndex + JpegConstants.DCTSIZE * 2] + workspace[workspaceIndex + JpegConstants.DCTSIZE * 5];
+                var tmp3 = data[dataIndex + JpegConstants.DCTSIZE * 3] + workspace[workspaceIndex + JpegConstants.DCTSIZE * 4];
+                var tmp4 = data[dataIndex + JpegConstants.DCTSIZE * 4] + workspace[workspaceIndex + JpegConstants.DCTSIZE * 3];
+                var tmp5 = data[dataIndex + JpegConstants.DCTSIZE * 5] + workspace[workspaceIndex + JpegConstants.DCTSIZE * 2];
+                var tmp6 = data[dataIndex + JpegConstants.DCTSIZE * 6] + workspace[workspaceIndex + JpegConstants.DCTSIZE * 1];
+                var tmp7 = data[dataIndex + JpegConstants.DCTSIZE * 7] + workspace[workspaceIndex + JpegConstants.DCTSIZE * 0];
 
-                int tmp10 = tmp0 + tmp7;
-                int tmp14 = tmp0 - tmp7;
-                int tmp11 = tmp1 + tmp6;
-                int tmp15 = tmp1 - tmp6;
-                int tmp12 = tmp2 + tmp5;
-                int tmp16 = tmp2 - tmp5;
-                int tmp13 = tmp3 + tmp4;
-                int tmp17 = tmp3 - tmp4;
+                var tmp10 = tmp0 + tmp7;
+                var tmp14 = tmp0 - tmp7;
+                var tmp11 = tmp1 + tmp6;
+                var tmp15 = tmp1 - tmp6;
+                var tmp12 = tmp2 + tmp5;
+                var tmp16 = tmp2 - tmp5;
+                var tmp13 = tmp3 + tmp4;
+                var tmp17 = tmp3 - tmp4;
 
                 tmp0 = data[dataIndex + JpegConstants.DCTSIZE * 0] - workspace[workspaceIndex + JpegConstants.DCTSIZE * 7];
                 tmp1 = data[dataIndex + JpegConstants.DCTSIZE * 1] - workspace[workspaceIndex + JpegConstants.DCTSIZE * 6];

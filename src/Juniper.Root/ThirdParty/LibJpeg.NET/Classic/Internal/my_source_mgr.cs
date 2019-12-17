@@ -15,16 +15,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// <summary>
     /// Expanded data source object for stdio input
     /// </summary>
-    class my_source_mgr : jpeg_source_mgr
+    internal class my_source_mgr : jpeg_source_mgr
     {
         private const int INPUT_BUF_SIZE = 4096;
 
-        private jpeg_decompress_struct m_cinfo;
+        private readonly jpeg_decompress_struct m_cinfo;
 
         private Stream m_infile;       /* source stream */
-        private byte[] m_buffer;     /* start of buffer */
+        private readonly byte[] m_buffer;     /* start of buffer */
         private bool m_start_of_file; /* have we gotten any data yet? */
-        
+
         /// <summary>
         /// Initialize source - called by jpeg_read_header
         /// before any data is actually read.
@@ -85,15 +85,17 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         public override bool fill_input_buffer()
         {
-            int nbytes = m_infile.Read(m_buffer, 0, INPUT_BUF_SIZE);
+            var nbytes = m_infile.Read(m_buffer, 0, INPUT_BUF_SIZE);
             if (nbytes <= 0)
             {
                 if (m_start_of_file) /* Treat empty input file as fatal error */
+                {
                     m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_INPUT_EMPTY);
+                }
 
                 m_cinfo.WARNMS(J_MESSAGE_CODE.JWRN_JPEG_EOF);
                 /* Insert a fake EOI marker */
-                m_buffer[0] = (byte)0xFF;
+                m_buffer[0] = 0xFF;
                 m_buffer[1] = (byte)JPEG_MARKER.EOI;
                 nbytes = 2;
             }

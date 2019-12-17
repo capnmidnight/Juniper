@@ -11,9 +11,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// <summary>
     /// Input control module
     /// </summary>
-    class jpeg_input_controller
+    internal class jpeg_input_controller
     {
-        private jpeg_decompress_struct m_cinfo;
+        private readonly jpeg_decompress_struct m_cinfo;
         private bool m_consumeData;
         private int m_inheaders;     /* Nonzero until first SOS is reached */
         private bool m_has_multiple_scans;    /* True if file has multiple scans */
@@ -36,7 +36,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         public ReadResult consume_input()
         {
             if (m_consumeData)
+            {
                 return m_cinfo.m_coef.consume_data();
+            }
 
             return consume_markers();
         }
@@ -110,9 +112,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Provide 1/block_size scaling */
                 m_cinfo.m_output_width = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_width, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_width, m_cinfo.block_size);
                 m_cinfo.m_output_height = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_height, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_height, m_cinfo.block_size);
                 m_cinfo.min_DCT_h_scaled_size = 1;
                 m_cinfo.min_DCT_v_scaled_size = 1;
             }
@@ -120,9 +122,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Provide 2/block_size scaling */
                 m_cinfo.m_output_width = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_width * 2L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_width * 2L, m_cinfo.block_size);
                 m_cinfo.m_output_height = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_height * 2L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_height * 2L, m_cinfo.block_size);
                 m_cinfo.min_DCT_h_scaled_size = 2;
                 m_cinfo.min_DCT_v_scaled_size = 2;
             }
@@ -130,9 +132,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Provide 3/block_size scaling */
                 m_cinfo.m_output_width = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_width * 3L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_width * 3L, m_cinfo.block_size);
                 m_cinfo.m_output_height = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_height * 3L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_height * 3L, m_cinfo.block_size);
                 m_cinfo.min_DCT_h_scaled_size = 3;
                 m_cinfo.min_DCT_v_scaled_size = 3;
             }
@@ -140,9 +142,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Provide 4/block_size scaling */
                 m_cinfo.m_output_width = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_width * 4L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_width * 4L, m_cinfo.block_size);
                 m_cinfo.m_output_height = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_height * 4L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_height * 4L, m_cinfo.block_size);
                 m_cinfo.min_DCT_h_scaled_size = 4;
                 m_cinfo.min_DCT_v_scaled_size = 4;
             }
@@ -150,9 +152,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Provide 5/block_size scaling */
                 m_cinfo.m_output_width = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_width * 5L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_width * 5L, m_cinfo.block_size);
                 m_cinfo.m_output_height = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_height * 5L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_height * 5L, m_cinfo.block_size);
                 m_cinfo.min_DCT_h_scaled_size = 5;
                 m_cinfo.min_DCT_v_scaled_size = 5;
             }
@@ -160,9 +162,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Provide 6/block_size scaling */
                 m_cinfo.m_output_width = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_width * 6L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_width * 6L, m_cinfo.block_size);
                 m_cinfo.m_output_height = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_height * 6L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_height * 6L, m_cinfo.block_size);
                 m_cinfo.min_DCT_h_scaled_size = 6;
                 m_cinfo.min_DCT_v_scaled_size = 6;
             }
@@ -170,9 +172,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Provide 7/block_size scaling */
                 m_cinfo.m_output_width = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_width * 7L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_width * 7L, m_cinfo.block_size);
                 m_cinfo.m_output_height = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_height * 7L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_height * 7L, m_cinfo.block_size);
                 m_cinfo.min_DCT_h_scaled_size = 7;
                 m_cinfo.min_DCT_v_scaled_size = 7;
             }
@@ -180,9 +182,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Provide 8/block_size scaling */
                 m_cinfo.m_output_width = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_width * 8L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_width * 8L, m_cinfo.block_size);
                 m_cinfo.m_output_height = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_height * 8L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_height * 8L, m_cinfo.block_size);
                 m_cinfo.min_DCT_h_scaled_size = 8;
                 m_cinfo.min_DCT_v_scaled_size = 8;
             }
@@ -190,9 +192,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Provide 9/block_size scaling */
                 m_cinfo.m_output_width = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_width * 9L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_width * 9L, m_cinfo.block_size);
                 m_cinfo.m_output_height = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_height * 9L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_height * 9L, m_cinfo.block_size);
                 m_cinfo.min_DCT_h_scaled_size = 9;
                 m_cinfo.min_DCT_v_scaled_size = 9;
             }
@@ -200,9 +202,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Provide 10/block_size scaling */
                 m_cinfo.m_output_width = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_width * 10L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_width * 10L, m_cinfo.block_size);
                 m_cinfo.m_output_height = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_height * 10L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_height * 10L, m_cinfo.block_size);
                 m_cinfo.min_DCT_h_scaled_size = 10;
                 m_cinfo.min_DCT_v_scaled_size = 10;
             }
@@ -210,9 +212,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Provide 11/block_size scaling */
                 m_cinfo.m_output_width = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_width * 11L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_width * 11L, m_cinfo.block_size);
                 m_cinfo.m_output_height = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_height * 11L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_height * 11L, m_cinfo.block_size);
                 m_cinfo.min_DCT_h_scaled_size = 11;
                 m_cinfo.min_DCT_v_scaled_size = 11;
             }
@@ -220,9 +222,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Provide 12/block_size scaling */
                 m_cinfo.m_output_width = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_width * 12L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_width * 12L, m_cinfo.block_size);
                 m_cinfo.m_output_height = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_height * 12L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_height * 12L, m_cinfo.block_size);
                 m_cinfo.min_DCT_h_scaled_size = 12;
                 m_cinfo.min_DCT_v_scaled_size = 12;
             }
@@ -230,9 +232,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Provide 13/block_size scaling */
                 m_cinfo.m_output_width = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_width * 13L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_width * 13L, m_cinfo.block_size);
                 m_cinfo.m_output_height = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_height * 13L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_height * 13L, m_cinfo.block_size);
                 m_cinfo.min_DCT_h_scaled_size = 13;
                 m_cinfo.min_DCT_v_scaled_size = 13;
             }
@@ -240,9 +242,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Provide 14/block_size scaling */
                 m_cinfo.m_output_width = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_width * 14L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_width * 14L, m_cinfo.block_size);
                 m_cinfo.m_output_height = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_height * 14L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_height * 14L, m_cinfo.block_size);
                 m_cinfo.min_DCT_h_scaled_size = 14;
                 m_cinfo.min_DCT_v_scaled_size = 14;
             }
@@ -250,26 +252,27 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Provide 15/block_size scaling */
                 m_cinfo.m_output_width = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_width * 15L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_width * 15L, m_cinfo.block_size);
                 m_cinfo.m_output_height = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_height * 15L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_height * 15L, m_cinfo.block_size);
                 m_cinfo.min_DCT_h_scaled_size = 15;
                 m_cinfo.min_DCT_v_scaled_size = 15;
             }
-            else {
+            else
+            {
                 /* Provide 16/block_size scaling */
                 m_cinfo.m_output_width = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_width * 16L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_width * 16L, m_cinfo.block_size);
                 m_cinfo.m_output_height = (int)
-                  JpegUtils.jdiv_round_up((long)m_cinfo.m_image_height * 16L, (long)m_cinfo.block_size);
+                  JpegUtils.jdiv_round_up(m_cinfo.m_image_height * 16L, m_cinfo.block_size);
                 m_cinfo.min_DCT_h_scaled_size = 16;
                 m_cinfo.min_DCT_v_scaled_size = 16;
             }
 
             /* Recompute dimensions of components */
-            for (int ci = 0; ci < m_cinfo.m_num_components; ci++)
+            for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
             {
-                jpeg_component_info compptr = m_cinfo.Comp_info[ci];
+                var compptr = m_cinfo.Comp_info[ci];
                 compptr.DCT_h_scaled_size = m_cinfo.min_DCT_h_scaled_size;
                 compptr.DCT_v_scaled_size = m_cinfo.min_DCT_v_scaled_size;
             }
@@ -294,10 +297,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             ReadResult val;
 
             if (m_eoi_reached) /* After hitting EOI, read no further */
+            {
                 return ReadResult.JPEG_REACHED_EOI;
+            }
 
             /* Loop to pass pseudo SOS marker */
-            for (;;)
+            for (; ; )
             {
                 val = m_cinfo.m_marker.read_markers();
 
@@ -309,7 +314,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         {
                             /* 1st SOS */
                             if (m_inheaders == 1)
+                            {
                                 initial_setup();
+                            }
 
                             if (m_cinfo.m_comps_in_scan == 0)
                             {
@@ -350,7 +357,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         {
                             /* Tables-only datastream, apparently */
                             if (m_cinfo.m_marker.SawSOF())
+                            {
                                 m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_SOF_NO_SOS);
+                            }
                         }
                         else
                         {
@@ -358,7 +367,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                              * if user set output_scan_number larger than number of scans.
                              */
                             if (m_cinfo.m_output_scan_number > m_cinfo.m_input_scan_number)
+                            {
                                 m_cinfo.m_output_scan_number = m_cinfo.m_input_scan_number;
+                            }
                         }
 
                         return val;
@@ -385,17 +396,21 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             /* Only 8 to 12 bits data precision are supported for DCT based JPEG */
             if (m_cinfo.m_data_precision < 8 || m_cinfo.m_data_precision > 12)
+            {
                 m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_PRECISION, m_cinfo.m_data_precision);
+            }
 
             /* Check that number of components won't exceed internal array sizes */
             if (m_cinfo.m_num_components > JpegConstants.MAX_COMPONENTS)
+            {
                 m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_COMPONENT_COUNT, m_cinfo.m_num_components, JpegConstants.MAX_COMPONENTS);
+            }
 
             /* Compute maximum sampling factors; check factor validity */
             m_cinfo.m_max_h_samp_factor = 1;
             m_cinfo.m_max_v_samp_factor = 1;
 
-            for (int ci = 0; ci < m_cinfo.m_num_components; ci++)
+            for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
             {
                 if (m_cinfo.Comp_info[ci].H_samp_factor <= 0 || m_cinfo.Comp_info[ci].H_samp_factor > JpegConstants.MAX_SAMP_FACTOR ||
                     m_cinfo.Comp_info[ci].V_samp_factor <= 0 || m_cinfo.Comp_info[ci].V_samp_factor > JpegConstants.MAX_SAMP_FACTOR)
@@ -516,9 +531,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             m_cinfo.min_DCT_v_scaled_size = m_cinfo.block_size;
 
             /* Compute dimensions of components */
-            for (int ci = 0; ci < m_cinfo.m_num_components; ci++)
+            for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
             {
-                jpeg_component_info compptr = m_cinfo.Comp_info[ci];
+                var compptr = m_cinfo.Comp_info[ci];
                 compptr.DCT_h_scaled_size = m_cinfo.block_size;
                 compptr.DCT_v_scaled_size = m_cinfo.block_size;
 
@@ -557,9 +572,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             /* Decide whether file contains multiple scans */
             if (m_cinfo.m_comps_in_scan < m_cinfo.m_num_components || m_cinfo.m_progressive_mode)
+            {
                 m_cinfo.m_inputctl.m_has_multiple_scans = true;
+            }
             else
+            {
                 m_cinfo.m_inputctl.m_has_multiple_scans = false;
+            }
         }
 
         /// <summary>
@@ -584,21 +603,25 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void latch_quant_tables()
         {
-            for (int ci = 0; ci < m_cinfo.m_comps_in_scan; ci++)
+            for (var ci = 0; ci < m_cinfo.m_comps_in_scan; ci++)
             {
-                jpeg_component_info componentInfo = m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[ci]];
+                var componentInfo = m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[ci]];
 
                 /* No work if we already saved Q-table for this component */
                 if (componentInfo.quant_table != null)
+                {
                     continue;
+                }
 
                 /* Make sure specified quantization table is present */
-                int qtblno = componentInfo.Quant_tbl_no;
+                var qtblno = componentInfo.Quant_tbl_no;
                 if (qtblno < 0 || qtblno >= JpegConstants.NUM_QUANT_TBLS || m_cinfo.m_quant_tbl_ptrs[qtblno] == null)
+                {
                     m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_NO_QUANT_TABLE, qtblno);
+                }
 
                 /* OK, save away the quantization table */
-                JQUANT_TBL qtbl = new JQUANT_TBL();
+                var qtbl = new JQUANT_TBL();
                 Buffer.BlockCopy(m_cinfo.m_quant_tbl_ptrs[qtblno].quantval, 0,
                     qtbl.quantval, 0, qtbl.quantval.Length * sizeof(short));
                 qtbl.Sent_table = m_cinfo.m_quant_tbl_ptrs[qtblno].Sent_table;
@@ -616,7 +639,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             if (m_cinfo.m_comps_in_scan == 1)
             {
                 /* Noninterleaved (single-component) scan */
-                jpeg_component_info componentInfo = m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[0]];
+                var componentInfo = m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[0]];
 
                 /* Overall image size in MCUs */
                 m_cinfo.m_MCUs_per_row = componentInfo.Width_in_blocks;
@@ -632,9 +655,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* For noninterleaved scans, it is convenient to define last_row_height
                  * as the number of block rows present in the last iMCU row.
                  */
-                int tmp = componentInfo.height_in_blocks % componentInfo.V_samp_factor;
+                var tmp = componentInfo.height_in_blocks % componentInfo.V_samp_factor;
                 if (tmp == 0)
+                {
                     tmp = componentInfo.V_samp_factor;
+                }
+
                 componentInfo.last_row_height = tmp;
                 m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[0]] = componentInfo;
 
@@ -646,7 +672,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Interleaved (multi-component) scan */
                 if (m_cinfo.m_comps_in_scan <= 0 || m_cinfo.m_comps_in_scan > JpegConstants.MAX_COMPS_IN_SCAN)
+                {
                     m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_COMPONENT_COUNT, m_cinfo.m_comps_in_scan, JpegConstants.MAX_COMPS_IN_SCAN);
+                }
 
                 /* Overall image size in MCUs */
                 m_cinfo.m_MCUs_per_row = (int)JpegUtils.jdiv_round_up(
@@ -657,9 +685,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 m_cinfo.m_blocks_in_MCU = 0;
 
-                for (int ci = 0; ci < m_cinfo.m_comps_in_scan; ci++)
+                for (var ci = 0; ci < m_cinfo.m_comps_in_scan; ci++)
                 {
-                    jpeg_component_info componentInfo = m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[ci]];
+                    var componentInfo = m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[ci]];
 
                     /* Sampling factors give # of blocks of component in each MCU */
                     componentInfo.MCU_width = componentInfo.H_samp_factor;
@@ -668,25 +696,35 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     componentInfo.MCU_sample_width = componentInfo.MCU_width * componentInfo.DCT_h_scaled_size;
 
                     /* Figure number of non-dummy blocks in last MCU column & row */
-                    int tmp = componentInfo.Width_in_blocks % componentInfo.MCU_width;
+                    var tmp = componentInfo.Width_in_blocks % componentInfo.MCU_width;
                     if (tmp == 0)
+                    {
                         tmp = componentInfo.MCU_width;
+                    }
+
                     componentInfo.last_col_width = tmp;
 
                     tmp = componentInfo.height_in_blocks % componentInfo.MCU_height;
                     if (tmp == 0)
+                    {
                         tmp = componentInfo.MCU_height;
+                    }
+
                     componentInfo.last_row_height = tmp;
 
                     /* Prepare array describing MCU composition */
-                    int mcublks = componentInfo.MCU_blocks;
+                    var mcublks = componentInfo.MCU_blocks;
                     if (m_cinfo.m_blocks_in_MCU + mcublks > JpegConstants.D_MAX_BLOCKS_IN_MCU)
+                    {
                         m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_MCU_SIZE);
+                    }
 
                     m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[ci]] = componentInfo;
 
                     while (mcublks-- > 0)
+                    {
                         m_cinfo.m_MCU_membership[m_cinfo.m_blocks_in_MCU++] = ci;
+                    }
                 }
             }
         }

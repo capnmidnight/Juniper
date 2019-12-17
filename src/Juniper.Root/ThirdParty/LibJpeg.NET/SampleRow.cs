@@ -7,8 +7,8 @@ namespace BitMiracle.LibJpeg
     /// </summary>
     public class SampleRow
     {
-        private byte[] m_bytes;
-        private Sample[] m_samples;
+        private readonly byte[] m_bytes;
+        private readonly Sample[] m_samples;
 
         /// <summary>
         /// Creates a row from raw samples data.
@@ -22,27 +22,39 @@ namespace BitMiracle.LibJpeg
         public SampleRow(byte[] row, int sampleCount, byte bitsPerComponent, byte componentsPerSample)
         {
             if (row == null)
+            {
                 throw new ArgumentNullException("row");
+            }
 
             if (row.Length == 0)
+            {
                 throw new ArgumentException("row is empty");
+            }
 
             if (sampleCount <= 0)
+            {
                 throw new ArgumentOutOfRangeException("sampleCount");
+            }
 
             if (bitsPerComponent <= 0 || bitsPerComponent > 16)
+            {
                 throw new ArgumentOutOfRangeException("bitsPerComponent");
+            }
 
             if (componentsPerSample <= 0 || componentsPerSample > 5)
+            {
                 throw new ArgumentOutOfRangeException("componentsPerSample");
+            }
 
             m_bytes = row;
 
-            using (BitStream bitStream = new BitStream(row))
+            using (var bitStream = new BitStream(row))
             {
                 m_samples = new Sample[sampleCount];
-                for (int i = 0; i < sampleCount; ++i)
+                for (var i = 0; i < sampleCount; ++i)
+                {
                     m_samples[i] = new Sample(bitStream, bitsPerComponent, componentsPerSample);
+                }
             }
         }
 
@@ -60,32 +72,42 @@ namespace BitMiracle.LibJpeg
         internal SampleRow(short[] sampleComponents, byte bitsPerComponent, byte componentsPerSample)
         {
             if (sampleComponents == null)
+            {
                 throw new ArgumentNullException("sampleComponents");
+            }
 
             if (sampleComponents.Length == 0)
+            {
                 throw new ArgumentException("row is empty");
+            }
 
             if (bitsPerComponent <= 0 || bitsPerComponent > 16)
+            {
                 throw new ArgumentOutOfRangeException("bitsPerComponent");
+            }
 
             if (componentsPerSample <= 0 || componentsPerSample > 5)
-                throw new ArgumentOutOfRangeException("componentsPerSample");
-
-            int sampleCount = sampleComponents.Length / componentsPerSample;
-            m_samples = new Sample[sampleCount];
-            for (int i = 0; i < sampleCount; ++i)
             {
-                short[] components = new short[componentsPerSample];
+                throw new ArgumentOutOfRangeException("componentsPerSample");
+            }
+
+            var sampleCount = sampleComponents.Length / componentsPerSample;
+            m_samples = new Sample[sampleCount];
+            for (var i = 0; i < sampleCount; ++i)
+            {
+                var components = new short[componentsPerSample];
                 Buffer.BlockCopy(sampleComponents, i * componentsPerSample * sizeof(short), components, 0, componentsPerSample * sizeof(short));
                 m_samples[i] = new Sample(components, bitsPerComponent);
             }
 
-            using (BitStream bits = new BitStream())
+            using (var bits = new BitStream())
             {
-                for (int i = 0; i < sampleCount; ++i)
+                for (var i = 0; i < sampleCount; ++i)
                 {
-                    for (int j = 0; j < componentsPerSample; ++j)
+                    for (var j = 0; j < componentsPerSample; ++j)
+                    {
                         bits.Write(sampleComponents[i * componentsPerSample + j], bitsPerComponent);
+                    }
                 }
 
                 m_bytes = new byte[bits.UnderlyingStream.Length];

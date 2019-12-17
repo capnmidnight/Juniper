@@ -7,7 +7,7 @@ namespace BitMiracle.LibJpeg
     /// <summary>
     /// Common interface for processing of decompression.
     /// </summary>
-    interface IDecompressDestination
+    internal interface IDecompressDestination
     {
         /// <summary>
         /// Strean with decompressed data
@@ -43,7 +43,7 @@ namespace BitMiracle.LibJpeg
     /// <summary>
     /// Holds parameters of image for decompression (IDecomressDesination)
     /// </summary>
-    class LoadedImageAttributes
+    internal class LoadedImageAttributes
     {
         private Colorspace m_colorspace;
         private bool m_quantizeColors;

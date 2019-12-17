@@ -7,7 +7,7 @@ namespace Juniper
             private static string MakeExtension(string value)
             {
                 var slashIndex = value.IndexOf('/');
-                if(0 <= slashIndex)
+                if (0 <= slashIndex)
                 {
                     value = value.Substring(slashIndex + 1);
                 }

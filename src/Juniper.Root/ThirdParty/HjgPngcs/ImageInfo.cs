@@ -141,27 +141,27 @@ namespace Hjg.Pngcs
                 case 1:
                 case 2:
                 case 4:
-                if (!(Indexed || Greyscale))
-                {
-                    throw new PngjException("only indexed or grayscale can have bitdepth="
-                            + BitDepth);
-                }
+                    if (!(Indexed || Greyscale))
+                    {
+                        throw new PngjException("only indexed or grayscale can have bitdepth="
+                                + BitDepth);
+                    }
 
-                break;
+                    break;
 
                 case 8:
-                break;
+                    break;
 
                 case 16:
-                if (Indexed)
-                {
-                    throw new PngjException("indexed can't have bitdepth=" + BitDepth);
-                }
+                    if (Indexed)
+                    {
+                        throw new PngjException("indexed can't have bitdepth=" + BitDepth);
+                    }
 
-                break;
+                    break;
 
                 default:
-                throw new PngjException("invalid bitdepth=" + BitDepth);
+                    throw new PngjException("invalid bitdepth=" + BitDepth);
             }
             if (cols < 1 || cols > MAX_COLS_ROWS_VAL)
             {

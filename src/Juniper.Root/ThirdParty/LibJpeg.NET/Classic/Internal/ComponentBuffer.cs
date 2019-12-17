@@ -5,7 +5,7 @@
     /// When provided with funny indices (see jpeg_d_main_controller for 
     /// explanation of what it is) uses them for non-linear row access.
     /// </summary>
-    class ComponentBuffer
+    internal class ComponentBuffer
     {
         private byte[][] m_buffer;
 
@@ -31,7 +31,9 @@
             get
             {
                 if (m_funnyIndices == null)
+                {
                     return m_buffer[i];
+                }
 
                 return m_buffer[m_funnyIndices[i + m_funnyOffset]];
             }

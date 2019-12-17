@@ -102,7 +102,7 @@ namespace Juniper.Iteration.Tests
         {
             var rand = new Random();
             var itemsRaw = new I[items];
-            for (int i = 0; i < items; ++i)
+            for (var i = 0; i < items; ++i)
             {
                 switch (rand.Next(4))
                 {
@@ -129,12 +129,12 @@ namespace Juniper.Iteration.Tests
             var timeByType = TimeSpan.Zero;
             var timer = new Stopwatch();
 
-            for (int i = 0; i < iters; ++i)
+            for (var i = 0; i < iters; ++i)
             {
                 timeRaw += Test(timer, itemsRaw);
             }
 
-            for (int i = 0; i < iters; ++i)
+            for (var i = 0; i < iters; ++i)
             {
                 timeByType += Test(timer, itemsByType);
             }
@@ -146,7 +146,7 @@ namespace Juniper.Iteration.Tests
         private TimeSpan Test(Stopwatch timer, I[] items)
         {
             timer.Restart();
-            for (int i = 0; i < items.Length; ++i)
+            for (var i = 0; i < items.Length; ++i)
             {
                 items[i].Update();
             }

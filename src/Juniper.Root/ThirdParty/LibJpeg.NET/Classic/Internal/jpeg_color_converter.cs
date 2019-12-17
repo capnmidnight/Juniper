@@ -7,7 +7,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// <summary>
     /// Colorspace conversion
     /// </summary>
-    class jpeg_color_converter
+    internal class jpeg_color_converter
     {
         /**************** RGB -> YCbCr conversion: most common case **************/
 
@@ -70,9 +70,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private const int B_CR_OFF = (7 * (JpegConstants.MAXJSAMPLE + 1));
         private const int TABLE_SIZE = (8 * (JpegConstants.MAXJSAMPLE + 1));
 
-        private jpeg_compress_struct m_cinfo;
+        private readonly jpeg_compress_struct m_cinfo;
 
-        private bool m_useNullStart;
+        private readonly bool m_useNullStart;
 
         private int[] m_rgb_ycc_tab;     /* => table for RGB to YCbCr conversion */
 
@@ -103,31 +103,46 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 case J_COLOR_SPACE.JCS_GRAYSCALE:
                     if (cinfo.m_input_components != 1)
+                    {
                         cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_IN_COLORSPACE);
+                    }
+
                     break;
 
                 case J_COLOR_SPACE.JCS_RGB:
                 case J_COLOR_SPACE.JCS_BG_RGB:
                     if (cinfo.m_input_components != JpegConstants.RGB_PIXELSIZE)
+                    {
                         cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_IN_COLORSPACE);
+                    }
+
                     break;
 
                 case J_COLOR_SPACE.JCS_YCbCr:
                 case J_COLOR_SPACE.JCS_BG_YCC:
                     if (cinfo.m_input_components != 3)
+                    {
                         cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_IN_COLORSPACE);
+                    }
+
                     break;
 
                 case J_COLOR_SPACE.JCS_CMYK:
                 case J_COLOR_SPACE.JCS_YCCK:
                     if (cinfo.m_input_components != 4)
+                    {
                         cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_IN_COLORSPACE);
+                    }
+
                     break;
 
                 default:
                     /* JCS_UNKNOWN can be anything */
                     if (cinfo.m_input_components < 1)
+                    {
                         cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_IN_COLORSPACE);
+                    }
+
                     break;
             }
 
@@ -144,7 +159,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 case J_COLOR_SPACE.JCS_GRAYSCALE:
                     if (cinfo.m_num_components != 1)
+                    {
                         cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_J_COLORSPACE);
+                    }
 
                     switch (cinfo.m_in_color_space)
                     {
@@ -168,7 +185,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 case J_COLOR_SPACE.JCS_RGB:
                 case J_COLOR_SPACE.JCS_BG_RGB:
                     if (cinfo.m_num_components != 3)
+                    {
                         cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_J_COLORSPACE);
+                    }
 
                     if (cinfo.m_in_color_space == cinfo.Jpeg_color_space)
                     {
@@ -193,7 +212,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 case J_COLOR_SPACE.JCS_YCbCr:
                     if (cinfo.m_num_components != 3)
+                    {
                         cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_J_COLORSPACE);
+                    }
 
                     switch (cinfo.m_in_color_space)
                     {
@@ -214,7 +235,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 case J_COLOR_SPACE.JCS_BG_YCC:
                     if (cinfo.m_num_components != 3)
+                    {
                         cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_J_COLORSPACE);
+                    }
 
                     switch (cinfo.m_in_color_space)
                     {
@@ -249,17 +272,26 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 case J_COLOR_SPACE.JCS_CMYK:
                     if (cinfo.m_num_components != 4)
+                    {
                         cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_J_COLORSPACE);
+                    }
 
                     if (cinfo.m_in_color_space == J_COLOR_SPACE.JCS_CMYK)
+                    {
                         color_convert = null_convert;
+                    }
                     else
+                    {
                         cinfo.ERREXIT(J_MESSAGE_CODE.JERR_CONVERSION_NOTIMPL);
+                    }
+
                     break;
 
                 case J_COLOR_SPACE.JCS_YCCK:
                     if (cinfo.m_num_components != 4)
+                    {
                         cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_J_COLORSPACE);
+                    }
 
                     switch (cinfo.m_in_color_space)
                     {
@@ -281,7 +313,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 default:
                     /* allow null conversion of JCS_UNKNOWN */
                     if (cinfo.m_jpeg_color_space != cinfo.m_in_color_space || cinfo.m_num_components != cinfo.m_input_components)
+                    {
                         cinfo.ERREXIT(J_MESSAGE_CODE.JERR_CONVERSION_NOTIMPL);
+                    }
 
                     color_convert = null_convert;
                     break;
@@ -291,7 +325,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         public void start_pass()
         {
             if (!m_useNullStart)
+            {
                 rgb_ycc_start();
+            }
         }
 
         /// <summary>
@@ -302,7 +338,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* Allocate and fill in the conversion tables. */
             m_rgb_ycc_tab = new int[TABLE_SIZE];
 
-            for (int i = 0; i <= JpegConstants.MAXJSAMPLE; i++)
+            for (var i = 0; i <= JpegConstants.MAXJSAMPLE; i++)
             {
                 m_rgb_ycc_tab[i + R_Y_OFF] = FIX(0.299) * i;
                 m_rgb_ycc_tab[i + G_Y_OFF] = FIX(0.587) * i;
@@ -352,11 +388,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void rgb_ycc_convert(byte[][] input_buf, int input_row, byte[][][] output_buf, int output_row, int num_rows)
         {
-            int num_cols = m_cinfo.m_image_width;
-            for (int row = 0; row < num_rows; row++)
+            var num_cols = m_cinfo.m_image_width;
+            for (var row = 0; row < num_rows; row++)
             {
-                int columnOffset = 0;
-                for (int col = 0; col < num_cols; col++)
+                var columnOffset = 0;
+                for (var col = 0; col < num_cols; col++)
                 {
                     int r = input_buf[input_row + row][columnOffset + JpegConstants.RGB_RED];
                     int g = input_buf[input_row + row][columnOffset + JpegConstants.RGB_GREEN];
@@ -388,11 +424,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void rgb_gray_convert(byte[][] input_buf, int input_row, byte[][][] output_buf, int output_row, int num_rows)
         {
-            int num_cols = m_cinfo.m_image_width;
-            for (int row = 0; row < num_rows; row++)
+            var num_cols = m_cinfo.m_image_width;
+            for (var row = 0; row < num_rows; row++)
             {
-                int columnOffset = 0;
-                for (int col = 0; col < num_cols; col++)
+                var columnOffset = 0;
+                for (var col = 0; col < num_cols; col++)
                 {
                     int r = input_buf[input_row + row][columnOffset + JpegConstants.RGB_RED];
                     int g = input_buf[input_row + row][columnOffset + JpegConstants.RGB_GREEN];
@@ -416,15 +452,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void cmyk_ycck_convert(byte[][] input_buf, int input_row, byte[][][] output_buf, int output_row, int num_rows)
         {
-            int num_cols = m_cinfo.m_image_width;
-            for (int row = 0; row < num_rows; row++)
+            var num_cols = m_cinfo.m_image_width;
+            for (var row = 0; row < num_rows; row++)
             {
-                int columnOffset = 0;
-                for (int col = 0; col < num_cols; col++)
+                var columnOffset = 0;
+                for (var col = 0; col < num_cols; col++)
                 {
-                    int r = JpegConstants.MAXJSAMPLE - input_buf[input_row + row][columnOffset];
-                    int g = JpegConstants.MAXJSAMPLE - input_buf[input_row + row][columnOffset + 1];
-                    int b = JpegConstants.MAXJSAMPLE - input_buf[input_row + row][columnOffset + 2];
+                    var r = JpegConstants.MAXJSAMPLE - input_buf[input_row + row][columnOffset];
+                    var g = JpegConstants.MAXJSAMPLE - input_buf[input_row + row][columnOffset + 1];
+                    var b = JpegConstants.MAXJSAMPLE - input_buf[input_row + row][columnOffset + 2];
 
                     /* K passes through as-is */
                     /* don't need GETJSAMPLE here */
@@ -458,12 +494,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
          */
         private void rgb_rgb1_convert(byte[][] input_buf, int input_row, byte[][][] output_buf, int output_row, int num_rows)
         {
-            int num_cols = m_cinfo.m_image_width;
+            var num_cols = m_cinfo.m_image_width;
 
-            for (int row = 0; row < num_rows; row++)
+            for (var row = 0; row < num_rows; row++)
             {
-                int columnOffset = 0;
-                for (int col = 0; col < num_cols; col++)
+                var columnOffset = 0;
+                for (var col = 0; col < num_cols; col++)
                 {
                     int r = input_buf[input_row + row][columnOffset];
                     int g = input_buf[input_row + row][columnOffset + 1];
@@ -488,13 +524,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void grayscale_convert(byte[][] input_buf, int input_row, byte[][][] output_buf, int output_row, int num_rows)
         {
-            int num_cols = m_cinfo.m_image_width;
-            int instride = m_cinfo.m_input_components;
+            var num_cols = m_cinfo.m_image_width;
+            var instride = m_cinfo.m_input_components;
 
-            for (int row = 0; row < num_rows; row++)
+            for (var row = 0; row < num_rows; row++)
             {
-                int columnOffset = 0;
-                for (int col = 0; col < num_cols; col++)
+                var columnOffset = 0;
+                for (var col = 0; col < num_cols; col++)
                 {
                     /* don't need GETJSAMPLE() here */
                     output_buf[0][output_row][col] = input_buf[input_row + row][columnOffset];
@@ -512,12 +548,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
          */
         private void rgb_convert(byte[][] input_buf, int input_row, byte[][][] output_buf, int output_row, int num_rows)
         {
-            int num_cols = m_cinfo.m_image_width;
+            var num_cols = m_cinfo.m_image_width;
 
-            for (int row = 0; row < num_rows; row++)
+            for (var row = 0; row < num_rows; row++)
             {
-                int columnOffset = 0;
-                for (int col = 0; col < num_cols; col++)
+                var columnOffset = 0;
+                for (var col = 0; col < num_cols; col++)
                 {
                     /* We can dispense with GETJSAMPLE() here */
                     output_buf[0][output_row][col] = input_buf[input_row + row][columnOffset];
@@ -538,16 +574,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void null_convert(byte[][] input_buf, int input_row, byte[][][] output_buf, int output_row, int num_rows)
         {
-            int nc = m_cinfo.m_num_components;
-            int num_cols = m_cinfo.m_image_width;
+            var nc = m_cinfo.m_num_components;
+            var num_cols = m_cinfo.m_image_width;
 
-            for (int row = 0; row < num_rows; row++)
+            for (var row = 0; row < num_rows; row++)
             {
                 /* It seems fastest to make a separate pass for each component. */
-                for (int ci = 0; ci < nc; ci++)
+                for (var ci = 0; ci < nc; ci++)
                 {
-                    int columnOffset = 0;
-                    for (int col = 0; col < num_cols; col++)
+                    var columnOffset = 0;
+                    for (var col = 0; col < num_cols; col++)
                     {
                         /* don't need GETJSAMPLE() here */
                         output_buf[ci][output_row][col] = input_buf[input_row + row][columnOffset + ci];

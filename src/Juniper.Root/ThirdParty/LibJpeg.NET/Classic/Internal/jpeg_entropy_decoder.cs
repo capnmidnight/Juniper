@@ -3,7 +3,7 @@
     /// <summary>
     /// Entropy decoding
     /// </summary>
-    abstract class jpeg_entropy_decoder
+    internal abstract class jpeg_entropy_decoder
     {
         public delegate bool decode_mcu_delegate(JBLOCK[] MCU_data);
         public delegate void finish_pass_delegate();

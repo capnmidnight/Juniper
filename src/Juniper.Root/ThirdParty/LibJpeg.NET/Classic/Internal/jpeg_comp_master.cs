@@ -5,7 +5,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// <summary>
     /// Master control module
     /// </summary>
-    class jpeg_comp_master
+    internal class jpeg_comp_master
     {
         private enum c_pass_type
         {
@@ -14,7 +14,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             output_pass     /* data output pass */
         }
 
-        private jpeg_compress_struct m_cinfo;
+        private readonly jpeg_compress_struct m_cinfo;
 
         private bool m_call_pass_startup; /* True if pass_startup must be called */
         private bool m_is_last_pass;      /* True during last pass */
@@ -22,7 +22,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private c_pass_type m_pass_type;  /* the type of the current pass */
 
         private int m_pass_number;        /* # of passes completed */
-        private int m_total_passes;       /* total # of passes needed */
+        private readonly int m_total_passes;       /* total # of passes needed */
 
         private int m_scan_number;        /* current index in scan_info[] */
 
@@ -34,9 +34,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* no main pass in transcoding */
                 if (cinfo.m_optimize_coding)
+                {
                     m_pass_type = c_pass_type.huff_opt_pass;
+                }
                 else
+                {
                     m_pass_type = c_pass_type.output_pass;
+                }
             }
             else
             {
@@ -45,9 +49,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             if (cinfo.m_optimize_coding)
+            {
                 m_total_passes = cinfo.m_num_scans * 2;
+            }
             else
+            {
                 m_total_passes = cinfo.m_num_scans;
+            }
         }
 
         /// <summary>
@@ -68,7 +76,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     break;
                 case c_pass_type.huff_opt_pass:
                     if (!prepare_for_huff_opt_pass())
+                    {
                         break;
+                    }
+
                     prepare_for_output_pass();
                     break;
                 case c_pass_type.output_pass:
@@ -126,7 +137,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     */
                     m_pass_type = c_pass_type.output_pass;
                     if (!m_cinfo.m_optimize_coding)
+                    {
                         m_scan_number++;
+                    }
+
                     break;
                 case c_pass_type.huff_opt_pass:
                     /* next pass is always output of current scan */
@@ -135,7 +149,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 case c_pass_type.output_pass:
                     /* next pass is either optimization or output of next scan */
                     if (m_cinfo.m_optimize_coding)
+                    {
                         m_pass_type = c_pass_type.huff_opt_pass;
+                    }
+
                     m_scan_number++;
                     break;
             }
@@ -221,7 +238,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             /* We emit frame/scan headers now */
             if (m_scan_number == 0)
+            {
                 m_cinfo.m_marker.write_frame_header();
+            }
 
             m_cinfo.m_marker.write_scan_header();
             m_call_pass_startup = false;
@@ -233,11 +252,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             if (m_cinfo.m_scan_info != null)
             {
                 /* Prepare for current scan --- the script is already validated */
-                jpeg_scan_info scanInfo = m_cinfo.m_scan_info[m_scan_number];
+                var scanInfo = m_cinfo.m_scan_info[m_scan_number];
 
                 m_cinfo.m_comps_in_scan = scanInfo.comps_in_scan;
-                for (int ci = 0; ci < scanInfo.comps_in_scan; ci++)
+                for (var ci = 0; ci < scanInfo.comps_in_scan; ci++)
+                {
                     m_cinfo.m_cur_comp_info[ci] = scanInfo.component_index[ci];
+                }
 
                 if (m_cinfo.m_progressive_mode)
                 {
@@ -252,11 +273,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Prepare for single sequential-JPEG scan containing all components */
                 if (m_cinfo.m_num_components > JpegConstants.MAX_COMPS_IN_SCAN)
+                {
                     m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_COMPONENT_COUNT, m_cinfo.m_num_components, JpegConstants.MAX_COMPS_IN_SCAN);
+                }
 
                 m_cinfo.m_comps_in_scan = m_cinfo.m_num_components;
-                for (int ci = 0; ci < m_cinfo.m_num_components; ci++)
+                for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
+                {
                     m_cinfo.m_cur_comp_info[ci] = ci;
+                }
             }
 
             m_cinfo.m_Ss = 0;
@@ -274,8 +299,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             if (m_cinfo.m_comps_in_scan == 1)
             {
                 /* Noninterleaved (single-component) scan */
-                int compIndex = m_cinfo.m_cur_comp_info[0];
-                jpeg_component_info compptr = m_cinfo.Component_info[compIndex];
+                var compIndex = m_cinfo.m_cur_comp_info[0];
+                var compptr = m_cinfo.Component_info[compIndex];
 
                 /* Overall image size in MCUs */
                 m_cinfo.m_MCUs_per_row = compptr.Width_in_blocks;
@@ -287,13 +312,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 compptr.MCU_blocks = 1;
                 compptr.MCU_sample_width = compptr.DCT_h_scaled_size;
                 compptr.last_col_width = 1;
-                
+
                 /* For noninterleaved scans, it is convenient to define last_row_height
                 * as the number of block rows present in the last iMCU row.
                 */
-                int tmp = compptr.height_in_blocks % compptr.V_samp_factor;
+                var tmp = compptr.height_in_blocks % compptr.V_samp_factor;
                 if (tmp == 0)
+                {
                     tmp = compptr.V_samp_factor;
+                }
+
                 compptr.last_row_height = tmp;
 
                 /* Prepare array describing MCU composition */
@@ -304,7 +332,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* Interleaved (multi-component) scan */
                 if (m_cinfo.m_comps_in_scan <= 0 || m_cinfo.m_comps_in_scan > JpegConstants.MAX_COMPS_IN_SCAN)
+                {
                     m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_COMPONENT_COUNT, m_cinfo.m_comps_in_scan, JpegConstants.MAX_COMPS_IN_SCAN);
+                }
 
                 /* Overall image size in MCUs */
                 m_cinfo.m_MCUs_per_row = (int)JpegUtils.jdiv_round_up(
@@ -315,35 +345,45 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 m_cinfo.m_blocks_in_MCU = 0;
 
-                for (int ci = 0; ci < m_cinfo.m_comps_in_scan; ci++)
+                for (var ci = 0; ci < m_cinfo.m_comps_in_scan; ci++)
                 {
-                    int compIndex = m_cinfo.m_cur_comp_info[ci];
-                    jpeg_component_info compptr = m_cinfo.Component_info[compIndex];
+                    var compIndex = m_cinfo.m_cur_comp_info[ci];
+                    var compptr = m_cinfo.Component_info[compIndex];
 
                     /* Sampling factors give # of blocks of component in each MCU */
                     compptr.MCU_width = compptr.H_samp_factor;
                     compptr.MCU_height = compptr.V_samp_factor;
                     compptr.MCU_blocks = compptr.MCU_width * compptr.MCU_height;
                     compptr.MCU_sample_width = compptr.MCU_width * compptr.DCT_h_scaled_size;
-                    
+
                     /* Figure number of non-dummy blocks in last MCU column & row */
-                    int tmp = compptr.Width_in_blocks % compptr.MCU_width;
+                    var tmp = compptr.Width_in_blocks % compptr.MCU_width;
                     if (tmp == 0)
+                    {
                         tmp = compptr.MCU_width;
+                    }
+
                     compptr.last_col_width = tmp;
 
                     tmp = compptr.height_in_blocks % compptr.MCU_height;
                     if (tmp == 0)
+                    {
                         tmp = compptr.MCU_height;
+                    }
+
                     compptr.last_row_height = tmp;
-                    
+
                     /* Prepare array describing MCU composition */
-                    int mcublks = compptr.MCU_blocks;
+                    var mcublks = compptr.MCU_blocks;
                     if (m_cinfo.m_blocks_in_MCU + mcublks > JpegConstants.C_MAX_BLOCKS_IN_MCU)
+                    {
                         m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_MCU_SIZE);
-                    
+                    }
+
                     while (mcublks-- > 0)
+                    {
                         m_cinfo.m_MCU_membership[m_cinfo.m_blocks_in_MCU++] = ci;
+                    }
                 }
             }
 
@@ -351,7 +391,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* Note that count must fit in 16 bits, so we provide limiting. */
             if (m_cinfo.m_restart_in_rows > 0)
             {
-                int nominal = m_cinfo.m_restart_in_rows * m_cinfo.m_MCUs_per_row;
+                var nominal = m_cinfo.m_restart_in_rows * m_cinfo.m_MCUs_per_row;
                 m_cinfo.m_restart_interval = Math.Min(nominal, 65535);
             }
         }

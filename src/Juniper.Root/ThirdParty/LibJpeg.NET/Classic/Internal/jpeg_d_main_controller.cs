@@ -100,7 +100,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// be worth providing --- if someone wants a 1/8th-size preview, they probably
     /// want it quick and dirty, so a context-free upsampler is sufficient.
     /// </summary>
-    class jpeg_d_main_controller
+    internal class jpeg_d_main_controller
     {
         private enum DataProcessor
         {
@@ -115,18 +115,18 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private const int CTX_POSTPONED_ROW = 2;   /* feeding postponed row group */
 
         private DataProcessor m_dataProcessor;
-        private jpeg_decompress_struct m_cinfo;
+        private readonly jpeg_decompress_struct m_cinfo;
 
         /* Pointer to allocated workspace (M or M+2 row groups). */
-        private byte[][][] m_buffer = new byte[JpegConstants.MAX_COMPONENTS][][];
+        private readonly byte[][][] m_buffer = new byte[JpegConstants.MAX_COMPONENTS][][];
 
         private bool m_buffer_full;       /* Have we gotten an iMCU row from decoder? */
         private int m_rowgroup_ctr;    /* counts row groups output to postprocessor */
 
         /* Remaining fields are only used in the context case. */
 
-        private int[][][] m_funnyIndices = new int[2][][] { new int[JpegConstants.MAX_COMPONENTS][], new int[JpegConstants.MAX_COMPONENTS][]};
-        private int[] m_funnyOffsets = new int[JpegConstants.MAX_COMPONENTS];
+        private readonly int[][][] m_funnyIndices = new int[2][][] { new int[JpegConstants.MAX_COMPONENTS][], new int[JpegConstants.MAX_COMPONENTS][] };
+        private readonly int[] m_funnyOffsets = new int[JpegConstants.MAX_COMPONENTS];
         private int m_whichFunny;           /* indicates which funny indices set is now in use */
 
         private int m_context_state;      /* process_data state machine status */
@@ -140,20 +140,22 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* Allocate the workspace.
             * ngroups is the number of row groups we need.
             */
-            int ngroups = cinfo.min_DCT_v_scaled_size;
+            var ngroups = cinfo.min_DCT_v_scaled_size;
             if (cinfo.m_upsample.NeedContextRows())
             {
                 if (cinfo.min_DCT_v_scaled_size < 2) /* unsupported, see comments above */
+                {
                     cinfo.ERREXIT(J_MESSAGE_CODE.JERR_NOTIMPL);
+                }
 
                 alloc_funny_pointers(); /* Alloc space for xbuffer[] lists */
                 ngroups = cinfo.min_DCT_v_scaled_size + 2;
             }
 
-            for (int ci = 0; ci < cinfo.m_num_components; ci++)
+            for (var ci = 0; ci < cinfo.m_num_components; ci++)
             {
                 /* height of a row group of component */
-                int rgroup = (cinfo.Comp_info[ci].V_samp_factor * cinfo.Comp_info[ci].DCT_v_scaled_size) / cinfo.min_DCT_v_scaled_size;
+                var rgroup = (cinfo.Comp_info[ci].V_samp_factor * cinfo.Comp_info[ci].DCT_v_scaled_size) / cinfo.min_DCT_v_scaled_size;
 
                 m_buffer[ci] = jpeg_common_struct.AllocJpegSamples(
                     cinfo.Comp_info[ci].Width_in_blocks * cinfo.Comp_info[ci].DCT_h_scaled_size,
@@ -223,8 +225,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void process_data_simple_main(byte[][] output_buf, ref int out_row_ctr, int out_rows_avail)
         {
-            ComponentBuffer[] cb = new ComponentBuffer[JpegConstants.MAX_COMPONENTS];
-            for (int i = 0; i < JpegConstants.MAX_COMPONENTS; i++)
+            var cb = new ComponentBuffer[JpegConstants.MAX_COMPONENTS];
+            for (var i = 0; i < JpegConstants.MAX_COMPONENTS; i++)
             {
                 cb[i] = new ComponentBuffer();
                 cb[i].SetBuffer(m_buffer[i], null, 0);
@@ -244,7 +246,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* There are always min_DCT_scaled_size row groups in an iMCU row. */
-            int rowgroups_avail = m_cinfo.min_DCT_v_scaled_size;
+            var rowgroups_avail = m_cinfo.min_DCT_v_scaled_size;
 
             /* Note: at the bottom of the image, we may pass extra garbage row groups
              * to the postprocessor.  The postprocessor has to check for bottom
@@ -268,8 +270,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void process_data_context_main(byte[][] output_buf, ref int out_row_ctr, int out_rows_avail)
         {
-            ComponentBuffer[] cb = new ComponentBuffer[m_cinfo.m_num_components];
-            for (int i = 0; i < m_cinfo.m_num_components; i++)
+            var cb = new ComponentBuffer[m_cinfo.m_num_components];
+            for (var i = 0; i < m_cinfo.m_num_components; i++)
             {
                 cb[i] = new ComponentBuffer();
                 cb[i].SetBuffer(m_buffer[i], m_funnyIndices[m_whichFunny][i], m_funnyOffsets[i]);
@@ -330,7 +332,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                  * the last sample row, and adjust rowgroups_avail to ignore padding rows.
                  */
                 if (m_iMCU_row_ctr == m_cinfo.m_total_iMCU_rows)
+                {
                     set_bottom_pointers();
+                }
 
                 m_context_state = CTX_PROCESS_IMCU;
             }
@@ -349,7 +353,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 /* After the first iMCU, change wraparound pointers to normal state */
                 if (m_iMCU_row_ctr == 1)
+                {
                     set_wraparound_pointers();
+                }
 
                 /* Prepare to load new iMCU row using other xbuffer list */
                 m_whichFunny ^= 1;    /* 0=>1 or 1=>0 */
@@ -370,7 +376,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void process_data_crank_post(byte[][] output_buf, ref int out_row_ctr, int out_rows_avail)
         {
-            int dummy = 0;
+            var dummy = 0;
             m_cinfo.m_post.post_process_data(null, ref dummy, 0, output_buf, ref out_row_ctr, out_rows_avail);
         }
 
@@ -380,11 +386,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void alloc_funny_pointers()
         {
-            int M = m_cinfo.min_DCT_v_scaled_size;
-            for (int ci = 0; ci < m_cinfo.m_num_components; ci++)
+            var M = m_cinfo.min_DCT_v_scaled_size;
+            for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
             {
                 /* height of a row group of component */
-                int rgroup = (m_cinfo.Comp_info[ci].V_samp_factor * m_cinfo.Comp_info[ci].DCT_v_scaled_size) / m_cinfo.min_DCT_v_scaled_size;
+                var rgroup = (m_cinfo.Comp_info[ci].V_samp_factor * m_cinfo.Comp_info[ci].DCT_v_scaled_size) / m_cinfo.min_DCT_v_scaled_size;
 
                 /* Get space for pointer lists --- M+4 row groups in each list.
                  */
@@ -403,24 +409,24 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void make_funny_pointers()
         {
-            int M = m_cinfo.min_DCT_v_scaled_size;
-            for (int ci = 0; ci < m_cinfo.m_num_components; ci++)
+            var M = m_cinfo.min_DCT_v_scaled_size;
+            for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
             {
                 /* height of a row group of component */
-                int rgroup = (m_cinfo.Comp_info[ci].V_samp_factor * m_cinfo.Comp_info[ci].DCT_v_scaled_size) / m_cinfo.min_DCT_v_scaled_size;
+                var rgroup = (m_cinfo.Comp_info[ci].V_samp_factor * m_cinfo.Comp_info[ci].DCT_v_scaled_size) / m_cinfo.min_DCT_v_scaled_size;
 
-                int[] ind0 = m_funnyIndices[0][ci];
-                int[] ind1 = m_funnyIndices[1][ci];
+                var ind0 = m_funnyIndices[0][ci];
+                var ind1 = m_funnyIndices[1][ci];
 
                 /* First copy the workspace pointers as-is */
-                for (int i = 0; i < rgroup * (M + 2); i++)
+                for (var i = 0; i < rgroup * (M + 2); i++)
                 {
                     ind0[i + rgroup] = i;
                     ind1[i + rgroup] = i;
                 }
 
                 /* In the second list, put the last four row groups in swapped order */
-                for (int i = 0; i < rgroup * 2; i++)
+                for (var i = 0; i < rgroup * 2; i++)
                 {
                     ind1[rgroup * (M - 1) + i] = rgroup * M + i;
                     ind1[rgroup * (M + 1) + i] = rgroup * (M - 2) + i;
@@ -431,8 +437,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                  * pointers to duplicate the first actual data line.  This only needs
                  * to happen in xbuffer[0].
                  */
-                for (int i = 0; i < rgroup; i++)
+                for (var i = 0; i < rgroup; i++)
+                {
                     ind0[i] = ind0[rgroup];
+                }
             }
         }
 
@@ -442,16 +450,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void set_wraparound_pointers()
         {
-            int M = m_cinfo.min_DCT_v_scaled_size;
-            for (int ci = 0; ci < m_cinfo.m_num_components; ci++)
+            var M = m_cinfo.min_DCT_v_scaled_size;
+            for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
             {
                 /* height of a row group of component */
-                int rgroup = (m_cinfo.Comp_info[ci].V_samp_factor * m_cinfo.Comp_info[ci].DCT_v_scaled_size) / m_cinfo.min_DCT_v_scaled_size;
+                var rgroup = (m_cinfo.Comp_info[ci].V_samp_factor * m_cinfo.Comp_info[ci].DCT_v_scaled_size) / m_cinfo.min_DCT_v_scaled_size;
 
-                int[] ind0 = m_funnyIndices[0][ci];
-                int[] ind1 = m_funnyIndices[1][ci];
+                var ind0 = m_funnyIndices[0][ci];
+                var ind1 = m_funnyIndices[1][ci];
 
-                for (int i = 0; i < rgroup; i++)
+                for (var i = 0; i < rgroup; i++)
                 {
                     ind0[i] = ind0[rgroup * (M + 2) + i];
                     ind1[i] = ind1[rgroup * (M + 2) + i];
@@ -469,28 +477,34 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void set_bottom_pointers()
         {
-            for (int ci = 0; ci < m_cinfo.m_num_components; ci++)
+            for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
             {
                 /* Count sample rows in one iMCU row and in one row group */
-                int iMCUheight = m_cinfo.Comp_info[ci].V_samp_factor * m_cinfo.Comp_info[ci].DCT_v_scaled_size;
-                int rgroup = iMCUheight / m_cinfo.min_DCT_v_scaled_size;
+                var iMCUheight = m_cinfo.Comp_info[ci].V_samp_factor * m_cinfo.Comp_info[ci].DCT_v_scaled_size;
+                var rgroup = iMCUheight / m_cinfo.min_DCT_v_scaled_size;
 
                 /* Count nondummy sample rows remaining for this component */
-                int rows_left = m_cinfo.Comp_info[ci].downsampled_height % iMCUheight;
+                var rows_left = m_cinfo.Comp_info[ci].downsampled_height % iMCUheight;
                 if (rows_left == 0)
+                {
                     rows_left = iMCUheight;
+                }
 
                 /* Count nondummy row groups.  Should get same answer for each component,
                  * so we need only do it once.
                  */
                 if (ci == 0)
+                {
                     m_rowgroups_avail = (rows_left - 1) / rgroup + 1;
+                }
 
                 /* Duplicate the last real sample row rgroup*2 times; this pads out the
                  * last partial rowgroup and ensures at least one full rowgroup of context.
                  */
-                for (int i = 0; i < rgroup * 2; i++)
+                for (var i = 0; i < rgroup * 2; i++)
+                {
                     m_funnyIndices[m_whichFunny][ci][rows_left + i + rgroup] = m_funnyIndices[m_whichFunny][ci][rows_left - 1 + rgroup];
+                }
             }
         }
     }

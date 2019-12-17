@@ -9,9 +9,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// <summary>
     /// Main buffer control (downsampled-data buffer)
     /// </summary>
-    class jpeg_c_main_controller
+    internal class jpeg_c_main_controller
     {
-        private jpeg_compress_struct m_cinfo;
+        private readonly jpeg_compress_struct m_cinfo;
 
         private int m_cur_iMCU_row;    /* number of current iMCU row */
         private int m_rowgroup_ctr;    /* counts row groups received in iMCU row */
@@ -21,16 +21,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         * (we allocate one for each component).  In the full-image case, this
         * points to the currently accessible strips of the virtual arrays.
         */
-        private byte[][][] m_buffer = new byte[JpegConstants.MAX_COMPONENTS][][];
+        private readonly byte[][][] m_buffer = new byte[JpegConstants.MAX_COMPONENTS][][];
 
         public jpeg_c_main_controller(jpeg_compress_struct cinfo)
         {
             m_cinfo = cinfo;
 
             /* Allocate a strip buffer for each component */
-            for (int ci = 0; ci < cinfo.m_num_components; ci++)
+            for (var ci = 0; ci < cinfo.m_num_components; ci++)
             {
-                jpeg_component_info compptr = cinfo.Component_info[ci];
+                var compptr = cinfo.Component_info[ci];
                 m_buffer[ci] = jpeg_common_struct.AllocJpegSamples(
                     compptr.Width_in_blocks * compptr.DCT_h_scaled_size,
                     compptr.V_samp_factor * compptr.DCT_v_scaled_size);
@@ -42,14 +42,18 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         {
             /* Do nothing in raw-data mode. */
             if (m_cinfo.m_raw_data_in)
+            {
                 return;
+            }
 
             m_cur_iMCU_row = 0; /* initialize counters */
             m_rowgroup_ctr = 0;
             m_suspended = false;
 
             if (pass_mode != J_BUF_MODE.JBUF_PASS_THRU)
+            {
                 m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_BUFFER_MODE);
+            }
         }
 
         /// <summary>
@@ -73,7 +77,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                  * at the bottom of the image.
                  */
                 if (m_rowgroup_ctr != m_cinfo.min_DCT_v_scaled_size)
+                {
                     return;
+                }
 
                 /* Send the completed row to the compressor */
                 if (!m_cinfo.m_coef.compress_data(m_buffer))

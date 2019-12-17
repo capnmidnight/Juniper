@@ -47,7 +47,7 @@ namespace Juniper.Imaging
             for (var y = 0; y < image.info.dimensions.height; ++y)
             {
                 copyProg.Report(y, image.info.dimensions.height);
-                for (int x = 0; x < image.info.dimensions.width; ++x)
+                for (var x = 0; x < image.info.dimensions.width; ++x)
                 {
                     var imageDataIndex = (y * image.info.stride) + (x * image.info.components);
                     var rowIndex = x * components;

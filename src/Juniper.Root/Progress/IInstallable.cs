@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+
 using Juniper.Progress;
 
 namespace Juniper
@@ -61,9 +62,9 @@ namespace Juniper
                         keepFinding = true;
                         try
                         {
-                            for(var j = errored.Count - 1; j >= 0; --j)
+                            for (var j = errored.Count - 1; j >= 0; --j)
                             {
-                                if(errored[j].Key == installable)
+                                if (errored[j].Key == installable)
                                 {
                                     errored.RemoveAt(j);
                                 }

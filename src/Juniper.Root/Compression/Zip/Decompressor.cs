@@ -124,7 +124,7 @@ namespace Juniper.Compression.Zip
             var zip = Open(file);
             var entry = zip.GetEntry(entryPath);
             Stream stream = new ZipArchiveEntryStream(zip, entry);
-            if(prog != null)
+            if (prog != null)
             {
                 stream = new ProgressStream(stream, entry.Length, prog);
             }
@@ -156,7 +156,7 @@ namespace Juniper.Compression.Zip
         /// <returns>A lazy collection of <typeparamref name="ZipArchiveEntry"/> objects.</returns>
         public static IEnumerable<CompressedFileInfo> Entries(this ZipArchive zip, IProgress prog)
         {
-            int i = 0;
+            var i = 0;
             foreach (var entry in zip.Entries)
             {
                 prog.Report(i++, zip.Entries.Count);
@@ -215,8 +215,8 @@ namespace Juniper.Compression.Zip
 
         public static void Decompress(this ZipArchive zip, DirectoryInfo outputDirectory, string entryPrefix, bool overwrite, IProgress prog)
         {
-            int i = 0;
-            foreach(var entry in zip.Entries)
+            var i = 0;
+            foreach (var entry in zip.Entries)
             {
                 prog.Report(i++, zip.Entries.Count);
                 try

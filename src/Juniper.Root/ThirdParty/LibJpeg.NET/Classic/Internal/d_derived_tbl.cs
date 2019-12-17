@@ -3,7 +3,7 @@
     /// <summary>
     /// Derived data constructed for each Huffman table
     /// </summary>
-    class d_derived_tbl
+    internal class d_derived_tbl
     {
         /* Basic tables: (element [0] of each array is unused) */
         public int[] maxcode = new int[18];      /* largest code of length k (-1 if none) */

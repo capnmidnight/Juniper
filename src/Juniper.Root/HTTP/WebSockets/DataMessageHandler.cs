@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Juniper.IO;
 using Juniper.Progress;
 
@@ -56,14 +57,14 @@ namespace Juniper.HTTP.WebSockets
 
         private void Socket_DataMessage(object sender, DataMessage e)
         {
-            if(e.Message == message)
+            if (e.Message == message)
             {
                 try
                 {
                     var value = factory.Deserialize(e.Data);
                     OnDataMessage(value);
                 }
-                catch(Exception exp)
+                catch (Exception exp)
                 {
                     OnError(exp);
                 }

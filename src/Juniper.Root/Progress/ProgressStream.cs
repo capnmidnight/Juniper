@@ -1,4 +1,5 @@
 using System.IO;
+
 using Juniper.IO;
 
 namespace Juniper.Progress

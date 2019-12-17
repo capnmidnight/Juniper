@@ -28,14 +28,14 @@
 
 namespace BitMiracle.LibJpeg.Classic.Internal
 {
-    class my_merged_upsampler : jpeg_upsampler
+    internal class my_merged_upsampler : jpeg_upsampler
     {
         private const int SCALEBITS = 16;  /* speediest right-shift on some machines */
         private const int ONE_HALF = 1 << (SCALEBITS - 1);
 
-        private jpeg_decompress_struct m_cinfo;
-        
-        private bool m_use_2v_upsample;
+        private readonly jpeg_decompress_struct m_cinfo;
+
+        private readonly bool m_use_2v_upsample;
 
         /* Private state for YCC->RGB conversion */
         private int[] m_Cr_r_tab;      /* => table for Cr to R conversion */
@@ -48,10 +48,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         * application provides just a one-row buffer; we also use the spare
         * to discard the dummy last row if the image height is odd.
         */
-        private byte[] m_spare_row;
+        private readonly byte[] m_spare_row;
         private bool m_spare_full;        /* T if spare buffer is occupied */
 
-        private int m_out_row_width;   /* samples per output row */
+        private readonly int m_out_row_width;   /* samples per output row */
         private int m_rows_to_go;  /* counts rows remaining in image */
 
         public my_merged_upsampler(jpeg_decompress_struct cinfo)
@@ -73,9 +73,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             if (cinfo.m_jpeg_color_space == J_COLOR_SPACE.JCS_BG_YCC)
+            {
                 build_bg_ycc_rgb_table();
+            }
             else
+            {
                 build_ycc_rgb_table();
+            }
         }
 
         /// <summary>
@@ -93,9 +97,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         public override void upsample(ComponentBuffer[] input_buf, ref int in_row_group_ctr, int in_row_groups_avail, byte[][] output_buf, ref int out_row_ctr, int out_rows_avail)
         {
             if (m_use_2v_upsample)
+            {
                 merged_2v_upsample(input_buf, ref in_row_group_ctr, output_buf, ref out_row_ctr, out_rows_avail);
+            }
             else
+            {
                 merged_1v_upsample(input_buf, ref in_row_group_ctr, output_buf, ref out_row_ctr);
+            }
         }
 
         /// <summary>
@@ -112,7 +120,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             out_row_ctr++;
             in_row_group_ctr++;
         }
-        
+
         /// <summary>
         /// Control routine to do upsampling (and color conversion).
         /// The control routine just handles the row buffering considerations.
@@ -124,7 +132,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             if (m_spare_full)
             {
                 /* If we have a spare row saved from a previous cycle, just return it. */
-                byte[][] temp = new byte[1][];
+                var temp = new byte[1][];
                 temp[0] = m_spare_row;
                 JpegUtils.jcopy_sample_rows(temp, 0, output_buf, out_row_ctr, 1, m_out_row_width);
                 num_rows = 1;
@@ -137,15 +145,19 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 /* Not more than the distance to the end of the image. */
                 if (num_rows > m_rows_to_go)
+                {
                     num_rows = m_rows_to_go;
-                
+                }
+
                 /* And not more than what the client can accept: */
                 out_rows_avail -= out_row_ctr;
                 if (num_rows > out_rows_avail)
+                {
                     num_rows = out_rows_avail;
-                
+                }
+
                 /* Create output pointer array for upsampler. */
-                byte[][] work_ptrs = new byte[2][];
+                var work_ptrs = new byte[2][];
                 work_ptrs[0] = output_buf[out_row_ctr];
                 if (num_rows > 1)
                 {
@@ -167,7 +179,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             /* When the buffer is emptied, declare this input row group consumed */
             if (!m_spare_full)
+            {
                 in_row_group_ctr++;
+            }
         }
 
         /*
@@ -184,16 +198,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void h2v1_merged_upsample(ComponentBuffer[] input_buf, int in_row_group_ctr, byte[][] output_buf, int outRow)
         {
-            int inputIndex0 = 0;
-            int inputIndex1 = 0;
-            int inputIndex2 = 0;
-            int outputIndex = 0;
+            var inputIndex0 = 0;
+            var inputIndex1 = 0;
+            var inputIndex2 = 0;
+            var outputIndex = 0;
 
-            byte[] limit = m_cinfo.m_sample_range_limit;
-            int limitOffset = m_cinfo.m_sampleRangeLimitOffset;
+            var limit = m_cinfo.m_sample_range_limit;
+            var limitOffset = m_cinfo.m_sampleRangeLimitOffset;
 
             /* Loop for each pair of output pixels */
-            for (int col = m_cinfo.m_output_width >> 1; col > 0; col--)
+            for (var col = m_cinfo.m_output_width >> 1; col > 0; col--)
             {
                 /* Do the chroma part of the calculation */
                 int cb = input_buf[1][in_row_group_ctr][inputIndex1];
@@ -202,9 +216,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 int cr = input_buf[2][in_row_group_ctr][inputIndex2];
                 inputIndex2++;
 
-                int cred = m_Cr_r_tab[cr];
-                int cgreen = JpegUtils.RIGHT_SHIFT(m_Cb_g_tab[cb] + m_Cr_g_tab[cr], SCALEBITS);
-                int cblue = m_Cb_b_tab[cb];
+                var cred = m_Cr_r_tab[cr];
+                var cgreen = JpegUtils.RIGHT_SHIFT(m_Cb_g_tab[cb] + m_Cr_g_tab[cr], SCALEBITS);
+                var cblue = m_Cb_b_tab[cb];
 
                 /* Fetch 2 Y values and emit 2 pixels */
                 int y = input_buf[0][in_row_group_ctr][inputIndex0];
@@ -214,7 +228,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 output_buf[outRow][outputIndex + JpegConstants.RGB_GREEN] = limit[limitOffset + y + cgreen];
                 output_buf[outRow][outputIndex + JpegConstants.RGB_BLUE] = limit[limitOffset + y + cblue];
                 outputIndex += JpegConstants.RGB_PIXELSIZE;
-                
+
                 y = input_buf[0][in_row_group_ctr][inputIndex0];
                 inputIndex0++;
 
@@ -229,10 +243,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 int cb = input_buf[1][in_row_group_ctr][inputIndex1];
                 int cr = input_buf[2][in_row_group_ctr][inputIndex2];
-                int cred = m_Cr_r_tab[cr];
-                int cgreen = JpegUtils.RIGHT_SHIFT(m_Cb_g_tab[cb] + m_Cr_g_tab[cr], SCALEBITS);
-                int cblue = m_Cb_b_tab[cb];
-                
+                var cred = m_Cr_r_tab[cr];
+                var cgreen = JpegUtils.RIGHT_SHIFT(m_Cb_g_tab[cb] + m_Cr_g_tab[cr], SCALEBITS);
+                var cblue = m_Cb_b_tab[cb];
+
                 int y = input_buf[0][in_row_group_ctr][inputIndex0];
                 output_buf[outRow][outputIndex + JpegConstants.RGB_RED] = limit[limitOffset + y + cred];
                 output_buf[outRow][outputIndex + JpegConstants.RGB_GREEN] = limit[limitOffset + y + cgreen];
@@ -245,23 +259,23 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void h2v2_merged_upsample(ComponentBuffer[] input_buf, int in_row_group_ctr, byte[][] output_buf)
         {
-            int inputRow00 = in_row_group_ctr * 2;
-            int inputIndex00 = 0;
+            var inputRow00 = in_row_group_ctr * 2;
+            var inputIndex00 = 0;
 
-            int inputRow01 = in_row_group_ctr * 2 + 1;
-            int inputIndex01 = 0;
+            var inputRow01 = in_row_group_ctr * 2 + 1;
+            var inputIndex01 = 0;
 
-            int inputIndex1 = 0;
-            int inputIndex2 = 0;
+            var inputIndex1 = 0;
+            var inputIndex2 = 0;
 
-            int outIndex0 = 0;
-            int outIndex1 = 0;
+            var outIndex0 = 0;
+            var outIndex1 = 0;
 
-            byte[] limit = m_cinfo.m_sample_range_limit;
-            int limitOffset = m_cinfo.m_sampleRangeLimitOffset;
+            var limit = m_cinfo.m_sample_range_limit;
+            var limitOffset = m_cinfo.m_sampleRangeLimitOffset;
 
             /* Loop for each group of output pixels */
-            for (int col = m_cinfo.m_output_width >> 1; col > 0; col--)
+            for (var col = m_cinfo.m_output_width >> 1; col > 0; col--)
             {
                 /* Do the chroma part of the calculation */
                 int cb = input_buf[1][in_row_group_ctr][inputIndex1];
@@ -270,9 +284,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 int cr = input_buf[2][in_row_group_ctr][inputIndex2];
                 inputIndex2++;
 
-                int cred = m_Cr_r_tab[cr];
-                int cgreen = JpegUtils.RIGHT_SHIFT(m_Cb_g_tab[cb] + m_Cr_g_tab[cr], SCALEBITS);
-                int cblue = m_Cb_b_tab[cb];
+                var cred = m_Cr_r_tab[cr];
+                var cgreen = JpegUtils.RIGHT_SHIFT(m_Cb_g_tab[cb] + m_Cr_g_tab[cr], SCALEBITS);
+                var cblue = m_Cb_b_tab[cb];
 
                 /* Fetch 4 Y values and emit 4 pixels */
                 int y = input_buf[0][inputRow00][inputIndex00];
@@ -282,7 +296,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 output_buf[0][outIndex0 + JpegConstants.RGB_GREEN] = limit[limitOffset + y + cgreen];
                 output_buf[0][outIndex0 + JpegConstants.RGB_BLUE] = limit[limitOffset + y + cblue];
                 outIndex0 += JpegConstants.RGB_PIXELSIZE;
-                
+
                 y = input_buf[0][inputRow00][inputIndex00];
                 inputIndex00++;
 
@@ -290,7 +304,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 output_buf[0][outIndex0 + JpegConstants.RGB_GREEN] = limit[limitOffset + y + cgreen];
                 output_buf[0][outIndex0 + JpegConstants.RGB_BLUE] = limit[limitOffset + y + cblue];
                 outIndex0 += JpegConstants.RGB_PIXELSIZE;
-                
+
                 y = input_buf[0][inputRow01][inputIndex01];
                 inputIndex01++;
 
@@ -298,7 +312,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 output_buf[1][outIndex1 + JpegConstants.RGB_GREEN] = limit[limitOffset + y + cgreen];
                 output_buf[1][outIndex1 + JpegConstants.RGB_BLUE] = limit[limitOffset + y + cblue];
                 outIndex1 += JpegConstants.RGB_PIXELSIZE;
-                
+
                 y = input_buf[0][inputRow01][inputIndex01];
                 inputIndex01++;
 
@@ -313,15 +327,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 int cb = input_buf[1][in_row_group_ctr][inputIndex1];
                 int cr = input_buf[2][in_row_group_ctr][inputIndex2];
-                int cred = m_Cr_r_tab[cr];
-                int cgreen = JpegUtils.RIGHT_SHIFT(m_Cb_g_tab[cb] + m_Cr_g_tab[cr], SCALEBITS);
-                int cblue = m_Cb_b_tab[cb];
+                var cred = m_Cr_r_tab[cr];
+                var cgreen = JpegUtils.RIGHT_SHIFT(m_Cb_g_tab[cb] + m_Cr_g_tab[cr], SCALEBITS);
+                var cblue = m_Cb_b_tab[cb];
 
                 int y = input_buf[0][inputRow00][inputIndex00];
                 output_buf[0][outIndex0 + JpegConstants.RGB_RED] = limit[limitOffset + y + cred];
                 output_buf[0][outIndex0 + JpegConstants.RGB_GREEN] = limit[limitOffset + y + cgreen];
                 output_buf[0][outIndex0 + JpegConstants.RGB_BLUE] = limit[limitOffset + y + cblue];
-                
+
                 y = input_buf[0][inputRow01][inputIndex01];
                 output_buf[1][outIndex1 + JpegConstants.RGB_RED] = limit[limitOffset + y + cred];
                 output_buf[1][outIndex1 + JpegConstants.RGB_GREEN] = limit[limitOffset + y + cgreen];

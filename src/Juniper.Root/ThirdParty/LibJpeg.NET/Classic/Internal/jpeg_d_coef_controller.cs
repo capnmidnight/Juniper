@@ -21,7 +21,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// We apply smoothing only for progressive JPEG decoding, and only if
     /// the coefficients it can estimate are not yet known to full precision.
     /// </summary>
-    class jpeg_d_coef_controller
+    internal class jpeg_d_coef_controller
     {
         private const int SAVED_COEFS = 6; /* we save coef_bits[0..5] */
 
@@ -39,8 +39,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             OnePass
         }
 
-        private jpeg_decompress_struct m_cinfo;
-        private bool m_useDummyConsumeData;
+        private readonly jpeg_decompress_struct m_cinfo;
+        private readonly bool m_useDummyConsumeData;
         private DecompressorType m_decompressor;
 
         /* These variables keep track of the current location of the input side. */
@@ -60,11 +60,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         * In multi-pass modes, this array points to the current MCU's blocks
         * within the virtual arrays; it is used only by the input side.
         */
-        private JBLOCK[] m_MCU_buffer = new JBLOCK[JpegConstants.D_MAX_BLOCKS_IN_MCU];
+        private readonly JBLOCK[] m_MCU_buffer = new JBLOCK[JpegConstants.D_MAX_BLOCKS_IN_MCU];
 
         /* In multi-pass modes, we need a virtual block array for each component. */
-        private jvirt_array<JBLOCK>[] m_whole_image = new jvirt_array<JBLOCK>[JpegConstants.MAX_COMPONENTS];
-        private jvirt_array<JBLOCK>[] m_coef_arrays;
+        private readonly jvirt_array<JBLOCK>[] m_whole_image = new jvirt_array<JBLOCK>[JpegConstants.MAX_COMPONENTS];
+        private readonly jvirt_array<JBLOCK>[] m_coef_arrays;
 
         /* When doing block smoothing, we latch coefficient Al values here */
         private int[] m_coef_bits_latch;
@@ -80,7 +80,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* Allocate a full-image virtual array for each component, */
                 /* padded to a multiple of samp_factor DCT blocks in each direction. */
                 /* Note we ask for a pre-zeroed array. */
-                for (int ci = 0; ci < cinfo.m_num_components; ci++)
+                for (var ci = 0; ci < cinfo.m_num_components; ci++)
                 {
                     m_whole_image[ci] = jpeg_common_struct.CreateBlocksArray(
                         JpegUtils.jround_up(cinfo.Comp_info[ci].Width_in_blocks, cinfo.Comp_info[ci].H_samp_factor),
@@ -95,8 +95,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             else
             {
                 /* We only need a single-MCU buffer. */
-                for (int i = 0; i < JpegConstants.D_MAX_BLOCKS_IN_MCU; i++)
+                for (var i = 0; i < JpegConstants.D_MAX_BLOCKS_IN_MCU; i++)
+                {
                     m_MCU_buffer[i] = new JBLOCK();
+                }
 
                 m_useDummyConsumeData = true;
                 m_decompressor = DecompressorType.OnePass;
@@ -121,14 +123,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         public ReadResult consume_data()
         {
             if (m_useDummyConsumeData)
+            {
                 return ReadResult.JPEG_SUSPENDED;  /* Always indicate nothing was done */
+            }
 
-            JBLOCK[][][] buffer = new JBLOCK[JpegConstants.MAX_COMPS_IN_SCAN][][];
+            var buffer = new JBLOCK[JpegConstants.MAX_COMPS_IN_SCAN][][];
 
             /* Align the virtual buffers for the components used in this scan. */
-            for (int ci = 0; ci < m_cinfo.m_comps_in_scan; ci++)
+            for (var ci = 0; ci < m_cinfo.m_comps_in_scan; ci++)
             {
-                jpeg_component_info componentInfo = m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[ci]];
+                var componentInfo = m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[ci]];
 
                 buffer[ci] = m_whole_image[componentInfo.Component_index].Access(
                     m_cinfo.m_input_iMCU_row * componentInfo.V_samp_factor, componentInfo.V_samp_factor);
@@ -140,19 +144,19 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Loop to process one whole iMCU row */
-            for (int yoffset = m_MCU_vert_offset; yoffset < m_MCU_rows_per_iMCU_row; yoffset++)
+            for (var yoffset = m_MCU_vert_offset; yoffset < m_MCU_rows_per_iMCU_row; yoffset++)
             {
-                for (int MCU_col_num = m_MCU_ctr; MCU_col_num < m_cinfo.m_MCUs_per_row; MCU_col_num++)
+                for (var MCU_col_num = m_MCU_ctr; MCU_col_num < m_cinfo.m_MCUs_per_row; MCU_col_num++)
                 {
                     /* Construct list of pointers to DCT blocks belonging to this MCU */
-                    int blkn = 0;           /* index of current DCT block within MCU */
-                    for (int ci = 0; ci < m_cinfo.m_comps_in_scan; ci++)
+                    var blkn = 0;           /* index of current DCT block within MCU */
+                    for (var ci = 0; ci < m_cinfo.m_comps_in_scan; ci++)
                     {
-                        jpeg_component_info componentInfo = m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[ci]];
-                        int start_col = MCU_col_num * componentInfo.MCU_width;
-                        for (int yindex = 0; yindex < componentInfo.MCU_height; yindex++)
+                        var componentInfo = m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[ci]];
+                        var start_col = MCU_col_num * componentInfo.MCU_width;
+                        for (var yindex = 0; yindex < componentInfo.MCU_height; yindex++)
                         {
-                            for (int xindex = 0; xindex < componentInfo.MCU_width; xindex++)
+                            for (var xindex = 0; xindex < componentInfo.MCU_width; xindex++)
                             {
                                 m_MCU_buffer[blkn] = buffer[ci][yindex + yoffset][start_col + xindex];
                                 blkn++;
@@ -196,9 +200,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             if (m_coef_arrays != null)
             {
                 if (m_cinfo.m_do_block_smoothing && smoothing_ok())
+                {
                     m_decompressor = DecompressorType.Smooth;
+                }
                 else
+                {
                     m_decompressor = DecompressorType.Ordinary;
+                }
             }
 
             m_cinfo.m_output_iMCU_row = 0;
@@ -239,20 +247,22 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private ReadResult decompress_onepass(ComponentBuffer[] output_buf)
         {
-            int last_MCU_col = m_cinfo.m_MCUs_per_row - 1;
-            int last_iMCU_row = m_cinfo.m_total_iMCU_rows - 1;
+            var last_MCU_col = m_cinfo.m_MCUs_per_row - 1;
+            var last_iMCU_row = m_cinfo.m_total_iMCU_rows - 1;
 
             /* Loop to process as much as one whole iMCU row */
-            for (int yoffset = m_MCU_vert_offset; yoffset < m_MCU_rows_per_iMCU_row; yoffset++)
+            for (var yoffset = m_MCU_vert_offset; yoffset < m_MCU_rows_per_iMCU_row; yoffset++)
             {
-                for (int MCU_col_num = m_MCU_ctr; MCU_col_num <= last_MCU_col; MCU_col_num++)
+                for (var MCU_col_num = m_MCU_ctr; MCU_col_num <= last_MCU_col; MCU_col_num++)
                 {
                     /* Try to fetch an MCU.  Entropy decoder expects buffer to be zeroed. */
                     if (m_cinfo.lim_Se != 0)
                     {
                         /* can bypass in DC only case */
-                        for (int i = 0; i < m_cinfo.m_blocks_in_MCU; i++)
+                        for (var i = 0; i < m_cinfo.m_blocks_in_MCU; i++)
+                        {
                             Array.Clear(m_MCU_buffer[i].data, 0, m_MCU_buffer[i].data.Length);
+                        }
                     }
 
                     if (!m_cinfo.m_entropy.decode_mcu(m_MCU_buffer))
@@ -268,10 +278,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                      * incremented past them!).  Note the inner loop relies on having
                      * allocated the MCU_buffer[] blocks sequentially.
                      */
-                    int blkn = 0;           /* index of current DCT block within MCU */
-                    for (int ci = 0; ci < m_cinfo.m_comps_in_scan; ci++)
+                    var blkn = 0;           /* index of current DCT block within MCU */
+                    for (var ci = 0; ci < m_cinfo.m_comps_in_scan; ci++)
                     {
-                        jpeg_component_info componentInfo = m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[ci]];
+                        var componentInfo = m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[ci]];
 
                         /* Don't bother to IDCT an uninteresting component. */
                         if (!componentInfo.component_needed)
@@ -280,15 +290,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                             continue;
                         }
 
-                        int useful_width = (MCU_col_num < last_MCU_col) ? componentInfo.MCU_width : componentInfo.last_col_width;
-                        int outputIndex = yoffset * componentInfo.DCT_v_scaled_size;
-                        int start_col = MCU_col_num * componentInfo.MCU_sample_width;
-                        for (int yindex = 0; yindex < componentInfo.MCU_height; yindex++)
+                        var useful_width = (MCU_col_num < last_MCU_col) ? componentInfo.MCU_width : componentInfo.last_col_width;
+                        var outputIndex = yoffset * componentInfo.DCT_v_scaled_size;
+                        var start_col = MCU_col_num * componentInfo.MCU_sample_width;
+                        for (var yindex = 0; yindex < componentInfo.MCU_height; yindex++)
                         {
                             if (m_cinfo.m_input_iMCU_row < last_iMCU_row || yoffset + yindex < componentInfo.last_row_height)
                             {
-                                int output_col = start_col;
-                                for (int xindex = 0; xindex < useful_width; xindex++)
+                                var output_col = start_col;
+                                for (var xindex = 0; xindex < useful_width; xindex++)
                                 {
                                     m_cinfo.m_idct.inverse(componentInfo.Component_index,
                                         m_MCU_buffer[blkn + xindex].data, output_buf[componentInfo.Component_index],
@@ -337,42 +347,50 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     m_cinfo.m_input_iMCU_row <= m_cinfo.m_output_iMCU_row))
             {
                 if (m_cinfo.m_inputctl.consume_input() == ReadResult.JPEG_SUSPENDED)
+                {
                     return ReadResult.JPEG_SUSPENDED;
+                }
             }
 
-            int last_iMCU_row = m_cinfo.m_total_iMCU_rows - 1;
+            var last_iMCU_row = m_cinfo.m_total_iMCU_rows - 1;
 
             /* OK, output from the virtual arrays. */
-            for (int ci = 0; ci < m_cinfo.m_num_components; ci++)
+            for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
             {
-                jpeg_component_info componentInfo = m_cinfo.Comp_info[ci];
+                var componentInfo = m_cinfo.Comp_info[ci];
 
                 /* Don't bother to IDCT an uninteresting component. */
                 if (!componentInfo.component_needed)
+                {
                     continue;
+                }
 
                 /* Align the virtual buffer for this component. */
-                JBLOCK[][] buffer = m_whole_image[ci].Access(m_cinfo.m_output_iMCU_row * componentInfo.V_samp_factor,
+                var buffer = m_whole_image[ci].Access(m_cinfo.m_output_iMCU_row * componentInfo.V_samp_factor,
                     componentInfo.V_samp_factor);
 
                 /* Count non-dummy DCT block rows in this iMCU row. */
                 int block_rows;
                 if (m_cinfo.m_output_iMCU_row < last_iMCU_row)
+                {
                     block_rows = componentInfo.V_samp_factor;
+                }
                 else
                 {
                     /* NB: can't use last_row_height here; it is input-side-dependent! */
                     block_rows = componentInfo.height_in_blocks % componentInfo.V_samp_factor;
                     if (block_rows == 0)
+                    {
                         block_rows = componentInfo.V_samp_factor;
+                    }
                 }
 
                 /* Loop over all DCT blocks to be processed. */
-                int rowIndex = 0;
-                for (int block_row = 0; block_row < block_rows; block_row++)
+                var rowIndex = 0;
+                for (var block_row = 0; block_row < block_rows; block_row++)
                 {
-                    int output_col = 0;
-                    for (int block_num = 0; block_num < componentInfo.Width_in_blocks; block_num++)
+                    var output_col = 0;
+                    for (var block_num = 0; block_num < componentInfo.Width_in_blocks; block_num++)
                     {
                         m_cinfo.m_idct.inverse(componentInfo.Component_index,
                             buffer[block_row][block_num].data, output_buf[ci], rowIndex, output_col);
@@ -386,7 +404,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             m_cinfo.m_output_iMCU_row++;
             if (m_cinfo.m_output_iMCU_row < m_cinfo.m_total_iMCU_rows)
+            {
                 return ReadResult.JPEG_ROW_COMPLETED;
+            }
 
             return ReadResult.JPEG_SCAN_COMPLETED;
         }
@@ -406,25 +426,31 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                      * we want it to keep one row ahead so that next block row's DC
                      * values are up to date.
                      */
-                    int delta = (m_cinfo.m_Ss == 0) ? 1 : 0;
+                    var delta = (m_cinfo.m_Ss == 0) ? 1 : 0;
                     if (m_cinfo.m_input_iMCU_row > m_cinfo.m_output_iMCU_row + delta)
+                    {
                         break;
+                    }
                 }
 
                 if (m_cinfo.m_inputctl.consume_input() == ReadResult.JPEG_SUSPENDED)
+                {
                     return ReadResult.JPEG_SUSPENDED;
+                }
             }
 
-            int last_iMCU_row = m_cinfo.m_total_iMCU_rows - 1;
+            var last_iMCU_row = m_cinfo.m_total_iMCU_rows - 1;
 
             /* OK, output from the virtual arrays. */
-            for (int ci = 0; ci < m_cinfo.m_num_components; ci++)
+            for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
             {
-                jpeg_component_info componentInfo = m_cinfo.Comp_info[ci];
+                var componentInfo = m_cinfo.Comp_info[ci];
 
                 /* Don't bother to IDCT an uninteresting component. */
                 if (!componentInfo.component_needed)
+                {
                     continue;
+                }
 
                 int block_rows;
                 int access_rows;
@@ -441,7 +467,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     /* NB: can't use last_row_height here; it is input-side-dependent! */
                     block_rows = componentInfo.height_in_blocks % componentInfo.V_samp_factor;
                     if (block_rows == 0)
+                    {
                         block_rows = componentInfo.V_samp_factor;
+                    }
+
                     access_rows = block_rows; /* this iMCU row only */
                     last_row = true;
                 }
@@ -449,7 +478,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* Align the virtual buffer for this component. */
                 JBLOCK[][] buffer = null;
                 bool first_row;
-                int bufferRowOffset = 0;
+                var bufferRowOffset = 0;
                 if (m_cinfo.m_output_iMCU_row > 0)
                 {
                     access_rows += componentInfo.V_samp_factor; /* prior iMCU row too */
@@ -464,53 +493,61 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 }
 
                 /* Fetch component-dependent info */
-                int coefBitsOffset = ci * SAVED_COEFS;
+                var coefBitsOffset = ci * SAVED_COEFS;
                 int Q00 = componentInfo.quant_table.quantval[0];
                 int Q01 = componentInfo.quant_table.quantval[Q01_POS];
                 int Q10 = componentInfo.quant_table.quantval[Q10_POS];
                 int Q20 = componentInfo.quant_table.quantval[Q20_POS];
                 int Q11 = componentInfo.quant_table.quantval[Q11_POS];
                 int Q02 = componentInfo.quant_table.quantval[Q02_POS];
-                int outputIndex = ci;
+                var outputIndex = ci;
 
                 /* Loop over all DCT blocks to be processed. */
-                for (int block_row = 0; block_row < block_rows; block_row++)
+                for (var block_row = 0; block_row < block_rows; block_row++)
                 {
-                    int bufferIndex = bufferRowOffset + block_row;
+                    var bufferIndex = bufferRowOffset + block_row;
 
-                    int prev_block_row = 0;
+                    var prev_block_row = 0;
                     if (first_row && block_row == 0)
+                    {
                         prev_block_row = bufferIndex;
+                    }
                     else
+                    {
                         prev_block_row = bufferIndex - 1;
+                    }
 
-                    int next_block_row = 0;
+                    var next_block_row = 0;
                     if (last_row && block_row == block_rows - 1)
+                    {
                         next_block_row = bufferIndex;
+                    }
                     else
+                    {
                         next_block_row = bufferIndex + 1;
+                    }
 
                     /* We fetch the surrounding DC values using a sliding-register approach.
                      * Initialize all nine here so as to do the right thing on narrow pics.
                      */
                     int DC1 = buffer[prev_block_row][0][0];
-                    int DC2 = DC1;
-                    int DC3 = DC1;
+                    var DC2 = DC1;
+                    var DC3 = DC1;
 
                     int DC4 = buffer[bufferIndex][0][0];
-                    int DC5 = DC4;
-                    int DC6 = DC4;
+                    var DC5 = DC4;
+                    var DC6 = DC4;
 
                     int DC7 = buffer[next_block_row][0][0];
-                    int DC8 = DC7;
-                    int DC9 = DC7;
+                    var DC8 = DC7;
+                    var DC9 = DC7;
 
-                    int output_col = 0;
-                    int last_block_column = componentInfo.Width_in_blocks - 1;
-                    for (int block_num = 0; block_num <= last_block_column; block_num++)
+                    var output_col = 0;
+                    var last_block_column = componentInfo.Width_in_blocks - 1;
+                    for (var block_num = 0; block_num <= last_block_column; block_num++)
                     {
                         /* Fetch current DCT block into workspace so we can modify it. */
-                        JBLOCK workspace = new JBLOCK();
+                        var workspace = new JBLOCK();
                         Buffer.BlockCopy(buffer[bufferIndex][0].data, 0, workspace.data, 0, workspace.data.Length * sizeof(short));
 
                         /* Update DC values */
@@ -526,25 +563,30 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                          * and is not known to be fully accurate.
                          */
                         /* AC01 */
-                        int Al = m_coef_bits_latch[m_coef_bits_savedOffset + coefBitsOffset + 1];
+                        var Al = m_coef_bits_latch[m_coef_bits_savedOffset + coefBitsOffset + 1];
                         if (Al != 0 && workspace[1] == 0)
                         {
                             int pred;
-                            int num = 36 * Q00 * (DC4 - DC6);
+                            var num = 36 * Q00 * (DC4 - DC6);
                             if (num >= 0)
                             {
                                 pred = ((Q01 << 7) + num) / (Q01 << 8);
                                 if (Al > 0 && pred >= (1 << Al))
+                                {
                                     pred = (1 << Al) - 1;
+                                }
                             }
                             else
                             {
                                 pred = ((Q01 << 7) - num) / (Q01 << 8);
                                 if (Al > 0 && pred >= (1 << Al))
+                                {
                                     pred = (1 << Al) - 1;
+                                }
+
                                 pred = -pred;
                             }
-                            workspace[1] = (short) pred;
+                            workspace[1] = (short)pred;
                         }
 
                         /* AC10 */
@@ -552,21 +594,26 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         if (Al != 0 && workspace[8] == 0)
                         {
                             int pred;
-                            int num = 36 * Q00 * (DC2 - DC8);
+                            var num = 36 * Q00 * (DC2 - DC8);
                             if (num >= 0)
                             {
                                 pred = ((Q10 << 7) + num) / (Q10 << 8);
                                 if (Al > 0 && pred >= (1 << Al))
+                                {
                                     pred = (1 << Al) - 1;
+                                }
                             }
                             else
                             {
                                 pred = ((Q10 << 7) - num) / (Q10 << 8);
                                 if (Al > 0 && pred >= (1 << Al))
+                                {
                                     pred = (1 << Al) - 1;
+                                }
+
                                 pred = -pred;
                             }
-                            workspace[8] = (short) pred;
+                            workspace[8] = (short)pred;
                         }
 
                         /* AC20 */
@@ -574,21 +621,26 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         if (Al != 0 && workspace[16] == 0)
                         {
                             int pred;
-                            int num = 9 * Q00 * (DC2 + DC8 - 2 * DC5);
+                            var num = 9 * Q00 * (DC2 + DC8 - 2 * DC5);
                             if (num >= 0)
                             {
                                 pred = ((Q20 << 7) + num) / (Q20 << 8);
                                 if (Al > 0 && pred >= (1 << Al))
+                                {
                                     pred = (1 << Al) - 1;
+                                }
                             }
                             else
                             {
                                 pred = ((Q20 << 7) - num) / (Q20 << 8);
                                 if (Al > 0 && pred >= (1 << Al))
+                                {
                                     pred = (1 << Al) - 1;
+                                }
+
                                 pred = -pred;
                             }
-                            workspace[16] = (short) pred;
+                            workspace[16] = (short)pred;
                         }
 
                         /* AC11 */
@@ -596,21 +648,26 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         if (Al != 0 && workspace[9] == 0)
                         {
                             int pred;
-                            int num = 5 * Q00 * (DC1 - DC3 - DC7 + DC9);
+                            var num = 5 * Q00 * (DC1 - DC3 - DC7 + DC9);
                             if (num >= 0)
                             {
                                 pred = ((Q11 << 7) + num) / (Q11 << 8);
                                 if (Al > 0 && pred >= (1 << Al))
+                                {
                                     pred = (1 << Al) - 1;
+                                }
                             }
                             else
                             {
                                 pred = ((Q11 << 7) - num) / (Q11 << 8);
                                 if (Al > 0 && pred >= (1 << Al))
+                                {
                                     pred = (1 << Al) - 1;
+                                }
+
                                 pred = -pred;
                             }
-                            workspace[9] = (short) pred;
+                            workspace[9] = (short)pred;
                         }
 
                         /* AC02 */
@@ -618,21 +675,26 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         if (Al != 0 && workspace[2] == 0)
                         {
                             int pred;
-                            int num = 9 * Q00 * (DC4 + DC6 - 2 * DC5);
+                            var num = 9 * Q00 * (DC4 + DC6 - 2 * DC5);
                             if (num >= 0)
                             {
                                 pred = ((Q02 << 7) + num) / (Q02 << 8);
                                 if (Al > 0 && pred >= (1 << Al))
+                                {
                                     pred = (1 << Al) - 1;
+                                }
                             }
                             else
                             {
                                 pred = ((Q02 << 7) - num) / (Q02 << 8);
                                 if (Al > 0 && pred >= (1 << Al))
+                                {
                                     pred = (1 << Al) - 1;
+                                }
+
                                 pred = -pred;
                             }
-                            workspace[2] = (short) pred;
+                            workspace[2] = (short)pred;
                         }
 
                         /* OK, do the IDCT */
@@ -659,7 +721,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             m_cinfo.m_output_iMCU_row++;
             if (m_cinfo.m_output_iMCU_row < m_cinfo.m_total_iMCU_rows)
+            {
                 return ReadResult.JPEG_ROW_COMPLETED;
+            }
 
             return ReadResult.JPEG_SCAN_COMPLETED;
         }
@@ -674,7 +738,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private bool smoothing_ok()
         {
             if (!m_cinfo.m_progressive_mode || m_cinfo.m_coef_bits == null)
+            {
                 return false;
+            }
 
             /* Allocate latch area if not already done */
             if (m_coef_bits_latch == null)
@@ -683,13 +749,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 m_coef_bits_savedOffset = 0;
             }
 
-            bool smoothing_useful = false;
-            for (int ci = 0; ci < m_cinfo.m_num_components; ci++)
+            var smoothing_useful = false;
+            for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
             {
                 /* All components' quantization values must already be latched. */
-                JQUANT_TBL qtable = m_cinfo.Comp_info[ci].quant_table;
+                var qtable = m_cinfo.Comp_info[ci].quant_table;
                 if (qtable == null)
+                {
                     return false;
+                }
 
                 /* Verify DC & first 5 AC quantizers are nonzero to avoid zero-divide. */
                 if (qtable.quantval[0] == 0 || qtable.quantval[Q01_POS] == 0 ||
@@ -701,14 +769,18 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 /* DC values must be at least partly known for all components. */
                 if (m_cinfo.m_coef_bits[ci][0] < 0)
+                {
                     return false;
+                }
 
                 /* Block smoothing is helpful if some AC coefficients remain inaccurate. */
-                for (int coefi = 1; coefi <= 5; coefi++)
+                for (var coefi = 1; coefi <= 5; coefi++)
                 {
                     m_coef_bits_latch[m_coef_bits_savedOffset + coefi] = m_cinfo.m_coef_bits[ci][coefi];
                     if (m_cinfo.m_coef_bits[ci][coefi] != 0)
+                    {
                         smoothing_useful = true;
+                    }
                 }
 
                 m_coef_bits_savedOffset += SAVED_COEFS;
@@ -732,12 +804,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
             else
             {
-                jpeg_component_info componentInfo = m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[0]];
+                var componentInfo = m_cinfo.Comp_info[m_cinfo.m_cur_comp_info[0]];
 
                 if (m_cinfo.m_input_iMCU_row < (m_cinfo.m_total_iMCU_rows - 1))
+                {
                     m_MCU_rows_per_iMCU_row = componentInfo.V_samp_factor;
+                }
                 else
+                {
                     m_MCU_rows_per_iMCU_row = componentInfo.last_row_height;
+                }
             }
 
             m_MCU_ctr = 0;

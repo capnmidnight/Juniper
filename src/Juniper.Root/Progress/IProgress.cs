@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+
 using static System.Math;
 
 namespace Juniper.Progress
@@ -130,7 +131,7 @@ namespace Juniper.Progress
         public static void Run(this IProgress parent, params Action<IProgress>[] actors)
         {
             var subProgs = parent.Split(actors.Length);
-            for (int i = 0; i < actors.Length; ++i)
+            for (var i = 0; i < actors.Length; ++i)
             {
                 actors[i]?.Invoke(subProgs[i]);
             }
@@ -139,7 +140,7 @@ namespace Juniper.Progress
         public static async Task Run(this IProgress parent, params Func<IProgress, Task>[] actors)
         {
             var subProgs = parent.Split(actors.Length);
-            for (int i = 0; i < actors.Length; ++i)
+            for (var i = 0; i < actors.Length; ++i)
             {
                 await actors[i]?.Invoke(subProgs[i]);
             }
@@ -171,12 +172,12 @@ namespace Juniper.Progress
         public static void Run(this IProgress parent, params (string label, Action<IProgress> action)[] actors)
         {
             var labels = new string[actors.Length];
-            for (int i = 0; i < actors.Length; ++i)
+            for (var i = 0; i < actors.Length; ++i)
             {
                 labels[i] = actors[i].label;
             }
             var subProgs = parent.Split(labels);
-            for (int i = 0; i < actors.Length; ++i)
+            for (var i = 0; i < actors.Length; ++i)
             {
                 actors[i].action?.Invoke(subProgs[i]);
             }
@@ -185,12 +186,12 @@ namespace Juniper.Progress
         public static async Task Run(this IProgress parent, params (string label, Func<IProgress, Task> action)[] actors)
         {
             var labels = new string[actors.Length];
-            for (int i = 0; i < actors.Length; ++i)
+            for (var i = 0; i < actors.Length; ++i)
             {
                 labels[i] = actors[i].label;
             }
             var subProgs = parent.Split(labels);
-            for (int i = 0; i < actors.Length; ++i)
+            for (var i = 0; i < actors.Length; ++i)
             {
                 await actors[i].action?.Invoke(subProgs[i]);
             }

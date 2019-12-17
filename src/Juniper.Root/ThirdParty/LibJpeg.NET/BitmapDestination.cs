@@ -8,7 +8,7 @@ namespace BitMiracle.LibJpeg
     internal class BitmapDestination : IDecompressDestination
     {
         /* Target file spec; filled in by djpeg.c after object is created. */
-        private Stream m_output;
+        private readonly Stream m_output;
 
         private byte[][] m_pixels;
 
@@ -33,7 +33,9 @@ namespace BitMiracle.LibJpeg
         public void SetImageAttributes(LoadedImageAttributes parameters)
         {
             if (parameters == null)
+            {
                 throw new ArgumentNullException("parameters");
+            }
 
             m_parameters = parameters;
         }
@@ -47,11 +49,15 @@ namespace BitMiracle.LibJpeg
             //Determine width of rows in the BMP file (padded to 4-byte boundary).
             m_rowWidth = m_parameters.Width * m_parameters.Components;
             while (m_rowWidth % 4 != 0)
+            {
                 m_rowWidth++;
+            }
 
             m_pixels = new byte[m_rowWidth][];
-            for (int i = 0; i < m_rowWidth; i++)
+            for (var i = 0; i < m_rowWidth; i++)
+            {
                 m_pixels[i] = new byte[m_parameters.Height];
+            }
 
             m_currentRow = 0;
         }
@@ -68,9 +74,13 @@ namespace BitMiracle.LibJpeg
             else
             {
                 if (m_parameters.Colorspace == Colorspace.CMYK)
+                {
                     putCmykRow(row);
+                }
                 else
+                {
                     putRgbRow(row);
+                }
             }
 
             ++m_currentRow;
@@ -95,8 +105,10 @@ namespace BitMiracle.LibJpeg
         /// </summary>
         private void putGrayRow(byte[] row)
         {
-            for (int i = 0; i < m_parameters.Width; ++i)
+            for (var i = 0; i < m_parameters.Width; ++i)
+            {
                 m_pixels[i][m_currentRow] = row[i];
+            }
         }
 
         /// <summary>
@@ -107,12 +119,12 @@ namespace BitMiracle.LibJpeg
             /* Transfer data.  Note destination values must be in BGR order
              * (even though Microsoft's own documents say the opposite).
              */
-            for (int i = 0; i < m_parameters.Width; ++i)
+            for (var i = 0; i < m_parameters.Width; ++i)
             {
-                int firstComponent = i * 3;
-                byte red = row[firstComponent];
-                byte green = row[firstComponent + 1];
-                byte blue = row[firstComponent + 2];
+                var firstComponent = i * 3;
+                var red = row[firstComponent];
+                var green = row[firstComponent + 1];
+                var blue = row[firstComponent + 2];
                 m_pixels[firstComponent][m_currentRow] = blue;
                 m_pixels[firstComponent + 1][m_currentRow] = green;
                 m_pixels[firstComponent + 2][m_currentRow] = red;
@@ -127,9 +139,9 @@ namespace BitMiracle.LibJpeg
             /* Transfer data.  Note destination values must be in BGR order
              * (even though Microsoft's own documents say the opposite).
              */
-            for (int i = 0; i < m_parameters.Width; ++i)
+            for (var i = 0; i < m_parameters.Width; ++i)
             {
-                int firstComponent = i * 4;
+                var firstComponent = i * 4;
                 m_pixels[firstComponent][m_currentRow] = row[firstComponent + 2];
                 m_pixels[firstComponent + 1][m_currentRow] = row[firstComponent + 1];
                 m_pixels[firstComponent + 2][m_currentRow] = row[firstComponent + 0];
@@ -156,38 +168,50 @@ namespace BitMiracle.LibJpeg
                 cmap_entries = 0;
 
                 if (m_parameters.Colorspace == Colorspace.RGB)
+                {
                     bits_per_pixel = 24;
+                }
                 else if (m_parameters.Colorspace == Colorspace.CMYK)
+                {
                     bits_per_pixel = 32;
+                }
                 else
+                {
                     throw new InvalidOperationException();
+                }
             }
 
             byte[] infoHeader = null;
             if (m_parameters.Colorspace == Colorspace.RGB)
+            {
                 infoHeader = createBitmapInfoHeader(bits_per_pixel, cmap_entries);
+            }
             else
+            {
                 infoHeader = createBitmapV4InfoHeader(bits_per_pixel);
+            }
 
             /* File size */
             const int fileHeaderSize = 14;
-            int infoHeaderSize = infoHeader.Length;
-            int paletteSize = cmap_entries * 4;
-            int offsetToPixels = fileHeaderSize + infoHeaderSize + paletteSize; /* Header and colormap */
-            int fileSize = offsetToPixels + m_rowWidth * m_parameters.Height;
+            var infoHeaderSize = infoHeader.Length;
+            var paletteSize = cmap_entries * 4;
+            var offsetToPixels = fileHeaderSize + infoHeaderSize + paletteSize; /* Header and colormap */
+            var fileSize = offsetToPixels + m_rowWidth * m_parameters.Height;
 
-            byte[] fileHeader = createBitmapFileHeader(offsetToPixels, fileSize);
+            var fileHeader = createBitmapFileHeader(offsetToPixels, fileSize);
 
             m_output.Write(fileHeader, 0, fileHeader.Length);
             m_output.Write(infoHeader, 0, infoHeader.Length);
 
             if (cmap_entries > 0)
+            {
                 writeColormap(cmap_entries, 4);
+            }
         }
 
         private static byte[] createBitmapFileHeader(int offsetToPixels, int fileSize)
         {
-            byte[] bmpfileheader = new byte[14];
+            var bmpfileheader = new byte[14];
             bmpfileheader[0] = 0x42;    /* first 2 bytes are ASCII 'B', 'M' */
             bmpfileheader[1] = 0x4D;
             PUT_4B(bmpfileheader, 2, fileSize);
@@ -198,7 +222,7 @@ namespace BitMiracle.LibJpeg
 
         private byte[] createBitmapInfoHeader(int bits_per_pixel, int cmap_entries)
         {
-            byte[] bmpinfoheader = new byte[40];
+            var bmpinfoheader = new byte[40];
             fillBitmapInfoHeader(bits_per_pixel, cmap_entries, bmpinfoheader);
             return bmpinfoheader;
         }
@@ -226,7 +250,7 @@ namespace BitMiracle.LibJpeg
 
         private byte[] createBitmapV4InfoHeader(int bitsPerPixel)
         {
-            byte[] infoHeader = new byte[40 + 68];
+            var infoHeader = new byte[40 + 68];
             fillBitmapInfoHeader(bitsPerPixel, 0, infoHeader);
 
             PUT_4B(infoHeader, 56, 0x02); /* CSType == 0x02 (CMYK) */
@@ -240,10 +264,10 @@ namespace BitMiracle.LibJpeg
         /// </summary>
         private void writeColormap(int map_colors, int map_entry_size)
         {
-            byte[][] colormap = m_parameters.Colormap;
-            int num_colors = m_parameters.ActualNumberOfColors;
+            var colormap = m_parameters.Colormap;
+            var num_colors = m_parameters.ActualNumberOfColors;
 
-            int i = 0;
+            var i = 0;
             if (colormap != null)
             {
                 if (m_parameters.ComponentsPerSample == 3)
@@ -255,7 +279,9 @@ namespace BitMiracle.LibJpeg
                         m_output.WriteByte(colormap[1][i]);
                         m_output.WriteByte(colormap[0][i]);
                         if (map_entry_size == 4)
+                        {
                             m_output.WriteByte(0);
+                        }
                     }
                 }
                 else
@@ -267,7 +293,9 @@ namespace BitMiracle.LibJpeg
                         m_output.WriteByte(colormap[0][i]);
                         m_output.WriteByte(colormap[0][i]);
                         if (map_entry_size == 4)
+                        {
                             m_output.WriteByte(0);
+                        }
                     }
                 }
             }
@@ -280,13 +308,17 @@ namespace BitMiracle.LibJpeg
                     m_output.WriteByte((byte)i);
                     m_output.WriteByte((byte)i);
                     if (map_entry_size == 4)
+                    {
                         m_output.WriteByte(0);
+                    }
                 }
             }
 
             /* Pad colormap with zeros to ensure specified number of colormap entries */
             if (i > map_colors)
+            {
                 throw new InvalidOperationException("Too many colors");
+            }
 
             for (; i < map_colors; i++)
             {
@@ -294,15 +326,17 @@ namespace BitMiracle.LibJpeg
                 m_output.WriteByte(0);
                 m_output.WriteByte(0);
                 if (map_entry_size == 4)
+                {
                     m_output.WriteByte(0);
+                }
             }
         }
 
         private void writePixels()
         {
-            for (int row = m_parameters.Height - 1; row >= 0; --row)
+            for (var row = m_parameters.Height - 1; row >= 0; --row)
             {
-                for (int col = 0; col < m_rowWidth; ++col)
+                for (var col = 0; col < m_rowWidth; ++col)
                 {
                     m_output.WriteByte(m_pixels[col][row]);
                 }

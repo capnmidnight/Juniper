@@ -40,10 +40,10 @@ namespace BitMiracle.LibJpeg.Classic
 
         // Error handler module
         internal jpeg_error_mgr m_err;
-        
+
         // Progress monitor, or null if none
         internal jpeg_progress_mgr m_progress;
-        
+
         internal JpegState m_global_state;     /* For checking call sequence validity */
 
         /// <summary>
@@ -91,7 +91,9 @@ namespace BitMiracle.LibJpeg.Classic
             set
             {
                 if (value == null)
+                {
                     throw new ArgumentNullException(nameof(value));
+                }
 
                 m_progress = value;
             }
@@ -111,7 +113,9 @@ namespace BitMiracle.LibJpeg.Classic
             set
             {
                 if (value == null)
+                {
                     throw new ArgumentNullException(nameof(value));
+                }
 
                 m_err = value;
             }
@@ -126,15 +130,15 @@ namespace BitMiracle.LibJpeg.Classic
             get
             {
 #if !NETSTANDARD
-                Assembly assembly = Assembly.GetExecutingAssembly();
+                var assembly = Assembly.GetExecutingAssembly();
 #else
                 Assembly assembly = typeof(jpeg_common_struct).GetTypeInfo().Assembly;
 #endif
 
-                AssemblyName assemblyName = new AssemblyName(assembly.FullName);
+                var assemblyName = new AssemblyName(assembly.FullName);
 
-                Version version = assemblyName.Version;
-                string versionString = version.Major.ToString(CultureInfo.InvariantCulture) +
+                var version = assemblyName.Version;
+                var versionString = version.Major.ToString(CultureInfo.InvariantCulture) +
                     "." + version.Minor.ToString(CultureInfo.InvariantCulture);
 
                 versionString += "." + version.Build.ToString(CultureInfo.InvariantCulture);
@@ -187,9 +191,11 @@ namespace BitMiracle.LibJpeg.Classic
         /// <returns>The array of samples.</returns>
         public static byte[][] AllocJpegSamples(int samplesPerRow, int numberOfRows)
         {
-            byte[][] result = new byte[numberOfRows][];
-            for (int i = 0; i < numberOfRows; ++i)
+            var result = new byte[numberOfRows][];
+            for (var i = 0; i < numberOfRows; ++i)
+            {
                 result[i] = new byte[samplesPerRow];
+            }
 
             return result;
         }
@@ -197,12 +203,14 @@ namespace BitMiracle.LibJpeg.Classic
         // Creation of 2-D block arrays.
         private static JBLOCK[][] allocJpegBlocks(int blocksPerRow, int numberOfRows)
         {
-            JBLOCK[][] result = new JBLOCK[numberOfRows][];
-            for (int i = 0; i < numberOfRows; ++i)
+            var result = new JBLOCK[numberOfRows][];
+            for (var i = 0; i < numberOfRows; ++i)
             {
                 result[i] = new JBLOCK[blocksPerRow];
-                for (int j = 0; j < blocksPerRow; ++j)
+                for (var j = 0; j < blocksPerRow; ++j)
+                {
                     result[i][j] = new JBLOCK();
+                }
             }
             return result;
         }
@@ -227,9 +235,11 @@ namespace BitMiracle.LibJpeg.Classic
                 /* Try to keep application from accessing now-deleted marker list.
                  * A bit kludgy to do it here, but this is the most central place.
                  */
-                jpeg_decompress_struct s = this as jpeg_decompress_struct;
+                var s = this as jpeg_decompress_struct;
                 if (s != null)
+                {
                     s.m_marker_list = null;
+                }
             }
             else
             {

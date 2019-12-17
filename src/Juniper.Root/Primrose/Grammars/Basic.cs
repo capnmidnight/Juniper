@@ -775,7 +775,7 @@ namespace Juniper.Primrose
                         }
                     }
 
-                    int idx = int.Parse(Evaluate(idxExpr)) - 1;
+                    var idx = int.Parse(Evaluate(idxExpr)) - 1;
 
                     if (0 <= idx && idx < targets.Count)
                     {

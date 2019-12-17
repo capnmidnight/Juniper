@@ -2,9 +2,9 @@ using System;
 
 namespace NLayer.NAudioSupport
 {
-    class Mp3FrameWrapper : IMpegFrame
+    internal class Mp3FrameWrapper : IMpegFrame
     {
-        NAudio.Wave.Mp3Frame _frame;
+        private NAudio.Wave.Mp3Frame _frame;
 
         internal NAudio.Wave.Mp3Frame WrappedFrame
         {
@@ -114,8 +114,8 @@ namespace NLayer.NAudioSupport
             get { return false; }
         }
 
-        int _readOffset, _bitsRead;
-        ulong _bitBucket;
+        private int _readOffset, _bitsRead;
+        private ulong _bitBucket;
 
         public void Reset()
         {
@@ -128,10 +128,17 @@ namespace NLayer.NAudioSupport
 
         public int ReadBits(int bitCount)
         {
-            if (bitCount < 1 || bitCount > 32) throw new ArgumentOutOfRangeException("bitCount");
+            if (bitCount < 1 || bitCount > 32)
+            {
+                throw new ArgumentOutOfRangeException("bitCount");
+            }
+
             while (_bitsRead < bitCount)
             {
-                if (_readOffset == _frame.FrameLength) throw new System.IO.EndOfStreamException();
+                if (_readOffset == _frame.FrameLength)
+                {
+                    throw new System.IO.EndOfStreamException();
+                }
 
                 var b = _frame.RawData[_readOffset++];
                 _bitBucket <<= 8;

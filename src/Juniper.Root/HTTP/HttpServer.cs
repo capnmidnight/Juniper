@@ -411,22 +411,10 @@ or
 
         private void SetPrefix(string protocol, ushort port)
         {
-            if (!string.IsNullOrEmpty(protocol))
+            if (!string.IsNullOrEmpty(protocol)
+                && port > 0)
             {
-                if (port > 0)
-                {
-                    OnInfo(this, $"Listening for {protocol} on port {port}");
-                    listener.Prefixes.Add($"{protocol}://{ListenAddress}:{port}/");
-                }
-                else
-                {
-                    var prefix = listener.Prefixes.FirstOrDefault(p => p.EndsWith(":" + port));
-                    if (!string.IsNullOrEmpty(prefix))
-                    {
-                        OnInfo(this, $"Deleting prefix {prefix}");
-                        listener.Prefixes.Remove(prefix);
-                    }
-                }
+                listener.Prefixes.Add($"{protocol}://{ListenAddress}:{port}/");
             }
         }
 
@@ -486,7 +474,7 @@ or
                 {
                     OnUpdate();
 
-                    for (int i = waiters.Count - 1; i >= 0; --i)
+                    for (var i = waiters.Count - 1; i >= 0; --i)
                     {
                         var waiter = waiters[i];
                         if (!waiter.IsRunning())

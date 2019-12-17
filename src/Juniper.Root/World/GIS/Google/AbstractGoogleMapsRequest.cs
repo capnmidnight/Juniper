@@ -33,7 +33,7 @@ namespace Juniper.World.GIS.Google
                 var unsignedUriBuilder = new UriBuilder(unsignedUri);
                 unsignedUriBuilder.AddQuery("key", apiKey);
                 var unsignedUriWithKey = unsignedUriBuilder.Uri;
-                if(string.IsNullOrEmpty(signingKey))
+                if (string.IsNullOrEmpty(signingKey))
                 {
                     return unsignedUriWithKey;
                 }

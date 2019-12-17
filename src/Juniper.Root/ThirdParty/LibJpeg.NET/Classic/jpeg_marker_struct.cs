@@ -11,9 +11,9 @@ namespace BitMiracle.LibJpeg.Classic
     /// <seealso href="81c88818-a5d7-4550-9ce5-024a768f7b1e.htm" target="_self">Special markers</seealso>
     public class jpeg_marker_struct
     {
-        private byte m_marker;           /* marker code: JPEG_COM, or JPEG_APP0+n */
-        private int m_originalLength;   /* # bytes of data in the file */
-        private byte[] m_data;       /* the data contained in the marker */
+        private readonly byte m_marker;           /* marker code: JPEG_COM, or JPEG_APP0+n */
+        private readonly int m_originalLength;   /* # bytes of data in the file */
+        private readonly byte[] m_data;       /* the data contained in the marker */
 
         internal jpeg_marker_struct(byte marker, int originalDataLength, int lengthLimit)
         {

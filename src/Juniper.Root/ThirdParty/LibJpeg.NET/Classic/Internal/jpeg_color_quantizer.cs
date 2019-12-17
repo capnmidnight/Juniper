@@ -3,7 +3,7 @@
     /// <summary>
     /// Color quantization or color precision reduction
     /// </summary>
-    interface jpeg_color_quantizer
+    internal interface jpeg_color_quantizer
     {
         void start_pass(bool is_pre_scan);
 

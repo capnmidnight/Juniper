@@ -8,20 +8,24 @@ namespace BitMiracle.LibJpeg
         public static MemoryStream CopyStream(Stream stream)
         {
             if (stream == null)
+            {
                 throw new ArgumentNullException("stream");
+            }
 
-            long positionBefore = stream.Position;
+            var positionBefore = stream.Position;
             stream.Seek(0, SeekOrigin.Begin);
 
-            MemoryStream result = new MemoryStream((int)stream.Length);
+            var result = new MemoryStream((int)stream.Length);
 
-            byte[] block = new byte[2048];
+            var block = new byte[2048];
             for (; ; )
             {
-                int bytesRead = stream.Read(block, 0, 2048);
+                var bytesRead = stream.Read(block, 0, 2048);
                 result.Write(block, 0, bytesRead);
                 if (bytesRead < 2048)
+                {
                     break;
+                }
             }
 
             stream.Seek(positionBefore, SeekOrigin.Begin);

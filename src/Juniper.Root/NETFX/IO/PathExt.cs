@@ -40,7 +40,7 @@ namespace System.IO
                     ? parts[i].Split(INVALID_START_CHARS)
                     : parts[i].Split(INVALID_CHARS);
 
-                for (int j = 0; j < subParts.Length; ++j)
+                for (var j = 0; j < subParts.Length; ++j)
                 {
                     if (j > 0)
                     {
@@ -128,7 +128,7 @@ namespace System.IO
 
         public static string GetShortExtension(string path)
         {
-            if(path == null)
+            if (path == null)
             {
                 throw new ArgumentNullException(nameof(path));
             }

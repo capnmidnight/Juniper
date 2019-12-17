@@ -16,7 +16,7 @@ namespace Juniper.Azure.CognitiveServices
 
         protected override void ModifyRequest(HttpWebRequest request)
         {
-            if(string.IsNullOrEmpty(AuthToken))
+            if (string.IsNullOrEmpty(AuthToken))
             {
                 throw new InvalidOperationException("An AuthToken is required to be able to submit this request.");
             }

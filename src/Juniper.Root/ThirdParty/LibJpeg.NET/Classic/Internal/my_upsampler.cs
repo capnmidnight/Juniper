@@ -14,7 +14,7 @@
 
 namespace BitMiracle.LibJpeg.Classic.Internal
 {
-    class my_upsampler : jpeg_upsampler
+    internal class my_upsampler : jpeg_upsampler
     {
         private enum ComponentUpsampler
         {
@@ -25,7 +25,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             int_upsampler
         }
 
-        private jpeg_decompress_struct m_cinfo;
+        private readonly jpeg_decompress_struct m_cinfo;
 
         /* Color conversion buffer.  When using separate upsampling and color
         * conversion steps, this buffer holds one upsampled row group until it
@@ -34,27 +34,27 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         * ie do not need rescaling.  The corresponding entry of color_buf[] is
         * simply set to point to the input data array, thereby avoiding copying.
         */
-        private ComponentBuffer[] m_color_buf = new ComponentBuffer[JpegConstants.MAX_COMPONENTS];
+        private readonly ComponentBuffer[] m_color_buf = new ComponentBuffer[JpegConstants.MAX_COMPONENTS];
 
         // used only for fullsize_upsampler mode
-        private int[] m_perComponentOffsets = new int[JpegConstants.MAX_COMPONENTS];
+        private readonly int[] m_perComponentOffsets = new int[JpegConstants.MAX_COMPONENTS];
 
         /* Per-component upsampling method pointers */
-        private ComponentUpsampler[] m_upsampleMethods = new ComponentUpsampler[JpegConstants.MAX_COMPONENTS];
+        private readonly ComponentUpsampler[] m_upsampleMethods = new ComponentUpsampler[JpegConstants.MAX_COMPONENTS];
         private int m_currentComponent; // component being upsampled
         private int m_upsampleRowOffset;
-        
+
         private int m_next_row_out;       /* counts rows emitted from color_buf */
         private int m_rows_to_go;  /* counts rows remaining in image */
 
         /* Height of an input row group for each component. */
-        private int[] m_rowgroup_height = new int[JpegConstants.MAX_COMPONENTS];
+        private readonly int[] m_rowgroup_height = new int[JpegConstants.MAX_COMPONENTS];
 
         /* These arrays save pixel expansion factors so that int_expand need not
         * recompute them each time.  They are unused for other upsampling methods.
         */
-        private byte[] m_h_expand = new byte[JpegConstants.MAX_COMPONENTS];
-        private byte[] m_v_expand = new byte[JpegConstants.MAX_COMPONENTS];
+        private readonly byte[] m_h_expand = new byte[JpegConstants.MAX_COMPONENTS];
+        private readonly byte[] m_v_expand = new byte[JpegConstants.MAX_COMPONENTS];
 
         public my_upsampler(jpeg_decompress_struct cinfo)
         {
@@ -62,22 +62,24 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             m_need_context_rows = false; /* until we find out differently */
 
             if (cinfo.m_CCIR601_sampling)    /* this isn't supported */
+            {
                 cinfo.ERREXIT(J_MESSAGE_CODE.JERR_CCIR601_NOTIMPL);
+            }
 
             /* Verify we can handle the sampling factors, select per-component methods,
             * and create storage as needed.
             */
-            for (int ci = 0; ci < cinfo.m_num_components; ci++)
+            for (var ci = 0; ci < cinfo.m_num_components; ci++)
             {
-                jpeg_component_info componentInfo = cinfo.Comp_info[ci];
+                var componentInfo = cinfo.Comp_info[ci];
 
                 /* Compute size of an "input group" after IDCT scaling.  This many samples
                 * are to be converted to max_h_samp_factor * max_v_samp_factor pixels.
                 */
-                int h_in_group = (componentInfo.H_samp_factor * componentInfo.DCT_h_scaled_size) / cinfo.min_DCT_h_scaled_size;
-                int v_in_group = (componentInfo.V_samp_factor * componentInfo.DCT_v_scaled_size) / cinfo.min_DCT_v_scaled_size;
-                int h_out_group = cinfo.m_max_h_samp_factor;
-                int v_out_group = cinfo.m_max_v_samp_factor;
+                var h_in_group = (componentInfo.H_samp_factor * componentInfo.DCT_h_scaled_size) / cinfo.min_DCT_h_scaled_size;
+                var v_in_group = (componentInfo.V_samp_factor * componentInfo.DCT_v_scaled_size) / cinfo.min_DCT_v_scaled_size;
+                var h_out_group = cinfo.m_max_h_samp_factor;
+                var v_out_group = cinfo.m_max_v_samp_factor;
 
                 /* save for use later */
                 m_rowgroup_height[ci] = v_in_group;
@@ -118,8 +120,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     cinfo.ERREXIT(J_MESSAGE_CODE.JERR_FRACT_SAMPLE_NOTIMPL);
                 }
 
-                ComponentBuffer cb = new ComponentBuffer();
-                cb.SetBuffer(jpeg_common_struct.AllocJpegSamples(JpegUtils.jround_up(cinfo.m_output_width, 
+                var cb = new ComponentBuffer();
+                cb.SetBuffer(jpeg_common_struct.AllocJpegSamples(JpegUtils.jround_up(cinfo.m_output_width,
                     cinfo.m_max_h_samp_factor), cinfo.m_max_v_samp_factor), null, 0);
 
                 m_color_buf[ci] = cb;
@@ -150,7 +152,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* Fill the conversion buffer, if it's empty */
             if (m_next_row_out >= m_cinfo.m_max_v_samp_factor)
             {
-                for (int ci = 0; ci < m_cinfo.m_num_components; ci++)
+                for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
                 {
                     m_perComponentOffsets[ci] = 0;
 
@@ -166,18 +168,22 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* Color-convert and emit rows */
 
             /* How many we have in the buffer: */
-            int num_rows = m_cinfo.m_max_v_samp_factor - m_next_row_out;
+            var num_rows = m_cinfo.m_max_v_samp_factor - m_next_row_out;
 
             /* Not more than the distance to the end of the image.  Need this test
              * in case the image height is not a multiple of max_v_samp_factor:
              */
             if (num_rows > m_rows_to_go)
+            {
                 num_rows = m_rows_to_go;
+            }
 
             /* And not more than what the client can accept: */
             out_rows_avail -= out_row_ctr;
             if (num_rows > out_rows_avail)
+            {
                 num_rows = out_rows_avail;
+            }
 
             m_cinfo.m_cconvert.color_convert(m_color_buf, m_perComponentOffsets, m_next_row_out, output_buf, out_row_ctr, num_rows);
 
@@ -188,7 +194,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             /* When the buffer is emptied, declare this input row group consumed */
             if (m_next_row_out >= m_cinfo.m_max_v_samp_factor)
+            {
                 in_row_group_ctr++;
+            }
         }
 
         private void upsampleComponent(ref ComponentBuffer input_data)
@@ -249,16 +257,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void h2v1_upsample(ref ComponentBuffer input_data)
         {
-            ComponentBuffer output_data = m_color_buf[m_currentComponent];
+            var output_data = m_color_buf[m_currentComponent];
 
-            for (int inrow = 0; inrow < m_cinfo.m_max_v_samp_factor; inrow++)
+            for (var inrow = 0; inrow < m_cinfo.m_max_v_samp_factor; inrow++)
             {
-                int row = m_upsampleRowOffset + inrow;
-                int outIndex = 0;
+                var row = m_upsampleRowOffset + inrow;
+                var outIndex = 0;
 
-                for (int col = 0; outIndex < m_cinfo.m_output_width; col++)
+                for (var col = 0; outIndex < m_cinfo.m_output_width; col++)
                 {
-                    byte invalue = input_data[row][col]; /* don't need GETJSAMPLE() here */
+                    var invalue = input_data[row][col]; /* don't need GETJSAMPLE() here */
                     output_data[inrow][outIndex] = invalue;
                     outIndex++;
                     output_data[inrow][outIndex] = invalue;
@@ -273,18 +281,18 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void h2v2_upsample(ref ComponentBuffer input_data)
         {
-            ComponentBuffer output_data = m_color_buf[m_currentComponent];
+            var output_data = m_color_buf[m_currentComponent];
 
-            int inrow = 0;
-            int outrow = 0;
+            var inrow = 0;
+            var outrow = 0;
             while (outrow < m_cinfo.m_max_v_samp_factor)
             {
-                int row = m_upsampleRowOffset + inrow;
-                int outIndex = 0;
+                var row = m_upsampleRowOffset + inrow;
+                var outIndex = 0;
 
-                for (int col = 0; outIndex < m_cinfo.m_output_width; col++)
+                for (var col = 0; outIndex < m_cinfo.m_output_width; col++)
                 {
-                    byte invalue = input_data[row][col]; /* don't need GETJSAMPLE() here */
+                    var invalue = input_data[row][col]; /* don't need GETJSAMPLE() here */
                     output_data[outrow][outIndex] = invalue;
                     outIndex++;
                     output_data[outrow][outIndex] = invalue;
@@ -309,31 +317,31 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void int_upsample(ref ComponentBuffer input_data)
         {
-            ComponentBuffer output_data = m_color_buf[m_currentComponent];
+            var output_data = m_color_buf[m_currentComponent];
             int h_expand = m_h_expand[m_currentComponent];
             int v_expand = m_v_expand[m_currentComponent];
 
-            int inrow = 0;
-            int outrow = 0;
+            var inrow = 0;
+            var outrow = 0;
             while (outrow < m_cinfo.m_max_v_samp_factor)
             {
                 /* Generate one output row with proper horizontal expansion */
-                int row = m_upsampleRowOffset + inrow;
-                for (int col = 0; col < m_cinfo.m_output_width; col++)
+                var row = m_upsampleRowOffset + inrow;
+                for (var col = 0; col < m_cinfo.m_output_width; col++)
                 {
-                    byte invalue = input_data[row][col]; /* don't need GETJSAMPLE() here */
-                    int outIndex = 0;
-                    for (int h = h_expand; h > 0; h--)
+                    var invalue = input_data[row][col]; /* don't need GETJSAMPLE() here */
+                    var outIndex = 0;
+                    for (var h = h_expand; h > 0; h--)
                     {
                         output_data[outrow][outIndex] = invalue;
                         outIndex++;
                     }
                 }
-                
+
                 /* Generate any additional output rows by duplicating the first one */
                 if (v_expand > 1)
                 {
-                    JpegUtils.jcopy_sample_rows(output_data, outrow, output_data, 
+                    JpegUtils.jcopy_sample_rows(output_data, outrow, output_data,
                         outrow + 1, v_expand - 1, m_cinfo.m_output_width);
                 }
 

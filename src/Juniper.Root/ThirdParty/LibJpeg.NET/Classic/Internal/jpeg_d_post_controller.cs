@@ -15,7 +15,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// <summary>
     /// Decompression postprocessing (color quantization buffer control)
     /// </summary>
-    class jpeg_d_post_controller
+    internal class jpeg_d_post_controller
     {
         private enum ProcessorType
         {
@@ -27,16 +27,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
         private ProcessorType m_processor;
 
-        private jpeg_decompress_struct m_cinfo;
+        private readonly jpeg_decompress_struct m_cinfo;
 
         /* Color quantization source buffer: this holds output data from
         * the upsample/color conversion step to be passed to the quantizer.
         * For two-pass color quantization, we need a full-image buffer;
         * for one-pass operation, a strip buffer is sufficient.
         */
-        private jvirt_array<byte> m_whole_image;  /* virtual array, or null if one-pass */
+        private readonly jvirt_array<byte> m_whole_image;  /* virtual array, or null if one-pass */
         private byte[][] m_buffer;       /* strip buffer, or current strip of virtual */
-        private int m_strip_height;    /* buffer size in rows */
+        private readonly int m_strip_height;    /* buffer size in rows */
         /* for two-pass mode only: */
         private int m_starting_row;    /* row # of first row in current strip */
         private int m_next_row;        /* index of next row to fill/empty in strip */
@@ -92,7 +92,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                          * allocate a strip buffer.  Use the virtual-array buffer as workspace.
                          */
                         if (m_buffer == null)
+                        {
                             m_buffer = m_whole_image.Access(0, m_strip_height);
+                        }
                     }
                     else
                     {
@@ -105,14 +107,18 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 case J_BUF_MODE.JBUF_SAVE_AND_PASS:
                     /* First pass of 2-pass quantization */
                     if (m_whole_image == null)
+                    {
                         m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_BUFFER_MODE);
+                    }
 
                     m_processor = ProcessorType.PrePass;
                     break;
                 case J_BUF_MODE.JBUF_CRANK_DEST:
                     /* Second pass of 2-pass quantization */
                     if (m_whole_image == null)
+                    {
                         m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_BUFFER_MODE);
+                    }
 
                     m_processor = ProcessorType.SecondPass;
                     break;
@@ -153,11 +159,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         {
             /* Fill the buffer, but not more than what we can dump out in one go. */
             /* Note we rely on the upsampler to detect bottom of image. */
-            int max_rows = out_rows_avail - out_row_ctr;
+            var max_rows = out_rows_avail - out_row_ctr;
             if (max_rows > m_strip_height)
+            {
                 max_rows = m_strip_height;
+            }
 
-            int num_rows = 0;
+            var num_rows = 0;
             m_cinfo.m_upsample.upsample(input_buf, ref in_row_group_ctr, in_row_groups_avail, m_buffer, ref num_rows, max_rows);
 
             /* Quantize and emit data. */
@@ -174,7 +182,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             /* Reposition virtual buffer if at start of strip. */
             if (m_next_row == 0)
+            {
                 m_buffer = m_whole_image.Access(m_starting_row, m_strip_height);
+            }
 
             /* Upsample some data (up to a strip height's worth). */
             old_next_row = m_next_row;
@@ -206,18 +216,24 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             /* Reposition virtual buffer if at start of strip. */
             if (m_next_row == 0)
+            {
                 m_buffer = m_whole_image.Access(m_starting_row, m_strip_height);
+            }
 
             /* Determine number of rows to emit. */
             num_rows = m_strip_height - m_next_row; /* available in strip */
             max_rows = out_rows_avail - out_row_ctr; /* available in output area */
             if (num_rows > max_rows)
+            {
                 num_rows = max_rows;
+            }
 
             /* We have to check bottom of image here, can't depend on upsampler. */
             max_rows = m_cinfo.m_output_height - m_starting_row;
             if (num_rows > max_rows)
+            {
                 num_rows = max_rows;
+            }
 
             /* Quantize and emit data. */
             m_cinfo.m_cquantize.color_quantize(m_buffer, m_next_row, output_buf, out_row_ctr, num_rows);

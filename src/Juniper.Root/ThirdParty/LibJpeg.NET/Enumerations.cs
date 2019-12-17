@@ -39,7 +39,7 @@ namespace BitMiracle.LibJpeg
     /// <summary>
     /// DCT/IDCT algorithm options.
     /// </summary>
-    enum DCTMethod
+    internal enum DCTMethod
     {
         IntegerSlow,     /* slow but accurate integer algorithm */
         IntegerFast,     /* faster, less accurate integer method */
@@ -49,7 +49,7 @@ namespace BitMiracle.LibJpeg
     /// <summary>
     /// Dithering options for decompression.
     /// </summary>
-    enum DitherMode
+    internal enum DitherMode
     {
         None,               /* no dithering */
         Ordered,            /* simple ordered dither */

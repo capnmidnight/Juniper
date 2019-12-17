@@ -77,7 +77,7 @@ namespace Juniper.Primrose
         {
             string commentDelim = null,
                   stringDelim = null;
-            int line = 0;
+            var line = 0;
             for (var i = 0; i < tokens.Count; ++i)
             {
                 var t = tokens[i];

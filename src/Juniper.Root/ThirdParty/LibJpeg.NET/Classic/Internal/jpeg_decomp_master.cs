@@ -12,9 +12,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// <summary>
     /// Master control module
     /// </summary>
-    class jpeg_decomp_master
+    internal class jpeg_decomp_master
     {
-        private jpeg_decompress_struct m_cinfo;
+        private readonly jpeg_decompress_struct m_cinfo;
 
         private int m_pass_number;        /* # of passes completed */
         private bool m_is_dummy_pass; /* True during 1st pass for 2-pass quant */
@@ -62,9 +62,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         m_is_dummy_pass = true;
                     }
                     else if (m_cinfo.m_enable_1pass_quant)
+                    {
                         m_cinfo.m_cquantize = m_quantizer_1pass;
+                    }
                     else
+                    {
                         m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_MODE_CHANGE);
+                    }
                 }
 
                 m_cinfo.m_idct.start_pass();
@@ -75,7 +79,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     m_cinfo.m_upsample.start_pass();
 
                     if (m_cinfo.m_quantize_colors)
+                    {
                         m_cinfo.m_cquantize.start_pass(m_is_dummy_pass);
+                    }
 
                     m_cinfo.m_post.start_pass((m_is_dummy_pass ? J_BUF_MODE.JBUF_SAVE_AND_PASS : J_BUF_MODE.JBUF_PASS_THRU));
                     m_cinfo.m_main.start_pass(J_BUF_MODE.JBUF_PASS_THRU);
@@ -92,7 +98,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                  * yet reached, but no more passes if EOI has been reached.
                  */
                 if (m_cinfo.m_buffered_image && !m_cinfo.m_inputctl.EOIReached())
+                {
                     m_cinfo.m_progress.Total_passes += (m_cinfo.m_enable_2pass_quant ? 2 : 1);
+                }
             }
         }
 
@@ -102,7 +110,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         public void finish_output_pass()
         {
             if (m_cinfo.m_quantize_colors)
+            {
                 m_cinfo.m_cquantize.finish_pass();
+            }
 
             m_pass_number++;
         }
@@ -126,7 +136,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         {
             /* For now, precision must match compiled-in value... */
             if (m_cinfo.m_data_precision != JpegConstants.BITS_IN_JSAMPLE)
+            {
                 m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_PRECISION, m_cinfo.m_data_precision);
+            }
 
             /* Initialize dimensions and other stuff */
             m_cinfo.jpeg_calc_output_dimensions();
@@ -141,9 +153,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             /* Width of an output scanline must be representable as int. */
             long samplesperrow = m_cinfo.m_output_width * m_cinfo.m_out_color_components;
-            int jd_samplesperrow = (int)samplesperrow;
-            if ((long)jd_samplesperrow != samplesperrow)
+            var jd_samplesperrow = (int)samplesperrow;
+            if (jd_samplesperrow != samplesperrow)
+            {
                 m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_WIDTH_OVERFLOW);
+            }
 
             /* Initialize my private state */
             m_pass_number = 0;
@@ -164,7 +178,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             if (m_cinfo.m_quantize_colors)
             {
                 if (m_cinfo.m_raw_data_out)
+                {
                     m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_NOTIMPL);
+                }
 
                 /* 2-pass quantizer only works in 3-component color space. */
                 if (m_cinfo.m_out_color_components != 3)
@@ -175,11 +191,17 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     m_cinfo.m_colormap = null;
                 }
                 else if (m_cinfo.m_colormap != null)
+                {
                     m_cinfo.m_enable_external_quant = true;
+                }
                 else if (m_cinfo.m_two_pass_quantize)
+                {
                     m_cinfo.m_enable_2pass_quant = true;
+                }
                 else
+                {
                     m_cinfo.m_enable_1pass_quant = true;
+                }
 
                 if (m_cinfo.m_enable_1pass_quant)
                 {
@@ -219,16 +241,22 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             m_cinfo.m_idct = new jpeg_inverse_dct(m_cinfo);
 
             if (m_cinfo.arith_code)
+            {
                 m_cinfo.m_entropy = new arith_entropy_decoder(m_cinfo);
+            }
             else
+            {
                 m_cinfo.m_entropy = new huff_entropy_decoder(m_cinfo);
+            }
 
             /* Initialize principal buffer controllers. */
-            bool use_c_buffer = m_cinfo.m_inputctl.HasMultipleScans() || m_cinfo.m_buffered_image;
+            var use_c_buffer = m_cinfo.m_inputctl.HasMultipleScans() || m_cinfo.m_buffered_image;
             m_cinfo.m_coef = new jpeg_d_coef_controller(m_cinfo, use_c_buffer);
 
             if (!m_cinfo.m_raw_data_out)
+            {
                 m_cinfo.m_main = new jpeg_d_main_controller(m_cinfo);
+            }
 
             /* Initialize input side of decompressor to consume first scan. */
             m_cinfo.m_inputctl.start_input_pass();
@@ -302,22 +330,26 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private void prepare_range_limit_table()
         {
-            byte[] table = new byte[5 * (JpegConstants.MAXJSAMPLE + 1)];
+            var table = new byte[5 * (JpegConstants.MAXJSAMPLE + 1)];
             /* First segment of range limit table: limit[x] = 0 for x < 0 */
 
             /* allow negative subscripts of simple table */
-            int tableOffset = 2 * (JpegConstants.MAXJSAMPLE + 1);
+            var tableOffset = 2 * (JpegConstants.MAXJSAMPLE + 1);
             m_cinfo.m_sample_range_limit = table;
             m_cinfo.m_sampleRangeLimitOffset = tableOffset;
 
             /* Main part of range limit table: limit[x] = x */
             int i;
             for (i = 0; i <= JpegConstants.MAXJSAMPLE; i++)
-                table[tableOffset + i] = (byte) i;
+            {
+                table[tableOffset + i] = (byte)i;
+            }
 
             /* End of range limit table: limit[x] = MAXJSAMPLE for x > MAXJSAMPLE */
             for (; i < 3 * (JpegConstants.MAXJSAMPLE + 1); i++)
+            {
                 table[tableOffset + i] = JpegConstants.MAXJSAMPLE;
+            }
         }
     }
 }

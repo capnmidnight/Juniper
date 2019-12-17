@@ -127,11 +127,11 @@ namespace Juniper.Collections
                 {
                     case nameof(namedNodes):
                     case "namedEndPoints":
-                    namedNodes = info.GetValue<Dictionary<string, NodeT>>(pair.Name);
-                    break;
+                        namedNodes = info.GetValue<Dictionary<string, NodeT>>(pair.Name);
+                        break;
                     case nameof(dirty):
-                    dirty = info.GetBoolean(nameof(dirty));
-                    break;
+                        dirty = info.GetBoolean(nameof(dirty));
+                        break;
                 }
             }
 

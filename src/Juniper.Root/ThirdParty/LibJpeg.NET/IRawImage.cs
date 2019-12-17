@@ -1,6 +1,6 @@
 ﻿namespace BitMiracle.LibJpeg
 {
-    interface IRawImage
+    internal interface IRawImage
     {
         int Width
         { get; }

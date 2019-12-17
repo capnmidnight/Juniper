@@ -187,7 +187,7 @@ namespace Juniper.Audio
             }
 
             var v = *(float*)&uv;
-            int accum = (int)(v * scalar);
+            var accum = (int)(v * scalar);
             accum >>= shift;
 
             for (var b = bytesPerFloat - 1; b >= 0; --b)
@@ -207,7 +207,7 @@ namespace Juniper.Audio
         /// <param name="outOffset"></param>
         protected unsafe void PCMToFloat(byte[] inBuffer, int inOffset, byte[] outBuffer, int outOffset)
         {
-            int accum = 0;
+            var accum = 0;
             for (var b = bytesPerFloat - 1; b >= 0; --b)
             {
                 accum <<= 8;
@@ -217,7 +217,7 @@ namespace Juniper.Audio
 
             accum <<= shift;
             var v = accum / scalar;
-            uint uv = *(uint*)&v;
+            var uv = *(uint*)&v;
 
             for (var b = 0; b < sizeof(float); ++b)
             {

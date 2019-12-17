@@ -697,19 +697,25 @@ namespace BitMiracle.LibJpeg.Classic
         /// otherwise unsuppress.</param>
         public void jpeg_suppress_tables(bool suppress)
         {
-            for (int i = 0; i < JpegConstants.NUM_QUANT_TBLS; i++)
+            for (var i = 0; i < JpegConstants.NUM_QUANT_TBLS; i++)
             {
                 if (m_quant_tbl_ptrs[i] != null)
+                {
                     m_quant_tbl_ptrs[i].Sent_table = suppress;
+                }
             }
 
-            for (int i = 0; i < JpegConstants.NUM_HUFF_TBLS; i++)
+            for (var i = 0; i < JpegConstants.NUM_HUFF_TBLS; i++)
             {
                 if (m_dc_huff_tbl_ptrs[i] != null)
+                {
                     m_dc_huff_tbl_ptrs[i].Sent_table = suppress;
+                }
 
                 if (m_ac_huff_tbl_ptrs[i] != null)
+                {
                     m_ac_huff_tbl_ptrs[i].Sent_table = suppress;
+                }
             }
         }
 
@@ -726,11 +732,16 @@ namespace BitMiracle.LibJpeg.Classic
             {
                 /* Terminate first pass */
                 if (m_next_scanline < m_image_height)
+                {
                     ERREXIT(J_MESSAGE_CODE.JERR_TOO_LITTLE_DATA);
+                }
+
                 m_master.finish_pass();
             }
             else if (m_global_state != JpegState.CSTATE_WRCOEFS)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BAD_STATE, (int)m_global_state);
+            }
 
             /* Perform any remaining passes */
             while (!m_master.IsLastPass())
@@ -749,7 +760,9 @@ namespace BitMiracle.LibJpeg.Classic
                     * all work is being done from the coefficient buffer.
                     */
                     if (!m_coef.compress_data(null))
+                    {
                         ERREXIT(J_MESSAGE_CODE.JERR_CANT_SUSPEND);
+                    }
                 }
 
                 m_master.finish_pass();
@@ -780,12 +793,16 @@ namespace BitMiracle.LibJpeg.Classic
         public void jpeg_write_marker(int marker, byte[] data)
         {
             if (m_next_scanline != 0 || (m_global_state != JpegState.CSTATE_SCANNING && m_global_state != JpegState.CSTATE_RAW_OK && m_global_state != JpegState.CSTATE_WRCOEFS))
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BAD_STATE, (int)m_global_state);
+            }
 
             m_marker.write_marker_header(marker, data.Length);
 
-            for (int i = 0; i < data.Length; i++)
+            for (var i = 0; i < data.Length; i++)
+            {
                 m_marker.write_marker_byte(data[i]);
+            }
         }
 
         /// <summary>
@@ -804,7 +821,9 @@ namespace BitMiracle.LibJpeg.Classic
         public void jpeg_write_m_header(int marker, int datalen)
         {
             if (m_next_scanline != 0 || (m_global_state != JpegState.CSTATE_SCANNING && m_global_state != JpegState.CSTATE_RAW_OK && m_global_state != JpegState.CSTATE_WRCOEFS))
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BAD_STATE, (int)m_global_state);
+            }
 
             m_marker.write_marker_header(marker, datalen);
         }
@@ -845,7 +864,9 @@ namespace BitMiracle.LibJpeg.Classic
         public void jpeg_write_tables()
         {
             if (m_global_state != JpegState.CSTATE_START)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BAD_STATE, (int)m_global_state);
+            }
 
             /* (Re)initialize error mgr and destination modules */
             m_err.reset_error_mgr();
@@ -885,7 +906,9 @@ namespace BitMiracle.LibJpeg.Classic
         {
             /* Safety check to ensure start_compress not called yet. */
             if (m_global_state != JpegState.CSTATE_START)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BAD_STATE, (int)m_global_state);
+            }
 
             /* Allocate comp_info array large enough for maximum component count.
             * Array is made permanent in case application wants to compress
@@ -986,7 +1009,9 @@ namespace BitMiracle.LibJpeg.Classic
 
             /* Safety check to ensure start_compress not called yet. */
             if (m_global_state != JpegState.CSTATE_START)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BAD_STATE, (int)m_global_state);
+            }
 
             /* For all colorspaces, we use Q and Huff tables 0 for luminance components,
             * tables 1 for chrominance components.
@@ -1002,10 +1027,14 @@ namespace BitMiracle.LibJpeg.Classic
                 case J_COLOR_SPACE.JCS_UNKNOWN:
                     m_num_components = m_input_components;
                     if (m_num_components < 1 || m_num_components > JpegConstants.MAX_COMPONENTS)
+                    {
                         ERREXIT(J_MESSAGE_CODE.JERR_COMPONENT_COUNT, m_num_components, JpegConstants.MAX_COMPONENTS);
+                    }
 
                     for (ci = 0; ci < m_num_components; ci++)
+                    {
                         jpeg_set_colorspace_SET_COMP(ci, ci, 1, 1, 0, 0, 0);
+                    }
 
                     break;
 
@@ -1206,29 +1235,41 @@ namespace BitMiracle.LibJpeg.Classic
         {
             /* Safety check to ensure start_compress not called yet. */
             if (m_global_state != JpegState.CSTATE_START)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BAD_STATE, (int)m_global_state);
+            }
 
             if (which_tbl < 0 || which_tbl >= JpegConstants.NUM_QUANT_TBLS)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_DQT_INDEX, which_tbl);
+            }
 
             if (m_quant_tbl_ptrs[which_tbl] == null)
-                m_quant_tbl_ptrs[which_tbl] = new JQUANT_TBL();
-
-            for (int i = 0; i < JpegConstants.DCTSIZE2; i++)
             {
-                int temp = (basic_table[i] * scale_factor + 50) / 100;
+                m_quant_tbl_ptrs[which_tbl] = new JQUANT_TBL();
+            }
+
+            for (var i = 0; i < JpegConstants.DCTSIZE2; i++)
+            {
+                var temp = (basic_table[i] * scale_factor + 50) / 100;
 
                 /* limit the values to the valid range */
                 if (temp <= 0)
+                {
                     temp = 1;
+                }
 
                 /* max quantizer needed for 12 bits */
                 if (temp > 32767)
+                {
                     temp = 32767;
+                }
 
                 /* limit to baseline range if requested */
                 if (force_baseline && temp > 255)
+                {
                     temp = 255;
+                }
 
                 m_quant_tbl_ptrs[which_tbl].quantval[i] = (short)temp;
             }
@@ -1247,10 +1288,14 @@ namespace BitMiracle.LibJpeg.Classic
         {
             /* Safety limit on quality factor.  Convert 0 to 1 to avoid zero divide. */
             if (quality <= 0)
+            {
                 quality = 1;
+            }
 
             if (quality > 100)
+            {
                 quality = 100;
+            }
 
             /* The basic table is used as-is (scaling 100) for a quality of 50.
             * Qualities 50..100 are converted to scaling percentage 200 - 2*Q;
@@ -1259,9 +1304,13 @@ namespace BitMiracle.LibJpeg.Classic
             * Qualities 1..50 are converted to scaling percentage 5000/Q.
             */
             if (quality < 50)
+            {
                 quality = 5000 / quality;
+            }
             else
+            {
                 quality = 200 - quality * 2;
+            }
 
             return quality;
         }
@@ -1277,7 +1326,9 @@ namespace BitMiracle.LibJpeg.Classic
         {
             /* Safety check to ensure start_compress not called yet. */
             if (m_global_state != JpegState.CSTATE_START)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BAD_STATE, (int)m_global_state);
+            }
 
             /* Figure space needed for script.  Calculation must match code below! */
             int nscans;
@@ -1314,14 +1365,16 @@ namespace BitMiracle.LibJpeg.Classic
             {
                 m_script_space_size = Math.Max(nscans, 10);
                 m_script_space = new jpeg_scan_info[m_script_space_size];
-                for (int i = 0; i < m_script_space_size; i++)
+                for (var i = 0; i < m_script_space_size; i++)
+                {
                     m_script_space[i] = new jpeg_scan_info();
+                }
             }
 
             m_scan_info = m_script_space;
             m_num_scans = nscans;
 
-            int scanIndex = 0;
+            var scanIndex = 0;
             if (m_num_components == 3 &&
                 (m_jpeg_color_space == J_COLOR_SPACE.JCS_YCbCr ||
                 m_jpeg_color_space == J_COLOR_SPACE.JCS_BG_YCC))
@@ -1383,10 +1436,14 @@ namespace BitMiracle.LibJpeg.Classic
         public void jpeg_start_compress(bool write_all_tables)
         {
             if (m_global_state != JpegState.CSTATE_START)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BAD_STATE, (int)m_global_state);
+            }
 
             if (write_all_tables)
+            {
                 jpeg_suppress_tables(false); /* mark all tables to be written */
+            }
 
             /* (Re)initialize error mgr and destination modules */
             m_err.reset_error_mgr();
@@ -1423,10 +1480,14 @@ namespace BitMiracle.LibJpeg.Classic
         public int jpeg_write_scanlines(byte[][] scanlines, int num_lines)
         {
             if (m_global_state != JpegState.CSTATE_SCANNING)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BAD_STATE, (int)m_global_state);
+            }
 
             if (m_next_scanline >= m_image_height)
+            {
                 WARNMS(J_MESSAGE_CODE.JWRN_TOO_MUCH_DATA);
+            }
 
             /* Call progress monitor hook if present */
             if (m_progress != null)
@@ -1442,14 +1503,18 @@ namespace BitMiracle.LibJpeg.Classic
             * jpeg_start_compress and jpeg_write_scanlines.
             */
             if (m_master.MustCallPassStartup())
+            {
                 m_master.pass_startup();
+            }
 
             /* Ignore any extra scanlines at bottom of image. */
-            int rows_left = m_image_height - m_next_scanline;
+            var rows_left = m_image_height - m_next_scanline;
             if (num_lines > rows_left)
+            {
                 num_lines = rows_left;
+            }
 
-            int row_ctr = 0;
+            var row_ctr = 0;
             m_main.process_data(scanlines, ref row_ctr, num_lines);
             m_next_scanline += row_ctr;
             return row_ctr;
@@ -1466,7 +1531,9 @@ namespace BitMiracle.LibJpeg.Classic
         public int jpeg_write_raw_data(byte[][][] data, int num_lines)
         {
             if (m_global_state != JpegState.CSTATE_RAW_OK)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BAD_STATE, (int)m_global_state);
+            }
 
             if (m_next_scanline >= m_image_height)
             {
@@ -1488,12 +1555,16 @@ namespace BitMiracle.LibJpeg.Classic
             * jpeg_start_compress and jpeg_write_raw_data.
             */
             if (m_master.MustCallPassStartup())
+            {
                 m_master.pass_startup();
+            }
 
             /* Verify that at least one iMCU row has been passed. */
-            int lines_per_iMCU_row = m_max_v_samp_factor * min_DCT_v_scaled_size;
+            var lines_per_iMCU_row = m_max_v_samp_factor * min_DCT_v_scaled_size;
             if (num_lines < lines_per_iMCU_row)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BUFFER_SIZE);
+            }
 
             /* Directly compress the row. */
             if (!m_coef.compress_data(data))
@@ -1520,7 +1591,9 @@ namespace BitMiracle.LibJpeg.Classic
         public void jpeg_write_coefficients(jvirt_array<JBLOCK>[] coef_arrays)
         {
             if (m_global_state != JpegState.CSTATE_START)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BAD_STATE, (int)m_global_state);
+            }
 
             /* Mark all tables to be written */
             jpeg_suppress_tables(false);
@@ -1554,7 +1627,9 @@ namespace BitMiracle.LibJpeg.Classic
              * and we need some space for multiplication by block_size.
              */
             if (((long)m_image_width >> 24) != 0 || ((long)m_image_height >> 24) != 0)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_IMAGE_TOO_BIG, (uint)JpegConstants.JPEG_MAX_DIMENSION);
+            }
 
             /* Compute actual JPEG image dimensions and DCT scaling choices. */
             if (scale_num >= scale_denom * block_size)
@@ -1690,7 +1765,9 @@ namespace BitMiracle.LibJpeg.Classic
         private void jpeg_calc_trans_dimensions()
         {
             if (min_DCT_h_scaled_size != min_DCT_v_scaled_size)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BAD_DCTSIZE, min_DCT_h_scaled_size, min_DCT_v_scaled_size);
+            }
 
             block_size = min_DCT_h_scaled_size;
         }
@@ -1705,13 +1782,13 @@ namespace BitMiracle.LibJpeg.Classic
             m_dest = null;
             m_comp_info = null;
 
-            for (int i = 0; i < JpegConstants.NUM_QUANT_TBLS; i++)
+            for (var i = 0; i < JpegConstants.NUM_QUANT_TBLS; i++)
             {
                 m_quant_tbl_ptrs[i] = null;
                 q_scale_factor[i] = 100;
             }
 
-            for (int i = 0; i < JpegConstants.NUM_HUFF_TBLS; i++)
+            for (var i = 0; i < JpegConstants.NUM_HUFF_TBLS; i++)
             {
                 m_dc_huff_tbl_ptrs[i] = null;
                 m_ac_huff_tbl_ptrs[i] = null;
@@ -1739,7 +1816,9 @@ namespace BitMiracle.LibJpeg.Classic
         {
             /* Sanity check on image dimensions */
             if (m_image_height <= 0 || m_image_width <= 0 || m_input_components <= 0)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_EMPTY_IMAGE);
+            }
 
             /* Initialize master control (includes parameter checking/processing) */
             jinit_c_master_control(false /* full compression */);
@@ -1757,12 +1836,16 @@ namespace BitMiracle.LibJpeg.Classic
 
             /* Entropy encoding: either Huffman or arithmetic coding. */
             if (arith_code)
+            {
                 m_entropy = new arith_entropy_encoder(this);
+            }
             else
+            {
                 m_entropy = new huff_entropy_encoder(this);
+            }
 
             /* Need a full-image coefficient buffer in any multi-pass mode. */
-            m_coef = new my_c_coef_controller(this, (bool)(m_num_scans > 1 || m_optimize_coding));
+            m_coef = new my_c_coef_controller(this, m_num_scans > 1 || m_optimize_coding);
             jinit_c_main_controller(false /* never need full buffer here */);
             m_marker = new jpeg_marker_writer(this);
 
@@ -1785,7 +1868,9 @@ namespace BitMiracle.LibJpeg.Classic
             {
                 validate_script();
                 if (block_size < JpegConstants.DCTSIZE)
+                {
                     reduce_script();
+                }
             }
             else
             {
@@ -1815,15 +1900,21 @@ namespace BitMiracle.LibJpeg.Classic
         {
             /* We don't need to create a buffer in raw-data mode. */
             if (m_raw_data_in)
+            {
                 return;
+            }
 
             /* Create the buffer.  It holds downsampled data, so each component
             * may be of a different size.
             */
             if (need_full_buffer)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BAD_BUFFER_MODE);
+            }
             else
+            {
                 m_main = new jpeg_c_main_controller(this);
+            }
         }
 
         /// <summary>
@@ -1836,9 +1927,13 @@ namespace BitMiracle.LibJpeg.Classic
 
             /* Entropy encoding: only Huffman or arithmetic coding. */
             if (arith_code)
+            {
                 m_entropy = new arith_entropy_encoder(this);
+            }
             else
+            {
                 m_entropy = new huff_entropy_encoder(this);
+            }
 
             /* We need a special coefficient buffer controller. */
             m_coef = new my_trans_c_coef_controller(this, coef_arrays);
@@ -1857,13 +1952,19 @@ namespace BitMiracle.LibJpeg.Classic
         private void initial_setup(bool transcode_only)
         {
             if (transcode_only)
+            {
                 jpeg_calc_trans_dimensions();
+            }
             else
+            {
                 jpeg_calc_jpeg_dimensions();
+            }
 
             /* Sanity check on block_size */
             if (block_size < 1 || block_size > 16)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BAD_DCTSIZE, block_size, block_size);
+            }
 
             /* Derive natural_order from block_size */
             switch (block_size)
@@ -1903,7 +2004,9 @@ namespace BitMiracle.LibJpeg.Classic
 
             /* Sanity check on image dimensions */
             if (jpeg_height <= 0 || jpeg_width <= 0 || m_num_components <= 0)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_EMPTY_IMAGE);
+            }
 
             /* Make sure image isn't bigger than I can handle */
             if (jpeg_height > JpegConstants.JPEG_MAX_DIMENSION ||
@@ -1914,16 +2017,20 @@ namespace BitMiracle.LibJpeg.Classic
 
             /* Only 8 to 12 bits data precision are supported for DCT based JPEG */
             if (m_data_precision < 8 || m_data_precision > 12)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BAD_PRECISION, m_data_precision);
+            }
 
             /* Check that number of components won't exceed internal array sizes */
             if (m_num_components > JpegConstants.MAX_COMPONENTS)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_COMPONENT_COUNT, m_num_components, JpegConstants.MAX_COMPONENTS);
+            }
 
             /* Compute maximum sampling factors; check factor validity */
             m_max_h_samp_factor = 1;
             m_max_v_samp_factor = 1;
-            for (int ci = 0; ci < m_num_components; ci++)
+            for (var ci = 0; ci < m_num_components; ci++)
             {
                 if (m_comp_info[ci].H_samp_factor <= 0 || m_comp_info[ci].H_samp_factor > JpegConstants.MAX_SAMP_FACTOR ||
                     m_comp_info[ci].V_samp_factor <= 0 || m_comp_info[ci].V_samp_factor > JpegConstants.MAX_SAMP_FACTOR)
@@ -1936,9 +2043,9 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* Compute dimensions of components */
-            for (int ci = 0; ci < m_num_components; ci++)
+            for (var ci = 0; ci < m_num_components; ci++)
             {
-                jpeg_component_info compptr = m_comp_info[ci];
+                var compptr = m_comp_info[ci];
                 /* Fill in the correct component_index value; don't rely on application */
                 compptr.Component_index = ci;
 
@@ -1947,7 +2054,7 @@ namespace BitMiracle.LibJpeg.Classic
                  * This saves time if the downsampler gets to use 1:1 scaling.
                  * Note this code adapts subsampling ratios which are powers of 2.
                  */
-                int ssize = 1;
+                var ssize = 1;
                 while (min_DCT_h_scaled_size * ssize <=
                    (do_fancy_downsampling ? JpegConstants.DCTSIZE : JpegConstants.DCTSIZE / 2) &&
                    (m_max_h_samp_factor % (compptr.H_samp_factor * ssize * 2)) == 0)
@@ -1968,9 +2075,13 @@ namespace BitMiracle.LibJpeg.Classic
 
                 /* We don't support DCT ratios larger than 2. */
                 if (compptr.DCT_h_scaled_size > compptr.DCT_v_scaled_size * 2)
+                {
                     compptr.DCT_h_scaled_size = compptr.DCT_v_scaled_size * 2;
+                }
                 else if (compptr.DCT_v_scaled_size > compptr.DCT_h_scaled_size * 2)
+                {
                     compptr.DCT_v_scaled_size = compptr.DCT_h_scaled_size * 2;
+                }
 
                 /* Size in DCT blocks */
                 compptr.Width_in_blocks = (int)JpegUtils.jdiv_round_up(
@@ -2008,59 +2119,73 @@ namespace BitMiracle.LibJpeg.Classic
         private void validate_script()
         {
             if (m_num_scans <= 0)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BAD_SCAN_SCRIPT, 0);
+            }
 
             /* For sequential JPEG, all scans must have Ss=0, Se=DCTSIZE2-1;
             * for progressive JPEG, no scan can have this.
             */
-            int[][] last_bitpos = new int[JpegConstants.MAX_COMPONENTS][];
-            for (int i = 0; i < JpegConstants.MAX_COMPONENTS; i++)
+            var last_bitpos = new int[JpegConstants.MAX_COMPONENTS][];
+            for (var i = 0; i < JpegConstants.MAX_COMPONENTS; i++)
+            {
                 last_bitpos[i] = new int[JpegConstants.DCTSIZE2];
+            }
 
-            bool[] component_sent = new bool[JpegConstants.MAX_COMPONENTS];
+            var component_sent = new bool[JpegConstants.MAX_COMPONENTS];
 
             /* -1 until that coefficient has been seen; then last Al for it */
             if (m_scan_info[0].Ss != 0 || m_scan_info[0].Se != JpegConstants.DCTSIZE2 - 1)
             {
                 m_progressive_mode = true;
-                for (int ci = 0; ci < m_num_components; ci++)
+                for (var ci = 0; ci < m_num_components; ci++)
                 {
-                    for (int coefi = 0; coefi < JpegConstants.DCTSIZE2; coefi++)
+                    for (var coefi = 0; coefi < JpegConstants.DCTSIZE2; coefi++)
+                    {
                         last_bitpos[ci][coefi] = -1;
+                    }
                 }
             }
             else
             {
                 m_progressive_mode = false;
-                for (int ci = 0; ci < m_num_components; ci++)
+                for (var ci = 0; ci < m_num_components; ci++)
+                {
                     component_sent[ci] = false;
+                }
             }
 
-            for (int scanno = 1; scanno <= m_num_scans; scanno++)
+            for (var scanno = 1; scanno <= m_num_scans; scanno++)
             {
-                jpeg_scan_info scanInfo = m_scan_info[scanno - 1];
+                var scanInfo = m_scan_info[scanno - 1];
 
                 /* Validate component indexes */
-                int ncomps = scanInfo.comps_in_scan;
+                var ncomps = scanInfo.comps_in_scan;
                 if (ncomps <= 0 || ncomps > JpegConstants.MAX_COMPS_IN_SCAN)
-                    ERREXIT(J_MESSAGE_CODE.JERR_COMPONENT_COUNT, ncomps, JpegConstants.MAX_COMPS_IN_SCAN);
-
-                for (int ci = 0; ci < ncomps; ci++)
                 {
-                    int thisi = scanInfo.component_index[ci];
+                    ERREXIT(J_MESSAGE_CODE.JERR_COMPONENT_COUNT, ncomps, JpegConstants.MAX_COMPS_IN_SCAN);
+                }
+
+                for (var ci = 0; ci < ncomps; ci++)
+                {
+                    var thisi = scanInfo.component_index[ci];
                     if (thisi < 0 || thisi >= m_num_components)
+                    {
                         ERREXIT(J_MESSAGE_CODE.JERR_BAD_SCAN_SCRIPT, scanno);
+                    }
 
                     /* Components must appear in SOF order within each scan */
                     if (ci > 0 && thisi <= scanInfo.component_index[ci - 1])
+                    {
                         ERREXIT(J_MESSAGE_CODE.JERR_BAD_SCAN_SCRIPT, scanno);
+                    }
                 }
 
                 /* Validate progression parameters */
-                int Ss = scanInfo.Ss;
-                int Se = scanInfo.Se;
-                int Ah = scanInfo.Ah;
-                int Al = scanInfo.Al;
+                var Ss = scanInfo.Ss;
+                var Se = scanInfo.Se;
+                var Ah = scanInfo.Ah;
+                var Al = scanInfo.Al;
                 if (m_progressive_mode)
                 {
                     /* The JPEG spec simply gives the ranges 0..13 for Ah and Al, but that
@@ -2080,33 +2205,43 @@ namespace BitMiracle.LibJpeg.Classic
                     if (Ss == 0)
                     {
                         if (Se != 0)        /* DC and AC together not OK */
+                        {
                             ERREXIT(J_MESSAGE_CODE.JERR_BAD_PROG_SCRIPT, scanno);
+                        }
                     }
                     else
                     {
                         if (ncomps != 1)    /* AC scans must be for only one component */
+                        {
                             ERREXIT(J_MESSAGE_CODE.JERR_BAD_PROG_SCRIPT, scanno);
+                        }
                     }
 
-                    for (int ci = 0; ci < ncomps; ci++)
+                    for (var ci = 0; ci < ncomps; ci++)
                     {
-                        int lastBitComponentIndex = scanInfo.component_index[ci];
+                        var lastBitComponentIndex = scanInfo.component_index[ci];
                         if (Ss != 0 && last_bitpos[lastBitComponentIndex][0] < 0) /* AC without prior DC scan */
+                        {
                             ERREXIT(J_MESSAGE_CODE.JERR_BAD_PROG_SCRIPT, scanno);
+                        }
 
-                        for (int coefi = Ss; coefi <= Se; coefi++)
+                        for (var coefi = Ss; coefi <= Se; coefi++)
                         {
                             if (last_bitpos[lastBitComponentIndex][coefi] < 0)
                             {
                                 /* first scan of this coefficient */
                                 if (Ah != 0)
+                                {
                                     ERREXIT(J_MESSAGE_CODE.JERR_BAD_PROG_SCRIPT, scanno);
+                                }
                             }
                             else
                             {
                                 /* not first scan */
                                 if (Ah != last_bitpos[lastBitComponentIndex][coefi] || Al != Ah - 1)
+                                {
                                     ERREXIT(J_MESSAGE_CODE.JERR_BAD_PROG_SCRIPT, scanno);
+                                }
                             }
 
                             last_bitpos[lastBitComponentIndex][coefi] = Al;
@@ -2117,14 +2252,18 @@ namespace BitMiracle.LibJpeg.Classic
                 {
                     /* For sequential JPEG, all progression parameters must be these: */
                     if (Ss != 0 || Se != JpegConstants.DCTSIZE2 - 1 || Ah != 0 || Al != 0)
+                    {
                         ERREXIT(J_MESSAGE_CODE.JERR_BAD_PROG_SCRIPT, scanno);
+                    }
 
                     /* Make sure components are not sent twice */
-                    for (int ci = 0; ci < ncomps; ci++)
+                    for (var ci = 0; ci < ncomps; ci++)
                     {
-                        int thisi = scanInfo.component_index[ci];
+                        var thisi = scanInfo.component_index[ci];
                         if (component_sent[thisi])
+                        {
                             ERREXIT(J_MESSAGE_CODE.JERR_BAD_SCAN_SCRIPT, scanno);
+                        }
 
                         component_sent[thisi] = true;
                     }
@@ -2139,18 +2278,22 @@ namespace BitMiracle.LibJpeg.Classic
                 * of all coefficients be transmitted.  Would it be wiser to enforce
                 * transmission of all coefficient bits??
                 */
-                for (int ci = 0; ci < m_num_components; ci++)
+                for (var ci = 0; ci < m_num_components; ci++)
                 {
                     if (last_bitpos[ci][0] < 0)
+                    {
                         ERREXIT(J_MESSAGE_CODE.JERR_MISSING_DATA);
+                    }
                 }
             }
             else
             {
-                for (int ci = 0; ci < m_num_components; ci++)
+                for (var ci = 0; ci < m_num_components; ci++)
                 {
                     if (!component_sent[ci])
+                    {
                         ERREXIT(J_MESSAGE_CODE.JERR_MISSING_DATA);
+                    }
                 }
             }
         }
@@ -2160,8 +2303,8 @@ namespace BitMiracle.LibJpeg.Classic
          */
         private void reduce_script()
         {
-            int idxout = 0;
-            for (int idxin = 0; idxin < m_num_scans; idxin++)
+            var idxout = 0;
+            for (var idxin = 0; idxin < m_num_scans; idxin++)
             {
                 /* After skipping, idxout becomes smaller than idxin */
                 if (idxin != idxout)
@@ -2211,7 +2354,9 @@ namespace BitMiracle.LibJpeg.Classic
         private void add_huff_table(ref JHUFF_TBL htblptr, byte[] bits, byte[] val)
         {
             if (htblptr == null)
+            {
                 htblptr = new JHUFF_TBL();
+            }
 
             /* Copy the number-of-symbols-of-each-code-length counts */
             Buffer.BlockCopy(bits, 0, htblptr.Bits, 0, htblptr.Bits.Length);
@@ -2220,12 +2365,16 @@ namespace BitMiracle.LibJpeg.Classic
             * number of symbols from the val[] array, without risking marching off
             * the end of memory. huff_entropy_encoder will do a more thorough test later.
             */
-            int nsymbols = 0;
-            for (int len = 1; len <= 16; len++)
+            var nsymbols = 0;
+            for (var len = 1; len <= 16; len++)
+            {
                 nsymbols += bits[len];
+            }
 
             if (nsymbols < 1 || nsymbols > 256)
+            {
                 ERREXIT(J_MESSAGE_CODE.JERR_BAD_HUFF_TABLE);
+            }
 
             Buffer.BlockCopy(val, 0, htblptr.Huffval, 0, nsymbols);
 
@@ -2256,8 +2405,10 @@ namespace BitMiracle.LibJpeg.Classic
             {
                 /* Single interleaved DC scan */
                 m_script_space[scanIndex].comps_in_scan = ncomps;
-                for (int ci = 0; ci < ncomps; ci++)
+                for (var ci = 0; ci < ncomps; ci++)
+                {
                     m_script_space[scanIndex].component_index[ci] = ci;
+                }
 
                 m_script_space[scanIndex].Ss = 0;
                 m_script_space[scanIndex].Se = 0;
@@ -2277,7 +2428,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// </summary>
         private void fill_scans(ref int scanIndex, int ncomps, int Ss, int Se, int Ah, int Al)
         {
-            for (int ci = 0; ci < ncomps; ci++)
+            for (var ci = 0; ci < ncomps; ci++)
             {
                 m_script_space[scanIndex].comps_in_scan = 1;
                 m_script_space[scanIndex].component_index[0] = ci;

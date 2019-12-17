@@ -2,9 +2,9 @@
 
 namespace BitMiracle.LibJpeg
 {
-    class DecompressorToJpegImage : IDecompressDestination
+    internal class DecompressorToJpegImage : IDecompressDestination
     {
-        private JpegImage m_jpegImage;
+        private readonly JpegImage m_jpegImage;
 
         internal DecompressorToJpegImage(JpegImage jpegImage)
         {
@@ -34,7 +34,7 @@ namespace BitMiracle.LibJpeg
 
         public void ProcessPixelsRow(byte[] row)
         {
-            SampleRow samplesRow = new SampleRow(row, m_jpegImage.Width, m_jpegImage.BitsPerComponent, m_jpegImage.ComponentsPerSample);
+            var samplesRow = new SampleRow(row, m_jpegImage.Width, m_jpegImage.BitsPerComponent, m_jpegImage.ComponentsPerSample);
             m_jpegImage.addSampleRow(samplesRow);
         }
 

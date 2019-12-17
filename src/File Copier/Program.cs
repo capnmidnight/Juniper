@@ -18,14 +18,14 @@ namespace File_Copier
             if (args.Length < 3)
             {
                 Error.WriteLine("Command expects at least three arguments");
-                for (int i = 0; i < args.Length; ++i)
+                for (var i = 0; i < args.Length; ++i)
                 {
                     Error.WriteLine("{0}: {1}", i, args[i]);
                 }
             }
             else
             {
-                for (int i = 0; i < args.Length; ++i)
+                for (var i = 0; i < args.Length; ++i)
                 {
                     if (args[i].EndsWith("\"")
                         || args[i].EndsWith("'"))

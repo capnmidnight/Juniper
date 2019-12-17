@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+
 using Juniper.Progress;
 
 namespace Juniper.IO
@@ -49,7 +50,7 @@ namespace Juniper.IO
                 var data = store[fileRef.ContentType][fileRef.CacheID].ToArray();
                 stream = new MemoryStream(data);
 
-                if(prog != null)
+                if (prog != null)
                 {
                     stream = new ProgressStream(stream, data.Length, prog);
                 }

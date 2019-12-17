@@ -3,7 +3,7 @@
     /// <summary>
     /// Operating modes for buffer controllers
     /// </summary>
-    enum J_BUF_MODE
+    internal enum J_BUF_MODE
     {
         JBUF_PASS_THRU,         /* Plain stripwise operation */
 

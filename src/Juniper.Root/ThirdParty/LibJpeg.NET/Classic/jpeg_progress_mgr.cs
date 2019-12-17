@@ -29,7 +29,7 @@ namespace BitMiracle.LibJpeg.Classic
             get { return m_passCounter; }
             set { m_passCounter = value; }
         }
-        
+
         /// <summary>
         /// Gets or sets the total number of work units in this pass.
         /// </summary>
@@ -40,7 +40,7 @@ namespace BitMiracle.LibJpeg.Classic
             get { return m_passLimit; }
             set { m_passLimit = value; }
         }
-        
+
         /// <summary>
         /// Gets or sets the number of passes completed so far.
         /// </summary>
@@ -51,7 +51,7 @@ namespace BitMiracle.LibJpeg.Classic
             get { return m_completedPasses; }
             set { m_completedPasses = value; }
         }
-        
+
         /// <summary>
         /// Gets or sets the total number of passes expected.
         /// </summary>
@@ -70,9 +70,11 @@ namespace BitMiracle.LibJpeg.Classic
         /// This method ensures happening of the <see cref="jpeg_progress_mgr.OnProgress">OnProgress</see> event.</remarks>
         public void Updated()
         {
-            EventHandler handler = OnProgress;
+            var handler = OnProgress;
             if (handler != null)
+            {
                 handler(this, new EventArgs());
+            }
         }
     }
 }

@@ -172,7 +172,7 @@ namespace Juniper.Units
         {
             var start = DateTime.Now;
             var ts = TimeSpan.FromHours(hours);
-            while((DateTime.Now - start) < ts)
+            while ((DateTime.Now - start) < ts)
             {
                 yield return null;
             }

@@ -38,7 +38,9 @@ namespace BitMiracle.LibJpeg.Classic
             if (--m_free_in_buffer == 0)
             {
                 if (!empty_output_buffer())
+                {
                     return false;
+                }
             }
 
             return true;

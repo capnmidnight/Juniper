@@ -197,7 +197,7 @@ namespace Juniper.Compression.Tar.GZip
         /// <returns>A lazy collection of <typeparamref name="ZipArchiveEntry"/> objects.</returns>
         public static IEnumerable<CompressedFileInfo> Entries(this TarArchive tar, IProgress prog)
         {
-            int i = 0;
+            var i = 0;
             foreach (var entry in tar.Entries)
             {
                 prog.Report(i++, tar.Entries.Count);
@@ -256,7 +256,7 @@ namespace Juniper.Compression.Tar.GZip
 
         public static void Decompress(this TarArchive tar, DirectoryInfo outputDirectory, string entryPrefix, bool overwrite, IProgress prog)
         {
-            int i = 0;
+            var i = 0;
             foreach (var entry in tar.Entries)
             {
                 prog.Report(i++, tar.Entries.Count);

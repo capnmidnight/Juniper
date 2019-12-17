@@ -1,6 +1,7 @@
 namespace Hjg.Pngcs.Chunks
 {
     using System.IO;
+
     using Hjg.Pngcs;
 
     /// <summary>

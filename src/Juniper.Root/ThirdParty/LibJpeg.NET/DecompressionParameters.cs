@@ -2,7 +2,7 @@
 
 namespace BitMiracle.LibJpeg
 {
-    class DecompressionParameters
+    internal class DecompressionParameters
     {
         private Colorspace m_outColorspace = Colorspace.Unknown;
         private int m_scaleNumerator = 1;

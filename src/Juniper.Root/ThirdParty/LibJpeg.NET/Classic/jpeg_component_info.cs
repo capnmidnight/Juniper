@@ -198,11 +198,15 @@ namespace BitMiracle.LibJpeg.Classic
         internal static jpeg_component_info[] createArrayOfComponents(int length)
         {
             if (length < 0)
+            {
                 throw new ArgumentOutOfRangeException(nameof(length));
+            }
 
-            jpeg_component_info[] result = new jpeg_component_info[length];
-            for (int i = 0; i < result.Length; ++i)
+            var result = new jpeg_component_info[length];
+            for (var i = 0; i < result.Length; ++i)
+            {
                 result[i] = new jpeg_component_info();
+            }
 
             return result;
         }

@@ -16,13 +16,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// <summary>
     /// Expanded data destination object for output to Stream
     /// </summary>
-    class my_destination_mgr : jpeg_destination_mgr
+    internal class my_destination_mgr : jpeg_destination_mgr
     {
         private const int OUTPUT_BUF_SIZE = 4096;   /* choose an efficiently fwrite'able size */
 
-        private jpeg_compress_struct m_cinfo;
+        private readonly jpeg_compress_struct m_cinfo;
 
-        private Stream m_outfile;      /* target stream */
+        private readonly Stream m_outfile;      /* target stream */
         private byte[] m_buffer;     /* start of buffer */
 
         public my_destination_mgr(jpeg_compress_struct cinfo, Stream alreadyOpenFile)
@@ -81,11 +81,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         public override void term_destination()
         {
-            int datacount = m_buffer.Length - freeInBuffer;
+            var datacount = m_buffer.Length - freeInBuffer;
 
             /* Write any data remaining in the buffer */
             if (datacount > 0)
+            {
                 writeBuffer(datacount);
+            }
 
             m_outfile.Flush();
         }

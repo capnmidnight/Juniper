@@ -109,7 +109,7 @@ namespace Juniper.Serial
                 device.PortName = null;
             }
 
-            bool good = false;
+            var good = false;
             if (!string.IsNullOrEmpty(device.PortName))
             {
                 good = device.HandshakePort(skipPorts);

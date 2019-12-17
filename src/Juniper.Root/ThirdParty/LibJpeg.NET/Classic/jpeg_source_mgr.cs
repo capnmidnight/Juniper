@@ -64,7 +64,7 @@ namespace BitMiracle.LibJpeg.Classic
                 m_bytes_in_buffer -= num_bytes;
             }
         }
-        
+
         /// <summary>
         /// This is the default resync_to_restart method for data source 
         /// managers to use if they don't have any better approach.
@@ -124,8 +124,8 @@ namespace BitMiracle.LibJpeg.Classic
             cinfo.WARNMS(J_MESSAGE_CODE.JWRN_MUST_RESYNC, cinfo.m_unread_marker, desired);
 
             /* Outer loop handles repeated decision after scanning forward. */
-            int action = 1;
-            for ( ; ; )
+            var action = 1;
+            for (; ; )
             {
                 if (cinfo.m_unread_marker < (int)JPEG_MARKER.SOF0)
                 {
@@ -170,7 +170,10 @@ namespace BitMiracle.LibJpeg.Classic
                     case 2:
                         /* Scan to the next marker, and repeat the decision loop. */
                         if (!cinfo.m_marker.next_marker())
+                        {
                             return false;
+                        }
+
                         break;
                     case 3:
                         /* Return without advancing past this marker. */
@@ -209,7 +212,9 @@ namespace BitMiracle.LibJpeg.Classic
             m_position++;
 
             if (!MakeByteAvailable())
+            {
                 return false;
+            }
 
             m_bytes_in_buffer--;
             V += m_next_input_byte[m_position];
@@ -245,11 +250,13 @@ namespace BitMiracle.LibJpeg.Classic
         /// <returns>The number of available bytes.</returns>
         public virtual int GetBytes(byte[] dest, int amount)
         {
-            int avail = amount;
+            var avail = amount;
             if (avail > m_bytes_in_buffer)
+            {
                 avail = m_bytes_in_buffer;
+            }
 
-            for (int i = 0; i < avail; i++)
+            for (var i = 0; i < avail; i++)
             {
                 dest[i] = m_next_input_byte[m_position];
                 m_position++;
@@ -271,7 +278,9 @@ namespace BitMiracle.LibJpeg.Classic
             if (m_bytes_in_buffer == 0)
             {
                 if (!fill_input_buffer())
+                {
                     return false;
+                }
             }
 
             return true;

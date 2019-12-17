@@ -44,7 +44,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// <summary>
     /// Downsampling
     /// </summary>
-    class jpeg_downsampler
+    internal class jpeg_downsampler
     {
         private enum downSampleMethod
         {
@@ -57,19 +57,19 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         };
 
         /* Downsamplers, one per component */
-        private downSampleMethod[] m_downSamplers = new downSampleMethod[JpegConstants.MAX_COMPONENTS];
+        private readonly downSampleMethod[] m_downSamplers = new downSampleMethod[JpegConstants.MAX_COMPONENTS];
 
         /* Height of an output row group for each component. */
-        private int[] rowgroup_height = new int[JpegConstants.MAX_COMPONENTS];
+        private readonly int[] rowgroup_height = new int[JpegConstants.MAX_COMPONENTS];
 
         /* These arrays save pixel expansion factors so that int_downsample need not
          * recompute them each time.  They are unused for other downsampling methods.
          */
-        private byte[] h_expand = new byte[JpegConstants.MAX_COMPONENTS];
-        private byte[] v_expand = new byte[JpegConstants.MAX_COMPONENTS];
+        private readonly byte[] h_expand = new byte[JpegConstants.MAX_COMPONENTS];
+        private readonly byte[] v_expand = new byte[JpegConstants.MAX_COMPONENTS];
 
-        private jpeg_compress_struct m_cinfo;
-        private bool m_need_context_rows; /* true if need rows above & below */
+        private readonly jpeg_compress_struct m_cinfo;
+        private readonly bool m_need_context_rows; /* true if need rows above & below */
 
         public jpeg_downsampler(jpeg_compress_struct cinfo)
         {
@@ -77,23 +77,25 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             m_need_context_rows = false;
 
             if (cinfo.m_CCIR601_sampling)
+            {
                 cinfo.ERREXIT(J_MESSAGE_CODE.JERR_CCIR601_NOTIMPL);
+            }
 
             /* Verify we can handle the sampling factors, and set up method pointers */
-            bool smoothok = true;
-            for (int ci = 0; ci < cinfo.m_num_components; ci++)
+            var smoothok = true;
+            for (var ci = 0; ci < cinfo.m_num_components; ci++)
             {
-                jpeg_component_info componentInfo = cinfo.Component_info[ci];
+                var componentInfo = cinfo.Component_info[ci];
 
                 /* Compute size of an "output group" for DCT scaling.  This many samples
                  * are to be converted from max_h_samp_factor * max_v_samp_factor pixels.
                  */
-                int h_out_group = (componentInfo.H_samp_factor * componentInfo.DCT_h_scaled_size) /
+                var h_out_group = (componentInfo.H_samp_factor * componentInfo.DCT_h_scaled_size) /
                       m_cinfo.min_DCT_h_scaled_size;
-                int v_out_group = (componentInfo.V_samp_factor * componentInfo.DCT_v_scaled_size) /
+                var v_out_group = (componentInfo.V_samp_factor * componentInfo.DCT_v_scaled_size) /
                       m_cinfo.min_DCT_v_scaled_size;
-                int h_in_group = m_cinfo.m_max_h_samp_factor;
-                int v_in_group = m_cinfo.m_max_v_samp_factor;
+                var h_in_group = m_cinfo.m_max_h_samp_factor;
+                var v_in_group = m_cinfo.m_max_v_samp_factor;
                 rowgroup_height[ci] = v_out_group; /* save for use later */
                 if (h_in_group == h_out_group && v_in_group == v_out_group)
                 {
@@ -138,7 +140,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             if (cinfo.m_smoothing_factor != 0 && !smoothok)
+            {
                 cinfo.TRACEMS(0, J_MESSAGE_CODE.JTRC_SMOOTH_NOTIMPL);
+            }
         }
 
         /// <summary>
@@ -148,9 +152,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         public void downsample(byte[][][] input_buf, int in_row_index, byte[][][] output_buf, int out_row_group_index)
         {
-            for (int ci = 0; ci < m_cinfo.m_num_components; ci++)
+            for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
             {
-                int outIndex = out_row_group_index * rowgroup_height[ci];
+                var outIndex = out_row_group_index * rowgroup_height[ci];
                 switch (m_downSamplers[ci])
                 {
                     case downSampleMethod.fullsize_smooth_downsampler:
@@ -184,7 +188,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         {
             return m_need_context_rows;
         }
-        
+
         /// <summary>
         /// Downsample pixel values of a single component.
         /// One row group is processed per call.
@@ -197,25 +201,27 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * by the standard loop.  Special-casing padded output would be more
              * efficient.
              */
-            jpeg_component_info compptr = m_cinfo.Component_info[componentIndex];
-            int output_cols = compptr.Width_in_blocks * compptr.DCT_h_scaled_size;
+            var compptr = m_cinfo.Component_info[componentIndex];
+            var output_cols = compptr.Width_in_blocks * compptr.DCT_h_scaled_size;
             int h_expand = this.h_expand[compptr.Component_index];
             expand_right_edge(input_data, startInputRow, m_cinfo.m_max_v_samp_factor, m_cinfo.m_image_width, output_cols * h_expand);
 
             int v_expand = this.v_expand[compptr.Component_index];
-            int numpix = h_expand * v_expand;
-            int numpix2 = numpix / 2;
-            int inrow = 0;
-            int outrow = 0;
+            var numpix = h_expand * v_expand;
+            var numpix2 = numpix / 2;
+            var inrow = 0;
+            var outrow = 0;
             while (inrow < m_cinfo.m_max_v_samp_factor)
             {
                 for (int outcol = 0, outcol_h = 0; outcol < output_cols; outcol++, outcol_h += h_expand)
                 {
-                    int outvalue = 0;
-                    for (int v = 0; v < v_expand; v++)
+                    var outvalue = 0;
+                    for (var v = 0; v < v_expand; v++)
                     {
-                        for (int h = 0; h < h_expand; h++)
+                        for (var h = 0; h < h_expand; h++)
+                        {
                             outvalue += input_data[startInputRow + inrow + v][outcol_h + h];
+                        }
                     }
 
                     output_data[startOutRow + outrow][outcol] = (byte)((outvalue + numpix2) / numpix);
@@ -237,7 +243,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             JpegUtils.jcopy_sample_rows(input_data, startInputRow, output_data, startOutRow, m_cinfo.m_max_v_samp_factor, m_cinfo.m_image_width);
 
             /* Edge-expand */
-            jpeg_component_info compptr = m_cinfo.Component_info[componentIndex];
+            var compptr = m_cinfo.Component_info[componentIndex];
             expand_right_edge(output_data, startOutRow, m_cinfo.m_max_v_samp_factor,
                 m_cinfo.m_image_width, compptr.Width_in_blocks * compptr.DCT_h_scaled_size);
         }
@@ -259,20 +265,20 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * by the standard loop.  Special-casing padded output would be more
              * efficient.
              */
-            jpeg_component_info compptr = m_cinfo.Component_info[componentIndex];
-            int output_cols = compptr.Width_in_blocks * compptr.DCT_h_scaled_size;
+            var compptr = m_cinfo.Component_info[componentIndex];
+            var output_cols = compptr.Width_in_blocks * compptr.DCT_h_scaled_size;
             expand_right_edge(input_data, startInputRow, m_cinfo.m_max_v_samp_factor, m_cinfo.m_image_width, output_cols * 2);
 
-            for (int outrow = 0; outrow < m_cinfo.m_max_v_samp_factor; outrow++)
+            for (var outrow = 0; outrow < m_cinfo.m_max_v_samp_factor; outrow++)
             {
                 /* bias = 0,1,0,1,... for successive samples */
-                int bias = 0;
-                int inputColumn = 0;
-                for (int outcol = 0; outcol < output_cols; outcol++)
+                var bias = 0;
+                var inputColumn = 0;
+                for (var outcol = 0; outcol < output_cols; outcol++)
                 {
                     output_data[startOutRow + outrow][outcol] = (byte)(
-                        ((int)input_data[startInputRow + outrow][inputColumn] +
-                        (int)input_data[startInputRow + outrow][inputColumn + 1] + bias) >> 1);
+                        (input_data[startInputRow + outrow][inputColumn] +
+                        input_data[startInputRow + outrow][inputColumn + 1] + bias) >> 1);
 
                     bias ^= 1;      /* 0=>1, 1=>0 */
                     inputColumn += 2;
@@ -291,24 +297,24 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * by the standard loop.  Special-casing padded output would be more
              * efficient.
              */
-            jpeg_component_info compptr = m_cinfo.Component_info[componentIndex];
-            int output_cols = compptr.Width_in_blocks * compptr.DCT_h_scaled_size;
+            var compptr = m_cinfo.Component_info[componentIndex];
+            var output_cols = compptr.Width_in_blocks * compptr.DCT_h_scaled_size;
             expand_right_edge(input_data, startInputRow, m_cinfo.m_max_v_samp_factor, m_cinfo.m_image_width, output_cols * 2);
 
-            int inrow = 0;
-            int outrow = 0;
+            var inrow = 0;
+            var outrow = 0;
             while (inrow < m_cinfo.m_max_v_samp_factor)
             {
                 /* bias = 1,2,1,2,... for successive samples */
-                int bias = 1;
-                int inputColumn = 0;
-                for (int outcol = 0; outcol < output_cols; outcol++)
+                var bias = 1;
+                var inputColumn = 0;
+                for (var outcol = 0; outcol < output_cols; outcol++)
                 {
                     output_data[startOutRow + outrow][outcol] = (byte)((
-                        (int)input_data[startInputRow + inrow][inputColumn] +
-                        (int)input_data[startInputRow + inrow][inputColumn + 1] +
-                        (int)input_data[startInputRow + inrow + 1][inputColumn] +
-                        (int)input_data[startInputRow + inrow + 1][inputColumn + 1] + bias) >> 2);
+                        input_data[startInputRow + inrow][inputColumn] +
+                        input_data[startInputRow + inrow][inputColumn + 1] +
+                        input_data[startInputRow + inrow + 1][inputColumn] +
+                        input_data[startInputRow + inrow + 1][inputColumn + 1] + bias) >> 2);
 
                     bias ^= 3;      /* 1=>2, 2=>1 */
                     inputColumn += 2;
@@ -330,8 +336,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * by the standard loop.  Special-casing padded output would be more
              * efficient.
              */
-            jpeg_component_info compptr = m_cinfo.Component_info[componentIndex];
-            int output_cols = compptr.Width_in_blocks * compptr.DCT_h_scaled_size;
+            var compptr = m_cinfo.Component_info[componentIndex];
+            var output_cols = compptr.Width_in_blocks * compptr.DCT_h_scaled_size;
             expand_right_edge(input_data, startInputRow - 1, m_cinfo.m_max_v_samp_factor + 2, m_cinfo.m_image_width, output_cols * 2);
 
             /* We don't bother to form the individual "smoothed" input pixel values;
@@ -347,26 +353,26 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * Also recall that SF = smoothing_factor / 1024.
              */
 
-            int memberscale = 16384 - m_cinfo.m_smoothing_factor * 80; /* scaled (1-5*SF)/4 */
-            int neighscale = m_cinfo.m_smoothing_factor * 16; /* scaled SF/4 */
+            var memberscale = 16384 - m_cinfo.m_smoothing_factor * 80; /* scaled (1-5*SF)/4 */
+            var neighscale = m_cinfo.m_smoothing_factor * 16; /* scaled SF/4 */
 
-            int inrow = 0;
-            int outrow = 0;
+            var inrow = 0;
+            var outrow = 0;
             while (inrow < m_cinfo.m_max_v_samp_factor)
             {
-                int outIndex = 0;
-                int inIndex0 = 0;
-                int inIndex1 = 0;
-                int aboveIndex = 0;
-                int belowIndex = 0;
+                var outIndex = 0;
+                var inIndex0 = 0;
+                var inIndex1 = 0;
+                var aboveIndex = 0;
+                var belowIndex = 0;
 
                 /* Special case for first column: pretend column -1 is same as column 0 */
-                int membersum = input_data[startInputRow + inrow][inIndex0] +
+                var membersum = input_data[startInputRow + inrow][inIndex0] +
                     input_data[startInputRow + inrow][inIndex0 + 1] +
                     input_data[startInputRow + inrow + 1][inIndex1] +
                     input_data[startInputRow + inrow + 1][inIndex1 + 1];
 
-                int neighsum = input_data[startInputRow + inrow - 1][aboveIndex] +
+                var neighsum = input_data[startInputRow + inrow - 1][aboveIndex] +
                     input_data[startInputRow + inrow - 1][aboveIndex + 1] +
                     input_data[startInputRow + inrow + 2][belowIndex] +
                     input_data[startInputRow + inrow + 2][belowIndex + 1] +
@@ -390,7 +396,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 aboveIndex += 2;
                 belowIndex += 2;
 
-                for (int colctr = output_cols - 2; colctr > 0; colctr--)
+                for (var colctr = output_cols - 2; colctr > 0; colctr--)
                 {
                     /* sum of pixels directly mapped to this output element */
                     membersum = input_data[startInputRow + inrow][inIndex0] +
@@ -470,8 +476,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * by the standard loop.  Special-casing padded output would be more
              * efficient.
              */
-            jpeg_component_info compptr = m_cinfo.Component_info[componentIndex];
-            int output_cols = compptr.Width_in_blocks * compptr.DCT_h_scaled_size;
+            var compptr = m_cinfo.Component_info[componentIndex];
+            var output_cols = compptr.Width_in_blocks * compptr.DCT_h_scaled_size;
             expand_right_edge(input_data, startInputRow - 1, m_cinfo.m_max_v_samp_factor + 2, m_cinfo.m_image_width, output_cols);
 
             /* Each of the eight neighbor pixels contributes a fraction SF to the
@@ -480,18 +486,18 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * Also recall that SF = smoothing_factor / 1024.
              */
 
-            int memberscale = 65536 - m_cinfo.m_smoothing_factor * 512; /* scaled 1-8*SF */
-            int neighscale = m_cinfo.m_smoothing_factor * 64; /* scaled SF */
+            var memberscale = 65536 - m_cinfo.m_smoothing_factor * 512; /* scaled 1-8*SF */
+            var neighscale = m_cinfo.m_smoothing_factor * 64; /* scaled SF */
 
-            for (int outrow = 0; outrow < m_cinfo.m_max_v_samp_factor; outrow++)
+            for (var outrow = 0; outrow < m_cinfo.m_max_v_samp_factor; outrow++)
             {
-                int outIndex = 0;
-                int inIndex = 0;
-                int aboveIndex = 0;
-                int belowIndex = 0;
+                var outIndex = 0;
+                var inIndex = 0;
+                var aboveIndex = 0;
+                var belowIndex = 0;
 
                 /* Special case for first column */
-                int colsum = input_data[startInputRow + outrow - 1][aboveIndex] +
+                var colsum = input_data[startInputRow + outrow - 1][aboveIndex] +
                     input_data[startInputRow + outrow + 1][belowIndex] +
                     input_data[startInputRow + outrow][inIndex];
 
@@ -501,20 +507,20 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 int membersum = input_data[startInputRow + outrow][inIndex];
                 inIndex++;
 
-                int nextcolsum = input_data[startInputRow + outrow - 1][aboveIndex] +
+                var nextcolsum = input_data[startInputRow + outrow - 1][aboveIndex] +
                     input_data[startInputRow + outrow + 1][belowIndex] +
                     input_data[startInputRow + outrow][inIndex];
 
-                int neighsum = colsum + (colsum - membersum) + nextcolsum;
+                var neighsum = colsum + (colsum - membersum) + nextcolsum;
 
                 membersum = membersum * memberscale + neighsum * neighscale;
                 output_data[startOutRow + outrow][outIndex] = (byte)((membersum + 32768) >> 16);
                 outIndex++;
 
-                int lastcolsum = colsum;
+                var lastcolsum = colsum;
                 colsum = nextcolsum;
 
-                for (int colctr = output_cols - 2; colctr > 0; colctr--)
+                for (var colctr = output_cols - 2; colctr > 0; colctr--)
                 {
                     membersum = input_data[startInputRow + outrow][inIndex];
 
@@ -550,15 +556,17 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private static void expand_right_edge(byte[][] image_data, int startInputRow, int num_rows, int input_cols, int output_cols)
         {
-            int numcols = output_cols - input_cols;
+            var numcols = output_cols - input_cols;
             if (numcols > 0)
             {
-                for (int row = startInputRow; row < (startInputRow + num_rows); row++)
+                for (var row = startInputRow; row < (startInputRow + num_rows); row++)
                 {
                     /* don't need GETJSAMPLE() here */
-                    byte pixval = image_data[row][input_cols - 1];
-                    for (int count = 0; count < numcols; count++)
+                    var pixval = image_data[row][input_cols - 1];
+                    for (var count = 0; count < numcols; count++)
+                    {
                         image_data[row][input_cols + count] = pixval;
+                    }
                 }
             }
         }

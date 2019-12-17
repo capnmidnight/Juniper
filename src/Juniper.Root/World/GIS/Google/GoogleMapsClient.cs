@@ -46,7 +46,7 @@ namespace Juniper.World.GIS.Google
         private async Task<T> Load<T>(IDeserializer<T> deserializer, ContentReference fileRef, IProgress prog)
         {
             var value = await cache.Load(deserializer, fileRef, prog);
-            if(value is MetadataResponse metadata)
+            if (value is MetadataResponse metadata)
             {
                 if (metadata.status != System.Net.HttpStatusCode.OK
                     || string.IsNullOrEmpty(metadata.pano_id)

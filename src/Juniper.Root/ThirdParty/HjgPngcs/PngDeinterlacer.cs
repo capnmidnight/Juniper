@@ -70,51 +70,51 @@ namespace Hjg.Pngcs
             switch (pass)
             {
                 case 1:
-                dY = dX = 8;
-                oX = oY = 0;
-                break;
+                    dY = dX = 8;
+                    oX = oY = 0;
+                    break;
 
                 case 2:
-                dY = dX = 8;
-                oX = 4;
-                oY = 0;
-                break;
+                    dY = dX = 8;
+                    oX = 4;
+                    oY = 0;
+                    break;
 
                 case 3:
-                dX = 4;
-                dY = 8;
-                oX = 0;
-                oY = 4;
-                break;
+                    dX = 4;
+                    dY = 8;
+                    oX = 0;
+                    oY = 4;
+                    break;
 
                 case 4:
-                dX = dY = 4;
-                oX = 2;
-                oY = 0;
-                break;
+                    dX = dY = 4;
+                    oX = 2;
+                    oY = 0;
+                    break;
 
                 case 5:
-                dX = 2;
-                dY = 4;
-                oX = 0;
-                oY = 2;
-                break;
+                    dX = 2;
+                    dY = 4;
+                    oX = 0;
+                    oY = 2;
+                    break;
 
                 case 6:
-                dX = dY = 2;
-                oX = 1;
-                oY = 0;
-                break;
+                    dX = dY = 2;
+                    oX = 1;
+                    oY = 0;
+                    break;
 
                 case 7:
-                dX = 1;
-                dY = 2;
-                oX = 0;
-                oY = 1;
-                break;
+                    dX = 1;
+                    dY = 2;
+                    oX = 0;
+                    oY = 1;
+                    break;
 
                 default:
-                throw new PngjExceptionInternal("bad interlace pass" + pass);
+                    throw new PngjExceptionInternal("bad interlace pass" + pass);
             }
             rows = (imi.Rows - oY) / dY + 1;
             if ((rows - 1) * dY + oY >= imi.Rows)

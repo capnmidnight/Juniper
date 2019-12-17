@@ -32,7 +32,7 @@ namespace BitMiracle.LibJpeg.Classic
 
         private jpeg_common_struct m_cinfo;
 
-        private T[][] m_buffer;   /* => the in-memory buffer */
+        private readonly T[][] m_buffer;   /* => the in-memory buffer */
 
         /// <summary>
         /// Request a virtual 2-D array
@@ -75,15 +75,21 @@ namespace BitMiracle.LibJpeg.Classic
             if (startRow + numberOfRows > m_buffer.Length)
             {
                 if (m_cinfo != null)
+                {
                     m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_VIRTUAL_ACCESS);
+                }
                 else
+                {
                     throw new InvalidOperationException("Bogus virtual array access");
+                }
             }
 
             /* Return proper part of the buffer */
-            T[][] ret = new T[numberOfRows][];
-            for (int i = 0; i < numberOfRows; i++)
+            var ret = new T[numberOfRows][];
+            for (var i = 0; i < numberOfRows; i++)
+            {
                 ret[i] = m_buffer[startRow + i];
+            }
 
             return ret;
         }

@@ -258,7 +258,7 @@ namespace Juniper.IO
         /// <returns>True, if any content was deleted. False, if the file was not found.</returns>
         public bool Delete(ContentReference fileRef)
         {
-            bool anyDelete = false;
+            var anyDelete = false;
             foreach (var dest in destinations)
             {
                 anyDelete |= dest.Delete(fileRef);

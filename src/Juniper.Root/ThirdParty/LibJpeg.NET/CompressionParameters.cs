@@ -22,7 +22,9 @@ namespace BitMiracle.LibJpeg
         internal CompressionParameters(CompressionParameters parameters)
         {
             if (parameters == null)
+            {
                 throw new ArgumentNullException("parameters");
+            }
 
             m_quality = parameters.m_quality;
             m_smoothingFactor = parameters.m_smoothingFactor;
@@ -38,9 +40,11 @@ namespace BitMiracle.LibJpeg
         /// </returns>
         public override bool Equals(object obj)
         {
-            CompressionParameters parameters = obj as CompressionParameters;
+            var parameters = obj as CompressionParameters;
             if (parameters == null)
+            {
                 return false;
+            }
 
             return (m_quality == parameters.m_quality &&
                     m_smoothingFactor == parameters.m_smoothingFactor &&

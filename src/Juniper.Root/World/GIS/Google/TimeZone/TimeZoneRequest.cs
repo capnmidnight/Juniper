@@ -2,7 +2,7 @@ using System;
 
 namespace Juniper.World.GIS.Google.TimeZone
 {
-    public class TimeZoneRequest: AbstractGoogleMapsRequest<MediaType.Application>
+    public class TimeZoneRequest : AbstractGoogleMapsRequest<MediaType.Application>
     {
         private LatLngPoint location;
         private DateTime timestamp;

@@ -3,7 +3,7 @@
     /// <summary>
     /// Upsampling (note that upsampler must also call color converter)
     /// </summary>
-    abstract class jpeg_upsampler
+    internal abstract class jpeg_upsampler
     {
         protected bool m_need_context_rows; /* true if need rows above & below */
 

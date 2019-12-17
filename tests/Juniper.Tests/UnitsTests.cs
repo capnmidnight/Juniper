@@ -607,7 +607,7 @@ namespace Juniper.Units.Tests
         }
 
         private const float PI = (float)System.Math.PI;
-        private const float TAU = (float)(2 * PI);
+        private const float TAU = 2 * PI;
 
         private static string SigFig(float value, int sigfigs)
         {

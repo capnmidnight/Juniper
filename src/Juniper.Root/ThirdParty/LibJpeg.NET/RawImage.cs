@@ -3,10 +3,10 @@ using System.Diagnostics;
 
 namespace BitMiracle.LibJpeg
 {
-    class RawImage : IRawImage
+    internal class RawImage : IRawImage
     {
-        private List<SampleRow> m_samples;
-        private Colorspace m_colorspace;
+        private readonly List<SampleRow> m_samples;
+        private readonly Colorspace m_colorspace;
 
         private int m_currentRow = -1;
 
@@ -59,13 +59,15 @@ namespace BitMiracle.LibJpeg
 
         public byte[] GetPixelRow()
         {
-            SampleRow row = m_samples[m_currentRow];
-            List<byte> result = new List<byte>();
-            for (int i = 0; i < row.Length; ++i)
+            var row = m_samples[m_currentRow];
+            var result = new List<byte>();
+            for (var i = 0; i < row.Length; ++i)
             {
-                Sample sample = row[i];
-                for (int j = 0; j < sample.ComponentCount; ++j)
+                var sample = row[i];
+                for (var j = 0; j < sample.ComponentCount; ++j)
+                {
                     result.Add((byte)sample[j]);
+                }
             }
             ++m_currentRow;
             return result.ToArray();

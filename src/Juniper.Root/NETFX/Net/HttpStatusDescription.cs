@@ -93,8 +93,8 @@ namespace System.Net
         {
             if (code >= 100 && code < 600)
             {
-                int i = code / 100;
-                int j = code % 100;
+                var i = code / 100;
+                var j = code % 100;
                 if (j < httpStatusDescriptions[i].Length)
                 {
                     return httpStatusDescriptions[i][j];

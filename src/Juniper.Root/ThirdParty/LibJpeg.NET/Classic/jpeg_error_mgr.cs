@@ -75,7 +75,7 @@ namespace BitMiracle.LibJpeg.Classic
             // Always display the message
             output_message();
 
-            string buffer = format_message();
+            var buffer = format_message();
             throw new Exception(buffer);
         }
 
@@ -105,7 +105,9 @@ namespace BitMiracle.LibJpeg.Classic
                  * unless trace_level >= 3.
                  */
                 if (m_num_warnings == 0 || m_trace_level >= 3)
+                {
                     output_message();
+                }
 
                 /* Always count warnings in num_warnings. */
                 m_num_warnings++;
@@ -114,7 +116,9 @@ namespace BitMiracle.LibJpeg.Classic
             {
                 /* It's a trace message.  Show it if trace_level >= msg_level. */
                 if (m_trace_level >= msg_level)
+                {
                     output_message();
+                }
             }
         }
 
@@ -129,7 +133,7 @@ namespace BitMiracle.LibJpeg.Classic
         public virtual void output_message()
         {
             // Create the message
-            string buffer = format_message();
+            var buffer = format_message();
 
             // Send it to console, adding a newline */
             Console.WriteLine(buffer);
@@ -145,7 +149,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <seealso href="41dc1a3b-0dea-4594-87d2-c213ab1049e1.htm" target="_self">Error handling</seealso>
         public virtual string format_message()
         {
-            string msgtext = GetMessageText(m_msg_code);
+            var msgtext = GetMessageText(m_msg_code);
             if (msgtext == null)
             {
                 m_msg_parm = new object[] { m_msg_code };

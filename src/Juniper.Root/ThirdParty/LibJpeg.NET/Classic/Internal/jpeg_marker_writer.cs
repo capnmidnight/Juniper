@@ -7,9 +7,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// <summary>
     /// Marker writing
     /// </summary>
-    class jpeg_marker_writer
+    internal class jpeg_marker_writer
     {
-        private jpeg_compress_struct m_cinfo;
+        private readonly jpeg_compress_struct m_cinfo;
         private int m_last_restart_interval; /* last DRI value emitted; 0 after SOI */
 
         public jpeg_marker_writer(jpeg_compress_struct cinfo)
@@ -35,9 +35,14 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             m_last_restart_interval = 0;
 
             if (m_cinfo.m_write_JFIF_header)   /* next an optional JFIF APP0 */
+            {
                 emit_jfif_app0();
+            }
+
             if (m_cinfo.m_write_Adobe_marker) /* next an optional Adobe APP14 */
+            {
                 emit_adobe_app14();
+            }
         }
 
         /// <summary>
@@ -53,9 +58,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* Emit DQT for each quantization table.
              * Note that emit_dqt() suppresses any duplicate tables.
              */
-            int prec = 0;
-            for (int ci = 0; ci < m_cinfo.m_num_components; ci++)
+            var prec = 0;
+            for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
+            {
                 prec += emit_dqt(m_cinfo.Component_info[ci].Quant_tbl_no);
+            }
 
             /* now prec is nonzero iff there are any 16-bit quant tables. */
 
@@ -71,10 +78,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             else
             {
                 is_baseline = true;
-                for (int ci = 0; ci < m_cinfo.m_num_components; ci++)
+                for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
                 {
                     if (m_cinfo.Component_info[ci].Dc_tbl_no > 1 || m_cinfo.Component_info[ci].Ac_tbl_no > 1)
+                    {
                         is_baseline = false;
+                    }
                 }
 
                 if (prec != 0 && is_baseline)
@@ -89,27 +98,41 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             if (m_cinfo.arith_code)
             {
                 if (m_cinfo.m_progressive_mode)
+                {
                     emit_sof(JPEG_MARKER.SOF10); /* SOF code for progressive arithmetic */
+                }
                 else
+                {
                     emit_sof(JPEG_MARKER.SOF9);  /* SOF code for sequential arithmetic */
+                }
             }
             else
             {
                 if (m_cinfo.m_progressive_mode)
+                {
                     emit_sof(JPEG_MARKER.SOF2);    /* SOF code for progressive Huffman */
+                }
                 else if (is_baseline)
+                {
                     emit_sof(JPEG_MARKER.SOF0);    /* SOF code for baseline implementation */
+                }
                 else
+                {
                     emit_sof(JPEG_MARKER.SOF1);    /* SOF code for non-baseline Huffman file */
+                }
             }
 
             /* Check to emit LSE inverse color transform specification marker */
             if (m_cinfo.color_transform != J_COLOR_TRANSFORM.JCT_NONE)
+            {
                 emit_lse_ict();
+            }
 
             /* Check to emit pseudo SOS marker */
             if (m_cinfo.m_progressive_mode && m_cinfo.block_size != JpegConstants.DCTSIZE)
+            {
                 emit_pseudo_sos();
+            }
         }
 
         /// <summary>
@@ -132,17 +155,21 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* Emit Huffman tables.
                  * Note that emit_dht() suppresses any duplicate tables.
                  */
-                for (int i = 0; i < m_cinfo.m_comps_in_scan; i++)
+                for (var i = 0; i < m_cinfo.m_comps_in_scan; i++)
                 {
-                    jpeg_component_info compptr = m_cinfo.Component_info[m_cinfo.m_cur_comp_info[i]];
+                    var compptr = m_cinfo.Component_info[m_cinfo.m_cur_comp_info[i]];
 
                     /* DC needs no table for refinement scan */
                     if (m_cinfo.m_Ss == 0 && m_cinfo.m_Ah == 0)
+                    {
                         emit_dht(compptr.Dc_tbl_no, false);
+                    }
 
                     /* AC needs no table when not present */
                     if (m_cinfo.m_Se != 0)
+                    {
                         emit_dht(compptr.Ac_tbl_no, true);
+                    }
                 }
 
                 /* Emit DRI if required --- note that DRI value could change for each scan.
@@ -176,18 +203,25 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         {
             emit_marker(JPEG_MARKER.SOI);
 
-            for (int i = 0; i < JpegConstants.NUM_QUANT_TBLS; i++)
+            for (var i = 0; i < JpegConstants.NUM_QUANT_TBLS; i++)
             {
                 if (m_cinfo.m_quant_tbl_ptrs[i] != null)
+                {
                     emit_dqt(i);
+                }
             }
 
-            for (int i = 0; i < JpegConstants.NUM_HUFF_TBLS; i++)
+            for (var i = 0; i < JpegConstants.NUM_HUFF_TBLS; i++)
             {
                 if (m_cinfo.m_dc_huff_tbl_ptrs[i] != null)
+                {
                     emit_dht(i, false);
+                }
+
                 if (m_cinfo.m_ac_huff_tbl_ptrs[i] != null)
+                {
                     emit_dht(i, true);
+                }
             }
 
             emit_marker(JPEG_MARKER.EOI);
@@ -206,9 +240,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         public void write_marker_header(int marker, int datalen)
         {
             if (datalen > 65533)     /* safety check */
+            {
                 m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_LENGTH);
+            }
 
-            emit_marker((JPEG_MARKER) marker);
+            emit_marker((JPEG_MARKER)marker);
 
             emit_2bytes(datalen + 2);    /* total length */
         }
@@ -236,10 +272,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             emit_byte(m_cinfo.m_comps_in_scan);
 
-            for (int i = 0; i < m_cinfo.m_comps_in_scan; i++)
+            for (var i = 0; i < m_cinfo.m_comps_in_scan; i++)
             {
-                int componentIndex = m_cinfo.m_cur_comp_info[i];
-                jpeg_component_info compptr = m_cinfo.Component_info[componentIndex];
+                var componentIndex = m_cinfo.m_cur_comp_info[i];
+                var compptr = m_cinfo.Component_info[componentIndex];
                 emit_byte(compptr.Component_id);
 
                 /* We emit 0 for unused field(s); this is recommended by the P&M text
@@ -247,10 +283,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                  */
 
                 /* DC needs no table for refinement scan */
-                int td = (m_cinfo.m_Ss == 0 && m_cinfo.m_Ah == 0) ? compptr.Dc_tbl_no : 0;
+                var td = (m_cinfo.m_Ss == 0 && m_cinfo.m_Ah == 0) ? compptr.Dc_tbl_no : 0;
 
                 /* AC needs no table when not present */
-                int ta = (m_cinfo.m_Se != 0) ? compptr.Ac_tbl_no : 0;
+                var ta = (m_cinfo.m_Se != 0) ? compptr.Ac_tbl_no : 0;
 
                 emit_byte((td << 4) + ta);
             }
@@ -267,7 +303,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         {
             /* Support only 1 transform */
             if (m_cinfo.color_transform != J_COLOR_TRANSFORM.JCT_SUBTRACT_GREEN || m_cinfo.Num_components < 3)
+            {
                 m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_CONVERSION_NOTIMPL);
+            }
 
             emit_marker(JPEG_MARKER.JPG8);
 
@@ -301,7 +339,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             /* Make sure image isn't bigger than SOF field can handle */
             if (m_cinfo.jpeg_height > 65535 || m_cinfo.jpeg_width > 65535)
+            {
                 m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_IMAGE_TOO_BIG, 65535);
+            }
 
             emit_byte(m_cinfo.m_data_precision);
             emit_2bytes(m_cinfo.jpeg_height);
@@ -309,9 +349,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             emit_byte(m_cinfo.m_num_components);
 
-            for (int ci = 0; ci < m_cinfo.m_num_components; ci++)
+            for (var ci = 0; ci < m_cinfo.m_num_components; ci++)
             {
-                jpeg_component_info componentInfo = m_cinfo.Component_info[ci];
+                var componentInfo = m_cinfo.Component_info[ci];
                 emit_byte(componentInfo.Component_id);
                 emit_byte((componentInfo.H_samp_factor << 4) + componentInfo.V_samp_factor);
                 emit_byte(componentInfo.Quant_tbl_no);
@@ -376,13 +416,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             emit_2bytes(m_cinfo.m_restart_interval);
         }
-        
+
         /// <summary>
         /// Emit a DHT marker
         /// </summary>
         private void emit_dht(int index, bool is_ac)
         {
-            JHUFF_TBL htbl = m_cinfo.m_dc_huff_tbl_ptrs[index];
+            var htbl = m_cinfo.m_dc_huff_tbl_ptrs[index];
             if (is_ac)
             {
                 htbl = m_cinfo.m_ac_huff_tbl_ptrs[index];
@@ -390,29 +430,37 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             if (htbl == null)
+            {
                 m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_NO_HUFF_TABLE, index);
+            }
 
             if (!htbl.Sent_table)
             {
                 emit_marker(JPEG_MARKER.DHT);
 
-                int length = 0;
-                for (int i = 1; i <= 16; i++)
+                var length = 0;
+                for (var i = 1; i <= 16; i++)
+                {
                     length += htbl.Bits[i];
+                }
 
                 emit_2bytes(length + 2 + 1 + 16);
                 emit_byte(index);
 
-                for (int i = 1; i <= 16; i++)
+                for (var i = 1; i <= 16; i++)
+                {
                     emit_byte(htbl.Bits[i]);
+                }
 
-                for (int i = 0; i < length; i++)
+                for (var i = 0; i < length; i++)
+                {
                     emit_byte(htbl.Huffval[i]);
+                }
 
                 htbl.Sent_table = true;
             }
         }
-        
+
         /// <summary>
         /// Emit a DQT marker
         /// </summary>
@@ -420,15 +468,19 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// <returns>the precision used (0 = 8bits, 1 = 16bits) for baseline checking</returns>
         private int emit_dqt(int index)
         {
-            JQUANT_TBL qtbl = m_cinfo.m_quant_tbl_ptrs[index];
+            var qtbl = m_cinfo.m_quant_tbl_ptrs[index];
             if (qtbl == null)
+            {
                 m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_NO_QUANT_TABLE, index);
+            }
 
-            int prec = 0;
-            for (int i = 0; i <= m_cinfo.lim_Se; i++)
+            var prec = 0;
+            for (var i = 0; i <= m_cinfo.lim_Se; i++)
             {
                 if (qtbl.quantval[m_cinfo.natural_order[i]] > 255)
+                {
                     prec = 1;
+                }
             }
 
             if (!qtbl.Sent_table)
@@ -440,13 +492,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 emit_byte(index + (prec << 4));
 
-                for (int i = 0; i <= m_cinfo.lim_Se; i++)
+                for (var i = 0; i <= m_cinfo.lim_Se; i++)
                 {
                     /* The table entries must be emitted in zigzag order. */
                     int qval = qtbl.quantval[m_cinfo.natural_order[i]];
 
                     if (prec != 0)
+                    {
                         emit_byte(qval >> 8);
+                    }
 
                     emit_byte(qval & 0xFF);
                 }
@@ -462,24 +516,30 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /* one DAC marker.  Therefore this routine does its own scan of the table. */
         private void emit_dac()
         {
-            byte[] dc_in_use = new byte[JpegConstants.NUM_ARITH_TBLS];
-            byte[] ac_in_use = new byte[JpegConstants.NUM_ARITH_TBLS];
+            var dc_in_use = new byte[JpegConstants.NUM_ARITH_TBLS];
+            var ac_in_use = new byte[JpegConstants.NUM_ARITH_TBLS];
 
-            for (int i = 0; i < m_cinfo.m_comps_in_scan; i++)
+            for (var i = 0; i < m_cinfo.m_comps_in_scan; i++)
             {
-                jpeg_component_info compptr = m_cinfo.Component_info[m_cinfo.m_cur_comp_info[i]];
+                var compptr = m_cinfo.Component_info[m_cinfo.m_cur_comp_info[i]];
                 /* DC needs no table for refinement scan */
                 if (m_cinfo.m_Ss == 0 && m_cinfo.m_Ah == 0)
+                {
                     dc_in_use[compptr.Dc_tbl_no] = 1;
+                }
 
                 /* AC needs no table when not present */
                 if (m_cinfo.m_Se != 0)
+                {
                     ac_in_use[compptr.Ac_tbl_no] = 1;
+                }
             }
 
-            int length = 0;
-            for (int i = 0; i < JpegConstants.NUM_ARITH_TBLS; i++)
+            var length = 0;
+            for (var i = 0; i < JpegConstants.NUM_ARITH_TBLS; i++)
+            {
                 length += dc_in_use[i] + ac_in_use[i];
+            }
 
             if (length != 0)
             {
@@ -487,7 +547,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 emit_2bytes(length * 2 + 2);
 
-                for (int i = 0; i < JpegConstants.NUM_ARITH_TBLS; i++)
+                for (var i = 0; i < JpegConstants.NUM_ARITH_TBLS; i++)
                 {
                     if (dc_in_use[i] != 0)
                     {
@@ -590,7 +650,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private void emit_byte(int val)
         {
             if (!m_cinfo.m_dest.emit_byte(val))
+            {
                 m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_CANT_SUSPEND);
+            }
         }
     }
 }
