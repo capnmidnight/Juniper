@@ -13,7 +13,7 @@ namespace File_Copier
         private const string NETSTANDARD = "netstandard";
         private const string EXCLUDE_DEPENDENCIES_KEY = "--excludeDeps";
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             if (args.Length < 3)
             {
