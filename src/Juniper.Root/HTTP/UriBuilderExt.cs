@@ -21,7 +21,7 @@ namespace System
 
         public static void AddQuery<T>(this UriBuilder builder, string key, T value)
         {
-            builder.AddQuery($"{key}={value.ToString()}");
+            builder.AddQuery($"{key}={value}");
         }
     }
 }

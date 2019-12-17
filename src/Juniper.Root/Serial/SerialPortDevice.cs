@@ -22,7 +22,7 @@ namespace Juniper.Serial
         {
         }
 
-        public bool IsOpen { get { return port != null && port.IsOpen; } }
+        public bool IsOpen { get { return port?.IsOpen == true; } }
         public bool IsPortAvailable { get { return serialPortFactory.PortNames.Contains(PortName); } }
         public bool IsRecording { get; private set; }
         public string LastTestedString { get; private set; }
@@ -51,10 +51,10 @@ namespace Juniper.Serial
 
         public void Close()
         {
-            WithLock("Close", _Close);
+            WithLock("Close", CloseInternal);
         }
 
-        private void _Close()
+        private void CloseInternal()
         {
             buffer = string.Empty;
             if (IsOpen)
@@ -119,7 +119,7 @@ namespace Juniper.Serial
                 }
             }
 
-            return good || autoSearch && device.FindMatchingPort(skipPorts);
+            return good || (autoSearch && device.FindMatchingPort(skipPorts));
         }
 
         public List<Exception> ReadData()
@@ -144,7 +144,7 @@ namespace Juniper.Serial
         {
             if (disposing)
             {
-                _Close();
+                CloseInternal();
                 port.Dispose();
                 port = null;
                 handshakeComplete = false;
@@ -181,11 +181,11 @@ namespace Juniper.Serial
         private bool HandshakePort(string[] skipPorts)
         {
             handshakeComplete = false;
-            if (skipPorts == null || !skipPorts.Contains(PortName))
+            if (skipPorts?.Contains(PortName) != true)
             {
                 try
                 {
-                    _Close();
+                    CloseInternal();
                     port.PortName = PortName;
                     port.BaudRate = baudRate;
                     port.ReadTimeout = 1000;
@@ -215,7 +215,7 @@ namespace Juniper.Serial
                 {
                     if (!handshakeComplete)
                     {
-                        _Close();
+                        CloseInternal();
                     }
                 }
             }
@@ -302,14 +302,17 @@ namespace Juniper.Serial
         }
 
         /// <summary>
+        /// <para>
         /// The serial port reading is really finnicky about threading issues. This WithLock function
         /// takes a function to call that will receive exclusive control of the port. If a lock is
         /// already in place, then it will not wait on the lock, but instead return immediately.
-        ///
+        /// </para>
+        /// <para>
         /// There is a race condition between obtaining a lock and signalling that the lock was
         /// obtained. In that case, the losing thread will block on the lock, until the winning
         /// thread releases it. This may not be the desired behavior, but it might be recoverable on
         /// its own.
+        /// </para>
         /// </summary>
         /// <param name="lockName">Naming the lock assists in debugging where the lock was acquired</param>
         /// <param name="act"></param>

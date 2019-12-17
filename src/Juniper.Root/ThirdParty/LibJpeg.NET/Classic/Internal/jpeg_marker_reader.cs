@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains routines to decode JPEG datastream markers.
  * Most of the complexity arises from our desire to support input
  * suspension: if not all of the data for a marker is available,
@@ -94,7 +94,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         public ReadResult read_markers()
         {
             /* Outer loop repeats once for each marker. */
-            for (;;)
+            for (; ; )
             {
                 /* Collect the marker proper, unless we already did. */
                 /* NB: first_marker() enforces the requirement that SOI appear first. */
@@ -324,7 +324,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         public bool next_marker()
         {
             int c;
-            for (;;)
+            for (; ; )
             {
                 if (!m_cinfo.m_src.GetByte(out c))
                     return false;
@@ -581,8 +581,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private static bool skip_variable(jpeg_decompress_struct cinfo)
         {
-            int length;
-            if (!cinfo.m_src.GetTwoBytes(out length))
+            if (!cinfo.m_src.GetTwoBytes(out var length))
                 return false;
 
             length -= 2;
@@ -600,8 +599,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private static bool get_interesting_appn(jpeg_decompress_struct cinfo)
         {
-            int length;
-            if (!cinfo.m_src.GetTwoBytes(out length))
+            if (!cinfo.m_src.GetTwoBytes(out var length))
                 return false;
 
             length -= 2;
@@ -616,9 +614,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             byte[] b = new byte[APPN_DATA_LEN];
             for (int i = 0; i < numtoread; i++)
             {
-                int temp = 0;
-                if (!cinfo.m_src.GetByte(out temp))
+                if (!cinfo.m_src.GetByte(out var temp))
+                {
                     return false;
+                }
 
                 b[i] = (byte)temp;
             }
@@ -829,15 +828,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             m_cinfo.m_progressive_mode = is_prog;
             m_cinfo.arith_code = is_arith;
 
-            int length;
-            if (!m_cinfo.m_src.GetTwoBytes(out length))
+            if (!m_cinfo.m_src.GetTwoBytes(out var length))
                 return false;
 
             if (!m_cinfo.m_src.GetByte(out m_cinfo.m_data_precision))
                 return false;
 
-            int temp = 0;
-            if (!m_cinfo.m_src.GetTwoBytes(out temp))
+            if (!m_cinfo.m_src.GetTwoBytes(out var temp))
                 return false;
             m_cinfo.m_image_height = temp;
 
@@ -1081,7 +1078,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 { /* define AC table */
                     m_cinfo.arith_ac_K[index - JpegConstants.NUM_ARITH_TBLS] = (byte)val;
                 }
-                else {          /* define DC table */
+                else
+                {          /* define DC table */
                     m_cinfo.arith_dc_L[index] = (byte)(val & 0x0F);
                     m_cinfo.arith_dc_U[index] = (byte)(val >> 4);
                     if (m_cinfo.arith_dc_L[index] > m_cinfo.arith_dc_U[index])
@@ -1502,12 +1500,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private bool first_marker()
         {
-            int c;
-            if (!m_cinfo.m_src.GetByte(out c))
+            if (!m_cinfo.m_src.GetByte(out var c))
                 return false;
 
-            int c2;
-            if (!m_cinfo.m_src.GetByte(out c2))
+            if (!m_cinfo.m_src.GetByte(out var c2))
                 return false;
 
             if (c != 0xFF || c2 != (int)JPEG_MARKER.SOI)

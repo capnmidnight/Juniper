@@ -136,7 +136,7 @@ namespace Juniper.World.GIS
         public static bool operator ==(UTMPoint left, UTMPoint right)
         {
             return ReferenceEquals(left, right)
-                || left is object && left.Equals(right);
+                || (left is object && left.Equals(right));
         }
 
         public static bool operator !=(UTMPoint left, UTMPoint right)

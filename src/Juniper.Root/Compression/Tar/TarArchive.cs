@@ -6,7 +6,6 @@ using System.Text;
 
 namespace Juniper.Compression.Tar
 {
-
     public class TarArchive : IDisposable
     {
         internal static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -145,7 +144,6 @@ namespace Juniper.Compression.Tar
             // Check for ustar only
             if (ustar.Trim() == "ustar")
             {
-
                 var prefixFileName = GetString(header, 345, 155);
                 fileName = prefixFileName + fileName;
             }

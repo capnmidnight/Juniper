@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains tables and miscellaneous utility routines needed
  * for both compression and decompression.
  * Note we prefix all global names with "j" to minimize conflicts with
@@ -9,7 +9,7 @@ using System;
 
 namespace BitMiracle.LibJpeg.Classic.Internal
 {
-    class JpegUtils
+    internal static class JpegUtils
     {
         /*
         * jpeg_natural_order[i] is the natural-order position of the i'th element
@@ -24,7 +24,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         * The worst case would be a run-length of 15, which means we need 16
         * fake entries.
         */
-        public static readonly int[] jpeg_natural_order = 
+        public static readonly int[] jpeg_natural_order =
         {
              0,  1,  8, 16,  9,  2,  3, 10,
             17, 24, 32, 25, 18, 11,  4,  5,
@@ -34,12 +34,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             29, 22, 15, 23, 30, 37, 44, 51,
             58, 59, 52, 45, 38, 31, 39, 46,
             53, 60, 61, 54, 47, 55, 62, 63,
-            63, 63, 63, 63, 63, 63, 63, 63, 
+            63, 63, 63, 63, 63, 63, 63, 63,
             /* extra entries for safety in decoder */
             63, 63, 63, 63, 63, 63, 63, 63
         };
 
-        /// zz to natural order for 7x7 block
+        // zz to natural order for 7x7 block
         public static readonly int[] jpeg_natural_order7 =
         {
              0,  1,  8, 16,  9,  2,  3, 10,
@@ -54,7 +54,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             63, 63, 63, 63, 63, 63, 63, 63
         };
 
-        /// zz to natural order for 6x6 block
+        // zz to natural order for 6x6 block
         public static readonly int[] jpeg_natural_order6 =
         {
              0,  1,  8, 16,  9,  2,  3, 10,
@@ -67,7 +67,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             63, 63, 63, 63, 63, 63, 63, 63
         };
 
-        /// zz to natural order for 5x5 block
+        // zz to natural order for 5x5 block
         public static readonly int[] jpeg_natural_order5 =
         {
              0,  1,  8, 16,  9,  2,  3, 10,
@@ -79,7 +79,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             63, 63, 63, 63, 63, 63, 63, 63
         };
 
-        /// zz to natural order for 4x4 block
+        // zz to natural order for 4x4 block
         public static readonly int[] jpeg_natural_order4 =
         {
              0,  1,  8, 16,  9,  2,  3, 10,
@@ -89,7 +89,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             63, 63, 63, 63, 63, 63, 63, 63
         };
 
-        /// zz to natural order for 3x3 block
+        // zz to natural order for 3x3 block
         public static readonly int[] jpeg_natural_order3 =
         {
              0,  1,  8, 16,  9,  2, 10, 17,
@@ -99,7 +99,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             63, 63, 63, 63, 63, 63, 63, 63
         };
 
-        /// zz to natural order for 2x2 block
+        // zz to natural order for 2x2 block
         public static readonly int[] jpeg_natural_order2 =
         {
              0,  1,  8,  9,
@@ -108,7 +108,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             63, 63, 63, 63, 63, 63, 63, 63
         };
 
-        /// Arithmetic coding probability estimation tables
+        // Arithmetic coding probability estimation tables
         public static readonly int[] jpeg_aritab =
         {
         };
@@ -122,9 +122,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         */
         public static int RIGHT_SHIFT(int x, int shft)
         {
-            return (x >> shft);
+            return x >> shft;
         }
-        
+
         /* Descale and correctly round an int value that's scaled by N bits.
         * We assume RIGHT_SHIFT rounds towards minus infinity, so adding
         * the fudge factor is correct for either sign of X.

@@ -79,9 +79,9 @@ namespace Juniper.IO
             layer = default;
             foreach (var source in sources)
             {
-                if (source is T)
+                if (source is T t)
                 {
-                    layer = (T)source;
+                    layer = t;
                     return true;
                 }
             }
@@ -101,9 +101,9 @@ namespace Juniper.IO
             layer = default;
             foreach (var dest in destinations)
             {
-                if (dest is T)
+                if (dest is T t)
                 {
-                    layer = (T)dest;
+                    layer = t;
                     return true;
                 }
             }
@@ -216,14 +216,18 @@ namespace Juniper.IO
             {
                 if (source.IsCached(fileRef))
                 {
-                    cached = await source.Open(fileRef, prog);
+                    cached = await source
+                        .Open(fileRef, prog)
+                        .ConfigureAwait(false);
                     break;
                 }
             }
 
             if (cached == null && fileRef is StreamSource fileSource)
             {
-                cached = await fileSource.GetStream(prog);
+                cached = await fileSource
+                    .GetStream(prog)
+                    .ConfigureAwait(false);
                 cached = Cache(fileRef, cached);
             }
 

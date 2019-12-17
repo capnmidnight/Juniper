@@ -9,6 +9,8 @@ namespace Juniper.Audio
     /// </summary>
     public abstract class AbstractPcmConversionStream : Stream
     {
+        private const int BITS_PER_INT = sizeof(int) * 8;
+
         /// <summary>
         /// The original source of PCM data
         /// </summary>
@@ -42,8 +44,8 @@ namespace Juniper.Audio
             this.bytesPerFloat = bytesPerFloat;
 
             var bitsPerFloat = bytesPerFloat * 8;
-            shift = sizeof(int) * 8 - bitsPerFloat;
-            scalar = (float)System.Math.Pow(2, sizeof(int) * 8 - 1);
+            shift = BITS_PER_INT - bitsPerFloat;
+            scalar = (float)System.Math.Pow(2, BITS_PER_INT - 1);
         }
 
         /// <summary>
@@ -60,7 +62,6 @@ namespace Juniper.Audio
 
             base.Dispose(disposing);
         }
-
 
         /// <summary>
         /// Returns true if the underlying stream is readable.
@@ -225,8 +226,6 @@ namespace Juniper.Audio
                 uv >>= 8;
             }
         }
-
-
 
         /// <summary>
         /// Implementing classes override this method to provide the correct

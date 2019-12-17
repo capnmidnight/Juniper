@@ -189,12 +189,12 @@ namespace System.Collections.Generic
         /// <returns></returns>
         public static bool Matches(this IEnumerable<Type> a, IEnumerable<Type> b)
         {
-            if(a is null && b is null)
+            if (a is null && b is null)
             {
                 return true;
             }
 
-            if(a is null != b is null)
+            if (a is null != b is null)
             {
                 return false;
             }
@@ -235,7 +235,7 @@ namespace System.Collections.Generic
             var anyNext = false;
             foreach (var iter in enums)
             {
-                anyNext |= iter != null && iter.MoveNext();
+                anyNext |= iter?.MoveNext() == true;
             }
             return anyNext;
         }

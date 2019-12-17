@@ -7,7 +7,7 @@ namespace Hjg.Pngcs
     /// </summary>
     internal class FilterWriteStrategy
     {
-        private static readonly int COMPUTE_STATS_EVERY_N_LINES = 8;
+        private const int COMPUTE_STATS_EVERY_N_LINES = 8;
 
         private readonly ImageInfo imgInfo;
         private readonly FilterType configuredType; // can be negative (fin dout)
@@ -25,8 +25,9 @@ namespace Hjg.Pngcs
             this.configuredType = configuredType;
             if (configuredType < 0)
             { // first guess
-                if ((imgInfo.Rows < 8 && imgInfo.Cols < 8) || imgInfo.Indexed
-                        || imgInfo.BitDepth < 8)
+                if ((imgInfo.Rows < 8 && imgInfo.Cols < 8)
+                    || imgInfo.Indexed
+                    || imgInfo.BitDepth < 8)
                 {
                     currentType = FilterType.FILTER_NONE;
                 }

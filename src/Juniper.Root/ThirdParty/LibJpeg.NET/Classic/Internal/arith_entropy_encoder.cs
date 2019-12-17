@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 
 namespace BitMiracle.LibJpeg.Classic.Internal
 {
-    class arith_entropy_encoder : jpeg_entropy_encoder
+    internal class arith_entropy_encoder : jpeg_entropy_encoder
     {
         public arith_entropy_encoder(jpeg_compress_struct cinfo)
         {

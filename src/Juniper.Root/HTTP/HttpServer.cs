@@ -562,7 +562,6 @@ or
             }
         }
 
-
         protected void OnInfo(object source, string message)
         {
             Info?.Invoke(source, message);

@@ -115,7 +115,6 @@ namespace Juniper.Collections
         /// <param name="obj">The object to add</param>
         public void Push(T obj)
         {
-
             //figure out which stack to add the object to
             int addIndex;
             for (addIndex = 0; addIndex < stack.Count; ++addIndex)

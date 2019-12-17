@@ -107,7 +107,7 @@ namespace System.Collections.Generic
             if (!int.TryParse(left, out var x)
                 || !int.TryParse(right, out var y))
             {
-                return string.Compare(left, right, StringComparison.Ordinal);
+                return string.CompareOrdinal(left, right);
             }
             else
             {

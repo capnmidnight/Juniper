@@ -21,6 +21,6 @@ namespace Juniper.HTTP
         TRACE = 128,
         PATCH = 256,
 
-        All = 511
+        All = GET | HEAD | POST | PUT | DELETE | CONNECT | OPTIONS | TRACE | PATCH
     }
 }

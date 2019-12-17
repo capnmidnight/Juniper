@@ -3,11 +3,9 @@ using System.IO;
 
 namespace Juniper.Compression.Tar
 {
-
     /// <summary>
     /// An Tar entry stream for a file entry from a tar stream.
     /// </summary>
-    /// <seealso cref="Stream" />
     public class TarArchiveEntry
     {
         private readonly MemoryStream copy;

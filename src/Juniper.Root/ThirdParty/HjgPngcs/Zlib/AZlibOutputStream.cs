@@ -10,7 +10,7 @@ namespace Hjg.Pngcs.Zlib
         protected int compressLevel;
         protected EDeflateCompressStrategy strategy;
 
-        public AZlibOutputStream(Stream st, int compressLevel, EDeflateCompressStrategy strat, bool leaveOpen)
+        protected AZlibOutputStream(Stream st, int compressLevel, EDeflateCompressStrategy strat, bool leaveOpen)
         {
             rawStream = st;
             this.leaveOpen = leaveOpen;

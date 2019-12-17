@@ -7,8 +7,8 @@ namespace Juniper.IO
     {
         public static bool operator ==(ContentReference left, ContentReference right)
         {
-            return left is null && right is null
-                || left is object && left.Equals(right);
+            return (left is null && right is null)
+                || (left is object && left.Equals(right));
         }
 
         public static bool operator !=(ContentReference left, ContentReference right)
@@ -21,7 +21,7 @@ namespace Juniper.IO
             return fileRef.ContentType.AddExtension(fileRef.CacheID);
         }
 
-        public static FileInfo operator+(DirectoryInfo directory, ContentReference fileRef)
+        public static FileInfo operator +(DirectoryInfo directory, ContentReference fileRef)
         {
             var fileName = (string)fileRef;
             return new FileInfo(Path.Combine(directory.FullName, fileName));

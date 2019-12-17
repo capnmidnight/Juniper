@@ -48,8 +48,8 @@ namespace Juniper.World.GIS.Google
 
         public override bool Equals(object obj)
         {
-            return obj is USAddress addr && Equals(addr)
-                || obj is string name && Equals(name);
+            return (obj is USAddress addr && Equals(addr))
+                || (obj is string name && Equals(name));
         }
 
         public bool Equals(USAddress other)
@@ -69,7 +69,7 @@ namespace Juniper.World.GIS.Google
         public static bool operator ==(USAddress left, USAddress right)
         {
             return ReferenceEquals(left, right)
-                || left is object && left.Equals(right);
+                || (left is object && left.Equals(right));
         }
 
         public static bool operator !=(USAddress left, USAddress right)

@@ -82,8 +82,8 @@ namespace Juniper.Compression
 
         public static bool operator ==(CompressedFileInfo left, CompressedFileInfo right)
         {
-            return left is null && right is null
-                || left is object && left.Equals(right);
+            return (left is null && right is null)
+                || (left is object && left.Equals(right));
         }
 
         public static bool operator !=(CompressedFileInfo left, CompressedFileInfo right)

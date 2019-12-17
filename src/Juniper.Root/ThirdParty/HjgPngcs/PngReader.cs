@@ -3,6 +3,7 @@ namespace Hjg.Pngcs
     using System;
     using System.Collections.Generic;
     using System.IO;
+
     using Hjg.Pngcs.Chunks;
     using Hjg.Pngcs.Zlib;
 
@@ -10,31 +11,27 @@ namespace Hjg.Pngcs
     /// Reads a PNG image, line by line
     /// </summary>
     /// <remarks>
-    /// The typical reading sequence is as follows:
-    ///
-    /// 1. At construction time, the header and IHDR chunk are read (basic image info)
-    ///
-    /// 2  (Optional) you can set some global options: UnpackedMode CrcCheckDisabled
-    ///
-    /// 3. (Optional) If you call GetMetadata() or or GetChunksLisk() before reading the pixels, the chunks before IDAT are automatically loaded and available
-    ///
+    /// <para>The typical reading sequence is as follows:</para>
+    /// <para>1. At construction time, the header and IHDR chunk are read (basic image info)</para>
+    /// <para>2  (Optional) you can set some global options: UnpackedMode CrcCheckDisabled</para>
+    /// <para>3. (Optional) If you call GetMetadata() or or GetChunksLisk() before reading the pixels, the chunks before IDAT are automatically loaded and available</para>
+    /// <para>
     /// 4a. The rows are read, one by one, with the <tt>ReadRowXXX</tt> methods: (ReadRowInt() , ReadRowByte(), etc)
     /// in order, from 0 to nrows-1 (you can skip or repeat rows, but not go backwards)
-    ///
+    /// </para>
+    /// <para>
     /// 4b. Alternatively, you can read all rows, or a subset, in a single call: see ReadRowsInt(), ReadRowsByte()
     /// In general this consumes more memory, but for interlaced images this is equally efficient, and more so if reading a small subset of rows.
-    ///
-    /// 5. Read of the last row automatically loads the trailing chunks, and ends the reader.
-    ///
-    /// 6. End() forcibly finishes/aborts the reading and closes the stream
-    ///
+    /// </para>
+    /// <para>5. Read of the last row automatically loads the trailing chunks, and ends the reader.</para>
+    /// <para>6. End() forcibly finishes/aborts the reading and closes the stream</para>
     /// </remarks>
     public class PngReader
     {
         /// <summary>
         /// Basic image info, inmutable
         /// </summary>
-        public ImageInfo ImgInfo { get; private set; }
+        public ImageInfo ImgInfo { get; }
 
         /// <summary>
         /// filename, or description - merely informative, can be empty
@@ -164,7 +161,7 @@ namespace Hjg.Pngcs
         /// <param name="filename">Optional, can be the filename or a description.</param>
         public PngReader(Stream inputStream, string filename)
         {
-            this.filename = (filename == null) ? "" : filename;
+            this.filename = filename ?? "";
             this.inputStream = inputStream;
             chunksList = new ChunksList(null);
             metadata = new PngMetadata(chunksList);
@@ -251,7 +248,9 @@ namespace Hjg.Pngcs
                 {
                     idatIstream.Close();
                 }
+#pragma warning disable RCS1075 // Avoid empty catch clause that catches System.Exception.
                 catch (Exception) { }
+#pragma warning restore RCS1075 // Avoid empty catch clause that catches System.Exception.
                 ReadLastChunks();
             }
             Close();
@@ -260,16 +259,20 @@ namespace Hjg.Pngcs
         private void Close()
         {
             if (CurrentChunkGroup < ChunksList.CHUNK_GROUP_6_END)
-            { // this could only happen if forced close
+            {
+                // this could only happen if forced close
                 try
                 {
                     idatIstream.Close();
                 }
+#pragma warning disable RCS1075 // Avoid empty catch clause that catches System.Exception.
                 catch (Exception)
+#pragma warning restore RCS1075 // Avoid empty catch clause that catches System.Exception.
                 {
                 }
                 CurrentChunkGroup = ChunksList.CHUNK_GROUP_6_END;
             }
+
             if (ShouldCloseStream)
             {
                 inputStream.Close();
@@ -283,32 +286,30 @@ namespace Hjg.Pngcs
             switch (ft)
             {
                 case Hjg.Pngcs.FilterType.FILTER_NONE:
-                UnfilterRowNone(nbytes);
-                break;
+                    UnfilterRowNone(nbytes);
+                    break;
 
                 case Hjg.Pngcs.FilterType.FILTER_SUB:
-                UnfilterRowSub(nbytes);
-                break;
+                    UnfilterRowSub(nbytes);
+                    break;
 
                 case Hjg.Pngcs.FilterType.FILTER_UP:
-                UnfilterRowUp(nbytes);
-                break;
+                    UnfilterRowUp(nbytes);
+                    break;
 
                 case Hjg.Pngcs.FilterType.FILTER_AVERAGE:
-                UnfilterRowAverage(nbytes);
-                break;
+                    UnfilterRowAverage(nbytes);
+                    break;
 
                 case Hjg.Pngcs.FilterType.FILTER_PAETH:
-                UnfilterRowPaeth(nbytes);
-                break;
+                    UnfilterRowPaeth(nbytes);
+                    break;
 
                 default:
-                throw new PngjInputException("Filter type " + ftn + " not implemented");
+                    throw new PngjInputException("Filter type " + ftn + " not implemented");
             }
-            if (crctest != null)
-            {
-                crctest.Update(rowb, 1, nbytes);
-            }
+
+            crctest?.Update(rowb, 1, nbytes);
         }
 
         private void UnfilterRowAverage(int nbytes)
@@ -317,7 +318,7 @@ namespace Hjg.Pngcs
             for (j = 1 - ImgInfo.BytesPixel, i = 1; i <= nbytes; i++, j++)
             {
                 x = (j > 0) ? rowb[j] : 0;
-                rowb[i] = (byte)(rowbfilter[i] + (x + (rowbprev[i] & 0xFF)) / 2);
+                rowb[i] = (byte)(rowbfilter[i] + ((x + (rowbprev[i] & 0xFF)) / 2));
             }
         }
 
@@ -711,11 +712,6 @@ namespace Hjg.Pngcs
             return buffer;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="nrow"></param>
-        /// <returns></returns>
         [Obsolete("GetRow is deprecated,  use ReadRow/ReadRowInt/ReadRowByte instead.")]
         public ImageLine GetRow(int nrow)
         {
@@ -770,7 +766,9 @@ namespace Hjg.Pngcs
                 nRows = (ImgInfo.Rows - rowOffset) / rowStep;
             }
 
-            if (rowStep < 1 || rowOffset < 0 || nRows * rowStep + rowOffset > ImgInfo.Rows)
+            if (rowStep < 1
+                || rowOffset < 0
+                || (nRows * rowStep) + rowOffset > ImgInfo.Rows)
             {
                 throw new PngjInputException("bad args");
             }
@@ -823,7 +821,9 @@ namespace Hjg.Pngcs
                 nRows = (ImgInfo.Rows - rowOffset) / rowStep;
             }
 
-            if (rowStep < 1 || rowOffset < 0 || nRows * rowStep + rowOffset > ImgInfo.Rows)
+            if (rowStep < 1
+                || rowOffset < 0
+                || (nRows * rowStep) + rowOffset > ImgInfo.Rows)
             {
                 throw new PngjInputException("bad args");
             }
@@ -891,7 +891,7 @@ namespace Hjg.Pngcs
                 }
 
                 deinterlacer.setRow(nrow);
-                bytesRead = (ImgInfo.BitspPixel * deinterlacer.getPixelsToRead() + 7) / 8;
+                bytesRead = ((ImgInfo.BitspPixel * deinterlacer.getPixelsToRead()) + 7) / 8;
                 if (bytesRead < 1)
                 {
                     throw new PngjExceptionInternal("wtf??");

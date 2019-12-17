@@ -12,7 +12,6 @@ namespace Juniper.Compression.Tests
         private static readonly string TestZip = Path.Combine("..", "..", "..", "test.zip");
         private const string TestFile1 = "test.txt";
         private const string TestFile2 = "test2.txt";
-        private static readonly string[] TestFiles = { TestFile1, TestFile2 };
 
         private static readonly string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         private static readonly string TestTarGZ = Path.Combine(appData, "Unity", "Asset Store-5.x", "Oculus", "ScriptingIntegration", "Oculus Integration.unitypackage");
@@ -27,13 +26,13 @@ namespace Juniper.Compression.Tests
         [TestMethod]
         public void GetEntries()
         {
-            var entries = Tar.GZip.Decompressor.Entries(TestTarGZ).ToArray();
+            Tar.GZip.Decompressor.Entries(TestTarGZ).ToArray();
         }
 
         [TestMethod]
         public void BuildUnityPackageTree()
         {
-            var tree = Tar.GZip.Decompressor.Entries(TestTarGZ).Tree();
+            Tar.GZip.Decompressor.Entries(TestTarGZ).Tree();
         }
 
         [TestMethod]

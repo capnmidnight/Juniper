@@ -109,11 +109,14 @@ namespace Juniper.Collections
         }
 
         /// <summary>
+        /// <para>
         /// Copies the queue elements to an existing one-dimensional array, starting at the specified
         /// index array.
-        ///
+        /// </para>
+        /// <para>
         /// Throws an exception if the supplied array is null, the index is less than zero or greater
         /// than the length of the array, or would result in the items going outside of the array bounds.
+        /// </para>
         /// </summary>
         /// <param name="arr"></param>
         /// <param name="startIndex"></param>
@@ -139,7 +142,6 @@ namespace Juniper.Collections
         /// <param name="obj">The object to add</param>
         public void Enqueue(T obj)
         {
-
             //figure out which queue to add the object to
             int addIndex;
             for (addIndex = 0; addIndex < q.Count; ++addIndex)

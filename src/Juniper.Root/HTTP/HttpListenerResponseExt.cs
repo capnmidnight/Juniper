@@ -35,7 +35,7 @@ namespace Juniper.HTTP
         {
             using (var input = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                await SendStreamAsync(response, (MediaType)file, input);
+                await SendStreamAsync(response, (MediaType)file, input).ConfigureAwait(false);
             }
         }
 

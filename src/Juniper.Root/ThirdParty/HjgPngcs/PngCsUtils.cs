@@ -4,7 +4,7 @@ namespace Hjg.Pngcs
     /// Utility functions for C# porting
     /// </summary>
     ///
-    internal class PngCsUtils
+    internal static class PngCsUtils
     {
         internal static bool arraysEqual4(byte[] ar1, byte[] ar2)
         {

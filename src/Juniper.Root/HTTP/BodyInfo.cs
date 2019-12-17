@@ -34,7 +34,7 @@ namespace Juniper.HTTP
         public static bool operator ==(BodyInfo left, BodyInfo right)
         {
             return ReferenceEquals(left, right)
-                || left is object && left.Equals(right);
+                || (left is object && left.Equals(right));
         }
 
         public static bool operator !=(BodyInfo left, BodyInfo right)

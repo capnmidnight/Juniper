@@ -95,7 +95,7 @@ namespace Juniper.World.GIS
                 && int.TryParse(parts[1], out var degrees)
                 && float.TryParse(parts[2], out var minutes))
             {
-                dec = degrees + minutes / 60.0f;
+                dec = degrees + (minutes / 60.0f);
                 if (hemisphere == "S" || hemisphere == "W")
                 {
                     dec *= -1;
@@ -121,10 +121,9 @@ namespace Juniper.World.GIS
         public static bool TryParseDMSPair(string value, out LatLngPoint point)
         {
             var parts = value.SplitX(',');
-            float lat, lng;
             if (parts.Length != 2
-                || !TryParseDMS(parts[0], out lat)
-                || !TryParseDMS(parts[1], out lng))
+                || !TryParseDMS(parts[0], out var lat)
+                || !TryParseDMS(parts[1], out var lng))
             {
                 point = default;
                 return false;
@@ -151,10 +150,9 @@ namespace Juniper.World.GIS
         public static bool TryParseDecimal(string value, out LatLngPoint point)
         {
             var parts = value.SplitX(',');
-            float lat, lng;
             if (parts.Length != 2
-                || !float.TryParse(parts[0].Trim(), out lat)
-                || !float.TryParse(parts[1].Trim(), out lng))
+                || !float.TryParse(parts[0].Trim(), out var lat)
+                || !float.TryParse(parts[1].Trim(), out var lng))
             {
                 point = default;
                 return false;
@@ -270,7 +268,7 @@ namespace Juniper.World.GIS
         public static bool operator ==(LatLngPoint left, LatLngPoint right)
         {
             return ReferenceEquals(left, right)
-                || left is object && left.Equals(right);
+                || (left is object && left.Equals(right));
         }
 
         public static bool operator !=(LatLngPoint left, LatLngPoint right)
@@ -291,7 +289,7 @@ namespace Juniper.World.GIS
 
         public int CompareTo(LatLngPoint other)
         {
-            if(other is null)
+            if (other is null)
             {
                 return -1;
             }
@@ -301,12 +299,12 @@ namespace Juniper.World.GIS
                     byLng = Longitude.CompareTo(other.Longitude),
                     byAlt = Altitude.CompareTo(other.Altitude);
 
-                if(byLat == 0
+                if (byLat == 0
                     && byLng == 0)
                 {
                     return byAlt;
                 }
-                else if(byLat == 0)
+                else if (byLat == 0)
                 {
                     return byLng;
                 }

@@ -12,7 +12,7 @@ namespace Hjg.Pngcs
         private readonly int size;
         private long countFlushed = 0;
 
-        public ProgressiveOutputStream(int size_0)
+        protected ProgressiveOutputStream(int size_0)
         {
             size = size_0;
             if (size < 8)

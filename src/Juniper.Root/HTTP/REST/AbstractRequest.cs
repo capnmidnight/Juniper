@@ -21,6 +21,7 @@ namespace Juniper.HTTP.REST
 
         private readonly HttpMethod method;
         private readonly Uri serviceURI;
+
         private readonly IDictionary<string, List<string>> queryParams =
             new SortedDictionary<string, List<string>>();
 
@@ -189,21 +190,25 @@ namespace Juniper.HTTP.REST
 
             if (request.ContentLength > 0)
             {
-                using (var stream = new ProgressStream(await request.GetRequestStreamAsync(), request.ContentLength, prog))
+                using (var stream = new ProgressStream(await request
+                    .GetRequestStreamAsync()
+                    .ConfigureAwait(false), request.ContentLength, prog))
                 {
                     WriteBody(stream);
                     stream.Flush();
                 }
             }
 
-            return (HttpWebResponse)await request.GetResponseAsync();
+            return (HttpWebResponse)await request
+                .GetResponseAsync()
+                .ConfigureAwait(false);
         }
 
         public override async Task<Stream> GetStream(IProgress prog = null)
         {
             var progs = prog.Split("Get", "Read");
             prog = progs[1];
-            var response = await GetResponse(progs[0]);
+            var response = await GetResponse(progs[0]).ConfigureAwait(false);
             var stream = response.GetResponseStream();
             if (prog != null)
             {

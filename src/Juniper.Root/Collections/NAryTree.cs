@@ -181,7 +181,7 @@ namespace Juniper.Collections
         /// </summary>
         public IEnumerable<NAryTree<T>> Flatten(TreeTraversalOrder order = TreeTraversalOrder.BreadthFirst)
         {
-            return Where(_ => true, TreeTraversalOrder.BreadthFirst);
+            return Where(_ => true, order);
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace Juniper.Collections
         /// <param name="act">Act.</param>
         public StateT Accumulate<StateT>(TreeTraversalOrder order, StateT state, Func<StateT, NAryTree<T>, StateT> act)
         {
-            foreach(var child in Flatten(order))
+            foreach (var child in Flatten(order))
             {
                 state = act(state, child);
             }

@@ -8,7 +8,6 @@ using GDIImageFormat = System.Drawing.Imaging.ImageFormat;
 
 namespace Juniper.Imaging
 {
-
     public class GDICodec : IImageCodec<Image>
     {
         private readonly GDIImageFormat gdiFormat;

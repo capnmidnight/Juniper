@@ -10,7 +10,7 @@ namespace Hjg.Pngcs.Chunks
         protected internal string key; // key/val: only for tEXt. lazy computed
         protected internal string val;
 
-        protected internal PngChunkTextVar(string id, ImageInfo info)
+        protected PngChunkTextVar(string id, ImageInfo info)
             : base(id, info)
         {
         }
@@ -44,10 +44,6 @@ namespace Hjg.Pngcs.Chunks
             return ChunkOrderingConstraint.NONE;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
         public string GetKey()
         {
             return key;

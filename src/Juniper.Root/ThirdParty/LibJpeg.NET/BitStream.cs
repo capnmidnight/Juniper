@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.IO;
 
 namespace BitMiracle.LibJpeg
 {
-    class BitStream : IDisposable
+    internal class BitStream : IDisposable
     {
         private bool m_alreadyDisposed;
 
@@ -21,7 +21,9 @@ namespace BitMiracle.LibJpeg
         public BitStream(byte[] buffer)
         {
             if (buffer == null)
-                throw new ArgumentNullException("buffer");
+            {
+                throw new ArgumentNullException(nameof(buffer));
+            }
 
             m_stream = new MemoryStream(buffer);
             m_size = bitsAllocated();
@@ -39,8 +41,7 @@ namespace BitMiracle.LibJpeg
             {
                 if (disposing)
                 {
-                    if (m_stream != null)
-                        m_stream.Dispose();
+                    m_stream?.Dispose();
                 }
 
                 m_stream = null;
@@ -64,7 +65,9 @@ namespace BitMiracle.LibJpeg
         public virtual int Read(int bitCount)
         {
             if (Tell() + bitCount > bitsAllocated())
-                throw new ArgumentOutOfRangeException("bitCount");
+            {
+                throw new ArgumentOutOfRangeException(nameof(bitCount));
+            }
 
             return read(bitCount);
         }
@@ -76,7 +79,9 @@ namespace BitMiracle.LibJpeg
 
             const int maxBitsInStorage = sizeof(int) * bitsInByte;
             if (bitCount > maxBitsInStorage)
-                throw new ArgumentOutOfRangeException("bitCount");
+            {
+                throw new ArgumentOutOfRangeException(nameof(bitCount));
+            }
 
             for (int i = 0; i < bitCount; ++i)
             {
@@ -124,10 +129,14 @@ namespace BitMiracle.LibJpeg
             //any leftover bits in the final byte are set to 0.
 
             if (bitsCount < 0 || bitsCount > 32)
-                throw new ArgumentOutOfRangeException("bitsCount");
+            {
+                throw new ArgumentOutOfRangeException(nameof(bitsCount));
+            }
 
             if (bitsCount == 0)
+            {
                 return 0;
+            }
 
             int bitsRead = 0;
             int result = 0;
@@ -136,7 +145,7 @@ namespace BitMiracle.LibJpeg
             {
                 m_stream.Read(bt, 0, 1);
 
-                result = (result << bitsInByte);
+                result <<= bitsInByte;
                 result += bt[0];
 
                 bitsRead += 8;
@@ -145,7 +154,7 @@ namespace BitMiracle.LibJpeg
             m_positionInByte = (m_positionInByte + bitsCount) % 8;
             if (m_positionInByte != 0)
             {
-                result = (result >> (bitsInByte - m_positionInByte));
+                result >>= (bitsInByte - m_positionInByte);
 
                 m_stream.Seek(-1, SeekOrigin.Current);
             }
@@ -153,7 +162,7 @@ namespace BitMiracle.LibJpeg
             if (bitsCount < 32)
             {
                 int mask = ((1 << bitsCount) - 1);
-                result = result & mask;
+                result &= mask;
             }
 
             return result;
@@ -193,20 +202,23 @@ namespace BitMiracle.LibJpeg
         private void seekSet(int pos)
         {
             if (pos < 0)
-                throw new ArgumentOutOfRangeException("pos");
+            {
+                throw new ArgumentOutOfRangeException(nameof(pos));
+            }
 
             int byteDisplacement = pos / bitsInByte;
             m_stream.Seek(byteDisplacement, SeekOrigin.Begin);
 
-            int shiftInByte = pos - byteDisplacement * bitsInByte;
-            m_positionInByte = shiftInByte;
+            m_positionInByte = pos - (byteDisplacement * bitsInByte);
         }
 
         private void seekCurrent(int pos)
         {
             int result = Tell() + pos;
             if (result < 0 || result > bitsAllocated())
-                throw new ArgumentOutOfRangeException("pos");
+            {
+                throw new ArgumentOutOfRangeException(nameof(pos));
+            }
 
             seekSet(result);
         }

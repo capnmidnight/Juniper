@@ -218,7 +218,6 @@ namespace System
         /// </summary>
         private const int WinklerPrefixSize = 4;
 
-
         /// <summary>
         /// Returns the Jaro-Winkler distance between the specified
         /// strings. The distance is symmetric and will fall in the
@@ -234,7 +233,7 @@ namespace System
                 return b.Length == 0 ? 1 : 0;
             }
 
-            var searchRange = Max(0, Max(a.Length, b.Length) / 2 - 1);
+            var searchRange = Max(0, (Max(a.Length, b.Length) / 2) - 1);
 
             var matchesA = new bool[a.Length];
             var matchesB = new bool[b.Length];
@@ -284,9 +283,9 @@ namespace System
             var halfNumTransposed = numTransposed / 2;
 
             float numCommonFloat = numCommon;
-            var weight = (numCommonFloat / a.Length
-                + numCommonFloat / b.Length
-                + (numCommon - halfNumTransposed) / numCommonFloat) / 3f;
+            var weight = ((numCommonFloat / a.Length)
+                + (numCommonFloat / b.Length)
+                + ((numCommon - halfNumTransposed) / numCommonFloat)) / 3f;
 
             if (weight <= WinklerThreshold)
             {
@@ -306,10 +305,8 @@ namespace System
                 return weight;
             }
 
-            return weight + 0.1f * position * (1 - weight);
-
+            return weight + (0.1f * position * (1 - weight));
         }
-
 
         public static int DistanceTo(this string a, string b)
         {

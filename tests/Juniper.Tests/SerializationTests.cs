@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Numerics;
 
 using Juniper.IO;
 
@@ -9,7 +8,7 @@ namespace Juniper.Tests
 {
     [TestClass]
     public class SerializationTests
-    {        
+    {
         public void DictionaryTest<T>()
             where T : IFactory<Dictionary<string, int>, MediaType.Application>, new()
         {
@@ -27,7 +26,7 @@ namespace Juniper.Tests
 
             Assert.AreNotSame(expectedDict, actualDict);
             Assert.IsTrue(actualDict.Keys.Matches(expectedDict.Keys));
-            foreach(var key in expectedDict.Keys)
+            foreach (var key in expectedDict.Keys)
             {
                 Assert.AreEqual(expectedDict[key], actualDict[key]);
             }

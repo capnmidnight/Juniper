@@ -56,7 +56,7 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public int CompareTo(MetadataResponse other)
         {
-            if(other is null)
+            if (other is null)
             {
                 return -1;
             }
@@ -67,18 +67,18 @@ namespace Juniper.World.GIS.Google.StreetView
                     byDate = date.CompareTo(other.date),
                     byCopyright = copyright.CompareTo(other.copyright);
 
-                if(byPano == 0
+                if (byPano == 0
                     && byLocation == 0
                     && byDate == 0)
                 {
                     return byCopyright;
                 }
-                else if(byPano == 0
+                else if (byPano == 0
                     && byLocation == 0)
                 {
                     return byDate;
                 }
-                else if(byPano == 0)
+                else if (byPano == 0)
                 {
                     return byLocation;
                 }
@@ -112,8 +112,8 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public static bool operator ==(MetadataResponse left, MetadataResponse right)
         {
-            return left is null && right is null
-                || left is object && left.Equals(right);
+            return (left is null && right is null)
+                || (left is object && left.Equals(right));
         }
 
         public static bool operator !=(MetadataResponse left, MetadataResponse right)

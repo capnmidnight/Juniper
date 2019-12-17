@@ -10,16 +10,13 @@ namespace Juniper.Serial
         {
             sleep = 1000 / hertz;
             iterations = MINUTES * 60 * 1000 / sleep;
-            mockStream = new MockStream();
+            BaseStream = new MockStream();
             msgQueue = new Queue<string>();
             generator = new Thread(new ThreadStart(Generate));
             generator.Start();
         }
 
-        public System.IO.Stream BaseStream
-        {
-            get { return mockStream; }
-        }
+        public System.IO.Stream BaseStream { get; }
 
         public int BaudRate { get; set; }
 
@@ -86,7 +83,7 @@ namespace Juniper.Serial
         {
             if (disposing)
             {
-                mockStream.Dispose();
+                BaseStream.Dispose();
             }
         }
 
@@ -107,7 +104,6 @@ namespace Juniper.Serial
         private const int MINUTES = 5;
         private const int PREFILL = 4;
         private readonly Thread generator;
-        private readonly System.IO.Stream mockStream;
 
         private readonly Queue<string> msgQueue;
 

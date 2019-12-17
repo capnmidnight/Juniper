@@ -22,7 +22,7 @@ namespace NLayer.NAudioSupport
             return decoder.DecodeFrame(this.frame, dest, destOffset);
         }
 
-        public WaveFormat OutputFormat { get; private set; }
+        public WaveFormat OutputFormat { get; }
 
         public void SetEQ(float[] eq)
         {

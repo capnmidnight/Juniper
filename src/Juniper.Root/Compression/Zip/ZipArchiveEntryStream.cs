@@ -21,15 +21,8 @@ namespace Juniper.Compression.Zip
         {
             if (disposing)
             {
-                if (entryStream != null)
-                {
-                    entryStream.Dispose();
-                }
-
-                if (zip != null)
-                {
-                    zip.Dispose();
-                }
+                entryStream?.Dispose();
+                zip?.Dispose();
             }
 
             base.Dispose(disposing);

@@ -50,9 +50,7 @@ namespace Juniper
                 }
             }
 
-            var name = parts
-                .Where(p => p.Length > 0)
-                .FirstOrDefault();
+            var name = Array.Find(parts, p => p.Length > 0);
 
             if (string.IsNullOrEmpty(name))
             {
@@ -126,7 +124,7 @@ namespace Juniper
 
         public virtual bool Matches(string fileName)
         {
-            return this == Any && Values.Any(v => v.Matches(fileName))
+            return (this == Any && Values.Any(v => v.Matches(fileName)))
                 || Extensions.Contains(PathExt.GetLongExtension(fileName))
                 || Extensions.Contains(PathExt.GetShortExtension(fileName));
         }
@@ -150,8 +148,8 @@ namespace Juniper
 
         public static bool operator ==(MediaType left, MediaType right)
         {
-            return left is null && right is null
-                || left is object && left.Equals(right);
+            return (left is null && right is null)
+                || (left is object && left.Equals(right));
         }
 
         public static bool operator !=(MediaType left, MediaType right)
@@ -174,13 +172,12 @@ namespace Juniper
     {
         public static string AddExtension(this MediaType contentType, string fileName)
         {
-            if(fileName == null)
+            if (fileName == null)
             {
                 throw new ArgumentNullException(nameof(fileName));
             }
 
-            if (contentType != null
-                && contentType.PrimaryExtension != null)
+            if (contentType?.PrimaryExtension != null)
             {
                 var currentExtension = PathExt.GetShortExtension(fileName);
                 if (contentType.Extensions.IndexOf(currentExtension) == -1)

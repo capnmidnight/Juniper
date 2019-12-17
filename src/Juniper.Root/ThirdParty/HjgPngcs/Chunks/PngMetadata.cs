@@ -17,14 +17,7 @@ namespace Hjg.Pngcs.Chunks
         internal PngMetadata(ChunksList chunks)
         {
             chunkList = chunks;
-            if (chunks is ChunksListForWrite)
-            {
-                ReadOnly = false;
-            }
-            else
-            {
-                ReadOnly = true;
-            }
+            ReadOnly = !(chunks is ChunksListForWrite);
         }
 
         /// <summary>Queues the chunk at the writer</summary>

@@ -16,14 +16,14 @@ namespace Juniper.HTTP.Tests
         [TestMethod]
         public async Task TestGetting()
         {
-            await RunFileTest("portrait-testgetting.jpg", true, true);
+            await RunFileTest("portrait-testgetting.jpg", true, true).ConfigureAwait(false);
         }
 
         [TestMethod]
         public async Task TestCaching()
         {
-            await RunFileTest("portrait-testcaching.jpg", true, false);
-            await RunFileTest("portrait-testcaching.jpg", false, true);
+            await RunFileTest("portrait-testcaching.jpg", true, false).ConfigureAwait(false);
+            await RunFileTest("portrait-testcaching.jpg", false, true).ConfigureAwait(false);
         }
 
         private class ImageRequest : AbstractRequest<MediaType.Image>
@@ -55,7 +55,9 @@ namespace Juniper.HTTP.Tests
                 new LibJpegNETCodec(80),
                 new LibJpegNETImageDataTranscoder());
 
-            var image = await cache.Load(imageDecoder, imageRequest);
+            var image = await cache
+                .Load(imageDecoder, imageRequest)
+                .ConfigureAwait(false);
 
             if (runTest)
             {

@@ -96,6 +96,10 @@ namespace Juniper.Collections
             start = end = 0;
         }
 
+        /// <summary>
+        /// The Ring Buffer is Saturated when all slots are full. The next Add operation
+        /// will overwrite the oldest element.
+        /// </summary>
         /// <example><code><![CDATA[
         /// var ring = new RingBuffer<int>(3);
         /// ring.Add(1); // ring.IsSaturated == false
@@ -195,7 +199,7 @@ namespace Juniper.Collections
         /// <returns></returns>
         public IEnumerator<T> GetEnumerator()
         {
-            for(var i = 0; i < Count; ++i)
+            for (var i = 0; i < Count; ++i)
             {
                 yield return this[i];
             }

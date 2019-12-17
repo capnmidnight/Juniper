@@ -13,9 +13,6 @@ namespace Hjg.Pngcs.Chunks
 
         private int nentries = 0;
 
-        /// <summary>
-        ///
-        /// </summary>
         private int[] entries;
 
         public PngChunkPLTE(ImageInfo info)

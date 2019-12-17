@@ -7,7 +7,6 @@ using Juniper.Progress;
 
 namespace Juniper.Imaging
 {
-
     public class GDIImageDataTranscoder : IImageTranscoder<Image, ImageData>
     {
         public ImageData Translate(Image image, IProgress prog)

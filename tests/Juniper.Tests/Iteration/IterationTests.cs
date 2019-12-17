@@ -12,12 +12,12 @@ namespace Juniper.Iteration.Tests
         private const int items = 1000000;
         private const int iters = 100;
 
-        interface I
+        private interface I
         {
             void Update();
         }
 
-        struct A : I
+        private struct A : I
         {
             private readonly float x;
             private readonly float y;
@@ -37,7 +37,7 @@ namespace Juniper.Iteration.Tests
             }
         }
 
-        struct B : I
+        private struct B : I
         {
             private readonly float x;
             private readonly float y;
@@ -57,7 +57,7 @@ namespace Juniper.Iteration.Tests
             }
         }
 
-        struct C : I
+        private struct C : I
         {
             private readonly float x;
             private readonly float y;
@@ -77,7 +77,7 @@ namespace Juniper.Iteration.Tests
             }
         }
 
-        struct D : I
+        private struct D : I
         {
             private readonly float x;
             private readonly float y;
@@ -107,20 +107,19 @@ namespace Juniper.Iteration.Tests
                 switch (rand.Next(4))
                 {
                     case 0:
-                    itemsRaw[i] = (new A((float)rand.NextDouble(), (float)rand.NextDouble()));
-                    break;
+                        itemsRaw[i] = (new A((float)rand.NextDouble(), (float)rand.NextDouble()));
+                        break;
                     case 1:
-                    itemsRaw[i] = (new B((float)rand.NextDouble(), (float)rand.NextDouble()));
-                    break;
+                        itemsRaw[i] = (new B((float)rand.NextDouble(), (float)rand.NextDouble()));
+                        break;
                     case 2:
-                    itemsRaw[i] = (new C((float)rand.NextDouble(), (float)rand.NextDouble()));
-                    break;
+                        itemsRaw[i] = (new C((float)rand.NextDouble(), (float)rand.NextDouble()));
+                        break;
                     case 3:
-                    itemsRaw[i] = (new D((float)rand.NextDouble(), (float)rand.NextDouble()));
-                    break;
+                        itemsRaw[i] = (new D((float)rand.NextDouble(), (float)rand.NextDouble()));
+                        break;
                 }
             }
-
 
             var itemsByType = new I[items];
             Array.Copy(itemsRaw, itemsByType, items);
@@ -141,13 +140,13 @@ namespace Juniper.Iteration.Tests
             }
 
             var p = (timeByType.TotalMilliseconds - timeRaw.TotalMilliseconds) / timeRaw.TotalMilliseconds;
-            Assert.IsTrue(timeByType < timeRaw, $"{timeByType.TotalMilliseconds} >= {timeRaw.TotalMilliseconds} (+{p*100}%)");
+            Assert.IsTrue(timeByType < timeRaw, $"{timeByType.TotalMilliseconds} >= {timeRaw.TotalMilliseconds} (+{p * 100}%)");
         }
 
         private TimeSpan Test(Stopwatch timer, I[] items)
         {
             timer.Restart();
-            for(int i = 0; i < items.Length; ++i)
+            for (int i = 0; i < items.Length; ++i)
             {
                 items[i].Update();
             }

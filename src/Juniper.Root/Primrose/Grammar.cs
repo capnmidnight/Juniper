@@ -51,7 +51,6 @@ namespace Juniper.Primrose
     /// </example>
     public partial class Grammar
     {
-
         /// <summary>
         /// A user-friendly name for the grammar, to be able to include it in an options listing
         /// </summary>
@@ -104,10 +103,10 @@ namespace Juniper.Primrose
                 }
                 else if (commentDelim != null)
                 {
-                    if (commentDelim == "startBlockComments"
-                            && t.type == "endBlockComments"
-                        || commentDelim == "startLineComments"
-                            && t.type == "newlines")
+                    if ((commentDelim == "startBlockComments"
+                            && t.type == "endBlockComments")
+                        || (commentDelim == "startLineComments"
+                            && t.type == "newlines"))
                     {
                         commentDelim = null;
                     }

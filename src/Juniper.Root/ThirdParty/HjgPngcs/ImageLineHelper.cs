@@ -1,18 +1,15 @@
 namespace Hjg.Pngcs
 {
     using System;
+
     using Hjg.Pngcs.Chunks;
 
     /// <summary>
-    /// Bunch of utility static methods to process/analyze an image line.
-    ///
-    /// Not essential at all, some methods are probably to be removed if future releases.
-    ///
-    /// TODO: document this better
-    ///
+    /// <para>Bunch of utility static methods to process/analyze an image line.</para>
+    /// <para>Not essential at all, some methods are probably to be removed if future releases.</para>
+    /// <para>TODO: document this better</para>
     /// </summary>
-    ///
-    public class ImageLineHelper
+    public static class ImageLineHelper
     {
         /// <summary>
         /// Given an indexed line with a palette, unpacks as a RGB array
@@ -38,15 +35,14 @@ namespace Hjg.Pngcs
             }
 
             var isbyte = line.SampleType == Hjg.Pngcs.ImageLine.ESampleType.BYTE;
-            var nindexesWithAlpha = trns != null ? trns.GetPalletteAlpha().Length : 0;
+            var nindexesWithAlpha = trns?.GetPalletteAlpha().Length ?? 0;
             for (var c = 0; c < line.ImgInfo.Cols; c++)
             {
                 var index = isbyte ? (line.ScanlineB[c] & 0xFF) : line.Scanline[c];
                 pal.GetEntryRgb(index, buf, c * channels);
                 if (isalpha)
                 {
-                    var alpha = index < nindexesWithAlpha ? trns.GetPalletteAlpha()[index] : 255;
-                    buf[c * channels + 3] = alpha;
+                    buf[(c * channels) + 3] = index < nindexesWithAlpha ? trns.GetPalletteAlpha()[index] : 255;
                 }
             }
             return buf;
@@ -61,13 +57,13 @@ namespace Hjg.Pngcs
         {
             unchecked
             {
-                return ((int)(0xFF000000)) | ((r) << 16) | ((g) << 8) | (b);
+                return ((int)(0xFF000000)) | (r << 16) | (g << 8) | b;
             }
         }
 
         public static int ToARGB8(int r, int g, int b, int a)
         {
-            return ((a) << 24) | ((r) << 16) | ((g) << 8) | (b);
+            return (a << 24) | (r << 16) | (g << 8) | b;
         }
 
         public static int ToARGB8(int[] buff, int offset, bool alpha)
@@ -188,9 +184,9 @@ namespace Hjg.Pngcs
         {
             // a b -> x (0-1)
             // c d
-            var e = a * (1.0 - dx) + b * dx;
-            var f = c * (1.0 - dx) + d * dx;
-            return (int)(e * (1 - dy) + f * dy + 0.5);
+            var e = (a * (1.0 - dx)) + (b * dx);
+            var f = (c * (1.0 - dx)) + (d * dx);
+            return (int)((e * (1 - dy)) + (f * dy) + 0.5);
         }
 
         public static int ClampTo_0_255(int i)

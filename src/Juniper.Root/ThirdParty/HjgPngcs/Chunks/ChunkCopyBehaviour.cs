@@ -6,7 +6,7 @@ namespace Hjg.Pngcs.Chunks
     /// <remarks>
     /// They are bitmasks, can be OR-ed
     /// </remarks>
-    public class ChunkCopyBehaviour
+    public static class ChunkCopyBehaviour
     {
         /// <summary>
         /// Don't copy any chunk

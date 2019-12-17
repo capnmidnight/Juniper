@@ -57,7 +57,7 @@ namespace Juniper.Primrose
             return new BasicInterpreter(source, Tokenize(source));
         }
 
-        public class RuntimeException : Exception
+        public sealed class RuntimeException : Exception
         {
             public readonly string source;
 
@@ -73,6 +73,18 @@ namespace Juniper.Primrose
                 this.line = (from t in line
                              select t.Clone())
                         .ToArray();
+            }
+
+            private RuntimeException()
+            {
+            }
+
+            public RuntimeException(string message) : base(message)
+            {
+            }
+
+            public RuntimeException(string message, Exception innerException) : base(message, innerException)
+            {
             }
         }
 
@@ -94,6 +106,7 @@ namespace Juniper.Primrose
             private static readonly string[] FOR_LOOP_DELIMS = new[] { "=", "TO", "STEP" };
             private static readonly Token EQUAL_SIGN = new Token("=", "operators");
             private static readonly DateTime EPOCH = new DateTime(1970, 1, 1, 0, 0, 0);
+
             private static readonly Dictionary<string, string> tokenMap = new Dictionary<string, string>
             {
                 { "OR", "||" },
@@ -103,12 +116,12 @@ namespace Juniper.Primrose
                 { "<>", "!=" }
             };
 
-            private static Token toNum(int i)
+            private static Token ToNum(int i)
             {
                 return new Token(i.ToString(), "numbers");
             }
 
-            private static Token toStr(string str)
+            private static Token ToStr(string str)
             {
                 return new Token("\"" + str
                     .Replace("\n", "\\n")
@@ -136,32 +149,32 @@ namespace Juniper.Primrose
             {
                 commands = new Dictionary<string, Func<Line, bool>>()
                 {
-                    { "DIM", declareVariable },
-                    { "LET", translate },
-                    { "PRINT", print },
-                    { "GOTO", setProgramCounter },
-                    { "IF", checkConditional },
-                    { "INPUT", waitForInput },
-                    { "END", pauseBeforeComplete },
-                    { "STOP", pauseBeforeComplete },
-                    { "REM", noop },
-                    { "'", noop },
-                    { "CLS", clearScreen },
-                    { "ON", onStatement },
-                    { "GOSUB", gotoSubroutine },
-                    { "RETURN", stackReturn },
-                    { "LOAD", loadCodeFile },
-                    { "DATA", loadData },
-                    { "READ", readData },
-                    { "RESTORE", restoreData },
-                    { "REPEAT", setRepeat },
-                    { "UNTIL", untilLoop },
-                    { "DEF FN", defineFunction },
-                    { "WHILE", whileLoop },
-                    { "WEND", stackReturn },
-                    { "FOR", forLoop },
-                    { "NEXT", stackReturn },
-                    { "LABEL", labelLine }
+                    { "DIM", DeclareVariable },
+                    { "LET", Translate },
+                    { "PRINT", Print },
+                    { "GOTO", SetProgramCounter },
+                    { "IF", CheckConditional },
+                    { "INPUT", WaitForInput },
+                    { "END", PauseBeforeComplete },
+                    { "STOP", PauseBeforeComplete },
+                    { "REM", NoOp },
+                    { "'", NoOp },
+                    { "CLS", OnClearScreen },
+                    { "ON", OnStatement },
+                    { "GOSUB", GoToSubroutine },
+                    { "RETURN", StackReturn },
+                    { "LOAD", LoadCodeFile },
+                    { "DATA", LoadData },
+                    { "READ", ReadData },
+                    { "RESTORE", RestoreData },
+                    { "REPEAT", SetRepeat },
+                    { "UNTIL", UntilLoop },
+                    { "DEF FN", DefineFunction },
+                    { "WHILE", WhileLoop },
+                    { "WEND", StackReturn },
+                    { "FOR", ForLoop },
+                    { "NEXT", StackReturn },
+                    { "LABEL", LabelLine }
                 };
 
                 state = new Dictionary<string, object>
@@ -220,7 +233,7 @@ namespace Juniper.Primrose
                         if (lineNumberToken.type != "lineNumbers")
                         {
                             line.Insert(0, lineNumberToken);
-                            lineNumberToken = toNum((lastLineNumber ?? -1) + 1);
+                            lineNumberToken = ToNum((lastLineNumber ?? -1) + 1);
                         }
 
                         var lineNumber = int.Parse(
@@ -247,12 +260,18 @@ namespace Juniper.Primrose
             }
 
             public event EventHandler<string> Output;
+            public event EventHandler<Action<string>> Input;
+            public event EventHandler<RuntimeException> Error;
+            public event EventHandler ClearScreen;
+            public event EventHandler<Action<Func<string, byte[]>>> LoadFile;
+            public event EventHandler Next;
+            public event EventHandler Done;
+
             private void OnOutput(string msg)
             {
                 Output?.Invoke(this, msg);
             }
 
-            public event EventHandler<Action<string>> Input;
             private void OnInput(Action<string> resume)
             {
                 if (Input != null)
@@ -265,25 +284,22 @@ namespace Juniper.Primrose
                 }
             }
 
-            public event EventHandler<RuntimeException> Error;
             private void OnError(Line line, string script, Exception exp)
             {
                 Error?.Invoke(this, new RuntimeException(source, line, script, exp));
             }
 
-            public event EventHandler ClearScreen;
             private void OnClearScreen()
             {
                 ClearScreen?.Invoke(this, EventArgs.Empty);
             }
 
-            private bool clearScreen(Line line)
+            private bool OnClearScreen(Line line)
             {
                 OnClearScreen();
                 return true;
             }
 
-            public event EventHandler<Action<Func<string, byte[]>>> LoadFile;
             private byte[] OnLoadFile(string fileName)
             {
                 byte[] data = null;
@@ -292,13 +308,11 @@ namespace Juniper.Primrose
                 return data;
             }
 
-            public event EventHandler Next;
             private void OnNext()
             {
                 Next?.Invoke(this, EventArgs.Empty);
             }
 
-            public event EventHandler Done;
             private void OnDone()
             {
                 Done?.Invoke(this, EventArgs.Empty);
@@ -311,8 +325,8 @@ namespace Juniper.Primrose
                     var goNext = true;
                     while (goNext)
                     {
-                        var line = getLine(counter);
-                        goNext = process(line);
+                        var line = GetLine(counter);
+                        goNext = Process(line);
                         ++counter;
                     }
                 }
@@ -328,7 +342,7 @@ namespace Juniper.Primrose
                 return false;
             }
 
-            private string evaluate(Line line)
+            private string Evaluate(Line line)
             {
                 var script = "";
                 for (var i = 0; i < line.Count; ++i)
@@ -386,13 +400,13 @@ namespace Juniper.Primrose
                 //}
             }
 
-            private bool translate(Line line)
+            private bool Translate(Line line)
             {
-                evaluate(line);
+                Evaluate(line);
                 return true;
             }
 
-            private bool loadData(Line line)
+            private bool LoadData(Line line)
             {
                 while (line.Count > 0)
                 {
@@ -406,7 +420,7 @@ namespace Juniper.Primrose
                 return true;
             }
 
-            private bool pauseBeforeComplete(Line line)
+            private bool PauseBeforeComplete(Line line)
             {
                 OnOutput("PROGRAM COMPLETE - PRESS RETURN TO FINISH.");
                 OnInput(_ =>
@@ -417,9 +431,9 @@ namespace Juniper.Primrose
                 return false;
             }
 
-            private bool process(Line line)
+            private bool Process(Line line)
             {
-                if (line != null && line.Count > 0)
+                if (line?.Count > 0)
                 {
                     var op = line[0];
                     line.RemoveAt(0);
@@ -427,7 +441,7 @@ namespace Juniper.Primrose
                     {
                         if (op.type == "lineNumbers")
                         {
-                            return setProgramCounter(new Line { op });
+                            return SetProgramCounter(new Line { op });
                         }
                         else if (commands.ContainsKey(op.value))
                         {
@@ -439,7 +453,7 @@ namespace Juniper.Primrose
                                 && line[0].value == "="))
                         {
                             line.Insert(0, op);
-                            return translate(line);
+                            return Translate(line);
                         }
                         else
                         {
@@ -448,12 +462,12 @@ namespace Juniper.Primrose
                     }
                 }
 
-                return pauseBeforeComplete(null);
+                return PauseBeforeComplete(null);
             }
 
-            private bool setProgramCounter(Line line)
+            private bool SetProgramCounter(Line line)
             {
-                var lineNumber = int.Parse(evaluate(line));
+                var lineNumber = int.Parse(Evaluate(line));
                 counter = -1;
                 while (counter < lineNumbers.Count - 1
                     && lineNumbers[counter + 1] < lineNumber)
@@ -464,12 +478,12 @@ namespace Juniper.Primrose
                 return true;
             }
 
-            private void error(string msg)
+            private void OnError(string msg)
             {
                 throw new Exception($"At line {lineNumbers[counter]}: {msg}");
             }
 
-            private Line getLine(int i)
+            private Line GetLine(int i)
             {
                 if (0 <= i && i < lineNumbers.Count)
                 {
@@ -487,31 +501,31 @@ namespace Juniper.Primrose
                 return null;
             }
 
-            private bool labelLine(Line line)
+            private bool LabelLine(Line line)
             {
                 line.Add(EQUAL_SIGN);
-                line.Add(toNum(lineNumbers[counter]));
-                return translate(line);
+                line.Add(ToNum(lineNumbers[counter]));
+                return Translate(line);
             }
 
-            private bool noop(Line line)
+            private bool NoOp(Line line)
             {
                 return true;
             }
 
-            private bool gotoSubroutine(Line line)
+            private bool GoToSubroutine(Line line)
             {
-                returnStack.Push(toNum(lineNumbers[counter + 1]));
-                return setProgramCounter(line);
+                returnStack.Push(ToNum(lineNumbers[counter + 1]));
+                return SetProgramCounter(line);
             }
 
-            private bool setRepeat(Line line)
+            private bool SetRepeat(Line line)
             {
-                returnStack.Push(toNum(lineNumbers[counter]));
+                returnStack.Push(ToNum(lineNumbers[counter]));
                 return true;
             }
 
-            private bool declareVariable(Line line)
+            private bool DeclareVariable(Line line)
             {
                 var decl = new Line();
                 var decls = new List<Line> { decl };
@@ -547,13 +561,13 @@ namespace Juniper.Primrose
 
                     if (idToken.type != "identifiers")
                     {
-                        error("Identifier expected: " + idToken.value);
+                        OnError("Identifier expected: " + idToken.value);
                     }
                     else
                     {
                         var id = idToken.value;
                         object val = null;
-                        if (decl.First().value == "("
+                        if (decl[0].value == "("
                             && decl.Last().value == ")")
                         {
                             var sizes = new List<int>();
@@ -599,7 +613,7 @@ namespace Juniper.Primrose
                 return true;
             }
 
-            private bool print(Line line)
+            private bool Print(Line line)
             {
                 var endLine = "\n";
                 var nest = 0;
@@ -640,18 +654,14 @@ namespace Juniper.Primrose
                 })
                     .ToList();
 
-                var txt = evaluate(line);
-                if (txt == null)
-                {
-                    txt = "";
-                }
+                var txt = Evaluate(line) ?? "";
 
                 OnOutput(txt + endLine);
 
                 return true;
             }
 
-            private bool checkConditional(Line line)
+            private bool CheckConditional(Line line)
             {
                 int thenIndex = -1,
                   elseIndex = -1;
@@ -670,7 +680,7 @@ namespace Juniper.Primrose
 
                 if (thenIndex == -1)
                 {
-                    error("Expected THEN clause.");
+                    OnError("Expected THEN clause.");
                 }
                 else
                 {
@@ -684,8 +694,8 @@ namespace Juniper.Primrose
                         }
                     }
 
-                    Line thenClause = null,
-                      elseClause = null;
+                    Line elseClause = null;
+                    Line thenClause;
                     if (elseIndex == -1)
                     {
                         thenClause = line.GetRange(thenIndex + 1, line.Count - thenIndex - 1);
@@ -695,27 +705,27 @@ namespace Juniper.Primrose
                         thenClause = line.GetRange(thenIndex + 1, elseIndex - thenIndex - 1);
                         elseClause = line.GetRange(elseIndex + 1, line.Count - elseIndex - 1);
                     }
-                    if (evaluate(condition) == "True")
+                    if (Evaluate(condition) == "True")
                     {
-                        return process(thenClause);
+                        return Process(thenClause);
                     }
                     else if (elseClause != null)
                     {
-                        return process(elseClause);
+                        return Process(elseClause);
                     }
                 }
 
                 return true;
             }
 
-            private bool waitForInput(Line line)
+            private bool WaitForInput(Line line)
             {
                 var toVar = line[line.Count - 1];
                 line.RemoveAt(line.Count - 1);
 
                 if (line.Count > 0)
                 {
-                    print(line);
+                    Print(line);
                 }
 
                 OnInput(str =>
@@ -724,21 +734,21 @@ namespace Juniper.Primrose
                     Token valueToken = null;
                     if (int.TryParse(str, out var num))
                     {
-                        valueToken = toNum(num);
+                        valueToken = ToNum(num);
                     }
                     else
                     {
-                        valueToken = toStr(str);
+                        valueToken = ToStr(str);
                     }
 
-                    evaluate(new Line { toVar, EQUAL_SIGN, valueToken });
+                    Evaluate(new Line { toVar, EQUAL_SIGN, valueToken });
                     OnNext();
                 });
 
                 return false;
             }
 
-            private bool onStatement(Line line)
+            private bool OnStatement(Line line)
             {
                 var idxExpr = new Line();
                 var targets = new Line();
@@ -765,38 +775,38 @@ namespace Juniper.Primrose
                         }
                     }
 
-                    int idx = int.Parse(evaluate(idxExpr)) - 1;
+                    int idx = int.Parse(Evaluate(idxExpr)) - 1;
 
                     if (0 <= idx && idx < targets.Count)
                     {
-                        return setProgramCounter(new Line { targets[idx] });
+                        return SetProgramCounter(new Line { targets[idx] });
                     }
                 }
                 return true;
             }
 
-            public bool conditionalReturn(bool cond)
+            public bool ConditionalReturn(bool cond)
             {
                 var ret = true;
                 if (cond && returnStack.Count > 0)
                 {
                     var val = returnStack.Pop();
-                    ret = setProgramCounter(new Line { val });
+                    ret = SetProgramCounter(new Line { val });
                 }
                 return ret;
             }
 
-            private bool untilLoop(Line line)
+            private bool UntilLoop(Line line)
             {
-                var cond = evaluate(line) == "True";
-                return conditionalReturn(cond);
+                var cond = Evaluate(line) == "True";
+                return ConditionalReturn(cond);
             }
 
-            private int findNext(string str)
+            private int FindNext(string str)
             {
                 for (var i = counter + 1; i < lineNumbers.Count; ++i)
                 {
-                    var l = getLine(i);
+                    var l = GetLine(i);
                     if (l[0].value == str)
                     {
                         return i;
@@ -806,21 +816,21 @@ namespace Juniper.Primrose
                 return lineNumbers.Count;
             }
 
-            private bool whileLoop(Line line)
+            private bool WhileLoop(Line line)
             {
-                var cond = evaluate(line) == "True";
+                var cond = Evaluate(line) == "True";
                 if (!cond)
                 {
-                    counter = findNext("WEND");
+                    counter = FindNext("WEND");
                 }
                 else
                 {
-                    returnStack.Push(toNum(lineNumbers[counter]));
+                    returnStack.Push(ToNum(lineNumbers[counter]));
                 }
                 return true;
             }
 
-            private bool forLoop(Line line)
+            private bool ForLoop(Line line)
             {
                 var n = lineNumbers[counter];
                 var varExpr = new Line();
@@ -829,8 +839,7 @@ namespace Juniper.Primrose
                 var skipExpr = new Line();
                 var arrs = new[] { varExpr, fromExpr, toExpr, skipExpr };
                 var a = 0;
-                var i = 0;
-                for (i = 0; i < line.Count; ++i)
+                for (var i = 0; i < line.Count; ++i)
                 {
                     var t = line[i];
                     if (t.value == FOR_LOOP_DELIMS[a])
@@ -850,69 +859,69 @@ namespace Juniper.Primrose
                 var skip = 1;
                 if (skipExpr.Count > 0)
                 {
-                    skip = int.Parse(evaluate(skipExpr));
+                    skip = int.Parse(Evaluate(skipExpr));
                 }
 
                 if (!forLoopCounters.ContainsKey(n))
                 {
-                    forLoopCounters[n] = int.Parse(evaluate(fromExpr));
+                    forLoopCounters[n] = int.Parse(Evaluate(fromExpr));
                 }
 
-                var end = int.Parse(evaluate(toExpr));
+                var end = int.Parse(Evaluate(toExpr));
                 var cond = forLoopCounters[n] <= end;
                 if (!cond)
                 {
                     forLoopCounters.Remove(n);
-                    counter = findNext("NEXT");
+                    counter = FindNext("NEXT");
                 }
                 else
                 {
-                    varExpr.Add(toNum(forLoopCounters[n]));
-                    process(varExpr);
+                    varExpr.Add(ToNum(forLoopCounters[n]));
+                    Process(varExpr);
                     forLoopCounters[n] += skip;
-                    returnStack.Push(toNum(lineNumbers[counter]));
+                    returnStack.Push(ToNum(lineNumbers[counter]));
                 }
                 return true;
             }
 
-            private bool stackReturn(Line line)
+            private bool StackReturn(Line line)
             {
-                return conditionalReturn(true);
+                return ConditionalReturn(true);
             }
 
-            private bool loadCodeFile(Line line)
+            private bool LoadCodeFile(Line line)
             {
-                var fileName = evaluate(line);
+                var fileName = Evaluate(line);
                 var data = OnLoadFile(fileName);
-                var source = Encoding.UTF8.GetString(data);
+                _ = Encoding.UTF8.GetString(data);
 
-                error("Don't know what to do with loading files yet");
+                OnError("Don't know what to do with loading files yet");
 
                 return false;
             }
 
-            private bool readData(Line line)
+            private bool ReadData(Line line)
             {
                 if (data.Count == 0)
                 {
-                    var dataLine = findNext("DATA");
-                    process(getLine(dataLine));
+                    var dataLine = FindNext("DATA");
+                    Process(GetLine(dataLine));
                 }
 
                 var value = data[dataCounter];
                 ++dataCounter;
                 line.Add(EQUAL_SIGN);
-                line.Add(toNum(int.Parse(value)));
-                return translate(line);
+                line.Add(ToNum(int.Parse(value)));
+                return Translate(line);
             }
 
-            private bool restoreData(Line line)
+            private bool RestoreData(Line line)
             {
                 dataCounter = 0;
                 return true;
             }
 
-            private bool defineFunction(Line line)
+            private bool DefineFunction(Line line)
             {
                 var nameToken = line[0];
                 line.RemoveAt(0);
@@ -942,9 +951,14 @@ namespace Juniper.Primrose
                 var script = "(function " + name + signature + "{ return " + body +
                   "; })";
 
-                // state[name] = eval2(script); // jshint ignore:line
+                state[name] = Eval(script); // jshint ignore:line
 
                 return true;
+            }
+
+            private object Eval(string script)
+            {
+                throw new NotImplementedException();
             }
         }
     }

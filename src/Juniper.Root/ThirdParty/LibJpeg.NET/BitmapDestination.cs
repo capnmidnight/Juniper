@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.IO;
 
 using BitMiracle.LibJpeg.Classic;
 
 namespace BitMiracle.LibJpeg
 {
-    class BitmapDestination : IDecompressDestination
+    internal class BitmapDestination : IDecompressDestination
     {
         /* Target file spec; filled in by djpeg.c after object is created. */
         private Stream m_output;
@@ -301,8 +301,12 @@ namespace BitMiracle.LibJpeg
         private void writePixels()
         {
             for (int row = m_parameters.Height - 1; row >= 0; --row)
+            {
                 for (int col = 0; col < m_rowWidth; ++col)
+                {
                     m_output.WriteByte(m_pixels[col][row]);
+                }
+            }
         }
 
 

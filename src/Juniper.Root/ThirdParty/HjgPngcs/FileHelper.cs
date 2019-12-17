@@ -6,30 +6,26 @@ namespace Hjg.Pngcs
     /// A few utility static methods to read and write files
     /// </summary>
     ///
-    public class FileHelper
+    public static class FileHelper
     {
         public static Stream OpenFileForReading(string file)
         {
-            Stream isx = null;
             if (file == null || !File.Exists(file))
             {
                 throw new PngjInputException("Cannot open file for reading (" + file + ")");
             }
 
-            isx = new FileStream(file, FileMode.Open);
-            return isx;
+            return new FileStream(file, FileMode.Open);
         }
 
         public static Stream OpenFileForWriting(string file, bool allowOverwrite)
         {
-            Stream osx = null;
             if (File.Exists(file) && !allowOverwrite)
             {
                 throw new PngjOutputException("File already exists (" + file + ") and overwrite=false");
             }
 
-            osx = new FileStream(file, FileMode.Create);
-            return osx;
+            return new FileStream(file, FileMode.Create);
         }
 
         /// <summary>

@@ -8,7 +8,7 @@ namespace System
         {
             var delta = max - min;
             var n = Math.Pow(rand.NextDouble(), power);
-            return min + n * delta;
+            return min + (n * delta);
         }
 
         public static double Number(this Random rand, float min, float max)

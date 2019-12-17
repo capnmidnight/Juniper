@@ -1,5 +1,6 @@
 using System.Net;
 using System.Threading.Tasks;
+
 using Juniper.IO;
 using Juniper.Progress;
 
@@ -19,7 +20,9 @@ namespace System.IO
         {
             using (var outStream = outFile.Create())
             {
-                await inStream.CopyToAsync(outStream);
+                await inStream
+                    .CopyToAsync(outStream)
+                    .ConfigureAwait(false);
             }
         }
 
@@ -43,9 +46,11 @@ namespace System.IO
 
         public static async Task CopyToAsync(this FileInfo inFile, Stream outStream)
         {
-            using(var inStream = inFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var inStream = inFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                await inStream.CopyToAsync(outStream);
+                await inStream
+                    .CopyToAsync(outStream)
+                    .ConfigureAwait(false);
             }
         }
 
@@ -66,7 +71,9 @@ namespace System.IO
                 using (stream)
                 {
                     response.StatusCode = 200;
-                    await stream.CopyToAsync(response.OutputStream);
+                    await stream
+                        .CopyToAsync(response.OutputStream)
+                        .ConfigureAwait(false);
                 }
             }
         }

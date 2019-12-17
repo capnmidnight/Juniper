@@ -43,7 +43,9 @@ namespace Juniper.IO
             }
 
             var progs = prog.Split("Read", "Decode");
-            var stream = await layer.Open(fileRef, progs[0]);
+            var stream = await layer
+                .Open(fileRef, progs[0])
+                .ConfigureAwait(false);
             if (stream == null)
             {
                 return default;
@@ -80,8 +82,12 @@ namespace Juniper.IO
             HttpListenerResponse response,
             ContentReference fileRef)
         {
-            var stream = await layer.Open(fileRef, null);
-            await stream.Proxy(response);
+            var stream = await layer
+                .Open(fileRef, null)
+                .ConfigureAwait(false);
+            await stream
+                .Proxy(response)
+                .ConfigureAwait(false);
         }
 
         public static Task Proxy(
@@ -91,7 +97,6 @@ namespace Juniper.IO
         {
             return layer.Proxy(context.Response, fileRef);
         }
-
 
         /// <summary>
         /// Retrieve all the content references that can be deserialized by the

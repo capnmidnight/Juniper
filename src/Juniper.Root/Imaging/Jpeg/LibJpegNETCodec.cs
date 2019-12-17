@@ -7,7 +7,6 @@ using Juniper.Progress;
 
 namespace Juniper.Imaging
 {
-
     public class LibJpegNETCodec : IImageCodec<JpegImage>
     {
         private readonly CompressionParameters compressionParams;

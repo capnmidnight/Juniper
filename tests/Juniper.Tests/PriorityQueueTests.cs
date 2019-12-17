@@ -105,7 +105,7 @@ namespace Juniper.Collections.Tests
         public void ContainsFindsReferenceTypes()
         {
             var pq = new PriorityQueue<int>();
-            var o = 2;
+            const int o = 2;
             pq.Enqueue(3);
             pq.Enqueue(o);
             pq.Enqueue(5);
@@ -291,8 +291,8 @@ namespace Juniper.Collections.Tests
         {
             var pq = new PriorityQueue<int>();
             var comp = pq.Comparer;
-            var x = 11;
-            var y = 13;
+            const int x = 11;
+            const int y = 13;
             Assert.AreEqual(x.CompareTo(y), comp.Compare(x, y));
         }
 
@@ -328,7 +328,7 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void EnqueueDequeueOneItem()
         {
-            var obj = 3;
+            const int obj = 3;
             var pq = new PriorityQueue<int>();
             pq.Enqueue(obj);
             Assert.AreEqual(obj, pq.Dequeue());
@@ -406,7 +406,7 @@ namespace Juniper.Collections.Tests
         public void PeekDoesntChangeCount()
         {
             var pq = new PriorityQueue<int>();
-            var obj = 3;
+            const int obj = 3;
             pq.Enqueue(obj);
             pq.Peek();
             Assert.AreEqual(1, pq.Count);
@@ -419,7 +419,7 @@ namespace Juniper.Collections.Tests
         public void PeekGetsTheOnlyItemInQueue()
         {
             var pq = new PriorityQueue<int>();
-            var obj = 3;
+            const int obj = 3;
             pq.Enqueue(obj);
             Assert.AreEqual(obj, pq.Peek());
         }

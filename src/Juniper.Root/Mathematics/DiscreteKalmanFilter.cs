@@ -31,8 +31,8 @@ namespace Juniper.Mathematics
         /// </summary>
         private static readonly double gateThreshold = new ChiSquareDistribution(2).InverseDistributionFunction(0.99);
 
-        private Func<double[], TState> stateConvertBackFunc;
-        private Func<TMeasurement, double[]> measurementConvertFunc;
+        private readonly Func<double[], TState> stateConvertBackFunc;
+        private readonly Func<TMeasurement, double[]> measurementConvertFunc;
         private double[] state;
 
         /// <summary>
@@ -166,7 +166,6 @@ namespace Juniper.Mathematics
         public int StateVectorDimension
         {
             get;
-            private set;
         }
 
         /// <summary>
@@ -175,7 +174,6 @@ namespace Juniper.Mathematics
         public int MeasurementVectorDimension
         {
             get;
-            private set;
         }
 
         /// <summary>
@@ -184,7 +182,6 @@ namespace Juniper.Mathematics
         public int ControlVectorDimension
         {
             get;
-            private set;
         }
 
         /// <summary>
@@ -267,11 +264,12 @@ namespace Juniper.Mathematics
         /// </summary>
         /// <param name="controlVector">Set of data for external system control.</param>
         /// <summary>
-        /// Estimates the subsequent model state.
-        ///
+        /// <para>Estimates the subsequent model state.</para>
+        /// <para>
         /// x'(k) = A * x(k-1) + B * u(k).
         /// P'(k) = A * P(k-1) * At + Q
         /// K(k) = P'(k) * Ht * (H * P'(k) * Ht + R)^(-1)
+        /// </para>
         /// </summary>
         public void Predict(double[] controlVector)
         {
@@ -352,12 +350,7 @@ namespace Juniper.Mathematics
         public bool IsMeasurementInsideGate(TMeasurement measurement, out double[] delta, out double mahalanobisDistance)
         {
             mahalanobisDistance = CalculateMahalanobisDistance(measurement, out delta);
-            if (mahalanobisDistance <= gateThreshold)
-            {
-                return true;
-            }
-
-            return false;
+            return mahalanobisDistance <= gateThreshold;
         }
 
         /// <summary>
@@ -365,33 +358,23 @@ namespace Juniper.Mathematics
         /// </summary>
         public double CalculateEntropy()
         {
-            return CalculateEntropy(EstimateCovariance);
-        }
-
-        /// <summary>
-        /// Calculates entropy from the provided error covariance matrix.
-        /// </summary>
-        /// <param name="errorCovariance">Error covariance matrix.</param>
-        /// <returns>Entropy.</returns>
-        public static double CalculateEntropy(double[,] errorCovariance)
-        {
-            if (errorCovariance == null || errorCovariance.GetLength(0) != errorCovariance.GetLength(1))
+            if (EstimateCovariance == null || EstimateCovariance.GetLength(0) != EstimateCovariance.GetLength(1))
             {
                 throw new ArgumentException("Error covariance matrix (P) must have the same number of rows and columns.");
             }
 
-            var stateVectorDim = errorCovariance.GetLength(0);
+            var stateVectorDim = EstimateCovariance.GetLength(0);
 
-            var errorCovDet = errorCovariance.Determinant();
-            var entropy = (float)stateVectorDim / 2 * Log(4 * PI) + (float)1 / 2 * Log(errorCovDet);
-            return entropy;
+            var errorCovDet = EstimateCovariance.Determinant();
+            return 0.5f * ((stateVectorDim * Log(4 * PI)) + Log(errorCovDet));
         }
 
         /// <summary>
-        /// The function adjusts the stochastic model state on the basis of the given measurement of the model state.
-        ///
+        /// <para>The function adjusts the stochastic model state on the basis of the given measurement of the model state.</para>
+        /// <para>
         /// x(k) = x'(k) + K(k) * (z(k) - H * x'(k))
         /// P(k) =(I - K(k) * H) * P'(k)
+        /// </para>
         /// </summary>
         /// <param name="measurement">Obtained measurement vector.</param>
         public void Correct(TMeasurement measurement)
@@ -400,23 +383,17 @@ namespace Juniper.Mathematics
             var m = measurementConvertFunc(measurement);
             //innovation vector (measurement error)
             var delta = CalculateDelta(m);
-            correct(delta);
+            Correct(delta);
         }
 
         /// <summary>
         /// Corrects the state error covariance based on innovation vector and Kalman update.
         /// </summary>
         /// <param name="innovationVector">The difference between predicted state and measurement.</param>
-        private void Correct(double[] innovationVector)
+        public void Correct(double[] innovationVector)
         {
-            //innovationVector error handled by correct(...)
-
             CheckPrerequisites();
-            correct(innovationVector);
-        }
 
-        private void correct(double[] innovationVector)
-        {
             if (innovationVector.Length != MeasurementVectorDimension)
             {
                 throw new Exception("PredicitionError error vector (innovation vector) must have the same length as measurement.");
@@ -427,34 +404,6 @@ namespace Juniper.Mathematics
 
             var identity = Matrix.Identity(StateVectorDimension);
             EstimateCovariance = (identity.Subtract(KalmanGain.Multiply(MeasurementMatrix))).Multiply(EstimateCovariance.Transpose());
-        }
-
-        /// <summary>
-        /// Corrects the state error covariance based on innovation vector and Kalman update.
-        /// </summary>
-        /// <param name="innovationVector">The difference between predicted state and measurement.</param>
-        /// <param name="covarianceMixtureFactor">Covariance mixture factor. Used in JPDAF. For Kalman filter default value is 0.</param>
-        /// <param name="innovationCovariance">The innovation covariance matrix. Used primary by JPDAF.</param>
-        private void Correct(double[] innovationVector, double covarianceMixtureFactor, double[,] innovationCovariance)
-        {
-            //innovationVector error handled by correct(...)
-
-            if (innovationCovariance.GetLength(1) != MeasurementVectorDimension ||
-                innovationCovariance.GetLength(0) != MeasurementVectorDimension)
-            {
-                throw new ArgumentException("Innovation matrix must have the same dimensions and the dimension must be equal to the measurement vector length.");
-            }
-
-            CheckPrerequisites();
-
-            var priorErrorCovariance = EstimateCovariance.Multiply(covarianceMixtureFactor);
-
-            correct(innovationVector);
-            var posterioriErrorCovariance = EstimateCovariance.Multiply(1 - covarianceMixtureFactor);
-
-            var innovationCov = KalmanGain.Multiply(innovationCovariance).Multiply(KalmanGain.Transpose());
-
-            EstimateCovariance = priorErrorCovariance.Add(posterioriErrorCovariance).Add(innovationCov);
         }
     }
 }

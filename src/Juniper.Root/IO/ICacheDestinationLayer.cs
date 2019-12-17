@@ -5,7 +5,6 @@ using Juniper.Progress;
 
 namespace Juniper.IO
 {
-
     public interface ICacheDestinationLayer : ICacheSourceLayer
     {
         bool CanCache(ContentReference fileRef);
@@ -30,10 +29,14 @@ namespace Juniper.IO
             if (fromLayer.IsCached(fromRef)
                 && (overwrite || !toLayer.IsCached(toRef)))
             {
-                using (var inStream = await fromLayer.Open(fromRef, prog))
+                using (var inStream = await fromLayer
+                    .Open(fromRef, prog)
+                    .ConfigureAwait(false))
                 using (var outStream = toLayer.Create(toRef, overwrite))
                 {
-                    await inStream.CopyToAsync(outStream);
+                    await inStream
+                        .CopyToAsync(outStream)
+                        .ConfigureAwait(false);
                 }
             }
         }

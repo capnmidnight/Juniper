@@ -82,7 +82,7 @@ namespace Juniper.Imaging
         public static bool operator ==(Size left, Size right)
         {
             return ReferenceEquals(left, right)
-                || left is object && left.Equals(right);
+                || (left is object && left.Equals(right));
         }
 
         public static bool operator !=(Size left, Size right)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 using Hjg.Pngcs;
 
@@ -53,7 +53,7 @@ namespace Juniper.Imaging
                     {
                         for (var i = 0; i < tileHeight; ++i)
                         {
-                            var bufferY = y * tileHeight + i;
+                            var bufferY = (y * tileHeight) + i;
                             var bufferX = x * tileWidth;
                             var bufferLine = combinedLines.ScanlinesB[bufferY];
                             var tileLine = tile.ScanlinesB[i];

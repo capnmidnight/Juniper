@@ -5,7 +5,7 @@ namespace Hjg.Pngcs.Chunks
     /// </summary>
     public abstract class PngChunkSingle : PngChunk
     {
-        public PngChunkSingle(string id, ImageInfo imgInfo)
+        protected PngChunkSingle(string id, ImageInfo imgInfo)
             : base(id, imgInfo)
         {
         }

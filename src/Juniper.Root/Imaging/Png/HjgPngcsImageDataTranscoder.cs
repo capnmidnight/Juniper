@@ -6,7 +6,6 @@ using Juniper.Progress;
 
 namespace Juniper.Imaging
 {
-
     public class HjgPngcsImageDataTranscoder : IImageTranscoder<ImageLines, ImageData>
     {
         /// <summary>

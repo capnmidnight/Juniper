@@ -7,7 +7,7 @@ namespace Juniper.Audio
         /// <summary>
         /// A small buffer for reading in a single sample at a time.
         /// </summary>
-        private byte[] tempBuffer;
+        private readonly byte[] tempBuffer;
 
         /// <summary>
         /// Creates a wrapper around a stream to convert floating point samples
@@ -35,7 +35,6 @@ namespace Juniper.Audio
                 return ToPCMSpace(sourceStream.Length);
             }
         }
-
 
         /// <summary>
         /// Gets or sets the position of the stream read head relative to the
@@ -95,7 +94,7 @@ namespace Juniper.Audio
         protected override void InternalWrite(byte[] buffer, int offset, int count)
         {
             int wrote = 0;
-            while(wrote < count)
+            while (wrote < count)
             {
                 PCMToFloat(buffer, offset + wrote, tempBuffer, 0);
                 sourceStream.Write(tempBuffer, 0, sizeof(float));

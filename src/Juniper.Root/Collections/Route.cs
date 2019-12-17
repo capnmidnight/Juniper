@@ -69,9 +69,9 @@ namespace Juniper.Collections
 
         public static bool operator ==(Route<ValueT> left, Route<ValueT> right)
         {
-            return left is null && right is null
-                || left is object && left.CompareTo(right) == 0
-                || right is object && right.CompareTo(left) == 0;
+            return (left is null && right is null)
+                || (left is object && left.CompareTo(right) == 0)
+                || (right is object && right.CompareTo(left) == 0);
         }
 
         public static bool operator !=(Route<ValueT> left, Route<ValueT> right)
@@ -81,14 +81,14 @@ namespace Juniper.Collections
 
         public static bool operator <(Route<ValueT> left, Route<ValueT> right)
         {
-            return left is object && left.CompareTo(right) == -1
-                || right is object && right.CompareTo(left) == 1;
+            return (left is object && left.CompareTo(right) == -1)
+                || (right is object && right.CompareTo(left) == 1);
         }
 
         public static bool operator >(Route<ValueT> left, Route<ValueT> right)
         {
-            return left is object && left.CompareTo(right) == 1
-                || right is object && right.CompareTo(left) == -1;
+            return (left is object && left.CompareTo(right) == 1)
+                || (right is object && right.CompareTo(left) == -1);
         }
 
         public static bool operator <=(Route<ValueT> left, Route<ValueT> right)
@@ -258,7 +258,7 @@ namespace Juniper.Collections
                     return Cost.CompareTo(other.Cost);
                 }
             }
-            else if(End.Equals(other.End))
+            else if (End.Equals(other.End))
             {
                 return Start.CompareTo(other.Start);
             }

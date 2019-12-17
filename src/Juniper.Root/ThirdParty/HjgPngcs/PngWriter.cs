@@ -1,7 +1,9 @@
 namespace Hjg.Pngcs
 {
     using System.IO;
+
     using Chunks;
+
     using Hjg.Pngcs.Zlib;
 
     /// <summary>
@@ -30,9 +32,8 @@ namespace Hjg.Pngcs
         /// zip compression level (0 - 9)
         /// </summary>
         /// <remarks>
-        /// default:6
-        ///
-        /// 9 is the maximum compression
+        /// <para>default:6</para>
+        /// <para>9 is the maximum compression</para>
         /// </remarks>
         public int CompLevel { get; set; }
 
@@ -107,10 +108,11 @@ namespace Hjg.Pngcs
         /// Constructs a PngWriter from a outputStream, with optional filename or description
         /// </summary>
         /// <remarks>
+        /// <para>
         /// After construction nothing is writen yet. You still can set some
         /// parameters (compression, filters) and queue chunks before start writing the pixels.
-        ///
-        /// See also <c>FileHelper.createPngWriter()</c>
+        /// </para>
+        /// <para>See also <c>FileHelper.createPngWriter()</c></para>
         /// </remarks>
         /// <param name="outputStream">Opened stream for binary writing</param>
         /// <param name="imgInfo">Basic image parameters</param>
@@ -118,7 +120,7 @@ namespace Hjg.Pngcs
         public PngWriter(Stream outputStream, ImageInfo imgInfo,
                 string filename)
         {
-            this.filename = (filename == null) ? "" : filename;
+            this.filename = filename ?? "";
             this.outputStream = outputStream;
             ImgInfo = imgInfo;
             // defaults settings
@@ -182,11 +184,10 @@ namespace Hjg.Pngcs
 
         private void WriteFirstChunks()
         {
-            var nw = 0;
             CurrentChunkGroup = ChunksList.CHUNK_GROUP_1_AFTERIDHR;
-            nw = chunksList.writeChunks(outputStream, CurrentChunkGroup);
+            _ = chunksList.writeChunks(outputStream, CurrentChunkGroup);
             CurrentChunkGroup = ChunksList.CHUNK_GROUP_2_PLTE;
-            nw = chunksList.writeChunks(outputStream, CurrentChunkGroup);
+            var nw = chunksList.writeChunks(outputStream, CurrentChunkGroup);
             if (nw > 0 && ImgInfo.Greyscale)
             {
                 throw new PngjOutputException("cannot write palette for this format");
@@ -198,7 +199,7 @@ namespace Hjg.Pngcs
             }
 
             CurrentChunkGroup = ChunksList.CHUNK_GROUP_3_AFTERPLTE;
-            nw = chunksList.writeChunks(outputStream, CurrentChunkGroup);
+            _ = chunksList.writeChunks(outputStream, CurrentChunkGroup);
             CurrentChunkGroup = ChunksList.CHUNK_GROUP_4_IDAT;
         }
 
@@ -234,17 +235,17 @@ namespace Hjg.Pngcs
             var colormodel = 0;
             if (ImgInfo.Alpha)
             {
-                colormodel += 0x04;
-            }
-
-            if (ImgInfo.Indexed)
-            {
-                colormodel += 0x01;
+                colormodel |= 0x04;
             }
 
             if (!ImgInfo.Greyscale)
             {
-                colormodel += 0x02;
+                colormodel |= 0x02;
+            }
+
+            if (ImgInfo.Indexed)
+            {
+                colormodel |= 0x01;
             }
 
             ihdr.Colormodel = colormodel;
@@ -372,27 +373,27 @@ namespace Hjg.Pngcs
             switch (filterType)
             {
                 case Hjg.Pngcs.FilterType.FILTER_NONE:
-                FilterRowNone();
-                break;
+                    FilterRowNone();
+                    break;
 
                 case Hjg.Pngcs.FilterType.FILTER_SUB:
-                FilterRowSub();
-                break;
+                    FilterRowSub();
+                    break;
 
                 case Hjg.Pngcs.FilterType.FILTER_UP:
-                FilterRowUp();
-                break;
+                    FilterRowUp();
+                    break;
 
                 case Hjg.Pngcs.FilterType.FILTER_AVERAGE:
-                FilterRowAverage();
-                break;
+                    FilterRowAverage();
+                    break;
 
                 case Hjg.Pngcs.FilterType.FILTER_PAETH:
-                FilterRowPaeth();
-                break;
+                    FilterRowPaeth();
+                    break;
 
                 default:
-                throw new PngjOutputException("Filter type " + filterType + " not implemented");
+                    throw new PngjOutputException("Filter type " + filterType + " not implemented");
             }
             reportResultsForFilter(rown, filterType, false);
         }
@@ -428,7 +429,7 @@ namespace Hjg.Pngcs
             imax = ImgInfo.BytesPerRow;
             for (j = 1 - ImgInfo.BytesPixel, i = 1; i <= imax; i++, j++)
             {
-                rowbfilter[i] = (byte)(rowb[i] - ((rowbprev[i]) + (j > 0 ? rowb[j] : 0)) / 2);
+                rowbfilter[i] = (byte)(rowb[i] - (((rowbprev[i]) + (j > 0 ? rowb[j] : 0)) / 2));
             }
         }
 
@@ -470,24 +471,6 @@ namespace Hjg.Pngcs
             {
                 rowbfilter[i] = (byte)(rowb[i] - rowbprev[i]);
             }
-        }
-
-        private long SumRowbfilter()
-        { // sums absolute value
-            long s = 0;
-            for (var i = 1; i <= ImgInfo.BytesPerRow; i++)
-            {
-                if (rowbfilter[i] < 0)
-                {
-                    s -= rowbfilter[i];
-                }
-                else
-                {
-                    s += rowbfilter[i];
-                }
-            }
-
-            return s;
         }
 
         /// <summary>
@@ -736,9 +719,8 @@ namespace Hjg.Pngcs
         /// Sets internal prediction filter type, or strategy to choose it.
         /// </summary>
         /// <remarks>
-        /// This must be called just after constructor, before starting writing.
-        ///
-        /// Recommended values: DEFAULT (default) or AGGRESIVE
+        /// <para>This must be called just after constructor, before starting writing.</para>
+        /// <para>Recommended values: DEFAULT (default) or AGGRESIVE</para>
         /// </remarks>
         /// <param name="filterType">One of the five prediction types or strategy to choose it</param>
         public void SetFilterType(FilterType filterType)

@@ -7,8 +7,8 @@ namespace Juniper.Imaging
     public class TranscoderCodec<FromImageT, ToImageT>
         : IImageCodec<ToImageT>
     {
-        private IImageCodec<FromImageT> codec;
-        private IImageTranscoder<FromImageT, ToImageT> transcoder;
+        private readonly IImageCodec<FromImageT> codec;
+        private readonly IImageTranscoder<FromImageT, ToImageT> transcoder;
 
         public TranscoderCodec(IImageCodec<FromImageT> codec, IImageTranscoder<FromImageT, ToImageT> transcoder)
         {

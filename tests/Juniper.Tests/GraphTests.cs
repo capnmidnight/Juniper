@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -9,7 +8,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.Collections.Tests
 {
-
     [TestClass]
     public class GraphTests
     {
@@ -188,8 +186,8 @@ namespace Juniper.Collections.Tests
         public void AddShortcut()
         {
             var graph = new Graph<int>();
-            var start = 7216;
-            var end = 5666;
+            const int start = 7216;
+            const int end = 5666;
             graph.SetConnections(
                 (start, 4673, 1),
                 (4673, 3416, 1),
@@ -219,8 +217,8 @@ namespace Juniper.Collections.Tests
         public void AddTraffic()
         {
             var graph = new Graph<int>();
-            var start = 7216;
-            var end = 5666;
+            const int start = 7216;
+            const int end = 5666;
             graph.SetConnections(
                 (start, 4673, 1),
                 (4673, 3416, 1),
@@ -306,8 +304,8 @@ namespace Juniper.Collections.Tests
         {
             var factory = new FactoryT();
             var graph = new Graph<int>();
-            var start = 7216;
-            var end = 5666;
+            const int start = 7216;
+            const int end = 5666;
             graph.SetConnections(
                 (start, 4673, 1),
                 (4673, 3416, 1),
@@ -357,7 +355,7 @@ namespace Juniper.Collections.Tests
             var bytes = File.ReadAllBytes(file);
             Assert.IsTrue(factory.TryDeserialize(bytes, out var graph));
             graph.Solve();
-            Assert.IsTrue(graph.Nodes.Count() > 0);
+            Assert.IsTrue(graph.Nodes.Any());
         }
 
         [TestMethod]

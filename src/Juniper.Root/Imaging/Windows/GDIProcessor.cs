@@ -1,6 +1,7 @@
 #if !NETSTANDARD
 using System;
 using System.Drawing;
+
 using Juniper.Progress;
 
 namespace Juniper.Imaging
@@ -49,7 +50,7 @@ namespace Juniper.Imaging
                 {
                     for (var x = 0; x < columns; ++x)
                     {
-                        prog.Report(y * columns + x, rows * columns);
+                        prog.Report((y * columns) + x, rows * columns);
                         var img = images[y, x];
                         if (img != null)
                         {
@@ -60,7 +61,7 @@ namespace Juniper.Imaging
                             img.Dispose();
                             GC.Collect();
                         }
-                        prog.Report(y * columns + x + 1, rows * columns);
+                        prog.Report((y * columns) + x + 1, rows * columns);
                     }
                 }
 

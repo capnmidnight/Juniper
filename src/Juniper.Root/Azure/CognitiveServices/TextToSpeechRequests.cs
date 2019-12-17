@@ -53,6 +53,7 @@ namespace Juniper.Azure.CognitiveServices
         public string Text { get; set; }
         public string VoiceName { get; set; }
         public SpeechStyle Style { get; set; }
+
         private string StyleString
         {
             get
@@ -60,6 +61,7 @@ namespace Juniper.Azure.CognitiveServices
                 return Style.ToString().ToLowerInvariant();
             }
         }
+
         public float PitchChange { get; set; }
         public float RateChange { get; set; }
         public float VolumeChange { get; set; }
@@ -141,7 +143,9 @@ namespace Juniper.Azure.CognitiveServices
         {
             var sb = new StringBuilder(300);
             sb.Append("<speak version='1.0' xmlns='https://www.w3.org/2001/10/synthesis' xml:lang='en-US'>");
-            sb.Append($"<voice name='{VoiceName}'>");
+            sb.Append("<voice name='")
+                .Append(VoiceName)
+                .Append("'>");
 
             if (UseProsody)
             {
@@ -163,7 +167,9 @@ namespace Juniper.Azure.CognitiveServices
 
             if (UseStyle)
             {
-                sb.Append($"<mstts:express-as type='{StyleString}'>");
+                sb.Append("<mstts:express-as type='")
+                  .Append(StyleString)
+                  .Append("'>");
             }
 
             sb.Append(Text);

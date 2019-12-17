@@ -3,6 +3,7 @@ namespace Hjg.Pngcs.Chunks
     using System;
     using System.Collections.Generic;
     using System.IO;
+
     using Hjg.Pngcs.Zlib;
 
     /// <summary>
@@ -11,7 +12,7 @@ namespace Hjg.Pngcs.Chunks
     /// <remarks>
     /// Client code should rarely need this, see PngMetada and ChunksList
     /// </remarks>
-    public class ChunkHelper
+    public static class ChunkHelper
     {
         internal const string IHDR = "IHDR";
         internal const string PLTE = "PLTE";
@@ -118,7 +119,7 @@ namespace Hjg.Pngcs.Chunks
         public static bool IsCritical(string id)
         {
             // first letter is uppercase
-            return (char.IsUpper(id[0]));
+            return char.IsUpper(id[0]);
         }
 
         /// <summary>
@@ -127,8 +128,9 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="id"></param>
         /// <returns></returns>
         public static bool IsPublic(string id)
-        { // public chunk?
-            return (char.IsUpper(id[1]));
+        {
+            // public chunk?
+            return char.IsUpper(id[1]);
         }
 
         /// <summary>
@@ -137,9 +139,10 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="id"></param>
         /// <returns></returns>
         public static bool IsSafeToCopy(string id)
-        { // safe to copy?
+        {
+            // safe to copy?
             // fourth letter is lower case
-            return (!char.IsUpper(id[3]));
+            return !char.IsUpper(id[3]);
         }
 
         /// <summary>
@@ -187,16 +190,16 @@ namespace Hjg.Pngcs.Chunks
             switch (behav)
             {
                 case ChunkLoadBehaviour.LOAD_CHUNK_ALWAYS:
-                return true;
+                    return true;
 
                 case ChunkLoadBehaviour.LOAD_CHUNK_IF_SAFE:
-                return kwown || IsSafeToCopy(id);
+                    return kwown || IsSafeToCopy(id);
 
                 case ChunkLoadBehaviour.LOAD_CHUNK_KNOWN:
-                return kwown;
+                    return kwown;
 
                 case ChunkLoadBehaviour.LOAD_CHUNK_NEVER:
-                return false;
+                    return false;
             }
             return false; // should not reach here
         }

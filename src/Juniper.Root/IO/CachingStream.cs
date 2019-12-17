@@ -16,7 +16,6 @@ namespace Juniper.IO
         /// </summary>
         private readonly Stream outStream;
 
-
         /// <summary>
         /// Creates a stream that wraps around another stream, writing the contents out to disk
         /// as they are being read.
@@ -225,17 +224,23 @@ namespace Juniper.IO
         {
             var buffer = new byte[bufferSize];
             int read;
-            while ((read = await ReadAsync(buffer, 0, bufferSize, cancellationToken)) > 0)
+            while ((read = await ReadAsync(buffer, 0, bufferSize, cancellationToken).ConfigureAwait(false)) > 0)
             {
-                await destination.WriteAsync(buffer, 0, read, cancellationToken);
+                await destination
+                    .WriteAsync(buffer, 0, read, cancellationToken)
+                    .ConfigureAwait(false);
             }
         }
 
         [ComVisible(false)]
         public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
-            var read = await SourceStream.ReadAsync(buffer, offset, count, cancellationToken);
-            await outStream.WriteAsync(buffer, offset, read, cancellationToken);
+            var read = await SourceStream
+                .ReadAsync(buffer, offset, count, cancellationToken)
+                .ConfigureAwait(false);
+            await outStream
+                .WriteAsync(buffer, offset, read, cancellationToken)
+                .ConfigureAwait(false);
             return read;
         }
 

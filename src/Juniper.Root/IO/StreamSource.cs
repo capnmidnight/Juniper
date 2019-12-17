@@ -25,7 +25,9 @@ namespace Juniper.IO
         {
             prog.Report(0);
             var progs = prog.Split("Read", "Decode");
-            var stream = await source.GetStream(progs[0]);
+            var stream = await source
+                .GetStream(progs[0])
+                .ConfigureAwait(false);
             var value = deserializer.Deserialize(stream, progs[1]);
             prog.Report(1);
             return value;
@@ -38,9 +40,13 @@ namespace Juniper.IO
 
         public static async Task Proxy(this StreamSource source, HttpListenerResponse response)
         {
-            var stream = await source.GetStream();
+            var stream = await source
+                .GetStream()
+                .ConfigureAwait(false);
             response.ContentType = source.ContentType;
-            await stream.Proxy(response);
+            await stream
+                .Proxy(response)
+                .ConfigureAwait(false);
         }
 
         public static Task Proxy(this StreamSource source, HttpListenerContext context)

@@ -40,9 +40,8 @@ namespace System
         }
 
         /// <summary>
-        /// Creates a new array from an old array, with the specified item no included in the array (including duplicates).
-        ///
-        /// If the item is not located in the array, returns a copy of the old array.
+        /// <para>Creates a new array from an old array, with the specified item not included in the array (including duplicates).</para>
+        /// <para>If the item is not located in the array, returns a copy of the old array.</para>
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="items"></param>

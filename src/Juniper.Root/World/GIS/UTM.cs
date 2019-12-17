@@ -48,7 +48,7 @@ namespace Juniper.Units
                 lat += DatumWGS_84.delta[j - 1] * Sin(2 * j * chi);
             }
 
-            float long0 = utm.Zone * 6 - 183;
+            float long0 = (utm.Zone * 6) - 183;
             var lng = Atan(Sinh(etaPrime) / Cos(xiPrime));
 
             return new LatLngPoint(

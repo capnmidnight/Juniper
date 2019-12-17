@@ -158,7 +158,8 @@ namespace Juniper.World.GIS.Google.MapTiles
 
             foreach (var point in group)
             {
-                sb.Append($"{delim}{point.center}");
+                sb.Append(delim)
+                  .Append(point.center);
                 delim = "|";
             }
 

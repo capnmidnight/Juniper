@@ -37,8 +37,9 @@ namespace Juniper.Azure.Tests
         private async Task<string> GetToken()
         {
             var tokenRequest = new AuthTokenRequest(region, subscriptionKey);
-            var token = await tokenRequest.Decode(new StringFactory());
-            return token;
+            return await tokenRequest
+                .Decode(new StringFactory())
+                .ConfigureAwait(false);
         }
 
         private async Task<Voice[]> GetVoices()
@@ -46,15 +47,16 @@ namespace Juniper.Azure.Tests
             var voiceListRequest = new VoiceListRequest(region);
             if (!cache.IsCached(voiceListRequest))
             {
-                voiceListRequest.AuthToken = await GetToken();
+                voiceListRequest.AuthToken = await GetToken().ConfigureAwait(false);
             }
-            var voices = await cache.Load(voiceListDecoder, voiceListRequest);
-            return voices;
+            return await cache
+                .Load(voiceListDecoder, voiceListRequest)
+                .ConfigureAwait(false);
         }
 
         private async Task<TextToSpeechRequest> MakeSpeechRequest()
         {
-            var voices = await GetVoices();
+            var voices = await GetVoices().ConfigureAwait(false);
 
             var voice = (from v in voices
                          where v.ShortName == "en-US-JessaNeural"
@@ -72,7 +74,7 @@ namespace Juniper.Azure.Tests
             };
             if (!cache.IsCached(audioRequest))
             {
-                audioRequest.AuthToken = await GetToken();
+                audioRequest.AuthToken = await GetToken().ConfigureAwait(false);
             }
             return audioRequest;
         }
@@ -80,7 +82,7 @@ namespace Juniper.Azure.Tests
         [TestMethod]
         public async Task GetAuthToken()
         {
-            var token = await GetToken();
+            var token = await GetToken().ConfigureAwait(false);
             Assert.IsNotNull(token);
             Assert.AreNotEqual(0, token.Length);
         }
@@ -88,7 +90,7 @@ namespace Juniper.Azure.Tests
         [TestMethod]
         public async Task GetVoiceList()
         {
-            var voices = await GetVoices();
+            var voices = await GetVoices().ConfigureAwait(false);
 
             Assert.IsNotNull(voices);
             Assert.AreNotEqual(0, voices.Length);
@@ -98,7 +100,9 @@ namespace Juniper.Azure.Tests
         public async Task GetVoiceListClient()
         {
             var voicesClient = new VoicesClient(region, subscriptionKey, new JsonFactory<Voice[]>());
-            var voices = await voicesClient.GetVoices();
+            var voices = await voicesClient
+                .GetVoices()
+                .ConfigureAwait(false);
 
             Assert.IsNotNull(voices);
             Assert.AreNotEqual(0, voices.Length);
@@ -107,9 +111,11 @@ namespace Juniper.Azure.Tests
         [TestMethod]
         public async Task GetAudioFile()
         {
-            var audioRequest = await MakeSpeechRequest();
+            var audioRequest = await MakeSpeechRequest().ConfigureAwait(false);
 
-            using (var audioStream = await cache.Open(audioRequest))
+            using (var audioStream = await cache
+                .Open(audioRequest)
+                .ConfigureAwait(false))
             {
                 var mem = new MemoryStream();
                 audioStream.CopyTo(mem);
@@ -121,10 +127,14 @@ namespace Juniper.Azure.Tests
         [TestMethod]
         public async Task DecodeAudio()
         {
-            var audioRequest = await MakeSpeechRequest();
-            var audioDecoder = new NAudioAudioDataDecoder();
-            audioDecoder.Format = audioRequest.OutputFormat;
-            var audio = await cache.Load(audioDecoder, audioRequest);
+            var audioRequest = await MakeSpeechRequest().ConfigureAwait(false);
+            var audioDecoder = new NAudioAudioDataDecoder
+            {
+                Format = audioRequest.OutputFormat
+            };
+            var audio = await cache
+                .Load(audioDecoder, audioRequest)
+                .ConfigureAwait(false);
             Assert.AreEqual(MediaType.Audio.PCMA, audio.format.ContentType);
             Assert.AreEqual(audioRequest.OutputFormat.sampleRate, audio.format.sampleRate);
         }

@@ -51,13 +51,13 @@ namespace Juniper.Audio
                 && Equals(format);
         }
 
-        public static bool operator==(AudioFormat left, AudioFormat right)
+        public static bool operator ==(AudioFormat left, AudioFormat right)
         {
-            return left is null && right is null
-                || left is object && left.Equals(right);
+            return (left is null && right is null)
+                || (left is object && left.Equals(right));
         }
 
-        public static bool operator!=(AudioFormat left, AudioFormat right)
+        public static bool operator !=(AudioFormat left, AudioFormat right)
         {
             return !(left == right);
         }

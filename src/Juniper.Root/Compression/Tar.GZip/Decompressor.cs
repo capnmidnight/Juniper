@@ -26,7 +26,6 @@ namespace Juniper.Compression.Tar.GZip
                    select file;
         }
 
-
         /// <summary>
         /// Read the names of all the files contained in a .unitypackage file.
         /// </summary>
@@ -41,13 +40,11 @@ namespace Juniper.Compression.Tar.GZip
 
             using (var tar = Open(inputPackageFile))
             {
-                var sawAsset = false;
                 var fileSize = 0L;
                 foreach (var item in tar.Entries)
                 {
                     if (item.FullName.EndsWith("/asset"))
                     {
-                        sawAsset = true;
                         fileSize = item.Length;
                     }
                     else if (item.FullName.EndsWith("/pathname"))
@@ -203,11 +200,11 @@ namespace Juniper.Compression.Tar.GZip
             int i = 0;
             foreach (var entry in tar.Entries)
             {
-                prog.Report(i++, tar.Entries.Count());
+                prog.Report(i++, tar.Entries.Count);
                 yield return new CompressedFileInfo(entry);
             }
 
-            prog.Report(i, tar.Entries.Count());
+            prog.Report(i, tar.Entries.Count);
         }
 
         public static IEnumerable<CompressedFileInfo> Entries(this TarArchive tar)
@@ -262,7 +259,7 @@ namespace Juniper.Compression.Tar.GZip
             int i = 0;
             foreach (var entry in tar.Entries)
             {
-                prog.Report(i++, tar.Entries.Count());
+                prog.Report(i++, tar.Entries.Count);
                 try
                 {
                     var fileName = entry.FullName;
@@ -287,7 +284,7 @@ namespace Juniper.Compression.Tar.GZip
                 catch { }
             }
 
-            prog.Report(i, tar.Entries.Count());
+            prog.Report(i, tar.Entries.Count);
         }
 
         public static void Decompress(this TarArchive tar, DirectoryInfo outputDirectory, bool overwrite, IProgress prog)

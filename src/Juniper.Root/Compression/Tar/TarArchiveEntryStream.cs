@@ -20,15 +20,8 @@ namespace Juniper.Compression.Tar
         {
             if (disposing)
             {
-                if (entryStream != null)
-                {
-                    entryStream.Dispose();
-                }
-
-                if (tar != null)
-                {
-                    tar.Dispose();
-                }
+                entryStream?.Dispose();
+                tar?.Dispose();
             }
 
             base.Dispose(disposing);

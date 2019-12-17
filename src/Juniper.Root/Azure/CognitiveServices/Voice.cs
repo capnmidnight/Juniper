@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 
 namespace Juniper.Azure.CognitiveServices
 {
-
     [Serializable]
     public sealed class Voice : ISerializable
     {

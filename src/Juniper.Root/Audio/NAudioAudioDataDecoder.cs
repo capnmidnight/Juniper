@@ -10,7 +10,6 @@ namespace Juniper.Audio
 {
     public class NAudioAudioDataDecoder : IAudioDecoder
     {
-
         public static readonly MediaType.Audio[] SupportedFormats =
         {
             MediaType.Audio.X_Wav,

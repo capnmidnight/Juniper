@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 
 using BitMiracle.LibJpeg;
+
 using Juniper.Progress;
 
 namespace Juniper.Imaging
@@ -49,7 +50,7 @@ namespace Juniper.Imaging
                             GC.Collect();
                         }
                     }
-                    combined[tileY * tileHeight + y] = new SampleRow(rowBuffer, bufferWidth, 8, (byte)components);
+                    combined[(tileY * tileHeight) + y] = new SampleRow(rowBuffer, bufferWidth, 8, (byte)components);
                 }
             }
 
