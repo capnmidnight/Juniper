@@ -335,7 +335,7 @@ namespace BitMiracle.LibJpeg
             imageData.Seek(0, SeekOrigin.Begin);
             var first = imageData.ReadByte();
             var second = imageData.ReadByte();
-            return first == 0xFF && second == (int)JPEG_MARKER.SOI;
+            return first == 0xFF && second == (int)JpegMarker.SOI;
         }
 
         private void createFromStream(Stream imageData)

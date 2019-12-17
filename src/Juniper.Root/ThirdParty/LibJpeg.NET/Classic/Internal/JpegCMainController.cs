@@ -11,7 +11,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// </summary>
     internal class JpegCMainController
     {
-        private readonly jpeg_compress_struct m_cinfo;
+        private readonly JpegCompressStruct m_cinfo;
 
         private int m_cur_iMCU_row;    /* number of current iMCU row */
         private int m_rowgroup_ctr;    /* counts row groups received in iMCU row */
@@ -23,7 +23,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         */
         private readonly byte[][][] m_buffer = new byte[JpegConstants.MAX_COMPONENTS][][];
 
-        public JpegCMainController(jpeg_compress_struct cinfo)
+        public JpegCMainController(JpegCompressStruct cinfo)
         {
             m_cinfo = cinfo;
 
@@ -31,7 +31,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             for (var ci = 0; ci < cinfo.m_num_components; ci++)
             {
                 var compptr = cinfo.Component_info[ci];
-                m_buffer[ci] = jpeg_common_struct.AllocJpegSamples(
+                m_buffer[ci] = JpegCommonStruct.AllocJpegSamples(
                     compptr.Width_in_blocks * compptr.DCT_h_scaled_size,
                     compptr.V_samp_factor * compptr.DCT_v_scaled_size);
             }
@@ -52,7 +52,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             if (pass_mode != JBufMode.PassThrough)
             {
-                m_cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_BUFFER_MODE);
+                m_cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
             }
         }
 

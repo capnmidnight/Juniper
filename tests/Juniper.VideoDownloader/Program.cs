@@ -38,7 +38,7 @@ namespace Juniper.VideoDownloader
             }
         }
 
-        static async Task Main(string[] args)
+        public static async Task Main()
         {
             Write("Enter URL:> ");
             var url = ReadLine();
@@ -46,7 +46,9 @@ namespace Juniper.VideoDownloader
             var request = HttpWebRequestExt.Create(uri)
                 .DoNotTrack()
                 .Accept(Any);
-            using (var response = await request.Get())
+            using (var response = await request
+                .Get()
+                .ConfigureAwait(false))
             {
                 var contentType = Lookup(response.ContentType);
                 WriteLine($"Status {response.StatusCode}");

@@ -9,6 +9,6 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         public int bitsLeft;      /* # of unused bits in it */
 
         /* Pointer needed by jpeg_fill_bit_buffer. */
-        public jpeg_decompress_struct cinfo;  /* back link to decompress master record */
+        public JpegDecompressStruct cinfo;  /* back link to decompress master record */
     }
 }

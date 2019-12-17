@@ -7,8 +7,9 @@ namespace Juniper.UnityAssetStore
         private static async Task Main()
         {
             var req = new Requester();
-
-            var x = await req.GetTopFreeAssets("6");
+            _ = await req
+                .GetTopFreeAssets("6")
+                .ConfigureAwait(false);
 
             System.Console.ReadLine();
         }

@@ -5,7 +5,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// </summary>
     internal abstract class JpegEntropyEncoder
     {
-        public delegate bool EncodeMcuDelegate(JBLOCK[][] MCU_data);
+        public delegate bool EncodeMcuDelegate(JBlock[][] MCU_data);
         public delegate void FinishPassDelegate();
 
         public EncodeMcuDelegate encodeMcu;

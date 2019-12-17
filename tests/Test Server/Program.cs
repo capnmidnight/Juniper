@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -66,9 +67,9 @@ namespace Juniper.HTTP
             WriteLine($"[WARNING] {e}");
         }
 
-        private static void Server_Error(object sender, string e)
+        private static void Server_Error(object sender, Exception e)
         {
-            Error.WriteLine(e);
+            Error.WriteLine(e.Unroll());
         }
     }
 }

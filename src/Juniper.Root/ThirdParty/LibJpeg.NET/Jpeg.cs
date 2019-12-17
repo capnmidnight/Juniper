@@ -63,11 +63,11 @@ namespace BitMiracle.LibJpeg
 
             ClassicCompressor.Image_width = source.Width;
             ClassicCompressor.Image_height = source.Height;
-            ClassicCompressor.In_color_space = (J_COLOR_SPACE)source.Colorspace;
+            ClassicCompressor.In_color_space = (JColorSpace)source.Colorspace;
             ClassicCompressor.Input_components = source.ComponentsPerPixel;
             //m_compressor.Data_precision = source.DataPrecision;
 
-            ClassicCompressor.jpeg_set_defaults();
+            ClassicCompressor.JpegSetDefaults();
 
             //we need to set density parameters after setting of default jpeg parameters
             //m_compressor.Density_unit = source.DensityUnit;
@@ -77,10 +77,10 @@ namespace BitMiracle.LibJpeg
             applyParameters(m_compressionParameters);
 
             // Specify data destination for compression
-            ClassicCompressor.jpeg_stdio_dest(output);
+            ClassicCompressor.JpegStdioDest(output);
 
             // Start compression
-            ClassicCompressor.jpeg_start_compress(true);
+            ClassicCompressor.JpegStartCompression(true);
 
             // Process  pixels
             source.BeginRead();
@@ -89,12 +89,12 @@ namespace BitMiracle.LibJpeg
                 var row = source.GetPixelRow();
                 var rowForDecompressor = new byte[1][];
                 rowForDecompressor[0] = row ?? throw new InvalidDataException("Row of pixels is null");
-                ClassicCompressor.jpeg_write_scanlines(rowForDecompressor, 1);
+                ClassicCompressor.JpegWriteScanlines(rowForDecompressor, 1);
             }
             source.EndRead();
 
             // Finish compression and release memory
-            ClassicCompressor.jpeg_finish_compress();
+            ClassicCompressor.JpegFinishCompress();
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace BitMiracle.LibJpeg
             beforeDecompress(jpeg);
 
             // Start decompression
-            ClassicDecompressor.jpeg_start_decompress();
+            ClassicDecompressor.JpegStartDecompress();
 
             var parameters = getImageParametersFromDecompressor();
             destination.SetImageAttributes(parameters);
@@ -126,15 +126,15 @@ namespace BitMiracle.LibJpeg
             /* Process data */
             while (ClassicDecompressor.Output_scanline < ClassicDecompressor.Output_height)
             {
-                var row = jpeg_common_struct.AllocJpegSamples(ClassicDecompressor.Output_width * ClassicDecompressor.Output_components, 1);
-                ClassicDecompressor.jpeg_read_scanlines(row, 1);
+                var row = JpegCommonStruct.AllocJpegSamples(ClassicDecompressor.Output_width * ClassicDecompressor.Output_components, 1);
+                ClassicDecompressor.JpegReadScanlines(row, 1);
                 destination.ProcessPixelsRow(row[0]);
             }
 
             destination.EndWrite();
 
             // Finish decompression and release memory.
-            ClassicDecompressor.jpeg_finish_decompress();
+            ClassicDecompressor.JpegFinishDecompress();
         }
 
         /// <summary>
@@ -143,12 +143,12 @@ namespace BitMiracle.LibJpeg
         /// <param name="jpeg">Stream with input compressed JPEG data</param>
         private void beforeDecompress(Stream jpeg)
         {
-            ClassicDecompressor.jpeg_stdio_src(jpeg);
+            ClassicDecompressor.JpegStdioSrc(jpeg);
             /* Read file header, set default decompression parameters */
-            ClassicDecompressor.jpeg_read_header(true);
+            ClassicDecompressor.JpegReadHeader(true);
 
             applyParameters(m_decompressionParameters);
-            ClassicDecompressor.jpeg_calc_output_dimensions();
+            ClassicDecompressor.JpegCalcOutputDimensions();
         }
 
         private LoadedImageAttributes getImageParametersFromDecompressor()
@@ -161,17 +161,17 @@ namespace BitMiracle.LibJpeg
                 Height = ClassicDecompressor.Output_height,
                 ComponentsPerSample = ClassicDecompressor.Out_color_components,
                 Components = ClassicDecompressor.Output_components,
-                ActualNumberOfColors = ClassicDecompressor.Actual_number_of_colors,
+                ActualNumberOfColors = ClassicDecompressor.ActualNumberOfColors,
                 Colormap = ClassicDecompressor.Colormap,
-                DensityUnit = ClassicDecompressor.Density_unit,
-                DensityX = ClassicDecompressor.X_density,
-                DensityY = ClassicDecompressor.Y_density
+                DensityUnit = ClassicDecompressor.DensityUnit,
+                DensityX = ClassicDecompressor.XDensity,
+                DensityY = ClassicDecompressor.YDensity
             };
         }
 
-        public jpeg_compress_struct ClassicCompressor { get; } = new jpeg_compress_struct(new jpeg_error_mgr());
+        public JpegCompressStruct ClassicCompressor { get; } = new JpegCompressStruct(new JpegErrorMessage());
 
-        public jpeg_decompress_struct ClassicDecompressor { get; } = new jpeg_decompress_struct(new jpeg_error_mgr());
+        public JpegDecompressStruct ClassicDecompressor { get; } = new JpegDecompressStruct(new JpegErrorMessage());
 
         /// <summary>
         /// Delegate for application-supplied marker processing methods.
@@ -182,8 +182,8 @@ namespace BitMiracle.LibJpeg
         /* Install a special processing method for COM or APPn markers. */
         public void SetMarkerProcessor(int markerCode, MarkerParser routine)
         {
-            bool f(jpeg_decompress_struct _) { return routine(this); }
-            ClassicDecompressor.jpeg_set_marker_processor(markerCode, f);
+            bool f(JpegDecompressStruct _) { return routine(this); }
+            ClassicDecompressor.JpegSetMarkerProcessor(markerCode, f);
         }
 
         private void applyParameters(DecompressionParameters parameters)
@@ -192,15 +192,15 @@ namespace BitMiracle.LibJpeg
 
             if (parameters.OutColorspace != Colorspace.Unknown)
             {
-                ClassicDecompressor.Out_color_space = (J_COLOR_SPACE)parameters.OutColorspace;
+                ClassicDecompressor.Out_color_space = (JColorSpace)parameters.OutColorspace;
             }
 
             ClassicDecompressor.Scale_num = parameters.ScaleNumerator;
             ClassicDecompressor.Scale_denom = parameters.ScaleDenominator;
             ClassicDecompressor.Buffered_image = parameters.BufferedImage;
             ClassicDecompressor.Raw_data_out = parameters.RawDataOut;
-            ClassicDecompressor.Dct_method = (J_DCT_METHOD)parameters.DCTMethod;
-            ClassicDecompressor.Dither_mode = (J_DITHER_MODE)parameters.DitherMode;
+            ClassicDecompressor.Dct_method = (JDctMethod)parameters.DCTMethod;
+            ClassicDecompressor.Dither_mode = (JDitherMode)parameters.DitherMode;
             ClassicDecompressor.Do_fancy_upsampling = parameters.DoFancyUpsampling;
             ClassicDecompressor.Do_block_smoothing = parameters.DoBlockSmoothing;
             ClassicDecompressor.Quantize_colors = parameters.QuantizeColors;
@@ -209,18 +209,18 @@ namespace BitMiracle.LibJpeg
             ClassicDecompressor.Enable_1pass_quant = parameters.EnableOnePassQuantizer;
             ClassicDecompressor.Enable_external_quant = parameters.EnableExternalQuant;
             ClassicDecompressor.Enable_2pass_quant = parameters.EnableTwoPassQuantizer;
-            ClassicDecompressor.Err.Trace_level = parameters.TraceLevel;
+            ClassicDecompressor.Err.TraceLevel = parameters.TraceLevel;
         }
 
         private void applyParameters(CompressionParameters parameters)
         {
             Debug.Assert(parameters != null);
 
-            ClassicCompressor.Smoothing_factor = parameters.SmoothingFactor;
-            ClassicCompressor.jpeg_set_quality(parameters.Quality, true);
+            ClassicCompressor.SmoothingFactor = parameters.SmoothingFactor;
+            ClassicCompressor.JpegSetQuality(parameters.Quality, true);
             if (parameters.SimpleProgressive)
             {
-                ClassicCompressor.jpeg_simple_progression();
+                ClassicCompressor.JpegSimpleProgression();
             }
         }
     }

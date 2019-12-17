@@ -3,7 +3,7 @@ namespace BitMiracle.LibJpeg.Classic
     /// <summary>
     /// One block of coefficients.
     /// </summary>
-    public class JBLOCK
+    public class JBlock
     {
         internal short[] data = new short[JpegConstants.DCTSIZE2];
 

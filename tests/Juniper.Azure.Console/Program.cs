@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Juniper.Audio;
@@ -63,13 +62,15 @@ namespace Juniper.Azure
                     audioDecoder,
                     cache);
 
-                var voices = await ttsClient.GetVoices();
-                var voice = voices.FirstOrDefault(v => v.Locale == "en-US" && v.Gender == "Female");
+                var voices = await ttsClient
+                    .GetVoices()
+                    .ConfigureAwait(false);
+                var voice = Array.Find(voices, v => v.Locale == "en-US" && v.Gender == "Female");
 
                 try
                 {
                     //await DecodeAudio(text, audioDecoder, ttsClient, voice);
-                    await PlayAudio(text, audioDecoder, ttsClient, voice);
+                    await PlayAudio(text, audioDecoder, ttsClient, voice).ConfigureAwait(false);
                     Console.WriteLine("Success!");
                 }
                 catch (Exception exp)
@@ -79,23 +80,26 @@ namespace Juniper.Azure
             }
         }
 
-        private static async Task DecodeAudio(string text, NAudioAudioDataDecoder audioDecoder, TextToSpeechClient ttsClient, Voice voice)
-        {
-            var audio = await ttsClient.GetDecodedAudio(text, voice.ShortName);
-            await Play(audio);
-        }
+        //private static async Task DecodeAudio(string text, NAudioAudioDataDecoder audioDecoder, TextToSpeechClient ttsClient, Voice voice)
+        //{
+        //    var audio = await ttsClient
+        //        .GetDecodedAudio(text, voice.ShortName)
+        //        .ConfigureAwait(false);
+        //    await Play(audio).ConfigureAwait(false);
+        //}
 
         private static async Task PlayAudio(string text, NAudioAudioDataDecoder audioDecoder, TextToSpeechClient ttsClient, Voice voice)
         {
-            var audioStream = await ttsClient.GetAudioDataStream(text, voice.ShortName);
+            var audioStream = await ttsClient
+                .GetAudioDataStream(text, voice.ShortName)
+                .ConfigureAwait(false);
             var waveStream = audioDecoder.MakeDecodingStream(audioStream);
             var sr = waveStream.WaveFormat.SampleRate;
             var bps = waveStream.WaveFormat.BitsPerSample;
             Console.Write($"{bps} * {sr} = {bps * sr}");
             //await Task.Yield();
-            await Play(waveStream);
+            await Play(waveStream).ConfigureAwait(false);
         }
-
 
         public static Task Play(AudioData audio)
         {

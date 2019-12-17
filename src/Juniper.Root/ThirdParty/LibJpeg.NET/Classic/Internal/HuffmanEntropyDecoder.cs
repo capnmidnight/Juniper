@@ -171,28 +171,28 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /* Whether we care about the DC and AC coefficient values for each block */
         private readonly int[] coefLimit = new int[JpegConstants.D_MAX_BLOCKS_IN_MCU];
 
-        private readonly jpeg_decompress_struct cinfo;
+        private readonly JpegDecompressStruct cinfo;
 
-        public HuffmanEntropyDecoder(jpeg_decompress_struct cinfo)
+        public HuffmanEntropyDecoder(JpegDecompressStruct cinfo)
         {
             this.cinfo = cinfo;
 
             finishPass = FinishPassHuffman;
 
-            if (this.cinfo.m_progressive_mode)
+            if (this.cinfo.progressiveMode)
             {
                 /* Create progression status table */
-                cinfo.m_coef_bits = new int[cinfo.m_num_components][];
-                for (var i = 0; i < cinfo.m_num_components; i++)
+                cinfo.coefBits = new int[cinfo.numComponents][];
+                for (var i = 0; i < cinfo.numComponents; i++)
                 {
-                    cinfo.m_coef_bits[i] = new int[JpegConstants.DCTSIZE2];
+                    cinfo.coefBits[i] = new int[JpegConstants.DCTSIZE2];
                 }
 
-                for (var ci = 0; ci < cinfo.m_num_components; ci++)
+                for (var ci = 0; ci < cinfo.numComponents; ci++)
                 {
                     for (var i = 0; i < JpegConstants.DCTSIZE2; i++)
                     {
-                        cinfo.m_coef_bits[ci][i] = -1;
+                        cinfo.coefBits[ci][i] = -1;
                     }
                 }
 
@@ -218,7 +218,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         public override void StartPass()
         {
-            if (cinfo.m_progressive_mode)
+            if (cinfo.progressiveMode)
             {
                 var bad = false;
                 /* Validate progressive scan parameters */
@@ -267,7 +267,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 if (bad)
                 {
-                    cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_PROGRESSION,
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_PROGRESSION,
                         cinfo.m_Ss, cinfo.m_Se, cinfo.m_Ah, cinfo.m_Al);
                 }
 
@@ -277,16 +277,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                  */
                 for (var ci = 0; ci < cinfo.m_comps_in_scan; ci++)
                 {
-                    var cindex = cinfo.Comp_info[cinfo.m_cur_comp_info[ci]].Component_index;
-                    if (cinfo.m_Ss != 0 && cinfo.m_coef_bits[cindex][0] < 0)
+                    var cindex = cinfo.CompInfo[cinfo.m_cur_comp_info[ci]].Component_index;
+                    if (cinfo.m_Ss != 0 && cinfo.coefBits[cindex][0] < 0)
                     {
                         /* AC without prior DC scan */
-                        cinfo.WARNMS(J_MESSAGE_CODE.JWRN_BOGUS_PROGRESSION, cindex, 0);
+                        cinfo.WarnMS(JMessageCode.JWRN_BOGUS_PROGRESSION, cindex, 0);
                     }
 
                     for (var coefi = cinfo.m_Ss; coefi <= cinfo.m_Se; coefi++)
                     {
-                        var expected = cinfo.m_coef_bits[cindex][coefi];
+                        var expected = cinfo.coefBits[cindex][coefi];
                         if (expected < 0)
                         {
                             expected = 0;
@@ -294,10 +294,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                         if (cinfo.m_Ah != expected)
                         {
-                            cinfo.WARNMS(J_MESSAGE_CODE.JWRN_BOGUS_PROGRESSION, cindex, coefi);
+                            cinfo.WarnMS(JMessageCode.JWRN_BOGUS_PROGRESSION, cindex, coefi);
                         }
 
-                        cinfo.m_coef_bits[cindex][coefi] = cinfo.m_Al;
+                        cinfo.coefBits[cindex][coefi] = cinfo.m_Al;
                     }
                 }
 
@@ -327,7 +327,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 for (var ci = 0; ci < cinfo.m_comps_in_scan; ci++)
                 {
-                    var compptr = cinfo.Comp_info[cinfo.m_cur_comp_info[ci]];
+                    var compptr = cinfo.CompInfo[cinfo.m_cur_comp_info[ci]];
 
                     /* Make sure requested tables are present, and compute derived tables.
                      * We may build same derived table more than once, but it's not expensive.
@@ -364,10 +364,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                  * there are some baseline files out there with all zeroes in these bytes.
                  */
                 if (cinfo.m_Ss != 0 || cinfo.m_Ah != 0 || cinfo.m_Al != 0 ||
-                    ((cinfo.is_baseline || cinfo.m_Se < JpegConstants.DCTSIZE2) &&
+                    ((cinfo.isBaseline || cinfo.m_Se < JpegConstants.DCTSIZE2) &&
                     cinfo.m_Se != cinfo.lim_Se))
                 {
-                    cinfo.WARNMS(J_MESSAGE_CODE.JWRN_NOT_SEQUENTIAL);
+                    cinfo.WarnMS(JMessageCode.JWRN_NOT_SEQUENTIAL);
                 }
 
                 /* Select MCU decoding routine */
@@ -388,7 +388,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 for (var ci = 0; ci < cinfo.m_comps_in_scan; ci++)
                 {
-                    var componentInfo = cinfo.Comp_info[cinfo.m_cur_comp_info[ci]];
+                    var componentInfo = cinfo.CompInfo[cinfo.m_cur_comp_info[ci]];
 
                     /* Compute derived values for Huffman tables */
                     /* We may do this more than once for a table, but it's not expensive */
@@ -411,7 +411,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 for (var blkn = 0; blkn < cinfo.m_blocks_in_MCU; blkn++)
                 {
                     var ci = cinfo.m_MCU_membership[blkn];
-                    var componentInfo = cinfo.Comp_info[cinfo.m_cur_comp_info[ci]];
+                    var componentInfo = cinfo.CompInfo[cinfo.m_cur_comp_info[ci]];
 
                     /* Precalculate which table to use for each block */
                     dcCurTables[blkn] = dcDerivedTables[componentInfo.Dc_tbl_no];
@@ -546,7 +546,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// <summary>
         /// Decode one MCU's worth of Huffman-compressed coefficients, full-size blocks.
         /// </summary>
-        private bool DecodeMcuFull(JBLOCK[] MCU_data)
+        private bool DecodeMcuFull(JBlock[] MCU_data)
         {
             /* Process restart marker if needed; may have to suspend */
             if (cinfo.m_restart_interval != 0)
@@ -693,7 +693,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// <summary>
         /// Decode one MCU's worth of Huffman-compressed coefficients, partial blocks.
         /// </summary>
-        private bool DecodeMcuSub(JBLOCK[] MCU_data)
+        private bool DecodeMcuSub(JBlock[] MCU_data)
         {
             /* Process restart marker if needed; may have to suspend */
             if (cinfo.m_restart_interval != 0)
@@ -856,7 +856,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// MCU decoding for DC initial scan (either spectral selection,
         /// or first pass of successive approximation).
         /// </summary>
-        private bool DecodeMcuDCFirst(JBLOCK[] MCU_data)
+        private bool DecodeMcuDCFirst(JBlock[] MCU_data)
         {
             /* Process restart marker if needed; may have to suspend */
             if (cinfo.m_restart_interval != 0)
@@ -889,7 +889,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     /* Decode a single block's worth of coefficients */
 
                     /* Section F.2.2.1: decode the DC coefficient difference */
-                    HUFF_DECODE(out var s, ref br_state, DerivedTables[cinfo.Comp_info[cinfo.m_cur_comp_info[ci]].Dc_tbl_no], ref get_buffer, ref bits_left);
+                    HUFF_DECODE(out var s, ref br_state, DerivedTables[cinfo.CompInfo[cinfo.m_cur_comp_info[ci]].Dc_tbl_no], ref get_buffer, ref bits_left);
 
                     if (s != 0)
                     {
@@ -922,7 +922,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// MCU decoding for AC initial scan (either spectral selection,
         /// or first pass of successive approximation).
         /// </summary>
-        private bool DecodeMcuACFirst(JBLOCK[] MCU_data)
+        private bool DecodeMcuACFirst(JBlock[] MCU_data)
         {
             /* Process restart marker if needed; may have to suspend */
             if (cinfo.m_restart_interval != 0)
@@ -1019,7 +1019,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// Note: we assume such scans can be multi-component,
         /// although the spec is not very clear on the point.
         /// </summary>
-        private bool DecodeMcuDCRefine(JBLOCK[] MCU_data)
+        private bool DecodeMcuDCRefine(JBlock[] MCU_data)
         {
             /* Process restart marker if needed; may have to suspend */
             if (cinfo.m_restart_interval != 0)
@@ -1069,7 +1069,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         // There is always only one block per MCU
-        private bool DecodeMcuACRefine(JBLOCK[] MCU_data)
+        private bool DecodeMcuACRefine(JBlock[] MCU_data)
         {
             /* Process restart marker if needed; may have to suspend */
             if (cinfo.m_restart_interval != 0)
@@ -1121,7 +1121,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                             if (s != 1)
                             {
                                 /* size of new coef should always be 1 */
-                                cinfo.WARNMS(J_MESSAGE_CODE.JWRN_HUFF_BAD_CODE);
+                                cinfo.WarnMS(JMessageCode.JWRN_HUFF_BAD_CODE);
                             }
 
                             CHECK_BIT_BUFFER(ref br_state, 1, ref get_buffer, ref bits_left);
@@ -1278,7 +1278,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             FinishPassHuffman();
 
             /* Advance past the RSTn marker */
-            if (!cinfo.m_marker.read_restart_marker())
+            if (!cinfo.m_marker.ReadRestartMarker())
             {
                 return false;
             }
@@ -1300,7 +1300,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * segment as empty, and we can avoid producing bogus output pixels by
              * leaving the flag set.
              */
-            if (cinfo.m_unread_marker == 0)
+            if (cinfo.unreadMarker == 0)
             {
                 insufficientData = false;
             }
@@ -1430,12 +1430,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             var noMoreBytes = false;
 
-            if (state.cinfo.m_unread_marker == 0)
+            if (state.cinfo.unreadMarker == 0)
             {
                 /* cannot advance past a marker */
                 while (bits_left < MIN_GET_BITS)
                 {
-                    state.cinfo.m_src.GetByte(out var c);
+                    state.cinfo.src.GetByte(out var c);
 
                     /* If it's 0xFF, check and discard stuffed zero byte */
                     if (c == 0xFF)
@@ -1447,7 +1447,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         */
                         do
                         {
-                            state.cinfo.m_src.GetByte(out c);
+                            state.cinfo.src.GetByte(out c);
                         }
                         while (c == 0xFF);
 
@@ -1466,7 +1466,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                             * current MCU, because we will read no more bytes from the data
                             * source.  So it is OK to update permanent state right away.
                             */
-                            state.cinfo.m_unread_marker = c;
+                            state.cinfo.unreadMarker = c;
                             /* See if we need to insert some fake zero bits. */
                             noMoreBytes = true;
                             break;
@@ -1499,7 +1499,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     var entropy = (HuffmanEntropyDecoder)state.cinfo.m_entropy;
                     if (!entropy.insufficientData)
                     {
-                        state.cinfo.WARNMS(J_MESSAGE_CODE.JWRN_HIT_MARKER);
+                        state.cinfo.WarnMS(JMessageCode.JWRN_HIT_MARKER);
                         entropy.insufficientData = true;
                     }
 
@@ -1527,13 +1527,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* Find the input Huffman table */
             if (tblno < 0 || tblno >= JpegConstants.NUM_HUFF_TBLS)
             {
-                cinfo.ERREXIT(J_MESSAGE_CODE.JERR_NO_HUFF_TABLE, tblno);
+                cinfo.ErrExit(JMessageCode.JERR_NO_HUFF_TABLE, tblno);
             }
 
             var htbl = isDC ? cinfo.m_dc_huff_tbl_ptrs[tblno] : cinfo.m_ac_huff_tbl_ptrs[tblno];
             if (htbl == null)
             {
-                cinfo.ERREXIT(J_MESSAGE_CODE.JERR_NO_HUFF_TABLE, tblno);
+                cinfo.ErrExit(JMessageCode.JERR_NO_HUFF_TABLE, tblno);
             }
 
             /* Allocate a workspace if we haven't already done so. */
@@ -1553,7 +1553,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 int i = htbl.Bits[l];
                 if (p + i > 256)    /* protect against table overrun */
                 {
-                    cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_HUFF_TABLE);
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_HUFF_TABLE);
                 }
 
                 while ((i--) != 0)
@@ -1584,7 +1584,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 */
                 if (code >= (1 << si))
                 {
-                    cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_HUFF_TABLE);
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_HUFF_TABLE);
                 }
 
                 code <<= 1;
@@ -1651,7 +1651,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     int sym = htbl.Huffval[i];
                     if (sym > 15)
                     {
-                        cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_HUFF_TABLE);
+                        cinfo.ErrExit(JMessageCode.JERR_BAD_HUFF_TABLE);
                     }
                 }
             }
@@ -1687,7 +1687,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             if (l > 16)
             {
-                state.cinfo.WARNMS(J_MESSAGE_CODE.JWRN_HUFF_BAD_CODE);
+                state.cinfo.WarnMS(JMessageCode.JWRN_HUFF_BAD_CODE);
                 /* fake a zero as the safest result */
                 return 0;
             }

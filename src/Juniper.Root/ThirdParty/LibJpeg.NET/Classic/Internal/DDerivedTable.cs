@@ -15,7 +15,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         */
 
         /* Link to public Huffman table (needed only in jpeg_huff_decode) */
-        public JHUFF_TBL pub;
+        public JHuffmanTable pub;
 
         /* Lookahead tables: indexed by the next HUFF_LOOKAHEAD bits of
         * the input data stream.  If the next Huffman code is no more

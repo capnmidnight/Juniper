@@ -55,6 +55,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Juniper.Root\Juniper.Root.csproj">
+      <Project>{bd5b6e34-ca14-4636-83c0-da4aaddf08be}</Project>
+      <Name>Juniper.Root</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.UnityAssetStore\Juniper.Unity.csproj">
       <Project>{d1fbfa8a-db69-4cc3-94c8-cd921e1af4cf}</Project>
       <Name>Juniper.Unity</Name>

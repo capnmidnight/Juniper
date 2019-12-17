@@ -9,6 +9,7 @@ using OpenTK.Graphics.OpenGL;
 using static OpenTK.Graphics.OpenGL.GL;
 #elif OPENGL4
 using OpenTK.Graphics.OpenGL4;
+
 using static OpenTK.Graphics.OpenGL4.GL;
 #endif
 
@@ -18,7 +19,7 @@ namespace Juniper.OpenGL
     {
         private readonly BufferTarget type;
 
-        public GLBuffer(BufferTarget type)
+        protected GLBuffer(BufferTarget type)
             : base(GenBuffer(), DeleteBuffer)
         {
             this.type = type;

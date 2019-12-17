@@ -3,7 +3,7 @@ namespace BitMiracle.LibJpeg.Classic
     /// <summary>
     /// Describes a result of read operation.
     /// </summary>
-    /// <seealso cref="jpeg_decompress_struct.jpeg_consume_input"/>
+    /// <seealso cref="JpegDecompressStruct.JpegConsumeInput"/>
     public enum ReadResult
     {
         /// <summary>

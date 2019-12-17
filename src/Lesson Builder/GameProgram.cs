@@ -17,14 +17,15 @@ using OpenTK.Graphics.OpenGL;
 using static OpenTK.Graphics.OpenGL.GL;
 #elif OPENGL4
 using OpenTK.Graphics.OpenGL4;
+
 using static OpenTK.Graphics.OpenGL4.GL;
 #endif
 
 namespace Juniper
 {
-    public class GameProgram : GameWindow
+    public sealed class GameProgram : GameWindow
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             using (var game = new GameProgram())
             {

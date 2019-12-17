@@ -33,7 +33,7 @@ namespace Juniper.GoogleMaps
             else
             {
                 locationTextBox.Text = address ?? string.Empty;
-                panoTextbox.Text = metadata.pano_id.ToString();
+                panoTextbox.Text = metadata.pano_id;
                 latLngTextbox.Text = metadata.location.ToString();
                 cubeMapPictureBox.Image?.Dispose();
                 cubeMapPictureBox.Image = image;

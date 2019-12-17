@@ -10,7 +10,7 @@ using Juniper.IO;
 
 namespace Juniper.Speech
 {
-    static class Program
+    public static class Program
     {
         private static SpeechGen form;
         private static SoundPlayer player;
@@ -20,7 +20,7 @@ namespace Juniper.Speech
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        public static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -41,8 +41,10 @@ namespace Juniper.Speech
                     .AppendLayer(new FileCacheLayer(new DirectoryInfo(Path
                         .Combine(userProfile, "Projects")))));
 
-            form = new SpeechGen();
-            form.Voices = client.GetVoices().Result;
+            form = new SpeechGen
+            {
+                Voices = client.GetVoices().Result
+            };
             form.GenerateSpeech += Form_GenerateSpeech;
 
             player = new SoundPlayer();

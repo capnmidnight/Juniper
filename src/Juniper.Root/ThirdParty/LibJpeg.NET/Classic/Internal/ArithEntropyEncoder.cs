@@ -4,9 +4,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 {
     internal class ArithEntropyEncoder : JpegEntropyEncoder
     {
-        public ArithEntropyEncoder(jpeg_compress_struct cinfo)
+        public ArithEntropyEncoder(JpegCompressStruct cinfo)
         {
-            cinfo.ERREXIT(J_MESSAGE_CODE.JERR_NOTIMPL);
+            cinfo.ErrExit(JMessageCode.JERR_NOTIMPL);
         }
 
         public override void StartPass(bool gather_statistics)

@@ -68,7 +68,7 @@ namespace Juniper.MediaTypes
             "MediaType.Values.cs".MakeFile(outDir, (writer) =>
             {
                 writer.WriteLine("        public static readonly ReadOnlyCollection<MediaType> Values = Array.AsReadOnly(new MediaType[]{");
-                foreach(var value in allValues)
+                foreach (var value in allValues)
                 {
                     writer.WriteLine("            {0},", value);
                 }
@@ -81,7 +81,8 @@ namespace Juniper.MediaTypes
             using (var response = await HttpWebRequestExt
                 .Create("http://svn.apache.org/viewvc/httpd/httpd/trunk/docs/conf/mime.types?view=co")
                 .Accept("text/plain")
-                .Get())
+                .Get()
+                .ConfigureAwait(false))
             using (var stream = response.GetResponseStream())
             using (var reader = new StreamReader(stream))
             {
@@ -121,8 +122,7 @@ namespace Juniper.MediaTypes
                             }
                         }
 
-                        string deprecationMessage = null;
-                        AddEntry(group, name, value, deprecationMessage, extensions);
+                        AddEntry(group, name, value, null, extensions);
                     }
                     else if (line.StartsWith("===================="))
                     {
@@ -138,7 +138,8 @@ namespace Juniper.MediaTypes
                 .Create("https://www.iana.org/assignments/media-types/media-types.xml")
                 .UserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36")
                 .Accept("text/xml")
-                .Get())
+                .Get()
+                .ConfigureAwait(false))
             using (var stream = response.GetResponseStream())
             {
                 var fullRegistry = XElement.Load(stream);
@@ -148,7 +149,7 @@ namespace Juniper.MediaTypes
                 {
                     var groupName = file.Parent.Parent.Attribute("id").Value;
                     var nameAndDescription = file.Parent.Element(ns + "name").Value;
-                    var groupAndName = file.Value;
+                    //var groupAndName = file.Value;
                     var name = nameAndDescription;
 
                     var deprecationMessageIndex = nameAndDescription.IndexOf(" ");
@@ -187,22 +188,22 @@ namespace Juniper.MediaTypes
                 var oldGroup = group.entries[name];
                 deprecationMessage = deprecationMessage ?? oldGroup.DeprecationMessage;
 
-                if(extensions == null)
+                if (extensions == null)
                 {
                     extensions = oldGroup.Extensions;
                 }
-                else if(oldGroup.Extensions != null)
+                else if (oldGroup.Extensions != null)
                 {
-                    if(oldGroup.Extensions.Length > extensions.Length)
+                    if (oldGroup.Extensions.Length > extensions.Length)
                     {
                         extensions = oldGroup.Extensions;
                     }
-                    else if(oldGroup.Extensions.Length == extensions.Length)
+                    else if (oldGroup.Extensions.Length == extensions.Length)
                     {
                         var newExtensions = new string[extensions.Length];
-                        for(int i = 0; i < extensions.Length; ++i)
+                        for (int i = 0; i < extensions.Length; ++i)
                         {
-                            if(extensions[i].Length > oldGroup.Extensions[i].Length
+                            if (extensions[i].Length > oldGroup.Extensions[i].Length
                                 && !value.EndsWith("+" + extensions[i]))
                             {
                                 newExtensions[i] = extensions[i];
@@ -258,7 +259,7 @@ namespace Juniper.MediaTypes
             }
 
             var words = s.Split('+', '.');
-            s = string.Join(string.Empty, words.Select(UpperFirst));
+            s = string.Concat(words.Select(UpperFirst));
             words = s.Split('-');
             s = string.Join("_", words.Select(UpperFirst));
 

@@ -83,7 +83,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /* Mode flag: TRUE for optimization, FALSE for actual data output */
         private bool gatherStatistics;
 
-        private readonly jpeg_compress_struct cinfo;
+        private readonly JpegCompressStruct cinfo;
 
         /* Coding status for AC components */
         private int acTblNo;      /* the table number of the single component */
@@ -92,7 +92,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private char[] bitBuffer;       /* buffer for correction bits (1 per char) */
         /* packing correction bits tightly would save some space but cost time... */
 
-        public HuffmanEntropyEncoder(jpeg_compress_struct cinfo)
+        public HuffmanEntropyEncoder(JpegCompressStruct cinfo)
         {
             this.cinfo = cinfo;
 
@@ -192,7 +192,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         /* (make_c_derived_tbl does this in the other path) */
                         if (tbl < 0 || tbl >= JpegConstants.NUM_HUFF_TBLS)
                         {
-                            cinfo.ERREXIT(J_MESSAGE_CODE.JERR_NO_HUFF_TABLE, tbl);
+                            cinfo.ErrExit(JMessageCode.JERR_NO_HUFF_TABLE, tbl);
                         }
 
                         /* Allocate and zero the statistics tables */
@@ -225,7 +225,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     {
                         if (tbl < 0 || tbl >= JpegConstants.NUM_HUFF_TBLS)
                         {
-                            cinfo.ERREXIT(J_MESSAGE_CODE.JERR_NO_HUFF_TABLE, tbl);
+                            cinfo.ErrExit(JMessageCode.JERR_NO_HUFF_TABLE, tbl);
                         }
 
                         if (acCountPtrs[tbl] == null)
@@ -249,21 +249,21 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             saved.put_bits = 0;
 
             /* Initialize restart stuff */
-            restartsToGo = cinfo.m_restart_interval;
+            restartsToGo = cinfo.restartInterval;
             nextRestartNum = 0;
         }
 
         /// <summary>
         /// Encode and output one MCU's worth of Huffman-compressed coefficients.
         /// </summary>
-        private bool EncodeMcuHuffman(JBLOCK[][] MCU_data)
+        private bool EncodeMcuHuffman(JBlock[][] MCU_data)
         {
             /* Load up working state */
             var state = new SavableState();
             state.ASSIGN_STATE(saved);
 
             /* Emit restart marker if needed */
-            if (cinfo.m_restart_interval != 0)
+            if (cinfo.restartInterval != 0)
             {
                 if (restartsToGo == 0)
                 {
@@ -294,11 +294,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             saved.ASSIGN_STATE(state);
 
             /* Update restart-interval state too */
-            if (cinfo.m_restart_interval != 0)
+            if (cinfo.restartInterval != 0)
             {
                 if (restartsToGo == 0)
                 {
-                    restartsToGo = cinfo.m_restart_interval;
+                    restartsToGo = cinfo.restartInterval;
                     nextRestartNum++;
                     nextRestartNum &= 7;
                 }
@@ -329,7 +329,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* Flush out the last data */
                 if (!FlushBitsS(state))
                 {
-                    cinfo.ERREXIT(J_MESSAGE_CODE.JERR_CANT_SUSPEND);
+                    cinfo.ErrExit(JMessageCode.JERR_CANT_SUSPEND);
                 }
 
                 /* Update state */
@@ -341,10 +341,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// Trial-encode one MCU's worth of Huffman-compressed coefficients.
         /// No data is actually output, so no suspension return is possible.
         /// </summary>
-        private bool EncodeMcuGather(JBLOCK[][] MCU_data)
+        private bool EncodeMcuGather(JBlock[][] MCU_data)
         {
             /* Take care of restart intervals if needed */
-            if (cinfo.m_restart_interval != 0)
+            if (cinfo.restartInterval != 0)
             {
                 if (restartsToGo == 0)
                 {
@@ -355,7 +355,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     }
 
                     /* Update restart state */
-                    restartsToGo = cinfo.m_restart_interval;
+                    restartsToGo = cinfo.restartInterval;
                 }
 
                 restartsToGo--;
@@ -402,7 +402,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     {
                         if (cinfo.m_dc_huff_tbl_ptrs[dctbl] == null)
                         {
-                            cinfo.m_dc_huff_tbl_ptrs[dctbl] = new JHUFF_TBL();
+                            cinfo.m_dc_huff_tbl_ptrs[dctbl] = new JHuffmanTable();
                         }
 
                         JpegGenOptimalTable(cinfo.m_dc_huff_tbl_ptrs[dctbl], dcCountPtrs[dctbl]);
@@ -418,7 +418,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     {
                         if (cinfo.m_ac_huff_tbl_ptrs[actbl] == null)
                         {
-                            cinfo.m_ac_huff_tbl_ptrs[actbl] = new JHUFF_TBL();
+                            cinfo.m_ac_huff_tbl_ptrs[actbl] = new JHuffmanTable();
                         }
 
                         JpegGenOptimalTable(cinfo.m_ac_huff_tbl_ptrs[actbl], acCountPtrs[actbl]);
@@ -457,7 +457,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              */
             if (nbits > MAX_COEF_BITS + 1)
             {
-                cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_DCT_COEF);
+                cinfo.ErrExit(JMessageCode.JERR_BAD_DCT_COEF);
             }
 
             /* Emit the Huffman-coded symbol for the number of bits */
@@ -519,7 +519,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     /* Check for out-of-range coefficient values */
                     if (nbits > MAX_COEF_BITS)
                     {
-                        cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_DCT_COEF);
+                        cinfo.ErrExit(JMessageCode.JERR_BAD_DCT_COEF);
                     }
 
                     /* Emit Huffman symbol for run length / number of bits */
@@ -585,7 +585,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              */
             if (nbits > MAX_COEF_BITS + 1)
             {
-                cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_DCT_COEF);
+                cinfo.ErrExit(JMessageCode.JERR_BAD_DCT_COEF);
             }
 
             /* Count the Huffman symbol for the number of bits */
@@ -627,7 +627,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     /* Check for out-of-range coefficient values */
                     if (nbits > MAX_COEF_BITS)
                     {
-                        cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_DCT_COEF);
+                        cinfo.ErrExit(JMessageCode.JERR_BAD_DCT_COEF);
                     }
 
                     /* Count Huffman symbol for run length / number of bits */
@@ -651,12 +651,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
         private bool EmitByteS(int val)
         {
-            return cinfo.m_dest.emit_byte(val);
+            return cinfo.m_dest.EmitByte(val);
         }
 
         private void EmitByteE(int val)
         {
-            cinfo.m_dest.emit_byte(val);
+            cinfo.m_dest.EmitByte(val);
         }
 
         /// <summary>
@@ -673,7 +673,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* if size is 0, caller used an invalid Huffman table entry */
             if (size == 0)
             {
-                cinfo.ERREXIT(J_MESSAGE_CODE.JERR_HUFF_MISSING_CODE);
+                cinfo.ErrExit(JMessageCode.JERR_HUFF_MISSING_CODE);
             }
 
             /* mask off any extra bits in code */
@@ -731,7 +731,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* if size is 0, caller used an invalid Huffman table entry */
             if (size == 0)
             {
-                cinfo.ERREXIT(J_MESSAGE_CODE.JERR_HUFF_MISSING_CODE);
+                cinfo.ErrExit(JMessageCode.JERR_HUFF_MISSING_CODE);
             }
 
             if (gatherStatistics)
@@ -843,7 +843,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* safety check: shouldn't happen given limited correction-bit buffer */
                 if (nbits > 14)
                 {
-                    cinfo.ERREXIT(J_MESSAGE_CODE.JERR_HUFF_MISSING_CODE);
+                    cinfo.ErrExit(JMessageCode.JERR_HUFF_MISSING_CODE);
                 }
 
                 EmitACSymbol(acTblNo, nbits << 4);
@@ -875,7 +875,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 return false;
             }
 
-            if (!EmitByteS((int)(JPEG_MARKER.RST0 + restart_num)))
+            if (!EmitByteS((int)(JpegMarker.RST0 + restart_num)))
             {
                 return false;
             }
@@ -899,7 +899,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 FlushBitsE();
                 EmitByteE(0xFF);
-                EmitByteE((int)(JPEG_MARKER.RST0 + restart_num));
+                EmitByteE((int)(JpegMarker.RST0 + restart_num));
             }
 
             if (cinfo.m_Ss == 0)
@@ -937,10 +937,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// MCU encoding for DC initial scan (either spectral selection,
         /// or first pass of successive approximation).
         /// </summary>
-        private bool EncodeMcuDCFirst(JBLOCK[][] MCU_data)
+        private bool EncodeMcuDCFirst(JBlock[][] MCU_data)
         {
             /* Emit restart marker if needed */
-            if (cinfo.m_restart_interval != 0)
+            if (cinfo.restartInterval != 0)
             {
                 if (restartsToGo == 0)
                 {
@@ -989,7 +989,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                  */
                 if (nbits > MAX_COEF_BITS + 1)
                 {
-                    cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_DCT_COEF);
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_DCT_COEF);
                 }
 
                 /* Count/emit the Huffman-coded symbol for the number of bits */
@@ -1005,11 +1005,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Update restart-interval state too */
-            if (cinfo.m_restart_interval != 0)
+            if (cinfo.restartInterval != 0)
             {
                 if (restartsToGo == 0)
                 {
-                    restartsToGo = cinfo.m_restart_interval;
+                    restartsToGo = cinfo.restartInterval;
                     nextRestartNum++;
                     nextRestartNum &= 7;
                 }
@@ -1024,10 +1024,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// MCU encoding for AC initial scan (either spectral selection,
         /// or first pass of successive approximation).
         /// </summary>
-        private bool EncodeMcuACFirst(JBLOCK[][] MCU_data)
+        private bool EncodeMcuACFirst(JBlock[][] MCU_data)
         {
             /* Emit restart marker if needed */
-            if (cinfo.m_restart_interval != 0)
+            if (cinfo.restartInterval != 0)
             {
                 if (restartsToGo == 0)
                 {
@@ -1097,7 +1097,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* Check for out-of-range coefficient values */
                 if (nbits > MAX_COEF_BITS)
                 {
-                    cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_DCT_COEF);
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_DCT_COEF);
                 }
 
                 /* Count/emit Huffman symbol for run length / number of bits */
@@ -1121,11 +1121,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Update restart-interval state too */
-            if (cinfo.m_restart_interval != 0)
+            if (cinfo.restartInterval != 0)
             {
                 if (restartsToGo == 0)
                 {
-                    restartsToGo = cinfo.m_restart_interval;
+                    restartsToGo = cinfo.restartInterval;
                     nextRestartNum++;
                     nextRestartNum &= 7;
                 }
@@ -1140,10 +1140,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// Note: we assume such scans can be multi-component, although the spec
         /// is not very clear on the point.
         /// </summary>
-        private bool EncodeMcuDCRefine(JBLOCK[][] MCU_data)
+        private bool EncodeMcuDCRefine(JBlock[][] MCU_data)
         {
             /* Emit restart marker if needed */
-            if (cinfo.m_restart_interval != 0)
+            if (cinfo.restartInterval != 0)
             {
                 if (restartsToGo == 0)
                 {
@@ -1160,11 +1160,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Update restart-interval state too */
-            if (cinfo.m_restart_interval != 0)
+            if (cinfo.restartInterval != 0)
             {
                 if (restartsToGo == 0)
                 {
-                    restartsToGo = cinfo.m_restart_interval;
+                    restartsToGo = cinfo.restartInterval;
                     nextRestartNum++;
                     nextRestartNum &= 7;
                 }
@@ -1177,10 +1177,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// <summary>
         /// MCU encoding for AC successive approximation refinement scan.
         /// </summary>
-        private bool EncodeMcuACRefine(JBLOCK[][] MCU_data)
+        private bool EncodeMcuACRefine(JBlock[][] MCU_data)
         {
             /* Emit restart marker if needed */
-            if (cinfo.m_restart_interval != 0)
+            if (cinfo.restartInterval != 0)
             {
                 if (restartsToGo == 0)
                 {
@@ -1297,11 +1297,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Update restart-interval state too */
-            if (cinfo.m_restart_interval != 0)
+            if (cinfo.restartInterval != 0)
             {
                 if (restartsToGo == 0)
                 {
-                    restartsToGo = cinfo.m_restart_interval;
+                    restartsToGo = cinfo.restartInterval;
                     nextRestartNum++;
                     nextRestartNum &= 7;
                 }
@@ -1325,13 +1325,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* Find the input Huffman table */
             if (tblno < 0 || tblno >= JpegConstants.NUM_HUFF_TBLS)
             {
-                cinfo.ERREXIT(J_MESSAGE_CODE.JERR_NO_HUFF_TABLE, tblno);
+                cinfo.ErrExit(JMessageCode.JERR_NO_HUFF_TABLE, tblno);
             }
 
             var htbl = isDC ? cinfo.m_dc_huff_tbl_ptrs[tblno] : cinfo.m_ac_huff_tbl_ptrs[tblno];
             if (htbl == null)
             {
-                cinfo.ERREXIT(J_MESSAGE_CODE.JERR_NO_HUFF_TABLE, tblno);
+                cinfo.ErrExit(JMessageCode.JERR_NO_HUFF_TABLE, tblno);
             }
 
             /* Allocate a workspace if we haven't already done so. */
@@ -1349,7 +1349,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 int i = htbl.Bits[l];
                 if (p + i > 256)    /* protect against table overrun */
                 {
-                    cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_HUFF_TABLE);
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_HUFF_TABLE);
                 }
 
                 while ((i--) != 0)
@@ -1379,7 +1379,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 */
                 if (code >= (1 << si))
                 {
-                    cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_HUFF_TABLE);
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_HUFF_TABLE);
                 }
 
                 code <<= 1;
@@ -1407,7 +1407,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 int i = htbl.Huffval[p];
                 if (i > maxsymbol || dtbl.ehufsi[i] != 0)
                 {
-                    cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_HUFF_TABLE);
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_HUFF_TABLE);
                 }
 
                 dtbl.ehufco[i] = huffcode[p];
@@ -1443,7 +1443,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// So the extra complexity of an optimal algorithm doesn't seem worthwhile.
         /// </para>
         /// </summary>
-        protected void JpegGenOptimalTable(JHUFF_TBL htbl, long[] freq)
+        protected void JpegGenOptimalTable(JHuffmanTable htbl, long[] freq)
         {
             const int MAX_CLEN = 32;     /* assumed maximum initial code length */
 
@@ -1534,7 +1534,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     /* but I'm paranoid... */
                     if (codesize[i] > MAX_CLEN)
                     {
-                        cinfo.ERREXIT(J_MESSAGE_CODE.JERR_HUFF_CLEN_OVERFLOW);
+                        cinfo.ErrExit(JMessageCode.JERR_HUFF_CLEN_OVERFLOW);
                     }
 
                     bits[codesize[i]]++;
@@ -1598,7 +1598,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Set sent_table false so updated table will be written to JPEG file. */
-            htbl.Sent_table = false;
+            htbl.SentTable = false;
         }
     }
 }

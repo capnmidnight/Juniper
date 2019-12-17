@@ -88,7 +88,7 @@ namespace Juniper.Speech
             this.regionSelection.Name = "regionSelection";
             this.regionSelection.Size = new System.Drawing.Size(290, 24);
             this.regionSelection.TabIndex = 1;
-            this.regionSelection.SelectedValueChanged += new System.EventHandler(this.regionSelection_SelectedValueChanged);
+            this.regionSelection.SelectedValueChanged += new System.EventHandler(this.RegionSelection_SelectedValueChanged);
             // 
             // genderSelection
             // 
@@ -98,7 +98,7 @@ namespace Juniper.Speech
             this.genderSelection.Name = "genderSelection";
             this.genderSelection.Size = new System.Drawing.Size(291, 24);
             this.genderSelection.TabIndex = 2;
-            this.genderSelection.SelectedValueChanged += new System.EventHandler(this.genderSelection_SelectedValueChanged);
+            this.genderSelection.SelectedValueChanged += new System.EventHandler(this.GenderSelection_SelectedValueChanged);
             // 
             // voiceNameSelection
             // 
@@ -218,7 +218,7 @@ namespace Juniper.Speech
             this.playButton.TabIndex = 0;
             this.playButton.Text = "Play";
             this.playButton.UseVisualStyleBackColor = true;
-            this.playButton.Click += new System.EventHandler(this.playButton_Click);
+            this.playButton.Click += new System.EventHandler(this.PlayButton_Click);
             // 
             // saveButton
             // 
@@ -228,7 +228,7 @@ namespace Juniper.Speech
             this.saveButton.TabIndex = 1;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            this.saveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // SpeechGen
             // 

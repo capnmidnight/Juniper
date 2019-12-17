@@ -3,8 +3,8 @@ namespace BitMiracle.LibJpeg.Classic
     /// <summary>
     /// The unit of density.
     /// </summary>
-    /// <seealso cref="jpeg_compress_struct.Density_unit"/>
-    /// <seealso cref="jpeg_decompress_struct.Density_unit"/>
+    /// <seealso cref="JpegCompressStruct.Density_unit"/>
+    /// <seealso cref="JpegDecompressStruct.DensityUnit"/>
     public enum DensityUnit
     {
         /// <summary>

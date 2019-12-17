@@ -23,10 +23,12 @@ namespace Juniper.UnityAssetStore
             var uri = new Uri(url);
             while (code == HttpStatusCode.Redirect)
             {
-                using (var response = await HttpWebRequestExt.Create(uri)
+                using (var response = await HttpWebRequestExt
+                    .Create(uri)
                     .Header("X-Unity-Session", token ?? sessionID ?? UnityAssetStoreToken)
                     .Accept(MediaType.Application.Json)
-                    .Get())
+                    .Get()
+                    .ConfigureAwait(false))
                 {
                     code = response.StatusCode;
                     if (code == HttpStatusCode.Redirect)
@@ -36,7 +38,7 @@ namespace Juniper.UnityAssetStore
                     else if (response.StatusCode == HttpStatusCode.OK
                         && response.ContentLength > 0)
                     {
-                        using (var stream = response.GetResponseStream())
+                        using (var stream = new ProgressStream(response.GetResponseStream(), response.ContentLength, prog))
                         using (var reader = new StreamReader(stream))
                         {
                             var deserializer = new JsonFactory<T>();
@@ -59,7 +61,7 @@ namespace Juniper.UnityAssetStore
 
         public async Task<Category[]> GetCategories(IProgress prog)
         {
-            var value = await Get<Categories>($"{UnityAssetStoreAPIRoot}home/categories.json", null, prog);
+            var value = await Get<Categories>($"{UnityAssetStoreAPIRoot}home/categories.json", null, prog).ConfigureAwait(false);
             return value.categories;
         }
 
@@ -70,7 +72,7 @@ namespace Juniper.UnityAssetStore
 
         public async Task<string> GetCategoryName(string categoryID, IProgress prog)
         {
-            var value = await Get<Result<Title>>($"{UnityAssetStoreAPIRoot}head/category/{categoryID}.json", null, prog);
+            var value = await Get<Result<Title>>($"{UnityAssetStoreAPIRoot}head/category/{categoryID}.json", null, prog).ConfigureAwait(false);
             return value.result.title;
         }
 
@@ -81,7 +83,7 @@ namespace Juniper.UnityAssetStore
 
         public async Task<AssetSummary> GetAssetSummary(string assetID, IProgress prog)
         {
-            var value = await Get<Result<AssetSummary>>($"{UnityAssetStoreAPIRoot}head/package/{assetID}.json", null, prog);
+            var value = await Get<Result<AssetSummary>>($"{UnityAssetStoreAPIRoot}head/package/{assetID}.json", null, prog).ConfigureAwait(false);
             return value.result;
         }
 
@@ -92,7 +94,7 @@ namespace Juniper.UnityAssetStore
 
         public async Task<AssetDetail> GetAssetDetails(string assetID, IProgress prog)
         {
-            var value = await Get<Content<AssetDetail>>($"{UnityAssetStoreAPIRoot}content/overview/{assetID}.json", null, prog);
+            var value = await Get<Content<AssetDetail>>($"{UnityAssetStoreAPIRoot}content/overview/{assetID}.json", null, prog).ConfigureAwait(false);
             return value.content;
         }
 
@@ -193,7 +195,7 @@ namespace Juniper.UnityAssetStore
 
         public async Task<AssetContent[]> GetAssetContents(string assetID, IProgress prog)
         {
-            var value = await Get<AssetContents>($"{UnityAssetStoreAPIRoot}content/assets/{assetID}.json", null, prog);
+            var value = await Get<AssetContents>($"{UnityAssetStoreAPIRoot}content/assets/{assetID}.json", null, prog).ConfigureAwait(false);
             return value.assets;
         }
 
@@ -204,7 +206,7 @@ namespace Juniper.UnityAssetStore
 
         public async Task<string> GetPublisherName(string publisherID, IProgress prog)
         {
-            var value = await Get<Result<Title>>($"{UnityAssetStoreAPIRoot}head/publisher/{publisherID}.json", null, prog);
+            var value = await Get<Result<Title>>($"{UnityAssetStoreAPIRoot}head/publisher/{publisherID}.json", null, prog).ConfigureAwait(false);
             return value.result.title;
         }
 
@@ -215,7 +217,7 @@ namespace Juniper.UnityAssetStore
 
         public async Task<PublisherDetail> GetPublisherDetail(string publisherID, IProgress prog)
         {
-            var value = await Get<Overview<PublisherDetail>>($"{UnityAssetStoreAPIRoot}publisher/overview/{publisherID}.json", null, prog);
+            var value = await Get<Overview<PublisherDetail>>($"{UnityAssetStoreAPIRoot}publisher/overview/{publisherID}.json", null, prog).ConfigureAwait(false);
             return value.overview;
         }
 
@@ -244,7 +246,7 @@ namespace Juniper.UnityAssetStore
             return Search(parameters, null);
         }
 
-        public async Task<AssetDownload[]> GetDownloads(string userName, string password, string token, IProgress prog)
+        public async Task<AssetDownload[]> GetDownloads(string userName, string password, string token, IProgress prog = null)
         {
             var req = HttpWebRequestExt.Create($"https://assetstore.unity.com/auth/login?redirect_to=%2F");
             req.Header("Accept-Langage", "en-US,en;q=0.9");
@@ -254,7 +256,9 @@ namespace Juniper.UnityAssetStore
             req.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36";
             req.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3";
 
-            var res = await req.Get();
+            var res = await req
+                .Get()
+                .ConfigureAwait(false);
             if (res.StatusCode == HttpStatusCode.OK)
             {
                 var doc = new HtmlDocument();
@@ -277,13 +281,8 @@ namespace Juniper.UnityAssetStore
             return default;
         }
 
-        public Task<AssetDownload[]> GetDownloads(string userName, string password, string token)
-        {
-            return GetDownloads(userName, password, token, null);
-        }
-
         private const string UnityAssetStoreToken = "26c4202eb475d02864b40827dfff11a14657aa41";
-        private const string UnityAPIRoot = "https://api.unity.com/";
+        // private const string UnityAPIRoot = "https://api.unity.com/";
         private const string UnityAssetStoreRoot = "https://assetstore.unity3d.com/";
         private const string UnityAssetStoreAPIRoot = UnityAssetStoreRoot + "api/en-US/";
 

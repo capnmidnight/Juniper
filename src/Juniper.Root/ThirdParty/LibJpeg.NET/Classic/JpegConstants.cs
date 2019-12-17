@@ -64,7 +64,6 @@ namespace BitMiracle.LibJpeg.Classic
         /// </summary>
         public const int MAX_SAMP_FACTOR = 4;
 
-
         //////////////////////////////////////////////////////////////////////////
         // implementation-specific constants
         //
@@ -80,8 +79,6 @@ namespace BitMiracle.LibJpeg.Classic
         /// Maximum number of color channels allowed in JPEG image.
         /// </summary>
         public const int MAX_COMPONENTS = 10;
-
-
 
         /// <summary>
         /// The size of sample.
@@ -107,12 +104,12 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// DCT method used by default.
         /// </summary>
-        public const J_DCT_METHOD JDCT_DEFAULT = J_DCT_METHOD.JDCT_ISLOW;
+        public const JDctMethod JDCT_DEFAULT = JDctMethod.JDCT_ISLOW;
 
         /// <summary>
         /// Fastest DCT method.
         /// </summary>
-        public const J_DCT_METHOD JDCT_FASTEST = J_DCT_METHOD.JDCT_IFAST;
+        public const JDctMethod JDCT_FASTEST = JDctMethod.JDCT_IFAST;
 
         /// <summary>
         /// A tad under 64K to prevent overflows. 

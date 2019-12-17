@@ -34,7 +34,12 @@ namespace Juniper.UnityAssetStore
                     sb.Append("&");
                 }
 
-                sb.Append($"rows={rows.ToString()}&page={page.ToString()}&order_by={order_by.ToString().ToLowerInvariant()}");
+                sb.Append("rows=")
+                  .Append(rows.ToString())
+                  .Append("&page=")
+                  .Append(page.ToString())
+                  .Append("&order_by=")
+                  .Append(order_by.ToString().ToLowerInvariant());
 
                 return sb.ToString();
             }
@@ -75,7 +80,7 @@ namespace Juniper.UnityAssetStore
             return this;
         }
 
-        private static readonly char[] WHITESPACE = {' ', '\t'};
+        private static readonly char[] WHITESPACE = { ' ', '\t' };
 
         public StoreSearch Phrase(string phrase)
         {
@@ -148,14 +153,14 @@ namespace Juniper.UnityAssetStore
                     switch (field.Name)
                     {
                         case nameof(total):
-                        total = info.GetInt32(nameof(total));
-                        break;
+                            total = info.GetInt32(nameof(total));
+                            break;
 
                         case nameof(results):
                         case "result":
-                        HasResults = true;
-                        results = info.GetValue<AssetDetail[]>(nameof(results));
-                        break;
+                            HasResults = true;
+                            results = info.GetValue<AssetDetail[]>(nameof(results));
+                            break;
                     }
                 }
             }

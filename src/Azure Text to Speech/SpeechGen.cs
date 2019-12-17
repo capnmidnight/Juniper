@@ -7,10 +7,9 @@ using Juniper.Azure.CognitiveServices;
 
 namespace Juniper.Speech
 {
-
     public partial class SpeechGen : Form
     {
-        private SaveFileDialog saveFile;
+        private readonly SaveFileDialog saveFile;
 
         public event EventHandler<GenerateSpeechEventArgs> GenerateSpeech;
 
@@ -19,11 +18,13 @@ namespace Juniper.Speech
             InitializeComponent();
 
             var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            saveFile = new SaveFileDialog();
-            saveFile.Filter = "MP3 files (*.mp3)|*.mp3|WAV files (*.wav)|*.wav|All files (*.*)|*.*";
-            saveFile.FilterIndex = 1;
-            saveFile.InitialDirectory = userProfile;
-            saveFile.OverwritePrompt = true;
+            saveFile = new SaveFileDialog
+            {
+                Filter = "MP3 files (*.mp3)|*.mp3|WAV files (*.wav)|*.wav|All files (*.*)|*.*",
+                FilterIndex = 1,
+                InitialDirectory = userProfile,
+                OverwritePrompt = true
+            };
 
             Disposed += SpeechGen_Disposed;
         }
@@ -78,7 +79,7 @@ namespace Juniper.Speech
             }
         }
 
-        private void regionSelection_SelectedValueChanged(object sender, EventArgs e)
+        private void RegionSelection_SelectedValueChanged(object sender, EventArgs e)
         {
             var selectedRegion = (string)regionSelection.SelectedItem;
             genders = (from voice in Voices
@@ -91,7 +92,7 @@ namespace Juniper.Speech
             genderSelection.DataSource = genders;
         }
 
-        private void genderSelection_SelectedValueChanged(object sender, EventArgs e)
+        private void GenderSelection_SelectedValueChanged(object sender, EventArgs e)
         {
             var selectedRegion = (string)regionSelection.SelectedItem;
             var selectedGender = (string)genderSelection.SelectedItem;
@@ -106,12 +107,12 @@ namespace Juniper.Speech
             voiceNameSelection.DataSource = voiceNames;
         }
 
-        private void playButton_Click(object sender, EventArgs e)
+        private void PlayButton_Click(object sender, EventArgs e)
         {
             Generate(null, AudioFormat.Riff24KHz16BitMonoPCM);
         }
 
-        private void saveButton_Click(object sender, EventArgs e)
+        private void SaveButton_Click(object sender, EventArgs e)
         {
             if (InvokeRequired)
             {
@@ -123,7 +124,7 @@ namespace Juniper.Speech
             }
         }
 
-        private static AudioFormat[] SUPPORTED_FORMATS =
+        private static readonly AudioFormat[] SUPPORTED_FORMATS =
         {
             AudioFormat.Audio24KHz160KbitrateMonoMP3,
             AudioFormat.Riff24KHz16BitMonoPCM
@@ -137,7 +138,6 @@ namespace Juniper.Speech
                 {
                     if (format.ContentType.Matches(saveFile.FileName))
                     {
-
                         Generate(saveFile.FileName, format);
                         return;
                     }

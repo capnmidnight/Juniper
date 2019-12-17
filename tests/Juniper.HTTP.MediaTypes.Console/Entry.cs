@@ -40,7 +40,6 @@ namespace Juniper.MediaTypes
             }
             writer.WriteLine(");");
 
-
             if (DeprecationMessage != null)
             {
                 writer.WriteLine();

@@ -35,7 +35,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// </summary>
     internal class JpegCPrepController
     {
-        private readonly jpeg_compress_struct cinfo;
+        private readonly JpegCompressStruct cinfo;
 
         /* Downsampling input buffer.  This buffer holds color-converted data
         * until we have enough to do a downsample step.
@@ -49,7 +49,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private int thisRowGroup;     /* starting row index of group to process */
         private int nextBufStop;      /* downsample when we reach this index */
 
-        public JpegCPrepController(jpeg_compress_struct cinfo)
+        public JpegCPrepController(JpegCompressStruct cinfo)
         {
             this.cinfo = cinfo;
 
@@ -60,7 +60,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             if (cinfo.m_downsample.NeedContextRows())
             {
                 /* Set up to provide context rows */
-                create_context_buffer();
+                CreateContextBuffer();
             }
             else
             {
@@ -68,7 +68,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 for (var ci = 0; ci < cinfo.m_num_components; ci++)
                 {
                     colorBufRowsOffset = 0;
-                    colorBuf[ci] = jpeg_common_struct.AllocJpegSamples(
+                    colorBuf[ci] = JpegCommonStruct.AllocJpegSamples(
                         (cinfo.Component_info[ci].Width_in_blocks *
                         cinfo.min_DCT_h_scaled_size * cinfo.m_max_h_samp_factor) /
                         cinfo.Component_info[ci].H_samp_factor,
@@ -84,7 +84,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         {
             if (pass_mode != JBufMode.PassThrough)
             {
-                cinfo.ERREXIT(J_MESSAGE_CODE.JERR_BAD_BUFFER_MODE);
+                cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
             }
 
             /* Initialize total-height counter for detecting bottom of image */
@@ -106,18 +106,18 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         {
             if (cinfo.m_downsample.NeedContextRows())
             {
-                pre_process_context(input_buf, ref in_row_ctr, in_rows_avail, output_buf, ref out_row_group_ctr, out_row_groups_avail);
+                PreProcessContext(input_buf, ref in_row_ctr, in_rows_avail, output_buf, ref out_row_group_ctr, out_row_groups_avail);
             }
             else
             {
-                pre_process_WithoutContext(input_buf, ref in_row_ctr, in_rows_avail, output_buf, ref out_row_group_ctr, out_row_groups_avail);
+                PreProcessWithoutContext(input_buf, ref in_row_ctr, in_rows_avail, output_buf, ref out_row_group_ctr, out_row_groups_avail);
             }
         }
 
         /// <summary>
         /// Create the wrapped-around downsampling input buffer needed for context mode.
         /// </summary>
-        private void create_context_buffer()
+        private void CreateContextBuffer()
         {
             var rgroup_height = cinfo.m_max_v_samp_factor;
             for (var ci = 0; ci < cinfo.m_num_components; ci++)
@@ -136,7 +136,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                  * We make the buffer wide enough to allow the downsampler to edge-expand
                  * horizontally within the buffer, if it so chooses.
                  */
-                var true_buffer = jpeg_common_struct.AllocJpegSamples(samplesPerRow, 3 * rgroup_height);
+                var true_buffer = JpegCommonStruct.AllocJpegSamples(samplesPerRow, 3 * rgroup_height);
 
                 /* Copy true buffer row pointers into the middle of the fake row array */
                 for (var i = 0; i < 3 * rgroup_height; i++)
@@ -147,8 +147,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* Fill in the above and below wraparound pointers */
                 for (var i = 0; i < rgroup_height; i++)
                 {
-                    fake_buffer[i] = true_buffer[2 * rgroup_height + i];
-                    fake_buffer[4 * rgroup_height + i] = true_buffer[i];
+                    fake_buffer[i] = true_buffer[(2 * rgroup_height) + i];
+                    fake_buffer[(4 * rgroup_height) + i] = true_buffer[i];
                 }
 
                 colorBuf[ci] = fake_buffer;
@@ -165,7 +165,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// input rows.
         /// </para>
         /// </summary>
-        private void pre_process_WithoutContext(byte[][] input_buf, ref int in_row_ctr, int in_rows_avail, byte[][][] output_buf, ref int out_row_group_ctr, int out_row_groups_avail)
+        private void PreProcessWithoutContext(byte[][] input_buf, ref int in_row_ctr, int in_rows_avail, byte[][][] output_buf, ref int out_row_group_ctr, int out_row_groups_avail)
         {
             while (in_row_ctr < in_rows_avail && out_row_group_ctr < out_row_groups_avail)
             {
@@ -183,7 +183,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 {
                     for (var ci = 0; ci < cinfo.m_num_components; ci++)
                     {
-                        expand_bottom_edge(colorBuf[ci], colorBufRowsOffset, cinfo.m_image_width, nextBufRow, cinfo.m_max_v_samp_factor);
+                        ExpandBottomEdge(colorBuf[ci], colorBufRowsOffset, cinfo.m_image_width, nextBufRow, cinfo.m_max_v_samp_factor);
                     }
 
                     nextBufRow = cinfo.m_max_v_samp_factor;
@@ -208,7 +208,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         numrows = (componentInfo.V_samp_factor * componentInfo.DCT_v_scaled_size) /
                             cinfo.min_DCT_v_scaled_size;
 
-                        expand_bottom_edge(output_buf[ci], 0,
+                        ExpandBottomEdge(output_buf[ci], 0,
                             componentInfo.Width_in_blocks * componentInfo.DCT_h_scaled_size,
                             out_row_group_ctr * numrows,
                             out_row_groups_avail * numrows);
@@ -223,7 +223,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// <summary>
         /// Process some data in the context case.
         /// </summary>
-        private void pre_process_context(byte[][] input_buf, ref int in_row_ctr, int in_rows_avail, byte[][][] output_buf, ref int out_row_group_ctr, int out_row_groups_avail)
+        private void PreProcessContext(byte[][] input_buf, ref int in_row_ctr, int in_rows_avail, byte[][][] output_buf, ref int out_row_group_ctr, int out_row_groups_avail)
         {
             while (out_row_group_ctr < out_row_groups_avail)
             {
@@ -264,7 +264,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     {
                         for (var ci = 0; ci < cinfo.m_num_components; ci++)
                         {
-                            expand_bottom_edge(colorBuf[ci], colorBufRowsOffset, cinfo.m_image_width, nextBufRow, nextBufStop);
+                            ExpandBottomEdge(colorBuf[ci], colorBufRowsOffset, cinfo.m_image_width, nextBufRow, nextBufStop);
                         }
 
                         nextBufRow = nextBufStop;
@@ -300,7 +300,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// Expand an image vertically from height input_rows to height output_rows,
         /// by duplicating the bottom row.
         /// </summary>
-        private static void expand_bottom_edge(byte[][] image_data, int rowsOffset, int num_cols, int input_rows, int output_rows)
+        private static void ExpandBottomEdge(byte[][] image_data, int rowsOffset, int num_cols, int input_rows, int output_rows)
         {
             for (var row = input_rows; row < output_rows; row++)
             {
