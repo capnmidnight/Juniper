@@ -51,7 +51,7 @@ namespace Juniper.World.GIS.Google.MapTiles
         public static bool operator ==(Marker left, Marker right)
         {
             return ReferenceEquals(left, right)
-                || left is object && left.Equals(right);
+                || (left is object && left.Equals(right));
         }
 
         public static bool operator !=(Marker left, Marker right)

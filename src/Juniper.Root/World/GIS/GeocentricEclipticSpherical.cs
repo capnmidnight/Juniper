@@ -15,13 +15,13 @@ namespace Juniper.Units
         /// <returns>The position of the sun on the ecliptic</returns>
         public static GeocentricEclipticSphericalPosition ToGeocentricEclipticSphericalFromJulianDay(this float n)
         {
-            var L_deg = (280.460f + 0.9856474f * n).Repeat(360f);
-            var g_deg = (357.528f + 0.9856003f * n).Repeat(360f);
+            var L_deg = (280.460f + (0.9856474f * n)).Repeat(360f);
+            var g_deg = (357.528f + (0.9856003f * n)).Repeat(360f);
             var g_rad = Degrees.Radians(g_deg);
             var sin_g = Sin(g_rad);
             var cos_g = Cos(g_rad);
-            var lambda_deg = ((float)(L_deg + 1.915f * sin_g + 0.020f * 2 * sin_g * cos_g)).Repeat(360);
-            var R = 1.00014f - 0.01671f * cos_g - 0.00014f * (cos_g * cos_g - sin_g * sin_g);
+            var lambda_deg = ((float)(L_deg + (1.915f * sin_g) + (0.020f * 2 * sin_g * cos_g))).Repeat(360);
+            var R = 1.00014f - (0.01671f * cos_g) - (0.00014f * ((cos_g * cos_g) - (sin_g * sin_g)));
             var ec = new GeocentricEclipticSphericalPosition(0, lambda_deg, (float)R);
             return ec;
         }
@@ -33,7 +33,7 @@ namespace Juniper.Units
         /// <returns>The position of the son on the equitorial plane</returns>
         public static EquitorialSphericalPosition ToEquitorial(this GeocentricEclipticSphericalPosition p, float n)
         {
-            var epsilon_deg = 23.439f - 0.0000004f * n;
+            var epsilon_deg = 23.439f - (0.0000004f * n);
             var epsilon_rad = Degrees.Radians(epsilon_deg);
             var sin_epsilon = Sin(epsilon_rad);
             var cos_epsilon = Cos(epsilon_rad);

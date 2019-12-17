@@ -85,7 +85,7 @@ namespace Juniper.World.GIS
         public static bool operator ==(HorizontalSphericalPosition left, HorizontalSphericalPosition right)
         {
             return ReferenceEquals(left, right)
-                || left is object && left.Equals(right);
+                || (left is object && left.Equals(right));
         }
 
         public static bool operator !=(HorizontalSphericalPosition left, HorizontalSphericalPosition right)

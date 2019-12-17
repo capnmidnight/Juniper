@@ -37,7 +37,7 @@ namespace Juniper.Units
         /// <returns>The number of degrees farenheit</returns>
         public static float Farenheit(float kelvin)
         {
-            return (kelvin - FREEZING_POINT) * Units.Farenheit.PER_KELVIN + Units.Farenheit.FREEZING_POINT;
+            return ((kelvin - FREEZING_POINT) * Units.Farenheit.PER_KELVIN) + Units.Farenheit.FREEZING_POINT;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Juniper.Units
         /// <returns>The number of degrees celsius</returns>
         public static float Celsius(float kelvin)
         {
-            return (kelvin - FREEZING_POINT) * Units.Celsius.PER_KELVIN + Units.Celsius.FREEZING_POINT;
+            return ((kelvin - FREEZING_POINT) * Units.Celsius.PER_KELVIN) + Units.Celsius.FREEZING_POINT;
         }
     }
 }

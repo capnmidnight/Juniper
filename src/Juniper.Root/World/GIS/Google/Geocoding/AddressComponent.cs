@@ -65,7 +65,7 @@ namespace Juniper.World.GIS.Google.Geocoding
         public static bool operator ==(AddressComponent left, AddressComponent right)
         {
             return ReferenceEquals(left, right)
-                || left is object && left.Equals(right);
+                || (left is object && left.Equals(right));
         }
 
         public static bool operator !=(AddressComponent left, AddressComponent right)

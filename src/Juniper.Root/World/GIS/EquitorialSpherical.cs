@@ -16,7 +16,7 @@ namespace Juniper.Units
         /// <returns>The elevation above the horizon</returns>
         public static HorizontalSphericalPosition ToHorizontal(this EquitorialSphericalPosition value, LatLngPoint location, float n)
         {
-            var GMST = (18.697374558f + 24.06570982441908f * n).Repeat(24);
+            var GMST = (18.697374558f + (24.06570982441908f * n)).Repeat(24);
             var LST = GMST + Degrees.Hours(location.Longitude);
             var RA = Degrees.Hours(value.RightAscensionDegrees);
             var H = Hours.Radians(LST - RA);
@@ -29,10 +29,10 @@ namespace Juniper.Units
             var cos_delta = Cos(delta_rad);
             var sin_lat = Sin(lat_rad);
             var cos_lat = Cos(lat_rad);
-            var sin_alt = sin_delta * sin_lat + cos_delta * cos_lat * cos_H;
-            var cos_alt = Sqrt(1 - sin_alt * sin_alt);
+            var sin_alt = (sin_delta * sin_lat) + (cos_delta * cos_lat * cos_H);
+            var cos_alt = Sqrt(1 - (sin_alt * sin_alt));
             var sin_azm = sin_H * cos_delta / cos_alt;
-            var cos_azm = (sin_delta - sin_lat * sin_alt) / (cos_lat * cos_alt);
+            var cos_azm = (sin_delta - (sin_lat * sin_alt)) / (cos_lat * cos_alt);
 
             var altitude_rad = (float)Atan2(sin_alt, cos_alt);
             var azimuth_rad = (float)Atan2(sin_azm, cos_azm);

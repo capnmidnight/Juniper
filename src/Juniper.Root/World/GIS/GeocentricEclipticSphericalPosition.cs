@@ -84,7 +84,7 @@ namespace Juniper.World.GIS
         public static bool operator ==(GeocentricEclipticSphericalPosition left, GeocentricEclipticSphericalPosition right)
         {
             return ReferenceEquals(left, right)
-                || left is object && left.Equals(right);
+                || (left is object && left.Equals(right));
         }
 
         public static bool operator !=(GeocentricEclipticSphericalPosition left, GeocentricEclipticSphericalPosition right)
