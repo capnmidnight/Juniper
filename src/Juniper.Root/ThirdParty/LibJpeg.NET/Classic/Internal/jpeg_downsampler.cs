@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains downsampling routines.
  *
  * Downsampling input data is counted in "row groups".  A row group
@@ -146,9 +146,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
-        /// Do downsampling for a whole row group (all components).
-        /// 
-        /// In this version we simply downsample each component independently.
+        /// <para>Do downsampling for a whole row group (all components).</para>
+        /// <para>In this version we simply downsample each component independently.</para>
         /// </summary>
         public void downsample(byte[][][] input_buf, int in_row_index, byte[][][] output_buf, int out_row_group_index)
         {
@@ -210,8 +209,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             var numpix = h_expand * v_expand;
             var numpix2 = numpix / 2;
             var inrow = 0;
-            var outrow = 0;
-            while (inrow < m_cinfo.m_max_v_samp_factor)
+            for (var outrow = 0; inrow < m_cinfo.m_max_v_samp_factor; outrow++)
             {
                 for (int outcol = 0, outcol_h = 0; outcol < output_cols; outcol++, outcol_h += h_expand)
                 {
@@ -228,7 +226,6 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 }
 
                 inrow += v_expand;
-                outrow++;
             }
         }
 
@@ -249,15 +246,18 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
+        /// <para>
         /// Downsample pixel values of a single component.
         /// This version handles the common case of 2:1 horizontal and 1:1 vertical,
         /// without smoothing.
-        /// 
+        /// </para>
+        /// <para>
         /// A note about the "bias" calculations: when rounding fractional values to
         /// integer, we do not want to always round 0.5 up to the next integer.
         /// If we did that, we'd introduce a noticeable bias towards larger values.
         /// Instead, this code is arranged so that 0.5 will be rounded up or down at
         /// alternate pixel locations (a simple ordered dither pattern).
+        /// </para>
         /// </summary>
         private void h2v1_downsample(int componentIndex, byte[][] input_data, int startInputRow, byte[][] output_data, int startOutRow)
         {
@@ -302,8 +302,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             expand_right_edge(input_data, startInputRow, m_cinfo.m_max_v_samp_factor, m_cinfo.m_image_width, output_cols * 2);
 
             var inrow = 0;
-            var outrow = 0;
-            while (inrow < m_cinfo.m_max_v_samp_factor)
+            for (var outrow = 0; inrow < m_cinfo.m_max_v_samp_factor; outrow++)
             {
                 /* bias = 1,2,1,2,... for successive samples */
                 var bias = 1;
@@ -321,7 +320,6 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 }
 
                 inrow += 2;
-                outrow++;
             }
         }
 
@@ -357,8 +355,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             var neighscale = m_cinfo.m_smoothing_factor * 16; /* scaled SF/4 */
 
             var inrow = 0;
-            var outrow = 0;
-            while (inrow < m_cinfo.m_max_v_samp_factor)
+            for (var outrow = 0; inrow < m_cinfo.m_max_v_samp_factor; outrow++)
             {
                 var outIndex = 0;
                 var inIndex0 = 0;
@@ -461,7 +458,6 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 output_data[startOutRow + outrow][outIndex] = (byte)((membersum + 32768) >> 16);
 
                 inrow += 2;
-                outrow++;
             }
         }
 

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains input colorspace conversion routines.
  */
 
@@ -79,15 +79,17 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         internal delegate void convertMethod(byte[][] input_buf, int input_row, byte[][][] output_buf, int output_row, int num_rows);
 
         /// <summary>
-        /// Convert some rows of samples to the JPEG colorspace.
-        /// 
+        /// <para>Convert some rows of samples to the JPEG colorspace.</para>
+        /// <para>
         /// Note that we change from the application's interleaved-pixel format
         /// to our internal noninterleaved, one-plane-per-component format.
         /// The input buffer is therefore three times as wide as the output buffer.
-        /// 
+        /// </para>
+        /// <para>
         /// A starting row offset is provided only for the output buffer.  The caller
         /// can easily adjust the passed input_buf value to accommodate any row
         /// offset required on that side.
+        /// </para>
         /// </summary>
         internal convertMethod color_convert;
 

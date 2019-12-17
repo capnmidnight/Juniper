@@ -3,9 +3,8 @@ namespace Hjg.Pngcs.Chunks
     using Hjg.Pngcs;
 
     /// <summary>
-    /// PLTE Palette chunk: this is the only optional critical chunk
-    ///
-    /// http://www.w3.org/TR/PNG/#11PLTE
+    /// <para>PLTE Palette chunk: this is the only optional critical chunk</para>
+    /// <para>http://www.w3.org/TR/PNG/#11PLTE</para>
     /// </summary>
     public class PngChunkPLTE : PngChunkSingle
     {

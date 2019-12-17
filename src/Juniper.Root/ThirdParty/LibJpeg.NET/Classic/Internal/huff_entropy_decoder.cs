@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains Huffman entropy decoding routines.
  * Both sequential and progressive modes are supported in this single module.
  *
@@ -14,10 +14,11 @@ using System;
 namespace BitMiracle.LibJpeg.Classic.Internal
 {
     /// <summary>
-    /// Expanded entropy decoder object for Huffman decoding.
-    /// 
+    /// <para>Expanded entropy decoder object for Huffman decoding.</para>
+    /// <para>
     /// The savable_state subrecord contains fields that change within an MCU,
     /// but must not be updated permanently until we complete the MCU.
+    /// </para>
     /// </summary>
     internal class huff_entropy_decoder : jpeg_entropy_decoder
     {
@@ -1257,18 +1258,6 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             return true;
         }
 
-        /// <summary>
-        /// MCU decoding for AC successive approximation refinement scan.
-        /// </summary>
-        private static void undo_decode_mcu_AC_refine(JBLOCK[] block, int[] newnz_pos, int num_newnz)
-        {
-            /* Re-zero any output coefficients that we made newly nonzero */
-            while (num_newnz > 0)
-            {
-                block[0][newnz_pos[--num_newnz]] = 0;
-            }
-        }
-
         /*
          * Finish up at the end of a Huffman-compressed scan.
          */
@@ -1321,7 +1310,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
         private static int HUFF_EXTEND(int x, int s)
         {
-            return (x <= bmask[s - 1] ? x - bmask[s] : x);
+            return x <= bmask[s - 1] ? x - bmask[s] : x;
         }
 
         private void BITREAD_LOAD_STATE(bitread_perm_state bitstate, out int get_buffer, out int bits_left, ref bitread_working_state br_state)
@@ -1366,12 +1355,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
         private static int GET_BITS(int nbits, int get_buffer, ref int bits_left)
         {
-            return (get_buffer >> (bits_left -= nbits) & bmask[nbits]);
+            return get_buffer >> (bits_left -= nbits) & bmask[nbits];
         }
 
         private static int PEEK_BITS(int nbits, int get_buffer, int bits_left)
         {
-            return (get_buffer >> (bits_left - nbits) & bmask[nbits]);
+            return get_buffer >> (bits_left - nbits) & bmask[nbits];
         }
 
         private static void DROP_BITS(int nbits, ref int bits_left)

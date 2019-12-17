@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains master control logic for the JPEG decompressor.
  * These routines are concerned with selecting the modules to be executed
  * and with determining the number of passes and the work to be done in each
@@ -123,14 +123,17 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
+        /// <para>
         /// Master selection of decompression modules.
         /// This is done once at jpeg_start_decompress time.  We determine
         /// which modules will be used and give them appropriate initialization calls.
         /// We also initialize the decompressor input side to begin consuming data.
-        /// 
+        /// </para>
+        /// <para>
         /// Since jpeg_read_header has finished, we know what is in the SOF
         /// and (first) SOS markers.  We also have all the application parameter
         /// settings.
+        /// </para>
         /// </summary>
         private void master_selection()
         {
@@ -291,8 +294,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
-        /// Allocate and fill in the sample_range_limit table.
-        /// 
+        /// <para>Allocate and fill in the sample_range_limit table.</para>
+        /// <para>
         /// Several decompression processes need to range-limit values to the range
         /// 0..MAXJSAMPLE; the input value may fall somewhat outside this range
         /// due to noise introduced by quantization, roundoff error, etc. These
@@ -308,7 +311,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         ///        x = MAXJSAMPLE;
         /// </c>
         /// These processes all use a common table prepared by the routine below.
-        /// 
+        /// </para>
+        /// <para>
         /// For most steps we can mathematically guarantee that the initial value
         /// of x is within 2*(MAXJSAMPLE+1) of the legal range, so a table running
         /// from -2*(MAXJSAMPLE+1) to 3*MAXJSAMPLE+2 is sufficient.But for the
@@ -324,9 +328,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// For the post-IDCT step, we want to convert the data from signed to unsigned
         /// representation by adding CENTERJSAMPLE at the same time that we limit it.
         /// This is accomplished with SUBSET = CENTER - CENTERJSAMPLE.
-        /// 
+        /// </para>
+        /// <para>
         /// Note that the table is allocated in near data space on PCs; it's small
         /// enough and used often enough to justify this.
+        /// </para>
         /// </summary>
         private void prepare_range_limit_table()
         {
@@ -334,7 +340,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* First segment of range limit table: limit[x] = 0 for x < 0 */
 
             /* allow negative subscripts of simple table */
-            var tableOffset = 2 * (JpegConstants.MAXJSAMPLE + 1);
+            const int tableOffset = 2 * (JpegConstants.MAXJSAMPLE + 1);
             m_cinfo.m_sample_range_limit = table;
             m_cinfo.m_sampleRangeLimitOffset = tableOffset;
 

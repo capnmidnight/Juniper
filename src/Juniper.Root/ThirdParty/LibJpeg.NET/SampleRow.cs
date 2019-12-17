@@ -23,7 +23,7 @@ namespace BitMiracle.LibJpeg
         {
             if (row == null)
             {
-                throw new ArgumentNullException("row");
+                throw new ArgumentNullException(nameof(row));
             }
 
             if (row.Length == 0)
@@ -33,17 +33,17 @@ namespace BitMiracle.LibJpeg
 
             if (sampleCount <= 0)
             {
-                throw new ArgumentOutOfRangeException("sampleCount");
+                throw new ArgumentOutOfRangeException(nameof(sampleCount));
             }
 
             if (bitsPerComponent <= 0 || bitsPerComponent > 16)
             {
-                throw new ArgumentOutOfRangeException("bitsPerComponent");
+                throw new ArgumentOutOfRangeException(nameof(bitsPerComponent));
             }
 
             if (componentsPerSample <= 0 || componentsPerSample > 5)
             {
-                throw new ArgumentOutOfRangeException("componentsPerSample");
+                throw new ArgumentOutOfRangeException(nameof(componentsPerSample));
             }
 
             m_bytes = row;
@@ -73,7 +73,7 @@ namespace BitMiracle.LibJpeg
         {
             if (sampleComponents == null)
             {
-                throw new ArgumentNullException("sampleComponents");
+                throw new ArgumentNullException(nameof(sampleComponents));
             }
 
             if (sampleComponents.Length == 0)
@@ -83,12 +83,12 @@ namespace BitMiracle.LibJpeg
 
             if (bitsPerComponent <= 0 || bitsPerComponent > 16)
             {
-                throw new ArgumentOutOfRangeException("bitsPerComponent");
+                throw new ArgumentOutOfRangeException(nameof(bitsPerComponent));
             }
 
             if (componentsPerSample <= 0 || componentsPerSample > 5)
             {
-                throw new ArgumentOutOfRangeException("componentsPerSample");
+                throw new ArgumentOutOfRangeException(nameof(componentsPerSample));
             }
 
             var sampleCount = sampleComponents.Length / componentsPerSample;
@@ -106,7 +106,7 @@ namespace BitMiracle.LibJpeg
                 {
                     for (var j = 0; j < componentsPerSample; ++j)
                     {
-                        bits.Write(sampleComponents[i * componentsPerSample + j], bitsPerComponent);
+                        bits.Write(sampleComponents[(i * componentsPerSample) + j], bitsPerComponent);
                     }
                 }
 
@@ -115,7 +115,6 @@ namespace BitMiracle.LibJpeg
                 bits.UnderlyingStream.Read(m_bytes, 0, (int)bits.UnderlyingStream.Length);
             }
         }
-
 
         /// <summary>
         /// Gets the number of samples in this row.
@@ -128,7 +127,6 @@ namespace BitMiracle.LibJpeg
                 return m_samples.Length;
             }
         }
-
 
         /// <summary>
         /// Gets the sample at the specified index.

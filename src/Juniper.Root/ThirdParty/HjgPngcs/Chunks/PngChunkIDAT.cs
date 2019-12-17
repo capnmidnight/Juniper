@@ -3,9 +3,8 @@ namespace Hjg.Pngcs.Chunks
     using Hjg.Pngcs;
 
     /// <summary>
-    /// IDAT chunk http://www.w3.org/TR/PNG/#11IDAT
-    ///
-    /// This object is dummy placeholder - We treat this chunk in a very different way than ancillary chnks
+    /// <para>IDAT chunk http://www.w3.org/TR/PNG/#11IDAT</para>
+    /// <para>This object is dummy placeholder - We treat this chunk in a very different way than ancillary chnks</para>
     /// </summary>
     public class PngChunkIDAT : PngChunkMultiple
     {

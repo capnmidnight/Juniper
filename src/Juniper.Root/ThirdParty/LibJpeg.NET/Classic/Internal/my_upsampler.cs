@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains upsampling routines.
  *
  * Upsampling input data is counted in "row groups".  A row group
@@ -249,7 +249,6 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             m_color_buf[m_currentComponent] = input_data;
             m_perComponentOffsets[m_currentComponent] = m_upsampleRowOffset;
         }
-
 
         /// <summary>
         /// Fast processing for the common case of 2:1 horizontal and 1:1 vertical.

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains the coefficient buffer controller for decompression.
  * This controller is the top level of the JPEG decompressor proper.
  * The coefficient buffer lies between entropy decoding and inverse-DCT steps.
@@ -13,13 +13,14 @@ using System;
 namespace BitMiracle.LibJpeg.Classic.Internal
 {
     /// <summary>
-    /// Coefficient buffer control
-    /// 
+    /// <para>Coefficient buffer control</para>
+    /// <para>
     /// This code applies interblock smoothing as described by section K.8
     /// of the JPEG standard: the first 5 AC coefficients are estimated from
     /// the DC values of a DCT block and its 8 neighboring blocks.
     /// We apply smoothing only for progressive JPEG decoding, and only if
     /// the coefficients it can estimate are not yet known to full precision.
+    /// </para>
     /// </summary>
     internal class jpeg_d_coef_controller
     {
@@ -237,13 +238,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
+        /// <para>
         /// Decompress and return some data in the single-pass case.
         /// Always attempts to emit one fully interleaved MCU row ("iMCU" row).
         /// Input and output must run in lockstep since we have only a one-MCU buffer.
         /// Return value is JPEG_ROW_COMPLETED, JPEG_SCAN_COMPLETED, or JPEG_SUSPENDED.
-        /// 
+        /// </para>
+        /// <para>
         /// NB: output_buf contains a plane for each component in image,
         /// which we index according to the component's SOF position.
+        /// </para>
         /// </summary>
         private ReadResult decompress_onepass(ComponentBuffer[] output_buf)
         {
@@ -333,11 +337,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
+        /// <para>
         /// Decompress and return some data in the multi-pass case.
         /// Always attempts to emit one fully interleaved MCU row ("iMCU" row).
         /// Return value is JPEG_ROW_COMPLETED, JPEG_SCAN_COMPLETED, or JPEG_SUSPENDED.
-        /// 
-        /// NB: output_buf contains a plane for each component in image.
+        /// </para>
+        /// <para>NB: output_buf contains a plane for each component in image.</para>
         /// </summary>
         private ReadResult decompress_data_ordinary(ComponentBuffer[] output_buf)
         {

@@ -21,9 +21,8 @@ namespace Hjg.Pngcs.Chunks
         LOAD_CHUNK_IF_SAFE,
 
         /// <summary>
-        /// load chunks always
-        ///
-        ///  Notice that other restrictions might apply, see PngReader.SkipChunkMaxSize PngReader.SkipChunkIds
+        /// <para>load chunks always</para>
+        /// <para> Notice that other restrictions might apply, see PngReader.SkipChunkMaxSize PngReader.SkipChunkIds</para>
         /// </summary>
         LOAD_CHUNK_ALWAYS,
     }

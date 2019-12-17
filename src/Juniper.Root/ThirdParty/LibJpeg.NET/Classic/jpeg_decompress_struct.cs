@@ -185,7 +185,6 @@ namespace BitMiracle.LibJpeg.Classic
         internal int[] natural_order; /* natural-order position array for entropy decode */
         internal int lim_Se;			/* min( Se, DCTSIZE2-1 ) for entropy decode */
 
-
         /* This field is shared between entropy decoder and marker parser.
          * It is either zero or the code of a JPEG marker that has been
          * read from the data source, but has not yet been processed.

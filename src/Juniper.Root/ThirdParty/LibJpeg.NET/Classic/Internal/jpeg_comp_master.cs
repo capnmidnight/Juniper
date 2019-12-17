@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace BitMiracle.LibJpeg.Classic.Internal
 {
@@ -59,13 +59,14 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
-        /// Per-pass setup.
-        /// 
+        /// <para>Per-pass setup.</para>
+        /// <para>
         /// This is called at the beginning of each pass.  We determine which 
         /// modules will be active during this pass and give them appropriate 
         /// start_pass calls. 
         /// We also set is_last_pass to indicate whether any more passes will 
         /// be required.
+        /// </para>
         /// </summary>
         public void prepare_for_pass()
         {
@@ -101,14 +102,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
-        /// Special start-of-pass hook.
-        /// 
+        /// <para>Special start-of-pass hook.</para>
+        /// <para>
         /// This is called by jpeg_write_scanlines if call_pass_startup is true.
         /// In single-pass processing, we need this hook because we don't want to
         /// write frame/scan headers during jpeg_start_compress; we want to let the
         /// application write COM markers etc. between jpeg_start_compress and the
         /// jpeg_write_scanlines loop.
         /// In multi-pass processing, this routine is not used.
+        /// </para>
         /// </summary>
         public void pass_startup()
         {

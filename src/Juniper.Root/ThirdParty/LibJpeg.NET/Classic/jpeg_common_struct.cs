@@ -90,12 +90,7 @@ namespace BitMiracle.LibJpeg.Classic
             }
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                m_progress = value;
+                m_progress = value ?? throw new ArgumentNullException(nameof(value));
             }
         }
 
@@ -112,12 +107,7 @@ namespace BitMiracle.LibJpeg.Classic
             }
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                m_err = value;
+                m_err = value ?? throw new ArgumentNullException(nameof(value));
             }
         }
 
@@ -219,11 +209,14 @@ namespace BitMiracle.LibJpeg.Classic
         // flavor of JPEG object.  These may be more convenient in some places.
 
         /// <summary>
+        /// <para>
         /// Abort processing of a JPEG compression or decompression operation,
         /// but don't destroy the object itself.
-        /// 
+        /// </para>
+        /// <para>
         /// Closing a data source or destination, if necessary, is the 
         /// application's responsibility.
+        /// </para>
         /// </summary>
         public void jpeg_abort()
         {
@@ -235,8 +228,7 @@ namespace BitMiracle.LibJpeg.Classic
                 /* Try to keep application from accessing now-deleted marker list.
                  * A bit kludgy to do it here, but this is the most central place.
                  */
-                var s = this as jpeg_decompress_struct;
-                if (s != null)
+                if (this is jpeg_decompress_struct s)
                 {
                     s.m_marker_list = null;
                 }
@@ -248,10 +240,11 @@ namespace BitMiracle.LibJpeg.Classic
         }
 
         /// <summary>
-        /// Destruction of a JPEG object. 
-        /// 
+        /// <para>Destruction of a JPEG object. </para>
+        /// <para>
         /// Closing a data source or destination, if necessary, is the 
         /// application's responsibility.
+        /// </para>
         /// </summary>
         public void jpeg_destroy()
         {
@@ -293,7 +286,6 @@ namespace BitMiracle.LibJpeg.Classic
         }
 
         // Nonfatal errors (we can keep going, but the data is probably corrupt)
-
 
         /// <summary>
         /// Used for non-fatal errors (we can keep going, but the data is probably corrupt).

@@ -1,32 +1,30 @@
 namespace Hjg.Pngcs
 {
     /// <summary>
-    /// Wraps a set of rows from a image, read in a single operation, stored in a int[][] or byte[][] matrix
-    ///
-    /// They can be a subset of the total rows, but in this case they are equispaced.
-    ///
-    /// See also ImageLine
+    /// <para>Wraps a set of rows from a image, read in a single operation, stored in a int[][] or byte[][] matrix</para>
+    /// <para>They can be a subset of the total rows, but in this case they are equispaced.</para>
+    /// <para>See also ImageLine</para>
     /// </summary>
     public class ImageLines
     {
-        public ImageInfo ImgInfo { get; private set; }
-        public ImageLine.ESampleType sampleType { get; private set; }
-        public bool SamplesUnpacked { get; private set; }
-        public int RowOffset { get; private set; }
-        public int Nrows { get; private set; }
-        public int RowStep { get; private set; }
+        public ImageInfo ImgInfo { get; }
+        public ImageLine.ESampleType SampleType { get; }
+        public bool SamplesUnpacked { get; }
+        public int RowOffset { get; }
+        public int Nrows { get; }
+        public int RowStep { get; }
         public readonly int channels;
         public readonly int bitDepth;
         public readonly int elementsPerRow;
-        public int[][] Scanlines { get; private set; }
-        public byte[][] ScanlinesB { get; private set; }
+        public int[][] Scanlines { get; }
+        public byte[][] ScanlinesB { get; }
 
         public ImageLines(global::Hjg.Pngcs.ImageInfo ImgInfo, global::Hjg.Pngcs.ImageLine.ESampleType sampleType, bool unpackedMode, int rowOffset, int nRows, int rowStep)
         {
             this.ImgInfo = ImgInfo;
             channels = ImgInfo.Channels;
             bitDepth = ImgInfo.BitDepth;
-            this.sampleType = sampleType;
+            this.SampleType = sampleType;
             SamplesUnpacked = unpackedMode || !ImgInfo.Packed;
             RowOffset = rowOffset;
             Nrows = nRows;
@@ -107,8 +105,8 @@ namespace Hjg.Pngcs
                         + Nrows);
             }
 
-            var imline = sampleType == ImageLine.ESampleType.INT ? new ImageLine(ImgInfo, sampleType,
-                    SamplesUnpacked, Scanlines[mrow], null) : new ImageLine(ImgInfo, sampleType,
+            var imline = SampleType == ImageLine.ESampleType.INT ? new ImageLine(ImgInfo, SampleType,
+                    SamplesUnpacked, Scanlines[mrow], null) : new ImageLine(ImgInfo, SampleType,
                     SamplesUnpacked, null, ScanlinesB[mrow]);
             imline.Rown = MatrixRowToImageRow(mrow);
             return imline;

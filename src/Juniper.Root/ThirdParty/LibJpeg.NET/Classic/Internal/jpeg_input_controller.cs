@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains input control logic for the JPEG decompressor.
  * These routines are concerned with controlling the decompressor's input
  * processing (marker reading and coefficient decoding).
@@ -277,7 +277,6 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 compptr.DCT_v_scaled_size = m_cinfo.min_DCT_v_scaled_size;
             }
         }
-
 
         /// <summary>
         /// Read JPEG markers before, between, or after compressed-data scans.
@@ -571,14 +570,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 m_cinfo.m_image_height, m_cinfo.m_max_v_samp_factor * m_cinfo.block_size);
 
             /* Decide whether file contains multiple scans */
-            if (m_cinfo.m_comps_in_scan < m_cinfo.m_num_components || m_cinfo.m_progressive_mode)
-            {
-                m_cinfo.m_inputctl.m_has_multiple_scans = true;
-            }
-            else
-            {
-                m_cinfo.m_inputctl.m_has_multiple_scans = false;
-            }
+            m_cinfo.m_inputctl.m_has_multiple_scans = m_cinfo.m_comps_in_scan < m_cinfo.m_num_components || m_cinfo.m_progressive_mode;
         }
 
         /// <summary>

@@ -7,9 +7,6 @@ namespace BitMiracle.LibJpeg
 {
     internal class BitmapDestination : IDecompressDestination
     {
-        /* Target file spec; filled in by djpeg.c after object is created. */
-        private readonly Stream m_output;
-
         private byte[][] m_pixels;
 
         private int m_rowWidth;       /* physical width of one row in the BMP file */
@@ -19,25 +16,14 @@ namespace BitMiracle.LibJpeg
 
         public BitmapDestination(Stream output)
         {
-            m_output = output;
+            Output = output;
         }
 
-        public Stream Output
-        {
-            get
-            {
-                return m_output;
-            }
-        }
+        public Stream Output { get; }
 
         public void SetImageAttributes(LoadedImageAttributes parameters)
         {
-            if (parameters == null)
-            {
-                throw new ArgumentNullException("parameters");
-            }
-
-            m_parameters = parameters;
+            m_parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
         }
 
         /// <summary>
@@ -96,9 +82,8 @@ namespace BitMiracle.LibJpeg
             writePixels();
 
             /* Make sure we wrote the output file OK */
-            m_output.Flush();
+            Output.Flush();
         }
-
 
         /// <summary>
         /// This version is for grayscale OR quantized color output
@@ -181,7 +166,7 @@ namespace BitMiracle.LibJpeg
                 }
             }
 
-            byte[] infoHeader = null;
+            byte[] infoHeader;
             if (m_parameters.Colorspace == Colorspace.RGB)
             {
                 infoHeader = createBitmapInfoHeader(bits_per_pixel, cmap_entries);
@@ -200,8 +185,8 @@ namespace BitMiracle.LibJpeg
 
             var fileHeader = createBitmapFileHeader(offsetToPixels, fileSize);
 
-            m_output.Write(fileHeader, 0, fileHeader.Length);
-            m_output.Write(infoHeader, 0, infoHeader.Length);
+            Output.Write(fileHeader, 0, fileHeader.Length);
+            Output.Write(infoHeader, 0, infoHeader.Length);
 
             if (cmap_entries > 0)
             {
@@ -267,7 +252,7 @@ namespace BitMiracle.LibJpeg
             var colormap = m_parameters.Colormap;
             var num_colors = m_parameters.ActualNumberOfColors;
 
-            var i = 0;
+            int i;
             if (colormap != null)
             {
                 if (m_parameters.ComponentsPerSample == 3)
@@ -275,12 +260,12 @@ namespace BitMiracle.LibJpeg
                     /* Normal case with RGB colormap */
                     for (i = 0; i < num_colors; i++)
                     {
-                        m_output.WriteByte(colormap[2][i]);
-                        m_output.WriteByte(colormap[1][i]);
-                        m_output.WriteByte(colormap[0][i]);
+                        Output.WriteByte(colormap[2][i]);
+                        Output.WriteByte(colormap[1][i]);
+                        Output.WriteByte(colormap[0][i]);
                         if (map_entry_size == 4)
                         {
-                            m_output.WriteByte(0);
+                            Output.WriteByte(0);
                         }
                     }
                 }
@@ -289,12 +274,12 @@ namespace BitMiracle.LibJpeg
                     /* Grayscale colormap (only happens with grayscale quantization) */
                     for (i = 0; i < num_colors; i++)
                     {
-                        m_output.WriteByte(colormap[0][i]);
-                        m_output.WriteByte(colormap[0][i]);
-                        m_output.WriteByte(colormap[0][i]);
+                        Output.WriteByte(colormap[0][i]);
+                        Output.WriteByte(colormap[0][i]);
+                        Output.WriteByte(colormap[0][i]);
                         if (map_entry_size == 4)
                         {
-                            m_output.WriteByte(0);
+                            Output.WriteByte(0);
                         }
                     }
                 }
@@ -304,12 +289,12 @@ namespace BitMiracle.LibJpeg
                 /* If no colormap, must be grayscale data.  Generate a linear "map". */
                 for (i = 0; i < 256; i++)
                 {
-                    m_output.WriteByte((byte)i);
-                    m_output.WriteByte((byte)i);
-                    m_output.WriteByte((byte)i);
+                    Output.WriteByte((byte)i);
+                    Output.WriteByte((byte)i);
+                    Output.WriteByte((byte)i);
                     if (map_entry_size == 4)
                     {
-                        m_output.WriteByte(0);
+                        Output.WriteByte(0);
                     }
                 }
             }
@@ -322,12 +307,12 @@ namespace BitMiracle.LibJpeg
 
             for (; i < map_colors; i++)
             {
-                m_output.WriteByte(0);
-                m_output.WriteByte(0);
-                m_output.WriteByte(0);
+                Output.WriteByte(0);
+                Output.WriteByte(0);
+                Output.WriteByte(0);
                 if (map_entry_size == 4)
                 {
-                    m_output.WriteByte(0);
+                    Output.WriteByte(0);
                 }
             }
         }
@@ -338,24 +323,23 @@ namespace BitMiracle.LibJpeg
             {
                 for (var col = 0; col < m_rowWidth; ++col)
                 {
-                    m_output.WriteByte(m_pixels[col][row]);
+                    Output.WriteByte(m_pixels[col][row]);
                 }
             }
         }
 
-
         private static void PUT_2B(byte[] array, int offset, int value)
         {
-            array[offset] = (byte)((value) & 0xFF);
-            array[offset + 1] = (byte)(((value) >> 8) & 0xFF);
+            array[offset] = (byte)(value & 0xFF);
+            array[offset + 1] = (byte)((value >> 8) & 0xFF);
         }
 
         private static void PUT_4B(byte[] array, int offset, int value)
         {
-            array[offset] = (byte)((value) & 0xFF);
-            array[offset + 1] = (byte)(((value) >> 8) & 0xFF);
-            array[offset + 2] = (byte)(((value) >> 16) & 0xFF);
-            array[offset + 3] = (byte)(((value) >> 24) & 0xFF);
+            array[offset] = (byte)(value & 0xFF);
+            array[offset + 1] = (byte)((value >> 8) & 0xFF);
+            array[offset + 2] = (byte)((value >> 16) & 0xFF);
+            array[offset + 3] = (byte)((value >> 24) & 0xFF);
         }
     }
 }

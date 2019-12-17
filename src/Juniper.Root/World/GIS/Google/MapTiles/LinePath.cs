@@ -82,13 +82,15 @@ namespace Juniper.World.GIS.Google.MapTiles
 
             if (encodePath)
             {
-                sb.Append($"enc:{EncodePolyline(points)}");
+                sb.Append("enc:")
+                  .Append(EncodePolyline(points));
             }
             else
             {
                 foreach (var point in points)
                 {
-                    sb.Append($"{delim}{point}");
+                    sb.Append(delim)
+                      .Append(point);
                     delim = "|";
                 }
             }

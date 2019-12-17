@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains the forward-DCT management logic.
  * This code selects a particular DCT implementation to be used,
  * and it performs related housekeeping chores including coefficient
@@ -8,8 +8,8 @@
 namespace BitMiracle.LibJpeg.Classic.Internal
 {
     /// <summary>
-    /// Forward DCT (also controls coefficient quantization)
-    /// 
+    /// <para>Forward DCT (also controls coefficient quantization)</para>
+    /// <para>
     /// A forward DCT routine is given a pointer to an input sample array and
     /// a pointer to a work area of type DCTELEM[]; the DCT is to be performed
     /// in-place in that buffer.  Type DCTELEM is int for 8-bit samples, INT32
@@ -24,8 +24,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// have a range of +-8K for 8-bit data, +-128K for 12-bit data.  This
     /// convention improves accuracy in integer implementations and saves some
     /// work in floating-point ones.
-    /// 
-    /// Each IDCT routine has its own ideas about the best dct_table element type.
+    /// </para>
+    /// <para>Each IDCT routine has its own ideas about the best dct_table element type.</para>
     /// </summary>
     internal class jpeg_forward_dct
     {
@@ -111,11 +111,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private readonly float_DCT_method_ptr[] do_float_dct = new float_DCT_method_ptr[JpegConstants.MAX_COMPONENTS];
 
         /// <summary>
-        /// Perform forward DCT on one or more blocks of a component.
-        /// 
+        /// <para>Perform forward DCT on one or more blocks of a component.</para>
+        /// <para>
         /// The input samples are taken from the sample_data[] array starting at
         /// position start_row/start_col, and moving to the right for any additional
         /// blocks. The quantized coefficients are returned in coef_blocks[].
+        /// </para>
         /// </summary>
         public delegate void forward_DCT_ptr(jpeg_component_info compptr, byte[][] sample_data, JBLOCK[] coef_blocks, int start_row, int start_col, int num_blocks);
 
@@ -455,21 +456,26 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
+        /// <para>
         /// Perform the forward DCT on one block of samples.
         /// NOTE: this code only copes with 8x8 DCTs.
-        /// 
+        /// </para>
+        /// <para>
         /// A floating-point implementation of the 
         /// forward DCT (Discrete Cosine Transform).
-        /// 
+        /// </para>
+        /// <para>
         /// This implementation should be more accurate than either of the integer
         /// DCT implementations.  However, it may not give the same results on all
         /// machines because of differences in roundoff behavior.  Speed will depend
         /// on the hardware's floating point capacity.
-        /// 
+        /// </para>
+        /// <para>
         /// A 2-D DCT can be done by 1-D DCT on each row followed by 1-D DCT
         /// on each column.  Direct algorithms are also available, but they are
         /// much more complex and seem not to be any faster when reduced to code.
-        /// 
+        /// </para>
+        /// <para>
         /// This implementation is based on Arai, Agui, and Nakajima's algorithm for
         /// scaled DCT.  Their original paper (Trans. IEICE E-71(11):1095) is in
         /// Japanese, but the algorithm is described in the Pennebaker &amp; Mitchell
@@ -485,6 +491,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// implementation, accuracy is lost due to imprecise representation of the
         /// scaled quantization values.  However, that problem does not arise if
         /// we use floating point arithmetic.
+        /// </para>
         /// </summary>
         private static void jpeg_fdct_float(float[] data, byte[][] sample_data, int start_row, int start_col)
         {
@@ -596,15 +603,18 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
+        /// <para>
         /// Perform the forward DCT on one block of samples.
         /// NOTE: this code only copes with 8x8 DCTs.
         /// This file contains a fast, not so accurate integer implementation of the
         /// forward DCT (Discrete Cosine Transform).
-        /// 
+        /// </para>
+        /// <para>
         /// A 2-D DCT can be done by 1-D DCT on each row followed by 1-D DCT
         /// on each column.  Direct algorithms are also available, but they are
         /// much more complex and seem not to be any faster when reduced to code.
-        /// 
+        /// </para>
+        /// <para>
         /// This implementation is based on Arai, Agui, and Nakajima's algorithm for
         /// scaled DCT.  Their original paper (Trans. IEICE E-71(11):1095) is in
         /// Japanese, but the algorithm is described in the Pennebaker &amp; Mitchell
@@ -621,7 +631,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// quantization values.  The smaller the quantization table entry, the less
         /// precise the scaled value, so this implementation does worse with high-
         /// quality-setting files than with low-quality ones.
-        /// 
+        /// </para>
+        /// <para>
         /// Scaling decisions are generally the same as in the LL&amp;M algorithm;
         /// see jpeg_fdct_islow for more details.  However, we choose to descale
         /// (right shift) multiplication products as soon as they are formed,
@@ -630,14 +641,17 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// More importantly, 16-bit arithmetic is then adequate (for 8-bit samples)
         /// everywhere except in the multiplications proper; this saves a good deal
         /// of work on 16-bit-int machines.
-        /// 
+        /// </para>
+        /// <para>
         /// Again to save a few shifts, the intermediate results between pass 1 and
         /// pass 2 are not upscaled, but are represented only to integral precision.
-        /// 
+        /// </para>
+        /// <para>
         /// A final compromise is to represent the multiplicative constants to only
         /// 8 fractional bits, rather than 13.  This saves some shifting work on some
         /// machines, and may also reduce the cost of multiplication (since there
         /// are fewer one-bits in the constants).
+        /// </para>
         /// </summary>
         private static void jpeg_fdct_ifast(int[] data, byte[][] sample_data, int start_row, int start_col)
         {
@@ -749,16 +763,20 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
+        /// <para>
         /// Perform the forward DCT on one block of samples.
         /// NOTE: this code only copes with 8x8 DCTs.
-        /// 
+        /// </para>
+        /// <para>
         /// A slow-but-accurate integer implementation of the
         /// forward DCT (Discrete Cosine Transform).
-        /// 
+        /// </para>
+        /// <para>
         /// A 2-D DCT can be done by 1-D DCT on each row followed by 1-D DCT
         /// on each column.  Direct algorithms are also available, but they are
         /// much more complex and seem not to be any faster when reduced to code.
-        /// 
+        /// </para>
+        /// <para>
         /// This implementation is based on an algorithm described in
         /// C. Loeffler, A. Ligtenberg and G. Moschytz, "Practical Fast 1-D DCT
         /// Algorithms with 11 Multiplications", Proc. Int'l. Conf. on Acoustics,
@@ -768,9 +786,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// The advantage of this method is that no data path contains more than one
         /// multiplication; this allows a very simple and accurate implementation in
         /// scaled fixed-point arithmetic, with a minimal number of shifts.
-        /// 
-        /// The poop on this scaling stuff is as follows:
-        /// 
+        /// </para>
+        /// <para>The poop on this scaling stuff is as follows:</para>
+        /// <para>
         /// Each 1-D DCT step produces outputs which are a factor of sqrt(N)
         /// larger than the true DCT outputs.  The final outputs are therefore
         /// a factor of N larger than desired; since N=8 this can be cured by
@@ -779,7 +797,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// because the y0 and y4 outputs need not be divided by sqrt(N).
         /// In the IJG code, this factor of 8 is removed by the quantization 
         /// step, NOT here.
-        /// 
+        /// </para>
+        /// <para>
         /// We have to do addition and subtraction of the integer inputs, which
         /// is no problem, and multiplication by fractional constants, which is
         /// a problem to do in integer arithmetic.  We multiply all the constants
@@ -790,16 +809,19 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// cheaply as a right shift of SLOW_INTEGER_CONST_BITS bits.  We postpone shifting
         /// as long as possible so that partial sums can be added together with
         /// full fractional precision.
-        /// 
+        /// </para>
+        /// <para>
         /// The outputs of the first pass are scaled up by SLOW_INTEGER_PASS1_BITS bits so that
         /// they are represented to better-than-integral precision.  These outputs
         /// require BITS_IN_JSAMPLE + SLOW_INTEGER_PASS1_BITS + 3 bits; this fits in a 16-bit word
         /// with the recommended scaling.  (For 12-bit sample data, the intermediate
         /// array is int anyway.)
-        /// 
+        /// </para>
+        /// <para>
         /// To avoid overflow of the 32-bit intermediate results in pass 2, we must
         /// have BITS_IN_JSAMPLE + SLOW_INTEGER_CONST_BITS + SLOW_INTEGER_PASS1_BITS &lt;= 26.  Error analysis
         /// shows that the values given below are the most effective.
+        /// </para>
         /// </summary>
         private static void jpeg_fdct_islow(int[] data, byte[][] sample_data, int start_row, int start_col)
         {

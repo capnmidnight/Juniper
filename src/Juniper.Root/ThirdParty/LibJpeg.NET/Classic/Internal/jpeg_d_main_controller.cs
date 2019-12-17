@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains the main buffer controller for decompression.
  * The main buffer lies between the JPEG decompressor proper and the
  * post-processor; it holds downsampled data in the JPEG colorspace.
@@ -10,14 +10,15 @@
 namespace BitMiracle.LibJpeg.Classic.Internal
 {
     /// <summary>
-    /// Main buffer control (downsampled-data buffer)
-    /// 
+    /// <para>Main buffer control (downsampled-data buffer)</para>
+    /// <para>
     /// In the current system design, the main buffer need never be a full-image
     /// buffer; any full-height buffers will be found inside the coefficient or
     /// postprocessing controllers.  Nonetheless, the main controller is not
     /// trivial.  Its responsibility is to provide context rows for upsampling/
     /// rescaling, and doing this in an efficient fashion is a bit tricky.
-    /// 
+    /// </para>
+    /// <para>
     /// Postprocessor input data is counted in "row groups".  A row group
     /// is defined to be (v_samp_factor * DCT_scaled_size / min_DCT_scaled_size)
     /// sample rows of each component.  (We require DCT_scaled_size values to be
@@ -27,7 +28,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// Upsampling will typically produce max_v_samp_factor pixel rows from each
     /// row group (times any additional scale factor that the upsampler is
     /// applying).
-    /// 
+    /// </para>
+    /// <para>
     /// The coefficient controller will deliver data to us one iMCU row at a time;
     /// each iMCU row contains v_samp_factor * DCT_scaled_size sample rows, or
     /// exactly min_DCT_scaled_size row groups.  (This amount of data corresponds
@@ -35,14 +37,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// number of sample rows varies across components, but the number of row
     /// groups does not.  Some garbage sample rows may be included in the last iMCU
     /// row at the bottom of the image.
-    /// 
+    /// </para>
+    /// <para>
     /// Depending on the vertical scaling algorithm used, the upsampler may need
     /// access to the sample row(s) above and below its current input row group.
     /// The upsampler is required to set need_context_rows true at global selection
     /// time if so.  When need_context_rows is false, this controller can simply
     /// obtain one iMCU row at a time from the coefficient controller and dole it
     /// out as row groups to the postprocessor.
-    /// 
+    /// </para>
+    /// <para>
     /// When need_context_rows is true, this controller guarantees that the buffer
     /// passed to postprocessing contains at least one row group's worth of samples
     /// above and below the row group(s) being processed.  Note that the context
@@ -50,7 +54,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// the passed buffer.  At the top and bottom of the image, the required
     /// context rows are manufactured by duplicating the first or last real sample
     /// row; this avoids having special cases in the upsampling inner loops.
-    /// 
+    /// </para>
+    /// <para>
     /// The amount of context is fixed at one row group just because that's a
     /// convenient number for this controller to work with.  The existing
     /// upsamplers really only need one sample row of context.  An upsampler
@@ -59,7 +64,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// (This is justified by the assumption that downsizing will be handled mostly
     /// by adjusting the DCT_scaled_size values, so that the actual scale factor at
     /// the upsample step needn't be much less than one.)
-    /// 
+    /// </para>
+    /// <para>
     /// To provide the desired context, we have to retain the last two row groups
     /// of one iMCU row while reading in the next iMCU row.  (The last row group
     /// can't be processed until we have another row group for its below-context,
@@ -86,12 +92,14 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// The pointer lists are set up so that the required context rows appear to
     /// be adjacent to the proper places when we pass the pointer lists to the
     /// upsampler.
-    /// 
+    /// </para>
+    /// <para>
     /// The above pictures describe the normal state of the pointer lists.
     /// At top and bottom of the image, we diddle the pointer lists to duplicate
     /// the first or last sample row as necessary (this is cheaper than copying
     /// sample rows around).
-    /// 
+    /// </para>
+    /// <para>
     /// This scheme breaks down if M less than 2, ie, min_DCT_scaled_size is 1.  In that
     /// situation each iMCU row provides only one row group so the buffering logic
     /// must be different (eg, we must read two iMCU rows before we can emit the
@@ -99,6 +107,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// rows when min_DCT_scaled_size is 1.  That combination seems unlikely to
     /// be worth providing --- if someone wants a 1/8th-size preview, they probably
     /// want it quick and dirty, so a context-free upsampler is sufficient.
+    /// </para>
     /// </summary>
     internal class jpeg_d_main_controller
     {

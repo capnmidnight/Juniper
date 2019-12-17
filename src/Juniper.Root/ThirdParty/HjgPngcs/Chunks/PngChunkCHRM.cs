@@ -26,8 +26,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            ChunkRaw c = null;
-            c = createEmptyChunk(32, true);
+            ChunkRaw c = createEmptyChunk(32, true);
             PngHelperInternal.WriteInt4tobytes(PngHelperInternal.DoubleToInt100000(whitex), c.Data, 0);
             PngHelperInternal.WriteInt4tobytes(PngHelperInternal.DoubleToInt100000(whitey), c.Data, 4);
             PngHelperInternal.WriteInt4tobytes(PngHelperInternal.DoubleToInt100000(redx), c.Data, 8);

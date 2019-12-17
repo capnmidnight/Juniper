@@ -4,9 +4,8 @@ namespace Hjg.Pngcs.Chunks
     using System.Text;
 
     /// <summary>
-    /// All chunks that form an image, read or to be written
-    ///
-    /// http://www.w3.org/TR/PNG/#table53
+    /// <para>All chunks that form an image, read or to be written</para>
+    /// <para>http://www.w3.org/TR/PNG/#table53</para>
     /// </summary>
     ///
     public class ChunksList
@@ -176,7 +175,10 @@ namespace Hjg.Pngcs.Chunks
             sb.Append("\n Read:\n");
             foreach (var chunk in chunks)
             {
-                sb.Append(chunk).Append(" G=" + chunk.ChunkGroup + "\n");
+                sb.Append(chunk)
+                  .Append(" G=")
+                  .Append(chunk.ChunkGroup)
+                  .Append('\n');
             }
             return sb.ToString();
         }

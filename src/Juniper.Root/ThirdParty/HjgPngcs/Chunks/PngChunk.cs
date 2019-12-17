@@ -10,13 +10,13 @@ namespace Hjg.Pngcs.Chunks
     /// Represents a instance of a PNG chunk
     /// </summary>
     /// <remarks>
-    /// Concrete classes should extend <c>PngChunkSingle</c> or <c>PngChunkMultiple</c>
-    ///
+    /// <para>Concrete classes should extend <c>PngChunkSingle</c> or <c>PngChunkMultiple</c></para>
+    /// <para>
     /// Note that some methods/fields are type-specific (GetOrderingConstraint(), AllowsMultiple())
     /// some are 'almost' type-specific (Id,Crit,Pub,Safe; the exception is <c>PngUKNOWN</c>),
     /// and some are instance-specific
-    ///
-    /// Ref: http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
+    /// </para>
+    /// <para>Ref: http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html</para>
     /// </remarks>
     public abstract class PngChunk
     {

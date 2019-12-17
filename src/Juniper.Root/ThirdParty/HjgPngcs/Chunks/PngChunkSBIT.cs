@@ -3,9 +3,8 @@ namespace Hjg.Pngcs.Chunks
     using Hjg.Pngcs;
 
     /// <summary>
-    /// sBIT chunk: http://www.w3.org/TR/PNG/#11sBIT
-    ///
-    /// this chunk structure depends on the image type
+    /// <para>sBIT chunk: http://www.w3.org/TR/PNG/#11sBIT</para>
+    /// <para>this chunk structure depends on the image type</para>
     /// </summary>
     public class PngChunkSBIT : PngChunkSingle
     {
@@ -58,8 +57,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            ChunkRaw c = null;
-            c = createEmptyChunk(GetLen(), true);
+            ChunkRaw c = createEmptyChunk(GetLen(), true);
             if (ImgInfo.Greyscale)
             {
                 c.Data[0] = (byte)Graysb;
@@ -96,7 +94,7 @@ namespace Hjg.Pngcs.Chunks
             var len = ImgInfo.Greyscale ? 1 : 3;
             if (ImgInfo.Alpha)
             {
-                len += 1;
+                ++len;
             }
 
             return len;

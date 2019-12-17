@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains routines to write JPEG datastream markers.
  */
 
@@ -624,7 +624,6 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         // (a few bytes) before calling jpeg_finish_compress.  Multipass compression
         // modes are not supported at all with suspension, so those two are the only
         // points where markers will be written.
-
 
         /// <summary>
         /// Emit a marker code

@@ -337,7 +337,7 @@ namespace Juniper.Units
 
         public override string ToString()
         {
-            return Converter.Label(currentValue, UnitOfMeasure.Degrees);
+            return currentValue.Label(UnitOfMeasure.Degrees);
         }
 
         public static explicit operator string(Angle value)

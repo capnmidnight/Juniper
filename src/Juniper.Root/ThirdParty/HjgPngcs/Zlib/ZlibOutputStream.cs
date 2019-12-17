@@ -118,7 +118,7 @@ namespace Hjg.Pngcs.Zlib
 
             initdone = true;
             // http://stackoverflow.com/a/2331025/277304
-            var cmf = 0x78;
+            const int cmf = 0x78;
             var flg = 218;  // sorry about the following lines
             if (compressLevel >= 5 && compressLevel <= 6)
             {

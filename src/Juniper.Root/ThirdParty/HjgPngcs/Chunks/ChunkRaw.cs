@@ -8,12 +8,12 @@ namespace Hjg.Pngcs.Chunks
     /// Wraps the raw chunk data
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Short lived object, to be created while
     /// serialing/deserializing
-    ///
-    /// Do not reuse it for different chunks
-    ///
-    /// See http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
+    /// </para>
+    /// <para>Do not reuse it for different chunks</para>
+    /// <para>See http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html</para>
     ///</remarks>
     public class ChunkRaw
     {

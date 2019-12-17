@@ -11,32 +11,36 @@ namespace Hjg.Pngcs
         /// <summary>
         /// ImageInfo (readonly inmutable)
         /// </summary>
-        public ImageInfo ImgInfo { get; private set; }
+        public ImageInfo ImgInfo { get; }
 
         /// <summary>
         /// Samples of an image line
         /// </summary>
         /// <remarks>
         ///
+        /// <para>
         /// The 'scanline' is an array of integers, corresponds to an image line (row)
         /// Except for 'packed' formats (gray/indexed with 1-2-4 bitdepth) each int is a
         /// "sample" (one for channel), (0-255 or 0-65535) in the respective PNG sequence
         /// sequence : (R G B R G B...) or (R G B A R G B A...) or (g g g ...) or ( i i i
         /// ) (palette index)
-        ///
+        /// </para>
+        /// <para>
         /// For bitdepth 1/2/4 ,and if samplesUnpacked=false, each value is a PACKED byte! To get an unpacked copy,
         /// see <c>Pack()</c> and its inverse <c>Unpack()</c>
-        ///
+        /// </para>
+        /// <para>
         /// To convert a indexed line to RGB balues, see ImageLineHelper.PalIdx2RGB()
         /// (cant do the reverse)
+        /// </para>
         /// </remarks>
-        public int[] Scanline { get; private set; }
+        public int[] Scanline { get; }
 
         /// <summary>
         /// Same as Scanline, but with one byte per sample. Only one of Scanline and ScanlineB is valid - this depends
         /// on SampleType}
         /// </summary>
-        public byte[] ScanlineB { get; private set; }
+        public byte[] ScanlineB { get; }
 
         /// <summary>
         /// tracks the current row number (from 0 to rows-1)
@@ -50,12 +54,12 @@ namespace Hjg.Pngcs
         /// Hown many elements has the scanline array
         /// =imgInfo.samplePerRowPacked, if packed, imgInfo.samplePerRow elsewhere
         /// </summary>
-        public int ElementsPerRow { get; private set; }
+        public int ElementsPerRow { get; }
 
         /// <summary>
         /// Maximum sample value that this line admits: typically 255; less if bitdepth less than 8, 65535 if 16bits
         /// </summary>
-        public int maxSampleVal { get; private set; }
+        public int maxSampleVal { get; }
 
         public enum ESampleType
         {
@@ -66,13 +70,13 @@ namespace Hjg.Pngcs
         /// <summary>
         /// Determines if samples are stored in integers or in bytes
         /// </summary>
-        public ESampleType SampleType { get; private set; }
+        public ESampleType SampleType { get; }
 
         /// <summary>
         /// True: each scanline element is a sample.
         /// False: each scanline element has severals samples packed in a byte
         /// </summary>
-        public bool SamplesUnpacked { get; private set; }
+        public bool SamplesUnpacked { get; }
 
         /// <summary>
         /// informational only ; filled by the reader
@@ -112,13 +116,13 @@ namespace Hjg.Pngcs
                 : imgInfo.SamplesPerRowPacked;
             if (stype == ESampleType.INT)
             {
-                Scanline = sci != null ? sci : new int[ElementsPerRow];
+                Scanline = sci ?? (new int[ElementsPerRow]);
                 ScanlineB = null;
                 maxSampleVal = bitDepth == 16 ? 0xFFFF : GetMaskForPackedFormatsLs(bitDepth);
             }
             else if (stype == ESampleType.BYTE)
             {
-                ScanlineB = scb != null ? scb : new byte[ElementsPerRow];
+                ScanlineB = scb ?? (new byte[ElementsPerRow]);
                 Scanline = null;
                 maxSampleVal = bitDepth == 16 ? 0xFF : GetMaskForPackedFormatsLs(bitDepth);
             }

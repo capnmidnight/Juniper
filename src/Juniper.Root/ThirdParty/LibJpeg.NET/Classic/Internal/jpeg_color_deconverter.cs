@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains output colorspace conversion routines.
  */
 
@@ -284,14 +284,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
-        /// Convert some rows of samples to the output colorspace.
-        /// 
+        /// <para>Convert some rows of samples to the output colorspace.</para>
+        /// <para>
         /// Note that we change from noninterleaved, one-plane-per-component format
         /// to interleaved-pixel format.  The output buffer is therefore three times
         /// as wide as the input buffer.
         /// A starting row offset is provided only for the input buffer.  The caller
         /// can easily adjust the passed output_buf value to accommodate any row
         /// offset required on that side.
+        /// </para>
         /// </summary>
         public void color_convert(ComponentBuffer[] input_buf, int[] perComponentOffsets, int input_row, byte[][] output_buf, int output_row, int num_rows)
         {

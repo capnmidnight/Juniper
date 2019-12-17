@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains Huffman entropy encoding routines.
  *
  * Much of the complexity here has to do with supporting output suspension.
@@ -553,14 +553,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
-        /// Huffman coding optimization.
-        /// 
+        /// <para>Huffman coding optimization.</para>
+        /// <para>
         /// We first scan the supplied data and count the number of uses of each symbol
         /// that is to be Huffman-coded. (This process MUST agree with the code above.)
         /// Then we build a Huffman coding tree for the observed counts.
         /// Symbols which are not needed at all for the particular image are not
         /// assigned any code, which saves space in the DHT marker as well as in
         /// the compressed data.
+        /// </para>
         /// </summary>
         private void htest_one_block(short[] block, int last_dc_val, long[] dc_counts, long[] ac_counts)
         {
@@ -658,20 +659,6 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             m_cinfo.m_dest.emit_byte(val);
         }
 
-        private bool dump_buffer_s()
-        {
-            // TODO: remove this method
-            // do nothing.
-            return true;
-        }
-
-        private bool dump_buffer_e()
-        {
-            // TODO: remove this method
-            // do nothing.
-            return true;
-        }
-
         /// <summary>
         /// Only the right 24 bits of put_buffer are used; the valid bits are
         /// left-justified in this part.  At most 16 bits can be passed to emit_bits
@@ -728,12 +715,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
-        /// Outputting bits to the file
-        /// 
+        /// <para>Outputting bits to the file</para>
+        /// <para>
         /// Only the right 24 bits of put_buffer are used; the valid bits are
         /// left-justified in this part.  At most 16 bits can be passed to emit_bits
         /// in one call, and we never retain more than 7 bits in put_buffer
         /// between calls, so 24 bits are sufficient.
+        /// </para>
         /// </summary>
         /// Emit some bits, unless we are in gather mode
         private void emit_bits_e(int code, int size)
@@ -942,7 +930,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 return (x >> shft) | (~0) << (16 - shft);
             }
 
-            return (x >> shft);
+            return x >> shft;
         }
 
         /// <summary>
@@ -1428,8 +1416,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
-        /// Generate the best Huffman code table for the given counts, fill htbl.
-        /// 
+        /// <para>Generate the best Huffman code table for the given counts, fill htbl.</para>
+        /// <para>
         /// The JPEG standard requires that no symbol be assigned a codeword of all
         /// one bits (so that padding bits added at the end of a compressed segment
         /// can't look like a valid code).  Because of the canonical ordering of
@@ -1441,7 +1429,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// But the theoretically better code actually seems to come out worse in
         /// practice, because it produces more all-ones bytes (which incur stuffed
         /// zero bytes in the final file).  In any case the difference is tiny.
-        /// 
+        /// </para>
+        /// <para>
         /// The JPEG standard requires Huffman codes to be no more than 16 bits long.
         /// If some symbols have a very small but nonzero probability, the Huffman tree
         /// must be adjusted to meet the code length restriction.  We currently use
@@ -1452,6 +1441,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// an optimal limited-length-code algorithm indicate that the difference is
         /// microscopic --- usually less than a hundredth of a percent of total size.
         /// So the extra complexity of an optimal algorithm doesn't seem worthwhile.
+        /// </para>
         /// </summary>
         protected void jpeg_gen_optimal_table(JHUFF_TBL htbl, long[] freq)
         {

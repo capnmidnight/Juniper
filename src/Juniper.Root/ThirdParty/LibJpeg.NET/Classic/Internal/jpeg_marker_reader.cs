@@ -81,15 +81,17 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
-        /// Read markers until SOS or EOI.
-        /// 
+        /// <para>Read markers until SOS or EOI.</para>
+        /// <para>
         /// Returns same codes as are defined for jpeg_consume_input:
         /// JPEG_SUSPENDED, JPEG_REACHED_SOS, or JPEG_REACHED_EOI.
-        /// 
+        /// </para>
+        /// <para>
         /// Note: This function may return a pseudo SOS marker(with zero
         /// component number) for treat by input controller's consume_input.
         /// consume_input itself should filter out (skip) the pseudo marker
         /// after processing for the caller.
+        /// </para>
         /// </summary>
         public ReadResult read_markers()
         {
@@ -317,17 +319,19 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
+        /// <para>
         /// Read a restart marker, which is expected to appear next in the datastream;
         /// if the marker is not there, take appropriate recovery action.
         /// Returns false if suspension is required.
-        /// 
-        /// Made public for use by entropy decoder only
-        /// 
+        /// </para>
+        /// <para>Made public for use by entropy decoder only</para>
+        /// <para>
         /// This is called by the entropy decoder after it has read an appropriate
         /// number of MCUs.  cinfo.unread_marker may be nonzero if the entropy decoder
         /// has already read a marker from the data source.  Under normal conditions
         /// cinfo.unread_marker will be reset to 0 before returning; if not reset,
         /// it holds a marker which the decoder will be unable to read past.
+        /// </para>
         /// </summary>
         public bool read_restart_marker()
         {
@@ -364,12 +368,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
+        /// <para>
         /// Find the next JPEG marker, save it in cinfo.unread_marker.
         /// Returns false if had to suspend before reaching a marker;
         /// in that case cinfo.unread_marker is unchanged.
-        /// 
+        /// </para>
+        /// <para>
         /// Note that the result might not be a valid marker code,
         /// but it will never be 0 or FF.
+        /// </para>
         /// </summary>
         public bool next_marker()
         {
@@ -529,13 +536,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private static bool save_marker(jpeg_decompress_struct cinfo)
         {
             var cur_marker = cinfo.m_marker.m_cur_marker;
-
-            byte[] data = null;
             var length = 0;
             int bytes_read;
             int data_length;
             var dataOffset = 0;
 
+            byte[] data;
             if (cur_marker == null)
             {
                 /* begin reading a marker */
@@ -889,7 +895,6 @@ namespace BitMiracle.LibJpeg.Classic.Internal
          * require more care.
          */
 
-
         /// <summary>
         /// Process an SOI marker
         /// </summary>
@@ -1004,7 +1009,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* files).  If so, create "fake" component id equal to the   */
                 /* max id seen so far + 1. */
                 var componentInfoIndex = 0;
-                jpeg_component_info compptr = null;
+                jpeg_component_info compptr;
                 for (var i = 0; i < ci; i++, componentInfoIndex++)
                 {
                     compptr = m_cinfo.Comp_info[componentInfoIndex];
@@ -1015,7 +1020,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         c = compptr.Component_id;
 
                         componentInfoIndex++;
-                        compptr = m_cinfo.Comp_info[componentInfoIndex];
+                        _ = m_cinfo.Comp_info[componentInfoIndex];
 
                         for (i = 1; i < ci; i++, componentInfoIndex++)
                         {
@@ -1041,7 +1046,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 }
 
                 compptr.H_samp_factor = (c >> 4) & 15;
-                compptr.V_samp_factor = (c) & 15;
+                compptr.V_samp_factor = c & 15;
 
                 if (!m_cinfo.m_src.GetByte(out var quant_tbl_no))
                 {
@@ -1150,7 +1155,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 }
 
                 m_cinfo.Comp_info[foundIndex].Dc_tbl_no = (c >> 4) & 15;
-                m_cinfo.Comp_info[foundIndex].Ac_tbl_no = (c) & 15;
+                m_cinfo.Comp_info[foundIndex].Ac_tbl_no = c & 15;
 
                 m_cinfo.TRACEMS(1, J_MESSAGE_CODE.JTRC_SOS_COMPONENT,
                     m_cinfo.Comp_info[foundIndex].Component_id,
@@ -1177,7 +1182,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             m_cinfo.m_Ah = (temp >> 4) & 15;
-            m_cinfo.m_Al = (temp) & 15;
+            m_cinfo.m_Al = temp & 15;
 
             m_cinfo.TRACEMS(1, J_MESSAGE_CODE.JTRC_SOS_PARAMS, m_cinfo.m_Ss, m_cinfo.m_Se, m_cinfo.m_Ah, m_cinfo.m_Al);
 
@@ -1309,7 +1314,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 length -= count;
 
-                JHUFF_TBL htblptr = null;
+                JHUFF_TBL htblptr;
                 if ((index & 0x10) != 0)
                 {
                     /* AC table definition */

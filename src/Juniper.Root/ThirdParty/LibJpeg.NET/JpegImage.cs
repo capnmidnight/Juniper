@@ -26,12 +26,6 @@ namespace BitMiracle.LibJpeg
         /// </summary>
         private List<SampleRow> m_rows = new List<SampleRow>();
 
-        private int m_width;
-        private int m_height;
-        private byte m_bitsPerComponent;
-        private byte m_componentsPerSample;
-        private Colorspace m_colorspace;
-
         // Fields below (m_compressedData, m_decompressedData, m_bitmap) are not initialized in constructors necessarily.
         // Instead direct access to these field you should use corresponding properties (compressedData, decompressedData, bitmap)
         // Such agreement allows to load required data (e.g. compress image) only by request.
@@ -77,7 +71,7 @@ namespace BitMiracle.LibJpeg
         {
             if (fileName == null)
             {
-                throw new ArgumentNullException("fileName");
+                throw new ArgumentNullException(nameof(fileName));
             }
 
             using (var input = new FileStream(fileName, FileMode.Open))
@@ -107,7 +101,7 @@ namespace BitMiracle.LibJpeg
         {
             if (sampleData == null)
             {
-                throw new ArgumentNullException("sampleData");
+                throw new ArgumentNullException(nameof(sampleData));
             }
 
             if (sampleData.Length == 0)
@@ -123,13 +117,13 @@ namespace BitMiracle.LibJpeg
             m_rows = new List<SampleRow>(sampleData);
 
             var firstRow = m_rows[0];
-            m_width = firstRow.Length;
-            m_height = m_rows.Count;
+            Width = firstRow.Length;
+            Height = m_rows.Count;
 
             var firstSample = firstRow[0];
-            m_bitsPerComponent = firstSample.BitsPerComponent;
-            m_componentsPerSample = firstSample.ComponentCount;
-            m_colorspace = colorspace;
+            BitsPerComponent = firstSample.BitsPerComponent;
+            ComponentsPerSample = firstSample.ComponentCount;
+            Colorspace = colorspace;
         }
 
 #if !NETSTANDARD
@@ -195,82 +189,31 @@ namespace BitMiracle.LibJpeg
         /// Gets the width of image in <see cref="Sample">samples</see>.
         /// </summary>
         /// <value>The width of image.</value>
-        public int Width
-        {
-            get
-            {
-                return m_width;
-            }
-            internal set
-            {
-                m_width = value;
-            }
-        }
+        public int Width { get; internal set; }
 
         /// <summary>
         /// Gets the height of image in <see cref="Sample">samples</see>.
         /// </summary>
         /// <value>The height of image.</value>
-        public int Height
-        {
-            get
-            {
-                return m_height;
-            }
-            internal set
-            {
-                m_height = value;
-            }
-        }
+        public int Height { get; internal set; }
 
         /// <summary>
         /// Gets the number of color components per <see cref="Sample">sample</see>.
         /// </summary>
         /// <value>The number of color components per sample.</value>
-        public byte ComponentsPerSample
-        {
-            get
-            {
-                return m_componentsPerSample;
-            }
-            internal set
-            {
-                m_componentsPerSample = value;
-            }
-        }
+        public byte ComponentsPerSample { get; internal set; }
 
         /// <summary>
         /// Gets the number of bits per color component of <see cref="Sample">sample</see>.
         /// </summary>
         /// <value>The number of bits per color component.</value>
-        public byte BitsPerComponent
-        {
-            get
-            {
-                return m_bitsPerComponent;
-            }
-            internal set
-            {
-                m_bitsPerComponent = value;
-            }
-        }
+        public byte BitsPerComponent { get; internal set; }
 
         /// <summary>
         /// Gets the colorspace of image.
         /// </summary>
         /// <value>The colorspace of image.</value>
-        public Colorspace Colorspace
-        {
-            get
-            {
-                return m_colorspace;
-            }
-            internal set
-            {
-                m_colorspace = value;
-            }
-        }
-
+        public Colorspace Colorspace { get; internal set; }
 
         /// <summary>
         /// Retrieves the required row of image.
@@ -377,7 +320,7 @@ namespace BitMiracle.LibJpeg
         {
             if (row == null)
             {
-                throw new ArgumentNullException("row");
+                throw new ArgumentNullException(nameof(row));
             }
 
             m_rows.Add(row);
@@ -401,14 +344,14 @@ namespace BitMiracle.LibJpeg
             imageData.Seek(0, SeekOrigin.Begin);
             var first = imageData.ReadByte();
             var second = imageData.ReadByte();
-            return (first == 0xFF && second == (int)JPEG_MARKER.SOI);
+            return first == 0xFF && second == (int)JPEG_MARKER.SOI;
         }
 
         private void createFromStream(Stream imageData)
         {
             if (imageData == null)
             {
-                throw new ArgumentNullException("imageData");
+                throw new ArgumentNullException(nameof(imageData));
             }
 
             if (isCompressed(imageData))
@@ -435,14 +378,9 @@ namespace BitMiracle.LibJpeg
 
         private void initializeFromBitmap(Bitmap bitmap)
         {
-            if (bitmap == null)
-            {
-                throw new ArgumentNullException("bitmap");
-            }
-
-            m_bitmap = bitmap;
-            m_width = m_bitmap.Width;
-            m_height = m_bitmap.Height;
+            m_bitmap = bitmap ?? throw new ArgumentNullException(nameof(bitmap));
+            Width = m_bitmap.Width;
+            Height = m_bitmap.Height;
             processPixelFormat(bitmap.PixelFormat);
             fillSamplesFromBitmap();
         }
@@ -453,7 +391,7 @@ namespace BitMiracle.LibJpeg
             Debug.Assert(m_rows != null);
             Debug.Assert(m_rows.Count != 0);
 
-            var source = new RawImage(m_rows, m_colorspace);
+            var source = new RawImage(m_rows, Colorspace);
             compress(source, parameters);
         }
 
@@ -507,9 +445,9 @@ namespace BitMiracle.LibJpeg
 
             if (pixelFormat == PixelFormat.Format16bppGrayScale)
             {
-                m_bitsPerComponent = 16;
-                m_componentsPerSample = 1;
-                m_colorspace = Colorspace.Grayscale;
+                BitsPerComponent = 16;
+                ComponentsPerSample = 1;
+                Colorspace = Colorspace.Grayscale;
                 return;
             }
 
@@ -518,27 +456,27 @@ namespace BitMiracle.LibJpeg
 
             if (pixelSizeByte == 32 && formatIndexByte == 15) //PixelFormat32bppCMYK (15 | (32 << 8))
             {
-                m_bitsPerComponent = 8;
-                m_componentsPerSample = 4;
-                m_colorspace = Colorspace.CMYK;
+                BitsPerComponent = 8;
+                ComponentsPerSample = 4;
+                Colorspace = Colorspace.CMYK;
                 return;
             }
 
-            m_bitsPerComponent = 8;
-            m_componentsPerSample = 3;
-            m_colorspace = Colorspace.RGB;
+            BitsPerComponent = 8;
+            ComponentsPerSample = 3;
+            Colorspace = Colorspace.RGB;
 
             if (pixelSizeByte == 16)
             {
-                m_bitsPerComponent = 6;
+                BitsPerComponent = 6;
             }
             else if (pixelSizeByte == 24 || pixelSizeByte == 32)
             {
-                m_bitsPerComponent = 8;
+                BitsPerComponent = 8;
             }
             else if (pixelSizeByte == 48 || pixelSizeByte == 64)
             {
-                m_bitsPerComponent = 16;
+                BitsPerComponent = 16;
             }
         }
 
@@ -556,7 +494,7 @@ namespace BitMiracle.LibJpeg
                     samples[x * 3 + 1] = color.G;
                     samples[x * 3 + 2] = color.B;
                 }
-                m_rows.Add(new SampleRow(samples, m_bitsPerComponent, m_componentsPerSample));
+                m_rows.Add(new SampleRow(samples, BitsPerComponent, ComponentsPerSample));
             }
         }
 #endif

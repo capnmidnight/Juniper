@@ -161,14 +161,13 @@ namespace Hjg.Pngcs
         {
             int spos, smod, smask; // source byte position, bits to shift to left (01,2,3,4
             int tpos, tmod, p, d;
-            spos = 0;
             smask = packedMask;
             smod = -1;
             // can this really work?
             for (int i = 0, j = oX; i < cols; i++, j += dX)
             {
                 spos = i / packedValsPerPixel;
-                smod += 1;
+                ++smod;
                 if (smod >= packedValsPerPixel)
                 {
                     smod = 0;
@@ -221,14 +220,13 @@ namespace Hjg.Pngcs
             int spos, smod, smask; // source byte position, bits to shift to left (01,2,3,4
             int tpos, tmod, p, d;
             // what the heck are you reading here? I told you would not enjoy this. Try Dostoyevsky or Simone Weil instead
-            spos = 0;
             smask = packedMask;
             smod = -1;
             // Arrays.fill(dst, 0);
             for (int i = 0, j = oX; i < cols; i++, j += dX)
             {
                 spos = i / packedValsPerPixel;
-                smod += 1;
+                ++smod;
                 if (smod >= packedValsPerPixel)
                 {
                     smod = 0;

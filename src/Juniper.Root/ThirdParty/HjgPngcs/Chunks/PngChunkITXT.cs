@@ -79,7 +79,7 @@ namespace Hjg.Pngcs.Chunks
 
             key = ChunkHelper.ToString(c.Data, 0, nullsIdx[0]);
             var i = nullsIdx[0] + 1;
-            compressed = c.Data[i] == 0 ? false : true;
+            compressed = c.Data[i] != 0;
             i++;
             if (compressed && c.Data[i] != 0)
             {

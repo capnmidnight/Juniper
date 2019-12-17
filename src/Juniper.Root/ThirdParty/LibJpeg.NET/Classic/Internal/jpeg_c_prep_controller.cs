@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains the compression preprocessing controller.
  * This controller manages the color conversion, downsampling,
  * and edge expansion steps.
@@ -13,14 +13,15 @@ using System;
 namespace BitMiracle.LibJpeg.Classic.Internal
 {
     /// <summary>
-    /// Compression preprocessing (downsampling input buffer control).
-    /// 
+    /// <para>Compression preprocessing (downsampling input buffer control).</para>
+    /// <para>
     /// For the simple (no-context-row) case, we just need to buffer one
     /// row group's worth of pixels for the downsampling step.  At the bottom of
     /// the image, we pad to a full row group by replicating the last pixel row.
     /// The downsampler's last output row is then replicated if needed to pad
     /// out to a full iMCU row.
-    /// 
+    /// </para>
+    /// <para>
     /// When providing context rows, we must buffer three row groups' worth of
     /// pixels.  Three row groups are physically allocated, but the row pointer
     /// arrays are made five row groups high, with the extra pointers above and
@@ -30,6 +31,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// copying the first or last real pixel row.  This copying could be avoided
     /// by pointer hacking as is done in jdmainct.c, but it doesn't seem worth the
     /// trouble on the compression side.
+    /// </para>
     /// </summary>
     internal class jpeg_c_prep_controller
     {
@@ -155,12 +157,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         /// <summary>
-        /// Process some data in the simple no-context case.
-        /// 
+        /// <para>Process some data in the simple no-context case.</para>
+        /// <para>
         /// Preprocessor output data is counted in "row groups".  A row group
         /// is defined to be v_samp_factor sample rows of each component.
         /// Downsampling will produce this much data from each max_v_samp_factor
         /// input rows.
+        /// </para>
         /// </summary>
         private void pre_process_WithoutContext(byte[][] input_buf, ref int in_row_ctr, int in_rows_avail, byte[][][] output_buf, ref int out_row_group_ctr, int out_row_groups_avail)
         {

@@ -360,7 +360,6 @@ namespace BitMiracle.LibJpeg.Classic
 
         // bits of precision in image data
 
-
         /// <summary>
         /// Gets or sets the number of bits of precision in image data.
         /// </summary>
@@ -396,7 +395,6 @@ namespace BitMiracle.LibJpeg.Classic
         }
 
         // true=caller supplies downsampled data
-
 
         /// <summary>
         /// Gets or sets a value indicating whether you will be supplying raw data.
@@ -687,12 +685,15 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// Forcibly suppress or un-suppress all quantization and Huffman tables.
         /// </summary>
-        /// <remarks>Marks all currently defined tables as already written (if suppress)
+        /// <remarks><para>
+        /// Marks all currently defined tables as already written (if suppress)
         /// or not written (if !suppress). This will control whether they get 
         /// emitted by a subsequent <see cref="jpeg_compress_struct.jpeg_start_compress"/> call.<br/>
-        /// 
+        /// </para>
+        /// <para>
         /// This routine is exported for use by applications that want to produce
-        /// abbreviated JPEG datastreams.</remarks>
+        /// abbreviated JPEG datastreams.
+        /// </para></remarks>
         /// <param name="suppress">if set to <c>true</c> then suppress tables; 
         /// otherwise unsuppress.</param>
         public void jpeg_suppress_tables(bool suppress)
@@ -776,7 +777,6 @@ namespace BitMiracle.LibJpeg.Classic
             jpeg_abort();
         }
 
-
         /// <summary>
         /// Write a special marker.
         /// </summary>
@@ -841,11 +841,12 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// Alternate compression function: just write an abbreviated table file.
         /// </summary>
-        /// <remarks>Before calling this, all parameters and a data destination must be set up.<br/>
-        /// 
+        /// <remarks><para>Before calling this, all parameters and a data destination must be set up.<br/></para>
+        /// <para>
         /// To produce a pair of files containing abbreviated tables and abbreviated
         /// image data, one would proceed as follows:<br/>
-        /// 
+        /// </para>
+        /// <para>
         /// <c>Initialize JPEG object<br/>
         /// Set JPEG parameters<br/>
         /// Set destination to table file<br/>
@@ -855,11 +856,13 @@ namespace BitMiracle.LibJpeg.Classic
         /// Write data...<br/>
         /// <see cref="jpeg_compress_struct.jpeg_finish_compress">jpeg_finish_compress();</see><br/>
         /// </c><br/>
-        /// 
+        /// </para>
+        /// <para>
         /// jpeg_write_tables has the side effect of marking all tables written
         /// (same as <see cref="jpeg_compress_struct.jpeg_suppress_tables">jpeg_suppress_tables(true)</see>).
         /// Thus a subsequent <see cref="jpeg_compress_struct.jpeg_start_compress">jpeg_start_compress</see> 
         /// will not re-emit the tables unless it is passed <c>write_all_tables=true</c>.
+        /// </para>
         /// </remarks>
         public void jpeg_write_tables()
         {
@@ -1303,16 +1306,7 @@ namespace BitMiracle.LibJpeg.Classic
             * to make all the table entries 1 (hence, minimum quantization loss).
             * Qualities 1..50 are converted to scaling percentage 5000/Q.
             */
-            if (quality < 50)
-            {
-                quality = 5000 / quality;
-            }
-            else
-            {
-                quality = 200 - quality * 2;
-            }
-
-            return quality;
+            return quality < 50 ? 5000 / quality : 200 - (quality * 2);
         }
 
         /// <summary>
@@ -2059,7 +2053,7 @@ namespace BitMiracle.LibJpeg.Classic
                    (do_fancy_downsampling ? JpegConstants.DCTSIZE : JpegConstants.DCTSIZE / 2) &&
                    (m_max_h_samp_factor % (compptr.H_samp_factor * ssize * 2)) == 0)
                 {
-                    ssize = ssize * 2;
+                    ssize *= 2;
                 }
 
                 compptr.DCT_h_scaled_size = min_DCT_h_scaled_size * ssize;
@@ -2068,7 +2062,7 @@ namespace BitMiracle.LibJpeg.Classic
                    (do_fancy_downsampling ? JpegConstants.DCTSIZE : JpegConstants.DCTSIZE / 2) &&
                    (m_max_v_samp_factor % (compptr.V_samp_factor * ssize * 2)) == 0)
                 {
-                    ssize = ssize * 2;
+                    ssize *= 2;
                 }
 
                 compptr.DCT_v_scaled_size = min_DCT_v_scaled_size * ssize;
@@ -2336,9 +2330,8 @@ namespace BitMiracle.LibJpeg.Classic
         // Huffman table setup routines
 
         /// <summary>
-        /// Set up the standard Huffman tables (cf. JPEG standard section K.3)
-        /// 
-        /// IMPORTANT: these are only valid for 8-bit data precision!
+        /// <para>Set up the standard Huffman tables (cf. JPEG standard section K.3)</para>
+        /// <para>IMPORTANT: these are only valid for 8-bit data precision!</para>
         /// </summary>
         private void std_huff_tables()
         {

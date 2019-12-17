@@ -195,7 +195,9 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 {
                     var requester = HttpWebRequestExt.Create(url);
                     requester.Accept = MediaType.Application.Json;
-                    using (var response = await requester.Get())
+                    using (var response = await requester
+                        .Get()
+                        .ConfigureAwait(false))
                     {
                         if (weatherFactory.TryDeserialize<WeatherReport>(response, out var report))
                         {

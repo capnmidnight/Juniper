@@ -193,10 +193,6 @@ namespace BitMiracle.LibJpeg.Classic
         {
             switch ((J_MESSAGE_CODE)code)
             {
-                default:
-                case J_MESSAGE_CODE.JMSG_NOMESSAGE:
-                    return "Bogus message code {0}";
-
                 /* For maintenance convenience, list is alphabetical by message code name */
                 case J_MESSAGE_CODE.JERR_BAD_BUFFER_MODE:
                     return "Bogus buffer control mode";
@@ -406,6 +402,9 @@ namespace BitMiracle.LibJpeg.Classic
                     return "Application transferred too many scanlines";
                 case J_MESSAGE_CODE.JMSG_UNKNOWNMSGCODE:
                     return "Unknown message code (possibly it is an error from application)";
+
+                default:
+                    return "Bogus message code {0}";
             }
         }
     }

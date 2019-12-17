@@ -1,4 +1,4 @@
-﻿/*
+/*
  * This file contains 2-pass color quantization (color mapping) routines.
  * These routines provide selection of a custom color map for an image,
  * followed by mapping of the image to that color map, with optional
@@ -16,33 +16,39 @@ using System;
 namespace BitMiracle.LibJpeg.Classic.Internal
 {
     /// <summary>
+    /// <para>
     /// This module implements the well-known Heckbert paradigm for color
     /// quantization.  Most of the ideas used here can be traced back to
     /// Heckbert's seminal paper
     /// Heckbert, Paul.  "Color Image Quantization for Frame Buffer Display",
     /// Proc. SIGGRAPH '82, Computer Graphics v.16 #3 (July 1982), pp 297-304.
-    /// 
+    /// </para>
+    /// <para>
     /// In the first pass over the image, we accumulate a histogram showing the
     /// usage count of each possible color.  To keep the histogram to a reasonable
     /// size, we reduce the precision of the input; typical practice is to retain
     /// 5 or 6 bits per color, so that 8 or 4 different input values are counted
     /// in the same histogram cell.
-    /// 
+    /// </para>
+    /// <para>
     /// Next, the color-selection step begins with a box representing the whole
     /// color space, and repeatedly splits the "largest" remaining box until we
     /// have as many boxes as desired colors.  Then the mean color in each
     /// remaining box becomes one of the possible output colors.
-    /// 
+    /// </para>
+    /// <para>
     /// The second pass over the image maps each input pixel to the closest output
     /// color (optionally after applying a Floyd-Steinberg dithering correction).
     /// This mapping is logically trivial, but making it go fast enough requires
     /// considerable care.
-    /// 
+    /// </para>
+    /// <para>
     /// Heckbert-style quantizers vary a good deal in their policies for choosing
     /// the "largest" box and deciding where to cut it.  The particular policies
     /// used here have proved out well in experimental comparisons, but better ones
     /// may yet be found.
-    /// 
+    /// </para>
+    /// <para>
     /// In earlier versions of the IJG code, this module quantized in YCbCr color
     /// space, processing the raw upsampled data without a color conversion step.
     /// This allowed the color conversion math to be done only once per colormap
@@ -51,7 +57,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// and it also interfered with desired capabilities such as quantizing to an
     /// externally-supplied colormap.  We have therefore abandoned that approach.
     /// The present code works in the post-conversion color space, typically RGB.
-    /// 
+    /// </para>
+    /// <para>
     /// To improve the visual quality of the results, we actually work in scaled
     /// RGB space, giving G distances more weight than R, and R in turn more than
     /// B.  To do everything in integer math, we must use integer scale factors.
@@ -59,9 +66,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// weights of the colors in the NTSC grayscale equation.
     /// If you want to use this code to quantize a non-RGB color space, you'll
     /// probably need to change these scale factors.
-    /// 
-    /// First we have the histogram data structure and routines for creating it.
-    /// 
+    /// </para>
+    /// <para>First we have the histogram data structure and routines for creating it.</para>
+    /// <para>
     /// The number of bits of precision can be adjusted by changing these symbols.
     /// We recommend keeping 6 bits for G and 5 each for R and B.
     /// If you have plenty of memory and cycles, 6 bits all around gives marginally
@@ -83,27 +90,29 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// each 2-D array has 2^6*2^5 = 2048 or 2^6*2^6 = 4096 entries.  Note that
     /// on 80x86 machines, the pointer row is in near memory but the actual
     /// arrays are in far memory (same arrangement as we use for image arrays).
-    /// 
-    /// 
-    /// Declarations for Floyd-Steinberg dithering.
-    /// 
+    /// </para>
+    /// <para>Declarations for Floyd-Steinberg dithering.</para>
+    /// <para>
     /// Errors are accumulated into the array fserrors[], at a resolution of
     /// 1/16th of a pixel count.  The error at a given pixel is propagated
     /// to its not-yet-processed neighbors using the standard F-S fractions,
     ///     ... (here)  7/16
     /// 3/16    5/16    1/16
     /// We work left-to-right on even rows, right-to-left on odd rows.
-    /// 
+    /// </para>
+    /// <para>
     /// We can get away with a single array (holding one row's worth of errors)
     /// by using it to store the current row's errors at pixel columns not yet
     /// processed, but the next row's errors at columns already processed.  We
     /// need only a few extra variables to hold the errors immediately around the
     /// current column.  (If we are lucky, those variables are in registers, but
     /// even if not, they're probably cheaper to access than array elements are.)
-    /// 
+    /// </para>
+    /// <para>
     /// The fserrors[] array has (#columns + 2) entries; the extra entry at
     /// each end saves us from special-casing the first and last pixels.
     /// Each entry is three values long, one value for each color component.
+    /// </para>
     /// </summary>
     internal class my_2pass_cquantizer : jpeg_color_quantizer
     {
@@ -414,9 +423,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 var inputPixelIndex = 0;
                 var outputPixelIndex = 0;
-                var errorIndex = 0;
                 int dir;            /* +1 or -1 depending on direction */
                 int dir3;           /* 3*dir, for advancing inputIndex & errorIndex */
+                int errorIndex;
                 if (m_on_odd_row)
                 {
                     /* work right to left in this row */
@@ -1063,7 +1072,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private void init_error_limit()
         {
             m_error_limiter = new int[JpegConstants.MAXJSAMPLE * 2 + 1];
-            var tableOffset = JpegConstants.MAXJSAMPLE;
+            const int tableOffset = JpegConstants.MAXJSAMPLE;
 
             const int STEPSIZE = ((JpegConstants.MAXJSAMPLE + 1) / 16);
 
