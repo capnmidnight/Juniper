@@ -36,6 +36,35 @@ namespace Juniper.Widgets
                 f.Value.maxRotationRate = 75;
 #endif
             }
+
+            this.f = f;
+            this.f.Skip();
+        }
+
+        public void OnEnable()
+        {
+            if(f != null)
+            {
+                f.Skip();
+            }
+        }
+
+        public void Update()
+        {
+            if (f != null && 
+                followDistance != f.Distance)
+            {
+                var delta = Mathf.Abs(followDistance - f.Distance);
+                var p = delta / followDistance;
+                if (p > 0.01f)
+                {
+                    f.Distance = Mathf.Lerp(f.Distance, followDistance, 0.5f);
+                }
+                else
+                {
+                    f.Distance = followDistance;
+                }
+            }
         }
     }
 }

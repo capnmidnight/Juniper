@@ -127,23 +127,8 @@ namespace Juniper.Widgets
                 if (interpolate)
                 {
                     targetVelocity = Vector3.zero;
+
                     var delta = end - transform.position;
-
-                    if ((FollowPosition & CartesianAxisFlags.X) == 0)
-                    {
-                        delta.x = 0;
-                    }
-
-                    if ((FollowPosition & CartesianAxisFlags.Y) == 0)
-                    {
-                        delta.y = 0;
-                    }
-
-                    if ((FollowPosition & CartesianAxisFlags.Z) == 0)
-                    {
-                        delta.z = 0;
-                    }
-
                     var distance = delta.magnitude;
                     if (distance > MaxDistance)
                     {
@@ -181,9 +166,48 @@ namespace Juniper.Widgets
             }
         }
 
+        public void Skip()
+        {
+            if(FollowRotation != CartesianAxisFlags.None)
+            {
+                var endEul = GetEndRotationEuler();
+                transform.rotation = Quaternion.Euler(endEul);
+                targetRotationRate 
+                    = rotationRate 
+                    = Vector3.zero;
+            }
+
+            if(FollowPosition != CartesianAxisFlags.None)
+            {
+                var end = GetEndPosition();
+                transform.position = end;
+                targetVelocity
+                    = velocity
+                    = Vector3.zero;
+            }
+        }
+
         private Vector3 GetEndPosition()
         {
-            return followObject.position + (Distance * transform.forward);
+            var end = followObject.position + (Distance * transform.forward);
+            var delta = end - transform.position;
+
+            if ((FollowPosition & CartesianAxisFlags.X) == 0)
+            {
+                delta.x = 0;
+            }
+
+            if ((FollowPosition & CartesianAxisFlags.Y) == 0)
+            {
+                delta.y = 0;
+            }
+
+            if ((FollowPosition & CartesianAxisFlags.Z) == 0)
+            {
+                delta.z = 0;
+            }
+
+            return delta + transform.position;
         }
 
         private Vector3 GetEndRotationEuler()
