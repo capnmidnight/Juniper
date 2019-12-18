@@ -12,6 +12,10 @@ namespace Juniper.Input.Pointers
     /// </summary>
     public class Probe : MonoBehaviour, IInstallable, IProbe
     {
+        public float normalOffset = 0.1f;
+
+        public bool skipNormal;
+
         /// <summary>
         /// The size of the probe ring when the <see cref="State"/> is <see cref="Appearance.None"/>.
         /// </summary>
@@ -274,11 +278,18 @@ namespace Juniper.Input.Pointers
         /// <param name="targetForward"> the surface normal rotation for the pointer's target</param>
         public void SetCursor(bool targeted, bool pressed, Vector3 targetPosition, Vector3 targetForward)
         {
-            Cursor.position = targetPosition;
+            Cursor.position = targetPosition + normalOffset * targetForward;
 
             if (!Mathf.Approximately(targetForward.sqrMagnitude, 0))
             {
-                Cursor.rotation = Quaternion.LookRotation(targetForward);
+                if (skipNormal)
+                {
+                    Cursor.rotation = Quaternion.LookRotation((DisplayManager.MainCamera.transform.position - Cursor.position).normalized, transform.up);
+                }
+                else
+                {
+                    Cursor.rotation = Quaternion.LookRotation(targetForward);
+                }
             }
 
             var distance = Mathf.Max(0.1f, Vector3.Distance(Cursor.position, transform.position));
