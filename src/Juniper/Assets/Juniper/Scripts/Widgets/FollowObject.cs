@@ -9,6 +9,8 @@ namespace Juniper.Widgets
     /// </summary>
     public class FollowObject : MonoBehaviour
     {
+        public float closeThreshold = 0.01f;
+
         /// <summary>
         /// The target object. Set <see cref="followMainCamera"/> to false or else it will be
         /// overwritten at runtime.
@@ -24,8 +26,6 @@ namespace Juniper.Widgets
         /// The maximum allowable deviation in distance from the target's position.
         /// </summary>
         public float FollowThreshold = 0;
-
-        public float MaxDistance = 5;
 
         public float maxSpeed = 1;
 
@@ -85,99 +85,104 @@ namespace Juniper.Widgets
             this.DestroyImmediate();
         }
 
+        public void Update()
+        {
+            if (interpolate)
+            {
+                if (FollowRotation != CartesianAxisFlags.None)
+                {
+                    var endRotation = GetEndRotationEuler();
+                    var delta = endRotation - transform.eulerAngles;
+                    if (delta.magnitude < closeThreshold)
+                    {
+                        SkipToRotation();
+                    }
+                    else
+                    {
+                        targetRotationRate = delta / Time.deltaTime;
+
+                        var speed = targetRotationRate.magnitude;
+                        if (speed > maxRotationRate)
+                        {
+                            targetRotationRate *= maxRotationRate / speed;
+                        }
+
+                        rotationRate = Vector3.Lerp(rotationRate, targetRotationRate, 0.5f);
+                    }
+                }
+
+                if (FollowPosition != CartesianAxisFlags.None)
+                {
+                    var endPosition = GetEndPosition();
+                    var delta = endPosition - transform.position;
+                    if (delta.magnitude < closeThreshold)
+                    {
+                        SkipToPosition();
+                    }
+                    else
+                    {
+                        targetVelocity = delta / Time.deltaTime;
+
+                        var speed = targetVelocity.magnitude;
+                        if (speed > maxSpeed)
+                        {
+                            targetVelocity *= maxSpeed / speed;
+                        }
+
+                        velocity = Vector3.Lerp(velocity, targetVelocity, 0.5f);
+                    }
+                }
+            }
+            else
+            {
+                Skip();
+            }
+        }
+
         /// <summary>
         /// The object following is performed in the LateUpdate function to make sure that it occurs
         /// after the target's own Update function, where it is most likely to have its pose updated.
         /// </summary>
         public void LateUpdate()
         {
-            if (FollowRotation != CartesianAxisFlags.None)
+            if (interpolate)
             {
-                var endEul = GetEndRotationEuler();
-
-                if (interpolate)
-                {
-                    targetRotationRate = Vector3.zero;
-                    var deltaEul = endEul - transform.eulerAngles;
-
-                    targetRotationRate = deltaEul / Time.deltaTime;
-                    var speed = targetRotationRate.magnitude;
-                    if (speed > maxRotationRate)
-                    {
-                        targetRotationRate *= maxRotationRate / speed;
-                    }
-
-                    if (speed < 0.2f)
-                    {
-                        targetRotationRate = Vector3.zero;
-                    }
-
-                    rotationRate = Vector3.Lerp(rotationRate, targetRotationRate, 0.5f);
-                    transform.rotation = Quaternion.Euler(rotationRate * Time.deltaTime) * transform.rotation;
-                }
-                else
-                {
-                    transform.rotation = Quaternion.Euler(endEul);
-                }
+                transform.position = NextPosition(Time.deltaTime);
+                transform.rotation = NextRotation(Time.deltaTime);
             }
+        }
 
-            if (FollowPosition != CartesianAxisFlags.None)
-            {
-                var end = GetEndPosition();
-                if (interpolate)
-                {
-                    targetVelocity = Vector3.zero;
+        private Vector3 NextPosition(float dt)
+        {
+            return transform.position + velocity * dt;
+        }
 
-                    var delta = end - transform.position;
-                    var distance = delta.magnitude;
-                    if (distance > MaxDistance)
-                    {
-                        velocity = Vector3.zero;
-                        transform.position = end;
-                    }
-                    else
-                    {
-                        if (distance > FollowThreshold)
-                        {
-                            targetVelocity = delta / Time.deltaTime;
-
-                            if (interpolate)
-                            {
-                                var speed = targetVelocity.magnitude;
-                                if (speed > maxSpeed)
-                                {
-                                    targetVelocity *= maxSpeed / speed;
-                                }
-                                else if (speed < 0.2f)
-                                {
-                                    targetVelocity = Vector3.zero;
-                                }
-                            }
-                        }
-
-                        velocity = Vector3.Lerp(velocity, targetVelocity, 0.5f);
-                        transform.position += velocity * Time.deltaTime;
-                    }
-                }
-                else
-                {
-                    transform.position = end;
-                }
-            }
+        private Quaternion NextRotation(float dt)
+        {
+            return Quaternion.Euler(rotationRate * dt) * transform.rotation;
         }
 
         public void Skip()
         {
-            if(FollowRotation != CartesianAxisFlags.None)
+            SkipToPosition();
+            SkipToRotation();
+        }
+
+        private void SkipToRotation()
+        {
+            if (FollowRotation != CartesianAxisFlags.None)
             {
                 var endEul = GetEndRotationEuler();
                 transform.rotation = Quaternion.Euler(endEul);
-                targetRotationRate 
-                    = rotationRate 
+                targetRotationRate
+                    = rotationRate
                     = Vector3.zero;
             }
+        }
 
-            if(FollowPosition != CartesianAxisFlags.None)
+        private void SkipToPosition()
+        {
+            if (FollowPosition != CartesianAxisFlags.None)
             {
                 var end = GetEndPosition();
                 transform.position = end;
@@ -207,6 +212,11 @@ namespace Juniper.Widgets
                 delta.z = 0;
             }
 
+            if (delta.magnitude < FollowThreshold && velocity.magnitude == 0)
+            {
+                delta = Vector3.zero;
+            }
+
             return delta + transform.position;
         }
 
@@ -215,18 +225,25 @@ namespace Juniper.Widgets
             var startEul = transform.eulerAngles;
             var endEul = followObject.eulerAngles;
             var deltaEul = endEul - startEul;
+            var rotationSpeed = rotationRate.magnitude;
 
-            if ((FollowRotation & CartesianAxisFlags.X) == 0 || Mathf.Abs(deltaEul.x) < Mathf.Abs(RotationThreshold.x))
+            if ((FollowRotation & CartesianAxisFlags.X) == 0
+                || rotationSpeed == 0 
+                    && Mathf.Abs(deltaEul.x) < Mathf.Abs(RotationThreshold.x))
             {
                 deltaEul.x = 0;
             }
 
-            if ((FollowRotation & CartesianAxisFlags.Y) == 0 || Mathf.Abs(deltaEul.y) < Mathf.Abs(RotationThreshold.y))
+            if ((FollowRotation & CartesianAxisFlags.Y) == 0
+                || rotationSpeed == 0
+                    && Mathf.Abs(deltaEul.y) < Mathf.Abs(RotationThreshold.y))
             {
                 deltaEul.y = 0;
             }
 
-            if ((FollowRotation & CartesianAxisFlags.Z) == 0 || Mathf.Abs(deltaEul.z) < Mathf.Abs(RotationThreshold.z))
+            if ((FollowRotation & CartesianAxisFlags.Z) == 0
+                || rotationSpeed == 0
+                    && Mathf.Abs(deltaEul.z) < Mathf.Abs(RotationThreshold.z))
             {
                 deltaEul.z = 0;
             }
