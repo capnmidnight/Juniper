@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Juniper.Progress
 {
@@ -18,6 +19,7 @@ namespace Juniper.Progress
             private set;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void ReportWithStatus(float progress, string status)
         {
             Status = status;

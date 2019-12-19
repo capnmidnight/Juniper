@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -71,11 +72,13 @@ namespace Juniper.HTTP.WebSockets
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnDataMessage(ResultT value)
         {
             DataMessage?.Invoke(this, value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnError(Exception exp)
         {
             Error?.Invoke(this, exp);

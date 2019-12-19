@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.WebSockets;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Authentication.ExtendedProtection;
 using System.Security.Cryptography.X509Certificates;
@@ -550,16 +551,19 @@ or
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnInfo(object source, string message)
         {
             Info?.Invoke(source, message);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnWarning(object sender, string message)
         {
             Warning?.Invoke(this, message);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnError(object sender, Exception exp)
         {
             Error?.Invoke(sender, exp);

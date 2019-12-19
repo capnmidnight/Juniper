@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -267,11 +268,13 @@ namespace Juniper.Primrose
             public event EventHandler Next;
             public event EventHandler Done;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private void OnOutput(string msg)
             {
                 Output?.Invoke(this, msg);
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private void OnInput(Action<string> resume)
             {
                 if (Input != null)
@@ -284,22 +287,26 @@ namespace Juniper.Primrose
                 }
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private void OnError(Line line, string script, Exception exp)
             {
                 Error?.Invoke(this, new RuntimeException(source, line, script, exp));
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private void OnClearScreen()
             {
                 ClearScreen?.Invoke(this, EventArgs.Empty);
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private bool OnClearScreen(Line line)
             {
                 OnClearScreen();
                 return true;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private byte[] OnLoadFile(string fileName)
             {
                 byte[] data = null;
@@ -308,11 +315,13 @@ namespace Juniper.Primrose
                 return data;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private void OnNext()
             {
                 Next?.Invoke(this, EventArgs.Empty);
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private void OnDone()
             {
                 Done?.Invoke(this, EventArgs.Empty);

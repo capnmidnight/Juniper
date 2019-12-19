@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -61,6 +62,7 @@ namespace Juniper.HTTP
 
         public event EventHandler<string> Warning;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnWarning(string message)
         {
             Warning?.Invoke(this, message);
@@ -158,7 +160,8 @@ namespace Juniper.HTTP
         {
             try
             {
-                await response.SendFileAsync(file)
+                await response
+                    .SendFileAsync(file)
                     .ConfigureAwait(false);
             }
 #pragma warning disable CA1031 // Do not catch general exception types

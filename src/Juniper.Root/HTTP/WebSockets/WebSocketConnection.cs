@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -241,6 +242,7 @@ namespace Juniper.HTTP.WebSockets
         }
         #endregion
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnDebug(string msg)
         {
 #if DEBUG
@@ -248,46 +250,55 @@ namespace Juniper.HTTP.WebSockets
 #endif
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnMessage(string msg)
         {
             Message?.Invoke(this, msg);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnData(byte[] data)
         {
             Data?.Invoke(this, data);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnDataMessage(DataMessage dataMsg)
         {
             DataMessage?.Invoke(this, dataMsg);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnError(string label, Exception exp)
         {
             Error?.Invoke(this, new Exception(label, exp));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnConnecting()
         {
             Connecting?.Invoke(this, EventArgs.Empty);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnConnected()
         {
             Connected?.Invoke(this, EventArgs.Empty);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnClosing()
         {
             Closing?.Invoke(this, EventArgs.Empty);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnClosed()
         {
             Closed?.Invoke(this, EventArgs.Empty);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnAborted()
         {
             Aborted?.Invoke(this, EventArgs.Empty);
