@@ -42,6 +42,7 @@ namespace Juniper.Widgets
 
         public void Awake()
         {
+            bool isGood = true;
             if (platform != JuniperSystem.CurrentPlatform)
             {
                 bool isDefault = platform == PlatformTypes.None
@@ -50,12 +51,12 @@ namespace Juniper.Widgets
 
                 if (!isDefault)
                 {
-                    enabled = false;
+                    isGood = enabled = false;
                     this.DestroyImmediate();
                 }
             }
             
-            if(enabled)
+            if(isGood)
             {
                 if (f == null)
                 {
