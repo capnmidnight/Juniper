@@ -9,7 +9,7 @@ namespace Juniper.Widgets
     /// <summary>
     /// Make one object's pose follow the pose of another object.
     /// </summary>
-    public class FollowObject : MonoBehaviour
+    public class FollowObject : AbstractFollowSettings
     {
         private const float CLOSE_THRESHOLD = 0.01f;
         private const float MAX_TIME = 1.5f;
@@ -19,40 +19,8 @@ namespace Juniper.Widgets
         /// overwritten at runtime.
         /// </summary>
         public Transform followObject;
-        [Header("Position")]
-        public CartesianAxisFlags FollowPosition = CartesianAxisFlags.XZ;
-
-        public bool interpolatePosition = true;
-
-        /// <summary>
-        /// The maximum allowable deviation in distance from the target's position.
-        /// </summary>
-        public float FollowPositionThreshold = 0;
-
-        public float maxSpeed = 1;
-
-        /// <summary>
-        /// The distance to maintain from the target object.
-        /// </summary>
-        public float Distance = 0;
 
         private Vector3 targetVelocity, velocity;
-
-        /// <summary>
-        /// Follow the target's rotation in the X-Axis.
-        /// </summary>
-        [Header("Rotation")]
-        public CartesianAxisFlags FollowRotation;
-
-        public bool interpolateRotation = true;
-
-        /// <summary>
-        /// The maximum allowable deviation in angles from the target's rotation..
-        /// </summary>
-        public Vector3 FollowRotationThreshold = 10 * Vector3.up;
-
-        public float maxRotationRate = 10;
-
         private Vector3 targetRotationRate, rotationRate;
 
         /// <summary>
