@@ -1,3 +1,5 @@
+using System;
+
 using Juniper.Units;
 
 using UnityEngine;
@@ -9,23 +11,23 @@ namespace Juniper.Widgets
     /// </summary>
     public class FollowObject : MonoBehaviour
     {
-        public float closeThreshold = 0.01f;
+        private const float CLOSE_THRESHOLD = 0.01f;
+        private const float MAX_TIME = 1.5f;
 
         /// <summary>
         /// The target object. Set <see cref="followMainCamera"/> to false or else it will be
         /// overwritten at runtime.
         /// </summary>
         public Transform followObject;
-
-        public bool interpolate = true;
-
         [Header("Position")]
         public CartesianAxisFlags FollowPosition = CartesianAxisFlags.XZ;
+
+        public bool interpolatePosition = true;
 
         /// <summary>
         /// The maximum allowable deviation in distance from the target's position.
         /// </summary>
-        public float FollowThreshold = 0;
+        public float FollowPositionThreshold = 0;
 
         public float maxSpeed = 1;
 
@@ -34,35 +36,24 @@ namespace Juniper.Widgets
         /// </summary>
         public float Distance = 0;
 
+        private Vector3 targetVelocity, velocity;
+
         /// <summary>
         /// Follow the target's rotation in the X-Axis.
         /// </summary>
         [Header("Rotation")]
         public CartesianAxisFlags FollowRotation;
 
+        public bool interpolateRotation = true;
+
         /// <summary>
         /// The maximum allowable deviation in angles from the target's rotation..
         /// </summary>
-        public Vector3 RotationThreshold = 10 * Vector3.up;
+        public Vector3 FollowRotationThreshold = 10 * Vector3.up;
 
         public float maxRotationRate = 10;
 
-        /// <summary>
-        /// Retrieve the main system configuration, find the main camera (if requested), and
-        /// initialize the tracking state.
-        /// </summary>
-        public void Start()
-        {
-            if (FollowRotation != CartesianAxisFlags.None)
-            {
-                transform.eulerAngles = GetEndRotationEuler();
-            }
-
-            if (FollowPosition != CartesianAxisFlags.None)
-            {
-                transform.position = GetEndPosition();
-            }
-        }
+        private Vector3 targetRotationRate, rotationRate;
 
         /// <summary>
         /// Change the follow target at runtime.
@@ -85,58 +76,54 @@ namespace Juniper.Widgets
             this.DestroyImmediate();
         }
 
+        private void SetRate(CartesianAxisFlags follow, bool interpolate, Vector3 current, Vector3 end, ref Vector3 actual, ref Vector3 target, float maxRate, Action skip)
+        {
+            if (follow != CartesianAxisFlags.None)
+            {
+                if (interpolate)
+                {
+                    var delta = end - current;
+                    var displacement = delta.magnitude;
+                    var time = displacement / maxRate;
+                    if (displacement < CLOSE_THRESHOLD || time > MAX_TIME)
+                    {
+                        skip();
+                    }
+                    else
+                    {
+                        target = delta / Time.deltaTime;
+
+                        var speed = target.magnitude;
+                        if (speed > maxRate)
+                        {
+                            target *= maxRate / speed;
+                        }
+
+                        actual = Vector3.Lerp(actual, target, 0.5f);
+                    }
+                }
+                else
+                {
+                    skip();
+                }
+            }
+        }
+
         public void Update()
         {
-            if (interpolate)
-            {
-                if (FollowRotation != CartesianAxisFlags.None)
-                {
-                    var endRotation = GetEndRotationEuler();
-                    var delta = endRotation - transform.eulerAngles;
-                    if (delta.magnitude < closeThreshold)
-                    {
-                        SkipToRotation();
-                    }
-                    else
-                    {
-                        targetRotationRate = delta / Time.deltaTime;
+            SetRate(
+                FollowPosition, interpolatePosition,
+                transform.position, GetEndPosition(),
+                ref velocity, ref targetVelocity,
+                maxSpeed,
+                SkipToPosition);
 
-                        var speed = targetRotationRate.magnitude;
-                        if (speed > maxRotationRate)
-                        {
-                            targetRotationRate *= maxRotationRate / speed;
-                        }
-
-                        rotationRate = Vector3.Lerp(rotationRate, targetRotationRate, 0.5f);
-                    }
-                }
-
-                if (FollowPosition != CartesianAxisFlags.None)
-                {
-                    var endPosition = GetEndPosition();
-                    var delta = endPosition - transform.position;
-                    if (delta.magnitude < closeThreshold)
-                    {
-                        SkipToPosition();
-                    }
-                    else
-                    {
-                        targetVelocity = delta / Time.deltaTime;
-
-                        var speed = targetVelocity.magnitude;
-                        if (speed > maxSpeed)
-                        {
-                            targetVelocity *= maxSpeed / speed;
-                        }
-
-                        velocity = Vector3.Lerp(velocity, targetVelocity, 0.5f);
-                    }
-                }
-            }
-            else
-            {
-                Skip();
-            }
+            SetRate(
+                FollowRotation, interpolateRotation,
+                transform.eulerAngles, GetEndRotationEuler(),
+                ref rotationRate, ref targetRotationRate,
+                maxRotationRate,
+                SkipToRotation);
         }
 
         /// <summary>
@@ -145,10 +132,29 @@ namespace Juniper.Widgets
         /// </summary>
         public void LateUpdate()
         {
-            if (interpolate)
+            if (FollowPosition != CartesianAxisFlags.None
+                && interpolatePosition)
             {
                 transform.position = NextPosition(Time.deltaTime);
+            }
+
+            if (FollowRotation != CartesianAxisFlags.None
+                && interpolateRotation)
+            {
                 transform.rotation = NextRotation(Time.deltaTime);
+            }
+        }
+
+        public void Skip()
+        {
+            if (FollowPosition != CartesianAxisFlags.None)
+            {
+                SkipToPosition();
+            }
+
+            if (FollowRotation != CartesianAxisFlags.None)
+            {
+                SkipToRotation();
             }
         }
 
@@ -162,34 +168,22 @@ namespace Juniper.Widgets
             return Quaternion.Euler(rotationRate * dt) * transform.rotation;
         }
 
-        public void Skip()
-        {
-            SkipToPosition();
-            SkipToRotation();
-        }
-
         private void SkipToRotation()
         {
-            if (FollowRotation != CartesianAxisFlags.None)
-            {
-                var endEul = GetEndRotationEuler();
-                transform.rotation = Quaternion.Euler(endEul);
-                targetRotationRate
-                    = rotationRate
-                    = Vector3.zero;
-            }
+            var endEul = GetEndRotationEuler();
+            transform.rotation = Quaternion.Euler(endEul);
+            targetRotationRate
+                = rotationRate
+                = Vector3.zero;
         }
 
         private void SkipToPosition()
         {
-            if (FollowPosition != CartesianAxisFlags.None)
-            {
-                var end = GetEndPosition();
-                transform.position = end;
-                targetVelocity
-                    = velocity
-                    = Vector3.zero;
-            }
+            var end = GetEndPosition();
+            transform.position = end;
+            targetVelocity
+                = velocity
+                = Vector3.zero;
         }
 
         private Vector3 GetEndPosition()
@@ -212,7 +206,7 @@ namespace Juniper.Widgets
                 delta.z = 0;
             }
 
-            if (delta.magnitude < FollowThreshold && velocity.magnitude == 0)
+            if (delta.magnitude < FollowPositionThreshold && velocity.magnitude == 0)
             {
                 delta = Vector3.zero;
             }
@@ -228,22 +222,22 @@ namespace Juniper.Widgets
             var rotationSpeed = rotationRate.magnitude;
 
             if ((FollowRotation & CartesianAxisFlags.X) == 0
-                || rotationSpeed == 0 
-                    && Mathf.Abs(deltaEul.x) < Mathf.Abs(RotationThreshold.x))
+                || rotationSpeed == 0
+                    && Mathf.Abs(deltaEul.x) < Mathf.Abs(FollowRotationThreshold.x))
             {
                 deltaEul.x = 0;
             }
 
             if ((FollowRotation & CartesianAxisFlags.Y) == 0
                 || rotationSpeed == 0
-                    && Mathf.Abs(deltaEul.y) < Mathf.Abs(RotationThreshold.y))
+                    && Mathf.Abs(deltaEul.y) < Mathf.Abs(FollowRotationThreshold.y))
             {
                 deltaEul.y = 0;
             }
 
             if ((FollowRotation & CartesianAxisFlags.Z) == 0
                 || rotationSpeed == 0
-                    && Mathf.Abs(deltaEul.z) < Mathf.Abs(RotationThreshold.z))
+                    && Mathf.Abs(deltaEul.z) < Mathf.Abs(FollowRotationThreshold.z))
             {
                 deltaEul.z = 0;
             }
@@ -258,8 +252,5 @@ namespace Juniper.Widgets
 
             return new Vector3(angX, angY, angZ);
         }
-
-        private Vector3 targetVelocity, velocity;
-        private Vector3 targetRotationRate, rotationRate;
     }
 }
