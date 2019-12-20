@@ -137,6 +137,16 @@ namespace Juniper.HTTP
         }
 
         /// <summary>
+        /// Set to true if the server should attempt to run netsh to assign
+        /// a certificate to the application before starting the server.
+        /// </summary>
+        public bool AutoAssignCertificate
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// <para>The port on which to listen for insecure HTTP connections.</para>
         /// <para>
         /// WARNING: only use this in testing, or to redirect users to
@@ -329,7 +339,7 @@ or
                 {
                     OnWarning(this, "No TLS cert found!");
                 }
-                else
+                else if (AutoAssignCertificate)
                 {
                     var message = AssignCertToApp(certHash, guid);
 
