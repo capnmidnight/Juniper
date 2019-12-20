@@ -6,8 +6,10 @@ namespace Juniper.HTTP
     public enum HttpProtocol
     {
         None,
+
         HTTPS,
         HTTP,
-        All
+
+        All = HTTPS | HTTP
     }
 }

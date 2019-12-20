@@ -14,13 +14,15 @@ namespace Juniper.HTTP
         IComparable,
         IComparable<AbstractRouteHandler>
     {
+        public readonly HttpProtocol Protocol;
+
         protected readonly Regex pattern;
+
         private readonly string regexSource;
         private readonly int parameterCount;
         private readonly string name;
 
         private readonly int priority;
-        private readonly HttpProtocol protocol;
         private readonly HttpMethod verb;
 
         private readonly object source;
@@ -46,7 +48,7 @@ namespace Juniper.HTTP
             regexSource = pattern.ToString();
             parameterCount = pattern.GetGroupNames().Length;
             priority = route.Priority;
-            protocol = route.Protocol;
+            Protocol = route.Protocol;
             verb = route.Method;
             Continue = route.Continue;
             Authentication = route.Authentication;
@@ -61,7 +63,7 @@ namespace Juniper.HTTP
                 && urlMatch.Groups.Count == parameterCount
                 && Enum.TryParse<HttpProtocol>(request.Url.Scheme, true, out var protocol)
                 && Enum.TryParse<HttpMethod>(request.HttpMethod, true, out var verb)
-                && (this.protocol & protocol) != 0
+                && (Protocol & protocol) != 0
                 && (this.verb & verb) != 0;
         }
 

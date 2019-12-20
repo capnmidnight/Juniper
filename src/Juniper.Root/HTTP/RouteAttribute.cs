@@ -17,7 +17,7 @@ namespace Juniper.HTTP
         public int Priority;
         public HttpProtocol Protocol = HttpProtocol.All;
         public HttpMethod Method = HttpMethod.GET;
-        public bool Continue = false;
+        public bool Continue;
         public AuthenticationSchemes Authentication = AuthenticationSchemes.Anonymous;
 
         public RouteAttribute(Regex pattern)

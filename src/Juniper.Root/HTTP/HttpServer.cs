@@ -1,19 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.WebSockets;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Security.Authentication.ExtendedProtection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 using Juniper.HTTP.WebSockets;
 
@@ -296,7 +292,7 @@ or
         {
             if (sender is WebSocketConnection socket)
             {
-                sockets.Remove(socket);
+                _ = sockets.Remove(socket);
                 socket.Closed -= Socket_Closed;
                 socket.Dispose();
             }
@@ -358,6 +354,7 @@ or
                 }
             }
 
+            var addRedirectController = false;
             if (HttpPort > 0 || RedirectHttp2Https)
             {
                 if (RedirectHttp2Https)
@@ -375,10 +372,23 @@ or
                         }
                     }
 
-                    AddRoutesFrom<HttpsRedirectController>();
+                    addRedirectController = true;
                 }
 
                 SetPrefix("http", HttpPort);
+            }
+
+#if !DEBUG
+            if (HttpPort > 0
+                && routes.Any(route => route.Protocol.HasFlag(HttpProtocol.HTTP)))
+            {
+                OnWarning(this, "Maybe don't run unencrypted HTTP in production, k?");
+            }
+#endif
+
+            if (addRedirectController)
+            {
+                AddRoutesFrom<HttpsRedirectController>();
             }
 
             if (!listener.IsListening)
@@ -398,6 +408,7 @@ or
         public void StartBrowser(string startPage = null)
         {
             startPage = startPage ?? string.Empty;
+
             var protocol = HttpsPort > 0
                 ? "https"
                 : "http";
@@ -412,7 +423,7 @@ or
 
             var page = $"{protocol}://{ListenAddress}{port}/{startPage}";
 
-            Process.Start(new ProcessStartInfo($"explorer", $"\"{page}\"")
+            _ = Process.Start(new ProcessStartInfo($"explorer", $"\"{page}\"")
             {
                 UseShellExecute = true,
                 WindowStyle = ProcessWindowStyle.Maximized
