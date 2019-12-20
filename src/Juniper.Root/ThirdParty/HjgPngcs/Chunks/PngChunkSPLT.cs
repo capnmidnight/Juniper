@@ -1,9 +1,7 @@
+using System.IO;
+
 namespace Hjg.Pngcs.Chunks
 {
-    using System.IO;
-
-    using Hjg.Pngcs;
-
     /// <summary>
     /// sPLT chunk: http://www.w3.org/TR/PNG/#11sPLT
     /// </summary>
@@ -60,7 +58,7 @@ namespace Hjg.Pngcs.Chunks
                 PngHelperInternal.WriteInt2(ba, Palette[(n * 5) + 4]);
             }
             var b = ba.ToArray();
-            var chunk = createEmptyChunk(b.Length, false);
+            var chunk = CreateEmptyChunk(b.Length, false);
             chunk.Data = b;
             return chunk;
         }

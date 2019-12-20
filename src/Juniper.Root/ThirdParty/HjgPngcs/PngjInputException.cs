@@ -1,8 +1,8 @@
+using System;
+using System.Runtime.Serialization;
+
 namespace Hjg.Pngcs
 {
-    using System;
-    using System.Runtime.Serialization;
-
     /// <summary>
     /// Exception associated with input (reading) operations
     /// </summary>

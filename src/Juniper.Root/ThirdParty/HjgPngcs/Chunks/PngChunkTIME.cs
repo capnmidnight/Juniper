@@ -1,9 +1,7 @@
+using System;
+
 namespace Hjg.Pngcs.Chunks
 {
-    using System;
-
-    using Hjg.Pngcs;
-
     /// <summary>
     /// tIME chunk: http://www.w3.org/TR/PNG/#11tIME
     /// </summary>
@@ -25,7 +23,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            var c = createEmptyChunk(7, true);
+            var c = CreateEmptyChunk(7, true);
             PngHelperInternal.WriteInt2tobytes(timestamp.Year, c.Data, 0);
             c.Data[2] = (byte)timestamp.Month;
             c.Data[3] = (byte)timestamp.Day;

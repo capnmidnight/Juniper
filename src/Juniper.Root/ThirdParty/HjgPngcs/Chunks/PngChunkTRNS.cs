@@ -1,7 +1,5 @@
 namespace Hjg.Pngcs.Chunks
 {
-    using Hjg.Pngcs;
-
     /// <summary>
     /// tRNS chunk: http://www.w3.org/TR/PNG/#11tRNS
     /// </summary>
@@ -31,12 +29,12 @@ namespace Hjg.Pngcs.Chunks
             ChunkRaw c;
             if (ImgInfo.Greyscale)
             {
-                c = createEmptyChunk(2, true);
+                c = CreateEmptyChunk(2, true);
                 Hjg.Pngcs.PngHelperInternal.WriteInt2tobytes(gray, c.Data, 0);
             }
             else if (ImgInfo.Indexed)
             {
-                c = createEmptyChunk(paletteAlpha.Length, true);
+                c = CreateEmptyChunk(paletteAlpha.Length, true);
                 for (var n = 0; n < c.Len; n++)
                 {
                     c.Data[n] = (byte)paletteAlpha[n];
@@ -44,7 +42,7 @@ namespace Hjg.Pngcs.Chunks
             }
             else
             {
-                c = createEmptyChunk(6, true);
+                c = CreateEmptyChunk(6, true);
                 Hjg.Pngcs.PngHelperInternal.WriteInt2tobytes(red, c.Data, 0);
                 Hjg.Pngcs.PngHelperInternal.WriteInt2tobytes(green, c.Data, 0);
                 Hjg.Pngcs.PngHelperInternal.WriteInt2tobytes(blue, c.Data, 0);
@@ -149,7 +147,7 @@ namespace Hjg.Pngcs.Chunks
         /// utiliy method : to use when only one pallete index is set as totally transparent
         /// </summary>
         /// <param name="palAlphaIndex"></param>
-        public void setIndexEntryAsTransparent(int palAlphaIndex)
+        public void SetIndexEntryAsTransparent(int palAlphaIndex)
         {
             if (!ImgInfo.Indexed)
             {

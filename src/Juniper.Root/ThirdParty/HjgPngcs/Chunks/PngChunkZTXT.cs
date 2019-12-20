@@ -1,9 +1,7 @@
+using System.IO;
+
 namespace Hjg.Pngcs.Chunks
 {
-    using System.IO;
-
-    using Hjg.Pngcs;
-
     /// <summary>
     /// zTXt chunk: http://www.w3.org/TR/PNG/#11zTXt
     ///
@@ -28,10 +26,10 @@ namespace Hjg.Pngcs.Chunks
             ChunkHelper.WriteBytesToStream(ba, ChunkHelper.ToBytes(key));
             ba.WriteByte(0); // separator
             ba.WriteByte(0); // compression method: 0
-            var textbytes = ChunkHelper.compressBytes(ChunkHelper.ToBytes(val), true);
+            var textbytes = ChunkHelper.CompressBytes(ChunkHelper.ToBytes(val), true);
             ChunkHelper.WriteBytesToStream(ba, textbytes);
             var b = ba.ToArray();
-            var chunk = createEmptyChunk(b.Length, false);
+            var chunk = CreateEmptyChunk(b.Length, false);
             chunk.Data = b;
             return chunk;
         }
@@ -61,7 +59,7 @@ namespace Hjg.Pngcs.Chunks
                 throw new PngjException("bad zTXt chunk: unknown compression method");
             }
 
-            var uncomp = ChunkHelper.compressBytes(c.Data, nullsep + 2, c.Data.Length - nullsep - 2, false); // uncompress
+            var uncomp = ChunkHelper.CompressBytes(c.Data, nullsep + 2, c.Data.Length - nullsep - 2, false); // uncompress
             val = ChunkHelper.ToString(uncomp);
         }
 

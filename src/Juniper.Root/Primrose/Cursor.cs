@@ -295,5 +295,40 @@ namespace Juniper.Primrose
             }
             return false;
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Cursor other && CompareTo(other) == 0;
+        }
+
+        public static bool operator ==(Cursor left, Cursor right)
+        {
+            return left is null ? right is null : left.Equals(right);
+        }
+
+        public static bool operator !=(Cursor left, Cursor right)
+        {
+            return !(left == right);
+        }
+
+        public static bool operator <(Cursor left, Cursor right)
+        {
+            return left is null ? right is object : left.CompareTo(right) < 0;
+        }
+
+        public static bool operator <=(Cursor left, Cursor right)
+        {
+            return left is null || left.CompareTo(right) <= 0;
+        }
+
+        public static bool operator >(Cursor left, Cursor right)
+        {
+            return left is object && left.CompareTo(right) > 0;
+        }
+
+        public static bool operator >=(Cursor left, Cursor right)
+        {
+            return left is null ? right is null : left.CompareTo(right) >= 0;
+        }
     }
 }

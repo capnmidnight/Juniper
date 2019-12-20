@@ -1,10 +1,10 @@
+using System.Collections.Generic;
+using System.IO;
+
+using Hjg.Pngcs;
+
 namespace Hjg.Pngcs.Chunks
 {
-    using System.Collections.Generic;
-    using System.IO;
-
-    using Hjg.Pngcs;
-
     /// <summary>
     /// Chunks written or queued to be written
     /// http://www.w3.org/TR/PNG/#table53
@@ -119,7 +119,7 @@ namespace Hjg.Pngcs.Chunks
          * this should be called only for ancillary chunks and PLTE (groups 1 - 3 - 5)
          **/
 
-        private static bool shouldWrite(PngChunk c, int currentGroup)
+        private static bool ShouldWrite(PngChunk c, int currentGroup)
         {
             if (currentGroup == CHUNK_GROUP_2_PLTE)
             {
@@ -132,14 +132,14 @@ namespace Hjg.Pngcs.Chunks
             }
 
             int minChunkGroup, maxChunkGroup;
-            if (c.mustGoBeforePLTE())
+            if (c.MustGoBeforePLTE())
             {
                 minChunkGroup = maxChunkGroup = ChunksList.CHUNK_GROUP_1_AFTERIDHR;
             }
-            else if (c.mustGoBeforeIDAT())
+            else if (c.MustGoBeforeIDAT())
             {
                 maxChunkGroup = ChunksList.CHUNK_GROUP_3_AFTERPLTE;
-                minChunkGroup = c.mustGoAfterPLTE() ? ChunksList.CHUNK_GROUP_3_AFTERPLTE
+                minChunkGroup = c.MustGoAfterPLTE() ? ChunksList.CHUNK_GROUP_3_AFTERPLTE
                         : ChunksList.CHUNK_GROUP_1_AFTERIDHR;
             }
             else
@@ -172,13 +172,13 @@ namespace Hjg.Pngcs.Chunks
             return false;
         }
 
-        internal int writeChunks(Stream os, int currentGroup)
+        internal int WriteChunks(Stream os, int currentGroup)
         {
             var written = new List<int>();
             for (var i = 0; i < queuedChunks.Count; i++)
             {
                 var c = queuedChunks[i];
-                if (!shouldWrite(c, currentGroup))
+                if (!ShouldWrite(c, currentGroup))
                 {
                     continue;
                 }
@@ -193,7 +193,7 @@ namespace Hjg.Pngcs.Chunks
                     throw new PngjOutputException("duplicated chunk does not allow multiple: " + c);
                 }
 
-                c.write(os);
+                c.Write(os);
                 chunks.Add(c);
                 alreadyWrittenKeys[c.Id] = alreadyWrittenKeys.ContainsKey(c.Id) ? alreadyWrittenKeys[c.Id] + 1 : 1;
                 written.Add(i);

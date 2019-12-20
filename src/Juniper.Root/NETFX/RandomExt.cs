@@ -36,7 +36,7 @@ namespace System
             var r = rand.Next(0, 256);
             var g = rand.Next(0, 256);
             var b = rand.Next(0, 256);
-            return r << 16 | g << 8 | b;
+            return (r << 16) | (g << 8) | b;
         }
 
         public static bool Coin(this Random rand, double weight = 0.5)

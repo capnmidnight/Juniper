@@ -1,7 +1,5 @@
 namespace Hjg.Pngcs.Chunks
 {
-    using Hjg.Pngcs;
-
     /// <summary>
     /// IHDR chunk: http://www.w3.org/TR/PNG/#11IHDR
     /// </summary>

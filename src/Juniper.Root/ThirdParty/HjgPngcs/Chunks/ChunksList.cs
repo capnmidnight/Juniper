@@ -1,8 +1,8 @@
+using System.Collections.Generic;
+using System.Text;
+
 namespace Hjg.Pngcs.Chunks
 {
-    using System.Collections.Generic;
-    using System.Text;
-
     /// <summary>
     /// <para>All chunks that form an image, read or to be written</para>
     /// <para>http://www.w3.org/TR/PNG/#table53</para>

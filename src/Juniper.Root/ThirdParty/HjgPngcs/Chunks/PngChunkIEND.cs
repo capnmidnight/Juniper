@@ -1,7 +1,5 @@
 namespace Hjg.Pngcs.Chunks
 {
-    using Hjg.Pngcs;
-
     /// <summary>
     /// IEND chunk  http://www.w3.org/TR/PNG/#11IEND
     /// </summary>

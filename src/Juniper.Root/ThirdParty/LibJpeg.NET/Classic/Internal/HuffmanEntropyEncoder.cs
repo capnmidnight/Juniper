@@ -656,7 +656,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
         private void EmitByteE(int val)
         {
-            cinfo.m_dest.EmitByte(val);
+            _ = cinfo.m_dest.EmitByte(val);
         }
 
         /// <summary>
@@ -927,7 +927,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         {
             if (x < 0)
             {
-                return (x >> shft) | (~0) << (16 - shft);
+                return (x >> shft) | ((~0) << (16 - shft));
             }
 
             return x >> shft;
@@ -1352,7 +1352,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     cinfo.ErrExit(JMessageCode.JERR_BAD_HUFF_TABLE);
                 }
 
-                while ((i--) != 0)
+                while (i-- != 0)
                 {
                     huffsize[p++] = (char)l;
                 }

@@ -1,11 +1,11 @@
+using System;
+using System.IO;
+using System.Text;
+
+using Hjg.Pngcs.Zlib;
+
 namespace Hjg.Pngcs
 {
-    using System;
-    using System.IO;
-    using System.Text;
-
-    using Hjg.Pngcs.Zlib;
-
     /// <summary>
     /// Some utility static methods for internal use.
     /// </summary>

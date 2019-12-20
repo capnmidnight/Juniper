@@ -1,11 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+using Hjg.Pngcs.Zlib;
+
 namespace Hjg.Pngcs.Chunks
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-
-    using Hjg.Pngcs.Zlib;
-
     /// <summary>
     /// Static utility methods for CHunks
     /// </summary>
@@ -186,7 +186,7 @@ namespace Hjg.Pngcs.Chunks
                 return true;
             }
 
-            var kwown = PngChunk.isKnown(id);
+            var kwown = PngChunk.IsKnown(id);
             switch (behav)
             {
                 case ChunkLoadBehaviour.LOAD_CHUNK_ALWAYS:
@@ -204,12 +204,12 @@ namespace Hjg.Pngcs.Chunks
             return false; // should not reach here
         }
 
-        internal static byte[] compressBytes(byte[] ori, bool compress)
+        internal static byte[] CompressBytes(byte[] ori, bool compress)
         {
-            return compressBytes(ori, 0, ori.Length, compress);
+            return CompressBytes(ori, 0, ori.Length, compress);
         }
 
-        internal static byte[] compressBytes(byte[] ori, int offset, int len, bool compress)
+        internal static byte[] CompressBytes(byte[] ori, int offset, int len, bool compress)
         {
             try
             {
@@ -227,7 +227,7 @@ namespace Hjg.Pngcs.Chunks
                     outx = new ZlibOutputStream(outb, DeflateCompressLevel.DEFAULT, EDeflateCompressStrategy.Default, false);
                 }
 
-                shovelInToOut(inx, outx);
+                ShovelInToOut(inx, outx);
                 inx.Close();
                 outx.Close();
                 var res = outb.ToArray();
@@ -239,7 +239,7 @@ namespace Hjg.Pngcs.Chunks
             }
         }
 
-        private static void shovelInToOut(Stream inx, Stream outx)
+        private static void ShovelInToOut(Stream inx, Stream outx)
         {
             var buffer = new byte[1024];
             int len;
@@ -249,7 +249,7 @@ namespace Hjg.Pngcs.Chunks
             }
         }
 
-        internal static bool maskMatch(int v, int mask)
+        internal static bool MaskMatch(int v, int mask)
         {
             return (v & mask) != 0;
         }

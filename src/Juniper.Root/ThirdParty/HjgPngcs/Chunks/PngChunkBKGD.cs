@@ -1,7 +1,5 @@
 namespace Hjg.Pngcs.Chunks
 {
-    using Hjg.Pngcs;
-
     /// <summary>
     /// bKGD chunk, see http://www.w3.org/TR/PNG/#11bKGD
     /// </summary>
@@ -31,17 +29,17 @@ namespace Hjg.Pngcs.Chunks
             ChunkRaw c;
             if (ImgInfo.Greyscale)
             {
-                c = createEmptyChunk(2, true);
+                c = CreateEmptyChunk(2, true);
                 Hjg.Pngcs.PngHelperInternal.WriteInt2tobytes(gray, c.Data, 0);
             }
             else if (ImgInfo.Indexed)
             {
-                c = createEmptyChunk(1, true);
+                c = CreateEmptyChunk(1, true);
                 c.Data[0] = (byte)paletteIndex;
             }
             else
             {
-                c = createEmptyChunk(6, true);
+                c = CreateEmptyChunk(6, true);
                 PngHelperInternal.WriteInt2tobytes(red, c.Data, 0);
                 Hjg.Pngcs.PngHelperInternal.WriteInt2tobytes(green, c.Data, 0);
                 Hjg.Pngcs.PngHelperInternal.WriteInt2tobytes(blue, c.Data, 0);

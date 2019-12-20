@@ -1,7 +1,7 @@
+using System.IO;
+
 namespace Hjg.Pngcs
 {
-    using System.IO;
-
     /// <summary>
     /// A few utility static methods to read and write files
     /// </summary>

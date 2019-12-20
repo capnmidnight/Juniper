@@ -139,7 +139,7 @@ namespace System
         /// <param name="there">There.</param>
         public static bool DiffersFrom(this float? here, float? there)
         {
-            return (here == null) != (there == null)
+            return here.HasValue != there.HasValue
                 || (here != null
                     && there != null
                     && Abs(there.Value - here.Value) > ALPHA);

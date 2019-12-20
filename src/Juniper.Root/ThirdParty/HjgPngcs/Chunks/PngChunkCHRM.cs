@@ -1,7 +1,5 @@
 namespace Hjg.Pngcs.Chunks
 {
-    using Hjg.Pngcs;
-
     /// <summary>
     /// cHRM chunk, see http://www.w3.org/TR/PNG/#11cHRM
     /// </summary>
@@ -26,7 +24,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            ChunkRaw c = createEmptyChunk(32, true);
+            var c = CreateEmptyChunk(32, true);
             PngHelperInternal.WriteInt4tobytes(PngHelperInternal.DoubleToInt100000(whitex), c.Data, 0);
             PngHelperInternal.WriteInt4tobytes(PngHelperInternal.DoubleToInt100000(whitey), c.Data, 4);
             PngHelperInternal.WriteInt4tobytes(PngHelperInternal.DoubleToInt100000(redx), c.Data, 8);

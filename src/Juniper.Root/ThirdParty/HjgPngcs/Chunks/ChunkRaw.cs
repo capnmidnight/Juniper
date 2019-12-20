@@ -1,9 +1,9 @@
+using System.IO;
+
+using Hjg.Pngcs;
+
 namespace Hjg.Pngcs.Chunks
 {
-    using System.IO;
-
-    using Hjg.Pngcs;
-
     /// <summary>
     /// Wraps the raw chunk data
     /// </summary>

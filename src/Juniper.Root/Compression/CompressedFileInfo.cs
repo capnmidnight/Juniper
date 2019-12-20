@@ -127,6 +127,26 @@ namespace Juniper.Compression
             var file = IsFile.CompareTo(other?.IsFile == true);
             return file;
         }
+
+        public static bool operator <(CompressedFileInfo left, CompressedFileInfo right)
+        {
+            return left is null ? right is object : left.CompareTo(right) < 0;
+        }
+
+        public static bool operator <=(CompressedFileInfo left, CompressedFileInfo right)
+        {
+            return left is null || left.CompareTo(right) <= 0;
+        }
+
+        public static bool operator >(CompressedFileInfo left, CompressedFileInfo right)
+        {
+            return left is object && left.CompareTo(right) > 0;
+        }
+
+        public static bool operator >=(CompressedFileInfo left, CompressedFileInfo right)
+        {
+            return left is null ? right is null : left.CompareTo(right) >= 0;
+        }
     }
 
     public static class CompressedFileInfoExt

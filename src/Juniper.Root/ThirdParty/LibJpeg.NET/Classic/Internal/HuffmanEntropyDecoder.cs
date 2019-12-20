@@ -583,7 +583,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                     htbl = acCurTables[blkn];
                     var k = 1;
-                    var coef_limit = this.coefLimit[blkn];
+                    var coef_limit = coefLimit[blkn];
                     var endThisBlock = false;
 
                     if (coef_limit != 0)
@@ -733,7 +733,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                     htbl = acCurTables[blkn];
                     var k = 1;
-                    var coef_limit = this.coefLimit[blkn];
+                    var coef_limit = coefLimit[blkn];
 
                     if (coef_limit != 0)
                     {
@@ -837,7 +837,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /*
          * Huffman MCU decoding.
          * Each of these routines decodes and returns one MCU's worth of
-         * Huffman-compressed coefficients. 
+         * Huffman-compressed coefficients.
          * The coefficients are reordered from zigzag order into natural array order,
          * but are not dequantized.
          *
@@ -1355,12 +1355,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
         private static int GET_BITS(int nbits, int get_buffer, ref int bits_left)
         {
-            return get_buffer >> (bits_left -= nbits) & bmask[nbits];
+            return (get_buffer >> (bits_left -= nbits)) & bmask[nbits];
         }
 
         private static int PEEK_BITS(int nbits, int get_buffer, int bits_left)
         {
-            return get_buffer >> (bits_left - nbits) & bmask[nbits];
+            return (get_buffer >> (bits_left - nbits)) & bmask[nbits];
         }
 
         private static void DROP_BITS(int nbits, ref int bits_left)
@@ -1435,7 +1435,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* cannot advance past a marker */
                 while (bits_left < MIN_GET_BITS)
                 {
-                    state.cinfo.src.GetByte(out var c);
+                    _ = state.cinfo.src.GetByte(out var c);
 
                     /* If it's 0xFF, check and discard stuffed zero byte */
                     if (c == 0xFF)
@@ -1447,7 +1447,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         */
                         do
                         {
-                            state.cinfo.src.GetByte(out c);
+                            _ = state.cinfo.src.GetByte(out c);
                         }
                         while (c == 0xFF);
 
@@ -1556,7 +1556,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     cinfo.ErrExit(JMessageCode.JERR_BAD_HUFF_TABLE);
                 }
 
-                while ((i--) != 0)
+                while (i-- != 0)
                 {
                     huffsize[p++] = (char)l;
                 }

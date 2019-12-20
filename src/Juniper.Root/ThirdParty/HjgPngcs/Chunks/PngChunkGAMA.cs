@@ -1,7 +1,5 @@
 namespace Hjg.Pngcs.Chunks
 {
-    using Hjg.Pngcs;
-
     /// <summary>
     /// gAMA chunk, see http://www.w3.org/TR/PNG/#11gAMA
     /// </summary>
@@ -23,7 +21,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            var c = createEmptyChunk(4, true);
+            var c = CreateEmptyChunk(4, true);
             var g = (int)((gamma * 100000) + 0.5d);
             Hjg.Pngcs.PngHelperInternal.WriteInt4tobytes(g, c.Data, 0);
             return c;

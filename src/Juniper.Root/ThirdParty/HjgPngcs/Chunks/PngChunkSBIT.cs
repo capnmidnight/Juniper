@@ -1,7 +1,5 @@
 namespace Hjg.Pngcs.Chunks
 {
-    using Hjg.Pngcs;
-
     /// <summary>
     /// <para>sBIT chunk: http://www.w3.org/TR/PNG/#11sBIT</para>
     /// <para>this chunk structure depends on the image type</para>
@@ -57,7 +55,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            ChunkRaw c = createEmptyChunk(GetLen(), true);
+            ChunkRaw c = CreateEmptyChunk(GetLen(), true);
             if (ImgInfo.Greyscale)
             {
                 c.Data[0] = (byte)Graysb;

@@ -1,7 +1,5 @@
 namespace Hjg.Pngcs.Chunks
 {
-    using Hjg.Pngcs;
-
     /// <summary>
     /// <para>PLTE Palette chunk: this is the only optional critical chunk</para>
     /// <para>http://www.w3.org/TR/PNG/#11PLTE</para>
@@ -29,7 +27,7 @@ namespace Hjg.Pngcs.Chunks
         {
             var len = 3 * nentries;
             var rgb = new int[3];
-            var c = createEmptyChunk(len, true);
+            var c = CreateEmptyChunk(len, true);
             for (int n = 0, i = 0; n < nentries; n++)
             {
                 GetEntryRgb(n, rgb);

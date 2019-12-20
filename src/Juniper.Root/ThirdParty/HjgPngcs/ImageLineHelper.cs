@@ -1,9 +1,9 @@
+using System;
+
+using Hjg.Pngcs.Chunks;
+
 namespace Hjg.Pngcs
 {
-    using System;
-
-    using Hjg.Pngcs.Chunks;
-
     /// <summary>
     /// <para>Bunch of utility static methods to process/analyze an image line.</para>
     /// <para>Not essential at all, some methods are probably to be removed if future releases.</para>
@@ -164,7 +164,7 @@ namespace Hjg.Pngcs
             }
             else
             {
-                return (line.ScanlineB[pos]) / (line.MaxSampleVal + 0.9);
+                return line.ScanlineB[pos] / (line.MaxSampleVal + 0.9);
             }
         }
 

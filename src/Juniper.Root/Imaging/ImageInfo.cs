@@ -15,25 +15,25 @@ namespace Juniper.Imaging
             while (i < data.Length)
             {
                 var len = 0;
-                len = len << 8 | data[i++];
-                len = len << 8 | data[i++];
-                len = len << 8 | data[i++];
-                len = len << 8 | data[i++];
+                len = (len << 8) | data[i++];
+                len = (len << 8) | data[i++];
+                len = (len << 8) | data[i++];
+                len = (len << 8) | data[i++];
 
                 var chunk = System.Text.Encoding.UTF8.GetString(data, i, 4);
                 i += 4;
 
                 if (chunk == "IHDR")
                 {
-                    width = width << 8 | data[i++];
-                    width = width << 8 | data[i++];
-                    width = width << 8 | data[i++];
-                    width = width << 8 | data[i++];
+                    width = (width << 8) | data[i++];
+                    width = (width << 8) | data[i++];
+                    width = (width << 8) | data[i++];
+                    width = (width << 8) | data[i++];
 
-                    height = height << 8 | data[i++];
-                    height = height << 8 | data[i++];
-                    height = height << 8 | data[i++];
-                    height = height << 8 | data[i++];
+                    height = (height << 8) | data[i++];
+                    height = (height << 8) | data[i++];
+                    height = (height << 8) | data[i++];
+                    height = (height << 8) | data[i++];
 
                     var bitDepth = data[i + 9];
                     var colorType = data[i + 10];
@@ -71,8 +71,8 @@ namespace Juniper.Imaging
                     var widthHi = data[i + 7];
                     var widthLo = data[i + 8];
 
-                    var width = widthHi << 8 | widthLo;
-                    var height = heightHi << 8 | heightLo;
+                    var width = (widthHi << 8) | widthLo;
+                    var height = (heightHi << 8) | heightLo;
 
                     return new ImageInfo(width, height, 3);
                 }

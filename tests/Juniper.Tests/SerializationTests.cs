@@ -9,7 +9,7 @@ namespace Juniper.Tests
     [TestClass]
     public class SerializationTests
     {
-        public void DictionaryTest<T>()
+        public static void DictionaryTest<T>()
             where T : IFactory<Dictionary<string, int>, MediaType.Application>, new()
         {
             var factory = new T();

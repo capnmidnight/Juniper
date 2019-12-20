@@ -1,7 +1,5 @@
 namespace Hjg.Pngcs.Chunks
 {
-    using Hjg.Pngcs;
-
     /// <summary>
     /// pHYs chunk: http://www.w3.org/TR/PNG/#11pHYs
     /// </summary>
@@ -29,7 +27,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            var c = createEmptyChunk(9, true);
+            var c = CreateEmptyChunk(9, true);
             Hjg.Pngcs.PngHelperInternal.WriteInt4tobytes((int)PixelsxUnitX, c.Data, 0);
             Hjg.Pngcs.PngHelperInternal.WriteInt4tobytes((int)PixelsxUnitY, c.Data, 4);
             c.Data[8] = (byte)Units;

@@ -1,7 +1,5 @@
 namespace Hjg.Pngcs.Chunks
 {
-    using Hjg.Pngcs;
-
     /// <summary>
     /// Unknown (for our chunk factory) chunk type.
     /// </summary>
@@ -21,7 +19,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            var p = createEmptyChunk(data.Length, false);
+            var p = CreateEmptyChunk(data.Length, false);
             p.Data = data;
             return p;
         }

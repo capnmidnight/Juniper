@@ -1,9 +1,9 @@
+using System.IO;
+
+using Hjg.Pngcs.Chunks;
+
 namespace Hjg.Pngcs
 {
-    using System.IO;
-
-    using Hjg.Pngcs.Chunks;
-
     /// <summary>
     /// outputs the stream for IDAT chunk , fragmented at fixed size (32k default).
     /// </summary>

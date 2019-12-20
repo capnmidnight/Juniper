@@ -19,12 +19,12 @@ namespace Hjg.Pngcs
         public int[][] Scanlines { get; }
         public byte[][] ScanlinesB { get; }
 
-        public ImageLines(global::Hjg.Pngcs.ImageInfo ImgInfo, global::Hjg.Pngcs.ImageLine.ESampleType sampleType, bool unpackedMode, int rowOffset, int nRows, int rowStep)
+        public ImageLines(ImageInfo ImgInfo, ImageLine.ESampleType sampleType, bool unpackedMode, int rowOffset, int nRows, int rowStep)
         {
             this.ImgInfo = ImgInfo;
             channels = ImgInfo.Channels;
             bitDepth = ImgInfo.BitDepth;
-            this.SampleType = sampleType;
+            SampleType = sampleType;
             SamplesUnpacked = unpackedMode || !ImgInfo.Packed;
             RowOffset = rowOffset;
             Nrows = nRows;

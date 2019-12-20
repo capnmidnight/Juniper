@@ -109,9 +109,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         };
 
         // Arithmetic coding probability estimation tables
-        public static readonly int[] jpeg_aritab =
-        {
-        };
+        public static readonly int[] jpeg_aritab = Array.Empty<int>();
 
         /* We assume that right shift corresponds to signed division by 2 with
         * rounding towards minus infinity.  This is correct for typical "arithmetic

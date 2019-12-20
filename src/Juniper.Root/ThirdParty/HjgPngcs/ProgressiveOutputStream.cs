@@ -1,7 +1,7 @@
+using System.IO;
+
 namespace Hjg.Pngcs
 {
-    using System.IO;
-
     /// <summary>
     /// stream that outputs to memory and allows to flush fragments every 'size'
     /// bytes to some other destination

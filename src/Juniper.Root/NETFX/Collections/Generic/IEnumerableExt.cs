@@ -86,7 +86,7 @@ namespace System.Collections.Generic
                 return true;
             }
 
-            if (a is null != b is null)
+            if ((a is null) != (b is null))
             {
                 return false;
             }
@@ -137,7 +137,7 @@ namespace System.Collections.Generic
                 return true;
             }
 
-            if (a is null != b is null)
+            if ((a is null) != (b is null))
             {
                 return false;
             }
@@ -173,7 +173,7 @@ namespace System.Collections.Generic
                 return true;
             }
 
-            if (a is null != b is null)
+            if ((a is null) != (b is null))
             {
                 return false;
             }
@@ -194,7 +194,7 @@ namespace System.Collections.Generic
                 return true;
             }
 
-            if (a is null != b is null)
+            if ((a is null) != (b is null))
             {
                 return false;
             }

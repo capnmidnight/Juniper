@@ -1,11 +1,11 @@
+using System.IO;
+
+using Hjg.Pngcs.Chunks;
+
+using Hjg.Pngcs.Zlib;
+
 namespace Hjg.Pngcs
 {
-    using System.IO;
-
-    using Chunks;
-
-    using Hjg.Pngcs.Zlib;
-
     /// <summary>
     ///  Writes a PNG image, line by line.
     /// </summary>
@@ -143,7 +143,7 @@ namespace Hjg.Pngcs
         /// <summary>
         /// init: is called automatically before writing the first row
         /// </summary>
-        private void init()
+        private void Init()
         {
             datStream = new PngIDatChunkOutputStream(outputStream, IdatMaxSize);
             datStreamDeflated = new ZlibOutputStream(datStream, CompLevel, CompressionStrategy, true);
@@ -151,7 +151,7 @@ namespace Hjg.Pngcs
             WriteFirstChunks();
         }
 
-        private void reportResultsForFilter(int rown, FilterType type, bool tentative)
+        private void ReportResultsForFilter(int rown, FilterType type, bool tentative)
         {
             for (var i = 0; i < histox.Length; i++)
             {
@@ -185,9 +185,9 @@ namespace Hjg.Pngcs
         private void WriteFirstChunks()
         {
             CurrentChunkGroup = ChunksList.CHUNK_GROUP_1_AFTERIDHR;
-            _ = chunksList.writeChunks(outputStream, CurrentChunkGroup);
+            _ = chunksList.WriteChunks(outputStream, CurrentChunkGroup);
             CurrentChunkGroup = ChunksList.CHUNK_GROUP_2_PLTE;
-            var nw = chunksList.writeChunks(outputStream, CurrentChunkGroup);
+            var nw = chunksList.WriteChunks(outputStream, CurrentChunkGroup);
             if (nw > 0 && ImgInfo.Greyscale)
             {
                 throw new PngjOutputException("cannot write palette for this format");
@@ -199,14 +199,14 @@ namespace Hjg.Pngcs
             }
 
             CurrentChunkGroup = ChunksList.CHUNK_GROUP_3_AFTERPLTE;
-            _ = chunksList.writeChunks(outputStream, CurrentChunkGroup);
+            _ = chunksList.WriteChunks(outputStream, CurrentChunkGroup);
             CurrentChunkGroup = ChunksList.CHUNK_GROUP_4_IDAT;
         }
 
         private void WriteLastChunks()
         { // not including end
             CurrentChunkGroup = ChunksList.CHUNK_GROUP_5_AFTERIDAT;
-            chunksList.writeChunks(outputStream, CurrentChunkGroup);
+            chunksList.WriteChunks(outputStream, CurrentChunkGroup);
             // should not be unwriten chunks
             var pending = chunksList.GetQueuedChunks();
             if (pending.Count > 0)
@@ -255,7 +255,7 @@ namespace Hjg.Pngcs
             ihdr.CreateRawChunk().WriteChunk(outputStream);
         }
 
-        protected void encodeRowFromByte(byte[] row)
+        protected void EncodeRowFromByte(byte[] row)
         {
             if (row.Length == ImgInfo.SamplesPerRowPacked && !needsPack)
             {
@@ -303,7 +303,7 @@ namespace Hjg.Pngcs
             }
         }
 
-        protected void encodeRowFromInt(int[] row)
+        protected void EncodeRowFromInt(int[] row)
         {
             if (row.Length == ImgInfo.SamplesPerRowPacked && !needsPack)
             {
@@ -358,15 +358,15 @@ namespace Hjg.Pngcs
             if (filterStrat.ShouldTestAll(rown))
             {
                 FilterRowNone();
-                reportResultsForFilter(rown, FilterType.FILTER_NONE, true);
+                ReportResultsForFilter(rown, FilterType.FILTER_NONE, true);
                 FilterRowSub();
-                reportResultsForFilter(rown, FilterType.FILTER_SUB, true);
+                ReportResultsForFilter(rown, FilterType.FILTER_SUB, true);
                 FilterRowUp();
-                reportResultsForFilter(rown, FilterType.FILTER_UP, true);
+                ReportResultsForFilter(rown, FilterType.FILTER_UP, true);
                 FilterRowAverage();
-                reportResultsForFilter(rown, FilterType.FILTER_AVERAGE, true);
+                ReportResultsForFilter(rown, FilterType.FILTER_AVERAGE, true);
                 FilterRowPaeth();
-                reportResultsForFilter(rown, FilterType.FILTER_PAETH, true);
+                ReportResultsForFilter(rown, FilterType.FILTER_PAETH, true);
             }
             var filterType = filterStrat.GimmeFilterType(rown, true);
             rowbfilter[0] = (byte)(int)filterType;
@@ -395,14 +395,14 @@ namespace Hjg.Pngcs
                 default:
                     throw new PngjOutputException("Filter type " + filterType + " not implemented");
             }
-            reportResultsForFilter(rown, filterType, false);
+            ReportResultsForFilter(rown, filterType, false);
         }
 
-        private void prepareEncodeRow(int rown)
+        private void PrepareEncodeRow(int rown)
         {
             if (datStream == null)
             {
-                init();
+                Init();
             }
 
             rowNum++;
@@ -417,7 +417,7 @@ namespace Hjg.Pngcs
             rowbprev = tmp;
         }
 
-        private void filterAndSend(int rown)
+        private void FilterAndSend(int rown)
         {
             FilterRow(rown);
             datStreamDeflated.Write(rowbfilter, 0, ImgInfo.BytesPerRow + 1);
@@ -429,7 +429,7 @@ namespace Hjg.Pngcs
             imax = ImgInfo.BytesPerRow;
             for (j = 1 - ImgInfo.BytesPixel, i = 1; i <= imax; i++, j++)
             {
-                rowbfilter[i] = (byte)(rowb[i] - (((rowbprev[i]) + (j > 0 ? rowb[j] : 0)) / 2));
+                rowbfilter[i] = (byte)(rowb[i] - ((rowbprev[i] + (j > 0 ? rowb[j] : 0)) / 2));
             }
         }
 
@@ -500,12 +500,12 @@ namespace Hjg.Pngcs
                 {
                     if (chunk.Id.Equals(ChunkHelper.PLTE))
                     {
-                        if (ImgInfo.Indexed && ChunkHelper.maskMatch(copy_mask, ChunkCopyBehaviour.COPY_PALETTE))
+                        if (ImgInfo.Indexed && ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_PALETTE))
                         {
                             copy = true;
                         }
 
-                        if (!ImgInfo.Greyscale && ChunkHelper.maskMatch(copy_mask, ChunkCopyBehaviour.COPY_ALL))
+                        if (!ImgInfo.Greyscale && ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_ALL))
                         {
                             copy = true;
                         }
@@ -516,33 +516,33 @@ namespace Hjg.Pngcs
                     var text = (chunk is PngChunkTextVar);
                     var safe = chunk.Safe;
                     // notice that these if are not exclusive
-                    if (ChunkHelper.maskMatch(copy_mask, ChunkCopyBehaviour.COPY_ALL))
+                    if (ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_ALL))
                     {
                         copy = true;
                     }
 
-                    if (safe && ChunkHelper.maskMatch(copy_mask, ChunkCopyBehaviour.COPY_ALL_SAFE))
+                    if (safe && ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_ALL_SAFE))
                     {
                         copy = true;
                     }
 
                     if (chunk.Id.Equals(ChunkHelper.tRNS)
-                            && ChunkHelper.maskMatch(copy_mask, ChunkCopyBehaviour.COPY_TRANSPARENCY))
+                            && ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_TRANSPARENCY))
                     {
                         copy = true;
                     }
 
-                    if (chunk.Id.Equals(ChunkHelper.pHYs) && ChunkHelper.maskMatch(copy_mask, ChunkCopyBehaviour.COPY_PHYS))
+                    if (chunk.Id.Equals(ChunkHelper.pHYs) && ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_PHYS))
                     {
                         copy = true;
                     }
 
-                    if (text && ChunkHelper.maskMatch(copy_mask, ChunkCopyBehaviour.COPY_TEXTUAL))
+                    if (text && ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_TEXTUAL))
                     {
                         copy = true;
                     }
 
-                    if (ChunkHelper.maskMatch(copy_mask, ChunkCopyBehaviour.COPY_ALMOSTALL)
+                    if (ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_ALMOSTALL)
                             && !(ChunkHelper.IsUnknown(chunk) || text || chunk.Id.Equals(ChunkHelper.hIST) || chunk.Id
                                     .Equals(ChunkHelper.tIME)))
                     {
@@ -669,16 +669,16 @@ namespace Hjg.Pngcs
         /// <param name="rown">Number of row, from 0 (top) to rows-1 (bottom)</param>
         public void WriteRowInt(int[] newrow, int rown)
         {
-            prepareEncodeRow(rown);
-            encodeRowFromInt(newrow);
-            filterAndSend(rown);
+            PrepareEncodeRow(rown);
+            EncodeRowFromInt(newrow);
+            FilterAndSend(rown);
         }
 
         public void WriteRowByte(byte[] newrow, int rown)
         {
-            prepareEncodeRow(rown);
-            encodeRowFromByte(newrow);
-            filterAndSend(rown);
+            PrepareEncodeRow(rown);
+            EncodeRowFromByte(newrow);
+            FilterAndSend(rown);
         }
 
         /**

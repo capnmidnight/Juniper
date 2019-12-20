@@ -1,9 +1,7 @@
+using System.IO;
+
 namespace Hjg.Pngcs.Chunks
 {
-    using System.IO;
-
-    using Hjg.Pngcs;
-
     /// <summary>
     /// iTXt chunk:  http://www.w3.org/TR/PNG/#11iTXt
     /// One of the three text chunks
@@ -40,11 +38,11 @@ namespace Hjg.Pngcs.Chunks
             var textbytes = ChunkHelper.ToBytesUTF8(val);
             if (compressed)
             {
-                textbytes = ChunkHelper.compressBytes(textbytes, true);
+                textbytes = ChunkHelper.CompressBytes(textbytes, true);
             }
             ChunkHelper.WriteBytesToStream(ba, textbytes);
             var b = ba.ToArray();
-            var chunk = createEmptyChunk(b.Length, false);
+            var chunk = CreateEmptyChunk(b.Length, false);
             chunk.Data = b;
             return chunk;
         }
@@ -91,7 +89,7 @@ namespace Hjg.Pngcs.Chunks
             i = nullsIdx[2] + 1;
             if (compressed)
             {
-                var bytes = ChunkHelper.compressBytes(c.Data, i, c.Data.Length - i, false);
+                var bytes = ChunkHelper.CompressBytes(c.Data, i, c.Data.Length - i, false);
                 val = ChunkHelper.ToStringUTF8(bytes);
             }
             else

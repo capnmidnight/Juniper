@@ -1,9 +1,7 @@
+using System;
+
 namespace Hjg.Pngcs.Chunks
 {
-    using System;
-
-    using Hjg.Pngcs;
-
     /// <summary>
     /// iCCP Chunk: see http://www.w3.org/TR/PNG/#11iCCP
     /// </summary>
@@ -27,7 +25,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            var c = createEmptyChunk(profileName.Length + compressedProfile.Length + 2, true);
+            var c = CreateEmptyChunk(profileName.Length + compressedProfile.Length + 2, true);
             System.Array.Copy(Hjg.Pngcs.Chunks.ChunkHelper.ToBytes(profileName), 0, c.Data, 0, profileName.Length);
             c.Data[profileName.Length] = 0;
             c.Data[profileName.Length + 1] = 0;
@@ -76,7 +74,7 @@ namespace Hjg.Pngcs.Chunks
         public void SetProfileNameAndContent(string name, byte[] profile)
         {
             profileName = name;
-            compressedProfile = ChunkHelper.compressBytes(profile, true);
+            compressedProfile = ChunkHelper.CompressBytes(profile, true);
         }
 
         public string GetProfileName()
@@ -90,7 +88,7 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public byte[] GetProfile()
         {
-            return ChunkHelper.compressBytes(compressedProfile, false);
+            return ChunkHelper.CompressBytes(compressedProfile, false);
         }
 
         public string GetProfileAsString()

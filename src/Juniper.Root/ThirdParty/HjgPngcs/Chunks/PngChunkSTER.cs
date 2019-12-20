@@ -1,7 +1,5 @@
 namespace Hjg.Pngcs.Chunks
 {
-    using Hjg.Pngcs;
-
     /// <summary>
     /// sTER chunk: http://www.libpng.org/pub/png/spec/register/pngext-1.3.0-pdg.html#C.sTER
     /// </summary>
@@ -24,7 +22,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            var c = createEmptyChunk(1, true);
+            var c = CreateEmptyChunk(1, true);
             c.Data[0] = Mode;
             return c;
         }

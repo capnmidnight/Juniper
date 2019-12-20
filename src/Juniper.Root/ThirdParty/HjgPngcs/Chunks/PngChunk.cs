@@ -1,11 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+
 namespace Hjg.Pngcs.Chunks
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-
-    using Hjg.Pngcs;
-
     /// <summary>
     /// Represents a instance of a PNG chunk
     /// </summary>
@@ -97,11 +95,11 @@ namespace Hjg.Pngcs.Chunks
             Offset = 0;
         }
 
-        private static readonly Dictionary<string, Type> factoryMap = initFactory();
+        private static readonly Dictionary<string, Type> factoryMap = InitFactory();
 
-        private static Dictionary<string, Type> initFactory()
+        private static Dictionary<string, Type> InitFactory()
         {
-            var f = new Dictionary<string, System.Type>
+            var f = new Dictionary<string, Type>
             {
                 { ChunkHelper.IDAT, typeof(PngChunkIDAT) },
                 { ChunkHelper.IHDR, typeof(PngChunkIHDR) },
@@ -141,23 +139,23 @@ namespace Hjg.Pngcs.Chunks
             factoryMap.Add(chunkId, type);
         }
 
-        internal static bool isKnown(string id)
+        internal static bool IsKnown(string id)
         {
             return factoryMap.ContainsKey(id);
         }
 
-        internal bool mustGoBeforePLTE()
+        internal bool MustGoBeforePLTE()
         {
             return GetOrderingConstraint() == ChunkOrderingConstraint.BEFORE_PLTE_AND_IDAT;
         }
 
-        internal bool mustGoBeforeIDAT()
+        internal bool MustGoBeforeIDAT()
         {
             var oc = GetOrderingConstraint();
             return oc == ChunkOrderingConstraint.BEFORE_IDAT || oc == ChunkOrderingConstraint.BEFORE_PLTE_AND_IDAT || oc == ChunkOrderingConstraint.AFTER_PLTE_BEFORE_IDAT;
         }
 
-        internal bool mustGoAfterPLTE()
+        internal bool MustGoAfterPLTE()
         {
             return GetOrderingConstraint() == ChunkOrderingConstraint.AFTER_PLTE_BEFORE_IDAT;
         }
@@ -181,10 +179,10 @@ namespace Hjg.Pngcs.Chunks
             PngChunk chunk = null;
             if (factoryMap == null)
             {
-                initFactory();
+                _ = InitFactory();
             }
 
-            if (isKnown(cid))
+            if (IsKnown(cid))
             {
                 var t = factoryMap[cid];
                 if (t == null)
@@ -204,7 +202,7 @@ namespace Hjg.Pngcs.Chunks
             return chunk;
         }
 
-        public ChunkRaw createEmptyChunk(int len, bool alloc)
+        public ChunkRaw CreateEmptyChunk(int len, bool alloc)
         {
             var c = new ChunkRaw(len, ChunkHelper.ToBytes(Id), alloc);
             return c;
@@ -225,7 +223,7 @@ namespace Hjg.Pngcs.Chunks
             return (T)cn;
         }
 
-        internal void write(Stream os)
+        internal void Write(Stream os)
         {
             var c = CreateRawChunk();
             if (c == null)

@@ -1,12 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+using Hjg.Pngcs.Chunks;
+using Hjg.Pngcs.Zlib;
+
 namespace Hjg.Pngcs
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-
-    using Hjg.Pngcs.Chunks;
-    using Hjg.Pngcs.Zlib;
-
     /// <summary>
     /// Reads a PNG image, line by line
     /// </summary>
@@ -550,7 +550,7 @@ namespace Hjg.Pngcs
         /// This happens rarely - most errors are fatal.
         /// </remarks>
         /// <param name="warn"></param>
-        internal void logWarn(string warn)
+        internal void LogWarn(string warn)
         {
             Console.Error.WriteLine(warn);
         }
@@ -661,7 +661,7 @@ namespace Hjg.Pngcs
                     bytesread = ReadRowRaw(rowNum + 1); // read rows, perhaps skipping if necessary
                 }
 
-                decodeLastReadRowToInt(buffer, bytesread);
+                DecodeLastReadRowToInt(buffer, bytesread);
             }
             else
             { // interlaced
@@ -696,7 +696,7 @@ namespace Hjg.Pngcs
                     bytesread = ReadRowRaw(rowNum + 1); // read rows, perhaps skipping if necessary
                 }
 
-                decodeLastReadRowToByte(buffer, bytesread);
+                DecodeLastReadRowToByte(buffer, bytesread);
             }
             else
             { // interlaced
@@ -717,7 +717,7 @@ namespace Hjg.Pngcs
             return ReadRow(nrow);
         }
 
-        private void decodeLastReadRowToInt(int[] buffer, int bytesRead)
+        private void DecodeLastReadRowToInt(int[] buffer, int bytesRead)
         {            // see http://www.libpng.org/pub/png/spec/1.2/PNG-DataRep.html
             if (ImgInfo.BitDepth <= 8)
             {
@@ -739,7 +739,7 @@ namespace Hjg.Pngcs
             }
         }
 
-        private void decodeLastReadRowToByte(byte[] buffer, int bytesRead)
+        private void DecodeLastReadRowToByte(byte[] buffer, int bytesRead)
         {            // see http://www.libpng.org/pub/png/spec/1.2/PNG-DataRep.html
             if (ImgInfo.BitDepth <= 8)
             {
@@ -781,7 +781,7 @@ namespace Hjg.Pngcs
                     var mrow = imlines.ImageRowToMatrixRowStrict(j);
                     if (mrow >= 0)
                     {
-                        decodeLastReadRowToInt(imlines.Scanlines[mrow], bytesread);
+                        DecodeLastReadRowToInt(imlines.Scanlines[mrow], bytesread);
                     }
                 }
             }
@@ -798,7 +798,7 @@ namespace Hjg.Pngcs
                         var mrow = imlines.ImageRowToMatrixRowStrict(j);
                         if (mrow >= 0)
                         {
-                            decodeLastReadRowToInt(buf, bytesread);
+                            DecodeLastReadRowToInt(buf, bytesread);
                             deinterlacer.DeinterlaceInt(buf, imlines.Scanlines[mrow], !unpackedMode);
                         }
                     }
@@ -836,7 +836,7 @@ namespace Hjg.Pngcs
                     var mrow = imlines.ImageRowToMatrixRowStrict(j);
                     if (mrow >= 0)
                     {
-                        decodeLastReadRowToByte(imlines.ScanlinesB[mrow], bytesread);
+                        DecodeLastReadRowToByte(imlines.ScanlinesB[mrow], bytesread);
                     }
                 }
             }
@@ -853,7 +853,7 @@ namespace Hjg.Pngcs
                         var mrow = imlines.ImageRowToMatrixRowStrict(j);
                         if (mrow >= 0)
                         {
-                            decodeLastReadRowToByte(buf, bytesread);
+                            DecodeLastReadRowToByte(buf, bytesread);
                             deinterlacer.DeinterlaceByte(buf, imlines.ScanlinesB[mrow], !unpackedMode);
                         }
                     }

@@ -1,7 +1,5 @@
 namespace Hjg.Pngcs.Chunks
 {
-    using Hjg.Pngcs;
-
     /// <summary>
     /// sRGB chunk: http://www.w3.org/TR/PNG/#11sRGB
     /// </summary>
@@ -28,7 +26,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            ChunkRaw c = createEmptyChunk(1, true);
+            ChunkRaw c = CreateEmptyChunk(1, true);
             c.Data[0] = (byte)Intent;
             return c;
         }

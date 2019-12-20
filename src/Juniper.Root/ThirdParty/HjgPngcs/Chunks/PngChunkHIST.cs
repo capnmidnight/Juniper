@@ -1,7 +1,7 @@
+using System;
+
 namespace Hjg.Pngcs.Chunks
 {
-    using Hjg.Pngcs;
-
     /// <summary>
     /// hIST chunk, see http://www.w3.org/TR/PNG/#11hIST
     /// Only for palette images
@@ -10,7 +10,7 @@ namespace Hjg.Pngcs.Chunks
     {
         public readonly static string ID = ChunkHelper.hIST;
 
-        private int[] hist = new int[0]; // should have same lenght as palette
+        private int[] hist = Array.Empty<int>(); // should have same lenght as palette
 
         public PngChunkHIST(ImageInfo info)
             : base(ID, info) { }
@@ -27,7 +27,7 @@ namespace Hjg.Pngcs.Chunks
                 throw new PngjException("only indexed images accept a HIST chunk");
             }
 
-            var c = createEmptyChunk(hist.Length * 2, true);
+            var c = CreateEmptyChunk(hist.Length * 2, true);
             for (var i = 0; i < hist.Length; i++)
             {
                 PngHelperInternal.WriteInt2tobytes(hist[i], c.Data, i * 2);

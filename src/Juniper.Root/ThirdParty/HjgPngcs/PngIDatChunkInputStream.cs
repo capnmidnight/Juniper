@@ -1,11 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+using Hjg.Pngcs.Zlib;
+
 namespace Hjg.Pngcs
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-
-    using Hjg.Pngcs.Zlib;
-
     /// <summary>
     /// Reads IDAT chunks
     /// </summary>

@@ -1,7 +1,5 @@
 namespace Hjg.Pngcs.Chunks
 {
-    using Hjg.Pngcs;
-
     /// <summary>
     /// oFFs chunk: http://www.libpng.org/pub/png/spec/register/pngext-1.3.0-pdg.html#C.oFFs
     /// </summary>
@@ -23,7 +21,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            var c = createEmptyChunk(9, true);
+            var c = CreateEmptyChunk(9, true);
             PngHelperInternal.WriteInt4tobytes((int)posX, c.Data, 0);
             PngHelperInternal.WriteInt4tobytes((int)posY, c.Data, 4);
             c.Data[8] = (byte)units;

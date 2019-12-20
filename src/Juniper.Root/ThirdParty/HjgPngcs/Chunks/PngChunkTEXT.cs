@@ -1,9 +1,7 @@
+using System;
+
 namespace Hjg.Pngcs.Chunks
 {
-    using System;
-
-    using Hjg.Pngcs;
-
     /// <summary>
     /// tEXt chunk: latin1 uncompressed text
     /// </summary>
@@ -25,7 +23,7 @@ namespace Hjg.Pngcs.Chunks
 
             var b1 = Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetBytes(key);
             var b2 = Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetBytes(val);
-            var chunk = createEmptyChunk(b1.Length + b2.Length + 1, true);
+            var chunk = CreateEmptyChunk(b1.Length + b2.Length + 1, true);
             Array.Copy(b1, 0, chunk.Data, 0, b1.Length);
             chunk.Data[b1.Length] = 0;
             Array.Copy(b2, 0, chunk.Data, b1.Length + 1, b2.Length);
