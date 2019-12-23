@@ -273,10 +273,12 @@ namespace Juniper.Units
             {
                 v -= 360;
             }
+
             while (v < 0)
             {
                 v += 360;
             }
+
             return v;
         }
 
@@ -309,12 +311,14 @@ namespace Juniper.Units
         /// <param name="v1">V1.</param>
         private Angle Update(float v1)
         {
-            float r = rotations,
-                v0 = currentValue;
+            var r = rotations;
+            var v0 = currentValue;
 
             v1 = Repeat(v1);
 
-            float d1, d2, d3;
+            float d1;
+            float d2;
+            float d3;
             do
             {
                 // figure out if it is adding the raw value, or whole rotations of the value, that
@@ -331,6 +335,7 @@ namespace Juniper.Units
                 {
                     r -= 360;
                 }
+
             } while (d1 > d2 || d1 > d3);
 
             return new Angle(v1 + r, r);

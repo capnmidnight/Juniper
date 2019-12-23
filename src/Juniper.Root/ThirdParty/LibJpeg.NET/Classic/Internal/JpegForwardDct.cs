@@ -166,152 +166,152 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 switch ((compptr.DCT_h_scaled_size << 8) + compptr.DCT_v_scaled_size)
                 {
                     case ((1 << 8) + 1):
-                        do_dct[ci] = JpegForwardDct1x1;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct1x1;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((2 << 8) + 2):
-                        do_dct[ci] = JpegForwardDct2x2;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct2x2;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((3 << 8) + 3):
-                        do_dct[ci] = JpegForwardDct3x3;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct3x3;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((4 << 8) + 4):
-                        do_dct[ci] = JpegForwardDct4x4;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct4x4;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((5 << 8) + 5):
-                        do_dct[ci] = JpegForwardDct5x5;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct5x5;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((6 << 8) + 6):
-                        do_dct[ci] = JpegForwardDct6x6;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct6x6;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((7 << 8) + 7):
-                        do_dct[ci] = JpegForwardDct7x7;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct7x7;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((9 << 8) + 9):
-                        do_dct[ci] = JpegForwardDct9x9;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct9x9;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((10 << 8) + 10):
-                        do_dct[ci] = JpegForwardDct10x10;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct10x10;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((11 << 8) + 11):
-                        do_dct[ci] = JpegForwardDct11x11;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct11x11;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((12 << 8) + 12):
-                        do_dct[ci] = JpegForwardDct12x12;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct12x12;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((13 << 8) + 13):
-                        do_dct[ci] = JpegForwardDct13x13;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct13x13;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((14 << 8) + 14):
-                        do_dct[ci] = JpegForwardDct14x14;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct14x14;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((15 << 8) + 15):
-                        do_dct[ci] = JpegForwardDct15x15;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct15x15;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((16 << 8) + 16):
-                        do_dct[ci] = JpegForwardDct16x16;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct16x16;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((16 << 8) + 8):
-                        do_dct[ci] = JpegForwardDct16x8;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct16x8;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((14 << 8) + 7):
-                        do_dct[ci] = JpegForwardDct14x7;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct14x7;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((12 << 8) + 6):
-                        do_dct[ci] = JpegForwardDct12x6;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct12x6;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((10 << 8) + 5):
-                        do_dct[ci] = JpegForwardDct10x5;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct10x5;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((8 << 8) + 4):
-                        do_dct[ci] = JpegForwardDct8x4;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct8x4;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((6 << 8) + 3):
-                        do_dct[ci] = JpegForwardDct6x3;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct6x3;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((4 << 8) + 2):
-                        do_dct[ci] = JpegForwardDct4x2;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct4x2;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((2 << 8) + 1):
-                        do_dct[ci] = JpegForwardDct2x1;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct2x1;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((8 << 8) + 16):
-                        do_dct[ci] = JpegForwardDct8x16;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct8x16;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((7 << 8) + 14):
-                        do_dct[ci] = JpegForwardDct7x14;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct7x14;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((6 << 8) + 12):
-                        do_dct[ci] = JpegForwardDct6x12;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct6x12;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((5 << 8) + 10):
-                        do_dct[ci] = JpegForwardDct5x10;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct5x10;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((4 << 8) + 8):
-                        do_dct[ci] = JpegForwardDct4x8;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct4x8;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((3 << 8) + 6):
-                        do_dct[ci] = JpegForwardDct3x6;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct3x6;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((2 << 8) + 4):
-                        do_dct[ci] = JpegForwardDct2x4;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct2x4;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((1 << 8) + 2):
-                        do_dct[ci] = JpegForwardDct1x2;
-                        method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
-                        break;
+                    do_dct[ci] = JpegForwardDct1x2;
+                    method = JDctMethod.JDCT_ISLOW;    /* jfdctint uses islow-style table */
+                    break;
                     case ((JpegConstants.DCTSIZE << 8) + JpegConstants.DCTSIZE):
-                        switch (m_cinfo.dctMethod)
-                        {
-                            case JDctMethod.JDCT_ISLOW:
-                                do_dct[ci] = JpegForwardDctISlow;
-                                method = JDctMethod.JDCT_ISLOW;
-                                break;
-                            case JDctMethod.JDCT_IFAST:
-                                do_dct[ci] = JpegForwardDctIFast;
-                                method = JDctMethod.JDCT_IFAST;
-                                break;
-                            case JDctMethod.JDCT_FLOAT:
-                                do_float_dct[ci] = JpegForwardDctFloat;
-                                method = JDctMethod.JDCT_FLOAT;
-                                break;
-                            default:
-                                m_cinfo.ErrExit(JMessageCode.JERR_NOT_COMPILED);
-                                break;
-                        }
+                    switch (m_cinfo.m_dct_method)
+                    {
+                        case JDctMethod.JDCT_ISLOW:
+                        do_dct[ci] = JpegForwardDctISlow;
+                        method = JDctMethod.JDCT_ISLOW;
                         break;
+                        case JDctMethod.JDCT_IFAST:
+                        do_dct[ci] = JpegForwardDctIFast;
+                        method = JDctMethod.JDCT_IFAST;
+                        break;
+                        case JDctMethod.JDCT_FLOAT:
+                        do_float_dct[ci] = JpegForwardDctFloat;
+                        method = JDctMethod.JDCT_FLOAT;
+                        break;
+                        default:
+                        m_cinfo.ErrExit(JMessageCode.JERR_NOT_COMPILED);
+                        break;
+                    }
+                    break;
                     default:
-                        m_cinfo.ErrExit(JMessageCode.JERR_BAD_DCTSIZE, compptr.DCT_h_scaled_size, compptr.DCT_v_scaled_size);
-                        break;
+                    m_cinfo.ErrExit(JMessageCode.JERR_BAD_DCTSIZE, compptr.DCT_h_scaled_size, compptr.DCT_v_scaled_size);
+                    break;
                 }
 
                 var qtblno = m_cinfo.Component_info[ci].Quant_tbl_no;
@@ -330,45 +330,45 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 switch (method)
                 {
                     case JDctMethod.JDCT_ISLOW:
-                        /* For LL&M IDCT method, divisors are equal to raw quantization
-                         * coefficients multiplied by 8 (to counteract scaling).
-                         */
-                        dtbl = m_dctTables[ci].int_array;
-                        for (i = 0; i < JpegConstants.DCTSIZE2; i++)
-                        {
-                            dtbl[i] = qtbl.quantBal[i] << (compptr.component_needed ? 4 : 3);
-                        }
+                    /* For LL&M IDCT method, divisors are equal to raw quantization
+                     * coefficients multiplied by 8 (to counteract scaling).
+                     */
+                    dtbl = m_dctTables[ci].int_array;
+                    for (i = 0; i < JpegConstants.DCTSIZE2; i++)
+                    {
+                        dtbl[i] = qtbl.quantBal[i] << (compptr.component_needed ? 4 : 3);
+                    }
 
-                        forward_DCT[ci] = ForwardDctImpl;
-                        break;
+                    forward_DCT[ci] = ForwardDctImpl;
+                    break;
 
                     case JDctMethod.JDCT_IFAST:
-                        dtbl = m_dctTables[ci].int_array;
-                        for (i = 0; i < JpegConstants.DCTSIZE2; i++)
-                        {
-                            dtbl[i] = JpegUtils.DESCALE(qtbl.quantBal[i] * aanscales[i], compptr.component_needed ? CONST_BITS - 4 : CONST_BITS - 3);
-                        }
+                    dtbl = m_dctTables[ci].int_array;
+                    for (i = 0; i < JpegConstants.DCTSIZE2; i++)
+                    {
+                        dtbl[i] = JpegUtils.DESCALE(qtbl.quantBal[i] * aanscales[i], compptr.component_needed ? CONST_BITS - 4 : CONST_BITS - 3);
+                    }
 
-                        forward_DCT[ci] = ForwardDctImpl;
-                        break;
+                    forward_DCT[ci] = ForwardDctImpl;
+                    break;
 
                     case JDctMethod.JDCT_FLOAT:
-                        var fdtbl = m_dctTables[ci].float_array;
-                        i = 0;
-                        for (var row = 0; row < JpegConstants.DCTSIZE; row++)
+                    var fdtbl = m_dctTables[ci].float_array;
+                    i = 0;
+                    for (var row = 0; row < JpegConstants.DCTSIZE; row++)
+                    {
+                        for (var col = 0; col < JpegConstants.DCTSIZE; col++)
                         {
-                            for (var col = 0; col < JpegConstants.DCTSIZE; col++)
-                            {
-                                fdtbl[i] = (float)(1.0 / (qtbl.quantBal[i] * aanscalefactor[row] * aanscalefactor[col] * (compptr.component_needed ? 16.0 : 8.0)));
-                                i++;
-                            }
+                            fdtbl[i] = (float)(1.0 / (qtbl.quantBal[i] * aanscalefactor[row] * aanscalefactor[col] * (compptr.component_needed ? 16.0 : 8.0)));
+                            i++;
                         }
-                        forward_DCT[ci] = ForwardDctFloatImpl;
-                        break;
+                    }
+                    forward_DCT[ci] = ForwardDctFloatImpl;
+                    break;
 
                     default:
-                        m_cinfo.ErrExit(JMessageCode.JERR_NOT_COMPILED);
-                        break;
+                    m_cinfo.ErrExit(JMessageCode.JERR_NOT_COMPILED);
+                    break;
                 }
             }
         }

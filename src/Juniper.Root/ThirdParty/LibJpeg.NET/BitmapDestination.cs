@@ -226,6 +226,7 @@ namespace BitMiracle.LibJpeg
                 PUT_4B(infoHeader, 24, m_parameters.DensityX * 100); /* XPels/M */
                 PUT_4B(infoHeader, 28, m_parameters.DensityY * 100); /* XPels/M */
             }
+
             PUT_2B(infoHeader, 32, cmap_entries); /* biClrUsed */
             /* we leave biClrImportant = 0 */
         }

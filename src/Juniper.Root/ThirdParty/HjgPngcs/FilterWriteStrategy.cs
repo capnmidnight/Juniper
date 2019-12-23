@@ -40,6 +40,7 @@ namespace Hjg.Pngcs
             {
                 currentType = configuredType;
             }
+
             if (configuredType == FilterType.FILTER_AGGRESSIVE)
             {
                 discoverEachLines = COMPUTE_STATS_EVERY_N_LINES;
@@ -97,6 +98,7 @@ namespace Hjg.Pngcs
                         histogram1[i] = v;
                     }
                 }
+
                 lastEntropies[(int)type] = (-e);
             }
         }
@@ -125,10 +127,12 @@ namespace Hjg.Pngcs
                     }
                 }
             }
+
             if (configuredType == FilterType.FILTER_CYCLIC)
             {
                 currentType = (FilterType)(((int)currentType + 1) % 5);
             }
+
             return currentType;
         }
     }

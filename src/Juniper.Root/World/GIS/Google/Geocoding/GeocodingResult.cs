@@ -38,6 +38,7 @@ namespace Juniper.World.GIS.Google.Geocoding
             {
                 info.AddValue(nameof(partial_match), partial_match);
             }
+
             info.AddValue(nameof(address_components), address_components);
             info.AddValue(nameof(formatted_address), formatted_address);
             info.AddValue(nameof(place_id), place_id);

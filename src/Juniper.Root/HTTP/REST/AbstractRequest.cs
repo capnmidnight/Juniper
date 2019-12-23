@@ -207,7 +207,7 @@ namespace Juniper.HTTP.REST
                 .ConfigureAwait(false);
         }
 
-        public override async Task<Stream> GetStream(IProgress prog = null)
+        public override async Task<Stream> GetStreamAsync(IProgress prog = null)
         {
             var progs = prog.Split("Get", "Read");
             prog = progs[1];

@@ -107,17 +107,17 @@ namespace Juniper.Iteration.Tests
                 switch (rand.Next(4))
                 {
                     case 0:
-                        itemsRaw[i] = (new A((float)rand.NextDouble(), (float)rand.NextDouble()));
-                        break;
+                    itemsRaw[i] = (new A((float)rand.NextDouble(), (float)rand.NextDouble()));
+                    break;
                     case 1:
-                        itemsRaw[i] = (new B((float)rand.NextDouble(), (float)rand.NextDouble()));
-                        break;
+                    itemsRaw[i] = (new B((float)rand.NextDouble(), (float)rand.NextDouble()));
+                    break;
                     case 2:
-                        itemsRaw[i] = (new C((float)rand.NextDouble(), (float)rand.NextDouble()));
-                        break;
+                    itemsRaw[i] = (new C((float)rand.NextDouble(), (float)rand.NextDouble()));
+                    break;
                     case 3:
-                        itemsRaw[i] = (new D((float)rand.NextDouble(), (float)rand.NextDouble()));
-                        break;
+                    itemsRaw[i] = (new D((float)rand.NextDouble(), (float)rand.NextDouble()));
+                    break;
                 }
             }
 

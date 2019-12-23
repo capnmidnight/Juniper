@@ -51,49 +51,49 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             switch (cinfo.jpegColorSpace)
             {
                 case JColorSpace.JCS_GRAYSCALE:
-                    if (cinfo.numComponents != 1)
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
-                    }
+                if (cinfo.numComponents != 1)
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
+                }
 
-                    break;
+                break;
 
                 case JColorSpace.JCS_RGB:
                 case JColorSpace.JCS_YCbCr:
                 case JColorSpace.JCS_BG_RGB:
                 case JColorSpace.JCS_BG_YCC:
-                    if (cinfo.numComponents != 3)
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
-                    }
+                if (cinfo.numComponents != 3)
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
+                }
 
-                    break;
+                break;
 
                 case JColorSpace.JCS_CMYK:
                 case JColorSpace.JCS_YCCK:
-                    if (cinfo.numComponents != 4)
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
-                    }
+                if (cinfo.numComponents != 4)
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
+                }
 
-                    break;
+                break;
 
                 case JColorSpace.JCS_NCHANNEL:
-                    if (cinfo.numComponents < 1)
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
-                    }
+                if (cinfo.numComponents < 1)
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
+                }
 
-                    break;
+                break;
 
                 default:
-                    /* JCS_UNKNOWN can be anything */
-                    if (cinfo.numComponents < 1)
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
-                    }
+                /* JCS_UNKNOWN can be anything */
+                if (cinfo.numComponents < 1)
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
+                }
 
-                    break;
+                break;
             }
 
             /* Support color transform only for RGB colorspaces */
@@ -112,165 +112,165 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             switch (cinfo.outColorSpace)
             {
                 case JColorSpace.JCS_GRAYSCALE:
-                    cinfo.outColorComponents = 1;
-                    switch (cinfo.jpegColorSpace)
+                cinfo.outColorComponents = 1;
+                switch (cinfo.jpegColorSpace)
+                {
+                    case JColorSpace.JCS_GRAYSCALE:
+                    case JColorSpace.JCS_YCbCr:
+                    case JColorSpace.JCS_BG_YCC:
+                    m_converter = GrayscaleConvert;
+                    /* For color->grayscale conversion, only the Y (0) component is needed */
+                    for (var ci = 1; ci < cinfo.numComponents; ci++)
                     {
-                        case JColorSpace.JCS_GRAYSCALE:
-                        case JColorSpace.JCS_YCbCr:
-                        case JColorSpace.JCS_BG_YCC:
-                            m_converter = GrayscaleConvert;
-                            /* For color->grayscale conversion, only the Y (0) component is needed */
-                            for (var ci = 1; ci < cinfo.numComponents; ci++)
-                            {
-                                cinfo.CompInfo[ci].component_needed = false;
-                            }
+                        cinfo.CompInfo[ci].component_needed = false;
+                    }
 
-                            break;
+                    break;
 
-                        case JColorSpace.JCS_RGB:
-                            switch (cinfo.color_transform)
-                            {
-                                case JColorTransform.JCT_NONE:
-                                    m_converter = RgbGrayConvert;
-                                    break;
+                    case JColorSpace.JCS_RGB:
+                    switch (cinfo.color_transform)
+                    {
+                        case JColorTransform.JCT_NONE:
+                        m_converter = RgbGrayConvert;
+                        break;
 
-                                case JColorTransform.JCT_SUBTRACT_GREEN:
-                                    m_converter = Rgb1GrayConvert;
-                                    break;
-
-                                default:
-                                    cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
-                                    break;
-                            }
-
-                            BuildRgbYTable();
-                            break;
+                        case JColorTransform.JCT_SUBTRACT_GREEN:
+                        m_converter = Rgb1GrayConvert;
+                        break;
 
                         default:
-                            cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
-                            break;
+                        cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
+                        break;
                     }
+
+                    BuildRgbYTable();
                     break;
+
+                    default:
+                    cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
+                    break;
+                }
+                break;
 
                 case JColorSpace.JCS_RGB:
-                    cinfo.outColorComponents = JpegConstants.RGB_PIXELSIZE;
-                    switch (cinfo.jpegColorSpace)
+                cinfo.outColorComponents = JpegConstants.RGB_PIXELSIZE;
+                switch (cinfo.jpegColorSpace)
+                {
+                    case JColorSpace.JCS_GRAYSCALE:
+                    m_converter = GrayRgbConvert;
+                    break;
+
+                    case JColorSpace.JCS_YCbCr:
+                    m_converter = YccRgbConvert;
+                    BuildYccRgbTable();
+                    break;
+
+                    case JColorSpace.JCS_BG_YCC:
+                    m_converter = YccRgbConvert;
+                    BuildBgYccRgbTable();
+                    break;
+
+                    case JColorSpace.JCS_RGB:
+                    switch (cinfo.color_transform)
                     {
-                        case JColorSpace.JCS_GRAYSCALE:
-                            m_converter = GrayRgbConvert;
-                            break;
+                        case JColorTransform.JCT_NONE:
+                        m_converter = RgbConvert;
+                        break;
 
-                        case JColorSpace.JCS_YCbCr:
-                            m_converter = YccRgbConvert;
-                            BuildYccRgbTable();
-                            break;
-
-                        case JColorSpace.JCS_BG_YCC:
-                            m_converter = YccRgbConvert;
-                            BuildBgYccRgbTable();
-                            break;
-
-                        case JColorSpace.JCS_RGB:
-                            switch (cinfo.color_transform)
-                            {
-                                case JColorTransform.JCT_NONE:
-                                    m_converter = RgbConvert;
-                                    break;
-
-                                case JColorTransform.JCT_SUBTRACT_GREEN:
-                                    m_converter = Rgb1RgbConvert;
-                                    break;
-
-                                default:
-                                    cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
-                                    break;
-                            }
-                            break;
-
-                        case JColorSpace.JCS_CMYK:
-                            m_converter = CmykRgbConvert;
-                            break;
-
-                        case JColorSpace.JCS_YCCK:
-                            m_converter = YcckRgbConvert;
-                            BuildYccRgbTable();
-                            break;
+                        case JColorTransform.JCT_SUBTRACT_GREEN:
+                        m_converter = Rgb1RgbConvert;
+                        break;
 
                         default:
-                            cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
-                            break;
+                        cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
+                        break;
                     }
                     break;
+
+                    case JColorSpace.JCS_CMYK:
+                    m_converter = CmykRgbConvert;
+                    break;
+
+                    case JColorSpace.JCS_YCCK:
+                    m_converter = YcckRgbConvert;
+                    BuildYccRgbTable();
+                    break;
+
+                    default:
+                    cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
+                    break;
+                }
+                break;
 
                 case JColorSpace.JCS_BG_RGB:
-                    cinfo.outColorComponents = JpegConstants.RGB_PIXELSIZE;
-                    if (cinfo.jpegColorSpace == JColorSpace.JCS_BG_RGB)
+                cinfo.outColorComponents = JpegConstants.RGB_PIXELSIZE;
+                if (cinfo.jpegColorSpace == JColorSpace.JCS_BG_RGB)
+                {
+                    switch (cinfo.color_transform)
                     {
-                        switch (cinfo.color_transform)
-                        {
-                            case JColorTransform.JCT_NONE:
-                                m_converter = RgbConvert;
-                                break;
+                        case JColorTransform.JCT_NONE:
+                        m_converter = RgbConvert;
+                        break;
 
-                            case JColorTransform.JCT_SUBTRACT_GREEN:
-                                m_converter = Rgb1RgbConvert;
-                                break;
-
-                            default:
-                                cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
-                    }
-                    break;
-
-                case JColorSpace.JCS_CMYK:
-                    cinfo.outColorComponents = 4;
-                    switch (cinfo.jpegColorSpace)
-                    {
-                        case JColorSpace.JCS_YCCK:
-                            m_converter = YcckCmykConvert;
-                            BuildYccRgbTable();
-                            break;
-
-                        case JColorSpace.JCS_CMYK:
-                            m_converter = NullConvert;
-                            break;
+                        case JColorTransform.JCT_SUBTRACT_GREEN:
+                        m_converter = Rgb1RgbConvert;
+                        break;
 
                         default:
-                            cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
-                            break;
+                        cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
+                        break;
                     }
+                }
+                else
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
+                }
+                break;
+
+                case JColorSpace.JCS_CMYK:
+                cinfo.outColorComponents = 4;
+                switch (cinfo.jpegColorSpace)
+                {
+                    case JColorSpace.JCS_YCCK:
+                    m_converter = YcckCmykConvert;
+                    BuildYccRgbTable();
                     break;
+
+                    case JColorSpace.JCS_CMYK:
+                    m_converter = NullConvert;
+                    break;
+
+                    default:
+                    cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
+                    break;
+                }
+                break;
 
                 case JColorSpace.JCS_NCHANNEL:
-                    if (cinfo.jpegColorSpace == JColorSpace.JCS_NCHANNEL)
-                    {
-                        m_converter = NullConvert;
-                    }
-                    else
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
-                    }
+                if (cinfo.jpegColorSpace == JColorSpace.JCS_NCHANNEL)
+                {
+                    m_converter = NullConvert;
+                }
+                else
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
+                }
 
-                    break;
+                break;
 
                 default:
-                    /* Permit null conversion to same output space */
-                    if (cinfo.outColorSpace == cinfo.jpegColorSpace)
-                    {
-                        cinfo.outColorComponents = cinfo.numComponents;
-                        m_converter = NullConvert;
-                    }
-                    else
-                    {
-                        /* unsupported non-null conversion */
-                        cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
-                    }
-                    break;
+                /* Permit null conversion to same output space */
+                if (cinfo.outColorSpace == cinfo.jpegColorSpace)
+                {
+                    cinfo.outColorComponents = cinfo.numComponents;
+                    m_converter = NullConvert;
+                }
+                else
+                {
+                    /* unsupported non-null conversion */
+                    cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
+                }
+                break;
             }
 
             if (cinfo.quantizeColors)

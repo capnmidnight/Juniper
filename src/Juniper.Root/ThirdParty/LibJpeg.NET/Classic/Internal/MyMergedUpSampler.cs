@@ -61,7 +61,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             m_out_row_width = cinfo.outputWidth * cinfo.outColorComponents;
 
-            if (cinfo.maxVSampleFactor == 2)
+            if (cinfo.m_maxVSampleFactor == 2)
             {
                 m_use_2v_upsample = true;
                 /* Allocate a spare row buffer */

@@ -175,11 +175,11 @@ namespace BitMiracle.LibJpeg.Classic
         /// TRUE=apply fancy downsampling
         /// </summary>
         public bool do_fancy_downsampling;
-        internal int inputSmoothingFactor;       /* 1..100, or 0 for no input smoothing */
-        internal JDctMethod dctMethod;    /* DCT algorithm selector */
+        internal int m_input_smoothing;       /* 1..100, or 0 for no input smoothing */
+        internal JDctMethod m_dct_method;    /* DCT algorithm selector */
 
-        internal int restartInterval; /* MCUs per restart, or 0 for no restart */
-        internal int restartInRows;        /* if > 0, MCU rows per restart interval */
+        internal int m_restart_interval; /* MCUs per restart, or 0 for no restart */
+        internal int m_restart_in_rows;        /* if > 0, MCU rows per restart interval */
 
         internal bool m_write_JFIF_header; /* should a JFIF marker be written? */
         internal byte m_JFIF_major_version;   /* What to write for the JFIF version number */
@@ -444,8 +444,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <seealso href="../articles/KB/compression-parameter-selection.html">Compression parameter selection</seealso>
         public int SmoothingFactor
         {
-            get { return inputSmoothingFactor; }
-            set { inputSmoothingFactor = value; }
+            get { return m_input_smoothing; }
+            set { m_input_smoothing = value; }
         }
 
         /// <summary>
@@ -455,8 +455,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <seealso href="../articles/KB/compression-parameter-selection.html">Compression parameter selection</seealso>
         public JDctMethod DctMethod
         {
-            get { return dctMethod; }
-            set { dctMethod = value; }
+            get { return m_dct_method; }
+            set { m_dct_method = value; }
         }
 
         /* The restart interval can be specified in absolute MCUs by setting
@@ -477,8 +477,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <seealso href="../articles/KB/compression-parameter-selection.html">Compression parameter selection</seealso>
         public int RestartInterval
         {
-            get { return restartInterval; }
-            set { restartInterval = value; }
+            get { return m_restart_interval; }
+            set { m_restart_interval = value; }
         }
 
         /// <summary>
@@ -495,8 +495,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <seealso href="../articles/KB/compression-parameter-selection.html">Compression parameter selection</seealso>
         public int RestartInRows
         {
-            get { return restartInRows; }
-            set { restartInRows = value; }
+            get { return m_restart_in_rows; }
+            set { m_restart_in_rows = value; }
         }
 
         /* Parameters controlling emission of special markers. */
@@ -959,14 +959,14 @@ namespace BitMiracle.LibJpeg.Classic
             do_fancy_downsampling = true;
 
             /* No input smoothing */
-            inputSmoothingFactor = 0;
+            m_input_smoothing = 0;
 
             /* DCT algorithm preference */
-            dctMethod = JpegConstants.JDCT_DEFAULT;
+            m_dct_method = JpegConstants.JDCT_DEFAULT;
 
             /* No restart markers */
-            restartInterval = 0;
-            restartInRows = 0;
+            m_restart_interval = 0;
+            m_restart_in_rows = 0;
 
             /* Fill in default JFIF marker parameters.  Note that whether the marker
             * will actually be written is determined by jpeg_set_colorspace.
@@ -1326,9 +1326,9 @@ namespace BitMiracle.LibJpeg.Classic
 
             /* Figure space needed for script.  Calculation must match code below! */
             int nscans;
-            if (m_num_components == 3 &&
-                (m_jpeg_color_space == JColorSpace.JCS_YCbCr ||
-                m_jpeg_color_space == JColorSpace.JCS_BG_YCC))
+            if (m_num_components == 3
+                && (m_jpeg_color_space == JColorSpace.JCS_YCbCr
+                    || m_jpeg_color_space == JColorSpace.JCS_BG_YCC))
             {
                 /* Custom script for YCC color images. */
                 nscans = 10;
@@ -1369,9 +1369,9 @@ namespace BitMiracle.LibJpeg.Classic
             m_num_scans = nscans;
 
             var scanIndex = 0;
-            if (m_num_components == 3 &&
-                (m_jpeg_color_space == JColorSpace.JCS_YCbCr ||
-                m_jpeg_color_space == JColorSpace.JCS_BG_YCC))
+            if (m_num_components == 3
+                && (m_jpeg_color_space == JColorSpace.JCS_YCbCr
+                    || m_jpeg_color_space == JColorSpace.JCS_BG_YCC))
             {
                 /* Custom script for YCC color images. */
                 /* Initial DC scan */
@@ -1876,8 +1876,10 @@ namespace BitMiracle.LibJpeg.Classic
             {
                 arith_code = false; /* disable arithmetic coding */
             }
-            else if (!arith_code &&
-                (m_progressive_mode || (block_size > 1 && block_size < JpegConstants.DCTSIZE)))
+            else if (!arith_code
+                && (m_progressive_mode
+                    || (block_size > 1
+                        && block_size < JpegConstants.DCTSIZE)))
             {
                 /* TEMPORARY HACK ??? */
                 /* assume default tables no good for progressive or reduced AC mode */
@@ -1993,8 +1995,9 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* Derive lim_Se from block_size */
-            lim_Se = block_size < JpegConstants.DCTSIZE ?
-                (block_size * block_size) - 1 : JpegConstants.DCTSIZE2 - 1;
+            lim_Se = block_size < JpegConstants.DCTSIZE
+                ? (block_size * block_size) - 1
+                : JpegConstants.DCTSIZE2 - 1;
 
             /* Sanity check on image dimensions */
             if (jpeg_height <= 0 || jpeg_width <= 0 || m_num_components <= 0)
@@ -2003,8 +2006,8 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* Make sure image isn't bigger than I can handle */
-            if (jpeg_height > JpegConstants.JPEG_MAX_DIMENSION ||
-                jpeg_width > JpegConstants.JPEG_MAX_DIMENSION)
+            if (jpeg_height > JpegConstants.JPEG_MAX_DIMENSION
+                || jpeg_width > JpegConstants.JPEG_MAX_DIMENSION)
             {
                 ErrExit(JMessageCode.JERR_IMAGE_TOO_BIG, (uint)JpegConstants.JPEG_MAX_DIMENSION);
             }
@@ -2026,8 +2029,10 @@ namespace BitMiracle.LibJpeg.Classic
             m_max_v_samp_factor = 1;
             for (var ci = 0; ci < m_num_components; ci++)
             {
-                if (compInfo[ci].H_samp_factor <= 0 || compInfo[ci].H_samp_factor > JpegConstants.MAX_SAMP_FACTOR ||
-                    compInfo[ci].V_samp_factor <= 0 || compInfo[ci].V_samp_factor > JpegConstants.MAX_SAMP_FACTOR)
+                if (compInfo[ci].H_samp_factor <= 0
+                    || compInfo[ci].H_samp_factor > JpegConstants.MAX_SAMP_FACTOR
+                    || compInfo[ci].V_samp_factor <= 0
+                    || compInfo[ci].V_samp_factor > JpegConstants.MAX_SAMP_FACTOR)
                 {
                     ErrExit(JMessageCode.JERR_BAD_SAMPLING);
                 }
@@ -2049,18 +2054,20 @@ namespace BitMiracle.LibJpeg.Classic
                  * Note this code adapts subsampling ratios which are powers of 2.
                  */
                 var ssize = 1;
-                while (min_DCT_h_scaled_size * ssize <=
-                   (do_fancy_downsampling ? JpegConstants.DCTSIZE : JpegConstants.DCTSIZE / 2) &&
-                   (m_max_h_samp_factor % (compptr.H_samp_factor * ssize * 2)) == 0)
+                var upSampleSize = do_fancy_downsampling
+                    ? JpegConstants.DCTSIZE
+                    : JpegConstants.DCTSIZE / 2;
+
+                while (min_DCT_h_scaled_size * ssize <= upSampleSize
+                   && (m_max_h_samp_factor % (compptr.H_samp_factor * ssize * 2)) == 0)
                 {
                     ssize *= 2;
                 }
 
                 compptr.DCT_h_scaled_size = min_DCT_h_scaled_size * ssize;
                 ssize = 1;
-                while (min_DCT_v_scaled_size * ssize <=
-                   (do_fancy_downsampling ? JpegConstants.DCTSIZE : JpegConstants.DCTSIZE / 2) &&
-                   (m_max_v_samp_factor % (compptr.V_samp_factor * ssize * 2)) == 0)
+                while (min_DCT_v_scaled_size * ssize <= upSampleSize
+                   && (m_max_v_samp_factor % (compptr.V_samp_factor * ssize * 2)) == 0)
                 {
                     ssize *= 2;
                 }

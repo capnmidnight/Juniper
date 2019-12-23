@@ -47,6 +47,7 @@ namespace Hjg.Pngcs.Chunks
                 nullsep = i;
                 break;
             }
+
             if (nullsep < 0 || nullsep > c.Data.Length - 2)
             {
                 throw new PngjException("bad zTXt chunk: no separator found");

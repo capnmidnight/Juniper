@@ -228,7 +228,7 @@ namespace Juniper.IO
             if (cached == null && fileRef is StreamSource fileSource)
             {
                 cached = await fileSource
-                    .GetStream(prog)
+                    .GetStreamAsync(prog)
                     .ConfigureAwait(false);
                 cached = Cache(fileRef, cached);
             }

@@ -402,8 +402,8 @@ namespace BitMiracle.LibJpeg
 
         private bool NeedCompressWith(CompressionParameters parameters)
         {
-            return m_compressedData == null ||
-                   m_compressionParameters?.Equals(parameters) != true;
+            return m_compressedData == null
+                || m_compressionParameters?.Equals(parameters) != true;
         }
 
         private void Decompress()
@@ -479,6 +479,7 @@ namespace BitMiracle.LibJpeg
                     samples[(x * 3) + 1] = color.G;
                     samples[(x * 3) + 2] = color.B;
                 }
+
                 m_rows.Add(new SampleRow(samples, BitsPerComponent, ComponentsPerSample));
             }
         }

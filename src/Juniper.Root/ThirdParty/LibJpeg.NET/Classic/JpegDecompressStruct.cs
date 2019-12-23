@@ -25,10 +25,10 @@ namespace BitMiracle.LibJpeg.Classic
         /// the marker proper has been read from the data source module. The processor routine 
         /// is responsible for reading the marker length word and the remaining parameter bytes, if any.
         /// </remarks>
-        public delegate bool JpegMarkerParserMethodDelegate(JpegDecompressStruct cinfo);
+        public delegate bool JpegMarkerParserMethod(JpegDecompressStruct cinfo);
 
         /* Source of compressed data */
-        internal JpegSourceManager src;
+        internal JpegSourceManager m_src;
 
         internal int imageWidth; /* nominal image width (from SOF marker) */
         internal int imageHeight;    /* nominal image height */
@@ -62,8 +62,8 @@ namespace BitMiracle.LibJpeg.Classic
 
         internal int recommendOutBufferHeight;  /* min recommended height of scanline buffer */
 
-        internal int actualNumberOfColors;    /* number of entries in use */
-        internal byte[][] colormap;     /* The color map as a 2-D pixel array */
+        internal int actualColorCount;    /* number of entries in use */
+        internal byte[][] m_colormap;     /* The color map as a 2-D pixel array */
 
         internal int outputScanline; /* 0 .. output_height-1  */
 
@@ -95,9 +95,9 @@ namespace BitMiracle.LibJpeg.Classic
          * are given in SOF/SOS markers or defined to be reset by SOI.
          */
 
-        internal int dataPrecision;     /* bits of precision in image data */
+        internal int m_dataPrecision;     /* bits of precision in image data */
 
-        internal bool isBaseline;		/* TRUE if Baseline SOF0 encountered */
+        internal bool isBaseline;        /* TRUE if Baseline SOF0 encountered */
         internal bool progressiveMode;  /* true if SOFn specifies progressive mode */
         internal bool arithCode;     /* TRUE=arithmetic coding, FALSE=Huffman */
 
@@ -115,9 +115,9 @@ namespace BitMiracle.LibJpeg.Classic
         internal byte m_JFIF_major_version;   /* JFIF version number */
         internal byte m_JFIF_minor_version;
 
-        internal DensityUnit densityUnit;     /* JFIF code for pixel size units */
-        internal short xDensity;       /* Horizontal pixel density */
-        internal short yDensity;       /* Vertical pixel density */
+        internal DensityUnit m_densityUnit;     /* JFIF code for pixel size units */
+        internal short m_xDensity;       /* Horizontal pixel density */
+        internal short m_yDensity;       /* Vertical pixel density */
 
         internal bool m_saw_Adobe_marker;  /* true iff an Adobe APP14 marker was found */
         internal byte m_Adobe_transform;  /* Color transform code from Adobe marker */
@@ -137,10 +137,10 @@ namespace BitMiracle.LibJpeg.Classic
          * These fields are computed during decompression startup
          */
         internal int m_max_h_samp_factor;  /* largest h_samp_factor */
-        internal int maxVSampleFactor;  /* largest v_samp_factor */
+        internal int m_maxVSampleFactor;  /* largest v_samp_factor */
 
         internal int min_DCT_h_scaled_size;  /* smallest DCT_h_scaled_size of any component */
-        internal int min_DCT_v_scaled_size;	/* smallest DCT_v_scaled_size of any component */
+        internal int min_DCT_v_scaled_size;  /* smallest DCT_v_scaled_size of any component */
 
         internal int m_total_iMCU_rows; /* # of iMCU rows in image */
         /* The coefficient controller's input and output progress is measured in
@@ -180,13 +180,13 @@ namespace BitMiracle.LibJpeg.Classic
         /* These fields are derived from Se of first SOS marker. */
         internal int block_size;     /* the basic DCT block size: 1..16 */
         internal int[] natural_order; /* natural-order position array for entropy decode */
-        internal int lim_Se;			/* min( Se, DCTSIZE2-1 ) for entropy decode */
+        internal int lim_Se;            /* min( Se, DCTSIZE2-1 ) for entropy decode */
 
         /* This field is shared between entropy decoder and marker parser.
          * It is either zero or the code of a JPEG marker that has been
          * read from the data source, but has not yet been processed.
          */
-        internal int unreadMarker;
+        internal int m_unreadMarker;
 
         /*
          * Links to decompression subobjects (methods, private variables of modules)
@@ -238,8 +238,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <value>The source for decompression.</value>
         public LibJpeg.Classic.JpegSourceManager Src
         {
-            get { return src; }
-            set { src = value; }
+            get { return m_src; }
+            set { m_src = value; }
         }
 
         /* Basic description of image --- filled in by jpeg_read_header(). */
@@ -296,10 +296,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <seealso href="../articles/KB/special-markers.html">Special markers</seealso>
         public ReadOnlyCollection<JpegMarkerStruct> Marker_list
         {
-            get
-            {
-                return new ReadOnlyCollection<JpegMarkerStruct>(m_marker_list);
-            }
+            get { return new ReadOnlyCollection<JpegMarkerStruct>(m_marker_list); }
         }
 
         /* Decompression processing parameters --- these fields must be set before
@@ -629,8 +626,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <seealso href="../articles/KB/decompression-parameter-selection.html">Decompression parameter selection</seealso>
         public int ActualNumberOfColors
         {
-            get { return actualNumberOfColors; }
-            set { actualNumberOfColors = value; }
+            get { return actualColorCount; }
+            set { actualColorCount = value; }
         }
 
         /// <summary>
@@ -650,8 +647,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <seealso href="../articles/KB/decompression-parameter-selection.html">Decompression parameter selection</seealso>
         public byte[][] Colormap
         {
-            get { return colormap; }
-            set { colormap = value; }
+            get { return m_colormap; }
+            set { m_colormap = value; }
         }
 
         /* State variables: these variables indicate the progress of decompression.
@@ -758,7 +755,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <seealso href="../articles/KB/decompression-parameter-selection.html">Decompression parameter selection</seealso>
         public DensityUnit DensityUnit
         {
-            get { return densityUnit; }
+            get { return m_densityUnit; }
         }
 
         /// <summary>
@@ -769,7 +766,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <seealso cref="JpegDecompressStruct.DensityUnit"/>
         public short XDensity
         {
-            get { return xDensity; }
+            get { return m_xDensity; }
         }
 
         /// <summary>
@@ -780,7 +777,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <seealso cref="JpegDecompressStruct.DensityUnit"/>
         public short YDensity
         {
-            get { return yDensity; }
+            get { return m_yDensity; }
         }
 
         /// <summary>
@@ -789,7 +786,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <value>The data precision.</value>
         public int DataPrecision
         {
-            get { return dataPrecision; }
+            get { return m_dataPrecision; }
             //set { m_data_precision = value; }
         }
 
@@ -799,7 +796,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <value>The largest vertical sample factor.</value>
         public int MaxVSampleFactor
         {
-            get { return maxVSampleFactor; }
+            get { return m_maxVSampleFactor; }
             //set { m_max_v_samp_factor = value; }
         }
 
@@ -813,7 +810,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <seealso href="../articles/KB/special-markers.html">Special markers</seealso>
         public int UnreadMarker
         {
-            get { return unreadMarker; }
+            get { return m_unreadMarker; }
         }
 
         /// <summary>
@@ -841,13 +838,13 @@ namespace BitMiracle.LibJpeg.Classic
             * This makes it unsafe to use this manager and a different source
             * manager serially with the same JPEG object.  Caveat programmer.
             */
-            if (src == null)
+            if (m_src == null)
             {
                 /* first time for this JPEG object? */
-                src = new MySourceManager(this);
+                m_src = new MySourceManager(this);
             }
 
-            if (src is MySourceManager m)
+            if (m_src is MySourceManager m)
             {
                 m.Attach(infile);
             }
@@ -906,22 +903,22 @@ namespace BitMiracle.LibJpeg.Classic
             switch (retcode)
             {
                 case ReadResult.JPEG_REACHED_SOS:
-                    return ReadResult.JPEG_HEADER_OK;
+                return ReadResult.JPEG_HEADER_OK;
                 case ReadResult.JPEG_REACHED_EOI:
-                    if (require_image)      /* Complain if application wanted an image */
-                    {
-                        ErrExit(JMessageCode.JERR_NO_IMAGE);
-                    }
-                    /* Reset to start state; it would be safer to require the application to
+                if (require_image)      /* Complain if application wanted an image */
+                {
+                    ErrExit(JMessageCode.JERR_NO_IMAGE);
+                }
+                /* Reset to start state; it would be safer to require the application to
 * call jpeg_abort, but we can't change it now for compatibility reasons.
 * A side effect is to free any temporary memory (there shouldn't be any).
 */
-                    JpegAbort(); /* sets state = DSTATE_START */
-                    return ReadResult.JPEG_HEADER_TABLES_ONLY;
+                JpegAbort(); /* sets state = DSTATE_START */
+                return ReadResult.JPEG_HEADER_TABLES_ONLY;
 
                 case ReadResult.JPEG_SUSPENDED:
-                    /* no work */
-                    break;
+                /* no work */
+                break;
             }
 
             return ReadResult.JPEG_SUSPENDED;
@@ -953,6 +950,7 @@ namespace BitMiracle.LibJpeg.Classic
                     globalState = JpegState.DSTATE_BUFIMAGE;
                     return true;
                 }
+
                 globalState = JpegState.DSTATE_PRELOAD;
             }
 
@@ -961,7 +959,7 @@ namespace BitMiracle.LibJpeg.Classic
                 /* If file has multiple scans, absorb them all into the coef buffer */
                 if (m_inputctl.HasMultipleScans())
                 {
-                    for (; ; )
+                    while (true)
                     {
                         ReadResult retcode;
                         /* Call progress monitor hook if present */
@@ -1089,7 +1087,7 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* Do final cleanup */
-            src.TermSource();
+            m_src.TermSource();
 
             /* We can use jpeg_abort to release memory and reset global_state */
             JpegAbort();
@@ -1127,7 +1125,7 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* Verify that at least one iMCU row can be returned. */
-            var lines_per_iMCU_row = maxVSampleFactor * min_DCT_v_scaled_size;
+            var lines_per_iMCU_row = m_maxVSampleFactor * min_DCT_v_scaled_size;
             if (max_lines < lines_per_iMCU_row)
             {
                 ErrExit(JMessageCode.JERR_BUFFER_SIZE);
@@ -1273,16 +1271,16 @@ namespace BitMiracle.LibJpeg.Classic
             switch (globalState)
             {
                 case JpegState.DSTATE_START:
-                    JpegConsumeInputStart();
-                    retcode = JpegConsumeInputInHeader();
-                    break;
+                JpegConsumeInputStart();
+                retcode = JpegConsumeInputInHeader();
+                break;
                 case JpegState.DSTATE_INHEADER:
-                    retcode = JpegConsumeInputInHeader();
-                    break;
+                retcode = JpegConsumeInputInHeader();
+                break;
                 case JpegState.DSTATE_READY:
-                    /* Can't advance past first SOS until start_decompress is called */
-                    retcode = ReadResult.JPEG_REACHED_SOS;
-                    break;
+                /* Can't advance past first SOS until start_decompress is called */
+                retcode = ReadResult.JPEG_REACHED_SOS;
+                break;
                 case JpegState.DSTATE_PRELOAD:
                 case JpegState.DSTATE_PRESCAN:
                 case JpegState.DSTATE_SCANNING:
@@ -1290,12 +1288,13 @@ namespace BitMiracle.LibJpeg.Classic
                 case JpegState.DSTATE_BUFIMAGE:
                 case JpegState.DSTATE_BUFPOST:
                 case JpegState.DSTATE_STOPPING:
-                    retcode = m_inputctl.ConsumeInput();
-                    break;
+                retcode = m_inputctl.ConsumeInput();
+                break;
                 default:
-                    ErrExit(JMessageCode.JERR_BAD_STATE, (int)globalState);
-                    break;
+                ErrExit(JMessageCode.JERR_BAD_STATE, (int)globalState);
+                break;
             }
+
             return retcode;
         }
 
@@ -1328,9 +1327,11 @@ namespace BitMiracle.LibJpeg.Classic
                 var ssize = 1;
 
                 var compptr = CompInfo[ci];
-                while (min_DCT_h_scaled_size * ssize <=
-                    (doFancyUpsampling ? JpegConstants.DCTSIZE : JpegConstants.DCTSIZE / 2) &&
-                    (m_max_h_samp_factor % (compptr.H_samp_factor * ssize * 2)) == 0)
+                var upSampleSize = doFancyUpsampling
+                    ? JpegConstants.DCTSIZE
+                    : JpegConstants.DCTSIZE / 2;
+                while (min_DCT_h_scaled_size * ssize <= upSampleSize
+                    && (m_max_h_samp_factor % (compptr.H_samp_factor * ssize * 2)) == 0)
                 {
                     ssize *= 2;
                 }
@@ -1338,12 +1339,12 @@ namespace BitMiracle.LibJpeg.Classic
                 compptr.DCT_h_scaled_size = min_DCT_h_scaled_size * ssize;
 
                 ssize = 1;
-                while (min_DCT_v_scaled_size * ssize <=
-                   (doFancyUpsampling ? JpegConstants.DCTSIZE : JpegConstants.DCTSIZE / 2) &&
-                   (maxVSampleFactor % (compptr.V_samp_factor * ssize * 2)) == 0)
+                while (min_DCT_v_scaled_size * ssize <= upSampleSize
+                   && (m_maxVSampleFactor % (compptr.V_samp_factor * ssize * 2)) == 0)
                 {
                     ssize *= 2;
                 }
+
                 compptr.DCT_v_scaled_size = min_DCT_v_scaled_size * ssize;
 
                 /* We don't support IDCT ratios larger than 2. */
@@ -1369,7 +1370,7 @@ namespace BitMiracle.LibJpeg.Classic
 
                 CompInfo[ci].downsampled_height = (int)JpegUtils.jdiv_round_up(
                     imageHeight * CompInfo[ci].V_samp_factor * CompInfo[ci].DCT_v_scaled_size,
-                    maxVSampleFactor * block_size);
+                    m_maxVSampleFactor * block_size);
             }
 
             /* Report number of components in selected colorspace. */
@@ -1377,36 +1378,43 @@ namespace BitMiracle.LibJpeg.Classic
             switch (outColorSpace)
             {
                 case JColorSpace.JCS_GRAYSCALE:
-                    outColorComponents = 1;
-                    break;
+                outColorComponents = 1;
+                break;
 
                 case JColorSpace.JCS_RGB:
                 case JColorSpace.JCS_BG_RGB:
-                    outColorComponents = JpegConstants.RGB_PIXELSIZE;
-                    break;
+                outColorComponents = JpegConstants.RGB_PIXELSIZE;
+                break;
 
                 case JColorSpace.JCS_YCbCr:
                 case JColorSpace.JCS_BG_YCC:
-                    outColorComponents = 3;
-                    break;
+                outColorComponents = 3;
+                break;
 
                 case JColorSpace.JCS_CMYK:
                 case JColorSpace.JCS_YCCK:
-                    outColorComponents = 4;
-                    break;
+                outColorComponents = 4;
+                break;
 
                 default:
-                    /* else must be same colorspace as in file */
-                    outColorComponents = numComponents;
-                    break;
+                /* else must be same colorspace as in file */
+                outColorComponents = numComponents;
+                break;
             }
 
-            outputComponents = (quantizeColors ? 1 : outColorComponents);
+            if (quantizeColors)
+            {
+                outputComponents = 1;
+            }
+            else
+            {
+                outputComponents = outColorComponents;
+            }
 
             /* See if upsampler will want to emit more than one row at a time */
             if (UseMergedUpSample())
             {
-                recommendOutBufferHeight = maxVSampleFactor;
+                recommendOutBufferHeight = m_maxVSampleFactor;
             }
             else
             {
@@ -1447,7 +1455,7 @@ namespace BitMiracle.LibJpeg.Classic
             if (globalState == JpegState.DSTATE_RDCOEFS)
             {
                 /* Absorb whole file into the coef buffer */
-                for (; ; )
+                while (true)
                 {
                     ReadResult retcode;
                     /* Call progress monitor hook if present */
@@ -1531,7 +1539,7 @@ namespace BitMiracle.LibJpeg.Classic
              */
             dstinfo.color_transform = color_transform;
             dstinfo.JpegSetColorspace(jpegColorSpace);
-            dstinfo.m_data_precision = dataPrecision;
+            dstinfo.m_data_precision = m_dataPrecision;
             dstinfo.CIR601sampling = m_CCIR601_sampling;
 
             /* Copy the source's quantization tables. */
@@ -1610,9 +1618,9 @@ namespace BitMiracle.LibJpeg.Classic
                     dstinfo.m_JFIF_minor_version = m_JFIF_minor_version;
                 }
 
-                dstinfo.m_density_unit = densityUnit;
-                dstinfo.m_X_density = xDensity;
-                dstinfo.m_Y_density = yDensity;
+                dstinfo.m_density_unit = m_densityUnit;
+                dstinfo.m_X_density = m_xDensity;
+                dstinfo.m_Y_density = m_yDensity;
             }
         }
 
@@ -1634,7 +1642,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// COM and/or APPn markers on-the-fly as they are read.
         /// </remarks>
         /// <seealso href="../articles/KB/special-markers.html">Special markers</seealso>
-        public void JpegSetMarkerProcessor(int marker_code, JpegMarkerParserMethodDelegate routine)
+        public void JpegSetMarkerProcessor(int marker_code, JpegMarkerParserMethod routine)
         {
             m_marker.JpegSetMarkerProcessor(marker_code, routine);
         }
@@ -1678,31 +1686,33 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* my_upsampler only supports YCC=>RGB color conversion */
-            if ((jpegColorSpace != JColorSpace.JCS_YCbCr &&
-                jpegColorSpace != JColorSpace.JCS_BG_YCC) ||
-                numComponents != 3 ||
-                outColorSpace != JColorSpace.JCS_RGB ||
-                outColorComponents != JpegConstants.RGB_PIXELSIZE ||
-                color_transform != JColorTransform.JCT_NONE)
+            if ((jpegColorSpace != JColorSpace.JCS_YCbCr && jpegColorSpace != JColorSpace.JCS_BG_YCC)
+                || numComponents != 3
+                || outColorSpace != JColorSpace.JCS_RGB
+                || outColorComponents != JpegConstants.RGB_PIXELSIZE
+                || color_transform != JColorTransform.JCT_NONE)
             {
                 return false;
             }
 
             /* and it only handles 2h1v or 2h2v sampling ratios */
-            if (CompInfo[0].H_samp_factor != 2 || CompInfo[1].H_samp_factor != 1 ||
-                CompInfo[2].H_samp_factor != 1 || CompInfo[0].V_samp_factor > 2 ||
-                CompInfo[1].V_samp_factor != 1 || CompInfo[2].V_samp_factor != 1)
+            if (CompInfo[0].H_samp_factor != 2
+                || CompInfo[1].H_samp_factor != 1
+                || CompInfo[2].H_samp_factor != 1
+                || CompInfo[0].V_samp_factor > 2
+                || CompInfo[1].V_samp_factor != 1
+                || CompInfo[2].V_samp_factor != 1)
             {
                 return false;
             }
 
             /* furthermore, it doesn't work if we've scaled the IDCTs differently */
-            if (CompInfo[0].DCT_h_scaled_size != min_DCT_h_scaled_size ||
-                CompInfo[1].DCT_h_scaled_size != min_DCT_h_scaled_size ||
-                CompInfo[2].DCT_h_scaled_size != min_DCT_h_scaled_size ||
-                CompInfo[0].DCT_v_scaled_size != min_DCT_v_scaled_size ||
-                CompInfo[1].DCT_v_scaled_size != min_DCT_v_scaled_size ||
-                CompInfo[2].DCT_v_scaled_size != min_DCT_v_scaled_size)
+            if (CompInfo[0].DCT_h_scaled_size != min_DCT_h_scaled_size
+                || CompInfo[1].DCT_h_scaled_size != min_DCT_h_scaled_size
+                || CompInfo[2].DCT_h_scaled_size != min_DCT_h_scaled_size
+                || CompInfo[0].DCT_v_scaled_size != min_DCT_v_scaled_size
+                || CompInfo[1].DCT_v_scaled_size != min_DCT_v_scaled_size
+                || CompInfo[2].DCT_v_scaled_size != min_DCT_v_scaled_size)
             {
                 return false;
             }
@@ -1720,7 +1730,7 @@ namespace BitMiracle.LibJpeg.Classic
         {
             /* Zero out pointers to permanent structures. */
             prog = null;
-            src = null;
+            m_src = null;
 
             for (var i = 0; i < JpegConstants.NUM_QUANT_TBLS; i++)
             {
@@ -1848,7 +1858,15 @@ namespace BitMiracle.LibJpeg.Classic
             /* Ready for application to drive output pass through
             * jpeg_read_scanlines or jpeg_read_raw_data.
             */
-            globalState = rawDataOut ? JpegState.DSTATE_RAW_OK : JpegState.DSTATE_SCANNING;
+            if (rawDataOut)
+            {
+                globalState = JpegState.DSTATE_RAW_OK;
+            }
+            else
+            {
+                globalState = JpegState.DSTATE_SCANNING;
+            }
+
             return true;
         }
 
@@ -1862,97 +1880,97 @@ namespace BitMiracle.LibJpeg.Classic
             switch (numComponents)
             {
                 case 1:
-                    jpegColorSpace = JColorSpace.JCS_GRAYSCALE;
-                    outColorSpace = JColorSpace.JCS_GRAYSCALE;
-                    break;
+                jpegColorSpace = JColorSpace.JCS_GRAYSCALE;
+                outColorSpace = JColorSpace.JCS_GRAYSCALE;
+                break;
 
                 case 3:
-                    var cid0 = CompInfo[0].Component_id;
-                    var cid1 = CompInfo[1].Component_id;
-                    var cid2 = CompInfo[2].Component_id;
+                var cid0 = CompInfo[0].Component_id;
+                var cid1 = CompInfo[1].Component_id;
+                var cid2 = CompInfo[2].Component_id;
 
-                    // Use Adobe marker info, otherwise try to guess from the component IDs
-                    if (m_saw_Adobe_marker)
+                // Use Adobe marker info, otherwise try to guess from the component IDs
+                if (m_saw_Adobe_marker)
+                {
+                    switch (m_Adobe_transform)
                     {
-                        switch (m_Adobe_transform)
-                        {
-                            case 0:
-                                jpegColorSpace = JColorSpace.JCS_RGB;
-                                break;
-                            case 1:
-                                jpegColorSpace = JColorSpace.JCS_YCbCr;
-                                break;
-                            default:
-                                WarnMS(JMessageCode.JWRN_ADOBE_XFORM, m_Adobe_transform);
-                                /* assume it's YCbCr */
-                                jpegColorSpace = JColorSpace.JCS_YCbCr;
-                                break;
-                        }
-                    }
-                    else if (cid0 == 0x01 && cid1 == 0x02 && cid2 == 0x03)
-                    {
-                        jpegColorSpace = JColorSpace.JCS_YCbCr;
-                    }
-                    else if (cid0 == 0x01 && cid1 == 0x22 && cid2 == 0x23)
-                    {
-                        jpegColorSpace = JColorSpace.JCS_BG_YCC;
-                    }
-                    else if (cid0 == 0x52 && cid1 == 0x47 && cid2 == 0x42)
-                    {
-                        /* ASCII 'R', 'G', 'B' */
+                        case 0:
                         jpegColorSpace = JColorSpace.JCS_RGB;
-                    }
-                    else if (cid0 == 0x72 && cid1 == 0x67 && cid2 == 0x62)
-                    {
-                        /* ASCII 'r', 'g', 'b' */
-                        jpegColorSpace = JColorSpace.JCS_BG_RGB;
-                    }
-                    else if (m_saw_JFIF_marker)
-                    {
+                        break;
+                        case 1:
+                        jpegColorSpace = JColorSpace.JCS_YCbCr;
+                        break;
+                        default:
+                        WarnMS(JMessageCode.JWRN_ADOBE_XFORM, m_Adobe_transform);
                         /* assume it's YCbCr */
                         jpegColorSpace = JColorSpace.JCS_YCbCr;
+                        break;
                     }
-                    else
-                    {
-                        TraceMS(1, JMessageCode.JTRC_UNKNOWN_IDS, cid0, cid1, cid2);
-                        /* assume it's YCbCr */
-                        jpegColorSpace = JColorSpace.JCS_YCbCr;
-                    }
-                    /* Always guess RGB is proper output colorspace. */
-                    outColorSpace = JColorSpace.JCS_RGB;
-                    break;
+                }
+                else if (cid0 == 0x01 && cid1 == 0x02 && cid2 == 0x03)
+                {
+                    jpegColorSpace = JColorSpace.JCS_YCbCr;
+                }
+                else if (cid0 == 0x01 && cid1 == 0x22 && cid2 == 0x23)
+                {
+                    jpegColorSpace = JColorSpace.JCS_BG_YCC;
+                }
+                else if (cid0 == 0x52 && cid1 == 0x47 && cid2 == 0x42)
+                {
+                    /* ASCII 'R', 'G', 'B' */
+                    jpegColorSpace = JColorSpace.JCS_RGB;
+                }
+                else if (cid0 == 0x72 && cid1 == 0x67 && cid2 == 0x62)
+                {
+                    /* ASCII 'r', 'g', 'b' */
+                    jpegColorSpace = JColorSpace.JCS_BG_RGB;
+                }
+                else if (m_saw_JFIF_marker)
+                {
+                    /* assume it's YCbCr */
+                    jpegColorSpace = JColorSpace.JCS_YCbCr;
+                }
+                else
+                {
+                    TraceMS(1, JMessageCode.JTRC_UNKNOWN_IDS, cid0, cid1, cid2);
+                    /* assume it's YCbCr */
+                    jpegColorSpace = JColorSpace.JCS_YCbCr;
+                }
+                /* Always guess RGB is proper output colorspace. */
+                outColorSpace = JColorSpace.JCS_RGB;
+                break;
 
                 case 4:
-                    if (m_saw_Adobe_marker)
+                if (m_saw_Adobe_marker)
+                {
+                    switch (m_Adobe_transform)
                     {
-                        switch (m_Adobe_transform)
-                        {
-                            case 0:
-                                jpegColorSpace = JColorSpace.JCS_CMYK;
-                                break;
-                            case 2:
-                                jpegColorSpace = JColorSpace.JCS_YCCK;
-                                break;
-                            default:
-                                WarnMS(JMessageCode.JWRN_ADOBE_XFORM, m_Adobe_transform);
-                                /* assume it's YCCK */
-                                jpegColorSpace = JColorSpace.JCS_YCCK;
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        /* No special markers, assume straight CMYK. */
+                        case 0:
                         jpegColorSpace = JColorSpace.JCS_CMYK;
+                        break;
+                        case 2:
+                        jpegColorSpace = JColorSpace.JCS_YCCK;
+                        break;
+                        default:
+                        WarnMS(JMessageCode.JWRN_ADOBE_XFORM, m_Adobe_transform);
+                        /* assume it's YCCK */
+                        jpegColorSpace = JColorSpace.JCS_YCCK;
+                        break;
                     }
+                }
+                else
+                {
+                    /* No special markers, assume straight CMYK. */
+                    jpegColorSpace = JColorSpace.JCS_CMYK;
+                }
 
-                    outColorSpace = JColorSpace.JCS_CMYK;
-                    break;
+                outColorSpace = JColorSpace.JCS_CMYK;
+                break;
 
                 default:
-                    jpegColorSpace = JColorSpace.JCS_UNKNOWN;
-                    outColorSpace = JColorSpace.JCS_UNKNOWN;
-                    break;
+                jpegColorSpace = JColorSpace.JCS_UNKNOWN;
+                outColorSpace = JColorSpace.JCS_UNKNOWN;
+                break;
             }
 
             /* Set defaults for other decompression parameters. */
@@ -1969,7 +1987,7 @@ namespace BitMiracle.LibJpeg.Classic
             ditherMode = JDitherMode.JDITHER_FS;
             twoPassQuantize = true;
             desiredNumberOfColors = 256;
-            colormap = null;
+            m_colormap = null;
 
             /* Initialize for no mode change in buffered-image mode. */
             enable1PassQuant = false;
@@ -1983,7 +2001,7 @@ namespace BitMiracle.LibJpeg.Classic
             m_inputctl.ResetInputController();
 
             /* Initialize application's data source module */
-            src.InitSource();
+            m_src.InitSource();
             globalState = JpegState.DSTATE_INHEADER;
         }
 

@@ -249,7 +249,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             saved.put_bits = 0;
 
             /* Initialize restart stuff */
-            restartsToGo = cinfo.restartInterval;
+            restartsToGo = cinfo.m_restart_interval;
             nextRestartNum = 0;
         }
 
@@ -263,7 +263,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             state.ASSIGN_STATE(saved);
 
             /* Emit restart marker if needed */
-            if (cinfo.restartInterval != 0)
+            if (cinfo.m_restart_interval != 0)
             {
                 if (restartsToGo == 0)
                 {
@@ -294,11 +294,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             saved.ASSIGN_STATE(state);
 
             /* Update restart-interval state too */
-            if (cinfo.restartInterval != 0)
+            if (cinfo.m_restart_interval != 0)
             {
                 if (restartsToGo == 0)
                 {
-                    restartsToGo = cinfo.restartInterval;
+                    restartsToGo = cinfo.m_restart_interval;
                     nextRestartNum++;
                     nextRestartNum &= 7;
                 }
@@ -344,7 +344,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private bool EncodeMcuGather(JBlock[][] MCU_data)
         {
             /* Take care of restart intervals if needed */
-            if (cinfo.restartInterval != 0)
+            if (cinfo.m_restart_interval != 0)
             {
                 if (restartsToGo == 0)
                 {
@@ -355,7 +355,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     }
 
                     /* Update restart state */
-                    restartsToGo = cinfo.restartInterval;
+                    restartsToGo = cinfo.m_restart_interval;
                 }
 
                 restartsToGo--;
@@ -758,6 +758,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     /* need to stuff a zero byte? */
                     EmitByteE(0);
                 }
+
                 local_put_buffer <<= 8;
                 put_bits -= 8;
             }
@@ -940,7 +941,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private bool EncodeMcuDCFirst(JBlock[][] MCU_data)
         {
             /* Emit restart marker if needed */
-            if (cinfo.restartInterval != 0)
+            if (cinfo.m_restart_interval != 0)
             {
                 if (restartsToGo == 0)
                 {
@@ -1005,11 +1006,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Update restart-interval state too */
-            if (cinfo.restartInterval != 0)
+            if (cinfo.m_restart_interval != 0)
             {
                 if (restartsToGo == 0)
                 {
-                    restartsToGo = cinfo.restartInterval;
+                    restartsToGo = cinfo.m_restart_interval;
                     nextRestartNum++;
                     nextRestartNum &= 7;
                 }
@@ -1027,7 +1028,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private bool EncodeMcuACFirst(JBlock[][] MCU_data)
         {
             /* Emit restart marker if needed */
-            if (cinfo.restartInterval != 0)
+            if (cinfo.m_restart_interval != 0)
             {
                 if (restartsToGo == 0)
                 {
@@ -1121,14 +1122,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Update restart-interval state too */
-            if (cinfo.restartInterval != 0)
+            if (cinfo.m_restart_interval != 0)
             {
                 if (restartsToGo == 0)
                 {
-                    restartsToGo = cinfo.restartInterval;
+                    restartsToGo = cinfo.m_restart_interval;
                     nextRestartNum++;
                     nextRestartNum &= 7;
                 }
+
                 restartsToGo--;
             }
 
@@ -1143,7 +1145,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private bool EncodeMcuDCRefine(JBlock[][] MCU_data)
         {
             /* Emit restart marker if needed */
-            if (cinfo.restartInterval != 0)
+            if (cinfo.m_restart_interval != 0)
             {
                 if (restartsToGo == 0)
                 {
@@ -1160,14 +1162,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Update restart-interval state too */
-            if (cinfo.restartInterval != 0)
+            if (cinfo.m_restart_interval != 0)
             {
                 if (restartsToGo == 0)
                 {
-                    restartsToGo = cinfo.restartInterval;
+                    restartsToGo = cinfo.m_restart_interval;
                     nextRestartNum++;
                     nextRestartNum &= 7;
                 }
+
                 restartsToGo--;
             }
 
@@ -1180,7 +1183,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private bool EncodeMcuACRefine(JBlock[][] MCU_data)
         {
             /* Emit restart marker if needed */
-            if (cinfo.restartInterval != 0)
+            if (cinfo.m_restart_interval != 0)
             {
                 if (restartsToGo == 0)
                 {
@@ -1297,14 +1300,15 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Update restart-interval state too */
-            if (cinfo.restartInterval != 0)
+            if (cinfo.m_restart_interval != 0)
             {
                 if (restartsToGo == 0)
                 {
-                    restartsToGo = cinfo.restartInterval;
+                    restartsToGo = cinfo.m_restart_interval;
                     nextRestartNum++;
                     nextRestartNum &= 7;
                 }
+
                 restartsToGo--;
             }
 
@@ -1357,6 +1361,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     huffsize[p++] = (char)l;
                 }
             }
+
             huffsize[p] = (char)0;
             var lastp = p;
 

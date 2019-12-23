@@ -253,6 +253,7 @@ namespace Hjg.Pngcs
 #pragma warning restore RCS1075 // Avoid empty catch clause that catches System.Exception.
                 ReadLastChunks();
             }
+
             Close();
         }
 
@@ -270,6 +271,7 @@ namespace Hjg.Pngcs
 #pragma warning restore RCS1075 // Avoid empty catch clause that catches System.Exception.
                 {
                 }
+
                 CurrentChunkGroup = ChunksList.CHUNK_GROUP_6_END;
             }
 
@@ -286,27 +288,27 @@ namespace Hjg.Pngcs
             switch (ft)
             {
                 case Hjg.Pngcs.FilterType.FILTER_NONE:
-                    UnfilterRowNone(nbytes);
-                    break;
+                UnfilterRowNone(nbytes);
+                break;
 
                 case Hjg.Pngcs.FilterType.FILTER_SUB:
-                    UnfilterRowSub(nbytes);
-                    break;
+                UnfilterRowSub(nbytes);
+                break;
 
                 case Hjg.Pngcs.FilterType.FILTER_UP:
-                    UnfilterRowUp(nbytes);
-                    break;
+                UnfilterRowUp(nbytes);
+                break;
 
                 case Hjg.Pngcs.FilterType.FILTER_AVERAGE:
-                    UnfilterRowAverage(nbytes);
-                    break;
+                UnfilterRowAverage(nbytes);
+                break;
 
                 case Hjg.Pngcs.FilterType.FILTER_PAETH:
-                    UnfilterRowPaeth(nbytes);
-                    break;
+                UnfilterRowPaeth(nbytes);
+                break;
 
                 default:
-                    throw new PngjInputException("Filter type " + ftn + " not implemented");
+                throw new PngjInputException("Filter type " + ftn + " not implemented");
             }
 
             crctest?.Update(rowb, 1, nbytes);
@@ -348,6 +350,7 @@ namespace Hjg.Pngcs
             {
                 rowb[i] = rowbfilter[i];
             }
+
             for (j = 1, i = ImgInfo.BytesPixel + 1; i <= nbytes; i++, j++)
             {
                 rowb[i] = (byte)(rowbfilter[i] + rowb[j]);
@@ -414,6 +417,7 @@ namespace Hjg.Pngcs
                     CurrentChunkGroup = ChunksList.CHUNK_GROUP_3_AFTERPLTE;
                 }
             }
+
             var idatLen = found ? clen : -1;
             if (idatLen < 0)
             {
@@ -460,6 +464,7 @@ namespace Hjg.Pngcs
                     PngHelperInternal.ReadBytes(inputStream, chunkid, 0, 4);
                     offset += 4;
                 }
+
                 first = false;
                 if (PngCsUtils.arraysEqual4(chunkid, ChunkHelper.b_IDAT))
                 {
@@ -472,6 +477,7 @@ namespace Hjg.Pngcs
                 }
                 ReadChunk(chunkid, clen, skip);
             }
+
             if (!endfound)
             {
                 throw new PngjInputException("end chunk not found - offset=" + offset);
@@ -536,6 +542,7 @@ namespace Hjg.Pngcs
                     bytesChunksLoaded += chunk.Len;
                 }
             }
+
             pngChunk.Offset = offset - 8L;
             chunksList.AppendReadChunk(pngChunk, CurrentChunkGroup);
             offset += clen + 4L;
@@ -673,6 +680,7 @@ namespace Hjg.Pngcs
                 Array.Copy(deinterlacer.GetImageInt()[nrow], 0, buffer, 0, unpackedMode ? ImgInfo.SamplesPerRow
                         : ImgInfo.SamplesPerRowPacked);
             }
+
             return buffer;
         }
 
@@ -708,6 +716,7 @@ namespace Hjg.Pngcs
                 Array.Copy(deinterlacer.GetImageByte()[nrow], 0, buffer, 0, unpackedMode ? ImgInfo.SamplesPerRow
                         : ImgInfo.SamplesPerRowPacked);
             }
+
             return buffer;
         }
 
@@ -733,6 +742,7 @@ namespace Hjg.Pngcs
                     buffer[i] = (rowb[j++] << 8) + rowb[j++];
                 }
             }
+
             if (ImgInfo.Packed && unpackedMode)
             {
                 ImageLine.UnpackInplaceInt(ImgInfo, buffer, buffer, false);
@@ -752,6 +762,7 @@ namespace Hjg.Pngcs
                     buffer[i] = rowb[j]; // 16 bits in 1 byte: this discards the LSB!!!
                 }
             }
+
             if (ImgInfo.Packed && unpackedMode)
             {
                 ImageLine.UnpackInplaceByte(ImgInfo, buffer, buffer, false);
@@ -804,6 +815,7 @@ namespace Hjg.Pngcs
                     }
                 }
             }
+
             End();
             return imlines;
         }
@@ -859,6 +871,7 @@ namespace Hjg.Pngcs
                     }
                 }
             }
+
             End();
             return imlines;
         }
@@ -903,6 +916,7 @@ namespace Hjg.Pngcs
                     throw new PngjInputException("invalid row: " + nrow);
                 }
             }
+
             rowNum = nrow;
             // swap buffers
             var tmp = rowb;
@@ -947,12 +961,14 @@ namespace Hjg.Pngcs
                 do
                 {
                     r = iIdatCstream.Read(rowbfilter, 0, rowbfilter.Length);
+
                 } while (r >= 0);
             }
             catch (IOException e)
             {
                 throw new PngjInputException("error in raw read of IDAT", e);
             }
+
             offset = iIdatCstream.GetOffset();
             if (offset < 0)
             {

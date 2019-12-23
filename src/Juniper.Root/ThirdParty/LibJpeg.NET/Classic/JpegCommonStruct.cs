@@ -9,7 +9,9 @@ using System.Reflection;
 
 namespace BitMiracle.LibJpeg.Classic
 {
-    /// <summary>Base class for both JPEG compressor and decompresor.</summary>
+    /// <summary>
+    /// Base class for both JPEG compressor and decompresor.
+    /// </summary>
     /// <remarks>
     /// Routines that are to be used by both halves of the library are declared
     /// to receive an instance of this class. There are no actual instances of 
@@ -72,10 +74,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <value>
         /// 	<c>true</c> if this is Jpeg decompressor; otherwise, <c>false</c>.
         /// </value>
-        public abstract bool IsDecompressor
-        {
-            get;
-        }
+        public abstract bool IsDecompressor { get; }
 
         /// <summary>
         /// Progress monitor.
@@ -84,14 +83,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <remarks>Default value: <c>null</c>.</remarks>
         public JpegProgressManager Progress
         {
-            get
-            {
-                return prog;
-            }
-            set
-            {
-                prog = value ?? throw new ArgumentNullException(nameof(value));
-            }
+            get { return prog; }
+            set { prog = value ?? throw new ArgumentNullException(nameof(value)); }
         }
 
         /// <summary>
@@ -101,14 +94,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <seealso href="41dc1a3b-0dea-4594-87d2-c213ab1049e1.htm" target="_self">Error handling</seealso>
         public JpegErrorMessage Err
         {
-            get
-            {
-                return jpgError;
-            }
-            set
-            {
-                jpgError = value ?? throw new ArgumentNullException(nameof(value));
-            }
+            get { return jpgError; }
+            set { jpgError = value ?? throw new ArgumentNullException(nameof(value)); }
         }
 
         /// <summary>
@@ -144,10 +131,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <value>The copyright.</value>
         public static string Copyright
         {
-            get
-            {
-                return "Copyright (C) 2008-2018, Bit Miracle";
-            }
+            get { return "Copyright (C) 2008-2018, Bit Miracle"; }
         }
 
         /// <summary>
@@ -202,6 +186,7 @@ namespace BitMiracle.LibJpeg.Classic
                     result[i][j] = new JBlock();
                 }
             }
+
             return result;
         }
 

@@ -19,14 +19,8 @@ namespace BitMiracle.LibJpeg
         /// </summary>
         public CompressionParameters CompressionParameters
         {
-            get
-            {
-                return m_compressionParameters;
-            }
-            set
-            {
-                m_compressionParameters = value ?? throw new ArgumentNullException(nameof(value));
-            }
+            get { return m_compressionParameters; }
+            set { m_compressionParameters = value ?? throw new ArgumentNullException(nameof(value)); }
         }
 
         /// <summary>
@@ -34,14 +28,8 @@ namespace BitMiracle.LibJpeg
         /// </summary>
         public DecompressionParameters DecompressionParameters
         {
-            get
-            {
-                return m_decompressionParameters;
-            }
-            set
-            {
-                m_decompressionParameters = value ?? throw new ArgumentNullException(nameof(value));
-            }
+            get { return m_decompressionParameters; }
+            set { m_decompressionParameters = value ?? throw new ArgumentNullException(nameof(value)); }
         }
 
         /// <summary>
@@ -91,6 +79,7 @@ namespace BitMiracle.LibJpeg
                 rowForDecompressor[0] = row ?? throw new InvalidDataException("Row of pixels is null");
                 ClassicCompressor.JpegWriteScanlines(rowForDecompressor, 1);
             }
+
             source.EndRead();
 
             // Finish compression and release memory
@@ -182,7 +171,11 @@ namespace BitMiracle.LibJpeg
         /* Install a special processing method for COM or APPn markers. */
         public void SetMarkerProcessor(int markerCode, MarkerParser routine)
         {
-            bool f(JpegDecompressStruct _) { return routine(this); }
+            bool f(JpegDecompressStruct _)
+            {
+                return routine(this);
+            }
+
             ClassicDecompressor.JpegSetMarkerProcessor(markerCode, f);
         }
 

@@ -30,6 +30,7 @@ namespace Hjg.Pngcs
             {
                 outputStream.Dispose();
             }
+
             base.Dispose(disposing);
         }
 

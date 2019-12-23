@@ -363,9 +363,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                  * This ought to be an error condition, but we make it a warning because
                  * there are some baseline files out there with all zeroes in these bytes.
                  */
-                if (cinfo.m_Ss != 0 || cinfo.m_Ah != 0 || cinfo.m_Al != 0 ||
-                    ((cinfo.isBaseline || cinfo.m_Se < JpegConstants.DCTSIZE2) &&
-                    cinfo.m_Se != cinfo.lim_Se))
+                if (cinfo.m_Ss != 0
+                    || cinfo.m_Ah != 0
+                    || cinfo.m_Al != 0
+                    || ((cinfo.isBaseline
+                            || cinfo.m_Se < JpegConstants.DCTSIZE2)
+                        && cinfo.m_Se != cinfo.lim_Se))
                 {
                     cinfo.WarnMS(JMessageCode.JWRN_NOT_SEQUENTIAL);
                 }
@@ -425,106 +428,106 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         switch (cinfo.lim_Se)
                         {
                             case 0:
-                                coefLimit[blkn] = 1;
-                                break;
+                            coefLimit[blkn] = 1;
+                            break;
 
                             case 3:
-                                if (ci <= 0 || ci > 2)
-                                {
-                                    ci = 2;
-                                }
+                            if (ci <= 0 || ci > 2)
+                            {
+                                ci = 2;
+                            }
 
-                                if (i <= 0 || i > 2)
-                                {
-                                    i = 2;
-                                }
+                            if (i <= 0 || i > 2)
+                            {
+                                i = 2;
+                            }
 
-                                coefLimit[blkn] = 1 + jpeg_zigzag_order2[ci - 1][i - 1];
-                                break;
+                            coefLimit[blkn] = 1 + jpeg_zigzag_order2[ci - 1][i - 1];
+                            break;
 
                             case 8:
-                                if (ci <= 0 || ci > 3)
-                                {
-                                    ci = 3;
-                                }
+                            if (ci <= 0 || ci > 3)
+                            {
+                                ci = 3;
+                            }
 
-                                if (i <= 0 || i > 3)
-                                {
-                                    i = 3;
-                                }
+                            if (i <= 0 || i > 3)
+                            {
+                                i = 3;
+                            }
 
-                                coefLimit[blkn] = 1 + jpeg_zigzag_order3[ci - 1][i - 1];
-                                break;
+                            coefLimit[blkn] = 1 + jpeg_zigzag_order3[ci - 1][i - 1];
+                            break;
 
                             case 15:
-                                if (ci <= 0 || ci > 4)
-                                {
-                                    ci = 4;
-                                }
+                            if (ci <= 0 || ci > 4)
+                            {
+                                ci = 4;
+                            }
 
-                                if (i <= 0 || i > 4)
-                                {
-                                    i = 4;
-                                }
+                            if (i <= 0 || i > 4)
+                            {
+                                i = 4;
+                            }
 
-                                coefLimit[blkn] = 1 + jpeg_zigzag_order4[ci - 1][i - 1];
-                                break;
+                            coefLimit[blkn] = 1 + jpeg_zigzag_order4[ci - 1][i - 1];
+                            break;
 
                             case 24:
-                                if (ci <= 0 || ci > 5)
-                                {
-                                    ci = 5;
-                                }
+                            if (ci <= 0 || ci > 5)
+                            {
+                                ci = 5;
+                            }
 
-                                if (i <= 0 || i > 5)
-                                {
-                                    i = 5;
-                                }
+                            if (i <= 0 || i > 5)
+                            {
+                                i = 5;
+                            }
 
-                                coefLimit[blkn] = 1 + jpeg_zigzag_order5[ci - 1][i - 1];
-                                break;
+                            coefLimit[blkn] = 1 + jpeg_zigzag_order5[ci - 1][i - 1];
+                            break;
 
                             case 35:
-                                if (ci <= 0 || ci > 6)
-                                {
-                                    ci = 6;
-                                }
+                            if (ci <= 0 || ci > 6)
+                            {
+                                ci = 6;
+                            }
 
-                                if (i <= 0 || i > 6)
-                                {
-                                    i = 6;
-                                }
+                            if (i <= 0 || i > 6)
+                            {
+                                i = 6;
+                            }
 
-                                coefLimit[blkn] = 1 + jpeg_zigzag_order6[ci - 1][i - 1];
-                                break;
+                            coefLimit[blkn] = 1 + jpeg_zigzag_order6[ci - 1][i - 1];
+                            break;
 
                             case 48:
-                                if (ci <= 0 || ci > 7)
-                                {
-                                    ci = 7;
-                                }
+                            if (ci <= 0 || ci > 7)
+                            {
+                                ci = 7;
+                            }
 
-                                if (i <= 0 || i > 7)
-                                {
-                                    i = 7;
-                                }
+                            if (i <= 0 || i > 7)
+                            {
+                                i = 7;
+                            }
 
-                                coefLimit[blkn] = 1 + jpeg_zigzag_order7[ci - 1][i - 1];
-                                break;
+                            coefLimit[blkn] = 1 + jpeg_zigzag_order7[ci - 1][i - 1];
+                            break;
 
                             default:
-                                if (ci <= 0 || ci > 8)
-                                {
-                                    ci = 8;
-                                }
+                            if (ci <= 0 || ci > 8)
+                            {
+                                ci = 8;
+                            }
 
-                                if (i <= 0 || i > 8)
-                                {
-                                    i = 8;
-                                }
+                            if (i <= 0 || i > 8)
+                            {
+                                i = 8;
+                            }
 
-                                coefLimit[blkn] = 1 + jpeg_zigzag_order[ci - 1][i - 1];
-                                break;
+                            coefLimit[blkn] = 1 + jpeg_zigzag_order[ci - 1][i - 1];
+                            break;
                         }
                     }
                     else
@@ -994,6 +997,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                                     EOBRUN += (uint)r;
                                     EOBRUN--;		/* this band is processed at this moment */
                                 }
+
                                 break;      /* force end-of-band */
                             }
 
@@ -1149,6 +1153,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                                     r = GET_BITS(r, get_buffer, ref bits_left);
                                     EOBRUN += (uint)r;
                                 }
+
                                 break;      /* rest of block is handled by EOB logic */
                             }
                             /* note s = 0 for processing ZRL */
@@ -1205,6 +1210,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         }
 
                         k++;
+
                     } while (k <= cinfo.m_Se);
                 }
 
@@ -1241,6 +1247,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         }
 
                         k++;
+
                     } while (k <= cinfo.m_Se);
 
                     /* Count one block completed in EOB run */
@@ -1300,7 +1307,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * segment as empty, and we can avoid producing bogus output pixels by
              * leaving the flag set.
              */
-            if (cinfo.unreadMarker == 0)
+            if (cinfo.m_unreadMarker == 0)
             {
                 insufficientData = false;
             }
@@ -1430,12 +1437,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             var noMoreBytes = false;
 
-            if (state.cinfo.unreadMarker == 0)
+            if (state.cinfo.m_unreadMarker == 0)
             {
                 /* cannot advance past a marker */
                 while (bits_left < MIN_GET_BITS)
                 {
-                    _ = state.cinfo.src.GetByte(out var c);
+                    _ = state.cinfo.m_src.GetByte(out var c);
 
                     /* If it's 0xFF, check and discard stuffed zero byte */
                     if (c == 0xFF)
@@ -1447,7 +1454,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         */
                         do
                         {
-                            _ = state.cinfo.src.GetByte(out c);
+                            _ = state.cinfo.m_src.GetByte(out c);
                         }
                         while (c == 0xFF);
 
@@ -1466,7 +1473,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                             * current MCU, because we will read no more bytes from the data
                             * source.  So it is OK to update permanent state right away.
                             */
-                            state.cinfo.unreadMarker = c;
+                            state.cinfo.m_unreadMarker = c;
                             /* See if we need to insert some fake zero bits. */
                             noMoreBytes = true;
                             break;
@@ -1561,6 +1568,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     huffsize[p++] = (char)l;
                 }
             }
+
             huffsize[p] = (char)0;
             var numsymbols = p;
 
@@ -1611,6 +1619,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     dtbl.maxCode[l] = -1;
                 }
             }
+
             dtbl.maxCode[17] = 0xFFFFF; /* ensures jpeg_huff_decode terminates */
 
             /* Compute lookahead tables to speed up decoding.

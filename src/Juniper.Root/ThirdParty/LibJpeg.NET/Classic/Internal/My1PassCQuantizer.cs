@@ -200,75 +200,75 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         public virtual void StartPass(bool is_pre_scan)
         {
             /* Install my colormap. */
-            m_cinfo.colormap = m_sv_colormap;
-            m_cinfo.actualNumberOfColors = m_sv_actual;
+            m_cinfo.m_colormap = m_sv_colormap;
+            m_cinfo.actualColorCount = m_sv_actual;
 
             /* Initialize for desired dithering mode. */
             switch (m_cinfo.ditherMode)
             {
                 case JDitherMode.JDITHER_NONE:
-                    if (m_cinfo.outColorComponents == 3)
-                    {
-                        m_quantizer = QuantizerType.color_quantizer3;
-                    }
-                    else
-                    {
-                        m_quantizer = QuantizerType.color_quantizer;
-                    }
+                if (m_cinfo.outColorComponents == 3)
+                {
+                    m_quantizer = QuantizerType.color_quantizer3;
+                }
+                else
+                {
+                    m_quantizer = QuantizerType.color_quantizer;
+                }
 
-                    break;
+                break;
                 case JDitherMode.JDITHER_ORDERED:
-                    if (m_cinfo.outColorComponents == 3)
-                    {
-                        m_quantizer = QuantizerType.quantize3_ord_dither_quantizer;
-                    }
-                    else
-                    {
-                        m_quantizer = QuantizerType.quantize_ord_dither_quantizer;
-                    }
+                if (m_cinfo.outColorComponents == 3)
+                {
+                    m_quantizer = QuantizerType.quantize3_ord_dither_quantizer;
+                }
+                else
+                {
+                    m_quantizer = QuantizerType.quantize_ord_dither_quantizer;
+                }
 
-                    /* initialize state for ordered dither */
-                    m_row_index = 0;
+                /* initialize state for ordered dither */
+                m_row_index = 0;
 
-                    /* If user changed to ordered dither from another mode,
-                     * we must recreate the color index table with padding.
-                     * This will cost extra space, but probably isn't very likely.
-                     */
-                    if (!m_is_padded)
-                    {
-                        CreateColorIndex();
-                    }
+                /* If user changed to ordered dither from another mode,
+                 * we must recreate the color index table with padding.
+                 * This will cost extra space, but probably isn't very likely.
+                 */
+                if (!m_is_padded)
+                {
+                    CreateColorIndex();
+                }
 
-                    /* Create ordered-dither tables if we didn't already. */
-                    if (m_odither[0] == null)
-                    {
-                        CreateODitherTable();
-                    }
+                /* Create ordered-dither tables if we didn't already. */
+                if (m_odither[0] == null)
+                {
+                    CreateODitherTable();
+                }
 
-                    break;
+                break;
                 case JDitherMode.JDITHER_FS:
-                    m_quantizer = QuantizerType.quantize_fs_dither_quantizer;
+                m_quantizer = QuantizerType.quantize_fs_dither_quantizer;
 
-                    /* initialize state for F-S dither */
-                    m_on_odd_row = false;
+                /* initialize state for F-S dither */
+                m_on_odd_row = false;
 
-                    /* Allocate Floyd-Steinberg workspace if didn't already. */
-                    if (m_fserrors[0] == null)
-                    {
-                        AllocFsWorkspace();
-                    }
+                /* Allocate Floyd-Steinberg workspace if didn't already. */
+                if (m_fserrors[0] == null)
+                {
+                    AllocFsWorkspace();
+                }
 
-                    /* Initialize the propagated errors to zero. */
-                    var arraysize = m_cinfo.outputWidth + 2;
-                    for (var i = 0; i < m_cinfo.outColorComponents; i++)
-                    {
-                        Array.Clear(m_fserrors[i], 0, arraysize);
-                    }
+                /* Initialize the propagated errors to zero. */
+                var arraysize = m_cinfo.outputWidth + 2;
+                for (var i = 0; i < m_cinfo.outColorComponents; i++)
+                {
+                    Array.Clear(m_fserrors[i], 0, arraysize);
+                }
 
-                    break;
+                break;
                 default:
-                    m_cinfo.ErrExit(JMessageCode.JERR_NOT_COMPILED);
-                    break;
+                m_cinfo.ErrExit(JMessageCode.JERR_NOT_COMPILED);
+                break;
             }
         }
 
@@ -277,23 +277,23 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             switch (m_quantizer)
             {
                 case QuantizerType.color_quantizer3:
-                    Quantize3(input_buf, in_row, output_buf, out_row, num_rows);
-                    break;
+                Quantize3(input_buf, in_row, output_buf, out_row, num_rows);
+                break;
                 case QuantizerType.color_quantizer:
-                    Quantize(input_buf, in_row, output_buf, out_row, num_rows);
-                    break;
+                Quantize(input_buf, in_row, output_buf, out_row, num_rows);
+                break;
                 case QuantizerType.quantize3_ord_dither_quantizer:
-                    Quantize3OrdDither(input_buf, in_row, output_buf, out_row, num_rows);
-                    break;
+                Quantize3OrdDither(input_buf, in_row, output_buf, out_row, num_rows);
+                break;
                 case QuantizerType.quantize_ord_dither_quantizer:
-                    QuantizeOrdDither(input_buf, in_row, output_buf, out_row, num_rows);
-                    break;
+                QuantizeOrdDither(input_buf, in_row, output_buf, out_row, num_rows);
+                break;
                 case QuantizerType.quantize_fs_dither_quantizer:
-                    QuantizeFsDither(input_buf, in_row, output_buf, out_row, num_rows);
-                    break;
+                QuantizeFsDither(input_buf, in_row, output_buf, out_row, num_rows);
+                break;
                 default:
-                    m_cinfo.ErrExit(JMessageCode.JERR_NOTIMPL);
-                    break;
+                m_cinfo.ErrExit(JMessageCode.JERR_NOTIMPL);
+                break;
             }
         }
 
@@ -503,6 +503,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         dir = 1;
                         errorIndex = 0; /* => entry before first column */
                     }
+
                     var dirnc = dir * nc;
 
                     /* Preset error values: no error propagated to first pixel from left */

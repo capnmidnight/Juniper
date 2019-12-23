@@ -174,6 +174,7 @@ namespace Hjg.Pngcs
 
                 histox[v & 0xFF]++;
             }
+
             filterStrat.FillResultsForFilter(rown, type, s, histox, tentative);
         }
 
@@ -369,6 +370,7 @@ namespace Hjg.Pngcs
                 FilterRowPaeth();
                 ReportResultsForFilter(rown, FilterType.FILTER_PAETH, true);
             }
+
             var filterType = filterStrat.GimmeFilterType(rown, true);
             rowbfilter[0] = (byte)(int)filterType;
             switch (filterType)
@@ -396,6 +398,7 @@ namespace Hjg.Pngcs
                 default:
                 throw new PngjOutputException("Filter type " + filterType + " not implemented");
             }
+
             ReportResultsForFilter(rown, filterType, false);
         }
 
@@ -557,6 +560,7 @@ namespace Hjg.Pngcs
                         copy = false;
                     }
                 }
+
                 if (copy)
                 {
                     chunksList.Queue(PngChunk.CloneChunk(chunk, ImgInfo));

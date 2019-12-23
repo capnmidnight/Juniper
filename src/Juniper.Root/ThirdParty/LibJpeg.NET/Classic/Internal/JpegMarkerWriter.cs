@@ -70,8 +70,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * Note we assume that Huffman table numbers won't be changed later.
              */
             bool is_baseline;
-            if (m_cinfo.arith_code || m_cinfo.m_progressive_mode ||
-                m_cinfo.m_data_precision != 8 || m_cinfo.block_size != JpegConstants.DCTSIZE)
+            if (m_cinfo.arith_code
+                || m_cinfo.m_progressive_mode
+                || m_cinfo.m_data_precision != 8
+                || m_cinfo.block_size != JpegConstants.DCTSIZE)
             {
                 is_baseline = false;
             }
@@ -106,20 +108,17 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     EmitSOF(JpegMarker.SOF9);  /* SOF code for sequential arithmetic */
                 }
             }
+            else if (m_cinfo.m_progressive_mode)
+            {
+                EmitSOF(JpegMarker.SOF2);    /* SOF code for progressive Huffman */
+            }
+            else if (is_baseline)
+            {
+                EmitSOF(JpegMarker.SOF0);    /* SOF code for baseline implementation */
+            }
             else
             {
-                if (m_cinfo.m_progressive_mode)
-                {
-                    EmitSOF(JpegMarker.SOF2);    /* SOF code for progressive Huffman */
-                }
-                else if (is_baseline)
-                {
-                    EmitSOF(JpegMarker.SOF0);    /* SOF code for baseline implementation */
-                }
-                else
-                {
-                    EmitSOF(JpegMarker.SOF1);    /* SOF code for non-baseline Huffman file */
-                }
+                EmitSOF(JpegMarker.SOF1);    /* SOF code for non-baseline Huffman file */
             }
 
             /* Check to emit LSE inverse color transform specification marker */
@@ -175,10 +174,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 /* Emit DRI if required --- note that DRI value could change for each scan.
                  * We avoid wasting space with unnecessary DRIs, however.
                  */
-                if (m_cinfo.restartInterval != m_last_restart_interval)
+                if (m_cinfo.m_restart_interval != m_last_restart_interval)
                 {
                     EmitDRI();
-                    m_last_restart_interval = m_cinfo.restartInterval;
+                    m_last_restart_interval = m_cinfo.m_restart_interval;
                 }
 
                 EmitSOS();
@@ -414,7 +413,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             Emit2Bytes(4);  /* fixed length */
 
-            Emit2Bytes(m_cinfo.restartInterval);
+            Emit2Bytes(m_cinfo.m_restart_interval);
         }
 
         /// <summary>
@@ -555,6 +554,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         EmitByte(i);
                         EmitByte(m_cinfo.arith_dc_L[i] + (m_cinfo.arith_dc_U[i] << 4));
                     }
+
                     if (ac_in_use[i] != 0)
                     {
                         EmitByte(i + 0x10);

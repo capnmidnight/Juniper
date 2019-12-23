@@ -104,48 +104,48 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             switch (cinfo.m_in_color_space)
             {
                 case JColorSpace.JCS_GRAYSCALE:
-                    if (cinfo.m_input_components != 1)
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_BAD_IN_COLORSPACE);
-                    }
+                if (cinfo.m_input_components != 1)
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_IN_COLORSPACE);
+                }
 
-                    break;
+                break;
 
                 case JColorSpace.JCS_RGB:
                 case JColorSpace.JCS_BG_RGB:
-                    if (cinfo.m_input_components != JpegConstants.RGB_PIXELSIZE)
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_BAD_IN_COLORSPACE);
-                    }
+                if (cinfo.m_input_components != JpegConstants.RGB_PIXELSIZE)
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_IN_COLORSPACE);
+                }
 
-                    break;
+                break;
 
                 case JColorSpace.JCS_YCbCr:
                 case JColorSpace.JCS_BG_YCC:
-                    if (cinfo.m_input_components != 3)
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_BAD_IN_COLORSPACE);
-                    }
+                if (cinfo.m_input_components != 3)
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_IN_COLORSPACE);
+                }
 
-                    break;
+                break;
 
                 case JColorSpace.JCS_CMYK:
                 case JColorSpace.JCS_YCCK:
-                    if (cinfo.m_input_components != 4)
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_BAD_IN_COLORSPACE);
-                    }
+                if (cinfo.m_input_components != 4)
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_IN_COLORSPACE);
+                }
 
-                    break;
+                break;
 
                 default:
-                    /* JCS_UNKNOWN can be anything */
-                    if (cinfo.m_input_components < 1)
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_BAD_IN_COLORSPACE);
-                    }
+                /* JCS_UNKNOWN can be anything */
+                if (cinfo.m_input_components < 1)
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_IN_COLORSPACE);
+                }
 
-                    break;
+                break;
             }
 
             /* Support color transform only for RGB colorspaces */
@@ -160,167 +160,167 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             switch (cinfo.m_jpeg_color_space)
             {
                 case JColorSpace.JCS_GRAYSCALE:
-                    if (cinfo.m_num_components != 1)
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
-                    }
+                if (cinfo.m_num_components != 1)
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
+                }
 
-                    switch (cinfo.m_in_color_space)
-                    {
-                        case JColorSpace.JCS_GRAYSCALE:
-                        case JColorSpace.JCS_YCbCr:
-                        case JColorSpace.JCS_BG_YCC:
-                            color_convert = GrayscaleConvert;
-                            break;
-
-                        case JColorSpace.JCS_RGB:
-                            m_useNullStart = false; // use rgb_ycc_start
-                            color_convert = RgbGrayConvert;
-                            break;
-
-                        default:
-                            cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
-                            break;
-                    }
+                switch (cinfo.m_in_color_space)
+                {
+                    case JColorSpace.JCS_GRAYSCALE:
+                    case JColorSpace.JCS_YCbCr:
+                    case JColorSpace.JCS_BG_YCC:
+                    color_convert = GrayscaleConvert;
                     break;
+
+                    case JColorSpace.JCS_RGB:
+                    m_useNullStart = false; // use rgb_ycc_start
+                    color_convert = RgbGrayConvert;
+                    break;
+
+                    default:
+                    cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
+                    break;
+                }
+                break;
 
                 case JColorSpace.JCS_RGB:
                 case JColorSpace.JCS_BG_RGB:
-                    if (cinfo.m_num_components != 3)
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
-                    }
+                if (cinfo.m_num_components != 3)
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
+                }
 
-                    if (cinfo.m_in_color_space == cinfo.Jpeg_color_space)
+                if (cinfo.m_in_color_space == cinfo.Jpeg_color_space)
+                {
+                    switch (cinfo.color_transform)
                     {
-                        switch (cinfo.color_transform)
-                        {
-                            case JColorTransform.JCT_NONE:
-                                color_convert = RgbConvert;
-                                break;
-                            case JColorTransform.JCT_SUBTRACT_GREEN:
-                                color_convert = RgbRgb1Convert;
-                                break;
-                            default:
-                                cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
-                                break;
-                        }
-                    }
-                    else
-                    {
+                        case JColorTransform.JCT_NONE:
+                        color_convert = RgbConvert;
+                        break;
+                        case JColorTransform.JCT_SUBTRACT_GREEN:
+                        color_convert = RgbRgb1Convert;
+                        break;
+                        default:
                         cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
+                        break;
                     }
-                    break;
+                }
+                else
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
+                }
+                break;
 
                 case JColorSpace.JCS_YCbCr:
-                    if (cinfo.m_num_components != 3)
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
-                    }
+                if (cinfo.m_num_components != 3)
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
+                }
 
-                    switch (cinfo.m_in_color_space)
-                    {
-                        case JColorSpace.JCS_RGB:
-                            m_useNullStart = false; // use rgb_ycc_start
-                            color_convert = RgbYccConvert;
-                            break;
-
-                        case JColorSpace.JCS_YCbCr:
-                            color_convert = NullConvert;
-                            break;
-
-                        default:
-                            cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
-                            break;
-                    }
+                switch (cinfo.m_in_color_space)
+                {
+                    case JColorSpace.JCS_RGB:
+                    m_useNullStart = false; // use rgb_ycc_start
+                    color_convert = RgbYccConvert;
                     break;
 
-                case JColorSpace.JCS_BG_YCC:
-                    if (cinfo.m_num_components != 3)
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
-                    }
-
-                    switch (cinfo.m_in_color_space)
-                    {
-                        case JColorSpace.JCS_RGB:
-                            /* For conversion from normal RGB input to BG_YCC representation,
-                             * the Cb/Cr values are first computed as usual, and then
-                             * quantized further after DCT processing by a factor of
-                             * 2 in reference to the nominal quantization factor.
-                             */
-                            /* need quantization scale by factor of 2 after DCT */
-                            cinfo.Component_info[1].component_needed = true;
-                            cinfo.Component_info[2].component_needed = true;
-                            /* compute normal YCC first */
-                            m_useNullStart = false; // use rgb_ycc_start
-                            color_convert = RgbYccConvert;
-                            break;
-                        case JColorSpace.JCS_YCbCr:
-                            /* need quantization scale by factor of 2 after DCT */
-                            cinfo.Component_info[1].component_needed = true;
-                            cinfo.Component_info[2].component_needed = true;
-                            color_convert = NullConvert;
-                            break;
-                        case JColorSpace.JCS_BG_YCC:
-                            /* Pass through for BG_YCC input */
-                            color_convert = NullConvert;
-                            break;
-                        default:
-                            cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
-                            break;
-                    }
-                    break;
-
-                case JColorSpace.JCS_CMYK:
-                    if (cinfo.m_num_components != 4)
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
-                    }
-
-                    if (cinfo.m_in_color_space == JColorSpace.JCS_CMYK)
-                    {
-                        color_convert = NullConvert;
-                    }
-                    else
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
-                    }
-
-                    break;
-
-                case JColorSpace.JCS_YCCK:
-                    if (cinfo.m_num_components != 4)
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
-                    }
-
-                    switch (cinfo.m_in_color_space)
-                    {
-                        case JColorSpace.JCS_CMYK:
-                            m_useNullStart = false; // use rgb_ycc_start
-                            color_convert = CmykYcckConvert;
-                            break;
-
-                        case JColorSpace.JCS_YCCK:
-                            color_convert = NullConvert;
-                            break;
-
-                        default:
-                            cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
-                            break;
-                    }
-                    break;
-
-                default:
-                    /* allow null conversion of JCS_UNKNOWN */
-                    if (cinfo.m_jpeg_color_space != cinfo.m_in_color_space || cinfo.m_num_components != cinfo.m_input_components)
-                    {
-                        cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
-                    }
-
+                    case JColorSpace.JCS_YCbCr:
                     color_convert = NullConvert;
                     break;
+
+                    default:
+                    cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
+                    break;
+                }
+                break;
+
+                case JColorSpace.JCS_BG_YCC:
+                if (cinfo.m_num_components != 3)
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
+                }
+
+                switch (cinfo.m_in_color_space)
+                {
+                    case JColorSpace.JCS_RGB:
+                    /* For conversion from normal RGB input to BG_YCC representation,
+                     * the Cb/Cr values are first computed as usual, and then
+                     * quantized further after DCT processing by a factor of
+                     * 2 in reference to the nominal quantization factor.
+                     */
+                    /* need quantization scale by factor of 2 after DCT */
+                    cinfo.Component_info[1].component_needed = true;
+                    cinfo.Component_info[2].component_needed = true;
+                    /* compute normal YCC first */
+                    m_useNullStart = false; // use rgb_ycc_start
+                    color_convert = RgbYccConvert;
+                    break;
+                    case JColorSpace.JCS_YCbCr:
+                    /* need quantization scale by factor of 2 after DCT */
+                    cinfo.Component_info[1].component_needed = true;
+                    cinfo.Component_info[2].component_needed = true;
+                    color_convert = NullConvert;
+                    break;
+                    case JColorSpace.JCS_BG_YCC:
+                    /* Pass through for BG_YCC input */
+                    color_convert = NullConvert;
+                    break;
+                    default:
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
+                    break;
+                }
+                break;
+
+                case JColorSpace.JCS_CMYK:
+                if (cinfo.m_num_components != 4)
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
+                }
+
+                if (cinfo.m_in_color_space == JColorSpace.JCS_CMYK)
+                {
+                    color_convert = NullConvert;
+                }
+                else
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
+                }
+
+                break;
+
+                case JColorSpace.JCS_YCCK:
+                if (cinfo.m_num_components != 4)
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
+                }
+
+                switch (cinfo.m_in_color_space)
+                {
+                    case JColorSpace.JCS_CMYK:
+                    m_useNullStart = false; // use rgb_ycc_start
+                    color_convert = CmykYcckConvert;
+                    break;
+
+                    case JColorSpace.JCS_YCCK:
+                    color_convert = NullConvert;
+                    break;
+
+                    default:
+                    cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
+                    break;
+                }
+                break;
+
+                default:
+                /* allow null conversion of JCS_UNKNOWN */
+                if (cinfo.m_jpeg_color_space != cinfo.m_in_color_space || cinfo.m_num_components != cinfo.m_input_components)
+                {
+                    cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
+                }
+
+                color_convert = NullConvert;
+                break;
             }
         }
 

@@ -22,6 +22,7 @@ namespace Juniper.World.GIS.Google.MapTiles
                     {
                         sb.Append('|');
                     }
+
                     sb.Append(name);
                     sb.Append(':');
                     sb.Append(value);

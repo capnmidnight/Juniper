@@ -127,30 +127,31 @@ namespace BitMiracle.LibJpeg.Classic
         public virtual bool ReSyncToRestart(JpegDecompressStruct cinfo, int desired)
         {
             /* Always put up a warning. */
-            cinfo.WarnMS(JMessageCode.JWRN_MUST_RESYNC, cinfo.unreadMarker, desired);
+            cinfo.WarnMS(JMessageCode.JWRN_MUST_RESYNC, cinfo.m_unreadMarker, desired);
+
             while (true)
             {
                 /* Outer loop handles repeated decision after scanning forward. */
                 int action;
-                if (cinfo.unreadMarker < (int)JpegMarker.SOF0)
+                if (cinfo.m_unreadMarker < (int)JpegMarker.SOF0)
                 {
                     /* invalid marker */
                     action = 2;
                 }
-                else if (cinfo.unreadMarker < (int)JpegMarker.RST0 ||
-                    cinfo.unreadMarker > (int)JpegMarker.RST7)
+                else if (cinfo.m_unreadMarker < (int)JpegMarker.RST0
+                    || cinfo.m_unreadMarker > (int)JpegMarker.RST7)
                 {
                     /* valid non-restart marker */
                     action = 3;
                 }
-                else if (cinfo.unreadMarker == ((int)JpegMarker.RST0 + ((desired + 1) & 7))
-                    || cinfo.unreadMarker == ((int)JpegMarker.RST0 + ((desired + 2) & 7)))
+                else if (cinfo.m_unreadMarker == ((int)JpegMarker.RST0 + ((desired + 1) & 7))
+                    || cinfo.m_unreadMarker == ((int)JpegMarker.RST0 + ((desired + 2) & 7)))
                 {
                     /* one of the next two expected restarts */
                     action = 3;
                 }
-                else if (cinfo.unreadMarker == ((int)JpegMarker.RST0 + ((desired - 1) & 7)) ||
-                    cinfo.unreadMarker == ((int)JpegMarker.RST0 + ((desired - 2) & 7)))
+                else if (cinfo.m_unreadMarker == ((int)JpegMarker.RST0 + ((desired - 1) & 7))
+                    || cinfo.m_unreadMarker == ((int)JpegMarker.RST0 + ((desired - 2) & 7)))
                 {
                     /* a prior restart, so advance */
                     action = 2;
@@ -161,13 +162,13 @@ namespace BitMiracle.LibJpeg.Classic
                     action = 1;
                 }
 
-                cinfo.TraceMS(4, JMessageCode.JTRC_RECOVERY_ACTION, cinfo.unreadMarker, action);
+                cinfo.TraceMS(4, JMessageCode.JTRC_RECOVERY_ACTION, cinfo.m_unreadMarker, action);
 
                 switch (action)
                 {
                     case 1:
                     /* Discard marker and let entropy decoder resume processing. */
-                    cinfo.unreadMarker = 0;
+                    cinfo.m_unreadMarker = 0;
                     return true;
                     case 2:
                     /* Scan to the next marker, and repeat the decision loop. */

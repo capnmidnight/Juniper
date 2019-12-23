@@ -53,7 +53,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
             else
             {
-                if (m_cinfo.quantizeColors && m_cinfo.colormap == null)
+                if (m_cinfo.quantizeColors && m_cinfo.m_colormap == null)
                 {
                     /* Select new quantization method */
                     if (m_cinfo.twoPassQuantize && m_cinfo.enable2PassQuant)
@@ -138,9 +138,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private void MasterSelection()
         {
             /* For now, precision must match compiled-in value... */
-            if (m_cinfo.dataPrecision != JpegConstants.BITS_IN_JSAMPLE)
+            if (m_cinfo.m_dataPrecision != JpegConstants.BITS_IN_JSAMPLE)
             {
-                m_cinfo.ErrExit(JMessageCode.JERR_BAD_PRECISION, m_cinfo.dataPrecision);
+                m_cinfo.ErrExit(JMessageCode.JERR_BAD_PRECISION, m_cinfo.m_dataPrecision);
             }
 
             /* Initialize dimensions and other stuff */
@@ -191,9 +191,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     m_cinfo.enable1PassQuant = true;
                     m_cinfo.enableExternalQuant = false;
                     m_cinfo.enable2PassQuant = false;
-                    m_cinfo.colormap = null;
+                    m_cinfo.m_colormap = null;
                 }
-                else if (m_cinfo.colormap != null)
+                else if (m_cinfo.m_colormap != null)
                 {
                     m_cinfo.enableExternalQuant = true;
                 }

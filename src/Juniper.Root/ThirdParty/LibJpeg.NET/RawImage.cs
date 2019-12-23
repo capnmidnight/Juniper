@@ -21,28 +21,19 @@ namespace BitMiracle.LibJpeg
 
         public int Width
         {
-            get
-            {
-                return m_samples[0].Length;
-            }
+            get { return m_samples[0].Length; }
         }
 
         public int Height
         {
-            get
-            {
-                return m_samples.Count;
-            }
+            get { return m_samples.Count; }
         }
 
         public Colorspace Colorspace { get; }
 
         public int ComponentsPerPixel
         {
-            get
-            {
-                return m_samples[0][0].ComponentCount;
-            }
+            get { return m_samples[0][0].ComponentCount; }
         }
 
         public void BeginRead()
@@ -62,6 +53,7 @@ namespace BitMiracle.LibJpeg
                     result.Add((byte)sample[j]);
                 }
             }
+
             ++m_currentRow;
             return result.ToArray();
         }

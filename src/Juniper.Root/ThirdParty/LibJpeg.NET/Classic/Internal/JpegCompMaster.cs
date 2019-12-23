@@ -73,22 +73,22 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             switch (m_pass_type)
             {
                 case PassType.Main:
-                    PrepareForMainPass();
-                    break;
+                PrepareForMainPass();
+                break;
                 case PassType.HuffmanOptimization:
-                    if (!PrepareForHuffmanOptimizationPass())
-                    {
-                        break;
-                    }
+                if (!PrepareForHuffmanOptimizationPass())
+                {
+                    break;
+                }
 
-                    PrepareForOutputPass();
-                    break;
+                PrepareForOutputPass();
+                break;
                 case PassType.Output:
-                    PrepareForOutputPass();
-                    break;
+                PrepareForOutputPass();
+                break;
                 default:
-                    m_cinfo.ErrExit(JMessageCode.JERR_NOT_COMPILED);
-                    break;
+                m_cinfo.ErrExit(JMessageCode.JERR_NOT_COMPILED);
+                break;
             }
 
             m_is_last_pass = (m_pass_number == m_total_passes - 1);
@@ -134,29 +134,29 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             switch (m_pass_type)
             {
                 case PassType.Main:
-                    /* next pass is either output of scan 0 (after optimization)
-                    * or output of scan 1 (if no optimization).
-                    */
-                    m_pass_type = PassType.Output;
-                    if (!m_cinfo.optimizeEntropyCoding)
-                    {
-                        m_scan_number++;
-                    }
-
-                    break;
-                case PassType.HuffmanOptimization:
-                    /* next pass is always output of current scan */
-                    m_pass_type = PassType.Output;
-                    break;
-                case PassType.Output:
-                    /* next pass is either optimization or output of next scan */
-                    if (m_cinfo.optimizeEntropyCoding)
-                    {
-                        m_pass_type = PassType.HuffmanOptimization;
-                    }
-
+                /* next pass is either output of scan 0 (after optimization)
+                * or output of scan 1 (if no optimization).
+                */
+                m_pass_type = PassType.Output;
+                if (!m_cinfo.optimizeEntropyCoding)
+                {
                     m_scan_number++;
-                    break;
+                }
+
+                break;
+                case PassType.HuffmanOptimization:
+                /* next pass is always output of current scan */
+                m_pass_type = PassType.Output;
+                break;
+                case PassType.Output:
+                /* next pass is either optimization or output of next scan */
+                if (m_cinfo.optimizeEntropyCoding)
+                {
+                    m_pass_type = PassType.HuffmanOptimization;
+                }
+
+                m_scan_number++;
+                break;
             }
 
             m_pass_number++;
@@ -391,10 +391,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             /* Convert restart specified in rows to actual MCU count. */
             /* Note that count must fit in 16 bits, so we provide limiting. */
-            if (m_cinfo.restartInRows > 0)
+            if (m_cinfo.m_restart_in_rows > 0)
             {
-                var nominal = m_cinfo.restartInRows * m_cinfo.m_MCUs_per_row;
-                m_cinfo.restartInterval = Math.Min(nominal, 65535);
+                var nominal = m_cinfo.m_restart_in_rows * m_cinfo.m_MCUs_per_row;
+                m_cinfo.m_restart_interval = Math.Min(nominal, 65535);
             }
         }
     }

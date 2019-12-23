@@ -79,7 +79,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 var h_in_group = (componentInfo.H_samp_factor * componentInfo.DCT_h_scaled_size) / cinfo.min_DCT_h_scaled_size;
                 var v_in_group = (componentInfo.V_samp_factor * componentInfo.DCT_v_scaled_size) / cinfo.min_DCT_v_scaled_size;
                 var h_out_group = cinfo.m_max_h_samp_factor;
-                var v_out_group = cinfo.maxVSampleFactor;
+                var v_out_group = cinfo.m_maxVSampleFactor;
 
                 /* save for use later */
                 m_rowgroup_height[ci] = v_in_group;
@@ -122,7 +122,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 var cb = new ComponentBuffer();
                 cb.SetBuffer(JpegCommonStruct.AllocJpegSamples(JpegUtils.jround_up(cinfo.outputWidth,
-                    cinfo.m_max_h_samp_factor), cinfo.maxVSampleFactor), null, 0);
+                    cinfo.m_max_h_samp_factor), cinfo.m_maxVSampleFactor), null, 0);
 
                 m_color_buf[ci] = cb;
             }
@@ -134,7 +134,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         public override void StartPass()
         {
             /* Mark the conversion buffer empty */
-            m_next_row_out = m_cinfo.maxVSampleFactor;
+            m_next_row_out = m_cinfo.m_maxVSampleFactor;
 
             /* Initialize total-height counter for detecting bottom of image */
             m_rows_to_go = m_cinfo.outputHeight;
@@ -151,7 +151,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         public override void UpSample(ComponentBuffer[] input_buf, ref int in_row_group_ctr, int in_row_groups_avail, byte[][] output_buf, ref int out_row_ctr, int out_rows_avail)
         {
             /* Fill the conversion buffer, if it's empty */
-            if (m_next_row_out >= m_cinfo.maxVSampleFactor)
+            if (m_next_row_out >= m_cinfo.m_maxVSampleFactor)
             {
                 for (var ci = 0; ci < m_cinfo.numComponents; ci++)
                 {
@@ -169,7 +169,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             /* Color-convert and emit rows */
 
             /* How many we have in the buffer: */
-            var num_rows = m_cinfo.maxVSampleFactor - m_next_row_out;
+            var num_rows = m_cinfo.m_maxVSampleFactor - m_next_row_out;
 
             /* Not more than the distance to the end of the image.  Need this test
              * in case the image height is not a multiple of max_v_samp_factor:
@@ -194,7 +194,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             m_next_row_out += num_rows;
 
             /* When the buffer is emptied, declare this input row group consumed */
-            if (m_next_row_out >= m_cinfo.maxVSampleFactor)
+            if (m_next_row_out >= m_cinfo.m_maxVSampleFactor)
             {
                 in_row_group_ctr++;
             }
@@ -205,23 +205,23 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             switch (m_upsampleMethods[m_currentComponent])
             {
                 case ComponentUpsampler.noop_upsampler:
-                    NoOpUpSample();
-                    break;
+                NoOpUpSample();
+                break;
                 case ComponentUpsampler.fullsize_upsampler:
-                    FullSizeUpSample(ref input_data);
-                    break;
+                FullSizeUpSample(ref input_data);
+                break;
                 case ComponentUpsampler.h2v1_upsampler:
-                    H2V1UpSample(ref input_data);
-                    break;
+                H2V1UpSample(ref input_data);
+                break;
                 case ComponentUpsampler.h2v2_upsampler:
-                    H2V2UpSample(ref input_data);
-                    break;
+                H2V2UpSample(ref input_data);
+                break;
                 case ComponentUpsampler.int_upsampler:
-                    IntUpSample(ref input_data);
-                    break;
+                IntUpSample(ref input_data);
+                break;
                 default:
-                    m_cinfo.ErrExit(JMessageCode.JERR_NOTIMPL);
-                    break;
+                m_cinfo.ErrExit(JMessageCode.JERR_NOTIMPL);
+                break;
             }
         }
 
@@ -259,7 +259,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         {
             var output_data = m_color_buf[m_currentComponent];
 
-            for (var inrow = 0; inrow < m_cinfo.maxVSampleFactor; inrow++)
+            for (var inrow = 0; inrow < m_cinfo.m_maxVSampleFactor; inrow++)
             {
                 var row = m_upsampleRowOffset + inrow;
                 var outIndex = 0;
@@ -285,7 +285,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             var inrow = 0;
             var outrow = 0;
-            while (outrow < m_cinfo.maxVSampleFactor)
+            while (outrow < m_cinfo.m_maxVSampleFactor)
             {
                 var row = m_upsampleRowOffset + inrow;
                 var outIndex = 0;
@@ -323,7 +323,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             var inrow = 0;
             var outrow = 0;
-            while (outrow < m_cinfo.maxVSampleFactor)
+            while (outrow < m_cinfo.m_maxVSampleFactor)
             {
                 /* Generate one output row with proper horizontal expansion */
                 var row = m_upsampleRowOffset + inrow;

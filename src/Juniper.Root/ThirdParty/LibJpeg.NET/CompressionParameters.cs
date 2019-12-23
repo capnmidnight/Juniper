@@ -41,9 +41,9 @@ namespace BitMiracle.LibJpeg
                 return false;
             }
 
-            return Quality == parameters.Quality &&
-                    SmoothingFactor == parameters.SmoothingFactor &&
-                    SimpleProgressive == parameters.SimpleProgressive;
+            return Quality == parameters.Quality
+                && SmoothingFactor == parameters.SmoothingFactor
+                && SimpleProgressive == parameters.SimpleProgressive;
         }
 
         /// <summary>

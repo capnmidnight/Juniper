@@ -128,10 +128,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// </summary>
         public string ErrorMessage
         {
-            get
-            {
-                return error;
-            }
+            get { return error; }
         }
 
         /// <summary>
@@ -139,10 +136,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// </summary>
         public string City
         {
-            get
-            {
-                return name;
-            }
+            get { return name; }
         }
 
         /// <summary>
@@ -168,6 +162,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
                         repTime = DateTime.Now.AddMinutes(-14.5);
                     }
                 }
+
                 return repTime.Value;
             }
         }
@@ -177,10 +172,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// </summary>
         public float? AtmosphericVisibility
         {
-            get
-            {
-                return visibility;
-            }
+            get { return visibility; }
         }
 
         /// <summary>
@@ -199,6 +191,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 {
                     loc = new LatLngPoint(coord.lat, coord.lon, 0);
                 }
+
                 return loc;
             }
         }
@@ -230,10 +223,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <value>The temperature.</value>
         public float? Temperature
         {
-            get
-            {
-                return main?.temp;
-            }
+            get { return main?.temp; }
         }
 
         /// <summary>
@@ -242,10 +232,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <value>The atmospheric pressure.</value>
         public float? AtmosphericPressure
         {
-            get
-            {
-                return main?.pressure;
-            }
+            get { return main?.pressure; }
         }
 
         /// <summary>
@@ -254,10 +241,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <value>The humidity.</value>
         public float? Humidity
         {
-            get
-            {
-                return main?.humidity / 100f;
-            }
+            get { return main?.humidity / 100f; }
         }
 
         /// <summary>
@@ -266,10 +250,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <value>The wind direction.</value>
         public float? WindDirection
         {
-            get
-            {
-                return wind?.deg;
-            }
+            get { return wind?.deg; }
         }
 
         /// <summary>
@@ -278,10 +259,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <value>The wind speed.</value>
         public float? WindSpeed
         {
-            get
-            {
-                return wind?.speed;
-            }
+            get { return wind?.speed; }
         }
 
         /// <summary>
@@ -291,10 +269,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <value>The cloud cover.</value>
         public float? CloudCover
         {
-            get
-            {
-                return clouds?.all / 100f;
-            }
+            get { return clouds?.all / 100f; }
         }
 
         /// <summary>
@@ -303,10 +278,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <value>The country.</value>
         public string Country
         {
-            get
-            {
-                return sys?.country;
-            }
+            get { return sys?.country; }
         }
 
         /// <summary>
@@ -315,10 +287,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <value>The country.</value>
         public DateTime? SunriseTime
         {
-            get
-            {
-                return sys?.SunriseTime;
-            }
+            get { return sys?.SunriseTime; }
         }
 
         /// <summary>
@@ -327,10 +296,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <value>The country.</value>
         public DateTime? SunsetTime
         {
-            get
-            {
-                return sys?.SunsetTime;
-            }
+            get { return sys?.SunsetTime; }
         }
     }
 }

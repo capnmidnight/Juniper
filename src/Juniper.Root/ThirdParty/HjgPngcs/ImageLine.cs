@@ -157,6 +157,7 @@ namespace Hjg.Pngcs
                 mask = mask0;
                 offset = 0;
             }
+
             for (int j = iminfo.SamplesPerRow - 1, i = iminfo.SamplesPerRowPacked - 1; j >= 0; j--)
             {
                 v = (src[i] & mask) >> offset;
@@ -243,6 +244,7 @@ namespace Hjg.Pngcs
                 mask = mask0;
                 offset = 0;
             }
+
             for (int j = iminfo.SamplesPerRow - 1, i = iminfo.SamplesPerRowPacked - 1; j >= 0; j--)
             {
                 v = (src[i] & mask) >> offset;
@@ -304,6 +306,7 @@ namespace Hjg.Pngcs
                     dst[i] = 0;
                 }
             }
+
             dst[0] |= v0;
         }
 

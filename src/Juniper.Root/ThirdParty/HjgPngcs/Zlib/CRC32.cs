@@ -73,6 +73,7 @@ namespace Hjg.Pngcs.Zlib
 
                 createTable[i] = entry;
             }
+
             if (polynomial == defaultPolynomial)
             {
                 defaultTable = createTable;

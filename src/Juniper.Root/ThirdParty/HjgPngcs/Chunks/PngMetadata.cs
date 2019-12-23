@@ -38,6 +38,7 @@ namespace Hjg.Pngcs.Chunks
             {
                 ChunkHelper.TrimList(cl.GetQueuedChunks(), new ChunkPredicateEquiv(chunk));
             }
+
             cl.Queue(chunk);
         }
 
@@ -189,6 +190,7 @@ namespace Hjg.Pngcs.Chunks
                 c = new PngChunkITXT(chunkList.imageInfo);
                 ((PngChunkITXT)c).SetLangtag(key); // we use the same orig tag (this is not quite right)
             }
+
             c.SetKeyVal(key, val);
             QueueChunk(c, true);
             return c;

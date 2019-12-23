@@ -87,25 +87,25 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             switch (pass_mode)
             {
                 case JBufMode.PassThrough:
-                    if (m_whole_image[0] != null)
-                    {
-                        m_cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
-                    }
+                if (m_whole_image[0] != null)
+                {
+                    m_cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
+                }
 
-                    break;
+                break;
 
                 case JBufMode.SaveAndPass:
                 case JBufMode.CrankDest:
-                    if (m_whole_image[0] == null)
-                    {
-                        m_cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
-                    }
+                if (m_whole_image[0] == null)
+                {
+                    m_cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
+                }
 
-                    break;
+                break;
 
                 default:
-                    m_cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
-                    break;
+                m_cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
+                break;
             }
 
             m_passModeSetByLastStartPass = pass_mode;
@@ -116,13 +116,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             switch (m_passModeSetByLastStartPass)
             {
                 case JBufMode.PassThrough:
-                    return CompressDataImpl(input_buf);
+                return CompressDataImpl(input_buf);
 
                 case JBufMode.SaveAndPass:
-                    return CompressFirstPass(input_buf);
+                return CompressFirstPass(input_buf);
 
                 case JBufMode.CrankDest:
-                    return CompressOutput();
+                return CompressOutput();
             }
 
             return false;

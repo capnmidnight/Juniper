@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 
 using Hjg.Pngcs.Zlib;
@@ -51,10 +52,26 @@ namespace Hjg.Pngcs
         }
 
         public override long Position { get; set; }
-        public override long Length { get { return 0; } }
-        public override bool CanWrite { get { return false; } }
-        public override bool CanRead { get { return true; } }
-        public override bool CanSeek { get { return false; } }
+
+        public override long Length
+        {
+            get { return 0; }
+        }
+
+        public override bool CanWrite
+        {
+            get { return false; }
+        }
+
+        public override bool CanRead
+        {
+            get { return true; }
+        }
+
+        public override bool CanSeek
+        {
+            get { return false; }
+        }
 
         public IList<IdatChunkInfo> foundChunksInfo;
 
@@ -92,6 +109,7 @@ namespace Hjg.Pngcs
             {
                 inputStream.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
@@ -110,15 +128,16 @@ namespace Hjg.Pngcs
                     var crccalc = (int)crcEngine.GetValue();
                     if (lenLastChunk > 0 && crc != crccalc)
                     {
-                        throw new PngjBadCrcException("error reading idat; offset: " + offset);
+                        throw new PngjBadCrcException("error reading idat; offset: " + offset.ToString(CultureInfo.CurrentCulture));
                     }
 
                     crcEngine.Reset();
                 }
+
                 lenLastChunk = PngHelperInternal.ReadInt4(inputStream);
                 if (lenLastChunk < 0)
                 {
-                    throw new PngjInputException("invalid len for chunk: " + lenLastChunk);
+                    throw new PngjInputException("invalid len for chunk: " + lenLastChunk.ToString(CultureInfo.CurrentCulture));
                 }
 
                 toReadThisChunk = lenLastChunk;
@@ -134,6 +153,7 @@ namespace Hjg.Pngcs
                         crcEngine.Update(idLastChunk, 0, 4);
                     }
                 }
+
             } while (lenLastChunk == 0 && !ended);
             // rarely condition is true (empty IDAT ??)
         }
@@ -197,6 +217,7 @@ namespace Hjg.Pngcs
                 // end of chunk: prepare for next
                 EndChunkGoForNext();
             }
+
             return n;
         }
 

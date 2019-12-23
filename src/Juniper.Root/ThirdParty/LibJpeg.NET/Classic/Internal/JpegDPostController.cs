@@ -55,7 +55,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 * an efficient number of rows for upsampling to return.
                 * (In the presence of output rescaling, we might want to be smarter?)
                 */
-                m_strip_height = cinfo.maxVSampleFactor;
+                m_strip_height = cinfo.m_maxVSampleFactor;
 
                 if (need_full_buffer)
                 {
@@ -83,49 +83,50 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             switch (pass_mode)
             {
                 case JBufMode.PassThrough:
-                    if (m_cinfo.quantizeColors)
+                if (m_cinfo.quantizeColors)
+                {
+                    /* Single-pass processing with color quantization. */
+                    m_processor = ProcessorType.OnePass;
+                    /* We could be doing buffered-image output before starting a 2-pass
+                     * color quantization; in that case, jinit_d_post_controller did not
+                     * allocate a strip buffer.  Use the virtual-array buffer as workspace.
+                     */
+                    if (m_buffer == null)
                     {
-                        /* Single-pass processing with color quantization. */
-                        m_processor = ProcessorType.OnePass;
-                        /* We could be doing buffered-image output before starting a 2-pass
-                         * color quantization; in that case, jinit_d_post_controller did not
-                         * allocate a strip buffer.  Use the virtual-array buffer as workspace.
-                         */
-                        if (m_buffer == null)
-                        {
-                            m_buffer = m_whole_image.Access(0, m_strip_height);
-                        }
+                        m_buffer = m_whole_image.Access(0, m_strip_height);
                     }
-                    else
-                    {
-                        /* For single-pass processing without color quantization,
-                         * I have no work to do; just call the upsampler directly.
-                         */
-                        m_processor = ProcessorType.Upsample;
-                    }
-                    break;
+                }
+                else
+                {
+                    /* For single-pass processing without color quantization,
+                     * I have no work to do; just call the upsampler directly.
+                     */
+                    m_processor = ProcessorType.Upsample;
+                }
+                break;
                 case JBufMode.SaveAndPass:
-                    /* First pass of 2-pass quantization */
-                    if (m_whole_image == null)
-                    {
-                        m_cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
-                    }
-
-                    m_processor = ProcessorType.PrePass;
-                    break;
-                case JBufMode.CrankDest:
-                    /* Second pass of 2-pass quantization */
-                    if (m_whole_image == null)
-                    {
-                        m_cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
-                    }
-
-                    m_processor = ProcessorType.SecondPass;
-                    break;
-                default:
+                /* First pass of 2-pass quantization */
+                if (m_whole_image == null)
+                {
                     m_cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
-                    break;
+                }
+
+                m_processor = ProcessorType.PrePass;
+                break;
+                case JBufMode.CrankDest:
+                /* Second pass of 2-pass quantization */
+                if (m_whole_image == null)
+                {
+                    m_cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
+                }
+
+                m_processor = ProcessorType.SecondPass;
+                break;
+                default:
+                m_cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
+                break;
             }
+
             m_starting_row = m_next_row = 0;
         }
 
@@ -134,20 +135,20 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             switch (m_processor)
             {
                 case ProcessorType.OnePass:
-                    PostProcess1Pass(input_buf, ref in_row_group_ctr, in_row_groups_avail, output_buf, ref out_row_ctr, out_rows_avail);
-                    break;
+                PostProcess1Pass(input_buf, ref in_row_group_ctr, in_row_groups_avail, output_buf, ref out_row_ctr, out_rows_avail);
+                break;
                 case ProcessorType.PrePass:
-                    PostProcessPrepass(input_buf, ref in_row_group_ctr, in_row_groups_avail, ref out_row_ctr);
-                    break;
+                PostProcessPrepass(input_buf, ref in_row_group_ctr, in_row_groups_avail, ref out_row_ctr);
+                break;
                 case ProcessorType.Upsample:
-                    m_cinfo.m_upsample.UpSample(input_buf, ref in_row_group_ctr, in_row_groups_avail, output_buf, ref out_row_ctr, out_rows_avail);
-                    break;
+                m_cinfo.m_upsample.UpSample(input_buf, ref in_row_group_ctr, in_row_groups_avail, output_buf, ref out_row_ctr, out_rows_avail);
+                break;
                 case ProcessorType.SecondPass:
-                    PostProcess2Pass(output_buf, ref out_row_ctr, out_rows_avail);
-                    break;
+                PostProcess2Pass(output_buf, ref out_row_ctr, out_rows_avail);
+                break;
                 default:
-                    m_cinfo.ErrExit(JMessageCode.JERR_NOTIMPL);
-                    break;
+                m_cinfo.ErrExit(JMessageCode.JERR_NOTIMPL);
+                break;
             }
         }
 

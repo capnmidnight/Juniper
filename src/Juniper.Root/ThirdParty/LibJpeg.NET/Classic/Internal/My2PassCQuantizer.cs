@@ -296,7 +296,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 m_useFinishPass1 = false;
 
                 /* Make sure color count is acceptable */
-                var i = m_cinfo.actualNumberOfColors;
+                var i = m_cinfo.actualColorCount;
                 if (i < 1)
                 {
                     m_cinfo.ErrExit(JMessageCode.JERR_QUANT_FEW_COLORS, 1);
@@ -348,17 +348,17 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             switch (m_quantizer)
             {
                 case QuantizerType.prescan_quantizer:
-                    PrescanQuantize(input_buf, in_row, num_rows);
-                    break;
+                PrescanQuantize(input_buf, in_row, num_rows);
+                break;
                 case QuantizerType.pass2_fs_dither_quantizer:
-                    Pass2FsDither(input_buf, in_row, output_buf, out_row, num_rows);
-                    break;
+                Pass2FsDither(input_buf, in_row, output_buf, out_row, num_rows);
+                break;
                 case QuantizerType.pass2_no_dither_quantizer:
-                    Pass2NoDither(input_buf, in_row, output_buf, out_row, num_rows);
-                    break;
+                Pass2NoDither(input_buf, in_row, output_buf, out_row, num_rows);
+                break;
                 default:
-                    m_cinfo.ErrExit(JMessageCode.JERR_NOTIMPL);
-                    break;
+                m_cinfo.ErrExit(JMessageCode.JERR_NOTIMPL);
+                break;
             }
         }
 
@@ -395,8 +395,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 for (var col = m_cinfo.outputWidth; col > 0; col--)
                 {
                     var rowIndex = input_buf[in_row + row][inputIndex] >> C0_SHIFT;
-                    var columnIndex = ((input_buf[in_row + row][inputIndex + 1] >> C1_SHIFT) * HIST_C2_ELEMS) +
-                        (input_buf[in_row + row][inputIndex + 2] >> C2_SHIFT);
+                    var columnIndex = ((input_buf[in_row + row][inputIndex + 1] >> C1_SHIFT) * HIST_C2_ELEMS)
+                        + (input_buf[in_row + row][inputIndex + 2] >> C2_SHIFT);
 
                     /* increment pixel value, check for overflow and undo increment if so. */
                     m_histogram[rowIndex][columnIndex]++;
@@ -508,9 +508,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     output_buf[out_row + row][outputPixelIndex] = (byte)pixcode;
 
                     /* Compute representation error for this pixel */
-                    cur0 -= m_cinfo.colormap[0][pixcode];
-                    cur1 -= m_cinfo.colormap[1][pixcode];
-                    cur2 -= m_cinfo.colormap[2][pixcode];
+                    cur0 -= m_cinfo.m_colormap[0][pixcode];
+                    cur1 -= m_cinfo.m_colormap[1][pixcode];
+                    cur2 -= m_cinfo.m_colormap[2][pixcode];
 
                     /* Compute error fractions to be propagated to adjacent pixels.
                      * Add these into the running sums, and simultaneously shift the
@@ -607,7 +607,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private void FinishPass1()
         {
             /* Select the representative colors and fill in cinfo.colormap */
-            m_cinfo.colormap = m_sv_colormap;
+            m_cinfo.m_colormap = m_sv_colormap;
             SelectColors(m_desired);
 
             /* Force next pass to zero the color index table */
@@ -647,9 +647,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 }
             }
 
-            m_cinfo.colormap[0][icolor] = (byte)((c0total + (total >> 1)) / total);
-            m_cinfo.colormap[1][icolor] = (byte)((c1total + (total >> 1)) / total);
-            m_cinfo.colormap[2][icolor] = (byte)((c2total + (total >> 1)) / total);
+            m_cinfo.m_colormap[0][icolor] = (byte)((c0total + (total >> 1)) / total);
+            m_cinfo.m_colormap[1][icolor] = (byte)((c1total + (total >> 1)) / total);
+            m_cinfo.m_colormap[2][icolor] = (byte)((c2total + (total >> 1)) / total);
         }
 
         /// <summary>
@@ -681,7 +681,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 ComputeColor(boxlist, i, i);
             }
 
-            m_cinfo.actualNumberOfColors = numboxes;
+            m_cinfo.actualColorCount = numboxes;
             m_cinfo.TraceMS(1, JMessageCode.JTRC_QUANT_SELECTED, numboxes);
         }
 
@@ -753,20 +753,20 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 switch (n)
                 {
                     case 0:
-                        lb = (boxlist[foundIndex].c0max + boxlist[foundIndex].c0min) / 2;
-                        boxlist[foundIndex].c0max = lb;
-                        boxlist[numboxes].c0min = lb + 1;
-                        break;
+                    lb = (boxlist[foundIndex].c0max + boxlist[foundIndex].c0min) / 2;
+                    boxlist[foundIndex].c0max = lb;
+                    boxlist[numboxes].c0min = lb + 1;
+                    break;
                     case 1:
-                        lb = (boxlist[foundIndex].c1max + boxlist[foundIndex].c1min) / 2;
-                        boxlist[foundIndex].c1max = lb;
-                        boxlist[numboxes].c1min = lb + 1;
-                        break;
+                    lb = (boxlist[foundIndex].c1max + boxlist[foundIndex].c1min) / 2;
+                    boxlist[foundIndex].c1max = lb;
+                    boxlist[numboxes].c1min = lb + 1;
+                    break;
                     case 2:
-                        lb = (boxlist[foundIndex].c2max + boxlist[foundIndex].c2min) / 2;
-                        boxlist[foundIndex].c2max = lb;
-                        boxlist[numboxes].c2min = lb + 1;
-                        break;
+                    lb = (boxlist[foundIndex].c2max + boxlist[foundIndex].c2min) / 2;
+                    boxlist[foundIndex].c2max = lb;
+                    boxlist[numboxes].c2min = lb + 1;
+                    break;
                 }
 
                 /* Update stats for boxes */
@@ -1090,7 +1090,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 m_error_limiter[tableOffset + input] = output;
                 m_error_limiter[tableOffset - input] = -output;
-                output += (input & 1) != 0 ? 1 : 0;
+                if ((input & 1) != 0)
+                {
+                    output++;
+                }
             }
 
             /* Clamp the rest to final output value (which is (MAXJSAMPLE+1)/8) */
@@ -1199,10 +1202,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             var minmaxdist = 0x7FFFFFFF;
             var mindist = new int[MAXNUMCOLORS];    /* min distance to colormap entry i */
 
-            for (var i = 0; i < m_cinfo.actualNumberOfColors; i++)
+            for (var i = 0; i < m_cinfo.actualColorCount; i++)
             {
                 /* We compute the squared-c0-distance term, then add in the other two. */
-                int x = m_cinfo.colormap[0][i];
+                int x = m_cinfo.m_colormap[0][i];
                 int min_dist;
                 int max_dist;
 
@@ -1236,7 +1239,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     }
                 }
 
-                x = m_cinfo.colormap[1][i];
+                x = m_cinfo.m_colormap[1][i];
                 if (x < minc1)
                 {
                     var tdist = (x - minc1) * G_SCALE;
@@ -1266,7 +1269,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     }
                 }
 
-                x = m_cinfo.colormap[2][i];
+                x = m_cinfo.m_colormap[2][i];
                 if (x < minc2)
                 {
                     var tdist = (x - minc2) * B_SCALE;
@@ -1308,7 +1311,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * within minmaxdist of some part of the box need be considered.
              */
             var ncolors = 0;
-            for (var i = 0; i < m_cinfo.actualNumberOfColors; i++)
+            for (var i = 0; i < m_cinfo.actualColorCount; i++)
             {
                 if (mindist[i] <= minmaxdist)
                 {
@@ -1353,13 +1356,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 int icolor = colorlist[i];
 
                 /* Compute (square of) distance from minc0/c1/c2 to this color */
-                var inc0 = (minc0 - m_cinfo.colormap[0][icolor]) * R_SCALE;
+                var inc0 = (minc0 - m_cinfo.m_colormap[0][icolor]) * R_SCALE;
                 var dist0 = inc0 * inc0;
 
-                var inc1 = (minc1 - m_cinfo.colormap[1][icolor]) * G_SCALE;
+                var inc1 = (minc1 - m_cinfo.m_colormap[1][icolor]) * G_SCALE;
                 dist0 += inc1 * inc1;
 
-                var inc2 = (minc2 - m_cinfo.colormap[2][icolor]) * B_SCALE;
+                var inc2 = (minc2 - m_cinfo.m_colormap[2][icolor]) * B_SCALE;
                 dist0 += inc2 * inc2;
 
                 /* Form the initial difference increments */

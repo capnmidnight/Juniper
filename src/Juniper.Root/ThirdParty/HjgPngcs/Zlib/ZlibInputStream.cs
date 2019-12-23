@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 
@@ -44,6 +45,7 @@ namespace Hjg.Pngcs.Zlib
                     crcread[i] = (byte)rawStream.ReadByte(); // we dont really check/use this
                 }
             }
+
             return r;
         }
 
@@ -69,6 +71,7 @@ namespace Hjg.Pngcs.Zlib
                     crcread[i] = (byte)rawStream.ReadByte();
                 }
             }
+
             if (!leaveOpen)
             {
                 rawStream.Close();
@@ -103,7 +106,7 @@ namespace Hjg.Pngcs.Zlib
 
             if ((cmf & 0x0f) != 8)
             {
-                throw new Exception("Bad compression method for ZLIB header: cmf=" + cmf);
+                throw new Exception("Bad compression method for ZLIB header: cmf=" + cmf.ToString(CultureInfo.CurrentCulture));
             }
             //cmdinfo = ((cmf & (0xf0)) >> 8);// not used?
             fdict = (flag & 32) != 0;

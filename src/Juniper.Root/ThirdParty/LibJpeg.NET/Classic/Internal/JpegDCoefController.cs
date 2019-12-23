@@ -218,13 +218,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             switch (m_decompressor)
             {
                 case DecompressorType.Ordinary:
-                    return DecompressDataOrdinary(output_buf);
+                return DecompressDataOrdinary(output_buf);
 
                 case DecompressorType.Smooth:
-                    return DecompressSmoothData(output_buf);
+                return DecompressSmoothData(output_buf);
 
                 case DecompressorType.OnePass:
-                    return DecompressOnePass(output_buf);
+                return DecompressOnePass(output_buf);
             }
 
             m_cinfo.ErrExit(JMessageCode.JERR_NOTIMPL);
@@ -347,9 +347,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private ReadResult DecompressDataOrdinary(ComponentBuffer[] output_buf)
         {
             /* Force some input to be done if we are getting ahead of the input. */
-            while (m_cinfo.inputScanNumber < m_cinfo.outputScanNumber ||
-                   (m_cinfo.inputScanNumber == m_cinfo.outputScanNumber &&
-                    m_cinfo.inputIMcuRow <= m_cinfo.outputIMcuRow))
+            while (m_cinfo.inputScanNumber < m_cinfo.outputScanNumber
+                   || (m_cinfo.inputScanNumber == m_cinfo.outputScanNumber
+                    && m_cinfo.inputIMcuRow <= m_cinfo.outputIMcuRow))
             {
                 if (m_cinfo.m_inputctl.ConsumeInput() == ReadResult.JPEG_SUSPENDED)
                 {
@@ -592,6 +592,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                                 pred = -pred;
                             }
+
                             workspace[1] = (short)pred;
                         }
 
@@ -619,6 +620,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                                 pred = -pred;
                             }
+
                             workspace[8] = (short)pred;
                         }
 
@@ -646,6 +648,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                                 pred = -pred;
                             }
+
                             workspace[16] = (short)pred;
                         }
 
@@ -673,6 +676,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                                 pred = -pred;
                             }
+
                             workspace[9] = (short)pred;
                         }
 
@@ -700,6 +704,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                                 pred = -pred;
                             }
+
                             workspace[2] = (short)pred;
                         }
 
@@ -766,9 +771,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 }
 
                 /* Verify DC & first 5 AC quantizers are nonzero to avoid zero-divide. */
-                if (qtable.quantBal[0] == 0 || qtable.quantBal[Q01_POS] == 0 ||
-                    qtable.quantBal[Q10_POS] == 0 || qtable.quantBal[Q20_POS] == 0 ||
-                    qtable.quantBal[Q11_POS] == 0 || qtable.quantBal[Q02_POS] == 0)
+                if (qtable.quantBal[0] == 0
+                    || qtable.quantBal[Q01_POS] == 0
+                    || qtable.quantBal[Q10_POS] == 0
+                    || qtable.quantBal[Q20_POS] == 0
+                    || qtable.quantBal[Q11_POS] == 0
+                    || qtable.quantBal[Q02_POS] == 0)
                 {
                     return false;
                 }

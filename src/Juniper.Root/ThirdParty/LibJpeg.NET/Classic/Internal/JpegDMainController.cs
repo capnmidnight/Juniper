@@ -180,29 +180,29 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             switch (pass_mode)
             {
                 case JBufMode.PassThrough:
-                    if (m_cinfo.m_upsample.NeedContextRows())
-                    {
-                        m_dataProcessor = DataProcessor.context_main;
-                        MakeFunnyPointers(); /* Create the xbuffer[] lists */
-                        m_whichFunny = 0; /* Read first iMCU row into xbuffer[0] */
-                        m_context_state = CTX_PREPARE_FOR_IMCU;
-                        m_iMCU_row_ctr = 0;
-                    }
-                    else
-                    {
-                        /* Simple case with no context needed */
-                        m_dataProcessor = DataProcessor.simple_main;
-                    }
-                    m_buffer_full = false;  /* Mark buffer empty */
-                    m_rowgroup_ctr = 0;
-                    break;
+                if (m_cinfo.m_upsample.NeedContextRows())
+                {
+                    m_dataProcessor = DataProcessor.context_main;
+                    MakeFunnyPointers(); /* Create the xbuffer[] lists */
+                    m_whichFunny = 0; /* Read first iMCU row into xbuffer[0] */
+                    m_context_state = CTX_PREPARE_FOR_IMCU;
+                    m_iMCU_row_ctr = 0;
+                }
+                else
+                {
+                    /* Simple case with no context needed */
+                    m_dataProcessor = DataProcessor.simple_main;
+                }
+                m_buffer_full = false;  /* Mark buffer empty */
+                m_rowgroup_ctr = 0;
+                break;
                 case JBufMode.CrankDest:
-                    /* For last pass of 2-pass quantization, just crank the postprocessor */
-                    m_dataProcessor = DataProcessor.crank_post;
-                    break;
+                /* For last pass of 2-pass quantization, just crank the postprocessor */
+                m_dataProcessor = DataProcessor.crank_post;
+                break;
                 default:
-                    m_cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
-                    break;
+                m_cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
+                break;
             }
         }
 
@@ -211,20 +211,20 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             switch (m_dataProcessor)
             {
                 case DataProcessor.simple_main:
-                    ProcessDataSimpleMain(output_buf, ref out_row_ctr, out_rows_avail);
-                    break;
+                ProcessDataSimpleMain(output_buf, ref out_row_ctr, out_rows_avail);
+                break;
 
                 case DataProcessor.context_main:
-                    ProcessDataContextMain(output_buf, ref out_row_ctr, out_rows_avail);
-                    break;
+                ProcessDataContextMain(output_buf, ref out_row_ctr, out_rows_avail);
+                break;
 
                 case DataProcessor.crank_post:
-                    ProcessDataCrankPost(output_buf, ref out_row_ctr, out_rows_avail);
-                    break;
+                ProcessDataCrankPost(output_buf, ref out_row_ctr, out_rows_avail);
+                break;
 
                 default:
-                    m_cinfo.ErrExit(JMessageCode.JERR_NOTIMPL);
-                    break;
+                m_cinfo.ErrExit(JMessageCode.JERR_NOTIMPL);
+                break;
             }
         }
 

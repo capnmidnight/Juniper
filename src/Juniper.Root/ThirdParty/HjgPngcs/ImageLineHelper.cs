@@ -45,6 +45,7 @@ namespace Hjg.Pngcs
                     buf[(c * channels) + 3] = index < nindexesWithAlpha ? trns.GetPalletteAlpha()[index] : 255;
                 }
             }
+
             return buf;
         }
 

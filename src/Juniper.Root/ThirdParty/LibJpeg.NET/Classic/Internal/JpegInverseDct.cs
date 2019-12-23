@@ -196,152 +196,152 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 switch ((componentInfo.DCT_h_scaled_size << 8) + componentInfo.DCT_v_scaled_size)
                 {
                     case ((1 << 8) + 1):
-                        im = JpegIDct1x1;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct1x1;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((2 << 8) + 2):
-                        im = JpegIDct2x2;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct2x2;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((3 << 8) + 3):
-                        im = JpegIDct3x3;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct3x3;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((4 << 8) + 4):
-                        im = JpegIDct4x4;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct4x4;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((5 << 8) + 5):
-                        im = JpegIDct5x5;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct5x5;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((6 << 8) + 6):
-                        im = JpegIDct6x6;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct6x6;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((7 << 8) + 7):
-                        im = JpegIDct7x7;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct7x7;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((9 << 8) + 9):
-                        im = JpegIDct9x9;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct9x9;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((10 << 8) + 10):
-                        im = JpegIDct10x10;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct10x10;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((11 << 8) + 11):
-                        im = JpegIDct11x11;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct11x11;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((12 << 8) + 12):
-                        im = JpegIDct12x12;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct12x12;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((13 << 8) + 13):
-                        im = JpegIDct13x13;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct13x13;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((14 << 8) + 14):
-                        im = JpegIDct14x14;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct14x14;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((15 << 8) + 15):
-                        im = JpegIDct15x15;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct15x15;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((16 << 8) + 16):
-                        im = JpegIDct16x16;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct16x16;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((16 << 8) + 8):
-                        im = JpegIDct16x8;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct16x8;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((14 << 8) + 7):
-                        im = JpegIDct14x7;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct14x7;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((12 << 8) + 6):
-                        im = JpegIDct12x6;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct12x6;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((10 << 8) + 5):
-                        im = JpegIDct10x5;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct10x5;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((8 << 8) + 4):
-                        im = JpegIDct8x4;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct8x4;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((6 << 8) + 3):
-                        im = JpegIDct6x3;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct6x3;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((4 << 8) + 2):
-                        im = JpegIDct4x2;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct4x2;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((2 << 8) + 1):
-                        im = JpegIDct2x1;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct2x1;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((8 << 8) + 16):
-                        im = JpegIDct8x16;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct8x16;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((7 << 8) + 14):
-                        im = JpegIDct7x14;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct7x14;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((6 << 8) + 12):
-                        im = JpegIDct6x12;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct6x12;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((5 << 8) + 10):
-                        im = JpegIDct5x10;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct5x10;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((4 << 8) + 8):
-                        im = JpegIDct4x8;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct4x8;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((3 << 8) + 6):
-                        im = JpegIDct3x6;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct3x6;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((2 << 8) + 4):
-                        im = JpegIDct2x4;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct2x4;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((1 << 8) + 2):
-                        im = JpegIDct1x2;
-                        method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
-                        break;
+                    im = JpegIDct1x2;
+                    method = (int)JDctMethod.JDCT_ISLOW;    /* jidctint uses islow-style table */
+                    break;
                     case ((JpegConstants.DCTSIZE << 8) + JpegConstants.DCTSIZE):
-                        switch (m_cinfo.dctMethod)
-                        {
-                            case JDctMethod.JDCT_ISLOW:
-                                im = JpegIDctISlow;
-                                method = (int)JDctMethod.JDCT_ISLOW;
-                                break;
-                            case JDctMethod.JDCT_IFAST:
-                                im = JpegIDctifast;
-                                method = (int)JDctMethod.JDCT_IFAST;
-                                break;
-                            case JDctMethod.JDCT_FLOAT:
-                                im = JpegIDctfloat;
-                                method = (int)JDctMethod.JDCT_FLOAT;
-                                break;
-                            default:
-                                m_cinfo.ErrExit(JMessageCode.JERR_NOT_COMPILED);
-                                break;
-                        }
+                    switch (m_cinfo.dctMethod)
+                    {
+                        case JDctMethod.JDCT_ISLOW:
+                        im = JpegIDctISlow;
+                        method = (int)JDctMethod.JDCT_ISLOW;
                         break;
+                        case JDctMethod.JDCT_IFAST:
+                        im = JpegIDctifast;
+                        method = (int)JDctMethod.JDCT_IFAST;
+                        break;
+                        case JDctMethod.JDCT_FLOAT:
+                        im = JpegIDctfloat;
+                        method = (int)JDctMethod.JDCT_FLOAT;
+                        break;
+                        default:
+                        m_cinfo.ErrExit(JMessageCode.JERR_NOT_COMPILED);
+                        break;
+                    }
+                    break;
                     default:
-                        m_cinfo.ErrExit(JMessageCode.JERR_BAD_DCTSIZE, componentInfo.DCT_h_scaled_size, componentInfo.DCT_v_scaled_size);
-                        break;
+                    m_cinfo.ErrExit(JMessageCode.JERR_BAD_DCTSIZE, componentInfo.DCT_h_scaled_size, componentInfo.DCT_v_scaled_size);
+                    break;
                 }
 
                 m_inverse_DCT_method[ci] = im;
@@ -368,57 +368,57 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 switch ((JDctMethod)method)
                 {
                     case JDctMethod.JDCT_ISLOW:
-                        /* For LL&M IDCT method, multipliers are equal to raw quantization
-                         * coefficients, but are stored as ints to ensure access efficiency.
-                         */
-                        var ismtbl = m_dctTables[ci].int_array;
-                        for (var i = 0; i < JpegConstants.DCTSIZE2; i++)
-                        {
-                            ismtbl[i] = componentInfo.quant_table.quantBal[i];
-                        }
+                    /* For LL&M IDCT method, multipliers are equal to raw quantization
+                     * coefficients, but are stored as ints to ensure access efficiency.
+                     */
+                    var ismtbl = m_dctTables[ci].int_array;
+                    for (var i = 0; i < JpegConstants.DCTSIZE2; i++)
+                    {
+                        ismtbl[i] = componentInfo.quant_table.quantBal[i];
+                    }
 
-                        break;
+                    break;
 
                     case JDctMethod.JDCT_IFAST:
-                        /* For AA&N IDCT method, multipliers are equal to quantization
-                         * coefficients scaled by scalefactor[row]*scalefactor[col], where
-                         *   scalefactor[0] = 1
-                         *   scalefactor[k] = cos(k*PI/16) * sqrt(2)    for k=1..7
-                         * For integer operation, the multiplier table is to be scaled by
-                         * IFAST_SCALE_BITS.
-                         */
-                        var ifmtbl = m_dctTables[ci].int_array;
+                    /* For AA&N IDCT method, multipliers are equal to quantization
+                     * coefficients scaled by scalefactor[row]*scalefactor[col], where
+                     *   scalefactor[0] = 1
+                     *   scalefactor[k] = cos(k*PI/16) * sqrt(2)    for k=1..7
+                     * For integer operation, the multiplier table is to be scaled by
+                     * IFAST_SCALE_BITS.
+                     */
+                    var ifmtbl = m_dctTables[ci].int_array;
 
-                        for (var i = 0; i < JpegConstants.DCTSIZE2; i++)
-                        {
-                            ifmtbl[i] = JpegUtils.DESCALE(
-                                componentInfo.quant_table.quantBal[i] * aanscales[i],
-                                CONST_BITS - IFAST_SCALE_BITS);
-                        }
-                        break;
+                    for (var i = 0; i < JpegConstants.DCTSIZE2; i++)
+                    {
+                        ifmtbl[i] = JpegUtils.DESCALE(
+                            componentInfo.quant_table.quantBal[i] * aanscales[i],
+                            CONST_BITS - IFAST_SCALE_BITS);
+                    }
+                    break;
 
                     case JDctMethod.JDCT_FLOAT:
-                        /* For float AA&N IDCT method, multipliers are equal to quantization
-                         * coefficients scaled by scalefactor[row]*scalefactor[col], where
-                         *   scalefactor[0] = 1
-                         *   scalefactor[k] = cos(k*PI/16) * sqrt(2)    for k=1..7
-                         * We apply a further scale factor of 1/8.
-                         */
-                        var fmtbl = m_dctTables[ci].float_array;
-                        var ii = 0;
-                        for (var row = 0; row < JpegConstants.DCTSIZE; row++)
+                    /* For float AA&N IDCT method, multipliers are equal to quantization
+                     * coefficients scaled by scalefactor[row]*scalefactor[col], where
+                     *   scalefactor[0] = 1
+                     *   scalefactor[k] = cos(k*PI/16) * sqrt(2)    for k=1..7
+                     * We apply a further scale factor of 1/8.
+                     */
+                    var fmtbl = m_dctTables[ci].float_array;
+                    var ii = 0;
+                    for (var row = 0; row < JpegConstants.DCTSIZE; row++)
+                    {
+                        for (var col = 0; col < JpegConstants.DCTSIZE; col++)
                         {
-                            for (var col = 0; col < JpegConstants.DCTSIZE; col++)
-                            {
-                                fmtbl[ii] = (float)(componentInfo.quant_table.quantBal[ii] * aanscalefactor[row] * aanscalefactor[col] * 0.125);
-                                ii++;
-                            }
+                            fmtbl[ii] = (float)(componentInfo.quant_table.quantBal[ii] * aanscalefactor[row] * aanscalefactor[col] * 0.125);
+                            ii++;
                         }
-                        break;
+                    }
+                    break;
 
                     default:
-                        m_cinfo.ErrExit(JMessageCode.JERR_NOT_COMPILED);
-                        break;
+                    m_cinfo.ErrExit(JMessageCode.JERR_NOT_COMPILED);
+                    break;
                 }
             }
         }

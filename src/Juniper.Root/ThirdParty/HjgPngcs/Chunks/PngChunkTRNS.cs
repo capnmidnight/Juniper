@@ -47,6 +47,7 @@ namespace Hjg.Pngcs.Chunks
                 Hjg.Pngcs.PngHelperInternal.WriteInt2tobytes(green, c.Data, 0);
                 Hjg.Pngcs.PngHelperInternal.WriteInt2tobytes(blue, c.Data, 0);
             }
+
             return c;
         }
 

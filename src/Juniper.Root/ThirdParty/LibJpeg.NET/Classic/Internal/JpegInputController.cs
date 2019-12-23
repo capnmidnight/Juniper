@@ -312,74 +312,74 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 switch (val)
                 {
                     case ReadResult.JPEG_REACHED_SOS:
-                        /* Found SOS */
-                        if (m_inheaders != 0)
+                    /* Found SOS */
+                    if (m_inheaders != 0)
+                    {
+                        /* 1st SOS */
+                        if (m_inheaders == 1)
                         {
-                            /* 1st SOS */
-                            if (m_inheaders == 1)
-                            {
-                                InitialSetup();
-                            }
-
-                            if (m_cinfo.m_comps_in_scan == 0)
-                            {
-                                /* pseudo SOS marker */
-                                m_inheaders = 2;
-                                break;
-                            }
-
-                            m_inheaders = 0;
-
-                            /* Note: start_input_pass must be called by jpeg_decomp_master
-                             * before any more input can be consumed.
-                             */
+                            InitialSetup();
                         }
-                        else
+
+                        if (m_cinfo.m_comps_in_scan == 0)
                         {
-                            /* 2nd or later SOS marker */
-                            if (!m_has_multiple_scans)
-                            {
-                                /* Oops, I wasn't expecting this! */
-                                m_cinfo.ErrExit(JMessageCode.JERR_EOI_EXPECTED);
-                            }
-
-                            if (m_cinfo.m_comps_in_scan == 0)
-                            {
-                                /* unexpected pseudo SOS marker */
-                                break;
-                            }
-
-                            m_cinfo.m_inputctl.StartInputPass();
+                            /* pseudo SOS marker */
+                            m_inheaders = 2;
+                            break;
                         }
-                        return val;
+
+                        m_inheaders = 0;
+
+                        /* Note: start_input_pass must be called by jpeg_decomp_master
+                         * before any more input can be consumed.
+                         */
+                    }
+                    else
+                    {
+                        /* 2nd or later SOS marker */
+                        if (!m_has_multiple_scans)
+                        {
+                            /* Oops, I wasn't expecting this! */
+                            m_cinfo.ErrExit(JMessageCode.JERR_EOI_EXPECTED);
+                        }
+
+                        if (m_cinfo.m_comps_in_scan == 0)
+                        {
+                            /* unexpected pseudo SOS marker */
+                            break;
+                        }
+
+                        m_cinfo.m_inputctl.StartInputPass();
+                    }
+                    return val;
 
                     case ReadResult.JPEG_REACHED_EOI:
-                        /* Found EOI */
-                        m_eoi_reached = true;
-                        if (m_inheaders != 0)
+                    /* Found EOI */
+                    m_eoi_reached = true;
+                    if (m_inheaders != 0)
+                    {
+                        /* Tables-only datastream, apparently */
+                        if (m_cinfo.m_marker.SawSOF())
                         {
-                            /* Tables-only datastream, apparently */
-                            if (m_cinfo.m_marker.SawSOF())
-                            {
-                                m_cinfo.ErrExit(JMessageCode.JERR_SOF_NO_SOS);
-                            }
+                            m_cinfo.ErrExit(JMessageCode.JERR_SOF_NO_SOS);
                         }
-                        else
+                    }
+                    else
+                    {
+                        /* Prevent infinite loop in coef ctlr's decompress_data routine
+                         * if user set output_scan_number larger than number of scans.
+                         */
+                        if (m_cinfo.outputScanNumber > m_cinfo.inputScanNumber)
                         {
-                            /* Prevent infinite loop in coef ctlr's decompress_data routine
-                             * if user set output_scan_number larger than number of scans.
-                             */
-                            if (m_cinfo.outputScanNumber > m_cinfo.inputScanNumber)
-                            {
-                                m_cinfo.outputScanNumber = m_cinfo.inputScanNumber;
-                            }
+                            m_cinfo.outputScanNumber = m_cinfo.inputScanNumber;
                         }
+                    }
 
-                        return val;
+                    return val;
 
                     case ReadResult.JPEG_SUSPENDED:
                     default:
-                        return val;
+                    return val;
                 }
             }
         }
@@ -398,9 +398,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Only 8 to 12 bits data precision are supported for DCT based JPEG */
-            if (m_cinfo.dataPrecision < 8 || m_cinfo.dataPrecision > 12)
+            if (m_cinfo.m_dataPrecision < 8 || m_cinfo.m_dataPrecision > 12)
             {
-                m_cinfo.ErrExit(JMessageCode.JERR_BAD_PRECISION, m_cinfo.dataPrecision);
+                m_cinfo.ErrExit(JMessageCode.JERR_BAD_PRECISION, m_cinfo.m_dataPrecision);
             }
 
             /* Check that number of components won't exceed internal array sizes */
@@ -411,7 +411,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             /* Compute maximum sampling factors; check factor validity */
             m_cinfo.m_max_h_samp_factor = 1;
-            m_cinfo.maxVSampleFactor = 1;
+            m_cinfo.m_maxVSampleFactor = 1;
 
             for (var ci = 0; ci < m_cinfo.numComponents; ci++)
             {
@@ -422,7 +422,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 }
 
                 m_cinfo.m_max_h_samp_factor = Math.Max(m_cinfo.m_max_h_samp_factor, m_cinfo.CompInfo[ci].H_samp_factor);
-                m_cinfo.maxVSampleFactor = Math.Max(m_cinfo.maxVSampleFactor, m_cinfo.CompInfo[ci].V_samp_factor);
+                m_cinfo.m_maxVSampleFactor = Math.Max(m_cinfo.m_maxVSampleFactor, m_cinfo.CompInfo[ci].V_samp_factor);
             }
 
             /* Derive block_size, natural_order, and lim_Se */
@@ -438,90 +438,90 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 switch (m_cinfo.m_Se)
                 {
                     case 0:
-                        m_cinfo.block_size = 1;
-                        m_cinfo.natural_order = JpegUtils.jpeg_natural_order; /* not needed */
-                        m_cinfo.lim_Se = m_cinfo.m_Se;
-                        break;
+                    m_cinfo.block_size = 1;
+                    m_cinfo.natural_order = JpegUtils.jpeg_natural_order; /* not needed */
+                    m_cinfo.lim_Se = m_cinfo.m_Se;
+                    break;
                     case 3:
-                        m_cinfo.block_size = 2;
-                        m_cinfo.natural_order = JpegUtils.jpeg_natural_order2;
-                        m_cinfo.lim_Se = m_cinfo.m_Se;
-                        break;
+                    m_cinfo.block_size = 2;
+                    m_cinfo.natural_order = JpegUtils.jpeg_natural_order2;
+                    m_cinfo.lim_Se = m_cinfo.m_Se;
+                    break;
                     case 8:
-                        m_cinfo.block_size = 3;
-                        m_cinfo.natural_order = JpegUtils.jpeg_natural_order3;
-                        m_cinfo.lim_Se = m_cinfo.m_Se;
-                        break;
+                    m_cinfo.block_size = 3;
+                    m_cinfo.natural_order = JpegUtils.jpeg_natural_order3;
+                    m_cinfo.lim_Se = m_cinfo.m_Se;
+                    break;
                     case 15:
-                        m_cinfo.block_size = 4;
-                        m_cinfo.natural_order = JpegUtils.jpeg_natural_order4;
-                        m_cinfo.lim_Se = m_cinfo.m_Se;
-                        break;
+                    m_cinfo.block_size = 4;
+                    m_cinfo.natural_order = JpegUtils.jpeg_natural_order4;
+                    m_cinfo.lim_Se = m_cinfo.m_Se;
+                    break;
                     case 24:
-                        m_cinfo.block_size = 5;
-                        m_cinfo.natural_order = JpegUtils.jpeg_natural_order5;
-                        m_cinfo.lim_Se = m_cinfo.m_Se;
-                        break;
+                    m_cinfo.block_size = 5;
+                    m_cinfo.natural_order = JpegUtils.jpeg_natural_order5;
+                    m_cinfo.lim_Se = m_cinfo.m_Se;
+                    break;
                     case 35:
-                        m_cinfo.block_size = 6;
-                        m_cinfo.natural_order = JpegUtils.jpeg_natural_order6;
-                        m_cinfo.lim_Se = m_cinfo.m_Se;
-                        break;
+                    m_cinfo.block_size = 6;
+                    m_cinfo.natural_order = JpegUtils.jpeg_natural_order6;
+                    m_cinfo.lim_Se = m_cinfo.m_Se;
+                    break;
                     case 48:
-                        m_cinfo.block_size = 7;
-                        m_cinfo.natural_order = JpegUtils.jpeg_natural_order7;
-                        m_cinfo.lim_Se = m_cinfo.m_Se;
-                        break;
+                    m_cinfo.block_size = 7;
+                    m_cinfo.natural_order = JpegUtils.jpeg_natural_order7;
+                    m_cinfo.lim_Se = m_cinfo.m_Se;
+                    break;
                     case 63:
-                        m_cinfo.block_size = 8;
-                        m_cinfo.natural_order = JpegUtils.jpeg_natural_order;
-                        m_cinfo.lim_Se = JpegConstants.DCTSIZE2 - 1;
-                        break;
+                    m_cinfo.block_size = 8;
+                    m_cinfo.natural_order = JpegUtils.jpeg_natural_order;
+                    m_cinfo.lim_Se = JpegConstants.DCTSIZE2 - 1;
+                    break;
                     case 80:
-                        m_cinfo.block_size = 9;
-                        m_cinfo.natural_order = JpegUtils.jpeg_natural_order;
-                        m_cinfo.lim_Se = JpegConstants.DCTSIZE2 - 1;
-                        break;
+                    m_cinfo.block_size = 9;
+                    m_cinfo.natural_order = JpegUtils.jpeg_natural_order;
+                    m_cinfo.lim_Se = JpegConstants.DCTSIZE2 - 1;
+                    break;
                     case 99:
-                        m_cinfo.block_size = 10;
-                        m_cinfo.natural_order = JpegUtils.jpeg_natural_order;
-                        m_cinfo.lim_Se = JpegConstants.DCTSIZE2 - 1;
-                        break;
+                    m_cinfo.block_size = 10;
+                    m_cinfo.natural_order = JpegUtils.jpeg_natural_order;
+                    m_cinfo.lim_Se = JpegConstants.DCTSIZE2 - 1;
+                    break;
                     case 120:
-                        m_cinfo.block_size = 11;
-                        m_cinfo.natural_order = JpegUtils.jpeg_natural_order;
-                        m_cinfo.lim_Se = JpegConstants.DCTSIZE2 - 1;
-                        break;
+                    m_cinfo.block_size = 11;
+                    m_cinfo.natural_order = JpegUtils.jpeg_natural_order;
+                    m_cinfo.lim_Se = JpegConstants.DCTSIZE2 - 1;
+                    break;
                     case 143:
-                        m_cinfo.block_size = 12;
-                        m_cinfo.natural_order = JpegUtils.jpeg_natural_order;
-                        m_cinfo.lim_Se = JpegConstants.DCTSIZE2 - 1;
-                        break;
+                    m_cinfo.block_size = 12;
+                    m_cinfo.natural_order = JpegUtils.jpeg_natural_order;
+                    m_cinfo.lim_Se = JpegConstants.DCTSIZE2 - 1;
+                    break;
                     case 168:
-                        m_cinfo.block_size = 13;
-                        m_cinfo.natural_order = JpegUtils.jpeg_natural_order;
-                        m_cinfo.lim_Se = JpegConstants.DCTSIZE2 - 1;
-                        break;
+                    m_cinfo.block_size = 13;
+                    m_cinfo.natural_order = JpegUtils.jpeg_natural_order;
+                    m_cinfo.lim_Se = JpegConstants.DCTSIZE2 - 1;
+                    break;
                     case 195:
-                        m_cinfo.block_size = 14;
-                        m_cinfo.natural_order = JpegUtils.jpeg_natural_order;
-                        m_cinfo.lim_Se = JpegConstants.DCTSIZE2 - 1;
-                        break;
+                    m_cinfo.block_size = 14;
+                    m_cinfo.natural_order = JpegUtils.jpeg_natural_order;
+                    m_cinfo.lim_Se = JpegConstants.DCTSIZE2 - 1;
+                    break;
                     case 224:
-                        m_cinfo.block_size = 15;
-                        m_cinfo.natural_order = JpegUtils.jpeg_natural_order;
-                        m_cinfo.lim_Se = JpegConstants.DCTSIZE2 - 1;
-                        break;
+                    m_cinfo.block_size = 15;
+                    m_cinfo.natural_order = JpegUtils.jpeg_natural_order;
+                    m_cinfo.lim_Se = JpegConstants.DCTSIZE2 - 1;
+                    break;
                     case 255:
-                        m_cinfo.block_size = 16;
-                        m_cinfo.natural_order = JpegUtils.jpeg_natural_order;
-                        m_cinfo.lim_Se = JpegConstants.DCTSIZE2 - 1;
-                        break;
+                    m_cinfo.block_size = 16;
+                    m_cinfo.natural_order = JpegUtils.jpeg_natural_order;
+                    m_cinfo.lim_Se = JpegConstants.DCTSIZE2 - 1;
+                    break;
 
                     default:
-                        m_cinfo.ErrExit(JMessageCode.JERR_BAD_PROGRESSION,
-                             m_cinfo.m_Ss, m_cinfo.m_Se, m_cinfo.m_Ah, m_cinfo.m_Al);
-                        break;
+                    m_cinfo.ErrExit(JMessageCode.JERR_BAD_PROGRESSION,
+                         m_cinfo.m_Ss, m_cinfo.m_Se, m_cinfo.m_Ah, m_cinfo.m_Al);
+                    break;
                 }
             }
 
@@ -548,7 +548,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 compptr.height_in_blocks = (int)JpegUtils.jdiv_round_up(
                     m_cinfo.imageHeight * compptr.V_samp_factor,
-                    m_cinfo.maxVSampleFactor * m_cinfo.block_size);
+                    m_cinfo.m_maxVSampleFactor * m_cinfo.block_size);
 
                 /* downsampled_width and downsampled_height will also be overridden by
                  * jpeg_decomp_master if we are doing full decompression.  The transcoder library
@@ -561,7 +561,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 compptr.downsampled_height = (int)JpegUtils.jdiv_round_up(
                     m_cinfo.imageHeight * compptr.V_samp_factor,
-                    m_cinfo.maxVSampleFactor);
+                    m_cinfo.m_maxVSampleFactor);
 
                 /* Mark component needed, until color conversion says otherwise */
                 compptr.component_needed = true;
@@ -572,7 +572,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             /* Compute number of fully interleaved MCU rows. */
             m_cinfo.m_total_iMCU_rows = (int)JpegUtils.jdiv_round_up(
-                m_cinfo.imageHeight, m_cinfo.maxVSampleFactor * m_cinfo.block_size);
+                m_cinfo.imageHeight, m_cinfo.m_maxVSampleFactor * m_cinfo.block_size);
 
             /* Decide whether file contains multiple scans */
             m_cinfo.m_inputctl.m_has_multiple_scans = m_cinfo.m_comps_in_scan < m_cinfo.numComponents || m_cinfo.progressiveMode;
@@ -682,7 +682,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     m_cinfo.imageWidth, m_cinfo.m_max_h_samp_factor * m_cinfo.block_size);
 
                 m_cinfo.m_MCU_rows_in_scan = (int)JpegUtils.jdiv_round_up(
-                    m_cinfo.imageHeight, m_cinfo.maxVSampleFactor * m_cinfo.block_size);
+                    m_cinfo.imageHeight, m_cinfo.m_maxVSampleFactor * m_cinfo.block_size);
 
                 m_cinfo.m_blocks_in_MCU = 0;
 

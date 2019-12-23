@@ -15,6 +15,7 @@ namespace Juniper.World.GIS.Google.Geocoding
             {
                 key ^= type.GetHashCode();
             }
+
             return key;
         }
 

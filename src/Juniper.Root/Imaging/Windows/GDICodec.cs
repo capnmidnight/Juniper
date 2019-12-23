@@ -12,10 +12,7 @@ namespace Juniper.Imaging
     {
         private readonly GDIImageFormat gdiFormat;
 
-        public MediaType.Image ContentType
-        {
-            get;
-        }
+        public MediaType.Image ContentType { get; }
 
         public GDICodec(MediaType.Image format)
         {

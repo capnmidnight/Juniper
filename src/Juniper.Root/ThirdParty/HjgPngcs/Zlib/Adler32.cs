@@ -35,10 +35,12 @@ namespace Hjg.Pngcs.Zlib
                     updateModulus();
                     nextJToComputeModulus = j + _nmax;
                 }
+
                 unchecked
                 {
                     a += data[j + offset];
                 }
+
                 b += a;
                 pend++;
             }

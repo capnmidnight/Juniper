@@ -143,16 +143,16 @@ namespace BitMiracle.LibJpeg
             switch (mode)
             {
                 case SeekOrigin.Begin:
-                    SeekSet(pos);
-                    break;
+                SeekSet(pos);
+                break;
 
                 case SeekOrigin.Current:
-                    SeekCurrent(pos);
-                    break;
+                SeekCurrent(pos);
+                break;
 
                 case SeekOrigin.End:
-                    SeekSet(Size() + pos);
-                    break;
+                SeekSet(Size() + pos);
+                break;
             }
         }
 
