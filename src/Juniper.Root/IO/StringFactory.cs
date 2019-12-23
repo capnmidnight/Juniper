@@ -27,8 +27,8 @@ namespace Juniper.IO
             if (stream != null)
             {
                 using (stream)
+                using (var reader = new StreamReader(stream))
                 {
-                    var reader = new StreamReader(stream);
                     value = reader.ReadToEnd();
                 }
             }

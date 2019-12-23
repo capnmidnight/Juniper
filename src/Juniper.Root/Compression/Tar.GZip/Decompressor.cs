@@ -72,7 +72,10 @@ namespace Juniper.Compression.Tar.GZip
             }
             else
             {
-                return new TarArchive(new GZipStream(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read), CompressionMode.Decompress));
+                using (var stream = new GZipStream(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read), CompressionMode.Decompress))
+                {
+                    return new TarArchive(stream);
+                }
             }
         }
 

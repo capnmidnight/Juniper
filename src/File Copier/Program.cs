@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -60,7 +61,7 @@ namespace FileCopier
                     foreach (var sourceFile in source.GetFiles()
                         .Select(ReplaceNewtonsoft))
                     {
-                        var isDependency = !sourceFile.Name.StartsWith(projectName);
+                        var isDependency = !sourceFile.Name.StartsWith(projectName, false, CultureInfo.InvariantCulture);
                         var dest = isDependency
                             ? dest2
                             : dest1;
@@ -68,7 +69,7 @@ namespace FileCopier
                         if ((!isDependency
                                 || !excludeDependencies)
                             && (sourceFile.Extension != ".pdb"
-                                || dest.Name.EndsWith("Debug")))
+                                || dest.Name.EndsWith("Debug", false, CultureInfo.InvariantCulture)))
                         {
                             dest.Create();
 
@@ -115,7 +116,7 @@ namespace FileCopier
                         else
                         {
                             var suitableDir = (from dir in versionDir.EnumerateDirectories()
-                                               where dir.Name.StartsWith(NETSTANDARD)
+                                               where dir.Name.StartsWith(NETSTANDARD, false, CultureInfo.InvariantCulture)
                                                let versionName = dir.Name.Substring(NETSTANDARD.Length)
                                                let version = new Version(versionName)
                                                orderby version descending
