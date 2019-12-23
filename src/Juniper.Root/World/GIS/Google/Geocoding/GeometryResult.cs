@@ -25,7 +25,9 @@ namespace Juniper.World.GIS.Google.Geocoding
             {
                 switch (field.Name)
                 {
-                    case nameof(bounds): bounds = info.GetValue<GeometryViewport>(field.Name); break;
+                    case nameof(bounds):
+                    bounds = info.GetValue<GeometryViewport>(field.Name);
+                    break;
                 }
             }
         }

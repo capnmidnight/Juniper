@@ -39,7 +39,7 @@ namespace Juniper
                 Signed,
                 VendorBintMed_Plus,
                 Voice_Message,
-                X_Mixed_Replace,
+                X_Mixed_Replace
             };
         }
     }

@@ -101,7 +101,7 @@ namespace Juniper.Compression.Tar
             atEnd = true;
         }
 
-        private long SeekToNextEntry(byte[] header, Stream stream, long position, string fileName)
+        private static long SeekToNextEntry(byte[] header, Stream stream, long position, string fileName)
         {
             // The end of the file entry is aligned on 512 bytes
             var delta = (512 - (int)(position & 511)) % 512;

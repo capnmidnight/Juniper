@@ -18,7 +18,7 @@ namespace Juniper
 
         public static MediaType GuessByExtension(string ext)
         {
-            if (ext == null)
+            if (string.IsNullOrEmpty(ext))
             {
                 ext = "unknown";
             }
@@ -35,7 +35,12 @@ namespace Juniper
 
         public static MediaType GuessByExtension(FileInfo file)
         {
-            var ext = file.Extension.Substring(1);
+            var ext = file.Extension;
+            if (ext[0] == '.')
+            {
+                ext = ext.Substring(1);
+            }
+
             return GuessByExtension(ext);
         }
 

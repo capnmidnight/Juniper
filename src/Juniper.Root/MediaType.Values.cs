@@ -2062,7 +2062,7 @@ namespace Juniper
             Video.X_Msvideo,
             Video.X_Sgi_Movie,
             Video.X_Smv,
-            XConference.X_Cooltalk,
+            XConference.X_Cooltalk
         });
     }
 }

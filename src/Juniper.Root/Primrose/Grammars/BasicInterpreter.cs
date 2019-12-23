@@ -895,7 +895,7 @@ namespace Juniper.Primrose
             return true;
         }
 
-        private object Eval(string script)
+        private static object Eval(string script)
         {
             if (string.IsNullOrEmpty(script))
             {
