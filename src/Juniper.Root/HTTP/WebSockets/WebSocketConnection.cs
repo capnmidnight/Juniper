@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
@@ -192,7 +193,7 @@ namespace Juniper.HTTP.WebSockets
         private async Task SendAsync(byte[] buffer, WebSocketMessageType messageType)
         {
             var segment = new ArraySegment<byte>(buffer);
-            OnDebug($"Send: {buffer.Length} bytes. Type: {messageType}.");
+            OnDebug($"Send: {buffer.Length.ToString(CultureInfo.CurrentCulture)} bytes. Type: {messageType.ToString()}.");
             await socket
                 .SendAsync(segment, messageType, true, CancellationToken.None)
                 .ConfigureAwait(false);

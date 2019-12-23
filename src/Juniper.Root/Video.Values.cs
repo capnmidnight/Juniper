@@ -108,7 +108,7 @@ namespace Juniper
             public static readonly Video X_Sgi_Movie = new Video("x-sgi-movie", new string[] { "movie" });
             public static readonly Video X_Smv = new Video("x-smv", new string[] { "smv" });
 
-            public static readonly new Video[] Values = {
+            new public static readonly Video[] Values = {
                 BMPEG,
                 BT656,
                 CelB,
@@ -208,7 +208,7 @@ namespace Juniper
                 X_Ms_Wvx,
                 X_Msvideo,
                 X_Sgi_Movie,
-                X_Smv,
+                X_Smv
             };
         }
     }

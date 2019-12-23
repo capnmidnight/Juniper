@@ -75,8 +75,8 @@ namespace Juniper.Primrose
 
         private void CrudeParsing(List<Token> tokens)
         {
-            string commentDelim = null,
-                  stringDelim = null;
+            string commentDelim = null;
+            string stringDelim = null;
             var line = 0;
             for (var i = 0; i < tokens.Count; ++i)
             {
@@ -96,6 +96,7 @@ namespace Juniper.Primrose
                     {
                         stringDelim = null;
                     }
+
                     if (t.type != "newlines")
                     {
                         t.type = "strings";

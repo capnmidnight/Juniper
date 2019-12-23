@@ -55,8 +55,10 @@ namespace Hjg.Pngcs.Chunks
                         PngHelperInternal.WriteInt2(ba, Palette[(n * 5) + i]);
                     }
                 }
+
                 PngHelperInternal.WriteInt2(ba, Palette[(n * 5) + 4]);
             }
+
             var b = ba.ToArray();
             var chunk = CreateEmptyChunk(b.Length, false);
             chunk.Data = b;
@@ -74,6 +76,7 @@ namespace Hjg.Pngcs.Chunks
                     break;
                 }
             }
+
             if (t <= 0 || t > c.Data.Length - 2)
             {
                 throw new PngjException("bad sPLT chunk: no separator found");
@@ -84,7 +87,12 @@ namespace Hjg.Pngcs.Chunks
             t += 2;
             var nentries = (c.Data.Length - t) / (SampleDepth == 8 ? 6 : 10);
             Palette = new int[nentries * 5];
-            int r, g, b, a, f, ne;
+            int r;
+            int g;
+            int b;
+            int a;
+            int f;
+            int ne;
             ne = 0;
             for (var i = 0; i < nentries; i++)
             {
@@ -106,6 +114,7 @@ namespace Hjg.Pngcs.Chunks
                     a = PngHelperInternal.ReadInt2fromBytes(c.Data, t);
                     t += 2;
                 }
+
                 f = PngHelperInternal.ReadInt2fromBytes(c.Data, t);
                 t += 2;
                 Palette[ne++] = r;

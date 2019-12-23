@@ -251,6 +251,7 @@ namespace Juniper.IO
             {
                 outStream.WriteByte((byte)b);
             }
+
             return b;
         }
 

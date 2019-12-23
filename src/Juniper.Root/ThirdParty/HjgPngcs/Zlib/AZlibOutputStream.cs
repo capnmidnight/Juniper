@@ -5,8 +5,8 @@ namespace Hjg.Pngcs.Zlib
 {
     public abstract class AZlibOutputStream : Stream
     {
-        readonly protected Stream rawStream;
-        readonly protected bool leaveOpen;
+        protected readonly Stream rawStream;
+        protected readonly bool leaveOpen;
         protected int compressLevel;
         protected EDeflateCompressStrategy strategy;
 
@@ -24,6 +24,7 @@ namespace Hjg.Pngcs.Zlib
             {
                 rawStream.Dispose();
             }
+
             base.Dispose(disposing);
         }
 
@@ -44,14 +45,8 @@ namespace Hjg.Pngcs.Zlib
 
         public override long Position
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
         }
 
         public override long Length
@@ -76,10 +71,7 @@ namespace Hjg.Pngcs.Zlib
 
         public override bool CanTimeout
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
 
         /// <summary>

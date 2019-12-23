@@ -8,31 +8,31 @@ namespace Juniper.World.GIS.Google.Geocoding
 {
     public class ReverseGeocodingRequest : AbstractGeocodingRequest
     {
-        private static readonly HashSet<AddressComponentType> AcceptableResultTypes = new HashSet<AddressComponentType>(new[]{
-            AddressComponentType.street_address,
-            AddressComponentType.route,
-            AddressComponentType.intersection,
-            AddressComponentType.political,
-            AddressComponentType.country,
-            AddressComponentType.administrative_area_level_1,
-            AddressComponentType.administrative_area_level_2,
-            AddressComponentType.administrative_area_level_3,
-            AddressComponentType.administrative_area_level_4,
-            AddressComponentType.administrative_area_level_5,
-            AddressComponentType.colloquial_area,
-            AddressComponentType.locality,
-            AddressComponentType.sublocality,
-            AddressComponentType.neighborhood,
-            AddressComponentType.premise,
-            AddressComponentType.subpremise,
-            AddressComponentType.postal_code,
-            AddressComponentType.natural_feature,
-            AddressComponentType.airport,
-            AddressComponentType.park,
-            AddressComponentType.point_of_interest
+        private static readonly HashSet<AddressComponentTypes> AcceptableResultTypes = new HashSet<AddressComponentTypes>(new[]{
+            AddressComponentTypes.street_address,
+            AddressComponentTypes.route,
+            AddressComponentTypes.intersection,
+            AddressComponentTypes.political,
+            AddressComponentTypes.country,
+            AddressComponentTypes.administrative_area_level_1,
+            AddressComponentTypes.administrative_area_level_2,
+            AddressComponentTypes.administrative_area_level_3,
+            AddressComponentTypes.administrative_area_level_4,
+            AddressComponentTypes.administrative_area_level_5,
+            AddressComponentTypes.colloquial_area,
+            AddressComponentTypes.locality,
+            AddressComponentTypes.sublocality,
+            AddressComponentTypes.neighborhood,
+            AddressComponentTypes.premise,
+            AddressComponentTypes.subpremise,
+            AddressComponentTypes.postal_code,
+            AddressComponentTypes.natural_feature,
+            AddressComponentTypes.airport,
+            AddressComponentTypes.park,
+            AddressComponentTypes.point_of_interest
         });
 
-        private readonly HashSet<AddressComponentType> result_type = new HashSet<AddressComponentType>();
+        private readonly HashSet<AddressComponentTypes> result_type = new HashSet<AddressComponentTypes>();
         private readonly HashSet<GeometryLocationType> location_type = new HashSet<GeometryLocationType>();
         private LatLngPoint latlng;
 
@@ -50,7 +50,7 @@ namespace Juniper.World.GIS.Google.Geocoding
             }
         }
 
-        public void AddResultType(AddressComponentType value)
+        public void AddResultType(AddressComponentTypes value)
         {
             if (AcceptableResultTypes.Contains(value))
             {

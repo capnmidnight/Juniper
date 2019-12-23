@@ -19,13 +19,13 @@ namespace Juniper.HTTP.REST
             return uriBuilder.Uri;
         }
 
-        private readonly HttpMethod method;
+        private readonly HttpMethods method;
         private readonly Uri serviceURI;
 
         private readonly IDictionary<string, List<string>> queryParams =
             new SortedDictionary<string, List<string>>();
 
-        protected AbstractRequest(HttpMethod method, Uri serviceURI, MediaTypeT contentType)
+        protected AbstractRequest(HttpMethods method, Uri serviceURI, MediaTypeT contentType)
             : base(contentType)
         {
             this.method = method;
@@ -218,6 +218,7 @@ namespace Juniper.HTTP.REST
                 var length = response.ContentLength;
                 stream = new ProgressStream(stream, length, prog);
             }
+
             return stream;
         }
     }

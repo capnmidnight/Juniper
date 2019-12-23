@@ -56,20 +56,14 @@ namespace Juniper.Collections
         /// <summary>
         /// Retrieve the comparer to use with the objects being added to the stack
         /// </summary>
-        public IComparer<T> Comparer
-        {
-            get;
-        }
+        public IComparer<T> Comparer { get; }
 
         /// <summary>
         /// get the number of elements in the collection
         /// </summary>
         public int Count
         {
-            get
-            {
-                return stack.Count;
-            }
+            get { return stack.Count; }
         }
 
         /// <summary>
@@ -84,9 +78,9 @@ namespace Juniper.Collections
         /// Performs a linear search for the provided item.
         /// </summary>
         /// <returns></returns>
-        public bool Contains(T obj)
+        public bool Contains(T item)
         {
-            return stack.Contains(obj);
+            return stack.Contains(item);
         }
 
         /// <summary>
@@ -112,21 +106,21 @@ namespace Juniper.Collections
         /// Adds an item to the stack, using the natural order of the object type if no Comparer is
         /// provided during construction of the PriorityStack.
         /// </summary>
-        /// <param name="obj">The object to add</param>
-        public void Push(T obj)
+        /// <param name="item">The object to add</param>
+        public void Push(T item)
         {
             //figure out which stack to add the object to
             int addIndex;
             for (addIndex = 0; addIndex < stack.Count; ++addIndex)
             {
                 var t = stack[addIndex];
-                if (Comparer.Compare(t, obj) == 1)
+                if (Comparer.Compare(t, item) == 1)
                 {
                     break;
                 }
             }
 
-            stack.Insert(addIndex, obj);
+            stack.Insert(addIndex, item);
         }
 
         /// <summary>

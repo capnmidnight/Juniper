@@ -50,6 +50,7 @@ namespace Juniper.Imaging
                             GC.Collect();
                         }
                     }
+
                     combined[(tileY * tileHeight) + y] = new SampleRow(rowBuffer, bufferWidth, 8, (byte)components);
                 }
             }

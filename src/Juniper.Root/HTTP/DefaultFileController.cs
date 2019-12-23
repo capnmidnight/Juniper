@@ -18,6 +18,21 @@ namespace Juniper.HTTP
             "default.htm"
         };
 
+        private static readonly MediaType[] DEFAULT_MEDIA_TYPES =
+        {
+            MediaType.Application.Javascript,
+            MediaType.Application.Json,
+            MediaType.Application.Xml,
+            MediaType.Text.Html,
+            MediaType.Text.Css,
+            MediaType.Text.Plain,
+            MediaType.Text.Xml,
+            MediaType.Image.Png,
+            MediaType.Image.Jpeg,
+            MediaType.Image.Gif,
+            MediaType.Image.SvgXml
+        };
+
         private static string MakeShortName(string rootDirectory, string filename)
         {
             var shortName = filename.Replace(rootDirectory, "");
@@ -60,6 +75,7 @@ namespace Juniper.HTTP
         }
 
         private readonly DirectoryInfo rootDirectory;
+        private readonly MediaType[] mediaTypeWhiteList;
 
         public event EventHandler<string> Warning;
 
@@ -69,21 +85,40 @@ namespace Juniper.HTTP
             Warning?.Invoke(this, message);
         }
 
-        public DefaultFileController(DirectoryInfo rootDirectory)
+        public DefaultFileController(DirectoryInfo rootDirectory, params MediaType[] mediaTypeWhiteList)
         {
+            if (rootDirectory is null)
+            {
+                throw new ArgumentNullException(nameof(rootDirectory));
+            }
+
             if (!rootDirectory.Exists)
             {
                 throw new InvalidOperationException($"Directory {rootDirectory.FullName} does not exist");
             }
 
             this.rootDirectory = rootDirectory;
+
+            this.mediaTypeWhiteList = mediaTypeWhiteList;
+            if (this.mediaTypeWhiteList is null
+                || this.mediaTypeWhiteList.Length == 0)
+            {
+                this.mediaTypeWhiteList = DEFAULT_MEDIA_TYPES;
+            }
         }
 
-        public DefaultFileController(string rootDirectoryPath)
-            : this(new DirectoryInfo(rootDirectoryPath))
+        public DefaultFileController(string rootDirectoryPath, params MediaType[] mediaTypeWhiteList)
+            : this(rootDirectoryPath is null
+                  ? throw new ArgumentNullException(nameof(rootDirectoryPath))
+                  : new DirectoryInfo(rootDirectoryPath),
+                  mediaTypeWhiteList)
         { }
 
-        [Route(".*", Priority = int.MaxValue)]
+        [Route(".*",
+#if !DEBUG
+            Protocol = HttpProtocol.HTTPS,
+#endif
+            Priority = int.MaxValue)]
         public async Task ServeFile(HttpListenerContext context)
         {
             var request = context.Request;
@@ -99,6 +134,7 @@ namespace Juniper.HTTP
             }
 
             var file = new FileInfo(filename);
+            var type = MediaType.GuessByExtension(file);
             var shortName = MakeShortName(rootDirectory.FullName, filename);
 
             if (!rootDirectory.Contains(file))
@@ -111,8 +147,15 @@ namespace Juniper.HTTP
             }
             else if (file.Exists)
             {
-                await SendFile(response, file, shortName)
-                    .ConfigureAwait(false);
+                if (Array.IndexOf(mediaTypeWhiteList, type) == -1)
+                {
+                    response.Error(HttpStatusCode.Unauthorized, "Unauthorized");
+                }
+                else
+                {
+                    await SendFile(response, file, shortName)
+                        .ConfigureAwait(false);
+                }
             }
             else if (isDirectory)
             {
@@ -140,7 +183,7 @@ namespace Juniper.HTTP
             var paths = (from subPath in dir.GetFileSystemInfos()
                          select MakeShortName(dir.FullName, subPath.FullName));
 
-            if (!dir.Parent.FullName.Equals(rootDirectory.FullName, StringComparison.InvariantCultureIgnoreCase))
+            if (string.CompareOrdinal(dir.Parent.FullName, rootDirectory.FullName) == 0)
             {
                 paths = paths.Prepend("..");
             }

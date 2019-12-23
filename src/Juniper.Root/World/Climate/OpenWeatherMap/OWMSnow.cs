@@ -19,6 +19,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected OWMSnow(SerializationInfo info, StreamingContext context)
         {
             threeHour = info.GetInt32("3h");

@@ -8,7 +8,7 @@ namespace Juniper.World.GIS.Google.Geocoding
     [Serializable]
     public sealed class AddressComponent : ISerializable, IEquatable<AddressComponent>
     {
-        public static int HashAddressComponents(IEnumerable<AddressComponentType> types)
+        public static int HashAddressComponents(IEnumerable<AddressComponentTypes> types)
         {
             var key = 0;
             foreach (var type in types)
@@ -21,19 +21,20 @@ namespace Juniper.World.GIS.Google.Geocoding
         public readonly string long_name;
         public readonly string short_name;
         public readonly string[] typeStrings;
-        public readonly HashSet<AddressComponentType> types;
+        public readonly HashSet<AddressComponentTypes> types;
 
         internal int Key { get; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private AddressComponent(SerializationInfo info, StreamingContext context)
         {
             long_name = info.GetString(nameof(long_name));
             short_name = info.GetString(nameof(short_name));
             typeStrings = info.GetValue<string[]>(nameof(types));
-            types = new HashSet<AddressComponentType>(from typeStr in typeStrings
-                                                      select Enum.TryParse<AddressComponentType>(typeStr, out var parsedType)
-                                                          ? parsedType
-                                                          : AddressComponentType.None);
+            types = new HashSet<AddressComponentTypes>(from typeStr in typeStrings
+                                                       select Enum.TryParse<AddressComponentTypes>(typeStr, out var parsedType)
+                                                           ? parsedType
+                                                           : AddressComponentTypes.None);
 
             Key = HashAddressComponents(types);
         }

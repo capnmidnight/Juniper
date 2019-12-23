@@ -49,9 +49,9 @@ namespace Juniper.Primrose
                 new Rule("identifiers", new Regex("\\w+\\$?")))
         { }
 
-        public override Line Tokenize(string source)
+        public override Line Tokenize(string text)
         {
-            return base.Tokenize(source.ToUpperInvariant());
+            return base.Tokenize(text.ToUpperInvariant());
         }
 
         public IInterpreter Interpret(string source)

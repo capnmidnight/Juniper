@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Juniper.Serial
@@ -22,8 +23,16 @@ namespace Juniper.Serial
         {
         }
 
-        public bool IsOpen { get { return port?.IsOpen == true; } }
-        public bool IsPortAvailable { get { return serialPortFactory.PortNames.Contains(PortName); } }
+        public bool IsOpen
+        {
+            get { return port?.IsOpen == true; }
+        }
+
+        public bool IsPortAvailable
+        {
+            get { return serialPortFactory.PortNames.Contains(PortName); }
+        }
+
         public bool IsRecording { get; private set; }
         public string LastTestedString { get; private set; }
         public RecordType LastValue { get; private set; }
@@ -33,8 +42,10 @@ namespace Juniper.Serial
         {
             get
             {
-                return IsOpen && port.RtsEnable;
+                return IsOpen
+                  && port.RtsEnable;
             }
+
             set
             {
                 if (IsOpen)
@@ -104,7 +115,8 @@ namespace Juniper.Serial
         {
             device.LastTestedString = null;
             device.PortName = portName;
-            if (!device.PortName.StartsWith("COM"))
+
+            if (!device.PortName.StartsWith("COM", true, CultureInfo.InvariantCulture))
             {
                 device.PortName = null;
             }
@@ -174,6 +186,7 @@ namespace Juniper.Serial
                     return true;
                 }
             }
+
             PortName = null;
             return false;
         }
@@ -219,6 +232,7 @@ namespace Juniper.Serial
                     }
                 }
             }
+
             return handshakeComplete;
         }
 
@@ -267,7 +281,7 @@ namespace Juniper.Serial
                             }
                             catch (Exception exp)
                             {
-                                var message = string.Format(
+                                var message = string.Format(CultureInfo.CurrentCulture,
                                     "port: {0}\r\ncurrentLine: \"{1}\"\r\nrest:\"{2}\"\r\n",
                                     PortName,
                                     bufferBeforeRead,
@@ -291,13 +305,14 @@ namespace Juniper.Serial
             catch (UnauthorizedAccessException) { }
             catch (Exception exp)
             {
-                var message = string.Format(
+                var message = string.Format(CultureInfo.CurrentCulture,
                     "port: {0}\r\ncurrentLine: \"{1}\"\r\nrest:\"{2}\"\r\n",
                     PortName,
                     bufferBeforeRead,
                     buffer);
                 errors.Add(new Exception(message, exp));
             }
+
             return errors;
         }
 

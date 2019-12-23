@@ -43,10 +43,7 @@ namespace Juniper.Compression.Tar
 
         public IReadOnlyCollection<TarArchiveEntry> Entries
         {
-            get
-            {
-                return entries;
-            }
+            get { return entries; }
         }
 
         public TarArchiveEntry GetEntry(string name)
@@ -116,6 +113,7 @@ namespace Juniper.Compression.Tar
                     throw new InvalidDataException($"Invalid end of entry after file entry [{fileName}] ");
                 }
             }
+
             return position + delta;
         }
 
@@ -158,6 +156,7 @@ namespace Juniper.Compression.Tar
             {
                 throw new InvalidDataException($"Invalid timestamp for file entry [{fileName}] ");
             }
+
             var lastModifiedTime = Epoch.AddSeconds(unixTimeStamp.Value).ToLocalTime();
             return lastModifiedTime;
         }
@@ -192,6 +191,7 @@ namespace Juniper.Compression.Tar
                 {
                     c = 32;
                 }
+
                 checksumVerif += c;
             }
 
@@ -221,6 +221,7 @@ namespace Juniper.Compression.Tar
 
                 text.Append((char)buffer[i]);
             }
+
             return text.ToString();
         }
 
@@ -241,16 +242,20 @@ namespace Juniper.Compression.Tar
                 {
                     break;
                 }
+
                 if (c == ' ')
                 {
                     continue;
                 }
+
                 if (c < '0' || c > '7')
                 {
                     return null;
                 }
+
                 value = (value << 3) + (c - '0');
             }
+
             return value;
         }
     }

@@ -28,26 +28,26 @@ namespace Hjg.Pngcs.Chunks
             return c;
         }
 
-        public override void ParseFromRaw(ChunkRaw chunk)
+        public override void ParseFromRaw(ChunkRaw c)
         {
-            if (chunk.Len != 9)
+            if (c.Len != 9)
             {
-                throw new PngjException("bad chunk length " + chunk);
+                throw new PngjException("bad chunk length " + c);
             }
 
-            posX = PngHelperInternal.ReadInt4fromBytes(chunk.Data, 0);
+            posX = PngHelperInternal.ReadInt4fromBytes(c.Data, 0);
             if (posX < 0)
             {
                 posX += 0x100000000L;
             }
 
-            posY = PngHelperInternal.ReadInt4fromBytes(chunk.Data, 4);
+            posY = PngHelperInternal.ReadInt4fromBytes(c.Data, 4);
             if (posY < 0)
             {
                 posY += 0x100000000L;
             }
 
-            units = PngHelperInternal.ReadInt1fromByte(chunk.Data, 8);
+            units = PngHelperInternal.ReadInt1fromByte(c.Data, 8);
         }
 
         public override void CloneDataFromRead(PngChunk other)

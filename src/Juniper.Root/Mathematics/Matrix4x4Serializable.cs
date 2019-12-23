@@ -23,7 +23,8 @@ namespace Juniper.Mathematics
             };
         }
 
-        private Matrix4x4Serializable(SerializationInfo info, StreamingContext streamingContext)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
+        private Matrix4x4Serializable(SerializationInfo info, StreamingContext context)
         {
             values = info.GetValue<float[]>(nameof(values));
         }

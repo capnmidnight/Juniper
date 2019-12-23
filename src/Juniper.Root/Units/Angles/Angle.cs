@@ -30,6 +30,7 @@ namespace Juniper.Units
             rotations = r;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private Angle(SerializationInfo info, StreamingContext context)
         {
             currentValue = info.GetSingle("angle");

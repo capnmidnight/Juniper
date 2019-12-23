@@ -181,7 +181,7 @@ namespace Juniper
             public static readonly Audio X_Wav = new Audio("x-wav", new string[] { "wav" });
             public static readonly Audio Xm = new Audio("xm", new string[] { "xm" });
 
-            public static readonly new Audio[] Values = {
+            new public static readonly Audio[] Values = {
                 Aac,
                 Ac3,
                 Adpcm,
@@ -353,7 +353,7 @@ namespace Juniper
                 X_Pn_Realaudio_Plugin,
                 X_Tta,
                 X_Wav,
-                Xm,
+                Xm
             };
         }
     }

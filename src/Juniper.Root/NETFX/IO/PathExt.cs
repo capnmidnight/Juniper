@@ -150,6 +150,7 @@ namespace System.IO
             {
                 name = name.Substring(0, name.Length - ext.Length - 1);
             }
+
             return name;
         }
 

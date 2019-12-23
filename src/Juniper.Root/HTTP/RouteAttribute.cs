@@ -1,9 +1,6 @@
 using System;
-using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Juniper.HTTP
 {
@@ -12,12 +9,13 @@ namespace Juniper.HTTP
     {
         public Regex Pattern { get; }
 
-        public readonly string regexSource;
-        public readonly int parameterCount;
+        public string RegexSource { get; }
+
+        public int ParameterCount { get; }
 
         public int Priority;
-        public HttpProtocol Protocol = HttpProtocol.All;
-        public HttpMethod Method = HttpMethod.GET;
+        public HttpProtocols Protocol = HttpProtocols.All;
+        public HttpMethods Method = HttpMethods.GET;
         public bool Continue;
         public AuthenticationSchemes Authentication = AuthenticationSchemes.Anonymous;
 
@@ -28,10 +26,9 @@ namespace Juniper.HTTP
                 throw new ArgumentNullException(nameof(pattern));
             }
 
-            this.Pattern = pattern;
-
-            regexSource = pattern.ToString();
-            parameterCount = pattern.GetGroupNames().Length;
+            Pattern = pattern;
+            RegexSource = pattern.ToString();
+            ParameterCount = pattern.GetGroupNames().Length;
         }
 
         public RouteAttribute(string pattern)

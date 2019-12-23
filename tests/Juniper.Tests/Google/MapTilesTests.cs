@@ -18,7 +18,7 @@ namespace Juniper.World.GIS.Google.MapTiles.Tests
         {
             var sb = new StringBuilder();
             var first = 0;
-            LinePath.EncodePolylinePart(sb, -179.9832104, ref first);
+            LinePathCollection.EncodePolylinePart(sb, -179.9832104, ref first);
             var encoded = sb.ToString();
             Assert.AreEqual("`~oia@", encoded);
         }
@@ -42,7 +42,7 @@ namespace Juniper.World.GIS.Google.MapTiles.Tests
         private static void EncodePolylinePartTest(string expected, string input)
         {
             var parts = input.SplitX('|');
-            var encoded = LinePath.EncodePolyline(parts);
+            var encoded = LinePathCollection.EncodePolyline(parts);
             Assert.AreEqual(expected, encoded);
         }
 

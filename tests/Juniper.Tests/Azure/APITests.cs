@@ -101,7 +101,7 @@ namespace Juniper.Azure.Tests
         {
             var voicesClient = new VoicesClient(region, subscriptionKey, new JsonFactory<Voice[]>());
             var voices = await voicesClient
-                .GetVoices()
+                .GetVoicesAsync()
                 .ConfigureAwait(false);
 
             Assert.IsNotNull(voices);

@@ -15,10 +15,7 @@ namespace Juniper.IO
             : this(MediaType.Text.Plain)
         { }
 
-        public MediaType.Text ContentType
-        {
-            get;
-        }
+        public MediaType.Text ContentType { get; }
 
         public string Deserialize(Stream stream, IProgress prog)
         {
@@ -32,6 +29,7 @@ namespace Juniper.IO
                     value = reader.ReadToEnd();
                 }
             }
+
             prog.Report(1);
             return value;
         }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace Hjg.Pngcs.Chunks
@@ -42,6 +43,7 @@ namespace Hjg.Pngcs.Chunks
             {
                 ck[c.Id] = ck.ContainsKey(c.Id) ? ck[c.Id] + 1 : 1;
             }
+
             return ck;
         }
 
@@ -53,10 +55,7 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public List<PngChunk> Chunks
         {
-            get
-            {
-                return new List<PngChunk>(pngChunks);
-            }
+            get { return new List<PngChunk>(pngChunks); }
         }
 
         internal static List<PngChunk> GetXById(List<PngChunk> list, string id, string innerid)
@@ -165,7 +164,7 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public override string ToString()
         {
-            return "ChunkList: read: " + pngChunks.Count;
+            return "ChunkList: read: " + pngChunks.Count.ToString(CultureInfo.CurrentCulture);
         }
 
         /// <summary>
@@ -181,8 +180,10 @@ namespace Hjg.Pngcs.Chunks
                 sb.Append(chunk)
                   .Append(" G=")
                   .Append(chunk.ChunkGroup)
+
                   .Append('\n');
             }
+
             return sb.ToString();
         }
     }

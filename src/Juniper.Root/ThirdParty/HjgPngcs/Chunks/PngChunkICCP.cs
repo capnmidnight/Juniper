@@ -33,19 +33,19 @@ namespace Hjg.Pngcs.Chunks
             return c;
         }
 
-        public override void ParseFromRaw(ChunkRaw chunk)
+        public override void ParseFromRaw(ChunkRaw c)
         {
-            var pos0 = Hjg.Pngcs.Chunks.ChunkHelper.PosNullByte(chunk.Data);
-            profileName = Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetString(chunk.Data, 0, pos0);
-            var comp = (chunk.Data[pos0 + 1] & 0xff);
+            var pos0 = Hjg.Pngcs.Chunks.ChunkHelper.PosNullByte(c.Data);
+            profileName = Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetString(c.Data, 0, pos0);
+            var comp = (c.Data[pos0 + 1] & 0xff);
             if (comp != 0)
             {
                 throw new Exception("bad compression for ChunkTypeICCP");
             }
 
-            var compdatasize = chunk.Data.Length - (pos0 + 2);
+            var compdatasize = c.Data.Length - (pos0 + 2);
             compressedProfile = new byte[compdatasize];
-            System.Array.Copy(chunk.Data, pos0 + 2, compressedProfile, 0, compdatasize);
+            System.Array.Copy(c.Data, pos0 + 2, compressedProfile, 0, compdatasize);
         }
 
         public override void CloneDataFromRead(PngChunk other)

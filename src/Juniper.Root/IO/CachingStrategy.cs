@@ -47,6 +47,7 @@ namespace Juniper.IO
             {
                 destinations.Add(dest);
             }
+
             return this;
         }
 
@@ -64,6 +65,7 @@ namespace Juniper.IO
             {
                 destinations.Insert(0, dest);
             }
+
             return this;
         }
 
@@ -240,11 +242,11 @@ namespace Juniper.IO
         /// </summary>
         /// <param name="ofType"></param>
         /// <returns></returns>
-        public IEnumerable<ContentReference> Get(MediaType ofType)
+        public IEnumerable<ContentReference> GetContentReference(MediaType ofType)
         {
             foreach (var source in sources)
             {
-                foreach (var fileRef in source.Get(ofType))
+                foreach (var fileRef in source.GetContentReference(ofType))
                 {
                     yield return fileRef;
                 }

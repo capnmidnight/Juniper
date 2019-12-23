@@ -36,10 +36,7 @@ namespace Juniper.Audio
         /// as many bytes in the output floating-point sample stream.</remarks>
         public override long Length
         {
-            get
-            {
-                return ToFloatSpace(sourceStream.Length);
-            }
+            get { return ToFloatSpace(sourceStream.Length); }
         }
 
         /// <summary>
@@ -48,15 +45,10 @@ namespace Juniper.Audio
         /// </summary>
         public override long Position
         {
-            get
-            {
-                return ToFloatSpace(sourceStream.Position);
-            }
+            get { return ToFloatSpace(sourceStream.Position); }
 
-            set
-            {
-                sourceStream.Position = ToPCMSpace(value);
-            }
+
+            set { sourceStream.Position = ToPCMSpace(value); }
         }
 
         /// <summary>

@@ -108,6 +108,7 @@ namespace Juniper.Primrose
                         {
                             str += '\t';
                         }
+
                         return str;
                     }) }
                 };
@@ -161,7 +162,7 @@ namespace Juniper.Primrose
                     // Line numbers should be ordered correctly, or we throw a syntax error.
                     if (lastLineNumber.HasValue && lineNumber <= lastLineNumber)
                     {
-                        throw new Exception($"expected line number greater than {lastLineNumber}, but received {lineNumberToken.value}.");
+                        throw new Exception($"expected line number greater than {lastLineNumber.Value.ToString(CultureInfo.CurrentCulture)}, but received {lineNumberToken.value}.");
                     }
                     // deleting empty lines
                     else if (line.Count > 0)
@@ -178,10 +179,10 @@ namespace Juniper.Primrose
 
         public event EventHandler<string> Output;
         public event EventHandler<Action<string>> Input;
-        public event EventHandler<RuntimeException> Error;
+        public event EventHandler<RuntimeException> RuntimeError;
         public event EventHandler ClearScreen;
         public event EventHandler<Action<Func<string, byte[]>>> LoadFile;
-        public event EventHandler Next;
+        public event EventHandler ContinueNext;
         public event EventHandler Done;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -206,7 +207,7 @@ namespace Juniper.Primrose
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnError(Line line, string script, Exception exp)
         {
-            Error?.Invoke(this, new RuntimeException(source, line, script, exp));
+            RuntimeError?.Invoke(this, new RuntimeException(source, line, script, exp));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -234,7 +235,7 @@ namespace Juniper.Primrose
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnNext()
         {
-            Next?.Invoke(this, EventArgs.Empty);
+            ContinueNext?.Invoke(this, EventArgs.Empty);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -264,6 +265,7 @@ namespace Juniper.Primrose
             {
                 return state[t.value] is Delegate;
             }
+
             return false;
         }
 
@@ -288,6 +290,7 @@ namespace Juniper.Primrose
                             {
                                 t2.value = "[";
                             }
+
                             ++nest;
                         }
                         else if (t2.value == ")")
@@ -309,6 +312,7 @@ namespace Juniper.Primrose
                         }
                     }
                 }
+
                 script += t.value;
             }
             //with ( state ) { // jshint ignore:line
@@ -342,6 +346,7 @@ namespace Juniper.Primrose
                     data.Add(t.value);
                 }
             }
+
             return true;
         }
 
@@ -503,6 +508,7 @@ namespace Juniper.Primrose
                                 sizes.Add(int.Parse(decl[j].value, CultureInfo.InvariantCulture));
                             }
                         }
+
                         if (sizes.Count == 0)
                         {
                             val = new List<object>();
@@ -575,6 +581,7 @@ namespace Juniper.Primrose
                         --nest;
                     }
                 }
+
                 return t;
             })
                 .ToList();
@@ -588,8 +595,8 @@ namespace Juniper.Primrose
 
         private bool CheckConditional(Line line)
         {
-            int thenIndex = -1,
-              elseIndex = -1;
+            var thenIndex = -1;
+            var elseIndex = -1;
 
             for (var i = 0; i < line.Count; ++i)
             {
@@ -630,6 +637,7 @@ namespace Juniper.Primrose
                     thenClause = line.GetRange(thenIndex + 1, elseIndex - thenIndex - 1);
                     elseClause = line.GetRange(elseIndex + 1, line.Count - elseIndex - 1);
                 }
+
                 if (Evaluate(condition) == "True")
                 {
                     return Process(thenClause);
@@ -700,13 +708,14 @@ namespace Juniper.Primrose
                     }
                 }
 
-                var idx = int.Parse(Evaluate(idxExpr)) - 1;
+                var idx = int.Parse(Evaluate(idxExpr), CultureInfo.InvariantCulture) - 1;
 
                 if (0 <= idx && idx < targets.Count)
                 {
                     return SetProgramCounter(new Line { targets[idx] });
                 }
             }
+
             return true;
         }
 
@@ -718,6 +727,7 @@ namespace Juniper.Primrose
                 var val = returnStack.Pop();
                 ret = SetProgramCounter(new Line { val });
             }
+
             return ret;
         }
 
@@ -752,6 +762,7 @@ namespace Juniper.Primrose
             {
                 returnStack.Push(ToNum(lineNumbers[counter]));
             }
+
             return true;
         }
 
@@ -773,6 +784,8 @@ namespace Juniper.Primrose
                     {
                         varExpr.Add(t);
                     }
+
+
                     ++a;
                 }
                 else
@@ -784,15 +797,15 @@ namespace Juniper.Primrose
             var skip = 1;
             if (skipExpr.Count > 0)
             {
-                skip = int.Parse(Evaluate(skipExpr));
+                skip = int.Parse(Evaluate(skipExpr), CultureInfo.InvariantCulture);
             }
 
             if (!forLoopCounters.ContainsKey(n))
             {
-                forLoopCounters[n] = int.Parse(Evaluate(fromExpr));
+                forLoopCounters[n] = int.Parse(Evaluate(fromExpr), CultureInfo.InvariantCulture);
             }
 
-            var end = int.Parse(Evaluate(toExpr));
+            var end = int.Parse(Evaluate(toExpr), CultureInfo.InvariantCulture);
             var cond = forLoopCounters[n] <= end;
             if (!cond)
             {
@@ -806,6 +819,7 @@ namespace Juniper.Primrose
                 forLoopCounters[n] += skip;
                 returnStack.Push(ToNum(lineNumbers[counter]));
             }
+
             return true;
         }
 
@@ -836,7 +850,7 @@ namespace Juniper.Primrose
             var value = data[dataCounter];
             ++dataCounter;
             line.Add(EQUAL_SIGN);
-            line.Add(ToNum(int.Parse(value)));
+            line.Add(ToNum(int.Parse(value, CultureInfo.InvariantCulture)));
             return Translate(line);
         }
 

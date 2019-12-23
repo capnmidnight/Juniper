@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
@@ -26,6 +27,7 @@ namespace Juniper.World.GIS.Google.StreetView
         public readonly string pano_id;
         public readonly LatLngPoint location;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected MetadataResponse(SerializationInfo info, StreamingContext context)
         {
             status = info.GetString(nameof(status)).MapToStatusCode();
@@ -44,7 +46,7 @@ namespace Juniper.World.GIS.Google.StreetView
             if (status == HttpStatusCode.OK)
             {
                 info.MaybeAddValue(nameof(copyright), copyright);
-                info.MaybeAddValue(nameof(date), date.ToString("yyyy-MM"));
+                info.MaybeAddValue(nameof(date), date.ToString("yyyy-MM", CultureInfo.InvariantCulture));
                 info.MaybeAddValue(nameof(pano_id), pano_id);
                 info.MaybeAddValue(nameof(location), new
                 {
@@ -62,10 +64,10 @@ namespace Juniper.World.GIS.Google.StreetView
             }
             else
             {
-                int byPano = pano_id.CompareTo(other.pano_id),
-                    byLocation = location.CompareTo(other.location),
-                    byDate = date.CompareTo(other.date),
-                    byCopyright = copyright.CompareTo(other.copyright);
+                var byPano = string.CompareOrdinal(pano_id, other.pano_id);
+                var byLocation = location.CompareTo(other.location);
+                var byDate = date.CompareTo(other.date);
+                var byCopyright = string.CompareOrdinal(copyright, other.copyright);
 
                 if (byPano == 0
                     && byLocation == 0

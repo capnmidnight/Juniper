@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -14,6 +15,7 @@ namespace Juniper.Primrose
             {
                 return a;
             }
+
             return b;
         }
 
@@ -23,6 +25,7 @@ namespace Juniper.Primrose
             {
                 return a;
             }
+
             return b;
         }
 
@@ -51,7 +54,7 @@ namespace Juniper.Primrose
 
         public override string ToString()
         {
-            return $"[i:{i} x:{x} y:{y}]";
+            return $"[i:{i.ToString(CultureInfo.CurrentCulture)} x:{x.ToString(CultureInfo.CurrentCulture)} y:{y.ToString(CultureInfo.CurrentCulture)}]";
         }
 
         public override int GetHashCode()
@@ -87,6 +90,7 @@ namespace Juniper.Primrose
                 lastLength = line.Length;
                 i += lastLength;
             }
+
             y = lines.Length - 1;
             x = lastLength;
             moved = true;
@@ -128,11 +132,13 @@ namespace Juniper.Primrose
                     var line = lines[y];
                     x = line.Length;
                 }
+
                 if (ReverseFromNewline(lines))
                 {
                     ++i;
                 }
             }
+
             moved = true;
         }
 
@@ -155,6 +161,7 @@ namespace Juniper.Primrose
                 this.x += dx;
                 ReverseFromNewline(lines);
             }
+
             moved = true;
         }
 
@@ -175,9 +182,11 @@ namespace Juniper.Primrose
                     moved = true;
                     break;
                 }
+
                 ++y;
                 line = lines[y];
             }
+
             return moved;
         }
 
@@ -200,6 +209,7 @@ namespace Juniper.Primrose
                     x = 0;
                 }
             }
+
             moved = true;
         }
 
@@ -231,6 +241,7 @@ namespace Juniper.Primrose
                 i -= line.Length - dx;
                 ReverseFromNewline(lines);
             }
+
             moved = true;
         }
 
@@ -246,6 +257,7 @@ namespace Juniper.Primrose
                 i += pLine.Length + dx;
                 ReverseFromNewline(lines);
             }
+
             moved = true;
         }
 
@@ -259,6 +271,7 @@ namespace Juniper.Primrose
             {
                 i += lines[i].Length;
             }
+
             ReverseFromNewline(lines);
             moved = true;
         }
@@ -273,6 +286,7 @@ namespace Juniper.Primrose
             {
                 i += lines[i].Length;
             }
+
             ReverseFromNewline(lines);
             moved = true;
         }
@@ -293,6 +307,7 @@ namespace Juniper.Primrose
                 --i;
                 return true;
             }
+
             return false;
         }
 

@@ -13,6 +13,7 @@ namespace Juniper.World.GIS.Google.Geocoding
         public readonly GeocodingResult[] results;
         public readonly string error_message;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected GeocodingResponse(SerializationInfo info, StreamingContext context)
         {
             status = info.GetString(nameof(status)).MapToStatusCode();

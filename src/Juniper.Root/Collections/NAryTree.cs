@@ -70,10 +70,7 @@ namespace Juniper.Collections
         /// </summary>
         public bool IsLeaf
         {
-            get
-            {
-                return children.Count == 0;
-            }
+            get { return children.Count == 0; }
         }
 
         /// <summary>
@@ -81,10 +78,7 @@ namespace Juniper.Collections
         /// </summary>
         public bool IsRoot
         {
-            get
-            {
-                return parent == null;
-            }
+            get { return parent == null; }
         }
 
         /// <summary>
@@ -163,7 +157,9 @@ namespace Juniper.Collections
             };
             while (items.Count > 0)
             {
-                var index = order == TreeTraversalOrder.BreadthFirst ? 0 : items.Count - 1;
+                var index = (order == TreeTraversalOrder.BreadthFirst)
+                    ? 0
+                    : items.Count - 1;
                 var here = items[index];
                 items.RemoveAt(index);
 
@@ -211,6 +207,7 @@ namespace Juniper.Collections
                 {
                     sb.Append("--");
                 }
+
                 sb.AppendLine(here.Value.ToString());
                 return sb;
             }).ToString();

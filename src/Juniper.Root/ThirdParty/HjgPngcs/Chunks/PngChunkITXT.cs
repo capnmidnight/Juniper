@@ -40,6 +40,7 @@ namespace Hjg.Pngcs.Chunks
             {
                 textbytes = ChunkHelper.CompressBytes(textbytes, true);
             }
+
             ChunkHelper.WriteBytesToStream(ba, textbytes);
             var b = ba.ToArray();
             var chunk = CreateEmptyChunk(b.Length, false);
@@ -70,6 +71,7 @@ namespace Hjg.Pngcs.Chunks
                     break;
                 }
             }
+
             if (nullsFound != 3)
             {
                 throw new PngjException("Bad formed PngChunkITXT chunk");

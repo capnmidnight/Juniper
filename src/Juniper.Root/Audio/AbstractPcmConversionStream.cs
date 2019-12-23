@@ -68,10 +68,7 @@ namespace Juniper.Audio
         /// </summary>
         public override bool CanRead
         {
-            get
-            {
-                return sourceStream.CanRead;
-            }
+            get { return sourceStream.CanRead; }
         }
 
         /// <summary>
@@ -79,10 +76,7 @@ namespace Juniper.Audio
         /// </summary>summary>
         public override bool CanSeek
         {
-            get
-            {
-                return sourceStream.CanSeek;
-            }
+            get { return sourceStream.CanSeek; }
         }
 
         /// <summary>
@@ -90,10 +84,7 @@ namespace Juniper.Audio
         /// </summary>
         public override bool CanWrite
         {
-            get
-            {
-                return sourceStream.CanWrite;
-            }
+            get { return sourceStream.CanWrite; }
         }
 
         /// <summary>

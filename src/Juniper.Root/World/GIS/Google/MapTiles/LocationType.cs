@@ -1,6 +1,6 @@
 namespace Juniper.World.GIS.Google.MapTiles
 {
-    public enum LocationTypes
+    public enum LocationType
     {
         PlaceName,
         LatLngPoint

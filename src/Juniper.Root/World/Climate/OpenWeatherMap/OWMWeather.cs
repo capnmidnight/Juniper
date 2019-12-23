@@ -39,6 +39,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected OWMWeather(SerializationInfo info, StreamingContext context)
         {
             main = info.GetString(nameof(main));
@@ -66,17 +67,14 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <value>The icon URL.</value>
         public Uri IconURL
         {
-            get
-            {
-                return new Uri($"http://openweathermap.org/img/w/{icon}.png");
-            }
+            get { return new Uri($"http://openweathermap.org/img/w/{icon}.png"); }
         }
 
-        public async Task<T> GetIcon<T>(IImageCodec<T> decoder)
+        public async Task<T> GetIconAsync<T>(IImageCodec<T> decoder)
         {
             var request = HttpWebRequestExt.Create(IconURL);
             using (var response = await request
-                .Get()
+                .GetAsync()
                 .ConfigureAwait(false))
             {
                 return decoder.Deserialize(response);
@@ -87,7 +85,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// weather conditions enumeration holds values that can be combined as flags to indicate
         /// different weather issues.
         /// </summary>
-        public enum WeatherConditions
+        public enum WeatherCondition
         {
             /// <summary>
             /// thunderstorm with light rain.
@@ -458,18 +456,15 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// An enumeration of the current conditions.
         /// </summary>
-        private WeatherConditions? cond;
+        private WeatherCondition? cond;
 
         /// <summary>
         /// An enumeration of the current conditions.
         /// </summary>
         /// <value>The conditions.</value>
-        public WeatherConditions Conditions
+        public WeatherCondition Conditions
         {
-            get
-            {
-                return cond ?? (cond = (WeatherConditions)id).Value;
-            }
+            get { return cond ?? (cond = (WeatherCondition)id).Value; }
         }
     }
 }

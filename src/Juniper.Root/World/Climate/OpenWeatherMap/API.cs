@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -40,7 +41,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// Factory used to serialize objects for local caching.
         /// </summary>
         private readonly IFactory<WeatherReport, MediaType.Application> weatherFactory;
-        private readonly IFactory<Error, MediaType.Application> errorFactory;
+        private readonly IFactory<WeatherReportException, MediaType.Application> errorFactory;
 
         /// <summary>
         /// The key to authenticate with the API
@@ -50,27 +51,18 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// Get the last weather report that was retrieved for the server.
         /// </summary>
-        public IWeatherReport LastReport
-        {
-            get; private set;
-        }
+        public IWeatherReport LastReport { get; private set; }
 
         /// <summary>
         /// The amount of time, in minutes, to allow to pass between requesting reports.
         /// </summary>
-        public float ReportTTLMinutes
-        {
-            get; set;
-        }
+        public float ReportTTLMinutes { get; set; }
 
         /// <summary>
         /// The radius, in meters, to allow the user to travel before we request a new report
         /// outside of the normal <see cref="ReportTTLMinutes"/> time frame.
         /// </summary>
-        public float ReportRadiusMeters
-        {
-            get; set;
-        }
+        public float ReportRadiusMeters { get; set; }
 
         /// <summary>
         /// Initialize a new API requester object with the given authentication API key.
@@ -81,7 +73,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         public API(IFactory<WeatherReport, MediaType.Application> factory, string apiKey, string lastReportJSON)
         {
             weatherFactory = factory;
-            errorFactory = new JsonFactory<Error>();
+            errorFactory = new JsonFactory<WeatherReportException>();
             this.apiKey = apiKey;
 
             if (lastReportJSON != null)
@@ -126,13 +118,13 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// Encapsulates an error response from the API server. Objects of this type are Serializable.
         /// </summary>
         [Serializable]
-        public class Error : Exception, ISerializable
+        public class WeatherReportException : Exception, ISerializable
         {
-            private Error()
+            private WeatherReportException()
             {
             }
 
-            private Error(string message)
+            private WeatherReportException(string message)
                 : base(message)
             {
             }
@@ -142,7 +134,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// </summary>
             /// <param name="featureName"></param>
             /// <param name="message"></param>
-            public Error(string featureName, string message)
+            public WeatherReportException(string featureName, string message)
                 : this($"ERROR [{featureName}]: {message}")
             {
             }
@@ -152,7 +144,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// </summary>
             /// <param name="featureName"></param>
             /// <param name="exp"></param>
-            public Error(string featureName, Exception exp)
+            public WeatherReportException(string featureName, Exception exp)
                 : base(exp.ToShortString(featureName), exp)
             {
             }
@@ -162,7 +154,8 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// </summary>
             /// <param name="info"></param>
             /// <param name="context"></param>
-            protected Error(SerializationInfo info, StreamingContext context)
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
+            protected WeatherReportException(SerializationInfo info, StreamingContext context)
                 : base(info.GetString("error"))
             {
             }
@@ -185,18 +178,18 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <param name="force">Force downloading a new report, regardless of how far we are from the last report location.</param>
         /// <param name="prog">A progress tracker, if any.</param>
         /// <returns></returns>
-        public async Task<IWeatherReport> Request(LatLngPoint location, bool force, IProgress prog)
+        public async Task<IWeatherReport> GetWeatherReportAsync(LatLngPoint location, bool force, IProgress prog)
         {
             prog.Report(0);
             if (NeedsNewReport(location) || force)
             {
-                var url = new Uri($"{serverURI}/data/{version.ToString(2)}/{operation}?lat={location.Latitude.ToString()}&lon={location.Longitude.ToString()}&units={units}&appid={apiKey}");
+                var url = new Uri($"{serverURI}/data/{version.ToString(2)}/{operation}?lat={location.Latitude.ToString(CultureInfo.InvariantCulture)}&lon={location.Longitude.ToString(CultureInfo.InvariantCulture)}&units={units}&appid={apiKey}");
                 try
                 {
                     var requester = HttpWebRequestExt.Create(url);
                     requester.Accept = MediaType.Application.Json;
                     using (var response = await requester
-                        .Get()
+                        .GetAsync()
                         .ConfigureAwait(false))
                     {
                         if (weatherFactory.TryDeserialize<WeatherReport>(response, out var report))
@@ -205,13 +198,13 @@ namespace Juniper.World.Climate.OpenWeatherMap
                         }
                         else
                         {
-                            throw ErrorReport = new Error("GetNewReport", "No response: " + url);
+                            throw ErrorReport = new WeatherReportException("GetNewReport", "No response: " + url);
                         }
                     }
                 }
                 catch (Exception exp)
                 {
-                    throw ErrorReport = new Error("GetNewReport", exp.Message + ": " + url);
+                    throw ErrorReport = new WeatherReportException("GetNewReport", exp.Message + ": " + url);
                 }
             }
 
@@ -219,7 +212,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             return LastReport;
         }
 
-        private Error ErrorReport
+        private WeatherReportException ErrorReport
         {
             set
             {

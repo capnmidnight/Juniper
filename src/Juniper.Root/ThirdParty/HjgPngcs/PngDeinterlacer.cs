@@ -55,7 +55,7 @@ namespace Hjg.Pngcs
             currRowReal = (n * dY) + oY;
             if (currRowReal < 0 || currRowReal >= imi.Rows)
             {
-                throw new PngjExceptionInternal("bad row - this should not happen");
+                throw new PngjInternalException("bad row - this should not happen");
             }
         }
 
@@ -114,7 +114,7 @@ namespace Hjg.Pngcs
                     break;
 
                 default:
-                    throw new PngjExceptionInternal("bad interlace pass" + pass);
+                    throw new PngjInternalException("bad interlace pass" + pass);
             }
             rows = ((imi.Rows - oY) / dY) + 1;
             if (((rows - 1) * dY) + oY >= imi.Rows)

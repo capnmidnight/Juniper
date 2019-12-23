@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -14,7 +15,7 @@ namespace Juniper.HTTP
         IComparable,
         IComparable<AbstractRouteHandler>
     {
-        public readonly HttpProtocol Protocol;
+        public readonly HttpProtocols Protocol;
 
         protected readonly Regex pattern;
 
@@ -23,20 +24,14 @@ namespace Juniper.HTTP
         private readonly string name;
 
         private readonly int priority;
-        private readonly HttpMethod verb;
+        private readonly HttpMethods verb;
 
         private readonly object source;
         private readonly MethodInfo method;
 
-        public AuthenticationSchemes Authentication
-        {
-            get;
-        }
+        public AuthenticationSchemes Authentication { get; }
 
-        public bool Continue
-        {
-            get;
-        }
+        public bool Continue { get; }
 
         protected AbstractRouteHandler()
         { }
@@ -66,15 +61,15 @@ namespace Juniper.HTTP
             var urlMatch = pattern.Match(request.Url.PathAndQuery);
             return urlMatch.Success
                 && urlMatch.Groups.Count == parameterCount
-                && Enum.TryParse<HttpProtocol>(request.Url.Scheme, true, out var protocol)
-                && Enum.TryParse<HttpMethod>(request.HttpMethod, true, out var verb)
+                && Enum.TryParse<HttpProtocols>(request.Url.Scheme, true, out var protocol)
+                && Enum.TryParse<HttpMethods>(request.HttpMethod, true, out var verb)
                 && (Protocol & protocol) != 0
                 && (this.verb & verb) != 0;
         }
 
-        internal abstract Task Invoke(HttpListenerContext context);
+        internal abstract Task InvokeAsync(HttpListenerContext context);
 
-        protected Task Invoke(object[] args)
+        protected Task InvokeAsync(object[] args)
         {
             return (Task)method.Invoke(source, args);
         }
@@ -103,7 +98,7 @@ namespace Juniper.HTTP
 
         public override string ToString()
         {
-            return $"[{priority}] {name}({regexSource})";
+            return $"[{priority.ToString(CultureInfo.CurrentCulture)}] {name}({regexSource})";
         }
 
         public override int GetHashCode()
@@ -126,7 +121,7 @@ namespace Juniper.HTTP
             else if (priority == other.priority)
             {
                 // longer routes before shorter routes
-                return -regexSource.CompareTo(other.regexSource);
+                return string.CompareOrdinal(regexSource, other.regexSource);
             }
             else
             {

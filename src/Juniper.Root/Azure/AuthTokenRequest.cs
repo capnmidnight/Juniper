@@ -9,7 +9,7 @@ namespace Juniper.Azure
         private readonly string subscriptionKey;
 
         public AuthTokenRequest(string region, string subscriptionKey)
-            : base(HttpMethod.POST, region, "api.cognitive", "sts/v1.0/issueToken", Juniper.MediaType.Text.Plain)
+            : base(HttpMethods.POST, region, "api.cognitive", "sts/v1.0/issueToken", Juniper.MediaType.Text.Plain)
         {
             this.subscriptionKey = subscriptionKey;
         }

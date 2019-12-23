@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.IO;
 
 namespace Juniper.World.GIS.Google.StreetView
@@ -16,10 +17,7 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public override string CacheID
         {
-            get
-            {
-                return Path.Combine("streetview", base.CacheID);
-            }
+            get { return Path.Combine("streetview", base.CacheID); }
         }
 
         public string Pano
@@ -57,7 +55,7 @@ namespace Juniper.World.GIS.Google.StreetView
                 location = value;
                 pano = default;
                 RemoveQuery(nameof(pano));
-                SetQuery(nameof(location), value.ToString());
+                SetQuery(nameof(location), value.ToString(CultureInfo.InvariantCulture));
             }
         }
 

@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 
 namespace Hjg.Pngcs.Chunks
 {
@@ -33,19 +34,19 @@ namespace Hjg.Pngcs.Chunks
             return c;
         }
 
-        public override void ParseFromRaw(ChunkRaw chunk)
+        public override void ParseFromRaw(ChunkRaw c)
         {
-            if (chunk.Len != 7)
+            if (c.Len != 7)
             {
-                throw new PngjException("bad chunk " + chunk);
+                throw new PngjException("bad chunk " + c);
             }
 
-            int year = PngHelperInternal.ReadInt2fromBytes(chunk.Data, 0),
-                mon = PngHelperInternal.ReadInt1fromByte(chunk.Data, 2),
-                day = PngHelperInternal.ReadInt1fromByte(chunk.Data, 3),
-                hour = PngHelperInternal.ReadInt1fromByte(chunk.Data, 4),
-                min = PngHelperInternal.ReadInt1fromByte(chunk.Data, 5),
-                sec = PngHelperInternal.ReadInt1fromByte(chunk.Data, 6);
+            var year = PngHelperInternal.ReadInt2fromBytes(c.Data, 0);
+            var mon = PngHelperInternal.ReadInt1fromByte(c.Data, 2);
+            var day = PngHelperInternal.ReadInt1fromByte(c.Data, 3);
+            var hour = PngHelperInternal.ReadInt1fromByte(c.Data, 4);
+            var min = PngHelperInternal.ReadInt1fromByte(c.Data, 5);
+            var sec = PngHelperInternal.ReadInt1fromByte(c.Data, 6);
 
             timestamp = new DateTime(year, mon, day, hour, min, sec);
         }
@@ -84,7 +85,7 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public string GetAsString()
         {
-            return timestamp.ToString("YYYY/MM/dd HH:mm:ss");
+            return timestamp.ToString("YYYY/MM/dd HH:mm:ss", CultureInfo.InvariantCulture);
         }
     }
 }

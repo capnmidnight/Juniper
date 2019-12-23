@@ -74,6 +74,7 @@ namespace Hjg.Pngcs.Chunks
                     c.Data[3] = (byte)Alphasb;
                 }
             }
+
             return c;
         }
 

@@ -46,7 +46,7 @@ namespace Juniper.Azure.CognitiveServices
         private int ssmlTextLength;
 
         public TextToSpeechRequest(string region, string resourceName, AudioFormat outputFormat)
-            : base(HttpMethod.POST, region, "cognitiveservices/v1", outputFormat.ContentType)
+            : base(HttpMethods.POST, region, "cognitiveservices/v1", outputFormat.ContentType)
         {
             this.resourceName = resourceName;
             OutputFormat = outputFormat;
@@ -60,10 +60,7 @@ namespace Juniper.Azure.CognitiveServices
 
         private string StyleString
         {
-            get
-            {
-                return Style.ToString().ToLowerInvariant();
-            }
+            get { return Style.ToString().ToLowerInvariant(); }
         }
 
         public float PitchChange { get; set; }
@@ -74,39 +71,33 @@ namespace Juniper.Azure.CognitiveServices
         {
             get
             {
-                return VoiceName == STYLE_SUPPORTED_VOICE && Style != SpeechStyle.None;
+                return VoiceName == STYLE_SUPPORTED_VOICE
+                  && Style != SpeechStyle.None;
             }
         }
 
         private bool HasPitchChange
         {
-            get
-            {
-                return Abs(PitchChange) > 0;
-            }
+            get { return Abs(PitchChange) > 0; }
         }
 
         private bool HasRateChange
         {
-            get
-            {
-                return Abs(RateChange) > 0;
-            }
+            get { return Abs(RateChange) > 0; }
         }
 
         private bool HasVolumeChange
         {
-            get
-            {
-                return Abs(VolumeChange) > 0;
-            }
+            get { return Abs(VolumeChange) > 0; }
         }
 
         private bool UseProsody
         {
             get
             {
-                return HasPitchChange || HasRateChange || HasVolumeChange;
+                return HasPitchChange
+                    || HasRateChange
+                    || HasVolumeChange;
             }
         }
 
@@ -130,10 +121,12 @@ namespace Juniper.Azure.CognitiveServices
                 {
                     AddPercentField(sb, "pitch", PitchChange, false);
                 }
+
                 if (HasRateChange)
                 {
                     AddPercentField(sb, "rate", RateChange, false);
                 }
+
                 if (HasVolumeChange)
                 {
                     AddPercentField(sb, "volume", VolumeChange, false);
@@ -158,14 +151,17 @@ namespace Juniper.Azure.CognitiveServices
                 {
                     AddPercentField(sb, "pitch", PitchChange, true);
                 }
+
                 if (HasRateChange)
                 {
                     AddPercentField(sb, "rate", RateChange, true);
                 }
+
                 if (HasVolumeChange)
                 {
                     AddPercentField(sb, "volume", VolumeChange, true);
                 }
+
                 sb.Append(">");
             }
 
@@ -187,6 +183,7 @@ namespace Juniper.Azure.CognitiveServices
             {
                 sb.Append("</prosody>");
             }
+
             sb.Append("</voice>");
             sb.Append("</speak>");
 

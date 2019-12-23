@@ -68,7 +68,7 @@ namespace System.Net
                 /* 423 */ "Locked",
                 /* 424 */ "Failed Dependency",
                 /* 425 */ null,
-                /* 426 */ "Upgrade Required", // RFC 2817
+                /* 426 */ "Upgrade Required" // RFC 2817
             },
 
             new string[]
@@ -100,6 +100,7 @@ namespace System.Net
                     return httpStatusDescriptions[i][j];
                 }
             }
+
             return null;
         }
     }

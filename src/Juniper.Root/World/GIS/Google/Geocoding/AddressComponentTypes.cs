@@ -8,44 +8,44 @@ namespace Juniper.World.GIS.Google.Geocoding
     /// </summary>
     [Flags]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "These values are parsed from Google Maps request results")]
-    public enum AddressComponentType : long
+    public enum AddressComponentTypes : long
     {
         None,
 
-        Option1 = 1,
-        Option2 = 1 << 1,
-        Option3 = 1 << 2,
-        Option4 = 1 << 3,
-        Option5 = 1 << 4,
+        Option1 = 1l,
+        Option2 = 1l << 1,
+        Option3 = 1l << 2,
+        Option4 = 1l << 3,
+        Option5 = 1l << 4,
 
         ///<summary>
         /// indicates a precise street address.
         /// </summary>
-        street_address = 1 << 8,
+        street_address = 1l << 8,
 
         ///<summary>
         /// indicates a named route (such as "US 101").
         /// </summary>
-        route = 1 << 9,
+        route = 1l << 9,
 
         ///<summary>
         /// indicates a major intersection, usually of two major roads.
         /// </summary>
-        intersection = 1 << 10,
+        intersection = 1l << 10,
 
         ///<summary>
         /// indicates a political entity. Usually, this type indicates a polygon
         /// of some civil administration.
         /// </summary>
-        political = 1 << 11,
+        political = 1l << 11,
 
         ///<summary>
         /// indicates the national political entity, and is typically the
         /// highest order type returned by the Geocoder.
         /// </summary>
-        country = 1 << 12,
+        country = 1l << 12,
 
-        administrative_area = 1 << 13,
+        administrative_area = 1l << 13,
 
         ///<summary>
         /// indicates a first-order civil entity below the country level. Within
@@ -104,17 +104,17 @@ namespace Juniper.World.GIS.Google.Geocoding
         ///<summary>
         /// indicates a commonly-used alternative name for the entity.
         /// </summary>
-        colloquial_area = 1 << 14,
+        colloquial_area = 1l << 14,
 
         ///<summary>
         /// indicates an incorporated city or town political entity.
         /// </summary>
-        locality = 1 << 15,
+        locality = 1l << 15,
 
         /// <summary>
         /// An alias for <see cref="locality"/>.
         /// </summary>
-        city = 1 << 15,
+        city = 1l << 15,
 
         ///<summary>
         /// indicates a first-order civil entity below a locality. For some
@@ -123,7 +123,7 @@ namespace Juniper.World.GIS.Google.Geocoding
         /// is a civil entity. Larger numbers indicate a smaller geographic
         /// area.
         /// </summary>
-        sublocality = 1 << 16,
+        sublocality = 1l << 16,
 
         sublocality_level_1 = sublocality | Option1,
         sublocality_level_2 = sublocality | Option2,
@@ -134,83 +134,83 @@ namespace Juniper.World.GIS.Google.Geocoding
         ///<summary>
         /// indicates a named neighborhood
         /// </summary>
-        neighborhood = 1 << 17,
+        neighborhood = 1l << 17,
 
         ///<summary>
         /// indicates a named location, usually a building or collection of
         /// buildings with a common name
         /// </summary>
-        premise = 1 << 18,
+        premise = 1l << 18,
 
         ///<summary>
         /// indicates a first-order entity below a named location, usually a
         /// singular building within a collection of buildings with a common
         /// name
         /// </summary>
-        subpremise = 1 << 19,
+        subpremise = 1l << 19,
 
         ///<summary>
         /// indicates a postal code as used to address postal mail within the
         /// country.
         /// </summary>
-        postal_code = 1 << 20,
+        postal_code = 1l << 20,
 
-        postal_code_suffix = 1 << 21,
+        postal_code_suffix = 1l << 21,
 
         ///<summary>
         /// indicates a prominent natural feature.
         /// </summary>
-        natural_feature = 1 << 22,
+        natural_feature = 1l << 22,
 
         ///<summary>
         /// indicates a named park.
         /// </summary>
-        park = 1 << 27,
+        park = 1l << 27,
 
         ///<summary>
         /// indicates a named point of interest. Typically, these "POI"s are
         /// prominent local entities that don't easily fit in another category,
         /// such as "Empire State Building" or "Eiffel Tower".
         /// </summary>
-        point_of_interest = 1 << 28,
+        point_of_interest = 1l << 28,
 
         ///<summary>
         /// indicates the floor of a building address.
         /// </summary>
-        floor = 1 << 29,
+        floor = 1l << 29,
 
         ///<summary>
         /// typically indicates a place that has not yet been categorized.
         /// </summary>
-        establishment = 1 << 30,
+        establishment = 1l << 30,
 
         ///<summary>
         /// indicates a parking lot or parking structure.
         /// </summary>
-        parking = 1 << 31,
+        parking = 1l << 31,
 
         ///<summary>
         /// indicates a specific postal box.
         /// </summary>
-        post_box = 1 << 32,
+        post_box = 1l << 32,
 
         ///<summary>
         /// indicates a grouping of geographic areas, such as locality and
         /// sub-locality, used for mailing addresses in some countries.
         /// </summary>
-        postal_town = 1 << 33,
+        postal_town = 1l << 33,
 
         ///<summary>
         /// indicates the room of a building address.
         /// </summary>
-        room = 1 << 34,
+        room = 1l << 34,
 
         ///<summary>
         /// indicates the precise street number.
         /// </summary>
-        street_number = 1 << 35,
+        street_number = 1l << 35,
 
-        Port = 1 << 36,
+        Port = 1l << 36,
 
         ///<summary>
         /// indicates an airport.

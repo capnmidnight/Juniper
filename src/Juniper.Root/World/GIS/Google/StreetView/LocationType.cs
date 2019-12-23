@@ -1,6 +1,6 @@
 namespace Juniper.World.GIS.Google.StreetView
 {
-    public enum LocationTypes
+    public enum LocationType
     {
         PanoID,
         PlaceName,

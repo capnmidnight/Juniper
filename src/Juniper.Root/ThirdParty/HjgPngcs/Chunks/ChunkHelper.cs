@@ -190,17 +190,18 @@ namespace Hjg.Pngcs.Chunks
             switch (behav)
             {
                 case ChunkLoadBehaviour.LOAD_CHUNK_ALWAYS:
-                    return true;
+                return true;
 
                 case ChunkLoadBehaviour.LOAD_CHUNK_IF_SAFE:
-                    return kwown || IsSafeToCopy(id);
+                return kwown || IsSafeToCopy(id);
 
                 case ChunkLoadBehaviour.LOAD_CHUNK_KNOWN:
-                    return kwown;
+                return kwown;
 
                 case ChunkLoadBehaviour.LOAD_CHUNK_NEVER:
-                    return false;
+                return false;
             }
+
             return false; // should not reach here
         }
 
@@ -269,8 +270,10 @@ namespace Hjg.Pngcs.Chunks
                 if (predicateKeep.Matches(element))
                 {
                     result.Add(element);
+
                 }
             }
+
             return result;
         }
 
@@ -289,9 +292,11 @@ namespace Hjg.Pngcs.Chunks
                 if (predicateRemove.Matches(list[i]))
                 {
                     list.RemoveAt(i);
+
                     cont++;
                 }
             }
+
             return cont;
         }
 
@@ -336,10 +341,12 @@ namespace Hjg.Pngcs.Chunks
             {
                 return pngChunkTextVar.GetKey().Equals(((PngChunkTextVar)c2).GetKey());
             }
+
             if (c1 is PngChunkSPLT pngChunkSPLT)
             {
                 return pngChunkSPLT.PalName.Equals(((PngChunkSPLT)c2).PalName);
             }
+
             // unknown chunks that allow multiple? consider they don't match
             return false;
         }

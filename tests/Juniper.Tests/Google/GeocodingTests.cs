@@ -103,7 +103,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
             var type = res.types.FirstOrDefault();
-            Assert.AreEqual(AddressComponentType.premise, type);
+            Assert.AreEqual(AddressComponentTypes.premise, type);
         }
 
         [TestMethod]
@@ -137,7 +137,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .Load(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
-            var streetNumber = res.GetAddressComponent(AddressComponentType.street_number);
+            var streetNumber = res.GetAddressComponent(AddressComponentTypes.street_number);
             Assert.IsNotNull(streetNumber);
             Assert.AreEqual("4909", streetNumber.long_name);
             Assert.AreEqual("4909", streetNumber.short_name);
@@ -157,7 +157,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .Load(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
-            var route = res.GetAddressComponent(AddressComponentType.route);
+            var route = res.GetAddressComponent(AddressComponentTypes.route);
             Assert.IsNotNull(route);
             Assert.AreEqual("Rutland Place", route.long_name);
             Assert.AreEqual("Rutland Pl", route.short_name);
@@ -177,7 +177,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .Load(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
-            var zip = res.GetAddressComponent(AddressComponentType.postal_code);
+            var zip = res.GetAddressComponent(AddressComponentTypes.postal_code);
             Assert.IsNotNull(zip);
             Assert.AreEqual("22304", zip.long_name);
             Assert.AreEqual("22304", zip.short_name);
@@ -197,7 +197,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .Load(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
-            var zipSuffix = res.GetAddressComponent(AddressComponentType.postal_code_suffix);
+            var zipSuffix = res.GetAddressComponent(AddressComponentTypes.postal_code_suffix);
             Assert.IsNotNull(zipSuffix);
             Assert.AreEqual("2111", zipSuffix.long_name);
             Assert.AreEqual("2111", zipSuffix.short_name);
@@ -217,9 +217,9 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .Load(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
-            var neighborhood = res.GetAddressComponent(AddressComponentType.neighborhood, AddressComponentType.political);
-            var altNeighborhood = res.GetAddressComponent(AddressComponentType.political, AddressComponentType.neighborhood);
-            var simpNeighborhood = res.GetAddressComponent(AddressComponentType.neighborhood);
+            var neighborhood = res.GetAddressComponent(AddressComponentTypes.neighborhood, AddressComponentTypes.political);
+            var altNeighborhood = res.GetAddressComponent(AddressComponentTypes.political, AddressComponentTypes.neighborhood);
+            var simpNeighborhood = res.GetAddressComponent(AddressComponentTypes.neighborhood);
             Assert.IsNotNull(neighborhood);
             Assert.AreSame(neighborhood, altNeighborhood);
             Assert.AreSame(neighborhood, simpNeighborhood);
@@ -241,9 +241,9 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .Load(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
-            var locality = res.GetAddressComponent(AddressComponentType.locality, AddressComponentType.political);
-            var altLocality = res.GetAddressComponent(AddressComponentType.political, AddressComponentType.locality);
-            var simpLocality = res.GetAddressComponent(AddressComponentType.locality);
+            var locality = res.GetAddressComponent(AddressComponentTypes.locality, AddressComponentTypes.political);
+            var altLocality = res.GetAddressComponent(AddressComponentTypes.political, AddressComponentTypes.locality);
+            var simpLocality = res.GetAddressComponent(AddressComponentTypes.locality);
             Assert.IsNotNull(locality);
             Assert.AreSame(locality, altLocality);
             Assert.AreSame(locality, simpLocality);
@@ -265,9 +265,9 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .Load(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
-            var state = res.GetAddressComponent(AddressComponentType.administrative_area_level_1, AddressComponentType.political);
-            var altState = res.GetAddressComponent(AddressComponentType.political, AddressComponentType.administrative_area_level_1);
-            var simpState = res.GetAddressComponent(AddressComponentType.administrative_area_level_1);
+            var state = res.GetAddressComponent(AddressComponentTypes.administrative_area_level_1, AddressComponentTypes.political);
+            var altState = res.GetAddressComponent(AddressComponentTypes.political, AddressComponentTypes.administrative_area_level_1);
+            var simpState = res.GetAddressComponent(AddressComponentTypes.administrative_area_level_1);
             Assert.IsNotNull(state);
             Assert.AreSame(state, altState);
             Assert.AreSame(state, simpState);
@@ -289,9 +289,9 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .Load(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
-            var country = res.GetAddressComponent(AddressComponentType.country, AddressComponentType.political);
-            var altCountry = res.GetAddressComponent(AddressComponentType.political, AddressComponentType.country);
-            var simpCountry = res.GetAddressComponent(AddressComponentType.country);
+            var country = res.GetAddressComponent(AddressComponentTypes.country, AddressComponentTypes.political);
+            var altCountry = res.GetAddressComponent(AddressComponentTypes.political, AddressComponentTypes.country);
+            var simpCountry = res.GetAddressComponent(AddressComponentTypes.country);
             Assert.IsNotNull(country);
             Assert.AreSame(country, altCountry);
             Assert.AreSame(country, simpCountry);

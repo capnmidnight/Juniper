@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Hjg.Pngcs.Chunks
 {
     /// <summary>
@@ -35,16 +37,17 @@ namespace Hjg.Pngcs.Chunks
                 c.Data[i++] = (byte)rgb[1];
                 c.Data[i++] = (byte)rgb[2];
             }
+
             return c;
         }
 
-        public override void ParseFromRaw(ChunkRaw chunk)
+        public override void ParseFromRaw(ChunkRaw c)
         {
-            SetNentries(chunk.Len / 3);
+            SetNentries(c.Len / 3);
             for (int n = 0, i = 0; n < nentries; n++)
             {
-                SetEntry(n, chunk.Data[i++] & 0xff, chunk.Data[i++] & 0xff,
-                        chunk.Data[i++] & 0xff);
+                SetEntry(n, c.Data[i++] & 0xff, c.Data[i++] & 0xff,
+                        c.Data[i++] & 0xff);
             }
         }
 
@@ -64,7 +67,7 @@ namespace Hjg.Pngcs.Chunks
             this.nentries = nentries;
             if (nentries < 1 || nentries > 256)
             {
-                throw new PngjException("invalid pallette - nentries=" + nentries);
+                throw new PngjException("invalid pallette - nentries=" + nentries.ToString(CultureInfo.CurrentCulture));
             }
 
             if (entries == null || entries.Length != nentries)

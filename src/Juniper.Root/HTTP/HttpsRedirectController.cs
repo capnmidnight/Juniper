@@ -11,7 +11,7 @@ namespace Juniper.HTTP
 
         [Route(".*",
             Priority = int.MinValue,
-            Protocol = HttpProtocol.HTTP)]
+            Protocol = HttpProtocols.HTTP)]
         public static Task Redirect(HttpListenerContext context)
         {
             var secureUrl = new UriBuilder(context.Request.Url)
@@ -20,10 +20,10 @@ namespace Juniper.HTTP
                 Port = -1
             };
 
-            if (Enum.TryParse<HttpMethod>(context.Request.HttpMethod, true, out var method))
+            if (Enum.TryParse<HttpMethods>(context.Request.HttpMethod, true, out var method))
             {
                 context.Response.RedirectLocation = secureUrl.ToString();
-                context.Response.StatusCode = (int)(method == HttpMethod.GET
+                context.Response.StatusCode = (int)(method == HttpMethods.GET
                     ? HttpStatusCode.Redirect
                     : HttpStatusCode.RedirectKeepVerb);
             }

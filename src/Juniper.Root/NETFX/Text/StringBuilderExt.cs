@@ -26,6 +26,7 @@ namespace System.Text
                     return i;
                 }
             }
+
             return -1;
         }
     }

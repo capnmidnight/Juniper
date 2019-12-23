@@ -140,10 +140,10 @@ namespace Juniper
                 && other.Value == Value;
         }
 
-        public override bool Equals(object other)
+        public override bool Equals(object obj)
         {
-            return other is MediaType mediaType
-                && Equals(mediaType);
+            return obj is MediaType other
+                && Equals(other);
         }
 
         public static bool operator ==(MediaType left, MediaType right)

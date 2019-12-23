@@ -42,26 +42,26 @@ namespace Hjg.Pngcs.Chunks
             Units = otherx.Units;
         }
 
-        public override void ParseFromRaw(ChunkRaw chunk)
+        public override void ParseFromRaw(ChunkRaw c)
         {
-            if (chunk.Len != 9)
+            if (c.Len != 9)
             {
-                throw new PngjException("bad chunk length " + chunk);
+                throw new PngjException("bad chunk length " + c);
             }
 
-            PixelsxUnitX = Hjg.Pngcs.PngHelperInternal.ReadInt4fromBytes(chunk.Data, 0);
+            PixelsxUnitX = Hjg.Pngcs.PngHelperInternal.ReadInt4fromBytes(c.Data, 0);
             if (PixelsxUnitX < 0)
             {
                 PixelsxUnitX += 0x100000000L;
             }
 
-            PixelsxUnitY = Hjg.Pngcs.PngHelperInternal.ReadInt4fromBytes(chunk.Data, 4);
+            PixelsxUnitY = Hjg.Pngcs.PngHelperInternal.ReadInt4fromBytes(c.Data, 4);
             if (PixelsxUnitY < 0)
             {
                 PixelsxUnitY += 0x100000000L;
             }
 
-            Units = Hjg.Pngcs.PngHelperInternal.ReadInt1fromByte(chunk.Data, 8);
+            Units = Hjg.Pngcs.PngHelperInternal.ReadInt1fromByte(c.Data, 8);
         }
 
         /// <summary>

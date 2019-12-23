@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -8,13 +9,13 @@ using static System.Math;
 
 namespace Juniper.World.GIS.Google.MapTiles
 {
-    public class LinePath : IList<string>
+    public class LinePathCollection : IList<string>
     {
         public readonly LinePathStyle style;
         public readonly List<string> points = new List<string>();
         public readonly bool encodePath;
 
-        public LinePath(LinePathStyle style, bool encodePath, IEnumerable<string> points)
+        public LinePathCollection(LinePathStyle style, bool encodePath, IEnumerable<string> points)
         {
             this.style = style;
             this.encodePath = encodePath;
@@ -25,49 +26,49 @@ namespace Juniper.World.GIS.Google.MapTiles
             }
         }
 
-        public LinePath(LinePathStyle style, bool encodePath, params string[] points)
+        public LinePathCollection(LinePathStyle style, bool encodePath, params string[] points)
             : this(style, encodePath, points.AsEnumerable()) { }
 
-        public LinePath(LinePathStyle style, bool encodePath, IEnumerable<LatLngPoint> points)
-            : this(style, encodePath, points.Select(p => p.ToString())) { }
+        public LinePathCollection(LinePathStyle style, bool encodePath, IEnumerable<LatLngPoint> points)
+            : this(style, encodePath, points.Select(p => p.ToString(CultureInfo.InvariantCulture))) { }
 
-        public LinePath(LinePathStyle style, bool encodePath, params LatLngPoint[] points)
+        public LinePathCollection(LinePathStyle style, bool encodePath, params LatLngPoint[] points)
             : this(style, encodePath, points.AsEnumerable()) { }
 
-        public LinePath(bool encodePath, IEnumerable<string> points)
+        public LinePathCollection(bool encodePath, IEnumerable<string> points)
             : this(default, encodePath, points) { }
 
-        public LinePath(bool encodePath, params string[] points)
+        public LinePathCollection(bool encodePath, params string[] points)
             : this(default, encodePath, points) { }
 
-        public LinePath(bool encodePath, IEnumerable<LatLngPoint> points)
+        public LinePathCollection(bool encodePath, IEnumerable<LatLngPoint> points)
             : this(default, encodePath, points) { }
 
-        public LinePath(bool encodePath, params LatLngPoint[] points)
+        public LinePathCollection(bool encodePath, params LatLngPoint[] points)
             : this(default, encodePath, points) { }
 
-        public LinePath(LinePathStyle style, IEnumerable<string> points)
+        public LinePathCollection(LinePathStyle style, IEnumerable<string> points)
             : this(style, false, points) { }
 
-        public LinePath(LinePathStyle style, params string[] points)
+        public LinePathCollection(LinePathStyle style, params string[] points)
             : this(style, false, points) { }
 
-        public LinePath(LinePathStyle style, IEnumerable<LatLngPoint> points)
+        public LinePathCollection(LinePathStyle style, IEnumerable<LatLngPoint> points)
             : this(style, false, points) { }
 
-        public LinePath(LinePathStyle style, params LatLngPoint[] points)
+        public LinePathCollection(LinePathStyle style, params LatLngPoint[] points)
             : this(style, false, points) { }
 
-        public LinePath(IEnumerable<string> points)
+        public LinePathCollection(IEnumerable<string> points)
             : this(default, false, points) { }
 
-        public LinePath(params string[] points)
+        public LinePathCollection(params string[] points)
             : this(default, false, points) { }
 
-        public LinePath(IEnumerable<LatLngPoint> points)
+        public LinePathCollection(IEnumerable<LatLngPoint> points)
             : this(default, false, points) { }
 
-        public LinePath(params LatLngPoint[] points)
+        public LinePathCollection(params LatLngPoint[] points)
             : this(default, false, points) { }
 
         public override string ToString()
@@ -123,6 +124,7 @@ namespace Juniper.World.GIS.Google.MapTiles
                 {
                     dec |= 0x20;
                 }
+
                 dec += 63;
                 sb.Append((char)dec);
             }
@@ -133,7 +135,8 @@ namespace Juniper.World.GIS.Google.MapTiles
         public static string EncodePolyline(IEnumerable<string> points)
         {
             var sb = new StringBuilder();
-            int lastLat = 0, lastLng = 0;
+            var lastLat = 0;
+            var lastLng = 0;
             foreach (var point in points)
             {
                 EncodePolylineEntry(sb, point, ref lastLat, ref lastLng);
@@ -145,7 +148,7 @@ namespace Juniper.World.GIS.Google.MapTiles
         public static void EncodePolylineEntry(StringBuilder sb, string point, ref int firstLat, ref int firstLng)
         {
             var parts = point.SplitX(',');
-            var values = parts.Select(p => double.Parse(p.Trim())).ToArray();
+            var values = parts.Select(p => double.Parse(p.Trim(), CultureInfo.InvariantCulture)).ToArray();
             EncodePolylinePart(sb, values[0], ref firstLat);
             EncodePolylinePart(sb, values[1], ref firstLng);
         }
@@ -162,7 +165,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public void Insert(int index, LatLngPoint item)
         {
-            points.Insert(index, item.ToString());
+            points.Insert(index, item.ToString(CultureInfo.InvariantCulture));
         }
 
         public void RemoveAt(int index)
@@ -172,15 +175,8 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public string this[int index]
         {
-            get
-            {
-                return points[index];
-            }
-
-            set
-            {
-                points[index] = value;
-            }
+            get { return points[index]; }
+            set { points[index] = value; }
         }
 
         public void Add(string item)
@@ -190,7 +186,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public void Add(LatLngPoint item)
         {
-            points.Add(item.ToString());
+            points.Add(item.ToString(CultureInfo.InvariantCulture));
         }
 
         public void Clear()
@@ -205,7 +201,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public bool Contains(LatLngPoint item)
         {
-            return Contains(item.ToString());
+            return Contains(item.ToString(CultureInfo.InvariantCulture));
         }
 
         public void CopyTo(string[] array, int arrayIndex)
@@ -220,23 +216,17 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public bool Remove(LatLngPoint item)
         {
-            return Remove(item.ToString());
+            return Remove(item.ToString(CultureInfo.InvariantCulture));
         }
 
         public int Count
         {
-            get
-            {
-                return points.Count;
-            }
+            get { return points.Count; }
         }
 
         public bool IsReadOnly
         {
-            get
-            {
-                return ((IList<string>)points).IsReadOnly;
-            }
+            get { return ((IList<string>)points).IsReadOnly; }
         }
 
         public IEnumerator<string> GetEnumerator()

@@ -38,7 +38,10 @@ namespace Juniper.Progress
             TotalByteCount = 0;
         }
 
-        public Stream SourceStream { get { return stream; } }
+        public Stream SourceStream
+        {
+            get { return stream; }
+        }
 
         /// <summary>
         /// Backing field for <see cref="TotalByteCount"/>.
@@ -51,10 +54,7 @@ namespace Juniper.Progress
         /// </summary>
         private long TotalByteCount
         {
-            get
-            {
-                return totalRead;
-            }
+            get { return totalRead; }
 
             set
             {
@@ -87,20 +87,12 @@ namespace Juniper.Progress
             parent.Report(Progress, Status);
         }
 
-        public string Status
-        {
-            get;
-            private set;
-        }
+        public string Status { get; private set; }
 
         /// <summary>
         /// How far we've gotten through the stream.
         /// </summary>
-        public float Progress
-        {
-            get;
-            private set;
-        }
+        public float Progress { get; private set; }
 
         /// <summary>
         /// Cleanup the underlying stream.
@@ -119,10 +111,7 @@ namespace Juniper.Progress
         /// </summary>
         public override bool CanRead
         {
-            get
-            {
-                return stream.CanRead;
-            }
+            get { return stream.CanRead; }
         }
 
         /// <summary>
@@ -130,10 +119,7 @@ namespace Juniper.Progress
         /// </summary>
         public override bool CanSeek
         {
-            get
-            {
-                return stream.CanSeek;
-            }
+            get { return stream.CanSeek; }
         }
 
         /// <summary>
@@ -141,10 +127,7 @@ namespace Juniper.Progress
         /// </summary>
         public override bool CanWrite
         {
-            get
-            {
-                return stream.CanWrite;
-            }
+            get { return stream.CanWrite; }
         }
 
         /// <summary>
@@ -152,10 +135,7 @@ namespace Juniper.Progress
         /// </summary>
         public override long Length
         {
-            get
-            {
-                return length;
-            }
+            get { return length; }
         }
 
         /// <summary>
@@ -163,15 +143,8 @@ namespace Juniper.Progress
         /// </summary>
         public override long Position
         {
-            get
-            {
-                return stream.Position;
-            }
-
-            set
-            {
-                stream.Position = value;
-            }
+            get { return stream.Position; }
+            set { stream.Position = value; }
         }
 
         /// <summary>
@@ -197,6 +170,7 @@ namespace Juniper.Progress
             {
                 length = TotalByteCount;
             }
+
             TotalByteCount += read;
             return read;
         }

@@ -52,7 +52,7 @@ namespace Hjg.Pngcs
             }
             else
             {
-                throw new PngjExceptionInternal("bad ImageLine initialization");
+                throw new PngjInternalException("bad ImageLine initialization");
             }
         }
 

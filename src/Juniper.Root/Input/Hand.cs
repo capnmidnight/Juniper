@@ -3,7 +3,7 @@ namespace Juniper.Input
     /// <summary>
     /// An enumeration of hand sidedness
     /// </summary>
-    public enum Hands
+    public enum Hand
     {
         /// <summary>
         /// No hand side.

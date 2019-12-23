@@ -101,6 +101,7 @@ namespace Juniper.Collections
             return graph;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected Graph(SerializationInfo info, StreamingContext context)
         {
             var routes = info.GetValue<Route<NodeT>[]>(nameof(network));
@@ -170,10 +171,7 @@ namespace Juniper.Collections
 
         public IEnumerable<NodeT> Nodes
         {
-            get
-            {
-                return nodes.Keys;
-            }
+            get { return nodes.Keys; }
         }
 
         public IEnumerable<Route<NodeT>> Routes
@@ -198,10 +196,7 @@ namespace Juniper.Collections
 
         public IEnumerable<Route<NodeT>> Connections
         {
-            get
-            {
-                return connections;
-            }
+            get { return connections; }
         }
 
         public IEnumerable<Route<NodeT>> Paths
@@ -419,18 +414,12 @@ namespace Juniper.Collections
 
         public IReadOnlyDictionary<string, NodeT> NamedNodes
         {
-            get
-            {
-                return namedNodes;
-            }
+            get { return namedNodes; }
         }
 
         public IReadOnlyDictionary<NodeT, string> NodeNames
         {
-            get
-            {
-                return nodeNames;
-            }
+            get { return nodeNames; }
         }
 
         public string GetNodeName(NodeT node)

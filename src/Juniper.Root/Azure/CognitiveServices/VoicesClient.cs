@@ -51,7 +51,7 @@ namespace Juniper.Azure.CognitiveServices
             IsAvailable = true;
         }
 
-        protected async Task<string> GetAuthToken()
+        protected async Task<string> GetAuthTokenAsync()
         {
             try
             {
@@ -62,6 +62,7 @@ namespace Juniper.Azure.CognitiveServices
                     authToken = await authRequest.Decode(plainText)
                         .ConfigureAwait(false);
                 }
+
                 return authToken;
             }
             catch
@@ -71,7 +72,7 @@ namespace Juniper.Azure.CognitiveServices
             }
         }
 
-        public async Task<Voice[]> GetVoices()
+        public async Task<Voice[]> GetVoicesAsync()
         {
             try
             {
@@ -80,9 +81,10 @@ namespace Juniper.Azure.CognitiveServices
                     var voiceListRequest = new VoiceListRequest(azureRegion);
                     if (!cache.IsCached(voiceListRequest))
                     {
-                        voiceListRequest.AuthToken = await GetAuthToken()
+                        voiceListRequest.AuthToken = await GetAuthTokenAsync()
                             .ConfigureAwait(false);
                     }
+
                     voices = await cache.Load(voiceListDecoder, voiceListRequest)
                         .ConfigureAwait(false);
                 }

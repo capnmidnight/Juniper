@@ -78,6 +78,7 @@ namespace System
                         output.Append('0');
                     }
                 }
+
                 return output.ToString();
             }
         }
@@ -120,6 +121,7 @@ namespace System
                     realValue = (T)values.GetValue(i);
                 }
             }
+
             return realValue;
         }
 
@@ -176,10 +178,12 @@ namespace System
             {
                 value += range;
             }
+
             while (value > range)
             {
                 value -= range;
             }
+
             return value;
         }
     }

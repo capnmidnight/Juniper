@@ -95,6 +95,7 @@ namespace Juniper.Serial
                 {
                     msgQueue.Enqueue(MakeRecord(i));
                 }
+
                 Thread.Sleep(sleep);
             }
         }
@@ -111,13 +112,25 @@ namespace Juniper.Serial
 
         private class MockStream : System.IO.Stream
         {
-            public override bool CanRead { get { return canRead; } }
+            public override bool CanRead
+            {
+                get { return canRead; }
+            }
 
-            public override bool CanSeek { get { return canSeek; } }
+            public override bool CanSeek
+            {
+                get { return canSeek; }
+            }
 
-            public override bool CanWrite { get { return canWrite; } }
+            public override bool CanWrite
+            {
+                get { return canWrite; }
+            }
 
-            public override long Length { get { return length; } }
+            public override long Length
+            {
+                get { return length; }
+            }
 
             public override long Position { get; set; }
 

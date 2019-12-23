@@ -11,6 +11,7 @@ namespace Juniper.Azure.CognitiveServices
         public readonly string Gender;
         public readonly string Locale;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private Voice(SerializationInfo info, StreamingContext context)
         {
             Name = info.GetString(nameof(Name));

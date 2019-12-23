@@ -8,13 +8,13 @@ namespace Juniper.Mathematics
     /// Computes statistics on System.Single values.
     /// </summary>
     [ComVisible(false)]
-    public class SingleStatistics : AbstractCollectionStatistics<float>
+    public class SingleStatisticsCollection : AbstractStatisticsCollection<float>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Juniper.Statistics.SingleStatistics"/> class.
         /// </summary>
         /// <param name="collection">Collection.</param>
-        public SingleStatistics(IList<float> collection)
+        public SingleStatisticsCollection(IList<float> collection)
             : base(collection, 0, 1)
         {
         }
@@ -24,7 +24,7 @@ namespace Juniper.Mathematics
         /// values default to null.
         /// </summary>
         /// <param name="capacity"></param>
-        public SingleStatistics(int capacity)
+        public SingleStatisticsCollection(int capacity)
             : base(capacity, 0, 1)
         {
         }

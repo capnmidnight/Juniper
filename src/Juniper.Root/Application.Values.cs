@@ -1579,7 +1579,7 @@ namespace Juniper
             public static readonly Application Zlib = new Application("zlib");
             public static readonly Application Zstd = new Application("zstd");
 
-            public static readonly new Application[] Values = {
+            new public static readonly Application[] Values = {
                 A2L,
                 Activemessage,
                 ActivityJson,
@@ -3101,7 +3101,7 @@ namespace Juniper
                 YinXml,
                 Zip,
                 Zlib,
-                Zstd,
+                Zstd
             };
         }
     }

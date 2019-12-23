@@ -19,7 +19,8 @@ namespace Juniper.Mathematics
             D = w;
         }
 
-        private PlaneSerializable(SerializationInfo info, StreamingContext streamingContext)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
+        private PlaneSerializable(SerializationInfo info, StreamingContext context)
         {
             X = info.GetSingle(nameof(X));
             Y = info.GetSingle(nameof(Y));

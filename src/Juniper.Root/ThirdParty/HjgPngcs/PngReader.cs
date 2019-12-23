@@ -893,7 +893,7 @@ namespace Hjg.Pngcs
                 bytesRead = ((ImgInfo.BitspPixel * deinterlacer.GetPixelsToRead()) + 7) / 8;
                 if (bytesRead < 1)
                 {
-                    throw new PngjExceptionInternal("wtf??");
+                    throw new PngjInternalException("wtf??");
                 }
             }
             else
@@ -913,7 +913,7 @@ namespace Hjg.Pngcs
             offset = iIdatCstream.GetOffset();
             if (offset < 0)
             {
-                throw new PngjExceptionInternal("bad offset ??" + offset);
+                throw new PngjInternalException("bad offset ??" + offset);
             }
 
             if (MaxTotalBytesRead > 0 && offset >= MaxTotalBytesRead)
@@ -956,7 +956,7 @@ namespace Hjg.Pngcs
             offset = iIdatCstream.GetOffset();
             if (offset < 0)
             {
-                throw new PngjExceptionInternal("bad offset ??" + offset);
+                throw new PngjInternalException("bad offset ??" + offset);
             }
 
             if (MaxTotalBytesRead > 0 && offset >= MaxTotalBytesRead)

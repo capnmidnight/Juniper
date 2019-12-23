@@ -22,6 +22,7 @@ namespace Juniper.World.GIS.Google
             this.zip = zip;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private USAddress(SerializationInfo info, StreamingContext context)
         {
             street = info.GetString(nameof(street));
@@ -61,9 +62,9 @@ namespace Juniper.World.GIS.Google
                 && zip == other.zip;
         }
 
-        public bool Equals(string name)
+        public bool Equals(string other)
         {
-            return ToString() == name;
+            return ToString() == other;
         }
 
         public static bool operator ==(USAddress left, USAddress right)

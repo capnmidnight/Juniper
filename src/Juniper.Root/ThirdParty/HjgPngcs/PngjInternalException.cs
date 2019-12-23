@@ -7,28 +7,28 @@ namespace Hjg.Pngcs
     /// Exception for internal problems
     /// </summary>
     [Serializable]
-    public class PngjExceptionInternal : Exception
+    public class PngjInternalException : Exception
     {
-        public PngjExceptionInternal()
+        public PngjInternalException()
         {
         }
 
-        public PngjExceptionInternal(string message, Exception cause)
+        public PngjInternalException(string message, Exception cause)
             : base(message, cause)
         {
         }
 
-        public PngjExceptionInternal(string message)
+        public PngjInternalException(string message)
             : base(message)
         {
         }
 
-        public PngjExceptionInternal(Exception cause)
+        public PngjInternalException(Exception cause)
             : base(cause.Message, cause)
         {
         }
 
-        protected PngjExceptionInternal(SerializationInfo serializationInfo, StreamingContext streamingContext)
+        protected PngjInternalException(SerializationInfo serializationInfo, StreamingContext streamingContext)
             : base(serializationInfo, streamingContext)
         {
         }

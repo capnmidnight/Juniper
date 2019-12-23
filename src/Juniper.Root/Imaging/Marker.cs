@@ -3,7 +3,7 @@ namespace Juniper.Imaging
     /// <summary>
     /// Types of markers that are recognized in video streams.
     /// </summary>
-    public enum Markers
+    public enum Marker
     {
         /// <summary>
         /// No marker type, used to indicate a lack of selection.

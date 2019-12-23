@@ -48,6 +48,7 @@ namespace System
             {
                 jdDate = jdDate.AddDays(-1);
             }
+
             var delta = time - jdDate;
 
             var Y = jdDate.Year;

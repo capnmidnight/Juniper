@@ -8,19 +8,19 @@ namespace Juniper.Imaging
 {
     public class HjgPngcsProcessor : IImageProcessor<ImageLines>
     {
-        public int GetWidth(ImageLines image)
+        public int GetWidth(ImageLines img)
         {
-            return image.ImgInfo.BytesPerRow / image.ImgInfo.BytesPixel;
+            return img.ImgInfo.BytesPerRow / img.ImgInfo.BytesPixel;
         }
 
-        public int GetHeight(ImageLines image)
+        public int GetHeight(ImageLines img)
         {
-            return image.Nrows;
+            return img.Nrows;
         }
 
-        public int GetComponents(ImageLines image)
+        public int GetComponents(ImageLines img)
         {
-            return image.ImgInfo.BytesPerRow / image.ImgInfo.BytesPixel;
+            return img.ImgInfo.BytesPerRow / img.ImgInfo.BytesPixel;
         }
 
         public ImageLines Concatenate(ImageLines[,] images, IProgress prog)

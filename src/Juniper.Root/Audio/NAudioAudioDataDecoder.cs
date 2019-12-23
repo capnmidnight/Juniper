@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 
 using Juniper.IO;
@@ -14,7 +15,7 @@ namespace Juniper.Audio
         {
             MediaType.Audio.X_Wav,
             MediaType.Audio.Mpeg,
-            MediaType.Audio.PCMA,
+            MediaType.Audio.PCMA
         };
 
         public NAudioAudioDataDecoder()
@@ -29,10 +30,8 @@ namespace Juniper.Audio
 
         public AudioFormat Format
         {
-            get
-            {
-                return format;
-            }
+            get { return format; }
+
             set
             {
                 if (!SupportsFormat(value))
@@ -129,6 +128,7 @@ namespace Juniper.Audio
 
                 audioData = new AudioData(audioFormat, stream, samples);
             }
+
             return audioData;
         }
 
@@ -136,24 +136,25 @@ namespace Juniper.Audio
         {
             if (sampleRate != Format.sampleRate)
             {
-                throw new InvalidOperationException($"Sample Rate does not match between audio format and audio file. Expected: {Format.sampleRate}. Actual: {sampleRate}");
+                throw new InvalidOperationException($"Sample Rate does not match between audio format and audio file. Expected: {Format.sampleRate.ToString(CultureInfo.CurrentCulture)}. Actual: {sampleRate.ToString(CultureInfo.CurrentCulture)}");
             }
 
             if (bitsPerSample != Format.bitsPerSample)
             {
-                throw new InvalidOperationException($"Sample Size does not match between audio format and audio file. Expected: {Format.bitsPerSample}. Actual: {bitsPerSample}");
+                throw new InvalidOperationException($"Sample Size does not match between audio format and audio file. Expected: {Format.bitsPerSample.ToString(CultureInfo.CurrentCulture)}. Actual: {bitsPerSample.ToString(CultureInfo.CurrentCulture)}");
             }
 
             if (channels != Format.channels)
             {
-                throw new InvalidOperationException($"Channel Count does not match between audio format and audio file. Expected: {Format.channels}. Actual: {channels}");
+                throw new InvalidOperationException($"Channel Count does not match between audio format and audio file. Expected: {Format.channels.ToString(CultureInfo.CurrentCulture)}. Actual: {channels.ToString(CultureInfo.CurrentCulture)}");
             }
         }
 
         private static AudioFormat MakeAudioFormat(int sampleRate, int bitsPerSample, int channels)
         {
             var channelString = channels == 1 ? "mono" : "stereo";
-            var formatName = $"float-{sampleRate / 1000}khz-{bitsPerSample}bit-{channelString}-pcm";
+            var sampsStr = (sampleRate / 1000).ToString(CultureInfo.CurrentCulture);
+            var formatName = $"float-{sampsStr}khz-{bitsPerSample.ToString(CultureInfo.CurrentCulture)}bit-{channelString}-pcm";
             var audioFormat = new AudioFormat(
                 formatName,
                 MediaType.Audio.PCMA,

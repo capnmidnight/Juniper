@@ -61,6 +61,7 @@ namespace Juniper.Imaging
                             img.Dispose();
                             GC.Collect();
                         }
+
                         prog.Report((y * columns) + x + 1, rows * columns);
                     }
                 }

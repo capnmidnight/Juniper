@@ -11,13 +11,13 @@ namespace Juniper
             public static readonly Font Woff = new Font("woff", new string[] { "woff" });
             public static readonly Font Woff2 = new Font("woff2", new string[] { "woff2" });
 
-            public static readonly new Font[] Values = {
+            new public static readonly Font[] Values = {
                 Collection,
                 Otf,
                 Sfnt,
                 Ttf,
                 Woff,
-                Woff2,
+                Woff2
             };
         }
     }

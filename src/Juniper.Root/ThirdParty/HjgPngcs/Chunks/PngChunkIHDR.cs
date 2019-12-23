@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Hjg.Pngcs.Chunks
 {
     /// <summary>
@@ -44,18 +46,20 @@ namespace Hjg.Pngcs.Chunks
         {
             if (c.Len != 13)
             {
-                throw new PngjException("Bad IDHR len " + c.Len);
+                throw new PngjException("Bad IDHR len " + c.Len.ToString(CultureInfo.CurrentCulture));
             }
 
-            var st = c.GetAsByteStream();
-            Cols = Hjg.Pngcs.PngHelperInternal.ReadInt4(st);
-            Rows = Hjg.Pngcs.PngHelperInternal.ReadInt4(st);
-            // bit depth: number of bits per channel
-            Bitspc = Hjg.Pngcs.PngHelperInternal.ReadByte(st);
-            Colormodel = Hjg.Pngcs.PngHelperInternal.ReadByte(st);
-            Compmeth = Hjg.Pngcs.PngHelperInternal.ReadByte(st);
-            Filmeth = Hjg.Pngcs.PngHelperInternal.ReadByte(st);
-            Interlaced = Hjg.Pngcs.PngHelperInternal.ReadByte(st);
+            using (var st = c.GetAsByteStream())
+            {
+                Cols = Hjg.Pngcs.PngHelperInternal.ReadInt4(st);
+                Rows = Hjg.Pngcs.PngHelperInternal.ReadInt4(st);
+                // bit depth: number of bits per channel
+                Bitspc = Hjg.Pngcs.PngHelperInternal.ReadByte(st);
+                Colormodel = Hjg.Pngcs.PngHelperInternal.ReadByte(st);
+                Compmeth = Hjg.Pngcs.PngHelperInternal.ReadByte(st);
+                Filmeth = Hjg.Pngcs.PngHelperInternal.ReadByte(st);
+                Interlaced = Hjg.Pngcs.PngHelperInternal.ReadByte(st);
+            }
         }
 
         public override void CloneDataFromRead(PngChunk other)

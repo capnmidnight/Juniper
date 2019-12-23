@@ -8,7 +8,7 @@ namespace Juniper.World.GIS.Google.Geocoding
         private string place_id;
         private string address;
 
-        private readonly Dictionary<AddressComponentType, string> components = new Dictionary<AddressComponentType, string>();
+        private readonly Dictionary<AddressComponentTypes, string> components = new Dictionary<AddressComponentTypes, string>();
 
         private GeometryViewport bounds;
         private string region;
@@ -48,7 +48,7 @@ namespace Juniper.World.GIS.Google.Geocoding
             SetQuery(nameof(components), components.ToString(":", "|"));
         }
 
-        private string SetComponent(AddressComponentType key, string value)
+        private string SetComponent(AddressComponentTypes key, string value)
         {
             components[key] = value;
             RefreshComponents();
@@ -57,32 +57,32 @@ namespace Juniper.World.GIS.Google.Geocoding
 
         public string PostalCodeFilter
         {
-            get { return components.Get(AddressComponentType.postal_code, default); }
-            set { SetComponent(AddressComponentType.postal_code, value); }
+            get { return components.Get(AddressComponentTypes.postal_code, default); }
+            set { SetComponent(AddressComponentTypes.postal_code, value); }
         }
 
         public string CountryFilter
         {
-            get { return components.Get(AddressComponentType.country, default); }
-            set { SetComponent(AddressComponentType.country, value); }
+            get { return components.Get(AddressComponentTypes.country, default); }
+            set { SetComponent(AddressComponentTypes.country, value); }
         }
 
         public string RouteHint
         {
-            get { return components.Get(AddressComponentType.route, default); }
-            set { SetComponent(AddressComponentType.route, value); }
+            get { return components.Get(AddressComponentTypes.route, default); }
+            set { SetComponent(AddressComponentTypes.route, value); }
         }
 
         public string LocalityHint
         {
-            get { return components.Get(AddressComponentType.locality, default); }
-            set { SetComponent(AddressComponentType.locality, value); }
+            get { return components.Get(AddressComponentTypes.locality, default); }
+            set { SetComponent(AddressComponentTypes.locality, value); }
         }
 
         public string AdministrativeAreaHint
         {
-            get { return components.Get(AddressComponentType.administrative_area, default); }
-            set { SetComponent(AddressComponentType.administrative_area, value); }
+            get { return components.Get(AddressComponentTypes.administrative_area, default); }
+            set { SetComponent(AddressComponentTypes.administrative_area, value); }
         }
 
         public void SetBounds(LatLngPoint southWest, LatLngPoint northEast)

@@ -12,23 +12,23 @@ namespace Juniper.Imaging
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Jpeg bytes.</param>
-        public ImageData Translate(JpegImage jpeg, IProgress prog)
+        public ImageData Translate(JpegImage value, IProgress prog)
         {
-            var stride = jpeg.Width * jpeg.ComponentsPerSample;
-            var numRows = jpeg.Height;
+            var stride = value.Width * value.ComponentsPerSample;
+            var numRows = value.Height;
             var data = new byte[numRows * stride];
-            for (var i = 0; i < jpeg.Height; ++i)
+            for (var i = 0; i < value.Height; ++i)
             {
-                prog.Report(i, jpeg.Height);
-                var row = jpeg.GetRow(i);
+                prog.Report(i, value.Height);
+                var row = value.GetRow(i);
                 Array.Copy(row.ToBytes(), 0, data, i * stride, stride);
-                prog.Report(i + 1, jpeg.Height);
+                prog.Report(i + 1, value.Height);
             }
 
             return new ImageData(
-                jpeg.Width,
-                jpeg.Height,
-                jpeg.ComponentsPerSample,
+                value.Width,
+                value.Height,
+                value.ComponentsPerSample,
                 data);
         }
 

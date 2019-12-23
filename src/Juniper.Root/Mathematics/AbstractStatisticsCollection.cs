@@ -9,7 +9,7 @@ namespace Juniper.Mathematics
     /// An abstract class for a collection wrapper that can automatically compute statistics on the
     /// values contained within.
     /// </summary>
-    public abstract class AbstractCollectionStatistics<T> : IList<T> where T : struct
+    public abstract class AbstractStatisticsCollection<T> : IList<T> where T : struct
     {
         /// <summary>
         /// The value that represents 0 for <see cref="T"/>.
@@ -323,7 +323,7 @@ namespace Juniper.Mathematics
         /// <param name="collection">Collection.</param>
         /// <param name="zero">The value that represents Zero for <typeparamref name="T"/></param>
         /// <param name="one">The value that represents One for <typeparamref name="T"/></param>
-        protected AbstractCollectionStatistics(IList<T> collection, T zero, T one)
+        protected AbstractStatisticsCollection(IList<T> collection, T zero, T one)
         {
             collect = collection;
             Zero = zero;
@@ -338,7 +338,7 @@ namespace Juniper.Mathematics
         /// <param name="capacity">Capacity.</param>
         /// <param name="zero">The value that represents Zero for <typeparamref name="T"/></param>
         /// <param name="one">The value that represents One for <typeparamref name="T"/></param>
-        protected AbstractCollectionStatistics(int capacity, T zero, T one)
+        protected AbstractStatisticsCollection(int capacity, T zero, T one)
             : this(new RingBuffer<T>(capacity), zero, one)
         {
         }

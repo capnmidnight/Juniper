@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -24,6 +25,7 @@ namespace Juniper.HTTP
         private readonly Thread serverThread;
         private readonly HttpListener listener;
         private readonly List<Task> waiters = new List<Task>();
+        private readonly List<object> controllers = new List<object>();
         private readonly List<AbstractRouteHandler> routes = new List<AbstractRouteHandler>();
         private readonly List<WebSocketConnection> sockets = new List<WebSocketConnection>();
 
@@ -173,16 +175,6 @@ namespace Juniper.HTTP
         /// </summary>
         public event EventHandler<Exception> Error;
 
-        /// <summary>
-        /// Event for handling background processing in controllers.
-        /// </summary>
-        public event EventHandler Update;
-
-        private void OnUpdate()
-        {
-            Update?.Invoke(this, EventArgs.Empty);
-        }
-
         private AuthenticationSchemes GetAuthenticationSchemeForRequest(HttpListenerRequest request)
         {
             return (from route in routes
@@ -222,7 +214,7 @@ namespace Juniper.HTTP
                     var parameters = method.GetParameters();
                     if (method.ReturnType == typeof(Task)
                         && parameters.Length > 0
-                        && parameters.Length == route.parameterCount
+                        && parameters.Length == route.ParameterCount
                         && parameters.Skip(1).All(p => p.ParameterType == typeof(string)))
                     {
                         AbstractRouteHandler handler = null;
@@ -286,6 +278,15 @@ or
             {
                 errorSource.Error += OnError;
             }
+
+            controllers.Add(controller);
+        }
+
+        public T GetController<T>()
+            where T : class
+        {
+            return (T)controllers
+                .FirstOrDefault(c => c is T);
         }
 
         private void WsHandler_SocketConnected(WebSocketConnection socket)
@@ -322,38 +323,45 @@ or
             serverThread.Abort();
         }
 
-        public void Start()
+        public virtual void Start()
         {
-            if (!string.IsNullOrEmpty(Domain)
-                && HttpsPort > 0)
+            if (HttpsPort > 0
+                && AutoAssignCertificate)
             {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-                GetTLSParameters(out var guid, out var certHash);
-
-                if (string.IsNullOrEmpty(guid))
+                if (string.IsNullOrEmpty(Domain))
                 {
-                    OnWarning(this, "Couldn't find application GUID");
+                    OnWarning(this, "No domain was specified. Can't auto-assign a TLS certificate.");
                 }
-                else if (string.IsNullOrEmpty(certHash))
+                else
                 {
-                    OnWarning(this, "No TLS cert found!");
-                }
-                else if (AutoAssignCertificate)
-                {
-                    var message = AssignCertToApp(certHash, guid);
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-                    if (message.Equals("SSL Certificate added successfully", StringComparison.InvariantCultureIgnoreCase)
-                        || message.StartsWith("SSL Certificate add failed, Error: 183", StringComparison.InvariantCultureIgnoreCase))
+                    GetTLSParameters(out var guid, out var certHash);
+
+                    if (string.IsNullOrEmpty(guid))
                     {
-                        SetPrefix("https", HttpsPort);
+                        OnWarning(this, "Couldn't find application GUID");
                     }
-                    else if (message.Equals("The parameter is incorrect.", StringComparison.InvariantCultureIgnoreCase))
+                    else if (string.IsNullOrEmpty(certHash))
                     {
-                        OnWarning(this, $@"Couldn't configure the certificate correctly:
+                        OnWarning(this, "No TLS cert found!");
+                    }
+                    else
+                    {
+                        var message = AssignCertToApp(certHash, guid);
+
+                        if (message.Equals("SSL Certificate added successfully", StringComparison.InvariantCultureIgnoreCase)
+                            || message.StartsWith("SSL Certificate add failed, Error: 183", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            SetPrefix("https", HttpsPort);
+                        }
+                        else if (message.Equals("The parameter is incorrect.", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            OnWarning(this, $@"Couldn't configure the certificate correctly:
     Application GUID: {guid}
     TLS cert: {certHash}
     {message}");
+                        }
                     }
                 }
             }
@@ -382,34 +390,43 @@ or
                 SetPrefix("http", HttpPort);
             }
 
-#if !DEBUG
-            if (HttpPort > 0
-                && routes.Any(route => route.Protocol.HasFlag(HttpProtocol.HTTP)))
+            if (HttpPort == 0
+                && HttpsPort == 0)
             {
-                OnWarning(this, "Maybe don't run unencrypted HTTP in production, k?");
+                OnError(this, new InvalidOperationException("No HTTP or HTTPS port specified."));
             }
+            else
+            {
+
+#if !DEBUG
+                if (HttpPort > 0
+                    && routes.Any(route => route.Protocol.HasFlag(HttpProtocol.HTTP)))
+                {
+                    OnWarning(this, "Maybe don't run unencrypted HTTP in production, k?");
+                }
 #endif
 
-            if (addRedirectController)
-            {
-                AddRoutesFrom<HttpsRedirectController>();
-            }
+                if (addRedirectController)
+                {
+                    AddRoutesFrom<HttpsRedirectController>();
+                }
 
-            if (!listener.IsListening)
-            {
-                var prefixes = string.Join(", ", listener.Prefixes);
-                OnInfo(this, $"Listening on: {prefixes}");
-                listener.Start();
-            }
+                if (!listener.IsListening)
+                {
+                    var prefixes = string.Join(", ", listener.Prefixes);
+                    OnInfo(this, $"Listening on: {prefixes}");
+                    listener.Start();
+                }
 
-            if (!serverThread.IsAlive)
-            {
-                serverThread.Start();
+                if (!serverThread.IsAlive)
+                {
+                    serverThread.Start();
+                }
             }
         }
 
 #if DEBUG
-        public void StartBrowser(string startPage = null)
+        public Process StartBrowser(string startPage = null)
         {
             startPage = startPage ?? string.Empty;
 
@@ -421,17 +438,17 @@ or
                 protocol = "https";
                 if (HttpsPort != 443)
                 {
-                    port = ":" + HttpsPort;
+                    port = ":" + HttpsPort.ToString(CultureInfo.InvariantCulture);
                 }
             }
             else if (HttpPort != 80)
             {
-                port = ":" + HttpPort;
+                port = ":" + HttpPort.ToString(CultureInfo.InvariantCulture);
             }
 
             var page = $"{protocol}://{ListenAddress}{port}/{startPage}";
 
-            _ = Process.Start(new ProcessStartInfo($"explorer", $"\"{page}\"")
+            return Process.Start(new ProcessStartInfo($"explorer", $"\"{page}\"")
             {
                 UseShellExecute = true,
                 WindowStyle = ProcessWindowStyle.Maximized
@@ -444,7 +461,7 @@ or
             if (!string.IsNullOrEmpty(protocol)
                 && port > 0)
             {
-                listener.Prefixes.Add($"{protocol}://{ListenAddress}:{port}/");
+                listener.Prefixes.Add($"{protocol}://{ListenAddress}:{port.ToString(CultureInfo.InvariantCulture)}/");
             }
         }
 
@@ -476,7 +493,7 @@ or
                 listenAddress = "0.0.0.0";
             }
 
-            var procInfo = new ProcessStartInfo("netsh", $"http add sslcert ipport={listenAddress}:{HttpsPort} certhash={certHash} appid={{{appGuid}}}")
+            var procInfo = new ProcessStartInfo("netsh", $"http add sslcert ipport={listenAddress}:{HttpsPort.ToString(CultureInfo.InvariantCulture)} certhash={certHash} appid={{{appGuid}}}")
             {
                 UseShellExecute = false,
                 CreateNoWindow = true,
@@ -502,8 +519,6 @@ or
             {
                 try
                 {
-                    OnUpdate();
-
                     for (var i = waiters.Count - 1; i >= 0; --i)
                     {
                         var waiter = waiters[i];
@@ -542,7 +557,7 @@ or
                 {
                     if (route.IsMatch(context.Request))
                     {
-                        await route.Invoke(context)
+                        await route.InvokeAsync(context)
                             .ConfigureAwait(false);
 
                         handled = true;

@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -19,7 +20,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public static MarkerStyle CustomIcon(Uri image, int anchorX, int anchorY)
         {
-            return new MarkerStyle($"anchor:{anchorX.ToString()},{anchorY.ToString()}|icon:{image}");
+            return new MarkerStyle($"anchor:{anchorX.ToString(CultureInfo.InvariantCulture)},{anchorY.ToString(CultureInfo.InvariantCulture)}|icon:{image}");
         }
 
         private readonly string styleDef;
@@ -54,7 +55,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
             delim(size != MarkerSize.normal, nameof(size), size.ToString());
             delim(!string.IsNullOrEmpty(color), nameof(color), color);
-            delim(char.IsLetterOrDigit(label), nameof(label), label.ToString());
+            delim(char.IsLetterOrDigit(label), nameof(label), label.ToString(CultureInfo.InvariantCulture));
 
             styleDef = sb.ToString();
         }

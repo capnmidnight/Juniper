@@ -34,10 +34,7 @@ namespace Juniper.Collections
         /// </summary>
         private int Start
         {
-            get
-            {
-                return start;
-            }
+            get { return start; }
 
             set
             {
@@ -62,10 +59,8 @@ namespace Juniper.Collections
         /// </summary>
         private int End
         {
-            get
-            {
-                return end;
-            }
+            get { return end; }
+
 
             set
             {
@@ -110,10 +105,7 @@ namespace Juniper.Collections
         /// ]]></code></example>
         public bool IsSaturated
         {
-            get
-            {
-                return Count == width - 1;
-            }
+            get { return Count == width - 1; }
         }
 
         /// <summary>
@@ -149,10 +141,7 @@ namespace Juniper.Collections
         /// </summary>
         public bool IsReadOnly
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
 
         /// <summary>
@@ -182,6 +171,7 @@ namespace Juniper.Collections
                 {
                     throw new ArgumentOutOfRangeException(nameof(index), $"Index must be between 0 and {Count.ToString(CultureInfo.CurrentCulture)}");
                 }
+
                 return buffer[(Start + index) % buffer.Length];
             }
             set
@@ -190,6 +180,7 @@ namespace Juniper.Collections
                 {
                     throw new ArgumentOutOfRangeException(nameof(index), $"Index must be between 0 and {Count.ToString(CultureInfo.CurrentCulture)}");
                 }
+
                 buffer[(Start + index) % buffer.Length] = value;
             }
         }
@@ -350,13 +341,13 @@ namespace Juniper.Collections
         /// The one-dimensional Array that is the destination of the elements copied from
         /// ICollection{T}. The Array must have zero-based indexing.
         /// </param>
-        /// <param name="destinationIndex">
+        /// <param name="arrayIndex">
         /// The zero-based index in <paramref name="array"/> at which copying begins.
         /// </param>
         /// <exception cref="ArgumentNullException"><paramref name="array"/> is <c>null</c></exception>
         /// <exception cref="ArgumentException">
         /// The number of elements to copy from the source ICollection{T} is greater than the
-        /// available space from <paramref name="destinationIndex"/> to the end of the destination
+        /// available space from <paramref name="arrayIndex"/> to the end of the destination
         /// <paramref name="array"/>.
         /// </exception>
         /// <example><code><![CDATA[
@@ -369,9 +360,9 @@ namespace Juniper.Collections
         /// buffer.CopyTo(arr, 3); // arr --> { 3, 1, 4 }
         /// buffer.CopyTo(arr, 4); // throws ArgumentException
         /// ]]></code></example>
-        public void CopyTo(T[] array, int destinationIndex)
+        public void CopyTo(T[] array, int arrayIndex)
         {
-            CopyTo(array, 0, destinationIndex, Count);
+            CopyTo(array, 0, arrayIndex, Count);
         }
 
         /// <summary>
@@ -427,6 +418,7 @@ namespace Juniper.Collections
             {
                 RemoveAt(i);
             }
+
             return remove;
         }
 
@@ -479,6 +471,7 @@ namespace Juniper.Collections
             {
                 index = (index + Start) % buffer.Length;
             }
+
             return index;
         }
 
@@ -596,6 +589,7 @@ namespace Juniper.Collections
             {
                 this[i] = this[i + 1];
             }
+
             --End;
         }
     }

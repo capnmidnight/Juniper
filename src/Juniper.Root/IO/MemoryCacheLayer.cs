@@ -59,13 +59,13 @@ namespace Juniper.IO
             return Task.FromResult(stream);
         }
 
-        public IEnumerable<ContentReference> Get(MediaType contentType)
+        public IEnumerable<ContentReference> GetContentReference(MediaType ofType)
         {
-            if (store.ContainsKey(contentType))
+            if (store.ContainsKey(ofType))
             {
-                foreach (var cacheID in store[contentType].Keys)
+                foreach (var cacheID in store[ofType].Keys)
                 {
-                    yield return cacheID + contentType;
+                    yield return cacheID + ofType;
                 }
             }
         }

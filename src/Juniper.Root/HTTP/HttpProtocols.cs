@@ -3,7 +3,7 @@ using System;
 namespace Juniper.HTTP
 {
     [Flags]
-    public enum HttpProtocol
+    public enum HttpProtocols
     {
         None,
 

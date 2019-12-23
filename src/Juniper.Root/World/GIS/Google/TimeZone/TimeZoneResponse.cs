@@ -17,6 +17,7 @@ namespace Juniper.World.GIS.Google.TimeZone
         public readonly string timeZoneId;
         public readonly string timeZoneName;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected TimeZoneResponse(SerializationInfo info, StreamingContext context)
         {
             status = info.GetString(nameof(status)).MapToStatusCode();

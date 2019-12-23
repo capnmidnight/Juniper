@@ -46,10 +46,7 @@ namespace Juniper.Compression.Tar
 
         public long Length
         {
-            get
-            {
-                return copy.Length;
-            }
+            get { return copy.Length; }
         }
 
         public Stream Open()

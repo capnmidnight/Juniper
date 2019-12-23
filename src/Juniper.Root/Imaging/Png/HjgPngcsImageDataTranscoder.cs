@@ -12,22 +12,22 @@ namespace Juniper.Imaging
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Png bytes.</param>
-        public ImageData Translate(ImageLines rows, IProgress prog)
+        public ImageData Translate(ImageLines value, IProgress prog)
         {
-            var numRows = rows.Nrows;
-            var data = new byte[numRows * rows.elementsPerRow];
+            var numRows = value.Nrows;
+            var data = new byte[numRows * value.elementsPerRow];
             for (var i = 0; i < numRows; ++i)
             {
                 prog.Report(i, numRows);
-                var row = rows.ScanlinesB[i];
-                Array.Copy(row, 0, data, i * rows.elementsPerRow, row.Length);
+                var row = value.ScanlinesB[i];
+                Array.Copy(row, 0, data, i * value.elementsPerRow, row.Length);
                 prog.Report(i + 1, numRows);
             }
 
             return new ImageData(
-                rows.ImgInfo.BytesPerRow / rows.ImgInfo.BytesPixel,
-                rows.Nrows,
-                rows.channels,
+                value.ImgInfo.BytesPerRow / value.ImgInfo.BytesPixel,
+                value.Nrows,
+                value.channels,
                 data);
         }
 

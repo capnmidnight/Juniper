@@ -13,28 +13,28 @@ namespace Juniper.IO
 
     public static class ISaveableExt
     {
-        public static void Save<T>(this T obj, Stream outputStream, ISerializer<T> serializer)
+        public static void Save<T>(this T item, Stream outputStream, ISerializer<T> serializer)
             where T : ISaveable<T>
         {
-            serializer.Serialize(outputStream, obj);
+            serializer.Serialize(outputStream, item);
         }
 
-        public static void Save<T>(this T obj, FileInfo outputFile, ISerializer<T> serializer)
+        public static void Save<T>(this T item, FileInfo outputFile, ISerializer<T> serializer)
             where T : ISaveable<T>
         {
             using (var outputStream = outputFile.Open(FileMode.Create, FileAccess.Write, FileShare.None))
             {
-                obj.Save(outputStream, serializer);
+                item.Save(outputStream, serializer);
             }
         }
 
-        public static void Save<T>(this T obj, string outputPath, ISerializer<T> serializer)
+        public static void Save<T>(this T item, string outputPath, ISerializer<T> serializer)
             where T : ISaveable<T>
         {
-            obj.Save(new FileInfo(outputPath), serializer);
+            item.Save(new FileInfo(outputPath), serializer);
         }
 
-        public static void Save<T>(this T obj, FileInfo outputFile)
+        public static void Save<T>(this T item, FileInfo outputFile)
             where T : ISaveable<T>
         {
             if (MediaType.Application.Json.Matches(outputFile))
@@ -42,7 +42,7 @@ namespace Juniper.IO
                 var json = new JsonFactory<T>();
                 using (var stream = outputFile.Open(FileMode.Create, FileAccess.Write, FileShare.None))
                 {
-                    obj.Save(stream, json);
+                    item.Save(stream, json);
                 }
             }
             else if (MediaType.Application.Octet_Stream.Matches(outputFile))
@@ -50,15 +50,15 @@ namespace Juniper.IO
                 var bin = new BinaryFactory<T>();
                 using (var stream = outputFile.Open(FileMode.Create, FileAccess.Write, FileShare.None))
                 {
-                    obj.Save(stream, bin);
+                    item.Save(stream, bin);
                 }
             }
         }
 
-        public static void Save<T>(this T obj, string outputPath)
+        public static void Save<T>(this T item, string outputPath)
             where T : ISaveable<T>
         {
-            obj.Save(new FileInfo(outputPath));
+            item.Save(new FileInfo(outputPath));
         }
     }
 }

@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Hjg.Pngcs
 {
     /// <summary>
@@ -163,7 +165,7 @@ namespace Hjg.Pngcs
                 if (!(Indexed || Greyscale))
                 {
                     throw new PngjException("only indexed or grayscale can have bitdepth="
-                            + BitDepth);
+                            + BitDepth.ToString(CultureInfo.CurrentCulture));
                 }
 
                 break;
@@ -174,22 +176,23 @@ namespace Hjg.Pngcs
                 case 16:
                 if (Indexed)
                 {
-                    throw new PngjException("indexed can't have bitdepth=" + BitDepth);
+                    throw new PngjException("indexed can't have bitdepth=" + BitDepth.ToString(CultureInfo.CurrentCulture));
                 }
 
                 break;
 
                 default:
-                throw new PngjException("invalid bitdepth=" + BitDepth);
+                throw new PngjException("invalid bitdepth=" + BitDepth.ToString(CultureInfo.CurrentCulture));
             }
+
             if (cols < 1 || cols > MAX_COLS_ROWS_VAL)
             {
-                throw new PngjException("invalid cols=" + cols + " ???");
+                throw new PngjException("invalid cols=" + cols.ToString(CultureInfo.CurrentCulture) + " ???");
             }
 
             if (rows < 1 || rows > MAX_COLS_ROWS_VAL)
             {
-                throw new PngjException("invalid rows=" + rows + " ???");
+                throw new PngjException("invalid rows=" + rows.ToString(CultureInfo.CurrentCulture) + " ???");
             }
         }
 
@@ -199,12 +202,7 @@ namespace Hjg.Pngcs
         /// <returns>Summary</returns>
         public override string ToString()
         {
-            return "ImageInfo [cols=" + Cols + ", rows=" + Rows + ", bitDepth=" + BitDepth
-                    + ", channels=" + Channels + ", bitspPixel=" + BitspPixel + ", bytesPixel="
-                    + BytesPixel + ", bytesPerRow=" + BytesPerRow + ", samplesPerRow="
-                    + SamplesPerRow + ", samplesPerRowP=" + SamplesPerRowPacked + ", alpha=" + Alpha
-                    + ", greyscale=" + Greyscale + ", indexed=" + Indexed + ", packed=" + Packed
-                    + "]";
+            return string.Format(CultureInfo.CurrentCulture, "ImageInfo [cols={0}, rows={1}, bitDepth={2}, channels={3}, bitspPixel={4}, bytesPixel={5}, bytesPerRow={6}, samplesPerRow={7}, samplesPerRowP={8}, alpha={9}, greyscale={10}, indexed={11}, packed={12}]", Cols, Rows, BitDepth, Channels, BitspPixel, BytesPixel, BytesPerRow, SamplesPerRow, SamplesPerRowPacked, Alpha, Greyscale, Indexed, Packed);
         }
 
         public override int GetHashCode()

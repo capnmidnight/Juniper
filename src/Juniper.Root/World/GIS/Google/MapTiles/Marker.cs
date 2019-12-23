@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Juniper.World.GIS.Google.MapTiles
@@ -16,8 +17,9 @@ namespace Juniper.World.GIS.Google.MapTiles
         }
 
         public Marker(LatLngPoint center, MarkerStyle style = default)
-            : this(center.ToString(), style) { }
+            : this(center.ToString(CultureInfo.InvariantCulture), style) { }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private Marker(SerializationInfo info, StreamingContext context)
         {
             style = info.GetValue<MarkerStyle>(nameof(style));

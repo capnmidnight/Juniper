@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -53,7 +54,15 @@ namespace Juniper.Collections
                 Array.Reverse(newNodes, 0, left.Count);
             }
 
-            Array.Copy(right.nodes, reverseExtra ? 0 : 1, newNodes, left.Count, right.Count - 1);
+            Array.Copy(
+                right.nodes,
+                reverseExtra
+                    ? 0
+                    : 1,
+                newNodes,
+                left.Count,
+                right.Count - 1);
+
             if (reverseExtra)
             {
                 Array.Reverse(newNodes, left.Count, right.Count - 1);
@@ -122,7 +131,7 @@ namespace Juniper.Collections
                     {
                         if (validate)
                         {
-                            throw new InvalidOperationException($"Edges must be a collection of distinct values. Found a duplicate at indices {i} and {j}");
+                            throw new InvalidOperationException($"Edges must be a collection of distinct values. Found a duplicate at indices {i.ToString(CultureInfo.CurrentCulture)} and {j.ToString(CultureInfo.CurrentCulture)}");
                         }
                         else
                         {
@@ -139,6 +148,7 @@ namespace Juniper.Collections
             : this(true, nodes.Prepend(secondNode).Prepend(firstNode), cost)
         { }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected Route(SerializationInfo info, StreamingContext context)
             : this(false,
                 info.GetValue<ValueT[]>(nameof(nodes)),
@@ -158,71 +168,48 @@ namespace Juniper.Collections
             {
                 hash ^= node.GetHashCode();
             }
+
             return hash;
         }
 
         public override string ToString()
         {
             var pathString = string.Join(" -> ", nodes);
-            return $"[{Cost}] {pathString}";
+            return $"[{Cost.ToString(CultureInfo.CurrentCulture)}] {pathString}";
         }
 
-        public float Cost
-        {
-            get;
-        }
+        public float Cost { get; }
 
         public IReadOnlyList<ValueT> Nodes
         {
-            get
-            {
-                return nodes;
-            }
+            get { return nodes; }
         }
 
         public int Count
         {
-            get
-            {
-                return nodes.Length;
-            }
+            get { return nodes.Length; }
         }
 
-        internal bool IsValid
-        {
-            get;
-        }
+        internal bool IsValid { get; }
 
         public bool IsConnection
         {
-            get
-            {
-                return Count == 2;
-            }
+            get { return Count == 2; }
         }
 
         public bool IsPath
         {
-            get
-            {
-                return Count > 2;
-            }
+            get { return Count > 2; }
         }
 
         public ValueT Start
         {
-            get
-            {
-                return nodes.FirstOrDefault();
-            }
+            get { return nodes.FirstOrDefault(); }
         }
 
         public ValueT End
         {
-            get
-            {
-                return nodes.LastOrDefault();
-            }
+            get { return nodes.LastOrDefault(); }
         }
 
         public override bool Equals(object obj)

@@ -8,7 +8,7 @@ namespace Hjg.Pngcs.Chunks
     /// </summary>
     public class PngChunkHIST : PngChunkSingle
     {
-        public readonly static string ID = ChunkHelper.hIST;
+        public static readonly string ID = ChunkHelper.hIST;
 
         private int[] hist = Array.Empty<int>(); // should have same lenght as palette
 
@@ -32,6 +32,7 @@ namespace Hjg.Pngcs.Chunks
             {
                 PngHelperInternal.WriteInt2tobytes(hist[i], c.Data, i * 2);
             }
+
             return c;
         }
 

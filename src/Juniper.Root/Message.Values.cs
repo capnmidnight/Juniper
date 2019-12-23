@@ -32,7 +32,7 @@ namespace Juniper
 
             public static readonly Message VendorWfaWsc = new Message("vnd.wfa.wsc");
 
-            public static readonly new Message[] Values = {
+            new public static readonly Message[] Values = {
                 CPIM,
                 Delivery_Status,
                 Disposition_Notification,
@@ -51,7 +51,7 @@ namespace Juniper
                 Sip,
                 Sipfrag,
                 Tracking_Status,
-                VendorWfaWsc,
+                VendorWfaWsc
             };
         }
     }

@@ -19,10 +19,7 @@ namespace Juniper.Imaging
 
         public MediaType.Image ContentType
         {
-            get
-            {
-                return MediaType.Image.Png;
-            }
+            get { return MediaType.Image.Png; }
         }
 
         /// <summary>
@@ -40,6 +37,7 @@ namespace Juniper.Imaging
                 image = png.ReadRowsByte();
                 png.End();
             }
+
             prog.Report(1);
             return image;
         }
@@ -47,15 +45,15 @@ namespace Juniper.Imaging
         /// <summary>
         /// Encodes a raw file buffer of image data into a PNG image.
         /// </summary>
-        /// <param name="outputStream">Png bytes.</param>
-        public void Serialize(Stream outputStream, ImageLines image, IProgress prog = null)
+        /// <param name="stream">Png bytes.</param>
+        public void Serialize(Stream stream, ImageLines value, IProgress prog = null)
         {
             var subProgs = prog.Split("Copying", "Saving");
             var copyProg = subProgs[0];
             var saveProg = subProgs[1];
-            var info = image.ImgInfo;
+            var info = value.ImgInfo;
 
-            var png = new PngWriter(outputStream, info)
+            var png = new PngWriter(stream, info)
             {
                 CompLevel = compressionLevel,
                 IdatMaxSize = IDATMaxSize
@@ -66,11 +64,11 @@ namespace Juniper.Imaging
             var metadata = png.GetMetadata();
             metadata.SetDpi(100);
 
-            for (var i = 0; i < image.Nrows; ++i)
+            for (var i = 0; i < value.Nrows; ++i)
             {
-                copyProg.Report(i, image.Nrows);
-                png.WriteRow(image.GetImageLineAtMatrixRow(i), i);
-                copyProg.Report(i + 1, image.Nrows);
+                copyProg.Report(i, value.Nrows);
+                png.WriteRow(value.GetImageLineAtMatrixRow(i), i);
+                copyProg.Report(i + 1, value.Nrows);
             }
 
             saveProg.Report(0);

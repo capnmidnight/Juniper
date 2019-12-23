@@ -68,10 +68,11 @@ namespace Juniper.IO
                 var cacheFileName = GetCacheFileName(fileRef);
                 stream = zip.GetFile(cacheFileName);
             }
+
             return Task.FromResult(stream);
         }
 
-        public IEnumerable<ContentReference> Get(MediaType ofType)
+        public IEnumerable<ContentReference> GetContentReference(MediaType ofType)
         {
             foreach (var file in Decompressor.Entries(zipFile).Files())
             {

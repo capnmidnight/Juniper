@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Juniper.World.GIS
@@ -72,6 +73,7 @@ namespace Juniper.World.GIS
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private UTMPoint(SerializationInfo info, StreamingContext context)
         {
             X = info.GetSingle(nameof(X));
@@ -101,12 +103,17 @@ namespace Juniper.World.GIS
         /// <returns>A string representing the UTM point with its zone</returns>
         public override string ToString()
         {
-            return $"({X.ToString()}, {Y.ToString()}, {Z.ToString()}) zone {Zone.ToString()}";
+            return ToString(CultureInfo.CurrentCulture);
+        }
+
+        private string ToString(IFormatProvider provider)
+        {
+            return $"({X.ToString(provider)}, {Y.ToString(provider)}, {Z.ToString(provider)}) zone {Zone.ToString(provider)}";
         }
 
         public static explicit operator string(UTMPoint value)
         {
-            return value.ToString();
+            return value.ToString(CultureInfo.CurrentCulture);
         }
 
         public override int GetHashCode()

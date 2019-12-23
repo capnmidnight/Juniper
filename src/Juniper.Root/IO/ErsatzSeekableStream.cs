@@ -14,6 +14,7 @@ namespace Juniper.IO
             {
                 stream.CopyTo(this);
             }
+
             Position = 0;
         }
     }

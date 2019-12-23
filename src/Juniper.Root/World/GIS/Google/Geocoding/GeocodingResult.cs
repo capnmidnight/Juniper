@@ -14,9 +14,10 @@ namespace Juniper.World.GIS.Google.Geocoding
         public readonly string formatted_address;
         public readonly string place_id;
         public readonly string[] typeStrings;
-        public readonly HashSet<AddressComponentType> types;
+        public readonly HashSet<AddressComponentTypes> types;
         public readonly GeometryResult geometry;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected GeocodingResult(SerializationInfo info, StreamingContext context)
         {
             address_components = info.GetValue<AddressComponent[]>(nameof(address_components));
@@ -24,10 +25,10 @@ namespace Juniper.World.GIS.Google.Geocoding
             formatted_address = info.GetString(nameof(formatted_address));
             place_id = info.GetString(nameof(place_id));
             typeStrings = info.GetValue<string[]>(nameof(types));
-            types = new HashSet<AddressComponentType>(from typeStr in typeStrings
-                                                      select Enum.TryParse<AddressComponentType>(typeStr, out var parsedType)
-                                                          ? parsedType
-                                                          : AddressComponentType.None);
+            types = new HashSet<AddressComponentTypes>(from typeStr in typeStrings
+                                                       select Enum.TryParse<AddressComponentTypes>(typeStr, out var parsedType)
+                                                           ? parsedType
+                                                           : AddressComponentTypes.None);
             geometry = info.GetValue<GeometryResult>(nameof(geometry));
         }
 
@@ -44,13 +45,13 @@ namespace Juniper.World.GIS.Google.Geocoding
             info.AddValue(nameof(geometry), geometry);
         }
 
-        public AddressComponent GetAddressComponent(params AddressComponentType[] types)
+        public AddressComponent GetAddressComponent(params AddressComponentTypes[] types)
         {
             var key = AddressComponent.HashAddressComponents(types);
             var results = addressComponentLookup.Get(key);
             if (results == null)
             {
-                var subTypes = types.Append(AddressComponentType.political);
+                var subTypes = types.Append(AddressComponentTypes.political);
                 var subKey = AddressComponent.HashAddressComponents(subTypes);
                 results = addressComponentLookup.Get(subKey);
             }

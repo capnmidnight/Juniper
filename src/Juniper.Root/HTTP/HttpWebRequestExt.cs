@@ -24,6 +24,7 @@ namespace System.Net
             {
                 request.Header("Upgrade-Insecure-Requests", 1);
             }
+
             return request;
         }
 
@@ -60,12 +61,15 @@ namespace System.Net
             string valueString;
             if (value is bool b)
             {
-                valueString = b ? "1" : "0";
+                valueString = b
+                    ? "1"
+                    : "0";
             }
             else
             {
                 valueString = value.ToString();
             }
+
             request.Headers.Add(name, valueString);
             return request;
         }
@@ -231,7 +235,7 @@ namespace System.Net
         ///     .Header("DNT", 1")
         ///     .Accept(MediaType.Text.Plain");
         /// ]]></example>
-        public static HttpWebRequest Method(this HttpWebRequest request, HttpMethod verb)
+        public static HttpWebRequest Method(this HttpWebRequest request, HttpMethods verb)
         {
             request.Method = verb.ToString();
             return request;
@@ -252,6 +256,7 @@ namespace System.Net
                 var auth64 = Convert.ToBase64String(authBytes);
                 request.Header("Authorization", "Basic " + auth64);
             }
+
             return request;
         }
 
@@ -264,7 +269,7 @@ namespace System.Net
         /// <param name="getInfo"></param>
         /// <param name="writeBody"></param>
         /// <returns></returns>
-        private static async Task WriteBody(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog = null)
+        private static async Task WriteBodyAsync(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog = null)
         {
             if (getInfo != null)
             {
@@ -307,11 +312,11 @@ namespace System.Net
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static async Task<HttpWebResponse> Delete(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog)
+        public static async Task<HttpWebResponse> DeleteAsync(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog)
         {
-            request = request.Method(HttpMethod.DELETE);
+            request = request.Method(HttpMethods.DELETE);
             await request
-                .WriteBody(getInfo, writeBody, prog)
+                .WriteBodyAsync(getInfo, writeBody, prog)
                 .ConfigureAwait(false);
             return (HttpWebResponse)await request.GetResponseAsync()
                 .ConfigureAwait(false);
@@ -322,9 +327,9 @@ namespace System.Net
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static Task<HttpWebResponse> Delete(this HttpWebRequest request)
+        public static Task<HttpWebResponse> DeleteAsync(this HttpWebRequest request)
         {
-            return request.Delete(null, null, null);
+            return request.DeleteAsync(null, null, null);
         }
 
         /// <summary>
@@ -332,10 +337,10 @@ namespace System.Net
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static async Task<HttpWebResponse> Get(this HttpWebRequest request)
+        public static async Task<HttpWebResponse> GetAsync(this HttpWebRequest request)
         {
             return (HttpWebResponse)await request
-                .Method(HttpMethod.GET)
+                .Method(HttpMethods.GET)
                 .GetResponseAsync()
                 .ConfigureAwait(false);
         }

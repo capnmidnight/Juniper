@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 using static System.Math;
@@ -36,12 +37,13 @@ namespace Juniper.Serial
                 if (match != null)
                 {
                     var numberPart = match.Groups[1].Value;
-                    var number = int.Parse(numberPart);
+                    var number = int.Parse(numberPart, CultureInfo.InvariantCulture);
                     max = Max(max, number);
                 }
             }
 #endif
-            return $"COM{max + offset}";
+            var portStr = (max + offset).ToString(CultureInfo.InvariantCulture);
+            return "COM" + portStr;
         }
 
         internal static List<string> FakePortNames = new List<string>();

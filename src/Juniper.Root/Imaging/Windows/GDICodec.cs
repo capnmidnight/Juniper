@@ -41,6 +41,7 @@ namespace Juniper.Imaging
                     image = Image.FromStream(stream);
                 }
             }
+
             prog.Report(1);
             return image;
         }

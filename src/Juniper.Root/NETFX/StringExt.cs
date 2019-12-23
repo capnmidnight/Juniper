@@ -111,6 +111,7 @@ namespace System
             {
                 return string.Empty;
             }
+
             var sb = new Text.StringBuilder(parts.Length * 10);
             sb.Append(parts[0]);
             for (var i = 1; i < parts.Length; ++i)
@@ -118,6 +119,7 @@ namespace System
                 sb.Append(separator);
                 sb.Append(parts[i]);
             }
+
             return sb.ToString();
         }
 

@@ -21,9 +21,9 @@ namespace Juniper.HTTP
                 && !request.IsWebSocketRequest;
         }
 
-        internal override Task Invoke(HttpListenerContext context)
+        internal override Task InvokeAsync(HttpListenerContext context)
         {
-            return Invoke(GetStringArguments(context)
+            return InvokeAsync(GetStringArguments(context)
                 .Cast<object>()
                 .Prepend(context)
                 .ToArray());

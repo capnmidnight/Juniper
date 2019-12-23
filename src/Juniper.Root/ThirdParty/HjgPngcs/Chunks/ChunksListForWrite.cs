@@ -131,7 +131,8 @@ namespace Hjg.Pngcs.Chunks
                 throw new PngjOutputException("bad chunk group?");
             }
 
-            int minChunkGroup, maxChunkGroup;
+            int minChunkGroup;
+            int maxChunkGroup;
             if (c.MustGoBeforePLTE())
             {
                 minChunkGroup = maxChunkGroup = ChunksList.CHUNK_GROUP_1_AFTERIDHR;
@@ -199,10 +200,13 @@ namespace Hjg.Pngcs.Chunks
                 written.Add(i);
                 c.ChunkGroup = currentGroup;
             }
+
             for (var k = written.Count - 1; k >= 0; k--)
             {
+
                 queuedChunks.RemoveAt(written[k]);
             }
+
             return written.Count;
         }
 

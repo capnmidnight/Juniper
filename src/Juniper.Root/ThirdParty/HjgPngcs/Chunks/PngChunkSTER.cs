@@ -27,14 +27,14 @@ namespace Hjg.Pngcs.Chunks
             return c;
         }
 
-        public override void ParseFromRaw(ChunkRaw chunk)
+        public override void ParseFromRaw(ChunkRaw c)
         {
-            if (chunk.Len != 1)
+            if (c.Len != 1)
             {
-                throw new PngjException("bad chunk length " + chunk);
+                throw new PngjException("bad chunk length " + c);
             }
 
-            Mode = chunk.Data[0];
+            Mode = c.Data[0];
         }
 
         public override void CloneDataFromRead(PngChunk other)

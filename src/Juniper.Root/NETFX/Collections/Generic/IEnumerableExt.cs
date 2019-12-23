@@ -107,6 +107,7 @@ namespace System.Collections.Generic
                     }
                 }
             }
+
             return true;
         }
 
@@ -222,6 +223,7 @@ namespace System.Collections.Generic
                     }
                 }
             }
+
             return true;
         }
 
@@ -237,6 +239,7 @@ namespace System.Collections.Generic
             {
                 anyNext |= iter?.MoveNext() == true;
             }
+
             return anyNext;
         }
 

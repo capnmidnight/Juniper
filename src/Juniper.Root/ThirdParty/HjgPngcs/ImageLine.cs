@@ -128,13 +128,13 @@ namespace Hjg.Pngcs
             }
             else
             {
-                throw new PngjExceptionInternal("bad ImageLine initialization");
+                throw new PngjInternalException("bad ImageLine initialization");
             }
 
             Rown = -1;
         }
 
-        static internal void UnpackInplaceInt(ImageInfo iminfo, int[] src, int[] dst,
+        internal static void UnpackInplaceInt(ImageInfo iminfo, int[] src, int[] dst,
             bool Scale)
         {
             var bitDepth = iminfo.BitDepth;
@@ -177,7 +177,7 @@ namespace Hjg.Pngcs
             }
         }
 
-        static internal void PackInplaceInt(ImageInfo iminfo, int[] src, int[] dst,
+        internal static void PackInplaceInt(ImageInfo iminfo, int[] src, int[] dst,
             bool scaled)
         {
             var bitDepth = iminfo.BitDepth;
@@ -216,10 +216,11 @@ namespace Hjg.Pngcs
                     dst[i] = 0;
                 }
             }
+
             dst[0] |= v0;
         }
 
-        static internal void UnpackInplaceByte(ImageInfo iminfo, byte[] src,
+        internal static void UnpackInplaceByte(ImageInfo iminfo, byte[] src,
              byte[] dst, bool scale)
         {
             var bitDepth = iminfo.BitDepth;
@@ -264,7 +265,7 @@ namespace Hjg.Pngcs
 
         /** size original: samplesPerRow sizeFinal: samplesPerRowPacked (trailing elements are trash!) **/
 
-        static internal void PackInplaceByte(ImageInfo iminfo, byte[] src, byte[] dst,
+        internal static void PackInplaceByte(ImageInfo iminfo, byte[] src, byte[] dst,
                  bool scaled)
         {
             var bitDepth = iminfo.BitDepth;

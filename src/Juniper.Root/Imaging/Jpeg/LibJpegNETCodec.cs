@@ -23,10 +23,7 @@ namespace Juniper.Imaging
 
         public MediaType.Image ContentType
         {
-            get
-            {
-                return MediaType.Image.Jpeg;
-            }
+            get { return MediaType.Image.Jpeg; }
         }
 
         /// <summary>
@@ -52,11 +49,11 @@ namespace Juniper.Imaging
         /// <summary>
         /// Encodes a raw file buffer of image data into a JPEG image.
         /// </summary>
-        /// <param name="outputStream">Jpeg bytes.</param>
-        public void Serialize(Stream outputStream, JpegImage image, IProgress prog = null)
+        /// <param name="stream">Jpeg bytes.</param>
+        public void Serialize(Stream stream, JpegImage value, IProgress prog = null)
         {
             prog.Report(0);
-            image.WriteJpeg(outputStream, compressionParams);
+            value.WriteJpeg(stream, compressionParams);
             prog.Report(1);
         }
     }

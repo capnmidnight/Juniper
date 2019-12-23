@@ -1,6 +1,6 @@
 namespace Juniper.World.GIS.Google.Geocoding
 {
-    public enum LocationTypes
+    public enum LocationType
     {
         None,
         PlaceName

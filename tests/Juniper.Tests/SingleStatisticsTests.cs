@@ -12,26 +12,26 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void MakeABuffer()
         {
-            Assert.IsNotNull(new SingleStatistics(100));
+            Assert.IsNotNull(new SingleStatisticsCollection(100));
         }
 
         [TestMethod]
         public void StartsEmpty()
         {
-            var buffer = new SingleStatistics(100);
+            var buffer = new SingleStatisticsCollection(100);
             Assert.AreEqual(0, buffer.Count);
         }
 
         [TestMethod]
         public void ThrowsExceptionWithNoCapacity()
         {
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new SingleStatistics(0));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new SingleStatisticsCollection(0));
         }
 
         [TestMethod]
         public void AddingIncreasesCount()
         {
-            var buffer = new SingleStatistics(1)
+            var buffer = new SingleStatisticsCollection(1)
             {
                 5
             };
@@ -41,7 +41,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void CanGetBackOutAgain()
         {
-            var buffer = new SingleStatistics(1)
+            var buffer = new SingleStatisticsCollection(1)
             {
                 7
             };
@@ -51,7 +51,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void CanGetBackOutAgain2()
         {
-            var buffer = new SingleStatistics(5);
+            var buffer = new SingleStatisticsCollection(5);
             Assert.AreEqual(0, buffer.Count);
             buffer.Add(1);
             Assert.AreEqual(1, buffer.Count);
@@ -83,7 +83,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void LoopingDoesntGrowSize()
         {
-            var buffer = new SingleStatistics(1)
+            var buffer = new SingleStatisticsCollection(1)
             {
                 3,
                 2
@@ -94,7 +94,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void LoopingOverwrites()
         {
-            var buffer = new SingleStatistics(1)
+            var buffer = new SingleStatisticsCollection(1)
             {
                 3,
                 2
@@ -105,7 +105,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void LoopingAgainDoesntGrowSize()
         {
-            var buffer = new SingleStatistics(1)
+            var buffer = new SingleStatisticsCollection(1)
             {
                 3,
                 2,
@@ -117,7 +117,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void LoopingAgainOverwrites()
         {
-            var buffer = new SingleStatistics(1)
+            var buffer = new SingleStatisticsCollection(1)
             {
                 3,
                 2,
@@ -129,7 +129,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void LargerLooping()
         {
-            var buffer = new SingleStatistics(100);
+            var buffer = new SingleStatisticsCollection(100);
             for (var i = 0; i < 120; ++i)
             {
                 buffer.Add(i);
@@ -140,7 +140,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void MaintainsOrder()
         {
-            var buffer = new SingleStatistics(5)
+            var buffer = new SingleStatisticsCollection(5)
             {
                 5,
                 3,
@@ -158,7 +158,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void ShiftsOldValuesOut()
         {
-            var buffer = new SingleStatistics(4)
+            var buffer = new SingleStatisticsCollection(4)
             {
                 5,
                 3,
@@ -179,7 +179,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void ComputesMin()
         {
-            var buffer = new SingleStatistics(4)
+            var buffer = new SingleStatisticsCollection(4)
             {
                 5,
                 3,
@@ -192,7 +192,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void ComputesMax()
         {
-            var buffer = new SingleStatistics(4)
+            var buffer = new SingleStatisticsCollection(4)
             {
                 5,
                 3,
@@ -205,7 +205,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void ComputesMean()
         {
-            var buffer = new SingleStatistics(4)
+            var buffer = new SingleStatisticsCollection(4)
             {
                 5,
                 3,
@@ -218,7 +218,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void ComputesMedian()
         {
-            var buffer = new SingleStatistics(4)
+            var buffer = new SingleStatisticsCollection(4)
             {
                 5,
                 3,
@@ -231,7 +231,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void ComputesTrivialStandardDeviation()
         {
-            var buffer = new SingleStatistics(4)
+            var buffer = new SingleStatisticsCollection(4)
             {
                 5,
                 5,
@@ -244,7 +244,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void ComputesBasicStandardDeviation()
         {
-            var buffer = new SingleStatistics(4)
+            var buffer = new SingleStatisticsCollection(4)
             {
                 0,
                 2,
@@ -257,7 +257,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void ComputesStandardDeviation()
         {
-            var buffer = new SingleStatistics(4)
+            var buffer = new SingleStatisticsCollection(4)
             {
                 5,
                 3,
@@ -270,7 +270,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void CopyUnfullWithoutOffsetThrowsExceptionWithTooSmallDestination()
         {
-            var buffer = new SingleStatistics(4)
+            var buffer = new SingleStatisticsCollection(4)
             {
                 5,
                 7,
@@ -284,7 +284,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void CopyUnfullWithOffsetThrowsExceptionWithTooSmallDestination()
         {
-            var buffer = new SingleStatistics(4)
+            var buffer = new SingleStatisticsCollection(4)
             {
                 5,
                 7,
@@ -298,7 +298,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void CopyWithNegativeOffsetThrowsException()
         {
-            var buffer = new SingleStatistics(4)
+            var buffer = new SingleStatisticsCollection(4)
             {
                 5,
                 7,
@@ -312,7 +312,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void CopyWithTooLargeOffsetThrowsException()
         {
-            var buffer = new SingleStatistics(4)
+            var buffer = new SingleStatisticsCollection(4)
             {
                 5,
                 7,
@@ -326,7 +326,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void CopyUnfullUnwrappedBufferWithoutOffsetMaintainsOrder()
         {
-            var buffer = new SingleStatistics(4)
+            var buffer = new SingleStatisticsCollection(4)
             {
                 5,
                 7,
@@ -342,7 +342,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void CopyUnfullUnwrappedBufferWithOffsetMaintainsOrder()
         {
-            var buffer = new SingleStatistics(4)
+            var buffer = new SingleStatisticsCollection(4)
             {
                 5,
                 7,
@@ -359,7 +359,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void CopyFullUnwrappedBufferWithoutOffsetMaintainsOrder()
         {
-            var buffer = new SingleStatistics(4)
+            var buffer = new SingleStatisticsCollection(4)
             {
                 5,
                 7,
@@ -377,7 +377,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void CopyFullUnwrappedBufferWithOffsetMaintainsOrder()
         {
-            var buffer = new SingleStatistics(4)
+            var buffer = new SingleStatisticsCollection(4)
             {
                 5,
                 7,
@@ -396,7 +396,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void CopyWrappedBufferWithoutOffsetMaintainsOrder()
         {
-            var buffer = new SingleStatistics(4)
+            var buffer = new SingleStatisticsCollection(4)
             {
                 5,
                 7,
@@ -415,7 +415,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void CopyWrappedBufferWithOffsetMaintainsOrder()
         {
-            var buffer = new SingleStatistics(4)
+            var buffer = new SingleStatisticsCollection(4)
             {
                 5,
                 7,
@@ -435,7 +435,7 @@ namespace Juniper.Mathematics.Tests
         [TestMethod]
         public void InsertMaintainsOrder()
         {
-            var buffer = new SingleStatistics(4);
+            var buffer = new SingleStatisticsCollection(4);
             buffer.Insert(0, 5);
             Assert.AreEqual(5, buffer[0]);
             buffer.Insert(0, 7);

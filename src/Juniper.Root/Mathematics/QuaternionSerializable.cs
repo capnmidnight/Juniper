@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Juniper.Mathematics
@@ -19,7 +20,8 @@ namespace Juniper.Mathematics
             W = w;
         }
 
-        private QuaternionSerializable(SerializationInfo info, StreamingContext streamingContext)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
+        private QuaternionSerializable(SerializationInfo info, StreamingContext context)
         {
             X = info.GetSingle(nameof(X));
             Y = info.GetSingle(nameof(Y));
@@ -37,7 +39,7 @@ namespace Juniper.Mathematics
 
         public override string ToString()
         {
-            return $"{{{X}, {Y}, {Z}, {W}}}";
+            return $"{{{X.ToString(CultureInfo.CurrentCulture)}, {Y.ToString(CultureInfo.CurrentCulture)}, {Z.ToString(CultureInfo.CurrentCulture)}, {W.ToString(CultureInfo.CurrentCulture)}}}";
         }
 
         public override int GetHashCode()

@@ -30,6 +30,7 @@ namespace Juniper.XR
             this.orientation = orientation;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private Pose(SerializationInfo info, StreamingContext context)
             : this(info.GetVector3(nameof(position)),
                 info.GetQuaternion(nameof(orientation)))

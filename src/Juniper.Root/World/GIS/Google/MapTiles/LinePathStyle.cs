@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -27,7 +28,7 @@ namespace Juniper.World.GIS.Google.MapTiles
                 }
             }
 
-            delim(weight != 5, nameof(weight), weight.ToString());
+            delim(weight != 5, nameof(weight), weight.ToString(CultureInfo.InvariantCulture));
             delim(!string.IsNullOrEmpty(color), nameof(color), color);
             delim(!string.IsNullOrEmpty(fillcolor), nameof(fillcolor), fillcolor);
             delim(geodesic, nameof(geodesic), geodesic ? "true" : "false");
@@ -35,6 +36,7 @@ namespace Juniper.World.GIS.Google.MapTiles
             styleDef = sb.ToString();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private LinePathStyle(SerializationInfo info, StreamingContext context)
         {
             styleDef = info.GetString(nameof(styleDef));

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 
 namespace Hjg.Pngcs.Chunks
@@ -26,7 +27,9 @@ namespace Hjg.Pngcs.Chunks
         /// <summary>
         /// Standard basic properties, implicit in the Id
         /// </summary>
-        public readonly bool Crit, Pub, Safe;
+        public readonly bool Crit;
+        public readonly bool Pub;
+        public readonly bool Safe;
 
         /// <summary>
         /// Image basic info, mostly for some checks
@@ -194,6 +197,7 @@ namespace Hjg.Pngcs.Chunks
                 var o = cons.Invoke(new object[] { info });
                 chunk = (PngChunk)o;
             }
+
             if (chunk == null)
             {
                 chunk = new PngChunkUNKNOWN(cid, info);
@@ -240,7 +244,7 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public override string ToString()
         {
-            return "chunk id= " + Id + " (len=" + Length + " off=" + Offset + ") c=" + GetType().Name;
+            return $"chunk id= {Id} (len={Length.ToString(CultureInfo.CurrentCulture)} off={Offset.ToString(CultureInfo.CurrentCulture)}) c={GetType().Name}";
         }
 
         /// <summary>

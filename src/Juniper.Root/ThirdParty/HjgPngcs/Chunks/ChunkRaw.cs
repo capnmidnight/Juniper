@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.IO;
 
 using Hjg.Pngcs;
@@ -106,14 +107,16 @@ namespace Hjg.Pngcs.Chunks
                 if (crc != crcval)
                 {
                     throw new PngjBadCrcException("crc invalid for chunk " + ToString() + " calc="
-                            + crc + " read=" + crcval);
+                            + crc.ToString(CultureInfo.CurrentCulture) + " read=" + crcval.ToString(CultureInfo.CurrentCulture));
                 }
             }
+
             return Len + 4;
         }
 
         internal MemoryStream GetAsByteStream()
-        { // only the data
+        {
+            // only the data
             return new MemoryStream(Data);
         }
 
@@ -131,7 +134,7 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public override string ToString()
         {
-            return "chunkid=" + Hjg.Pngcs.Chunks.ChunkHelper.ToString(IdBytes) + " len=" + Len;
+            return "chunkid=" + Hjg.Pngcs.Chunks.ChunkHelper.ToString(IdBytes) + " len=" + Len.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

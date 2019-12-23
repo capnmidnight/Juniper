@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -64,7 +65,7 @@ namespace Juniper.World.GIS.Google.MapTiles
             {
                 address = default;
                 center = value;
-                SetQuery(nameof(center), center.ToString());
+                SetQuery(nameof(center), center.ToString(CultureInfo.InvariantCulture));
             }
         }
 
@@ -116,7 +117,7 @@ namespace Juniper.World.GIS.Google.MapTiles
             }
         }
 
-        public LinePath Path { get; set; }
+        public LinePathCollection Path { get; set; }
 
         protected override Uri BaseURI
         {

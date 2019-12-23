@@ -101,6 +101,7 @@ namespace Juniper.IO
             {
                 position = stream.Seek(offset, origin);
             }
+
             return position;
         }
 

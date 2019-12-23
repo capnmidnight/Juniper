@@ -13,10 +13,7 @@ namespace Juniper.IO
 
         public MediaType.Application ContentType
         {
-            get
-            {
-                return MediaType.Application.Octet_Stream;
-            }
+            get { return MediaType.Application.Octet_Stream; }
         }
 
         public ResultT Deserialize(Stream stream, IProgress prog)
@@ -31,6 +28,7 @@ namespace Juniper.IO
                     value = (ResultT)serializer.Deserialize(stream);
                 }
             }
+
             prog.Report(1);
             return value;
         }

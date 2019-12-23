@@ -21,7 +21,7 @@ namespace Juniper.HTTP.WebSockets
                 && request.IsWebSocketRequest;
         }
 
-        internal override async Task Invoke(HttpListenerContext httpContext)
+        internal override async Task InvokeAsync(HttpListenerContext httpContext)
         {
             var wsContext = await httpContext.AcceptWebSocketAsync(null)
                 .ConfigureAwait(false);
@@ -29,7 +29,7 @@ namespace Juniper.HTTP.WebSockets
             var ws = new ServerWebSocketConnection(httpContext, wsContext.WebSocket);
             SocketConnected?.Invoke(ws);
 
-            await Invoke(GetStringArguments(httpContext)
+            await InvokeAsync(GetStringArguments(httpContext)
                 .Cast<object>()
                 .Prepend(ws)
                 .ToArray())

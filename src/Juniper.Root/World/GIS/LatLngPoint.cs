@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Runtime.Serialization;
 
 using static System.Math;
@@ -49,11 +50,13 @@ namespace Juniper.World.GIS
 
         public LatLngPoint() : this(0, 0, 0) { }
 
+
         /// <summary>
         /// Deserialize the object.
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface")]
         private LatLngPoint(SerializationInfo info, StreamingContext context)
         {
             Latitude = Longitude = Altitude = 0;
@@ -61,9 +64,18 @@ namespace Juniper.World.GIS
             {
                 switch (pair.Name.ToLowerInvariant().Substring(0, 3))
                 {
-                    case "lat": Latitude = info.GetSingle(pair.Name); break;
-                    case "lon": case "lng": Longitude = info.GetSingle(pair.Name); break;
-                    case "alt": Altitude = info.GetSingle(pair.Name); break;
+                    case "lat":
+                    Latitude = info.GetSingle(pair.Name);
+                    break;
+
+                    case "lon":
+                    case "lng":
+                    Longitude = info.GetSingle(pair.Name);
+                    break;
+
+                    case "alt":
+                    Altitude = info.GetSingle(pair.Name);
+                    break;
                 }
             }
         }
@@ -183,8 +195,13 @@ namespace Juniper.World.GIS
         /// <returns>A printed format for the latitude/longitude in degrees/minutes/seconds</returns>
         public string ToDMS(int sigfigs)
         {
-            var latStr = ToDMS(Latitude, "S", "N", sigfigs);
-            var lngStr = ToDMS(Longitude, "W", "E", sigfigs);
+            return ToDMS(sigfigs, CultureInfo.CurrentCulture);
+        }
+
+        public string ToDMS(int sigfigs, IFormatProvider provider)
+        {
+            var latStr = ToDMS(Latitude, "S", "N", sigfigs, provider);
+            var lngStr = ToDMS(Longitude, "W", "E", sigfigs, provider);
             var altStr = Units.Converter.Label(Altitude, Units.UnitOfMeasure.Meters);
             return $"<{latStr}, {lngStr}> alt {altStr}";
         }
@@ -197,9 +214,12 @@ namespace Juniper.World.GIS
         /// <param name="positive">The string prefix to use when the value is positive</param>
         /// <param name="sigfigs">The number of significant figures to which to print the value</param>
         /// <returns>The degrees/minutes/seconds version of the decimal degree</returns>
-        private static string ToDMS(float value, string negative, string positive, int sigfigs)
+        private static string ToDMS(float value, string negative, string positive, int sigfigs, IFormatProvider provider)
         {
-            var hemisphere = value < 0 ? negative : positive;
+            var hemisphere = value < 0
+                ? negative
+                : positive;
+
             value = Abs(value);
             var degrees = (int)value;
             var minutes = (value - degrees) * 60;
@@ -210,7 +230,8 @@ namespace Juniper.World.GIS
             {
                 secondsStr = "0" + secondsStr;
             }
-            return $"{hemisphere} {degrees.ToString()}° {intMinutes.ToString()}' {secondsStr}\"";
+
+            return $"{hemisphere} {degrees.ToString(provider)}° {intMinutes.ToString(provider)}' {secondsStr}\"";
         }
 
         /// <summary>
@@ -219,12 +240,17 @@ namespace Juniper.World.GIS
         /// <returns>A decimal degrees printed format</returns>
         public override string ToString()
         {
-            return Latitude.ToString("0.000000") + "," + Longitude.ToString("0.000000");
+            return ToString(CultureInfo.InvariantCulture);
+        }
+
+        public string ToString(IFormatProvider provider)
+        {
+            return Latitude.ToString("0.000000", provider) + "," + Longitude.ToString("0.000000", provider);
         }
 
         public static explicit operator string(LatLngPoint value)
         {
-            return value.ToString();
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -242,9 +268,14 @@ namespace Juniper.World.GIS
         /// </summary>
         /// <param name="precision">The number of precision</param>
         /// <returns>A decimal degrees printed format with a .NET number format specifier</returns>
+        public string ToString(string precision, IFormatProvider provider)
+        {
+            return $"({Latitude.ToString(precision, provider)}°, {Longitude.ToString(precision, provider)}°)";
+        }
+
         public string ToString(string precision)
         {
-            return $"({Latitude.ToString(precision)}°, {Longitude.ToString(precision)}°)";
+            return ToString(precision, CultureInfo.CurrentCulture);
         }
 
         /// <summary>
@@ -295,9 +326,9 @@ namespace Juniper.World.GIS
             }
             else
             {
-                int byLat = Latitude.CompareTo(other.Latitude),
-                    byLng = Longitude.CompareTo(other.Longitude),
-                    byAlt = Altitude.CompareTo(other.Altitude);
+                var byLat = Latitude.CompareTo(other.Latitude);
+                var byLng = Longitude.CompareTo(other.Longitude);
+                var byAlt = Altitude.CompareTo(other.Altitude);
 
                 if (byLat == 0
                     && byLng == 0)

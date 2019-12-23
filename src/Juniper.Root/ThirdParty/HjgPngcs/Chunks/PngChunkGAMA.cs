@@ -27,14 +27,14 @@ namespace Hjg.Pngcs.Chunks
             return c;
         }
 
-        public override void ParseFromRaw(ChunkRaw chunk)
+        public override void ParseFromRaw(ChunkRaw c)
         {
-            if (chunk.Len != 4)
+            if (c.Len != 4)
             {
-                throw new PngjException("bad chunk " + chunk);
+                throw new PngjException("bad chunk " + c);
             }
 
-            var g = Hjg.Pngcs.PngHelperInternal.ReadInt4fromBytes(chunk.Data, 0);
+            var g = Hjg.Pngcs.PngHelperInternal.ReadInt4fromBytes(c.Data, 0);
             gamma = g / 100000.0d;
         }
 

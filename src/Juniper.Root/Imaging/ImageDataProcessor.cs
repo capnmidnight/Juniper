@@ -6,13 +6,13 @@ namespace Juniper.Imaging
 {
     public class ImageDataProcessor : IImageProcessor<ImageData>
     {
-        public ImageData Concatenate(ImageData[,] tiles, IProgress prog)
+        public ImageData Concatenate(ImageData[,] images, IProgress prog)
         {
-            var rows = tiles.GetLength(0);
-            var columns = tiles.GetLength(1);
+            var rows = images.GetLength(0);
+            var columns = images.GetLength(1);
             var len = rows * columns;
             var progs = prog.Split(len);
-            var firstImage = tiles[0, 0];
+            var firstImage = images[0, 0];
             var tileWidth = firstImage.info.dimensions.width;
             var tileHeight = firstImage.info.dimensions.height;
             var bufferSize = new Size(
@@ -28,13 +28,14 @@ namespace Juniper.Imaging
                     var tileI = (tileY * columns) + tileX;
                     var p = progs[tileI];
                     p.Report(0);
-                    var tile = tiles[tileY, tileX];
+                    var tile = images[tileY, tileX];
                     for (var y = 0; y < tileHeight; ++y)
                     {
                         var tileBufferI = y * tileWidth;
                         var bufferI = (bufferSize.width * ((tileHeight * tileY) + y)) + (tileX * tileWidth);
                         Array.Copy(tile.data, tileBufferI, bufferData, bufferI, tileWidth);
                     }
+
                     p.Report(1);
                 }
             }

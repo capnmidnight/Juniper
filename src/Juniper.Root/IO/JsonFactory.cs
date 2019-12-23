@@ -39,6 +39,7 @@ namespace Juniper.IO
                     value = serializer.Deserialize<ResultT>(jsonReader);
                 }
             }
+
             prog.Report(1);
             return value;
         }

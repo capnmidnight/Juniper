@@ -54,20 +54,14 @@ namespace Juniper.Collections
         /// <summary>
         /// Retrieve the comparer to use with the objects being added to the queue
         /// </summary>
-        public IComparer<T> Comparer
-        {
-            get;
-        }
+        public IComparer<T> Comparer { get; }
 
         /// <summary>
         /// get the number of elements in the collection
         /// </summary>
         public int Count
         {
-            get
-            {
-                return q.Count;
-            }
+            get { return q.Count; }
         }
 
         /// <summary>
@@ -75,10 +69,7 @@ namespace Juniper.Collections
         /// </summary>
         public bool IsSynchronized
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
 
         /// <summary>
@@ -86,18 +77,12 @@ namespace Juniper.Collections
         /// </summary>
         public object SyncRoot
         {
-            get
-            {
-                return q;
-            }
+            get { return q; }
         }
 
         public bool IsReadOnly
         {
-            get
-            {
-                return false;
-            }
+            get { return false; }
         }
 
         /// <summary>

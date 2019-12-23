@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Juniper.HTTP
 {
     [Flags]
-    public enum HttpMethod
+    public enum HttpMethods
     {
         None = 0,
 

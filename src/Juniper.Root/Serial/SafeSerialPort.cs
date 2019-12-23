@@ -22,12 +22,12 @@ namespace Juniper.Serial
         {
         }
 
-        public new void Dispose()
+        new public void Dispose()
         {
             Dispose(true);
         }
 
-        public new void Open()
+        new public void Open()
         {
             try
             {
@@ -46,6 +46,7 @@ namespace Juniper.Serial
             {
                 base.Container.Dispose();
             }
+
             try
             {
                 if (theBaseStream.CanRead)
@@ -58,6 +59,7 @@ namespace Juniper.Serial
             {
                 // ignore exception - bug with USB - serial adapters.
             }
+
             base.Dispose(disposing);
         }
 
