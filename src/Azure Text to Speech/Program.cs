@@ -65,12 +65,12 @@ namespace Juniper.Speech
         {
             try
             {
-                client.OutputFormat = e.format;
-                var newStream = await client.GetAudioDataStream(e.text, e.voice, e.rateChange, e.pitchChange)
+                client.OutputFormat = e.Format;
+                var newStream = await client.GetAudioDataStream(e.Text, e.Voice, e.RateChange, e.PitchChange)
                     .ConfigureAwait(true);
-                if (e.fileName != null)
+                if (e.FileName != null)
                 {
-                    SaveStream(newStream, e.fileName);
+                    SaveStream(newStream, e.FileName);
                 }
                 else
                 {

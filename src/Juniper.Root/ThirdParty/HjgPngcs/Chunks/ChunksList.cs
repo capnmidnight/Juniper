@@ -21,13 +21,13 @@ namespace Hjg.Pngcs.Chunks
         /// <summary>
         ///  Includes all chunks, but IDAT is a single pseudo chunk without data
         /// </summary>
-        protected List<PngChunk> chunks;
+        protected List<PngChunk> pngChunks;
 
         internal readonly ImageInfo imageInfo; // only required for writing
 
         internal ChunksList(ImageInfo imfinfo)
         {
-            chunks = new List<PngChunk>();
+            pngChunks = new List<PngChunk>();
             imageInfo = imfinfo;
         }
 
@@ -38,7 +38,7 @@ namespace Hjg.Pngcs.Chunks
         public Dictionary<string, int> GetChunksKeys()
         {
             var ck = new Dictionary<string, int>();
-            foreach (var c in chunks)
+            foreach (var c in pngChunks)
             {
                 ck[c.Id] = ck.ContainsKey(c.Id) ? ck[c.Id] + 1 : 1;
             }
@@ -51,9 +51,12 @@ namespace Hjg.Pngcs.Chunks
         /// <remarks>This should not be used for general metadata handling
         /// </remarks>
         /// <returns></returns>
-        public List<PngChunk> GetChunks()
+        public List<PngChunk> Chunks
         {
-            return new List<PngChunk>(chunks);
+            get
+            {
+                return new List<PngChunk>(pngChunks);
+            }
         }
 
         internal static List<PngChunk> GetXById(List<PngChunk> list, string id, string innerid)
@@ -76,7 +79,7 @@ namespace Hjg.Pngcs.Chunks
         public void AppendReadChunk(PngChunk chunk, int chunkGroup)
         {
             chunk.ChunkGroup = chunkGroup;
-            chunks.Add(chunk);
+            pngChunks.Add(chunk);
         }
 
         /// <summary>
@@ -99,7 +102,7 @@ namespace Hjg.Pngcs.Chunks
         /// <returns>List, empty if none</returns>
         public List<PngChunk> GetById(string id, string innerid)
         {
-            return GetXById(chunks, id, innerid);
+            return GetXById(pngChunks, id, innerid);
         }
 
         /// <summary>
@@ -153,7 +156,7 @@ namespace Hjg.Pngcs.Chunks
         /// <returns>Empty if nothing found</returns>
         public List<PngChunk> GetEquivalent(PngChunk chunk)
         {
-            return ChunkHelper.FilterList(chunks, new ChunkPredicateEquiv(chunk));
+            return ChunkHelper.FilterList(pngChunks, new ChunkPredicateEquiv(chunk));
         }
 
         /// <summary>
@@ -162,7 +165,7 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public override string ToString()
         {
-            return "ChunkList: read: " + chunks.Count;
+            return "ChunkList: read: " + pngChunks.Count;
         }
 
         /// <summary>
@@ -173,7 +176,7 @@ namespace Hjg.Pngcs.Chunks
         {
             var sb = new StringBuilder(ToString());
             sb.Append("\n Read:\n");
-            foreach (var chunk in chunks)
+            foreach (var chunk in pngChunks)
             {
                 sb.Append(chunk)
                   .Append(" G=")

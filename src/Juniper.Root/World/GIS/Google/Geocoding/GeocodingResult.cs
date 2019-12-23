@@ -27,7 +27,7 @@ namespace Juniper.World.GIS.Google.Geocoding
             types = new HashSet<AddressComponentType>(from typeStr in typeStrings
                                                       select Enum.TryParse<AddressComponentType>(typeStr, out var parsedType)
                                                           ? parsedType
-                                                          : AddressComponentType.Unknown);
+                                                          : AddressComponentType.None);
             geometry = info.GetValue<GeometryResult>(nameof(geometry));
         }
 

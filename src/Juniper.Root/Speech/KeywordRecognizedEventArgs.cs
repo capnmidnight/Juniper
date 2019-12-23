@@ -14,7 +14,7 @@ namespace Juniper.Speech
 
         /// <summary>
         /// Initializes a new instance of the <see
-        /// cref="T:Juniper.Input.Speech.KeywordRecognizedEventArgs"/> class.
+        /// cref="Juniper.Input.Speech.KeywordRecognizedEventArgs"/> class.
         /// </summary>
         /// <param name="keyword">Keyword.</param>
         public KeywordRecognizedEventArgs(string keyword)

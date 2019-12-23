@@ -5,7 +5,7 @@ using System.Linq;
 using static System.Console;
 using static System.IO.Path;
 
-namespace File_Copier
+namespace FileCopier
 {
     internal static class Program
     {
@@ -27,8 +27,8 @@ namespace File_Copier
             {
                 for (var i = 0; i < args.Length; ++i)
                 {
-                    if (args[i].EndsWith("\"")
-                        || args[i].EndsWith("'"))
+                    if (args[i].EndsWith("\"", StringComparison.CurrentCulture)
+                        || args[i].EndsWith("'", StringComparison.CurrentCulture))
                     {
                         args[i] = args[i].Substring(1, args[i].Length - 2);
                     }

@@ -194,7 +194,7 @@ namespace Hjg.Pngcs.Chunks
                 }
 
                 c.Write(os);
-                chunks.Add(c);
+                pngChunks.Add(c);
                 alreadyWrittenKeys[c.Id] = alreadyWrittenKeys.ContainsKey(c.Id) ? alreadyWrittenKeys[c.Id] + 1 : 1;
                 written.Add(i);
                 c.ChunkGroup = currentGroup;

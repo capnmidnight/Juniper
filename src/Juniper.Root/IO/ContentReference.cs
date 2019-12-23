@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 
 namespace Juniper.IO
@@ -74,7 +75,7 @@ namespace Juniper.IO
 
         public override string ToString()
         {
-            return string.Format("{0} ({1})", CacheID, ContentType);
+            return string.Format(CultureInfo.InvariantCulture, "{0} ({1})", CacheID, ContentType);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 
@@ -20,8 +21,8 @@ namespace Juniper.Imaging
             {
                 var widthString = match.Captures[1].Value;
                 var heightString = match.Captures[2].Value;
-                var width = int.Parse(widthString);
-                var height = int.Parse(heightString);
+                var width = int.Parse(widthString, CultureInfo.InvariantCulture);
+                var height = int.Parse(heightString, CultureInfo.InvariantCulture);
                 size = new Size(width, height);
             }
 
@@ -92,7 +93,9 @@ namespace Juniper.Imaging
 
         public override string ToString()
         {
-            return width.ToString() + "x" + height.ToString();
+            return width.ToString(CultureInfo.InvariantCulture)
+                + "x"
+                + height.ToString(CultureInfo.InvariantCulture);
         }
 
         public static explicit operator string(Size size)

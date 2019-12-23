@@ -1,5 +1,6 @@
 #if !NETSTANDARD
 using System;
+using System.Globalization;
 
 namespace Juniper.Imaging
 {
@@ -17,7 +18,7 @@ namespace Juniper.Imaging
             }
             else
             {
-                throw new NotSupportedException($"Component count {componentCount.ToString()}");
+                throw new NotSupportedException($"Component count {componentCount.ToString(CultureInfo.InvariantCulture)}");
             }
         }
 

@@ -5,7 +5,7 @@ namespace BitMiracle.LibJpeg
     /// <summary>
     /// Parameters of compression.
     /// </summary>
-    /// <remarks>Being used in <see cref="M:BitMiracle.LibJpeg.JpegImage.WriteJpeg(System.IO.Stream,BitMiracle.LibJpeg.CompressionParameters)"/></remarks>
+    /// <remarks>Being used in <see cref="BitMiracle.LibJpeg.JpegImage.WriteJpeg(System.IO.Stream,BitMiracle.LibJpeg.CompressionParameters)"/></remarks>
     public class CompressionParameters
     {
         /// <summary>
@@ -28,11 +28,11 @@ namespace BitMiracle.LibJpeg
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        /// Determines whether the specified object is equal to this instance.
         /// </summary>
-        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <param name="obj">The object to compare with this instance.</param>
         /// <returns>
-        /// 	<c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+        /// 	<c>true</c> if the specified object is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
         public override bool Equals(object obj)
         {

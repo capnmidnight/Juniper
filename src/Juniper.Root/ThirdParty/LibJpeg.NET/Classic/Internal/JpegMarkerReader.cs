@@ -1477,7 +1477,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     quant_ptr.quantBal[natural_order[i]] = (short)tmp;
                 }
 
-                if (m_cinfo.err.traceLevel >= 2)
+                if (m_cinfo.jpgError.traceLevel >= 2)
                 {
                     for (var i = 0; i < JpegConstants.DCTSIZE2; i += 8)
                     {

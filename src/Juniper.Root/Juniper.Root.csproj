@@ -18,6 +18,13 @@
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
+    <PropertyGroup>
+        <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+        <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+        <CodeAnalysisSummary>true</CodeAnalysisSummary>
+        <CodeAnalysisRuleSet>..\..\Juniper.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Accord.Statistics" Version="3.8.0" />
     <PackageReference Include="NAudio" Version="1.9.0" />

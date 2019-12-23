@@ -11,7 +11,7 @@ namespace Juniper.Mathematics
     public class SingleStatistics : AbstractCollectionStatistics<float>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Juniper.Statistics.SingleStatistics"/> class.
+        /// Initializes a new instance of the <see cref="Juniper.Statistics.SingleStatistics"/> class.
         /// </summary>
         /// <param name="collection">Collection.</param>
         public SingleStatistics(IList<float> collection)

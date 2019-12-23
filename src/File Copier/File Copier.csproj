@@ -3,15 +3,22 @@
     <PropertyGroup>
         <TargetFramework>net48</TargetFramework>
         <AssemblyName>jcopy</AssemblyName>
-        <RootNamespace>File_Copier</RootNamespace>
+        <RootNamespace>FileCopier</RootNamespace>
         <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
         <Authors>Sean T. McBeth</Authors>
         <Description>A hack for copying assemblies into Unity projects</Description>
         <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
         <ApplicationIcon />
         <OutputType>Exe</OutputType>
-        <StartupObject>File_Copier.Program</StartupObject>
+        <StartupObject>FileCopier.Program</StartupObject>
         <Configuration>false</Configuration>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+        <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+        <CodeAnalysisSummary>true</CodeAnalysisSummary>
+        <CodeAnalysisRuleSet>..\..\Juniper.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -20,5 +27,12 @@
         <DebugSymbols>false</DebugSymbols>
         <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
 
 </Project>

@@ -18,6 +18,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.UnityAssetStore.Console", "..\tests\Juniper.UnityAssetStore.Console\Juniper.UnityAssetStore.Console.csproj", "{1C39809C-C4B0-4092-93A6-78E2C07D01B0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0AB9B157-DC46-4E6F-9926-46AB72C95ED8}"
+	ProjectSection(SolutionItems) = preProject
+		..\Juniper.ruleset = ..\Juniper.ruleset
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{3F72C92A-C800-432F-A47D-359B8C938849}"
 EndProject
@@ -40,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Root", "Juniper.Roo
 		{24306EF6-771E-4AE4-82E1-A65B4EA75DDB} = {24306EF6-771E-4AE4-82E1-A65B4EA75DDB}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "File Copier", "File Copier\File Copier.csproj", "{24306EF6-771E-4AE4-82E1-A65B4EA75DDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "File Copier", "File Copier\File Copier.csproj", "{24306EF6-771E-4AE4-82E1-A65B4EA75DDB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lesson Builder", "Lesson Builder\Lesson Builder.csproj", "{1F140295-3EEC-4151-BA35-7CCBE82BD23D}"
 EndProject

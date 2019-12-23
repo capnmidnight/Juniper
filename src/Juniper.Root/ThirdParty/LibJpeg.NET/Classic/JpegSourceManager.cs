@@ -66,16 +66,16 @@ namespace BitMiracle.LibJpeg.Classic
         }
 
         /// <summary>
-        /// This is the default resync_to_restart method for data source 
+        /// This is the default resync_to_restart method for data source
         /// managers to use if they don't have any better approach.
         /// </summary>
         /// <param name="cinfo">An instance of <see cref="JpegDecompressStruct"/></param>
         /// <param name="desired">The desired</param>
         /// <returns><c>false</c> if suspension is required.</returns>
         /// <remarks><para>
-        /// That method assumes that no backtracking is possible. 
-        /// Some data source managers may be able to back up, or may have 
-        /// additional knowledge about the data which permits a more 
+        /// That method assumes that no backtracking is possible.
+        /// Some data source managers may be able to back up, or may have
+        /// additional knowledge about the data which permits a more
         /// intelligent recovery strategy; such managers would
         /// presumably supply their own resync method.<br/><br/>
         /// </para>
@@ -143,25 +143,22 @@ namespace BitMiracle.LibJpeg.Classic
                     /* valid non-restart marker */
                     action = 3;
                 }
+                else if (cinfo.unreadMarker == ((int)JpegMarker.RST0 + ((desired + 1) & 7))
+                    || cinfo.unreadMarker == ((int)JpegMarker.RST0 + ((desired + 2) & 7)))
+                {
+                    /* one of the next two expected restarts */
+                    action = 3;
+                }
+                else if (cinfo.unreadMarker == ((int)JpegMarker.RST0 + ((desired - 1) & 7)) ||
+                    cinfo.unreadMarker == ((int)JpegMarker.RST0 + ((desired - 2) & 7)))
+                {
+                    /* a prior restart, so advance */
+                    action = 2;
+                }
                 else
                 {
-                    if (cinfo.unreadMarker == ((int)JpegMarker.RST0 + ((desired + 1) & 7))
-                        || cinfo.unreadMarker == ((int)JpegMarker.RST0 + ((desired + 2) & 7)))
-                    {
-                        /* one of the next two expected restarts */
-                        action = 3;
-                    }
-                    else if (cinfo.unreadMarker == ((int)JpegMarker.RST0 + ((desired - 1) & 7)) ||
-                        cinfo.unreadMarker == ((int)JpegMarker.RST0 + ((desired - 2) & 7)))
-                    {
-                        /* a prior restart, so advance */
-                        action = 2;
-                    }
-                    else
-                    {
-                        /* desired restart or too far away */
-                        action = 1;
-                    }
+                    /* desired restart or too far away */
+                    action = 1;
                 }
 
                 cinfo.TraceMS(4, JMessageCode.JTRC_RECOVERY_ACTION, cinfo.unreadMarker, action);
@@ -169,21 +166,21 @@ namespace BitMiracle.LibJpeg.Classic
                 switch (action)
                 {
                     case 1:
-                        /* Discard marker and let entropy decoder resume processing. */
-                        cinfo.unreadMarker = 0;
-                        return true;
+                    /* Discard marker and let entropy decoder resume processing. */
+                    cinfo.unreadMarker = 0;
+                    return true;
                     case 2:
-                        /* Scan to the next marker, and repeat the decision loop. */
-                        if (!cinfo.m_marker.NextMarker())
-                        {
-                            return false;
-                        }
+                    /* Scan to the next marker, and repeat the decision loop. */
+                    if (!cinfo.m_marker.NextMarker())
+                    {
+                        return false;
+                    }
 
-                        break;
+                    break;
                     case 3:
-                        /* Return without advancing past this marker. */
-                        /* Entropy decoder will be forced to process an empty segment. */
-                        return true;
+                    /* Return without advancing past this marker. */
+                    /* Entropy decoder will be forced to process an empty segment. */
+                    return true;
                 }
             }
         }

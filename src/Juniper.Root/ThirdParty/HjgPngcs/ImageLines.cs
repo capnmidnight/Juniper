@@ -66,7 +66,18 @@ namespace Hjg.Pngcs
         public int ImageRowToMatrixRow(int imrow)
         {
             var r = (imrow - RowOffset) / RowStep;
-            return r < 0 ? 0 : (r < Nrows ? r : Nrows - 1);
+            if (r < 0)
+            {
+                return 0;
+            }
+            else if (r < Nrows)
+            {
+                return r;
+            }
+            else
+            {
+                return Nrows - 1;
+            }
         }
 
         /// <summary>

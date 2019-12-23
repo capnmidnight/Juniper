@@ -52,8 +52,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <value>The error processor.<br/>
         /// Default value: <c>null</c>
         /// </value>
-        /// <remarks>Uses only for calling 
-        /// <see cref="M:BitMiracle.LibJpeg.Classic.jpeg_common_struct.ERREXIT(BitMiracle.LibJpeg.Classic.J_MESSAGE_CODE)">jpeg_common_struct.ERREXIT</see>
+        /// <remarks>Uses only for calling
+        /// <see cref="BitMiracle.LibJpeg.Classic.jpeg_common_struct.ERREXIT(BitMiracle.LibJpeg.Classic.J_MESSAGE_CODE)">jpeg_common_struct.ERREXIT</see>
         /// on error.</remarks>
         public JpegCommonStruct ErrorProcessor { get; set; }
 

@@ -378,7 +378,7 @@ namespace Juniper.Collections.Tests
             var stopwatch = new Stopwatch();
 
             stopwatch.Start();
-            var graph1 = Graph<string>.Load(inPath);
+            var graph1 = Graph.Load<string>(inPath);
             graph1.Solve();
             stopwatch.Stop();
             var time1 = stopwatch.Elapsed;
@@ -386,7 +386,7 @@ namespace Juniper.Collections.Tests
             graph1.Save(outPath);
 
             stopwatch.Restart();
-            var graph2 = Graph<string>.Load(outPath);
+            var graph2 = Graph.Load<string>(outPath);
             stopwatch.Stop();
             var time2 = stopwatch.Elapsed;
 

@@ -39,10 +39,10 @@ namespace BitMiracle.LibJpeg.Classic
         }
 
         // Error handler module
-        internal JpegErrorMessage err;
+        internal JpegErrorMessage jpgError;
 
         // Progress monitor, or null if none
-        internal JpegProgressManager progress;
+        internal JpegProgressManager prog;
 
         internal JpegState globalState;     /* For checking call sequence validity */
 
@@ -86,11 +86,11 @@ namespace BitMiracle.LibJpeg.Classic
         {
             get
             {
-                return progress;
+                return prog;
             }
             set
             {
-                progress = value ?? throw new ArgumentNullException(nameof(value));
+                prog = value ?? throw new ArgumentNullException(nameof(value));
             }
         }
 
@@ -103,11 +103,11 @@ namespace BitMiracle.LibJpeg.Classic
         {
             get
             {
-                return err;
+                return jpgError;
             }
             set
             {
-                err = value ?? throw new ArgumentNullException(nameof(value));
+                jpgError = value ?? throw new ArgumentNullException(nameof(value));
             }
         }
 
@@ -280,9 +280,9 @@ namespace BitMiracle.LibJpeg.Classic
         /// <param name="args">The parameters of message.</param>
         public void ErrExit(int code, params object[] args)
         {
-            err.msgCode = code;
-            err.msgParam = args;
-            err.ErrorExit();
+            jpgError.msgCode = code;
+            jpgError.msgParam = args;
+            jpgError.ErrorExit();
         }
 
         // Nonfatal errors (we can keep going, but the data is probably corrupt)
@@ -313,9 +313,9 @@ namespace BitMiracle.LibJpeg.Classic
         /// <param name="args">The parameters of message.</param>
         public void WarnMS(int code, params object[] args)
         {
-            err.msgCode = code;
-            err.msgParam = args;
-            err.EmitMessage(-1);
+            jpgError.msgCode = code;
+            jpgError.msgParam = args;
+            jpgError.EmitMessage(-1);
         }
 
         // Informational/debugging messages
@@ -352,9 +352,9 @@ namespace BitMiracle.LibJpeg.Classic
         /// <seealso cref="JpegErrorMessage.EmitMessage"/>
         public void TraceMS(int lvl, int code, params object[] args)
         {
-            err.msgCode = code;
-            err.msgParam = args;
-            err.EmitMessage(lvl);
+            jpgError.msgCode = code;
+            jpgError.msgParam = args;
+            jpgError.EmitMessage(lvl);
         }
     }
 }

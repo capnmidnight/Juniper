@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 
 using static System.Math;
 
@@ -179,7 +180,7 @@ namespace Juniper.Collections
             {
                 if (index < 0 || index >= Count)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(index), $"Index must be between 0 and {Count.ToString()}");
+                    throw new ArgumentOutOfRangeException(nameof(index), $"Index must be between 0 and {Count.ToString(CultureInfo.CurrentCulture)}");
                 }
                 return buffer[(Start + index) % buffer.Length];
             }
@@ -187,7 +188,7 @@ namespace Juniper.Collections
             {
                 if (index < 0 || index >= Count)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(index), $"Index must be between 0 and {Count.ToString()}");
+                    throw new ArgumentOutOfRangeException(nameof(index), $"Index must be between 0 and {Count.ToString(CultureInfo.CurrentCulture)}");
                 }
                 buffer[(Start + index) % buffer.Length] = value;
             }

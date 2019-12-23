@@ -155,11 +155,14 @@ namespace Juniper.HTTP.REST
 
         protected virtual void ModifyRequest(HttpWebRequest request) { }
 
-        protected virtual BodyInfo GetBodyInfo() { return null; }
+        protected virtual BodyInfo GetBodyInfo()
+        {
+            return null;
+        }
 
         protected virtual void WriteBody(Stream stream) { }
 
-        public async Task<HttpWebResponse> GetResponse(IProgress prog = null)
+        public async Task<HttpWebResponse> GetResponseAsync(IProgress prog = null)
         {
             var request = (HttpWebRequest)WebRequest.Create(AuthenticatedURI);
 
@@ -208,7 +211,7 @@ namespace Juniper.HTTP.REST
         {
             var progs = prog.Split("Get", "Read");
             prog = progs[1];
-            var response = await GetResponse(progs[0]).ConfigureAwait(false);
+            var response = await GetResponseAsync(progs[0]).ConfigureAwait(false);
             var stream = response.GetResponseStream();
             if (prog != null)
             {

@@ -8,7 +8,10 @@ using static OpenTK.Graphics.ES30.GL;
 using OpenTK.Graphics.OpenGL;
 using static OpenTK.Graphics.OpenGL.GL;
 #elif OPENGL4
+using System;
+
 using OpenTK.Graphics.OpenGL4;
+
 using static OpenTK.Graphics.OpenGL4.GL;
 #endif
 
@@ -25,6 +28,11 @@ namespace Juniper.OpenGL
         public ElementBuffer(uint[] indices)
             : base(BufferTarget.ElementArrayBuffer)
         {
+            if (indices is null)
+            {
+                throw new ArgumentNullException(nameof(indices));
+            }
+
 #if OPENGL_ES30
             this.indices = indices;
 #endif

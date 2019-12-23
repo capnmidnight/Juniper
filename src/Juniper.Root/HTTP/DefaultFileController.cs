@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -130,7 +131,11 @@ namespace Juniper.HTTP
         {
             var sb = new StringBuilder();
             var shortName = MakeShortName(rootDirectory.FullName, dir.FullName);
-            sb.AppendFormat("<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>{0}</title></head><body><h1>Directory Listing: {0}</h1><ul>", shortName);
+            sb.Append("<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>")
+                .Append(shortName)
+                .Append("</title></head><body><h1>Directory Listing: ")
+                .Append(shortName)
+                .Append("</h1><ul>");
 
             var paths = (from subPath in dir.GetFileSystemInfos()
                          select MakeShortName(dir.FullName, subPath.FullName));
@@ -142,7 +147,11 @@ namespace Juniper.HTTP
 
             foreach (var subPath in paths)
             {
-                sb.AppendFormat("<li><a href=\"{0}\">{0}</a></li>", subPath);
+                sb.Append("<li><a href=\"")
+                  .Append(subPath)
+                  .Append("\">")
+                  .Append(subPath)
+                  .Append("</a></li>");
             }
 
             sb.Append("</ul></body></html>");

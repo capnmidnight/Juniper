@@ -209,7 +209,7 @@ namespace Juniper.IO
         /// <typeparam name="MediaTypeT"></typeparam>
         /// <param name="fileRef"></param>
         /// <returns>Null, if the file does not exist in the cache</returns>
-        public async Task<Stream> Open(ContentReference fileRef, IProgress prog)
+        public async Task<Stream> GetStreamAsync(ContentReference fileRef, IProgress prog)
         {
             Stream cached = null;
             foreach (var source in sources)
@@ -217,7 +217,7 @@ namespace Juniper.IO
                 if (source.IsCached(fileRef))
                 {
                     cached = await source
-                        .Open(fileRef, prog)
+                        .GetStreamAsync(fileRef, prog)
                         .ConfigureAwait(false);
                     break;
                 }

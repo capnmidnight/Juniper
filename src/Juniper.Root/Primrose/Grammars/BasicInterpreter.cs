@@ -29,7 +29,7 @@ namespace Juniper.Primrose
 
         private static Token ToNum(int i)
         {
-            return new Token(i.ToString(), "numbers");
+            return new Token(i.ToString(CultureInfo.InvariantCulture), "numbers");
         }
 
         private static Token ToStr(string str)
@@ -58,7 +58,12 @@ namespace Juniper.Primrose
 
         public BasicInterpreter(string source, Line tokens)
         {
-            commands = new Dictionary<string, Func<Line, bool>>()
+            if (tokens is null)
+            {
+                throw new ArgumentNullException(nameof(tokens));
+            }
+
+            commands = new Dictionary<string, Func<Line, bool>>
                 {
                     { "DIM", DeclareVariable },
                     { "LET", Translate },
@@ -150,7 +155,8 @@ namespace Juniper.Primrose
                     var lineNumber = int.Parse(
                         lineNumberToken.value,
                         NumberStyles.AllowLeadingWhite
-                            | NumberStyles.AllowTrailingWhite);
+                            | NumberStyles.AllowTrailingWhite,
+                        CultureInfo.InvariantCulture);
 
                     // Line numbers should be ordered correctly, or we throw a syntax error.
                     if (lastLineNumber.HasValue && lineNumber <= lastLineNumber)
@@ -160,7 +166,7 @@ namespace Juniper.Primrose
                     // deleting empty lines
                     else if (line.Count > 0)
                     {
-                        lineNumberToken.value = lineNumber.ToString();
+                        lineNumberToken.value = lineNumber.ToString(CultureInfo.InvariantCulture);
                         lineNumbers.Add(lineNumber);
                         program[lineNumber] = line;
                     }
@@ -386,7 +392,7 @@ namespace Juniper.Primrose
 
         private bool SetProgramCounter(Line line)
         {
-            var lineNumber = int.Parse(Evaluate(line));
+            var lineNumber = int.Parse(Evaluate(line), CultureInfo.InvariantCulture);
             counter = -1;
             while (counter < lineNumbers.Count - 1
                 && lineNumbers[counter + 1] < lineNumber)
@@ -399,7 +405,7 @@ namespace Juniper.Primrose
 
         private void OnError(string msg)
         {
-            throw new Exception($"At line {lineNumbers[counter]}: {msg}");
+            throw new Exception($"At line {lineNumbers[counter].ToString(CultureInfo.InvariantCulture)}: {msg}");
         }
 
         private Line GetLine(int i)
@@ -494,7 +500,7 @@ namespace Juniper.Primrose
                         {
                             if (decl[j].type == "numbers")
                             {
-                                sizes.Add(int.Parse(decl[j].value));
+                                sizes.Add(int.Parse(decl[j].value, CultureInfo.InvariantCulture));
                             }
                         }
                         if (sizes.Count == 0)
@@ -879,7 +885,7 @@ namespace Juniper.Primrose
         {
             if (string.IsNullOrEmpty(script))
             {
-                throw new ArgumentException(nameof(script));
+                throw new ArgumentNullException(nameof(script));
             }
 
             throw new NotImplementedException();

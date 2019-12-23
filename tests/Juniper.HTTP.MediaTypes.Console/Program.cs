@@ -201,7 +201,7 @@ namespace Juniper.MediaTypes
                     else if (oldGroup.Extensions.Length == extensions.Length)
                     {
                         var newExtensions = new string[extensions.Length];
-                        for (int i = 0; i < extensions.Length; ++i)
+                        for (var i = 0; i < extensions.Length; ++i)
                         {
                             if (extensions[i].Length > oldGroup.Extensions[i].Length
                                 && !value.EndsWith("+" + extensions[i]))

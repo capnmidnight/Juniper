@@ -109,7 +109,7 @@ namespace Juniper.World.GIS.Google
 
         public Task<Stream> GetImage(string pano, int fov, int heading, int pitch, IProgress prog = null)
         {
-            return cache.Open(new ImageRequest(apiKey, signingKey, new Size(640, 640))
+            return cache.GetStreamAsync(new ImageRequest(apiKey, signingKey, new Size(640, 640))
             {
                 Pano = pano,
                 FOV = fov,

@@ -21,7 +21,8 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\..\Juniper.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>..\Juniper\Assets\Juniper\Plugins\Juniper\Release\x64\</OutputPath>
@@ -56,9 +57,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Baudrate.cs" />
+    <Compile Include="DataType.cs" />
+    <Compile Include="FilterType.cs" />
     <Compile Include="MindWaveAdapter.cs" />
-    <Compile Include="NativeThinkgear.cs" />
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerialDataFormat.cs" />
   </ItemGroup>
   <ItemGroup Condition="'$(Platform)' == 'x86'">
     <Content Include="thinkgear.dll">
@@ -69,6 +74,13 @@
     <Content Include="thinkgear64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers">
+      <Version>2.9.6</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

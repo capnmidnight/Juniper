@@ -30,7 +30,7 @@ namespace Juniper.IO
                 && (overwrite || !toLayer.IsCached(toRef)))
             {
                 using (var inStream = await fromLayer
-                    .Open(fromRef, prog)
+                    .GetStreamAsync(fromRef, prog)
                     .ConfigureAwait(false))
                 using (var outStream = toLayer.Create(toRef, overwrite))
                 {

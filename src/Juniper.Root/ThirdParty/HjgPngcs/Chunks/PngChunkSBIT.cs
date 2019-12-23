@@ -55,7 +55,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            ChunkRaw c = CreateEmptyChunk(GetLen(), true);
+            var c = CreateEmptyChunk(GetLen(), true);
             if (ImgInfo.Greyscale)
             {
                 c.Data[0] = (byte)Graysb;

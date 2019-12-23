@@ -8,7 +8,7 @@ namespace Juniper.Serial
         int BaudRate { get; set; }
         bool IsOpen { get; }
         string PortName { get; set; }
-        int ReadTimeout { set; }
+        int ReadTimeout { get; set; }
         bool RtsEnable { get; set; }
 
         void Close();

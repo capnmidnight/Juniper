@@ -12,6 +12,7 @@ namespace Juniper.Climate
         /// </summary>
         float ReportTTLMinutes
         {
+            get;
             set;
         }
 
@@ -21,6 +22,7 @@ namespace Juniper.Climate
         /// </summary>
         float ReportRadiusMeters
         {
+            get;
             set;
         }
 

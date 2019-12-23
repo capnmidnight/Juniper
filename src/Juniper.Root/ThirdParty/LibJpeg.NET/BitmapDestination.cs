@@ -57,16 +57,13 @@ namespace BitMiracle.LibJpeg
             {
                 PutGrayRow(row);
             }
+            else if (m_parameters.Colorspace == Colorspace.CMYK)
+            {
+                PutCmykRow(row);
+            }
             else
             {
-                if (m_parameters.Colorspace == Colorspace.CMYK)
-                {
-                    PutCmykRow(row);
-                }
-                else
-                {
-                    PutRgbRow(row);
-                }
+                PutRgbRow(row);
             }
 
             ++m_currentRow;

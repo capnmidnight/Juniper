@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 
 using Juniper.Progress;
@@ -58,7 +59,9 @@ namespace Juniper.Imaging
                             && (codec.GetWidth(img) != tileWidth
                                 || codec.GetHeight(img) != tileHeight))
                         {
-                            throw new ArgumentException($"All elements of {nameof(images)} must be the same width and height. Image [{y.ToString()},{x.ToString()}] did not match image 0.");
+                            var yStr = y.ToString(CultureInfo.InvariantCulture);
+                            var xStr = x.ToString(CultureInfo.InvariantCulture);
+                            throw new ArgumentException($"All elements of {nameof(images)} must be the same width and height. Image [{yStr},{xStr}] did not match image 0.");
                         }
                     }
                 }

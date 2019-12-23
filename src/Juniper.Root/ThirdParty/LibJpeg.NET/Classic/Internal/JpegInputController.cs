@@ -54,7 +54,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             m_inheaders = 1;
 
             /* Reset other modules */
-            m_cinfo.err.ResetErrorMessage();
+            m_cinfo.jpgError.ResetErrorMessage();
             m_cinfo.m_marker.ResetMarkerReader();
 
             /* Reset progression state -- would be cleaner if entropy decoder did this */

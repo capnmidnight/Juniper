@@ -12,14 +12,14 @@ namespace Juniper.HTTP
         None = 0,
 
         GET = 1,
-        HEAD = 2,
-        POST = 4,
-        PUT = 8,
-        DELETE = 16,
-        CONNECT = 32,
-        OPTIONS = 64,
-        TRACE = 128,
-        PATCH = 256,
+        HEAD = 1 << 1,
+        POST = 1 << 2,
+        PUT = 1 << 3,
+        DELETE = 1 << 4,
+        CONNECT = 1 << 5,
+        OPTIONS = 1 << 6,
+        TRACE = 1 << 7,
+        PATCH = 1 << 8,
 
         All = GET | HEAD | POST | PUT | DELETE | CONNECT | OPTIONS | TRACE | PATCH
     }

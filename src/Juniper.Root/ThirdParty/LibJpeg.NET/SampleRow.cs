@@ -65,7 +65,7 @@ namespace BitMiracle.LibJpeg
         /// <param name="bitsPerComponent">The number of bits per component.</param>
         /// <param name="componentsPerSample">The number of components per sample.</param>
         /// <remarks>The difference between this constructor and
-        /// <see cref="M:BitMiracle.LibJpeg.SampleRow.#ctor(System.Byte[],System.Int32,System.Byte,System.Byte)">another one</see> -
+        /// <see cref="BitMiracle.LibJpeg.SampleRow.#ctor(System.Byte[],System.Int32,System.Byte,System.Byte)">another one</see> -
         /// this constructor accept an array of prepared color components whereas
         /// another constructor accept raw bytes and parse them.
         /// </remarks>

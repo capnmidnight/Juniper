@@ -33,15 +33,12 @@ namespace Juniper.Imaging
         {
             prog.Report(0);
             ImageLines image = null;
-            if (stream != null)
+            using (stream)
             {
-                using (stream)
-                {
-                    var png = new PngReader(stream);
-                    png.SetUnpackedMode(true);
-                    image = png.ReadRowsByte();
-                    png.End();
-                }
+                var png = new PngReader(stream);
+                png.SetUnpackedMode(true);
+                image = png.ReadRowsByte();
+                png.End();
             }
             prog.Report(1);
             return image;

@@ -394,14 +394,14 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             switch (m_cinfo.m_jpeg_color_space)
             {
                 case JColorSpace.JCS_YCbCr:
-                    EmitByte(1);    /* Color transform = 1 */
-                    break;
+                EmitByte(1);    /* Color transform = 1 */
+                break;
                 case JColorSpace.JCS_YCCK:
-                    EmitByte(2);    /* Color transform = 2 */
-                    break;
+                EmitByte(2);    /* Color transform = 2 */
+                break;
                 default:
-                    EmitByte(0);    /* Color transform = 0 */
-                    break;
+                EmitByte(0);    /* Color transform = 0 */
+                break;
             }
         }
 
@@ -487,8 +487,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 EmitMarker(JpegMarker.DQT);
 
-                Emit2Bytes(prec != 0 ?
-                    (m_cinfo.lim_Se * 2) + 2 + 1 + 2 : m_cinfo.lim_Se + 1 + 1 + 2);
+                Emit2Bytes((prec != 0)
+                    ? (m_cinfo.lim_Se * 2) + 2 + 1 + 2
+                    : m_cinfo.lim_Se + 1 + 1 + 2);
 
                 EmitByte(index + (prec << 4));
 
@@ -616,7 +617,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
         //////////////////////////////////////////////////////////////////////////
         // Basic output routines.
-        // 
+        //
         // Note that we do not support suspension while writing a marker.
         // Therefore, an application using suspension must ensure that there is
         // enough buffer space for the initial markers (typ. 600-700 bytes) before

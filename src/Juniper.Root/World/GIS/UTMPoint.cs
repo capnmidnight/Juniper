@@ -35,10 +35,11 @@ namespace Juniper.World.GIS
         /// </summary>
         public readonly int Zone;
 
+
         /// <summary>
         /// The globe hemispheres in which the UTM point could sit.
         /// </summary>
-        public enum GlobeHemisphere : byte
+        public enum GlobeHemisphere
         {
             Northern,
             Southern

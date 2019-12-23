@@ -1,4 +1,5 @@
 #if !OPENGL_ES20
+using System;
 
 #if OPENGL_ES30
 using OpenTK.Graphics.ES30;
@@ -8,6 +9,7 @@ using OpenTK.Graphics.OpenGL;
 using static OpenTK.Graphics.OpenGL.GL;
 #elif OPENGL4
 using OpenTK.Graphics.OpenGL4;
+
 using static OpenTK.Graphics.OpenGL4.GL;
 #endif
 
@@ -18,6 +20,11 @@ namespace Juniper.OpenGL
         public VertexArray(int attrIndex, VertexBuffer vertexBuffer)
             : base(GenVertexArray(), DeleteVertexArray)
         {
+            if (vertexBuffer is null)
+            {
+                throw new ArgumentNullException(nameof(vertexBuffer));
+            }
+
             Enable();
 
             using (vertexBuffer.Use())

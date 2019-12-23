@@ -8,6 +8,11 @@ namespace Juniper.OpenGL
 
         public EnableScope(GLScopedHandle buffer)
         {
+            if (buffer is null)
+            {
+                throw new ArgumentNullException(nameof(buffer));
+            }
+
             this.buffer = buffer;
             buffer.Enable();
         }

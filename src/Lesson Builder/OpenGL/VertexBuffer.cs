@@ -1,3 +1,5 @@
+using System;
+
 #if OPENGL_ES20
 using OpenTK.Graphics.ES20;
 using static OpenTK.Graphics.ES20.GL;
@@ -9,6 +11,7 @@ using OpenTK.Graphics.OpenGL;
 using static OpenTK.Graphics.OpenGL.GL;
 #elif OPENGL4
 using OpenTK.Graphics.OpenGL4;
+
 using static OpenTK.Graphics.OpenGL4.GL;
 #endif
 
@@ -21,6 +24,11 @@ namespace Juniper.OpenGL
         public VertexBuffer(float[] vertices)
             : base(BufferTarget.ArrayBuffer)
         {
+            if (vertices is null)
+            {
+                throw new ArgumentNullException(nameof(vertices));
+            }
+
             Length = vertices.Length / NUM_ELEMENTS;
             using (Use())
             {

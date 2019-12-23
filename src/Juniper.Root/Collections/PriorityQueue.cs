@@ -14,7 +14,10 @@ namespace Juniper.Collections
     /// A queue data structure that places emphasis on some items over others.
     /// </summary>
     /// <typeparam name="T">The type of objects that will be placed in the PriorityQueue</typeparam>
-    public class PriorityQueue<T> : ICollection, IEnumerable<T>
+    public class PriorityQueue<T> :
+        ICollection,
+        ICollection<T>,
+        IEnumerable<T>
         where T : IComparable<T>
     {
         private readonly List<T> q = new List<T>();
@@ -89,6 +92,14 @@ namespace Juniper.Collections
             }
         }
 
+        public bool IsReadOnly
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// removes all the objects from the priority queue
         /// </summary>
@@ -103,9 +114,9 @@ namespace Juniper.Collections
         /// </summary>
         /// <returns></returns>
         //[Obsolete("WARNING: this method has an O(n^2) runtime profile. Use with caution.")]
-        public bool Contains(T obj)
+        public bool Contains(T item)
         {
-            return q.Contains(obj);
+            return q.Contains(item);
         }
 
         /// <summary>
@@ -118,11 +129,11 @@ namespace Juniper.Collections
         /// than the length of the array, or would result in the items going outside of the array bounds.
         /// </para>
         /// </summary>
-        /// <param name="arr"></param>
-        /// <param name="startIndex"></param>
-        public void CopyTo(T[] arr, int startIndex)
+        /// <param name="array"></param>
+        /// <param name="index"></param>
+        public void CopyTo(T[] array, int index)
         {
-            q.CopyTo(arr, startIndex);
+            q.CopyTo(array, index);
         }
 
         /// <summary>
@@ -139,22 +150,22 @@ namespace Juniper.Collections
         /// Adds an item to the queue, using the natural order of the object type if no Comparer is
         /// provided during construction of the PriorityQueue.
         /// </summary>
-        /// <param name="obj">The object to add</param>
-        public void Enqueue(T obj)
+        /// <param name="item">The object to add</param>
+        public void Enqueue(T item)
         {
             //figure out which queue to add the object to
             int addIndex;
             for (addIndex = 0; addIndex < q.Count; ++addIndex)
             {
                 var t = q[addIndex];
-                var n = Comparer.Compare(t, obj);
+                var n = Comparer.Compare(t, item);
                 if (n == 1)
                 {
                     break;
                 }
             }
 
-            q.Insert(addIndex, obj);
+            q.Insert(addIndex, item);
         }
 
         /// <summary>
@@ -184,6 +195,11 @@ namespace Juniper.Collections
             return q.ToArray();
         }
 
+        void ICollection<T>.Add(T item)
+        {
+            Enqueue(item);
+        }
+
         void ICollection.CopyTo(Array arr, int startIndex)
         {
             var temp = new T[Count];
@@ -201,6 +217,11 @@ namespace Juniper.Collections
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public bool Remove(T item)
+        {
+            return q.Remove(item);
         }
 
         /// <summary> A default Comparer to use when a comparer is not defined. If the type

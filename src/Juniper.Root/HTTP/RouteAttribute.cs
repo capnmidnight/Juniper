@@ -10,7 +10,8 @@ namespace Juniper.HTTP
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public sealed class RouteAttribute : Attribute
     {
-        public readonly Regex pattern;
+        public Regex Pattern { get; }
+
         public readonly string regexSource;
         public readonly int parameterCount;
 
@@ -22,7 +23,12 @@ namespace Juniper.HTTP
 
         public RouteAttribute(Regex pattern)
         {
-            this.pattern = pattern;
+            if (pattern == null)
+            {
+                throw new ArgumentNullException(nameof(pattern));
+            }
+
+            this.Pattern = pattern;
 
             regexSource = pattern.ToString();
             parameterCount = pattern.GetGroupNames().Length;

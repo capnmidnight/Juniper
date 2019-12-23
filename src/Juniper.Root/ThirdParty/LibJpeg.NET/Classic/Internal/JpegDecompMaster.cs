@@ -89,17 +89,17 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Set up progress monitor's pass info if present */
-            if (m_cinfo.progress != null)
+            if (m_cinfo.prog != null)
             {
-                m_cinfo.progress.CompletedPasses = m_pass_number;
-                m_cinfo.progress.TotalPasses = m_pass_number + (m_is_dummy_pass ? 2 : 1);
+                m_cinfo.prog.CompletedPasses = m_pass_number;
+                m_cinfo.prog.TotalPasses = m_pass_number + (m_is_dummy_pass ? 2 : 1);
 
                 /* In buffered-image mode, we assume one more output pass if EOI not
                  * yet reached, but no more passes if EOI has been reached.
                  */
                 if (m_cinfo.bufferedImage && !m_cinfo.m_inputctl.EOIReached())
                 {
-                    m_cinfo.progress.TotalPasses += (m_cinfo.enable2PassQuant ? 2 : 1);
+                    m_cinfo.prog.TotalPasses += (m_cinfo.enable2PassQuant ? 2 : 1);
                 }
             }
         }
@@ -268,7 +268,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * progress monitoring appropriately.  The input step is counted
              * as one pass.
              */
-            if (m_cinfo.progress != null && !m_cinfo.bufferedImage && m_cinfo.m_inputctl.HasMultipleScans())
+            if (m_cinfo.prog != null && !m_cinfo.bufferedImage && m_cinfo.m_inputctl.HasMultipleScans())
             {
                 /* Estimate number of scans to set pass_limit. */
                 int nscans;
@@ -283,10 +283,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     nscans = m_cinfo.numComponents;
                 }
 
-                m_cinfo.progress.PassCounter = 0;
-                m_cinfo.progress.PassLimit = m_cinfo.m_total_iMCU_rows * nscans;
-                m_cinfo.progress.CompletedPasses = 0;
-                m_cinfo.progress.TotalPasses = (m_cinfo.enable2PassQuant ? 3 : 2);
+                m_cinfo.prog.PassCounter = 0;
+                m_cinfo.prog.PassLimit = m_cinfo.m_total_iMCU_rows * nscans;
+                m_cinfo.prog.CompletedPasses = 0;
+                m_cinfo.prog.TotalPasses = (m_cinfo.enable2PassQuant ? 3 : 2);
 
                 /* Count the input pass as done */
                 m_pass_number++;

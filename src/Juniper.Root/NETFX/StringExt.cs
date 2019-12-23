@@ -91,8 +91,10 @@ namespace System
             var sb = new Text.StringBuilder(parts[0]);
             for (var i = 1; i < parts.Length; ++i)
             {
-                sb.AppendFormat("{0}{1}", separator, parts[i]);
+                sb.Append(separator)
+                    .Append(parts[i]);
             }
+
             return sb.ToString();
         }
 
@@ -128,19 +130,49 @@ namespace System
         /// <returns></returns>
         public static string[] SplitX(this string value, char token)
         {
-            var regex = new Regex(Regex.Escape(token.ToString()));
-            var matches = regex.Matches(value);
-            var parts = new string[matches.Count + 1];
-            var start = 0;
-            for (var i = 0; i < matches.Count; ++i)
+            if (value is null)
             {
-                var match = matches[i];
-                parts[i] = value.Substring(start, match.Index - start);
-                start = match.Index + 1;
+                throw new ArgumentNullException(nameof(value));
             }
+            else if (value.Length == 0)
+            {
+                return Array.Empty<string>();
+            }
+            else
+            {
+                var count = 0;
+                foreach (var c in value)
+                {
+                    if (c == token)
+                    {
+                        ++count;
+                    }
+                }
 
-            parts[matches.Count] = value.Substring(start);
-            return parts;
+                if (count == 0)
+                {
+                    return new string[] { value };
+                }
+                else
+                {
+                    var parts = new string[count + 1];
+                    var start = 0;
+                    count = 0;
+                    for (var i = 0; i < value.Length; ++i)
+                    {
+                        if (value[i] == token)
+                        {
+                            parts[count] = value.Substring(start, i - start);
+                            start = i + 1;
+                            ++count;
+                        }
+                    }
+
+                    parts[parts.Length - 1] = value.Substring(start, value.Length - start);
+
+                    return parts;
+                }
+            }
         }
 
         public static int WagnerFischer_Damerau_Levenshtein_Distance(this string a, string b)

@@ -19,7 +19,7 @@ namespace Juniper.HTTP
     /// A wrapper around <see cref="HttpListener"/> that handles
     /// routing, HTTPS, and a default start page for DEBUG running.
     /// </summary>
-    public class HttpServer : ILoggingSource
+    public class HttpServer : IDisposable, ILoggingSource
     {
         private readonly Thread serverThread;
         private readonly HttpListener listener;
@@ -208,6 +208,12 @@ namespace Juniper.HTTP
             }
 
             var type = typeof(T);
+            if (controller is Type t)
+            {
+                type = t;
+                controller = null;
+            }
+
             foreach (var method in type.GetMethods(flags))
             {
                 var route = method.GetCustomAttribute<RouteAttribute>();
@@ -307,9 +313,7 @@ or
             }
         }
 
-        /// <summary>
-        /// Stop server and dispose all functions.
-        /// </summary>
+        /// <summary>Stop server and dispose all functions.</summary>
         public void Stop()
         {
             OnInfo(this, "Stopping server");
@@ -409,17 +413,21 @@ or
         {
             startPage = startPage ?? string.Empty;
 
-            var protocol = HttpsPort > 0
-                ? "https"
-                : "http";
+            var protocol = "http";
+            var port = "";
 
-            var port = HttpsPort > 0
-                ? HttpsPort == 443
-                    ? ""
-                    : ":" + HttpsPort
-                : HttpPort == 80
-                    ? ""
-                    : ":" + HttpPort;
+            if (HttpsPort > 0)
+            {
+                protocol = "https";
+                if (HttpsPort != 443)
+                {
+                    port = ":" + HttpsPort;
+                }
+            }
+            else if (HttpPort != 80)
+            {
+                port = ":" + HttpPort;
+            }
 
             var page = $"{protocol}://{ListenAddress}{port}/{startPage}";
 
@@ -589,5 +597,46 @@ or
         {
             Error?.Invoke(sender, exp);
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    if (IsRunning)
+                    {
+                        Stop();
+                    }
+
+                    using (listener) { }
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~HttpServer()
+        // {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }

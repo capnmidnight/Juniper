@@ -11,7 +11,7 @@ namespace System
         public readonly Exception exception;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:System.ErrorArgs"/> class.
+        /// Initializes a new instance of the <see cref="System.ErrorArgs"/> class.
         /// </summary>
         /// <param name="exp">Exp.</param>
         public ErrorArgs(Exception exp)

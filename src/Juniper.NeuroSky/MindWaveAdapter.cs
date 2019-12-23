@@ -2,7 +2,7 @@ using System;
 
 using libStreamSDK;
 
-using static libStreamSDK.NativeThinkgear;
+using static libStreamSDK.NativeMethods;
 
 namespace Juniper.NeuroSky
 {
@@ -137,7 +137,7 @@ namespace Juniper.NeuroSky
         /// <summary>
         /// Mains electricity frequency for filtering it out of the brainwave signal.
         /// </summary>
-        private FilterType? mainsFilter;
+        private FilterType mainsFilter;
 
         /// <summary>
         /// Sets up a new connection to the MindWave device.
@@ -234,21 +234,23 @@ namespace Juniper.NeuroSky
                 if (connected)
                 {
                     var value = MWM15_getFilterType(connectionId);
-                    if (value < 0)
-                    {
-                        throw new Exception("Error while getting Filter Type on device.");
-                    }
-                    else if (value > 0)
-                    {
-                        mainsFilter = (FilterType)value;
-                    }
+                    mainsFilter = Enum.IsDefined(typeof(FilterType), value)
+                        ? (FilterType)value
+                        : FilterType.None;
                 }
 
-                return mainsFilter ?? DEFAULT_MAINS_FILTER;
+                if (mainsFilter == FilterType.None)
+                {
+                    return DEFAULT_MAINS_FILTER;
+                }
+                else
+                {
+                    return mainsFilter;
+                }
             }
             set
             {
-                if (MWM15_setFilterType(connectionId, value) < 0)
+                if (MWM15_setFilterType(connectionId, (int)value) < 0)
                 {
                     throw new Exception("Error while setting Filter Type on device.");
                 }
@@ -274,7 +276,7 @@ namespace Juniper.NeuroSky
                     throw new InvalidOperationException("Cannot write to a closed connection. Please call " + nameof(Connect));
                 }
 
-                switch (TG_SetBaudrate(connectionId, value))
+                switch (TG_SetBaudrate(connectionId, (int)value))
                 {
                     case -1:
                     throw new InvalidOperationException("Invalid connection ID: " + connectionId.ToString());
@@ -319,16 +321,16 @@ namespace Juniper.NeuroSky
                 Disconnect();
             }
 
-            switch (TG_Connect(connectionId, serialPortName, baudrate, format))
+            switch (TG_Connect(connectionId, serialPortName, (int)baudrate, (int)format))
             {
                 case -1:
                 throw new InvalidOperationException("Invalid connection ID: " + connectionId.ToString());
                 case -2:
                 throw new Exception(serialPortName + " could not be opened as a serial communication port. Check that the name is a valid COM port on your system.");
                 case -3:
-                throw new InvalidOperationException(nameof(baudrate) + " is not a valid TG_BAUD_* value.");
+                throw new InvalidOperationException($"{nameof(baudrate)} is not a valid TG_BAUD_* value.");
                 case -4:
-                throw new InvalidOperationException(nameof(format) + " is not a valid TG_STREAM_* type.");
+                throw new InvalidOperationException($"{nameof(format)} is not a valid TG_STREAM_* type.");
             }
 
             this.baudrate = baudrate;

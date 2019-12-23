@@ -39,7 +39,7 @@ namespace BitMiracle.LibJpeg.Classic
         };
 
         // Standard Huffman tables (cf. JPEG standard section K.3)
-        // 
+        //
         // IMPORTANT: these are only valid for 8-bit data precision!
         private static readonly byte[] bits_dc_luminance =
         { /* 0-base */ 0, 0, 1, 5, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 };
@@ -167,15 +167,15 @@ namespace BitMiracle.LibJpeg.Classic
         internal JpegScanInfo[] m_scan_info;
 
         internal bool m_raw_data_in;       /* true=caller supplies downsampled data */
-        internal bool arith_code;		   /* true=arithmetic coding, false=Huffman */
-        internal bool optimizeCoding;   /* true=optimize entropy encoding parms */
+        internal bool arith_code;           /* true=arithmetic coding, false=Huffman */
+        internal bool optimizeEntropyCoding;   /* true=optimize entropy encoding parms */
         internal bool CIR601sampling;  /* true=first samples are cosited */
 
         /// <summary>
         /// TRUE=apply fancy downsampling
         /// </summary>
         public bool do_fancy_downsampling;
-        internal int smoothingFactor;       /* 1..100, or 0 for no input smoothing */
+        internal int inputSmoothingFactor;       /* 1..100, or 0 for no input smoothing */
         internal JDctMethod dctMethod;    /* DCT algorithm selector */
 
         internal int restartInterval; /* MCUs per restart, or 0 for no restart */
@@ -209,7 +209,7 @@ namespace BitMiracle.LibJpeg.Classic
         internal int m_max_v_samp_factor;  /* largest v_samp_factor */
 
         internal int min_DCT_h_scaled_size;  /* smallest DCT_h_scaled_size of any component */
-        internal int min_DCT_v_scaled_size;	/* smallest DCT_v_scaled_size of any component */
+        internal int min_DCT_v_scaled_size;    /* smallest DCT_v_scaled_size of any component */
 
         internal int m_total_iMCU_rows; /* # of iMCU rows to be input to coef ctlr */
         /* The coefficient controller receives data in units of MCU rows as defined
@@ -246,7 +246,7 @@ namespace BitMiracle.LibJpeg.Classic
         public int block_size;
 
         internal int[] natural_order;   /* natural-order position array */
-        internal int lim_Se;			/* min( Se, DCTSIZE2-1 ) */
+        internal int lim_Se;            /* min( Se, DCTSIZE2-1 ) */
 
         /*
          * Links to compression subobjects (methods and private variables of modules)
@@ -412,16 +412,16 @@ namespace BitMiracle.LibJpeg.Classic
         /// Gets or sets a value indicating a way of using Huffman coding tables.
         /// </summary>
         /// <remarks>When this is <c>true</c>, you need not supply Huffman tables at all, and any you do supply will be overwritten.</remarks>
-        /// <value><c>true</c> causes the compressor to compute optimal Huffman coding tables 
-        /// for the image. This requires an extra pass over the data and therefore costs a good 
-        /// deal of space and time. The default is <c>false</c>, which tells the compressor to use the 
-        /// supplied or default Huffman tables. In most cases optimal tables save only a few 
+        /// <value><c>true</c> causes the compressor to compute optimal Huffman coding tables
+        /// for the image. This requires an extra pass over the data and therefore costs a good
+        /// deal of space and time. The default is <c>false</c>, which tells the compressor to use the
+        /// supplied or default Huffman tables. In most cases optimal tables save only a few
         /// percent of file size compared to the default tables.</value>
         /// <seealso href="../articles/KB/compression-parameter-selection.html">Compression parameter selection</seealso>
         public bool OptimizeCoding
         {
-            get { return optimizeCoding; }
-            set { optimizeCoding = value; }
+            get { return optimizeEntropyCoding; }
+            set { optimizeEntropyCoding = value; }
         }
 
         /// <summary>
@@ -438,14 +438,14 @@ namespace BitMiracle.LibJpeg.Classic
         /// Gets or sets the coefficient of image smoothing.
         /// </summary>
         /// <remarks>Default value: 0<br/>
-        /// If non-zero, the input image is smoothed; the value should be 1 for minimal smoothing 
+        /// If non-zero, the input image is smoothed; the value should be 1 for minimal smoothing
         /// to 100 for maximum smoothing.</remarks>
         /// <value>The coefficient of image smoothing.</value>
         /// <seealso href="../articles/KB/compression-parameter-selection.html">Compression parameter selection</seealso>
         public int SmoothingFactor
         {
-            get { return smoothingFactor; }
-            set { smoothingFactor = value; }
+            get { return inputSmoothingFactor; }
+            set { inputSmoothingFactor = value; }
         }
 
         /// <summary>
@@ -469,8 +469,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// Gets or sets the exact interval in MCU blocks.
         /// </summary>
         /// <remarks>Default value: 0<br/>
-        /// One restart marker per MCU row is often a good choice. The overhead of restart markers 
-        /// is higher in grayscale JPEG files than in color files, and MUCH higher in progressive JPEGs. 
+        /// One restart marker per MCU row is often a good choice. The overhead of restart markers
+        /// is higher in grayscale JPEG files than in color files, and MUCH higher in progressive JPEGs.
         /// If you use restarts, you may want to use larger intervals in those cases.</remarks>
         /// <value>The restart interval.</value>
         /// <seealso cref="JpegCompressStruct.RestartInRows"/>
@@ -485,9 +485,9 @@ namespace BitMiracle.LibJpeg.Classic
         /// Gets or sets the interval in MCU rows.
         /// </summary>
         /// <remarks>Default value: 0<br/>
-        /// If Restart_in_rows is not 0, then <see cref="JpegCompressStruct.RestartInterval"/> is set 
+        /// If Restart_in_rows is not 0, then <see cref="JpegCompressStruct.RestartInterval"/> is set
         /// after the image width in MCUs is computed.<br/>
-        /// One restart marker per MCU row is often a good choice. 
+        /// One restart marker per MCU row is often a good choice.
         /// The overhead of restart markers is higher in grayscale JPEG files than in color files, and MUCH higher in progressive JPEGs. If you use restarts, you may want to use larger intervals in those cases.
         /// </remarks>
         /// <value>The restart interval in MCU rows.</value>
@@ -504,8 +504,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// Gets or sets a value indicating whether the JFIF APP0 marker is emitted.
         /// </summary>
-        /// <remarks><see cref="JpegCompressStruct.JpegSetDefaults"/> and 
-        /// <see cref="JpegCompressStruct.JpegSetColorspace"/> set this <c>true</c> 
+        /// <remarks><see cref="JpegCompressStruct.JpegSetDefaults"/> and
+        /// <see cref="JpegCompressStruct.JpegSetColorspace"/> set this <c>true</c>
         /// if a JFIF-legal JPEG color space (i.e., YCbCr or grayscale) is selected, otherwise <c>false</c>.</remarks>
         /// <value><c>true</c> if JFIF APP0 marker is emitted; otherwise, <c>false</c>.</value>
         /// <seealso cref="JpegCompressStruct.JFIF_major_version"/>
@@ -519,8 +519,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// Gets or sets the version number to be written into the JFIF marker.
         /// </summary>
-        /// <remarks><see cref="JpegCompressStruct.JpegSetDefaults"/> initializes the version to 
-        /// 1.01 (major=minor=1). You should set it to 1.02 (major=1, minor=2) if you plan to write any 
+        /// <remarks><see cref="JpegCompressStruct.JpegSetDefaults"/> initializes the version to
+        /// 1.01 (major=minor=1). You should set it to 1.02 (major=1, minor=2) if you plan to write any
         /// JFIF 1.02 extension markers.</remarks>
         /// <value>The version number to be written into the JFIF marker.</value>
         /// <seealso cref="JpegCompressStruct.JFIF_minor_version"/>
@@ -534,8 +534,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// Gets or sets the version number to be written into the JFIF marker.
         /// </summary>
-        /// <remarks><see cref="JpegCompressStruct.JpegSetDefaults"/> initializes the version to 
-        /// 1.01 (major=minor=1). You should set it to 1.02 (major=1, minor=2) if you plan to write any 
+        /// <remarks><see cref="JpegCompressStruct.JpegSetDefaults"/> initializes the version to
+        /// 1.01 (major=minor=1). You should set it to 1.02 (major=1, minor=2) if you plan to write any
         /// JFIF 1.02 extension markers.</remarks>
         /// <value>The version number to be written into the JFIF marker.</value>
         /// <seealso cref="JpegCompressStruct.JFIF_major_version"/>
@@ -554,10 +554,10 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// Gets or sets the resolution information to be written into the JFIF marker; not used otherwise.
         /// </summary>
-        /// <remarks>Default value: <see cref="F:BitMiracle.LibJpeg.Classic.DensityUnit.Unknown"/><br/>
-        /// The pixel aspect ratio is defined by 
-        /// <see cref="JpegCompressStruct.X_density"/>/<see cref="JpegCompressStruct.Y_density"/> 
-        /// even when Density_unit is <see cref="F:BitMiracle.LibJpeg.Classic.DensityUnit.Unknown">Unknown</see>.</remarks>
+        /// <remarks>Default value: <see cref="BitMiracle.LibJpeg.Classic.DensityUnit.Unknown"/><br/>
+        /// The pixel aspect ratio is defined by
+        /// <see cref="JpegCompressStruct.X_density"/>/<see cref="JpegCompressStruct.Y_density"/>
+        /// even when Density_unit is <see cref="BitMiracle.LibJpeg.Classic.DensityUnit.Unknown">Unknown</see>.</remarks>
         /// <value>The density unit.</value>
         /// <seealso cref="JpegCompressStruct.X_density"/>
         /// <seealso cref="JpegCompressStruct.Y_density"/>
@@ -599,11 +599,11 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// Gets or sets a value indicating whether to emit Adobe APP14 marker.
         /// </summary>
-        /// <remarks><see cref="JpegCompressStruct.JpegSetDefaults"/> and <see cref="JpegCompressStruct.JpegSetColorspace"/> 
-        /// set this <c>true</c> if JPEG color space RGB, CMYK, or YCCK is selected, otherwise <c>false</c>. 
-        /// It is generally a bad idea to set both <see cref="JpegCompressStruct.Write_JFIF_header"/> and 
-        /// <see cref="JpegCompressStruct.Write_Adobe_marker"/>. 
-        /// In fact, you probably shouldn't change the default settings at all - the default behavior ensures that the JPEG file's 
+        /// <remarks><see cref="JpegCompressStruct.JpegSetDefaults"/> and <see cref="JpegCompressStruct.JpegSetColorspace"/>
+        /// set this <c>true</c> if JPEG color space RGB, CMYK, or YCCK is selected, otherwise <c>false</c>.
+        /// It is generally a bad idea to set both <see cref="JpegCompressStruct.Write_JFIF_header"/> and
+        /// <see cref="JpegCompressStruct.Write_Adobe_marker"/>.
+        /// In fact, you probably shouldn't change the default settings at all - the default behavior ensures that the JPEG file's
         /// color space can be recognized by the decoder.</remarks>
         /// <value>If <c>true</c> an Adobe APP14 marker is emitted; <c>false</c>, otherwise.</value>
         /// <seealso href="../articles/KB/compression-parameter-selection.html">Compression parameter selection</seealso>
@@ -664,7 +664,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// Gets the index of next scanline to be written to <see cref="JpegCompressStruct.JpegWriteScanlines"/>.
         /// </summary>
-        /// <remarks>Application may use this to control its processing loop, 
+        /// <remarks>Application may use this to control its processing loop,
         /// e.g., "while (Next_scanline &lt; Image_height)"</remarks>
         /// <value>Range: from 0 to (Image_height - 1)</value>
         /// <seealso cref="JpegCompressStruct.JpegWriteScanlines"/>
@@ -687,14 +687,14 @@ namespace BitMiracle.LibJpeg.Classic
         /// </summary>
         /// <remarks><para>
         /// Marks all currently defined tables as already written (if suppress)
-        /// or not written (if !suppress). This will control whether they get 
+        /// or not written (if !suppress). This will control whether they get
         /// emitted by a subsequent <see cref="JpegCompressStruct.JpegStartCompression"/> call.<br/>
         /// </para>
         /// <para>
         /// This routine is exported for use by applications that want to produce
         /// abbreviated JPEG datastreams.
         /// </para></remarks>
-        /// <param name="suppress">if set to <c>true</c> then suppress tables; 
+        /// <param name="suppress">if set to <c>true</c> then suppress tables;
         /// otherwise unsuppress.</param>
         public void JpegSuppressTables(bool suppress)
         {
@@ -723,7 +723,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// Finishes JPEG compression.
         /// </summary>
-        /// <remarks>If a multipass operating mode was selected, this may do a great 
+        /// <remarks>If a multipass operating mode was selected, this may do a great
         /// deal of work including most of the actual output.</remarks>
         public void JpegFinishCompress()
         {
@@ -750,11 +750,11 @@ namespace BitMiracle.LibJpeg.Classic
                 m_master.PrepareForPass();
                 for (iMCU_row = 0; iMCU_row < m_total_iMCU_rows; iMCU_row++)
                 {
-                    if (progress != null)
+                    if (prog != null)
                     {
-                        progress.PassCounter = iMCU_row;
-                        progress.PassLimit = m_total_iMCU_rows;
-                        progress.Updated();
+                        prog.PassCounter = iMCU_row;
+                        prog.PassLimit = m_total_iMCU_rows;
+                        prog.Updated();
                     }
 
                     /* We bypass the main controller and invoke coef controller directly;
@@ -780,12 +780,12 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// Write a special marker.
         /// </summary>
-        /// <remarks>This is only recommended for writing COM or APPn markers. 
-        /// Must be called after <see cref="JpegCompressStruct.JpegStartCompression"/> and before first call to 
+        /// <remarks>This is only recommended for writing COM or APPn markers.
+        /// Must be called after <see cref="JpegCompressStruct.JpegStartCompression"/> and before first call to
         /// <see cref="JpegCompressStruct.JpegWriteScanlines"/> or <see cref="JpegCompressStruct.JpegWriteRawData"/>.
         /// </remarks>
-        /// <param name="marker">Specify the marker type parameter as <see cref="JpegMarker"/>.COM for COM or 
-        /// <see cref="JpegMarker"/>.APP0 + n for APPn. (Actually, jpeg_write_marker will let you write any marker type, 
+        /// <param name="marker">Specify the marker type parameter as <see cref="JpegMarker"/>.COM for COM or
+        /// <see cref="JpegMarker"/>.APP0 + n for APPn. (Actually, jpeg_write_marker will let you write any marker type,
         /// but we don't recommend writing any other kinds of marker)</param>
         /// <param name="data">The data associated with the marker.</param>
         /// <seealso href="../articles/KB/special-markers.html">Special markers</seealso>
@@ -812,8 +812,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <param name="datalen">Length of data associated with the marker.</param>
         /// <remarks>After calling this method you need to call <see cref="JpegCompressStruct.JpegWriteMByte"/>
         /// exactly the number of times given in the length parameter.<br/>
-        /// This method lets you empty the output buffer partway through a marker, which might be important when 
-        /// using a suspending data destination module. In any case, if you are using a suspending destination, 
+        /// This method lets you empty the output buffer partway through a marker, which might be important when
+        /// using a suspending data destination module. In any case, if you are using a suspending destination,
         /// you should flush its buffer after inserting any special markers.</remarks>
         /// <seealso cref="JpegCompressStruct.JpegWriteMByte"/>
         /// <seealso cref="JpegCompressStruct.JpegWriteMarker"/>
@@ -860,7 +860,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <para>
         /// jpeg_write_tables has the side effect of marking all tables written
         /// (same as <see cref="JpegCompressStruct.JpegSuppressTables">jpeg_suppress_tables(true)</see>).
-        /// Thus a subsequent <see cref="JpegCompressStruct.JpegStartCompression">jpeg_start_compress</see> 
+        /// Thus a subsequent <see cref="JpegCompressStruct.JpegStartCompression">jpeg_start_compress</see>
         /// will not re-emit the tables unless it is passed <c>write_all_tables=true</c>.
         /// </para>
         /// </remarks>
@@ -872,7 +872,7 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* (Re)initialize error mgr and destination modules */
-            err.ResetErrorMessage();
+            jpgError.ResetErrorMessage();
             m_dest.InitDestination();
 
             /* Initialize the marker writer ... bit of a crock to do it here. */
@@ -900,8 +900,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// Jpeg_set_defaultses this instance.
         /// </summary>
-        /// <remarks>Uses only the input image's color space (property <see cref="JpegCompressStruct.In_color_space"/>, 
-        /// which must already be set in <see cref="JpegCompressStruct"/>). Many applications will only need 
+        /// <remarks>Uses only the input image's color space (property <see cref="JpegCompressStruct.In_color_space"/>,
+        /// which must already be set in <see cref="JpegCompressStruct"/>). Many applications will only need
         /// to use this routine and perhaps <see cref="JpegCompressStruct.JpegSetQuality"/>.
         /// </remarks>
         /// <seealso href="../articles/KB/compression-parameter-selection.html">Compression parameter selection</seealso>
@@ -950,7 +950,7 @@ namespace BitMiracle.LibJpeg.Classic
             arith_code = (m_data_precision > 8);
 
             /* By default, don't do extra passes to optimize entropy coding */
-            optimizeCoding = false;
+            optimizeEntropyCoding = false;
 
             /* By default, use the simpler non-cosited sampling alignment */
             CIR601sampling = false;
@@ -959,7 +959,7 @@ namespace BitMiracle.LibJpeg.Classic
             do_fancy_downsampling = true;
 
             /* No input smoothing */
-            smoothingFactor = 0;
+            inputSmoothingFactor = 0;
 
             /* DCT algorithm preference */
             dctMethod = JpegConstants.JDCT_DEFAULT;
@@ -1000,9 +1000,9 @@ namespace BitMiracle.LibJpeg.Classic
         /// and choose colorspace-dependent parameters appropriately.
         /// </summary>
         /// <param name="colorspace">The required colorspace.</param>
-        /// <remarks>See <see href="../articles/KB/special-color-spaces.html">Special color spaces</see>, 
-        /// below, before using this. A large number of parameters, including all per-component parameters, 
-        /// are set by this routine; if you want to twiddle individual parameters you should call 
+        /// <remarks>See <see href="../articles/KB/special-color-spaces.html">Special color spaces</see>,
+        /// below, before using this. A large number of parameters, including all per-component parameters,
+        /// are set by this routine; if you want to twiddle individual parameters you should call
         /// <c>jpeg_set_colorspace</c> before rather than after.</remarks>
         /// <seealso href="../articles/KB/compression-parameter-selection.html">Compression parameter selection</seealso>
         /// <seealso href="../articles/KB/special-color-spaces.html">Special color spaces</seealso>
@@ -1028,94 +1028,94 @@ namespace BitMiracle.LibJpeg.Classic
             switch (colorspace)
             {
                 case JColorSpace.JCS_UNKNOWN:
-                    m_num_components = m_input_components;
-                    if (m_num_components < 1 || m_num_components > JpegConstants.MAX_COMPONENTS)
-                    {
-                        ErrExit(JMessageCode.JERR_COMPONENT_COUNT, m_num_components, JpegConstants.MAX_COMPONENTS);
-                    }
+                m_num_components = m_input_components;
+                if (m_num_components < 1 || m_num_components > JpegConstants.MAX_COMPONENTS)
+                {
+                    ErrExit(JMessageCode.JERR_COMPONENT_COUNT, m_num_components, JpegConstants.MAX_COMPONENTS);
+                }
 
-                    for (ci = 0; ci < m_num_components; ci++)
-                    {
-                        JpegSetColorspaceSetComp(ci, ci, 1, 1, 0, 0, 0);
-                    }
+                for (ci = 0; ci < m_num_components; ci++)
+                {
+                    JpegSetColorspaceSetComp(ci, ci, 1, 1, 0, 0, 0);
+                }
 
-                    break;
+                break;
 
                 case JColorSpace.JCS_GRAYSCALE:
-                    m_write_JFIF_header = true; /* Write a JFIF marker */
-                    m_num_components = 1;
-                    /* JFIF specifies component ID 1 */
-                    JpegSetColorspaceSetComp(0, 0x01, 1, 1, 0, 0, 0);
-                    break;
+                m_write_JFIF_header = true; /* Write a JFIF marker */
+                m_num_components = 1;
+                /* JFIF specifies component ID 1 */
+                JpegSetColorspaceSetComp(0, 0x01, 1, 1, 0, 0, 0);
+                break;
 
                 case JColorSpace.JCS_RGB:
-                    m_write_Adobe_marker = true; /* write Adobe marker to flag RGB */
-                    m_num_components = 3;
-                    JpegSetColorspaceSetComp(0, 0x52 /* 'R' */, 1, 1, 0,
-                        color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0,
-                        color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0);
-                    JpegSetColorspaceSetComp(1, 0x47 /* 'G' */, 1, 1, 0, 0, 0);
-                    JpegSetColorspaceSetComp(2, 0x42 /* 'B' */, 1, 1, 0,
-                        color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0,
-                        color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0);
-                    break;
+                m_write_Adobe_marker = true; /* write Adobe marker to flag RGB */
+                m_num_components = 3;
+                JpegSetColorspaceSetComp(0, 0x52 /* 'R' */, 1, 1, 0,
+                    color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0,
+                    color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0);
+                JpegSetColorspaceSetComp(1, 0x47 /* 'G' */, 1, 1, 0, 0, 0);
+                JpegSetColorspaceSetComp(2, 0x42 /* 'B' */, 1, 1, 0,
+                    color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0,
+                    color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0);
+                break;
 
                 case JColorSpace.JCS_YCbCr:
-                    m_write_JFIF_header = true; /* Write a JFIF marker */
-                    m_num_components = 3;
-                    /* JFIF specifies component IDs 1,2,3 */
-                    /* We default to 2x2 subsamples of chrominance */
-                    JpegSetColorspaceSetComp(0, 0x01, 2, 2, 0, 0, 0);
-                    JpegSetColorspaceSetComp(1, 0x02, 1, 1, 1, 1, 1);
-                    JpegSetColorspaceSetComp(2, 0x03, 1, 1, 1, 1, 1);
-                    break;
+                m_write_JFIF_header = true; /* Write a JFIF marker */
+                m_num_components = 3;
+                /* JFIF specifies component IDs 1,2,3 */
+                /* We default to 2x2 subsamples of chrominance */
+                JpegSetColorspaceSetComp(0, 0x01, 2, 2, 0, 0, 0);
+                JpegSetColorspaceSetComp(1, 0x02, 1, 1, 1, 1, 1);
+                JpegSetColorspaceSetComp(2, 0x03, 1, 1, 1, 1, 1);
+                break;
 
                 case JColorSpace.JCS_CMYK:
-                    m_write_Adobe_marker = true; /* write Adobe marker to flag CMYK */
-                    m_num_components = 4;
-                    JpegSetColorspaceSetComp(0, 0x43 /* 'C' */, 1, 1, 0, 0, 0);
-                    JpegSetColorspaceSetComp(1, 0x4D /* 'M' */, 1, 1, 0, 0, 0);
-                    JpegSetColorspaceSetComp(2, 0x59 /* 'Y' */, 1, 1, 0, 0, 0);
-                    JpegSetColorspaceSetComp(3, 0x4B /* 'K' */, 1, 1, 0, 0, 0);
-                    break;
+                m_write_Adobe_marker = true; /* write Adobe marker to flag CMYK */
+                m_num_components = 4;
+                JpegSetColorspaceSetComp(0, 0x43 /* 'C' */, 1, 1, 0, 0, 0);
+                JpegSetColorspaceSetComp(1, 0x4D /* 'M' */, 1, 1, 0, 0, 0);
+                JpegSetColorspaceSetComp(2, 0x59 /* 'Y' */, 1, 1, 0, 0, 0);
+                JpegSetColorspaceSetComp(3, 0x4B /* 'K' */, 1, 1, 0, 0, 0);
+                break;
 
                 case JColorSpace.JCS_YCCK:
-                    m_write_Adobe_marker = true; /* write Adobe marker to flag YCCK */
-                    m_num_components = 4;
-                    JpegSetColorspaceSetComp(0, 0x01, 2, 2, 0, 0, 0);
-                    JpegSetColorspaceSetComp(1, 0x02, 1, 1, 1, 1, 1);
-                    JpegSetColorspaceSetComp(2, 0x03, 1, 1, 1, 1, 1);
-                    JpegSetColorspaceSetComp(3, 0x04, 2, 2, 0, 0, 0);
-                    break;
+                m_write_Adobe_marker = true; /* write Adobe marker to flag YCCK */
+                m_num_components = 4;
+                JpegSetColorspaceSetComp(0, 0x01, 2, 2, 0, 0, 0);
+                JpegSetColorspaceSetComp(1, 0x02, 1, 1, 1, 1, 1);
+                JpegSetColorspaceSetComp(2, 0x03, 1, 1, 1, 1, 1);
+                JpegSetColorspaceSetComp(3, 0x04, 2, 2, 0, 0, 0);
+                break;
 
                 case JColorSpace.JCS_BG_RGB:
-                    m_write_JFIF_header = true; /* Write a JFIF marker */
-                    JFIF_major_version = 2;   /* Set JFIF major version = 2 */
-                    m_num_components = 3;
-                    /* Add offset 0x20 to the normal R/G/B component IDs */
-                    JpegSetColorspaceSetComp(0, 0x72 /* 'r' */, 1, 1, 0,
-                        color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0,
-                        color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0);
-                    JpegSetColorspaceSetComp(1, 0x67 /* 'g' */, 1, 1, 0, 0, 0);
-                    JpegSetColorspaceSetComp(2, 0x62 /* 'b' */, 1, 1, 0,
-                        color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0,
-                        color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0);
-                    break;
+                m_write_JFIF_header = true; /* Write a JFIF marker */
+                JFIF_major_version = 2;   /* Set JFIF major version = 2 */
+                m_num_components = 3;
+                /* Add offset 0x20 to the normal R/G/B component IDs */
+                JpegSetColorspaceSetComp(0, 0x72 /* 'r' */, 1, 1, 0,
+                    color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0,
+                    color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0);
+                JpegSetColorspaceSetComp(1, 0x67 /* 'g' */, 1, 1, 0, 0, 0);
+                JpegSetColorspaceSetComp(2, 0x62 /* 'b' */, 1, 1, 0,
+                    color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0,
+                    color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0);
+                break;
 
                 case JColorSpace.JCS_BG_YCC:
-                    m_write_JFIF_header = true; /* Write a JFIF marker */
-                    JFIF_major_version = 2;   /* Set JFIF major version = 2 */
-                    m_num_components = 3;
-                    /* Add offset 0x20 to the normal Cb/Cr component IDs */
-                    /* We default to 2x2 subsamples of chrominance */
-                    JpegSetColorspaceSetComp(0, 0x01, 2, 2, 0, 0, 0);
-                    JpegSetColorspaceSetComp(1, 0x22, 1, 1, 1, 1, 1);
-                    JpegSetColorspaceSetComp(2, 0x23, 1, 1, 1, 1, 1);
-                    break;
+                m_write_JFIF_header = true; /* Write a JFIF marker */
+                JFIF_major_version = 2;   /* Set JFIF major version = 2 */
+                m_num_components = 3;
+                /* Add offset 0x20 to the normal Cb/Cr component IDs */
+                /* We default to 2x2 subsamples of chrominance */
+                JpegSetColorspaceSetComp(0, 0x01, 2, 2, 0, 0, 0);
+                JpegSetColorspaceSetComp(1, 0x22, 1, 1, 1, 1, 1);
+                JpegSetColorspaceSetComp(2, 0x23, 1, 1, 1, 1, 1);
+                break;
 
                 default:
-                    ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
-                    break;
+                ErrExit(JMessageCode.JERR_BAD_J_COLORSPACE);
+                break;
             }
         }
 
@@ -1123,7 +1123,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// Select an appropriate JPEG colorspace based on <see cref="JpegCompressStruct.In_color_space"/>,
         /// and calls <see cref="JpegCompressStruct.JpegSetColorspace"/>
         /// </summary>
-        /// <remarks>This is actually a subroutine of <see cref="JpegSetDefaults"/>. 
+        /// <remarks>This is actually a subroutine of <see cref="JpegSetDefaults"/>.
         /// It's broken out in case you want to change just the colorspace-dependent JPEG parameters.</remarks>
         /// <seealso href="../articles/KB/compression-parameter-selection.html">Compression parameter selection</seealso>
         public void JpegDefaultColorspace()
@@ -1131,34 +1131,34 @@ namespace BitMiracle.LibJpeg.Classic
             switch (m_in_color_space)
             {
                 case JColorSpace.JCS_UNKNOWN:
-                    JpegSetColorspace(JColorSpace.JCS_UNKNOWN);
-                    break;
+                JpegSetColorspace(JColorSpace.JCS_UNKNOWN);
+                break;
 
                 case JColorSpace.JCS_GRAYSCALE:
-                    JpegSetColorspace(JColorSpace.JCS_GRAYSCALE);
-                    break;
+                JpegSetColorspace(JColorSpace.JCS_GRAYSCALE);
+                break;
                 case JColorSpace.JCS_RGB:
-                    JpegSetColorspace(JColorSpace.JCS_YCbCr);
-                    break;
+                JpegSetColorspace(JColorSpace.JCS_YCbCr);
+                break;
                 case JColorSpace.JCS_YCbCr:
-                    JpegSetColorspace(JColorSpace.JCS_YCbCr);
-                    break;
+                JpegSetColorspace(JColorSpace.JCS_YCbCr);
+                break;
                 case JColorSpace.JCS_CMYK:
-                    JpegSetColorspace(JColorSpace.JCS_CMYK); /* By default, no translation */
-                    break;
+                JpegSetColorspace(JColorSpace.JCS_CMYK); /* By default, no translation */
+                break;
                 case JColorSpace.JCS_YCCK:
-                    JpegSetColorspace(JColorSpace.JCS_YCCK);
-                    break;
+                JpegSetColorspace(JColorSpace.JCS_YCCK);
+                break;
                 case JColorSpace.JCS_BG_RGB:
-                    /* No translation for now -- conversion to BG_YCC not yet supportet */
-                    JpegSetColorspace(JColorSpace.JCS_BG_RGB);
-                    break;
+                /* No translation for now -- conversion to BG_YCC not yet supportet */
+                JpegSetColorspace(JColorSpace.JCS_BG_RGB);
+                break;
                 case JColorSpace.JCS_BG_YCC:
-                    JpegSetColorspace(JColorSpace.JCS_BG_YCC);
-                    break;
+                JpegSetColorspace(JColorSpace.JCS_BG_YCC);
+                break;
                 default:
-                    ErrExit(JMessageCode.JERR_BAD_IN_COLORSPACE);
-                    break;
+                ErrExit(JMessageCode.JERR_BAD_IN_COLORSPACE);
+                break;
             }
         }
 
@@ -1166,13 +1166,13 @@ namespace BitMiracle.LibJpeg.Classic
         /// Constructs JPEG quantization tables appropriate for the indicated quality setting.
         /// </summary>
         /// <param name="quality">The quality value is expressed on the 0..100 scale recommended by IJG.</param>
-        /// <param name="force_baseline">If <c>true</c>, then the quantization table entries are constrained 
-        /// to the range 1..255 for full JPEG baseline compatibility. In the current implementation, 
-        /// this only makes a difference for quality settings below 25, and it effectively prevents 
-        /// very small/low quality files from being generated. The IJG decoder is capable of reading 
+        /// <param name="force_baseline">If <c>true</c>, then the quantization table entries are constrained
+        /// to the range 1..255 for full JPEG baseline compatibility. In the current implementation,
+        /// this only makes a difference for quality settings below 25, and it effectively prevents
+        /// very small/low quality files from being generated. The IJG decoder is capable of reading
         /// the non-baseline files generated at low quality settings when <c>force_baseline</c> is <c>false</c>,
         /// but other decoders may not be.</param>
-        /// <remarks>Note that the exact mapping from quality values to tables may change in future IJG releases 
+        /// <remarks>Note that the exact mapping from quality values to tables may change in future IJG releases
         /// as more is learned about DCT quantization.</remarks>
         /// <seealso href="../articles/KB/compression-parameter-selection.html">Compression parameter selection</seealso>
         public void JpegSetQuality(int quality, bool force_baseline)
@@ -1198,19 +1198,19 @@ namespace BitMiracle.LibJpeg.Classic
         }
 
         /// <summary>
-        /// Same as <see cref="JpegSetQuality"/> except that the generated tables are the 
-        /// sample tables given in the JPEG specification section K.1, multiplied by 
+        /// Same as <see cref="JpegSetQuality"/> except that the generated tables are the
+        /// sample tables given in the JPEG specification section K.1, multiplied by
         /// the specified scale factor.
         /// </summary>
         /// <param name="scale_factor">The scale_factor.</param>
-        /// <param name="force_baseline">If <c>true</c>, then the quantization table entries are 
-        /// constrained to the range 1..255 for full JPEG baseline compatibility. In the current 
-        /// implementation, this only makes a difference for quality settings below 25, and it 
-        /// effectively prevents very small/low quality files from being generated. The IJG decoder 
-        /// is capable of reading the non-baseline files generated at low quality settings when 
+        /// <param name="force_baseline">If <c>true</c>, then the quantization table entries are
+        /// constrained to the range 1..255 for full JPEG baseline compatibility. In the current
+        /// implementation, this only makes a difference for quality settings below 25, and it
+        /// effectively prevents very small/low quality files from being generated. The IJG decoder
+        /// is capable of reading the non-baseline files generated at low quality settings when
         /// <c>force_baseline</c> is <c>false</c>, but other decoders may not be.</param>
-        /// <remarks>Note that larger scale factors give lower quality. This entry point is 
-        /// useful for conforming to the Adobe PostScript DCT conventions, but we do not 
+        /// <remarks>Note that larger scale factors give lower quality. This entry point is
+        /// useful for conforming to the Adobe PostScript DCT conventions, but we do not
         /// recommend linear scaling as a user-visible quality scale otherwise.
         /// </remarks>
         /// <seealso href="../articles/KB/compression-parameter-selection.html">Compression parameter selection</seealso>
@@ -1226,12 +1226,12 @@ namespace BitMiracle.LibJpeg.Classic
         /// </summary>
         /// <param name="which_tbl">Indicates which table slot to fill.</param>
         /// <param name="basic_table">An array of 64 unsigned integers given in normal array order.
-        /// These values are multiplied by <c>scale_factor/100</c> and then clamped to the range 1..65535 
+        /// These values are multiplied by <c>scale_factor/100</c> and then clamped to the range 1..65535
         /// (or to 1..255 if <c>force_baseline</c> is <c>true</c>).<br/>
         /// The basic table should be given in JPEG zigzag order.
         /// </param>
         /// <param name="scale_factor">Multiplier for values in <c>basic_table</c>.</param>
-        /// <param name="force_baseline">Defines range of values in <c>basic_table</c>. 
+        /// <param name="force_baseline">Defines range of values in <c>basic_table</c>.
         /// If <c>true</c> - 1..255, otherwise - 1..65535.</param>
         /// <seealso href="../articles/KB/compression-parameter-selection.html">Compression parameter selection</seealso>
         public void JpegAddQuantTable(int which_tbl, int[] basic_table, int scale_factor, bool force_baseline)
@@ -1312,8 +1312,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// Generates a default scan script for writing a progressive-JPEG file.
         /// </summary>
-        /// <remarks>This is the recommended method of creating a progressive file, unless you want 
-        /// to make a custom scan sequence. You must ensure that the JPEG color space is 
+        /// <remarks>This is the recommended method of creating a progressive file, unless you want
+        /// to make a custom scan sequence. You must ensure that the JPEG color space is
         /// set correctly before calling this routine.</remarks>
         /// <seealso href="../articles/KB/compression-parameter-selection.html">Compression parameter selection</seealso>
         public void JpegSimpleProgression()
@@ -1440,7 +1440,7 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* (Re)initialize error mgr and destination modules */
-            err.ResetErrorMessage();
+            jpgError.ResetErrorMessage();
             m_dest.InitDestination();
 
             /* Perform master selection of active modules */
@@ -1462,12 +1462,12 @@ namespace BitMiracle.LibJpeg.Classic
         /// <param name="scanlines">The array of scanlines.</param>
         /// <param name="num_lines">The number of scanlines for writing.</param>
         /// <returns>The return value will be the number of lines actually written.<br/>
-        /// This should be less than the supplied <c>num_lines</c> only in case that 
-        /// the data destination module has requested suspension of the compressor, 
+        /// This should be less than the supplied <c>num_lines</c> only in case that
+        /// the data destination module has requested suspension of the compressor,
         /// or if more than image_height scanlines are passed in.
         /// </returns>
-        /// <remarks>We warn about excess calls to <c>jpeg_write_scanlines()</c> since this likely 
-        /// signals an application programmer error. However, excess scanlines passed in the last 
+        /// <remarks>We warn about excess calls to <c>jpeg_write_scanlines()</c> since this likely
+        /// signals an application programmer error. However, excess scanlines passed in the last
         /// valid call are "silently" ignored, so that the application need not adjust <c>num_lines</c>
         /// for end-of-image when using a multiple-scanline buffer.</remarks>
         /// <seealso href="../articles/KB/compression-details.html">Compression details</seealso>
@@ -1484,11 +1484,11 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* Call progress monitor hook if present */
-            if (progress != null)
+            if (prog != null)
             {
-                progress.PassCounter = m_next_scanline;
-                progress.PassLimit = m_image_height;
-                progress.Updated();
+                prog.PassCounter = m_next_scanline;
+                prog.PassLimit = m_image_height;
+                prog.Updated();
             }
 
             /* Give master control module another chance if this is first call to
@@ -1536,11 +1536,11 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* Call progress monitor hook if present */
-            if (progress != null)
+            if (prog != null)
             {
-                progress.PassCounter = m_next_scanline;
-                progress.PassLimit = m_image_height;
-                progress.Updated();
+                prog.PassCounter = m_next_scanline;
+                prog.PassLimit = m_image_height;
+                prog.Updated();
             }
 
             /* Give master control module another chance if this is first call to
@@ -1575,8 +1575,8 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// Compression initialization for writing raw-coefficient data. Useful for lossless transcoding.
         /// </summary>
-        /// <param name="coef_arrays">The virtual arrays need not be filled or even realized at the time 
-        /// <c>jpeg_write_coefficients</c> is called; indeed, the virtual arrays typically will be realized 
+        /// <param name="coef_arrays">The virtual arrays need not be filled or even realized at the time
+        /// <c>jpeg_write_coefficients</c> is called; indeed, the virtual arrays typically will be realized
         /// during this routine and filled afterwards.
         /// </param>
         /// <remarks>Before calling this, all parameters and a data destination must be set up.
@@ -1593,7 +1593,7 @@ namespace BitMiracle.LibJpeg.Classic
             JpegSuppressTables(false);
 
             /* (Re)initialize error mgr and destination modules */
-            err.ResetErrorMessage();
+            jpgError.ResetErrorMessage();
             m_dest.InitDestination();
 
             /* Perform master selection of active modules */
@@ -1772,7 +1772,7 @@ namespace BitMiracle.LibJpeg.Classic
         private void Initialize()
         {
             /* Zero out pointers to permanent structures. */
-            progress = null;
+            prog = null;
             m_dest = null;
             compInfo = null;
 
@@ -1839,7 +1839,7 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* Need a full-image coefficient buffer in any multi-pass mode. */
-            m_coef = new MyCCoefController(this, m_num_scans > 1 || optimizeCoding);
+            m_coef = new MyCCoefController(this, m_num_scans > 1 || optimizeEntropyCoding);
             JInitCMainController(false /* never need full buffer here */);
             m_marker = new JpegMarkerWriter(this);
 
@@ -1872,7 +1872,7 @@ namespace BitMiracle.LibJpeg.Classic
                 m_num_scans = 1;
             }
 
-            if (optimizeCoding)
+            if (optimizeEntropyCoding)
             {
                 arith_code = false; /* disable arithmetic coding */
             }
@@ -1881,7 +1881,7 @@ namespace BitMiracle.LibJpeg.Classic
             {
                 /* TEMPORARY HACK ??? */
                 /* assume default tables no good for progressive or reduced AC mode */
-                optimizeCoding = true; /* force Huffman optimization */
+                optimizeEntropyCoding = true; /* force Huffman optimization */
             }
 
             m_master = new JpegCompMaster(this, transcode_only);
@@ -1964,32 +1964,32 @@ namespace BitMiracle.LibJpeg.Classic
             switch (block_size)
             {
                 case 2:
-                    natural_order = JpegUtils.jpeg_natural_order2;
-                    break;
+                natural_order = JpegUtils.jpeg_natural_order2;
+                break;
 
                 case 3:
-                    natural_order = JpegUtils.jpeg_natural_order3;
-                    break;
+                natural_order = JpegUtils.jpeg_natural_order3;
+                break;
 
                 case 4:
-                    natural_order = JpegUtils.jpeg_natural_order4;
-                    break;
+                natural_order = JpegUtils.jpeg_natural_order4;
+                break;
 
                 case 5:
-                    natural_order = JpegUtils.jpeg_natural_order5;
-                    break;
+                natural_order = JpegUtils.jpeg_natural_order5;
+                break;
 
                 case 6:
-                    natural_order = JpegUtils.jpeg_natural_order6;
-                    break;
+                natural_order = JpegUtils.jpeg_natural_order6;
+                break;
 
                 case 7:
-                    natural_order = JpegUtils.jpeg_natural_order7;
-                    break;
+                natural_order = JpegUtils.jpeg_natural_order7;
+                break;
 
                 default:
-                    natural_order = JpegUtils.jpeg_natural_order;
-                    break;
+                natural_order = JpegUtils.jpeg_natural_order;
+                break;
             }
 
             /* Derive lim_Se from block_size */
@@ -2107,7 +2107,7 @@ namespace BitMiracle.LibJpeg.Classic
         }
 
         /// <summary>
-        /// Verify that the scan script in scan_info[] is valid; 
+        /// Verify that the scan script in scan_info[] is valid;
         /// also determine whether it uses progressive JPEG, and set progressive_mode.
         /// </summary>
         private void ValidateScript()
@@ -2190,25 +2190,18 @@ namespace BitMiracle.LibJpeg.Classic
                     * which might cause problems for some decoders.
                     */
                     const int MAX_AH_AL = 10;
-                    if (Ss < 0 || Ss >= JpegConstants.DCTSIZE2 || Se < Ss || Se >= JpegConstants.DCTSIZE2 ||
-                        Ah < 0 || Ah > MAX_AH_AL || Al < 0 || Al > MAX_AH_AL)
+                    if (Ss < 0
+                        || Ss >= JpegConstants.DCTSIZE2
+                        || Se < Ss
+                        || Se >= JpegConstants.DCTSIZE2
+                        || Ah < 0
+                        || Ah > MAX_AH_AL
+                        || Al < 0
+                        || Al > MAX_AH_AL
+                        || (Ss == 0 && Se != 0)        /* DC and AC together not OK */
+                        || (Ss != 0 && ncomps != 1))    /* AC scans must be for only one component */
                     {
                         ErrExit(JMessageCode.JERR_BAD_PROG_SCRIPT, scanno);
-                    }
-
-                    if (Ss == 0)
-                    {
-                        if (Se != 0)        /* DC and AC together not OK */
-                        {
-                            ErrExit(JMessageCode.JERR_BAD_PROG_SCRIPT, scanno);
-                        }
-                    }
-                    else
-                    {
-                        if (ncomps != 1)    /* AC scans must be for only one component */
-                        {
-                            ErrExit(JMessageCode.JERR_BAD_PROG_SCRIPT, scanno);
-                        }
                     }
 
                     for (var ci = 0; ci < ncomps; ci++)

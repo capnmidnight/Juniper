@@ -43,8 +43,13 @@ namespace Juniper.HTTP
 
         protected AbstractRouteHandler(string name, RouteAttribute route, object source, MethodInfo method)
         {
+            if (route is null)
+            {
+                throw new ArgumentNullException(nameof(route));
+            }
+
             this.name = name;
-            pattern = route.pattern;
+            pattern = route.Pattern;
             regexSource = pattern.ToString();
             parameterCount = pattern.GetGroupNames().Length;
             priority = route.Priority;

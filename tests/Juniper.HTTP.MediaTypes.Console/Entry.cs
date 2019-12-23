@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Juniper.MediaTypes
 {
-    public class Entry
+    internal class Entry
     {
         public readonly Group Group;
         public readonly string Value;
@@ -25,19 +25,21 @@ namespace Juniper.MediaTypes
             }
         }
 
-        public void Write(StreamWriter writer)
+        public void Write(TextWriter writer)
         {
             if (!string.IsNullOrEmpty(DeprecationMessage))
             {
                 writer.WriteLine();
                 writer.WriteLine("            [System.Obsolete(\"{0}\")]", DeprecationMessage);
             }
+
             var shortName = Value.Substring(Group.ClassName.Length + 1);
             writer.Write("            public static readonly {0} {1} = new {0}(\"{2}\"", Group.ClassName, FieldName, shortName);
             if (Extensions != null)
             {
                 writer.Write(", new string[] {{{0}}}", string.Join(", ", Extensions.Select(e => $"\"{e}\"")));
             }
+
             writer.WriteLine(");");
 
             if (DeprecationMessage != null)

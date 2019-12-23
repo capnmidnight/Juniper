@@ -33,7 +33,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             if (transcode_only)
             {
                 /* no main pass in transcoding */
-                if (cinfo.optimizeCoding)
+                if (cinfo.optimizeEntropyCoding)
                 {
                     m_pass_type = PassType.HuffmanOptimization;
                 }
@@ -48,7 +48,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 m_pass_type = PassType.Main;
             }
 
-            if (cinfo.optimizeCoding)
+            if (cinfo.optimizeEntropyCoding)
             {
                 m_total_passes = cinfo.m_num_scans * 2;
             }
@@ -94,10 +94,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             m_is_last_pass = (m_pass_number == m_total_passes - 1);
 
             /* Set up progress monitor's pass info if present */
-            if (m_cinfo.progress != null)
+            if (m_cinfo.prog != null)
             {
-                m_cinfo.progress.CompletedPasses = m_pass_number;
-                m_cinfo.progress.TotalPasses = m_total_passes;
+                m_cinfo.prog.CompletedPasses = m_pass_number;
+                m_cinfo.prog.TotalPasses = m_total_passes;
             }
         }
 
@@ -138,7 +138,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     * or output of scan 1 (if no optimization).
                     */
                     m_pass_type = PassType.Output;
-                    if (!m_cinfo.optimizeCoding)
+                    if (!m_cinfo.optimizeEntropyCoding)
                     {
                         m_scan_number++;
                     }
@@ -150,7 +150,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     break;
                 case PassType.Output:
                     /* next pass is either optimization or output of next scan */
-                    if (m_cinfo.optimizeCoding)
+                    if (m_cinfo.optimizeEntropyCoding)
                     {
                         m_pass_type = PassType.HuffmanOptimization;
                     }
@@ -187,11 +187,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             m_cinfo.m_fdct.StartPass();
-            m_cinfo.m_entropy.StartPass(m_cinfo.optimizeCoding);
+            m_cinfo.m_entropy.StartPass(m_cinfo.optimizeEntropyCoding);
             m_cinfo.m_coef.StartPass(m_total_passes > 1 ? JBufMode.SaveAndPass : JBufMode.PassThrough);
             m_cinfo.m_main.start_pass(JBufMode.PassThrough);
 
-            if (m_cinfo.optimizeCoding)
+            if (m_cinfo.optimizeEntropyCoding)
             {
                 /* No immediate data output; postpone writing frame/scan headers */
                 m_call_pass_startup = false;
@@ -229,7 +229,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         {
             /* Do a data-output pass. */
             /* We need not repeat per-scan setup if prior optimization pass did it. */
-            if (!m_cinfo.optimizeCoding)
+            if (!m_cinfo.optimizeEntropyCoding)
             {
                 SelectScanParameters();
                 PerScanSetup();

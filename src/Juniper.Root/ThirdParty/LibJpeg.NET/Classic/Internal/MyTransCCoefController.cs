@@ -182,16 +182,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 m_MCU_rows_per_iMCU_row = 1;
             }
+            else if (m_iMCU_row_num < (m_cinfo.m_total_iMCU_rows - 1))
+            {
+                m_MCU_rows_per_iMCU_row = m_cinfo.Component_info[m_cinfo.m_cur_comp_info[0]].V_samp_factor;
+            }
             else
             {
-                if (m_iMCU_row_num < (m_cinfo.m_total_iMCU_rows - 1))
-                {
-                    m_MCU_rows_per_iMCU_row = m_cinfo.Component_info[m_cinfo.m_cur_comp_info[0]].V_samp_factor;
-                }
-                else
-                {
-                    m_MCU_rows_per_iMCU_row = m_cinfo.Component_info[m_cinfo.m_cur_comp_info[0]].last_row_height;
-                }
+                m_MCU_rows_per_iMCU_row = m_cinfo.Component_info[m_cinfo.m_cur_comp_info[0]].last_row_height;
             }
 
             m_mcu_ctr = 0;

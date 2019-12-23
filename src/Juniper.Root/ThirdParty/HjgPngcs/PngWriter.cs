@@ -158,7 +158,8 @@ namespace Hjg.Pngcs
                 histox[i] = 0;
             }
 
-            int s = 0, v;
+            var s = 0;
+            int v;
             for (var i = 1; i <= ImgInfo.BytesPerRow; i++)
             {
                 v = rowbfilter[i];
@@ -373,27 +374,27 @@ namespace Hjg.Pngcs
             switch (filterType)
             {
                 case Hjg.Pngcs.FilterType.FILTER_NONE:
-                    FilterRowNone();
-                    break;
+                FilterRowNone();
+                break;
 
                 case Hjg.Pngcs.FilterType.FILTER_SUB:
-                    FilterRowSub();
-                    break;
+                FilterRowSub();
+                break;
 
                 case Hjg.Pngcs.FilterType.FILTER_UP:
-                    FilterRowUp();
-                    break;
+                FilterRowUp();
+                break;
 
                 case Hjg.Pngcs.FilterType.FILTER_AVERAGE:
-                    FilterRowAverage();
-                    break;
+                FilterRowAverage();
+                break;
 
                 case Hjg.Pngcs.FilterType.FILTER_PAETH:
-                    FilterRowPaeth();
-                    break;
+                FilterRowPaeth();
+                break;
 
                 default:
-                    throw new PngjOutputException("Filter type " + filterType + " not implemented");
+                throw new PngjOutputException("Filter type " + filterType + " not implemented");
             }
             ReportResultsForFilter(rown, filterType, false);
         }
@@ -425,8 +426,9 @@ namespace Hjg.Pngcs
 
         private void FilterRowAverage()
         {
-            int i, j, imax;
-            imax = ImgInfo.BytesPerRow;
+            int i;
+            int j;
+            var imax = ImgInfo.BytesPerRow;
             for (j = 1 - ImgInfo.BytesPixel, i = 1; i <= imax; i++, j++)
             {
                 rowbfilter[i] = (byte)(rowb[i] - ((rowbprev[i] + (j > 0 ? rowb[j] : 0)) / 2));
@@ -443,8 +445,9 @@ namespace Hjg.Pngcs
 
         private void FilterRowPaeth()
         {
-            int i, j, imax;
-            imax = ImgInfo.BytesPerRow;
+            int i;
+            int j;
+            var imax = ImgInfo.BytesPerRow;
             for (j = 1 - ImgInfo.BytesPixel, i = 1; i <= imax; i++, j++)
             {
                 rowbfilter[i] = (byte)(rowb[i] - PngHelperInternal.FilterPaethPredictor(j > 0 ? rowb[j] : 0,
@@ -454,12 +457,12 @@ namespace Hjg.Pngcs
 
         private void FilterRowSub()
         {
-            int i, j;
-            for (i = 1; i <= ImgInfo.BytesPixel; i++)
+            for (var i = 1; i <= ImgInfo.BytesPixel; i++)
             {
                 rowbfilter[i] = rowb[i];
             }
-            for (j = 1, i = ImgInfo.BytesPixel + 1; i <= ImgInfo.BytesPerRow; i++, j++)
+
+            for (int j = 1, i = ImgInfo.BytesPixel + 1; i <= ImgInfo.BytesPerRow; i++, j++)
             {
                 rowbfilter[i] = (byte)(rowb[i] - rowb[j]);
             }
@@ -487,7 +490,7 @@ namespace Hjg.Pngcs
                 throw new PngjException("tried to copy last chunks but reader has not ended");
             }
 
-            foreach (var chunk in reader.GetChunksList().GetChunks())
+            foreach (var chunk in reader.GetChunksList().Chunks)
             {
                 var group = chunk.ChunkGroup;
                 if (group < ChunksList.CHUNK_GROUP_4_IDAT && idatDone)

@@ -16,7 +16,9 @@ namespace Juniper.OpenGL
     {
         public static implicit operator int(GLHandle obj)
         {
-            return obj.handle;
+            return obj is null
+                ? -1
+                : obj.handle;
         }
 
         private readonly int handle;

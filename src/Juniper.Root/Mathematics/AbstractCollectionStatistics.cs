@@ -107,8 +107,7 @@ namespace Juniper.Mathematics
         }
 
         /// <summary>
-        /// Gets a value indicating whether this <see
-        /// cref="T:Juniper.Statistics.AbstractCollectionStatistics`1"/> is read only.
+        /// Gets a value indicating whether this collection is read only.
         /// </summary>
         /// <value><c>true</c> if is read only; otherwise, <c>false</c>.</value>
         public bool IsReadOnly

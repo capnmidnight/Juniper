@@ -99,7 +99,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 rowgroup_height[ci] = v_out_group; /* save for use later */
                 if (h_in_group == h_out_group && v_in_group == v_out_group)
                 {
-                    if (cinfo.smoothingFactor != 0)
+                    if (cinfo.inputSmoothingFactor != 0)
                     {
                         m_downSamplers[ci] = DownSampleMethod.fullsize_smooth_downsampler;
                         m_need_context_rows = true;
@@ -116,7 +116,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 }
                 else if (h_in_group == h_out_group * 2 && v_in_group == v_out_group * 2)
                 {
-                    if (cinfo.smoothingFactor != 0)
+                    if (cinfo.inputSmoothingFactor != 0)
                     {
                         m_downSamplers[ci] = DownSampleMethod.h2v2_smooth_downsampler;
                         m_need_context_rows = true;
@@ -139,7 +139,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 }
             }
 
-            if (cinfo.smoothingFactor != 0 && !smoothok)
+            if (cinfo.inputSmoothingFactor != 0 && !smoothok)
             {
                 cinfo.TraceMS(0, JMessageCode.JTRC_SMOOTH_NOTIMPL);
             }
@@ -351,8 +351,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * Also recall that SF = smoothing_factor / 1024.
              */
 
-            var memberscale = 16384 - (m_cinfo.smoothingFactor * 80); /* scaled (1-5*SF)/4 */
-            var neighscale = m_cinfo.smoothingFactor * 16; /* scaled SF/4 */
+            var memberscale = 16384 - (m_cinfo.inputSmoothingFactor * 80); /* scaled (1-5*SF)/4 */
+            var neighscale = m_cinfo.inputSmoothingFactor * 16; /* scaled SF/4 */
 
             var inrow = 0;
             for (var outrow = 0; inrow < m_cinfo.m_max_v_samp_factor; outrow++)
@@ -482,8 +482,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * Also recall that SF = smoothing_factor / 1024.
              */
 
-            var memberscale = 65536 - (m_cinfo.smoothingFactor * 512); /* scaled 1-8*SF */
-            var neighscale = m_cinfo.smoothingFactor * 64; /* scaled SF */
+            var memberscale = 65536 - (m_cinfo.inputSmoothingFactor * 512); /* scaled 1-8*SF */
+            var neighscale = m_cinfo.inputSmoothingFactor * 64; /* scaled SF */
 
             for (var outrow = 0; outrow < m_cinfo.m_max_v_samp_factor; outrow++)
             {

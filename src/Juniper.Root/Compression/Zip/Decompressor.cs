@@ -15,7 +15,7 @@ namespace Juniper.Compression.Zip
         {
             if (!file.Exists)
             {
-                throw new FileNotFoundException("File not found!", file.FullName);
+                throw new FileNotFoundException(file.FullName);
             }
             else
             {

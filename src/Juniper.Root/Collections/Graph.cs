@@ -8,13 +8,20 @@ using Juniper.IO;
 
 namespace Juniper.Collections
 {
-    [Serializable]
-    public class Graph<NodeT> : ISaveable<Graph<NodeT>>
-        where NodeT : IComparable<NodeT>
+    public abstract class Graph
     {
-        public static Graph<NodeT> Load(FileInfo file)
+        public static Graph<NodeT> Load<NodeT>(FileInfo file)
+            where NodeT : IComparable<NodeT>
         {
-            if (MediaType.Application.Json.Matches(file))
+            if (file is null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+            else if (!file.Exists)
+            {
+                throw new FileNotFoundException(file.FullName);
+            }
+            else if (MediaType.Application.Json.Matches(file))
             {
                 var json = new JsonFactory<Graph<NodeT>>();
                 using (var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -36,11 +43,17 @@ namespace Juniper.Collections
             }
         }
 
-        public static Graph<NodeT> Load(string path)
+        public static Graph<NodeT> Load<NodeT>(string path)
+            where NodeT : IComparable<NodeT>
         {
-            return Load(new FileInfo(path));
+            return Load<NodeT>(new FileInfo(path));
         }
+    }
 
+    [Serializable]
+    public class Graph<NodeT> : ISaveable<Graph<NodeT>>
+        where NodeT : IComparable<NodeT>
+    {
         private readonly Dictionary<NodeT, int> nodes;
         private readonly List<Route<NodeT>> connections;
         private Route<NodeT>[,] network;
@@ -127,11 +140,11 @@ namespace Juniper.Collections
                 {
                     case nameof(namedNodes):
                     case "namedEndPoints":
-                        namedNodes = info.GetValue<Dictionary<string, NodeT>>(pair.Name);
-                        break;
+                    namedNodes = info.GetValue<Dictionary<string, NodeT>>(pair.Name);
+                    break;
                     case nameof(dirty):
-                        dirty = info.GetBoolean(nameof(dirty));
-                        break;
+                    dirty = info.GetBoolean(nameof(dirty));
+                    break;
                 }
             }
 

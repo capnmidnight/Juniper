@@ -12,7 +12,7 @@ namespace Juniper.IO
     {
         bool IsCached(ContentReference fileRef);
 
-        Task<Stream> Open(ContentReference fileRef, IProgress prog);
+        Task<Stream> GetStreamAsync(ContentReference fileRef, IProgress prog);
 
         IEnumerable<ContentReference> Get(MediaType ofType);
     }
@@ -23,7 +23,7 @@ namespace Juniper.IO
             this ICacheSourceLayer layer,
             ContentReference fileRef)
         {
-            return layer.Open(fileRef, null);
+            return layer.GetStreamAsync(fileRef, null);
         }
 
         public static async Task<ResultT> Load<ResultT>(
@@ -44,7 +44,7 @@ namespace Juniper.IO
 
             var progs = prog.Split("Read", "Decode");
             var stream = await layer
-                .Open(fileRef, progs[0])
+                .GetStreamAsync(fileRef, progs[0])
                 .ConfigureAwait(false);
             if (stream == null)
             {
@@ -83,7 +83,7 @@ namespace Juniper.IO
             ContentReference fileRef)
         {
             var stream = await layer
-                .Open(fileRef, null)
+                .GetStreamAsync(fileRef, null)
                 .ConfigureAwait(false);
             await stream
                 .Proxy(response)

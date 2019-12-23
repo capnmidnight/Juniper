@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 
 using Juniper.HTTP.WebSockets;
@@ -8,39 +9,44 @@ using static System.Console;
 
 namespace Juniper.HTTP
 {
-    public class Program
+    public static class Program
     {
-        private static readonly List<WebSocketConnection> sockets = new List<WebSocketConnection>();
-
         public static void Main()
         {
-            var server = new HttpServer
+            using (var server = new HttpServer
             {
                 HttpPort = 8080,
                 ListenerCount = 10
-            };
+            })
+            {
+                server.Info += Server_Info;
+                server.Warning += Server_Warning;
+                server.Error += Server_Error;
 
-            server.Info += Server_Info;
-            server.Warning += Server_Warning;
-            server.Error += Server_Error;
+                server.AddRoutesFrom(new DefaultFileController("content"));
+                server.AddRoutesFrom(typeof(Program));
 
-            server.AddRoutesFrom(new DefaultFileController("content"));
-            server.AddRoutesFrom<Program>();
-
-            server.Start();
+                server.Start();
 
 #if DEBUG
-            server.StartBrowser("index.html");
+                server.StartBrowser("index.html");
 #endif
+            }
         }
 
         [Route("connect/")]
-        public static Task AcceptWebSocket(WebSocketConnection socket)
+        public static Task AcceptWebSocketAsync(WebSocketConnection socket)
         {
-            sockets.Add(socket);
-            socket.Message += Socket_Message;
-            socket.Error += Socket_Error;
-            WriteLine("Got socket");
+            if (socket != null)
+            {
+                socket.Message += Socket_Message;
+                socket.Error += Socket_Error;
+                var code = socket
+                    .GetHashCode()
+                    .ToString(CultureInfo.InvariantCulture);
+                WriteLine($"Got socket {code}");
+            }
+
             return Task.CompletedTask;
         }
 

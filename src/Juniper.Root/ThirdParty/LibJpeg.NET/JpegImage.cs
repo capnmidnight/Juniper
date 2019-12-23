@@ -65,7 +65,7 @@ namespace BitMiracle.LibJpeg
         /// <summary>
         /// Creates <see cref="JpegImage"/> from file with an arbitrary image
         /// </summary>
-        /// <param name="fileName">Path to file with image in 
+        /// <param name="fileName">Path to file with image in
         /// arbitrary format (BMP, Jpeg, GIF, PNG, TIFF, e.t.c)</param>
         public JpegImage(string fileName)
         {
@@ -74,9 +74,9 @@ namespace BitMiracle.LibJpeg
                 throw new ArgumentNullException(nameof(fileName));
             }
 
-            using (var input = new FileStream(fileName, FileMode.Open))
+            using (var fileStream = new FileStream(fileName, FileMode.Open))
             {
-                CreateFromStream(input);
+                CreateFromStream(fileStream);
             }
         }
 #endif
@@ -84,7 +84,7 @@ namespace BitMiracle.LibJpeg
         /// <summary>
         /// Creates <see cref="JpegImage"/> from stream with an arbitrary image data
         /// </summary>
-        /// <param name="imageData">Stream containing bytes of image in 
+        /// <param name="imageData">Stream containing bytes of image in
         /// arbitrary format (BMP, Jpeg, GIF, PNG, TIFF, e.t.c)</param>
         public JpegImage(Stream imageData)
         {
@@ -132,7 +132,7 @@ namespace BitMiracle.LibJpeg
         /// </summary>
         /// <param name="bitmap">Source .NET bitmap.</param>
         /// <returns>Created instance of <see cref="JpegImage"/> class.</returns>
-        /// <remarks>Same as corresponding <see cref="M:BitMiracle.LibJpeg.JpegImage.#ctor(System.Drawing.Bitmap)">constructor</see>.</remarks>
+        /// <remarks>Same as corresponding <see cref="BitMiracle.LibJpeg.JpegImage.#ctor(System.Drawing.Bitmap)">constructor</see>.</remarks>
         public static JpegImage FromBitmap(Bitmap bitmap)
         {
             return new JpegImage(bitmap);
@@ -168,7 +168,7 @@ namespace BitMiracle.LibJpeg
                 m_compressionParameters = null;
                 m_compressedData = null;
                 m_decompressedData = null;
-#if !NETSTANDARD                
+#if !NETSTANDARD
                 m_bitmap = null;
 #endif
                 m_rows = null;
@@ -340,11 +340,6 @@ namespace BitMiracle.LibJpeg
 
         private void CreateFromStream(Stream imageData)
         {
-            if (imageData == null)
-            {
-                throw new ArgumentNullException(nameof(imageData));
-            }
-
             if (IsCompressed(imageData))
             {
                 m_compressedData = Utils.CopyStream(imageData);

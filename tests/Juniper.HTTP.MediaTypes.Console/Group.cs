@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Juniper.MediaTypes
 {
-    public class Group
+    internal class Group
     {
         public readonly string typeFileName;
         public readonly string valuesFileName;

@@ -42,7 +42,7 @@ namespace Juniper.IO
             return new CachingStream(stream, outStream);
         }
 
-        public Task<Stream> Open(ContentReference fileRef, IProgress prog)
+        public Task<Stream> GetStreamAsync(ContentReference fileRef, IProgress prog)
         {
             Stream stream = null;
             if (IsCached(fileRef))

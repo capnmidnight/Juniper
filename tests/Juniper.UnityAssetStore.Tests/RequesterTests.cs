@@ -142,7 +142,7 @@ namespace Juniper.UnityAssetStore.Tests
         [TestMethod]
         public async Task GetDownloads()
         {
-            _ = await req
+            _ = await Requester
                 .GetDownloads("sean.mcbeth@gmail.com", "RzKuj0fd9f", "")
                 .ConfigureAwait(false);
         }

@@ -21,27 +21,27 @@ namespace Juniper.XR
         /// <summary>
         /// Apple smartphones and tablets.
         /// </summary>
-        IOS = 2,
+        IOS = 1 << 1,
 
         /// <summary>
         /// PC desktop systems, either Windows, Linux or Mac.
         /// </summary>
-        Standalone = 4,
+        Standalone = 1 << 2,
 
         /// <summary>
         /// Windows PC desktop systems, Windows Mixed Reality, and Windows smartphones.
         /// </summary>
-        UWP = 8,
+        UWP = 1 << 3,
 
         /// <summary>
         /// The Magic Leap.
         /// </summary>
-        LuminOS = 16,
+        LuminOS = 1 << 4,
 
         /// <summary>
         /// Running in web browsers.
         /// </summary>
-        WebGL = 32
+        WebGL = 1 << 5
     }
 
     /// <summary>
@@ -63,7 +63,7 @@ namespace Juniper.XR
         /// <summary>
         /// Screens setup for 3D viewing.
         /// </summary>
-        Stereo = 2
+        Stereo = 1 << 1
     }
 
     /// <summary>
@@ -85,7 +85,7 @@ namespace Juniper.XR
         /// <summary>
         /// A camera feed and graphics rendered on an LCD.
         /// </summary>
-        PassthroughCamera = 2
+        PassthroughCamera = 1 << 1
     }
 
     /// <summary>
@@ -109,22 +109,22 @@ namespace Juniper.XR
         /// <summary>
         /// Two
         /// </summary>
-        Option2 = 2,
+        Option2 = 1 << 1,
 
         /// <summary>
         /// Three
         /// </summary>
-        Option3 = 4,
+        Option3 = 1 << 2,
 
         /// <summary>
         /// Four
         /// </summary>
-        Option4 = 8,
+        Option4 = 1 << 3,
 
         /// <summary>
         /// Five
         /// </summary>
-        Option5 = 16,
+        Option5 = 1 << 4,
     }
 
     /// <summary>

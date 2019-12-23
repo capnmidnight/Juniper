@@ -26,7 +26,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            ChunkRaw c = CreateEmptyChunk(1, true);
+            var c = CreateEmptyChunk(1, true);
             c.Data[0] = (byte)Intent;
             return c;
         }

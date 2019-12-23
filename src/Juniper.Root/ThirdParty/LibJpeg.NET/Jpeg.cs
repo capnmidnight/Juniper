@@ -25,7 +25,7 @@ namespace BitMiracle.LibJpeg
             }
             set
             {
-                m_compressionParameters = value ?? throw new ArgumentNullException("value");
+                m_compressionParameters = value ?? throw new ArgumentNullException(nameof(value));
             }
         }
 
@@ -40,7 +40,7 @@ namespace BitMiracle.LibJpeg
             }
             set
             {
-                m_decompressionParameters = value ?? throw new ArgumentNullException("value");
+                m_decompressionParameters = value ?? throw new ArgumentNullException(nameof(value));
             }
         }
 

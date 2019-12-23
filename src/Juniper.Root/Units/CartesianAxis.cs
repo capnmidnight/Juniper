@@ -42,7 +42,7 @@ namespace Juniper.Units
         /// <summary>
         /// The vertical axis
         /// </summary>
-        Y = 2,
+        Y = 1 << 1,
 
         /// <summary>
         /// The horizontal and vertical axes
@@ -52,7 +52,7 @@ namespace Juniper.Units
         /// <summary>
         /// The depth axis
         /// </summary>
-        Z = 4,
+        Z = 1 << 2,
 
         /// <summary>
         /// The horizontal and depth axes

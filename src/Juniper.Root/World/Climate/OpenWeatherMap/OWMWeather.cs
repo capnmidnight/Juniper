@@ -64,11 +64,11 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// full URL to the <see cref="icon"/> on OpenWeatherMap's server.
         /// </summary>
         /// <value>The icon URL.</value>
-        public string IconURL
+        public Uri IconURL
         {
             get
             {
-                return $"http://openweathermap.org/img/w/{icon}.png";
+                return new Uri($"http://openweathermap.org/img/w/{icon}.png");
             }
         }
 

@@ -363,6 +363,9 @@ namespace System.Collections.Generic
             return enumer.Select(ValueToString<T>).ToString(sep);
         }
 
-        private static string ValueToString<T>(T value) { return value.ToString(); }
+        private static string ValueToString<T>(T value)
+        {
+            return value.ToString();
+        }
     }
 }

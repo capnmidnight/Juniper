@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Juniper.OpenGL
 {
     [Serializable]
-    internal class ShaderError : Exception
+    public class ShaderError : Exception
     {
         public ShaderError()
         {

@@ -29,7 +29,7 @@ namespace Juniper.VideoDownloader
                 if (Status != lastStatus)
                 {
                     lastStatus = Status;
-                    for (int i = 0; i < lastStatus.Length; ++i)
+                    for (var i = 0; i < lastStatus.Length; ++i)
                     {
                         Write('\b');
                     }

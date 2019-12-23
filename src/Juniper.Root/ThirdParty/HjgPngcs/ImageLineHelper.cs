@@ -191,7 +191,18 @@ namespace Hjg.Pngcs
 
         public static int ClampTo_0_255(int i)
         {
-            return i > 255 ? 255 : (i < 0 ? 0 : i);
+            if (i > 255)
+            {
+                return 255;
+            }
+            else if (i < 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return i;
+            }
         }
 
         /**
@@ -200,17 +211,50 @@ namespace Hjg.Pngcs
 
         public static double ClampDouble(double i)
         {
-            return i < 0 ? 0 : (i >= 1 ? 0.999999 : i);
+            if (i < 0)
+            {
+                return 0;
+            }
+            else if (i >= 1)
+            {
+                return 0.999999;
+            }
+            else
+            {
+                return i;
+            }
         }
 
         public static int ClampTo_0_65535(int i)
         {
-            return i > 65535 ? 65535 : (i < 0 ? 0 : i);
+            if (i > 65535)
+            {
+                return 65535;
+            }
+            else if (i < 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return i;
+            }
         }
 
         public static int ClampTo_128_127(int x)
         {
-            return x > 127 ? 127 : (x < -128 ? -128 : x);
+            if (x > 127)
+            {
+                return 127;
+            }
+            else if (x < -128)
+            {
+                return -128;
+            }
+            else
+            {
+                return x;
+            }
         }
 
         public static int[] Unpack(ImageInfo imgInfo, int[] src, int[] dst, bool scale)

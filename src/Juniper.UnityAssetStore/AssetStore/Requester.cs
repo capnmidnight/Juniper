@@ -246,13 +246,14 @@ namespace Juniper.UnityAssetStore
             return Search(parameters, null);
         }
 
-        public async Task<AssetDownload[]> GetDownloads(string userName, string password, string token, IProgress prog = null)
+        public static async Task<AssetDownload[]> GetDownloads(string userName, string password, string token, IProgress prog = null)
         {
-            var req = HttpWebRequestExt.Create($"https://assetstore.unity.com/auth/login?redirect_to=%2F");
-            req.Header("Accept-Langage", "en-US,en;q=0.9");
-            req.Header("Accept-Encoding", "gzip, deflate, br");
+            var req = HttpWebRequestExt.Create($"https://assetstore.unity.com/auth/login?redirect_to=%2F")
+                .Header("Accept-Langage", "en-US,en;q=0.9")
+                .Header("Accept-Encoding", "gzip, deflate, br")
+                .DoNotTrack();
+
             req.KeepAlive = true;
-            req.DoNotTrack();
             req.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36";
             req.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3";
 

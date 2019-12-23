@@ -9,6 +9,16 @@ namespace Juniper.OpenGL
 
         public ShaderBinding(Program program, Shader shader)
         {
+            if (program is null)
+            {
+                throw new ArgumentNullException(nameof(program));
+            }
+
+            if (shader is null)
+            {
+                throw new ArgumentNullException(nameof(shader));
+            }
+
             this.program = program;
             this.shader = shader;
             program.Attach(shader);
