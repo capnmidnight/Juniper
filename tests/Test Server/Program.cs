@@ -11,7 +11,7 @@ namespace Juniper.HTTP
 {
     public static class Program
     {
-        public static void Main()
+        public static async Task Main()
         {
             using (var server = new HttpServer
             {
@@ -31,6 +31,11 @@ namespace Juniper.HTTP
 #if DEBUG
                 server.StartBrowser("index.html");
 #endif
+
+                while (server.IsRunning)
+                {
+                    await Task.Yield();
+                }
             }
         }
 

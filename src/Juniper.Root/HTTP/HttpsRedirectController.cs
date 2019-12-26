@@ -5,14 +5,13 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP
 {
-    public sealed class HttpsRedirectController
+    public sealed class HttpsRedirectController : AbstractRouteHandler
     {
-        private HttpsRedirectController() { }
+        private HttpsRedirectController()
+            : base(null, int.MinValue + 1, HttpProtocols.HTTP, HttpMethods.All)
+        { }
 
-        [Route(".*",
-            Priority = int.MinValue,
-            Protocol = HttpProtocols.HTTP)]
-        public static Task Redirect(HttpListenerContext context)
+        public override Task InvokeAsync(HttpListenerContext context)
         {
             var secureUrl = new UriBuilder(context.Request.Url)
             {

@@ -15,75 +15,41 @@ namespace Juniper.HTTP
         IComparable,
         IComparable<AbstractRouteHandler>
     {
-        public readonly HttpProtocols Protocol;
-
-        protected readonly Regex pattern;
-
-        private readonly string regexSource;
-        private readonly int parameterCount;
         private readonly string name;
-
         private readonly int priority;
         private readonly HttpMethods verb;
-
-        private readonly object source;
-        private readonly MethodInfo method;
 
         public AuthenticationSchemes Authentication { get; }
 
         public bool Continue { get; }
 
-        protected AbstractRouteHandler()
-        { }
+        public HttpProtocols Protocol { get; }
 
-        protected AbstractRouteHandler(string name, RouteAttribute route, object source, MethodInfo method)
+        protected AbstractRouteHandler(
+            string name = null,
+            int priority = 0,
+            HttpProtocols protocol = HttpProtocols.All,
+            HttpMethods verb = HttpMethods.GET,
+            bool continueRouting = false,
+            AuthenticationSchemes authentication = AuthenticationSchemes.Anonymous)
         {
-            if (route is null)
-            {
-                throw new ArgumentNullException(nameof(route));
-            }
-
-            this.name = name;
-            pattern = route.Pattern;
-            regexSource = pattern.ToString();
-            parameterCount = pattern.GetGroupNames().Length;
-            priority = route.Priority;
-            Protocol = route.Protocol;
-            verb = route.Method;
-            Continue = route.Continue;
-            Authentication = route.Authentication;
-            this.source = source;
-            this.method = method;
+            this.name = name ?? GetType().Name;
+            this.priority = priority;
+            this.verb = verb;
+            Protocol = protocol;
+            Continue = continueRouting;
+            Authentication = authentication;
         }
 
         public virtual bool IsMatch(HttpListenerRequest request)
         {
-            var urlMatch = pattern.Match(request.Url.PathAndQuery);
-            return urlMatch.Success
-                && urlMatch.Groups.Count == parameterCount
-                && Enum.TryParse<HttpProtocols>(request.Url.Scheme, true, out var protocol)
+            return Enum.TryParse<HttpProtocols>(request.Url.Scheme, true, out var protocol)
                 && Enum.TryParse<HttpMethods>(request.HttpMethod, true, out var verb)
                 && (Protocol & protocol) != 0
                 && (this.verb & verb) != 0;
         }
 
-        internal abstract Task InvokeAsync(HttpListenerContext context);
-
-        protected Task InvokeAsync(object[] args)
-        {
-            return (Task)method.Invoke(source, args);
-        }
-
-        protected IEnumerable<string> GetStringArguments(HttpListenerContext context)
-        {
-            var path = context.Request.Url.PathAndQuery;
-            var match = pattern.Match(path);
-            return match
-                .Groups
-                .Cast<Group>()
-                .Skip(1)
-                .Select(g => Uri.UnescapeDataString(g.Value));
-        }
+        public abstract Task InvokeAsync(HttpListenerContext context);
 
         public override bool Equals(object obj)
         {
@@ -98,13 +64,7 @@ namespace Juniper.HTTP
 
         public override string ToString()
         {
-            return $"[{priority.ToString(CultureInfo.CurrentCulture)}] {name}({regexSource})";
-        }
-
-        public override int GetHashCode()
-        {
-            return priority.GetHashCode()
-                ^ regexSource.GetHashCode();
+            return $"[{priority.ToString(CultureInfo.CurrentCulture)}] {name}";
         }
 
         public int CompareTo(object obj)
@@ -112,22 +72,29 @@ namespace Juniper.HTTP
             return CompareTo(obj as AbstractRouteHandler);
         }
 
-        public int CompareTo(AbstractRouteHandler other)
+        public virtual int CompareTo(AbstractRouteHandler other)
         {
             if (other is null)
             {
                 return -1;
-            }
-            else if (priority == other.priority)
-            {
-                // longer routes before shorter routes
-                return string.CompareOrdinal(regexSource, other.regexSource);
             }
             else
             {
                 // smaller Priority numbers before larger Priority numbers (i.e. 0 being the "Highest Priority")
                 return priority.CompareTo(other.priority);
             }
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -40035775;
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(name);
+            hashCode = (hashCode * -1521134295) + priority.GetHashCode();
+            hashCode = (hashCode * -1521134295) + verb.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Authentication.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Continue.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Protocol.GetHashCode();
+            return hashCode;
         }
 
         public static bool operator ==(AbstractRouteHandler left, AbstractRouteHandler right)

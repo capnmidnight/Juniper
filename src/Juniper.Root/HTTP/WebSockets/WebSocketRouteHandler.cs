@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP.WebSockets
 {
-    public class WebSocketRouteHandler :
-        AbstractRouteHandler
+    public class WebSocketRouteHandler : AbstractRegexRouteHandler
     {
-        public WebSocketRouteHandler(string name, RouteAttribute route, object source, MethodInfo method)
-            : base(name, route, source, method)
+        public WebSocketRouteHandler(string name, object source, MethodInfo method, RouteAttribute route)
+            : base(name, source, method, route)
         { }
 
         internal event Action<WebSocketConnection> SocketConnected;
@@ -21,7 +20,7 @@ namespace Juniper.HTTP.WebSockets
                 && request.IsWebSocketRequest;
         }
 
-        internal override async Task InvokeAsync(HttpListenerContext httpContext)
+        public override async Task InvokeAsync(HttpListenerContext httpContext)
         {
             var wsContext = await httpContext.AcceptWebSocketAsync(null)
                 .ConfigureAwait(false);
@@ -29,10 +28,7 @@ namespace Juniper.HTTP.WebSockets
             var ws = new ServerWebSocketConnection(httpContext, wsContext.WebSocket);
             SocketConnected?.Invoke(ws);
 
-            await InvokeAsync(GetStringArguments(httpContext)
-                .Cast<object>()
-                .Prepend(ws)
-                .ToArray())
+            await InvokeAsync(httpContext, ws)
                 .ConfigureAwait(false);
         }
     }

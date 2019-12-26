@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP
 {
-    internal class HttpRouteHandler : AbstractRouteHandler
+    internal class HttpRouteHandler : AbstractRegexRouteHandler
     {
-        internal HttpRouteHandler(string name, RouteAttribute route, object source, MethodInfo method)
-            : base(name, route, source, method)
+        internal HttpRouteHandler(string name, object source, MethodInfo method, RouteAttribute route)
+            : base(name, source, method, route)
         { }
 
         public override bool IsMatch(HttpListenerRequest request)
@@ -21,12 +21,9 @@ namespace Juniper.HTTP
                 && !request.IsWebSocketRequest;
         }
 
-        internal override Task InvokeAsync(HttpListenerContext context)
+        public override Task InvokeAsync(HttpListenerContext context)
         {
-            return InvokeAsync(GetStringArguments(context)
-                .Cast<object>()
-                .Prepend(context)
-                .ToArray());
+            return InvokeAsync(context, context);
         }
     }
 }
