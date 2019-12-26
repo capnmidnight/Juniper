@@ -22,10 +22,10 @@ namespace Juniper.UnityAssetStore.Tests
         }
 
         [TestMethod]
-        public async Task GetCategories()
+        public async Task GetCategoriesAsync()
         {
             var categories = await req
-                .GetCategories()
+                .GetCategoriesAsync()
                 .ConfigureAwait(false);
             foreach (var category in categories)
             {
@@ -34,116 +34,116 @@ namespace Juniper.UnityAssetStore.Tests
         }
 
         [TestMethod]
-        public async Task GetCategoryName()
+        public async Task GetCategoryNameAsync()
         {
             _ = await req
-                .GetCategoryName(categoryID)
+                .GetCategoryNameAsync(categoryID)
                 .ConfigureAwait(false);
         }
 
         [TestMethod]
-        public async Task GetAssetSummary()
+        public async Task GetAssetSummaryAsync()
         {
             _ = await req
-                .GetAssetSummary(assetID)
+                .GetAssetSummaryAsync(assetID)
                 .ConfigureAwait(false);
         }
 
         [TestMethod]
-        public async Task GetAssetDetails()
+        public async Task GetAssetDetailsAsync()
         {
             _ = await req
-                .GetAssetDetails(assetID)
+                .GetAssetDetailsAsync(assetID)
                 .ConfigureAwait(false);
         }
 
         [TestMethod]
-        public async Task GetAssetPrice()
+        public async Task GetAssetPriceAsync()
         {
             _ = await req
-                .GetAssetPrice(assetID)
+                .GetAssetPriceAsync(assetID)
                 .ConfigureAwait(false);
         }
 
         [TestMethod]
-        public async Task GetTopLatestAssets()
+        public async Task GetTopLatestAssetsAsync()
         {
             _ = await req
-                .GetTopLatestAssets(categoryID)
+                .GetTopLatestAssetsAsync(categoryID)
                 .ConfigureAwait(false);
         }
 
         [TestMethod]
-        public async Task GetTopGrossingAssets()
+        public async Task GetTopGrossingAssetsAsync()
         {
             _ = await req
-                .GetTopGrossingAssets(categoryID)
+                .GetTopGrossingAssetsAsync(categoryID)
                 .ConfigureAwait(false);
         }
 
         [TestMethod]
-        public async Task GetTopFreeAssets()
+        public async Task GetTopFreeAssetsAsync()
         {
             _ = await req
-                .GetTopFreeAssets(categoryID)
+                .GetTopFreeAssetsAsync(categoryID)
                 .ConfigureAwait(false);
         }
 
         [TestMethod]
-        public async Task GetTopPaidAssets()
+        public async Task GetTopPaidAssetsAsync()
         {
             _ = await req
-                .GetTopPaidAssets(categoryID)
+                .GetTopPaidAssetsAsync(categoryID)
                 .ConfigureAwait(false);
         }
 
         [TestMethod]
-        public async Task GetAssetContents()
+        public async Task GetAssetContentsAsync()
         {
             _ = await req
-                .GetAssetContents(assetID)
+                .GetAssetContentsAsync(assetID)
                 .ConfigureAwait(false);
         }
 
         [TestMethod]
-        public async Task GetPublisherName()
+        public async Task GetPublisherNameAsync()
         {
             _ = await req
-                .GetPublisherName(publisherID)
+                .GetPublisherNameAsync(publisherID)
                 .ConfigureAwait(false);
         }
 
         [TestMethod]
-        public async Task GetPublisherDetail()
+        public async Task GetPublisherDetailAsync()
         {
             _ = await req
-                .GetPublisherDetail(publisherID)
+                .GetPublisherDetailAsync(publisherID)
                 .ConfigureAwait(false);
         }
 
         [TestMethod]
-        public async Task GetCurrentSale()
+        public async Task GetCurrentSaleAsync()
         {
             _ = await req
-                .GetCurrentSale()
+                .GetCurrentSaleAsync()
                 .ConfigureAwait(false);
         }
 
         [TestMethod]
-        public async Task SearchStore()
+        public async Task SearchStoreAsync()
         {
             _ = await req
-                .Search(new StoreSearch()
+                .SearchAsync(new StoreSearch()
                     .Category(categoryID)
                     .Page(3))
                 .ConfigureAwait(false);
         }
 
         [TestMethod]
-        public async Task GetDownloads()
+        public async Task GetDownloadsAsync()
         {
             _ = await Requester
-                .GetDownloads("sean.mcbeth@gmail.com", "RzKuj0fd9f", "")
+                .GetDownloadsAsync("sean.mcbeth@gmail.com", "RzKuj0fd9f", "")
                 .ConfigureAwait(false);
         }
     }

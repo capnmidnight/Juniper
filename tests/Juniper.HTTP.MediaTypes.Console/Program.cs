@@ -81,7 +81,7 @@ namespace Juniper.MediaTypes
             using (var response = await HttpWebRequestExt
                 .Create("http://svn.apache.org/viewvc/httpd/httpd/trunk/docs/conf/mime.types?view=co")
                 .Accept("text/plain")
-                .Get()
+                .GetAsync()
                 .ConfigureAwait(false))
             using (var stream = response.GetResponseStream())
             using (var reader = new StreamReader(stream))
@@ -138,7 +138,7 @@ namespace Juniper.MediaTypes
                 .Create("https://www.iana.org/assignments/media-types/media-types.xml")
                 .UserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36")
                 .Accept("text/xml")
-                .Get()
+                .GetAsync()
                 .ConfigureAwait(false))
             using (var stream = response.GetResponseStream())
             {

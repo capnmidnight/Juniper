@@ -63,7 +63,7 @@ namespace Juniper.Azure
                     cache);
 
                 var voices = await ttsClient
-                    .GetVoices()
+                    .GetVoicesAsync()
                     .ConfigureAwait(false);
                 var voice = Array.Find(voices, v => v.Locale == "en-US" && v.Gender == "Female");
 

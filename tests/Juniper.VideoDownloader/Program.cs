@@ -47,7 +47,7 @@ namespace Juniper.VideoDownloader
                 .DoNotTrack()
                 .Accept(Any);
             using (var response = await request
-                .Get()
+                .GetAsync()
                 .ConfigureAwait(false))
             {
                 var contentType = Lookup(response.ContentType);

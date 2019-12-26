@@ -43,7 +43,7 @@ namespace Juniper.Speech
 
             form = new SpeechGen
             {
-                Voices = client.GetVoices().Result
+                Voices = client.GetVoicesAsync().Result
             };
             form.GenerateSpeech += Form_GenerateSpeech;
 

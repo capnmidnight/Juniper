@@ -68,31 +68,19 @@ namespace Juniper.HTTP
         /// <value>
         /// The maximum connections.
         /// </value>
-        public int ListenerCount
-        {
-            get;
-            set;
-        }
+        public int ListenerCount { get; set; }
 
         /// <summary>
         /// Set to false to disable handling websockets
         /// </summary>
-        public bool EnableWebSockets
-        {
-            get;
-            set;
-        }
+        public bool EnableWebSockets { get; set; }
 
         /// <summary>
         /// When set to true, HTTP request will automatically be handled as Redirect
         /// responses that point to the HTTPS version of the URL.
         /// </summary>
         /// <seealso cref="HttpsRedirectController"/>
-        public bool RedirectHttp2Https
-        {
-            get;
-            set;
-        }
+        public bool RedirectHttp2Https { get; set; }
 
         /// <summary>
         /// The IP address at which to listen for requests. By default, this is set
@@ -101,11 +89,7 @@ namespace Juniper.HTTP
         /// <value>
         /// The listen address.
         /// </value>
-        public string ListenAddress
-        {
-            get;
-            set;
-        }
+        public string ListenAddress { get; set; }
 
         /// <summary>
         /// The domain name that this server serves. This is necessary to be able
@@ -116,11 +100,7 @@ namespace Juniper.HTTP
         /// <value>
         /// The domain.
         /// </value>
-        public string Domain
-        {
-            get;
-            set;
-        }
+        public string Domain { get; set; }
 
         /// <summary>
         /// The port on which to listen for HTTPS connections.
@@ -128,21 +108,13 @@ namespace Juniper.HTTP
         /// <value>
         /// The HTTPS port.
         /// </value>
-        public ushort HttpsPort
-        {
-            get;
-            set;
-        }
+        public ushort HttpsPort { get; set; }
 
         /// <summary>
         /// Set to true if the server should attempt to run netsh to assign
         /// a certificate to the application before starting the server.
         /// </summary>
-        public bool AutoAssignCertificate
-        {
-            get;
-            set;
-        }
+        public bool AutoAssignCertificate { get; set; }
 
         /// <summary>
         /// <para>The port on which to listen for insecure HTTP connections.</para>
@@ -154,11 +126,8 @@ namespace Juniper.HTTP
         /// <value>
         /// The HTTP port.
         /// </value>
-        public ushort HttpPort
-        {
-            get;
-            set;
-        }
+        public ushort HttpPort { get; set; }
+
 
         /// <summary>
         /// Event for handling information-level logs.
@@ -223,9 +192,11 @@ namespace Juniper.HTTP
                         var isHttp = contextParamType == typeof(HttpListenerContext);
                         var isWebSocket = contextParamType == typeof(WebSocketConnection);
 
-                        var source = method.IsStatic
-                            ? null
-                            : controller;
+                        T source = null;
+                        if (!method.IsStatic)
+                        {
+                            source = controller;
+                        }
 
                         if (!isHttp && !isWebSocket)
                         {
@@ -286,7 +257,7 @@ or
             where T : class
         {
             return (T)controllers
-                .FirstOrDefault(c => c is T);
+                .Find(c => c is T);
         }
 
         private void WsHandler_SocketConnected(WebSocketConnection socket)
@@ -314,7 +285,9 @@ or
             }
         }
 
-        /// <summary>Stop server and dispose all functions.</summary>
+        /// <summary>
+        /// Stop server and dispose all functions.
+        /// </summary>
         public void Stop()
         {
             OnInfo(this, "Stopping server");
@@ -350,12 +323,12 @@ or
                     {
                         var message = AssignCertToApp(certHash, guid);
 
-                        if (message.Equals("SSL Certificate added successfully", StringComparison.InvariantCultureIgnoreCase)
-                            || message.StartsWith("SSL Certificate add failed, Error: 183", StringComparison.InvariantCultureIgnoreCase))
+                        if (message.Equals("SSL Certificate added successfully", StringComparison.OrdinalIgnoreCase)
+                            || message.StartsWith("SSL Certificate add failed, Error: 183", StringComparison.OrdinalIgnoreCase))
                         {
                             SetPrefix("https", HttpsPort);
                         }
-                        else if (message.Equals("The parameter is incorrect.", StringComparison.InvariantCultureIgnoreCase))
+                        else if (message.Equals("The parameter is incorrect.", StringComparison.OrdinalIgnoreCase))
                         {
                             OnWarning(this, $@"Couldn't configure the certificate correctly:
     Application GUID: {guid}
@@ -530,7 +503,7 @@ or
 
                     while (waiters.Count < ListenerCount)
                     {
-                        waiters.Add(HandleConnection());
+                        waiters.Add(HandleConnectionAsync());
                     }
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
@@ -542,7 +515,7 @@ or
             }
         }
 
-        private async Task HandleConnection()
+        private async Task HandleConnectionAsync()
         {
             var context = await listener.GetContextAsync()
                 .ConfigureAwait(false);
@@ -649,8 +622,7 @@ or
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
+            GC.SuppressFinalize(this);
         }
         #endregion
     }
