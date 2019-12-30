@@ -36,7 +36,8 @@ namespace Juniper
         public static MediaType GuessByExtension(FileInfo file)
         {
             var ext = file.Extension;
-            if (ext[0] == '.')
+            if (ext.Length > 0
+                && ext[0] == '.')
             {
                 ext = ext.Substring(1);
             }
