@@ -49,6 +49,20 @@ namespace Juniper.HTTP
                 return true;
             }
 
+            if (request.Url.PathAndQuery.Contains(".php"))
+            {
+                block = new CIDRBlock(request.RemoteEndPoint.Address);
+                OnWarning($"Auto-banning {block}");
+                blocks.Add(block);
+
+                if (banFile != null)
+                {
+                    CIDRBlock.Save(blocks, banFile);
+                }
+
+                return true;
+            }
+
             return false;
         }
 

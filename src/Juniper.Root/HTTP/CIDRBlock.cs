@@ -362,6 +362,10 @@ namespace Juniper.HTTP
             : this(start, end, CalculateBitmaskLength(start, end))
         { }
 
+        public CIDRBlock(IPAddress start)
+            : this(start, start)
+        { }
+
         public CIDRBlock(IPAddress start, int bitmaskLength)
             : this(start, CalculateEnd(start, bitmaskLength), bitmaskLength)
         { }
