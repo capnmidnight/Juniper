@@ -20,13 +20,18 @@ namespace Juniper.HTTP
         private readonly string name;
         private readonly int priority;
         private readonly HttpMethods verb;
+        private readonly bool canContinue;
+
         public event EventHandler<string> Info;
         public event EventHandler<string> Warning;
         public event EventHandler<Exception> Error;
 
         public AuthenticationSchemes Authentication { get; }
 
-        public bool Continue { get; }
+        public virtual bool CanContinue(HttpListenerRequest request)
+        {
+            return canContinue;
+        }
 
         public HttpProtocols Protocol { get; }
 
@@ -35,14 +40,14 @@ namespace Juniper.HTTP
             int priority = 0,
             HttpProtocols protocol = HttpProtocols.All,
             HttpMethods verb = HttpMethods.GET,
-            bool continueRouting = false,
+            bool canContinue = false,
             AuthenticationSchemes authentication = AuthenticationSchemes.Anonymous)
         {
             this.name = name ?? GetType().Name;
             this.priority = priority;
             this.verb = verb;
             Protocol = protocol;
-            Continue = continueRouting;
+            this.canContinue = canContinue;
             Authentication = authentication;
         }
 
@@ -97,7 +102,7 @@ namespace Juniper.HTTP
             hashCode = (hashCode * -1521134295) + priority.GetHashCode();
             hashCode = (hashCode * -1521134295) + verb.GetHashCode();
             hashCode = (hashCode * -1521134295) + Authentication.GetHashCode();
-            hashCode = (hashCode * -1521134295) + Continue.GetHashCode();
+            hashCode = (hashCode * -1521134295) + canContinue.GetHashCode();
             hashCode = (hashCode * -1521134295) + Protocol.GetHashCode();
             return hashCode;
         }

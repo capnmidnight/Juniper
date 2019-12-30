@@ -52,6 +52,13 @@ namespace Juniper.HTTP
             return false;
         }
 
+        public override bool CanContinue(HttpListenerRequest request)
+        {
+            var block = GetMatchingBlock(request.RemoteEndPoint.Address);
+            return base.CanContinue(request)
+                && block is null;
+        }
+
         public override Task InvokeAsync(HttpListenerContext context)
         {
             var block = GetMatchingBlock(context.Request.RemoteEndPoint.Address);
