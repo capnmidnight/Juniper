@@ -9,7 +9,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Juniper.HTTP
+using Juniper.Logging;
+
+namespace Juniper.HTTP.Server.Controllers
 {
     public abstract class AbstractRouteHandler :
         IEquatable<AbstractRouteHandler>,
@@ -98,20 +100,20 @@ namespace Juniper.HTTP
         public override int GetHashCode()
         {
             var hashCode = -40035775;
-            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(name);
-            hashCode = (hashCode * -1521134295) + priority.GetHashCode();
-            hashCode = (hashCode * -1521134295) + verb.GetHashCode();
-            hashCode = (hashCode * -1521134295) + Authentication.GetHashCode();
-            hashCode = (hashCode * -1521134295) + canContinue.GetHashCode();
-            hashCode = (hashCode * -1521134295) + Protocol.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(name);
+            hashCode = hashCode * -1521134295 + priority.GetHashCode();
+            hashCode = hashCode * -1521134295 + verb.GetHashCode();
+            hashCode = hashCode * -1521134295 + Authentication.GetHashCode();
+            hashCode = hashCode * -1521134295 + canContinue.GetHashCode();
+            hashCode = hashCode * -1521134295 + Protocol.GetHashCode();
             return hashCode;
         }
 
         public static bool operator ==(AbstractRouteHandler left, AbstractRouteHandler right)
         {
-            return (left is null && right is null)
-                || (left is object && left.CompareTo(right) == 0)
-                || (right is object && right.CompareTo(left) == 0);
+            return left is null && right is null
+                || left is object && left.CompareTo(right) == 0
+                || right is object && right.CompareTo(left) == 0;
         }
 
         public static bool operator !=(AbstractRouteHandler left, AbstractRouteHandler right)
@@ -121,14 +123,14 @@ namespace Juniper.HTTP
 
         public static bool operator <(AbstractRouteHandler left, AbstractRouteHandler right)
         {
-            return (left is object && left.CompareTo(right) == -1)
-                || (right is object && right.CompareTo(left) == 1);
+            return left is object && left.CompareTo(right) == -1
+                || right is object && right.CompareTo(left) == 1;
         }
 
         public static bool operator >(AbstractRouteHandler left, AbstractRouteHandler right)
         {
-            return (left is object && left.CompareTo(right) == 1)
-                || (right is object && right.CompareTo(left) == -1);
+            return left is object && left.CompareTo(right) == 1
+                || right is object && right.CompareTo(left) == -1;
         }
 
         public static bool operator <=(AbstractRouteHandler left, AbstractRouteHandler right)

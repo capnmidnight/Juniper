@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Juniper.HTTP
+namespace Juniper.HTTP.Server.Controllers
 {
     public sealed class IPBanController : AbstractRouteHandler
     {

@@ -322,7 +322,9 @@ namespace Hjg.Pngcs.Chunks
                 return true;
             }
 
-            if (c1 == null || c2 == null || !c1.Id.Equals(c2.Id))
+            if (c1 == null
+                || c2 == null
+                || !c1.Id.Equals(c2.Id, System.StringComparison.Ordinal))
             {
                 return false;
             }
@@ -339,12 +341,14 @@ namespace Hjg.Pngcs.Chunks
 
             if (c1 is PngChunkTextVar pngChunkTextVar)
             {
-                return pngChunkTextVar.GetKey().Equals(((PngChunkTextVar)c2).GetKey());
+                return pngChunkTextVar
+                    .GetKey()
+                    .Equals(((PngChunkTextVar)c2).GetKey(), System.StringComparison.Ordinal);
             }
 
             if (c1 is PngChunkSPLT pngChunkSPLT)
             {
-                return pngChunkSPLT.PalName.Equals(((PngChunkSPLT)c2).PalName);
+                return pngChunkSPLT.PalName.Equals(((PngChunkSPLT)c2).PalName, System.StringComparison.Ordinal);
             }
 
             // unknown chunks that allow multiple? consider they don't match

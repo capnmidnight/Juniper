@@ -11,6 +11,7 @@ namespace Juniper.UnityAssetStore
         public readonly string slug;
         public readonly string overlay;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected Tag(SerializationInfo info, StreamingContext context)
         {
             name = info.GetString(nameof(name));

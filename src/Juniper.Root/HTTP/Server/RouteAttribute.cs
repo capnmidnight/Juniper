@@ -2,7 +2,7 @@ using System;
 using System.Net;
 using System.Text.RegularExpressions;
 
-namespace Juniper.HTTP
+namespace Juniper.HTTP.Server
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public sealed class RouteAttribute : Attribute
@@ -14,9 +14,15 @@ namespace Juniper.HTTP
         public int ParameterCount { get; }
 
         public int Priority;
-        public HttpProtocols Protocol = HttpProtocols.All;
-        public HttpMethods Method = HttpMethods.GET;
         public bool Continue;
+
+#if DEBUG
+        public HttpProtocols Protocol = HttpProtocols.All;
+#else
+        public HttpProtocols Protocol = HttpProtocols.HTTPS;
+#endif
+
+        public HttpMethods Method = HttpMethods.GET;
         public AuthenticationSchemes Authentication = AuthenticationSchemes.Anonymous;
 
         public RouteAttribute(Regex pattern)

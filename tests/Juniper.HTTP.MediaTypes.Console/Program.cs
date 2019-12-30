@@ -152,14 +152,14 @@ namespace Juniper.MediaTypes
                     //var groupAndName = file.Value;
                     var name = nameAndDescription;
 
-                    var deprecationMessageIndex = nameAndDescription.IndexOf(" ");
+                    var deprecationMessageIndex = nameAndDescription.IndexOf(" ", StringComparison.Ordinal);
                     var isDeprecated = deprecationMessageIndex >= 0;
                     string deprecationMessage = null;
                     if (isDeprecated)
                     {
                         deprecationMessage = nameAndDescription.Substring(deprecationMessageIndex + 1).Trim();
                         name = nameAndDescription.Substring(0, deprecationMessageIndex);
-                        if (deprecationMessage.StartsWith("-"))
+                        if (deprecationMessage.StartsWith("-", StringComparison.Ordinal))
                         {
                             deprecationMessage = deprecationMessage.Substring(1).Trim();
                         }

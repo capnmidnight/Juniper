@@ -88,7 +88,7 @@ namespace Juniper.OpenGL
             var log = InfoLog;
             if (!string.IsNullOrEmpty(log))
             {
-                throw new ShaderError(log);
+                throw new ShaderException(log);
             }
         }
 

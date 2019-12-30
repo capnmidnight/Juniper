@@ -4,7 +4,8 @@ using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 
-using Juniper.HTTP.WebSockets;
+using Juniper.HTTP.Server;
+using Juniper.HTTP.Server.Controllers;
 
 using static System.Console;
 
@@ -17,8 +18,7 @@ namespace Juniper.HTTP
             using (var server = new HttpServer
             {
                 HttpPort = 8080,
-                ListenerCount = 10,
-                IPBans = new FileInfo("testBans.txt")
+                ListenerCount = 10
             })
             {
                 server.Info += Server_Info;
@@ -26,6 +26,7 @@ namespace Juniper.HTTP
                 server.Error += Server_Error;
 
                 server.AddRoutesFrom(new DefaultFileController("content"));
+                server.AddRoutesFrom(new IPBanController("testBans.txt"));
                 server.AddRoutesFrom(typeof(Program));
 
                 server.Start();

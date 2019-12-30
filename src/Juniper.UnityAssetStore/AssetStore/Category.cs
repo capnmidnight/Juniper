@@ -8,6 +8,7 @@ namespace Juniper.UnityAssetStore
     {
         public Category[] categories;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected Categories(SerializationInfo info, StreamingContext context)
         {
             categories = info.GetValue<Category[]>(nameof(categories));
@@ -29,6 +30,7 @@ namespace Juniper.UnityAssetStore
 
         public int AssetCount { get; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected Category(SerializationInfo info, StreamingContext context)
         {
             foreach (var field in info)

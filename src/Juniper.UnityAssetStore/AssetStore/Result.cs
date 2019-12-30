@@ -10,6 +10,7 @@ namespace Juniper.UnityAssetStore
         public readonly T result;
         public readonly string error;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected Result(SerializationInfo info, StreamingContext context)
         {
             foreach (var field in info)

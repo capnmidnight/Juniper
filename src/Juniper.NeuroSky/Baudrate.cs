@@ -1,4 +1,4 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 
 namespace libStreamSDK
 {
@@ -6,6 +6,7 @@ namespace libStreamSDK
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "<Pending>")]
     public enum Baudrate
     {
+        None,
         TG_BAUD_1200 = 1200,
         TG_BAUD_2400 = 2400,
         TG_BAUD_4800 = 4800,

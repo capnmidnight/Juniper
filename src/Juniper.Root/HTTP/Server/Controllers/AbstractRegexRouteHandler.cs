@@ -8,9 +8,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Juniper.HTTP
+namespace Juniper.HTTP.Server.Controllers
 {
-    public abstract class AbstractRegexRouteHandler : AbstractRouteHandler
+    internal abstract class AbstractRegexRouteHandler : AbstractRouteHandler
     {
         private readonly Regex pattern;
         private readonly string regexSource;
@@ -68,10 +68,10 @@ namespace Juniper.HTTP
         public override int GetHashCode()
         {
             var hashCode = -1402022977;
-            hashCode = (hashCode * -1521134295) + base.GetHashCode();
-            hashCode = (hashCode * -1521134295) + EqualityComparer<Regex>.Default.GetHashCode(pattern);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<object>.Default.GetHashCode(source);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<MethodInfo>.Default.GetHashCode(method);
+            hashCode = hashCode * -1521134295 + base.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<Regex>.Default.GetHashCode(pattern);
+            hashCode = hashCode * -1521134295 + EqualityComparer<object>.Default.GetHashCode(source);
+            hashCode = hashCode * -1521134295 + EqualityComparer<MethodInfo>.Default.GetHashCode(method);
             return hashCode;
         }
 

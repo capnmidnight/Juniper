@@ -2,6 +2,7 @@ using System.IO;
 using System.Threading.Tasks;
 
 using Juniper.HTTP;
+using Juniper.HTTP.Client;
 using Juniper.Progress;
 
 namespace System.Net

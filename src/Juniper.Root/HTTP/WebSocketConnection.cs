@@ -7,10 +7,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Juniper.IO;
 
-namespace Juniper.HTTP.WebSockets
+namespace Juniper.HTTP
 {
     public abstract class WebSocketConnection :
         IDisposable

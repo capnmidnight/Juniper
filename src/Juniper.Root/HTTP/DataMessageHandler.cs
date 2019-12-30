@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Juniper.IO;
 using Juniper.Progress;
 
-namespace Juniper.HTTP.WebSockets
+namespace Juniper.HTTP
 {
     public class DataMessageHandler<ResultT, FactoryT>
         where FactoryT : class, IFactory<ResultT, MediaType.Application>

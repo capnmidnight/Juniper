@@ -9,6 +9,7 @@ namespace Juniper.UnityAssetStore
         public readonly int count;
         public readonly double average;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected Rating(SerializationInfo info, StreamingContext context)
         {
             count = info.GetInt32(nameof(count));

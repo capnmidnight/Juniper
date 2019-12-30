@@ -9,7 +9,7 @@ using System.Net.Sockets;
 
 using Juniper.IO;
 
-namespace Juniper.HTTP
+namespace Juniper.HTTP.Server
 {
     public sealed class CIDRBlock :
         ICollection<IPAddress>
@@ -38,7 +38,7 @@ namespace Juniper.HTTP
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
-                    if (CIDRBlock.TryParse(line, out var block))
+                    if (TryParse(line, out var block))
                     {
                         blocks.Add(block);
                     }
@@ -338,7 +338,7 @@ namespace Juniper.HTTP
             endBytes = end.GetAddressBytes();
 
             BitmaskLength = bitmaskLength;
-            Count = (int)(Math.Pow(2, BitLengths[Start.AddressFamily] - BitmaskLength));
+            Count = (int)Math.Pow(2, BitLengths[Start.AddressFamily] - BitmaskLength);
 
             var subnetBytes = new byte[startBytes.Length];
             for (var i = 0; i < subnetBytes.Length; ++i)
@@ -350,7 +350,7 @@ namespace Juniper.HTTP
                 }
                 else
                 {
-                    subnetBytes[i] = (byte)(byte.MaxValue << (Units.Bits.PER_BYTE - bitmaskLength));
+                    subnetBytes[i] = (byte)(byte.MaxValue << Units.Bits.PER_BYTE - bitmaskLength);
                     break;
                 }
             }

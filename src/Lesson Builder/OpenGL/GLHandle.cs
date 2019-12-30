@@ -14,11 +14,11 @@ namespace Juniper.OpenGL
 {
     public abstract class GLHandle : IDisposable
     {
-        public static implicit operator int(GLHandle obj)
+        public static implicit operator int(GLHandle handle)
         {
-            return obj is null
+            return handle is null
                 ? -1
-                : obj.handle;
+                : handle.handle;
         }
 
         private readonly int handle;

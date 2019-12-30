@@ -30,6 +30,7 @@ namespace Juniper.UnityAssetStore
         public readonly int can_update;
         public readonly string type;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected AssetDownload(SerializationInfo info, StreamingContext context)
         {
             icon = info.GetString(nameof(icon));
@@ -91,6 +92,7 @@ namespace Juniper.UnityAssetStore
         public readonly string name;
         public readonly string id;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected CategorySummary(SerializationInfo info, StreamingContext context)
         {
             name = info.GetString(nameof(name));

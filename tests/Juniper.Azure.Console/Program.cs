@@ -91,7 +91,7 @@ namespace Juniper.Azure
         private static async Task PlayAudio(string text, NAudioAudioDataDecoder audioDecoder, TextToSpeechClient ttsClient, Voice voice)
         {
             var audioStream = await ttsClient
-                .GetAudioDataStream(text, voice.ShortName)
+                .GetAudioDataStreamAsync(text, voice.ShortName)
                 .ConfigureAwait(false);
             var waveStream = audioDecoder.MakeDecodingStream(audioStream);
             var sr = waveStream.WaveFormat.SampleRate;

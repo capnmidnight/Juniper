@@ -48,6 +48,7 @@ namespace Juniper.UnityAssetStore
         // "upgrades": [],
         // "upgradables": [],
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected AssetDetail(SerializationInfo info, StreamingContext context)
         {
             foreach (var field in info)
@@ -210,6 +211,7 @@ namespace Juniper.UnityAssetStore
             public readonly string id;
             public readonly string label;
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
             protected CategorySummary(SerializationInfo info, StreamingContext context)
             {
                 tree_id = info.GetString(nameof(tree_id));
@@ -237,6 +239,7 @@ namespace Juniper.UnityAssetStore
             public readonly string id;
             public readonly string support_url;
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
             protected PublisherSummary(SerializationInfo info, StreamingContext context)
             {
                 support_email = info.GetString(nameof(support_email));
@@ -267,6 +270,7 @@ namespace Juniper.UnityAssetStore
             public readonly string height;
             public readonly string thumb;
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
             protected Image(SerializationInfo info, StreamingContext context)
             {
                 link = info.GetString(nameof(link));

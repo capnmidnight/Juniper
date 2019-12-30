@@ -123,7 +123,7 @@ namespace Hjg.Pngcs.Chunks
         {
             if (currentGroup == CHUNK_GROUP_2_PLTE)
             {
-                return c.Id.Equals(ChunkHelper.PLTE);
+                return c.Id.Equals(ChunkHelper.PLTE, System.StringComparison.Ordinal);
             }
 
             if (currentGroup % 2 == 0)
@@ -184,7 +184,8 @@ namespace Hjg.Pngcs.Chunks
                     continue;
                 }
 
-                if (ChunkHelper.IsCritical(c.Id) && !c.Id.Equals(ChunkHelper.PLTE))
+                if (ChunkHelper.IsCritical(c.Id)
+                    && !c.Id.Equals(ChunkHelper.PLTE, System.StringComparison.Ordinal))
                 {
                     throw new PngjOutputException("bad chunk queued: " + c);
                 }

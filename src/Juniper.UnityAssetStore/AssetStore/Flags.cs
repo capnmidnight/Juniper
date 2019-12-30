@@ -10,6 +10,7 @@ namespace Juniper.UnityAssetStore
     {
         private readonly List<string> flags;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected Flags(SerializationInfo info, StreamingContext context)
         {
             flags = new List<string>();
@@ -29,7 +30,7 @@ namespace Juniper.UnityAssetStore
 
         public IEnumerator<string> GetEnumerator()
         {
-            foreach(var flag in flags)
+            foreach (var flag in flags)
             {
                 yield return flag;
             }

@@ -87,6 +87,8 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// </summary>
         public enum WeatherCondition
         {
+            None,
+
             /// <summary>
             /// thunderstorm with light rain.
             /// </summary>
@@ -456,7 +458,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// An enumeration of the current conditions.
         /// </summary>
-        private WeatherCondition? cond;
+        private WeatherCondition cond;
 
         /// <summary>
         /// An enumeration of the current conditions.
@@ -464,7 +466,15 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <value>The conditions.</value>
         public WeatherCondition Conditions
         {
-            get { return cond ?? (cond = (WeatherCondition)id).Value; }
+            get
+            {
+                if (cond == WeatherCondition.None)
+                {
+                    cond = (WeatherCondition)id;
+                }
+
+                return cond;
+            }
         }
     }
 }

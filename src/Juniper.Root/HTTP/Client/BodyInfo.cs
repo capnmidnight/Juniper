@@ -1,6 +1,6 @@
 using System;
 
-namespace Juniper.HTTP
+namespace Juniper.HTTP.Client
 {
     public sealed class BodyInfo : IEquatable<BodyInfo>
     {
@@ -34,7 +34,7 @@ namespace Juniper.HTTP
         public static bool operator ==(BodyInfo left, BodyInfo right)
         {
             return ReferenceEquals(left, right)
-                || (left is object && left.Equals(right));
+                || left is object && left.Equals(right);
         }
 
         public static bool operator !=(BodyInfo left, BodyInfo right)

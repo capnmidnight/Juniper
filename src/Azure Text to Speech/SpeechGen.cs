@@ -9,8 +9,6 @@ namespace Juniper.Speech
 {
     public partial class SpeechGen : Form
     {
-        private readonly SaveFileDialog saveFile;
-
         public event EventHandler<GenerateSpeechEventArgs> GenerateSpeech;
 
         public SpeechGen()
@@ -18,20 +16,7 @@ namespace Juniper.Speech
             InitializeComponent();
 
             var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            saveFile = new SaveFileDialog
-            {
-                Filter = "MP3 files (*.mp3)|*.mp3|WAV files (*.wav)|*.wav|All files (*.*)|*.*",
-                FilterIndex = 1,
-                InitialDirectory = userProfile,
-                OverwritePrompt = true
-            };
-
-            Disposed += SpeechGen_Disposed;
-        }
-
-        private void SpeechGen_Disposed(object sender, EventArgs e)
-        {
-            saveFile.Dispose();
+            saveFile.InitialDirectory = userProfile;
         }
 
         private Voice[] voices;

@@ -4,7 +4,7 @@ using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Juniper.HTTP.WebSockets
+namespace Juniper.HTTP.Server.Controllers
 {
     internal class WebSocketRouteHandler : AbstractRegexRouteHandler
     {

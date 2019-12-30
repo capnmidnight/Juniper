@@ -5,6 +5,8 @@ namespace System
     /// </summary>
     public enum Month
     {
+        None,
+
         /// <summary>
         /// January is the first month of the year in the Julian and Gregorian calendars and the
         /// first of seven months to have a length of 31 days. The first day of the month is known as
@@ -17,7 +19,7 @@ namespace System
         /// celebrated January 9, and Carmentalia, celebrated January 11. These dates do not
         /// correspond to the modern Gregorian calendar.
         /// </summary>
-        January = 1,
+        January,
 
         /// <summary>
         /// February is the second and shortest month of the year in the Julian and Gregorian

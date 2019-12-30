@@ -406,13 +406,13 @@ namespace Hjg.Pngcs
                     throw new PngjInputException("END chunk found before image data (IDAT) at offset=" + offset);
                 }
                 var chunkids = ChunkHelper.ToString(chunkid);
-                if (chunkids.Equals(ChunkHelper.PLTE))
+                if (chunkids.Equals(ChunkHelper.PLTE, System.StringComparison.Ordinal))
                 {
                     CurrentChunkGroup = ChunksList.CHUNK_GROUP_2_PLTE;
                 }
 
                 ReadChunk(chunkid, clen, false);
-                if (chunkids.Equals(ChunkHelper.PLTE))
+                if (chunkids.Equals(ChunkHelper.PLTE, System.StringComparison.Ordinal))
                 {
                     CurrentChunkGroup = ChunksList.CHUNK_GROUP_3_AFTERPLTE;
                 }

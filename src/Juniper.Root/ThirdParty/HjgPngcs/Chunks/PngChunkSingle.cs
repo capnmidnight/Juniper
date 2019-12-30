@@ -23,7 +23,8 @@ namespace Hjg.Pngcs.Chunks
 
         public override bool Equals(object obj)
         {
-            return obj is PngChunkSingle pngChunkSingle && Id?.Equals(pngChunkSingle.Id) == true;
+            return obj is PngChunkSingle pngChunkSingle
+                && Id?.Equals(pngChunkSingle.Id, System.StringComparison.Ordinal) == true;
         }
     }
 }

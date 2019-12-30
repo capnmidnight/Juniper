@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Juniper.HTTP.WebSockets
+namespace Juniper.HTTP
 {
     [Serializable]
     public sealed class DataMessage : ISerializable

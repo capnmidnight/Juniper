@@ -20,17 +20,19 @@ namespace Hjg.Pngcs.Chunks
 
         public bool Matches(PngChunk c)
         {
-            if (!c.Id.Equals(id))
+            if (!c.Id.Equals(id, System.StringComparison.Ordinal))
             {
                 return false;
             }
 
-            if (c is PngChunkTextVar pngChunkTextVar && !pngChunkTextVar.GetKey().Equals(innerid))
+            if (c is PngChunkTextVar pngChunkTextVar
+                && !pngChunkTextVar.GetKey().Equals(innerid, System.StringComparison.Ordinal))
             {
                 return false;
             }
 
-            if (c is PngChunkSPLT pngChunkSPLT && !pngChunkSPLT.PalName.Equals(innerid))
+            if (c is PngChunkSPLT pngChunkSPLT
+                && !pngChunkSPLT.PalName.Equals(innerid, System.StringComparison.Ordinal))
             {
                 return false;
             }

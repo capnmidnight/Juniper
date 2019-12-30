@@ -1,9 +1,7 @@
 using System.Net;
 using System.Net.WebSockets;
 
-using Juniper.HTTP.WebSockets;
-
-namespace Juniper.HTTP.WebSockets
+namespace Juniper.HTTP.Server
 {
     public class ServerWebSocketConnection : WebSocketConnection
     {

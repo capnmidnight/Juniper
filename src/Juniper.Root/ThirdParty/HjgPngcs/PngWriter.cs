@@ -504,7 +504,7 @@ namespace Hjg.Pngcs
                 var copy = false;
                 if (chunk.Crit)
                 {
-                    if (chunk.Id.Equals(ChunkHelper.PLTE))
+                    if (chunk.Id.Equals(ChunkHelper.PLTE, System.StringComparison.Ordinal))
                     {
                         if (ImgInfo.Indexed && ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_PALETTE))
                         {
@@ -532,25 +532,29 @@ namespace Hjg.Pngcs
                         copy = true;
                     }
 
-                    if (chunk.Id.Equals(ChunkHelper.tRNS)
+                    if (chunk.Id.Equals(ChunkHelper.tRNS, System.StringComparison.Ordinal)
                             && ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_TRANSPARENCY))
                     {
                         copy = true;
                     }
 
-                    if (chunk.Id.Equals(ChunkHelper.pHYs) && ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_PHYS))
+                    if (chunk.Id.Equals(ChunkHelper.pHYs, System.StringComparison.Ordinal)
+                        && ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_PHYS))
                     {
                         copy = true;
                     }
 
-                    if (text && ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_TEXTUAL))
+                    if (text
+                        && ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_TEXTUAL))
                     {
                         copy = true;
                     }
 
-                    if (ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_ALMOSTALL)
-                            && !(ChunkHelper.IsUnknown(chunk) || text || chunk.Id.Equals(ChunkHelper.hIST) || chunk.Id
-                                    .Equals(ChunkHelper.tIME)))
+                    if ((ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_ALMOSTALL)
+                            && !(ChunkHelper.IsUnknown(chunk))
+                            || text
+                            || chunk.Id.Equals(ChunkHelper.hIST, System.StringComparison.Ordinal)
+                            || chunk.Id.Equals(ChunkHelper.tIME, System.StringComparison.Ordinal)))
                     {
                         copy = true;
                     }

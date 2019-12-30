@@ -11,6 +11,7 @@ namespace Juniper.UnityAssetStore
         public readonly string price;
         public readonly bool is_free;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected Price(SerializationInfo info, StreamingContext context)
         {
             vat = info.GetString(nameof(vat));

@@ -14,7 +14,7 @@ namespace Hjg.Pngcs.Chunks
 
         public bool Matches(PngChunk c)
         {
-            return c.Id.Equals(id);
+            return c.Id.Equals(id, System.StringComparison.Ordinal);
         }
     }
 }

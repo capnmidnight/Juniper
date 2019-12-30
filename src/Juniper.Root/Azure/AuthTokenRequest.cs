@@ -1,6 +1,7 @@
 using System.Net;
 
 using Juniper.HTTP;
+using Juniper.HTTP.Client;
 
 namespace Juniper.Azure
 {

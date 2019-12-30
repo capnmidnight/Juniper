@@ -4,6 +4,7 @@ namespace BitMiracle.LibJpeg.Classic
     /// JPEG marker codes.
     /// </summary>
     /// <seealso href="81c88818-a5d7-4550-9ce5-024a768f7b1e.htm" target="_self">Special markers</seealso>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1008:Enums should have zero value", Justification = "<Pending>")]
     public enum JpegMarker
     {
         TEM = 0x01,

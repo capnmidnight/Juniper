@@ -4,7 +4,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Juniper.HTTP
+namespace Juniper.HTTP.Server
 {
     public static class HttpListenerResponseExt
     {
@@ -28,7 +28,7 @@ namespace Juniper.HTTP
         {
             using (var input = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                SendStream(response, (MediaType)file, input);
+                response.SendStream((MediaType)file, input);
             }
         }
 
@@ -36,7 +36,7 @@ namespace Juniper.HTTP
         {
             using (var input = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                await SendStreamAsync(response, (MediaType)file, input).ConfigureAwait(false);
+                await response.SendStreamAsync((MediaType)file, input).ConfigureAwait(false);
             }
         }
 

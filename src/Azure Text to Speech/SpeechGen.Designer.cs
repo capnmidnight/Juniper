@@ -43,6 +43,7 @@ namespace Juniper.Speech
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.playButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
+            this.saveFile = new System.Windows.Forms.SaveFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.rateChange)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pitchChange)).BeginInit();
@@ -230,6 +231,10 @@ namespace Juniper.Speech
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
+            // saveFile
+            // 
+            this.saveFile.Filter = "MP3 files (*.mp3)|*.mp3|WAV files (*.wav)|*.wav|All files (*.*)|*.*";
+            // 
             // SpeechGen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -265,6 +270,7 @@ namespace Juniper.Speech
         private System.Windows.Forms.TrackBar pitchChange;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.SaveFileDialog saveFile;
     }
 }
 

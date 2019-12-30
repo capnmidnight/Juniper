@@ -13,9 +13,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Juniper.HTTP.WebSockets;
+using Juniper.HTTP.Server.Controllers;
+using Juniper.Logging;
 
-namespace Juniper.HTTP
+namespace Juniper.HTTP.Server
 {
     /// <summary>
     /// A wrapper around <see cref="HttpListener"/> that handles
@@ -302,42 +303,39 @@ or
                 {
                     SetPrefix("https", HttpsPort.Value);
                 }
+                else if (string.IsNullOrEmpty(Domain))
+                {
+                    OnWarning(this, "No domain was specified. Can't auto-assign a TLS certificate.");
+                }
                 else
                 {
-                    if (string.IsNullOrEmpty(Domain))
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+                    GetTLSParameters(out var guid, out var certHash);
+
+                    if (string.IsNullOrEmpty(guid))
                     {
-                        OnWarning(this, "No domain was specified. Can't auto-assign a TLS certificate.");
+                        OnWarning(this, "Couldn't find application GUID");
+                    }
+                    else if (string.IsNullOrEmpty(certHash))
+                    {
+                        OnWarning(this, "No TLS cert found!");
                     }
                     else
                     {
-                        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                        var message = AssignCertToApp(certHash, guid);
 
-                        GetTLSParameters(out var guid, out var certHash);
-
-                        if (string.IsNullOrEmpty(guid))
+                        if (message.Equals("SSL Certificate added successfully", StringComparison.OrdinalIgnoreCase)
+                            || message.StartsWith("SSL Certificate add failed, Error: 183", StringComparison.OrdinalIgnoreCase))
                         {
-                            OnWarning(this, "Couldn't find application GUID");
+                            SetPrefix("https", HttpsPort.Value);
                         }
-                        else if (string.IsNullOrEmpty(certHash))
+                        else if (message.Equals("The parameter is incorrect.", StringComparison.OrdinalIgnoreCase))
                         {
-                            OnWarning(this, "No TLS cert found!");
-                        }
-                        else
-                        {
-                            var message = AssignCertToApp(certHash, guid);
-
-                            if (message.Equals("SSL Certificate added successfully", StringComparison.OrdinalIgnoreCase)
-                                || message.StartsWith("SSL Certificate add failed, Error: 183", StringComparison.OrdinalIgnoreCase))
-                            {
-                                SetPrefix("https", HttpsPort.Value);
-                            }
-                            else if (message.Equals("The parameter is incorrect.", StringComparison.OrdinalIgnoreCase))
-                            {
-                                OnWarning(this, $@"Couldn't configure the certificate correctly:
+                            OnWarning(this, $@"Couldn't configure the certificate correctly:
     Application GUID: {guid}
     TLS cert: {certHash}
     {message}");
-                            }
                         }
                     }
                 }
@@ -424,13 +422,18 @@ or
                 protocol = "https";
                 if (HttpsPort != 443)
                 {
-                    port = ":" + HttpsPort.Value.ToString(CultureInfo.InvariantCulture);
+                    port = HttpsPort.Value.ToString(CultureInfo.InvariantCulture);
                 }
             }
             else if (HttpPort != null
                 && HttpPort != 80)
             {
-                port = ":" + HttpPort.Value.ToString(CultureInfo.InvariantCulture);
+                port = HttpPort.Value.ToString(CultureInfo.InvariantCulture);
+            }
+
+            if (port.Length > 0)
+            {
+                port = ":" + port;
             }
 
             var page = $"{protocol}://{ListenAddress}{port}/{startPage}";

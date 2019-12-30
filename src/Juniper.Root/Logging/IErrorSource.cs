@@ -1,6 +1,7 @@
 using System;
+using Juniper.Logging;
 
-namespace Juniper.HTTP
+namespace Juniper.Logging
 {
     public interface IErrorSource
     {

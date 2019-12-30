@@ -10,6 +10,7 @@ namespace Juniper.UnityAssetStore
         public readonly string title;
         public readonly string publisher;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected AssetSummary(SerializationInfo info, StreamingContext context)
         {
             foreach (var field in info)

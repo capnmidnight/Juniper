@@ -20,6 +20,7 @@ namespace Juniper.UnityAssetStore
         public readonly bool countdown;
         public readonly object[] results;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected Sale(SerializationInfo info, StreamingContext context)
         {
             banner = info.GetString(nameof(banner));

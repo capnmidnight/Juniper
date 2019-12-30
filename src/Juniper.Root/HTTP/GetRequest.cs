@@ -4,10 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Juniper.HTTP.Client.REST;
 
 namespace Juniper.HTTP
 {
-    public class GetRequest : REST.AbstractRequest<MediaType>
+    public class GetRequest : AbstractRequest<MediaType>
     {
         public GetRequest(Uri url, MediaType contentType)
             : base(HttpMethods.GET, url, contentType)

@@ -12,6 +12,7 @@ namespace Juniper.UnityAssetStore
         public readonly bool HasResults;
         public readonly T[] results;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected Results(SerializationInfo info, StreamingContext context)
         {
             total = -1;

@@ -7,7 +7,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Juniper.HTTP
+using Juniper.Logging;
+
+namespace Juniper.HTTP.Server.Controllers
 {
     public class DefaultFileController : IWarningSource
     {
@@ -122,11 +124,7 @@ namespace Juniper.HTTP
                   mediaTypeWhiteList)
         { }
 
-        [Route(".*",
-#if !DEBUG
-            Protocol = HttpProtocols.HTTPS,
-#endif
-            Priority = int.MaxValue)]
+        [Route(".*", Priority = int.MaxValue)]
         public async Task ServeFileAsync(HttpListenerContext context)
         {
             var request = context.Request;
@@ -188,8 +186,8 @@ namespace Juniper.HTTP
                 .Append(shortName)
                 .Append("</h1><ul>");
 
-            var paths = (from subPath in dir.GetFileSystemInfos()
-                         select MakeShortName(dir.FullName, subPath.FullName));
+            var paths = from subPath in dir.GetFileSystemInfos()
+                        select MakeShortName(dir.FullName, subPath.FullName);
 
             if (string.CompareOrdinal(dir.Parent.FullName, rootDirectory.FullName) == 0)
             {

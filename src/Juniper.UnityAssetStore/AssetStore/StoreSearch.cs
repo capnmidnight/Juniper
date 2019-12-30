@@ -143,6 +143,7 @@ namespace Juniper.UnityAssetStore
             public readonly bool HasResults;
             public readonly AssetDetail[] results;
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
             protected Results(SerializationInfo info, StreamingContext context)
             {
                 total = -1;
@@ -153,14 +154,14 @@ namespace Juniper.UnityAssetStore
                     switch (field.Name)
                     {
                         case nameof(total):
-                            total = info.GetInt32(nameof(total));
-                            break;
+                        total = info.GetInt32(nameof(total));
+                        break;
 
                         case nameof(results):
                         case "result":
-                            HasResults = true;
-                            results = info.GetValue<AssetDetail[]>(nameof(results));
-                            break;
+                        HasResults = true;
+                        results = info.GetValue<AssetDetail[]>(nameof(results));
+                        break;
                     }
                 }
             }

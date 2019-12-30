@@ -14,6 +14,7 @@ namespace Juniper.UnityAssetStore
         public readonly bool IsDeprecated;
         public readonly bool NotFound;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected Content(SerializationInfo info, StreamingContext context)
         {
             foreach (var field in info)

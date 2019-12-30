@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 
-namespace Juniper.HTTP
+namespace Juniper.Logging
 {
-
     public interface IWarningSource
     {
         event EventHandler<string> Warning;

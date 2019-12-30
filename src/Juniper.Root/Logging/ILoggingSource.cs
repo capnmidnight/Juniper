@@ -1,6 +1,6 @@
 using System;
 
-namespace Juniper.HTTP
+namespace Juniper.Logging
 {
     public interface ILoggingSource :
         IInfoSource,

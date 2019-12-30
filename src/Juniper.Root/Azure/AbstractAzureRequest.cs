@@ -1,7 +1,7 @@
 using System;
 
 using Juniper.HTTP;
-using Juniper.HTTP.REST;
+using Juniper.HTTP.Client.REST;
 
 namespace Juniper.Azure
 {

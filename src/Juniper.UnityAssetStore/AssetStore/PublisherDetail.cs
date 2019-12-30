@@ -30,6 +30,7 @@ namespace Juniper.UnityAssetStore
         public readonly KeyImage keyimage;
         public readonly Rating rating;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected PublisherDetail(SerializationInfo info, StreamingContext context)
         {
             organization_id = info.GetString(nameof(organization_id));
@@ -92,6 +93,7 @@ namespace Juniper.UnityAssetStore
             public readonly string support_email;
             public readonly string support_url;
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
             protected PublisherSummary(SerializationInfo info, StreamingContext context)
             {
                 label_english = info.GetString(nameof(label_english));
@@ -138,6 +140,7 @@ namespace Juniper.UnityAssetStore
             public readonly KeyImage keyimage;
             public readonly Tag[] list;
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
             protected LatestAsset(SerializationInfo info, StreamingContext context)
             {
                 icon = info.GetString(nameof(icon));
@@ -197,6 +200,7 @@ namespace Juniper.UnityAssetStore
             public readonly string id;
             public readonly string label;
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
             protected CategorySummary(SerializationInfo info, StreamingContext context)
             {
                 label_english = info.GetString(nameof(label_english));

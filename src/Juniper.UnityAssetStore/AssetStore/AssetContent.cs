@@ -8,6 +8,7 @@ namespace Juniper.UnityAssetStore
     {
         public AssetContent[] assets;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected AssetContents(SerializationInfo info, StreamingContext context)
         {
             assets = info.GetValue<AssetContent[]>(nameof(assets));
@@ -28,6 +29,7 @@ namespace Juniper.UnityAssetStore
         public readonly string label;
         public readonly int folder;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected AssetContent(SerializationInfo info, StreamingContext context)
         {
             foreach (var field in info)

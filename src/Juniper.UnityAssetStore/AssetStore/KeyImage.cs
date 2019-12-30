@@ -41,6 +41,7 @@ namespace Juniper.UnityAssetStore
         private readonly string facebook;
         public Uri Facebook { get; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected KeyImage(SerializationInfo info, StreamingContext context)
         {
             package_version_id = null;

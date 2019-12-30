@@ -66,7 +66,7 @@ namespace Juniper.Speech
             try
             {
                 client.OutputFormat = e.Format;
-                var newStream = await client.GetAudioDataStream(e.Text, e.Voice, e.RateChange, e.PitchChange)
+                var newStream = await client.GetAudioDataStreamAsync(e.Text, e.Voice, e.RateChange, e.PitchChange)
                     .ConfigureAwait(true);
                 if (e.FileName != null)
                 {
