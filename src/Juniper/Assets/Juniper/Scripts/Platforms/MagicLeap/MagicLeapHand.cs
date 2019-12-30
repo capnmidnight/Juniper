@@ -39,7 +39,7 @@ namespace Juniper.Input.Pointers.Motion
         {
             get
             {
-                return Hand == Hands.Right;
+                return Hand == Hand.Right;
             }
         }
 
@@ -78,7 +78,7 @@ namespace Juniper.Input.Pointers.Motion
 
         public override void Awake()
         {
-            if (Hand == Hands.None)
+            if (Hand == Hand.None)
             {
                 this.Destroy();
             }

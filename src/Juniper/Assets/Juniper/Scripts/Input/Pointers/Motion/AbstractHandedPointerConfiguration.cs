@@ -17,7 +17,7 @@ namespace Juniper.Input.Pointers.Motion
             }
         }
 
-        public string MakePointerName(Hands hand)
+        public string MakePointerName(Hand hand)
         {
             return $"{hand}{PointerNameStub}";
         }
@@ -27,6 +27,6 @@ namespace Juniper.Input.Pointers.Motion
             get;
         }
 
-        public abstract HandIDType? this[Hands hand] { get; }
+        public abstract HandIDType? this[Hand hand] { get; }
     }
 }

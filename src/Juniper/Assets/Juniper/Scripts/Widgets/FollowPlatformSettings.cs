@@ -11,7 +11,7 @@ namespace Juniper.Widgets
     /// </summary>
     public class FollowPlatformSettings : AbstractFollowSettings
     {
-        public PlatformTypes platform;
+        public PlatformType platform;
 
         [SerializeField]
         [HideInNormalInspector]
@@ -32,10 +32,10 @@ namespace Juniper.Widgets
 
 #if UNITY_EDITOR
             if(GetComponents<FollowPlatformSettings>()
-                .All(other => other.platform != PlatformTypes.None))
+                .All(other => other.platform != PlatformType.None))
             {
                 var none = gameObject.AddComponent<FollowPlatformSettings>();
-                none.platform = PlatformTypes.None;
+                none.platform = PlatformType.None;
             }
 #endif
         }
@@ -45,7 +45,7 @@ namespace Juniper.Widgets
             bool isGood = true;
             if (platform != JuniperSystem.CurrentPlatform)
             {
-                bool isDefault = platform == PlatformTypes.None
+                bool isDefault = platform == PlatformType.None
                     && !GetComponents<FollowPlatformSettings>()
                         .Any(other => other.platform == JuniperSystem.CurrentPlatform);
 

@@ -27,7 +27,7 @@ namespace Juniper.Widgets
         /// Calculates statistics for the frame delta time value, for knowing the mean value and
         /// rejecting outliers.
         /// </summary>
-        private readonly SingleStatistics frameStats = new SingleStatistics(30);
+        private readonly SingleStatisticsCollection frameStats = new SingleStatisticsCollection(30);
 
         private DisplayManager display;
 

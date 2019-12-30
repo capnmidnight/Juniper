@@ -174,7 +174,7 @@ namespace Juniper.ConfigurationManagement
                     using (new HGroup())
                     {
                         EditorGUILayout.LabelField("Change platform", nameFieldWidth);
-                        selectedPlatform = (PlatformTypes)EditorGUILayout.EnumPopup(selectedPlatform, nameFieldWidth);
+                        selectedPlatform = (PlatformType)EditorGUILayout.EnumPopup(selectedPlatform, nameFieldWidth);
                     }
                 }
             }
@@ -351,7 +351,7 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        private static PlatformTypes DesiredPlatform
+        private static PlatformType DesiredPlatform
         {
             get
             {
@@ -367,7 +367,7 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        private static PlatformTypes CurrentPlatform
+        private static PlatformType CurrentPlatform
         {
             get
             {
@@ -383,7 +383,7 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        private static PlatformTypes NextPlatform
+        private static PlatformType NextPlatform
         {
             get
             {
@@ -416,7 +416,7 @@ namespace Juniper.ConfigurationManagement
         {
             get
             {
-                return DesiredPlatform != PlatformTypes.None
+                return DesiredPlatform != PlatformType.None
                     && DesiredPlatform != CurrentPlatform
                     && !BuildInProgress;
             }
@@ -434,7 +434,7 @@ namespace Juniper.ConfigurationManagement
             }
             else
             {
-                return config.NextPlatform == PlatformTypes.None
+                return config.NextPlatform == PlatformType.None
                     || (config.NextPlatform != CurrentPlatform
                         && EditorUtility.DisplayDialog(
                             "Juniper",
@@ -460,7 +460,7 @@ namespace Juniper.ConfigurationManagement
 
         #region Menu
 
-        private static bool MenuCheck(PlatformTypes p)
+        private static bool MenuCheck(PlatformType p)
         {
             return CurrentPlatform != p && Platforms.PlatformDB[p].IsSupported;
         }

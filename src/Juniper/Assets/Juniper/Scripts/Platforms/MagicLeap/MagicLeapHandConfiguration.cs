@@ -19,16 +19,16 @@ namespace Juniper.Input.Pointers.Motion
             AddButton(MLHandKeyPose.Thumb, KeyCode.Mouse2);
         }
 
-        public override MLHandType? this[Hands hand]
+        public override MLHandType? this[Hand hand]
         {
             get
             {
                 switch (hand)
                 {
-                    case Hands.Left:
+                    case Hand.Left:
                     return MLHandType.Left;
 
-                    case Hands.Right:
+                    case Hand.Right:
                     return MLHandType.Right;
 
                     default:

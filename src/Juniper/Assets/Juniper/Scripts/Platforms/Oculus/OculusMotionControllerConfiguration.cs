@@ -35,15 +35,15 @@ namespace Juniper.Input.Pointers.Motion
             AddButton(OVRInput.Button.Back, KeyCode.Escape);
         }
 
-        public override OVRInput.Controller? this[Hands hand]
+        public override OVRInput.Controller? this[Hand hand]
         {
             get
             {
-                if (hand == Hands.Left)
+                if (hand == Hand.Left)
                 {
                     return Left;
                 }
-                else if (hand == Hands.Right)
+                else if (hand == Hand.Right)
                 {
                     return Right;
                 }

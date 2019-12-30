@@ -21,16 +21,16 @@ namespace Juniper.Input.Pointers.Motion
             AddButton(MLInputControllerButton.HomeTap, KeyCode.Escape);
         }
 
-        public override MLInput.Hand? this[Hands hand]
+        public override MLInput.Hand? this[Hand hand]
         {
             get
             {
                 switch (hand)
                 {
-                    case Hands.Left:
+                    case Hand.Left:
                     return MLInput.Hand.Left;
 
-                    case Hands.Right:
+                    case Hand.Right:
                     return MLInput.Hand.Right;
 
                     default:

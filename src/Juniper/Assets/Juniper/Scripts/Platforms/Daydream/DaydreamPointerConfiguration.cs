@@ -13,15 +13,15 @@ namespace Juniper.Input.Pointers.Motion
             AddButton(GvrControllerButton.App, KeyCode.Escape);
         }
 
-        public override GvrControllerHand? this[Hands hand]
+        public override GvrControllerHand? this[Hand hand]
         {
             get
             {
-                if (hand == Hands.Left)
+                if (hand == Hand.Left)
                 {
                     return GvrControllerHand.Left;
                 }
-                else if (hand == Hands.Right)
+                else if (hand == Hand.Right)
                 {
                     return GvrControllerHand.Right;
                 }

@@ -30,7 +30,7 @@ namespace Juniper.ConfigurationManagement
         }
 
         private int buildStep;
-        private PlatformTypes nextPlatform;
+        private PlatformType nextPlatform;
 
         private ProjectConfiguration()
         {
@@ -40,8 +40,8 @@ namespace Juniper.ConfigurationManagement
         private ProjectConfiguration(SerializationInfo info, StreamingContext context)
         {
             buildStep = info.GetInt32(nameof(buildStep));
-            CurrentPlatform = info.GetEnumFromString<PlatformTypes>(nameof(CurrentPlatform));
-            nextPlatform = info.GetEnumFromString<PlatformTypes>(nameof(nextPlatform));
+            CurrentPlatform = info.GetEnumFromString<PlatformType>(nameof(CurrentPlatform));
+            nextPlatform = info.GetEnumFromString<PlatformType>(nameof(nextPlatform));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -59,7 +59,7 @@ namespace Juniper.ConfigurationManagement
         {
             buildStep = 0;
             CurrentPlatform = NextPlatform;
-            nextPlatform = PlatformTypes.None;
+            nextPlatform = PlatformType.None;
             Save();
         }
 
@@ -82,9 +82,9 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        public PlatformTypes CurrentPlatform { get; private set; }
+        public PlatformType CurrentPlatform { get; private set; }
 
-        public PlatformTypes NextPlatform
+        public PlatformType NextPlatform
         {
             get
             {
@@ -98,7 +98,7 @@ namespace Juniper.ConfigurationManagement
                 if (PlatformChanged?.Invoke() != false)
                 {
                     Save();
-                    if (value != PlatformTypes.None)
+                    if (value != PlatformType.None)
                     {
                         PlatformChangeConfirmed?.Invoke();
                     }

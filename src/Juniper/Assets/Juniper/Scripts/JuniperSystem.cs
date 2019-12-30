@@ -68,7 +68,7 @@ namespace Juniper
 
         public static Task<T> OnMainThread<T>(Func<T> act)
         {
-            if(mainThread is null)
+            if (mainThread is null)
             {
                 throw new InvalidOperationException("Main thread starter isn't setup correctly");
             }
@@ -150,64 +150,64 @@ namespace Juniper
             }
         }
 
-        public static readonly PlatformTypes CurrentPlatform =
+        public static readonly PlatformType CurrentPlatform =
 #if UNITY_XR_MAGICLEAP
-            PlatformTypes.MagicLeap;
+            PlatformType.MagicLeap;
 
 #elif UNITY_WEBGL
-            PlatformTypes.WebGL;
+            PlatformType.WebGL;
 
 #elif UNITY_ANDROID
 #if UNITY_XR_ARCORE
-            PlatformTypes.AndroidARCore;
+            PlatformType.AndroidARCore;
 #elif CARDBOARD
-            PlatformTypes.AndroidCardboard;
+            PlatformType.AndroidCardboard;
 #elif UNITY_XR_GOOGLEVR_ANDROID
-            PlatformTypes.AndroidDaydream;
+            PlatformType.AndroidDaydream;
 #elif UNITY_XR_OCULUS
-            PlatformTypes.AndroidOculus;
+            PlatformType.AndroidOculus;
 
 #elif PICO
-            PlatformTypes.AndroidPicoG2;
+            PlatformType.AndroidPicoG2;
 #elif WAVEVR
-            PlatformTypes.AndroidViveFocus;
+            PlatformType.AndroidViveFocus;
 #elif STANDARD_DISPLAY
-            PlatformTypes.Android;
+            PlatformType.Android;
 #else
-            PlatformTypes.None;
+            PlatformType.None;
 #endif
 #elif UNITY_IOS
 #if UNITY_XR_ARKIT
-            PlatformTypes.IOSARKit;
+            PlatformType.IOSARKit;
 #elif CARDBOARD
-            PlatformTypes.IOSCardboard;
+            PlatformType.IOSCardboard;
 #elif STANDARD_DISPLAY
-            PlatformTypes.IOS;
+            PlatformType.IOS;
 #else
-            PlatformTypes.None;
+            PlatformType.None;
 #endif
 #elif UNITY_STANDALONE
 #if UNITY_XR_OCULUS
-            PlatformTypes.StandaloneOculus;
+            PlatformType.StandaloneOculus;
 #elif STEAMVR
-            PlatformTypes.StandaloneSteamVR;
+            PlatformType.StandaloneSteamVR;
 #elif STANDARD_DISPLAY
-            PlatformTypes.Standalone;
+            PlatformType.Standalone;
 #else
-            PlatformTypes.None;
+            PlatformType.None;
 #endif
 #elif UNITY_WSA
 #if UNITY_XR_WINDOWSMR_METRO && WINDOWSMR
-            PlatformTypes.UWPWindowsMR;
+            PlatformType.UWPWindowsMR;
 #elif UNITY_XR_WINDOWSMR_METRO && HOLOLENS
-            PlatformTypes.UWPHoloLens;
+            PlatformType.UWPHoloLens;
 #elif STANDARD_DISPLAY
-            PlatformTypes.UWP;
+            PlatformType.UWP;
 #else
-            PlatformTypes.None;
+            PlatformType.None;
 #endif
 #else
-            PlatformTypes.None;
+            PlatformType.None;
 #endif
 
         public static SystemTypes System
@@ -243,7 +243,7 @@ namespace Juniper
         }
 
         [ReadOnly]
-        public PlatformTypes m_CurrentPlatform;
+        public PlatformType m_CurrentPlatform;
 
         [ReadOnly]
         public SystemTypes m_System;

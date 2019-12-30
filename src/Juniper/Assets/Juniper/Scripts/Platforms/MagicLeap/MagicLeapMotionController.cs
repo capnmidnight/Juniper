@@ -55,7 +55,7 @@ namespace Juniper.Input.Pointers.Motion
             GetController();
         }
 
-        public override Hands Hand
+        public override Hand Hand
         {
             get
             {

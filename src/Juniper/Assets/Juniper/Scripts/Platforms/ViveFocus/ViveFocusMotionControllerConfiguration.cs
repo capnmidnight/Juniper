@@ -20,15 +20,15 @@ namespace Juniper.Input.Pointers.Motion
             AddButton(WVR_InputId.WVR_InputId_Alias1_Menu, KeyCode.Escape);
         }
 
-        public override WVR_DeviceType? this[Hands hand]
+        public override WVR_DeviceType? this[Hand hand]
         {
             get
             {
-                if (hand == Hands.Left)
+                if (hand == Hand.Left)
                 {
                     return WVR_DeviceType.WVR_DeviceType_Controller_Left;
                 }
-                else if (hand == Hands.Right)
+                else if (hand == Hand.Right)
                 {
                     return WVR_DeviceType.WVR_DeviceType_Controller_Right;
                 }

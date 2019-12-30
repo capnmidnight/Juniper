@@ -9,7 +9,7 @@ namespace Juniper.Mathematics
     /// Computes statistics on UnityEngine.Vector2 values.
     /// </summary>
     [ComVisible(false)]
-    public class Vector2Statistics : AbstractCollectionStatistics<Vector2>
+    public class Vector2Statistics : AbstractStatisticsCollection<Vector2>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Juniper.Mathematics.Vector2Statistics"/> class.

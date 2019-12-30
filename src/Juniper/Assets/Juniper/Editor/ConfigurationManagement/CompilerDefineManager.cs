@@ -102,7 +102,7 @@ namespace Juniper.ConfigurationManagement
             UnityCompiler.SetDefines(CurrentConfiguration.TargetGroup, nextDefines);
         }
 
-        private static PlatformTypes DesiredPlatform
+        private static PlatformType DesiredPlatform
         {
             get
             {
@@ -118,7 +118,7 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        private static PlatformTypes CurrentPlatform
+        private static PlatformType CurrentPlatform
         {
             get
             {

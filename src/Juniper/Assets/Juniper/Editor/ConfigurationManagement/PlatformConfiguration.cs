@@ -118,12 +118,12 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        public IEnumerable<UnityXRPlatforms> XRPlatforms
+        public IEnumerable<UnityXRPlatform> XRPlatforms
         {
             get
             {
                 return from sys in vrSystems
-                       select (UnityXRPlatforms)Enum.Parse(typeof(UnityXRPlatforms), sys);
+                       select (UnityXRPlatform)Enum.Parse(typeof(UnityXRPlatform), sys);
             }
         }
 

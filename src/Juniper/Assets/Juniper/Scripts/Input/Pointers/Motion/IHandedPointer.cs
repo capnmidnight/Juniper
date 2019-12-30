@@ -4,7 +4,7 @@ namespace Juniper.Input.Pointers.Motion
 {
     public interface IHandedPointer : IPointerDevice
     {
-        Hands Hand
+        Hand Hand
         {
             get;
         }

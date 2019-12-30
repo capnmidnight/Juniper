@@ -14,15 +14,15 @@ namespace Juniper.Input.Pointers.Motion
             AddButton(WindowsMRButtons.App, KeyCode.Escape);
         }
 
-        public override InteractionSourceHandedness? this[Hands hand]
+        public override InteractionSourceHandedness? this[Hand hand]
         {
             get
             {
-                if (hand == Hands.Left)
+                if (hand == Hand.Left)
                 {
                     return InteractionSourceHandedness.Left;
                 }
-                else if (hand == Hands.Right)
+                else if (hand == Hand.Right)
                 {
                     return InteractionSourceHandedness.Right;
                 }

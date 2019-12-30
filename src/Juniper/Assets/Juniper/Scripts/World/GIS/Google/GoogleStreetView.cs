@@ -170,7 +170,7 @@ namespace Juniper.World.GIS.Google
 
             gmaps = new GoogleMapsClient(gmapsApiKey, gmapsSigningKey, metadataDecoder, geocodingDecoder, cache);
 
-            foreach (var fileRef in cache.Get(metadataDecoder.ContentType))
+            foreach (var fileRef in cache.GetContentReference(metadataDecoder.ContentType))
             {
                 if (cache.TryLoad(metadataDecoder, fileRef, out var metadata))
                 {
@@ -234,7 +234,7 @@ namespace Juniper.World.GIS.Google
                     Cubemap cubemap = null;
                     Texture2D img = null;
 
-                    await loadingBar.Run(
+                    await loadingBar.RunAsync(
                         ("Rendering cubemap", async (prog) =>
                         {
                             cubemap = await JuniperSystem.OnMainThread(() =>
@@ -257,7 +257,8 @@ namespace Juniper.World.GIS.Google
 
                                 return cb;
                             });
-                        }),
+                        }
+                    ),
                         ("Copying cubemap faces", async (prog) =>
                         {
                             for (var f = 0; f < CAPTURE_CUBEMAP_FACES.Length; ++f)
@@ -273,17 +274,20 @@ namespace Juniper.World.GIS.Google
                                     prog.Report(f + 1, CAPTURE_CUBEMAP_FACES.Length);
                                 });
                             }
-                        }),
+                        }
+                    ),
                         ("Concatenating faces", async (prog) =>
                         {
                             img = await JuniperSystem.OnMainThread(() =>
                             processor.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), prog));
-                        }),
+                        }
+                    ),
                         ("Saving image", (prog) =>
                         {
                             cache.Save(codec, photosphere.name + codec.ContentType, img, true, prog);
                             return Task.CompletedTask;
-                        }));
+                        }
+                    ));
 
                     loadingBar.Deactivate();
                 }
@@ -347,7 +351,7 @@ namespace Juniper.World.GIS.Google
             }
             else
             {
-                return Decode(cache.Open(cubemapRef).Result);
+                return Decode(cache.OpenAsync(cubemapRef).Result);
             }
         }
 
@@ -360,7 +364,7 @@ namespace Juniper.World.GIS.Google
             }
             else
             {
-                return Decode(await gmaps.GetImage(source.CubemapName, fov, heading, pitch));
+                return Decode(await gmaps.GetImageAsync(source.CubemapName, fov, heading, pitch));
             }
         }
 
@@ -472,7 +476,7 @@ namespace Juniper.World.GIS.Google
                 searchTask = SearchData(searchPano, searchPoint, prog)
                     .ContinueWith(JuniperSystem.LogError, TaskContinuationOptions.OnlyOnFaulted);
             }
-            else if (origin != null 
+            else if (origin != null
                 && metadata != null
                 && input.ActiveController != null)
             {
@@ -489,7 +493,7 @@ namespace Juniper.World.GIS.Google
         {
             lastCursorPosition = cursorPosition;
             var point = GetRelativeLatLng(cursorPosition);
-            var pointMetadata = await gmaps.GetMetadata(point, searchRadius, null);
+            var pointMetadata = await gmaps.GetMetadataAsync(point, searchRadius, null);
             if (pointMetadata != null)
             {
                 Cache(pointMetadata);
@@ -529,17 +533,17 @@ namespace Juniper.World.GIS.Google
                 var metaSubProgs = prog.Split("Searching by PanoID", "Searching by Lat/Lng", "Searching by Location Name");
                 if (metadata == null && searchPano != null)
                 {
-                    metadata = await gmaps.GetMetadata(searchPano, searchRadius, metaSubProgs[0]);
+                    metadata = await gmaps.GetMetadataAsync(searchPano, searchRadius, metaSubProgs[0]);
                 }
 
                 if (metadata == null && searchPoint != null)
                 {
-                    metadata = await gmaps.GetMetadata(searchPoint, searchRadius, metaSubProgs[1]);
+                    metadata = await gmaps.GetMetadataAsync(searchPoint, searchRadius, metaSubProgs[1]);
                 }
 
                 if (metadata == null && searchLocation != null)
                 {
-                    metadata = await gmaps.SearchMetadata(searchLocation, searchRadius, metaSubProgs[2]);
+                    metadata = await gmaps.SearchMetadataAsync(searchLocation, searchRadius, metaSubProgs[2]);
                 }
 
                 if (metadata != null)
@@ -584,7 +588,7 @@ namespace Juniper.World.GIS.Google
 
                 if (lastSphere == null)
                 {
-                    await prog.WaitOn(curSphere, "Loading photosphere");
+                    await prog.WaitOnAsync(curSphere, "Loading photosphere");
                     Complete();
                 }
 

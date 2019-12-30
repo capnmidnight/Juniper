@@ -2,7 +2,7 @@
 {
     public class NoMotionControllerConfiguration : AbstractMotionControllerConfiguration<Unary, Unary>
     {
-        public override Unary? this[Hands hand]
+        public override Unary? this[Hand hand]
         {
             get
             {

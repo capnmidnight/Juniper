@@ -18,15 +18,15 @@ namespace Juniper.Input.Pointers.Motion
             where T : AbstractHandedPointer<HandIDType, ButtonIDType, ConfigType, HapticType>
         {
             return new[] {
-                MakeMotionController(MakePointer, Hands.Left),
-                MakeMotionController(MakePointer, Hands.Right)
+                MakeMotionController(MakePointer, Hand.Left),
+                MakeMotionController(MakePointer, Hand.Right)
             };
         }
 
         /// <summary>
         /// Create a new hand pointer object for an interaction source that hasn't yet been seen.
         /// </summary>
-        private static T MakeMotionController<T>(Func<string, T> MakePointer, Hands hand)
+        private static T MakeMotionController<T>(Func<string, T> MakePointer, Hand hand)
             where T : AbstractHandedPointer<HandIDType, ButtonIDType, ConfigType, HapticType>
         {
             var pointer = MakePointer(PointerConfig.MakePointerName(hand));
@@ -37,9 +37,9 @@ namespace Juniper.Input.Pointers.Motion
             return pointer;
         }
 
-        public Hands _hand;
+        public Hand _hand;
 
-        public virtual Hands Hand
+        public virtual Hand Hand
         {
             get
             {
@@ -61,7 +61,7 @@ namespace Juniper.Input.Pointers.Motion
         {
             get
             {
-                return Hand == Hands.Left;
+                return Hand == Hand.Left;
             }
         }
 
@@ -69,7 +69,7 @@ namespace Juniper.Input.Pointers.Motion
         {
             get
             {
-                return Hand == Hands.Right;
+                return Hand == Hand.Right;
             }
         }
 

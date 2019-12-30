@@ -121,12 +121,12 @@ namespace Juniper.Widgets
         /// <summary>
         /// A statistical analyzer for the gyroscope data to determine if a shake has happened.
         /// </summary>
-        private SingleStatistics torques;
+        private SingleStatisticsCollection torques;
 
         /// <summary>
         /// A statistical analyzer for the accelerometer data to determine if a shake has happened.
         /// </summary>
-        private SingleStatistics accelerations;
+        private SingleStatisticsCollection accelerations;
 
         /// <summary>
         /// Keeping track of the moues position of the last frame to detect when the mouse has moved,
@@ -220,8 +220,8 @@ namespace Juniper.Widgets
         /// </summary>
         private void StartSampling()
         {
-            torques = new SingleStatistics(RINGBUFFER_SIZE);
-            accelerations = new SingleStatistics(RINGBUFFER_SIZE);
+            torques = new SingleStatisticsCollection(RINGBUFFER_SIZE);
+            accelerations = new SingleStatisticsCollection(RINGBUFFER_SIZE);
             Restart();
         }
 

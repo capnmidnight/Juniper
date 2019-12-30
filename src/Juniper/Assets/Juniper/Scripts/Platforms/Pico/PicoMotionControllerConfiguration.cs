@@ -18,15 +18,15 @@ namespace Juniper.Input.Pointers.Motion
             AddButton(Pvr_KeyCode.APP, KeyCode.Escape);
         }
 
-        public override ControllerVariety? this[Hands hand]
+        public override ControllerVariety? this[Hand hand]
         {
             get
             {
-                if (hand == Hands.Left)
+                if (hand == Hand.Left)
                 {
                     return ControllerVariety.Controller0;
                 }
-                else if (hand == Hands.Right)
+                else if (hand == Hand.Right)
                 {
                     return ControllerVariety.Controller1;
                 }

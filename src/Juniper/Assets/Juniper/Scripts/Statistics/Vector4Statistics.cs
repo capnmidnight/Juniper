@@ -10,7 +10,7 @@ namespace Juniper.Mathematics
     /// the way.
     /// </summary>
     [ComVisible(false)]
-    public class Vector4Statistics : AbstractCollectionStatistics<Vector4>
+    public class Vector4Statistics : AbstractStatisticsCollection<Vector4>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Juniper.Mathematics.Vector4Statistics"/> class.

@@ -46,7 +46,7 @@ namespace Juniper.ConfigurationManagement
         public static event Action ScanningProgressUpdated;
 
         public static readonly PlatformConfiguration[] AllPlatforms;
-        public static readonly Dictionary<PlatformTypes, PlatformConfiguration> PlatformDB;
+        public static readonly Dictionary<PlatformType, PlatformConfiguration> PlatformDB;
 
         public static string[] AllCompilerDefines
         {
@@ -148,7 +148,7 @@ namespace Juniper.ConfigurationManagement
                 .ToArray();
 
             AllPlatforms = config.platforms;
-            PlatformDB = AllPlatforms.ToDictionary(pform => (PlatformTypes)Enum.Parse(typeof(PlatformTypes), pform.Name));
+            PlatformDB = AllPlatforms.ToDictionary(pform => (PlatformType)Enum.Parse(typeof(PlatformType), pform.Name));
 
             foreach (var platform in AllPlatforms)
             {

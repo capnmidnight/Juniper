@@ -64,7 +64,7 @@ namespace Juniper.World
 
             if (samples == null)
             {
-                samples = new SingleStatistics(averagingIterations);
+                samples = new SingleStatisticsCollection(averagingIterations);
             }
 
             if (UseFakeHeading)
@@ -90,7 +90,7 @@ namespace Juniper.World
         /// <summary>
         /// Compass heading readings analyzer.
         /// </summary>
-        private SingleStatistics samples;
+        private SingleStatisticsCollection samples;
 
         /// <summary>
         /// An angle movement smoother for avoiding big jumps from 1 to 359 degrees.
