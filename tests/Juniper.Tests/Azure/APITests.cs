@@ -34,29 +34,29 @@ namespace Juniper.Azure.Tests
             cache = new CachingStrategy(cacheDir);
         }
 
-        private async Task<string> GetToken()
+        private Task<string> GetTokenAsync()
         {
             var tokenRequest = new AuthTokenRequest(region, subscriptionKey);
-            return await tokenRequest
-                .Decode(new StringFactory())
-                .ConfigureAwait(false);
+            return tokenRequest
+                .DecodeAsync(new StringFactory());
         }
 
-        private async Task<Voice[]> GetVoices()
+        private async Task<Voice[]> GetVoicesAsync()
         {
             var voiceListRequest = new VoiceListRequest(region);
             if (!cache.IsCached(voiceListRequest))
             {
-                voiceListRequest.AuthToken = await GetToken().ConfigureAwait(false);
+                voiceListRequest.AuthToken = await GetTokenAsync().ConfigureAwait(false);
             }
+
             return await cache
-                .Load(voiceListDecoder, voiceListRequest)
+                .LoadAsync(voiceListDecoder, voiceListRequest)
                 .ConfigureAwait(false);
         }
 
-        private async Task<TextToSpeechRequest> MakeSpeechRequest()
+        private async Task<TextToSpeechRequest> MakeSpeechRequestAsync()
         {
-            var voices = await GetVoices().ConfigureAwait(false);
+            var voices = await GetVoicesAsync().ConfigureAwait(false);
 
             var voice = (from v in voices
                          where v.ShortName == "en-US-JessaNeural"
@@ -74,30 +74,31 @@ namespace Juniper.Azure.Tests
             };
             if (!cache.IsCached(audioRequest))
             {
-                audioRequest.AuthToken = await GetToken().ConfigureAwait(false);
+                audioRequest.AuthToken = await GetTokenAsync().ConfigureAwait(false);
             }
+
             return audioRequest;
         }
 
         [TestMethod]
-        public async Task GetAuthToken()
+        public async Task GetAuthTokenAsync()
         {
-            var token = await GetToken().ConfigureAwait(false);
+            var token = await GetTokenAsync().ConfigureAwait(false);
             Assert.IsNotNull(token);
             Assert.AreNotEqual(0, token.Length);
         }
 
         [TestMethod]
-        public async Task GetVoiceList()
+        public async Task GetVoiceListAsync()
         {
-            var voices = await GetVoices().ConfigureAwait(false);
+            var voices = await GetVoicesAsync().ConfigureAwait(false);
 
             Assert.IsNotNull(voices);
             Assert.AreNotEqual(0, voices.Length);
         }
 
         [TestMethod]
-        public async Task GetVoiceListClient()
+        public async Task GetVoiceListClientAsync()
         {
             var voicesClient = new VoicesClient(region, subscriptionKey, new JsonFactory<Voice[]>());
             var voices = await voicesClient
@@ -109,12 +110,12 @@ namespace Juniper.Azure.Tests
         }
 
         [TestMethod]
-        public async Task GetAudioFile()
+        public async Task GetAudioFileAsync()
         {
-            var audioRequest = await MakeSpeechRequest().ConfigureAwait(false);
+            var audioRequest = await MakeSpeechRequestAsync().ConfigureAwait(false);
 
             using (var audioStream = await cache
-                .Open(audioRequest)
+                .OpenAsync(audioRequest)
                 .ConfigureAwait(false))
             {
                 var mem = new MemoryStream();
@@ -125,15 +126,15 @@ namespace Juniper.Azure.Tests
         }
 
         [TestMethod]
-        public async Task DecodeAudio()
+        public async Task DecodeAudioAsync()
         {
-            var audioRequest = await MakeSpeechRequest().ConfigureAwait(false);
+            var audioRequest = await MakeSpeechRequestAsync().ConfigureAwait(false);
             var audioDecoder = new NAudioAudioDataDecoder
             {
                 Format = audioRequest.OutputFormat
             };
             var audio = await cache
-                .Load(audioDecoder, audioRequest)
+                .LoadAsync(audioDecoder, audioRequest)
                 .ConfigureAwait(false);
             Assert.AreEqual(MediaType.Audio.PCMA, audio.format.ContentType);
             Assert.AreEqual(audioRequest.OutputFormat.sampleRate, audio.format.sampleRate);

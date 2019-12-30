@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -11,14 +11,14 @@ namespace Juniper.IO
 
     public static class ICacheSourceLayerExt
     {
-        public static Task<Stream> Open(
+        public static Task<Stream> OpenAsync(
             this ICacheSourceLayer layer,
             ContentReference fileRef)
         {
             return layer.GetStreamAsync(fileRef, null);
         }
 
-        public static async Task<ResultT> Load<ResultT>(
+        public static async Task<ResultT> LoadAsync<ResultT>(
             this ICacheSourceLayer layer,
             IDeserializer<ResultT> deserializer,
             ContentReference fileRef,
@@ -58,7 +58,7 @@ namespace Juniper.IO
         {
             value = default;
 
-            var task = layer.Load(deserializer, fileRef, prog);
+            var task = layer.LoadAsync(deserializer, fileRef, prog);
             Task.WaitAny(task);
 
             if (task.IsSuccessful())
@@ -69,7 +69,7 @@ namespace Juniper.IO
             return value != default;
         }
 
-        public static async Task Proxy(
+        public static async Task ProxyAsync(
             this ICacheSourceLayer layer,
             HttpListenerResponse response,
             ContentReference fileRef)
@@ -78,16 +78,16 @@ namespace Juniper.IO
                 .GetStreamAsync(fileRef, null)
                 .ConfigureAwait(false);
             await stream
-                .Proxy(response)
+                .ProxyAsync(response)
                 .ConfigureAwait(false);
         }
 
-        public static Task Proxy(
+        public static Task ProxyAsync(
             this ICacheSourceLayer layer,
             HttpListenerContext context,
             ContentReference fileRef)
         {
-            return layer.Proxy(context.Response, fileRef);
+            return layer.ProxyAsync(context.Response, fileRef);
         }
 
         /// <summary>

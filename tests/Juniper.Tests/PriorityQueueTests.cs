@@ -231,6 +231,7 @@ namespace Juniper.Collections.Tests
             {
                 pq.Enqueue(r.Next(10));
             }
+
             var arr = new int[10];
             pq.CopyTo(arr, 0);
             for (var i = 0; i < arr.Length; ++i)
@@ -250,6 +251,7 @@ namespace Juniper.Collections.Tests
             {
                 pq.Enqueue(i + 1);
             }
+
             var arr = new int[13];
             pq.CopyTo(arr, 3);
             for (var i = 0; i < arr.Length; ++i)
@@ -276,6 +278,7 @@ namespace Juniper.Collections.Tests
             {
                 pq.Enqueue(i);
             }
+
             var arr = pq.ToArray();
             for (var i = 0; i < 10; ++i)
             {
@@ -459,6 +462,7 @@ namespace Juniper.Collections.Tests
             {
                 pq.Enqueue(rand.Next(10));
             }
+
             var last = -1;
             while (pq.Count > 0)
             {
@@ -499,14 +503,6 @@ namespace Juniper.Collections.Tests
             var pq1 = new PriorityQueue<int>();
             var pq2 = new PriorityQueue<int>();
             Assert.AreNotSame(pq1.SyncRoot, pq2.SyncRoot);
-        }
-    }
-
-    internal class MockComparer : IComparer<int>
-    {
-        public int Compare(int obj1, int obj2)
-        {
-            return 0;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -49,7 +49,7 @@ namespace Juniper.Azure.CognitiveServices
                         .ConfigureAwait(false);
                 }
 
-                return await cache.Open(ttsRequest)
+                return await cache.OpenAsync(ttsRequest)
                     .ConfigureAwait(false);
             }
             catch
@@ -59,29 +59,29 @@ namespace Juniper.Azure.CognitiveServices
             }
         }
 
-        public Task<Stream> GetAudioDataStream(string text, Voice voice, float rateChange, float pitchChange)
+        public Task<Stream> GetAudioDataStreamAsync(string text, Voice voice, float rateChange, float pitchChange)
         {
             return GetAudioDataStreamAsync(text, voice.ShortName, rateChange, pitchChange);
         }
 
-        public Task<Stream> GetAudioDataStream(string text, string voiceName, float rateChange)
+        public Task<Stream> GetAudioDataStreamAsync(string text, string voiceName, float rateChange)
         {
             return GetAudioDataStreamAsync(text, voiceName, rateChange, 0);
         }
 
-        public Task<Stream> GetAudioDataStream(string text, Voice voice, float rateChange)
+        public Task<Stream> GetAudioDataStreamAsync(string text, Voice voice, float rateChange)
         {
-            return GetAudioDataStream(text, voice, rateChange, 0);
+            return GetAudioDataStreamAsync(text, voice, rateChange, 0);
         }
 
-        public Task<Stream> GetAudioDataStream(string text, string voiceName)
+        public Task<Stream> GetAudioDataStreamAsync(string text, string voiceName)
         {
             return GetAudioDataStreamAsync(text, voiceName, 0, 0);
         }
 
-        public Task<Stream> GetAudioDataStream(string text, Voice voice)
+        public Task<Stream> GetAudioDataStreamAsync(string text, Voice voice)
         {
-            return GetAudioDataStream(text, voice, 0, 0);
+            return GetAudioDataStreamAsync(text, voice, 0, 0);
         }
     }
 }

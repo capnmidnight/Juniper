@@ -13,7 +13,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
     public class GoogleReverseGeocodingTests : ServicesTests
     {
         [TestMethod]
-        public async Task BasicReverseGeocoding()
+        public async Task BasicReverseGeocodingAsync()
         {
             var searchDecoder = new JsonFactory<GeocodingResponse>();
             var searchRequest = new ReverseGeocodingRequest(apiKey)
@@ -21,7 +21,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 Location = new LatLngPoint(36.080811f, -75.721568f)
             };
             var results = await cache
-                .Load(searchDecoder, searchRequest)
+                .LoadAsync(searchDecoder, searchRequest)
                 .ConfigureAwait(false);
             Assert.IsNotNull(results);
             Assert.AreEqual(HttpStatusCode.OK, results.status);

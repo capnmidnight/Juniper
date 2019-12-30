@@ -35,8 +35,10 @@ namespace Juniper.IO
             {
                 using (stream)
                 {
-                    var serializer = new BinaryFormatter();
-                    serializer.Binder = this;
+                    var serializer = new BinaryFormatter
+                    {
+                        Binder = this
+                    };
 
                     value = (ResultT)serializer.Deserialize(stream);
                 }

@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -9,7 +9,7 @@ namespace Juniper.IO
 
     public static class StreamSourceExt
     {
-        public static async Task<ResultT> Decode<ResultT>(this StreamSource source, IDeserializer<ResultT> deserializer, IProgress prog = null)
+        public static async Task<ResultT> DecodeAsync<ResultT>(this StreamSource source, IDeserializer<ResultT> deserializer, IProgress prog = null)
         {
             prog.Report(0);
             var progs = prog.Split("Read", "Decode");
@@ -21,25 +21,25 @@ namespace Juniper.IO
             return value;
         }
 
-        public static Task<Stream> GetStream(this StreamSource source)
+        public static Task<Stream> GetStreamAsync(this StreamSource source)
         {
             return source.GetStreamAsync(null);
         }
 
-        public static async Task Proxy(this StreamSource source, HttpListenerResponse response)
+        public static async Task ProxyAsync(this StreamSource source, HttpListenerResponse response)
         {
             var stream = await source
-                .GetStream()
+                .GetStreamAsync()
                 .ConfigureAwait(false);
             response.ContentType = source.ContentType;
             await stream
-                .Proxy(response)
+                .ProxyAsync(response)
                 .ConfigureAwait(false);
         }
 
-        public static Task Proxy(this StreamSource source, HttpListenerContext context)
+        public static Task ProxyAsync(this StreamSource source, HttpListenerContext context)
         {
-            return source.Proxy(context.Response);
+            return source.ProxyAsync(context.Response);
         }
     }
 }

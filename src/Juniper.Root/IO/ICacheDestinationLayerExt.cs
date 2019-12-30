@@ -1,14 +1,13 @@
-﻿using System.IO;
+using System.IO;
 using System.Threading.Tasks;
 
 using Juniper.Progress;
 
 namespace Juniper.IO
 {
-
     public static class ICacheDestinationLayerExt
     {
-        public static async Task CopyTo(
+        public static async Task CopyToAsync(
             this ICacheSourceLayer fromLayer,
             ContentReference fromRef,
             ICacheDestinationLayer toLayer,

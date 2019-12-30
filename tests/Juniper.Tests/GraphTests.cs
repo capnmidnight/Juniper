@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -392,7 +393,7 @@ namespace Juniper.Collections.Tests
 
             CheckGraphs("Bin", graph1, graph2);
 
-            Assert.IsTrue(time2 < time1, $"{time2.TotalMilliseconds} > {time1.TotalMilliseconds}");
+            Assert.IsTrue(time2 < time1, $"{time2.TotalMilliseconds.ToString(CultureInfo.CurrentCulture)} > {time1.TotalMilliseconds.ToString(CultureInfo.CurrentCulture)}");
         }
 
         [TestMethod]

@@ -21,12 +21,8 @@ namespace Juniper.HTTP
 
         public RouteAttribute(Regex pattern)
         {
-            if (pattern == null)
-            {
-                throw new ArgumentNullException(nameof(pattern));
-            }
-
-            Pattern = pattern;
+            Pattern = pattern
+                ?? throw new ArgumentNullException(nameof(pattern));
             RegexSource = pattern.ToString();
             ParameterCount = pattern.GetGroupNames().Length;
         }

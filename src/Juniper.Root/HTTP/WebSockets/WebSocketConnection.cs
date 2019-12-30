@@ -55,18 +55,15 @@ namespace Juniper.HTTP.WebSockets
 
             Data += WebSocketConnection_Data;
 
-            Task.Run(Update).ConfigureAwait(false);
+            Task.Run(UpdateAsync).ConfigureAwait(false);
         }
 
         public WebSocketState State
         {
-            get
-            {
-                return socket.State;
-            }
+            get { return socket.State; }
         }
 
-        private async Task Update()
+        private async Task UpdateAsync()
         {
             try
             {

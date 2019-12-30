@@ -15,14 +15,14 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
         private static readonly IJsonDecoder<GeocodingResponse> decoder = new JsonFactory<GeocodingResponse>();
 
         [TestMethod]
-        public async Task BasicGeocoding()
+        public async Task BasicGeocodingAsync()
         {
             var search = new GeocodingRequest(apiKey)
             {
                 Address = "4909 Rutland Place, Alexandria, VA 22304"
             };
             var results = await cache
-                .Load(decoder, search)
+                .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             Assert.IsNotNull(results);
             Assert.AreEqual(HttpStatusCode.OK, results.status);
@@ -31,7 +31,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
         }
 
         [TestMethod]
-        public async Task BasicComponentFilter()
+        public async Task BasicComponentFilterAsync()
         {
             var search = new GeocodingRequest(apiKey)
             {
@@ -39,7 +39,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 CountryFilter = "GB"
             };
             var results = await cache
-                .Load(decoder, search)
+                .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             Assert.IsNotNull(results);
             Assert.AreEqual(HttpStatusCode.OK, results.status);
@@ -52,7 +52,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
         }
 
         [TestMethod]
-        public async Task BasicGeocoding_WithAddressType()
+        public async Task BasicGeocoding_WithAddressTypeAsync()
         {
             var search = new GeocodingRequest(apiKey)
             {
@@ -62,7 +62,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .ToString()
             };
             var results = await cache
-                .Load(decoder, search)
+                .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             Assert.IsNotNull(results);
             Assert.AreEqual(HttpStatusCode.OK, results.status);
@@ -71,7 +71,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
         }
 
         [TestMethod]
-        public async Task FormattedAddress()
+        public async Task FormattedAddressAsync()
         {
             var search = new GeocodingRequest(apiKey)
             {
@@ -81,7 +81,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .ToString()
             };
             var results = await cache
-                .Load(decoder, search)
+                .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
             Assert.IsNotNull(res);
@@ -89,7 +89,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
         }
 
         [TestMethod]
-        public async Task AddressType()
+        public async Task AddressTypeAsync()
         {
             var search = new GeocodingRequest(apiKey)
             {
@@ -99,7 +99,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .ToString()
             };
             var results = await cache
-                .Load(decoder, search)
+                .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
             var type = res.types.FirstOrDefault();
@@ -107,7 +107,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
         }
 
         [TestMethod]
-        public async Task GeomLocationType()
+        public async Task GeomLocationTypeAsync()
         {
             var search = new GeocodingRequest(apiKey)
             {
@@ -117,14 +117,14 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .ToString()
             };
             var results = await cache
-                .Load(decoder, search)
+                .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
             Assert.AreEqual(GeometryLocationType.ROOFTOP, res.geometry.location_type);
         }
 
         [TestMethod]
-        public async Task StreetNumber()
+        public async Task StreetNumberAsync()
         {
             var search = new GeocodingRequest(apiKey)
             {
@@ -134,7 +134,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .ToString()
             };
             var results = await cache
-                .Load(decoder, search)
+                .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
             var streetNumber = res.GetAddressComponent(AddressComponentTypes.street_number);
@@ -144,7 +144,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
         }
 
         [TestMethod]
-        public async Task Route()
+        public async Task RouteAsync()
         {
             var search = new GeocodingRequest(apiKey)
             {
@@ -154,7 +154,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .ToString()
             };
             var results = await cache
-                .Load(decoder, search)
+                .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
             var route = res.GetAddressComponent(AddressComponentTypes.route);
@@ -164,7 +164,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
         }
 
         [TestMethod]
-        public async Task PostalCode()
+        public async Task PostalCodeAsync()
         {
             var search = new GeocodingRequest(apiKey)
             {
@@ -174,7 +174,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .ToString()
             };
             var results = await cache
-                .Load(decoder, search)
+                .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
             var zip = res.GetAddressComponent(AddressComponentTypes.postal_code);
@@ -184,7 +184,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
         }
 
         [TestMethod]
-        public async Task PostalCodeSuffix()
+        public async Task PostalCodeSuffixAsync()
         {
             var search = new GeocodingRequest(apiKey)
             {
@@ -194,7 +194,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .ToString()
             };
             var results = await cache
-                .Load(decoder, search)
+                .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
             var zipSuffix = res.GetAddressComponent(AddressComponentTypes.postal_code_suffix);
@@ -204,7 +204,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
         }
 
         [TestMethod]
-        public async Task Neighborhood()
+        public async Task NeighborhoodAsync()
         {
             var search = new GeocodingRequest(apiKey)
             {
@@ -214,7 +214,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .ToString()
             };
             var results = await cache
-                .Load(decoder, search)
+                .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
             var neighborhood = res.GetAddressComponent(AddressComponentTypes.neighborhood, AddressComponentTypes.political);
@@ -228,7 +228,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
         }
 
         [TestMethod]
-        public async Task City()
+        public async Task CityAsync()
         {
             var search = new GeocodingRequest(apiKey)
             {
@@ -238,7 +238,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .ToString()
             };
             var results = await cache
-                .Load(decoder, search)
+                .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
             var locality = res.GetAddressComponent(AddressComponentTypes.locality, AddressComponentTypes.political);
@@ -252,7 +252,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
         }
 
         [TestMethod]
-        public async Task State()
+        public async Task StateAsync()
         {
             var search = new GeocodingRequest(apiKey)
             {
@@ -262,7 +262,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .ToString()
             };
             var results = await cache
-                .Load(decoder, search)
+                .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
             var state = res.GetAddressComponent(AddressComponentTypes.administrative_area_level_1, AddressComponentTypes.political);
@@ -276,7 +276,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
         }
 
         [TestMethod]
-        public async Task Country()
+        public async Task CountryAsync()
         {
             var search = new GeocodingRequest(apiKey)
             {
@@ -286,7 +286,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .ToString()
             };
             var results = await cache
-                .Load(decoder, search)
+                .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             var res = results.results.FirstOrDefault();
             var country = res.GetAddressComponent(AddressComponentTypes.country, AddressComponentTypes.political);

@@ -1,3 +1,5 @@
+using System.Globalization;
+
 using Juniper.World.GIS;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -614,7 +616,7 @@ namespace Juniper.Units.Tests
             var q = (int)Log10(value) + 1;
             sigfigs -= q;
             var p = Pow(10, sigfigs);
-            var v = (Round(value * p) / p).ToString();
+            var v = (Round(value * p) / p).ToString(CultureInfo.InvariantCulture);
             if (sigfigs > 0)
             {
                 var i = v.IndexOf(".", System.StringComparison.Ordinal);
@@ -630,6 +632,7 @@ namespace Juniper.Units.Tests
                     v += "0";
                 }
             }
+
             return v;
         }
 

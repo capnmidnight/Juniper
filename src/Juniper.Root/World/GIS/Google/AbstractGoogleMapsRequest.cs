@@ -7,9 +7,6 @@ using Juniper.HTTP.REST;
 
 namespace Juniper.World.GIS.Google
 {
-    public interface IGoogleMapsRequest
-    { }
-
     public abstract class AbstractGoogleMapsRequest<MediaTypeT> : AbstractRequest<MediaTypeT>, IGoogleMapsRequest
         where MediaTypeT : MediaType
     {

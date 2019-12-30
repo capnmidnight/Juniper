@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Diagnostics;
+using System.Globalization;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -140,7 +141,7 @@ namespace Juniper.Iteration.Tests
             }
 
             var p = (timeByType.TotalMilliseconds - timeRaw.TotalMilliseconds) / timeRaw.TotalMilliseconds;
-            Assert.IsTrue(timeByType < timeRaw, $"{timeByType.TotalMilliseconds} >= {timeRaw.TotalMilliseconds} (+{p * 100}%)");
+            Assert.IsTrue(timeByType < timeRaw, $"{timeByType.TotalMilliseconds.ToString(CultureInfo.CurrentCulture)} >= {timeRaw.TotalMilliseconds.ToString(CultureInfo.CurrentCulture)} (+{Units.Converter.Label((float)p, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent)})");
         }
 
         private TimeSpan Test(Stopwatch timer, I[] items)
@@ -156,7 +157,7 @@ namespace Juniper.Iteration.Tests
 
         public int Compare(object x, object y)
         {
-            return x.GetType().Name.CompareTo(y.GetType().Name);
+            return string.CompareOrdinal(x.GetType().Name, y.GetType().Name);
         }
     }
 }

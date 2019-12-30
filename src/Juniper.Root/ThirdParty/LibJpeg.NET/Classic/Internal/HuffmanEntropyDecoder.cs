@@ -129,7 +129,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
         private class SavableState
         {
-            public uint EOBRUN;			/* remaining EOBs in EOBRUN */
+            public uint EOBRUN;            /* remaining EOBs in EOBRUN */
             public int[] last_dc_val = new int[JpegConstants.MAX_COMPS_IN_SCAN]; /* last DC coef for each component */
 
             public void Assign(SavableState ss)
@@ -146,8 +146,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private readonly SavableState saved = new SavableState();        /* Other state at start of MCU */
 
         /* These fields are NOT loaded into local working state. */
-        private bool insufficientData;	/* set TRUE after emitting warning */
-        private int restartsToGo;    /* MCUs left in this restart interval */
+        private bool insufficientData; /* set TRUE after emitting warning */
+        private int restartsToGo;      /* MCUs left in this restart interval */
 
         /* Following two fields used only in progressive mode */
 
@@ -313,16 +313,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                         decodeMcu = DecodeMcuACFirst;
                     }
                 }
+                else if (cinfo.m_Ss == 0)
+                {
+                    decodeMcu = DecodeMcuDCRefine;
+                }
                 else
                 {
-                    if (cinfo.m_Ss == 0)
-                    {
-                        decodeMcu = DecodeMcuDCRefine;
-                    }
-                    else
-                    {
-                        decodeMcu = DecodeMcuACRefine;
-                    }
+                    decodeMcu = DecodeMcuACRefine;
                 }
 
                 for (var ci = 0; ci < cinfo.m_comps_in_scan; ci++)
@@ -641,13 +638,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                             }
                         }
                     }
-                    else
+                    else if (s != 0)
                     {
-                        if (s != 0)
-                        {
-                            CHECK_BIT_BUFFER(ref br_state, s, ref get_buffer, ref bits_left);
-                            DROP_BITS(s, ref bits_left);
-                        }
+                        CHECK_BIT_BUFFER(ref br_state, s, ref get_buffer, ref bits_left);
+                        DROP_BITS(s, ref bits_left);
                     }
 
                     if (endThisBlock)
@@ -789,13 +783,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                             }
                         }
                     }
-                    else
+                    else if (s != 0)
                     {
-                        if (s != 0)
-                        {
-                            CHECK_BIT_BUFFER(ref br_state, s, ref get_buffer, ref bits_left);
-                            DROP_BITS(s, ref bits_left);
-                        }
+                        CHECK_BIT_BUFFER(ref br_state, s, ref get_buffer, ref bits_left);
+                        DROP_BITS(s, ref bits_left);
                     }
 
                     /* Section F.2.2.2: decode the AC coefficients */
@@ -995,13 +986,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                                     r = GET_BITS(r, get_buffer, ref bits_left);
                                     EOBRUN += (uint)r;
-                                    EOBRUN--;		/* this band is processed at this moment */
+                                    EOBRUN--;        /* this band is processed at this moment */
                                 }
 
                                 break;      /* force end-of-band */
                             }
 
-                            k += 15;		/* ZRL: skip 15 zeroes in band */
+                            k += 15;        /* ZRL: skip 15 zeroes in band */
                         }
                     }
 
@@ -1186,12 +1177,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                                     }
                                 }
                             }
-                            else
+                            else if (--r < 0)
                             {
-                                if (--r < 0)
-                                {
-                                    break;      /* reached target zero coefficient */
-                                }
+                                break;      /* reached target zero coefficient */
                             }
 
                             k++;

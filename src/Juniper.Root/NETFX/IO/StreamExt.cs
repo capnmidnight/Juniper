@@ -59,7 +59,7 @@ namespace System.IO
             inFile.CopyTo(outFile.FullName, true);
         }
 
-        public static async Task Proxy(this Stream stream, HttpListenerResponse response)
+        public static async Task ProxyAsync(this Stream stream, HttpListenerResponse response)
         {
             if (stream == null)
             {
@@ -78,9 +78,9 @@ namespace System.IO
             }
         }
 
-        public static Task Proxy(this Stream stream, HttpListenerContext context)
+        public static Task ProxyAsync(this Stream stream, HttpListenerContext context)
         {
-            return stream.Proxy(context.Response);
+            return stream.ProxyAsync(context.Response);
         }
     }
 }

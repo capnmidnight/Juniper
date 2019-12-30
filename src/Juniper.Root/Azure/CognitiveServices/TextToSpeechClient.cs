@@ -28,7 +28,6 @@ namespace Juniper.Azure.CognitiveServices
         {
             get { return base.OutputFormat; }
 
-
             set
             {
                 base.OutputFormat = value;
@@ -55,36 +54,36 @@ namespace Juniper.Azure.CognitiveServices
             }
         }
 
-        public async Task<AudioData> GetDecodedAudio(string text, string voiceName, float rateChange, float pitchChange)
+        public async Task<AudioData> GetDecodedAudioAsync(string text, string voiceName, float rateChange, float pitchChange)
         {
             var stream = await GetAudioDataStreamAsync(text, voiceName, rateChange, pitchChange)
                 .ConfigureAwait(false);
             return audioDecoder.Deserialize(stream);
         }
 
-        public Task<AudioData> GetDecodedAudio(string text, Voice voice, float rateChange, float pitchChange)
+        public Task<AudioData> GetDecodedAudioAsync(string text, Voice voice, float rateChange, float pitchChange)
         {
-            return GetDecodedAudio(text, voice.ShortName, rateChange, pitchChange);
+            return GetDecodedAudioAsync(text, voice.ShortName, rateChange, pitchChange);
         }
 
-        public Task<AudioData> GetDecodedAudio(string text, string voiceName, float rateChange)
+        public Task<AudioData> GetDecodedAudioAsync(string text, string voiceName, float rateChange)
         {
-            return GetDecodedAudio(text, voiceName, rateChange, 0);
+            return GetDecodedAudioAsync(text, voiceName, rateChange, 0);
         }
 
-        public Task<AudioData> GetDecodedAudio(string text, Voice voice, float rateChange)
+        public Task<AudioData> GetDecodedAudioAsync(string text, Voice voice, float rateChange)
         {
-            return GetDecodedAudio(text, voice, rateChange, 0);
+            return GetDecodedAudioAsync(text, voice, rateChange, 0);
         }
 
-        public Task<AudioData> GetDecodedAudio(string text, string voiceName)
+        public Task<AudioData> GetDecodedAudioAsync(string text, string voiceName)
         {
-            return GetDecodedAudio(text, voiceName, 0, 0);
+            return GetDecodedAudioAsync(text, voiceName, 0, 0);
         }
 
-        public Task<AudioData> GetDecodedAudio(string text, Voice voice)
+        public Task<AudioData> GetDecodedAudioAsync(string text, Voice voice)
         {
-            return GetDecodedAudio(text, voice, 0, 0);
+            return GetDecodedAudioAsync(text, voice, 0, 0);
         }
     }
 }

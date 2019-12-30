@@ -30,47 +30,29 @@ namespace Juniper.Compression.Zip
 
         public override bool CanRead
         {
-            get
-            {
-                return entryStream.CanRead;
-            }
+            get { return entryStream.CanRead; }
         }
 
         public override bool CanSeek
         {
-            get
-            {
-                return entryStream.CanSeek;
-            }
+            get { return entryStream.CanSeek; }
         }
 
         public override bool CanWrite
         {
-            get
-            {
-                return entryStream.CanWrite;
-            }
+            get { return entryStream.CanWrite; }
         }
 
         public override long Length
         {
-            get
-            {
-                return entryStream.Length;
-            }
+            get { return entryStream.Length; }
         }
 
         public override long Position
         {
-            get
-            {
-                return entryStream.Position;
-            }
+            get { return entryStream.Position; }
 
-            set
-            {
-                entryStream.Position = value;
-            }
+            set { entryStream.Position = value; }
         }
 
         public override void Flush()
@@ -110,10 +92,7 @@ namespace Juniper.Compression.Zip
 
         public override bool CanTimeout
         {
-            get
-            {
-                return entryStream.CanTimeout;
-            }
+            get { return entryStream.CanTimeout; }
         }
 
         public override void Close()
@@ -158,15 +137,9 @@ namespace Juniper.Compression.Zip
 
         public override int ReadTimeout
         {
-            get
-            {
-                return entryStream.ReadTimeout;
-            }
+            get { return entryStream.ReadTimeout; }
 
-            set
-            {
-                entryStream.ReadTimeout = value;
-            }
+            set { entryStream.ReadTimeout = value; }
         }
 
         public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
@@ -181,15 +154,9 @@ namespace Juniper.Compression.Zip
 
         public override int WriteTimeout
         {
-            get
-            {
-                return entryStream.WriteTimeout;
-            }
+            get { return entryStream.WriteTimeout; }
 
-            set
-            {
-                entryStream.WriteTimeout = value;
-            }
+            set { entryStream.WriteTimeout = value; }
         }
     }
 }

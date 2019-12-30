@@ -47,7 +47,7 @@ namespace Juniper.World.GIS.Google.MapTiles.Tests
         }
 
         [TestMethod]
-        public async Task GetImage()
+        public async Task GetImageAsync()
         {
             var search = new TileRequest(apiKey, signingKey, new Size(640, 640))
             {
@@ -58,7 +58,7 @@ namespace Juniper.World.GIS.Google.MapTiles.Tests
                 new HjgPngcsCodec(),
                 new HjgPngcsImageDataTranscoder());
             var results = await cache
-                .Load(decoder, search)
+                .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             Assert.IsNotNull(results);
             Assert.AreEqual(640, results.info.dimensions.width);

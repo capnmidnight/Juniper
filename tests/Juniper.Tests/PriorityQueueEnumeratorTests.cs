@@ -155,6 +155,7 @@ namespace Juniper.Collections.Tests
             {
                 pq.Enqueue(i);
             }
+
             return pq;
         }
     }

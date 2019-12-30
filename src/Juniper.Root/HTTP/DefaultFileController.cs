@@ -119,7 +119,7 @@ namespace Juniper.HTTP
             Protocol = HttpProtocol.HTTPS,
 #endif
             Priority = int.MaxValue)]
-        public async Task ServeFile(HttpListenerContext context)
+        public async Task ServeFileAsync(HttpListenerContext context)
         {
             var request = context.Request;
             var response = context.Response;
@@ -153,13 +153,13 @@ namespace Juniper.HTTP
                 }
                 else
                 {
-                    await SendFile(response, file, shortName)
+                    await SendFileAsync(response, file, shortName)
                         .ConfigureAwait(false);
                 }
             }
             else if (isDirectory)
             {
-                await ListDirectory(response, new DirectoryInfo(filename))
+                await ListDirectoryAsync(response, new DirectoryInfo(filename))
                     .ConfigureAwait(false);
             }
             else
@@ -170,7 +170,7 @@ namespace Juniper.HTTP
             }
         }
 
-        private async Task ListDirectory(HttpListenerResponse response, DirectoryInfo dir)
+        private async Task ListDirectoryAsync(HttpListenerResponse response, DirectoryInfo dir)
         {
             var sb = new StringBuilder();
             var shortName = MakeShortName(rootDirectory.FullName, dir.FullName);
@@ -208,7 +208,7 @@ namespace Juniper.HTTP
             }
         }
 
-        private async Task SendFile(HttpListenerResponse response, FileInfo file, string shortName)
+        private async Task SendFileAsync(HttpListenerResponse response, FileInfo file, string shortName)
         {
             try
             {

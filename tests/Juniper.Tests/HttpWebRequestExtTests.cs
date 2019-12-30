@@ -14,16 +14,16 @@ namespace Juniper.HTTP.Tests
     public class HttpWebRequestExtTests
     {
         [TestMethod]
-        public async Task TestGetting()
+        public async Task TestGettingAsync()
         {
-            await RunFileTest("portrait-testgetting.jpg", true, true).ConfigureAwait(false);
+            await RunFileTestAsync("portrait-testgetting.jpg", true, true).ConfigureAwait(false);
         }
 
         [TestMethod]
-        public async Task TestCaching()
+        public async Task TestCachingAsync()
         {
-            await RunFileTest("portrait-testcaching.jpg", true, false).ConfigureAwait(false);
-            await RunFileTest("portrait-testcaching.jpg", false, true).ConfigureAwait(false);
+            await RunFileTestAsync("portrait-testcaching.jpg", true, false).ConfigureAwait(false);
+            await RunFileTestAsync("portrait-testcaching.jpg", false, true).ConfigureAwait(false);
         }
 
         private class ImageRequest : AbstractRequest<MediaType.Image>
@@ -32,7 +32,7 @@ namespace Juniper.HTTP.Tests
                 : base(HttpMethods.GET, AddPath(baseURI, path), Juniper.MediaType.Image.Jpeg) { }
         }
 
-        private static async Task<ImageData> RunFileTest(string imageFileName, bool deleteFile, bool runTest)
+        private static async Task<ImageData> RunFileTestAsync(string imageFileName, bool deleteFile, bool runTest)
         {
             var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             var cacheFileName = Path.Combine(myPictures, imageFileName);
@@ -56,7 +56,7 @@ namespace Juniper.HTTP.Tests
                 new LibJpegNETImageDataTranscoder());
 
             var image = await cache
-                .Load(imageDecoder, imageRequest)
+                .LoadAsync(imageDecoder, imageRequest)
                 .ConfigureAwait(false);
 
             if (runTest)

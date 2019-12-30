@@ -43,7 +43,7 @@ namespace Juniper.World.GIS.Google
         private async Task<T> LoadAsync<T>(IDeserializer<T> deserializer, ContentReference fileRef, IProgress prog)
         {
             var value = await cache
-                .Load(deserializer, fileRef, prog)
+                .LoadAsync(deserializer, fileRef, prog)
                 .ConfigureAwait(false);
             if (value is MetadataResponse metadata)
             {
@@ -62,7 +62,7 @@ namespace Juniper.World.GIS.Google
                 {
                     var metadataRef = new ContentReference(metadata.pano_id, MediaType.Application.Json);
                     await cache
-                        .CopyTo(fileRef, cache, metadataRef)
+                        .CopyToAsync(fileRef, cache, metadataRef)
                         .ConfigureAwait(false);
                 }
             }

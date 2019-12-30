@@ -59,7 +59,7 @@ namespace Juniper.Azure.CognitiveServices
                 {
                     var plainText = new StringFactory();
                     var authRequest = new AuthTokenRequest(azureRegion, azureSubscriptionKey);
-                    authToken = await authRequest.Decode(plainText)
+                    authToken = await authRequest.DecodeAsync(plainText)
                         .ConfigureAwait(false);
                 }
 
@@ -85,7 +85,7 @@ namespace Juniper.Azure.CognitiveServices
                             .ConfigureAwait(false);
                     }
 
-                    voices = await cache.Load(voiceListDecoder, voiceListRequest)
+                    voices = await cache.LoadAsync(voiceListDecoder, voiceListRequest)
                         .ConfigureAwait(false);
                 }
 
