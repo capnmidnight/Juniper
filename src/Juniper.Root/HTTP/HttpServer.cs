@@ -296,42 +296,48 @@ or
 
         public virtual void Start()
         {
-            if (HttpsPort != null
-                && AutoAssignCertificate)
+            if (HttpsPort != null)
             {
-                if (string.IsNullOrEmpty(Domain))
+                if (!AutoAssignCertificate)
                 {
-                    OnWarning(this, "No domain was specified. Can't auto-assign a TLS certificate.");
+                    SetPrefix("https", HttpsPort.Value);
                 }
                 else
                 {
-                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-                    GetTLSParameters(out var guid, out var certHash);
-
-                    if (string.IsNullOrEmpty(guid))
+                    if (string.IsNullOrEmpty(Domain))
                     {
-                        OnWarning(this, "Couldn't find application GUID");
-                    }
-                    else if (string.IsNullOrEmpty(certHash))
-                    {
-                        OnWarning(this, "No TLS cert found!");
+                        OnWarning(this, "No domain was specified. Can't auto-assign a TLS certificate.");
                     }
                     else
                     {
-                        var message = AssignCertToApp(certHash, guid);
+                        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-                        if (message.Equals("SSL Certificate added successfully", StringComparison.OrdinalIgnoreCase)
-                            || message.StartsWith("SSL Certificate add failed, Error: 183", StringComparison.OrdinalIgnoreCase))
+                        GetTLSParameters(out var guid, out var certHash);
+
+                        if (string.IsNullOrEmpty(guid))
                         {
-                            SetPrefix("https", HttpsPort.Value);
+                            OnWarning(this, "Couldn't find application GUID");
                         }
-                        else if (message.Equals("The parameter is incorrect.", StringComparison.OrdinalIgnoreCase))
+                        else if (string.IsNullOrEmpty(certHash))
                         {
-                            OnWarning(this, $@"Couldn't configure the certificate correctly:
+                            OnWarning(this, "No TLS cert found!");
+                        }
+                        else
+                        {
+                            var message = AssignCertToApp(certHash, guid);
+
+                            if (message.Equals("SSL Certificate added successfully", StringComparison.OrdinalIgnoreCase)
+                                || message.StartsWith("SSL Certificate add failed, Error: 183", StringComparison.OrdinalIgnoreCase))
+                            {
+                                SetPrefix("https", HttpsPort.Value);
+                            }
+                            else if (message.Equals("The parameter is incorrect.", StringComparison.OrdinalIgnoreCase))
+                            {
+                                OnWarning(this, $@"Couldn't configure the certificate correctly:
     Application GUID: {guid}
     TLS cert: {certHash}
     {message}");
+                            }
                         }
                     }
                 }
