@@ -62,6 +62,16 @@ namespace Juniper.HTTP
             return filename;
         }
 
+        private static DirectoryInfo ValidateDirectoryPath(string rootDirectoryPath)
+        {
+            if (rootDirectoryPath is null)
+            {
+                throw new ArgumentNullException(nameof(rootDirectoryPath));
+            }
+
+            return new DirectoryInfo(rootDirectoryPath);
+        }
+
         private static string MassageRequestPath(string requestPath)
         {
             requestPath = requestPath.Substring(1);
@@ -108,9 +118,7 @@ namespace Juniper.HTTP
         }
 
         public DefaultFileController(string rootDirectoryPath, params MediaType[] mediaTypeWhiteList)
-            : this(rootDirectoryPath is null
-                  ? throw new ArgumentNullException(nameof(rootDirectoryPath))
-                  : new DirectoryInfo(rootDirectoryPath),
+            : this(ValidateDirectoryPath(rootDirectoryPath),
                   mediaTypeWhiteList)
         { }
 
