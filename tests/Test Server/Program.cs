@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Threading.Tasks;
 
 using Juniper.HTTP.WebSockets;
@@ -16,7 +17,8 @@ namespace Juniper.HTTP
             using (var server = new HttpServer
             {
                 HttpPort = 8080,
-                ListenerCount = 10
+                ListenerCount = 10,
+                IPBans = new FileInfo("testBans.txt")
             })
             {
                 server.Info += Server_Info;

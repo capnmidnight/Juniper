@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP.WebSockets
 {
-    public class WebSocketRouteHandler : AbstractRegexRouteHandler
+    internal class WebSocketRouteHandler : AbstractRegexRouteHandler
     {
-        public WebSocketRouteHandler(string name, object source, MethodInfo method, RouteAttribute route)
+        internal WebSocketRouteHandler(string name, object source, MethodInfo method, RouteAttribute route)
             : base(name, source, method, route)
         { }
 

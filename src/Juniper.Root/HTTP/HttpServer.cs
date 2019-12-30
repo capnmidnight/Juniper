@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -108,7 +109,7 @@ namespace Juniper.HTTP
         /// <value>
         /// The HTTPS port.
         /// </value>
-        public ushort HttpsPort { get; set; }
+        public ushort? HttpsPort { get; set; }
 
         /// <summary>
         /// Set to true if the server should attempt to run netsh to assign
@@ -126,8 +127,15 @@ namespace Juniper.HTTP
         /// <value>
         /// The HTTP port.
         /// </value>
-        public ushort HttpPort { get; set; }
+        public ushort? HttpPort { get; set; }
 
+        /// <summary>
+        /// Gets or sets the file that contains the list of IP bans.
+        /// </summary>
+        /// <value>
+        /// The ip bans.
+        /// </value>
+        public FileInfo IPBans { get; set; }
 
         /// <summary>
         /// Event for handling information-level logs.
@@ -207,11 +215,11 @@ or
                         }
                         else if (isHttp)
                         {
-                            handler = new HttpRouteHandler(name, route, source, method);
+                            handler = new HttpRouteHandler(name, source, method, route);
                         }
                         else if (isWebSocket)
                         {
-                            var wsHandler = new WebSocketRouteHandler(name, route, source, method);
+                            var wsHandler = new WebSocketRouteHandler(name, source, method, route);
                             wsHandler.SocketConnected += WsHandler_SocketConnected;
                             handler = wsHandler;
                         }
@@ -224,8 +232,6 @@ or
                     }
                 }
             }
-
-            routes.Sort();
         }
 
         private void AddController<T>(T controller) where T : class
@@ -298,7 +304,7 @@ or
 
         public virtual void Start()
         {
-            if (HttpsPort > 0
+            if (HttpsPort != null
                 && AutoAssignCertificate)
             {
                 if (string.IsNullOrEmpty(Domain))
@@ -326,7 +332,7 @@ or
                         if (message.Equals("SSL Certificate added successfully", StringComparison.OrdinalIgnoreCase)
                             || message.StartsWith("SSL Certificate add failed, Error: 183", StringComparison.OrdinalIgnoreCase))
                         {
-                            SetPrefix("https", HttpsPort);
+                            SetPrefix("https", HttpsPort.Value);
                         }
                         else if (message.Equals("The parameter is incorrect.", StringComparison.OrdinalIgnoreCase))
                         {
@@ -340,16 +346,21 @@ or
             }
 
             var addRedirectController = false;
-            if (HttpPort > 0 || RedirectHttp2Https)
+            if (HttpPort != null
+                || RedirectHttp2Https)
             {
                 if (RedirectHttp2Https)
                 {
-                    if (HttpPort == 0
-                        && HttpsPort > 0)
+                    if (HttpPort == null
+                        && HttpsPort != null)
                     {
                         if (HttpsPort == 443)
                         {
                             HttpPort = 80;
+                        }
+                        else if (HttpsPort == 0)
+                        {
+                            HttpPort = 1;
                         }
                         else
                         {
@@ -360,17 +371,41 @@ or
                     addRedirectController = true;
                 }
 
-                SetPrefix("http", HttpPort);
+                SetPrefix("http", HttpPort.Value);
             }
 
-            if (HttpPort == 0
-                && HttpsPort == 0)
+            if (HttpPort == null
+                && HttpsPort == null)
             {
                 OnError(this, new InvalidOperationException("No HTTP or HTTPS port specified."));
             }
             else
             {
+                if (IPBans != null)
+                {
+                    if (!IPBans.Exists)
+                    {
+                        OnWarning(this, $"IP bans file {IPBans.FullName} does not exist");
+                    }
+                    else
+                    {
+                        var ipBans = new List<CIDRBlock>();
+                        using (var stream = IPBans.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+                        using (var reader = new StreamReader(stream))
+                        {
+                            while (!reader.EndOfStream)
+                            {
+                                var line = reader.ReadLine();
+                                if (CIDRBlock.TryParse(line, out var block))
+                                {
+                                    ipBans.Add(block);
+                                }
+                            }
+                        }
 
+                        AddController(new IPBanController(ipBans));
+                    }
+                }
 #if !DEBUG
                 if (HttpPort > 0
                     && routes.Any(route => route.Protocol.HasFlag(HttpProtocol.HTTP)))
@@ -383,6 +418,8 @@ or
                 {
                     AddRoutesFrom<HttpsRedirectController>();
                 }
+
+                routes.Sort();
 
                 if (!listener.IsListening)
                 {
@@ -401,22 +438,29 @@ or
 #if DEBUG
         public Process StartBrowser(string startPage = null)
         {
+            if (HttpsPort == null
+                && HttpPort == null)
+            {
+                throw new InvalidOperationException("Server is not listening on any ports");
+            }
+
             startPage = startPage ?? string.Empty;
 
             var protocol = "http";
             var port = "";
 
-            if (HttpsPort > 0)
+            if (HttpsPort != null)
             {
                 protocol = "https";
                 if (HttpsPort != 443)
                 {
-                    port = ":" + HttpsPort.ToString(CultureInfo.InvariantCulture);
+                    port = ":" + HttpsPort.Value.ToString(CultureInfo.InvariantCulture);
                 }
             }
-            else if (HttpPort != 80)
+            else if (HttpPort != null
+                && HttpPort != 80)
             {
-                port = ":" + HttpPort.ToString(CultureInfo.InvariantCulture);
+                port = ":" + HttpPort.Value.ToString(CultureInfo.InvariantCulture);
             }
 
             var page = $"{protocol}://{ListenAddress}{port}/{startPage}";
@@ -466,7 +510,7 @@ or
                 listenAddress = "0.0.0.0";
             }
 
-            var procInfo = new ProcessStartInfo("netsh", $"http add sslcert ipport={listenAddress}:{HttpsPort.ToString(CultureInfo.InvariantCulture)} certhash={certHash} appid={{{appGuid}}}")
+            var procInfo = new ProcessStartInfo("netsh", $"http add sslcert ipport={listenAddress}:{HttpsPort.Value.ToString(CultureInfo.InvariantCulture)} certhash={certHash} appid={{{appGuid}}}")
             {
                 UseShellExecute = false,
                 CreateNoWindow = true,
