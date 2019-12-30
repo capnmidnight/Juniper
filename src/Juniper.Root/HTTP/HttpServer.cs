@@ -218,7 +218,6 @@ or
 
                         if (handler != null)
                         {
-                            OnInfo(this, $"Found controller {handler}");
                             AddController(handler);
                         }
                     }
@@ -230,6 +229,7 @@ or
         {
             if (controller is AbstractRouteHandler handler)
             {
+                OnInfo(this, $"Found controller {handler}");
                 routes.Add(handler);
             }
 
