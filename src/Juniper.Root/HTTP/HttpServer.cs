@@ -343,7 +343,6 @@ or
                 }
             }
 
-            var addRedirectController = false;
             if (HttpPort != null
                 || RedirectHttp2Https)
             {
@@ -366,7 +365,7 @@ or
                         }
                     }
 
-                    addRedirectController = true;
+                    AddRoutesFrom<HttpsRedirectController>();
                 }
 
                 SetPrefix("http", HttpPort.Value);
@@ -380,17 +379,15 @@ or
             else
             {
 #if !DEBUG
-                if (HttpPort > 0
-                    && routes.Any(route => route.Protocol.HasFlag(HttpProtocols.HTTP)))
+                if (HttpPort != null
+                    && routes.Any(route =>
+                        !(route is IPBanController)
+                        && !(route is HttpsRedirectController)
+                        && route.Protocol.HasFlag(HttpProtocols.HTTP)))
                 {
                     OnWarning(this, "Maybe don't run unencrypted HTTP in production, k?");
                 }
 #endif
-
-                if (addRedirectController)
-                {
-                    AddRoutesFrom<HttpsRedirectController>();
-                }
 
                 routes.Sort();
 
