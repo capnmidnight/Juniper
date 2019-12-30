@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -13,11 +14,15 @@ namespace Juniper.HTTP
     public abstract class AbstractRouteHandler :
         IEquatable<AbstractRouteHandler>,
         IComparable,
-        IComparable<AbstractRouteHandler>
+        IComparable<AbstractRouteHandler>,
+        ILoggingSource
     {
         private readonly string name;
         private readonly int priority;
         private readonly HttpMethods verb;
+        public event EventHandler<string> Info;
+        public event EventHandler<string> Warning;
+        public event EventHandler<Exception> Error;
 
         public AuthenticationSchemes Authentication { get; }
 
@@ -129,6 +134,24 @@ namespace Juniper.HTTP
         public static bool operator >=(AbstractRouteHandler left, AbstractRouteHandler right)
         {
             return left > right || left == right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected void OnInfo(string message)
+        {
+            Info?.Invoke(this, message);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected void OnWarning(string message)
+        {
+            Warning?.Invoke(this, message);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected void OnError(Exception exp)
+        {
+            Error?.Invoke(this, exp);
         }
     }
 }
