@@ -130,14 +130,6 @@ namespace Juniper.HTTP
         public ushort? HttpPort { get; set; }
 
         /// <summary>
-        /// Gets or sets the file that contains the list of IP bans.
-        /// </summary>
-        /// <value>
-        /// The ip bans.
-        /// </value>
-        public FileInfo IPBans { get; set; }
-
-        /// <summary>
         /// Event for handling information-level logs.
         /// </summary>
         public event EventHandler<string> Info;
@@ -381,31 +373,6 @@ or
             }
             else
             {
-                if (IPBans != null)
-                {
-                    if (!IPBans.Exists)
-                    {
-                        OnWarning(this, $"IP bans file {IPBans.FullName} does not exist");
-                    }
-                    else
-                    {
-                        var ipBans = new List<CIDRBlock>();
-                        using (var stream = IPBans.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
-                        using (var reader = new StreamReader(stream))
-                        {
-                            while (!reader.EndOfStream)
-                            {
-                                var line = reader.ReadLine();
-                                if (CIDRBlock.TryParse(line, out var block))
-                                {
-                                    ipBans.Add(block);
-                                }
-                            }
-                        }
-
-                        AddController(new IPBanController(ipBans));
-                    }
-                }
 #if !DEBUG
                 if (HttpPort > 0
                     && routes.Any(route => route.Protocol.HasFlag(HttpProtocol.HTTP)))

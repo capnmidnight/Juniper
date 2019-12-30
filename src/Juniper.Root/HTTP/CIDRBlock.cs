@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -10,7 +11,6 @@ using Juniper.IO;
 
 namespace Juniper.HTTP
 {
-    [Serializable]
     public sealed class CIDRBlock :
         ICollection<IPAddress>
     {
@@ -19,6 +19,121 @@ namespace Juniper.HTTP
             [AddressFamily.InterNetwork] = Units.Bits.PER_BYTE * 4,
             [AddressFamily.InterNetworkV6] = Units.Bits.PER_BYTE * 16
         };
+
+        public static CIDRBlock[] Load(Stream stream)
+        {
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            if (!stream.CanRead)
+            {
+                throw new AccessViolationException($"Cannot read from {nameof(stream)}.");
+            }
+
+            var blocks = new List<CIDRBlock>();
+            using (var reader = new StreamReader(stream))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    if (CIDRBlock.TryParse(line, out var block))
+                    {
+                        blocks.Add(block);
+                    }
+                }
+            }
+
+            return blocks.ToArray();
+        }
+
+        public static CIDRBlock[] Load(FileInfo file)
+        {
+            if (file is null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+
+            if (!file.Exists)
+            {
+                return Array.Empty<CIDRBlock>();
+            }
+
+            using (var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                return Load(stream);
+            }
+        }
+
+        public static CIDRBlock[] Load(string fileName)
+        {
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            return Load(new FileInfo(fileName));
+        }
+
+        private static void Save(IEnumerable<CIDRBlock> blocks, Stream stream)
+        {
+            if (blocks is null)
+            {
+                throw new ArgumentNullException(nameof(blocks));
+            }
+
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            if (!stream.CanWrite)
+            {
+                throw new AccessViolationException($"Cannot write to {nameof(stream)}.");
+            }
+
+            using (var writer = new StreamWriter(stream))
+            {
+                foreach (var block in blocks)
+                {
+                    writer.WriteLine(block.ToString());
+                }
+            }
+        }
+
+        public static void Save(IEnumerable<CIDRBlock> blocks, FileInfo file)
+        {
+            if (blocks is null)
+            {
+                throw new ArgumentNullException(nameof(blocks));
+            }
+
+            if (file is null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+
+            using (var stream = file.Open(FileMode.OpenOrCreate, FileAccess.Write, FileShare.None))
+            {
+                Save(blocks, stream);
+            }
+        }
+
+        public static void Save(IEnumerable<CIDRBlock> blocks, string fileName)
+        {
+            if (blocks is null)
+            {
+                throw new ArgumentNullException(nameof(blocks));
+            }
+
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            Save(blocks, new FileInfo(fileName));
+        }
 
         public static CIDRBlock Parse(string value)
         {
@@ -74,7 +189,7 @@ namespace Juniper.HTTP
                 }
             }
 
-            return value != null;
+            return block != null;
         }
 
         private static void ValidateStart(IPAddress start)
