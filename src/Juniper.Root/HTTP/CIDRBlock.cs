@@ -60,25 +60,21 @@ namespace Juniper.HTTP
         {
             block = null;
 
-            if (value is null)
+            if (value != null)
             {
-                return false;
+                var parts = value.SplitX('/');
+
+                if (parts.Length == 2
+                    && IPAddress.TryParse(parts[0], out var start)
+                    && int.TryParse(parts[1], out var bitmaskLength)
+                    && BitLengths.ContainsKey(start.AddressFamily)
+                    && bitmaskLength <= BitLengths[start.AddressFamily])
+                {
+                    block = new CIDRBlock(start, bitmaskLength);
+                }
             }
 
-            var parts = value.SplitX('/');
-
-            if (parts.Length != 2
-                || !IPAddress.TryParse(parts[0], out var start)
-                || !int.TryParse(parts[1], out var bitmaskLength)
-                || !BitLengths.ContainsKey(start.AddressFamily)
-                || bitmaskLength > BitLengths[start.AddressFamily])
-            {
-                return false;
-            }
-
-            block = new CIDRBlock(start, bitmaskLength);
-
-            return true;
+            return value != null;
         }
 
         private static void ValidateStart(IPAddress start)
