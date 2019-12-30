@@ -257,7 +257,12 @@ namespace Juniper.Units
         // File sizes, in increasing order of number of bytes.
 
         /// <summary>
-        /// The smallest unit, usually 8 bits.
+        /// The smallest unit, a 0 or 1
+        /// </summary>
+        Bits,
+
+        /// <summary>
+        /// 8 bits.
         /// </summary>
         Bytes,
 

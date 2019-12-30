@@ -6,6 +6,11 @@ namespace Juniper.Units
     public static class Gigabytes
     {
         /// <summary>
+        /// The number of gigabytes per bit
+        /// </summary>
+        public const float PER_BIT = 1 / Units.Bits.PER_GIGABYTE;
+
+        /// <summary>
         /// The number of gigabytes per byte
         /// </summary>
         public const float PER_BYTE = 1 / Units.Bytes.PER_GIGABYTE;
@@ -84,6 +89,16 @@ namespace Juniper.Units
         /// The number of gigabytes per yobibyte
         /// </summary>
         public const float PER_YOBIBYTE = PER_ZEBIBYTE * Units.Zebibytes.PER_YOBIBYTE;
+
+        /// <summary>
+        /// Convert gigabytes to bits
+        /// </summary>
+        /// <param name="gigabytes">The number of gigabytes</param>
+        /// <returns>the number of bits</returns>
+        public static float Bits(float gigabytes)
+        {
+            return gigabytes * Units.Bits.PER_GIGABYTE;
+        }
 
         /// <summary>
         /// Convert gigabytes to bytes

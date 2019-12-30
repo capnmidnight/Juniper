@@ -62,7 +62,7 @@ namespace Juniper.Audio
         }
 
         /// <summary>
-        /// Reads <see cref="AbstractPcmConversionStream.bytesPerFloat"/> PCM bytes
+        /// Reads <see cref="AbstractPcmConversionStream.bytesPerSample"/> PCM bytes
         /// at a time, outputting 4 floating-point bytes per sample read.
         /// </summary>
         /// <param name="buffer"></param>
@@ -74,7 +74,7 @@ namespace Juniper.Audio
             var read = 0;
             while (read + sizeof(float) - 1 < count)
             {
-                sourceStream.Read(tempBuffer, 0, bytesPerFloat);
+                sourceStream.Read(tempBuffer, 0, bytesPerSample);
                 PCMToFloat(tempBuffer, 0, buffer, offset + read);
                 read += sizeof(float);
             }
@@ -83,7 +83,7 @@ namespace Juniper.Audio
         }
 
         /// <summary>
-        /// Writes <see cref="AbstractPcmConversionStream.bytesPerFloat"/> PCM bytes
+        /// Writes <see cref="AbstractPcmConversionStream.bytesPerSample"/> PCM bytes
         /// at a time, inputting from 4 floating-point bytes per sample write.
         /// </summary>
         /// <param name="buffer"></param>
@@ -95,7 +95,7 @@ namespace Juniper.Audio
             while (wrote < count)
             {
                 FloatToPCM(buffer, offset + wrote, tempBuffer, 0);
-                sourceStream.Write(tempBuffer, 0, bytesPerFloat);
+                sourceStream.Write(tempBuffer, 0, bytesPerSample);
                 wrote += sizeof(float);
             }
         }

@@ -51,7 +51,7 @@ namespace Juniper.Imaging
                         }
                     }
 
-                    combined[(tileY * tileHeight) + y] = new SampleRow(rowBuffer, bufferWidth, 8, (byte)components);
+                    combined[(tileY * tileHeight) + y] = new SampleRow(rowBuffer, bufferWidth, Units.Bits.PER_BYTE, (byte)components);
                 }
             }
 

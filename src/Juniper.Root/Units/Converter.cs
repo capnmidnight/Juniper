@@ -16,7 +16,7 @@ namespace Juniper.Units
         /// cref="Category"/>, to make conversions within categories possible. Every UnitOfMeasure
         /// should be included in a Category.
         /// </summary>
-        private static readonly Dictionary<UnitOfMeasure, Category[]> TypeGroups = new Dictionary<UnitOfMeasure, Category[]>(75)
+        private static readonly Dictionary<UnitOfMeasure, Category[]> TypeGroups = new Dictionary<UnitOfMeasure, Category[]>(80)
         {
             [UnitOfMeasure.None] = new[] { Category.None },
 
@@ -96,6 +96,7 @@ namespace Juniper.Units
             [UnitOfMeasure.FeetPerSecondSquared] = new[] { Category.Acceleration },
             [UnitOfMeasure.MetersPerSecondSquared] = new[] { Category.Acceleration },
 
+            [UnitOfMeasure.Bits] = new[] { Category.FileSize, Category.SmallestFileSize },
             [UnitOfMeasure.Bytes] = new[] { Category.FileSize, Category.TinyFileSize },
             [UnitOfMeasure.Kilobytes] = new[] { Category.FileSize, Category.SmallFileSize },
             [UnitOfMeasure.Kibibytes] = new[] { Category.FileSize, Category.SmallFileSize },
@@ -138,59 +139,65 @@ namespace Juniper.Units
         /// </summary>
         private static readonly Dictionary<SystemOfMeasure, Dictionary<Category, UnitOfMeasure>> SystemUnits = new Dictionary<SystemOfMeasure, Dictionary<Category, UnitOfMeasure>>(2)
         {
-            {SystemOfMeasure.USCustomary, new Dictionary<Category, UnitOfMeasure>(25) {
-                { Category.Angles, UnitOfMeasure.Degrees },
-                { Category.Proportion, UnitOfMeasure.Percent },
-                { Category.Temperature, UnitOfMeasure.Farenheit },
-                { Category.Pressure, UnitOfMeasure.PoundsPerSquareInch },
-                { Category.AtmosphericPressure, UnitOfMeasure.Millibars },
-                { Category.ShortLength, UnitOfMeasure.Inches },
-                { Category.SmallArea, UnitOfMeasure.SquareInches },
-                { Category.SmallVolume, UnitOfMeasure.CubicInches },
-                { Category.LongLength, UnitOfMeasure.Feet },
-                { Category.LargeArea, UnitOfMeasure.SquareFeet },
-                { Category.LargeVolume, UnitOfMeasure.CubicFeet },
-                { Category.Distance, UnitOfMeasure.Miles },
-                { Category.LandMass, UnitOfMeasure.SquareMiles },
-                { Category.HugeVolume, UnitOfMeasure.CubicMiles },
-                { Category.RoadSpeed, UnitOfMeasure.MilesPerHour },
-                { Category.BallisticSpeed, UnitOfMeasure.FeetPerSecond },
-                { Category.Acceleration, UnitOfMeasure.FeetPerSecondSquared },
-                { Category.SmallMass, UnitOfMeasure.Ounces },
-                { Category.LargeMass, UnitOfMeasure.Pounds },
-                { Category.TinyFileSize, UnitOfMeasure.Bytes },
-                { Category.SmallFileSize, UnitOfMeasure.Kibibytes },
-                { Category.RegularFileSize, UnitOfMeasure.Mibibytes },
-                { Category.LargeFileSize, UnitOfMeasure.Gibibytes },
-                { Category.HugeFileSize, UnitOfMeasure.Tebibytes },
-                { Category.GiganticFileSize, UnitOfMeasure.Pebibytes } } },
+            [SystemOfMeasure.USCustomary] = new Dictionary<Category, UnitOfMeasure>(26)
+            {
+                [Category.Angles] = UnitOfMeasure.Degrees,
+                [Category.Proportion] = UnitOfMeasure.Percent,
+                [Category.Temperature] = UnitOfMeasure.Farenheit,
+                [Category.Pressure] = UnitOfMeasure.PoundsPerSquareInch,
+                [Category.AtmosphericPressure] = UnitOfMeasure.Millibars,
+                [Category.ShortLength] = UnitOfMeasure.Inches,
+                [Category.SmallArea] = UnitOfMeasure.SquareInches,
+                [Category.SmallVolume] = UnitOfMeasure.CubicInches,
+                [Category.LongLength] = UnitOfMeasure.Feet,
+                [Category.LargeArea] = UnitOfMeasure.SquareFeet,
+                [Category.LargeVolume] = UnitOfMeasure.CubicFeet,
+                [Category.Distance] = UnitOfMeasure.Miles,
+                [Category.LandMass] = UnitOfMeasure.SquareMiles,
+                [Category.HugeVolume] = UnitOfMeasure.CubicMiles,
+                [Category.RoadSpeed] = UnitOfMeasure.MilesPerHour,
+                [Category.BallisticSpeed] = UnitOfMeasure.FeetPerSecond,
+                [Category.Acceleration] = UnitOfMeasure.FeetPerSecondSquared,
+                [Category.SmallMass] = UnitOfMeasure.Ounces,
+                [Category.LargeMass] = UnitOfMeasure.Pounds,
+                [Category.SmallestFileSize] = UnitOfMeasure.Bits,
+                [Category.TinyFileSize] = UnitOfMeasure.Bytes,
+                [Category.SmallFileSize] = UnitOfMeasure.Kibibytes,
+                [Category.RegularFileSize] = UnitOfMeasure.Mibibytes,
+                [Category.LargeFileSize] = UnitOfMeasure.Gibibytes,
+                [Category.HugeFileSize] = UnitOfMeasure.Tebibytes,
+                [Category.GiganticFileSize] = UnitOfMeasure.Pebibytes
+            },
 
-            {SystemOfMeasure.Metric, new Dictionary<Category, UnitOfMeasure>(25) {
-                { Category.Angles, UnitOfMeasure.Degrees },
-                { Category.Proportion, UnitOfMeasure.Percent },
-                { Category.Temperature, UnitOfMeasure.Celsius },
-                { Category.Pressure, UnitOfMeasure.Kilopascals },
-                { Category.AtmosphericPressure, UnitOfMeasure.Hectopascals },
-                { Category.ShortLength, UnitOfMeasure.Centimeters },
-                { Category.SmallArea, UnitOfMeasure.SquareCentimeters },
-                { Category.SmallVolume, UnitOfMeasure.CubicCentimeters },
-                { Category.LongLength, UnitOfMeasure.Meters },
-                { Category.LargeArea, UnitOfMeasure.SquareMeters },
-                { Category.LargeVolume, UnitOfMeasure.CubicMeters },
-                { Category.Distance, UnitOfMeasure.Kilometers },
-                { Category.LandMass, UnitOfMeasure.SquareKilometers },
-                { Category.HugeVolume, UnitOfMeasure.CubicKilometers },
-                { Category.BallisticSpeed, UnitOfMeasure.MetersPerSecond },
-                { Category.RoadSpeed, UnitOfMeasure.KilometersPerHour },
-                { Category.Acceleration, UnitOfMeasure.MetersPerSecondSquared },
-                { Category.SmallMass, UnitOfMeasure.Grams },
-                { Category.LargeMass, UnitOfMeasure.Kilograms },
-                { Category.TinyFileSize, UnitOfMeasure.Bytes },
-                { Category.SmallFileSize, UnitOfMeasure.Kilobytes },
-                { Category.RegularFileSize, UnitOfMeasure.Megabytes },
-                { Category.LargeFileSize, UnitOfMeasure.Gigabytes },
-                { Category.HugeFileSize, UnitOfMeasure.Terabytes },
-                { Category.GiganticFileSize, UnitOfMeasure.Petabytes } } }
+            [SystemOfMeasure.Metric] = new Dictionary<Category, UnitOfMeasure>(26)
+            {
+                [Category.Angles] = UnitOfMeasure.Degrees,
+                [Category.Proportion] = UnitOfMeasure.Percent,
+                [Category.Temperature] = UnitOfMeasure.Celsius,
+                [Category.Pressure] = UnitOfMeasure.Kilopascals,
+                [Category.AtmosphericPressure] = UnitOfMeasure.Hectopascals,
+                [Category.ShortLength] = UnitOfMeasure.Centimeters,
+                [Category.SmallArea] = UnitOfMeasure.SquareCentimeters,
+                [Category.SmallVolume] = UnitOfMeasure.CubicCentimeters,
+                [Category.LongLength] = UnitOfMeasure.Meters,
+                [Category.LargeArea] = UnitOfMeasure.SquareMeters,
+                [Category.LargeVolume] = UnitOfMeasure.CubicMeters,
+                [Category.Distance] = UnitOfMeasure.Kilometers,
+                [Category.LandMass] = UnitOfMeasure.SquareKilometers,
+                [Category.HugeVolume] = UnitOfMeasure.CubicKilometers,
+                [Category.BallisticSpeed] = UnitOfMeasure.MetersPerSecond,
+                [Category.RoadSpeed] = UnitOfMeasure.KilometersPerHour,
+                [Category.Acceleration] = UnitOfMeasure.MetersPerSecondSquared,
+                [Category.SmallMass] = UnitOfMeasure.Grams,
+                [Category.LargeMass] = UnitOfMeasure.Kilograms,
+                [Category.SmallestFileSize] = UnitOfMeasure.Bits,
+                [Category.TinyFileSize] = UnitOfMeasure.Bytes,
+                [Category.SmallFileSize] = UnitOfMeasure.Kilobytes,
+                [Category.RegularFileSize] = UnitOfMeasure.Megabytes,
+                [Category.LargeFileSize] = UnitOfMeasure.Gigabytes,
+                [Category.HugeFileSize] = UnitOfMeasure.Terabytes,
+                [Category.GiganticFileSize] = UnitOfMeasure.Petabytes
+            }
         };
 
         /// <summary>
@@ -215,133 +222,135 @@ namespace Juniper.Units
         /// <summary>
         /// All the short-form symbols of each <see cref="UnitOfMeasure"/>.
         /// </summary>
-        public static readonly Dictionary<UnitOfMeasure, string> Abbreviations = new Dictionary<UnitOfMeasure, string>(75) {
-            { UnitOfMeasure.Units, " ea" },
+        public static readonly Dictionary<UnitOfMeasure, string> Abbreviations = new Dictionary<UnitOfMeasure, string>(74)
+        {
+            [UnitOfMeasure.Units] = " ea",
 
-            { UnitOfMeasure.Degrees, "°" },
-            { UnitOfMeasure.Radians, " rad" },
-            { UnitOfMeasure.Gradians, "ᵍ" },
+            [UnitOfMeasure.Degrees] = "°",
+            [UnitOfMeasure.Radians] = " rad",
+            [UnitOfMeasure.Gradians] = "ᵍ",
 
-            { UnitOfMeasure.Millimeters, " mm" },
-            { UnitOfMeasure.Centimeters, " cm" },
-            { UnitOfMeasure.Inches, " in" },
-            { UnitOfMeasure.Feet, " ft" },
-            { UnitOfMeasure.Meters, " m" },
-            { UnitOfMeasure.Kilometers, " km" },
-            { UnitOfMeasure.Miles, " mi" },
+            [UnitOfMeasure.Millimeters] = " mm",
+            [UnitOfMeasure.Centimeters] = " cm",
+            [UnitOfMeasure.Inches] = " in",
+            [UnitOfMeasure.Feet] = " ft",
+            [UnitOfMeasure.Meters] = " m",
+            [UnitOfMeasure.Kilometers] = " km",
+            [UnitOfMeasure.Miles] = " mi",
 
-            { UnitOfMeasure.SquareMillimeters, " mm²" },
-            { UnitOfMeasure.SquareCentimeters, " cm²" },
-            { UnitOfMeasure.SquareInches, " in²" },
-            { UnitOfMeasure.SquareFeet, " ft²" },
-            { UnitOfMeasure.SquareMeters, " m²" },
-            { UnitOfMeasure.SquareKilometers, " km²" },
-            { UnitOfMeasure.SquareMiles, " mi²" },
+            [UnitOfMeasure.SquareMillimeters] = " mm²",
+            [UnitOfMeasure.SquareCentimeters] = " cm²",
+            [UnitOfMeasure.SquareInches] = " in²",
+            [UnitOfMeasure.SquareFeet] = " ft²",
+            [UnitOfMeasure.SquareMeters] = " m²",
+            [UnitOfMeasure.SquareKilometers] = " km²",
+            [UnitOfMeasure.SquareMiles] = " mi²",
 
-            { UnitOfMeasure.CubicMillimeters, " mm³" },
-            { UnitOfMeasure.CubicCentimeters, " cm³" },
-            { UnitOfMeasure.CubicInches, " in³" },
-            { UnitOfMeasure.CubicFeet, " ft³" },
-            { UnitOfMeasure.CubicMeters, " m³" },
-            { UnitOfMeasure.CubicKilometers, " km³" },
-            { UnitOfMeasure.CubicMiles, " mi³" },
+            [UnitOfMeasure.CubicMillimeters] = " mm³",
+            [UnitOfMeasure.CubicCentimeters] = " cm³",
+            [UnitOfMeasure.CubicInches] = " in³",
+            [UnitOfMeasure.CubicFeet] = " ft³",
+            [UnitOfMeasure.CubicMeters] = " m³",
+            [UnitOfMeasure.CubicKilometers] = " km³",
+            [UnitOfMeasure.CubicMiles] = " mi³",
 
-            { UnitOfMeasure.Grams, " g" },
-            { UnitOfMeasure.Ounces, " oz" },
-            { UnitOfMeasure.Pounds, " lbs" },
-            { UnitOfMeasure.Kilograms, " kg" },
-            { UnitOfMeasure.Tons, " T" },
+            [UnitOfMeasure.Grams] = " g",
+            [UnitOfMeasure.Ounces] = " oz",
+            [UnitOfMeasure.Pounds] = " lbs",
+            [UnitOfMeasure.Kilograms] = " kg",
+            [UnitOfMeasure.Tons] = " T",
 
-            { UnitOfMeasure.Pascals, " Pa" },
-            { UnitOfMeasure.Hectopascals, " hPa" },
-            { UnitOfMeasure.PoundsPerSquareInch, " psi" },
-            { UnitOfMeasure.Kilopascals, " kPa" },
+            [UnitOfMeasure.Pascals] = " Pa",
+            [UnitOfMeasure.Hectopascals] = " hPa",
+            [UnitOfMeasure.PoundsPerSquareInch] = " psi",
+            [UnitOfMeasure.Kilopascals] = " kPa",
 
-            { UnitOfMeasure.Percent, "%" },
+            [UnitOfMeasure.Percent] = "%",
 
-            { UnitOfMeasure.MilesPerHour, " MPH" },
-            { UnitOfMeasure.KilometersPerHour, " km/h" },
-            { UnitOfMeasure.MetersPerSecond, " m/s" },
-            { UnitOfMeasure.MillimetersPerSecond, " mm/s" },
-            { UnitOfMeasure.FeetPerSecond, " fps" },
+            [UnitOfMeasure.MilesPerHour] = " MPH",
+            [UnitOfMeasure.KilometersPerHour] = " km/h",
+            [UnitOfMeasure.MetersPerSecond] = " m/s",
+            [UnitOfMeasure.MillimetersPerSecond] = " mm/s",
+            [UnitOfMeasure.FeetPerSecond] = " fps",
 
-            { UnitOfMeasure.MetersPerSecondSquared, " m/s²" },
-            { UnitOfMeasure.FeetPerSecondSquared, " ft/s²" },
+            [UnitOfMeasure.MetersPerSecondSquared] = " m/s²",
+            [UnitOfMeasure.FeetPerSecondSquared] = " ft/s²",
 
-            { UnitOfMeasure.Farenheit, "F" },
-            { UnitOfMeasure.Celsius, "C" },
-            { UnitOfMeasure.Kelvin, "K" },
+            [UnitOfMeasure.Farenheit] = "F",
+            [UnitOfMeasure.Celsius] = "C",
+            [UnitOfMeasure.Kelvin] = "K",
 
-            { UnitOfMeasure.Hours, " h" },
-            { UnitOfMeasure.Minutes, " m" },
-            { UnitOfMeasure.Seconds, " s" },
-            { UnitOfMeasure.Milliseconds, " ms" },
-            { UnitOfMeasure.Microseconds, " μs" },
-            { UnitOfMeasure.Ticks, " ticks" },
-            { UnitOfMeasure.Nanoseconds, " ns" },
-            { UnitOfMeasure.Hertz, " Hz" },
+            [UnitOfMeasure.Hours] = " h",
+            [UnitOfMeasure.Minutes] = " m",
+            [UnitOfMeasure.Seconds] = " s",
+            [UnitOfMeasure.Milliseconds] = " ms",
+            [UnitOfMeasure.Microseconds] = " μs",
+            [UnitOfMeasure.Ticks] = " ticks",
+            [UnitOfMeasure.Nanoseconds] = " ns",
+            [UnitOfMeasure.Hertz] = " Hz",
 
-            { UnitOfMeasure.Bytes, " B" },
-            { UnitOfMeasure.Kilobytes, " KB" },
-            { UnitOfMeasure.Kibibytes, " KiB" },
-            { UnitOfMeasure.Megabytes, " MB" },
-            { UnitOfMeasure.Mibibytes, " MiB" },
-            { UnitOfMeasure.Gigabytes, " GB" },
-            { UnitOfMeasure.Gibibytes, " GiB" },
-            { UnitOfMeasure.Terabytes, " TB" },
-            { UnitOfMeasure.Tebibytes, " TiB" },
-            { UnitOfMeasure.Petabytes, " PB" },
-            { UnitOfMeasure.Pebibytes, " PiB" },
-            { UnitOfMeasure.Exabytes, " EB" },
-            { UnitOfMeasure.Exbibytes, " EiB" },
-            { UnitOfMeasure.Zettabytes, " ZB" },
-            { UnitOfMeasure.Zebibytes, " ZiB" },
-            { UnitOfMeasure.Yotabytes, " YB" },
-            { UnitOfMeasure.Yobibytes, " YiB" },
+            [UnitOfMeasure.Bits] = "b",
+            [UnitOfMeasure.Bytes] = " B",
+            [UnitOfMeasure.Kilobytes] = " KB",
+            [UnitOfMeasure.Kibibytes] = " KiB",
+            [UnitOfMeasure.Megabytes] = " MB",
+            [UnitOfMeasure.Mibibytes] = " MiB",
+            [UnitOfMeasure.Gigabytes] = " GB",
+            [UnitOfMeasure.Gibibytes] = " GiB",
+            [UnitOfMeasure.Terabytes] = " TB",
+            [UnitOfMeasure.Tebibytes] = " TiB",
+            [UnitOfMeasure.Petabytes] = " PB",
+            [UnitOfMeasure.Pebibytes] = " PiB",
+            [UnitOfMeasure.Exabytes] = " EB",
+            [UnitOfMeasure.Exbibytes] = " EiB",
+            [UnitOfMeasure.Zettabytes] = " ZB",
+            [UnitOfMeasure.Zebibytes] = " ZiB",
+            [UnitOfMeasure.Yotabytes] = " YB",
+            [UnitOfMeasure.Yobibytes] = " YiB",
 
-            { UnitOfMeasure.Brightness, " L" },
-            { UnitOfMeasure.Lumens, " lm" },
-            { UnitOfMeasure.Nits, " nt" }
+            [UnitOfMeasure.Brightness] = " L",
+            [UnitOfMeasure.Lumens] = " lm",
+            [UnitOfMeasure.Nits] = " nt"
         };
 
         /// <summary>
         /// A look-up to quickly find the conversion function for each unit of measure pairing
         /// without having to use reflection every time.
         /// </summary>
-        private static readonly Dictionary<UnitOfMeasure, Dictionary<UnitOfMeasure, Func<float, float>>> Conversions = new Dictionary<UnitOfMeasure, Dictionary<UnitOfMeasure, Func<float, float>>>
+        private static readonly Dictionary<UnitOfMeasure, Dictionary<UnitOfMeasure, Func<float, float>>> Conversions = new Dictionary<UnitOfMeasure, Dictionary<UnitOfMeasure, Func<float, float>>>(76)
         {
-            [UnitOfMeasure.FeetPerSecondSquared] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.FeetPerSecondSquared] = new Dictionary<UnitOfMeasure, Func<float, float>>(1)
             {
                 [UnitOfMeasure.MetersPerSecondSquared] = FeetPerSecondSquared.MetersPerSecondSquared
             },
 
-            [UnitOfMeasure.MetersPerSecondSquared] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.MetersPerSecondSquared] = new Dictionary<UnitOfMeasure, Func<float, float>>(1)
             {
                 [UnitOfMeasure.FeetPerSecondSquared] = MetersPerSecondSquared.FeetPerSecondSquared
             },
 
-            [UnitOfMeasure.Degrees] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Degrees] = new Dictionary<UnitOfMeasure, Func<float, float>>(3)
             {
                 [UnitOfMeasure.Radians] = Degrees.Radians,
                 [UnitOfMeasure.Gradians] = Degrees.Gradians,
                 [UnitOfMeasure.Hours] = Degrees.Hours
             },
 
-            [UnitOfMeasure.Gradians] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Gradians] = new Dictionary<UnitOfMeasure, Func<float, float>>(3)
             {
                 [UnitOfMeasure.Degrees] = Gradians.Degrees,
                 [UnitOfMeasure.Radians] = Gradians.Radians,
                 [UnitOfMeasure.Hours] = Gradians.Hours
             },
 
-            [UnitOfMeasure.Radians] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Radians] = new Dictionary<UnitOfMeasure, Func<float, float>>(3)
             {
                 [UnitOfMeasure.Degrees] = Radians.Degrees,
                 [UnitOfMeasure.Gradians] = Radians.Gradians,
                 [UnitOfMeasure.Hours] = Radians.Hours
             },
 
-            [UnitOfMeasure.CubicCentimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.CubicCentimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.CubicMillimeters] = CubicCentimeters.CubicMillimeters,
                 [UnitOfMeasure.CubicInches] = CubicCentimeters.CubicInches,
@@ -351,7 +360,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.CubicMiles] = CubicCentimeters.CubicMiles
             },
 
-            [UnitOfMeasure.CubicFeet] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.CubicFeet] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.CubicMillimeters] = CubicFeet.CubicMillimeters,
                 [UnitOfMeasure.CubicCentimeters] = CubicFeet.CubicCentimeters,
@@ -361,7 +370,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.CubicMiles] = CubicFeet.CubicMiles
             },
 
-            [UnitOfMeasure.CubicInches] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.CubicInches] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.CubicMillimeters] = CubicInches.CubicMillimeters,
                 [UnitOfMeasure.CubicCentimeters] = CubicInches.CubicCentimeters,
@@ -371,7 +380,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.CubicMiles] = CubicInches.CubicMiles
             },
 
-            [UnitOfMeasure.CubicKilometers] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.CubicKilometers] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.CubicMillimeters] = CubicKilometers.CubicMillimeters,
                 [UnitOfMeasure.CubicCentimeters] = CubicKilometers.CubicCentimeters,
@@ -381,7 +390,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.CubicMiles] = CubicKilometers.CubicMiles
             },
 
-            [UnitOfMeasure.CubicMeters] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.CubicMeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.CubicMillimeters] = CubicMeters.CubicMillimeters,
                 [UnitOfMeasure.CubicCentimeters] = CubicMeters.CubicCentimeters,
@@ -391,7 +400,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.CubicMiles] = CubicMeters.CubicMiles
             },
 
-            [UnitOfMeasure.CubicMiles] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.CubicMiles] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.CubicMillimeters] = CubicMiles.CubicMillimeters,
                 [UnitOfMeasure.CubicCentimeters] = CubicMiles.CubicCentimeters,
@@ -401,7 +410,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.CubicKilometers] = CubicMiles.CubicKilometers
             },
 
-            [UnitOfMeasure.CubicMillimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.CubicMillimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.CubicCentimeters] = CubicMillimeters.CubicCentimeters,
                 [UnitOfMeasure.CubicInches] = CubicMillimeters.CubicInches,
@@ -411,8 +420,30 @@ namespace Juniper.Units
                 [UnitOfMeasure.CubicMiles] = CubicMillimeters.CubicMiles
             },
 
-            [UnitOfMeasure.Bytes] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Bits] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
             {
+                [UnitOfMeasure.Bytes] = Bits.Bytes,
+                [UnitOfMeasure.Kilobytes] = Bits.Kilobytes,
+                [UnitOfMeasure.Megabytes] = Bits.Megabytes,
+                [UnitOfMeasure.Gigabytes] = Bits.Gigabytes,
+                [UnitOfMeasure.Terabytes] = Bits.Terabytes,
+                [UnitOfMeasure.Petabytes] = Bits.Petabytes,
+                [UnitOfMeasure.Exabytes] = Bits.Exabytes,
+                [UnitOfMeasure.Zettabytes] = Bits.Zettabytes,
+                [UnitOfMeasure.Yotabytes] = Bits.Yotabytes,
+                [UnitOfMeasure.Kibibytes] = Bits.Kibibytes,
+                [UnitOfMeasure.Mibibytes] = Bits.Mibibytes,
+                [UnitOfMeasure.Gibibytes] = Bits.Gibibytes,
+                [UnitOfMeasure.Tebibytes] = Bits.Tebibytes,
+                [UnitOfMeasure.Pebibytes] = Bits.Pebibytes,
+                [UnitOfMeasure.Exbibytes] = Bits.Exbibytes,
+                [UnitOfMeasure.Zebibytes] = Bits.Zebibytes,
+                [UnitOfMeasure.Yobibytes] = Bits.Yobibytes
+            },
+
+            [UnitOfMeasure.Bytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.Bits] = Bytes.Bits,
                 [UnitOfMeasure.Kilobytes] = Bytes.Kilobytes,
                 [UnitOfMeasure.Megabytes] = Bytes.Megabytes,
                 [UnitOfMeasure.Gigabytes] = Bytes.Gigabytes,
@@ -431,8 +462,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Bytes.Yobibytes
             },
 
-            [UnitOfMeasure.Exabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Exabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
             {
+                [UnitOfMeasure.Bits] = Exabytes.Bits,
                 [UnitOfMeasure.Bytes] = Exabytes.Bytes,
                 [UnitOfMeasure.Kilobytes] = Exabytes.Kilobytes,
                 [UnitOfMeasure.Megabytes] = Exabytes.Megabytes,
@@ -451,8 +483,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Exabytes.Yobibytes
             },
 
-            [UnitOfMeasure.Exbibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Exbibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
             {
+                [UnitOfMeasure.Bits] = Exbibytes.Bits,
                 [UnitOfMeasure.Bytes] = Exbibytes.Bytes,
                 [UnitOfMeasure.Kilobytes] = Exbibytes.Kilobytes,
                 [UnitOfMeasure.Megabytes] = Exbibytes.Megabytes,
@@ -471,8 +504,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Exbibytes.Yobibytes
             },
 
-            [UnitOfMeasure.Gibibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Gibibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
             {
+                [UnitOfMeasure.Bits] = Gibibytes.Bits,
                 [UnitOfMeasure.Bytes] = Gibibytes.Bytes,
                 [UnitOfMeasure.Kilobytes] = Gibibytes.Kilobytes,
                 [UnitOfMeasure.Megabytes] = Gibibytes.Megabytes,
@@ -491,8 +525,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Gibibytes.Yobibytes
             },
 
-            [UnitOfMeasure.Gigabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Gigabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
             {
+                [UnitOfMeasure.Bits] = Gigabytes.Bits,
                 [UnitOfMeasure.Bytes] = Gigabytes.Bytes,
                 [UnitOfMeasure.Kilobytes] = Gigabytes.Kilobytes,
                 [UnitOfMeasure.Megabytes] = Gigabytes.Megabytes,
@@ -511,8 +546,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Gigabytes.Yobibytes
             },
 
-            [UnitOfMeasure.Kibibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Kibibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
             {
+                [UnitOfMeasure.Bits] = Kibibytes.Bits,
                 [UnitOfMeasure.Bytes] = Kibibytes.Bytes,
                 [UnitOfMeasure.Kilobytes] = Kibibytes.Kilobytes,
                 [UnitOfMeasure.Megabytes] = Kibibytes.Megabytes,
@@ -531,8 +567,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Kibibytes.Yobibytes
             },
 
-            [UnitOfMeasure.Kilobytes] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Kilobytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
             {
+                [UnitOfMeasure.Bits] = Kilobytes.Bits,
                 [UnitOfMeasure.Bytes] = Kilobytes.Bytes,
                 [UnitOfMeasure.Megabytes] = Kilobytes.Megabytes,
                 [UnitOfMeasure.Gigabytes] = Kilobytes.Gigabytes,
@@ -551,8 +588,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Kilobytes.Yobibytes
             },
 
-            [UnitOfMeasure.Megabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Megabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
             {
+                [UnitOfMeasure.Bits] = Megabytes.Bits,
                 [UnitOfMeasure.Bytes] = Megabytes.Bytes,
                 [UnitOfMeasure.Kilobytes] = Megabytes.Kilobytes,
                 [UnitOfMeasure.Gigabytes] = Megabytes.Gigabytes,
@@ -571,8 +609,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Megabytes.Yobibytes
             },
 
-            [UnitOfMeasure.Mibibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Mibibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
             {
+                [UnitOfMeasure.Bits] = Mibibytes.Bits,
                 [UnitOfMeasure.Bytes] = Mibibytes.Bytes,
                 [UnitOfMeasure.Kilobytes] = Mibibytes.Kilobytes,
                 [UnitOfMeasure.Megabytes] = Mibibytes.Megabytes,
@@ -591,8 +630,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Mibibytes.Yobibytes
             },
 
-            [UnitOfMeasure.Pebibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Pebibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
             {
+                [UnitOfMeasure.Bits] = Pebibytes.Bits,
                 [UnitOfMeasure.Bytes] = Pebibytes.Bytes,
                 [UnitOfMeasure.Kilobytes] = Pebibytes.Kilobytes,
                 [UnitOfMeasure.Megabytes] = Pebibytes.Megabytes,
@@ -611,8 +651,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Pebibytes.Yobibytes
             },
 
-            [UnitOfMeasure.Petabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Petabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
             {
+                [UnitOfMeasure.Bits] = Petabytes.Bits,
                 [UnitOfMeasure.Bytes] = Petabytes.Bytes,
                 [UnitOfMeasure.Kilobytes] = Petabytes.Kilobytes,
                 [UnitOfMeasure.Megabytes] = Petabytes.Megabytes,
@@ -631,8 +672,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Petabytes.Yobibytes
             },
 
-            [UnitOfMeasure.Tebibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Tebibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
             {
+                [UnitOfMeasure.Bits] = Tebibytes.Bits,
                 [UnitOfMeasure.Bytes] = Tebibytes.Bytes,
                 [UnitOfMeasure.Kilobytes] = Tebibytes.Kilobytes,
                 [UnitOfMeasure.Megabytes] = Tebibytes.Megabytes,
@@ -651,8 +693,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Tebibytes.Yobibytes
             },
 
-            [UnitOfMeasure.Terabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Terabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
             {
+                [UnitOfMeasure.Bits] = Terabytes.Bits,
                 [UnitOfMeasure.Bytes] = Terabytes.Bytes,
                 [UnitOfMeasure.Kilobytes] = Terabytes.Kilobytes,
                 [UnitOfMeasure.Megabytes] = Terabytes.Megabytes,
@@ -671,8 +714,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Terabytes.Yobibytes
             },
 
-            [UnitOfMeasure.Yobibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Yobibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
             {
+                [UnitOfMeasure.Bits] = Yobibytes.Bits,
                 [UnitOfMeasure.Bytes] = Yobibytes.Bytes,
                 [UnitOfMeasure.Kilobytes] = Yobibytes.Kilobytes,
                 [UnitOfMeasure.Megabytes] = Yobibytes.Megabytes,
@@ -691,8 +735,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Zebibytes] = Yobibytes.Zebibytes
             },
 
-            [UnitOfMeasure.Yotabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Yotabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
             {
+                [UnitOfMeasure.Bits] = Yotabytes.Bits,
                 [UnitOfMeasure.Bytes] = Yotabytes.Bytes,
                 [UnitOfMeasure.Kilobytes] = Yotabytes.Kilobytes,
                 [UnitOfMeasure.Megabytes] = Yotabytes.Megabytes,
@@ -711,8 +756,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Yotabytes.Yobibytes
             },
 
-            [UnitOfMeasure.Zebibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Zebibytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
             {
+                [UnitOfMeasure.Bits] = Zebibytes.Bits,
                 [UnitOfMeasure.Bytes] = Zebibytes.Bytes,
                 [UnitOfMeasure.Kilobytes] = Zebibytes.Kilobytes,
                 [UnitOfMeasure.Megabytes] = Zebibytes.Megabytes,
@@ -731,8 +777,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Zebibytes.Yobibytes
             },
 
-            [UnitOfMeasure.Zettabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Zettabytes] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
             {
+                [UnitOfMeasure.Bits] = Zettabytes.Bits,
                 [UnitOfMeasure.Bytes] = Zettabytes.Bytes,
                 [UnitOfMeasure.Kilobytes] = Zettabytes.Kilobytes,
                 [UnitOfMeasure.Megabytes] = Zettabytes.Megabytes,
@@ -751,7 +798,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Yobibytes] = Zettabytes.Yobibytes
             },
 
-            [UnitOfMeasure.SquareCentimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.SquareCentimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.SquareMillimeters] = SquareCentimeters.SquareMillimeters,
                 [UnitOfMeasure.SquareInches] = SquareCentimeters.SquareInches,
@@ -761,7 +808,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareCentimeters.SquareMiles
             },
 
-            [UnitOfMeasure.SquareFeet] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.SquareFeet] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.SquareMillimeters] = SquareFeet.SquareMillimeters,
                 [UnitOfMeasure.SquareCentimeters] = SquareFeet.SquareCentimeters,
@@ -771,7 +818,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareFeet.SquareMiles
             },
 
-            [UnitOfMeasure.SquareInches] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.SquareInches] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.SquareMillimeters] = SquareInches.SquareMillimeters,
                 [UnitOfMeasure.SquareCentimeters] = SquareInches.SquareCentimeters,
@@ -781,7 +828,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareInches.SquareMiles
             },
 
-            [UnitOfMeasure.SquareKilometers] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.SquareKilometers] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.SquareMillimeters] = SquareKilometers.SquareMillimeters,
                 [UnitOfMeasure.SquareCentimeters] = SquareKilometers.SquareCentimeters,
@@ -791,7 +838,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareKilometers.SquareMiles
             },
 
-            [UnitOfMeasure.SquareMeters] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.SquareMeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.SquareMillimeters] = SquareMeters.SquareMillimeters,
                 [UnitOfMeasure.SquareCentimeters] = SquareMeters.SquareCentimeters,
@@ -801,7 +848,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareMeters.SquareMiles
             },
 
-            [UnitOfMeasure.SquareMiles] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.SquareMiles] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.SquareMillimeters] = SquareMiles.SquareMillimeters,
                 [UnitOfMeasure.SquareCentimeters] = SquareMiles.SquareCentimeters,
@@ -811,7 +858,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareKilometers] = SquareMiles.SquareKilometers
             },
 
-            [UnitOfMeasure.SquareMillimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.SquareMillimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.SquareCentimeters] = SquareMillimeters.SquareCentimeters,
                 [UnitOfMeasure.SquareInches] = SquareMillimeters.SquareInches,
@@ -821,7 +868,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareMillimeters.SquareMiles
             },
 
-            [UnitOfMeasure.Centimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Centimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.Millimeters] = Centimeters.Millimeters,
                 [UnitOfMeasure.Inches] = Centimeters.Inches,
@@ -831,7 +878,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Miles] = Centimeters.Miles
             },
 
-            [UnitOfMeasure.Feet] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Feet] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.Millimeters] = Feet.Millimeters,
                 [UnitOfMeasure.Centimeters] = Feet.Centimeters,
@@ -841,7 +888,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Miles] = Feet.Miles
             },
 
-            [UnitOfMeasure.Inches] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Inches] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.Millimeters] = Inches.Millimeters,
                 [UnitOfMeasure.Centimeters] = Inches.Centimeters,
@@ -851,7 +898,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Miles] = Inches.Miles
             },
 
-            [UnitOfMeasure.Kilometers] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Kilometers] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.Millimeters] = Kilometers.Millimeters,
                 [UnitOfMeasure.Centimeters] = Kilometers.Centimeters,
@@ -861,7 +908,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Miles] = Kilometers.Miles
             },
 
-            [UnitOfMeasure.Meters] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Meters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.Millimeters] = Meters.Millimeters,
                 [UnitOfMeasure.Centimeters] = Meters.Centimeters,
@@ -871,7 +918,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Miles] = Meters.Miles
             },
 
-            [UnitOfMeasure.Miles] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Miles] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.Millimeters] = Miles.Millimeters,
                 [UnitOfMeasure.Centimeters] = Miles.Centimeters,
@@ -881,7 +928,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Kilometers] = Miles.Kilometers
             },
 
-            [UnitOfMeasure.Millimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Millimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
             {
                 [UnitOfMeasure.Centimeters] = Millimeters.Centimeters,
                 [UnitOfMeasure.Inches] = Millimeters.Inches,
@@ -891,25 +938,25 @@ namespace Juniper.Units
                 [UnitOfMeasure.Miles] = Millimeters.Miles
             },
 
-            [UnitOfMeasure.Brightness] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Brightness] = new Dictionary<UnitOfMeasure, Func<float, float>>(2)
             {
                 [UnitOfMeasure.Lumens] = Brightness.Lumens,
                 [UnitOfMeasure.Nits] = Brightness.Nits
             },
 
-            [UnitOfMeasure.Lumens] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Lumens] = new Dictionary<UnitOfMeasure, Func<float, float>>(2)
             {
                 [UnitOfMeasure.Nits] = Lumens.Nits,
                 [UnitOfMeasure.Brightness] = Lumens.Brightness
             },
 
-            [UnitOfMeasure.Nits] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Nits] = new Dictionary<UnitOfMeasure, Func<float, float>>(2)
             {
                 [UnitOfMeasure.Lumens] = Nits.Lumens,
                 [UnitOfMeasure.Brightness] = Nits.Brightness
             },
 
-            [UnitOfMeasure.Grams] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Grams] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
             {
                 [UnitOfMeasure.Ounces] = Grams.Ounces,
                 [UnitOfMeasure.Pounds] = Grams.Pounds,
@@ -917,7 +964,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Tons] = Grams.Tons
             },
 
-            [UnitOfMeasure.Kilograms] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Kilograms] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
             {
                 [UnitOfMeasure.Grams] = Kilograms.Grams,
                 [UnitOfMeasure.Ounces] = Kilograms.Ounces,
@@ -925,7 +972,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Tons] = Kilograms.Tons
             },
 
-            [UnitOfMeasure.Ounces] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Ounces] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
             {
                 [UnitOfMeasure.Grams] = Ounces.Grams,
                 [UnitOfMeasure.Pounds] = Ounces.Pounds,
@@ -933,7 +980,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Tons] = Ounces.Tons
             },
 
-            [UnitOfMeasure.Pounds] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Pounds] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
             {
                 [UnitOfMeasure.Grams] = Pounds.Grams,
                 [UnitOfMeasure.Ounces] = Pounds.Ounces,
@@ -941,7 +988,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Tons] = Pounds.Tons
             },
 
-            [UnitOfMeasure.Tons] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Tons] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
             {
                 [UnitOfMeasure.Grams] = Tons.Grams,
                 [UnitOfMeasure.Ounces] = Tons.Ounces,
@@ -949,7 +996,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Kilograms] = Tons.Kilograms
             },
 
-            [UnitOfMeasure.Hectopascals] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Hectopascals] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
             {
                 [UnitOfMeasure.Pascals] = Hectopascals.Pascals,
                 [UnitOfMeasure.Millibars] = Hectopascals.Millibars,
@@ -957,7 +1004,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.PoundsPerSquareInch] = Hectopascals.PoundsPerSquareInch
             },
 
-            [UnitOfMeasure.Kilopascals] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Kilopascals] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
             {
                 [UnitOfMeasure.Pascals] = Kilopascals.Pascals,
                 [UnitOfMeasure.Hectopascals] = Kilopascals.Hectopascals,
@@ -965,7 +1012,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.PoundsPerSquareInch] = Kilopascals.PoundsPerSquareInch
             },
 
-            [UnitOfMeasure.Millibars] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Millibars] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
             {
                 [UnitOfMeasure.Pascals] = Millibars.Pascals,
                 [UnitOfMeasure.Hectopascals] = Millibars.Hectopascals,
@@ -973,7 +1020,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.PoundsPerSquareInch] = Millibars.PoundsPerSquareInch
             },
 
-            [UnitOfMeasure.Pascals] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Pascals] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
             {
                 [UnitOfMeasure.Hectopascals] = Pascals.Hectopascals,
                 [UnitOfMeasure.Millibars] = Pascals.Millibars,
@@ -981,7 +1028,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.PoundsPerSquareInch] = Pascals.PoundsPerSquareInch
             },
 
-            [UnitOfMeasure.PoundsPerSquareInch] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.PoundsPerSquareInch] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
             {
                 [UnitOfMeasure.Pascals] = PoundsPerSquareInch.Pascals,
                 [UnitOfMeasure.Hectopascals] = PoundsPerSquareInch.Hectopascals,
@@ -989,17 +1036,17 @@ namespace Juniper.Units
                 [UnitOfMeasure.Kilopascals] = PoundsPerSquareInch.Kilopascals
             },
 
-            [UnitOfMeasure.Percent] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Percent] = new Dictionary<UnitOfMeasure, Func<float, float>>(1)
             {
                 [UnitOfMeasure.Proportion] = Percent.Proportion
             },
 
-            [UnitOfMeasure.Proportion] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Proportion] = new Dictionary<UnitOfMeasure, Func<float, float>>(1)
             {
                 [UnitOfMeasure.Percent] = Proportion.Percent
             },
 
-            [UnitOfMeasure.FeetPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.FeetPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
             {
                 [UnitOfMeasure.MilesPerHour] = FeetPerSecond.MilesPerHour,
                 [UnitOfMeasure.KilometersPerHour] = FeetPerSecond.KilometersPerHour,
@@ -1007,7 +1054,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.MillimetersPerSecond] = FeetPerSecond.MillimetersPerSecond
             },
 
-            [UnitOfMeasure.KilometersPerHour] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.KilometersPerHour] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
             {
                 [UnitOfMeasure.MilesPerHour] = KilometersPerHour.MilesPerHour,
                 [UnitOfMeasure.FeetPerSecond] = KilometersPerHour.FeetPerSecond,
@@ -1015,7 +1062,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.MillimetersPerSecond] = KilometersPerHour.MillimetersPerSecond
             },
 
-            [UnitOfMeasure.MetersPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.MetersPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
             {
                 [UnitOfMeasure.MilesPerHour] = MetersPerSecond.MilesPerHour,
                 [UnitOfMeasure.KilometersPerHour] = MetersPerSecond.KilometersPerHour,
@@ -1023,7 +1070,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.MillimetersPerSecond] = MetersPerSecond.MillimetersPerSecond
             },
 
-            [UnitOfMeasure.MilesPerHour] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.MilesPerHour] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
             {
                 [UnitOfMeasure.KilometersPerHour] = MilesPerHour.KilometersPerHour,
                 [UnitOfMeasure.FeetPerSecond] = MilesPerHour.FeetPerSecond,
@@ -1031,7 +1078,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.MillimetersPerSecond] = MilesPerHour.MillimetersPerSecond
             },
 
-            [UnitOfMeasure.MillimetersPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.MillimetersPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(4)
             {
                 [UnitOfMeasure.MilesPerHour] = MillimetersPerSecond.MilesPerHour,
                 [UnitOfMeasure.KilometersPerHour] = MillimetersPerSecond.KilometersPerHour,
@@ -1039,25 +1086,25 @@ namespace Juniper.Units
                 [UnitOfMeasure.MetersPerSecond] = MillimetersPerSecond.MetersPerSecond
             },
 
-            [UnitOfMeasure.Celsius] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Celsius] = new Dictionary<UnitOfMeasure, Func<float, float>>(2)
             {
                 [UnitOfMeasure.Farenheit] = Celsius.Farenheit,
                 [UnitOfMeasure.Kelvin] = Celsius.Kelvin
             },
 
-            [UnitOfMeasure.Farenheit] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Farenheit] = new Dictionary<UnitOfMeasure, Func<float, float>>(2)
             {
                 [UnitOfMeasure.Celsius] = Farenheit.Celsius,
                 [UnitOfMeasure.Kelvin] = Farenheit.Kelvin
             },
 
-            [UnitOfMeasure.Kelvin] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Kelvin] = new Dictionary<UnitOfMeasure, Func<float, float>>(2)
             {
                 [UnitOfMeasure.Farenheit] = Kelvin.Farenheit,
                 [UnitOfMeasure.Celsius] = Kelvin.Celsius
             },
 
-            [UnitOfMeasure.Days] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Days] = new Dictionary<UnitOfMeasure, Func<float, float>>(8)
             {
                 [UnitOfMeasure.Nanoseconds] = Days.Nanoseconds,
                 [UnitOfMeasure.Ticks] = Days.Ticks,
@@ -1069,7 +1116,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Hertz] = Days.Hertz
             },
 
-            [UnitOfMeasure.Hours] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Hours] = new Dictionary<UnitOfMeasure, Func<float, float>>(8)
             {
                 [UnitOfMeasure.Nanoseconds] = Hours.Nanoseconds,
                 [UnitOfMeasure.Ticks] = Hours.Ticks,
@@ -1083,7 +1130,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Hertz] = Hours.Hertz
             },
 
-            [UnitOfMeasure.Minutes] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Minutes] = new Dictionary<UnitOfMeasure, Func<float, float>>(8)
             {
                 [UnitOfMeasure.Nanoseconds] = Minutes.Nanoseconds,
                 [UnitOfMeasure.Ticks] = Minutes.Ticks,
@@ -1095,7 +1142,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Hertz] = Minutes.Hertz
             },
 
-            [UnitOfMeasure.Seconds] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Seconds] = new Dictionary<UnitOfMeasure, Func<float, float>>(8)
             {
                 [UnitOfMeasure.Nanoseconds] = Seconds.Nanoseconds,
                 [UnitOfMeasure.Ticks] = Seconds.Ticks,
@@ -1107,7 +1154,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Hertz] = Seconds.Hertz
             },
 
-            [UnitOfMeasure.Milliseconds] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Milliseconds] = new Dictionary<UnitOfMeasure, Func<float, float>>(8)
             {
                 [UnitOfMeasure.Nanoseconds] = Milliseconds.Nanoseconds,
                 [UnitOfMeasure.Ticks] = Milliseconds.Ticks,
@@ -1119,7 +1166,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Hertz] = Milliseconds.Hertz
             },
 
-            [UnitOfMeasure.Microseconds] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Microseconds] = new Dictionary<UnitOfMeasure, Func<float, float>>(8)
             {
                 [UnitOfMeasure.Nanoseconds] = Microseconds.Nanoseconds,
                 [UnitOfMeasure.Ticks] = Microseconds.Ticks,
@@ -1131,7 +1178,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Hertz] = Microseconds.Hertz
             },
 
-            [UnitOfMeasure.Ticks] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Ticks] = new Dictionary<UnitOfMeasure, Func<float, float>>(8)
             {
                 [UnitOfMeasure.Nanoseconds] = Ticks.Nanoseconds,
                 [UnitOfMeasure.Microseconds] = Ticks.Microseconds,
@@ -1143,7 +1190,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Hertz] = Ticks.Hertz
             },
 
-            [UnitOfMeasure.Nanoseconds] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Nanoseconds] = new Dictionary<UnitOfMeasure, Func<float, float>>(8)
             {
                 [UnitOfMeasure.Ticks] = Nanoseconds.Ticks,
                 [UnitOfMeasure.Microseconds] = Nanoseconds.Microseconds,
@@ -1155,7 +1202,7 @@ namespace Juniper.Units
                 [UnitOfMeasure.Hertz] = Nanoseconds.Hertz
             },
 
-            [UnitOfMeasure.Hertz] = new Dictionary<UnitOfMeasure, Func<float, float>>
+            [UnitOfMeasure.Hertz] = new Dictionary<UnitOfMeasure, Func<float, float>>(8)
             {
                 [UnitOfMeasure.Nanoseconds] = Hertz.Nanoseconds,
                 [UnitOfMeasure.Ticks] = Hertz.Ticks,

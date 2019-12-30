@@ -126,6 +126,11 @@ namespace Juniper.Units
         FileSize,
 
         /// <summary>
+        /// Bits
+        /// </summary>
+        SmallestFileSize,
+
+        /// <summary>
         /// Plain bytes.
         /// </summary>
         TinyFileSize,

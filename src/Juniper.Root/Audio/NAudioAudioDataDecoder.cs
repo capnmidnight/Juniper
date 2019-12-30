@@ -110,7 +110,7 @@ namespace Juniper.Audio
 
                 var sampleRate = format.SampleRate;
                 var bitsPerSample = format.BitsPerSample;
-                var bytesPerSample = bitsPerSample / 8;
+                var bytesPerSample = (int)Units.Bits.Bytes(bitsPerSample);
                 var channels = format.Channels;
                 var samples = waveStream.Length / bytesPerSample;
 

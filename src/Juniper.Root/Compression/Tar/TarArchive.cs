@@ -138,7 +138,7 @@ namespace Juniper.Compression.Tar
         private static string AddFilePrefix(byte[] header, string fileName)
         {
             // Double check magic ustar to load prefix filename
-            var ustar = GetString(header, 257, 8);
+            var ustar = GetString(header, 257, Units.Bits.PER_BYTE);
             // Check for ustar only
             if (ustar.Trim() == "ustar")
             {
@@ -176,7 +176,7 @@ namespace Juniper.Compression.Tar
         private static void ValidateChecksum(byte[] header, string fileName)
         {
             // read checksum
-            var checksum = ReadOctal(header, 148, 8);
+            var checksum = ReadOctal(header, 148, Units.Bits.PER_BYTE);
             if (!checksum.HasValue)
             {
                 throw new InvalidDataException($"Invalid checksum for file entry [{fileName}] ");
@@ -187,9 +187,9 @@ namespace Juniper.Compression.Tar
             for (var i = 0; i < header.Length; i++)
             {
                 var c = header[i];
-                if (i >= 148 && i < (148 + 8))
+                if (i >= 148 && i < (148 + Units.Bits.PER_BYTE))
                 {
-                    c = 32;
+                    c = Units.Bits.PER_INT;
                 }
 
                 checksumVerif += c;

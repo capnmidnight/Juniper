@@ -6,6 +6,11 @@ namespace Juniper.Units
     public static class Megabytes
     {
         /// <summary>
+        /// The number of megabytes per bit
+        /// </summary>
+        public const float PER_BIT = 1 / Units.Bits.PER_MEGABYTE;
+
+        /// <summary>
         /// The number of megabytes per byte
         /// </summary>
         public const float PER_BYTE = 1 / Units.Bytes.PER_MEGABYTE;
@@ -84,6 +89,16 @@ namespace Juniper.Units
         /// The number of megabytes per yobibyte
         /// </summary>
         public const float PER_YOBIBYTE = PER_ZEBIBYTE * Units.Zebibytes.PER_YOBIBYTE;
+
+        /// <summary>
+        /// Convert megabytes to bits
+        /// </summary>
+        /// <param name="megabytes">The number of megabytes</param>
+        /// <returns>the number of bits</returns>
+        public static float Bits(float megabytes)
+        {
+            return megabytes * Units.Bits.PER_MEGABYTE;
+        }
 
         /// <summary>
         /// Convert megabytes to bytes

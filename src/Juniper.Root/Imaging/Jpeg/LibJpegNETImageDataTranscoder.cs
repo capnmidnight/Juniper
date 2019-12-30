@@ -57,7 +57,7 @@ namespace Juniper.Imaging
                 rows[y] = new SampleRow(
                     rowBuffer,
                     image.info.dimensions.width,
-                    ImageData.BitsPerComponent,
+                    Units.Bits.PER_BYTE,
                     components);
                 copyProg.Report(y + 1, image.info.dimensions.height);
             }

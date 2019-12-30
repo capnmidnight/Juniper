@@ -6,6 +6,11 @@ namespace Juniper.Units
     public static class Petabytes
     {
         /// <summary>
+        /// The number of petabytes per bit
+        /// </summary>
+        public const float PER_BIT = 1 / Units.Bits.PER_PETABYTE;
+
+        /// <summary>
         /// The number of petabytes per byte
         /// </summary>
         public const float PER_BYTE = 1 / Units.Bytes.PER_PETABYTE;
@@ -84,6 +89,16 @@ namespace Juniper.Units
         /// The number of petabytes per yobibyte
         /// </summary>
         public const float PER_YOBIBYTE = PER_ZEBIBYTE * Units.Zebibytes.PER_YOBIBYTE;
+
+        /// <summary>
+        /// Convert petabytes to bits
+        /// </summary>
+        /// <param name="petabytes">The number of petabytes</param>
+        /// <returns>the number of bits</returns>
+        public static float Bits(float petabytes)
+        {
+            return petabytes * Units.Bits.PER_PETABYTE;
+        }
 
         /// <summary>
         /// Convert petabytes to bytes

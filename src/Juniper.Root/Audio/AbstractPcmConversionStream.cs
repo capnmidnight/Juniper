@@ -9,8 +9,6 @@ namespace Juniper.Audio
     /// </summary>
     public abstract class AbstractPcmConversionStream : Stream
     {
-        private const int BITS_PER_INT = sizeof(int) * 8;
-
         /// <summary>
         /// The original source of PCM data
         /// </summary>
@@ -19,7 +17,7 @@ namespace Juniper.Audio
         /// <summary>
         /// The number of bytes per sample.
         /// </summary>
-        protected readonly int bytesPerFloat;
+        protected readonly int bytesPerSample;
 
         /// <summary>
         /// The amount to shift the unsigned integer value into a signed Int32
@@ -37,15 +35,15 @@ namespace Juniper.Audio
         /// Creates the PCM conversion handler, for a given sample size in bytes.
         /// </summary>
         /// <param name="sourceStream">The stream from which to read PCM bytes</param>
-        /// <param name="bytesPerFloat">The number of bytes per sample.</param>
-        protected AbstractPcmConversionStream(Stream sourceStream, int bytesPerFloat)
+        /// <param name="bytesPerSample">The number of bytes per sample.</param>
+        protected AbstractPcmConversionStream(Stream sourceStream, int bytesPerSample)
         {
             this.sourceStream = sourceStream;
-            this.bytesPerFloat = bytesPerFloat;
+            this.bytesPerSample = bytesPerSample;
 
-            var bitsPerFloat = bytesPerFloat * 8;
-            shift = BITS_PER_INT - bitsPerFloat;
-            scalar = (float)System.Math.Pow(2, BITS_PER_INT - 1);
+            var bitsPerSample = (int)Units.Bytes.Bits(bytesPerSample);
+            shift = Units.Bits.PER_INT - bitsPerSample;
+            scalar = (float)System.Math.Pow(2, Units.Bits.PER_INT - 1);
         }
 
         /// <summary>
@@ -147,7 +145,7 @@ namespace Juniper.Audio
         /// <returns></returns>
         protected long ToFloatSpace(long value)
         {
-            return value * sizeof(float) / bytesPerFloat;
+            return value * sizeof(float) / bytesPerSample;
         }
 
         /// <summary>
@@ -157,7 +155,7 @@ namespace Juniper.Audio
         /// <returns></returns>
         protected long ToPCMSpace(long value)
         {
-            return value * bytesPerFloat / sizeof(float);
+            return value * bytesPerSample / sizeof(float);
         }
 
         /// <summary>
@@ -172,7 +170,7 @@ namespace Juniper.Audio
             uint uv = 0;
             for (var b = 0; b < sizeof(float); ++b)
             {
-                uv <<= 8;
+                uv <<= Units.Bits.PER_BYTE;
                 var c = inBuffer[inOffset + b];
                 uv |= c;
             }
@@ -181,11 +179,11 @@ namespace Juniper.Audio
             var accum = (int)(v * scalar);
             accum >>= shift;
 
-            for (var b = bytesPerFloat - 1; b >= 0; --b)
+            for (var b = bytesPerSample - 1; b >= 0; --b)
             {
-                var c = (byte)(accum & 0xff);
+                var c = (byte)(accum & byte.MaxValue);
                 outBuffer[outOffset + b] = c;
-                accum >>= 8;
+                accum >>= Units.Bits.PER_BYTE;
             }
         }
 
@@ -199,9 +197,9 @@ namespace Juniper.Audio
         protected unsafe void PCMToFloat(byte[] inBuffer, int inOffset, byte[] outBuffer, int outOffset)
         {
             var accum = 0;
-            for (var b = bytesPerFloat - 1; b >= 0; --b)
+            for (var b = bytesPerSample - 1; b >= 0; --b)
             {
-                accum <<= 8;
+                accum <<= Units.Bits.PER_BYTE;
                 var c = inBuffer[inOffset + b];
                 accum |= c;
             }
@@ -214,7 +212,7 @@ namespace Juniper.Audio
             {
                 var c = (byte)uv;
                 outBuffer[outOffset + b] = c;
-                uv >>= 8;
+                uv >>= Units.Bits.PER_BYTE;
             }
         }
 

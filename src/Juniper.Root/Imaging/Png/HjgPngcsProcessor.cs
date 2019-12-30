@@ -33,7 +33,7 @@ namespace Juniper.Imaging
             var combinedInfo = new Hjg.Pngcs.ImageInfo(
                 columns * tileWidth,
                 rows * tileHeight,
-                8,
+                Units.Bits.PER_BYTE,
                 components == 4);
 
             var combinedLines = new ImageLines(

@@ -6,6 +6,11 @@ namespace Juniper.Units
     public static class Yotabytes
     {
         /// <summary>
+        /// The number of yotabytes per bit
+        /// </summary>
+        public const float PER_BIT = 1 / Units.Bits.PER_YOTABYTE;
+
+        /// <summary>
         /// The number of yotabytes per byte
         /// </summary>
         public const float PER_BYTE = 1 / Units.Bytes.PER_YOTABYTE;
@@ -84,6 +89,16 @@ namespace Juniper.Units
         /// The number of yotabytes per yobibyte
         /// </summary>
         public const float PER_YOBIBYTE = Units.Bytes.PER_YOBIBYTE / Units.Bytes.PER_YOTABYTE;
+
+        /// <summary>
+        /// Convert yotabytes to bits
+        /// </summary>
+        /// <param name="yotabytes">The number of yotabytes</param>
+        /// <returns>the number of bits</returns>
+        public static float Bits(float yotabytes)
+        {
+            return yotabytes * Units.Bits.PER_YOTABYTE;
+        }
 
         /// <summary>
         /// Convert yotabytes to bytes

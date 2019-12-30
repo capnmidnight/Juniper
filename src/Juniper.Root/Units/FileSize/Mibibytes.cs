@@ -6,6 +6,11 @@ namespace Juniper.Units
     public static class Mibibytes
     {
         /// <summary>
+        /// The number of mibibytes per bit
+        /// </summary>
+        public const float PER_BIT = 1 / Units.Bits.PER_MIBIBYTE;
+
+        /// <summary>
         /// The number of mibibytes per byte
         /// </summary>
         public const float PER_BYTE = 1 / Units.Bytes.PER_MIBIBYTE;
@@ -84,6 +89,16 @@ namespace Juniper.Units
         /// The number of mibibytes per yobibyte
         /// </summary>
         public const float PER_YOBIBYTE = PER_ZEBIBYTE * Units.Zebibytes.PER_YOBIBYTE;
+
+        /// <summary>
+        /// Convert mibibytes to bits
+        /// </summary>
+        /// <param name="mibibytes">The number of mibibytes</param>
+        /// <returns>the number of bits</returns>
+        public static float Bits(float mibibytes)
+        {
+            return mibibytes * Units.Bits.PER_MIBIBYTE;
+        }
 
         /// <summary>
         /// Convert mibibytes to bytes

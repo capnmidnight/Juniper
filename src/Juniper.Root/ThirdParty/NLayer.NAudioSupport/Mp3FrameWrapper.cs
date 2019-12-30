@@ -156,9 +156,9 @@ namespace NLayer.NAudioSupport
                 }
 
                 var b = _frame.RawData[_readOffset++];
-                _bitBucket <<= 8;
+                _bitBucket <<= Juniper.Units.Bits.PER_BYTE;
                 _bitBucket |= (byte)(b & 0xFF);
-                _bitsRead += 8;
+                _bitsRead += Juniper.Units.Bits.PER_BYTE;
             }
 
             var temp = (int)((_bitBucket >> (_bitsRead - bitCount)) & ((1UL << bitCount) - 1));

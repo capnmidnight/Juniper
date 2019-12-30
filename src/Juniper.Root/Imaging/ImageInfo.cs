@@ -8,32 +8,33 @@ namespace Juniper.Imaging
     {
         public static ImageInfo ReadPNG(byte[] data)
         {
-            int width = 0, height = 0;
+            var width = 0;
+            var height = 0;
 
-            var i = 8; // skip the PNG signature
+            var i = Units.Bits.PER_BYTE; // skip the PNG signature
 
             while (i < data.Length)
             {
                 var len = 0;
-                len = (len << 8) | data[i++];
-                len = (len << 8) | data[i++];
-                len = (len << 8) | data[i++];
-                len = (len << 8) | data[i++];
+                len = (len << Units.Bits.PER_BYTE) | data[i++];
+                len = (len << Units.Bits.PER_BYTE) | data[i++];
+                len = (len << Units.Bits.PER_BYTE) | data[i++];
+                len = (len << Units.Bits.PER_BYTE) | data[i++];
 
                 var chunk = System.Text.Encoding.UTF8.GetString(data, i, 4);
                 i += 4;
 
                 if (chunk == "IHDR")
                 {
-                    width = (width << 8) | data[i++];
-                    width = (width << 8) | data[i++];
-                    width = (width << 8) | data[i++];
-                    width = (width << 8) | data[i++];
+                    width = (width << Units.Bits.PER_BYTE) | data[i++];
+                    width = (width << Units.Bits.PER_BYTE) | data[i++];
+                    width = (width << Units.Bits.PER_BYTE) | data[i++];
+                    width = (width << Units.Bits.PER_BYTE) | data[i++];
 
-                    height = (height << 8) | data[i++];
-                    height = (height << 8) | data[i++];
-                    height = (height << 8) | data[i++];
-                    height = (height << 8) | data[i++];
+                    height = (height << Units.Bits.PER_BYTE) | data[i++];
+                    height = (height << Units.Bits.PER_BYTE) | data[i++];
+                    height = (height << Units.Bits.PER_BYTE) | data[i++];
+                    height = (height << Units.Bits.PER_BYTE) | data[i++];
 
                     var bitDepth = data[i + 9];
                     var colorType = data[i + 10];
@@ -42,7 +43,7 @@ namespace Juniper.Imaging
                     switch (colorType)
                     {
                         case 0:
-                        components = (int)Ceiling((float)bitDepth / 8);
+                        components = (int)Ceiling(Units.Bits.Bytes(bitDepth));
                         break;
 
                         case 2:
@@ -54,7 +55,7 @@ namespace Juniper.Imaging
                         break;
 
                         case 4:
-                        components = (int)Ceiling((float)bitDepth / 8) + 1;
+                        components = (int)Ceiling(Units.Bits.Bytes(bitDepth)) + 1;
                         break;
 
                         case 6:
@@ -78,15 +79,16 @@ namespace Juniper.Imaging
             {
                 var a = data[i];
                 var b = data[i + 1];
-                if (a == 0xff && b == 0xc0)
+                if (a == byte.MaxValue
+                    && b == 0xc0)
                 {
                     var heightHi = data[i + 5];
                     var heightLo = data[i + 6];
                     var widthHi = data[i + 7];
                     var widthLo = data[i + 8];
 
-                    var width = (widthHi << 8) | widthLo;
-                    var height = (heightHi << 8) | heightLo;
+                    var width = (widthHi << Units.Bits.PER_BYTE) | widthLo;
+                    var height = (heightHi << Units.Bits.PER_BYTE) | heightLo;
 
                     return new ImageInfo(width, height, 3);
                 }
@@ -106,8 +108,8 @@ namespace Juniper.Imaging
             this.components = components;
             dimensions = size;
             stride = size.width * components;
-            bytesPerSample = ImageData.BytesPerComponent * components;
-            bitsPerSample = 8 * bytesPerSample;
+            bytesPerSample = components;
+            bitsPerSample = Units.Bits.PER_BYTE * bytesPerSample;
         }
 
         public ImageInfo(int width, int height, int components)

@@ -15,9 +15,6 @@ namespace Juniper.Imaging
             };
         }
 
-        public const int BytesPerComponent = sizeof(byte);
-        public const int BitsPerComponent = 8 * BytesPerComponent;
-
         public readonly ImageInfo info;
         public readonly byte[] data;
 

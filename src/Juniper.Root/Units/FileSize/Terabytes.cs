@@ -6,6 +6,11 @@ namespace Juniper.Units
     public static class Terabytes
     {
         /// <summary>
+        /// The number of terabytes per bit
+        /// </summary>
+        public const float PER_BIT = 1 / Units.Bits.PER_TERABYTE;
+
+        /// <summary>
         /// The number of terabytes per byte
         /// </summary>
         public const float PER_BYTE = 1 / Units.Bytes.PER_TERABYTE;
@@ -84,6 +89,16 @@ namespace Juniper.Units
         /// The number of terabytes per yobibyte
         /// </summary>
         public const float PER_YOBIBYTE = PER_ZEBIBYTE * Units.Zebibytes.PER_YOBIBYTE;
+
+        /// <summary>
+        /// Convert terabytes to bits
+        /// </summary>
+        /// <param name="terabytes">The number of terabytes</param>
+        /// <returns>the number of bits</returns>
+        public static float Bits(float terabytes)
+        {
+            return terabytes * Units.Bits.PER_TERABYTE;
+        }
 
         /// <summary>
         /// Convert terabytes to bytes
