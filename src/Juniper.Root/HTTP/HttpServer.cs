@@ -381,7 +381,7 @@ or
             {
 #if !DEBUG
                 if (HttpPort > 0
-                    && routes.Any(route => route.Protocol.HasFlag(HttpProtocol.HTTP)))
+                    && routes.Any(route => route.Protocol.HasFlag(HttpProtocols.HTTP)))
                 {
                     OnWarning(this, "Maybe don't run unencrypted HTTP in production, k?");
                 }
@@ -551,7 +551,7 @@ or
                             .ConfigureAwait(false);
 
                         handled = true;
-                        if (!route.Continue)
+                        if (!route.CanContinue(context.Request))
                         {
                             break;
                         }

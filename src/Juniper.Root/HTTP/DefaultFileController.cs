@@ -116,7 +116,7 @@ namespace Juniper.HTTP
 
         [Route(".*",
 #if !DEBUG
-            Protocol = HttpProtocol.HTTPS,
+            Protocol = HttpProtocols.HTTPS,
 #endif
             Priority = int.MaxValue)]
         public async Task ServeFileAsync(HttpListenerContext context)
