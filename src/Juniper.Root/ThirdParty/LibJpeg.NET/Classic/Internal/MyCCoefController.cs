@@ -113,19 +113,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
         public virtual bool CompressData(byte[][][] input_buf)
         {
-            switch (m_passModeSetByLastStartPass)
+            return m_passModeSetByLastStartPass switch
             {
-                case JBufMode.PassThrough:
-                return CompressDataImpl(input_buf);
-
-                case JBufMode.SaveAndPass:
-                return CompressFirstPass(input_buf);
-
-                case JBufMode.CrankDest:
-                return CompressOutput();
-            }
-
-            return false;
+                JBufMode.PassThrough => CompressDataImpl(input_buf),
+                JBufMode.SaveAndPass => CompressFirstPass(input_buf),
+                JBufMode.CrankDest => CompressOutput(),
+                _ => false,
+            };
         }
 
         /// <summary>

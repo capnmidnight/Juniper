@@ -1,9 +1,6 @@
 using System.Net;
 using System.Threading.Tasks;
 
-using Juniper.IO;
-using Juniper.Progress;
-
 namespace System.IO
 {
     public static class StreamExt

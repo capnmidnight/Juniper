@@ -48,7 +48,9 @@ namespace Juniper.UnityAssetStore
                     using var stream = new ProgressStream(response.GetResponseStream(), response.ContentLength, prog);
                     using var reader = new StreamReader(stream);
                     var deserializer = new JsonFactory<T>();
-                    if (deserializer.TryParse(reader.ReadToEnd(), out var value))
+                    var text = await reader.ReadToEndAsync()
+                        .ConfigureAwait(false);
+                    if (deserializer.TryParse(text, out var value))
                     {
                         return value;
                     }
@@ -162,9 +164,11 @@ namespace Juniper.UnityAssetStore
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "<Pending>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "<Pending>")]
         public static async Task<AssetDownload[]> GetDownloadsAsync(string userName, string password, string token, IProgress prog = null)
         {
-            var req = HttpWebRequestExt.Create($"https://assetstore.unity.com/auth/login?redirect_to=%2F")
+            var uri = new Uri("https://assetstore.unity.com/auth/login?redirect_to=%2F");
+            var req = HttpWebRequestExt.Create(uri)
                 .Header("Accept-Langage", "en-US,en;q=0.9")
                 .Header("Accept-Encoding", "gzip, deflate, br")
                 .DoNotTrack();
@@ -181,7 +185,8 @@ namespace Juniper.UnityAssetStore
                 var doc = new HtmlDocument();
                 using var stream = res.GetResponseStream();
                 using var reader = new StreamReader(stream);
-                var html = reader.ReadToEnd();
+                var html = await reader.ReadToEndAsync()
+                    .ConfigureAwait(false);
                 doc.LoadHtml(html);
                 var csrfToken = doc
                     .DocumentNode

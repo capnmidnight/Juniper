@@ -187,22 +187,14 @@ namespace Hjg.Pngcs.Chunks
             }
 
             var kwown = PngChunk.IsKnown(id);
-            switch (behav)
+            return behav switch
             {
-                case ChunkLoadBehaviour.LOAD_CHUNK_ALWAYS:
-                return true;
-
-                case ChunkLoadBehaviour.LOAD_CHUNK_IF_SAFE:
-                return kwown || IsSafeToCopy(id);
-
-                case ChunkLoadBehaviour.LOAD_CHUNK_KNOWN:
-                return kwown;
-
-                case ChunkLoadBehaviour.LOAD_CHUNK_NEVER:
-                return false;
-            }
-
-            return false; // should not reach here
+                ChunkLoadBehaviour.LOAD_CHUNK_ALWAYS => true,
+                ChunkLoadBehaviour.LOAD_CHUNK_IF_SAFE => kwown || IsSafeToCopy(id),
+                ChunkLoadBehaviour.LOAD_CHUNK_KNOWN => kwown,
+                ChunkLoadBehaviour.LOAD_CHUNK_NEVER => false,
+                _ => false,// should not reach here
+            };
         }
 
         internal static byte[] CompressBytes(byte[] ori, bool compress)

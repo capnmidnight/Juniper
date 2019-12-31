@@ -1424,32 +1424,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     count = JpegConstants.DCTSIZE2;
                 }
 
-                int[] natural_order;
-                switch (count)
+                var natural_order = count switch
                 {
-                    case (2 * 2):
-                    natural_order = JpegUtils.jpeg_natural_order2;
-                    break;
-                    case (3 * 3):
-                    natural_order = JpegUtils.jpeg_natural_order3;
-                    break;
-                    case (4 * 4):
-                    natural_order = JpegUtils.jpeg_natural_order4;
-                    break;
-                    case (5 * 5):
-                    natural_order = JpegUtils.jpeg_natural_order5;
-                    break;
-                    case (6 * 6):
-                    natural_order = JpegUtils.jpeg_natural_order6;
-                    break;
-                    case (7 * 7):
-                    natural_order = JpegUtils.jpeg_natural_order7;
-                    break;
-                    default:
-                    natural_order = JpegUtils.jpeg_natural_order;
-                    break;
-                }
-
+                    (2 * 2) => JpegUtils.jpeg_natural_order2,
+                    (3 * 3) => JpegUtils.jpeg_natural_order3,
+                    (4 * 4) => JpegUtils.jpeg_natural_order4,
+                    (5 * 5) => JpegUtils.jpeg_natural_order5,
+                    (6 * 6) => JpegUtils.jpeg_natural_order6,
+                    (7 * 7) => JpegUtils.jpeg_natural_order7,
+                    _ => JpegUtils.jpeg_natural_order,
+                };
                 for (var i = 0; i < count; i++)
                 {
                     int tmp;

@@ -1963,36 +1963,16 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* Derive natural_order from block_size */
-            switch (block_size)
+            natural_order = block_size switch
             {
-                case 2:
-                natural_order = JpegUtils.jpeg_natural_order2;
-                break;
-
-                case 3:
-                natural_order = JpegUtils.jpeg_natural_order3;
-                break;
-
-                case 4:
-                natural_order = JpegUtils.jpeg_natural_order4;
-                break;
-
-                case 5:
-                natural_order = JpegUtils.jpeg_natural_order5;
-                break;
-
-                case 6:
-                natural_order = JpegUtils.jpeg_natural_order6;
-                break;
-
-                case 7:
-                natural_order = JpegUtils.jpeg_natural_order7;
-                break;
-
-                default:
-                natural_order = JpegUtils.jpeg_natural_order;
-                break;
-            }
+                2 => JpegUtils.jpeg_natural_order2,
+                3 => JpegUtils.jpeg_natural_order3,
+                4 => JpegUtils.jpeg_natural_order4,
+                5 => JpegUtils.jpeg_natural_order5,
+                6 => JpegUtils.jpeg_natural_order6,
+                7 => JpegUtils.jpeg_natural_order7,
+                _ => JpegUtils.jpeg_natural_order,
+            };
 
             /* Derive lim_Se from block_size */
             lim_Se = block_size < JpegConstants.DCTSIZE

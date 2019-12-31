@@ -44,17 +44,13 @@ namespace NLayer.NAudioSupport
         {
             get
             {
-                switch (_frame.MpegVersion)
+                return _frame.MpegVersion switch
                 {
-                    case NAudio.Wave.MpegVersion.Version1:
-                    return MpegVersion.Version1;
-                    case NAudio.Wave.MpegVersion.Version2:
-                    return MpegVersion.Version2;
-                    case NAudio.Wave.MpegVersion.Version25:
-                    return MpegVersion.Version25;
-                }
-
-                return MpegVersion.Unknown;
+                    NAudio.Wave.MpegVersion.Version1 => MpegVersion.Version1,
+                    NAudio.Wave.MpegVersion.Version2 => MpegVersion.Version2,
+                    NAudio.Wave.MpegVersion.Version25 => MpegVersion.Version25,
+                    _ => MpegVersion.Unknown,
+                };
             }
         }
 
@@ -62,17 +58,13 @@ namespace NLayer.NAudioSupport
         {
             get
             {
-                switch (_frame.MpegLayer)
+                return _frame.MpegLayer switch
                 {
-                    case NAudio.Wave.MpegLayer.Layer1:
-                    return MpegLayer.LayerI;
-                    case NAudio.Wave.MpegLayer.Layer2:
-                    return MpegLayer.LayerII;
-                    case NAudio.Wave.MpegLayer.Layer3:
-                    return MpegLayer.LayerIII;
-                }
-
-                return MpegLayer.Unknown;
+                    NAudio.Wave.MpegLayer.Layer1 => MpegLayer.LayerI,
+                    NAudio.Wave.MpegLayer.Layer2 => MpegLayer.LayerII,
+                    NAudio.Wave.MpegLayer.Layer3 => MpegLayer.LayerIII,
+                    _ => MpegLayer.Unknown,
+                };
             }
         }
 
@@ -80,19 +72,14 @@ namespace NLayer.NAudioSupport
         {
             get
             {
-                switch (_frame.ChannelMode)
+                return _frame.ChannelMode switch
                 {
-                    case NAudio.Wave.ChannelMode.Stereo:
-                    return MpegChannelMode.Stereo;
-                    case NAudio.Wave.ChannelMode.JointStereo:
-                    return MpegChannelMode.JointStereo;
-                    case NAudio.Wave.ChannelMode.DualChannel:
-                    return MpegChannelMode.DualChannel;
-                    case NAudio.Wave.ChannelMode.Mono:
-                    return MpegChannelMode.Mono;
-                }
-
-                return (MpegChannelMode)(-1);
+                    NAudio.Wave.ChannelMode.Stereo => MpegChannelMode.Stereo,
+                    NAudio.Wave.ChannelMode.JointStereo => MpegChannelMode.JointStereo,
+                    NAudio.Wave.ChannelMode.DualChannel => MpegChannelMode.DualChannel,
+                    NAudio.Wave.ChannelMode.Mono => MpegChannelMode.Mono,
+                    _ => (MpegChannelMode)(-1),
+                };
             }
         }
 
