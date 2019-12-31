@@ -18,9 +18,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.UnityAssetStore.Console", "..\tests\Juniper.UnityAssetStore.Console\Juniper.UnityAssetStore.Console.csproj", "{1C39809C-C4B0-4092-93A6-78E2C07D01B0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0AB9B157-DC46-4E6F-9926-46AB72C95ED8}"
-	ProjectSection(SolutionItems) = preProject
-		..\Juniper.ruleset = ..\Juniper.ruleset
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{3F72C92A-C800-432F-A47D-359B8C938849}"
 EndProject

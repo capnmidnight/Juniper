@@ -10,6 +10,9 @@ trim_trailing_whitespace = true
 # RCS1079: Throwing of new NotImplementedException.
 dotnet_diagnostic.RCS1079.severity = silent
 
+# CA1031: Do not catch general exception types
+dotnet_diagnostic.CA1031.severity = suggestion
+
 [*.js]
 indent_size = 2
 
