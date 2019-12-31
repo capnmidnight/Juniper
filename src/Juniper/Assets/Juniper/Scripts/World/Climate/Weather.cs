@@ -293,7 +293,7 @@ namespace Juniper.World.Climate
         {
             if (Application.internetReachability != NetworkReachability.NotReachable || force)
             {
-                var report = (WeatherReport)(await weatherService.Request(location, force));
+                var report = (WeatherReport)(await weatherService.RequestAsync(location, force));
                 var reportJSON = serializer.ToString(report);
                 if (reportJSON != lastReportJSON)
                 {

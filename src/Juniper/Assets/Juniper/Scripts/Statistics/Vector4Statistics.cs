@@ -17,7 +17,7 @@ namespace Juniper.Mathematics
         /// </summary>
         /// <param name="collection">Collection.</param>
         public Vector4Statistics(IList<Vector4> collection)
-            : base(collection, Vector4.zero, Vector4.one)
+            : base(collection, Vector4.zero, float.MinValue * Vector4.one, float.MaxValue * Vector4.one)
         {
         }
 
@@ -27,7 +27,7 @@ namespace Juniper.Mathematics
         /// </summary>
         /// <param name="capacity"></param>
         public Vector4Statistics(int capacity)
-            : base(capacity, Vector4.zero, Vector4.one)
+            : base(capacity, Vector4.zero, float.MinValue * Vector4.one, float.MaxValue * Vector4.one)
         {
         }
 
