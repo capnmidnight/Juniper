@@ -8,9 +8,9 @@
     <AssemblyName>Juniper.Azure.Console</AssemblyName>
     <RootNamespace>Juniper.Azure</RootNamespace>
     <OutputType>Exe</OutputType>
-    <StartupObject>Juniper.Azure.Program</StartupObject>    
+    <StartupObject>Juniper.Azure.Program</StartupObject>
     <TargetFramework>net48</TargetFramework>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
