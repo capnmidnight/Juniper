@@ -194,7 +194,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <seealso href="41dc1a3b-0dea-4594-87d2-c213ab1049e1.htm" target="_self">Error handling</seealso>
         protected virtual string GetMessageText(int code)
         {
-            return ((JMessageCode)code) switch
+            return code switch
             {
                 /* For maintenance convenience, list is alphabetical by message code name */
                 JMessageCode.JERR_BAD_BUFFER_MODE => "Bogus buffer control mode",

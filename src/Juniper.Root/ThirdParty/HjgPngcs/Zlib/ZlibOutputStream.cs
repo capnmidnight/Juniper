@@ -139,7 +139,7 @@ namespace Hjg.Pngcs.Zlib
                 flg += 31;
             }
 
-            rawStream.WriteByte((byte)cmf);
+            rawStream.WriteByte(cmf);
             rawStream.WriteByte((byte)flg);
         }
 
