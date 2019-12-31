@@ -7,8 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 
-using Juniper.IO;
-
 namespace Juniper.HTTP.Server
 {
     public sealed class CIDRBlock :

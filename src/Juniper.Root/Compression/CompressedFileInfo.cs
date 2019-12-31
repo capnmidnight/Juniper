@@ -5,7 +5,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Runtime.Serialization;
 
-using Juniper.Collections;
 using Juniper.Compression.Tar;
 
 namespace Juniper.Compression

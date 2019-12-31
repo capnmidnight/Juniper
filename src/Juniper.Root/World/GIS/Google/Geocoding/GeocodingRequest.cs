@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Net;
 
 namespace Juniper.World.GIS.Google.Geocoding
 {

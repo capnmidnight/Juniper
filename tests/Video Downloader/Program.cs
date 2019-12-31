@@ -1,12 +1,12 @@
-using Juniper.Progress;
-
 using System;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
-using static Juniper.MediaType;
+using Juniper.Progress;
+
 using static System.Console;
+using static Juniper.MediaType;
 
 namespace Juniper.VideoDownloader
 {

@@ -1,7 +1,7 @@
 #if !NETSTANDARD
 using System;
-using System.Linq;
 using System.IO.Ports;
+using System.Linq;
 
 namespace Juniper.Serial
 {

@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-
-using Juniper.Progress;
-
 namespace Juniper
 {
     /// <summary>

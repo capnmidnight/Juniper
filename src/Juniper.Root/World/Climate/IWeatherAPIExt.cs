@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 
-using Juniper.Progress;
 using Juniper.World.GIS;
 
 namespace Juniper.Climate

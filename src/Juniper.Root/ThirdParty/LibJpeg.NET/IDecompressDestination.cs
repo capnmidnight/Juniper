@@ -1,7 +1,5 @@
 using System.IO;
 
-using BitMiracle.LibJpeg.Classic;
-
 namespace BitMiracle.LibJpeg
 {
     /// <summary>

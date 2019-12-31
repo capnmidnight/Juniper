@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Text.RegularExpressions;
-
-using Line = System.Collections.Generic.List<Juniper.Primrose.Token>;
-
-namespace Juniper.Primrose
+﻿namespace Juniper.Primrose
 {
     public partial class Grammar
     {

@@ -5,8 +5,6 @@
  * pass.
  */
 
-using System;
-
 namespace BitMiracle.LibJpeg.Classic.Internal
 {
     /// <summary>

@@ -1,5 +1,4 @@
 using System;
-using Juniper.Logging;
 
 namespace Juniper.Logging
 {

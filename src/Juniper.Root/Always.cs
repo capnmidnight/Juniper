@@ -1,5 +1,3 @@
-using System;
-
 namespace Juniper
 {
     public static class Always

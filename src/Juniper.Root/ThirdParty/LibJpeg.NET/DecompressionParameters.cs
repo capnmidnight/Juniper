@@ -1,5 +1,3 @@
-using BitMiracle.LibJpeg.Classic;
-
 namespace BitMiracle.LibJpeg
 {
     internal class DecompressionParameters

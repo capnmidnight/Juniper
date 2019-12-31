@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-
 namespace Juniper
 {
     public partial class MediaType

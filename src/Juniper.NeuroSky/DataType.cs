@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace libStreamSDK
+﻿namespace libStreamSDK
 {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "<Pending>")]

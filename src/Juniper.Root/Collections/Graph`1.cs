@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -63,7 +62,7 @@ namespace Juniper.Collections
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected Graph(SerializationInfo info, StreamingContext context)
         {
-            if(info is null)
+            if (info is null)
             {
                 throw new ArgumentNullException(nameof(info));
             }
@@ -126,7 +125,7 @@ namespace Juniper.Collections
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            if(info is null)
+            if (info is null)
             {
                 throw new ArgumentNullException(nameof(info));
             }

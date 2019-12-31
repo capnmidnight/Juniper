@@ -1,8 +1,6 @@
 using System.Globalization;
 using System.IO;
 
-using Hjg.Pngcs;
-
 namespace Hjg.Pngcs.Chunks
 {
     /// <summary>

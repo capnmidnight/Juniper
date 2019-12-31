@@ -6,6 +6,7 @@ using System.Text;
 using Juniper.Audio;
 using Juniper.HTTP;
 using Juniper.HTTP.Client;
+
 using static System.Math;
 
 namespace Juniper.Azure.CognitiveServices
