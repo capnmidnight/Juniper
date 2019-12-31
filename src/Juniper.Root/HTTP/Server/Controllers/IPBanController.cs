@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP.Server.Controllers
 {
-    public sealed class IPBanController : AbstractRouteHandler
+    public sealed class IPBanController : AbstractRequestHandler
     {
         private readonly List<CIDRBlock> blocks = new List<CIDRBlock>();
 

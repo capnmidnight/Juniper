@@ -27,8 +27,7 @@ namespace Juniper.HTTP.Server
         private readonly HttpListener listener;
         private readonly List<Task> waiters = new List<Task>();
         private readonly List<object> controllers = new List<object>();
-        private readonly List<AbstractRouteHandler> routes = new List<AbstractRouteHandler>();
-        private readonly List<WebSocketConnection> sockets = new List<WebSocketConnection>();
+        private readonly List<AbstractRequestHandler> routes = new List<AbstractRequestHandler>();
 
         /// <summary>
         /// <para>
@@ -186,7 +185,7 @@ namespace Juniper.HTTP.Server
                         && parameters.Length == route.ParameterCount
                         && parameters.Skip(1).All(p => p.ParameterType == typeof(string)))
                     {
-                        AbstractRouteHandler handler = null;
+                        AbstractRequestHandler handler = null;
                         var name = $"{type.Name}::{method.Name}";
                         var contextParamType = parameters[0].ParameterType;
                         var isHttp = contextParamType == typeof(HttpListenerContext);
@@ -211,9 +210,7 @@ or
                         }
                         else if (isWebSocket)
                         {
-                            var wsHandler = new WebSocketRouteHandler(name, source, method, route);
-                            wsHandler.SocketConnected += WsHandler_SocketConnected;
-                            handler = wsHandler;
+                            handler = new WebSocketRouteHandler(name, source, method, route);
                         }
 
                         if (handler != null)
@@ -225,11 +222,12 @@ or
             }
         }
 
-        private void AddController<T>(T controller) where T : class
+        internal void AddController<T>(T controller) where T : class
         {
-            if (controller is AbstractRouteHandler handler)
+            if (controller is AbstractRequestHandler handler)
             {
                 OnInfo(this, $"Found controller {handler}");
+                handler.Server = this;
                 routes.Add(handler);
             }
 
@@ -256,22 +254,6 @@ or
         {
             return (T)controllers
                 .Find(c => c is T);
-        }
-
-        private void WsHandler_SocketConnected(WebSocketConnection socket)
-        {
-            socket.Closed += Socket_Closed;
-            sockets.Add(socket);
-        }
-
-        private void Socket_Closed(object sender, EventArgs e)
-        {
-            if (sender is WebSocketConnection socket)
-            {
-                _ = sockets.Remove(socket);
-                socket.Closed -= Socket_Closed;
-                socket.Dispose();
-            }
         }
 
         public bool IsRunning
@@ -621,19 +603,9 @@ or
                     using (listener) { }
                 }
 
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
-
                 disposedValue = true;
             }
         }
-
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~HttpServer()
-        // {
-        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        //   Dispose(false);
-        // }
 
         // This code added to correctly implement the disposable pattern.
         public void Dispose()

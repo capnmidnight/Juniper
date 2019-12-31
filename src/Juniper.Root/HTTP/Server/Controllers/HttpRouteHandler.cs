@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP.Server.Controllers
 {
-    internal class HttpRouteHandler : AbstractRegexRouteHandler
+    internal class HttpRouteHandler : AbstractRouteHandler
     {
         internal HttpRouteHandler(string name, object source, MethodInfo method, RouteAttribute route)
             : base(name, source, method, route)

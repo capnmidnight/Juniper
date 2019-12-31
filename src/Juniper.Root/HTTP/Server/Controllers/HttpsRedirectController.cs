@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP.Server.Controllers
 {
-    public sealed class HttpsRedirectController : AbstractRouteHandler
+    public sealed class HttpsRedirectController : AbstractRequestHandler
     {
         private HttpsRedirectController()
             : base(null, int.MinValue + 1, HttpProtocols.HTTP, HttpMethods.All)
