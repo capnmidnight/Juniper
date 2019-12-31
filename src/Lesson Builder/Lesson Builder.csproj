@@ -1,31 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <ImportGroup>
+    <Import Project="..\..\Juniper.targets" />
+  </ImportGroup>
+
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>Lesson Builder</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
-    <StartupObject></StartupObject>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputType>Exe</OutputType>
+    <StartupObject>Juniper.GameProgram</StartupObject>
+    <TargetFramework>net48</TargetFramework>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <DefineConstants>TRACE;OPENGL4</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <DefineConstants>TRACE;OPENGL4</DefineConstants>
+    <Prefer32Bit>false</Prefer32Bit>
+    <Authors>Sean T. McBeth</Authors>
+    <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
+    <DefineConstants>OPENGL4</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="OpenTK" Version="3.1.0" />
   </ItemGroup>
 

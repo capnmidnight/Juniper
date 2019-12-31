@@ -5,10 +5,10 @@
   </ImportGroup>
 
   <PropertyGroup>
-    <AssemblyName>aztts</AssemblyName>
-    <RootNamespace>Juniper.Speech</RootNamespace>
+    <AssemblyName>gmaps</AssemblyName>
+    <RootNamespace>Juniper.GoogleMaps</RootNamespace>
     <OutputType>WinExe</OutputType>
-    <StartupObject>Juniper.Speech.Program</StartupObject>
+    <StartupObject>Juniper.GoogleMaps.Program</StartupObject>
     <TargetFramework>net48</TargetFramework>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -18,7 +18,7 @@
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
-
+    
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
   </ItemGroup>

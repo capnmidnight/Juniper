@@ -1,14 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <ImportGroup>
-    <Import Project="..\..\Juniper.targets" />
-  </ImportGroup>
-  
+  <Import Project="..\..\Juniper.targets" />
+
   <PropertyGroup>
-    <AssemblyName>Test Server</AssemblyName>
-    <RootNamespace>Juniper.HTTP</RootNamespace>
+    <AssemblyName>Juniper.VideoDownloader</AssemblyName>
+    <RootNamespace>Juniper.VideoDownloader</RootNamespace>
     <OutputType>Exe</OutputType>
-    <StartupObject>Juniper.HTTP.Program</StartupObject>
+    <StartupObject>Juniper.VideoDownloader.Program</StartupObject>
     <TargetFramework>net48</TargetFramework>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -22,13 +20,4 @@
     <ProjectReference Include="..\..\src\Juniper.Root\Juniper.Root.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="content\index.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="testBans.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  
 </Project>

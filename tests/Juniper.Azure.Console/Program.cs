@@ -12,7 +12,7 @@ namespace Juniper.Azure
 {
     internal static class Program
     {
-        private static async Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var text = "The quick brown fox jumps over the lazy dog.";
             if (args.Length > 1)
