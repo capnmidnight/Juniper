@@ -49,7 +49,7 @@ namespace Juniper.Azure.CognitiveServices
                 }
                 else
                 {
-                    throw new ArgumentException($"The provided audio decoder does not support the given output. Decoder: {audioDecoder.Format.Name}. Expected: {OutputFormat.Name}", nameof(audioDecoder));
+                    throw new NotSupportedException($"The provided audio decoder does not support the given output. Decoder: {audioDecoder.Format.Name}. Expected: {OutputFormat.Name}");
                 }
             }
         }

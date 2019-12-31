@@ -113,7 +113,7 @@ namespace Juniper.Compression
 
         public int CompareTo(CompressedFileInfo other)
         {
-            var name = FullName.CompareTo(other?.FullName);
+            var name = string.Compare(FullName, other?.FullName, StringComparison.Ordinal);
             if (name != 0)
             {
                 return name;

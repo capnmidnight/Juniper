@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -63,6 +63,11 @@ namespace Juniper.Collections
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected Graph(SerializationInfo info, StreamingContext context)
         {
+            if(info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             var routes = info.GetValue<Route<NodeT>[]>(nameof(network));
 
             nodes = new Dictionary<NodeT, int>();
@@ -121,6 +126,11 @@ namespace Juniper.Collections
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if(info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             // Serialize only the minimal information that we need to restore
             // the graph.
             info.AddValue(nameof(dirty), dirty);
@@ -179,7 +189,7 @@ namespace Juniper.Collections
 
         private void AddNode(NodeT node)
         {
-            nodes.Default(node, nodes.Count);
+            _ = nodes.Default(node, nodes.Count);
         }
 
         private void ResetNetwork()
@@ -199,7 +209,7 @@ namespace Juniper.Collections
             AddNode(start);
             AddNode(end);
 
-            connections.RemoveAll(connect =>
+            _ = connections.RemoveAll(connect =>
                 connect.Contains(start)
                 && connect.Contains(end));
 
@@ -244,7 +254,7 @@ namespace Juniper.Collections
                 }
 
                 var index = nodes[node];
-                nodes.Remove(node);
+                _ = nodes.Remove(node);
                 foreach (var key in nodes.Keys.ToArray())
                 {
                     if (nodes[key] > index)
@@ -311,14 +321,14 @@ namespace Juniper.Collections
                 && network[nodes[startPoint], nodes[endPoint]] is object;
         }
 
-        public IEnumerable<Route<NodeT>> GetConnections(NodeT node)
+        public IEnumerable<Route<NodeT>> FindConnections(NodeT node)
         {
             return from connect in Connections
                    where connect.Contains(node)
                    select connect;
         }
 
-        public IEnumerable<Route<NodeT>> GetConnections(Route<NodeT> route)
+        public IEnumerable<Route<NodeT>> FindConnections(Route<NodeT> route)
         {
             if (route != null)
             {
@@ -330,9 +340,9 @@ namespace Juniper.Collections
             }
         }
 
-        public IEnumerable<NodeT> GetExits(NodeT node)
+        public IEnumerable<NodeT> FindExits(NodeT node)
         {
-            return (from route in GetConnections(node)
+            return (from route in FindConnections(node)
                     let isReverse = route.End.Equals(node)
                     select isReverse
                      ? route.Start
@@ -340,7 +350,7 @@ namespace Juniper.Collections
                     .Distinct();
         }
 
-        public IEnumerable<Route<NodeT>> GetRoutes(NodeT node)
+        public IEnumerable<Route<NodeT>> FindRoutes(NodeT node)
         {
             if (Exists(node))
             {
@@ -356,7 +366,7 @@ namespace Juniper.Collections
             }
         }
 
-        public Route<NodeT> GetRoute(NodeT startPoint, NodeT endPoint)
+        public Route<NodeT> FindRoute(NodeT startPoint, NodeT endPoint)
         {
             return Exists(startPoint, endPoint)
                 ? network[nodes[startPoint], nodes[endPoint]]
@@ -381,12 +391,12 @@ namespace Juniper.Collections
             get { return nodeNames; }
         }
 
-        public string GetNodeName(NodeT node)
+        public string FindNodeName(NodeT node)
         {
             return nodeNames.Get(node);
         }
 
-        public NodeT GetNamedNode(string name)
+        public NodeT FindNamedNode(string name)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -413,8 +423,8 @@ namespace Juniper.Collections
                 && namedNodes.ContainsKey(name))
             {
                 var node = namedNodes[name];
-                namedNodes.Remove(name);
-                nodeNames.Remove(node);
+                _ = namedNodes.Remove(name);
+                _ = nodeNames.Remove(node);
             }
         }
 
@@ -423,8 +433,8 @@ namespace Juniper.Collections
             if (nodeNames.ContainsKey(node))
             {
                 var name = nodeNames[node];
-                nodeNames.Remove(node);
-                namedNodes.Remove(name);
+                _ = nodeNames.Remove(node);
+                _ = namedNodes.Remove(name);
             }
         }
 
@@ -438,10 +448,10 @@ namespace Juniper.Collections
                 while (q.Count > 0)
                 {
                     var route = q.Dequeue();
-                    foreach (var extension in GetConnections(route))
+                    foreach (var extension in FindConnections(route))
                     {
                         var next = route + extension;
-                        var cur = GetRoute(next.Start, next.End);
+                        var cur = FindRoute(next.Start, next.End);
                         if (next < cur)
                         {
                             SetRoute(next);

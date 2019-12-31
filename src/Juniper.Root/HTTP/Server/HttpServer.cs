@@ -565,7 +565,11 @@ or
                     context.Response.Error(HttpStatusCode.NotFound, message);
                 }
 
-                context.Response.OutputStream.Flush();
+                await context
+                    .Response
+                    .OutputStream
+                    .FlushAsync()
+                    .ConfigureAwait(true);
             }
 #pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception exp)

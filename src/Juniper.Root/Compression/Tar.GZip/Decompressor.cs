@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -47,11 +48,11 @@ namespace Juniper.Compression.Tar.GZip
                     var fileSize = 0L;
                     foreach (var item in tar.Entries)
                     {
-                        if (item.FullName.EndsWith("/asset"))
+                        if (item.FullName.EndsWith("/asset", StringComparison.InvariantCulture))
                         {
                             fileSize = item.Length;
                         }
-                        else if (item.FullName.EndsWith("/pathname"))
+                        else if (item.FullName.EndsWith("/pathname", StringComparison.InvariantCulture))
                         {
                             using (var streamReader = new StreamReader(item.Open()))
                             {
@@ -271,7 +272,7 @@ namespace Juniper.Compression.Tar.GZip
                 try
                 {
                     var fileName = entry.FullName;
-                    if (fileName.StartsWith(entryPrefix))
+                    if (fileName.StartsWith(entryPrefix, StringComparison.InvariantCulture))
                     {
                         fileName = fileName.Remove(0, entryPrefix.Length);
                         var outputPath = Path.Combine(outputDirectory.FullName, fileName);

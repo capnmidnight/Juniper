@@ -18,7 +18,7 @@ namespace System
         /// </summary>
         /// <param name="value">The string to remove escape sequences from.</param>
         /// <returns>The unescaped string.</returns>
-        public static string URIUnescape(this string value)
+        public static string Unescape(this string value)
         {
             if (value == null)
             {
@@ -35,7 +35,7 @@ namespace System
         /// </summary>
         /// <param name="value">The string to add escape sequences from.</param>
         /// <returns>The escaped string.</returns>
-        public static string URIEscape(this string value)
+        public static string Escape(this string value)
         {
             if (value == null)
             {

@@ -197,7 +197,7 @@ namespace Juniper.IO
             void wrappedCallback(IAsyncResult result)
             {
                 lastRead = SourceStream.EndRead(result);
-                outStream.WriteAsync(buffer, offset, lastRead).Wait();
+                outStream.Write(buffer, offset, lastRead);
                 callback(result);
             }
 

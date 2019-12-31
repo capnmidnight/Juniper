@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 
 using static System.Math;
@@ -114,7 +114,8 @@ namespace Juniper.Progress
             var subProgs = parent.Split(actors.Length);
             for (var i = 0; i < actors.Length; ++i)
             {
-                await actors[i]?.Invoke(subProgs[i]);
+                await (actors[i]?.Invoke(subProgs[i]))
+                    .ConfigureAwait(true);
             }
         }
 
@@ -167,7 +168,8 @@ namespace Juniper.Progress
             var subProgs = parent.Split(labels);
             for (var i = 0; i < actors.Length; ++i)
             {
-                await actors[i].action?.Invoke(subProgs[i]);
+                await (actors[i].action?.Invoke(subProgs[i]))
+                    .ConfigureAwait(true);
             }
         }
 

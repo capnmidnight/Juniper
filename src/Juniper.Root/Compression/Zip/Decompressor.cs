@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -222,7 +223,7 @@ namespace Juniper.Compression.Zip
                 try
                 {
                     var fileName = entry.FullName;
-                    if (fileName.StartsWith(entryPrefix))
+                    if (fileName.StartsWith(entryPrefix, StringComparison.InvariantCulture))
                     {
                         fileName = fileName.Remove(0, entryPrefix.Length);
                         var outputPath = Path.Combine(outputDirectory.FullName, fileName);

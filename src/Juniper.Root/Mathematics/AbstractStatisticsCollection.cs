@@ -323,13 +323,13 @@ namespace Juniper.Mathematics
         /// <param name="collection">Collection.</param>
         /// <param name="zero">The value that represents Zero for <typeparamref name="T"/></param>
         /// <param name="one">The value that represents One for <typeparamref name="T"/></param>
-        protected AbstractStatisticsCollection(IList<T> collection, T zero, T one)
+        protected AbstractStatisticsCollection(IList<T> collection, T zero, T one, T min, T max)
         {
             collect = collection;
             Zero = zero;
             One = one;
-            MaxValue = Scale(One, float.MaxValue);
-            MinValue = Scale(One, float.MinValue);
+            MinValue = min;
+            MaxValue = max;
         }
 
         /// <summary>
@@ -338,8 +338,8 @@ namespace Juniper.Mathematics
         /// <param name="capacity">Capacity.</param>
         /// <param name="zero">The value that represents Zero for <typeparamref name="T"/></param>
         /// <param name="one">The value that represents One for <typeparamref name="T"/></param>
-        protected AbstractStatisticsCollection(int capacity, T zero, T one)
-            : this(new RingBuffer<T>(capacity), zero, one)
+        protected AbstractStatisticsCollection(int capacity, T zero, T one, T min, T max)
+            : this(new RingBuffer<T>(capacity), zero, one, min, max)
         {
         }
 

@@ -198,7 +198,9 @@ namespace Juniper.HTTP.Client.REST
                     .ConfigureAwait(false), request.ContentLength, prog))
                 {
                     WriteBody(stream);
-                    stream.Flush();
+                    await stream
+                        .FlushAsync()
+                        .ConfigureAwait(true);
                 }
             }
 

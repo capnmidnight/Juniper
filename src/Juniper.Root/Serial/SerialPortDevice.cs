@@ -150,7 +150,7 @@ namespace Juniper.Serial
             return errors;
         }
 
-        protected static PortFactoryType serialPortFactory = new PortFactoryType();
+        protected static readonly PortFactoryType serialPortFactory = new PortFactoryType();
 
         protected virtual void Dispose(bool disposing)
         {

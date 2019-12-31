@@ -1,5 +1,7 @@
 #if !NETSTANDARD
+using System;
 using System.Linq;
+using System.IO.Ports;
 
 namespace Juniper.Serial
 {
@@ -16,7 +18,9 @@ namespace Juniper.Serial
         {
             get
             {
-                return System.IO.Ports.SerialPort.GetPortNames().Where(p => p.StartsWith("COM")).ToArray();
+                return SerialPort.GetPortNames()
+                    .Where(p => p.StartsWith("COM", StringComparison.InvariantCulture))
+                    .ToArray();
             }
         }
     }

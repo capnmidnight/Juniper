@@ -22,7 +22,7 @@ namespace Juniper.World.GIS.Google.MapTiles
             this.points.AddRange(points);
             if (this.points.Count < 2)
             {
-                throw new ArgumentException(nameof(points), "There needs to be at least 2 points in a path for it to be renderable.");
+                throw new ArgumentException("There needs to be at least 2 points in a path for it to be renderable.", nameof(points));
             }
         }
 

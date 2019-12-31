@@ -16,7 +16,6 @@ namespace Juniper.Collections
     /// <typeparam name="T">The type of objects that will be placed in the PriorityQueue</typeparam>
     public class PriorityQueue<T> :
         ICollection,
-        ICollection<T>,
         IEnumerable<T>
         where T : IComparable<T>
     {
@@ -138,19 +137,7 @@ namespace Juniper.Collections
         /// <param name="item">The object to add</param>
         public void Enqueue(T item)
         {
-            //figure out which queue to add the object to
-            int addIndex;
-            for (addIndex = 0; addIndex < q.Count; ++addIndex)
-            {
-                var t = q[addIndex];
-                var n = Comparer.Compare(t, item);
-                if (n == 1)
-                {
-                    break;
-                }
-            }
-
-            q.Insert(addIndex, item);
+            ((ICollection<T>)this).Add(item);
         }
 
         /// <summary>
@@ -178,11 +165,6 @@ namespace Juniper.Collections
         public T[] ToArray()
         {
             return q.ToArray();
-        }
-
-        void ICollection<T>.Add(T item)
-        {
-            Enqueue(item);
         }
 
         void ICollection.CopyTo(Array arr, int startIndex)

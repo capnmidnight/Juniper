@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -27,7 +28,7 @@ namespace Juniper.Primrose
                     // complex regexes that can match in special contexts, but not make
                     // the context part of the token.
                     var midx = res.Captures[res.Captures.Count - 1].Value;
-                    var start = res.Value.IndexOf(midx);
+                    var start = res.Value.IndexOf(midx, StringComparison.InvariantCulture);
                     var end = start + midx.Length;
                     if (start == 0)
                     {

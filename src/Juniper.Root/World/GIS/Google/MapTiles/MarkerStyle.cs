@@ -34,7 +34,7 @@ namespace Juniper.World.GIS.Google.MapTiles
         {
             if (label != char.MinValue && !char.IsLetterOrDigit(label))
             {
-                throw new ArgumentException(nameof(label), "Value must be an uppercase letter A-Z or a digit 0-9.");
+                throw new ArgumentException("Value must be an uppercase letter A-Z or a digit 0-9.", nameof(label));
             }
 
             var sb = new StringBuilder();
