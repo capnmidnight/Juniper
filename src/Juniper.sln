@@ -5,25 +5,25 @@ VisualStudioVersion = 16.0.28902.138
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.NeuroSky", "Juniper.NeuroSky\Juniper.NeuroSky.csproj", "{93E9DA18-7AE9-4A83-B2EF-5B5E71308DCE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.NeuroSky.Console", "..\tests\Juniper.NeuroSky.Console\Juniper.NeuroSky.Console.csproj", "{A949A1B5-1953-46FB-8FEA-107B6AC79310}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.NeuroSky.Console", "Juniper.NeuroSky.Console\Juniper.NeuroSky.Console.csproj", "{A949A1B5-1953-46FB-8FEA-107B6AC79310}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9A01F9FD-B141-4584-92DE-9BFCEEA3A7E9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.UnityAssetStore", "Juniper.UnityAssetStore\Juniper.UnityAssetStore.csproj", "{D1FBFA8A-DB69-4CC3-94C8-CD921E1AF4CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.UnityAssetStore.Tests", "..\tests\Juniper.UnityAssetStore.Tests\Juniper.UnityAssetStore.Tests.csproj", "{B3DDB90B-9C23-4B5D-9F1F-9435F0DC49AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.UnityAssetStore.Tests", "Juniper.UnityAssetStore.Tests\Juniper.UnityAssetStore.Tests.csproj", "{B3DDB90B-9C23-4B5D-9F1F-9435F0DC49AA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.UnityAssetStore.Console", "..\tests\Juniper.UnityAssetStore.Console\Juniper.UnityAssetStore.Console.csproj", "{1C39809C-C4B0-4092-93A6-78E2C07D01B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.UnityAssetStore.Console", "Juniper.UnityAssetStore.Console\Juniper.UnityAssetStore.Console.csproj", "{1C39809C-C4B0-4092-93A6-78E2C07D01B0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0AB9B157-DC46-4E6F-9926-46AB72C95ED8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{3F72C92A-C800-432F-A47D-359B8C938849}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Video Downloader", "..\tests\Video Downloader\Video Downloader.csproj", "{28173EEF-EDB3-4E56-A851-AFE2E66243B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Video Downloader", "Video Downloader\Video Downloader.csproj", "{28173EEF-EDB3-4E56-A851-AFE2E66243B3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Azure.Console", "..\tests\Juniper.Azure.Console\Juniper.Azure.Console.csproj", "{F71D0B3E-C425-426A-86FC-2C3A8DB672E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Azure.Console", "Juniper.Azure.Console\Juniper.Azure.Console.csproj", "{F71D0B3E-C425-426A-86FC-2C3A8DB672E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Tests", "..\tests\Juniper.Tests\Juniper.Tests.csproj", "{3BF7D2CD-A68D-468F-968F-8B2F1AFDDE0F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Tests", "Juniper.Tests\Juniper.Tests.csproj", "{3BF7D2CD-A68D-468F-968F-8B2F1AFDDE0F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{622B919C-1613-4A82-B0D7-F4BDC696C7CD}"
 EndProject
@@ -40,7 +40,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "File Copier", "File Copier\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lesson Builder", "Lesson Builder\Lesson Builder.csproj", "{1F140295-3EEC-4151-BA35-7CCBE82BD23D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test Server", "..\tests\Test Server\Test Server.csproj", "{30D3643D-A062-443D-8D11-BEFE8226C79D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test Server", "Test Server\Test Server.csproj", "{30D3643D-A062-443D-8D11-BEFE8226C79D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
