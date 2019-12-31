@@ -15,7 +15,7 @@ namespace Juniper.Mathematics
         /// </summary>
         /// <param name="collection">Collection.</param>
         public SingleStatisticsCollection(IList<float> collection)
-            : base(collection, 0, 1, float.MinValue, float.MaxValue)
+            : base(collection, 0, float.MinValue, float.MaxValue)
         {
         }
 
@@ -25,7 +25,7 @@ namespace Juniper.Mathematics
         /// </summary>
         /// <param name="capacity"></param>
         public SingleStatisticsCollection(int capacity)
-            : base(capacity, 0, 1, float.MinValue, float.MaxValue)
+            : base(capacity, 0, float.MinValue, float.MaxValue)
         {
         }
 

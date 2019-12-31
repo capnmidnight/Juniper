@@ -48,13 +48,11 @@ namespace BitMiracle.LibJpeg
 
             m_bytes = row;
 
-            using (var bitStream = new BitStream(row))
+            using var bitStream = new BitStream(row);
+            m_samples = new Sample[sampleCount];
+            for (var i = 0; i < sampleCount; ++i)
             {
-                m_samples = new Sample[sampleCount];
-                for (var i = 0; i < sampleCount; ++i)
-                {
-                    m_samples[i] = new Sample(bitStream, bitsPerComponent, componentsPerSample);
-                }
+                m_samples[i] = new Sample(bitStream, bitsPerComponent, componentsPerSample);
             }
         }
 
@@ -100,20 +98,18 @@ namespace BitMiracle.LibJpeg
                 m_samples[i] = new Sample(components, bitsPerComponent);
             }
 
-            using (var bits = new BitStream())
+            using var bits = new BitStream();
+            for (var i = 0; i < sampleCount; ++i)
             {
-                for (var i = 0; i < sampleCount; ++i)
+                for (var j = 0; j < componentsPerSample; ++j)
                 {
-                    for (var j = 0; j < componentsPerSample; ++j)
-                    {
-                        bits.Write(sampleComponents[(i * componentsPerSample) + j], bitsPerComponent);
-                    }
+                    bits.Write(sampleComponents[(i * componentsPerSample) + j], bitsPerComponent);
                 }
-
-                m_bytes = new byte[bits.UnderlyingStream.Length];
-                bits.UnderlyingStream.Seek(0, System.IO.SeekOrigin.Begin);
-                bits.UnderlyingStream.Read(m_bytes, 0, (int)bits.UnderlyingStream.Length);
             }
+
+            m_bytes = new byte[bits.UnderlyingStream.Length];
+            bits.UnderlyingStream.Seek(0, System.IO.SeekOrigin.Begin);
+            bits.UnderlyingStream.Read(m_bytes, 0, (int)bits.UnderlyingStream.Length);
         }
 
         /// <summary>

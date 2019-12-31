@@ -74,10 +74,8 @@ namespace BitMiracle.LibJpeg
                 throw new ArgumentNullException(nameof(fileName));
             }
 
-            using (var fileStream = new FileStream(fileName, FileMode.Open))
-            {
-                CreateFromStream(fileStream);
-            }
+            using var fileStream = new FileStream(fileName, FileMode.Open);
+            CreateFromStream(fileStream);
         }
 #endif
 

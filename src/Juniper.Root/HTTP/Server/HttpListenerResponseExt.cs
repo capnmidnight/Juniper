@@ -12,10 +12,8 @@ namespace Juniper.HTTP.Server
         {
             response.SetStatus(code);
 
-            using (var writer = new StreamWriter(response.OutputStream))
-            {
-                writer.WriteLine(message);
-            }
+            using var writer = new StreamWriter(response.OutputStream);
+            writer.WriteLine(message);
         }
 
         public static void Redirect(this HttpListenerResponse response, string filename)
@@ -26,18 +24,14 @@ namespace Juniper.HTTP.Server
 
         public static void SendFile(this HttpListenerResponse response, FileInfo file)
         {
-            using (var input = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                response.SendStream((MediaType)file, input);
-            }
+            using var input = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+            response.SendStream((MediaType)file, input);
         }
 
         public static async Task SendFileAsync(this HttpListenerResponse response, FileInfo file)
         {
-            using (var input = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                await response.SendStreamAsync((MediaType)file, input).ConfigureAwait(false);
-            }
+            using var input = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+            await response.SendStreamAsync((MediaType)file, input).ConfigureAwait(false);
         }
 
         private static void Prepare(this HttpListenerResponse response, MediaType contentType, long length)

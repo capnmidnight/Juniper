@@ -11,19 +11,17 @@ namespace Juniper.Imaging
     {
         public ImageData Translate(Image image, IProgress prog)
         {
-            using (var mem = new MemoryStream())
-            {
-                prog.Report(0);
-                image.Save(mem, image.RawFormat);
+            using var mem = new MemoryStream();
+            prog.Report(0);
+            image.Save(mem, image.RawFormat);
 
-                var img = new ImageData(
-                    image.Width,
-                    image.Height,
-                    image.GetComponents(),
-                    mem.ToArray());
-                prog.Report(1);
-                return img;
-            }
+            var img = new ImageData(
+                image.Width,
+                image.Height,
+                image.GetComponents(),
+                mem.ToArray());
+            prog.Report(1);
+            return img;
         }
 
         public Image Translate(ImageData image, IProgress prog)

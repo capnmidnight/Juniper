@@ -60,7 +60,7 @@ namespace Juniper.GoogleMaps
             }
         }
 
-        private static async Task GetImageData(MetadataResponse metadata)
+        private static async Task GetImageDataAsync(MetadataResponse metadata)
         {
             if (metadata.status == System.Net.HttpStatusCode.OK)
             {
@@ -68,12 +68,10 @@ namespace Juniper.GoogleMaps
                     .ConfigureAwait(false);
                 try
                 {
-                    using (var stream = await gmaps.GetImageAsync(metadata.pano_id, 20, 0, 0)
-                        .ConfigureAwait(false))
-                    {
-                        var image = imageDecoder.Deserialize(stream);
-                        form.SetImage(metadata, geo, image);
-                    }
+                    using var stream = await gmaps.GetImageAsync(metadata.pano_id, 20, 0, 0)
+                        .ConfigureAwait(false);
+                    var image = imageDecoder.Deserialize(stream);
+                    form.SetImage(metadata, geo, image);
                 }
                 catch (Exception exp)
                 {
@@ -90,7 +88,7 @@ namespace Juniper.GoogleMaps
         {
             var metadata = await gmaps.SearchMetadataAsync(location)
                 .ConfigureAwait(false);
-            await GetImageData(metadata)
+            await GetImageDataAsync(metadata)
                 .ConfigureAwait(false);
         }
 
@@ -98,7 +96,7 @@ namespace Juniper.GoogleMaps
         {
             var metadata = await gmaps.GetMetadataAsync(LatLngPoint.ParseDecimal(latlng))
                 .ConfigureAwait(false);
-            await GetImageData(metadata)
+            await GetImageDataAsync(metadata)
                 .ConfigureAwait(false);
         }
 
@@ -106,7 +104,7 @@ namespace Juniper.GoogleMaps
         {
             var metadata = await gmaps.GetMetadataAsync(pano)
                 .ConfigureAwait(false);
-            await GetImageData(metadata)
+            await GetImageDataAsync(metadata)
                 .ConfigureAwait(false);
         }
 

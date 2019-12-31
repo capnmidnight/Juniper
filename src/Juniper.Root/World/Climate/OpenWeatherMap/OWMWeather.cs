@@ -73,12 +73,10 @@ namespace Juniper.World.Climate.OpenWeatherMap
         public async Task<T> GetIconAsync<T>(IImageCodec<T> decoder)
         {
             var request = HttpWebRequestExt.Create(IconURL);
-            using (var response = await request
+            using var response = await request
                 .GetAsync()
-                .ConfigureAwait(false))
-            {
-                return decoder.Deserialize(response);
-            }
+                .ConfigureAwait(false);
+            return decoder.Deserialize(response);
         }
 
         /// <summary>

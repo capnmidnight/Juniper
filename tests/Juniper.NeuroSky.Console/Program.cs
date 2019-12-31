@@ -2,32 +2,31 @@ using static System.Console;
 
 namespace Juniper.NeuroSky
 {
-    internal static class Program
+    public static class Program
     {
         public static void Main()
         {
             WriteLine($"MindWave version {MindWaveAdapter.Version}");
-            using (var device = MindWaveAdapter.FindAdapter())
+            using var device = MindWaveAdapter.FindAdapter();
+            if (device == null)
             {
-                if (device == null)
-                {
-                    WriteLine("No device available");
-                }
-                else
-                {
-                    WriteLine(
+                WriteLine("No device available");
+            }
+            else
+            {
+                WriteLine(
 $@"Connected:
 
 Mains Frequency: {device.MainsFrequency}
 Baud Rate:       {device.SerialBaudRate}");
 
-                    string lastOutput = null;
-                    while (true)
+                string lastOutput = null;
+                while (true)
+                {
+                    var packetsRead = device.ReadPackets(1);
+                    if (packetsRead > 0)
                     {
-                        var packetsRead = device.ReadPackets(1);
-                        if (packetsRead > 0)
-                        {
-                            var output =
+                        var output =
 $@"Packets Read:  {packetsRead}
 Battery:        {device.Battery}
 Signal:         {device.PoorSignal}
@@ -43,11 +42,10 @@ Gamma1:         {device.Gamma1}
 Gamma2:         {device.Gamma2}
 ";
 
-                            if (output != lastOutput)
-                            {
-                                lastOutput = output;
-                                WriteLine(output);
-                            }
+                        if (output != lastOutput)
+                        {
+                            lastOutput = output;
+                            WriteLine(output);
                         }
                     }
                 }

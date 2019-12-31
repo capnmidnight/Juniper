@@ -194,10 +194,8 @@ namespace Juniper.Azure.CognitiveServices
 
         protected override void WriteBody(Stream stream)
         {
-            using (var writer = new StreamWriter(stream))
-            {
-                writer.Write(ssmlText);
-            }
+            using var writer = new StreamWriter(stream);
+            writer.Write(ssmlText);
         }
 
         protected override void ModifyRequest(HttpWebRequest request)

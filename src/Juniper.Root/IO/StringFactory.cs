@@ -36,10 +36,8 @@ namespace Juniper.IO
 
         public void Serialize(Stream stream, string value, IProgress prog = null)
         {
-            using (var writer = new StreamWriter(stream))
-            {
-                writer.Write(value);
-            }
+            using var writer = new StreamWriter(stream);
+            writer.Write(value);
         }
     }
 }

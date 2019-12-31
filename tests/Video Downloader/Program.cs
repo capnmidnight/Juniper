@@ -1,17 +1,16 @@
+using Juniper.Progress;
+
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
-using Juniper.Progress;
-
-using static System.Console;
 using static Juniper.MediaType;
+using static System.Console;
 
 namespace Juniper.VideoDownloader
 {
-    internal static class Program
+    public static class Program
     {
         private class ConsoleProgress : IProgress
         {
@@ -46,34 +45,30 @@ namespace Juniper.VideoDownloader
             var request = HttpWebRequestExt.Create(uri)
                 .DoNotTrack()
                 .Accept(Any);
-            using (var response = await request
+            using var response = await request
                 .GetAsync()
-                .ConfigureAwait(false))
+                .ConfigureAwait(false);
+            var contentType = Lookup(response.ContentType);
+            WriteLine($"Status {response.StatusCode}");
+            WriteLine($"Content-Type {contentType.Value}");
+            WriteLine($"Content-Length {response.ContentLength}");
+            var desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            var fileName = Path.Combine(desktop, PathExt.FixPath(uri.PathAndQuery.Substring(1)));
+            var fileExt = Path.GetExtension(fileName).Substring(1);
+            if (contentType?.PrimaryExtension != null && !contentType.Extensions.Contains(fileExt))
             {
-                var contentType = Lookup(response.ContentType);
-                WriteLine($"Status {response.StatusCode}");
-                WriteLine($"Content-Type {contentType.Value}");
-                WriteLine($"Content-Length {response.ContentLength}");
-                var desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                var fileName = Path.Combine(desktop, PathExt.FixPath(uri.PathAndQuery.Substring(1)));
-                var fileExt = Path.GetExtension(fileName).Substring(1);
-                if (contentType?.PrimaryExtension != null && !contentType.Extensions.Contains(fileExt))
-                {
-                    fileName += "." + contentType.PrimaryExtension;
-                }
-                var file = new FileInfo(fileName);
-                file.Directory.Create();
-                using (var outStream = file.Create())
-                using (var body = response.GetResponseStream())
-                {
-                    var inStream = body;
-                    if (response.ContentLength > 0)
-                    {
-                        inStream = new ProgressStream(body, response.ContentLength, new ConsoleProgress());
-                    }
-                    inStream.CopyTo(outStream);
-                }
+                fileName += "." + contentType.PrimaryExtension;
             }
+            var file = new FileInfo(fileName);
+            file.Directory.Create();
+            using var outStream = file.Create();
+            using var body = response.GetResponseStream();
+            var inStream = body;
+            if (response.ContentLength > 0)
+            {
+                inStream = new ProgressStream(body, response.ContentLength, new ConsoleProgress());
+            }
+            inStream.CopyTo(outStream);
         }
     }
 }

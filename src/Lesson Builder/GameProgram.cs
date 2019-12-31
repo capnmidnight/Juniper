@@ -27,10 +27,8 @@ namespace Juniper
     {
         public static void Main()
         {
-            using (var game = new GameProgram())
-            {
-                game.Run(120, 60);
-            }
+            using var game = new GameProgram();
+            game.Run(120, 60);
         }
 
         private GameProgram()

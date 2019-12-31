@@ -218,7 +218,7 @@ namespace System.Net
         public static HttpWebRequest Cookie(this HttpWebRequest request, string key, string value, string domain)
         {
             var cookie = new Cookie(key, value, string.Empty, domain);
-            request.CookieContainer = request.CookieContainer ?? new CookieContainer();
+            request.CookieContainer ??= new CookieContainer();
             request.CookieContainer.Add(cookie);
             return request;
         }
@@ -287,11 +287,9 @@ namespace System.Net
                         request.ContentLength = info.Length;
                         if (info.Length > 0)
                         {
-                            using (var stream = await request.GetRequestStreamAsync()
-                                   .ConfigureAwait(false))
-                            {
-                                WiteContent(writeBody, prog, info, stream);
-                            }
+                            using var stream = await request.GetRequestStreamAsync()
+                                   .ConfigureAwait(false);
+                            WiteContent(writeBody, prog, info, stream);
                         }
                     }
                 }

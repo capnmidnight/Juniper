@@ -43,23 +43,19 @@ namespace Juniper.Compression.Tar.GZip
 
             IEnumerable<CompressedFileInfo> UnityPackageEntries2()
             {
-                using (var tar = Open(inputPackageFile))
+                using var tar = Open(inputPackageFile);
+                var fileSize = 0L;
+                foreach (var item in tar.Entries)
                 {
-                    var fileSize = 0L;
-                    foreach (var item in tar.Entries)
+                    if (item.FullName.EndsWith("/asset", StringComparison.InvariantCulture))
                     {
-                        if (item.FullName.EndsWith("/asset", StringComparison.InvariantCulture))
-                        {
-                            fileSize = item.Length;
-                        }
-                        else if (item.FullName.EndsWith("/pathname", StringComparison.InvariantCulture))
-                        {
-                            using (var streamReader = new StreamReader(item.Open()))
-                            {
-                                var path = streamReader.ReadLine();
-                                yield return new CompressedFileInfo(path, true, fileSize);
-                            }
-                        }
+                        fileSize = item.Length;
+                    }
+                    else if (item.FullName.EndsWith("/pathname", StringComparison.InvariantCulture))
+                    {
+                        using var streamReader = new StreamReader(item.Open());
+                        var path = streamReader.ReadLine();
+                        yield return new CompressedFileInfo(path, true, fileSize);
                     }
                 }
             }
@@ -73,10 +69,8 @@ namespace Juniper.Compression.Tar.GZip
             }
             else
             {
-                using (var stream = new GZipStream(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read), CompressionMode.Decompress))
-                {
-                    return new TarArchive(stream);
-                }
+                using var stream = new GZipStream(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read), CompressionMode.Decompress);
+                return new TarArchive(stream);
             }
         }
 
@@ -100,11 +94,9 @@ namespace Juniper.Compression.Tar.GZip
                 throw new FileNotFoundException($"Could not find file {entryPath} in tar file.");
             }
 
-            using (var fileStream = entry.Open())
-            {
-                var progStream = new ProgressStream(fileStream, entry.Length, prog);
-                progStream.CopyTo(copyTo);
-            }
+            using var fileStream = entry.Open();
+            var progStream = new ProgressStream(fileStream, entry.Length, prog);
+            progStream.CopyTo(copyTo);
         }
 
         public static void CopyFile(this TarArchive tar, string entryPath, Stream copyTo)
@@ -115,10 +107,8 @@ namespace Juniper.Compression.Tar.GZip
         public static void CopyFile(this TarArchive tar, string entryPath, FileInfo copyToFile, IProgress prog)
         {
             copyToFile.Directory.Create();
-            using (var copyTo = copyToFile.Create())
-            {
-                tar.CopyFile(entryPath, copyTo, prog);
-            }
+            using var copyTo = copyToFile.Create();
+            tar.CopyFile(entryPath, copyTo, prog);
         }
 
         public static void CopyFile(this TarArchive tar, string entryPath, FileInfo copyToFile)
@@ -138,10 +128,8 @@ namespace Juniper.Compression.Tar.GZip
 
         public static void CopyFile(FileInfo file, string entryPath, Stream copyTo, IProgress prog)
         {
-            using (var tar = Open(file))
-            {
-                tar.CopyFile(entryPath, copyTo, prog);
-            }
+            using var tar = Open(file);
+            tar.CopyFile(entryPath, copyTo, prog);
         }
 
         public static void CopyFile(FileInfo file, string entryPath, Stream copyTo)
@@ -223,12 +211,10 @@ namespace Juniper.Compression.Tar.GZip
 
         public static IEnumerable<CompressedFileInfo> Entries(Stream tarGzStream, IProgress prog)
         {
-            using (var tar = new TarArchive(new GZipStream(tarGzStream, CompressionMode.Decompress)))
+            using var tar = new TarArchive(new GZipStream(tarGzStream, CompressionMode.Decompress));
+            foreach (var entry in tar.Entries(prog))
             {
-                foreach (var entry in tar.Entries(prog))
-                {
-                    yield return entry;
-                }
+                yield return entry;
             }
         }
 
@@ -239,12 +225,10 @@ namespace Juniper.Compression.Tar.GZip
 
         public static IEnumerable<CompressedFileInfo> Entries(FileInfo tarGzFile, IProgress prog)
         {
-            using (var stream = tarGzFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+            using var stream = tarGzFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+            foreach (var entry in Entries(stream, prog))
             {
-                foreach (var entry in Entries(stream, prog))
-                {
-                    yield return entry;
-                }
+                yield return entry;
             }
         }
 
@@ -282,11 +266,9 @@ namespace Juniper.Compression.Tar.GZip
                         if (overwrite || !outputFile.Exists)
                         {
                             outputFileDirectory.Create();
-                            using (var outputStream = outputFile.Create())
-                            using (var inputStream = entry.Open())
-                            {
-                                inputStream.CopyTo(outputStream);
-                            }
+                            using var outputStream = outputFile.Create();
+                            using var inputStream = entry.Open();
+                            inputStream.CopyTo(outputStream);
                         }
                     }
                 }
@@ -333,10 +315,8 @@ namespace Juniper.Compression.Tar.GZip
 
         public static void Decompress(this Stream stream, DirectoryInfo outputDirectory, string entryPrefix, bool overwrite, IProgress prog)
         {
-            using (var tar = new TarArchive(new GZipStream(stream, CompressionMode.Decompress)))
-            {
-                tar.Decompress(outputDirectory, entryPrefix, overwrite, prog);
-            }
+            using var tar = new TarArchive(new GZipStream(stream, CompressionMode.Decompress));
+            tar.Decompress(outputDirectory, entryPrefix, overwrite, prog);
         }
 
         public static void Decompress(this Stream stream, DirectoryInfo outputDirectory, bool overwrite, IProgress prog)
@@ -376,10 +356,8 @@ namespace Juniper.Compression.Tar.GZip
 
         public static void Decompress(FileInfo tarGzFile, DirectoryInfo outputDirectory, string entryPrefix, bool overwrite, IProgress prog)
         {
-            using (var stream = tarGzFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                stream.Decompress(outputDirectory, entryPrefix, overwrite, prog);
-            }
+            using var stream = tarGzFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+            stream.Decompress(outputDirectory, entryPrefix, overwrite, prog);
         }
 
         public static void Decompress(FileInfo tarGzFile, DirectoryInfo outputDirectory, bool overwrite, IProgress prog)

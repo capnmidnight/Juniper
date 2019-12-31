@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Net;
 using System.Text;
 
@@ -22,34 +22,26 @@ namespace Juniper.IO
 
         public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, HttpWebResponse response, IProgress prog = null)
         {
-            using (var stream = response.GetResponseStream())
-            {
-                return deserializer.Deserialize(stream, response.ContentLength, prog);
-            }
+            using var stream = response.GetResponseStream();
+            return deserializer.Deserialize(stream, response.ContentLength, prog);
         }
 
         public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, HttpWebResponse response, out ResultT value, IProgress prog = null)
         {
-            using (var stream = response.GetResponseStream())
-            {
-                return deserializer.TryDeserialize(stream, out value, response.ContentLength, prog);
-            }
+            using var stream = response.GetResponseStream();
+            return deserializer.TryDeserialize(stream, out value, response.ContentLength, prog);
         }
 
         public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, HttpListenerRequest request, IProgress prog = null)
         {
-            using (var stream = request.InputStream)
-            {
-                return deserializer.Deserialize(stream, request.ContentLength64, prog);
-            }
+            using var stream = request.InputStream;
+            return deserializer.Deserialize(stream, request.ContentLength64, prog);
         }
 
         public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, HttpListenerRequest request, out ResultT value, IProgress prog = null)
         {
-            using (var stream = request.InputStream)
-            {
-                return deserializer.TryDeserialize(stream, out value, request.ContentLength64, prog);
-            }
+            using var stream = request.InputStream;
+            return deserializer.TryDeserialize(stream, out value, request.ContentLength64, prog);
         }
 
         public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, Stream stream, out ResultT value, IProgress prog)

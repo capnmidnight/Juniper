@@ -18,15 +18,13 @@ namespace Juniper.IO
             if (fromLayer.IsCached(fromRef)
                 && (overwrite || !toLayer.IsCached(toRef)))
             {
-                using (var inStream = await fromLayer
+                using var inStream = await fromLayer
                     .GetStreamAsync(fromRef, prog)
-                    .ConfigureAwait(false))
-                using (var outStream = toLayer.Create(toRef, overwrite))
-                {
-                    await inStream
-                        .CopyToAsync(outStream)
-                        .ConfigureAwait(false);
-                }
+                    .ConfigureAwait(false);
+                using var outStream = toLayer.Create(toRef, overwrite);
+                await inStream
+                    .CopyToAsync(outStream)
+                    .ConfigureAwait(false);
             }
         }
 
@@ -38,10 +36,8 @@ namespace Juniper.IO
             bool overwrite = false,
             IProgress prog = null)
         {
-            using (var stream = layer.Create(fileRef, overwrite))
-            {
-                serializer.Serialize(stream, value, prog);
-            }
+            using var stream = layer.Create(fileRef, overwrite);
+            serializer.Serialize(stream, value, prog);
         }
     }
 }

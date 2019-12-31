@@ -412,7 +412,7 @@ or
                 throw new InvalidOperationException("Server is not listening on any ports");
             }
 
-            startPage = startPage ?? string.Empty;
+            startPage ??= string.Empty;
 
             var protocol = "http";
             var port = "";
@@ -460,19 +460,17 @@ or
             var asm = Assembly.GetExecutingAssembly();
             guid = Marshal.GetTypeLibGuidForAssembly(asm).ToString();
             certHash = null;
-            using (var store = new X509Store(StoreLocation.LocalMachine))
-            {
-                store.Open(OpenFlags.ReadOnly);
+            using var store = new X509Store(StoreLocation.LocalMachine);
+            store.Open(OpenFlags.ReadOnly);
 
-                certHash = (from cert in store.Certificates.Cast<X509Certificate2>()
-                            where cert.Subject == "CN=" + Domain
-                              && DateTime.TryParse(cert.GetEffectiveDateString(), out var effectiveDate)
-                              && DateTime.TryParse(cert.GetExpirationDateString(), out var expirationDate)
-                              && effectiveDate <= DateTime.Now
-                              && DateTime.Now < expirationDate
-                            select cert.Thumbprint)
-                           .FirstOrDefault();
-            }
+            certHash = (from cert in store.Certificates.Cast<X509Certificate2>()
+                        where cert.Subject == "CN=" + Domain
+                          && DateTime.TryParse(cert.GetEffectiveDateString(), out var effectiveDate)
+                          && DateTime.TryParse(cert.GetExpirationDateString(), out var expirationDate)
+                          && effectiveDate <= DateTime.Now
+                          && DateTime.Now < expirationDate
+                        select cert.Thumbprint)
+                       .FirstOrDefault();
         }
 
         private string AssignCertToApp(string certHash, string appGuid)

@@ -12,10 +12,8 @@ namespace Juniper.IO
     {
         public static void Serialize<T>(this ISerializer<T> serializer, HttpWebRequest request, T value, IProgress prog = null)
         {
-            using (var stream = request.GetRequestStream())
-            {
-                serializer.Serialize(stream, value, prog);
-            }
+            using var stream = request.GetRequestStream();
+            serializer.Serialize(stream, value, prog);
         }
 
         public static void Serialize<T>(this ISerializer<T> serializer, HttpListenerResponse response, T value, IProgress prog = null)
@@ -35,21 +33,17 @@ namespace Juniper.IO
 
         public static byte[] Serialize<T>(this ISerializer<T> serializer, T value, IProgress prog = null)
         {
-            using (var mem = new MemoryStream())
-            {
-                serializer.Serialize(mem, value, prog);
-                mem.Flush();
+            using var mem = new MemoryStream();
+            serializer.Serialize(mem, value, prog);
+            mem.Flush();
 
-                return mem.ToArray();
-            }
+            return mem.ToArray();
         }
 
         public static void Serialize<T>(this ISerializer<T> serializer, FileInfo file, T value, IProgress prog = null)
         {
-            using (var stream = file.Create())
-            {
-                serializer.Serialize(stream, value, prog);
-            }
+            using var stream = file.Create();
+            serializer.Serialize(stream, value, prog);
         }
 
         public static void Serialize<T>(this ISerializer<T> serializer, string fileName, T value, IProgress prog = null)

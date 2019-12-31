@@ -24,18 +24,14 @@ namespace Juniper.Collections
             else if (MediaType.Application.Json.Matches(file))
             {
                 var json = new JsonFactory<Graph<NodeT>>();
-                using (var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    return json.Deserialize(stream);
-                }
+                using var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+                return json.Deserialize(stream);
             }
             else if (MediaType.Application.Octet_Stream.Matches(file))
             {
                 var bin = new BinaryFactory<Graph<NodeT>>();
-                using (var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    return bin.Deserialize(stream);
-                }
+                using var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+                return bin.Deserialize(stream);
             }
             else
             {

@@ -15,30 +15,28 @@ namespace Juniper.HTTP
     {
         public static async Task Main()
         {
-            using (var server = new HttpServer
+            using var server = new HttpServer
             {
                 HttpPort = 8080,
                 ListenerCount = 10
-            })
-            {
-                server.Info += Server_Info;
-                server.Warning += Server_Warning;
-                server.Error += Server_Error;
+            };
+            server.Info += Server_Info;
+            server.Warning += Server_Warning;
+            server.Error += Server_Error;
 
-                server.AddRoutesFrom(new DefaultFileController("content"));
-                server.AddRoutesFrom(new IPBanController("testBans.txt"));
-                server.AddRoutesFrom(typeof(Program));
+            server.AddRoutesFrom(new DefaultFileController("content"));
+            server.AddRoutesFrom(new IPBanController("testBans.txt"));
+            server.AddRoutesFrom(typeof(Program));
 
-                server.Start();
+            server.Start();
 
 #if DEBUG
-                server.StartBrowser("index.html");
+            server.StartBrowser("index.html");
 #endif
 
-                while (server.IsRunning)
-                {
-                    await Task.Yield();
-                }
+            while (server.IsRunning)
+            {
+                await Task.Yield();
             }
         }
 

@@ -31,30 +31,26 @@ namespace Juniper.UnityAssetStore
             var uri = new Uri(url);
             while (code == HttpStatusCode.Redirect)
             {
-                using (var response = await HttpWebRequestExt
+                using var response = await HttpWebRequestExt
                     .Create(uri)
                     .Header("X-Unity-Session", token ?? sessionID ?? UnityAssetStoreToken)
                     .Accept(MediaType.Application.Json)
                     .GetAsync()
-                    .ConfigureAwait(false))
+                    .ConfigureAwait(false);
+                code = response.StatusCode;
+                if (code == HttpStatusCode.Redirect)
                 {
-                    code = response.StatusCode;
-                    if (code == HttpStatusCode.Redirect)
+                    uri = new Uri(response.Headers[HttpResponseHeader.Location]);
+                }
+                else if (response.StatusCode == HttpStatusCode.OK
+                    && response.ContentLength > 0)
+                {
+                    using var stream = new ProgressStream(response.GetResponseStream(), response.ContentLength, prog);
+                    using var reader = new StreamReader(stream);
+                    var deserializer = new JsonFactory<T>();
+                    if (deserializer.TryParse(reader.ReadToEnd(), out var value))
                     {
-                        uri = new Uri(response.Headers[HttpResponseHeader.Location]);
-                    }
-                    else if (response.StatusCode == HttpStatusCode.OK
-                        && response.ContentLength > 0)
-                    {
-                        using (var stream = new ProgressStream(response.GetResponseStream(), response.ContentLength, prog))
-                        using (var reader = new StreamReader(stream))
-                        {
-                            var deserializer = new JsonFactory<T>();
-                            if (deserializer.TryParse(reader.ReadToEnd(), out var value))
-                            {
-                                return value;
-                            }
-                        }
+                        return value;
                     }
                 }
             }
@@ -165,6 +161,7 @@ namespace Juniper.UnityAssetStore
             return GetAsync<StoreSearch.Results>($"{UnityAssetStoreAPIRoot}search/results.json?" + parameters.SearchString, null, prog);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "<Pending>")]
         public static async Task<AssetDownload[]> GetDownloadsAsync(string userName, string password, string token, IProgress prog = null)
         {
             var req = HttpWebRequestExt.Create($"https://assetstore.unity.com/auth/login?redirect_to=%2F")
@@ -182,19 +179,17 @@ namespace Juniper.UnityAssetStore
             if (res.StatusCode == HttpStatusCode.OK)
             {
                 var doc = new HtmlDocument();
-                using (var stream = res.GetResponseStream())
-                using (var reader = new StreamReader(stream))
+                using var stream = res.GetResponseStream();
+                using var reader = new StreamReader(stream);
+                var html = reader.ReadToEnd();
+                doc.LoadHtml(html);
+                var csrfToken = doc
+                    .DocumentNode
+                    .SelectSingleNode("//meta[@name='csrf-token']")
+                    .Attributes["content"]
+                    .Value;
+                if (csrfToken != null)
                 {
-                    var html = reader.ReadToEnd();
-                    doc.LoadHtml(html);
-                    var csrfToken = doc
-                        .DocumentNode
-                        .SelectSingleNode("//meta[@name='csrf-token']")
-                        .Attributes["content"]
-                        .Value;
-                    if (csrfToken != null)
-                    {
-                    }
                 }
             }
 

@@ -207,11 +207,9 @@ namespace Juniper.HTTP.Server.Controllers
 
             response.ContentLength64 = sb.Length;
             response.ContentType = MediaType.Text.Html;
-            using (var writer = new StreamWriter(response.OutputStream))
-            {
-                await writer.WriteAsync(sb.ToString())
-                    .ConfigureAwait(false);
-            }
+            using var writer = new StreamWriter(response.OutputStream);
+            await writer.WriteAsync(sb.ToString())
+                .ConfigureAwait(false);
         }
 
         private async Task SendFileAsync(HttpListenerResponse response, FileInfo file, string shortName)

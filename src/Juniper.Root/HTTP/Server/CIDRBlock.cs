@@ -60,10 +60,8 @@ namespace Juniper.HTTP.Server
                 return Array.Empty<CIDRBlock>();
             }
 
-            using (var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                return Load(stream);
-            }
+            using var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+            return Load(stream);
         }
 
         public static CIDRBlock[] Load(string fileName)
@@ -93,12 +91,10 @@ namespace Juniper.HTTP.Server
                 throw new AccessViolationException($"Cannot write to {nameof(stream)}.");
             }
 
-            using (var writer = new StreamWriter(stream))
+            using var writer = new StreamWriter(stream);
+            foreach (var block in blocks)
             {
-                foreach (var block in blocks)
-                {
-                    writer.WriteLine(block.ToString());
-                }
+                writer.WriteLine(block.ToString());
             }
         }
 
@@ -114,10 +110,8 @@ namespace Juniper.HTTP.Server
                 throw new ArgumentNullException(nameof(file));
             }
 
-            using (var stream = file.Open(FileMode.OpenOrCreate, FileAccess.Write, FileShare.None))
-            {
-                Save(blocks, stream);
-            }
+            using var stream = file.Open(FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+            Save(blocks, stream);
         }
 
         public static void Save(IEnumerable<CIDRBlock> blocks, string fileName)

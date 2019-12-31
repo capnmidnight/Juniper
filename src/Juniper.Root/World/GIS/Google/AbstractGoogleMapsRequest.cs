@@ -39,17 +39,15 @@ namespace Juniper.World.GIS.Google
                     var pkBytes = Convert.FromBase64String(signingKey.FromGoogleModifiedBase64());
 #pragma warning disable CA5350 // Do Not Use Weak Cryptographic Algorithms
                     // Google requires use of this particular hashing algorithm.
-                    using (var hasher = new HMACSHA1(pkBytes))
+                    using var hasher = new HMACSHA1(pkBytes);
 #pragma warning restore CA5350 // Do Not Use Weak Cryptographic Algorithms
-                    {
-                        var urlBytes = Encoding.ASCII.GetBytes(unsignedUriWithKey.LocalPath + unsignedUriWithKey.Query);
-                        var hash = hasher.ComputeHash(urlBytes);
-                        var signature = Convert.ToBase64String(hash).ToGoogleModifiedBase64();
+                    var urlBytes = Encoding.ASCII.GetBytes(unsignedUriWithKey.LocalPath + unsignedUriWithKey.Query);
+                    var hash = hasher.ComputeHash(urlBytes);
+                    var signature = Convert.ToBase64String(hash).ToGoogleModifiedBase64();
 
-                        var signedUri = new UriBuilder(unsignedUriWithKey);
-                        signedUri.AddQuery("signature", signature);
-                        return signedUri.Uri;
-                    }
+                    var signedUri = new UriBuilder(unsignedUriWithKey);
+                    signedUri.AddQuery("signature", signature);
+                    return signedUri.Uri;
                 }
             }
         }

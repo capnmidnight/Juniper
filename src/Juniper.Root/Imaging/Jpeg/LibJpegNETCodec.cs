@@ -36,10 +36,8 @@ namespace Juniper.Imaging
             JpegImage image = null;
             if (stream != null)
             {
-                using (var seekable = new ErsatzSeekableStream(stream))
-                {
-                    image = new JpegImage(seekable);
-                }
+                using var seekable = new ErsatzSeekableStream(stream);
+                image = new JpegImage(seekable);
             }
 
             prog.Report(1);

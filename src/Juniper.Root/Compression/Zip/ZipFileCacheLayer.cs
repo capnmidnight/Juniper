@@ -43,11 +43,9 @@ namespace Juniper.IO
                 if (zipFile.Exists)
                 {
                     var cacheFileName = GetCacheFileName(fileRef);
-                    using (var zip = Decompressor.Open(zipFile))
-                    {
-                        var entry = zip.GetEntry(cacheFileName);
-                        filesExist[fileRef.CacheID] = entry != null;
-                    }
+                    using var zip = Decompressor.Open(zipFile);
+                    var entry = zip.GetEntry(cacheFileName);
+                    filesExist[fileRef.CacheID] = entry != null;
                 }
                 else
                 {

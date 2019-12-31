@@ -20,7 +20,7 @@ namespace Hjg.Pngcs
         ///
         public static CRC32 GetCRC()
         {
-            return crc32Engine = crc32Engine ?? new CRC32();
+            return crc32Engine ??= new CRC32();
         }
 
         public static readonly byte[] PNG_ID_SIGNATURE = { 256 - 119, 80, 78, 71, 13, 10, 26, 10 }; // png magic

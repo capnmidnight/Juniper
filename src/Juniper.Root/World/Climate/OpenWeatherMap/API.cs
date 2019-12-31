@@ -188,18 +188,16 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 {
                     var requester = HttpWebRequestExt.Create(url);
                     requester.Accept = MediaType.Application.Json;
-                    using (var response = await requester
+                    using var response = await requester
                         .GetAsync()
-                        .ConfigureAwait(false))
+                        .ConfigureAwait(false);
+                    if (weatherFactory.TryDeserialize<WeatherReport>(response, out var report))
                     {
-                        if (weatherFactory.TryDeserialize<WeatherReport>(response, out var report))
-                        {
-                            LastReport = report;
-                        }
-                        else
-                        {
-                            throw ErrorReport = new WeatherReportException("GetNewReport", "No response: " + url);
-                        }
+                        LastReport = report;
+                    }
+                    else
+                    {
+                        throw ErrorReport = new WeatherReportException("GetNewReport", "No response: " + url);
                     }
                 }
                 catch (Exception exp)

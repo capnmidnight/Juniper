@@ -495,18 +495,13 @@ namespace Juniper.NeuroSky
             }
 
             var bytesRead = TG_ReadPackets(connectionId, numPackets);
-            switch (bytesRead)
+            return bytesRead switch
             {
-                case -1:
-                throw new InvalidOperationException("Invalid connection ID: " + connectionId.ToString());
-                case -2:
-                return 0;
-
-                case -3:
-                throw new Exception("I/O Error");
-                default:
-                return bytesRead;
-            }
+                -1 => throw new InvalidOperationException("Invalid connection ID: " + connectionId.ToString()),
+                -2 => 0,
+                -3 => throw new Exception("I/O Error"),
+                _ => bytesRead,
+            };
         }
 
         public bool DataValueChanged(DataType dataType)
