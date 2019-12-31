@@ -111,7 +111,7 @@ namespace Juniper
             public static readonly Text Xml = new Text("xml");
             public static readonly Text Xml_External_Parsed_Entity = new Text("xml-external-parsed-entity");
 
-            new public static readonly Text[] Values = {
+            public static new readonly Text[] Values = {
                 Cache_Manifest,
                 Calendar,
                 Css,

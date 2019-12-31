@@ -34,7 +34,7 @@ namespace Juniper
             public static readonly Model X3dVrml = new Model("x3d+vrml", new string[] { "x3dv", "x3dvz" });
             public static readonly Model X3dXml = new Model("x3d+xml", new string[] { "x3d", "x3dz" });
 
-            new public static readonly Model[] Values = {
+            public static new readonly Model[] Values = {
                 Example,
                 Gltf_Binary,
                 GltfJson,

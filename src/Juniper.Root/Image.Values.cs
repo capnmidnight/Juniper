@@ -107,7 +107,7 @@ namespace Juniper
             public static readonly Image X_Xpixmap = new Image("x-xpixmap", new string[] { "xpm" });
             public static readonly Image X_Xwindowdump = new Image("x-xwindowdump", new string[] { "xwd" });
 
-            new public static readonly Image[] Values = {
+            public static new readonly Image[] Values = {
                 Aces,
                 Avci,
                 Avcs,

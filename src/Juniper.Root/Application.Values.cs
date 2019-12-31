@@ -1579,7 +1579,7 @@ namespace Juniper
             public static readonly Application Zlib = new Application("zlib");
             public static readonly Application Zstd = new Application("zstd");
 
-            new public static readonly Application[] Values = {
+            public static new readonly Application[] Values = {
                 A2L,
                 Activemessage,
                 ActivityJson,

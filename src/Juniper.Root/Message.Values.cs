@@ -32,7 +32,7 @@ namespace Juniper
 
             public static readonly Message VendorWfaWsc = new Message("vnd.wfa.wsc");
 
-            new public static readonly Message[] Values = {
+            public static new readonly Message[] Values = {
                 CPIM,
                 Delivery_Status,
                 Disposition_Notification,

@@ -12,7 +12,7 @@ namespace Juniper
             public static readonly Chemical X_Pdb = new Chemical("x-pdb");
             public static readonly Chemical X_Xyz = new Chemical("x-xyz", new string[] { "xyz" });
 
-            new public static readonly Chemical[] Values = {
+            public static new readonly Chemical[] Values = {
                 X_Cdx,
                 X_Cif,
                 X_Cmdf,

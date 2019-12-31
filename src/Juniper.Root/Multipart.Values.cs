@@ -22,7 +22,7 @@ namespace Juniper
             public static readonly Multipart Voice_Message = new Multipart("voice-message");
             public static readonly Multipart X_Mixed_Replace = new Multipart("x-mixed-replace");
 
-            new public static readonly Multipart[] Values = {
+            public static new readonly Multipart[] Values = {
                 Alternative,
                 Appledouble,
                 Byteranges,

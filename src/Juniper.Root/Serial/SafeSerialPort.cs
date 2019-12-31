@@ -22,13 +22,13 @@ namespace Juniper.Serial
         {
         }
 
-        new public void Dispose()
+        public new void Dispose()
         {
             Dispose(true);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1816:Dispose methods should call SuppressFinalize", Justification = "This fixes a long-standing issue with .NET's serial port implementation not releasing ports when the application crashes.")]
-        new public void Open()
+        public new void Open()
         {
             try
             {

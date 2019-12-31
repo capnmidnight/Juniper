@@ -105,7 +105,7 @@ namespace Juniper
             public static readonly Video X_Sgi_Movie = new Video("x-sgi-movie", new string[] { "movie" });
             public static readonly Video X_Smv = new Video("x-smv", new string[] { "smv" });
 
-            new public static readonly Video[] Values = {
+            public static new readonly Video[] Values = {
                 BMPEG,
                 BT656,
                 CelB,

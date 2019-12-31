@@ -6,7 +6,7 @@ namespace Juniper
         {
             public static readonly XConference X_Cooltalk = new XConference("/x-cooltalk", new string[] { "ice" });
 
-            new public static readonly XConference[] Values = {
+            public static new readonly XConference[] Values = {
                 X_Cooltalk
             };
         }
