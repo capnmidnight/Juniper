@@ -17,15 +17,25 @@ namespace Juniper.HTTP.Server.Controllers
         private readonly object source;
         private readonly MethodInfo method;
 
-        protected AbstractRouteHandler(string name, object source, MethodInfo method, RouteAttribute route)
-            : base(name, route.Priority, route.Protocol, route.Method, route.Continue, route.Authentication)
+        private static RouteAttribute ValidateRoute(RouteAttribute route)
         {
             if (route is null)
             {
                 throw new ArgumentNullException(nameof(route));
             }
 
-            pattern = route.Pattern;
+            return route;
+        }
+
+        protected AbstractRouteHandler(string name, object source, MethodInfo method, RouteAttribute route)
+            : base(name,
+                  ValidateRoute(route).Priority,
+                  ValidateRoute(route).Protocol,
+                  ValidateRoute(route).Method,
+                  ValidateRoute(route).Continue,
+                  ValidateRoute(route).Authentication)
+        {
+            pattern = ValidateRoute(route).Pattern;
             regexSource = pattern.ToString();
             parameterCount = pattern.GetGroupNames().Length;
 
@@ -35,6 +45,11 @@ namespace Juniper.HTTP.Server.Controllers
 
         public override bool IsMatch(HttpListenerRequest request)
         {
+            if(request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             var urlMatch = pattern.Match(request.Url.PathAndQuery);
             return urlMatch.Success
                 && urlMatch.Groups.Count == parameterCount
@@ -43,6 +58,11 @@ namespace Juniper.HTTP.Server.Controllers
 
         protected Task InvokeAsync(HttpListenerContext context, object firstParam)
         {
+            if(context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
             var path = context.Request.Url.PathAndQuery;
             var args = pattern
                 .Match(path)
@@ -66,10 +86,10 @@ namespace Juniper.HTTP.Server.Controllers
         public override int GetHashCode()
         {
             var hashCode = -1402022977;
-            hashCode = hashCode * -1521134295 + base.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<Regex>.Default.GetHashCode(pattern);
-            hashCode = hashCode * -1521134295 + EqualityComparer<object>.Default.GetHashCode(source);
-            hashCode = hashCode * -1521134295 + EqualityComparer<MethodInfo>.Default.GetHashCode(method);
+            hashCode = (hashCode * -1521134295) + base.GetHashCode();
+            hashCode = (hashCode * -1521134295) + EqualityComparer<Regex>.Default.GetHashCode(pattern);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<object>.Default.GetHashCode(source);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<MethodInfo>.Default.GetHashCode(method);
             return hashCode;
         }
 
