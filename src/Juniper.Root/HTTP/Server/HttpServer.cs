@@ -151,13 +151,13 @@ namespace Juniper.HTTP.Server
                 .FirstOrDefault();
         }
 
-        public void AddRoutesFrom<T>()
+        public T AddRoutesFrom<T>()
             where T : class
         {
-            AddRoutesFrom<T>(null);
+            return AddRoutesFrom<T>(null);
         }
 
-        public void AddRoutesFrom<T>(T controller)
+        public T AddRoutesFrom<T>(T controller)
             where T : class
         {
             var flags = BindingFlags.Public | BindingFlags.Static;
@@ -220,6 +220,8 @@ or
                     }
                 }
             }
+
+            return controller;
         }
 
         internal void AddController<T>(T controller) where T : class
@@ -344,7 +346,7 @@ or
                         }
                     }
 
-                    AddRoutesFrom<HttpsRedirectController>();
+                    _ = AddRoutesFrom<HttpsRedirectController>();
                 }
 
                 SetPrefix("http", HttpPort.Value);

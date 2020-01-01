@@ -18,13 +18,14 @@ namespace Juniper.HTTP
                 HttpPort = 8080,
                 ListenerCount = 10
             };
+
             server.Info += Server_Info;
             server.Warning += Server_Warning;
             server.Error += Server_Error;
 
-            server.AddRoutesFrom(new DefaultFileController("content"));
-            server.AddRoutesFrom(new IPBanController("testBans.txt"));
-            server.AddRoutesFrom(typeof(Program));
+            _ = server.AddRoutesFrom(new DefaultFileController("..\\..\\..\\content"));
+            _ = server.AddRoutesFrom(new IPBanController("testBans.txt"));
+            _ = server.AddRoutesFrom(typeof(Program));
 
             server.Start();
 
