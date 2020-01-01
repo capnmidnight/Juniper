@@ -59,7 +59,7 @@
     </ProjectReference>
     <ProjectReference Include="..\Juniper.UnityAssetStore\Juniper.UnityAssetStore.csproj">
       <Project>{d1fbfa8a-db69-4cc3-94c8-cd921e1af4cf}</Project>
-      <Name>Juniper.Unity</Name>
+      <Name>Juniper.UnityAssetStore</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

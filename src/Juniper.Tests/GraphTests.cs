@@ -24,7 +24,7 @@ namespace Juniper.Collections.Tests
             {
                 Assert.IsTrue(graph2.Exists(node), $"{label}: Node {node} does not exist");
 
-                foreach (var route in graph1.GetRoutes(node))
+                foreach (var route in graph1.FindRoutes(node))
                 {
                     Assert.IsTrue(graph2.Exists(route.Start, route.End), $"{label}: Route {route.Start} => {route.End} does not exist");
                 }
@@ -38,9 +38,9 @@ namespace Juniper.Collections.Tests
             graph.SetConnection("a", "b", 1);
             graph.Solve();
 
-            var route = graph.GetRoute("a", "b");
-            var connectsA = graph.GetExits("a");
-            var connectsB = graph.GetExits("b");
+            var route = graph.FindRoute("a", "b");
+            var connectsA = graph.FindExits("a");
+            var connectsB = graph.FindExits("b");
 
             Assert.IsNotNull(route);
             Assert.AreEqual(1, route.Cost);
@@ -59,8 +59,8 @@ namespace Juniper.Collections.Tests
                 ("b", "c", 1));
             graph.Solve();
 
-            var route = graph.GetRoute("a", "c");
-            var connectsB = graph.GetExits("b");
+            var route = graph.FindRoute("a", "c");
+            var connectsB = graph.FindExits("b");
 
             Assert.IsNotNull(route);
             Assert.AreEqual(2, route.Cost);
@@ -77,8 +77,8 @@ namespace Juniper.Collections.Tests
                 ("a", "b", 1));
             graph.Solve();
 
-            var route = graph.GetRoute("a", "c");
-            var connectsB = graph.GetExits("b");
+            var route = graph.FindRoute("a", "c");
+            var connectsB = graph.FindExits("b");
 
             Assert.IsNotNull(route);
             Assert.AreEqual(2, route.Cost);
@@ -103,7 +103,7 @@ namespace Juniper.Collections.Tests
                 ("a", "b", 1));
             graph.Solve();
 
-            var route = graph.GetRoute("a", "k");
+            var route = graph.FindRoute("a", "k");
 
             Assert.IsNotNull(route);
             Assert.AreEqual(10, route.Cost);
@@ -118,7 +118,7 @@ namespace Juniper.Collections.Tests
                 ("c", "d", 1));
             graph.Solve();
 
-            var route = graph.GetRoute("a", "d");
+            var route = graph.FindRoute("a", "d");
 
             Assert.IsNull(route);
         }
@@ -133,9 +133,9 @@ namespace Juniper.Collections.Tests
                 ("c", "d", 1));
             graph.Solve();
 
-            var routeA = graph.GetRoute("a", "d");
-            var routeB = graph.GetRoute("d", "a");
-            var paths = graph.GetRoutes("d");
+            var routeA = graph.FindRoute("a", "d");
+            var routeB = graph.FindRoute("d", "a");
+            var paths = graph.FindRoutes("d");
 
             Assert.IsNotNull(routeA);
             Assert.IsNotNull(routeB);
@@ -155,7 +155,7 @@ namespace Juniper.Collections.Tests
                 ("a", "d", 1));
             graph.Solve();
 
-            var route = graph.GetRoute("a", "d");
+            var route = graph.FindRoute("a", "d");
 
             Assert.IsNotNull(route);
             Assert.AreEqual(1, route.Cost);
@@ -172,11 +172,11 @@ namespace Juniper.Collections.Tests
                 ("a", "d", 1));
 
             graph.Solve();
-            var routeA = graph.GetRoute("a", "d");
+            var routeA = graph.FindRoute("a", "d");
 
             graph.Remove("a", "d");
             graph.Solve();
-            var routeB = graph.GetRoute("a", "d");
+            var routeB = graph.FindRoute("a", "d");
 
             Assert.IsNotNull(routeA);
             Assert.IsNotNull(routeB);
@@ -201,12 +201,12 @@ namespace Juniper.Collections.Tests
                 (3464, end, 1));
             graph.Solve();
 
-            var routeA = graph.GetRoute(start, end);
+            var routeA = graph.FindRoute(start, end);
 
             graph.SetConnection(4673, 1371, 1);
             graph.Solve();
 
-            var routeB = graph.GetRoute(start, end);
+            var routeB = graph.FindRoute(start, end);
 
             Assert.IsNotNull(routeA);
             Assert.IsNotNull(routeB);
@@ -232,13 +232,13 @@ namespace Juniper.Collections.Tests
                 (3464, end, 1));
             graph.Solve();
 
-            var routeA = graph.GetRoute(start, end);
+            var routeA = graph.FindRoute(start, end);
             Assert.IsNotNull(routeA);
 
             graph.SetConnection(1371, 3464, 2);
             graph.Solve();
 
-            var routeB = graph.GetRoute(start, end);
+            var routeB = graph.FindRoute(start, end);
 
             Assert.IsNotNull(routeB);
             Assert.AreNotEqual(routeA, routeB);
@@ -256,9 +256,9 @@ namespace Juniper.Collections.Tests
                 (3, 0, 1));
             graph.Solve();
 
-            var routeA = graph.GetRoute(0, 1);
-            var routeB = graph.GetRoute(0, 2);
-            var routeC = graph.GetRoute(0, 3);
+            var routeA = graph.FindRoute(0, 1);
+            var routeB = graph.FindRoute(0, 2);
+            var routeC = graph.FindRoute(0, 3);
 
             Assert.IsNotNull(routeA);
             Assert.IsNotNull(routeB);
@@ -278,7 +278,7 @@ namespace Juniper.Collections.Tests
                 (2, 1, 1));
             graph.Solve();
 
-            var route = graph.GetRoute(0, 1);
+            var route = graph.FindRoute(0, 1);
 
             Assert.IsNotNull(route);
             Assert.AreEqual(2, route.Cost);
@@ -319,13 +319,13 @@ namespace Juniper.Collections.Tests
                 (3464, end, 1));
             graph.Solve();
 
-            var routeA = graph.GetRoute(start, end);
+            var routeA = graph.FindRoute(start, end);
 
             var bytes = factory.Serialize(graph);
             graph = factory.Deserialize(bytes);
             graph.Solve();
 
-            var routeB = graph.GetRoute(start, end);
+            var routeB = graph.FindRoute(start, end);
 
             Assert.IsNotNull(routeA);
             Assert.IsNotNull(routeB);
