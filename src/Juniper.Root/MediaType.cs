@@ -137,7 +137,31 @@ namespace Juniper
 
         public bool Matches(FileInfo file)
         {
+            if(file is null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+
             return Matches(file.Name);
+        }
+
+        public string AddExtension(string fileName)
+        {
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (PrimaryExtension is object)
+            {
+                var currentExtension = PathExt.GetShortExtension(fileName);
+                if (Extensions.IndexOf(currentExtension) == -1)
+                {
+                    fileName += "." + PrimaryExtension;
+                }
+            }
+
+            return fileName;
         }
 
         public bool Equals(MediaType other)
