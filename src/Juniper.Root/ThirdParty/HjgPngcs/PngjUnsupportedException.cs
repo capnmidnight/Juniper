@@ -28,8 +28,8 @@ namespace Hjg.Pngcs
         {
         }
 
-        protected PngjUnsupportedException(SerializationInfo serializationInfo, StreamingContext streamingContext)
-            : base(serializationInfo, streamingContext)
+        protected PngjUnsupportedException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
         }
     }
