@@ -267,16 +267,6 @@ namespace Hjg.Pngcs
 #endif
         }
 
-        public static void InitCrcForTests(PngReader pngr)
-        {
-            pngr.InitCrctest();
-        }
-
-        public static long GetCrctestVal(PngReader pngr)
-        {
-            return pngr.GetCrctestVal();
-        }
-
         internal static void Log(string p, Exception e)
         {
             Console.Error.WriteLine(p);

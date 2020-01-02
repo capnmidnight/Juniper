@@ -1010,29 +1010,5 @@ namespace Hjg.Pngcs
         {
             unpackedMode = unPackedMode;
         }
-
-        /**
-         * @see PngReader#setUnpackedMode(boolean)
-         */
-
-        public bool IsUnpackedMode()
-        {
-            return unpackedMode;
-        }
-
-        public void SetCrcCheckDisabled()
-        {
-            crcEnabled = false;
-        }
-
-        internal long GetCrctestVal()
-        {
-            return crctest.GetValue();
-        }
-
-        internal void InitCrctest()
-        {
-            crctest = new Adler32();
-        }
     }
 }

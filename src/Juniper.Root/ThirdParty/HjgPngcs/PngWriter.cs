@@ -739,11 +739,6 @@ namespace Hjg.Pngcs
             filterStrat = new FilterWriteStrategy(ImgInfo, filterType);
         }
 
-        public bool IsUnpackedMode()
-        {
-            return unpackedMode;
-        }
-
         public void SetUseUnPackedMode(bool useUnpackedMode)
         {
             unpackedMode = useUnpackedMode;
