@@ -34,7 +34,7 @@ namespace System
             while (q.Count > 0)
             {
                 var here = q.Dequeue();
-                if (here != null)
+                if (here is object)
                 {
                     sb.AppendLine(here.ToShortString(string.Empty));
                     sb.AppendLine(here.StackTrace);

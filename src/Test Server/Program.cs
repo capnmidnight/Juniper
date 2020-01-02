@@ -42,7 +42,7 @@ namespace Juniper.HTTP
         [Route("connect/")]
         public static Task AcceptWebSocketAsync(WebSocketConnection socket)
         {
-            if (socket != null)
+            if (socket is object)
             {
                 socket.Message += Socket_Message;
                 socket.Error += Socket_Error;

@@ -8,7 +8,7 @@ namespace Juniper.NeuroSky
         {
             WriteLine($"MindWave version {MindWaveAdapter.Version}");
             using var device = MindWaveAdapter.FindAdapter();
-            if (device == null)
+            if (device is null)
             {
                 WriteLine("No device available");
             }

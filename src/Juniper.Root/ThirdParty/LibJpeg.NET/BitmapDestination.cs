@@ -251,7 +251,7 @@ namespace BitMiracle.LibJpeg
             var num_colors = m_parameters.ActualNumberOfColors;
 
             int i;
-            if (colormap != null)
+            if (colormap is object)
             {
                 if (m_parameters.ComponentsPerSample == 3)
                 {

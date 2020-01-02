@@ -167,7 +167,7 @@ namespace Juniper.HTTP.Server
         {
             block = null;
 
-            if (value != null)
+            if (value is object)
             {
                 var parts = value.SplitX('/');
 
@@ -181,7 +181,7 @@ namespace Juniper.HTTP.Server
                 }
             }
 
-            return block != null;
+            return block is object;
         }
 
         private static void ValidateStart(IPAddress start)

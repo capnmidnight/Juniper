@@ -50,7 +50,7 @@ namespace Hjg.Pngcs.Zlib
 
         private static uint[] InitializeTable(uint polynomial)
         {
-            if (polynomial == defaultPolynomial && defaultTable != null)
+            if (polynomial == defaultPolynomial && defaultTable is object)
             {
                 return defaultTable;
             }

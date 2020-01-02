@@ -53,7 +53,7 @@ namespace Juniper.HTTP.Client.REST
 
         public override bool Equals(object obj)
         {
-            return obj != null
+            return obj is object
                 && obj is AbstractRequest<MediaTypeT> req
                 && req.CacheID == CacheID;
         }
@@ -173,7 +173,7 @@ namespace Juniper.HTTP.Client.REST
                 request.Header("Upgrade-Insecure-Requests", 1);
             }
 
-            if (MediaType != null)
+            if (MediaType is object)
             {
                 request.Accept = MediaType;
             }
@@ -181,7 +181,7 @@ namespace Juniper.HTTP.Client.REST
             ModifyRequest(request);
 
             var info = GetBodyInfo();
-            if (info == null)
+            if (info is null)
             {
                 request.ContentLength = 0;
             }
@@ -213,7 +213,7 @@ namespace Juniper.HTTP.Client.REST
             prog = progs[1];
             var response = await GetResponseAsync(progs[0]).ConfigureAwait(false);
             var stream = response.GetResponseStream();
-            if (prog != null)
+            if (prog is object)
             {
                 var length = response.ContentLength;
                 stream = new ProgressStream(stream, length, prog);

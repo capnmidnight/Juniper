@@ -64,7 +64,7 @@ namespace Hjg.Pngcs.Chunks
         public double[] GetDpi()
         {
             var c = chunkList.GetById1(ChunkHelper.pHYs, true);
-            if (c == null)
+            if (c is null)
             {
                 return new double[] { -1, -1 };
             }
@@ -153,7 +153,7 @@ namespace Hjg.Pngcs.Chunks
         public string GetTimeAsString()
         {
             var c = GetTime();
-            return c == null ? "" : c.GetAsString();
+            return c is null ? "" : c.GetAsString();
         }
 
         // //////////// TEXT

@@ -24,12 +24,12 @@ namespace Juniper.IO
             ContentReference fileRef,
             IProgress prog = null)
         {
-            if (fileRef == null)
+            if (fileRef is null)
             {
                 throw new ArgumentNullException(nameof(fileRef));
             }
 
-            if (deserializer == null)
+            if (deserializer is null)
             {
                 throw new ArgumentNullException(nameof(deserializer));
             }
@@ -38,7 +38,7 @@ namespace Juniper.IO
             var stream = await layer
                 .GetStreamAsync(fileRef, progs[0])
                 .ConfigureAwait(false);
-            if (stream == null)
+            if (stream is null)
             {
                 return default;
             }

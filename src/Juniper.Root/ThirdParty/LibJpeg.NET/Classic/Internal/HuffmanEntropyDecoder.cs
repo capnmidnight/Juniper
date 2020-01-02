@@ -1526,13 +1526,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             var htbl = isDC ? cinfo.m_dc_huff_tbl_ptrs[tblno] : cinfo.m_ac_huff_tbl_ptrs[tblno];
-            if (htbl == null)
+            if (htbl is null)
             {
                 cinfo.ErrExit(JMessageCode.JERR_NO_HUFF_TABLE, tblno);
             }
 
             /* Allocate a workspace if we haven't already done so. */
-            if (dtbl == null)
+            if (dtbl is null)
             {
                 dtbl = new DDerivedTable();
             }

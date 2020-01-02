@@ -89,7 +89,7 @@ namespace Juniper.Compression.Tar.GZip
         public static void CopyFile(this TarArchive tar, string entryPath, Stream copyTo, IProgress prog)
         {
             var entry = tar.GetEntry(entryPath);
-            if (entry == null)
+            if (entry is null)
             {
                 throw new FileNotFoundException($"Could not find file {entryPath} in tar file.");
             }
@@ -151,7 +151,7 @@ namespace Juniper.Compression.Tar.GZip
         {
             var entry = tar.GetEntry(entryPath);
             var stream = entry.Open();
-            if (prog != null)
+            if (prog is object)
             {
                 stream = new ProgressStream(stream, entry.Length, prog);
             }

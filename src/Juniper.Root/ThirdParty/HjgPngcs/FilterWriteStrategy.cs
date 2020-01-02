@@ -79,7 +79,7 @@ namespace Hjg.Pngcs
         {
             lastRowTested = rown;
             lastSums[(int)type] = sum;
-            if (histo != null)
+            if (histo is object)
             {
                 double v, alfa, beta, e;
                 alfa = rown == 0 ? 0.0 : 0.3;

@@ -142,8 +142,8 @@ namespace System
         public static bool DiffersFrom(this float? here, float? there)
         {
             return here.HasValue != there.HasValue
-                || (here != null
-                    && there != null
+                || (here is object
+                    && there is object
                     && Abs(there.Value - here.Value) > ALPHA);
         }
 
@@ -155,7 +155,7 @@ namespace System
         /// <returns></returns>
         public static float? Repeat(this float? value, float range)
         {
-            if (value == null)
+            if (value is null)
             {
                 return null;
             }

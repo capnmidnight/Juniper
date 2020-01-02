@@ -50,7 +50,7 @@ namespace Juniper.World.GIS.Google.Geocoding
         {
             var key = AddressComponent.HashAddressComponents(types);
             var results = addressComponentLookup.Get(key);
-            if (results == null)
+            if (results is null)
             {
                 var subTypes = types.Append(AddressComponentTypes.political);
                 var subKey = AddressComponent.HashAddressComponents(subTypes);

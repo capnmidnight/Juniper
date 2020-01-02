@@ -255,7 +255,7 @@ namespace System.Collections.Generic
             var anySucceed = false;
             foreach (var e in enums)
             {
-                if (e != null)
+                if (e is object)
                 {
                     anyExist = true;
                     object value;
@@ -271,7 +271,7 @@ namespace System.Collections.Generic
                     }
 #pragma warning restore CA1031 // Do not catch general exception types
 
-                    if (value != null)
+                    if (value is object)
                     {
                         yield return value;
                     }

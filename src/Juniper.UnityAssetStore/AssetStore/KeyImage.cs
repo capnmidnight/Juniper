@@ -158,57 +158,57 @@ namespace Juniper.UnityAssetStore
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            if (package_version_id != null)
+            if (package_version_id is object)
             {
                 info.AddValue(nameof(package_version_id), package_version_id);
             }
 
-            if (small != null)
+            if (small is object)
             {
                 info.AddValue(nameof(small), small);
             }
 
-            if (small_legacy != null)
+            if (small_legacy is object)
             {
                 info.AddValue(nameof(small_legacy), small_legacy);
             }
 
-            if (medium != null)
+            if (medium is object)
             {
                 info.AddValue(nameof(medium), medium);
             }
 
-            if (big != null)
+            if (big is object)
             {
                 info.AddValue(nameof(big), big);
             }
 
-            if (big_legacy != null)
+            if (big_legacy is object)
             {
                 info.AddValue(nameof(big_legacy), big_legacy);
             }
 
-            if (icon != null)
+            if (icon is object)
             {
                 info.AddValue(nameof(icon), icon);
             }
 
-            if (icon24 != null)
+            if (icon24 is object)
             {
                 info.AddValue(nameof(icon24), icon24);
             }
 
-            if (icon25 != null)
+            if (icon25 is object)
             {
                 info.AddValue(nameof(icon25), icon25);
             }
 
-            if (icon75 != null)
+            if (icon75 is object)
             {
                 info.AddValue(nameof(icon75), icon75);
             }
 
-            if (facebook != null)
+            if (facebook is object)
             {
                 info.AddValue(nameof(facebook), facebook);
             }

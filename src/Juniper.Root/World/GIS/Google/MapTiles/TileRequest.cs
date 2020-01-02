@@ -133,7 +133,7 @@ namespace Juniper.World.GIS.Google.MapTiles
                     }
                 }
 
-                if (Path != null)
+                if (Path is object)
                 {
                     SetQuery(nameof(Path), Path);
                 }

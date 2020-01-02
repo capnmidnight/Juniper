@@ -71,7 +71,7 @@ namespace Juniper.Speech
                       client.OutputFormat = e.Format;
                       var newStream = await client.GetAudioDataStreamAsync(e.Text, e.Voice, e.RateChange, e.PitchChange)
                           .ConfigureAwait(true);
-                      if (e.FileName != null)
+                      if (e.FileName is object)
                       {
                           SaveStream(newStream, e.FileName);
                       }
@@ -108,7 +108,7 @@ namespace Juniper.Speech
 
         private static void StopPlayback()
         {
-            if (player.Stream != null)
+            if (player.Stream is object)
             {
                 var stream = player.Stream;
                 player.Stop();

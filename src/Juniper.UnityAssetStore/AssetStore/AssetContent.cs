@@ -65,12 +65,12 @@ namespace Juniper.UnityAssetStore
             info.AddValue(nameof(label), label);
             info.AddValue(nameof(folder), folder);
 
-            if (asset_id != null)
+            if (asset_id is object)
             {
                 info.AddValue(nameof(asset_id), asset_id);
             }
 
-            if (guid != null)
+            if (guid is object)
             {
                 info.AddValue(nameof(guid), guid);
             }

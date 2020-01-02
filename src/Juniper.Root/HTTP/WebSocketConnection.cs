@@ -157,7 +157,7 @@ namespace Juniper.HTTP
 
         private void WebSocketConnection_Data(object sender, byte[] data)
         {
-            if (DataMessage != null)
+            if (DataMessage is object)
             {
                 var dataMessageDeserializer = new BinaryFactory<DataMessage>();
                 if (dataMessageDeserializer.TryDeserialize(data, out var dataMsg))

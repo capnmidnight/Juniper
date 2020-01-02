@@ -62,6 +62,7 @@ namespace Juniper.Compression
         public bool Contains(CompressedFileInfo other)
         {
             return !IsFile
+                && other is object
                 && other.pathParts.Length >= pathParts.Length
                 && other.pathParts.Take(pathParts.Length).Matches(pathParts);
         }

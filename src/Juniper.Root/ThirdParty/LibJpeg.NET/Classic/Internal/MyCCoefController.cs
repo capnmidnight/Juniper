@@ -87,7 +87,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             switch (pass_mode)
             {
                 case JBufMode.PassThrough:
-                if (m_whole_image[0] != null)
+                if (m_whole_image[0] is object)
                 {
                     m_cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
                 }
@@ -96,7 +96,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 case JBufMode.SaveAndPass:
                 case JBufMode.CrankDest:
-                if (m_whole_image[0] == null)
+                if (m_whole_image[0] is null)
                 {
                     m_cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
                 }

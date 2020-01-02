@@ -120,7 +120,7 @@ namespace Hjg.Pngcs.Chunks
 
         private void AllocData()
         {
-            if (Data == null || Data.Length < Len)
+            if (Data is null || Data.Length < Len)
             {
                 Data = new byte[Len];
             }

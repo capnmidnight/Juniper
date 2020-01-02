@@ -700,7 +700,7 @@ namespace BitMiracle.LibJpeg.Classic
         {
             for (var i = 0; i < JpegConstants.NUM_QUANT_TBLS; i++)
             {
-                if (m_quant_tbl_ptrs[i] != null)
+                if (m_quant_tbl_ptrs[i] is object)
                 {
                     m_quant_tbl_ptrs[i].SentTable = suppress;
                 }
@@ -708,12 +708,12 @@ namespace BitMiracle.LibJpeg.Classic
 
             for (var i = 0; i < JpegConstants.NUM_HUFF_TBLS; i++)
             {
-                if (m_dc_huff_tbl_ptrs[i] != null)
+                if (m_dc_huff_tbl_ptrs[i] is object)
                 {
                     m_dc_huff_tbl_ptrs[i].SentTable = suppress;
                 }
 
-                if (m_ac_huff_tbl_ptrs[i] != null)
+                if (m_ac_huff_tbl_ptrs[i] is object)
                 {
                     m_ac_huff_tbl_ptrs[i].SentTable = suppress;
                 }
@@ -750,7 +750,7 @@ namespace BitMiracle.LibJpeg.Classic
                 m_master.PrepareForPass();
                 for (iMCU_row = 0; iMCU_row < m_total_iMCU_rows; iMCU_row++)
                 {
-                    if (prog != null)
+                    if (prog is object)
                     {
                         prog.PassCounter = iMCU_row;
                         prog.PassLimit = m_total_iMCU_rows;
@@ -917,7 +917,7 @@ namespace BitMiracle.LibJpeg.Classic
             * Array is made permanent in case application wants to compress
             * multiple images at same param settings.
             */
-            if (compInfo == null)
+            if (compInfo is null)
             {
                 compInfo = JpegComponentInfo.CreateArrayOfComponents(JpegConstants.MAX_COMPONENTS);
             }
@@ -1247,7 +1247,7 @@ namespace BitMiracle.LibJpeg.Classic
                 ErrExit(JMessageCode.JERR_DQT_INDEX, which_tbl);
             }
 
-            if (m_quant_tbl_ptrs[which_tbl] == null)
+            if (m_quant_tbl_ptrs[which_tbl] is null)
             {
                 m_quant_tbl_ptrs[which_tbl] = new JQuantTable();
             }
@@ -1355,7 +1355,7 @@ namespace BitMiracle.LibJpeg.Classic
             * object, we try to re-use previously allocated space, and we allocate
             * enough space to handle YCC even if initially asked for grayscale.
             */
-            if (scriptSpace == null || m_script_space_size < nscans)
+            if (scriptSpace is null || m_script_space_size < nscans)
             {
                 m_script_space_size = Math.Max(nscans, 10);
                 scriptSpace = new JpegScanInfo[m_script_space_size];
@@ -1484,7 +1484,7 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* Call progress monitor hook if present */
-            if (prog != null)
+            if (prog is object)
             {
                 prog.PassCounter = m_next_scanline;
                 prog.PassLimit = m_image_height;
@@ -1536,7 +1536,7 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* Call progress monitor hook if present */
-            if (prog != null)
+            if (prog is object)
             {
                 prog.PassCounter = m_next_scanline;
                 prog.PassLimit = m_image_height;
@@ -1858,7 +1858,7 @@ namespace BitMiracle.LibJpeg.Classic
             /* Validate parameters, determine derived values */
             InitialSetup(transcode_only);
 
-            if (m_scan_info != null)
+            if (m_scan_info is object)
             {
                 ValidateScript();
                 if (block_size < JpegConstants.DCTSIZE)
@@ -2326,7 +2326,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// </summary>
         private void AddHuffTable(ref JHuffmanTable htblptr, byte[] bits, byte[] val)
         {
-            if (htblptr == null)
+            if (htblptr is null)
             {
                 htblptr = new JHuffmanTable();
             }

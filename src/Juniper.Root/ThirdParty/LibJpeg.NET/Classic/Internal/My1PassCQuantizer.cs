@@ -240,7 +240,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 }
 
                 /* Create ordered-dither tables if we didn't already. */
-                if (m_odither[0] == null)
+                if (m_odither[0] is null)
                 {
                     CreateODitherTable();
                 }
@@ -253,7 +253,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 m_on_odd_row = false;
 
                 /* Allocate Floyd-Steinberg workspace if didn't already. */
-                if (m_fserrors[0] == null)
+                if (m_fserrors[0] is null)
                 {
                     AllocFsWorkspace();
                 }

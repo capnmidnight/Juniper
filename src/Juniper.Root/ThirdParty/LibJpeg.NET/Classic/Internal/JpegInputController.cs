@@ -609,14 +609,14 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 var componentInfo = m_cinfo.CompInfo[m_cinfo.m_cur_comp_info[ci]];
 
                 /* No work if we already saved Q-table for this component */
-                if (componentInfo.quant_table != null)
+                if (componentInfo.quant_table is object)
                 {
                     continue;
                 }
 
                 /* Make sure specified quantization table is present */
                 var qtblno = componentInfo.Quant_tbl_no;
-                if (qtblno < 0 || qtblno >= JpegConstants.NUM_QUANT_TBLS || m_cinfo.m_quant_tbl_ptrs[qtblno] == null)
+                if (qtblno < 0 || qtblno >= JpegConstants.NUM_QUANT_TBLS || m_cinfo.m_quant_tbl_ptrs[qtblno] is null)
                 {
                     m_cinfo.ErrExit(JMessageCode.JERR_NO_QUANT_TABLE, qtblno);
                 }

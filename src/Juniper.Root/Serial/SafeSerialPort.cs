@@ -43,7 +43,7 @@ namespace Juniper.Serial
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (base.Container != null))
+            if (disposing && (base.Container is object))
             {
                 base.Container.Dispose();
             }

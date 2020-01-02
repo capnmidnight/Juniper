@@ -31,7 +31,7 @@ namespace Juniper.Azure.CognitiveServices
             {
                 base.OutputFormat = value;
 
-                if (audioDecoder != null)
+                if (audioDecoder is object)
                 {
                     CheckDecoderFormat();
                 }

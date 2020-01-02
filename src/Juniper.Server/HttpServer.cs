@@ -177,7 +177,7 @@ namespace Juniper.HTTP.Server
             foreach (var method in type.GetMethods(flags))
             {
                 var route = method.GetCustomAttribute<RouteAttribute>();
-                if (route != null)
+                if (route is object)
                 {
                     var parameters = method.GetParameters();
                     if (method.ReturnType == typeof(Task)
@@ -213,7 +213,7 @@ or
                             handler = new WebSocketRouteHandler(name, source, method, route);
                         }
 
-                        if (handler != null)
+                        if (handler is object)
                         {
                             AddController(handler);
                         }
@@ -280,7 +280,7 @@ or
 
         public virtual void Start()
         {
-            if (HttpsPort != null)
+            if (HttpsPort is object)
             {
                 if (!AutoAssignCertificate)
                 {
@@ -320,13 +320,13 @@ or
                 }
             }
 
-            if (HttpPort != null
+            if (HttpPort is object
                 || RedirectHttp2Https)
             {
                 if (RedirectHttp2Https)
                 {
-                    if (HttpPort == null
-                        && HttpsPort != null)
+                    if (HttpPort is null
+                        && HttpsPort is object)
                     {
                         if (HttpsPort == 443)
                         {
@@ -348,15 +348,15 @@ or
                 SetPrefix("http", HttpPort.Value);
             }
 
-            if (HttpPort == null
-                && HttpsPort == null)
+            if (HttpPort is null
+                && HttpsPort is null)
             {
                 OnError(this, new InvalidOperationException("No HTTP or HTTPS port specified."));
             }
             else
             {
 #if !DEBUG
-                if (HttpPort != null
+                if (HttpPort is object
                     && routes.Any(route =>
                         !(route is IPBanController)
                         && !(route is HttpsRedirectController)
@@ -385,8 +385,8 @@ or
 #if DEBUG
         public Process StartBrowser(string startPage = null)
         {
-            if (HttpsPort == null
-                && HttpPort == null)
+            if (HttpsPort is null
+                && HttpPort is null)
             {
                 throw new InvalidOperationException("Server is not listening on any ports");
             }
@@ -396,7 +396,7 @@ or
             var protocol = "http";
             var port = "";
 
-            if (HttpsPort != null)
+            if (HttpsPort is object)
             {
                 protocol = "https";
                 if (HttpsPort != 443)
@@ -404,7 +404,7 @@ or
                     port = HttpsPort.Value.ToString(CultureInfo.InvariantCulture);
                 }
             }
-            else if (HttpPort != null
+            else if (HttpPort is object
                 && HttpPort != 80)
             {
                 port = HttpPort.Value.ToString(CultureInfo.InvariantCulture);

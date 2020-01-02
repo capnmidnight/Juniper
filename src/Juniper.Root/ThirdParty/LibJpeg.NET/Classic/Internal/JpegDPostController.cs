@@ -91,7 +91,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                      * color quantization; in that case, jinit_d_post_controller did not
                      * allocate a strip buffer.  Use the virtual-array buffer as workspace.
                      */
-                    if (m_buffer == null)
+                    if (m_buffer is null)
                     {
                         m_buffer = m_whole_image.Access(0, m_strip_height);
                     }
@@ -106,7 +106,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 break;
                 case JBufMode.SaveAndPass:
                 /* First pass of 2-pass quantization */
-                if (m_whole_image == null)
+                if (m_whole_image is null)
                 {
                     m_cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
                 }
@@ -115,7 +115,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 break;
                 case JBufMode.CrankDest:
                 /* Second pass of 2-pass quantization */
-                if (m_whole_image == null)
+                if (m_whole_image is null)
                 {
                     m_cinfo.ErrExit(JMessageCode.JERR_BAD_BUFFER_MODE);
                 }

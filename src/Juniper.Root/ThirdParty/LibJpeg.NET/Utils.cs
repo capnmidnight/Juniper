@@ -7,7 +7,7 @@ namespace BitMiracle.LibJpeg
     {
         public static MemoryStream CopyStream(Stream stream)
         {
-            if (stream == null)
+            if (stream is null)
             {
                 throw new ArgumentNullException(nameof(stream));
             }

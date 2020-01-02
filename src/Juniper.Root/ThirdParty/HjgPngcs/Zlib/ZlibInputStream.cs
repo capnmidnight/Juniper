@@ -31,13 +31,13 @@ namespace Hjg.Pngcs.Zlib
                 doInit();
             }
 
-            if (deflateStream == null && count > 0)
+            if (deflateStream is null && count > 0)
             {
                 initStream();
             }
             // we dont't check CRC on reading
             var r = deflateStream.Read(array, offset, count);
-            if (r < 1 && crcread == null)
+            if (r < 1 && crcread is null)
             {  // deflater has ended. we try to read next 4 bytes from raw stream (crc)
                 crcread = new byte[4];
                 for (var i = 0; i < 4; i++)
@@ -63,7 +63,7 @@ namespace Hjg.Pngcs.Zlib
 
             closed = true;
             deflateStream?.Close();
-            if (crcread == null)
+            if (crcread is null)
             { // eat trailing 4 bytes
                 crcread = new byte[4];
                 for (var i = 0; i < 4; i++)
@@ -80,7 +80,7 @@ namespace Hjg.Pngcs.Zlib
 
         private void initStream()
         {
-            if (deflateStream != null)
+            if (deflateStream is object)
             {
                 return;
             }

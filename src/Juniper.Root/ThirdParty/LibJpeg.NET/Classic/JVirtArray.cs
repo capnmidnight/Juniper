@@ -43,7 +43,7 @@ namespace BitMiracle.LibJpeg.Classic
             ErrorProcessor = null;
             buffer = allocator(width, height);
 
-            Debug.Assert(buffer != null);
+            Debug.Assert(buffer is object);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace BitMiracle.LibJpeg.Classic
             /* debugging check */
             if (startRow + numberOfRows > buffer.Length)
             {
-                if (ErrorProcessor != null)
+                if (ErrorProcessor is object)
                 {
                     ErrorProcessor.ErrExit(JMessageCode.JERR_BAD_VIRTUAL_ACCESS);
                 }

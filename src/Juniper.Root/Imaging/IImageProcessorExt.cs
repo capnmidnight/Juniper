@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Threading.Tasks;
 
@@ -13,7 +13,7 @@ namespace Juniper.Imaging
         {
             prog.Report(0);
 
-            if (images == null)
+            if (images is null)
             {
                 throw new ArgumentNullException($"Parameter {nameof(images)} must not be null.");
             }
@@ -35,7 +35,7 @@ namespace Juniper.Imaging
                 for (var x = 0; x < columns; ++x)
                 {
                     var img = images[y, x];
-                    if (img != null)
+                    if (img is object)
                     {
                         if (!anyNotNull)
                         {
@@ -45,7 +45,7 @@ namespace Juniper.Imaging
                         }
 
                         anyNotNull = true;
-                        if (img != null
+                        if (img is object
                             && (codec.GetWidth(img) != tileWidth
                                 || codec.GetHeight(img) != tileHeight))
                         {

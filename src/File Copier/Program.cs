@@ -102,7 +102,7 @@ namespace FileCopier
                                          orderby version descending
                                          select dir)
                                     .FirstOrDefault();
-                    if (maxVersionDir == null)
+                    if (maxVersionDir is null)
                     {
                         WriteLine("No versions of Newtonsoft package installed");
                     }
@@ -122,7 +122,7 @@ namespace FileCopier
                                                orderby version descending
                                                select dir)
                                             .FirstOrDefault();
-                            if (suitableDir == null)
+                            if (suitableDir is null)
                             {
                                 WriteLine("No NetStandard versions found");
                             }

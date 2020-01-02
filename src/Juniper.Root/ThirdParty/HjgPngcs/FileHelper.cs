@@ -10,7 +10,7 @@ namespace Hjg.Pngcs
     {
         public static Stream OpenFileForReading(string file)
         {
-            if (file == null || !File.Exists(file))
+            if (file is null || !File.Exists(file))
             {
                 throw new PngjInputException("Cannot open file for reading (" + file + ")");
             }

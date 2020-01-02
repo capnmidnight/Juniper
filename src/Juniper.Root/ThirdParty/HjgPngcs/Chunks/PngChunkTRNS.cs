@@ -81,7 +81,7 @@ namespace Hjg.Pngcs.Chunks
             red = otherx.red;
             green = otherx.green;
             blue = otherx.blue;
-            if (otherx.paletteAlpha != null)
+            if (otherx.paletteAlpha is object)
             {
                 paletteAlpha = new int[otherx.paletteAlpha.Length];
                 System.Array.Copy(otherx.paletteAlpha, 0, paletteAlpha, 0, paletteAlpha.Length);

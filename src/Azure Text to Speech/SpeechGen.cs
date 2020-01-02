@@ -34,7 +34,7 @@ namespace Juniper.Speech
             else
             {
                 var head = exception;
-                while (head != null)
+                while (head is object)
                 {
                     textBox.Text += head.Message;
                     textBox.Text += Environment.NewLine;

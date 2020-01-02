@@ -120,7 +120,7 @@ namespace NLayer.NAudioSupport
 
         public void Reset()
         {
-            if (_frame != null)
+            if (_frame is object)
             {
                 _readOffset = (_frame.CrcPresent ? 2 : 0) + 4;
             }

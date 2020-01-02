@@ -314,8 +314,8 @@ namespace Hjg.Pngcs.Chunks
                 return true;
             }
 
-            if (c1 == null
-                || c2 == null
+            if (c1 is null
+                || c2 is null
                 || !c1.Id.Equals(c2.Id, System.StringComparison.Ordinal))
             {
                 return false;

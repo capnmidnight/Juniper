@@ -69,7 +69,7 @@ namespace BitMiracle.LibJpeg
         /// arbitrary format (BMP, Jpeg, GIF, PNG, TIFF, e.t.c)</param>
         public JpegImage(string fileName)
         {
-            if (fileName == null)
+            if (fileName is null)
             {
                 throw new ArgumentNullException(nameof(fileName));
             }
@@ -97,7 +97,7 @@ namespace BitMiracle.LibJpeg
         /// <seealso cref="SampleRow"/>
         public JpegImage(SampleRow[] sampleData, Colorspace colorspace)
         {
-            if (sampleData == null)
+            if (sampleData is null)
             {
                 throw new ArgumentNullException(nameof(sampleData));
             }
@@ -258,12 +258,12 @@ namespace BitMiracle.LibJpeg
         {
             get
             {
-                if (m_compressedData == null)
+                if (m_compressedData is null)
                 {
                     Compress(new CompressionParameters());
                 }
 
-                Debug.Assert(m_compressedData != null);
+                Debug.Assert(m_compressedData is object);
                 Debug.Assert(m_compressedData.Length != 0);
 
                 return m_compressedData;
@@ -274,12 +274,12 @@ namespace BitMiracle.LibJpeg
         {
             get
             {
-                if (m_decompressedData == null)
+                if (m_decompressedData is null)
                 {
                     FillDecompressedData();
                 }
 
-                Debug.Assert(m_decompressedData != null);
+                Debug.Assert(m_decompressedData is object);
 
                 return m_decompressedData;
             }
@@ -290,7 +290,7 @@ namespace BitMiracle.LibJpeg
         {
             get
             {
-                if (m_bitmap == null)
+                if (m_bitmap is null)
                 {
                     var position = CompressedData.Position;
                     m_bitmap = new Bitmap(CompressedData);
@@ -307,7 +307,7 @@ namespace BitMiracle.LibJpeg
         /// </summary>
         internal void AddSampleRow(SampleRow row)
         {
-            if (row == null)
+            if (row is null)
             {
                 throw new ArgumentNullException(nameof(row));
             }
@@ -320,7 +320,7 @@ namespace BitMiracle.LibJpeg
         /// </summary>
         private static bool IsCompressed(Stream imageData)
         {
-            if (imageData == null)
+            if (imageData is null)
             {
                 return false;
             }
@@ -372,7 +372,7 @@ namespace BitMiracle.LibJpeg
 
         private void Compress(CompressionParameters parameters)
         {
-            Debug.Assert(m_rows != null);
+            Debug.Assert(m_rows is object);
             Debug.Assert(m_rows.Count != 0);
 
             var source = new RawImage(m_rows, Colorspace);
@@ -381,7 +381,7 @@ namespace BitMiracle.LibJpeg
 
         private void Compress(IRawImage source, CompressionParameters parameters)
         {
-            Debug.Assert(source != null);
+            Debug.Assert(source is object);
 
             if (!NeedCompressWith(parameters))
             {
@@ -400,7 +400,7 @@ namespace BitMiracle.LibJpeg
 
         private bool NeedCompressWith(CompressionParameters parameters)
         {
-            return m_compressedData == null
+            return m_compressedData is null
                 || m_compressionParameters?.Equals(parameters) != true;
         }
 
@@ -412,7 +412,7 @@ namespace BitMiracle.LibJpeg
 
         private void FillDecompressedData()
         {
-            Debug.Assert(m_decompressedData == null);
+            Debug.Assert(m_decompressedData is null);
 
             m_decompressedData = new MemoryStream();
             var dest = new BitmapDestination(m_decompressedData);
@@ -465,7 +465,7 @@ namespace BitMiracle.LibJpeg
 
         private void FillSamplesFromBitmap()
         {
-            Debug.Assert(m_bitmap != null);
+            Debug.Assert(m_bitmap is object);
 
             for (var y = 0; y < Height; ++y)
             {

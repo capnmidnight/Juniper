@@ -52,7 +52,7 @@ namespace Juniper.Imaging
                     {
                         prog.Report((y * columns) + x, rows * columns);
                         var img = images[y, x];
-                        if (img != null)
+                        if (img is object)
                         {
                             images[y, x] = null;
                             var imageX = y * tileWidth;

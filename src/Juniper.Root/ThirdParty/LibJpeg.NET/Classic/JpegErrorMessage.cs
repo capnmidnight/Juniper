@@ -153,7 +153,7 @@ namespace BitMiracle.LibJpeg.Classic
         public virtual string FormatMessage()
         {
             var msgtext = GetMessageText(msgCode);
-            if (msgtext == null)
+            if (msgtext is null)
             {
                 msgParam = new object[] { msgCode };
                 msgtext = GetMessageText(0);

@@ -327,7 +327,7 @@ namespace Hjg.Pngcs
         /// <param name="b"></param>
         internal int[] GetScanLineCopy(int[] b)
         {
-            if (b == null || b.Length < Scanline.Length)
+            if (b is null || b.Length < Scanline.Length)
             {
                 b = new int[Scanline.Length];
             }

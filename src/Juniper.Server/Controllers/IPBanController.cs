@@ -44,7 +44,7 @@ namespace Juniper.HTTP.Server.Controllers
         public override bool IsMatch(HttpListenerRequest request)
         {
             var block = GetMatchingBlock(request.RemoteEndPoint.Address);
-            if (block != null)
+            if (block is object)
             {
                 return true;
             }
@@ -55,7 +55,7 @@ namespace Juniper.HTTP.Server.Controllers
                 OnWarning($"Auto-banning {block}");
                 blocks.Add(block);
 
-                if (banFile != null)
+                if (banFile is object)
                 {
                     CIDRBlock.Save(blocks, banFile);
                 }

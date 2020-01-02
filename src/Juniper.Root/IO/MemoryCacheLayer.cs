@@ -50,7 +50,7 @@ namespace Juniper.IO
                 var data = store[fileRef.ContentType][fileRef.CacheID].ToArray();
                 stream = new MemoryStream(data);
 
-                if (prog != null)
+                if (prog is object)
                 {
                     stream = new ProgressStream(stream, data.Length, prog);
                 }

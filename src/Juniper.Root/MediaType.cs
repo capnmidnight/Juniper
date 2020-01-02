@@ -95,7 +95,7 @@ namespace Juniper
         protected MediaType(string value, string[] extensions)
         {
             Value = value;
-            if (extensions == null)
+            if (extensions is null)
             {
                 extensions = Array.Empty<string>();
             }
@@ -106,12 +106,12 @@ namespace Juniper
                 PrimaryExtension = extensions[0];
             }
 
-            if (byValue == null)
+            if (byValue is null)
             {
                 byValue = new Dictionary<string, MediaType>(1000);
             }
 
-            if (byExtensions == null)
+            if (byExtensions is null)
             {
                 byExtensions = new Dictionary<string, MediaType>(1000);
             }

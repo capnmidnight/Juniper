@@ -21,10 +21,10 @@ namespace Hjg.Pngcs
         /// <returns>R G B (one byte per sample)</returns>
         public static int[] Palette2rgb(ImageLine line, PngChunkPLTE pal, PngChunkTRNS trns, int[] buf)
         {
-            var isalpha = trns != null;
+            var isalpha = trns is object;
             var channels = isalpha ? 4 : 3;
             var nsamples = line.ImgInfo.Cols * channels;
-            if (buf == null || buf.Length < nsamples)
+            if (buf is null || buf.Length < nsamples)
             {
                 buf = new int[nsamples];
             }
@@ -262,7 +262,7 @@ namespace Hjg.Pngcs
         {
             var len1 = imgInfo.SamplesPerRow;
             var len0 = imgInfo.SamplesPerRowPacked;
-            if (dst == null || dst.Length < len1)
+            if (dst is null || dst.Length < len1)
             {
                 dst = new int[len1];
             }
@@ -283,7 +283,7 @@ namespace Hjg.Pngcs
         {
             var len1 = imgInfo.SamplesPerRow;
             var len0 = imgInfo.SamplesPerRowPacked;
-            if (dst == null || dst.Length < len1)
+            if (dst is null || dst.Length < len1)
             {
                 dst = new byte[len1];
             }
@@ -303,7 +303,7 @@ namespace Hjg.Pngcs
         public static int[] Pack(ImageInfo imgInfo, int[] src, int[] dst, bool scale)
         {
             var len0 = imgInfo.SamplesPerRowPacked;
-            if (dst == null || dst.Length < len0)
+            if (dst is null || dst.Length < len0)
             {
                 dst = new int[len0];
             }
@@ -323,7 +323,7 @@ namespace Hjg.Pngcs
         public static byte[] Pack(ImageInfo imgInfo, byte[] src, byte[] dst, bool scale)
         {
             var len0 = imgInfo.SamplesPerRowPacked;
-            if (dst == null || dst.Length < len0)
+            if (dst is null || dst.Length < len0)
             {
                 dst = new byte[len0];
             }

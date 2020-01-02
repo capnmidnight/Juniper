@@ -191,7 +191,7 @@ namespace Juniper.Primrose
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnInput(Action<string> resume)
         {
-            if (Input != null)
+            if (Input is object)
             {
                 resume(null);
             }
@@ -257,7 +257,7 @@ namespace Juniper.Primrose
 
         private bool IsFunction(Token t)
         {
-            if (t != null
+            if (t is object
                 && state.ContainsKey(t.value))
             {
                 return state[t.value] is Delegate;
@@ -364,7 +364,7 @@ namespace Juniper.Primrose
             {
                 var op = line[0];
                 line.RemoveAt(0);
-                if (op != null)
+                if (op is object)
                 {
                     if (op.type == "lineNumbers")
                     {
@@ -418,7 +418,7 @@ namespace Juniper.Primrose
                 if (program.ContainsKey(lineNumber))
                 {
                     var line = program[lineNumber];
-                    if (line != null)
+                    if (line is object)
                     {
                         return line.Clone();
                     }
@@ -639,7 +639,7 @@ namespace Juniper.Primrose
                 {
                     return Process(thenClause);
                 }
-                else if (elseClause != null)
+                else if (elseClause is object)
                 {
                     return Process(elseClause);
                 }

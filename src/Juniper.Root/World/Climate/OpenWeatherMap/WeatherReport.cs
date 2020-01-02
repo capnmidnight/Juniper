@@ -151,9 +151,9 @@ namespace Juniper.World.Climate.OpenWeatherMap
         {
             get
             {
-                if (repTime == null)
+                if (repTime is null)
                 {
-                    if (error == null)
+                    if (error is null)
                     {
                         repTime = dt.UnixTimestampToDateTime();
                     }
@@ -187,7 +187,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         {
             get
             {
-                if (loc == null && coord != null)
+                if (loc is null && coord is object)
                 {
                     loc = new LatLngPoint(coord.lat, coord.lon, 0);
                 }
@@ -205,7 +205,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         {
             get
             {
-                if (weather == null)
+                if (weather is null)
                 {
                     return "N/A";
                 }

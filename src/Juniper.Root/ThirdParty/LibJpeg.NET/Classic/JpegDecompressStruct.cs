@@ -838,7 +838,7 @@ namespace BitMiracle.LibJpeg.Classic
             * This makes it unsafe to use this manager and a different source
             * manager serially with the same JPEG object.  Caveat programmer.
             */
-            if (m_src == null)
+            if (m_src is null)
             {
                 /* first time for this JPEG object? */
                 m_src = new MySourceManager(this);
@@ -978,7 +978,7 @@ namespace BitMiracle.LibJpeg.Classic
                         }
 
                         /* Advance progress counter if appropriate */
-                        if (prog != null && (retcode == ReadResult.JPEG_ROW_COMPLETED || retcode == ReadResult.JPEG_REACHED_SOS))
+                        if (prog is object && (retcode == ReadResult.JPEG_ROW_COMPLETED || retcode == ReadResult.JPEG_REACHED_SOS))
                         {
                             prog.PassCounter++;
                             if (prog.PassCounter >= prog.PassLimit)
@@ -1029,7 +1029,7 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* Call progress monitor hook if present */
-            if (prog != null)
+            if (prog is object)
             {
                 prog.PassCounter = outputScanline;
                 prog.PassLimit = outputHeight;
@@ -1117,7 +1117,7 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* Call progress monitor hook if present */
-            if (prog != null)
+            if (prog is object)
             {
                 prog.PassCounter = outputScanline;
                 prog.PassLimit = outputHeight;
@@ -1474,7 +1474,7 @@ namespace BitMiracle.LibJpeg.Classic
                     }
 
                     /* Advance progress counter if appropriate */
-                    if (prog != null && (retcode == ReadResult.JPEG_ROW_COMPLETED || retcode == ReadResult.JPEG_REACHED_SOS))
+                    if (prog is object && (retcode == ReadResult.JPEG_ROW_COMPLETED || retcode == ReadResult.JPEG_REACHED_SOS))
                     {
                         prog.PassCounter++;
                         if (prog.PassCounter >= prog.PassLimit)
@@ -1545,9 +1545,9 @@ namespace BitMiracle.LibJpeg.Classic
             /* Copy the source's quantization tables. */
             for (var tblno = 0; tblno < JpegConstants.NUM_QUANT_TBLS; tblno++)
             {
-                if (m_quant_tbl_ptrs[tblno] != null)
+                if (m_quant_tbl_ptrs[tblno] is object)
                 {
-                    if (dstinfo.m_quant_tbl_ptrs[tblno] == null)
+                    if (dstinfo.m_quant_tbl_ptrs[tblno] is null)
                     {
                         dstinfo.m_quant_tbl_ptrs[tblno] = new JQuantTable();
                     }
@@ -1581,13 +1581,13 @@ namespace BitMiracle.LibJpeg.Classic
                 * IJG encoder currently cannot duplicate this.
                 */
                 var tblno = dstinfo.Component_info[ci].Quant_tbl_no;
-                if (tblno < 0 || tblno >= JpegConstants.NUM_QUANT_TBLS || m_quant_tbl_ptrs[tblno] == null)
+                if (tblno < 0 || tblno >= JpegConstants.NUM_QUANT_TBLS || m_quant_tbl_ptrs[tblno] is null)
                 {
                     ErrExit(JMessageCode.JERR_NO_QUANT_TABLE, tblno);
                 }
 
                 var c_quant = CompInfo[ci].quant_table;
-                if (c_quant != null)
+                if (c_quant is object)
                 {
                     var slot_quant = m_quant_tbl_ptrs[tblno];
                     for (var coefi = 0; coefi < JpegConstants.DCTSIZE2; coefi++)
@@ -1785,7 +1785,7 @@ namespace BitMiracle.LibJpeg.Classic
             m_inputctl.StartInputPass();
 
             /* Initialize progress monitoring. */
-            if (prog != null)
+            if (prog is object)
             {
                 var nscans = 1;
                 /* Estimate number of scans to set pass_limit. */
@@ -1832,7 +1832,7 @@ namespace BitMiracle.LibJpeg.Classic
                 {
                     int last_scanline;
                     /* Call progress monitor hook if present */
-                    if (prog != null)
+                    if (prog is object)
                     {
                         prog.PassCounter = outputScanline;
                         prog.PassLimit = outputHeight;

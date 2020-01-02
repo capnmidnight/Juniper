@@ -128,7 +128,7 @@ namespace System.IO
 
         public static string GetShortExtension(string path)
         {
-            if (path == null)
+            if (path is null)
             {
                 throw new ArgumentNullException(nameof(path));
             }
@@ -146,7 +146,7 @@ namespace System.IO
 
         private static string Remove(string name, string ext)
         {
-            if (ext != null)
+            if (ext is object)
             {
                 name = name.Substring(0, name.Length - ext.Length - 1);
             }

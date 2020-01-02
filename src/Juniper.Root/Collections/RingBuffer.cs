@@ -269,7 +269,7 @@ namespace Juniper.Collections
         /// ]]></code></example>
         public void CopyTo(T[] array, int startIndex, int destinationIndex, int count)
         {
-            if (array == null)
+            if (array is null)
             {
                 throw new ArgumentNullException(nameof(array));
             }

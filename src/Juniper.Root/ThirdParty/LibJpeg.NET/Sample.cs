@@ -15,7 +15,7 @@ namespace BitMiracle.LibJpeg
 
         internal Sample(BitStream bitStream, byte bitsPerComponent, byte componentCount)
         {
-            if (bitStream == null)
+            if (bitStream is null)
             {
                 throw new ArgumentNullException(nameof(bitStream));
             }
@@ -41,7 +41,7 @@ namespace BitMiracle.LibJpeg
 
         internal Sample(short[] components, byte bitsPerComponent)
         {
-            if (components == null)
+            if (components is null)
             {
                 throw new ArgumentNullException(nameof(components));
             }

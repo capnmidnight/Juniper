@@ -30,7 +30,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         {
             get
             {
-                if (funnyIndices == null)
+                if (funnyIndices is null)
                 {
                     return buffer[i];
                 }

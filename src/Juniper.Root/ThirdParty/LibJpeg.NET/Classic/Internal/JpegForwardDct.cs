@@ -317,7 +317,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 var qtblno = m_cinfo.Component_info[ci].Quant_tbl_no;
 
                 /* Make sure specified quantization table is present */
-                if (qtblno < 0 || qtblno >= JpegConstants.NUM_QUANT_TBLS || m_cinfo.m_quant_tbl_ptrs[qtblno] == null)
+                if (qtblno < 0 || qtblno >= JpegConstants.NUM_QUANT_TBLS || m_cinfo.m_quant_tbl_ptrs[qtblno] is null)
                 {
                     m_cinfo.ErrExit(JMessageCode.JERR_NO_QUANT_TABLE, qtblno);
                 }

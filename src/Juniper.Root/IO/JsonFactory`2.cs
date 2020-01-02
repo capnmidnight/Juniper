@@ -24,7 +24,7 @@ namespace Juniper.IO
         {
             prog.Report(0);
             ResultT value = default;
-            if (stream != null)
+            if (stream is object)
             {
                 using (stream)
                 {

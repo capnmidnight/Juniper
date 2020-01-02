@@ -23,7 +23,7 @@ namespace System
         /// <exception cref="ArgumentOutOfRangeException">Whe <paramref name="items"/> is empty.</exception>
         public static T RandomItem<T>(this T[] items)
         {
-            if (items == null)
+            if (items is null)
             {
                 throw new ArgumentNullException(nameof(items));
             }
@@ -117,11 +117,11 @@ namespace System
         /// </returns>
         public static IEnumerable<T> Exclude<T>(this IEnumerable<T> first, IEnumerable<T> second)
         {
-            if (second == null)
+            if (second is null)
             {
                 return first;
             }
-            else if (first == null)
+            else if (first is null)
             {
                 return null;
             }

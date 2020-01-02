@@ -142,7 +142,7 @@ namespace Juniper.Serial
                 errors = WithLock("ReadData", ProcessBuffer);
             }
 
-            if (errors == null)
+            if (errors is null)
             {
                 errors = new List<Exception>();
             }
@@ -239,7 +239,7 @@ namespace Juniper.Serial
         private void MaybeEnqueue(string line)
         {
             var temp = Process(line);
-            if (temp != null)
+            if (temp is object)
             {
                 LastValue = temp;
                 if (IsRecording)
@@ -333,7 +333,7 @@ namespace Juniper.Serial
         /// <param name="act"></param>
         private void WithLock(string lockName, Action act)
         {
-            if (lockedOn == null && port != null)
+            if (lockedOn is null && port is object)
             {
                 lock (port)
                 {
@@ -352,7 +352,7 @@ namespace Juniper.Serial
 
         private T WithLock<T>(string lockName, Func<T> act)
         {
-            if (lockedOn == null && port != null)
+            if (lockedOn is null && port is object)
             {
                 lock (port)
                 {
@@ -379,7 +379,7 @@ namespace Juniper.Serial
             W c,
             X d)
         {
-            if (lockedOn == null && port != null)
+            if (lockedOn is null && port is object)
             {
                 lock (port)
                 {

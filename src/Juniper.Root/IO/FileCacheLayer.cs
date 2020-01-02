@@ -69,7 +69,7 @@ namespace Juniper.IO
             {
                 stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
 
-                if (prog != null)
+                if (prog is object)
                 {
                     stream = new ProgressStream(stream, file.Length, prog);
                 }

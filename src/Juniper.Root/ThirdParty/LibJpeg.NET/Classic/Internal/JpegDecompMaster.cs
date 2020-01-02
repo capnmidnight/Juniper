@@ -51,7 +51,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
             else
             {
-                if (m_cinfo.quantizeColors && m_cinfo.m_colormap == null)
+                if (m_cinfo.quantizeColors && m_cinfo.m_colormap is null)
                 {
                     /* Select new quantization method */
                     if (m_cinfo.twoPassQuantize && m_cinfo.enable2PassQuant)
@@ -87,7 +87,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Set up progress monitor's pass info if present */
-            if (m_cinfo.prog != null)
+            if (m_cinfo.prog is object)
             {
                 m_cinfo.prog.CompletedPasses = m_pass_number;
                 m_cinfo.prog.TotalPasses = m_pass_number + (m_is_dummy_pass ? 2 : 1);
@@ -191,7 +191,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     m_cinfo.enable2PassQuant = false;
                     m_cinfo.m_colormap = null;
                 }
-                else if (m_cinfo.m_colormap != null)
+                else if (m_cinfo.m_colormap is object)
                 {
                     m_cinfo.enableExternalQuant = true;
                 }
@@ -266,7 +266,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
              * progress monitoring appropriately.  The input step is counted
              * as one pass.
              */
-            if (m_cinfo.prog != null && !m_cinfo.bufferedImage && m_cinfo.m_inputctl.HasMultipleScans())
+            if (m_cinfo.prog is object && !m_cinfo.bufferedImage && m_cinfo.m_inputctl.HasMultipleScans())
             {
                 /* Estimate number of scans to set pass_limit. */
                 int nscans;

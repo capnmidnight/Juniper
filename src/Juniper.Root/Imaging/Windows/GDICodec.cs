@@ -31,7 +31,7 @@ namespace Juniper.Imaging
         {
             prog.Report(0);
             Image image = null;
-            if (stream != null)
+            if (stream is object)
             {
                 using (stream)
                 {

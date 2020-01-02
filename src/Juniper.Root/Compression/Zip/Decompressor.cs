@@ -39,7 +39,7 @@ namespace Juniper.Compression.Zip
         public static void CopyFile(this ZipArchive zip, string entryPath, Stream copyTo, IProgress prog)
         {
             var entry = zip.GetEntry(entryPath);
-            if (entry == null)
+            if (entry is null)
             {
                 throw new FileNotFoundException($"Could not find file {entryPath} in the zip file.");
             }
@@ -101,7 +101,7 @@ namespace Juniper.Compression.Zip
         {
             var entry = zip.GetEntry(entryPath);
             var stream = entry.Open();
-            if (prog != null)
+            if (prog is object)
             {
                 stream = new ProgressStream(stream, entry.Length, prog);
             }
@@ -119,7 +119,7 @@ namespace Juniper.Compression.Zip
             var zip = Open(file);
             var entry = zip.GetEntry(entryPath);
             Stream stream = new ZipArchiveEntryStream(zip, entry);
-            if (prog != null)
+            if (prog is object)
             {
                 stream = new ProgressStream(stream, entry.Length, prog);
             }

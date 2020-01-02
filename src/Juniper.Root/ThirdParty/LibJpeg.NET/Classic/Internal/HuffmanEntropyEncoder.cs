@@ -154,7 +154,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     {
                         encodeMcu = EncodeMcuACRefine;
                         /* AC refinement needs a correction bit buffer */
-                        if (bitBuffer == null)
+                        if (bitBuffer is null)
                         {
                             bitBuffer = new char[MAX_CORR_BITS];
                         }
@@ -197,7 +197,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                         /* Allocate and zero the statistics tables */
                         /* Note that jpeg_gen_optimal_table expects 257 entries in each table! */
-                        if (dcCountPtrs[tbl] == null)
+                        if (dcCountPtrs[tbl] is null)
                         {
                             dcCountPtrs[tbl] = new long[257];
                         }
@@ -228,7 +228,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                             cinfo.ErrExit(JMessageCode.JERR_NO_HUFF_TABLE, tbl);
                         }
 
-                        if (acCountPtrs[tbl] == null)
+                        if (acCountPtrs[tbl] is null)
                         {
                             acCountPtrs[tbl] = new long[257];
                         }
@@ -400,7 +400,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     var dctbl = compptr.Dc_tbl_no;
                     if (!did_dc[dctbl])
                     {
-                        if (cinfo.m_dc_huff_tbl_ptrs[dctbl] == null)
+                        if (cinfo.m_dc_huff_tbl_ptrs[dctbl] is null)
                         {
                             cinfo.m_dc_huff_tbl_ptrs[dctbl] = new JHuffmanTable();
                         }
@@ -416,7 +416,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     var actbl = compptr.Ac_tbl_no;
                     if (!did_ac[actbl])
                     {
-                        if (cinfo.m_ac_huff_tbl_ptrs[actbl] == null)
+                        if (cinfo.m_ac_huff_tbl_ptrs[actbl] is null)
                         {
                             cinfo.m_ac_huff_tbl_ptrs[actbl] = new JHuffmanTable();
                         }
@@ -1333,13 +1333,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             var htbl = isDC ? cinfo.m_dc_huff_tbl_ptrs[tblno] : cinfo.m_ac_huff_tbl_ptrs[tblno];
-            if (htbl == null)
+            if (htbl is null)
             {
                 cinfo.ErrExit(JMessageCode.JERR_NO_HUFF_TABLE, tblno);
             }
 
             /* Allocate a workspace if we haven't already done so. */
-            if (dtbl == null)
+            if (dtbl is null)
             {
                 dtbl = new CDerivedTable();
             }

@@ -47,7 +47,7 @@ namespace Juniper.Audio
         {
             get
             {
-                if (Format == null)
+                if (Format is null)
                 {
                     return null;
                 }
@@ -97,7 +97,7 @@ namespace Juniper.Audio
         public AudioData Deserialize(Stream stream, IProgress prog)
         {
             AudioData audioData = null;
-            if (stream != null)
+            if (stream is object)
             {
                 if (!stream.CanSeek)
                 {
@@ -119,7 +119,7 @@ namespace Juniper.Audio
                 var audioFormat = MakeAudioFormat(sampleRate, bitsPerSample, channels);
 
                 stream = waveStream;
-                if (prog != null)
+                if (prog is object)
                 {
                     stream = new ProgressStream(stream, stream.Length, prog);
                 }

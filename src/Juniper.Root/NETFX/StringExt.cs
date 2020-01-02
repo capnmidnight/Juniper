@@ -19,7 +19,7 @@ namespace System
         /// <returns>The unescaped string.</returns>
         public static string Unescape(this string value)
         {
-            if (value == null)
+            if (value is null)
             {
                 return null;
             }
@@ -36,7 +36,7 @@ namespace System
         /// <returns>The escaped string.</returns>
         public static string Escape(this string value)
         {
-            if (value == null)
+            if (value is null)
             {
                 return null;
             }
@@ -82,7 +82,7 @@ namespace System
                 return string.Empty;
             }
 
-            if (separator == null)
+            if (separator is null)
             {
                 separator = string.Empty;
             }

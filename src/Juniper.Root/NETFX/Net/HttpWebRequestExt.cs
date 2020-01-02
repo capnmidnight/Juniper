@@ -272,12 +272,12 @@ namespace System.Net
         /// <returns></returns>
         private static async Task WriteBodyAsync(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog = null)
         {
-            if (getInfo != null)
+            if (getInfo is object)
             {
                 var info = getInfo();
-                if (info != null)
+                if (info is object)
                 {
-                    if (info.MIMEType != null)
+                    if (info.MIMEType is object)
                     {
                         request.ContentType = info.MIMEType;
                     }
@@ -298,7 +298,7 @@ namespace System.Net
 
         private static void WiteContent(Action<Stream> writeBody, IProgress prog, BodyInfo info, Stream stream)
         {
-            if (prog != null)
+            if (prog is object)
             {
                 stream = new ProgressStream(stream, info.Length, prog);
             }

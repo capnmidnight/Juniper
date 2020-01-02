@@ -404,7 +404,7 @@ namespace Hjg.Pngcs
 
         private void PrepareEncodeRow(int rown)
         {
-            if (datStream == null)
+            if (datStream is null)
             {
                 Init();
             }

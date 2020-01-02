@@ -17,7 +17,7 @@ namespace BitMiracle.LibJpeg
 
         internal CompressionParameters(CompressionParameters parameters)
         {
-            if (parameters == null)
+            if (parameters is null)
             {
                 throw new ArgumentNullException(nameof(parameters));
             }

@@ -11,7 +11,7 @@ namespace BitMiracle.LibJpeg
 
         internal RawImage(List<SampleRow> samples, Colorspace colorspace)
         {
-            Debug.Assert(samples != null);
+            Debug.Assert(samples is object);
             Debug.Assert(samples.Count > 0);
             Debug.Assert(colorspace != Colorspace.Unknown);
 

@@ -70,7 +70,7 @@ namespace Hjg.Pngcs.Chunks
                 throw new PngjException("invalid pallette - nentries=" + nentries.ToString(CultureInfo.CurrentCulture));
             }
 
-            if (entries == null || entries.Length != nentries)
+            if (entries is null || entries.Length != nentries)
             { // alloc
                 entries = new int[nentries];
             }

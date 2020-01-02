@@ -32,7 +32,7 @@ namespace System.Collections.Generic
         /// ]]></code></example>
         public static T RemoveRandom<T>(this List<T> items)
         {
-            if (items == null)
+            if (items is null)
             {
                 throw new ArgumentNullException(nameof(items));
             }

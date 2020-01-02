@@ -60,7 +60,7 @@ namespace Hjg.Pngcs.Chunks
 
         internal static List<PngChunk> GetXById(List<PngChunk> list, string id, string innerid)
         {
-            if (innerid == null)
+            if (innerid is null)
             {
                 return ChunkHelper.FilterList(list, new ChunkPredicateId(id));
             }

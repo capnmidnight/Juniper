@@ -41,7 +41,7 @@ namespace Juniper.Imaging
                     for (var tileX = 0; tileX < columns; ++tileX)
                     {
                         var tile = images[tileY, tileX];
-                        if (tile != null)
+                        if (tile is object)
                         {
                             images[tileY, tileX] = null;
                             var tileRowBuffer = tile.GetRow(y).ToBytes();

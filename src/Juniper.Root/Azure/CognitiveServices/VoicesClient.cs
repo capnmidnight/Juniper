@@ -28,7 +28,7 @@ namespace Juniper.Azure.CognitiveServices
                 throw new ArgumentException("Must provide a subscription key", nameof(azureSubscriptionKey));
             }
 
-            if (voiceListDecoder == null
+            if (voiceListDecoder is null
                 || voiceListDecoder.ContentType != MediaType.Application.Json)
             {
                 throw new ArgumentException("Must provide a JSON deserializer for the voice list data", nameof(voiceListDecoder));

@@ -25,13 +25,13 @@ namespace Juniper
         public static bool Null<T>(T value)
             where T : class
         {
-            return value == null;
+            return value is null;
         }
 
         public static bool NotNull<T>(T value)
             where T : class
         {
-            return value != null;
+            return value is object;
         }
     }
 }

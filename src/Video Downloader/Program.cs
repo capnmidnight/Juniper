@@ -55,7 +55,7 @@ namespace Juniper.VideoDownloader
             var desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             var fileName = Path.Combine(desktop, PathExt.FixPath(uri.PathAndQuery.Substring(1)));
             var fileExt = Path.GetExtension(fileName).Substring(1);
-            if (contentType?.PrimaryExtension != null && !contentType.Extensions.Contains(fileExt))
+            if (contentType?.PrimaryExtension is object && !contentType.Extensions.Contains(fileExt))
             {
                 fileName += "." + contentType.PrimaryExtension;
             }

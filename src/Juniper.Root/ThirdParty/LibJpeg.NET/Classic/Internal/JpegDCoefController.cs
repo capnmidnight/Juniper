@@ -198,7 +198,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         public void StartOutputPass()
         {
             /* If multipass, check to see whether to use block smoothing on this pass */
-            if (m_coef_arrays != null)
+            if (m_coef_arrays is object)
             {
                 if (m_cinfo.doBlockSmoothing && SmoothingOK())
                 {
@@ -748,13 +748,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// </summary>
         private bool SmoothingOK()
         {
-            if (!m_cinfo.progressiveMode || m_cinfo.coefBits == null)
+            if (!m_cinfo.progressiveMode || m_cinfo.coefBits is null)
             {
                 return false;
             }
 
             /* Allocate latch area if not already done */
-            if (m_coef_bits_latch == null)
+            if (m_coef_bits_latch is null)
             {
                 m_coef_bits_latch = new int[m_cinfo.numComponents * SAVED_COEFS];
                 m_coef_bits_savedOffset = 0;
@@ -765,7 +765,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             {
                 /* All components' quantization values must already be latched. */
                 var qtable = m_cinfo.CompInfo[ci].quant_table;
-                if (qtable == null)
+                if (qtable is null)
                 {
                     return false;
                 }

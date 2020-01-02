@@ -20,7 +20,7 @@ namespace BitMiracle.LibJpeg
 
         public BitStream(byte[] buffer)
         {
-            if (buffer == null)
+            if (buffer is null)
             {
                 throw new ArgumentNullException(nameof(buffer));
             }

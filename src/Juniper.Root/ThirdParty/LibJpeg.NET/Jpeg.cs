@@ -39,12 +39,12 @@ namespace BitMiracle.LibJpeg
         /// <param name="output">Stream for output of compressed JPEG</param>
         public void Compress(IRawImage source, Stream output)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            if (output == null)
+            if (output is null)
             {
                 throw new ArgumentNullException(nameof(output));
             }
@@ -93,12 +93,12 @@ namespace BitMiracle.LibJpeg
         /// <param name="destination">Stream for output of compressed JPEG</param>
         public void Decompress(Stream jpeg, IDecompressDestination destination)
         {
-            if (jpeg == null)
+            if (jpeg is null)
             {
                 throw new ArgumentNullException(nameof(jpeg));
             }
 
-            if (destination == null)
+            if (destination is null)
             {
                 throw new ArgumentNullException(nameof(destination));
             }
@@ -181,7 +181,7 @@ namespace BitMiracle.LibJpeg
 
         private void applyParameters(DecompressionParameters parameters)
         {
-            Debug.Assert(parameters != null);
+            Debug.Assert(parameters is object);
 
             if (parameters.OutColorspace != Colorspace.Unknown)
             {
@@ -207,7 +207,7 @@ namespace BitMiracle.LibJpeg
 
         private void applyParameters(CompressionParameters parameters)
         {
-            Debug.Assert(parameters != null);
+            Debug.Assert(parameters is object);
 
             ClassicCompressor.SmoothingFactor = parameters.SmoothingFactor;
             ClassicCompressor.JpegSetQuality(parameters.Quality, true);

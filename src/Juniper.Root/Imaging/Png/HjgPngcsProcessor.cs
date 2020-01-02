@@ -49,7 +49,7 @@ namespace Juniper.Imaging
                 for (var x = 0; x < columns; ++x)
                 {
                     var tile = images[y, x];
-                    if (tile != null)
+                    if (tile is object)
                     {
                         for (var i = 0; i < tileHeight; ++i)
                         {

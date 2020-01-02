@@ -497,10 +497,10 @@ namespace Hjg.Pngcs
                 throw new PngjInputException("invalid chunk lenght: " + clen);
             }
             // skipChunksByIdSet is created lazyly, if fist IHDR has already been read
-            if (skipChunkIdsSet == null && CurrentChunkGroup > ChunksList.CHUNK_GROUP_0_IDHR)
+            if (skipChunkIdsSet is null && CurrentChunkGroup > ChunksList.CHUNK_GROUP_0_IDHR)
             {
                 skipChunkIdsSet = new Dictionary<string, int>();
-                if (SkipChunkIds != null)
+                if (SkipChunkIds is object)
                 {
                     foreach (var id in SkipChunkIds)
                     {
@@ -604,12 +604,12 @@ namespace Hjg.Pngcs
         /// <returns>the ImageLine that also is available inside this object</returns>
         public ImageLine ReadRow(int nrow)
         {
-            return imgLine == null || imgLine.SampleType != ImageLine.ESampleType.BYTE ? ReadRowInt(nrow) : ReadRowByte(nrow);
+            return imgLine is null || imgLine.SampleType != ImageLine.ESampleType.BYTE ? ReadRowInt(nrow) : ReadRowByte(nrow);
         }
 
         public ImageLine ReadRowInt(int nrow)
         {
-            if (imgLine == null)
+            if (imgLine is null)
             {
                 imgLine = new ImageLine(ImgInfo, ImageLine.ESampleType.INT, unpackedMode);
             }
@@ -627,7 +627,7 @@ namespace Hjg.Pngcs
 
         public ImageLine ReadRowByte(int nrow)
         {
-            if (imgLine == null)
+            if (imgLine is null)
             {
                 imgLine = new ImageLine(ImgInfo, ImageLine.ESampleType.BYTE, unpackedMode);
             }
@@ -650,7 +650,7 @@ namespace Hjg.Pngcs
 
         public int[] ReadRowInt(int[] buffer, int nrow)
         {
-            if (buffer == null)
+            if (buffer is null)
             {
                 buffer = new int[unpackedMode ? ImgInfo.SamplesPerRow : ImgInfo.SamplesPerRowPacked];
             }
@@ -672,7 +672,7 @@ namespace Hjg.Pngcs
             }
             else
             { // interlaced
-                if (deinterlacer.GetImageInt() == null)
+                if (deinterlacer.GetImageInt() is null)
                 {
                     deinterlacer.SetImageInt(ReadRowsInt().Scanlines); // read all image and store it in deinterlacer
                 }
@@ -686,7 +686,7 @@ namespace Hjg.Pngcs
 
         public byte[] ReadRowByte(byte[] buffer, int nrow)
         {
-            if (buffer == null)
+            if (buffer is null)
             {
                 buffer = new byte[unpackedMode ? ImgInfo.SamplesPerRow : ImgInfo.SamplesPerRowPacked];
             }
@@ -708,7 +708,7 @@ namespace Hjg.Pngcs
             }
             else
             { // interlaced
-                if (deinterlacer.GetImageByte() == null)
+                if (deinterlacer.GetImageByte() is null)
                 {
                     deinterlacer.SetImageByte(ReadRowsByte().ScanlinesB); // read all image and store it in deinterlacer
                 }

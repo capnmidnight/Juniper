@@ -66,7 +66,7 @@ namespace Juniper.UnityAssetStore
             info.AddValue(nameof(name), name);
             info.AddValue(nameof(count), count);
 
-            if (subs != null)
+            if (subs is object)
             {
                 info.AddValue(nameof(subs), subs);
             }

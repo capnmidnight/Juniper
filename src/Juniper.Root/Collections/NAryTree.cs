@@ -55,7 +55,7 @@ namespace Juniper.Collections
             {
                 var depth = 0;
                 var here = this;
-                while (here != null)
+                while (here is object)
                 {
                     ++depth;
                     here = here.parent;
@@ -78,7 +78,7 @@ namespace Juniper.Collections
         /// </summary>
         public bool IsRoot
         {
-            get { return parent == null; }
+            get { return parent is null; }
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Juniper.Collections
         /// <param name="node">The node to add.</param>
         public void Add(T node, Func<T, T, bool> isChildOf)
         {
-            if (Value == null)
+            if (Value is null)
             {
                 Value = node;
             }
@@ -125,7 +125,7 @@ namespace Juniper.Collections
             };
 
             NAryTree<T> found = null;
-            while (q.Count > 0 && found == null)
+            while (q.Count > 0 && found is null)
             {
                 var here = q.Dequeue();
                 if (here.Value.Equals(node))

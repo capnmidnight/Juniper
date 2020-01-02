@@ -539,7 +539,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             var dataOffset = 0;
 
             byte[] data;
-            if (cur_marker == null)
+            if (cur_marker is null)
             {
                 /* begin reading a marker */
                 if (!cinfo.m_src.GetTwoBytes(out length))
@@ -618,7 +618,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Done reading what we want to read */
-            if (cur_marker != null)
+            if (cur_marker is object)
             {
                 /* will be null if bogus length word */
                 /* Add new marker to end of list */
@@ -986,7 +986,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 m_cinfo.ErrExit(JMessageCode.JERR_BAD_LENGTH);
             }
 
-            if (m_cinfo.CompInfo == null)
+            if (m_cinfo.CompInfo is null)
             {
                 /* do only once, even if suspend */
                 m_cinfo.CompInfo = JpegComponentInfo.CreateArrayOfComponents(m_cinfo.numComponents);
@@ -1319,7 +1319,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 {
                     /* AC table definition */
                     index -= 0x10;
-                    if (m_cinfo.m_ac_huff_tbl_ptrs[index] == null)
+                    if (m_cinfo.m_ac_huff_tbl_ptrs[index] is null)
                     {
                         m_cinfo.m_ac_huff_tbl_ptrs[index] = new JHuffmanTable();
                     }
@@ -1329,7 +1329,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 else
                 {
                     /* DC table definition */
-                    if (m_cinfo.m_dc_huff_tbl_ptrs[index] == null)
+                    if (m_cinfo.m_dc_huff_tbl_ptrs[index] is null)
                     {
                         m_cinfo.m_dc_huff_tbl_ptrs[index] = new JHuffmanTable();
                     }
@@ -1384,7 +1384,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     m_cinfo.ErrExit(JMessageCode.JERR_DQT_INDEX, n);
                 }
 
-                if (m_cinfo.m_quant_tbl_ptrs[n] == null)
+                if (m_cinfo.m_quant_tbl_ptrs[n] is null)
                 {
                     m_cinfo.m_quant_tbl_ptrs[n] = new JQuantTable();
                 }

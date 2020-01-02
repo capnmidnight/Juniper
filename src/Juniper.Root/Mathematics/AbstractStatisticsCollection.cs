@@ -500,7 +500,7 @@ namespace Juniper.Mathematics
         /// <returns></returns>
         private T? Multiply(T? a, T? b)
         {
-            if (a == null || b == null)
+            if (a is null || b is null)
             {
                 return null;
             }
@@ -518,7 +518,7 @@ namespace Juniper.Mathematics
         /// <returns></returns>
         private T? Scale(T? a, float b)
         {
-            if (a == null)
+            if (a is null)
             {
                 return null;
             }
@@ -536,7 +536,7 @@ namespace Juniper.Mathematics
         /// <returns></returns>
         private T? Divide(T? a, float b)
         {
-            if (a == null)
+            if (a is null)
             {
                 return null;
             }
@@ -554,7 +554,7 @@ namespace Juniper.Mathematics
         /// <returns></returns>
         private T Min(T? a, T b)
         {
-            if (a != null && LessThan(a.Value, b))
+            if (a is object && LessThan(a.Value, b))
             {
                 return a.Value;
             }
@@ -572,7 +572,7 @@ namespace Juniper.Mathematics
         /// <returns></returns>
         private T Max(T? a, T b)
         {
-            if (a != null && LessThan(b, a.Value))
+            if (a is object && LessThan(b, a.Value))
             {
                 return a.Value;
             }
@@ -589,7 +589,7 @@ namespace Juniper.Mathematics
         /// <returns></returns>
         private T? Sqrt(T? value)
         {
-            if (value == null)
+            if (value is null)
             {
                 return null;
             }
@@ -606,7 +606,7 @@ namespace Juniper.Mathematics
         /// <returns></returns>
         private T? Abs(T? value)
         {
-            if (value == null)
+            if (value is null)
             {
                 return null;
             }
@@ -624,7 +624,7 @@ namespace Juniper.Mathematics
         /// <returns></returns>
         private bool LessThan(T? a, T? b)
         {
-            if (a == null || b == null)
+            if (a is null || b is null)
             {
                 return false;
             }

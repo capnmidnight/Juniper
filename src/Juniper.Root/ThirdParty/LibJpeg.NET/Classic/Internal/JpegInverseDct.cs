@@ -358,7 +358,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     continue;
                 }
 
-                if (componentInfo.quant_table == null)
+                if (componentInfo.quant_table is null)
                 {
                     /* happens if no data yet for component */
                     continue;
@@ -429,7 +429,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             m_componentBuffer = output_buf;
 
             var method = m_inverse_DCT_method[component_index];
-            if (method == null)
+            if (method is null)
             {
                 m_cinfo.ErrExit(JMessageCode.JERR_NOT_COMPILED);
             }

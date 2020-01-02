@@ -152,7 +152,7 @@ namespace Juniper.IO
         /// <returns>null if the file does not exist in any of the cache layers.</returns>
         public Stream Cache(ContentReference fileRef, Stream stream)
         {
-            if (stream != null)
+            if (stream is object)
             {
                 foreach (var dest in destinations)
                 {
@@ -225,7 +225,7 @@ namespace Juniper.IO
                 }
             }
 
-            if (cached == null && fileRef is StreamSource fileSource)
+            if (cached is null && fileRef is StreamSource fileSource)
             {
                 cached = await fileSource
                     .GetStreamAsync(prog)

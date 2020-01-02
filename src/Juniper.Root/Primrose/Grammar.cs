@@ -87,7 +87,7 @@ namespace Juniper.Primrose
                     ++line;
                 }
 
-                if (stringDelim != null)
+                if (stringDelim is object)
                 {
                     if (t.type == "stringDelim"
                         && t.value == stringDelim
@@ -102,7 +102,7 @@ namespace Juniper.Primrose
                         t.type = "strings";
                     }
                 }
-                else if (commentDelim != null)
+                else if (commentDelim is object)
                 {
                     if ((commentDelim == "startBlockComments"
                             && t.type == "endBlockComments")
@@ -213,7 +213,7 @@ namespace Juniper.Primrose
 
         //public string ToHTML(string txt, Theme theme = null)
         //{
-        //    if (theme == null)
+        //    if (theme is null)
         //    {
         //        theme = Theme.DefaultTheme;
         //    }

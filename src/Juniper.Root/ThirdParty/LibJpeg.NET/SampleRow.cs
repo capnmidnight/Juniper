@@ -21,7 +21,7 @@ namespace BitMiracle.LibJpeg
         /// <param name="componentsPerSample">The number of components per sample.</param>
         public SampleRow(byte[] row, int sampleCount, byte bitsPerComponent, byte componentsPerSample)
         {
-            if (row == null)
+            if (row is null)
             {
                 throw new ArgumentNullException(nameof(row));
             }
@@ -69,7 +69,7 @@ namespace BitMiracle.LibJpeg
         /// </remarks>
         internal SampleRow(short[] sampleComponents, byte bitsPerComponent, byte componentsPerSample)
         {
-            if (sampleComponents == null)
+            if (sampleComponents is null)
             {
                 throw new ArgumentNullException(nameof(sampleComponents));
             }

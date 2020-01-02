@@ -50,7 +50,7 @@ namespace System.IO
 
         public static async Task ProxyAsync(this Stream stream, HttpListenerResponse response)
         {
-            if (stream == null)
+            if (stream is null)
             {
                 response.ContentType = string.Empty;
                 response.StatusCode = 404;

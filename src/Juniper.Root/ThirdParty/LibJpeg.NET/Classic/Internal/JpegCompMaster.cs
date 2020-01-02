@@ -94,7 +94,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             m_is_last_pass = (m_pass_number == m_total_passes - 1);
 
             /* Set up progress monitor's pass info if present */
-            if (m_cinfo.prog != null)
+            if (m_cinfo.prog is object)
             {
                 m_cinfo.prog.CompletedPasses = m_pass_number;
                 m_cinfo.prog.TotalPasses = m_total_passes;
@@ -251,7 +251,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         // Set up the scan parameters for the current scan
         private void SelectScanParameters()
         {
-            if (m_cinfo.m_scan_info != null)
+            if (m_cinfo.m_scan_info is object)
             {
                 /* Prepare for current scan --- the script is already validated */
                 var scanInfo = m_cinfo.m_scan_info[m_scan_number];

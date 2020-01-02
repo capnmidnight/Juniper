@@ -45,7 +45,7 @@ namespace Juniper.IO
                     var cacheFileName = GetCacheFileName(fileRef);
                     using var zip = Decompressor.Open(zipFile);
                     var entry = zip.GetEntry(cacheFileName);
-                    filesExist[fileRef.CacheID] = entry != null;
+                    filesExist[fileRef.CacheID] = entry is object;
                 }
                 else
                 {

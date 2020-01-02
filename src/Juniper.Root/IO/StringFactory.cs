@@ -21,7 +21,7 @@ namespace Juniper.IO
         {
             prog.Report(0);
             string value = null;
-            if (stream != null)
+            if (stream is object)
             {
                 using (stream)
                 using (var reader = new StreamReader(stream))

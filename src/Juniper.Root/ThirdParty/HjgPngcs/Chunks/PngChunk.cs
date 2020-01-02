@@ -180,7 +180,7 @@ namespace Hjg.Pngcs.Chunks
         internal static PngChunk FactoryFromId(string cid, ImageInfo info)
         {
             PngChunk chunk = null;
-            if (factoryMap == null)
+            if (factoryMap is null)
             {
                 _ = InitFactory();
             }
@@ -188,7 +188,7 @@ namespace Hjg.Pngcs.Chunks
             if (IsKnown(cid))
             {
                 var t = factoryMap[cid];
-                if (t == null)
+                if (t is null)
                 {
                     Console.Error.WriteLine("What?? " + cid);
                 }
@@ -198,7 +198,7 @@ namespace Hjg.Pngcs.Chunks
                 chunk = (PngChunk)o;
             }
 
-            if (chunk == null)
+            if (chunk is null)
             {
                 chunk = new PngChunkUNKNOWN(cid, info);
             }
@@ -230,7 +230,7 @@ namespace Hjg.Pngcs.Chunks
         internal void Write(Stream os)
         {
             var c = CreateRawChunk();
-            if (c == null)
+            if (c is null)
             {
                 throw new PngjException("null chunk ! creation failed for " + this);
             }

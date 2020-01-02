@@ -193,7 +193,7 @@ namespace Juniper.UnityAssetStore
                     .SelectSingleNode("//meta[@name='csrf-token']")
                     .Attributes["content"]
                     .Value;
-                if (csrfToken != null)
+                if (csrfToken is object)
                 {
                 }
             }

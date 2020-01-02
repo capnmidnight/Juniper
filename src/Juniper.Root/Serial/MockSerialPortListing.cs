@@ -34,7 +34,7 @@ namespace Juniper.Serial
             foreach (var realPort in realPorts)
             {
                 var match = NUMBERED_PORT_REGEX.Match(realPort);
-                if (match != null)
+                if (match is object)
                 {
                     var numberPart = match.Groups[1].Value;
                     var number = int.Parse(numberPart, CultureInfo.InvariantCulture);

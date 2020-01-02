@@ -117,7 +117,7 @@ namespace System.Runtime.Serialization
         public static bool MaybeAddValue<T>(this SerializationInfo info, string name, T value)
             where T : class
         {
-            if (value != null)
+            if (value is object)
             {
                 info.AddValue(name, value);
                 return true;

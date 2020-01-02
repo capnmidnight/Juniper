@@ -190,7 +190,7 @@ namespace Juniper.Mathematics
         private void CheckPrerequisites()
         {
             /************************** TRANSITION MATRIX ***************************/
-            if (TransitionMatrix == null)
+            if (TransitionMatrix is null)
             {
                 throw new Exception("Transition matrix cannot be null!");
             }
@@ -202,19 +202,19 @@ namespace Juniper.Mathematics
             /************************** TRANSITION MATRIX ***************************/
 
             /************************** CONTROL MATRIX ***************************/
-            if (ControlMatrix == null && ControlVectorDimension != 0)
+            if (ControlMatrix is null && ControlVectorDimension != 0)
             {
                 throw new Exception("Control matrix can be null only if control vector dimension is set to 0!");
             }
 
-            if (ControlMatrix != null && (ControlMatrix.GetLength(0) != StateVectorDimension || ControlMatrix.GetLength(1) != ControlVectorDimension))
+            if (ControlMatrix is object && (ControlMatrix.GetLength(0) != StateVectorDimension || ControlMatrix.GetLength(1) != ControlVectorDimension))
             {
                 throw new Exception("Control matrix dimensions are not valid!");
             }
             /************************** CONTROL MATRIX ***************************/
 
             /************************** MEASUREMENT MATRIX ***************************/
-            if (MeasurementMatrix == null)
+            if (MeasurementMatrix is null)
             {
                 throw new Exception("Measurement matrix cannot be null!");
             }
@@ -226,7 +226,7 @@ namespace Juniper.Mathematics
             /************************** MEASUREMENT MATRIX ***************************/
 
             /************************** PROCES NOISE COV. MATRIX ***************************/
-            if (ProcessNoise == null)
+            if (ProcessNoise is null)
             {
                 throw new Exception("Process noise covariance matrix cannot be null!");
             }
@@ -238,7 +238,7 @@ namespace Juniper.Mathematics
             /************************** PROCES NOISE COV. MATRIX ***************************/
 
             /************************** MEASUREMENT NOISE COV. MATRIX ***************************/
-            if (MeasurementNoise == null)
+            if (MeasurementNoise is null)
             {
                 throw new Exception("Measurement noise covariance matrix cannot be null!");
             }
@@ -279,7 +279,7 @@ namespace Juniper.Mathematics
             state = TransitionMatrix.Dot(state);
 
             //x'(k) =  x'(k) + B * u(k)
-            if (controlVector != null)
+            if (controlVector is object)
             {
                 state = state.Add(ControlMatrix.Dot(controlVector));
             }
@@ -358,7 +358,7 @@ namespace Juniper.Mathematics
         /// </summary>
         public double CalculateEntropy()
         {
-            if (EstimateCovariance == null || EstimateCovariance.GetLength(0) != EstimateCovariance.GetLength(1))
+            if (EstimateCovariance is null || EstimateCovariance.GetLength(0) != EstimateCovariance.GetLength(1))
             {
                 throw new ArgumentException("Error covariance matrix (P) must have the same number of rows and columns.");
             }

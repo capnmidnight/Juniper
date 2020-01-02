@@ -21,7 +21,7 @@ namespace Hjg.Pngcs.Zlib
                 DoInit();
             }
 
-            if (deflateStream == null)
+            if (deflateStream is null)
             {
                 InitStream();
             }
@@ -42,7 +42,7 @@ namespace Hjg.Pngcs.Zlib
                 DoInit();
             }
 
-            if (deflateStream == null)
+            if (deflateStream is null)
             {
                 InitStream();
             }
@@ -66,7 +66,7 @@ namespace Hjg.Pngcs.Zlib
             closed = true;
             // sigh ... no only must I close the parent stream to force a flush, but I must save a reference
             // raw stream because (apparently) Close() sets it to null (shame on you, MS developers)
-            if (deflateStream != null)
+            if (deflateStream is object)
             {
                 deflateStream.Close();
             }
@@ -89,7 +89,7 @@ namespace Hjg.Pngcs.Zlib
 
         private void InitStream()
         {
-            if (deflateStream != null)
+            if (deflateStream is object)
             {
                 return;
             }

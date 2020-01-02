@@ -112,7 +112,7 @@ namespace Juniper.Collections
                 }
             }
 
-            if (namedNodes == null)
+            if (namedNodes is null)
             {
                 namedNodes = new Dictionary<string, NodeT>();
                 nodeNames = new Dictionary<NodeT, string>();
@@ -146,7 +146,7 @@ namespace Juniper.Collections
         {
             get
             {
-                if (network != null)
+                if (network is object)
                 {
                     for (var x = 0; x < network.GetLength(0); ++x)
                     {
@@ -293,7 +293,7 @@ namespace Juniper.Collections
 
         private void Remove(IEnumerable<Route<NodeT>> toRemove)
         {
-            if (network != null)
+            if (network is object)
             {
                 var arr = toRemove.ToArray();
                 dirty |= arr.Length > 0;
@@ -329,7 +329,7 @@ namespace Juniper.Collections
 
         public IEnumerable<Route<NodeT>> FindConnections(Route<NodeT> route)
         {
-            if (route != null)
+            if (route is object)
             {
                 return Connections.Where(route.CanConnectTo);
             }

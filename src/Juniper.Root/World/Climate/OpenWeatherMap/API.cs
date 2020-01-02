@@ -76,7 +76,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             errorFactory = new JsonFactory<WeatherReportException>();
             this.apiKey = apiKey;
 
-            if (lastReportJSON != null)
+            if (lastReportJSON is object)
             {
                 if (factory.TryParse(lastReportJSON, out var report))
                 {
@@ -98,11 +98,11 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <returns></returns>
         private bool NeedsNewReport(LatLngPoint location)
         {
-            if (LastReport == null || LastReport.ErrorMessage != null)
+            if (LastReport is null || LastReport.ErrorMessage is object)
             {
                 return true;
             }
-            else if (LastReport.Location == null)
+            else if (LastReport.Location is null)
             {
                 return true;
             }

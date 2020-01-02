@@ -204,7 +204,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             for (var i = 0; i < JpegConstants.NUM_QUANT_TBLS; i++)
             {
-                if (m_cinfo.m_quant_tbl_ptrs[i] != null)
+                if (m_cinfo.m_quant_tbl_ptrs[i] is object)
                 {
                     EmitDQT(i);
                 }
@@ -212,12 +212,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
             for (var i = 0; i < JpegConstants.NUM_HUFF_TBLS; i++)
             {
-                if (m_cinfo.m_dc_huff_tbl_ptrs[i] != null)
+                if (m_cinfo.m_dc_huff_tbl_ptrs[i] is object)
                 {
                     EmitDHT(i, false);
                 }
 
-                if (m_cinfo.m_ac_huff_tbl_ptrs[i] != null)
+                if (m_cinfo.m_ac_huff_tbl_ptrs[i] is object)
                 {
                     EmitDHT(i, true);
                 }
@@ -428,7 +428,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 index += 0x10; /* output index has AC bit set */
             }
 
-            if (htbl == null)
+            if (htbl is null)
             {
                 m_cinfo.ErrExit(JMessageCode.JERR_NO_HUFF_TABLE, index);
             }
@@ -468,7 +468,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private int EmitDQT(int index)
         {
             var qtbl = m_cinfo.m_quant_tbl_ptrs[index];
-            if (qtbl == null)
+            if (qtbl is null)
             {
                 m_cinfo.ErrExit(JMessageCode.JERR_NO_QUANT_TABLE, index);
             }

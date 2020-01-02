@@ -310,7 +310,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                 if (m_cinfo.ditherMode == JDitherMode.JDITHER_FS)
                 {
                     /* Allocate Floyd-Steinberg workspace if we didn't already. */
-                    if (m_fserrors == null)
+                    if (m_fserrors is null)
                     {
                         var arraysize = (m_cinfo.outputWidth + 2) * 3;
                         m_fserrors = new short[arraysize];
@@ -322,7 +322,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
                     }
 
                     /* Make the error-limit table if we didn't already. */
-                    if (m_error_limiter == null)
+                    if (m_error_limiter is null)
                     {
                         InitErrorLimit();
                     }
