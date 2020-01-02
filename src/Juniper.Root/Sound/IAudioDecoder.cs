@@ -1,6 +1,6 @@
 using Juniper.IO;
 
-namespace Juniper.Audio
+namespace Juniper.Sound
 {
     public interface IAudioDecoder : IDeserializer<AudioData>, IContentHandler<MediaType.Audio>
     {

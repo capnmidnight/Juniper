@@ -4,10 +4,9 @@ using System.Media;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using Juniper.Audio;
 using Juniper.Azure.CognitiveServices;
 using Juniper.IO;
+using Juniper.Sound;
 
 namespace Juniper.Speech
 {

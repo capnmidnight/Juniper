@@ -1,6 +1,6 @@
 using System;
 
-namespace Juniper.Audio
+namespace Juniper.Sound
 {
     public sealed class AudioFormat : IEquatable<AudioFormat>
     {
@@ -53,8 +53,8 @@ namespace Juniper.Audio
 
         public static bool operator ==(AudioFormat left, AudioFormat right)
         {
-            return (left is null && right is null)
-                || (left is object && left.Equals(right));
+            return left is null && right is null
+                || left is object && left.Equals(right);
         }
 
         public static bool operator !=(AudioFormat left, AudioFormat right)

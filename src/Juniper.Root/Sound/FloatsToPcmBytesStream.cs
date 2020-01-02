@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Juniper.Audio
+namespace Juniper.Sound
 {
     public class FloatsToPcmBytesStream : AbstractPcmConversionStream
     {

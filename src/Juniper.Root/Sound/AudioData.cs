@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Juniper.Audio
+namespace Juniper.Sound
 {
     /// <summary>
     /// The raw bytes and dimensions of an audio file that has been loaded either off disk or across the 'net.

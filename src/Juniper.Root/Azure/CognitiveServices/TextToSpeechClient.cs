@@ -1,8 +1,7 @@
 using System;
 using System.Threading.Tasks;
-
-using Juniper.Audio;
 using Juniper.IO;
+using Juniper.Sound;
 
 namespace Juniper.Azure.CognitiveServices
 {

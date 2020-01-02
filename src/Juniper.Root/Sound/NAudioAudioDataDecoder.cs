@@ -7,7 +7,7 @@ using Juniper.Progress;
 
 using NAudio.Wave;
 
-namespace Juniper.Audio
+namespace Juniper.Sound
 {
     public class NAudioAudioDataDecoder : IAudioDecoder
     {

@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Juniper.Audio
+namespace Juniper.Sound
 {
     /// <summary>
     /// Converts streams of n-bit PCM samples to 32-bit floating point samples,

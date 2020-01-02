@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Juniper.Audio
+namespace Juniper.Sound
 {
     /// <summary>
     /// An abstract class for which implementing classes my converting representations

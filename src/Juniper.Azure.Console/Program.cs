@@ -1,11 +1,9 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-
-using Juniper.Audio;
 using Juniper.Azure.CognitiveServices;
 using Juniper.IO;
-
+using Juniper.Sound;
 using NAudio.Wave;
 
 namespace Juniper.Azure
