@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-using Juniper.Azure.CognitiveServices;
 using Juniper.Display;
 using Juniper.Haptics;
 using Juniper.Input;
@@ -10,6 +9,7 @@ using Juniper.IO;
 using Juniper.Security;
 
 using UnityEngine;
+using Juniper.Speech.Azure.CognitiveServices;
 
 #if UNITY_MODULES_AUDIO
 

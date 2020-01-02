@@ -3,7 +3,7 @@ using System.Net;
 using Juniper.HTTP;
 using Juniper.HTTP.Client;
 
-namespace Juniper.Azure
+namespace Juniper.Speech.Azure
 {
     public class AuthTokenRequest : AbstractAzureRequest<MediaType.Text>
     {

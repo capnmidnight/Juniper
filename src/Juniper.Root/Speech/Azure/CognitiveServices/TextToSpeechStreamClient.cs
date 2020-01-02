@@ -1,10 +1,11 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+
 using Juniper.IO;
 using Juniper.Sound;
 
-namespace Juniper.Azure.CognitiveServices
+namespace Juniper.Speech.Azure.CognitiveServices
 {
     public class TextToSpeechStreamClient : VoicesClient
     {
@@ -30,8 +31,18 @@ namespace Juniper.Azure.CognitiveServices
             : this(azureRegion, azureSubscriptionKey, azureResourceName, voiceListDecoder, outputFormat, null)
         { }
 
-        public async Task<Stream> GetAudioDataStreamAsync(string text, string voiceName, float rateChange, float pitchChange)
+        public async Task<Stream> GetAudioDataStreamAsync(string text, string voiceName, float rateChange = 0, float pitchChange = 0)
         {
+            if (string.IsNullOrEmpty(text))
+            {
+                throw new ArgumentException("Must provide some text to generate speech.", nameof(text));
+            }
+
+            if (string.IsNullOrEmpty(voiceName))
+            {
+                throw new ArgumentException("Must provide a voice to generate speech.", nameof(voiceName));
+            }
+
             try
             {
                 var ttsRequest = new TextToSpeechRequest(azureRegion, azureResourceName, OutputFormat)
@@ -58,29 +69,9 @@ namespace Juniper.Azure.CognitiveServices
             }
         }
 
-        public Task<Stream> GetAudioDataStreamAsync(string text, Voice voice, float rateChange, float pitchChange)
+        public Task<Stream> GetAudioDataStreamAsync(string text, Voice voice, float rateChange = 0, float pitchChange = 0)
         {
-            return GetAudioDataStreamAsync(text, voice.ShortName, rateChange, pitchChange);
-        }
-
-        public Task<Stream> GetAudioDataStreamAsync(string text, string voiceName, float rateChange)
-        {
-            return GetAudioDataStreamAsync(text, voiceName, rateChange, 0);
-        }
-
-        public Task<Stream> GetAudioDataStreamAsync(string text, Voice voice, float rateChange)
-        {
-            return GetAudioDataStreamAsync(text, voice, rateChange, 0);
-        }
-
-        public Task<Stream> GetAudioDataStreamAsync(string text, string voiceName)
-        {
-            return GetAudioDataStreamAsync(text, voiceName, 0, 0);
-        }
-
-        public Task<Stream> GetAudioDataStreamAsync(string text, Voice voice)
-        {
-            return GetAudioDataStreamAsync(text, voice, 0, 0);
+            return GetAudioDataStreamAsync(text, voice?.ShortName, rateChange, pitchChange);
         }
     }
 }

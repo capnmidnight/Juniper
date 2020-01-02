@@ -2,12 +2,14 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text;
+
 using Juniper.HTTP;
 using Juniper.HTTP.Client;
 using Juniper.Sound;
+
 using static System.Math;
 
-namespace Juniper.Azure.CognitiveServices
+namespace Juniper.Speech.Azure.CognitiveServices
 {
     public class TextToSpeechRequest : AbstractAzureSpeechRequest<MediaType.Audio>
     {

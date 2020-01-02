@@ -1,15 +1,18 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Juniper.Azure.CognitiveServices
+namespace Juniper.Speech.Azure.CognitiveServices
 {
     [Serializable]
     public sealed class Voice : ISerializable
     {
-        public readonly string Name;
-        public readonly string ShortName;
-        public readonly string Gender;
-        public readonly string Locale;
+        public string Name { get; }
+
+        public string ShortName { get; }
+
+        public string Gender { get; }
+
+        public string Locale { get; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private Voice(SerializationInfo info, StreamingContext context)

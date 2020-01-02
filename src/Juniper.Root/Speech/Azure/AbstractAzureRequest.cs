@@ -3,7 +3,7 @@ using System;
 using Juniper.HTTP;
 using Juniper.HTTP.Client.REST;
 
-namespace Juniper.Azure
+namespace Juniper.Speech.Azure
 {
     public abstract class AbstractAzureRequest<MediaTypeT> : AbstractRequest<MediaTypeT>
         where MediaTypeT : MediaType

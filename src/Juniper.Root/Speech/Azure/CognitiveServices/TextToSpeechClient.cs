@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Juniper.IO;
 using Juniper.Sound;
 
-namespace Juniper.Azure.CognitiveServices
+namespace Juniper.Speech.Azure.CognitiveServices
 {
     public class TextToSpeechClient : TextToSpeechStreamClient
     {

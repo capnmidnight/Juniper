@@ -1,4 +1,4 @@
-﻿namespace Juniper.Azure.CognitiveServices
+namespace Juniper.Speech.Azure.CognitiveServices
 {
     public enum SpeechStyle
     {

@@ -2,11 +2,10 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Juniper.Azure.CognitiveServices;
 using Juniper.IO;
 using Juniper.Sound;
-
+using Juniper.Speech.Azure;
+using Juniper.Speech.Azure.CognitiveServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.Azure.Tests

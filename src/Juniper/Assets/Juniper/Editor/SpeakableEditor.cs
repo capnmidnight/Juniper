@@ -2,10 +2,9 @@ using System;
 using System.IO;
 using System.Linq;
 
-using Juniper.Azure.CognitiveServices;
 using Juniper.IO;
 using Juniper.Speech;
-
+using Juniper.Speech.Azure.CognitiveServices;
 using UnityEditor;
 
 using UnityEngine;

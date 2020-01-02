@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 using Juniper.IO;
 
-namespace Juniper.Azure.CognitiveServices
+namespace Juniper.Speech.Azure.CognitiveServices
 {
     public class VoicesClient
     {

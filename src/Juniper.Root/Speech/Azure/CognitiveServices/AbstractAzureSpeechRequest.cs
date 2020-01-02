@@ -3,7 +3,7 @@ using System.Net;
 
 using Juniper.HTTP;
 
-namespace Juniper.Azure.CognitiveServices
+namespace Juniper.Speech.Azure.CognitiveServices
 {
     public abstract class AbstractAzureSpeechRequest<MediaTypeT> : AbstractAzureRequest<MediaTypeT>
         where MediaTypeT : MediaType

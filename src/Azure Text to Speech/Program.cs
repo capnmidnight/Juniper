@@ -4,9 +4,10 @@ using System.Media;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Juniper.Azure.CognitiveServices;
+
 using Juniper.IO;
 using Juniper.Sound;
+using Juniper.Speech.Azure.CognitiveServices;
 
 namespace Juniper.Speech
 {
@@ -41,19 +42,15 @@ namespace Juniper.Speech
                     .AppendLayer(new FileCacheLayer(new DirectoryInfo(Path
                         .Combine(userProfile, "Projects")))));
 
-            form = new SpeechGen
+            using var p = player = new SoundPlayer();
+            using var f = form = new SpeechGen
             {
                 Voices = client.GetVoicesAsync().Result
             };
+
             form.GenerateSpeech += Form_GenerateSpeech;
 
-            player = new SoundPlayer();
-
-            using (player)
-            using (form)
-            {
-                Application.Run(form);
-            }
+            Application.Run(form);
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
