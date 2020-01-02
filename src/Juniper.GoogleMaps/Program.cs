@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -84,26 +85,47 @@ namespace Juniper.GoogleMaps
             }
         }
 
-        private static async void Form_LocationSubmitted(object sender, string location)
+        private static void Form_LocationSubmitted(object sender, string location)
+        {
+            _ = LocationSubmittedAsync(location)
+                .ContinueWith((task) => form.SetError(task.Exception), CancellationToken.None, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.Default)
+                .ConfigureAwait(false);
+        }
+
+        private static async Task LocationSubmittedAsync(string location)
         {
             var metadata = await gmaps.SearchMetadataAsync(location)
-                .ConfigureAwait(false);
+                            .ConfigureAwait(false);
             await GetImageDataAsync(metadata)
                 .ConfigureAwait(false);
         }
 
-        private static async void Form_LatLngSubmitted(object sender, string latlng)
+        private static void Form_LatLngSubmitted(object sender, string latlng)
+        {
+            _ = LatLngSubmittedAsync(latlng)
+                .ContinueWith((task) => form.SetError(task.Exception), CancellationToken.None, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.Default)
+                .ConfigureAwait(false);
+        }
+
+        private static async Task LatLngSubmittedAsync(string latlng)
         {
             var metadata = await gmaps.GetMetadataAsync(LatLngPoint.ParseDecimal(latlng))
-                .ConfigureAwait(false);
+                            .ConfigureAwait(false);
             await GetImageDataAsync(metadata)
                 .ConfigureAwait(false);
         }
 
-        private static async void Form_PanoSubmitted(object sender, string pano)
+        private static void Form_PanoSubmitted(object sender, string pano)
+        {
+            _ = PanoSubmittedAsync(pano)
+                .ContinueWith((task) => form.SetError(task.Exception), CancellationToken.None, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.Default)
+                .ConfigureAwait(false);
+        }
+
+        private static async Task PanoSubmittedAsync(string pano)
         {
             var metadata = await gmaps.GetMetadataAsync(pano)
-                .ConfigureAwait(false);
+                            .ConfigureAwait(false);
             await GetImageDataAsync(metadata)
                 .ConfigureAwait(false);
         }
