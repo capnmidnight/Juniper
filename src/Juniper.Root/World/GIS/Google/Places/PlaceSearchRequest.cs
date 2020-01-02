@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Juniper.World.GIS.Google.Places
 {
-    internal class PlaceSearchRequest : AbstractGoogleMapsRequest<MediaType.Application>
+    public class PlaceSearchRequest : AbstractGoogleMapsRequest<MediaType.Application>
     {
         private string input;
         private PlaceSearchInputType inputtype;
