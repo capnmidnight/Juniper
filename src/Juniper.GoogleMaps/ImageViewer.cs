@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -34,7 +35,7 @@ namespace Juniper.GoogleMaps
             {
                 locationTextBox.Text = address ?? string.Empty;
                 panoTextbox.Text = metadata.pano_id;
-                latLngTextbox.Text = metadata.location.ToString();
+                latLngTextbox.Text = metadata.location.ToString(CultureInfo.InvariantCulture);
                 cubeMapPictureBox.Image?.Dispose();
                 cubeMapPictureBox.Image = image;
             }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -35,9 +36,9 @@ namespace Juniper.UnityAssetStore
                 }
 
                 sb.Append("rows=")
-                  .Append(rows.ToString())
+                  .Append(rows.ToString(CultureInfo.InvariantCulture))
                   .Append("&page=")
-                  .Append(page.ToString())
+                  .Append(page.ToString(CultureInfo.InvariantCulture))
                   .Append("&order_by=")
                   .Append(order_by.ToString().ToLowerInvariant());
 
@@ -98,7 +99,7 @@ namespace Juniper.UnityAssetStore
 
         public StoreSearch MaxPrice(int max)
         {
-            return AddTerm("price", $"0-{max.ToString()}");
+            return AddTerm("price", $"0-{max.ToString(CultureInfo.InvariantCulture)}");
         }
 
         public StoreSearch FreeOnly()
@@ -108,17 +109,17 @@ namespace Juniper.UnityAssetStore
 
         public StoreSearch MaxPricePaidOnly(int max)
         {
-            return AddTerm("price", $">0-{max.ToString()}");
+            return AddTerm("price", $">0-{max.ToString(CultureInfo.InvariantCulture)}");
         }
 
         public StoreSearch MaxSize(int megabytes)
         {
-            return AddTerm("size", $"0-{megabytes.ToString()}");
+            return AddTerm("size", $"0-{megabytes.ToString(CultureInfo.InvariantCulture)}");
         }
 
         public StoreSearch MinRating(int rating)
         {
-            return AddTerm("rating", Min(5, Max(1, rating)).ToString());
+            return AddTerm("rating", Min(5, Max(1, rating)).ToString(CultureInfo.InvariantCulture));
         }
 
         public StoreSearch Version(string version)
@@ -128,12 +129,12 @@ namespace Juniper.UnityAssetStore
 
         public StoreSearch ReleasedIn(int days)
         {
-            return AddTerm("released", days.ToString());
+            return AddTerm("released", days.ToString(CultureInfo.InvariantCulture));
         }
 
         public StoreSearch UpdatedIn(int days)
         {
-            return AddTerm("updated", days.ToString());
+            return AddTerm("updated", days.ToString(CultureInfo.InvariantCulture));
         }
 
         [Serializable]
