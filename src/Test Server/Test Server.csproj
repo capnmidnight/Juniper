@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Juniper.Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Juniper.Server\Juniper.Server.csproj" />
   </ItemGroup>
 
   <ItemGroup>

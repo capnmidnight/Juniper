@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <ImportGroup>
+        <Import Project="..\..\Juniper.targets" />
+    </ImportGroup>
+
+    <PropertyGroup>
+        <AssemblyName>Juniper.Server</AssemblyName>
+        <RootNamespace>Juniper.HTTP.Server</RootNamespace>
+        <OutputType>Library</OutputType>
+        
+        <TargetFramework>net48</TargetFramework>
+        <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <Prefer32Bit>false</Prefer32Bit>
+        <Authors>Sean T. McBeth</Authors>
+        <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\Juniper.Root\Juniper.Root.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Properties\" />
+    </ItemGroup>
+    
+</Project>
