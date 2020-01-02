@@ -19,8 +19,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Juniper.Root\Juniper.Root.csproj" />
-    <ProjectReference Include="..\..\src\Juniper.UnityAssetStore\Juniper.UnityAssetStore.csproj" />
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Juniper.UnityAssetStore\Juniper.UnityAssetStore.csproj" />
   </ItemGroup>
 
 </Project>

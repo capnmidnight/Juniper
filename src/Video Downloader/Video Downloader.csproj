@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Juniper.Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
   </ItemGroup>
 
 </Project>

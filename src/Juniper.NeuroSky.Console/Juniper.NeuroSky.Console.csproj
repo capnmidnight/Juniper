@@ -44,7 +44,7 @@
   </PropertyGroup>
     
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Juniper.NeuroSky\Juniper.NeuroSky.csproj" />
+    <ProjectReference Include="..\Juniper.NeuroSky\Juniper.NeuroSky.csproj" />
   </ItemGroup>
 
 </Project>

@@ -76,7 +76,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Juniper.Root\Juniper.Root.csproj">
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj">
       <Project>{bd5b6e34-ca14-4636-83c0-da4aaddf08be}</Project>
       <Name>Juniper.Root</Name>
     </ProjectReference>
