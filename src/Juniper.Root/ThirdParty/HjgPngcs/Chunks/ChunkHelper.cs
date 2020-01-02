@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Text;
 using Hjg.Pngcs.Zlib;
 
 namespace Hjg.Pngcs.Chunks
@@ -76,7 +76,7 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public static byte[] ToBytesUTF8(string x)
         {
-            return Hjg.Pngcs.PngHelperInternal.charsetUtf8.GetBytes(x);
+            return Encoding.UTF8.GetBytes(x);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public static string ToStringUTF8(byte[] x)
         {
-            return Hjg.Pngcs.PngHelperInternal.charsetUtf8.GetString(x);
+            return Encoding.UTF8.GetString(x);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public static string ToStringUTF8(byte[] x, int offset, int len)
         {
-            return Hjg.Pngcs.PngHelperInternal.charsetUtf8.GetString(x, offset, len);
+            return Encoding.UTF8.GetString(x, offset, len);
         }
 
         /// <summary>

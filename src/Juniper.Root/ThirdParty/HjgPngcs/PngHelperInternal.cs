@@ -25,10 +25,7 @@ namespace Hjg.Pngcs
 
         public static readonly byte[] PNG_ID_SIGNATURE = { 256 - 119, 80, 78, 71, 13, 10, 26, 10 }; // png magic
 
-        public static Encoding charsetLatin1 = Encoding.GetEncoding("ISO-8859-1"); // charset
-        public static Encoding charsetUtf8 = Encoding.UTF8; // charset used for some chunks
-
-        public static bool DEBUG = false;
+        public static readonly Encoding charsetLatin1 = Encoding.GetEncoding("ISO-8859-1"); // charset
 
         public static int DoubleToInt100000(double d)
         {
@@ -265,10 +262,9 @@ namespace Hjg.Pngcs
 
         public static void Logdebug(string msg)
         {
-            if (DEBUG)
-            {
-                Console.WriteLine(msg);
-            }
+#if DEBUG
+            Console.WriteLine(msg);
+#endif
         }
 
         public static void InitCrcForTests(PngReader pngr)
