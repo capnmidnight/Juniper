@@ -141,7 +141,7 @@ namespace Juniper.HTTP.Server
         /// <summary>
         /// Event for handling error logs that prevent execution.
         /// </summary>
-        public event EventHandler<ErrorEventArgs> Error;
+        public event EventHandler<ErrorEventArgs> Err;
 
         private AuthenticationSchemes GetAuthenticationSchemeForRequest(HttpListenerRequest request)
         {
@@ -245,7 +245,7 @@ or
 
             if (controller is IErrorSource errorSource)
             {
-                errorSource.Error += OnError;
+                errorSource.Err += OnError;
             }
 
             controllers.Add(controller);
@@ -468,14 +468,14 @@ or
 
             addCert.Info += OnInfo;
             addCert.Warning += OnWarning;
-            addCert.Error += OnError;
+            addCert.Err += OnError;
 
             _ = await addCert.RunAsync()
                 .ConfigureAwait(false);
 
             addCert.Info -= OnInfo;
             addCert.Warning -= OnWarning;
-            addCert.Error -= OnError;
+            addCert.Err -= OnError;
 
             return addCert.TotalStandardOutput;
         }
@@ -581,7 +581,7 @@ or
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnError(object sender, ErrorEventArgs e)
         {
-            Error?.Invoke(sender, e);
+            Err?.Invoke(sender, e);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

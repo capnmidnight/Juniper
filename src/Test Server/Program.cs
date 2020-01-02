@@ -21,7 +21,7 @@ namespace Juniper.HTTP
 
             server.Info += Server_Info;
             server.Warning += Server_Warning;
-            server.Error += Server_Error;
+            server.Err += Server_Error;
 
             _ = server.AddRoutesFrom(new DefaultFileController("..\\..\\..\\content"));
             _ = server.AddRoutesFrom(new IPBanController("testBans.txt"));

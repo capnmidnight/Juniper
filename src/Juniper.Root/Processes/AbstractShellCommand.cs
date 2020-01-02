@@ -17,7 +17,7 @@ namespace Juniper.Processes
 
         public event EventHandler<string> Info;
         public event EventHandler<string> Warning;
-        public event EventHandler<ErrorEventArgs> Error;
+        public event EventHandler<ErrorEventArgs> Err;
 
         public bool UseShellExecute { get; set; }
 
@@ -145,7 +145,7 @@ namespace Juniper.Processes
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnError(Exception exp)
         {
-            Error?.Invoke(this, new ErrorEventArgs(exp));
+            Err?.Invoke(this, new ErrorEventArgs(exp));
         }
     }
 }

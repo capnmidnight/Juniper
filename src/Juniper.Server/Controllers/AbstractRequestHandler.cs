@@ -24,7 +24,7 @@ namespace Juniper.HTTP.Server.Controllers
 
         public event EventHandler<string> Info;
         public event EventHandler<string> Warning;
-        public event EventHandler<ErrorEventArgs> Error;
+        public event EventHandler<ErrorEventArgs> Err;
 
         public AuthenticationSchemes Authentication { get; }
 
@@ -162,7 +162,7 @@ namespace Juniper.HTTP.Server.Controllers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnError(Exception exp)
         {
-            Error?.Invoke(this, new ErrorEventArgs(exp));
+            Err?.Invoke(this, new ErrorEventArgs(exp));
         }
     }
 }
