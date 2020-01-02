@@ -42,6 +42,11 @@ namespace Juniper.World.Climate.OpenWeatherMap
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected OWMWeather(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             main = info.GetString(nameof(main));
             description = info.GetString(nameof(description));
             icon = info.GetString(nameof(icon));
@@ -55,6 +60,11 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <param name="context"></param>
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddValue(nameof(main), main);
             info.AddValue(nameof(description), description);
             info.AddValue(nameof(icon), icon);

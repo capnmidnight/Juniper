@@ -14,6 +14,11 @@ namespace Juniper.Azure.CognitiveServices
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private Voice(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             Name = info.GetString(nameof(Name));
             ShortName = info.GetString(nameof(ShortName));
             Gender = info.GetString(nameof(Gender));
@@ -22,6 +27,11 @@ namespace Juniper.Azure.CognitiveServices
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddValue(nameof(Name), Name);
             info.AddValue(nameof(ShortName), ShortName);
             info.AddValue(nameof(Gender), Gender);

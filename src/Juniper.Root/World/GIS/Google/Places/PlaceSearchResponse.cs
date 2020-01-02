@@ -6,13 +6,23 @@ namespace Juniper.World.GIS.Google.Places
     [Serializable]
     public class PlaceSearchResponse : ISerializable
     {
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        protected PlaceSearchResponse(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             throw new NotImplementedException();
         }
 
-        protected PlaceSearchResponse(SerializationInfo info, StreamingContext context)
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             throw new NotImplementedException();
         }
     }

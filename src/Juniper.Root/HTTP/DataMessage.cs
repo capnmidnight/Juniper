@@ -18,12 +18,22 @@ namespace Juniper.HTTP
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private DataMessage(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             Message = info.GetString(nameof(Message));
             Data = info.GetValue<byte[]>(nameof(Data));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if(info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddValue(nameof(Message), Message);
             info.AddValue(nameof(Data), Data);
         }

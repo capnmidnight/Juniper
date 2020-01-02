@@ -20,6 +20,11 @@ namespace Juniper.World.GIS.Google.TimeZone
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected TimeZoneResponse(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             status = info.GetString(nameof(status)).MapToStatusCode();
             if (status == HttpStatusCode.OK)
             {
@@ -36,6 +41,11 @@ namespace Juniper.World.GIS.Google.TimeZone
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddValue(nameof(status), status.ToGoogleString());
             if (status == HttpStatusCode.OK)
             {

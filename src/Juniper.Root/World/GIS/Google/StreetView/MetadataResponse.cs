@@ -30,6 +30,11 @@ namespace Juniper.World.GIS.Google.StreetView
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected MetadataResponse(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             status = info.GetString(nameof(status)).MapToStatusCode();
             if (status == HttpStatusCode.OK)
             {
@@ -42,6 +47,11 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddValue(nameof(status), status.ToString());
             if (status == HttpStatusCode.OK)
             {

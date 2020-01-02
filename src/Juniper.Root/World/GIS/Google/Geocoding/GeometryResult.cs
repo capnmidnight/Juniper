@@ -15,6 +15,11 @@ namespace Juniper.World.GIS.Google.Geocoding
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected GeometryResult(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             location = info.GetValue<LatLngPoint>(nameof(location));
             locationTypeString = info.GetString(nameof(location_type));
             location_type = Enum.TryParse<GeometryLocationType>(locationTypeString, out var type)
@@ -34,6 +39,11 @@ namespace Juniper.World.GIS.Google.Geocoding
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddValue(nameof(location), new
             {
                 lat = location.Latitude,

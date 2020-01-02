@@ -4,23 +4,6 @@ using System.Runtime.Serialization;
 namespace Juniper.UnityAssetStore
 {
     [Serializable]
-    public class AssetContents : ISerializable
-    {
-        public AssetContent[] assets;
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
-        protected AssetContents(SerializationInfo info, StreamingContext context)
-        {
-            assets = info.GetValue<AssetContent[]>(nameof(assets));
-        }
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(nameof(assets), assets);
-        }
-    }
-
-    [Serializable]
     public class AssetContent : ISerializable
     {
         public readonly int level;
@@ -32,6 +15,11 @@ namespace Juniper.UnityAssetStore
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected AssetContent(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             foreach (var field in info)
             {
                 switch (field.Name)
@@ -61,6 +49,11 @@ namespace Juniper.UnityAssetStore
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddValue(nameof(level), level);
             info.AddValue(nameof(label), label);
             info.AddValue(nameof(folder), folder);

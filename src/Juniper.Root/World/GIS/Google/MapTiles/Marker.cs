@@ -22,12 +22,22 @@ namespace Juniper.World.GIS.Google.MapTiles
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private Marker(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             style = info.GetValue<MarkerStyle>(nameof(style));
             center = info.GetString(nameof(center));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddValue(nameof(style), style);
             info.AddValue(nameof(center), center);
         }

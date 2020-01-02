@@ -13,6 +13,11 @@ namespace Juniper.UnityAssetStore
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected Flags(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             flags = new List<string>();
             foreach (var field in info)
             {
@@ -22,6 +27,11 @@ namespace Juniper.UnityAssetStore
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             foreach (var flag in flags)
             {
                 info.AddValue(flag, 1);

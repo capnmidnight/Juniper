@@ -33,6 +33,11 @@ namespace Juniper.UnityAssetStore
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected AssetDownload(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             icon = info.GetString(nameof(icon));
             local_version_name = info.GetString(nameof(local_version_name));
             status = info.GetString(nameof(status));
@@ -60,6 +65,11 @@ namespace Juniper.UnityAssetStore
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddValue(nameof(icon), icon);
             info.AddValue(nameof(local_version_name), local_version_name);
             info.AddValue(nameof(status), status);
@@ -95,12 +105,22 @@ namespace Juniper.UnityAssetStore
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected CategorySummary(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             name = info.GetString(nameof(name));
             id = info.GetString(nameof(id));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddValue(nameof(name), name);
             info.AddValue(nameof(id), id);
         }

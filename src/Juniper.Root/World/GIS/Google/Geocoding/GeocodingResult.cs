@@ -20,6 +20,11 @@ namespace Juniper.World.GIS.Google.Geocoding
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected GeocodingResult(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             address_components = info.GetValue<AddressComponent[]>(nameof(address_components));
             addressComponentLookup = address_components.ToDictionary(elem => elem.Key);
             formatted_address = info.GetString(nameof(formatted_address));
@@ -34,6 +39,11 @@ namespace Juniper.World.GIS.Google.Geocoding
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             if (partial_match)
             {
                 info.AddValue(nameof(partial_match), partial_match);

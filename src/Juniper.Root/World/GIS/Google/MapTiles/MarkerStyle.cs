@@ -61,13 +61,23 @@ namespace Juniper.World.GIS.Google.MapTiles
             styleDef = sb.ToString();
         }
 
-        private MarkerStyle(SerializationInfo serializationInfo, StreamingContext streamingContext)
+        private MarkerStyle(SerializationInfo info, StreamingContext streamingContext)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             throw new NotImplementedException();
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             throw new NotImplementedException();
         }
 

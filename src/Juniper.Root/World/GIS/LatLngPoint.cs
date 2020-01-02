@@ -59,6 +59,11 @@ namespace Juniper.World.GIS
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface")]
         private LatLngPoint(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             Latitude = Longitude = Altitude = 0;
             foreach (var pair in info)
             {
@@ -87,6 +92,11 @@ namespace Juniper.World.GIS
         /// <param name="context"></param>
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddValue(nameof(Latitude), Latitude);
             info.AddValue(nameof(Longitude), Longitude);
             info.AddValue(nameof(Altitude), Altitude);

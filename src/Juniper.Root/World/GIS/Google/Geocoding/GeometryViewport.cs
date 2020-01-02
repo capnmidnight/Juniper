@@ -18,12 +18,22 @@ namespace Juniper.World.GIS.Google.Geocoding
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected GeometryViewport(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             southwest = info.GetValue<LatLngPoint>(nameof(southwest));
             northeast = info.GetValue<LatLngPoint>(nameof(northeast));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddValue(nameof(southwest), new
             {
                 lat = southwest.Latitude,

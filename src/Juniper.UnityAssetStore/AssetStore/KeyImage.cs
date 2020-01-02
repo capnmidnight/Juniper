@@ -44,6 +44,11 @@ namespace Juniper.UnityAssetStore
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected KeyImage(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             package_version_id = null;
             small = null;
             small_legacy = null;
@@ -158,6 +163,11 @@ namespace Juniper.UnityAssetStore
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             if (package_version_id is object)
             {
                 info.AddValue(nameof(package_version_id), package_version_id);

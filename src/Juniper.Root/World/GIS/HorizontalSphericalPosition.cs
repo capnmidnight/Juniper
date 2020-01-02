@@ -46,6 +46,11 @@ namespace Juniper.World.GIS
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private HorizontalSphericalPosition(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             AltitudeDegrees = info.GetSingle(nameof(AltitudeDegrees));
             AzimuthDegrees = info.GetSingle(nameof(AzimuthDegrees));
             RadiusAU = info.GetSingle(nameof(RadiusAU));
@@ -58,6 +63,11 @@ namespace Juniper.World.GIS
         /// <param name="context"></param>
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddValue(nameof(AltitudeDegrees), AltitudeDegrees);
             info.AddValue(nameof(AzimuthDegrees), AzimuthDegrees);
             info.AddValue(nameof(RadiusAU), RadiusAU);

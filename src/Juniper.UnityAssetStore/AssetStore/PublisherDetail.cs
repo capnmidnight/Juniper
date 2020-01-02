@@ -33,6 +33,11 @@ namespace Juniper.UnityAssetStore
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected PublisherDetail(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             organization_id = info.GetString(nameof(organization_id));
             name = info.GetString(nameof(name));
 
@@ -68,6 +73,11 @@ namespace Juniper.UnityAssetStore
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddValue(nameof(organization_id), organization_id);
             info.AddValue(nameof(name), name);
             info.AddValue(nameof(support_email), support_email);
@@ -96,6 +106,11 @@ namespace Juniper.UnityAssetStore
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
             protected PublisherSummary(SerializationInfo info, StreamingContext context)
             {
+                if (info is null)
+                {
+                    throw new ArgumentNullException(nameof(info));
+                }
+
                 label_english = info.GetString(nameof(label_english));
                 slug = info.GetString(nameof(slug));
                 url = info.GetString(nameof(url));
@@ -107,6 +122,11 @@ namespace Juniper.UnityAssetStore
 
             public void GetObjectData(SerializationInfo info, StreamingContext context)
             {
+                if (info is null)
+                {
+                    throw new ArgumentNullException(nameof(info));
+                }
+
                 info.AddValue(nameof(label_english), label_english);
                 info.AddValue(nameof(slug), slug);
                 info.AddValue(nameof(url), url);
@@ -143,6 +163,11 @@ namespace Juniper.UnityAssetStore
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
             protected LatestAsset(SerializationInfo info, StreamingContext context)
             {
+                if (info is null)
+                {
+                    throw new ArgumentNullException(nameof(info));
+                }
+
                 icon = info.GetString(nameof(icon));
                 pubdate = info.GetString(nameof(pubdate));
                 status = info.GetString(nameof(status));
@@ -170,6 +195,11 @@ namespace Juniper.UnityAssetStore
 
             public void GetObjectData(SerializationInfo info, StreamingContext context)
             {
+                if (info is null)
+                {
+                    throw new ArgumentNullException(nameof(info));
+                }
+
                 info.AddValue(nameof(icon), icon);
                 info.AddValue(nameof(pubdate), pubdate);
                 info.AddValue(nameof(status), status);
@@ -203,6 +233,11 @@ namespace Juniper.UnityAssetStore
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
             protected CategorySummary(SerializationInfo info, StreamingContext context)
             {
+                if (info is null)
+                {
+                    throw new ArgumentNullException(nameof(info));
+                }
+
                 label_english = info.GetString(nameof(label_english));
                 multiple = info.GetString(nameof(multiple));
                 id = info.GetString(nameof(id));
@@ -211,6 +246,11 @@ namespace Juniper.UnityAssetStore
 
             public void GetObjectData(SerializationInfo info, StreamingContext context)
             {
+                if (info is null)
+                {
+                    throw new ArgumentNullException(nameof(info));
+                }
+
                 info.AddValue(nameof(label_english), label_english);
                 info.AddValue(nameof(multiple), multiple);
                 info.AddValue(nameof(id), id);

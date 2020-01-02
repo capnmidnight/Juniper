@@ -40,6 +40,11 @@ namespace Juniper.Primrose
         private RuntimeException(SerializationInfo info, StreamingContext streamingContext)
             : base(info, streamingContext)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             source = info.GetString(nameof(source));
             evaluatedScript = info.GetString(nameof(evaluatedScript));
             line = info.GetValue<Token[]>(nameof(line));
@@ -47,6 +52,11 @@ namespace Juniper.Primrose
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             base.GetObjectData(info, context);
             info.AddValue(nameof(source), source);
             info.AddValue(nameof(evaluatedScript), evaluatedScript);

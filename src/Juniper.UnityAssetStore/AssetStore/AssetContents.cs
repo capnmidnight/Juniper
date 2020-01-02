@@ -1,23 +1,22 @@
-using System;
+﻿using System;
 using System.Runtime.Serialization;
 
 namespace Juniper.UnityAssetStore
 {
     [Serializable]
-    public class Overview<T> : ISerializable
-        where T : class, ISerializable
+    public class AssetContents : ISerializable
     {
-        public readonly T overview;
+        public AssetContent[] assets;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
-        protected Overview(SerializationInfo info, StreamingContext context)
+        protected AssetContents(SerializationInfo info, StreamingContext context)
         {
             if (info is null)
             {
                 throw new ArgumentNullException(nameof(info));
             }
 
-            overview = info.GetValue<T>(nameof(overview));
+            assets = info.GetValue<AssetContent[]>(nameof(assets));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -27,7 +26,7 @@ namespace Juniper.UnityAssetStore
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue(nameof(overview), overview);
+            info.AddValue(nameof(assets), assets);
         }
     }
 }

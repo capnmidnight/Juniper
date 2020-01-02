@@ -27,12 +27,17 @@ namespace Juniper.XR
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private Pose(SerializationInfo info, StreamingContext context)
-            : this(info.GetVector3(nameof(position)),
+            : this(info?.GetVector3(nameof(position)) ?? throw new ArgumentNullException(nameof(info)),
                 info.GetQuaternion(nameof(orientation)))
         { }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddVector3(nameof(position), position);
             info.AddQuaternion(nameof(orientation), orientation);
         }

@@ -45,6 +45,11 @@ namespace Juniper.World.GIS
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private GeocentricEclipticSphericalPosition(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             LatitudeDegrees = info.GetSingle(nameof(LatitudeDegrees));
             LongitudeDegrees = info.GetSingle(nameof(LongitudeDegrees));
             RadiusAU = info.GetSingle(nameof(RadiusAU));
@@ -57,6 +62,11 @@ namespace Juniper.World.GIS
         /// <param name="context"></param>
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddValue(nameof(LatitudeDegrees), LatitudeDegrees);
             info.AddValue(nameof(LongitudeDegrees), LongitudeDegrees);
             info.AddValue(nameof(RadiusAU), RadiusAU);

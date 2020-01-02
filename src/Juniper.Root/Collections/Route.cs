@@ -150,12 +150,17 @@ namespace Juniper.Collections
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected Route(SerializationInfo info, StreamingContext context)
             : this(false,
-                info.GetValue<ValueT[]>(nameof(nodes)),
-                info.GetSingle(nameof(Cost)))
+                info?.GetValue<ValueT[]>(nameof(nodes)),
+                info?.GetSingle(nameof(Cost)) ?? throw new ArgumentNullException(nameof(info)))
         { }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddValue(nameof(Cost), Cost);
             info.AddValue(nameof(nodes), nodes);
         }

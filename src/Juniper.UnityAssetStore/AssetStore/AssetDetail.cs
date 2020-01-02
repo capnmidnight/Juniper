@@ -51,6 +51,11 @@ namespace Juniper.UnityAssetStore
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected AssetDetail(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             foreach (var field in info)
             {
                 switch (field.Name)
@@ -175,6 +180,11 @@ namespace Juniper.UnityAssetStore
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddValue(nameof(pubdate), pubdate);
             info.AddValue(nameof(pubdate_iso), pubdate_iso);
             info.AddValue(nameof(min_unity_version), min_unity_version);
@@ -214,6 +224,11 @@ namespace Juniper.UnityAssetStore
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
             protected CategorySummary(SerializationInfo info, StreamingContext context)
             {
+                if (info is null)
+                {
+                    throw new ArgumentNullException(nameof(info));
+                }
+
                 tree_id = info.GetString(nameof(tree_id));
                 multiple = info.GetString(nameof(multiple));
                 id = info.GetString(nameof(id));
@@ -222,6 +237,11 @@ namespace Juniper.UnityAssetStore
 
             public void GetObjectData(SerializationInfo info, StreamingContext context)
             {
+                if (info is null)
+                {
+                    throw new ArgumentNullException(nameof(info));
+                }
+
                 info.AddValue(nameof(tree_id), tree_id);
                 info.AddValue(nameof(multiple), multiple);
                 info.AddValue(nameof(id), id);
@@ -242,6 +262,11 @@ namespace Juniper.UnityAssetStore
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
             protected PublisherSummary(SerializationInfo info, StreamingContext context)
             {
+                if (info is null)
+                {
+                    throw new ArgumentNullException(nameof(info));
+                }
+
                 support_email = info.GetString(nameof(support_email));
                 url = info.GetString(nameof(url));
                 slug = info.GetString(nameof(slug));
@@ -252,6 +277,11 @@ namespace Juniper.UnityAssetStore
 
             public void GetObjectData(SerializationInfo info, StreamingContext context)
             {
+                if (info is null)
+                {
+                    throw new ArgumentNullException(nameof(info));
+                }
+
                 info.AddValue(nameof(support_email), support_email);
                 info.AddValue(nameof(url), url);
                 info.AddValue(nameof(slug), slug);
@@ -273,6 +303,11 @@ namespace Juniper.UnityAssetStore
             [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
             protected Image(SerializationInfo info, StreamingContext context)
             {
+                if (info is null)
+                {
+                    throw new ArgumentNullException(nameof(info));
+                }
+
                 link = info.GetString(nameof(link));
                 width = info.GetString(nameof(width));
                 type = info.GetString(nameof(type));
@@ -282,6 +317,11 @@ namespace Juniper.UnityAssetStore
 
             public void GetObjectData(SerializationInfo info, StreamingContext context)
             {
+                if (info is null)
+                {
+                    throw new ArgumentNullException(nameof(info));
+                }
+
                 info.AddValue(nameof(link), link);
                 info.AddValue(nameof(width), width);
                 info.AddValue(nameof(type), type);

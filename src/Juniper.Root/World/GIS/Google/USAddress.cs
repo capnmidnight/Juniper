@@ -25,6 +25,11 @@ namespace Juniper.World.GIS.Google
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private USAddress(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             street = info.GetString(nameof(street));
             city = info.GetString(nameof(city));
             state = info.GetString(nameof(state));
@@ -33,6 +38,11 @@ namespace Juniper.World.GIS.Google
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
             info.AddValue(nameof(street), street);
             info.AddValue(nameof(city), city);
             info.AddValue(nameof(state), state);
