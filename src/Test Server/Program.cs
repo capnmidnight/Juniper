@@ -65,7 +65,7 @@ namespace Juniper.HTTP
             var socket = (WebSocketConnection)sender;
             WriteLine($"[SOCKET] {msg}");
             msg += " from server";
-            Task.Run(() => socket.SendAsync(msg));
+            _ = Task.Run(() => socket.SendAsync(msg));
         }
 
         private static void Server_Info(object sender, string e)
