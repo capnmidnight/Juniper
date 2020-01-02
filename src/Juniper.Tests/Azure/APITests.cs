@@ -3,9 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Juniper.Audio;
 using Juniper.Azure.CognitiveServices;
 using Juniper.IO;
+using Juniper.Sound;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
