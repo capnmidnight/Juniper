@@ -26,7 +26,8 @@ namespace Hjg.Pngcs
     /// <para>5. Read of the last row automatically loads the trailing chunks, and ends the reader.</para>
     /// <para>6. End() forcibly finishes/aborts the reading and closes the stream</para>
     /// </remarks>
-    public class PngReader
+    public sealed class PngReader :
+        IDisposable
     {
         /// <summary>
         /// Basic image info, inmutable
@@ -36,7 +37,7 @@ namespace Hjg.Pngcs
         /// <summary>
         /// filename, or description - merely informative, can be empty
         /// </summary>
-        protected readonly string filename;
+        private readonly string filename;
 
         /// <summary>
         /// Strategy for chunk loading. Default: LOAD_CHUNK_ALWAYS
@@ -95,22 +96,22 @@ namespace Hjg.Pngcs
         /// <summary>
         /// buffer: last read line
         /// </summary>
-        protected ImageLine imgLine;
+        private ImageLine imgLine;
 
         /// <summary>
         /// raw current row, as array of bytes,counting from 1 (index 0 is reserved for filter type)
         /// </summary>
-        protected byte[] rowb;
+        private byte[] rowb;
 
         /// <summary>
         /// previuos raw row
         /// </summary>
-        protected byte[] rowbprev; // rowb previous
+        private byte[] rowbprev; // rowb previous
 
         /// <summary>
         /// raw current row, after unfiltered
         /// </summary>
-        protected byte[] rowbfilter;
+        private byte[] rowbfilter;
 
         // only set for interlaced PNG
         public readonly bool interlaced;
@@ -131,7 +132,7 @@ namespace Hjg.Pngcs
         /// <summary>
         /// last read row number
         /// </summary>
-        protected int rowNum = -1; //
+        private int rowNum = -1; //
 
         private long offset = 0;  // offset in InputStream = bytes read
         private int bytesChunksLoaded = 0; // bytes loaded from anciallary chunks
@@ -140,7 +141,7 @@ namespace Hjg.Pngcs
         internal AZlibInputStream idatIstream;
         internal PngIDatChunkInputStream iIdatCstream;
 
-        protected Adler32 crctest; // If set to non null, it gets a CRC of the unfiltered bytes, to check for images equality
+        private Adler32 crctest; // If set to non null, it gets a CRC of the unfiltered bytes, to check for images equality
 
         /// <summary>
         /// Constructs a PngReader from a Stream, with no filename information
@@ -154,15 +155,15 @@ namespace Hjg.Pngcs
         /// <summary>
         /// Constructs a PNGReader objet from a opened Stream
         /// </summary>
-        /// <remarks>The constructor reads the signature and first chunk (IDHR)<seealso cref="FileHelper.CreatePngReader(string)"/>
+        /// <remarks>The constructor reads the signature and first chunk (IDHR)
         /// </remarks>
         ///
         /// <param name="inputStream"></param>
         /// <param name="filename">Optional, can be the filename or a description.</param>
         public PngReader(Stream inputStream, string filename)
         {
+            this.inputStream = inputStream ?? throw new ArgumentNullException(nameof(inputStream));
             this.filename = filename ?? "";
-            this.inputStream = inputStream;
             chunksList = new ChunksList(null);
             metadata = new PngMetadata(chunksList);
             offset = 0;
@@ -173,7 +174,7 @@ namespace Hjg.Pngcs
             MaxTotalBytesRead = 200 * 1024 * 1024; // 200MB
             SkipChunkMaxSize = 2 * 1024 * 1024;
             SkipChunkIds = new string[] { "fdAT" };
-            ChunkLoadBehaviour = Hjg.Pngcs.Chunks.ChunkLoadBehaviour.LOAD_CHUNK_ALWAYS;
+            ChunkLoadBehaviour = ChunkLoadBehaviour.LOAD_CHUNK_ALWAYS;
             // starts reading: signature
             var pngid = new byte[8];
             PngHelperInternal.ReadBytes(inputStream, pngid, 0, pngid.Length);
@@ -1010,5 +1011,34 @@ namespace Hjg.Pngcs
         {
             unpackedMode = unPackedMode;
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        private void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    idatIstream?.Dispose();
+                    iIdatCstream?.Dispose();
+                    inputStream.Dispose();
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+        }
+        #endregion
     }
 }

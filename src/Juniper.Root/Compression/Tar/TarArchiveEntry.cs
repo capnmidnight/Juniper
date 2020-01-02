@@ -6,7 +6,8 @@ namespace Juniper.Compression.Tar
     /// <summary>
     /// An Tar entry stream for a file entry from a tar stream.
     /// </summary>
-    public class TarArchiveEntry
+    public sealed class TarArchiveEntry :
+        IDisposable
     {
         private readonly MemoryStream copy;
 
@@ -21,6 +22,11 @@ namespace Juniper.Compression.Tar
         /// <exception cref="ArgumentNullException"></exception>
         public TarArchiveEntry(Stream stream, string fileName, DateTime lastModifiedTime, long length)
         {
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
             FullName = fileName;
             LastModifiedTime = lastModifiedTime;
             copy = new MemoryStream((int)length);
@@ -54,5 +60,29 @@ namespace Juniper.Compression.Tar
             copy.Position = 0;
             return copy;
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        private void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    copy.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+        }
+        #endregion
     }
 }

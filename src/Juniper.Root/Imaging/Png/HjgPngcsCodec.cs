@@ -29,16 +29,14 @@ namespace Juniper.Imaging
         public ImageLines Deserialize(Stream stream, IProgress prog)
         {
             prog.Report(0);
-            ImageLines image = null;
-            using (stream)
-            {
-                var png = new PngReader(stream);
-                png.SetUnpackedMode(true);
-                image = png.ReadRowsByte();
-                png.End();
-            }
+
+            using var png = new PngReader(stream);
+            png.SetUnpackedMode(true);
+            var image = png.ReadRowsByte();
+            png.End();
 
             prog.Report(1);
+
             return image;
         }
 
@@ -48,12 +46,22 @@ namespace Juniper.Imaging
         /// <param name="stream">Png bytes.</param>
         public void Serialize(Stream stream, ImageLines value, IProgress prog = null)
         {
+            if (stream is null)
+            {
+                throw new System.ArgumentNullException(nameof(stream));
+            }
+
+            if (value is null)
+            {
+                throw new System.ArgumentNullException(nameof(value));
+            }
+
             var subProgs = prog.Split("Copying", "Saving");
             var copyProg = subProgs[0];
             var saveProg = subProgs[1];
             var info = value.ImgInfo;
 
-            var png = new PngWriter(stream, info)
+            using var png = new PngWriter(stream, info)
             {
                 CompLevel = compressionLevel,
                 IdatMaxSize = IDATMaxSize

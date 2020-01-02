@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 using Hjg.Pngcs.Chunks;
@@ -9,7 +10,8 @@ namespace Hjg.Pngcs
     /// <summary>
     ///  Writes a PNG image, line by line.
     /// </summary>
-    public class PngWriter
+    public sealed class PngWriter :
+        IDisposable
     {
         /// <summary>
         /// Basic image info, inmutable
@@ -19,7 +21,7 @@ namespace Hjg.Pngcs
         /// <summary>
         /// filename, or description - merely informative, can be empty
         /// </summary>
-        protected readonly string filename;
+        private readonly string filename;
 
         private FilterWriteStrategy filterStrat;
 
@@ -63,17 +65,17 @@ namespace Hjg.Pngcs
         /// <summary>
         /// raw current row, as array of bytes,counting from 1 (index 0 is reserved for filter type)
         /// </summary>
-        protected byte[] rowb;
+        private byte[] rowb;
 
         /// <summary>
         /// previuos raw row
         /// </summary>
-        protected byte[] rowbprev; // rowb previous
+        private byte[] rowbprev; // rowb previous
 
         /// <summary>
         /// raw current row, after filtered
         /// </summary>
-        protected byte[] rowbfilter;
+        private byte[] rowbfilter;
 
         /// <summary>
         /// number of chunk group (0-6) last writen, or currently writing
@@ -120,8 +122,8 @@ namespace Hjg.Pngcs
         public PngWriter(Stream outputStream, ImageInfo imgInfo,
                 string filename)
         {
+            this.outputStream = outputStream ?? throw new ArgumentNullException(nameof(outputStream));
             this.filename = filename ?? "";
-            this.outputStream = outputStream;
             ImgInfo = imgInfo;
             // defaults settings
             CompLevel = 6;
@@ -257,7 +259,7 @@ namespace Hjg.Pngcs
             ihdr.CreateRawChunk().WriteChunk(outputStream);
         }
 
-        protected void EncodeRowFromByte(byte[] row)
+        private void EncodeRowFromByte(byte[] row)
         {
             if (row.Length == ImgInfo.SamplesPerRowPacked && !needsPack)
             {
@@ -305,7 +307,7 @@ namespace Hjg.Pngcs
             }
         }
 
-        protected void EncodeRowFromInt(int[] row)
+        private void EncodeRowFromInt(int[] row)
         {
             if (row.Length == ImgInfo.SamplesPerRowPacked && !needsPack)
             {
@@ -487,6 +489,11 @@ namespace Hjg.Pngcs
         ///
         private void CopyChunks(PngReader reader, int copy_mask, bool onlyAfterIdat)
         {
+            if (reader is null)
+            {
+                throw new System.ArgumentNullException(nameof(reader));
+            }
+
             var idatDone = CurrentChunkGroup >= ChunksList.CHUNK_GROUP_4_IDAT;
             if (onlyAfterIdat && reader.CurrentChunkGroup < ChunksList.CHUNK_GROUP_6_END)
             {
@@ -744,5 +751,31 @@ namespace Hjg.Pngcs
             unpackedMode = useUnpackedMode;
             needsPack = unpackedMode && ImgInfo.Packed;
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        private void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    datStream?.Dispose();
+                    datStreamDeflated?.Dispose();
+                    outputStream.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+        }
+        #endregion
     }
 }
