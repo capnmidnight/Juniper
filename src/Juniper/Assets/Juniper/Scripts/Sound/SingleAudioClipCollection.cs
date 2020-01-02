@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Juniper.Audio
+namespace Juniper.Sound
 {
     /// <summary>
     /// Wraps around a single audio clip to make it interface with code that handles full collections

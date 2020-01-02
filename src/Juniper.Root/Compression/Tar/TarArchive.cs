@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
+using Juniper.Progress;
 
 namespace Juniper.Compression.Tar
 {
-    public class TarArchive : IDisposable
+    public sealed class TarArchive : IDisposable
     {
         internal static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
@@ -20,10 +20,15 @@ namespace Juniper.Compression.Tar
 
         public TarArchive(Stream stream)
         {
-            entries = ReadEntries(stream).ToList();
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            entries = new List<TarArchiveEntry>(ReadEntries(stream));
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
@@ -257,6 +262,82 @@ namespace Juniper.Compression.Tar
             }
 
             return value;
+        }
+
+
+        public void Decompress(DirectoryInfo outputDirectory, string entryPrefix, bool overwrite, IProgress prog)
+        {
+            if (outputDirectory is null)
+            {
+                throw new ArgumentNullException(nameof(outputDirectory));
+            }
+
+            var i = 0;
+            foreach (var entry in Entries)
+            {
+                prog.Report(i++, Entries.Count);
+                try
+                {
+                    var fileName = entry.FullName;
+                    if (fileName.StartsWith(entryPrefix, StringComparison.InvariantCulture))
+                    {
+                        if (entryPrefix != null)
+                        {
+                            fileName = fileName.Remove(0, entryPrefix.Length);
+                        }
+
+                        var outputPath = Path.Combine(outputDirectory.FullName, fileName);
+                        var outputFile = new FileInfo(outputPath);
+                        var outputFileDirectory = outputFile.Directory;
+
+                        if (overwrite || !outputFile.Exists)
+                        {
+                            outputFileDirectory.Create();
+                            using var outputStream = outputFile.Create();
+                            using var inputStream = entry.Open();
+                            inputStream.CopyTo(outputStream);
+                        }
+                    }
+                }
+                catch { }
+            }
+
+            prog.Report(i, Entries.Count);
+        }
+
+        public void Decompress(DirectoryInfo outputDirectory, bool overwrite, IProgress prog)
+        {
+            Decompress(outputDirectory, string.Empty, overwrite, prog);
+        }
+
+        public void Decompress(DirectoryInfo outputDirectory, string entryPrefix, bool overwrite)
+        {
+            Decompress(outputDirectory, entryPrefix, overwrite, null);
+        }
+
+        public void Decompress(DirectoryInfo outputDirectory, bool overwrite)
+        {
+            Decompress(outputDirectory, string.Empty, overwrite, null);
+        }
+
+        public void Decompress(DirectoryInfo outputDirectory, string entryPrefix, IProgress prog)
+        {
+            Decompress(outputDirectory, entryPrefix, true, prog);
+        }
+
+        public void Decompress(DirectoryInfo outputDirectory, IProgress prog)
+        {
+            Decompress(outputDirectory, string.Empty, true, prog);
+        }
+
+        public void Decompress(DirectoryInfo outputDirectory, string entryPrefix)
+        {
+            Decompress(outputDirectory, entryPrefix, true, null);
+        }
+
+        public void Decompress(DirectoryInfo outputDirectory)
+        {
+            Decompress(outputDirectory, string.Empty, true, null);
         }
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-using Juniper.Audio;
+using Juniper.Sound;
 using Juniper.Display;
 using Juniper.Haptics;
 using Juniper.Mathematics;

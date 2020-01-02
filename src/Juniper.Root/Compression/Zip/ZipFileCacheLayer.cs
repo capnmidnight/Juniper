@@ -59,12 +59,16 @@ namespace Juniper.IO
 
         public Task<Stream> GetStreamAsync(ContentReference fileRef, IProgress prog)
         {
+            if (fileRef is null)
+            {
+                throw new System.ArgumentNullException(nameof(fileRef));
+            }
+
             Stream stream = null;
             if (IsCached(fileRef))
             {
-                var zip = Decompressor.Open(zipFile);
                 var cacheFileName = GetCacheFileName(fileRef);
-                stream = zip.GetFile(cacheFileName);
+                stream = Decompressor.GetFile(zipFile, cacheFileName);
             }
 
             return Task.FromResult(stream);
@@ -72,6 +76,11 @@ namespace Juniper.IO
 
         public IEnumerable<ContentReference> GetContentReference(MediaType ofType)
         {
+            if (ofType is null)
+            {
+                throw new System.ArgumentNullException(nameof(ofType));
+            }
+
             foreach (var file in Decompressor.Entries(zipFile).Files())
             {
                 if (ofType.Matches(file.FullName))

@@ -9,7 +9,7 @@ namespace Juniper.NeuroSky
     /// <summary>
     /// An adapter for the NeuroSky MindWave device, converting the raw data elements to an object model.
     /// </summary>
-    public class MindWaveAdapter : IDisposable
+    public sealed class MindWaveAdapter : IDisposable
     {
         /// <summary>
         /// The firmware version for the device.
@@ -669,7 +669,7 @@ namespace Juniper.NeuroSky
         /// Release and clean up the connection to the device.
         /// </summary>
         /// <param name="disposing"></param>
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!valueDisposed)
             {

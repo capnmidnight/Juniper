@@ -141,8 +141,6 @@ namespace Hjg.Pngcs
         internal AZlibInputStream idatIstream;
         internal PngIDatChunkInputStream iIdatCstream;
 
-        private Adler32 crctest; // If set to non null, it gets a CRC of the unfiltered bytes, to check for images equality
-
         /// <summary>
         /// Constructs a PngReader from a Stream, with no filename information
         /// </summary>
@@ -311,8 +309,6 @@ namespace Hjg.Pngcs
                 default:
                 throw new PngjInputException("Filter type " + ftn + " not implemented");
             }
-
-            crctest?.Update(rowb, 1, nbytes);
         }
 
         private void UnfilterRowAverage(int nbytes)

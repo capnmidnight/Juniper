@@ -25,6 +25,7 @@ namespace Juniper.Serial
         public new void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1816:Dispose methods should call SuppressFinalize", Justification = "This fixes a long-standing issue with .NET's serial port implementation not releasing ports when the application crashes.")]

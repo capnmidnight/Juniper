@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Juniper.Audio
+namespace Juniper.Sound
 {
     /// <summary>
     /// A collection of related audio clips. For example, one might have many different gunshot

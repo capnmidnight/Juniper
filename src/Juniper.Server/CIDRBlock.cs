@@ -323,10 +323,10 @@ namespace Juniper.HTTP.Server
 
         private CIDRBlock(IPAddress start, IPAddress end, int bitmaskLength)
         {
-            Start = start;
-            startBytes = start.GetAddressBytes();
+            Start = start ?? throw new ArgumentNullException(nameof(start));
+            End = end ?? throw new ArgumentNullException(nameof(end));
 
-            End = end;
+            startBytes = start.GetAddressBytes();
             endBytes = end.GetAddressBytes();
 
             BitmaskLength = bitmaskLength;

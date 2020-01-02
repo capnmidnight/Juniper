@@ -1,21 +1,15 @@
 using System;
-
-using Juniper.Haptics;
-using Juniper.Display;
-using Juniper.Input;
-
-using UnityEngine;
-
-using Juniper.Security;
-
 using System.IO;
-
-using Juniper.Azure.CognitiveServices;
-
 using System.Threading.Tasks;
 
+using Juniper.Azure.CognitiveServices;
+using Juniper.Display;
+using Juniper.Haptics;
+using Juniper.Input;
 using Juniper.IO;
-using Juniper.World;
+using Juniper.Security;
+
+using UnityEngine;
 
 #if UNITY_MODULES_AUDIO
 
@@ -26,7 +20,7 @@ using UnityEngine.Audio;
 
 #endif
 
-namespace Juniper.Audio
+namespace Juniper.Sound
 {
     /// <summary>
     /// The audio portion of the interaction system.

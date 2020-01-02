@@ -13,7 +13,7 @@ using Juniper.Animation;
 #endif
 
 #if UNITY_MODULES_AUDIO
-using Juniper.Audio;
+using Juniper.Sound;
 #endif
 
 namespace Juniper.Widgets

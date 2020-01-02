@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using Juniper.Animation;
-using Juniper.Audio;
+using Juniper.Sound;
 using Juniper.Display;
 using Juniper.Widgets;
 using Juniper.Progress;

@@ -119,7 +119,8 @@ namespace Juniper.Azure.Tests
                 .ConfigureAwait(false))
             {
                 var mem = new MemoryStream();
-                audioStream.CopyTo(mem);
+                await audioStream.CopyToAsync(mem)
+                    .ConfigureAwait(false);
                 var buff = mem.ToArray();
                 Assert.AreNotEqual(0, buff.Length);
             }

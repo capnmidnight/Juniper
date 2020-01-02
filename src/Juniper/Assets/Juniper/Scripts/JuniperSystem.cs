@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Juniper.Anchoring;
-using Juniper.Audio;
+using Juniper.Sound;
 using Juniper.Display;
 using Juniper.Input;
 using Juniper.Permissions;

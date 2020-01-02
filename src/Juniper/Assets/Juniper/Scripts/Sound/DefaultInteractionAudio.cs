@@ -1,4 +1,4 @@
-namespace Juniper.Audio
+namespace Juniper.Sound
 {
     public abstract class DefaultInteractionAudio : AbstractInteractionAudio
     {

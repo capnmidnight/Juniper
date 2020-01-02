@@ -1,4 +1,4 @@
-using Juniper.Audio;
+using Juniper.Sound;
 
 using UnityEngine;
 

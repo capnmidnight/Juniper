@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Threading.Tasks;
-using Juniper.Audio;
+using Juniper.Sound;
 using Juniper.Widgets;
 
 using UnityEngine;
