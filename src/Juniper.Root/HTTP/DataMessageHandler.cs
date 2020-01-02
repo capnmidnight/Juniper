@@ -15,7 +15,7 @@ namespace Juniper.HTTP
         private readonly FactoryT factory;
 
         public event EventHandler<ResultT> DataMessage;
-        public event EventHandler<Exception> Error;
+        public event EventHandler<ErrorEventArgs> Error;
 
         public DataMessageHandler(WebSocketConnection socket, string message, FactoryT factory)
         {
@@ -78,7 +78,7 @@ namespace Juniper.HTTP
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnError(Exception exp)
         {
-            Error?.Invoke(this, exp);
+            Error?.Invoke(this, new ErrorEventArgs(exp));
         }
     }
 }

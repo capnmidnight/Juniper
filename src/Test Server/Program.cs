@@ -55,9 +55,9 @@ namespace Juniper.HTTP
             return Task.CompletedTask;
         }
 
-        private static void Socket_Error(object sender, System.Exception e)
+        private static void Socket_Error(object sender, ErrorEventArgs e)
         {
-            Error.WriteLine($"[SOCKET ERROR] {e}");
+            Error.WriteLine($"[SOCKET ERROR] {e.Exception.Unroll()}");
         }
 
         private static void Socket_Message(object sender, string msg)
@@ -78,9 +78,9 @@ namespace Juniper.HTTP
             WriteLine($"[WARNING] {e}");
         }
 
-        private static void Server_Error(object sender, Exception e)
+        private static void Server_Error(object sender, ErrorEventArgs e)
         {
-            Error.WriteLine(e.Unroll());
+            Error.WriteLine(e.Exception.Unroll());
         }
     }
 }

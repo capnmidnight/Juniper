@@ -30,7 +30,7 @@ namespace Juniper.HTTP
         public event EventHandler<string> Message;
         public event EventHandler<byte[]> Data;
         public event EventHandler<DataMessage> DataMessage;
-        public event EventHandler<Exception> Error;
+        public event EventHandler<ErrorEventArgs> Error;
         public event EventHandler Connecting;
         public event EventHandler Connected;
         public event EventHandler Closing;
@@ -269,7 +269,7 @@ namespace Juniper.HTTP
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnError(string label, Exception exp)
         {
-            Error?.Invoke(this, new Exception(label, exp));
+            Error?.Invoke(this, new ErrorEventArgs(new Exception(label, exp)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

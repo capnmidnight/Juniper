@@ -141,7 +141,7 @@ namespace Juniper.HTTP.Server
         /// <summary>
         /// Event for handling error logs that prevent execution.
         /// </summary>
-        public event EventHandler<Exception> Error;
+        public event EventHandler<ErrorEventArgs> Error;
 
         private AuthenticationSchemes GetAuthenticationSchemeForRequest(HttpListenerRequest request)
         {
@@ -579,9 +579,15 @@ or
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected void OnError(object sender, ErrorEventArgs e)
+        {
+            Error?.Invoke(sender, e);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnError(object sender, Exception exp)
         {
-            Error?.Invoke(sender, exp);
+            OnError(sender, new ErrorEventArgs(exp));
         }
 
         #region IDisposable Support
