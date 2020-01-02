@@ -30,7 +30,7 @@ namespace Juniper.HTTP
             server.Start();
 
 #if DEBUG
-            server.StartBrowser("index.html");
+            using var browserProc = server.StartBrowser("index.html");
 #endif
 
             while (server.IsRunning)

@@ -8,10 +8,10 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Juniper.HTTP.Server.Administration;
 using Juniper.HTTP.Server.Controllers;
 using Juniper.Logging;
 
@@ -296,17 +296,13 @@ or
 
                     GetTLSParameters(out var guid, out var certHash);
 
-                    if (string.IsNullOrEmpty(guid))
-                    {
-                        OnWarning(this, "Couldn't find application GUID");
-                    }
-                    else if (string.IsNullOrEmpty(certHash))
+                    if (string.IsNullOrEmpty(certHash))
                     {
                         OnWarning(this, "No TLS cert found!");
                     }
                     else
                     {
-                        var message = AssignCertToApp(certHash, guid);
+                        var message = AssignCertToAppAsync(certHash, guid).Result;
 
                         if (message.Equals("SSL Certificate added successfully", StringComparison.OrdinalIgnoreCase)
                             || message.StartsWith("SSL Certificate add failed, Error: 183", StringComparison.OrdinalIgnoreCase))
@@ -438,10 +434,10 @@ or
             }
         }
 
-        private void GetTLSParameters(out string guid, out string certHash)
+        private void GetTLSParameters(out Guid guid, out string certHash)
         {
             var asm = Assembly.GetExecutingAssembly();
-            guid = Marshal.GetTypeLibGuidForAssembly(asm).ToString();
+            guid = Marshal.GetTypeLibGuidForAssembly(asm);
             certHash = null;
             using var store = new X509Store(StoreLocation.LocalMachine);
             store.Open(OpenFlags.ReadOnly);
@@ -456,7 +452,7 @@ or
                        .FirstOrDefault();
         }
 
-        private string AssignCertToApp(string certHash, string appGuid)
+        private async Task<string> AssignCertToAppAsync(string certHash, Guid appGuid)
         {
             var listenAddress = ListenAddress;
             if (listenAddress == "*")
@@ -464,24 +460,24 @@ or
                 listenAddress = "0.0.0.0";
             }
 
-            var procInfo = new ProcessStartInfo("netsh", $"http add sslcert ipport={listenAddress}:{HttpsPort.Value.ToString(CultureInfo.InvariantCulture)} certhash={certHash} appid={{{appGuid}}}")
-            {
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                ErrorDialog = false,
-                LoadUserProfile = false,
-                RedirectStandardError = true,
-                RedirectStandardInput = true,
-                RedirectStandardOutput = true,
-                StandardErrorEncoding = Encoding.UTF8,
-                StandardOutputEncoding = Encoding.UTF8,
-                WindowStyle = ProcessWindowStyle.Hidden
-            };
+            var addCert = new NetShHttpAddSslCertCommand(
+                listenAddress,
+                HttpsPort.Value,
+                certHash,
+                appGuid);
 
-            var proc = Process.Start(procInfo);
-            var message = proc.StandardOutput.ReadToEnd().Trim();
-            proc.WaitForExit();
-            return message;
+            addCert.Info += OnInfo;
+            addCert.Warning += OnWarning;
+            addCert.Error += OnError;
+
+            _ = await addCert.RunAsync()
+                .ConfigureAwait(false);
+
+            addCert.Info -= OnInfo;
+            addCert.Warning -= OnWarning;
+            addCert.Error -= OnError;
+
+            return addCert.TotalStandardOutput;
         }
 
         private void Listen()
