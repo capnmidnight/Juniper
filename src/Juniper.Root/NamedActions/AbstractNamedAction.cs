@@ -2,7 +2,14 @@ using System;
 
 namespace Juniper
 {
-    public abstract class AbstractNamedAction<ActionT>
+    public interface INamedAction
+    {
+        string Name { get; }
+        Delegate Method { get; }
+    }
+
+    public abstract class AbstractNamedAction<ActionT> :
+        INamedAction
         where ActionT : Delegate
     {
         public static implicit operator ActionT(AbstractNamedAction<ActionT> namedAction)
@@ -16,6 +23,8 @@ namespace Juniper
         }
 
         public string Name { get; }
+
+        public Delegate Method { get { return Action; } }
 
         protected ActionT Action { get; }
 

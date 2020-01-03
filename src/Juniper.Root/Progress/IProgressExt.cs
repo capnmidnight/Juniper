@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using static System.Math;
@@ -100,25 +102,6 @@ namespace Juniper.Progress
             return arr;
         }
 
-        public static void Run(this IProgress parent, params Action<IProgress>[] actors)
-        {
-            var subProgs = parent.Split(actors.Length);
-            for (var i = 0; i < actors.Length; ++i)
-            {
-                actors[i]?.Invoke(subProgs[i]);
-            }
-        }
-
-        public static async Task RunAsync(this IProgress parent, params Func<IProgress, Task>[] actors)
-        {
-            var subProgs = parent.Split(actors.Length);
-            for (var i = 0; i < actors.Length; ++i)
-            {
-                await (actors[i]?.Invoke(subProgs[i]))
-                    .ConfigureAwait(true);
-            }
-        }
-
         /// <summary>
         /// Split a progress tracker into sub-trackers with the provided prefixes, one per prefix.
         /// </summary>
@@ -142,38 +125,105 @@ namespace Juniper.Progress
             return arr;
         }
 
+        private static IEnumerable<(IProgress prog, T act)> Split<T>(this IProgress parent, params T[] actors)
+            where T : INamedAction
+        {
+            return parent
+                .Split(actors
+                    .Select(a => a.Name)
+                    .ToArray())
+                .Select((p, i) => (p, actors[i]));
+        }
+
+        private static IEnumerable<(IProgress prog, T act)> Split2<T>(this IProgress parent, params T[] actors)
+            where T : Delegate
+        {
+            return parent
+                .Split(actors.Length)
+                .Select((p, i) => (p, actors[i]));
+        }
+
         public static void Run(this IProgress parent, params NamedAction<IProgress>[] actors)
         {
-            var labels = new string[actors.Length];
-            for (var i = 0; i < actors.Length; ++i)
+            foreach (var (prog, act) in parent.Split(actors))
             {
-                labels[i] = actors[i].Name;
+                prog.Report(0);
+                act.Invoke(prog);
+                prog.Report(1);
             }
+        }
 
-            var subProgs = parent.Split(labels);
-            for (var i = 0; i < actors.Length; ++i)
+        public static void Run(this IProgress parent, params NamedAction[] actors)
+        {
+            foreach (var (prog, act) in parent.Split(actors))
             {
-                actors[i]?.Invoke(subProgs[i]);
+                prog.Report(0);
+                act.Invoke();
+                prog.Report(1);
+            }
+        }
+
+        public static void Run(this IProgress parent, params Action<IProgress>[] actors)
+        {
+            foreach (var (prog, act) in parent.Split2(actors))
+            {
+                prog.Report(0);
+                act.Invoke(prog);
+                prog.Report(1);
+            }
+        }
+
+        public static void Run(this IProgress parent, params Action[] actors)
+        {
+            foreach (var (prog, act) in parent.Split2(actors))
+            {
+                prog.Report(0);
+                act.Invoke();
+                prog.Report(1);
             }
         }
 
         public static async Task RunAsync(this IProgress parent, params NamedFunc<IProgress, Task>[] actors)
         {
-            var labels = new string[actors.Length];
-            for (var i = 0; i < actors.Length; ++i)
+            foreach (var (prog, act) in parent.Split(actors))
             {
-                labels[i] = actors[i]?.Name;
+                prog.Report(0);
+                await act.Invoke(prog)
+                    .ConfigureAwait(false);
+                prog.Report(1);
             }
+        }
 
-            var subProgs = parent.Split(labels);
-            for (var i = 0; i < actors.Length; ++i)
+        public static async Task RunAsync(this IProgress parent, params NamedFunc<Task>[] actors)
+        {
+            foreach (var (prog, act) in parent.Split(actors))
             {
-                if (actors[i] is object)
-                {
-                    await actors[i]
-                        .Invoke(subProgs[i])
-                        .ConfigureAwait(true);
-                }
+                prog.Report(0);
+                await act.Invoke()
+                    .ConfigureAwait(false);
+                prog.Report(1);
+            }
+        }
+
+        public static async Task RunAsync(this IProgress parent, params Func<IProgress, Task>[] actors)
+        {
+            foreach (var (prog, act) in parent.Split2(actors))
+            {
+                prog.Report(0);
+                await act.Invoke(prog)
+                    .ConfigureAwait(false);
+                prog.Report(1);
+            }
+        }
+
+        public static async Task RunAsync(this IProgress parent, params Func<Task>[] actors)
+        {
+            foreach (var (prog, act) in parent.Split2(actors))
+            {
+                prog.Report(0);
+                await act.Invoke()
+                    .ConfigureAwait(false);
+                prog.Report(1);
             }
         }
 
