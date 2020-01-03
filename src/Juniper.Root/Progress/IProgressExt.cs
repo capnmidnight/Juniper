@@ -142,34 +142,38 @@ namespace Juniper.Progress
             return arr;
         }
 
-        public static void Run(this IProgress parent, params (string label, Action<IProgress> action)[] actors)
+        public static void Run(this IProgress parent, params NamedAction<IProgress>[] actors)
         {
             var labels = new string[actors.Length];
             for (var i = 0; i < actors.Length; ++i)
             {
-                labels[i] = actors[i].label;
+                labels[i] = actors[i].Name;
             }
 
             var subProgs = parent.Split(labels);
             for (var i = 0; i < actors.Length; ++i)
             {
-                actors[i].action?.Invoke(subProgs[i]);
+                actors[i]?.Invoke(subProgs[i]);
             }
         }
 
-        public static async Task RunAsync(this IProgress parent, params (string label, Func<IProgress, Task> action)[] actors)
+        public static async Task RunAsync(this IProgress parent, params NamedFunc<IProgress, Task>[] actors)
         {
             var labels = new string[actors.Length];
             for (var i = 0; i < actors.Length; ++i)
             {
-                labels[i] = actors[i].label;
+                labels[i] = actors[i]?.Name;
             }
 
             var subProgs = parent.Split(labels);
             for (var i = 0; i < actors.Length; ++i)
             {
-                await (actors[i].action?.Invoke(subProgs[i]))
-                    .ConfigureAwait(true);
+                if (actors[i] is object)
+                {
+                    await actors[i]
+                        .Invoke(subProgs[i])
+                        .ConfigureAwait(true);
+                }
             }
         }
 
