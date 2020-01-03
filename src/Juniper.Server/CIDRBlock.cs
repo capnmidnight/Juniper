@@ -10,7 +10,9 @@ using System.Net.Sockets;
 namespace Juniper.HTTP.Server
 {
     public sealed class CIDRBlock :
-        ICollection<IPAddress>
+        ICollection<IPAddress>,
+        IEquatable<CIDRBlock>,
+        IComparable<CIDRBlock>
     {
         private static readonly Dictionary<AddressFamily, int> BitLengths = new Dictionary<AddressFamily, int>
         {
@@ -72,7 +74,7 @@ namespace Juniper.HTTP.Server
             return Load(new FileInfo(fileName));
         }
 
-        private static void Save(IEnumerable<CIDRBlock> blocks, Stream stream)
+        public static void Save(IEnumerable<CIDRBlock> blocks, Stream stream)
         {
             if (blocks is null)
             {
@@ -139,28 +141,37 @@ namespace Juniper.HTTP.Server
                 throw new FormatException("Empty string does not specify a valid CIDR block.");
             }
 
-            if (!value.Contains('/'))
-            {
-                throw new FormatException($"'{value}' does not specify a valid CIDR block. It does not contain a '/' character.");
-            }
-
             var parts = value.SplitX('/');
-            if (parts.Length != 2)
+            if (parts.Length > 2)
             {
                 throw new FormatException($"'{value}' does not specify a valid CIDR block. It contains more than one '/' character.");
             }
 
-            if (!IPAddress.TryParse(parts[0], out var start))
+            var startString = parts[0];
+
+            if (!IPAddress.TryParse(startString, out var start))
             {
                 throw new FormatException($"'{value}' does not specify a valid CIDR block. The first half is not a valid IP address.");
             }
 
-            if (!int.TryParse(parts[1], out var bitmaskLength))
-            {
-                throw new FormatException($"'{value}' does not specify a valid CIDR block. The second half is not a valid int value.");
-            }
+            ValidateAddressFamily(start);
 
-            return new CIDRBlock(start, bitmaskLength);
+            if (parts.Length == 1)
+            {
+                return new CIDRBlock(start);
+            }
+            else
+            {
+                var bitmaskLengthString = parts[1];
+                if (!int.TryParse(bitmaskLengthString, out var bitmaskLength))
+                {
+                    throw new FormatException($"'{value}' does not specify a valid CIDR block. The second half is not a valid int value.");
+                }
+
+                ValidateBitmaskLength(start, bitmaskLength);
+
+                return new CIDRBlock(start, bitmaskLength);
+            }
         }
 
         public static bool TryParse(string value, out CIDRBlock block)
@@ -171,17 +182,34 @@ namespace Juniper.HTTP.Server
             {
                 var parts = value.SplitX('/');
 
-                if (parts.Length == 2
-                    && IPAddress.TryParse(parts[0], out var start)
-                    && int.TryParse(parts[1], out var bitmaskLength)
-                    && BitLengths.ContainsKey(start.AddressFamily)
-                    && bitmaskLength <= BitLengths[start.AddressFamily])
+                if (parts.Length == 0 || parts.Length > 2)
                 {
-                    block = new CIDRBlock(start, bitmaskLength);
+                    return false;
+                }
+                else if (IPAddress.TryParse(parts[0], out var start))
+                {
+                    if (parts.Length == 1)
+                    {
+                        block = new CIDRBlock(start);
+                    }
+                    else if (int.TryParse(parts[1], out var bitmaskLength)
+                        && BitLengths.ContainsKey(start.AddressFamily)
+                        && bitmaskLength <= BitLengths[start.AddressFamily])
+                    {
+                        block = new CIDRBlock(start, bitmaskLength);
+                    }
                 }
             }
 
             return block is object;
+        }
+
+        private static void ValidateAddressFamily(IPAddress start)
+        {
+            if (!BitLengths.ContainsKey(start.AddressFamily))
+            {
+                throw new NotSupportedException($"{start.AddressFamily.ToString()} is not a supported address type.");
+            }
         }
 
         private static void ValidateStart(IPAddress start)
@@ -191,10 +219,7 @@ namespace Juniper.HTTP.Server
                 throw new ArgumentNullException(nameof(start));
             }
 
-            if (!BitLengths.ContainsKey(start.AddressFamily))
-            {
-                throw new NotSupportedException($"{start.AddressFamily.ToString()} is not a supported address type.");
-            }
+            ValidateAddressFamily(start);
         }
 
         private static void ValidateEnd(IPAddress start, IPAddress end)
@@ -218,16 +243,73 @@ namespace Juniper.HTTP.Server
             }
         }
 
+        private static int CompareBytes(byte[] left, byte[] right)
+        {
+            if (left is null)
+            {
+                throw new ArgumentNullException(nameof(left));
+            }
+
+            if (right is null)
+            {
+                throw new ArgumentNullException(nameof(right));
+            }
+
+            if (left.Length != right.Length)
+            {
+                throw new InvalidOperationException("Byte array lengths must match");
+            }
+
+            for (var i = 0; i < left.Length; ++i)
+            {
+                if(left[i] < right[i])
+                {
+                    return -1;
+                }
+                else if (left[i] > right[i])
+                {
+                    return 1;
+                }
+            }
+
+            return 0;
+        }
+
+        public static int CompareAddresses(IPAddress left, IPAddress right)
+        {
+            if (left is null)
+            {
+                throw new ArgumentNullException(nameof(left));
+            }
+
+            if (right is null)
+            {
+                throw new ArgumentNullException(nameof(right));
+            }
+
+            if (left.AddressFamily != right.AddressFamily)
+            {
+                throw new InvalidOperationException($"Cannot combine two blocks of different Address Family's. Expected {left.AddressFamily}. Got {right.AddressFamily}");
+            }
+
+            return CompareBytes(left.GetAddressBytes(), right.GetAddressBytes());
+        }
+
+        public int CompareTo(CIDRBlock other)
+        {
+            if (other is null)
+            {
+                return -1;
+            }
+
+            return CompareAddresses(Start, other.Start);
+        }
+
         private static void ValidateStartEndOrder(IPAddress start, IPAddress end)
         {
-            var startBytes = start.GetAddressBytes();
-            var endBytes = end.GetAddressBytes();
-            for (var i = 0; i < startBytes.Length; ++i)
+            if (CompareAddresses(start, end) > 0)
             {
-                if (endBytes[i] < startBytes[i])
-                {
-                    throw new InvalidOperationException($"{nameof(end)} address must be greater than or equal to {nameof(start)} address.");
-                }
+                throw new InvalidOperationException($"{nameof(end)} address must be greater than or equal to {nameof(start)} address.");
             }
         }
 
@@ -303,6 +385,26 @@ namespace Juniper.HTTP.Server
             return new IPAddress(endBytes);
         }
 
+        private static IPAddress CalculateSubnetMask(byte[] startBytes, int bitmaskLength)
+        {
+            var subnetBytes = new byte[startBytes.Length];
+            for (var i = 0; i < subnetBytes.Length; ++i)
+            {
+                if (bitmaskLength >= Units.Bits.PER_BYTE)
+                {
+                    subnetBytes[i] = byte.MaxValue;
+                    bitmaskLength -= Units.Bits.PER_BYTE;
+                }
+                else
+                {
+                    subnetBytes[i] = (byte)(byte.MaxValue << Units.Bits.PER_BYTE - bitmaskLength);
+                    break;
+                }
+            }
+
+            return new IPAddress(subnetBytes);
+        }
+
         private readonly byte[] startBytes;
         private readonly byte[] endBytes;
 
@@ -319,6 +421,8 @@ namespace Juniper.HTTP.Server
 
         public IPAddress SubnetMask { get; }
 
+        public AddressFamily AddressFamily { get { return Start.AddressFamily; } }
+
         public int BitmaskLength { get; }
 
         private CIDRBlock(IPAddress start, IPAddress end, int bitmaskLength)
@@ -330,26 +434,20 @@ namespace Juniper.HTTP.Server
             endBytes = end.GetAddressBytes();
 
             BitmaskLength = bitmaskLength;
-            Count = (int)Math.Pow(2, BitLengths[Start.AddressFamily] - BitmaskLength);
 
-            var subnetBytes = new byte[startBytes.Length];
-            for (var i = 0; i < subnetBytes.Length; ++i)
+            Count = 0;
+            for (int i = 0; i < startBytes.Length; ++i)
             {
-                if (bitmaskLength >= Units.Bits.PER_BYTE)
-                {
-                    subnetBytes[i] = byte.MaxValue;
-                    bitmaskLength -= Units.Bits.PER_BYTE;
-                }
-                else
-                {
-                    subnetBytes[i] = (byte)(byte.MaxValue << Units.Bits.PER_BYTE - bitmaskLength);
-                    break;
-                }
+                Count *= byte.MaxValue;
+                Count += endBytes[i] - startBytes[i];
             }
 
-            SubnetMask = new IPAddress(subnetBytes);
+            ++Count;
+
+            SubnetMask = CalculateSubnetMask(startBytes, bitmaskLength);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "It *is* being validated.")]
         public CIDRBlock(IPAddress start, IPAddress end)
             : this(start, end, CalculateBitmaskLength(start, end))
         { }
@@ -358,6 +456,7 @@ namespace Juniper.HTTP.Server
             : this(start, start)
         { }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "It *is* being validated.")]
         public CIDRBlock(IPAddress start, int bitmaskLength)
             : this(start, CalculateEnd(start, bitmaskLength), bitmaskLength)
         { }
@@ -390,7 +489,7 @@ namespace Juniper.HTTP.Server
                 throw new ArgumentNullException(nameof(item));
             }
 
-            if (item.AddressFamily != Start.AddressFamily)
+            if (item.AddressFamily != AddressFamily)
             {
                 return false;
             }
@@ -406,6 +505,72 @@ namespace Juniper.HTTP.Server
             }
 
             return true;
+        }
+
+        public bool Overlaps(CIDRBlock other)
+        {
+            return other is object
+                && (Contains(other.Start)
+                    || Contains(other.End)
+                    || other.Contains(Start)
+                    || other.Contains(End));
+        }
+
+        private void ValidateOther(CIDRBlock other)
+        {
+            if (other is null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+
+            if (other.AddressFamily != AddressFamily)
+            {
+                throw new InvalidOperationException($"Cannot combine two blocks of different Address Family's. Expected {AddressFamily}. Got {other.AddressFamily}");
+            }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "It *is* being validated.")]
+        public float DistanceTo(CIDRBlock other)
+        {
+            ValidateOther(other);
+
+            var start = endBytes;
+            var end = other.startBytes;
+
+            var distance = 0f;
+            for (int i = 0; i < start.Length; ++i)
+            {
+                distance *= byte.MaxValue;
+                distance += end[i] - start[i];
+            }
+
+            return distance;
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "It *is* being validated.")]
+        public CIDRBlock Combine(CIDRBlock right)
+        {
+            ValidateOther(right);
+
+            var left = this;
+            if (CompareBytes(left.startBytes, right.startBytes) > 0)
+            {
+                var temp = left;
+                left = right;
+                right = temp;
+            }
+
+            return new CIDRBlock(left.Start, right.End);
+        }
+
+        public static CIDRBlock operator +(CIDRBlock left, CIDRBlock right)
+        {
+            if (left is null)
+            {
+                throw new ArgumentNullException(nameof(left));
+            }
+
+            return left.Combine(right);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -491,6 +656,64 @@ namespace Juniper.HTTP.Server
         public void Clear()
         {
             throw new NotSupportedException("This collection is read-only.");
+        }
+
+        public bool Equals(CIDRBlock other)
+        {
+            return other is object
+                && other.Start == Start
+                && other.End == End;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is CIDRBlock block
+                && Equals(block);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -1676728671;
+            hashCode = (hashCode * -1521134295) + EqualityComparer<IPAddress>.Default.GetHashCode(Start);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<IPAddress>.Default.GetHashCode(End);
+            return hashCode;
+        }
+
+        public static bool operator ==(CIDRBlock left, CIDRBlock right)
+        {
+            return left is null && right is null
+                || left is object && left.Equals(right);
+        }
+
+        public static bool operator !=(CIDRBlock left, CIDRBlock right)
+        {
+            return !(left == right);
+        }
+
+        public static bool operator <(CIDRBlock left, CIDRBlock right)
+        {
+            return left is null
+                ? right is object
+                : left.CompareTo(right) < 0;
+        }
+
+        public static bool operator <=(CIDRBlock left, CIDRBlock right)
+        {
+            return left is null
+                || left.CompareTo(right) <= 0;
+        }
+
+        public static bool operator >(CIDRBlock left, CIDRBlock right)
+        {
+            return left is object
+                && left.CompareTo(right) > 0;
+        }
+
+        public static bool operator >=(CIDRBlock left, CIDRBlock right)
+        {
+            return left is null
+                ? right is null
+                : left.CompareTo(right) >= 0;
         }
     }
 }

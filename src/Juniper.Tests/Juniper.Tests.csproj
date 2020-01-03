@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Juniper</RootNamespace>
     <AssemblyName>Juniper.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Azure\APITests.cs" />
+    <Compile Include="CIDRBlockTests.cs" />
     <Compile Include="IEnumerableExtTests.cs" />
     <Compile Include="Iteration\IterationTests.cs" />
     <Compile Include="ListExtTests.cs" />
@@ -79,6 +80,10 @@
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj">
       <Project>{bd5b6e34-ca14-4636-83c0-da4aaddf08be}</Project>
       <Name>Juniper.Root</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Juniper.Server\Juniper.Server.csproj">
+      <Project>{47a552ae-de7b-4155-8c17-fc2e35917451}</Project>
+      <Name>Juniper.Server</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
