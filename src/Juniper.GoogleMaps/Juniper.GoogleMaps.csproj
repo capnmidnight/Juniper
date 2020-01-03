@@ -19,7 +19,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
-    
+
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
   </ItemGroup>

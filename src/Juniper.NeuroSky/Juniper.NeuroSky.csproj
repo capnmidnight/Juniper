@@ -8,7 +8,7 @@
     <AssemblyName>Juniper.NeuroSky</AssemblyName>
     <RootNamespace>Juniper.NeuroSky</RootNamespace>
     <OutputType>Library</OutputType>
-    
+
     <TargetFramework>net472</TargetFramework>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -25,7 +25,7 @@
   <PropertyGroup Condition="'$(Platform)' == 'x86'">
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <OutputPath>..\Juniper\Assets\Juniper\Plugins\Juniper\Debug\x64\</OutputPath>
   </PropertyGroup>
@@ -36,7 +36,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <OutputPath>..\Juniper\Assets\Juniper\Plugins\Juniper\Debug\x86\</OutputPath>
-    </PropertyGroup>
+  </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\Juniper\Assets\Juniper\Plugins\Juniper\Release\x86\</OutputPath>

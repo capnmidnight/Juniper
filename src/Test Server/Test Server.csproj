@@ -3,7 +3,7 @@
   <ImportGroup>
     <Import Project="..\..\Juniper.targets" />
   </ImportGroup>
-  
+
   <PropertyGroup>
     <AssemblyName>Test Server</AssemblyName>
     <RootNamespace>Juniper.HTTP</RootNamespace>
@@ -28,5 +28,5 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  
+
 </Project>

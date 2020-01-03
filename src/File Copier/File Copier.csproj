@@ -4,7 +4,7 @@
     <Import Project="..\..\Juniper.targets" />
   </ImportGroup>
 
-  <PropertyGroup>    
+  <PropertyGroup>
     <AssemblyName>jcopy</AssemblyName>
     <RootNamespace>FileCopier</RootNamespace>
     <OutputType>Exe</OutputType>
