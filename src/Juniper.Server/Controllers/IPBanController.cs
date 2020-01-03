@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -11,6 +12,9 @@ namespace Juniper.HTTP.Server.Controllers
 
         private readonly FileInfo banFile;
 
+        public event EventHandler<CIDRBlock> BanAdded;
+        public event EventHandler<CIDRBlock> BanRemoved;
+
         public IPBanController()
         { }
 
@@ -18,6 +22,7 @@ namespace Juniper.HTTP.Server.Controllers
             : base(null, int.MinValue, HttpProtocols.All, HttpMethods.All)
         {
             this.blocks.AddRange(blocks);
+            this.blocks.Sort();
         }
 
         public IPBanController(Stream banFileStream)
@@ -51,9 +56,44 @@ namespace Juniper.HTTP.Server.Controllers
 
             if (request.Url.PathAndQuery.Contains(".php"))
             {
+                var added = new List<CIDRBlock>();
+                var removed = new List<CIDRBlock>();
+
                 block = new CIDRBlock(request.RemoteEndPoint.Address);
                 OnWarning($"Auto-banning {block}");
+                added.Add(block);
                 blocks.Add(block);
+                blocks.Sort();
+
+                for (int i = blocks.Count - 1; i > 0; --i)
+                {
+                    var right = blocks[i];
+                    var left = blocks[i - 1];
+                    if (left.Overlaps(right))
+                    {
+                        blocks[i - 1] = left + right;
+                        blocks.RemoveAt(i);
+
+                        added.Remove(left);
+                        removed.MaybeAdd(left);
+
+                        added.Remove(right);
+                        removed.MaybeAdd(right);
+
+                        removed.Remove(blocks[i - 1]);
+                        added.MaybeAdd(blocks[i - 1]);
+                    }
+                }
+
+                foreach(var b in removed)
+                {
+                    OnBanRemoved(b);
+                }
+
+                foreach(var b in added)
+                {
+                    OnBanAdded(b);
+                }
 
                 if (banFile is object)
                 {
@@ -79,6 +119,16 @@ namespace Juniper.HTTP.Server.Controllers
             OnInfo($"{context.Request.RemoteEndPoint} is banned by {block}.");
             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
             return Task.CompletedTask;
+        }
+
+        private void OnBanAdded(CIDRBlock block)
+        {
+            BanAdded?.Invoke(this, block);
+        }
+
+        private void OnBanRemoved(CIDRBlock block)
+        {
+            BanRemoved?.Invoke(this, block);
         }
     }
 }
