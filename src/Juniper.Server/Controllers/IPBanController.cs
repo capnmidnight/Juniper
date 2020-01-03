@@ -8,9 +8,9 @@ namespace Juniper.HTTP.Server.Controllers
 {
     public sealed class IPBanController : AbstractRequestHandler
     {
-        private readonly List<CIDRBlock> blocks = new List<CIDRBlock>();
-
         private readonly FileInfo banFile;
+
+        public List<CIDRBlock> Blocks { get; } = new List<CIDRBlock>();
 
         public event EventHandler<CIDRBlock> BanAdded;
         public event EventHandler<CIDRBlock> BanRemoved;
@@ -21,8 +21,8 @@ namespace Juniper.HTTP.Server.Controllers
         public IPBanController(IEnumerable<CIDRBlock> blocks)
             : base(null, int.MinValue, HttpProtocols.All, HttpMethods.All)
         {
-            this.blocks.AddRange(blocks);
-            this.blocks.Sort();
+            Blocks.AddRange(blocks);
+            Blocks.Sort();
         }
 
         public IPBanController(Stream banFileStream)
@@ -43,7 +43,7 @@ namespace Juniper.HTTP.Server.Controllers
 
         private CIDRBlock GetMatchingBlock(IPAddress address)
         {
-            return blocks.Find(block => block.Contains(address));
+            return Blocks.Find(block => block.Contains(address));
         }
 
         public override bool IsMatch(HttpListenerRequest request)
@@ -62,17 +62,17 @@ namespace Juniper.HTTP.Server.Controllers
                 block = new CIDRBlock(request.RemoteEndPoint.Address);
                 OnWarning($"Auto-banning {block}");
                 added.Add(block);
-                blocks.Add(block);
-                blocks.Sort();
+                Blocks.Add(block);
+                Blocks.Sort();
 
-                for (int i = blocks.Count - 1; i > 0; --i)
+                for (int i = Blocks.Count - 1; i > 0; --i)
                 {
-                    var right = blocks[i];
-                    var left = blocks[i - 1];
+                    var right = Blocks[i];
+                    var left = Blocks[i - 1];
                     if (left.Overlaps(right))
                     {
-                        blocks[i - 1] = left + right;
-                        blocks.RemoveAt(i);
+                        Blocks[i - 1] = left + right;
+                        Blocks.RemoveAt(i);
 
                         added.Remove(left);
                         removed.MaybeAdd(left);
@@ -80,8 +80,8 @@ namespace Juniper.HTTP.Server.Controllers
                         added.Remove(right);
                         removed.MaybeAdd(right);
 
-                        removed.Remove(blocks[i - 1]);
-                        added.MaybeAdd(blocks[i - 1]);
+                        removed.Remove(Blocks[i - 1]);
+                        added.MaybeAdd(Blocks[i - 1]);
                     }
                 }
 
@@ -97,7 +97,7 @@ namespace Juniper.HTTP.Server.Controllers
 
                 if (banFile is object)
                 {
-                    CIDRBlock.Save(blocks, banFile);
+                    CIDRBlock.Save(Blocks, banFile);
                 }
 
                 return true;

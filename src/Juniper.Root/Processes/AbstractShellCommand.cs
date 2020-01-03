@@ -26,6 +26,7 @@ namespace Juniper.Processes
         public Encoding Encoding { get; set; }
 
         public string TotalStandardOutput { get; private set; }
+
         public string TotalStandardError { get; private set; }
 
         protected AbstractShellCommand(string command)
@@ -53,6 +54,10 @@ namespace Juniper.Processes
             return RunAsync(Arguments);
         }
 
+#if DEBUG
+        public string lastCommand;
+#endif
+
         protected virtual async Task<int> RunAsync(IEnumerable<string> arguments)
         {
             TotalStandardOutput = string.Empty;
@@ -75,6 +80,10 @@ namespace Juniper.Processes
                     WindowStyle = ProcessWindowStyle.Hidden
                 }
             };
+
+#if DEBUG
+            lastCommand = $"{Environment.CurrentDirectory}> {proc.StartInfo.FileName} {proc.StartInfo.Arguments}";
+#endif
 
             var outputAccum = new StringBuilder();
             void Proc_AccumOutputData(object sender, DataReceivedEventArgs e) =>

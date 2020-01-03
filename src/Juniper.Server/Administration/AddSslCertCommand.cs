@@ -1,12 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using Juniper.Processes;
 
 namespace Juniper.HTTP.Server.Administration
 {
-    public class NetShHttpAddSslCertCommand :
-        AbstractNetShHttpAddCommand
+    public class AddSslCertCommand :
+        AbstractShellCommand
     {
+        private Guid appID;
+        private IPEndPoint endPoint;
+        private string certHash;
+
         private static IPEndPoint ValidateAddress(IPAddress address, int port)
         {
             if (address is null)
@@ -34,35 +39,68 @@ namespace Juniper.HTTP.Server.Administration
 
         public IPEndPoint EndPoint
         {
-            get;
-            set;
+            get
+            {
+                return endPoint;
+            }
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException(nameof(value));
+                }
+
+                endPoint = value;
+            }
         }
 
         public string CertHash
         {
-            get;
-            set;
+            get
+            {
+                return certHash;
+            }
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException(nameof(value));
+                }
+
+                certHash = value;
+            }
         }
 
         public Guid AppID
         {
-            get;
-            set;
+            get
+            {
+                return appID;
+            }
+            set
+            {
+                if (value == Guid.Empty)
+                {
+                    throw new InvalidOperationException("Must provide a valid Guid value");
+                }
+
+                appID = value;
+            }
         }
 
-        public NetShHttpAddSslCertCommand(IPEndPoint endPoint, string certHash, Guid appID)
-            : base("sslCert")
+        public AddSslCertCommand(IPEndPoint endPoint, string certHash, Guid appID)
+            : base("netsh")
         {
             EndPoint = endPoint;
             CertHash = certHash;
             AppID = appID;
         }
 
-        public NetShHttpAddSslCertCommand(IPAddress address, int port, string certHash, Guid appID)
+        public AddSslCertCommand(IPAddress address, int port, string certHash, Guid appID)
             : this(ValidateAddress(address, port), certHash, appID)
         { }
 
-        public NetShHttpAddSslCertCommand(string address, int port, string certHash, Guid appID)
+        public AddSslCertCommand(string address, int port, string certHash, Guid appID)
             : this(ValidateAddress(address), port, certHash, appID)
         { }
 
@@ -70,6 +108,8 @@ namespace Juniper.HTTP.Server.Administration
         {
             get
             {
+                yield return "http";
+                yield return "add";
                 yield return $"ipport={EndPoint}";
                 yield return $"certhash={CertHash}";
                 yield return $"appid={{{AppID}}}";

@@ -23,6 +23,16 @@ namespace Juniper.HTTP.Server
     /// </summary>
     public class HttpServer : IDisposable, ILoggingSource
     {
+        public static bool IsAdministrator
+        {
+            get
+            {
+                var identity = System.Security.Principal.WindowsIdentity.GetCurrent();
+                var principal = new System.Security.Principal.WindowsPrincipal(identity);
+                return principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
+            }
+        }
+
         private readonly Thread serverThread;
         private readonly HttpListener listener;
         private readonly List<Task> waiters = new List<Task>();
@@ -460,7 +470,7 @@ or
                 listenAddress = "0.0.0.0";
             }
 
-            var addCert = new NetShHttpAddSslCertCommand(
+            var addCert = new AddSslCertCommand(
                 listenAddress,
                 HttpsPort.Value,
                 certHash,

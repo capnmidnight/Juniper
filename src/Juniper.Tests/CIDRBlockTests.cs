@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
+
+using Juniper.HTTP.Server.Administration;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -20,6 +23,9 @@ namespace Juniper.HTTP.Server.Tests
 
         private const string testAddressString2 = "192.160.0.2";
         private static readonly IPAddress testAddress2 = IPAddress.Parse(testAddressString2);
+
+        private const string testAddressString3 = "192.160.0.3";
+        private static readonly IPAddress testAddress3 = IPAddress.Parse(testAddressString3);
 
         [TestMethod]
         public void ParseSuccessfulFullBlock()
@@ -189,6 +195,34 @@ namespace Juniper.HTTP.Server.Tests
         }
 
         [TestMethod]
+        public void InputEndMatchesOutputEnd1()
+        {
+            var block1 = new CIDRBlock(testAddress0, testAddress1);
+            Assert.AreEqual(2, block1.Count);
+            Assert.AreEqual(testAddress0, block1.Start);
+            Assert.AreEqual(testAddress1, block1.End);
+
+            var block2 = new CIDRBlock(block1.Start, block1.BitmaskLength);
+            Assert.AreEqual(2, block2.Count);
+            Assert.AreEqual(testAddress0, block2.Start);
+            Assert.AreEqual(testAddress1, block2.End);
+        }
+
+        [TestMethod]
+        public void InputEndMatchesOutputEnd2()
+        {
+            var block1 = new CIDRBlock(testAddress0, testAddress2);
+            Assert.AreEqual(3, block1.Count);
+            Assert.AreEqual(testAddress0, block1.Start);
+            Assert.AreEqual(testAddress2, block1.End);
+
+            var block2 = new CIDRBlock(block1.Start, block1.BitmaskLength);
+            Assert.AreEqual(4, block2.Count);
+            Assert.AreEqual(testAddress0, block2.Start);
+            Assert.AreEqual(testAddress3, block2.End);
+        }
+
+        [TestMethod]
         public void Count1()
         {
             var block = new CIDRBlock(testAddress1, 32);
@@ -227,6 +261,39 @@ namespace Juniper.HTTP.Server.Tests
             Assert.AreEqual(2, addresses.Length);
             Assert.AreEqual(testAddress0, addresses[0]);
             Assert.AreEqual(testAddress1, addresses[1]);
+        }
+
+        [TestMethod]
+        public async Task AddRuleAsync()
+        {
+            var command = new AddFirewallRuleCommand("Test Ban", FirewallRuleDirection.Out, FirewallRuleAction.Block, new CIDRBlock(testAddress1));
+            var retCode = await command.RunAsync()
+                .ConfigureAwait(false);
+            Assert.AreEqual(0, retCode);
+            Assert.IsTrue(command.TotalStandardOutput.Length > 0);
+        }
+
+        [TestMethod]
+        public async Task DeleteRuleAsync()
+        {
+            await AddRuleAsync().ConfigureAwait(false);
+
+            var command = new DeleteFirewallRuleCommand("Test Ban");
+            var deleteCount = await command.RunAsync()
+                .ConfigureAwait(false);
+            Assert.IsTrue(deleteCount >= 1);
+        }
+
+        [TestMethod]
+        public async Task ShowRulesAsync()
+        {
+            await AddRuleAsync().ConfigureAwait(false);
+
+            var command = new ShowFirewallRuleCommand("Test Ban");
+            var blocks = await command.GetRangesAsync()
+                .ConfigureAwait(false);
+            Assert.IsTrue(blocks.Length > 0);
+            Assert.AreEqual(testAddress1, blocks[0].Start);
         }
     }
 }
