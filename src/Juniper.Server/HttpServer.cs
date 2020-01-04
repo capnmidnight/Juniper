@@ -540,49 +540,31 @@ or
             {
                 OnInfo(requestID);
 
-                var handled = false;
-
                 foreach (var route in routes)
                 {
-                    if (route.IsMatch(context.Request))
+                    if (route.IsMatch(context))
                     {
                         await route.InvokeAsync(context)
                             .ConfigureAwait(false);
-
-                        handled = true;
-                        if (!route.CanContinue(context.Request))
-                        {
-                            break;
-                        }
                     }
                 }
-
-                if (!handled)
-                {
-                    var message = $"Not found: {requestID}";
-                    OnWarning(message);
-                    context.Response.Error(HttpStatusCode.NotFound, message);
-                    handled = true;
-                }
-
-                OnLog(requestID + $" {context.Response.StatusCode} {context.Response.ContentLength64}");
+            }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (Exception exp)
+            {
+                OnError(this, exp);
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            }
+#pragma warning restore CA1031 // Do not catch general exception types
+            finally
+            {
+                context.Response.StatusDescription = HttpStatusDescription.Get(context.Response.StatusCode);
 
                 await context
                     .Response
                     .OutputStream
                     .FlushAsync()
                     .ConfigureAwait(true);
-            }
-#pragma warning disable CA1031 // Do not catch general exception types
-            catch (Exception exp)
-            {
-                OnError(this, exp);
-                context.Response.Error(HttpStatusCode.InternalServerError, "Internal error");
-            }
-#pragma warning restore CA1031 // Do not catch general exception types
-            finally
-            {
-                context.Response.StatusDescription = HttpStatusDescription.Get(context.Response.StatusCode);
 
                 if (!context.Request.IsWebSocketRequest)
                 {

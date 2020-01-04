@@ -32,30 +32,30 @@ namespace Juniper.HTTP.Server.Controllers
             }
         }
 
-        public override bool IsMatch(HttpListenerRequest request)
+        public override bool IsMatch(HttpListenerContext context)
         {
-            return base.IsMatch(request)
-                && request.IsWebSocketRequest;
+            return base.IsMatch(context)
+                && context.Request.IsWebSocketRequest;
         }
 
-        public override async Task InvokeAsync(HttpListenerContext httpContext)
+        public override async Task InvokeAsync(HttpListenerContext context)
         {
             if (wsMgr is null)
             {
                 OnError(new NullReferenceException("No web socket manager"));
-                httpContext.Response.Error(HttpStatusCode.InternalServerError, "Server error");
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
             else
             {
-                var wsContext = await httpContext.AcceptWebSocketAsync(null)
+                var wsContext = await context.AcceptWebSocketAsync(null)
                     .ConfigureAwait(false);
 
-                var ws = new ServerWebSocketConnection(httpContext, wsContext.WebSocket);
+                var ws = new ServerWebSocketConnection(context, wsContext.WebSocket);
                 wsMgr.Add(ws);
 
                 SocketConnected?.Invoke(ws);
 
-                await InvokeAsync(httpContext, ws)
+                await InvokeAsync(context, ws)
                     .ConfigureAwait(false);
             }
         }

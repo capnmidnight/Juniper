@@ -6,8 +6,8 @@ namespace Juniper.HTTP.Server.Controllers
 {
     public sealed class HttpsRedirectController : AbstractRequestHandler
     {
-        private HttpsRedirectController()
-            : base(null, int.MinValue + 1, HttpProtocols.HTTP, HttpMethods.All)
+        public HttpsRedirectController()
+            : base(null, int.MinValue + 1, 0, HttpProtocols.HTTP, HttpMethods.All)
         { }
 
         public override Task InvokeAsync(HttpListenerContext context)

@@ -19,7 +19,7 @@ namespace Juniper.HTTP.Server.Controllers
         { }
 
         public IPBanController(IEnumerable<CIDRBlock> blocks)
-            : base(null, int.MinValue, HttpProtocols.All, HttpMethods.All)
+            : base(null, int.MinValue, 0, HttpProtocols.All, HttpMethods.All)
         {
             Blocks.AddRange(blocks);
             Blocks.Sort();
@@ -104,13 +104,6 @@ namespace Juniper.HTTP.Server.Controllers
             }
 
             return false;
-        }
-
-        public override bool CanContinue(HttpListenerRequest request)
-        {
-            var block = GetMatchingBlock(request.RemoteEndPoint.Address);
-            return base.CanContinue(request)
-                && block is null;
         }
 
         public override Task InvokeAsync(HttpListenerContext context)

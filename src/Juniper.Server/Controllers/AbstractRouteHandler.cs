@@ -30,9 +30,9 @@ namespace Juniper.HTTP.Server.Controllers
         protected AbstractRouteHandler(string name, object source, MethodInfo method, RouteAttribute route)
             : base(name,
                   ValidateRoute(route).Priority,
+                  ValidateRoute(route).ExpectedStatus,
                   ValidateRoute(route).Protocol,
                   ValidateRoute(route).Method,
-                  ValidateRoute(route).Continue,
                   ValidateRoute(route).Authentication)
         {
             pattern = ValidateRoute(route).Pattern;

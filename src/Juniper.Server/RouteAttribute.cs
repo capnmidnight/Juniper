@@ -13,17 +13,20 @@ namespace Juniper.HTTP.Server
 
         public int ParameterCount { get; }
 
-        public int Priority;
-        public bool Continue;
+        public int Priority { get; set; }
 
+        public HttpStatusCode ExpectedStatus { get; set; } = 0;
+
+        public HttpMethods Method { get; set; } = HttpMethods.GET;
+
+        public AuthenticationSchemes Authentication { get; set; } = AuthenticationSchemes.Anonymous;
+
+        public HttpProtocols Protocol { get; set; }
 #if DEBUG
-        public HttpProtocols Protocol = HttpProtocols.All;
+            = HttpProtocols.All;
 #else
-        public HttpProtocols Protocol = HttpProtocols.HTTPS;
+            = HttpProtocols.HTTPS;
 #endif
-
-        public HttpMethods Method = HttpMethods.GET;
-        public AuthenticationSchemes Authentication = AuthenticationSchemes.Anonymous;
 
         public RouteAttribute(Regex pattern)
         {

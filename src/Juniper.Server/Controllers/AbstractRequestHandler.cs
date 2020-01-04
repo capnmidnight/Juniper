@@ -18,7 +18,6 @@ namespace Juniper.HTTP.Server.Controllers
         private readonly string name;
         private readonly int priority;
         private readonly HttpMethods verb;
-        private readonly bool canContinue;
 
         private HttpServer parent;
 
@@ -28,12 +27,9 @@ namespace Juniper.HTTP.Server.Controllers
 
         public AuthenticationSchemes Authentication { get; }
 
-        public virtual bool CanContinue(HttpListenerRequest request)
-        {
-            return canContinue;
-        }
-
         public HttpProtocols Protocol { get; }
+
+        public HttpStatusCode ExpectedStatus { get; }
 
         public virtual HttpServer Server
         {
@@ -44,17 +40,28 @@ namespace Juniper.HTTP.Server.Controllers
         protected AbstractRequestHandler(
             string name = null,
             int priority = 0,
+            HttpStatusCode expectedStatus = (HttpStatusCode)0,
             HttpProtocols protocol = HttpProtocols.All,
             HttpMethods verb = HttpMethods.GET,
-            bool canContinue = false,
             AuthenticationSchemes authentication = AuthenticationSchemes.Anonymous)
         {
             this.name = name ?? GetType().Name;
             this.priority = priority;
             this.verb = verb;
+            ExpectedStatus = expectedStatus;
             Protocol = protocol;
-            this.canContinue = canContinue;
             Authentication = authentication;
+        }
+
+        public virtual bool IsMatch(HttpListenerContext context)
+        {
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            return context.Response.StatusCode == (int)ExpectedStatus
+                && IsMatch(context.Request);
         }
 
         public virtual bool IsMatch(HttpListenerRequest request)
@@ -113,7 +120,7 @@ namespace Juniper.HTTP.Server.Controllers
             hashCode = (hashCode * -1521134295) + priority.GetHashCode();
             hashCode = (hashCode * -1521134295) + verb.GetHashCode();
             hashCode = (hashCode * -1521134295) + Authentication.GetHashCode();
-            hashCode = (hashCode * -1521134295) + canContinue.GetHashCode();
+            hashCode = (hashCode * -1521134295) + ExpectedStatus.GetHashCode();
             hashCode = (hashCode * -1521134295) + Protocol.GetHashCode();
             return hashCode;
         }
