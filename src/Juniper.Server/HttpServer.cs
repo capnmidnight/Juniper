@@ -360,7 +360,7 @@ or
                         }
                     }
 
-                    _ = AddRoutesFrom<HttpsRedirectController>();
+                    _ = AddRoutesFrom(new HttpsRedirectController());
                 }
 
                 SetPrefix("http", HttpPort.Value);
