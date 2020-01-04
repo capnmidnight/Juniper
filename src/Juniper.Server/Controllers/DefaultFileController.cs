@@ -144,7 +144,7 @@ namespace Juniper.HTTP.Server.Controllers
 
             if (!rootDirectory.Contains(file))
             {
-                response.Error(HttpStatusCode.Unauthorized, "Unauthorized");
+                response.StatusCode = (int)HttpStatusCode.Unauthorized;
             }
             else if (isDirectory && requestPath[requestPath.Length - 1] != '/')
             {
@@ -154,7 +154,7 @@ namespace Juniper.HTTP.Server.Controllers
             {
                 if (Array.IndexOf(mediaTypeWhiteList, type) == -1)
                 {
-                    response.Error(HttpStatusCode.Unauthorized, "Unauthorized");
+                    response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 }
                 else
                 {
@@ -171,7 +171,7 @@ namespace Juniper.HTTP.Server.Controllers
             {
                 var message = $"request '{shortName}'";
                 OnWarning(message);
-                response.Error(HttpStatusCode.NotFound, message);
+                response.StatusCode = (int)HttpStatusCode.NotFound;
             }
         }
 
@@ -224,7 +224,7 @@ namespace Juniper.HTTP.Server.Controllers
             {
                 var message = $"ERRRRRROR: '{shortName}' > {exp.Message}";
                 OnWarning(message);
-                response.Error(HttpStatusCode.InternalServerError, message);
+                response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
 #pragma warning restore CA1031 // Do not catch general exception types
         }

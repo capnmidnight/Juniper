@@ -8,14 +8,6 @@ namespace Juniper.HTTP.Server
 {
     public static class HttpListenerResponseExt
     {
-        public static void Error(this HttpListenerResponse response, HttpStatusCode code, string message)
-        {
-            response.SetStatus(code);
-
-            using var writer = new StreamWriter(response.OutputStream);
-            writer.WriteLine(message);
-        }
-
         public static void Redirect(this HttpListenerResponse response, string filename)
         {
             response.AddHeader("Location", filename);
