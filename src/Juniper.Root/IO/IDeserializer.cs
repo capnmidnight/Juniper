@@ -6,6 +6,6 @@ namespace Juniper.IO
 {
     public interface IDeserializer<out ResultT>
     {
-        ResultT Deserialize(Stream stream, IProgress prog);
+        ResultT Deserialize(Stream stream, IProgress prog = null);
     }
 }

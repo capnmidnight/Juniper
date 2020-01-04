@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Runtime.Serialization;
 
 namespace Juniper.HTTP
@@ -6,8 +6,9 @@ namespace Juniper.HTTP
     [Serializable]
     public sealed class DataMessage : ISerializable
     {
-        public readonly string Message;
-        public readonly byte[] Data;
+        public string Message { get; }
+
+        public System.Collections.Generic.IReadOnlyCollection<byte> Data { get; }
 
         public DataMessage(string message, byte[] data)
         {

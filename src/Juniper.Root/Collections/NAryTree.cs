@@ -19,12 +19,12 @@ namespace Juniper.Collections
         /// <summary>
         /// All nodes below the current node.
         /// </summary>
-        public readonly List<NAryTree<T>> children = new List<NAryTree<T>>();
+        public List<NAryTree<T>> Children { get; } = new List<NAryTree<T>>();
 
         /// <summary>
         /// The next node above the current node.
         /// </summary>
-        protected NAryTree<T> parent;
+        protected NAryTree<T> Parent { get; set; }
 
         public int Count { get; private set; }
 
@@ -43,7 +43,7 @@ namespace Juniper.Collections
         private NAryTree(T value, NAryTree<T> parent)
             : this(value)
         {
-            this.parent = parent;
+            Parent = parent;
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Juniper.Collections
                 while (here is object)
                 {
                     ++depth;
-                    here = here.parent;
+                    here = here.Parent;
                 }
 
                 return depth;
@@ -70,7 +70,7 @@ namespace Juniper.Collections
         /// </summary>
         public bool IsLeaf
         {
-            get { return children.Count == 0; }
+            get { return Children.Count == 0; }
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Juniper.Collections
         /// </summary>
         public bool IsRoot
         {
-            get { return parent is null; }
+            get { return Parent is null; }
         }
 
         /// <summary>
@@ -106,13 +106,13 @@ namespace Juniper.Collections
                     {
                         ++here.Count;
                         lastParent = here;
-                        q.AddRange(here.children);
+                        q.AddRange(here.Children);
                     }
                 }
 
                 if (lastParent != null)
                 {
-                    lastParent.children.Add(new NAryTree<T>(node, lastParent));
+                    lastParent.Children.Add(new NAryTree<T>(node, lastParent));
                 }
             }
         }
@@ -134,15 +134,15 @@ namespace Juniper.Collections
                 }
                 else
                 {
-                    q.AddRange(here.children);
+                    q.AddRange(here.Children);
                 }
             }
 
             if (found != null)
             {
-                found.parent.Count -= found.Count;
-                found.parent.children.Remove(found);
-                found.parent = null;
+                found.Parent.Count -= found.Count;
+                _ = found.Parent.Children.Remove(found);
+                found.Parent = null;
             }
 
             return found;
@@ -166,7 +166,7 @@ namespace Juniper.Collections
                 if (predicate(here))
                 {
                     yield return here;
-                    items.AddRange(here.children);
+                    items.AddRange(here.Children);
                 }
             }
         }
@@ -205,10 +205,10 @@ namespace Juniper.Collections
             {
                 for (var i = 0; i < here.Depth; ++i)
                 {
-                    sb.Append("--");
+                    _ = sb.Append("--");
                 }
 
-                sb.AppendLine(here.Value.ToString());
+                _ = sb.AppendLine(here.Value.ToString());
                 return sb;
             }).ToString();
         }

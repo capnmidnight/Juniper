@@ -88,12 +88,12 @@ namespace Juniper.HTTP.Server.Controllers
         private readonly DirectoryInfo rootDirectory;
         private readonly MediaType[] mediaTypeWhiteList;
 
-        public event EventHandler<string> Warning;
+        public event EventHandler<StringEventArgs> Warning;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnWarning(string message)
         {
-            Warning?.Invoke(this, message);
+            Warning?.Invoke(this, new StringEventArgs(message));
         }
 
         public DefaultFileController(DirectoryInfo rootDirectory, params MediaType[] mediaTypeWhiteList)

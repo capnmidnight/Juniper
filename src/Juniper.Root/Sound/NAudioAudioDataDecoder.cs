@@ -94,7 +94,7 @@ namespace Juniper.Sound
             }
         }
 
-        public AudioData Deserialize(Stream stream, IProgress prog)
+        public AudioData Deserialize(Stream stream, IProgress prog = null)
         {
             AudioData audioData = null;
             if (stream is object)

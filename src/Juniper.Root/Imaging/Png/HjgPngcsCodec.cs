@@ -26,7 +26,7 @@ namespace Juniper.Imaging
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="stream">Png bytes.</param>
-        public ImageLines Deserialize(Stream stream, IProgress prog)
+        public ImageLines Deserialize(Stream stream, IProgress prog = null)
         {
             prog.Report(0);
 

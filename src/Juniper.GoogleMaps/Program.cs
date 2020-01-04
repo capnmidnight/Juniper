@@ -85,9 +85,9 @@ namespace Juniper.GoogleMaps
             }
         }
 
-        private static void Form_LocationSubmitted(object sender, string location)
+        private static void Form_LocationSubmitted(object sender, StringEventArgs e)
         {
-            _ = LocationSubmittedAsync(location)
+            _ = LocationSubmittedAsync(e.Value)
                 .ContinueWith((task) => form.SetError(task.Exception), CancellationToken.None, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.Default)
                 .ConfigureAwait(false);
         }
@@ -100,24 +100,24 @@ namespace Juniper.GoogleMaps
                 .ConfigureAwait(false);
         }
 
-        private static void Form_LatLngSubmitted(object sender, string latlng)
+        private static void Form_LatLngSubmitted(object sender, LatLngPointEventArgs e)
         {
-            _ = LatLngSubmittedAsync(latlng)
+            _ = LatLngSubmittedAsync(e.Value)
                 .ContinueWith((task) => form.SetError(task.Exception), CancellationToken.None, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.Default)
                 .ConfigureAwait(false);
         }
 
-        private static async Task LatLngSubmittedAsync(string latlng)
+        private static async Task LatLngSubmittedAsync(LatLngPoint point)
         {
-            var metadata = await gmaps.GetMetadataAsync(LatLngPoint.ParseDecimal(latlng))
+            var metadata = await gmaps.GetMetadataAsync(point)
                             .ConfigureAwait(false);
             await GetImageDataAsync(metadata)
                 .ConfigureAwait(false);
         }
 
-        private static void Form_PanoSubmitted(object sender, string pano)
+        private static void Form_PanoSubmitted(object sender, StringEventArgs e)
         {
-            _ = PanoSubmittedAsync(pano)
+            _ = PanoSubmittedAsync(e.Value)
                 .ContinueWith((task) => form.SetError(task.Exception), CancellationToken.None, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.Default)
                 .ConfigureAwait(false);
         }

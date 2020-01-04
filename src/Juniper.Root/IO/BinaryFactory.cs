@@ -27,7 +27,7 @@ namespace Juniper.IO
             return type;
         }
 
-        public ResultT Deserialize(Stream stream, IProgress prog)
+        public ResultT Deserialize(Stream stream, IProgress prog = null)
         {
             prog.Report(0);
             ResultT value = default;

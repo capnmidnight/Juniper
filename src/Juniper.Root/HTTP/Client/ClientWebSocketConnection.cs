@@ -17,7 +17,7 @@ namespace Juniper.HTTP.Client
 
         public async Task ConnectAsync()
         {
-            var clientSocket = (ClientWebSocket)socket;
+            var clientSocket = (ClientWebSocket)Socket;
             await clientSocket
                 .ConnectAsync(uri, CancellationToken.None)
                 .ConfigureAwait(false);

@@ -27,7 +27,7 @@ namespace Juniper.Imaging
             prog.Report(1);
         }
 
-        public Image Deserialize(Stream stream, IProgress prog)
+        public Image Deserialize(Stream stream, IProgress prog = null)
         {
             prog.Report(0);
             Image image = null;

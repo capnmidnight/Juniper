@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 
 using Juniper.Progress;
 
@@ -20,7 +20,7 @@ namespace Juniper.IO
             get;
         }
 
-        public ResultT Deserialize(Stream stream, IProgress prog)
+        public ResultT Deserialize(Stream stream, IProgress prog = null)
         {
             prog.Report(0);
             ResultT value = default;
@@ -28,8 +28,8 @@ namespace Juniper.IO
             {
                 using (stream)
                 {
-                    var reader = new StreamReader(stream);
-                    var jsonReader = new JsonTextReader(reader);
+                    using var reader = new StreamReader(stream);
+                    using var jsonReader = new JsonTextReader(reader);
                     var serializer = new JsonSerializer();
                     value = serializer.Deserialize<ResultT>(jsonReader);
                 }

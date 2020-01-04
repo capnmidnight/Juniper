@@ -1,20 +1,19 @@
+using System;
+using System.Reflection.Emit;
 
-namespace System
+namespace Juniper
 {
     /// <summary>
     /// An encapsulated Exception for passing to an <see cref="ErrorHandler"/>.
     /// </summary>
-    public class ErrorEventArgs : EventArgs
+    public class ErrorEventArgs : EventArgs<Exception>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="System.ErrorEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="ErrorEventArgs"/> class.
         /// </summary>
         /// <param name="exp">Exp.</param>
         public ErrorEventArgs(Exception exp)
-        {
-            Exception = exp;
-        }
-
-        public Exception Exception { get; }
+            : base(exp)
+        { }
     }
 }

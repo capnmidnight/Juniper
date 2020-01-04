@@ -57,30 +57,30 @@ namespace Juniper.HTTP
 
         private static void Socket_Error(object sender, ErrorEventArgs e)
         {
-            Error.WriteLine($"[SOCKET ERROR] {e.Exception.Unroll()}");
+            Error.WriteLine($"[SOCKET ERROR] {e.Value.Unroll()}");
         }
 
-        private static void Socket_Message(object sender, string msg)
+        private static void Socket_Message(object sender, StringEventArgs e)
         {
             var socket = (WebSocketConnection)sender;
-            WriteLine($"[SOCKET] {msg}");
-            msg += " from server";
+            WriteLine($"[SOCKET] {e.Value}");
+            var msg = e.Value + " from server";
             _ = Task.Run(() => socket.SendAsync(msg));
         }
 
-        private static void Server_Info(object sender, string e)
+        private static void Server_Info(object sender, StringEventArgs e)
         {
-            WriteLine(e);
+            WriteLine(e.Value);
         }
 
-        private static void Server_Warning(object sender, string e)
+        private static void Server_Warning(object sender, StringEventArgs e)
         {
-            WriteLine($"[WARNING] {e}");
+            WriteLine($"[WARNING] {e.Value}");
         }
 
         private static void Server_Error(object sender, ErrorEventArgs e)
         {
-            Error.WriteLine(e.Exception.Unroll());
+            Error.WriteLine(e.Value.Unroll());
         }
     }
 }

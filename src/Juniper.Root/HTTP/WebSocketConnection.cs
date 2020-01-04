@@ -25,11 +25,11 @@ namespace Juniper.HTTP
         /// </summary>
         public const int DEFAULT_DATA_BUFFER_SIZE = 10000000;
 
-        protected readonly WebSocket socket;
+        protected WebSocket Socket { get; }
 
-        public event EventHandler<string> Message;
-        public event EventHandler<byte[]> Data;
-        public event EventHandler<DataMessage> DataMessage;
+        public event EventHandler<StringEventArgs> Message;
+        public event EventHandler<BufferEventArgs> Data;
+        public event EventHandler<DataMessageEventArgs> DataMessage;
         public event EventHandler<ErrorEventArgs> Error;
         public event EventHandler Connecting;
         public event EventHandler Connected;
@@ -38,7 +38,7 @@ namespace Juniper.HTTP
         public event EventHandler Aborted;
 
 #if DEBUG
-        public event EventHandler<string> Debug;
+        public event EventHandler<StringEventArgs> Debug;
 #endif
 
         private readonly byte[] rxBuffer;
@@ -47,7 +47,7 @@ namespace Juniper.HTTP
 
         protected WebSocketConnection(WebSocket socket, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
         {
-            this.socket = socket;
+            Socket = socket;
             this.dataBufferSize = dataBufferSize;
 
             rxBuffer = new byte[rxBufferSize];
@@ -55,12 +55,12 @@ namespace Juniper.HTTP
 
             Data += WebSocketConnection_Data;
 
-            Task.Run(UpdateAsync).ConfigureAwait(false);
+            _ = Task.Run(UpdateAsync).ConfigureAwait(false);
         }
 
         public WebSocketState State
         {
-            get { return socket.State; }
+            get { return Socket.State; }
         }
 
         private async Task UpdateAsync()
@@ -121,7 +121,7 @@ namespace Juniper.HTTP
             WebSocketMessageType msgType;
             do
             {
-                var result = await socket
+                var result = await Socket
                     .ReceiveAsync(rxSegment, CancellationToken.None)
                     .ConfigureAwait(false);
                 msgType = result.MessageType;
@@ -155,12 +155,12 @@ namespace Juniper.HTTP
             }
         }
 
-        private void WebSocketConnection_Data(object sender, byte[] data)
+        private void WebSocketConnection_Data(object sender, BufferEventArgs e)
         {
             if (DataMessage is object)
             {
-                var dataMessageDeserializer = new BinaryFactory<DataMessage>();
-                if (dataMessageDeserializer.TryDeserialize(data, out var dataMsg))
+                var dataMessageDeserializer = new BinaryFactory<DataMessageEventArgs>();
+                if (dataMessageDeserializer.TryDeserialize(e.Value.ToArray(), out var dataMsg))
                 {
                     OnDataMessage(dataMsg);
                 }
@@ -169,6 +169,11 @@ namespace Juniper.HTTP
 
         public Task SendAsync(string msg)
         {
+            if (msg is null)
+            {
+                throw new ArgumentNullException(nameof(msg));
+            }
+
             OnDebug($"Send: {msg}");
             return SendAsync(Encoding.UTF8.GetBytes(msg), WebSocketMessageType.Text);
         }
@@ -184,14 +189,34 @@ namespace Juniper.HTTP
 
         public Task SendAsync(byte[] buffer)
         {
+            if (buffer is null)
+            {
+                throw new ArgumentNullException(nameof(buffer));
+            }
+
             return SendAsync(buffer, WebSocketMessageType.Binary);
+        }
+
+        public Task SendAsync(IReadOnlyCollection<byte> buffer)
+        {
+            if (buffer is null)
+            {
+                throw new ArgumentNullException(nameof(buffer));
+            }
+
+            return SendAsync(buffer.ToArray(), WebSocketMessageType.Binary);
         }
 
         private async Task SendAsync(byte[] buffer, WebSocketMessageType messageType)
         {
-            var segment = new ArraySegment<byte>(buffer);
+            if (buffer is null)
+            {
+                throw new ArgumentNullException(nameof(buffer));
+            }
+
+            var segment = new ArraySegment<byte>(buffer.ToArray());
             OnDebug($"Send: {buffer.Length.ToString(CultureInfo.CurrentCulture)} bytes. Type: {messageType.ToString()}.");
-            await socket
+            await Socket
                 .SendAsync(segment, messageType, true, CancellationToken.None)
                 .ConfigureAwait(false);
         }
@@ -205,7 +230,7 @@ namespace Juniper.HTTP
                 ? null
                 : closeState.ToString();
 
-            await socket
+            await Socket
                 .CloseAsync(closeState, closeMessage, CancellationToken.None)
                 .ConfigureAwait(false);
 
@@ -225,7 +250,7 @@ namespace Juniper.HTTP
             {
                 if (disposing)
                 {
-                    socket.Dispose();
+                    Socket.Dispose();
                 }
 
                 disposedValue = true;
@@ -245,24 +270,24 @@ namespace Juniper.HTTP
         private void OnDebug(string msg)
         {
 #if DEBUG
-            Debug?.Invoke(this, msg);
+            Debug?.Invoke(this, new StringEventArgs(msg));
 #endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnMessage(string msg)
         {
-            Message?.Invoke(this, msg);
+            Message?.Invoke(this, new StringEventArgs(msg));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnData(byte[] data)
         {
-            Data?.Invoke(this, data);
+            Data?.Invoke(this, new BufferEventArgs(data));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void OnDataMessage(DataMessage dataMsg)
+        private void OnDataMessage(DataMessageEventArgs dataMsg)
         {
             DataMessage?.Invoke(this, dataMsg);
         }

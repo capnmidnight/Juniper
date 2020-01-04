@@ -21,7 +21,10 @@ namespace Juniper.HTTP.Server
     /// A wrapper around <see cref="HttpListener"/> that handles
     /// routing, HTTPS, and a default start page for DEBUG running.
     /// </summary>
-    public class HttpServer : IDisposable, ILoggingSource
+    public class HttpServer :
+        IDisposable,
+        ILoggingSource,
+        INCSALogSource
     {
         public static bool IsAdministrator
         {
@@ -139,14 +142,19 @@ namespace Juniper.HTTP.Server
         public ushort? HttpPort { get; set; }
 
         /// <summary>
+        /// Event for handling standardized Common Log Format logs.
+        /// </summary>
+        public event EventHandler<StringEventArgs> Log;
+
+        /// <summary>
         /// Event for handling information-level logs.
         /// </summary>
-        public event EventHandler<string> Info;
+        public event EventHandler<StringEventArgs> Info;
 
         /// <summary>
         /// Event for handling error logs that don't stop execution.
         /// </summary>
-        public event EventHandler<string> Warning;
+        public event EventHandler<StringEventArgs> Warning;
 
         /// <summary>
         /// Event for handling error logs that prevent execution.
@@ -238,7 +246,7 @@ or
         {
             if (controller is AbstractRequestHandler handler)
             {
-                OnInfo(this, $"Found controller {handler}");
+                OnInfo($"Found controller {handler}");
                 handler.Server = this;
                 routes.Add(handler);
             }
@@ -282,7 +290,7 @@ or
         /// </summary>
         public void Stop()
         {
-            OnInfo(this, "Stopping server");
+            OnInfo("Stopping server");
             listener.Stop();
             listener.Close();
             serverThread.Abort();
@@ -298,7 +306,7 @@ or
                 }
                 else if (string.IsNullOrEmpty(Domain))
                 {
-                    OnWarning(this, "No domain was specified. Can't auto-assign a TLS certificate.");
+                    OnWarning("No domain was specified. Can't auto-assign a TLS certificate.");
                 }
                 else
                 {
@@ -308,7 +316,7 @@ or
 
                     if (string.IsNullOrEmpty(certHash))
                     {
-                        OnWarning(this, "No TLS cert found!");
+                        OnWarning("No TLS cert found!");
                     }
                     else
                     {
@@ -321,7 +329,7 @@ or
                         }
                         else if (message.Equals("The parameter is incorrect.", StringComparison.OrdinalIgnoreCase))
                         {
-                            OnWarning(this, $@"Couldn't configure the certificate correctly:
+                            OnWarning($@"Couldn't configure the certificate correctly:
     Application GUID: {guid}
     TLS cert: {certHash}
     {message}");
@@ -381,7 +389,7 @@ or
                 if (!listener.IsListening)
                 {
                     var prefixes = string.Join(", ", listener.Prefixes);
-                    OnInfo(this, $"Listening on: {prefixes}");
+                    OnInfo($"Listening on: {prefixes}");
                     listener.Start();
                 }
 
@@ -526,7 +534,7 @@ or
             var requestID = $"{{{DateTime.Now.ToShortTimeString()}}} {context.Request.UrlReferrer} [{context.Request.HttpMethod}] {context.Request.Url.PathAndQuery} => {context.Request.RemoteEndPoint}";
             try
             {
-                OnInfo(this, requestID);
+                OnInfo(requestID);
 
                 var handled = false;
 
@@ -548,7 +556,7 @@ or
                 if (!handled)
                 {
                     var message = $"Not found: {requestID}";
-                    OnWarning(this, message);
+                    OnWarning(message);
                     context.Response.Error(HttpStatusCode.NotFound, message);
                 }
 
@@ -577,15 +585,33 @@ or
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void OnInfo(object source, string message)
+        protected void OnLog(string message)
         {
-            Info?.Invoke(source, message);
+            Log?.Invoke(this, new StringEventArgs(message));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void OnWarning(object sender, string message)
+        protected void OnInfo(string message)
         {
-            Warning?.Invoke(this, message);
+            Info?.Invoke(this, new StringEventArgs(message));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected void OnInfo(object source, StringEventArgs e)
+        {
+            Info?.Invoke(source, e);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected void OnWarning(string message)
+        {
+            Warning?.Invoke(this, new StringEventArgs(message));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        protected void OnWarning(object sender, StringEventArgs e)
+        {
+            Warning?.Invoke(sender, e);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

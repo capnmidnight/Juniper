@@ -174,18 +174,19 @@ namespace Juniper.Primrose
             }
         }
 
-        public event EventHandler<string> Output;
-        public event EventHandler<Action<string>> Input;
-        public event EventHandler<RuntimeException> RuntimeError;
-        public event EventHandler ClearScreen;
         public event EventHandler<Action<Func<string, byte[]>>> LoadFile;
+        public event EventHandler<Action<string>> Input;
+
+        public event EventHandler<StringEventArgs> Output;
+        public event EventHandler<ErrorEventArgs> RuntimeError;
+        public event EventHandler ClearScreen;
         public event EventHandler ContinueNext;
         public event EventHandler Done;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnOutput(string msg)
         {
-            Output?.Invoke(this, msg);
+            Output?.Invoke(this, new StringEventArgs(msg));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -204,7 +205,7 @@ namespace Juniper.Primrose
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnError(Line line, string script, Exception exp)
         {
-            RuntimeError?.Invoke(this, new RuntimeException(source, line, script, exp));
+            RuntimeError?.Invoke(this, new ErrorEventArgs(new RuntimeException(source, line, script, exp)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

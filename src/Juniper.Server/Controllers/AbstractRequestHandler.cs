@@ -22,8 +22,8 @@ namespace Juniper.HTTP.Server.Controllers
 
         private HttpServer parent;
 
-        public event EventHandler<string> Info;
-        public event EventHandler<string> Warning;
+        public event EventHandler<StringEventArgs> Info;
+        public event EventHandler<StringEventArgs> Warning;
         public event EventHandler<ErrorEventArgs> Err;
 
         public AuthenticationSchemes Authentication { get; }
@@ -59,6 +59,11 @@ namespace Juniper.HTTP.Server.Controllers
 
         public virtual bool IsMatch(HttpListenerRequest request)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             return Enum.TryParse<HttpProtocols>(request.Url.Scheme, true, out var protocol)
                 && Enum.TryParse<HttpMethods>(request.HttpMethod, true, out var verb)
                 && (Protocol & protocol) != 0
@@ -104,20 +109,20 @@ namespace Juniper.HTTP.Server.Controllers
         public override int GetHashCode()
         {
             var hashCode = -40035775;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(name);
-            hashCode = hashCode * -1521134295 + priority.GetHashCode();
-            hashCode = hashCode * -1521134295 + verb.GetHashCode();
-            hashCode = hashCode * -1521134295 + Authentication.GetHashCode();
-            hashCode = hashCode * -1521134295 + canContinue.GetHashCode();
-            hashCode = hashCode * -1521134295 + Protocol.GetHashCode();
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(name);
+            hashCode = (hashCode * -1521134295) + priority.GetHashCode();
+            hashCode = (hashCode * -1521134295) + verb.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Authentication.GetHashCode();
+            hashCode = (hashCode * -1521134295) + canContinue.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Protocol.GetHashCode();
             return hashCode;
         }
 
         public static bool operator ==(AbstractRequestHandler left, AbstractRequestHandler right)
         {
-            return left is null && right is null
-                || left is object && left.CompareTo(right) == 0
-                || right is object && right.CompareTo(left) == 0;
+            return (left is null && right is null)
+                || (left is object && left.CompareTo(right) == 0)
+                || (right is object && right.CompareTo(left) == 0);
         }
 
         public static bool operator !=(AbstractRequestHandler left, AbstractRequestHandler right)
@@ -127,14 +132,14 @@ namespace Juniper.HTTP.Server.Controllers
 
         public static bool operator <(AbstractRequestHandler left, AbstractRequestHandler right)
         {
-            return left is object && left.CompareTo(right) == -1
-                || right is object && right.CompareTo(left) == 1;
+            return (left is object && left.CompareTo(right) == -1)
+                || (right is object && right.CompareTo(left) == 1);
         }
 
         public static bool operator >(AbstractRequestHandler left, AbstractRequestHandler right)
         {
-            return left is object && left.CompareTo(right) == 1
-                || right is object && right.CompareTo(left) == -1;
+            return (left is object && left.CompareTo(right) == 1)
+                || (right is object && right.CompareTo(left) == -1);
         }
 
         public static bool operator <=(AbstractRequestHandler left, AbstractRequestHandler right)
@@ -150,13 +155,13 @@ namespace Juniper.HTTP.Server.Controllers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnInfo(string message)
         {
-            Info?.Invoke(this, message);
+            Info?.Invoke(this, new StringEventArgs(message));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void OnWarning(string message)
         {
-            Warning?.Invoke(this, message);
+            Warning?.Invoke(this, new StringEventArgs(message));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

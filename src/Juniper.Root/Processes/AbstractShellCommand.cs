@@ -15,8 +15,8 @@ namespace Juniper.Processes
     {
         private readonly string command;
 
-        public event EventHandler<string> Info;
-        public event EventHandler<string> Warning;
+        public event EventHandler<StringEventArgs> Info;
+        public event EventHandler<StringEventArgs> Warning;
         public event EventHandler<ErrorEventArgs> Err;
 
         public bool UseShellExecute { get; set; }
@@ -55,7 +55,7 @@ namespace Juniper.Processes
         }
 
 #if DEBUG
-        public string lastCommand;
+        public string LastCommand { get; private set; }
 #endif
 
         protected virtual async Task<int> RunAsync(IEnumerable<string> arguments)
@@ -82,7 +82,7 @@ namespace Juniper.Processes
             };
 
 #if DEBUG
-            lastCommand = $"{Environment.CurrentDirectory}> {proc.StartInfo.FileName} {proc.StartInfo.Arguments}";
+            LastCommand = $"{Environment.CurrentDirectory}> {proc.StartInfo.FileName} {proc.StartInfo.Arguments}";
 #endif
 
             var outputAccum = new StringBuilder();
@@ -102,7 +102,7 @@ namespace Juniper.Processes
             {
                 if (!proc.Start())
                 {
-                    throw new InvalidOperationException($"Could not start process.");
+                    throw new InvalidOperationException("Could not start process.");
                 }
             }
             catch (Exception exp)
@@ -142,13 +142,13 @@ namespace Juniper.Processes
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnInfo(string message)
         {
-            Info?.Invoke(this, message);
+            Info?.Invoke(this, new StringEventArgs(message));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnWarning(string message)
         {
-            Warning?.Invoke(this, message);
+            Warning?.Invoke(this, new StringEventArgs(message));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

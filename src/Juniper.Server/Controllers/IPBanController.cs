@@ -12,8 +12,8 @@ namespace Juniper.HTTP.Server.Controllers
 
         public List<CIDRBlock> Blocks { get; } = new List<CIDRBlock>();
 
-        public event EventHandler<CIDRBlock> BanAdded;
-        public event EventHandler<CIDRBlock> BanRemoved;
+        public event EventHandler<EventArgs<CIDRBlock>> BanAdded;
+        public event EventHandler<EventArgs<CIDRBlock>> BanRemoved;
 
         public IPBanController()
         { }
@@ -123,12 +123,12 @@ namespace Juniper.HTTP.Server.Controllers
 
         private void OnBanAdded(CIDRBlock block)
         {
-            BanAdded?.Invoke(this, block);
+            BanAdded?.Invoke(this, new EventArgs<CIDRBlock>(block));
         }
 
         private void OnBanRemoved(CIDRBlock block)
         {
-            BanRemoved?.Invoke(this, block);
+            BanRemoved?.Invoke(this, new EventArgs<CIDRBlock>(block));
         }
     }
 }

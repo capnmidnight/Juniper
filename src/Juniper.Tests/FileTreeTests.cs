@@ -41,8 +41,8 @@ namespace Juniper.Compression.Tests
             var tree = Zip.Decompressor.Entries(TestZip).Tree();
             Assert.IsNotNull(tree);
             Assert.AreEqual(2, tree.Count);
-            Assert.IsTrue(tree.children.Any(v => v.Value.FullName == TestFile1));
-            Assert.IsTrue(tree.children.Any(v => v.Value.FullName == TestFile2));
+            Assert.IsTrue(tree.Children.Any(v => v.Value.FullName == TestFile1));
+            Assert.IsTrue(tree.Children.Any(v => v.Value.FullName == TestFile2));
         }
     }
 }

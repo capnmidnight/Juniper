@@ -17,7 +17,7 @@ namespace Juniper.IO
 
         public MediaType.Text ContentType { get; }
 
-        public string Deserialize(Stream stream, IProgress prog)
+        public string Deserialize(Stream stream, IProgress prog = null)
         {
             prog.Report(0);
             string value = null;

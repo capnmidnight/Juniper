@@ -14,7 +14,7 @@ namespace Juniper.HTTP
         private readonly string message;
         private readonly FactoryT factory;
 
-        public event EventHandler<ResultT> DataMessage;
+        public event EventHandler<EventArgs<ResultT>> DataMessage;
         public event EventHandler<ErrorEventArgs> Error;
 
         public DataMessageHandler(WebSocketConnection socket, string message, FactoryT factory)
@@ -53,13 +53,13 @@ namespace Juniper.HTTP
             socket.Closed -= Socket_Closed;
         }
 
-        private void Socket_DataMessage(object sender, DataMessage e)
+        private void Socket_DataMessage(object sender, DataMessageEventArgs e)
         {
-            if (e.Message == message)
+            if (e.Value.Message == message)
             {
                 try
                 {
-                    var value = factory.Deserialize(e.Data);
+                    var value = factory.Deserialize(e.Value.Data);
                     OnDataMessage(value);
                 }
                 catch (Exception exp)
@@ -72,7 +72,7 @@ namespace Juniper.HTTP
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void OnDataMessage(ResultT value)
         {
-            DataMessage?.Invoke(this, value);
+            DataMessage?.Invoke(this, new EventArgs<ResultT>(value));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

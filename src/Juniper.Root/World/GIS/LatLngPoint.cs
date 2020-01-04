@@ -19,19 +19,19 @@ namespace Juniper.World.GIS
         /// An altitude value thrown in just for kicks. It makes some calculations and conversions
         /// easier if we keep the Altitude value.
         /// </summary>
-        public readonly float Altitude;
+        public float Altitude { get; }
 
         /// <summary>
         /// Lines of latitude run east/west around the globe, parallel to the equator, never
         /// intersecting. They measure angular distance north/south.
         /// </summary>
-        public readonly float Latitude;
+        public float Latitude { get; }
 
         /// <summary>
         /// Lines of longitude run north/south around the globe, intersecting at the poles. They
         /// measure angular distance east/west.
         /// </summary>
-        public readonly float Longitude;
+        public float Longitude { get; }
 
         /// <summary>
         /// Create a new instance of LatLngPoint.
@@ -108,7 +108,7 @@ namespace Juniper.World.GIS
         /// <param name="value">A degrees/minutes/seconds formated degree value.</param>
         /// <param name="dec">The decimal degrees formated degree value that the <paramref name="value"/> represents</param>
         /// <returns>Whether or not the degrees/minutes/seconds value parsed correctly</returns>
-        public static bool TryParseDMS(string value, out float dec)
+        private static bool TryParseDMS(string value, out float dec)
         {
             dec = 0;
             var parts = value.SplitX(' ');
@@ -129,73 +129,49 @@ namespace Juniper.World.GIS
             return false;
         }
 
-        public static float ParseDMS(string value)
+        private static bool TryParseDMSPair(string value, out LatLngPoint point)
         {
-            if (TryParseDMS(value, out var dec))
-            {
-                return dec;
-            }
-            else
-            {
-                throw new FormatException("Values need to be in Degrees-Minutes-Seconds format.");
-            }
-        }
-
-        public static bool TryParseDMSPair(string value, out LatLngPoint point)
-        {
+            point = null;
             var parts = value.SplitX(',');
-            if (parts.Length != 2
-                || !TryParseDMS(parts[0], out var lat)
-                || !TryParseDMS(parts[1], out var lng))
-            {
-                point = default;
-                return false;
-            }
-            else
+            if (parts.Length == 2
+                && TryParseDMS(parts[0], out var lat)
+                && TryParseDMS(parts[1], out var lng))
             {
                 point = new LatLngPoint(lat, lng);
-                return true;
             }
+
+            return point is object;
         }
 
-        public static LatLngPoint ParseDMSPair(string value)
+        public static bool TryParse(string value, out LatLngPoint point)
         {
-            if (TryParseDMSPair(value, out var point))
+            return TryParseDecimal(value, out point)
+                || TryParseDMSPair(value, out point);
+        }
+
+        private static bool TryParseDecimal(string value, out LatLngPoint point)
+        {
+            point = null;
+            var parts = value.SplitX(',');
+            if (parts.Length == 2
+                && float.TryParse(parts[0].Trim(), out var lat)
+                && float.TryParse(parts[1].Trim(), out var lng))
+            {
+                point = new LatLngPoint(lat, lng);
+            }
+
+            return point is object;
+        }
+
+        public static LatLngPoint Parse(string value)
+        {
+            if (TryParse(value, out var point))
             {
                 return point;
             }
             else
             {
-                throw new FormatException("Value needs to be a pair of Degrees-Minutes-Seconds values, separated by a comma.");
-            }
-        }
-
-        public static bool TryParseDecimal(string value, out LatLngPoint point)
-        {
-            var parts = value.SplitX(',');
-            if (parts.Length != 2
-                || !float.TryParse(parts[0].Trim(), out var lat)
-                || !float.TryParse(parts[1].Trim(), out var lng))
-            {
-                point = default;
-                return false;
-            }
-            else
-            {
-                point = new LatLngPoint(lat, lng);
-                return true;
-            }
-        }
-
-        public static LatLngPoint ParseDecimal(string value)
-        {
-            if (TryParseDecimal(value, out var point))
-            {
-                return point;
-            }
-            else
-            {
-                throw new FormatException("Value needs to be a pair of Decimal-Degrees values, separated by a comma.");
+                throw new FormatException("Value needs to be a pair of Degrees-Minutes-Seconds values or a pair of Decimal Degrees values, separated by a comma.");
             }
         }
 
@@ -261,7 +237,7 @@ namespace Juniper.World.GIS
 
         public static explicit operator string(LatLngPoint value)
         {
-            return value.ToString(CultureInfo.InvariantCulture);
+            return value?.ToString(CultureInfo.InvariantCulture);
         }
 
         /// <summary>

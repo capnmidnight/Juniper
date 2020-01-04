@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 
+using Juniper.World.GIS;
 using Juniper.World.GIS.Google.Geocoding;
 using Juniper.World.GIS.Google.StreetView;
 
@@ -11,6 +12,10 @@ namespace Juniper.GoogleMaps
 {
     public partial class ImageViewer : Form
     {
+        public event EventHandler<StringEventArgs> LocationSubmitted;
+        public event EventHandler<StringEventArgs> PanoSubmitted;
+        public event EventHandler<LatLngPointEventArgs> LatLngSubmitted;
+
         public ImageViewer()
         {
             InitializeComponent();
@@ -18,6 +23,16 @@ namespace Juniper.GoogleMaps
 
         public void SetImage(MetadataResponse metadata, GeocodingResponse geocode, Image image)
         {
+            if (metadata is null)
+            {
+                throw new ArgumentNullException(nameof(metadata));
+            }
+
+            if (geocode is null)
+            {
+                throw new ArgumentNullException(nameof(geocode));
+            }
+
             var address = (from result in geocode.results
                            orderby result.formatted_address.Length descending
                            select result.formatted_address)
@@ -29,7 +44,7 @@ namespace Juniper.GoogleMaps
         {
             if (InvokeRequired)
             {
-                Invoke(new Action<MetadataResponse, Image, string>(SetControls), metadata, image, address);
+                _ = Invoke(new Action<MetadataResponse, Image, string>(SetControls), metadata, image, address);
             }
             else
             {
@@ -45,7 +60,7 @@ namespace Juniper.GoogleMaps
         {
             if (InvokeRequired)
             {
-                Invoke(new Action<Exception>(SetError), exp);
+                _ = Invoke(new Action<Exception>(SetError), exp);
             }
             else
             {
@@ -73,8 +88,6 @@ namespace Juniper.GoogleMaps
             }
         }
 
-        public event EventHandler<string> LocationSubmitted;
-
         private void LocationTextBox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -84,12 +97,10 @@ namespace Juniper.GoogleMaps
                 latLngTextbox.Text = string.Empty;
                 if (locationTextBox.Text.Length > 0)
                 {
-                    LocationSubmitted?.Invoke(this, locationTextBox.Text);
+                    OnLocationSubmitted(locationTextBox.Text);
                 }
             }
         }
-
-        public event EventHandler<string> PanoSubmitted;
 
         private void PanoTextbox_KeyUp(object sender, KeyEventArgs e)
         {
@@ -100,12 +111,10 @@ namespace Juniper.GoogleMaps
                 locationTextBox.Text = string.Empty;
                 if (panoTextbox.Text.Length > 0)
                 {
-                    PanoSubmitted?.Invoke(this, panoTextbox.Text);
+                    OnPanoSubmitted(panoTextbox.Text);
                 }
             }
         }
-
-        public event EventHandler<string> LatLngSubmitted;
 
         private void LatLngTextbox_KeyUp(object sender, KeyEventArgs e)
         {
@@ -114,11 +123,30 @@ namespace Juniper.GoogleMaps
                 latLngTextbox.Text = latLngTextbox.Text.Trim();
                 panoTextbox.Text = string.Empty;
                 locationTextBox.Text = string.Empty;
-                if (latLngTextbox.Text.Length > 0)
+                if (latLngTextbox.Text.Length > 0
+                    && LatLngPoint.TryParse(latLngTextbox.Text, out var point))
                 {
-                    LatLngSubmitted?.Invoke(this, latLngTextbox.Text);
+                    OnLatLngSubmitted(point);
                 }
             }
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        private void OnLocationSubmitted(string message)
+        {
+            LocationSubmitted?.Invoke(this, new StringEventArgs(message));
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        private void OnPanoSubmitted(string message)
+        {
+            PanoSubmitted?.Invoke(this, new StringEventArgs(message));
+        }
+
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        private void OnLatLngSubmitted(LatLngPoint point)
+        {
+            LatLngSubmitted?.Invoke(this, new LatLngPointEventArgs(point));
         }
     }
 }

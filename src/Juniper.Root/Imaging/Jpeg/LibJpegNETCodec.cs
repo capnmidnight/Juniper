@@ -30,7 +30,7 @@ namespace Juniper.Imaging
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="stream">Jpeg bytes.</param>
-        public JpegImage Deserialize(Stream stream, IProgress prog)
+        public JpegImage Deserialize(Stream stream, IProgress prog = null)
         {
             prog.Report(0);
             JpegImage image = null;

@@ -24,7 +24,7 @@ namespace Juniper.Imaging
             }
         }
 
-        public ToImageT Deserialize(Stream stream, IProgress prog)
+        public ToImageT Deserialize(Stream stream, IProgress prog = null)
         {
             var progs = prog.Split("Read", "Translate");
             var img = codec.Deserialize(stream, progs[0]);
