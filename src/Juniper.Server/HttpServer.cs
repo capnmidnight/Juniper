@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -142,7 +143,12 @@ namespace Juniper.HTTP.Server
         public ushort? HttpPort { get; set; }
 
         /// <summary>
-        /// Event for handling standardized Common Log Format logs.
+        /// The file to which to send Common Log Format logs.
+        /// </summary>
+        public FileInfo LogFile { get; set; }
+
+        /// <summary>
+        /// Event for handling Common Log Format logs.
         /// </summary>
         public event EventHandler<StringEventArgs> Log;
 
@@ -242,7 +248,7 @@ or
             return controller;
         }
 
-        internal void AddController<T>(T controller) where T : class
+        private void AddController<T>(T controller) where T : class
         {
             if (controller is AbstractRequestHandler handler)
             {
@@ -264,6 +270,11 @@ or
             if (controller is IErrorSource errorSource)
             {
                 errorSource.Err += OnError;
+            }
+
+            if(controller is INCSALogSource nCSALogSource)
+            {
+                nCSALogSource.Log += OnLog;
             }
 
             controllers.Add(controller);
@@ -291,6 +302,29 @@ or
         public void Stop()
         {
             OnInfo("Stopping server");
+            foreach(var controller in controllers)
+            {
+                if (controller is IInfoSource infoSource)
+                {
+                    infoSource.Info -= OnInfo;
+                }
+
+                if (controller is IWarningSource warningSource)
+                {
+                    warningSource.Warning -= OnWarning;
+                }
+
+                if (controller is IErrorSource errorSource)
+                {
+                    errorSource.Err -= OnError;
+                }
+
+                if (controller is INCSALogSource nCSALogSource)
+                {
+                    nCSALogSource.Log -= OnLog;
+                }
+            }
+
             listener.Stop();
             listener.Close();
             serverThread.Abort();
@@ -383,6 +417,14 @@ or
                     OnWarning(this, "Maybe don't run unencrypted HTTP in production, k?");
                 }
 #endif
+
+                if(LogFile is object)
+                {
+#pragma warning disable CA2000 // Dispose objects before losing scope
+                    // Object will get disposed in the full list of controllers
+                    AddRoutesFrom(new NCSALogController(LogFile));
+#pragma warning restore CA2000 // Dispose objects before losing scope
+                }
 
                 routes.Sort();
 
@@ -574,9 +616,9 @@ or
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void OnLog(string message)
+        private void OnLog(object sender, StringEventArgs e)
         {
-            Log?.Invoke(this, new StringEventArgs(message));
+            Log?.Invoke(sender, e);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -586,9 +628,9 @@ or
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void OnInfo(object source, StringEventArgs e)
+        protected void OnInfo(object sender, StringEventArgs e)
         {
-            Info?.Invoke(source, e);
+            Info?.Invoke(sender, e);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -630,6 +672,16 @@ or
                     }
 
                     using (listener) { }
+
+                    foreach(var controller in controllers)
+                    {
+                        if(controller is IDisposable disposable)
+                        {
+                            disposable.Dispose();
+                        }
+                    }
+
+                    controllers.Clear();
                 }
 
                 disposedValue = true;

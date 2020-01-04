@@ -26,8 +26,7 @@ namespace Juniper.HTTP.Server.Controllers
                 wsMgr = Server.GetController<WebSocketManager>();
                 if (wsMgr is null)
                 {
-                    wsMgr = new WebSocketManager();
-                    Server.AddController(wsMgr);
+                    wsMgr = Server.AddRoutesFrom(new WebSocketManager());
                 }
             }
         }
