@@ -531,7 +531,11 @@ or
         {
             var context = await listener.GetContextAsync()
                 .ConfigureAwait(false);
-            var requestID = $"{{{DateTime.Now.ToShortTimeString()}}} {context.Request.UrlReferrer} [{context.Request.HttpMethod}] {context.Request.Url.PathAndQuery} => {context.Request.RemoteEndPoint}";
+
+            var remoteAddr = context.Request.RemoteEndPoint.Address;
+            var name = context?.User?.Identity?.Name ?? "-";
+            var dateStr = DateTime.Now.ToString("dd/MMM/yyyy:HH:mm:ss K", CultureInfo.InvariantCulture);
+            var requestID = $"{remoteAddr} - {name} [{dateStr}] \"{context.Request.HttpMethod} {context.Request.Url.PathAndQuery} HTTP/{context.Request.ProtocolVersion}\"";
             try
             {
                 OnInfo(requestID);
@@ -558,7 +562,10 @@ or
                     var message = $"Not found: {requestID}";
                     OnWarning(message);
                     context.Response.Error(HttpStatusCode.NotFound, message);
+                    handled = true;
                 }
+
+                OnLog(requestID + $" {context.Response.StatusCode} {context.Response.ContentLength64}");
 
                 await context
                     .Response
