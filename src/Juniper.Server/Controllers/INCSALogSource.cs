@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace Juniper.Logging
+namespace Juniper.HTTP.Server.Controllers
 {
     public interface INCSALogSource
     {
