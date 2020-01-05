@@ -16,11 +16,16 @@ namespace Juniper.HTTP.Server.Controllers
         public event EventHandler<EventArgs<CIDRBlock>> BanRemoved;
 
         public IPBanController()
+            : base(int.MinValue)
         { }
 
         public IPBanController(IEnumerable<CIDRBlock> blocks)
-            : base(null, int.MinValue, 0, HttpProtocols.All, HttpMethods.All)
+            : this()
         {
+            Protocol = HttpProtocols.All;
+            ExpectedStatus = 0;
+            Verb = HttpMethods.All;
+
             Blocks.AddRange(blocks);
             Blocks.Sort();
         }

@@ -15,18 +15,13 @@ namespace Juniper.HTTP.Server
 
         public int Priority { get; set; }
 
-        public HttpStatusCode ExpectedStatus { get; set; } = 0;
+        public HttpStatusCode ExpectedStatus { get; set; } = HttpStatusCode.Continue;
 
         public HttpMethods Method { get; set; } = HttpMethods.GET;
 
         public AuthenticationSchemes Authentication { get; set; } = AuthenticationSchemes.Anonymous;
 
-        public HttpProtocols Protocol { get; set; }
-#if DEBUG
-            = HttpProtocols.All;
-#else
-            = HttpProtocols.HTTPS;
-#endif
+        public HttpProtocols Protocol { get; set; } = HttpProtocols.Default;
 
         public RouteAttribute(Regex pattern)
         {

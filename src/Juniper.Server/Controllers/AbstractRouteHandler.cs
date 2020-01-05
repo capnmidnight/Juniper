@@ -28,14 +28,14 @@ namespace Juniper.HTTP.Server.Controllers
         }
 
         protected AbstractRouteHandler(string name, object source, MethodInfo method, RouteAttribute route)
-            : base(name,
-                  ValidateRoute(route).Priority,
-                  ValidateRoute(route).ExpectedStatus,
-                  ValidateRoute(route).Protocol,
-                  ValidateRoute(route).Method,
-                  ValidateRoute(route).Authentication)
+            : base(ValidateRoute(route).Priority, name)
         {
-            pattern = ValidateRoute(route).Pattern;
+            route = ValidateRoute(route);
+            Authentication = route.Authentication;
+            Protocol = route.Protocol;
+            Verb = route.Method;
+            ExpectedStatus = route.ExpectedStatus;
+            pattern = route.Pattern;
             regexSource = pattern.ToString();
             parameterCount = pattern.GetGroupNames().Length;
 

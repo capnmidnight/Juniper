@@ -6,8 +6,11 @@ namespace Juniper.HTTP.Server.Controllers
     public class UnhandledRequestController : AbstractRequestHandler
     {
         public UnhandledRequestController()
-            : base(null, int.MaxValue, 0, HttpProtocols.All, HttpMethods.All, AuthenticationSchemes.None)
-        { }
+            : base(int.MaxValue)
+        {
+            Protocol = HttpProtocols.All;
+            Verb = HttpMethods.All;
+        }
 
         public override Task InvokeAsync(HttpListenerContext context)
         {

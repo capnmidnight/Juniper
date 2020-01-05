@@ -15,9 +15,14 @@ namespace Juniper.HTTP.Server.Controllers
         IComparable<AbstractRequestHandler>,
         ILoggingSource
     {
+        public const AuthenticationSchemes AnyAuth = AuthenticationSchemes.Digest
+            | AuthenticationSchemes.Negotiate
+            | AuthenticationSchemes.Ntlm
+            | AuthenticationSchemes.Basic
+            | AuthenticationSchemes.Anonymous;
+
         private readonly string name;
         private readonly int priority;
-        private readonly HttpMethods verb;
 
         private HttpServer parent;
 
@@ -25,11 +30,13 @@ namespace Juniper.HTTP.Server.Controllers
         public event EventHandler<StringEventArgs> Warning;
         public event EventHandler<ErrorEventArgs> Err;
 
-        public AuthenticationSchemes Authentication { get; }
+        public AuthenticationSchemes Authentication { get; protected set; } = AnyAuth;
 
-        public HttpProtocols Protocol { get; }
+        public HttpProtocols Protocol { get; protected set; } = HttpProtocols.Default;
 
-        public HttpStatusCode ExpectedStatus { get; }
+        public HttpStatusCode ExpectedStatus { get; protected set; }
+
+        public HttpMethods Verb { get; protected set; }
 
         public virtual HttpServer Server
         {
@@ -37,20 +44,10 @@ namespace Juniper.HTTP.Server.Controllers
             set { parent = value; }
         }
 
-        protected AbstractRequestHandler(
-            string name = null,
-            int priority = 0,
-            HttpStatusCode expectedStatus = (HttpStatusCode)0,
-            HttpProtocols protocol = HttpProtocols.All,
-            HttpMethods verb = HttpMethods.GET,
-            AuthenticationSchemes authentication = AuthenticationSchemes.Anonymous)
+        protected AbstractRequestHandler(int priority, string name = null)
         {
-            this.name = name ?? GetType().Name;
             this.priority = priority;
-            this.verb = verb;
-            ExpectedStatus = expectedStatus;
-            Protocol = protocol;
-            Authentication = authentication;
+            this.name = name ?? GetType().Name;
         }
 
         public virtual bool IsMatch(HttpListenerContext context)
@@ -60,7 +57,8 @@ namespace Juniper.HTTP.Server.Controllers
                 throw new ArgumentNullException(nameof(context));
             }
 
-            return context.Response.StatusCode == (int)ExpectedStatus
+            return (ExpectedStatus == 0
+                    || context.Response.StatusCode == (int)ExpectedStatus)
                 && IsMatch(context.Request);
         }
 
@@ -74,7 +72,7 @@ namespace Juniper.HTTP.Server.Controllers
             return Enum.TryParse<HttpProtocols>(request.Url.Scheme, true, out var protocol)
                 && Enum.TryParse<HttpMethods>(request.HttpMethod, true, out var verb)
                 && (Protocol & protocol) != 0
-                && (this.verb & verb) != 0;
+                && (Verb & verb) != 0;
         }
 
         public abstract Task InvokeAsync(HttpListenerContext context);
@@ -118,7 +116,7 @@ namespace Juniper.HTTP.Server.Controllers
             var hashCode = -40035775;
             hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(name);
             hashCode = (hashCode * -1521134295) + priority.GetHashCode();
-            hashCode = (hashCode * -1521134295) + verb.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Verb.GetHashCode();
             hashCode = (hashCode * -1521134295) + Authentication.GetHashCode();
             hashCode = (hashCode * -1521134295) + ExpectedStatus.GetHashCode();
             hashCode = (hashCode * -1521134295) + Protocol.GetHashCode();

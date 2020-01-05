@@ -172,7 +172,7 @@ namespace Juniper.HTTP.Server
             return (from route in routes
                     where route.IsMatch(request)
                     select route.Authentication)
-                .FirstOrDefault();
+                .Max();
         }
 
         public T AddRoutesFrom<T>()
@@ -223,7 +223,7 @@ namespace Juniper.HTTP.Server
 
                         if (!isHttp && !isWebSocket)
                         {
-                            OnError(this, new InvalidOperationException($@"Method {type.Name}::{method.Name} must have a signature:
+                            OnError(new InvalidOperationException($@"Method {type.Name}::{method.Name} must have a signature:
     (System.Net.HttpListenerContext, string...) => Task
 or
     (Juniper.HTTP.WebSocketConnection, string...) => Task"));
@@ -403,7 +403,7 @@ or
             if (HttpPort is null
                 && HttpsPort is null)
             {
-                OnError(this, new InvalidOperationException("No HTTP or HTTPS port specified."));
+                OnError(new InvalidOperationException("No HTTP or HTTPS port specified."));
             }
             else
             {
@@ -563,7 +563,7 @@ or
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception exp)
                 {
-                    OnError(this, exp);
+                    OnError(exp);
                 }
 #pragma warning restore CA1031 // Do not catch general exception types
             }
@@ -594,7 +594,7 @@ or
 #pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception exp)
             {
-                OnError(this, exp);
+                OnError(exp);
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
 #pragma warning restore CA1031 // Do not catch general exception types
@@ -607,11 +607,6 @@ or
                     .OutputStream
                     .FlushAsync()
                     .ConfigureAwait(true);
-
-                if (!context.Request.IsWebSocketRequest)
-                {
-                    context.Response.Close();
-                }
             }
         }
 
@@ -646,15 +641,15 @@ or
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void OnError(object sender, ErrorEventArgs e)
+        protected void OnError(Exception exp)
         {
-            Err?.Invoke(sender, e);
+            Err?.Invoke(this, new ErrorEventArgs(exp));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void OnError(object sender, Exception exp)
+        protected void OnError(object sender, ErrorEventArgs e)
         {
-            OnError(sender, new ErrorEventArgs(exp));
+            Err?.Invoke(sender, e);
         }
 
         #region IDisposable Support

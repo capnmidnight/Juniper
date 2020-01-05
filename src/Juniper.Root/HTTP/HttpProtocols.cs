@@ -10,6 +10,12 @@ namespace Juniper.HTTP
         HTTPS,
         HTTP,
 
-        All = HTTPS | HTTP
+        All = HTTPS | HTTP,
+
+#if DEBUG
+        Default = All
+#else
+        Default = HTTPS
+#endif
     }
 }

@@ -2,15 +2,12 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-using Juniper.Logging;
-
 namespace Juniper.HTTP.Server.Controllers
 {
-    public class DefaultFileController : IWarningSource
+    public class DefaultFileController : AbstractRequestHandler
     {
         private static readonly string[] INDEX_FILES = {
             "index.html",
@@ -88,15 +85,8 @@ namespace Juniper.HTTP.Server.Controllers
         private readonly DirectoryInfo rootDirectory;
         private readonly MediaType[] mediaTypeWhiteList;
 
-        public event EventHandler<StringEventArgs> Warning;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void OnWarning(string message)
-        {
-            Warning?.Invoke(this, new StringEventArgs(message));
-        }
-
         public DefaultFileController(DirectoryInfo rootDirectory, params MediaType[] mediaTypeWhiteList)
+            : base(int.MaxValue - 2)
         {
             if (rootDirectory is null)
             {
@@ -107,6 +97,8 @@ namespace Juniper.HTTP.Server.Controllers
             {
                 throw new InvalidOperationException($"Directory {rootDirectory.FullName} does not exist");
             }
+
+            Verb = HttpMethods.GET;
 
             this.rootDirectory = rootDirectory;
 
@@ -123,9 +115,13 @@ namespace Juniper.HTTP.Server.Controllers
                   mediaTypeWhiteList)
         { }
 
-        [Route(".*", Priority = int.MaxValue)]
-        public async Task ServeFileAsync(HttpListenerContext context)
+        public override async Task InvokeAsync(HttpListenerContext context)
         {
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
             var request = context.Request;
             var response = context.Response;
             var requestPath = request.Url.AbsolutePath;
@@ -140,6 +136,7 @@ namespace Juniper.HTTP.Server.Controllers
 
             var file = new FileInfo(filename);
             var type = MediaType.GuessByExtension(file);
+            var isSupportedMediaType = Array.IndexOf(mediaTypeWhiteList, type) >= 0;
             var shortName = MakeShortName(rootDirectory.FullName, filename);
 
             if (!rootDirectory.Contains(file))
@@ -150,28 +147,25 @@ namespace Juniper.HTTP.Server.Controllers
             {
                 response.Redirect(requestPath + "/");
             }
-            else if (file.Exists)
-            {
-                if (Array.IndexOf(mediaTypeWhiteList, type) == -1)
-                {
-                    response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                }
-                else
-                {
-                    await SendFileAsync(response, file, shortName)
-                        .ConfigureAwait(false);
-                }
-            }
-            else if (isDirectory)
+            else if (!file.Exists && isDirectory)
             {
                 await ListDirectoryAsync(response, new DirectoryInfo(filename))
                     .ConfigureAwait(false);
             }
-            else
+            else if (!file.Exists && !isDirectory)
             {
                 var message = $"request '{shortName}'";
                 OnWarning(message);
                 response.StatusCode = (int)HttpStatusCode.NotFound;
+            }
+            else if (isSupportedMediaType)
+            {
+                await SendFileAsync(response, file, shortName)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                response.StatusCode = (int)HttpStatusCode.Unauthorized;
             }
         }
 
@@ -195,14 +189,14 @@ namespace Juniper.HTTP.Server.Controllers
 
             foreach (var subPath in paths)
             {
-                sb.Append("<li><a href=\"")
+                _ = sb.Append("<li><a href=\"")
                   .Append(subPath)
                   .Append("\">")
                   .Append(subPath)
                   .Append("</a></li>");
             }
 
-            sb.Append("</ul></body></html>");
+            _ = sb.Append("</ul></body></html>");
 
             response.ContentLength64 = sb.Length;
             response.ContentType = MediaType.Text.Html;
