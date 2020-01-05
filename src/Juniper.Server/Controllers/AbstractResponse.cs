@@ -24,8 +24,6 @@ namespace Juniper.HTTP.Server.Controllers
         private readonly string name;
         private readonly int priority;
 
-        private HttpServer parent;
-
         public event EventHandler<StringEventArgs> Info;
         public event EventHandler<StringEventArgs> Warning;
         public event EventHandler<ErrorEventArgs> Err;
@@ -38,11 +36,7 @@ namespace Juniper.HTTP.Server.Controllers
 
         public HttpMethods Verb { get; protected set; }
 
-        public virtual HttpServer Server
-        {
-            get { return parent; }
-            set { parent = value; }
-        }
+        public HttpServer Server { get; private set; }
 
         protected AbstractResponse(int priority, string name = null)
         {

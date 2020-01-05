@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP.Server.Controllers
 {
-    internal abstract class AbstractRoute : AbstractResponse
+    public abstract class AbstractRoute : AbstractResponse
     {
         private readonly Regex pattern;
         private readonly string regexSource;

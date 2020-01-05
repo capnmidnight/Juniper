@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP.Server.Controllers
 {
-    internal class HttpRoute : AbstractRoute
+    public class HttpRoute : AbstractRoute
     {
-        internal HttpRoute(string name, object source, MethodInfo method, RouteAttribute route)
+        public HttpRoute(string name, object source, MethodInfo method, RouteAttribute route)
             : base(name, source, method, route)
         { }
 

@@ -143,11 +143,6 @@ namespace Juniper.HTTP.Server
         public ushort? HttpPort { get; set; }
 
         /// <summary>
-        /// The file to which to send Common Log Format logs.
-        /// </summary>
-        public FileInfo LogFile { get; set; }
-
-        /// <summary>
         /// Event for handling Common Log Format logs.
         /// </summary>
         public event EventHandler<StringEventArgs> Log;
@@ -397,8 +392,6 @@ or
                             HttpPort = (ushort)(HttpsPort - 1);
                         }
                     }
-
-                    Add(new HttpToHttpsRedirect());
                 }
 
                 SetPrefix("http", HttpPort.Value);
@@ -421,14 +414,6 @@ or
                     OnWarning(this, "Maybe don't run unencrypted HTTP in production, k?");
                 }
 #endif
-
-                if (LogFile is object)
-                {
-#pragma warning disable CA2000 // Dispose objects before losing scope
-                    // Object will get disposed in the full list of controllers
-                    Add(new NCSALogger(LogFile));
-#pragma warning restore CA2000 // Dispose objects before losing scope
-                }
 
                 routes.Sort();
 

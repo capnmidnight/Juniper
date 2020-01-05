@@ -24,9 +24,11 @@ namespace Juniper.HTTP
             server.Err += Server_Error;
 
             server.Add(
+                new HttpToHttpsRedirect(),
+                typeof(Program),
                 new StaticFileServer("..\\..\\..\\content"),
                 new BanHammer("testBans.txt"),
-                typeof(Program));
+                new NCSALogger("logs.txt"));
 
             server.Start();
 

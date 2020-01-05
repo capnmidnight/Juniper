@@ -46,6 +46,10 @@ namespace Juniper.HTTP.Server.Controllers
             logger.Start();
         }
 
+        public NCSALogger(string fileName)
+            : this(new FileInfo(fileName ?? throw new ArgumentNullException(fileName)))
+        { }
+
         private void WriteLogs()
         {
             lock (canceller)
