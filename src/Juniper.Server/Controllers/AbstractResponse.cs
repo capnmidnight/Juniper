@@ -36,7 +36,7 @@ namespace Juniper.HTTP.Server.Controllers
 
         public HttpMethods Verb { get; protected set; }
 
-        public HttpServer Server { get; private set; }
+        public HttpServer Server { get; internal set; }
 
         protected AbstractResponse(int priority, string name = null)
         {

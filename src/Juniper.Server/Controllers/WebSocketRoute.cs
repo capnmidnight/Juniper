@@ -11,25 +11,7 @@ namespace Juniper.HTTP.Server.Controllers
             : base(name, source, method, route)
         { }
 
-        internal event Action<WebSocketConnection> SocketConnected;
-
-        private WebSocketManager wsMgr;
-
-        public override HttpServer Server
-        {
-            get { return base.Server; }
-
-            set
-            {
-                base.Server = value;
-
-                wsMgr = Server.GetController<WebSocketManager>();
-                if (wsMgr is null)
-                {
-                    Server.Add(wsMgr = new WebSocketManager());
-                }
-            }
-        }
+        private static readonly WebSocketPool socketPool = new WebSocketPool();
 
         public override bool IsMatch(HttpListenerContext context)
         {
@@ -39,22 +21,17 @@ namespace Juniper.HTTP.Server.Controllers
 
         public override async Task InvokeAsync(HttpListenerContext context)
         {
-            if (wsMgr is null)
+            if (socketPool is null)
             {
                 OnError(new NullReferenceException("No web socket manager"));
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }
             else
             {
-                var wsContext = await context.AcceptWebSocketAsync(null)
+                var socket = await socketPool.GetAsync(context)
                     .ConfigureAwait(false);
 
-                var ws = new ServerWebSocketConnection(context, wsContext.WebSocket);
-                wsMgr.Add(ws);
-
-                SocketConnected?.Invoke(ws);
-
-                await InvokeAsync(context, ws)
+                await InvokeAsync(context, socket)
                     .ConfigureAwait(false);
             }
         }
