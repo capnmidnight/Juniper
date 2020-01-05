@@ -41,7 +41,7 @@ namespace Juniper.HTTP.Server
         private readonly HttpListener listener;
         private readonly List<Task> waiters = new List<Task>();
         private readonly List<object> controllers = new List<object>();
-        private readonly List<AbstractRequestHandler> routes = new List<AbstractRequestHandler>();
+        private readonly List<AbstractResponse> routes = new List<AbstractResponse>();
 
         /// <summary>
         /// <para>
@@ -93,7 +93,7 @@ namespace Juniper.HTTP.Server
         /// When set to true, HTTP request will automatically be handled as Redirect
         /// responses that point to the HTTPS version of the URL.
         /// </summary>
-        /// <seealso cref="HttpsRedirectController"/>
+        /// <seealso cref="HttpToHttpsRedirect"/>
         public bool RedirectHttp2Https { get; set; }
 
         /// <summary>
@@ -175,82 +175,86 @@ namespace Juniper.HTTP.Server
                 .Max();
         }
 
-        public T AddRoutesFrom<T>()
-            where T : class
+        public void Add(params object[] controllers)
         {
-            return AddRoutesFrom<T>(null);
-        }
-
-        public T AddRoutesFrom<T>(T controller)
-            where T : class
-        {
-            var flags = BindingFlags.Public | BindingFlags.Static;
-            if (controller is object)
+            if (controllers is null)
             {
-                flags |= BindingFlags.Instance;
-                AddController(controller);
+                throw new ArgumentNullException(nameof(controllers));
             }
 
-            var type = typeof(T);
-            if (controller is Type t)
+            for (var i = 0; i < controllers.Length; i++)
             {
-                type = t;
-                controller = null;
-            }
+                var controller = controllers[i];
 
-            foreach (var method in type.GetMethods(flags))
-            {
-                var route = method.GetCustomAttribute<RouteAttribute>();
-                if (route is object)
+                if(controller is null)
                 {
-                    var parameters = method.GetParameters();
-                    if (method.ReturnType == typeof(Task)
-                        && parameters.Length > 0
-                        && parameters.Length == route.ParameterCount
-                        && parameters.Skip(1).All(p => p.ParameterType == typeof(string)))
+                    throw new NullReferenceException($"Encountered a null value at index {i}.");
+                }
+
+                var flags = BindingFlags.Public | BindingFlags.Static;
+                var type = controller as Type ?? controller.GetType();
+                if (controller is Type)
+                {
+                    controller = null;
+                }
+                else
+                {
+                    flags |= BindingFlags.Instance;
+                    AddController(controller);
+                }
+
+                foreach (var method in type.GetMethods(flags))
+                {
+                    var route = method.GetCustomAttribute<RouteAttribute>();
+                    if (route is object)
                     {
-                        AbstractRequestHandler handler = null;
-                        var name = $"{type.Name}::{method.Name}";
-                        var contextParamType = parameters[0].ParameterType;
-                        var isHttp = contextParamType == typeof(HttpListenerContext);
-                        var isWebSocket = contextParamType == typeof(WebSocketConnection);
-
-                        T source = null;
-                        if (!method.IsStatic)
+                        var parameters = method.GetParameters();
+                        if (method.ReturnType == typeof(Task)
+                            && parameters.Length > 0
+                            && parameters.Length == route.ParameterCount
+                            && parameters.Skip(1).All(p => p.ParameterType == typeof(string)))
                         {
-                            source = controller;
-                        }
+                            AbstractResponse handler = null;
+                            var name = $"{type.Name}::{method.Name}";
+                            var contextParamType = parameters[0].ParameterType;
+                            var isHttp = contextParamType == typeof(HttpListenerContext);
+                            var isWebSocket = contextParamType == typeof(WebSocketConnection);
 
-                        if (!isHttp && !isWebSocket)
-                        {
-                            OnError(new InvalidOperationException($@"Method {type.Name}::{method.Name} must have a signature:
+                            object source = null;
+                            if (!method.IsStatic)
+                            {
+                                source = controller;
+                            }
+
+                            if (!isHttp && !isWebSocket)
+                            {
+                                OnError(new InvalidOperationException($@"Method {type.Name}::{method.Name} must have a signature:
     (System.Net.HttpListenerContext, string...) => Task
 or
     (Juniper.HTTP.WebSocketConnection, string...) => Task"));
-                        }
-                        else if (isHttp)
-                        {
-                            handler = new HttpRouteHandler(name, source, method, route);
-                        }
-                        else if (isWebSocket)
-                        {
-                            handler = new WebSocketRouteHandler(name, source, method, route);
-                        }
+                            }
+                            else if (isHttp)
+                            {
+                                handler = new HttpRoute(name, source, method, route);
+                            }
+                            else if (isWebSocket)
+                            {
+                                handler = new WebSocketRoute(name, source, method, route);
+                            }
 
-                        if (handler is object)
-                        {
-                            AddController(handler);
+                            if (handler is object)
+                            {
+                                AddController(handler);
+                            }
                         }
                     }
                 }
             }
-
-            return controller;
         }
 
         private void AddController<T>(T controller) where T : class
         {
-            if (controller is AbstractRequestHandler handler)
+            if (controller is AbstractResponse handler)
             {
                 OnInfo($"Found controller {handler}");
                 handler.Server = this;
@@ -272,7 +276,7 @@ or
                 errorSource.Err += OnError;
             }
 
-            if(controller is INCSALogSource nCSALogSource)
+            if (controller is INCSALogSource nCSALogSource)
             {
                 nCSALogSource.Log += OnLog;
             }
@@ -302,7 +306,7 @@ or
         public void Stop()
         {
             OnInfo("Stopping server");
-            foreach(var controller in controllers)
+            foreach (var controller in controllers)
             {
                 if (controller is IInfoSource infoSource)
                 {
@@ -394,7 +398,7 @@ or
                         }
                     }
 
-                    _ = AddRoutesFrom(new HttpsRedirectController());
+                    Add(new HttpToHttpsRedirect());
                 }
 
                 SetPrefix("http", HttpPort.Value);
@@ -418,11 +422,11 @@ or
                 }
 #endif
 
-                if(LogFile is object)
+                if (LogFile is object)
                 {
 #pragma warning disable CA2000 // Dispose objects before losing scope
                     // Object will get disposed in the full list of controllers
-                    AddRoutesFrom(new NCSALogController(LogFile));
+                    Add(new NCSALogger(LogFile));
 #pragma warning restore CA2000 // Dispose objects before losing scope
                 }
 
@@ -668,9 +672,9 @@ or
 
                     using (listener) { }
 
-                    foreach(var controller in controllers)
+                    foreach (var controller in controllers)
                     {
-                        if(controller is IDisposable disposable)
+                        if (controller is IDisposable disposable)
                         {
                             disposable.Dispose();
                         }

@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP.Server.Controllers
 {
-    public sealed class HttpsRedirectController : AbstractRequestHandler
+    public sealed class HttpToHttpsRedirect : AbstractResponse
     {
-        public HttpsRedirectController()
+        public HttpToHttpsRedirect()
             : base(int.MinValue + 1)
         {
             Protocol = HttpProtocols.HTTP;

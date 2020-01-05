@@ -1,6 +1,6 @@
 using System;
 
-namespace Juniper.HTTP.Server.Controllers
+namespace Juniper.HTTP.Server
 {
     public interface INCSALogSource
     {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP.Server.Controllers
 {
-    public class DefaultFileController : AbstractRequestHandler
+    public class StaticFileServer : AbstractResponse
     {
         private static readonly string[] INDEX_FILES = {
             "index.html",
@@ -85,7 +85,7 @@ namespace Juniper.HTTP.Server.Controllers
         private readonly DirectoryInfo rootDirectory;
         private readonly MediaType[] mediaTypeWhiteList;
 
-        public DefaultFileController(DirectoryInfo rootDirectory, params MediaType[] mediaTypeWhiteList)
+        public StaticFileServer(DirectoryInfo rootDirectory, params MediaType[] mediaTypeWhiteList)
             : base(int.MaxValue - 2)
         {
             if (rootDirectory is null)
@@ -110,7 +110,7 @@ namespace Juniper.HTTP.Server.Controllers
             }
         }
 
-        public DefaultFileController(string rootDirectoryPath, params MediaType[] mediaTypeWhiteList)
+        public StaticFileServer(string rootDirectoryPath, params MediaType[] mediaTypeWhiteList)
             : this(ValidateDirectoryPath(rootDirectoryPath),
                   mediaTypeWhiteList)
         { }

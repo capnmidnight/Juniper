@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP.Server.Controllers
 {
-    internal abstract class AbstractRouteHandler : AbstractRequestHandler
+    internal abstract class AbstractRoute : AbstractResponse
     {
         private readonly Regex pattern;
         private readonly string regexSource;
@@ -27,7 +27,7 @@ namespace Juniper.HTTP.Server.Controllers
             return route;
         }
 
-        protected AbstractRouteHandler(string name, object source, MethodInfo method, RouteAttribute route)
+        protected AbstractRoute(string name, object source, MethodInfo method, RouteAttribute route)
             : base(ValidateRoute(route).Priority, name)
         {
             route = ValidateRoute(route);
@@ -78,7 +78,7 @@ namespace Juniper.HTTP.Server.Controllers
 
         public override bool Equals(object obj)
         {
-            return obj is AbstractRouteHandler handler
+            return obj is AbstractRoute handler
                 && base.Equals(obj)
                 && EqualityComparer<Regex>.Default.Equals(pattern, handler.pattern);
         }
@@ -98,10 +98,10 @@ namespace Juniper.HTTP.Server.Controllers
             return $"{base.ToString()}({regexSource})";
         }
 
-        public override int CompareTo(AbstractRequestHandler other)
+        public override int CompareTo(AbstractResponse other)
         {
             var compare = base.CompareTo(other);
-            if (compare == 0 && other is AbstractRouteHandler handler)
+            if (compare == 0 && other is AbstractRoute handler)
             {
                 // longer routes before shorter routes
                 return -string.CompareOrdinal(regexSource, handler.regexSource);

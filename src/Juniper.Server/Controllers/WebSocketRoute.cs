@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP.Server.Controllers
 {
-    internal class WebSocketRouteHandler : AbstractRouteHandler
+    internal class WebSocketRoute : AbstractRoute
     {
-        internal WebSocketRouteHandler(string name, object source, MethodInfo method, RouteAttribute route)
+        internal WebSocketRoute(string name, object source, MethodInfo method, RouteAttribute route)
             : base(name, source, method, route)
         { }
 
@@ -26,7 +26,7 @@ namespace Juniper.HTTP.Server.Controllers
                 wsMgr = Server.GetController<WebSocketManager>();
                 if (wsMgr is null)
                 {
-                    wsMgr = Server.AddRoutesFrom(new WebSocketManager());
+                    Server.Add(wsMgr = new WebSocketManager());
                 }
             }
         }

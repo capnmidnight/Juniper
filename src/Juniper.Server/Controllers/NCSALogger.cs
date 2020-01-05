@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP.Server.Controllers
 {
-    public sealed class NCSALogController :
-        AbstractRequestHandler,
+    public sealed class NCSALogger :
+        AbstractResponse,
         INCSALogSource,
         IDisposable
     {
@@ -22,7 +22,7 @@ namespace Juniper.HTTP.Server.Controllers
 
         public event EventHandler<StringEventArgs> Log;
 
-        public NCSALogController(FileInfo file)
+        public NCSALogger(FileInfo file)
             : base(int.MaxValue - 1)
         {
             if (file is null)

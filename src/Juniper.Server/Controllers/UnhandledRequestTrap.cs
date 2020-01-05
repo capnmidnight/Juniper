@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP.Server.Controllers
 {
-    public class UnhandledRequestController : AbstractRequestHandler
+    public class UnhandledRequestTrap : AbstractResponse
     {
-        public UnhandledRequestController()
+        public UnhandledRequestTrap()
             : base(int.MaxValue)
         {
             Protocol = HttpProtocols.All;

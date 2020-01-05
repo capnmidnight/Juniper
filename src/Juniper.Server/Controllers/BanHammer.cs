@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP.Server.Controllers
 {
-    public sealed class IPBanController : AbstractRequestHandler
+    public sealed class BanHammer : AbstractResponse
     {
         private readonly FileInfo banFile;
 
@@ -15,11 +15,11 @@ namespace Juniper.HTTP.Server.Controllers
         public event EventHandler<EventArgs<CIDRBlock>> BanAdded;
         public event EventHandler<EventArgs<CIDRBlock>> BanRemoved;
 
-        public IPBanController()
+        public BanHammer()
             : base(int.MinValue)
         { }
 
-        public IPBanController(IEnumerable<CIDRBlock> blocks)
+        public BanHammer(IEnumerable<CIDRBlock> blocks)
             : this()
         {
             Protocol = HttpProtocols.All;
@@ -30,17 +30,17 @@ namespace Juniper.HTTP.Server.Controllers
             Blocks.Sort();
         }
 
-        public IPBanController(Stream banFileStream)
+        public BanHammer(Stream banFileStream)
             : this(CIDRBlock.Load(banFileStream))
         { }
 
-        public IPBanController(FileInfo banFile)
+        public BanHammer(FileInfo banFile)
             : this(CIDRBlock.Load(banFile))
         {
             this.banFile = banFile;
         }
 
-        public IPBanController(string banFileName)
+        public BanHammer(string banFileName)
             : this(CIDRBlock.Load(banFileName))
         {
             banFile = new FileInfo(banFileName);

@@ -9,10 +9,10 @@ using Juniper.Logging;
 
 namespace Juniper.HTTP.Server.Controllers
 {
-    public abstract class AbstractRequestHandler :
-        IEquatable<AbstractRequestHandler>,
+    public abstract class AbstractResponse :
+        IEquatable<AbstractResponse>,
         IComparable,
-        IComparable<AbstractRequestHandler>,
+        IComparable<AbstractResponse>,
         ILoggingSource
     {
         public const AuthenticationSchemes AnyAuth = AuthenticationSchemes.Digest
@@ -44,7 +44,7 @@ namespace Juniper.HTTP.Server.Controllers
             set { parent = value; }
         }
 
-        protected AbstractRequestHandler(int priority, string name = null)
+        protected AbstractResponse(int priority, string name = null)
         {
             this.priority = priority;
             this.name = name ?? GetType().Name;
@@ -79,11 +79,11 @@ namespace Juniper.HTTP.Server.Controllers
 
         public override bool Equals(object obj)
         {
-            return obj is AbstractRequestHandler other
+            return obj is AbstractResponse other
                 && Equals(other);
         }
 
-        public bool Equals(AbstractRequestHandler other)
+        public bool Equals(AbstractResponse other)
         {
             return CompareTo(other) == 0;
         }
@@ -95,10 +95,10 @@ namespace Juniper.HTTP.Server.Controllers
 
         public int CompareTo(object obj)
         {
-            return CompareTo(obj as AbstractRequestHandler);
+            return CompareTo(obj as AbstractResponse);
         }
 
-        public virtual int CompareTo(AbstractRequestHandler other)
+        public virtual int CompareTo(AbstractResponse other)
         {
             if (other is null)
             {
@@ -123,36 +123,36 @@ namespace Juniper.HTTP.Server.Controllers
             return hashCode;
         }
 
-        public static bool operator ==(AbstractRequestHandler left, AbstractRequestHandler right)
+        public static bool operator ==(AbstractResponse left, AbstractResponse right)
         {
             return (left is null && right is null)
                 || (left is object && left.CompareTo(right) == 0)
                 || (right is object && right.CompareTo(left) == 0);
         }
 
-        public static bool operator !=(AbstractRequestHandler left, AbstractRequestHandler right)
+        public static bool operator !=(AbstractResponse left, AbstractResponse right)
         {
             return !(left == right);
         }
 
-        public static bool operator <(AbstractRequestHandler left, AbstractRequestHandler right)
+        public static bool operator <(AbstractResponse left, AbstractResponse right)
         {
             return (left is object && left.CompareTo(right) == -1)
                 || (right is object && right.CompareTo(left) == 1);
         }
 
-        public static bool operator >(AbstractRequestHandler left, AbstractRequestHandler right)
+        public static bool operator >(AbstractResponse left, AbstractResponse right)
         {
             return (left is object && left.CompareTo(right) == 1)
                 || (right is object && right.CompareTo(left) == -1);
         }
 
-        public static bool operator <=(AbstractRequestHandler left, AbstractRequestHandler right)
+        public static bool operator <=(AbstractResponse left, AbstractResponse right)
         {
             return left < right || left == right;
         }
 
-        public static bool operator >=(AbstractRequestHandler left, AbstractRequestHandler right)
+        public static bool operator >=(AbstractResponse left, AbstractResponse right)
         {
             return left > right || left == right;
         }
