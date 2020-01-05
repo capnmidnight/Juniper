@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -12,21 +13,51 @@ namespace Juniper.HTTP.Server.Controllers
         INCSALogSource,
         IDisposable
     {
-        private readonly FileInfo file;
+        private readonly Stream stream;
+        private readonly StreamWriter writer;
+        private readonly TaskScheduler scheduler;
+        private readonly ConcurrentQueue<string> logs = new ConcurrentQueue<string>();
+        private readonly CancellationTokenSource canceller;
+        private readonly Thread logger;
 
         public event EventHandler<StringEventArgs> Log;
 
-        private readonly Mutex mutex = new Mutex(false, "File Logging");
-
         public NCSALogController(FileInfo file)
-            : base(null, int.MaxValue - 1)
+            : base(int.MaxValue - 1)
         {
             if (file is null)
             {
                 throw new ArgumentNullException(nameof(file));
             }
 
-            this.file = file;
+            scheduler = TaskScheduler.Current;
+            stream = file.Open(FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
+            writer = new StreamWriter(stream)
+            {
+                AutoFlush = true
+            };
+
+            Protocol = HttpProtocols.All;
+            Verb = HttpMethods.All;
+            ExpectedStatus = 0;
+
+            canceller = new CancellationTokenSource();
+            logger = new Thread(WriteLogs);
+            logger.Start();
+        }
+
+        private void WriteLogs()
+        {
+            lock (canceller)
+            {
+                while (!canceller.Token.IsCancellationRequested)
+                {
+                    if (logs.TryDequeue(out var log))
+                    {
+                        writer.WriteLine(log);
+                    }
+                }
+            }
         }
 
         public override bool IsMatch(HttpListenerContext context)
@@ -34,7 +65,7 @@ namespace Juniper.HTTP.Server.Controllers
             return true;
         }
 
-        public override async Task InvokeAsync(HttpListenerContext context)
+        public override Task InvokeAsync(HttpListenerContext context)
         {
             var response = context.Response;
             var request = context.Request;
@@ -49,17 +80,9 @@ namespace Juniper.HTTP.Server.Controllers
             var logMessage = $"{remoteAddr} - {name} [{dateStr}] \"{method} {path} HTTP/{request.ProtocolVersion}\" {status} {contentLength}";
             OnLog(logMessage);
 
-            while (!mutex.WaitOne(0))
-            {
-                await Task.Yield();
-            }
+            logs.Enqueue(logMessage);
 
-            using var stream = file.Open(FileMode.Append, FileAccess.Write, FileShare.None);
-            using var writer = new StreamWriter(stream);
-            await writer.WriteLineAsync(logMessage)
-                .ConfigureAwait(false);
-
-            mutex.ReleaseMutex();
+            return Task.CompletedTask;
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
@@ -77,7 +100,14 @@ namespace Juniper.HTTP.Server.Controllers
             {
                 if (disposing)
                 {
-                    mutex.Dispose();
+                    canceller.Cancel();
+                    lock (canceller)
+                    {
+                        canceller.Dispose();
+                    }
+                    writer.Flush();
+                    writer.Dispose();
+                    stream.Dispose();
                 }
 
                 disposedValue = true;
@@ -92,4 +122,5 @@ namespace Juniper.HTTP.Server.Controllers
         }
         #endregion
     }
+
 }
