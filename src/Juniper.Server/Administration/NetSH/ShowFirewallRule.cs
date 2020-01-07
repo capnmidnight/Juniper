@@ -5,14 +5,13 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Juniper.HTTP.Server.Administration
+namespace Juniper.HTTP.Server.Administration.NetSH
 {
-
-    public class ShowFirewallRuleCommand :
+    public class ShowFirewallRule :
         AbstractFirewallRuleCommand
     {
         public bool Verbose { get; set; }
-        public ShowFirewallRuleCommand(string name)
+        public ShowFirewallRule(string name)
             : base("show", name)
         {
         }
@@ -21,7 +20,7 @@ namespace Juniper.HTTP.Server.Administration
         {
             get
             {
-                foreach(var arg in base.Arguments)
+                foreach (var arg in base.Arguments)
                 {
                     yield return arg;
                 }
@@ -41,7 +40,7 @@ namespace Juniper.HTTP.Server.Administration
                 .ConfigureAwait(false);
 
             var message = TotalStandardOutput.Trim();
-            if(message == "No rules match the specified criteria.")
+            if (message == "No rules match the specified criteria.")
             {
                 return 0;
             }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Net;
 using Juniper.Processes;
 
-namespace Juniper.HTTP.Server.Administration
+namespace Juniper.HTTP.Server.Administration.NetSH
 {
-    public class AddSslCertCommand :
+    public class AddSslCert :
         AbstractShellCommand
     {
         private Guid appID;
@@ -88,7 +88,7 @@ namespace Juniper.HTTP.Server.Administration
             }
         }
 
-        public AddSslCertCommand(IPEndPoint endPoint, string certHash, Guid appID)
+        public AddSslCert(IPEndPoint endPoint, string certHash, Guid appID)
             : base("netsh")
         {
             EndPoint = endPoint;
@@ -96,11 +96,11 @@ namespace Juniper.HTTP.Server.Administration
             AppID = appID;
         }
 
-        public AddSslCertCommand(IPAddress address, int port, string certHash, Guid appID)
+        public AddSslCert(IPAddress address, int port, string certHash, Guid appID)
             : this(ValidateAddress(address, port), certHash, appID)
         { }
 
-        public AddSslCertCommand(string address, int port, string certHash, Guid appID)
+        public AddSslCert(string address, int port, string certHash, Guid appID)
             : this(ValidateAddress(address), port, certHash, appID)
         { }
 

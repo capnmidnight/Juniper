@@ -1,34 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Juniper.HTTP.Server.Administration
+namespace Juniper.HTTP.Server.Administration.NetSH
 {
-
-    public class AddFirewallRuleCommand :
+    public class DeleteFirewallRule :
         AbstractFirewallRuleCommand
     {
-
-        public string Description
-        {
-            get;
-            set;
-        }
-
         public string Service
         {
             get;
             set;
         }
 
-        public FirewallRuleDirection Direction
-        {
-            get;
-            set;
-        }
-
-        public FirewallRuleAction Action
+        public FirewallRuleDirection? Direction
         {
             get;
             set;
@@ -54,29 +41,23 @@ namespace Juniper.HTTP.Server.Administration
             set;
         }
 
-        public AddFirewallRuleCommand(string name, FirewallRuleDirection direction, FirewallRuleAction action, CIDRBlock remoteBlock)
-            : base("add", name)
+        public DeleteFirewallRule(string name)
+            : base("delete", name)
         {
-            Direction = direction;
-            Action = action;
-            RemoteBlock = remoteBlock;
         }
 
         protected override IEnumerable<string> Arguments
         {
             get
             {
-                foreach(var arg in base.Arguments)
+                foreach (var arg in base.Arguments)
                 {
                     yield return arg;
                 }
 
-                yield return $"dir={Direction.ToString().ToLowerInvariant()}";
-                yield return $"action={Action.ToString().ToLowerInvariant()}";
-
-                if (!string.IsNullOrEmpty(Description))
+                if (Direction is object)
                 {
-                    yield return $"description=\"{Description}\"";
+                    yield return $"dir={Direction.Value.ToString().ToLowerInvariant()}";
                 }
 
                 if (!string.IsNullOrEmpty(Program))
@@ -101,17 +82,29 @@ namespace Juniper.HTTP.Server.Administration
             }
         }
 
+        private static readonly Regex deleteCountPattern = new Regex("Deleted (\\d+) rule", RegexOptions.Compiled);
+
         protected override async Task<int> RunAsync(IEnumerable<string> arguments)
         {
-            var retCode = await base.RunAsync(arguments)
+            _ = await base.RunAsync(arguments)
                 .ConfigureAwait(false);
 
             var message = TotalStandardOutput.Trim();
-            if (!message.EndsWith("Ok.", false, CultureInfo.InvariantCulture))
+            if (!message.EndsWith("Ok.", false, CultureInfo.InvariantCulture)
+                && message != "No rules match the specified criteria.")
             {
                 throw new InvalidOperationException(message);
             }
-            return retCode;
+
+            var match = deleteCountPattern.Match(message);
+            if (!match.Success)
+            {
+                return 0;
+            }
+            else
+            {
+                return int.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
+            }
         }
     }
 }

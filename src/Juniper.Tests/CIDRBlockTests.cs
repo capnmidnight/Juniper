@@ -5,7 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 
 using Juniper.HTTP.Server.Administration;
-
+using Juniper.HTTP.Server.Administration.NetSH;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.HTTP.Server.Tests
@@ -266,7 +266,7 @@ namespace Juniper.HTTP.Server.Tests
         [TestMethod]
         public async Task AddRuleAsync()
         {
-            var command = new AddFirewallRuleCommand("Test Ban", FirewallRuleDirection.Out, FirewallRuleAction.Block, new CIDRBlock(testAddress1));
+            var command = new AddFirewallRule("Test Ban", FirewallRuleDirection.Out, FirewallRuleAction.Block, new CIDRBlock(testAddress1));
             var retCode = await command.RunAsync()
                 .ConfigureAwait(false);
             Assert.AreEqual(0, retCode);
@@ -278,7 +278,7 @@ namespace Juniper.HTTP.Server.Tests
         {
             await AddRuleAsync().ConfigureAwait(false);
 
-            var command = new DeleteFirewallRuleCommand("Test Ban");
+            var command = new DeleteFirewallRule("Test Ban");
             var deleteCount = await command.RunAsync()
                 .ConfigureAwait(false);
             Assert.IsTrue(deleteCount >= 1);
@@ -289,7 +289,7 @@ namespace Juniper.HTTP.Server.Tests
         {
             await AddRuleAsync().ConfigureAwait(false);
 
-            var command = new ShowFirewallRuleCommand("Test Ban");
+            var command = new ShowFirewallRule("Test Ban");
             var blocks = await command.GetRangesAsync()
                 .ConfigureAwait(false);
             Assert.IsTrue(blocks.Length > 0);

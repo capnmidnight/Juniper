@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Juniper.HTTP.Server.Administration
+namespace Juniper.HTTP.Server.Administration.NetSH
 {
     public abstract class AbstractFirewallRuleCommand :
         AbstractNetShCommand

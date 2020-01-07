@@ -10,8 +10,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
-
-using Juniper.HTTP.Server.Administration;
+using Juniper.HTTP.Server.Administration.NetSH;
 using Juniper.HTTP.Server.Controllers;
 using Juniper.Logging;
 
@@ -508,7 +507,7 @@ or
                 listenAddress = "0.0.0.0";
             }
 
-            var addCert = new AddSslCertCommand(
+            var addCert = new AddSslCert(
                 listenAddress,
                 HttpsPort.Value,
                 certHash,
