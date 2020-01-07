@@ -49,6 +49,8 @@
     <Compile Include="Iteration\IterationTests.cs" />
     <Compile Include="ListExtTests.cs" />
     <Compile Include="MockComparer.cs" />
+    <Compile Include="PowerShellTests.cs" />
+    <Compile Include="NetSHTests.cs" />
     <Compile Include="PriorityQueueEnumeratorTests.cs" />
     <Compile Include="PriorityQueueTests.cs" />
     <Compile Include="RouteTests.cs" />

@@ -7,6 +7,11 @@ namespace System.Threading.Tasks
     {
         public static async Task AsAsync(this IEnumerator iter)
         {
+            if (iter is null)
+            {
+                throw new ArgumentNullException(nameof(iter));
+            }
+
             while (iter.MoveNext())
             {
                 await Task.Yield();

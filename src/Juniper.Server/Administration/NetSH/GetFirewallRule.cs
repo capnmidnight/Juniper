@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP.Server.Administration.NetSH
 {
-    public class ShowFirewallRule :
+    public class GetFirewallRule :
         AbstractFirewallRuleCommand
     {
         public bool Verbose { get; set; }
-        public ShowFirewallRule(string name)
+
+        public GetFirewallRule(string name)
             : base("show", name)
         {
         }

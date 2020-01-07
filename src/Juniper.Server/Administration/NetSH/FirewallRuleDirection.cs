@@ -1,6 +1,4 @@
-using System;
-
-namespace Juniper.HTTP.Server.Administration
+namespace Juniper.HTTP.Server.Administration.NetSH
 {
     public enum FirewallRuleDirection
     {

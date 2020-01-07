@@ -2,10 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 
-using Juniper.HTTP.Server.Administration;
-using Juniper.HTTP.Server.Administration.NetSH;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.HTTP.Server.Tests
@@ -261,39 +258,6 @@ namespace Juniper.HTTP.Server.Tests
             Assert.AreEqual(2, addresses.Length);
             Assert.AreEqual(testAddress0, addresses[0]);
             Assert.AreEqual(testAddress1, addresses[1]);
-        }
-
-        [TestMethod]
-        public async Task AddRuleAsync()
-        {
-            var command = new AddFirewallRule("Test Ban", FirewallRuleDirection.Out, FirewallRuleAction.Block, new CIDRBlock(testAddress1));
-            var retCode = await command.RunAsync()
-                .ConfigureAwait(false);
-            Assert.AreEqual(0, retCode);
-            Assert.IsTrue(command.TotalStandardOutput.Length > 0);
-        }
-
-        [TestMethod]
-        public async Task DeleteRuleAsync()
-        {
-            await AddRuleAsync().ConfigureAwait(false);
-
-            var command = new DeleteFirewallRule("Test Ban");
-            var deleteCount = await command.RunAsync()
-                .ConfigureAwait(false);
-            Assert.IsTrue(deleteCount >= 1);
-        }
-
-        [TestMethod]
-        public async Task ShowRulesAsync()
-        {
-            await AddRuleAsync().ConfigureAwait(false);
-
-            var command = new ShowFirewallRule("Test Ban");
-            var blocks = await command.GetRangesAsync()
-                .ConfigureAwait(false);
-            Assert.IsTrue(blocks.Length > 0);
-            Assert.AreEqual(testAddress1, blocks[0].Start);
         }
     }
 }

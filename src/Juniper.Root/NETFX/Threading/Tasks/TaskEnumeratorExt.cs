@@ -12,7 +12,7 @@ namespace System.Threading.Tasks
 
         public static bool IsSuccessful(this Task task)
         {
-            return task.Status == TaskStatus.RanToCompletion;
+            return task?.Status == TaskStatus.RanToCompletion;
         }
 
         public static IEnumerator AsCoroutine(this Task task)
