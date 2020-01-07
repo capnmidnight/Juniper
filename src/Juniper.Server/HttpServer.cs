@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Juniper.HTTP.Server.Administration.NetSH;
 using Juniper.HTTP.Server.Controllers;
 using Juniper.Logging;
@@ -86,13 +87,6 @@ namespace Juniper.HTTP.Server
         /// Set to false to disable handling websockets
         /// </summary>
         public bool EnableWebSockets { get; set; }
-
-        /// <summary>
-        /// When set to true, HTTP request will automatically be handled as Redirect
-        /// responses that point to the HTTPS version of the URL.
-        /// </summary>
-        /// <seealso cref="HttpToHttpsRedirect"/>
-        public bool RedirectHttp2Https { get; set; }
 
         /// <summary>
         /// The IP address at which to listen for requests. By default, this is set
@@ -369,29 +363,8 @@ or
                 }
             }
 
-            if (HttpPort is object
-                || RedirectHttp2Https)
+            if (HttpPort is object)
             {
-                if (RedirectHttp2Https)
-                {
-                    if (HttpPort is null
-                        && HttpsPort is object)
-                    {
-                        if (HttpsPort == 443)
-                        {
-                            HttpPort = 80;
-                        }
-                        else if (HttpsPort == 0)
-                        {
-                            HttpPort = 1;
-                        }
-                        else
-                        {
-                            HttpPort = (ushort)(HttpsPort - 1);
-                        }
-                    }
-                }
-
                 SetPrefix("http", HttpPort.Value);
             }
 
@@ -405,11 +378,11 @@ or
 #if !DEBUG
                 if (HttpPort is object
                     && routes.Any(route =>
-                        !(route is IPBanController)
-                        && !(route is HttpsRedirectController)
+                        !(route is BanHammer)
+                        && !(route is HttpToHttpsRedirect)
                         && route.Protocol.HasFlag(HttpProtocols.HTTP)))
                 {
-                    OnWarning(this, "Maybe don't run unencrypted HTTP in production, k?");
+                    OnWarning("Maybe don't run unencrypted HTTP in production, k?");
                 }
 #endif
 
