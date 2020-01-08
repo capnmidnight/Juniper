@@ -9,6 +9,8 @@ namespace Juniper.Imaging
     public sealed class Size : ISerializable, IEquatable<Size>
     {
         private static readonly Regex SizePattern = new Regex("^(\\d+)x(\\d+)$", RegexOptions.Compiled);
+        private static readonly string WIDTH_FIELD = nameof(Width).ToLowerInvariant();
+        private static readonly string HEIGHT_FIELD = nameof(Height).ToLowerInvariant();
 
         public static bool TryParse(string widthXHeight, out Size size)
         {
@@ -37,17 +39,17 @@ namespace Juniper.Imaging
             }
             else
             {
-                throw new FormatException("input string must be format \"[width]x[height]\", where width and height are positive integers");
+                throw new FormatException("Input string must be format \"[width]x[height]\", where width and height are positive integers");
             }
         }
 
-        public readonly int width;
-        public readonly int height;
+        public int Width { get; }
+        public int Height { get; }
 
         public Size(int width, int height)
         {
-            this.width = width;
-            this.height = height;
+            Width = width;
+            Height = height;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
@@ -58,8 +60,8 @@ namespace Juniper.Imaging
                 throw new ArgumentNullException(nameof(info));
             }
 
-            width = info.GetInt32(nameof(width));
-            height = info.GetInt32(nameof(height));
+            Width = info.GetInt32(WIDTH_FIELD);
+            Height = info.GetInt32(HEIGHT_FIELD);
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -69,14 +71,8 @@ namespace Juniper.Imaging
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue(nameof(width), width);
-            info.AddValue(nameof(height), height);
-        }
-
-        public override int GetHashCode()
-        {
-            return width.GetHashCode()
-                ^ height.GetHashCode();
+            info.AddValue(WIDTH_FIELD, Width);
+            info.AddValue(HEIGHT_FIELD, Height);
         }
 
         public override bool Equals(object obj)
@@ -87,8 +83,8 @@ namespace Juniper.Imaging
         public bool Equals(Size other)
         {
             return other is object
-                && width == other.width
-                && height == other.height;
+                && Width == other.Width
+                && Height == other.Height;
         }
 
         public static bool operator ==(Size left, Size right)
@@ -104,14 +100,22 @@ namespace Juniper.Imaging
 
         public override string ToString()
         {
-            return width.ToString(CultureInfo.InvariantCulture)
+            return Width.ToString(CultureInfo.InvariantCulture)
                 + "x"
-                + height.ToString(CultureInfo.InvariantCulture);
+                + Height.ToString(CultureInfo.InvariantCulture);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 859600377;
+            hashCode = (hashCode * -1521134295) + Width.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Height.GetHashCode();
+            return hashCode;
         }
 
         public static explicit operator string(Size size)
         {
-            return size.ToString();
+            return size?.ToString();
         }
     }
 }

@@ -2,10 +2,12 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Juniper.IO;
 using Juniper.Sound;
 using Juniper.Speech.Azure;
 using Juniper.Speech.Azure.CognitiveServices;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.Azure.Tests
@@ -136,8 +138,8 @@ namespace Juniper.Azure.Tests
             var audio = await cache
                 .LoadAsync(audioDecoder, audioRequest)
                 .ConfigureAwait(false);
-            Assert.AreEqual(MediaType.Audio.PCMA, audio.format.ContentType);
-            Assert.AreEqual(audioRequest.OutputFormat.sampleRate, audio.format.sampleRate);
+            Assert.AreEqual(MediaType.Audio.PCMA, audio.Format.ContentType);
+            Assert.AreEqual(audioRequest.OutputFormat.sampleRate, audio.Format.sampleRate);
         }
     }
 }

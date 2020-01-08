@@ -63,12 +63,12 @@ namespace Juniper.HTTP.Tests
             {
                 var path = Path.Combine(myPictures, "portrait-expected.jpg");
                 var expected = imageDecoder.Deserialize(path);
-                Assert.AreEqual(expected.info.dimensions.width, image.info.dimensions.width);
-                Assert.AreEqual(expected.info.dimensions.height, image.info.dimensions.height);
-                Assert.AreEqual(expected.data.Length, image.data.Length);
-                for (var i = 0; i < expected.data.Length; ++i)
+                Assert.AreEqual(expected.Info.Dimensions.Width, image.Info.Dimensions.Width);
+                Assert.AreEqual(expected.Info.Dimensions.Height, image.Info.Dimensions.Height);
+                Assert.AreEqual(expected.Data.Length, image.Data.Length);
+                for (var i = 0; i < expected.Data.Length; ++i)
                 {
-                    Assert.AreEqual(expected.data[i], image.data[i]);
+                    Assert.AreEqual(expected.Data[i], image.Data[i]);
                 }
             }
 

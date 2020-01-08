@@ -119,14 +119,14 @@ namespace Juniper.Primrose
             {
                 var token = tokens[0];
                 tokens.RemoveAt(0);
-                if (token.type == "newlines")
+                if (token.Type == "newlines")
                 {
                     currentLine = new Line();
                     lines.Add(currentLine);
                 }
-                else if (token.type != "regular" && token.type != "comments")
+                else if (token.Type != "regular" && token.Type != "comments")
                 {
-                    token.value = tokenMap.Get(token.value, token.value);
+                    token.Value = tokenMap.Get(token.Value, token.Value);
                     currentLine.Add(token);
                 }
             }
@@ -144,14 +144,14 @@ namespace Juniper.Primrose
                     // If the first token of a line is not actually a line number,
                     // we will auto-generate a line number and re-insert the token
                     // to be processed as normal code.
-                    if (lineNumberToken.type != "lineNumbers")
+                    if (lineNumberToken.Type != "lineNumbers")
                     {
                         line.Insert(0, lineNumberToken);
                         lineNumberToken = ToNum((lastLineNumber ?? -1) + 1);
                     }
 
                     var lineNumber = int.Parse(
-                        lineNumberToken.value,
+                        lineNumberToken.Value,
                         NumberStyles.AllowLeadingWhite
                             | NumberStyles.AllowTrailingWhite,
                         CultureInfo.InvariantCulture);
@@ -159,12 +159,12 @@ namespace Juniper.Primrose
                     // Line numbers should be ordered correctly, or we throw a syntax error.
                     if (lastLineNumber.HasValue && lineNumber <= lastLineNumber)
                     {
-                        throw new Exception($"expected line number greater than {lastLineNumber.Value.ToString(CultureInfo.CurrentCulture)}, but received {lineNumberToken.value}.");
+                        throw new Exception($"expected line number greater than {lastLineNumber.Value.ToString(CultureInfo.CurrentCulture)}, but received {lineNumberToken.Value}.");
                     }
                     // deleting empty lines
                     else if (line.Count > 0)
                     {
-                        lineNumberToken.value = lineNumber.ToString(CultureInfo.InvariantCulture);
+                        lineNumberToken.Value = lineNumber.ToString(CultureInfo.InvariantCulture);
                         lineNumbers.Add(lineNumber);
                         program[lineNumber] = line;
                     }
@@ -259,9 +259,9 @@ namespace Juniper.Primrose
         private bool IsFunction(Token t)
         {
             if (t is object
-                && state.ContainsKey(t.value))
+                && state.ContainsKey(t.Value))
             {
-                return state[t.value] is Delegate;
+                return state[t.Value] is Delegate;
             }
 
             return false;
@@ -274,34 +274,34 @@ namespace Juniper.Primrose
             {
                 var t = line[i];
                 var nest = 0;
-                if (t.type == "identifiers"
+                if (t.Type == "identifiers"
                     && !IsFunction(t)
                     && i < line.Count - 1
-                    && line[i + 1].value == "(")
+                    && line[i + 1].Value == "(")
                 {
                     for (var j = i + 1; j < line.Count; ++j)
                     {
                         var t2 = line[j];
-                        if (t2.value == "(")
+                        if (t2.Value == "(")
                         {
                             if (nest == 0)
                             {
-                                t2.value = "[";
+                                t2.Value = "[";
                             }
 
                             ++nest;
                         }
-                        else if (t2.value == ")")
+                        else if (t2.Value == ")")
                         {
                             --nest;
                             if (nest == 0)
                             {
-                                t2.value = "]";
+                                t2.Value = "]";
                             }
                         }
-                        else if (t2.value == "," && nest == 1)
+                        else if (t2.Value == "," && nest == 1)
                         {
-                            t2.value = "][";
+                            t2.Value = "][";
                         }
 
                         if (nest == 0)
@@ -311,7 +311,7 @@ namespace Juniper.Primrose
                     }
                 }
 
-                script += t.value;
+                script += t.Value;
             }
             //with ( state ) { // jshint ignore:line
             try
@@ -339,9 +339,9 @@ namespace Juniper.Primrose
             {
                 var t = line[0];
                 line.RemoveAt(0);
-                if (t.type != "operators")
+                if (t.Type != "operators")
                 {
-                    data.Add(t.value);
+                    data.Add(t.Value);
                 }
             }
 
@@ -367,25 +367,25 @@ namespace Juniper.Primrose
                 line.RemoveAt(0);
                 if (op is object)
                 {
-                    if (op.type == "lineNumbers")
+                    if (op.Type == "lineNumbers")
                     {
                         return SetProgramCounter(new Line { op });
                     }
-                    else if (commands.ContainsKey(op.value))
+                    else if (commands.ContainsKey(op.Value))
                     {
-                        return commands[op.value](line);
+                        return commands[op.Value](line);
                     }
-                    else if (state.ContainsKey(op.value)
+                    else if (state.ContainsKey(op.Value)
                         || (line.Count > 0
-                            && line[0].type == "operators"
-                            && line[0].value == "="))
+                            && line[0].Type == "operators"
+                            && line[0].Value == "="))
                     {
                         line.Insert(0, op);
                         return Translate(line);
                     }
                     else
                     {
-                        throw new Exception("Unknown command. >>> " + op.value);
+                        throw new Exception("Unknown command. >>> " + op.Value);
                     }
                 }
             }
@@ -461,16 +461,16 @@ namespace Juniper.Primrose
             for (var i = 0; i < line.Count; ++i)
             {
                 var t = line[i];
-                if (t.value == "(")
+                if (t.Value == "(")
                 {
                     ++nest;
                 }
-                else if (t.value == ")")
+                else if (t.Value == ")")
                 {
                     --nest;
                 }
 
-                if (nest == 0 && t.value == ",")
+                if (nest == 0 && t.Value == ",")
                 {
                     decl = new Line();
                     decls.Add(decl);
@@ -487,23 +487,23 @@ namespace Juniper.Primrose
                 var idToken = decl[0];
                 decl.RemoveAt(0);
 
-                if (idToken.type != "identifiers")
+                if (idToken.Type != "identifiers")
                 {
-                    OnError("Identifier expected: " + idToken.value);
+                    OnError("Identifier expected: " + idToken.Value);
                 }
                 else
                 {
-                    var id = idToken.value;
+                    var id = idToken.Value;
                     object val = null;
-                    if (decl[0].value == "("
-                        && decl.Last().value == ")")
+                    if (decl[0].Value == "("
+                        && decl.Last().Value == ")")
                     {
                         var sizes = new List<int>();
                         for (var j = 1; j < decl.Count - 1; ++j)
                         {
-                            if (decl[j].type == "numbers")
+                            if (decl[j].Type == "numbers")
                             {
-                                sizes.Add(int.Parse(decl[j].value, CultureInfo.InvariantCulture));
+                                sizes.Add(int.Parse(decl[j].Value, CultureInfo.InvariantCulture));
                             }
                         }
 
@@ -549,32 +549,32 @@ namespace Juniper.Primrose
             line = line.Select((t, i) =>
             {
                 t = t.Clone();
-                if (t.type == "operators")
+                if (t.Type == "operators")
                 {
-                    if (t.value == ",")
+                    if (t.Value == ",")
                     {
                         if (nest == 0)
                         {
-                            t.value = "+ \", \" + ";
+                            t.Value = "+ \", \" + ";
                         }
                     }
-                    else if (t.value == ";")
+                    else if (t.Value == ";")
                     {
-                        t.value = "+ \" \"";
+                        t.Value = "+ \" \"";
                         if (i < line.Count - 1)
                         {
-                            t.value += " + ";
+                            t.Value += " + ";
                         }
                         else
                         {
                             endLine = "";
                         }
                     }
-                    else if (t.value == "(")
+                    else if (t.Value == "(")
                     {
                         ++nest;
                     }
-                    else if (t.value == ")")
+                    else if (t.Value == ")")
                     {
                         --nest;
                     }
@@ -598,11 +598,11 @@ namespace Juniper.Primrose
 
             for (var i = 0; i < line.Count; ++i)
             {
-                if (line[i].type == "keywords" && line[i].value == "THEN")
+                if (line[i].Type == "keywords" && line[i].Value == "THEN")
                 {
                     thenIndex = i;
                 }
-                else if (line[i].type == "keywords" && line[i].value == "ELSE")
+                else if (line[i].Type == "keywords" && line[i].Value == "ELSE")
                 {
                     elseIndex = i;
                 }
@@ -618,9 +618,9 @@ namespace Juniper.Primrose
                 for (var i = 0; i < condition.Count; ++i)
                 {
                     var t = condition[i];
-                    if (t.type == "operators" && t.value == "=")
+                    if (t.Type == "operators" && t.Value == "=")
                     {
-                        t.value = "==";
+                        t.Value = "==";
                     }
                 }
 
@@ -684,8 +684,8 @@ namespace Juniper.Primrose
             var idxExpr = new Line();
             var targets = new Line();
             while (line.Count > 0
-                && (line[0].type != "keywords"
-                    || line[0].value != "GOTO"))
+                && (line[0].Type != "keywords"
+                    || line[0].Value != "GOTO"))
             {
                 var idx = line[0];
                 line.RemoveAt(0);
@@ -699,8 +699,8 @@ namespace Juniper.Primrose
                 for (var i = 0; i < line.Count; ++i)
                 {
                     var t = line[i];
-                    if (t.type != "operators"
-                        || t.value != ",")
+                    if (t.Type != "operators"
+                        || t.Value != ",")
                     {
                         targets.Add(t);
                     }
@@ -740,7 +740,7 @@ namespace Juniper.Primrose
             for (var i = counter + 1; i < lineNumbers.Count; ++i)
             {
                 var l = GetLine(i);
-                if (l[0].value == str)
+                if (l[0].Value == str)
                 {
                     return i;
                 }
@@ -776,7 +776,7 @@ namespace Juniper.Primrose
             for (var i = 0; i < line.Count; ++i)
             {
                 var t = line[i];
-                if (t.value == FOR_LOOP_DELIMS[a])
+                if (t.Value == FOR_LOOP_DELIMS[a])
                 {
                     if (a == 0)
                     {
@@ -862,24 +862,24 @@ namespace Juniper.Primrose
         {
             var nameToken = line[0];
             line.RemoveAt(0);
-            var name = nameToken.value;
+            var name = nameToken.Value;
             var signature = "";
             var body = "";
             var fillSig = true;
             for (var i = 0; i < line.Count; ++i)
             {
                 var t = line[i];
-                if (t.type == "operators" && t.value == "=")
+                if (t.Type == "operators" && t.Value == "=")
                 {
                     fillSig = false;
                 }
                 else if (fillSig)
                 {
-                    signature += t.value;
+                    signature += t.Value;
                 }
                 else
                 {
-                    body += t.value;
+                    body += t.Value;
                 }
             }
 

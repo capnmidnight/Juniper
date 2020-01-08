@@ -115,7 +115,7 @@ namespace Juniper.HTTP.Server.Controllers
         {
             var block = GetMatchingBlock(context.Request.RemoteEndPoint.Address);
             OnInfo($"{context.Request.RemoteEndPoint} is banned by {block}.");
-            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+            context.Response.SetStatus(HttpStatusCode.Unauthorized);
             return Task.CompletedTask;
         }
 

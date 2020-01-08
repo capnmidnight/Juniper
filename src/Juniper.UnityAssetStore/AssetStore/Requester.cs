@@ -138,7 +138,7 @@ namespace Juniper.UnityAssetStore
         public async Task<AssetContent[]> GetAssetContentsAsync(string assetID, IProgress prog = null)
         {
             var value = await GetAsync<AssetContents>($"{UnityAssetStoreAPIRoot}content/assets/{assetID}.json", null, prog).ConfigureAwait(false);
-            return value.assets;
+            return value.Assets;
         }
 
         public async Task<string> GetPublisherNameAsync(string publisherID, IProgress prog = null)
@@ -160,6 +160,11 @@ namespace Juniper.UnityAssetStore
 
         public Task<StoreSearch.Results> SearchAsync(StoreSearch parameters, IProgress prog = null)
         {
+            if (parameters is null)
+            {
+                throw new ArgumentNullException(nameof(parameters));
+            }
+
             return GetAsync<StoreSearch.Results>($"{UnityAssetStoreAPIRoot}search/results.json?" + parameters.SearchString, null, prog);
         }
 

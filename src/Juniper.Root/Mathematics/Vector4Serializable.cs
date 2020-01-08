@@ -7,10 +7,13 @@ namespace Juniper.Mathematics
     [Serializable]
     public struct Vector4Serializable : ISerializable
     {
-        public readonly float X;
-        public readonly float Y;
-        public readonly float Z;
-        public readonly float W;
+        public float X { get; }
+
+        public float Y { get; }
+
+        public float Z { get; }
+
+        public float W { get; }
 
         public Vector4Serializable(float x, float y, float z, float w)
         {

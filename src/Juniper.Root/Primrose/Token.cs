@@ -4,15 +4,20 @@ namespace Juniper.Primrose
 {
     public class Token : ICloneable
     {
-        public string value, type;
-        public int index, line;
+        public string Value { get; set; }
+
+        public string Type { get; set; }
+
+        public int Index { get; set; }
+
+        public int Line { get; set; }
 
         public Token(string value, string type, int index, int line)
         {
-            this.value = value;
-            this.type = type;
-            this.index = index;
-            this.line = line;
+            Value = value;
+            Type = type;
+            Index = index;
+            Line = line;
         }
 
         public Token(string value, string type)
@@ -26,19 +31,19 @@ namespace Juniper.Primrose
 
         public Token Clone()
         {
-            return new Token(value, type, index, line);
+            return new Token(Value, Type, Index, Line);
         }
 
         public Token SplitAt(int i)
         {
-            var next = value.Substring(i);
-            value = value.Substring(0, i);
-            return new Token(next, type, index + i, line);
+            var next = Value.Substring(i);
+            Value = Value.Substring(0, i);
+            return new Token(next, Type, Index + i, Line);
         }
 
         public override string ToString()
         {
-            return $"[{type}: {value}]";
+            return $"[{Type}: {Value}]";
         }
     }
 }

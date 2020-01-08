@@ -52,7 +52,7 @@ namespace Juniper.HTTP.Server.Controllers
             }
 
             return (ExpectedStatus == 0
-                    || context.Response.StatusCode == (int)ExpectedStatus)
+                    || context.Response.GetStatus() == ExpectedStatus)
                 && IsMatch(context.Request);
         }
 

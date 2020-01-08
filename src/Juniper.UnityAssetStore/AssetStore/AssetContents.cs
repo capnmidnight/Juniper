@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.Serialization;
 
 namespace Juniper.UnityAssetStore
@@ -6,7 +6,9 @@ namespace Juniper.UnityAssetStore
     [Serializable]
     public class AssetContents : ISerializable
     {
-        public AssetContent[] assets;
+        private static readonly string ASSETS_FIELD = nameof(Assets).ToLowerInvariant();
+
+        public AssetContent[] Assets { get; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface.")]
         protected AssetContents(SerializationInfo info, StreamingContext context)
@@ -16,7 +18,7 @@ namespace Juniper.UnityAssetStore
                 throw new ArgumentNullException(nameof(info));
             }
 
-            assets = info.GetValue<AssetContent[]>(nameof(assets));
+            Assets = info.GetValue<AssetContent[]>(ASSETS_FIELD);
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -26,7 +28,7 @@ namespace Juniper.UnityAssetStore
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue(nameof(assets), assets);
+            info.AddValue(ASSETS_FIELD, Assets);
         }
     }
 }

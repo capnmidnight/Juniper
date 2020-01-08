@@ -27,12 +27,15 @@ namespace Juniper.MediaTypes
             }
         }
 
-        private static void Main()
+        public static async Task Main()
         {
             var groups = new Dictionary<string, Group>(StringComparer.InvariantCultureIgnoreCase);
 
-            ParseApacheConf(groups).Wait();
-            ParseIANAXml(groups).Wait();
+            await ParseApacheConfAsync(groups)
+                .ConfigureAwait(false);
+
+            await ParseIANAXmlAsync(groups)
+                .ConfigureAwait(false);
 
             groups["Image"].entries["Raw"] = new Entry(groups["Image"], "Raw", "image/x-raw", null, new string[] { "raw" });
             groups["Image"].entries["Exr"] = new Entry(groups["Image"], "EXR", "image/x-exr", null, new string[] { "exr" });
@@ -76,10 +79,10 @@ namespace Juniper.MediaTypes
             }, "using System;\r\nusing System.Collections.ObjectModel;");
         }
 
-        private static async Task ParseApacheConf(Dictionary<string, Group> groups)
+        private static async Task ParseApacheConfAsync(Dictionary<string, Group> groups)
         {
             using (var response = await HttpWebRequestExt
-                .Create("http://svn.apache.org/viewvc/httpd/httpd/trunk/docs/conf/mime.types?view=co")
+                .Create(new Uri("http://svn.apache.org/viewvc/httpd/httpd/trunk/docs/conf/mime.types?view=co"))
                 .Accept("text/plain")
                 .GetAsync()
                 .ConfigureAwait(false))
@@ -89,8 +92,9 @@ namespace Juniper.MediaTypes
                 var searching = true;
                 while (!reader.EndOfStream)
                 {
-                    var line = reader.ReadLine();
-                    if (line.StartsWith("# "))
+                    var line = await reader.ReadLineAsync()
+                        .ConfigureAwait(false);
+                    if (line.StartsWith("# ", StringComparison.Ordinal))
                     {
                         line = line.Substring(2);
                     }
@@ -124,7 +128,7 @@ namespace Juniper.MediaTypes
 
                         AddEntry(group, name, value, null, extensions);
                     }
-                    else if (line.StartsWith("===================="))
+                    else if (line.StartsWith("====================", StringComparison.Ordinal))
                     {
                         searching = false;
                     }
@@ -132,10 +136,10 @@ namespace Juniper.MediaTypes
             }
         }
 
-        private static async Task ParseIANAXml(Dictionary<string, Group> groups)
+        private static async Task ParseIANAXmlAsync(Dictionary<string, Group> groups)
         {
             using (var response = await HttpWebRequestExt
-                .Create("https://www.iana.org/assignments/media-types/media-types.xml")
+                .Create(new Uri("https://www.iana.org/assignments/media-types/media-types.xml"))
                 .UserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36")
                 .Accept("text/xml")
                 .GetAsync()
@@ -186,7 +190,7 @@ namespace Juniper.MediaTypes
             if (group.entries.ContainsKey(name))
             {
                 var oldGroup = group.entries[name];
-                deprecationMessage = deprecationMessage ?? oldGroup.DeprecationMessage;
+                deprecationMessage ??= oldGroup.DeprecationMessage;
 
                 if (extensions == null)
                 {
@@ -204,7 +208,7 @@ namespace Juniper.MediaTypes
                         for (var i = 0; i < extensions.Length; ++i)
                         {
                             if (extensions[i].Length > oldGroup.Extensions[i].Length
-                                && !value.EndsWith("+" + extensions[i]))
+                                && !value.EndsWith("+" + extensions[i], StringComparison.Ordinal))
                             {
                                 newExtensions[i] = extensions[i];
                             }
@@ -236,6 +240,11 @@ namespace Juniper.MediaTypes
 
         public static string UpperFirst(this string s)
         {
+            if (s is null)
+            {
+                throw new ArgumentNullException(nameof(s));
+            }
+
             var chars = s.ToCharArray();
             chars[0] = char.ToUpperInvariant(chars[0]);
             return new string(chars);
@@ -243,17 +252,22 @@ namespace Juniper.MediaTypes
 
         public static string CamelCase(this string s, bool stripUnderscores = false)
         {
+            if (s is null)
+            {
+                throw new ArgumentNullException(nameof(s));
+            }
+
             if (!char.IsLetter(s[0]))
             {
                 s = "vnd." + s;
             }
 
-            if (s.StartsWith("vnd."))
+            if (s.StartsWith("vnd.", StringComparison.InvariantCultureIgnoreCase))
             {
                 s = "vendor." + s.Substring(4);
             }
 
-            if (s.EndsWith("+"))
+            if (s.EndsWith("+", StringComparison.InvariantCultureIgnoreCase))
             {
                 s = s.Substring(0, s.Length - 1) + ".plus";
             }
@@ -273,27 +287,42 @@ namespace Juniper.MediaTypes
 
         public static void MakeFile(this string fileName, string directoryName, Action<StreamWriter> act, string usingBlock)
         {
-            var filePath = Path.Combine(directoryName, fileName);
-            using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-            using (var writer = new StreamWriter(stream))
+            if (string.IsNullOrEmpty(fileName))
             {
-                if (usingBlock != null)
-                {
-                    writer.WriteLine(usingBlock);
-                    writer.WriteLine();
-                }
-                writer.WriteLine("namespace Juniper");
-                writer.WriteLine("{");
-                {
-                    writer.WriteLine("    public partial class MediaType");
-                    writer.WriteLine("    {");
-                    {
-                        act(writer);
-                    }
-                    writer.WriteLine("    }");
-                }
-                writer.WriteLine("}");
+                throw new ArgumentException("Must provide a file name", nameof(fileName));
             }
+
+            if (string.IsNullOrEmpty(directoryName))
+            {
+                throw new ArgumentException("Must provide an output directory name", nameof(directoryName));
+            }
+
+            if (act is null)
+            {
+                throw new ArgumentNullException(nameof(act));
+            }
+
+            var filePath = Path.Combine(directoryName, fileName);
+            using var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+            using var writer = new StreamWriter(stream);
+
+            if (usingBlock != null)
+            {
+                writer.WriteLine(usingBlock);
+                writer.WriteLine();
+            }
+
+            writer.WriteLine("namespace Juniper");
+            writer.WriteLine("{");
+            {
+                writer.WriteLine("    public partial class MediaType");
+                writer.WriteLine("    {");
+                {
+                    act(writer);
+                }
+                writer.WriteLine("    }");
+            }
+            writer.WriteLine("}");
         }
 
         public static void MakeFile(this string fileName, string directoryName, Action<StreamWriter> act)

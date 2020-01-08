@@ -54,11 +54,11 @@ namespace Juniper.Primrose
         /// <summary>
         /// A user-friendly name for the grammar, to be able to include it in an options listing
         /// </summary>
-        public readonly string name;
+        public string Name { get; }
 
         /// <summary>A collection of rules to apply to tokenize text. The rules should be an array of two-element arrays. The first element should be a token name (see [`Primrose.Text.Rule`](#Primrose_Text_Rule) for a list of valid token names), followed by a regular expression that selects the token out of the source code.
         /// </summary>
-        public readonly Rule[] grammar;
+        public Rule[] Rules { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Grammar"/> class.
@@ -67,9 +67,9 @@ namespace Juniper.Primrose
         /// <param name="rules">A collection of rules to apply to tokenize text. The rules should be an array of two-element arrays. The first element should be a token name (see [`Primrose.Text.Rule`](#Primrose_Text_Rule) for a list of valid token names), followed by a regular expression that selects the token out of the source code.</param>
         public Grammar(string grammarName, params Rule[] rules)
         {
-            name = grammarName;
-            grammar = rules.Select((rule) =>
-                new Rule(rule.name, rule.test))
+            Name = grammarName;
+            Rules = rules.Select((rule) =>
+                new Rule(rule.Name, rule.Test))
                 .ToArray();
         }
 
@@ -81,52 +81,52 @@ namespace Juniper.Primrose
             for (var i = 0; i < tokens.Count; ++i)
             {
                 var t = tokens[i];
-                t.line = line;
-                if (t.type == "newlines")
+                t.Line = line;
+                if (t.Type == "newlines")
                 {
                     ++line;
                 }
 
                 if (stringDelim is object)
                 {
-                    if (t.type == "stringDelim"
-                        && t.value == stringDelim
+                    if (t.Type == "stringDelim"
+                        && t.Value == stringDelim
                         && (i == 0
-                            || tokens[i - 1].value[tokens[i - 1].value.Length - 1] != '\\'))
+                            || tokens[i - 1].Value[tokens[i - 1].Value.Length - 1] != '\\'))
                     {
                         stringDelim = null;
                     }
 
-                    if (t.type != "newlines")
+                    if (t.Type != "newlines")
                     {
-                        t.type = "strings";
+                        t.Type = "strings";
                     }
                 }
                 else if (commentDelim is object)
                 {
                     if ((commentDelim == "startBlockComments"
-                            && t.type == "endBlockComments")
+                            && t.Type == "endBlockComments")
                         || (commentDelim == "startLineComments"
-                            && t.type == "newlines"))
+                            && t.Type == "newlines"))
                     {
                         commentDelim = null;
                     }
 
-                    if (t.type != "newlines")
+                    if (t.Type != "newlines")
                     {
-                        t.type = "comments";
+                        t.Type = "comments";
                     }
                 }
-                else if (t.type == "stringDelim")
+                else if (t.Type == "stringDelim")
                 {
-                    stringDelim = t.value;
-                    t.type = "strings";
+                    stringDelim = t.Value;
+                    t.Type = "strings";
                 }
-                else if (t.type == "startBlockComments"
-                    || t.type == "startLineComments")
+                else if (t.Type == "startBlockComments"
+                    || t.Type == "startLineComments")
                 {
-                    commentDelim = t.type;
-                    t.type = "comments";
+                    commentDelim = t.Type;
+                    t.Type = "comments";
                 }
             }
 
@@ -135,10 +135,10 @@ namespace Juniper.Primrose
             {
                 var p = tokens[i - 1];
                 var t = tokens[i];
-                if (p.type == t.type && p.type != "newlines")
+                if (p.Type == t.Type && p.Type != "newlines")
                 {
-                    p.value += t.value;
-                    tokens.Splice(i, 1);
+                    p.Value += t.Value;
+                    _ = tokens.Splice(i, 1);
                 }
             }
         }
@@ -196,9 +196,9 @@ namespace Juniper.Primrose
                 new Token(text, "regular")
             };
 
-            for (var i = 0; i < grammar.Length; ++i)
+            for (var i = 0; i < Rules.Length; ++i)
             {
-                var rule = grammar[i];
+                var rule = Rules[i];
                 for (var j = 0; j < tokens.Count; ++j)
                 {
                     rule.CarveOutMatchedToken(tokens, j);

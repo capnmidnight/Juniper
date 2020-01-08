@@ -6,7 +6,9 @@ namespace Juniper.Mathematics
     [Serializable]
     public struct Matrix4x4Serializable : ISerializable
     {
-        public readonly float[] values;
+        private static readonly string VALUES_FIELD = nameof(Values).ToLowerInvariant();
+
+        public float[] Values { get; }
 
         public Matrix4x4Serializable(
             float m11, float m12, float m13, float m14,
@@ -14,7 +16,7 @@ namespace Juniper.Mathematics
             float m31, float m32, float m33, float m34,
             float m41, float m42, float m43, float m44)
         {
-            values = new[]
+            Values = new[]
             {
                 m11, m12, m13, m14,
                 m21, m22, m23, m24,
@@ -31,7 +33,7 @@ namespace Juniper.Mathematics
                 throw new ArgumentNullException(nameof(info));
             }
 
-            values = info.GetValue<float[]>(nameof(values));
+            Values = info.GetValue<float[]>(VALUES_FIELD);
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -41,7 +43,7 @@ namespace Juniper.Mathematics
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue(nameof(values), values);
+            info.AddValue(VALUES_FIELD, Values);
         }
 
         //public static implicit operator Matrix4x4(Matrix4x4Serializable v)

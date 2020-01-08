@@ -12,7 +12,7 @@ namespace Juniper.Progress
         /// <summary>
         /// The stream to wrap.
         /// </summary>
-        public readonly Stream stream;
+        public Stream BaseStream { get; }
 
         /// <summary>
         /// The length of the stream being wrapped.
@@ -32,15 +32,15 @@ namespace Juniper.Progress
         /// <param name="parent"></param>
         public ProgressStream(Stream stream, long length, IProgress parent)
         {
-            this.parent = parent;
-            this.stream = stream;
+            BaseStream = stream;
             this.length = length;
+            this.parent = parent;
             TotalByteCount = 0;
         }
 
         public Stream SourceStream
         {
-            get { return stream; }
+            get { return BaseStream; }
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Juniper.Progress
         /// <param name="value"></param>
         public override void SetLength(long value)
         {
-            stream.SetLength(value);
+            BaseStream.SetLength(value);
             length = value;
             this.Report(totalRead, length);
         }
@@ -102,7 +102,7 @@ namespace Juniper.Progress
         {
             if (disposing)
             {
-                stream.Dispose();
+                BaseStream.Dispose();
             }
         }
 
@@ -111,7 +111,7 @@ namespace Juniper.Progress
         /// </summary>
         public override bool CanRead
         {
-            get { return stream.CanRead; }
+            get { return BaseStream.CanRead; }
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Juniper.Progress
         /// </summary>
         public override bool CanSeek
         {
-            get { return stream.CanSeek; }
+            get { return BaseStream.CanSeek; }
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Juniper.Progress
         /// </summary>
         public override bool CanWrite
         {
-            get { return stream.CanWrite; }
+            get { return BaseStream.CanWrite; }
         }
 
         /// <summary>
@@ -143,8 +143,8 @@ namespace Juniper.Progress
         /// </summary>
         public override long Position
         {
-            get { return stream.Position; }
-            set { stream.Position = value; }
+            get { return BaseStream.Position; }
+            set { BaseStream.Position = value; }
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace Juniper.Progress
         /// </summary>
         public override void Flush()
         {
-            stream.Flush();
+            BaseStream.Flush();
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace Juniper.Progress
         /// <returns></returns>
         public override int Read(byte[] buffer, int offset, int count)
         {
-            var read = stream.Read(buffer, offset, count);
+            var read = BaseStream.Read(buffer, offset, count);
             if (read == 0)
             {
                 length = TotalByteCount;
@@ -185,7 +185,7 @@ namespace Juniper.Progress
         /// <returns></returns>
         public override long Seek(long offset, SeekOrigin origin)
         {
-            return TotalByteCount = stream.Seek(offset, origin);
+            return TotalByteCount = BaseStream.Seek(offset, origin);
         }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace Juniper.Progress
         /// <returns></returns>
         public override void Write(byte[] buffer, int offset, int count)
         {
-            stream.Write(buffer, offset, count);
+            BaseStream.Write(buffer, offset, count);
             TotalByteCount += count;
         }
     }

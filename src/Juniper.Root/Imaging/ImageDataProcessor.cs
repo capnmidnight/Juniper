@@ -13,12 +13,12 @@ namespace Juniper.Imaging
             var len = rows * columns;
             var progs = prog.Split(len);
             var firstImage = images[0, 0];
-            var tileWidth = firstImage.info.dimensions.width;
-            var tileHeight = firstImage.info.dimensions.height;
+            var tileWidth = firstImage.Info.Dimensions.Width;
+            var tileHeight = firstImage.Info.Dimensions.Height;
             var bufferSize = new Size(
                     tileWidth * columns,
                     tileHeight * rows);
-            var info = new ImageInfo(bufferSize, firstImage.info.components);
+            var info = new ImageInfo(bufferSize, firstImage.Info.Components);
             var bufferData = new byte[len];
 
             for (var tileY = 0; tileY < rows; ++tileY)
@@ -32,8 +32,8 @@ namespace Juniper.Imaging
                     for (var y = 0; y < tileHeight; ++y)
                     {
                         var tileBufferI = y * tileWidth;
-                        var bufferI = (bufferSize.width * ((tileHeight * tileY) + y)) + (tileX * tileWidth);
-                        Array.Copy(tile.data, tileBufferI, bufferData, bufferI, tileWidth);
+                        var bufferI = (bufferSize.Width * ((tileHeight * tileY) + y)) + (tileX * tileWidth);
+                        Array.Copy(tile.Data, tileBufferI, bufferData, bufferI, tileWidth);
                     }
 
                     p.Report(1);
@@ -45,17 +45,17 @@ namespace Juniper.Imaging
 
         public int GetComponents(ImageData img)
         {
-            return img.info.components;
+            return img.Info.Components;
         }
 
         public int GetWidth(ImageData img)
         {
-            return img.info.dimensions.width;
+            return img.Info.Dimensions.Width;
         }
 
         public int GetHeight(ImageData img)
         {
-            return img.info.dimensions.height;
+            return img.Info.Dimensions.Height;
         }
     }
 }

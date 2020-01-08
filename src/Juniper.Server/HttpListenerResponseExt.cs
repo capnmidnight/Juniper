@@ -10,18 +10,33 @@ namespace Juniper.HTTP.Server
     {
         public static void Redirect(this HttpListenerResponse response, string filename)
         {
+            if (response is null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+
             response.AddHeader("Location", filename);
             response.SetStatus(HttpStatusCode.MovedPermanently);
         }
 
         public static void SendFile(this HttpListenerResponse response, FileInfo file)
         {
+            if (file is null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+
             using var input = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
             response.SendStream((MediaType)file, input);
         }
 
         public static async Task SendFileAsync(this HttpListenerResponse response, FileInfo file)
         {
+            if (file is null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+
             using var input = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
             await response.SendStreamAsync((MediaType)file, input).ConfigureAwait(false);
         }
@@ -36,31 +51,86 @@ namespace Juniper.HTTP.Server
 
         public static void SendStream(this HttpListenerResponse response, MediaType contentType, FileStream input)
         {
+            if (response is null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+
+            if (input is null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+
             response.Prepare(contentType, input.Length);
             input.CopyTo(response.OutputStream);
         }
 
         public static Task SendStreamAsync(this HttpListenerResponse response, MediaType contentType, FileStream input)
         {
+            if (response is null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+
+            if (input is null)
+            {
+                throw new ArgumentNullException(nameof(input));
+            }
+
             response.Prepare(contentType, input.Length);
             return input.CopyToAsync(response.OutputStream);
         }
 
         public static void SendBytes(this HttpListenerResponse response, MediaType contentType, byte[] data)
         {
+            if (response is null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+
+            if (data is null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             response.Prepare(contentType, data.Length);
             response.OutputStream.Write(data, 0, data.Length);
         }
 
         public static Task SendBytesAsync(this HttpListenerResponse response, MediaType contentType, byte[] data)
         {
+            if (response is null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+
+            if (data is null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             response.Prepare(contentType, data.Length);
             return response.OutputStream.WriteAsync(data, 0, data.Length);
         }
 
         public static void SetStatus(this HttpListenerResponse response, HttpStatusCode code)
         {
+            if (response is null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+
             response.StatusCode = (int)code;
+        }
+
+        public static HttpStatusCode GetStatus(this HttpListenerResponse response)
+        {
+            if (response is null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+
+            return (HttpStatusCode)response.StatusCode;
         }
     }
 }

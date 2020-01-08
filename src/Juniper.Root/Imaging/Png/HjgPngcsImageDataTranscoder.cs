@@ -38,26 +38,26 @@ namespace Juniper.Imaging
         public ImageLines Translate(ImageData image, IProgress prog)
         {
             var imageInfo = new Hjg.Pngcs.ImageInfo(
-                image.info.dimensions.width,
-                image.info.dimensions.height,
-                image.info.bitsPerSample / image.info.components,
-                image.info.components == 4);
+                image.Info.Dimensions.Width,
+                image.Info.Dimensions.Height,
+                image.Info.BitsPerSample / image.Info.Components,
+                image.Info.Components == 4);
 
             var imageLines = new ImageLines(
                 imageInfo,
                 ImageLine.ESampleType.BYTE,
                 true,
                 0,
-                image.info.dimensions.height,
-                image.info.stride);
+                image.Info.Dimensions.Height,
+                image.Info.Stride);
 
-            for (var y = 0; y < image.info.dimensions.height; ++y)
+            for (var y = 0; y < image.Info.Dimensions.Height; ++y)
             {
-                prog.Report(y, image.info.dimensions.height);
-                var dataIndex = y * image.info.stride;
+                prog.Report(y, image.Info.Dimensions.Height);
+                var dataIndex = y * image.Info.Stride;
                 var line = imageLines.ScanlinesB[y];
-                Array.Copy(image.data, dataIndex, line, 0, image.info.stride);
-                prog.Report(y + 1, image.info.dimensions.height);
+                Array.Copy(image.Data, dataIndex, line, 0, image.Info.Stride);
+                prog.Report(y + 1, image.Info.Dimensions.Height);
             }
 
             return imageLines;

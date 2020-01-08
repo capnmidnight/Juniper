@@ -6,10 +6,13 @@ namespace Juniper.Mathematics
     [Serializable]
     public struct PlaneSerializable : ISerializable
     {
-        public readonly float X;
-        public readonly float Y;
-        public readonly float Z;
-        public readonly float D;
+        public float X { get; }
+
+        public float Y { get; }
+
+        public float Z { get; }
+
+        public float D { get; }
 
         public PlaneSerializable(float x, float y, float z, float w)
         {

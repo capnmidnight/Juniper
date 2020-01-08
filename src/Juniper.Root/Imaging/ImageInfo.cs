@@ -8,6 +8,11 @@ namespace Juniper.Imaging
     {
         public static ImageInfo ReadPNG(byte[] data)
         {
+            if (data is null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             var width = 0;
             var height = 0;
 
@@ -75,6 +80,11 @@ namespace Juniper.Imaging
 
         public static ImageInfo ReadJPEG(byte[] data)
         {
+            if (data is null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             for (var i = 0; i < data.Length - 1; ++i)
             {
                 var a = data[i];
@@ -97,19 +107,23 @@ namespace Juniper.Imaging
             throw new ArgumentException("Could not parse JPEG data", nameof(data));
         }
 
-        public readonly Size dimensions;
-        public readonly int stride;
-        public readonly int components;
-        public readonly int bytesPerSample;
-        public readonly int bitsPerSample;
+        public Size Dimensions { get; }
+
+        public int Stride { get; }
+
+        public int Components { get; }
+
+        public int BytesPerSample { get; }
+
+        public int BitsPerSample { get; }
 
         public ImageInfo(Size size, int components)
         {
-            this.components = components;
-            dimensions = size;
-            stride = size.width * components;
-            bytesPerSample = components;
-            bitsPerSample = Units.Bits.PER_BYTE * bytesPerSample;
+            Components = components;
+            Dimensions = size ?? throw new ArgumentNullException(nameof(size));
+            Stride = size.Width * components;
+            BytesPerSample = components;
+            BitsPerSample = Units.Bits.PER_BYTE * BytesPerSample;
         }
 
         public ImageInfo(int width, int height, int components)

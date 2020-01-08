@@ -26,13 +26,13 @@ namespace Juniper.Imaging
 
         public Image Translate(ImageData image, IProgress prog)
         {
-            var outImage = new Bitmap(image.info.dimensions.width, image.info.dimensions.height);
+            var outImage = new Bitmap(image.Info.Dimensions.Width, image.Info.Dimensions.Height);
             var imageData = outImage.LockBits(
-                 new Rectangle(0, 0, image.info.dimensions.width, image.info.dimensions.height),
+                 new Rectangle(0, 0, image.Info.Dimensions.Width, image.Info.Dimensions.Height),
                  System.Drawing.Imaging.ImageLockMode.WriteOnly,
-                 image.info.components.ToGDIPixelFormat());
+                 image.Info.Components.ToGDIPixelFormat());
 
-            Marshal.Copy(image.data, 0, imageData.Scan0, image.data.Length);
+            Marshal.Copy(image.Data, 0, imageData.Scan0, image.Data.Length);
 
             outImage.UnlockBits(imageData);
 

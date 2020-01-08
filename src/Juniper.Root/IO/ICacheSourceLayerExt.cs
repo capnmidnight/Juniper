@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 
 using Juniper.Progress;
@@ -67,27 +66,6 @@ namespace Juniper.IO
             }
 
             return value != default;
-        }
-
-        public static async Task ProxyAsync(
-            this ICacheSourceLayer layer,
-            HttpListenerResponse response,
-            ContentReference fileRef)
-        {
-            var stream = await layer
-                .GetStreamAsync(fileRef, null)
-                .ConfigureAwait(false);
-            await stream
-                .ProxyAsync(response)
-                .ConfigureAwait(false);
-        }
-
-        public static Task ProxyAsync(
-            this ICacheSourceLayer layer,
-            HttpListenerContext context,
-            ContentReference fileRef)
-        {
-            return layer.ProxyAsync(context.Response, fileRef);
         }
 
         /// <summary>

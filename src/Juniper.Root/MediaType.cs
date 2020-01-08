@@ -35,6 +35,11 @@ namespace Juniper
 
         public static MediaType GuessByExtension(FileInfo file)
         {
+            if (file is null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+
             var ext = file.Extension;
             if (ext.Length > 0
                 && ext[0] == '.')
@@ -80,17 +85,24 @@ namespace Juniper
 
         public static explicit operator MediaType(FileInfo file)
         {
+            if (file is null)
+            {
+                return null;
+            }
+
             return (MediaType)file.Name;
         }
 
         public static implicit operator string(MediaType mediaType)
         {
-            return mediaType.Value;
+            return mediaType?.Value;
         }
 
-        public readonly string Value;
-        public readonly ReadOnlyCollection<string> Extensions;
-        public readonly string PrimaryExtension;
+        public string Value { get; }
+
+        public ReadOnlyCollection<string> Extensions { get; }
+
+        public string PrimaryExtension { get; }
 
         protected MediaType(string value, string[] extensions)
         {
@@ -116,11 +128,11 @@ namespace Juniper
                 byExtensions = new Dictionary<string, MediaType>(1000);
             }
 
-            byValue.Default(Value, this);
+            _ = byValue.Default(Value, this);
 
             foreach (var ext in Extensions)
             {
-                byExtensions.Default(ext, this);
+                _ = byExtensions.Default(ext, this);
             }
         }
 
@@ -137,7 +149,7 @@ namespace Juniper
 
         public bool Matches(FileInfo file)
         {
-            if(file is null)
+            if (file is null)
             {
                 throw new ArgumentNullException(nameof(file));
             }

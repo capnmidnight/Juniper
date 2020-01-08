@@ -11,6 +11,16 @@ namespace Juniper.IO
     {
         public static async Task<ResultT> DecodeAsync<ResultT>(this StreamSource source, IDeserializer<ResultT> deserializer, IProgress prog = null)
         {
+            if (source is null)
+            {
+                throw new System.ArgumentNullException(nameof(source));
+            }
+
+            if (deserializer is null)
+            {
+                throw new System.ArgumentNullException(nameof(deserializer));
+            }
+
             prog.Report(0);
             var progs = prog.Split("Read", "Decode");
             var stream = await source
@@ -23,23 +33,12 @@ namespace Juniper.IO
 
         public static Task<Stream> GetStreamAsync(this StreamSource source)
         {
+            if (source is null)
+            {
+                throw new System.ArgumentNullException(nameof(source));
+            }
+
             return source.GetStreamAsync(null);
-        }
-
-        public static async Task ProxyAsync(this StreamSource source, HttpListenerResponse response)
-        {
-            var stream = await source
-                .GetStreamAsync()
-                .ConfigureAwait(false);
-            response.ContentType = source.ContentType;
-            await stream
-                .ProxyAsync(response)
-                .ConfigureAwait(false);
-        }
-
-        public static Task ProxyAsync(this StreamSource source, HttpListenerContext context)
-        {
-            return source.ProxyAsync(context.Response);
         }
     }
 }

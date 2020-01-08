@@ -5,12 +5,12 @@ namespace Juniper.HTTP.Server
 {
     public class ServerWebSocketConnection : WebSocketConnection
     {
-        public readonly HttpListenerContext httpContext;
+        private readonly HttpListenerContext context;
 
         public ServerWebSocketConnection(HttpListenerContext httpContext, WebSocket socket, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
             : base(socket, rxBufferSize, dataBufferSize)
         {
-            this.httpContext = httpContext;
+            context = httpContext;
         }
 
         private bool disposedValue;
@@ -23,7 +23,7 @@ namespace Juniper.HTTP.Server
             {
                 if (disposing)
                 {
-                    httpContext.Response.Close();
+                    context.Response.Close();
                 }
 
                 disposedValue = true;

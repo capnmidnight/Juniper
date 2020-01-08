@@ -41,9 +41,9 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
             var image = await cache
                 .LoadAsync(jpegDecoder, imageRequest)
                 .ConfigureAwait(false);
-            var info = image.info;
-            Assert.AreEqual(640, info.dimensions.width);
-            Assert.AreEqual(640, info.dimensions.height);
+            var info = image.Info;
+            Assert.AreEqual(640, info.Dimensions.Width);
+            Assert.AreEqual(640, info.Dimensions.Height);
         }
 
         [TestMethod]
@@ -59,8 +59,8 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
                 .ConfigureAwait(false);
             var data = pngDecoder.Serialize(rawImg);
             var info = ImageInfo.ReadPNG(data);
-            Assert.AreEqual(640, info.dimensions.width);
-            Assert.AreEqual(640, info.dimensions.height);
+            Assert.AreEqual(640, info.Dimensions.Width);
+            Assert.AreEqual(640, info.Dimensions.Height);
         }
 
         [TestMethod]
@@ -92,8 +92,8 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
             var image = await cache
                 .LoadAsync(jpegDecoder, imageRequest)
                 .ConfigureAwait(false);
-            Assert.AreEqual(640, image.info.dimensions.width);
-            Assert.AreEqual(640, image.info.dimensions.height);
+            Assert.AreEqual(640, image.Info.Dimensions.Width);
+            Assert.AreEqual(640, image.Info.Dimensions.Height);
         }
 
         [TestMethod]
@@ -107,8 +107,8 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
             var image = await imageRequest
                 .DecodeAsync(jpegDecoder)
                 .ConfigureAwait(false);
-            Assert.AreEqual(640, image.info.dimensions.width);
-            Assert.AreEqual(640, image.info.dimensions.height);
+            Assert.AreEqual(640, image.Info.Dimensions.Width);
+            Assert.AreEqual(640, image.Info.Dimensions.Height);
         }
     }
 }

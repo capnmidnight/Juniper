@@ -7,8 +7,9 @@ namespace Juniper.Mathematics
     [Serializable]
     public struct Vector2Serializable : ISerializable
     {
-        public readonly float X;
-        public readonly float Y;
+        public float X { get; }
+
+        public float Y { get; }
 
         public Vector2Serializable(float x, float y)
         {

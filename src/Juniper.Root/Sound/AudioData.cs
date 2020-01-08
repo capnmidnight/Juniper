@@ -7,15 +7,15 @@ namespace Juniper.Sound
     /// </summary>
     public class AudioData
     {
-        public readonly AudioFormat format;
-        public readonly long samples;
-        public readonly Stream dataStream;
+        public AudioFormat Format { get; }
+        public long Samples { get; }
+        public Stream DataStream { get; }
 
         public AudioData(AudioFormat format, Stream dataStream, long samples)
         {
-            this.format = format;
-            this.dataStream = dataStream;
-            this.samples = samples;
+            Format = format;
+            DataStream = dataStream;
+            Samples = samples;
         }
     }
 }

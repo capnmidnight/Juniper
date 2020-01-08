@@ -1,22 +1,17 @@
 using System;
+using System.Collections.Generic;
 
 namespace Juniper.HTTP.Client
 {
     public sealed class BodyInfo : IEquatable<BodyInfo>
     {
-        public readonly string MIMEType;
-        public readonly long Length;
+        public string MIMEType { get; }
+        public long Length { get; }
 
         public BodyInfo(string mime, long length)
         {
             MIMEType = mime;
             Length = length;
-        }
-
-        public override int GetHashCode()
-        {
-            return MIMEType.GetHashCode()
-                ^ Length.GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -31,10 +26,18 @@ namespace Juniper.HTTP.Client
                 && Length == other.Length;
         }
 
+        public override int GetHashCode()
+        {
+            var hashCode = -1731715182;
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(MIMEType);
+            hashCode = (hashCode * -1521134295) + Length.GetHashCode();
+            return hashCode;
+        }
+
         public static bool operator ==(BodyInfo left, BodyInfo right)
         {
-            return ReferenceEquals(left, right)
-                || left is object && left.Equals(right);
+            return (left is null && right is null)
+                || (left is object && left.Equals(right));
         }
 
         public static bool operator !=(BodyInfo left, BodyInfo right)

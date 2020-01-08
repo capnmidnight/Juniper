@@ -1,3 +1,5 @@
+using System;
+
 namespace Juniper.Imaging
 {
     /// <summary>
@@ -7,6 +9,11 @@ namespace Juniper.Imaging
     {
         public static T[,] CubeCross<T>(T[] images)
         {
+            if (images is null)
+            {
+                throw new ArgumentNullException(nameof(images));
+            }
+
             return new T[,]
             {
                 { default, images[0], default, default },
@@ -15,13 +22,14 @@ namespace Juniper.Imaging
             };
         }
 
-        public readonly ImageInfo info;
-        public readonly byte[] data;
+        public ImageInfo Info { get; }
+
+        public byte[] Data { get; }
 
         public ImageData(ImageInfo info, byte[] data)
         {
-            this.info = info;
-            this.data = data;
+            Info = info ?? throw new ArgumentNullException(nameof(info));
+            Data = data ?? throw new ArgumentNullException(nameof(data));
         }
 
         public ImageData(Size size, int components, byte[] data)
@@ -33,7 +41,7 @@ namespace Juniper.Imaging
         }
 
         public ImageData(Size size, int components)
-            : this(size, components, new byte[size.height * size.width * components])
+            : this(size ?? throw new ArgumentNullException(nameof(size)), components, new byte[size.Height * size.Width * components])
         {
         }
 

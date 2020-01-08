@@ -12,6 +12,11 @@ namespace Juniper.HTTP.Server.Controllers
 
         public override bool IsMatch(HttpListenerRequest request)
         {
+            if (request is null)
+            {
+                throw new System.ArgumentNullException(nameof(request));
+            }
+
             return base.IsMatch(request)
                 && !request.IsWebSocketRequest;
         }

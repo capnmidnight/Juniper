@@ -6,22 +6,37 @@ namespace Juniper.Primrose
 {
     public class Rule
     {
-        public readonly string name;
+        public string Name { get; }
 
-        public readonly Regex test;
+        public Regex Test { get; }
 
         public Rule(string name, Regex test)
         {
-            this.name = name;
-            this.test = test;
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("A name for the rule is required.", nameof(name));
+            }
+
+            Name = name;
+            Test = test ?? throw new ArgumentNullException(nameof(test));
         }
 
         public void CarveOutMatchedToken(List<Token> tokens, int j)
         {
-            var token = tokens[j];
-            if (token.type == "regular")
+            if (tokens is null)
             {
-                var res = test.Match(token.value);
+                throw new ArgumentNullException(nameof(tokens));
+            }
+
+            if(j < 0 || tokens.Count <= j)
+            {
+                throw new ArgumentOutOfRangeException(nameof(j));
+            }
+
+            var token = tokens[j];
+            if (token.Type == "regular")
+            {
+                var res = Test.Match(token.Value);
                 if (res.Success)
                 {
                     // Only use the last group that matches the regex, to allow for more
@@ -33,28 +48,28 @@ namespace Juniper.Primrose
                     if (start == 0)
                     {
                         // the rule matches the start of the token
-                        token.type = name;
-                        if (end < token.value.Length)
+                        token.Type = Name;
+                        if (end < token.Value.Length)
                         {
                             // but not the end
                             var next = token.SplitAt(end);
-                            next.type = "regular";
-                            tokens.Splice(j + 1, 0, next);
+                            next.Type = "regular";
+                            _ = tokens.Splice(j + 1, 0, next);
                         }
                     }
                     else
                     {
                         // the rule matches from the middle of the token
                         var mid = token.SplitAt(start);
-                        if (midx.Length < mid.value.Length)
+                        if (midx.Length < mid.Value.Length)
                         {
                             // but not the end
                             var right = mid.SplitAt(midx.Length);
-                            tokens.Splice(j + 1, 0, right);
+                            _ = tokens.Splice(j + 1, 0, right);
                         }
 
-                        mid.type = name;
-                        tokens.Splice(j + 1, 0, mid);
+                        mid.Type = Name;
+                        _ = tokens.Splice(j + 1, 0, mid);
                     }
                 }
             }

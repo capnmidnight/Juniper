@@ -19,7 +19,7 @@ namespace Juniper.HTTP.Server.Controllers
                 throw new System.ArgumentNullException(nameof(context));
             }
 
-            context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+            context.Response.SetStatus(HttpStatusCode.NotFound);
             return Task.CompletedTask;
         }
     }

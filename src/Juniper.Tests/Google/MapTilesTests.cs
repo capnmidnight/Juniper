@@ -61,8 +61,8 @@ namespace Juniper.World.GIS.Google.MapTiles.Tests
                 .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             Assert.IsNotNull(results);
-            Assert.AreEqual(640, results.info.dimensions.width);
-            Assert.AreEqual(640, results.info.dimensions.height);
+            Assert.AreEqual(640, results.Info.Dimensions.Width);
+            Assert.AreEqual(640, results.Info.Dimensions.Height);
         }
     }
 }

@@ -111,14 +111,12 @@ namespace Hjg.Pngcs
         /// <summary>
         /// raw current row, after unfiltered
         /// </summary>
-        private byte[] rowbfilter;
+        private readonly byte[] rowbfilter;
 
         // only set for interlaced PNG
-        public readonly bool interlaced;
+        public bool Interlaced { get; }
 
         private readonly PngDeinterlacer deinterlacer;
-
-        private bool crcEnabled = true;
 
         // this only influences the 1-2-4 bitdepth format
         private bool unpackedMode = false;
@@ -209,8 +207,8 @@ namespace Hjg.Pngcs
             rowb = new byte[ImgInfo.BytesPerRow + 1];
             rowbprev = new byte[rowb.Length];
             rowbfilter = new byte[rowb.Length];
-            interlaced = ihdr.Interlaced == 1;
-            deinterlacer = interlaced ? new PngDeinterlacer(ImgInfo) : null;
+            Interlaced = ihdr.Interlaced == 1;
+            deinterlacer = Interlaced ? new PngDeinterlacer(ImgInfo) : null;
             // some checks
             if (ihdr.Filmeth != 0 || ihdr.Compmeth != 0 || (ihdr.Interlaced & 0xFFFE) != 0)
             {
@@ -423,10 +421,6 @@ namespace Hjg.Pngcs
 
             iIdatCstream = new PngIDatChunkInputStream(inputStream, idatLen, offset);
             idatIstream = new ZlibInputStream(iIdatCstream, true);
-            if (!crcEnabled)
-            {
-                iIdatCstream.DisableCrcCheck();
-            }
         }
 
         /// <summary>
@@ -532,7 +526,7 @@ namespace Hjg.Pngcs
             else
             {
                 var chunk = new ChunkRaw(clen, chunkid, true);
-                chunk.ReadChunkData(inputStream, crcEnabled || critical);
+                _ = chunk.ReadChunkData(inputStream, critical);
                 pngChunk = PngChunk.Factory(chunk, ImgInfo);
                 if (!pngChunk.Crit)
                 {
@@ -652,7 +646,7 @@ namespace Hjg.Pngcs
                 buffer = new int[unpackedMode ? ImgInfo.SamplesPerRow : ImgInfo.SamplesPerRowPacked];
             }
 
-            if (!interlaced)
+            if (!Interlaced)
             {
                 if (nrow <= rowNum)
                 {
@@ -688,7 +682,7 @@ namespace Hjg.Pngcs
                 buffer = new byte[unpackedMode ? ImgInfo.SamplesPerRow : ImgInfo.SamplesPerRowPacked];
             }
 
-            if (!interlaced)
+            if (!Interlaced)
             {
                 if (nrow <= rowNum)
                 {
@@ -781,7 +775,7 @@ namespace Hjg.Pngcs
             }
 
             var imlines = new ImageLines(ImgInfo, ImageLine.ESampleType.INT, unpackedMode, rowOffset, nRows, rowStep);
-            if (!interlaced)
+            if (!Interlaced)
             {
                 for (var j = 0; j < ImgInfo.Rows; j++)
                 {
@@ -837,7 +831,7 @@ namespace Hjg.Pngcs
             }
 
             var imlines = new ImageLines(ImgInfo, ImageLine.ESampleType.BYTE, unpackedMode, rowOffset, nRows, rowStep);
-            if (!interlaced)
+            if (!Interlaced)
             {
                 for (var j = 0; j < ImgInfo.Rows; j++)
                 {
@@ -886,13 +880,13 @@ namespace Hjg.Pngcs
                 ReadFirstChunks();
             }
 
-            if (nrow == 0 && interlaced)
+            if (nrow == 0 && Interlaced)
             {
                 Array.Clear(rowb, 0, rowb.Length); // new subimage: reset filters: this is enough, see the swap that happens lines
             }
             // below
             var bytesRead = ImgInfo.BytesPerRow; // NOT including the filter byte
-            if (interlaced)
+            if (Interlaced)
             {
                 if (nrow < 0 || nrow > deinterlacer.GetRows() || (nrow != 0 && nrow != deinterlacer.GetCurrRowSubimg() + 1))
                 {
@@ -936,7 +930,7 @@ namespace Hjg.Pngcs
             rowb[0] = 0;
             UnfilterRow(bytesRead);
             rowb[0] = rowbfilter[0];
-            if ((rowNum == ImgInfo.Rows - 1 && !interlaced) || (interlaced && deinterlacer.IsAtLastRow()))
+            if ((rowNum == ImgInfo.Rows - 1 && !Interlaced) || (Interlaced && deinterlacer.IsAtLastRow()))
             {
                 ReadLastAndClose();
             }
@@ -1000,7 +994,7 @@ namespace Hjg.Pngcs
 
         public bool IsInterlaced()
         {
-            return interlaced;
+            return Interlaced;
         }
 
         public void SetUnpackedMode(bool unPackedMode)

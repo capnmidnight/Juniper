@@ -8,8 +8,8 @@ namespace Juniper.Serial
     {
         protected MockSerialPort(int hertz)
         {
-            sleep = 1000 / hertz;
-            iterations = MINUTES * 60 * 1000 / sleep;
+            Sleep = 1000 / hertz;
+            Iterations = MINUTES * 60 * 1000 / Sleep;
             BaseStream = new MockStream();
             msgQueue = new Queue<string>();
             generator = new Thread(new ThreadStart(Generate));
@@ -75,8 +75,10 @@ namespace Juniper.Serial
         {
         }
 
-        protected int iterations;
-        protected int sleep;
+        protected int Iterations { get; set; }
+
+        protected int Sleep { get; set; }
+
         protected abstract string FakePortName { get; }
 
         protected virtual void Dispose(bool disposing)
@@ -89,14 +91,14 @@ namespace Juniper.Serial
 
         protected void Generate()
         {
-            for (var i = PREFILL; i < iterations; ++i)
+            for (var i = PREFILL; i < Iterations; ++i)
             {
                 lock (msgQueue)
                 {
                     msgQueue.Enqueue(MakeRecord(i));
                 }
 
-                Thread.Sleep(sleep);
+                Thread.Sleep(Sleep);
             }
         }
 

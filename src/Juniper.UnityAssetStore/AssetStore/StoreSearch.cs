@@ -85,6 +85,11 @@ namespace Juniper.UnityAssetStore
 
         public StoreSearch Phrase(string phrase)
         {
+            if (phrase is null)
+            {
+                throw new ArgumentNullException(nameof(phrase));
+            }
+
             var parts = from part in phrase.Split(WHITESPACE)
                         where !string.IsNullOrWhiteSpace(part)
                         select Uri.EscapeDataString(part);

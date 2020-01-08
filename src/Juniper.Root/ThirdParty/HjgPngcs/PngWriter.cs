@@ -75,7 +75,7 @@ namespace Hjg.Pngcs
         /// <summary>
         /// raw current row, after filtered
         /// </summary>
-        private byte[] rowbfilter;
+        private readonly byte[] rowbfilter;
 
         /// <summary>
         /// number of chunk group (0-6) last writen, or currently writing

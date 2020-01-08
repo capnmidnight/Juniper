@@ -9,20 +9,20 @@ namespace Juniper.Primrose
     [Serializable]
     public sealed class RuntimeException : Exception
     {
-        public readonly string source;
+        public string SourceCode { get; }
 
-        public readonly string evaluatedScript;
+        public string EvaluatedScript { get; }
 
-        public readonly Token[] line;
+        public Token[] Line { get; }
 
         public RuntimeException(string source, Line line, string evaluatedScript, Exception innerException)
             : base("Runtime Error", innerException)
         {
-            this.source = source;
-            this.evaluatedScript = evaluatedScript;
-            this.line = (from t in line
-                         select t.Clone())
-                    .ToArray();
+            SourceCode = source;
+            EvaluatedScript = evaluatedScript;
+            Line = (from t in line
+                    select t.Clone())
+                .ToArray();
         }
 
         private RuntimeException()
@@ -45,9 +45,9 @@ namespace Juniper.Primrose
                 throw new ArgumentNullException(nameof(info));
             }
 
-            source = info.GetString(nameof(source));
-            evaluatedScript = info.GetString(nameof(evaluatedScript));
-            line = info.GetValue<Token[]>(nameof(line));
+            SourceCode = info.GetString(nameof(SourceCode));
+            EvaluatedScript = info.GetString(nameof(EvaluatedScript));
+            Line = info.GetValue<Token[]>(nameof(Line));
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -58,9 +58,9 @@ namespace Juniper.Primrose
             }
 
             base.GetObjectData(info, context);
-            info.AddValue(nameof(source), source);
-            info.AddValue(nameof(evaluatedScript), evaluatedScript);
-            info.AddValue(nameof(line), line);
+            info.AddValue(nameof(SourceCode), SourceCode);
+            info.AddValue(nameof(EvaluatedScript), EvaluatedScript);
+            info.AddValue(nameof(Line), Line);
         }
     }
 }

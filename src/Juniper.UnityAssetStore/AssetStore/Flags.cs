@@ -70,6 +70,11 @@ namespace Juniper.UnityAssetStore
 
         public void CopyTo(string[] array, int arrayIndex)
         {
+            if (array is null)
+            {
+                throw new ArgumentNullException(nameof(array));
+            }
+
             for (var i = 0; i < flags.Count; ++i)
             {
                 array[arrayIndex + i] = flags[i];

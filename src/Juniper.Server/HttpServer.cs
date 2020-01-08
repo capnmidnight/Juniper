@@ -555,7 +555,7 @@ or
             catch (Exception exp)
             {
                 OnError(exp);
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                context.Response.SetStatus(HttpStatusCode.InternalServerError);
             }
 #pragma warning restore CA1031 // Do not catch general exception types
             finally

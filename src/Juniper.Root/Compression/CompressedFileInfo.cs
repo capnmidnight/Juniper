@@ -12,9 +12,9 @@ namespace Juniper.Compression
     [Serializable]
     public sealed class CompressedFileInfo : IEquatable<CompressedFileInfo>, IComparable<CompressedFileInfo>, ISerializable
     {
-        public readonly string FullName;
-        public readonly bool IsFile;
-        public readonly long Length;
+        public string FullName { get; }
+        public bool IsFile { get; }
+        public long Length { get; }
 
         internal readonly string[] pathParts;
 
@@ -31,18 +31,18 @@ namespace Juniper.Compression
         }
 
         internal CompressedFileInfo(string name, bool isFile, long size)
-            : this(name, isFile, size, PathExt.PathParts(name))
+            : this(name ?? throw new ArgumentNullException(nameof(name)), isFile, size, PathExt.PathParts(name))
         { }
 
         public CompressedFileInfo(string name)
-            : this(name, false, 0, PathExt.PathParts(name)) { }
+            : this(name ?? throw new ArgumentNullException(nameof(name)), false, 0, PathExt.PathParts(name)) { }
 
         public CompressedFileInfo(ZipArchiveEntry entry)
-            : this(entry.FullName, true, entry.Length)
+            : this(entry?.FullName ?? throw new ArgumentNullException(nameof(entry)), true, entry.Length)
         { }
 
         public CompressedFileInfo(TarArchiveEntry entry)
-            : this(entry.FullName, true, entry.Length)
+            : this(entry?.FullName ?? throw new ArgumentNullException(nameof(entry)), true, entry.Length)
         { }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]

@@ -15,7 +15,7 @@ namespace Juniper.Azure
         public static async Task Main(string[] args)
         {
             var text = "The quick brown fox jumps over the lazy dog.";
-            if (args.Length > 1)
+            if (args?.Length > 1)
             {
                 text = args[1];
             }
@@ -103,8 +103,13 @@ namespace Juniper.Azure
 
         public static Task PlayAsync(AudioData audio)
         {
-            var format = new WaveFormat(audio.format.sampleRate, audio.format.bitsPerSample, audio.format.channels);
-            var sourceStream = new FloatsToPcmBytesStream(audio.dataStream, audio.format.bitsPerSample / 8);
+            if (audio is null)
+            {
+                throw new ArgumentNullException(nameof(audio));
+            }
+
+            var format = new WaveFormat(audio.Format.sampleRate, audio.Format.bitsPerSample, audio.Format.channels);
+            var sourceStream = new FloatsToPcmBytesStream(audio.DataStream, audio.Format.bitsPerSample / 8);
             var waveStream = new RawSourceWaveStream(sourceStream, format);
             return PlayAsync(waveStream);
         }

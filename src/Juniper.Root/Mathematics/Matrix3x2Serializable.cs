@@ -6,11 +6,13 @@ namespace Juniper.Mathematics
     [Serializable]
     public struct Matrix3x2Serializable : ISerializable
     {
-        public readonly float[] values;
+        private static readonly string VALUES_FIELD = nameof(Values).ToLowerInvariant();
+
+        public float[] Values { get; }
 
         public Matrix3x2Serializable(float m11, float m12, float m21, float m22, float m31, float m32)
         {
-            values = new[]
+            Values = new[]
             {
                 m11, m12,
                 m21, m22,
@@ -26,7 +28,7 @@ namespace Juniper.Mathematics
                 throw new ArgumentNullException(nameof(info));
             }
 
-            values = info.GetValue<float[]>(nameof(values));
+            Values = info.GetValue<float[]>(VALUES_FIELD);
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -36,7 +38,7 @@ namespace Juniper.Mathematics
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue(nameof(values), values);
+            info.AddValue(VALUES_FIELD, Values);
         }
 
         //public static implicit operator Matrix3x2(Matrix3x2Serializable v)

@@ -24,7 +24,7 @@ namespace Juniper.HTTP.Server.Controllers
             if (socketPool is null)
             {
                 OnError(new NullReferenceException("No web socket manager"));
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                context.Response.SetStatus(HttpStatusCode.InternalServerError);
             }
             else
             {
