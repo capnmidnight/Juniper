@@ -12,7 +12,7 @@ namespace Hjg.Pngcs.Zlib
         {
             if (pend >= _nmax)
             {
-                updateModulus();
+                UpdateModulus();
             }
 
             a += data;
@@ -42,7 +42,7 @@ namespace Hjg.Pngcs.Zlib
             {
                 if (j == nextJToComputeModulus)
                 {
-                    updateModulus();
+                    UpdateModulus();
                     nextJToComputeModulus = j + _nmax;
                 }
 
@@ -63,7 +63,7 @@ namespace Hjg.Pngcs.Zlib
             pend = 0;
         }
 
-        private void updateModulus()
+        private void UpdateModulus()
         {
             a %= _base;
             b %= _base;
@@ -74,7 +74,7 @@ namespace Hjg.Pngcs.Zlib
         {
             if (pend > 0)
             {
-                updateModulus();
+                UpdateModulus();
             }
 
             return (b << 16) | a;

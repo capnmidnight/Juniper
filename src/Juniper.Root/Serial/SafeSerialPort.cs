@@ -29,6 +29,7 @@ namespace Juniper.Serial
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1816:Dispose methods should call SuppressFinalize", Justification = "This fixes a long-standing issue with .NET's serial port implementation not releasing ports when the application crashes.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>")]
         public new void Open()
         {
             try
@@ -42,11 +43,12 @@ namespace Juniper.Serial
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>")]
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (base.Container is object))
+            if (disposing && Container is object)
             {
-                base.Container.Dispose();
+                Container.Dispose();
             }
 
             try
