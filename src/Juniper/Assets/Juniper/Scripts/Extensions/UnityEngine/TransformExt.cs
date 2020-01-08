@@ -125,12 +125,12 @@ namespace UnityEngine
 
         public static Vector3 GetUnityVector3(this Juniper.XR.Pose pose)
         {
-            return new Vector3(pose.position.X, pose.position.Y, pose.position.Z);
+            return new Vector3(pose.Position.X, pose.Position.Y, pose.Position.Z);
         }
 
         public static Quaternion GetUnityQuaternion(this Juniper.XR.Pose pose)
         {
-            return new Quaternion(pose.orientation.X, pose.orientation.Y, pose.orientation.Z, pose.orientation.W);
+            return new Quaternion(pose.Orientation.X, pose.Orientation.Y, pose.Orientation.Z, pose.Orientation.W);
         }
 
         public static Pose ToUnityPose(this Juniper.XR.Pose pose)

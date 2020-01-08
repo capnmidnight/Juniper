@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Juniper.Progress;
@@ -133,9 +133,9 @@ namespace Juniper.Imaging
         private Texture2D MakeTexture(ImageInfo info, byte[] buffer)
         {
             var texture = new Texture2D(
-                info.dimensions.width,
-                info.dimensions.height,
-                info.components == 3 
+                info.Dimensions.Width,
+                info.Dimensions.Height,
+                info.Components == 3 
                     ? TextureFormat.RGB24 
                     : TextureFormat.RGBA32,
                 false);

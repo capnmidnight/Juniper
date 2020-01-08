@@ -170,18 +170,15 @@ namespace Juniper.World.GIS.Google
 
             gmaps = new GoogleMapsClient(gmapsApiKey, gmapsSigningKey, metadataDecoder, geocodingDecoder, cache);
 
-            foreach (var fileRef in cache.GetContentReference(metadataDecoder.ContentType))
+            foreach (var (fileRef, metadata) in cache.Get(metadataDecoder))
             {
-                if (cache.TryLoad(metadataDecoder, fileRef, out var metadata))
+                if (metadata.Location != null)
                 {
-                    if (metadata.location != null)
-                    {
-                        Cache(metadata);
-                    }
-                    else
-                    {
-                        cache.Delete(fileRef);
-                    }
+                    Cache(metadata);
+                }
+                else
+                {
+                    cache.Delete(fileRef);
                 }
             }
 
@@ -203,8 +200,8 @@ namespace Juniper.World.GIS.Google
 
         private void Cache(MetadataResponse metadata)
         {
-            metadataCache[metadata.location.ToString()] = metadata;
-            metadataCache[metadata.pano_id] = metadata;
+            metadataCache[metadata.Location.ToString()] = metadata;
+            metadataCache[metadata.Pano_ID] = metadata;
         }
 
         private static readonly CubemapFace[] CAPTURE_CUBEMAP_FACES = new[] {
@@ -237,7 +234,7 @@ namespace Juniper.World.GIS.Google
                     await loadingBar.RunAsync(
                         ("Rendering cubemap", async (prog) =>
                         {
-                            cubemap = await JuniperSystem.OnMainThread(() =>
+                            cubemap = await JuniperSystem.OnMainThreadAsync(() =>
                             {
                                 prog.Report(0);
                                 var cb = new Cubemap(dim, TextureFormat.RGB24, false);
@@ -263,7 +260,7 @@ namespace Juniper.World.GIS.Google
                         {
                             for (var f = 0; f < CAPTURE_CUBEMAP_FACES.Length; ++f)
                             {
-                                await JuniperSystem.OnMainThread(() =>
+                                await JuniperSystem.OnMainThreadAsync(() =>
                                 {
                                     prog.Report(f, CAPTURE_CUBEMAP_FACES.Length, CAPTURE_CUBEMAP_FACES[f].ToString());
                                     var pixels = cubemap.GetPixels(CAPTURE_CUBEMAP_FACES[f]);
@@ -278,7 +275,7 @@ namespace Juniper.World.GIS.Google
                     ),
                         ("Concatenating faces", async (prog) =>
                         {
-                            img = await JuniperSystem.OnMainThread(() =>
+                            img = await JuniperSystem.OnMainThreadAsync(() =>
                             processor.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), prog));
                         }
                     ),
@@ -292,9 +289,9 @@ namespace Juniper.World.GIS.Google
                     loadingBar.Deactivate();
                 }
 
-                await JuniperSystem.OnMainThread(photosphere.DestroyJig);
+                await JuniperSystem.OnMainThreadAsync(photosphere.DestroyJig);
 
-                var anyDestroyed = await JuniperSystem.OnMainThread(() =>
+                var anyDestroyed = await JuniperSystem.OnMainThreadAsync(() =>
                 {
                     var any = false;
                     foreach (var texture in CAPTURE_CUBEMAP_SUB_IMAGES)
@@ -414,7 +411,7 @@ namespace Juniper.World.GIS.Google
             {
                 foreach (var metadata in metadataCache.Values.Distinct())
                 {
-                    if (!navPointers.ContainsKey(metadata.pano_id))
+                    if (!navPointers.ContainsKey(metadata.Pano_ID))
                     {
                         var position = GetRelativeVector3(metadata);
                         if (position.magnitude < 1000)
@@ -422,10 +419,10 @@ namespace Juniper.World.GIS.Google
                             var newPointer = Instantiate(navPointer);
                             newPointer.parent = navPointer.parent;
                             newPointer.position = position;
-                            newPointer.name = "jump-to-" + metadata.pano_id;
+                            newPointer.name = "jump-to-" + metadata.Pano_ID;
                             newPointer.Activate();
 
-                            navPointers[metadata.pano_id] = newPointer;
+                            navPointers[metadata.Pano_ID] = newPointer;
                         }
                     }
                 }
@@ -445,7 +442,7 @@ namespace Juniper.World.GIS.Google
                     else if (metadataCache.ContainsKey(pointer.Key))
                     {
                         var metadata = metadataCache[pointer.Key];
-                        if (cache.IsCached(metadata.pano_id + codec.ContentType))
+                        if (cache.IsCached(metadata.Pano_ID + codec.ContentType))
                         {
                             color = Color.blue;
                         }
@@ -502,7 +499,7 @@ namespace Juniper.World.GIS.Google
                 float minDistance = float.MaxValue;
                 foreach (var metadata in metadataCache.Values)
                 {
-                    var distance = point.Distance(metadata.location);
+                    var distance = point.Distance(metadata.Location);
                     if (distance < minDistance)
                     {
                         minDistance = distance;
@@ -512,7 +509,7 @@ namespace Juniper.World.GIS.Google
 
                 if (closestMetadata != null)
                 {
-                    navPointerPano = closestMetadata.pano_id;
+                    navPointerPano = closestMetadata.Pano_ID;
                     navPointerPosition = GetRelativeVector3(closestMetadata);
                 }
             }
@@ -548,8 +545,8 @@ namespace Juniper.World.GIS.Google
 
                 if (metadata != null)
                 {
-                    searchPoint = metadata.location;
-                    searchLocation = searchPano = metadata.pano_id;
+                    searchPoint = metadata.Location;
+                    searchLocation = searchPano = metadata.Pano_ID;
 
                     Cache(metadata);
                     metadataCache[searchLocation] = metadata;
@@ -560,13 +557,13 @@ namespace Juniper.World.GIS.Google
             {
                 if (lastSphere == null)
                 {
-                    origin = metadata.location;
+                    origin = metadata.Location;
                 }
 
                 if (gps != null)
                 {
                     gps.FakeCoord = true;
-                    gps.Coord = metadata.location;
+                    gps.Coord = metadata.Location;
                 }
 
 #if UNITY_EDITOR
@@ -581,10 +578,10 @@ namespace Juniper.World.GIS.Google
 
                 if (lastSphere != null)
                 {
-                    await JuniperSystem.OnMainThread(lastSphere.Deactivate);
+                    await JuniperSystem.OnMainThreadAsync(lastSphere.Deactivate);
                 }
 
-                await JuniperSystem.OnMainThread(curSphere.Activate);
+                await JuniperSystem.OnMainThreadAsync(curSphere.Activate);
 
                 if (lastSphere == null)
                 {
@@ -592,7 +589,7 @@ namespace Juniper.World.GIS.Google
                     Complete();
                 }
 
-                await JuniperSystem.OnMainThread(() =>
+                await JuniperSystem.OnMainThreadAsync(() =>
                 {
                     avatar.transform.position = GetRelativeVector3(metadata);
                     curSphere.transform.position = avatar.Head.position;
@@ -608,11 +605,11 @@ namespace Juniper.World.GIS.Google
 
         private async Task<PhotosphereJig> GetPhotosphere()
         {
-            var jig = await JuniperSystem.OnMainThread(() =>
-                photospheres.GetPhotosphere<PhotosphereJig>(metadata.pano_id));
-            if (!imageNeededSet.Contains(metadata.pano_id))
+            var jig = await JuniperSystem.OnMainThreadAsync(() =>
+                photospheres.GetPhotosphere<PhotosphereJig>(metadata.Pano_ID));
+            if (!imageNeededSet.Contains(metadata.Pano_ID))
             {
-                imageNeededSet.Add(metadata.pano_id);
+                imageNeededSet.Add(metadata.Pano_ID);
                 jig.ImageNeeded += Photosphere_ImageNeeded;
 #if UNITY_EDITOR
                 jig.Complete += Photosphere_Complete;
@@ -640,11 +637,11 @@ namespace Juniper.World.GIS.Google
                     searchPano = searchLocation;
                 }
 
-                if (latLngMatch.Success && LatLngPoint.TryParseDecimal(latLngMatch.Groups[1].Value, out var point))
+                if (latLngMatch.Success && LatLngPoint.TryParse(latLngMatch.Groups[1].Value, out var point))
                 {
                     searchPoint = point;
                 }
-                else if (LatLngPoint.TryParseDecimal(searchLocation, out var point2))
+                else if (LatLngPoint.TryParse(searchLocation, out var point2))
                 {
                     searchPoint = point2;
                 }
@@ -652,9 +649,9 @@ namespace Juniper.World.GIS.Google
 
             return metadata == null
                 || searchPano != null
-                    && metadata.pano_id != searchPano
+                    && metadata.Pano_ID != searchPano
                 || searchPoint != null
-                    && searchPoint.Distance(metadata.location) > 3f;
+                    && searchPoint.Distance(metadata.Location) > 3f;
         }
 
         private LatLngPoint GetRelativeLatLng(Vector3 cursorPosition)
@@ -669,7 +666,7 @@ namespace Juniper.World.GIS.Google
 
         private Vector3 GetRelativeVector3(MetadataResponse metadata)
         {
-            var nextUTM = metadata.location.ToUTM();
+            var nextUTM = metadata.Location.ToUTM();
             var nextVec = nextUTM.ToVector3();
             var start = origin.ToVector3();
             var delta = nextVec - start;
