@@ -216,7 +216,7 @@ namespace Juniper.Imaging
                     {
                         if (needLodLevel)
                         {
-                            await JuniperSystem.OnMainThread(() =>
+                            await JuniperSystem.OnMainThreadAsync(() =>
                             {
                                 var detail = new GameObject(fov.ToString()).transform;
                                 detail.SetParent(transform, false);
@@ -232,7 +232,7 @@ namespace Juniper.Imaging
 
                         if (needSlice)
                         {
-                            await JuniperSystem.OnMainThread(() =>
+                            await JuniperSystem.OnMainThreadAsync(() =>
                             {
                                 var slice = new GameObject(heading.ToString()).transform;
                                 slice.SetParent(detailContainer, false);
@@ -246,7 +246,7 @@ namespace Juniper.Imaging
 
                         if (needFrame)
                         {
-                            await JuniperSystem.OnMainThread(() =>
+                            await JuniperSystem.OnMainThreadAsync(() =>
                             {
                                 var frame = new GameObject(pitch.ToString()).transform;
                                 frame.rotation = Quaternion.Euler(-pitch, heading, 0);
@@ -261,7 +261,7 @@ namespace Juniper.Imaging
                             var image = await ImageNeeded(this, (int)overlapFOV, heading, pitch);
                             if (image != null)
                             {
-                                await JuniperSystem.OnMainThread(() =>
+                                await JuniperSystem.OnMainThreadAsync(() =>
                                 {
                                     var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);
                                     var renderer = frame.GetComponent<MeshRenderer>();

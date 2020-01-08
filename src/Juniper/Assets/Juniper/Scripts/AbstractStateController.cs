@@ -347,7 +347,7 @@ namespace Juniper
                 onStoppedCompleter.SetResult(true);
             }
             Stopped += stopper;
-            actor(prog);
+            JuniperSystem.OnMainThread(() => actor(prog));
             return onStoppedCompleter.Task;
         }
 

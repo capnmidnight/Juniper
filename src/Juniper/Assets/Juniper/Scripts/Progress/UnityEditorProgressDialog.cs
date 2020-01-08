@@ -18,7 +18,9 @@ namespace Juniper.Progress
         {
             this.title = title;
             JuniperSystem.OnMainThread(() =>
-                EditorApplication.update += ShowStatus);
+            {
+                EditorApplication.update += ShowStatus;
+            });
         }
 
         public string Status

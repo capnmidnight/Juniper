@@ -49,7 +49,7 @@ namespace Juniper
             }
         }
 
-        public static Task OnMainThread(Action act)
+        public static Task OnMainThreadAsync(Action act)
         {
             if (mainThread is null)
             {
@@ -66,7 +66,12 @@ namespace Juniper
             }
         }
 
-        public static Task<T> OnMainThread<T>(Func<T> act)
+        public static void OnMainThread(Action act)
+        {
+            OnMainThreadAsync(act).Wait();
+        }
+
+        public static Task<T> OnMainThreadAsync<T>(Func<T> act)
         {
             if (mainThread is null)
             {
@@ -80,6 +85,11 @@ namespace Juniper
             {
                 return mainThread.StartNew(act);
             }
+        }
+
+        public static T OnMainThread<T>(Func<T> act)
+        {
+            return OnMainThreadAsync(act).Result;
         }
 
         private static List<IInstallable> GetInstallables()

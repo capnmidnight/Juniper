@@ -367,15 +367,18 @@ namespace UnityEngine
 
         public static string GetZoneName(this Component child)
         {
-            var zone = child.GetComponent<Zone>();
-            if (zone != null)
+            return JuniperSystem.OnMainThread(() =>
             {
-                return zone.zoneName;
-            }
-            else
-            {
-                return null;
-            }
+                var zone = child.GetComponent<Zone>();
+                if (zone != null)
+                {
+                    return zone.zoneName;
+                }
+                else
+                {
+                    return null;
+                }
+            });
         }
 
         public static bool IsInZone(this Component child, string zoneName)

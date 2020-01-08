@@ -271,12 +271,12 @@ namespace Juniper.Sound
         public async Task<AudioClip> PreloadSpeech(string text, string voiceName, float rateChange, float pitchChange)
         {
             var audioData = await tts.GetDecodedAudioAsync(text, voiceName, rateChange, pitchChange);
-            var reader = new BinaryReader(audioData.dataStream);
+            var reader = new BinaryReader(audioData.DataStream);
             var clip = AudioClip.Create(
                 text,
-                (int)audioData.samples,
-                audioData.format.channels,
-                audioData.format.sampleRate,
+                (int)audioData.Samples,
+                audioData.Format.Channels,
+                audioData.Format.SampleRate,
                 true,
                 floats =>
                 {
@@ -628,57 +628,69 @@ namespace Juniper.Sound
 
         public void EnableDoppler(bool value)
         {
-            var audioSources = Find.All<AudioSource>();
-            var doppler = value ? dopplerLevel : 0;
-            foreach (var audioSource in audioSources)
+            JuniperSystem.OnMainThread(() =>
             {
-                audioSource.dopplerLevel = doppler;
-            }
+                var audioSources = Find.All<AudioSource>();
+                var doppler = value ? dopplerLevel : 0;
+                foreach (var audioSource in audioSources)
+                {
+                    audioSource.dopplerLevel = doppler;
+                }
+            });
         }
 
         public void StopZone(string zoneName)
         {
-            var audioSources = Find.All<AudioSource>(a => !a.CompareTag(INTERACTION_SOUND_TAG));
-            foreach (var audioSource in audioSources)
+            JuniperSystem.OnMainThread(() =>
             {
-                if (audioSource.IsInZone(zoneName)
-                    && audioSource.isPlaying)
+                var audioSources = Find.All<AudioSource>(a => !a.CompareTag(INTERACTION_SOUND_TAG));
+                foreach (var audioSource in audioSources)
                 {
-                    audioSource.Stop();
+                    if (audioSource.IsInZone(zoneName)
+                        && audioSource.isPlaying)
+                    {
+                        audioSource.Stop();
+                    }
                 }
-            }
+            });
         }
 
         public void PauseZone(string zoneName)
         {
-            var audioSources = Find.All<AudioSource>(a => !a.CompareTag(INTERACTION_SOUND_TAG));
-            foreach (var audioSource in audioSources)
+            JuniperSystem.OnMainThread(() =>
             {
-                if (audioSource.IsInZone(zoneName)
-                    && audioSource.isPlaying)
+                var audioSources = Find.All<AudioSource>(a => !a.CompareTag(INTERACTION_SOUND_TAG));
+                foreach (var audioSource in audioSources)
                 {
-                    audioSource.Pause();
+                    if (audioSource.IsInZone(zoneName)
+                        && audioSource.isPlaying)
+                    {
+                        audioSource.Pause();
+                    }
                 }
-            }
+            });
         }
 
         public void PlayZone(string zoneName)
         {
-            var audioSources = Find.All<AudioSource>(a => !a.CompareTag(INTERACTION_SOUND_TAG));
-            foreach (var audioSource in audioSources)
+            JuniperSystem.OnMainThread(() =>
             {
-                if (!audioSource.IsInZone(zoneName)
-                    && audioSource.isPlaying)
+                var audioSources = Find.All<AudioSource>(a => !a.CompareTag(INTERACTION_SOUND_TAG));
+                foreach (var audioSource in audioSources)
                 {
-                    audioSource.Stop();
+                    if (!audioSource.IsInZone(zoneName)
+                        && audioSource.isPlaying)
+                    {
+                        audioSource.Stop();
+                    }
+                    else if (audioSource.playOnAwake
+                        && !audioSource.isPlaying)
+                    {
+                        audioSource.Activate();
+                        audioSource.Play();
+                    }
                 }
-                else if (audioSource.playOnAwake
-                    && !audioSource.isPlaying)
-                {
-                    audioSource.Activate();
-                    audioSource.Play();
-                }
-            }
+            });
         }
 #endif
     }

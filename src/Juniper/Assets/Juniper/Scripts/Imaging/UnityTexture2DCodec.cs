@@ -125,7 +125,7 @@ namespace Juniper.Imaging
             prog?.Report(0);
             var info = GetImageInfo(buffer);
             var texture = JuniperSystem.OnMainThread(() =>
-                MakeTexture(info, buffer)).Result;
+                MakeTexture(info, buffer));
             prog?.Report(1);
             return texture;
         }
