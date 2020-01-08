@@ -115,6 +115,11 @@ namespace System.IO
 
         public static string GetLongExtension(string path)
         {
+            if (path is null)
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+
             var i = path.IndexOf('.');
             if (i <= 0)
             {
@@ -146,6 +151,11 @@ namespace System.IO
 
         private static string Remove(string name, string ext)
         {
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
             if (ext is object)
             {
                 name = name.Substring(0, name.Length - ext.Length - 1);

@@ -41,9 +41,14 @@ namespace Juniper.IO
 
         public void Serialize(Stream stream, ResultT value, IProgress prog = null)
         {
+            if (stream is null)
+            {
+                throw new System.ArgumentNullException(nameof(stream));
+            }
+
             prog.Report(0);
-            var writer = new StreamWriter(stream);
-            var jsonWriter = new JsonTextWriter(writer)
+            using var writer = new StreamWriter(stream);
+            using var jsonWriter = new JsonTextWriter(writer)
             {
                 Formatting = Formatting.Indented
             };

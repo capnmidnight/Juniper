@@ -4,7 +4,8 @@ using System.Runtime.Serialization;
 namespace Juniper.Mathematics
 {
     [Serializable]
-    public struct PlaneSerializable : ISerializable
+    public struct PlaneSerializable :
+        ISerializable, IEquatable<PlaneSerializable>
     {
         public float X { get; }
 
@@ -47,6 +48,39 @@ namespace Juniper.Mathematics
             info.AddValue(nameof(Y), Y);
             info.AddValue(nameof(Z), Z);
             info.AddValue(nameof(D), D);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is PlaneSerializable serializable && Equals(serializable);
+        }
+
+        public bool Equals(PlaneSerializable other)
+        {
+            return X == other.X &&
+                   Y == other.Y &&
+                   Z == other.Z &&
+                   D == other.D;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 422486763;
+            hashCode = (hashCode * -1521134295) + X.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Y.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Z.GetHashCode();
+            hashCode = (hashCode * -1521134295) + D.GetHashCode();
+            return hashCode;
+        }
+
+        public static bool operator ==(PlaneSerializable left, PlaneSerializable right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(PlaneSerializable left, PlaneSerializable right)
+        {
+            return !(left == right);
         }
     }
 }

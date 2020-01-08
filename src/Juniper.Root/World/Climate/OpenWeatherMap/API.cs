@@ -183,8 +183,13 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <param name="force">Force downloading a new report, regardless of how far we are from the last report location.</param>
         /// <param name="prog">A progress tracker, if any.</param>
         /// <returns></returns>
-        public async Task<IWeatherReport> GetWeatherReportAsync(LatLngPoint location, bool force, IProgress prog)
+        public async Task<IWeatherReport> GetWeatherReportAsync(LatLngPoint location, bool force, IProgress prog = null)
         {
+            if (location is null)
+            {
+                throw new ArgumentNullException(nameof(location));
+            }
+
             prog.Report(0);
             if (NeedsNewReport(location) || force)
             {

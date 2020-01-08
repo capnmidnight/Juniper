@@ -12,8 +12,13 @@ namespace Juniper.Imaging
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Png bytes.</param>
-        public ImageData Translate(ImageLines value, IProgress prog)
+        public ImageData Translate(ImageLines value, IProgress prog = null)
         {
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             var numRows = value.Nrows;
             var data = new byte[numRows * value.ElementsPerRow];
             for (var i = 0; i < numRows; ++i)
@@ -35,8 +40,13 @@ namespace Juniper.Imaging
         /// Encodes a raw file buffer of image data into a PNG image.
         /// </summary>
         /// <param name="outputStream">Png bytes.</param>
-        public ImageLines Translate(ImageData image, IProgress prog)
+        public ImageLines Translate(ImageData image, IProgress prog = null)
         {
+            if (image is null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
             var imageInfo = new Hjg.Pngcs.ImageInfo(
                 image.Info.Dimensions.Width,
                 image.Info.Dimensions.Height,

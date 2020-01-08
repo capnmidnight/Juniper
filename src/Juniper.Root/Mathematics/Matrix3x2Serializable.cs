@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Juniper.Mathematics
 {
     [Serializable]
-    public struct Matrix3x2Serializable : ISerializable
+    public struct Matrix3x2Serializable :
+        ISerializable, IEquatable<Matrix3x2Serializable>
     {
         private static readonly string VALUES_FIELD = nameof(Values).ToLowerInvariant();
 
@@ -39,6 +41,31 @@ namespace Juniper.Mathematics
             }
 
             info.AddValue(VALUES_FIELD, Values);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Matrix3x2Serializable serializable && Equals(serializable);
+        }
+
+        public bool Equals(Matrix3x2Serializable other)
+        {
+            return EqualityComparer<float[]>.Default.Equals(Values, other.Values);
+        }
+
+        public override int GetHashCode()
+        {
+            return 1291433875 + EqualityComparer<float[]>.Default.GetHashCode(Values);
+        }
+
+        public static bool operator ==(Matrix3x2Serializable left, Matrix3x2Serializable right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Matrix3x2Serializable left, Matrix3x2Serializable right)
+        {
+            return !(left == right);
         }
 
         //public static implicit operator Matrix3x2(Matrix3x2Serializable v)

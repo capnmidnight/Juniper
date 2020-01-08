@@ -89,7 +89,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public static explicit operator string(MarkerStyle style)
         {
-            return style.ToString();
+            return style?.ToString();
         }
 
         public override int GetHashCode()

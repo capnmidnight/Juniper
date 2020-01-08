@@ -126,6 +126,10 @@ namespace BitMiracle.LibJpeg.Classic
         /// </para></remarks>
         public virtual bool ReSyncToRestart(JpegDecompressStruct cinfo, int desired)
         {
+            if (cinfo is null)
+            {
+                throw new System.ArgumentNullException(nameof(cinfo));
+            }
             /* Always put up a warning. */
             cinfo.WarnMS(JMessageCode.JWRN_MUST_RESYNC, cinfo.m_unreadMarker, desired);
 
@@ -253,6 +257,11 @@ namespace BitMiracle.LibJpeg.Classic
         /// <returns>The number of available bytes.</returns>
         public virtual int GetBytes(byte[] dest, int amount)
         {
+            if (dest is null)
+            {
+                throw new System.ArgumentNullException(nameof(dest));
+            }
+
             var avail = amount;
             if (avail > bytesInBuffer)
             {

@@ -21,6 +21,16 @@ namespace Hjg.Pngcs
         /// <returns>R G B (one byte per sample)</returns>
         public static int[] Palette2rgb(ImageLine line, PngChunkPLTE pal, PngChunkTRNS trns, int[] buf)
         {
+            if (line is null)
+            {
+                throw new ArgumentNullException(nameof(line));
+            }
+
+            if (pal is null)
+            {
+                throw new ArgumentNullException(nameof(pal));
+            }
+
             var isalpha = trns is object;
             var channels = isalpha ? 4 : 3;
             var nsamples = line.ImgInfo.Cols * channels;
@@ -69,6 +79,11 @@ namespace Hjg.Pngcs
 
         public static int ToARGB8(int[] buff, int offset, bool alpha)
         {
+            if (buff is null)
+            {
+                throw new ArgumentNullException(nameof(buff));
+            }
+
             return alpha
                 ? ToARGB8(buff[offset++], buff[offset++], buff[offset++], buff[offset])
                 : ToARGB8(buff[offset++], buff[offset++], buff[offset]);
@@ -76,6 +91,11 @@ namespace Hjg.Pngcs
 
         public static int ToARGB8(byte[] buff, int offset, bool alpha)
         {
+            if (buff is null)
+            {
+                throw new ArgumentNullException(nameof(buff));
+            }
+
             return alpha
                 ? ToARGB8(buff[offset++], buff[offset++], buff[offset++], buff[offset])
                 : ToARGB8(buff[offset++], buff[offset++], buff[offset]);
@@ -83,6 +103,11 @@ namespace Hjg.Pngcs
 
         public static void FromARGB8(int val, int[] buff, int offset, bool alpha)
         {
+            if (buff is null)
+            {
+                throw new ArgumentNullException(nameof(buff));
+            }
+
             buff[offset++] = ((val >> 16) & 0xFF);
             buff[offset++] = ((val >> 8) & 0xFF);
             buff[offset] = (val & 0xFF);
@@ -94,6 +119,11 @@ namespace Hjg.Pngcs
 
         public static void FromARGB8(int val, byte[] buff, int offset, bool alpha)
         {
+            if (buff is null)
+            {
+                throw new ArgumentNullException(nameof(buff));
+            }
+
             buff[offset++] = (byte)((val >> 16) & 0xFF);
             buff[offset++] = (byte)((val >> 8) & 0xFF);
             buff[offset] = (byte)(val & 0xFF);
@@ -105,6 +135,11 @@ namespace Hjg.Pngcs
 
         public static int GetPixelToARGB8(ImageLine line, int column)
         {
+            if (line is null)
+            {
+                throw new ArgumentNullException(nameof(line));
+            }
+
             if (line.IsInt())
             {
                 return ToARGB8(line.Scanline, column * line.channels, line.ImgInfo.Alpha);
@@ -117,6 +152,11 @@ namespace Hjg.Pngcs
 
         public static void SetPixelFromARGB8(ImageLine line, int column, int argb)
         {
+            if (line is null)
+            {
+                throw new ArgumentNullException(nameof(line));
+            }
+
             if (line.IsInt())
             {
                 FromARGB8(argb, line.Scanline, column * line.channels, line.ImgInfo.Alpha);
@@ -129,6 +169,11 @@ namespace Hjg.Pngcs
 
         public static void SetPixel(ImageLine line, int col, int r, int g, int b, int a)
         {
+            if (line is null)
+            {
+                throw new ArgumentNullException(nameof(line));
+            }
+
             var offset = col * line.channels;
             if (line.IsInt())
             {
@@ -154,11 +199,21 @@ namespace Hjg.Pngcs
 
         public static void SetPixel(ImageLine line, int col, int r, int g, int b)
         {
+            if (line is null)
+            {
+                throw new ArgumentNullException(nameof(line));
+            }
+
             SetPixel(line, col, r, g, b, line.MaxSampleVal);
         }
 
         public static double ReadDouble(ImageLine line, int pos)
         {
+            if (line is null)
+            {
+                throw new ArgumentNullException(nameof(line));
+            }
+
             if (line.IsInt())
             {
                 return line.Scanline[pos] / (line.MaxSampleVal + 0.9);
@@ -171,6 +226,11 @@ namespace Hjg.Pngcs
 
         public static void WriteDouble(ImageLine line, double d, int pos)
         {
+            if (line is null)
+            {
+                throw new ArgumentNullException(nameof(line));
+            }
+
             if (line.IsInt())
             {
                 line.Scanline[pos] = (int)(d * (line.MaxSampleVal + 0.99));
@@ -260,6 +320,16 @@ namespace Hjg.Pngcs
 
         public static int[] Unpack(ImageInfo imgInfo, int[] src, int[] dst, bool scale)
         {
+            if (imgInfo is null)
+            {
+                throw new ArgumentNullException(nameof(imgInfo));
+            }
+
+            if (src is null)
+            {
+                throw new ArgumentNullException(nameof(src));
+            }
+
             var len1 = imgInfo.SamplesPerRow;
             var len0 = imgInfo.SamplesPerRowPacked;
             if (dst is null || dst.Length < len1)
@@ -281,6 +351,16 @@ namespace Hjg.Pngcs
 
         public static byte[] Unpack(ImageInfo imgInfo, byte[] src, byte[] dst, bool scale)
         {
+            if (imgInfo is null)
+            {
+                throw new ArgumentNullException(nameof(imgInfo));
+            }
+
+            if (src is null)
+            {
+                throw new ArgumentNullException(nameof(src));
+            }
+
             var len1 = imgInfo.SamplesPerRow;
             var len0 = imgInfo.SamplesPerRowPacked;
             if (dst is null || dst.Length < len1)
@@ -302,6 +382,16 @@ namespace Hjg.Pngcs
 
         public static int[] Pack(ImageInfo imgInfo, int[] src, int[] dst, bool scale)
         {
+            if (imgInfo is null)
+            {
+                throw new ArgumentNullException(nameof(imgInfo));
+            }
+
+            if (src is null)
+            {
+                throw new ArgumentNullException(nameof(src));
+            }
+
             var len0 = imgInfo.SamplesPerRowPacked;
             if (dst is null || dst.Length < len0)
             {
@@ -322,6 +412,16 @@ namespace Hjg.Pngcs
 
         public static byte[] Pack(ImageInfo imgInfo, byte[] src, byte[] dst, bool scale)
         {
+            if (imgInfo is null)
+            {
+                throw new ArgumentNullException(nameof(imgInfo));
+            }
+
+            if (src is null)
+            {
+                throw new ArgumentNullException(nameof(src));
+            }
+
             var len0 = imgInfo.SamplesPerRowPacked;
             if (dst is null || dst.Length < len0)
             {

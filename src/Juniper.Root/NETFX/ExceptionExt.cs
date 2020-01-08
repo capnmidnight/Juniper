@@ -16,7 +16,16 @@ namespace System
         /// <returns>A single-line string describing the high-level details of the error.</returns>
         public static string ToShortString(this Exception e, string featureName)
         {
-            if (featureName.Length > 0)
+            if (e is null)
+            {
+                throw new ArgumentNullException(nameof(e));
+            }
+
+            if(featureName is null)
+            {
+                featureName = string.Empty;
+            }
+            else if (featureName.Length > 0)
             {
                 featureName += " ";
             }

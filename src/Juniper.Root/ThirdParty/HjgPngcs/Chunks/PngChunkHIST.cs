@@ -38,6 +38,11 @@ namespace Hjg.Pngcs.Chunks
 
         public override void ParseFromRaw(ChunkRaw c)
         {
+            if (c is null)
+            {
+                throw new ArgumentNullException(nameof(c));
+            }
+
             if (!ImgInfo.Indexed)
             {
                 throw new PngjException("only indexed images accept a HIST chunk");
@@ -53,9 +58,18 @@ namespace Hjg.Pngcs.Chunks
 
         public override void CloneDataFromRead(AbstractPngChunk other)
         {
-            var otherx = (PngChunkHIST)other;
-            hist = new int[otherx.hist.Length];
-            System.Array.Copy(otherx.hist, 0, hist, 0, otherx.hist.Length);
+            CloneData((PngChunkHIST)other);
+        }
+
+        private void CloneData(PngChunkHIST other)
+        {
+            if (other is null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+
+            hist = new int[other.hist.Length];
+            Array.Copy(other.hist, 0, hist, 0, other.hist.Length);
         }
 
         public int[] GetHist()

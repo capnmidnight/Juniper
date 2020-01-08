@@ -5,7 +5,9 @@ using System.Runtime.Serialization;
 namespace Juniper.Mathematics
 {
     [Serializable]
-    public struct Vector4Serializable : ISerializable
+    public struct Vector4Serializable :
+        ISerializable,
+        IEquatable<Vector4Serializable>
     {
         public float X { get; }
 
@@ -55,12 +57,38 @@ namespace Juniper.Mathematics
             return $"<{X.ToString(CultureInfo.CurrentCulture)}, {Y.ToString(CultureInfo.CurrentCulture)}, {Z.ToString(CultureInfo.CurrentCulture)}, {W.ToString(CultureInfo.CurrentCulture)}>";
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is Vector4Serializable serializable
+                && Equals(serializable);
+        }
+
+        public bool Equals(Vector4Serializable serializable)
+        {
+            return X == serializable.X
+                && Y == serializable.Y
+                && Z == serializable.Z
+                && W == serializable.W;
+        }
+
         public override int GetHashCode()
         {
-            return X.GetHashCode()
-                ^ Y.GetHashCode()
-                ^ Z.GetHashCode()
-                ^ W.GetHashCode();
+            var hashCode = 707706286;
+            hashCode = (hashCode * -1521134295) + X.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Y.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Z.GetHashCode();
+            hashCode = (hashCode * -1521134295) + W.GetHashCode();
+            return hashCode;
+        }
+
+        public static bool operator ==(Vector4Serializable left, Vector4Serializable right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Vector4Serializable left, Vector4Serializable right)
+        {
+            return !(left == right);
         }
     }
 }

@@ -35,7 +35,8 @@ namespace Juniper.Progress
         /// <returns>True when progress is reasonably close to 1</returns>
         public static bool IsComplete(this IProgress prog)
         {
-            return Abs(prog.Progress - 1) < ALPHA;
+            var progress = prog?.Progress ?? 1;
+            return Abs(progress - 1) < ALPHA;
         }
 
         /// <summary>

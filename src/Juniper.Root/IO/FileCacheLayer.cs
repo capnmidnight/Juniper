@@ -80,6 +80,11 @@ namespace Juniper.IO
 
         public IEnumerable<ContentReference> GetContentReference(MediaType ofType)
         {
+            if (ofType is null)
+            {
+                throw new System.ArgumentNullException(nameof(ofType));
+            }
+
             var q = new Queue<DirectoryInfo>()
             {
                 cacheLocation

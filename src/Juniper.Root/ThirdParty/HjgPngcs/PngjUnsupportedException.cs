@@ -24,7 +24,7 @@ namespace Hjg.Pngcs
         }
 
         public PngjUnsupportedException(Exception cause)
-            : base(cause.Message, cause)
+            : base(cause?.Message, cause)
         {
         }
 

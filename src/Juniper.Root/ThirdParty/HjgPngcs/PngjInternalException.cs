@@ -24,7 +24,7 @@ namespace Hjg.Pngcs
         }
 
         public PngjInternalException(Exception cause)
-            : base(cause.Message, cause)
+            : base(cause?.Message, cause)
         {
         }
 

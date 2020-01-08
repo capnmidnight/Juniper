@@ -9,6 +9,11 @@ namespace NLayer.NAudioSupport
 
         public Mp3FrameDecompressor(WaveFormat waveFormat)
         {
+            if (waveFormat is null)
+            {
+                throw new System.ArgumentNullException(nameof(waveFormat));
+            }
+
             // we assume waveFormat was calculated from the first frame already
             OutputFormat = WaveFormat.CreateIeeeFloatWaveFormat(waveFormat.SampleRate, waveFormat.Channels);
 

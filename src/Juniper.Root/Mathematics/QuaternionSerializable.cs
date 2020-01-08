@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace Juniper.Mathematics
 {
     [Serializable]
-    public struct QuaternionSerializable : ISerializable
+    public struct QuaternionSerializable : ISerializable, IEquatable<QuaternionSerializable>
     {
         public float X { get; }
 
@@ -55,12 +55,37 @@ namespace Juniper.Mathematics
             return $"{{{X.ToString(CultureInfo.CurrentCulture)}, {Y.ToString(CultureInfo.CurrentCulture)}, {Z.ToString(CultureInfo.CurrentCulture)}, {W.ToString(CultureInfo.CurrentCulture)}}}";
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is QuaternionSerializable serializable && Equals(serializable);
+        }
+
+        public bool Equals(QuaternionSerializable other)
+        {
+            return X == other.X &&
+                   Y == other.Y &&
+                   Z == other.Z &&
+                   W == other.W;
+        }
+
         public override int GetHashCode()
         {
-            return X.GetHashCode()
-                ^ Y.GetHashCode()
-                ^ Z.GetHashCode()
-                ^ W.GetHashCode();
+            var hashCode = 707706286;
+            hashCode = (hashCode * -1521134295) + X.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Y.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Z.GetHashCode();
+            hashCode = (hashCode * -1521134295) + W.GetHashCode();
+            return hashCode;
+        }
+
+        public static bool operator ==(QuaternionSerializable left, QuaternionSerializable right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(QuaternionSerializable left, QuaternionSerializable right)
+        {
+            return !(left == right);
         }
     }
 }

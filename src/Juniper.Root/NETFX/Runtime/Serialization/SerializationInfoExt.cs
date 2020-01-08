@@ -35,7 +35,7 @@ namespace System.Runtime.Serialization
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue(name, list.ToArray());
+            info.AddValue(name, list?.ToArray());
         }
 
         public static void AddVector2(this SerializationInfo info, string name, Vector2Serializable v)

@@ -1,4 +1,5 @@
 #if !NETSTANDARD
+using System;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -11,6 +12,11 @@ namespace Juniper.Imaging
     {
         public ImageData Translate(Image image, IProgress prog)
         {
+            if (image is null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
             using var mem = new MemoryStream();
             prog.Report(0);
             image.Save(mem, image.RawFormat);
@@ -26,6 +32,11 @@ namespace Juniper.Imaging
 
         public Image Translate(ImageData image, IProgress prog)
         {
+            if (image is null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
             var outImage = new Bitmap(image.Info.Dimensions.Width, image.Info.Dimensions.Height);
             var imageData = outImage.LockBits(
                  new Rectangle(0, 0, image.Info.Dimensions.Width, image.Info.Dimensions.Height),

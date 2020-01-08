@@ -22,11 +22,21 @@ namespace Hjg.Pngcs.Zlib
 
         public void Update(byte[] data)
         {
+            if (data is null)
+            {
+                throw new System.ArgumentNullException(nameof(data));
+            }
+
             Update(data, 0, data.Length);
         }
 
         public void Update(byte[] data, int offset, int length)
         {
+            if (data is null)
+            {
+                throw new System.ArgumentNullException(nameof(data));
+            }
+
             var nextJToComputeModulus = _nmax - pend;
             for (var j = 0; j < length; j++)
             {

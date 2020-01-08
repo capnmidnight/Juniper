@@ -16,6 +16,16 @@ namespace Juniper.Units
         /// <returns>The elevation above the horizon</returns>
         public static HorizontalSphericalPosition ToHorizontal(this EquitorialSphericalPosition value, LatLngPoint location, float n)
         {
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            if (location is null)
+            {
+                throw new ArgumentNullException(nameof(location));
+            }
+
             var GMST = (18.697374558f + (24.06570982441908f * n)).Repeat(24);
             var LST = GMST + Degrees.Hours(location.Longitude);
             var RA = Degrees.Hours(value.RightAscensionDegrees);

@@ -61,6 +61,11 @@ namespace Juniper.Speech.Azure.CognitiveServices
 
         public Task<AudioData> GetDecodedAudioAsync(string text, Voice voice, float rateChange, float pitchChange)
         {
+            if (voice is null)
+            {
+                throw new ArgumentNullException(nameof(voice));
+            }
+
             return GetDecodedAudioAsync(text, voice.ShortName, rateChange, pitchChange);
         }
 

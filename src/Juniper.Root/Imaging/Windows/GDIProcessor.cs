@@ -10,21 +10,41 @@ namespace Juniper.Imaging
     {
         public int GetWidth(Image img)
         {
+            if (img is null)
+            {
+                throw new ArgumentNullException(nameof(img));
+            }
+
             return img.Width;
         }
 
         public int GetHeight(Image img)
         {
+            if (img is null)
+            {
+                throw new ArgumentNullException(nameof(img));
+            }
+
             return img.Height;
         }
 
         public int GetComponents(Image img)
         {
+            if (img is null)
+            {
+                throw new ArgumentNullException(nameof(img));
+            }
+
             return img.GetComponents();
         }
 
         public Image Concatenate(Image[,] images, IProgress prog)
         {
+            if (images is null)
+            {
+                throw new ArgumentNullException(nameof(images));
+            }
+
             this.ValidateImages(images, prog,
                 out var rows, out var columns, out var components,
                 out var tileWidth,

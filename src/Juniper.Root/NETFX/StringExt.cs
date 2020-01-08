@@ -54,6 +54,11 @@ namespace System
         /// <param name="value">Value.</param>
         public static string NormalizePath(this string value)
         {
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             return value.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
         }
 
@@ -77,6 +82,11 @@ namespace System
         /// <returns>The joined string.</returns>
         public static string Join(this string[] parts, string separator)
         {
+            if (parts is null)
+            {
+                throw new ArgumentNullException(nameof(parts));
+            }
+
             if (parts.Length == 0)
             {
                 return string.Empty;
@@ -106,6 +116,11 @@ namespace System
         /// <returns>The joined string.</returns>
         public static string Join(this string[] parts, char separator)
         {
+            if (parts is null)
+            {
+                throw new ArgumentNullException(nameof(parts));
+            }
+
             if (parts.Length == 0)
             {
                 return string.Empty;
@@ -178,6 +193,16 @@ namespace System
 
         public static int WagnerFischer_Damerau_Levenshtein_Distance(this string a, string b)
         {
+            if (a is null)
+            {
+                throw new ArgumentNullException(nameof(a));
+            }
+
+            if (b is null)
+            {
+                throw new ArgumentNullException(nameof(b));
+            }
+
             var m = a.Length + 1;
             var n = b.Length + 1;
             var matrix = new int[m, n];
@@ -216,6 +241,16 @@ namespace System
 
         public static float WagnerFischer_Damerau_Levenshtein_Similarity(this string a, string b)
         {
+            if (a is null)
+            {
+                throw new ArgumentNullException(nameof(a));
+            }
+
+            if (b is null)
+            {
+                throw new ArgumentNullException(nameof(b));
+            }
+
             if (a.Length < b.Length)
             {
                 var c = a;
@@ -261,6 +296,16 @@ namespace System
         /// <returns></returns>
         public static float JaroWinkler_Similarity(this string a, string b)
         {
+            if (a is null)
+            {
+                throw new ArgumentNullException(nameof(a));
+            }
+
+            if (b is null)
+            {
+                throw new ArgumentNullException(nameof(b));
+            }
+
             if (a.Length == 0)
             {
                 return b.Length == 0 ? 1 : 0;

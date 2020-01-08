@@ -8,14 +8,23 @@ namespace Juniper.IO
     /// </summary>
     public class ErsatzSeekableStream : MemoryStream
     {
+        private readonly Stream stream;
+
         public ErsatzSeekableStream(Stream stream)
         {
-            using (stream)
-            {
-                stream.CopyTo(this);
-            }
-
+            this.stream = stream ?? throw new System.ArgumentNullException(nameof(stream));
+            stream.CopyTo(this);
             Position = 0;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            if (disposing)
+            {
+                stream.Dispose();
+            }
         }
     }
 }

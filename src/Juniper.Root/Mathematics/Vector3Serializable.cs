@@ -5,7 +5,9 @@ using System.Runtime.Serialization;
 namespace Juniper.Mathematics
 {
     [Serializable]
-    public struct Vector3Serializable : ISerializable
+    public struct Vector3Serializable :
+        ISerializable,
+        IEquatable<Vector3Serializable>
     {
         public float X { get; }
 
@@ -50,11 +52,35 @@ namespace Juniper.Mathematics
             return $"<{X.ToString(CultureInfo.CurrentCulture)}, {Y.ToString(CultureInfo.CurrentCulture)}, {Z.ToString(CultureInfo.CurrentCulture)}>";
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is Vector3Serializable serializable && Equals(serializable);
+        }
+
+        public bool Equals(Vector3Serializable other)
+        {
+            return X == other.X &&
+                   Y == other.Y &&
+                   Z == other.Z;
+        }
+
         public override int GetHashCode()
         {
-            return X.GetHashCode()
-                ^ Y.GetHashCode()
-                ^ Z.GetHashCode();
+            var hashCode = -307843816;
+            hashCode = (hashCode * -1521134295) + X.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Y.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Z.GetHashCode();
+            return hashCode;
+        }
+
+        public static bool operator ==(Vector3Serializable left, Vector3Serializable right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Vector3Serializable left, Vector3Serializable right)
+        {
+            return !(left == right);
         }
     }
 }

@@ -24,8 +24,8 @@ namespace Juniper.IO
         /// <param name="outStream"></param>
         public CachingStream(Stream sourceStream, Stream outStream)
         {
-            SourceStream = sourceStream;
-            this.outStream = outStream;
+            SourceStream = sourceStream ?? throw new ArgumentNullException(nameof(sourceStream));
+            this.outStream = outStream ?? throw new ArgumentNullException(nameof(outStream));
         }
 
         public Stream SourceStream { get; }
@@ -158,6 +158,11 @@ namespace Juniper.IO
         /// <returns></returns>
         public override int Read(byte[] buffer, int offset, int count)
         {
+            if (buffer is null)
+            {
+                throw new ArgumentNullException(nameof(buffer));
+            }
+
             var read = SourceStream.Read(buffer, offset, count);
             outStream.Write(buffer, offset, read);
             return read;
@@ -194,11 +199,16 @@ namespace Juniper.IO
 
         public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback callback, object state)
         {
+            if (buffer is null)
+            {
+                throw new ArgumentNullException(nameof(buffer));
+            }
+
             void wrappedCallback(IAsyncResult result)
             {
                 lastRead = SourceStream.EndRead(result);
                 outStream.Write(buffer, offset, lastRead);
-                callback(result);
+                callback?.Invoke(result);
             }
 
             return SourceStream.BeginRead(buffer, offset, count, wrappedCallback, state);
@@ -222,6 +232,11 @@ namespace Juniper.IO
         [ComVisible(false)]
         public override async Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken)
         {
+            if (destination is null)
+            {
+                throw new ArgumentNullException(nameof(destination));
+            }
+
             var buffer = new byte[bufferSize];
             int read;
             while ((read = await ReadAsync(buffer, 0, bufferSize, cancellationToken).ConfigureAwait(false)) > 0)
@@ -235,6 +250,11 @@ namespace Juniper.IO
         [ComVisible(false)]
         public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
+            if (buffer is null)
+            {
+                throw new ArgumentNullException(nameof(buffer));
+            }
+
             var read = await SourceStream
                 .ReadAsync(buffer, offset, count, cancellationToken)
                 .ConfigureAwait(false);

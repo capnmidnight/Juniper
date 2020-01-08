@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 namespace Hjg.Pngcs.Chunks
@@ -8,12 +9,11 @@ namespace Hjg.Pngcs.Chunks
     /// </summary>
     public class PngChunkZTXT : AbstractPngChunkTextVar
     {
-        public const string ID = ChunkHelper.zTXt;
+        public const string ID = "zTXt";
 
         public PngChunkZTXT(ImageInfo info)
-            : base(ID, info)
-        {
-        }
+            : base(ID, info ?? throw new ArgumentNullException(nameof(info)))
+        { }
 
         public override ChunkRaw CreateRawChunk()
         {
@@ -22,7 +22,7 @@ namespace Hjg.Pngcs.Chunks
                 throw new PngjException("Text chunk key must be non empty");
             }
 
-            var ba = new MemoryStream();
+            using var ba = new MemoryStream();
             ChunkHelper.WriteBytesToStream(ba, ChunkHelper.ToBytes(Key));
             ba.WriteByte(0); // separator
             ba.WriteByte(0); // compression method: 0
@@ -36,6 +36,11 @@ namespace Hjg.Pngcs.Chunks
 
         public override void ParseFromRaw(ChunkRaw c)
         {
+            if (c is null)
+            {
+                throw new ArgumentNullException(nameof(c));
+            }
+
             var nullsep = -1;
             for (var i = 0; i < c.Data.Length; i++)
             { // look for first zero
@@ -66,9 +71,18 @@ namespace Hjg.Pngcs.Chunks
 
         public override void CloneDataFromRead(AbstractPngChunk other)
         {
-            var otherx = (PngChunkZTXT)other;
-            Key = otherx.Key;
-            Val = otherx.Val;
+            CloneData((PngChunkZTXT)other);
+        }
+
+        private void CloneData(PngChunkZTXT other)
+        {
+            if (other is null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+
+            Key = other.Key;
+            Val = other.Val;
         }
     }
 }

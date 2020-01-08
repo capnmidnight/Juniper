@@ -6,31 +6,13 @@ namespace Juniper.HTTP.Server.Administration.NetSH
     public abstract class AbstractFirewallRuleCommand :
         AbstractNetShCommand
     {
-        private string name;
-
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-            set
-            {
-                if (value is null)
-                {
-                    throw new NullReferenceException("Value cannot be null");
-                }
-
-                name = value;
-            }
-        }
-
+        private readonly string name;
         private readonly string command;
 
         protected AbstractFirewallRuleCommand(string command, string name)
         {
             this.command = command ?? throw new ArgumentNullException(nameof(command));
-            Name = name ?? throw new ArgumentNullException(nameof(name));
+            this.name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
         protected override IEnumerable<string> Arguments
@@ -41,8 +23,7 @@ namespace Juniper.HTTP.Server.Administration.NetSH
                 yield return "firewall";
                 yield return command;
                 yield return "rule";
-
-                yield return $"name=\"{Name}\"";
+                yield return $"name=\"{name}\"";
             }
         }
     }

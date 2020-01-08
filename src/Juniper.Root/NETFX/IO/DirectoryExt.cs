@@ -34,7 +34,7 @@ namespace System.IO
 
         public static bool TryDelete(this DirectoryInfo directory)
         {
-            if (directory.Exists)
+            if (directory?.Exists == true)
             {
                 try
                 {

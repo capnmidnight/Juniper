@@ -37,7 +37,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            var ba = new MemoryStream();
+            using var ba = new MemoryStream();
             ChunkHelper.WriteBytesToStream(ba, ChunkHelper.ToBytes(PalName));
             ba.WriteByte(0); // separator
             ba.WriteByte((byte)SampleDepth);
@@ -67,6 +67,11 @@ namespace Hjg.Pngcs.Chunks
 
         public override void ParseFromRaw(ChunkRaw c)
         {
+            if (c is null)
+            {
+                throw new System.ArgumentNullException(nameof(c));
+            }
+
             var t = -1;
             for (var i = 0; i < c.Data.Length; i++)
             { // look for first zero
@@ -127,11 +132,20 @@ namespace Hjg.Pngcs.Chunks
 
         public override void CloneDataFromRead(AbstractPngChunk other)
         {
-            var otherx = (PngChunkSPLT)other;
-            PalName = otherx.PalName;
-            SampleDepth = otherx.SampleDepth;
-            Palette = new int[otherx.Palette.Length];
-            System.Array.Copy(otherx.Palette, 0, Palette, 0, Palette.Length);
+            CloneData((PngChunkSPLT)other);
+        }
+
+        private void CloneData(PngChunkSPLT other)
+        {
+            if (other is null)
+            {
+                throw new System.ArgumentNullException(nameof(other));
+            }
+
+            PalName = other.PalName;
+            SampleDepth = other.SampleDepth;
+            Palette = new int[other.Palette.Length];
+            System.Array.Copy(other.Palette, 0, Palette, 0, Palette.Length);
         }
 
         public int GetNentries()

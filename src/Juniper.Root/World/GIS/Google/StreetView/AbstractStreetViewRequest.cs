@@ -55,7 +55,7 @@ namespace Juniper.World.GIS.Google.StreetView
                 location = value;
                 pano = default;
                 RemoveQuery(nameof(pano));
-                SetQuery(nameof(location), value.ToString(CultureInfo.InvariantCulture));
+                SetQuery(nameof(location), value?.ToString(CultureInfo.InvariantCulture));
             }
         }
 

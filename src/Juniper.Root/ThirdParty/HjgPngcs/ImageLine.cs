@@ -106,7 +106,7 @@ namespace Hjg.Pngcs
 
         internal ImageLine(ImageInfo imgInfo, ESampleType stype, bool unpackedMode, int[] sci, byte[] scb)
         {
-            ImgInfo = imgInfo;
+            ImgInfo = imgInfo ?? throw new System.ArgumentNullException(nameof(imgInfo));
             channels = imgInfo.Channels;
             bitDepth = imgInfo.BitDepth;
             FilterUsed = FilterType.FILTER_UNKNOWN;

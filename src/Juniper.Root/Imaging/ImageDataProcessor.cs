@@ -8,6 +8,11 @@ namespace Juniper.Imaging
     {
         public ImageData Concatenate(ImageData[,] images, IProgress prog)
         {
+            if (images is null)
+            {
+                throw new ArgumentNullException(nameof(images));
+            }
+
             var rows = images.GetLength(0);
             var columns = images.GetLength(1);
             var len = rows * columns;
@@ -45,16 +50,31 @@ namespace Juniper.Imaging
 
         public int GetComponents(ImageData img)
         {
+            if (img is null)
+            {
+                throw new ArgumentNullException(nameof(img));
+            }
+
             return img.Info.Components;
         }
 
         public int GetWidth(ImageData img)
         {
+            if (img is null)
+            {
+                throw new ArgumentNullException(nameof(img));
+            }
+
             return img.Info.Dimensions.Width;
         }
 
         public int GetHeight(ImageData img)
         {
+            if (img is null)
+            {
+                throw new ArgumentNullException(nameof(img));
+            }
+
             return img.Info.Dimensions.Height;
         }
     }

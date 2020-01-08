@@ -30,7 +30,7 @@ namespace Hjg.Pngcs.Chunks
         }
 
         public override void CloneDataFromRead(AbstractPngChunk other)
-        {
+        { // does nothing
         }
     }
 }

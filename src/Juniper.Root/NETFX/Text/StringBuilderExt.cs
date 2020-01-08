@@ -19,6 +19,11 @@ namespace System.Text
         /// </remarks>
         public static int IndexOf(this StringBuilder sb, char c)
         {
+            if (sb is null)
+            {
+                throw new ArgumentNullException(nameof(sb));
+            }
+
             for (var i = 0; i < sb.Length; ++i)
             {
                 if (sb[i] == c)

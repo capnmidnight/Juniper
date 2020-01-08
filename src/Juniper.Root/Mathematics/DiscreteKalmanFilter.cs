@@ -51,6 +51,11 @@ namespace Juniper.Mathematics
                                     int measurementVectorDimension, int controlVectorDimension,
                                     Func<TState, double[]> stateConvertFunc, Func<double[], TState> stateConvertBackFunc, Func<TMeasurement, double[]> measurementConvertFunc)
         {
+            if (stateConvertFunc is null)
+            {
+                throw new ArgumentNullException(nameof(stateConvertFunc));
+            }
+
             var _state = stateConvertFunc(initialState);
             StateVectorDimension = _state.Length;
             MeasurementVectorDimension = measurementVectorDimension;
@@ -392,6 +397,11 @@ namespace Juniper.Mathematics
         /// <param name="innovationVector">The difference between predicted state and measurement.</param>
         public void Correct(double[] innovationVector)
         {
+            if (innovationVector is null)
+            {
+                throw new ArgumentNullException(nameof(innovationVector));
+            }
+
             CheckPrerequisites();
 
             if (innovationVector.Length != MeasurementVectorDimension)

@@ -32,6 +32,11 @@ namespace Juniper.Imaging
         /// <param name="stream">Jpeg bytes.</param>
         public JpegImage Deserialize(Stream stream, IProgress prog = null)
         {
+            if (stream is null)
+            {
+                throw new System.ArgumentNullException(nameof(stream));
+            }
+
             prog.Report(0);
             JpegImage image = null;
             if (stream is object)
@@ -50,6 +55,16 @@ namespace Juniper.Imaging
         /// <param name="stream">Jpeg bytes.</param>
         public void Serialize(Stream stream, JpegImage value, IProgress prog = null)
         {
+            if (stream is null)
+            {
+                throw new System.ArgumentNullException(nameof(stream));
+            }
+
+            if (value is null)
+            {
+                throw new System.ArgumentNullException(nameof(value));
+            }
+
             prog.Report(0);
             value.WriteJpeg(stream, compressionParams);
             prog.Report(1);

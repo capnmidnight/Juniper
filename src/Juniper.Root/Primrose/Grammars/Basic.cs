@@ -35,6 +35,11 @@ namespace Juniper.Primrose
 
         public override Line Tokenize(string text)
         {
+            if (text is null)
+            {
+                throw new System.ArgumentNullException(nameof(text));
+            }
+
             return base.Tokenize(text.ToUpperInvariant());
         }
 

@@ -30,7 +30,7 @@ namespace Hjg.Pngcs.Chunks
             if (ImgInfo.Greyscale)
             {
                 c = CreateEmptyChunk(2, true);
-                Hjg.Pngcs.PngHelperInternal.WriteInt2tobytes(gray, c.Data, 0);
+                PngHelperInternal.WriteInt2tobytes(gray, c.Data, 0);
             }
             else if (ImgInfo.Indexed)
             {
@@ -43,9 +43,9 @@ namespace Hjg.Pngcs.Chunks
             else
             {
                 c = CreateEmptyChunk(6, true);
-                Hjg.Pngcs.PngHelperInternal.WriteInt2tobytes(red, c.Data, 0);
-                Hjg.Pngcs.PngHelperInternal.WriteInt2tobytes(green, c.Data, 0);
-                Hjg.Pngcs.PngHelperInternal.WriteInt2tobytes(blue, c.Data, 0);
+                PngHelperInternal.WriteInt2tobytes(red, c.Data, 0);
+                PngHelperInternal.WriteInt2tobytes(green, c.Data, 0);
+                PngHelperInternal.WriteInt2tobytes(blue, c.Data, 0);
             }
 
             return c;
@@ -53,9 +53,14 @@ namespace Hjg.Pngcs.Chunks
 
         public override void ParseFromRaw(ChunkRaw c)
         {
+            if (c is null)
+            {
+                throw new System.ArgumentNullException(nameof(c));
+            }
+
             if (ImgInfo.Greyscale)
             {
-                gray = Hjg.Pngcs.PngHelperInternal.ReadInt2fromBytes(c.Data, 0);
+                gray = PngHelperInternal.ReadInt2fromBytes(c.Data, 0);
             }
             else if (ImgInfo.Indexed)
             {
@@ -68,23 +73,32 @@ namespace Hjg.Pngcs.Chunks
             }
             else
             {
-                red = Hjg.Pngcs.PngHelperInternal.ReadInt2fromBytes(c.Data, 0);
-                green = Hjg.Pngcs.PngHelperInternal.ReadInt2fromBytes(c.Data, 2);
-                blue = Hjg.Pngcs.PngHelperInternal.ReadInt2fromBytes(c.Data, 4);
+                red = PngHelperInternal.ReadInt2fromBytes(c.Data, 0);
+                green = PngHelperInternal.ReadInt2fromBytes(c.Data, 2);
+                blue = PngHelperInternal.ReadInt2fromBytes(c.Data, 4);
             }
         }
 
         public override void CloneDataFromRead(AbstractPngChunk other)
         {
-            var otherx = (PngChunkTRNS)other;
-            gray = otherx.gray;
-            red = otherx.red;
-            green = otherx.green;
-            blue = otherx.blue;
-            if (otherx.paletteAlpha is object)
+            CloneData((PngChunkTRNS)other);
+        }
+
+        private void CloneData(PngChunkTRNS other)
+        {
+            if (other is null)
             {
-                paletteAlpha = new int[otherx.paletteAlpha.Length];
-                System.Array.Copy(otherx.paletteAlpha, 0, paletteAlpha, 0, paletteAlpha.Length);
+                throw new System.ArgumentNullException(nameof(other));
+            }
+
+            gray = other.gray;
+            red = other.red;
+            green = other.green;
+            blue = other.blue;
+            if (other.paletteAlpha is object)
+            {
+                paletteAlpha = new int[other.paletteAlpha.Length];
+                System.Array.Copy(other.paletteAlpha, 0, paletteAlpha, 0, paletteAlpha.Length);
             }
         }
 

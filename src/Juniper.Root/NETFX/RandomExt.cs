@@ -4,6 +4,11 @@ namespace System
     {
         public static double Number(this Random rand, float min, float max, float power)
         {
+            if (rand is null)
+            {
+                throw new ArgumentNullException(nameof(rand));
+            }
+
             var delta = max - min;
             var n = Math.Pow(rand.NextDouble(), power);
             return min + (n * delta);
@@ -21,16 +26,41 @@ namespace System
 
         public static int Steps(this Random rand, int min, int max, int steps)
         {
+            if (rand is null)
+            {
+                throw new ArgumentNullException(nameof(rand));
+            }
+
             return min + (rand.Next(0, (1 + max - min) / steps) * steps);
         }
 
         public static T Item<T>(this Random rand, T[] arr)
         {
+            if (rand is null)
+            {
+                throw new ArgumentNullException(nameof(rand));
+            }
+
+            if (arr is null)
+            {
+                throw new ArgumentNullException(nameof(arr));
+            }
+
+            if(arr.Length == 0)
+            {
+                throw new ArgumentException("Array must have at least one element", nameof(arr));
+            }
+
             return arr[rand.Next(0, arr.Length)];
         }
 
         public static int Color(this Random rand)
         {
+            if (rand is null)
+            {
+                throw new ArgumentNullException(nameof(rand));
+            }
+
             var r = rand.Next(0, 256);
             var g = rand.Next(0, 256);
             var b = rand.Next(0, 256);
@@ -39,6 +69,11 @@ namespace System
 
         public static bool Coin(this Random rand, double weight = 0.5)
         {
+            if (rand is null)
+            {
+                throw new ArgumentNullException(nameof(rand));
+            }
+
             return rand.NextDouble() < weight;
         }
     }

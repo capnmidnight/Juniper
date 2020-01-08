@@ -1,4 +1,5 @@
 #if !NETSTANDARD
+using System;
 using System.Drawing;
 using System.IO;
 
@@ -16,12 +17,22 @@ namespace Juniper.Imaging
 
         public GDICodec(MediaType.Image format)
         {
-            ContentType = format;
+            ContentType = format ?? throw new ArgumentNullException(nameof(format));
             gdiFormat = format.ToGDIImageFormat();
         }
 
         public void Serialize(Stream stream, Image value, IProgress prog = null)
         {
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             prog.Report(0);
             value.Save(stream, gdiFormat);
             prog.Report(1);
@@ -29,16 +40,13 @@ namespace Juniper.Imaging
 
         public Image Deserialize(Stream stream, IProgress prog = null)
         {
-            prog.Report(0);
-            Image image = null;
-            if (stream is object)
+            if (stream is null)
             {
-                using (stream)
-                {
-                    image = Image.FromStream(stream);
-                }
+                throw new ArgumentNullException(nameof(stream));
             }
 
+            prog.Report(0);
+            var image = Image.FromStream(stream);
             prog.Report(1);
             return image;
         }

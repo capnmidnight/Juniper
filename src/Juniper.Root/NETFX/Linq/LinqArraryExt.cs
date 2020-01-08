@@ -6,6 +6,11 @@ namespace System.Linq
     {
         public static IEnumerable<T> Where<T>(this T[,] arr, Func<T, bool> predicate)
         {
+            if (arr is null)
+            {
+                throw new ArgumentNullException(nameof(arr));
+            }
+
             var height = arr.GetLength(0);
             var width = arr.GetLength(1);
             for (var y = 0; y < height; ++y)

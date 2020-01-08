@@ -24,11 +24,21 @@ namespace Hjg.Pngcs.Zlib
 
         public void Update(byte[] buffer)
         {
+            if (buffer is null)
+            {
+                throw new System.ArgumentNullException(nameof(buffer));
+            }
+
             Update(buffer, 0, buffer.Length);
         }
 
         public void Update(byte[] buffer, int start, int length)
         {
+            if (buffer is null)
+            {
+                throw new System.ArgumentNullException(nameof(buffer));
+            }
+
             for (int i = 0, j = start; i < length; i++, j++)
             {
                 unchecked

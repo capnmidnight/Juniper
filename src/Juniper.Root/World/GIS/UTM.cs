@@ -1,3 +1,4 @@
+using System;
 using Juniper.World.GIS;
 
 using static System.Math;
@@ -15,6 +16,11 @@ namespace Juniper.Units
         /// <returns>The latitude/longitude</returns>
         public static LatLngPoint ToLatLng(this UTMPoint utm)
         {
+            if (utm is null)
+            {
+                throw new ArgumentNullException(nameof(utm));
+            }
+
             var N0 = utm.Hemisphere == UTMPoint.GlobeHemisphere.Northern ? 0.0 : DatumWGS_84.FalseNorthing;
             var xi = (utm.Y - N0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
             var eta = (utm.X - DatumWGS_84.E0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);

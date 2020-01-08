@@ -52,7 +52,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <param name="offset">The offset.</param>
         protected void InitInternalBuffer(byte[] buffer, int offset)
         {
-            this.buffer = buffer;
+            this.buffer = buffer ?? throw new System.ArgumentNullException(nameof(buffer));
             FreeInBuffer = buffer.Length - offset;
             position = offset;
         }

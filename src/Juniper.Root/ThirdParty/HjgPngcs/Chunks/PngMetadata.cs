@@ -221,7 +221,7 @@ namespace Hjg.Pngcs.Chunks
                 li.Add((AbstractPngChunkTextVar)c);
             }
 
-            foreach (var c in chunkList.GetById(ChunkHelper.zTXt, key))
+            foreach (var c in chunkList.GetById(PngChunkZTXT.ID, key))
             {
                 li.Add((AbstractPngChunkTextVar)c);
             }

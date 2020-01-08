@@ -26,7 +26,7 @@ namespace Hjg.Pngcs.Chunks
                 throw new PngjException("Text chunk key must be non empty");
             }
 
-            var ba = new MemoryStream();
+            using var ba = new MemoryStream();
             ChunkHelper.WriteBytesToStream(ba, ChunkHelper.ToBytes(Key));
             ba.WriteByte(0); // separator
             ba.WriteByte(compressed ? (byte)1 : (byte)0);
@@ -50,6 +50,11 @@ namespace Hjg.Pngcs.Chunks
 
         public override void ParseFromRaw(ChunkRaw c)
         {
+            if (c is null)
+            {
+                throw new System.ArgumentNullException(nameof(c));
+            }
+
             var nullsFound = 0;
             var nullsIdx = new int[3];
             for (var k = 0; k < c.Data.Length; k++)
@@ -102,12 +107,21 @@ namespace Hjg.Pngcs.Chunks
 
         public override void CloneDataFromRead(AbstractPngChunk other)
         {
-            var otherx = (PngChunkITXT)other;
-            Key = otherx.Key;
-            Val = otherx.Val;
-            compressed = otherx.compressed;
-            langTag = otherx.langTag;
-            translatedTag = otherx.translatedTag;
+            CloneData((PngChunkITXT)other);
+        }
+
+        private void CloneData(PngChunkITXT other)
+        {
+            if (other is null)
+            {
+                throw new System.ArgumentNullException(nameof(other));
+            }
+
+            Key = other.Key;
+            Val = other.Val;
+            compressed = other.compressed;
+            langTag = other.langTag;
+            translatedTag = other.translatedTag;
         }
 
         public bool IsCompressed()

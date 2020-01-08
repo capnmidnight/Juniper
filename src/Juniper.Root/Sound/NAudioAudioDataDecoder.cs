@@ -23,7 +23,7 @@ namespace Juniper.Sound
 
         public bool SupportsFormat(AudioFormat format)
         {
-            return Array.IndexOf(SupportedFormats, format.ContentType) > -1;
+            return Array.IndexOf(SupportedFormats, format?.ContentType) > -1;
         }
 
         private AudioFormat format;
@@ -36,7 +36,7 @@ namespace Juniper.Sound
             {
                 if (!SupportsFormat(value))
                 {
-                    throw new NotSupportedException($"Don't know how to decode audio format {value.ContentType}");
+                    throw new NotSupportedException($"Don't know how to decode audio format {value?.ContentType}");
                 }
 
                 format = value;

@@ -1,3 +1,5 @@
+using System;
+
 namespace Hjg.Pngcs.Chunks
 {
     /// <summary>
@@ -26,6 +28,11 @@ namespace Hjg.Pngcs.Chunks
 
         public override void ParseFromRaw(ChunkRaw c)
         {
+            if (c is null)
+            {
+                throw new System.ArgumentNullException(nameof(c));
+            }
+
             data = c.Data;
         }
 
@@ -46,8 +53,17 @@ namespace Hjg.Pngcs.Chunks
         public override void CloneDataFromRead(AbstractPngChunk other)
         {
             // THIS SHOULD NOT BE CALLED IF ALREADY CLONED WITH COPY CONSTRUCTOR
-            var c = (PngChunkUNKNOWN)other;
-            data = c.data; // not deep copy
+            data = CloneData((PngChunkUNKNOWN)other); // not deep copy
+        }
+
+        private static byte[] CloneData(PngChunkUNKNOWN other)
+        {
+            if (other is null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+
+            return other.data;
         }
     }
 }

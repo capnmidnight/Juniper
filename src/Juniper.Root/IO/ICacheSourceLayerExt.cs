@@ -14,6 +14,16 @@ namespace Juniper.IO
             this ICacheSourceLayer layer,
             ContentReference fileRef)
         {
+            if (layer is null)
+            {
+                throw new ArgumentNullException(nameof(layer));
+            }
+
+            if (fileRef is null)
+            {
+                throw new ArgumentNullException(nameof(fileRef));
+            }
+
             return layer.GetStreamAsync(fileRef, null);
         }
 
@@ -26,6 +36,11 @@ namespace Juniper.IO
             if (fileRef is null)
             {
                 throw new ArgumentNullException(nameof(fileRef));
+            }
+
+            if (layer is null)
+            {
+                throw new ArgumentNullException(nameof(layer));
             }
 
             if (deserializer is null)
@@ -76,10 +91,22 @@ namespace Juniper.IO
         /// <typeparam name="MediaTypeT"></typeparam>
         /// <param name="deserializer"></param>
         /// <returns></returns>
-        public static IEnumerable<(ContentReference contentRef, ResultT result)> Get<ResultT, MediaTypeT>(this ICacheSourceLayer source, IFactory<ResultT, MediaTypeT> deserializer)
+        public static IEnumerable<(ContentReference contentRef, ResultT result)> Get<ResultT, MediaTypeT>(
+            this ICacheSourceLayer source,
+            IFactory<ResultT, MediaTypeT> deserializer)
             where ResultT : class
             where MediaTypeT : MediaType
         {
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (deserializer is null)
+            {
+                throw new ArgumentNullException(nameof(deserializer));
+            }
+
             foreach (var contentRef in source.GetContentReference(deserializer.ContentType))
             {
                 if (source.TryLoad(deserializer, contentRef, out var result))

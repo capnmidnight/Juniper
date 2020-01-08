@@ -52,6 +52,11 @@ namespace Hjg.Pngcs.Chunks
 
         public override void ParseFromRaw(ChunkRaw c)
         {
+            if (c is null)
+            {
+                throw new System.ArgumentNullException(nameof(c));
+            }
+
             if (ImgInfo.Greyscale)
             {
                 gray = Hjg.Pngcs.PngHelperInternal.ReadInt2fromBytes(c.Data, 0);
@@ -70,12 +75,21 @@ namespace Hjg.Pngcs.Chunks
 
         public override void CloneDataFromRead(AbstractPngChunk other)
         {
-            var otherx = (PngChunkBKGD)other;
-            gray = otherx.gray;
-            red = otherx.red;
-            green = otherx.red;
-            blue = otherx.red;
-            paletteIndex = otherx.paletteIndex;
+            CloneData((PngChunkBKGD)other);
+        }
+
+        private void CloneData(PngChunkBKGD other)
+        {
+            if (other is null)
+            {
+                throw new System.ArgumentNullException(nameof(other));
+            }
+
+            gray = other.gray;
+            red = other.red;
+            green = other.red;
+            blue = other.red;
+            paletteIndex = other.paletteIndex;
         }
 
         /// <summary>

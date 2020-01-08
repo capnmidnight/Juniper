@@ -44,7 +44,7 @@ namespace Juniper.World.GIS.Google.Geocoding
 
         private void RefreshComponents()
         {
-            SetQuery(nameof(components), components.ToString(":", "|"));
+            SetQuery(nameof(components), components?.ToString(":", "|"));
         }
 
         private string SetComponent(AddressComponentTypes key, string value)
@@ -95,7 +95,11 @@ namespace Juniper.World.GIS.Google.Geocoding
             set
             {
                 bounds = value;
-                SetQuery(nameof(bounds), $"{bounds.SouthWest}|{bounds.NorthEast}");
+                SetQuery(
+                    nameof(bounds),
+                    bounds == null
+                        ? null
+                        : $"{bounds.SouthWest}|{bounds.NorthEast}");
             }
         }
 

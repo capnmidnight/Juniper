@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using Juniper.Progress;
@@ -24,38 +24,41 @@ namespace Juniper
             var errored = new List<KeyValuePair<IInstallable, Exception>>(10);
             var installed = new List<IInstallable>(10);
             var keepFinding = true;
-            for (var i = 0; i < 10 && keepFinding; ++i)
+            if (getInstallables != null)
             {
-                keepFinding = false;
-
-                var installables = getInstallables();
-                prog.Report(installed.Count, installables.Count);
-
-                foreach (var installable in installables)
+                for (var i = 0; i < 10 && keepFinding; ++i)
                 {
-                    if (!installed.Contains(installable))
-                    {
-                        keepFinding = true;
-                        try
-                        {
-                            for (var j = errored.Count - 1; j >= 0; --j)
-                            {
-                                if (errored[j].Key == installable)
-                                {
-                                    errored.RemoveAt(j);
-                                }
-                            }
+                    keepFinding = false;
 
-                            installable.Install(reset);
-                            installed.Add(installable);
-                            prog.Report(installed.Count, installables.Count);
-                        }
-#pragma warning disable CA1031 // Do not catch general exception types
-                        catch (Exception exp)
+                    var installables = getInstallables();
+                    prog.Report(installed.Count, installables.Count);
+
+                    foreach (var installable in installables)
+                    {
+                        if (!installed.Contains(installable))
                         {
-                            errored.Add(new KeyValuePair<IInstallable, Exception>(installable, exp));
-                        }
+                            keepFinding = true;
+                            try
+                            {
+                                for (var j = errored.Count - 1; j >= 0; --j)
+                                {
+                                    if (errored[j].Key == installable)
+                                    {
+                                        errored.RemoveAt(j);
+                                    }
+                                }
+
+                                installable.Install(reset);
+                                installed.Add(installable);
+                                prog.Report(installed.Count, installables.Count);
+                            }
+#pragma warning disable CA1031 // Do not catch general exception types
+                            catch (Exception exp)
+                            {
+                                errored.Add(new KeyValuePair<IInstallable, Exception>(installable, exp));
+                            }
 #pragma warning restore CA1031 // Do not catch general exception types
+                        }
                     }
                 }
             }
@@ -75,9 +78,12 @@ namespace Juniper
         /// <param name="getInstallables"></param>
         public static void UninstallAll(Func<IEnumerable<IInstallable>> getInstallables)
         {
-            foreach (var installable in getInstallables())
+            if (getInstallables != null)
             {
-                installable.Uninstall();
+                foreach (var installable in getInstallables())
+                {
+                    installable.Uninstall();
+                }
             }
         }
     }

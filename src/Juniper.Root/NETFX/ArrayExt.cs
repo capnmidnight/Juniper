@@ -61,6 +61,11 @@ namespace System
         public static IEnumerable<T> Except<T>(this T[] items, T itemToRemove)
             where T : IEquatable<T>
         {
+            if (items is null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
             foreach (var item in items)
             {
                 if (!item.Equals(itemToRemove))
@@ -82,6 +87,11 @@ namespace System
         /// </returns>
         public static T MaybeGet<T>(this T[] items, int index)
         {
+            if (items is null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
             if (0 <= index && index < items.Length)
             {
                 return items[index];

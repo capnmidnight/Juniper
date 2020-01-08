@@ -32,7 +32,7 @@ namespace System.IO
 
         public static bool TryDelete(this FileInfo file)
         {
-            if (file.Exists)
+            if (file?.Exists == true)
             {
                 try
                 {

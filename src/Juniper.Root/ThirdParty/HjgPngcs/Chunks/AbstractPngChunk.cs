@@ -110,7 +110,7 @@ namespace Hjg.Pngcs.Chunks
                 { ChunkHelper.IEND, typeof(PngChunkIEND) },
                 { ChunkHelper.tEXt, typeof(PngChunkTEXT) },
                 { ChunkHelper.iTXt, typeof(PngChunkITXT) },
-                { ChunkHelper.zTXt, typeof(PngChunkZTXT) },
+                { PngChunkZTXT.ID, typeof(PngChunkZTXT) },
                 { ChunkHelper.bKGD, typeof(PngChunkBKGD) },
                 { ChunkHelper.gAMA, typeof(PngChunkGAMA) },
                 { ChunkHelper.pHYs, typeof(PngChunkPHYS) },

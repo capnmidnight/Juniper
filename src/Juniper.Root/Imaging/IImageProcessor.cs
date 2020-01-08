@@ -11,6 +11,6 @@ namespace Juniper.Imaging
 
         int GetComponents(T img);
 
-        T Concatenate(T[,] images, IProgress prog);
+        T Concatenate(T[,] images, IProgress prog = null);
     }
 }

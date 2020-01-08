@@ -32,50 +32,59 @@ namespace System.Collections.Generic
         /// <returns>An integer representing the direction the in which to move the items.</returns>
         public int Compare(string x, string y)
         {
+            if (x is null)
+            {
+                return y is null
+                    ? 0
+                    : 1;
+            }
+            else if (y is null)
+            {
+                return -1;
+            }
+
             if (x == y)
             {
                 return 0;
             }
+
+            if (!table.TryGetValue(x, out var x1))
+            {
+                x1 = Regex.Split(x.Replace(" ", ""), "([0-9]+)");
+                table.Add(x, x1);
+            }
+
+            if (!table.TryGetValue(y, out var y1))
+            {
+                y1 = Regex.Split(y.Replace(" ", ""), "([0-9]+)");
+                table.Add(y, y1);
+            }
+
+            int returnVal;
+
+            for (var i = 0; i < x1.Length && i < y1.Length; i++)
+            {
+                if (x1[i] != y1[i])
+                {
+                    returnVal = PartCompare(x1[i], y1[i]);
+                    return isAscending ? returnVal : -returnVal;
+                }
+            }
+
+            if (y1.Length > x1.Length)
+            {
+                returnVal = 1;
+            }
+            else if (x1.Length > y1.Length)
+            {
+                returnVal = -1;
+            }
             else
             {
-                if (!table.TryGetValue(x, out var x1))
-                {
-                    x1 = Regex.Split(x.Replace(" ", ""), "([0-9]+)");
-                    table.Add(x, x1);
-                }
-
-                if (!table.TryGetValue(y, out var y1))
-                {
-                    y1 = Regex.Split(y.Replace(" ", ""), "([0-9]+)");
-                    table.Add(y, y1);
-                }
-
-                int returnVal;
-
-                for (var i = 0; i < x1.Length && i < y1.Length; i++)
-                {
-                    if (x1[i] != y1[i])
-                    {
-                        returnVal = PartCompare(x1[i], y1[i]);
-                        return isAscending ? returnVal : -returnVal;
-                    }
-                }
-
-                if (y1.Length > x1.Length)
-                {
-                    returnVal = 1;
-                }
-                else if (x1.Length > y1.Length)
-                {
-                    returnVal = -1;
-                }
-                else
-                {
-                    returnVal = 0;
-                }
-
-                return isAscending ? returnVal : -returnVal;
+                returnVal = 0;
             }
+
+            return isAscending ? returnVal : -returnVal;
         }
 
         /// <summary> Finish implementing the IComparer<T> interface. </summary> <returns>The

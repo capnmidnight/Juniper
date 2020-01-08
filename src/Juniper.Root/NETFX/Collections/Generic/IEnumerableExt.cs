@@ -17,6 +17,11 @@ namespace System.Collections.Generic
         /// <returns>True if the item was actually added.</returns>
         public static bool MaybeAdd<T>(this List<T> collect, T value)
         {
+            if (collect is null)
+            {
+                throw new ArgumentNullException(nameof(collect));
+            }
+
             if (!collect.Contains(value))
             {
                 collect.Add(value);
@@ -81,12 +86,11 @@ namespace System.Collections.Generic
         /// ]]></code></example>
         public static bool Matches<T>(this IEnumerable<T> a, IEnumerable<T> b)
         {
-            if (a is null && b is null)
+            if (a is null)
             {
-                return true;
+                return b is null;
             }
-
-            if ((a is null) != (b is null))
+            else if (b is null)
             {
                 return false;
             }
@@ -190,12 +194,11 @@ namespace System.Collections.Generic
         /// <returns></returns>
         public static bool Matches(this IEnumerable<Type> a, IEnumerable<Type> b)
         {
-            if (a is null && b is null)
+            if (a is null)
             {
-                return true;
+                return b is null;
             }
-
-            if ((a is null) != (b is null))
+            else if (b is null)
             {
                 return false;
             }
@@ -234,6 +237,11 @@ namespace System.Collections.Generic
         /// <returns><c>True</c> when all enumerators can no longer move to another item.</returns>
         public static bool MoveNext(this IEnumerable<IEnumerator> enums)
         {
+            if (enums is null)
+            {
+                throw new ArgumentNullException(nameof(enums));
+            }
+
             var anyNext = false;
             foreach (var iter in enums)
             {
@@ -251,6 +259,11 @@ namespace System.Collections.Generic
         /// <returns></returns>
         public static IEnumerable Current(this IEnumerable<IEnumerator> enums)
         {
+            if (enums is null)
+            {
+                throw new ArgumentNullException(nameof(enums));
+            }
+
             var anyExist = false;
             var anySucceed = false;
             foreach (var e in enums)
@@ -339,6 +352,16 @@ namespace System.Collections.Generic
         /// <param name="e">The items to add to the queue, in order.</param>
         public static void AddRange<T>(this Queue<T> q, IEnumerable<T> e)
         {
+            if (q is null)
+            {
+                throw new ArgumentNullException(nameof(q));
+            }
+
+            if (e is null)
+            {
+                throw new ArgumentNullException(nameof(e));
+            }
+
             foreach (var o in e)
             {
                 q.Enqueue(o);
@@ -353,6 +376,11 @@ namespace System.Collections.Generic
         /// <param name="value">The item to add to the queue.</param>
         public static void Add<T>(this Queue<T> q, T value)
         {
+            if (q is null)
+            {
+                throw new ArgumentNullException(nameof(q));
+            }
+
             q.Enqueue(value);
         }
 

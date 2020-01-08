@@ -797,6 +797,11 @@ namespace BitMiracle.LibJpeg.Classic
                 ErrExit(JMessageCode.JERR_BAD_STATE, (int)globalState);
             }
 
+            if (data is null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             m_marker.WriteMarkerHeader(marker, data.Length);
 
             for (var i = 0; i < data.Length; i++)
@@ -1245,6 +1250,11 @@ namespace BitMiracle.LibJpeg.Classic
             if (which_tbl < 0 || which_tbl >= JpegConstants.NUM_QUANT_TBLS)
             {
                 ErrExit(JMessageCode.JERR_DQT_INDEX, which_tbl);
+            }
+
+            if (basic_table is null)
+            {
+                throw new ArgumentNullException(nameof(basic_table));
             }
 
             if (m_quant_tbl_ptrs[which_tbl] is null)

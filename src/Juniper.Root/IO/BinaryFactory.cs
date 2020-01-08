@@ -29,20 +29,18 @@ namespace Juniper.IO
 
         public ResultT Deserialize(Stream stream, IProgress prog = null)
         {
-            prog.Report(0);
-            ResultT value = default;
-            if (stream is object)
+            if (stream is null)
             {
-                using (stream)
-                {
-                    var serializer = new BinaryFormatter
-                    {
-                        Binder = this
-                    };
-
-                    value = (ResultT)serializer.Deserialize(stream);
-                }
+                throw new ArgumentNullException(nameof(stream));
             }
+
+            prog.Report(0);
+            var serializer = new BinaryFormatter
+            {
+                Binder = this
+            };
+
+            var value = (ResultT)serializer.Deserialize(stream);
 
             prog.Report(1);
             return value;
@@ -50,6 +48,11 @@ namespace Juniper.IO
 
         public void Serialize(Stream stream, ResultT value, IProgress prog = null)
         {
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
             prog.Report(0);
             var serializer = new BinaryFormatter();
             serializer.Serialize(stream, value);

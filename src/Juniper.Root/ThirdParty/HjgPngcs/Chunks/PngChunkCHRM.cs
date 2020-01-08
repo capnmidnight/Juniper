@@ -38,6 +38,11 @@ namespace Hjg.Pngcs.Chunks
 
         public override void ParseFromRaw(ChunkRaw c)
         {
+            if (c is null)
+            {
+                throw new System.ArgumentNullException(nameof(c));
+            }
+
             if (c.Len != 32)
             {
                 throw new PngjException("bad chunk " + c);
@@ -55,15 +60,24 @@ namespace Hjg.Pngcs.Chunks
 
         public override void CloneDataFromRead(AbstractPngChunk other)
         {
-            var otherx = (PngChunkCHRM)other;
-            whitex = otherx.whitex;
-            whitey = otherx.whitex;
-            redx = otherx.redx;
-            redy = otherx.redy;
-            greenx = otherx.greenx;
-            greeny = otherx.greeny;
-            bluex = otherx.bluex;
-            bluey = otherx.bluey;
+            CloneData((PngChunkCHRM)other);
+        }
+
+        private void CloneData(PngChunkCHRM other)
+        {
+            if (other is null)
+            {
+                throw new System.ArgumentNullException(nameof(other));
+            }
+
+            whitex = other.whitex;
+            whitey = other.whitex;
+            redx = other.redx;
+            redy = other.redy;
+            greenx = other.greenx;
+            greeny = other.greeny;
+            bluex = other.bluex;
+            bluey = other.bluey;
         }
 
         public void SetChromaticities(double whitex, double whitey, double redx, double redy, double greenx, double greeny,

@@ -11,20 +11,33 @@ namespace Juniper.Imaging
     {
         public static void ValidateImages<T>(this IImageProcessor<T> codec, T[,] images, IProgress prog, out int rows, out int columns, out int components, out int tileWidth, out int tileHeight)
         {
-            prog.Report(0);
+            if (codec is null)
+            {
+                throw new ArgumentNullException(nameof(codec));
+            }
 
             if (images is null)
             {
-                throw new ArgumentNullException($"Parameter {nameof(images)} must not be null.");
+                throw new ArgumentNullException(nameof(images));
             }
 
             if (images.Length == 0)
             {
-                throw new ArgumentException($"Parameter {nameof(images)} must have at least one image.");
             }
 
-            rows = images.GetLength(0);
-            columns = images.GetLength(1);
+            var r = images.GetLength(0);
+            var c = images.GetLength(1);
+
+            if(r * c == 0)
+            {
+                throw new ArgumentException("Must have at least one image.", nameof(images));
+            }
+
+            rows = r;
+            columns = c;
+
+            prog.Report(0);
+
             components = 0;
             tileWidth = 0;
             tileHeight = 0;
@@ -63,19 +76,19 @@ namespace Juniper.Imaging
             }
         }
 
-        public static T Concatenate<T>(this IImageProcessor<T> codec, T[,] images)
+        public static Task<T> ConcatenateAsync<T>(this IImageProcessor<T> codec, T[,] images, IProgress prog = null)
         {
-            return codec.Concatenate(images, null);
-        }
+            if (codec is null)
+            {
+                throw new ArgumentNullException(nameof(codec));
+            }
 
-        public static Task<T> ConcatenateAsync<T>(this IImageProcessor<T> codec, T[,] images, IProgress prog)
-        {
+            if (images is null)
+            {
+                throw new ArgumentNullException(nameof(images));
+            }
+
             return Task.Run(() => codec.Concatenate(images, prog));
-        }
-
-        public static Task<T> ConcatenateAsync<T>(this IImageProcessor<T> codec, T[,] images)
-        {
-            return codec.ConcatenateAsync(images, null);
         }
     }
 }

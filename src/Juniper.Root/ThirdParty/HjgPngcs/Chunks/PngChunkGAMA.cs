@@ -29,6 +29,11 @@ namespace Hjg.Pngcs.Chunks
 
         public override void ParseFromRaw(ChunkRaw c)
         {
+            if (c is null)
+            {
+                throw new System.ArgumentNullException(nameof(c));
+            }
+
             if (c.Len != 4)
             {
                 throw new PngjException("bad chunk " + c);
@@ -40,7 +45,17 @@ namespace Hjg.Pngcs.Chunks
 
         public override void CloneDataFromRead(AbstractPngChunk other)
         {
-            gamma = ((PngChunkGAMA)other).gamma;
+            CloneData((PngChunkGAMA)other);
+        }
+
+        private void CloneData(PngChunkGAMA other)
+        {
+            if (other is null)
+            {
+                throw new System.ArgumentNullException(nameof(other));
+            }
+
+            gamma = other.gamma;
         }
 
         public double GetGamma()

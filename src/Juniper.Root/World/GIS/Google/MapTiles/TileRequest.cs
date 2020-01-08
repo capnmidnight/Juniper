@@ -65,7 +65,7 @@ namespace Juniper.World.GIS.Google.MapTiles
             {
                 address = default;
                 center = value;
-                SetQuery(nameof(center), center.ToString(CultureInfo.InvariantCulture));
+                SetQuery(nameof(center), center?.ToString(CultureInfo.InvariantCulture));
             }
         }
 

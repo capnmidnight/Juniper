@@ -31,7 +31,6 @@ namespace Hjg.Pngcs.Chunks
         internal const string tIME = "tIME";// No None
         internal const string iTXt = "iTXt";// Yes None
         internal const string tEXt = "tEXt";// Yes None
-        internal const string zTXt = "zTXt";// Yes None
         internal static readonly byte[] b_IHDR = ToBytes(IHDR);
         internal static readonly byte[] b_PLTE = ToBytes(PLTE);
         internal static readonly byte[] b_IDAT = ToBytes(IDAT);

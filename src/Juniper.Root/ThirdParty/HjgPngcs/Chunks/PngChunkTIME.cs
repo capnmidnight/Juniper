@@ -36,6 +36,11 @@ namespace Hjg.Pngcs.Chunks
 
         public override void ParseFromRaw(ChunkRaw c)
         {
+            if (c is null)
+            {
+                throw new ArgumentNullException(nameof(c));
+            }
+
             if (c.Len != 7)
             {
                 throw new PngjException("bad chunk " + c);
@@ -53,8 +58,17 @@ namespace Hjg.Pngcs.Chunks
 
         public override void CloneDataFromRead(AbstractPngChunk other)
         {
-            var x = (PngChunkTIME)other;
-            timestamp = x.timestamp;
+            CloneData((PngChunkTIME)other);
+        }
+
+        private void CloneData(PngChunkTIME other)
+        {
+            if (other is null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+
+            timestamp = other.timestamp;
         }
 
         public void SetNow(int secsAgo)

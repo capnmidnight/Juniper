@@ -49,6 +49,11 @@ namespace Hjg.Pngcs
         ///
         public static int ReadInt2(Stream mask0)
         {
+            if (mask0 is null)
+            {
+                throw new ArgumentNullException(nameof(mask0));
+            }
+
             try
             {
                 var b1 = mask0.ReadByte();
@@ -72,6 +77,11 @@ namespace Hjg.Pngcs
         ///
         public static int ReadInt4(Stream mask0)
         {
+            if (mask0 is null)
+            {
+                throw new ArgumentNullException(nameof(mask0));
+            }
+
             try
             {
                 var b1 = mask0.ReadByte();
@@ -93,28 +103,53 @@ namespace Hjg.Pngcs
 
         public static int ReadInt1fromByte(byte[] b, int offset)
         {
+            if (b is null)
+            {
+                throw new ArgumentNullException(nameof(b));
+            }
+
             return b[offset] & 0xff;
         }
 
         public static int ReadInt2fromBytes(byte[] b, int offset)
         {
+            if (b is null)
+            {
+                throw new ArgumentNullException(nameof(b));
+            }
+
             return ((b[offset] & 0xff) << 16) | (b[offset + 1] & 0xff);
         }
 
         public static int ReadInt4fromBytes(byte[] b, int offset)
         {
+            if (b is null)
+            {
+                throw new ArgumentNullException(nameof(b));
+            }
+
             return ((b[offset] & 0xff) << 24) | ((b[offset + 1] & 0xff) << 16)
                     | ((b[offset + 2] & 0xff) << 8) | (b[offset + 3] & 0xff);
         }
 
         public static void WriteInt2tobytes(int n, byte[] b, int offset)
         {
+            if (b is null)
+            {
+                throw new ArgumentNullException(nameof(b));
+            }
+
             b[offset] = (byte)((n >> 8) & 0xff);
             b[offset + 1] = (byte)(n & 0xff);
         }
 
         public static void WriteInt4tobytes(int n, byte[] b, int offset)
         {
+            if (b is null)
+            {
+                throw new ArgumentNullException(nameof(b));
+            }
+
             b[offset] = (byte)((n >> 24) & 0xff);
             b[offset + 1] = (byte)((n >> 16) & 0xff);
             b[offset + 2] = (byte)((n >> 8) & 0xff);
@@ -135,6 +170,16 @@ namespace Hjg.Pngcs
         ///
         public static void ReadBytes(Stream mask0, byte[] b, int offset, int len)
         {
+            if (mask0 is null)
+            {
+                throw new ArgumentNullException(nameof(mask0));
+            }
+
+            if (b is null)
+            {
+                throw new ArgumentNullException(nameof(b));
+            }
+
             if (len == 0)
             {
                 return;
@@ -162,6 +207,11 @@ namespace Hjg.Pngcs
 
         public static void SkipBytes(Stream ist, int len)
         {
+            if (ist is null)
+            {
+                throw new ArgumentNullException(nameof(ist));
+            }
+
             var buf = new byte[8192 * 4];
             int read, remain = len;
             try
@@ -185,6 +235,16 @@ namespace Hjg.Pngcs
 
         public static void WriteBytes(Stream os, byte[] b)
         {
+            if (os is null)
+            {
+                throw new ArgumentNullException(nameof(os));
+            }
+
+            if (b is null)
+            {
+                throw new ArgumentNullException(nameof(b));
+            }
+
             try
             {
                 os.Write(b, 0, b.Length);
@@ -197,6 +257,16 @@ namespace Hjg.Pngcs
 
         public static void WriteBytes(Stream os, byte[] b, int offset, int n)
         {
+            if (os is null)
+            {
+                throw new ArgumentNullException(nameof(os));
+            }
+
+            if (b is null)
+            {
+                throw new ArgumentNullException(nameof(b));
+            }
+
             try
             {
                 os.Write(b, offset, n);
@@ -209,6 +279,11 @@ namespace Hjg.Pngcs
 
         public static int ReadByte(Stream mask0)
         {
+            if (mask0 is null)
+            {
+                throw new ArgumentNullException(nameof(mask0));
+            }
+
             try
             {
                 return mask0.ReadByte();
@@ -221,6 +296,11 @@ namespace Hjg.Pngcs
 
         public static void WriteByte(Stream os, byte b)
         {
+            if (os is null)
+            {
+                throw new ArgumentNullException(nameof(os));
+            }
+
             try
             {
                 os.WriteByte(b);

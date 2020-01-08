@@ -30,6 +30,11 @@ namespace Hjg.Pngcs.Chunks
 
         public override void ParseFromRaw(ChunkRaw c)
         {
+            if (c is null)
+            {
+                throw new System.ArgumentNullException(nameof(c));
+            }
+
             if (c.Len != 9)
             {
                 throw new PngjException("bad chunk length " + c);
@@ -52,10 +57,19 @@ namespace Hjg.Pngcs.Chunks
 
         public override void CloneDataFromRead(AbstractPngChunk other)
         {
-            var otherx = (PngChunkOFFS)other;
-            posX = otherx.posX;
-            posY = otherx.posY;
-            units = otherx.units;
+            CloneData((PngChunkOFFS)other);
+        }
+
+        private void CloneData(PngChunkOFFS other)
+        {
+            if (other is null)
+            {
+                throw new System.ArgumentNullException(nameof(other));
+            }
+
+            posX = other.posX;
+            posY = other.posY;
+            units = other.units;
         }
 
         /// <summary>

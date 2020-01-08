@@ -47,6 +47,11 @@ namespace Juniper.Units
         /// <returns>The UTM point</returns>
         public static UTMPoint ToUTM(this LatLngPoint latlng)
         {
+            if (latlng is null)
+            {
+                throw new ArgumentNullException(nameof(latlng));
+            }
+
             var hemisphere = latlng.Latitude < 0
                     ? UTMPoint.GlobeHemisphere.Southern
                     : UTMPoint.GlobeHemisphere.Northern;

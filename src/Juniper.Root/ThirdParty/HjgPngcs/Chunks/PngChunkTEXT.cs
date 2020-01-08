@@ -21,8 +21,8 @@ namespace Hjg.Pngcs.Chunks
                 throw new PngjException("Text chunk key must be non empty");
             }
 
-            var b1 = Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetBytes(Key);
-            var b2 = Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetBytes(Val);
+            var b1 = PngHelperInternal.charsetLatin1.GetBytes(Key);
+            var b2 = PngHelperInternal.charsetLatin1.GetBytes(Val);
             var chunk = CreateEmptyChunk(b1.Length + b2.Length + 1, true);
             Array.Copy(b1, 0, chunk.Data, 0, b1.Length);
             chunk.Data[b1.Length] = 0;
@@ -32,6 +32,11 @@ namespace Hjg.Pngcs.Chunks
 
         public override void ParseFromRaw(ChunkRaw c)
         {
+            if (c is null)
+            {
+                throw new ArgumentNullException(nameof(c));
+            }
+
             int i;
             for (i = 0; i < c.Data.Length; i++)
             {
@@ -41,16 +46,25 @@ namespace Hjg.Pngcs.Chunks
                 }
             }
 
-            Key = Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetString(c.Data, 0, i);
+            Key = PngHelperInternal.charsetLatin1.GetString(c.Data, 0, i);
             i++;
-            Val = i < c.Data.Length ? Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetString(c.Data, i, c.Data.Length - i) : "";
+            Val = i < c.Data.Length ? PngHelperInternal.charsetLatin1.GetString(c.Data, i, c.Data.Length - i) : "";
         }
 
         public override void CloneDataFromRead(AbstractPngChunk other)
         {
-            var otherx = (PngChunkTEXT)other;
-            Key = otherx.Key;
-            Val = otherx.Val;
+            CloneData((PngChunkTEXT)other);
+        }
+
+        private void CloneData(PngChunkTEXT other)
+        {
+            if (other is null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+
+            Key = other.Key;
+            Val = other.Val;
         }
     }
 }

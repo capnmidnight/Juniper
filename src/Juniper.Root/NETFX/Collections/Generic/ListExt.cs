@@ -51,6 +51,11 @@ namespace System.Collections.Generic
 
         public static void Randomize<T>(this List<T> items)
         {
+            if (items is null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
             var temp = items.ToList();
             items.Clear();
             while (temp.Count > 0)
@@ -69,6 +74,11 @@ namespace System.Collections.Generic
         /// <typeparam name="T">The 1st type parameter.</typeparam>
         public static List<T> Split<T>(this List<T> list, int index, int count)
         {
+            if (list is null)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+
             var output = list.GetRange(index, count);
             list.RemoveRange(index, count);
             return output;
@@ -86,6 +96,11 @@ namespace System.Collections.Generic
         /// <returns></returns>
         public static T[] Splice<T>(this List<T> list, int start, int deleteCount, params T[] insert)
         {
+            if (list is null)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+
             if (start < 0)
             {
                 start = list.Count + start;
@@ -112,6 +127,11 @@ namespace System.Collections.Generic
 
         public static T[] Splice<T>(this List<T> list, int start, params T[] insert)
         {
+            if (list is null)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+
             if (start > list.Count)
             {
                 start = list.Count;
@@ -129,6 +149,11 @@ namespace System.Collections.Generic
         public static List<T> Clone<T>(this List<T> list)
             where T : ICloneable
         {
+            if (list is null)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+
             return list.Select(v => v.Clone())
                 .Cast<T>()
                 .ToList();

@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -47,7 +48,7 @@ namespace Juniper.Speech.Azure.CognitiveServices
         private int ssmlTextLength;
 
         public TextToSpeechRequest(string region, string resourceName, AudioFormat outputFormat)
-            : base(HttpMethods.POST, region, "cognitiveservices/v1", outputFormat.ContentType)
+            : base(HttpMethods.POST, region, "cognitiveservices/v1", outputFormat?.ContentType ?? throw new ArgumentNullException(nameof(outputFormat)))
         {
             this.resourceName = resourceName;
             OutputFormat = outputFormat;

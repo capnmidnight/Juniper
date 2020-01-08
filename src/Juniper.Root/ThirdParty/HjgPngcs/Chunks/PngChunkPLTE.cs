@@ -43,6 +43,11 @@ namespace Hjg.Pngcs.Chunks
 
         public override void ParseFromRaw(ChunkRaw c)
         {
+            if (c is null)
+            {
+                throw new System.ArgumentNullException(nameof(c));
+            }
+
             SetNentries(c.Len / 3);
             for (int n = 0, i = 0; n < nentries; n++)
             {
@@ -53,9 +58,18 @@ namespace Hjg.Pngcs.Chunks
 
         public override void CloneDataFromRead(AbstractPngChunk other)
         {
-            var otherx = (PngChunkPLTE)other;
-            SetNentries(otherx.GetNentries());
-            System.Array.Copy(otherx.entries, 0, entries, 0, nentries);
+            CloneData((PngChunkPLTE)other);
+        }
+
+        private void CloneData(PngChunkPLTE other)
+        {
+            if (other is null)
+            {
+                throw new System.ArgumentNullException(nameof(other));
+            }
+
+            SetNentries(other.GetNentries());
+            System.Array.Copy(other.entries, 0, entries, 0, nentries);
         }
 
         /// <summary>
@@ -104,6 +118,11 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="offset"></param>
         public void GetEntryRgb(int index, int[] rgb, int offset)
         {
+            if (rgb is null)
+            {
+                throw new System.ArgumentNullException(nameof(rgb));
+            }
+
             var v = entries[index];
             rgb[offset] = ((v & 0xff0000) >> 16);
             rgb[offset + 1] = ((v & 0xff00) >> 8);

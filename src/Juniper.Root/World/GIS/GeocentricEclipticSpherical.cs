@@ -33,6 +33,11 @@ namespace Juniper.Units
         /// <returns>The position of the son on the equitorial plane</returns>
         public static EquitorialSphericalPosition ToEquitorial(this GeocentricEclipticSphericalPosition p, float n)
         {
+            if (p is null)
+            {
+                throw new ArgumentNullException(nameof(p));
+            }
+
             var epsilon_deg = 23.439f - (0.0000004f * n);
             var epsilon_rad = Degrees.Radians(epsilon_deg);
             var sin_epsilon = Sin(epsilon_rad);

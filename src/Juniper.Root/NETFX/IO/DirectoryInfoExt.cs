@@ -56,6 +56,11 @@ namespace System.IO
         /// <returns>A list of files that could not be deleted. If there were no errors, the returned value is an empty list.</returns>
         public static List<string> Nuke(this DirectoryInfo dir)
         {
+            if (dir is null)
+            {
+                throw new ArgumentNullException(nameof(dir));
+            }
+
             var allErrors = new List<string>(10);
             foreach (var file in dir.RecurseFiles())
             {
@@ -81,6 +86,16 @@ namespace System.IO
 
         public static bool Contains(this DirectoryInfo dir, FileInfo file)
         {
+            if (dir is null)
+            {
+                throw new ArgumentNullException(nameof(dir));
+            }
+
+            if (file is null)
+            {
+                return false;
+            }
+
             return Contains(dir, file.Directory);
         }
 

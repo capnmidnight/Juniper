@@ -831,6 +831,10 @@ namespace BitMiracle.LibJpeg.Classic
         /// <seealso href="../articles/KB/decompression-details.html">Decompression details</seealso>
         public void JpegStdioSrc(Stream infile)
         {
+            if (infile is null)
+            {
+                throw new ArgumentNullException(nameof(infile));
+            }
             /* The source object and input buffer are made permanent so that a series
             * of JPEG images can be read from the same file by calling jpeg_stdio_src
             * only before the first one.  (If we discarded the buffer at the end of
@@ -1105,6 +1109,11 @@ namespace BitMiracle.LibJpeg.Classic
         /// </remarks>
         public int JpegReadRawData(byte[][][] data, int max_lines)
         {
+            if (data is null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
             if (globalState != JpegState.DSTATE_RAW_OK)
             {
                 ErrExit(JMessageCode.JERR_BAD_STATE, (int)globalState);
@@ -1513,6 +1522,10 @@ namespace BitMiracle.LibJpeg.Classic
         /// Huffman optimization) are left in their default states.</remarks>
         public void JpegCopyCriticalParameters(JpegCompressStruct dstinfo)
         {
+            if (dstinfo is null)
+            {
+                throw new ArgumentNullException(nameof(dstinfo));
+            }
             /* Safety check to ensure start_compress not called yet. */
             if (dstinfo.globalState != JpegState.CSTATE_START)
             {

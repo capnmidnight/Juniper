@@ -1,3 +1,5 @@
+using System;
+using System.Globalization;
 using Juniper.Imaging;
 
 namespace Juniper.World.GIS.Google.StreetView
@@ -21,7 +23,7 @@ namespace Juniper.World.GIS.Google.StreetView
             set
             {
                 size = value;
-                SetQuery(nameof(size), size.ToString());
+                SetQuery(nameof(size), size?.ToString(CultureInfo.InvariantCulture));
             }
         }
 

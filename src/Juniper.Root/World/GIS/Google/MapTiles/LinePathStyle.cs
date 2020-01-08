@@ -65,7 +65,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public static explicit operator string(LinePathStyle style)
         {
-            return style.ToString();
+            return style?.ToString();
         }
 
         public override int GetHashCode()

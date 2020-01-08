@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 using Juniper.Progress;
@@ -14,6 +15,26 @@ namespace Juniper.IO
             bool overwrite = false,
             IProgress prog = null)
         {
+            if (fromLayer is null)
+            {
+                throw new ArgumentNullException(nameof(fromLayer));
+            }
+
+            if (fromRef is null)
+            {
+                throw new ArgumentNullException(nameof(fromRef));
+            }
+
+            if (toLayer is null)
+            {
+                throw new ArgumentNullException(nameof(toLayer));
+            }
+
+            if (toRef is null)
+            {
+                throw new ArgumentNullException(nameof(toRef));
+            }
+
             if (fromLayer.IsCached(fromRef)
                 && (overwrite || !toLayer.IsCached(toRef)))
             {
@@ -35,6 +56,21 @@ namespace Juniper.IO
             bool overwrite = false,
             IProgress prog = null)
         {
+            if (layer is null)
+            {
+                throw new ArgumentNullException(nameof(layer));
+            }
+
+            if (serializer is null)
+            {
+                throw new ArgumentNullException(nameof(serializer));
+            }
+
+            if (fileRef is null)
+            {
+                throw new ArgumentNullException(nameof(fileRef));
+            }
+
             using var stream = layer.Create(fileRef, overwrite);
             serializer.Serialize(stream, value, prog);
         }

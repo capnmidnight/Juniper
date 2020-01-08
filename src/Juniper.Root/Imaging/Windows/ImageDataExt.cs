@@ -104,6 +104,11 @@ namespace Juniper.Imaging
 
         public static int GetComponents(this System.Drawing.Image img)
         {
+            if (img is null)
+            {
+                throw new ArgumentNullException(nameof(img));
+            }
+
             if (img.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
             {
                 return 4;

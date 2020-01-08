@@ -20,6 +20,11 @@ namespace System.Net
         /// <returns>An <see cref="HttpWebRequest"/> object.</returns>
         public static HttpWebRequest Create(Uri uri)
         {
+            if (uri is null)
+            {
+                throw new ArgumentNullException(nameof(uri));
+            }
+
             var request = (HttpWebRequest)WebRequest.Create(uri);
             if (uri.Scheme == "http")
             {
@@ -59,6 +64,21 @@ namespace System.Net
         /// ]]></example>
         public static HttpWebRequest Header<T>(this HttpWebRequest request, string name, T value)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            if (name is null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            if(value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             string valueString;
             if (value is bool b)
             {
@@ -88,36 +108,66 @@ namespace System.Net
         /// ]]></example>
         public static HttpWebRequest DoNotTrack(this HttpWebRequest request)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             request.Header("DNT", 1);
             return request;
         }
 
         public static HttpWebRequest Host(this HttpWebRequest request, string host)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             request.Host = host;
             return request;
         }
 
         public static HttpWebRequest UserAgent(this HttpWebRequest request, string agent)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             request.UserAgent = agent;
             return request;
         }
 
         public static HttpWebRequest Referer(this HttpWebRequest request, string referer)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             request.Referer = referer;
             return request;
         }
 
         public static HttpWebRequest FetchMode(this HttpWebRequest request, string mode)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             request.Header("Sec-Fetch-Mode", mode);
             return request;
         }
 
         public static HttpWebRequest FetchSite(this HttpWebRequest request, string site)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             request.Header("Sec-Fetch-Site", site);
             return request;
         }
@@ -136,6 +186,11 @@ namespace System.Net
         /// ]]></example>
         public static HttpWebRequest Accept(this HttpWebRequest request, string type)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             request.Accept = type;
             return request;
         }
@@ -155,6 +210,11 @@ namespace System.Net
         /// ]]></example>
         public static HttpWebRequest TransferEncoding(this HttpWebRequest request, string encoding)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             request.SendChunked = true;
             request.TransferEncoding = encoding;
             return request;
@@ -205,18 +265,48 @@ namespace System.Net
         /// ]]></example>
         public static HttpWebRequest KeepAlive(this HttpWebRequest request)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             request.KeepAlive = true;
             return request;
         }
 
         public static HttpWebRequest Cookie(this HttpWebRequest request, string keyValue, string domain)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            if (keyValue is null)
+            {
+                throw new ArgumentNullException(nameof(keyValue));
+            }
+
             var parts = keyValue.SplitX('=');
             return request.Cookie(parts[0], parts[1], domain);
         }
 
         public static HttpWebRequest Cookie(this HttpWebRequest request, string key, string value, string domain)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            if (key is null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
+
+            if(key.Length == 0)
+            {
+                throw new ArgumentException("Key must have a value.", nameof(key));
+            }
+
             var cookie = new Cookie(key, value, string.Empty, domain);
             request.CookieContainer ??= new CookieContainer();
             request.CookieContainer.Add(cookie);
@@ -238,6 +328,11 @@ namespace System.Net
         /// ]]></example>
         public static HttpWebRequest Method(this HttpWebRequest request, HttpMethods verb)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             request.Method = verb.ToString();
             return request;
         }
@@ -250,6 +345,11 @@ namespace System.Net
         /// <returns>The request that was passed as the first argument, so that literate calls may be chained together.</returns>
         public static HttpWebRequest BasicAuth(this HttpWebRequest request, string userName, string password)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password))
             {
                 var authPair = userName + ":" + password;
@@ -313,6 +413,11 @@ namespace System.Net
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
         public static async Task<HttpWebResponse> DeleteAsync(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             request = request.Method(HttpMethods.DELETE);
             await request
                 .WriteBodyAsync(getInfo, writeBody, prog)
@@ -328,6 +433,11 @@ namespace System.Net
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
         public static Task<HttpWebResponse> DeleteAsync(this HttpWebRequest request)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             return request.DeleteAsync(null, null, null);
         }
 
@@ -338,6 +448,11 @@ namespace System.Net
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
         public static async Task<HttpWebResponse> GetAsync(this HttpWebRequest request)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             return (HttpWebResponse)await request
                 .Method(HttpMethods.GET)
                 .GetResponseAsync()

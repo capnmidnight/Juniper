@@ -13,7 +13,12 @@ namespace Juniper.Compression.Zip
 
         public ZipArchiveEntryStream(ZipArchive zip, ZipArchiveEntry entry)
         {
-            this.zip = zip;
+            if (entry is null)
+            {
+                throw new ArgumentNullException(nameof(entry));
+            }
+
+            this.zip = zip ?? throw new ArgumentNullException(nameof(zip));
             entryStream = entry.Open();
         }
 

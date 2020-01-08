@@ -12,7 +12,12 @@ namespace Juniper.Compression.Tar
 
         public TarArchiveEntryStream(TarArchive tar, TarArchiveEntry entry)
         {
-            this.tar = tar;
+            if (entry is null)
+            {
+                throw new ArgumentNullException(nameof(entry));
+            }
+
+            this.tar = tar ?? throw new ArgumentNullException(nameof(tar));
             entryStream = entry.Open();
         }
 

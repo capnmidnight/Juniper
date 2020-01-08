@@ -98,11 +98,11 @@ namespace Juniper.Imaging
             return !(left == right);
         }
 
-        public override string ToString()
+        public string ToString(IFormatProvider formatter)
         {
-            return Width.ToString(CultureInfo.InvariantCulture)
+            return Width.ToString(formatter)
                 + "x"
-                + Height.ToString(CultureInfo.InvariantCulture);
+                + Height.ToString(formatter);
         }
 
         public override int GetHashCode()
@@ -113,9 +113,17 @@ namespace Juniper.Imaging
             return hashCode;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
+        public override string ToString()
+        {
+            return Width.ToString()
+                + "x"
+                + Height.ToString();
+        }
+
         public static explicit operator string(Size size)
         {
-            return size?.ToString();
+            return size?.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

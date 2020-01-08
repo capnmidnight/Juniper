@@ -69,6 +69,11 @@ namespace System.Collections.Generic
         /// ]]></code></example>
         public static KeyT GetKey<KeyT, ValueT>(this IDictionary<KeyT, ValueT> dict, ValueT value)
         {
+            if (dict is null)
+            {
+                throw new ArgumentNullException(nameof(dict));
+            }
+
             foreach (var pair in dict)
             {
                 if (pair.Value.Equals(value))
@@ -83,6 +88,11 @@ namespace System.Collections.Generic
         public static ValueT Default<KeyT, ValueT>(this IDictionary<KeyT, ValueT> dict, KeyT key)
             where ValueT : new()
         {
+            if (dict is null)
+            {
+                throw new ArgumentNullException(nameof(dict));
+            }
+
             if (!dict.ContainsKey(key))
             {
                 dict.Add(key, new ValueT());
@@ -93,6 +103,11 @@ namespace System.Collections.Generic
 
         public static ValueT Default<KeyT, ValueT>(this IDictionary<KeyT, ValueT> dict, KeyT key, ValueT value)
         {
+            if (dict is null)
+            {
+                throw new ArgumentNullException(nameof(dict));
+            }
+
             if (!dict.ContainsKey(key))
             {
                 dict.Add(key, value);
@@ -103,6 +118,16 @@ namespace System.Collections.Generic
 
         public static ValueT Default<KeyT, ValueT>(this IDictionary<KeyT, ValueT> dict, KeyT key, Func<ValueT> constructor)
         {
+            if (dict is null)
+            {
+                throw new ArgumentNullException(nameof(dict));
+            }
+
+            if (constructor is null)
+            {
+                throw new ArgumentNullException(nameof(constructor));
+            }
+
             if (!dict.ContainsKey(key))
             {
                 dict.Add(key, constructor());
@@ -113,6 +138,11 @@ namespace System.Collections.Generic
 
         public static bool MaybeRemove<KeyT, ValueT>(this IDictionary<KeyT, ValueT> dict, KeyT key)
         {
+            if (dict is null)
+            {
+                throw new ArgumentNullException(nameof(dict));
+            }
+
             if (dict.ContainsKey(key))
             {
                 dict.Remove(key);
@@ -141,6 +171,11 @@ namespace System.Collections.Generic
         [SuppressMessage("Performance", "HAA0401:Possible allocation of reference type enumerator", Justification = "Inverting a dictionary is inherently expensive")]
         public static Dictionary<B, A> Invert<A, B>(this IDictionary<A, B> dict)
         {
+            if (dict is null)
+            {
+                throw new ArgumentNullException(nameof(dict));
+            }
+
             var dict2 = new Dictionary<B, A>();
             foreach (var kv in dict)
             {

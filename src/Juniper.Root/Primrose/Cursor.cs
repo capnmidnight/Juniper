@@ -11,7 +11,9 @@ namespace Juniper.Primrose
 
         public static Cursor Min(Cursor a, Cursor b)
         {
-            if (a.i <= b.i)
+            if (a is object
+                && b is object
+                && a.i <= b.i)
             {
                 return a;
             }
@@ -21,7 +23,9 @@ namespace Juniper.Primrose
 
         public static Cursor Max(Cursor a, Cursor b)
         {
-            if (a.i > b.i)
+            if (a is object
+                && b is object
+                && a.i > b.i)
             {
                 return a;
             }
@@ -44,6 +48,11 @@ namespace Juniper.Primrose
 
         public int CompareTo(Cursor other)
         {
+            if (other is null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+
             return i.CompareTo(other.i);
         }
 
@@ -66,6 +75,11 @@ namespace Juniper.Primrose
 
         public void Copy(Cursor other)
         {
+            if (other is null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+
             i = other.i;
             x = other.x;
             y = other.y;
@@ -82,6 +96,11 @@ namespace Juniper.Primrose
 
         public void FullEnd(string[] lines)
         {
+            if (lines is null)
+            {
+                throw new ArgumentNullException(nameof(lines));
+            }
+
             i = 0;
             var lastLength = 0;
             for (var y = 0; y < lines.Length; ++y)
@@ -98,6 +117,11 @@ namespace Juniper.Primrose
 
         public void SkipLeft(string[] lines)
         {
+            if (lines is null)
+            {
+                throw new ArgumentNullException(nameof(lines));
+            }
+
             if (x == 0)
             {
                 Left(lines);
@@ -122,6 +146,11 @@ namespace Juniper.Primrose
 
         public void Left(string[] lines)
         {
+            if (lines is null)
+            {
+                throw new ArgumentNullException(nameof(lines));
+            }
+
             if (i > 0)
             {
                 --i;
@@ -144,6 +173,11 @@ namespace Juniper.Primrose
 
         public void SkipRight(string[] lines)
         {
+            if (lines is null)
+            {
+                throw new ArgumentNullException(nameof(lines));
+            }
+
             var line = lines[y];
             if (x == line.Length || line[x] == '\n')
             {
@@ -167,6 +201,11 @@ namespace Juniper.Primrose
 
         public bool FixCursor(string[] lines)
         {
+            if (lines is null)
+            {
+                throw new ArgumentNullException(nameof(lines));
+            }
+
             x = i;
             y = 0;
             var total = 0;
@@ -197,6 +236,11 @@ namespace Juniper.Primrose
 
         public void AdvanceN(string[] lines, int n)
         {
+            if (lines is null)
+            {
+                throw new ArgumentNullException(nameof(lines));
+            }
+
             var line = lines[y];
             if (y < lines.Length - 1 || x < line.Length)
             {
@@ -222,6 +266,11 @@ namespace Juniper.Primrose
 
         public void End(string[] lines)
         {
+            if (lines is null)
+            {
+                throw new ArgumentNullException(nameof(lines));
+            }
+
             var line = lines[y];
             var dx = line.Length - x;
             i += dx;
@@ -232,6 +281,11 @@ namespace Juniper.Primrose
 
         public void Up(string[] lines)
         {
+            if (lines is null)
+            {
+                throw new ArgumentNullException(nameof(lines));
+            }
+
             if (y > 0)
             {
                 --y;
@@ -247,6 +301,11 @@ namespace Juniper.Primrose
 
         public void Down(string[] lines)
         {
+            if (lines is null)
+            {
+                throw new ArgumentNullException(nameof(lines));
+            }
+
             if (y < lines.Length - 1)
             {
                 ++y;
@@ -263,6 +322,11 @@ namespace Juniper.Primrose
 
         public void IncY(int dy, string[] lines)
         {
+            if (lines is null)
+            {
+                throw new ArgumentNullException(nameof(lines));
+            }
+
             y = Math.Max(0, Math.Min(lines.Length - 1, y + dy));
             var line = lines[y];
             x = Math.Max(0, Math.Min(line.Length, x));
@@ -278,6 +342,11 @@ namespace Juniper.Primrose
 
         public void SetXY(int x, int y, string[] lines)
         {
+            if (lines is null)
+            {
+                throw new ArgumentNullException(nameof(lines));
+            }
+
             y = Math.Max(0, Math.Min(lines.Length - 1, y));
             var line = lines[y];
             x = Math.Max(0, Math.Min(line.Length, x));
@@ -300,6 +369,11 @@ namespace Juniper.Primrose
 
         public bool ReverseFromNewline(string[] lines)
         {
+            if (lines is null)
+            {
+                throw new ArgumentNullException(nameof(lines));
+            }
+
             var line = lines[y];
             if (x > 0 && line[x - 1] == '\n')
             {

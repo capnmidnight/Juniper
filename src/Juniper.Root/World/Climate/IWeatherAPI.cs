@@ -29,6 +29,6 @@ namespace Juniper.Climate
         /// <param name="location"></param>
         /// <param name="force"></param>
         /// <param name="prog"></param>
-        Task<IWeatherReport> GetWeatherReportAsync(LatLngPoint location, bool force, IProgress prog);
+        Task<IWeatherReport> GetWeatherReportAsync(LatLngPoint location, bool force, IProgress prog = null);
     }
 }

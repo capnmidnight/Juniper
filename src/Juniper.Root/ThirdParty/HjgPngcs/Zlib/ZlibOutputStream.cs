@@ -5,7 +5,8 @@ namespace Hjg.Pngcs.Zlib
 {
     internal class ZlibOutputStream : AZlibOutputStream
     {
-        public ZlibOutputStream(Stream st, int compressLevel, EDeflateCompressStrategy strat, bool leaveOpen) : base(st, compressLevel, strat, leaveOpen)
+        public ZlibOutputStream(Stream st, int compressLevel, EDeflateCompressStrategy strat, bool leaveOpen)
+            : base(st, compressLevel, strat, leaveOpen)
         {
         }
 
@@ -93,6 +94,7 @@ namespace Hjg.Pngcs.Zlib
             {
                 return;
             }
+
             // I must create the DeflateStream only if necessary, because of its bug with empty input (sigh)
             // I must create with leaveopen=true always and do the closing myself, because MS moronic implementation of DeflateStream: I cant force a flush of the underlying stream witouth closing (sigh bis)
             var clevel = CompressionLevel.Optimal;

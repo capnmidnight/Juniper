@@ -18,12 +18,22 @@ namespace Juniper.IO
 
         public virtual bool IsCached(ContentReference fileRef)
         {
+            if (fileRef is null)
+            {
+                throw new System.ArgumentNullException(nameof(fileRef));
+            }
+
             return store.ContainsKey(fileRef.ContentType)
                 && store[fileRef.ContentType].ContainsKey(fileRef.CacheID);
         }
 
         public Stream Create(ContentReference fileRef, bool overwrite)
         {
+            if (fileRef is null)
+            {
+                throw new System.ArgumentNullException(nameof(fileRef));
+            }
+
             Stream stream = null;
 
             var subStore = store.Default(fileRef.ContentType);
@@ -44,6 +54,11 @@ namespace Juniper.IO
 
         public Task<Stream> GetStreamAsync(ContentReference fileRef, IProgress prog)
         {
+            if (fileRef is null)
+            {
+                throw new System.ArgumentNullException(nameof(fileRef));
+            }
+
             Stream stream = null;
             if (IsCached(fileRef))
             {
@@ -72,6 +87,11 @@ namespace Juniper.IO
 
         public bool Delete(ContentReference fileRef)
         {
+            if (fileRef is null)
+            {
+                throw new System.ArgumentNullException(nameof(fileRef));
+            }
+
             if (IsCached(fileRef))
             {
                 return store[fileRef.ContentType]

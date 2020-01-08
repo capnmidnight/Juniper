@@ -35,6 +35,11 @@ namespace Hjg.Pngcs.Chunks
 
         public override void ParseFromRaw(ChunkRaw c)
         {
+            if (c is null)
+            {
+                throw new ArgumentNullException(nameof(c));
+            }
+
             var pos0 = Hjg.Pngcs.Chunks.ChunkHelper.PosNullByte(c.Data);
             profileName = Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetString(c.Data, 0, pos0);
             var comp = (c.Data[pos0 + 1] & 0xff);
@@ -45,15 +50,24 @@ namespace Hjg.Pngcs.Chunks
 
             var compdatasize = c.Data.Length - (pos0 + 2);
             compressedProfile = new byte[compdatasize];
-            System.Array.Copy(c.Data, pos0 + 2, compressedProfile, 0, compdatasize);
+            Array.Copy(c.Data, pos0 + 2, compressedProfile, 0, compdatasize);
         }
 
         public override void CloneDataFromRead(AbstractPngChunk other)
         {
-            var otherx = (PngChunkICCP)other;
-            profileName = otherx.profileName;
-            compressedProfile = new byte[otherx.compressedProfile.Length];
-            System.Array.Copy(otherx.compressedProfile, compressedProfile, compressedProfile.Length);
+            CloneData((PngChunkICCP)other);
+        }
+
+        private void CloneData(PngChunkICCP other)
+        {
+            if (other is null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+
+            profileName = other.profileName;
+            compressedProfile = new byte[other.compressedProfile.Length];
+            Array.Copy(other.compressedProfile, compressedProfile, compressedProfile.Length);
         }
 
         /// <summary>
@@ -73,6 +87,11 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="profile">profile (uncompressed)</param>
         public void SetProfileNameAndContent(string name, byte[] profile)
         {
+            if (profile is null)
+            {
+                throw new ArgumentNullException(nameof(profile));
+            }
+
             profileName = name;
             compressedProfile = ChunkHelper.CompressBytes(profile, true);
         }

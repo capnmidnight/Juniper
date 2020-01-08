@@ -136,50 +136,48 @@ namespace Juniper.MediaTypes
 
         private static async Task ParseIANAXmlAsync(Dictionary<string, Group> groups)
         {
-            using (var response = await HttpWebRequestExt
+            using var response = await HttpWebRequestExt
                 .Create(new Uri("https://www.iana.org/assignments/media-types/media-types.xml"))
                 .UserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36")
                 .Accept("text/xml")
                 .GetAsync()
-                .ConfigureAwait(false))
-            using (var stream = response.GetResponseStream())
+                .ConfigureAwait(false);
+            using var stream = response.GetResponseStream();
+            var fullRegistry = XElement.Load(stream);
+            ns = fullRegistry.GetDefaultNamespace();
+            var files = fullRegistry.Descendants(ns + "file");
+            foreach (var file in files)
             {
-                var fullRegistry = XElement.Load(stream);
-                ns = fullRegistry.GetDefaultNamespace();
-                var files = fullRegistry.Descendants(ns + "file");
-                foreach (var file in files)
+                var groupName = file.Parent.Parent.Attribute("id").Value;
+                var nameAndDescription = file.Parent.Element(ns + "name").Value;
+                //var groupAndName = file.Value;
+                var name = nameAndDescription;
+
+                var deprecationMessageIndex = nameAndDescription.IndexOf(" ", StringComparison.Ordinal);
+                var isDeprecated = deprecationMessageIndex >= 0;
+                string deprecationMessage = null;
+                if (isDeprecated)
                 {
-                    var groupName = file.Parent.Parent.Attribute("id").Value;
-                    var nameAndDescription = file.Parent.Element(ns + "name").Value;
-                    //var groupAndName = file.Value;
-                    var name = nameAndDescription;
-
-                    var deprecationMessageIndex = nameAndDescription.IndexOf(" ", StringComparison.Ordinal);
-                    var isDeprecated = deprecationMessageIndex >= 0;
-                    string deprecationMessage = null;
-                    if (isDeprecated)
+                    deprecationMessage = nameAndDescription.Substring(deprecationMessageIndex + 1).Trim();
+                    name = nameAndDescription.Substring(0, deprecationMessageIndex);
+                    if (deprecationMessage.StartsWith("-", StringComparison.Ordinal))
                     {
-                        deprecationMessage = nameAndDescription.Substring(deprecationMessageIndex + 1).Trim();
-                        name = nameAndDescription.Substring(0, deprecationMessageIndex);
-                        if (deprecationMessage.StartsWith("-", StringComparison.Ordinal))
-                        {
-                            deprecationMessage = deprecationMessage.Substring(1).Trim();
-                        }
+                        deprecationMessage = deprecationMessage.Substring(1).Trim();
                     }
-
-                    var value = $"{groupName}/{name.ToLowerInvariant()}";
-                    var group = groups.GetGroup(groupName);
-
-                    var plusIndex = value.IndexOf('+');
-                    string[] extensions = null;
-                    if (0 <= plusIndex && plusIndex < value.Length - 1)
-                    {
-                        extensions = new string[] { value.Substring(plusIndex + 1) };
-                    }
-
-                    name = name.CamelCase();
-                    AddEntry(group, name, value, deprecationMessage, extensions);
                 }
+
+                var value = $"{groupName}/{name.ToLowerInvariant()}";
+                var group = groups.GetGroup(groupName);
+
+                var plusIndex = value.IndexOf('+');
+                string[] extensions = null;
+                if (0 <= plusIndex && plusIndex < value.Length - 1)
+                {
+                    extensions = new string[] { value.Substring(plusIndex + 1) };
+                }
+
+                name = name.CamelCase();
+                AddEntry(group, name, value, deprecationMessage, extensions);
             }
         }
 

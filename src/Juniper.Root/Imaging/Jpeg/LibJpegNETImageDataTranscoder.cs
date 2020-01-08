@@ -12,8 +12,13 @@ namespace Juniper.Imaging
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Jpeg bytes.</param>
-        public ImageData Translate(JpegImage value, IProgress prog)
+        public ImageData Translate(JpegImage value, IProgress prog = null)
         {
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             var stride = value.Width * value.ComponentsPerSample;
             var numRows = value.Height;
             var data = new byte[numRows * stride];
@@ -36,8 +41,13 @@ namespace Juniper.Imaging
         /// Encodes a raw file buffer of image data into a JPEG image.
         /// </summary>
         /// <param name="outputStream">Jpeg bytes.</param>
-        public JpegImage Translate(ImageData image, IProgress prog)
+        public JpegImage Translate(ImageData image, IProgress prog = null)
         {
+            if (image is null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
             var subProgs = prog.Split("Copying", "Saving");
             var copyProg = subProgs[0];
             var saveProg = subProgs[1];

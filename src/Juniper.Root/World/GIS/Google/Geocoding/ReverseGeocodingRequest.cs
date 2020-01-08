@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Juniper.World.GIS.Google.Geocoding
 {
@@ -42,7 +43,7 @@ namespace Juniper.World.GIS.Google.Geocoding
             set
             {
                 latlng = value;
-                SetQuery(nameof(latlng), latlng);
+                SetQuery(nameof(latlng), latlng?.ToString(CultureInfo.InvariantCulture));
             }
         }
 
@@ -51,7 +52,7 @@ namespace Juniper.World.GIS.Google.Geocoding
             if (AcceptableResultTypes.Contains(value))
             {
                 result_type.Add(value);
-                SetQuery(nameof(result_type), result_type.ToString("|"));
+                SetQuery(nameof(result_type), result_type?.ToString("|"));
             }
         }
 
@@ -60,7 +61,7 @@ namespace Juniper.World.GIS.Google.Geocoding
             if (value != GeometryLocationType.Unknown)
             {
                 location_type.Add(value);
-                SetQuery(nameof(location_type), location_type.ToString("|"));
+                SetQuery(nameof(location_type), location_type?.ToString("|"));
             }
         }
     }

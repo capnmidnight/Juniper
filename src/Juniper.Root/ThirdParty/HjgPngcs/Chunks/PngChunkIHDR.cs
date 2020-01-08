@@ -44,6 +44,11 @@ namespace Hjg.Pngcs.Chunks
 
         public override void ParseFromRaw(ChunkRaw c)
         {
+            if (c is null)
+            {
+                throw new System.ArgumentNullException(nameof(c));
+            }
+
             if (c.Len != 13)
             {
                 throw new PngjException("Bad IDHR len " + c.Len.ToString(CultureInfo.CurrentCulture));
@@ -62,14 +67,23 @@ namespace Hjg.Pngcs.Chunks
 
         public override void CloneDataFromRead(AbstractPngChunk other)
         {
-            var otherx = (PngChunkIHDR)other;
-            Cols = otherx.Cols;
-            Rows = otherx.Rows;
-            Bitspc = otherx.Bitspc;
-            Colormodel = otherx.Colormodel;
-            Compmeth = otherx.Compmeth;
-            Filmeth = otherx.Filmeth;
-            Interlaced = otherx.Interlaced;
+            CloneData((PngChunkIHDR)other);
+        }
+
+        private void CloneData(PngChunkIHDR other)
+        {
+            if (other is null)
+            {
+                throw new System.ArgumentNullException(nameof(other));
+            }
+
+            Cols = other.Cols;
+            Rows = other.Rows;
+            Bitspc = other.Bitspc;
+            Colormodel = other.Colormodel;
+            Compmeth = other.Compmeth;
+            Filmeth = other.Filmeth;
+            Interlaced = other.Interlaced;
         }
     }
 }
