@@ -36,7 +36,10 @@ namespace Juniper.XR
         /// <returns></returns>
         public static PlatformType Compose(SystemTypes sys, DisplayTypes display, AugmentedRealityTypes ar, Options opt)
         {
-            return (PlatformType)((int)sys << SYS_OFFSET | (int)display << DISPLAY_OFFSET | (int)ar << AR_OFFSET | (int)opt);
+            return (PlatformType)(((int)sys << SYS_OFFSET)
+                | ((int)display << DISPLAY_OFFSET)
+                | ((int)ar << AR_OFFSET)
+                | (int)opt);
         }
 
         /// <summary>

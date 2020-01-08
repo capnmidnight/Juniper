@@ -5,25 +5,27 @@ namespace Hjg.Pngcs.Zlib
 {
     public abstract class AZlibOutputStream : Stream
     {
-        protected Stream rawStream { get; set; }
-        protected bool leaveOpen { get; }
-        protected int compressLevel { get; set; }
+        protected Stream RawStream { get; set; }
+
+        protected bool LeaveOpen { get; }
+
+        protected int CompressLevel { get; set; }
 
         protected EDeflateCompressStrategy Strategy { get; }
 
         protected AZlibOutputStream(Stream st, int compressLevel, EDeflateCompressStrategy strat, bool leaveOpen)
         {
-            rawStream = st;
-            this.leaveOpen = leaveOpen;
+            RawStream = st;
+            LeaveOpen = leaveOpen;
             Strategy = strat;
-            this.compressLevel = compressLevel;
+            CompressLevel = compressLevel;
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && !leaveOpen)
+            if (disposing && !LeaveOpen)
             {
-                rawStream.Dispose();
+                RawStream.Dispose();
             }
 
             base.Dispose(disposing);

@@ -149,7 +149,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Support color transform only for RGB colorspaces */
-            if (cinfo.color_transform != JColorTransform.JCT_NONE &&
+            if (cinfo.ColorTransform != JColorTransform.JCT_NONE &&
                 cinfo.Jpeg_color_space != JColorSpace.JCS_RGB &&
                 cinfo.Jpeg_color_space != JColorSpace.JCS_BG_RGB)
             {
@@ -193,7 +193,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 if (cinfo.m_in_color_space == cinfo.Jpeg_color_space)
                 {
-                    switch (cinfo.color_transform)
+                    switch (cinfo.ColorTransform)
                     {
                         case JColorTransform.JCT_NONE:
                         color_convert = RgbConvert;

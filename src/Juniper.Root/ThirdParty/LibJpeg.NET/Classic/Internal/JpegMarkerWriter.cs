@@ -73,7 +73,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             if (m_cinfo.arith_code
                 || m_cinfo.m_progressive_mode
                 || m_cinfo.m_data_precision != 8
-                || m_cinfo.block_size != JpegConstants.DCTSIZE)
+                || m_cinfo.BlockSize != JpegConstants.DCTSIZE)
             {
                 is_baseline = false;
             }
@@ -122,13 +122,13 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             /* Check to emit LSE inverse color transform specification marker */
-            if (m_cinfo.color_transform != JColorTransform.JCT_NONE)
+            if (m_cinfo.ColorTransform != JColorTransform.JCT_NONE)
             {
                 EmitLseIct();
             }
 
             /* Check to emit pseudo SOS marker */
-            if (m_cinfo.m_progressive_mode && m_cinfo.block_size != JpegConstants.DCTSIZE)
+            if (m_cinfo.m_progressive_mode && m_cinfo.BlockSize != JpegConstants.DCTSIZE)
             {
                 EmitPseudoSOS();
             }
@@ -301,7 +301,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private void EmitLseIct()
         {
             /* Support only 1 transform */
-            if (m_cinfo.color_transform != JColorTransform.JCT_SUBTRACT_GREEN || m_cinfo.Num_components < 3)
+            if (m_cinfo.ColorTransform != JColorTransform.JCT_SUBTRACT_GREEN || m_cinfo.Num_components < 3)
             {
                 m_cinfo.ErrExit(JMessageCode.JERR_CONVERSION_NOTIMPL);
             }
@@ -576,7 +576,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             EmitByte(0); /* Ns */
 
             EmitByte(0); /* Ss */
-            EmitByte((m_cinfo.block_size * m_cinfo.block_size) - 1); /* Se */
+            EmitByte((m_cinfo.BlockSize * m_cinfo.BlockSize) - 1); /* Se */
             EmitByte(0); /* Ah/Al */
         }
 

@@ -287,7 +287,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
 
             m_cinfo.m_Ss = 0;
-            m_cinfo.m_Se = (m_cinfo.block_size * m_cinfo.block_size) - 1;
+            m_cinfo.m_Se = (m_cinfo.BlockSize * m_cinfo.BlockSize) - 1;
             m_cinfo.m_Ah = 0;
             m_cinfo.m_Al = 0;
         }
@@ -340,10 +340,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
                 /* Overall image size in MCUs */
                 m_cinfo.m_MCUs_per_row = (int)JpegUtils.jdiv_round_up(
-                    m_cinfo.jpeg_width, m_cinfo.m_max_h_samp_factor * m_cinfo.block_size);
+                    m_cinfo.jpeg_width, m_cinfo.m_max_h_samp_factor * m_cinfo.BlockSize);
 
                 m_cinfo.m_MCU_rows_in_scan = (int)JpegUtils.jdiv_round_up(
-                    m_cinfo.jpeg_height, m_cinfo.m_max_v_samp_factor * m_cinfo.block_size);
+                    m_cinfo.jpeg_height, m_cinfo.m_max_v_samp_factor * m_cinfo.BlockSize);
 
                 m_cinfo.m_blocks_in_MCU = 0;
 

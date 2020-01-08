@@ -1537,7 +1537,7 @@ namespace BitMiracle.LibJpeg.Classic
              * Note: Entropy table assignment in jpeg_set_colorspace depends
              * on color_transform.
              */
-            dstinfo.color_transform = color_transform;
+            dstinfo.ColorTransform = color_transform;
             dstinfo.JpegSetColorspace(jpegColorSpace);
             dstinfo.m_data_precision = m_dataPrecision;
             dstinfo.CIR601sampling = m_CCIR601_sampling;

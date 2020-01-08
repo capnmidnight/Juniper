@@ -81,57 +81,55 @@ namespace Juniper.MediaTypes
 
         private static async Task ParseApacheConfAsync(Dictionary<string, Group> groups)
         {
-            using (var response = await HttpWebRequestExt
+            using var response = await HttpWebRequestExt
                 .Create(new Uri("http://svn.apache.org/viewvc/httpd/httpd/trunk/docs/conf/mime.types?view=co"))
                 .Accept("text/plain")
                 .GetAsync()
-                .ConfigureAwait(false))
-            using (var stream = response.GetResponseStream())
-            using (var reader = new StreamReader(stream))
+                .ConfigureAwait(false);
+            using var stream = response.GetResponseStream();
+            using var reader = new StreamReader(stream);
+            var searching = true;
+            while (!reader.EndOfStream)
             {
-                var searching = true;
-                while (!reader.EndOfStream)
+                var line = await reader.ReadLineAsync()
+                    .ConfigureAwait(false);
+                if (line.StartsWith("# ", StringComparison.Ordinal))
                 {
-                    var line = await reader.ReadLineAsync()
-                        .ConfigureAwait(false);
-                    if (line.StartsWith("# ", StringComparison.Ordinal))
+                    line = line.Substring(2);
+                }
+
+                if (!searching)
+                {
+                    var parts = line.Split(' ', '\t')
+                        .Where(p => p.Length > 0);
+
+                    var value = parts.First();
+                    var extensions = parts.Skip(1).ToArray();
+                    if (extensions.Length == 0)
                     {
-                        line = line.Substring(2);
+                        extensions = null;
                     }
+                    var slashIndex = value.IndexOf('/');
+                    var groupName = value.Substring(0, slashIndex);
+                    var name = value.Substring(slashIndex + 1);
 
-                    if (!searching)
+                    var group = groups.GetGroup(groupName);
+                    name = name.CamelCase();
+
+                    if (extensions == null)
                     {
-                        var parts = line.Split(' ', '\t')
-                            .Where(p => p.Length > 0);
-
-                        var value = parts.First();
-                        var extensions = parts.Skip(1).ToArray();
-                        if (extensions.Length == 0)
+                        var plusIndex = value.IndexOf('+');
+                        if (0 <= plusIndex && plusIndex < value.Length - 1)
                         {
-                            extensions = null;
+                            extensions = new string[] { value.Substring(plusIndex + 1) };
                         }
-                        var slashIndex = value.IndexOf('/');
-                        var groupName = value.Substring(0, slashIndex);
-                        var name = value.Substring(slashIndex + 1);
-
-                        var group = groups.GetGroup(groupName);
-                        name = name.CamelCase();
-
-                        if (extensions == null)
-                        {
-                            var plusIndex = value.IndexOf('+');
-                            if (0 <= plusIndex && plusIndex < value.Length - 1)
-                            {
-                                extensions = new string[] { value.Substring(plusIndex + 1) };
-                            }
-                        }
-
-                        AddEntry(group, name, value, null, extensions);
                     }
-                    else if (line.StartsWith("====================", StringComparison.Ordinal))
-                    {
-                        searching = false;
-                    }
+
+                    AddEntry(group, name, value, null, extensions);
+                }
+                else if (line.StartsWith("====================", StringComparison.Ordinal))
+                {
+                    searching = false;
                 }
             }
         }

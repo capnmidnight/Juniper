@@ -397,7 +397,7 @@ namespace Juniper.HTTP.Server
                 }
                 else
                 {
-                    subnetBytes[i] = (byte)(byte.MaxValue << Units.Bits.PER_BYTE - bitmaskLength);
+                    subnetBytes[i] = (byte)(byte.MaxValue << (Units.Bits.PER_BYTE - bitmaskLength));
                     break;
                 }
             }
@@ -436,7 +436,7 @@ namespace Juniper.HTTP.Server
             BitmaskLength = bitmaskLength;
 
             Count = 0;
-            for (int i = 0; i < startBytes.Length; ++i)
+            for (var i = 0; i < startBytes.Length; ++i)
             {
                 Count *= byte.MaxValue;
                 Count += endBytes[i] - startBytes[i];
@@ -538,7 +538,7 @@ namespace Juniper.HTTP.Server
             var end = other.startBytes;
 
             var distance = 0f;
-            for (int i = 0; i < start.Length; ++i)
+            for (var i = 0; i < start.Length; ++i)
             {
                 distance *= byte.MaxValue;
                 distance += end[i] - start[i];
@@ -681,8 +681,8 @@ namespace Juniper.HTTP.Server
 
         public static bool operator ==(CIDRBlock left, CIDRBlock right)
         {
-            return left is null && right is null
-                || left is object && left.Equals(right);
+            return (left is null && right is null)
+                || (left is object && left.Equals(right));
         }
 
         public static bool operator !=(CIDRBlock left, CIDRBlock right)

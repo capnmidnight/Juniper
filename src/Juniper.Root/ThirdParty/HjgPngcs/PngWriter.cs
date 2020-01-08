@@ -557,8 +557,8 @@ namespace Hjg.Pngcs
                         copy = true;
                     }
 
-                    if ((ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_ALMOSTALL)
-                            && !(ChunkHelper.IsUnknown(chunk))
+                    if (((ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_ALMOSTALL)
+                            && !ChunkHelper.IsUnknown(chunk))
                             || text
                             || chunk.Id.Equals(ChunkHelper.hIST, StringComparison.Ordinal)
                             || chunk.Id.Equals(ChunkHelper.tIME, StringComparison.Ordinal)))
@@ -574,7 +574,7 @@ namespace Hjg.Pngcs
 
                 if (copy)
                 {
-                    chunksList.Queue(AbstractPngChunk.CloneChunk(chunk, ImgInfo));
+                    _ = chunksList.Queue(AbstractPngChunk.CloneChunk(chunk, ImgInfo));
                 }
             }
         }

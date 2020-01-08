@@ -15,7 +15,6 @@ namespace Juniper.HTTP.Server.Controllers
     {
         private readonly Stream stream;
         private readonly StreamWriter writer;
-        private readonly TaskScheduler scheduler;
         private readonly ConcurrentQueue<string> logs = new ConcurrentQueue<string>();
         private readonly CancellationTokenSource canceller;
         private readonly Thread logger;
@@ -30,7 +29,6 @@ namespace Juniper.HTTP.Server.Controllers
                 throw new ArgumentNullException(nameof(file));
             }
 
-            scheduler = TaskScheduler.Current;
             stream = file.Open(FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
             writer = new StreamWriter(stream)
             {

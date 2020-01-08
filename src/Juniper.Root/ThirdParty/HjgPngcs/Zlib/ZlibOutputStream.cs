@@ -72,18 +72,18 @@ namespace Hjg.Pngcs.Zlib
             }
             else
             {         // second hack: empty input?
-                rawStream.WriteByte(3);
-                rawStream.WriteByte(0);
+                RawStream.WriteByte(3);
+                RawStream.WriteByte(0);
             }
             // add crc
             var crcv = adler32.GetValue();
-            rawStream.WriteByte((byte)((crcv >> 24) & 0xFF));
-            rawStream.WriteByte((byte)((crcv >> 16) & 0xFF));
-            rawStream.WriteByte((byte)((crcv >> 8) & 0xFF));
-            rawStream.WriteByte((byte)(crcv & 0xFF));
-            if (!leaveOpen)
+            RawStream.WriteByte((byte)((crcv >> 24) & 0xFF));
+            RawStream.WriteByte((byte)((crcv >> 16) & 0xFF));
+            RawStream.WriteByte((byte)((crcv >> 8) & 0xFF));
+            RawStream.WriteByte((byte)(crcv & 0xFF));
+            if (!LeaveOpen)
             {
-                rawStream.Close();
+                RawStream.Close();
             }
         }
 
@@ -97,16 +97,16 @@ namespace Hjg.Pngcs.Zlib
             // I must create with leaveopen=true always and do the closing myself, because MS moronic implementation of DeflateStream: I cant force a flush of the underlying stream witouth closing (sigh bis)
             var clevel = CompressionLevel.Optimal;
             // thaks for the granularity, MS!
-            if (compressLevel >= 1 && compressLevel <= 5)
+            if (CompressLevel >= 1 && CompressLevel <= 5)
             {
                 clevel = CompressionLevel.Fastest;
             }
-            else if (compressLevel == 0)
+            else if (CompressLevel == 0)
             {
                 clevel = CompressionLevel.NoCompression;
             }
 
-            deflateStream = new DeflateStream(rawStream, clevel, true);
+            deflateStream = new DeflateStream(RawStream, clevel, true);
         }
 
         private void DoInit()
@@ -120,15 +120,15 @@ namespace Hjg.Pngcs.Zlib
             // http://stackoverflow.com/a/2331025/277304
             const int cmf = 0x78;
             var flg = 218;  // sorry about the following lines
-            if (compressLevel >= 5 && compressLevel <= 6)
+            if (CompressLevel >= 5 && CompressLevel <= 6)
             {
                 flg = 156;
             }
-            else if (compressLevel >= 3 && compressLevel <= 4)
+            else if (CompressLevel >= 3 && CompressLevel <= 4)
             {
                 flg = 94;
             }
-            else if (compressLevel <= 2)
+            else if (CompressLevel <= 2)
             {
                 flg = 1;
             }
@@ -139,8 +139,8 @@ namespace Hjg.Pngcs.Zlib
                 flg += 31;
             }
 
-            rawStream.WriteByte(cmf);
-            rawStream.WriteByte((byte)flg);
+            RawStream.WriteByte(cmf);
+            RawStream.WriteByte((byte)flg);
         }
 
         public override void Flush()

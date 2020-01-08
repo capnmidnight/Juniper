@@ -118,12 +118,12 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// The scale numerator
         /// </summary>
-        public int scale_num { get; set; }
+        public int ScaleNum { get; set; }
 
         /// <summary>
         /// The scale denomenator
         /// </summary>
-        public int scale_denom { get; set; } /* fraction by which to scale image */
+        public int ScaleDenom { get; set; } /* fraction by which to scale image */
 
         internal int jpeg_width;  /* scaled JPEG image width */
         internal int jpeg_height; /* scaled JPEG image height */
@@ -147,7 +147,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// corresponding scale factors (percentage, initialized 100).
         /// </summary>
-        public int[] q_scale_factor = new int[JpegConstants.NUM_QUANT_TBLS];
+        public int[] QScaleFactor { get; set; } = new int[JpegConstants.NUM_QUANT_TBLS];
 
         /* ptrs to Huffman coding tables, or null if not defined */
         internal JHuffmanTable[] m_dc_huff_tbl_ptrs = new JHuffmanTable[JpegConstants.NUM_HUFF_TBLS];
@@ -174,7 +174,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// TRUE=apply fancy downsampling
         /// </summary>
-        public bool do_fancy_downsampling { get; set; }
+        public bool DoFancyDownsampling { get; set; }
         internal int m_input_smoothing;       /* 1..100, or 0 for no input smoothing */
         internal JDctMethod m_dct_method;    /* DCT algorithm selector */
 
@@ -193,7 +193,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// Color transform identifier, writes LSE marker if nonzero
         /// </summary>
-        public JColorTransform color_transform { get; set; }
+        public JColorTransform ColorTransform { get; set; }
 
         internal int m_next_scanline;   /* 0 .. image_height-1  */
 
@@ -243,7 +243,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// the basic DCT block size: 1..16
         /// </summary>
-        public int block_size { get; set; }
+        public int BlockSize { get; set; }
 
         internal int[] natural_order;   /* natural-order position array */
         internal int lim_Se;            /* min( Se, DCTSIZE2-1 ) */
@@ -923,8 +923,8 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* Initialize everything not dependent on the color space */
-            scale_num = 1;       /* 1:1 scaling */
-            scale_denom = 1;
+            ScaleNum = 1;       /* 1:1 scaling */
+            ScaleDenom = 1;
             m_data_precision = JpegConstants.BITS_IN_JSAMPLE;
 
             /* Set up two quantization tables using default quality of 75 */
@@ -956,7 +956,7 @@ namespace BitMiracle.LibJpeg.Classic
             CIR601sampling = false;
 
             /* By default, apply fancy downsampling */
-            do_fancy_downsampling = true;
+            DoFancyDownsampling = true;
 
             /* No input smoothing */
             m_input_smoothing = 0;
@@ -987,7 +987,7 @@ namespace BitMiracle.LibJpeg.Classic
             m_Y_density = 1;
 
             /* No color transform */
-            color_transform = JColorTransform.JCT_NONE;
+            ColorTransform = JColorTransform.JCT_NONE;
 
             /* Choose JPEG colorspace based on input space, set defaults accordingly */
             JpegDefaultColorspace();
@@ -1052,12 +1052,12 @@ namespace BitMiracle.LibJpeg.Classic
                 m_write_Adobe_marker = true; /* write Adobe marker to flag RGB */
                 m_num_components = 3;
                 JpegSetColorspaceSetComp(0, 0x52 /* 'R' */, 1, 1, 0,
-                    color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0,
-                    color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0);
+                    ColorTransform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0,
+                    ColorTransform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0);
                 JpegSetColorspaceSetComp(1, 0x47 /* 'G' */, 1, 1, 0, 0, 0);
                 JpegSetColorspaceSetComp(2, 0x42 /* 'B' */, 1, 1, 0,
-                    color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0,
-                    color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0);
+                    ColorTransform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0,
+                    ColorTransform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0);
                 break;
 
                 case JColorSpace.JCS_YCbCr:
@@ -1094,12 +1094,12 @@ namespace BitMiracle.LibJpeg.Classic
                 m_num_components = 3;
                 /* Add offset 0x20 to the normal R/G/B component IDs */
                 JpegSetColorspaceSetComp(0, 0x72 /* 'r' */, 1, 1, 0,
-                    color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0,
-                    color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0);
+                    ColorTransform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0,
+                    ColorTransform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0);
                 JpegSetColorspaceSetComp(1, 0x67 /* 'g' */, 1, 1, 0, 0, 0);
                 JpegSetColorspaceSetComp(2, 0x62 /* 'b' */, 1, 1, 0,
-                    color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0,
-                    color_transform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0);
+                    ColorTransform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0,
+                    ColorTransform == JColorTransform.JCT_SUBTRACT_GREEN ? 1 : 0);
                 break;
 
                 case JColorSpace.JCS_BG_YCC:
@@ -1193,8 +1193,8 @@ namespace BitMiracle.LibJpeg.Classic
         public void JpegDefaultQTables(bool force_baseline)
         {
             /* Set up two quantization tables using the specified scaling */
-            JpegAddQuantTable(0, std_luminance_quant_tbl, q_scale_factor[0], force_baseline);
-            JpegAddQuantTable(1, std_chrominance_quant_tbl, q_scale_factor[1], force_baseline);
+            JpegAddQuantTable(0, std_luminance_quant_tbl, QScaleFactor[0], force_baseline);
+            JpegAddQuantTable(1, std_chrominance_quant_tbl, QScaleFactor[1], force_baseline);
         }
 
         /// <summary>
@@ -1626,131 +1626,131 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* Compute actual JPEG image dimensions and DCT scaling choices. */
-            if (scale_num >= scale_denom * block_size)
+            if (ScaleNum >= ScaleDenom * BlockSize)
             {
                 /* Provide block_size/1 scaling */
-                jpeg_width = m_image_width * block_size;
-                jpeg_height = m_image_height * block_size;
+                jpeg_width = m_image_width * BlockSize;
+                jpeg_height = m_image_height * BlockSize;
                 min_DCT_h_scaled_size = 1;
                 min_DCT_v_scaled_size = 1;
             }
-            else if (scale_num * 2 >= scale_denom * block_size)
+            else if (ScaleNum * 2 >= ScaleDenom * BlockSize)
             {
                 /* Provide block_size/2 scaling */
-                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * block_size, 2L);
-                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * block_size, 2L);
+                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * BlockSize, 2L);
+                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * BlockSize, 2L);
                 min_DCT_h_scaled_size = 2;
                 min_DCT_v_scaled_size = 2;
             }
-            else if (scale_num * 3 >= scale_denom * block_size)
+            else if (ScaleNum * 3 >= ScaleDenom * BlockSize)
             {
                 /* Provide block_size/3 scaling */
-                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * block_size, 3L);
-                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * block_size, 3L);
+                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * BlockSize, 3L);
+                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * BlockSize, 3L);
                 min_DCT_h_scaled_size = 3;
                 min_DCT_v_scaled_size = 3;
             }
-            else if (scale_num * 4 >= scale_denom * block_size)
+            else if (ScaleNum * 4 >= ScaleDenom * BlockSize)
             {
                 /* Provide block_size/4 scaling */
-                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * block_size, 4L);
-                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * block_size, 4L);
+                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * BlockSize, 4L);
+                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * BlockSize, 4L);
                 min_DCT_h_scaled_size = 4;
                 min_DCT_v_scaled_size = 4;
             }
-            else if (scale_num * 5 >= scale_denom * block_size)
+            else if (ScaleNum * 5 >= ScaleDenom * BlockSize)
             {
                 /* Provide block_size/5 scaling */
-                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * block_size, 5L);
-                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * block_size, 5L);
+                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * BlockSize, 5L);
+                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * BlockSize, 5L);
                 min_DCT_h_scaled_size = 5;
                 min_DCT_v_scaled_size = 5;
             }
-            else if (scale_num * 6 >= scale_denom * block_size)
+            else if (ScaleNum * 6 >= ScaleDenom * BlockSize)
             {
                 /* Provide block_size/6 scaling */
-                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * block_size, 6L);
-                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * block_size, 6L);
+                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * BlockSize, 6L);
+                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * BlockSize, 6L);
                 min_DCT_h_scaled_size = 6;
                 min_DCT_v_scaled_size = 6;
             }
-            else if (scale_num * 7 >= scale_denom * block_size)
+            else if (ScaleNum * 7 >= ScaleDenom * BlockSize)
             {
                 /* Provide block_size/7 scaling */
-                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * block_size, 7L);
-                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * block_size, 7L);
+                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * BlockSize, 7L);
+                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * BlockSize, 7L);
                 min_DCT_h_scaled_size = 7;
                 min_DCT_v_scaled_size = 7;
             }
-            else if (scale_num * 8 >= scale_denom * block_size)
+            else if (ScaleNum * 8 >= ScaleDenom * BlockSize)
             {
                 /* Provide block_size/8 scaling */
-                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * block_size, 8L);
-                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * block_size, 8L);
+                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * BlockSize, 8L);
+                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * BlockSize, 8L);
                 min_DCT_h_scaled_size = 8;
                 min_DCT_v_scaled_size = 8;
             }
-            else if (scale_num * 9 >= scale_denom * block_size)
+            else if (ScaleNum * 9 >= ScaleDenom * BlockSize)
             {
                 /* Provide block_size/9 scaling */
-                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * block_size, 9L);
-                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * block_size, 9L);
+                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * BlockSize, 9L);
+                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * BlockSize, 9L);
                 min_DCT_h_scaled_size = 9;
                 min_DCT_v_scaled_size = 9;
             }
-            else if (scale_num * 10 >= scale_denom * block_size)
+            else if (ScaleNum * 10 >= ScaleDenom * BlockSize)
             {
                 /* Provide block_size/10 scaling */
-                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * block_size, 10L);
-                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * block_size, 10L);
+                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * BlockSize, 10L);
+                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * BlockSize, 10L);
                 min_DCT_h_scaled_size = 10;
                 min_DCT_v_scaled_size = 10;
             }
-            else if (scale_num * 11 >= scale_denom * block_size)
+            else if (ScaleNum * 11 >= ScaleDenom * BlockSize)
             {
                 /* Provide block_size/11 scaling */
-                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * block_size, 11L);
-                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * block_size, 11L);
+                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * BlockSize, 11L);
+                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * BlockSize, 11L);
                 min_DCT_h_scaled_size = 11;
                 min_DCT_v_scaled_size = 11;
             }
-            else if (scale_num * 12 >= scale_denom * block_size)
+            else if (ScaleNum * 12 >= ScaleDenom * BlockSize)
             {
                 /* Provide block_size/12 scaling */
-                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * block_size, 12L);
-                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * block_size, 12L);
+                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * BlockSize, 12L);
+                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * BlockSize, 12L);
                 min_DCT_h_scaled_size = 12;
                 min_DCT_v_scaled_size = 12;
             }
-            else if (scale_num * 13 >= scale_denom * block_size)
+            else if (ScaleNum * 13 >= ScaleDenom * BlockSize)
             {
                 /* Provide block_size/13 scaling */
-                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * block_size, 13L);
-                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * block_size, 13L);
+                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * BlockSize, 13L);
+                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * BlockSize, 13L);
                 min_DCT_h_scaled_size = 13;
                 min_DCT_v_scaled_size = 13;
             }
-            else if (scale_num * 14 >= scale_denom * block_size)
+            else if (ScaleNum * 14 >= ScaleDenom * BlockSize)
             {
                 /* Provide block_size/14 scaling */
-                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * block_size, 14L);
-                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * block_size, 14L);
+                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * BlockSize, 14L);
+                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * BlockSize, 14L);
                 min_DCT_h_scaled_size = 14;
                 min_DCT_v_scaled_size = 14;
             }
-            else if (scale_num * 15 >= scale_denom * block_size)
+            else if (ScaleNum * 15 >= ScaleDenom * BlockSize)
             {
                 /* Provide block_size/15 scaling */
-                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * block_size, 15L);
-                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * block_size, 15L);
+                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * BlockSize, 15L);
+                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * BlockSize, 15L);
                 min_DCT_h_scaled_size = 15;
                 min_DCT_v_scaled_size = 15;
             }
             else
             {
                 /* Provide block_size/16 scaling */
-                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * block_size, 16L);
-                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * block_size, 16L);
+                jpeg_width = (int)JpegUtils.jdiv_round_up((long)m_image_width * BlockSize, 16L);
+                jpeg_height = (int)JpegUtils.jdiv_round_up((long)m_image_height * BlockSize, 16L);
                 min_DCT_h_scaled_size = 16;
                 min_DCT_v_scaled_size = 16;
             }
@@ -1763,7 +1763,7 @@ namespace BitMiracle.LibJpeg.Classic
                 ErrExit(JMessageCode.JERR_BAD_DCTSIZE, min_DCT_h_scaled_size, min_DCT_v_scaled_size);
             }
 
-            block_size = min_DCT_h_scaled_size;
+            BlockSize = min_DCT_h_scaled_size;
         }
 
         /// <summary>
@@ -1779,7 +1779,7 @@ namespace BitMiracle.LibJpeg.Classic
             for (var i = 0; i < JpegConstants.NUM_QUANT_TBLS; i++)
             {
                 m_quant_tbl_ptrs[i] = null;
-                q_scale_factor[i] = 100;
+                QScaleFactor[i] = 100;
             }
 
             for (var i = 0; i < JpegConstants.NUM_HUFF_TBLS; i++)
@@ -1789,7 +1789,7 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* Must do it here for emit_dqt in case jpeg_write_tables is used */
-            block_size = JpegConstants.DCTSIZE;
+            BlockSize = JpegConstants.DCTSIZE;
             natural_order = JpegUtils.jpeg_natural_order;
             lim_Se = JpegConstants.DCTSIZE2 - 1;
 
@@ -1861,7 +1861,7 @@ namespace BitMiracle.LibJpeg.Classic
             if (m_scan_info is object)
             {
                 ValidateScript();
-                if (block_size < JpegConstants.DCTSIZE)
+                if (BlockSize < JpegConstants.DCTSIZE)
                 {
                     ReduceScript();
                 }
@@ -1878,8 +1878,8 @@ namespace BitMiracle.LibJpeg.Classic
             }
             else if (!arith_code
                 && (m_progressive_mode
-                    || (block_size > 1
-                        && block_size < JpegConstants.DCTSIZE)))
+                    || (BlockSize > 1
+                        && BlockSize < JpegConstants.DCTSIZE)))
             {
                 /* TEMPORARY HACK ??? */
                 /* assume default tables no good for progressive or reduced AC mode */
@@ -1957,13 +1957,13 @@ namespace BitMiracle.LibJpeg.Classic
             }
 
             /* Sanity check on block_size */
-            if (block_size < 1 || block_size > 16)
+            if (BlockSize < 1 || BlockSize > 16)
             {
-                ErrExit(JMessageCode.JERR_BAD_DCTSIZE, block_size, block_size);
+                ErrExit(JMessageCode.JERR_BAD_DCTSIZE, BlockSize, BlockSize);
             }
 
             /* Derive natural_order from block_size */
-            natural_order = block_size switch
+            natural_order = BlockSize switch
             {
                 2 => JpegUtils.jpeg_natural_order2,
                 3 => JpegUtils.jpeg_natural_order3,
@@ -1975,8 +1975,8 @@ namespace BitMiracle.LibJpeg.Classic
             };
 
             /* Derive lim_Se from block_size */
-            lim_Se = block_size < JpegConstants.DCTSIZE
-                ? (block_size * block_size) - 1
+            lim_Se = BlockSize < JpegConstants.DCTSIZE
+                ? (BlockSize * BlockSize) - 1
                 : JpegConstants.DCTSIZE2 - 1;
 
             /* Sanity check on image dimensions */
@@ -2034,7 +2034,7 @@ namespace BitMiracle.LibJpeg.Classic
                  * Note this code adapts subsampling ratios which are powers of 2.
                  */
                 var ssize = 1;
-                var upSampleSize = do_fancy_downsampling
+                var upSampleSize = DoFancyDownsampling
                     ? JpegConstants.DCTSIZE
                     : JpegConstants.DCTSIZE / 2;
 
@@ -2066,19 +2066,19 @@ namespace BitMiracle.LibJpeg.Classic
 
                 /* Size in DCT blocks */
                 compptr.Width_in_blocks = (int)JpegUtils.jdiv_round_up(
-                    (long)jpeg_width * compptr.H_samp_factor, (long)m_max_h_samp_factor * block_size);
+                    (long)jpeg_width * compptr.H_samp_factor, (long)m_max_h_samp_factor * BlockSize);
 
                 compptr.height_in_blocks = (int)JpegUtils.jdiv_round_up(
-                    (long)jpeg_height * compptr.V_samp_factor, (long)m_max_v_samp_factor * block_size);
+                    (long)jpeg_height * compptr.V_samp_factor, (long)m_max_v_samp_factor * BlockSize);
 
                 /* Size in samples */
                 compptr.downsampled_width = (int)JpegUtils.jdiv_round_up(
                     (long)jpeg_width * compptr.H_samp_factor * compptr.DCT_h_scaled_size,
-                    (long)m_max_h_samp_factor * block_size);
+                    (long)m_max_h_samp_factor * BlockSize);
 
                 compptr.downsampled_height = (int)JpegUtils.jdiv_round_up(
                     (long)jpeg_height * compptr.V_samp_factor * compptr.DCT_v_scaled_size,
-                    (long)m_max_v_samp_factor * block_size);
+                    (long)m_max_v_samp_factor * BlockSize);
 
                 /* Don't need quantization scale after DCT,
                  * until color conversion says otherwise.
@@ -2090,7 +2090,7 @@ namespace BitMiracle.LibJpeg.Classic
              * main controller will call coefficient controller).
              */
             m_total_iMCU_rows = (int)JpegUtils.jdiv_round_up(
-                jpeg_height, (long)m_max_v_samp_factor * block_size);
+                jpeg_height, (long)m_max_v_samp_factor * BlockSize);
         }
 
         /// <summary>

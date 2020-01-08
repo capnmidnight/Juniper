@@ -46,7 +46,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// various weather conditions that the report shows.
         /// </summary>
-        public OWMWeather[] weather;
+        public OWMWeather[] weather { get; set; }
 
         /// <summary>
         /// The main metrics portion of the weather forecast.
