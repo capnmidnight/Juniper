@@ -74,7 +74,7 @@ namespace Juniper.IO
             return Task.FromResult(stream);
         }
 
-        public IEnumerable<ContentReference> GetContentReference(MediaType ofType)
+        public IEnumerable<ContentReference> GetContentReferences(MediaType ofType)
         {
             if (store.ContainsKey(ofType))
             {

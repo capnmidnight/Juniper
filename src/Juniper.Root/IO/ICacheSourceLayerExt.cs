@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Juniper.Progress;
@@ -62,6 +63,8 @@ namespace Juniper.IO
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = "The Unity Editor is synchronous")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = "Try to only use this in Unity")]
         public static bool TryLoad<ResultT>(
             this ICacheSourceLayer layer,
             IDeserializer<ResultT> deserializer,
@@ -107,13 +110,49 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(deserializer));
             }
 
-            foreach (var contentRef in source.GetContentReference(deserializer.ContentType))
+            foreach (var contentRef in source.GetContentReferences(deserializer.ContentType))
             {
                 if (source.TryLoad(deserializer, contentRef, out var result))
                 {
                     yield return (contentRef, result);
                 }
             }
+        }
+
+        public static async Task<Dictionary<ContentReference, ResultT>> GetAsync<ResultT, MediaTypeT>(
+            this ICacheSourceLayer source,
+            IFactory<ResultT, MediaTypeT> deserializer,
+            IProgress prog = null)
+            where ResultT : class
+            where MediaTypeT : MediaType
+        {
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (deserializer is null)
+            {
+                throw new ArgumentNullException(nameof(deserializer));
+            }
+
+            var items = new Dictionary<ContentReference, ResultT>();
+            var refs = source.GetContentReferences(deserializer.ContentType).ToArray();
+            foreach (var (itemProg, contentRef) in prog.Zip(refs))
+            {
+                var progs = itemProg.Split("Read", "Decode");
+                var stream = await source
+                    .GetStreamAsync(contentRef, progs[0])
+                    .ConfigureAwait(false);
+
+                if (stream is object
+                    && deserializer.TryDeserialize(stream, out var value, progs[1]))
+                {
+                    items.Add(contentRef, value);
+                }
+            }
+
+            return items;
         }
     }
 }

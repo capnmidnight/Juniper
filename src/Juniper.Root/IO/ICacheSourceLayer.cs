@@ -12,6 +12,6 @@ namespace Juniper.IO
 
         Task<Stream> GetStreamAsync(ContentReference fileRef, IProgress prog);
 
-        IEnumerable<ContentReference> GetContentReference(MediaType ofType);
+        IEnumerable<ContentReference> GetContentReferences(MediaType ofType);
     }
 }

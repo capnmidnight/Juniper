@@ -242,11 +242,11 @@ namespace Juniper.IO
         /// </summary>
         /// <param name="ofType"></param>
         /// <returns></returns>
-        public IEnumerable<ContentReference> GetContentReference(MediaType ofType)
+        public IEnumerable<ContentReference> GetContentReferences(MediaType ofType)
         {
             foreach (var source in sources)
             {
-                foreach (var fileRef in source.GetContentReference(ofType))
+                foreach (var fileRef in source.GetContentReferences(ofType))
                 {
                     yield return fileRef;
                 }
