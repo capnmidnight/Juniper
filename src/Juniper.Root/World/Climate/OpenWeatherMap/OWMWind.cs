@@ -12,12 +12,12 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// The current speed of the wind, in KMH.
         /// </summary>
-        public float speed;
+        public float speed { get; set; }
 
         /// <summary>
         /// The current direction of the wind, in degrees clockwise from north.
         /// </summary>
-        public float deg;
+        public float deg { get; set; }
 
         /// <summary>
         /// Deserializes a Wind.

@@ -129,7 +129,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
 
         private class SavableState
         {
-            public uint EOBRUN;            /* remaining EOBs in EOBRUN */
+            public uint EOBRUN { get; set; }            /* remaining EOBs in EOBRUN */
             public int[] last_dc_val = new int[JpegConstants.MAX_COMPS_IN_SCAN]; /* last DC coef for each component */
 
             public void Assign(SavableState ss)

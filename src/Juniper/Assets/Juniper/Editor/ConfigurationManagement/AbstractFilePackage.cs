@@ -60,8 +60,8 @@ namespace Juniper.ConfigurationManagement
             prog?.Report(1, "Deleted");
         }
 
-        protected readonly DirectoryInfo installDirectory;
-        public readonly FileInfo PackageFile;
+        protected DirectoryInfo installDirectory { get; }
+        public FileInfo PackageFile { get; }
         private readonly PackageInstallProgress Progress;
 
         public event Action ScanningProgressUpdated;

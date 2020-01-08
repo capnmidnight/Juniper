@@ -8,8 +8,8 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         public delegate bool DecodeMcuDelegate(JBlock[] MCU_data);
         public delegate void FinishPassDelegate();
 
-        public DecodeMcuDelegate decodeMcu;
-        public FinishPassDelegate finishPass;
+        public DecodeMcuDelegate decodeMcu { get; set; }
+        public FinishPassDelegate finishPass { get; set; }
 
         public abstract void StartPass();
     }

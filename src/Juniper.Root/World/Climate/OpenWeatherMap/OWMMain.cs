@@ -12,39 +12,39 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// The current temperature.
         /// </summary>
-        public float temp;
+        public float temp { get; set; }
 
         /// <summary>
         /// The atmospheric pressure.
         /// </summary>
-        public float pressure;
+        public float pressure { get; set; }
 
         /// <summary>
         /// The air humidity.
         /// </summary>
-        public float humidity;
+        public float humidity { get; set; }
 
         /// <summary>
         /// The predicted low for the day (which may not agree with the current temperature).
         /// </summary>
-        public float temp_min;
+        public float temp_min { get; set; }
 
         /// <summary>
         /// The predicted high for the day (which may not agree with the current temperature).
         /// </summary>
-        public float temp_max;
+        public float temp_max { get; set; }
 
         /// <summary>
         /// The predicted pressure at sea level for the day (which may not agree with the current
         /// atmospheric pressure).
         /// </summary>
-        public float sea_level;
+        public float sea_level { get; set; }
 
         /// <summary>
         /// The predicted pressure at ground level for the day (which may not agree with the
         /// current atmospheric pressure).
         /// </summary>
-        public float grnd_level;
+        public float grnd_level { get; set; }
 
         /// <summary>
         /// Deserializes a Main conditions structure.

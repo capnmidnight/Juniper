@@ -16,32 +16,32 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// When not null, the error response from the server.
         /// </summary>
-        public string error;
+        public string error { get; set; }
 
         /// <summary>
         /// response ID
         /// </summary>
-        public int id;
+        public int id { get; set; }
 
         /// <summary>
         /// name of the city for which the report covers.
         /// </summary>
-        public string name;
+        public string name { get; set; }
 
         /// <summary>
         /// time-stamp for the period of time the report covers.
         /// </summary>
-        public long dt;
+        public long dt { get; set; }
 
         /// <summary>
         /// atmospheric visibility
         /// </summary>
-        public int visibility;
+        public int visibility { get; set; }
 
         /// <summary>
         /// latitude/longitude for which the report covers.
         /// </summary>
-        public OWMCoord coord;
+        public OWMCoord coord { get; set; }
 
         /// <summary>
         /// various weather conditions that the report shows.
@@ -51,32 +51,32 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// The main metrics portion of the weather forecast.
         /// </summary>
-        public OWMMain main;
+        public OWMMain main { get; set; }
 
         /// <summary>
         /// The current wind speed and direction.
         /// </summary>
-        public OWMWind wind;
+        public OWMWind wind { get; set; }
 
         /// <summary>
         /// The current cloud cover.
         /// </summary>
-        public OWMClouds clouds;
+        public OWMClouds clouds { get; set; }
 
         /// <summary>
         /// The expected rainfall for the next three hours.
         /// </summary>
-        public OWMRain rain;
+        public OWMRain rain { get; set; }
 
         /// <summary>
         /// The expected snowfall for the next three hours.
         /// </summary>
-        public OWMSnow snow;
+        public OWMSnow snow { get; set; }
 
         /// <summary>
         /// Additional geographic information about the weather report.
         /// </summary>
-        public OWMSys sys;
+        public OWMSys sys { get; set; }
 
         /// <summary>
         /// Deserializes a WeatherReport.

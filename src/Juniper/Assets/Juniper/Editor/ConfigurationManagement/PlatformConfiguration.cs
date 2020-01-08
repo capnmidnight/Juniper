@@ -17,13 +17,13 @@ namespace Juniper.ConfigurationManagement
     {
         private static readonly string[] NO_VR_SYSTEMS = new string[] { "None" };
 
-        public readonly string Name;
-        public readonly string CompilerDefine;
-        public readonly string buildTarget;
-        public readonly string spatializer;
-        public readonly string androidSdkVersion;
-        public readonly string iOSVersion;
-        public readonly string wsaSubtarget;
+        public string Name { get; }
+        public string CompilerDefine { get; }
+        public string buildTarget { get; }
+        public string spatializer { get; }
+        public string androidSdkVersion { get; }
+        public string iOSVersion { get; }
+        public string wsaSubtarget { get; }
         public readonly string[] vrSystems;
         public readonly string[] packages;
 

@@ -5,10 +5,10 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// </summary>
     internal struct BitreadWorkingState
     {
-        public int getBuffer;    /* current bit-extraction buffer */
-        public int bitsLeft;      /* # of unused bits in it */
+        public int getBuffer { get; set; }    /* current bit-extraction buffer */
+        public int bitsLeft { get; set; }      /* # of unused bits in it */
 
         /* Pointer needed by jpeg_fill_bit_buffer. */
-        public JpegDecompressStruct cinfo;  /* back link to decompress master record */
+        public JpegDecompressStruct cinfo { get; set; }  /* back link to decompress master record */
     }
 }

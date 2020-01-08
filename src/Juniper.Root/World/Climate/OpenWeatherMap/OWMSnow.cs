@@ -12,7 +12,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// The expected snowfall for the next three hours.
         /// </summary>
-        public int threeHour;
+        public int threeHour { get; set; }
 
         /// <summary>
         /// Deserializes a Snow.

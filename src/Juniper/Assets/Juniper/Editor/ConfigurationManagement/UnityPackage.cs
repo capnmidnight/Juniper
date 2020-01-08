@@ -9,7 +9,7 @@ namespace Juniper.ConfigurationManagement
 {
     internal sealed class UnityPackage : AbstractPackage
     {
-        public string version;
+        public string version { get; set; }
         internal UnityPackage(string name)
         {
             var parts = name.Split('@');

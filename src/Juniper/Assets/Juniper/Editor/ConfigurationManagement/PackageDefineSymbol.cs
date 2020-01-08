@@ -6,8 +6,8 @@ namespace Juniper.ConfigurationManagement
     [Serializable]
     public class PackageDefineSymbol : ISerializable
     {
-        public readonly string Name;
-        public readonly string CompilerDefine;
+        public string Name { get; }
+        public string CompilerDefine { get; }
 
         public PackageDefineSymbol(string name, string compilerDefine)
         {

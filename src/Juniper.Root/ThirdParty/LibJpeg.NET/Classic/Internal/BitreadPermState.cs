@@ -5,7 +5,7 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// </summary>
     internal struct BitreadPermState
     {
-        public int getBuffer;    /* current bit-extraction buffer */
-        public int bitsLeft;      /* # of unused bits in it */
+        public int getBuffer { get; set; }    /* current bit-extraction buffer */
+        public int bitsLeft { get; set; }      /* # of unused bits in it */
     }
 }

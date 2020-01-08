@@ -118,12 +118,12 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// The scale numerator
         /// </summary>
-        public int scale_num;
+        public int scale_num { get; set; }
 
         /// <summary>
         /// The scale denomenator
         /// </summary>
-        public int scale_denom; /* fraction by which to scale image */
+        public int scale_denom { get; set; } /* fraction by which to scale image */
 
         internal int jpeg_width;  /* scaled JPEG image width */
         internal int jpeg_height; /* scaled JPEG image height */
@@ -174,7 +174,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// TRUE=apply fancy downsampling
         /// </summary>
-        public bool do_fancy_downsampling;
+        public bool do_fancy_downsampling { get; set; }
         internal int m_input_smoothing;       /* 1..100, or 0 for no input smoothing */
         internal JDctMethod m_dct_method;    /* DCT algorithm selector */
 
@@ -193,7 +193,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// Color transform identifier, writes LSE marker if nonzero
         /// </summary>
-        public JColorTransform color_transform;
+        public JColorTransform color_transform { get; set; }
 
         internal int m_next_scanline;   /* 0 .. image_height-1  */
 
@@ -243,7 +243,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <summary>
         /// the basic DCT block size: 1..16
         /// </summary>
-        public int block_size;
+        public int block_size { get; set; }
 
         internal int[] natural_order;   /* natural-order position array */
         internal int lim_Se;            /* min( Se, DCTSIZE2-1 ) */

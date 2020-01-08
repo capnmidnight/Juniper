@@ -12,7 +12,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// An estimate, from 0 to 100, of the current cloud cover.
         /// </summary>
-        public int all;
+        public int all { get; set; }
 
         /// <summary>
         /// Deserializes a Clouds.

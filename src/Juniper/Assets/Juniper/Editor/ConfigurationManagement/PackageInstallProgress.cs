@@ -11,10 +11,10 @@ namespace Juniper.ConfigurationManagement
     [Serializable]
     public sealed class PackageInstallProgress : ISerializable
     {
-        public readonly FileInfo PackageFile;
+        public FileInfo PackageFile { get; }
         public NAryTree<CompressedFileInfo> tree;
-        public int installedFiles;
-        public PackageScanStatus progress;
+        public int installedFiles { get; set; }
+        public PackageScanStatus progress { get; set; }
 
         public PackageInstallProgress(FileInfo file)
         {

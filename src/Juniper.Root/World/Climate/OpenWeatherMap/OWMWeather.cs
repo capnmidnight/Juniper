@@ -17,22 +17,22 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// main weather forecast.
         /// </summary>
-        public string main;
+        public string main { get; set; }
 
         /// <summary>
         /// An extended description of the main weather forecast.
         /// </summary>
-        public string description;
+        public string description { get; set; }
 
         /// <summary>
         /// name of the icon to use to go along with the weather forecast.
         /// </summary>
-        public string icon;
+        public string icon { get; set; }
 
         /// <summary>
         /// An enumeration of the current conditions.
         /// </summary>
-        public int id;
+        public int id { get; set; }
 
         /// <summary>
         /// Deserializes a Weather.

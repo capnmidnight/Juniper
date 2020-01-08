@@ -5,16 +5,17 @@ namespace Hjg.Pngcs.Zlib
 {
     public abstract class AZlibOutputStream : Stream
     {
-        protected readonly Stream rawStream;
-        protected readonly bool leaveOpen;
-        protected int compressLevel;
-        protected EDeflateCompressStrategy strategy;
+        protected Stream rawStream { get; set; }
+        protected bool leaveOpen { get; }
+        protected int compressLevel { get; set; }
+
+        protected EDeflateCompressStrategy Strategy { get; }
 
         protected AZlibOutputStream(Stream st, int compressLevel, EDeflateCompressStrategy strat, bool leaveOpen)
         {
             rawStream = st;
             this.leaveOpen = leaveOpen;
-            strategy = strat;
+            Strategy = strat;
             this.compressLevel = compressLevel;
         }
 

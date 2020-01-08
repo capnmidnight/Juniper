@@ -12,17 +12,17 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// The country in which the weather report covers.
         /// </summary>
-        public string country;
+        public string country { get; set; }
 
         /// <summary>
         /// A Unix time-stamp for when sunrise should occur for the day.
         /// </summary>
-        public long sunrise;
+        public long sunrise { get; set; }
 
         /// <summary>
         /// A Unix time-stamp for when sunset should occur for the day.
         /// </summary>
-        public long sunset;
+        public long sunset { get; set; }
 
         /// <summary>
         /// Deserializes a System info structure.

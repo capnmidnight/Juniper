@@ -12,12 +12,12 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// Longitude
         /// </summary>
-        public float lon;
+        public float lon { get; set; }
 
         /// <summary>
         /// Latitude
         /// </summary>
-        public float lat;
+        public float lat { get; set; }
 
         /// <summary>
         /// Deserializes a Coordinate.

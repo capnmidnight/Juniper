@@ -72,7 +72,7 @@ namespace Hjg.Pngcs.Zlib
                 }
             }
 
-            if (!leaveOpen)
+            if (!LeaveOpen)
             {
                 rawStream.Close();
             }

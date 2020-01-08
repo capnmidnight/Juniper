@@ -6,7 +6,7 @@ namespace Juniper.ConfigurationManagement
 {
     internal abstract class AbstractPackage
     {
-        public string Name;
+        public string Name { get; set; }
         public virtual string CompilerDefine { get; set; }
         public abstract bool IsInstalled { get; }
 

@@ -119,16 +119,16 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private struct Box
         {
             /* The bounds of the box (inclusive); expressed as histogram indexes */
-            public int c0min;
-            public int c0max;
-            public int c1min;
-            public int c1max;
-            public int c2min;
-            public int c2max;
+            public int c0min { get; set; }
+            public int c0max { get; set; }
+            public int c1min { get; set; }
+            public int c1max { get; set; }
+            public int c2min { get; set; }
+            public int c2max { get; set; }
             /* The volume (actually 2-norm) of the box */
-            public int volume;
+            public int volume { get; set; }
             /* The number of nonzero histogram cells within this box */
-            public long colorcount;
+            public long colorcount { get; set; }
         }
 
         private enum QuantizerType

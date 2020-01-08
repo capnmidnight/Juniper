@@ -5,18 +5,19 @@ namespace Hjg.Pngcs.Zlib
 {
     public abstract class AZlibInputStream : Stream
     {
-        protected readonly Stream rawStream;
-        protected readonly bool leaveOpen;
+        protected Stream rawStream { get; set; }
+
+        protected bool LeaveOpen { get; }
 
         protected AZlibInputStream(Stream st, bool leaveOpen)
         {
             rawStream = st;
-            this.leaveOpen = leaveOpen;
+            LeaveOpen = leaveOpen;
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && !leaveOpen)
+            if (disposing && !LeaveOpen)
             {
                 rawStream.Dispose();
             }

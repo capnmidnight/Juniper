@@ -9,9 +9,9 @@ namespace Juniper.World.GIS.Google.Tests
 {
     public abstract class ServicesTests
     {
-        protected string apiKey;
-        protected string signingKey;
-        protected CachingStrategy cache;
+        protected string apiKey { get; set; }
+        protected string signingKey { get; set; }
+        protected CachingStrategy cache { get; set; }
 
         [TestInitialize]
         public virtual void Init()

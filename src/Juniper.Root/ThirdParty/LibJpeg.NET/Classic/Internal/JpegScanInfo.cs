@@ -5,11 +5,11 @@ namespace BitMiracle.LibJpeg.Classic.Internal
     /// </summary>
     internal class JpegScanInfo
     {
-        public int comps_in_scan;      /* number of components encoded in this scan */
+        public int comps_in_scan { get; set; }      /* number of components encoded in this scan */
         public int[] component_index = new int[JpegConstants.MAX_COMPS_IN_SCAN]; /* their SOF/comp_info[] indexes */
-        public int Ss;
-        public int Se;         /* progressive JPEG spectral selection parms */
-        public int Ah;
-        public int Al;         /* progressive JPEG successive approx. parms */
+        public int Ss { get; set; }
+        public int Se { get; set; }         /* progressive JPEG spectral selection parms */
+        public int Ah { get; set; }
+        public int Al { get; set; }         /* progressive JPEG successive approx. parms */
     }
 }

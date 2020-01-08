@@ -23,7 +23,7 @@ namespace Juniper.Iteration.Tests
             private readonly float x;
             private readonly float y;
 
-            public float Result;
+            public float Result { get; set; }
 
             public A(float x, float y)
             {
@@ -43,7 +43,7 @@ namespace Juniper.Iteration.Tests
             private readonly float x;
             private readonly float y;
 
-            public float Result;
+            public float Result { get; set; }
 
             public B(float x, float y)
             {
@@ -63,7 +63,7 @@ namespace Juniper.Iteration.Tests
             private readonly float x;
             private readonly float y;
 
-            public float Result;
+            public float Result { get; set; }
 
             public C(float x, float y)
             {
@@ -83,7 +83,7 @@ namespace Juniper.Iteration.Tests
             private readonly float x;
             private readonly float y;
 
-            public float Result;
+            public float Result { get; set; }
 
             public D(float x, float y)
             {
