@@ -345,7 +345,7 @@ or
                     }
                     else
                     {
-                        var message = AssignCertToAppAsync(certHash, guid).Result;
+                        var message = AssignCertToApp(certHash, guid);
 
                         if (message.Equals("SSL Certificate added successfully", StringComparison.OrdinalIgnoreCase)
                             || message.StartsWith("SSL Certificate add failed, Error: 183", StringComparison.OrdinalIgnoreCase))
@@ -472,7 +472,7 @@ or
                        .FirstOrDefault();
         }
 
-        private async Task<string> AssignCertToAppAsync(string certHash, Guid appGuid)
+        private string AssignCertToApp(string certHash, Guid appGuid)
         {
             var listenAddress = ListenAddress;
             if (listenAddress == "*")
@@ -490,8 +490,7 @@ or
             addCert.Warning += OnWarning;
             addCert.Err += OnError;
 
-            _ = await addCert.RunAsync()
-                .ConfigureAwait(false);
+            _ = addCert.Run();
 
             addCert.Info -= OnInfo;
             addCert.Warning -= OnWarning;

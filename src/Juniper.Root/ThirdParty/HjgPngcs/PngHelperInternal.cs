@@ -340,13 +340,6 @@ namespace Hjg.Pngcs
             }
         }
 
-        public static void Logdebug(string msg)
-        {
-#if DEBUG
-            Console.WriteLine(msg);
-#endif
-        }
-
         internal static void Log(string p, Exception e)
         {
             Console.Error.WriteLine(p);

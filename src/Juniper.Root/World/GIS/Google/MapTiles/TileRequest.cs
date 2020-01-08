@@ -117,7 +117,7 @@ namespace Juniper.World.GIS.Google.MapTiles
             }
         }
 
-        public LinePathCollection Path { get; set; }
+        public LinePathCollection Path { get; /* set; */ }
 
         protected override Uri BaseURI
         {

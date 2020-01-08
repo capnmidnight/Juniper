@@ -54,6 +54,12 @@ namespace Juniper.Processes
             return RunAsync(Arguments);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = "This is meant to block.")]
+        public int Run()
+        {
+            return RunAsync().Result;
+        }
+
 #if DEBUG
         public string LastCommand { get; private set; }
 #endif
