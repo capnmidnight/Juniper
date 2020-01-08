@@ -40,12 +40,22 @@ namespace System.IO
 
         public static void CopyTo(this Stream inStream, string outFileName)
         {
-            inStream.CopyTo(new FileInfo(outFileName));
+            if (inStream is null)
+            {
+                throw new ArgumentNullException(nameof(inStream));
+            }
+
+            inStream.CopyTo(new FileInfo(outFileName.ValidateFileName()));
         }
 
         public static Task CopyToAsync(this Stream inStream, string outFileName)
         {
-            return inStream.CopyToAsync(new FileInfo(outFileName));
+            if (inStream is null)
+            {
+                throw new ArgumentNullException(nameof(inStream));
+            }
+
+            return inStream.CopyToAsync(new FileInfo(outFileName.ValidateFileName()));
         }
 
         public static void CopyTo(this FileInfo inFile, Stream outStream)

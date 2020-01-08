@@ -19,11 +19,26 @@ namespace Juniper.IO
 
         public static explicit operator string(ContentReference fileRef)
         {
+            if (fileRef is null)
+            {
+                return null;
+            }
+
             return fileRef.ContentType.AddExtension(fileRef.CacheID);
         }
 
         public static FileInfo operator +(DirectoryInfo directory, ContentReference fileRef)
         {
+            if (directory is null)
+            {
+                return null;
+            }
+
+            if (fileRef is null)
+            {
+                return null;
+            }
+
             var fileName = (string)fileRef;
             return new FileInfo(Path.Combine(directory.FullName, fileName));
         }

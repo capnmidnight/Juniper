@@ -24,6 +24,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Shaders\orange.frag">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

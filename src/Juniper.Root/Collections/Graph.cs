@@ -14,11 +14,13 @@ namespace Juniper.Collections
             {
                 throw new ArgumentNullException(nameof(file));
             }
-            else if (!file.Exists)
+
+            if (!file.Exists)
             {
                 throw new FileNotFoundException(file.FullName);
             }
-            else if (MediaType.Application.Json.Matches(file))
+
+            if (MediaType.Application.Json.Matches(file))
             {
                 var json = new JsonFactory<Graph<NodeT>>();
                 using var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
@@ -36,10 +38,10 @@ namespace Juniper.Collections
             }
         }
 
-        public static Graph<NodeT> Load<NodeT>(string path)
+        public static Graph<NodeT> Load<NodeT>(string fileName)
             where NodeT : IComparable<NodeT>
         {
-            return Load<NodeT>(new FileInfo(path));
+            return Load<NodeT>(new FileInfo(fileName.ValidateFileName()));
         }
     }
 }

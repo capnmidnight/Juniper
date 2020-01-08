@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using System.IO;
@@ -17,16 +18,20 @@ namespace Juniper.IO
 
         public ZipFileCacheLayer(FileInfo zipFile)
         {
-            this.zipFile = zipFile;
-
+            if(zipFile is null)
+            {
+                throw new ArgumentNullException(nameof(zipFile));
+            }
             if (!zipFile.Exists)
             {
                 throw new FileNotFoundException("ZipFileCacheLayer: No zip file! " + zipFile.FullName);
             }
+
+            this.zipFile = zipFile;
         }
 
         public ZipFileCacheLayer(string fileName)
-            : this(new FileInfo(fileName))
+            : this(new FileInfo(fileName.ValidateFileName()))
         { }
 
         private string GetCacheFileName(ContentReference fileRef)
@@ -38,6 +43,11 @@ namespace Juniper.IO
 
         public bool IsCached(ContentReference fileRef)
         {
+            if (fileRef is null)
+            {
+                throw new ArgumentNullException(nameof(fileRef));
+            }
+
             if (!filesExist.ContainsKey(fileRef.CacheID))
             {
                 if (zipFile.Exists)
@@ -61,7 +71,7 @@ namespace Juniper.IO
         {
             if (fileRef is null)
             {
-                throw new System.ArgumentNullException(nameof(fileRef));
+                throw new ArgumentNullException(nameof(fileRef));
             }
 
             Stream stream = null;
@@ -78,7 +88,7 @@ namespace Juniper.IO
         {
             if (ofType is null)
             {
-                throw new System.ArgumentNullException(nameof(ofType));
+                throw new ArgumentNullException(nameof(ofType));
             }
 
             foreach (var file in Decompressor.Entries(zipFile).Files())

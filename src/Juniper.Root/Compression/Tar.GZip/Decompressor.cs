@@ -63,20 +63,23 @@ namespace Juniper.Compression.Tar.GZip
 
         public static TarArchive Open(FileInfo file)
         {
+            if (file is null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+
             if (!file.Exists)
             {
                 throw new FileNotFoundException("File not found!", file.FullName);
             }
-            else
-            {
-                using var stream = new GZipStream(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read), CompressionMode.Decompress);
-                return new TarArchive(stream);
-            }
+
+            using var stream = new GZipStream(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read), CompressionMode.Decompress);
+            return new TarArchive(stream);
         }
 
         public static TarArchive Open(string fileName)
         {
-            return Open(new FileInfo(fileName));
+            return Open(new FileInfo(fileName.ValidateFileName()));
         }
 
         /// <summary>
@@ -86,8 +89,13 @@ namespace Juniper.Compression.Tar.GZip
         /// <param name="tar">A zipfile stream</param>
         /// <param name="prog">A prog tracking object, defaults to null (i.e. no prog tracking).</param>
         /// <returns>A lazy collection of <typeparamref name="ZipArchiveEntry"/> objects.</returns>
-        public static IEnumerable<CompressedFileInfo> Entries(this TarArchive tar, IProgress prog)
+        public static IEnumerable<CompressedFileInfo> Entries(this TarArchive tar, IProgress prog = null)
         {
+            if (tar is null)
+            {
+                throw new ArgumentNullException(nameof(tar));
+            }
+
             var i = 0;
             foreach (var entry in tar.Entries)
             {
@@ -98,7 +106,7 @@ namespace Juniper.Compression.Tar.GZip
             prog.Report(i, tar.Entries.Count);
         }
 
-        public static IEnumerable<CompressedFileInfo> Entries(Stream tarGzStream, IProgress prog)
+        public static IEnumerable<CompressedFileInfo> Entries(Stream tarGzStream, IProgress prog = null)
         {
             using var stream = new GZipStream(tarGzStream, CompressionMode.Decompress);
             using var tar = new TarArchive(stream);
@@ -108,28 +116,23 @@ namespace Juniper.Compression.Tar.GZip
             }
         }
 
-        public static IEnumerable<CompressedFileInfo> Entries(FileInfo tarGzFile, IProgress prog)
+        public static IEnumerable<CompressedFileInfo> Entries(FileInfo file, IProgress prog = null)
         {
-            if (tarGzFile is null)
+            if (file is null)
             {
-                throw new ArgumentNullException(nameof(tarGzFile));
+                throw new ArgumentNullException(nameof(file));
             }
 
-            using var stream = tarGzFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+            using var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
             foreach (var entry in Entries(stream, prog))
             {
                 yield return entry;
             }
         }
 
-        public static IEnumerable<CompressedFileInfo> Entries(string tarGzFileName, IProgress prog)
+        public static IEnumerable<CompressedFileInfo> Entries(string fileName, IProgress prog = null)
         {
-            return Entries(new FileInfo(tarGzFileName), prog);
-        }
-
-        public static IEnumerable<CompressedFileInfo> Entries(string tarGzFileName)
-        {
-            return Entries(tarGzFileName, null);
+            return Entries(new FileInfo(fileName.ValidateFileName()), prog);
         }
     }
 }

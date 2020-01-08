@@ -35,7 +35,7 @@ namespace Juniper.HTTP.Tests
         private static async Task<ImageData> RunFileTestAsync(string imageFileName, bool deleteFile, bool runTest)
         {
             var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            var cacheFileName = Path.Combine(myPictures, imageFileName);
+            var cacheFileName = Path.Combine(myPictures, imageFileName.ValidateFileName());
             var cacheFile = new FileInfo(cacheFileName);
 
             if (deleteFile && cacheFile.Exists)

@@ -66,12 +66,7 @@ namespace Juniper.HTTP.Server
 
         public static CIDRBlock[] Load(string fileName)
         {
-            if (fileName is null)
-            {
-                throw new ArgumentNullException(nameof(fileName));
-            }
-
-            return Load(new FileInfo(fileName));
+            return Load(new FileInfo(fileName.ValidateFileName()));
         }
 
         public static void Save(IEnumerable<CIDRBlock> blocks, Stream stream)
@@ -121,12 +116,7 @@ namespace Juniper.HTTP.Server
                 throw new ArgumentNullException(nameof(blocks));
             }
 
-            if (fileName is null)
-            {
-                throw new ArgumentNullException(nameof(fileName));
-            }
-
-            Save(blocks, new FileInfo(fileName));
+            Save(blocks, new FileInfo(fileName.ValidateFileName()));
         }
 
         public static CIDRBlock Parse(string value)

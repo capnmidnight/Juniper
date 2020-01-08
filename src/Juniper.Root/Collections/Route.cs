@@ -72,6 +72,11 @@ namespace Juniper.Collections
 
         public static Route<ValueT> operator ~(Route<ValueT> path)
         {
+            if (path is null)
+            {
+                return null;
+            }
+
             return new Route<ValueT>(true, path.nodes.Reverse(), path.Cost);
         }
 

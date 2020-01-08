@@ -26,15 +26,20 @@ namespace Juniper.OpenGL
             : base(CreateShader(type), DeleteShader)
         { }
 
-        public Shader(ShaderType type, string sourceFilePath)
+        public Shader(ShaderType type, string fileName)
             : this(type)
         {
-            if (sourceFilePath is null)
+            if (fileName is null)
             {
-                throw new ArgumentNullException(nameof(sourceFilePath));
+                throw new ArgumentNullException(nameof(fileName));
             }
 
-            source = Init(new FileInfo(sourceFilePath));
+            if(fileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(fileName));
+            }
+
+            source = Init(new FileInfo(fileName.ValidateFileName()));
         }
 
         public Shader(ShaderType type, FileInfo sourceFile)

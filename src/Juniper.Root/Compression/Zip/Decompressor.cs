@@ -29,12 +29,7 @@ namespace Juniper.Compression.Zip
 
         public static ZipArchive Open(string fileName)
         {
-            if (fileName is null)
-            {
-                throw new ArgumentNullException(nameof(fileName));
-            }
-
-            return Open(new FileInfo(fileName));
+            return Open(new FileInfo(fileName.ValidateFileName()));
         }
 
         /// <summary>
@@ -98,12 +93,7 @@ namespace Juniper.Compression.Zip
                 throw new ArgumentNullException(nameof(zip));
             }
 
-            if (copyToFileName is null)
-            {
-                throw new ArgumentNullException(nameof(copyToFileName));
-            }
-
-            zip.CopyFile(entryPath, new FileInfo(copyToFileName), prog);
+            zip.CopyFile(entryPath, new FileInfo(copyToFileName.ValidateFileName()), prog);
         }
 
         public static void CopyFile(FileInfo file, string entryPath, Stream copyTo, IProgress prog = null)
@@ -129,17 +119,12 @@ namespace Juniper.Compression.Zip
 
         public static void CopyFile(string fileName, string entryPath, Stream copyTo, IProgress prog = null)
         {
-            if (fileName is null)
-            {
-                throw new ArgumentNullException(nameof(fileName));
-            }
-
             if (copyTo is null)
             {
                 throw new ArgumentNullException(nameof(copyTo));
             }
 
-            CopyFile(new FileInfo(fileName), entryPath, copyTo, prog);
+            CopyFile(new FileInfo(fileName.ValidateFileName()), entryPath, copyTo, prog);
         }
 
         public static Stream GetFile(this ZipArchive zip, string entryPath, IProgress prog = null)
@@ -184,12 +169,7 @@ namespace Juniper.Compression.Zip
 
         public static Stream GetFile(string fileName, string entryPath, IProgress prog = null)
         {
-            if (fileName is null)
-            {
-                throw new ArgumentNullException(nameof(fileName));
-            }
-
-            return GetFile(new FileInfo(fileName), entryPath, prog);
+            return GetFile(new FileInfo(fileName.ValidateFileName()), entryPath, prog);
         }
 
         /// <summary>
@@ -251,12 +231,7 @@ namespace Juniper.Compression.Zip
 
         public static IEnumerable<CompressedFileInfo> Entries(string zipFileName, IProgress prog = null)
         {
-            if (zipFileName is null)
-            {
-                throw new ArgumentNullException(nameof(zipFileName));
-            }
-
-            return Entries(new FileInfo(zipFileName), prog);
+            return Entries(new FileInfo(zipFileName.ValidateFileName()), prog);
         }
 
         public static void Decompress(this ZipArchive zip, DirectoryInfo outputDirectory, string entryPrefix, bool overwrite, IProgress prog = null)
@@ -365,32 +340,22 @@ namespace Juniper.Compression.Zip
 
         public static void Decompress(string zipFileName, DirectoryInfo outputDirectory, string entryPrefix, bool overwrite, IProgress prog = null)
         {
-            if (zipFileName is null)
-            {
-                throw new ArgumentNullException(nameof(zipFileName));
-            }
-
             if (outputDirectory is null)
             {
                 throw new ArgumentNullException(nameof(outputDirectory));
             }
 
-            Decompress(new FileInfo(zipFileName), outputDirectory, entryPrefix, overwrite, prog);
+            Decompress(new FileInfo(zipFileName.ValidateFileName()), outputDirectory, entryPrefix, overwrite, prog);
         }
 
         public static void Decompress(string zipFileName, string outputDirectoryName, string entryPrefix, bool overwrite, IProgress prog = null)
         {
-            if (zipFileName is null)
-            {
-                throw new ArgumentNullException(nameof(zipFileName));
-            }
-
             if (outputDirectoryName is null)
             {
                 throw new ArgumentNullException(nameof(outputDirectoryName));
             }
 
-            Decompress(zipFileName, new DirectoryInfo(outputDirectoryName), entryPrefix, overwrite, prog);
+            Decompress(zipFileName.ValidateFileName(), new DirectoryInfo(outputDirectoryName), entryPrefix, overwrite, prog);
         }
 
         public static void Decompress(string zipFileName, string outputDirectoryName, IProgress prog = null)

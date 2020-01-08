@@ -126,18 +126,18 @@ namespace Juniper.HTTP.Server.Controllers
             var response = context.Response;
             var requestPath = request.Url.AbsolutePath;
             var requestFile = MassageRequestPath(requestPath);
-            var filename = Path.Combine(rootDirectory.FullName, requestFile);
-            var isDirectory = Directory.Exists(filename);
+            var fileName = Path.Combine(rootDirectory.FullName, requestFile);
+            var isDirectory = Directory.Exists(fileName);
 
             if (isDirectory)
             {
-                filename = FindDefaultFile(filename);
+                fileName = FindDefaultFile(fileName);
             }
 
-            var file = new FileInfo(filename);
+            var file = new FileInfo(fileName);
             var type = MediaType.GuessByExtension(file);
             var isSupportedMediaType = Array.IndexOf(mediaTypeWhiteList, type) >= 0;
-            var shortName = MakeShortName(rootDirectory.FullName, filename);
+            var shortName = MakeShortName(rootDirectory.FullName, fileName);
 
             if (!rootDirectory.Contains(file))
             {
@@ -149,7 +149,7 @@ namespace Juniper.HTTP.Server.Controllers
             }
             else if (!file.Exists && isDirectory)
             {
-                await ListDirectoryAsync(response, new DirectoryInfo(filename))
+                await ListDirectoryAsync(response, new DirectoryInfo(fileName))
                     .ConfigureAwait(false);
             }
             else if (!file.Exists && !isDirectory)

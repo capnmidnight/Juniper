@@ -85,9 +85,14 @@ namespace FileCopier
             }
         }
 
-        private static FileInfo ReplaceNewtonsoft(FileInfo sourceFile)
+        private static FileInfo ReplaceNewtonsoft(FileInfo file)
         {
-            if (sourceFile.Name == NEWTONSOFT_JSON_DLL)
+            if (file is null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+
+            if (file.Name == NEWTONSOFT_JSON_DLL)
             {
                 var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
                 var newtonsoft = new DirectoryInfo(Combine(userProfile, ".nuget", "packages", "newtonsoft.json"));
@@ -135,8 +140,8 @@ namespace FileCopier
                                 }
                                 else
                                 {
-                                    sourceFile = suitable;
-                                    WriteLine("Found a suitable version of Newtonsoft.JSON at {0}", sourceFile.FullName);
+                                    file = suitable;
+                                    WriteLine("Found a suitable version of Newtonsoft.JSON at {0}", file.FullName);
                                 }
                             }
                         }
@@ -144,7 +149,7 @@ namespace FileCopier
                 }
             }
 
-            return sourceFile;
+            return file;
         }
     }
 }

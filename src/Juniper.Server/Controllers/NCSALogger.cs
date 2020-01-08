@@ -45,7 +45,7 @@ namespace Juniper.HTTP.Server.Controllers
         }
 
         public NCSALogger(string fileName)
-            : this(new FileInfo(fileName ?? throw new ArgumentNullException(fileName)))
+            : this(new FileInfo(fileName.ValidateFileName()))
         { }
 
         private void WriteLogs()

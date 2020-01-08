@@ -45,6 +45,11 @@ namespace Juniper.Collections
 
         public PriorityStack(IComparer<T> comparer, IEnumerable<T> values)
         {
+            if (values is null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
             Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
 
             foreach (var value in values)

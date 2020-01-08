@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -48,7 +49,12 @@ namespace Juniper.IO
 
         public static void Serialize<T>(this ISerializer<T> serializer, string fileName, T value, IProgress prog = null)
         {
-            serializer.Serialize(new FileInfo(fileName), value, prog);
+            if (serializer is null)
+            {
+                throw new ArgumentNullException(nameof(serializer));
+            }
+
+            serializer.Serialize(new FileInfo(fileName.ValidateFileName()), value, prog);
         }
 
         public static string ToString<T>(this ISerializer<T> serializer, T value, IProgress prog = null)
