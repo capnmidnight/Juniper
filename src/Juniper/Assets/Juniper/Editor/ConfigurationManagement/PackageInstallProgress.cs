@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -12,8 +12,11 @@ namespace Juniper.ConfigurationManagement
     public sealed class PackageInstallProgress : ISerializable
     {
         public FileInfo PackageFile { get; }
+
         public NAryTree<CompressedFileInfo> tree;
+
         public int installedFiles { get; set; }
+
         public PackageScanStatus progress { get; set; }
 
         public PackageInstallProgress(FileInfo file)
@@ -25,7 +28,12 @@ namespace Juniper.ConfigurationManagement
         {
             PackageFile = new FileInfo(info.GetString("path"));
             installedFiles = info.GetInt32(nameof(installedFiles));
-            Enum.TryParse(info.GetString(nameof(progress)), out progress);
+
+            if(Enum.TryParse(info.GetString(nameof(progress)), out PackageScanStatus p))
+            {
+                progress = p;
+            }
+
             foreach(var entry in info)
             {
                 if(entry.Name == nameof(tree))
