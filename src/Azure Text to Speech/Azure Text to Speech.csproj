@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <ImportGroup>
-    <Import Project="..\..\Juniper.targets" />
+    <Import Project="..\..\Juniper48.targets" />
   </ImportGroup>
 
   <PropertyGroup>
@@ -9,7 +9,6 @@
     <RootNamespace>Juniper.Speech</RootNamespace>
     <OutputType>WinExe</OutputType>
     <StartupObject>Juniper.Speech.Program</StartupObject>
-    <TargetFramework>net48</TargetFramework>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <PlatformTarget>AnyCPU</PlatformTarget>

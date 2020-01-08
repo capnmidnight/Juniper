@@ -1,13 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\Juniper.targets" />
+  <Import Project="..\..\Juniper48.targets" />
 
   <PropertyGroup>
     <AssemblyName>Juniper.VideoDownloader</AssemblyName>
     <RootNamespace>Juniper.VideoDownloader</RootNamespace>
     <OutputType>Exe</OutputType>
     <StartupObject>Juniper.VideoDownloader.Program</StartupObject>
-    <TargetFramework>net48</TargetFramework>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <PlatformTarget>AnyCPU</PlatformTarget>

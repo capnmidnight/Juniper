@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ImportGroup>
-    <Import Project="..\..\Juniper.targets" />
+    <Import Project="..\..\Juniper472.targets" />
   </ImportGroup>
 
   <PropertyGroup>
@@ -9,7 +9,6 @@
     <RootNamespace>Juniper.NeuroSky</RootNamespace>
     <OutputType>Library</OutputType>
 
-    <TargetFramework>net472</TargetFramework>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 
