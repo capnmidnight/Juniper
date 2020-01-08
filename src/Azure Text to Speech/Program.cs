@@ -21,7 +21,7 @@ namespace Juniper.Speech
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        public static void Main()
+        public static async Task Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -45,7 +45,8 @@ namespace Juniper.Speech
             using var p = player = new SoundPlayer();
             using var f = form = new SpeechGen
             {
-                Voices = client.GetVoicesAsync().Result
+                Voices = await client.GetVoicesAsync()
+                    .ConfigureAwait(true)
             };
 
             form.GenerateSpeech += Form_GenerateSpeech;
