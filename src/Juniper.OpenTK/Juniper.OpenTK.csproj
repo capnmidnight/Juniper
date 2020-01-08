@@ -5,7 +5,7 @@
   </ImportGroup>
 
   <PropertyGroup>
-    <AssemblyName>Lesson Builder</AssemblyName>
+    <AssemblyName>Juniper.OpenTK</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>Exe</OutputType>
     <StartupObject>Juniper.GameProgram</StartupObject>
