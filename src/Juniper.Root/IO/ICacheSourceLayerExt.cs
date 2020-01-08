@@ -61,5 +61,59 @@ namespace Juniper.IO
                 return deserializer.Deserialize(stream, progs[1]);
             }
         }
+
+        public static bool TryLoad<ResultT>(
+            this ICacheSourceLayer layer,
+            IDeserializer<ResultT> deserializer,
+            ContentReference fileRef,
+            out ResultT value,
+            IProgress prog = null)
+            where ResultT : class
+        {
+            value = default;
+
+            var task = layer.LoadAsync(deserializer, fileRef, prog);
+            Task.WaitAny(task);
+
+            if (task.IsSuccessful())
+            {
+                value = task.Result;
+            }
+
+            return value != default;
+        }
+
+        /// <summary>
+        /// Retrieve all the content references that can be deserialized by the
+        /// given deserializer.
+        /// </summary>
+        /// <typeparam name="ResultT"></typeparam>
+        /// <typeparam name="MediaTypeT"></typeparam>
+        /// <param name="deserializer"></param>
+        /// <returns></returns>
+        public static IEnumerable<(ContentReference contentRef, ResultT result)> Get<ResultT, MediaTypeT>(
+            this ICacheSourceLayer source,
+            IFactory<ResultT, MediaTypeT> deserializer)
+            where ResultT : class
+            where MediaTypeT : MediaType
+        {
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (deserializer is null)
+            {
+                throw new ArgumentNullException(nameof(deserializer));
+            }
+
+            foreach (var contentRef in source.GetContentReference(deserializer.ContentType))
+            {
+                if (source.TryLoad(deserializer, contentRef, out var result))
+                {
+                    yield return (contentRef, result);
+                }
+            }
+        }
     }
 }
