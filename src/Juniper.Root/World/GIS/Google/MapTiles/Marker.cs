@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
 
@@ -7,17 +8,20 @@ namespace Juniper.World.GIS.Google.MapTiles
     [Serializable]
     public sealed class Marker : IEquatable<Marker>, ISerializable
     {
-        public readonly MarkerStyle style;
-        public readonly string center;
+        private static readonly string STYLE_FIELD = nameof(Style).ToLowerInvariant();
+        private static readonly string CENTER_FIELD = nameof(Center).ToLowerInvariant();
+
+        public MarkerStyle Style { get; }
+        public string Center { get; }
 
         public Marker(string center, MarkerStyle style = default)
         {
-            this.center = center;
-            this.style = style;
+            Center = center;
+            Style = style;
         }
 
         public Marker(LatLngPoint center, MarkerStyle style = default)
-            : this(center.ToString(CultureInfo.InvariantCulture), style) { }
+            : this(center?.ToString(CultureInfo.InvariantCulture) ?? throw new ArgumentNullException(nameof(center)), style) { }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private Marker(SerializationInfo info, StreamingContext context)
@@ -27,8 +31,8 @@ namespace Juniper.World.GIS.Google.MapTiles
                 throw new ArgumentNullException(nameof(info));
             }
 
-            style = info.GetValue<MarkerStyle>(nameof(style));
-            center = info.GetString(nameof(center));
+            Style = info.GetValue<MarkerStyle>(STYLE_FIELD);
+            Center = info.GetString(CENTER_FIELD);
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -38,14 +42,8 @@ namespace Juniper.World.GIS.Google.MapTiles
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue(nameof(style), style);
-            info.AddValue(nameof(center), center);
-        }
-
-        public override int GetHashCode()
-        {
-            return style.GetHashCode()
-                ^ center.GetHashCode();
+            info.AddValue(STYLE_FIELD, Style);
+            info.AddValue(CENTER_FIELD, Center);
         }
 
         public override bool Equals(object obj)
@@ -56,8 +54,16 @@ namespace Juniper.World.GIS.Google.MapTiles
         public bool Equals(Marker other)
         {
             return other is object
-                && style == other.style
-                && center == other.center;
+                && Style == other.Style
+                && Center == other.Center;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -1099193654;
+            hashCode = (hashCode * -1521134295) + EqualityComparer<MarkerStyle>.Default.GetHashCode(Style);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(Center);
+            return hashCode;
         }
 
         public static bool operator ==(Marker left, Marker right)

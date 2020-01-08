@@ -12,17 +12,17 @@ namespace Juniper.World.GIS
         /// <summary>
         /// The number of degrees from the Earth's prime azimuth at which to find the object.
         /// </summary>
-        public readonly float RightAscensionDegrees;
+        public float RightAscensionDegrees { get; }
 
         /// <summary>
         /// The number of degrees above the Earth's equator at which to find the object.
         /// </summary>
-        public readonly float DeclinationDegrees;
+        public float DeclinationDegrees { get; }
 
         /// <summary>
         /// The distance in Astronomical Units from the earth at which to find the object.
         /// </summary>
-        public readonly float RadiusAU;
+        public float RadiusAU { get; }
 
         /// <summary>
         /// Create a new bearing to an object.

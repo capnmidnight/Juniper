@@ -8,8 +8,17 @@ namespace Juniper.World.GIS.Google.Geocoding
     [Serializable]
     public sealed class AddressComponent : ISerializable, IEquatable<AddressComponent>
     {
+        private static readonly string LONG_NAME_FIELD = nameof(Long_Name).ToLowerInvariant();
+        private static readonly string SHORT_NAME_FIELD = nameof(Short_Name).ToLowerInvariant();
+        private static readonly string TYPES_FIELD = nameof(Types).ToLowerInvariant();
+
         public static int HashAddressComponents(IEnumerable<AddressComponentTypes> types)
         {
+            if (types is null)
+            {
+                throw new ArgumentNullException(nameof(types));
+            }
+
             var key = 0;
             foreach (var type in types)
             {
@@ -19,10 +28,13 @@ namespace Juniper.World.GIS.Google.Geocoding
             return key;
         }
 
-        public readonly string long_name;
-        public readonly string short_name;
-        public readonly string[] typeStrings;
-        public readonly HashSet<AddressComponentTypes> types;
+        public string Long_Name { get; }
+
+        public string Short_Name { get; }
+
+        public string[] TypeStrings { get; }
+
+        public HashSet<AddressComponentTypes> Types { get; }
 
         internal int Key { get; }
 
@@ -34,15 +46,16 @@ namespace Juniper.World.GIS.Google.Geocoding
                 throw new ArgumentNullException(nameof(info));
             }
 
-            long_name = info.GetString(nameof(long_name));
-            short_name = info.GetString(nameof(short_name));
-            typeStrings = info.GetValue<string[]>(nameof(types));
-            types = new HashSet<AddressComponentTypes>(from typeStr in typeStrings
-                                                       select Enum.TryParse<AddressComponentTypes>(typeStr, out var parsedType)
-                                                           ? parsedType
-                                                           : AddressComponentTypes.None);
+            Long_Name = info.GetString(LONG_NAME_FIELD);
+            Short_Name = info.GetString(SHORT_NAME_FIELD);
+            TypeStrings = info.GetValue<string[]>(TYPES_FIELD);
+            Types = new HashSet<AddressComponentTypes>(
+                from typeStr in TypeStrings
+                select Enum.TryParse<AddressComponentTypes>(typeStr, out var parsedType)
+                    ? parsedType
+                    : AddressComponentTypes.None);
 
-            Key = HashAddressComponents(types);
+            Key = HashAddressComponents(Types);
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -52,14 +65,14 @@ namespace Juniper.World.GIS.Google.Geocoding
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue(nameof(long_name), long_name);
-            info.AddValue(nameof(short_name), short_name);
-            info.AddValue(nameof(types), typeStrings);
+            info.AddValue(LONG_NAME_FIELD, Long_Name);
+            info.AddValue(SHORT_NAME_FIELD, Short_Name);
+            info.AddValue(TYPES_FIELD, TypeStrings);
         }
 
         public override int GetHashCode()
         {
-            return long_name.GetHashCode() ^ Key;
+            return Long_Name.GetHashCode() ^ Key;
         }
 
         public override bool Equals(object obj)
@@ -71,7 +84,7 @@ namespace Juniper.World.GIS.Google.Geocoding
         {
             return other is object
                 && Key == other.Key
-                && long_name == other.long_name;
+                && Long_Name == other.Long_Name;
         }
 
         public static bool operator ==(AddressComponent left, AddressComponent right)
@@ -87,9 +100,9 @@ namespace Juniper.World.GIS.Google.Geocoding
 
         public override string ToString()
         {
-            var t = typeStrings.ToString("|");
+            var t = TypeStrings.ToString("|");
 
-            return $"{t}:{long_name}";
+            return $"{t}:{Long_Name}";
         }
     }
 }

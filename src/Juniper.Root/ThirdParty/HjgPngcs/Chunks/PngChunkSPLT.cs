@@ -125,7 +125,7 @@ namespace Hjg.Pngcs.Chunks
             }
         }
 
-        public override void CloneDataFromRead(PngChunk other)
+        public override void CloneDataFromRead(AbstractPngChunk other)
         {
             var otherx = (PngChunkSPLT)other;
             PalName = otherx.PalName;

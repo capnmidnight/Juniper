@@ -29,7 +29,7 @@ namespace Hjg.Pngcs.Chunks
         { // does nothing
         }
 
-        public override void CloneDataFromRead(PngChunk other)
+        public override void CloneDataFromRead(AbstractPngChunk other)
         {
         }
     }

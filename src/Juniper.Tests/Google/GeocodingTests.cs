@@ -25,9 +25,9 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             Assert.IsNotNull(results);
-            Assert.AreEqual(HttpStatusCode.OK, results.status);
-            Assert.IsNull(results.error_message);
-            Assert.IsNotNull(results.results);
+            Assert.AreEqual(HttpStatusCode.OK, results.Status);
+            Assert.IsNull(results.Error_Message);
+            Assert.IsNotNull(results.Results);
         }
 
         [TestMethod]
@@ -42,13 +42,13 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             Assert.IsNotNull(results);
-            Assert.AreEqual(HttpStatusCode.OK, results.status);
-            Assert.IsNull(results.error_message);
-            Assert.IsNotNull(results.results);
+            Assert.AreEqual(HttpStatusCode.OK, results.Status);
+            Assert.IsNull(results.Error_Message);
+            Assert.IsNotNull(results.Results);
 
-            var res = results.results.FirstOrDefault();
+            var res = results.Results.FirstOrDefault();
             Assert.IsNotNull(res);
-            Assert.AreEqual("High St, Hastings TN34, UK", res.formatted_address);
+            Assert.AreEqual("High St, Hastings TN34, UK", res.Formatted_Address);
         }
 
         [TestMethod]
@@ -65,9 +65,9 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
             Assert.IsNotNull(results);
-            Assert.AreEqual(HttpStatusCode.OK, results.status);
-            Assert.IsNull(results.error_message);
-            Assert.IsNotNull(results.results);
+            Assert.AreEqual(HttpStatusCode.OK, results.Status);
+            Assert.IsNull(results.Error_Message);
+            Assert.IsNotNull(results.Results);
         }
 
         [TestMethod]
@@ -83,9 +83,9 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             var results = await cache
                 .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
-            var res = results.results.FirstOrDefault();
+            var res = results.Results.FirstOrDefault();
             Assert.IsNotNull(res);
-            Assert.AreEqual("4909 Rutland Pl, Alexandria, VA 22304, USA", res.formatted_address);
+            Assert.AreEqual("4909 Rutland Pl, Alexandria, VA 22304, USA", res.Formatted_Address);
         }
 
         [TestMethod]
@@ -101,8 +101,8 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             var results = await cache
                 .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
-            var res = results.results.FirstOrDefault();
-            var type = res.types.FirstOrDefault();
+            var res = results.Results.FirstOrDefault();
+            var type = res.Types.FirstOrDefault();
             Assert.AreEqual(AddressComponentTypes.premise, type);
         }
 
@@ -119,8 +119,8 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             var results = await cache
                 .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
-            var res = results.results.FirstOrDefault();
-            Assert.AreEqual(GeometryLocationType.ROOFTOP, res.geometry.location_type);
+            var res = results.Results.FirstOrDefault();
+            Assert.AreEqual(GeometryLocationType.ROOFTOP, res.Geometry.Location_Type);
         }
 
         [TestMethod]
@@ -136,11 +136,11 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             var results = await cache
                 .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
-            var res = results.results.FirstOrDefault();
+            var res = results.Results.FirstOrDefault();
             var streetNumber = res.GetAddressComponent(AddressComponentTypes.street_number);
             Assert.IsNotNull(streetNumber);
-            Assert.AreEqual("4909", streetNumber.long_name);
-            Assert.AreEqual("4909", streetNumber.short_name);
+            Assert.AreEqual("4909", streetNumber.Long_Name);
+            Assert.AreEqual("4909", streetNumber.Short_Name);
         }
 
         [TestMethod]
@@ -156,11 +156,11 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             var results = await cache
                 .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
-            var res = results.results.FirstOrDefault();
+            var res = results.Results.FirstOrDefault();
             var route = res.GetAddressComponent(AddressComponentTypes.route);
             Assert.IsNotNull(route);
-            Assert.AreEqual("Rutland Place", route.long_name);
-            Assert.AreEqual("Rutland Pl", route.short_name);
+            Assert.AreEqual("Rutland Place", route.Long_Name);
+            Assert.AreEqual("Rutland Pl", route.Short_Name);
         }
 
         [TestMethod]
@@ -176,11 +176,11 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             var results = await cache
                 .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
-            var res = results.results.FirstOrDefault();
+            var res = results.Results.FirstOrDefault();
             var zip = res.GetAddressComponent(AddressComponentTypes.postal_code);
             Assert.IsNotNull(zip);
-            Assert.AreEqual("22304", zip.long_name);
-            Assert.AreEqual("22304", zip.short_name);
+            Assert.AreEqual("22304", zip.Long_Name);
+            Assert.AreEqual("22304", zip.Short_Name);
         }
 
         [TestMethod]
@@ -196,11 +196,11 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             var results = await cache
                 .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
-            var res = results.results.FirstOrDefault();
+            var res = results.Results.FirstOrDefault();
             var zipSuffix = res.GetAddressComponent(AddressComponentTypes.postal_code_suffix);
             Assert.IsNotNull(zipSuffix);
-            Assert.AreEqual("2111", zipSuffix.long_name);
-            Assert.AreEqual("2111", zipSuffix.short_name);
+            Assert.AreEqual("2111", zipSuffix.Long_Name);
+            Assert.AreEqual("2111", zipSuffix.Short_Name);
         }
 
         [TestMethod]
@@ -216,15 +216,15 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             var results = await cache
                 .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
-            var res = results.results.FirstOrDefault();
+            var res = results.Results.FirstOrDefault();
             var neighborhood = res.GetAddressComponent(AddressComponentTypes.neighborhood, AddressComponentTypes.political);
             var altNeighborhood = res.GetAddressComponent(AddressComponentTypes.political, AddressComponentTypes.neighborhood);
             var simpNeighborhood = res.GetAddressComponent(AddressComponentTypes.neighborhood);
             Assert.IsNotNull(neighborhood);
             Assert.AreSame(neighborhood, altNeighborhood);
             Assert.AreSame(neighborhood, simpNeighborhood);
-            Assert.AreEqual("Seminary Hill", neighborhood.long_name);
-            Assert.AreEqual("Seminary Hill", neighborhood.short_name);
+            Assert.AreEqual("Seminary Hill", neighborhood.Long_Name);
+            Assert.AreEqual("Seminary Hill", neighborhood.Short_Name);
         }
 
         [TestMethod]
@@ -240,15 +240,15 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             var results = await cache
                 .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
-            var res = results.results.FirstOrDefault();
+            var res = results.Results.FirstOrDefault();
             var locality = res.GetAddressComponent(AddressComponentTypes.locality, AddressComponentTypes.political);
             var altLocality = res.GetAddressComponent(AddressComponentTypes.political, AddressComponentTypes.locality);
             var simpLocality = res.GetAddressComponent(AddressComponentTypes.locality);
             Assert.IsNotNull(locality);
             Assert.AreSame(locality, altLocality);
             Assert.AreSame(locality, simpLocality);
-            Assert.AreEqual("Alexandria", locality.long_name);
-            Assert.AreEqual("Alexandria", locality.short_name);
+            Assert.AreEqual("Alexandria", locality.Long_Name);
+            Assert.AreEqual("Alexandria", locality.Short_Name);
         }
 
         [TestMethod]
@@ -264,15 +264,15 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             var results = await cache
                 .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
-            var res = results.results.FirstOrDefault();
+            var res = results.Results.FirstOrDefault();
             var state = res.GetAddressComponent(AddressComponentTypes.administrative_area_level_1, AddressComponentTypes.political);
             var altState = res.GetAddressComponent(AddressComponentTypes.political, AddressComponentTypes.administrative_area_level_1);
             var simpState = res.GetAddressComponent(AddressComponentTypes.administrative_area_level_1);
             Assert.IsNotNull(state);
             Assert.AreSame(state, altState);
             Assert.AreSame(state, simpState);
-            Assert.AreEqual("Virginia", state.long_name);
-            Assert.AreEqual("VA", state.short_name);
+            Assert.AreEqual("Virginia", state.Long_Name);
+            Assert.AreEqual("VA", state.Short_Name);
         }
 
         [TestMethod]
@@ -288,15 +288,15 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             var results = await cache
                 .LoadAsync(decoder, search)
                 .ConfigureAwait(false);
-            var res = results.results.FirstOrDefault();
+            var res = results.Results.FirstOrDefault();
             var country = res.GetAddressComponent(AddressComponentTypes.country, AddressComponentTypes.political);
             var altCountry = res.GetAddressComponent(AddressComponentTypes.political, AddressComponentTypes.country);
             var simpCountry = res.GetAddressComponent(AddressComponentTypes.country);
             Assert.IsNotNull(country);
             Assert.AreSame(country, altCountry);
             Assert.AreSame(country, simpCountry);
-            Assert.AreEqual("United States", country.long_name);
-            Assert.AreEqual("US", country.short_name);
+            Assert.AreEqual("United States", country.Long_Name);
+            Assert.AreEqual("US", country.Short_Name);
         }
     }
 }

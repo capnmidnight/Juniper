@@ -14,6 +14,12 @@ namespace Juniper.World.GIS.Google.StreetView
         IEquatable<MetadataResponse>,
         IComparable<MetadataResponse>
     {
+        private static readonly string STATUS_FIELD = nameof(Status).ToLowerInvariant();
+        private static readonly string COPYRIGHT_FIELD = nameof(Copyright).ToLowerInvariant();
+        private static readonly string DATE_FIELD = nameof(Date).ToLowerInvariant();
+        private static readonly string PANO_ID_FIELD = nameof(Pano_ID).ToLowerInvariant();
+        private static readonly string LOCATION_FIELD = nameof(Location).ToLowerInvariant();
+
         private static readonly Regex PANO_PATTERN = new Regex("^[a-zA-Z0-9_\\-]+$", RegexOptions.Compiled);
 
         public static bool IsPano(string panoString)
@@ -21,11 +27,15 @@ namespace Juniper.World.GIS.Google.StreetView
             return PANO_PATTERN.IsMatch(panoString);
         }
 
-        public readonly HttpStatusCode status;
-        public readonly string copyright;
-        public readonly DateTime date;
-        public readonly string pano_id;
-        public readonly LatLngPoint location;
+        public HttpStatusCode Status { get; }
+
+        public string Copyright { get; }
+
+        public DateTime Date { get; }
+
+        public string Pano_ID { get; }
+
+        public LatLngPoint Location { get; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected MetadataResponse(SerializationInfo info, StreamingContext context)
@@ -35,13 +45,14 @@ namespace Juniper.World.GIS.Google.StreetView
                 throw new ArgumentNullException(nameof(info));
             }
 
-            status = info.GetString(nameof(status)).MapToStatusCode();
-            if (status == HttpStatusCode.OK)
+            Status = info.GetString(STATUS_FIELD).MapToStatusCode();
+
+            if (Status == HttpStatusCode.OK)
             {
-                copyright = info.GetString(nameof(copyright));
-                date = info.GetDateTime(nameof(date));
-                pano_id = info.GetString(nameof(pano_id));
-                location = info.GetValue<LatLngPoint>(nameof(location));
+                Copyright = info.GetString(COPYRIGHT_FIELD);
+                Date = info.GetDateTime(DATE_FIELD);
+                Pano_ID = info.GetString(PANO_ID_FIELD);
+                Location = info.GetValue<LatLngPoint>(LOCATION_FIELD);
             }
         }
 
@@ -52,16 +63,16 @@ namespace Juniper.World.GIS.Google.StreetView
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue(nameof(status), status.ToString());
-            if (status == HttpStatusCode.OK)
+            info.AddValue(STATUS_FIELD, Status.ToString());
+            if (Status == HttpStatusCode.OK)
             {
-                info.MaybeAddValue(nameof(copyright), copyright);
-                info.MaybeAddValue(nameof(date), date.ToString("yyyy-MM", CultureInfo.InvariantCulture));
-                info.MaybeAddValue(nameof(pano_id), pano_id);
-                info.MaybeAddValue(nameof(location), new
+                _ = info.MaybeAddValue(COPYRIGHT_FIELD, Copyright);
+                _ = info.MaybeAddValue(DATE_FIELD, Date.ToString("yyyy-MM", CultureInfo.InvariantCulture));
+                _ = info.MaybeAddValue(PANO_ID_FIELD, Pano_ID);
+                _ = info.MaybeAddValue(LOCATION_FIELD, new
                 {
-                    lat = location.Latitude,
-                    lng = location.Longitude
+                    lat = Location.Latitude,
+                    lng = Location.Longitude
                 });
             }
         }
@@ -74,10 +85,10 @@ namespace Juniper.World.GIS.Google.StreetView
             }
             else
             {
-                var byPano = string.CompareOrdinal(pano_id, other.pano_id);
-                var byLocation = location.CompareTo(other.location);
-                var byDate = date.CompareTo(other.date);
-                var byCopyright = string.CompareOrdinal(copyright, other.copyright);
+                var byPano = string.CompareOrdinal(Pano_ID, other.Pano_ID);
+                var byLocation = Location.CompareTo(other.Location);
+                var byDate = Date.CompareTo(other.Date);
+                var byCopyright = string.CompareOrdinal(Copyright, other.Copyright);
 
                 if (byPano == 0
                     && byLocation == 0
@@ -115,11 +126,11 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public override int GetHashCode()
         {
-            return status.GetHashCode()
-                ^ copyright.GetHashCode()
-                ^ date.GetHashCode()
-                ^ location.GetHashCode()
-                ^ pano_id.GetHashCode();
+            return Status.GetHashCode()
+                ^ Copyright.GetHashCode()
+                ^ Date.GetHashCode()
+                ^ Location.GetHashCode()
+                ^ Pano_ID.GetHashCode();
         }
 
         public static bool operator ==(MetadataResponse left, MetadataResponse right)

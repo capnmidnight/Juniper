@@ -10,7 +10,7 @@ namespace Juniper.Speech
         /// <summary>
         /// The keyword that was recognized.
         /// </summary>
-        public readonly string Keyword;
+        public string Keyword { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see

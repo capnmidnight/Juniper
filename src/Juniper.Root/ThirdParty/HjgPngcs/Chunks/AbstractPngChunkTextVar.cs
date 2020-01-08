@@ -3,12 +3,13 @@ namespace Hjg.Pngcs.Chunks
     /// <summary>
     /// general class for textual chunks
     /// </summary>
-    public abstract class PngChunkTextVar : PngChunkMultiple
+    public abstract class AbstractPngChunkTextVar : PngChunkMultiple
     {
-        protected internal string key; // key/val: only for tEXt. lazy computed
-        protected internal string val;
+        protected internal string Key { get; set; } // key/val: only for tEXt. lazy computed
 
-        protected PngChunkTextVar(string id, ImageInfo info)
+        protected internal string Val { get; set; }
+
+        protected AbstractPngChunkTextVar(string id, ImageInfo info)
             : base(id, info)
         {
         }
@@ -24,38 +25,15 @@ namespace Hjg.Pngcs.Chunks
         public const string KEY_Source = "Source"; // Device used to create the image
         public const string KEY_Comment = "Comment"; // Miscellaneous comment
 
-        public class PngTxtInfo
-        {
-            public string title;
-            public string author;
-            public string description;
-            public string creation_time;// = (new Date()).toString();
-            public string software;
-            public string disclaimer;
-            public string warning;
-            public string source;
-            public string comment;
-        }
-
         public override ChunkOrderingConstraint GetOrderingConstraint()
         {
             return ChunkOrderingConstraint.NONE;
         }
 
-        public string GetKey()
-        {
-            return key;
-        }
-
-        public string GetVal()
-        {
-            return val;
-        }
-
         public void SetKeyVal(string key, string val)
         {
-            this.key = key;
-            this.val = val;
+            Key = key;
+            Val = val;
         }
     }
 }

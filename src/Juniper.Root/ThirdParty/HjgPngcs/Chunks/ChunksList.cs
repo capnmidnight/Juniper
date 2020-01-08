@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -22,13 +23,13 @@ namespace Hjg.Pngcs.Chunks
         /// <summary>
         ///  Includes all chunks, but IDAT is a single pseudo chunk without data
         /// </summary>
-        protected List<PngChunk> pngChunks;
+        protected List<AbstractPngChunk> PngChunks { get; }
 
         internal readonly ImageInfo imageInfo; // only required for writing
 
         internal ChunksList(ImageInfo imfinfo)
         {
-            pngChunks = new List<PngChunk>();
+            PngChunks = new List<AbstractPngChunk>();
             imageInfo = imfinfo;
         }
 
@@ -39,7 +40,7 @@ namespace Hjg.Pngcs.Chunks
         public Dictionary<string, int> GetChunksKeys()
         {
             var ck = new Dictionary<string, int>();
-            foreach (var c in pngChunks)
+            foreach (var c in PngChunks)
             {
                 ck[c.Id] = ck.ContainsKey(c.Id) ? ck[c.Id] + 1 : 1;
             }
@@ -53,12 +54,12 @@ namespace Hjg.Pngcs.Chunks
         /// <remarks>This should not be used for general metadata handling
         /// </remarks>
         /// <returns></returns>
-        public List<PngChunk> Chunks
+        public List<AbstractPngChunk> Chunks
         {
-            get { return new List<PngChunk>(pngChunks); }
+            get { return new List<AbstractPngChunk>(PngChunks); }
         }
 
-        internal static List<PngChunk> GetXById(List<PngChunk> list, string id, string innerid)
+        internal static List<AbstractPngChunk> GetXById(List<AbstractPngChunk> list, string id, string innerid)
         {
             if (innerid is null)
             {
@@ -75,10 +76,15 @@ namespace Hjg.Pngcs.Chunks
         /// </summary>
         /// <param name="chunk"></param>
         /// <param name="chunkGroup"></param>
-        public void AppendReadChunk(PngChunk chunk, int chunkGroup)
+        public void AppendReadChunk(AbstractPngChunk chunk, int chunkGroup)
         {
+            if (chunk is null)
+            {
+                throw new ArgumentNullException(nameof(chunk));
+            }
+
             chunk.ChunkGroup = chunkGroup;
-            pngChunks.Add(chunk);
+            PngChunks.Add(chunk);
         }
 
         /// <summary>
@@ -87,7 +93,7 @@ namespace Hjg.Pngcs.Chunks
         /// <remarks>The GetBy... methods never include queued chunks</remarks>
         /// <param name="id"></param>
         /// <returns>List, empty if none</returns>
-        public List<PngChunk> GetById(string id)
+        public List<AbstractPngChunk> GetById(string id)
         {
             return GetById(id, null);
         }
@@ -99,9 +105,9 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="id"></param>
         /// <param name="innerid">Only used for text and SPLT chunks</param>
         /// <returns>List, empty if none</returns>
-        public List<PngChunk> GetById(string id, string innerid)
+        public List<AbstractPngChunk> GetById(string id, string innerid)
         {
-            return GetXById(pngChunks, id, innerid);
+            return GetXById(PngChunks, id, innerid);
         }
 
         /// <summary>
@@ -109,7 +115,7 @@ namespace Hjg.Pngcs.Chunks
         /// </summary>
         /// <param name="id"></param>
         /// <returns>First chunk found, null if not found</returns>
-        public PngChunk GetById1(string id)
+        public AbstractPngChunk GetById1(string id)
         {
             return GetById1(id, false);
         }
@@ -120,7 +126,7 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="id"></param>
         /// <param name="failIfMultiple">true, and more than one found: exception</param>
         /// <returns>null if not found</returns>
-        public PngChunk GetById1(string id, bool failIfMultiple)
+        public AbstractPngChunk GetById1(string id, bool failIfMultiple)
         {
             return GetById1(id, null, failIfMultiple);
         }
@@ -132,7 +138,7 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="innerid"></param>
         /// <param name="failIfMultiple">true, and more than one found: exception</param>
         /// <returns>null if not found</returns>
-        public PngChunk GetById1(string id, string innerid, bool failIfMultiple)
+        public AbstractPngChunk GetById1(string id, string innerid, bool failIfMultiple)
         {
             var list = GetById(id, innerid);
             if (list.Count == 0)
@@ -153,9 +159,9 @@ namespace Hjg.Pngcs.Chunks
         /// </summary>
         /// <param name="chunk"></param>
         /// <returns>Empty if nothing found</returns>
-        public List<PngChunk> GetEquivalent(PngChunk chunk)
+        public List<AbstractPngChunk> GetEquivalent(AbstractPngChunk chunk)
         {
-            return ChunkHelper.FilterList(pngChunks, new ChunkPredicateEquiv(chunk));
+            return ChunkHelper.FilterList(PngChunks, new ChunkPredicateEquiv(chunk));
         }
 
         /// <summary>
@@ -164,7 +170,7 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public override string ToString()
         {
-            return "ChunkList: read: " + pngChunks.Count.ToString(CultureInfo.CurrentCulture);
+            return "ChunkList: read: " + PngChunks.Count.ToString(CultureInfo.CurrentCulture);
         }
 
         /// <summary>
@@ -174,13 +180,12 @@ namespace Hjg.Pngcs.Chunks
         public string ToStringFull()
         {
             var sb = new StringBuilder(ToString());
-            sb.Append("\n Read:\n");
-            foreach (var chunk in pngChunks)
+            _ = sb.Append("\n Read:\n");
+            foreach (var chunk in PngChunks)
             {
-                sb.Append(chunk)
+                _ = sb.Append(chunk)
                   .Append(" G=")
                   .Append(chunk.ChunkGroup)
-
                   .Append('\n');
             }
 

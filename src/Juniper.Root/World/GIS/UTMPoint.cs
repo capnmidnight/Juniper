@@ -19,22 +19,22 @@ namespace Juniper.World.GIS
         /// <summary>
         /// The east/west component of the coordinate.
         /// </summary>
-        public readonly float X;
+        public float X { get; }
 
         /// <summary>
         /// The north/south component of the coordinate.
         /// </summary>
-        public readonly float Y;
+        public float Y { get; }
 
         /// <summary>
         /// An altitude component.
         /// </summary>
-        public readonly float Z;
+        public float Z { get; }
 
         /// <summary>
         /// The UTM Zone for which this coordinate represents.
         /// </summary>
-        public readonly int Zone;
+        public int Zone { get; }
 
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Juniper.World.GIS
         /// <summary>
         /// The hemisphere in which the UTM point sits.
         /// </summary>
-        public readonly GlobeHemisphere Hemisphere;
+        public GlobeHemisphere Hemisphere { get; }
 
         /// <summary>
         /// Initialize a new UTMPoint with the given components.
@@ -123,7 +123,7 @@ namespace Juniper.World.GIS
 
         public static explicit operator string(UTMPoint value)
         {
-            return value.ToString(CultureInfo.CurrentCulture);
+            return value?.ToString(CultureInfo.CurrentCulture);
         }
 
         public override int GetHashCode()

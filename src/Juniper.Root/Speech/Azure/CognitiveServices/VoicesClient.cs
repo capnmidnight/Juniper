@@ -13,8 +13,8 @@ namespace Juniper.Speech.Azure.CognitiveServices
         private string authToken;
         private Voice[] voices;
 
-        protected readonly string azureRegion;
-        protected readonly CachingStrategy cache;
+        protected string AzureRegion { get; }
+        protected CachingStrategy Cache { get; }
 
         public VoicesClient(string azureRegion, string azureSubscriptionKey, IJsonDecoder<Voice[]> voiceListDecoder, CachingStrategy cache)
         {
@@ -34,10 +34,10 @@ namespace Juniper.Speech.Azure.CognitiveServices
                 throw new ArgumentException("Must provide a JSON deserializer for the voice list data", nameof(voiceListDecoder));
             }
 
-            this.azureRegion = azureRegion;
+            Cache = cache ?? new CachingStrategy();
+            AzureRegion = azureRegion;
             this.azureSubscriptionKey = azureSubscriptionKey;
             this.voiceListDecoder = voiceListDecoder;
-            this.cache = cache ?? new CachingStrategy();
         }
 
         public VoicesClient(string azureRegion, string azureSubscriptionKey, IJsonDecoder<Voice[]> voiceListDecoder)
@@ -58,7 +58,7 @@ namespace Juniper.Speech.Azure.CognitiveServices
                 if (string.IsNullOrEmpty(authToken))
                 {
                     var plainText = new StringFactory();
-                    var authRequest = new AuthTokenRequest(azureRegion, azureSubscriptionKey);
+                    var authRequest = new AuthTokenRequest(AzureRegion, azureSubscriptionKey);
                     authToken = await authRequest.DecodeAsync(plainText)
                         .ConfigureAwait(false);
                 }
@@ -78,14 +78,14 @@ namespace Juniper.Speech.Azure.CognitiveServices
             {
                 if (voices is null)
                 {
-                    var voiceListRequest = new VoiceListRequest(azureRegion);
-                    if (!cache.IsCached(voiceListRequest))
+                    var voiceListRequest = new VoiceListRequest(AzureRegion);
+                    if (!Cache.IsCached(voiceListRequest))
                     {
                         voiceListRequest.AuthToken = await GetAuthTokenAsync()
                             .ConfigureAwait(false);
                     }
 
-                    voices = await cache.LoadAsync(voiceListDecoder, voiceListRequest)
+                    voices = await Cache.LoadAsync(voiceListDecoder, voiceListRequest)
                         .ConfigureAwait(false);
                 }
 

@@ -48,7 +48,7 @@ namespace Hjg.Pngcs.Chunks
             System.Array.Copy(c.Data, pos0 + 2, compressedProfile, 0, compdatasize);
         }
 
-        public override void CloneDataFromRead(PngChunk other)
+        public override void CloneDataFromRead(AbstractPngChunk other)
         {
             var otherx = (PngChunkICCP)other;
             profileName = otherx.profileName;

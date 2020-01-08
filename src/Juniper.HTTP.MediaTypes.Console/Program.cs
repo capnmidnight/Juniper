@@ -14,9 +14,9 @@ namespace Juniper.MediaTypes
 
         private static void PromotePrimaryExtension(Dictionary<string, Group> groups, string group, string entry, string ext)
         {
-            if (groups.ContainsKey(group) && groups[group].entries.ContainsKey(entry))
+            if (groups.ContainsKey(group) && groups[group].Entries.ContainsKey(entry))
             {
-                var extensions = groups[group].entries[entry].Extensions;
+                var extensions = groups[group].Entries[entry].Extensions;
                 var index = Array.IndexOf(extensions, ext);
                 if (0 <= index && index < extensions.Length)
                 {
@@ -37,8 +37,8 @@ namespace Juniper.MediaTypes
             await ParseIANAXmlAsync(groups)
                 .ConfigureAwait(false);
 
-            groups["Image"].entries["Raw"] = new Entry(groups["Image"], "Raw", "image/x-raw", null, new string[] { "raw" });
-            groups["Image"].entries["Exr"] = new Entry(groups["Image"], "EXR", "image/x-exr", null, new string[] { "exr" });
+            groups["Image"].Entries["Raw"] = new Entry(groups["Image"], "Raw", "image/x-raw", null, new string[] { "raw" });
+            groups["Image"].Entries["Exr"] = new Entry(groups["Image"], "EXR", "image/x-exr", null, new string[] { "exr" });
             PromotePrimaryExtension(groups, "Audio", "Mpeg", "mp3");
             PromotePrimaryExtension(groups, "Audio", "Ogg", "ogg");
 
@@ -62,7 +62,7 @@ namespace Juniper.MediaTypes
         {
             var allValues =
                 from grp in groups.Values
-                from entry in grp.entries.Values
+                from entry in grp.Entries.Values
                 where entry.DeprecationMessage == null
                 let value = $"{grp.ClassName}.{entry.FieldName}"
                 orderby value
@@ -187,9 +187,9 @@ namespace Juniper.MediaTypes
 
         private static void AddEntry(Group group, string name, string value, string deprecationMessage, string[] extensions)
         {
-            if (group.entries.ContainsKey(name))
+            if (group.Entries.ContainsKey(name))
             {
-                var oldGroup = group.entries[name];
+                var oldGroup = group.Entries[name];
                 deprecationMessage ??= oldGroup.DeprecationMessage;
 
                 if (extensions == null)
@@ -223,7 +223,7 @@ namespace Juniper.MediaTypes
                 }
             }
 
-            group.entries[name] = new Entry(group, name, value, deprecationMessage, extensions);
+            group.Entries[name] = new Entry(group, name, value, deprecationMessage, extensions);
         }
 
         private static Group GetGroup(this Dictionary<string, Group> groups, string name)

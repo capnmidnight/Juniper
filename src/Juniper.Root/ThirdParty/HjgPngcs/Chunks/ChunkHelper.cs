@@ -108,6 +108,16 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="bytes"></param>
         public static void WriteBytesToStream(Stream stream, byte[] bytes)
         {
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            if (bytes is null)
+            {
+                throw new ArgumentNullException(nameof(bytes));
+            }
+
             stream.Write(bytes, 0, bytes.Length);
         }
 
@@ -118,6 +128,11 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public static bool IsCritical(string id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                throw new ArgumentException("IsCritical flag occurs in first character of ID.", nameof(id));
+            }
+
             // first letter is uppercase
             return char.IsUpper(id[0]);
         }
@@ -129,6 +144,11 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public static bool IsPublic(string id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                throw new ArgumentException("IsPublic flag occurs in second character of ID.", nameof(id));
+            }
+
             // public chunk?
             return char.IsUpper(id[1]);
         }
@@ -140,6 +160,11 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public static bool IsSafeToCopy(string id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                throw new ArgumentException("IsSafeToCopy flag occurs in fourth character of ID.", nameof(id));
+            }
+
             // safe to copy?
             // fourth letter is lower case
             return !char.IsUpper(id[3]);
@@ -150,7 +175,7 @@ namespace Hjg.Pngcs.Chunks
         /// </summary>
         /// <param name="chunk"></param>
         /// <returns></returns>
-        public static bool IsUnknown(PngChunk chunk)
+        public static bool IsUnknown(AbstractPngChunk chunk)
         {
             return chunk is PngChunkUNKNOWN;
         }
@@ -162,6 +187,11 @@ namespace Hjg.Pngcs.Chunks
         /// <returns>-1 if not found</returns>
         public static int PosNullByte(byte[] bytes)
         {
+            if (bytes is null)
+            {
+                throw new ArgumentNullException(nameof(bytes));
+            }
+
             for (var i = 0; i < bytes.Length; i++)
             {
                 if (bytes[i] == 0)
@@ -186,7 +216,7 @@ namespace Hjg.Pngcs.Chunks
                 return true;
             }
 
-            var kwown = PngChunk.IsKnown(id);
+            var kwown = AbstractPngChunk.IsKnown(id);
             return behav switch
             {
                 ChunkLoadBehaviour.LOAD_CHUNK_ALWAYS => true,
@@ -254,9 +284,19 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="list"></param>
         /// <param name="predicateKeep"></param>
         /// <returns></returns>
-        public static List<PngChunk> FilterList(List<PngChunk> list, ChunkPredicate predicateKeep)
+        public static List<AbstractPngChunk> FilterList(List<AbstractPngChunk> list, IChunkPredicate predicateKeep)
         {
-            var result = new List<PngChunk>();
+            if (list is null)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+
+            if (predicateKeep is null)
+            {
+                throw new ArgumentNullException(nameof(predicateKeep));
+            }
+
+            var result = new List<AbstractPngChunk>();
             foreach (var element in list)
             {
                 if (predicateKeep.Matches(element))
@@ -276,8 +316,18 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="list"></param>
         /// <param name="predicateRemove"></param>
         /// <returns></returns>
-        public static int TrimList(List<PngChunk> list, ChunkPredicate predicateRemove)
+        public static int TrimList(List<AbstractPngChunk> list, IChunkPredicate predicateRemove)
         {
+            if (list is null)
+            {
+                throw new ArgumentNullException(nameof(list));
+            }
+
+            if (predicateRemove is null)
+            {
+                throw new ArgumentNullException(nameof(predicateRemove));
+            }
+
             var cont = 0;
             for (var i = list.Count - 1; i >= 0; i--)
             {
@@ -307,7 +357,7 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="c1">Chunk1</param>
         /// <param name="c2">Chunk1</param>
         /// <returns>true if equivalent</returns>
-        public static bool Equivalent(PngChunk c1, PngChunk c2)
+        public static bool Equivalent(AbstractPngChunk c1, AbstractPngChunk c2)
         {
             if (c1 == c2)
             {
@@ -316,10 +366,11 @@ namespace Hjg.Pngcs.Chunks
 
             if (c1 is null
                 || c2 is null
-                || !c1.Id.Equals(c2.Id, System.StringComparison.Ordinal))
+                || !c1.Id.Equals(c2.Id, StringComparison.Ordinal))
             {
                 return false;
             }
+
             // same id
             if (c1.GetType() != c2.GetType())
             {
@@ -331,25 +382,25 @@ namespace Hjg.Pngcs.Chunks
                 return true;
             }
 
-            if (c1 is PngChunkTextVar pngChunkTextVar)
+            if (c1 is AbstractPngChunkTextVar pngChunkTextVar)
             {
                 return pngChunkTextVar
-                    .GetKey()
-                    .Equals(((PngChunkTextVar)c2).GetKey(), System.StringComparison.Ordinal);
+                    .Key
+                    .Equals(((AbstractPngChunkTextVar)c2).Key, StringComparison.Ordinal);
             }
 
             if (c1 is PngChunkSPLT pngChunkSPLT)
             {
-                return pngChunkSPLT.PalName.Equals(((PngChunkSPLT)c2).PalName, System.StringComparison.Ordinal);
+                return pngChunkSPLT.PalName.Equals(((PngChunkSPLT)c2).PalName, StringComparison.Ordinal);
             }
 
             // unknown chunks that allow multiple? consider they don't match
             return false;
         }
 
-        public static bool IsText(PngChunk c)
+        public static bool IsText(AbstractPngChunk c)
         {
-            return c is PngChunkTextVar;
+            return c is AbstractPngChunkTextVar;
         }
     }
 }

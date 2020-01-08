@@ -5,7 +5,7 @@ namespace Hjg.Pngcs.Chunks
     /// <summary>
     /// tEXt chunk: latin1 uncompressed text
     /// </summary>
-    public class PngChunkTEXT : PngChunkTextVar
+    public class PngChunkTEXT : AbstractPngChunkTextVar
     {
         public const string ID = ChunkHelper.tEXt;
 
@@ -16,13 +16,13 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            if (key.Length == 0)
+            if (Key.Length == 0)
             {
                 throw new PngjException("Text chunk key must be non empty");
             }
 
-            var b1 = Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetBytes(key);
-            var b2 = Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetBytes(val);
+            var b1 = Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetBytes(Key);
+            var b2 = Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetBytes(Val);
             var chunk = CreateEmptyChunk(b1.Length + b2.Length + 1, true);
             Array.Copy(b1, 0, chunk.Data, 0, b1.Length);
             chunk.Data[b1.Length] = 0;
@@ -41,16 +41,16 @@ namespace Hjg.Pngcs.Chunks
                 }
             }
 
-            key = Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetString(c.Data, 0, i);
+            Key = Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetString(c.Data, 0, i);
             i++;
-            val = i < c.Data.Length ? Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetString(c.Data, i, c.Data.Length - i) : "";
+            Val = i < c.Data.Length ? Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetString(c.Data, i, c.Data.Length - i) : "";
         }
 
-        public override void CloneDataFromRead(PngChunk other)
+        public override void CloneDataFromRead(AbstractPngChunk other)
         {
             var otherx = (PngChunkTEXT)other;
-            key = otherx.key;
-            val = otherx.val;
+            Key = otherx.Key;
+            Val = otherx.Val;
         }
     }
 }

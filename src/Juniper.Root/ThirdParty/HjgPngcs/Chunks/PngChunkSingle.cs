@@ -3,7 +3,7 @@ namespace Hjg.Pngcs.Chunks
     /// <summary>
     /// A Chunk type that does not allow duplicate in an image
     /// </summary>
-    public abstract class PngChunkSingle : PngChunk
+    public abstract class PngChunkSingle : AbstractPngChunk
     {
         protected PngChunkSingle(string id, ImageInfo imgInfo)
             : base(id, imgInfo)

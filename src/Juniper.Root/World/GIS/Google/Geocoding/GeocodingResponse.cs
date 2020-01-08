@@ -9,9 +9,15 @@ namespace Juniper.World.GIS.Google.Geocoding
     [Serializable]
     public class GeocodingResponse : ISerializable
     {
-        public readonly HttpStatusCode status;
-        public readonly GeocodingResult[] results;
-        public readonly string error_message;
+        private static readonly string STATUS_FIELD = nameof(Status).ToLowerInvariant();
+        private static readonly string RESULTS_FIELD = nameof(Results).ToLowerInvariant();
+        private static readonly string ERROR_MESSAGE_FIELD = nameof(Error_Message).ToLowerInvariant();
+
+        public HttpStatusCode Status { get; }
+
+        public GeocodingResult[] Results { get; }
+
+        public string Error_Message { get; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected GeocodingResponse(SerializationInfo info, StreamingContext context)
@@ -21,14 +27,14 @@ namespace Juniper.World.GIS.Google.Geocoding
                 throw new ArgumentNullException(nameof(info));
             }
 
-            status = info.GetString(nameof(status)).MapToStatusCode();
-            if (status == HttpStatusCode.OK)
+            Status = info.GetString(STATUS_FIELD).MapToStatusCode();
+            if (Status == HttpStatusCode.OK)
             {
-                results = info.GetValue<GeocodingResult[]>(nameof(results));
+                Results = info.GetValue<GeocodingResult[]>(RESULTS_FIELD);
             }
-            else if (status != HttpStatusCode.NoContent)
+            else if (Status != HttpStatusCode.NoContent)
             {
-                error_message = info.GetString(nameof(error_message));
+                Error_Message = info.GetString(ERROR_MESSAGE_FIELD);
             }
         }
 
@@ -39,14 +45,15 @@ namespace Juniper.World.GIS.Google.Geocoding
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue(nameof(status), status.ToGoogleString());
-            if (status == HttpStatusCode.OK)
+            info.AddValue(STATUS_FIELD, Status.ToGoogleString());
+
+            if (Status == HttpStatusCode.OK)
             {
-                info.AddValue(nameof(results), results);
+                info.AddValue(RESULTS_FIELD, Results);
             }
-            else if (status != HttpStatusCode.NoContent)
+            else if (Status != HttpStatusCode.NoContent)
             {
-                info.AddValue(nameof(error_message), error_message);
+                info.AddValue(ERROR_MESSAGE_FIELD, Error_Message);
             }
         }
     }

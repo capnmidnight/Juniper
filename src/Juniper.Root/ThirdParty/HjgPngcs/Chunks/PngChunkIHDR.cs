@@ -60,7 +60,7 @@ namespace Hjg.Pngcs.Chunks
             Interlaced = Hjg.Pngcs.PngHelperInternal.ReadByte(st);
         }
 
-        public override void CloneDataFromRead(PngChunk other)
+        public override void CloneDataFromRead(AbstractPngChunk other)
         {
             var otherx = (PngChunkIHDR)other;
             Cols = otherx.Cols;

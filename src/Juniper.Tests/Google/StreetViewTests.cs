@@ -74,11 +74,11 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
             var metadata = await cache
                 .LoadAsync(metadataDecoder, metadataRequest)
                 .ConfigureAwait(false);
-            Assert.AreEqual(HttpStatusCode.OK, metadata.status);
-            Assert.IsNotNull(metadata.copyright);
-            Assert.AreEqual("2016-07", metadata.date.ToString("yyyy-MM", CultureInfo.InvariantCulture));
-            Assert.IsNotNull(metadata.location);
-            Assert.IsNotNull(metadata.pano_id);
+            Assert.AreEqual(HttpStatusCode.OK, metadata.Status);
+            Assert.IsNotNull(metadata.Copyright);
+            Assert.AreEqual("2016-07", metadata.Date.ToString("yyyy-MM", CultureInfo.InvariantCulture));
+            Assert.IsNotNull(metadata.Location);
+            Assert.IsNotNull(metadata.Pano_ID);
         }
 
         [TestMethod]

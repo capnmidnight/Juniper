@@ -5,12 +5,17 @@ namespace Juniper.MediaTypes
 {
     internal class Entry
     {
-        public readonly Group Group;
-        public readonly string Value;
-        public readonly string FieldName;
-        public readonly string DeprecationMessage;
-        public readonly string[] Extensions;
-        public readonly string PrimaryExtension;
+        public Group Group { get; }
+
+        public string Value { get; }
+
+        public string FieldName { get; }
+
+        public string DeprecationMessage { get; }
+
+        public string[] Extensions { get; }
+
+        public string PrimaryExtension { get; }
 
         public Entry(Group group, string fieldName, string value, string deprecationMessage, string[] extensions)
         {

@@ -70,7 +70,7 @@ namespace Juniper.Sound
             }
             else if (Format.ContentType == MediaType.Audio.PCMA)
             {
-                var format = new WaveFormat(Format.sampleRate, Format.bitsPerSample, Format.channels);
+                var format = new WaveFormat(Format.SampleRate, Format.BitsPerSample, Format.Channels);
                 return new RawSourceWaveStream(stream, format);
             }
             else
@@ -134,19 +134,19 @@ namespace Juniper.Sound
 
         private void ValidateFormat(int sampleRate, int bitsPerSample, int channels)
         {
-            if (sampleRate != Format.sampleRate)
+            if (sampleRate != Format.SampleRate)
             {
-                throw new InvalidOperationException($"Sample Rate does not match between audio format and audio file. Expected: {Format.sampleRate.ToString(CultureInfo.CurrentCulture)}. Actual: {sampleRate.ToString(CultureInfo.CurrentCulture)}");
+                throw new InvalidOperationException($"Sample Rate does not match between audio format and audio file. Expected: {Format.SampleRate.ToString(CultureInfo.CurrentCulture)}. Actual: {sampleRate.ToString(CultureInfo.CurrentCulture)}");
             }
 
-            if (bitsPerSample != Format.bitsPerSample)
+            if (bitsPerSample != Format.BitsPerSample)
             {
-                throw new InvalidOperationException($"Sample Size does not match between audio format and audio file. Expected: {Format.bitsPerSample.ToString(CultureInfo.CurrentCulture)}. Actual: {bitsPerSample.ToString(CultureInfo.CurrentCulture)}");
+                throw new InvalidOperationException($"Sample Size does not match between audio format and audio file. Expected: {Format.BitsPerSample.ToString(CultureInfo.CurrentCulture)}. Actual: {bitsPerSample.ToString(CultureInfo.CurrentCulture)}");
             }
 
-            if (channels != Format.channels)
+            if (channels != Format.Channels)
             {
-                throw new InvalidOperationException($"Channel Count does not match between audio format and audio file. Expected: {Format.channels.ToString(CultureInfo.CurrentCulture)}. Actual: {channels.ToString(CultureInfo.CurrentCulture)}");
+                throw new InvalidOperationException($"Channel Count does not match between audio format and audio file. Expected: {Format.Channels.ToString(CultureInfo.CurrentCulture)}. Actual: {channels.ToString(CultureInfo.CurrentCulture)}");
             }
         }
 

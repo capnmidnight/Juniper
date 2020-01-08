@@ -108,8 +108,8 @@ namespace Juniper.Azure
                 throw new ArgumentNullException(nameof(audio));
             }
 
-            var format = new WaveFormat(audio.Format.sampleRate, audio.Format.bitsPerSample, audio.Format.channels);
-            var sourceStream = new FloatsToPcmBytesStream(audio.DataStream, audio.Format.bitsPerSample / 8);
+            var format = new WaveFormat(audio.Format.SampleRate, audio.Format.BitsPerSample, audio.Format.Channels);
+            var sourceStream = new FloatsToPcmBytesStream(audio.DataStream, audio.Format.BitsPerSample / 8);
             var waveStream = new RawSourceWaveStream(sourceStream, format);
             return PlayAsync(waveStream);
         }

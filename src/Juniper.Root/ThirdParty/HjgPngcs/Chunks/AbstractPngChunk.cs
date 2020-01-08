@@ -17,24 +17,24 @@ namespace Hjg.Pngcs.Chunks
     /// </para>
     /// <para>Ref: http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html</para>
     /// </remarks>
-    public abstract class PngChunk
+    public abstract class AbstractPngChunk
     {
         /// <summary>
         /// 4 letters. The Id almost determines the concrete type (except for PngUKNOWN)
         /// </summary>
-        public readonly string Id;
+        public string Id { get; }
 
         /// <summary>
         /// Standard basic properties, implicit in the Id
         /// </summary>
-        public readonly bool Crit;
-        public readonly bool Pub;
-        public readonly bool Safe;
+        public bool Crit { get; }
+        public bool Pub { get; }
+        public bool Safe { get; }
 
         /// <summary>
         /// Image basic info, mostly for some checks
         /// </summary>
-        protected readonly ImageInfo ImgInfo;
+        protected ImageInfo ImgInfo { get; }
 
         /// <summary>
         /// For writing. Queued chunks with high priority will be written as soon as possible
@@ -85,13 +85,13 @@ namespace Hjg.Pngcs.Chunks
         /// </summary>
         /// <param name="id"></param>
         /// <param name="imgInfo"></param>
-        protected PngChunk(string id, ImageInfo imgInfo)
+        protected AbstractPngChunk(string id, ImageInfo imgInfo)
         {
             Id = id;
             ImgInfo = imgInfo;
-            Crit = Hjg.Pngcs.Chunks.ChunkHelper.IsCritical(id);
-            Pub = Hjg.Pngcs.Chunks.ChunkHelper.IsPublic(id);
-            Safe = Hjg.Pngcs.Chunks.ChunkHelper.IsSafeToCopy(id);
+            Crit = ChunkHelper.IsCritical(id);
+            Pub = ChunkHelper.IsPublic(id);
+            Safe = ChunkHelper.IsSafeToCopy(id);
             Priority = false;
             ChunkGroup = -1;
             Length = -1;
@@ -163,9 +163,9 @@ namespace Hjg.Pngcs.Chunks
             return GetOrderingConstraint() == ChunkOrderingConstraint.AFTER_PLTE_BEFORE_IDAT;
         }
 
-        internal static PngChunk Factory(ChunkRaw chunk, ImageInfo info)
+        internal static AbstractPngChunk Factory(ChunkRaw chunk, ImageInfo info)
         {
-            var c = FactoryFromId(Hjg.Pngcs.Chunks.ChunkHelper.ToString(chunk.IdBytes), info);
+            var c = FactoryFromId(ChunkHelper.ToString(chunk.IdBytes), info);
             c.Length = chunk.Len;
             c.ParseFromRaw(chunk);
             return c;
@@ -177,9 +177,9 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="cid">Chunk Id</param>
         /// <param name="info"></param>
         /// <returns></returns>
-        internal static PngChunk FactoryFromId(string cid, ImageInfo info)
+        internal static AbstractPngChunk FactoryFromId(string cid, ImageInfo info)
         {
-            PngChunk chunk = null;
+            AbstractPngChunk chunk = null;
             if (factoryMap is null)
             {
                 _ = InitFactory();
@@ -195,7 +195,7 @@ namespace Hjg.Pngcs.Chunks
 
                 var cons = t.GetConstructor(new Type[] { typeof(ImageInfo) });
                 var o = cons.Invoke(new object[] { info });
-                chunk = (PngChunk)o;
+                chunk = (AbstractPngChunk)o;
             }
 
             if (chunk is null)
@@ -214,8 +214,13 @@ namespace Hjg.Pngcs.Chunks
 
         /* @SuppressWarnings("unchecked")*/
 
-        public static T CloneChunk<T>(T chunk, ImageInfo info) where T : PngChunk
+        public static T CloneChunk<T>(T chunk, ImageInfo info) where T : AbstractPngChunk
         {
+            if (chunk is null)
+            {
+                throw new ArgumentNullException(nameof(chunk));
+            }
+
             var cn = FactoryFromId(chunk.Id, info);
             if (cn.GetType() != (object)chunk.GetType())
             {
@@ -261,7 +266,7 @@ namespace Hjg.Pngcs.Chunks
         /// Override to make a copy (normally deep) from other chunk
         /// </summary>
         /// <param name="other"></param>
-        public abstract void CloneDataFromRead(PngChunk other);
+        public abstract void CloneDataFromRead(AbstractPngChunk other);
 
         /// <summary>
         /// This is implemented in PngChunkMultiple/PngChunSingle

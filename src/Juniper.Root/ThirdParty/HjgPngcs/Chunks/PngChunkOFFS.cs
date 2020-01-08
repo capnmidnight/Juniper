@@ -50,7 +50,7 @@ namespace Hjg.Pngcs.Chunks
             units = PngHelperInternal.ReadInt1fromByte(c.Data, 8);
         }
 
-        public override void CloneDataFromRead(PngChunk other)
+        public override void CloneDataFromRead(AbstractPngChunk other)
         {
             var otherx = (PngChunkOFFS)other;
             posX = otherx.posX;

@@ -6,7 +6,7 @@ namespace Hjg.Pngcs.Chunks
     /// iTXt chunk:  http://www.w3.org/TR/PNG/#11iTXt
     /// One of the three text chunks
     /// </summary>
-    public class PngChunkITXT : PngChunkTextVar
+    public class PngChunkITXT : AbstractPngChunkTextVar
     {
         public const string ID = ChunkHelper.iTXt;
 
@@ -21,13 +21,13 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            if (key.Length == 0)
+            if (Key.Length == 0)
             {
                 throw new PngjException("Text chunk key must be non empty");
             }
 
             var ba = new MemoryStream();
-            ChunkHelper.WriteBytesToStream(ba, ChunkHelper.ToBytes(key));
+            ChunkHelper.WriteBytesToStream(ba, ChunkHelper.ToBytes(Key));
             ba.WriteByte(0); // separator
             ba.WriteByte(compressed ? (byte)1 : (byte)0);
             ba.WriteByte(0); // compression method (always 0)
@@ -35,7 +35,7 @@ namespace Hjg.Pngcs.Chunks
             ba.WriteByte(0); // separator
             ChunkHelper.WriteBytesToStream(ba, ChunkHelper.ToBytesUTF8(translatedTag));
             ba.WriteByte(0); // separator
-            var textbytes = ChunkHelper.ToBytesUTF8(val);
+            var textbytes = ChunkHelper.ToBytesUTF8(Val);
             if (compressed)
             {
                 textbytes = ChunkHelper.CompressBytes(textbytes, true);
@@ -77,7 +77,7 @@ namespace Hjg.Pngcs.Chunks
                 throw new PngjException("Bad formed PngChunkITXT chunk");
             }
 
-            key = ChunkHelper.ToString(c.Data, 0, nullsIdx[0]);
+            Key = ChunkHelper.ToString(c.Data, 0, nullsIdx[0]);
             var i = nullsIdx[0] + 1;
             compressed = c.Data[i] != 0;
             i++;
@@ -92,19 +92,19 @@ namespace Hjg.Pngcs.Chunks
             if (compressed)
             {
                 var bytes = ChunkHelper.CompressBytes(c.Data, i, c.Data.Length - i, false);
-                val = ChunkHelper.ToStringUTF8(bytes);
+                Val = ChunkHelper.ToStringUTF8(bytes);
             }
             else
             {
-                val = ChunkHelper.ToStringUTF8(c.Data, i, c.Data.Length - i);
+                Val = ChunkHelper.ToStringUTF8(c.Data, i, c.Data.Length - i);
             }
         }
 
-        public override void CloneDataFromRead(PngChunk other)
+        public override void CloneDataFromRead(AbstractPngChunk other)
         {
             var otherx = (PngChunkITXT)other;
-            key = otherx.key;
-            val = otherx.val;
+            Key = otherx.Key;
+            Val = otherx.Val;
             compressed = otherx.compressed;
             langTag = otherx.langTag;
             translatedTag = otherx.translatedTag;

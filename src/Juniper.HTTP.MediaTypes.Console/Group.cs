@@ -6,21 +6,24 @@ namespace Juniper.MediaTypes
 {
     internal class Group
     {
-        public readonly string typeFileName;
-        public readonly string valuesFileName;
-        public readonly string ClassName;
-        public readonly Dictionary<string, Entry> entries = new Dictionary<string, Entry>(StringComparer.InvariantCultureIgnoreCase);
+        public string TypeFileName { get; }
+
+        public string ValuesFileName { get; }
+
+        public string ClassName { get; }
+
+        public Dictionary<string, Entry> Entries { get; } = new Dictionary<string, Entry>(StringComparer.InvariantCultureIgnoreCase);
 
         public Group(string className)
         {
             ClassName = className;
-            typeFileName = className + ".cs";
-            valuesFileName = className + ".Values.cs";
+            TypeFileName = className + ".cs";
+            ValuesFileName = className + ".Values.cs";
         }
 
         public void Write(string directoryName)
         {
-            typeFileName.MakeFile(directoryName, (writer) =>
+            TypeFileName.MakeFile(directoryName, (writer) =>
             {
                 writer.WriteLine("        public sealed partial class {0} : MediaType", ClassName);
                 writer.WriteLine("        {");
@@ -39,11 +42,11 @@ namespace Juniper.MediaTypes
                 writer.WriteLine("        }");
             }, "using System.Linq;");
 
-            valuesFileName.MakeFile(directoryName, (writer) =>
+            ValuesFileName.MakeFile(directoryName, (writer) =>
             {
                 writer.WriteLine("        public sealed partial class {0} : MediaType", ClassName);
                 writer.WriteLine("        {");
-                var sortedEntries = entries.Values.OrderBy(e => e.FieldName);
+                var sortedEntries = Entries.Values.OrderBy(e => e.FieldName);
                 foreach (var entry in sortedEntries)
                 {
                     entry.Write(writer);

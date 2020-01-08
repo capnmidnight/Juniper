@@ -41,7 +41,7 @@ namespace Hjg.Pngcs.Chunks
             Intent = PngHelperInternal.ReadInt1fromByte(c.Data, 0);
         }
 
-        public override void CloneDataFromRead(PngChunk other)
+        public override void CloneDataFromRead(AbstractPngChunk other)
         {
             var otherx = (PngChunkSRGB)other;
             Intent = otherx.Intent;

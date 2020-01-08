@@ -126,7 +126,7 @@ namespace Juniper.World.GIS.Google.MapTiles
                 if (markers.Count > 0)
                 {
                     RemoveQuery(nameof(markers));
-                    var groupedByStyle = markers.GroupBy(m => m.style);
+                    var groupedByStyle = markers.GroupBy(m => m.Style);
                     foreach (var group in groupedByStyle)
                     {
                         AddMarkerGroup(group.Key, group);
@@ -155,7 +155,7 @@ namespace Juniper.World.GIS.Google.MapTiles
             foreach (var point in group)
             {
                 sb.Append(delim)
-                  .Append(point.center);
+                  .Append(point.Center);
                 delim = "|";
             }
 

@@ -38,7 +38,7 @@ namespace Hjg.Pngcs.Chunks
             gamma = g / 100000.0d;
         }
 
-        public override void CloneDataFromRead(PngChunk other)
+        public override void CloneDataFromRead(AbstractPngChunk other)
         {
             gamma = ((PngChunkGAMA)other).gamma;
         }

@@ -13,7 +13,7 @@ namespace Juniper.Sound
         /// <summary>
         /// A small buffer for reading in a single sample at a time.
         /// </summary>
-        protected readonly byte[] tempBuffer;
+        private readonly byte[] tempBuffer;
 
         /// <summary>
         /// Creates a wrapper around a stream to convert PCM data to floating
@@ -36,7 +36,7 @@ namespace Juniper.Sound
         /// as many bytes in the output floating-point sample stream.</remarks>
         public override long Length
         {
-            get { return ToFloatSpace(sourceStream.Length); }
+            get { return ToFloatSpace(SourceStream.Length); }
         }
 
         /// <summary>
@@ -45,10 +45,10 @@ namespace Juniper.Sound
         /// </summary>
         public override long Position
         {
-            get { return ToFloatSpace(sourceStream.Position); }
+            get { return ToFloatSpace(SourceStream.Position); }
 
 
-            set { sourceStream.Position = ToPCMSpace(value); }
+            set { SourceStream.Position = ToPCMSpace(value); }
         }
 
         /// <summary>
@@ -58,11 +58,11 @@ namespace Juniper.Sound
         /// <param name="value"></param>
         protected override void InternalSetLength(long value)
         {
-            sourceStream.SetLength(ToPCMSpace(value));
+            SourceStream.SetLength(ToPCMSpace(value));
         }
 
         /// <summary>
-        /// Reads <see cref="AbstractPcmConversionStream.bytesPerSample"/> PCM bytes
+        /// Reads <see cref="AbstractPcmConversionStream.BytesPerSample"/> PCM bytes
         /// at a time, outputting 4 floating-point bytes per sample read.
         /// </summary>
         /// <param name="buffer"></param>
@@ -74,7 +74,7 @@ namespace Juniper.Sound
             var read = 0;
             while (read + sizeof(float) - 1 < count)
             {
-                sourceStream.Read(tempBuffer, 0, bytesPerSample);
+                _ = SourceStream.Read(tempBuffer, 0, BytesPerSample);
                 PCMToFloat(tempBuffer, 0, buffer, offset + read);
                 read += sizeof(float);
             }
@@ -83,7 +83,7 @@ namespace Juniper.Sound
         }
 
         /// <summary>
-        /// Writes <see cref="AbstractPcmConversionStream.bytesPerSample"/> PCM bytes
+        /// Writes <see cref="AbstractPcmConversionStream.BytesPerSample"/> PCM bytes
         /// at a time, inputting from 4 floating-point bytes per sample write.
         /// </summary>
         /// <param name="buffer"></param>
@@ -95,7 +95,7 @@ namespace Juniper.Sound
             while (wrote < count)
             {
                 FloatToPCM(buffer, offset + wrote, tempBuffer, 0);
-                sourceStream.Write(tempBuffer, 0, bytesPerSample);
+                SourceStream.Write(tempBuffer, 0, BytesPerSample);
                 wrote += sizeof(float);
             }
         }

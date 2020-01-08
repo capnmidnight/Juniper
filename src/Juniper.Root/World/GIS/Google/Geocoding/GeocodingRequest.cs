@@ -95,7 +95,7 @@ namespace Juniper.World.GIS.Google.Geocoding
             set
             {
                 bounds = value;
-                SetQuery(nameof(bounds), $"{bounds.southwest}|{bounds.northeast}");
+                SetQuery(nameof(bounds), $"{bounds.SouthWest}|{bounds.NorthEast}");
             }
         }
 

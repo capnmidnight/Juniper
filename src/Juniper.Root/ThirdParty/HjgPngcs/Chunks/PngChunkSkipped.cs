@@ -1,6 +1,6 @@
 namespace Hjg.Pngcs.Chunks
 {
-    internal class PngChunkSkipped : PngChunk
+    internal class PngChunkSkipped : AbstractPngChunk
     {
         internal PngChunkSkipped(string id, ImageInfo imgInfo, int clen)
             : base(id, imgInfo)
@@ -23,7 +23,7 @@ namespace Hjg.Pngcs.Chunks
             throw new PngjException("Non supported for a skipped chunk");
         }
 
-        public sealed override void CloneDataFromRead(PngChunk other)
+        public sealed override void CloneDataFromRead(AbstractPngChunk other)
         {
             throw new PngjException("Non supported for a skipped chunk");
         }

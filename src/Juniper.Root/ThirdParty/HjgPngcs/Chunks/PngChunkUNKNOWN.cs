@@ -43,7 +43,7 @@ namespace Hjg.Pngcs.Chunks
             data = data_0;
         }
 
-        public override void CloneDataFromRead(PngChunk other)
+        public override void CloneDataFromRead(AbstractPngChunk other)
         {
             // THIS SHOULD NOT BE CALLED IF ALREADY CLONED WITH COPY CONSTRUCTOR
             var c = (PngChunkUNKNOWN)other;

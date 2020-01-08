@@ -34,7 +34,7 @@ namespace Hjg.Pngcs.Chunks
             return c;
         }
 
-        public override void CloneDataFromRead(PngChunk other)
+        public override void CloneDataFromRead(AbstractPngChunk other)
         {
             var otherx = (PngChunkPHYS)other;
             PixelsxUnitX = otherx.PixelsxUnitX;

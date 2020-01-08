@@ -78,7 +78,7 @@ namespace Hjg.Pngcs.Chunks
             return c;
         }
 
-        public override void CloneDataFromRead(PngChunk other)
+        public override void CloneDataFromRead(AbstractPngChunk other)
         {
             var otherx = (PngChunkSBIT)other;
             Graysb = otherx.Graysb;

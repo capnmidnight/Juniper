@@ -481,7 +481,7 @@ namespace Hjg.Pngcs
         /// If it's skipped, a PngChunkSkipped object is created
         /// </summary>
         /// <returns></returns>
-        private PngChunk ReadChunk(byte[] chunkid, int clen, bool skipforced)
+        private AbstractPngChunk ReadChunk(byte[] chunkid, int clen, bool skipforced)
         {
             if (clen < 0)
             {
@@ -516,7 +516,7 @@ namespace Hjg.Pngcs
                         || !ChunkHelper.ShouldLoad(chunkidstr, ChunkLoadBehaviour);
             }
 
-            PngChunk pngChunk;
+            AbstractPngChunk pngChunk;
             if (skip)
             {
                 PngHelperInternal.SkipBytes(inputStream, clen);
@@ -527,7 +527,7 @@ namespace Hjg.Pngcs
             {
                 var chunk = new ChunkRaw(clen, chunkid, true);
                 _ = chunk.ReadChunkData(inputStream, critical);
-                pngChunk = PngChunk.Factory(chunk, ImgInfo);
+                pngChunk = AbstractPngChunk.Factory(chunk, ImgInfo);
                 if (!pngChunk.Crit)
                 {
                     bytesChunksLoaded += chunk.Len;

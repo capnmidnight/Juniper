@@ -47,9 +47,9 @@ namespace Juniper.World.GIS.Google
                 .ConfigureAwait(false);
             if (value is MetadataResponse metadata)
             {
-                if (metadata.status != System.Net.HttpStatusCode.OK
-                    || string.IsNullOrEmpty(metadata.pano_id)
-                    || metadata.location is null)
+                if (metadata.Status != System.Net.HttpStatusCode.OK
+                    || string.IsNullOrEmpty(metadata.Pano_ID)
+                    || metadata.Location is null)
                 {
                     if (cache.IsCached(fileRef))
                     {
@@ -60,7 +60,7 @@ namespace Juniper.World.GIS.Google
                 }
                 else
                 {
-                    var metadataRef = new ContentReference(metadata.pano_id, MediaType.Application.Json);
+                    var metadataRef = new ContentReference(metadata.Pano_ID, MediaType.Application.Json);
                     await cache
                         .CopyToAsync(fileRef, cache, metadataRef)
                         .ConfigureAwait(false);

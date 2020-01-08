@@ -11,16 +11,24 @@ namespace Juniper.World.GIS.Google.MapTiles
 {
     public class LinePathCollection : IList<string>
     {
-        public readonly LinePathStyle style;
-        public readonly List<string> points = new List<string>();
-        public readonly bool encodePath;
+        public LinePathStyle Style { get; }
+
+        public List<string> Points { get; }
+
+        public bool EncodePath { get; }
 
         public LinePathCollection(LinePathStyle style, bool encodePath, IEnumerable<string> points)
         {
-            this.style = style;
-            this.encodePath = encodePath;
-            this.points.AddRange(points);
-            if (this.points.Count < 2)
+            if (points is null)
+            {
+                throw new ArgumentNullException(nameof(points));
+            }
+
+            Style = style ?? throw new ArgumentNullException(nameof(style));
+            EncodePath = encodePath;
+            Points = new List<string>(points);
+
+            if (Points.Count < 2)
             {
                 throw new ArgumentException("There needs to be at least 2 points in a path for it to be renderable.", nameof(points));
             }
@@ -75,22 +83,22 @@ namespace Juniper.World.GIS.Google.MapTiles
         {
             var sb = new StringBuilder();
             var delim = "";
-            if (style != default)
+            if (Style != default)
             {
-                sb.Append(style);
+                _ = sb.Append(Style);
                 delim = "|";
             }
 
-            if (encodePath)
+            if (EncodePath)
             {
-                sb.Append("enc:")
-                  .Append(EncodePolyline(points));
+                _ = sb.Append("enc:")
+                  .Append(EncodePolyline(Points));
             }
             else
             {
-                foreach (var point in points)
+                foreach (var point in Points)
                 {
-                    sb.Append(delim)
+                    _ = sb.Append(delim)
                       .Append(point);
                     delim = "|";
                 }
@@ -101,6 +109,11 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public static int EncodePolylinePart(StringBuilder sb, double part, ref int firstPart)
         {
+            if (sb is null)
+            {
+                throw new ArgumentNullException(nameof(sb));
+            }
+
             var val = (int)Round(part * 1e5);
             var delta = val - firstPart;
             firstPart = val;
@@ -126,7 +139,7 @@ namespace Juniper.World.GIS.Google.MapTiles
                 }
 
                 dec += 63;
-                sb.Append((char)dec);
+                _ = sb.Append((char)dec);
             }
 
             return val;
@@ -134,6 +147,11 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public static string EncodePolyline(IEnumerable<string> points)
         {
+            if (points is null)
+            {
+                throw new ArgumentNullException(nameof(points));
+            }
+
             var sb = new StringBuilder();
             var lastLat = 0;
             var lastLng = 0;
@@ -149,94 +167,114 @@ namespace Juniper.World.GIS.Google.MapTiles
         {
             var parts = point.SplitX(',');
             var values = parts.Select(p => double.Parse(p.Trim(), CultureInfo.InvariantCulture)).ToArray();
-            EncodePolylinePart(sb, values[0], ref firstLat);
-            EncodePolylinePart(sb, values[1], ref firstLng);
+            _ = EncodePolylinePart(sb, values[0], ref firstLat);
+            _ = EncodePolylinePart(sb, values[1], ref firstLng);
         }
 
         public int IndexOf(string item)
         {
-            return points.IndexOf(item);
+            return Points.IndexOf(item);
         }
 
         public void Insert(int index, string item)
         {
-            points.Insert(index, item);
+            Points.Insert(index, item);
         }
 
         public void Insert(int index, LatLngPoint item)
         {
-            points.Insert(index, item.ToString(CultureInfo.InvariantCulture));
+            if (item is null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+
+            Points.Insert(index, item.ToString(CultureInfo.InvariantCulture));
         }
 
         public void RemoveAt(int index)
         {
-            points.RemoveAt(index);
+            Points.RemoveAt(index);
         }
 
         public string this[int index]
         {
-            get { return points[index]; }
-            set { points[index] = value; }
+            get { return Points[index]; }
+            set { Points[index] = value; }
         }
 
         public void Add(string item)
         {
-            points.Add(item);
+            Points.Add(item);
         }
 
         public void Add(LatLngPoint item)
         {
-            points.Add(item.ToString(CultureInfo.InvariantCulture));
+            if (item is null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+
+            Points.Add(item.ToString(CultureInfo.InvariantCulture));
         }
 
         public void Clear()
         {
-            points.Clear();
+            Points.Clear();
         }
 
         public bool Contains(string item)
         {
-            return points.Contains(item);
+            return Points.Contains(item);
         }
 
         public bool Contains(LatLngPoint item)
         {
+            if (item is null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+
             return Contains(item.ToString(CultureInfo.InvariantCulture));
         }
 
         public void CopyTo(string[] array, int arrayIndex)
         {
-            points.CopyTo(array, arrayIndex);
+            Points.CopyTo(array, arrayIndex);
         }
 
         public bool Remove(string item)
         {
-            return points.Remove(item);
+            return Points.Remove(item);
         }
 
         public bool Remove(LatLngPoint item)
         {
+            if (item is null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+
             return Remove(item.ToString(CultureInfo.InvariantCulture));
         }
 
         public int Count
         {
-            get { return points.Count; }
+            get { return Points.Count; }
         }
 
         public bool IsReadOnly
         {
-            get { return ((IList<string>)points).IsReadOnly; }
+            get { return ((IList<string>)Points).IsReadOnly; }
         }
 
         public IEnumerator<string> GetEnumerator()
         {
-            return ((IList<string>)points).GetEnumerator();
+            return ((IList<string>)Points).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IList<string>)points).GetEnumerator();
+            return ((IList<string>)Points).GetEnumerator();
         }
     }
 }

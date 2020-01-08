@@ -24,13 +24,13 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
                 .LoadAsync(searchDecoder, searchRequest)
                 .ConfigureAwait(false);
             Assert.IsNotNull(results);
-            Assert.AreEqual(HttpStatusCode.OK, results.status);
-            Assert.IsNull(results.error_message);
-            Assert.IsNotNull(results.results);
+            Assert.AreEqual(HttpStatusCode.OK, results.Status);
+            Assert.IsNull(results.Error_Message);
+            Assert.IsNotNull(results.Results);
 
-            var res = results.results.FirstOrDefault();
+            var res = results.Results.FirstOrDefault();
             Assert.IsNotNull(res);
-            Assert.AreEqual("4877 The Woods Rd, Kitty Hawk, NC 27949, USA", res.formatted_address);
+            Assert.AreEqual("4877 The Woods Rd, Kitty Hawk, NC 27949, USA", res.Formatted_Address);
         }
     }
 }

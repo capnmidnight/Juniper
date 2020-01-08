@@ -16,7 +16,7 @@ namespace Hjg.Pngcs
         /// <summary>
         /// Basic image info, inmutable
         /// </summary>
-        public readonly ImageInfo ImgInfo;
+        public ImageInfo ImgInfo { get; }
 
         /// <summary>
         /// filename, or description - merely informative, can be empty
@@ -123,8 +123,8 @@ namespace Hjg.Pngcs
                 string filename)
         {
             this.outputStream = outputStream ?? throw new ArgumentNullException(nameof(outputStream));
+            ImgInfo = imgInfo ?? throw new ArgumentNullException(nameof(imgInfo));
             this.filename = filename ?? "";
-            ImgInfo = imgInfo;
             // defaults settings
             CompLevel = 6;
             ShouldCloseStream = true;
@@ -210,7 +210,7 @@ namespace Hjg.Pngcs
         private void WriteLastChunks()
         { // not including end
             CurrentChunkGroup = ChunksList.CHUNK_GROUP_5_AFTERIDAT;
-            chunksList.WriteChunks(outputStream, CurrentChunkGroup);
+            _ = chunksList.WriteChunks(outputStream, CurrentChunkGroup);
             // should not be unwriten chunks
             var pending = chunksList.GetQueuedChunks();
             if (pending.Count > 0)
@@ -491,7 +491,7 @@ namespace Hjg.Pngcs
         {
             if (reader is null)
             {
-                throw new System.ArgumentNullException(nameof(reader));
+                throw new ArgumentNullException(nameof(reader));
             }
 
             var idatDone = CurrentChunkGroup >= ChunksList.CHUNK_GROUP_4_IDAT;
@@ -511,7 +511,7 @@ namespace Hjg.Pngcs
                 var copy = false;
                 if (chunk.Crit)
                 {
-                    if (chunk.Id.Equals(ChunkHelper.PLTE, System.StringComparison.Ordinal))
+                    if (chunk.Id.Equals(ChunkHelper.PLTE, StringComparison.Ordinal))
                     {
                         if (ImgInfo.Indexed && ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_PALETTE))
                         {
@@ -526,7 +526,7 @@ namespace Hjg.Pngcs
                 }
                 else
                 { // ancillary
-                    var text = (chunk is PngChunkTextVar);
+                    var text = (chunk is AbstractPngChunkTextVar);
                     var safe = chunk.Safe;
                     // notice that these if are not exclusive
                     if (ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_ALL))
@@ -539,13 +539,13 @@ namespace Hjg.Pngcs
                         copy = true;
                     }
 
-                    if (chunk.Id.Equals(ChunkHelper.tRNS, System.StringComparison.Ordinal)
+                    if (chunk.Id.Equals(ChunkHelper.tRNS, StringComparison.Ordinal)
                             && ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_TRANSPARENCY))
                     {
                         copy = true;
                     }
 
-                    if (chunk.Id.Equals(ChunkHelper.pHYs, System.StringComparison.Ordinal)
+                    if (chunk.Id.Equals(ChunkHelper.pHYs, StringComparison.Ordinal)
                         && ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_PHYS))
                     {
                         copy = true;
@@ -560,8 +560,8 @@ namespace Hjg.Pngcs
                     if ((ChunkHelper.MaskMatch(copy_mask, ChunkCopyBehaviour.COPY_ALMOSTALL)
                             && !(ChunkHelper.IsUnknown(chunk))
                             || text
-                            || chunk.Id.Equals(ChunkHelper.hIST, System.StringComparison.Ordinal)
-                            || chunk.Id.Equals(ChunkHelper.tIME, System.StringComparison.Ordinal)))
+                            || chunk.Id.Equals(ChunkHelper.hIST, StringComparison.Ordinal)
+                            || chunk.Id.Equals(ChunkHelper.tIME, StringComparison.Ordinal)))
                     {
                         copy = true;
                     }
@@ -574,7 +574,7 @@ namespace Hjg.Pngcs
 
                 if (copy)
                 {
-                    chunksList.Queue(PngChunk.CloneChunk(chunk, ImgInfo));
+                    chunksList.Queue(AbstractPngChunk.CloneChunk(chunk, ImgInfo));
                 }
             }
         }
@@ -652,6 +652,11 @@ namespace Hjg.Pngcs
         ///
         public void WriteRow(ImageLine imgline, int rownumber)
         {
+            if (imgline is null)
+            {
+                throw new ArgumentNullException(nameof(imgline));
+            }
+
             SetUseUnPackedMode(imgline.SamplesUnpacked);
             if (imgline.SampleType == ImageLine.ESampleType.INT)
             {
@@ -687,6 +692,11 @@ namespace Hjg.Pngcs
         /// <param name="rown">Number of row, from 0 (top) to rows-1 (bottom)</param>
         public void WriteRowInt(int[] newrow, int rown)
         {
+            if (newrow is null)
+            {
+                throw new ArgumentNullException(nameof(newrow));
+            }
+
             PrepareEncodeRow(rown);
             EncodeRowFromInt(newrow);
             FilterAndSend(rown);
@@ -694,6 +704,11 @@ namespace Hjg.Pngcs
 
         public void WriteRowByte(byte[] newrow, int rown)
         {
+            if (newrow is null)
+            {
+                throw new ArgumentNullException(nameof(newrow));
+            }
+
             PrepareEncodeRow(rown);
             EncodeRowFromByte(newrow);
             FilterAndSend(rown);
@@ -705,6 +720,11 @@ namespace Hjg.Pngcs
 
         public void WriteRowsInt(int[][] image)
         {
+            if (image is null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
             for (var i = 0; i < ImgInfo.Rows; i++)
             {
                 WriteRowInt(image[i], i);
@@ -717,6 +737,11 @@ namespace Hjg.Pngcs
 
         public void WriteRowsByte(byte[][] image)
         {
+            if (image is null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
             for (var i = 0; i < ImgInfo.Rows; i++)
             {
                 WriteRowByte(image[i], i);

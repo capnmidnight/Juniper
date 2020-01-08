@@ -63,13 +63,13 @@ namespace Juniper.GoogleMaps
 
         private static async Task GetImageDataAsync(MetadataResponse metadata)
         {
-            if (metadata.status == System.Net.HttpStatusCode.OK)
+            if (metadata.Status == System.Net.HttpStatusCode.OK)
             {
-                var geo = await gmaps.ReverseGeocodeAsync(metadata.location)
+                var geo = await gmaps.ReverseGeocodeAsync(metadata.Location)
                     .ConfigureAwait(false);
                 try
                 {
-                    using var stream = await gmaps.GetImageAsync(metadata.pano_id, 20, 0, 0)
+                    using var stream = await gmaps.GetImageAsync(metadata.Pano_ID, 20, 0, 0)
                         .ConfigureAwait(false);
                     var image = imageDecoder.Deserialize(stream);
                     form.SetImage(metadata, geo, image);

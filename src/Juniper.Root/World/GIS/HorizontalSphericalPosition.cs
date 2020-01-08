@@ -13,17 +13,17 @@ namespace Juniper.World.GIS
         /// <summary>
         /// The altitude of the object (angle off of the Ecliptic), in degrees.
         /// </summary>
-        public readonly float AltitudeDegrees;
+        public float AltitudeDegrees { get; }
 
         /// <summary>
         /// The azimuth of the object (angle off of prime azimuth), in degrees.
         /// </summary>
-        public readonly float AzimuthDegrees;
+        public float AzimuthDegrees { get; }
 
         /// <summary>
         /// The distance from the origin of the system (the sun) in astronomical units (earth-distances).
         /// </summary>
-        public readonly float RadiusAU;
+        public float RadiusAU { get; }
 
         /// <summary>
         /// Create a new bearing to an object.

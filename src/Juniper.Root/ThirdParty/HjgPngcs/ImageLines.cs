@@ -8,34 +8,45 @@ namespace Hjg.Pngcs
     public class ImageLines
     {
         public ImageInfo ImgInfo { get; }
+
         public ImageLine.ESampleType SampleType { get; }
+
         public bool SamplesUnpacked { get; }
+
         public int RowOffset { get; }
+
         public int Nrows { get; }
+
         public int RowStep { get; }
-        public readonly int channels;
-        public readonly int bitDepth;
-        public readonly int elementsPerRow;
+
+        public int Channels { get; }
+
+        public int BitDepth { get; }
+
+        public int ElementsPerRow { get; }
+
         public int[][] Scanlines { get; }
+
         public byte[][] ScanlinesB { get; }
 
         public ImageLines(ImageInfo ImgInfo, ImageLine.ESampleType sampleType, bool unpackedMode, int rowOffset, int nRows, int rowStep)
         {
-            this.ImgInfo = ImgInfo;
-            channels = ImgInfo.Channels;
-            bitDepth = ImgInfo.BitDepth;
+            this.ImgInfo = ImgInfo ?? throw new System.ArgumentNullException(nameof(ImgInfo));
+
+            Channels = ImgInfo.Channels;
+            BitDepth = ImgInfo.BitDepth;
             SampleType = sampleType;
             SamplesUnpacked = unpackedMode || !ImgInfo.Packed;
             RowOffset = rowOffset;
             Nrows = nRows;
             RowStep = rowStep;
-            elementsPerRow = unpackedMode ? ImgInfo.SamplesPerRow : ImgInfo.SamplesPerRowPacked;
+            ElementsPerRow = unpackedMode ? ImgInfo.SamplesPerRow : ImgInfo.SamplesPerRowPacked;
             if (sampleType == ImageLine.ESampleType.INT)
             {
                 Scanlines = new int[nRows][];
                 for (var i = 0; i < nRows; i++)
                 {
-                    Scanlines[i] = new int[elementsPerRow];
+                    Scanlines[i] = new int[ElementsPerRow];
                 }
 
                 ScanlinesB = null;
@@ -45,7 +56,7 @@ namespace Hjg.Pngcs
                 ScanlinesB = new byte[nRows][];
                 for (var i = 0; i < nRows; i++)
                 {
-                    ScanlinesB[i] = new byte[elementsPerRow];
+                    ScanlinesB[i] = new byte[ElementsPerRow];
                 }
 
                 Scanlines = null;

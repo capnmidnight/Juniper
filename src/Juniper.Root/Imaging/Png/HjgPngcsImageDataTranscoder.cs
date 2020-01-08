@@ -15,19 +15,19 @@ namespace Juniper.Imaging
         public ImageData Translate(ImageLines value, IProgress prog)
         {
             var numRows = value.Nrows;
-            var data = new byte[numRows * value.elementsPerRow];
+            var data = new byte[numRows * value.ElementsPerRow];
             for (var i = 0; i < numRows; ++i)
             {
                 prog.Report(i, numRows);
                 var row = value.ScanlinesB[i];
-                Array.Copy(row, 0, data, i * value.elementsPerRow, row.Length);
+                Array.Copy(row, 0, data, i * value.ElementsPerRow, row.Length);
                 prog.Report(i + 1, numRows);
             }
 
             return new ImageData(
                 value.ImgInfo.BytesPerRow / value.ImgInfo.BytesPixel,
                 value.Nrows,
-                value.channels,
+                value.Channels,
                 data);
         }
 

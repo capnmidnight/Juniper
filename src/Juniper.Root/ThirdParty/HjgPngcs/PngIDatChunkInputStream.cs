@@ -24,13 +24,13 @@ namespace Hjg.Pngcs
         // just informational
         public class IdatChunkInfo
         {
-            public readonly int len;
-            public readonly long offset;
+            public int Len { get; }
+            public long Offset { get; }
 
-            public IdatChunkInfo(int len_0, long offset_1)
+            public IdatChunkInfo(int len, long offset)
             {
-                len = len_0;
-                offset = offset_1;
+                Len = len;
+                Offset = offset;
             }
         }
 

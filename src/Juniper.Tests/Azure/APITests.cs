@@ -139,7 +139,7 @@ namespace Juniper.Azure.Tests
                 .LoadAsync(audioDecoder, audioRequest)
                 .ConfigureAwait(false);
             Assert.AreEqual(MediaType.Audio.PCMA, audio.Format.ContentType);
-            Assert.AreEqual(audioRequest.OutputFormat.sampleRate, audio.Format.sampleRate);
+            Assert.AreEqual(audioRequest.OutputFormat.SampleRate, audio.Format.SampleRate);
         }
     }
 }

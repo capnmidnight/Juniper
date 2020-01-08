@@ -9,13 +9,24 @@ namespace Juniper.World.GIS.Google.TimeZone
     [Serializable]
     public class TimeZoneResponse : ISerializable
     {
-        public readonly HttpStatusCode status;
-        public readonly string errorMessage;
+        private static readonly string STATUS_FIELD = nameof(Status).ToLowerInvariant();
+        private static readonly string DST_OFFSET_FIELD = nameof(DstOffset).ToLowerInvariant();
+        private static readonly string RAW_OFFSET_FIELD = nameof(RawOffset).ToLowerInvariant();
+        private static readonly string TIME_ZONE_ID_FIELD = nameof(TimeZoneId).ToLowerInvariant();
+        private static readonly string TIME_ZONE_NAME_FIELD = nameof(TimeZoneName).ToLowerInvariant();
+        private static readonly string ERROR_MESSAGE_FIELD = nameof(ErrorMessage).ToLowerInvariant();
 
-        public readonly long dstOffset;
-        public readonly long rawOffset;
-        public readonly string timeZoneId;
-        public readonly string timeZoneName;
+        public HttpStatusCode Status { get; }
+
+        public string ErrorMessage { get; }
+
+        public long DstOffset { get; }
+
+        public long RawOffset { get; }
+
+        public string TimeZoneId { get; }
+
+        public string TimeZoneName { get; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected TimeZoneResponse(SerializationInfo info, StreamingContext context)
@@ -25,17 +36,18 @@ namespace Juniper.World.GIS.Google.TimeZone
                 throw new ArgumentNullException(nameof(info));
             }
 
-            status = info.GetString(nameof(status)).MapToStatusCode();
-            if (status == HttpStatusCode.OK)
+            Status = info.GetString(STATUS_FIELD).MapToStatusCode();
+
+            if (Status == HttpStatusCode.OK)
             {
-                dstOffset = info.GetInt64(nameof(dstOffset));
-                rawOffset = info.GetInt64(nameof(rawOffset));
-                timeZoneId = info.GetString(nameof(timeZoneId));
-                timeZoneName = info.GetString(nameof(timeZoneName));
+                DstOffset = info.GetInt64(DST_OFFSET_FIELD);
+                RawOffset = info.GetInt64(RAW_OFFSET_FIELD);
+                TimeZoneId = info.GetString(TIME_ZONE_ID_FIELD);
+                TimeZoneName = info.GetString(TIME_ZONE_NAME_FIELD);
             }
-            else if (status != HttpStatusCode.NoContent)
+            else if (Status != HttpStatusCode.NoContent)
             {
-                errorMessage = info.GetString(nameof(errorMessage));
+                ErrorMessage = info.GetString(ERROR_MESSAGE_FIELD);
             }
         }
 
@@ -46,17 +58,17 @@ namespace Juniper.World.GIS.Google.TimeZone
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue(nameof(status), status.ToGoogleString());
-            if (status == HttpStatusCode.OK)
+            info.AddValue(STATUS_FIELD, Status.ToGoogleString());
+            if (Status == HttpStatusCode.OK)
             {
-                info.AddValue(nameof(dstOffset), dstOffset);
-                info.AddValue(nameof(rawOffset), rawOffset);
-                info.AddValue(nameof(timeZoneId), timeZoneId);
-                info.AddValue(nameof(timeZoneName), timeZoneName);
+                info.AddValue(DST_OFFSET_FIELD, DstOffset);
+                info.AddValue(RAW_OFFSET_FIELD, RawOffset);
+                info.AddValue(TIME_ZONE_ID_FIELD, TimeZoneId);
+                info.AddValue(TIME_ZONE_NAME_FIELD, TimeZoneName);
             }
-            else if (status != HttpStatusCode.NoContent)
+            else if (Status != HttpStatusCode.NoContent)
             {
-                info.AddValue(nameof(errorMessage), errorMessage);
+                info.AddValue(ERROR_MESSAGE_FIELD, ErrorMessage);
             }
         }
     }

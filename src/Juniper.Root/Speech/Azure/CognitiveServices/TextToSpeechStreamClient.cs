@@ -45,7 +45,7 @@ namespace Juniper.Speech.Azure.CognitiveServices
 
             try
             {
-                var ttsRequest = new TextToSpeechRequest(azureRegion, azureResourceName, OutputFormat)
+                var ttsRequest = new TextToSpeechRequest(AzureRegion, azureResourceName, OutputFormat)
                 {
                     Text = text,
                     VoiceName = voiceName,
@@ -53,13 +53,13 @@ namespace Juniper.Speech.Azure.CognitiveServices
                     PitchChange = pitchChange
                 };
 
-                if (!cache.IsCached(ttsRequest))
+                if (!Cache.IsCached(ttsRequest))
                 {
                     ttsRequest.AuthToken = await GetAuthTokenAsync()
                         .ConfigureAwait(false);
                 }
 
-                return await cache.OpenAsync(ttsRequest)
+                return await Cache.OpenAsync(ttsRequest)
                     .ConfigureAwait(false);
             }
             catch

@@ -10,7 +10,7 @@ namespace Hjg.Pngcs.Chunks
     ///
     public class ChunksListForWrite : ChunksList
     {
-        private readonly List<PngChunk> queuedChunks; // chunks not yet writen - does not include IHDR, IDAT, END, perhaps yes PLTE
+        private readonly List<AbstractPngChunk> queuedChunks; // chunks not yet writen - does not include IHDR, IDAT, END, perhaps yes PLTE
 
         // redundant, just for eficciency
         private readonly Dictionary<string, int> alreadyWrittenKeys;
@@ -18,7 +18,7 @@ namespace Hjg.Pngcs.Chunks
         internal ChunksListForWrite(ImageInfo info)
             : base(info)
         {
-            queuedChunks = new List<PngChunk>();
+            queuedChunks = new List<AbstractPngChunk>();
             alreadyWrittenKeys = new Dictionary<string, int>();
         }
 
@@ -27,7 +27,7 @@ namespace Hjg.Pngcs.Chunks
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public List<PngChunk> GetQueuedById(string id)
+        public List<AbstractPngChunk> GetQueuedById(string id)
         {
             return GetQueuedById(id, null);
         }
@@ -38,7 +38,7 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="id"></param>
         /// <param name="innerid"></param>
         /// <returns></returns>
-        public List<PngChunk> GetQueuedById(string id, string innerid)
+        public List<AbstractPngChunk> GetQueuedById(string id, string innerid)
         {
             return GetXById(queuedChunks, id, innerid);
         }
@@ -50,7 +50,7 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="innerid"></param>
         /// <param name="failIfMultiple"></param>
         /// <returns></returns>
-        public PngChunk GetQueuedById1(string id, string innerid, bool failIfMultiple)
+        public AbstractPngChunk GetQueuedById1(string id, string innerid, bool failIfMultiple)
         {
             var list = GetQueuedById(id, innerid);
             if (list.Count == 0)
@@ -72,7 +72,7 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="id"></param>
         /// <param name="failIfMultiple"></param>
         /// <returns></returns>
-        public PngChunk GetQueuedById1(string id, bool failIfMultiple)
+        public AbstractPngChunk GetQueuedById1(string id, bool failIfMultiple)
         {
             return GetQueuedById1(id, null, failIfMultiple);
         }
@@ -82,7 +82,7 @@ namespace Hjg.Pngcs.Chunks
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public PngChunk GetQueuedById1(string id)
+        public AbstractPngChunk GetQueuedById1(string id)
         {
             return GetQueuedById1(id, false);
         }
@@ -96,7 +96,7 @@ namespace Hjg.Pngcs.Chunks
         /// </remarks>
         /// <param name="c"></param>
         /// <returns></returns>
-        public bool RemoveChunk(PngChunk c)
+        public bool RemoveChunk(AbstractPngChunk c)
         {
             return queuedChunks.Remove(c);
         }
@@ -107,7 +107,7 @@ namespace Hjg.Pngcs.Chunks
         /// <remarks>Does not check for duplicated or anything</remarks>
         /// <param name="chunk"></param>
         /// <returns></returns>
-        public bool Queue(PngChunk chunk)
+        public bool Queue(AbstractPngChunk chunk)
         {
             queuedChunks.Add(chunk);
             return true;
@@ -117,7 +117,7 @@ namespace Hjg.Pngcs.Chunks
          * this should be called only for ancillary chunks and PLTE (groups 1 - 3 - 5)
          **/
 
-        private static bool ShouldWrite(PngChunk c, int currentGroup)
+        private static bool ShouldWrite(AbstractPngChunk c, int currentGroup)
         {
             if (currentGroup == CHUNK_GROUP_2_PLTE)
             {
@@ -194,7 +194,7 @@ namespace Hjg.Pngcs.Chunks
                 }
 
                 c.Write(os);
-                pngChunks.Add(c);
+                PngChunks.Add(c);
                 alreadyWrittenKeys[c.Id] = alreadyWrittenKeys.ContainsKey(c.Id) ? alreadyWrittenKeys[c.Id] + 1 : 1;
                 written.Add(i);
                 c.ChunkGroup = currentGroup;
@@ -213,7 +213,7 @@ namespace Hjg.Pngcs.Chunks
         /// chunks not yet writen - does not include IHDR, IDAT, END, perhaps yes PLTE
         /// </summary>
         /// <returns>THis is not a copy! Don't modify</returns>
-        internal List<PngChunk> GetQueuedChunks()
+        internal List<AbstractPngChunk> GetQueuedChunks()
         {
             return queuedChunks;
         }

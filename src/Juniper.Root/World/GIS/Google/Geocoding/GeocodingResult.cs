@@ -8,14 +8,28 @@ namespace Juniper.World.GIS.Google.Geocoding
     [Serializable]
     public class GeocodingResult : ISerializable
     {
-        public readonly bool partial_match;
-        public readonly AddressComponent[] address_components;
+        public bool partial_match { get; }
+
+        private static readonly string ADDRESS_COMPONENTS_FIELD = nameof(Address_Components).ToLowerInvariant();
+        private static readonly string FORMATTED_ADDRESS_FIELD = nameof(Formatted_Address).ToLowerInvariant();
+        private static readonly string PLACE_ID_FIELD = nameof(Place_ID).ToLowerInvariant();
+        private static readonly string TYPES_FIELD = nameof(Types).ToLowerInvariant();
+        private static readonly string GEOMETRY_FIELD = nameof(Geometry).ToLowerInvariant();
+        private static readonly string PARTIAL_MATCH_FIELD = nameof(partial_match).ToLowerInvariant();
+
         private readonly Dictionary<int, AddressComponent> addressComponentLookup;
-        public readonly string formatted_address;
-        public readonly string place_id;
-        public readonly string[] typeStrings;
-        public readonly HashSet<AddressComponentTypes> types;
-        public readonly GeometryResult geometry;
+
+        public AddressComponent[] Address_Components { get; }
+
+        public string Formatted_Address { get; }
+
+        public string Place_ID { get; }
+
+        public string[] TypeStrings { get; }
+
+        public HashSet<AddressComponentTypes> Types { get; }
+
+        public GeometryResult Geometry { get; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected GeocodingResult(SerializationInfo info, StreamingContext context)
@@ -25,16 +39,16 @@ namespace Juniper.World.GIS.Google.Geocoding
                 throw new ArgumentNullException(nameof(info));
             }
 
-            address_components = info.GetValue<AddressComponent[]>(nameof(address_components));
-            addressComponentLookup = address_components.ToDictionary(elem => elem.Key);
-            formatted_address = info.GetString(nameof(formatted_address));
-            place_id = info.GetString(nameof(place_id));
-            typeStrings = info.GetValue<string[]>(nameof(types));
-            types = new HashSet<AddressComponentTypes>(from typeStr in typeStrings
+            Address_Components = info.GetValue<AddressComponent[]>(ADDRESS_COMPONENTS_FIELD);
+            addressComponentLookup = Address_Components.ToDictionary(elem => elem.Key);
+            Formatted_Address = info.GetString(FORMATTED_ADDRESS_FIELD);
+            Place_ID = info.GetString(PLACE_ID_FIELD);
+            TypeStrings = info.GetValue<string[]>(TYPES_FIELD);
+            Types = new HashSet<AddressComponentTypes>(from typeStr in TypeStrings
                                                        select Enum.TryParse<AddressComponentTypes>(typeStr, out var parsedType)
                                                            ? parsedType
                                                            : AddressComponentTypes.None);
-            geometry = info.GetValue<GeometryResult>(nameof(geometry));
+            Geometry = info.GetValue<GeometryResult>(GEOMETRY_FIELD);
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -46,14 +60,14 @@ namespace Juniper.World.GIS.Google.Geocoding
 
             if (partial_match)
             {
-                info.AddValue(nameof(partial_match), partial_match);
+                info.AddValue(PARTIAL_MATCH_FIELD, partial_match);
             }
 
-            info.AddValue(nameof(address_components), address_components);
-            info.AddValue(nameof(formatted_address), formatted_address);
-            info.AddValue(nameof(place_id), place_id);
-            info.AddValue(nameof(types), typeStrings);
-            info.AddValue(nameof(geometry), geometry);
+            info.AddValue(ADDRESS_COMPONENTS_FIELD, Address_Components);
+            info.AddValue(FORMATTED_ADDRESS_FIELD, Formatted_Address);
+            info.AddValue(PLACE_ID_FIELD, Place_ID);
+            info.AddValue(TYPES_FIELD, TypeStrings);
+            info.AddValue(GEOMETRY_FIELD, Geometry);
         }
 
         public AddressComponent GetAddressComponent(params AddressComponentTypes[] types)

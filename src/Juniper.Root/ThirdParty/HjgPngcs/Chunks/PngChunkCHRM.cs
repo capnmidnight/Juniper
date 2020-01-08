@@ -53,7 +53,7 @@ namespace Hjg.Pngcs.Chunks
             bluey = PngHelperInternal.IntToDouble100000(PngHelperInternal.ReadInt4fromBytes(c.Data, 28));
         }
 
-        public override void CloneDataFromRead(PngChunk other)
+        public override void CloneDataFromRead(AbstractPngChunk other)
         {
             var otherx = (PngChunkCHRM)other;
             whitex = otherx.whitex;

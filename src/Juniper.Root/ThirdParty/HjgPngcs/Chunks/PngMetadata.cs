@@ -26,7 +26,7 @@ namespace Hjg.Pngcs.Chunks
         /// <remarks>Warning: the overwriting applies to equivalent chunks, see <c>ChunkPredicateEquiv</c>
         /// and will only make sense for queued (not yet writen) chunks
         /// </remarks>
-        public void QueueChunk(PngChunk chunk, bool lazyOverwrite)
+        public void QueueChunk(AbstractPngChunk chunk, bool lazyOverwrite)
         {
             var cl = getChunkListW();
             if (ReadOnly)
@@ -44,7 +44,7 @@ namespace Hjg.Pngcs.Chunks
 
         /// <summary>Queues the chunk at the writer</summary>
         /// <param name="chunk">Chunk, ready for write</param>
-        public void QueueChunk(PngChunk chunk)
+        public void QueueChunk(AbstractPngChunk chunk)
         {
             QueueChunk(chunk, true);
         }
@@ -166,14 +166,14 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="useLatin1">Flag. If false, will use UTF-8 (iTXt)</param>
         /// <param name="compress">Flag. Uses zTXt chunk.</param>
         /// <returns>The created and enqueued chunk</returns>
-        public PngChunkTextVar SetText(string key, string val, bool useLatin1, bool compress)
+        public AbstractPngChunkTextVar SetText(string key, string val, bool useLatin1, bool compress)
         {
             if (compress && !useLatin1)
             {
                 throw new PngjException("cannot compress non latin text");
             }
 
-            PngChunkTextVar c;
+            AbstractPngChunkTextVar c;
             if (useLatin1)
             {
                 if (compress)
@@ -202,7 +202,7 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="key">Key</param>
         /// <param name="val">Text</param>
         /// <returns>The created and enqueued chunk</returns>
-        public PngChunkTextVar SetText(string key, string val)
+        public AbstractPngChunkTextVar SetText(string key, string val)
         {
             return SetText(key, val, false, false);
         }
@@ -213,22 +213,22 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="key">Key</param>
         /// <returns>Empty list if nothing found</returns>
         /// <remarks>Can mix tEXt zTXt and iTXt chunks</remarks>
-        public List<PngChunkTextVar> GetTxtsForKey(string key)
+        public List<AbstractPngChunkTextVar> GetTxtsForKey(string key)
         {
-            var li = new List<PngChunkTextVar>();
+            var li = new List<AbstractPngChunkTextVar>();
             foreach (var c in chunkList.GetById(ChunkHelper.tEXt, key))
             {
-                li.Add((PngChunkTextVar)c);
+                li.Add((AbstractPngChunkTextVar)c);
             }
 
             foreach (var c in chunkList.GetById(ChunkHelper.zTXt, key))
             {
-                li.Add((PngChunkTextVar)c);
+                li.Add((AbstractPngChunkTextVar)c);
             }
 
             foreach (var c in chunkList.GetById(ChunkHelper.iTXt, key))
             {
-                li.Add((PngChunkTextVar)c);
+                li.Add((AbstractPngChunkTextVar)c);
             }
 
             return li;
@@ -251,7 +251,7 @@ namespace Hjg.Pngcs.Chunks
 
             foreach (var c in li)
             {
-                t = t + c.GetVal() + "\n";
+                t = t + c.Val + "\n";
             }
 
             return t.Trim();

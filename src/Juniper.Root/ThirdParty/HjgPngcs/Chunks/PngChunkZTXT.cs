@@ -6,7 +6,7 @@ namespace Hjg.Pngcs.Chunks
     /// zTXt chunk: http://www.w3.org/TR/PNG/#11zTXt
     ///
     /// </summary>
-    public class PngChunkZTXT : PngChunkTextVar
+    public class PngChunkZTXT : AbstractPngChunkTextVar
     {
         public const string ID = ChunkHelper.zTXt;
 
@@ -17,16 +17,16 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            if (key.Length == 0)
+            if (Key.Length == 0)
             {
                 throw new PngjException("Text chunk key must be non empty");
             }
 
             var ba = new MemoryStream();
-            ChunkHelper.WriteBytesToStream(ba, ChunkHelper.ToBytes(key));
+            ChunkHelper.WriteBytesToStream(ba, ChunkHelper.ToBytes(Key));
             ba.WriteByte(0); // separator
             ba.WriteByte(0); // compression method: 0
-            var textbytes = ChunkHelper.CompressBytes(ChunkHelper.ToBytes(val), true);
+            var textbytes = ChunkHelper.CompressBytes(ChunkHelper.ToBytes(Val), true);
             ChunkHelper.WriteBytesToStream(ba, textbytes);
             var b = ba.ToArray();
             var chunk = CreateEmptyChunk(b.Length, false);
@@ -53,7 +53,7 @@ namespace Hjg.Pngcs.Chunks
                 throw new PngjException("bad zTXt chunk: no separator found");
             }
 
-            key = ChunkHelper.ToString(c.Data, 0, nullsep);
+            Key = ChunkHelper.ToString(c.Data, 0, nullsep);
             var compmet = (int)c.Data[nullsep + 1];
             if (compmet != 0)
             {
@@ -61,14 +61,14 @@ namespace Hjg.Pngcs.Chunks
             }
 
             var uncomp = ChunkHelper.CompressBytes(c.Data, nullsep + 2, c.Data.Length - nullsep - 2, false); // uncompress
-            val = ChunkHelper.ToString(uncomp);
+            Val = ChunkHelper.ToString(uncomp);
         }
 
-        public override void CloneDataFromRead(PngChunk other)
+        public override void CloneDataFromRead(AbstractPngChunk other)
         {
             var otherx = (PngChunkZTXT)other;
-            key = otherx.key;
-            val = otherx.val;
+            Key = otherx.Key;
+            Val = otherx.Val;
         }
     }
 }

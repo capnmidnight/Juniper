@@ -7,7 +7,7 @@ namespace Hjg.Pngcs.Chunks
     /// This is the same as ChunkPredicateEquivalent, the only difference is that does not requires
     /// a chunk at construction time
     /// </remarks>
-    internal class ChunkPredicateId2 : ChunkPredicate
+    internal class ChunkPredicateId2 : IChunkPredicate
     {
         private readonly string id;
         private readonly string innerid;
@@ -18,15 +18,15 @@ namespace Hjg.Pngcs.Chunks
             innerid = inner;
         }
 
-        public bool Matches(PngChunk c)
+        public bool Matches(AbstractPngChunk c)
         {
             if (!c.Id.Equals(id, System.StringComparison.Ordinal))
             {
                 return false;
             }
 
-            if (c is PngChunkTextVar pngChunkTextVar
-                && !pngChunkTextVar.GetKey().Equals(innerid, System.StringComparison.Ordinal))
+            if (c is AbstractPngChunkTextVar pngChunkTextVar
+                && !pngChunkTextVar.Key.Equals(innerid, System.StringComparison.Ordinal))
             {
                 return false;
             }

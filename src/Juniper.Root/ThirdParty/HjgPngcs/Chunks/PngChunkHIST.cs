@@ -51,7 +51,7 @@ namespace Hjg.Pngcs.Chunks
             }
         }
 
-        public override void CloneDataFromRead(PngChunk other)
+        public override void CloneDataFromRead(AbstractPngChunk other)
         {
             var otherx = (PngChunkHIST)other;
             hist = new int[otherx.hist.Length];

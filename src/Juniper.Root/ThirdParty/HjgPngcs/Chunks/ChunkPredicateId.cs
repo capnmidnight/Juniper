@@ -3,7 +3,7 @@ namespace Hjg.Pngcs.Chunks
     /// <summary>
     /// Match if have same Chunk Id
     /// </summary>
-    internal class ChunkPredicateId : ChunkPredicate
+    internal class ChunkPredicateId : IChunkPredicate
     {
         private readonly string id;
 
@@ -12,7 +12,7 @@ namespace Hjg.Pngcs.Chunks
             this.id = id;
         }
 
-        public bool Matches(PngChunk c)
+        public bool Matches(AbstractPngChunk c)
         {
             return c.Id.Equals(id, System.StringComparison.Ordinal);
         }

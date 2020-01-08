@@ -33,9 +33,9 @@ namespace Juniper.GoogleMaps
                 throw new ArgumentNullException(nameof(geocode));
             }
 
-            var address = (from result in geocode.results
-                           orderby result.formatted_address.Length descending
-                           select result.formatted_address)
+            var address = (from result in geocode.Results
+                           orderby result.Formatted_Address.Length descending
+                           select result.Formatted_Address)
                         .FirstOrDefault();
             SetControls(metadata, image, address);
         }
@@ -49,8 +49,8 @@ namespace Juniper.GoogleMaps
             else
             {
                 locationTextBox.Text = address ?? string.Empty;
-                panoTextbox.Text = metadata.pano_id;
-                latLngTextbox.Text = metadata.location.ToString(CultureInfo.InvariantCulture);
+                panoTextbox.Text = metadata.Pano_ID;
+                latLngTextbox.Text = metadata.Location.ToString(CultureInfo.InvariantCulture);
                 cubeMapPictureBox.Image?.Dispose();
                 cubeMapPictureBox.Image = image;
             }

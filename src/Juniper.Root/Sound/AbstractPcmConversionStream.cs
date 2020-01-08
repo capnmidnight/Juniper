@@ -12,24 +12,24 @@ namespace Juniper.Sound
         /// <summary>
         /// The original source of PCM data
         /// </summary>
-        protected Stream sourceStream;
+        protected Stream SourceStream { get; set; }
 
         /// <summary>
         /// The number of bytes per sample.
         /// </summary>
-        protected readonly int bytesPerSample;
+        protected int BytesPerSample { get; }
 
         /// <summary>
         /// The amount to shift the unsigned integer value into a signed Int32
         /// to get the correct handling of negative values.
         /// </summary>
-        protected readonly int shift;
+        protected int Shift { get; }
 
         /// <summary>
         /// The amount by which to multiply or divide the input value to get
         /// the right range of output values.
         /// </summary>
-        protected readonly float scalar;
+        protected float Scalar { get; }
 
         /// <summary>
         /// Creates the PCM conversion handler, for a given sample size in bytes.
@@ -38,12 +38,12 @@ namespace Juniper.Sound
         /// <param name="bytesPerSample">The number of bytes per sample.</param>
         protected AbstractPcmConversionStream(Stream sourceStream, int bytesPerSample)
         {
-            this.sourceStream = sourceStream;
-            this.bytesPerSample = bytesPerSample;
+            SourceStream = sourceStream;
+            BytesPerSample = bytesPerSample;
 
             var bitsPerSample = (int)Units.Bytes.Bits(bytesPerSample);
-            shift = Units.Bits.PER_INT - bitsPerSample;
-            scalar = (float)System.Math.Pow(2, Units.Bits.PER_INT - 1);
+            Shift = Units.Bits.PER_INT - bitsPerSample;
+            Scalar = (float)System.Math.Pow(2, Units.Bits.PER_INT - 1);
         }
 
         /// <summary>
@@ -54,8 +54,8 @@ namespace Juniper.Sound
         {
             if (disposing)
             {
-                sourceStream.Dispose();
-                sourceStream = null;
+                SourceStream.Dispose();
+                SourceStream = null;
             }
 
             base.Dispose(disposing);
@@ -66,7 +66,7 @@ namespace Juniper.Sound
         /// </summary>
         public override bool CanRead
         {
-            get { return sourceStream.CanRead; }
+            get { return SourceStream.CanRead; }
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Juniper.Sound
         /// </summary>summary>
         public override bool CanSeek
         {
-            get { return sourceStream.CanSeek; }
+            get { return SourceStream.CanSeek; }
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Juniper.Sound
         /// </summary>
         public override bool CanWrite
         {
-            get { return sourceStream.CanWrite; }
+            get { return SourceStream.CanWrite; }
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Juniper.Sound
         /// <returns></returns>
         public override long Seek(long offset, SeekOrigin origin)
         {
-            return sourceStream.Seek(offset, origin);
+            return SourceStream.Seek(offset, origin);
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Juniper.Sound
         /// </summary>
         public override void Flush()
         {
-            sourceStream.Flush();
+            SourceStream.Flush();
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Juniper.Sound
         /// <returns></returns>
         protected long ToFloatSpace(long value)
         {
-            return value * sizeof(float) / bytesPerSample;
+            return value * sizeof(float) / BytesPerSample;
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace Juniper.Sound
         /// <returns></returns>
         protected long ToPCMSpace(long value)
         {
-            return value * bytesPerSample / sizeof(float);
+            return value * BytesPerSample / sizeof(float);
         }
 
         /// <summary>
@@ -167,6 +167,16 @@ namespace Juniper.Sound
         /// <param name="outOffset"></param>
         protected unsafe void FloatToPCM(byte[] inBuffer, int inOffset, byte[] outBuffer, int outOffset)
         {
+            if (inBuffer is null)
+            {
+                throw new System.ArgumentNullException(nameof(inBuffer));
+            }
+
+            if (outBuffer is null)
+            {
+                throw new System.ArgumentNullException(nameof(outBuffer));
+            }
+
             uint uv = 0;
             for (var b = 0; b < sizeof(float); ++b)
             {
@@ -176,10 +186,10 @@ namespace Juniper.Sound
             }
 
             var v = *(float*)&uv;
-            var accum = (int)(v * scalar);
-            accum >>= shift;
+            var accum = (int)(v * Scalar);
+            accum >>= Shift;
 
-            for (var b = bytesPerSample - 1; b >= 0; --b)
+            for (var b = BytesPerSample - 1; b >= 0; --b)
             {
                 var c = (byte)(accum & byte.MaxValue);
                 outBuffer[outOffset + b] = c;
@@ -196,16 +206,26 @@ namespace Juniper.Sound
         /// <param name="outOffset"></param>
         protected unsafe void PCMToFloat(byte[] inBuffer, int inOffset, byte[] outBuffer, int outOffset)
         {
+            if (inBuffer is null)
+            {
+                throw new System.ArgumentNullException(nameof(inBuffer));
+            }
+
+            if (outBuffer is null)
+            {
+                throw new System.ArgumentNullException(nameof(outBuffer));
+            }
+
             var accum = 0;
-            for (var b = bytesPerSample - 1; b >= 0; --b)
+            for (var b = BytesPerSample - 1; b >= 0; --b)
             {
                 accum <<= Units.Bits.PER_BYTE;
                 var c = inBuffer[inOffset + b];
                 accum |= c;
             }
 
-            accum <<= shift;
-            var v = accum / scalar;
+            accum <<= Shift;
+            var v = accum / Scalar;
             var uv = *(uint*)&v;
 
             for (var b = 0; b < sizeof(float); ++b)

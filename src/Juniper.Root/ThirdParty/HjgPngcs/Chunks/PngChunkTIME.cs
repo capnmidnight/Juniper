@@ -51,7 +51,7 @@ namespace Hjg.Pngcs.Chunks
             timestamp = new DateTime(year, mon, day, hour, min, sec);
         }
 
-        public override void CloneDataFromRead(PngChunk other)
+        public override void CloneDataFromRead(AbstractPngChunk other)
         {
             var x = (PngChunkTIME)other;
             timestamp = x.timestamp;

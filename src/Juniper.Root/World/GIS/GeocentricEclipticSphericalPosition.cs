@@ -12,17 +12,17 @@ namespace Juniper.World.GIS
         /// <summary>
         /// The number of degrees above the Earth's orbital disk at which to find the object.
         /// </summary>
-        public readonly float LatitudeDegrees;
+        public float LatitudeDegrees { get; }
 
         /// <summary>
         /// The number of degrees along the Earth's orbital disk at which to find the object.
         /// </summary>
-        public readonly float LongitudeDegrees;
+        public float LongitudeDegrees { get; }
 
         /// <summary>
         /// The distance in Astronomical Units from the center of Earth's orbit to find the object.
         /// </summary>
-        public readonly float RadiusAU;
+        public float RadiusAU { get; }
 
         /// <summary>
         /// Create a new bearing to an object.

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Juniper.Sound
 {
@@ -21,28 +22,32 @@ namespace Juniper.Sound
         public static readonly AudioFormat Audio24KHz94KbitrateMonoMP3 = new AudioFormat("audio-24khz-96kbitrate-mono-mp3", MediaType.Audio.Mpeg, 24000, Units.Bits.PER_SHORT, 1);
         public static readonly AudioFormat Audio24KHz48KbitrateMonoMP3 = new AudioFormat("audio-24khz-48kbitrate-mono-mp3", MediaType.Audio.Mpeg, 24000, Units.Bits.PER_SHORT, 1);
 
-        public readonly string Name;
-        public readonly MediaType.Audio ContentType;
-        public readonly int sampleRate;
-        public readonly int bitsPerSample;
-        public readonly int channels;
+        public string Name { get; }
+
+        public MediaType.Audio ContentType { get; }
+
+        public int SampleRate { get; }
+
+        public int BitsPerSample { get; }
+
+        public int Channels { get; }
 
         public AudioFormat(string formatName, MediaType.Audio audioFormat, int sampleRate, int bitsPerSample, int channels)
         {
             Name = formatName;
             ContentType = audioFormat;
-            this.sampleRate = sampleRate;
-            this.bitsPerSample = bitsPerSample;
-            this.channels = channels;
+            SampleRate = sampleRate;
+            BitsPerSample = bitsPerSample;
+            Channels = channels;
         }
 
         public bool Equals(AudioFormat other)
         {
             return other is object
                 && other.ContentType == ContentType
-                && other.sampleRate == sampleRate
-                && other.bitsPerSample == bitsPerSample
-                && other.channels == channels;
+                && other.SampleRate == SampleRate
+                && other.BitsPerSample == BitsPerSample
+                && other.Channels == Channels;
         }
 
         public override bool Equals(object obj)
@@ -51,23 +56,26 @@ namespace Juniper.Sound
                 && Equals(format);
         }
 
+        public override int GetHashCode()
+        {
+            var hashCode = -1416147052;
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(Name);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<MediaType.Audio>.Default.GetHashCode(ContentType);
+            hashCode = (hashCode * -1521134295) + SampleRate.GetHashCode();
+            hashCode = (hashCode * -1521134295) + BitsPerSample.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Channels.GetHashCode();
+            return hashCode;
+        }
+
         public static bool operator ==(AudioFormat left, AudioFormat right)
         {
-            return left is null && right is null
-                || left is object && left.Equals(right);
+            return (left is null && right is null)
+                || (left is object && left.Equals(right));
         }
 
         public static bool operator !=(AudioFormat left, AudioFormat right)
         {
             return !(left == right);
-        }
-
-        public override int GetHashCode()
-        {
-            return ContentType.GetHashCode()
-                ^ sampleRate.GetHashCode()
-                ^ bitsPerSample.GetHashCode()
-                ^ channels.GetHashCode();
         }
     }
 }

@@ -17,12 +17,12 @@ namespace Hjg.Pngcs
         /// <summary>
         /// Image width, in pixels
         /// </summary>
-        public readonly int Cols;
+        public int Cols { get; }
 
         /// <summary>
         /// Image height, in pixels
         /// </summary>
-        public readonly int Rows;
+        public int Rows { get; }
 
         /// <summary>
         /// Bits per sample (per channel) in the buffer.
@@ -32,7 +32,7 @@ namespace Hjg.Pngcs
         /// For grayscale, it's 8 (or 1 2 4 ).
         /// For indexed images, number of bits per palette index (1 2 4 8).
         ///</remarks>
-        public readonly int BitDepth;
+        public int BitDepth { get; }
 
         /// <summary>
         /// Number of channels, used in the buffer
@@ -40,26 +40,26 @@ namespace Hjg.Pngcs
         /// <remarks>
         /// WARNING: This is 3-4 for rgb/rgba, but 1 for palette/gray !
         ///</remarks>
-        public readonly int Channels;
+        public int Channels { get; }
 
         /// <summary>
         /// Bits used for each pixel in the buffer
         /// </summary>
         /// <remarks>equals <c>channels * bitDepth</c>
         /// </remarks>
-        public readonly int BitspPixel;
+        public int BitspPixel { get; }
 
         /// <summary>
         /// Bytes per pixel, rounded up
         /// </summary>
         /// <remarks>This is mainly for internal use (filter)</remarks>
-        public readonly int BytesPixel;
+        public int BytesPixel { get; }
 
         /// <summary>
         /// Bytes per row, rounded up
         /// </summary>
         /// <remarks>equals <c>ceil(bitspp*cols/8)</c></remarks>
-        public readonly int BytesPerRow;
+        public int BytesPerRow { get; }
 
         /// <summary>
         /// Samples (scalar values) per row
@@ -67,7 +67,7 @@ namespace Hjg.Pngcs
         /// <remarks>
         /// Equals <c>cols * channels</c>
         /// </remarks>
-        public readonly int SamplesPerRow;
+        public int SamplesPerRow { get; }
 
         /// <summary>
         /// Number of values in our scanline, which might be packed.
@@ -76,27 +76,27 @@ namespace Hjg.Pngcs
         /// Equals samplesPerRow if not packed. Elsewhere, it's lower
         /// For internal use, mostly.
         /// </remarks>
-        public readonly int SamplesPerRowPacked;
+        public int SamplesPerRowPacked { get; }
 
         /// <summary>
         /// flag: has alpha channel
         /// </summary>
-        public readonly bool Alpha;
+        public bool Alpha { get; }
 
         /// <summary>
         /// flag: is grayscale (G/GA)
         /// </summary>
-        public readonly bool Greyscale;
+        public bool Greyscale { get; }
 
         /// <summary>
         /// flag: has palette
         /// </summary>
-        public readonly bool Indexed;
+        public bool Indexed { get; }
 
         /// <summary>
         /// flag: less than one byte per sample (bit depth 1-2-4)
         /// </summary>
-        public readonly bool Packed;
+        public bool Packed { get; }
 
         /// <summary>
         /// Simple constructor: only for RGB/RGBA

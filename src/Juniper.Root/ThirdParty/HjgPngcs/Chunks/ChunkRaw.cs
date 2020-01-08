@@ -20,19 +20,19 @@ namespace Hjg.Pngcs.Chunks
         /// The length counts only the data field, not itself, the chunk type code, or the CRC. Zero is a valid length.
         /// Although encoders and decoders should treat the length as unsigned, its value must not exceed 2^31-1 bytes.
         /// </summary>
-        public readonly int Len;
+        public int Len { get; }
 
         /// <summary>
         /// Chunk Id, as array of 4 bytes
         /// </summary>
-        public readonly byte[] IdBytes;
+        public byte[] IdBytes { get; }
 
-        public readonly string Id;
+        public string Id { get; }
 
         /// <summary>
         /// Raw data, crc not included
         /// </summary>
-        public byte[] Data;
+        public byte[] Data { get; set; }
 
         private int crcval;
 
@@ -61,7 +61,7 @@ namespace Hjg.Pngcs.Chunks
         /// </summary>
         private int ComputeCrc()
         {
-            var crcengine = Hjg.Pngcs.PngHelperInternal.GetCRC();
+            var crcengine = PngHelperInternal.GetCRC();
             crcengine.Reset();
             crcengine.Update(IdBytes, 0, 4);
             if (Len > 0)
@@ -76,18 +76,18 @@ namespace Hjg.Pngcs.Chunks
         {
             if (IdBytes.Length != 4)
             {
-                throw new PngjOutputException("bad chunkid [" + Hjg.Pngcs.Chunks.ChunkHelper.ToString(IdBytes) + "]");
+                throw new PngjOutputException("bad chunkid [" + ChunkHelper.ToString(IdBytes) + "]");
             }
 
             crcval = ComputeCrc();
-            Hjg.Pngcs.PngHelperInternal.WriteInt4(os, Len);
-            Hjg.Pngcs.PngHelperInternal.WriteBytes(os, IdBytes);
+            PngHelperInternal.WriteInt4(os, Len);
+            PngHelperInternal.WriteBytes(os, IdBytes);
             if (Len > 0)
             {
-                Hjg.Pngcs.PngHelperInternal.WriteBytes(os, Data, 0, Len);
+                PngHelperInternal.WriteBytes(os, Data, 0, Len);
             }
             //Console.WriteLine("writing chunk " + this.ToString() + "crc=" + crcval);
-            Hjg.Pngcs.PngHelperInternal.WriteInt4(os, crcval);
+            PngHelperInternal.WriteInt4(os, crcval);
         }
 
         /// <summary>
@@ -97,8 +97,8 @@ namespace Hjg.Pngcs.Chunks
         ///
         internal int ReadChunkData(Stream stream, bool checkCrc)
         {
-            Hjg.Pngcs.PngHelperInternal.ReadBytes(stream, Data, 0, Len);
-            crcval = Hjg.Pngcs.PngHelperInternal.ReadInt4(stream);
+            PngHelperInternal.ReadBytes(stream, Data, 0, Len);
+            crcval = PngHelperInternal.ReadInt4(stream);
             if (checkCrc)
             {
                 var crc = ComputeCrc();
@@ -132,7 +132,7 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public override string ToString()
         {
-            return "chunkid=" + Hjg.Pngcs.Chunks.ChunkHelper.ToString(IdBytes) + " len=" + Len.ToString(CultureInfo.InvariantCulture);
+            return "chunkid=" + ChunkHelper.ToString(IdBytes) + " len=" + Len.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

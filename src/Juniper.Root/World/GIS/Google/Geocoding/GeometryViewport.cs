@@ -6,13 +6,16 @@ namespace Juniper.World.GIS.Google.Geocoding
     [Serializable]
     public class GeometryViewport : ISerializable
     {
-        public readonly LatLngPoint southwest;
-        public readonly LatLngPoint northeast;
+        private static readonly string SOUTHWEST_FIELD = nameof(SouthWest).ToLowerInvariant();
+        private static readonly string NORTHEAST_FIELD = nameof(NorthEast).ToLowerInvariant();
+
+        public LatLngPoint SouthWest { get; }
+        public LatLngPoint NorthEast { get; }
 
         public GeometryViewport(LatLngPoint southwest, LatLngPoint northeast)
         {
-            this.southwest = southwest;
-            this.northeast = northeast;
+            SouthWest = southwest;
+            NorthEast = northeast;
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
@@ -23,8 +26,8 @@ namespace Juniper.World.GIS.Google.Geocoding
                 throw new ArgumentNullException(nameof(info));
             }
 
-            southwest = info.GetValue<LatLngPoint>(nameof(southwest));
-            northeast = info.GetValue<LatLngPoint>(nameof(northeast));
+            SouthWest = info.GetValue<LatLngPoint>(SOUTHWEST_FIELD);
+            NorthEast = info.GetValue<LatLngPoint>(NORTHEAST_FIELD);
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -34,16 +37,16 @@ namespace Juniper.World.GIS.Google.Geocoding
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue(nameof(southwest), new
+            info.AddValue(SOUTHWEST_FIELD, new
             {
-                lat = southwest.Latitude,
-                lng = southwest.Longitude
+                lat = SouthWest.Latitude,
+                lng = SouthWest.Longitude
             });
 
-            info.AddValue(nameof(northeast), new
+            info.AddValue(NORTHEAST_FIELD, new
             {
-                lat = northeast.Latitude,
-                lng = northeast.Longitude
+                lat = NorthEast.Latitude,
+                lng = NorthEast.Longitude
             });
         }
     }
