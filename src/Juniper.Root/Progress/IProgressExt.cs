@@ -86,21 +86,9 @@ namespace Juniper.Progress
         /// <param name="numParts"></param>
         /// <param name="prefix"></param>
         /// <returns></returns>
-        public static IProgress[] Split(this IProgress parent, long numParts)
+        public static IReadOnlyList<IProgress> Split(this IProgress parent, long numParts)
         {
-            if (numParts <= 0)
-            {
-                throw new ArgumentException("Number of subdivisions must be at least 1.", nameof(numParts));
-            }
-
-            var arr = new IProgress[numParts];
-            var length = 1.0f / numParts;
-            for (var i = 0; i < numParts; ++i)
-            {
-                arr[i] = parent?.Subdivide(i * length, length);
-            }
-
-            return arr;
+            return new ProgressAggregator(parent, numParts);
         }
 
         /// <summary>
@@ -109,21 +97,16 @@ namespace Juniper.Progress
         /// <param name="parent"></param>
         /// <param name="prefixes"></param>
         /// <returns></returns>
-        public static IProgress[] Split(this IProgress parent, params string[] prefixes)
+        public static IReadOnlyList<IProgress> Split(this IProgress parent, params string[] prefixes)
         {
-            if (prefixes.Length == 0)
-            {
-                throw new ArgumentException("Must provide at least 1 prefix", nameof(prefixes));
-            }
+            return new ProgressAggregator(parent, prefixes);
+        }
 
-            var arr = new IProgress[prefixes.Length];
-            var length = 1.0f / prefixes.Length;
-            for (var i = 0; i < prefixes.Length; ++i)
-            {
-                arr[i] = parent?.Subdivide(i * length, length);
-            }
-
-            return arr;
+        public static IEnumerable<(IProgress prog, T act)> Zip<T>(this IProgress parent, params T[] items)
+        {
+            return parent
+                .Split(items.Length)
+                .Select((p, i) => (p, items[i]));
         }
 
         private static IEnumerable<(IProgress prog, T act)> Split<T>(this IProgress parent, params T[] actors)

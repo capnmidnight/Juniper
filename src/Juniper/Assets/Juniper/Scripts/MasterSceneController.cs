@@ -194,11 +194,11 @@ namespace Juniper
         {
             if (subSceneNames != null && subSceneNames.Length > 0)
             {
-                for (var i = 0; i < subSceneNames.Length; ++i)
+                foreach(var (subProg, subSceneName) in prog.Zip(subSceneNames))
                 {
                     yield return LoadScenePathCoroutine(
-                        subSceneNames[i],
-                        prog.Subdivide(i, subSceneNames.Length));
+                        subSceneName,
+                        subProg);
                 }
             }
         }

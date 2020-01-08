@@ -1,11 +1,10 @@
-using static System.Math;
+using System;
 
 namespace Juniper.Progress
 {
     /// <summary>
     /// A small chunk of a progress meter, reporting its own progress
-    /// up to a parent progress tracker. It maps its own [0, 1] range
-    /// of progress onto a range on the parent that covers [<see cref="start"/>, <see cref="start"/> + <see cref="length"/>].
+    /// up to a parent progress tracker.
     /// </summary>
     public class ProgressSubdivision : IProgress
     {
@@ -37,16 +36,18 @@ namespace Juniper.Progress
         /// <param name="start"></param>
         /// <param name="length"></param>
         /// <param name="prefix"></param>
-        public ProgressSubdivision(IProgress parent, float start, float length, string prefix)
+        public ProgressSubdivision(IProgress parent, float start, float length, string prefix = null)
+            : this(parent, prefix)
         {
-            this.parent = parent;
-            this.start = Max(0, start);
+            this.start = Math.Max(0, start);
             this.length = length;
-            this.prefix = prefix;
         }
 
-        public ProgressSubdivision(IProgress parent, float start, float length)
-            : this(parent, start, length, null) { }
+        public ProgressSubdivision(IProgress parent, string prefix = null)
+        {
+            this.parent = parent;
+            this.prefix = prefix;
+        }
 
         /// <summary>
         /// Returns the current progress of the subdivision.
