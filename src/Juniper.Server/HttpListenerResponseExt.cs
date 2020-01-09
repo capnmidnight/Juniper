@@ -26,7 +26,7 @@ namespace Juniper.HTTP.Server
                 throw new ArgumentNullException(nameof(file));
             }
 
-            using var input = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+            using var input = file.OpenRead();
             response.SendStream((MediaType)file, input);
         }
 
@@ -37,7 +37,7 @@ namespace Juniper.HTTP.Server
                 throw new ArgumentNullException(nameof(file));
             }
 
-            using var input = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+            using var input = file.OpenRead();
             await response.SendStreamAsync((MediaType)file, input).ConfigureAwait(false);
         }
 

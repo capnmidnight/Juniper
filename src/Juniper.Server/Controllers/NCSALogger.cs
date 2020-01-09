@@ -13,7 +13,6 @@ namespace Juniper.HTTP.Server.Controllers
         INCSALogSource,
         IDisposable
     {
-        private readonly Stream stream;
         private readonly StreamWriter writer;
         private readonly ConcurrentQueue<string> logs = new ConcurrentQueue<string>();
         private readonly CancellationTokenSource canceller;
@@ -29,11 +28,8 @@ namespace Juniper.HTTP.Server.Controllers
                 throw new ArgumentNullException(nameof(file));
             }
 
-            stream = file.Open(FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
-            writer = new StreamWriter(stream)
-            {
-                AutoFlush = true
-            };
+            writer = file.AppendText();
+            writer.AutoFlush = true;
 
             Protocol = HttpProtocols.All;
             Verb = HttpMethods.All;
@@ -109,7 +105,6 @@ namespace Juniper.HTTP.Server.Controllers
                     }
                     writer.Flush();
                     writer.Dispose();
-                    stream.Dispose();
                 }
 
                 disposedValue = true;

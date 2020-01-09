@@ -67,7 +67,8 @@ namespace Juniper.IO
                 throw new FileNotFoundException("File not found!", file.FullName);
             }
 
-            return deserializer.Deserialize(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read), file.Length, prog);
+            using var stream = file.OpenRead();
+            return deserializer.Deserialize(stream, file.Length, prog);
         }
 
         public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, string fileName, IProgress prog = null)
@@ -250,7 +251,7 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(file));
             }
 
-            return deserializer.TryDeserialize(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read), out value, file.Length, prog);
+            return deserializer.TryDeserialize(file.OpenRead(), out value, file.Length, prog);
         }
 
         public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, string fileName, out ResultT value, IProgress prog = null)

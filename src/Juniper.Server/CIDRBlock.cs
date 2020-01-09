@@ -60,7 +60,7 @@ namespace Juniper.HTTP.Server
                 return Array.Empty<CIDRBlock>();
             }
 
-            using var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+            using var stream = file.OpenRead();
             return Load(stream);
         }
 
@@ -105,7 +105,7 @@ namespace Juniper.HTTP.Server
                 throw new ArgumentNullException(nameof(file));
             }
 
-            using var stream = file.Open(FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+            using var stream = file.Create();
             Save(blocks, stream);
         }
 

@@ -35,7 +35,7 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(serializer));
             }
 
-            using var outputStream = outputFile.Open(FileMode.Create, FileAccess.Write, FileShare.None);
+            using var outputStream = outputFile.Create();
             item.Save(outputStream, serializer);
         }
 
@@ -61,13 +61,13 @@ namespace Juniper.IO
             if (MediaType.Application.Json.Matches(outputFile))
             {
                 var json = new JsonFactory<T>();
-                using var stream = outputFile.Open(FileMode.Create, FileAccess.Write, FileShare.None);
+                using var stream = outputFile.Create();
                 item.Save(stream, json);
             }
             else if (MediaType.Application.Octet_Stream.Matches(outputFile))
             {
                 var bin = new BinaryFactory<T>();
-                using var stream = outputFile.Open(FileMode.Create, FileAccess.Write, FileShare.None);
+                using var stream = outputFile.Create();
                 item.Save(stream, bin);
             }
         }

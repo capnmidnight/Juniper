@@ -43,16 +43,19 @@ namespace Juniper.IO
 
         public Stream Create(ContentReference fileRef, bool overwrite)
         {
-            Stream stream = null;
-            var file = Resolve(fileRef);
-            if (CanCache(fileRef)
-                && (overwrite || !file.Exists))
+            if (fileRef is null)
             {
-                file.Directory.Create();
-                stream = file.Open(FileMode.Create, FileAccess.Write, FileShare.None);
+                throw new ArgumentNullException(nameof(fileRef));
             }
 
-            return stream;
+            if (!CanCache(fileRef))
+            {
+                throw new ArgumentException("Cannot cache this file.", fileRef.ToString());
+            }
+
+            var file = Resolve(fileRef);
+            file.Directory.Create();
+            return file.Create();
         }
 
         public virtual Stream Cache(ContentReference fileRef, Stream stream)
@@ -63,19 +66,20 @@ namespace Juniper.IO
 
         public Task<Stream> GetStreamAsync(ContentReference fileRef, IProgress prog)
         {
-            Stream stream = null;
-            var file = Resolve(fileRef);
-            if (file.Exists)
+            if (fileRef is null)
             {
-                stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
-
-                if (prog is object)
-                {
-                    stream = new ProgressStream(stream, file.Length, prog);
-                }
+                throw new ArgumentNullException(nameof(fileRef));
             }
 
-            return Task.FromResult(stream);
+            if (!IsCached(fileRef))
+            {
+                throw new FileNotFoundException("File not found in disk cache!", fileRef.ToString());
+            }
+
+            var file = Resolve(fileRef);
+            var stream = file.OpenRead();
+            var progStream = new ProgressStream(stream, file.Length, prog, true);
+            return Task.FromResult((Stream)progStream);
         }
 
         public IEnumerable<ContentReference> GetContentReferences(MediaType ofType)

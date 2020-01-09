@@ -23,13 +23,13 @@ namespace Juniper.Collections
             if (MediaType.Application.Json.Matches(file))
             {
                 var json = new JsonFactory<Graph<NodeT>>();
-                using var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+                using var stream = file.OpenRead();
                 return json.Deserialize(stream);
             }
             else if (MediaType.Application.Octet_Stream.Matches(file))
             {
                 var bin = new BinaryFactory<Graph<NodeT>>();
-                using var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+                using var stream = file.OpenRead();
                 return bin.Deserialize(stream);
             }
             else

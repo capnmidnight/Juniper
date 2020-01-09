@@ -66,7 +66,7 @@ namespace Juniper.OpenGL
 
         private string Init(FileInfo sourceFile)
         {
-            return Init(sourceFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read));
+            return Init(sourceFile.OpenRead());
         }
 
         private string Init(Stream sourceStream)

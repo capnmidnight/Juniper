@@ -73,7 +73,7 @@ namespace Juniper.Compression.Tar.GZip
                 throw new FileNotFoundException("File not found!", file.FullName);
             }
 
-            using var stream = new GZipStream(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read), CompressionMode.Decompress);
+            using var stream = new GZipStream(file.OpenRead(), CompressionMode.Decompress);
             return new TarArchive(stream);
         }
 
@@ -123,7 +123,7 @@ namespace Juniper.Compression.Tar.GZip
                 throw new ArgumentNullException(nameof(file));
             }
 
-            using var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+            using var stream = file.OpenRead();
             foreach (var entry in Entries(stream, prog))
             {
                 yield return entry;

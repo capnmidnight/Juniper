@@ -103,8 +103,8 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(file));
             }
 
-            using var stream = file.Create();
-            serializer.Serialize(stream, value, prog);
+            using var stream = file.OpenRead();
+            serializer.Serialize(stream, value);
         }
 
         public static void Serialize<T>(this ISerializer<T> serializer, string fileName, T value, IProgress prog = null)
