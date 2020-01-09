@@ -1,3 +1,4 @@
+# Suppress: EC112
 root = true
 
 [*]
@@ -48,6 +49,9 @@ dotnet_diagnostic.CA1720.severity  = none
 
 # CA2225: Operator overloads have named alternates
 dotnet_diagnostic.CA2225.severity  = silent
+
+# CA1724: Type names should not match namespaces
+dotnet_diagnostic.CA1724.severity  = none
 
 [*.cs]
 csharp_indent_case_contents = false
