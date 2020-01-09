@@ -13,8 +13,8 @@ namespace Juniper.Speech.Azure
             return new Uri($"https://{region}.{component}.microsoft.com/");
         }
 
-        protected AbstractAzureRequest(HttpMethods method, string region, string component, string path, MediaTypeT contentType)
-            : base(method, AddPath(MakeURI(region, component), path), contentType)
+        protected AbstractAzureRequest(HttpMethods method, string region, string component, string path, MediaTypeT contentType, bool hasRequestBody)
+            : base(method, AddPath(MakeURI(region, component), path), contentType, hasRequestBody)
         { }
     }
 }

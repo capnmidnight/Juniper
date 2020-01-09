@@ -21,15 +21,17 @@ namespace Juniper.HTTP.Client.REST
 
         private readonly HttpMethods method;
         private readonly Uri serviceURI;
+        private readonly bool hasRequestBody;
 
         private readonly IDictionary<string, List<string>> queryParams =
             new SortedDictionary<string, List<string>>();
 
-        protected AbstractRequest(HttpMethods method, Uri serviceURI, MediaTypeT contentType)
+        protected AbstractRequest(HttpMethods method, Uri serviceURI, MediaTypeT contentType, bool hasRequestBody)
             : base(contentType)
         {
             this.method = method;
             this.serviceURI = serviceURI;
+            this.hasRequestBody = hasRequestBody;
             MediaType = contentType;
         }
 
@@ -162,7 +164,7 @@ namespace Juniper.HTTP.Client.REST
 
         protected virtual void WriteBody(Stream stream) { }
 
-        public async Task<HttpWebResponse> GetResponseAsync(IProgress prog = null)
+        public override async Task<Stream> GetStreamAsync(IProgress prog = null)
         {
             var request = (HttpWebRequest)WebRequest.Create(AuthenticatedURI);
 
@@ -180,46 +182,22 @@ namespace Juniper.HTTP.Client.REST
 
             ModifyRequest(request);
 
-            var info = GetBodyInfo();
-            if (info is null)
+            if (hasRequestBody)
             {
-                request.ContentLength = 0;
-            }
-            else
-            {
-                request.ContentLength = info.Length;
-                request.ContentType = info.MIMEType;
+                var progs = prog.Split("Requesting", "Retrieving");
+                prog = progs[1];
+                await request.WriteBodyAsync(GetBodyInfo, WriteBody, progs[0])
+                    .ConfigureAwait(false);
             }
 
-            if (request.ContentLength > 0)
-            {
-                using var stream = new ProgressStream(await request
-                    .GetRequestStreamAsync()
-                    .ConfigureAwait(false), request.ContentLength, prog);
-                WriteBody(stream);
-                await stream
-                    .FlushAsync()
-                    .ConfigureAwait(true);
-            }
-
-            return (HttpWebResponse)await request
+            var response = (HttpWebResponse)await request
                 .GetResponseAsync()
                 .ConfigureAwait(false);
-        }
 
-        public override async Task<Stream> GetStreamAsync(IProgress prog = null)
-        {
-            var progs = prog.Split("Get", "Read");
-            prog = progs[1];
-            var response = await GetResponseAsync(progs[0]).ConfigureAwait(false);
-            var stream = response.GetResponseStream();
-            if (prog is object)
-            {
-                var length = response.ContentLength;
-                stream = new ProgressStream(stream, length, prog);
-            }
-
-            return stream;
+            return new ProgressStream(
+                response.GetResponseStream(),
+                response.ContentLength,
+                prog, false);
         }
     }
 }

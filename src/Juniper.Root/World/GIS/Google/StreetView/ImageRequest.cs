@@ -1,5 +1,5 @@
-using System;
 using System.Globalization;
+
 using Juniper.Imaging;
 
 namespace Juniper.World.GIS.Google.StreetView

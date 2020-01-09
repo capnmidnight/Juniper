@@ -8,8 +8,8 @@ namespace Juniper.Speech.Azure.CognitiveServices
     public abstract class AbstractAzureSpeechRequest<MediaTypeT> : AbstractAzureRequest<MediaTypeT>
         where MediaTypeT : MediaType
     {
-        protected AbstractAzureSpeechRequest(HttpMethods method, string region, string path, MediaTypeT contentType)
-            : base(method, region, "tts.speech", path, contentType)
+        protected AbstractAzureSpeechRequest(HttpMethods method, string region, string path, MediaTypeT contentType, bool hasRequestBody)
+            : base(method, region, "tts.speech", path, contentType, hasRequestBody)
         { }
 
         public string AuthToken { get; set; }
