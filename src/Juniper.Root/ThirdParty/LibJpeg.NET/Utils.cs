@@ -1,37 +1,7 @@
-using System;
-using System.IO;
-
 namespace BitMiracle.LibJpeg
 {
     internal static class Utils
     {
-        public static MemoryStream CopyStream(Stream stream)
-        {
-            if (stream is null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-
-            var positionBefore = stream.Position;
-            stream.Seek(0, SeekOrigin.Begin);
-
-            var result = new MemoryStream((int)stream.Length);
-
-            var block = new byte[2048];
-            for (; ; )
-            {
-                var bytesRead = stream.Read(block, 0, 2048);
-                result.Write(block, 0, bytesRead);
-                if (bytesRead < 2048)
-                {
-                    break;
-                }
-            }
-
-            stream.Seek(positionBefore, SeekOrigin.Begin);
-            return result;
-        }
-
         public static void CMYK2RGB(byte c, byte m, byte y, byte k, out byte red, out byte green, out byte blue)
         {
             float C, M, Y, K;

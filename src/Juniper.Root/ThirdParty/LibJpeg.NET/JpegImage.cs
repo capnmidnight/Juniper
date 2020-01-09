@@ -51,7 +51,8 @@ namespace BitMiracle.LibJpeg
                 throw new ArgumentNullException(nameof(imageData));
             }
 
-            m_compressedData = Utils.CopyStream(imageData);
+            m_compressedData = new MemoryStream();
+            imageData.CopyTo(m_compressedData);
 
             if (CompressedData.Length <= 2)
             {
