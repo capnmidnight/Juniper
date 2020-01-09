@@ -12,7 +12,7 @@ namespace Juniper.IO
 
     public static class IDeserializerGenericExt
     {
-        public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, Stream stream, long length, IProgress prog = null)
+        public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, Stream stream, long length, IProgress prog)
         {
             if (deserializer is null)
             {
@@ -24,23 +24,12 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(stream));
             }
 
-            if(prog != null)
-            {
-                var subProgs = prog.Split(2);
-                stream = new ProgressStream(stream, length, subProgs[0]);
-                prog = subProgs[1];
-            }
-
-            return deserializer.Deserialize(stream, prog);
+            using var progStream = new ProgressStream(stream, length, prog, false);
+            return deserializer.Deserialize(progStream);
         }
 
         public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, byte[] data, IProgress prog = null)
         {
-            if (deserializer is null)
-            {
-                throw new ArgumentNullException(nameof(deserializer));
-            }
-
             if (data is null)
             {
                 throw new ArgumentNullException(nameof(data));
@@ -52,11 +41,6 @@ namespace Juniper.IO
 
         public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, FileInfo file, IProgress prog = null)
         {
-            if (deserializer is null)
-            {
-                throw new ArgumentNullException(nameof(deserializer));
-            }
-
             if (file is null)
             {
                 throw new ArgumentNullException(nameof(file));
@@ -73,21 +57,11 @@ namespace Juniper.IO
 
         public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, string fileName, IProgress prog = null)
         {
-            if (deserializer is null)
-            {
-                throw new ArgumentNullException(nameof(deserializer));
-            }
-
             return deserializer.Deserialize(new FileInfo(fileName.ValidateFileName()), prog);
         }
 
         public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, IReadOnlyCollection<byte> data, IProgress prog = null)
         {
-            if (deserializer is null)
-            {
-                throw new ArgumentNullException(nameof(deserializer));
-            }
-
             if (data is null)
             {
                 throw new ArgumentNullException(nameof(data));
@@ -160,7 +134,7 @@ namespace Juniper.IO
             return deserializer.TryDeserialize(stream, out value, request.ContentLength64, prog);
         }
 
-        public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, Stream stream, out ResultT value, IProgress prog = null)
+        public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, Stream stream, out ResultT value)
         {
             if (deserializer is null)
             {
@@ -174,7 +148,7 @@ namespace Juniper.IO
 
             try
             {
-                value = deserializer.Deserialize(stream, prog);
+                value = deserializer.Deserialize(stream);
                 return true;
             }
 #pragma warning disable CA1031 // Do not catch general exception types
@@ -188,33 +162,12 @@ namespace Juniper.IO
 
         public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, Stream stream, out ResultT value, long length, IProgress prog = null)
         {
-            if (deserializer is null)
-            {
-                throw new ArgumentNullException(nameof(deserializer));
-            }
-
-            if (stream is null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-
-            if(prog != null)
-            {
-                var subProgs = prog.Split(2);
-                stream = new ProgressStream(stream, length, subProgs[0]);
-                prog = subProgs[1];
-            }
-
-            return deserializer.TryDeserialize(stream, out value, prog);
+            using var progStream = new ProgressStream(stream, length, prog, false);
+            return deserializer.TryDeserialize(progStream, out value);
         }
 
         public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, byte[] data, out ResultT value, IProgress prog = null)
         {
-            if (deserializer is null)
-            {
-                throw new ArgumentNullException(nameof(deserializer));
-            }
-
             if (data is null)
             {
                 throw new ArgumentNullException(nameof(data));
@@ -226,11 +179,6 @@ namespace Juniper.IO
 
         public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, IReadOnlyCollection<byte> data, out ResultT value, IProgress prog = null)
         {
-            if (deserializer is null)
-            {
-                throw new ArgumentNullException(nameof(deserializer));
-            }
-
             if (data is null)
             {
                 throw new ArgumentNullException(nameof(data));
@@ -241,11 +189,6 @@ namespace Juniper.IO
 
         public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, FileInfo file, out ResultT value, IProgress prog = null)
         {
-            if (deserializer is null)
-            {
-                throw new ArgumentNullException(nameof(deserializer));
-            }
-
             if (file is null)
             {
                 throw new ArgumentNullException(nameof(file));
@@ -256,24 +199,14 @@ namespace Juniper.IO
 
         public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, string fileName, out ResultT value, IProgress prog = null)
         {
-            if (deserializer is null)
-            {
-                throw new System.ArgumentNullException(nameof(deserializer));
-            }
-
             return deserializer.TryDeserialize(new FileInfo(fileName.ValidateFileName()), out value, prog);
         }
 
         public static ResultT Parse<ResultT>(this IDeserializer<ResultT> deserializer, string text, IProgress prog = null)
         {
-            if (deserializer is null)
-            {
-                throw new System.ArgumentNullException(nameof(deserializer));
-            }
-
             if (text is null)
             {
-                throw new System.ArgumentNullException(nameof(text));
+                throw new ArgumentNullException(nameof(text));
             }
 
             using var stream = new MemoryStream(Encoding.UTF8.GetBytes(text));
@@ -282,14 +215,9 @@ namespace Juniper.IO
 
         public static bool TryParse<ResultT>(this IDeserializer<ResultT> deserializer, string text, out ResultT value, IProgress prog = null)
         {
-            if (deserializer is null)
-            {
-                throw new System.ArgumentNullException(nameof(deserializer));
-            }
-
             if (text is null)
             {
-                throw new System.ArgumentNullException(nameof(text));
+                throw new ArgumentNullException(nameof(text));
             }
 
             using var stream = new MemoryStream(Encoding.UTF8.GetBytes(text));

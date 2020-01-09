@@ -14,6 +14,8 @@ namespace Juniper.Progress
         /// </summary>
         public Stream BaseStream { get; }
 
+        private readonly bool ownStream;
+
         /// <summary>
         /// The length of the stream being wrapped.
         /// </summary>
@@ -30,11 +32,12 @@ namespace Juniper.Progress
         /// <param name="stream"></param>
         /// <param name="length"></param>
         /// <param name="parent"></param>
-        public ProgressStream(Stream stream, long length, IProgress parent)
+        public ProgressStream(Stream stream, long length, IProgress parent, bool ownStream)
         {
             BaseStream = stream;
             this.length = length;
             this.parent = parent;
+            this.ownStream = ownStream;
             TotalByteCount = 0;
         }
 
@@ -100,7 +103,7 @@ namespace Juniper.Progress
         /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
+            if (disposing && ownStream)
             {
                 BaseStream.Dispose();
             }

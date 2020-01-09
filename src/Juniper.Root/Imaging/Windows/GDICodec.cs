@@ -3,8 +3,6 @@ using System;
 using System.Drawing;
 using System.IO;
 
-using Juniper.Progress;
-
 using GDIImageFormat = System.Drawing.Imaging.ImageFormat;
 
 namespace Juniper.Imaging
@@ -21,7 +19,17 @@ namespace Juniper.Imaging
             gdiFormat = format.ToGDIImageFormat();
         }
 
-        public void Serialize(Stream stream, Image value, IProgress prog = null)
+        public Image Deserialize(Stream stream)
+        {
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            return Image.FromStream(stream);
+        }
+
+        public long Serialize(Stream stream, Image value)
         {
             if (stream is null)
             {
@@ -33,22 +41,8 @@ namespace Juniper.Imaging
                 throw new ArgumentNullException(nameof(value));
             }
 
-            prog.Report(0);
             value.Save(stream, gdiFormat);
-            prog.Report(1);
-        }
-
-        public Image Deserialize(Stream stream, IProgress prog = null)
-        {
-            if (stream is null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-
-            prog.Report(0);
-            var image = Image.FromStream(stream);
-            prog.Report(1);
-            return image;
+            return stream.Length;
         }
     }
 }

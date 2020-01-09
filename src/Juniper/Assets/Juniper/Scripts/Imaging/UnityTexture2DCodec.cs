@@ -1,7 +1,5 @@
 using System;
 using System.IO;
-using System.Threading.Tasks;
-using Juniper.Progress;
 
 using UnityEngine;
 
@@ -63,9 +61,13 @@ namespace Juniper.Imaging
             }
         }
 
-        public byte[] Serialize(Texture2D value, IProgress prog)
+        public byte[] Serialize(Texture2D value)
         {
-            prog?.Report(0);
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             byte[] buffer;
             if (ContentType == MediaType.Image.EXR)
             {
@@ -92,42 +94,50 @@ namespace Juniper.Imaging
                 throw new NotSupportedException($"Unity doesn't know how to encode {ContentType.Value} image data.");
             }
 
-            prog?.Report(1);
             return buffer;
         }
 
-        public void Serialize(Stream stream, Texture2D value, IProgress prog)
+        public long Serialize(Stream stream, Texture2D value)
         {
-            var subProgs = prog.Split(2);
-            var buffer = Serialize(value, subProgs[0]);
-            var progStream = new ProgressStream(stream, buffer.Length, subProgs[1]);
-            progStream.Write(buffer, 0, buffer.Length);
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            var buffer = Serialize(value);
+            stream.Write(buffer, 0, buffer.Length);
+            return buffer.Length;
         }
 
-        public Texture2D Deserialize(Stream stream, IProgress prog)
+        public Texture2D Deserialize(Stream stream)
         {
-            if (stream == null)
+            if (stream is null)
             {
-                return null;
+                throw new ArgumentNullException(nameof(stream));
             }
-            else
-            {
-                var mem = new MemoryStream();
-                stream.CopyTo(mem);
-                stream.Flush();
-                var buffer = mem.ToArray();
-                return Deserialize(buffer, prog);
-            }
+
+            var mem = new MemoryStream();
+            stream.CopyTo(mem);
+            stream.Flush();
+            var buffer = mem.ToArray();
+            return Deserialize(buffer);
         }
 
-        public Texture2D Deserialize(byte[] buffer, IProgress prog)
+        public Texture2D Deserialize(byte[] buffer)
         {
-            prog?.Report(0);
+            if (buffer is null)
+            {
+                throw new ArgumentNullException(nameof(buffer));
+            }
+
             var info = GetImageInfo(buffer);
-            var texture = JuniperSystem.OnMainThread(() =>
+            return JuniperSystem.OnMainThread(() =>
                 MakeTexture(info, buffer));
-            prog?.Report(1);
-            return texture;
         }
 
         private Texture2D MakeTexture(ImageInfo info, byte[] buffer)
@@ -135,8 +145,8 @@ namespace Juniper.Imaging
             var texture = new Texture2D(
                 info.Dimensions.Width,
                 info.Dimensions.Height,
-                info.Components == 3 
-                    ? TextureFormat.RGB24 
+                info.Components == 3
+                    ? TextureFormat.RGB24
                     : TextureFormat.RGBA32,
                 false);
 

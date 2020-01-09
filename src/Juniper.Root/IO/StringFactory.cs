@@ -1,6 +1,6 @@
+using System;
 using System.IO;
-
-using Juniper.Progress;
+using System.Text;
 
 namespace Juniper.IO
 {
@@ -17,27 +17,32 @@ namespace Juniper.IO
 
         public MediaType.Text ContentType { get; }
 
-        public string Deserialize(Stream stream, IProgress prog = null)
+        public string Deserialize(Stream stream)
         {
-            prog.Report(0);
-            string value = null;
-            if (stream is object)
+            if (stream is null)
             {
-                using (stream)
-                using (var reader = new StreamReader(stream))
-                {
-                    value = reader.ReadToEnd();
-                }
+                throw new ArgumentNullException(nameof(stream));
             }
 
-            prog.Report(1);
-            return value;
+            using var reader = new StreamReader(stream);
+            return reader.ReadToEnd();
         }
 
-        public void Serialize(Stream stream, string value, IProgress prog = null)
+        public long Serialize(Stream stream, string value)
         {
-            using var writer = new StreamWriter(stream);
-            writer.Write(value);
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            var bytes = Encoding.UTF8.GetBytes(value);
+            stream.Write(bytes, 0, bytes.Length);
+            return bytes.Length;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Juniper.IO
     {
         bool CanCache(ContentReference fileRef);
 
-        Stream Create(ContentReference fileRef, bool overwrite);
+        Stream Create(ContentReference fileRef);
 
         Stream Cache(ContentReference fileRef, Stream stream);
 

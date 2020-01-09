@@ -1,6 +1,5 @@
+using System;
 using System.IO;
-
-using Juniper.Progress;
 
 namespace Juniper.Imaging
 {
@@ -24,18 +23,26 @@ namespace Juniper.Imaging
             }
         }
 
-        public ToImageT Deserialize(Stream stream, IProgress prog = null)
+        public ToImageT Deserialize(Stream stream)
         {
-            var progs = prog.Split("Read", "Translate");
-            var img = codec.Deserialize(stream, progs[0]);
-            return transcoder.Translate(img, progs[1]);
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            var img = codec.Deserialize(stream);
+            return transcoder.Translate(img);
         }
 
-        public void Serialize(Stream stream, ToImageT value, IProgress prog = null)
+        public long Serialize(Stream stream, ToImageT value)
         {
-            var progs = prog.Split("Translate", "Write");
-            var img = transcoder.Translate(value, progs[0]);
-            codec.Serialize(stream, img, progs[1]);
+            if(value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            var img = transcoder.Translate(value);
+            return codec.Serialize(stream, img);
         }
     }
 }

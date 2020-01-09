@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -41,7 +42,7 @@ namespace Juniper.IO
             return Resolve(fileRef).Exists;
         }
 
-        public Stream Create(ContentReference fileRef, bool overwrite)
+        public Stream Create(ContentReference fileRef)
         {
             if (fileRef is null)
             {
@@ -60,7 +61,7 @@ namespace Juniper.IO
 
         public virtual Stream Cache(ContentReference fileRef, Stream stream)
         {
-            var outStream = Create(fileRef, false);
+            var outStream = Create(fileRef);
             return new CachingStream(stream, outStream);
         }
 
@@ -86,7 +87,7 @@ namespace Juniper.IO
         {
             if (ofType is null)
             {
-                throw new System.ArgumentNullException(nameof(ofType));
+                throw new ArgumentNullException(nameof(ofType));
             }
 
             var q = new Queue<DirectoryInfo>()

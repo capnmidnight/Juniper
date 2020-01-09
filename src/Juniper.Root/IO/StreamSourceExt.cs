@@ -22,11 +22,10 @@ namespace Juniper.IO
             }
 
             prog.Report(0);
-            var progs = prog.Split("Read", "Decode");
             var stream = await source
-                .GetStreamAsync(progs[0])
+                .GetStreamAsync(prog)
                 .ConfigureAwait(false);
-            var value = deserializer.Deserialize(stream, progs[1]);
+            var value = deserializer.Deserialize(stream);
             prog.Report(1);
             return value;
         }

@@ -27,28 +27,21 @@ namespace Juniper.IO
                 && store[fileRef.ContentType].ContainsKey(fileRef.CacheID);
         }
 
-        public Stream Create(ContentReference fileRef, bool overwrite)
+        public Stream Create(ContentReference fileRef)
         {
             if (fileRef is null)
             {
                 throw new System.ArgumentNullException(nameof(fileRef));
             }
 
-            Stream stream = null;
-
             var subStore = store.Default(fileRef.ContentType);
-            if (overwrite || !subStore.ContainsKey(fileRef.CacheID))
-            {
-                var mem = new MemoryStream();
-                stream = subStore[fileRef.CacheID] = mem;
-            }
-
-            return stream;
+            var mem = new MemoryStream();
+            return subStore[fileRef.CacheID] = mem;
         }
 
         public virtual Stream Cache(ContentReference fileRef, Stream stream)
         {
-            var outStream = Create(fileRef, false);
+            var outStream = Create(fileRef);
             return new CachingStream(stream, outStream);
         }
 
@@ -59,19 +52,15 @@ namespace Juniper.IO
                 throw new System.ArgumentNullException(nameof(fileRef));
             }
 
-            Stream stream = null;
-            if (IsCached(fileRef))
+            if (!IsCached(fileRef))
             {
-                var data = store[fileRef.ContentType][fileRef.CacheID].ToArray();
-                stream = new MemoryStream(data);
-
-                if (prog is object)
-                {
-                    stream = new ProgressStream(stream, data.Length, prog);
-                }
+                throw new FileNotFoundException("File not found in memory cache!", fileRef.ToString());
             }
 
-            return Task.FromResult(stream);
+            var data = store[fileRef.ContentType][fileRef.CacheID].ToArray();
+            var stream = new MemoryStream(data);
+            var progStream = new ProgressStream(stream, data.Length, prog, true);
+            return Task.FromResult((Stream)progStream);
         }
 
         public IEnumerable<ContentReference> GetContentReferences(MediaType ofType)

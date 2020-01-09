@@ -180,6 +180,11 @@ namespace Juniper.HTTP
 
         public Task SendAsync<T>(string message, T value, ISerializer<T> serializer)
         {
+            if (serializer is null)
+            {
+                throw new ArgumentNullException(nameof(serializer));
+            }
+
             OnDebug($"Send: {value} => {message}");
             var data = serializer.Serialize(value);
             var dataMessage = new DataMessage(message, data);

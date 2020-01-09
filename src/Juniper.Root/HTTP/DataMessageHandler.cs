@@ -42,9 +42,9 @@ namespace Juniper.HTTP
             socket.Closed += Socket_Closed;
         }
 
-        public Task SendAsync(ResultT value, IProgress prog = null)
+        public Task SendAsync(ResultT value)
         {
-            return factory.SerializeAsync(socket, value, prog);
+            return factory.SerializeAsync(socket, value);
         }
 
         private void Socket_Closed(object sender, EventArgs e)

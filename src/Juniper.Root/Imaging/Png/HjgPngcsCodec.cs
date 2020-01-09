@@ -26,17 +26,17 @@ namespace Juniper.Imaging
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="stream">Png bytes.</param>
-        public ImageLines Deserialize(Stream stream, IProgress prog = null)
+        public ImageLines Deserialize(Stream stream)
         {
-            prog.Report(0);
+            if (stream is null)
+            {
+                throw new System.ArgumentNullException(nameof(stream));
+            }
 
             using var png = new PngReader(stream);
             png.SetUnpackedMode(true);
             var image = png.ReadRowsByte();
             png.End();
-
-            prog.Report(1);
-
             return image;
         }
 
@@ -44,7 +44,7 @@ namespace Juniper.Imaging
         /// Encodes a raw file buffer of image data into a PNG image.
         /// </summary>
         /// <param name="stream">Png bytes.</param>
-        public void Serialize(Stream stream, ImageLines value, IProgress prog = null)
+        public long Serialize(Stream stream, ImageLines value)
         {
             if (stream is null)
             {
@@ -56,9 +56,6 @@ namespace Juniper.Imaging
                 throw new System.ArgumentNullException(nameof(value));
             }
 
-            var subProgs = prog.Split("Copying", "Saving");
-            var copyProg = subProgs[0];
-            var saveProg = subProgs[1];
             var info = value.ImgInfo;
 
             using var png = new PngWriter(stream, info)
@@ -74,14 +71,12 @@ namespace Juniper.Imaging
 
             for (var i = 0; i < value.Nrows; ++i)
             {
-                copyProg.Report(i, value.Nrows);
                 png.WriteRow(value.GetImageLineAtMatrixRow(i), i);
-                copyProg.Report(i + 1, value.Nrows);
             }
 
-            saveProg.Report(0);
             png.End();
-            saveProg.Report(1);
+
+            return stream.Length;
         }
     }
 }

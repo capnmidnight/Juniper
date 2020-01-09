@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 using Juniper.Progress;
@@ -20,44 +21,43 @@ namespace Juniper.IO
             get;
         }
 
-        public ResultT Deserialize(Stream stream, IProgress prog = null)
-        {
-            prog.Report(0);
-            ResultT value = default;
-            if (stream is object)
-            {
-                using (stream)
-                {
-                    using var reader = new StreamReader(stream);
-                    using var jsonReader = new JsonTextReader(reader);
-                    var serializer = new JsonSerializer();
-                    value = serializer.Deserialize<ResultT>(jsonReader);
-                }
-            }
-
-            prog.Report(1);
-            return value;
-        }
-
-        public void Serialize(Stream stream, ResultT value, IProgress prog = null)
+        public ResultT Deserialize(Stream stream)
         {
             if (stream is null)
             {
-                throw new System.ArgumentNullException(nameof(stream));
+                throw new ArgumentNullException(nameof(stream));
             }
 
-            prog.Report(0);
+            using var reader = new StreamReader(stream);
+            using var jsonReader = new JsonTextReader(reader);
+            var serializer = new JsonSerializer();
+            return serializer.Deserialize<ResultT>(jsonReader);
+        }
+
+        public long Serialize(Stream stream, ResultT value)
+        {
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            if(value is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
             using var writer = new StreamWriter(stream);
             using var jsonWriter = new JsonTextWriter(writer)
             {
                 Formatting = Formatting.Indented
             };
+
             var serializer = new JsonSerializer();
             serializer.Serialize(jsonWriter, value);
             jsonWriter.Flush();
             writer.Flush();
             stream.Flush();
-            prog.Report(1);
+            return stream.Length;
         }
     }
 }

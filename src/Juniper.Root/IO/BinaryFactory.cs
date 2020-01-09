@@ -27,37 +27,37 @@ namespace Juniper.IO
             return type;
         }
 
-        public ResultT Deserialize(Stream stream, IProgress prog = null)
+        public ResultT Deserialize(Stream stream)
         {
             if (stream is null)
             {
                 throw new ArgumentNullException(nameof(stream));
             }
 
-            prog.Report(0);
             var serializer = new BinaryFormatter
             {
                 Binder = this
             };
 
-            var value = (ResultT)serializer.Deserialize(stream);
-
-            prog.Report(1);
-            return value;
+            return (ResultT)serializer.Deserialize(stream);
         }
 
-        public void Serialize(Stream stream, ResultT value, IProgress prog = null)
+        public long Serialize(Stream stream, ResultT value)
         {
             if (stream is null)
             {
                 throw new ArgumentNullException(nameof(stream));
             }
 
-            prog.Report(0);
+            if(value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             var serializer = new BinaryFormatter();
             serializer.Serialize(stream, value);
             stream.Flush();
-            prog.Report(1);
+            return stream.Length;
         }
     }
 }

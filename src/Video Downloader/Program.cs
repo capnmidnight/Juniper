@@ -63,13 +63,8 @@ namespace Juniper.VideoDownloader
             file.Directory.Create();
             using var outStream = file.Create();
             using var body = response.GetResponseStream();
-            var inStream = body;
-            if (response.ContentLength > 0)
-            {
-                inStream = new ProgressStream(body, response.ContentLength, new ConsoleProgress());
-            }
-
-            await inStream.CopyToAsync(outStream)
+            using var progStream = new ProgressStream(body, response.ContentLength, new ConsoleProgress(), false);
+            await progStream.CopyToAsync(outStream)
                 .ConfigureAwait(false);
         }
     }

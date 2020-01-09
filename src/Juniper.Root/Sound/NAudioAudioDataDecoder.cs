@@ -94,42 +94,33 @@ namespace Juniper.Sound
             }
         }
 
-        public AudioData Deserialize(Stream stream, IProgress prog = null)
+        public AudioData Deserialize(Stream stream)
         {
-            AudioData audioData = null;
-            if (stream is object)
+            if (stream is null)
             {
-                if (!stream.CanSeek)
-                {
-                    stream = new ErsatzSeekableStream(stream);
-                }
-
-                var waveStream = MakeDecodingStream(stream);
-
-                var format = waveStream.WaveFormat;
-
-                var sampleRate = format.SampleRate;
-                var bitsPerSample = format.BitsPerSample;
-                var bytesPerSample = (int)Units.Bits.Bytes(bitsPerSample);
-                var channels = format.Channels;
-                var samples = waveStream.Length / bytesPerSample;
-
-                ValidateFormat(sampleRate, bitsPerSample, channels);
-
-                var audioFormat = MakeAudioFormat(sampleRate, bitsPerSample, channels);
-
-                stream = waveStream;
-                if (prog is object)
-                {
-                    stream = new ProgressStream(stream, stream.Length, prog);
-                }
-
-                stream = new PcmBytesToFloatsStream(stream, bytesPerSample);
-
-                audioData = new AudioData(audioFormat, stream, samples);
+                throw new ArgumentNullException(nameof(stream));
             }
 
-            return audioData;
+            if (!stream.CanSeek)
+            {
+                var mem = new MemoryStream();
+                stream.CopyTo(mem);
+                stream = mem;
+            }
+
+            var waveStream = MakeDecodingStream(stream);
+            var format = waveStream.WaveFormat;
+            var sampleRate = format.SampleRate;
+            var bitsPerSample = format.BitsPerSample;
+            var bytesPerSample = (int)Units.Bits.Bytes(bitsPerSample);
+            var channels = format.Channels;
+            var samples = waveStream.Length / bytesPerSample;
+
+            ValidateFormat(sampleRate, bitsPerSample, channels);
+
+            var audioFormat = MakeAudioFormat(sampleRate, bitsPerSample, channels);
+            var pcmStream = new PcmBytesToFloatsStream(waveStream, bytesPerSample);
+            return new AudioData(audioFormat, pcmStream, samples);
         }
 
         private void ValidateFormat(int sampleRate, int bitsPerSample, int channels)

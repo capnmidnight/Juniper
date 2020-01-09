@@ -120,16 +120,15 @@ namespace Juniper.IO
         /// <typeparam name="MediaTypeT"></typeparam>
         /// <param name="fileRef"></param>
         /// <returns></returns>
-        public Stream Create(ContentReference fileRef, bool overwrite)
+        public Stream Create(ContentReference fileRef)
         {
             var streams = new List<Stream>();
 
             foreach (var dest in destinations)
             {
-                if (dest.CanCache(fileRef)
-                    && (overwrite || !dest.IsCached(fileRef)))
+                if (dest.CanCache(fileRef))
                 {
-                    streams.Add(dest.Create(fileRef, overwrite));
+                    streams.Add(dest.Create(fileRef));
                 }
             }
 

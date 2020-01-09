@@ -74,7 +74,7 @@ namespace System.Net
                 throw new ArgumentNullException(nameof(name));
             }
 
-            if(value is null)
+            if (value is null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
@@ -302,7 +302,7 @@ namespace System.Net
                 throw new ArgumentNullException(nameof(key));
             }
 
-            if(key.Length == 0)
+            if (key.Length == 0)
             {
                 throw new ArgumentException("Key must have a value.", nameof(key));
             }
@@ -370,40 +370,47 @@ namespace System.Net
         /// <param name="getInfo"></param>
         /// <param name="writeBody"></param>
         /// <returns></returns>
-        private static async Task WriteBodyAsync(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog = null)
+        public static async Task WriteBodyAsync(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog = null)
         {
-            if (getInfo is object)
+            if (request is null)
             {
-                var info = getInfo();
-                if (info is object)
-                {
-                    if (info.MIMEType is object)
-                    {
-                        request.ContentType = info.MIMEType;
-                    }
+                throw new ArgumentNullException(nameof(request));
+            }
 
-                    if (info.Length >= 0)
+            if (getInfo is null)
+            {
+                throw new ArgumentNullException(nameof(getInfo));
+            }
+
+            if (writeBody is null)
+            {
+                throw new ArgumentNullException(nameof(writeBody));
+            }
+
+            var info = getInfo();
+            if (info is object)
+            {
+                if (info.MIMEType is object)
+                {
+                    request.ContentType = info.MIMEType;
+                }
+
+                if (info.Length >= 0)
+                {
+                    request.ContentLength = info.Length;
+                    if (info.Length > 0)
                     {
-                        request.ContentLength = info.Length;
-                        if (info.Length > 0)
-                        {
-                            using var stream = await request.GetRequestStreamAsync()
-                                   .ConfigureAwait(false);
-                            WiteContent(writeBody, prog, info, stream);
-                        }
+                        using var stream = await request
+                            .GetRequestStreamAsync()
+                            .ConfigureAwait(false);
+                        using var progStream = new ProgressStream(stream, info.Length, prog, true);
+                        writeBody(stream);
+
+                        await progStream.FlushAsync()
+                            .ConfigureAwait(false);
                     }
                 }
             }
-        }
-
-        private static void WiteContent(Action<Stream> writeBody, IProgress prog, BodyInfo info, Stream stream)
-        {
-            if (prog is object)
-            {
-                stream = new ProgressStream(stream, info.Length, prog);
-            }
-
-            writeBody(stream);
         }
 
         /// <summary>

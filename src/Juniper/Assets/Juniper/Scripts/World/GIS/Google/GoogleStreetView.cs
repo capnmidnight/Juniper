@@ -254,8 +254,7 @@ namespace Juniper.World.GIS.Google
 
                                 return cb;
                             });
-                        }
-                    ),
+                        }),
                         ("Copying cubemap faces", async (prog) =>
                         {
                             for (var f = 0; f < CAPTURE_CUBEMAP_FACES.Length; ++f)
@@ -271,20 +270,17 @@ namespace Juniper.World.GIS.Google
                                     prog.Report(f + 1, CAPTURE_CUBEMAP_FACES.Length);
                                 });
                             }
-                        }
-                    ),
+                        }),
                         ("Concatenating faces", async (prog) =>
                         {
                             img = await JuniperSystem.OnMainThreadAsync(() =>
                             processor.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), prog));
-                        }
-                    ),
+                        }),
                         ("Saving image", (prog) =>
                         {
-                            cache.Save(codec, photosphere.name + codec.ContentType, img, true, prog);
+                            cache.Save(codec, photosphere.name + codec.ContentType, img);
                             return Task.CompletedTask;
-                        }
-                    ));
+                        }));
 
                     loadingBar.Deactivate();
                 }

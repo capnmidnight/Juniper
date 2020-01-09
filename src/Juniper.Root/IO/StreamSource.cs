@@ -15,6 +15,6 @@ namespace Juniper.IO
             : base(cacheID, contentType)
         { }
 
-        public abstract Task<Stream> GetStreamAsync(IProgress prog);
+        public abstract Task<Stream> GetStreamAsync(IProgress prog = null);
     }
 }

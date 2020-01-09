@@ -12,7 +12,6 @@ namespace Juniper.IO
             ContentReference fromRef,
             ICacheDestinationLayer toLayer,
             ContentReference toRef,
-            bool overwrite = false,
             IProgress prog = null)
         {
             if (fromLayer is null)
@@ -35,13 +34,12 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(toRef));
             }
 
-            if (fromLayer.IsCached(fromRef)
-                && (overwrite || !toLayer.IsCached(toRef)))
+            if (fromLayer.IsCached(fromRef))
             {
                 using var inStream = await fromLayer
                     .GetStreamAsync(fromRef, prog)
                     .ConfigureAwait(false);
-                using var outStream = toLayer.Create(toRef, overwrite);
+                using var outStream = toLayer.Create(toRef);
                 await inStream
                     .CopyToAsync(outStream)
                     .ConfigureAwait(false);
@@ -52,9 +50,7 @@ namespace Juniper.IO
             this ICacheDestinationLayer layer,
             ISerializer<ResultType> serializer,
             ContentReference fileRef,
-            ResultType value,
-            bool overwrite = false,
-            IProgress prog = null)
+            ResultType value)
         {
             if (layer is null)
             {
@@ -71,8 +67,8 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(fileRef));
             }
 
-            using var stream = layer.Create(fileRef, overwrite);
-            serializer.Serialize(stream, value, prog);
+            using var stream = layer.Create(fileRef);
+            serializer.Serialize(stream, value);
         }
     }
 }

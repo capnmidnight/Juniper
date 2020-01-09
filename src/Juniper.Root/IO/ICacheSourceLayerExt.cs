@@ -34,11 +34,6 @@ namespace Juniper.IO
             ContentReference fileRef,
             IProgress prog = null)
         {
-            if (fileRef is null)
-            {
-                throw new ArgumentNullException(nameof(fileRef));
-            }
-
             if (layer is null)
             {
                 throw new ArgumentNullException(nameof(layer));
@@ -49,18 +44,17 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(deserializer));
             }
 
+            if (fileRef is null)
+            {
+                throw new ArgumentNullException(nameof(fileRef));
+            }
+
             var progs = prog.Split("Read", "Decode");
-            var stream = await layer
+            using var stream = await layer
                 .GetStreamAsync(fileRef, progs[0])
                 .ConfigureAwait(false);
-            if (stream is null)
-            {
-                return default;
-            }
-            else
-            {
-                return deserializer.Deserialize(stream, progs[1]);
-            }
+            using var progStream = new ProgressStream(stream, stream.Length, progs[1], false);
+            return deserializer.Deserialize(progStream);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = "The Unity Editor is synchronous")]
@@ -140,13 +134,12 @@ namespace Juniper.IO
             var refs = source.GetContentReferences(deserializer.ContentType).ToArray();
             foreach (var (itemProg, contentRef) in prog.Zip(refs))
             {
-                var progs = itemProg.Split("Read", "Decode");
                 var stream = await source
-                    .GetStreamAsync(contentRef, progs[0])
+                    .GetStreamAsync(contentRef, itemProg)
                     .ConfigureAwait(false);
 
                 if (stream is object
-                    && deserializer.TryDeserialize(stream, out var value, progs[1]))
+                    && deserializer.TryDeserialize(stream, out var value))
                 {
                     items.Add(contentRef, value);
                 }

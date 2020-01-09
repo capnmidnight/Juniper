@@ -65,7 +65,7 @@ namespace System.IO
                 throw new ArgumentNullException(nameof(inFile));
             }
 
-            using var inStream = inFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+            using var inStream = inFile.OpenRead();
             inStream.CopyTo(outStream);
         }
 
@@ -76,7 +76,7 @@ namespace System.IO
                 throw new ArgumentNullException(nameof(inFile));
             }
 
-            using var inStream = inFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
+            using var inStream = inFile.OpenRead();
             await inStream
                 .CopyToAsync(outStream)
                 .ConfigureAwait(false);

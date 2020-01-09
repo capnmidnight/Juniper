@@ -1,9 +1,7 @@
+using System;
 using System.IO;
 
 using BitMiracle.LibJpeg;
-
-using Juniper.IO;
-using Juniper.Progress;
 
 namespace Juniper.Imaging
 {
@@ -30,44 +28,34 @@ namespace Juniper.Imaging
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="stream">Jpeg bytes.</param>
-        public JpegImage Deserialize(Stream stream, IProgress prog = null)
+        public JpegImage Deserialize(Stream stream)
         {
             if (stream is null)
             {
-                throw new System.ArgumentNullException(nameof(stream));
+                throw new ArgumentNullException(nameof(stream));
             }
 
-            prog.Report(0);
-            JpegImage image = null;
-            if (stream is object)
-            {
-                using var seekable = new ErsatzSeekableStream(stream);
-                image = new JpegImage(seekable);
-            }
-
-            prog.Report(1);
-            return image;
+            return new JpegImage(stream);
         }
 
         /// <summary>
         /// Encodes a raw file buffer of image data into a JPEG image.
         /// </summary>
         /// <param name="stream">Jpeg bytes.</param>
-        public void Serialize(Stream stream, JpegImage value, IProgress prog = null)
+        public long Serialize(Stream stream, JpegImage value)
         {
             if (stream is null)
             {
-                throw new System.ArgumentNullException(nameof(stream));
+                throw new ArgumentNullException(nameof(stream));
             }
 
             if (value is null)
             {
-                throw new System.ArgumentNullException(nameof(value));
+                throw new ArgumentNullException(nameof(value));
             }
 
-            prog.Report(0);
             value.WriteJpeg(stream, compressionParams);
-            prog.Report(1);
+            return stream.Length;
         }
     }
 }
