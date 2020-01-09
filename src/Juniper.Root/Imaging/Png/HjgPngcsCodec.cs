@@ -74,9 +74,10 @@ namespace Juniper.Imaging
                 png.WriteRow(value.GetImageLineAtMatrixRow(i), i);
             }
 
+            var length = stream.Length;
             png.End();
 
-            return stream.Length;
+            return length;
         }
     }
 }
