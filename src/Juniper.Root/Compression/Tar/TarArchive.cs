@@ -2,109 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+
 using Juniper.Progress;
 
 namespace Juniper.Compression.Tar
 {
     public sealed class TarArchive : IDisposable
     {
-        internal static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
-        private List<TarArchiveEntry> entries;
-
-        private bool atEnd;
-
-        private bool disposedValue = false;
-
-        private long position;
-
-        public TarArchive(Stream stream)
-        {
-            if (stream is null)
-            {
-                throw new ArgumentNullException(nameof(stream));
-            }
-
-            entries = new List<TarArchiveEntry>(ReadEntries(stream));
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    entries = null;
-                }
-
-                disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        public IReadOnlyCollection<TarArchiveEntry> Entries
-        {
-            get { return entries; }
-        }
-
-        public TarArchiveEntry GetEntry(string name)
-        {
-            foreach (var entry in Entries)
-            {
-                if (entry.FullName == name)
-                {
-                    return entry;
-                }
-            }
-
-            return null;
-        }
-
-        private IEnumerable<TarArchiveEntry> ReadEntries(Stream stream)
-        {
-            var header = new byte[512];
-
-            var zeroBlockCount = 0;
-            while (zeroBlockCount < 2 && !atEnd)
-            {
-                var length = stream.Read(header, 0, header.Length);
-                if (length < 512)
-                {
-                    throw new InvalidDataException($"Invalid header block size < 512");
-                }
-
-                position += length;
-
-                if (IsAllZeros(header))
-                {
-                    ++zeroBlockCount;
-                }
-                else
-                {
-                    zeroBlockCount = 0;
-
-                    var fileName = GetString(header, 0, 100);
-                    ValidateChecksum(header, fileName);
-                    var fileLength = ReadFileSize(header, fileName);
-
-                    if (IsFileType(header))
-                    {
-                        var lastModifiedTime = ReadLastModifiedTime(header, fileName);
-                        fileName = AddFilePrefix(header, fileName);
-                        var entry = new TarArchiveEntry(stream, fileName, lastModifiedTime, fileLength);
-                        position += fileLength;
-                        position = SeekToNextEntry(header, stream, position, fileName);
-                        yield return entry;
-                    }
-                }
-            }
-
-            atEnd = true;
-        }
+        #region Tar file parsing functions
 
         private static long SeekToNextEntry(byte[] header, Stream stream, long position, string fileName)
         {
@@ -154,7 +59,7 @@ namespace Juniper.Compression.Tar
             return fileName;
         }
 
-        private static DateTime ReadLastModifiedTime(byte[] header, string fileName)
+        private static DateTimeOffset ReadLastModifiedTime(byte[] header, string fileName)
         {
             var unixTimeStamp = ReadOctal(header, 136, 12);
             if (!unixTimeStamp.HasValue)
@@ -162,8 +67,7 @@ namespace Juniper.Compression.Tar
                 throw new InvalidDataException($"Invalid timestamp for file entry [{fileName}] ");
             }
 
-            var lastModifiedTime = Epoch.AddSeconds(unixTimeStamp.Value).ToLocalTime();
-            return lastModifiedTime;
+            return Epoch.AddSeconds(unixTimeStamp.Value);
         }
 
         private static long ReadFileSize(byte[] header, string fileName)
@@ -263,21 +167,100 @@ namespace Juniper.Compression.Tar
 
             return value;
         }
+        #endregion Tar file parsing functions
 
+        private static readonly DateTimeOffset Epoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
 
-        public void Decompress(DirectoryInfo outputDirectory, string entryPrefix, bool overwrite, IProgress prog)
+        private readonly List<TarArchiveEntry> entries;
+
+        private bool disposedValue = false;
+
+        public TarArchive(Stream stream)
+        {
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            entries = new List<TarArchiveEntry>();
+
+            var header = new byte[512];
+
+            var zeroBlockCount = 0;
+            var position = 0L;
+            while (zeroBlockCount < 2)
+            {
+                var length = stream.Read(header, 0, header.Length);
+                if (length < 512)
+                {
+                    throw new InvalidDataException($"Invalid header block size < 512");
+                }
+
+                position += length;
+
+                if (IsAllZeros(header))
+                {
+                    ++zeroBlockCount;
+                }
+                else
+                {
+                    zeroBlockCount = 0;
+
+                    var fileName = GetString(header, 0, 100);
+                    ValidateChecksum(header, fileName);
+                    var fileLength = ReadFileSize(header, fileName);
+
+                    if (IsFileType(header))
+                    {
+                        var lastModifiedTime = ReadLastModifiedTime(header, fileName);
+                        fileName = AddFilePrefix(header, fileName);
+                        var entry = new TarArchiveEntry(stream, fileName, lastModifiedTime.DateTime.ToLocalTime(), fileLength);
+                        position += fileLength;
+                        position = SeekToNextEntry(header, stream, position, fileName);
+                        entries.Add(entry);
+                    }
+                }
+            }
+        }
+
+        public IReadOnlyCollection<TarArchiveEntry> Entries
+        {
+            get { return entries; }
+        }
+
+        public TarArchiveEntry GetEntry(string name)
+        {
+            foreach (var entry in Entries)
+            {
+                if (entry.FullName == name)
+                {
+                    return entry;
+                }
+            }
+
+            return null;
+        }
+
+        public void Decompress(DirectoryInfo outputDirectory, bool overwrite, IProgress prog = null)
+        {
+            Decompress(outputDirectory, overwrite, null, prog);
+        }
+
+        public void Decompress(DirectoryInfo outputDirectory, bool overwrite = true, string entryPrefix = null, IProgress prog = null)
         {
             if (outputDirectory is null)
             {
                 throw new ArgumentNullException(nameof(outputDirectory));
             }
 
-            var i = 0;
-            foreach (var entry in Entries)
+            entryPrefix ??= string.Empty;
+
+            for (var i = 0; i < entries.Count; ++i)
             {
-                prog.Report(i++, Entries.Count);
+                prog.Report(i, entries.Count);
                 try
                 {
+                    var entry = entries[i];
                     var fileName = entry.FullName;
                     if (fileName.StartsWith(entryPrefix, StringComparison.InvariantCulture))
                     {
@@ -300,44 +283,31 @@ namespace Juniper.Compression.Tar
                     }
                 }
                 catch { }
+                prog.Report(i + 1, entries.Count);
             }
-
-            prog.Report(i, Entries.Count);
         }
 
-        public void Decompress(DirectoryInfo outputDirectory, bool overwrite, IProgress prog)
+        private void Dispose(bool disposing)
         {
-            Decompress(outputDirectory, string.Empty, overwrite, prog);
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    foreach (var entry in entries)
+                    {
+                        entry.Dispose();
+                    }
+
+                    entries.Clear();
+                }
+
+                disposedValue = true;
+            }
         }
 
-        public void Decompress(DirectoryInfo outputDirectory, string entryPrefix, bool overwrite)
+        public void Dispose()
         {
-            Decompress(outputDirectory, entryPrefix, overwrite, null);
-        }
-
-        public void Decompress(DirectoryInfo outputDirectory, bool overwrite)
-        {
-            Decompress(outputDirectory, string.Empty, overwrite, null);
-        }
-
-        public void Decompress(DirectoryInfo outputDirectory, string entryPrefix, IProgress prog)
-        {
-            Decompress(outputDirectory, entryPrefix, true, prog);
-        }
-
-        public void Decompress(DirectoryInfo outputDirectory, IProgress prog)
-        {
-            Decompress(outputDirectory, string.Empty, true, prog);
-        }
-
-        public void Decompress(DirectoryInfo outputDirectory, string entryPrefix)
-        {
-            Decompress(outputDirectory, entryPrefix, true, null);
-        }
-
-        public void Decompress(DirectoryInfo outputDirectory)
-        {
-            Decompress(outputDirectory, string.Empty, true, null);
+            Dispose(true);
         }
     }
 }
