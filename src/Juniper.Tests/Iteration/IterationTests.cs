@@ -157,7 +157,9 @@ namespace Juniper.Iteration.Tests
 
         public int Compare(object x, object y)
         {
-            return string.CompareOrdinal(x.GetType().Name, y.GetType().Name);
+            return string.CompareOrdinal(
+                x?.GetType().Name,
+                y?.GetType().Name);
         }
     }
 }
