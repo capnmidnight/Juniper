@@ -6,14 +6,17 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Juniper.HTTP.Server.Administration.NetSH;
 using Juniper.HTTP.Server.Controllers;
 using Juniper.Logging;
+
+#if !NETCOREAPP && !NETSTANDARD
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
+using Juniper.HTTP.Server.Administration.NetSH;
+#endif
 
 namespace Juniper.HTTP.Server
 {
@@ -26,13 +29,18 @@ namespace Juniper.HTTP.Server
         ILoggingSource,
         INCSALogSource
     {
+
         public static bool IsAdministrator
         {
             get
             {
+#if !NETCOREAPP && !NETSTANDARD
                 var identity = System.Security.Principal.WindowsIdentity.GetCurrent();
                 var principal = new System.Security.Principal.WindowsPrincipal(identity);
                 return principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
+#else
+                return false;
+#endif
             }
         }
 
@@ -329,6 +337,8 @@ or
                 {
                     SetPrefix("https", HttpsPort.Value);
                 }
+
+#if !NETCOREAPP && !NETSTANDARD
                 else if (string.IsNullOrEmpty(Domain))
                 {
                     OnWarning("No domain was specified. Can't auto-assign a TLS certificate.");
@@ -361,6 +371,7 @@ or
                         }
                     }
                 }
+#endif
             }
 
             if (HttpPort is object)
@@ -454,6 +465,7 @@ or
             }
         }
 
+#if !NETCOREAPP && !NETSTANDARD
         private void GetTLSParameters(out Guid guid, out string certHash)
         {
             var asm = Assembly.GetExecutingAssembly();
@@ -471,6 +483,7 @@ or
                         select cert.Thumbprint)
                        .FirstOrDefault();
         }
+
 
         private string AssignCertToApp(string certHash, Guid appGuid)
         {
@@ -498,6 +511,7 @@ or
 
             return addCert.TotalStandardOutput;
         }
+#endif
 
         private void Listen()
         {
@@ -611,7 +625,7 @@ or
             Err?.Invoke(sender, e);
         }
 
-        #region IDisposable Support
+#region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
@@ -649,6 +663,6 @@ or
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        #endregion
+#endregion
     }
 }
