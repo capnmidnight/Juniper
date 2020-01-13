@@ -514,6 +514,46 @@ namespace Juniper.Display
             }
 
             EventCamera.cullingMask = MainCamera.cullingMask & LAYER_MASK;
+
+            if (UnityEngine.Input.GetKeyDown(KeyCode.Home))
+            {
+                CaptureScreenshot(actuallyCapture, Imaging.Photosphere.PHOTOSPHERE_LAYER_ARR);
+            }
+        }
+
+        static int? curMask;
+        public bool actuallyCapture;
+
+        public static void CaptureScreenshot(bool actuallyCapture, params string[] layers)
+        {
+            var desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            var res = Screen.currentResolution;
+            var scaleX = 6480f / res.width;
+            var scaleY = 11520f / res.height;
+            var scale = (int)Math.Ceiling(Math.Max(scaleX, scaleY));
+            if (curMask is null)
+            {
+                curMask = MainCamera.cullingMask;
+            }
+            var nextMask = LayerMask.GetMask(layers);
+
+            var i = 0;
+            string fileName;
+            do
+            {
+                fileName = System.IO.Path.Combine(desktop, $"screenshot{i:00000}.png");
+                ++i;
+            } while (System.IO.File.Exists(fileName));
+
+            print($"Capturing to {fileName}");
+
+            MainCamera.cullingMask = nextMask;
+
+            if (actuallyCapture)
+            {
+                ScreenCapture.CaptureScreenshot(fileName, scale);
+                MainCamera.cullingMask = curMask.Value;
+            }
         }
 
         public virtual bool ConfirmExit()
