@@ -11,6 +11,23 @@ namespace Juniper.HTTP.Server.Administration.NetSH.Tests
         private const string testAddressString1 = "192.160.0.1";
         private static readonly IPAddress testAddress1 = IPAddress.Parse(testAddressString1);
 
+        private static Task<bool> ExistsAsync()
+        {
+            var command = new GetFirewallRule("Test Ban");
+            return command.ExistsAsync();
+        }
+
+        private async Task MaybeAddRuleAsync()
+        {
+            var exists = await ExistsAsync()
+                .ConfigureAwait(false);
+            if (!exists)
+            {
+                await AddRuleAsync()
+                    .ConfigureAwait(false);
+            }
+        }
+
         [TestMethod]
         public async Task AddRuleAsync()
         {
@@ -24,7 +41,7 @@ namespace Juniper.HTTP.Server.Administration.NetSH.Tests
         [TestMethod]
         public async Task DeleteRuleAsync()
         {
-            await AddRuleAsync()
+            await MaybeAddRuleAsync()
                 .ConfigureAwait(false);
 
             var command = new DeleteFirewallRule("Test Ban");
@@ -36,7 +53,7 @@ namespace Juniper.HTTP.Server.Administration.NetSH.Tests
         [TestMethod]
         public async Task RuleExistsAsync()
         {
-            await AddRuleAsync()
+            await MaybeAddRuleAsync()
                 .ConfigureAwait(false);
 
             var command = new GetFirewallRule("Test Ban");
@@ -47,7 +64,8 @@ namespace Juniper.HTTP.Server.Administration.NetSH.Tests
         [TestMethod]
         public async Task GetRulesAsync()
         {
-            await AddRuleAsync().ConfigureAwait(false);
+            await MaybeAddRuleAsync()
+                .ConfigureAwait(false);
 
             var command = new GetFirewallRule("Test Ban");
             var blocks = await command.GetRangesAsync()
