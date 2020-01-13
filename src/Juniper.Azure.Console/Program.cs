@@ -80,20 +80,21 @@ namespace Juniper.Azure
             }
         }
 
-        //private static async Task DecodeAudioAsync(string text, NAudioAudioDataDecoder audioDecoder, TextToSpeechClient ttsClient, Voice voice)
-        //{
-        //    var audio = await ttsClient
-        //        .GetDecodedAudio(text, voice.ShortName)
-        //        .ConfigureAwait(false);
-        //    await Play(audio).ConfigureAwait(false);
-        //}
+        private static async Task DecodeAudioAsync(string text, NAudioAudioDataDecoder audioDecoder, TextToSpeechClient ttsClient, Voice voice)
+        {
+            var audio = await ttsClient
+                .GetDecodedAudioAsync(text, voice.ShortName)
+                .ConfigureAwait(false);
+            await PlayAsync(audio)
+                .ConfigureAwait(false);
+        }
 
         private static async Task PlayAudioAsync(string text, NAudioAudioDataDecoder audioDecoder, TextToSpeechClient ttsClient, Voice voice)
         {
-            var audioStream = await ttsClient
+            using var audioStream = await ttsClient
                 .GetAudioDataStreamAsync(text, voice.ShortName)
                 .ConfigureAwait(false);
-            var waveStream = audioDecoder.MakeDecodingStream(audioStream);
+            using var waveStream = audioDecoder.MakeDecodingStream(audioStream);
             var sr = waveStream.WaveFormat.SampleRate;
             var bps = waveStream.WaveFormat.BitsPerSample;
             Console.Write($"{bps} * {sr} = {bps * sr}");
@@ -109,22 +110,19 @@ namespace Juniper.Azure
             }
 
             var format = new WaveFormat(audio.Format.SampleRate, audio.Format.BitsPerSample, audio.Format.Channels);
-            var sourceStream = new FloatsToPcmBytesStream(audio.DataStream, audio.Format.BitsPerSample / 8);
-            var waveStream = new RawSourceWaveStream(sourceStream, format);
+            using var sourceStream = new FloatsToPcmBytesStream(audio.DataStream, audio.Format.BitsPerSample / 8);
+            using var waveStream = new RawSourceWaveStream(sourceStream, format);
             return PlayAsync(waveStream);
         }
 
         public static async Task PlayAsync(WaveStream waveStream)
         {
-            using (waveStream)
-            using (var waveOut = new WaveOut())
+            using var waveOut = new WaveOut();
+            waveOut.Init(waveStream);
+            waveOut.Play();
+            while (waveOut.PlaybackState == PlaybackState.Playing)
             {
-                waveOut.Init(waveStream);
-                waveOut.Play();
-                while (waveOut.PlaybackState == PlaybackState.Playing)
-                {
-                    await Task.Yield();
-                }
+                await Task.Yield();
             }
         }
     }
