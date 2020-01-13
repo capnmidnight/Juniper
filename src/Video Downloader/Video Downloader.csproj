@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\Juniper48.targets" />
+  <Import Project="..\..\JuniperLatest.targets" />
 
   <PropertyGroup>
     <AssemblyName>Juniper.VideoDownloader</AssemblyName>

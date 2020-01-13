@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ImportGroup>
-    <Import Project="..\..\Juniper472.targets" />
+    <Import Project="..\..\JuniperUnity.targets" />
   </ImportGroup>
 
   <PropertyGroup>
