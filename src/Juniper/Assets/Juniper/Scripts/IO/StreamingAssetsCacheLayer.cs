@@ -1,4 +1,4 @@
-﻿#if !UNITY_EDITOR && UNITY_ANDROID
+#if !UNITY_EDITOR && UNITY_ANDROID
 #define UNPACK_APK
 #endif
 
@@ -30,7 +30,7 @@ namespace Juniper.IO
             var apk = Application.dataPath;
             var appData = Application.persistentDataPath;
             return Task.Run(() =>
-                Decompressor.Decompress(apk, appData, "assets/", true, prog));
+                Decompressor.Decompress(apk, appData, "assets/", prog));
         }
 
         public StreamingAssetsCacheLayer()

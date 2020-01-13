@@ -40,7 +40,7 @@ namespace Juniper.ConfigurationManagement
         {
             if (IsAvailable)
             {
-                Decompressor.Decompress(PackageFile, installDirectory, prog);
+                Decompressor.Decompress(PackageFile, installDirectory, null, prog);
                 InstallComplete();
             }
         }
