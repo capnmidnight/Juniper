@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 using Juniper.IO;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class SerializationTests
     {
         public static void DictionaryTest<T>()
@@ -32,13 +32,13 @@ namespace Juniper.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TestBinaryDictionary()
         {
             DictionaryTest<BinaryFactory<Dictionary<string, int>>>();
         }
 
-        [TestMethod]
+        [Test]
         public void TestJsonDictionary()
         {
             DictionaryTest<JsonFactory<Dictionary<string, int>>>();

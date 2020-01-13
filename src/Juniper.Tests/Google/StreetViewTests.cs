@@ -6,17 +6,17 @@ using Juniper.Imaging;
 using Juniper.IO;
 using Juniper.World.GIS.Google.Tests;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.World.GIS.Google.StreetView.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class StreetViewTests : ServicesTests
     {
         private IImageCodec<ImageData> jpegDecoder;
         private IImageCodec<ImageData> pngDecoder;
 
-        [TestInitialize]
+        [SetUp]
         public override void Init()
         {
             base.Init();
@@ -30,7 +30,7 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
                 new HjgPngcsImageDataTranscoder());
         }
 
-        [TestMethod]
+        [Test]
         public async Task JPEGImageSizeAsync()
         {
             var imageRequest = new ImageRequest(apiKey, signingKey, new Size(640, 640))
@@ -46,7 +46,7 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
             Assert.AreEqual(640, info.Dimensions.Height);
         }
 
-        [TestMethod]
+        [Test]
         public async Task PNGImageSizeAsync()
         {
             var imageRequest = new ImageRequest(apiKey, signingKey, new Size(640, 640))
@@ -63,7 +63,7 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
             Assert.AreEqual(640, info.Dimensions.Height);
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetMetadataAsync()
         {
             var metadataDecoder = new JsonFactory<MetadataResponse>();
@@ -81,7 +81,7 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
             Assert.IsNotNull(metadata.Pano_ID);
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetImageAsync()
         {
             var imageRequest = new ImageRequest(apiKey, signingKey, new Size(4096, 4096))
@@ -96,7 +96,7 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
             Assert.AreEqual(640, image.Info.Dimensions.Height);
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetImageWithoutCachingAsync()
         {
             var imageRequest = new ImageRequest(apiKey, signingKey, new Size(640, 640))

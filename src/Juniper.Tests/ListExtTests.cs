@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.Collections.Tests
 {
     /// <summary>
     /// These tests are taken from the Examples section of <see cref="https://developer.mozilla.org/en-US/docs/web/javascript/reference/global_objects/array/Splice"/>
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class ListExtTests
     {
-        [TestMethod]
+        [Test]
         public void Splice1()
         {
             // Remove 0(zero) elements from index 2, and insert "drum"
@@ -24,7 +24,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(actualRemoved.Matches(expectedRemoved));
         }
 
-        [TestMethod]
+        [Test]
         public void Splice2()
         {
             // Remove 0(zero) elements from index 2, and insert "drum" and "guitar"
@@ -37,7 +37,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(actualRemoved.Matches(expectedRemoved));
         }
 
-        [TestMethod]
+        [Test]
         public void Splice3()
         {
             // Remove 1 element from index 3
@@ -50,7 +50,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(actualRemoved.Matches(expectedRemoved));
         }
 
-        [TestMethod]
+        [Test]
         public void Splice4()
         {
             // Remove 1 element from index 2, and insert "trumpet"
@@ -63,7 +63,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(actualRemoved.Matches(expectedRemoved));
         }
 
-        [TestMethod]
+        [Test]
         public void Splice5()
         {
             // Remove 2 elements from index 0, and insert "parrot", "anemone" and "blue"
@@ -76,7 +76,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(actualRemoved.Matches(expectedRemoved));
         }
 
-        [TestMethod]
+        [Test]
         public void Splice6()
         {
             // Remove 2 elements from index 2
@@ -89,7 +89,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(actualRemoved.Matches(expectedRemoved));
         }
 
-        [TestMethod]
+        [Test]
         public void Splice7()
         {
             // Remove 1 element from index - 2
@@ -102,7 +102,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(actualRemoved.Matches(expectedRemoved));
         }
 
-        [TestMethod]
+        [Test]
         public void Splice8()
         {
             // Remove all elements after index 2(incl.)

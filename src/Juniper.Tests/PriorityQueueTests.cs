@@ -8,20 +8,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.Collections.Tests
 {
     /// <summary>
     /// Unit tests for PriorityQueue class.
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class PriorityQueueTests
     {
         /// <summary>
         /// Clearing an empty queue should have no effect
         /// </summary>
-        [TestMethod]
+        [Test]
         public void ClearHasNoEffectOnEmptyQueue()
         {
             var pq = new PriorityQueue<int>();
@@ -32,7 +32,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// Clearing the queue should reset the count to 0
         /// </summary>
-        [TestMethod]
+        [Test]
         public void ClearResetsCountToZero()
         {
             var pq = new PriorityQueue<int>();
@@ -48,7 +48,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// The queue should return the Comparer that it was created with.
         /// </summary>
-        [TestMethod]
+        [Test]
         public void ComparerPropertyExplicit()
         {
             var comp = new MockComparer();
@@ -59,17 +59,17 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// The queue should return a Comparer for the type it was created for.
         /// </summary>
-        [TestMethod]
+        [Test]
         public void ComparerPropertyImplicit1()
         {
             var pq = new PriorityQueue<int>();
-            Assert.IsInstanceOfType(pq.Comparer, typeof(IComparer<int>));
+            Assert.IsInstanceOf<IComparer<int>>(pq.Comparer);
         }
 
         /// <summary>
         /// The queue needs a simple default constructor
         /// </summary>
-        [TestMethod]
+        [Test]
         public void ConstructorSimple()
         {
             var pq = new PriorityQueue<int>();
@@ -79,7 +79,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// The queue needs a constructor that takes a Comparer
         /// </summary>
-        [TestMethod]
+        [Test]
         public void ConstructorWithComparer()
         {
             var comp = new MockComparer();
@@ -90,18 +90,16 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// using a null comparer parameter should throw an ArgumentNullException
         /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void ConstructorWithNullComparer()
         {
-            var pq = new PriorityQueue<int>(null, null);
-            Assert.IsNotNull(pq);
+            Assert.Throws<ArgumentNullException>(() => new PriorityQueue<int>(null, null));
         }
 
         /// <summary>
         /// Checking for an ojbect that is in the queue should return true
         /// </summary>
-        [TestMethod]
+        [Test]
         public void ContainsFindsReferenceTypes()
         {
             var pq = new PriorityQueue<int>();
@@ -115,7 +113,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// Checking for an ojbect that is in the queue should return true
         /// </summary>
-        [TestMethod]
+        [Test]
         public void ContainsFindsValueTypes()
         {
             var pq = new PriorityQueue<int>();
@@ -133,7 +131,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// Checking for an int in an empty queue should return false
         /// </summary>
-        [TestMethod]
+        [Test]
         public void ContainsReturnsFalseOnEmpty()
         {
             var pq = new PriorityQueue<int>();
@@ -143,7 +141,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// Checking for an int that isn't in the queue should return false
         /// </summary>
-        [TestMethod]
+        [Test]
         public void ContainsReturnsFalseOnNonExistant()
         {
             var pq = new PriorityQueue<int>();
@@ -151,17 +149,15 @@ namespace Juniper.Collections.Tests
             Assert.IsFalse(pq.Contains(7));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [Test]
         public void CopyToThrowsExceptionFromNullArray()
         {
             var pq = new PriorityQueue<int>();
             pq.Enqueue(5);
-            pq.CopyTo(null, 0);
+            Assert.Throws<ArgumentNullException>(() => pq.CopyTo(null, 0));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Test]
         public void CopyToThrowsExceptionIfArrayIsTooSmall()
         {
             var pq = new PriorityQueue<int>();
@@ -169,33 +165,31 @@ namespace Juniper.Collections.Tests
             pq.Enqueue(5);
             pq.Enqueue(7);
             var arr = new int[1];
-            pq.CopyTo(arr, 0);
+            Assert.Throws<ArgumentException>(() => pq.CopyTo(arr, 0));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Test]
         public void CopyToThrowsExceptionIfIndexIsLessThanZero()
         {
             var pq = new PriorityQueue<int>();
             pq.Enqueue(3);
             var arr = new int[1];
-            pq.CopyTo(arr, -1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => pq.CopyTo(arr, -1));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [Test]
         public void CopyToThrowsExceptionIfIndexIsPastEnd()
         {
             var pq = new PriorityQueue<int>();
             pq.Enqueue(3);
             var arr = new int[1];
-            pq.CopyTo(arr, 1);
+            Assert.Throws<ArgumentException>(() => pq.CopyTo(arr, 1));
         }
 
         /// <summary>
         /// Copy the queue to an array from the very beginning
         /// </summary>
-        [TestMethod]
+        [Test]
         public void CopyToWithOneElement()
         {
             var pq = new PriorityQueue<int>();
@@ -208,7 +202,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// Copy the queue to an array from the very beginning
         /// </summary>
-        [TestMethod]
+        [Test]
         public void CopyToWithOneElementAndOffset()
         {
             var pq = new PriorityQueue<int>();
@@ -222,7 +216,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// Copy the queue to an array from the very beginning
         /// </summary>
-        [TestMethod]
+        [Test]
         public void CopyToWithTenElements()
         {
             var pq = new PriorityQueue<int>();
@@ -243,7 +237,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// Copy the queue to an array from the very beginning
         /// </summary>
-        [TestMethod]
+        [Test]
         public void CopyToWithTenElementsWithOffset()
         {
             var pq = new PriorityQueue<int>();
@@ -270,7 +264,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// The queue should support a means for creating a raw array of the items contained within
         /// </summary>
-        [TestMethod]
+        [Test]
         public void CreateArrayFromQueue()
         {
             var pq = new PriorityQueue<int>();
@@ -289,7 +283,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// The queue should return a Comparer for the type it was created for.
         /// </summary>
-        [TestMethod]
+        [Test]
         public void DefaultComparerReturnsSameResultsAsNormalComparer()
         {
             var pq = new PriorityQueue<int>();
@@ -302,7 +296,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// Dequeuing an item should decrease the Count of the queue
         /// </summary>
-        [TestMethod]
+        [Test]
         public void DequeueDecreasesCount()
         {
             var pq = new PriorityQueue<int>();
@@ -317,18 +311,17 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// Dequeueing an empty queue should throw an Exception
         /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Test]
         public void DequeueThrowsExceptionOnEmptyQueue()
         {
             var pq = new PriorityQueue<int>();
-            pq.Dequeue();
+            Assert.Throws<ArgumentOutOfRangeException>(() => pq.Dequeue());
         }
 
         /// <summary>
         /// Enqueueing a single int should return that int when it is dequeued
         /// </summary>
-        [TestMethod]
+        [Test]
         public void EnqueueDequeueOneItem()
         {
             const int obj = 3;
@@ -340,7 +333,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// Adding items to the queue should increase the Count of the queue
         /// </summary>
-        [TestMethod]
+        [Test]
         public void EnqueueIncreasesCount()
         {
             var pq = new PriorityQueue<int>();
@@ -348,34 +341,34 @@ namespace Juniper.Collections.Tests
             Assert.AreEqual(1, pq.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void ExtendsGenericIEnumerable()
         {
             var pq = new PriorityQueue<int>();
-            Assert.IsInstanceOfType(pq, typeof(IEnumerable<int>));
+            Assert.IsInstanceOf<IEnumerable<int>>(pq);
         }
 
-        [TestMethod]
+        [Test]
         public void ExtendsICollection()
         {
             var pq = new PriorityQueue<int>();
-            Assert.IsInstanceOfType(pq, typeof(ICollection));
+            Assert.IsInstanceOf<ICollection>(pq);
         }
 
         /// <summary>
         /// To be a proper collection, it should extend the IEnumberable interface
         /// </summary>
-        [TestMethod]
+        [Test]
         public void ExtendsIEnumerable()
         {
             var pq = new PriorityQueue<int>();
-            Assert.IsInstanceOfType(pq, typeof(IEnumerable));
+            Assert.IsInstanceOf<IEnumerable>(pq);
         }
 
         /// <summary>
         /// Getting an enumerator on an empty queue should not be null
         /// </summary>
-        [TestMethod]
+        [Test]
         public void GetEnumeratorOnEmpty()
         {
             var pq = new PriorityQueue<int>();
@@ -385,7 +378,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// When first created, the Count should return 0
         /// </summary>
-        [TestMethod]
+        [Test]
         public void InitiallyEmpty()
         {
             var pq = new PriorityQueue<int>();
@@ -395,7 +388,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// Since the queue is thread safe, it should always return true for IsSynchronized
         /// </summary>
-        [TestMethod]
+        [Test]
         public void IsSynchronizedReturnsTrue()
         {
             var pq = new PriorityQueue<int>();
@@ -405,7 +398,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// Peeking should not change the size of the queue
         /// </summary>
-        [TestMethod]
+        [Test]
         public void PeekDoesntChangeCount()
         {
             var pq = new PriorityQueue<int>();
@@ -418,7 +411,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// Peeking should show the first element in the queue
         /// </summary>
-        [TestMethod]
+        [Test]
         public void PeekGetsTheOnlyItemInQueue()
         {
             var pq = new PriorityQueue<int>();
@@ -430,7 +423,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// Peeking before Dequeueing should return the same int
         /// </summary>
-        [TestMethod]
+        [Test]
         public void PeekRetrievesTheSameItemAsDequeue()
         {
             var pq = new PriorityQueue<int>();
@@ -441,19 +434,18 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// Peeking an empty queue should thow an exception
         /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Test]
         public void PeekThrowsExceptionOnEmptyQueue()
         {
             var pq = new PriorityQueue<int>();
-            pq.Peek();
+            Assert.Throws<ArgumentOutOfRangeException>(() => pq.Peek());
         }
 
         /// <summary>
         /// A priority queue on integers should result in a sorted list when sequentially dequeueing
         /// the items.
         /// </summary>
-        [TestMethod]
+        [Test]
         public void PQSortsInts()
         {
             var pq = new PriorityQueue<int>();
@@ -476,7 +468,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// A queue of strings should sort the strings lexicographically (aka "alphabetically")
         /// </summary>
-        [TestMethod]
+        [Test]
         public void PQSortsStringsLexicographically()
         {
             var pq = new PriorityQueue<string>();
@@ -490,14 +482,14 @@ namespace Juniper.Collections.Tests
             Assert.AreEqual("World", pq.Dequeue());
         }
 
-        [TestMethod]
+        [Test]
         public void SyncRootReturnsNonNullReference()
         {
             var pq = new PriorityQueue<int>();
             Assert.IsNotNull(pq.SyncRoot);
         }
 
-        [TestMethod]
+        [Test]
         public void SyncRootReturnsUniqueReferences()
         {
             var pq1 = new PriorityQueue<int>();

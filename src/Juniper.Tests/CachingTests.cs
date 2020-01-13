@@ -1,14 +1,14 @@
 using System;
 using System.Linq;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.IO.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class CachingTests
     {
-        [TestMethod]
+        [Test]
         public void ListFiles()
         {
             var fileLayer = new FileCacheLayer(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
@@ -17,7 +17,7 @@ namespace Juniper.IO.Tests
             Assert.AreNotEqual(0, files.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void ListMetadatas()
         {
             var fileLayer = new FileCacheLayer(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "\\GoogleMaps");

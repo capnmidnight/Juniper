@@ -8,11 +8,11 @@ using Juniper.Sound;
 using Juniper.Speech.Azure;
 using Juniper.Speech.Azure.CognitiveServices;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.Azure.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class APITests
     {
         private readonly IJsonDecoder<Voice[]> voiceListDecoder = new JsonFactory<Voice[]>();
@@ -21,7 +21,7 @@ namespace Juniper.Azure.Tests
         private string resourceName;
         private CachingStrategy cache;
 
-        [TestInitialize]
+        [SetUp]
         public void Setup()
         {
             var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -81,7 +81,7 @@ namespace Juniper.Azure.Tests
             return audioRequest;
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetAuthTokenAsync()
         {
             var token = await GetTokenAsync().ConfigureAwait(false);
@@ -89,7 +89,7 @@ namespace Juniper.Azure.Tests
             Assert.AreNotEqual(0, token.Length);
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetVoiceListAsync()
         {
             var voices = await GetVoicesAsync().ConfigureAwait(false);
@@ -98,7 +98,7 @@ namespace Juniper.Azure.Tests
             Assert.AreNotEqual(0, voices.Length);
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetVoiceListClientAsync()
         {
             var voicesClient = new VoicesClient(region, subscriptionKey, new JsonFactory<Voice[]>());
@@ -110,7 +110,7 @@ namespace Juniper.Azure.Tests
             Assert.AreNotEqual(0, voices.Length);
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetAudioFileAsync()
         {
             var audioRequest = await MakeSpeechRequestAsync().ConfigureAwait(false);
@@ -125,7 +125,7 @@ namespace Juniper.Azure.Tests
             Assert.AreNotEqual(0, buff.Length);
         }
 
-        [TestMethod]
+        [Test]
         public async Task DecodeAudioAsync()
         {
             var audioRequest = await MakeSpeechRequestAsync().ConfigureAwait(false);

@@ -2,40 +2,40 @@ using System;
 using System.IO;
 using System.Linq;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.Compression.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class FileTreeTests
     {
-        private static readonly string TestZip = Path.Combine("..", "..", "..", "..", "test.zip");
+        private const string TestZip = "test.zip";
         private const string TestFile1 = "test.txt";
         private const string TestFile2 = "test2.txt";
 
         private static readonly string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         private static readonly string TestTarGZ = Path.Combine(appData, "Unity", "Asset Store-5.x", "Oculus", "ScriptingIntegration", "Oculus Integration.unitypackage");
 
-        [TestMethod]
+        [Test]
         public void FindPackages()
         {
             var packages = Tar.GZip.Decompressor.FindUnityPackages(Path.GetDirectoryName(TestTarGZ));
             Assert.IsTrue(packages.Contains(TestTarGZ));
         }
 
-        [TestMethod]
+        [Test]
         public void GetEntries()
         {
             Tar.GZip.Decompressor.Entries(TestTarGZ).ToArray();
         }
 
-        [TestMethod]
+        [Test]
         public void BuildUnityPackageTree()
         {
             Tar.GZip.Decompressor.Entries(TestTarGZ).Tree();
         }
 
-        [TestMethod]
+        [Test]
         public void MakeTree()
         {
             var tree = Zip.Decompressor.Entries(TestZip).Tree();

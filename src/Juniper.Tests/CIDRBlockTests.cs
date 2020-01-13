@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.HTTP.Server.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class CIDRBlockTests
     {
         private const string testAddressString0 = "192.160.0.0";
@@ -24,7 +24,7 @@ namespace Juniper.HTTP.Server.Tests
         private const string testAddressString3 = "192.160.0.3";
         private static readonly IPAddress testAddress3 = IPAddress.Parse(testAddressString3);
 
-        [TestMethod]
+        [Test]
         public void ParseSuccessfulFullBlock()
         {
             var block = CIDRBlock.Parse(testBlock1);
@@ -33,7 +33,7 @@ namespace Juniper.HTTP.Server.Tests
             Assert.AreEqual(block.BitmaskLength, testBitMask1);
         }
 
-        [TestMethod]
+        [Test]
         public void ParseSuccessfulAddressOnly()
         {
             var block = CIDRBlock.Parse(testAddressString1);
@@ -42,49 +42,49 @@ namespace Juniper.HTTP.Server.Tests
             Assert.AreEqual(block.BitmaskLength, testBitMask1);
         }
 
-        [TestMethod]
+        [Test]
         public void ParseFailOnNull()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => CIDRBlock.Parse(null));
+            Assert.Throws<ArgumentNullException>(() => CIDRBlock.Parse(null));
         }
 
-        [TestMethod]
+        [Test]
         public void ParseFailEmpty()
         {
-            Assert.ThrowsException<FormatException>(() => CIDRBlock.Parse(string.Empty));
+            Assert.Throws<FormatException>(() => CIDRBlock.Parse(string.Empty));
         }
 
-        [TestMethod]
+        [Test]
         public void ParseFailMultipleSlashes()
         {
-            Assert.ThrowsException<FormatException>(() => CIDRBlock.Parse(testBlock1 + "/32"));
+            Assert.Throws<FormatException>(() => CIDRBlock.Parse(testBlock1 + "/32"));
         }
 
-        [TestMethod]
+        [Test]
         public void ParseFailNoAddress()
         {
-            Assert.ThrowsException<FormatException>(() => CIDRBlock.Parse("/32"));
+            Assert.Throws<FormatException>(() => CIDRBlock.Parse("/32"));
         }
 
-        [TestMethod]
+        [Test]
         public void ParseFailJunkAddress()
         {
-            Assert.ThrowsException<FormatException>(() => CIDRBlock.Parse("shoobidywhoobidy/32"));
+            Assert.Throws<FormatException>(() => CIDRBlock.Parse("shoobidywhoobidy/32"));
         }
 
-        [TestMethod]
+        [Test]
         public void ParseFailNoBitmaskLength()
         {
-            Assert.ThrowsException<FormatException>(() => CIDRBlock.Parse("shoobidywhoobidy/"));
+            Assert.Throws<FormatException>(() => CIDRBlock.Parse("shoobidywhoobidy/"));
         }
 
-        [TestMethod]
+        [Test]
         public void ParseFailJunkBitmaskLength()
         {
-            Assert.ThrowsException<FormatException>(() => CIDRBlock.Parse("shoobidy/whoobidy"));
+            Assert.Throws<FormatException>(() => CIDRBlock.Parse("shoobidy/whoobidy"));
         }
 
-        [TestMethod]
+        [Test]
         public void TryParseSuccessfulFullBlock()
         {
             Assert.IsTrue(CIDRBlock.TryParse(testBlock1, out var block));
@@ -93,7 +93,7 @@ namespace Juniper.HTTP.Server.Tests
             Assert.AreEqual(block.BitmaskLength, testBitMask1);
         }
 
-        [TestMethod]
+        [Test]
         public void TryParseSuccessfulAddressOnly()
         {
             Assert.IsTrue(CIDRBlock.TryParse(testAddressString1, out var block));
@@ -102,67 +102,67 @@ namespace Juniper.HTTP.Server.Tests
             Assert.AreEqual(block.BitmaskLength, testBitMask1);
         }
 
-        [TestMethod]
+        [Test]
         public void TryParseFailOnNull()
         {
             Assert.IsFalse(CIDRBlock.TryParse(null, out _));
         }
 
-        [TestMethod]
+        [Test]
         public void TryParseFailEmpty()
         {
             Assert.IsFalse(CIDRBlock.TryParse(string.Empty, out _));
         }
 
-        [TestMethod]
+        [Test]
         public void TryParseFailMultipleSlashes()
         {
             Assert.IsFalse(CIDRBlock.TryParse(testBlock1 + "/32", out _));
         }
 
-        [TestMethod]
+        [Test]
         public void TryParseFailNoAddress()
         {
             Assert.IsFalse(CIDRBlock.TryParse("/32", out _));
         }
 
-        [TestMethod]
+        [Test]
         public void TryParseFailJunkAddress()
         {
             Assert.IsFalse(CIDRBlock.TryParse("shoobidywhoobidy/32", out _));
         }
 
-        [TestMethod]
+        [Test]
         public void TryParseFailNoBitmaskLength()
         {
             Assert.IsFalse(CIDRBlock.TryParse("shoobidywhoobidy/", out _));
         }
 
-        [TestMethod]
+        [Test]
         public void TryParseFailJunkBitmaskLength()
         {
             Assert.IsFalse(CIDRBlock.TryParse("shoobidy/whoobidy", out _));
         }
 
-        [TestMethod]
+        [Test]
         public void CompareAddressLessThan()
         {
             Assert.IsTrue(CIDRBlock.CompareAddresses(testAddress1, testAddress2) < 0);
         }
 
-        [TestMethod]
+        [Test]
         public void CompareAddressEqual()
         {
             Assert.IsTrue(CIDRBlock.CompareAddresses(testAddress1, testAddress1) == 0);
         }
 
-        [TestMethod]
+        [Test]
         public void CompareAddressGreaterThan()
         {
             Assert.IsTrue(CIDRBlock.CompareAddresses(testAddress2, testAddress1) > 0);
         }
 
-        [TestMethod]
+        [Test]
         public void SortAddresses()
         {
             var addresses = new List<IPAddress>
@@ -177,7 +177,7 @@ namespace Juniper.HTTP.Server.Tests
             Assert.AreEqual(testAddress2, addresses[1]);
         }
 
-        [TestMethod]
+        [Test]
         public void CombineBlocks()
         {
             var block1 = new CIDRBlock(testAddress1);
@@ -191,7 +191,7 @@ namespace Juniper.HTTP.Server.Tests
             Assert.AreEqual(30, block3.BitmaskLength);
         }
 
-        [TestMethod]
+        [Test]
         public void InputEndMatchesOutputEnd1()
         {
             var block1 = new CIDRBlock(testAddress0, testAddress1);
@@ -205,7 +205,7 @@ namespace Juniper.HTTP.Server.Tests
             Assert.AreEqual(testAddress1, block2.End);
         }
 
-        [TestMethod]
+        [Test]
         public void InputEndMatchesOutputEnd2()
         {
             var block1 = new CIDRBlock(testAddress0, testAddress2);
@@ -219,21 +219,21 @@ namespace Juniper.HTTP.Server.Tests
             Assert.AreEqual(testAddress3, block2.End);
         }
 
-        [TestMethod]
+        [Test]
         public void Count1()
         {
             var block = new CIDRBlock(testAddress1, 32);
             Assert.AreEqual(1, block.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void Count2()
         {
             var block = new CIDRBlock(testAddress0, 31);
             Assert.AreEqual(2, block.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void Count3()
         {
             var block = new CIDRBlock(testAddress1, 31);
@@ -241,7 +241,7 @@ namespace Juniper.HTTP.Server.Tests
             Assert.AreEqual(1, block.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void DistanceTo1()
         {
             var block1 = new CIDRBlock(testAddress1);
@@ -250,7 +250,7 @@ namespace Juniper.HTTP.Server.Tests
             Assert.AreEqual(1f, distance, 0.00001f);
         }
 
-        [TestMethod]
+        [Test]
         public void ListAddresses()
         {
             var block = new CIDRBlock(testAddress0, 31);

@@ -1,14 +1,14 @@
 using System;
 using System.IO;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.Strings.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class StringTests
     {
-        [TestMethod]
+        [Test]
         public void LevDistance1()
         {
             const string a = "hello";
@@ -16,7 +16,7 @@ namespace Juniper.Strings.Tests
             Assert.AreEqual(1, a.DistanceTo(b));
         }
 
-        [TestMethod]
+        [Test]
         public void LevDistance2()
         {
             const string a = "hello";
@@ -24,7 +24,7 @@ namespace Juniper.Strings.Tests
             Assert.AreEqual(4, a.DistanceTo(b));
         }
 
-        [TestMethod]
+        [Test]
         public void LevDistance3()
         {
             const string a = "hello";
@@ -32,7 +32,7 @@ namespace Juniper.Strings.Tests
             Assert.AreEqual(6, a.DistanceTo(b));
         }
 
-        [TestMethod]
+        [Test]
         public void LevDistance4()
         {
             const string a = "use gaze pointer";
@@ -40,7 +40,7 @@ namespace Juniper.Strings.Tests
             Assert.AreEqual(2, a.DistanceTo(b));
         }
 
-        [TestMethod]
+        [Test]
         public void Similarity1()
         {
             const string a = "hello";
@@ -48,7 +48,7 @@ namespace Juniper.Strings.Tests
             Assert.AreEqual(1, a.Similarity(b));
         }
 
-        [TestMethod]
+        [Test]
         public void Similarity2()
         {
             const string a = "hello";
@@ -56,7 +56,7 @@ namespace Juniper.Strings.Tests
             Assert.AreEqual(0.8667f, a.Similarity(b), 0.001f);
         }
 
-        [TestMethod]
+        [Test]
         public void Similarity3()
         {
             const string a = "hello";
@@ -64,7 +64,7 @@ namespace Juniper.Strings.Tests
             Assert.AreEqual(0.891, a.Similarity(b), 0.001f);
         }
 
-        [TestMethod]
+        [Test]
         public void Similarity4()
         {
             const string a = "use gaze pointer";
@@ -72,7 +72,7 @@ namespace Juniper.Strings.Tests
             Assert.AreEqual(0.907, a.Similarity(b), 0.001f);
         }
 
-        [TestMethod]
+        [Test]
         public void Similarity5()
         {
             const string a = "use gaze pointer";
@@ -80,7 +80,7 @@ namespace Juniper.Strings.Tests
             Assert.AreEqual(0.877, a.Similarity(b), 0.001f);
         }
 
-        [TestMethod]
+        [Test]
         public void FixPath1()
         {
             var path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -88,7 +88,7 @@ namespace Juniper.Strings.Tests
             Assert.AreEqual(path, fixedPath);
         }
 
-        [TestMethod]
+        [Test]
         public void FixPath2()
         {
             var path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);

@@ -287,7 +287,7 @@ namespace Juniper.Compression.Zip
 
             if (!zipFile.Exists)
             {
-                throw new FileNotFoundException("File not found", zipFile.FullName);
+                throw new FileNotFoundException($"File not found: {zipFile.FullName}", zipFile.FullName);
             }
 
             using var stream = zipFile.OpenRead();
@@ -311,7 +311,7 @@ namespace Juniper.Compression.Zip
                 throw new ArgumentNullException(nameof(outputDirectoryName));
             }
 
-            Decompress(zipFileName.ValidateFileName(), new DirectoryInfo(outputDirectoryName), entryPrefix, prog);
+            Decompress(zipFileName, new DirectoryInfo(outputDirectoryName), entryPrefix, prog);
         }
     }
 }

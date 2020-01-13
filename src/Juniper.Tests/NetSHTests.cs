@@ -1,11 +1,11 @@
 using System.Net;
 using System.Threading.Tasks;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.HTTP.Server.Administration.NetSH.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class NetSHTests
     {
         private const string testAddressString1 = "192.160.0.1";
@@ -28,7 +28,7 @@ namespace Juniper.HTTP.Server.Administration.NetSH.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public async Task AddRuleAsync()
         {
             if (!HttpServer.IsAdministrator)
@@ -43,7 +43,7 @@ namespace Juniper.HTTP.Server.Administration.NetSH.Tests
             Assert.IsTrue(command.TotalStandardOutput.Length > 0);
         }
 
-        [TestMethod]
+        [Test]
         public async Task DeleteRuleAsync()
         {
             await MaybeAddRuleAsync()
@@ -60,7 +60,7 @@ namespace Juniper.HTTP.Server.Administration.NetSH.Tests
             Assert.IsTrue(deleteCount >= 1);
         }
 
-        [TestMethod]
+        [Test]
         public async Task RuleExistsAsync()
         {
             await MaybeAddRuleAsync()
@@ -71,7 +71,7 @@ namespace Juniper.HTTP.Server.Administration.NetSH.Tests
                 .ConfigureAwait(false));
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetRulesAsync()
         {
             await MaybeAddRuleAsync()

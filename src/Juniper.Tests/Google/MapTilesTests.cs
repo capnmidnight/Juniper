@@ -6,14 +6,14 @@ using Juniper.Imaging;
 using Juniper.IO;
 using Juniper.World.GIS.Google.Tests;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.World.GIS.Google.MapTiles.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class MapTilesTests : ServicesTests
     {
-        [TestMethod]
+        [Test]
         public void EncodeOnePart()
         {
             var sb = new StringBuilder();
@@ -23,7 +23,7 @@ namespace Juniper.World.GIS.Google.MapTiles.Tests
             Assert.AreEqual("`~oia@", encoded);
         }
 
-        [TestMethod]
+        [Test]
         public void EncodePair()
         {
             EncodePolylinePartTest(
@@ -31,7 +31,7 @@ namespace Juniper.World.GIS.Google.MapTiles.Tests
                 "38.5, -120.2");
         }
 
-        [TestMethod]
+        [Test]
         public void EncodeString()
         {
             EncodePolylinePartTest(
@@ -46,7 +46,7 @@ namespace Juniper.World.GIS.Google.MapTiles.Tests
             Assert.AreEqual(expected, encoded);
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetImageAsync()
         {
             var search = new TileRequest(apiKey, signingKey, new Size(640, 640))

@@ -6,20 +6,20 @@ using Juniper.HTTP.Client.REST;
 using Juniper.Imaging;
 using Juniper.IO;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.HTTP.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class HttpWebRequestExtTests
     {
-        [TestMethod]
+        [Test]
         public async Task TestGettingAsync()
         {
             await RunFileTestAsync("portrait-testgetting.jpg", true, true).ConfigureAwait(false);
         }
 
-        [TestMethod]
+        [Test]
         public async Task TestCachingAsync()
         {
             await RunFileTestAsync("portrait-testcaching.jpg", true, false).ConfigureAwait(false);

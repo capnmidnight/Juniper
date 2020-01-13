@@ -1,11 +1,11 @@
 using System.Net;
 using System.Threading.Tasks;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.HTTP.Server.Administration.PowerShell.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class PowerShellTests
     {
         private const string testAddressString1 = "192.160.0.1";
@@ -13,13 +13,13 @@ namespace Juniper.HTTP.Server.Administration.PowerShell.Tests
 
         private System.Management.Automation.PowerShell shell;
 
-        [TestInitialize]
+        [SetUp]
         public void Init()
         {
             shell = System.Management.Automation.PowerShell.Create();
         }
 
-        [TestCleanup]
+        [TearDown]
         public void Teardown()
         {
             shell.Dispose();
@@ -42,7 +42,7 @@ namespace Juniper.HTTP.Server.Administration.PowerShell.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public async Task AddRuleAsync()
         {
             if (!HttpServer.IsAdministrator)
@@ -55,7 +55,7 @@ namespace Juniper.HTTP.Server.Administration.PowerShell.Tests
                 .ConfigureAwait(false));
         }
 
-        [TestMethod]
+        [Test]
         public async Task DeleteRuleAsync()
         {
             await MaybeAddRuleAsync()
@@ -71,7 +71,7 @@ namespace Juniper.HTTP.Server.Administration.PowerShell.Tests
                 .ConfigureAwait(false));
         }
 
-        [TestMethod]
+        [Test]
         public async Task RuleExistsAsync()
         {
             await MaybeAddRuleAsync()
@@ -81,7 +81,7 @@ namespace Juniper.HTTP.Server.Administration.PowerShell.Tests
                 .ConfigureAwait(false));
         }
 
-        [TestMethod]
+        [Test]
         public async Task GetRulesAsync()
         {
             await MaybeAddRuleAsync()

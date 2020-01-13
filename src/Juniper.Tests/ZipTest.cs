@@ -2,31 +2,29 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.Compression.Zip.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class ZipTest
     {
-        private static readonly string TestZip = Path.Combine("..", "..", "..", "..", "test.zip");
+        private const string TestZip = "test.zip";
         private const string TestFile1 = "test.txt";
         private const string TestFile2 = "test2.txt";
 
         private static readonly string[] TestFiles = { TestFile1, TestFile2 };
 
-        [TestMethod]
+        [Test]
         public void GetFile()
         {
-            using (var reader = new StreamReader(Decompressor.GetFile(TestZip, TestFile1)))
-            {
-                var text = reader.ReadToEnd();
+            using var reader = new StreamReader(Decompressor.GetFile(TestZip, TestFile1));
+            var text = reader.ReadToEnd();
 
-                Assert.AreEqual("test", text);
-            }
+            Assert.AreEqual("test", text);
         }
 
-        [TestMethod]
+        [Test]
         public void DecompressDirectory()
         {
             var outDir = Path.GetTempPath();
@@ -39,7 +37,7 @@ namespace Juniper.Compression.Zip.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void FileNames()
         {
             var fileNames = Decompressor.Entries(TestZip)

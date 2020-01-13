@@ -3,7 +3,7 @@ using System.IO;
 
 using Juniper.IO;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.World.GIS.Google.Tests
 {
@@ -13,7 +13,7 @@ namespace Juniper.World.GIS.Google.Tests
         protected string signingKey { get; set; }
         protected CachingStrategy cache { get; set; }
 
-        [TestInitialize]
+        [SetUp]
         public virtual void Init()
         {
             var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);

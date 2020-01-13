@@ -1,34 +1,34 @@
 using System;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 using static System.Math;
 
 namespace Juniper.Mathematics.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class SingleStatisticsTests
     {
-        [TestMethod]
+        [Test]
         public void MakeABuffer()
         {
             Assert.IsNotNull(new SingleStatisticsCollection(100));
         }
 
-        [TestMethod]
+        [Test]
         public void StartsEmpty()
         {
             var buffer = new SingleStatisticsCollection(100);
             Assert.AreEqual(0, buffer.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void ThrowsExceptionWithNoCapacity()
         {
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new SingleStatisticsCollection(0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new SingleStatisticsCollection(0));
         }
 
-        [TestMethod]
+        [Test]
         public void AddingIncreasesCount()
         {
             var buffer = new SingleStatisticsCollection(1)
@@ -38,7 +38,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(1, buffer.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void CanGetBackOutAgain()
         {
             var buffer = new SingleStatisticsCollection(1)
@@ -48,7 +48,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(7, buffer[0]);
         }
 
-        [TestMethod]
+        [Test]
         public void CanGetBackOutAgain2()
         {
             var buffer = new SingleStatisticsCollection(5);
@@ -80,7 +80,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(5, buffer[4]);
         }
 
-        [TestMethod]
+        [Test]
         public void LoopingDoesntGrowSize()
         {
             var buffer = new SingleStatisticsCollection(1)
@@ -91,7 +91,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(1, buffer.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void LoopingOverwrites()
         {
             var buffer = new SingleStatisticsCollection(1)
@@ -102,7 +102,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(2, buffer[0]);
         }
 
-        [TestMethod]
+        [Test]
         public void LoopingAgainDoesntGrowSize()
         {
             var buffer = new SingleStatisticsCollection(1)
@@ -114,7 +114,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(1, buffer.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void LoopingAgainOverwrites()
         {
             var buffer = new SingleStatisticsCollection(1)
@@ -126,7 +126,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(1, buffer[0]);
         }
 
-        [TestMethod]
+        [Test]
         public void LargerLooping()
         {
             var buffer = new SingleStatisticsCollection(100);
@@ -137,7 +137,7 @@ namespace Juniper.Mathematics.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void MaintainsOrder()
         {
             var buffer = new SingleStatisticsCollection(5)
@@ -155,7 +155,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(2, buffer[4]);
         }
 
-        [TestMethod]
+        [Test]
         public void ShiftsOldValuesOut()
         {
             var buffer = new SingleStatisticsCollection(4)
@@ -176,7 +176,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(2, buffer[3]);
         }
 
-        [TestMethod]
+        [Test]
         public void ComputesMin()
         {
             var buffer = new SingleStatisticsCollection(4)
@@ -189,7 +189,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(1, buffer.Minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ComputesMax()
         {
             var buffer = new SingleStatisticsCollection(4)
@@ -202,7 +202,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(5, buffer.Maximum);
         }
 
-        [TestMethod]
+        [Test]
         public void ComputesMean()
         {
             var buffer = new SingleStatisticsCollection(4)
@@ -215,7 +215,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(3.25f, buffer.Mean);
         }
 
-        [TestMethod]
+        [Test]
         public void ComputesMedian()
         {
             var buffer = new SingleStatisticsCollection(4)
@@ -228,7 +228,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(3f, buffer.Median);
         }
 
-        [TestMethod]
+        [Test]
         public void ComputesTrivialStandardDeviation()
         {
             var buffer = new SingleStatisticsCollection(4)
@@ -241,7 +241,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(0f, buffer.StandardDeviation);
         }
 
-        [TestMethod]
+        [Test]
         public void ComputesBasicStandardDeviation()
         {
             var buffer = new SingleStatisticsCollection(4)
@@ -254,7 +254,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual((float)Sqrt(4 / 3f), buffer.StandardDeviation);
         }
 
-        [TestMethod]
+        [Test]
         public void ComputesStandardDeviation()
         {
             var buffer = new SingleStatisticsCollection(4)
@@ -267,7 +267,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(1.70782518f, buffer.StandardDeviation);
         }
 
-        [TestMethod]
+        [Test]
         public void CopyUnfullWithoutOffsetThrowsExceptionWithTooSmallDestination()
         {
             var buffer = new SingleStatisticsCollection(4)
@@ -277,11 +277,11 @@ namespace Juniper.Mathematics.Tests
                 3
             };
             var arr = new float[2];
-            Assert.ThrowsException<ArgumentException>(() =>
+            Assert.Throws<ArgumentException>(() =>
                 buffer.CopyTo(arr, 0));
         }
 
-        [TestMethod]
+        [Test]
         public void CopyUnfullWithOffsetThrowsExceptionWithTooSmallDestination()
         {
             var buffer = new SingleStatisticsCollection(4)
@@ -291,11 +291,11 @@ namespace Juniper.Mathematics.Tests
                 3
             };
             var arr = new float[3];
-            Assert.ThrowsException<ArgumentException>(() =>
+            Assert.Throws<ArgumentException>(() =>
                 buffer.CopyTo(arr, 1));
         }
 
-        [TestMethod]
+        [Test]
         public void CopyWithNegativeOffsetThrowsException()
         {
             var buffer = new SingleStatisticsCollection(4)
@@ -305,11 +305,11 @@ namespace Juniper.Mathematics.Tests
                 3
             };
             var arr = new float[3];
-            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
                 buffer.CopyTo(arr, -1));
         }
 
-        [TestMethod]
+        [Test]
         public void CopyWithTooLargeOffsetThrowsException()
         {
             var buffer = new SingleStatisticsCollection(4)
@@ -319,11 +319,11 @@ namespace Juniper.Mathematics.Tests
                 3
             };
             var arr = new float[3];
-            Assert.ThrowsException<ArgumentException>(() =>
+            Assert.Throws<ArgumentException>(() =>
                 buffer.CopyTo(arr, 3));
         }
 
-        [TestMethod]
+        [Test]
         public void CopyUnfullUnwrappedBufferWithoutOffsetMaintainsOrder()
         {
             var buffer = new SingleStatisticsCollection(4)
@@ -339,7 +339,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(3, arr[2]);
         }
 
-        [TestMethod]
+        [Test]
         public void CopyUnfullUnwrappedBufferWithOffsetMaintainsOrder()
         {
             var buffer = new SingleStatisticsCollection(4)
@@ -356,7 +356,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(3, arr[3]);
         }
 
-        [TestMethod]
+        [Test]
         public void CopyFullUnwrappedBufferWithoutOffsetMaintainsOrder()
         {
             var buffer = new SingleStatisticsCollection(4)
@@ -374,7 +374,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(13, arr[3]);
         }
 
-        [TestMethod]
+        [Test]
         public void CopyFullUnwrappedBufferWithOffsetMaintainsOrder()
         {
             var buffer = new SingleStatisticsCollection(4)
@@ -393,7 +393,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(13, arr[4]);
         }
 
-        [TestMethod]
+        [Test]
         public void CopyWrappedBufferWithoutOffsetMaintainsOrder()
         {
             var buffer = new SingleStatisticsCollection(4)
@@ -412,7 +412,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(2, arr[3]);
         }
 
-        [TestMethod]
+        [Test]
         public void CopyWrappedBufferWithOffsetMaintainsOrder()
         {
             var buffer = new SingleStatisticsCollection(4)
@@ -432,7 +432,7 @@ namespace Juniper.Mathematics.Tests
             Assert.AreEqual(2, arr[4]);
         }
 
-        [TestMethod]
+        [Test]
         public void InsertMaintainsOrder()
         {
             var buffer = new SingleStatisticsCollection(4);

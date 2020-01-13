@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 using Juniper.IO;
 using Juniper.World.GIS.Google.Tests;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.World.GIS.Google.Geocoding.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class GoogleReverseGeocodingTests : ServicesTests
     {
-        [TestMethod]
+        [Test]
         public async Task BasicReverseGeocodingAsync()
         {
             var searchDecoder = new JsonFactory<GeocodingResponse>();

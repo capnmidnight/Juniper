@@ -8,20 +8,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.Collections.Tests
 {
     /// <summary>
     /// Unit tests for PriorityQueueEnumerator class.
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class PriorityQueueEnumeratorTests
     {
         /// <summary>
         /// The enumerator should only access items that were in the original queue
         /// </summary>
-        [TestMethod]
+        [Test]
         public void CurrentGetsItemsThatAreInQueue()
         {
             var pq = MakeBasicPQ();
@@ -32,34 +32,34 @@ namespace Juniper.Collections.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ExtendsGenericIEnumerator()
         {
             var pq = MakeBasicPQ();
             var en = pq.GetEnumerator();
-            Assert.IsInstanceOfType(en, typeof(IEnumerator));
+            Assert.IsInstanceOf<IEnumerator>(en);
         }
 
-        [TestMethod]
+        [Test]
         public void ExtendsIDisposable()
         {
             var pq = MakeBasicPQ();
             var en = pq.GetEnumerator();
-            Assert.IsInstanceOfType(en, typeof(IDisposable));
+            Assert.IsInstanceOf<IDisposable>(en);
         }
 
-        [TestMethod]
+        [Test]
         public void ExtendsIEnumerator()
         {
             var pq = MakeBasicPQ();
             var en = pq.GetEnumerator();
-            Assert.IsInstanceOfType(en, typeof(IEnumerator<int>));
+            Assert.IsInstanceOf<IEnumerator<int>>(en);
         }
 
         /// <summary>
         /// Getting an enumerator on a queue with only 1 item
         /// </summary>
-        [TestMethod]
+        [Test]
         public void MoveNextOnEmptyQueueReturnsFalse()
         {
             var pq = new PriorityQueue<int>();
@@ -70,7 +70,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// Moving past the end of the enumerator should return false
         /// </summary>
-        [TestMethod]
+        [Test]
         public void MoveNextReturnsFalsePastEnd()
         {
             var pq = MakeBasicPQ();
@@ -84,7 +84,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// Getting an enumerator on a queue with only 1 item
         /// </summary>
-        [TestMethod]
+        [Test]
         public void MoveNextReturnsTrue()
         {
             var pq = MakeBasicPQ();
@@ -95,57 +95,52 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// MoveNext should throw an exception if the underlying connection is changed
         /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [Test]
         public void MoveNextThrowsExceptionAfterDequeue()
         {
             var pq = MakeBasicPQ();
             var en = pq.GetEnumerator();
             en.MoveNext();
             pq.Dequeue();
-            en.MoveNext();
+            Assert.Throws<InvalidOperationException>(() => en.MoveNext());
         }
 
         /// <summary>
         /// MoveNext should throw an exception if the underlying connection is changed
         /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [Test]
         public void MoveNextThrowsExceptionAfterEnqueue()
         {
             var pq = MakeBasicPQ();
             var en = pq.GetEnumerator();
             en.MoveNext();
             pq.Enqueue(3);
-            en.MoveNext();
+            Assert.Throws<InvalidOperationException>(() => en.MoveNext());
         }
 
         /// <summary>
         /// Changing the queue should invalidate the enumeration
         /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void ResetThrowsExceptionAfterDequeue()
         {
             var pq = MakeBasicPQ();
             var en = pq.GetEnumerator();
             en.MoveNext();
             pq.Dequeue();
-            en.Reset();
+            Assert.Throws<InvalidOperationException>(() => en.Reset());
         }
 
         /// <summary>
         /// Changing the queue should invalidate the enumeration
         /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [Test]
         public void ResetThrowsExceptionAfterEnqueue()
         {
             var pq = MakeBasicPQ();
             var en = pq.GetEnumerator();
             en.MoveNext();
             pq.Enqueue(3);
-            en.Reset();
+            Assert.Throws<InvalidOperationException>(() => en.Reset());
         }
 
         private PriorityQueue<int> MakeBasicPQ()

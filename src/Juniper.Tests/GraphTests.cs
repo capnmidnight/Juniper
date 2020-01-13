@@ -5,11 +5,11 @@ using System.Linq;
 
 using Juniper.IO;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.Collections.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class GraphTests
     {
         private static void CheckGraphs(string label, Graph<string> graph1, Graph<string> graph2)
@@ -31,7 +31,7 @@ namespace Juniper.Collections.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void OneConnection()
         {
             var graph = new Graph<string>();
@@ -50,7 +50,7 @@ namespace Juniper.Collections.Tests
             Assert.IsFalse(connectsB.Contains("b"));
         }
 
-        [TestMethod]
+        [Test]
         public void TwoConnection()
         {
             var graph = new Graph<string>();
@@ -68,7 +68,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(connectsB.Contains("c"));
         }
 
-        [TestMethod]
+        [Test]
         public void ReversedTwoConnection()
         {
             var graph = new Graph<string>();
@@ -86,7 +86,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(connectsB.Contains("c"));
         }
 
-        [TestMethod]
+        [Test]
         public void Reversed10Connection()
         {
             var graph = new Graph<string>();
@@ -109,7 +109,7 @@ namespace Juniper.Collections.Tests
             Assert.AreEqual(10, route.Cost);
         }
 
-        [TestMethod]
+        [Test]
         public void Disconnected()
         {
             var graph = new Graph<string>();
@@ -123,7 +123,7 @@ namespace Juniper.Collections.Tests
             Assert.IsNull(route);
         }
 
-        [TestMethod]
+        [Test]
         public void MiddleConnection()
         {
             var graph = new Graph<string>();
@@ -144,7 +144,7 @@ namespace Juniper.Collections.Tests
             Assert.AreEqual(3, paths.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void Shortcut()
         {
             var graph = new Graph<string>();
@@ -161,7 +161,7 @@ namespace Juniper.Collections.Tests
             Assert.AreEqual(1, route.Cost);
         }
 
-        [TestMethod]
+        [Test]
         public void RemoveShortcut()
         {
             var graph = new Graph<string>();
@@ -183,7 +183,7 @@ namespace Juniper.Collections.Tests
             Assert.AreNotEqual(routeA, routeB);
         }
 
-        [TestMethod]
+        [Test]
         public void AddShortcut()
         {
             var graph = new Graph<int>();
@@ -214,7 +214,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(routeA.Cost > routeB.Cost);
         }
 
-        [TestMethod]
+        [Test]
         public void AddTraffic()
         {
             var graph = new Graph<int>();
@@ -245,7 +245,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(routeA.Cost < routeB.Cost);
         }
 
-        [TestMethod]
+        [Test]
         public void ClosedLoop()
         {
             var graph = new Graph<int>();
@@ -268,7 +268,7 @@ namespace Juniper.Collections.Tests
             Assert.AreEqual(1, routeC.Cost);
         }
 
-        [TestMethod]
+        [Test]
         public void DetourExpensiveRoute()
         {
             var graph = new Graph<int>();
@@ -284,7 +284,7 @@ namespace Juniper.Collections.Tests
             Assert.AreEqual(2, route.Cost);
         }
 
-        [TestMethod]
+        [Test]
         public void Clone()
         {
             var graph1 = new Graph<string>();
@@ -336,13 +336,13 @@ namespace Juniper.Collections.Tests
             Assert.AreEqual(routeA.ToString(), routeB.ToString());
         }
 
-        [TestMethod]
+        [Test]
         public void SerializationJson()
         {
             SerializationTest<JsonFactory<Graph<int>>>();
         }
 
-        [TestMethod]
+        [Test]
         public void SerializationBinary()
         {
             SerializationTest<BinaryFactory<Graph<int>>>();
@@ -352,20 +352,20 @@ namespace Juniper.Collections.Tests
             where FactoryT : IFactory<Graph<string>, MediaType.Application>, new()
         {
             var factory = new FactoryT();
-            var file = Path.Combine("..", "..", "..", "..", "test." + ext);
+            var file = "test." + ext;
             var bytes = File.ReadAllBytes(file);
             Assert.IsTrue(factory.TryDeserialize(bytes, out var graph));
             graph.Solve();
             Assert.IsTrue(graph.Nodes.Any());
         }
 
-        [TestMethod]
+        [Test]
         public void DeserializationJson()
         {
             DeserializationTest<JsonFactory<Graph<string>>>("json");
         }
 
-        [TestMethod]
+        [Test]
         public void DeserializationBinary()
         {
             DeserializationTest<BinaryFactory<Graph<string>>>("bin");
@@ -373,8 +373,8 @@ namespace Juniper.Collections.Tests
 
         private static void DeserializationTest(string ext)
         {
-            var inPath = Path.Combine("..", "..", "..", "..", "test." + ext);
-            var outPath = Path.Combine("..", "..", "..", "..", "test2." + ext);
+            var inPath = "test." + ext;
+            var outPath = "test2." + ext;
 
             var stopwatch = new Stopwatch();
 
@@ -396,13 +396,13 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(time2 < time1, $"{time2.TotalMilliseconds.ToString(CultureInfo.CurrentCulture)} > {time1.TotalMilliseconds.ToString(CultureInfo.CurrentCulture)}");
         }
 
-        [TestMethod]
+        [Test]
         public void DeserializationJsonExactlyDuplicatesGraph()
         {
             DeserializationTest("json");
         }
 
-        [TestMethod]
+        [Test]
         public void DeserializationBinaryExactlyDuplicatesGraph()
         {
             DeserializationTest("bin");

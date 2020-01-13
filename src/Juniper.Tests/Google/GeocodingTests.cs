@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Juniper.IO;
 using Juniper.World.GIS.Google.Tests;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.World.GIS.Google.Geocoding.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class GoogleGeocodingTests : ServicesTests
     {
         private static readonly IJsonDecoder<GeocodingResponse> decoder = new JsonFactory<GeocodingResponse>();
 
-        [TestMethod]
+        [Test]
         public async Task BasicGeocodingAsync()
         {
             var search = new GeocodingRequest(apiKey)
@@ -30,7 +30,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             Assert.IsNotNull(results.Results);
         }
 
-        [TestMethod]
+        [Test]
         public async Task BasicComponentFilterAsync()
         {
             var search = new GeocodingRequest(apiKey)
@@ -51,7 +51,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             Assert.AreEqual("High St, Hastings TN34, UK", res.Formatted_Address);
         }
 
-        [TestMethod]
+        [Test]
         public async Task BasicGeocoding_WithAddressTypeAsync()
         {
             var search = new GeocodingRequest(apiKey)
@@ -70,7 +70,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             Assert.IsNotNull(results.Results);
         }
 
-        [TestMethod]
+        [Test]
         public async Task FormattedAddressAsync()
         {
             var search = new GeocodingRequest(apiKey)
@@ -88,7 +88,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             Assert.AreEqual("4909 Rutland Pl, Alexandria, VA 22304, USA", res.Formatted_Address);
         }
 
-        [TestMethod]
+        [Test]
         public async Task AddressTypeAsync()
         {
             var search = new GeocodingRequest(apiKey)
@@ -106,7 +106,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             Assert.AreEqual(AddressComponentTypes.premise, type);
         }
 
-        [TestMethod]
+        [Test]
         public async Task GeomLocationTypeAsync()
         {
             var search = new GeocodingRequest(apiKey)
@@ -123,7 +123,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             Assert.AreEqual(GeometryLocationType.ROOFTOP, res.Geometry.Location_Type);
         }
 
-        [TestMethod]
+        [Test]
         public async Task StreetNumberAsync()
         {
             var search = new GeocodingRequest(apiKey)
@@ -143,7 +143,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             Assert.AreEqual("4909", streetNumber.Short_Name);
         }
 
-        [TestMethod]
+        [Test]
         public async Task RouteAsync()
         {
             var search = new GeocodingRequest(apiKey)
@@ -163,7 +163,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             Assert.AreEqual("Rutland Pl", route.Short_Name);
         }
 
-        [TestMethod]
+        [Test]
         public async Task PostalCodeAsync()
         {
             var search = new GeocodingRequest(apiKey)
@@ -183,7 +183,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             Assert.AreEqual("22304", zip.Short_Name);
         }
 
-        [TestMethod]
+        [Test]
         public async Task PostalCodeSuffixAsync()
         {
             var search = new GeocodingRequest(apiKey)
@@ -203,7 +203,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             Assert.AreEqual("2111", zipSuffix.Short_Name);
         }
 
-        [TestMethod]
+        [Test]
         public async Task NeighborhoodAsync()
         {
             var search = new GeocodingRequest(apiKey)
@@ -227,7 +227,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             Assert.AreEqual("Seminary Hill", neighborhood.Short_Name);
         }
 
-        [TestMethod]
+        [Test]
         public async Task CityAsync()
         {
             var search = new GeocodingRequest(apiKey)
@@ -251,7 +251,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             Assert.AreEqual("Alexandria", locality.Short_Name);
         }
 
-        [TestMethod]
+        [Test]
         public async Task StateAsync()
         {
             var search = new GeocodingRequest(apiKey)
@@ -275,7 +275,7 @@ namespace Juniper.World.GIS.Google.Geocoding.Tests
             Assert.AreEqual("VA", state.Short_Name);
         }
 
-        [TestMethod]
+        [Test]
         public async Task CountryAsync()
         {
             var search = new GeocodingRequest(apiKey)

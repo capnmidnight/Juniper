@@ -3,11 +3,11 @@ using System.Collections;
 using System.Diagnostics;
 using System.Globalization;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.Iteration.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class IterationTests : IComparer
     {
         private const int items = 1000000;
@@ -98,7 +98,7 @@ namespace Juniper.Iteration.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void Time()
         {
             var rand = new Random();

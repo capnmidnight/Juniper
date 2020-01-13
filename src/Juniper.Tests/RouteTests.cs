@@ -2,73 +2,73 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Juniper.Collections.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class RouteTests
     {
-        [TestMethod]
+        [Test]
         public void ValidShortRoute()
         {
             Assert.IsNotNull(new Route<int>(1, 2, 3));
         }
 
-        [TestMethod]
+        [Test]
         public void InvalidShortRoute()
         {
-            Assert.ThrowsException<InvalidOperationException>(() =>
+            Assert.Throws<InvalidOperationException>(() =>
                 new Route<int>(1, 2, 2));
         }
 
-        [TestMethod]
+        [Test]
         public void ValidMediumRoute()
         {
             Assert.IsNotNull(new Route<int>(1, 2, 3, 5));
         }
 
-        [TestMethod]
+        [Test]
         public void InvalidMediumRoutes()
         {
-            Assert.ThrowsException<InvalidOperationException>(() =>
+            Assert.Throws<InvalidOperationException>(() =>
                 new Route<int>(1, 2, 2, 2));
-            Assert.ThrowsException<InvalidOperationException>(() =>
+            Assert.Throws<InvalidOperationException>(() =>
                 new Route<int>(1, 2, 2, 3));
-            Assert.ThrowsException<InvalidOperationException>(() =>
+            Assert.Throws<InvalidOperationException>(() =>
                 new Route<int>(1, 2, 3, 2));
-            Assert.ThrowsException<InvalidOperationException>(() =>
+            Assert.Throws<InvalidOperationException>(() =>
                 new Route<int>(1, 3, 2, 2));
         }
 
-        [TestMethod]
+        [Test]
         public void ValidLongRoute()
         {
             Assert.IsNotNull(new Route<int>(1, 2, 3, 5, 7));
         }
 
-        [TestMethod]
+        [Test]
         public void InvalidLongRoutes()
         {
-            Assert.ThrowsException<InvalidOperationException>(() =>
+            Assert.Throws<InvalidOperationException>(() =>
                 new Route<int>(1, 2, 2, 2, 2));
-            Assert.ThrowsException<InvalidOperationException>(() =>
+            Assert.Throws<InvalidOperationException>(() =>
                 new Route<int>(1, 2, 2, 2, 3));
-            Assert.ThrowsException<InvalidOperationException>(() =>
+            Assert.Throws<InvalidOperationException>(() =>
                 new Route<int>(1, 2, 2, 3, 2));
-            Assert.ThrowsException<InvalidOperationException>(() =>
+            Assert.Throws<InvalidOperationException>(() =>
                 new Route<int>(1, 2, 3, 2, 2));
-            Assert.ThrowsException<InvalidOperationException>(() =>
+            Assert.Throws<InvalidOperationException>(() =>
                 new Route<int>(1, 3, 2, 2, 2));
-            Assert.ThrowsException<InvalidOperationException>(() =>
+            Assert.Throws<InvalidOperationException>(() =>
                 new Route<int>(1, 3, 2, 2, 3));
-            Assert.ThrowsException<InvalidOperationException>(() =>
+            Assert.Throws<InvalidOperationException>(() =>
                 new Route<int>(1, 3, 2, 3, 2));
-            Assert.ThrowsException<InvalidOperationException>(() =>
+            Assert.Throws<InvalidOperationException>(() =>
                 new Route<int>(1, 3, 3, 2, 2));
         }
 
-        [TestMethod]
+        [Test]
         public void ListContainsReversedRoute()
         {
             var list = new List<Route<int>>();
@@ -79,7 +79,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(list.Contains(reverse));
         }
 
-        [TestMethod]
+        [Test]
         public void ListRemoveReversedRoute()
         {
             var list = new List<Route<int>>();
@@ -90,7 +90,7 @@ namespace Juniper.Collections.Tests
             Assert.AreEqual(0, list.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void DistinctRoutes()
         {
             var route = new Route<int>(5, 0xbad, 0xf00d);
@@ -107,7 +107,7 @@ namespace Juniper.Collections.Tests
             Assert.AreEqual(route, distinctRoutes[0]);
         }
 
-        [TestMethod]
+        [Test]
         public void ConcatShortRoutes()
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef);
@@ -128,7 +128,7 @@ namespace Juniper.Collections.Tests
             Assert.AreEqual(c, d);
         }
 
-        [TestMethod]
+        [Test]
         public void ConcatMediumRoutes()
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef, 0xdead);
@@ -149,7 +149,7 @@ namespace Juniper.Collections.Tests
             Assert.AreEqual(c, d);
         }
 
-        [TestMethod]
+        [Test]
         public void ConcatLongRoutes()
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef, 0xdead, 0xf00f);
@@ -170,7 +170,7 @@ namespace Juniper.Collections.Tests
             Assert.AreEqual(c, d);
         }
 
-        [TestMethod]
+        [Test]
         public void SinglePointIntersect()
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef, 0xdead);
@@ -179,7 +179,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(routeB.Intersects(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void TwoPointIntersect()
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef, 0xdead, 0xf00f);
@@ -188,7 +188,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(routeB.Intersects(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void ConnectionContainsConnection()
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef);
@@ -197,7 +197,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(routeB.Contains(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void ReverseConnectionContainsConnection()
         {
             var routeA = ~new Route<int>(1, 0xbad, 0xbeef);
@@ -206,7 +206,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(routeB.Contains(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void ConnectionContainsReverseConnection()
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef);
@@ -215,7 +215,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(routeB.Contains(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void ConnectionDoesNotContainConnection()
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef);
@@ -224,7 +224,7 @@ namespace Juniper.Collections.Tests
             Assert.IsFalse(routeB.Contains(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void ReverseConnectionDoesNotContainConnection()
         {
             var routeA = ~new Route<int>(1, 0xbad, 0xbeef);
@@ -233,7 +233,7 @@ namespace Juniper.Collections.Tests
             Assert.IsFalse(routeB.Contains(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void ConnectionDoesNotContainReverseConnection()
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef);
@@ -242,7 +242,7 @@ namespace Juniper.Collections.Tests
             Assert.IsFalse(routeB.Contains(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void ConnectionContainsPath3()
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef);
@@ -251,7 +251,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(routeB.Contains(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void ReverseConnectionContainsPath3()
         {
             var routeA = ~new Route<int>(1, 0xbad, 0xbeef);
@@ -260,7 +260,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(routeB.Contains(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void ConnectionContainsReversePath3()
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef);
@@ -269,7 +269,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(routeB.Contains(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void ConnectionContainsPath4()
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef);
@@ -278,7 +278,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(routeB.Contains(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void ReverseConnectionContainsPath4()
         {
             var routeA = ~new Route<int>(1, 0xbad, 0xbeef);
@@ -287,7 +287,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(routeB.Contains(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void ConnectionContainsReversePath4()
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef);
@@ -296,7 +296,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(routeB.Contains(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void Path3ContainsPath3()
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef, 0xf00d);
@@ -305,7 +305,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(routeB.Contains(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void ReversePath3ContainsPath3()
         {
             var routeA = ~new Route<int>(1, 0xbad, 0xbeef, 0xf00d);
@@ -314,7 +314,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(routeB.Contains(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void Path3ContainsReversePath3()
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef, 0xf00d);
@@ -323,7 +323,7 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(routeB.Contains(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void Path3DoesntContainPath3()
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef, 0xf003);
@@ -332,7 +332,7 @@ namespace Juniper.Collections.Tests
             Assert.IsFalse(routeB.Contains(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void ReversePath3DoesntContainPath3()
         {
             var routeA = ~new Route<int>(1, 0xbad, 0xbeef, 0xf003);
@@ -341,7 +341,7 @@ namespace Juniper.Collections.Tests
             Assert.IsFalse(routeB.Contains(routeA));
         }
 
-        [TestMethod]
+        [Test]
         public void Path3DoesntContainReversePath3()
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef, 0xf003);
