@@ -121,6 +121,7 @@ namespace Juniper.Collections.Tests
         /// <summary>
         /// Changing the queue should invalidate the enumeration
         /// </summary>
+        [Test]
         public void ResetThrowsExceptionAfterDequeue()
         {
             var pq = MakeBasicPQ();
@@ -143,7 +144,7 @@ namespace Juniper.Collections.Tests
             Assert.Throws<InvalidOperationException>(() => en.Reset());
         }
 
-        private PriorityQueue<int> MakeBasicPQ()
+        private static PriorityQueue<int> MakeBasicPQ()
         {
             var pq = new PriorityQueue<int>();
             for (var i = 0; i < 3; ++i)
