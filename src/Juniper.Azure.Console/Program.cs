@@ -80,7 +80,7 @@ namespace Juniper.Azure
             }
         }
 
-        private static async Task DecodeAudioAsync(string text, NAudioAudioDataDecoder audioDecoder, TextToSpeechClient ttsClient, Voice voice)
+        private static async Task DecodeAudioAsync(string text, TextToSpeechClient ttsClient, Voice voice)
         {
             var audio = await ttsClient
                 .GetDecodedAudioAsync(text, voice.ShortName)
