@@ -31,6 +31,11 @@ namespace Juniper.HTTP.Server.Administration.NetSH.Tests
         [TestMethod]
         public async Task AddRuleAsync()
         {
+            if (!HttpServer.IsAdministrator)
+            {
+                Assert.Inconclusive("This test must be ran as an administrator");
+            }
+
             var command = new AddFirewallRule("Test Ban", FirewallRuleDirection.Out, FirewallRuleAction.Block, new CIDRBlock(testAddress1));
             var retCode = await command.RunAsync()
                 .ConfigureAwait(false);
@@ -43,6 +48,11 @@ namespace Juniper.HTTP.Server.Administration.NetSH.Tests
         {
             await MaybeAddRuleAsync()
                 .ConfigureAwait(false);
+
+            if (!HttpServer.IsAdministrator)
+            {
+                Assert.Inconclusive("This test must be ran as an administrator");
+            }
 
             var command = new DeleteFirewallRule("Test Ban");
             var deleteCount = await command.RunAsync()

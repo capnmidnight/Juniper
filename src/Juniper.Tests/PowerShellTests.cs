@@ -45,6 +45,11 @@ namespace Juniper.HTTP.Server.Administration.PowerShell.Tests
         [TestMethod]
         public async Task AddRuleAsync()
         {
+            if (!HttpServer.IsAdministrator)
+            {
+                Assert.Inconclusive("This test must be ran as an administrator");
+            }
+
             var command = new AddFirewallRule("Test Ban", FirewallRuleDirection.Outbound, FirewallRuleAction.Block, new CIDRBlock(testAddress1));
             Assert.IsTrue(await command.RunAsync(shell)
                 .ConfigureAwait(false));
@@ -55,6 +60,11 @@ namespace Juniper.HTTP.Server.Administration.PowerShell.Tests
         {
             await MaybeAddRuleAsync()
                 .ConfigureAwait(false);
+
+            if (!HttpServer.IsAdministrator)
+            {
+                Assert.Inconclusive("This test must be ran as an administrator");
+            }
 
             var command = new DeleteFirewallRule("Test Ban");
             Assert.IsTrue(await command.RunAsync(shell)
