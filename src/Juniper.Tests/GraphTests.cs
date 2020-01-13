@@ -352,7 +352,7 @@ namespace Juniper.Collections.Tests
             where FactoryT : IFactory<Graph<string>, MediaType.Application>, new()
         {
             var factory = new FactoryT();
-            var file = Path.Combine("..", "..", "..", "test." + ext);
+            var file = Path.Combine("..", "..", "..", "..", "test." + ext);
             var bytes = File.ReadAllBytes(file);
             Assert.IsTrue(factory.TryDeserialize(bytes, out var graph));
             graph.Solve();
@@ -373,8 +373,8 @@ namespace Juniper.Collections.Tests
 
         private static void DeserializationTest(string ext)
         {
-            var inPath = Path.Combine("..", "..", "..", "test." + ext);
-            var outPath = Path.Combine("..", "..", "..", "test2." + ext);
+            var inPath = Path.Combine("..", "..", "..", "..", "test." + ext);
+            var outPath = Path.Combine("..", "..", "..", "..", "test2." + ext);
 
             var stopwatch = new Stopwatch();
 

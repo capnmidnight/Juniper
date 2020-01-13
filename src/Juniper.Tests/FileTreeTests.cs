@@ -9,7 +9,7 @@ namespace Juniper.Compression.Tests
     [TestClass]
     public class FileTreeTests
     {
-        private static readonly string TestZip = Path.Combine("..", "..", "..", "test.zip");
+        private static readonly string TestZip = Path.Combine("..", "..", "..", "..", "test.zip");
         private const string TestFile1 = "test.txt";
         private const string TestFile2 = "test2.txt";
 
