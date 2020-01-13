@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -25,23 +25,24 @@ namespace Juniper.Compression
         public static IEnumerable<CompressedFileInfo> Directories(this IEnumerable<CompressedFileInfo> entries)
         {
             return (from entry in entries
-                    where !entry.IsFile
-                    select entry.FullName)
-                .Union(from entry in entries
-                       where entry.IsFile
-                       let parts = PathExt.PathParts(entry.FullName)
-                       let name = string.Join("/", parts.Take(parts.Length - 1))
-                       where name.Length > 0
-                       select name)
-                .Distinct()
-                .Select(d => new CompressedFileInfo(d));
+                    let isFile = entry.IsFile
+                    let parts = isFile ? PathExt.PathParts(entry.FullName) : null
+                    let name = isFile ? string.Join("/", parts.Take(parts.Length - 1)) : entry.FullName
+                    where !isFile || name.Length > 0
+                    select  isFile ? new CompressedFileInfo(name) : entry)
+                .Distinct();
         }
 
-        public static NAryTree<CompressedFileInfo> Tree(this IEnumerable<CompressedFileInfo> entries)
+        public static NAryTree<CompressedFileInfo> Tree(this IEnumerable<CompressedFileInfo> rawEntries)
         {
-            var tree = new NAryTree<CompressedFileInfo>(new CompressedFileInfo());
+            rawEntries = rawEntries.ToArray();
 
-            foreach (var entry in entries.Directories().Concat(entries.Files()))
+            var tree = new NAryTree<CompressedFileInfo>(new CompressedFileInfo());
+            var directories = rawEntries.Directories();
+            var files = rawEntries.Files();
+            var entries = directories.Concat(files);
+
+            foreach (var entry in entries)
             {
                 tree.Add(entry, (parent, child) => parent.Contains(child));
             }

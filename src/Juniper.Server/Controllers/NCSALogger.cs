@@ -41,8 +41,31 @@ namespace Juniper.HTTP.Server.Controllers
         }
 
         public NCSALogger(string fileName)
-            : this(new FileInfo(fileName.ValidateFileName()))
-        { }
+            : base(int.MaxValue - 1)
+        {
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(fileName));
+            }
+
+            var file = new FileInfo(fileName);
+
+            writer = file.AppendText();
+            writer.AutoFlush = true;
+
+            Protocol = HttpProtocols.All;
+            Verb = HttpMethods.All;
+            ExpectedStatus = 0;
+
+            canceller = new CancellationTokenSource();
+            logger = new Thread(WriteLogs);
+            logger.Start();
+        }
 
         private void WriteLogs()
         {

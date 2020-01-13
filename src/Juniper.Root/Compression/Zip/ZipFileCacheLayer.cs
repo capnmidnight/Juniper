@@ -18,10 +18,11 @@ namespace Juniper.IO
 
         public ZipFileCacheLayer(FileInfo zipFile)
         {
-            if(zipFile is null)
+            if (zipFile is null)
             {
                 throw new ArgumentNullException(nameof(zipFile));
             }
+
             if (!zipFile.Exists)
             {
                 throw new FileNotFoundException("ZipFileCacheLayer: No zip file! " + zipFile.FullName);
@@ -31,8 +32,24 @@ namespace Juniper.IO
         }
 
         public ZipFileCacheLayer(string fileName)
-            : this(new FileInfo(fileName.ValidateFileName()))
-        { }
+        {
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(fileName));
+            }
+
+            zipFile = new FileInfo(fileName);
+
+            if (!zipFile.Exists)
+            {
+                throw new FileNotFoundException("ZipFileCacheLayer: No zip file! " + zipFile.FullName);
+            }
+        }
 
         private string GetCacheFileName(ContentReference fileRef)
         {

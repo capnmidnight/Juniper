@@ -10,7 +10,10 @@ using Juniper.Compression.Tar;
 namespace Juniper.Compression
 {
     [Serializable]
-    public sealed class CompressedFileInfo : IEquatable<CompressedFileInfo>, IComparable<CompressedFileInfo>, ISerializable
+    public sealed class CompressedFileInfo :
+        IEquatable<CompressedFileInfo>,
+        IComparable<CompressedFileInfo>,
+        ISerializable
     {
         public string FullName { get; }
         public bool IsFile { get; }

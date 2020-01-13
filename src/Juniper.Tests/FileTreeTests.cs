@@ -9,7 +9,6 @@ namespace Juniper.Compression.Tests
     [TestFixture]
     public class FileTreeTests
     {
-        private const string TestZip = "test.zip";
         private const string TestFile1 = "test.txt";
         private const string TestFile2 = "test2.txt";
 
@@ -38,7 +37,8 @@ namespace Juniper.Compression.Tests
         [Test]
         public void MakeTree()
         {
-            var tree = Zip.Decompressor.Entries(TestZip).Tree();
+            using var mem = new MemoryStream(Juniper.Tests.Properties.Resources.test_zip);
+            var tree = Zip.Decompressor.Entries(mem).Tree();
             Assert.IsNotNull(tree);
             Assert.AreEqual(2, tree.Count);
             Assert.IsTrue(tree.Children.Any(v => v.Value.FullName == TestFile1));

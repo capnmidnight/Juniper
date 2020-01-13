@@ -66,7 +66,17 @@ namespace Juniper.HTTP.Server
 
         public static CIDRBlock[] Load(string fileName)
         {
-            return Load(new FileInfo(fileName.ValidateFileName()));
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(fileName));
+            }
+
+            return Load(new FileInfo(fileName));
         }
 
         public static void Save(IEnumerable<CIDRBlock> blocks, Stream stream)
@@ -116,7 +126,17 @@ namespace Juniper.HTTP.Server
                 throw new ArgumentNullException(nameof(blocks));
             }
 
-            Save(blocks, new FileInfo(fileName.ValidateFileName()));
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(fileName));
+            }
+
+            Save(blocks, new FileInfo(fileName));
         }
 
         public static CIDRBlock Parse(string value)

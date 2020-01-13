@@ -39,7 +39,7 @@ namespace Juniper.IO
             item.Save(outputStream, serializer);
         }
 
-        public static void Save<T>(this T item, string outputPath, ISerializer<T> serializer)
+        public static void Save<T>(this T item, string fileName, ISerializer<T> serializer)
             where T : ISaveable<T>
         {
             if (serializer is null)
@@ -47,7 +47,17 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(serializer));
             }
 
-            item.Save(new FileInfo(outputPath.ValidateFileName()), serializer);
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(fileName));
+            }
+
+            item.Save(new FileInfo(fileName), serializer);
         }
 
         public static void Save<T>(this T item, FileInfo outputFile)
@@ -72,10 +82,20 @@ namespace Juniper.IO
             }
         }
 
-        public static void Save<T>(this T item, string outputPath)
+        public static void Save<T>(this T item, string fileName)
             where T : ISaveable<T>
         {
-            item.Save(new FileInfo(outputPath.ValidateFileName()));
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(fileName));
+            }
+
+            item.Save(new FileInfo(fileName));
         }
     }
 }

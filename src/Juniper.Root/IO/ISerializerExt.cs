@@ -112,7 +112,17 @@ namespace Juniper.IO
 
         public static void Serialize<T>(this ISerializer<T> serializer, string fileName, T value)
         {
-            serializer.Serialize(new FileInfo(fileName.ValidateFileName()), value);
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(fileName));
+            }
+
+            serializer.Serialize(new FileInfo(fileName), value);
         }
 
         public static string ToString<T>(this ISerializer<T> serializer, T value)

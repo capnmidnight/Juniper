@@ -12,6 +12,16 @@ namespace Juniper.Compression.Zip
     /// </summary>
     public static class Decompressor
     {
+        private static ZipArchive Open(Stream stream)
+        {
+            if (stream is null)
+            {
+                throw new ArgumentNullException(nameof(stream));
+            }
+
+            return new ZipArchive(stream);
+        }
+
         public static ZipArchive Open(FileInfo file)
         {
             if (file is null)
@@ -24,13 +34,22 @@ namespace Juniper.Compression.Zip
                 throw new FileNotFoundException(file.FullName);
             }
 
-            var stream = file.OpenRead();
-            return new ZipArchive(stream);
+            return Open(file.OpenRead());
         }
 
         public static ZipArchive Open(string fileName)
         {
-            return Open(new FileInfo(fileName.ValidateFileName()));
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(fileName));
+            }
+
+            return Open(new FileInfo(fileName));
         }
 
         /// <summary>
@@ -80,45 +99,77 @@ namespace Juniper.Compression.Zip
             zip.CopyFile(entryPath, copyTo, prog);
         }
 
-        public static void CopyFile(this ZipArchive zip, string entryPath, string copyToFileName, IProgress prog = null)
+        public static void CopyFile(this ZipArchive copyFromZip, string entryPath, string copyToFileName, IProgress prog = null)
         {
-            if (zip is null)
+            if (copyFromZip is null)
             {
-                throw new ArgumentNullException(nameof(zip));
+                throw new ArgumentNullException(nameof(copyFromZip));
             }
 
-            zip.CopyFile(entryPath, new FileInfo(copyToFileName.ValidateFileName()), prog);
+            if (copyToFileName is null)
+            {
+                throw new ArgumentNullException(nameof(copyToFileName));
+            }
+
+            if (copyToFileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(copyToFileName));
+            }
+
+
+            copyFromZip.CopyFile(entryPath, new FileInfo(copyToFileName), prog);
         }
 
-        public static void CopyFile(FileInfo file, string entryPath, Stream copyTo, IProgress prog = null)
+        public static void CopyFile(Stream copyFromStream, string entryPath, Stream copyToStream, IProgress prog = null)
         {
-            if (file is null)
+            if (copyFromStream is null)
             {
-                throw new ArgumentNullException(nameof(file));
+                throw new ArgumentNullException(nameof(copyFromStream));
             }
 
-            if (copyTo is null)
+            if (copyToStream is null)
             {
-                throw new ArgumentNullException(nameof(copyTo));
+                throw new ArgumentNullException(nameof(copyToStream));
             }
 
-            if (!file.Exists)
-            {
-                throw new FileNotFoundException("File not found", file.FullName);
-            }
-
-            using var zip = Open(file);
-            zip.CopyFile(entryPath, copyTo, prog);
+            using var zip = Open(copyFromStream);
+            zip.CopyFile(entryPath, copyToStream, prog);
         }
 
-        public static void CopyFile(string fileName, string entryPath, Stream copyTo, IProgress prog = null)
+        public static void CopyFile(FileInfo copyFromFile, string entryPath, Stream copyToStream, IProgress prog = null)
         {
-            if (copyTo is null)
+            if (copyFromFile is null)
             {
-                throw new ArgumentNullException(nameof(copyTo));
+                throw new ArgumentNullException(nameof(copyFromFile));
             }
 
-            CopyFile(new FileInfo(fileName.ValidateFileName()), entryPath, copyTo, prog);
+            if (!copyFromFile.Exists)
+            {
+                throw new FileNotFoundException("File not found", copyFromFile.FullName);
+            }
+
+            using var stream = copyFromFile.OpenRead();
+            CopyFile(stream, entryPath, copyToStream, prog);
+        }
+
+        public static void CopyFile(string copyFromFileName, string entryPath, Stream copyToStream, IProgress prog = null)
+        {
+            if (copyToStream is null)
+            {
+                throw new ArgumentNullException(nameof(copyToStream));
+            }
+
+            if (copyFromFileName is null)
+            {
+                throw new ArgumentNullException(nameof(copyFromFileName));
+            }
+
+            if (copyFromFileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(copyFromFileName));
+            }
+
+            CopyFile(new FileInfo(copyFromFileName), entryPath, copyToStream, prog);
         }
 
         public static Stream GetFile(this ZipArchive zip, string entryPath, IProgress prog = null)
@@ -130,6 +181,19 @@ namespace Juniper.Compression.Zip
 
             var entry = zip.GetEntry(entryPath);
             return new ProgressStream(entry.Open(), entry.Length, prog, true);
+        }
+
+        public static Stream GetFile(Stream zipStream, string entryPath, IProgress prog = null)
+        {
+            if (zipStream is null)
+            {
+                throw new ArgumentNullException(nameof(zipStream));
+            }
+
+            var zip = Open(zipStream);
+            var entry = zip.GetEntry(entryPath);
+            var stream = new ZipArchiveEntryStream(zip, entry);
+            return new ProgressStream(stream, entry.Length, prog, true);
         }
 
         public static Stream GetFile(FileInfo file, string entryPath, IProgress prog = null)
@@ -144,15 +208,22 @@ namespace Juniper.Compression.Zip
                 throw new FileNotFoundException("File not found", file.FullName);
             }
 
-            var zip = Open(file);
-            var entry = zip.GetEntry(entryPath);
-            var stream = new ZipArchiveEntryStream(zip, entry);
-            return new ProgressStream(stream, entry.Length, prog, true);
+            return GetFile(file.OpenRead(), entryPath, prog);
         }
 
         public static Stream GetFile(string fileName, string entryPath, IProgress prog = null)
         {
-            return GetFile(new FileInfo(fileName.ValidateFileName()), entryPath, prog);
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(fileName));
+            }
+
+            return GetFile(new FileInfo(fileName), entryPath, prog);
         }
 
         /// <summary>
@@ -179,42 +250,48 @@ namespace Juniper.Compression.Zip
             prog.Report(i, zip.Entries.Count);
         }
 
-        public static IEnumerable<CompressedFileInfo> Entries(Stream zipStream, IProgress prog = null)
+        public static IEnumerable<CompressedFileInfo> Entries(Stream stream, IProgress prog = null)
         {
-            if (zipStream is null)
+            if (stream is null)
             {
-                throw new ArgumentNullException(nameof(zipStream));
+                throw new ArgumentNullException(nameof(stream));
             }
 
-            using var zip = new ZipArchive(zipStream);
+            using var zip = Open(stream);
             foreach (var entry in zip.Entries(prog))
             {
                 yield return entry;
             }
         }
 
-        public static IEnumerable<CompressedFileInfo> Entries(FileInfo zipFile, IProgress prog = null)
+        public static IEnumerable<CompressedFileInfo> Entries(FileInfo file, IProgress prog = null)
         {
-            if (zipFile is null)
+            if (file is null)
             {
-                throw new ArgumentNullException(nameof(zipFile));
+                throw new ArgumentNullException(nameof(file));
             }
 
-            if (!zipFile.Exists)
+            if (!file.Exists)
             {
-                throw new FileNotFoundException("File not found", zipFile.FullName);
+                throw new FileNotFoundException("File not found", file.FullName);
             }
 
-            using var stream = zipFile.OpenRead();
-            foreach (var entry in Entries(stream, prog))
-            {
-                yield return entry;
-            }
+            return Entries(file.OpenRead(), prog);
         }
 
-        public static IEnumerable<CompressedFileInfo> Entries(string zipFileName, IProgress prog = null)
+        public static IEnumerable<CompressedFileInfo> Entries(string fileName, IProgress prog = null)
         {
-            return Entries(new FileInfo(zipFileName.ValidateFileName()), prog);
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(fileName));
+            }
+
+            return Entries(new FileInfo(fileName), prog);
         }
 
         public static void Decompress(this ZipArchive zip, DirectoryInfo outputDirectory, string entryPrefix = null, IProgress prog = null)
@@ -269,8 +346,18 @@ namespace Juniper.Compression.Zip
                 throw new ArgumentNullException(nameof(outputDirectory));
             }
 
-            using var zip = new ZipArchive(stream);
+            using var zip = Open(stream);
             zip.Decompress(outputDirectory, entryPrefix, prog);
+        }
+
+        public static void Decompress(Stream stream, string outputDirectoryName, string entryPrefix = null, IProgress prog = null)
+        {
+            if (outputDirectoryName is null)
+            {
+                throw new ArgumentNullException(nameof(outputDirectoryName));
+            }
+
+            Decompress(stream, new DirectoryInfo(outputDirectoryName), entryPrefix, prog);
         }
 
         public static void Decompress(FileInfo zipFile, DirectoryInfo outputDirectory, string entryPrefix = null, IProgress prog = null)
@@ -280,38 +367,47 @@ namespace Juniper.Compression.Zip
                 throw new ArgumentNullException(nameof(zipFile));
             }
 
-            if (outputDirectory is null)
-            {
-                throw new ArgumentNullException(nameof(outputDirectory));
-            }
-
             if (!zipFile.Exists)
             {
                 throw new FileNotFoundException($"File not found: {zipFile.FullName}", zipFile.FullName);
             }
 
-            using var stream = zipFile.OpenRead();
-            Decompress(stream, outputDirectory, entryPrefix, prog);
+            Decompress(zipFile.OpenRead(), outputDirectory, entryPrefix, prog);
         }
 
-        public static void Decompress(string zipFileName, DirectoryInfo outputDirectory, string entryPrefix = null, IProgress prog = null)
-        {
-            if (outputDirectory is null)
-            {
-                throw new ArgumentNullException(nameof(outputDirectory));
-            }
-
-            Decompress(new FileInfo(zipFileName.ValidateFileName()), outputDirectory, entryPrefix, prog);
-        }
-
-        public static void Decompress(string zipFileName, string outputDirectoryName, string entryPrefix = null, IProgress prog = null)
+        public static void Decompress(FileInfo zipFile, string outputDirectoryName, string entryPrefix = null, IProgress prog = null)
         {
             if (outputDirectoryName is null)
             {
                 throw new ArgumentNullException(nameof(outputDirectoryName));
             }
 
-            Decompress(zipFileName, new DirectoryInfo(outputDirectoryName), entryPrefix, prog);
+            Decompress(zipFile, new DirectoryInfo(outputDirectoryName), entryPrefix, prog);
+        }
+
+        public static void Decompress(string fileName, DirectoryInfo outputDirectory, string entryPrefix = null, IProgress prog = null)
+        {
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(fileName));
+            }
+
+            Decompress(new FileInfo(fileName), outputDirectory, entryPrefix, prog);
+        }
+
+        public static void Decompress(string fileName, string outputDirectoryName, string entryPrefix = null, IProgress prog = null)
+        {
+            if (outputDirectoryName is null)
+            {
+                throw new ArgumentNullException(nameof(outputDirectoryName));
+            }
+
+            Decompress(fileName, new DirectoryInfo(outputDirectoryName), entryPrefix, prog);
         }
     }
 }

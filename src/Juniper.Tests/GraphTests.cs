@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -352,8 +353,12 @@ namespace Juniper.Collections.Tests
             where FactoryT : IFactory<Graph<string>, MediaType.Application>, new()
         {
             var factory = new FactoryT();
-            var file = "test." + ext;
-            var bytes = File.ReadAllBytes(file);
+            var bytes = ext switch
+            {
+                "bin" => Juniper.Tests.Properties.Resources.test_binary_graph1,
+                "json" => Juniper.Tests.Properties.Resources.test_json_graph1,
+                _ => throw new NotSupportedException("Cannot load from file type " + ext)
+            };
             Assert.IsTrue(factory.TryDeserialize(bytes, out var graph));
             graph.Solve();
             Assert.IsTrue(graph.Nodes.Any());
@@ -373,17 +378,28 @@ namespace Juniper.Collections.Tests
 
         private static void DeserializationTest(string ext)
         {
-            var inPath = "test." + ext;
             var outPath = "test2." + ext;
 
-            var stopwatch = new Stopwatch();
+            var data = ext switch
+            {
+                "bin" => Juniper.Tests.Properties.Resources.test_binary_graph1,
+                "json" => Juniper.Tests.Properties.Resources.test_json_graph1,
+                _ => throw new NotSupportedException("Cannot load from file type " + ext)
+            };
 
+            using var mem = new MemoryStream(data);
+            var stopwatch = new Stopwatch();
             stopwatch.Start();
-            var graph1 = Graph.Load<string>(inPath);
+            var graph1 = ext switch
+            {
+                "bin" => Graph.LoadBinary<string>(mem),
+                "json" => Graph.LoadJSON<string>(mem),
+                _ => throw new NotSupportedException("Cannot load from file type " + ext)
+            };
+
             graph1.Solve();
             stopwatch.Stop();
             var time1 = stopwatch.Elapsed;
-
             graph1.Save(outPath);
 
             stopwatch.Restart();

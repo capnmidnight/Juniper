@@ -39,7 +39,7 @@ namespace Juniper.OpenGL
                 throw new ArgumentException("path must not be empty string", nameof(fileName));
             }
 
-            source = Init(new FileInfo(fileName.ValidateFileName()));
+            source = Init(new FileInfo(fileName));
         }
 
         public Shader(ShaderType type, FileInfo sourceFile)

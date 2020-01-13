@@ -57,7 +57,17 @@ namespace Juniper.IO
 
         public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, string fileName, IProgress prog = null)
         {
-            return deserializer.Deserialize(new FileInfo(fileName.ValidateFileName()), prog);
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(fileName));
+            }
+
+            return deserializer.Deserialize(new FileInfo(fileName), prog);
         }
 
         public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, IReadOnlyCollection<byte> data, IProgress prog = null)
@@ -199,7 +209,17 @@ namespace Juniper.IO
 
         public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, string fileName, out ResultT value, IProgress prog = null)
         {
-            return deserializer.TryDeserialize(new FileInfo(fileName.ValidateFileName()), out value, prog);
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(fileName));
+            }
+
+            return deserializer.TryDeserialize(new FileInfo(fileName), out value, prog);
         }
 
         public static ResultT Parse<ResultT>(this IDeserializer<ResultT> deserializer, string text, IProgress prog = null)

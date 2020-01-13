@@ -79,7 +79,17 @@ namespace Juniper.Compression.Tar.GZip
 
         public static TarArchive Open(string fileName)
         {
-            return Open(new FileInfo(fileName.ValidateFileName()));
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(fileName));
+            }
+
+            return Open(new FileInfo(fileName));
         }
 
         /// <summary>
@@ -106,13 +116,18 @@ namespace Juniper.Compression.Tar.GZip
             prog.Report(i, tar.Entries.Count);
         }
 
-        public static IEnumerable<CompressedFileInfo> Entries(Stream tarGzStream, IProgress prog = null)
+        public static IEnumerable<CompressedFileInfo> Entries(Stream stream, IProgress prog = null)
         {
-            using var stream = new GZipStream(tarGzStream, CompressionMode.Decompress);
-            using var tar = new TarArchive(stream);
-            foreach (var entry in tar.Entries(prog))
+            if (stream is GZipStream gzStream)
             {
-                yield return entry;
+                using var tar = new TarArchive(gzStream);
+                return tar.Entries(prog);
+            }
+            else
+            {
+                using var gzStream2 = new GZipStream(stream, CompressionMode.Decompress);
+                using var tar = new TarArchive(gzStream2);
+                return tar.Entries(prog);
             }
         }
 
@@ -132,7 +147,17 @@ namespace Juniper.Compression.Tar.GZip
 
         public static IEnumerable<CompressedFileInfo> Entries(string fileName, IProgress prog = null)
         {
-            return Entries(new FileInfo(fileName.ValidateFileName()), prog);
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(fileName));
+            }
+
+            return Entries(new FileInfo(fileName), prog);
         }
     }
 }

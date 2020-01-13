@@ -34,8 +34,18 @@ namespace Juniper.HTTP.Tests
 
         private static async Task<ImageData> RunFileTestAsync(string imageFileName, bool deleteFile, bool runTest)
         {
+            if (imageFileName is null)
+            {
+                throw new ArgumentNullException(nameof(imageFileName));
+            }
+
+            if (imageFileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(imageFileName));
+            }
+
             var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            var cacheFileName = Path.Combine(myPictures, imageFileName.ValidateFileName());
+            var cacheFileName = Path.Combine(myPictures, imageFileName);
             var cacheFile = new FileInfo(cacheFileName);
 
             if (deleteFile && cacheFile.Exists)

@@ -45,7 +45,17 @@ namespace System.IO
                 throw new ArgumentNullException(nameof(inStream));
             }
 
-            inStream.CopyTo(new FileInfo(outFileName.ValidateFileName()));
+            if (outFileName is null)
+            {
+                throw new ArgumentNullException(nameof(outFileName));
+            }
+
+            if (outFileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(outFileName));
+            }
+
+            inStream.CopyTo(new FileInfo(outFileName));
         }
 
         public static Task CopyToAsync(this Stream inStream, string outFileName)
@@ -55,7 +65,17 @@ namespace System.IO
                 throw new ArgumentNullException(nameof(inStream));
             }
 
-            return inStream.CopyToAsync(new FileInfo(outFileName.ValidateFileName()));
+            if (outFileName is null)
+            {
+                throw new ArgumentNullException(nameof(outFileName));
+            }
+
+            if (outFileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(outFileName));
+            }
+
+            return inStream.CopyToAsync(new FileInfo(outFileName));
         }
 
         public static void CopyTo(this FileInfo inFile, Stream outStream)

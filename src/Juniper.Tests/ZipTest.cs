@@ -9,7 +9,6 @@ namespace Juniper.Compression.Zip.Tests
     [TestFixture]
     public class ZipTest
     {
-        private const string TestZip = "test.zip";
         private const string TestFile1 = "test.txt";
         private const string TestFile2 = "test2.txt";
 
@@ -18,7 +17,8 @@ namespace Juniper.Compression.Zip.Tests
         [Test]
         public void GetFile()
         {
-            using var reader = new StreamReader(Decompressor.GetFile(TestZip, TestFile1));
+            using var mem = new MemoryStream(Juniper.Tests.Properties.Resources.test_zip);
+            using var reader = new StreamReader(Decompressor.GetFile(mem, TestFile1));
             var text = reader.ReadToEnd();
 
             Assert.AreEqual("test", text);
@@ -28,7 +28,8 @@ namespace Juniper.Compression.Zip.Tests
         public void DecompressDirectory()
         {
             var outDir = Path.GetTempPath();
-            Decompressor.Decompress(TestZip, outDir);
+            using var mem = new MemoryStream(Juniper.Tests.Properties.Resources.test_zip);
+            Decompressor.Decompress(mem, outDir);
             foreach (var testFile in TestFiles)
             {
                 var outFile = Path.Combine(outDir, testFile);
@@ -40,7 +41,8 @@ namespace Juniper.Compression.Zip.Tests
         [Test]
         public void FileNames()
         {
-            var fileNames = Decompressor.Entries(TestZip)
+            using var mem = new MemoryStream(Juniper.Tests.Properties.Resources.test_zip);
+            var fileNames = Decompressor.Entries(mem)
                 .Files()
                 .Names()
                 .ToArray();
