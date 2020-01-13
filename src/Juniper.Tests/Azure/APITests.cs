@@ -115,16 +115,14 @@ namespace Juniper.Azure.Tests
         {
             var audioRequest = await MakeSpeechRequestAsync().ConfigureAwait(false);
 
-            using (var audioStream = await cache
+            using var audioStream = await cache
                 .OpenAsync(audioRequest)
-                .ConfigureAwait(false))
-            {
-                var mem = new MemoryStream();
-                await audioStream.CopyToAsync(mem)
-                    .ConfigureAwait(false);
-                var buff = mem.ToArray();
-                Assert.AreNotEqual(0, buff.Length);
-            }
+                .ConfigureAwait(false);
+            using var mem = new MemoryStream();
+            await audioStream.CopyToAsync(mem)
+                .ConfigureAwait(false);
+            var buff = mem.ToArray();
+            Assert.AreNotEqual(0, buff.Length);
         }
 
         [TestMethod]
