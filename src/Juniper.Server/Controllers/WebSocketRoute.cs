@@ -7,8 +7,8 @@ namespace Juniper.HTTP.Server.Controllers
 {
     internal class WebSocketRoute : AbstractRoute
     {
-        internal WebSocketRoute(string name, object source, MethodInfo method, RouteAttribute route)
-            : base(name, source, method, route)
+        internal WebSocketRoute(object source, MethodInfo method, RouteAttribute route)
+            : base(source, method, route)
         { }
 
         private static readonly WebSocketPool socketPool = new WebSocketPool();
@@ -21,10 +21,18 @@ namespace Juniper.HTTP.Server.Controllers
 
         public override async Task InvokeAsync(HttpListenerContext context)
         {
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            var response = context.Response;
             if (socketPool is null)
             {
                 OnError(new NullReferenceException("No web socket manager"));
-                context.Response.SetStatus(HttpStatusCode.InternalServerError);
+                response.SetStatus(HttpStatusCode.InternalServerError);
+                await response.SendTextAsync("Error")
+                    .ConfigureAwait(false);
             }
             else
             {
@@ -33,6 +41,8 @@ namespace Juniper.HTTP.Server.Controllers
 
                 await InvokeAsync(context, socket)
                     .ConfigureAwait(false);
+
+                response.SetStatus(HttpStatusCode.Continue);
             }
         }
     }

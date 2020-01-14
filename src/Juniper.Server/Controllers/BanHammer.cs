@@ -15,19 +15,14 @@ namespace Juniper.HTTP.Server.Controllers
         public event EventHandler<EventArgs<CIDRBlock>> BanAdded;
         public event EventHandler<EventArgs<CIDRBlock>> BanRemoved;
 
-        public BanHammer()
-            : base(int.MinValue)
-        { }
-
-        public BanHammer(IEnumerable<CIDRBlock> blocks)
-            : this()
+        public BanHammer(IEnumerable<CIDRBlock> blocks = null)
+            : base(int.MinValue, HttpProtocols.All, HttpMethods.All, 0, AnyAuth)
         {
-            Protocol = HttpProtocols.All;
-            ExpectedStatus = 0;
-            Verb = HttpMethods.All;
-
-            Blocks.AddRange(blocks);
-            Blocks.Sort();
+            if (blocks != null)
+            {
+                Blocks.AddRange(blocks);
+                Blocks.Sort();
+            }
         }
 
         public BanHammer(Stream banFileStream)
@@ -70,7 +65,7 @@ namespace Juniper.HTTP.Server.Controllers
                 Blocks.Add(block);
                 Blocks.Sort();
 
-                for (int i = Blocks.Count - 1; i > 0; --i)
+                for (var i = Blocks.Count - 1; i > 0; --i)
                 {
                     var right = Blocks[i];
                     var left = Blocks[i - 1];
@@ -79,23 +74,23 @@ namespace Juniper.HTTP.Server.Controllers
                         Blocks[i - 1] = left + right;
                         Blocks.RemoveAt(i);
 
-                        added.Remove(left);
-                        removed.MaybeAdd(left);
+                        _ = added.Remove(left);
+                        _ = removed.MaybeAdd(left);
 
-                        added.Remove(right);
-                        removed.MaybeAdd(right);
+                        _ = added.Remove(right);
+                        _ = removed.MaybeAdd(right);
 
-                        removed.Remove(Blocks[i - 1]);
-                        added.MaybeAdd(Blocks[i - 1]);
+                        _ = removed.Remove(Blocks[i - 1]);
+                        _ = added.MaybeAdd(Blocks[i - 1]);
                     }
                 }
 
-                foreach(var b in removed)
+                foreach (var b in removed)
                 {
                     OnBanRemoved(b);
                 }
 
-                foreach(var b in added)
+                foreach (var b in added)
                 {
                     OnBanAdded(b);
                 }
@@ -113,10 +108,12 @@ namespace Juniper.HTTP.Server.Controllers
 
         public override Task InvokeAsync(HttpListenerContext context)
         {
-            var block = GetMatchingBlock(context.Request.RemoteEndPoint.Address);
-            OnInfo($"{context.Request.RemoteEndPoint} is banned by {block}.");
-            context.Response.SetStatus(HttpStatusCode.Unauthorized);
-            return Task.CompletedTask;
+            var request = context.Request;
+            var response = context.Response;
+            var block = GetMatchingBlock(request.RemoteEndPoint.Address);
+            OnInfo($"{request.RemoteEndPoint} is banned by {block}.");
+            response.SetStatus(HttpStatusCode.Unauthorized);
+            return response.SendTextAsync("Unauthorized");
         }
 
         private void OnBanAdded(CIDRBlock block)

@@ -6,8 +6,8 @@ namespace Juniper.HTTP.Server.Controllers
 {
     public class HttpRoute : AbstractRoute
     {
-        public HttpRoute(string name, object source, MethodInfo method, RouteAttribute route)
-            : base(name, source, method, route)
+        public HttpRoute(object source, MethodInfo method, RouteAttribute route)
+            : base(source, method, route)
         { }
 
         public override bool IsMatch(HttpListenerRequest request)

@@ -21,7 +21,7 @@ namespace Juniper.HTTP.Server.Controllers
         public event EventHandler<StringEventArgs> Log;
 
         public NCSALogger(FileInfo file)
-            : base(int.MaxValue - 1)
+            : base(int.MaxValue - 1, HttpProtocols.All, HttpMethods.All, 0, AnyAuth)
         {
             if (file is null)
             {
@@ -31,17 +31,12 @@ namespace Juniper.HTTP.Server.Controllers
             writer = file.AppendText();
             writer.AutoFlush = true;
 
-            Protocol = HttpProtocols.All;
-            Verb = HttpMethods.All;
-            ExpectedStatus = 0;
-
             canceller = new CancellationTokenSource();
             logger = new Thread(WriteLogs);
             logger.Start();
         }
 
-        public NCSALogger(string fileName)
-            : base(int.MaxValue - 1)
+        private static FileInfo ValidateFileName(string fileName)
         {
             if (fileName is null)
             {
@@ -53,19 +48,12 @@ namespace Juniper.HTTP.Server.Controllers
                 throw new ArgumentException("path must not be empty string", nameof(fileName));
             }
 
-            var file = new FileInfo(fileName);
-
-            writer = file.AppendText();
-            writer.AutoFlush = true;
-
-            Protocol = HttpProtocols.All;
-            Verb = HttpMethods.All;
-            ExpectedStatus = 0;
-
-            canceller = new CancellationTokenSource();
-            logger = new Thread(WriteLogs);
-            logger.Start();
+            return new FileInfo(fileName);
         }
+
+        public NCSALogger(string fileName)
+            : this(ValidateFileName(fileName))
+        { }
 
         private void WriteLogs()
         {
@@ -88,6 +76,19 @@ namespace Juniper.HTTP.Server.Controllers
 
         public override Task InvokeAsync(HttpListenerContext context)
         {
+            var logMessage = FormatLogMessage(context);
+            OnLog(logMessage);
+            logs.Enqueue(logMessage);
+            return Task.CompletedTask;
+        }
+
+        public static string FormatLogMessage(HttpListenerContext context)
+        {
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
             var response = context.Response;
             var request = context.Request;
             var remoteAddr = request.RemoteEndPoint.Address;
@@ -99,11 +100,7 @@ namespace Juniper.HTTP.Server.Controllers
             var contentLength = response.ContentLength64;
 
             var logMessage = $"{remoteAddr} - {name} [{dateStr}] \"{method} {path} HTTP/{request.ProtocolVersion}\" {status} {contentLength}";
-            OnLog(logMessage);
-
-            logs.Enqueue(logMessage);
-
-            return Task.CompletedTask;
+            return logMessage;
         }
 
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]

@@ -86,7 +86,7 @@ namespace Juniper.HTTP.Server.Controllers
         private readonly MediaType[] mediaTypeWhiteList;
 
         public StaticFileServer(DirectoryInfo rootDirectory, params MediaType[] mediaTypeWhiteList)
-            : base(int.MaxValue - 2)
+            : base(int.MaxValue - 2, HttpProtocols.Default, HttpMethods.GET, HttpStatusCode.OK, AnyAuth)
         {
             if (rootDirectory is null)
             {
@@ -97,8 +97,6 @@ namespace Juniper.HTTP.Server.Controllers
             {
                 throw new InvalidOperationException($"Directory {rootDirectory.FullName} does not exist");
             }
-
-            Verb = HttpMethods.GET;
 
             this.rootDirectory = rootDirectory;
 
@@ -127,9 +125,9 @@ namespace Juniper.HTTP.Server.Controllers
             var requestPath = request.Url.AbsolutePath;
             var requestFile = MassageRequestPath(requestPath);
             var fileName = Path.Combine(rootDirectory.FullName, requestFile);
-            var isDirectory = Directory.Exists(fileName);
+            var directory = new DirectoryInfo(fileName);
 
-            if (isDirectory)
+            if (directory.Exists)
             {
                 fileName = FindDefaultFile(fileName);
             }
@@ -137,35 +135,25 @@ namespace Juniper.HTTP.Server.Controllers
             var file = new FileInfo(fileName);
             var type = MediaType.GuessByExtension(file);
             var isSupportedMediaType = Array.IndexOf(mediaTypeWhiteList, type) >= 0;
-            var shortName = MakeShortName(rootDirectory.FullName, fileName);
 
-            if (!rootDirectory.Contains(file))
+            if ((!file.Exists && !directory.Exists)
+                || (file.Exists && (!rootDirectory.Contains(file) || !isSupportedMediaType))
+                || (directory.Exists && !rootDirectory.Contains(directory)))
             {
-                response.SetStatus(HttpStatusCode.Unauthorized);
+                response.SetStatus(HttpStatusCode.NotFound);
+                await response.SendTextAsync(MediaType.Text.Plain, "Not found")
+                    .ConfigureAwait(false);
+                OnWarning(NCSALogger.FormatLogMessage(context));
             }
-            else if (isDirectory && requestPath[requestPath.Length - 1] != '/')
-            {
-                response.Redirect(requestPath + "/");
-            }
-            else if (!file.Exists && isDirectory)
+            else if (directory.Exists)
             {
                 await ListDirectoryAsync(response, new DirectoryInfo(fileName))
                     .ConfigureAwait(false);
             }
-            else if (!file.Exists && !isDirectory)
-            {
-                var message = $"request '{shortName}'";
-                OnWarning(message);
-                response.SetStatus(HttpStatusCode.NotFound);
-            }
-            else if (isSupportedMediaType)
-            {
-                await SendFileAsync(response, file, shortName)
-                    .ConfigureAwait(false);
-            }
             else
             {
-                response.SetStatus(HttpStatusCode.Unauthorized);
+                await response.SendFileAsync(file)
+                   .ConfigureAwait(false);
             }
         }
 
@@ -173,7 +161,7 @@ namespace Juniper.HTTP.Server.Controllers
         {
             var sb = new StringBuilder();
             var shortName = MakeShortName(rootDirectory.FullName, dir.FullName);
-            sb.Append("<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>")
+            _ = sb.Append("<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>")
                 .Append(shortName)
                 .Append("</title></head><body><h1>Directory Listing: ")
                 .Append(shortName)
@@ -198,29 +186,8 @@ namespace Juniper.HTTP.Server.Controllers
 
             _ = sb.Append("</ul></body></html>");
 
-            response.ContentLength64 = sb.Length;
-            response.ContentType = MediaType.Text.Html;
-            using var writer = new StreamWriter(response.OutputStream);
-            await writer.WriteAsync(sb.ToString())
+            await response.SendTextAsync(MediaType.Text.Html, sb.ToString())
                 .ConfigureAwait(false);
-        }
-
-        private async Task SendFileAsync(HttpListenerResponse response, FileInfo file, string shortName)
-        {
-            try
-            {
-                await response
-                    .SendFileAsync(file)
-                    .ConfigureAwait(false);
-            }
-#pragma warning disable CA1031 // Do not catch general exception types
-            catch (Exception exp)
-            {
-                var message = $"ERRRRRROR: '{shortName}' > {exp.Message}";
-                OnWarning(message);
-                response.SetStatus(HttpStatusCode.InternalServerError);
-            }
-#pragma warning restore CA1031 // Do not catch general exception types
         }
     }
 }

@@ -7,28 +7,47 @@ namespace Juniper.HTTP.Server.Controllers
     public sealed class HttpToHttpsRedirect : AbstractResponse
     {
         public HttpToHttpsRedirect()
-            : base(int.MinValue + 1)
+            : base(int.MinValue + 1, HttpProtocols.HTTP, HttpMethods.GET, HttpStatusCode.OK, AnyAuth)
+        { }
+
+        public override bool IsMatch(HttpListenerRequest request)
         {
-            Protocol = HttpProtocols.HTTP;
-            Verb = HttpMethods.All;
+            if(Server.HttpsPort is null)
+            {
+                OnWarning("The server isn't listening for HTTPS requests!");
+            }
+
+            return Server.HttpsPort is object
+                && base.IsMatch(request);
         }
 
         public override Task InvokeAsync(HttpListenerContext context)
         {
-            var secureUrl = new UriBuilder(context.Request.Url)
+            if (context is null)
             {
-                Scheme = "https",
-                Port = -1
-            };
-
-            if (Enum.TryParse<HttpMethods>(context.Request.HttpMethod, true, out var method))
-            {
-                context.Response.RedirectLocation = secureUrl.ToString();
-                context.Response.StatusCode = (int)(method == HttpMethods.GET
-                    ? HttpStatusCode.Redirect
-                    : HttpStatusCode.RedirectKeepVerb);
+                throw new ArgumentNullException(nameof(context));
             }
 
+            if (Server.HttpsPort is null)
+            {
+                throw new InvalidOperationException("Cannot redirect to HTTPS when the server isn't listening for HTTPS requests");
+            }
+
+            var secureUrl = new UriBuilder(context.Request.Url)
+            {
+                Scheme = "https"
+            };
+
+            if(Server.HttpsPort != 443)
+            {
+                secureUrl.Port = Server.HttpsPort.Value;
+            }
+            else
+            {
+                secureUrl.Port = -1;
+            }
+
+            context.Response.Redirect(secureUrl.ToString());
             return Task.CompletedTask;
         }
     }

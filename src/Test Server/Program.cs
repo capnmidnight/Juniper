@@ -6,6 +6,7 @@ using Juniper.HTTP.Server;
 using Juniper.HTTP.Server.Controllers;
 
 using static System.Console;
+using static Juniper.AnsiColor;
 
 namespace Juniper.HTTP
 {
@@ -13,23 +14,22 @@ namespace Juniper.HTTP
     {
         public static async Task Main()
         {
-            using var server = new HttpServer
+            using var server = new HttpServer(
+                new HttpToHttpsRedirect(),
+                new BanHammer("testBans.txt"),
+                typeof(Program),
+                new StaticFileServer("content"),
+                new NCSALogger("logs.txt"))
             {
                 HttpPort = 8080,
+                HttpsPort = 8081,
                 ListenerCount = 10
             };
 
             server.Info += Server_Info;
             server.Warning += Server_Warning;
             server.Err += Server_Error;
-
-            server.Add(
-                new HttpToHttpsRedirect(),
-                typeof(Program),
-                new StaticFileServer("..\\..\\..\\content"),
-                new BanHammer("testBans.txt"),
-                new NCSALogger("logs.txt"));
-
+            server.Log += Server_Log;
             server.Start();
 
 #if DEBUG
@@ -58,32 +58,37 @@ namespace Juniper.HTTP
             return Task.CompletedTask;
         }
 
-        private static void Socket_Error(object sender, ErrorEventArgs e)
-        {
-            Error.WriteLine($"[SOCKET ERROR] {e.Value.Unroll()}");
-        }
-
         private static void Socket_Message(object sender, StringEventArgs e)
         {
             var socket = (WebSocketConnection)sender;
-            WriteLine($"[SOCKET] {e.Value}");
+            WriteLine($"{Green}[SOCKET]  {e.Value}{Reset}");
             var msg = e.Value + " from server";
             _ = Task.Run(() => socket.SendAsync(msg));
         }
 
+        private static void Socket_Error(object sender, ErrorEventArgs e)
+        {
+            Error.WriteLine($"{Red}[SOCKET ERROR] {e.Value.Unroll()}{Reset}");
+        }
+
+        private static void Server_Log(object sender, StringEventArgs e)
+        {
+            WriteLine($"{Cyan}[LOG]     {e.Value}{Reset}");
+        }
+
         private static void Server_Info(object sender, StringEventArgs e)
         {
-            WriteLine(e.Value);
+            WriteLine($"{White}[INFO]    {e.Value}{Reset}");
         }
 
         private static void Server_Warning(object sender, StringEventArgs e)
         {
-            WriteLine($"[WARNING] {e.Value}");
+            WriteLine($"{Yellow}[WARNING] {e.Value}{Reset}");
         }
 
         private static void Server_Error(object sender, ErrorEventArgs e)
         {
-            Error.WriteLine(e.Value.Unroll());
+            Error.WriteLine($"{Red}[ERROR]   {e.Value.Unroll()}{Reset}");
         }
     }
 }

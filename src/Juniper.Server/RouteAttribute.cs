@@ -13,9 +13,11 @@ namespace Juniper.HTTP.Server
 
         public int ParameterCount { get; }
 
-        public int Priority { get; set; }
+        public int Priority { get; set; } = 0;
 
-        public HttpStatusCode ExpectedStatus { get; set; } = HttpStatusCode.Continue;
+        public string Name { get; set; } = null;
+
+        public HttpStatusCode ExpectedStatus { get; set; } = HttpStatusCode.OK;
 
         public HttpMethods Method { get; set; } = HttpMethods.GET;
 

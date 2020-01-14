@@ -6,11 +6,8 @@ namespace Juniper.HTTP.Server.Controllers
     public class UnhandledRequestTrap : AbstractResponse
     {
         public UnhandledRequestTrap()
-            : base(int.MaxValue)
-        {
-            Protocol = HttpProtocols.All;
-            Verb = HttpMethods.All;
-        }
+            : base(int.MaxValue, HttpProtocols.All, HttpMethods.All, 0, AnyAuth)
+        { }
 
         public override Task InvokeAsync(HttpListenerContext context)
         {
@@ -19,8 +16,10 @@ namespace Juniper.HTTP.Server.Controllers
                 throw new System.ArgumentNullException(nameof(context));
             }
 
-            context.Response.SetStatus(HttpStatusCode.NotFound);
-            return Task.CompletedTask;
+            var response = context.Response;
+            response.SetStatus(HttpStatusCode.NotFound);
+            OnWarning(NCSALogger.FormatLogMessage(context));
+            return response.SendTextAsync(MediaType.Text.Plain, "Not found");
         }
     }
 }

@@ -86,11 +86,6 @@ namespace System.IO
 
         public static bool Contains(this DirectoryInfo dir, FileInfo file)
         {
-            if (dir is null)
-            {
-                throw new ArgumentNullException(nameof(dir));
-            }
-
             if (file is null)
             {
                 return false;
@@ -99,8 +94,18 @@ namespace System.IO
             return Contains(dir, file.Directory);
         }
 
-        private static bool Contains(this DirectoryInfo dir, DirectoryInfo subDir)
+        public static bool Contains(this DirectoryInfo dir, DirectoryInfo subDir)
         {
+            if (dir is null)
+            {
+                throw new ArgumentNullException(nameof(dir));
+            }
+
+            if (subDir is null)
+            {
+                throw new ArgumentNullException(nameof(subDir));
+            }
+
             var subDirParts = subDir.FullName.SplitX(Path.DirectorySeparatorChar);
             var dirParts = dir.FullName.SplitX(Path.DirectorySeparatorChar);
             if (subDirParts.Length < dirParts.Length)

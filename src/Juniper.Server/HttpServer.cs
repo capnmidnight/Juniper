@@ -63,7 +63,7 @@ namespace Juniper.HTTP.Server
         /// is called.
         /// </para>
         /// </summary>
-        public HttpServer()
+        public HttpServer(params object[] controllers)
         {
             ListenerCount = 100;
             EnableWebSockets = true;
@@ -80,6 +80,8 @@ namespace Juniper.HTTP.Server
             {
                 AuthenticationSchemeSelectorDelegate = GetAuthenticationSchemeForRequest
             };
+
+            Add(controllers);
         }
 
         /// <summary>
@@ -181,7 +183,7 @@ namespace Juniper.HTTP.Server
             {
                 var controller = controllers[i];
 
-                if(controller is null)
+                if (controller is null)
                 {
                     throw new NullReferenceException($"Encountered a null value at index {i}.");
                 }
@@ -209,8 +211,6 @@ namespace Juniper.HTTP.Server
                             && parameters.Length == route.ParameterCount
                             && parameters.Skip(1).All(p => p.ParameterType == typeof(string)))
                         {
-                            AbstractResponse handler = null;
-                            var name = $"{type.Name}::{method.Name}";
                             var contextParamType = parameters[0].ParameterType;
                             var isHttp = contextParamType == typeof(HttpListenerContext);
                             var isWebSocket = contextParamType == typeof(WebSocketConnection);
@@ -221,25 +221,20 @@ namespace Juniper.HTTP.Server
                                 source = controller;
                             }
 
-                            if (!isHttp && !isWebSocket)
+                            if (isHttp)
                             {
-                                OnError(new InvalidOperationException($@"Method {type.Name}::{method.Name} must have a signature:
-    (System.Net.HttpListenerContext, string...) => Task
-or
-    (Juniper.HTTP.WebSocketConnection, string...) => Task"));
-                            }
-                            else if (isHttp)
-                            {
-                                handler = new HttpRoute(name, source, method, route);
+                                AddController(new HttpRoute(source, method, route));
                             }
                             else if (isWebSocket)
                             {
-                                handler = new WebSocketRoute(name, source, method, route);
+                                AddController(new WebSocketRoute(source, method, route));
                             }
-
-                            if (handler is object)
+                            else
                             {
-                                AddController(handler);
+                                throw new InvalidOperationException($@"Method {type.Name}::{method.Name} must have a signature:
+    (System.Net.HttpListenerContext, string...) => Task
+or
+    (Juniper.HTTP.WebSocketConnection, string...) => Task");
                             }
                         }
                     }
@@ -251,7 +246,6 @@ or
         {
             if (controller is AbstractResponse handler)
             {
-                OnInfo($"Found controller {handler}");
                 handler.Server = this;
                 routes.Add(handler);
             }
@@ -331,6 +325,16 @@ or
 
         public virtual void Start()
         {
+            OnInfo("Starting server");
+            if (controllers.Count > 0)
+            {
+                OnInfo("Found controllers:");
+                foreach (var controller in controllers)
+                {
+                    OnInfo($"\t{controller}");
+                }
+            }
+
             if (HttpsPort is object)
             {
                 if (!AutoAssignCertificate)
@@ -547,14 +551,8 @@ or
             var context = await listener.GetContextAsync()
                 .ConfigureAwait(false);
 
-            var remoteAddr = context.Request.RemoteEndPoint.Address;
-            var name = context?.User?.Identity?.Name ?? "-";
-            var dateStr = DateTime.Now.ToString("dd/MMM/yyyy:HH:mm:ss K", CultureInfo.InvariantCulture);
-            var requestID = $"{remoteAddr} - {name} [{dateStr}] \"{context.Request.HttpMethod} {context.Request.Url.PathAndQuery} HTTP/{context.Request.ProtocolVersion}\"";
             try
             {
-                OnInfo(requestID);
-
                 foreach (var route in routes)
                 {
                     if (route.IsMatch(context))
@@ -569,6 +567,8 @@ or
             {
                 OnError(exp);
                 context.Response.SetStatus(HttpStatusCode.InternalServerError);
+                await context.Response.SendTextAsync("Error")
+                    .ConfigureAwait(false);
             }
 #pragma warning restore CA1031 // Do not catch general exception types
             finally
@@ -625,7 +625,7 @@ or
             Err?.Invoke(sender, e);
         }
 
-#region IDisposable Support
+        #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
@@ -663,6 +663,6 @@ or
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-#endregion
+        #endregion
     }
 }

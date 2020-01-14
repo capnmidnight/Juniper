@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -24,24 +23,34 @@ namespace Juniper.HTTP.Server.Controllers
         private readonly string name;
         private readonly int priority;
 
+        public HttpProtocols Protocol { get; }
+
+        public HttpMethods Verb { get; }
+
+        public HttpStatusCode ExpectedStatus { get; }
+
+        public AuthenticationSchemes Authentication { get; }
+
+        internal HttpServer Server { get; set; }
+
         public event EventHandler<StringEventArgs> Info;
         public event EventHandler<StringEventArgs> Warning;
         public event EventHandler<ErrorEventArgs> Err;
 
-        public AuthenticationSchemes Authentication { get; protected set; } = AnyAuth;
-
-        public HttpProtocols Protocol { get; protected set; } = HttpProtocols.Default;
-
-        public HttpStatusCode ExpectedStatus { get; protected set; }
-
-        public HttpMethods Verb { get; protected set; }
-
-        public HttpServer Server { get; internal set; }
-
-        protected AbstractResponse(int priority, string name = null)
+        protected AbstractResponse(
+            int priority,
+            HttpProtocols protocol,
+            HttpMethods method,
+            HttpStatusCode expectedStatus,
+            AuthenticationSchemes authScheme,
+            string name = null)
         {
-            this.priority = priority;
             this.name = name ?? GetType().Name;
+            this.priority = priority;
+            Protocol = protocol;
+            Verb = method;
+            ExpectedStatus = expectedStatus;
+            Authentication = authScheme;
         }
 
         public virtual bool IsMatch(HttpListenerContext context)
@@ -84,7 +93,7 @@ namespace Juniper.HTTP.Server.Controllers
 
         public override string ToString()
         {
-            return $"[{priority.ToString(CultureInfo.CurrentCulture)}] {name}";
+            return $"{name}[{priority,10}]: {Protocol} {Verb} {ExpectedStatus} {Authentication}";
         }
 
         public int CompareTo(object obj)

@@ -9,7 +9,7 @@ namespace Juniper.HTTP.Server.Controllers
     public class WebSocketPool
     {
         private readonly Dictionary<int, WebSocketConnection> sockets = new Dictionary<int, WebSocketConnection>();
-        
+
         private void Socket_Closed(object sender, EventArgs e)
         {
             if (sender is WebSocketConnection socket)
@@ -17,14 +17,13 @@ namespace Juniper.HTTP.Server.Controllers
                 socket.Closed -= Socket_Closed;
                 socket.Dispose();
 
-                var key = (from s in sockets
-                           where socket == s.Value
-                           select (int?)s.Key)
-                        .FirstOrDefault();
+                var keys = (from s in sockets
+                            where socket == s.Value
+                            select s.Key);
 
-                if (key is object)
+                foreach (var key in keys)
                 {
-                    sockets.Remove(key.Value);
+                    _ = sockets.Remove(key);
                 }
             }
         }
