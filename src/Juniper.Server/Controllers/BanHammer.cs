@@ -113,7 +113,7 @@ namespace Juniper.HTTP.Server.Controllers
             var block = GetMatchingBlock(request.RemoteEndPoint.Address);
             OnInfo($"{request.RemoteEndPoint} is banned by {block}.");
             response.SetStatus(HttpStatusCode.Unauthorized);
-            return response.SendTextAsync("Unauthorized");
+            return Task.CompletedTask;
         }
 
         private void OnBanAdded(CIDRBlock block)

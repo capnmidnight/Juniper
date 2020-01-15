@@ -31,15 +31,15 @@ namespace Juniper.HTTP
                 && user.Name == "sean"
                 && user.Password == "ppyptky7")
             {
+                var token = Guid.NewGuid().ToString();
+                WebSocketPool.SetUserToken(user.Name, token);
                 response.SetStatus(HttpStatusCode.OK);
-                await response.SendTextAsync("OK")
+                await response.SendTextAsync(token)
                     .ConfigureAwait(false);
             }
             else
             {
                 response.SetStatus(HttpStatusCode.Unauthorized);
-                await response.SendTextAsync("NO!")
-                    .ConfigureAwait(false);
             }
         }
 

@@ -31,8 +31,6 @@ namespace Juniper.HTTP.Server.Controllers
             {
                 OnError(new NullReferenceException("No web socket manager"));
                 response.SetStatus(HttpStatusCode.InternalServerError);
-                await response.SendTextAsync("Error")
-                    .ConfigureAwait(false);
             }
             else
             {

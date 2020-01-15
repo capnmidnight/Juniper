@@ -7,10 +7,13 @@ namespace Juniper.HTTP.Server
     {
         private readonly HttpListenerContext context;
 
-        public ServerWebSocketConnection(HttpListenerContext httpContext, WebSocket socket, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
+        public string UserName { get; }
+
+        public ServerWebSocketConnection(HttpListenerContext httpContext, WebSocket socket, string userName, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
             : base(socket, rxBufferSize, dataBufferSize)
         {
             context = httpContext;
+            UserName = userName;
         }
 
         private bool disposedValue;

@@ -597,8 +597,6 @@ or
             {
                 OnError(exp);
                 context.Response.SetStatus(HttpStatusCode.InternalServerError);
-                await context.Response.SendTextAsync("Error")
-                    .ConfigureAwait(false);
             }
 #pragma warning restore CA1031 // Do not catch general exception types
             finally
@@ -610,8 +608,9 @@ or
                     .FlushAsync()
                     .ConfigureAwait(true);
 
-                if (headers["Connection"] != "Keep-Alive"
-                    && !request.IsWebSocketRequest)
+                if (response.StatusCode >= 400
+                    || (headers["Connection"] != "Keep-Alive"
+                        && !request.IsWebSocketRequest))
                 {
                     response.Close();
                 }

@@ -13,20 +13,20 @@
 </head>
 <body>
     <p>
-        <input type="text" id="username" />
-        <input type="password" id="password" />
+        <input id="username" type="text" />
+        <input id="password" type="password" />
         <button id="login">Login</button>
         <button id="logout" disabled>Logout</button>
     </p>
 
     <p>
-        <button id="connect">Connect</button>
+        <button id="connect" disabled>Connect</button>
         <button id="disconnect" disabled>Disconnect</button>
         <span id="status">none</span>
     </p>
 
     <p>
-        <input type="text" id="input" />
+        <input id="input" type="text" disabled />
         <button id="send" disabled>Send</button>
     </p>
 
@@ -46,6 +46,7 @@
         var inputText = document.getElementById("input");
         var statusText = document.getElementById("status");
         var outputText = document.getElementById("output");
+        var token = null;
 
         function login() {
             loginButton.disabled = true;
@@ -62,12 +63,19 @@
                 switch (response.status) {
                     case 200:
                         logoutButton.disabled = false;
+                        connectButton.disabled = false;
                         inputText.focus();
+                        response.text().then(function (t) {
+                            console.log(t);
+                            token = t;
+                        });
                         break;
                     default:
                         loginButton.disabled = false;
                         usernameText.disabled = false;
                         passwordText.disabled = false;
+                        connectButton.disabled = true;
+                        inputText.disabled = true;
                         usernameText.focus();
                         break;
                 }
@@ -75,6 +83,10 @@
         }
 
         function logout() {
+            token = null;
+            if (socket !== null) {
+                disconnect();
+            }
             logoutButton.disabled = true;
             loginButton.disabled = false;
             usernameText.disabled = false;
@@ -98,7 +110,7 @@
                 default: sockStatus = "unknown"; break;
             }
 
-            connectButton.disabled = sockStatus === "open" || sockStatus === "connecting";
+            connectButton.disabled = sockStatus === "open" || sockStatus === "connecting" || token === null;
             disconnectButton.disabled = sockStatus == "connecting" || sockStatus == "closing" || sockStatus == "closed" || sockStatus == "unknown";
             inputText.disabled = sendButton.disabled = sockStatus != "open";
 
@@ -123,6 +135,12 @@
             }
         }
 
+        function disconnect() {
+            connectButton.disabled = false;
+            status("Disconnecting");
+            socket.close();
+        }
+
         usernameText.addEventListener("keydown", onenter(usernameText, passwordText.focus.bind(passwordText)));
         passwordText.addEventListener("keydown", onenter(passwordText, login));
         loginButton.addEventListener("click", login);
@@ -132,7 +150,7 @@
 
         connectButton.addEventListener("click", function () {
             status("Connecting");
-            socket = new WebSocket("ws://localhost:8080/connect/");
+            socket = new WebSocket("ws://localhost:8080/connect/", [token]);
 
             socket.addEventListener("open", function (evt) {
                 status("Open");
@@ -153,11 +171,7 @@
             });
         });
 
-        disconnectButton.addEventListener("click", function () {
-            connectButton.disabled = false;
-            status("Disconnecting");
-            socket.close();
-        });
+        disconnectButton.addEventListener("click", disconnect);
 
         status();
     </script>

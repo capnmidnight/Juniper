@@ -8,6 +8,12 @@ namespace Juniper.HTTP.Server.Controllers
 {
     public class WebSocketPool
     {
+        private static readonly Dictionary<string, string> userNames = new Dictionary<string, string>();
+        public static void SetUserToken(string user, string token)
+        {
+            userNames[token] = user;
+        }
+
         private readonly Dictionary<int, WebSocketConnection> sockets = new Dictionary<int, WebSocketConnection>();
 
         private void Socket_Closed(object sender, EventArgs e)
@@ -38,16 +44,26 @@ namespace Juniper.HTTP.Server.Controllers
             var id = context.GetHashCode();
             if (!sockets.ContainsKey(id))
             {
-                var wsContext = await context.AcceptWebSocketAsync(null)
-                    .ConfigureAwait(false);
+                var token = context.Request.Headers["Sec-WebSocket-Protocol"];
+                if (token is null || userNames.ContainsKey(token))
+                {
+                    context.Response.SetStatus(HttpStatusCode.Unauthorized);
+                }
+                else
+                {
+                    var wsContext = await context.AcceptWebSocketAsync(token)
+                        .ConfigureAwait(false);
 
-                var socket = new ServerWebSocketConnection(context, wsContext.WebSocket);
+                    var socket = new ServerWebSocketConnection(context, wsContext.WebSocket, userNames[token]);
 
-                socket.Closed += Socket_Closed;
-                sockets.Add(id, socket);
+                    socket.Closed += Socket_Closed;
+                    sockets.Add(id, socket);
+
+                    return sockets[id];
+                }
             }
 
-            return sockets[id];
+            return null;
         }
     }
 }
