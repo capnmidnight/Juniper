@@ -30,7 +30,7 @@ namespace Juniper.HTTP
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            if(info is null)
+            if (info is null)
             {
                 throw new ArgumentNullException(nameof(info));
             }

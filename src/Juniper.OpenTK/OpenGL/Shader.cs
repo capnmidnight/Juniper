@@ -34,7 +34,7 @@ namespace Juniper.OpenGL
                 throw new ArgumentNullException(nameof(fileName));
             }
 
-            if(fileName.Length == 0)
+            if (fileName.Length == 0)
             {
                 throw new ArgumentException("path must not be empty string", nameof(fileName));
             }

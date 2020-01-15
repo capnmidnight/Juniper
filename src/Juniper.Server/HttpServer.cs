@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 using Juniper.HTTP.Server.Controllers;
 using Juniper.Logging;
+
 using System.Text;
 
 #if !NETCOREAPP && !NETSTANDARD
@@ -403,7 +404,7 @@ or
                 if (!listener.IsListening)
                 {
                     OnInfo($"Listening on:");
-                    foreach(var prefix in listener.Prefixes)
+                    foreach (var prefix in listener.Prefixes)
                     {
                         OnInfo($"\t{prefix}");
                     }
@@ -728,7 +729,7 @@ or
                 table[i + 1, 2] = route.Priority.ToString(CultureInfo.InvariantCulture);
                 table[i + 1, 3] = route.Protocol.ToString();
                 table[i + 1, 4] = route.Verb.ToString();
-                table[i + 1, 5] = route.ExpectedStatus.ToString();
+                table[i + 1, 5] = route.ExpectedStatuses.ToString();
 
                 if (route.Authentication == AbstractResponse.AnyAuth)
                 {

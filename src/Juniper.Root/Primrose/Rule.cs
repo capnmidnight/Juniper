@@ -28,7 +28,7 @@ namespace Juniper.Primrose
                 throw new ArgumentNullException(nameof(tokens));
             }
 
-            if(j < 0 || tokens.Count <= j)
+            if (j < 0 || tokens.Count <= j)
             {
                 throw new ArgumentOutOfRangeException(nameof(j));
             }

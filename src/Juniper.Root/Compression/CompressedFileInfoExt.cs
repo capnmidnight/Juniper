@@ -29,7 +29,7 @@ namespace Juniper.Compression
                     let parts = isFile ? PathExt.PathParts(entry.FullName) : null
                     let name = isFile ? string.Join("/", parts.Take(parts.Length - 1)) : entry.FullName
                     where !isFile || name.Length > 0
-                    select  isFile ? new CompressedFileInfo(name) : entry)
+                    select isFile ? new CompressedFileInfo(name) : entry)
                 .Distinct();
         }
 

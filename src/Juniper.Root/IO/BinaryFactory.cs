@@ -4,8 +4,6 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-using Juniper.Progress;
-
 namespace Juniper.IO
 {
     public class BinaryFactory<ResultT> :
@@ -49,7 +47,7 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(stream));
             }
 
-            if(value is null)
+            if (value is null)
             {
                 throw new ArgumentNullException(nameof(value));
             }

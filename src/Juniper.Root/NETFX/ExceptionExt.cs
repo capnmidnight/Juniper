@@ -21,7 +21,7 @@ namespace System
                 throw new ArgumentNullException(nameof(e));
             }
 
-            if(featureName is null)
+            if (featureName is null)
             {
                 featureName = string.Empty;
             }

@@ -2,9 +2,6 @@ using System;
 using System.Globalization;
 using System.IO;
 
-using Juniper.IO;
-using Juniper.Progress;
-
 using NAudio.Wave;
 
 namespace Juniper.Sound

@@ -66,9 +66,9 @@ namespace Juniper
         {
             if (acceptTypes is object)
             {
-                foreach(var typeStr in acceptTypes)
+                foreach (var typeStr in acceptTypes)
                 {
-                    if(TryParse(typeStr, out var type))
+                    if (TryParse(typeStr, out var type))
                     {
                         yield return type;
                     }
@@ -229,7 +229,7 @@ namespace Juniper
             : this(typeName, subTypeName, 1)
         { }
 
-        internal protected MediaType(string value, string[] extensions = null)
+        protected internal MediaType(string value, string[] extensions = null)
         {
             Value = value;
 

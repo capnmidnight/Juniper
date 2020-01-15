@@ -92,7 +92,7 @@ namespace Juniper.Progress
 
         public IEnumerator<IProgress> GetEnumerator()
         {
-            foreach(var prog in subProgs)
+            foreach (var prog in subProgs)
             {
                 yield return prog;
             }

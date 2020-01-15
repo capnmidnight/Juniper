@@ -1,8 +1,6 @@
 using System;
 using System.IO;
 
-using Juniper.Progress;
-
 using Newtonsoft.Json;
 
 namespace Juniper.IO
@@ -41,7 +39,7 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(stream));
             }
 
-            if(value is null)
+            if (value is null)
             {
                 throw new ArgumentNullException(nameof(stream));
             }

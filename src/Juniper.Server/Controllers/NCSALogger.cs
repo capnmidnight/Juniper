@@ -21,7 +21,11 @@ namespace Juniper.HTTP.Server.Controllers
         public event EventHandler<StringEventArgs> Log;
 
         public NCSALogger(FileInfo file)
-            : base(int.MaxValue - 1, HttpProtocols.All, HttpMethods.All, 0, AnyAuth, MediaType.All)
+            : base(int.MaxValue - 1,
+                  HttpProtocols.All,
+                  HttpMethods.All,
+                  AnyAuth,
+                  MediaType.All)
         {
             if (file is null)
             {
@@ -112,7 +116,7 @@ namespace Juniper.HTTP.Server.Controllers
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
-        void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (!disposedValue)
             {

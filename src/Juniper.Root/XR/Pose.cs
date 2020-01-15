@@ -21,7 +21,7 @@ namespace Juniper.XR
 
         public Pose(float px, float py, float pz, float ox, float oy, float oz, float ow)
             : this(new Vector3Serializable(px, py, pz), new QuaternionSerializable(ox, oy, oz, ow))
-        {  }
+        { }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private Pose(SerializationInfo info, StreamingContext context)

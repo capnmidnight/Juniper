@@ -272,7 +272,7 @@ namespace Juniper.HTTP.Server
 
             for (var i = 0; i < left.Length; ++i)
             {
-                if(left[i] < right[i])
+                if (left[i] < right[i])
                 {
                     return -1;
                 }

@@ -2,8 +2,6 @@ using System.IO;
 
 using Hjg.Pngcs;
 
-using Juniper.Progress;
-
 namespace Juniper.Imaging
 {
     public class HjgPngcsCodec : IImageCodec<ImageLines>

@@ -4,11 +4,7 @@
  * DATE: JAN-24-2007
  */
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
-
-using NUnit.Framework;
 
 namespace Juniper.Collections.Tests
 {

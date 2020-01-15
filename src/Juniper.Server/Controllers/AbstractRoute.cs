@@ -55,12 +55,12 @@ namespace Juniper.HTTP.Server.Controllers
 
         protected AbstractRoute(object source, MethodInfo method, RouteAttribute route)
             : base(ValidateRoute(route).Priority,
-                ValidateRoute(route).Protocol,
-                ValidateRoute(route).Method,
-                ValidateRoute(route).ExpectedStatus,
-                ValidateRoute(route).Authentication,
-                ValidateRoute(route).Accept,
-                MakeName(source, method, route))
+                  ValidateRoute(route).Protocol,
+                  ValidateRoute(route).Method,
+                  ValidateRoute(route).ExpectedStatus,
+                  ValidateRoute(route).Authentication,
+                  ValidateRoute(route).Accept,
+                  MakeName(source, method, route))
         {
             route = ValidateRoute(route);
             pattern = route.Pattern;
@@ -73,7 +73,7 @@ namespace Juniper.HTTP.Server.Controllers
 
         public override bool IsMatch(HttpListenerRequest request)
         {
-            if(request is null)
+            if (request is null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
@@ -86,7 +86,7 @@ namespace Juniper.HTTP.Server.Controllers
 
         protected Task InvokeAsync(HttpListenerContext context, object firstParam)
         {
-            if(context is null)
+            if (context is null)
             {
                 throw new ArgumentNullException(nameof(context));
             }

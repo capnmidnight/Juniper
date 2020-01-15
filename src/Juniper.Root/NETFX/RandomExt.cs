@@ -46,7 +46,7 @@ namespace System
                 throw new ArgumentNullException(nameof(arr));
             }
 
-            if(arr.Length == 0)
+            if (arr.Length == 0)
             {
                 throw new ArgumentException("Array must have at least one element", nameof(arr));
             }

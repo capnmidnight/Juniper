@@ -6,7 +6,7 @@ namespace Juniper.HTTP.Server.Controllers
     public class UnhandledRequestTrap : AbstractResponse
     {
         public UnhandledRequestTrap()
-            : base(int.MaxValue, HttpProtocols.All, HttpMethods.All, 0, AnyAuth, MediaType.All)
+            : base(int.MaxValue, HttpProtocols.All, HttpMethods.All, AnyAuth, MediaType.All)
         { }
 
         public override Task InvokeAsync(HttpListenerContext context)

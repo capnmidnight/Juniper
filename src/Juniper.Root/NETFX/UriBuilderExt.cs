@@ -55,7 +55,7 @@ namespace System
 
             key = key.Trim();
 
-            if(key.Length == 0)
+            if (key.Length == 0)
             {
                 throw new ArgumentException("Key must not be an empty string", nameof(key));
             }

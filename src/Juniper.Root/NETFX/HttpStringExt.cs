@@ -4,7 +4,7 @@ namespace System
     {
         public static string ToGoogleModifiedBase64(this string value)
         {
-            if(value is null)
+            if (value is null)
             {
                 return null;
             }

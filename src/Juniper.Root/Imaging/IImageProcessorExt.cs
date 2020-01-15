@@ -28,7 +28,7 @@ namespace Juniper.Imaging
             var r = images.GetLength(0);
             var c = images.GetLength(1);
 
-            if(r * c == 0)
+            if (r * c == 0)
             {
                 throw new ArgumentException("Must have at least one image.", nameof(images));
             }

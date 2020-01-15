@@ -74,11 +74,11 @@ namespace Juniper.HTTP.Server.Administration.PowerShell
 
         private static IEnumerable<CIDRBlock> EnumerateBlocks(PSDataCollection<PSObject> data)
         {
-            foreach(var item in data)
+            foreach (var item in data)
             {
-                foreach(var prop in item.Properties)
+                foreach (var prop in item.Properties)
                 {
-                    if(prop.Name == "RemoteAddress")
+                    if (prop.Name == "RemoteAddress")
                     {
                         var values = (string[])prop.Value;
                         foreach (var value in values)

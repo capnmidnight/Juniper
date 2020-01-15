@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using Juniper.Collections;
 
 namespace Juniper.HTTP.Server.Controllers
 {
@@ -98,7 +97,12 @@ namespace Juniper.HTTP.Server.Controllers
         private readonly DirectoryInfo rootDirectory;
 
         public StaticFileServer(DirectoryInfo rootDirectory, params MediaType[] acceptTypes)
-            : base(int.MaxValue - 2, HttpProtocols.Default, HttpMethods.GET, HttpStatusCode.OK, AnyAuth, ValidateAcceptTypes(acceptTypes))
+            : base(int.MaxValue - 2,
+                  HttpProtocols.Default,
+                  HttpMethods.GET,
+                  new[] { HttpStatusCode.OK, HttpStatusCode.NotFound },
+                  AnyAuth,
+                  ValidateAcceptTypes(acceptTypes))
         {
             if (rootDirectory is null)
             {
@@ -141,11 +145,11 @@ namespace Juniper.HTTP.Server.Controllers
             var fileType = MediaType.GuessByExtension(file);
 
             var isAcceptable = false;
-            foreach(var type in AcceptTypes)
+            foreach (var type in AcceptTypes)
             {
                 isAcceptable |= fileType == type;
             }
-            
+
             if (!isAcceptable
                 || (!file.Exists && !directory.Exists)
                 || (file.Exists && !rootDirectory.Contains(file))
@@ -156,7 +160,7 @@ namespace Juniper.HTTP.Server.Controllers
                     .ConfigureAwait(false);
                 OnWarning(NCSALogger.FormatLogMessage(context));
             }
-            else if(file.Exists)
+            else if (file.Exists)
             {
                 await response.SendFileAsync(file)
                    .ConfigureAwait(false);

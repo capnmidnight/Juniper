@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+
 using Hjg.Pngcs.Zlib;
 
 namespace Hjg.Pngcs.Chunks

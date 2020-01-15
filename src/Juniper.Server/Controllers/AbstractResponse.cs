@@ -29,7 +29,7 @@ namespace Juniper.HTTP.Server.Controllers
 
         public HttpMethods Verb { get; }
 
-        public HttpStatusCode ExpectedStatus { get; }
+        public IReadOnlyList<HttpStatusCode> ExpectedStatuses { get; }
 
         public AuthenticationSchemes Authentication { get; }
 
@@ -45,7 +45,7 @@ namespace Juniper.HTTP.Server.Controllers
             int priority,
             HttpProtocols protocol,
             HttpMethods method,
-            HttpStatusCode expectedStatus,
+            IReadOnlyList<HttpStatusCode> expectedStatuses,
             AuthenticationSchemes authScheme,
             IReadOnlyList<MediaType> acceptTypes,
             string name = null)
@@ -54,10 +54,43 @@ namespace Juniper.HTTP.Server.Controllers
             Priority = priority;
             Protocol = protocol;
             Verb = method;
-            ExpectedStatus = expectedStatus;
+            ExpectedStatuses = expectedStatuses ?? throw new ArgumentNullException(nameof(expectedStatuses));
             Authentication = authScheme;
             AcceptTypes = acceptTypes;
         }
+
+        protected AbstractResponse(
+            int priority,
+            HttpProtocols protocol,
+            HttpMethods method,
+            HttpStatusCode expectedStatus,
+            AuthenticationSchemes authScheme,
+            IReadOnlyList<MediaType> acceptTypes,
+            string name = null)
+            : this(priority,
+                  protocol,
+                  method,
+                  new[] { expectedStatus },
+                  authScheme,
+                  acceptTypes,
+                  name)
+        { }
+
+        protected AbstractResponse(
+            int priority,
+            HttpProtocols protocol,
+            HttpMethods method,
+            AuthenticationSchemes authScheme,
+            IReadOnlyList<MediaType> acceptTypes,
+            string name = null)
+            : this(priority,
+                  protocol,
+                  method,
+                  Array.Empty<HttpStatusCode>(),
+                  authScheme,
+                  acceptTypes,
+                  name)
+        { }
 
         public virtual bool IsMatch(HttpListenerContext context)
         {
@@ -66,8 +99,8 @@ namespace Juniper.HTTP.Server.Controllers
                 throw new ArgumentNullException(nameof(context));
             }
 
-            return (ExpectedStatus == 0
-                    || context.Response.GetStatus() == ExpectedStatus)
+            return (ExpectedStatuses.Count == 0
+                    || ExpectedStatuses.Contains(context.Response.GetStatus()))
                 && IsMatch(context.Request);
         }
 
@@ -102,7 +135,7 @@ namespace Juniper.HTTP.Server.Controllers
 
         public override string ToString()
         {
-            return $"{Name}[{Priority,10}]: {Protocol} {Verb} {ExpectedStatus} {Authentication}";
+            return $"{Name}[{Priority,10}]: {Protocol} {Verb} {ExpectedStatuses} {Authentication}";
         }
 
         public int CompareTo(object obj)
@@ -130,7 +163,7 @@ namespace Juniper.HTTP.Server.Controllers
             hashCode = (hashCode * -1521134295) + Priority.GetHashCode();
             hashCode = (hashCode * -1521134295) + Verb.GetHashCode();
             hashCode = (hashCode * -1521134295) + Authentication.GetHashCode();
-            hashCode = (hashCode * -1521134295) + ExpectedStatus.GetHashCode();
+            hashCode = (hashCode * -1521134295) + ExpectedStatuses.GetHashCode();
             hashCode = (hashCode * -1521134295) + Protocol.GetHashCode();
             return hashCode;
         }

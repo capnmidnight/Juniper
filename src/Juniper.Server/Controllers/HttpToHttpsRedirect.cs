@@ -17,7 +17,7 @@ namespace Juniper.HTTP.Server.Controllers
 
         public override bool IsMatch(HttpListenerRequest request)
         {
-            if(Server.HttpsPort is null)
+            if (Server.HttpsPort is null)
             {
                 OnWarning("The server isn't listening for HTTPS requests!");
             }
@@ -44,7 +44,7 @@ namespace Juniper.HTTP.Server.Controllers
                 Scheme = "https"
             };
 
-            if(Server.HttpsPort != 443)
+            if (Server.HttpsPort != 443)
             {
                 secureUrl.Port = Server.HttpsPort.Value;
             }

@@ -36,7 +36,7 @@ namespace Juniper.Imaging
 
         public long Serialize(Stream stream, ToImageT value)
         {
-            if(value is null)
+            if (value is null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
