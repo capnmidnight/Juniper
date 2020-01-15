@@ -78,7 +78,13 @@ namespace FileCopier
                                 sourceFile.Name);
 
                             WriteLine(destFileName);
-                            sourceFile.CopyTo(destFileName, true);
+                            try
+                            {
+                                sourceFile.CopyTo(destFileName, true);
+                            }
+                            catch {
+                                Error.WriteLine($"Couldn't copy {0}", destFileName);
+                            }
                         }
                     }
                 }
