@@ -156,15 +156,15 @@ namespace Juniper.HTTP.Server.Controllers
                     .ConfigureAwait(false);
                 OnWarning(NCSALogger.FormatLogMessage(context));
             }
-            else if (directory.Exists)
-            {
-                await ListDirectoryAsync(response, new DirectoryInfo(fileName))
-                    .ConfigureAwait(false);
-            }
-            else
+            else if(file.Exists)
             {
                 await response.SendFileAsync(file)
                    .ConfigureAwait(false);
+            }
+            else
+            {
+                await ListDirectoryAsync(response, directory)
+                    .ConfigureAwait(false);
             }
         }
 
