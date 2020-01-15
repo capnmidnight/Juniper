@@ -112,12 +112,23 @@ namespace Juniper.HTTP.Server.Controllers
             }
 
             var requestedTypes = MediaType.ParseAll(request.AcceptTypes);
+            var isAcceptable = requestedTypes.Any(t1 => AcceptTypes.Any(t2 => t1 == t2));
 
-            return requestedTypes.Any(t1 => AcceptTypes.Any(t2 => t1 == t2))
-                && Enum.TryParse<HttpProtocols>(request.Url.Scheme, true, out var protocol)
-                && Enum.TryParse<HttpMethods>(request.HttpMethod, true, out var verb)
-                && (Protocol & protocol) != 0
-                && (Verb & verb) != 0;
+            var url = request.Url;
+
+            var reqProtocol = url.Scheme;
+            var hasProtocol = Enum.TryParse<HttpProtocols>(reqProtocol, true, out var protocol);
+            var isProtocolMatch = (Protocol & protocol) != 0;
+
+            var reqMethod = request.HttpMethod;
+            var hasMethod = Enum.TryParse<HttpMethods>(reqMethod, true, out var verb);
+            var isMethodMatch = (Verb & verb) != 0;
+
+            return isAcceptable
+                && hasProtocol
+                && hasMethod
+                && isProtocolMatch
+                && isMethodMatch;
         }
 
         public abstract Task InvokeAsync(HttpListenerContext context);

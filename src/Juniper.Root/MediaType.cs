@@ -122,6 +122,10 @@ namespace Juniper
             {
                 ext = "unknown";
             }
+            else if(ext[0] == '.')
+            {
+                ext = ext.Substring(1);
+            }
 
             if (byExtensions.ContainsKey(ext))
             {
@@ -140,14 +144,7 @@ namespace Juniper
                 throw new ArgumentNullException(nameof(file));
             }
 
-            var ext = file.Extension;
-            if (ext.Length > 0
-                && ext[0] == '.')
-            {
-                ext = ext.Substring(1);
-            }
-
-            return GuessByExtension(ext);
+            return GuessByExtension(file.Extension);
         }
 
         public static MediaType Lookup(string value)
@@ -280,9 +277,15 @@ namespace Juniper
 
         public virtual bool Matches(string fileName)
         {
-            return (this == Any && Values.Any(v => v.Matches(fileName)))
-                || Extensions.Contains(PathExt.GetLongExtension(fileName))
-                || Extensions.Contains(PathExt.GetShortExtension(fileName));
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return false;
+            }
+
+            var ext = Path.GetExtension(fileName);
+            var type = GuessByExtension(ext);
+
+            return this == type;
         }
 
         public bool Matches(FileInfo file)
@@ -317,19 +320,24 @@ namespace Juniper
         public bool Equals(string other)
         {
             return TryParse(other, out var type)
-                && Value == type.Value;
+                && Equals(type);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return (obj is MediaType type && Equals(type))
+                || (obj is string str && Equals(str));
         }
 
         public bool Equals(MediaType other)
         {
             return other is object
-                && other.Value == Value;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is MediaType other
-                && Equals(other);
+                && (TypeName == "*"
+                    || other.TypeName == "*"
+                    || TypeName == other.TypeName)
+                && (SubTypeName == "*"
+                    || other.TypeName == "*"
+                    || SubTypeName == other.SubTypeName);
         }
 
         public static bool operator ==(MediaType left, MediaType right)
