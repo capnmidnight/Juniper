@@ -609,9 +609,10 @@ or
                     .FlushAsync()
                     .ConfigureAwait(true);
 
-                if (response.StatusCode >= 400
-                    || (headers["Connection"] != "Keep-Alive"
-                        && !request.IsWebSocketRequest))
+                var keepAlive = headers["Connection"]?.Equals("Keep-Alive", StringComparison.InvariantCultureIgnoreCase) == true;
+                var status = response.GetStatus();
+                if (status >= HttpStatusCode.InternalServerError
+                    || (!keepAlive && !request.IsWebSocketRequest))
                 {
                     response.Close();
                 }
