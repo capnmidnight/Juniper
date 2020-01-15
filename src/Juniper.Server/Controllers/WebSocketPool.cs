@@ -45,7 +45,7 @@ namespace Juniper.HTTP.Server.Controllers
             if (!sockets.ContainsKey(id))
             {
                 var token = context.Request.Headers["Sec-WebSocket-Protocol"];
-                if (token is null || userNames.ContainsKey(token))
+                if (token is null || !userNames.ContainsKey(token))
                 {
                     context.Response.SetStatus(HttpStatusCode.Unauthorized);
                 }
