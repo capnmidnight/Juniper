@@ -69,6 +69,8 @@ namespace Juniper.HTTP.Server.Controllers
                     {
                         writer.WriteLine(log);
                     }
+
+                    Thread.Yield();
                 }
             }
         }
