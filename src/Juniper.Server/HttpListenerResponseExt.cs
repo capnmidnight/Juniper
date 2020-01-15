@@ -142,7 +142,6 @@ namespace Juniper.HTTP.Server
                 throw new ArgumentNullException(nameof(input));
             }
 
-            response.SetStatus(HttpStatusCode.OK);
             response.ContentType = contentType;
             response.ContentLength64 = input.Length;
             response.AddHeader("Date", DateTime.Now.ToString("r", CultureInfo.InvariantCulture));

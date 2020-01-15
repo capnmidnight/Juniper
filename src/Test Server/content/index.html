@@ -12,22 +12,77 @@
     </style>
 </head>
 <body>
-    <button id="connect">Connect</button>
-    <button id="disconnect" disabled>Disconnect</button>
-    <br />
-    <input type="text" id="input" /><button id="send" disabled>Send</button>
-    <br />
-    <div id="status">none</div>
-    <textarea id="output" readonly></textarea>
+    <p>
+        <input type="text" id="username" />
+        <input type="password" id="password" />
+        <button id="login">Login</button>
+        <button id="logout" disabled>Logout</button>
+    </p>
+
+    <p>
+        <button id="connect">Connect</button>
+        <button id="disconnect" disabled>Disconnect</button>
+        <span id="status">none</span>
+    </p>
+
+    <p>
+        <input type="text" id="input" />
+        <button id="send" disabled>Send</button>
+    </p>
+
+    <p>
+        <textarea id="output" readonly></textarea>
+    </p>
 
     <script type="text/javascript">
         var socket = null;
+        var usernameText = document.getElementById("username");
+        var passwordText = document.getElementById("password");
+        var loginButton = document.getElementById("login");
+        var logoutButton = document.getElementById("logout");
         var connectButton = document.getElementById("connect");
         var disconnectButton = document.getElementById("disconnect");
         var sendButton = document.getElementById("send");
         var inputText = document.getElementById("input");
         var statusText = document.getElementById("status");
         var outputText = document.getElementById("output");
+
+        function login() {
+            loginButton.disabled = true;
+            usernameText.disabled = true;
+            passwordText.disabled = true;
+            var authPair = usernameText.value + ":" + passwordText.value;
+            var authHash = btoa(authPair);
+            fetch("http://localhost:8080/auth/", {
+                method: "POST",
+                headers: {
+                    Authorization: "Basic " + authHash
+                }
+            }).then(function (response) {
+                switch (response.status) {
+                    case 200:
+                        logoutButton.disabled = false;
+                        inputText.focus();
+                        break;
+                    default:
+                        loginButton.disabled = false;
+                        usernameText.disabled = false;
+                        passwordText.disabled = false;
+                        usernameText.focus();
+                        break;
+                }
+            });
+        }
+
+        function logout() {
+            logoutButton.disabled = true;
+            loginButton.disabled = false;
+            usernameText.disabled = false;
+            passwordText.disabled = false;
+            usernameText.value = "";
+            passwordText.value = "";
+            usernameText.focus();
+        }
 
         function status(msg) {
             if (msg) {
@@ -50,7 +105,32 @@
             statusText.innerHTML = sockStatus;
         }
 
-        function connect() {
+        function input() {
+            socket.send(inputText.value);
+            inputText.value = "";
+            inputText.focus();
+        }
+
+        function output(msg) {
+            outputText.value = msg + "\n" + outputText.value;
+        }
+
+        function onenter(textBox, func) {
+            return function (evt) {
+                if (textBox.value.length > 0 && evt.keyCode === 13) {
+                    func(evt);
+                }
+            }
+        }
+
+        usernameText.addEventListener("keydown", onenter(usernameText, passwordText.focus.bind(passwordText)));
+        passwordText.addEventListener("keydown", onenter(passwordText, login));
+        loginButton.addEventListener("click", login);
+        logoutButton.addEventListener("click", logout);
+        sendButton.addEventListener("click", input);
+        inputText.addEventListener("keydown", onenter(inputText, input));
+
+        connectButton.addEventListener("click", function () {
             status("Connecting");
             socket = new WebSocket("ws://localhost:8080/connect/");
 
@@ -71,34 +151,13 @@
                 output(evt.data);
                 status();
             });
-        }
+        });
 
-        function submit(evt) {
-            if (evt.keyCode === 13 && inputText.value.length > 0) {
-                input();
-            }
-        }
-
-        function input() {
-            socket.send(inputText.value);
-            inputText.value = "";
-            inputText.focus();
-        }
-
-        function output(msg) {
-            outputText.value = msg + "\n" + outputText.value;
-        }
-
-        function disconnect() {
+        disconnectButton.addEventListener("click", function () {
             connectButton.disabled = false;
             status("Disconnecting");
             socket.close();
-        }
-
-        sendButton.addEventListener("click", input);
-        inputText.addEventListener("keydown", submit);
-        connectButton.addEventListener("click", connect);
-        disconnectButton.addEventListener("click", disconnect);
+        });
 
         status();
     </script>

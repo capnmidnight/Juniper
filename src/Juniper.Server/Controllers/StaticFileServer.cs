@@ -197,6 +197,7 @@ namespace Juniper.HTTP.Server.Controllers
 
             _ = sb.Append("</ul></body></html>");
 
+            response.SetStatus(HttpStatusCode.OK);
             await response.SendTextAsync(MediaType.Text.Html, sb.ToString())
                 .ConfigureAwait(false);
         }

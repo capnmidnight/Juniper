@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -16,6 +17,48 @@ namespace Juniper.HTTP
 {
     public static class Program
     {
+        [Route("auth/", Method = HttpMethods.POST, Authentication = AuthenticationSchemes.Basic)]
+        public static async Task AuthenticateUserAsync(HttpListenerContext context)
+        {
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            var response = context.Response;
+
+            if (context.User.Identity is HttpListenerBasicIdentity user
+                && user.Name == "sean"
+                && user.Password == "ppyptky7")
+            {
+                response.SetStatus(HttpStatusCode.OK);
+                await response.SendTextAsync("OK")
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                response.SetStatus(HttpStatusCode.Unauthorized);
+                await response.SendTextAsync("NO!")
+                    .ConfigureAwait(false);
+            }
+        }
+
+        [Route("connect/")]
+        public static Task AcceptWebSocketAsync(WebSocketConnection socket)
+        {
+            if (socket is object)
+            {
+                socket.Message += Socket_Message;
+                socket.Error += Socket_Error;
+                var code = socket
+                    .GetHashCode()
+                    .ToString(CultureInfo.InvariantCulture);
+                WriteLine($"Got socket {code}");
+            }
+
+            return Task.CompletedTask;
+        }
+
         private static HttpServer server;
 
         private static uint logLevel = 0;
@@ -217,22 +260,6 @@ namespace Juniper.HTTP
             {
                 WriteLine(format, command.Key, command.Value.Name);
             }
-        }
-
-        [Route("connect/")]
-        public static Task AcceptWebSocketAsync(WebSocketConnection socket)
-        {
-            if (socket is object)
-            {
-                socket.Message += Socket_Message;
-                socket.Error += Socket_Error;
-                var code = socket
-                    .GetHashCode()
-                    .ToString(CultureInfo.InvariantCulture);
-                WriteLine($"Got socket {code}");
-            }
-
-            return Task.CompletedTask;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
