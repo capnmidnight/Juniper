@@ -35,7 +35,11 @@ namespace System.Collections.Generic
         /// ]]></code></example>
         public static TValue Get<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue defaultValue = default)
         {
-            if (dict?.ContainsKey(key) == true)
+            if(key is null)
+            {
+                return defaultValue;
+            }
+            else if (dict?.ContainsKey(key) == true)
             {
                 return dict[key];
             }

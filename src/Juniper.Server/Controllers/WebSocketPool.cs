@@ -45,7 +45,7 @@ namespace Juniper.HTTP.Server.Controllers
             if (!sockets.ContainsKey(id))
             {
                 var token = context.Request.Headers["Sec-WebSocket-Protocol"];
-                if (token is null || !userNames.ContainsKey(token))
+                if (token is object && !userNames.ContainsKey(token))
                 {
                     context.Response.SetStatus(HttpStatusCode.Unauthorized);
                 }
@@ -54,7 +54,7 @@ namespace Juniper.HTTP.Server.Controllers
                     var wsContext = await context.AcceptWebSocketAsync(token)
                         .ConfigureAwait(false);
 
-                    var socket = new ServerWebSocketConnection(context, wsContext.WebSocket, userNames[token]);
+                    var socket = new ServerWebSocketConnection(context, wsContext.WebSocket, userNames.Get(token));
 
                     socket.Closed += Socket_Closed;
                     sockets.Add(id, socket);
