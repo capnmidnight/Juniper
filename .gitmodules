@@ -1,3 +1,9 @@
+[submodule "src/small-town"]
+	path = src/small-town
+	url = https://github.com/capnmidnight/small-town.git
 [submodule "src/NLayer"]
 	path = src/NLayer
 	url = https://github.com/capnmidnight/NLayer.git
+[submodule "src/SqlSiphon"]
+	path = src/SqlSiphon
+	url = https://github.com/capnmidnight/SqlSiphon.git

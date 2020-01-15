@@ -753,7 +753,7 @@ or
                 }
             }
 
-            var totalWidth = columnSizes.Sum() + columnSizes.Length * 3 + 1;
+            var totalWidth = columnSizes.Sum() + (columnSizes.Length * 3) + 1;
 
             var sb = new StringBuilder();
             for (var x = 0; x < table.GetLength(0); ++x)
