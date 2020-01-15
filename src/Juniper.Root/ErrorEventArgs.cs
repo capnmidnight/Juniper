@@ -15,5 +15,10 @@ namespace Juniper
         public ErrorEventArgs(Exception exp)
             : base(exp)
         { }
+
+        public override string ToString()
+        {
+            return Value.Unroll();
+        }
     }
 }

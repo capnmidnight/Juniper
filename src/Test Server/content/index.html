@@ -4,38 +4,103 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+    <style>
+        textarea {
+            width: 800px;
+            height: 300px;
+        }
+    </style>
 </head>
 <body>
-    Hello, world
+    <button id="connect">Connect</button>
+    <button id="disconnect" disabled>Disconnect</button>
+    <br />
+    <input type="text" id="input" /><button id="send" disabled>Send</button>
+    <br />
+    <div id="status">none</div>
+    <textarea id="output" readonly></textarea>
+
     <script type="text/javascript">
         var socket = null;
+        var connectButton = document.getElementById("connect");
+        var disconnectButton = document.getElementById("disconnect");
+        var sendButton = document.getElementById("send");
+        var inputText = document.getElementById("input");
+        var statusText = document.getElementById("status");
+        var outputText = document.getElementById("output");
+
+        function status(msg) {
+            if (msg) {
+                console.log(msg);
+            }
+
+            var sockStatus;
+            switch (socket && socket.readyState) {
+                case WebSocket.OPEN: sockStatus = "open"; break;
+                case WebSocket.CONNECTING: sockStatus = "connecting"; break;
+                case WebSocket.CLOSING: sockStatus = "closing"; break;
+                case WebSocket.CLOSED: sockStatus = "closed"; break;
+                default: sockStatus = "unknown"; break;
+            }
+
+            connectButton.disabled = sockStatus === "open" || sockStatus === "connecting";
+            disconnectButton.disabled = sockStatus == "connecting" || sockStatus == "closing" || sockStatus == "closed" || sockStatus == "unknown";
+            inputText.disabled = sendButton.disabled = sockStatus != "open";
+
+            statusText.innerHTML = sockStatus;
+        }
 
         function connect() {
+            status("Connecting");
             socket = new WebSocket("ws://localhost:8080/connect/");
 
             socket.addEventListener("open", function (evt) {
-                console.log("open");
-                console.log(evt);
-                socket.send("hello");
+                status("Open");
             });
 
             socket.addEventListener("close", function (evt) {
-                console.log("close");
-                console.log(evt);
+                status("Close");
+                socket = null;
             });
 
             socket.addEventListener("error", function (evt) {
-                console.error(evt);
+                status("Error");
             });
 
             socket.addEventListener("message", function (evt) {
-                console.log("message: ", evt.data);
+                output(evt.data);
+                status();
             });
         }
 
-        connect();
-    </script>
+        function submit(evt) {
+            if (evt.keyCode === 13 && inputText.value.length > 0) {
+                input();
+            }
+        }
 
-    <button onclick="connect()">Connect</button>
+        function input() {
+            socket.send(inputText.value);
+            inputText.value = "";
+            inputText.focus();
+        }
+
+        function output(msg) {
+            outputText.value = msg + "\n" + outputText.value;
+        }
+
+        function disconnect() {
+            connectButton.disabled = false;
+            status("Disconnecting");
+            socket.close();
+        }
+
+        sendButton.addEventListener("click", input);
+        inputText.addEventListener("keydown", submit);
+        connectButton.addEventListener("click", connect);
+        disconnectButton.addEventListener("click", disconnect);
+
+        status();
+    </script>
 </body>
 </html>

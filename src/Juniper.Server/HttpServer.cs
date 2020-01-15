@@ -11,10 +11,12 @@ using System.Threading.Tasks;
 
 using Juniper.HTTP.Server.Controllers;
 using Juniper.Logging;
+using System.Text;
 
 #if !NETCOREAPP && !NETSTANDARD
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
+
 using Juniper.HTTP.Server.Administration.NetSH;
 #endif
 
@@ -164,14 +166,6 @@ namespace Juniper.HTTP.Server
         /// </summary>
         public event EventHandler<ErrorEventArgs> Err;
 
-        private AuthenticationSchemes GetAuthenticationSchemeForRequest(HttpListenerRequest request)
-        {
-            return (from route in routes
-                    where route.IsMatch(request)
-                    select route.Authentication)
-                .Max();
-        }
-
         public void Add(params object[] controllers)
         {
             if (controllers is null)
@@ -227,6 +221,11 @@ namespace Juniper.HTTP.Server
                             }
                             else if (isWebSocket)
                             {
+                                if (route.Authentication != AuthenticationSchemes.Anonymous)
+                                {
+                                    throw new InvalidOperationException("WebSockets do not support authentication");
+                                }
+
                                 AddController(new WebSocketRoute(source, method, route));
                             }
                             else
@@ -326,13 +325,12 @@ or
         public virtual void Start()
         {
             OnInfo("Starting server");
-            if (controllers.Count > 0)
+
+
+            if (routes.Count > 0)
             {
-                OnInfo("Found controllers:");
-                foreach (var controller in controllers)
-                {
-                    OnInfo($"\t{controller}");
-                }
+                routes.Sort();
+                ShowRoutes();
             }
 
             if (HttpsPort is object)
@@ -401,12 +399,15 @@ or
                 }
 #endif
 
-                routes.Sort();
 
                 if (!listener.IsListening)
                 {
-                    var prefixes = string.Join(", ", listener.Prefixes);
-                    OnInfo($"Listening on: {prefixes}");
+                    OnInfo($"Listening on:");
+                    foreach(var prefix in listener.Prefixes)
+                    {
+                        OnInfo($"\t{prefix}");
+                    }
+
                     listener.Start();
                 }
 
@@ -546,10 +547,39 @@ or
             }
         }
 
+        private AuthenticationSchemes GetAuthenticationSchemeForRequest(HttpListenerRequest request)
+        {
+            var auth = (from route in routes
+                        where route.IsMatch(request)
+                        orderby Math.Abs(route.Priority)
+                        select route.Authentication)
+                .FirstOrDefault();
+
+            if (auth == AuthenticationSchemes.None)
+            {
+                auth = AuthenticationSchemes.Anonymous;
+            }
+
+            return auth;
+        }
+
         private async Task HandleConnectionAsync()
         {
             var context = await listener.GetContextAsync()
                 .ConfigureAwait(false);
+            var response = context.Response;
+            var request = context.Request;
+            var headers = request.Headers;
+
+#if DEBUG
+            OnInfo(NCSALogger.FormatLogMessage(context));
+            OnInfo("Headers:");
+            foreach (var key in headers.AllKeys)
+            {
+                var value = headers[key];
+                OnInfo($"\t{key} = {value}");
+            }
+#endif
 
             try
             {
@@ -573,13 +603,18 @@ or
 #pragma warning restore CA1031 // Do not catch general exception types
             finally
             {
-                context.Response.StatusDescription = HttpStatusDescription.Get(context.Response.StatusCode);
+                response.StatusDescription = HttpStatusDescription.Get(response.StatusCode);
 
-                await context
-                    .Response
+                await response
                     .OutputStream
                     .FlushAsync()
                     .ConfigureAwait(true);
+
+                if (headers["Connection"] != "Keep-Alive"
+                    && !request.IsWebSocketRequest)
+                {
+                    response.Close();
+                }
             }
         }
 
@@ -664,5 +699,86 @@ or
             GC.SuppressFinalize(this);
         }
         #endregion
+
+        private void ShowRoutes()
+        {
+            OnInfo("Found routes:");
+            var table = new string[routes.Count + 1, 7];
+            table[0, 0] = "Type";
+            table[0, 1] = "Method";
+            table[0, 2] = "Priority";
+            table[0, 3] = "Protocol";
+            table[0, 4] = "Verb";
+            table[0, 5] = "Status";
+            table[0, 6] = "Authentication";
+
+            for (var i = 0; i < routes.Count; i++)
+            {
+                var route = routes[i];
+                var sepIndex = route.Name.IndexOf("::", StringComparison.Ordinal);
+                if (sepIndex < 0)
+                {
+                    table[i + 1, 0] = route.Name;
+                }
+                else
+                {
+                    table[i + 1, 0] = route.Name.Substring(0, sepIndex);
+                    table[i + 1, 1] = route.Name.Substring(sepIndex + 2);
+                }
+
+                table[i + 1, 2] = route.Priority.ToString(CultureInfo.InvariantCulture);
+                table[i + 1, 3] = route.Protocol.ToString();
+                table[i + 1, 4] = route.Verb.ToString();
+                table[i + 1, 5] = route.ExpectedStatus.ToString();
+
+                if (route.Authentication == AbstractResponse.AnyAuth)
+                {
+                    table[i + 1, 6] = "Any";
+                }
+                else
+                {
+                    table[i + 1, 6] = route.Authentication.ToString();
+                }
+            }
+
+            var columnSizes = new int[table.GetLength(1)];
+            for (var x = 0; x < table.GetLength(0); ++x)
+            {
+                for (var y = 0; y < table.GetLength(1); ++y)
+                {
+                    if (table[x, y] is null)
+                    {
+                        table[x, y] = string.Empty;
+                    }
+                    columnSizes[y] = Math.Max(columnSizes[y], table[x, y].Length);
+                }
+            }
+
+            var totalWidth = columnSizes.Sum() + columnSizes.Length * 3 + 1;
+
+            var sb = new StringBuilder();
+            for (var x = 0; x < table.GetLength(0); ++x)
+            {
+                _ = sb.Clear();
+                for (var y = 0; y < table.GetLength(1); ++y)
+                {
+                    var formatter = $"| {{0,-{columnSizes[y]}}} ";
+                    _ = sb.AppendFormat(CultureInfo.InvariantCulture, formatter, table[x, y]);
+                }
+
+                _ = sb.Append("|");
+                OnInfo(sb.ToString());
+
+                if (x == 0)
+                {
+                    _ = sb.Clear();
+                    for (var y = 0; y < totalWidth; ++y)
+                    {
+                        _ = sb.Append("-");
+                    }
+                    OnInfo(sb.ToString());
+                }
+            }
+        }
     }
 }

@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Juniper.Collections;
 
 namespace Juniper.HTTP.Server.Controllers
 {
@@ -70,6 +72,17 @@ namespace Juniper.HTTP.Server.Controllers
             return new DirectoryInfo(rootDirectoryPath);
         }
 
+        private static IReadOnlyList<MediaType> ValidateAcceptTypes(IReadOnlyList<MediaType> acceptTypes)
+        {
+            if (acceptTypes is null
+                || acceptTypes.Count == 0)
+            {
+                acceptTypes = DEFAULT_MEDIA_TYPES;
+            }
+
+            return acceptTypes;
+        }
+
         private static string MassageRequestPath(string requestPath)
         {
             requestPath = requestPath.Substring(1);
@@ -83,10 +96,9 @@ namespace Juniper.HTTP.Server.Controllers
         }
 
         private readonly DirectoryInfo rootDirectory;
-        private readonly MediaType[] mediaTypeWhiteList;
 
-        public StaticFileServer(DirectoryInfo rootDirectory, params MediaType[] mediaTypeWhiteList)
-            : base(int.MaxValue - 2, HttpProtocols.Default, HttpMethods.GET, HttpStatusCode.OK, AnyAuth)
+        public StaticFileServer(DirectoryInfo rootDirectory, params MediaType[] acceptTypes)
+            : base(int.MaxValue - 2, HttpProtocols.Default, HttpMethods.GET, HttpStatusCode.OK, AnyAuth, ValidateAcceptTypes(acceptTypes))
         {
             if (rootDirectory is null)
             {
@@ -99,13 +111,6 @@ namespace Juniper.HTTP.Server.Controllers
             }
 
             this.rootDirectory = rootDirectory;
-
-            this.mediaTypeWhiteList = mediaTypeWhiteList;
-            if (this.mediaTypeWhiteList is null
-                || this.mediaTypeWhiteList.Length == 0)
-            {
-                this.mediaTypeWhiteList = DEFAULT_MEDIA_TYPES;
-            }
         }
 
         public StaticFileServer(string rootDirectoryPath, params MediaType[] mediaTypeWhiteList)
@@ -120,8 +125,8 @@ namespace Juniper.HTTP.Server.Controllers
                 throw new ArgumentNullException(nameof(context));
             }
 
-            var request = context.Request;
             var response = context.Response;
+            var request = context.Request;
             var requestPath = request.Url.AbsolutePath;
             var requestFile = MassageRequestPath(requestPath);
             var fileName = Path.Combine(rootDirectory.FullName, requestFile);
@@ -133,11 +138,17 @@ namespace Juniper.HTTP.Server.Controllers
             }
 
             var file = new FileInfo(fileName);
-            var type = MediaType.GuessByExtension(file);
-            var isSupportedMediaType = Array.IndexOf(mediaTypeWhiteList, type) >= 0;
+            var fileType = MediaType.GuessByExtension(file);
 
-            if ((!file.Exists && !directory.Exists)
-                || (file.Exists && (!rootDirectory.Contains(file) || !isSupportedMediaType))
+            var isAcceptable = false;
+            foreach(var type in AcceptTypes)
+            {
+                isAcceptable |= fileType == type;
+            }
+            
+            if (!isAcceptable
+                || (!file.Exists && !directory.Exists)
+                || (file.Exists && !rootDirectory.Contains(file))
                 || (directory.Exists && !rootDirectory.Contains(directory)))
             {
                 response.SetStatus(HttpStatusCode.NotFound);

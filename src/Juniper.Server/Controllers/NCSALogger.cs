@@ -21,7 +21,7 @@ namespace Juniper.HTTP.Server.Controllers
         public event EventHandler<StringEventArgs> Log;
 
         public NCSALogger(FileInfo file)
-            : base(int.MaxValue - 1, HttpProtocols.All, HttpMethods.All, 0, AnyAuth)
+            : base(int.MaxValue - 1, HttpProtocols.All, HttpMethods.All, 0, AnyAuth, MediaType.All)
         {
             if (file is null)
             {

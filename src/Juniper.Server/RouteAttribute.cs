@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Text.RegularExpressions;
 
@@ -24,6 +25,8 @@ namespace Juniper.HTTP.Server
         public AuthenticationSchemes Authentication { get; set; } = AuthenticationSchemes.Anonymous;
 
         public HttpProtocols Protocol { get; set; } = HttpProtocols.Default;
+
+        public IReadOnlyList<MediaType> Accept { get; set; } = MediaType.All;
 
         public RouteAttribute(Regex pattern)
         {

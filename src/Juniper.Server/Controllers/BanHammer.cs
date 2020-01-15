@@ -16,7 +16,7 @@ namespace Juniper.HTTP.Server.Controllers
         public event EventHandler<EventArgs<CIDRBlock>> BanRemoved;
 
         public BanHammer(IEnumerable<CIDRBlock> blocks = null)
-            : base(int.MinValue, HttpProtocols.All, HttpMethods.All, 0, AnyAuth)
+            : base(int.MinValue, HttpProtocols.All, HttpMethods.All, 0, AnyAuth, MediaType.All)
         {
             if (blocks != null)
             {

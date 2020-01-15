@@ -27,13 +27,40 @@ namespace Juniper.HTTP.Server.Controllers
             return route;
         }
 
+        private static string MakeName(object source, MethodInfo method, RouteAttribute route)
+        {
+            if (method is null)
+            {
+                throw new ArgumentNullException(nameof(method));
+            }
+
+            if (route is null)
+            {
+                throw new ArgumentNullException(nameof(route));
+            }
+
+            if (route.Name is object)
+            {
+                return route.Name;
+            }
+            else if (source is object)
+            {
+                return $"{source.GetType().FullName}::{method.Name}";
+            }
+            else
+            {
+                return $"{method.DeclaringType.FullName}::{method.Name}";
+            }
+        }
+
         protected AbstractRoute(object source, MethodInfo method, RouteAttribute route)
             : base(ValidateRoute(route).Priority,
                 ValidateRoute(route).Protocol,
                 ValidateRoute(route).Method,
                 ValidateRoute(route).ExpectedStatus,
                 ValidateRoute(route).Authentication,
-                ValidateRoute(route).Name)
+                ValidateRoute(route).Accept,
+                MakeName(source, method, route))
         {
             route = ValidateRoute(route);
             pattern = route.Pattern;

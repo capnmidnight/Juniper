@@ -7,7 +7,12 @@ namespace Juniper.HTTP.Server.Controllers
     public sealed class HttpToHttpsRedirect : AbstractResponse
     {
         public HttpToHttpsRedirect()
-            : base(int.MinValue + 1, HttpProtocols.HTTP, HttpMethods.GET, HttpStatusCode.OK, AnyAuth)
+            : base(int.MinValue + 1,
+                  HttpProtocols.HTTP,
+                  HttpMethods.GET,
+                  HttpStatusCode.OK,
+                  AnyAuth,
+                  MediaType.All)
         { }
 
         public override bool IsMatch(HttpListenerRequest request)
@@ -18,6 +23,7 @@ namespace Juniper.HTTP.Server.Controllers
             }
 
             return Server.HttpsPort is object
+                && request.Headers["Upgrade-Insecure-Requests"] == "1"
                 && base.IsMatch(request);
         }
 

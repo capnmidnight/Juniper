@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -20,8 +21,9 @@ namespace Juniper.HTTP.Server.Controllers
             | AuthenticationSchemes.Basic
             | AuthenticationSchemes.Anonymous;
 
-        private readonly string name;
-        private readonly int priority;
+        public string Name { get; }
+
+        public int Priority { get; }
 
         public HttpProtocols Protocol { get; }
 
@@ -30,6 +32,8 @@ namespace Juniper.HTTP.Server.Controllers
         public HttpStatusCode ExpectedStatus { get; }
 
         public AuthenticationSchemes Authentication { get; }
+
+        public IReadOnlyList<MediaType> AcceptTypes { get; }
 
         internal HttpServer Server { get; set; }
 
@@ -43,14 +47,16 @@ namespace Juniper.HTTP.Server.Controllers
             HttpMethods method,
             HttpStatusCode expectedStatus,
             AuthenticationSchemes authScheme,
+            IReadOnlyList<MediaType> acceptTypes,
             string name = null)
         {
-            this.name = name ?? GetType().Name;
-            this.priority = priority;
+            Name = name ?? GetType().FullName;
+            Priority = priority;
             Protocol = protocol;
             Verb = method;
             ExpectedStatus = expectedStatus;
             Authentication = authScheme;
+            AcceptTypes = acceptTypes;
         }
 
         public virtual bool IsMatch(HttpListenerContext context)
@@ -72,7 +78,10 @@ namespace Juniper.HTTP.Server.Controllers
                 throw new ArgumentNullException(nameof(request));
             }
 
-            return Enum.TryParse<HttpProtocols>(request.Url.Scheme, true, out var protocol)
+            var requestedTypes = MediaType.ParseAll(request.AcceptTypes);
+
+            return requestedTypes.Any(t1 => AcceptTypes.Any(t2 => t1 == t2))
+                && Enum.TryParse<HttpProtocols>(request.Url.Scheme, true, out var protocol)
                 && Enum.TryParse<HttpMethods>(request.HttpMethod, true, out var verb)
                 && (Protocol & protocol) != 0
                 && (Verb & verb) != 0;
@@ -93,7 +102,7 @@ namespace Juniper.HTTP.Server.Controllers
 
         public override string ToString()
         {
-            return $"{name}[{priority,10}]: {Protocol} {Verb} {ExpectedStatus} {Authentication}";
+            return $"{Name}[{Priority,10}]: {Protocol} {Verb} {ExpectedStatus} {Authentication}";
         }
 
         public int CompareTo(object obj)
@@ -110,15 +119,15 @@ namespace Juniper.HTTP.Server.Controllers
             else
             {
                 // smaller Priority numbers before larger Priority numbers (i.e. 0 being the "Highest Priority")
-                return priority.CompareTo(other.priority);
+                return Priority.CompareTo(other.Priority);
             }
         }
 
         public override int GetHashCode()
         {
             var hashCode = -40035775;
-            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(name);
-            hashCode = (hashCode * -1521134295) + priority.GetHashCode();
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(Name);
+            hashCode = (hashCode * -1521134295) + Priority.GetHashCode();
             hashCode = (hashCode * -1521134295) + Verb.GetHashCode();
             hashCode = (hashCode * -1521134295) + Authentication.GetHashCode();
             hashCode = (hashCode * -1521134295) + ExpectedStatus.GetHashCode();
