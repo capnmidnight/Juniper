@@ -208,7 +208,7 @@ namespace Juniper.HTTP.Server
                         {
                             var contextParamType = parameters[0].ParameterType;
                             var isHttp = contextParamType == typeof(HttpListenerContext);
-                            var isWebSocket = contextParamType == typeof(WebSocketConnection);
+                            var isWebSocket = contextParamType == typeof(ServerWebSocketConnection);
 
                             object source = null;
                             if (!method.IsStatic)
@@ -234,7 +234,7 @@ namespace Juniper.HTTP.Server
                                 throw new InvalidOperationException($@"Method {type.Name}::{method.Name} must have a signature:
     (System.Net.HttpListenerContext, string...) => Task
 or
-    (Juniper.HTTP.WebSocketConnection, string...) => Task");
+    (Juniper.HTTP.Server.ServerWebSocketConnection, string...) => Task");
                             }
                         }
                     }
@@ -327,7 +327,6 @@ or
         {
             OnInfo("Starting server");
 
-
             if (routes.Count > 0)
             {
                 routes.Sort();
@@ -336,6 +335,8 @@ or
 
             if (HttpsPort is object)
             {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
                 if (!AutoAssignCertificate)
                 {
                     SetPrefix("https", HttpsPort.Value);
@@ -348,8 +349,6 @@ or
                 }
                 else
                 {
-                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
                     GetTLSParameters(out var guid, out var certHash);
 
                     if (string.IsNullOrEmpty(certHash))
@@ -551,7 +550,7 @@ or
         private AuthenticationSchemes GetAuthenticationSchemeForRequest(HttpListenerRequest request)
         {
             var auth = (from route in routes
-                        where route.IsMatch(request)
+                        where route.IsRequestMatch(request)
                         orderby Math.Abs(route.Priority)
                         select route.Authentication)
                 .FirstOrDefault();
@@ -572,6 +571,8 @@ or
             var request = context.Request;
             var headers = request.Headers;
 
+            response.SetStatus(HttpStatusCode.Continue);
+
 #if DEBUG
             OnInfo(NCSALogger.FormatLogMessage(context));
             OnInfo("Headers:");
@@ -586,9 +587,9 @@ or
             {
                 foreach (var route in routes)
                 {
-                    if (route.IsMatch(context))
+                    if (route.IsContextMatch(context))
                     {
-                        await route.InvokeAsync(context)
+                        await route.ExecuteAsync(context)
                             .ConfigureAwait(false);
                     }
                 }
@@ -597,22 +598,51 @@ or
             catch (Exception exp)
             {
                 OnError(exp);
-                context.Response.SetStatus(HttpStatusCode.InternalServerError);
+                response.SetStatus(HttpStatusCode.InternalServerError);
+#if DEBUG
+                await response.SendTextAsync(exp.Unroll())
+                    .ConfigureAwait(false);
+#endif
             }
 #pragma warning restore CA1031 // Do not catch general exception types
             finally
             {
                 response.StatusDescription = HttpStatusDescription.Get(response.StatusCode);
 
+                if(response.GetStatus() == HttpStatusCode.Continue)
+                {
+                    response.SetStatus(HttpStatusCode.BadRequest);
+                }
+
+                if (response.StatusCode >= 400)
+                {
+                    var message = $"{request.RawUrl}: {response.StatusDescription}";
+                    if (response.StatusCode >= 500)
+                    {
+                        OnError(new HttpListenerException(response.StatusCode, message));
+                    }
+                    else
+                    {
+                        OnWarning(message);
+                    }
+
+#if DEBUG
+                    await response.SendTextAsync(message)
+                        .ConfigureAwait(false);
+#endif
+                }
+
+
                 await response
                     .OutputStream
                     .FlushAsync()
                     .ConfigureAwait(true);
 
-                var keepAlive = headers["Connection"]?.Equals("Keep-Alive", StringComparison.InvariantCultureIgnoreCase) == true;
+                var connection = headers["Connection"];
+                var closeConnection = connection?.Equals("Close", StringComparison.InvariantCultureIgnoreCase) != false;
                 var status = response.GetStatus();
                 if (status >= HttpStatusCode.InternalServerError
-                    || (!keepAlive && !request.IsWebSocketRequest))
+                    || closeConnection)
                 {
                     response.Close();
                 }
@@ -709,7 +739,7 @@ or
             table[0, 1] = "Method";
             table[0, 2] = "Priority";
             table[0, 3] = "Protocol";
-            table[0, 4] = "Verb";
+            table[0, 4] = "Method";
             table[0, 5] = "Status";
             table[0, 6] = "Authentication";
 
@@ -728,11 +758,11 @@ or
                 }
 
                 table[i + 1, 2] = route.Priority.ToString(CultureInfo.InvariantCulture);
-                table[i + 1, 3] = route.Protocol.ToString();
-                table[i + 1, 4] = route.Verb.ToString();
-                table[i + 1, 5] = route.ExpectedStatuses.ToString();
+                table[i + 1, 3] = route.Protocols.ToString();
+                table[i + 1, 4] = route.Methods.ToString();
+                table[i + 1, 5] = route.StatusCodes.ToString();
 
-                if (route.Authentication == AbstractResponse.AnyAuth)
+                if (route.Authentication == AbstractResponse.AllAuthSchemes)
                 {
                     table[i + 1, 6] = "Any";
                 }

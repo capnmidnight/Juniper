@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,7 +44,8 @@ namespace Juniper.IO
             response.ContentLength64 = serializer.Serialize(response.OutputStream, value);
         }
 
-        public static Task SerializeAsync<T>(this ISerializer<T> serializer, WebSocketConnection socket, T value)
+        public static Task SerializeAsync<T, U>(this ISerializer<T> serializer, WebSocketConnection<U> socket, T value)
+            where U : WebSocket
         {
             if (serializer is null)
             {
@@ -59,7 +61,8 @@ namespace Juniper.IO
             return socket.SendAsync(data);
         }
 
-        public static Task SerializeAsync<T>(this ISerializer<T> serializer, WebSocketConnection socket, string message, T value)
+        public static Task SerializeAsync<T, U>(this ISerializer<T> serializer, WebSocketConnection<U> socket, string message, T value)
+            where U : WebSocket
         {
             if (serializer is null)
             {

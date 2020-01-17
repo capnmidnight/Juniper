@@ -125,6 +125,102 @@ namespace System
             return realValue;
         }
 
+        public static int Clamp(this decimal value)
+        {
+            if(value < 0)
+            {
+                return -1;
+            }
+            else if (value > 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public static int Clamp(this double value)
+        {
+            if (value < 0)
+            {
+                return -1;
+            }
+            else if (value > 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public static int Clamp(this float value)
+        {
+            if (value < 0)
+            {
+                return -1;
+            }
+            else if (value > 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public static int Clamp(this long value)
+        {
+            if (value < 0)
+            {
+                return -1;
+            }
+            else if (value > 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public static int Clamp(this int value)
+        {
+            if (value < 0)
+            {
+                return -1;
+            }
+            else if (value > 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public static int Clamp(this short value)
+        {
+            if (value < 0)
+            {
+                return -1;
+            }
+            else if (value > 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         /// <summary>
         /// Maximum amount of difference between two floats to consider them the "same" number.
         /// </summary>

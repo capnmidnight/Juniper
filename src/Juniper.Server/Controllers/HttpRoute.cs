@@ -2,26 +2,38 @@ using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 
+using static Juniper.Logic.LogicConstructor;
+
 namespace Juniper.HTTP.Server.Controllers
 {
     public class HttpRoute : AbstractRoute
     {
-        public HttpRoute(object source, MethodInfo method, RouteAttribute route)
-            : base(source, method, route)
-        { }
-
-        public override bool IsMatch(HttpListenerRequest request)
+        private static RouteAttribute ValidateRoute(RouteAttribute route)
         {
-            if (request is null)
+            if (route is null)
             {
-                throw new System.ArgumentNullException(nameof(request));
+                throw new System.ArgumentNullException(nameof(route));
             }
 
-            return base.IsMatch(request)
-                && !request.IsWebSocketRequest;
+            var newRoute = new RouteAttribute(route.Pattern)
+            {
+                Accept = route.Accept,
+                Authentication = route.Authentication,
+                Headers = And(Not(("Connection", "Upgrade")), route.Headers),
+                Methods = route.Methods,
+                Name = route.Name,
+                Priority = route.Priority,
+                Protocols = route.Protocols,
+                StatusCodes = route.StatusCodes
+            };
+            return newRoute;
         }
 
-        public override Task InvokeAsync(HttpListenerContext context)
+        public HttpRoute(object source, MethodInfo method, RouteAttribute route)
+            : base(source, method, ValidateRoute(route))
+        { }
+
+        protected override Task InvokeAsync(HttpListenerContext context)
         {
             return InvokeAsync(context, context);
         }

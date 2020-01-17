@@ -10,28 +10,14 @@ namespace Juniper.HTTP.Server.Controllers
 {
     public abstract class AbstractRoute : AbstractResponse
     {
-        private readonly Regex pattern;
-        private readonly string regexSource;
-        private readonly int parameterCount;
-
         private readonly object source;
-        private readonly MethodInfo method;
+        private readonly MethodInfo action;
 
-        private static RouteAttribute ValidateRoute(RouteAttribute route)
+        private static string MakeName(MethodInfo action, RouteAttribute route)
         {
-            if (route is null)
+            if (action is null)
             {
-                throw new ArgumentNullException(nameof(route));
-            }
-
-            return route;
-        }
-
-        private static string MakeName(object source, MethodInfo method, RouteAttribute route)
-        {
-            if (method is null)
-            {
-                throw new ArgumentNullException(nameof(method));
+                throw new ArgumentNullException(nameof(action));
             }
 
             if (route is null)
@@ -43,45 +29,17 @@ namespace Juniper.HTTP.Server.Controllers
             {
                 return route.Name;
             }
-            else if (source is object)
-            {
-                return $"{source.GetType().FullName}::{method.Name}";
-            }
             else
             {
-                return $"{method.DeclaringType.FullName}::{method.Name}";
+                return $"{action.DeclaringType.Name}::{action.Name}";
             }
         }
 
-        protected AbstractRoute(object source, MethodInfo method, RouteAttribute route)
-            : base(ValidateRoute(route).Priority,
-                  ValidateRoute(route).Protocol,
-                  ValidateRoute(route).Method,
-                  ValidateRoute(route).ExpectedStatus,
-                  ValidateRoute(route).Authentication,
-                  ValidateRoute(route).Accept,
-                  MakeName(source, method, route))
+        protected AbstractRoute(object source, MethodInfo action, RouteAttribute route)
+            : base(route, MakeName(action, route))
         {
-            route = ValidateRoute(route);
-            pattern = route.Pattern;
-            regexSource = pattern.ToString();
-            parameterCount = pattern.GetGroupNames().Length;
-
             this.source = source;
-            this.method = method;
-        }
-
-        public override bool IsMatch(HttpListenerRequest request)
-        {
-            if (request is null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
-
-            var urlMatch = pattern.Match(request.Url.PathAndQuery);
-            return urlMatch.Success
-                && urlMatch.Groups.Count == parameterCount
-                && base.IsMatch(request);
+            this.action = action;
         }
 
         protected Task InvokeAsync(HttpListenerContext context, object firstParam)
@@ -92,7 +50,7 @@ namespace Juniper.HTTP.Server.Controllers
             }
 
             var path = context.Request.Url.PathAndQuery;
-            var args = pattern
+            var args = Pattern
                 .Match(path)
                 .Groups
                 .Cast<Group>()
@@ -101,29 +59,28 @@ namespace Juniper.HTTP.Server.Controllers
                 .Cast<object>()
                 .Prepend(firstParam)
                 .ToArray();
-            return (Task)method.Invoke(source, args);
+            return (Task)action.Invoke(source, args);
         }
 
         public override bool Equals(object obj)
         {
             return obj is AbstractRoute handler
                 && base.Equals(obj)
-                && EqualityComparer<Regex>.Default.Equals(pattern, handler.pattern);
+                && EqualityComparer<Regex>.Default.Equals(Pattern, handler.Pattern);
         }
 
         public override int GetHashCode()
         {
             var hashCode = -1402022977;
             hashCode = (hashCode * -1521134295) + base.GetHashCode();
-            hashCode = (hashCode * -1521134295) + EqualityComparer<Regex>.Default.GetHashCode(pattern);
             hashCode = (hashCode * -1521134295) + EqualityComparer<object>.Default.GetHashCode(source);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<MethodInfo>.Default.GetHashCode(method);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<MethodInfo>.Default.GetHashCode(action);
             return hashCode;
         }
 
         public override string ToString()
         {
-            return $"{base.ToString()}({regexSource})";
+            return $"{base.ToString()}({RegexSource})";
         }
 
         public override int CompareTo(AbstractResponse other)
@@ -132,7 +89,7 @@ namespace Juniper.HTTP.Server.Controllers
             if (compare == 0 && other is AbstractRoute handler)
             {
                 // longer routes before shorter routes
-                return -string.CompareOrdinal(regexSource, handler.regexSource);
+                return -string.CompareOrdinal(RegexSource, handler.RegexSource);
             }
             else
             {

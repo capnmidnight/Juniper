@@ -6,6 +6,8 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
+using static Juniper.Logic.LogicConstructor;
+
 namespace Juniper.HTTP.Server.Controllers
 {
     public class StaticFileServer : AbstractResponse
@@ -98,11 +100,13 @@ namespace Juniper.HTTP.Server.Controllers
 
         public StaticFileServer(DirectoryInfo rootDirectory, params MediaType[] acceptTypes)
             : base(int.MaxValue - 2,
-                  HttpProtocols.Default,
-                  HttpMethods.GET,
-                  new[] { HttpStatusCode.OK, HttpStatusCode.NotFound },
-                  AnyAuth,
-                  ValidateAcceptTypes(acceptTypes))
+                HttpProtocols.Default,
+                HttpMethods.GET,
+                AllRoutes,
+                AllAuthSchemes,
+                Or(acceptTypes),
+                Or(HttpStatusCode.Continue, HttpStatusCode.NotFound),
+                NoHeaders)
         {
             if (rootDirectory is null)
             {
@@ -122,7 +126,7 @@ namespace Juniper.HTTP.Server.Controllers
                   mediaTypeWhiteList)
         { }
 
-        public override async Task InvokeAsync(HttpListenerContext context)
+        protected override async Task InvokeAsync(HttpListenerContext context)
         {
             if (context is null)
             {
@@ -142,15 +146,8 @@ namespace Juniper.HTTP.Server.Controllers
             }
 
             var file = new FileInfo(fileName);
-            var fileType = MediaType.GuessByExtension(file);
-
-            var isAcceptable = false;
-            foreach (var type in AcceptTypes)
-            {
-                isAcceptable |= fileType == type;
-            }
-
-            if (!isAcceptable
+            
+            if (!IsAcceptable(request)
                 || (!file.Exists && !directory.Exists)
                 || (file.Exists && !rootDirectory.Contains(file))
                 || (directory.Exists && !rootDirectory.Contains(directory)))

@@ -21,7 +21,7 @@ namespace Juniper.IO
             }
 
             prog.Report(0);
-            var stream = await source
+            using var stream = await source
                 .GetStreamAsync(prog)
                 .ConfigureAwait(false);
             var value = deserializer.Deserialize(stream);

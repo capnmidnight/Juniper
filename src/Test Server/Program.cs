@@ -17,7 +17,7 @@ namespace Juniper.HTTP
 {
     public static class Program
     {
-        [Route("auth/", Method = HttpMethods.POST, Authentication = AuthenticationSchemes.Basic)]
+        [Route("auth/", Methods = HttpMethods.POST, Authentication = AuthenticationSchemes.Basic)]
         public static async Task AuthenticateUserAsync(HttpListenerContext context)
         {
             if (context is null)
@@ -44,7 +44,7 @@ namespace Juniper.HTTP
         }
 
         [Route("connect/")]
-        public static Task AcceptWebSocketAsync(WebSocketConnection socket)
+        public static Task AcceptWebSocketAsync(ServerWebSocketConnection socket)
         {
             if (socket is object)
             {
@@ -280,7 +280,7 @@ namespace Juniper.HTTP
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void Socket_Message(object sender, StringEventArgs e)
         {
-            var socket = (WebSocketConnection)sender;
+            var socket = (ServerWebSocketConnection)sender;
             Log(0, WriteLine, Green, e);
             var msg = e.Value + " from server";
             _ = Task.Run(() => socket.SendAsync(msg));

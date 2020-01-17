@@ -1,4 +1,5 @@
 using System;
+using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -6,17 +7,18 @@ using Juniper.IO;
 
 namespace Juniper.HTTP
 {
-    public class DataMessageHandler<ResultT, FactoryT>
+    public class DataMessageHandler<ResultT, FactoryT, SocketT>
         where FactoryT : class, IFactory<ResultT, MediaType.Application>
+        where SocketT : WebSocket
     {
-        private readonly WebSocketConnection socket;
+        private readonly WebSocketConnection<SocketT> socket;
         private readonly string message;
         private readonly FactoryT factory;
 
         public event EventHandler<EventArgs<ResultT>> DataMessage;
         public event EventHandler<ErrorEventArgs> Error;
 
-        public DataMessageHandler(WebSocketConnection socket, string message, FactoryT factory)
+        public DataMessageHandler(WebSocketConnection<SocketT> socket, string message, FactoryT factory)
         {
             if (string.IsNullOrEmpty(message))
             {

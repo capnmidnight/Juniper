@@ -9,16 +9,27 @@ namespace Juniper.HTTP.Server.Controllers
     public class WebSocketPool
     {
         private static readonly Dictionary<string, string> userNames = new Dictionary<string, string>();
-        public static void SetUserToken(string user, string token)
+        public static void SetUserToken(string userName, string token)
         {
-            userNames[token] = user;
+            lock (userNames)
+            {
+                userNames[token] = userName;
+            }
         }
 
-        private readonly Dictionary<int, WebSocketConnection> sockets = new Dictionary<int, WebSocketConnection>();
+        private readonly Dictionary<int, ServerWebSocketConnection> sockets = new Dictionary<int, ServerWebSocketConnection>();
+
+        public IReadOnlyCollection<ServerWebSocketConnection> Sockets
+        {
+            get
+            {
+                return sockets.Values;
+            }
+        }
 
         private void Socket_Closed(object sender, EventArgs e)
         {
-            if (sender is WebSocketConnection socket)
+            if (sender is ServerWebSocketConnection socket)
             {
                 socket.Closed -= Socket_Closed;
                 socket.Dispose();
@@ -34,7 +45,7 @@ namespace Juniper.HTTP.Server.Controllers
             }
         }
 
-        public async Task<WebSocketConnection> GetAsync(HttpListenerContext context)
+        public async Task<ServerWebSocketConnection> GetAsync(HttpListenerContext context)
         {
             if (context is null)
             {
@@ -58,12 +69,10 @@ namespace Juniper.HTTP.Server.Controllers
 
                     socket.Closed += Socket_Closed;
                     sockets.Add(id, socket);
-
-                    return sockets[id];
                 }
             }
 
-            return null;
+            return sockets[id];
         }
     }
 }

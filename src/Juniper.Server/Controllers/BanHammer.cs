@@ -17,10 +17,13 @@ namespace Juniper.HTTP.Server.Controllers
 
         public BanHammer(IEnumerable<CIDRBlock> blocks = null)
             : base(int.MinValue,
-                  HttpProtocols.All,
-                  HttpMethods.All,
-                  AnyAuth,
-                  MediaType.All)
+                AllProtocols,
+                AllMethods,
+                AllRoutes,
+                AllAuthSchemes,
+                AnyMediaTypes,
+                AllStatusCodes,
+                NoHeaders)
         {
             if (blocks != null)
             {
@@ -50,8 +53,13 @@ namespace Juniper.HTTP.Server.Controllers
             return Blocks.Find(block => block.Contains(address));
         }
 
-        public override bool IsMatch(HttpListenerRequest request)
+        public override bool IsRequestMatch(HttpListenerRequest request)
         {
+            if (!base.IsRequestMatch(request))
+            {
+                return false;
+            }
+
             var block = GetMatchingBlock(request.RemoteEndPoint.Address);
             if (block is object)
             {
@@ -110,7 +118,7 @@ namespace Juniper.HTTP.Server.Controllers
             return false;
         }
 
-        public override Task InvokeAsync(HttpListenerContext context)
+        protected override Task InvokeAsync(HttpListenerContext context)
         {
             var request = context.Request;
             var response = context.Response;

@@ -317,7 +317,7 @@ namespace System.Net
         /// Sets the method for the HTTP request.
         /// </summary>
         /// <param name="request">The request to which to add the Header</param>
-        /// <param name="verb">The HTTP method to use for the request.</param>
+        /// <param name="method">The HTTP method to use for the request.</param>
         /// <returns>The request that was passed as the first argument, so that literate calls may be chained together.</returns>
         /// <example><![CDATA[
         /// var request = HttpWebRequestExt.Create("https://www.example.com");
@@ -326,14 +326,14 @@ namespace System.Net
         ///     .Header("DNT", 1")
         ///     .Accept(MediaType.Text.Plain");
         /// ]]></example>
-        public static HttpWebRequest Method(this HttpWebRequest request, HttpMethods verb)
+        public static HttpWebRequest Method(this HttpWebRequest request, HttpMethods method)
         {
             if (request is null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
 
-            request.Method = verb.ToString();
+            request.Method = method.ToString();
             return request;
         }
 

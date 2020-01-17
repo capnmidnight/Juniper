@@ -12,8 +12,9 @@ using Juniper.IO;
 
 namespace Juniper.HTTP
 {
-    public abstract class WebSocketConnection :
+    public abstract class WebSocketConnection<WebSocketT> :
         IDisposable
+        where WebSocketT : WebSocket
     {
         /// <summary>
         /// The default rx buffer size 1KiB
@@ -25,7 +26,7 @@ namespace Juniper.HTTP
         /// </summary>
         public const int DEFAULT_DATA_BUFFER_SIZE = 10000000;
 
-        protected WebSocket Socket { get; }
+        protected WebSocketT Socket { get; }
 
         public event EventHandler<StringEventArgs> Message;
         public event EventHandler<BufferEventArgs> Data;
@@ -45,7 +46,7 @@ namespace Juniper.HTTP
         private readonly ArraySegment<byte> rxSegment;
         private readonly int dataBufferSize;
 
-        protected WebSocketConnection(WebSocket socket, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
+        protected WebSocketConnection(WebSocketT socket, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
         {
             Socket = socket;
             this.dataBufferSize = dataBufferSize;
@@ -178,7 +179,7 @@ namespace Juniper.HTTP
             return SendAsync(Encoding.UTF8.GetBytes(msg), WebSocketMessageType.Text);
         }
 
-        public Task SendAsync<T>(string message, T value, ISerializer<T> serializer)
+        public Task SendAsync<ValueT>(string message, ValueT value, ISerializer<ValueT> serializer)
         {
             if (serializer is null)
             {

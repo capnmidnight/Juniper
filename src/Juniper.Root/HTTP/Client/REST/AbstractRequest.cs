@@ -189,6 +189,10 @@ namespace Juniper.HTTP.Client.REST
                 await request.WriteBodyAsync(GetBodyInfo, WriteBody, progs[0])
                     .ConfigureAwait(false);
             }
+            else
+            {
+                request.ContentLength = 0;
+            }
 
             var response = (HttpWebResponse)await request
                 .GetResponseAsync()

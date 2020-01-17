@@ -144,7 +144,7 @@ namespace Juniper.HTTP.Server
             }
 
             response.ContentType = contentType;
-            response.ContentLength64 = input.Length;
+            response.ContentLength64 += input.Length;
             response.AddHeader("Date", DateTime.Now.ToString("r", CultureInfo.InvariantCulture));
             return input.CopyToAsync(response.OutputStream);
         }

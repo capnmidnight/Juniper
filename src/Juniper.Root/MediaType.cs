@@ -35,7 +35,7 @@ namespace Juniper
 
         public static readonly MediaType Any = new MediaType("*/*");
 
-        public static readonly IReadOnlyList<MediaType> All = new MediaType[] { Any };
+        public static readonly IReadOnlyCollection<MediaType> All = new MediaType[] { Any };
 
         public static MediaType Parse(string value)
         {
@@ -54,15 +54,19 @@ namespace Juniper
             }
         }
 
-        public static IReadOnlyList<MediaType> ParseAll(string[] acceptTypes)
+        public static IReadOnlyCollection<MediaType> ParseAll(string[] acceptTypes)
         {
-            var types = _ParseAll(acceptTypes).ToArray();
-            return types.Length == 0
-                ? All
-                : types;
+            if (acceptTypes is null || acceptTypes.Length == 0)
+            {
+                return All;
+            }
+            else
+            {
+                return InternalParseAll(acceptTypes).ToArray();
+            }
         }
 
-        private static IEnumerable<MediaType> _ParseAll(string[] acceptTypes)
+        private static IEnumerable<MediaType> InternalParseAll(string[] acceptTypes)
         {
             if (acceptTypes is object)
             {

@@ -22,10 +22,13 @@ namespace Juniper.HTTP.Server.Controllers
 
         public NCSALogger(FileInfo file)
             : base(int.MaxValue - 1,
-                  HttpProtocols.All,
-                  HttpMethods.All,
-                  AnyAuth,
-                  MediaType.All)
+                AllProtocols,
+                AllMethods,
+                AllRoutes,
+                AllAuthSchemes,
+                AnyMediaTypes,
+                AllStatusCodes,
+                NoHeaders)
         {
             if (file is null)
             {
@@ -75,12 +78,7 @@ namespace Juniper.HTTP.Server.Controllers
             }
         }
 
-        public override bool IsMatch(HttpListenerContext context)
-        {
-            return true;
-        }
-
-        public override Task InvokeAsync(HttpListenerContext context)
+        protected override Task InvokeAsync(HttpListenerContext context)
         {
             var logMessage = FormatLogMessage(context);
             OnLog(logMessage);

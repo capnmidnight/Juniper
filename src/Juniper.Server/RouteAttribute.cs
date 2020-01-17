@@ -2,11 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text.RegularExpressions;
+using Juniper.Logic;
+
+using static Juniper.Logic.LogicConstructor;
 
 namespace Juniper.HTTP.Server
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public sealed class RouteAttribute : Attribute
+    public sealed class RouteAttribute :
+        Attribute,
+        IRequestHandler
     {
         public Regex Pattern { get; }
 
@@ -18,15 +23,17 @@ namespace Juniper.HTTP.Server
 
         public string Name { get; set; } = null;
 
-        public HttpStatusCode ExpectedStatus { get; set; } = HttpStatusCode.OK;
-
-        public HttpMethods Method { get; set; } = HttpMethods.GET;
+        public HttpMethods Methods { get; set; } = HttpMethods.GET;
 
         public AuthenticationSchemes Authentication { get; set; } = AuthenticationSchemes.Anonymous;
 
-        public HttpProtocols Protocol { get; set; } = HttpProtocols.Default;
+        public HttpProtocols Protocols { get; set; } = HttpProtocols.Default;
 
-        public IReadOnlyList<MediaType> Accept { get; set; } = MediaType.All;
+        public IExpression<HttpStatusCode> StatusCodes { get; set; } = Expr(HttpStatusCode.Continue);
+
+        public IExpression<MediaType> Accept { get; set; } = Expr(MediaType.Any);
+
+        public IExpression<(string Key, string Value)> Headers { get; set; } = Empty<(string Key, string Value)>();
 
         public RouteAttribute(Regex pattern)
         {
