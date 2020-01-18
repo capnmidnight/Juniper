@@ -393,7 +393,7 @@ or
                     && routes.Any(route =>
                         !(route is BanHammer)
                         && !(route is HttpToHttpsRedirect)
-                        && route.Protocol.HasFlag(HttpProtocols.HTTP)))
+                        && route.Protocols.HasFlag(HttpProtocols.HTTP)))
                 {
                     OnWarning("Maybe don't run unencrypted HTTP in production, k?");
                 }
