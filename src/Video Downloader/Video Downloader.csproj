@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\JuniperLatest.targets" />
+  <Import Project="..\..\Juniper.targets" />
 
   <PropertyGroup>
     <AssemblyName>Juniper.VideoDownloader</AssemblyName>
     <RootNamespace>Juniper.VideoDownloader</RootNamespace>
     <OutputType>Exe</OutputType>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <StartupObject>Juniper.VideoDownloader.Program</StartupObject>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>

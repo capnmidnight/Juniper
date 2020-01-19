@@ -18,49 +18,6 @@ namespace Juniper.HTTP
 {
     public static class Program
     {
-        [Route("auth/", Methods = HttpMethods.POST, Authentication = AuthenticationSchemes.Basic)]
-        public static async Task AuthenticateUserAsync(HttpListenerContext context)
-        {
-            if (context is null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            var response = context.Response;
-
-            if (context.User.Identity is HttpListenerBasicIdentity user
-                && user.Name == "sean"
-                && user.Password == "ppyptky7")
-            {
-                var token = Guid.NewGuid().ToString();
-                WebSocketPool.SetUserToken(user.Name, token);
-                response.SetStatus(HttpStatusCode.OK);
-                await response.SendTextAsync(token)
-                    .ConfigureAwait(false);
-            }
-            else
-            {
-                response.SetStatus(HttpStatusCode.Unauthorized);
-            }
-        }
-
-        [Route("connect/")]
-        public static Task AcceptWebSocketAsync(ServerWebSocketConnection socket)
-        {
-            if (socket is object)
-            {
-                socket.Closing += Socket_Closing;
-                socket.Message += Socket_Message;
-                socket.Error += Socket_Error;
-                var code = socket
-                    .GetHashCode()
-                    .ToString(CultureInfo.InvariantCulture);
-                WriteLine($"Got socket {code}");
-            }
-
-            return Task.CompletedTask;
-        }
-
         private static HttpServer server;
 
         private static readonly ConsoleCommandProcessor cons = new ConsoleCommandProcessor
@@ -109,6 +66,49 @@ namespace Juniper.HTTP
                     cons.Pump();
                 }
             }
+        }
+
+        [Route("auth/", Methods = HttpMethods.POST, Authentication = AuthenticationSchemes.Basic)]
+        public static async Task AuthenticateUserAsync(HttpListenerContext context)
+        {
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            var response = context.Response;
+
+            if (context.User.Identity is HttpListenerBasicIdentity user
+                && user.Name == "sean"
+                && user.Password == "ppyptky7")
+            {
+                var token = Guid.NewGuid().ToString();
+                WebSocketPool.SetUserToken(user.Name, token);
+                response.SetStatus(HttpStatusCode.OK);
+                await response.SendTextAsync(token)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                response.SetStatus(HttpStatusCode.Unauthorized);
+            }
+        }
+
+        [Route("connect/")]
+        public static Task AcceptWebSocketAsync(ServerWebSocketConnection socket)
+        {
+            if (socket is object)
+            {
+                socket.Closing += Socket_Closing;
+                socket.Message += Socket_Message;
+                socket.Error += Socket_Error;
+                var code = socket
+                    .GetHashCode()
+                    .ToString(CultureInfo.InvariantCulture);
+                WriteLine($"Got socket {code}");
+            }
+
+            return Task.CompletedTask;
         }
 
 

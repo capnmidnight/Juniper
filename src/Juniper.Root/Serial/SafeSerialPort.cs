@@ -1,4 +1,4 @@
-#if !NETSTANDARD
+#if !NETSTANDARD && !NETCOREAPP
 using System;
 using System.IO;
 using System.IO.Ports;

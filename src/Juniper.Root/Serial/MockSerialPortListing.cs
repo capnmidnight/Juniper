@@ -20,13 +20,13 @@ namespace Juniper.Serial
             }
         }
 
-#if NETSTANDARD
+#if NETSTANDARD || NETCOREAPP
         private static int MAX = 0;
 #endif
 
         public static string MakeFakePort(int offset)
         {
-#if NETSTANDARD
+#if NETSTANDARD || NETCOREAPP
             var max = MAX++;
 #else
             var max = 0;

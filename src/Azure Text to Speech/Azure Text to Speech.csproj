@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <ImportGroup>
-    <Import Project="..\..\JuniperLatest.targets" />
+    <Import Project="..\..\Juniper.targets" />
   </ImportGroup>
 
   <PropertyGroup>
     <AssemblyName>aztts</AssemblyName>
     <RootNamespace>Juniper.Speech</RootNamespace>
     <OutputType>WinExe</OutputType>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <StartupObject>Juniper.Speech.Program</StartupObject>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>

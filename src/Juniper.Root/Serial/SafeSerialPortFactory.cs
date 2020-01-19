@@ -1,4 +1,4 @@
-#if !NETSTANDARD
+#if !NETSTANDARD && !NETCOREAPP
 namespace Juniper.Serial
 {
     public class SafeSerialPortFactory : SafeSerialPortListing, ISerialPortFactory

@@ -65,7 +65,7 @@ namespace Juniper
 
             if (program.InfoLogLength > 0)
             {
-                Console.WriteLine(">: " + program.InfoLog);
+                System.Console.WriteLine(">: " + program.InfoLog);
             }
 
             vertexBuffer = new VertexBuffer(new[]{

@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ImportGroup>
-    <Import Project="..\..\JuniperLatest.targets" />
+    <Import Project="..\..\Juniper.targets" />
   </ImportGroup>
 
   <PropertyGroup>
     <AssemblyName>jcopy</AssemblyName>
     <RootNamespace>FileCopier</RootNamespace>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <StartupObject>FileCopier.Program</StartupObject>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>

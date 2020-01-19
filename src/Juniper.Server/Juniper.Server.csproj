@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ImportGroup>
-    <Import Project="..\..\JuniperLatest.targets" />
+    <Import Project="..\..\Juniper.targets" />
   </ImportGroup>
 
   <PropertyGroup>
     <AssemblyName>Juniper.Server</AssemblyName>
     <RootNamespace>Juniper.HTTP.Server</RootNamespace>
     <OutputType>Library</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>netstandard2.1;netcoreapp3.1;net48</TargetFrameworks>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <Platforms>AnyCPU</Platforms>

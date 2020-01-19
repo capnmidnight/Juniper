@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ImportGroup>
-    <Import Project="..\..\JuniperLatest.targets" />
+    <Import Project="..\..\Juniper.targets" />
   </ImportGroup>
 
   <PropertyGroup>
     <AssemblyName>Juniper.OpenTK</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>Exe</OutputType>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <StartupObject>Juniper.GameProgram</StartupObject>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>

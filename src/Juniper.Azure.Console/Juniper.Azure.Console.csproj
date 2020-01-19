@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ImportGroup>
-    <Import Project="..\..\JuniperLatest.targets" />
+    <Import Project="..\..\Juniper.targets" />
   </ImportGroup>
 
   <PropertyGroup>
     <AssemblyName>Juniper.Azure.Console</AssemblyName>
     <RootNamespace>Juniper.Azure</RootNamespace>
     <OutputType>Exe</OutputType>
+    <TargetFrameworks>net48</TargetFrameworks>
     <StartupObject>Juniper.Azure.Program</StartupObject>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>

@@ -1,15 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ImportGroup>
-    <Import Project="..\..\JuniperUnity.targets" />
+    <Import Project="..\..\Juniper.targets" />
   </ImportGroup>
 
   <PropertyGroup>
     <AssemblyName>Juniper</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>Library</OutputType>
-    <TargetFramework>netstandard2.0</TargetFramework>
-
+    <TargetFrameworks>net472;net48;netstandard2.0;netstandard2.1;netcoreapp3.1</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <Platforms>AnyCPU</Platforms>
@@ -24,9 +23,7 @@
     <PackageReference Include="NAudio" Version="1.9.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NLayer.Core" Version="1.15.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)'=='net472'">
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
     <Reference Include="System.IO.Compression" />
   </ItemGroup>
 
@@ -107,7 +104,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="&quot;..\File Copier\bin\$(ConfigurationName)\net48\jcopy&quot; 'Juniper' '$(TargetDir)' '$(ProjectDir)..\Juniper\Assets\Juniper\Plugins\Juniper\$(ConfigurationName)\'" />
+    <Exec Command="&quot;..\File Copier\bin\$(ConfigurationName)\netcoreapp3.1\jcopy&quot; &quot;Juniper&quot; &quot;net472&quot; &quot;$(TargetDir)&quot; &quot;$(ProjectDir)..\Juniper\Assets\Juniper\Plugins\Juniper\$(ConfigurationName)\&quot;" />
   </Target>
 
 </Project>

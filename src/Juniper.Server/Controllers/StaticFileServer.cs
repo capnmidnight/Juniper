@@ -36,7 +36,7 @@ namespace Juniper.HTTP.Server.Controllers
 
         private static string MakeShortName(string rootDirectory, string filename)
         {
-            var shortName = filename.Replace(rootDirectory, "", StringComparison.OrdinalIgnoreCase);
+            var shortName = filename.Replace(rootDirectory, "");
             if (shortName.Length > 0 && shortName[0] == Path.DirectorySeparatorChar)
             {
                 shortName = shortName.Substring(1);

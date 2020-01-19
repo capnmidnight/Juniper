@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ImportGroup>
-    <Import Project="..\..\JuniperUnity.targets" />
+    <Import Project="..\..\Juniper.targets" />
   </ImportGroup>
 
   <PropertyGroup>
     <AssemblyName>Juniper.NeuroSky</AssemblyName>
     <RootNamespace>Juniper.NeuroSky</RootNamespace>
     <OutputType>Library</OutputType>
-
+    <TargetFrameworks>net472</TargetFrameworks>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)'=='' ">x64</Platform>
     <Platforms>x64;x86</Platforms>

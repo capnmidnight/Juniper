@@ -16,9 +16,9 @@ namespace FileCopier
 
         public static void Main(string[] args)
         {
-            if (args.Length < 3)
+            if (args.Length < 4)
             {
-                Error.WriteLine("Command expects at least three arguments");
+                Error.WriteLine("Command expects at least four arguments");
                 for (var i = 0; i < args.Length; ++i)
                 {
                     Error.WriteLine("{0}: {1}", i, args[i]);
@@ -45,15 +45,15 @@ namespace FileCopier
                 }
 
                 var projectName = args[0];
-
-                var source = new DirectoryInfo(args[1]);
+                var platformName = args[1];
+                var source = new DirectoryInfo(args[2]);
                 if (!source.Exists)
                 {
                     Error.WriteLine("Source directory does not exist");
                 }
-                else if (source.Name != "netstandard2.0")
+                else if (source.Name == platformName)
                 {
-                    var dest1 = new DirectoryInfo(args[2]);
+                    var dest1 = new DirectoryInfo(args[3]);
                     var dest2 = dest1.Parent;
 
                     WriteLine("Copying from {0} to {1}", source.FullName, dest1.FullName);
@@ -82,7 +82,8 @@ namespace FileCopier
                             {
                                 sourceFile.CopyTo(destFileName, true);
                             }
-                            catch {
+                            catch
+                            {
                                 Error.WriteLine($"Couldn't copy {0}", destFileName);
                             }
                         }

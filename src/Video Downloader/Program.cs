@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
-using Juniper.Progress;
+using Juniper.IO;
 
 using static System.Console;
 using static Juniper.MediaType;

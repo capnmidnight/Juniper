@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
+using Juniper.HTTP.Server.Administration.NetSH;
 using Juniper.HTTP.Server.Controllers;
 using Juniper.Logging;
 using Juniper.Processes;
@@ -201,7 +201,6 @@ namespace Juniper.HTTP.Server
             return isValid;
         }
 
-#if !NETCOREAPP && !NETSTANDARD
         private void BanController_BanAdded(object sender, EventArgs<CIDRBlock> e)
         {
             _ = Task.Run(() => AddBanAsync(e.Value));
@@ -242,15 +241,18 @@ namespace Juniper.HTTP.Server
             }
         }
 
+#if !NETSTANDARD && !NETCOREAPP
         private void GetTLSParameters(out Guid guid, out string certHash)
         {
             var asm = Assembly.GetExecutingAssembly();
-            guid = Marshal.GetTypeLibGuidForAssembly(asm);
+            guid = System.Runtime.InteropServices.Marshal.GetTypeLibGuidForAssembly(asm);
             certHash = null;
-            using var store = new X509Store(StoreLocation.LocalMachine);
-            store.Open(OpenFlags.ReadOnly);
+            using var store = new System.Security.Cryptography.X509Certificates.X509Store(
+                System.Security.Cryptography.X509Certificates.StoreLocation.LocalMachine);
 
-            certHash = (from cert in store.Certificates.Cast<X509Certificate2>()
+            store.Open(System.Security.Cryptography.X509Certificates.OpenFlags.ReadOnly);
+
+            certHash = (from cert in store.Certificates.Cast<System.Security.Cryptography.X509Certificates.X509Certificate2>()
                         where cert.Subject == "CN=" + Domain
                           && DateTime.TryParse(cert.GetEffectiveDateString(), out var effectiveDate)
                           && DateTime.TryParse(cert.GetExpirationDateString(), out var expirationDate)
@@ -953,7 +955,7 @@ or
 
 
 #if DEBUG
-        public System.Diagnostics.Process StartBrowser(string startPage = null)
+        public System.Diagnostics.Process StartBrowser(bool preferHttps = false, string startPage = null)
         {
             if (HttpsPort is null
                 && HttpPort is null)
@@ -967,11 +969,12 @@ or
             var port = "";
 
             if (HttpPort is object
-                && HttpPort != 80)
+                && HttpPort != 80
+                && (HttpsPort is null || !preferHttps))
             {
                 port = HttpPort.Value.ToString(CultureInfo.InvariantCulture);
             }
-            else if (HttpPort is null
+            else if ((HttpPort is null || preferHttps)
                 && HttpsPort is object
                 && GetController<HttpToHttpsRedirect>()?.Enabled == true)
             {

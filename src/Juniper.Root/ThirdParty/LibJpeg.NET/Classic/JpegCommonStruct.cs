@@ -106,12 +106,7 @@ namespace BitMiracle.LibJpeg.Classic
         {
             get
             {
-#if NETCOREAPP
-                var assembly = typeof(jpeg_common_struct).GetTypeInfo().Assembly;
-#else
-                var assembly = Assembly.GetExecutingAssembly();
-#endif
-
+                var assembly = typeof(JpegCommonStruct).GetTypeInfo().Assembly;
                 var assemblyName = new AssemblyName(assembly.FullName);
 
                 var version = assemblyName.Version;

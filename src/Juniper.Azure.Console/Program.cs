@@ -51,8 +51,8 @@ namespace Juniper.Azure
 
             foreach (var outputFormat in outputFormats)
             {
-                Console.Write(outputFormat.Name);
-                Console.Write(":> ");
+                System.Console.Write(outputFormat.Name);
+                System.Console.Write(":> ");
                 var ttsClient = new TextToSpeechClient(
                     region,
                     subscriptionKey,
@@ -71,11 +71,11 @@ namespace Juniper.Azure
                 {
                     //await DecodeAudio(text, audioDecoder, ttsClient, voice);
                     await PlayAudioAsync(text, audioDecoder, ttsClient, voice).ConfigureAwait(false);
-                    Console.WriteLine("Success!");
+                    System.Console.WriteLine("Success!");
                 }
                 catch (Exception exp)
                 {
-                    Console.WriteLine(exp.Message);
+                    System.Console.WriteLine(exp.Message);
                 }
             }
         }
@@ -97,7 +97,7 @@ namespace Juniper.Azure
             using var waveStream = audioDecoder.MakeDecodingStream(audioStream);
             var sr = waveStream.WaveFormat.SampleRate;
             var bps = waveStream.WaveFormat.BitsPerSample;
-            Console.Write($"{bps} * {sr} = {bps * sr}");
+            System.Console.Write($"{bps} * {sr} = {bps * sr}");
             //await Task.Yield();
             await PlayAsync(waveStream).ConfigureAwait(false);
         }
