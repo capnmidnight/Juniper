@@ -54,6 +54,11 @@ namespace Juniper
             return (arg1, arg2, arg3, arg4, arg5, arg6) => !func(arg1, arg2, arg3, arg4, arg5, arg6);
         }
 
+        public static Func<T, bool> Eq<T>(T arg1)
+        {
+            return arg2 => arg1?.Equals(arg2) == true;
+        }
+
         public static T Identity<T>(T value)
         {
             return value;

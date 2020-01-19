@@ -62,6 +62,8 @@ namespace Juniper.HTTP.Server.Controllers
 
         public IExpression<(string Key, string Value)> Headers { get; }
 
+        public bool Enabled { get; set; } = true;
+
         internal HttpServer Server { get; set; }
 
         public event EventHandler<StringEventArgs> Info;
@@ -308,13 +310,13 @@ namespace Juniper.HTTP.Server.Controllers
             }
 
             var requestedTypes = MediaType.ParseAll(request.AcceptTypes);
-            return requestedTypes.Any(t1 => Accept.Evaluate(t2 => t1 == t2));
+            return requestedTypes.Any(t1 => Accept.Evaluate(Always.Eq(t1)));
         }
 
         public bool IsStatusCodeMatch(HttpListenerResponse response)
         {
             var curStatus = response.GetStatus();
-            return StatusCodes.Evaluate(status => status == curStatus);
+            return StatusCodes.Evaluate(Always.Eq(curStatus));
         }
 
         public bool IsHeaderMatch(HttpListenerRequest request)
@@ -339,8 +341,8 @@ namespace Juniper.HTTP.Server.Controllers
                 throw new ArgumentNullException(nameof(context));
             }
 
-            return IsRequestMatch(context.Request)
-                && IsStatusCodeMatch(context.Response);
+            return IsStatusCodeMatch(context.Response)
+                && IsRequestMatch(context.Request);
         }
 
         public virtual bool IsRequestMatch(HttpListenerRequest request)
@@ -350,8 +352,8 @@ namespace Juniper.HTTP.Server.Controllers
                 throw new ArgumentNullException(nameof(request));
             }
 
-            return IsProtocolMatch(request)
-                && IsMethodMatch(request)
+            return Enabled
+                && IsProtocolMatch(request)
                 && IsPatternMatch(request);
         }
 
@@ -368,10 +370,12 @@ namespace Juniper.HTTP.Server.Controllers
             if (!IsMethodMatch(request))
             {
                 response.SetStatus(HttpStatusCode.MethodNotAllowed);
+                response.StatusDescription = $"Expected: {Methods}. Was {request.HttpMethod}";
             }
             else if (!IsAcceptable(request))
             {
                 response.SetStatus(HttpStatusCode.NotAcceptable);
+                response.StatusDescription = $"Expected: {Accept}. Was {request.AcceptTypes.Join("|")}";
             }
             else if (!IsHeaderMatch(request))
             {

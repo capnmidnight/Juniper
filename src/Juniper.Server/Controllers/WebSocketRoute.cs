@@ -44,9 +44,6 @@ namespace Juniper.HTTP.Server.Controllers
             if (socketPool is null)
             {
                 response.SetStatus(HttpStatusCode.InternalServerError);
-#if DEBUG
-                response.StatusDescription = "No web socket manager";
-#endif
             }
             else
             {

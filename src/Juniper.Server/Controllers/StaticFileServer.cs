@@ -36,7 +36,7 @@ namespace Juniper.HTTP.Server.Controllers
 
         private static string MakeShortName(string rootDirectory, string filename)
         {
-            var shortName = filename.Replace(rootDirectory, "");
+            var shortName = filename.Replace(rootDirectory, "", StringComparison.OrdinalIgnoreCase);
             if (shortName.Length > 0 && shortName[0] == Path.DirectorySeparatorChar)
             {
                 shortName = shortName.Substring(1);
@@ -159,11 +159,13 @@ namespace Juniper.HTTP.Server.Controllers
             }
             else if (file.Exists)
             {
+                response.SetStatus(HttpStatusCode.OK);
                 await response.SendFileAsync(file)
                    .ConfigureAwait(false);
             }
             else
             {
+                response.SetStatus(HttpStatusCode.OK);
                 await ListDirectoryAsync(response, directory)
                     .ConfigureAwait(false);
             }

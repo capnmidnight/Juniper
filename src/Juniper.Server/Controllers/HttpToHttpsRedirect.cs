@@ -11,12 +11,7 @@ namespace Juniper.HTTP.Server.Controllers
     {
         public HttpToHttpsRedirect()
             : base(int.MinValue + 1,
-#if DEBUG
-                // Don't attempt the redirect if we're running in DEBUG mode
-                HttpProtocols.None,
-#else
                 HttpProtocols.HTTP,
-#endif
                 HttpMethods.GET,
                 AllRoutes,
                 AllAuthSchemes,

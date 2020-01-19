@@ -1,12 +1,13 @@
+using System;
 using System.Collections.Generic;
 
 namespace Juniper.Logic
 {
-    public delegate bool ExpressionEvaluator<ItemT>(ItemT item);
-
     public interface IExpression<ItemT>
     {
-        bool Evaluate(ExpressionEvaluator<ItemT> evaluator);
+        bool HasNestedElements { get; }
+
+        bool Evaluate(Func<ItemT, bool> evaluator);
 
         IEnumerable<ItemT> GetItems();
 

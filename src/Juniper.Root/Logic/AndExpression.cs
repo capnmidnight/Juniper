@@ -6,10 +6,10 @@ namespace Juniper.Logic
         AbstractBinaryExpression<ItemT>
     {
         public AndExpression(IExpression<ItemT> item1, IExpression<ItemT> item2)
-            : base(item1, item2)
+            : base("AND", item1, item2)
         { }
 
-        public override bool Evaluate(ExpressionEvaluator<ItemT> evaluator)
+        public override bool Evaluate(Func<ItemT, bool> evaluator)
         {
             if (evaluator is null)
             {
@@ -17,11 +17,6 @@ namespace Juniper.Logic
             }
 
             return Item1.Evaluate(evaluator) && Item2.Evaluate(evaluator);
-        }
-
-        public override string ToString()
-        {
-            return ToString("&");
         }
     }
 }

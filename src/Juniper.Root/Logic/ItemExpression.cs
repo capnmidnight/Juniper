@@ -25,7 +25,7 @@ namespace Juniper.Logic
             return expr.Value;
         }
 
-        public override bool Evaluate(ExpressionEvaluator<ItemT> evaluator)
+        public override bool Evaluate(Func<ItemT, bool> evaluator)
         {
             if (evaluator is null)
             {

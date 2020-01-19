@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Juniper.Logic
@@ -9,7 +10,7 @@ namespace Juniper.Logic
             : base(expr)
         { }
 
-        public override bool Evaluate(ExpressionEvaluator<ItemT> evaluator)
+        public override bool Evaluate(Func<ItemT, bool> evaluator)
         {
             return !Value.Evaluate(evaluator);
         }
@@ -24,7 +25,7 @@ namespace Juniper.Logic
 
         public override string ToString()
         {
-            return $"!{Value}";
+            return $"NOT {Value}";
         }
     }
 }

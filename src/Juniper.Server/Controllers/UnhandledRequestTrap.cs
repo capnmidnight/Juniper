@@ -25,7 +25,8 @@ namespace Juniper.HTTP.Server.Controllers
 
             var response = context.Response;
             response.SetStatus(HttpStatusCode.BadRequest);
-            return response.SendTextAsync(MediaType.Text.Plain, "Not found");
+
+            return Task.CompletedTask;
         }
     }
 }

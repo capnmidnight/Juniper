@@ -9,9 +9,17 @@ namespace Juniper.Logic
         public EmptyExpression()
         { }
 
-        public bool Evaluate(ExpressionEvaluator<ItemT> _)
+        public bool Evaluate(Func<ItemT, bool> _)
         {
             return true;
+        }
+
+        public bool HasNestedElements
+        {
+            get
+            {
+                return false;
+            }
         }
 
         public IEnumerable<ItemT> GetItems()

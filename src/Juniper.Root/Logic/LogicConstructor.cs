@@ -111,5 +111,45 @@ namespace Juniper.Logic
         {
             return Or((IEnumerable<ItemT>)items);
         }
+
+        public static IExpression<ItemT> Xor<ItemT>(IEnumerable<IExpression<ItemT>> exprs)
+        {
+            if (exprs is null)
+            {
+                throw new System.ArgumentNullException(nameof(exprs));
+            }
+
+            IExpression<ItemT> expr = null;
+            int count = 0;
+            foreach (var x in exprs)
+            {
+                if (expr is null)
+                {
+                    expr = x;
+                }
+                else
+                {
+                    expr = new XorExpression<ItemT>(expr, x);
+                }
+                ++count;
+            }
+
+            return expr ?? Empty<ItemT>();
+        }
+
+        public static IExpression<ItemT> Xor<ItemT>(params IExpression<ItemT>[] exprs)
+        {
+            return Xor((IEnumerable<IExpression<ItemT>>)exprs);
+        }
+
+        public static IExpression<ItemT> Xor<ItemT>(IEnumerable<ItemT> items)
+        {
+            return Xor(Exprs(items));
+        }
+
+        public static IExpression<ItemT> Xor<ItemT>(params ItemT[] items)
+        {
+            return Xor((IEnumerable<ItemT>)items);
+        }
     }
 }

@@ -13,13 +13,21 @@ namespace Juniper.Logic
             Value = item ?? throw new ArgumentNullException(nameof(item));
         }
 
-        public abstract IEnumerable<ItemT> GetItems();
+        public bool HasNestedElements
+        {
+            get
+            {
+                return false;
+            }
+        }
 
         public IEnumerable<IExpression<ItemT>> GetExpressions()
         {
             yield return this;
         }
 
-        public abstract bool Evaluate(ExpressionEvaluator<ItemT> evaluator);
+        public abstract IEnumerable<ItemT> GetItems();
+
+        public abstract bool Evaluate(Func<ItemT, bool> evaluator);
     }
 }
