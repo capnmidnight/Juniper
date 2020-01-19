@@ -1,4 +1,4 @@
-namespace Juniper
+namespace Juniper.IO
 {
     /// <summary>
     /// Defines an interface for objects that can be installed and have their

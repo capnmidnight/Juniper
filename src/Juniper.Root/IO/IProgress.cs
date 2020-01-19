@@ -1,4 +1,4 @@
-namespace Juniper.Progress
+namespace Juniper.IO
 {
     /// <summary>
     /// Progress reporting interface for asynchronous operations.

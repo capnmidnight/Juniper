@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
-
-using Juniper.Progress;
+using Juniper.IO;
 
 namespace Juniper.Imaging
 {

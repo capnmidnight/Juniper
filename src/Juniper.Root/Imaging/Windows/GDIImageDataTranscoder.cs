@@ -4,7 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 
-using Juniper.Progress;
+using Juniper.IO;
 
 namespace Juniper.Imaging
 {

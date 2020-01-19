@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Juniper.Progress
+namespace Juniper.IO
 {
     public class ProgressAggregator :
         IProgress,

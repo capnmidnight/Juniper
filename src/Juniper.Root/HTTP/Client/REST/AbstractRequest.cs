@@ -5,7 +5,6 @@ using System.Net;
 using System.Threading.Tasks;
 
 using Juniper.IO;
-using Juniper.Progress;
 
 namespace Juniper.HTTP.Client.REST
 {

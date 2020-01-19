@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-using Juniper.Progress;
-
-namespace Juniper
+namespace Juniper.IO
 {
 
     /// <summary>
@@ -19,7 +17,7 @@ namespace Juniper
         /// <param name="reset"></param>
         /// <param name="prog">Progress tracker (non by default).</param>
         /// <returns>The number of objects that didn't install correctly.</returns>
-        public static List<KeyValuePair<IInstallable, Exception>> InstallAll(Func<List<IInstallable>> getInstallables, bool reset, IProgress prog)
+        public static List<KeyValuePair<IInstallable, Exception>> InstallAll(Func<List<IInstallable>> getInstallables, bool reset, IProgress prog = null)
         {
             var errored = new List<KeyValuePair<IInstallable, Exception>>(10);
             var installed = new List<IInstallable>(10);
@@ -64,11 +62,6 @@ namespace Juniper
             }
 
             return errored;
-        }
-
-        public static List<KeyValuePair<IInstallable, Exception>> InstallAll(Func<List<IInstallable>> getInstallables, bool reset)
-        {
-            return InstallAll(getInstallables, reset, null);
         }
 
         /// <summary>

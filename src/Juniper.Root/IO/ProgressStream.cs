@@ -1,8 +1,6 @@
 using System.IO;
 
-using Juniper.IO;
-
-namespace Juniper.Progress
+namespace Juniper.IO
 {
     /// <summary>
     /// A stream that can report progress on how much it has been consumed.

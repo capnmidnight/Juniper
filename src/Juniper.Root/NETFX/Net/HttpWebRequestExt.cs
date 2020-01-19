@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 using Juniper.HTTP;
 using Juniper.HTTP.Client;
-using Juniper.Progress;
+using Juniper.IO;
 
 namespace System.Net
 {

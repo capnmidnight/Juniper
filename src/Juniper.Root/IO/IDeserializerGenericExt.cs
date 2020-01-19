@@ -5,8 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-using Juniper.Progress;
-
 namespace Juniper.IO
 {
 

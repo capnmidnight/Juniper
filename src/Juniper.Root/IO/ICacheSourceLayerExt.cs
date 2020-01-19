@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Juniper.Progress;
-
 namespace Juniper.IO
 {
 

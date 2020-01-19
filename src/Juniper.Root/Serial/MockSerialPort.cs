@@ -20,10 +20,7 @@ namespace Juniper.Serial
 
         public int BaudRate { get; set; }
 
-        public bool IsOpen
-        {
-            get { return isOpen; }
-        }
+        public bool IsOpen { get; }
 
         public string PortName { get; set; }
         public int ReadTimeout { get; set; }
@@ -31,7 +28,7 @@ namespace Juniper.Serial
 
         public void Close()
         {
-            isOpen = false;
+            IsOpen = false;
         }
 
         public void DiscardInBuffer()
@@ -109,8 +106,6 @@ namespace Juniper.Serial
         private readonly Thread generator;
 
         private readonly Queue<string> msgQueue;
-
-        private bool isOpen;
 
         private class MockStream : System.IO.Stream
         {

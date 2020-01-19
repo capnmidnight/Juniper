@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 
 using Juniper.Imaging;
 using Juniper.IO;
-using Juniper.Progress;
 using Juniper.World.GIS.Google.Geocoding;
 using Juniper.World.GIS.Google.StreetView;
 

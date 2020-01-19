@@ -1,6 +1,6 @@
 using System;
 
-namespace Juniper.Progress
+namespace Juniper.IO
 {
     /// <summary>
     /// A small chunk of a progress meter, reporting its own progress
@@ -72,7 +72,7 @@ namespace Juniper.Progress
         public void ReportWithStatus(float progress, string status)
         {
             Progress = progress;
-            var prog = start + (progress * length);
+            var prog = start + progress * length;
             if (prefix is object && status is object)
             {
                 Status = prefix + " " + status;
