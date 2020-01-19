@@ -446,7 +446,7 @@ or
         /// <summary>
         /// Stop server and dispose all functions.
         /// </summary>
-        public async Task Stop()
+        public void Stop()
         {
             OnInfo("Stopping server");
             foreach (var controller in controllers)
@@ -477,7 +477,7 @@ or
             var end = DateTime.Now.AddSeconds(3);
             while (serverThread.IsAlive && DateTime.Now < end)
             {
-                await Task.Yield();
+                Thread.Yield();
             }
         }
 
