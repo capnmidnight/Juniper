@@ -46,6 +46,7 @@ namespace Juniper.HTTP.Server
         private readonly HttpListener listener;
         private readonly List<object> controllers = new List<object>();
         private readonly List<AbstractResponse> routes = new List<AbstractResponse>();
+        private readonly List<Task> waiters = new List<Task>();
 
         /// <summary>
         /// <para>
@@ -638,19 +639,18 @@ or
         {
             while (listener.IsListening)
             {
-                try
+                for (int i = waiters.Count - 1; i >= 0; --i)
                 {
-                    if (ListenerCount > 0)
+                    if (!waiters[i].IsRunning())
                     {
-                        _ = HandleConnectionAsync();
+                        waiters.RemoveAt(i);
                     }
                 }
-#pragma warning disable CA1031 // Do not catch general exception types
-                catch (Exception exp)
+
+                if (waiters.Count < ListenerCount)
                 {
-                    OnError(exp);
+                    waiters.Add(HandleConnectionAsync());
                 }
-#pragma warning restore CA1031 // Do not catch general exception types
             }
         }
 
@@ -672,47 +672,38 @@ or
 
         private async Task HandleConnectionAsync()
         {
-            --ListenerCount;
+            var context = await listener.GetContextAsync()
+                    .ConfigureAwait(false);
+            var response = context.Response;
+            var request = context.Request;
+            var headers = request.Headers;
+
+            response.SetStatus(HttpStatusCode.Continue);
+
+#if DEBUG
+            PrintHeader(context, headers);
+#endif
 
             try
             {
-                var context = await listener.GetContextAsync()
-                    .ConfigureAwait(false);
-                var response = context.Response;
-                var request = context.Request;
-                var headers = request.Headers;
-
-                response.SetStatus(HttpStatusCode.Continue);
-
-#if DEBUG
-                PrintHeader(context, headers);
-#endif
-
-                try
-                {
-                    await ExecuteRoutesAsync(context)
-                        .ConfigureAwait(false); ;
-                }
-#pragma warning disable CA1031 // Do not catch general exception types
-                catch (Exception exp)
-                {
-                    OnError(exp);
-                    response.SetStatus(HttpStatusCode.InternalServerError);
-#if DEBUG
-                    await response.SendTextAsync(exp.Unroll())
-                        .ConfigureAwait(false);
-#endif
-                }
-#pragma warning restore CA1031 // Do not catch general exception types
-                finally
-                {
-                    await CleanupConnectionAsync(response, request, headers)
-                        .ConfigureAwait(false);
-                }
+                await ExecuteRoutesAsync(context)
+                    .ConfigureAwait(false); ;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (Exception exp)
+            {
+                OnError(exp);
+                response.SetStatus(HttpStatusCode.InternalServerError);
+#if DEBUG
+                await response.SendTextAsync(exp.Unroll())
+                    .ConfigureAwait(false);
+#endif
+            }
+#pragma warning restore CA1031 // Do not catch general exception types
             finally
             {
-                ++ListenerCount;
+                await CleanupConnectionAsync(response, request, headers)
+                    .ConfigureAwait(false);
             }
         }
 
