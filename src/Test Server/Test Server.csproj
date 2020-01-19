@@ -8,6 +8,7 @@
     <AssemblyName>Test Server</AssemblyName>
     <RootNamespace>Juniper.HTTP</RootNamespace>
     <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <StartupObject>Juniper.HTTP.Program</StartupObject>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>

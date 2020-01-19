@@ -8,6 +8,7 @@
     <AssemblyName>jcopy</AssemblyName>
     <RootNamespace>FileCopier</RootNamespace>
     <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <StartupObject>FileCopier.Program</StartupObject>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>

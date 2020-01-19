@@ -8,6 +8,7 @@
     <AssemblyName>Juniper</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>Library</OutputType>
+    <TargetFramework>netstandard2.0</TargetFramework>
 
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>

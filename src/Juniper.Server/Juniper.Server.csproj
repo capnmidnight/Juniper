@@ -8,7 +8,7 @@
     <AssemblyName>Juniper.Server</AssemblyName>
     <RootNamespace>Juniper.HTTP.Server</RootNamespace>
     <OutputType>Library</OutputType>
-
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <Platforms>AnyCPU</Platforms>
@@ -20,14 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.PowerShell.5.ReferenceAssemblies" Version="1.1.0" />
   </ItemGroup>
 
 </Project>
