@@ -24,7 +24,7 @@ namespace Juniper.HTTP.Server.Controllers
             }
 
             var response = context.Response;
-            response.SetStatus(HttpStatusCode.BadRequest);
+            response.SetStatus(HttpStatusCode.NotImplemented);
 
             return Task.CompletedTask;
         }
