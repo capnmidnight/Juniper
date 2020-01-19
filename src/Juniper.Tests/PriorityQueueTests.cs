@@ -459,7 +459,7 @@ namespace Juniper.Collections.Tests
             while (pq.Count > 0)
             {
                 var i = pq.Dequeue();
-                Console.WriteLine("{0} -> {1}", last, i);
+                System.Console.WriteLine("{0} -> {1}", last, i);
                 Assert.IsTrue(last <= i, "items out of sequence in queue");
                 last = i;
             }

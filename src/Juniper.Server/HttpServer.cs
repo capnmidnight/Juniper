@@ -409,9 +409,19 @@ or
                 infoSource.Info += OnInfo;
             }
 
+            if (controller is IInfoDestination infoDest)
+            {
+                Info += infoDest.OnInfo;
+            }
+
             if (controller is IWarningSource warningSource)
             {
                 warningSource.Warning += OnWarning;
+            }
+
+            if (controller is IWarningDestination warningDest)
+            {
+                Warning += warningDest.OnWarning;
             }
 
             if (controller is IErrorSource errorSource)
@@ -419,9 +429,19 @@ or
                 errorSource.Err += OnError;
             }
 
+            if(controller is IErrorDestination errorDest)
+            {
+                Err += errorDest.OnError;
+            }
+
             if (controller is INCSALogSource nCSALogSource)
             {
                 nCSALogSource.Log += OnLog;
+            }
+
+            if(controller is INCSALogDestination nCSALogDest)
+            {
+                Log += nCSALogDest.OnLog;
             }
 
             controllers.Add(controller);
@@ -456,9 +476,19 @@ or
                     infoSource.Info -= OnInfo;
                 }
 
+                if (controller is IInfoDestination infoDest)
+                {
+                    Info -= infoDest.OnInfo;
+                }
+
                 if (controller is IWarningSource warningSource)
                 {
                     warningSource.Warning -= OnWarning;
+                }
+
+                if (controller is IWarningDestination warningDest)
+                {
+                    Warning -= warningDest.OnWarning;
                 }
 
                 if (controller is IErrorSource errorSource)
@@ -466,9 +496,19 @@ or
                     errorSource.Err -= OnError;
                 }
 
+                if (controller is IErrorDestination errorDest)
+                {
+                    Err -= errorDest.OnError;
+                }
+
                 if (controller is INCSALogSource nCSALogSource)
                 {
                     nCSALogSource.Log -= OnLog;
+                }
+
+                if (controller is INCSALogDestination nCSALogDest)
+                {
+                    Log -= nCSALogDest.OnLog;
                 }
             }
 
