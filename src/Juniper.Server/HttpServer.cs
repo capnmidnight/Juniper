@@ -631,7 +631,19 @@ or
             if (!string.IsNullOrEmpty(protocol)
                 && port >= 0)
             {
-                listener.Prefixes.Add($"{protocol}://localhost:{port.ToString(CultureInfo.InvariantCulture)}/");
+                var uri = new UriBuilder
+                {
+                    Scheme = protocol,
+
+#if DEBUG
+                    Host = "localhost",
+#else
+                    Host = "*",
+#endif
+                    Port = port
+                };
+
+                listener.Prefixes.Add(uri.ToString());
             }
         }
 
