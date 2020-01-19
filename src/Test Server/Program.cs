@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 using Juniper.HTTP.Server;
 using Juniper.HTTP.Server.Controllers;
-
+using Juniper.Processes;
 using static System.Console;
 using static Juniper.AnsiColor;
 
@@ -75,31 +75,19 @@ namespace Juniper.HTTP
 
             // Read options
             var options = new Dictionary<string, string>();
-            for (var i = 0; i < args.Length - 1; ++i)
-            {
-                if (args[i].StartsWith("--", false, CultureInfo.InvariantCulture))
-                {
-                    options[args[i]] = args[++i];
-                }
-            }
 
 #if DEBUG
             //Set default options
-            options.Default("--path", Path.Combine("..", "..", "..", "content"));
-            options.Default("--domain", "localhost");
-            if (HttpServer.IsAdministrator)
-            {
-                options.Default("--https", "443");
-                options.Default("--http", "80");
-            }
-            else
-            {
-                options.Default("--http", "8080");
-            }
+            options.SetValues(
+                ("path", Path.Combine("..", "..", "..", "content")),
+                ("domain", "localhost"),
+                ("http", HttpServer.IsAdministrator ? "80" : "8080"),
+                ("https", HttpServer.IsAdministrator ? "443" : "8081"));
 #endif
 
-            using var s = server = new HttpServer(
-                typeof(Program))
+            options.SetValues(args);
+
+            using var s = server = new HttpServer
             {
                 ListenerCount = 10,
                 AutoAssignCertificate = HttpServer.IsAdministrator
@@ -110,79 +98,9 @@ namespace Juniper.HTTP
             server.Err += Server_Error;
             server.Log += Server_Log;
 
-            // Parse options
-            var hasHttpsPort = options.TryGetValue(
-                "--https",
-                out var httpsPortString);
-
-            var hasHttpPort = options.TryGetValue(
-                "--http",
-                out var httpPortString);
-
-            var hasPort = Check(
-                hasHttpsPort || hasHttpPort,
-                "Must specify at least one of --https or --http");
-
-            var isValidHttpsPort = Check(
-                ushort.TryParse(httpsPortString, out var httpsPort) || !hasHttpsPort,
-                $"--https value `{httpsPortString}` must be an unsigned 16-bit integer");
-
-            var isValidHttpPort = Check(
-                ushort.TryParse(httpPortString, out var httpPort) || !hasHttpPort,
-                $"--http value `{httpPortString}` must be an unsigned 16-bit integer");
-
-            var hasDomain = Check(
-                options.TryGetValue("--domain", out var domain),
-                "No domain specified");
-
-            var hasLogPath = Check(
-                options.TryGetValue("--log", out var logPath),
-                "No logging path");
-
-            var hasContentPath = options.TryGetValue(
-                "--path",
-                out var contentPath);
-
-            var isValidContentPath = Check(
-                !hasContentPath || Directory.Exists(contentPath),
-                "Path to static content directory does not exist");
-
-            if (hasContentPath && !isValidContentPath)
+            if (server.SetOptions(options))
             {
-                Log(2, WriteLine, Yellow, $"Content directory was attempted from: {new DirectoryInfo(contentPath).FullName}");
-            }
-
-            if (hasDomain
-                && hasPort
-                && isValidHttpsPort
-                && isValidHttpPort)
-            {
-                // Set options on server
-                server.Domain = domain;
-
-                if (isValidHttpsPort
-                    && hasHttpsPort)
-                {
-                    server.HttpsPort = httpsPort;
-                }
-
-                if (isValidHttpPort
-                    && hasHttpPort)
-                {
-                    server.HttpPort = httpPort;
-                    server.Add(new HttpToHttpsRedirect());
-                }
-
-                if (hasLogPath)
-                {
-                    server.Add(new NCSALogger(logPath));
-                }
-
-                if (isValidContentPath
-                    && hasContentPath)
-                {
-                    server.Add(new StaticFileServer(contentPath));
-                }
+                server.Add(typeof(Program));
 
                 server.Start();
 
@@ -213,16 +131,6 @@ namespace Juniper.HTTP
                 server.Err -= Server_Error;
                 server.Log -= Server_Log;
             }
-        }
-
-        private static bool Check(bool isValid, string message)
-        {
-            if (!isValid)
-            {
-                Log(3, Error.WriteLine, Red, new ErrorEventArgs(new ArgumentException(message)));
-            }
-
-            return isValid;
         }
 
         private static void SetLogLevel(int direction)
