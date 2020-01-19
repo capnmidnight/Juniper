@@ -1,20 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Juniper.HTTP.Server.Controllers;
 using Juniper.Logging;
-
-using System.Text;
-using System.Collections.Specialized;
 using Juniper.Processes;
-using System.IO;
 
 namespace Juniper.HTTP.Server
 {
@@ -488,7 +487,7 @@ or
 
 #if DEBUG
             var redirector = GetController<HttpToHttpsRedirect>();
-            redirector.Enabled = false;
+            //redirector.Enabled = false;
 #endif
 
             if (routes.Count > 0)
@@ -497,6 +496,65 @@ or
                 ShowRoutes();
             }
 
+            AttemptCertificateAssignment();
+
+            if (HttpPort is null
+                && HttpsPort is null)
+            {
+                OnError(new InvalidOperationException("No HTTP or HTTPS port specified."));
+            }
+            else
+            {
+                if (HttpsPort is object)
+                {
+                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                    SetPrefix("https", HttpsPort.Value);
+                }
+
+                if (HttpPort is object)
+                {
+                    SetPrefix("http", HttpPort.Value);
+                    ProductionHttpUsageWarning();
+                }
+
+                if (!listener.IsListening)
+                {
+                    OnInfo($"Listening on:");
+                    foreach (var prefix in listener.Prefixes)
+                    {
+                        OnInfo($"\t{prefix}");
+                    }
+
+                    listener.Start();
+                }
+
+                if (!serverThread.IsAlive)
+                {
+                    serverThread.Start();
+                }
+            }
+        }
+
+        private void ProductionHttpUsageWarning()
+        {
+#if !DEBUG
+            var httpRoutes = from route in routes
+                                where !(route is HttpToHttpsRedirect)
+                                && !(route is BanHammer)
+                                && !(route is NCSALogger)
+                                && !(route is UnhandledRequestTrap)
+                                && route.Protocols.HasFlag(HttpProtocols.HTTP)
+                                select route;
+
+            if (httpRoutes.Any())
+            {
+                OnWarning("Maybe don't run unencrypted HTTP in production, k?");
+            }
+#endif
+        }
+
+        private void AttemptCertificateAssignment()
+        {
             var platform = Environment.OSVersion.Platform;
             if (HttpsPort is object
                 && AutoAssignCertificate
@@ -529,102 +587,14 @@ or
                         }
                     }
                 }
+#else
+                else
+                {
+                    OnWarning($"Don't know how to assign certificates on this platform: {platform}");
+                }
 #endif
-            }
-
-            if (HttpPort is null
-                && HttpsPort is null)
-            {
-                OnError(new InvalidOperationException("No HTTP or HTTPS port specified."));
-            }
-            else
-            {
-                if (HttpsPort is object)
-                {
-                    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                    SetPrefix("https", HttpsPort.Value);
-                }
-
-                if (HttpPort is object)
-                {
-                    SetPrefix("http", HttpPort.Value);
-#if !DEBUG
-                    var httpRoutes = from route in routes
-                                     where !(route is HttpToHttpsRedirect)
-                                        && !(route is BanHammer)
-                                        && !(route is NCSALogger)
-                                        && !(route is UnhandledRequestTrap)
-                                        && route.Protocols.HasFlag(HttpProtocols.HTTP)
-                                     select route;
-
-                    if (httpRoutes.Any())
-                    {
-                        OnWarning("Maybe don't run unencrypted HTTP in production, k?");
-                    }
-#endif
-                }
-
-
-                if (!listener.IsListening)
-                {
-                    OnInfo($"Listening on:");
-                    foreach (var prefix in listener.Prefixes)
-                    {
-                        OnInfo($"\t{prefix}");
-                    }
-
-                    listener.Start();
-                }
-
-                if (!serverThread.IsAlive)
-                {
-                    serverThread.Start();
-                }
             }
         }
-
-#if DEBUG
-        public System.Diagnostics.Process StartBrowser(string startPage = null)
-        {
-            if (HttpsPort is null
-                && HttpPort is null)
-            {
-                throw new InvalidOperationException("Server is not listening on any ports");
-            }
-
-            startPage ??= string.Empty;
-
-            var protocol = "http";
-            var port = "";
-
-            if (HttpsPort is object)
-            {
-                protocol = "https";
-                if (HttpsPort != 443)
-                {
-                    port = HttpsPort.Value.ToString(CultureInfo.InvariantCulture);
-                }
-            }
-            else if (HttpPort is object
-                && HttpPort != 80)
-            {
-                port = HttpPort.Value.ToString(CultureInfo.InvariantCulture);
-            }
-
-            if (port.Length > 0)
-            {
-                port = ":" + port;
-            }
-
-            var page = $"{protocol}://localhost{port}/{startPage}";
-
-            return System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"explorer", $"\"{page}\"")
-            {
-                UseShellExecute = true,
-                WindowStyle = System.Diagnostics.ProcessWindowStyle.Maximized
-            });
-        }
-#endif
 
         private void SetPrefix(string protocol, ushort port)
         {
@@ -716,17 +686,6 @@ or
             {
                 await CleanupConnectionAsync(response, request, headers)
                     .ConfigureAwait(false);
-            }
-        }
-
-        private void PrintHeader(HttpListenerContext context, NameValueCollection headers)
-        {
-            OnInfo(NCSALogger.FormatLogMessage(context));
-            OnInfo("Headers:");
-            foreach (var key in headers.AllKeys)
-            {
-                var value = headers[key];
-                OnInfo($"\t{key} = {value}");
             }
         }
 
@@ -951,5 +910,62 @@ or
                 }
             }
         }
+
+
+#if DEBUG
+        public System.Diagnostics.Process StartBrowser(string startPage = null)
+        {
+            if (HttpsPort is null
+                && HttpPort is null)
+            {
+                throw new InvalidOperationException("Server is not listening on any ports");
+            }
+
+            startPage ??= string.Empty;
+
+            var protocol = "http";
+            var port = "";
+
+            if (HttpPort is object
+                && HttpPort != 80)
+            {
+                port = HttpPort.Value.ToString(CultureInfo.InvariantCulture);
+            }
+            else if (HttpPort is null
+                && HttpsPort is object
+                && GetController<HttpToHttpsRedirect>()?.Enabled == true)
+            {
+                protocol = "https";
+                if (HttpsPort != 443)
+                {
+                    port = HttpsPort.Value.ToString(CultureInfo.InvariantCulture);
+                }
+            }
+
+            if (port.Length > 0)
+            {
+                port = ":" + port;
+            }
+
+            var page = $"{protocol}://localhost{port}/{startPage}";
+
+            return System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo($"explorer", $"\"{page}\"")
+            {
+                UseShellExecute = true,
+                WindowStyle = System.Diagnostics.ProcessWindowStyle.Maximized
+            });
+        }
+
+        private void PrintHeader(HttpListenerContext context, NameValueCollection headers)
+        {
+            OnInfo(NCSALogger.FormatLogMessage(context));
+            OnInfo("Headers:");
+            foreach (var key in headers.AllKeys)
+            {
+                var value = headers[key];
+                OnInfo($"\t{key} = {value}");
+            }
+        }
+#endif
     }
 }
