@@ -105,7 +105,13 @@ namespace Juniper.HTTP
                 server.Start();
 
 #if DEBUG
-                using var browserProc = server.StartBrowser("index.html");
+                var startOptionIndex = Array.IndexOf(args, "--start");
+                if (0 <= startOptionIndex)
+                {
+                    using var browserProc = server.StartBrowser(args
+                        .Skip(startOptionIndex + 1)
+                        .FirstOrDefault());
+                }
 #endif
 
                 while (server.IsRunning)
