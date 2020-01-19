@@ -20,7 +20,7 @@ namespace Juniper.Serial
 
         public int BaudRate { get; set; }
 
-        public bool IsOpen { get; }
+        public bool IsOpen { get; private set; }
 
         public string PortName { get; set; }
         public int ReadTimeout { get; set; }
@@ -47,7 +47,7 @@ namespace Juniper.Serial
 
         public void Open()
         {
-            isOpen = PortName == FakePortName;
+            IsOpen = PortName == FakePortName;
         }
 
         public string ReadExisting()
