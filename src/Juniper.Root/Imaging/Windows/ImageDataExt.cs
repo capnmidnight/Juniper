@@ -1,4 +1,3 @@
-#if !NETSTANDARD
 using System;
 using System.Globalization;
 
@@ -124,4 +123,3 @@ namespace Juniper.Imaging
         }
     }
 }
-#endif

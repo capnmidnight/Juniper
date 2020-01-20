@@ -1,4 +1,3 @@
-#if !NETSTANDARD
 using System;
 using System.Drawing;
 using System.IO;
@@ -51,4 +50,3 @@ namespace Juniper.Imaging
         }
     }
 }
-#endif
