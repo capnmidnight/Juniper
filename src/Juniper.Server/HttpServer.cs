@@ -48,28 +48,24 @@ namespace Juniper.HTTP.Server
         private readonly List<Task> waiters = new List<Task>();
 
         /// <summary>
+        /// <para>The port on which to listen for insecure HTTP connections.</para>
         /// <para>
-        /// Begin constructing a server.
-        ///     * MaxConnections = 100.
-        ///     * ListenAddress =
-        ///         * DEBUG: localhost
-        ///         * RELEASE: *
-        /// </para>
-        /// <para>
-        /// Server doesn't start listening until <see cref="Start"/>
-        /// is called.
+        /// WARNING: only use this in testing, or to redirect users to
+        /// the HTTPS version of the request.
         /// </para>
         /// </summary>
-        public HttpServer()
-        {
-            ListenerCount = 100;
-            serverThread = new Thread(Listen);
+        /// <value>
+        /// The HTTP port.
+        /// </value>
+        public ushort? HttpPort { get; set; }
 
-            listener = new HttpListener
-            {
-                AuthenticationSchemeSelectorDelegate = GetAuthenticationSchemeForRequest
-            };
-        }
+        /// <summary>
+        /// The port on which to listen for HTTPS connections.
+        /// </summary>
+        /// <value>
+        /// The HTTPS port.
+        /// </value>
+        public ushort? HttpsPort { get; set; }
 
         /// <summary>
         /// Gets or sets the maximum connections. Any connections beyond the max
@@ -92,12 +88,54 @@ namespace Juniper.HTTP.Server
         public string Domain { get; set; }
 
         /// <summary>
-        /// The port on which to listen for HTTPS connections.
+        /// Set to true if the server should attempt to run netsh to assign
+        /// a certificate to the application before starting the server.
         /// </summary>
-        /// <value>
-        /// The HTTPS port.
-        /// </value>
-        public ushort? HttpsPort { get; set; }
+        public bool AutoAssignCertificate { get; set; }
+
+        /// <summary>
+        /// Event for handling Common Log Format logs.
+        /// </summary>
+        public event EventHandler<StringEventArgs> Log;
+
+        /// <summary>
+        /// Event for handling information-level logs.
+        /// </summary>
+        public event EventHandler<StringEventArgs> Info;
+
+        /// <summary>
+        /// Event for handling error logs that don't stop execution.
+        /// </summary>
+        public event EventHandler<StringEventArgs> Warning;
+
+        /// <summary>
+        /// Event for handling error logs that prevent execution.
+        /// </summary>
+        public event EventHandler<ErrorEventArgs> Err;
+
+        /// <summary>
+        /// <para>
+        /// Begin constructing a server.
+        ///     * MaxConnections = 100.
+        ///     * ListenAddress =
+        ///         * DEBUG: localhost
+        ///         * RELEASE: *
+        /// </para>
+        /// <para>
+        /// Server doesn't start listening until <see cref="Start"/>
+        /// is called.
+        /// </para>
+        /// </summary>
+        public HttpServer()
+        {
+            ListenerCount = 100;
+            serverThread = new Thread(Listen);
+
+            listener = new HttpListener
+            {
+                AuthenticationSchemeSelectorDelegate = GetAuthenticationSchemeForRequest
+            };
+        }
 
         public bool SetOptions(Dictionary<string, string> options)
         {
@@ -125,6 +163,16 @@ namespace Juniper.HTTP.Server
                 options.TryGetValue("domain", out var domain),
                 "No domain specified");
 
+            var isValidAssignCert = Check(
+                options.TryGetBool("assignCert", out var assignCert)
+                && hasDomain,
+                "Must provide the --domain option to auto-assign a certificate");
+
+            var isValidListenCount = Check(
+                options.TryGetInt32("listeners", out var listenerCount)
+                && ListenerCount > 0,
+                "--listeners value must be greater than zero.");
+
             var hasLogPath = Check(
                 options.TryGetValue("log", out var logPath),
                 "No logging path");
@@ -134,7 +182,6 @@ namespace Juniper.HTTP.Server
                 "Path to ban file does not exist.");
 
             var hasContentPath = options.TryGetValue("path", out var contentPath);
-
             var isValidContentPath = Check(
                 !hasContentPath || Directory.Exists(contentPath),
                 "Path to static content directory does not exist");
@@ -152,6 +199,16 @@ namespace Juniper.HTTP.Server
                 if (hasHttpsPort)
                 {
                     HttpsPort = httpsPort;
+                }
+
+                if (isValidAssignCert)
+                {
+                    AutoAssignCertificate = assignCert;
+                }
+
+                if (isValidListenCount)
+                {
+                    ListenerCount = listenerCount;
                 }
 
                 if (hasHttpPort)
@@ -284,44 +341,6 @@ namespace Juniper.HTTP.Server
             return addCert.TotalStandardOutput;
         }
 #endif
-
-        /// <summary>
-        /// Set to true if the server should attempt to run netsh to assign
-        /// a certificate to the application before starting the server.
-        /// </summary>
-        public bool AutoAssignCertificate { get; set; }
-
-        /// <summary>
-        /// <para>The port on which to listen for insecure HTTP connections.</para>
-        /// <para>
-        /// WARNING: only use this in testing, or to redirect users to
-        /// the HTTPS version of the request.
-        /// </para>
-        /// </summary>
-        /// <value>
-        /// The HTTP port.
-        /// </value>
-        public ushort? HttpPort { get; set; }
-
-        /// <summary>
-        /// Event for handling Common Log Format logs.
-        /// </summary>
-        public event EventHandler<StringEventArgs> Log;
-
-        /// <summary>
-        /// Event for handling information-level logs.
-        /// </summary>
-        public event EventHandler<StringEventArgs> Info;
-
-        /// <summary>
-        /// Event for handling error logs that don't stop execution.
-        /// </summary>
-        public event EventHandler<StringEventArgs> Warning;
-
-        /// <summary>
-        /// Event for handling error logs that prevent execution.
-        /// </summary>
-        public event EventHandler<ErrorEventArgs> Err;
 
         public void Add(params object[] controllers)
         {
