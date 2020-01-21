@@ -13,6 +13,7 @@ namespace Thumbnail
         private readonly int width, height;
         public ConsoleBuffer(int width, int height)
         {
+            Console.CursorVisible = false;
             this.width = width;
             this.height = height;
             back = new ConsoleColor[width, height];
@@ -81,8 +82,8 @@ namespace Thumbnail
             }
         }
 
-        private readonly int lastX = -1;
-        private readonly int lastY = -1;
+        private int lastX = -1;
+        private int lastY = -1;
         private ConsoleColor lastB, lastF;
         public void Flush()
         {
@@ -119,7 +120,9 @@ namespace Thumbnail
                         }
                         old[x, y] = false;
                     }
+                    lastX = x;
                 }
+                lastY = y;
             }
         }
 
