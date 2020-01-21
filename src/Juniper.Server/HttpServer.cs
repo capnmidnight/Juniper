@@ -1021,6 +1021,7 @@ or
         private void PrintHeader(HttpListenerContext context, NameValueCollection headers)
         {
             OnInfo(NCSALogger.FormatLogMessage(context));
+            OnInfo($"Request: {context.Request.HttpMethod} {context.Request.RawUrl}");
             OnInfo("Headers:");
             foreach (var key in headers.AllKeys)
             {
