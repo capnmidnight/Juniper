@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-using Juniper.Puzzles;
+using static System.Console;
 
-namespace Thumbnail
+namespace Juniper.Puzzles.Tetris
 {
     public static class Program
     {
@@ -32,7 +32,7 @@ namespace Thumbnail
                 { ConsoleKey.DownArrow, game.Down_Release }
             };
 
-            var buffer = new ConsoleBuffer(Console.WindowWidth, Console.WindowHeight - 1);
+            var buffer = new ConsoleBuffer(WindowWidth, WindowHeight - 1);
 
             done = false;
             var last = DateTime.Now;
@@ -79,9 +79,9 @@ namespace Thumbnail
                 action();
             }
 
-            if (Console.KeyAvailable)
+            if (KeyAvailable)
             {
-                var key = Console.ReadKey(true).Key;
+                var key = ReadKey(true).Key;
                 if (keyPresses.ContainsKey(key))
                 {
                     keyPresses[key]();
@@ -93,8 +93,8 @@ namespace Thumbnail
         {
             for (var dy = 0; dy < p.Height; ++dy)
             {
-                Console.CursorLeft = x;
-                Console.CursorLeft = dy + y;
+                CursorLeft = x;
+                CursorLeft = dy + y;
                 for (var dx = 0; dx < p.Width; ++dx)
                 {
                     if (p[dx, dy] != Puzzle.EmptyTile)

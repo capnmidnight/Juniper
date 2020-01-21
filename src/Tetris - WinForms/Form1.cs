@@ -5,9 +5,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 
-using Juniper.Puzzles;
-
-namespace Thumbnail2
+namespace Juniper.Puzzles.Tetris
 {
     public partial class Form1 : Form
     {

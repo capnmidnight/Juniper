@@ -1,9 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  
+  <ImportGroup>
+    <Import Project="..\..\Juniper.targets" />
+  </ImportGroup>
 
   <PropertyGroup>
+    <AssemblyName>Veldrid_Testing</AssemblyName>
+    <RootNamespace>Juniper.Veldrid</RootNamespace>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>Veldrid_Testing</RootNamespace>
+    <TargetFrameworks>net48</TargetFrameworks>
+    <StartupObject>Veldrid_Testing.Program</StartupObject>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platforms>AnyCPU</Platforms>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <Authors>Sean T. McBeth</Authors>
+    <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Veldrid" Version="4.7.0" />
+  </ItemGroup>
 </Project>
