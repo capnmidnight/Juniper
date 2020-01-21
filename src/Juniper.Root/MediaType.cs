@@ -14,7 +14,7 @@ namespace Juniper
         IEquatable<MediaType>,
         IEquatable<string>
     {
-        private static Dictionary<string, MediaType> byExtensions;
+        private static Dictionary<string, List<MediaType>> byExtensions;
 
         private static Dictionary<string, MediaType> byValue;
 
@@ -120,13 +120,13 @@ namespace Juniper
             return type is object;
         }
 
-        public static MediaType GuessByExtension(string ext)
+        private static IReadOnlyList<MediaType> GuessByExtension(ref string ext)
         {
             if (string.IsNullOrEmpty(ext))
             {
                 ext = "unknown";
             }
-            else if(ext[0] == '.')
+            else if (ext[0] == '.')
             {
                 ext = ext.Substring(1);
             }
@@ -137,18 +137,29 @@ namespace Juniper
             }
             else
             {
-                return new Unknown("unknown/" + ext);
+                return new MediaType[] { new Unknown("unknown/" + ext) };
             }
         }
 
-        public static MediaType GuessByExtension(FileInfo file)
+        public static IReadOnlyList<MediaType> GuessByFileName(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                throw new ArgumentException("Must provide a valid fileName", nameof(fileName));
+            }
+
+            var ext = Path.GetExtension(fileName);
+            return GuessByExtension(ref ext);
+        }
+
+        public static IReadOnlyList<MediaType> GuessByFile(FileInfo file)
         {
             if (file is null)
             {
                 throw new ArgumentNullException(nameof(file));
             }
 
-            return GuessByExtension(file.Extension);
+            return GuessByFileName(file.Name);
         }
 
         public static MediaType Lookup(string value)
@@ -180,16 +191,6 @@ namespace Juniper
         public static ContentReference operator +(string cacheID, MediaType contentType)
         {
             return new ContentReference(cacheID, contentType);
-        }
-
-        public static explicit operator MediaType(string fileName)
-        {
-            return GuessByExtension(PathExt.GetShortExtension(fileName));
-        }
-
-        public static explicit operator MediaType(FileInfo file)
-        {
-            return (MediaType)(file?.Name);
         }
 
         public static implicit operator string(MediaType mediaType)
@@ -268,14 +269,20 @@ namespace Juniper
 
             if (byExtensions is null)
             {
-                byExtensions = new Dictionary<string, MediaType>(1000);
+                byExtensions = new Dictionary<string, List<MediaType>>(1000);
             }
 
             _ = byValue.Default(Value, this);
 
             foreach (var ext in Extensions)
             {
-                _ = byExtensions.Default(ext, this);
+                if (!byExtensions.ContainsKey(ext))
+                {
+                    byExtensions[ext] = new List<MediaType>();
+                }
+
+                var exts = byExtensions[ext];
+                exts.Add(this);
             }
         }
 
@@ -286,10 +293,8 @@ namespace Juniper
                 return false;
             }
 
-            var ext = Path.GetExtension(fileName);
-            var type = GuessByExtension(ext);
-
-            return this == type;
+            var types = GuessByFileName(fileName);
+            return types.Contains(this);
         }
 
         public bool Matches(FileInfo file)

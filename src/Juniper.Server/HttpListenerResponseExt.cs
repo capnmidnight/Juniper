@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -83,9 +84,16 @@ namespace Juniper.HTTP.Server
             {
                 throw new FileNotFoundException("File not found: " + file.FullName, file.FullName);
             }
+            
+            MediaType type = MediaType.Application.Octet_Stream;
+            var types = MediaType.GuessByFile(file);
+            if(types.Count > 0)
+            {
+                type = types[0];
+            }
 
             using var input = file.OpenRead();
-            await response.SendStreamAsync((MediaType)file, input)
+            await response.SendStreamAsync(type, input)
                 .ConfigureAwait(false);
         }
 
