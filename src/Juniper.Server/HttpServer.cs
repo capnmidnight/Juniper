@@ -1091,6 +1091,7 @@ or
         private void PrintFooter(HttpListenerContext context)
         {
             PrintContext(context, nameof(context.Response));
+            OnInfo($"\tStatus: {context.Response.GetStatus()}");
         }
 #endif
     }
