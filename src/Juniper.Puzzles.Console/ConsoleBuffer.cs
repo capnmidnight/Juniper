@@ -2,17 +2,15 @@
 //sean.mcbeth@gmail.com
 //www.seanmcbeth.com
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Thumbnail
 {
-    class ConsoleBuffer
+    internal class ConsoleBuffer
     {
-        private ConsoleColor[,] back, fore;
-        private char[,] grid;
-        private bool[,] old;
-        private int width, height;
+        private readonly ConsoleColor[,] back, fore;
+        private readonly char[,] grid;
+        private readonly bool[,] old;
+        private readonly int width, height;
         public ConsoleBuffer(int width, int height)
         {
             this.width = width;
@@ -21,9 +19,9 @@ namespace Thumbnail
             fore = new ConsoleColor[width, height];
             grid = new char[width, height];
             old = new bool[width, height];
-            for (int x = 0; x < width; ++x)
+            for (var x = 0; x < width; ++x)
             {
-                for (int y = 0; y < height; ++y)
+                for (var y = 0; y < height; ++y)
                 {
                     back[x, y] = ConsoleColor.Black;
                     fore[x, y] = ConsoleColor.Gray;
@@ -40,7 +38,10 @@ namespace Thumbnail
                 || fore[x, y] != f || grid[x, y] != c))
             {
                 if (!ignoreBG)
+                {
                     back[x, y] = b;
+                }
+
                 fore[x, y] = f;
                 grid[x, y] = c;
                 old[x, y] = true;
@@ -49,44 +50,45 @@ namespace Thumbnail
 
         public void Set(int x, int y, char c, ConsoleColor f, ConsoleColor b)
         {
-            this.Set(x, y, c, f, b, false);
+            Set(x, y, c, f, b, false);
         }
         public void Set(int x, int y, char c, ConsoleColor f)
         {
-            this.Set(x, y, c, f, ConsoleColor.Black, true);
+            Set(x, y, c, f, ConsoleColor.Black, true);
         }
 
         public void Set(int x, int y, string s, ConsoleColor f, ConsoleColor b)
         {
-            for (int dx = 0; dx < s.Length; ++dx)
+            for (var dx = 0; dx < s.Length; ++dx)
             {
-                this.Set(x + dx, y, s[dx], f, b);
+                Set(x + dx, y, s[dx], f, b);
             }
         }
 
         public void Set(int x, int y, string s, ConsoleColor f)
         {
-            for (int dx = 0; dx < s.Length; ++dx)
+            for (var dx = 0; dx < s.Length; ++dx)
             {
-                this.Set(x + dx, y, s[dx], f);
+                Set(x + dx, y, s[dx], f);
             }
         }
         public void SetWrap(int x, int y, string s, ConsoleColor f, ConsoleColor b)
         {
-            for (int dx = 0; dx < s.Length; ++dx)
+            for (var dx = 0; dx < s.Length; ++dx)
             {
-                int v = x + dx;
-                this.Set(v % width, y + v / width, s[dx], f, b);
+                var v = x + dx;
+                Set(v % width, y + v / width, s[dx], f, b);
             }
         }
-        int lastX = -1;
-        int lastY = -1;
-        ConsoleColor lastB, lastF;
+
+        private readonly int lastX = -1;
+        private readonly int lastY = -1;
+        private ConsoleColor lastB, lastF;
         public void Flush()
         {
-            for (int y = 0; y < height; ++y)
+            for (var y = 0; y < height; ++y)
             {
-                for (int x = 0; x < width; ++x)
+                for (var x = 0; x < width; ++x)
                 {
                     if (old[x, y])
                     {
@@ -113,25 +115,25 @@ namespace Thumbnail
         }
         public void Clear()
         {
-            this.Clear(ConsoleColor.Black);
+            Clear(ConsoleColor.Black);
         }
 
         public void Clear(ConsoleColor b)
         {
-            for (int x = 0; x < width; ++x)
+            for (var x = 0; x < width; ++x)
             {
-                for (int y = 0; y < height; ++y)
+                for (var y = 0; y < height; ++y)
                 {
-                    this.Set(x, y, ' ', ConsoleColor.Gray, b);
+                    Set(x, y, ' ', ConsoleColor.Gray, b);
                 }
             }
         }
 
-        int startX, startY;
+        private int startX, startY;
         public void Prompt(string message, bool pause)
         {
-            this.Set(0, height - 1, message, ConsoleColor.Red, ConsoleColor.DarkRed);
-            this.Flush();
+            Set(0, height - 1, message, ConsoleColor.Red, ConsoleColor.DarkRed);
+            Flush();
             startX = message.Length;
             startY = height - 1;
             Console.CursorTop = startY;
@@ -144,15 +146,15 @@ namespace Thumbnail
 
         public void CorrectInputBuffer(string input)
         {
-            this.Set(startX, startY, input, ConsoleColor.Red, ConsoleColor.DarkRed);
+            Set(startX, startY, input, ConsoleColor.Red, ConsoleColor.DarkRed);
         }
 
         public void Set(int x, int y, ConsoleColor b)
         {
-            if (this.back[x, y] != b)
+            if (back[x, y] != b)
             {
-                this.back[x, y] = b;
-                this.old[x, y] = true;
+                back[x, y] = b;
+                old[x, y] = true;
             }
         }
     }

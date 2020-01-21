@@ -1,26 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using PuzzleFramework;
-using Puzzles;
+
+using Juniper.Puzzles;
+
 namespace Thumbnail2
 {
     public partial class Form1 : Form
     {
-        TetrisGame game;
-        Brush[] colors;
-        Thread thread;
-        Bitmap buffer, block, bgimage;
-        Graphics back, front;
-        delegate void Action();
-        Dictionary<object, Action> command;
-        bool done, finished;
-        DateTime last;
+        private TetrisGame game;
+        private Brush[] colors;
+        private readonly Thread thread;
+        private Bitmap buffer, block, bgimage;
+        private Graphics back, front;
+
+        private Dictionary<object, Action> keyPresses;
+        private Dictionary<object, Action> keyReleases;
+        private bool done, finished;
+        private DateTime last;
+
         public Form1()
         {
             InitializeComponent();
@@ -29,7 +30,8 @@ namespace Thumbnail2
             thread = new Thread(new ThreadStart(Run));
             thread.Start();
         }
-        void Initialize()
+
+        private void Initialize()
         {
             colors = new Brush[8];
             colors[0] = Brushes.Black;
@@ -43,15 +45,25 @@ namespace Thumbnail2
 
 
             game = new TetrisGame(10, 20);
-            command = new Dictionary<object, Action>();
-            command.Add(Keys.Up, new Action(game.Up_Depress));
-            command.Add(Keys.Left, new Action(game.Left_Depress));
-            command.Add(Keys.Right, new Action(game.Right_Depress));
-            command.Add(Keys.Down, new Action(game.Down_Depress));
+            keyPresses = new Dictionary<object, Action>
+            {
+                { Keys.Up, game.Up_Depress },
+                { Keys.Left, game.Left_Depress },
+                { Keys.Right, game.Right_Depress },
+                { Keys.Down, game.Down_Depress }
+            };
 
-            buffer = new Bitmap(this.ClientSize.Width, this.ClientSize.Height);
+            keyReleases = new Dictionary<object, Action>
+            {
+                { Keys.Up, game.Up_Release },
+                { Keys.Left, game.Left_Release},
+                { Keys.Right, game.Right_Release},
+                { Keys.Down, game.Down_Release }
+            };
+
+            buffer = new Bitmap(ClientSize.Width, ClientSize.Height);
             back = Graphics.FromImage(buffer);
-            front = this.CreateGraphics();
+            front = CreateGraphics();
             done = false;
             finished = false;
             last = DateTime.Now;
@@ -67,12 +79,15 @@ namespace Thumbnail2
             bgimage = new Bitmap("../../back.jpg");
         }
 
-        void Run()
+        private void Run()
         {
             while (!done)
             {
                 if (game.Update(DateTime.Now - last))
+                {
                     last = DateTime.Now;
+                }
+
                 Draw();
                 Application.DoEvents();
             }
@@ -82,36 +97,56 @@ namespace Thumbnail2
         {
             done = true;
             while (!finished)
+            {
                 Application.DoEvents();
+            }
+
             base.OnClosing(e);
         }
         private void Draw()
         {
-            back.DrawImage(bgimage, new Rectangle(this.ClientRectangle.X, this.ClientRectangle.Y, 640, 480));
+            back.DrawImage(bgimage, new Rectangle(ClientRectangle.X, ClientRectangle.Y, 640, 480));
             //back.DrawRectangle(Pens.LightGreen, 20, 20, game.Width * 20, game.Height * 20);
             DrawPuzzle(game, 1, 1);
             DrawPuzzle(game.Current, game.CursorX + 1, game.CursorY + 1);
             DrawPuzzle(game.Next, game.Width + 3, 1);
             back.Flush();
-            front.DrawImage(buffer, this.ClientRectangle.X, this.ClientRectangle.Y);
+            front.DrawImage(buffer, ClientRectangle.X, ClientRectangle.Y);
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
-            Keys key = e.KeyCode;
-            if (command.ContainsKey(key))
-                command[key]();
+            var key = e.KeyCode;
+            if (keyPresses.ContainsKey(key))
+            {
+                keyPresses[key]();
+            }
         }
-        void DrawPuzzle(Puzzle p, int x, int y)
+
+        protected override void OnKeyUp(KeyEventArgs e)
         {
-            for (int dy = 0; dy < p.Height; ++dy)
-                for (int dx = 0; dx < p.Width; ++dx)
+            base.OnKeyUp(e);
+            var key = e.KeyCode;
+            if (keyReleases.ContainsKey(key))
+            {
+                keyReleases[key]();
+            }
+        }
+
+        private void DrawPuzzle(Puzzle p, int x, int y)
+        {
+            for (var dy = 0; dy < p.Height; ++dy)
+            {
+                for (var dx = 0; dx < p.Width; ++dx)
+                {
                     if (p[dx, dy] != Puzzle.EmptyTile)
                     {
                         back.FillRectangle(colors[p[dx, dy]], (x + dx) * 20, (y + dy) * 20, 20, 20);
                         back.DrawImageUnscaled(block, (x + dx) * 20, (y + dy) * 20, 20, 20);
                     }
+                }
+            }
         }
     }
 }
