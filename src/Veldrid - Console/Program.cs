@@ -1,10 +1,16 @@
+using System.Drawing.Printing;
 using System.IO;
+using System.Linq;
 using System.Numerics;
+using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 
 using Veldrid;
 using Veldrid.SPIRV;
 using Veldrid.StartupUtilities;
+
+using static System.Console;
 
 namespace Juniper
 {
@@ -24,9 +30,25 @@ namespace Juniper
 
         private static readonly ushort[] quadIndices = { 0, 1, 2, 3 };
 
+        private static void DumpProps<T>(string name, T obj)
+        {
+            var type = typeof(T);
+            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var fieldWidth = props.Max(p => p.Name.Length);
+            var lineFormat = $"\t{{0,{fieldWidth}}} = {{1}}";
+
+            WriteLine(name);
+            foreach(var prop in props)
+            {
+                WriteLine(lineFormat, prop.Name, prop.GetValue(obj, null));
+            }
+
+            WriteLine();
+        }
+
         public static void Main(string[] args)
         {
-            var windowCI = new WindowCreateInfo()
+            var windowOptions = new WindowCreateInfo()
             {
                 X = 100,
                 Y = 100,
@@ -35,9 +57,11 @@ namespace Juniper
                 WindowTitle = "Veldrid Tutorial"
             };
 
-            var window = VeldridStartup.CreateWindow(ref windowCI);
+            var window = VeldridStartup.CreateWindow(ref windowOptions);
 
             using var g = VeldridStartup.CreateGraphicsDevice(window);
+            DumpProps(nameof(g), g);
+            DumpProps(nameof(g.Features), g.Features);
             
             var factory = g.ResourceFactory;
 
@@ -91,7 +115,6 @@ namespace Juniper
 
             using var pipeline = factory.CreateGraphicsPipeline(pipelineDescription);
             using var commandList = factory.CreateCommandList();
-
             commandList.Begin();
             commandList.SetFramebuffer(g.SwapchainFramebuffer);
             commandList.ClearColorTarget(0, RgbaFloat.Black);
