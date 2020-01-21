@@ -45,7 +45,7 @@ namespace Juniper.HTTP.Server
         private readonly HttpListener listener;
         private readonly List<object> controllers = new List<object>();
         private readonly List<AbstractResponse> routes = new List<AbstractResponse>();
-        private readonly List<Task> waiters = new List<Task>();
+        private readonly ConcurrentBag<Task> waiters = new ConcurrentBag<Task>();
 
         /// <summary>
         /// <para>The port on which to listen for insecure HTTP connections.</para>
@@ -711,6 +711,30 @@ or
             }
 
             return auth;
+        }
+
+        private void Listen()
+        {
+            while (listener.IsListening)
+            {
+                if (waiters.Count < ListenerCount)
+                {
+                    waiters.Add(HandleConnectionAsync());
+                }
+            }
+        }
+
+        private void Cleanup()
+        {
+            while (listener.IsListening)
+            {
+                if (!waiters.IsEmpty
+                    && waiters.TryTake(out var task)
+                    && task.IsRunning())
+                {
+                    waiters.Add(task);
+                }
+            }
         }
 
         private async Task HandleConnectionAsync()
