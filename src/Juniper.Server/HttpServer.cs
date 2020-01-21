@@ -332,13 +332,44 @@ namespace Juniper.HTTP.Server
         }
 
 
-        private string AssignCertToApp(string certHash, Guid appGuid)
+        private bool TryAssignCertToApp(string certHash, Guid appGuid, out string message)
         {
-            var addCert = new AddSslCert(
-                "0.0.0.0",
-                HttpsPort.Value,
-                certHash,
-                appGuid);
+            var endpoint = new IPEndPoint(IPAddress.Parse("0.0.0.0"), HttpsPort.Value);
+
+            var showCert = new ShowSslCert(endpoint);
+
+            showCert.Info += OnInfo;
+            showCert.Warning += OnWarning;
+            showCert.Err += OnError;
+
+            _ = showCert.Run();
+
+            showCert.Info -= OnInfo;
+            showCert.Warning -= OnWarning;
+            showCert.Err -= OnError;
+
+            if (showCert.TotalStandardOutput.Contains(appGuid.ToString()))
+            {
+                message = null;
+                return true;
+            }
+
+            if (showCert.TotalStandardOutput.Contains(endpoint.ToString()))
+            {
+                var deleteCert = new DeleteSslCert(endpoint);
+
+                deleteCert.Info += OnInfo;
+                deleteCert.Warning += OnWarning;
+                deleteCert.Err += OnError;
+
+                _ = deleteCert.Run();
+
+                deleteCert.Info -= OnInfo;
+                deleteCert.Warning -= OnWarning;
+                deleteCert.Err -= OnError;
+            }
+
+            var addCert = new AddSslCert(endpoint, certHash, appGuid);
 
             addCert.Info += OnInfo;
             addCert.Warning += OnWarning;
@@ -350,7 +381,8 @@ namespace Juniper.HTTP.Server
             addCert.Warning -= OnWarning;
             addCert.Err -= OnError;
 
-            return addCert.TotalStandardOutput;
+            message = addCert.TotalStandardOutput;
+            return !message.Contains("The parameter is incorrect.");
         }
 #endif
 
@@ -647,8 +679,7 @@ or
                     }
                     else
                     {
-                        var message = AssignCertToApp(certHash, guid);
-                        if (message.Equals("The parameter is incorrect.", StringComparison.OrdinalIgnoreCase))
+                        if (!TryAssignCertToApp(certHash, guid, out var message))
                         {
                             OnWarning($@"Couldn't configure the certificate correctly:
     Application GUID: {guid}
