@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
@@ -41,7 +42,8 @@ namespace Juniper.HTTP.Server
             }
         }
 
-        private readonly Thread serverThread;
+        private readonly Thread listenThread;
+        private readonly Thread cleanupThread;
         private readonly HttpListener listener;
         private readonly List<object> controllers = new List<object>();
         private readonly List<AbstractResponse> routes = new List<AbstractResponse>();
@@ -129,7 +131,8 @@ namespace Juniper.HTTP.Server
         public HttpServer()
         {
             ListenerCount = 100;
-            serverThread = new Thread(Listen);
+            listenThread = new Thread(Listen);
+            cleanupThread = new Thread(Cleanup);
 
             listener = new HttpListener
             {
@@ -165,13 +168,20 @@ namespace Juniper.HTTP.Server
 
             var isValidAssignCert = Check(
                 options.TryGetBool("assignCert", out var assignCert)
-                && hasDomain,
+                && hasDomain
+                || !options.ContainsKey("assignCert"),
                 "Must provide the --domain option to auto-assign a certificate");
 
             var isValidListenCount = Check(
                 options.TryGetInt32("listeners", out var listenerCount)
-                && ListenerCount > 0,
+                && listenerCount > 0
+                || !options.ContainsKey("listeners"),
                 "--listeners value must be greater than zero.");
+
+            if (listenerCount == 0)
+            {
+                listenerCount = 10;
+            }
 
             var hasLogPath = Check(
                 options.TryGetValue("log", out var logPath),
@@ -450,7 +460,7 @@ or
                 errorSource.Err += OnError;
             }
 
-            if(controller is IErrorDestination errorDest)
+            if (controller is IErrorDestination errorDest)
             {
                 Err += errorDest.OnError;
             }
@@ -460,7 +470,7 @@ or
                 nCSALogSource.Log += OnLog;
             }
 
-            if(controller is INCSALogDestination nCSALogDest)
+            if (controller is INCSALogDestination nCSALogDest)
             {
                 Log += nCSALogDest.OnLog;
             }
@@ -480,7 +490,7 @@ or
             get
             {
                 return listener.IsListening
-                    && serverThread.IsAlive;
+                    && listenThread.IsAlive;
             }
         }
 
@@ -536,7 +546,7 @@ or
             listener.Stop();
             listener.Close();
             var end = DateTime.Now.AddSeconds(3);
-            while (serverThread.IsAlive && DateTime.Now < end)
+            while (listenThread.IsAlive && DateTime.Now < end)
             {
                 Thread.Yield();
             }
@@ -587,11 +597,8 @@ or
                     }
 
                     listener.Start();
-                }
-
-                if (!serverThread.IsAlive)
-                {
-                    serverThread.Start();
+                    listenThread.Start();
+                    cleanupThread.Start();
                 }
             }
         }
@@ -675,25 +682,6 @@ or
                 };
 
                 listener.Prefixes.Add(uri.ToString());
-            }
-        }
-
-        private void Listen()
-        {
-            while (listener.IsListening)
-            {
-                for (int i = waiters.Count - 1; i >= 0; --i)
-                {
-                    if (!waiters[i].IsRunning())
-                    {
-                        waiters.RemoveAt(i);
-                    }
-                }
-
-                if (waiters.Count < ListenerCount)
-                {
-                    waiters.Add(HandleConnectionAsync());
-                }
             }
         }
 

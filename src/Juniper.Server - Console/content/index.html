@@ -54,7 +54,7 @@
             passwordText.disabled = true;
             var authPair = usernameText.value + ":" + passwordText.value;
             var authHash = btoa(authPair);
-            fetch("http://localhost:8080/auth/", {
+            fetch("/auth/", {
                 method: "POST",
                 headers: {
                     Authorization: "Basic " + authHash
@@ -150,7 +150,9 @@
 
         connectButton.addEventListener("click", function () {
             status("Connecting");
-            socket = new WebSocket("ws://localhost:8080/connect/", [token]);
+            var url = document.location.origin + "/connect/";
+            url = url.replace("http", "ws");
+            socket = new WebSocket(url, [token]);
 
             socket.addEventListener("open", function (evt) {
                 status("Open");
