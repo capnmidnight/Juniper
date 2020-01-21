@@ -3,9 +3,11 @@
 //www.seanmcbeth.com
 using System;
 
-namespace Thumbnail
+using static System.Console;
+
+namespace Juniper
 {
-    internal class ConsoleBuffer
+    public class ConsoleBuffer
     {
         private readonly ConsoleColor[,] back, fore;
         private readonly char[,] grid;
@@ -13,7 +15,7 @@ namespace Thumbnail
         private readonly int width, height;
         public ConsoleBuffer(int width, int height)
         {
-            Console.CursorVisible = false;
+            CursorVisible = false;
             this.width = width;
             this.height = height;
             back = new ConsoleColor[width, height];
@@ -95,28 +97,28 @@ namespace Thumbnail
                     {
                         if (lastB != back[x, y])
                         {
-                            Console.BackgroundColor = back[x, y];
+                            BackgroundColor = back[x, y];
                             lastB = back[x, y];
                         }
                         if (lastF != fore[x, y])
                         {
-                            Console.ForegroundColor = fore[x, y];
+                            ForegroundColor = fore[x, y];
                             lastF = fore[x, y];
                         }
                         if (!((y == lastY && x == lastX + 1)
                             || (y == lastY + 1 && x == 0)))
                         {
-                            Console.CursorLeft = x;
-                            Console.CursorTop = y;
+                            CursorLeft = x;
+                            CursorTop = y;
                         }
 
                         if (x == width - 1)
                         {
-                            Console.WriteLine(grid[x, y]);
+                            WriteLine(grid[x, y]);
                         }
                         else
                         {
-                            Console.Write(grid[x, y]);
+                            Write(grid[x, y]);
                         }
                         old[x, y] = false;
                     }
@@ -149,11 +151,11 @@ namespace Thumbnail
             Flush();
             startX = message.Length;
             startY = height - 1;
-            Console.CursorTop = startY;
-            Console.CursorLeft = startX;
+            CursorTop = startY;
+            CursorLeft = startX;
             if (pause)
             {
-                Console.ReadKey(true);
+                ReadKey(true);
             }
         }
 
