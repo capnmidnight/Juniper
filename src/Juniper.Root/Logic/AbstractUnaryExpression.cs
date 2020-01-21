@@ -10,7 +10,7 @@ namespace Juniper.Logic
 
         protected AbstractUnaryExpression(ValueT item)
         {
-            Value = item ?? throw new ArgumentNullException(nameof(item));
+            Value = item;
         }
 
         public bool HasNestedElements
