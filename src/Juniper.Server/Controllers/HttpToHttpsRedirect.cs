@@ -9,7 +9,9 @@ namespace Juniper.HTTP.Server.Controllers
     public sealed class HttpToHttpsRedirect :
         AbstractResponse
     {
-        public HttpToHttpsRedirect()
+        private readonly int redirectPort;
+
+        public HttpToHttpsRedirect(int redirectPort)
             : base(int.MinValue + 1,
                 HttpProtocols.HTTP,
                 HttpMethods.GET,
@@ -19,7 +21,9 @@ namespace Juniper.HTTP.Server.Controllers
                 HttpStatusCode.Continue,
                 Expr(("Upgrade-Insecure-Requests", "1"))
             )
-        { }
+        {
+            this.redirectPort = redirectPort;
+        }
 
         protected override Task InvokeAsync(HttpListenerContext context)
         {
@@ -28,23 +32,14 @@ namespace Juniper.HTTP.Server.Controllers
                 throw new ArgumentNullException(nameof(context));
             }
 
-            if (Server.HttpsPort is null)
-            {
-#if DEBUG
-                OnWarning("Server is not listening for the HTTPS protocol");
-#else
-                throw new InvalidOperationException("Cannot redirect to HTTPS when the server isn't listening for HTTPS requests");
-#endif
-            }
-
             var secureUrl = new UriBuilder(context.Request.Url)
             {
                 Scheme = "https"
             };
 
-            if (Server.HttpsPort != 443)
+            if (redirectPort != 443)
             {
-                secureUrl.Port = Server.HttpsPort.Value;
+                secureUrl.Port = redirectPort;
             }
             else
             {

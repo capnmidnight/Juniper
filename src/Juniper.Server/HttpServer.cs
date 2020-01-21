@@ -206,14 +206,23 @@ namespace Juniper.HTTP.Server
                 // Set options on server
                 Domain = domain;
 
-                if (hasHttpsPort)
-                {
-                    HttpsPort = httpsPort;
-                }
-
                 if (isValidAssignCert)
                 {
                     AutoAssignCertificate = assignCert;
+                }
+
+                if (hasHttpPort)
+                {
+                    HttpPort = httpPort;
+                }
+
+                if (hasHttpsPort)
+                {
+                    HttpsPort = httpsPort;
+                    if (hasHttpPort)
+                    {
+                        Add(new HttpToHttpsRedirect(httpsPort));
+                    }
                 }
 
                 if (isValidListenCount)
@@ -221,10 +230,10 @@ namespace Juniper.HTTP.Server
                     ListenerCount = listenerCount;
                 }
 
-                if (hasHttpPort)
+                if (isValidContentPath
+                    && hasContentPath)
                 {
-                    HttpPort = httpPort;
-                    Add(new HttpToHttpsRedirect());
+                    Add(new StaticFileServer(contentPath));
                 }
 
                 if (hasLogPath)
@@ -244,13 +253,6 @@ namespace Juniper.HTTP.Server
 #endif
 
                     Add(banController);
-                }
-
-
-                if (isValidContentPath
-                    && hasContentPath)
-                {
-                    Add(new StaticFileServer(contentPath));
                 }
 
                 return true;
