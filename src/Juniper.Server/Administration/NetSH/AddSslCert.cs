@@ -111,6 +111,7 @@ namespace Juniper.HTTP.Server.Administration.NetSH
             {
                 yield return "http";
                 yield return "add";
+                yield return "sslcert";
                 yield return $"ipport={EndPoint}";
                 yield return $"certhash={CertHash}";
                 yield return $"appid={{{AppID}}}";
