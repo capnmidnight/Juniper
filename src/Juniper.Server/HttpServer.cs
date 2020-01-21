@@ -738,7 +738,7 @@ or
             response.SetStatus(HttpStatusCode.Continue);
 
 #if DEBUG
-            PrintHeader(context, headers);
+            PrintHeader(context);
 #endif
 
             try
@@ -759,6 +759,11 @@ or
 #pragma warning restore CA1031 // Do not catch general exception types
             finally
             {
+#if DEBUG
+                PrintFooter(context);
+                OnInfo("");
+#endif
+
                 await CleanupConnectionAsync(response, request, headers)
                     .ConfigureAwait(false);
             }
@@ -1028,16 +1033,33 @@ or
             });
         }
 
-        private void PrintHeader(HttpListenerContext context, NameValueCollection headers)
+        private void PrintContext(HttpListenerContext context, string name)
         {
-            OnInfo(NCSALogger.FormatLogMessage(context));
-            OnInfo($"Request: {context.Request.HttpMethod} {context.Request.RawUrl}");
-            OnInfo("Headers:");
+            OnInfo($"{name}: {context.Request.HttpMethod} {context.Request.Url}");
+
+            var contextT = context.GetType();
+            var childProp = contextT.GetProperty(name);
+            var childValue = childProp.GetValue(context, null);
+            var childT = childValue.GetType();
+            var headersProp = childT.GetProperty("Headers");
+            var headers = (NameValueCollection)headersProp.GetValue(childValue, null);
+
+            OnInfo("\tHeaders:");
             foreach (var key in headers.AllKeys)
             {
                 var value = headers[key];
-                OnInfo($"\t{key} = {value}");
+                OnInfo($"\t\t{key} = {value}");
             }
+        }
+
+        private void PrintHeader(HttpListenerContext context)
+        {
+            PrintContext(context, nameof(context.Request));
+        }
+
+        private void PrintFooter(HttpListenerContext context)
+        {
+            PrintContext(context, nameof(context.Response));
         }
 #endif
     }
