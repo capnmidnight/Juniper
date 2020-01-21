@@ -59,8 +59,10 @@ namespace Juniper
                 server.Start();
                 cons.PrintUsage();
 
+#if DEBUG
                 using var insecure = server.StartBrowser(false);
                 using var secure = server.StartBrowser(true);
+#endif
 
                 while (server.IsRunning)
                 {
