@@ -202,7 +202,8 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(file));
             }
 
-            return deserializer.TryDeserialize(file.OpenRead(), out value, file.Length, prog);
+            using var stream = file.OpenRead();
+            return deserializer.TryDeserialize(stream, out value, file.Length, prog);
         }
 
         public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, string fileName, out ResultT value, IProgress prog = null)

@@ -108,7 +108,7 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(file));
             }
 
-            using var stream = file.OpenRead();
+            using var stream = file.OpenWrite();
             serializer.Serialize(stream, value);
         }
 

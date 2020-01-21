@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-
-using Juniper.IO;
+using System.IO;
 
 using NUnit.Framework;
 
-namespace Juniper.Tests
+namespace Juniper.IO.Tests
 {
     [TestFixture]
     public class SerializationTests
@@ -42,6 +41,29 @@ namespace Juniper.Tests
         public void TestJsonDictionary()
         {
             DictionaryTest<JsonFactory<Dictionary<string, int>>>();
+        }
+
+        [TestCase]
+        public void SerializeToFile()
+        {
+            const string fileName = "testSerializationToFile.json";
+
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+
+            var factory = new JsonFactory<string[]>();
+            var values = new[]
+            {
+                "asdf",
+                "qwer",
+                "zxcv"
+            };
+
+            factory.Serialize(fileName, values);
+
+            Assert.IsTrue(File.Exists(fileName));
         }
     }
 }
