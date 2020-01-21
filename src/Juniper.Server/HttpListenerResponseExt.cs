@@ -1,7 +1,6 @@
 using System;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,24 +11,6 @@ namespace Juniper.HTTP.Server
 {
     public static class HttpListenerResponseExt
     {
-        public static void Redirect(
-            this HttpListenerResponse response,
-            string fileName)
-        {
-            if (response is null)
-            {
-                throw new ArgumentNullException(nameof(response));
-            }
-
-            if (fileName is null)
-            {
-                throw new ArgumentNullException(nameof(fileName));
-            }
-
-            response.RedirectLocation = fileName;
-            response.SetStatus(HttpStatusCode.Redirect);
-        }
-
         public static async Task SendContentAsync(
             this HttpListenerResponse response,
             ICacheSourceLayer layer,
@@ -49,6 +30,8 @@ namespace Juniper.HTTP.Server
                 .GetStreamAsync(fileRef, null)
                 .ConfigureAwait(false);
 
+            response.SetFileName(fileRef.FileName);
+
             await response
                 .SendStreamAsync(fileRef.ContentType, stream)
                 .ConfigureAwait(false);
@@ -58,6 +41,11 @@ namespace Juniper.HTTP.Server
             this HttpListenerResponse response,
             StreamSource source)
         {
+            if (response is null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+
             if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
@@ -66,6 +54,8 @@ namespace Juniper.HTTP.Server
             using var stream = await source
                 .GetStreamAsync()
                 .ConfigureAwait(false);
+
+            response.SetFileName(source.FileName);
 
             await response.SendStreamAsync(source.ContentType, stream)
                 .ConfigureAwait(false);
@@ -93,6 +83,9 @@ namespace Juniper.HTTP.Server
             }
 
             using var input = file.OpenRead();
+
+            response.SetFileName(file.Name);
+
             await response.SendStreamAsync(type, input)
                 .ConfigureAwait(false);
         }
@@ -177,6 +170,19 @@ namespace Juniper.HTTP.Server
             }
 
             return (HttpStatusCode)response.StatusCode;
+        }
+
+        public static void SetFileName(this HttpListenerResponse response, string fileName)
+        {
+            if (response is null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+
+            if (fileName is object)
+            {
+                response.Headers.Add("Content-Disposition", $"attachment; filename={fileName}");
+            }
         }
     }
 }
