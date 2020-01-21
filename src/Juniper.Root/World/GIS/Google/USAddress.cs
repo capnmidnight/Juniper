@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Juniper.World.GIS.Google
@@ -77,6 +78,16 @@ namespace Juniper.World.GIS.Google
             return ToString() == other;
         }
 
+        public override int GetHashCode()
+        {
+            var hashCode = 289995594;
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(street);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(city);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(state);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(zip);
+            return hashCode;
+        }
+
         public static bool operator ==(USAddress left, USAddress right)
         {
             return ReferenceEquals(left, right)
@@ -86,14 +97,6 @@ namespace Juniper.World.GIS.Google
         public static bool operator !=(USAddress left, USAddress right)
         {
             return !(left == right);
-        }
-
-        public override int GetHashCode()
-        {
-            return street.GetHashCode()
-                ^ city.GetHashCode()
-                ^ state.GetHashCode()
-                ^ zip.GetHashCode();
         }
     }
 }
