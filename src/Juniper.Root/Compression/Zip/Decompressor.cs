@@ -33,7 +33,8 @@ namespace Juniper.Compression.Zip
                 throw new FileNotFoundException(file.FullName);
             }
 
-            return Open(file.OpenRead());
+            var stream = file.OpenRead();
+            return Open(stream);
         }
 
         public static ZipArchive Open(string fileName)
@@ -207,7 +208,8 @@ namespace Juniper.Compression.Zip
                 throw new FileNotFoundException("File not found", file.FullName);
             }
 
-            return GetFile(file.OpenRead(), entryPath, prog);
+            var stream = file.OpenRead();
+            return GetFile(stream, entryPath, prog);
         }
 
         public static Stream GetFile(string fileName, string entryPath, IProgress prog = null)
@@ -275,7 +277,8 @@ namespace Juniper.Compression.Zip
                 throw new FileNotFoundException("File not found", file.FullName);
             }
 
-            return Entries(file.OpenRead(), prog);
+            var stream = file.OpenRead();
+            return Entries(stream, prog);
         }
 
         public static IEnumerable<CompressedFileInfo> Entries(string fileName, IProgress prog = null)
@@ -371,7 +374,8 @@ namespace Juniper.Compression.Zip
                 throw new FileNotFoundException($"File not found: {zipFile.FullName}", zipFile.FullName);
             }
 
-            Decompress(zipFile.OpenRead(), outputDirectory, entryPrefix, prog);
+            var stream = zipFile.OpenRead();
+            Decompress(stream, outputDirectory, entryPrefix, prog);
         }
 
         public static void Decompress(FileInfo zipFile, string outputDirectoryName, string entryPrefix = null, IProgress prog = null)
