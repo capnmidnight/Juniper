@@ -26,11 +26,11 @@ namespace Juniper.HTTP.Server
                 throw new ArgumentNullException(nameof(fileRef));
             }
 
+            response.SetFileName(fileRef.ContentType, fileRef.FileName);
+
             using var stream = await layer
                 .GetStreamAsync(fileRef, null)
                 .ConfigureAwait(false);
-
-            response.SetFileName(fileRef.FileName);
 
             await response
                 .SendStreamAsync(fileRef.ContentType, stream)
@@ -51,11 +51,11 @@ namespace Juniper.HTTP.Server
                 throw new ArgumentNullException(nameof(source));
             }
 
+            response.SetFileName(source.ContentType, source.FileName);
+
             using var stream = await source
                 .GetStreamAsync()
                 .ConfigureAwait(false);
-
-            response.SetFileName(source.FileName);
 
             await response.SendStreamAsync(source.ContentType, stream)
                 .ConfigureAwait(false);
@@ -82,9 +82,9 @@ namespace Juniper.HTTP.Server
                 type = types[0];
             }
 
-            using var input = file.OpenRead();
+            response.SetFileName(type, file.Name);
 
-            response.SetFileName(file.Name);
+            using var input = file.OpenRead();
 
             await response.SendStreamAsync(type, input)
                 .ConfigureAwait(false);
@@ -172,14 +172,18 @@ namespace Juniper.HTTP.Server
             return (HttpStatusCode)response.StatusCode;
         }
 
-        public static void SetFileName(this HttpListenerResponse response, string fileName)
+        public static void SetFileName(this HttpListenerResponse response, MediaType type, string fileName)
         {
             if (response is null)
             {
                 throw new ArgumentNullException(nameof(response));
             }
 
-            if (fileName is object)
+            if (type is object
+                && type != MediaType.Text.AnyText
+                && type != MediaType.Image.AnyImage
+                && type != MediaType.Application.Javascript
+                && fileName is object)
             {
                 response.Headers.Add("Content-Disposition", $"attachment; filename={fileName}");
             }

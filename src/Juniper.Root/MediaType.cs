@@ -345,7 +345,7 @@ namespace Juniper
                     || other.TypeName == "*"
                     || TypeName == other.TypeName)
                 && (SubTypeName == "*"
-                    || other.TypeName == "*"
+                    || other.SubTypeName == "*"
                     || SubTypeName == other.SubTypeName);
         }
 

@@ -88,6 +88,24 @@ namespace Juniper.IO
             return string.Format(CultureInfo.InvariantCulture, "{0} ({1})", CacheID, ContentType);
         }
 
+        public string FileName
+        {
+            get
+            {
+                var nameStub = CacheID;
+                var fileStub = new FileInfo(nameStub);
+                nameStub = fileStub.Name;
+                if (ContentType.PrimaryExtension is object)
+                {
+                    return $"{nameStub}.{ContentType.PrimaryExtension}";
+                }
+                else
+                {
+                    return nameStub;
+                }
+            }
+        }
+
         public override int GetHashCode()
         {
             var hashCode = -1239926094;
