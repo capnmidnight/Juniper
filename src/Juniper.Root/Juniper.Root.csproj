@@ -8,7 +8,7 @@
     <AssemblyName>Juniper</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net472;net48;netstandard2.0;netstandard2.1;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net472</TargetFrameworks><!--;net48;netstandard2.0;netstandard2.1;netcoreapp3.1</TargetFrameworks>-->
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <Platforms>AnyCPU</Platforms>
@@ -35,8 +35,8 @@
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(TargetFramework)'=='net472'">
-    <Exec ContinueOnError="true" Command="'..\netcoreapp3.1\jcopy.exe' 'Juniper' 'net472' '$(TargetDir)' '$(ProjectDir)..\Juniper\Assets\Juniper\Plugins\Juniper\$(ConfigurationName)\'" />
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)|$(TargetFramework)'=='Release|net472'">
+    <Exec ContinueOnError="true" Command="XCOPY &quot;$(TargetDir)*&quot; &quot;$(SolutionDir)Juniper\Assets\Juniper\Plugins\Juniper&quot; /C /I /F /Y" />
   </Target>
 
   <ItemGroup>
