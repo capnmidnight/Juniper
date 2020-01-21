@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Juniper.Collections;
 using Juniper.Compression;
-using Juniper.Progress;
+using Juniper.IO;
 
 using UnityEngine;
 
@@ -36,7 +36,7 @@ namespace Juniper.ConfigurationManagement
                 .ToArray();
 
             var subProgs = prog.Split(prefixedPath.Length);
-            for(int i = 0; i < prefixedPath.Length; ++i)
+            for (var i = 0; i < prefixedPath.Length; ++i)
             {
                 var path = prefixedPath[i];
                 try

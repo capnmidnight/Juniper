@@ -12,12 +12,11 @@ using Juniper.Animation;
 using Juniper.Sound;
 using Juniper.Display;
 using Juniper.Widgets;
-using Juniper.Progress;
+using Juniper.IO;
 
 using UnityImage = UnityEngine.UI.Image;
 
 using Juniper.Input;
-using Juniper.IO;
 
 using System.Threading.Tasks;
 
@@ -194,7 +193,7 @@ namespace Juniper
         {
             if (subSceneNames != null && subSceneNames.Length > 0)
             {
-                foreach(var (subProg, subSceneName) in prog.Zip(subSceneNames))
+                foreach (var (subProg, subSceneName) in prog.Zip(subSceneNames))
                 {
                     yield return LoadScenePathCoroutine(
                         subSceneName,

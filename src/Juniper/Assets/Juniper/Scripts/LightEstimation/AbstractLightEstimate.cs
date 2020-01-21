@@ -1,5 +1,6 @@
 using System;
 
+using Juniper.IO;
 using Juniper.Units;
 using Juniper.World.GIS;
 

@@ -5,7 +5,6 @@
 using System.Threading.Tasks;
 
 using Juniper.Compression.Zip;
-using Juniper.Progress;
 
 using UnityEngine;
 

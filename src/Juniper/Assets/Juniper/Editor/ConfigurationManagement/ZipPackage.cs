@@ -4,7 +4,7 @@ using System.Linq;
 
 using Juniper.Compression;
 using Juniper.Compression.Zip;
-using Juniper.Progress;
+using Juniper.IO;
 
 using UnityEditor;
 

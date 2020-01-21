@@ -25,7 +25,9 @@ namespace Juniper
         {
             (ConsoleKey.UpArrow, "increase log level", () => cons.SetLogLevel(1)),
             (ConsoleKey.DownArrow, "decrease log level", () => cons.SetLogLevel(-1)),
+#if DEBUG
             (ConsoleKey.O, "open root page in browser", () => server.StartBrowser()),
+#endif
             (ConsoleKey.Q, "quit server", () => server.Stop())
         };
 
@@ -60,6 +62,9 @@ namespace Juniper
                 server.Add(typeof(Program));
                 server.Start();
                 cons.PrintUsage();
+
+                using var insecure = server.StartBrowser(false);
+                using var secure = server.StartBrowser(true);
 
                 while (server.IsRunning)
                 {

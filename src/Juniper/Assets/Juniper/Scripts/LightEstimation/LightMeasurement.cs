@@ -1,5 +1,7 @@
 using System;
 
+using Juniper.IO;
+
 using UnityEngine;
 
 namespace Juniper.World.LightEstimation

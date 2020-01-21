@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 
 using Juniper.Input;
 using Juniper.Input.Pointers;
+using Juniper.IO;
 using Juniper.Widgets;
 using Juniper.XR;
 

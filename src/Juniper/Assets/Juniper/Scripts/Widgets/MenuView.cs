@@ -1,6 +1,6 @@
-﻿using System.Linq;
+using System.Linq;
 
-using Juniper.Progress;
+using Juniper.IO;
 
 namespace Juniper.Widgets
 {

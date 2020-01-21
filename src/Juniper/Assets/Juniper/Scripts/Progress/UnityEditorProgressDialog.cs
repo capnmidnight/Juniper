@@ -4,7 +4,7 @@ using System;
 
 using UnityEditor;
 
-namespace Juniper.Progress
+namespace Juniper.IO
 {
     public class UnityEditorProgressDialog : IProgress, IDisposable
     {

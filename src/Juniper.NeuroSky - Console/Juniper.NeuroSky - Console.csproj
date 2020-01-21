@@ -9,7 +9,7 @@
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net48</TargetFrameworks>
-    <StartupObject>Juniper.NeuroSky.Program</StartupObject>
+    <StartupObject>Juniper.Program</StartupObject>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)'=='' ">x64</Platform>
     <Platforms>x64;x86</Platforms>
@@ -17,7 +17,6 @@
 
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
-    <StartupObject>Juniper.NeuroSky.Program</StartupObject>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Platform)'=='x64'">

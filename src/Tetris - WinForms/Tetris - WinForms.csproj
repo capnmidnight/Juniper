@@ -9,7 +9,7 @@
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
-    <StartupObject>Juniper.Puzzles.Tetris.Program</StartupObject>
+    <StartupObject>Juniper.Program</StartupObject>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <Platforms>AnyCPU</Platforms>

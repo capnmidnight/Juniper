@@ -10,7 +10,7 @@
     <OutputType>Exe</OutputType>
     <!-- keep this at net48 while WaveOut is not available in .NET Core -->
     <TargetFrameworks>net48</TargetFrameworks>
-    <StartupObject>Juniper.Azure.Program</StartupObject>
+    <StartupObject>Juniper.Program</StartupObject>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <Platforms>AnyCPU</Platforms>

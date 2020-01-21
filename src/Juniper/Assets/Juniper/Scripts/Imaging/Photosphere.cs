@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.IO;
 
 using Juniper.IO;
-using Juniper.Progress;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -149,12 +148,12 @@ namespace Juniper.Imaging
                 }
             }
 #if UNITY_EDITOR
-            else if(rotation != LastRotation)
+            else if (rotation != LastRotation)
             {
                 skybox.rotation = rotation;
                 LastRotation = rotation;
             }
-            else if(transform.localPosition != lastPosition)
+            else if (transform.localPosition != lastPosition)
             {
                 SetPosition?.Invoke(this, transform.localPosition);
                 lastPosition = transform.localPosition;

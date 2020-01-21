@@ -7,11 +7,11 @@ using Juniper.Input.Pointers;
 using Juniper.Input.Pointers.Gaze;
 using Juniper.Input.Pointers.Motion;
 using Juniper.Input.Pointers.Screen;
+using Juniper.IO;
 using Juniper.Speech;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
 #if UNITY_MODULES_UI
 

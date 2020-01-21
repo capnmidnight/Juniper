@@ -1,3 +1,4 @@
+using Juniper.IO;
 using UnityEngine;
 
 namespace Juniper.Permissions

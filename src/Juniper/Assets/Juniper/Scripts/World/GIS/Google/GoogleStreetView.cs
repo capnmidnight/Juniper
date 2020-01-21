@@ -9,7 +9,6 @@ using Juniper.Display;
 using Juniper.Imaging;
 using Juniper.Input;
 using Juniper.IO;
-using Juniper.Progress;
 using Juniper.Security;
 using Juniper.Units;
 using Juniper.Unity;

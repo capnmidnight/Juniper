@@ -5,12 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+using Juniper.IO;
+using Juniper.XR;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
-using Juniper.Compression.Tar.GZip;
-using Juniper.Progress;
-using Juniper.XR;
 
 using UnityEditor;
 using UnityEditor.Callbacks;

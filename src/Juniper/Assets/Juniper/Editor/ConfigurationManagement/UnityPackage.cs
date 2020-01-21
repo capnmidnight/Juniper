@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-using Juniper.Progress;
+using Juniper.IO;
 
 using Newtonsoft.Json.Linq;
 

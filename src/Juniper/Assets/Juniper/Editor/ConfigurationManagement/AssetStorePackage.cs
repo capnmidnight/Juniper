@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Juniper.Collections;
 using Juniper.Compression;
 using Juniper.Compression.Tar.GZip;
-using Juniper.Progress;
+using Juniper.IO;
 
 using UnityEditor;
 
