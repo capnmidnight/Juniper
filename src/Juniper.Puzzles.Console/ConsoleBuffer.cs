@@ -102,17 +102,27 @@ namespace Thumbnail
                             Console.ForegroundColor = fore[x, y];
                             lastF = fore[x, y];
                         }
-                        if (!(y == lastY && x == lastX + 1))
+                        if (!((y == lastY && x == lastX + 1)
+                            || (y == lastY + 1 && x == 0)))
                         {
                             Console.CursorLeft = x;
                             Console.CursorTop = y;
                         }
-                        Console.Write(grid[x, y]);
+
+                        if (x == width - 1)
+                        {
+                            Console.WriteLine(grid[x, y]);
+                        }
+                        else
+                        {
+                            Console.Write(grid[x, y]);
+                        }
                         old[x, y] = false;
                     }
                 }
             }
         }
+
         public void Clear()
         {
             Clear(ConsoleColor.Black);

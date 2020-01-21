@@ -9,21 +9,27 @@ namespace Thumbnail
     {
         private static TetrisGame game;
 
-        private delegate void Action();
-
-        private static Dictionary<object, Action> command;
+        private static Dictionary<ConsoleKey, Action> keyPresses;
+        private static Dictionary<ConsoleKey, Action> keyReleases;
         private static bool done;
 
         public static void Main(string[] args)
         {
             game = new TetrisGame(20, 20);
-            command = new Dictionary<object, Action>
+            keyPresses = new Dictionary<ConsoleKey, Action>
             {
-                { ConsoleKey.UpArrow, new Action(game.Up_Depress) },
-                { ConsoleKey.LeftArrow, new Action(game.Left_Depress) },
-                { ConsoleKey.RightArrow, new Action(game.Right_Depress) },
-                { ConsoleKey.DownArrow, new Action(game.Down_Depress) },
-                { ConsoleKey.F4, new Action(Quit) }
+                { ConsoleKey.UpArrow, game.Up_Depress },
+                { ConsoleKey.LeftArrow, game.Left_Depress },
+                { ConsoleKey.RightArrow, game.Right_Depress },
+                { ConsoleKey.DownArrow, game.Down_Depress },
+                { ConsoleKey.F4, Quit }
+            };
+            keyReleases = new Dictionary<ConsoleKey, Action>
+            {
+                { ConsoleKey.UpArrow, game.Up_Release },
+                { ConsoleKey.LeftArrow, game.Left_Release },
+                { ConsoleKey.RightArrow, game.Right_Release },
+                { ConsoleKey.DownArrow, game.Down_Release }
             };
 
             var buffer = new ConsoleBuffer(Console.WindowWidth, Console.WindowHeight - 1);
@@ -41,10 +47,12 @@ namespace Thumbnail
                 Draw(game, game.Next, game.Current, buffer, game.CursorX, game.CursorY);
             }
         }
+
         public static void Quit()
         {
             done = true;
         }
+
         private static void Draw(Puzzle board, Puzzle next, Puzzle current, ConsoleBuffer buffer, int cursorX, int cursorY)
         {
             buffer.Clear();
@@ -63,14 +71,20 @@ namespace Thumbnail
             DrawPuzzle(buffer, next, board.Width + 5, 0);
             buffer.Flush();
         }
+
         private static void DoInput()
         {
+            foreach (var action in keyReleases.Values)
+            {
+                action();
+            }
+
             if (Console.KeyAvailable)
             {
                 var key = Console.ReadKey(true).Key;
-                if (command.ContainsKey(key))
+                if (keyPresses.ContainsKey(key))
                 {
-                    command[key]();
+                    keyPresses[key]();
                 }
             }
         }
