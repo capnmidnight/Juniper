@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
 using System.Text;
@@ -20,12 +21,12 @@ namespace Juniper.World.GIS.Google.MapTiles
                 {
                     if (sb.Length > 0)
                     {
-                        sb.Append('|');
+                        _ = sb.Append('|');
                     }
 
-                    sb.Append(name);
-                    sb.Append(':');
-                    sb.Append(value);
+                    _ = sb.Append(name)
+                        .Append(':')
+                        .Append(value);
                 }
             }
 
@@ -68,11 +69,6 @@ namespace Juniper.World.GIS.Google.MapTiles
             return style?.ToString();
         }
 
-        public override int GetHashCode()
-        {
-            return styleDef.GetHashCode();
-        }
-
         public override bool Equals(object obj)
         {
             return obj is LinePathStyle style && Equals(style);
@@ -82,6 +78,11 @@ namespace Juniper.World.GIS.Google.MapTiles
         {
             return other is object
                 && styleDef == other.styleDef;
+        }
+
+        public override int GetHashCode()
+        {
+            return -340221435 + EqualityComparer<string>.Default.GetHashCode(styleDef);
         }
 
         public static bool operator ==(LinePathStyle left, LinePathStyle right)

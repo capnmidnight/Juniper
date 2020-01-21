@@ -100,13 +100,6 @@ namespace Juniper.Compression
             return !(left == right);
         }
 
-        public override int GetHashCode()
-        {
-            return FullName.GetHashCode()
-                ^ IsFile.GetHashCode()
-                ^ Length.GetHashCode();
-        }
-
         public override string ToString()
         {
             if (IsFile)
@@ -135,6 +128,15 @@ namespace Juniper.Compression
 
             var file = IsFile.CompareTo(other?.IsFile == true);
             return file;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -353277081;
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(FullName);
+            hashCode = (hashCode * -1521134295) + IsFile.GetHashCode();
+            hashCode = (hashCode * -1521134295) + Length.GetHashCode();
+            return hashCode;
         }
 
         public static bool operator <(CompressedFileInfo left, CompressedFileInfo right)

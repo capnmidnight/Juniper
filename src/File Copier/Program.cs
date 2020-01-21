@@ -16,9 +16,9 @@ namespace FileCopier
 
         public static void Main(string[] args)
         {
-            if (args.Length < 4)
+            if (args.Length < 3)
             {
-                Error.WriteLine("Command expects at least four arguments");
+                Error.WriteLine("Command expects at least 3 arguments");
                 for (var i = 0; i < args.Length; ++i)
                 {
                     Error.WriteLine("{0}: {1}", i, args[i]);
@@ -31,7 +31,7 @@ namespace FileCopier
                     if (args[i].EndsWith("\"", StringComparison.CurrentCulture)
                         || args[i].EndsWith("'", StringComparison.CurrentCulture))
                     {
-                        args[i] = args[i].Substring(1, args[i].Length - 2);
+                        args[i] = args[i][1..^1];
                     }
                 }
 
@@ -45,15 +45,14 @@ namespace FileCopier
                 }
 
                 var projectName = args[0];
-                var platformName = args[1];
-                var source = new DirectoryInfo(args[2]);
+                var source = new DirectoryInfo(args[1]);
                 if (!source.Exists)
                 {
                     Error.WriteLine("Source directory does not exist");
                 }
-                else if (source.Name == platformName)
+                else
                 {
-                    var dest1 = new DirectoryInfo(args[3]);
+                    var dest1 = new DirectoryInfo(args[2]);
                     var dest2 = dest1.Parent;
 
                     WriteLine("Copying from {0} to {1}", source.FullName, dest1.FullName);
@@ -61,30 +60,33 @@ namespace FileCopier
                     foreach (var sourceFile in source.GetFiles()
                         .Select(ReplaceNewtonsoft))
                     {
-                        var isDependency = !sourceFile.Name.StartsWith(projectName, false, CultureInfo.InvariantCulture);
-                        var dest = isDependency
-                            ? dest2
-                            : dest1;
-
-                        if ((!isDependency
-                                || !excludeDependencies)
-                            && (sourceFile.Extension != ".pdb"
-                                || dest.Name.EndsWith("Debug", false, CultureInfo.InvariantCulture)))
+                        if (sourceFile.Name != "jcopy.exe")
                         {
-                            dest.Create();
+                            var isDependency = !sourceFile.Name.StartsWith(projectName, false, CultureInfo.InvariantCulture);
+                            var dest = isDependency
+                                ? dest2
+                                : dest1;
 
-                            var destFileName = Combine(
-                                dest.FullName,
-                                sourceFile.Name);
+                            if ((!isDependency
+                                    || !excludeDependencies)
+                                && (sourceFile.Extension != ".pdb"
+                                    || dest.Name.EndsWith("Debug", false, CultureInfo.InvariantCulture)))
+                            {
+                                dest.Create();
 
-                            WriteLine(destFileName);
-                            try
-                            {
-                                sourceFile.CopyTo(destFileName, true);
-                            }
-                            catch
-                            {
-                                Error.WriteLine($"Couldn't copy {0}", destFileName);
+                                var destFileName = Combine(
+                                    dest.FullName,
+                                    sourceFile.Name);
+
+                                WriteLine(destFileName);
+                                try
+                                {
+                                    sourceFile.CopyTo(destFileName, true);
+                                }
+                                catch
+                                {
+                                    Error.WriteLine($"Couldn't copy {0}", destFileName);
+                                }
                             }
                         }
                     }

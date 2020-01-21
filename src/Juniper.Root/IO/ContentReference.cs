@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 
@@ -82,15 +83,17 @@ namespace Juniper.IO
                 && Equals(other);
         }
 
-        public override int GetHashCode()
-        {
-            return ContentType.GetHashCode()
-                ^ CacheID.GetHashCode();
-        }
-
         public override string ToString()
         {
             return string.Format(CultureInfo.InvariantCulture, "{0} ({1})", CacheID, ContentType);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -1239926094;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(CacheID);
+            hashCode = hashCode * -1521134295 + EqualityComparer<MediaType>.Default.GetHashCode(ContentType);
+            return hashCode;
         }
     }
 }

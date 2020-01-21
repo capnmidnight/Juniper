@@ -70,11 +70,6 @@ namespace Juniper.World.GIS.Google.Geocoding
             info.AddValue(TYPES_FIELD, TypeStrings);
         }
 
-        public override int GetHashCode()
-        {
-            return Long_Name.GetHashCode() ^ Key;
-        }
-
         public override bool Equals(object obj)
         {
             return obj is AddressComponent addr && Equals(addr);
@@ -103,6 +98,14 @@ namespace Juniper.World.GIS.Google.Geocoding
             var t = TypeStrings.ToString("|");
 
             return $"{t}:{Long_Name}";
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 644590467;
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(Long_Name);
+            hashCode = (hashCode * -1521134295) + Key.GetHashCode();
+            return hashCode;
         }
     }
 }

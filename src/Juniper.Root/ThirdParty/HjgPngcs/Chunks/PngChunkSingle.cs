@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace Hjg.Pngcs.Chunks
 {
     /// <summary>
@@ -18,7 +21,7 @@ namespace Hjg.Pngcs.Chunks
         public override int GetHashCode()
         {
             const int prime = 31;
-            return prime + (Id?.GetHashCode() ?? 0);
+            return prime +  EqualityComparer<string>.Default.GetHashCode(Id);
         }
 
         public override bool Equals(object obj)

@@ -109,7 +109,7 @@ namespace Juniper.MediaTypes
                     {
                         extensions = null;
                     }
-                    var slashIndex = value.IndexOf('/');
+                    var slashIndex = value.IndexOf('/', StringComparison.Ordinal);
                     var groupName = value.Substring(0, slashIndex);
                     var name = value.Substring(slashIndex + 1);
 
@@ -118,7 +118,7 @@ namespace Juniper.MediaTypes
 
                     if (extensions == null)
                     {
-                        var plusIndex = value.IndexOf('+');
+                        var plusIndex = value.IndexOf('+', StringComparison.Ordinal);
                         if (0 <= plusIndex && plusIndex < value.Length - 1)
                         {
                             extensions = new string[] { value.Substring(plusIndex + 1) };
@@ -169,7 +169,7 @@ namespace Juniper.MediaTypes
                 var value = $"{groupName}/{name.ToLowerInvariant()}";
                 var group = groups.GetGroup(groupName);
 
-                var plusIndex = value.IndexOf('+');
+                var plusIndex = value.IndexOf('+', StringComparison.Ordinal);
                 string[] extensions = null;
                 if (0 <= plusIndex && plusIndex < value.Length - 1)
                 {
@@ -265,7 +265,7 @@ namespace Juniper.MediaTypes
 
             if (s.EndsWith("+", StringComparison.InvariantCultureIgnoreCase))
             {
-                s = s.Substring(0, s.Length - 1) + ".plus";
+                s = s[0..^1] + ".plus";
             }
 
             var words = s.Split('+', '.');
@@ -275,7 +275,7 @@ namespace Juniper.MediaTypes
 
             if (stripUnderscores)
             {
-                return s.Replace("_", "");
+                return s.Replace("_", "", StringComparison.Ordinal);
             }
 
             return s;

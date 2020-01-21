@@ -66,7 +66,7 @@ namespace Juniper.HTTP.Server.Controllers
                 return true;
             }
 
-            if (request.Url.PathAndQuery.Contains(".php"))
+            if (request.Url.PathAndQuery.ContainsIgnoreCase(".php"))
             {
                 var added = new List<CIDRBlock>();
                 var removed = new List<CIDRBlock>();

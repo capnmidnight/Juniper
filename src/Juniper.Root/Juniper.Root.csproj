@@ -35,6 +35,10 @@
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(TargetFramework)'=='net472'">
+    <Exec ContinueOnError="true" Command="'..\netcoreapp3.1\jcopy.exe' 'Juniper' 'net472' '$(TargetDir)' '$(ProjectDir)..\Juniper\Assets\Juniper\Plugins\Juniper\$(ConfigurationName)\'" />
+  </Target>
+
   <ItemGroup>
     <Compile Update="Application.cs">
       <DependentUpon>MediaType.cs</DependentUpon>
@@ -110,9 +114,5 @@
       <DependentUpon>XConference.cs</DependentUpon>
     </Compile>
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="&quot;..\File Copier\bin\$(ConfigurationName)\netcoreapp3.1\jcopy&quot; &quot;Juniper&quot; &quot;net472&quot; &quot;$(TargetDir)&quot; &quot;$(ProjectDir)..\Juniper\Assets\Juniper\Plugins\Juniper\$(ConfigurationName)\&quot;" />
-  </Target>
 
 </Project>

@@ -47,11 +47,6 @@ namespace Juniper.HTTP.Client.REST
             }
         }
 
-        public override int GetHashCode()
-        {
-            return CacheID.GetHashCode();
-        }
-
         public override bool Equals(object obj)
         {
             return obj is object
@@ -201,6 +196,19 @@ namespace Juniper.HTTP.Client.REST
                 response.GetResponseStream(),
                 response.ContentLength,
                 prog, false);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 1106372483;
+            hashCode = hashCode * -1521134295 + base.GetHashCode();
+            hashCode = hashCode * -1521134295 + method.GetHashCode();
+            hashCode = hashCode * -1521134295 + hasRequestBody.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<IDictionary<string, List<string>>>.Default.GetHashCode(queryParams);
+            hashCode = hashCode * -1521134295 + EqualityComparer<MediaType>.Default.GetHashCode(ContentType);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(CacheID);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Uri>.Default.GetHashCode(BaseURI);
+            return hashCode;
         }
     }
 }

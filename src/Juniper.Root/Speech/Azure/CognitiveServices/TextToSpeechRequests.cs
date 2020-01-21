@@ -18,28 +18,28 @@ namespace Juniper.Speech.Azure.CognitiveServices
 
         private static void AddPercentField(StringBuilder sb, string fieldName, float fieldValue, bool addQuotes)
         {
-            sb.Append(' ');
-            sb.Append(fieldName);
-            sb.Append('=');
+            _ = sb.Append(' ')
+              .Append(fieldName)
+              .Append('=');
 
             if (addQuotes)
             {
-                sb.Append('\'');
+                _ = sb.Append('\'');
             }
 
             if (fieldValue > 0)
             {
-                sb.Append('+');
+                _ = sb.Append('+');
             }
 
             var precent = Units.Proportion.Percent(fieldValue);
             var rounded = Round(precent, 2);
             var value = rounded.ToString("0.00", CultureInfo.InvariantCulture);
-            sb.Append(value);
-            sb.Append("%");
+            _ = sb.Append(value)
+                .Append("%");
             if (addQuotes)
             {
-                sb.Append('\'');
+                _ = sb.Append('\'');
             }
         }
 
@@ -109,14 +109,14 @@ namespace Juniper.Speech.Azure.CognitiveServices
             {
                 var sb = new StringBuilder(base.CacheID);
 
-                sb.Append(VoiceName);
-                sb.Append(Text.GetHashCode());
-                sb.Append(OutputFormat.Name);
+                _ = sb.Append(VoiceName)
+                  .Append(Text.GetHashCode())
+                  .Append(OutputFormat.Name);
 
                 if (UseStyle)
                 {
-                    sb.Append("style=");
-                    sb.Append(StyleString);
+                    _ = sb.Append("style=")
+                      .Append(StyleString);
                 }
 
                 if (HasPitchChange)
@@ -140,15 +140,15 @@ namespace Juniper.Speech.Azure.CognitiveServices
 
         protected override BodyInfo GetBodyInfo()
         {
-            var sb = new StringBuilder(300);
-            sb.Append("<speak version='1.0' xmlns='https://www.w3.org/2001/10/synthesis' xml:lang='en-US'>");
-            sb.Append("<voice name='")
+            var sb = new StringBuilder(300)
+                .Append("<speak version='1.0' xmlns='https://www.w3.org/2001/10/synthesis' xml:lang='en-US'>")
+                .Append("<voice name='")
                 .Append(VoiceName)
                 .Append("'>");
 
             if (UseProsody)
             {
-                sb.Append("<prosody");
+                _ = sb.Append("<prosody");
                 if (HasPitchChange)
                 {
                     AddPercentField(sb, "pitch", PitchChange, true);
@@ -164,30 +164,30 @@ namespace Juniper.Speech.Azure.CognitiveServices
                     AddPercentField(sb, "volume", VolumeChange, true);
                 }
 
-                sb.Append(">");
+                _ = sb.Append(">");
             }
 
             if (UseStyle)
             {
-                sb.Append("<mstts:express-as type='")
+                _ = sb.Append("<mstts:express-as type='")
                   .Append(StyleString)
                   .Append("'>");
             }
 
-            sb.Append(Text);
+            _ = sb.Append(Text);
 
             if (UseStyle)
             {
-                sb.Append("</mstts:express-as>");
+                _ = sb.Append("</mstts:express-as>");
             }
 
             if (UseProsody)
             {
-                sb.Append("</prosody>");
+                _ = sb.Append("</prosody>");
             }
 
-            sb.Append("</voice>");
-            sb.Append("</speak>");
+            _ = sb.Append("</voice>")
+              .Append("</speak>");
 
             ssmlText = sb.ToString();
             ssmlTextLength = Encoding.UTF8.GetByteCount(ssmlText);
@@ -203,7 +203,7 @@ namespace Juniper.Speech.Azure.CognitiveServices
         protected override void ModifyRequest(HttpWebRequest request)
         {
             base.ModifyRequest(request);
-            request.KeepAlive()
+            _ = request.KeepAlive()
                 .UserAgent(resourceName)
                 .Header("X-Microsoft-OutputFormat", OutputFormat.Name);
         }

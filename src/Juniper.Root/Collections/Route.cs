@@ -170,17 +170,6 @@ namespace Juniper.Collections
             info.AddValue(nameof(nodes), nodes);
         }
 
-        public override int GetHashCode()
-        {
-            var hash = Cost.GetHashCode();
-            foreach (var node in nodes)
-            {
-                hash ^= node.GetHashCode();
-            }
-
-            return hash;
-        }
-
         public override string ToString()
         {
             var pathString = string.Join(" -> ", nodes);
@@ -358,6 +347,14 @@ namespace Juniper.Collections
 
                 return false;
             }
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 1944944578;
+            hashCode = (hashCode * -1521134295) + EqualityComparer<ValueT[]>.Default.GetHashCode(nodes);
+            hashCode = (hashCode * -1521134295) + Cost.GetHashCode();
+            return hashCode;
         }
     }
 }

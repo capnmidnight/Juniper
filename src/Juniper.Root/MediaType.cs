@@ -377,11 +377,6 @@ namespace Juniper
             return !(left == right);
         }
 
-        public override int GetHashCode()
-        {
-            return weightedValue.GetHashCode();
-        }
-
         public override string ToString()
         {
             if (Weight == 1)
@@ -392,6 +387,17 @@ namespace Juniper
             {
                 return weightedValue;
             }
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -1006577490;
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(TypeName);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(SubTypeName);
+            hashCode = (hashCode * -1521134295) + Weight.GetHashCode();
+            hashCode = (hashCode * -1521134295) + EqualityComparer<ReadOnlyCollection<string>>.Default.GetHashCode(Extensions);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(PrimaryExtension);
+            return hashCode;
         }
     }
 }

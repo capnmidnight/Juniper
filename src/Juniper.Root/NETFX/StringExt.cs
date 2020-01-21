@@ -409,5 +409,19 @@ namespace System
         {
             return string.Concat(s.GraphemeClusters().Reverse());
         }
+
+        public static bool ContainsIgnoreCase(this string value, string subStr)
+        {
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+#if NETCOREAPP || NETSTANDARD2_1
+            return value.Contains(subStr, StringComparison.OrdinalIgnoreCase);
+#else
+            return value.Contains(subStr);
+#endif
+        }
     }
 }

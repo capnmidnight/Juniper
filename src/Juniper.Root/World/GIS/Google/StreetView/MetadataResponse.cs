@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
 using System.Runtime.Serialization;
@@ -126,11 +127,13 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public override int GetHashCode()
         {
-            return Status.GetHashCode()
-                ^ Copyright.GetHashCode()
-                ^ Date.GetHashCode()
-                ^ Location.GetHashCode()
-                ^ Pano_ID.GetHashCode();
+            var hashCode = -1311455165;
+            hashCode = (hashCode * -1521134295) + Status.GetHashCode();
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(Copyright);
+            hashCode = (hashCode * -1521134295) + Date.GetHashCode();
+            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(Pano_ID);
+            hashCode = (hashCode * -1521134295) + EqualityComparer<LatLngPoint>.Default.GetHashCode(Location);
+            return hashCode;
         }
 
         public static bool operator ==(MetadataResponse left, MetadataResponse right)

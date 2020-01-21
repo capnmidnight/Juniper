@@ -29,9 +29,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure Text to Speech", "Azure Text to Speech\Azure Text to Speech.csproj", "{D6C9CC8A-2077-4F31-979F-3104613E1D37}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Root", "Juniper.Root\Juniper.Root.csproj", "{BD5B6E34-CA14-4636-83C0-DA4AADDF08BE}"
-	ProjectSection(ProjectDependencies) = postProject
-		{24306EF6-771E-4AE4-82E1-A65B4EA75DDB} = {24306EF6-771E-4AE4-82E1-A65B4EA75DDB}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "File Copier", "File Copier\File Copier.csproj", "{24306EF6-771E-4AE4-82E1-A65B4EA75DDB}"
 EndProject
