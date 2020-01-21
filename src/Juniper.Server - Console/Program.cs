@@ -49,11 +49,7 @@ namespace Juniper
 
             options.SetValues(args);
 
-            using var s = server = new HttpServer
-            {
-                ListenerCount = 10,
-                AutoAssignCertificate = HttpServer.IsAdministrator
-            };
+            using var s = server = new HttpServer();
 
             server.Add(cons);
 
