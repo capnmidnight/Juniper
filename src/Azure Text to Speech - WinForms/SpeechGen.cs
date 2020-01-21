@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using Juniper.Sound;
 using Juniper.Speech.Azure.CognitiveServices;
 
-namespace Juniper.Speech
+namespace Juniper
 {
     public partial class SpeechGen : Form
     {

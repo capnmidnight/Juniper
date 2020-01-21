@@ -1,4 +1,4 @@
-namespace Juniper.Puzzles.Tetris
+namespace Juniper
 {
     partial class Form1
     {

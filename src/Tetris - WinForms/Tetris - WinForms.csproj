@@ -6,7 +6,7 @@
 
   <PropertyGroup>
     <AssemblyName>Tetris</AssemblyName>
-    <RootNamespace>Juniper.Puzzles.Tetris</RootNamespace>
+    <RootNamespace>Juniper</RootNamespace>
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <StartupObject>Juniper.Puzzles.Tetris.Program</StartupObject>

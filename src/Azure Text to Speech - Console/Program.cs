@@ -8,7 +8,7 @@ using Juniper.Speech.Azure.CognitiveServices;
 
 using NAudio.Wave;
 
-namespace Juniper.Azure
+namespace Juniper
 {
     public static class Program
     {

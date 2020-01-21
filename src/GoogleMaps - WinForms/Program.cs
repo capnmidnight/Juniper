@@ -12,7 +12,7 @@ using Juniper.World.GIS.Google;
 using Juniper.World.GIS.Google.Geocoding;
 using Juniper.World.GIS.Google.StreetView;
 
-namespace Juniper.GoogleMaps
+namespace Juniper
 {
     internal static class Program
     {

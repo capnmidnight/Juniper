@@ -3,7 +3,7 @@ using System;
 using Juniper.Sound;
 using Juniper.Speech.Azure.CognitiveServices;
 
-namespace Juniper.Speech
+namespace Juniper
 {
     public class GenerateSpeechEventArgs : EventArgs
     {

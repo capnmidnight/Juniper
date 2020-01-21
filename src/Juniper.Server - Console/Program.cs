@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using Juniper.Console;
+using Juniper.HTTP;
 using Juniper.HTTP.Server;
 using Juniper.HTTP.Server.Controllers;
 using Juniper.Processes;
@@ -14,7 +15,7 @@ using Juniper.Processes;
 using static System.Console;
 using static Juniper.AnsiColor;
 
-namespace Juniper.HTTP
+namespace Juniper
 {
     public static class Program
     {

@@ -6,7 +6,7 @@
 
   <PropertyGroup>
     <AssemblyName>aztts</AssemblyName>
-    <RootNamespace>Juniper.Speech</RootNamespace>
+    <RootNamespace>Juniper</RootNamespace>
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <StartupObject>Juniper.Speech.Program</StartupObject>

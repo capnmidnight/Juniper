@@ -6,7 +6,7 @@
 
   <PropertyGroup>
     <AssemblyName>Test Server</AssemblyName>
-    <RootNamespace>Juniper.HTTP</RootNamespace>
+    <RootNamespace>Juniper</RootNamespace>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net48</TargetFrameworks>
     <StartupObject>Juniper.HTTP.Program</StartupObject>

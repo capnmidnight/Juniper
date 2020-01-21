@@ -1,4 +1,4 @@
-namespace Juniper.GoogleMaps
+namespace Juniper
 {
     partial class ImageViewer
     {

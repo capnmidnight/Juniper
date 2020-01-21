@@ -6,10 +6,10 @@
 
   <PropertyGroup>
     <AssemblyName>Veldrid_Testing</AssemblyName>
-    <RootNamespace>Juniper.Veldrid</RootNamespace>
+    <RootNamespace>Juniper</RootNamespace>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net48</TargetFrameworks>
-    <StartupObject>Veldrid_Testing.Program</StartupObject>
+    <StartupObject>Juniper.Program</StartupObject>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <Platforms>AnyCPU</Platforms>
@@ -21,5 +21,17 @@
 
   <ItemGroup>
     <PackageReference Include="Veldrid" Version="4.7.0" />
+    <PackageReference Include="Veldrid.Sdl2" Version="4.7.0" />
+    <PackageReference Include="Veldrid.StartupUtilities" Version="4.7.0" />
+    <PackageReference Include="Veldrid.SPIRV" Version="1.0.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Shaders\frag.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Shaders\vert.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

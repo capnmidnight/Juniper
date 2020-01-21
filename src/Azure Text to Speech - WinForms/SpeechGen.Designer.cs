@@ -1,4 +1,4 @@
-namespace Juniper.Speech
+namespace Juniper
 {
     partial class SpeechGen
     {

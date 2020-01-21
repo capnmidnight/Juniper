@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 
+using Juniper.Puzzles;
+
 using static System.Console;
 
-namespace Juniper.Puzzles.Tetris
+namespace Juniper
 {
     public static class Program
     {

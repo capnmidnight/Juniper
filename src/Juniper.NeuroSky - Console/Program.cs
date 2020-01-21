@@ -1,6 +1,8 @@
+using Juniper.NeuroSky;
+
 using static System.Console;
 
-namespace Juniper.NeuroSky
+namespace Juniper
 {
     public static class Program
     {

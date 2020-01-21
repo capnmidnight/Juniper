@@ -6,7 +6,7 @@
 
   <PropertyGroup>
     <AssemblyName>gmaps</AssemblyName>
-    <RootNamespace>Juniper.GoogleMaps</RootNamespace>
+    <RootNamespace>Juniper</RootNamespace>
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <StartupObject>Juniper.GoogleMaps.Program</StartupObject>

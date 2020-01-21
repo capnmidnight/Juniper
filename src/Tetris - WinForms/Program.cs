@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace Juniper.Puzzles.Tetris
+namespace Juniper
 {
     public static class Program
     {

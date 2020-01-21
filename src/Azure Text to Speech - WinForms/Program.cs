@@ -9,7 +9,7 @@ using Juniper.IO;
 using Juniper.Sound;
 using Juniper.Speech.Azure.CognitiveServices;
 
-namespace Juniper.Speech
+namespace Juniper
 {
     public static class Program
     {

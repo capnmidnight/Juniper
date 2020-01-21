@@ -6,7 +6,7 @@
 
   <PropertyGroup>
     <AssemblyName>Juniper.NeuroSky.Console</AssemblyName>
-    <RootNamespace>Juniper.NeuroSky</RootNamespace>
+    <RootNamespace>Juniper</RootNamespace>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net48</TargetFrameworks>
     <StartupObject>Juniper.NeuroSky.Program</StartupObject>

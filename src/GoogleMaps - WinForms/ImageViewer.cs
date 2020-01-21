@@ -8,7 +8,7 @@ using Juniper.World.GIS;
 using Juniper.World.GIS.Google.Geocoding;
 using Juniper.World.GIS.Google.StreetView;
 
-namespace Juniper.GoogleMaps
+namespace Juniper
 {
     public partial class ImageViewer : Form
     {

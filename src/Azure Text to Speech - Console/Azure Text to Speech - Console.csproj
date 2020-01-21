@@ -6,7 +6,7 @@
 
   <PropertyGroup>
     <AssemblyName>Juniper.Azure.Console</AssemblyName>
-    <RootNamespace>Juniper.Azure</RootNamespace>
+    <RootNamespace>Juniper</RootNamespace>
     <OutputType>Exe</OutputType>
     <!-- keep this at net48 while WaveOut is not available in .NET Core -->
     <TargetFrameworks>net48</TargetFrameworks>
