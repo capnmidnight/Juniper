@@ -250,35 +250,35 @@ namespace Juniper.Display
 
         private static bool ChangeXRDevice(DisplayTypes displayType)
         {
-            var xrDevice = UnityXRPlatforms.None;
+            var xrDevice = UnityXRPlatform.None;
             if (displayType == DisplayTypes.Stereo)
             {
-                if (JuniperSystem.CurrentPlatform == PlatformTypes.AndroidDaydream)
+                if (JuniperSystem.CurrentPlatform == PlatformType.AndroidDaydream)
                 {
-                    xrDevice = UnityXRPlatforms.daydream;
+                    xrDevice = UnityXRPlatform.daydream;
                 }
-                else if (JuniperSystem.CurrentPlatform == PlatformTypes.AndroidOculus
-                    || JuniperSystem.CurrentPlatform == PlatformTypes.StandaloneOculus)
+                else if (JuniperSystem.CurrentPlatform == PlatformType.AndroidOculus
+                    || JuniperSystem.CurrentPlatform == PlatformType.StandaloneOculus)
                 {
-                    xrDevice = UnityXRPlatforms.Oculus;
+                    xrDevice = UnityXRPlatform.Oculus;
                 }
-                else if (JuniperSystem.CurrentPlatform == PlatformTypes.UWPHoloLens
-                    || JuniperSystem.CurrentPlatform == PlatformTypes.UWPWindowsMR)
+                else if (JuniperSystem.CurrentPlatform == PlatformType.UWPHoloLens
+                    || JuniperSystem.CurrentPlatform == PlatformType.UWPWindowsMR)
                 {
-                    xrDevice = UnityXRPlatforms.WindowsMR;
+                    xrDevice = UnityXRPlatform.WindowsMR;
                 }
-                else if (JuniperSystem.CurrentPlatform == PlatformTypes.MagicLeap)
+                else if (JuniperSystem.CurrentPlatform == PlatformType.MagicLeap)
                 {
-                    xrDevice = UnityXRPlatforms.Lumin;
+                    xrDevice = UnityXRPlatform.Lumin;
                 }
-                else if (JuniperSystem.CurrentPlatform == PlatformTypes.StandaloneSteamVR)
+                else if (JuniperSystem.CurrentPlatform == PlatformType.StandaloneSteamVR)
                 {
-                    xrDevice = UnityXRPlatforms.OpenVR;
+                    xrDevice = UnityXRPlatform.OpenVR;
                 }
-                else if (JuniperSystem.CurrentPlatform == PlatformTypes.AndroidCardboard
-                    || JuniperSystem.CurrentPlatform == PlatformTypes.IOSCardboard)
+                else if (JuniperSystem.CurrentPlatform == PlatformType.AndroidCardboard
+                    || JuniperSystem.CurrentPlatform == PlatformType.IOSCardboard)
                 {
-                    xrDevice = UnityXRPlatforms.cardboard;
+                    xrDevice = UnityXRPlatform.cardboard;
                 }
             }
 
