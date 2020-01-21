@@ -3,12 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28902.138
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.NeuroSky", "Juniper.NeuroSky\Juniper.NeuroSky.csproj", "{93E9DA18-7AE9-4A83-B2EF-5B5E71308DCE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.NeuroSky.Console", "Juniper.NeuroSky.Console\Juniper.NeuroSky.Console.csproj", "{A949A1B5-1953-46FB-8FEA-107B6AC79310}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9A01F9FD-B141-4584-92DE-9BFCEEA3A7E9}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0AB9B157-DC46-4E6F-9926-46AB72C95ED8}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
@@ -16,27 +10,37 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sandboxes", "Sandboxes", "{9A01F9FD-B141-4584-92DE-9BFCEEA3A7E9}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{3F72C92A-C800-432F-A47D-359B8C938849}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Video Downloader", "Video Downloader\Video Downloader.csproj", "{28173EEF-EDB3-4E56-A851-AFE2E66243B3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Azure.Console", "Juniper.Azure.Console\Juniper.Azure.Console.csproj", "{F71D0B3E-C425-426A-86FC-2C3A8DB672E8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{622B919C-1613-4A82-B0D7-F4BDC696C7CD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.GoogleMaps", "Juniper.GoogleMaps\Juniper.GoogleMaps.csproj", "{C7061267-84C6-4AA9-AA62-4A1D9F0A5F93}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{44EA5B1C-AF64-4874-8902-37CAC9020FAB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure Text to Speech", "Azure Text to Speech\Azure Text to Speech.csproj", "{D6C9CC8A-2077-4F31-979F-3104613E1D37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.NeuroSky", "Juniper.NeuroSky\Juniper.NeuroSky.csproj", "{93E9DA18-7AE9-4A83-B2EF-5B5E71308DCE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.NeuroSky - Console", "Juniper.NeuroSky - Console\Juniper.NeuroSky - Console.csproj", "{A949A1B5-1953-46FB-8FEA-107B6AC79310}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Tests", "Juniper.Tests\Juniper.Tests.csproj", "{89AA6BA5-C528-424F-9E1F-2A916EC0DBAE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Video Downloader", "Video Downloader\Video Downloader.csproj", "{28173EEF-EDB3-4E56-A851-AFE2E66243B3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure Text to Speech - Console", "Azure Text to Speech - Console\Azure Text to Speech - Console.csproj", "{F71D0B3E-C425-426A-86FC-2C3A8DB672E8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleMaps - WinForms", "GoogleMaps - WinForms\GoogleMaps - WinForms.csproj", "{C7061267-84C6-4AA9-AA62-4A1D9F0A5F93}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure Text to Speech - WinForms", "Azure Text to Speech - WinForms\Azure Text to Speech - WinForms.csproj", "{D6C9CC8A-2077-4F31-979F-3104613E1D37}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Root", "Juniper.Root\Juniper.Root.csproj", "{BD5B6E34-CA14-4636-83C0-DA4AADDF08BE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.OpenTK", "Juniper.OpenTK\Juniper.OpenTK.csproj", "{1F140295-3EEC-4151-BA35-7CCBE82BD23D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenTK - Console", "OpenTK - Console\OpenTK - Console.csproj", "{1F140295-3EEC-4151-BA35-7CCBE82BD23D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test Server", "Test Server\Test Server.csproj", "{30D3643D-A062-443D-8D11-BEFE8226C79D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Server - Console", "Juniper.Server - Console\Juniper.Server - Console.csproj", "{30D3643D-A062-443D-8D11-BEFE8226C79D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Server", "Juniper.Server\Juniper.Server.csproj", "{049C8DD4-A88D-4FFF-B312-358E65B10694}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Media Types", "Juniper.HTTP.MediaTypes.Console\Media Types.csproj", "{28550D32-3E1C-46B6-AD93-69DFCEAA0481}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Media Types", "Media Types\Media Types.csproj", "{28550D32-3E1C-46B6-AD93-69DFCEAA0481}"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Primrose", "Primrose\", "{ACEF5AC4-3664-42AF-BD3C-86C737ECFE88}"
 	ProjectSection(WebsiteProperties) = preProject
@@ -59,8 +63,6 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Primrose", "Primrose\", "{A
 		SlnRelativePath = "Primrose\"
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Tests", "Juniper.Tests\Juniper.Tests.csproj", "{89AA6BA5-C528-424F-9E1F-2A916EC0DBAE}"
-EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "small-town", "small-town\", "{AB767B09-82D2-48D5-AF90-CBD17F5419E3}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
@@ -82,8 +84,6 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "small-town", "small-town\",
 		SlnRelativePath = "small-town\"
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{44EA5B1C-AF64-4874-8902-37CAC9020FAB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlSiphon", "SqlSiphon\SqlSiphon\SqlSiphon.csproj", "{136933A4-27E3-4CBF-84F8-8898447A3D8C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlSiphon.Postgres", "SqlSiphon\SqlSiphon.Postgres\SqlSiphon.Postgres.csproj", "{175A4D4A-2C9D-4EDD-B9CC-7ADC3322CC1C}"
@@ -100,11 +100,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlSiphon.TestBase", "SqlSi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlSiphon.Examples", "SqlSiphon\SqlSiphon.Examples\SqlSiphon.Examples.csproj", "{38251332-2C6D-413A-AA3A-88BA110B3D4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test PuzzleLib", "libpuzzle\Test PuzzleLib\Test PuzzleLib.csproj", "{0B33C327-096F-42C2-9435-275D4DBC3D35}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tetris - Console", "Tetris - Console\Tetris - Console.csproj", "{B8E78C06-0505-4659-BA77-C91043F74D63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Puzzles.Console", "Juniper.Puzzles.Console\Juniper.Puzzles.Console.csproj", "{B8E78C06-0505-4659-BA77-C91043F74D63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tetris - WinForms", "Tetris - WinForms\Tetris - WinForms.csproj", "{D039330A-0B5E-417D-AEE6-B3B0BC12E2DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Puzzles.WinForms", "Juniper.Puzzles.WinForms\Juniper.Puzzles.WinForms.csproj", "{D039330A-0B5E-417D-AEE6-B3B0BC12E2DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid - Console", "Veldrid - Console\Veldrid - Console.csproj", "{20614D5B-89F2-4BAA-89CE-5B6674019251}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -650,30 +650,6 @@ Global
 		{38251332-2C6D-413A-AA3A-88BA110B3D4F}.Testing|x64.Build.0 = Release|x64
 		{38251332-2C6D-413A-AA3A-88BA110B3D4F}.Testing|x86.ActiveCfg = Release|x86
 		{38251332-2C6D-413A-AA3A-88BA110B3D4F}.Testing|x86.Build.0 = Release|x86
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.64 bit release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.64 bit release|Any CPU.Build.0 = Release|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.64 bit release|x64.ActiveCfg = Release|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.64 bit release|x64.Build.0 = Release|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.64 bit release|x86.ActiveCfg = Release|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.64 bit release|x86.Build.0 = Release|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.Debug|x64.Build.0 = Debug|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.Debug|x86.Build.0 = Debug|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.Release|x64.ActiveCfg = Release|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.Release|x64.Build.0 = Release|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.Release|x86.ActiveCfg = Release|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.Release|x86.Build.0 = Release|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.Testing|Any CPU.ActiveCfg = Release|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.Testing|Any CPU.Build.0 = Release|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.Testing|x64.ActiveCfg = Release|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.Testing|x64.Build.0 = Release|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.Testing|x86.ActiveCfg = Release|Any CPU
-		{0B33C327-096F-42C2-9435-275D4DBC3D35}.Testing|x86.Build.0 = Release|Any CPU
 		{B8E78C06-0505-4659-BA77-C91043F74D63}.64 bit release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8E78C06-0505-4659-BA77-C91043F74D63}.64 bit release|Any CPU.Build.0 = Release|Any CPU
 		{B8E78C06-0505-4659-BA77-C91043F74D63}.64 bit release|x64.ActiveCfg = Release|Any CPU
@@ -722,6 +698,30 @@ Global
 		{D039330A-0B5E-417D-AEE6-B3B0BC12E2DF}.Testing|x64.Build.0 = Release|Any CPU
 		{D039330A-0B5E-417D-AEE6-B3B0BC12E2DF}.Testing|x86.ActiveCfg = Release|Any CPU
 		{D039330A-0B5E-417D-AEE6-B3B0BC12E2DF}.Testing|x86.Build.0 = Release|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.64 bit release|Any CPU.ActiveCfg = Debug|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.64 bit release|Any CPU.Build.0 = Debug|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.64 bit release|x64.ActiveCfg = Debug|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.64 bit release|x64.Build.0 = Debug|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.64 bit release|x86.ActiveCfg = Debug|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.64 bit release|x86.Build.0 = Debug|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.Debug|x64.Build.0 = Debug|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.Debug|x86.Build.0 = Debug|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.Release|x64.ActiveCfg = Release|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.Release|x64.Build.0 = Release|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.Release|x86.ActiveCfg = Release|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.Release|x86.Build.0 = Release|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.Testing|Any CPU.ActiveCfg = Debug|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.Testing|Any CPU.Build.0 = Debug|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.Testing|x64.ActiveCfg = Debug|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.Testing|x64.Build.0 = Debug|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.Testing|x86.ActiveCfg = Debug|Any CPU
+		{20614D5B-89F2-4BAA-89CE-5B6674019251}.Testing|x86.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -739,7 +739,7 @@ Global
 		{049C8DD4-A88D-4FFF-B312-358E65B10694} = {3F72C92A-C800-432F-A47D-359B8C938849}
 		{28550D32-3E1C-46B6-AD93-69DFCEAA0481} = {622B919C-1613-4A82-B0D7-F4BDC696C7CD}
 		{ACEF5AC4-3664-42AF-BD3C-86C737ECFE88} = {3F72C92A-C800-432F-A47D-359B8C938849}
-		{89AA6BA5-C528-424F-9E1F-2A916EC0DBAE} = {9A01F9FD-B141-4584-92DE-9BFCEEA3A7E9}
+		{89AA6BA5-C528-424F-9E1F-2A916EC0DBAE} = {3F72C92A-C800-432F-A47D-359B8C938849}
 		{AB767B09-82D2-48D5-AF90-CBD17F5419E3} = {3F72C92A-C800-432F-A47D-359B8C938849}
 		{136933A4-27E3-4CBF-84F8-8898447A3D8C} = {44EA5B1C-AF64-4874-8902-37CAC9020FAB}
 		{175A4D4A-2C9D-4EDD-B9CC-7ADC3322CC1C} = {44EA5B1C-AF64-4874-8902-37CAC9020FAB}
@@ -749,9 +749,9 @@ Global
 		{27BD4F0D-5652-4B3E-9BE4-33ED0F2DFBA1} = {44EA5B1C-AF64-4874-8902-37CAC9020FAB}
 		{4AB6E77A-2FA1-4A30-B3FB-B09D3DA91127} = {44EA5B1C-AF64-4874-8902-37CAC9020FAB}
 		{38251332-2C6D-413A-AA3A-88BA110B3D4F} = {44EA5B1C-AF64-4874-8902-37CAC9020FAB}
-		{0B33C327-096F-42C2-9435-275D4DBC3D35} = {9A01F9FD-B141-4584-92DE-9BFCEEA3A7E9}
 		{B8E78C06-0505-4659-BA77-C91043F74D63} = {9A01F9FD-B141-4584-92DE-9BFCEEA3A7E9}
 		{D039330A-0B5E-417D-AEE6-B3B0BC12E2DF} = {9A01F9FD-B141-4584-92DE-9BFCEEA3A7E9}
+		{20614D5B-89F2-4BAA-89CE-5B6674019251} = {9A01F9FD-B141-4584-92DE-9BFCEEA3A7E9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {26853D06-2187-498D-81B8-5BF110E83214}
