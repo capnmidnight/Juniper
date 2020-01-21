@@ -819,11 +819,7 @@ or
                 .FlushAsync()
                 .ConfigureAwait(true);
 
-            var connection = headers["Connection"];
-            var closeConnection = connection?.Equals("Close", StringComparison.InvariantCultureIgnoreCase) != false;
-            var status = response.GetStatus();
-            if (status >= HttpStatusCode.InternalServerError
-                || closeConnection)
+            if (!request.IsWebSocketRequest)
             {
                 response.Close();
             }
