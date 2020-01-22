@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+
 using Juniper.Puzzles;
 
 namespace Juniper
@@ -32,16 +33,16 @@ namespace Juniper
 
         private void Initialize()
         {
-            colors = new Brush[8];
-            colors[0] = Brushes.Black;
-            colors[1] = Brushes.Blue;
-            colors[2] = Brushes.Green;
-            colors[3] = Brushes.Yellow;
-            colors[4] = Brushes.Gray;
-            colors[5] = Brushes.Orange;
-            colors[6] = Brushes.Purple;
-            colors[7] = Brushes.White;
-
+            colors = new Brush[]{
+                Brushes.Black,
+                Brushes.Blue,
+                Brushes.Green,
+                Brushes.Yellow,
+                Brushes.Gray,
+                Brushes.Orange,
+                Brushes.Purple,
+                Brushes.White
+            };
 
             game = new TetrisGame(10, 20);
             keyPresses = new Dictionary<object, Action>
@@ -67,15 +68,8 @@ namespace Juniper
             finished = false;
             last = DateTime.Now;
 
-            block = new Bitmap("../../block2.png");
-            //for (int y = 0; y < block.Height; ++y)
-            //    for (int x = 0; x < block.Width; ++x)
-            //    {
-            //        Color c = block.GetPixel(x, y);
-            //        c = Color.FromArgb(255 - c.R, c.R, c.R, c.R);
-            //        block.SetPixel(x, y, c);
-            //    }
-            bgimage = new Bitmap("../../back.jpg");
+            block = Properties.Resources.block;
+            bgimage = Properties.Resources.back;
         }
 
         private void Run()
@@ -92,20 +86,24 @@ namespace Juniper
             }
             finished = true;
         }
+
         protected override void OnClosing(CancelEventArgs e)
         {
-            done = true;
-            while (!finished)
+            if (e is object)
             {
-                Application.DoEvents();
-            }
+                done = true;
+                while (!finished)
+                {
+                    Application.DoEvents();
+                }
 
-            base.OnClosing(e);
+                base.OnClosing(e);
+            }
         }
+
         private void Draw()
         {
             back.DrawImage(bgimage, new Rectangle(ClientRectangle.X, ClientRectangle.Y, 640, 480));
-            //back.DrawRectangle(Pens.LightGreen, 20, 20, game.Width * 20, game.Height * 20);
             DrawPuzzle(game, 1, 1);
             DrawPuzzle(game.Current, game.CursorX + 1, game.CursorY + 1);
             DrawPuzzle(game.Next, game.Width + 3, 1);
@@ -115,21 +113,27 @@ namespace Juniper
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            base.OnKeyDown(e);
-            var key = e.KeyCode;
-            if (keyPresses.ContainsKey(key))
+            if (e is object)
             {
-                keyPresses[key]();
+                base.OnKeyDown(e);
+                var key = e.KeyCode;
+                if (keyPresses.ContainsKey(key))
+                {
+                    keyPresses[key]();
+                }
             }
         }
 
         protected override void OnKeyUp(KeyEventArgs e)
         {
-            base.OnKeyUp(e);
-            var key = e.KeyCode;
-            if (keyReleases.ContainsKey(key))
+            if (e is object)
             {
-                keyReleases[key]();
+                base.OnKeyUp(e);
+                var key = e.KeyCode;
+                if (keyReleases.ContainsKey(key))
+                {
+                    keyReleases[key]();
+                }
             }
         }
 

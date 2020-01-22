@@ -15,7 +15,7 @@ namespace Juniper
         private static Dictionary<ConsoleKey, Action> keyReleases;
         private static bool done;
 
-        public static void Main(string[] args)
+        public static void Main()
         {
             game = new TetrisGame(20, 20);
             keyPresses = new Dictionary<ConsoleKey, Action>

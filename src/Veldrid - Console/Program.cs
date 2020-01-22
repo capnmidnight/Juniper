@@ -46,7 +46,7 @@ namespace Juniper
             WriteLine();
         }
 
-        public static void Main(string[] args)
+        public static void Main()
         {
             var windowOptions = new WindowCreateInfo()
             {

@@ -23,26 +23,35 @@ namespace Juniper.Puzzles
             rand = new Random();
         }
 
-        private Puzzle next, current;
-        private int cursorX, cursorY, score;
-        private bool gameOver, isLeftDown, isRightDown, isUpDown, isDownDown;
+        private bool isLeftDown, isRightDown, isUpDown, isDownDown;
         private int millisPerDrop, lessMillisPerLine, millisPerMove, millisPerFlip, millisPerAdvance;
         private double sinceLastMove, sinceLastDrop, sinceLastFlip, sinceLastAdvance, sincePieceEntered;
 
+        public Puzzle Next { get; private set; }
+
+        public Puzzle Current { get; private set; }
+
+        public int CursorX { get; private set; }
+        public int CursorY { get; private set; }
+
+        public int Score { get; private set; }
+
+        public bool GameOver { get; private set; }
+
         public void Reset()
         {
-            millisPerDrop = 500;
-            millisPerFlip = 250;
-            millisPerMove = 200;
-            millisPerAdvance = 25;
-            lessMillisPerLine = 10;
+            millisPerDrop = 5000;
+            millisPerFlip = 2500;
+            millisPerMove = 2000;
+            millisPerAdvance = 2500;
+            lessMillisPerLine = 100;
 
-            current = pieces[rand.Next(pieces.Length)];
-            next = pieces[rand.Next(pieces.Length)];
-            cursorX = Width / 2;
-            cursorY = 0;
-            score = 0;
-            gameOver = false;
+            Current = pieces[rand.Next(pieces.Length)];
+            Next = pieces[rand.Next(pieces.Length)];
+            CursorX = Width / 2;
+            CursorY = 0;
+            Score = 0;
+            GameOver = false;
             sinceLastMove = sinceLastDrop = sinceLastFlip = sinceLastAdvance = sincePieceEntered = 0.0;
         }
 
@@ -59,19 +68,19 @@ namespace Juniper.Puzzles
 
         private void MoveLeft()
         {
-            if (IsInBounds(cursorX - 1, cursorY, current)
-                        && IsEmpty(cursorX - 1, cursorY, current))
+            if (IsInBounds(CursorX - 1, CursorY, Current)
+                        && IsEmpty(CursorX - 1, CursorY, Current))
             {
-                cursorX--;
+                CursorX--;
             }
         }
 
         private void MoveRight()
         {
-            if (IsInBounds(cursorX + 1, cursorY, current)
-                        && IsEmpty(cursorX + 1, cursorY, current))
+            if (IsInBounds(CursorX + 1, CursorY, Current)
+                        && IsEmpty(CursorX + 1, CursorY, Current))
             {
-                cursorX++;
+                CursorX++;
             }
         }
 
@@ -96,7 +105,7 @@ namespace Juniper.Puzzles
             }
             else
             {
-                sinceLastMove = 0.0;
+                sinceLastMove = millisPerMove;
             }
 
             if (isUpDown)
@@ -105,18 +114,18 @@ namespace Juniper.Puzzles
                 if (sinceLastFlip >= millisPerFlip)
                 {
                     sinceLastFlip = 0.0;
-                    var pre = current.Rotate(Clockwise);
+                    var pre = Current.Rotate(Clockwise);
                     PlayFlip();
-                    if (isUpDown && IsInBounds(cursorX, cursorY, pre)
-                        && IsEmpty(cursorX, cursorY, pre))
+                    if (isUpDown && IsInBounds(CursorX, CursorY, pre)
+                        && IsEmpty(CursorX, CursorY, pre))
                     {
-                        current = pre;
+                        Current = pre;
                     }
                 }
             }
             else
             {
-                sinceLastFlip = 0.0;
+                sinceLastFlip = millisPerFlip;
             }
 
             if (isDownDown && sincePieceEntered >= 500.0)
@@ -125,16 +134,16 @@ namespace Juniper.Puzzles
                 if (sinceLastAdvance >= millisPerAdvance)
                 {
                     sinceLastAdvance = 0.0;
-                    if (IsInBounds(cursorX, cursorY + 1, current)
-                            && IsEmpty(cursorX, cursorY + 1, current))
+                    if (IsInBounds(CursorX, CursorY + 1, Current)
+                            && IsEmpty(CursorX, CursorY + 1, Current))
                     {
-                        cursorY++;
+                        CursorY++;
                     }
                 }
             }
             else
             {
-                sinceLastAdvance = 0.0;
+                sinceLastAdvance = millisPerAdvance;
             }
 
             sinceLastDrop += sinceLastDraw.TotalMilliseconds;
@@ -145,24 +154,24 @@ namespace Juniper.Puzzles
                 sinceLastDrop = 0.0;
                 if (!IsEmpty(RowOrder, 0))
                 {
-                    gameOver = true;
+                    GameOver = true;
                 }
-                if (!gameOver)
+                if (!GameOver)
                 {
-                    if (IsEmpty(cursorX, cursorY + 1, current)
-                        && IsInBounds(cursorX, cursorY + 1, current))
+                    if (IsEmpty(CursorX, CursorY + 1, Current)
+                        && IsInBounds(CursorX, CursorY + 1, Current))
                     {
-                        cursorY++;
+                        CursorY++;
                     }
                     else
                     {
-                        Fill(cursorX, cursorY, current);
+                        Fill(CursorX, CursorY, Current);
                         PlayThump();
-                        current = next;
-                        next = pieces[rand.Next(pieces.Length)];
+                        Current = Next;
+                        Next = pieces[rand.Next(pieces.Length)];
                         sincePieceEntered = 0.0;
-                        cursorX = Width / 2;
-                        cursorY = 0;
+                        CursorX = Width / 2;
+                        CursorY = 0;
                     }
                     var clearCount = 0;
                     for (var y = 0; y < Height; ++y)
@@ -177,7 +186,7 @@ namespace Juniper.Puzzles
                     if (clearCount > 0)
                     {
                         PlayLineClear(clearCount);
-                        score += clearCount * clearCount * 100;
+                        Score += clearCount * clearCount * 100;
                         millisPerDrop -= lessMillisPerLine;
                     }
                 }
@@ -185,33 +194,32 @@ namespace Juniper.Puzzles
             }
             return false;
         }
+
         public void Left_Depress()
         {
             isLeftDown = true;
-            MoveLeft();
         }
+
         public void Left_Release()
         {
             isLeftDown = false;
         }
+
         public void Right_Depress()
         {
             isRightDown = true;
-            MoveRight();
         }
+
         public void Right_Release()
         {
             isRightDown = false;
         }
+
         public void Up_Depress()
         {
-            if (!isUpDown)
-            {
-                sinceLastFlip = millisPerFlip;
-            }
-
             isUpDown = true;
         }
+
         public void Up_Release()
         {
             isUpDown = false;
@@ -221,53 +229,10 @@ namespace Juniper.Puzzles
         {
             isDownDown = true;
         }
+
         public void Down_Release()
         {
             isDownDown = false;
-        }
-        public Puzzle Next
-        {
-            get
-            {
-                return next;
-            }
-        }
-        public Puzzle Current
-        {
-            get
-            {
-                return current;
-            }
-        }
-        public int CursorX
-        {
-            get
-            {
-                return cursorX;
-            }
-        }
-        public int CursorY
-        {
-            get
-            {
-                return cursorY;
-            }
-        }
-
-        public int Score
-        {
-            get
-            {
-                return score;
-            }
-        }
-
-        public bool GameOver
-        {
-            get
-            {
-                return gameOver;
-            }
         }
 
         public void TetrisClearRow(int row)
