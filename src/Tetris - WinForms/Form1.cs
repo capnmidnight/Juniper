@@ -22,6 +22,9 @@ namespace Juniper
         private bool done, finished;
         private DateTime last;
 
+        private float shakeMagnitude;
+        private float shakeDuration;
+
         public Form1()
         {
             InitializeComponent();
@@ -45,6 +48,10 @@ namespace Juniper
             };
 
             game = new TetrisGame(10, 20);
+            game.Flip += Game_Flip;
+            game.Thump += Game_Thump;
+            game.LineClear += Game_LineClear;
+
             keyPresses = new Dictionary<object, Action>
             {
                 { Keys.Up, game.Up_Depress },
@@ -72,15 +79,31 @@ namespace Juniper
             bgimage = Properties.Resources.back;
         }
 
+        private void Game_LineClear(object sender, IntegerEventArgs e)
+        {
+            shakeMagnitude = e.Value * 10;
+            shakeDuration = e.Value * 300;
+        }
+
+        private void Game_Thump(object sender, EventArgs e)
+        {
+            shakeMagnitude = 5;
+            shakeDuration = 250;
+        }
+
+        private void Game_Flip(object sender, EventArgs e)
+        {
+            shakeMagnitude = 5;
+            shakeDuration = 250;
+        }
+
         private void Run()
         {
             while (!done)
             {
-                if (game.Update(DateTime.Now - last))
-                {
-                    last = DateTime.Now;
-                }
-
+                var now = DateTime.Now;
+                game.Update(now - last);
+                last = DateTime.Now;
                 Draw();
                 Application.DoEvents();
             }
@@ -101,8 +124,22 @@ namespace Juniper
             }
         }
 
+        private static readonly Random rand = new Random();
+
+        private static DateTime lastShake = DateTime.Now;
         private void Draw()
         {
+            if(shakeDuration > 0)
+            {
+                shakeDuration -= (float)((DateTime.Now - lastShake).TotalMilliseconds);
+                lastShake = DateTime.Now;
+                var r = rand.Number(shakeMagnitude);
+                var a = Math.PI * rand.Number(2);
+                var dx = r * Math.Cos(a);
+                var dy = r * Math.Sin(a);
+                back.TranslateTransform((float)dx, (float)dy);
+            }
+
             back.DrawImage(bgimage, new Rectangle(ClientRectangle.X, ClientRectangle.Y, 640, 480));
             DrawPuzzle(game, 1, 1);
             DrawPuzzle(game.Current, game.CursorX + 1, game.CursorY + 1);

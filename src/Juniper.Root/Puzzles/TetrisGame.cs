@@ -40,11 +40,11 @@ namespace Juniper.Puzzles
 
         public void Reset()
         {
-            millisPerDrop = 5000;
-            millisPerFlip = 2500;
-            millisPerMove = 2000;
-            millisPerAdvance = 2500;
-            lessMillisPerLine = 100;
+            millisPerDrop = 250;
+            millisPerFlip = 200;
+            millisPerMove = 150;
+            millisPerAdvance = 100;
+            lessMillisPerLine = 10;
 
             Current = pieces[rand.Next(pieces.Length)];
             Next = pieces[rand.Next(pieces.Length)];
@@ -84,115 +84,119 @@ namespace Juniper.Puzzles
             }
         }
 
-        public bool Update(TimeSpan sinceLastDraw)
+        public void Update(TimeSpan sinceLastDraw)
         {
-            if (isLeftDown || isRightDown)
+            if (!IsEmpty(RowOrder, 0))
             {
-                sinceLastMove += sinceLastDraw.TotalMilliseconds;
-                if (sinceLastMove >= millisPerMove)
-                {
-                    sinceLastMove = 0.0;
-                    if (isLeftDown)
-                    {
-                        MoveLeft();
-                    }
-
-                    if (isRightDown)
-                    {
-                        MoveRight();
-                    }
-                }
-            }
-            else
-            {
-                sinceLastMove = millisPerMove;
+                GameOver = true;
             }
 
-            if (isUpDown)
+            if (!GameOver)
             {
-                sinceLastFlip += sinceLastDraw.TotalMilliseconds;
-                if (sinceLastFlip >= millisPerFlip)
+                if (isLeftDown || isRightDown)
                 {
-                    sinceLastFlip = 0.0;
-                    var pre = Current.Rotate(Clockwise);
-                    PlayFlip();
-                    if (isUpDown && IsInBounds(CursorX, CursorY, pre)
-                        && IsEmpty(CursorX, CursorY, pre))
+                    sinceLastMove += sinceLastDraw.TotalMilliseconds;
+                    if (sinceLastMove >= millisPerMove)
                     {
-                        Current = pre;
-                    }
-                }
-            }
-            else
-            {
-                sinceLastFlip = millisPerFlip;
-            }
-
-            if (isDownDown && sincePieceEntered >= 500.0)
-            {
-                sinceLastAdvance += sinceLastDraw.TotalMilliseconds;
-                if (sinceLastAdvance >= millisPerAdvance)
-                {
-                    sinceLastAdvance = 0.0;
-                    if (IsInBounds(CursorX, CursorY + 1, Current)
-                            && IsEmpty(CursorX, CursorY + 1, Current))
-                    {
-                        CursorY++;
-                    }
-                }
-            }
-            else
-            {
-                sinceLastAdvance = millisPerAdvance;
-            }
-
-            sinceLastDrop += sinceLastDraw.TotalMilliseconds;
-            sincePieceEntered += sinceLastDraw.TotalMilliseconds;
-
-            if (sinceLastDrop >= millisPerDrop)
-            {
-                sinceLastDrop = 0.0;
-                if (!IsEmpty(RowOrder, 0))
-                {
-                    GameOver = true;
-                }
-                if (!GameOver)
-                {
-                    if (IsEmpty(CursorX, CursorY + 1, Current)
-                        && IsInBounds(CursorX, CursorY + 1, Current))
-                    {
-                        CursorY++;
-                    }
-                    else
-                    {
-                        Fill(CursorX, CursorY, Current);
-                        PlayThump();
-                        Current = Next;
-                        Next = pieces[rand.Next(pieces.Length)];
-                        sincePieceEntered = 0.0;
-                        CursorX = Width / 2;
-                        CursorY = 0;
-                    }
-                    var clearCount = 0;
-                    for (var y = 0; y < Height; ++y)
-                    {
-                        if (IsFull(RowOrder, y))
+                        sinceLastMove -= millisPerMove;
+                        if (isLeftDown)
                         {
-                            TetrisClearRow(y);
-                            y--; //rewind, because TetrisClearRow changes the layout of the board
-                            clearCount++;
+                            MoveLeft();
+                        }
+
+                        if (isRightDown)
+                        {
+                            MoveRight();
                         }
                     }
-                    if (clearCount > 0)
+                }
+                else
+                {
+                    sinceLastMove = millisPerMove;
+                }
+
+                if (isUpDown)
+                {
+                    sinceLastFlip += sinceLastDraw.TotalMilliseconds;
+                    if (sinceLastFlip >= millisPerFlip)
                     {
-                        PlayLineClear(clearCount);
-                        Score += clearCount * clearCount * 100;
-                        millisPerDrop -= lessMillisPerLine;
+                        sinceLastFlip -= millisPerFlip;
+                        var pre = Current.Rotate(Clockwise);
+                        PlayFlip();
+                        if (isUpDown && IsInBounds(CursorX, CursorY, pre)
+                            && IsEmpty(CursorX, CursorY, pre))
+                        {
+                            Current = pre;
+                        }
                     }
                 }
-                return true;
+                else
+                {
+                    sinceLastFlip = millisPerFlip;
+                }
+
+                if (isDownDown && sincePieceEntered >= 500.0)
+                {
+                    sinceLastAdvance += sinceLastDraw.TotalMilliseconds;
+                    if (sinceLastAdvance >= millisPerAdvance)
+                    {
+                        sinceLastAdvance -= millisPerAdvance;
+                        if (IsInBounds(CursorX, CursorY + 1, Current)
+                                && IsEmpty(CursorX, CursorY + 1, Current))
+                        {
+                            CursorY++;
+                        }
+                    }
+                }
+                else
+                {
+                    sinceLastAdvance = millisPerAdvance;
+                }
+
+                if (!isDownDown)
+                {
+                    sinceLastDrop += sinceLastDraw.TotalMilliseconds;
+                    sincePieceEntered += sinceLastDraw.TotalMilliseconds;
+
+                    if (sinceLastDrop >= millisPerDrop)
+                    {
+                        sinceLastDrop -= millisPerDrop;
+
+                        if (IsEmpty(CursorX, CursorY + 1, Current)
+                            && IsInBounds(CursorX, CursorY + 1, Current))
+                        {
+                            CursorY++;
+                        }
+                        else
+                        {
+                            Fill(CursorX, CursorY, Current);
+                            PlayThump();
+                            Current = Next;
+                            Next = pieces[rand.Next(pieces.Length)];
+                            sincePieceEntered = 0.0;
+                            CursorX = Width / 2;
+                            CursorY = 0;
+                        }
+
+                        var clearCount = 0;
+                        for (var y = Height - 1; y >= 0; --y)
+                        {
+                            if (IsFull(RowOrder, y))
+                            {
+                                TetrisClearRow(y);
+                                clearCount++;
+                            }
+                        }
+
+                        if (clearCount > 0)
+                        {
+                            PlayLineClear(clearCount);
+                            Score += clearCount * clearCount * 100;
+                            millisPerDrop -= lessMillisPerLine;
+                        }
+                    }
+                }
             }
-            return false;
         }
 
         public void Left_Depress()
@@ -251,16 +255,23 @@ namespace Juniper.Puzzles
             }
         }
 
-        protected virtual void PlayThump()
+        public event EventHandler Thump;
+        public event EventHandler<IntegerEventArgs> LineClear;
+        public event EventHandler Flip;
+
+        private void PlayThump()
         {
+            Thump?.Invoke(this, EventArgs.Empty);
         }
 
-        protected virtual void PlayLineClear(int numLines)
+        private void PlayLineClear(int numLines)
         {
+            LineClear?.Invoke(this, new IntegerEventArgs(numLines));
         }
 
-        protected virtual void PlayFlip()
+        private void PlayFlip()
         {
+            Flip?.Invoke(this, EventArgs.Empty);
         }
     }
 }

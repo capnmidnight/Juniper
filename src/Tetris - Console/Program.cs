@@ -41,12 +41,10 @@ namespace Juniper
             while (!done)
             {
                 DoInput();
-                if (game.Update(DateTime.Now - last))
-                {
-                    last = DateTime.Now;
-                }
-
+                var now = DateTime.Now;
+                game.Update(now - last);
                 Draw(game, game.Next, game.Current, buffer, game.CursorX, game.CursorY);
+                last = now;
             }
         }
 
