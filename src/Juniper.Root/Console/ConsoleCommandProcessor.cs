@@ -6,8 +6,9 @@ using System.Runtime.CompilerServices;
 
 using Juniper.Logging;
 
-using static System.Console;
-using static Juniper.AnsiColor;
+using static System.ConsoleColor;
+
+using C = System.Console;
 
 namespace Juniper.Console
 {
@@ -24,9 +25,9 @@ namespace Juniper.Console
 
         public void Pump()
         {
-            if (KeyAvailable)
+            if (C.KeyAvailable)
             {
-                var keyInfo = ReadKey(true);
+                var keyInfo = C.ReadKey(true);
                 if (actions.ContainsKey(keyInfo.Key))
                 {
                     Execute(keyInfo.Key);
@@ -45,16 +46,36 @@ namespace Juniper.Console
 
         public void PrintUsage()
         {
-            WriteLine("Usage:");
             var maxKeyLen = (from key in actions.Keys
                              let keyName = key.ToString()
                              select keyName.Length)
                         .Max();
 
-            var format = $"\t{{0,-{maxKeyLen}}} : {{1}}";
-            foreach (var command in actions)
+            var format = $"  {{0,-{maxKeyLen}}} : {{1}}";
+
+            var lines = (from command in actions
+                         select string.Format(format, command.Key, command.Value.Name))
+                         .Prepend("Usage:")
+                         .Prepend("")
+                         .Append("")
+                         .ToArray();
+
+            var maxLen = lines.Max(l => l.Length);
+            for(var i = 0; i < lines.Length; ++i)
             {
-                WriteLine(format, command.Key, command.Value.Name);
+                while(lines[i].Length <= maxLen)
+                {
+                    lines[i] += " ";
+                }
+
+                lines[i] = " " + lines[i];
+            }
+
+            C.WriteLine();
+            using var scope = new ColorScope(DarkGray, Yellow);
+            foreach (var line in lines)
+            {
+                C.WriteLine(line);
             }
         }
 
@@ -127,7 +148,7 @@ namespace Juniper.Console
             if (nextLogLevel < 4)
             {
                 logLevel = nextLogLevel;
-                WriteLine($"Logging level is now {GetName(logLevel)}");
+                C.WriteLine($"Logging level is now {GetName(logLevel)}");
             }
         }
 
@@ -143,59 +164,65 @@ namespace Juniper.Console
             };
         }
 
-        private void Log<T>(uint level, Action<string> logger, string color, T e)
+        private void Log<T>(uint level, Action<string> logger, ConsoleColor foreground, T e)
         {
-            if(e is null)
+            Log(level, logger, foreground, C.BackgroundColor, e);
+        }
+
+        private void Log<T>(uint level, Action<string> logger, ConsoleColor foreground, ConsoleColor background, T e)
+        {
+            if (e is null)
             {
                 throw new ArgumentNullException(nameof(e));
             }
 
             if (level >= logLevel)
             {
-                logger($"{color}[{GetName(level)}] {e.ToString()}{Reset}");
+                using var scope = new ColorScope(background, foreground);
+                logger($"[{GetName(level)}] {e.ToString()}");
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void OnInfo(object sender, StringEventArgs e)
         {
-            Log(0, WriteLine, White, e);
+            OnInfo(e?.Value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void OnInfo(string color, string msg)
+        public void OnInfo(ConsoleColor color, string msg)
         {
-            Log(0, WriteLine, color, msg);
+            Log(0, C.WriteLine, color, msg);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void OnInfo(string msg)
         {
-            Log(0, WriteLine, White, msg);
+            Log(0, C.WriteLine, White, msg);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void OnLog(object sender, StringEventArgs e)
         {
-            Log(1, WriteLine, Cyan, e);
+            Log(1, C.WriteLine, Cyan, e);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void OnWarning(object sender, StringEventArgs e)
         {
-            Log(2, WriteLine, Yellow, e);
+            Log(2, C.WriteLine, Yellow, e);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void OnError(object sender, ErrorEventArgs e)
         {
-            Log(3, Error.WriteLine, Red, e);
+            Log(3, C.Error.WriteLine, Red, e);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void OnError(ErrorEventArgs e)
         {
-            Log(3, Error.WriteLine, Red, e);
+            Log(3, C.Error.WriteLine, Red, e);
         }
     }
 }
