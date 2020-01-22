@@ -129,7 +129,7 @@ namespace UnityEngine
                     {
                         if (here == null)
                         {
-                            next.Add((from scene in JuniperSystem.AllScenes
+                            next.Add((from scene in MasterSceneController.AllScenes
                                       from gameObject in scene.GetRootGameObjects()
                                       where gameObject.name == part
                                       select gameObject.transform)

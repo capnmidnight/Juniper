@@ -146,21 +146,6 @@ namespace Juniper
             }
         }
 
-        /// <summary>
-        /// Get all of the scenes defined in the Build settings.
-        /// </summary>
-        /// <value>All scenes.</value>
-        public static IEnumerable<Scene> AllScenes
-        {
-            get
-            {
-                for (var i = 0; i < SceneManager.sceneCount; ++i)
-                {
-                    yield return SceneManager.GetSceneAt(i);
-                }
-            }
-        }
-
         public static readonly PlatformType CurrentPlatform =
 #if UNITY_XR_MAGICLEAP
             PlatformType.MagicLeap;

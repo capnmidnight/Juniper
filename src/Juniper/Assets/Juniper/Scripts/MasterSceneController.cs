@@ -37,6 +37,21 @@ namespace Juniper
     public class MasterSceneController : MonoBehaviour, IInstallable
     {
         /// <summary>
+        /// Get all of the scenes defined in the Build settings.
+        /// </summary>
+        /// <value>All scenes.</value>
+        public static IEnumerable<Scene> AllScenes
+        {
+            get
+            {
+                for (var i = 0; i < SceneManager.sceneCount; ++i)
+                {
+                    yield return SceneManager.GetSceneAt(i);
+                }
+            }
+        }
+
+        /// <summary>
         /// Parse the scene name.
         /// </summary>
         private static readonly Regex SceneNamePattern = new Regex("([^/]+)\\.unity$", RegexOptions.Compiled);
