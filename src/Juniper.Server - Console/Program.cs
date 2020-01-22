@@ -13,7 +13,7 @@ using Juniper.HTTP.Server.Controllers;
 using Juniper.Processes;
 
 using static System.Console;
-using static Juniper.AnsiColor;
+using static System.ConsoleColor;
 
 namespace Juniper
 {

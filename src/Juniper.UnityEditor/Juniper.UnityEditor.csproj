@@ -5,7 +5,7 @@
   </ImportGroup>
 
   <PropertyGroup>
-    <AssemblyName>Juniper.Unity</AssemblyName>
+    <AssemblyName>Juniper.UnityEditor</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>Library</OutputType>
     <TargetFramework>net472</TargetFramework>
@@ -19,13 +19,23 @@
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec ContinueOnError="true" Command="XCOPY &quot;$(TargetDir)*&quot; &quot;$(SolutionDir)Juniper\Plugins\Juniper&quot; /exclude:$(ProjectDir)excludeFromUnity.txt /C /I /F /Y" />
+    <Exec ContinueOnError="true" Command="XCOPY &quot;$(TargetDir)*&quot; &quot;$(SolutionDir)Juniper\Plugins\Editor\Juniper&quot; /exclude:$(ProjectDir)excludeFromUnity.txt /C /I /F /Y" />
   </Target>
 
   <ItemGroup>
-    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
-    <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj">
+      <Private>false</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Juniper.Unity\Juniper.Unity.csproj">
+      <Private>false</Private>
+    </ProjectReference>
     <Reference Include="$(UNITY_ROOT)\Editor\Data\Managed\UnityEngine.dll">
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="$(UNITY_ROOT)\Editor\Data\Managed\UnityEditor.dll">
       <Private>false</Private>
     </Reference>
   </ItemGroup>

@@ -20,13 +20,6 @@ using UnityEngine.XR;
 
 namespace Juniper.Display
 {
-
-    [Serializable]
-    [ComVisible(false)]
-    public class ARModeEvent : UnityEvent<AugmentedRealityTypes>
-    {
-    }
-
     /// <summary>
     /// Manages the camera FOV in the editor so that it matches the target system, or on desktop
     /// makes sure the FOV is a reasonable value for the current screen dimensions. Only one of these
