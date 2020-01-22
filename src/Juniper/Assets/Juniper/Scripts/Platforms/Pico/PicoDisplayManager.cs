@@ -36,7 +36,7 @@ namespace Juniper.Display
             var eyeMgr = this.Ensure<Pvr_UnitySDKEyeManager>();
             eyeMgr.Value.isfirst = true;
 
-            leftEye = MakeCamera(Pvr_UnitySDKAPI.Eye.LeftEye
+            leftEye = MakeCamera(Pvr_UnitySDKAPI.Eye.LeftEye);
             rightEye = MakeCamera(Pvr_UnitySDKAPI.Eye.RightEye);
         }
 
