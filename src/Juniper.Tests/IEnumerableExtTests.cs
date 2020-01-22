@@ -4,7 +4,7 @@ using System.Linq;
 
 using NUnit.Framework;
 
-namespace System
+namespace System.Tests
 {
     [TestFixture]
     public class IEnumerableExtTests
@@ -212,8 +212,8 @@ namespace System
             var arr = new[] {
                 Array.Empty<object>().GetEnumerator()
             };
-            Assert.Throws<InvalidOperationException>(() =>
-                arr.Current().Empty());
+            _ = Assert.Throws<InvalidOperationException>(() =>
+                  arr.Current().Empty());
         }
 
         [Test]
@@ -222,8 +222,8 @@ namespace System
             var arr = new[] {
                 new []{ 2 }.GetEnumerator()
             };
-            Assert.Throws<InvalidOperationException>(() =>
-                arr.Current().Empty());
+            _ = Assert.Throws<InvalidOperationException>(() =>
+                  arr.Current().Empty());
         }
 
         [Test]

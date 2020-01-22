@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Juniper.HTTP.Client
+namespace Juniper.HTTP
 {
     public sealed class BodyInfo : IEquatable<BodyInfo>
     {

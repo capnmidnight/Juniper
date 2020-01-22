@@ -19,6 +19,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="C:\Users\sean\.nuget\packages\accord\3.8.0\build\Accord.dll.config" Link="Accord.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Accord.Statistics" Version="3.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 

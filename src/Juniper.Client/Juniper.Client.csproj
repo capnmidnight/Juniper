@@ -19,7 +19,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Accord.Statistics" Version="3.8.0" />
     <PackageReference Include="NAudio" Version="1.9.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NLayer.Core" Version="1.15.0" />
@@ -44,79 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Application.cs">
-      <DependentUpon>MediaType.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Application.Values.cs">
-      <DependentUpon>Application.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Audio.cs">
-      <DependentUpon>MediaType.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Audio.Values.cs">
-      <DependentUpon>Audio.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Chemical.cs">
-      <DependentUpon>MediaType.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Chemical.Values.cs">
-      <DependentUpon>Chemical.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Font.cs">
-      <DependentUpon>MediaType.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Font.Values.cs">
-      <DependentUpon>Font.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Image.cs">
-      <DependentUpon>MediaType.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Image.Values.cs">
-      <DependentUpon>Image.cs</DependentUpon>
-    </Compile>
-    <Compile Update="MediaType.Values.cs">
-      <DependentUpon>MediaType.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Message.cs">
-      <DependentUpon>MediaType.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Message.Values.cs">
-      <DependentUpon>Message.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Model.cs">
-      <DependentUpon>MediaType.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Model.Values.cs">
-      <DependentUpon>Model.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Multipart.cs">
-      <DependentUpon>MediaType.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Multipart.Values.cs">
-      <DependentUpon>Multipart.cs</DependentUpon>
-    </Compile>
     <Compile Update="Serial\SafeSerialPort.cs" />
-    <Compile Update="Text.cs">
-      <DependentUpon>MediaType.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Text.Values.cs">
-      <DependentUpon>Text.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Unknown.cs">
-      <DependentUpon>MediaType.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Video.cs">
-      <DependentUpon>MediaType.cs</DependentUpon>
-    </Compile>
-    <Compile Update="Video.Values.cs">
-      <DependentUpon>Video.cs</DependentUpon>
-    </Compile>
-    <Compile Update="XConference.cs">
-      <DependentUpon>MediaType.cs</DependentUpon>
-    </Compile>
-    <Compile Update="XConference.Values.cs">
-      <DependentUpon>XConference.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
 
 </Project>

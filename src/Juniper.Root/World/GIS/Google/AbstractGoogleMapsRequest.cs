@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 
 using Juniper.HTTP;
-using Juniper.HTTP.Client.REST;
+using Juniper.HTTP.REST;
 
 namespace Juniper.World.GIS.Google
 {

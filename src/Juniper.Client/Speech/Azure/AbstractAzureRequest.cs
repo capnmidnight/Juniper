@@ -1,7 +1,7 @@
 using System;
 
 using Juniper.HTTP;
-using Juniper.HTTP.Client.REST;
+using Juniper.HTTP.REST;
 
 namespace Juniper.Speech.Azure
 {

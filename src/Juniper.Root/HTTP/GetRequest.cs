@@ -1,8 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
-
-using Juniper.HTTP.Client.REST;
+using Juniper.HTTP.REST;
 
 namespace Juniper.HTTP
 {

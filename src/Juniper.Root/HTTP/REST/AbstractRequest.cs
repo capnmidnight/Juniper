@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Juniper.IO;
 
-namespace Juniper.HTTP.Client.REST
+namespace Juniper.HTTP.REST
 {
     public abstract class AbstractRequest<MediaTypeT> : StreamSource
         where MediaTypeT : MediaType
