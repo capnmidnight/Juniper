@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 using Juniper.IO;
 using Juniper.XR;
 
-using UnityEngine;
-
 namespace Juniper.ConfigurationManagement
 {
     [Serializable]
@@ -111,7 +109,7 @@ namespace Juniper.ConfigurationManagement
         {
             if (File.Exists(PACKAGE_DEFINES_FILE))
             {
-                var defines = packageFactory.Deserialize<PackageDefineSymbol[]>(PACKAGE_DEFINES_FILE);
+                var defines = packageFactory.Deserialize(PACKAGE_DEFINES_FILE);
                 foreach (var symbol in defines)
                 {
                     packageDefines[symbol.Name] = symbol.CompilerDefine;
@@ -124,7 +122,7 @@ namespace Juniper.ConfigurationManagement
                 package.ScanningProgressUpdated += Package_ScanningProgressUpdated;
             }
 
-            var config = platformFactory.Deserialize<Platforms>(PLATFORMS_FILE);
+            var config = platformFactory.Deserialize(PLATFORMS_FILE);
 
             var commonPackages = ParsePackages(config.packages);
 

@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Collections;
 
-namespace UnityEngine
+namespace Juniper
 {
     public static class Wait
     {

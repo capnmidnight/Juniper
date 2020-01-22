@@ -1,8 +1,7 @@
+using System;
 using System.Collections.Generic;
 
 using Juniper.Input;
-
-using UnityEngine;
 
 using TweenFuncT = System.Func<float, float, Juniper.Input.Direction, float>;
 
@@ -135,7 +134,7 @@ namespace Juniper.Animation
         public static float QuadraticContinuous(float p, float k, Direction d)
         {
             p = LinearContinuous(p, k, d);
-            return Mathf.Sign(p) * Quadratic(p, k, d);
+            return Math.Sign(p) * Quadratic(p, k, d);
         }
 
         /// <summary>
@@ -148,8 +147,8 @@ namespace Juniper.Animation
         /// <returns></returns>
         public static float Sine(float p, float k, Direction d)
         {
-            p *= Mathf.PI;
-            return Mathf.Sin(p);
+            var a = p * Math.PI;
+            return (float)Math.Sin(a);
         }
 
 
@@ -163,8 +162,8 @@ namespace Juniper.Animation
         /// <returns></returns>
         public static float SineContinuous(float p, float k, Direction d)
         {
-            p = LinearContinuous(p, k, d) * Mathf.PI;
-            return Mathf.Sin(p);
+            var a = LinearContinuous(p, k, d) * Math.PI;
+            return (float)Math.Sin(a);
         }
 
         /// <summary>
@@ -176,8 +175,8 @@ namespace Juniper.Animation
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
         public static float Bump(float p, float k, Direction d)
         {
-            p *= Mathf.PI;
-            return 0.5f * (1 - Mathf.Cos(p)) - k * Mathf.Sin(2 * p);
+            var a = p * Math.PI;
+            return (float)(0.5f * (1 - Math.Cos(a)) - k * Math.Sin(2 * a));
         }
 
         /// <summary>
@@ -190,8 +189,8 @@ namespace Juniper.Animation
         public static float BumpContinuous(float p, float k, Direction d)
         {
             p = LinearContinuous(p, k, d);
-            p *= Mathf.PI;
-            return Mathf.Sin(0.5f * p) + k * Mathf.Sin(p);
+            var a = p * Math.PI;
+            return (float)(Math.Sin(0.5f * a) + k * Math.Sin(a));
         }
     }
 }
