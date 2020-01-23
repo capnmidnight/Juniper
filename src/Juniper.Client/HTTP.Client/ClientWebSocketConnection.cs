@@ -10,26 +10,24 @@ namespace Juniper.HTTP.Client
         private readonly Uri uri;
 
         public ClientWebSocketConnection(Uri uri, string token, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
-            : base(ValidateSocket(token), rxBufferSize, dataBufferSize)
+            : base(rxBufferSize, dataBufferSize)
         {
-            this.uri = uri;
+            try
+            {
+                Socket = new ClientWebSocket();
+                Socket.Options.AddSubProtocol(token);
+                this.uri = uri;
+            }
+            catch
+            {
+                Socket.Dispose();
+                throw;
+            }
         }
 
-        private static ClientWebSocket ValidateSocket(string token)
+        public Task ConnectAsync()
         {
-            var socket = new ClientWebSocket();
-
-            socket.Options.AddSubProtocol(token);
-
-            return socket;
-        }
-
-        public async Task ConnectAsync()
-        {
-            var clientSocket = Socket;
-            await clientSocket
-                .ConnectAsync(uri, CancellationToken.None)
-                .ConfigureAwait(false);
+            return Socket.ConnectAsync(uri, CancellationToken.None);
         }
     }
 }

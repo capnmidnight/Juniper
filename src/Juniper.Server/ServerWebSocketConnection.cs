@@ -9,18 +9,13 @@ namespace Juniper.HTTP.Server
 
         public string UserName { get; set; }
 
-        public string Token
-        {
-            get
-            {
-                return Socket.SubProtocol;
-            }
-        }
+        public string Token => Socket.SubProtocol;
 
         public ServerWebSocketConnection(HttpListenerContext httpContext, WebSocket socket, string userName, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
-            : base(socket, rxBufferSize, dataBufferSize)
+            : base(rxBufferSize, dataBufferSize)
         {
             context = httpContext;
+            Socket = socket;
             UserName = userName;
         }
 

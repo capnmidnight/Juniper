@@ -26,7 +26,19 @@ namespace Juniper.HTTP
         /// </summary>
         public const int DEFAULT_DATA_BUFFER_SIZE = 10000000;
 
-        protected WebSocketT Socket { get; }
+        private WebSocketT socket;
+        protected WebSocketT Socket
+        {
+            get
+            {
+                return socket;
+            }
+            set
+            {
+                socket?.Dispose();
+                socket = value;
+            }
+        }
 
         public event EventHandler<StringEventArgs> Message;
         public event EventHandler<BufferEventArgs> Data;
@@ -46,9 +58,8 @@ namespace Juniper.HTTP
         private readonly ArraySegment<byte> rxSegment;
         private readonly int dataBufferSize;
 
-        protected WebSocketConnection(WebSocketT socket, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
+        protected WebSocketConnection(int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
         {
-            Socket = socket;
             this.dataBufferSize = dataBufferSize;
 
             rxBuffer = new byte[rxBufferSize];
@@ -59,15 +70,17 @@ namespace Juniper.HTTP
             _ = Task.Run(UpdateAsync).ConfigureAwait(false);
         }
 
-        public WebSocketState State
-        {
-            get { return Socket.State; }
-        }
+        public WebSocketState State => Socket.State;
 
         private async Task UpdateAsync()
         {
             try
             {
+                while(Socket is null)
+                {
+                    await Task.Yield();
+                }
+
                 while (State == WebSocketState.None)
                 {
                     await Task.Yield();
