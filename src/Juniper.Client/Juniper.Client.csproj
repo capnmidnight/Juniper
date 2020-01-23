@@ -38,8 +38,4 @@
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Serial\SafeSerialPort.cs" />
-  </ItemGroup>
-
 </Project>
