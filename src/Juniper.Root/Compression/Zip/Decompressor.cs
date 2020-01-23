@@ -308,6 +308,11 @@ namespace Juniper.Compression.Zip
                 throw new ArgumentNullException(nameof(outputDirectory));
             }
 
+            if (outputDirectory.IsJunction())
+            {
+                return;
+            }
+
             var noPrefix = string.IsNullOrEmpty(entryPrefix);
             var i = 0;
             foreach (var entry in zip.Entries)
@@ -324,12 +329,25 @@ namespace Juniper.Compression.Zip
                     var outputFile = new FileInfo(outputPath);
                     var outputFileDirectory = outputFile.Directory;
 
-                    outputFileDirectory.Create();
+                    if (outputFileDirectory.Exists
+                        && outputFileDirectory.IsJunction())
+                    {
+                        return;
+                    }
 
-                    using var outputStream = outputFile.Create();
-                    using var inputStream = entry.Open();
-                    inputStream.CopyTo(outputStream);
-                    outputStream.Flush();
+                    if (!outputFileDirectory.Exists)
+                    {
+                        outputFileDirectory.Create();
+                    }
+
+                    try
+                    {
+                        using var outputStream = outputFile.Create();
+                        using var inputStream = entry.Open();
+                        inputStream.CopyTo(outputStream);
+                        outputStream.Flush();
+                    }
+                    catch { }
                 }
             }
 

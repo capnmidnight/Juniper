@@ -117,5 +117,11 @@ namespace System.IO
                 return dirParts.Matches(subDirParts.Take(dirParts.Length));
             }
         }
+
+        public static bool IsJunction(this DirectoryInfo directory)
+        {
+            return directory is object
+                && (directory.Attributes & FileAttributes.ReparsePoint) == 0;
+        }
     }
 }
