@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+using Juniper.Console;
 using Juniper.Puzzles;
 
 using static System.Console;
@@ -9,101 +10,105 @@ namespace Juniper
 {
     public static class Program
     {
-        private static TetrisGame game;
+        private static readonly Dictionary<ConsoleKey, Action> keyPresses = new Dictionary<ConsoleKey, Action>
+        {
+            [ConsoleKey.UpArrow] = () => game.Up_Depress(),
+            [ConsoleKey.LeftArrow] = () => game.Left_Depress(),
+            [ConsoleKey.RightArrow] = () => game.Right_Depress(),
+            [ConsoleKey.DownArrow] = () => game.Down_Depress()
+        };
 
-        private static Dictionary<ConsoleKey, Action> keyPresses;
-        private static Dictionary<ConsoleKey, Action> keyReleases;
-        private static bool done;
+        private static readonly Dictionary<ConsoleKey, Action> keyReleases = new Dictionary<ConsoleKey, Action>
+        {
+            [ConsoleKey.UpArrow] = () => game.Up_Release(),
+            [ConsoleKey.LeftArrow] = () => game.Left_Release(),
+            [ConsoleKey.RightArrow] = () => game.Right_Release(),
+            [ConsoleKey.DownArrow] = () => game.Down_Release()
+        };
+
+        private const int PADDING = 2;
+        private const int PADDING_SIZE = 2 * PADDING;
+
+        private static TetrisGame game;
+        private static ConsoleBuffer window;
+        private static IConsoleBuffer border;
+        private static IConsoleBuffer board;
+        private static IConsoleBuffer nextPiecePanel;
+        private static IConsoleBuffer scorePanel;
 
         public static void Main()
         {
+            ConsoleBuffer.SetFont("Consolas");
+
             game = new TetrisGame(20, 25);
-            keyPresses = new Dictionary<ConsoleKey, Action>
-            {
-                { ConsoleKey.UpArrow, game.Up_Depress },
-                { ConsoleKey.LeftArrow, game.Left_Depress },
-                { ConsoleKey.RightArrow, game.Right_Depress },
-                { ConsoleKey.DownArrow, game.Down_Depress },
-                { ConsoleKey.F4, Quit }
-            };
-            keyReleases = new Dictionary<ConsoleKey, Action>
-            {
-                { ConsoleKey.UpArrow, game.Up_Release },
-                { ConsoleKey.LeftArrow, game.Left_Release },
-                { ConsoleKey.RightArrow, game.Right_Release },
-                { ConsoleKey.DownArrow, game.Down_Release }
-            };
 
-            var buffer = new ConsoleBuffer();
-
-            done = false;
+            window = new ConsoleBuffer(game.Width + PADDING_SIZE + 10, game.Height + PADDING_SIZE + 1);
+            border = window.Window(0, 0, game.Width + PADDING_SIZE, game.Height + PADDING_SIZE);
+            board = window.Window(PADDING, PADDING, game.Width, game.Height);
+            nextPiecePanel = window.Window(border.AbsoluteRight + 1, 2, 4, 5);
+            scorePanel = window.Window(nextPiecePanel.AbsoluteLeft, 7, 7, 2);
+            
             var last = DateTime.Now;
-            while (!done)
+            while (!game.GameOver)
             {
                 DoInput();
+
                 var now = DateTime.Now;
                 game.Update(now - last);
-                Draw(game, game.Next, game.Current, buffer, game.CursorX, game.CursorY);
                 last = now;
+
+                Draw();
             }
         }
 
-        public static void Quit()
+        private static void Draw()
         {
-            done = true;
-        }
+            window.Clear();
 
-        private static void Draw(Puzzle board, Puzzle next, Puzzle current, ConsoleBuffer buffer, int cursorX, int cursorY)
-        {
-            buffer.Clear();
-            for (var y = 1; y < board.Height + 1; ++y)
+            for (var i = 0; i < PADDING; ++i)
             {
-                buffer.Set(0, y, '|', ConsoleColor.Green);
-                buffer.Set(board.Width + 1, y, '|', ConsoleColor.Green);
+                border.Stroke(i, i, border.Width - i, border.Height - i, '|', '-', '+', ConsoleColor.Green);
             }
 
-            for (var x = 0; x < board.Width; ++x)
-            {
-                buffer.Set(x + 1, 0, '-', ConsoleColor.Green);
-                buffer.Set(x + 1, board.Height + 1, '-', ConsoleColor.Green);
-            }
+            board.DrawPuzzle(0, 0, game);
+            board.DrawPuzzle(game.CursorX, game.CursorY, game.Current);
 
-            DrawPuzzle(buffer, board, 1, 1);
-            DrawPuzzle(buffer, current, cursorX + 1, cursorY + 1);
-            DrawPuzzle(buffer, next, board.Width + 5, 0);
+            nextPiecePanel.Fill(ConsoleColor.DarkGray);
+            nextPiecePanel.Draw(0, 0, "Next", ConsoleColor.Cyan);
+            nextPiecePanel.DrawPuzzle(2, 1, game.Next);
 
-            buffer.Flush();
+            var score = game.Score.ToString(System.Globalization.CultureInfo.CurrentCulture);
+            scorePanel.Fill(ConsoleColor.DarkGray);
+            scorePanel.Draw(0, 0, "Score", ConsoleColor.Cyan);
+            scorePanel.Draw(2, 1, score, ConsoleColor.Yellow);
+
+            window.Flush();
         }
 
         private static void DoInput()
         {
-            foreach (var action in keyReleases.Values)
-            {
-                action();
-            }
-
             if (KeyAvailable)
             {
                 var key = ReadKey(true).Key;
+
+                foreach (var keyedAction in keyReleases)
+                {
+                    if (key != keyedAction.Key)
+                    {
+                        keyedAction.Value();
+                    }
+                }
+
                 if (keyPresses.ContainsKey(key))
                 {
                     keyPresses[key]();
                 }
             }
-        }
-
-        private static void DrawPuzzle(ConsoleBuffer buf, Puzzle p, int x, int y)
-        {
-            for (var dy = 0; dy < p.Height; ++dy)
+            else
             {
-                CursorLeft = x;
-                CursorLeft = dy + y;
-                for (var dx = 0; dx < p.Width; ++dx)
+                foreach (var action in keyReleases.Values)
                 {
-                    if (p[dx, dy] != Puzzle.EmptyTile)
-                    {
-                        buf.Set(x + dx, y + dy, '#', (ConsoleColor)(p[dx, dy] + 8), (ConsoleColor)p[dx, dy]);
-                    }
+                    action();
                 }
             }
         }
