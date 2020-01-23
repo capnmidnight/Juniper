@@ -17,7 +17,7 @@ namespace Juniper
 
         public static void Main()
         {
-            game = new TetrisGame(20, 20);
+            game = new TetrisGame(20, 25);
             keyPresses = new Dictionary<ConsoleKey, Action>
             {
                 { ConsoleKey.UpArrow, game.Up_Depress },
@@ -34,7 +34,7 @@ namespace Juniper
                 { ConsoleKey.DownArrow, game.Down_Release }
             };
 
-            var buffer = new ConsoleBuffer(WindowWidth, WindowHeight - 1);
+            var buffer = new ConsoleBuffer();
 
             done = false;
             var last = DateTime.Now;
@@ -61,14 +61,17 @@ namespace Juniper
                 buffer.Set(0, y, '|', ConsoleColor.Green);
                 buffer.Set(board.Width + 1, y, '|', ConsoleColor.Green);
             }
+
             for (var x = 0; x < board.Width; ++x)
             {
                 buffer.Set(x + 1, 0, '-', ConsoleColor.Green);
                 buffer.Set(x + 1, board.Height + 1, '-', ConsoleColor.Green);
             }
+
             DrawPuzzle(buffer, board, 1, 1);
             DrawPuzzle(buffer, current, cursorX + 1, cursorY + 1);
             DrawPuzzle(buffer, next, board.Width + 5, 0);
+
             buffer.Flush();
         }
 

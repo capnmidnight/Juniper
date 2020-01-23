@@ -8,7 +8,7 @@
     <AssemblyName>Juniper.NeuroSky</AssemblyName>
     <RootNamespace>Juniper.NeuroSky</RootNamespace>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net472</TargetFrameworks>
+    <TargetFramework>net472</TargetFramework>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)'=='' ">x64</Platform>
     <Platforms>x64;x86</Platforms>

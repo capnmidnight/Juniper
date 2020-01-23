@@ -28,12 +28,12 @@ namespace Juniper.Puzzles
                 throw new ArgumentException("Width and height dimensions must be greater than 0");
             }
 
-            grid = new int[gridHeight, gridWidth];
+            grid = new int[gridWidth, gridHeight];
             for (var y = 0; y < gridHeight; ++y)
             {
                 for (var x = 0; x < gridWidth; ++x)
                 {
-                    grid[y, x] = EmptyTile;
+                    grid[x, y] = EmptyTile;
                 }
             }
         }
@@ -54,7 +54,7 @@ namespace Juniper.Puzzles
             {
                 for (var x = 0; x < Width; ++x)
                 {
-                    sb.AppendFormat("{0},", grid[y, x]);
+                    sb.AppendFormat("{0},", grid[x, y]);
                 }
 
                 sb.AppendLine();
@@ -65,23 +65,11 @@ namespace Juniper.Puzzles
         /// <summary>
         /// Gets the width of the puzzle grid
         /// </summary>
-        public int Width
-        {
-            get
-            {
-                return grid.GetLength(1);
-            }
-        }
+        public int Width => grid.GetWidth();
         /// <summary>
         /// Gets the height of the puzzle grid
         /// </summary>
-        public int Height
-        {
-            get
-            {
-                return grid.GetLength(0);
-            }
-        }
+        public int Height => grid.GetHeight();
 
         /// <summary>
         /// Gets or sets a specific value on the puzzle grid
@@ -95,7 +83,7 @@ namespace Juniper.Puzzles
             {
                 if (IsInBounds(x, y))
                 {
-                    return grid[y, x];
+                    return grid[x, y];
                 }
 
                 return EmptyTile;
@@ -104,7 +92,7 @@ namespace Juniper.Puzzles
             {
                 if (IsInBounds(x, y))
                 {
-                    grid[y, x] = value;
+                    grid[x, y] = value;
                 }
             }
         }
@@ -120,9 +108,9 @@ namespace Juniper.Puzzles
             }
             set
             {
-                if (value != null && value.GetLength(0) != 0 && value.GetLength(1) != 0)
+                if (value != null && value.GetWidth() != 0 && value.GetHeight() != 0)
                 {
-                    grid = new int[value.GetLength(0), value.GetLength(1)];
+                    grid = new int[value.GetWidth(), value.GetHeight()];
                     Array.Copy(value, grid, value.Length);
                 }
                 else
@@ -186,15 +174,17 @@ namespace Juniper.Puzzles
         /// large as the puzzle grid</param>
         public void Clear(int[,] mask)
         {
-            if (mask != null && mask.GetLength(0) == Height && mask.GetLength(1) == Width)
+            if (mask != null
+                && mask.GetWidth() == Width
+                && mask.GetHeight() == Height)
             {
-                for (var y = 0; y < Height; ++y)
+                for (var x = 0; x < Width; ++x)
                 {
-                    for (var x = 0; x < Width; ++x)
+                    for (var y = 0; y < Height; ++y)
                     {
-                        if (mask[y, x] != EmptyTile)
+                        if (mask[x, y] != EmptyTile)
                         {
-                            grid[y, x] = EmptyTile;
+                            grid[x, y] = EmptyTile;
                         }
                     }
                 }
@@ -211,15 +201,15 @@ namespace Juniper.Puzzles
         {
             if (shape != null)
             {
-                for (var y = top; y < shape.GetLength(0) + top; ++y)
+                for (var x = left; x < shape.GetWidth() + left; ++x)
                 {
-                    if (y >= 0 && y < Height)
+                    if (x >= 0 && x < Width)
                     {
-                        for (var x = left; x < shape.GetLength(1) + left; ++x)
+                        for (var y = top; y < shape.GetHeight() + top; ++y)
                         {
-                            if (x >= 0 && x < Width && shape[y - top, x - left] != EmptyTile)
+                            if (y >= 0 && y < Height && shape[x - left, y - top] != EmptyTile)
                             {
-                                grid[y, x] = EmptyTile;
+                                grid[x, y] = EmptyTile;
                             }
                         }
                     }
@@ -272,15 +262,15 @@ namespace Juniper.Puzzles
         /// <param name="value"></param>
         public void Fill(int left, int top, int width, int height, int value)
         {
-            for (var y = top; y < top + height && y < Height; ++y)
+            for (var x = left; x < left + width && x < Width; ++x)
             {
-                if (y >= 0)
+                if (x >= 0)
                 {
-                    for (var x = left; x < left + width && x < Width; ++x)
+                    for (var y = top; y < top + height && y < Height; ++y)
                     {
-                        if (x >= 0)
+                        if (y >= 0)
                         {
-                            grid[y, x] = value;
+                            grid[x, y] = value;
                         }
                     }
                 }
@@ -295,11 +285,11 @@ namespace Juniper.Puzzles
         {
             if (prand != null)
             {
-                for (var y = 0; y < Height; ++y)
+                for (var x = 0; x < Width; ++x)
                 {
-                    for (var x = 0; x < Width; ++x)
+                    for (var y = 0; y < Height; ++y)
                     {
-                        grid[y, x] = prand.Next();
+                        grid[x, y] = prand.Next();
                     }
                 }
             }
@@ -337,15 +327,15 @@ namespace Juniper.Puzzles
         {
             if (shape != null)
             {
-                for (var y = top; y < top + shape.GetLength(0) && y < Height; ++y)
+                for (var x = left; x < left + shape.GetWidth() && x < Width; ++x)
                 {
-                    if (y >= 0)
+                    if (x >= 0)
                     {
-                        for (var x = left; x < left + shape.GetLength(1) && x < Width; ++x)
+                        for (var y = top; y < top + shape.GetHeight() && y < Height; ++y)
                         {
-                            if (x >= 0 && shape[y - top, x - left] != EmptyTile)
+                            if (y >= 0 && shape[x - left, y - top] != EmptyTile)
                             {
-                                grid[y, x] = shape[y - top, x - left];
+                                grid[x, y] = shape[x - left, y - top];
                             }
                         }
                     }
@@ -365,10 +355,10 @@ namespace Juniper.Puzzles
                 {
                     for (var y2 = y - 1; y2 >= 0; --y2)
                     {
-                        if (grid[y, x] == EmptyTile)
+                        if (grid[x, y] == EmptyTile)
                         {
-                            grid[y, x] = grid[y2, x];
-                            grid[y2, x] = EmptyTile;
+                            grid[x, y] = grid[x, y];
+                            grid[x, y2] = EmptyTile;
                         }
                     }
                 }
@@ -388,10 +378,10 @@ namespace Juniper.Puzzles
                 {
                     for (var y2 = y + 1; y2 < Height; ++y2)
                     {
-                        if (grid[y, x] == EmptyTile)
+                        if (grid[x, y] == EmptyTile)
                         {
-                            grid[y, x] = grid[y2, x];
-                            grid[y2, x] = EmptyTile;
+                            grid[x, y] = grid[x, y2];
+                            grid[x, y2] = EmptyTile;
                         }
                     }
                 }
@@ -404,16 +394,16 @@ namespace Juniper.Puzzles
         /// </summary>
         public void ShiftColumnsLeft()
         {
-            for (var y = 0; y < Height; ++y)
+            for (var x = 0; x < Width - 1; ++x)
             {
-                for (var x = 0; x < Width - 1; ++x)
+                for (var x2 = x + 1; x2 < Width; ++x2)
                 {
-                    for (var x2 = x + 1; x2 < Width; ++x2)
+                    for (var y = 0; y < Height; ++y)
                     {
-                        if (grid[y, x] == EmptyTile)
+                        if (grid[x, y] == EmptyTile)
                         {
-                            grid[y, x] = grid[y, x2];
-                            grid[y, x2] = EmptyTile;
+                            grid[x, y] = grid[x2, y];
+                            grid[x2, y] = EmptyTile;
                         }
                     }
                 }
@@ -426,16 +416,16 @@ namespace Juniper.Puzzles
         /// </summary>
         public void ShiftColumnsRight()
         {
-            for (var y = 0; y < Height; ++y)
+            for (var x = Width - 1; x > 0; --x)
             {
-                for (var x = Width - 1; x > 0; --x)
+                for (var x2 = x - 1; x2 >= 0; --x2)
                 {
-                    for (var x2 = x - 1; x2 >= 0; --x2)
+                    for (var y = 0; y < Height; ++y)
                     {
-                        if (grid[y, x] == EmptyTile)
+                        if (grid[x, y] == EmptyTile)
                         {
-                            grid[y, x] = grid[y, x2];
-                            grid[y, x2] = EmptyTile;
+                            grid[x, y] = grid[x2, y];
+                            grid[x2, y] = EmptyTile;
                         }
                     }
                 }
@@ -476,13 +466,15 @@ namespace Juniper.Puzzles
         {
             if (shape != null && shape.Length > 0)
             {
-                for (var dy = 0; dy < shape.GetLength(0); ++dy)
+                for (var dx = 0; dx < shape.GetWidth(); ++dx)
                 {
-                    for (var dx = 0; dx < shape.GetLength(1); ++dx)
+                    for (var dy = 0; dy < shape.GetHeight(); ++dy)
                     {
-                        if (shape[dy, dx] != EmptyTile && !IsInBounds(x + dx, y + dy))
                         {
-                            return false;
+                            if (shape[dx, dy] != EmptyTile && !IsInBounds(x + dx, y + dy))
+                            {
+                                return false;
+                            }
                         }
                     }
                 }
@@ -515,9 +507,9 @@ namespace Juniper.Puzzles
         {
             if (Width == p.Width && Height == p.Height)
             {
-                for (var y = 0; y < Height; ++y)
+                for (var x = 0; x < Width; ++x)
                 {
-                    for (var x = 0; x < Width; ++x)
+                    for (var y = 0; y < Height; ++y)
                     {
                         if (this[x, y] != p[x, y])
                         {
@@ -600,13 +592,13 @@ namespace Juniper.Puzzles
             if (IsInBounds(x1, y1, width, height) && IsInBounds(x2, y2, width, height)
                 && !RectsIntersect(x1, y1, x2, y2, width, height))
             {
-                for (var y = 0; y < height; ++y)
+                for (var x = 0; x < width; ++x)
                 {
-                    for (var x = 0; x < width; ++x)
+                    for (var y = 0; y < height; ++y)
                     {
-                        temp = grid[y1 + y, x1 + x];
-                        grid[y1 + y, x1 + x] = grid[y2 + y, x2 + x];
-                        grid[y2 + y, x2 + x] = temp;
+                        temp = grid[x1 + x, y1 + y];
+                        grid[x1 + x, y1 + y] = grid[x2 + x, y2 + y];
+                        grid[x2 + x, y2 + y] = temp;
                     }
                 }
             }
@@ -641,9 +633,9 @@ namespace Juniper.Puzzles
 
             if (direction == Clockwise)
             {
-                for (var y = 0; y < Height; ++y)
+                for (var x = 0; x < Width; ++x)
                 {
-                    for (var x = 0; x < Width; ++x)
+                    for (var y = 0; y < Height; ++y)
                     {
                         q[q.Width - y - 1, x] = this[x, y];
                     }
@@ -651,9 +643,9 @@ namespace Juniper.Puzzles
             }
             else
             {
-                for (var y = 0; y < Height; ++y)
+                for (var x = 0; x < Width; ++x)
                 {
-                    for (var x = 0; x < Width; ++x)
+                    for (var y = 0; y < Height; ++y)
                     {
                         q[y, q.Height - x - 1] = this[x, y];
                     }
@@ -709,9 +701,9 @@ namespace Juniper.Puzzles
         /// <returns></returns>
         public bool IsFull(int x, int y, int width, int height)
         {
-            for (var dy = 0; dy < height; ++dy)
+            for (var dx = 0; dx < width; ++dx)
             {
-                for (var dx = 0; dx < width; ++dx)
+                for (var dy = 0; dy < height; ++dy)
                 {
                     if (this[x + dx, y + dy] == EmptyTile)
                     {
@@ -737,11 +729,11 @@ namespace Juniper.Puzzles
                 return false;
             }
 
-            for (var dy = 0; dy < shape.GetLength(0); ++dy)
+            for (var dx = 0; dx < shape.GetWidth(); ++dx)
             {
-                for (var dx = 0; dx < shape.GetLength(1); ++dx)
+                for (var dy = 0; dy < shape.GetHeight(); ++dy)
                 {
-                    if (shape[dy, dx] != EmptyTile && this[x + dx, y + dy] == EmptyTile)
+                    if (shape[dx, dy] != EmptyTile && this[x + dx, y + dy] == EmptyTile)
                     {
                         return false;
                     }
@@ -782,9 +774,9 @@ namespace Juniper.Puzzles
 
         public bool IsEmpty(int x, int y, int width, int height)
         {
-            for (var dy = 0; dy < height; ++dy)
+            for (var dx = 0; dx < width; ++dx)
             {
-                for (var dx = 0; dx < width; ++dx)
+                for (var dy = 0; dy < height; ++dy)
                 {
                     if (this[x + dx, y + dy] != EmptyTile)
                     {
@@ -803,11 +795,11 @@ namespace Juniper.Puzzles
                 return false;
             }
 
-            for (var dy = 0; dy < shape.GetLength(0); ++dy)
+            for (var dx = 0; dx < shape.GetWidth(); ++dx)
             {
-                for (var dx = 0; dx < shape.GetLength(1); ++dx)
+                for (var dy = 0; dy < shape.GetHeight(); ++dy)
                 {
-                    if (shape[dy, dx] != EmptyTile && this[x + dx, y + dy] != EmptyTile)
+                    if (shape[dx, dy] != EmptyTile && this[x + dx, y + dy] != EmptyTile)
                     {
                         return false;
                     }

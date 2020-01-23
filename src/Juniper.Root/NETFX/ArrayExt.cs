@@ -140,5 +140,25 @@ namespace System
                 return first.Except(second);
             }
         }
+
+        public static int GetWidth<T>(this T[,] arr)
+        {
+            if (arr is null)
+            {
+                throw new ArgumentNullException(nameof(arr));
+            }
+
+            return arr.GetLength(0);
+        }
+
+        public static int GetHeight<T>(this T[,] arr)
+        {
+            if (arr is null)
+            {
+                throw new ArgumentNullException(nameof(arr));
+            }
+
+            return arr.GetLength(1);
+        }
     }
 }

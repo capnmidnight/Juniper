@@ -122,11 +122,11 @@ namespace Juniper.Puzzles.Test
         public void InitToGrid()
         {
             var puz = new Puzzle(testGrid);
-            for (var y = 0; y < puz.Height; ++y)
+            for (var x = 0; x < puz.Width; ++x)
             {
-                for (var x = 0; x < puz.Width; ++x)
-                {
-                    Assert.AreEqual(testGrid[y, x], puz[x, y]);
+                for (var y = 0; y < puz.Height; ++y)
+            {
+                    Assert.AreEqual(testGrid[x, y], puz[x, y]);
                 }
             }
         }
@@ -137,9 +137,9 @@ namespace Juniper.Puzzles.Test
         {
             var p = new Puzzle(testGrid);
             var q = new Puzzle(testGrid);
-            var grid = new int[testGrid.GetLength(0), testGrid.GetLength(1)];
+            var grid = new int[testGrid.GetWidth(), testGrid.GetHeight()];
             Array.Copy(testGrid, grid, testGrid.Length);
-            grid[grid.GetLength(0) - 1, grid.GetLength(1) - 1] = 99;
+            grid[grid.GetWidth() - 1, grid.GetHeight() - 1] = 99;
             var r = new Puzzle(grid);
 
             Assert.AreEqual(q, p);
