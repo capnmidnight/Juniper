@@ -23,6 +23,9 @@ namespace Juniper.Console
 
         public ConsoleBuffer(int width, int height)
         {
+            OutputEncoding = Encoding.Unicode;
+            CursorVisible = false;
+
             lastFore = startFore = ForegroundColor;
             lastBack = startBack = BackgroundColor;
 
@@ -30,9 +33,6 @@ namespace Juniper.Console
             SetBufferSize(width, height + 1);
 
             CheckGrids();
-
-            OutputEncoding = Encoding.Unicode;
-            CursorVisible = false;
         }
 
         ~ConsoleBuffer()
@@ -167,13 +167,20 @@ namespace Juniper.Console
             CheckGrids();
         }
 
-        private void CheckCursor(int x, int y)
+        private static void CheckCursor(int x, int y)
         {
             var rowChanged = y != CursorTop;
             var colChanged = x != CursorLeft;
-            if (rowChanged || colChanged)
+            if (rowChanged && colChanged)
+            {
+                SetCursorPosition(x, y);
+            }
+            else if (colChanged)
             {
                 CursorLeft = x;
+            }
+            else if (rowChanged)
+            {
                 CursorTop = y;
             }
         }

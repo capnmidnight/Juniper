@@ -5,6 +5,7 @@ using Juniper.Console;
 using Juniper.Puzzles;
 
 using static System.Console;
+using static Juniper.Console.BoxDrawingSet;
 
 namespace Juniper
 {
@@ -26,7 +27,7 @@ namespace Juniper
             [ConsoleKey.DownArrow] = () => game.Down_Release()
         };
 
-        private const int PADDING = 2;
+        private const int PADDING = 1;
         private const int PADDING_SIZE = 2 * PADDING;
 
         private static TetrisGame game;
@@ -34,7 +35,6 @@ namespace Juniper
         private static IConsoleBuffer board;
         private static IConsoleBuffer nextPiecePanel;
         private static IConsoleBuffer scorePanel;
-        private static IConsoleBuffer fpsPanel;
 
         public static void Main()
         {
@@ -48,7 +48,7 @@ namespace Juniper
             board = window.Window(PADDING, PADDING, game.Width, game.Height);
             nextPiecePanel = window.Window(border.AbsoluteRight + 1, 2, 7, 5);
             scorePanel = window.Window(nextPiecePanel.AbsoluteLeft, nextPiecePanel.AbsoluteBottom + 1, 7, 2);
-            fpsPanel = window.Window(nextPiecePanel.AbsoluteLeft, scorePanel.AbsoluteBottom + 1, 7, 2);
+
             var last = DateTime.Now;
             while (!game.GameOver)
             {
@@ -73,7 +73,11 @@ namespace Juniper
             for (var i = 0; i < PADDING; ++i)
             {
                 var j = 2 * i;
-                border.Stroke(i, i, border.Width - j, border.Height - j, '║', '═', '╔', '╗', '╚', '╝', ConsoleColor.Green);
+                border.Stroke(
+                    i, i,
+                    border.Width - j, border.Height - j,
+                    DoubleLight,
+                    ConsoleColor.Green);
             }
 
             board.DrawPuzzle(0, 0, game);
@@ -87,10 +91,6 @@ namespace Juniper
             scorePanel.Fill(ConsoleColor.DarkGray);
             scorePanel.Draw(0, 0, "Score", ConsoleColor.Cyan);
             scorePanel.Draw(2, 1, score, ConsoleColor.Yellow);
-
-            fpsPanel.Fill(ConsoleColor.DarkGray);
-            fpsPanel.Draw(0, 0, "FPS", ConsoleColor.Cyan);
-            fpsPanel.Draw(2, 1, $"{fps:0.00}", ConsoleColor.Yellow);
 
             window.Flush();
         }
