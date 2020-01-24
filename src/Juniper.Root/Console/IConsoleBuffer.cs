@@ -17,7 +17,7 @@ namespace Juniper.Console
 
     public static class IConsoleBufferExt
     {
-        public static IConsoleBuffer Window(this IConsoleBuffer buffer, int x, int y, int height, int width)
+        public static IConsoleBuffer Window(this IConsoleBuffer buffer, int x, int y, int width, int height)
         {
             if (buffer is null)
             {
@@ -73,31 +73,31 @@ namespace Juniper.Console
             buffer.Stroke(x, y, width, height, vertSideToken, horizSideToken, cornerToken, f, buffer.GetBackgroundColor(x, y));
         }
 
-        public static void Stroke(this IConsoleBuffer buffer, int cx, int cy, int width, int height, char vertSideToken, char horizSideToken, char cornerToken, ConsoleColor f, ConsoleColor b)
+        public static void Stroke(this IConsoleBuffer buffer, int x, int y, int width, int height, char vertSideToken, char horizSideToken, char cornerToken, ConsoleColor f, ConsoleColor b)
         {
             if (buffer is null)
             {
                 throw new ArgumentNullException(nameof(buffer));
             }
 
-            var right = width - 1;
-            var bottom = height - 1;
+            var right = x + width - 1;
+            var bottom = y + height - 1;
 
-            buffer.Draw(0, 0, cornerToken, f, b);
-            buffer.Draw(0, bottom, cornerToken, f, b);
-            buffer.Draw(right, 0, cornerToken, f, b);
+            buffer.Draw(x, y, cornerToken, f, b);
+            buffer.Draw(x, bottom, cornerToken, f, b);
+            buffer.Draw(right, y, cornerToken, f, b);
             buffer.Draw(right, bottom, cornerToken, f, b);
 
-            for (var x = 1; x < right; ++x)
+            for (var dx = x + 1; dx < right; ++dx)
             {
-                buffer.Draw(x, 0, horizSideToken, f, b);
-                buffer.Draw(x, bottom, horizSideToken, f, b);
+                buffer.Draw(dx, y, horizSideToken, f, b);
+                buffer.Draw(dx, bottom, horizSideToken, f, b);
             }
 
-            for (var y = 1; y < bottom; ++y)
+            for (var dy = y + 1; dy < bottom; ++dy)
             {
-                buffer.Draw(0, y, vertSideToken, f, b);
-                buffer.Draw(right, y, vertSideToken, f, b);
+                buffer.Draw(x, dy, vertSideToken, f, b);
+                buffer.Draw(right, dy, vertSideToken, f, b);
             }
         }
 

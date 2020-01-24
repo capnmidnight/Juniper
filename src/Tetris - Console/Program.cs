@@ -30,44 +30,49 @@ namespace Juniper
         private const int PADDING_SIZE = 2 * PADDING;
 
         private static TetrisGame game;
-        private static ConsoleBuffer window;
         private static IConsoleBuffer border;
         private static IConsoleBuffer board;
         private static IConsoleBuffer nextPiecePanel;
         private static IConsoleBuffer scorePanel;
+        private static IConsoleBuffer fpsPanel;
 
         public static void Main()
         {
-            ConsoleBuffer.SetFont("Consolas");
+            _ = ConsoleBuffer.SetFont("Consolas");
 
             game = new TetrisGame(20, 25);
 
-            window = new ConsoleBuffer(game.Width + PADDING_SIZE + 10, game.Height + PADDING_SIZE + 1);
+            using var window = new ConsoleBuffer(game.Width + PADDING_SIZE + 10, game.Height + PADDING_SIZE + 1);
+
             border = window.Window(0, 0, game.Width + PADDING_SIZE, game.Height + PADDING_SIZE);
             board = window.Window(PADDING, PADDING, game.Width, game.Height);
-            nextPiecePanel = window.Window(border.AbsoluteRight + 1, 2, 4, 5);
-            scorePanel = window.Window(nextPiecePanel.AbsoluteLeft, 7, 7, 2);
-            
+            nextPiecePanel = window.Window(border.AbsoluteRight + 1, 2, 7, 5);
+            scorePanel = window.Window(nextPiecePanel.AbsoluteLeft, nextPiecePanel.AbsoluteBottom + 1, 7, 2);
+            fpsPanel = window.Window(nextPiecePanel.AbsoluteLeft, scorePanel.AbsoluteBottom + 1, 7, 2);
             var last = DateTime.Now;
             while (!game.GameOver)
             {
                 DoInput();
 
                 var now = DateTime.Now;
-                game.Update(now - last);
+                var delta = now - last;
                 last = now;
 
-                Draw();
+                game.Update(delta);
+
+                var fps = 1 / delta.TotalSeconds;
+
+                Draw(window, fps);
             }
         }
 
-        private static void Draw()
+        private static void Draw(ConsoleBuffer window, double fps)
         {
             window.Clear();
 
             for (var i = 0; i < PADDING; ++i)
             {
-                border.Stroke(i, i, border.Width - i, border.Height - i, '|', '-', '+', ConsoleColor.Green);
+                border.Stroke(i, i, border.Width - 2 * i, border.Height - 2 * i, '|', '-', '+', ConsoleColor.Green);
             }
 
             board.DrawPuzzle(0, 0, game);
@@ -81,6 +86,10 @@ namespace Juniper
             scorePanel.Fill(ConsoleColor.DarkGray);
             scorePanel.Draw(0, 0, "Score", ConsoleColor.Cyan);
             scorePanel.Draw(2, 1, score, ConsoleColor.Yellow);
+
+            fpsPanel.Fill(ConsoleColor.DarkGray);
+            fpsPanel.Draw(0, 0, "FPS", ConsoleColor.Cyan);
+            fpsPanel.Draw(2, 1, $"{fps:0.00}", ConsoleColor.Yellow);
 
             window.Flush();
         }

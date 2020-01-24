@@ -6,17 +6,28 @@ using static System.Console;
 
 namespace Juniper.Console
 {
-    public class ConsoleBuffer : IConsoleBuffer
+    public sealed class ConsoleBuffer :
+        IConsoleBuffer,
+        IDisposable
     {
-        private ConsoleColor[,] back;
-        private ConsoleColor[,] fore;
-        private char[,] grid;
-        private bool[,] old;
+        private readonly ConsoleColor startFore;
+        private readonly ConsoleColor startBack;
+        private ConsoleColor lastBack;
+        private ConsoleColor lastFore;
+        private ConsoleColor[,] back1;
+        private ConsoleColor[,] back2;
+        private ConsoleColor[,] fore1;
+        private ConsoleColor[,] fore2;
+        private char[,] grid1;
+        private char[,] grid2;
 
         public ConsoleBuffer(int width, int height)
         {
-            BufferWidth = WindowWidth = width;
-            BufferHeight = WindowHeight = height + 1;
+            lastFore = startFore = ForegroundColor;
+            lastBack = startBack = BackgroundColor;
+
+            SetWindowSize(width, height + 1);
+            SetBufferSize(width, height + 1);
 
             CheckGrids();
 
@@ -24,20 +35,37 @@ namespace Juniper.Console
             CursorVisible = false;
         }
 
+        ~ConsoleBuffer()
+        {
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            ForegroundColor = startFore;
+            BackgroundColor = startBack;
+        }
+
         public ConsoleBuffer()
-            : this(WindowWidth, WindowHeight)
+            : this(WindowWidth, WindowHeight - 1)
         { }
 
         public int AbsoluteLeft => 0;
         public int AbsoluteRight => Width - 1;
         public int AbsoluteTop => 0;
         public int AbsoluteBottom => Height - 1;
-        public int Width => grid?.GetWidth() ?? -1;
-        public int Height => grid?.GetHeight() ?? -1;
+        public int Width => grid1?.GetWidth() ?? -1;
+        public int Height => grid1?.GetHeight() ?? -1;
 
         public ConsoleColor GetBackgroundColor(int x, int y)
         {
-            return back[x, y];
+            return back1[x, y];
         }
 
         private void CheckGrids()
@@ -47,34 +75,42 @@ namespace Juniper.Console
             if (newWidth != Width
                 || newHeight != Height)
             {
-                var lastBack = back;
-                var lastFore = fore;
-                var lastGrid = grid;
-                var lastOld = old;
+                var lastBack1 = back1;
+                var lastBack2 = back2;
+                var lastFore1 = fore1;
+                var lastFore2 = fore2;
+                var lastGrid1 = grid1;
+                var lastGrid2 = grid2;
 
-                back = new ConsoleColor[newWidth, newHeight];
-                fore = new ConsoleColor[newWidth, newHeight];
-                grid = new char[newWidth, newHeight];
-                old = new bool[newWidth, newHeight];
+                back1 = new ConsoleColor[newWidth, newHeight];
+                back2 = new ConsoleColor[newWidth, newHeight];
+                fore1 = new ConsoleColor[newWidth, newHeight];
+                fore2 = new ConsoleColor[newWidth, newHeight];
+                grid1 = new char[newWidth, newHeight];
+                grid2 = new char[newWidth, newHeight];
 
                 for (var x = 0; x < newWidth; ++x)
                 {
                     for (var y = 0; y < newHeight; ++y)
                     {
-                        if (x < lastBack?.GetWidth()
-                            && y < lastBack?.GetHeight())
+                        if (x < lastBack1?.GetWidth()
+                            && y < lastBack1?.GetHeight())
                         {
-                            back[x, y] = lastBack[x, y];
-                            fore[x, y] = lastFore[x, y];
-                            grid[x, y] = lastGrid[x, y];
-                            old[x, y] = lastOld[x, y];
+                            back1[x, y] = lastBack1[x, y];
+                            back2[x, y] = lastBack2[x, y];
+                            fore1[x, y] = lastFore1[x, y];
+                            fore2[x, y] = lastFore2[x, y];
+                            grid1[x, y] = lastGrid1[x, y];
+                            grid2[x, y] = lastGrid2[x, y];
                         }
                         else
                         {
-                            back[x, y] = ConsoleColor.Black;
-                            fore[x, y] = ConsoleColor.Gray;
-                            grid[x, y] = ' ';
-                            old[x, y] = true;
+                            back1[x, y] = ConsoleColor.Black;
+                            back2[x, y] = ConsoleColor.Black;
+                            fore1[x, y] = ConsoleColor.Gray;
+                            fore2[x, y] = ConsoleColor.Gray;
+                            grid1[x, y] = ' ';
+                            grid2[x, y] = ' ';
                         }
                     }
                 }
@@ -83,12 +119,9 @@ namespace Juniper.Console
 
         public void Draw(int x, int y, char c, ConsoleColor f, ConsoleColor b)
         {
-            old[x, y] = b != back[x, y]
-                || f != fore[x, y]
-                || c != grid[x, y];
-            back[x, y] = b;
-            fore[x, y] = f;
-            grid[x, y] = c;
+            back1[x, y] = b;
+            fore1[x, y] = f;
+            grid1[x, y] = c;
         }
 
         public void Flush()
@@ -97,24 +130,37 @@ namespace Juniper.Console
             {
                 for (var x = 0; x < Width; ++x)
                 {
-                    if (old[x, y])
+                    var changed = grid1[x, y] != grid2[x, y]
+                        || fore1[x, y] != fore2[x, y]
+                        || back1[x, y] != back2[x, y];
+
+                    if (changed)
                     {
                         CheckCursor(x, y);
 
-                        BackgroundColor = back[x, y];
-                        ForegroundColor = fore[x, y];
+                        if (fore1[x, y] != lastFore)
+                        {
+                            lastFore = ForegroundColor = fore1[x, y];
+                        }
+
+                        if (back1[x, y] != lastBack)
+                        {
+                            lastBack = BackgroundColor = back1[x, y];
+                        }
 
                         if (x < Width - 1)
                         {
-                            Write(grid[x, y]);
+                            Write(grid1[x, y]);
                         }
                         else
                         {
-                            WriteLine(grid[x, y]);
+                            WriteLine(grid1[x, y]);
                         }
-
-                        old[x, y] = false;
                     }
+
+                    fore2[x, y] = fore1[x, y];
+                    back2[x, y] = back1[x, y];
+                    grid2[x, y] = grid1[x, y];
                 }
             }
 
