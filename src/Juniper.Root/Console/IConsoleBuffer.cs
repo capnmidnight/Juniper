@@ -63,17 +63,17 @@ namespace Juniper.Console
             }
         }
 
-        public static void Stroke(this IConsoleBuffer buffer, int x, int y, int width, int height, char vertSideToken, char horizSideToken, char cornerToken, ConsoleColor f)
+        public static void Stroke(this IConsoleBuffer buffer, int x, int y, int width, int height, char vertSideToken, char horizSideToken, char ulToken, char urToken, char llToken, char lrToken, ConsoleColor f)
         {
             if (buffer is null)
             {
                 throw new ArgumentNullException(nameof(buffer));
             }
 
-            buffer.Stroke(x, y, width, height, vertSideToken, horizSideToken, cornerToken, f, buffer.GetBackgroundColor(x, y));
+            buffer.Stroke(x, y, width, height, vertSideToken, horizSideToken, ulToken, urToken, llToken, lrToken, f, buffer.GetBackgroundColor(x, y));
         }
 
-        public static void Stroke(this IConsoleBuffer buffer, int x, int y, int width, int height, char vertSideToken, char horizSideToken, char cornerToken, ConsoleColor f, ConsoleColor b)
+        public static void Stroke(this IConsoleBuffer buffer, int x, int y, int width, int height, char vertSideToken, char horizSideToken, char ulToken, char urToken, char llToken, char lrToken, ConsoleColor f, ConsoleColor b)
         {
             if (buffer is null)
             {
@@ -83,10 +83,10 @@ namespace Juniper.Console
             var right = x + width - 1;
             var bottom = y + height - 1;
 
-            buffer.Draw(x, y, cornerToken, f, b);
-            buffer.Draw(x, bottom, cornerToken, f, b);
-            buffer.Draw(right, y, cornerToken, f, b);
-            buffer.Draw(right, bottom, cornerToken, f, b);
+            buffer.Draw(x, y, ulToken, f, b);
+            buffer.Draw(right, y, urToken, f, b);
+            buffer.Draw(x, bottom, llToken, f, b);
+            buffer.Draw(right, bottom, lrToken, f, b);
 
             for (var dx = x + 1; dx < right; ++dx)
             {

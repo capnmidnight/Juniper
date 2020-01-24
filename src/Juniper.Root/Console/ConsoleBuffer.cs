@@ -197,38 +197,47 @@ namespace Juniper.Console
             }
         }
 
-        public static unsafe bool SetFont(string fontFace)
+        public static bool SetFont(string fontFace)
         {
             if (fontFace is null)
             {
                 throw new ArgumentNullException(nameof(fontFace));
             }
 
-            var hnd = NativeMethods.GetStdHandle(NativeMethods.STD_OUTPUT_HANDLE);
-            if (hnd != NativeMethods.INVALID_HANDLE_VALUE)
+#if NETSTANDARD || NETCOREAPP
+            return false;
+#else
+            unsafe
             {
-                var info = new NativeMethods.CONSOLE_FONT_INFO_EX();
-                info.cbSize = (uint)Marshal.SizeOf(info);
-                if (NativeMethods.GetCurrentConsoleFontEx(hnd, false, ref info))
+                var hnd = NativeMethods.GetStdHandle(NativeMethods.STD_OUTPUT_HANDLE);
+                if (hnd != NativeMethods.INVALID_HANDLE_VALUE)
                 {
-                    var curFontFace = string.Intern(new string(info.FaceName));
-                    if (curFontFace != fontFace)
+                    var info = new NativeMethods.CONSOLE_FONT_INFO_EX();
+                    info.cbSize = (uint)Marshal.SizeOf(info);
+                    if (NativeMethods.GetCurrentConsoleFontEx(hnd, false, ref info))
                     {
-                        var newInfo = new NativeMethods.CONSOLE_FONT_INFO_EX();
-                        newInfo.cbSize = (uint)Marshal.SizeOf(newInfo);
-                        newInfo.FontFamily = NativeMethods.TMPF_TRUETYPE;
-                        var ptr = new IntPtr(newInfo.FaceName);
-                        Marshal.Copy(fontFace.ToCharArray(), 0, ptr, fontFace.Length);
-                        newInfo.dwFontSize = new NativeMethods.COORD(info.dwFontSize.X, info.dwFontSize.Y);
-                        newInfo.FontWeight = info.FontWeight;
-                        return NativeMethods.SetCurrentConsoleFontEx(hnd, false, newInfo);
+                        var curFontFace = string.Intern(new string(info.FaceName));
+                        if (curFontFace != fontFace)
+                        {
+                            var newInfo = new NativeMethods.CONSOLE_FONT_INFO_EX();
+                            newInfo.cbSize = (uint)Marshal.SizeOf(newInfo);
+                            newInfo.FontFamily = NativeMethods.TMPF_TRUETYPE;
+                            var ptr = new IntPtr(newInfo.FaceName);
+                            Marshal.Copy(fontFace.ToCharArray(), 0, ptr, fontFace.Length);
+                            var size = Math.Max(info.dwFontSize.X, info.dwFontSize.Y);
+                            newInfo.dwFontSize = new NativeMethods.COORD(size, size);
+                            newInfo.FontWeight = info.FontWeight;
+                            return NativeMethods.SetCurrentConsoleFontEx(hnd, false, newInfo);
+                        }
                     }
                 }
             }
 
             return false;
+#endif
         }
 
+#if !NETSTANDARD && !NETCOREAPP
         internal static class NativeMethods
         {
             [DllImport("kernel32.dll", SetLastError = true)]
@@ -275,5 +284,6 @@ namespace Juniper.Console
                 internal fixed char FaceName[LF_FACESIZE];
             }
         }
+#endif
     }
 }

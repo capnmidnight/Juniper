@@ -72,7 +72,8 @@ namespace Juniper
 
             for (var i = 0; i < PADDING; ++i)
             {
-                border.Stroke(i, i, border.Width - 2 * i, border.Height - 2 * i, '|', '-', '+', ConsoleColor.Green);
+                var j = 2 * i;
+                border.Stroke(i, i, border.Width - j, border.Height - j, '║', '═', '╔', '╗', '╚', '╝', ConsoleColor.Green);
             }
 
             board.DrawPuzzle(0, 0, game);
