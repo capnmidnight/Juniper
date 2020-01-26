@@ -55,9 +55,9 @@ namespace Juniper.Puzzles
         private static int[,] MakeEmptyGrid(int width, int height)
         {
             var grid = new int[width, height];
-            for(var x = 0; x < width; ++x)
+            for (var x = 0; x < width; ++x)
             {
-                for(var y = 0; y < height; ++y)
+                for (var y = 0; y < height; ++y)
                 {
                     grid[x, y] = -1;
                 }
@@ -216,7 +216,7 @@ namespace Juniper.Puzzles
                         }
 
                         var clearCount = 0;
-                        for (var y = Height - 1; y >= 0; --y)
+                        for (var y = 0; y < Height; ++y)
                         {
                             if (IsFull(RowOrder, y))
                             {
@@ -306,8 +306,6 @@ namespace Juniper.Puzzles
                     {
                         this[x, y] = this[x, y - 1];
                     }
-
-                    this[x, 0] = -1;
                 }
             }
         }
