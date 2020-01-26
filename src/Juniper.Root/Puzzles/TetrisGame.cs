@@ -5,7 +5,7 @@ namespace Juniper.Puzzles
     public class TetrisGame : Puzzle
     {
         private static readonly Puzzle[] pieces;
-        private static readonly Random rand;
+        private static readonly Random rand = new Random();
 
         static TetrisGame()
         {
@@ -19,12 +19,10 @@ namespace Juniper.Puzzles
             pieces[4] = new Puzzle(new int[,] { { -1, 5, 5 }, { 5, 5, -1 } });
             pieces[5] = new Puzzle(new int[,] { { 6, -1, -1 }, { 6, 6, 6 } });
             pieces[6] = new Puzzle(new int[,] { { -1, -1, 7 }, { 7, 7, 7 } });
-
-            rand = new Random();
         }
 
         private bool isLeftDown, isRightDown, isUpDown, isDownDown;
-        private int millisPerDrop, lessMillisPerLine, millisPerMove, millisPerFlip, millisPerAdvance;
+        private int millisPerAdvance, lessMillisPerLine, millisPerMove, millisPerFlip, millisPerDrop;
         private double sinceLastMove, sinceLastDrop, sinceLastFlip, sinceLastAdvance, sincePieceEntered;
 
         public Puzzle Next { get; private set; }
@@ -40,10 +38,10 @@ namespace Juniper.Puzzles
 
         public void Reset()
         {
-            millisPerDrop = 250;
+            millisPerAdvance = 250;
             millisPerFlip = 200;
-            millisPerMove = 150;
-            millisPerAdvance = 100;
+            millisPerMove = 75;
+            millisPerDrop = 25;
             lessMillisPerLine = 10;
 
             Current = pieces[rand.Next(pieces.Length)];
@@ -138,9 +136,9 @@ namespace Juniper.Puzzles
                 if (isDownDown && sincePieceEntered >= 500.0)
                 {
                     sinceLastAdvance += sinceLastDraw.TotalMilliseconds;
-                    if (sinceLastAdvance >= millisPerAdvance)
+                    if (sinceLastAdvance >= millisPerDrop)
                     {
-                        sinceLastAdvance -= millisPerAdvance;
+                        sinceLastAdvance -= millisPerDrop;
                         if (IsInBounds(CursorX, CursorY + 1, Current)
                                 && IsEmpty(CursorX, CursorY + 1, Current))
                         {
@@ -150,7 +148,7 @@ namespace Juniper.Puzzles
                 }
                 else
                 {
-                    sinceLastAdvance = millisPerAdvance;
+                    sinceLastAdvance = millisPerDrop;
                 }
 
                 if (!isDownDown)
@@ -158,9 +156,9 @@ namespace Juniper.Puzzles
                     sinceLastDrop += sinceLastDraw.TotalMilliseconds;
                     sincePieceEntered += sinceLastDraw.TotalMilliseconds;
 
-                    if (sinceLastDrop >= millisPerDrop)
+                    if (sinceLastDrop >= millisPerAdvance)
                     {
-                        sinceLastDrop -= millisPerDrop;
+                        sinceLastDrop -= millisPerAdvance;
 
                         if (IsEmpty(CursorX, CursorY + 1, Current)
                             && IsInBounds(CursorX, CursorY + 1, Current))
@@ -192,7 +190,7 @@ namespace Juniper.Puzzles
                         {
                             PlayLineClear(clearCount);
                             Score += clearCount * clearCount * 100;
-                            millisPerDrop -= lessMillisPerLine;
+                            millisPerAdvance -= lessMillisPerLine;
                         }
                     }
                 }

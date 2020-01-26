@@ -244,19 +244,31 @@ namespace Juniper.Console
 #endif
         }
 
+        public static bool IsKeyDown(VirtualKeyState key)
+        {
+#if NETSTANDARD || NETCOREAPP
+            return false;
+#else
+            return NativeMethods.GetKeyState(key) < 0;
+#endif
+        }
+
 #if !NETSTANDARD && !NETCOREAPP
         internal static class NativeMethods
         {
-            [DllImport("kernel32.dll", SetLastError = true)]
+            [DllImport("user32")]
+            internal static extern short GetKeyState(VirtualKeyState key);
+
+            [DllImport("kernel32", SetLastError = true)]
             internal static extern IntPtr GetStdHandle(int nStdHandle);
 
-            [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+            [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
             internal static extern bool GetCurrentConsoleFontEx(
                    IntPtr consoleOutput,
                    bool maximumWindow,
                    ref CONSOLE_FONT_INFO_EX lpConsoleCurrentFontEx);
 
-            [DllImport("kernel32.dll", SetLastError = true)]
+            [DllImport("kernel32", SetLastError = true)]
             internal static extern bool SetCurrentConsoleFontEx(
                    IntPtr consoleOutput,
                    bool maximumWindow,

@@ -11,22 +11,6 @@ namespace Juniper
 {
     public static class Program
     {
-        private static readonly Dictionary<ConsoleKey, Action> keyPresses = new Dictionary<ConsoleKey, Action>
-        {
-            [ConsoleKey.UpArrow] = () => game.Up_Depress(),
-            [ConsoleKey.LeftArrow] = () => game.Left_Depress(),
-            [ConsoleKey.RightArrow] = () => game.Right_Depress(),
-            [ConsoleKey.DownArrow] = () => game.Down_Depress()
-        };
-
-        private static readonly Dictionary<ConsoleKey, Action> keyReleases = new Dictionary<ConsoleKey, Action>
-        {
-            [ConsoleKey.UpArrow] = () => game.Up_Release(),
-            [ConsoleKey.LeftArrow] = () => game.Left_Release(),
-            [ConsoleKey.RightArrow] = () => game.Right_Release(),
-            [ConsoleKey.DownArrow] = () => game.Down_Release()
-        };
-
         private const int PADDING = 1;
         private const int PADDING_SIZE = 2 * PADDING;
 
@@ -38,9 +22,14 @@ namespace Juniper
 
         public static void Main()
         {
-            _ = ConsoleBuffer.SetFont("Consolas");
-
             game = new TetrisGame(20, 25);
+            var keyActions = new Dictionary<VirtualKeyState, (Action pressed, Action released)>()
+            {
+                [VirtualKeyState.VK_UP] = (game.Up_Depress, game.Up_Release),
+                [VirtualKeyState.VK_DOWN] = (game.Down_Depress, game.Down_Release),
+                [VirtualKeyState.VK_LEFT] = (game.Left_Depress, game.Left_Release),
+                [VirtualKeyState.VK_RIGHT] = (game.Right_Depress, game.Right_Release)
+            };
 
             using var window = new ConsoleBuffer(game.Width + PADDING_SIZE + 10, game.Height + PADDING_SIZE + 1);
 
@@ -50,25 +39,31 @@ namespace Juniper
             scorePanel = window.Window(nextPiecePanel.AbsoluteLeft, nextPiecePanel.AbsoluteBottom + 1, 7, 2);
 
             var last = DateTime.Now;
+
             while (!game.GameOver)
             {
-                DoInput();
-
                 var now = DateTime.Now;
                 var delta = now - last;
                 last = now;
+                foreach (var entry in keyActions)
+                {
+                    var key = entry.Key;
+                    var (press, release) = entry.Value;
+                    if (ConsoleBuffer.IsKeyDown(key))
+                    {
+                        press();
+                    }
+                    else
+                    {
+                        release();
+                    }
+                }
 
                 game.Update(delta);
 
                 var fps = 1 / delta.TotalSeconds;
 
-                Draw(window, fps);
-            }
-        }
-
-        private static void Draw(ConsoleBuffer window, double fps)
-        {
-            window.Clear();
+                window.Fill(ConsoleColor.DarkGray);
 
             for (var i = 0; i < PADDING; ++i)
             {
@@ -80,46 +75,18 @@ namespace Juniper
                     ConsoleColor.Green);
             }
 
-            board.DrawPuzzle(0, 0, game);
-            board.DrawPuzzle(game.CursorX, game.CursorY, game.Current);
+                board.Fill(ConsoleColor.Black);
+                board.DrawPuzzle(0, 0, game);
+                board.DrawPuzzle(game.CursorX, game.CursorY, game.Current);
 
-            nextPiecePanel.Fill(ConsoleColor.DarkGray);
-            nextPiecePanel.Draw(0, 0, "Next", ConsoleColor.Cyan);
-            nextPiecePanel.DrawPuzzle(2, 1, game.Next);
+                nextPiecePanel.Draw(0, 0, "Next", ConsoleColor.Black);
+                nextPiecePanel.DrawPuzzle(2, 1, game.Next);
 
-            var score = game.Score.ToString(System.Globalization.CultureInfo.CurrentCulture);
-            scorePanel.Fill(ConsoleColor.DarkGray);
-            scorePanel.Draw(0, 0, "Score", ConsoleColor.Cyan);
-            scorePanel.Draw(2, 1, score, ConsoleColor.Yellow);
+                var score = game.Score.ToString(System.Globalization.CultureInfo.CurrentCulture);
+                scorePanel.Draw(0, 0, "Score", ConsoleColor.Black);
+                scorePanel.Draw(2, 1, score, ConsoleColor.White);
 
-            window.Flush();
-        }
-
-        private static void DoInput()
-        {
-            if (KeyAvailable)
-            {
-                var key = ReadKey(true).Key;
-
-                foreach (var keyedAction in keyReleases)
-                {
-                    if (key != keyedAction.Key)
-                    {
-                        keyedAction.Value();
-                    }
-                }
-
-                if (keyPresses.ContainsKey(key))
-                {
-                    keyPresses[key]();
-                }
-            }
-            else
-            {
-                foreach (var action in keyReleases.Values)
-                {
-                    action();
-                }
+                window.Flush();
             }
         }
     }
