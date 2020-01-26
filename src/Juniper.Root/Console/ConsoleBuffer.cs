@@ -7,8 +7,7 @@ using static System.Console;
 namespace Juniper.Console
 {
     public sealed class ConsoleBuffer :
-        IConsoleBuffer,
-        IDisposable
+        IConsoleBuffer
     {
         private readonly ConsoleColor startFore;
         private readonly ConsoleColor startBack;
@@ -23,6 +22,7 @@ namespace Juniper.Console
 
         public ConsoleBuffer(int width, int height)
         {
+            SetFontSize(8, 8);
             OutputEncoding = Encoding.Unicode;
             CursorVisible = false;
 
@@ -33,20 +33,22 @@ namespace Juniper.Console
             SetBufferSize(width, height + 1);
 
             CheckGrids();
+
+            CancelKeyPress += ConsoleBuffer_CancelKeyPress;
+        }
+
+        private void ConsoleBuffer_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
+        {
+            Teardown();
+            e.Cancel = true;
         }
 
         ~ConsoleBuffer()
         {
-            Dispose(false);
+            Teardown();
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing)
+        private void Teardown()
         {
             ForegroundColor = startFore;
             BackgroundColor = startBack;
@@ -204,6 +206,25 @@ namespace Juniper.Console
             }
         }
 
+        public static bool SetFont(int index)
+        {
+#if NETSTANDARD || NETCOREAPP
+            return false;
+#else
+            var hnd = NativeMethods.GetStdHandle(NativeMethods.STD_OUTPUT_HANDLE);
+            if (hnd == NativeMethods.INVALID_HANDLE_VALUE)
+            {
+                return false;
+            }
+
+
+            var info = new NativeMethods.CONSOLE_FONT_INFO_EX();
+            info.cbSize = (uint)Marshal.SizeOf(info);
+            info.nFont = (uint)index;
+            return NativeMethods.SetCurrentConsoleFontEx(hnd, false, info);
+#endif
+        }
+
         public static bool SetFont(string fontFace)
         {
             if (fontFace is null)
@@ -236,6 +257,31 @@ namespace Juniper.Console
                             newInfo.FontWeight = info.FontWeight;
                             return NativeMethods.SetCurrentConsoleFontEx(hnd, false, newInfo);
                         }
+                    }
+                }
+            }
+
+            return false;
+#endif
+        }
+
+        public static bool SetFontSize(int width, int height)
+        {
+#if NETSTANDARD || NETCOREAPP
+            return false;
+#else
+            unsafe
+            {
+                var hnd = NativeMethods.GetStdHandle(NativeMethods.STD_OUTPUT_HANDLE);
+                if (hnd != NativeMethods.INVALID_HANDLE_VALUE)
+                {
+                    var info = new NativeMethods.CONSOLE_FONT_INFO_EX();
+                    info.cbSize = (uint)Marshal.SizeOf(info);
+                    if (NativeMethods.GetCurrentConsoleFontEx(hnd, false, ref info))
+                    {
+                        info.dwFontSize.X = (short)width;
+                        info.dwFontSize.Y = (short)height;
+                        return NativeMethods.SetCurrentConsoleFontEx(hnd, false, info);
                     }
                 }
             }

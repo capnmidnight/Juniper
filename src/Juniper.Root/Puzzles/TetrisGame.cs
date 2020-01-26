@@ -4,26 +4,42 @@ namespace Juniper.Puzzles
 {
     public class TetrisGame : Puzzle
     {
-        private static readonly Puzzle[] pieces;
+        private static readonly Puzzle[] pieces =
+            {
+
+            new Puzzle(new int[,] { {  1,  1, 1, 1 } }),
+            new Puzzle(new int[,] { {  2,  2 },
+                                    {  2,  2 } }),
+            new Puzzle(new int[,] { { -1,  3, -1 },
+                                    {  3,  3,  3 } }),
+            new Puzzle(new int[,] { {  4,  4, -1 },
+                                    { -1,  4,  4 } }),
+            new Puzzle(new int[,] { { -1,  5,  5 },
+                                    {  5,  5, -1 } }),
+            new Puzzle(new int[,] { {  6, -1, -1 },
+                                    {  6,  6,  6 } }),
+            new Puzzle(new int[,] { { -1, -1,  7 },
+                                    {  7,  7,  7 } })
+        };
+
         private static readonly Random rand = new Random();
 
-        static TetrisGame()
-        {
-            pieces = new Puzzle[7];
-            pieces[0] = new Puzzle(new int[,] { { 1, 1, 1, 1 } });
-            pieces[1] = new Puzzle(new int[,] { { 2, 2 },
-                                                { 2, 2 } });
-            pieces[2] = new Puzzle(new int[,] { { -1, 3, -1 },
-                                                {  3, 3,  3 } });
-            pieces[3] = new Puzzle(new int[,] { { 4, 4, -1 }, { -1, 4, 4 } });
-            pieces[4] = new Puzzle(new int[,] { { -1, 5, 5 }, { 5, 5, -1 } });
-            pieces[5] = new Puzzle(new int[,] { { 6, -1, -1 }, { 6, 6, 6 } });
-            pieces[6] = new Puzzle(new int[,] { { -1, -1, 7 }, { 7, 7, 7 } });
-        }
-
-        private bool isLeftDown, isRightDown, isUpDown, isDownDown;
-        private int millisPerAdvance, lessMillisPerLine, millisPerMove, millisPerFlip, millisPerDrop;
-        private double sinceLastMove, sinceLastDrop, sinceLastFlip, sinceLastAdvance, sincePieceEntered;
+        private bool isLeftDown;
+        private bool isRightDown;
+        private bool isUpDown;
+        private bool isDownDown;
+        private double advanceRate;
+        private double moveRate;
+        private double flipRate;
+        private double millisPerAdvance;
+        private double millisPerMove;
+        private double millisPerFlip;
+        private double millisPerDrop;
+        private double sinceLastMove;
+        private double sinceLastAdvance;
+        private double sinceLastFlip;
+        private double sinceLastDrop;
+        private double sincePieceEntered;
 
         public Puzzle Next { get; private set; }
 
@@ -36,13 +52,40 @@ namespace Juniper.Puzzles
 
         public bool GameOver { get; private set; }
 
+        private static int[,] MakeEmptyGrid(int width, int height)
+        {
+            var grid = new int[width, height];
+            for(var x = 0; x < width; ++x)
+            {
+                for(var y = 0; y < height; ++y)
+                {
+                    grid[x, y] = -1;
+                }
+            }
+
+            return grid;
+        }
+
+        public TetrisGame(int width, int height)
+            : this(MakeEmptyGrid(width, height))
+        { }
+
+        public TetrisGame(int[,] grid)
+            : base(grid)
+        {
+            Reset();
+        }
+
         public void Reset()
         {
-            millisPerAdvance = 250;
-            millisPerFlip = 200;
-            millisPerMove = 75;
-            millisPerDrop = 25;
-            lessMillisPerLine = 10;
+            advanceRate = 3;
+            flipRate = 8;
+            moveRate = 10;
+
+            millisPerFlip = 1000 / flipRate;
+            millisPerMove = 1000 / moveRate;
+
+            UpdateSpeed(0);
 
             Current = pieces[rand.Next(pieces.Length)];
             Next = pieces[rand.Next(pieces.Length)];
@@ -50,18 +93,14 @@ namespace Juniper.Puzzles
             CursorY = 0;
             Score = 0;
             GameOver = false;
-            sinceLastMove = sinceLastDrop = sinceLastFlip = sinceLastAdvance = sincePieceEntered = 0.0;
+            sinceLastMove = sinceLastAdvance = sinceLastFlip = sinceLastDrop = sincePieceEntered = 0.0;
         }
 
-        public TetrisGame(int width, int height)
-            : base(width, height)
+        private void UpdateSpeed(double deltaLinesPerSecond)
         {
-            Reset();
-        }
-        public TetrisGame(int[,] grid)
-            : base(grid)
-        {
-            Reset();
+            advanceRate += deltaLinesPerSecond;
+            millisPerAdvance = 1000 / advanceRate;
+            millisPerDrop = millisPerAdvance / 10;
         }
 
         private void MoveLeft()
@@ -135,10 +174,10 @@ namespace Juniper.Puzzles
 
                 if (isDownDown && sincePieceEntered >= 500.0)
                 {
-                    sinceLastAdvance += sinceLastDraw.TotalMilliseconds;
-                    if (sinceLastAdvance >= millisPerDrop)
+                    sinceLastDrop += sinceLastDraw.TotalMilliseconds;
+                    if (sinceLastDrop >= millisPerDrop)
                     {
-                        sinceLastAdvance -= millisPerDrop;
+                        sinceLastDrop -= millisPerDrop;
                         if (IsInBounds(CursorX, CursorY + 1, Current)
                                 && IsEmpty(CursorX, CursorY + 1, Current))
                         {
@@ -148,17 +187,17 @@ namespace Juniper.Puzzles
                 }
                 else
                 {
-                    sinceLastAdvance = millisPerDrop;
+                    sinceLastDrop = millisPerDrop;
                 }
 
                 if (!isDownDown)
                 {
-                    sinceLastDrop += sinceLastDraw.TotalMilliseconds;
+                    sinceLastAdvance += sinceLastDraw.TotalMilliseconds;
                     sincePieceEntered += sinceLastDraw.TotalMilliseconds;
 
-                    if (sinceLastDrop >= millisPerAdvance)
+                    if (sinceLastAdvance >= millisPerAdvance)
                     {
-                        sinceLastDrop -= millisPerAdvance;
+                        sinceLastAdvance -= millisPerAdvance;
 
                         if (IsEmpty(CursorX, CursorY + 1, Current)
                             && IsInBounds(CursorX, CursorY + 1, Current))
@@ -190,7 +229,7 @@ namespace Juniper.Puzzles
                         {
                             PlayLineClear(clearCount);
                             Score += clearCount * clearCount * 100;
-                            millisPerAdvance -= lessMillisPerLine;
+                            UpdateSpeed(1);
                         }
                     }
                 }
@@ -199,42 +238,62 @@ namespace Juniper.Puzzles
 
         public void Left_Depress()
         {
-            isLeftDown = true;
+            SetLeft(true);
         }
 
         public void Left_Release()
         {
-            isLeftDown = false;
+            SetLeft(false);
+        }
+
+        public void SetLeft(bool value)
+        {
+            isLeftDown = value;
         }
 
         public void Right_Depress()
         {
-            isRightDown = true;
+            SetRight(true);
         }
 
         public void Right_Release()
         {
-            isRightDown = false;
+            SetRight(false);
+        }
+
+        public void SetRight(bool value)
+        {
+            isRightDown = value;
         }
 
         public void Up_Depress()
         {
-            isUpDown = true;
+            SetUp(true);
         }
 
         public void Up_Release()
         {
-            isUpDown = false;
+            SetUp(false);
+        }
+
+        public void SetUp(bool value)
+        {
+            isUpDown = value;
         }
 
         public void Down_Depress()
         {
-            isDownDown = true;
+            SetDown(true);
         }
 
         public void Down_Release()
         {
-            isDownDown = false;
+            SetDown(false);
+        }
+
+        public void SetDown(bool value)
+        {
+            isDownDown = value;
         }
 
         public void TetrisClearRow(int row)

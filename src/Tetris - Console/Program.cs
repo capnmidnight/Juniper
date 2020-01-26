@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+using System.Threading;
 using Juniper.Console;
 using Juniper.Puzzles;
 
@@ -13,29 +13,25 @@ namespace Juniper
         private const int PADDING = 1;
         private const int PADDING_SIZE = 2 * PADDING;
 
-        private static TetrisGame game;
-        private static IConsoleBuffer border;
-        private static IConsoleBuffer board;
-        private static IConsoleBuffer nextPiecePanel;
-        private static IConsoleBuffer scorePanel;
-
         public static void Main()
         {
-            game = new TetrisGame(20, 25);
-            var keyActions = new Dictionary<VirtualKeyState, (Action pressed, Action released)>()
+            System.Console.WriteLine("Starting tetris!");
+            Thread.Sleep(1000);
+            var game = new TetrisGame(20, 40);
+            var keyActions = new Dictionary<VirtualKeyState, Action<bool>>()
             {
-                [VirtualKeyState.VK_UP] = (game.Up_Depress, game.Up_Release),
-                [VirtualKeyState.VK_DOWN] = (game.Down_Depress, game.Down_Release),
-                [VirtualKeyState.VK_LEFT] = (game.Left_Depress, game.Left_Release),
-                [VirtualKeyState.VK_RIGHT] = (game.Right_Depress, game.Right_Release)
+                [VirtualKeyState.VK_UP] = game.SetUp,
+                [VirtualKeyState.VK_DOWN] = game.SetDown,
+                [VirtualKeyState.VK_LEFT] = game.SetLeft,
+                [VirtualKeyState.VK_RIGHT] = game.SetRight
             };
 
-            using var window = new ConsoleBuffer(game.Width + PADDING_SIZE + 10, game.Height + PADDING_SIZE + 1);
+            var window = new ConsoleBuffer(game.Width + PADDING_SIZE + 10, game.Height + PADDING_SIZE + 1);
 
-            border = window.Window(0, 0, game.Width + PADDING_SIZE, game.Height + PADDING_SIZE);
-            board = window.Window(PADDING, PADDING, game.Width, game.Height);
-            nextPiecePanel = window.Window(border.AbsoluteRight + 1, 2, 7, 5);
-            scorePanel = window.Window(nextPiecePanel.AbsoluteLeft, nextPiecePanel.AbsoluteBottom + 1, 7, 2);
+            var border = window.Window(0, 0, game.Width + PADDING_SIZE, game.Height + PADDING_SIZE);
+            var board = window.Window(PADDING, PADDING, game.Width, game.Height);
+            var nextPiecePanel = window.Window(border.AbsoluteRight + 1, 2, 7, 5);
+            var scorePanel = window.Window(nextPiecePanel.AbsoluteLeft, nextPiecePanel.AbsoluteBottom + 1, 7, 2);
 
             var last = DateTime.Now;
 
@@ -46,16 +42,7 @@ namespace Juniper
                 last = now;
                 foreach (var entry in keyActions)
                 {
-                    var key = entry.Key;
-                    var (press, release) = entry.Value;
-                    if (ConsoleBuffer.IsKeyDown(key))
-                    {
-                        press();
-                    }
-                    else
-                    {
-                        release();
-                    }
+                    entry.Value(ConsoleBuffer.IsKeyDown(entry.Key));
                 }
 
                 game.Update(delta);
