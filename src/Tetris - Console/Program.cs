@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using Juniper.Console;
 using Juniper.Puzzles;
 
-using static System.Console;
-using static Juniper.Console.BoxDrawingSet;
+using static Juniper.Unicode.BoxDrawingSet;
 
 namespace Juniper
 {
@@ -65,15 +64,15 @@ namespace Juniper
 
                 window.Fill(ConsoleColor.DarkGray);
 
-            for (var i = 0; i < PADDING; ++i)
-            {
-                var j = 2 * i;
-                border.Stroke(
-                    i, i,
-                    border.Width - j, border.Height - j,
-                    DoubleLight,
-                    ConsoleColor.Green);
-            }
+                for (var i = 0; i < PADDING; ++i)
+                {
+                    var j = 2 * i;
+                    border.Stroke(
+                        i, i,
+                        border.Width - j, border.Height - j,
+                        DoubleLight,
+                        ConsoleColor.Gray);
+                }
 
                 board.Fill(ConsoleColor.Black);
                 board.DrawPuzzle(0, 0, game);

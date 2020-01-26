@@ -1,6 +1,6 @@
-using static Juniper.Console.BoxDrawingCharacters;
+using static Juniper.Unicode.BoxDrawingCharacters;
 
-namespace Juniper.Console
+namespace Juniper.Unicode
 {
     public class BoxDrawingSet
     {
