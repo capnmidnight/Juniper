@@ -26,8 +26,8 @@ namespace Juniper.Puzzles
 
         private bool isLeftDown;
         private bool isRightDown;
-        private bool isUpDown;
-        private bool isDownDown;
+        private bool isFlipDown;
+        private bool isDropDown;
         private double advanceRate;
         private double moveRate;
         private double flipRate;
@@ -152,7 +152,7 @@ namespace Juniper.Puzzles
                     sinceLastMove = millisPerMove;
                 }
 
-                if (isUpDown)
+                if (isFlipDown)
                 {
                     sinceLastFlip += sinceLastDraw.TotalMilliseconds;
                     if (sinceLastFlip >= millisPerFlip)
@@ -160,7 +160,7 @@ namespace Juniper.Puzzles
                         sinceLastFlip -= millisPerFlip;
                         var pre = Current.Rotate(Clockwise);
                         PlayFlip();
-                        if (isUpDown && IsInBounds(CursorX, CursorY, pre)
+                        if (isFlipDown && IsInBounds(CursorX, CursorY, pre)
                             && IsEmpty(CursorX, CursorY, pre))
                         {
                             Current = pre;
@@ -172,7 +172,7 @@ namespace Juniper.Puzzles
                     sinceLastFlip = millisPerFlip;
                 }
 
-                if (isDownDown && sincePieceEntered >= 500.0)
+                if (isDropDown && sincePieceEntered >= 500.0)
                 {
                     sinceLastDrop += sinceLastDraw.TotalMilliseconds;
                     if (sinceLastDrop >= millisPerDrop)
@@ -190,7 +190,7 @@ namespace Juniper.Puzzles
                     sinceLastDrop = millisPerDrop;
                 }
 
-                if (!isDownDown)
+                if (!isDropDown)
                 {
                     sinceLastAdvance += sinceLastDraw.TotalMilliseconds;
                     sincePieceEntered += sinceLastDraw.TotalMilliseconds;
@@ -266,34 +266,34 @@ namespace Juniper.Puzzles
             isRightDown = value;
         }
 
-        public void Up_Depress()
+        public void Flip_Depress()
         {
-            SetUp(true);
+            SetFlip(true);
         }
 
-        public void Up_Release()
+        public void Flip_Release()
         {
-            SetUp(false);
+            SetFlip(false);
         }
 
-        public void SetUp(bool value)
+        public void SetFlip(bool value)
         {
-            isUpDown = value;
+            isFlipDown = value;
         }
 
-        public void Down_Depress()
+        public void Drop_Depress()
         {
-            SetDown(true);
+            SetDrop(true);
         }
 
-        public void Down_Release()
+        public void Drop_Release()
         {
-            SetDown(false);
+            SetDrop(false);
         }
 
-        public void SetDown(bool value)
+        public void SetDrop(bool value)
         {
-            isDownDown = value;
+            isDropDown = value;
         }
 
         public void TetrisClearRow(int row)

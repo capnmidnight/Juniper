@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
+
 using Juniper.Console;
 using Juniper.Puzzles;
 
+using static Juniper.Console.VirtualKeyState;
 using static Juniper.Unicode.BoxDrawingSet;
 
 namespace Juniper
@@ -15,18 +16,16 @@ namespace Juniper
 
         public static void Main()
         {
-            System.Console.WriteLine("Starting tetris!");
-            Thread.Sleep(1000);
-            var game = new TetrisGame(20, 40);
-            var keyActions = new Dictionary<VirtualKeyState, Action<bool>>()
-            {
-                [VirtualKeyState.VK_UP] = game.SetUp,
-                [VirtualKeyState.VK_DOWN] = game.SetDown,
-                [VirtualKeyState.VK_LEFT] = game.SetLeft,
-                [VirtualKeyState.VK_RIGHT] = game.SetRight
-            };
+            var window = new ConsoleBuffer(16);
+            var game = new TetrisGame(20, 30);
 
-            var window = new ConsoleBuffer(game.Width + PADDING_SIZE + 10, game.Height + PADDING_SIZE + 1);
+            var keyActions = new Dictionary<int, Action<bool>>()
+            {
+                [VK_UP] = game.SetFlip,
+                [VK_DOWN] = game.SetDrop,
+                [VK_LEFT] = game.SetLeft,
+                [VK_RIGHT] = game.SetRight
+            };
 
             var border = window.Window(0, 0, game.Width + PADDING_SIZE, game.Height + PADDING_SIZE);
             var board = window.Window(PADDING, PADDING, game.Width, game.Height);
@@ -57,8 +56,8 @@ namespace Juniper
                     border.Stroke(
                         i, i,
                         border.Width - j, border.Height - j,
-                        DoubleLight,
-                        ConsoleColor.Gray);
+                                        DoubleLight,
+                                        ConsoleColor.Gray);
                 }
 
                 board.Fill(ConsoleColor.Black);

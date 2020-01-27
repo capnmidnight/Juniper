@@ -1,6 +1,7 @@
 using System;
-using System.Runtime.InteropServices;
 using System.Text;
+
+using System.Runtime.InteropServices;
 
 using static System.Console;
 
@@ -9,6 +10,19 @@ namespace Juniper.Console
     public sealed class ConsoleBuffer :
         IConsoleBuffer
     {
+        private static readonly bool IsWindows
+            = Environment.OSVersion.Platform == PlatformID.Win32NT
+#if !NETSTANDARD && !NETCOREAPP
+            || Environment.OSVersion.Platform == PlatformID.Win32S
+            || Environment.OSVersion.Platform == PlatformID.Win32Windows
+            || Environment.OSVersion.Platform == PlatformID.WinCE
+#endif
+            ;
+
+        private static readonly IntPtr hnd = IsWindows
+            ? NativeMethods.GetStdHandle(NativeMethods.STD_OUTPUT_HANDLE)
+            : NativeMethods.INVALID_HANDLE_VALUE;
+
         private readonly ConsoleColor startFore;
         private readonly ConsoleColor startBack;
         private ConsoleColor lastBack;
@@ -20,11 +34,35 @@ namespace Juniper.Console
         private char[,] grid1;
         private char[,] grid2;
 
-        public ConsoleBuffer(int width, int height)
+        public int AbsoluteLeft => 0;
+        public int AbsoluteRight => Width - 1;
+        public int AbsoluteTop => 0;
+        public int AbsoluteBottom => Height - 1;
+        public int Width => grid1?.GetWidth() ?? -1;
+        public int Height => grid1?.GetHeight() ?? -1;
+
+        public event EventHandler<SizeChangedEventArgs> SizeChanged;
+
+        public ConsoleBuffer(int gridSize)
+            : this(gridSize, MaximumWindowSize)
+        { }
+
+        internal ConsoleBuffer(int gridSize, NativeMethods.COORD size)
+            : this(gridSize, size.X, size.Y)
+        { }
+
+        public ConsoleBuffer(int gridSize, int width, int height)
         {
-            SetFontSize(8, 8);
+            if (IsWindows)
+            {
+                _ = SetFontSize(gridSize, gridSize);
+            }
+
+            var maxSize = MaximumWindowSize;
+            width = Math.Min(width, maxSize.X);
+            height = Math.Min(height, maxSize.Y);
+
             OutputEncoding = Encoding.Unicode;
-            CursorVisible = false;
 
             lastFore = startFore = ForegroundColor;
             lastBack = startBack = BackgroundColor;
@@ -33,8 +71,6 @@ namespace Juniper.Console
             SetBufferSize(width, height + 1);
 
             CheckGrids();
-
-            CancelKeyPress += ConsoleBuffer_CancelKeyPress;
         }
 
         private void ConsoleBuffer_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
@@ -54,17 +90,6 @@ namespace Juniper.Console
             BackgroundColor = startBack;
         }
 
-        public ConsoleBuffer()
-            : this(WindowWidth, WindowHeight - 1)
-        { }
-
-        public int AbsoluteLeft => 0;
-        public int AbsoluteRight => Width - 1;
-        public int AbsoluteTop => 0;
-        public int AbsoluteBottom => Height - 1;
-        public int Width => grid1?.GetWidth() ?? -1;
-        public int Height => grid1?.GetHeight() ?? -1;
-
         public ConsoleColor GetBackgroundColor(int x, int y)
         {
             return back1[x, y];
@@ -72,10 +97,12 @@ namespace Juniper.Console
 
         private void CheckGrids()
         {
+            var oldWidth = Width;
+            var oldHeight = Height;
             var newWidth = WindowWidth;
             var newHeight = WindowHeight - 1;
-            if (newWidth != Width
-                || newHeight != Height)
+            if (newWidth != oldWidth
+                || newHeight != oldHeight)
             {
                 var lastBack1 = back1;
                 var lastBack2 = back2;
@@ -91,31 +118,10 @@ namespace Juniper.Console
                 grid1 = new char[newWidth, newHeight];
                 grid2 = new char[newWidth, newHeight];
 
-                for (var x = 0; x < newWidth; ++x)
-                {
-                    for (var y = 0; y < newHeight; ++y)
-                    {
-                        if (x < lastBack1?.GetWidth()
-                            && y < lastBack1?.GetHeight())
-                        {
-                            back1[x, y] = lastBack1[x, y];
-                            back2[x, y] = lastBack2[x, y];
-                            fore1[x, y] = lastFore1[x, y];
-                            fore2[x, y] = lastFore2[x, y];
-                            grid1[x, y] = lastGrid1[x, y];
-                            grid2[x, y] = lastGrid2[x, y];
-                        }
-                        else
-                        {
-                            back1[x, y] = ConsoleColor.Black;
-                            back2[x, y] = ConsoleColor.Black;
-                            fore1[x, y] = ConsoleColor.Gray;
-                            fore2[x, y] = ConsoleColor.Gray;
-                            grid1[x, y] = ' ';
-                            grid2[x, y] = ' ';
-                        }
-                    }
-                }
+                Clear();
+                CursorVisible = false;
+
+                SizeChanged?.Invoke(this, new SizeChangedEventArgs(oldWidth, oldHeight, newWidth, newHeight));
             }
         }
 
@@ -208,117 +214,124 @@ namespace Juniper.Console
 
         public static bool SetFont(int index)
         {
-#if NETSTANDARD || NETCOREAPP
-            return false;
-#else
-            var hnd = NativeMethods.GetStdHandle(NativeMethods.STD_OUTPUT_HANDLE);
-            if (hnd == NativeMethods.INVALID_HANDLE_VALUE)
+            if (!IsWindows)
             {
                 return false;
             }
-
 
             var info = new NativeMethods.CONSOLE_FONT_INFO_EX();
             info.cbSize = (uint)Marshal.SizeOf(info);
             info.nFont = (uint)index;
             return NativeMethods.SetCurrentConsoleFontEx(hnd, false, info);
-#endif
         }
 
         public static bool SetFont(string fontFace)
         {
+            if (!IsWindows)
+            {
+                return false;
+            }
+
             if (fontFace is null)
             {
                 throw new ArgumentNullException(nameof(fontFace));
             }
 
-#if NETSTANDARD || NETCOREAPP
-            return false;
-#else
             unsafe
             {
-                var hnd = NativeMethods.GetStdHandle(NativeMethods.STD_OUTPUT_HANDLE);
-                if (hnd != NativeMethods.INVALID_HANDLE_VALUE)
+                var info = new NativeMethods.CONSOLE_FONT_INFO_EX();
+                info.cbSize = (uint)Marshal.SizeOf(info);
+                if (NativeMethods.GetCurrentConsoleFontEx(hnd, false, ref info))
                 {
-                    var info = new NativeMethods.CONSOLE_FONT_INFO_EX();
-                    info.cbSize = (uint)Marshal.SizeOf(info);
-                    if (NativeMethods.GetCurrentConsoleFontEx(hnd, false, ref info))
+                    var curFontFace = string.Intern(new string(info.FaceName));
+                    if (curFontFace != fontFace)
                     {
-                        var curFontFace = string.Intern(new string(info.FaceName));
-                        if (curFontFace != fontFace)
-                        {
-                            var newInfo = new NativeMethods.CONSOLE_FONT_INFO_EX();
-                            newInfo.cbSize = (uint)Marshal.SizeOf(newInfo);
-                            newInfo.FontFamily = NativeMethods.TMPF_TRUETYPE;
-                            var ptr = new IntPtr(newInfo.FaceName);
-                            Marshal.Copy(fontFace.ToCharArray(), 0, ptr, fontFace.Length);
-                            var size = Math.Max(info.dwFontSize.X, info.dwFontSize.Y);
-                            newInfo.dwFontSize = new NativeMethods.COORD(size, size);
-                            newInfo.FontWeight = info.FontWeight;
-                            return NativeMethods.SetCurrentConsoleFontEx(hnd, false, newInfo);
-                        }
+                        var newInfo = new NativeMethods.CONSOLE_FONT_INFO_EX();
+                        newInfo.cbSize = (uint)Marshal.SizeOf(newInfo);
+                        newInfo.FontFamily = NativeMethods.TMPF_TRUETYPE;
+                        var ptr = new IntPtr(newInfo.FaceName);
+                        Marshal.Copy(fontFace.ToCharArray(), 0, ptr, fontFace.Length);
+                        var size = Math.Max(info.dwFontSize.X, info.dwFontSize.Y);
+                        newInfo.dwFontSize = new NativeMethods.COORD(size, size);
+                        newInfo.FontWeight = info.FontWeight;
+                        return NativeMethods.SetCurrentConsoleFontEx(hnd, false, newInfo);
                     }
                 }
             }
 
             return false;
-#endif
         }
 
         public static bool SetFontSize(int width, int height)
         {
-#if NETSTANDARD || NETCOREAPP
-            return false;
-#else
-            unsafe
+            if (!IsWindows)
             {
-                var hnd = NativeMethods.GetStdHandle(NativeMethods.STD_OUTPUT_HANDLE);
-                if (hnd != NativeMethods.INVALID_HANDLE_VALUE)
-                {
-                    var info = new NativeMethods.CONSOLE_FONT_INFO_EX();
-                    info.cbSize = (uint)Marshal.SizeOf(info);
-                    if (NativeMethods.GetCurrentConsoleFontEx(hnd, false, ref info))
-                    {
-                        info.dwFontSize.X = (short)width;
-                        info.dwFontSize.Y = (short)height;
-                        return NativeMethods.SetCurrentConsoleFontEx(hnd, false, info);
-                    }
-                }
+                return false;
             }
 
-            return false;
-#endif
+            var info = new NativeMethods.CONSOLE_FONT_INFO_EX();
+            info.cbSize = (uint)Marshal.SizeOf(info);
+            info.dwFontSize.X = (short)width;
+            info.dwFontSize.Y = (short)height;
+            return NativeMethods.SetCurrentConsoleFontEx(hnd, false, info);
         }
 
-        public static bool IsKeyDown(VirtualKeyState key)
+        public static bool IsKeyDown(int key)
         {
-#if NETSTANDARD || NETCOREAPP
-            return false;
-#else
+            if (!IsWindows)
+            {
+                return false;
+            }
+
             return NativeMethods.GetKeyState(key) < 0;
-#endif
         }
 
-#if !NETSTANDARD && !NETCOREAPP
+        internal static NativeMethods.COORD MaximumWindowSize
+        {
+            get
+            {
+                NativeMethods.COORD size;
+                if (IsWindows)
+                {
+                    size = NativeMethods.GetLargestConsoleWindowSize(hnd);
+                }
+                else
+                {
+                    size = new NativeMethods.COORD
+                    {
+                        X = (short)WindowWidth,
+                        Y = (short)WindowHeight
+                    };
+                }
+
+                size.Y--;
+
+                return size;
+            }
+        }
+
         internal static class NativeMethods
         {
             [DllImport("user32")]
-            internal static extern short GetKeyState(VirtualKeyState key);
+            internal static extern short GetKeyState(int key);
+
+            [DllImport("kernel32")]
+            internal static extern COORD GetLargestConsoleWindowSize(IntPtr consoleOutput);
 
             [DllImport("kernel32", SetLastError = true)]
             internal static extern IntPtr GetStdHandle(int nStdHandle);
 
             [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
             internal static extern bool GetCurrentConsoleFontEx(
-                   IntPtr consoleOutput,
-                   bool maximumWindow,
-                   ref CONSOLE_FONT_INFO_EX lpConsoleCurrentFontEx);
+                IntPtr consoleOutput,
+                bool maximumWindow,
+                ref CONSOLE_FONT_INFO_EX lpConsoleCurrentFontEx);
 
             [DllImport("kernel32", SetLastError = true)]
             internal static extern bool SetCurrentConsoleFontEx(
-                   IntPtr consoleOutput,
-                   bool maximumWindow,
-                   CONSOLE_FONT_INFO_EX consoleCurrentFontEx);
+                IntPtr consoleOutput,
+                bool maximumWindow,
+                CONSOLE_FONT_INFO_EX consoleCurrentFontEx);
 
             internal const int STD_OUTPUT_HANDLE = -11;
             internal const int TMPF_TRUETYPE = 4;
@@ -349,6 +362,5 @@ namespace Juniper.Console
                 internal fixed char FaceName[LF_FACESIZE];
             }
         }
-#endif
     }
 }

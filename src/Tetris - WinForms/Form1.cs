@@ -54,18 +54,18 @@ namespace Juniper
 
             keyPresses = new Dictionary<object, Action>
             {
-                { Keys.Up, game.Up_Depress },
+                { Keys.Up, game.Flip_Depress },
                 { Keys.Left, game.Left_Depress },
                 { Keys.Right, game.Right_Depress },
-                { Keys.Down, game.Down_Depress }
+                { Keys.Down, game.Drop_Depress }
             };
 
             keyReleases = new Dictionary<object, Action>
             {
-                { Keys.Up, game.Up_Release },
+                { Keys.Up, game.Flip_Release },
                 { Keys.Left, game.Left_Release},
                 { Keys.Right, game.Right_Release},
-                { Keys.Down, game.Down_Release }
+                { Keys.Down, game.Drop_Release }
             };
 
             buffer = new Bitmap(ClientSize.Width, ClientSize.Height);
