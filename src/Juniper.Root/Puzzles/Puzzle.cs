@@ -431,6 +431,7 @@ namespace Juniper.Puzzles
                 }
             }
         }
+
         /// <summary>
         /// Determine if a point is within the bounds of the board
         /// </summary>
@@ -439,7 +440,8 @@ namespace Juniper.Puzzles
         /// <returns></returns>
         public bool IsInBounds(int x, int y)
         {
-            return x >= 0 && x < Width && y >= 0 && y < Height;
+            return x >= 0 && x < Width
+                && y >= 0 && y < Height;
         }
 
         /// <summary>

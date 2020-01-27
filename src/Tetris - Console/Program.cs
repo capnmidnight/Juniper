@@ -71,6 +71,14 @@ namespace Juniper
                 scorePanel.Draw(0, 0, "Score", ConsoleColor.Black);
                 scorePanel.Draw(2, 1, score, ConsoleColor.White);
 
+                var p = ConsoleBuffer.CursorPosition;
+                scorePanel.Draw(0, 2, "X", ConsoleColor.Black);
+                scorePanel.Draw(0, 3, p.x.ToString(), ConsoleColor.White);
+                scorePanel.Draw(0, 4, "Y", ConsoleColor.Black);
+                scorePanel.Draw(0, 5, p.y.ToString(), ConsoleColor.White);
+
+                window.Draw(p.x / 16, p.y / 16, '*', ConsoleColor.Yellow);
+
                 window.Flush();
             }
         }
