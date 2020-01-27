@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ImportGroup>
+    <Import Project="..\..\Juniper.targets" />
+  </ImportGroup>
+
+  <PropertyGroup>
+    <AssemblyName>Juniper.UnityEditor.ConfigurationManagement.Console</AssemblyName>
+    <RootNamespace>Juniper.ConfigurationManagement</RootNamespace>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <StartupObject>Juniper.ConfigurationManagement.Program</StartupObject>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platforms>AnyCPU</Platforms>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <Authors>Sean T. McBeth</Authors>
+    <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Compression" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Juniper.UnityEditor.ConfigurationManagement\Juniper.UnityEditor.ConfigurationManagement.csproj" />
+    <ProjectReference Include="..\Juniper.UnityEditor\Juniper.UnityEditor.csproj" />
+    <ProjectReference Include="..\Juniper.Unity\Juniper.Unity.csproj" />
+  </ItemGroup>
+  
+</Project>
