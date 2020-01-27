@@ -222,10 +222,7 @@ namespace Juniper.Compression.Tar
             }
         }
 
-        public IReadOnlyCollection<TarArchiveEntry> Entries
-        {
-            get { return entries; }
-        }
+        public IReadOnlyCollection<TarArchiveEntry> Entries => entries;
 
         public TarArchiveEntry GetEntry(string name)
         {

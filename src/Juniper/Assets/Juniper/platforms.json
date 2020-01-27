@@ -28,7 +28,7 @@
     "com.unity.modules.video@1.0.0",
     "com.unity.modules.wind@1.0.0",
     "com.unity.ugui@1.0.0",
-    "ShaderControl",
+    "Kronnect - Shader Control",
 
     "com.unity.ads@exclude",
     "com.unity.modules.ads@exclude",
@@ -124,7 +124,7 @@
       "com.unity.xr.oculus.standalone@1.38.2",
       "com.unity.xr.openvr.standalone@1.0.5",
       "SpeechSDK",
-      "Oculus"
+      "Oculus - Oculus Integration"
     ]
   },
   {
@@ -203,7 +203,7 @@
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0",
       "com.unity.xr.oculus.standalone@1.38.2",
-      "Oculus"
+      "Oculus - Oculus Integration"
     ]
   },
   {

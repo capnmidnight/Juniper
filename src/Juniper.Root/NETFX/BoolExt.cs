@@ -6,5 +6,16 @@ namespace System
         {
             return value ? "Yes" : "No";
         }
+        public static string ToYesNo(this bool value, string label)
+        {
+            if (value)
+            {
+                return label;
+            }
+            else
+            {
+                return "Not " + label;
+            }
+        }
     }
 }

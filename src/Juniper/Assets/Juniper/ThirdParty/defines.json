@@ -12,7 +12,7 @@
     "CompilerDefine": "UNITY_XR_MAGIC_LEAP"
   },
   {
-    "Name": "Oculus",
+    "Name": "Oculus - Oculus Integration",
     "CompilerDefine": "UNITY_XR_OCULUS"
   },
   {
@@ -44,12 +44,8 @@
     "CompilerDefine": "WAVEVR"
   },
   {
-    "Name": "Shader Control",
+    "Name": "Kronnect - Shader Control",
     "CompilerDefine": "SHADER_CONTROL"
-  },
-  {
-    "Name": "Oculus Integration",
-    "CompilerDefine": "UNITY_XR_OCULUS"
   },
   {
     "Name": "Microsoft.CognitiveServices.Speech.1.6.0",
@@ -58,10 +54,6 @@
   {
     "Name": "UBER",
     "CompilerDefine": "UBER"
-  },
-  {
-    "Name": "ShaderControl",
-    "CompilerDefine": "SHADER_CONTROL"
   },
   {
     "Name": "Native Touch",
