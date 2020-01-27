@@ -29,32 +29,64 @@ namespace Juniper.Compression.Tar.GZip
         /// <summary>
         /// Read the names of all the files contained in a .unitypackage file.
         /// </summary>
-        /// <param name="inputPackageFile">The .unitypackage file to read</param>
+        /// <param name="packageFileName">The .unitypackage file to read</param>
         /// <returns>A lazy collection of filenames.</returns>
-        public static IEnumerable<CompressedFileInfo> UnityPackageEntries(string inputPackageFile)
+        public static IEnumerable<CompressedFileInfo> UnityPackageEntries(string packageFileName)
         {
-            if (!File.Exists(inputPackageFile))
+            if (packageFileName is null)
             {
-                throw new FileNotFoundException("File not found! " + inputPackageFile, inputPackageFile);
+                throw new ArgumentNullException(nameof(packageFileName));
             }
 
-            return UnityPackageEntries2();
-
-            IEnumerable<CompressedFileInfo> UnityPackageEntries2()
+            if (packageFileName.Length == 0)
             {
-                using var tar = Open(inputPackageFile);
-                var fileSize = 0L;
-                foreach (var item in tar.Entries)
+                throw new ArgumentException("Value must not be an empty string.", nameof(packageFileName));
+            }
+
+            return UnityPackageEntries(new FileInfo(packageFileName));
+        }
+
+        public static IEnumerable<CompressedFileInfo> UnityPackageEntries(FileInfo packageFile)
+        {
+            if (packageFile is null)
+            {
+                throw new ArgumentNullException(nameof(packageFile));
+            }
+
+            if (!packageFile.Exists)
+            {
+                throw new FileNotFoundException("File not found! " + packageFile.FullName, packageFile.FullName);
+            }
+
+            using var tar = Open(packageFile);
+            var paths = new Dictionary<string, string>();
+            var sizes = new Dictionary<string, long>();
+            foreach (var entry in tar.Entries)
+            {
+                var parts = entry.FullName.Split('/');
+                if (parts.Length == 2)
                 {
-                    if (item.FullName.EndsWith("/asset", StringComparison.InvariantCulture))
+                    var guid = parts[0];
+                    var item = parts[1];
+                    if (item.Equals("asset", StringComparison.InvariantCulture))
                     {
-                        fileSize = item.Length;
+                        sizes[guid] = item.Length;
                     }
-                    else if (item.FullName.EndsWith("/pathname", StringComparison.InvariantCulture))
+                    else if (item.Equals("pathname", StringComparison.InvariantCulture))
                     {
-                        using var streamReader = new StreamReader(item.Open());
-                        var path = streamReader.ReadLine();
-                        yield return new CompressedFileInfo(path, true, fileSize);
+                        using var stream = entry.Open();
+                        using var streamReader = new StreamReader(stream);
+                        paths[guid] = streamReader.ReadLine();
+                    }
+
+                    if (paths.ContainsKey(guid)
+                        && sizes.ContainsKey(guid))
+                    {
+                        var path = paths[guid];
+                        var size = sizes[guid];
+                        paths.Remove(guid);
+                        sizes.Remove(guid);
+                        yield return new CompressedFileInfo(path, true, size);
                     }
                 }
             }
