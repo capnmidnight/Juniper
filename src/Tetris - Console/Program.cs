@@ -56,8 +56,8 @@ namespace Juniper
                     border.Stroke(
                         i, i,
                         border.Width - j, border.Height - j,
-                                        DoubleLight,
-                                        ConsoleColor.Gray);
+                        DoubleLight,
+                        ConsoleColor.Gray);
                 }
 
                 board.Fill(ConsoleColor.Black);
