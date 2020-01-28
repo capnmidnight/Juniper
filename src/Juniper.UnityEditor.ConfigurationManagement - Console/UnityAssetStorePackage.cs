@@ -31,17 +31,19 @@ namespace Juniper.ConfigurationManagement
         private static void AddPackagesFromDirectory(List<AbstractPackage2> packages, string root)
         {
             var rootDir = new DirectoryInfo(root);
-
-            foreach (var vendorDir in rootDir.GetDirectories())
+            if (rootDir.Exists)
             {
-                var vendor = vendorDir.Name;
-                foreach (var purposeDir in vendorDir.GetDirectories())
+                foreach (var vendorDir in rootDir.GetDirectories())
                 {
-                    foreach (var packageFile in purposeDir.GetFiles("*.unitypackage"))
+                    var vendor = vendorDir.Name;
+                    foreach (var purposeDir in vendorDir.GetDirectories())
                     {
-                        var packageName = $"{vendorDir.Name} - {Path.GetFileNameWithoutExtension(packageFile.Name)}";
-                        var packagePath = packageFile.FullName;
-                        packages.Add(new UnityAssetStorePackage(packageName, null, packagePath));
+                        foreach (var packageFile in purposeDir.GetFiles("*.unitypackage"))
+                        {
+                            var packageName = $"{vendorDir.Name} - {Path.GetFileNameWithoutExtension(packageFile.Name)}";
+                            var packagePath = packageFile.FullName;
+                            packages.Add(new UnityAssetStorePackage(packageName, null, packagePath));
+                        }
                     }
                 }
             }
