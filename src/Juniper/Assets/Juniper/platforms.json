@@ -1,5 +1,5 @@
 {
-  "packages": [
+  "Packages": [
     "com.unity.ext.nunit@1.0.0",
     "com.unity.mathematics@1.1.0",
     "com.unity.package-manager-ui@2.2.0",
@@ -38,16 +38,16 @@
     "com.unity.modules.standardevents@exclude",
     "com.unity.purchasing@exclude"
   ],
-  "platforms": [
+  "Configurations": [
   {
     "Name": "None",
-    "buildTarget": "Standalone"
+    "BuildTarget": "Standalone"
   },
   {
     "Name": "Android",
-    "buildTarget": "Android",
+    "BuildTarget": "Android",
     "CompilerDefine": "STANDARD_DISPLAY",
-    "packages": [
+    "Packages": [
       "com.unity.mobile.android-logcat@1.0.0",
       "com.unity.modules.androidjni@1.0.0",
       "SpeechSDK",
@@ -56,9 +56,9 @@
   },
   {
     "Name": "AndroidARCore",
-    "buildTarget": "Android",
-    "androidSdkVersion": "AndroidApiLevel24",
-    "packages": [
+    "BuildTarget": "Android",
+    "AndroidSdkVersion": "AndroidApiLevel24",
+    "Packages": [
       "com.unity.mobile.android-logcat@1.0.0",
       "com.unity.modules.androidjni@1.0.0",
       "com.unity.modules.jsonserialize@1.0.0",
@@ -70,15 +70,15 @@
   {
     "Name": "AndroidCardboard",
     "CompilerDefine": "CARDBOARD",
-    "buildTarget": "Android",
-    "androidSdkVersion": "AndroidApiLevel19",
-    "spatializer": "Resonance Audio",
-    "vrSystems": [
+    "BuildTarget": "Android",
+    "AndroidSdkVersion": "AndroidApiLevel19",
+    "Spatializer": "Resonance Audio",
+    "VrSystems": [
       "None",
       "cardboard",
       "Native Touch"
     ],
-    "packages": [
+    "Packages": [
       "com.unity.google.resonance.audio@1.18.3",
       "com.unity.mobile.android-logcat@1.0.0",
       "com.unity.modules.androidjni@1.0.0",
@@ -89,14 +89,14 @@
   },
   {
     "Name": "AndroidDaydream",
-    "buildTarget": "Android",
-    "androidSdkVersion": "AndroidApiLevel24",
-    "spatializer": "Resonance Audio",
-    "vrSystems": [
+    "BuildTarget": "Android",
+    "AndroidSdkVersion": "AndroidApiLevel24",
+    "Spatializer": "Resonance Audio",
+    "VrSystems": [
       "daydream",
       "None"
     ],
-    "packages": [
+    "Packages": [
       "com.unity.google.resonance.audio@1.18.3",
       "com.unity.mobile.android-logcat@1.0.0",
       "com.unity.modules.androidjni@1.0.0",
@@ -108,14 +108,14 @@
   },
   {
     "Name": "AndroidOculus",
-    "buildTarget": "Android",
+    "BuildTarget": "Android",
     "CompilerDefine": "UNITY_XR_OCULUS_ANDROID",
-    "androidSdkVersion": "AndroidApiLevel21",
-    "spatializer": "OculusSpatializer",
-    "vrSystems": [
+    "AndroidSdkVersion": "AndroidApiLevel21",
+    "Spatializer": "OculusSpatializer",
+    "VrSystems": [
       "Oculus"
     ],
-    "packages": [
+    "Packages": [
       "com.unity.mobile.android-logcat@1.0.0",
       "com.unity.modules.androidjni@1.0.0",
       "com.unity.modules.xr@1.0.0",
@@ -129,10 +129,10 @@
   },
   {
     "Name": "AndroidPicoG2",
-    "buildTarget": "Android",
+    "BuildTarget": "Android",
     "CompilerDefine": "PICO",
-    "androidSdkVersion": "AndroidApiLevel19",
-    "packages": [
+    "AndroidSdkVersion": "AndroidApiLevel19",
+    "Packages": [
       "com.unity.google.resonance.audio@1.18.3",
       "com.unity.mobile.android-logcat@1.0.0",
       "com.unity.modules.androidjni@1.0.0",
@@ -142,10 +142,10 @@
   },
   {
     "Name": "AndroidViveFocus",
-    "buildTarget": "Android",
-    "androidSdkVersion": "AndroidApiLevel25",
-    "spatializer": "Resonance Audio",
-    "packages": [
+    "BuildTarget": "Android",
+    "AndroidSdkVersion": "AndroidApiLevel25",
+    "Spatializer": "Resonance Audio",
+    "Packages": [
       "com.unity.google.resonance.audio@1.18.3",
       "com.unity.mobile.android-logcat@1.0.0",
       "com.unity.modules.androidjni@1.0.0",
@@ -155,28 +155,28 @@
   },
   {
     "Name": "IOS",
-    "buildTarget": "iOS",
+    "BuildTarget": "iOS",
     "CompilerDefine": "STANDARD_DISPLAY",
-    "packages": []
+    "Packages": []
   },
   {
     "Name": "IOSARKit",
-    "buildTarget": "iOS",
-    "iOSVersion": "11.0",
-    "packages": [
+    "BuildTarget": "iOS",
+    "IOSVersion": "11.0",
+    "Packages": [
       "UnityARKitPlugin"
     ]
   },
   {
     "Name": "IOSCardboard",
     "CompilerDefine": "CARDBOARD",
-    "buildTarget": "iOS",
-    "spatializer": "Resonance Audio",
-    "vrSystems": [
+    "BuildTarget": "iOS",
+    "Spatializer": "Resonance Audio",
+    "VrSystems": [
       "None",
       "cardboard"
     ],
-    "packages": [
+    "Packages": [
       "com.unity.google.resonance.audio@1.18.3",
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0"
@@ -184,22 +184,22 @@
   },
   {
     "Name": "Standalone",
-    "buildTarget": "Standalone",
+    "BuildTarget": "Standalone",
     "CompilerDefine": "STANDARD_DISPLAY",
-    "packages": [
+    "Packages": [
       "Tobii"
     ]
   },
   {
     "Name": "StandaloneOculus",
-    "buildTarget": "Standalone",
+    "BuildTarget": "Standalone",
     "CompilerDefine": "UNITY_XR_OCULUS_STANDALONE",
-    "spatializer": "OculusSpatializer",
-    "vrSystems": [
+    "Spatializer": "OculusSpatializer",
+    "VrSystems": [
       "Oculus",
       "None"
     ],
-    "packages": [
+    "Packages": [
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0",
       "com.unity.xr.oculus.standalone@1.38.2",
@@ -208,13 +208,13 @@
   },
   {
     "Name": "StandaloneSteamVR",
-    "buildTarget": "Standalone",
-    "spatializer": "Resonance Audio",
-    "vrSystems": [
+    "BuildTarget": "Standalone",
+    "Spatializer": "Resonance Audio",
+    "VrSystems": [
       "OpenVR",
       "None"
     ],
-    "packages": [
+    "Packages": [
       "com.unity.google.resonance.audio@1.18.3",
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0",
@@ -223,21 +223,21 @@
   },
   {
     "Name": "UWP",
-    "buildTarget": "WSAPlayer",
+    "BuildTarget": "WSAPlayer",
     "CompilerDefine": "STANDARD_DISPLAY",
-    "wsaSubtarget": "AnyDevice"
+    "WsaSubtarget": "AnyDevice"
   },
   {
     "Name": "UWPWindowsMR",
-    "buildTarget": "WSAPlayer",
+    "BuildTarget": "WSAPlayer",
     "CompilerDefine": "WINDOWSMR",
-    "wsaSubtarget": "PC",
-    "spatializer": "Microsoft HRTF",
-    "vrSystems": [
+    "WsaSubtarget": "PC",
+    "Spatializer": "Microsoft HRTF",
+    "VrSystems": [
       "WindowsMR",
       "None"
     ],
-    "packages": [
+    "Packages": [
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0",
       "com.unity.xr.windowsmr.metro@3.0.5"
@@ -245,14 +245,14 @@
   },
   {
     "Name": "UWPHoloLens",
-    "buildTarget": "WSAPlayer",
+    "BuildTarget": "WSAPlayer",
     "CompilerDefine": "HOLOLENS",
-    "wsaSubtarget": "HoloLens",
-    "spatializer": "Microsoft HRTF",
-    "vrSystems": [
+    "WsaSubtarget": "HoloLens",
+    "Spatializer": "Microsoft HRTF",
+    "VrSystems": [
       "WindowsMR"
     ],
-    "packages": [
+    "Packages": [
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0",
       "com.unity.xr.windowsmr.metro@1.0.8"
@@ -260,12 +260,12 @@
   },
   {
     "Name": "MagicLeap",
-    "buildTarget": "Lumin",
-    "spatializer": "MSA Spatializer",
-    "vrSystems": [
+    "BuildTarget": "Lumin",
+    "Spatializer": "MSA Spatializer",
+    "VrSystems": [
       "Lumin"
     ],
-    "packages": [
+    "Packages": [
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0",
       "MagicLeap",
@@ -274,7 +274,7 @@
   },
   {
     "Name": "WebGL",
-    "buildTarget": "WebGL"
+    "BuildTarget": "WebGL"
   }
 ]
 }
