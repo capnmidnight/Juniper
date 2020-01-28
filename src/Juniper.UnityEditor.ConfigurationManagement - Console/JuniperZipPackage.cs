@@ -8,14 +8,14 @@ namespace Juniper.ConfigurationManagement
 {
     public class JuniperZipPackage : AbstractCompressedPackage
     {
-        public static void GetPackages(List<AbstractPackage2> packages, string unityProjectDir)
+        public static void GetPackages(List<AbstractPackage2> packages)
         {
             if (packages is null)
             {
                 throw new ArgumentNullException(nameof(packages));
             }
 
-            var juniperPath = Path.Combine(unityProjectDir, "Assets", "Juniper");
+            var juniperPath = Path.Combine(UnityProjectRoot, "Assets", "Juniper");
             var juniperThirdPartyPath = Path.Combine(juniperPath, "ThirdParty");
             var juniperThirdPartyPackagePath = Path.Combine(juniperThirdPartyPath, "Optional");
 
