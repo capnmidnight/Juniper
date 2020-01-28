@@ -21,8 +21,8 @@ namespace Juniper.ConfigurationManagement
             var unityProjectDir = @"D:\Projects\Juniper\examples\Juniper - Android";
 
             AbstractPackage.UnityProjectRoot = unityProjectDir;
-            var packageDB = GetPackages();
-
+            var packageDB = AbstractPackage.Load();
+            var manifest = UnityPackageManifest.Load();
 
             var configFactory = new JsonFactory<Platforms>();
             var juniperPath = Path.Combine(unityProjectDir, "Assets", "Juniper");
@@ -31,8 +31,89 @@ namespace Juniper.ConfigurationManagement
 
             foreach (var package in platforms.Packages)
             {
-                WriteLine(package);
+                PrintPackageOps(packageDB, manifest, package);
             }
+
+
+            foreach (var configuration in platforms.Configurations)
+            {
+                WriteLine("============================");
+                WriteLine(configuration.Name);
+                foreach (var package in configuration.Packages)
+                {
+                    PrintPackageOps(packageDB, manifest, package);
+                }
+            }
+        }
+
+        private static void PrintPackageOps(IReadOnlyDictionary<string, IReadOnlyCollection<AbstractPackage>> packageDB, UnityPackageManifest manifest, PackageRequirement req)
+        {
+            WriteLine(req);
+            if (req.ForRemoval)
+            {
+                Write("Removing... ");
+                if (!manifest.ContainsKey(req.PackageID))
+                {
+                    WriteLine("no need to remove, not in manifest.");
+                }
+                else
+                {
+                    WriteLine(manifest[req.PackageID]);
+                }
+            }
+            else
+            {
+                Write("Adding... ");
+                if (!packageDB.ContainsKey(req.PackageID))
+                {
+                    WriteLine("no package of any version found!");
+                }
+                else
+                {
+                    var match = packageDB[req.PackageID]
+                        .OrderByDescending(p => p.CompareTo(req))
+                        .FirstOrDefault();
+
+                    if (match == req)
+                    {
+                        WriteLine(match);
+                    }
+                    else if (match is null)
+                    {
+                        WriteLine("couldn't find a matching version of the package.");
+                    }
+                    else if (match < req)
+                    {
+                        WriteLine("couldn't find the package, but an older version already exists in the manifest: " + match);
+                    }
+                    else
+                    {
+                        WriteLine("couldn't find the package, but an newer version already exists in the manifest: " + match);
+                    }
+                }
+
+                if (req.Source == PackageSources.UnityPackageManager
+                    && manifest.ContainsKey(req.PackageID))
+                {
+                    Write("The package exists in the manifest ");
+
+                    var match = manifest[req.PackageID];
+                    if (req == match)
+                    {
+                        WriteLine("and is an exact match.");
+                    }
+                    else if (match < req)
+                    {
+                        WriteLine(" but the version in the manifest is older: " + match);
+                    }
+                    else
+                    {
+                        WriteLine(" but the version in the manifest is newer: " + match);
+                    }
+                }
+            }
+
+            WriteLine();
         }
 
         public static BuildTarget GetBuildTarget(PlatformConfiguration config)
@@ -208,24 +289,6 @@ namespace Juniper.ConfigurationManagement
                     }
                 }
             }
-        }
-
-
-        private static IReadOnlyDictionary<string, IReadOnlyCollection<AbstractPackage>> GetPackages()
-        {
-            var packages = new List<AbstractPackage>();
-
-            UnityAssetStorePackage.GetPackages(packages);
-            JuniperZipPackage.GetPackages(packages);
-            UnityPackageManagerPackage.GetPackages(packages);
-
-            return (from package in packages
-                    group package by package.PackageID into grp
-                    orderby grp.Key
-                    select grp)
-                    .ToDictionary(
-                        g => g.Key,
-                        g => (IReadOnlyCollection<AbstractPackage>)g.ToArray());
         }
 
         public static List<string> GetCompilerDefines(PlatformConfiguration config)

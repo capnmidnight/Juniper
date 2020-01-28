@@ -1,9 +1,29 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Juniper.ConfigurationManagement
 {
-    public abstract class AbstractPackage
+    public abstract class AbstractPackage :
+        PackageReference
     {
+        public static IReadOnlyDictionary<string, IReadOnlyCollection<AbstractPackage>> Load()
+        {
+            var packages = new List<AbstractPackage>();
+
+            UnityAssetStorePackage.Load(packages);
+            JuniperZipPackage.Load(packages);
+            UnityPackageManagerPackage.Load(packages);
+
+            return (from package in packages
+                    group package by package.PackageID into grp
+                    orderby grp.Key
+                    select grp)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => (IReadOnlyCollection<AbstractPackage>)g.ToArray());
+        }
+
         private static string unityProjectDirectory;
 
         public static string UnityProjectRoot
@@ -25,13 +45,48 @@ namespace Juniper.ConfigurationManagement
 
         public string Name { get; }
 
-        public string Version { get; }
-
         public string ContentPath { get; }
 
         public string CompilerDefine { get; }
 
-        public abstract PackageSource Source { get; }
+        private static string MakePackageSpec(PackageSources source, string packageID, string version)
+        {
+            if (packageID is null)
+            {
+                throw new ArgumentNullException(nameof(packageID));
+            }
+
+            if (source == PackageSources.UnityPackageManager && version is null)
+            {
+                throw new ArgumentNullException(nameof(version));
+            }
+
+            return source == PackageSources.UnityPackageManager
+                ? FormatUnityPackageManagerSpec(packageID, version)
+                : packageID;
+        }
+
+        protected AbstractPackage(PackageSources source, string packageID, string name, string version, string path, string compilerDefine)
+            : base(source, MakePackageSpec(source, packageID, version))
+        {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            ContentPath = path;
+            CompilerDefine = compilerDefine ?? throw new ArgumentNullException(nameof(compilerDefine));
+        }
+
+        public override string ToString()
+        {
+            var nameString = base.ToString();
+
+            if (ContentPath is null)
+            {
+                return $"{nameString} [{CompilerDefine}] (builtin)";
+            }
+            else
+            {
+                return $"{nameString} [{CompilerDefine}] at {ContentPath}";
+            }
+        }
 
         public abstract bool Available { get; }
 
@@ -43,17 +98,18 @@ namespace Juniper.ConfigurationManagement
 
         public abstract bool CanUpdate { get; }
 
-        public string PackageID { get; }
-
-        protected AbstractPackage(string packageID, string name, string version, string path, string compilerDefine)
-        {
-            PackageID = packageID;
-            Name = name;
-            Version = version;
-            ContentPath = path;
-            CompilerDefine = compilerDefine;
-        }
-
         public abstract void Install();
+
+        public override int GetHashCode()
+        {
+            var hashCode = -1326761686;
+            var comparer = EqualityComparer<string>.Default;
+            hashCode = (hashCode * -1521134295) + comparer.GetHashCode(Name);
+            hashCode = (hashCode * -1521134295) + comparer.GetHashCode(VersionSpec);
+            hashCode = (hashCode * -1521134295) + comparer.GetHashCode(CompilerDefine);
+            hashCode = (hashCode * -1521134295) + comparer.GetHashCode(PackageID);
+            hashCode = (hashCode * -1521134295) + Source.GetHashCode();
+            return hashCode;
+        }
     }
 }

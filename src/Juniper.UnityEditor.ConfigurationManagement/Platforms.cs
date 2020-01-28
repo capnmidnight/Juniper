@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Juniper.ConfigurationManagement
@@ -6,7 +7,7 @@ namespace Juniper.ConfigurationManagement
     [Serializable]
     public sealed class Platforms : ISerializable
     {
-        public string[] Packages { get; }
+        public PackageRequirement[] Packages { get; }
 
         public PlatformConfiguration[] Configurations { get; }
 
@@ -18,7 +19,9 @@ namespace Juniper.ConfigurationManagement
                 throw new ArgumentNullException(nameof(info));
             }
 
-            Packages = info.GetValue<string[]>(nameof(Packages));
+            Packages = info.GetValue<string[]>(nameof(Packages))
+                .Select(str => new PackageRequirement(str))
+                .ToArray();
             Configurations = info.GetValue<PlatformConfiguration[]>(nameof(Configurations));
         }
 
@@ -29,7 +32,7 @@ namespace Juniper.ConfigurationManagement
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue(nameof(Packages), Packages);
+            info.AddValue(nameof(Packages), Packages.Select(p => p.PackageSpec).ToArray());
             info.AddValue(nameof(Configurations), Configurations);
         }
     }

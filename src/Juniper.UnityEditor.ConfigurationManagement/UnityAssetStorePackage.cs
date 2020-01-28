@@ -11,7 +11,7 @@ namespace Juniper.ConfigurationManagement
 {
     public sealed class UnityAssetStorePackage : AbstractCompressedPackage
     {
-        public static void GetPackages(List<AbstractPackage> packages)
+        public static void Load(List<AbstractPackage> packages)
         {
             if (packages is null)
             {
@@ -52,10 +52,8 @@ namespace Juniper.ConfigurationManagement
         }
 
         public UnityAssetStorePackage(string name, string version, string path)
-            : base(name, version, path)
+            : base(PackageSources.UnityAssetStore, name, version, path)
         { }
-
-        public override PackageSource Source => PackageSource.UnityAssetStore;
 
         protected override string InstallDirectory => UnityProjectRoot;
 

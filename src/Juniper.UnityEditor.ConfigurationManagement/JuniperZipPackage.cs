@@ -9,7 +9,7 @@ namespace Juniper.ConfigurationManagement
 {
     public sealed class JuniperZipPackage : AbstractCompressedPackage
     {
-        public static void GetPackages(List<AbstractPackage> packages)
+        public static void Load(List<AbstractPackage> packages)
         {
             if (packages is null)
             {
@@ -30,10 +30,8 @@ namespace Juniper.ConfigurationManagement
         }
 
         public JuniperZipPackage(string name, string version, string path)
-            : base(name, version, path)
+            : base(PackageSources.JuniperZip, name, version, path)
         { }
-
-        public override PackageSource Source => PackageSource.JuniperZip;
 
         protected override string InstallDirectory => Path.Combine(UnityProjectRoot, "Assets");
 

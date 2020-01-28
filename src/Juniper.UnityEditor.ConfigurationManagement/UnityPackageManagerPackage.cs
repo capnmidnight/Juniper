@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 using Juniper.IO;
 
@@ -15,12 +16,14 @@ namespace Juniper.ConfigurationManagement
         /// <param name="packages"></param>
         /// <param name="listingRoot">version in subdir name, contents in subdir/package.tgz, version and displayName also in subdir/package/package.json</param>
         /// <param name="contentCacheRoot">version number = "dir name@version", contents in dir, version and displayName in package.json</param>
-        public static void GetPackages(List<AbstractPackage> packages)
+        public static void Load(List<AbstractPackage> packages)
         {
             if (packages is null)
             {
                 throw new ArgumentNullException(nameof(packages));
             }
+
+            var packageFactory = new JsonFactory<NpmPackage>();
 
             var localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             var unityCachePath = Path.Combine(localAppDataPath, "Unity", "cache");
@@ -28,7 +31,6 @@ namespace Juniper.ConfigurationManagement
             var unityPackageContentCacheRoot = Path.Combine(unityCachePath, "packages", "packages.unity.com"); // version number = "dir name@version", contents in dir, version and displayName in package.json
 
             var listingRootDir = new DirectoryInfo(unityPackageListingRoot);
-            var packageFactory = new JsonFactory<NpmPackage>();
 
             foreach (var packageDir in listingRootDir.GetDirectories())
             {
@@ -46,9 +48,28 @@ namespace Juniper.ConfigurationManagement
                         }
                         var version = package.Version;
                         var packagePath = Path.Combine(unityPackageContentCacheRoot, $"{packageDir.Name}@{version}");
-                        packages.Add(new UnityPackageManagerPackage(package.Name, packageName, version, packagePath, versionDir.FullName));
+                        packages.Add(new UnityPackageManagerPackage(package.Name, packageName, version, versionDir.FullName, packagePath));
                     }
                 }
+            }
+
+            var unityRoot = Environment.GetEnvironmentVariable("UNITY_ROOT");
+            if (unityRoot is null)
+            {
+                var exe = new FileInfo(Assembly.GetEntryAssembly().Location);
+                unityRoot = exe.Directory.Parent.FullName;
+            }
+
+            var builtInRoot = Path.Combine(unityRoot, "Editor", "Data", "Resources", "PackageManager", "BuiltInPackages");
+            var builtInRootDir = new DirectoryInfo(builtInRoot);
+            foreach (var packageDir in builtInRootDir.GetDirectories())
+            {
+                var packageFileName = Path.Combine(packageDir.FullName, "package.json");
+                var package = packageFactory.Deserialize(packageFileName);
+                var packageName = package.DisplayName;
+                var version = package.Version;
+                packages.Add(new UnityPackageManagerPackage(package.Name, packageName, version, packageDir.FullName));
+
             }
         }
 
@@ -65,13 +86,11 @@ namespace Juniper.ConfigurationManagement
 
         public string ListingPath { get; }
 
-        public UnityPackageManagerPackage(string packageID, string name, string version, string contentPath, string listingPath)
-            : base(packageID, name, version, contentPath, MakeCompilerDefine(packageID))
+        public UnityPackageManagerPackage(string packageID, string name, string version, string listingPath, string contentPath = null)
+            : base(PackageSources.UnityPackageManager, packageID, name, version, contentPath, MakeCompilerDefine(packageID))
         {
             ListingPath = listingPath;
         }
-
-        public override PackageSource Source => PackageSource.UnityPackageManager;
 
         public override bool Available => Directory.Exists(ListingPath);
 
@@ -80,20 +99,13 @@ namespace Juniper.ConfigurationManagement
         public override float InstallPercentage =>
             IsInstalled ? 100 : 0;
 
-        private static UnityPackageManifest LoadManifest()
-        {
-            var unityPackageManifestPath = Path.Combine(UnityProjectRoot, "Packages", "manifest.json");
-            var factory = new JsonFactory<UnityPackageManifest>();
-            return factory.Deserialize(unityPackageManifestPath);
-        }
-
         public override bool IsInstalled
         {
             get
             {
-                var manifest = LoadManifest();
+                var manifest = UnityPackageManifest.Load();
                 return manifest.ContainsKey(PackageID)
-                    && manifest[PackageID] == Version;
+                    && manifest[PackageID].VersionSpec == VersionSpec;
             }
         }
 
@@ -101,38 +113,36 @@ namespace Juniper.ConfigurationManagement
         {
             get
             {
-                var manifest = LoadManifest();
+                var manifest = UnityPackageManifest.Load();
                 if (manifest.ContainsKey(PackageID))
                 {
-                    var installedVersionStr = manifest[PackageID];
+                    var installedVersionStr = manifest[PackageID].VersionSpec;
                     var isInstalledValidVersion = System.Version.TryParse(installedVersionStr, out var iv);
-                    var isThisValidVersion = System.Version.TryParse(Version, out var v);
-                    return isThisValidVersion && !isInstalledValidVersion
-                        || isThisValidVersion && isInstalledValidVersion && v > iv;
+                    var isThisValidVersion = System.Version.TryParse(VersionSpec, out var v);
+                    return (isThisValidVersion && !isInstalledValidVersion)
+                        || (isThisValidVersion && isInstalledValidVersion && v > iv);
                 }
 
                 return true;
             }
         }
 
-        private static void SetManifestField(string package, string version)
+        private static void SetManifestField(PackageReference package, bool remove)
         {
             if (package is null)
             {
                 throw new ArgumentNullException(nameof(package));
             }
 
-            var unityPackageManifestPath = Path.Combine(UnityProjectRoot, "Packages", "manifest.json");
-            var factory = new JsonFactory<UnityPackageManifest>();
-            var manifest = factory.Deserialize(unityPackageManifestPath);
+            var manifest = UnityPackageManifest.Load(out var factory, out var unityPackageManifestPath);
 
-            if (version is object)
+            if (!remove && !package.ForRemoval)
             {
-                manifest[package] = version;
+                manifest[package.PackageID] = package;
             }
-            else if (manifest.ContainsKey(package))
+            else if (manifest.ContainsKey(package.PackageID))
             {
-                manifest.Remove(package);
+                _ = manifest.Remove(package.PackageID);
             }
 
             factory.Serialize(unityPackageManifestPath, manifest);
@@ -140,12 +150,12 @@ namespace Juniper.ConfigurationManagement
 
         public override void Install()
         {
-            SetManifestField(PackageID, Version);
+            SetManifestField(this, false);
         }
 
         public void Uninstall()
         {
-            SetManifestField(PackageID, null);
+            SetManifestField(this, true);
         }
     }
 }

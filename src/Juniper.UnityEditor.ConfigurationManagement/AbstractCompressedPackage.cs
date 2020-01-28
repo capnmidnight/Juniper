@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -49,8 +50,8 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        protected AbstractCompressedPackage(string name, string version, string path)
-        : base(name, name, version, path, GetCompilerDefineSymbol(name))
+        protected AbstractCompressedPackage(PackageSources source, string name, string version, string path)
+        : base(source, name, name, version, path ?? throw new ArgumentNullException(nameof(path)), GetCompilerDefineSymbol(name))
         { }
 
         public override float InstallPercentage

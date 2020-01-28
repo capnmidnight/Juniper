@@ -25,7 +25,8 @@ namespace Juniper.ConfigurationManagement
         public string IOSVersion { get; }
 
         public string WsaSubtarget { get; }
-        public string[] Packages { get; }
+
+        public PackageRequirement[] Packages { get; }
 
         public string[] VrSystems { get; }
 
@@ -51,12 +52,22 @@ namespace Juniper.ConfigurationManagement
                 {
                     case nameof(CompilerDefine): CompilerDefine = info.GetString(nameof(CompilerDefine)); break;
                     case nameof(VrSystems): VrSystems = info.GetValue<string[]>(nameof(VrSystems)); break;
-                    case nameof(Packages): Packages = info.GetValue<string[]>(nameof(Packages)); break;
+                    case nameof(Packages): Packages = info.GetValue<string[]>(nameof(Packages)).Select(str => new PackageRequirement(str)).ToArray(); break;
                     case nameof(Spatializer): Spatializer = info.GetString(nameof(Spatializer)); break;
                     case nameof(AndroidSdkVersion): AndroidSdkVersion = info.GetString(nameof(AndroidSdkVersion)); break;
                     case nameof(IOSVersion): IOSVersion = info.GetString(nameof(IOSVersion)); break;
                     case nameof(WsaSubtarget): WsaSubtarget = info.GetString(nameof(WsaSubtarget)); break;
                 }
+            }
+
+            if (Packages is null)
+            {
+                Packages = Array.Empty<PackageRequirement>();
+            }
+
+            if (VrSystems is null)
+            {
+                VrSystems = Array.Empty<string>();
             }
         }
 
@@ -75,7 +86,7 @@ namespace Juniper.ConfigurationManagement
             info.MaybeAddValue(nameof(IOSVersion), IOSVersion);
             info.MaybeAddValue(nameof(WsaSubtarget), WsaSubtarget);
             info.MaybeAddValue(nameof(VrSystems), VrSystems);
-            info.MaybeAddValue(nameof(Packages), Packages);
+            info.MaybeAddValue(nameof(Packages), Packages.Select(p => p.PackageSpec).ToArray());
         }
     }
 }
