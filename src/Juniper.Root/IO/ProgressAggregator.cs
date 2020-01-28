@@ -60,21 +60,9 @@ namespace Juniper.IO
 
         public string Status { get; private set; }
 
-        public float Progress
-        {
-            get
-            {
-                return subProgs.Sum(p => p.Progress) / subProgs.Length;
-            }
-        }
+        public float Progress => subProgs.Sum(p => p.Progress) / subProgs.Length;
 
-        public int Count
-        {
-            get
-            {
-                return subProgs.Length;
-            }
-        }
+        public int Count => subProgs.Length;
 
         public IProgress this[int index]
         {

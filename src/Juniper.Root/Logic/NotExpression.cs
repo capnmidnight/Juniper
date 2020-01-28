@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Juniper.Logic
 {
-    class NotExpression<ItemT> :
+    internal class NotExpression<ItemT> :
         AbstractUnaryExpression<ItemT, IExpression<ItemT>>
     {
         public NotExpression(IExpression<ItemT> expr)

@@ -1,4 +1,5 @@
 using System;
+
 using Juniper.Puzzles;
 using Juniper.Unicode;
 

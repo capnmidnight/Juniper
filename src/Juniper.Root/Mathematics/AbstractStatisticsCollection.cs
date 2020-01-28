@@ -74,13 +74,7 @@ namespace Juniper.Mathematics
         /// <summary>
         /// Returns the number of items in the collection.
         /// </summary>
-        public int Count
-        {
-            get
-            {
-                return collect.Count;
-            }
-        }
+        public int Count => collect.Count;
 
         /// <summary>
         /// Returns true if the underlying collection is a RingBuffer and if that RingBuffer <see cref="RingBuffer{T}.IsSaturated"/>.
@@ -105,35 +99,17 @@ namespace Juniper.Mathematics
         /// Gets a value indicating whether this collection is read only.
         /// </summary>
         /// <value><c>true</c> if is read only; otherwise, <c>false</c>.</value>
-        public bool IsReadOnly
-        {
-            get
-            {
-                return collect.IsReadOnly;
-            }
-        }
+        public bool IsReadOnly => collect.IsReadOnly;
 
         /// <summary>
         /// The difference between the Maximum and Minimum
         /// </summary>
-        public T? Delta
-        {
-            get
-            {
-                return Subtract(Maximum, Minimum);
-            }
-        }
+        public T? Delta => Subtract(Maximum, Minimum);
 
         /// <summary>
         /// The midpoint between the Maximum and the Minimum
         /// </summary>
-        public T? Median
-        {
-            get
-            {
-                return Add(Minimum, Divide(Delta, 2));
-            }
-        }
+        public T? Median => Add(Minimum, Divide(Delta, 2));
 
         /// <summary>
         /// Gets or sets the element at the specified index.

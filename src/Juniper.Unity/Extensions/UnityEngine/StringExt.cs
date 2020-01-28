@@ -12,7 +12,7 @@ namespace UnityEditor
         public static GUIContent[] ToGUIContents(this string[] values)
         {
             var arr = new GUIContent[values.Length];
-            for(int i = 0; i < values.Length; ++i)
+            for (var i = 0; i < values.Length; ++i)
             {
                 arr[i] = values[i].ToGUIContent();
             }

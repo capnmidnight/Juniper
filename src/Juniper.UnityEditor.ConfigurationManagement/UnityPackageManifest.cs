@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -25,6 +25,7 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private UnityPackageManifest(SerializationInfo info, StreamingContext context)
         {
             dependencies = info.GetValue<Dictionary<string, string>>(nameof(dependencies));

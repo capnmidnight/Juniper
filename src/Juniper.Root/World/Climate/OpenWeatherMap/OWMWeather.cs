@@ -75,10 +75,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// full URL to the <see cref="icon"/> on OpenWeatherMap's server.
         /// </summary>
         /// <value>The icon URL.</value>
-        public Uri IconURL
-        {
-            get { return new Uri($"http://openweathermap.org/img/w/{icon}.png"); }
-        }
+        public Uri IconURL => new Uri($"http://openweathermap.org/img/w/{icon}.png");
 
         public async Task<T> GetIconAsync<T>(IImageCodec<T> decoder)
         {

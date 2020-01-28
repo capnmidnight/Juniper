@@ -19,10 +19,8 @@ namespace Juniper.Imaging
             };
         }
 
-        public MediaType.Image ContentType
-        {
-            get { return MediaType.Image.Jpeg; }
-        }
+        public MediaType.Image ContentType =>
+            MediaType.Image.Jpeg;
 
         /// <summary>
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.

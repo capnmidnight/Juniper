@@ -12,6 +12,7 @@ namespace Juniper.ConfigurationManagement
 
         public string Version { get; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private NpmPackage(SerializationInfo info, StreamingContext context)
         {
             Name = info.GetString("name");

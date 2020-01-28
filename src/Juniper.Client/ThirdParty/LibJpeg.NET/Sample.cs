@@ -72,13 +72,7 @@ namespace BitMiracle.LibJpeg
         /// Gets the number of color components.
         /// </summary>
         /// <value>The number of color components.</value>
-        public byte ComponentCount
-        {
-            get
-            {
-                return (byte)m_components.Length;
-            }
-        }
+        public byte ComponentCount => (byte)m_components.Length;
 
         /// <summary>
         /// Gets the color component at the specified index.

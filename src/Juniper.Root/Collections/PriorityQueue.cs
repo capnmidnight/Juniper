@@ -64,31 +64,19 @@ namespace Juniper.Collections
         /// <summary>
         /// get the number of elements in the collection
         /// </summary>
-        public int Count
-        {
-            get { return q.Count; }
-        }
+        public int Count => q.Count;
 
         /// <summary>
         /// Get the status of this collection as a synchronized collection
         /// </summary>
-        public bool IsSynchronized
-        {
-            get { return true; }
-        }
+        public bool IsSynchronized => true;
 
         /// <summary>
         /// The object to use for locking when using the queue in a multithreaded environment
         /// </summary>
-        public object SyncRoot
-        {
-            get { return q; }
-        }
+        public object SyncRoot => q;
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         /// <summary>
         /// removes all the objects from the priority queue

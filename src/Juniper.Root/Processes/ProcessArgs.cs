@@ -21,7 +21,7 @@ namespace Juniper.Processes
                 if (args[i].StartsWith("--", StringComparison.OrdinalIgnoreCase))
                 {
                     var key = args[i].Substring(2);
-                    if(i == args.Length - 1
+                    if (i == args.Length - 1
                         || args[i + 1].StartsWith("--", StringComparison.OrdinalIgnoreCase))
                     {
                         dict[key] = "True";

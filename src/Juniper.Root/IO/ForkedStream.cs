@@ -17,13 +17,7 @@ namespace Juniper.IO
             streams.Add(stream);
         }
 
-        public override bool CanRead
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool CanRead => false;
 
         public override bool CanSeek
         {
@@ -57,13 +51,7 @@ namespace Juniper.IO
             }
         }
 
-        public override long Length
-        {
-            get
-            {
-                return streams[0].Length;
-            }
-        }
+        public override long Length => streams[0].Length;
 
         public override long Position
         {

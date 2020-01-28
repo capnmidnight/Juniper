@@ -178,37 +178,19 @@ namespace Juniper.Collections
 
         public float Cost { get; }
 
-        public IReadOnlyList<ValueT> Nodes
-        {
-            get { return nodes; }
-        }
+        public IReadOnlyList<ValueT> Nodes => nodes;
 
-        public int Count
-        {
-            get { return nodes.Length; }
-        }
+        public int Count => nodes.Length;
 
         internal bool IsValid { get; }
 
-        public bool IsConnection
-        {
-            get { return Count == 2; }
-        }
+        public bool IsConnection => Count == 2;
 
-        public bool IsPath
-        {
-            get { return Count > 2; }
-        }
+        public bool IsPath => Count > 2;
 
-        public ValueT Start
-        {
-            get { return nodes.FirstOrDefault(); }
-        }
+        public ValueT Start => nodes.FirstOrDefault();
 
-        public ValueT End
-        {
-            get { return nodes.LastOrDefault(); }
-        }
+        public ValueT End => nodes.LastOrDefault();
 
         public override bool Equals(object obj)
         {

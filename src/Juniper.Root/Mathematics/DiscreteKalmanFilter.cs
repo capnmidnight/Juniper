@@ -71,10 +71,7 @@ namespace Juniper.Mathematics
         /// After obtaining a measurement z(k) predicted state will be corrected.
         /// This value is used as an ultimate result.
         /// </summary>
-        public TState State
-        {
-            get { return stateConvertBackFunc(state); }
-        }
+        public TState State => stateConvertBackFunc(state);
 
         /// <summary>
         /// Gets Kalman covariance matrix (S). [p x p] matrix.

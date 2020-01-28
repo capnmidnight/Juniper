@@ -50,10 +50,7 @@ namespace Juniper.Compression.Tar
         /// </summary>
         public DateTime LastModifiedTime { get; }
 
-        public long Length
-        {
-            get { return copy.Length; }
-        }
+        public long Length => copy.Length;
 
         public Stream Open()
         {

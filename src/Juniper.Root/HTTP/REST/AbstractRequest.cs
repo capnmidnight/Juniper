@@ -39,13 +39,7 @@ namespace Juniper.HTTP.REST
             get;
         }
 
-        public override MediaType ContentType
-        {
-            get
-            {
-                return MediaType;
-            }
-        }
+        public override MediaType ContentType => MediaType;
 
         public override bool Equals(object obj)
         {
@@ -54,13 +48,7 @@ namespace Juniper.HTTP.REST
                 && req.CacheID == CacheID;
         }
 
-        public override string CacheID
-        {
-            get
-            {
-                return PathExt.FixPath(BaseURI.PathAndQuery.Substring(1));
-            }
-        }
+        public override string CacheID => PathExt.FixPath(BaseURI.PathAndQuery.Substring(1));
 
         protected virtual Uri BaseURI
         {
@@ -74,13 +62,7 @@ namespace Juniper.HTTP.REST
             }
         }
 
-        protected virtual Uri AuthenticatedURI
-        {
-            get
-            {
-                return BaseURI;
-            }
-        }
+        protected virtual Uri AuthenticatedURI => BaseURI;
 
         private void SetQuery(string key, string value, bool allowMany)
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Juniper.Logic
 {
-    abstract class AbstractBinaryExpression<ItemT> :
+    internal abstract class AbstractBinaryExpression<ItemT> :
         IExpression<ItemT>
     {
         private readonly string opName;
@@ -49,20 +49,20 @@ namespace Juniper.Logic
 
         public override string ToString()
         {
-            if(Item1 is EmptyExpression<ItemT>
+            if (Item1 is EmptyExpression<ItemT>
                 && Item2 is EmptyExpression<ItemT>)
             {
                 return string.Empty;
             }
-            else if(Item1 is EmptyExpression<ItemT>)
+            else if (Item1 is EmptyExpression<ItemT>)
             {
                 return Item2.ToString();
             }
-            else if(Item2 is EmptyExpression<ItemT>)
+            else if (Item2 is EmptyExpression<ItemT>)
             {
                 return Item1.ToString();
             }
-            else if(HasNestedElements)
+            else if (HasNestedElements)
             {
                 return $"({Item1} {opName} {Item2})";
             }

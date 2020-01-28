@@ -32,25 +32,13 @@ namespace Juniper.Compression.Tar
             base.Dispose(disposing);
         }
 
-        public override bool CanRead
-        {
-            get { return entryStream.CanRead; }
-        }
+        public override bool CanRead => entryStream.CanRead;
 
-        public override bool CanSeek
-        {
-            get { return entryStream.CanSeek; }
-        }
+        public override bool CanSeek => entryStream.CanSeek;
 
-        public override bool CanWrite
-        {
-            get { return entryStream.CanWrite; }
-        }
+        public override bool CanWrite => entryStream.CanWrite;
 
-        public override long Length
-        {
-            get { return entryStream.Length; }
-        }
+        public override long Length => entryStream.Length;
 
         public override long Position
         {
@@ -94,10 +82,7 @@ namespace Juniper.Compression.Tar
             return entryStream.BeginWrite(buffer, offset, count, callback, state);
         }
 
-        public override bool CanTimeout
-        {
-            get { return entryStream.CanTimeout; }
-        }
+        public override bool CanTimeout => entryStream.CanTimeout;
 
         public override void Close()
         {

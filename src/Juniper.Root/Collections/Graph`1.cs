@@ -137,10 +137,7 @@ namespace Juniper.Collections
             info.AddValue(nameof(network), Routes.Distinct().ToArray());
         }
 
-        public IEnumerable<NodeT> Nodes
-        {
-            get { return nodes.Keys; }
-        }
+        public IEnumerable<NodeT> Nodes => nodes.Keys;
 
         public IEnumerable<Route<NodeT>> Routes
         {
@@ -162,10 +159,7 @@ namespace Juniper.Collections
             }
         }
 
-        public IEnumerable<Route<NodeT>> Connections
-        {
-            get { return connections; }
-        }
+        public IEnumerable<Route<NodeT>> Connections => connections;
 
         public IEnumerable<Route<NodeT>> Paths
         {
@@ -380,15 +374,9 @@ namespace Juniper.Collections
             network[y, x] = ~route;
         }
 
-        public IReadOnlyDictionary<string, NodeT> NamedNodes
-        {
-            get { return namedNodes; }
-        }
+        public IReadOnlyDictionary<string, NodeT> NamedNodes => namedNodes;
 
-        public IReadOnlyDictionary<NodeT, string> NodeNames
-        {
-            get { return nodeNames; }
-        }
+        public IReadOnlyDictionary<NodeT, string> NodeNames => nodeNames;
 
         public string FindNodeName(NodeT node)
         {

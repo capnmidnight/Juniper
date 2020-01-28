@@ -2,7 +2,7 @@ using System;
 
 namespace Juniper.Logic
 {
-    class AndExpression<ItemT> :
+    internal class AndExpression<ItemT> :
         AbstractBinaryExpression<ItemT>
     {
         public AndExpression(IExpression<ItemT> item1, IExpression<ItemT> item2)

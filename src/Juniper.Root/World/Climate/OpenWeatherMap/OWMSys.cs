@@ -69,13 +69,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// in <see cref="riseTime"/>, and returns that value.
         /// </summary>
         /// <value>The sunrise time.</value>
-        public DateTime SunriseTime
-        {
-            get
-            {
-                return riseTime ?? (riseTime = sunrise.UnixTimestampToDateTime()).Value;
-            }
-        }
+        public DateTime SunriseTime => riseTime ?? (riseTime = sunrise.UnixTimestampToDateTime()).Value;
 
         /// <summary>
         /// The time sunset should occur for the day.
@@ -87,12 +81,6 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// in <see cref="setTime"/>, and returns that value.
         /// </summary>
         /// <value>The sunset time.</value>
-        public DateTime SunsetTime
-        {
-            get
-            {
-                return setTime ?? (setTime = sunset.UnixTimestampToDateTime()).Value;
-            }
-        }
+        public DateTime SunsetTime => setTime ?? (setTime = sunset.UnixTimestampToDateTime()).Value;
     }
 }

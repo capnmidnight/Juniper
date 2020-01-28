@@ -127,7 +127,7 @@ namespace System
 
         public static int Clamp(this decimal value)
         {
-            if(value < 0)
+            if (value < 0)
             {
                 return -1;
             }

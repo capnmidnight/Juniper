@@ -116,13 +116,7 @@ namespace BitMiracle.LibJpeg
         /// Gets the number of samples in this row.
         /// </summary>
         /// <value>The number of samples.</value>
-        public int Length
-        {
-            get
-            {
-                return m_samples.Length;
-            }
-        }
+        public int Length => m_samples.Length;
 
         /// <summary>
         /// Gets the sample at the specified index.

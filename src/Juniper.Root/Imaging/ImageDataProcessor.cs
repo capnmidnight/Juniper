@@ -1,4 +1,5 @@
 using System;
+
 using Juniper.IO;
 
 namespace Juniper.Imaging

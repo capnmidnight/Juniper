@@ -13,7 +13,7 @@ namespace Juniper.Mathematics
     public class Vector4Statistics : AbstractStatisticsCollection<Vector4>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Juniper.Mathematics.Vector4Statistics"/> class.
+        /// Initializes a new instance of the <see cref="Juniper.Mathematics.Vector4Statistics"/> class.
         /// </summary>
         /// <param name="collection">Collection.</param>
         public Vector4Statistics(IList<Vector4> collection)

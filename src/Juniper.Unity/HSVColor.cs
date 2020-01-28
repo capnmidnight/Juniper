@@ -79,7 +79,7 @@ namespace Juniper
         public float a;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:HSVColor"/> struct.
+        /// Initializes a new instance of the <see cref="HSVColor"/> struct.
         /// </summary>
         /// <param name="hue">       Hue.</param>
         /// <param name="saturation">Saturation.</param>
@@ -120,12 +120,12 @@ namespace Juniper
                 ^ a.GetHashCode();
         }
 
-        public static bool operator==(HSVColor left, HSVColor right)
+        public static bool operator ==(HSVColor left, HSVColor right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator!=(HSVColor left, HSVColor right)
+        public static bool operator !=(HSVColor left, HSVColor right)
         {
             return !(left == right);
         }
@@ -136,7 +136,7 @@ namespace Juniper
         /// <param name="a">The first <see cref="HSVColor"/> to add.</param>
         /// <param name="b">The second <see cref="HSVColor"/> to add.</param>
         /// <returns>
-        /// The <see cref="T:HSVColor"/> that is the sum of the values of <c>a</c> and <c>b</c>.
+        /// The <see cref="HSVColor"/> that is the sum of the values of <c>a</c> and <c>b</c>.
         /// </returns>
         public static HSVColor operator +(HSVColor a, HSVColor b)
         {
@@ -148,7 +148,7 @@ namespace Juniper
         /// </summary>
         /// <param name="a">The <see cref="HSVColor"/> to subtract from (the minuend).</param>
         /// <param name="b">The <see cref="HSVColor"/> to subtract (the subtrahend).</param>
-        /// <returns>The <see cref="T:HSVColor"/> that is the <c>a</c> minus <c>b</c>.</returns>
+        /// <returns>The <see cref="HSVColor"/> that is the <c>a</c> minus <c>b</c>.</returns>
         public static HSVColor operator -(HSVColor a, HSVColor b)
         {
             return new HSVColor(a.h - b.h, a.s - b.s, a.v - b.v, a.a - b.a);
@@ -159,7 +159,7 @@ namespace Juniper
         /// </summary>
         /// <param name="a">The <see cref="HSVColor"/> to multiply.</param>
         /// <param name="b">The <see cref="float"/> to multiply.</param>
-        /// <returns>The <see cref="T:HSVColor"/> that is the <c>a</c> * <c>b</c>.</returns>
+        /// <returns>The <see cref="HSVColor"/> that is the <c>a</c> * <c>b</c>.</returns>
         public static HSVColor operator *(HSVColor a, float b)
         {
             return new HSVColor(a.h * b, a.s * b, a.v * b, a.a * b);
@@ -170,7 +170,7 @@ namespace Juniper
         /// </summary>
         /// <param name="a">The <see cref="HSVColor"/> to divide (the divident).</param>
         /// <param name="b">The <see cref="float"/> to divide (the divisor).</param>
-        /// <returns>The <see cref="T:HSVColor"/> that is the <c>a</c> / <c>b</c>.</returns>
+        /// <returns>The <see cref="HSVColor"/> that is the <c>a</c> / <c>b</c>.</returns>
         public static HSVColor operator /(HSVColor a, float b)
         {
             return new HSVColor(a.h / b, a.s / b, a.v / b, a.a / b);

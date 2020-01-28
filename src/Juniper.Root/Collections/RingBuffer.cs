@@ -103,10 +103,7 @@ namespace Juniper.Collections
         /// ring.Add(3); // ring.IsSaturated == true
         /// ring.Add(4); // ring.IsSaturated == true
         /// ]]></code></example>
-        public bool IsSaturated
-        {
-            get { return Count == width - 1; }
-        }
+        public bool IsSaturated => Count == width - 1;
 
         /// <summary>
         /// Returns the number of items in the buffer, up to the buffer size.
@@ -139,10 +136,7 @@ namespace Juniper.Collections
         /// <summary>
         /// Always returns false
         /// </summary>
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         /// <summary>
         /// Gets or sets the element at the specified index.

@@ -92,16 +92,10 @@ namespace Juniper.Processes
 #endif
 
             var outputAccum = new StringBuilder();
-            void Proc_AccumOutputData(object sender, DataReceivedEventArgs e)
-            {
-                _ = outputAccum.AppendLine(e.Data);
-            }
+            void Proc_AccumOutputData(object sender, DataReceivedEventArgs e) => _ = outputAccum.AppendLine(e.Data);
 
             var errorAccum = new StringBuilder();
-            void Proc_AccumErrorData(object sender, DataReceivedEventArgs e)
-            {
-                _ = errorAccum.AppendLine(e.Data);
-            }
+            void Proc_AccumErrorData(object sender, DataReceivedEventArgs e) => _ = errorAccum.AppendLine(e.Data);
 
             proc.OutputDataReceived += Proc_AccumOutputData;
             proc.OutputDataReceived += Proc_OutputDataReceived;

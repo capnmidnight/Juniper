@@ -54,13 +54,7 @@ namespace BitMiracle.LibJpeg
             return m_size;
         }
 
-        public Stream UnderlyingStream
-        {
-            get
-            {
-                return m_stream;
-            }
-        }
+        public Stream UnderlyingStream => m_stream;
 
         public virtual int Read(int bitsCount)
         {

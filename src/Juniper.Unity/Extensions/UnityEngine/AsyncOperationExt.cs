@@ -7,7 +7,7 @@ namespace UnityEngine
 {
     public static class AsyncOperationExt
     {
-        public static Task AsTask(this AsyncOperation op, IProgress prog)
+        public static Task AsTaskAsync(this AsyncOperation op, IProgress prog)
         {
             return Task.Run(() =>
             {
@@ -20,14 +20,14 @@ namespace UnityEngine
             });
         }
 
-        public static Task AsTask(this AsyncOperation op)
+        public static Task AsTaskAsync(this AsyncOperation op)
         {
-            return op.AsTask(null);
+            return op.AsTaskAsync(null);
         }
 
         public static IEnumerator AsCoroutine(this AsyncOperation op, IProgress prog)
         {
-            return op.AsTask(prog).AsCoroutine();
+            return op.AsTaskAsync(prog).AsCoroutine();
         }
 
         public static IEnumerator AsCoroutine(this AsyncOperation op)

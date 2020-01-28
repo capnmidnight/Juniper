@@ -133,10 +133,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// Gets the downsampled width.
         /// </summary>
         /// <value>The downsampled width.</value>
-        public int DownsampledWidth
-        {
-            get { return downsampled_width; }
-        }
+        public int DownsampledWidth => downsampled_width;
 
         internal static JpegComponentInfo[] CreateArrayOfComponents(int length)
         {

@@ -28,10 +28,8 @@ namespace Juniper.Sound
         /// the bytesPerFloat value is smaller than 4. For example, a 2-byte-per-float
         /// PCM stream of length 10 will show a length of 5, as there are 2 times
         /// as many bytes in the input floating-point sample stream.</remarks>
-        public override long Length
-        {
-            get { return ToPCMSpace(SourceStream.Length); }
-        }
+        public override long Length =>
+            ToPCMSpace(SourceStream.Length);
 
         /// <summary>
         /// Gets or sets the position of the stream read head relative to the

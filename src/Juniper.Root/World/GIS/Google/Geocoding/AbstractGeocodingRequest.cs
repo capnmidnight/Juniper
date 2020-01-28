@@ -11,13 +11,8 @@ namespace Juniper.World.GIS.Google.Geocoding
         {
         }
 
-        public override string CacheID
-        {
-            get
-            {
-                return Path.Combine("geocoding", base.CacheID);
-            }
-        }
+        public override string CacheID =>
+            Path.Combine("geocoding", base.CacheID);
 
         public string Language
         {

@@ -105,13 +105,13 @@ namespace Juniper.Console
         public static readonly int VK_SCROLL = 0x91;
         //
         public static readonly int VK_OEM_NEC_EQUAL = 0x92;   // '=' key on numpad
-                                   //
+                                                              //
         public static readonly int VK_OEM_FJ_JISHO = 0x92;   // 'Dictionary' key
         public static readonly int VK_OEM_FJ_MASSHOU = 0x93;   // 'Unregister word' key
         public static readonly int VK_OEM_FJ_TOUROKU = 0x94;   // 'Register word' key
         public static readonly int VK_OEM_FJ_LOYA = 0x95;   // 'Left OYAYUBI' key
         public static readonly int VK_OEM_FJ_ROYA = 0x96;   // 'Right OYAYUBI' key
-                                 //
+                                                            //
         public static readonly int VK_LSHIFT = 0xA0;
         public static readonly int VK_RSHIFT = 0xA1;
         public static readonly int VK_LCONTROL = 0xA2;
@@ -146,7 +146,7 @@ namespace Juniper.Console
         public static readonly int VK_OEM_PERIOD = 0xBE;   // '.' any country
         public static readonly int VK_OEM_2 = 0xBF;   // '/?' for US
         public static readonly int VK_OEM_3 = 0xC0;   // '`~' for US
-                           //
+                                                      //
         public static readonly int VK_OEM_4 = 0xDB;  //  '[{' for US
         public static readonly int VK_OEM_5 = 0xDC;  //  '\|' for US
         public static readonly int VK_OEM_6 = 0xDD;  //  ']}' for US
@@ -157,7 +157,7 @@ namespace Juniper.Console
         public static readonly int VK_OEM_102 = 0xE2;  //  "<>" or "\|" on RT 102-key kbd.
         public static readonly int VK_ICO_HELP = 0xE3;  //  Help key on ICO
         public static readonly int VK_ICO_00 = 0xE4;  //  00 key on ICO
-                           //
+                                                      //
         public static readonly int VK_PROCESSKEY = 0xE5;
         //
         public static readonly int VK_ICO_CLEAR = 0xE6;

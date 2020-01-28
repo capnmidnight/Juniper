@@ -2,7 +2,7 @@ using System;
 
 namespace Juniper.Logic
 {
-    class XorExpression<ItemT> :
+    internal class XorExpression<ItemT> :
         AbstractBinaryExpression<ItemT>
     {
         public XorExpression(IExpression<ItemT> item1, IExpression<ItemT> item2)

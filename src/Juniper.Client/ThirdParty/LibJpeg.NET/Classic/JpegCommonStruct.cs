@@ -124,10 +124,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// Gets the LibJpeg's copyright.
         /// </summary>
         /// <value>The copyright.</value>
-        public static string Copyright
-        {
-            get { return "Copyright (C) 2008-2018, Bit Miracle"; }
-        }
+        public static string Copyright => "Copyright (C) 2008-2018, Bit Miracle";
 
         /// <summary>
         /// Creates the array of samples.

@@ -3,7 +3,7 @@ using System;
 namespace Juniper.Input
 {
     [Flags]
-    public enum InputMode
+    public enum InputModes
     {
         None,
         Auto = 1,

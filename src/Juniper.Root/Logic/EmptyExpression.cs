@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Juniper.Logic
 {
-    class EmptyExpression<ItemT> :
+    internal class EmptyExpression<ItemT> :
         IExpression<ItemT>
     {
         public EmptyExpression()
@@ -14,13 +14,7 @@ namespace Juniper.Logic
             return true;
         }
 
-        public bool HasNestedElements
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public bool HasNestedElements => false;
 
         public IEnumerable<ItemT> GetItems()
         {

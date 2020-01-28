@@ -19,22 +19,13 @@ namespace BitMiracle.LibJpeg
             Colorspace = colorspace;
         }
 
-        public int Width
-        {
-            get { return m_samples[0].Length; }
-        }
+        public int Width => m_samples[0].Length;
 
-        public int Height
-        {
-            get { return m_samples.Count; }
-        }
+        public int Height => m_samples.Count;
 
         public Colorspace Colorspace { get; }
 
-        public int ComponentsPerPixel
-        {
-            get { return m_samples[0][0].ComponentCount; }
-        }
+        public int ComponentsPerPixel => m_samples[0][0].ComponentCount;
 
         public void BeginRead()
         {

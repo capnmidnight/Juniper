@@ -132,7 +132,7 @@ namespace UnityEngine
         /// <returns></returns>
         public static void All<T>(Func<T, bool> filter, ref List<T> container)
         {
-            if(container == null)
+            if (container == null)
             {
                 container = new List<T>();
             }

@@ -257,15 +257,9 @@ namespace Juniper.World.GIS.Google.MapTiles
             return Remove(item.ToString(CultureInfo.InvariantCulture));
         }
 
-        public int Count
-        {
-            get { return Points.Count; }
-        }
+        public int Count => Points.Count;
 
-        public bool IsReadOnly
-        {
-            get { return ((IList<string>)Points).IsReadOnly; }
-        }
+        public bool IsReadOnly => ((IList<string>)Points).IsReadOnly;
 
         public IEnumerator<string> GetEnumerator()
         {

@@ -5,7 +5,6 @@ using System.Net;
 using System.Text;
 
 using Juniper.HTTP;
-using Juniper.HTTP.Client;
 using Juniper.Sound;
 
 using static System.Math;
@@ -60,10 +59,8 @@ namespace Juniper.Speech.Azure.CognitiveServices
         public string VoiceName { get; set; }
         public SpeechStyle Style { get; set; }
 
-        private string StyleString
-        {
-            get { return Style.ToString().ToLowerInvariant(); }
-        }
+        private string StyleString =>
+            Style.ToString().ToLowerInvariant();
 
         public float PitchChange { get; set; }
         public float RateChange { get; set; }
@@ -78,20 +75,14 @@ namespace Juniper.Speech.Azure.CognitiveServices
             }
         }
 
-        private bool HasPitchChange
-        {
-            get { return Abs(PitchChange) > 0; }
-        }
+        private bool HasPitchChange =>
+            Abs(PitchChange) > 0;
 
-        private bool HasRateChange
-        {
-            get { return Abs(RateChange) > 0; }
-        }
+        private bool HasRateChange =>
+            Abs(RateChange) > 0;
 
-        private bool HasVolumeChange
-        {
-            get { return Abs(VolumeChange) > 0; }
-        }
+        private bool HasVolumeChange =>
+            Abs(VolumeChange) > 0;
 
         private bool UseProsody
         {

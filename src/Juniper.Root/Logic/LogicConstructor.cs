@@ -40,7 +40,7 @@ namespace Juniper.Logic
             }
 
             IExpression<ItemT> expr = null;
-            int count = 0;
+            var count = 0;
             foreach (var x in exprs)
             {
                 if (expr is null)
@@ -80,7 +80,7 @@ namespace Juniper.Logic
             }
 
             IExpression<ItemT> expr = null;
-            int count = 0;
+            var count = 0;
             foreach (var x in exprs)
             {
                 if (expr is null)
@@ -120,7 +120,7 @@ namespace Juniper.Logic
             }
 
             IExpression<ItemT> expr = null;
-            int count = 0;
+            var count = 0;
             foreach (var x in exprs)
             {
                 if (expr is null)

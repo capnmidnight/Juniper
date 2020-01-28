@@ -61,9 +61,9 @@ namespace Juniper.Console
                          .ToArray();
 
             var maxLen = lines.Max(l => l.Length);
-            for(var i = 0; i < lines.Length; ++i)
+            for (var i = 0; i < lines.Length; ++i)
             {
-                while(lines[i].Length <= maxLen)
+                while (lines[i].Length <= maxLen)
                 {
                     lines[i] += " ";
                 }
@@ -79,29 +79,11 @@ namespace Juniper.Console
             }
         }
 
-        public IEnumerable<ConsoleKey> Keys
-        {
-            get
-            {
-                return ((IReadOnlyDictionary<ConsoleKey, NamedAction>)actions).Keys;
-            }
-        }
+        public IEnumerable<ConsoleKey> Keys => ((IReadOnlyDictionary<ConsoleKey, NamedAction>)actions).Keys;
 
-        public IEnumerable<NamedAction> Values
-        {
-            get
-            {
-                return ((IReadOnlyDictionary<ConsoleKey, NamedAction>)actions).Values;
-            }
-        }
+        public IEnumerable<NamedAction> Values => ((IReadOnlyDictionary<ConsoleKey, NamedAction>)actions).Values;
 
-        public int Count
-        {
-            get
-            {
-                return actions.Count;
-            }
-        }
+        public int Count => actions.Count;
 
         public NamedAction this[ConsoleKey key]
         {

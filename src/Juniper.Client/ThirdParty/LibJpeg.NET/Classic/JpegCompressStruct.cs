@@ -285,10 +285,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// Retrieves <c>false</c> because this is not decompressor.
         /// </summary>
         /// <value><c>false</c></value>
-        public override bool IsDecompressor
-        {
-            get { return false; }
-        }
+        public override bool IsDecompressor => false;
 
         /// <summary>
         /// Gets or sets the destination for compressed data
@@ -618,19 +615,13 @@ namespace BitMiracle.LibJpeg.Classic
         /// </summary>
         /// <value>The largest vertical sample factor.</value>
         /// <seealso href="../articles/KB/compression-parameter-selection.html">Compression parameter selection</seealso>
-        public int Max_v_samp_factor
-        {
-            get { return m_max_v_samp_factor; }
-        }
+        public int Max_v_samp_factor => m_max_v_samp_factor;
 
         /// <summary>
         /// Gets the components that appears in SOF.
         /// </summary>
         /// <value>The component info array.</value>
-        public JpegComponentInfo[] Component_info
-        {
-            get { return compInfo; }
-        }
+        public JpegComponentInfo[] Component_info => compInfo;
 
         /* ptrs to coefficient quantization tables, or null if not defined */
         /* ptrs to coefficient quantization tables, or null if not defined */
@@ -638,28 +629,19 @@ namespace BitMiracle.LibJpeg.Classic
         /// Gets the coefficient quantization tables.
         /// </summary>
         /// <value>The coefficient quantization tables or null if not defined.</value>
-        public JQuantTable[] Quant_tbl_ptrs
-        {
-            get { return m_quant_tbl_ptrs; }
-        }
+        public JQuantTable[] Quant_tbl_ptrs => m_quant_tbl_ptrs;
 
         /// <summary>
         /// Gets the Huffman coding tables.
         /// </summary>
         /// <value>The Huffman coding tables or null if not defined.</value>
-        public JHuffmanTable[] Dc_huff_tbl_ptrs
-        {
-            get { return m_dc_huff_tbl_ptrs; }
-        }
+        public JHuffmanTable[] Dc_huff_tbl_ptrs => m_dc_huff_tbl_ptrs;
 
         /// <summary>
         /// Gets the Huffman coding tables.
         /// </summary>
         /// <value>The Huffman coding tables or null if not defined.</value>
-        public JHuffmanTable[] Ac_huff_tbl_ptrs
-        {
-            get { return m_ac_huff_tbl_ptrs; }
-        }
+        public JHuffmanTable[] Ac_huff_tbl_ptrs => m_ac_huff_tbl_ptrs;
 
         /// <summary>
         /// Gets the index of next scanline to be written to <see cref="JpegCompressStruct.JpegWriteScanlines"/>.
@@ -668,10 +650,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// e.g., "while (Next_scanline &lt; Image_height)"</remarks>
         /// <value>Range: from 0 to (Image_height - 1)</value>
         /// <seealso cref="JpegCompressStruct.JpegWriteScanlines"/>
-        public int Next_scanline
-        {
-            get { return m_next_scanline; }
-        }
+        public int Next_scanline => m_next_scanline;
 
         /// <summary>
         /// Abort processing of a JPEG compression operation.

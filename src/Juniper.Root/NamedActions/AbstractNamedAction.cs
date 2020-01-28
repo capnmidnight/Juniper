@@ -24,7 +24,7 @@ namespace Juniper
 
         public string Name { get; }
 
-        public Delegate Method { get { return Action; } }
+        public Delegate Method => Action;
 
         protected ActionT Action { get; }
 

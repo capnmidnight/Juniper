@@ -97,12 +97,6 @@ namespace Juniper.OpenGL
             }
         }
 
-        public string InfoLog
-        {
-            get
-            {
-                return GetShaderInfoLog(this);
-            }
-        }
+        public string InfoLog => GetShaderInfoLog(this);
     }
 }

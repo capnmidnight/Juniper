@@ -75,8 +75,7 @@ namespace UnityEngine
         /// <returns></returns>
         public static Color Scale(this Color rgb, float intensity)
         {
-            float h, s, v;
-            Color.RGBToHSV(rgb, out h, out s, out v);
+            Color.RGBToHSV(rgb, out var h, out var s, out var v);
             return Color.HSVToRGB(h, s, v * intensity);
         }
 
@@ -133,15 +132,15 @@ namespace UnityEngine
         public static Color[] ToColors(this byte[] buffer, int components, bool mirror = false)
         {
             var colors = new Color[buffer.Length / components];
-            for(int c = 0; c < colors.Length; ++c)
+            for (var c = 0; c < colors.Length; ++c)
             {
-                int b = c * components;
-                Color color = Color.red;
-                if(components == 3)
+                var b = c * components;
+                var color = Color.red;
+                if (components == 3)
                 {
                     color = buffer.GetRGB888Pixel(b);
                 }
-                else if(components == 4)
+                else if (components == 4)
                 {
                     color = buffer.GetRGBA32Pixel(b);
                 }

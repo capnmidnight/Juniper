@@ -1,9 +1,7 @@
-using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Text;
 
 using Veldrid;
@@ -38,7 +36,7 @@ namespace Juniper
             var lineFormat = $"\t{{0,{fieldWidth}}} = {{1}}";
 
             WriteLine(name);
-            foreach(var prop in props)
+            foreach (var prop in props)
             {
                 WriteLine(lineFormat, prop.Name, prop.GetValue(obj, null));
             }
@@ -62,7 +60,7 @@ namespace Juniper
             using var g = VeldridStartup.CreateGraphicsDevice(window);
             DumpProps(nameof(g), g);
             DumpProps(nameof(g.Features), g.Features);
-            
+
             var factory = g.ResourceFactory;
 
             vertexBuffer = factory.CreateBuffer(new BufferDescription(4 * VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer));

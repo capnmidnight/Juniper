@@ -39,8 +39,8 @@ namespace Juniper.World.GIS
                 EditorGUIUtility.labelWidth = 25;
                 var nextLat = EditorGUI.TextField(latRect, labelLat, curLat);
                 var nextLng = EditorGUI.TextField(lngRect, labelLng, curLng);
-                if (float.TryParse(nextLat, out float lat)
-                    && float.TryParse(nextLng, out float lng))
+                if (float.TryParse(nextLat, out var lat)
+                    && float.TryParse(nextLng, out var lng))
                 {
                     curPoint = new LatLngPoint(lat, lng);
                     property.SetValue(curPoint);

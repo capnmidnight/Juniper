@@ -8,7 +8,10 @@ namespace Juniper
     /// A wrapper around System.DateTime that makes it possible to edit values in the Unity Editor.
     /// </summary>
     [Serializable]
-    public struct EditableDateTime
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1051:Do not declare visible instance fields", Justification = "<Pending>")]
+    public struct EditableDateTime :
+        IEquatable<EditableDateTime>,
+        IEquatable<DateTime>
     {
         /// <summary>
         /// When testing applications running at different times, you can set this value to change
@@ -84,13 +87,7 @@ namespace Juniper
         /// Gets the current system time, plus any <see cref="TestOffset"/>.
         /// </summary>
         /// <value>The now.</value>
-        public static DateTime Now
-        {
-            get
-            {
-                return DateTime.Now + TestOffset;
-            }
-        }
+        public static DateTime Now => DateTime.Now + TestOffset;
 
         /// <summary>
         /// Gets or sets the underlying DateTime value.
@@ -102,7 +99,7 @@ namespace Juniper
             {
                 if (Changed)
                 {
-                    if((int)Month < 1 || 12 < (int)Month
+                    if ((int)Month < 1 || 12 < (int)Month
                         || Year < 1 || 9999 < Year
                         || Day == 0)
                     {
@@ -226,31 +223,33 @@ namespace Juniper
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="T:UnityEngine.EditableDateTime"/>.
+        /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="UnityEngine.EditableDateTime"/>.
         /// </summary>
-        /// <param name="obj">The <see cref="object"/> to compare with the current <see cref="T:UnityEngine.EditableDateTime"/>.</param>
+        /// <param name="obj">The <see cref="object"/> to compare with the current <see cref="UnityEngine.EditableDateTime"/>.</param>
         /// <returns>
         /// <c>true</c> if the specified <see cref="object"/> is equal to the current <see
-        /// cref="T:UnityEngine.EditableDateTime"/>; otherwise, <c>false</c>.
+        /// cref="UnityEngine.EditableDateTime"/>; otherwise, <c>false</c>.
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (obj is EditableDateTime edt)
-            {
-                return edt.Value == Value;
-            }
-            else if (obj is DateTime dt)
-            {
-                return dt == Value;
-            }
-            else
-            {
-                return false;
-            }
+            return (obj is EditableDateTime edt
+                    && Equals(edt))
+                || (obj is DateTime dt
+                    && Equals(dt));
+        }
+
+        public bool Equals(EditableDateTime edt)
+        {
+            return edt.Value == Value;
+        }
+
+        public bool Equals(DateTime dt)
+        {
+            return dt == Value;
         }
 
         /// <summary>
-        /// Serves as a hash function for a <see cref="T:UnityEngine.EditableDateTime"/> object.
+        /// Serves as a hash function for a <see cref="UnityEngine.EditableDateTime"/> object.
         /// </summary>
         /// <returns>
         /// A hash code for this instance that is suitable for use in hashing algorithms and data

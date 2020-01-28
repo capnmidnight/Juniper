@@ -7,7 +7,7 @@ namespace Juniper
     {
         public static IEnumerator Until(DateTime end)
         {
-            while(DateTime.Now < end)
+            while (DateTime.Now < end)
             {
                 yield return null;
             }

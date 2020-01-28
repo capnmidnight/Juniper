@@ -9,7 +9,7 @@ namespace UnityEngine
     public class TextMeshSize
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:UnityEngine.TextMeshSize"/> class.
+        /// Initializes a new instance of the <see cref="UnityEngine.TextMeshSize"/> class.
         /// </summary>
         /// <param name="tm">Tm.</param>
         public TextMeshSize(TextMesh tm)

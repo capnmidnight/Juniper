@@ -125,7 +125,7 @@ namespace Juniper.Puzzles.Test
             for (var x = 0; x < puz.Width; ++x)
             {
                 for (var y = 0; y < puz.Height; ++y)
-            {
+                {
                     Assert.AreEqual(testGrid[x, y], puz[x, y]);
                 }
             }

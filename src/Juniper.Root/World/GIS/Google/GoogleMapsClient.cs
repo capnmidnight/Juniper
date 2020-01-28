@@ -29,10 +29,7 @@ namespace Juniper.World.GIS.Google
             this.cache = cache;
         }
 
-        public string Status
-        {
-            get { return lastError?.Message ?? "NONE"; }
-        }
+        public string Status => lastError?.Message ?? "NONE";
 
         public void ClearError()
         {

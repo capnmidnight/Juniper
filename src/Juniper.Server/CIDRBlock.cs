@@ -418,10 +418,7 @@ namespace Juniper.HTTP.Server
         private readonly byte[] startBytes;
         private readonly byte[] endBytes;
 
-        public bool IsReadOnly
-        {
-            get { return true; }
-        }
+        public bool IsReadOnly => true;
 
         public int Count { get; }
 
@@ -431,7 +428,7 @@ namespace Juniper.HTTP.Server
 
         public IPAddress SubnetMask { get; }
 
-        public AddressFamily AddressFamily { get { return Start.AddressFamily; } }
+        public AddressFamily AddressFamily => Start.AddressFamily;
 
         public int BitmaskLength { get; }
 

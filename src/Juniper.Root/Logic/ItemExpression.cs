@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Juniper.Logic
 {
-    class ItemExpression<ItemT> :
+    internal class ItemExpression<ItemT> :
         AbstractUnaryExpression<ItemT, ItemT>
     {
         public ItemExpression(ItemT value)

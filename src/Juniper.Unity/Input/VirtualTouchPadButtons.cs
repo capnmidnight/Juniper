@@ -1,7 +1,7 @@
 namespace Juniper.Input
 {
     [System.Flags]
-    public enum VirtualTouchPadButton
+    public enum VirtualTouchPadButtons
     {
         None = 0,
         Center = ~None,

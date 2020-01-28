@@ -15,14 +15,14 @@ namespace Juniper.Collections
         private readonly NaturalSortComparer nameComparer;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:UnityEngine.TextureSortComparer"/> class.
+        /// Initializes a new instance of the <see cref="UnityEngine.TextureSortComparer"/> class.
         /// </summary>
         public TextureSortComparer() : this(true)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:UnityEngine.TextureSortComparer"/> class.
+        /// Initializes a new instance of the <see cref="UnityEngine.TextureSortComparer"/> class.
         /// </summary>
         /// <param name="inAscendingOrder">If set to <c>true</c> in ascending order.</param>
         public TextureSortComparer(bool inAscendingOrder)

@@ -59,10 +59,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// unless <see cref="JpegErrorMessage.EmitMessage">emit_message</see> chooses to abort. 
         /// <c>emit_message</c> should count warnings in <c>Num_warnings</c>. The surrounding application 
         /// can check for bad data by seeing if <c>Num_warnings</c> is nonzero at the end of processing.</remarks>
-        public int NumWarnings
-        {
-            get { return m_numWarnings; }
-        }
+        public int NumWarnings => m_numWarnings;
 
         /// <summary>
         /// Receives control for a fatal error.

@@ -1,6 +1,7 @@
 using System;
 
 using BitMiracle.LibJpeg;
+
 using Juniper.IO;
 
 namespace Juniper.Imaging

@@ -68,18 +68,12 @@ namespace Juniper.Collections
         /// <summary>
         /// Returns true if there are no child nodes.
         /// </summary>
-        public bool IsLeaf
-        {
-            get { return Children.Count == 0; }
-        }
+        public bool IsLeaf => Children.Count == 0;
 
         /// <summary>
         /// Returns true if this node has no parent node.
         /// </summary>
-        public bool IsRoot
-        {
-            get { return Parent is null; }
-        }
+        public bool IsRoot => Parent is null;
 
         /// <summary>
         /// Add an element as a child of the node.

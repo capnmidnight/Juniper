@@ -2,7 +2,7 @@ using System;
 
 namespace Juniper.Logic
 {
-    class OrExpression<ItemT> :
+    internal class OrExpression<ItemT> :
         AbstractBinaryExpression<ItemT>
     {
         public OrExpression(IExpression<ItemT> item1, IExpression<ItemT> item2)

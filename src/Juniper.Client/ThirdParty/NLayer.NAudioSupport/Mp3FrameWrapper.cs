@@ -15,10 +15,7 @@ namespace NLayer.NAudioSupport
             }
         }
 
-        public int SampleRate
-        {
-            get { return _frame.SampleRate; }
-        }
+        public int SampleRate => _frame.SampleRate;
 
         public int SampleRateIndex
         {
@@ -30,15 +27,9 @@ namespace NLayer.NAudioSupport
             }
         }
 
-        public int FrameLength
-        {
-            get { return _frame.FrameLength; }
-        }
+        public int FrameLength => _frame.FrameLength;
 
-        public int BitRate
-        {
-            get { return _frame.BitRate; }
-        }
+        public int BitRate => _frame.BitRate;
 
         public MpegVersion Version
         {
@@ -83,36 +74,18 @@ namespace NLayer.NAudioSupport
             }
         }
 
-        public int ChannelModeExtension
-        {
-            get { return _frame.ChannelExtension; }
-        }
+        public int ChannelModeExtension => _frame.ChannelExtension;
 
-        public int SampleCount
-        {
-            get { return _frame.SampleCount; }
-        }
+        public int SampleCount => _frame.SampleCount;
 
-        public int BitRateIndex
-        {
-            get { return _frame.BitRateIndex; }
-        }
+        public int BitRateIndex => _frame.BitRateIndex;
 
-        public bool IsCopyrighted
-        {
-            get { return _frame.Copyright; }
-        }
+        public bool IsCopyrighted => _frame.Copyright;
 
-        public bool HasCrc
-        {
-            get { return _frame.CrcPresent; }
-        }
+        public bool HasCrc => _frame.CrcPresent;
 
         // we assume everything is good here since NAudio should've already caught any errors
-        public bool IsCorrupted
-        {
-            get { return false; }
-        }
+        public bool IsCorrupted => false;
 
         private int _readOffset;
         private int _bitsRead;

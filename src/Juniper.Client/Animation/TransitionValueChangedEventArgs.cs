@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Juniper.Animation
 {
@@ -11,12 +11,12 @@ namespace Juniper.Animation
         /// <summary>
         /// The value before the change happens.
         /// </summary>
-        public readonly float OldValue;
+        public float OldValue { get; }
 
         /// <summary>
         /// The value after the change happens.
         /// </summary>
-        public readonly float NewValue;
+        public float NewValue { get; }
 
         /// <summary>
         /// Creates a new transition value change event.

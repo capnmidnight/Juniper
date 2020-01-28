@@ -22,19 +22,7 @@ namespace Juniper.Sound.Beats
         [NonSerialized]
         public bool wasVisualized;
 
-        public int Low
-        {
-            get
-            {
-                return (int)Math.Pow(2, LowN);
-            }
-        }
-        public int High
-        {
-            get
-            {
-                return (int)Math.Pow(2, HighN);
-            }
-        }
+        public int Low => (int)Math.Pow(2, LowN);
+        public int High => (int)Math.Pow(2, HighN);
     }
 }

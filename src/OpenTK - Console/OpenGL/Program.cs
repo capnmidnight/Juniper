@@ -81,13 +81,7 @@ namespace Juniper.OpenGL
             return GL.GetUniformLocation(this, name);
         }
 
-        public string InfoLog
-        {
-            get
-            {
-                return GetProgramInfoLog(this);
-            }
-        }
+        public string InfoLog => GetProgramInfoLog(this);
 
         public (ActiveAttribType type, int size, string value) GetActiveAttribute(int index)
         {
@@ -107,254 +101,68 @@ namespace Juniper.OpenGL
             return value;
         }
 
-        public bool IsDeleted
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.DeleteStatus) == (int)All.True;
-            }
-        }
+        public bool IsDeleted => GetProgramInfo(GetProgramParameterName.DeleteStatus) == (int)All.True;
 
-        public bool IsLinked
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.LinkStatus) == (int)All.True;
-            }
-        }
+        public bool IsLinked => GetProgramInfo(GetProgramParameterName.LinkStatus) == (int)All.True;
 
-        public bool IsValidated
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.ValidateStatus) == (int)All.True;
-            }
-        }
+        public bool IsValidated => GetProgramInfo(GetProgramParameterName.ValidateStatus) == (int)All.True;
 
-        public int InfoLogLength
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.InfoLogLength);
-            }
-        }
+        public int InfoLogLength => GetProgramInfo(GetProgramParameterName.InfoLogLength);
 
-        public int AttachedShaderCount
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.AttachedShaders);
-            }
-        }
+        public int AttachedShaderCount => GetProgramInfo(GetProgramParameterName.AttachedShaders);
 
-        public int ActiveUniformsCount
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.ActiveUniforms);
-            }
-        }
+        public int ActiveUniformsCount => GetProgramInfo(GetProgramParameterName.ActiveUniforms);
 
-        public int MaxActiveUniformNameLength
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.ActiveUniformMaxLength);
-            }
-        }
+        public int MaxActiveUniformNameLength => GetProgramInfo(GetProgramParameterName.ActiveUniformMaxLength);
 
-        public int ActiveAttributesCount
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.ActiveAttributes);
-            }
-        }
+        public int ActiveAttributesCount => GetProgramInfo(GetProgramParameterName.ActiveAttributes);
 
-        public int MaxActiveAttributeNameLength
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.ActiveAttributeMaxLength);
-            }
-        }
+        public int MaxActiveAttributeNameLength => GetProgramInfo(GetProgramParameterName.ActiveAttributeMaxLength);
 
-        public int MaxActiveAttributeLength
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.ActiveAttributeMaxLength);
-            }
-        }
+        public int MaxActiveAttributeLength => GetProgramInfo(GetProgramParameterName.ActiveAttributeMaxLength);
 
-        public int ActiveAttributes
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.ActiveAttributes);
-            }
-        }
+        public int ActiveAttributes => GetProgramInfo(GetProgramParameterName.ActiveAttributes);
 
-        public int MaxActiveUniformLength
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.ActiveUniformMaxLength);
-            }
-        }
+        public int MaxActiveUniformLength => GetProgramInfo(GetProgramParameterName.ActiveUniformMaxLength);
 
-        public int ActiveUniforms
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.ActiveUniforms);
-            }
-        }
+        public int ActiveUniforms => GetProgramInfo(GetProgramParameterName.ActiveUniforms);
 
-        public bool IsProgramBinaryRetrievable
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.ProgramBinaryRetrievableHint) == (int)All.True;
-            }
-        }
+        public bool IsProgramBinaryRetrievable => GetProgramInfo(GetProgramParameterName.ProgramBinaryRetrievableHint) == (int)All.True;
 
 #if !OPENGL_ES20 && !OPENGL_ES30
-        public int MaxGeometryVerticesOut
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.GeometryVerticesOut);
-            }
-        }
+        public int MaxGeometryVerticesOut => GetProgramInfo(GetProgramParameterName.GeometryVerticesOut);
 
-        public int GeometryInputType
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.GeometryInputType);
-            }
-        }
+        public int GeometryInputType => GetProgramInfo(GetProgramParameterName.GeometryInputType);
 
-        public int GeometryOutputType
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.GeometryOutputType);
-            }
-        }
+        public int GeometryOutputType => GetProgramInfo(GetProgramParameterName.GeometryOutputType);
 
-        public int MaxActiveUniformBlockNameLength
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.ActiveUniformBlockMaxNameLength);
-            }
-        }
+        public int MaxActiveUniformBlockNameLength => GetProgramInfo(GetProgramParameterName.ActiveUniformBlockMaxNameLength);
 
-        public int ActiveUniformBlocks
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.ActiveUniformBlocks);
-            }
-        }
+        public int ActiveUniformBlocks => GetProgramInfo(GetProgramParameterName.ActiveUniformBlocks);
 
-        public int MaxTransformFeedbackVaryingNameLength
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.TransformFeedbackVaryingMaxLength);
-            }
-        }
+        public int MaxTransformFeedbackVaryingNameLength => GetProgramInfo(GetProgramParameterName.TransformFeedbackVaryingMaxLength);
 
-        public TransformFeedbackMode TransformFeedbackBufferMode
-        {
-            get
-            {
-                return (TransformFeedbackMode)GetProgramInfo(GetProgramParameterName.TransformFeedbackBufferMode);
-            }
-        }
+        public TransformFeedbackMode TransformFeedbackBufferMode => (TransformFeedbackMode)GetProgramInfo(GetProgramParameterName.TransformFeedbackBufferMode);
 
-        public int TransformFeedbackVaryingsCount
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.TransformFeedbackVaryings);
-            }
-        }
+        public int TransformFeedbackVaryingsCount => GetProgramInfo(GetProgramParameterName.TransformFeedbackVaryings);
 
-        public int MaxComputeWorkGroupSize
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.MaxComputeWorkGroupSize);
-            }
-        }
+        public int MaxComputeWorkGroupSize => GetProgramInfo(GetProgramParameterName.MaxComputeWorkGroupSize);
 
-        public int ActiveAtomicCounterBuffersCount
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.ActiveAtomicCounterBuffers);
-            }
-        }
+        public int ActiveAtomicCounterBuffersCount => GetProgramInfo(GetProgramParameterName.ActiveAtomicCounterBuffers);
 
-        public int GeometryShaderInvocations
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.GeometryShaderInvocations);
-            }
-        }
+        public int GeometryShaderInvocations => GetProgramInfo(GetProgramParameterName.GeometryShaderInvocations);
 
-        public bool IsProgramSeparable
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.ProgramSeparable) == (int)All.True;
-            }
-        }
+        public bool IsProgramSeparable => GetProgramInfo(GetProgramParameterName.ProgramSeparable) == (int)All.True;
 
-        public int TessControlOuputVertices
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.TessControlOutputVertices);
-            }
-        }
+        public int TessControlOuputVertices => GetProgramInfo(GetProgramParameterName.TessControlOutputVertices);
 
-        public PrimitiveType TessGenMode
-        {
-            get
-            {
-                return (PrimitiveType)GetProgramInfo(GetProgramParameterName.TessGenMode);
-            }
-        }
+        public PrimitiveType TessGenMode => (PrimitiveType)GetProgramInfo(GetProgramParameterName.TessGenMode);
 
-        public bool IsTessGenPointMode
-        {
-            get
-            {
-                return GetProgramInfo(GetProgramParameterName.TessGenPointMode) == (int)All.True;
-            }
-        }
+        public bool IsTessGenPointMode => GetProgramInfo(GetProgramParameterName.TessGenPointMode) == (int)All.True;
 
-        public ArbTessellationShader TessPointGenSpacing
-        {
-            get
-            {
-                return (ArbTessellationShader)GetProgramInfo(GetProgramParameterName.TessGenSpacing);
-            }
-        }
+        public ArbTessellationShader TessPointGenSpacing => (ArbTessellationShader)GetProgramInfo(GetProgramParameterName.TessGenSpacing);
 
-        public FrontFaceDirection TessGenVertexOrder
-        {
-            get
-            {
-                return (FrontFaceDirection)GetProgramInfo(GetProgramParameterName.TessGenVertexOrder);
-            }
-        }
+        public FrontFaceDirection TessGenVertexOrder => (FrontFaceDirection)GetProgramInfo(GetProgramParameterName.TessGenVertexOrder);
 #endif
     }
 }

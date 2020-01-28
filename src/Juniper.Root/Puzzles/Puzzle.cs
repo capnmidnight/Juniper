@@ -507,6 +507,11 @@ namespace Juniper.Puzzles
         /// 0 if the puzzles are equivalent</returns>
         public int CompareTo(Puzzle p)
         {
+            if (p is null)
+            {
+                throw new ArgumentNullException(nameof(p));
+            }
+
             if (Width == p.Width && Height == p.Height)
             {
                 for (var x = 0; x < Width; ++x)
@@ -814,6 +819,39 @@ namespace Juniper.Puzzles
         public bool IsEmpty(int x, int y, Puzzle shape)
         {
             return shape != null && IsEmpty(x, y, shape.grid);
+        }
+
+        public static bool operator ==(Puzzle left, Puzzle right)
+        {
+            return (left is null && right is null)
+                || (left is object && left.Equals(right));
+        }
+
+        public static bool operator !=(Puzzle left, Puzzle right)
+        {
+            return !(left == right);
+        }
+
+        public static bool operator <(Puzzle left, Puzzle right)
+        {
+            return (left is null && right is object)
+                || (left is object  && left.CompareTo(right) < 0);
+        }
+
+        public static bool operator <=(Puzzle left, Puzzle right)
+        {
+            return left is null || left.CompareTo(right) <= 0;
+        }
+
+        public static bool operator >(Puzzle left, Puzzle right)
+        {
+            return left is object && left.CompareTo(right) > 0;
+        }
+
+        public static bool operator >=(Puzzle left, Puzzle right)
+        {
+            return (left is null && right is null)
+                || (left is object && left.CompareTo(right) >= 0);
         }
     }
 }

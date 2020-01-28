@@ -13,10 +13,8 @@ namespace Juniper.IO
         public BinaryFactory()
         { }
 
-        public MediaType.Application ContentType
-        {
-            get { return MediaType.Application.Octet_Stream; }
-        }
+        public MediaType.Application ContentType =>
+            MediaType.Application.Octet_Stream;
 
         public override Type BindToType(string assemblyName, string typeName)
         {

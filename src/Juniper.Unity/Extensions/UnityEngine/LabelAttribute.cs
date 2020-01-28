@@ -11,7 +11,7 @@ namespace UnityEngine
         public string label;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:UnityEngine.LabelAttribute"/> class.
+        /// Initializes a new instance of the <see cref="UnityEngine.LabelAttribute"/> class.
         /// </summary>
         /// <param name="label">Label.</param>
         public LabelAttribute(string label)

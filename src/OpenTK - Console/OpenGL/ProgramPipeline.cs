@@ -51,77 +51,23 @@ namespace Juniper.OpenGL
             return value;
         }
 
-        public bool IsValidated
-        {
-            get
-            {
-                return GetProgramPipelineInfo(ProgramPipelineParameter.ValidateStatus) == (int)All.True;
-            }
-        }
+        public bool IsValidated => GetProgramPipelineInfo(ProgramPipelineParameter.ValidateStatus) == (int)All.True;
 
-        public int InfoLogLength
-        {
-            get
-            {
-                return GetProgramPipelineInfo(ProgramPipelineParameter.InfoLogLength);
-            }
-        }
+        public int InfoLogLength => GetProgramPipelineInfo(ProgramPipelineParameter.InfoLogLength);
 
-        public int ActiveProgram
-        {
-            get
-            {
-                return GetProgramPipelineInfo(ProgramPipelineParameter.ActiveProgram);
-            }
-        }
+        public int ActiveProgram => GetProgramPipelineInfo(ProgramPipelineParameter.ActiveProgram);
 
-        public int ComputeShader
-        {
-            get
-            {
-                return GetProgramPipelineInfo(ProgramPipelineParameter.ComputeShader);
-            }
-        }
+        public int ComputeShader => GetProgramPipelineInfo(ProgramPipelineParameter.ComputeShader);
 
-        public int FragmentShader
-        {
-            get
-            {
-                return GetProgramPipelineInfo(ProgramPipelineParameter.FragmentShader);
-            }
-        }
+        public int FragmentShader => GetProgramPipelineInfo(ProgramPipelineParameter.FragmentShader);
 
-        public int GeometryShader
-        {
-            get
-            {
-                return GetProgramPipelineInfo(ProgramPipelineParameter.GeometryShader);
-            }
-        }
+        public int GeometryShader => GetProgramPipelineInfo(ProgramPipelineParameter.GeometryShader);
 
-        public int TessControlShader
-        {
-            get
-            {
-                return GetProgramPipelineInfo(ProgramPipelineParameter.TessControlShader);
-            }
-        }
+        public int TessControlShader => GetProgramPipelineInfo(ProgramPipelineParameter.TessControlShader);
 
-        public int TessEvaluationShader
-        {
-            get
-            {
-                return GetProgramPipelineInfo(ProgramPipelineParameter.TessEvaluationShader);
-            }
-        }
+        public int TessEvaluationShader => GetProgramPipelineInfo(ProgramPipelineParameter.TessEvaluationShader);
 
-        public int VertexShader
-        {
-            get
-            {
-                return GetProgramPipelineInfo(ProgramPipelineParameter.VertexShader);
-            }
-        }
+        public int VertexShader => GetProgramPipelineInfo(ProgramPipelineParameter.VertexShader);
     }
 }
 #endif

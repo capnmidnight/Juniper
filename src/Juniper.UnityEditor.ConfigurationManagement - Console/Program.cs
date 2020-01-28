@@ -4,8 +4,11 @@ using System.IO;
 using System.Linq;
 
 using Juniper.IO;
+
 using UnityEditor;
+
 using UnityEngine;
+
 using static System.Console;
 
 namespace Juniper.ConfigurationManagement
@@ -60,7 +63,7 @@ namespace Juniper.ConfigurationManagement
 
             try
             {
-                return (BuildTarget)Enum.Parse(typeof(BuildTarget), (string)localBuildTarget);
+                return (BuildTarget)Enum.Parse(typeof(BuildTarget), localBuildTarget);
             }
             catch
             {
@@ -164,7 +167,7 @@ namespace Juniper.ConfigurationManagement
 
         public static void Activate(JuniperZipPackage package, BuildTargetGroup targetGroup)
         {
-            if(package is null)
+            if (package is null)
             {
                 throw new ArgumentNullException(nameof(package));
             }

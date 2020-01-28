@@ -52,96 +52,30 @@ namespace Juniper.OpenGL
             }
         }
 
-        public bool IsBuffer
-        {
-            get
-            {
-                return GL.IsBuffer(this);
-            }
-        }
+        public bool IsBuffer => GL.IsBuffer(this);
 
-        public bool IsTexture
-        {
-            get
-            {
-                return GL.IsTexture(this);
-            }
-        }
+        public bool IsTexture => GL.IsTexture(this);
 
-        public bool IsFrameBuffer
-        {
-            get
-            {
-                return GL.IsFramebuffer(this);
-            }
-        }
+        public bool IsFrameBuffer => GL.IsFramebuffer(this);
 
-        public bool IsProgram
-        {
-            get
-            {
-                return GL.IsProgram(this);
-            }
-        }
+        public bool IsProgram => GL.IsProgram(this);
 
-        public bool IsRenderBuffer
-        {
-            get
-            {
-                return GL.IsRenderbuffer(this);
-            }
-        }
+        public bool IsRenderBuffer => GL.IsRenderbuffer(this);
 
-        public bool IsShader
-        {
-            get
-            {
-                return GL.IsShader(this);
-            }
-        }
+        public bool IsShader => GL.IsShader(this);
 
 #if !OPENGL_ES20
 
-        public bool IsQuery
-        {
-            get
-            {
-                return GL.IsQuery(this);
-            }
-        }
+        public bool IsQuery => GL.IsQuery(this);
 
-        public bool IsSampler
-        {
-            get
-            {
-                return GL.IsSampler(this);
-            }
-        }
+        public bool IsSampler => GL.IsSampler(this);
 
-        public bool IsTransformFeedback
-        {
-            get
-            {
-                return GL.IsTransformFeedback(this);
-            }
-        }
+        public bool IsTransformFeedback => GL.IsTransformFeedback(this);
 
-        public bool IsVertexArray
-        {
-            get
-            {
-                return GL.IsVertexArray(this);
-            }
-        }
+        public bool IsVertexArray => GL.IsVertexArray(this);
 
 #if !OPENGL_ES30
-        public bool IsProgramPipeline
-        {
-            get
-            {
-                return GL.IsProgramPipeline(this);
-            }
-        }
+        public bool IsProgramPipeline => GL.IsProgramPipeline(this);
 #endif
 #endif
     }

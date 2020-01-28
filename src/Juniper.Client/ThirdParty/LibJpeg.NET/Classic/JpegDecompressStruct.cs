@@ -227,10 +227,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// Retrieves <c>true</c> because this is a decompressor.
         /// </summary>
         /// <value><c>true</c></value>
-        public override bool IsDecompressor
-        {
-            get { return true; }
-        }
+        public override bool IsDecompressor => true;
 
         /// <summary>
         /// Gets or sets the source for decompression.
@@ -250,30 +247,21 @@ namespace BitMiracle.LibJpeg.Classic
         /// </summary>
         /// <value>The width of image.</value>
         /// <seealso href="../articles/KB/decompression-parameter-selection.html">Decompression parameter selection</seealso>
-        public int Image_width
-        {
-            get { return imageWidth; }
-        }
+        public int Image_width => imageWidth;
 
         /// <summary>
         /// Gets the height of image, set by <see cref="JpegDecompressStruct.JpegReadHeader"/>
         /// </summary>
         /// <value>The height of image.</value>
         /// <seealso href="../articles/KB/decompression-parameter-selection.html">Decompression parameter selection</seealso>
-        public int Image_height
-        {
-            get { return imageHeight; }
-        }
+        public int Image_height => imageHeight;
 
         /// <summary>
         /// Gets the number of color components in JPEG image.
         /// </summary>
         /// <value>The number of color components.</value>
         /// <seealso href="../articles/KB/decompression-parameter-selection.html">Decompression parameter selection</seealso>
-        public int Num_components
-        {
-            get { return numComponents; }
-        }
+        public int Num_components => numComponents;
 
         /// <summary>
         /// Gets or sets the colorspace of JPEG image.
@@ -294,10 +282,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// </remarks>
         /// <value>The list of loaded special markers.</value>
         /// <seealso href="../articles/KB/special-markers.html">Special markers</seealso>
-        public ReadOnlyCollection<JpegMarkerStruct> Marker_list
-        {
-            get { return new ReadOnlyCollection<JpegMarkerStruct>(m_marker_list); }
-        }
+        public ReadOnlyCollection<JpegMarkerStruct> Marker_list => new ReadOnlyCollection<JpegMarkerStruct>(m_marker_list);
 
         /* Decompression processing parameters --- these fields must be set before
          * calling jpeg_start_decompress().  Note that jpeg_read_header() initializes
@@ -536,10 +521,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// You can also use <see cref="JpegDecompressStruct.jpeg_calc_output_dimensions"/> to determine this value
         /// in advance of calling <see cref="JpegDecompressStruct.jpeg_start_decompress"/>.</remarks>
         /// <seealso cref="JpegDecompressStruct.Output_height"/>
-        public int Output_width
-        {
-            get { return outputWidth; }
-        }
+        public int Output_width => outputWidth;
 
         /// <summary>
         /// Gets the actual height of output image.
@@ -549,10 +531,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// You can also use <see cref="JpegDecompressStruct.JpegCalcOutputDimensions"/> to determine this value
         /// in advance of calling <see cref="JpegDecompressStruct.JpegStartDecompress"/>.</remarks>
         /// <seealso cref="JpegDecompressStruct.Output_width"/>
-        public int Output_height
-        {
-            get { return outputHeight; }
-        }
+        public int Output_height => outputHeight;
 
         /// <summary>
         /// Gets the number of color components in <see cref="JpegDecompressStruct.Out_color_space"/>.
@@ -563,10 +542,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <value>The number of color components.</value>
         /// <seealso cref="JpegDecompressStruct.Out_color_space"/>
         /// <seealso href="../articles/KB/decompression-parameter-selection.html">Decompression parameter selection</seealso>
-        public int Out_color_components
-        {
-            get { return outColorComponents; }
-        }
+        public int Out_color_components => outColorComponents;
 
         /// <summary>
         /// Gets the number of color components returned.
@@ -580,10 +556,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// </value>
         /// <seealso cref="JpegDecompressStruct.Out_color_space"/>
         /// <seealso href="../articles/KB/decompression-parameter-selection.html">Decompression parameter selection</seealso>
-        public int Output_components
-        {
-            get { return outputComponents; }
-        }
+        public int Output_components => outputComponents;
 
         /// <summary>
         /// Gets the recommended height of scanline buffer.
@@ -606,10 +579,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// </para>
         /// </remarks>
         /// <seealso href="../articles/KB/decompression-parameter-selection.html">Decompression parameter selection</seealso>
-        public int Rec_outbuf_height
-        {
-            get { return recommendOutBufferHeight; }
-        }
+        public int Rec_outbuf_height => recommendOutBufferHeight;
 
         /* When quantizing colors, the output colormap is described by these fields.
          * The application can supply a colormap by setting colormap non-null before
@@ -668,10 +638,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// so that the loop test looks like 
         /// <c>while (cinfo.Output_scanline &lt; cinfo.Output_height)</c></remarks>
         /// <seealso href="../articles/KB/decompression-details.html">Decompression details</seealso>
-        public int Output_scanline
-        {
-            get { return outputScanline; }
-        }
+        public int Output_scanline => outputScanline;
 
         /* Current input scan number and number of iMCU rows completed in scan.
          * These indicate the progress of the decompressor input side.
@@ -682,20 +649,14 @@ namespace BitMiracle.LibJpeg.Classic
         /// </summary>
         /// <value>The number of SOS markers seen so far.</value>
         /// <remarks>Indicates the progress of the decompressor input side.</remarks>
-        public int Input_scan_number
-        {
-            get { return inputScanNumber; }
-        }
+        public int Input_scan_number => inputScanNumber;
 
         /// <summary>
         /// Gets the number of iMCU rows completed.
         /// </summary>
         /// <value>The number of iMCU rows completed.</value>
         /// <remarks>Indicates the progress of the decompressor input side.</remarks>
-        public int Input_iMCU_row
-        {
-            get { return inputIMcuRow; }
-        }
+        public int Input_iMCU_row => inputIMcuRow;
 
         /* The "output scan number" is the notional scan being displayed by the
          * output side.  The decompressor will not allow output scan/row number
@@ -706,19 +667,13 @@ namespace BitMiracle.LibJpeg.Classic
         /// Gets the nominal scan number being displayed.
         /// </summary>
         /// <value>The nominal scan number being displayed.</value>
-        public int Output_scan_number
-        {
-            get { return outputScanNumber; }
-        }
+        public int Output_scan_number => outputScanNumber;
 
         /// <summary>
         /// Gets the number of iMCU rows read.
         /// </summary>
         /// <value>The number of iMCU rows read.</value>
-        public int Output_iMCU_row
-        {
-            get { return outputIMcuRow; }
-        }
+        public int Output_iMCU_row => outputIMcuRow;
 
         /* Current progression status.  coef_bits[c][i] indicates the precision
          * with which component c's DCT coefficient i (in zigzag order) is known.
@@ -738,10 +693,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// (thus, 0 at completion of the progression). This is null when reading a non-progressive file.
         /// </value>
         /// <seealso href="../articles/KB/progressive-jpeg.html">Progressive JPEG support</seealso>
-        public int[][] Coef_bits
-        {
-            get { return coefBits; }
-        }
+        public int[][] Coef_bits => coefBits;
 
         // These fields record data obtained from optional markers 
         // recognized by the JPEG library.
@@ -753,10 +705,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <seealso cref="JpegDecompressStruct.XDensity"/>
         /// <seealso cref="JpegDecompressStruct.YDensity"/>
         /// <seealso href="../articles/KB/decompression-parameter-selection.html">Decompression parameter selection</seealso>
-        public DensityUnit DensityUnit
-        {
-            get { return m_densityUnit; }
-        }
+        public DensityUnit DensityUnit => m_densityUnit;
 
         /// <summary>
         /// Gets the horizontal component of pixel ratio.
@@ -764,10 +713,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// <value>The horizontal component of pixel ratio.</value>
         /// <seealso cref="JpegDecompressStruct.YDensity"/>
         /// <seealso cref="JpegDecompressStruct.DensityUnit"/>
-        public short XDensity
-        {
-            get { return m_xDensity; }
-        }
+        public short XDensity => m_xDensity;
 
         /// <summary>
         /// Gets the vertical component of pixel ratio.
@@ -775,30 +721,19 @@ namespace BitMiracle.LibJpeg.Classic
         /// <value>The vertical component of pixel ratio.</value>
         /// <seealso cref="JpegDecompressStruct.XDensity"/>
         /// <seealso cref="JpegDecompressStruct.DensityUnit"/>
-        public short YDensity
-        {
-            get { return m_yDensity; }
-        }
+        public short YDensity => m_yDensity;
 
         /// <summary>
         /// Gets the data precision.
         /// </summary>
         /// <value>The data precision.</value>
-        public int DataPrecision
-        {
-            get { return m_dataPrecision; }
-            //set { m_data_precision = value; }
-        }
+        public int DataPrecision => m_dataPrecision;
 
         /// <summary>
         /// Gets the largest vertical sample factor.
         /// </summary>
         /// <value>The largest vertical sample factor.</value>
-        public int MaxVSampleFactor
-        {
-            get { return m_maxVSampleFactor; }
-            //set { m_max_v_samp_factor = value; }
-        }
+        public int MaxVSampleFactor => m_maxVSampleFactor;
 
         /// <summary>
         /// Gets the last read and unprocessed JPEG marker.
@@ -808,10 +743,7 @@ namespace BitMiracle.LibJpeg.Classic
         /// </value>
         /// <seealso cref="JpegDecompressStruct.JpegSetMarkerProcessor"/>
         /// <seealso href="../articles/KB/special-markers.html">Special markers</seealso>
-        public int UnreadMarker
-        {
-            get { return m_unreadMarker; }
-        }
+        public int UnreadMarker => m_unreadMarker;
 
         /// <summary>
         /// Comp_info[i] describes component that appears i'th in SOF

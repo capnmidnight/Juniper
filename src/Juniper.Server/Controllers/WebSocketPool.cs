@@ -19,13 +19,7 @@ namespace Juniper.HTTP.Server.Controllers
 
         private readonly Dictionary<int, ServerWebSocketConnection> sockets = new Dictionary<int, ServerWebSocketConnection>();
 
-        public IReadOnlyCollection<ServerWebSocketConnection> Sockets
-        {
-            get
-            {
-                return sockets.Values;
-            }
-        }
+        public IReadOnlyCollection<ServerWebSocketConnection> Sockets => sockets.Values;
 
         private void Socket_Closed(object sender, EventArgs e)
         {

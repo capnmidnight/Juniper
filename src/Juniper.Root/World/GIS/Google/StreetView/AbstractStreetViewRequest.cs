@@ -15,10 +15,7 @@ namespace Juniper.World.GIS.Google.StreetView
             : base(path, apiKey, signingKey, contentType)
         { }
 
-        public override string CacheID
-        {
-            get { return Path.Combine("streetview", base.CacheID); }
-        }
+        public override string CacheID => Path.Combine("streetview", base.CacheID);
 
         public string Pano
         {

@@ -15,13 +15,7 @@ namespace Juniper.World.GIS.Google.Places
             : base("place/findplacefromtext/json", apiKey, null, Juniper.MediaType.Application.Json)
         { }
 
-        public override string CacheID
-        {
-            get
-            {
-                return Path.Combine("places", base.CacheID);
-            }
-        }
+        public override string CacheID => Path.Combine("places", base.CacheID);
 
         public string PhoneNumber
         {

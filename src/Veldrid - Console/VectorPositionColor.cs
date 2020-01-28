@@ -4,8 +4,7 @@ using Veldrid;
 
 namespace Juniper
 {
-
-    struct VertexPositionColor
+    internal struct VertexPositionColor
     {
         public Vector2 Position; // This is the position, in normalized device coordinates.
         public RgbaFloat Color; // This is the color of the vertex.

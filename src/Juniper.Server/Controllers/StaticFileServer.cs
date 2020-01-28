@@ -150,7 +150,7 @@ namespace Juniper.HTTP.Server.Controllers
             }
 
             var file = new FileInfo(fileName);
-            
+
             if (!IsAcceptable(request)
                 || (!file.Exists && !directory.Exists)
                 || (file.Exists && !rootDirectory.Contains(file))

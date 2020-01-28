@@ -15,10 +15,8 @@ namespace Juniper.Imaging
             this.IDATMaxSize = IDATMaxSize;
         }
 
-        public MediaType.Image ContentType
-        {
-            get { return MediaType.Image.Png; }
-        }
+        public MediaType.Image ContentType =>
+            MediaType.Image.Png;
 
         /// <summary>
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.

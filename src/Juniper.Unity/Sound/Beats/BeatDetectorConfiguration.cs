@@ -8,13 +8,7 @@ namespace Juniper.Sound.Beats
     [Serializable]
     public class BeatDetectorConfiguration
     {
-        public static string BaseMusicDirectory
-        {
-            get
-            {
-                return Path.Combine(Application.dataPath, "StreamingAssets", "Music");
-            }
-        }
+        public static string BaseMusicDirectory => Path.Combine(Application.dataPath, "StreamingAssets", "Music");
 
         public static string SongFile(string name)
         {

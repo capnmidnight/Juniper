@@ -54,10 +54,7 @@ namespace Hjg.Pngcs.Chunks
         /// <remarks>This should not be used for general metadata handling
         /// </remarks>
         /// <returns></returns>
-        public List<AbstractPngChunk> Chunks
-        {
-            get { return new List<AbstractPngChunk>(PngChunks); }
-        }
+        public List<AbstractPngChunk> Chunks => new List<AbstractPngChunk>(PngChunks);
 
         internal static List<AbstractPngChunk> GetXById(List<AbstractPngChunk> list, string id, string innerid)
         {

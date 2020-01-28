@@ -136,18 +136,12 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// When not null, the error response from the server.
         /// </summary>
-        public string ErrorMessage
-        {
-            get { return error; }
-        }
+        public string ErrorMessage => error;
 
         /// <summary>
         /// name of the city for which the report covers.
         /// </summary>
-        public string City
-        {
-            get { return name; }
-        }
+        public string City => name;
 
         /// <summary>
         /// time-stamp for the period of time the report covers.
@@ -180,10 +174,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// atmospheric visibility
         /// </summary>
-        public float? AtmosphericVisibility
-        {
-            get { return visibility; }
-        }
+        public float? AtmosphericVisibility => visibility;
 
         /// <summary>
         /// A conversion of <see cref="OWMCoord"/> to Juniper's own internal Lat/Lng type.
@@ -231,82 +222,55 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// If <see cref="main"/> is not null, returns the current temperature from it.
         /// </summary>
         /// <value>The temperature.</value>
-        public float? Temperature
-        {
-            get { return main?.temp; }
-        }
+        public float? Temperature => main?.temp;
 
         /// <summary>
         /// If <see cref="main"/> is not null, returns the current atmospheric pressure from it.
         /// </summary>
         /// <value>The atmospheric pressure.</value>
-        public float? AtmosphericPressure
-        {
-            get { return main?.pressure; }
-        }
+        public float? AtmosphericPressure => main?.pressure;
 
         /// <summary>
         /// If <see cref="main"/> is not null, returns the current humidity from it.
         /// </summary>
         /// <value>The humidity.</value>
-        public float? Humidity
-        {
-            get { return main?.humidity / 100f; }
-        }
+        public float? Humidity => main?.humidity / 100f;
 
         /// <summary>
         /// If <see cref="wind"/> is not null, returns the direction from it.
         /// </summary>
         /// <value>The wind direction.</value>
-        public float? WindDirection
-        {
-            get { return wind?.deg; }
-        }
+        public float? WindDirection => wind?.deg;
 
         /// <summary>
         /// if <see cref="wind"/> is not null, returns the speed from it.
         /// </summary>
         /// <value>The wind speed.</value>
-        public float? WindSpeed
-        {
-            get { return wind?.speed; }
-        }
+        public float? WindSpeed => wind?.speed;
 
         /// <summary>
         /// If <see cref="clouds"/> is not null, returns the cloud cover value, scaled to the range
         /// [0, 1].
         /// </summary>
         /// <value>The cloud cover.</value>
-        public float? CloudCover
-        {
-            get { return clouds?.all / 100f; }
-        }
+        public float? CloudCover => clouds?.all / 100f;
 
         /// <summary>
         /// If <see cref="sys"/> is not null, returns the country value from it.
         /// </summary>
         /// <value>The country.</value>
-        public string Country
-        {
-            get { return sys?.country; }
-        }
+        public string Country => sys?.country;
 
         /// <summary>
         /// If <see cref="sys"/> is not null, returns the SunriseTime value from it.
         /// </summary>
         /// <value>The country.</value>
-        public DateTime? SunriseTime
-        {
-            get { return sys?.SunriseTime; }
-        }
+        public DateTime? SunriseTime => sys?.SunriseTime;
 
         /// <summary>
         /// If <see cref="sys"/> is not null, returns the SunsetTime value from it.
         /// </summary>
         /// <value>The country.</value>
-        public DateTime? SunsetTime
-        {
-            get { return sys?.SunsetTime; }
-        }
+        public DateTime? SunsetTime => sys?.SunsetTime;
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Juniper.Logic
 {
-    abstract class AbstractUnaryExpression<ItemT, ValueT> :
+    internal abstract class AbstractUnaryExpression<ItemT, ValueT> :
         IExpression<ItemT>
     {
         protected ValueT Value { get; }
@@ -13,13 +13,7 @@ namespace Juniper.Logic
             Value = item;
         }
 
-        public bool HasNestedElements
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public bool HasNestedElements => false;
 
         public IEnumerable<IExpression<ItemT>> GetExpressions()
         {

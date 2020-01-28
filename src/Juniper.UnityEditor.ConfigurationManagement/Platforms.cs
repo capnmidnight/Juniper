@@ -10,6 +10,7 @@ namespace Juniper.ConfigurationManagement
 
         public PlatformConfiguration[] Configurations { get; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private Platforms(SerializationInfo info, StreamingContext context)
         {
             if (info is null)

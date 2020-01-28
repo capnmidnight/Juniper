@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Juniper.HTTP.Server.Administration.NetSH;
 using Juniper.HTTP.Server.Controllers;
 using Juniper.Logging;
@@ -795,7 +796,7 @@ or
                 OnInfo("");
 #endif
 
-                await CleanupConnectionAsync(response, request, headers)
+                await CleanupConnectionAsync(response, request)
                     .ConfigureAwait(false);
             }
         }
@@ -833,7 +834,7 @@ or
             }
         }
 
-        private async Task CleanupConnectionAsync(HttpListenerResponse response, HttpListenerRequest request, NameValueCollection headers)
+        private async Task CleanupConnectionAsync(HttpListenerResponse response, HttpListenerRequest request)
         {
             response.StatusDescription = HttpStatusDescription.Get(response.StatusCode);
 

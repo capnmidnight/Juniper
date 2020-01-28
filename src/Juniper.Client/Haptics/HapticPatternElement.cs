@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Juniper.Haptics
@@ -7,10 +8,11 @@ namespace Juniper.Haptics
     /// not necessary on iOS, as the patterns have already been defined for us. But on Android, there
     /// are no defined patterns, so we have to try to match them as closely as possible.
     /// </summary>
-    public struct HapticPatternElement
+    public struct HapticPatternElement :
+        IEquatable<HapticPatternElement>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Juniper.Haptics.HapticPatternElement"/> struct.
+        /// Initializes a new instance of the <see cref="Juniper.Haptics.HapticPatternElement"/> struct.
         /// </summary>
         /// <param name="len">Length.</param>
         /// <param name="amp">Amp.</param>
@@ -104,7 +106,12 @@ namespace Juniper.Haptics
         {
             return obj != null
                 && obj is HapticPatternElement p
-                && p.Amplitude == Amplitude
+                && Equals(p);
+        }
+
+        public bool Equals(HapticPatternElement p)
+        {
+            return p.Amplitude == Amplitude
                 && p.Length == Length;
         }
 

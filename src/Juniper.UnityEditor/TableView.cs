@@ -25,7 +25,7 @@ namespace UnityEditor
 
         public TableView(string title, params (string Header, float Width)[] headers)
             : this(title, (from h in headers
-                            select (h.Header, GUILayout.Width(h.Width)))
+                           select (h.Header, GUILayout.Width(h.Width)))
                         .ToArray())
         { }
 

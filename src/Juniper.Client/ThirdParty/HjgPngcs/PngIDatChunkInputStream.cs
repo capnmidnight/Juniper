@@ -53,25 +53,13 @@ namespace Hjg.Pngcs
 
         public override long Position { get; set; }
 
-        public override long Length
-        {
-            get { return 0; }
-        }
+        public override long Length => 0;
 
-        public override bool CanWrite
-        {
-            get { return false; }
-        }
+        public override bool CanWrite => false;
 
-        public override bool CanRead
-        {
-            get { return true; }
-        }
+        public override bool CanRead => true;
 
-        public override bool CanSeek
-        {
-            get { return false; }
-        }
+        public override bool CanSeek => false;
 
         public IList<IdatChunkInfo> foundChunksInfo;
 

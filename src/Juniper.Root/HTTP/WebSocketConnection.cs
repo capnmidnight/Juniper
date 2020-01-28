@@ -76,7 +76,7 @@ namespace Juniper.HTTP
         {
             try
             {
-                while(Socket is null)
+                while (Socket is null)
                 {
                     await Task.Yield();
                 }

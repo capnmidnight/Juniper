@@ -2,7 +2,6 @@ using Juniper.Security;
 
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
-using UnityEditor.SceneManagement;
 
 using UnityEngine;
 
@@ -12,13 +11,7 @@ namespace Juniper
         IPreprocessBuildWithReport,
         IPostprocessBuildWithReport
     {
-        public int callbackOrder
-        {
-            get
-            {
-                return 0;
-            }
-        }
+        public int callbackOrder => 0;
 
         public void OnPreprocessBuild(BuildReport report)
         {

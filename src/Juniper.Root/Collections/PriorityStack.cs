@@ -66,10 +66,7 @@ namespace Juniper.Collections
         /// <summary>
         /// get the number of elements in the collection
         /// </summary>
-        public int Count
-        {
-            get { return stack.Count; }
-        }
+        public int Count => stack.Count;
 
         /// <summary>
         /// removes all the objects from the priority stack

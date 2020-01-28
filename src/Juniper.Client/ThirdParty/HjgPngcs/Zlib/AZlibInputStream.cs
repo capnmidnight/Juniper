@@ -25,25 +25,16 @@ namespace Hjg.Pngcs.Zlib
             base.Dispose(disposing);
         }
 
-        public override bool CanRead
-        {
-            get { return true; }
-        }
+        public override bool CanRead => true;
 
-        public override bool CanWrite
-        {
-            get { return false; }
-        }
+        public override bool CanWrite => false;
 
         public override void SetLength(long value)
         {
             throw new NotSupportedException();
         }
 
-        public override bool CanSeek
-        {
-            get { return false; }
-        }
+        public override bool CanSeek => false;
 
         public override long Seek(long offset, SeekOrigin origin)
         {
@@ -56,20 +47,14 @@ namespace Hjg.Pngcs.Zlib
             set { throw new NotSupportedException(); }
         }
 
-        public override long Length
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public override long Length => throw new NotSupportedException();
 
         public override void Write(byte[] buffer, int offset, int count)
         {
             throw new NotSupportedException();
         }
 
-        public override bool CanTimeout
-        {
-            get { return false; }
-        }
+        public override bool CanTimeout => false;
 
         /// <summary>
         /// mainly for debugging

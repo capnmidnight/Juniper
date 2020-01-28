@@ -65,7 +65,7 @@ namespace Juniper.HTTP.Server.Administration.NetSH
         {
             get
             {
-                foreach(var arg in base.Arguments)
+                foreach (var arg in base.Arguments)
                 {
                     yield return arg;
                 }

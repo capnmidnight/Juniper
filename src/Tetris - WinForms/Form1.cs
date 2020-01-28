@@ -129,7 +129,7 @@ namespace Juniper
         private static DateTime lastShake = DateTime.Now;
         private void Draw()
         {
-            if(shakeDuration > 0)
+            if (shakeDuration > 0)
             {
                 shakeDuration -= (float)((DateTime.Now - lastShake).TotalMilliseconds);
                 lastShake = DateTime.Now;

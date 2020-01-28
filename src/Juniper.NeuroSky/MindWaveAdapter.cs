@@ -15,13 +15,8 @@ namespace Juniper.NeuroSky
         /// <summary>
         /// The firmware version for the device.
         /// </summary>
-        public static int Version
-        {
-            get
-            {
-                return TG_GetVersion();
-            }
-        }
+        public static int Version =>
+            TG_GetVersion();
 
         /// <summary>
         /// The serial communication baud rate to try.
@@ -527,101 +522,29 @@ namespace Juniper.NeuroSky
             }
         }
 
-        public float? Battery
-        {
-            get
-            {
-                return GetDataValue(DataType.TG_DATA_BATTERY);
-            }
-        }
+        public float? Battery => GetDataValue(DataType.TG_DATA_BATTERY);
 
-        public float? PoorSignal
-        {
-            get
-            {
-                return GetDataValue(DataType.TG_DATA_POOR_SIGNAL);
-            }
-        }
+        public float? PoorSignal => GetDataValue(DataType.TG_DATA_POOR_SIGNAL);
 
-        public float? Attention
-        {
-            get
-            {
-                return GetDataValue(DataType.TG_DATA_ATTENTION);
-            }
-        }
+        public float? Attention => GetDataValue(DataType.TG_DATA_ATTENTION);
 
-        public float? Meditation
-        {
-            get
-            {
-                return GetDataValue(DataType.TG_DATA_MEDITATION);
-            }
-        }
+        public float? Meditation => GetDataValue(DataType.TG_DATA_MEDITATION);
 
-        public float? Delta
-        {
-            get
-            {
-                return GetDataValue(DataType.TG_DATA_DELTA);
-            }
-        }
+        public float? Delta => GetDataValue(DataType.TG_DATA_DELTA);
 
-        public float? Theta
-        {
-            get
-            {
-                return GetDataValue(DataType.TG_DATA_THETA);
-            }
-        }
+        public float? Theta => GetDataValue(DataType.TG_DATA_THETA);
 
-        public float? Alpha1
-        {
-            get
-            {
-                return GetDataValue(DataType.TG_DATA_ALPHA1);
-            }
-        }
+        public float? Alpha1 => GetDataValue(DataType.TG_DATA_ALPHA1);
 
-        public float? Alpha2
-        {
-            get
-            {
-                return GetDataValue(DataType.TG_DATA_ALPHA2);
-            }
-        }
+        public float? Alpha2 => GetDataValue(DataType.TG_DATA_ALPHA2);
 
-        public float? Beta1
-        {
-            get
-            {
-                return GetDataValue(DataType.TG_DATA_BETA1);
-            }
-        }
+        public float? Beta1 => GetDataValue(DataType.TG_DATA_BETA1);
 
-        public float? Beta2
-        {
-            get
-            {
-                return GetDataValue(DataType.TG_DATA_BETA2);
-            }
-        }
+        public float? Beta2 => GetDataValue(DataType.TG_DATA_BETA2);
 
-        public float? Gamma1
-        {
-            get
-            {
-                return GetDataValue(DataType.TG_DATA_GAMMA1);
-            }
-        }
+        public float? Gamma1 => GetDataValue(DataType.TG_DATA_GAMMA1);
 
-        public float? Gamma2
-        {
-            get
-            {
-                return GetDataValue(DataType.TG_DATA_GAMMA2);
-            }
-        }
+        public float? Gamma2 => GetDataValue(DataType.TG_DATA_GAMMA2);
 
         /// <summary>
         /// Send a single byte to the device.

@@ -4,7 +4,7 @@
     {
         public static bool HasHttps(this IRequestHandler handler)
         {
-            if(handler is null)
+            if (handler is null)
             {
                 return false;
             }

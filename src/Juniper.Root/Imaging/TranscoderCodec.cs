@@ -15,13 +15,7 @@ namespace Juniper.Imaging
             this.transcoder = transcoder;
         }
 
-        public MediaType.Image ContentType
-        {
-            get
-            {
-                return codec.ContentType;
-            }
-        }
+        public MediaType.Image ContentType => codec.ContentType;
 
         public ToImageT Deserialize(Stream stream)
         {

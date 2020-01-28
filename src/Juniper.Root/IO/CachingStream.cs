@@ -62,57 +62,27 @@ namespace Juniper.IO
         /// <summary>
         /// Returns true when the underlying stream can be read.
         /// </summary>
-        public override bool CanRead
-        {
-            get
-            {
-                return SourceStream.CanRead;
-            }
-        }
+        public override bool CanRead => SourceStream.CanRead;
 
         /// <summary>
         /// Returns true when the underlying stream can be randomly repositioned.
         /// </summary>
-        public override bool CanSeek
-        {
-            get
-            {
-                return SourceStream.CanSeek;
-            }
-        }
+        public override bool CanSeek => SourceStream.CanSeek;
 
         /// <summary>
         /// Returns true when the underlying stream can be written to.
         /// </summary>
-        public override bool CanWrite
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool CanWrite => false;
 
         /// <summary>
         /// Returns true when the underlying stream can time out.
         /// </summary>
-        public override bool CanTimeout
-        {
-            get
-            {
-                return SourceStream.CanTimeout;
-            }
-        }
+        public override bool CanTimeout => SourceStream.CanTimeout;
 
         /// <summary>
         /// Returns the length of the underlying stream.
         /// </summary>
-        public override long Length
-        {
-            get
-            {
-                return SourceStream.Length;
-            }
-        }
+        public override long Length => SourceStream.Length;
 
         /// <summary>
         /// Returns the read/write position of the underlying stream.

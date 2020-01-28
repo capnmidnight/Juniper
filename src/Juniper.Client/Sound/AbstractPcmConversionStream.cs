@@ -64,26 +64,20 @@ namespace Juniper.Sound
         /// <summary>
         /// Returns true if the underlying stream is readable.
         /// </summary>
-        public override bool CanRead
-        {
-            get { return SourceStream.CanRead; }
-        }
+        public override bool CanRead =>
+            SourceStream.CanRead;
 
         /// <summary>
         /// Returns true if the underlying stream is seekable.
         /// </summary>summary>
-        public override bool CanSeek
-        {
-            get { return SourceStream.CanSeek; }
-        }
+        public override bool CanSeek =>
+            SourceStream.CanSeek;
 
         /// <summary>
         /// Returns true if the underlying stream is writable.
         /// </summary>
-        public override bool CanWrite
-        {
-            get { return SourceStream.CanWrite; }
-        }
+        public override bool CanWrite =>
+            SourceStream.CanWrite;
 
         /// <summary>
         /// Reposition the head of the underlying stream.

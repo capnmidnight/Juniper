@@ -39,10 +39,7 @@ namespace Juniper.IO
             TotalByteCount = 0;
         }
 
-        public Stream SourceStream
-        {
-            get { return BaseStream; }
-        }
+        public Stream SourceStream => BaseStream;
 
         /// <summary>
         /// Backing field for <see cref="TotalByteCount"/>.
@@ -110,34 +107,22 @@ namespace Juniper.IO
         /// <summary>
         /// Returns true when the underlying stream can be read.
         /// </summary>
-        public override bool CanRead
-        {
-            get { return BaseStream.CanRead; }
-        }
+        public override bool CanRead => BaseStream.CanRead;
 
         /// <summary>
         /// Returns true when the underlying stream can be randomly repositioned.
         /// </summary>
-        public override bool CanSeek
-        {
-            get { return BaseStream.CanSeek; }
-        }
+        public override bool CanSeek => BaseStream.CanSeek;
 
         /// <summary>
         /// Returns true when the underlying stream can be written to.
         /// </summary>
-        public override bool CanWrite
-        {
-            get { return BaseStream.CanWrite; }
-        }
+        public override bool CanWrite => BaseStream.CanWrite;
 
         /// <summary>
         /// Returns the length of the underlying stream.
         /// </summary>
-        public override long Length
-        {
-            get { return length; }
-        }
+        public override long Length => length;
 
         /// <summary>
         /// Returns the read/write position of the underlying stream.

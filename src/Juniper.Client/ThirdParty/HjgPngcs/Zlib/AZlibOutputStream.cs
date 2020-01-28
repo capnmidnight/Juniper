@@ -36,10 +36,7 @@ namespace Hjg.Pngcs.Zlib
             throw new NotImplementedException();
         }
 
-        public override bool CanSeek
-        {
-            get { return false; }
-        }
+        public override bool CanSeek => false;
 
         public override long Seek(long offset, SeekOrigin origin)
         {
@@ -52,30 +49,18 @@ namespace Hjg.Pngcs.Zlib
             set { throw new NotSupportedException(); }
         }
 
-        public override long Length
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public override long Length => throw new NotSupportedException();
 
         public override int Read(byte[] buffer, int offset, int count)
         {
             throw new NotSupportedException();
         }
 
-        public override bool CanRead
-        {
-            get { return false; }
-        }
+        public override bool CanRead => false;
 
-        public override bool CanWrite
-        {
-            get { return true; }
-        }
+        public override bool CanWrite => true;
 
-        public override bool CanTimeout
-        {
-            get { return false; }
-        }
+        public override bool CanTimeout => false;
 
         /// <summary>
         /// mainly for debugging
