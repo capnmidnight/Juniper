@@ -8,7 +8,6 @@
     <AssemblyName>Juniper.Azure.Console</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>Exe</OutputType>
-    <!-- keep this at net48 while WaveOut is not available in .NET Core -->
     <TargetFramework>net48</TargetFramework>
     <StartupObject>Juniper.Program</StartupObject>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>

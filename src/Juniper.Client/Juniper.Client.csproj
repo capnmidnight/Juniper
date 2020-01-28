@@ -8,7 +8,7 @@
     <AssemblyName>Juniper.Client</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net472;net48;netstandard2.0;netstandard2.1;netcoreapp3.1</TargetFrameworks>
+    <TargetFramework>net472</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <Platforms>AnyCPU</Platforms>

@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 
 namespace Juniper.ConfigurationManagement
 {
@@ -18,8 +17,6 @@ namespace Juniper.ConfigurationManagement
                 unityProjectDirectory = value;
             }
         }
-
-
 
         public string Name { get; }
 

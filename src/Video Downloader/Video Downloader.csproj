@@ -6,7 +6,7 @@
     <AssemblyName>Juniper.VideoDownloader</AssemblyName>
     <RootNamespace>Juniper.VideoDownloader</RootNamespace>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+    <TargetFramework>net48</TargetFramework>
     <StartupObject>Juniper.VideoDownloader.Program</StartupObject>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
