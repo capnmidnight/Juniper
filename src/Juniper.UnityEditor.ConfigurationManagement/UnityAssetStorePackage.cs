@@ -9,7 +9,7 @@ using UnityEditor;
 
 namespace Juniper.ConfigurationManagement
 {
-    public class UnityAssetStorePackage : AbstractCompressedPackage
+    public sealed class UnityAssetStorePackage : AbstractCompressedPackage
     {
         public static void GetPackages(List<AbstractPackage> packages)
         {

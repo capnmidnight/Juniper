@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Juniper.ConfigurationManagement
 {
     [Serializable]
-    public class PackageDefineSymbol : ISerializable
+    public sealed class PackageDefineSymbol : ISerializable
     {
         public string Name { get; }
         public string CompilerDefine { get; }
@@ -27,7 +27,7 @@ namespace Juniper.ConfigurationManagement
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
-        protected PackageDefineSymbol(SerializationInfo info, StreamingContext context)
+        private PackageDefineSymbol(SerializationInfo info, StreamingContext context)
         {
             if (info is null)
             {

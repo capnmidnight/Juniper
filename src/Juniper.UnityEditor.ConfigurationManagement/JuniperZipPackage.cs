@@ -7,7 +7,7 @@ using Juniper.Compression.Zip;
 
 namespace Juniper.ConfigurationManagement
 {
-    public class JuniperZipPackage : AbstractCompressedPackage
+    public sealed class JuniperZipPackage : AbstractCompressedPackage
     {
         public static void GetPackages(List<AbstractPackage> packages)
         {

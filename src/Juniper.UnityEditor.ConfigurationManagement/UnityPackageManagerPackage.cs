@@ -7,7 +7,7 @@ using Juniper.IO;
 
 namespace Juniper.ConfigurationManagement
 {
-    public class UnityPackageManagerPackage : AbstractPackage
+    public sealed class UnityPackageManagerPackage : AbstractPackage
     {
         /// <summary>
         /// 
