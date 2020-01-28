@@ -30,5 +30,10 @@
     <ProjectReference Include="..\Juniper.UnityEditor\Juniper.UnityEditor.csproj" />
     <ProjectReference Include="..\Juniper.Unity\Juniper.Unity.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="$(UNITY_ROOT)\Editor\Data\Managed\UnityEngine.dll" />
+    <Reference Include="$(UNITY_ROOT)\Editor\Data\Managed\UnityEditor.dll" />
+  </ItemGroup>
   
 </Project>

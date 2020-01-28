@@ -25,9 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
     <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
-    <Reference Include="$(UNITY_ROOT)\Editor\Data\Managed\UnityEngine.dll">
-      <Private>false</Private>
-    </Reference>
+    <Reference Include="$(UNITY_ROOT)\Editor\Data\Managed\UnityEngine.dll" />
   </ItemGroup>
 
 </Project>

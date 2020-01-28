@@ -23,21 +23,11 @@
   </Target>
 
   <ItemGroup>
-    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj">
-      <Private>false</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj">
-      <Private>false</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Juniper.Unity\Juniper.Unity.csproj">
-      <Private>false</Private>
-    </ProjectReference>
-    <Reference Include="$(UNITY_ROOT)\Editor\Data\Managed\UnityEngine.dll">
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="$(UNITY_ROOT)\Editor\Data\Managed\UnityEditor.dll">
-      <Private>false</Private>
-    </Reference>
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
+    <ProjectReference Include="..\Juniper.Unity\Juniper.Unity.csproj" />
+    <Reference Include="$(UNITY_ROOT)\Editor\Data\Managed\UnityEngine.dll" />
+    <Reference Include="$(UNITY_ROOT)\Editor\Data\Managed\UnityEditor.dll" />
   </ItemGroup>
 
 </Project>
