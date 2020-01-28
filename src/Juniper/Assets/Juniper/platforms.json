@@ -41,11 +41,11 @@
   "Configurations": [
   {
     "Name": "None",
-    "BuildTarget": "Standalone"
+    "BuildTargetName": "Standalone"
   },
   {
     "Name": "Android",
-    "BuildTarget": "Android",
+    "BuildTargetName": "Android",
     "CompilerDefine": "STANDARD_DISPLAY",
     "Packages": [
       "com.unity.mobile.android-logcat@1.0.0",
@@ -56,7 +56,7 @@
   },
   {
     "Name": "AndroidARCore",
-    "BuildTarget": "Android",
+    "BuildTargetName": "Android",
     "AndroidSdkVersion": "AndroidApiLevel24",
     "Packages": [
       "com.unity.mobile.android-logcat@1.0.0",
@@ -70,7 +70,7 @@
   {
     "Name": "AndroidCardboard",
     "CompilerDefine": "CARDBOARD",
-    "BuildTarget": "Android",
+    "BuildTargetName": "Android",
     "AndroidSdkVersion": "AndroidApiLevel19",
     "Spatializer": "Resonance Audio",
     "VrSystems": [
@@ -89,7 +89,7 @@
   },
   {
     "Name": "AndroidDaydream",
-    "BuildTarget": "Android",
+    "BuildTargetName": "Android",
     "AndroidSdkVersion": "AndroidApiLevel24",
     "Spatializer": "Resonance Audio",
     "VrSystems": [
@@ -108,7 +108,7 @@
   },
   {
     "Name": "AndroidOculus",
-    "BuildTarget": "Android",
+    "BuildTargetName": "Android",
     "CompilerDefine": "UNITY_XR_OCULUS_ANDROID",
     "AndroidSdkVersion": "AndroidApiLevel21",
     "Spatializer": "OculusSpatializer",
@@ -129,7 +129,7 @@
   },
   {
     "Name": "AndroidPicoG2",
-    "BuildTarget": "Android",
+    "BuildTargetName": "Android",
     "CompilerDefine": "PICO",
     "AndroidSdkVersion": "AndroidApiLevel19",
     "Packages": [
@@ -142,7 +142,7 @@
   },
   {
     "Name": "AndroidViveFocus",
-    "BuildTarget": "Android",
+    "BuildTargetName": "Android",
     "AndroidSdkVersion": "AndroidApiLevel25",
     "Spatializer": "Resonance Audio",
     "Packages": [
@@ -155,13 +155,13 @@
   },
   {
     "Name": "IOS",
-    "BuildTarget": "iOS",
+    "BuildTargetName": "iOS",
     "CompilerDefine": "STANDARD_DISPLAY",
     "Packages": []
   },
   {
     "Name": "IOSARKit",
-    "BuildTarget": "iOS",
+    "BuildTargetName": "iOS",
     "IOSVersion": "11.0",
     "Packages": [
       "UnityARKitPlugin"
@@ -170,7 +170,7 @@
   {
     "Name": "IOSCardboard",
     "CompilerDefine": "CARDBOARD",
-    "BuildTarget": "iOS",
+    "BuildTargetName": "iOS",
     "Spatializer": "Resonance Audio",
     "VrSystems": [
       "None",
@@ -184,7 +184,7 @@
   },
   {
     "Name": "Standalone",
-    "BuildTarget": "Standalone",
+    "BuildTargetName": "Standalone",
     "CompilerDefine": "STANDARD_DISPLAY",
     "Packages": [
       "Tobii"
@@ -192,7 +192,7 @@
   },
   {
     "Name": "StandaloneOculus",
-    "BuildTarget": "Standalone",
+    "BuildTargetName": "Standalone",
     "CompilerDefine": "UNITY_XR_OCULUS_STANDALONE",
     "Spatializer": "OculusSpatializer",
     "VrSystems": [
@@ -208,7 +208,7 @@
   },
   {
     "Name": "StandaloneSteamVR",
-    "BuildTarget": "Standalone",
+    "BuildTargetName": "Standalone",
     "Spatializer": "Resonance Audio",
     "VrSystems": [
       "OpenVR",
@@ -223,13 +223,13 @@
   },
   {
     "Name": "UWP",
-    "BuildTarget": "WSAPlayer",
+    "BuildTargetName": "WSAPlayer",
     "CompilerDefine": "STANDARD_DISPLAY",
     "WsaSubtarget": "AnyDevice"
   },
   {
     "Name": "UWPWindowsMR",
-    "BuildTarget": "WSAPlayer",
+    "BuildTargetName": "WSAPlayer",
     "CompilerDefine": "WINDOWSMR",
     "WsaSubtarget": "PC",
     "Spatializer": "Microsoft HRTF",
@@ -245,7 +245,7 @@
   },
   {
     "Name": "UWPHoloLens",
-    "BuildTarget": "WSAPlayer",
+    "BuildTargetName": "WSAPlayer",
     "CompilerDefine": "HOLOLENS",
     "WsaSubtarget": "HoloLens",
     "Spatializer": "Microsoft HRTF",
@@ -260,7 +260,7 @@
   },
   {
     "Name": "MagicLeap",
-    "BuildTarget": "Lumin",
+    "BuildTargetName": "Lumin",
     "Spatializer": "MSA Spatializer",
     "VrSystems": [
       "Lumin"
@@ -274,7 +274,7 @@
   },
   {
     "Name": "WebGL",
-    "BuildTarget": "WebGL"
+    "BuildTargetName": "WebGL"
   }
 ]
 }

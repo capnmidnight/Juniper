@@ -5,6 +5,8 @@ using System.IO;
 using Juniper.Compression;
 using Juniper.Compression.Zip;
 
+using UnityEditor;
+
 namespace Juniper.ConfigurationManagement
 {
     public sealed class JuniperPackage : AbstractCompressedPackage
@@ -40,6 +42,43 @@ namespace Juniper.ConfigurationManagement
         public override void Install()
         {
             Decompressor.Decompress(ContentPath, InstallDirectory);
+        }
+
+        public override void Activate()
+        {
+            var targetGroup = Project.CurrentBuildTargetGroup;
+
+            if (Name == "Vuforia")
+            {
+                PlayerSettings.vuforiaEnabled = true;
+            }
+
+            if (targetGroup == BuildTargetGroup.Android)
+            {
+                if (Name == "GoogleARCore")
+                {
+                    PlayerSettings.Android.ARCoreEnabled = true;
+                }
+                else if (Name == "GoogleVR")
+                {
+                    FileExt.Copy(
+                        PathExt.FixPath("Assets/GoogleVR/Plugins/Android/AndroidManifest-6DOF.xml"),
+                        PathExt.FixPath("Assets/Plugins/Android/AndroidManifest.xml"),
+                        true);
+                }
+            }
+            else if (targetGroup == BuildTargetGroup.iOS)
+            {
+                if (Name == "UnityARKitPlugin")
+                {
+                    ApplleiOS.RequiresARKitSupport = true;
+
+                    if (string.IsNullOrEmpty(PlayerSettings.iOS.cameraUsageDescription))
+                    {
+                        PlayerSettings.iOS.cameraUsageDescription = "Augmented reality camera view";
+                    }
+                }
+            }
         }
     }
 }

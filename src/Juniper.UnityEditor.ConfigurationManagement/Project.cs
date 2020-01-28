@@ -18,7 +18,6 @@ namespace Juniper.ConfigurationManagement
 
         public static PlatformType Platform => ProjectConfiguration.Platform;
 
-
         private static IReadOnlyDictionary<string, IReadOnlyCollection<AbstractPackage>> packageDB;
 
         public static IReadOnlyDictionary<string, IReadOnlyCollection<AbstractPackage>> PackageDatabase
@@ -108,6 +107,20 @@ namespace Juniper.ConfigurationManagement
             var defines = CleanupDefines(defArray);
             defines.Remove(RECOMPILE_SLUG);
             return defines;
+        }
+
+        public static void AddCompilerDefine(string compilerDefine)
+        {
+            var defines = GetDefines();
+            defines.Add(compilerDefine);
+            SetDefines(defines);
+        }
+
+        public static void RemoveCompilerDefine(string compilerDefine)
+        {
+            var defines = GetDefines();
+            defines.Remove(compilerDefine);
+            SetDefines(defines);
         }
 
         public static BuildTargetGroup CurrentBuildTargetGroup =>

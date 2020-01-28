@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 
 using Juniper.IO;
+using Juniper.XR;
 
 namespace Juniper.ConfigurationManagement
 {
@@ -20,7 +21,7 @@ namespace Juniper.ConfigurationManagement
 
         public IReadOnlyList<PackageRequirement> Packages { get; }
 
-        public IReadOnlyList<PlatformConfiguration> Configurations { get; }
+        public IReadOnlyDictionary<PlatformType, PlatformConfiguration> Configurations { get; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private Platforms(SerializationInfo info, StreamingContext context)
@@ -33,7 +34,8 @@ namespace Juniper.ConfigurationManagement
             Packages = info.GetValue<string[]>(nameof(Packages))
                 .Select(str => new PackageRequirement(str))
                 .ToArray();
-            Configurations = info.GetValue<PlatformConfiguration[]>(nameof(Configurations));
+            Configurations = info.GetValue<PlatformConfiguration[]>(nameof(Configurations))
+                .ToDictionary(c => c.Name);
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -44,7 +46,7 @@ namespace Juniper.ConfigurationManagement
             }
 
             info.AddValue(nameof(Packages), Packages.Select(p => p.PackageSpec).ToArray());
-            info.AddValue(nameof(Configurations), Configurations);
+            info.AddValue(nameof(Configurations), Configurations.Values.ToArray());
         }
     }
 }

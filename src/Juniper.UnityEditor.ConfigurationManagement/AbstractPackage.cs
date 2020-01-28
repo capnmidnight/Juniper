@@ -92,5 +92,10 @@ namespace Juniper.ConfigurationManagement
             hashCode = (hashCode * -1521134295) + Source.GetHashCode();
             return hashCode;
         }
+
+        public virtual void Activate()
+        {
+            Project.AddCompilerDefine(CompilerDefine);
+        }
     }
 }
