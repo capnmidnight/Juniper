@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 using UnityEngine;
@@ -15,7 +15,7 @@ namespace UnityEditor
         {
             this.title = title;
             this.headers = (from h in headers
-                            select (h.Header, new GUILayoutOption[] { h.Width }))
+                            select (h.Header, h.Width is null ? null : new GUILayoutOption[] { h.Width }))
                         .ToArray();
         }
 
@@ -23,13 +23,13 @@ namespace UnityEditor
             : this(null, headers)
         { }
 
-        public TableView(string title, params (string Header, float Width)[] headers)
+        public TableView(string title, params (string Header, float? Width)[] headers)
             : this(title, (from h in headers
-                           select (h.Header, GUILayout.Width(h.Width)))
+                           select (h.Header, h.Width is null ? null : GUILayout.Width(h.Width.Value)))
                         .ToArray())
         { }
 
-        public TableView(params (string Header, float Width)[] headers)
+        public TableView(params (string Header, float? Width)[] headers)
             : this(null, headers)
         { }
 
@@ -56,7 +56,14 @@ namespace UnityEditor
             {
                 foreach (var header in headers)
                 {
-                    EditorGUILayout.LabelField(header.Header, EditorStyles.centeredGreyMiniLabel, header.Width);
+                    if (header.Width is null)
+                    {
+                        EditorGUILayout.LabelField(header.Header, EditorStyles.centeredGreyMiniLabel);
+                    }
+                    else
+                    {
+                        EditorGUILayout.LabelField(header.Header, EditorStyles.centeredGreyMiniLabel, header.Width);
+                    }
                 }
             }
         }

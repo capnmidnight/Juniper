@@ -43,8 +43,8 @@ namespace Juniper.ConfigurationManagement
         private static readonly GUILayoutOption buttonWidth = GUILayout.Width(100);
 
         private static readonly TableView definesTable = new TableView(
-            "Defines",
-            ("Define", nameFieldWidth),
+            "Defines - " + ProjectConfiguration.Platform,
+            ("Define", null),
             ("Required", buttonWidth)
         );
 
@@ -53,53 +53,66 @@ namespace Juniper.ConfigurationManagement
         {
             titleContent = TITLE;
 
-            var nextDefines = UnityCompiler.GetDefines(CurrentConfiguration.TargetGroup);
+            var curDefines = Project.GetDefines();
 
-            if (GUILayout.Button("Refresh"))
-            {
-                nextDefines = UnityCompiler.CleanupDefines(CurrentConfiguration.CompilerDefines);
-                PlayerSettings.SetScriptingDefineSymbolsForGroup(CurrentConfiguration.TargetGroup, string.Join(";", nextDefines));
-            }
+            var platformDefines = PlatformConfiguration.Current.GetCompilerDefines();
+             
+            var allDefines = Platforms.Load()
+                .Configurations.Values
+                .Select(cfg => cfg.CompilerDefine)
+                .Union(curDefines)
+                .Union(platformDefines)
+                .Distinct()
+                .OrderBy(Always.Identity)
+                .ToArray();
 
             using (definesTable.Begin())
             {
                 using (new HGroup())
                 {
-                    newDefine = EditorGUILayout.TextField(newDefine, GUILayout.Width(nameFieldWidthValue + narrowWidthValue));
+                    newDefine = EditorGUILayout.TextField(newDefine);
+                    EditorGUILayout.LabelField(string.Empty, narrowWidth);
                     if (GUILayout.Button("Add", buttonWidth))
                     {
                         if (!string.IsNullOrEmpty(newDefine))
                         {
-                            nextDefines.Add(newDefine);
+                            Project.AddCompilerDefine(newDefine);
                         }
                         newDefine = string.Empty;
                     }
                 }
 
-                for (var i = 0; i < nextDefines.Count; ++i)
+                foreach (var define in allDefines)
                 {
-                    var define = nextDefines[i];
                     using (new HGroup())
                     {
-                        EditorGUILayout.LabelField(new GUIContent(define, define), nameFieldWidth);
+                        EditorGUILayout.LabelField(new GUIContent(define, define));
 
                         EditorGUILayout.LabelField(
-                            DesiredConfiguration.CompilerDefines.Contains(define).ToYesNo(),
+                            platformDefines.Contains(define).ToYesNo(),
                             EditorStyles.centeredGreyMiniLabel,
                             narrowWidth);
 
-                        if (GUILayout.Button("Remove", buttonWidth))
+                        var isCurrent = curDefines.Contains(define);
+
+                        using (new EnabledScope(!isCurrent))
                         {
-                            nextDefines.RemoveAt(i);
-                            --i;
+                            if (GUILayout.Button("Add", buttonWidth))
+                            {
+                                Project.AddCompilerDefine(define);
+                            }
+                        }
+
+                        using (new EnabledScope(isCurrent))
+                        {
+                            if (GUILayout.Button("Remove", buttonWidth))
+                            {
+                                Project.RemoveCompilerDefine(define);
+                            }
                         }
                     }
                 }
             }
-
-            UnityCompiler.SetDefines(CurrentConfiguration.TargetGroup, nextDefines);
         }
-
-        private static PlatformConfiguration CurrentConfiguration => Platforms.PlatformDB.Get(ProjectConfiguration.Platform);
     }
 }

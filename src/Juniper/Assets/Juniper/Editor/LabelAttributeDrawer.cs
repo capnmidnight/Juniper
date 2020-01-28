@@ -19,7 +19,7 @@ namespace Juniper
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             var propertyAttribute = attribute as LabelAttribute;
-            label.text = propertyAttribute.label;
+            label.text = propertyAttribute.Label;
             EditorGUI.PropertyField(position, property, label);
         }
     }

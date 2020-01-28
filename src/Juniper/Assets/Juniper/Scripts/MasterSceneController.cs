@@ -303,7 +303,7 @@ namespace Juniper
                         prog = loadingBar.Subdivide(0.25f, 0.75f);
 
                         yield return StreamingAssetsCacheLayer
-                            .UnpackAPK(unpackProg)
+                            .UnpackAPKAsync(unpackProg)
                             .AsCoroutine();
                     }
                     else
