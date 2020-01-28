@@ -8,7 +8,7 @@ namespace Juniper.ConfigurationManagement
 {
     public class JuniperZipPackage : AbstractCompressedPackage
     {
-        public static void GetPackages(List<AbstractPackage2> packages)
+        public static void GetPackages(List<AbstractPackage> packages)
         {
             if (packages is null)
             {

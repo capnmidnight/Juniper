@@ -6,7 +6,7 @@ using Juniper.IO;
 
 namespace Juniper.ConfigurationManagement
 {
-    public class UnityPackageManagerPackage : AbstractPackage2
+    public class UnityPackageManagerPackage : AbstractPackage
     {
         /// <summary>
         /// 
@@ -14,7 +14,7 @@ namespace Juniper.ConfigurationManagement
         /// <param name="packages"></param>
         /// <param name="listingRoot">version in subdir name, contents in subdir/package.tgz, version and displayName also in subdir/package/package.json</param>
         /// <param name="contentCacheRoot">version number = "dir name@version", contents in dir, version and displayName in package.json</param>
-        public static void GetPackages(List<AbstractPackage2> packages)
+        public static void GetPackages(List<AbstractPackage> packages)
         {
             if (packages is null)
             {

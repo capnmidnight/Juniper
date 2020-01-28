@@ -1,46 +1,59 @@
-using Juniper.IO;
-
-using UnityEditor;
+using System;
 
 namespace Juniper.ConfigurationManagement
 {
     public abstract class AbstractPackage
     {
-        public string Name { get; set; }
-        public virtual string CompilerDefine { get; set; }
+        private static string unityProjectDirectory;
+
+        public static string UnityProjectRoot
+        {
+            get
+            {
+                if (unityProjectDirectory is null)
+                {
+                    unityProjectDirectory = Environment.CurrentDirectory;
+                }
+
+                return unityProjectDirectory;
+            }
+            set
+            {
+                unityProjectDirectory = value;
+            }
+        }
+
+        public string Name { get; }
+
+        public string Version { get; }
+
+        public string ContentPath { get; }
+
+        public string CompilerDefine { get; }
+
+        public abstract PackageSource Source { get; }
+
+        public abstract bool Available { get; }
+
+        public abstract bool Cached { get; }
+
+        public abstract float InstallPercentage { get; }
+
         public abstract bool IsInstalled { get; }
 
-        public void Install()
+        public abstract bool CanUpdate { get; }
+
+        public string PackageID { get; }
+
+        protected AbstractPackage(string packageID, string name, string version, string path, string compilerDefine)
         {
-            Install(null);
+            PackageID = packageID;
+            Name = name;
+            Version = version;
+            ContentPath = path;
+            CompilerDefine = compilerDefine;
         }
 
-        public void Install(IProgress prog)
-        {
-            prog?.Report(0);
-            InstallInternal(prog);
-            prog?.Report(1);
-        }
-        protected abstract void InstallInternal(IProgress prog);
-
-        public void Activate(BuildTargetGroup targetGroup)
-        {
-            Activate(targetGroup, null);
-        }
-
-        public virtual void Activate(BuildTargetGroup targetGroup, IProgress prog)
-        {
-            prog?.Report(0);
-        }
-
-        public void Uninstall()
-        {
-            Uninstall(null);
-        }
-
-        public virtual void Uninstall(IProgress prog)
-        {
-            prog?.Report(0);
-        }
+        public abstract void Install();
     }
 }

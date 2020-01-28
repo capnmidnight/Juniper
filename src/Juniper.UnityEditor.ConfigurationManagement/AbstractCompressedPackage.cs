@@ -8,7 +8,7 @@ using Juniper.IO;
 
 namespace Juniper.ConfigurationManagement
 {
-    public abstract class AbstractCompressedPackage : AbstractPackage2
+    public abstract class AbstractCompressedPackage : AbstractPackage
     {
 
         private static Dictionary<string, string> compilerDefines;

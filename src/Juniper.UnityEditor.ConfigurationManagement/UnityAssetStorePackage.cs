@@ -1,15 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+
 using Juniper.Compression;
 using Juniper.Compression.Tar.GZip;
-using UnityEngine.Events;
+
+using UnityEditor;
 
 namespace Juniper.ConfigurationManagement
 {
     public class UnityAssetStorePackage : AbstractCompressedPackage
     {
-        public static void GetPackages(List<AbstractPackage2> packages)
+        public static void GetPackages(List<AbstractPackage> packages)
         {
             if (packages is null)
             {
@@ -28,7 +30,7 @@ namespace Juniper.ConfigurationManagement
             AddPackagesFromDirectory(packages, userDownloads);
         }
 
-        private static void AddPackagesFromDirectory(List<AbstractPackage2> packages, string root)
+        private static void AddPackagesFromDirectory(List<AbstractPackage> packages, string root)
         {
             var rootDir = new DirectoryInfo(root);
             if (rootDir.Exists)
@@ -62,11 +64,12 @@ namespace Juniper.ConfigurationManagement
             return Decompressor.UnityPackageEntries(ContentPath);
         }
 
-        public static event EventHandler InstallPackage;
-
         public override void Install()
         {
-            InstallPackage?.Invoke(this, EventArgs.Empty);
+            if (File.Exists(ContentPath))
+            {
+                AssetDatabase.ImportPackage(ContentPath, true);
+            }
         }
     }
 }
