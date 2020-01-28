@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)|$(TargetFramework)'=='Release|net472'">
-    <Exec Command="XCOPY &quot;$(OutDir)*&quot; &quot;$(SolutionDir)Juniper\Assets\Juniper\Plugins\Juniper\$(PlatformName)&quot; /C /I /F /Y" />
+    <Exec Command="XCOPY &quot;$(TargetDir)*&quot; &quot;$(SolutionDir)Juniper\Plugins\Juniper\$(PlatformName)&quot; /C /I /F /Y" />
   </Target>
 
   <PropertyGroup Condition="'$(Platform)'=='x64'">

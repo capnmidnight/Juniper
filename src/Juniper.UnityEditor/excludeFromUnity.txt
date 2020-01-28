@@ -1,4 +1,0 @@
-Newtonsoft.Json.dll
-Accord
-NAudio.dll
-NLayer.Core.dll

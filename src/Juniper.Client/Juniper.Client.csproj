@@ -38,4 +38,8 @@
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)|$(TargetFramework)'=='Release|net472'">
+    <Exec ContinueOnError="true" Command="XCOPY &quot;$(TargetDir)$(TargetName).*&quot; &quot;$(SolutionDir)Juniper\Plugins\Juniper&quot; /C /I /F /Y" />
+  </Target>
+
 </Project>
