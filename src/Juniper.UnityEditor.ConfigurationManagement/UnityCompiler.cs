@@ -1,9 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
-using Newtonsoft.Json.Linq;
 
 using UnityEditor;
 
@@ -11,7 +9,6 @@ namespace Juniper.ConfigurationManagement
 {
     public static class UnityCompiler
     {
-        private static readonly string MANIFEST_FILE = PathExt.FixPath("Packages/manifest.json");
         private const string RECOMPILE_SLUG = "RECOMPILE_SLUG";
 
         public static List<string> CleanupDefines(IEnumerable<string> defs)
@@ -30,20 +27,6 @@ namespace Juniper.ConfigurationManagement
             return defines;
         }
 
-        private static JObject UpdateUnityPackages()
-        {
-            var manifest = JObject.Parse(File.ReadAllText(MANIFEST_FILE));
-            var deps = (JObject)manifest["dependencies"];
-            if (deps == null)
-            {
-                deps = new JObject();
-                manifest.Add("dependencies", deps);
-            }
-
-            UnityPackage.Dependencies = deps;
-            return manifest;
-        }
-
         public static List<string> GetDefines(BuildTargetGroup targetGroup)
         {
             var defString = PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
@@ -53,13 +36,8 @@ namespace Juniper.ConfigurationManagement
             return defines;
         }
 
-        public static BuildTargetGroup CurrentBuildTargetGroup
-        {
-            get
-            {
-                return BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget);
-            }
-        }
+        public static BuildTargetGroup CurrentBuildTargetGroup =>
+            BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget);
 
         public static List<string> GetDefines()
         {
