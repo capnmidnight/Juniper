@@ -8,8 +8,8 @@ namespace Juniper.Input.Pointers.Motion
     {
         public DaydreamPointerConfiguration()
         {
-            AddButton(VirtualTouchPadButton.Top, KeyCode.Mouse0);
-            AddButton(VirtualTouchPadButton.Bottom, KeyCode.Mouse1);
+            AddButton(VirtualTouchPadButtons.Top, KeyCode.Mouse0);
+            AddButton(VirtualTouchPadButtons.Bottom, KeyCode.Mouse1);
             AddButton(GvrControllerButton.App, KeyCode.Escape);
         }
 

@@ -8,6 +8,7 @@ namespace Juniper
     /// <summary>
     /// The Hue/Saturation/Value color space.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1051:Do not declare visible instance fields", Justification = "This is an object that is meant to be edited in the Unity Editor, so its values must be public fields, not properties.")]
     public struct HSVColor : IEquatable<HSVColor>, IEquatable<Color>
     {
         private static readonly int[] SkinColors = {

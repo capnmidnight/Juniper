@@ -18,6 +18,11 @@ namespace Juniper.World.GIS
         /// <param name="label"></param>
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            if (property is null)
+            {
+                throw new System.ArgumentNullException(nameof(property));
+            }
+
             EditorGUI.BeginProperty(position, label, property);
 
             position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);

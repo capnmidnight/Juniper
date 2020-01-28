@@ -81,3 +81,10 @@ tobii_gameintegration_*.dll
 /src/MigrationBackup/
 *.blend1
 *.blend1.meta
+
+/examples/*/Assets/Plugins/Juniper/
+/examples/*/Assets/Plugins/Juniper.meta
+/examples/*/Assets/Plugins/Editor/Juniper/
+/examples/*/Assets/Plugins/Editor/Juniper.meta
+/examples/*/Assets/csc.rsp
+/examples/*/Assets/csc.rsp.meta

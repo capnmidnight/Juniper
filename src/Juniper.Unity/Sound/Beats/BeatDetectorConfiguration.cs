@@ -6,6 +6,7 @@ using UnityEngine;
 namespace Juniper.Sound.Beats
 {
     [Serializable]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1051:Do not declare visible instance fields", Justification = "This is an object that is meant to be edited in the Unity Editor, so its values must be public fields, not properties.")]
     public class BeatDetectorConfiguration
     {
         public static string BaseMusicDirectory => Path.Combine(Application.dataPath, "StreamingAssets", "Music");

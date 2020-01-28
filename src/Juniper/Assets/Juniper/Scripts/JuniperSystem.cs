@@ -4,18 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Juniper.Anchoring;
-using Juniper.Sound;
 using Juniper.Display;
 using Juniper.Input;
+using Juniper.IO;
 using Juniper.Permissions;
+using Juniper.Sound;
 using Juniper.XR;
 
 using UnityEditor;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
-using Juniper.IO;
 
 namespace Juniper
 {
@@ -34,21 +33,9 @@ namespace Juniper
             }
         }
 
-        private static bool IsOnMainThread
-        {
-            get
-            {
-                return Task.Factory.Scheduler == mainThreadScheduler;
-            }
-        }
+        private static bool IsOnMainThread => Task.Factory.Scheduler == mainThreadScheduler;
 
-        public static bool IsMainThreadReady
-        {
-            get
-            {
-                return mainThread != null;
-            }
-        }
+        public static bool IsMainThreadReady => mainThread != null;
 
         public static Task OnMainThreadAsync(Action act)
         {
@@ -146,97 +133,15 @@ namespace Juniper
             }
         }
 
-        public static readonly PlatformType CurrentPlatform =
-#if UNITY_XR_MAGICLEAP
-            PlatformType.MagicLeap;
+        public static PlatformType CurrentPlatform => ProjectConfiguration.Platform;
 
-#elif UNITY_WEBGL
-            PlatformType.WebGL;
+        public static SystemTypes System => Platform.GetSystem(CurrentPlatform);
 
-#elif UNITY_ANDROID
-#if UNITY_XR_ARCORE
-            PlatformType.AndroidARCore;
-#elif CARDBOARD
-            PlatformType.AndroidCardboard;
-#elif UNITY_XR_GOOGLEVR_ANDROID
-            PlatformType.AndroidDaydream;
-#elif UNITY_XR_OCULUS
-            PlatformType.AndroidOculus;
+        public static DisplayTypes SupportedDisplayType => Platform.GetDisplayType(CurrentPlatform);
 
-#elif PICO
-            PlatformType.AndroidPicoG2;
-#elif WAVEVR
-            PlatformType.AndroidViveFocus;
-#elif STANDARD_DISPLAY
-            PlatformType.Android;
-#else
-            PlatformType.None;
-#endif
-#elif UNITY_IOS
-#if UNITY_XR_ARKIT
-            PlatformType.IOSARKit;
-#elif CARDBOARD
-            PlatformType.IOSCardboard;
-#elif STANDARD_DISPLAY
-            PlatformType.IOS;
-#else
-            PlatformType.None;
-#endif
-#elif UNITY_STANDALONE
-#if UNITY_XR_OCULUS
-            PlatformType.StandaloneOculus;
-#elif STEAMVR
-            PlatformType.StandaloneSteamVR;
-#elif STANDARD_DISPLAY
-            PlatformType.Standalone;
-#else
-            PlatformType.None;
-#endif
-#elif UNITY_WSA
-#if UNITY_XR_WINDOWSMR_METRO && WINDOWSMR
-            PlatformType.UWPWindowsMR;
-#elif UNITY_XR_WINDOWSMR_METRO && HOLOLENS
-            PlatformType.UWPHoloLens;
-#elif STANDARD_DISPLAY
-            PlatformType.UWP;
-#else
-            PlatformType.None;
-#endif
-#else
-            PlatformType.None;
-#endif
+        public static AugmentedRealityTypes SupportedARMode => Platform.GetARType(CurrentPlatform);
 
-        public static SystemTypes System
-        {
-            get
-            {
-                return Platform.GetSystem(CurrentPlatform);
-            }
-        }
-
-        public static DisplayTypes SupportedDisplayType
-        {
-            get
-            {
-                return Platform.GetDisplayType(CurrentPlatform);
-            }
-        }
-
-        public static AugmentedRealityTypes SupportedARMode
-        {
-            get
-            {
-                return Platform.GetARType(CurrentPlatform);
-            }
-        }
-
-        public static Options Option
-        {
-            get
-            {
-                return Platform.GetOption(CurrentPlatform);
-            }
-        }
+        public static Options Option => Platform.GetOption(CurrentPlatform);
 
         [ReadOnly]
         public PlatformType m_CurrentPlatform;

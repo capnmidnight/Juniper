@@ -38,7 +38,22 @@ namespace Juniper.Collections
         /// <param name="y">The y coordinate.</param>
         public int Compare(Texture2D x, Texture2D y)
         {
-            return nameComparer.Compare(x.name, y.name);
+            if (x is null && y is null)
+            {
+                return 0;
+            }
+            else if (x is null)
+            {
+                return 1;
+            }
+            else if (y is null)
+            {
+                return -1;
+            }
+            else
+            {
+                return nameComparer.Compare(x.name, y.name);
+            }
         }
 
         /// <summary>

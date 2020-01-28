@@ -4,7 +4,7 @@ namespace Juniper.Input
 {
     public abstract class OculusInputModule : AbstractUnifiedInputModule
     {
-        public InputMode SeatedVRMode = InputMode.SeatedVR;
+        public InputModes SeatedVRMode = InputModes.SeatedVR;
 
         public override bool HasFloorPosition
         {
@@ -14,16 +14,16 @@ namespace Juniper.Input
             }
         }
 
-        public override InputMode DefaultInputMode
+        public override InputModes DefaultInputMode
         {
             get
             {
 #if UNITY_EDITOR
-                return InputMode.Desktop;
+                return InputModes.Desktop;
 #else
                 if(HasFloorPosition)
                 {
-                    return InputMode.StandingVR;
+                    return InputModes.StandingVR;
                 }
                 else
                 {

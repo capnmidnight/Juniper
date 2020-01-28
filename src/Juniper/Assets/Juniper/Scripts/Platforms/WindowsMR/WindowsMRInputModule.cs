@@ -30,11 +30,11 @@ error-out: mind the input mode
             }
         }
 
-        public override InputMode DefaultInputMode
+        public override InputModes DefaultInputMode
         {
             get
             {
-                return InputMode.StandingVR;
+                return InputModes.StandingVR;
             }
         }
     }

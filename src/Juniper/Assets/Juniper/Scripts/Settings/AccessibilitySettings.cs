@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 using Juniper.Input;
@@ -186,24 +186,24 @@ namespace Juniper.Settings
 
         public void ToggleGaze()
         {
-            input.ToggleModeRequested(InputMode.Gaze);
+            input.ToggleModeRequested(InputModes.Gaze);
         }
 
         public void ToggleScreen()
         {
-            input.ToggleModeRequested(InputMode.Mouse);
-            input.ToggleModeRequested(InputMode.Touch);
+            input.ToggleModeRequested(InputModes.Mouse);
+            input.ToggleModeRequested(InputModes.Touch);
         }
 
         public void ToggleHands()
         {
-            input.ToggleModeRequested(InputMode.Hands);
-            input.ToggleModeRequested(InputMode.Motion);
+            input.ToggleModeRequested(InputModes.Hands);
+            input.ToggleModeRequested(InputModes.Motion);
         }
 
         public void ToggleVoice()
         {
-            input.ToggleModeRequested(InputMode.Voice);
+            input.ToggleModeRequested(InputModes.Voice);
         }
     }
 }

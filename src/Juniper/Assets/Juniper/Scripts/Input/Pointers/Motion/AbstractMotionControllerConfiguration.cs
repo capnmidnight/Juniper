@@ -18,9 +18,9 @@ namespace Juniper.Input.Pointers.Motion
             }
         }
 
-        private readonly Dictionary<VirtualTouchPadButton, KeyCode> touchPadKeys = new Dictionary<VirtualTouchPadButton, KeyCode>(11);
+        private readonly Dictionary<VirtualTouchPadButtons, KeyCode> touchPadKeys = new Dictionary<VirtualTouchPadButtons, KeyCode>(11);
 
-        protected void AddButton(VirtualTouchPadButton outButton, KeyCode inKey)
+        protected void AddButton(VirtualTouchPadButtons outButton, KeyCode inKey)
         {
             touchPadKeys.Add(outButton, inKey);
         }
@@ -32,7 +32,7 @@ namespace Juniper.Input.Pointers.Motion
             triggerKeys.Add(outButton, inKey);
         }
 
-        public void Install(ButtonMapper<VirtualTouchPadButton> mapper, GameObject eventParent, bool reset)
+        public void Install(ButtonMapper<VirtualTouchPadButtons> mapper, GameObject eventParent, bool reset)
         {
             mapper.Install(eventParent, touchPadKeys, reset);
         }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 
 using UnityEditor;
@@ -36,7 +36,7 @@ namespace Juniper
 
             set
             {
-                PlayerSettings.iOS.targetOSVersionString = value.ToString(2);
+                PlayerSettings.iOS.targetOSVersionString = value?.ToString(2);
             }
         }
 

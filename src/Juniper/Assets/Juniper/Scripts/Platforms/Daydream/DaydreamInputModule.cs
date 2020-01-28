@@ -57,13 +57,13 @@ namespace Juniper.Input
             }
         }
 
-        public override InputMode DefaultInputMode
+        public override InputModes DefaultInputMode
         {
             get
             {
                 return GvrHeadset.SupportsPositionalTracking
-                    ? InputMode.StandingVR
-                    : InputMode.SeatedVR;
+                    ? InputModes.StandingVR
+                    : InputModes.SeatedVR;
             }
         }
     }

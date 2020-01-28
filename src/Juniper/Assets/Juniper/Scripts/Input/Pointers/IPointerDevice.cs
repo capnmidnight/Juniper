@@ -207,11 +207,11 @@ namespace Juniper.Input.Pointers
 
         bool IsButtonUp(KeyCode button);
 
-        bool IsButtonDown(VirtualTouchPadButton button);
+        bool IsButtonDown(VirtualTouchPadButtons button);
 
-        bool IsButtonPressed(VirtualTouchPadButton button);
+        bool IsButtonPressed(VirtualTouchPadButtons button);
 
-        bool IsButtonUp(VirtualTouchPadButton button);
+        bool IsButtonUp(VirtualTouchPadButtons button);
 
         bool IsButtonDown(VirtualTriggerButton button);
 

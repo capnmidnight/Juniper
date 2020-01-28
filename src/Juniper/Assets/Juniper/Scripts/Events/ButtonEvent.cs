@@ -33,7 +33,7 @@ namespace Juniper.Events
         public IEnumerable<Type> GetSupportedButtonTypes()
         {
             yield return GetComponent<IPointerDevice>().ButtonType;
-            yield return typeof(VirtualTouchPadButton);
+            yield return typeof(VirtualTouchPadButtons);
             yield return typeof(VirtualTriggerButton);
         }
 

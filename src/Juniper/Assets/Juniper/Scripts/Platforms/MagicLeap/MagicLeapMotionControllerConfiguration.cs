@@ -16,7 +16,7 @@ namespace Juniper.Input.Pointers.Motion
         public MagicLeapMotionControllerConfiguration()
         {
             AddButton(VirtualTriggerButton.Full, KeyCode.Mouse0);
-            AddButton(VirtualTouchPadButton.Any, KeyCode.Mouse0);
+            AddButton(VirtualTouchPadButtons.Any, KeyCode.Mouse0);
             AddButton(MLInputControllerButton.Bumper, KeyCode.Mouse1);
             AddButton(MLInputControllerButton.HomeTap, KeyCode.Escape);
         }

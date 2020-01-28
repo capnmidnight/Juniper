@@ -9,6 +9,11 @@ namespace UnityEngine
         /// <returns></returns>
         public static bool IsInView(this Camera cam, Vector3 target)
         {
+            if (cam is null)
+            {
+                throw new System.ArgumentNullException(nameof(cam));
+            }
+
             var viewport = cam.WorldToViewportPoint(target);
             return 0 <= viewport.x && viewport.x < 1
                 && 0 < viewport.y && viewport.y < 1;
@@ -18,7 +23,8 @@ namespace UnityEngine
 
         public static bool IsInView(this Camera cam, Canvas target)
         {
-            if (target == null
+            if (cam is null
+                || target == null
                 || !target.isActiveAndEnabled)
             {
                 return false;

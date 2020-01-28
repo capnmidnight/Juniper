@@ -10,11 +10,11 @@ namespace Juniper.Input
             }
         }
 
-        public override InputMode DefaultInputMode
+        public override InputModes DefaultInputMode
         {
             get
             {
-                return InputMode.Desktop;
+                return InputModes.Desktop;
             }
         }
     }

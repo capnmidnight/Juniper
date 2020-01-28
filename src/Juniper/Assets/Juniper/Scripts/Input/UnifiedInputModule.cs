@@ -126,8 +126,8 @@ namespace Juniper.Input
         private readonly List<Keyboardable> toRemove = new List<Keyboardable>(10);
         private readonly List<KeyCode> keyPresses = new List<KeyCode>();
 
-        private InputMode requestedMode;
-        private InputMode currentMode;
+        private InputModes requestedMode;
+        private InputModes currentMode;
 
         public bool paused;
 
@@ -261,7 +261,7 @@ namespace Juniper.Input
 
         public virtual void Uninstall()
         {
-            requestedMode = InputMode.Auto;
+            requestedMode = InputModes.Auto;
         }
 
 #if UNITY_EDITOR
@@ -349,12 +349,12 @@ namespace Juniper.Input
         {
             if (requestedMode != currentMode)
             {
-                if (requestedMode == InputMode.Auto)
+                if (requestedMode == InputModes.Auto)
                 {
                     requestedMode = SavedInputMode;
                 }
 
-                // Validate the InputMode that has been set
+                // Validate the InputModes that has been set
                 var voice = VoiceRequestApproved;
                 var controllers = ControllersRequestApproved;
                 var hands = HandsRequestApproved;
@@ -569,7 +569,7 @@ namespace Juniper.Input
 #endif
         }
 
-        public void RequestMode(InputMode newMode, bool value)
+        public void RequestMode(InputModes newMode, bool value)
         {
             if (value)
             {
@@ -581,12 +581,12 @@ namespace Juniper.Input
             }
         }
 
-        public bool IsModeRequested(InputMode checkMode)
+        public bool IsModeRequested(InputModes checkMode)
         {
             return requestedMode.HasFlag(checkMode);
         }
 
-        public void ToggleModeRequested(InputMode newMode)
+        public void ToggleModeRequested(InputModes newMode)
         {
             RequestMode(newMode, !IsModeRequested(newMode));
         }
@@ -619,8 +619,8 @@ namespace Juniper.Input
 
         public bool VoiceRequested
         {
-            get { return IsModeRequested(InputMode.Voice); }
-            set { RequestMode(InputMode.Voice, value); }
+            get { return IsModeRequested(InputModes.Voice); }
+            set { RequestMode(InputModes.Voice, value); }
         }
 
         public bool GazeAvailable
@@ -641,8 +641,8 @@ namespace Juniper.Input
 
         public bool GazeRequested
         {
-            get { return IsModeRequested(InputMode.Gaze); }
-            set { RequestMode(InputMode.Gaze, value); }
+            get { return IsModeRequested(InputModes.Gaze); }
+            set { RequestMode(InputModes.Gaze, value); }
         }
 
         private bool GazeRequestApproved
@@ -673,8 +673,8 @@ namespace Juniper.Input
         }
         public bool MouseRequested
         {
-            get { return IsModeRequested(InputMode.Mouse); }
-            set { RequestMode(InputMode.Mouse, value); }
+            get { return IsModeRequested(InputModes.Mouse); }
+            set { RequestMode(InputModes.Mouse, value); }
         }
 
         private bool MouseRequestApproved
@@ -703,8 +703,8 @@ namespace Juniper.Input
 
         public bool TouchRequested
         {
-            get { return IsModeRequested(InputMode.Touch); }
-            set { RequestMode(InputMode.Touch, value); }
+            get { return IsModeRequested(InputModes.Touch); }
+            set { RequestMode(InputModes.Touch, value); }
         }
 
         private bool TouchRequestApproved
@@ -736,8 +736,8 @@ namespace Juniper.Input
 
         public bool HandsRequested
         {
-            get { return IsModeRequested(InputMode.Hands); }
-            set { RequestMode(InputMode.Hands, value); }
+            get { return IsModeRequested(InputModes.Hands); }
+            set { RequestMode(InputModes.Hands, value); }
         }
 
         private bool HandsRequestApproved
@@ -766,8 +766,8 @@ namespace Juniper.Input
 
         public bool ControllersRequested
         {
-            get { return IsModeRequested(InputMode.Motion); }
-            set { RequestMode(InputMode.Mouse, value); }
+            get { return IsModeRequested(InputModes.Motion); }
+            set { RequestMode(InputModes.Mouse, value); }
         }
 
         private bool ControllersRequestApproved
@@ -831,13 +831,13 @@ namespace Juniper.Input
 
         public abstract bool HasFloorPosition { get; }
 
-        private InputMode SavedInputMode
+        private InputModes SavedInputMode
         {
             get
             {
                 if (PlayerPrefs.HasKey(INPUT_MODE_KEY))
                 {
-                    return (InputMode)Enum.Parse(typeof(InputMode), PlayerPrefs.GetString(INPUT_MODE_KEY));
+                    return (InputModes)Enum.Parse(typeof(InputModes), PlayerPrefs.GetString(INPUT_MODE_KEY));
                 }
                 else
                 {
@@ -846,7 +846,7 @@ namespace Juniper.Input
             }
             set
             {
-                if (value == InputMode.None)
+                if (value == InputModes.None)
                 {
                     PlayerPrefs.DeleteKey(INPUT_MODE_KEY);
                 }
@@ -859,6 +859,6 @@ namespace Juniper.Input
             }
         }
 
-        public abstract InputMode DefaultInputMode { get; }
+        public abstract InputModes DefaultInputMode { get; }
     }
 }

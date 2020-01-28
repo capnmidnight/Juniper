@@ -88,7 +88,7 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        private static void Platforms_PackagesUpdated(AbstractFilePackage[] newPackages)
+        private static void Platforms_PackagesUpdated(AbstractPackage[] newPackages)
         {
             packages = newPackages;
             RepaintWindow();

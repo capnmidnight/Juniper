@@ -12,7 +12,7 @@ namespace UnityEngine
     /// </summary>
     public static class ColorExt
     {
-        public static Color TransparentBlack = new Color(0, 0, 0, 0);
+        public static readonly Color TransparentBlack = new Color(0, 0, 0, 0);
 
         /// <summary>
         /// Converts a whitebalance value to a color value that can be used with a <see

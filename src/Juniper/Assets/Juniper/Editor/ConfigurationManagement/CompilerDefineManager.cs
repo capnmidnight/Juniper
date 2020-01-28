@@ -33,8 +33,6 @@ namespace Juniper.ConfigurationManagement
             EditorWindow.GetWindow<CompilerDefineManager>();
         }
 
-        private static readonly ProjectConfiguration config = ProjectConfiguration.Load();
-
         private static string newDefine;
 
         private const float nameFieldWidthValue = 200;
@@ -102,36 +100,6 @@ namespace Juniper.ConfigurationManagement
             UnityCompiler.SetDefines(CurrentConfiguration.TargetGroup, nextDefines);
         }
 
-        private static PlatformType DesiredPlatform
-        {
-            get
-            {
-                return config.CurrentPlatform;
-            }
-        }
-
-        private static PlatformConfiguration DesiredConfiguration
-        {
-            get
-            {
-                return Platforms.PlatformDB.Get(DesiredPlatform);
-            }
-        }
-
-        private static PlatformType CurrentPlatform
-        {
-            get
-            {
-                return JuniperSystem.CurrentPlatform;
-            }
-        }
-
-        private static PlatformConfiguration CurrentConfiguration
-        {
-            get
-            {
-                return Platforms.PlatformDB.Get(CurrentPlatform);
-            }
-        }
+        private static PlatformConfiguration CurrentConfiguration => Platforms.PlatformDB.Get(ProjectConfiguration.Platform);
     }
 }

@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
@@ -11,6 +12,11 @@ namespace Juniper
     {
         public static void SetValue<T>(this SerializedProperty property, T value)
         {
+            if (property is null)
+            {
+                throw new System.ArgumentNullException(nameof(property));
+            }
+
             var obj = GetObject(property);
             if (obj != default
                 && obj.Parent != default
@@ -22,6 +28,11 @@ namespace Juniper
 
         public static T GetObject<T>(this SerializedProperty property)// where T : new()
         {
+            if (property is null)
+            {
+                throw new System.ArgumentNullException(nameof(property));
+            }
+
             var obj = GetObject(property);
             if (obj == default || obj.Object == default)
             {
@@ -35,6 +46,11 @@ namespace Juniper
 
         public static T GetScriptableObject<T>(this SerializedProperty property) where T : ScriptableObject
         {
+            if (property is null)
+            {
+                throw new System.ArgumentNullException(nameof(property));
+            }
+
             var obj = GetObject(property);
             if (obj == default || obj.Object == default)
             {
@@ -62,7 +78,7 @@ namespace Juniper
                 {
                     var indexStr = parts[++i];
                     var match = arrayIndexPattern.Match(indexStr);
-                    var index = int.Parse(match.Groups[1].Value);
+                    var index = int.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
                     var arr = (object[])head;
                     if (0 <= index && index < arr.Length)
                     {

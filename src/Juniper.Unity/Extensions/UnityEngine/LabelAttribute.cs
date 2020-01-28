@@ -8,7 +8,7 @@ namespace UnityEngine
         /// <summary>
         /// The label text.
         /// </summary>
-        public string label;
+        public string Label { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UnityEngine.LabelAttribute"/> class.
@@ -16,7 +16,7 @@ namespace UnityEngine
         /// <param name="label">Label.</param>
         public LabelAttribute(string label)
         {
-            this.label = label;
+            Label = label;
         }
     }
 }

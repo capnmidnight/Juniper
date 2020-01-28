@@ -17,7 +17,7 @@ namespace Juniper
         /// When testing applications running at different times, you can set this value to change
         /// the time the application thinks it is currently.
         /// </summary>
-        public static TimeSpan TestOffset = new TimeSpan(0, 0, 0);
+        public static readonly TimeSpan TestOffset = new TimeSpan(0, 0, 0);
 
         /// <summary>
         /// Unspecified, UTC, or Local.

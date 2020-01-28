@@ -23,6 +23,7 @@
   </Target>
 
   <ItemGroup>
+    <Reference Include="System.IO.Compression" />
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
     <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
     <ProjectReference Include="..\Juniper.Unity\Juniper.Unity.csproj" />

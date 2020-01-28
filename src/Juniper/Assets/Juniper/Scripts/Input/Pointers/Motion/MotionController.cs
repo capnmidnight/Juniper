@@ -41,19 +41,19 @@ namespace Juniper.Input.Pointers.Motion
         private const float BUTTON_RADIUS = 0.25f;
         private const float DIM = 0.75f;
 
-        private static readonly Dictionary<VirtualTouchPadButton, Vector2> BUTTON_CENTERS = new Dictionary<VirtualTouchPadButton, Vector2>(9)
+        private static readonly Dictionary<VirtualTouchPadButtons, Vector2> BUTTON_CENTERS = new Dictionary<VirtualTouchPadButtons, Vector2>(9)
         {
-            { VirtualTouchPadButton.Center, new Vector2(0, 0) },
+            { VirtualTouchPadButtons.Center, new Vector2(0, 0) },
 
-            { VirtualTouchPadButton.Top, new Vector2(0, DIM) },
-            { VirtualTouchPadButton.Right, new Vector2(DIM, 0) },
-            { VirtualTouchPadButton.Bottom, new Vector2(0, -DIM) },
-            { VirtualTouchPadButton.Left, new Vector2(-DIM, 0) },
+            { VirtualTouchPadButtons.Top, new Vector2(0, DIM) },
+            { VirtualTouchPadButtons.Right, new Vector2(DIM, 0) },
+            { VirtualTouchPadButtons.Bottom, new Vector2(0, -DIM) },
+            { VirtualTouchPadButtons.Left, new Vector2(-DIM, 0) },
 
-            { VirtualTouchPadButton.TopLeft, new Vector2(DIM, -DIM) },
-            { VirtualTouchPadButton.TopRight, new Vector2(DIM, DIM) },
-            { VirtualTouchPadButton.BottomLeft, new Vector2(-DIM, -DIM) },
-            { VirtualTouchPadButton.BottomRight, new Vector2(DIM, -DIM) },
+            { VirtualTouchPadButtons.TopLeft, new Vector2(DIM, -DIM) },
+            { VirtualTouchPadButtons.TopRight, new Vector2(DIM, DIM) },
+            { VirtualTouchPadButtons.BottomLeft, new Vector2(-DIM, -DIM) },
+            { VirtualTouchPadButtons.BottomRight, new Vector2(DIM, -DIM) },
         };
 
         private static readonly Dictionary<VirtualTriggerButton, float> TRIGGER_THRESHOLDS = new Dictionary<VirtualTriggerButton, float>(3)
@@ -63,7 +63,7 @@ namespace Juniper.Input.Pointers.Motion
             { VirtualTriggerButton.Full, 0.8f }
         };
 
-        protected readonly ButtonMapper<VirtualTouchPadButton> touchPadButtons = new ButtonMapper<VirtualTouchPadButton>();
+        protected readonly ButtonMapper<VirtualTouchPadButtons> touchPadButtons = new ButtonMapper<VirtualTouchPadButtons>();
         protected readonly ButtonMapper<VirtualTriggerButton> triggerButtons = new ButtonMapper<VirtualTriggerButton>();
 
         public override bool IsDragging
@@ -127,17 +127,17 @@ namespace Juniper.Input.Pointers.Motion
 
         private Vector2? lastTouchPosition;
 
-        public override bool IsButtonPressed(VirtualTouchPadButton button)
+        public override bool IsButtonPressed(VirtualTouchPadButtons button)
         {
             return VirtualButtonInBounds(button) && TouchPadPressed;
         }
 
-        public override bool IsButtonDown(VirtualTouchPadButton button)
+        public override bool IsButtonDown(VirtualTouchPadButtons button)
         {
             return VirtualButtonInBounds(button) && TouchPadPressedDown;
         }
 
-        public override bool IsButtonUp(VirtualTouchPadButton button)
+        public override bool IsButtonUp(VirtualTouchPadButtons button)
         {
             return VirtualButtonInBounds(button) && TouchPadPressedUp;
         }
@@ -164,7 +164,7 @@ namespace Juniper.Input.Pointers.Motion
             get
             {
                 return base.AnyButtonPressed
-                    || IsButtonPressed(VirtualTouchPadButton.Any)
+                    || IsButtonPressed(VirtualTouchPadButtons.Any)
                     || IsButtonPressed(VirtualTriggerButton.On)
                     || IsButtonPressed(VirtualTriggerButton.Full);
             }
@@ -255,9 +255,9 @@ namespace Juniper.Input.Pointers.Motion
                 || triggerButtons.IsButtonDown(key);
         }
 
-        private bool VirtualButtonInBounds(VirtualTouchPadButton button)
+        private bool VirtualButtonInBounds(VirtualTouchPadButtons button)
         {
-            return button == VirtualTouchPadButton.Any
+            return button == VirtualTouchPadButtons.Any
                 || (BUTTON_CENTERS.ContainsKey(button)
                     && (SquareTouchPoint - BUTTON_CENTERS[button]).magnitude <= BUTTON_RADIUS);
         }

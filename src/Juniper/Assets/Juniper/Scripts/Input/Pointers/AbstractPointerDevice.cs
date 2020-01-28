@@ -614,17 +614,17 @@ namespace Juniper.Input.Pointers
         {
         }
 
-        public virtual bool IsButtonPressed(VirtualTouchPadButton button)
+        public virtual bool IsButtonPressed(VirtualTouchPadButtons button)
         {
             return false;
         }
 
-        public virtual bool IsButtonDown(VirtualTouchPadButton button)
+        public virtual bool IsButtonDown(VirtualTouchPadButtons button)
         {
             return false;
         }
 
-        public virtual bool IsButtonUp(VirtualTouchPadButton button)
+        public virtual bool IsButtonUp(VirtualTouchPadButtons button)
         {
             return false;
         }

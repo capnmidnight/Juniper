@@ -13,6 +13,11 @@ namespace UnityEngine
         /// <param name="mat">   Mat.</param>
         public static void SetMaterial(this Collider collid, PhysicMaterial mat)
         {
+            if (collid is null)
+            {
+                throw new System.ArgumentNullException(nameof(collid));
+            }
+
             if (Application.isEditor && !Application.isPlaying)
             {
                 collid.sharedMaterial = mat;
@@ -30,6 +35,11 @@ namespace UnityEngine
         /// <param name="collid">Collid.</param>
         public static PhysicMaterial GetMaterial(this Collider collid)
         {
+            if (collid is null)
+            {
+                throw new System.ArgumentNullException(nameof(collid));
+            }
+
             if (Application.isEditor && !Application.isPlaying)
             {
                 return collid.sharedMaterial;

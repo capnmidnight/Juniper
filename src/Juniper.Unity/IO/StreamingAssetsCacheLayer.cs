@@ -1,7 +1,3 @@
-#if !UNITY_EDITOR && UNITY_ANDROID
-#define UNPACK_APK
-#endif
-
 using System.Threading.Tasks;
 
 using Juniper.Compression.Zip;
@@ -16,15 +12,12 @@ namespace Juniper.IO
         {
             get
             {
-#if UNPACK_APK
-                return true;
-#else
-                return false;
-#endif
+                return Application.platform == RuntimePlatform.Android
+                    && !Application.isEditor;
             }
         }
 
-        public static Task UnpackAPK(IProgress prog)
+        public static Task UnpackAPKAsync(IProgress prog)
         {
             var apk = Application.dataPath;
             var appData = Application.persistentDataPath;
@@ -32,14 +25,13 @@ namespace Juniper.IO
                 Decompressor.Decompress(apk, appData, "assets/", prog));
         }
 
+        private static string RootDir =>
+            NeedsUnpack
+            ? Application.persistentDataPath
+            : Application.streamingAssetsPath;
+
         public StreamingAssetsCacheLayer()
-            : base(
-#if UNPACK_APK
-            Application.persistentDataPath
-#else
-            Application.streamingAssetsPath
-#endif
-                  )
+            : base(RootDir)
         {
         }
     }

@@ -8,6 +8,7 @@ namespace UnityEngine
     /// </summary>
     [ComVisible(false)]
     [Serializable]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1051:Do not declare visible instance fields", Justification = "This is an object that is meant to be edited in the Unity Editor, so its values must be public fields, not properties.")]
     public abstract class AbstractReference<T, U> : IValued<T>
         where U : AbstractVariable<T>
     {
