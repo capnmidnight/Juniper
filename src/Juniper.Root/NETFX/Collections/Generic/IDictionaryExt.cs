@@ -35,7 +35,7 @@ namespace System.Collections.Generic
         /// ]]></code></example>
         public static TValue Get<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue defaultValue = default)
         {
-            if(key is null)
+            if (key is null)
             {
                 return defaultValue;
             }

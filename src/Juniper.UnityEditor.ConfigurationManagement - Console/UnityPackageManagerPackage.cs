@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Linq;
 using Juniper.IO;
 
 namespace Juniper.ConfigurationManagement
@@ -45,18 +45,28 @@ namespace Juniper.ConfigurationManagement
                         }
                         var version = package.Version;
                         var packagePath = Path.Combine(unityPackageContentCacheRoot, $"{packageDir.Name}@{version}");
-                        packages.Add(new UnityPackageManagerPackage(packageName, package.Name, version, packagePath, versionDir.FullName));
+                        packages.Add(new UnityPackageManagerPackage(package.Name, packageName, version, packagePath, versionDir.FullName));
                     }
                 }
             }
         }
 
-        public string PackageID { get; }
-        public string ListingPath { get; }
-        public UnityPackageManagerPackage(string name, string packageID, string version, string contentPath, string listingPath)
-            : base(name, version, contentPath)
+        public static string MakeCompilerDefine(string packageID)
         {
-            PackageID = packageID;
+            if (packageID is null)
+            {
+                throw new ArgumentNullException(nameof(packageID));
+            }
+
+            var parts = packageID.Split('.');
+            return string.Join("_", parts.Skip(1)).ToUpperInvariant();
+        }
+
+        public string ListingPath { get; }
+
+        public UnityPackageManagerPackage(string packageID, string name, string version, string contentPath, string listingPath)
+            : base(packageID, name, version, contentPath, MakeCompilerDefine(packageID))
+        {
             ListingPath = listingPath;
         }
 
@@ -65,6 +75,9 @@ namespace Juniper.ConfigurationManagement
         public override bool Available => Directory.Exists(ListingPath);
 
         public override bool Cached => Directory.Exists(ContentPath);
+
+        public override float InstallPercentage =>
+            IsInstalled ? 100 : 0;
 
         private static UnityPackageManifest LoadManifest()
         {
