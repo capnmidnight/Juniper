@@ -26,6 +26,8 @@ namespace Juniper.ConfigurationManagement
 
         public string PackageID { get; }
 
+        public virtual string Name => PackageID;
+
         public string VersionSpec { get; }
 
         public Version Version { get; }
@@ -139,14 +141,13 @@ namespace Juniper.ConfigurationManagement
 
         public override string ToString()
         {
-            if (Source == PackageSources.UnityPackageManager
-                || Source == PackageSources.CompressedPackage)
+            if (VersionSpec is null)
             {
-                return PackageSpec;
+                return $"[{Source} {Name}";
             }
             else
             {
-                return $"[{Source}] {PackageSpec}";
+                return $"[{Source}] {Name} @ {VersionSpec}";
             }
         }
 

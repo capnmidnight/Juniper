@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-
+using System.Threading.Tasks;
 using Juniper.Compression;
 using Juniper.IO;
 
@@ -53,29 +53,43 @@ namespace Juniper.ConfigurationManagement
         : base(source, name, name, version, path ?? throw new ArgumentNullException(nameof(path)), GetCompilerDefineSymbol(name))
         { }
 
+        private Task scanningTask;
+
+        private float installPercent;
+
         public override float InstallPercentage
         {
             get
             {
-                var fileCount = 0;
-                var installedCount = 0;
-
-                foreach (var entry in GetContentFiles())
+                if (!scanningTask.IsRunning())
                 {
-                    if (entry.IsFile)
-                    {
-                        ++fileCount;
-                        var filePath = Path.Combine(InstallDirectory, entry.FullName);
-                        var exists = File.Exists(filePath);
-                        if (exists)
-                        {
-                            ++installedCount;
-                        }
-                    }
+                    scanningTask = Task.Run(Scan);
                 }
 
-                return Units.Ratio.Percent(installedCount, fileCount);
+                return installPercent;
             }
+        }
+
+        private void Scan()
+        {
+            var fileCount = 0;
+            var installedCount = 0;
+
+            foreach (var entry in GetContentFiles())
+            {
+                if (entry.IsFile)
+                {
+                    ++fileCount;
+                    var filePath = Path.Combine(InstallDirectory, entry.FullName);
+                    var exists = File.Exists(filePath);
+                    if (exists)
+                    {
+                        ++installedCount;
+                    }
+                }
+            }
+
+            installPercent = Units.Ratio.Percent(installedCount, fileCount);
         }
 
         public override bool Available => File.Exists(ContentPath);

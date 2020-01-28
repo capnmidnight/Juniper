@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,26 +15,37 @@ namespace Juniper.ConfigurationManagement
             var manifest = UnityPackageManifest.Load();
             var platforms = Platforms.Load();
 
-            foreach (var package in platforms.Packages)
-            {
-                PrintPackageOps(packageDB, manifest, package);
-            }
+            var pkg = (from versions in packageDB.Values
+                       from p in versions
+                       where p.Source == PackageSources.Juniper
+                         && p.Name.StartsWith("K")
+                       select p)
+                               .FirstOrDefault();
+
+            pkg.Install();
+            //foreach (var package in platforms.Packages)
+            //{
+            //    PrintPackageOps(packageDB, manifest, package);
+            //}
 
 
-            foreach (var configuration in platforms.Configurations.Values)
-            {
-                WriteLine("============================");
-                WriteLine(configuration.Name);
-                foreach (var package in configuration.Packages)
-                {
-                    PrintPackageOps(packageDB, manifest, package);
-                }
-            }
+            //foreach (var configuration in platforms.Configurations.Values)
+            //{
+            //    WriteLine("============================");
+            //    WriteLine(configuration.Name);
+            //    foreach (var package in configuration.Packages)
+            //    {
+            //        PrintPackageOps(packageDB, manifest, package);
+            //    }
+            //}
         }
 
-        private static void PrintPackageOps(IReadOnlyDictionary<string, IReadOnlyCollection<AbstractPackage>> packageDB, UnityPackageManifest manifest, PackageRequirement req)
+        private static void PrintPackageOps(IReadOnlyDictionary<string, IReadOnlyCollection<AbstractPackage>> packageDB, UnityPackageManifest manifest, PackageReference req)
         {
-            WriteLine(req);
+            Write(req);
+            Write(" ");
+            WriteLine(Project.IsAvailable(req).ToYesNo("Available"));
+            /*
             if (req.ForRemoval)
             {
                 Write("Removing... ");
@@ -99,6 +111,7 @@ namespace Juniper.ConfigurationManagement
             }
 
             WriteLine();
+            */
         }
     }
 }

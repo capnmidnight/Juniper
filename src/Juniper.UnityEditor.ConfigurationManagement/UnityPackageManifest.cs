@@ -18,15 +18,18 @@ namespace Juniper.ConfigurationManagement
     {
         public static UnityPackageManifest Load()
         {
-            return Load(out var _, out var __);
-        }
-
-        internal static UnityPackageManifest Load(out JsonFactory<UnityPackageManifest> factory, out string unityPackageManifestPath)
-        {
-            unityPackageManifestPath = Path.Combine(Project.UnityProjectRoot, "Packages", "manifest.json");
-            factory = new JsonFactory<UnityPackageManifest>();
+            var unityPackageManifestPath = Path.Combine(Project.UnityProjectRoot, "Packages", "manifest.json");
+            var factory = new JsonFactory<UnityPackageManifest>();
             return factory.Deserialize(unityPackageManifestPath);
         }
+
+        public void Save()
+        {
+            var unityPackageManifestPath = Path.Combine(Project.UnityProjectRoot, "Packages", "manifest.json");
+            var factory = new JsonFactory<UnityPackageManifest>();
+            factory.Serialize(unityPackageManifestPath, this);
+        }
+
 
         private readonly Dictionary<string, PackageReference> dependencies;
 
@@ -83,6 +86,39 @@ namespace Juniper.ConfigurationManagement
         public void Clear()
         {
             dependencies.Clear();
+        }
+
+        public void Add(PackageReference pkg)
+        {
+            if (pkg is null)
+            {
+                throw new ArgumentNullException(nameof(pkg));
+            }
+
+            if (pkg.ForRemoval)
+            {
+                Remove(pkg);
+            }
+            else
+            {
+                dependencies[pkg.PackageID] = pkg;
+                Save();
+            }
+        }
+
+        public void Remove(PackageReference pkg)
+        {
+            if (pkg is null)
+            {
+                throw new ArgumentNullException(nameof(pkg));
+            }
+
+            if (dependencies.ContainsKey(pkg.PackageID))
+            {
+                dependencies.Remove(pkg.PackageID);
+            }
+
+            Save();
         }
     }
 }

@@ -83,10 +83,10 @@ namespace Juniper.ConfigurationManagement
         public UnityPackage(string packageID, string name, string version, string listingPath, string contentPath = null)
             : base(PackageSources.UnityPackageManager, packageID, name, version, contentPath, MakeCompilerDefine(packageID))
         {
-            ListingPath = listingPath;
+            ListingPath = listingPath ?? throw new ArgumentNullException(nameof(listingPath));
         }
 
-        public override bool Available => Directory.Exists(ListingPath);
+        public override bool Available => true;
 
         public override bool Cached => Directory.Exists(ContentPath);
 
@@ -110,46 +110,28 @@ namespace Juniper.ConfigurationManagement
                 var manifest = UnityPackageManifest.Load();
                 if (manifest.ContainsKey(PackageID))
                 {
-                    var installedVersionStr = manifest[PackageID].VersionSpec;
-                    var isInstalledValidVersion = System.Version.TryParse(installedVersionStr, out var iv);
-                    var isThisValidVersion = System.Version.TryParse(VersionSpec, out var v);
-                    return (isThisValidVersion && !isInstalledValidVersion)
-                        || (isThisValidVersion && isInstalledValidVersion && v > iv);
+                    var installed = manifest[PackageID];
+                    return Version is object
+                        && (installed.Version is null
+                            || Version > installed.Version);
                 }
 
                 return true;
             }
         }
 
-        private static void SetManifestField(PackageReference package, bool remove)
-        {
-            if (package is null)
-            {
-                throw new ArgumentNullException(nameof(package));
-            }
-
-            var manifest = UnityPackageManifest.Load(out var factory, out var unityPackageManifestPath);
-
-            if (!remove && !package.ForRemoval)
-            {
-                manifest[package.PackageID] = package;
-            }
-            else if (manifest.ContainsKey(package.PackageID))
-            {
-                _ = manifest.Remove(package.PackageID);
-            }
-
-            factory.Serialize(unityPackageManifestPath, manifest);
-        }
-
         public override void Install()
         {
-            SetManifestField(this, false);
-        }
+            var manifest = UnityPackageManifest.Load();
 
-        public void Uninstall()
-        {
-            SetManifestField(this, true);
+            if (!ForRemoval)
+            {
+                manifest.Add(this);
+            }
+            else if (manifest.ContainsKey(PackageID))
+            {
+                manifest.Remove(this);
+            }
         }
     }
 }

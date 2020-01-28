@@ -39,7 +39,7 @@ namespace Juniper.ConfigurationManagement
 
         public string WsaSubtarget { get; }
 
-        public IReadOnlyList<PackageRequirement> Packages { get; }
+        public IReadOnlyList<PackageReference> Packages { get; }
 
         public IReadOnlyList<string> VrSystems { get; }
 
@@ -69,7 +69,7 @@ namespace Juniper.ConfigurationManagement
                 {
                     case nameof(CompilerDefine): CompilerDefine = info.GetString(nameof(CompilerDefine)); break;
                     case nameof(VrSystems): VrSystems = info.GetValue<string[]>(nameof(VrSystems)); break;
-                    case nameof(Packages): Packages = info.GetValue<string[]>(nameof(Packages)).Select(str => new PackageRequirement(str)).ToArray(); break;
+                    case nameof(Packages): Packages = info.GetValue<string[]>(nameof(Packages)).Select(str => new PackageReference(str)).ToArray(); break;
                     case nameof(Spatializer): Spatializer = info.GetString(nameof(Spatializer)); break;
                     case nameof(AndroidSdkVersion): AndroidSdkVersion = info.GetString(nameof(AndroidSdkVersion)); break;
                     case nameof(IOSVersion): IOSVersion = info.GetString(nameof(IOSVersion)); break;
@@ -79,7 +79,7 @@ namespace Juniper.ConfigurationManagement
 
             if (Packages is null)
             {
-                Packages = Array.Empty<PackageRequirement>();
+                Packages = Array.Empty<PackageReference>();
             }
 
             if (VrSystems is null)
@@ -148,6 +148,13 @@ namespace Juniper.ConfigurationManagement
         public bool IsSupported()
         {
             return BuildPipeline.IsBuildTargetSupported(GetTargetGroup(), GetBuildTarget());
+        }
+
+        public bool IsActivated()
+        {
+            var curDefines = Project.GetDefines();
+            var reqDefines = GetCompilerDefines();
+            return reqDefines.All(curDefines.Contains);
         }
 
         public void SwitchTarget()
@@ -259,6 +266,10 @@ namespace Juniper.ConfigurationManagement
             {
                 ApplleiOS.TargetOSVersion = v;
             }
+
+            var curDefines = Project.GetDefines();
+            curDefines.AddRange(GetCompilerDefines());
+            Project.SetDefines(curDefines);
         }
 
         public static void Deactivate()

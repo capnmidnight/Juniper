@@ -330,12 +330,6 @@ namespace Juniper.Compression.Zip
                     var outputFile = new FileInfo(outputPath);
                     var outputFileDirectory = outputFile.Directory;
 
-                    if (outputFileDirectory.Exists
-                        && outputFileDirectory.IsJunction())
-                    {
-                        return;
-                    }
-
                     if (!outputFileDirectory.Exists)
                     {
                         outputFileDirectory.Create();

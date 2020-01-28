@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-using Juniper.XR;
-
 using UnityEditor;
 
 namespace Juniper.ConfigurationManagement
@@ -15,8 +13,6 @@ namespace Juniper.ConfigurationManagement
         private const string RECOMPILE_SLUG = "RECOMPILE_SLUG";
 
         private static string unityProjectDirectoryName;
-
-        public static PlatformType Platform => ProjectConfiguration.Platform;
 
         private static IReadOnlyDictionary<string, IReadOnlyCollection<AbstractPackage>> packageDB;
 
@@ -30,6 +26,32 @@ namespace Juniper.ConfigurationManagement
                 }
 
                 return packageDB;
+            }
+        }
+
+        public static bool IsAvailable(PackageReference pkg)
+        {
+            if(pkg is AbstractPackage p)
+            {
+                return p.Available;
+            }
+            else
+            {
+                return PackageDatabase.ContainsKey(pkg.PackageID)
+                     && PackageDatabase[pkg.PackageID].Any(pkg.Equals);
+            }
+        }
+
+        public static bool IsInstalled(PackageReference pkg)
+        {
+            if(pkg is AbstractPackage p)
+            {
+                return p.IsInstalled;
+            }
+            else
+            {
+                return PackageDatabase.ContainsKey(pkg.PackageID)
+                     && PackageDatabase[pkg.PackageID].Any(p => p.IsInstalled);
             }
         }
 
@@ -120,6 +142,20 @@ namespace Juniper.ConfigurationManagement
         {
             var defines = GetDefines();
             defines.Remove(compilerDefine);
+            SetDefines(defines);
+        }
+
+        public static void Recompile()
+        {
+            var defines = GetDefines();
+            if(defines.Contains(RECOMPILE_SLUG))
+            {
+                defines.Remove(RECOMPILE_SLUG);
+            }
+            else
+            {
+                defines.Add(RECOMPILE_SLUG);
+            }
             SetDefines(defines);
         }
 

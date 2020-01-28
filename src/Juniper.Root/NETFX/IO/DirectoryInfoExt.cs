@@ -121,7 +121,7 @@ namespace System.IO
         public static bool IsJunction(this DirectoryInfo directory)
         {
             return directory is object
-                && (directory.Attributes & FileAttributes.ReparsePoint) == 0;
+                && (directory.Attributes & FileAttributes.ReparsePoint) != 0;
         }
     }
 }

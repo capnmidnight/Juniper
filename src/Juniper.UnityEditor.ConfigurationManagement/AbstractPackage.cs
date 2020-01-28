@@ -24,7 +24,7 @@ namespace Juniper.ConfigurationManagement
                         g => (IReadOnlyCollection<AbstractPackage>)g.ToArray());
         }
 
-        public string Name { get; }
+        public override string Name { get; }
 
         public string ContentPath { get; }
 

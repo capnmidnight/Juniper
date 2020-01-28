@@ -1,10 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Linq;
-
-using Juniper.XR;
 
 using UnityEditor;
 
@@ -53,15 +49,14 @@ namespace Juniper.ConfigurationManagement
         {
             titleContent = TITLE;
 
+            var platforms = Platforms.Load();
+            var selectedPlatform = ProjectConfiguration.Platform;
+            var currentConfiguration = platforms.Configurations[selectedPlatform];
+            var requiredDefines = currentConfiguration.GetCompilerDefines();
             var curDefines = Project.GetDefines();
 
-            var platformDefines = PlatformConfiguration.Current.GetCompilerDefines();
-             
-            var allDefines = Platforms.Load()
-                .Configurations.Values
-                .Select(cfg => cfg.CompilerDefine)
-                .Union(curDefines)
-                .Union(platformDefines)
+            var allDefines = curDefines
+                .Union(requiredDefines)
                 .Distinct()
                 .OrderBy(Always.Identity)
                 .ToArray();
@@ -89,7 +84,7 @@ namespace Juniper.ConfigurationManagement
                         EditorGUILayout.LabelField(new GUIContent(define, define));
 
                         EditorGUILayout.LabelField(
-                            platformDefines.Contains(define).ToYesNo(),
+                            requiredDefines.Contains(define).ToYesNo(),
                             EditorStyles.centeredGreyMiniLabel,
                             narrowWidth);
 

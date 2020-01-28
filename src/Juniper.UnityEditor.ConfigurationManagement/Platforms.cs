@@ -19,7 +19,7 @@ namespace Juniper.ConfigurationManagement
             return configFactory.Deserialize(juniperPlatformsFileName);
         }
 
-        public IReadOnlyList<PackageRequirement> Packages { get; }
+        public IReadOnlyList<PackageReference> Packages { get; }
 
         public IReadOnlyDictionary<PlatformType, PlatformConfiguration> Configurations { get; }
 
@@ -32,7 +32,7 @@ namespace Juniper.ConfigurationManagement
             }
 
             Packages = info.GetValue<string[]>(nameof(Packages))
-                .Select(str => new PackageRequirement(str))
+                .Select(str => new PackageReference(str))
                 .ToArray();
             Configurations = info.GetValue<PlatformConfiguration[]>(nameof(Configurations))
                 .ToDictionary(c => c.Name);
