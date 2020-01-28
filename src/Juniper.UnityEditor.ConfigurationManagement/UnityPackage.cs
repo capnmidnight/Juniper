@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 
 using Juniper.IO;
 
 namespace Juniper.ConfigurationManagement
 {
-    public sealed class UnityPackageManagerPackage : AbstractPackage
+    public sealed class UnityPackage : AbstractPackage
     {
         /// <summary>
         /// 
@@ -48,28 +47,23 @@ namespace Juniper.ConfigurationManagement
                         }
                         var version = package.Version;
                         var packagePath = Path.Combine(unityPackageContentCacheRoot, $"{packageDir.Name}@{version}");
-                        packages.Add(new UnityPackageManagerPackage(package.Name, packageName, version, versionDir.FullName, packagePath));
+                        packages.Add(new UnityPackage(package.Name, packageName, version, versionDir.FullName, packagePath));
                     }
                 }
             }
 
-            var unityRoot = Environment.GetEnvironmentVariable("UNITY_ROOT");
-            if (unityRoot is null)
+            if (Project.UnityEditorRoot != null)
             {
-                var exe = new FileInfo(Assembly.GetEntryAssembly().Location);
-                unityRoot = exe.Directory.Parent.FullName;
-            }
-
-            var builtInRoot = Path.Combine(unityRoot, "Editor", "Data", "Resources", "PackageManager", "BuiltInPackages");
-            var builtInRootDir = new DirectoryInfo(builtInRoot);
-            foreach (var packageDir in builtInRootDir.GetDirectories())
-            {
-                var packageFileName = Path.Combine(packageDir.FullName, "package.json");
-                var package = packageFactory.Deserialize(packageFileName);
-                var packageName = package.DisplayName;
-                var version = package.Version;
-                packages.Add(new UnityPackageManagerPackage(package.Name, packageName, version, packageDir.FullName));
-
+                var builtInRoot = Path.Combine(Project.UnityEditorRoot, "Editor", "Data", "Resources", "PackageManager", "BuiltInPackages");
+                var builtInRootDir = new DirectoryInfo(builtInRoot);
+                foreach (var packageDir in builtInRootDir.GetDirectories())
+                {
+                    var packageFileName = Path.Combine(packageDir.FullName, "package.json");
+                    var package = packageFactory.Deserialize(packageFileName);
+                    var packageName = package.DisplayName;
+                    var version = package.Version;
+                    packages.Add(new UnityPackage(package.Name, packageName, version, packageDir.FullName));
+                }
             }
         }
 
@@ -86,7 +80,7 @@ namespace Juniper.ConfigurationManagement
 
         public string ListingPath { get; }
 
-        public UnityPackageManagerPackage(string packageID, string name, string version, string listingPath, string contentPath = null)
+        public UnityPackage(string packageID, string name, string version, string listingPath, string contentPath = null)
             : base(PackageSources.UnityPackageManager, packageID, name, version, contentPath, MakeCompilerDefine(packageID))
         {
             ListingPath = listingPath;

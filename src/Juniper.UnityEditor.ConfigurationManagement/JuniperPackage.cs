@@ -7,7 +7,7 @@ using Juniper.Compression.Zip;
 
 namespace Juniper.ConfigurationManagement
 {
-    public sealed class JuniperZipPackage : AbstractCompressedPackage
+    public sealed class JuniperPackage : AbstractCompressedPackage
     {
         public static void Load(List<AbstractPackage> packages)
         {
@@ -16,24 +16,21 @@ namespace Juniper.ConfigurationManagement
                 throw new ArgumentNullException(nameof(packages));
             }
 
-            var juniperPath = Path.Combine(UnityProjectRoot, "Assets", "Juniper");
-            var juniperThirdPartyPath = Path.Combine(juniperPath, "ThirdParty");
-            var juniperThirdPartyPackagePath = Path.Combine(juniperThirdPartyPath, "Optional");
-
-            var rootDir = new DirectoryInfo(juniperThirdPartyPackagePath);
+            var juniperPackagesRoot = Path.Combine(Project.JuniperAssetPath, "ThirdParty", "Optional");
+            var rootDir = new DirectoryInfo(juniperPackagesRoot);
             foreach (var file in rootDir.GetFiles("*.zip"))
             {
                 var packageName = Path.GetFileNameWithoutExtension(file.Name);
                 var packagePath = file.FullName;
-                packages.Add(new JuniperZipPackage(packageName, null, packagePath));
+                packages.Add(new JuniperPackage(packageName, null, packagePath));
             }
         }
 
-        public JuniperZipPackage(string name, string version, string path)
-            : base(PackageSources.JuniperZip, name, version, path)
+        public JuniperPackage(string name, string version, string path)
+            : base(PackageSources.Juniper, name, version, path)
         { }
 
-        protected override string InstallDirectory => Path.Combine(UnityProjectRoot, "Assets");
+        protected override string InstallDirectory => Project.UnityAssetsPath;
 
         protected override IEnumerable<CompressedFileInfo> GetContentFiles()
         {

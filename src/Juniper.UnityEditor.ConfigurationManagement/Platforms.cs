@@ -1,15 +1,26 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+
+using Juniper.IO;
 
 namespace Juniper.ConfigurationManagement
 {
     [Serializable]
     public sealed class Platforms : ISerializable
     {
-        public PackageRequirement[] Packages { get; }
+        public static Platforms Load()
+        {
+            var configFactory = new JsonFactory<Platforms>();
+            var juniperPlatformsFileName = Path.Combine(Project.JuniperAssetPath, "platforms.json");
+            return configFactory.Deserialize(juniperPlatformsFileName);
+        }
 
-        public PlatformConfiguration[] Configurations { get; }
+        public IReadOnlyList<PackageRequirement> Packages { get; }
+
+        public IReadOnlyList<PlatformConfiguration> Configurations { get; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private Platforms(SerializationInfo info, StreamingContext context)

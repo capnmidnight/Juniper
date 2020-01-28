@@ -7,11 +7,11 @@ namespace Juniper.ConfigurationManagement
     {
         None,
 
-        JuniperZip = 0x01,
+        Juniper = 0x01,
         UnityAssetStore = 0x02,
         UnityPackageManager = 0x04,
 
-        CompressedPackage = JuniperZip | UnityAssetStore,
-        Any = JuniperZip | UnityAssetStore | UnityPackageManager
+        CompressedPackage = Juniper | UnityAssetStore,
+        Any = Juniper | UnityAssetStore | UnityPackageManager
     }
 }

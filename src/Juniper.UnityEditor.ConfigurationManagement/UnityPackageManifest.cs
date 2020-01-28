@@ -23,7 +23,7 @@ namespace Juniper.ConfigurationManagement
 
         internal static UnityPackageManifest Load(out JsonFactory<UnityPackageManifest> factory, out string unityPackageManifestPath)
         {
-            unityPackageManifestPath = Path.Combine(AbstractPackage.UnityProjectRoot, "Packages", "manifest.json");
+            unityPackageManifestPath = Path.Combine(Project.UnityProjectRoot, "Packages", "manifest.json");
             factory = new JsonFactory<UnityPackageManifest>();
             return factory.Deserialize(unityPackageManifestPath);
         }

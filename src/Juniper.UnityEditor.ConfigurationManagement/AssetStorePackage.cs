@@ -9,7 +9,7 @@ using UnityEditor;
 
 namespace Juniper.ConfigurationManagement
 {
-    public sealed class UnityAssetStorePackage : AbstractCompressedPackage
+    public sealed class AssetStorePackage : AbstractCompressedPackage
     {
         public static void Load(List<AbstractPackage> packages)
         {
@@ -18,16 +18,12 @@ namespace Juniper.ConfigurationManagement
                 throw new ArgumentNullException(nameof(packages));
             }
 
-            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            var assetStoreRoot = Path.Combine(appData, "Unity", "Asset Store-5.x");
+            var assetStoreRoot = Path.Combine(Project.AppData, "Unity", "Asset Store-5.x");
             AddPackagesFromDirectory(packages, assetStoreRoot);
 
-            var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var userAssetStoreRoot = Path.Combine(userProfile, "Projects", "Packages");
+            var userAssetStoreRoot = Path.Combine(Project.UserProfile, "Projects", "Packages");
             AddPackagesFromDirectory(packages, userAssetStoreRoot);
-
-            var userDownloads = Path.Combine(userProfile, "Downloads");
-            AddPackagesFromDirectory(packages, userDownloads);
+            AddPackagesFromDirectory(packages, Project.UserDownloads);
         }
 
         private static void AddPackagesFromDirectory(List<AbstractPackage> packages, string root)
@@ -44,18 +40,18 @@ namespace Juniper.ConfigurationManagement
                         {
                             var packageName = $"{vendorDir.Name} - {Path.GetFileNameWithoutExtension(packageFile.Name)}";
                             var packagePath = packageFile.FullName;
-                            packages.Add(new UnityAssetStorePackage(packageName, null, packagePath));
+                            packages.Add(new AssetStorePackage(packageName, null, packagePath));
                         }
                     }
                 }
             }
         }
 
-        public UnityAssetStorePackage(string name, string version, string path)
+        public AssetStorePackage(string name, string version, string path)
             : base(PackageSources.UnityAssetStore, name, version, path)
         { }
 
-        protected override string InstallDirectory => UnityProjectRoot;
+        protected override string InstallDirectory => Project.UnityProjectRoot;
 
         protected override IEnumerable<CompressedFileInfo> GetContentFiles()
         {

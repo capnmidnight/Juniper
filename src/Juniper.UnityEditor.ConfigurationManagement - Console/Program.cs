@@ -17,17 +17,10 @@ namespace Juniper.ConfigurationManagement
     {
         public static void Main()
         {
-            //var unityProjectDir = @"C:\Users\smcbeth.DLS-INC\Projects\Yarrow\src\Yarrow - AndroidOculus";
-            var unityProjectDir = @"D:\Projects\Juniper\examples\Juniper - Android";
-
-            AbstractPackage.UnityProjectRoot = unityProjectDir;
+            Project.UnityProjectRoot = @"D:\Projects\Juniper\examples\Juniper - Android";
             var packageDB = AbstractPackage.Load();
             var manifest = UnityPackageManifest.Load();
-
-            var configFactory = new JsonFactory<Platforms>();
-            var juniperPath = Path.Combine(unityProjectDir, "Assets", "Juniper");
-            var juniperPlatformsFileName = Path.Combine(juniperPath, "platforms.json");
-            var platforms = configFactory.Deserialize(juniperPlatformsFileName);
+            var platforms = Platforms.Load();
 
             foreach (var package in platforms.Packages)
             {
@@ -246,7 +239,7 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        public static void Activate(JuniperZipPackage package, BuildTargetGroup targetGroup)
+        public static void Activate(JuniperPackage package, BuildTargetGroup targetGroup)
         {
             if (package is null)
             {

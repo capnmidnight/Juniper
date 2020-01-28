@@ -20,8 +20,7 @@ namespace Juniper.ConfigurationManagement
             {
                 if (compilerDefines is null)
                 {
-                    var juniperPath = Path.Combine(UnityProjectRoot, "Assets", "Juniper");
-                    var definesFileName = Path.Combine(juniperPath, "ThirdParty", "defines.json");
+                    var definesFileName = Path.Combine(Project.JuniperAssetPath, "ThirdParty", "defines.json");
                     var definesFactory = new JsonFactory<PackageDefineSymbol[]>();
                     compilerDefines = definesFactory.Deserialize(definesFileName)
                         .ToDictionary(d => d.Name, d => d.CompilerDefine);

@@ -11,9 +11,9 @@ namespace Juniper.ConfigurationManagement
         {
             var packages = new List<AbstractPackage>();
 
-            UnityAssetStorePackage.Load(packages);
-            JuniperZipPackage.Load(packages);
-            UnityPackageManagerPackage.Load(packages);
+            AssetStorePackage.Load(packages);
+            JuniperPackage.Load(packages);
+            UnityPackage.Load(packages);
 
             return (from package in packages
                     group package by package.PackageID into grp
@@ -22,25 +22,6 @@ namespace Juniper.ConfigurationManagement
                     .ToDictionary(
                         g => g.Key,
                         g => (IReadOnlyCollection<AbstractPackage>)g.ToArray());
-        }
-
-        private static string unityProjectDirectory;
-
-        public static string UnityProjectRoot
-        {
-            get
-            {
-                if (unityProjectDirectory is null)
-                {
-                    unityProjectDirectory = Environment.CurrentDirectory;
-                }
-
-                return unityProjectDirectory;
-            }
-            set
-            {
-                unityProjectDirectory = value;
-            }
         }
 
         public string Name { get; }
