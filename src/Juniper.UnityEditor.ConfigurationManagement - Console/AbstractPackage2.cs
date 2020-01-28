@@ -1,9 +1,25 @@
+using System;
+using System.IO;
+
 namespace Juniper.ConfigurationManagement
 {
     public abstract class AbstractPackage2
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2211:Non-constant fields should not be visible", Justification = "<Pending>")]
-        internal static string UnityProjectRoot;
+        private static string unityProjectDirectory;
+
+        internal static string UnityProjectRoot
+        {
+            get
+            {
+                return unityProjectDirectory ?? Environment.CurrentDirectory;
+            }
+            set
+            {
+                unityProjectDirectory = value;
+            }
+        }
+
+
 
         public string Name { get; }
 
