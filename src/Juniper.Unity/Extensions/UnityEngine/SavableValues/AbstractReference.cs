@@ -74,6 +74,11 @@ namespace UnityEngine
         /// <param name="obj"></param>
         public static implicit operator T(AbstractReference<T, U> obj)
         {
+            if (obj is null)
+            {
+                return default;
+            }
+
             return obj.Value;
         }
 

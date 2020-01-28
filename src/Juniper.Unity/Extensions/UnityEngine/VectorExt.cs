@@ -29,6 +29,11 @@ namespace UnityEngine
         /// <param name="points">Points.</param>
         public static Vector3 Centroid(this IEnumerable<Vector3> points)
         {
+            if (points is null)
+            {
+                throw new System.ArgumentNullException(nameof(points));
+            }
+
             var count = 0;
             var avg = Vector3.zero;
             foreach (var point in points)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -53,6 +53,11 @@ namespace UnityEngine
         public static T FindClosest<T>(this Component obj)
             where T : class
         {
+            if (obj is null)
+            {
+                throw new ArgumentNullException(nameof(obj));
+            }
+
             var v = obj.GetComponent<T>();
 
             if (v == default)

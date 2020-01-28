@@ -1,7 +1,12 @@
+using System.Drawing;
+
 namespace Juniper
 {
     partial class Form1
     {
+        private Bitmap buffer, block, bgimage;
+        private Graphics back, front;
+
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -15,6 +20,11 @@ namespace Juniper
         {
             if (disposing && (components != null))
             {
+                buffer.Dispose();
+                block.Dispose();
+                bgimage.Dispose();
+                back.Dispose();
+                front.Dispose();
                 components.Dispose();
             }
             base.Dispose(disposing);

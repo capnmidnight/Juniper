@@ -20,6 +20,11 @@ namespace UnityEngine
         /// <param name="renderer">Renderer.</param>
         public static Material GetMaterial(this Renderer renderer)
         {
+            if (renderer is null)
+            {
+                throw new System.ArgumentNullException(nameof(renderer));
+            }
+
             if (UseShared)
             {
                 return renderer.sharedMaterial;
@@ -38,6 +43,11 @@ namespace UnityEngine
         /// <param name="material">Material.</param>
         public static void SetMaterial(this Renderer renderer, Material material)
         {
+            if (renderer is null)
+            {
+                throw new System.ArgumentNullException(nameof(renderer));
+            }
+
             renderer.enabled = material != null;
             if (renderer.enabled)
             {
@@ -60,6 +70,11 @@ namespace UnityEngine
         /// <param name="renderer">Renderer.</param>
         public static Material[] GetMaterials(this Renderer renderer)
         {
+            if (renderer is null)
+            {
+                throw new System.ArgumentNullException(nameof(renderer));
+            }
+
             if (UseShared)
             {
                 return renderer.sharedMaterials;
@@ -78,6 +93,11 @@ namespace UnityEngine
         /// <param name="materials">Material.</param>
         public static void SetMaterials(this Renderer renderer, Material[] materials)
         {
+            if (renderer is null)
+            {
+                throw new System.ArgumentNullException(nameof(renderer));
+            }
+
             if (UseShared)
             {
                 renderer.sharedMaterials = materials;
@@ -96,6 +116,11 @@ namespace UnityEngine
         /// <param name="filter">a mesh filter.</param>
         public static Mesh GetMesh(this MeshFilter filter)
         {
+            if (filter is null)
+            {
+                throw new System.ArgumentNullException(nameof(filter));
+            }
+
             if (UseShared)
             {
                 return filter.sharedMesh;
@@ -114,6 +139,11 @@ namespace UnityEngine
         /// <param name="mesh">  a mesh.</param>
         public static void SetMesh(this MeshFilter filter, Mesh mesh)
         {
+            if (filter is null)
+            {
+                throw new System.ArgumentNullException(nameof(filter));
+            }
+
             if (UseShared)
             {
                 filter.sharedMesh = mesh;

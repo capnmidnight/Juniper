@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Text;
 
 namespace Juniper.Puzzles
@@ -54,7 +55,7 @@ namespace Juniper.Puzzles
             {
                 for (var x = 0; x < Width; ++x)
                 {
-                    sb.AppendFormat("{0},", grid[x, y]);
+                    sb.AppendFormat(CultureInfo.InvariantCulture, "{0},", grid[x, y]);
                 }
 
                 sb.AppendLine();

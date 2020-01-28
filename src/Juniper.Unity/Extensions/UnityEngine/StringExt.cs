@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace UnityEditor
 {
@@ -11,6 +11,11 @@ namespace UnityEditor
 
         public static GUIContent[] ToGUIContents(this string[] values)
         {
+            if (values is null)
+            {
+                throw new System.ArgumentNullException(nameof(values));
+            }
+
             var arr = new GUIContent[values.Length];
             for (var i = 0; i < values.Length; ++i)
             {

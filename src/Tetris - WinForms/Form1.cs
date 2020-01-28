@@ -14,8 +14,6 @@ namespace Juniper
         private TetrisGame game;
         private Brush[] colors;
         private readonly Thread thread;
-        private Bitmap buffer, block, bgimage;
-        private Graphics back, front;
 
         private Dictionary<object, Action> keyPresses;
         private Dictionary<object, Action> keyReleases;

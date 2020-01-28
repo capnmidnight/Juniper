@@ -87,6 +87,11 @@ namespace UnityEngine
         /// <param name="i">     The index.</param>
         public static Color GetGrayscalePixel(this byte[] buffer, int i)
         {
+            if (buffer is null)
+            {
+                throw new System.ArgumentNullException(nameof(buffer));
+            }
+
             var r = buffer[i];
             return new Color(r / 255f, r / 255f, r / 255f);
         }
@@ -99,6 +104,11 @@ namespace UnityEngine
         /// <param name="i">     The index.</param>
         public static Color GetRGB565Pixel(this byte[] buffer, int i)
         {
+            if (buffer is null)
+            {
+                throw new System.ArgumentNullException(nameof(buffer));
+            }
+
             byte high = buffer[i],
                 low = buffer[i + 1];
             float r = high >> 3,
@@ -115,6 +125,11 @@ namespace UnityEngine
         /// <param name="i">     The index.</param>
         public static Color GetRGB888Pixel(this byte[] buffer, int i)
         {
+            if (buffer is null)
+            {
+                throw new System.ArgumentNullException(nameof(buffer));
+            }
+
             byte r = buffer[i],
                 g = buffer[i + 1],
                 b = buffer[i + 2];
@@ -122,6 +137,11 @@ namespace UnityEngine
         }
         public static Color GetRGBA32Pixel(this byte[] buffer, int i)
         {
+            if (buffer is null)
+            {
+                throw new System.ArgumentNullException(nameof(buffer));
+            }
+
             byte r = buffer[i],
                 g = buffer[i + 1],
                 b = buffer[i + 2],
@@ -131,6 +151,11 @@ namespace UnityEngine
 
         public static Color[] ToColors(this byte[] buffer, int components, bool mirror = false)
         {
+            if (buffer is null)
+            {
+                throw new System.ArgumentNullException(nameof(buffer));
+            }
+
             var colors = new Color[buffer.Length / components];
             for (var c = 0; c < colors.Length; ++c)
             {
@@ -165,6 +190,11 @@ namespace UnityEngine
         /// <param name="i">     The index.</param>
         public static Color GetYUVPixel(this byte[] buffer, int i)
         {
+            if (buffer is null)
+            {
+                throw new System.ArgumentNullException(nameof(buffer));
+            }
+
             int y = buffer[i] - 16,
                 u = buffer[i + 1] - 128,
                 v = buffer[i + 2] - 128,

@@ -21,6 +21,11 @@ namespace Juniper.World.GIS
         /// </summary>
         public static Vector3 ToEuler(this HorizontalSphericalPosition p)
         {
+            if (p is null)
+            {
+                throw new System.ArgumentNullException(nameof(p));
+            }
+
             return new Vector3(p.AltitudeDegrees, p.AzimuthDegrees, 0);
         }
     }

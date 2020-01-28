@@ -1,5 +1,5 @@
 using System;
-
+using System.Globalization;
 using NUnit.Framework;
 
 namespace Juniper.Puzzles.Test
@@ -2553,8 +2553,8 @@ namespace Juniper.Puzzles.Test
             {
                 for (var x = sx; x < sx + w; x++)
                 {
-                    Assert.AreEqual(q[x + dx, y + dy], p[x, y], string.Format("1. At ({0}, {1}) for\n{2}", x, y, p));
-                    Assert.AreEqual(q[x, y], p[x + dx, y + dy], string.Format("2. At ({0}, {1}) for\n{2}", x, y, p));
+                    Assert.AreEqual(q[x + dx, y + dy], p[x, y], string.Format(CultureInfo.InvariantCulture, "1. At ({0}, {1}) for\n{2}", x, y, p));
+                    Assert.AreEqual(q[x, y], p[x + dx, y + dy], string.Format(CultureInfo.InvariantCulture, "2. At ({0}, {1}) for\n{2}", x, y, p));
                 }
             }
         }

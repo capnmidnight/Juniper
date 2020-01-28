@@ -15,6 +15,11 @@ namespace Juniper.World.GIS
         /// <returns></returns>
         public static Vector3 ToVector3(this UTMPoint value)
         {
+            if (value is null)
+            {
+                throw new System.ArgumentNullException(nameof(value));
+            }
+
             return new Vector3(value.X, value.Z, value.Y);
         }
 
@@ -37,6 +42,16 @@ namespace Juniper.World.GIS
         /// <returns></returns>
         public static Vector3 Subtract(this UTMPoint a, UTMPoint b)
         {
+            if (a is null)
+            {
+                throw new System.ArgumentNullException(nameof(a));
+            }
+
+            if (b is null)
+            {
+                throw new System.ArgumentNullException(nameof(b));
+            }
+
             return new Vector3(a.X - b.X, a.Z - b.Z, a.Y - b.Y);
         }
     }

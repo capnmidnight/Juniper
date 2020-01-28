@@ -21,6 +21,11 @@ namespace Juniper.World.GIS
         [Obsolete("This should really only ever be used when trying to match visuals to Google Maps.")]
         public static Vector3 SphericalMercator(this LatLngPoint value)
         {
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             var lat = Degrees.Radians(value.Latitude);
             var lng = Degrees.Radians(value.Longitude);
             var x = DatumWGS_84.equatorialRadius * lng;

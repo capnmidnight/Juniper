@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace UnityEngine
 {
@@ -14,7 +15,7 @@ namespace UnityEngine
         /// <param name="tm">Tm.</param>
         public TextMeshSize(TextMesh tm)
         {
-            mesh = tm;
+            mesh = tm ?? throw new System.ArgumentNullException(nameof(tm));
             renderer = tm.GetComponent<Renderer>();
             charWidths = new Dictionary<char, float>(128);
 
@@ -260,7 +261,7 @@ namespace UnityEngine
                     {
                         if (c != ' ')
                         {
-                            word += c.ToString();
+                            word += c.ToString(CultureInfo.CurrentCulture);
                             wordWidth += charWidth;
                         }
 
@@ -285,7 +286,7 @@ namespace UnityEngine
                         wordWidth = 0;
                     }
 
-                    word += c.ToString();
+                    word += c.ToString(CultureInfo.CurrentCulture);
                     wordWidth += charWidth;
                 }
 

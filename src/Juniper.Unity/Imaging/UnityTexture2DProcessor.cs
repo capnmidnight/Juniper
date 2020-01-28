@@ -10,16 +10,31 @@ namespace Juniper.Imaging
     {
         public int GetWidth(Texture2D img)
         {
+            if (img is null)
+            {
+                throw new ArgumentNullException(nameof(img));
+            }
+
             return img.width;
         }
 
         public int GetHeight(Texture2D img)
         {
+            if (img is null)
+            {
+                throw new ArgumentNullException(nameof(img));
+            }
+
             return img.height;
         }
 
         public int GetComponents(Texture2D img)
         {
+            if (img is null)
+            {
+                throw new ArgumentNullException(nameof(img));
+            }
+
             if (img.format == TextureFormat.ARGB32
                 || img.format == TextureFormat.RGBA32
                 || img.format == TextureFormat.BGRA32)
@@ -38,6 +53,11 @@ namespace Juniper.Imaging
 
         public Texture2D Concatenate(Texture2D[,] images, IProgress prog)
         {
+            if (images is null)
+            {
+                throw new ArgumentNullException(nameof(images));
+            }
+
             this.ValidateImages(images, prog,
                 out var rows, out var columns, out _,
                 out var tileWidth, out var tileHeight);

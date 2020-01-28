@@ -11,6 +11,11 @@ namespace UnityEngine
         /// <param name="parent">Parent.</param>
         public static void ResizeContentArea(this RectTransform parent)
         {
+            if (parent is null)
+            {
+                throw new System.ArgumentNullException(nameof(parent));
+            }
+
             var lastChild = parent.GetChild(parent.childCount - 1).GetComponent<RectTransform>();
             var contentPanel = parent.GetComponent<RectTransform>();
             contentPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, -lastChild.anchoredPosition.y);
@@ -19,6 +24,11 @@ namespace UnityEngine
         public static T SetAnchors<T>(this T parent, Vector2 anchorMin, Vector2 anchorMax)
             where T : Component
         {
+            if (parent is null)
+            {
+                throw new System.ArgumentNullException(nameof(parent));
+            }
+
             var rect = parent.GetComponent<RectTransform>();
             rect.anchorMin = anchorMin;
             rect.anchorMax = anchorMax;
@@ -28,6 +38,11 @@ namespace UnityEngine
         public static T SetPivot<T>(this T parent, Vector2 pivot)
             where T : Component
         {
+            if (parent is null)
+            {
+                throw new System.ArgumentNullException(nameof(parent));
+            }
+
             var rect = parent.GetComponent<RectTransform>();
             rect.pivot = pivot;
             return parent;
@@ -36,6 +51,11 @@ namespace UnityEngine
         public static T SetPosition<T>(this T parent, Vector3 position)
             where T : Component
         {
+            if (parent is null)
+            {
+                throw new System.ArgumentNullException(nameof(parent));
+            }
+
             var rect = parent.GetComponent<RectTransform>();
             rect.anchoredPosition = position;
             return parent;
@@ -44,6 +64,11 @@ namespace UnityEngine
         public static T SetWidth<T>(this T parent, float width)
             where T : Component
         {
+            if (parent is null)
+            {
+                throw new System.ArgumentNullException(nameof(parent));
+            }
+
             var rect = parent.GetComponent<RectTransform>();
             rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
             return parent;
@@ -52,6 +77,11 @@ namespace UnityEngine
         public static T SetHeight<T>(this T parent, float height)
             where T : Component
         {
+            if (parent is null)
+            {
+                throw new System.ArgumentNullException(nameof(parent));
+            }
+
             var rect = parent.GetComponent<RectTransform>();
             rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
             return parent;
@@ -67,6 +97,11 @@ namespace UnityEngine
         public static T SetSize<T>(this T parent, Vector2 sizeDelta)
             where T : Component
         {
+            if (parent is null)
+            {
+                throw new System.ArgumentNullException(nameof(parent));
+            }
+
             var rect = parent.GetComponent<RectTransform>();
             rect.sizeDelta = sizeDelta;
             return parent;

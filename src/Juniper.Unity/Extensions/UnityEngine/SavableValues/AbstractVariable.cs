@@ -40,6 +40,11 @@ namespace UnityEngine
         /// <param name="value"></param>
         public static implicit operator T(AbstractVariable<T> value)
         {
+            if (value is null)
+            {
+                return default;
+            }
+
             return value.Value;
         }
 

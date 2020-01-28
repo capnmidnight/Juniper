@@ -1,3 +1,4 @@
+using System.Globalization;
 using UnityEditor;
 
 using UnityEngine;
@@ -39,8 +40,8 @@ namespace Juniper.World.GIS
                 var latRect = new Rect(position.x, position.y, position.width / 2, position.height);
                 var lngRect = new Rect(position.x + position.width / 2, position.y, position.width / 2, position.height);
                 var curPoint = property.GetObject<LatLngPoint>();
-                var curLat = curPoint.Latitude.ToString();
-                var curLng = curPoint.Longitude.ToString();
+                var curLat = curPoint.Latitude.ToString(CultureInfo.InvariantCulture);
+                var curLng = curPoint.Longitude.ToString(CultureInfo.InvariantCulture);
                 EditorGUIUtility.labelWidth = 25;
                 var nextLat = EditorGUI.TextField(latRect, labelLat, curLat);
                 var nextLng = EditorGUI.TextField(lngRect, labelLng, curLng);

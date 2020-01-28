@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+using System.Globalization;
 using Juniper.Console;
 using Juniper.Puzzles;
 
@@ -67,15 +67,15 @@ namespace Juniper
                 nextPiecePanel.Draw(0, 0, "Next", ConsoleColor.Black);
                 nextPiecePanel.DrawPuzzle(2, 1, game.Next);
 
-                var score = game.Score.ToString(System.Globalization.CultureInfo.CurrentCulture);
+                var score = game.Score.ToString(CultureInfo.CurrentCulture);
                 scorePanel.Draw(0, 0, "Score", ConsoleColor.Black);
                 scorePanel.Draw(2, 1, score, ConsoleColor.White);
 
                 var p = ConsoleBuffer.CursorPosition;
                 scorePanel.Draw(0, 2, "X", ConsoleColor.Black);
-                scorePanel.Draw(0, 3, p.x.ToString(), ConsoleColor.White);
+                scorePanel.Draw(0, 3, p.x.ToString(CultureInfo.CurrentCulture), ConsoleColor.White);
                 scorePanel.Draw(0, 4, "Y", ConsoleColor.Black);
-                scorePanel.Draw(0, 5, p.y.ToString(), ConsoleColor.White);
+                scorePanel.Draw(0, 5, p.y.ToString(CultureInfo.CurrentCulture), ConsoleColor.White);
 
                 window.Draw(p.x / 16, p.y / 16, '*', ConsoleColor.Yellow);
 

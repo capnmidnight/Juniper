@@ -14,6 +14,11 @@ namespace UnityEngine.Events
         /// <param name="action">Action.</param>
         public static void Once(this UnityEvent evt, Action action)
         {
+            if (evt is null)
+            {
+                throw new ArgumentNullException(nameof(evt));
+            }
+
             void subAct()
             {
                 evt.RemoveListener(subAct);
