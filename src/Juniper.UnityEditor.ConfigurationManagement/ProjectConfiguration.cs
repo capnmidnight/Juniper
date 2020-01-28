@@ -67,20 +67,6 @@ namespace Juniper.XR
             json.Serialize(CONFIG_FILE_NAME, this);
         }
 
-        public int BuildStep
-        {
-            get
-            {
-                return buildStep - 1;
-            }
-
-            set
-            {
-                buildStep = value + 1;
-                Save();
-            }
-        }
-
         public PlatformType CurrentPlatform { get; private set; }
 
         public PlatformType NextPlatform
