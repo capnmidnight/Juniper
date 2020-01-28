@@ -127,41 +127,6 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        public UnityPackage[] UninstallableUnityPackages
-        {
-            get; internal set;
-        }
-
-        public UnityPackage[] IncludedUnityPackages
-        {
-            get; internal set;
-        }
-
-        public UnityPackage[] ExcludedUnityPackages
-        {
-            get; internal set;
-        }
-
-        public ZipPackage[] UninstallableZipPackages
-        {
-            get; internal set;
-        }
-
-        public ZipPackage[] ZipPackages
-        {
-            get; internal set;
-        }
-
-        public AssetStorePackage[] UninstallableAssetStorePackages
-        {
-            get; internal set;
-        }
-
-        public AssetStorePackage[] AssetStorePackages
-        {
-            get; internal set;
-        }
-
         public void SwitchTarget()
         {
             Debug.Log($"Switching build target from {EditorUserBuildSettings.activeBuildTarget} to {BuildTarget}.");
@@ -176,46 +141,11 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        public void InstallUnityPackages(IProgress prog)
-        {
-            var progs = prog.Split(2);
-
-            Platforms.ForEachPackage(ExcludedUnityPackages, progs[0], (pkg, p) =>
-            {
-                pkg.Uninstall(p);
-            });
-
-            Platforms.ForEachPackage(IncludedUnityPackages, progs[1], (pkg, p) =>
-            {
-                pkg.Install(p);
-            });
-        }
-
-        public void InstallZipPackages(IProgress prog)
-        {
-            Platforms.ForEachPackage(ZipPackages, prog, (pkg, p) => pkg.Install(p));
-        }
-
-        public void InstallAssetStorePackages(IProgress prog)
-        {
-            Platforms.ForEachPackage(AssetStorePackages, prog, (pkg, p) => pkg.Install(p));
-        }
 
         public void Activate(IProgress prog)
         {
             var progs = prog.Split(2);
 
-            Platforms.ForEachPackage(
-                IncludedUnityPackages, progs[0],
-                (pkg, p) => pkg.Activate(TargetGroup, p));
-
-            Platforms.ForEachPackage(
-                ZipPackages, progs[1],
-                (pkg, p) => pkg.Activate(TargetGroup, p));
-
-            Platforms.ForEachPackage(
-                AssetStorePackages, progs[1],
-                (pkg, p) => pkg.Activate(TargetGroup, p));
 
             if (!string.IsNullOrEmpty(spatializer))
             {
@@ -280,33 +210,11 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        public void UninstallAssetStorePackages(IProgress prog)
-        {
-            Platforms.ForEachPackage(UninstallableAssetStorePackages, prog, (pkg, p) => pkg.Uninstall(p));
-        }
-
-        public void UninstallZipPackages(IProgress prog)
-        {
-            Platforms.ForEachPackage(UninstallableZipPackages, prog, (pkg, p) => pkg.Uninstall(p));
-        }
-
-        public void UninstallUnityPackages(IProgress prog)
-        {
-            Platforms.ForEachPackage(UninstallableUnityPackages, prog, (pkg, p) => pkg.Uninstall(p));
-        }
-
         public List<string> CompilerDefines
         {
             get
             {
-                var defines = (from pkg in IncludedUnityPackages
-                               where pkg.version != "exclude"
-                               select (AbstractPackage)pkg)
-                    .Union(ZipPackages)
-                    .Union(AssetStorePackages)
-                    .Select(pkg => pkg.CompilerDefine)
-                    .Where(def => !string.IsNullOrEmpty(def))
-                    .ToList();
+                var defines = new List<string>();
 
                 if (!string.IsNullOrEmpty(CompilerDefine))
                 {
