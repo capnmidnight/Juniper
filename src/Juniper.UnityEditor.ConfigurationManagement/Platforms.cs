@@ -12,11 +12,17 @@ namespace Juniper.ConfigurationManagement
     [Serializable]
     public sealed class Platforms : ISerializable
     {
+        private static Platforms platforms;
         public static Platforms Load()
         {
-            var configFactory = new JsonFactory<Platforms>();
-            var juniperPlatformsFileName = Path.Combine(Project.JuniperAssetPath, "platforms.json");
-            return configFactory.Deserialize(juniperPlatformsFileName);
+            if (platforms is null)
+            {
+                var configFactory = new JsonFactory<Platforms>();
+                var juniperPlatformsFileName = Path.Combine(Project.JuniperAssetPath, "platforms.json");
+                platforms = configFactory.Deserialize(juniperPlatformsFileName);
+            }
+
+            return platforms;
         }
 
         public IReadOnlyList<PackageReference> Packages { get; }

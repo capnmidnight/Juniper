@@ -7,21 +7,28 @@ namespace Juniper.ConfigurationManagement
     public abstract class AbstractPackage :
         PackageReference
     {
+        private static IReadOnlyDictionary<string, IReadOnlyCollection<AbstractPackage>> packageDB;
+
         public static IReadOnlyDictionary<string, IReadOnlyCollection<AbstractPackage>> Load()
         {
-            var packages = new List<AbstractPackage>();
+            if (packageDB is null)
+            {
+                var packages = new List<AbstractPackage>();
 
-            AssetStorePackage.Load(packages);
-            JuniperPackage.Load(packages);
-            UnityPackage.Load(packages);
+                AssetStorePackage.Load(packages);
+                JuniperPackage.Load(packages);
+                UnityPackage.Load(packages);
 
-            return (from package in packages
-                    group package by package.PackageID into grp
-                    orderby grp.Key
-                    select grp)
-                    .ToDictionary(
-                        g => g.Key,
-                        g => (IReadOnlyCollection<AbstractPackage>)g.ToArray());
+                packageDB = (from package in packages
+                             group package by package.PackageID into grp
+                             orderby grp.Key
+                             select grp)
+                        .ToDictionary(
+                            g => g.Key,
+                            g => (IReadOnlyCollection<AbstractPackage>)g.ToArray());
+            }
+
+            return packageDB;
         }
 
         public override string Name { get; }

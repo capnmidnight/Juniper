@@ -16,11 +16,18 @@ namespace Juniper.ConfigurationManagement
     public sealed class UnityPackageManifest :
         ISerializable
     {
+        private static UnityPackageManifest manifest;
+
         public static UnityPackageManifest Load()
         {
-            var unityPackageManifestPath = Path.Combine(Project.UnityProjectRoot, "Packages", "manifest.json");
-            var factory = new JsonFactory<UnityPackageManifest>();
-            return factory.Deserialize(unityPackageManifestPath);
+            if (manifest is null)
+            {
+                var unityPackageManifestPath = Path.Combine(Project.UnityProjectRoot, "Packages", "manifest.json");
+                var factory = new JsonFactory<UnityPackageManifest>();
+                manifest = factory.Deserialize(unityPackageManifestPath);
+            }
+
+            return manifest;
         }
 
         public void Save()

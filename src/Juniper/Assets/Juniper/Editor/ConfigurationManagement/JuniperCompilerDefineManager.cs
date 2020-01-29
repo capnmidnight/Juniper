@@ -18,23 +18,21 @@ namespace Juniper.ConfigurationManagement
     [SuppressMessage("Performance", "HAA0302:Display class allocation to capture closure", Justification = "<Pending>")]
     [SuppressMessage("Performance", "HAA0601:Value type to reference type conversion causing boxing allocation", Justification = "<Pending>")]
     [SuppressMessage("Performance", "HAA0603:Delegate allocation from a method group", Justification = "<Pending>")]
-    public class CompilerDefineManager : EditorWindow
+    public class JuniperCompilerDefineManager : EditorWindow
     {
-        private static readonly GUIContent TITLE = new GUIContent("Compiler Defines");
-        private const string MENU_NAME = "Juniper/";
-
         [MenuItem(MENU_NAME + "Compiler Defines Manager")]
         public static void ShowJuniperWindow()
         {
-            EditorWindow.GetWindow<CompilerDefineManager>();
+            EditorWindow.GetWindow<JuniperCompilerDefineManager>();
         }
+
+        private static readonly GUIContent TITLE = new GUIContent("Juniper - Compiler Define Symbols");
+        private const string MENU_NAME = "Juniper/";
 
         private static string newDefine;
 
-        private const float nameFieldWidthValue = 200;
         private const float narrowWidthValue = 50;
 
-        private static readonly GUILayoutOption nameFieldWidth = GUILayout.Width(nameFieldWidthValue);
         private static readonly GUILayoutOption narrowWidth = GUILayout.Width(narrowWidthValue);
         private static readonly GUILayoutOption buttonWidth = GUILayout.Width(100);
 
