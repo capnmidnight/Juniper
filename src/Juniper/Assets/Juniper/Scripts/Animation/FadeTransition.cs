@@ -46,14 +46,7 @@ namespace Juniper.Animation
         {
             get
             {
-
-#if UNITY_MODULES_AUDIO
-                if (aud != null && aud.clip != null)
-                {
-                    return aud.clip.length;
-                }
-#endif
-                return fadeLength;
+                return fadeLength / 2;
             }
         }
 
