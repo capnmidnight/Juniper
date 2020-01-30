@@ -73,6 +73,8 @@ namespace Juniper.Animation
         /// </summary>
         private UnifiedInputModule input;
 
+        private Color fadeOutColor;
+
         /// <summary>
         /// Setup the necessary gameObjects and components to make a fader box appears in front of
         /// the camera.
@@ -107,7 +109,9 @@ namespace Juniper.Animation
             r = GetComponent<Renderer>();
             props = new MaterialPropertyBlock();
 
-            Find.Any(out display);
+            var material = r.GetMaterial();
+            fadeOutColor = material.GetColor("_Color");
+
             Find.Any(out input);
         }
 
@@ -266,7 +270,7 @@ namespace Juniper.Animation
             if (sys.m_ARMode == AugmentedRealityTypes.None)
             {
                 DisplayManager.ClearFlags = CameraClearFlags.Color;
-                DisplayManager.BackgroundColor = ColorExt.TransparentBlack;
+                DisplayManager.BackgroundColor = fadeOutColor;
             }
 
             input.ControllerLayer = LayerMask.NameToLayer("TransparentFX");
