@@ -1,4 +1,7 @@
-namespace UnityEngine.Events
+using UnityEngine;
+using UnityEngine.Events;
+
+namespace Juniper.Events
 {
     /// <summary>
     /// A component that can be used to trigger events after an object hits a collider. Useful for
