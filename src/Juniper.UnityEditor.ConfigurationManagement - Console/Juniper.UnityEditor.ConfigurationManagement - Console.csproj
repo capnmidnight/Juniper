@@ -26,7 +26,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
-    <ProjectReference Include="..\Juniper.UnityEditor.ConfigurationManagement\Juniper.UnityEditor.ConfigurationManagement.csproj" />
     <ProjectReference Include="..\Juniper.UnityEditor\Juniper.UnityEditor.csproj" />
     <ProjectReference Include="..\Juniper.Unity\Juniper.Unity.csproj" />
   </ItemGroup>

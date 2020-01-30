@@ -20,7 +20,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Juniper.Azure\Juniper.Azure.csproj" />
     <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
   </ItemGroup>
 
   <ItemGroup>
