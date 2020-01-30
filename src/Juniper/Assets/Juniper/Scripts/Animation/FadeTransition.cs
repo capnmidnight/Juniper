@@ -16,11 +16,6 @@ namespace Juniper.Animation
     /// </summary>
     public class FadeTransition : AbstractTransitionController, IInstallable
     {
-        /// <summary>
-        /// Used to check the current ARMode to determine how to restore the camera clear mode.
-        /// </summary>
-        private DisplayManager display;
-
 #if UNITY_MODULES_AUDIO
 
         /// <summary>
