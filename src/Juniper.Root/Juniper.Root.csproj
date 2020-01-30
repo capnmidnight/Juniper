@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)|$(TargetFramework)'=='Release|net472'">
-    <Exec ContinueOnError="true" Command="XCOPY &quot;$(TargetDir)*&quot; &quot;$(SolutionDir)Juniper\Plugins\Juniper&quot; /exclude:$(ProjectDir)excludeFromUnity.txt /C /I /F /Y" />
+    <Exec ContinueOnError="true" Command="XCOPY &quot;$(TargetDir)*&quot; &quot;$(ProjectDir)..\Juniper\Plugins\Juniper&quot; /exclude:$(ProjectDir)excludeFromUnity.txt /C /I /F /Y" />
   </Target>
 
   <ItemGroup>

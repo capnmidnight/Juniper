@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)|$(TargetFramework)'=='Release|net472'">
-    <Exec ContinueOnError="true" Command="XCOPY &quot;$(TargetDir)$(TargetName).*&quot; &quot;$(SolutionDir)Juniper\Plugins\Editor\Juniper&quot; /C /I /F /Y" />
+    <Exec ContinueOnError="true" Command="XCOPY &quot;$(TargetDir)$(TargetName).*&quot; &quot;$(ProjectDir)..\Juniper\Plugins\Editor\Juniper&quot; /C /I /F /Y" />
   </Target>
 
   <ItemGroup>
