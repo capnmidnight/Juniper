@@ -537,8 +537,6 @@ namespace Juniper.Input.Pointers
 
         public virtual void PlayInteraction(Interaction action)
         {
-            print(action);
-
             if (interaction != null
                 && (Time.unscaledTime > finishTime
                     || action != lastAction))
