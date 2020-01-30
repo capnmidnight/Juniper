@@ -16,19 +16,39 @@ namespace Juniper.Input
         Entered,
 
         /// <summary>
+        /// A pointer entering a control that has been disabled.
+        /// </summary>
+        EnteredDisabled,
+
+        /// <summary>
         /// A pointer pressing down on a control.
         /// </summary>
         Pressed,
 
         /// <summary>
-        /// A pointer pressing down and releasing a control in rapid succession.
+        /// A pointer being clicked on a control that has been disabled.
+        /// </summary>
+        PressedDisabled,
+
+        /// <summary>
+        /// A pointer pressing down and releasing in rapid succession on a control.
         /// </summary>
         Clicked,
+
+        /// <summary>
+        /// A pointer pressing down and releasing in rapid succession on a control that has been disabled.
+        /// </summary>
+        ClickedDisabled,
 
         /// <summary>
         /// The first time dragging occured.
         /// </summary>
         DraggingStarted,
+
+        /// <summary>
+        /// The first time dragging occured on a contral that has been disabled.
+        /// </summary>
+        DraggingStartedDisabled,
 
         /// <summary>
         /// A pointer pressing down and moving on a control.
@@ -59,11 +79,6 @@ namespace Juniper.Input
         /// A container element being closed, to hide its contents.
         /// </summary>
         Closed,
-
-        /// <summary>
-        /// A pointer being clicked on a control that has been disabled.
-        /// </summary>
-        Disabled,
 
         /// <summary>
         /// A generic error sound.

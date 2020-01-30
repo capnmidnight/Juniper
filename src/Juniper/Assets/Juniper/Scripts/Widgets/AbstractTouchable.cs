@@ -1,7 +1,7 @@
 using System.Linq;
 
 using Juniper.Animation;
-
+using Juniper.Events;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
@@ -21,7 +21,8 @@ namespace Juniper.Widgets
     public abstract class AbstractTouchable :
         MonoBehaviour,
         IPointerEnterHandler, IPointerExitHandler,
-        IPointerDownHandler, IPointerUpHandler
+        IPointerDownHandler, IPointerUpHandler,
+        IInteractable
     {
         /// <summary>
         /// The names of the animation states that Touchable expects.

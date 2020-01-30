@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 
 using Juniper;
+using Juniper.Events;
 
 namespace UnityEngine
 {
@@ -223,6 +224,31 @@ namespace UnityEngine
                 o.DestroyImmediate();
             }
             return o != null;
+        }
+
+
+
+        public static bool IsInteractable(this GameObject obj)
+        {
+            var isInteractable = obj != null;
+            if (isInteractable)
+            {
+                var button = obj.GetComponent<UI.Button>();
+                if (button != null)
+                {
+                    isInteractable = button.IsInteractable();
+                }
+                else
+                {
+                    var interact = obj.GetComponent<IInteractable>();
+                    if (interact != null)
+                    {
+                        isInteractable = interact.IsInteractable();
+                    }
+                }
+            }
+
+            return isInteractable;
         }
     }
 }

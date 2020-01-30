@@ -77,7 +77,15 @@ namespace Juniper.Input.Pointers
             }
         }
 
-        public Material LaserPointerMaterial;
+        public bool enableLaserPointer = false;
+
+        private Material curLaserPointerMaterial;
+
+        public Material LaserPointerNormalMaterial { get; set; }
+
+        public Material LaserPointerEnabledMaterial { get; set; }
+
+        public Material LaserPointerDisabledMaterial { get; set; }
 
         public int Layer
         {
@@ -467,7 +475,16 @@ namespace Juniper.Input.Pointers
             if (Probe != null)
             {
                 Probe.SetActive(IsEnabled && showProbe);
-                Probe.LaserPointerMaterial = LaserPointerMaterial;
+
+                if (curLaserPointerMaterial == null)
+                {
+                    curLaserPointerMaterial = LaserPointerNormalMaterial;
+                }
+
+                if (enableLaserPointer)
+                {
+                    Probe.LaserPointerMaterial = curLaserPointerMaterial;
+                }
             }
 
             if (IsEnabled)
@@ -520,12 +537,28 @@ namespace Juniper.Input.Pointers
 
         public virtual void PlayInteraction(Interaction action)
         {
+            print(action);
+
             if (interaction != null
                 && (Time.unscaledTime > finishTime
                     || action != lastAction))
             {
                 lastAction = action;
-                finishTime = Time.unscaledTime + interaction.PlayAction(action, Probe.Cursor, Haptics);
+                finishTime = Time.unscaledTime + interaction.PlayAction(action, Probe.Cursor, Haptics, false);
+            }
+
+            if(action == Interaction.Entered)
+            {
+                curLaserPointerMaterial = LaserPointerEnabledMaterial;
+            }
+            else if(action == Interaction.EnteredDisabled)
+            {
+                curLaserPointerMaterial = LaserPointerDisabledMaterial;
+
+            }
+            else if(action == Interaction.Exited)
+            {
+                curLaserPointerMaterial = LaserPointerNormalMaterial;
             }
         }
 
@@ -590,7 +623,9 @@ namespace Juniper.Input.Pointers
                 if (target != null)
                 {
                     evtData.pointerEnter = ExecuteEvents.ExecuteHierarchy(target, evtData, ExecuteEvents.pointerEnterHandler);
-                    PlayInteraction(Interaction.Entered);
+                    PlayInteraction(evtData.pointerEnter.IsInteractable()
+                        ? Interaction.Entered
+                        : Interaction.EnteredDisabled);
                 }
             }
         }

@@ -21,17 +21,13 @@ namespace Juniper.Input.Pointers
             set;
         }
 
-        Material LaserPointerMaterial
-        {
-            get;
-            set;
-        }
-
         bool CanGaze
         {
             get;
             set;
         }
+
+        Material LaserPointerMaterial { get; set; }
 
         void AlignProbe(Vector3 dir, Vector3 up);
 

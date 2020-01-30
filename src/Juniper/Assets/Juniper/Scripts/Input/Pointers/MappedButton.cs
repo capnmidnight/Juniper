@@ -131,6 +131,11 @@ namespace Juniper.Input.Pointers
             }
         }
 
+        private void OnInteractionNeeded(Interaction action)
+        {
+            InteractionNeeded?.Invoke(action);
+        }
+
         private void TestUpDown(JuniperPointerEventData evtData, List<KeyCode> keyPresses)
         {
             IsUp = ButtonUpNeeded(button);
@@ -149,7 +154,9 @@ namespace Juniper.Input.Pointers
                 buttonEvent.OnDown(evtData);
                 if (evtData.pointerPress != null)
                 {
-                    InteractionNeeded(Interaction.Pressed);
+                    OnInteractionNeeded(evtData.pointerPress.IsInteractable()
+                        ? Interaction.Pressed
+                        : Interaction.PressedDisabled);
                 }
             }
 
@@ -175,7 +182,9 @@ namespace Juniper.Input.Pointers
                     buttonEvent.OnClick(evtData);
                     if (evtData.pointerPress != null)
                     {
-                        InteractionNeeded(Interaction.Clicked);
+                        OnInteractionNeeded(evtData.selectedObject.IsInteractable()
+                            ? Interaction.Clicked
+                            : Interaction.ClickedDisabled);
                     }
                 }
                 else if (evtData.pointerDrag != null)
@@ -199,7 +208,9 @@ namespace Juniper.Input.Pointers
                     buttonEvent.OnLongPress(evtData);
                     if (evtData.pointerPress != null)
                     {
-                        InteractionNeeded(Interaction.Clicked);
+                        OnInteractionNeeded(evtData.selectedObject.IsInteractable()
+                            ? Interaction.Clicked
+                            : Interaction.ClickedDisabled);
                     }
                     keyPresses.MaybeAdd(evtData.keyCode);
                 }
@@ -241,23 +252,26 @@ namespace Juniper.Input.Pointers
                     {
                         mayLongPress = false;
                         ExecuteEvents.ExecuteHierarchy(evtData.pointerDrag, evtData, ExecuteEvents.beginDragHandler);
-                        InteractionNeeded(Interaction.DraggingStarted);
+                        OnInteractionNeeded(evtData.pointerDrag.IsInteractable()
+                            ? Interaction.DraggingStarted
+                            : Interaction.DraggingStartedDisabled);
+
                         IsDragging = true;
                     }
 
                     var dragObj = evtData.pointerDrag;
-                    if(dragObj == null)
+                    if (dragObj == null)
                     {
                         dragObj = evtData.pointerPress;
                     }
 
                     evtData.pointerDrag = ExecuteEvents.ExecuteHierarchy(dragObj, evtData, ExecuteEvents.dragHandler);
-                    InteractionNeeded(Interaction.Dragged);
+                    OnInteractionNeeded(Interaction.Dragged);
                 }
                 else if (wasDragging && !IsPressed)
                 {
                     ExecuteEvents.ExecuteHierarchy(evtData.pointerDrag, evtData, ExecuteEvents.endDragHandler);
-                    InteractionNeeded(Interaction.DraggingEnded);
+                    OnInteractionNeeded(Interaction.DraggingEnded);
                     evtData.pointerDrag = null;
                     IsDragging = false;
                 }

@@ -62,7 +62,8 @@ namespace Juniper.Sound
                 case Interaction.Closed:
                 return HapticExpression.Heavy;
 
-                case Interaction.Disabled:
+                case Interaction.PressedDisabled:
+                case Interaction.ClickedDisabled:
                 return HapticExpression.Warning;
 
                 case Interaction.DraggingStarted:
@@ -310,9 +311,6 @@ namespace Juniper.Sound
                 case Interaction.Closed:
                 return soundOnClosed;
 
-                case Interaction.Disabled:
-                return soundOnDisabled;
-
                 case Interaction.DraggingStarted:
                 case Interaction.Dragged:
                 case Interaction.DraggingEnded:
@@ -322,6 +320,7 @@ namespace Juniper.Sound
                 return soundOnScrolled;
 
                 case Interaction.Entered:
+                case Interaction.EnteredDisabled:
                 return soundOnEntered;
 
                 case Interaction.Error:
@@ -329,6 +328,9 @@ namespace Juniper.Sound
 
                 case Interaction.Exited:
                 return soundOnExited;
+
+                case Interaction.PressedDisabled:
+                return soundOnDisabled;
 
                 case Interaction.Opened:
                 return soundOnOpened;

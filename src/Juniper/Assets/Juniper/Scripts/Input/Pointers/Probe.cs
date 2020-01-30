@@ -11,7 +11,10 @@ namespace Juniper.Input.Pointers
     /// <summary>
     /// AKA a Cursor, but I don't like the word Cursor (reminds me too much of SQL).
     /// </summary>
-    public class Probe : MonoBehaviour, IInstallable, IProbe
+    public class Probe :
+        MonoBehaviour,
+        IInstallable,
+        IProbe
     {
         public float normalOffset = 0.1f;
 
@@ -142,6 +145,7 @@ namespace Juniper.Input.Pointers
 
         private LineRenderer line;
 
+        [ReadOnly]
         public Material laserPointerMaterial;
 
         public Material LaserPointerMaterial
@@ -354,7 +358,7 @@ namespace Juniper.Input.Pointers
 
             timeLeft = Mathf.Max(0, timeLeft - Time.deltaTime);
 
-            if (line == null && (LaserPointerMaterial != null || LaserPointerMaterial != lastLaserPointerMaterial))
+            if (line == null && LaserPointerMaterial != null)
             {
                 line = this.Ensure<LineRenderer>();
                 line.alignment = LineAlignment.View;
@@ -367,7 +371,6 @@ namespace Juniper.Input.Pointers
                     new Keyframe(1, 0));
 
                 line.widthMultiplier = 0.01f;
-                line.SetMaterial(LaserPointerMaterial);
             }
             else if (line != null && LaserPointerMaterial == null)
             {
@@ -380,9 +383,14 @@ namespace Juniper.Input.Pointers
                 line.SetPosition(0, transform.position);
                 var delta = targetPosition - transform.position;
                 line.SetPosition(1, transform.position + (0.75f * delta));
+
+                if(LaserPointerMaterial != lastLaserPointerMaterial)
+                {
+                    lastLaserPointerMaterial = LaserPointerMaterial;
+                    line.SetMaterial(LaserPointerMaterial);
+                }
             }
 
-            lastLaserPointerMaterial = LaserPointerMaterial;
         }
 
         /// <summary>

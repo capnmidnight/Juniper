@@ -99,13 +99,6 @@ namespace Juniper.Input.Pointers.Motion
 
             PointerConfig.Install(touchPadButtons, gameObject, reset);
             PointerConfig.Install(triggerButtons, gameObject, reset);
-
-#if UNITY_EDITOR
-            if (LaserPointerMaterial == null)
-            {
-                LaserPointerMaterial = ResourceExt.EditorLoadAsset<Material>("Assets/Juniper/Materials/LaserPointer.mat");
-            }
-#endif
         }
 
         public abstract float Trigger

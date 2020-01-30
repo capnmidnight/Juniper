@@ -6,7 +6,28 @@ using UnityEngine.EventSystems;
 
 namespace Juniper.Input.Pointers
 {
-    public interface IPointerDevice
+    public interface ILaserPointer
+    {
+        Material LaserPointerNormalMaterial
+        {
+            get;
+            set;
+        }
+
+        Material LaserPointerEnabledMaterial
+        {
+            get;
+            set;
+        }
+
+        Material LaserPointerDisabledMaterial
+        {
+            get;
+            set;
+        }
+    }
+
+    public interface IPointerDevice : ILaserPointer
     {
         Transform transform { get; }
 

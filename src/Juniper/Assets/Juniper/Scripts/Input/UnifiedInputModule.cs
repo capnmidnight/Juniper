@@ -52,7 +52,9 @@ namespace Juniper.Input
     /// Finds all of the <see cref="IPointerDevice"/> s and fires raycaster events for all
     /// of them.
     /// </summary>
-    public abstract class AbstractUnifiedInputModule : PointerInputModule, IInstallable
+    public abstract class AbstractUnifiedInputModule :
+        PointerInputModule,
+        IInstallable
     {
         private static bool AnyDeviceEnabled<T>(T[] devices)
             where T : Behaviour, IPointerDevice
@@ -164,6 +166,10 @@ namespace Juniper.Input
 
         private const string INPUT_MODE_KEY = "Juniper.Input.UnifiedInputModule::mode";
 
+        public Material laserPointerNormalMaterial;
+        public Material laserPointerEnabledMaterial;
+        public Material laserPointerDisabledMaterial;
+
         public GazePointer Gaze;
         public Mouse Mouse;
         public TouchPoint[] Touches;
@@ -218,6 +224,21 @@ namespace Juniper.Input
             if (pointerPrefab == null)
             {
                 pointerPrefab = ResourceExt.EditorLoadAsset<GameObject>("Assets/Juniper/Prefabs/Rigs/DiskProbe2018.2.prefab");
+            }
+
+            if (laserPointerNormalMaterial == null)
+            {
+                laserPointerNormalMaterial = ResourceExt.EditorLoadAsset<Material>("Assets/Juniper/Materials/LaserPointer_White.mat");
+            }
+
+            if (laserPointerEnabledMaterial == null)
+            {
+                laserPointerEnabledMaterial = ResourceExt.EditorLoadAsset<Material>("Assets/Juniper/Materials/LaserPointer_Green.mat");
+            }
+
+            if (laserPointerDisabledMaterial == null)
+            {
+                laserPointerDisabledMaterial = ResourceExt.EditorLoadAsset<Material>("Assets/Juniper/Materials/LaserPointer_Red.mat");
             }
 #endif
 
@@ -424,6 +445,13 @@ namespace Juniper.Input
 
             if (newDevices.Count > 0)
             {
+                foreach(var device in newDevices)
+                {
+                    device.LaserPointerNormalMaterial = laserPointerNormalMaterial;
+                    device.LaserPointerEnabledMaterial = laserPointerEnabledMaterial;
+                    device.LaserPointerDisabledMaterial = laserPointerDisabledMaterial;
+                }
+
                 Devices.AddRange(newDevices);
                 newDevices.Clear();
             }
