@@ -126,11 +126,6 @@ namespace Juniper
         private InteractionAudio interaction;
         private UnifiedInputModule input;
 
-#if UNITY_MODULES_AUDIO
-        private float originalFadeVolume;
-        private AudioClip originalFadeInSound;
-#endif
-
         /// <summary>
         /// All of the active SubSceneControllers
         /// </summary>
@@ -451,28 +446,22 @@ namespace Juniper
                     splash.Deactivate();
                 }
 
-                if (fader != null)
+                if (fader != null
+                    && fader.CanExit)
                 {
-                    if (fader.CanExit)
+                    if (input != null)
                     {
-                        if (input != null)
-                        {
-                            input.paused = false;
-                        }
-
-                        if (skipLoadingScreen)
-                        {
-                            fader.SkipExit();
-                        }
-                        else
-                        {
-                            yield return fader.ExitAsync().AsCoroutine();
-                        }
+                        input.paused = false;
                     }
-#if UNITY_MODULES_AUDIO
-                    fader.volume = originalFadeVolume;
-                    fader.fadeInSound = originalFadeInSound;
-#endif
+
+                    if (skipLoadingScreen)
+                    {
+                        fader.SkipExit();
+                    }
+                    else
+                    {
+                        yield return fader.ExitAsync().AsCoroutine();
+                    }
                 }
             }
         }
@@ -568,21 +557,8 @@ namespace Juniper
                 input.paused = true;
             }
 
-            var faderFound = Find.Any(out fader);
-            var interactionFound = Find.Any(out interaction);
-
-#if UNITY_MODULES_AUDIO
-            if (faderFound)
-            {
-                originalFadeInSound = fader.fadeInSound;
-                originalFadeVolume = fader.volume;
-                if (interactionFound)
-                {
-                    fader.volume = 0.5f;
-                    fader.fadeInSound = interaction.soundOnStartUp;
-                }
-            }
-#endif
+            Find.Any(out fader);
+            Find.Any(out interaction);
 
             foreach (var subScene in FindObjectsOfType<SubSceneController>())
             {

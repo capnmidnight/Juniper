@@ -24,11 +24,6 @@ namespace Juniper.Animation
         public AudioClip fadeOutSound;
 
         /// <summary>
-        /// The sound to play when the view fades back in.
-        /// </summary>
-        public AudioClip fadeInSound;
-
-        /// <summary>
         /// The audio source on which to play the fade-in/fade-out sounds.
         /// </summary>
         private AudioSource aud;
@@ -41,7 +36,7 @@ namespace Juniper.Animation
         /// If Unity's audio subsystem is not available, or the fade-in/fade-out sounds are not
         /// configured, this is the default length of time to run the fade-in/fade-out transition.
         /// </summary>
-        public float fadeLength = 0.25f;
+        public float fadeLength = 0.5f;
 
         /// <summary>
         /// The amount of time the fade transition takes to complete. If a fade sound is provided,
@@ -140,7 +135,6 @@ namespace Juniper.Animation
             if (reset)
             {
                 fadeOutSound = ResourceExt.EditorLoadAsset<AudioClip>("Assets/Juniper/Audio/Star Trek/hologram_off_2.mp3");
-                fadeInSound = ResourceExt.EditorLoadAsset<AudioClip>("Assets/Juniper/Audio/Star Trek/hologrid_online.mp3");
             }
 #endif
 
@@ -232,14 +226,9 @@ namespace Juniper.Animation
 #if UNITY_MODULES_AUDIO
             if (State == Direction.Forward)
             {
-                aud.clip = fadeOutSound;
+                aud.volume = volume;
+                aud.Play();
             }
-            else if (State == Direction.Reverse)
-            {
-                aud.clip = fadeInSound;
-            }
-            aud.Play();
-            aud.volume = volume;
 #endif
         }
 
@@ -271,10 +260,6 @@ namespace Juniper.Animation
             input.ControllerLayer = LayerMask.NameToLayer("TransparentFX");
             DisplayManager.CullingMask = LayerMask.GetMask("TransparentFX");
             RenderSettings.ambientMode = AmbientMode.Flat;
-
-#if UNITY_MODULES_AUDIO
-            aud.clip = fadeInSound;
-#endif
 
             foreach (var action in actions)
             {
@@ -309,17 +294,6 @@ namespace Juniper.Animation
             DisplayManager.CullingMask = lastCameraCullingMask;
             input.ControllerLayer = lastControllerLayer;
             RenderSettings.ambientMode = lastAmbientMode;
-        }
-
-        /// <summary>
-        /// If Unity's audio subsystem is available, switches the audio source to use the fade-out
-        /// sound for the next transition.
-        /// </summary>
-        protected override void OnExited()
-        {
-#if UNITY_MODULES_AUDIO
-            aud.clip = fadeOutSound;
-#endif
         }
     }
 }
