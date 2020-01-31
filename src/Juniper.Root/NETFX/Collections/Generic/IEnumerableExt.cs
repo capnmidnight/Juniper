@@ -398,5 +398,17 @@ namespace System.Collections.Generic
         {
             return value.ToString();
         }
+
+#if !NETSTANDARD21 && !NETCOREAPP
+        public static IEnumerable<T> SkipLast<T>(this IEnumerable<T> enumer, int count)
+        {
+            return enumer.Reverse().Skip(count).Reverse();
+        }
+
+        public static IEnumerable<T> TakeLast<T>(this IEnumerable<T> enumer, int count)
+        {
+            return enumer.Reverse().Take(count).Reverse();
+        }
+#endif
     }
 }
