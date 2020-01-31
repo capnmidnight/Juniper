@@ -14,10 +14,14 @@ namespace Juniper
 
             public override bool Matches(string fileName)
             {
-                return base.Matches(fileName)
-                    || (this == AnyMessage
-                        && Values.Any(v =>
-                            v.Matches(fileName)));
+                if (ReferenceEquals(this, AnyMessage))
+                {
+                    return Values.Any(x => x.Matches(fileName));
+                }
+                else
+                {
+                    return base.Matches(fileName);
+                }
             }
         }
     }
