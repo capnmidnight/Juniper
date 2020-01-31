@@ -10,9 +10,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-#if UNITY_MODULES_XR
-
-
+#if UNITY_MODULES_XR && !UNITY_EDITOR
+using UnityEngine.XR;
 #endif
 
 namespace Juniper.Display
