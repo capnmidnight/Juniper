@@ -137,7 +137,11 @@ namespace Juniper.World.GIS.Google
             Find.Any(out avatar);
             navPlane = avatar.GroundPlane.Ensure<Clickable>();
             navPointer = transform.Find("NavPointer");
-            navPointer.Deactivate();
+            if (navPointer != null)
+            {
+                navPointer.Deactivate();
+            }
+
             Find.Any(out input);
 
 #if UNITY_EDITOR
