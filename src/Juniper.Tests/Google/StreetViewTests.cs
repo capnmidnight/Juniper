@@ -1,9 +1,13 @@
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
 using Juniper.Imaging;
 using Juniper.IO;
+using Juniper.World.GIS.Google.Geocoding;
 using Juniper.World.GIS.Google.Tests;
 
 using NUnit.Framework;
@@ -109,6 +113,66 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
                 .ConfigureAwait(false);
             Assert.AreEqual(640, image.Info.Dimensions.Width);
             Assert.AreEqual(640, image.Info.Dimensions.Height);
+        }
+        public class GoogleMapsCachingStrategy : CachingStrategy
+        {
+            public GoogleMapsCachingStrategy(string baseCachePath)
+            {
+                var gmapsCacheDirName = Path.Combine(baseCachePath, "GoogleMaps");
+                var gmapsCacheDir = new DirectoryInfo(gmapsCacheDirName);
+                AppendLayer(new GoogleMapsCacheLayer(gmapsCacheDir));
+                AppendLayer(new GoogleMapsStreamingAssetsCacheLayer());
+            }
+        }
+        public class StreamingAssetsCacheLayer : FileCacheLayer
+        {
+            private static string RootDir => @"C:\Users\smcbeth.DLS-INC\Projects\Yarrow\shared\StreamingAssets";
+
+            public StreamingAssetsCacheLayer()
+                : base(RootDir)
+            {
+            }
+        }
+
+        private Dictionary<string, MetadataResponse> metadataCache = new Dictionary<string, MetadataResponse>();
+
+        private void Cache(MetadataResponse metadata)
+        {
+            metadataCache[metadata.Location.ToString()] = metadata;
+            metadataCache[metadata.Pano_ID] = metadata;
+        }
+
+        public class GoogleMapsStreamingAssetsCacheLayer : StreamingAssetsCacheLayer
+        {
+            public override bool CanCache(ContentReference fileRef)
+            {
+                return !(fileRef is IGoogleMapsRequest)
+                    && base.CanCache(fileRef);
+            }
+        }
+
+        [Test]
+        public void GetAllManifests()
+        {
+            var baseCachePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            var cache = new GoogleMapsCachingStrategy(baseCachePath);
+            var codec = new LibJpegNETCodec();
+            var metadataDecoder = new JsonFactory<MetadataResponse>();
+            var geocodingDecoder = new JsonFactory<GeocodingResponse>();
+
+            var gmaps = new GoogleMapsClient(apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
+
+            foreach (var (fileRef, metadata) in cache.Get(metadataDecoder))
+            {
+                if (metadata.Location != null)
+                {
+                    Cache(metadata);
+                }
+                else
+                {
+                    cache.Delete(fileRef);
+                }
+            }
         }
     }
 }
