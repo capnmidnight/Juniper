@@ -30,6 +30,7 @@ namespace Juniper
             public static readonly Application AtomXml = new Application("atom+xml", new string[] { "atom" });
             public static readonly Application Atsc_DwdXml = new Application("atsc-dwd+xml", new string[] { "xml" });
             public static readonly Application Atsc_HeldXml = new Application("atsc-held+xml", new string[] { "xml" });
+            public static readonly Application Atsc_RdtJson = new Application("atsc-rdt+json", new string[] { "json" });
             public static readonly Application Atsc_RsatXml = new Application("atsc-rsat+xml", new string[] { "xml" });
             public static readonly Application ATXML = new Application("atxml");
             public static readonly Application Auth_PolicyXml = new Application("auth-policy+xml", new string[] { "xml" });
@@ -57,6 +58,7 @@ namespace Juniper
             public static readonly Application CellmlXml = new Application("cellml+xml", new string[] { "xml" });
             public static readonly Application Cfw = new Application("cfw");
             public static readonly Application Clue_infoXml = new Application("clue_info+xml", new string[] { "xml" });
+            public static readonly Application ClueXml = new Application("clue+xml", new string[] { "xml" });
             public static readonly Application Cms = new Application("cms");
             public static readonly Application CnrpXml = new Application("cnrp+xml", new string[] { "xml" });
             public static readonly Application Coap_GroupJson = new Application("coap-group+json", new string[] { "json" });
@@ -90,6 +92,7 @@ namespace Juniper
             public static readonly Application Dns_Message = new Application("dns-message");
             public static readonly Application DnsJson = new Application("dns+json", new string[] { "json" });
             public static readonly Application DocbookXml = new Application("docbook+xml", new string[] { "dbk" });
+            public static readonly Application DotsCbor = new Application("dots+cbor", new string[] { "cbor" });
             public static readonly Application DskppXml = new Application("dskpp+xml", new string[] { "xml" });
             public static readonly Application DsscDer = new Application("dssc+der", new string[] { "dssc" });
             public static readonly Application DsscXml = new Application("dssc+xml", new string[] { "xdssc" });
@@ -160,7 +163,7 @@ namespace Juniper
             public static readonly Application IOTP = new Application("iotp");
             public static readonly Application Ipfix = new Application("ipfix", new string[] { "ipfix" });
             public static readonly Application Ipp = new Application("ipp");
-            public static readonly Application Isup = new Application("isup");
+            public static readonly Application ISUP = new Application("isup");
             public static readonly Application ItsXml = new Application("its+xml", new string[] { "xml" });
             public static readonly Application Java_Archive = new Application("java-archive", new string[] { "jar" });
             public static readonly Application Java_Serialized_Object = new Application("java-serialized-object", new string[] { "ser" });
@@ -482,7 +485,16 @@ namespace Juniper
             public static readonly Application VendorAdobeXfdf = new Application("vnd.adobe.xfdf", new string[] { "xfdf" });
             public static readonly Application VendorAetherImp = new Application("vnd.aether.imp");
             public static readonly Application VendorAfpcAfplinedata = new Application("vnd.afpc.afplinedata");
+            public static readonly Application VendorAfpcAfplinedata_Pagedef = new Application("vnd.afpc.afplinedata-pagedef");
+            public static readonly Application VendorAfpcFoca_Charset = new Application("vnd.afpc.foca-charset");
+            public static readonly Application VendorAfpcFoca_Codedfont = new Application("vnd.afpc.foca-codedfont");
+            public static readonly Application VendorAfpcFoca_Codepage = new Application("vnd.afpc.foca-codepage");
             public static readonly Application VendorAfpcModca = new Application("vnd.afpc.modca");
+            public static readonly Application VendorAfpcModca_Formdef = new Application("vnd.afpc.modca-formdef");
+            public static readonly Application VendorAfpcModca_Mediummap = new Application("vnd.afpc.modca-mediummap");
+            public static readonly Application VendorAfpcModca_Objectcontainer = new Application("vnd.afpc.modca-objectcontainer");
+            public static readonly Application VendorAfpcModca_Overlay = new Application("vnd.afpc.modca-overlay");
+            public static readonly Application VendorAfpcModca_Pagesegment = new Application("vnd.afpc.modca-pagesegment");
             public static readonly Application VendorAh_Barcode = new Application("vnd.ah-barcode");
             public static readonly Application VendorAheadSpace = new Application("vnd.ahead.space", new string[] { "ahead" });
             public static readonly Application VendorAirzipFilesecureAzf = new Application("vnd.airzip.filesecure.azf", new string[] { "azf" });
@@ -503,6 +515,7 @@ namespace Juniper
             public static readonly Application VendorApacheThriftCompact = new Application("vnd.apache.thrift.compact");
             public static readonly Application VendorApacheThriftJson = new Application("vnd.apache.thrift.json");
             public static readonly Application VendorApiJson = new Application("vnd.api+json", new string[] { "json" });
+            public static readonly Application VendorAplextorWarrpJson = new Application("vnd.aplextor.warrp+json", new string[] { "json" });
             public static readonly Application VendorApothekendeReservationJson = new Application("vnd.apothekende.reservation+json", new string[] { "json" });
             public static readonly Application VendorAppleInstallerXml = new Application("vnd.apple.installer+xml", new string[] { "mpkg" });
             public static readonly Application VendorAppleKeynote = new Application("vnd.apple.keynote");
@@ -730,6 +743,7 @@ namespace Juniper
             public static readonly Application VendorFutoinJson = new Application("vnd.futoin+json", new string[] { "json" });
             public static readonly Application VendorFuzzysheet = new Application("vnd.fuzzysheet", new string[] { "fzs" });
             public static readonly Application VendorGenomatixTuxedo = new Application("vnd.genomatix.tuxedo", new string[] { "txd" });
+            public static readonly Application VendorGenticsGrdJson = new Application("vnd.gentics.grd+json", new string[] { "json" });
 
             [System.Obsolete("OBSOLETED by request")]
             public static readonly Application VendorGeocubeXml = new Application("vnd.geocube+xml", new string[] { "xml" });
@@ -1606,6 +1620,7 @@ namespace Juniper
                 AtomXml,
                 Atsc_DwdXml,
                 Atsc_HeldXml,
+                Atsc_RdtJson,
                 Atsc_RsatXml,
                 ATXML,
                 Auth_PolicyXml,
@@ -1633,6 +1648,7 @@ namespace Juniper
                 CellmlXml,
                 Cfw,
                 Clue_infoXml,
+                ClueXml,
                 Cms,
                 CnrpXml,
                 Coap_GroupJson,
@@ -1666,6 +1682,7 @@ namespace Juniper
                 Dns_Message,
                 DnsJson,
                 DocbookXml,
+                DotsCbor,
                 DskppXml,
                 DsscDer,
                 DsscXml,
@@ -1728,7 +1745,7 @@ namespace Juniper
                 IOTP,
                 Ipfix,
                 Ipp,
-                Isup,
+                ISUP,
                 ItsXml,
                 Java_Archive,
                 Java_Serialized_Object,
@@ -2042,7 +2059,16 @@ namespace Juniper
                 VendorAdobeXfdf,
                 VendorAetherImp,
                 VendorAfpcAfplinedata,
+                VendorAfpcAfplinedata_Pagedef,
+                VendorAfpcFoca_Charset,
+                VendorAfpcFoca_Codedfont,
+                VendorAfpcFoca_Codepage,
                 VendorAfpcModca,
+                VendorAfpcModca_Formdef,
+                VendorAfpcModca_Mediummap,
+                VendorAfpcModca_Objectcontainer,
+                VendorAfpcModca_Overlay,
+                VendorAfpcModca_Pagesegment,
                 VendorAh_Barcode,
                 VendorAheadSpace,
                 VendorAirzipFilesecureAzf,
@@ -2063,6 +2089,7 @@ namespace Juniper
                 VendorApacheThriftCompact,
                 VendorApacheThriftJson,
                 VendorApiJson,
+                VendorAplextorWarrpJson,
                 VendorApothekendeReservationJson,
                 VendorAppleInstallerXml,
                 VendorAppleKeynote,
@@ -2286,6 +2313,7 @@ namespace Juniper
                 VendorFutoinJson,
                 VendorFuzzysheet,
                 VendorGenomatixTuxedo,
+                VendorGenticsGrdJson,
                 VendorGeogebraFile,
                 VendorGeogebraTool,
                 VendorGeometry_Explorer,

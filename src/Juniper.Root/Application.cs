@@ -14,7 +14,7 @@ namespace Juniper
 
             public override bool Matches(string fileName)
             {
-                if(ReferenceEquals(this, AnyApplication))
+                if (ReferenceEquals(this, AnyApplication))
                 {
                     return Values.Any(x => x.Matches(fileName));
                 }

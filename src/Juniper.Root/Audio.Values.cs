@@ -111,6 +111,7 @@ namespace Juniper
             public static readonly Audio T38 = new Audio("t38");
             public static readonly Audio Telephone_Event = new Audio("telephone-event");
             public static readonly Audio TETRA_ACELP = new Audio("tetra_acelp");
+            public static readonly Audio TETRA_ACELP_BB = new Audio("tetra_acelp_bb");
             public static readonly Audio Tone = new Audio("tone");
             public static readonly Audio UEMCLIP = new Audio("uemclip");
             public static readonly Audio Ulpfec = new Audio("ulpfec");
@@ -289,6 +290,7 @@ namespace Juniper
                 T38,
                 Telephone_Event,
                 TETRA_ACELP,
+                TETRA_ACELP_BB,
                 Tone,
                 UEMCLIP,
                 Ulpfec,

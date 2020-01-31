@@ -96,6 +96,7 @@ namespace Juniper
             public static readonly Text VendorWapSl = new Text("vnd.wap.sl");
             public static readonly Text VendorWapWml = new Text("vnd.wap.wml", new string[] { "wml" });
             public static readonly Text VendorWapWmlscript = new Text("vnd.wap.wmlscript", new string[] { "wmls" });
+            public static readonly Text Vtt = new Text("vtt");
             public static readonly Text X_Asm = new Text("x-asm", new string[] { "s", "asm" });
             public static readonly Text X_C = new Text("x-c", new string[] { "c", "cc", "cxx", "cpp", "h", "hh", "dic" });
             public static readonly Text X_Fortran = new Text("x-fortran", new string[] { "f", "for", "f77", "f90" });
@@ -188,6 +189,7 @@ namespace Juniper
                 VendorWapSl,
                 VendorWapWml,
                 VendorWapWmlscript,
+                Vtt,
                 X_Asm,
                 X_C,
                 X_Fortran,
