@@ -156,13 +156,12 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
         {
             var baseCachePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             var cache = new GoogleMapsCachingStrategy(baseCachePath);
-            var codec = new LibJpegNETCodec();
             var metadataDecoder = new JsonFactory<MetadataResponse>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
 
             var gmaps = new GoogleMapsClient(apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
 
-            foreach (var (fileRef, metadata) in cache.Get(metadataDecoder))
+            foreach (var (fileRef, metadata) in gmaps.CachedMetadata)
             {
                 if (metadata.Location != null)
                 {

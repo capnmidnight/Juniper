@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -11,8 +12,8 @@ namespace Juniper.World.GIS.Google
 {
     public class GoogleMapsClient
     {
-        private readonly IJsonDecoder<GeocodingResponse> geocodingDecoder;
-        private readonly IJsonDecoder<MetadataResponse> metadataDecoder;
+        private readonly IJsonFactory<GeocodingResponse> geocodingDecoder;
+        private readonly IJsonFactory<MetadataResponse> metadataDecoder;
 
         private readonly string apiKey;
         private readonly string signingKey;
@@ -20,7 +21,7 @@ namespace Juniper.World.GIS.Google
 
         private Exception lastError;
 
-        public GoogleMapsClient(string apiKey, string signingKey, IJsonDecoder<MetadataResponse> metadataDecoder, IJsonDecoder<GeocodingResponse> geocodingDecoder, CachingStrategy cache)
+        public GoogleMapsClient(string apiKey, string signingKey, IJsonFactory<MetadataResponse> metadataDecoder, IJsonFactory<GeocodingResponse> geocodingDecoder, CachingStrategy cache)
         {
             this.metadataDecoder = metadataDecoder;
             this.geocodingDecoder = geocodingDecoder;
@@ -35,6 +36,9 @@ namespace Juniper.World.GIS.Google
         {
             lastError = null;
         }
+
+        public IEnumerable<(ContentReference fileRef, MetadataResponse metadata)> CachedMetadata =>
+            cache.Get(metadataDecoder);
 
         private async Task<T> LoadAsync<T>(IDeserializer<T> deserializer, ContentReference fileRef, IProgress prog)
         {
