@@ -46,11 +46,7 @@ namespace Juniper.Events
             where T : struct
         {
             var type = typeof(T);
-#if NET_4_6 || NET_3_5
-            var typeInfo = type;
-#else
-            var typeInfo = typeof(T).GetTypeInfo();
-#endif
+            var typeInfo = type.GetTypeInfo();
 
             if (typeInfo.IsEnum)
             {
