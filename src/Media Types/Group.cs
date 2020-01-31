@@ -35,9 +35,14 @@ namespace Juniper.MediaTypes
                 writer.WriteLine();
                 writer.WriteLine("            public override bool Matches(string fileName)");
                 writer.WriteLine("            {");
-                writer.WriteLine("                return base.Matches(fileName)");
-                writer.WriteLine("                        || this == Any{0}", ClassName);
-                writer.WriteLine("                            && Values.Any(v => v.Matches(fileName));");
+                writer.WriteLine("                if(ReferenceEquals(this, Any{0}))", ClassName);
+                writer.WriteLine("                {");
+                writer.WriteLine("                    return Values.Any(x => x.Matches(fileName));");
+                writer.WriteLine("                }");
+                writer.WriteLine("                else");
+                writer.WriteLine("                {");
+                writer.WriteLine("                    return base.Matches(fileName);");
+                writer.WriteLine("                }");
                 writer.WriteLine("            }");
                 writer.WriteLine("        }");
             }, "using System.Linq;");
