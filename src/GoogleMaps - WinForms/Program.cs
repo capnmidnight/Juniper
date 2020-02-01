@@ -36,8 +36,10 @@ namespace Juniper
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
             var gmapsCacheDirName = Path.Combine(MY_PICTURES, "GoogleMaps");
             var gmapsCacheDir = new DirectoryInfo(gmapsCacheDirName);
-            var cache = new CachingStrategy()
-                .AppendLayer(new FileCacheLayer(gmapsCacheDir));
+            var cache = new CachingStrategy
+            {
+                new FileCacheLayer(gmapsCacheDir)
+            };
 
             var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var keyFileName = Path.Combine(userProfile, "Projects", "DevKeys", "google-streetview.txt");

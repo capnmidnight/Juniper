@@ -32,7 +32,10 @@ namespace Juniper.Azure.Tests
             resourceName = lines[2];
             var cacheDirName = Path.Combine(userProfile, "Projects");
             var cacheDir = new DirectoryInfo(cacheDirName);
-            cache = new CachingStrategy(cacheDir);
+            cache = new CachingStrategy
+            {
+                new FileCacheLayer(cacheDir)
+            };
         }
 
         private Task<string> GetTokenAsync()

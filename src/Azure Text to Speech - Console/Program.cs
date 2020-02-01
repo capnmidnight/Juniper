@@ -31,10 +31,10 @@ namespace Juniper
             // caching
             var cacheDirName = Path.Combine(userProfile, "Projects");
             var cacheDir = new DirectoryInfo(cacheDirName);
-            var zipFileName = Path.Combine(cacheDirName, "cognitiveservices.zip");
-            var cache = new CachingStrategy()
-                //.AddLayer(new ZipFileCacheLayer(zipFileName))
-                .AppendLayer(new FileCacheLayer(cacheDir));
+            var cache = new CachingStrategy
+            {
+                new FileCacheLayer(cacheDir)
+            };
 
             var voiceListDecoder = new JsonFactory<Voice[]>();
             var outputFormats = new[]

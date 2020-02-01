@@ -38,9 +38,10 @@ namespace Juniper
                 lines[2],
                 new JsonFactory<Voice[]>(),
                 AudioFormat.Raw24KHz16BitMonoPCM,
-                new CachingStrategy()
-                    .AppendLayer(new FileCacheLayer(new DirectoryInfo(Path
-                        .Combine(userProfile, "Projects")))));
+                new CachingStrategy
+                {
+                    new FileCacheLayer(new DirectoryInfo(Path.Combine(userProfile, "Projects")))
+                });
 
             using var p = player = new SoundPlayer();
             using var f = form = new SpeechGen

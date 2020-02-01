@@ -26,9 +26,10 @@ namespace Juniper.World.GIS.Google.Tests
             var cacheDirName = Path.Combine(myPictures, "GoogleMaps");
 
             var cacheDir = new DirectoryInfo(cacheDirName);
-            var fileCache = new FileCacheLayer(cacheDir);
-            cache = new CachingStrategy()
-                .AppendLayer(fileCache);
+            cache = new CachingStrategy
+            {
+                new FileCacheLayer(cacheDir)
+            };
         }
     }
 }

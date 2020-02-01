@@ -9,7 +9,9 @@ namespace Juniper.IO
     /// originate from source layers and get cached in destination layers. Caching
     /// occurs automatically when a file is retrieved from a source.
     /// </summary>
-    public sealed class CachingStrategy : ICacheDestinationLayer
+    public sealed class CachingStrategy : 
+        ICacheDestinationLayer,
+        IEnumerable<ICacheSourceLayer>
     {
         private readonly List<ICacheSourceLayer> sources = new List<ICacheSourceLayer>();
         private readonly List<ICacheDestinationLayer> destinations = new List<ICacheDestinationLayer>();
@@ -38,15 +40,14 @@ namespace Juniper.IO
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public CachingStrategy AppendLayer(ICacheSourceLayer source)
+        public void Add(ICacheSourceLayer source)
         {
-            sources.Add(source);
+            sources.Insert(sources.Count - 1, source);
+
             if (source is ICacheDestinationLayer dest)
             {
                 destinations.Add(dest);
             }
-
-            return this;
         }
 
         /// <summary>
@@ -264,6 +265,16 @@ namespace Juniper.IO
             }
 
             return anyDelete;
+        }
+
+        public IEnumerator<ICacheSourceLayer> GetEnumerator()
+        {
+            return ((IEnumerable<ICacheSourceLayer>)destinations).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable<ICacheSourceLayer>)destinations).GetEnumerator();
         }
     }
 }

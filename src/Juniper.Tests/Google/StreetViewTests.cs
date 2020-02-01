@@ -154,8 +154,11 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
         [Test]
         public void GetAllManifests()
         {
-            var baseCachePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            var cache = new GoogleMapsCachingStrategy(baseCachePath);
+            var unityProjectDir = @"C:\Users\smcbeth.DLS-INC\Projects\Yarrow\src\Yarrow - AndroidOculus";
+            var cache = new CachingStrategy
+            {
+                new GoogleMapsStreamingAssetsCacheLayer(unityProjectDir, "Yarrow")
+            };
             var metadataDecoder = new JsonFactory<MetadataResponse>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
 
