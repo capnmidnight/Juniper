@@ -40,6 +40,8 @@ namespace Juniper.World.GIS.Google
         [HideInInspector]
         private string gmapsSigningKey;
 
+        public string CachePrefix;
+
         public int searchRadius = 50;
 
         public float[] searchFOVs =
@@ -166,7 +168,8 @@ namespace Juniper.World.GIS.Google
             }
             var baseCachePath = Application.persistentDataPath;
 #endif
-            cache = new GoogleMapsCachingStrategy(baseCachePath);
+
+            cache = new GoogleMapsCachingStrategy(CachePrefix, baseCachePath);
             codec = new UnityTexture2DCodec(MediaType.Image.Jpeg);
             var metadataDecoder = new JsonFactory<MetadataResponse>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
@@ -335,9 +338,20 @@ namespace Juniper.World.GIS.Google
             }
         }
 
+        private ContentReference MakeContentRef(string pano)
+        {
+            var name = pano;
+            if(!string.IsNullOrEmpty(CachePrefix))
+            {
+                name = Path.Combine(CachePrefix, name);
+            }
+
+            return name + codec.ContentType;
+        }
+
         private Texture2D Photosphere_CubemapNeeded(Photosphere source)
         {
-            var cubemapRef = source.CubemapCacheID + codec.ContentType;
+            var cubemapRef = MakeContentRef(source.CubemapCacheID);
             if (cache == null
                 || codec == null
                 || string.IsNullOrEmpty(source.CubemapName)

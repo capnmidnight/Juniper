@@ -1,3 +1,4 @@
+using System.IO;
 using System.Threading.Tasks;
 
 using Juniper.Compression.Zip;
@@ -32,7 +33,10 @@ namespace Juniper.IO
 
         public StreamingAssetsCacheLayer()
             : base(RootDir)
-        {
-        }
+        { }
+
+        public StreamingAssetsCacheLayer(string prefix)
+            : base(Path.Combine(RootDir, prefix))
+        { }
     }
 }
