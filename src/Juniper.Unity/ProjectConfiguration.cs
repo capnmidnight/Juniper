@@ -7,15 +7,16 @@ namespace Juniper
 {
     public static class ProjectConfiguration
     {
+        private static readonly ICacheDestinationLayer CACHE = new StreamingAssetsCacheLayer();
+        private static readonly IFactory<string, MediaType.Text> FACTORY = new StringFactory();
+        private static readonly ContentReference FILE = new ContentReference("juniper", MediaType.Text.Plain);
+
         public static PlatformType Platform
         {
             get
             {
-                var deserializer = new StringFactory();
-                var source = new UnityCachingStrategy();
-                var file = new ContentReference("juniper", MediaType.Text.Plain);
-                if (source.IsCached(file)
-                    && source.TryLoad(deserializer, file, out var platformName)
+                if (CACHE.IsCached(FILE)
+                    && CACHE.TryLoad(FACTORY, FILE, out var platformName)
                     && Enum.TryParse<PlatformType>(platformName, out var platform))
                 {
                     return platform;
@@ -28,10 +29,7 @@ namespace Juniper
 
             set
             {
-                var serializer = new StringFactory();
-                var dest = new UnityCachingStrategy();
-                var file = new ContentReference("juniper", MediaType.Text.Plain);
-                dest.Save(serializer, file, value.ToString());
+                CACHE.Save(FACTORY, FILE, value.ToString());
             }
         }
     }
