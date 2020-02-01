@@ -6,7 +6,7 @@ namespace Juniper.IO
 
     public static class StreamSourceExt
     {
-        public static async Task<ResultT> DecodeAsync<ResultT>(this StreamSource source, IDeserializer<ResultT> deserializer, IProgress prog = null)
+        public static async Task<ResultT> DecodeAsync<ResultT>(this AbstractStreamSource source, IDeserializer<ResultT> deserializer, IProgress prog = null)
         {
             if (source is null)
             {
@@ -27,7 +27,7 @@ namespace Juniper.IO
             return value;
         }
 
-        public static Task<Stream> GetStreamAsync(this StreamSource source)
+        public static Task<Stream> GetStreamAsync(this AbstractStreamSource source)
         {
             if (source is null)
             {

@@ -11,7 +11,7 @@ namespace Juniper.World.GIS.Google.StreetView
         private int radius;
 
         protected AbstractStreetViewRequest(string path, string apiKey, string signingKey, MediaTypeT contentType)
-            : base(path, "StreetView", contentType, apiKey, signingKey)
+            : base(path, contentType, apiKey, signingKey)
         { }
 
         public string Pano

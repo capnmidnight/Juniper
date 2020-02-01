@@ -11,7 +11,7 @@ namespace Juniper.World.GIS.Google.Places
         private readonly HashSet<PlaceSearchField> fields = new HashSet<PlaceSearchField>();
 
         public PlaceSearchRequest(string apiKey)
-            : base("place/findplacefromtext/json", "Places", Juniper.MediaType.Application.Json, apiKey, null)
+            : base("place/findplacefromtext/json", Juniper.MediaType.Application.Json, apiKey, null)
         { }
 
         public string PhoneNumber

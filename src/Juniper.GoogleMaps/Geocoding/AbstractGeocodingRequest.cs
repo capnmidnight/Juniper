@@ -4,8 +4,8 @@ namespace Juniper.World.GIS.Google.Geocoding
     {
         private string language;
 
-        protected AbstractGeocodingRequest(string apiKey, string cachePrefix)
-            : base("geocode/json", cachePrefix, Juniper.MediaType.Application.Json, apiKey, null)
+        protected AbstractGeocodingRequest(string apiKey)
+            : base("geocode/json", Juniper.MediaType.Application.Json, apiKey, null)
         {
         }
 

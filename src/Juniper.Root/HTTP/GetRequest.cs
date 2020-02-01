@@ -7,7 +7,7 @@ namespace Juniper.HTTP
     public class GetRequest : AbstractRequest<MediaType>
     {
         public GetRequest(Uri url, MediaType contentType)
-            : base(HttpMethods.GET, url, string.Empty, contentType, false)
+            : base(HttpMethods.GET, url, contentType, false)
         { }
 
         protected override string InternalCacheID =>

@@ -39,7 +39,7 @@ namespace Juniper.HTTP.Server
 
         public static async Task SendContentAsync(
             this HttpListenerResponse response,
-            StreamSource source)
+            AbstractStreamSource source)
         {
             if (response is null)
             {

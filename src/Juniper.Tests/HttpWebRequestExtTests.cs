@@ -29,7 +29,7 @@ namespace Juniper.HTTP.Tests
         private sealed class ImageRequest : AbstractRequest<MediaType.Image>
         {
             public ImageRequest(Uri baseURI, string path)
-                : base(HttpMethods.GET, AddPath(baseURI, path), string.Empty, Juniper.MediaType.Image.Jpeg, false) { }
+                : base(HttpMethods.GET, AddPath(baseURI, path), Juniper.MediaType.Image.Jpeg, false) { }
 
             protected override string InternalCacheID =>
                 StandardRequestCacheID;
