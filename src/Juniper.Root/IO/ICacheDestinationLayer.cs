@@ -8,8 +8,6 @@ namespace Juniper.IO
 
         Stream Create(ContentReference fileRef);
 
-        Stream Cache(ContentReference fileRef, Stream stream);
-
         bool Delete(ContentReference fileRef);
     }
 }

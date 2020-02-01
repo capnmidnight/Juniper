@@ -37,12 +37,6 @@ namespace Juniper.IO
             return subStore[fileRef.CacheID] = mem;
         }
 
-        public virtual Stream Cache(ContentReference fileRef, Stream stream)
-        {
-            var outStream = Create(fileRef);
-            return new CachingStream(stream, outStream);
-        }
-
         public Task<Stream> GetStreamAsync(ContentReference fileRef, IProgress prog)
         {
             if (fileRef is null)

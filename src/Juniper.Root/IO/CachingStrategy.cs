@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -22,16 +24,8 @@ namespace Juniper.IO
         /// or no caching will occur.
         /// </summary>
         public CachingStrategy()
-        { }
-
-        /// <summary>
-        /// Creates a caching strategy with a default cache layer that looks
-        /// in a given directory for files.
-        /// </summary>
-        /// <param name="cacheLocation"></param>
-        public CachingStrategy(DirectoryInfo cacheLocation)
         {
-            AppendLayer(new FileCacheLayer(cacheLocation));
+            sources.Add(new StreamSourceLayer(this));
         }
 
         /// <summary>
@@ -240,27 +234,22 @@ namespace Juniper.IO
         /// <returns>Null, if the file does not exist in the cache</returns>
         public async Task<Stream> GetStreamAsync(ContentReference fileRef, IProgress prog)
         {
-            Stream cached = null;
+            if (fileRef is null)
+            {
+                throw new ArgumentNullException(nameof(fileRef));
+            }
+
             foreach (var source in sources)
             {
                 if (source.IsCached(fileRef))
                 {
-                    cached = await source
+                    return await source
                         .GetStreamAsync(fileRef, prog)
                         .ConfigureAwait(false);
-                    break;
                 }
             }
 
-            if (cached is null && fileRef is AbstractStreamSource fileSource)
-            {
-                cached = await fileSource
-                    .GetStreamAsync(prog)
-                    .ConfigureAwait(false);
-                cached = Cache(fileRef, cached);
-            }
-
-            return cached;
+            throw new FileNotFoundException("Could not find file " + fileRef, fileRef.FileName);
         }
 
         /// <summary>
