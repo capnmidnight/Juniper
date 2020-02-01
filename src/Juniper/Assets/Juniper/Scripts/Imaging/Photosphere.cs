@@ -21,6 +21,14 @@ namespace Juniper.Imaging
 
         public string CubemapName;
 
+        public virtual string CubemapCacheID
+        {
+            get
+            {
+                return CubemapName;
+            }
+        }
+
         [Range(0, 1)]
         public float ProgressToReady;
 

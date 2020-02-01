@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -96,7 +96,7 @@ namespace Juniper.Imaging
 
         private bool Photo_CheckIsCubemapAvailable(Photosphere source)
         {
-            return cache.IsCached(source.CubemapName + codec.ContentType);
+            return cache.IsCached(source.CubemapCacheID + codec.ContentType);
         }
 
         private Texture2D Photo_CubemapNeeded(Photosphere source)

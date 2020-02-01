@@ -337,7 +337,7 @@ namespace Juniper.World.GIS.Google
 
         private Texture2D Photosphere_CubemapNeeded(Photosphere source)
         {
-            var cubemapRef = source.CubemapName + codec.ContentType;
+            var cubemapRef = source.CubemapCacheID + codec.ContentType;
             if (cache == null
                 || codec == null
                 || string.IsNullOrEmpty(source.CubemapName)
@@ -360,7 +360,7 @@ namespace Juniper.World.GIS.Google
             }
             else
             {
-                return Decode(await gmaps.GetImageAsync(source.CubemapName, fov, heading, pitch));
+                return Decode(await gmaps.GetImageAsync(source.CubemapCacheID, fov, heading, pitch));
             }
         }
 
