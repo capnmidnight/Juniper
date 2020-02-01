@@ -87,6 +87,9 @@ namespace Juniper.HTTP.REST
 
         protected abstract string InternalCacheID { get; }
 
+        public override bool DoNotCache =>
+            InternalCacheID is null;
+
         protected virtual Uri BaseURI
         {
             get

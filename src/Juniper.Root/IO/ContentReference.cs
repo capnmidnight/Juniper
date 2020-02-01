@@ -70,6 +70,11 @@ namespace Juniper.IO
             get;
         }
 
+        public virtual bool DoNotCache
+        {
+            get;
+        }
+
         public bool Equals(ContentReference other)
         {
             return other is object

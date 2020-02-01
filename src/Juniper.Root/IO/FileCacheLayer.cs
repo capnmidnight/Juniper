@@ -20,7 +20,12 @@ namespace Juniper.IO
 
         public virtual bool CanCache(ContentReference fileRef)
         {
-            return true;
+            if (fileRef is null)
+            {
+                throw new ArgumentNullException(nameof(fileRef));
+            }
+
+            return !fileRef.DoNotCache;
         }
 
         /// <summary>
@@ -37,7 +42,8 @@ namespace Juniper.IO
 
         public bool IsCached(ContentReference fileRef)
         {
-            return Resolve(fileRef).Exists;
+            var file = Resolve(fileRef);
+            return file.Exists;
         }
 
         public Stream Create(ContentReference fileRef)
