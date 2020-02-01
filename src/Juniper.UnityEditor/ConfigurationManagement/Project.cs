@@ -31,7 +31,12 @@ namespace Juniper.ConfigurationManagement
 
         public static bool IsAvailable(PackageReference pkg)
         {
-            if(pkg is AbstractPackage p)
+            if (pkg is null)
+            {
+                throw new ArgumentNullException(nameof(pkg));
+            }
+
+            if (pkg is AbstractPackage p)
             {
                 return p.Available;
             }
@@ -44,7 +49,12 @@ namespace Juniper.ConfigurationManagement
 
         public static bool IsInstalled(PackageReference pkg)
         {
-            if(pkg is AbstractPackage p)
+            if (pkg is null)
+            {
+                throw new ArgumentNullException(nameof(pkg));
+            }
+
+            if (pkg is AbstractPackage p)
             {
                 return p.IsInstalled;
             }
