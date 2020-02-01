@@ -9,7 +9,7 @@ namespace Juniper.IO
     /// originate from source layers and get cached in destination layers. Caching
     /// occurs automatically when a file is retrieved from a source.
     /// </summary>
-    public class CachingStrategy : ICacheDestinationLayer
+    public sealed class CachingStrategy : ICacheDestinationLayer
     {
         private readonly List<ICacheSourceLayer> sources = new List<ICacheSourceLayer>();
         private readonly List<ICacheDestinationLayer> destinations = new List<ICacheDestinationLayer>();
