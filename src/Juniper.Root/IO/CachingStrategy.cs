@@ -15,6 +15,7 @@ namespace Juniper.IO
     {
         private readonly List<ICacheSourceLayer> sources = new List<ICacheSourceLayer>();
         private readonly List<ICacheDestinationLayer> destinations = new List<ICacheDestinationLayer>();
+        private readonly List<ICacheDestinationLayer> backups = new List<ICacheDestinationLayer>();
 
         /// <summary>
         /// Creates an empty caching strategy. Add cache layers to it with <see cref="AppendLayer(ICacheSourceLayer)"/>
@@ -57,14 +58,29 @@ namespace Juniper.IO
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public CachingStrategy PrependLayer(ICacheSourceLayer source)
+        public CachingStrategy Prepend(ICacheSourceLayer source)
         {
             sources.Insert(0, source);
+
             if (source is ICacheDestinationLayer dest)
             {
                 destinations.Insert(0, dest);
             }
 
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a layer to the caching strategy. Layers are checked in the order
+        /// that they are added, so make sure to add the highest-latency cache
+        /// layers last.
+        /// </summary>
+        /// <param name="dest"></param>
+        /// <returns></returns>
+        public CachingStrategy AddBackup(ICacheDestinationLayer dest)
+        {
+            sources.Insert(sources.Count - 1, dest);
+            backups.Add(dest);
             return this;
         }
 
@@ -113,52 +129,65 @@ namespace Juniper.IO
         }
 
         /// <summary>
-        /// Creates a stream that will write to all of the cache layers that support
-        /// writing streams.
+        /// Retrieve the first destination layer of a given type.
         /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="layer"></param>
+        /// <returns></returns>
+        public bool GetBackup<T>(out T layer)
+            where T : ICacheDestinationLayer
+        {
+            layer = default;
+            foreach (var dest in backups)
+            {
+                if (dest is T t)
+                {
+                    layer = t;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Creates a stream that will write to the first primary cache layer that supports
+        /// writing the given content reference, and any secondary cache layers as well.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">If no primary cache layer could be found.</exception>
         /// <typeparam name="MediaTypeT"></typeparam>
         /// <param name="fileRef"></param>
         /// <returns></returns>
         public Stream Create(ContentReference fileRef)
         {
-            var streams = new List<Stream>();
-
+            Stream stream = null;
             foreach (var dest in destinations)
             {
                 if (dest.CanCache(fileRef))
                 {
-                    streams.Add(dest.Create(fileRef));
+                    stream = dest.Create(fileRef);
                 }
             }
 
-            if (streams.Count == 0)
+            if (stream is null)
             {
-                return null;
+                throw new InvalidOperationException("Could not cache the file " + fileRef);
             }
-            else
+            else if (backups.Count > 0)
             {
-                return new ForkedStream(streams.ToArray());
-            }
-        }
-
-        /// <summary>
-        /// Searches the cache layers in sequence for the file.
-        /// </summary>
-        /// <typeparam name="MediaTypeT"></typeparam>
-        /// <param name="fileRef"></param>
-        /// <param name="stream"></param>
-        /// <returns>null if the file does not exist in any of the cache layers.</returns>
-        public Stream Cache(ContentReference fileRef, Stream stream)
-        {
-            if (stream is object)
-            {
-                foreach (var dest in destinations)
+                var backupStreams = new List<Stream>();
+                foreach (var dest in backups)
                 {
-                    if (dest.CanCache(fileRef)
-                        && !dest.IsCached(fileRef))
+                    if (dest.CanCache(fileRef))
                     {
-                        stream = dest.Cache(fileRef, stream);
+                        backupStreams.Add(dest.Create(fileRef));
                     }
+                }
+
+                if (backupStreams.Count > 0)
+                {
+                    backupStreams.Insert(0, stream);
+                    stream = new ForkedStream(backupStreams.ToArray());
                 }
             }
 
