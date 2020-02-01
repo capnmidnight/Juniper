@@ -293,13 +293,8 @@ namespace Juniper.Collections
         public bool Parallels(Route<ValueT> other)
         {
             return other is object
-                && (Parallel(other)
-                    || Parallel(~other));
-        }
-
-        private bool Parallel(Route<ValueT> other)
-        {
-            return Start.Equals(other.Start) && End.Equals(other.End);
+                && ((Start.Equals(other.Start) && End.Equals(other.End))
+                    || (Start.Equals(other.End) && End.Equals(other.Start)));
         }
 
         public bool Intersects(Route<ValueT> other)
@@ -334,8 +329,16 @@ namespace Juniper.Collections
         public override int GetHashCode()
         {
             var hashCode = 1944944578;
-            hashCode = (hashCode * -1521134295) + EqualityComparer<ValueT[]>.Default.GetHashCode(nodes);
             hashCode = (hashCode * -1521134295) + Cost.GetHashCode();
+            var nodes = this.nodes.AsEnumerable();
+            if(Start.CompareTo(End) > 0)
+            {
+                nodes = nodes.Reverse();
+            }
+            foreach (var node in nodes)
+            {
+                hashCode = (hashCode * -1521134295) + EqualityComparer<ValueT>.Default.GetHashCode(node);
+            }
             return hashCode;
         }
     }
