@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.IO;
 
 namespace Juniper.World.GIS.Google.StreetView
 {
@@ -12,10 +11,8 @@ namespace Juniper.World.GIS.Google.StreetView
         private int radius;
 
         protected AbstractStreetViewRequest(string path, string apiKey, string signingKey, MediaTypeT contentType)
-            : base(path, apiKey, signingKey, contentType)
+            : base(path, "StreetView", contentType, apiKey, signingKey)
         { }
-
-        public override string CacheID => Path.Combine("streetview", base.CacheID);
 
         public string Pano
         {

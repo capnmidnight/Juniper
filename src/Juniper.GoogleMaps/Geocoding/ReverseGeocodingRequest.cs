@@ -34,7 +34,7 @@ namespace Juniper.World.GIS.Google.Geocoding
         private LatLngPoint latlng;
 
         public ReverseGeocodingRequest(string apiKey)
-            : base(apiKey)
+            : base(apiKey, "ReverseGeocoding")
         { }
 
         public LatLngPoint Location

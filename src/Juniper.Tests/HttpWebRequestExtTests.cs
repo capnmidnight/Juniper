@@ -26,10 +26,13 @@ namespace Juniper.HTTP.Tests
             await RunFileTestAsync("portrait-testcaching.jpg", false, true).ConfigureAwait(false);
         }
 
-        private class ImageRequest : AbstractRequest<MediaType.Image>
+        private sealed class ImageRequest : AbstractRequest<MediaType.Image>
         {
             public ImageRequest(Uri baseURI, string path)
-                : base(HttpMethods.GET, AddPath(baseURI, path), Juniper.MediaType.Image.Jpeg, false) { }
+                : base(HttpMethods.GET, AddPath(baseURI, path), string.Empty, Juniper.MediaType.Image.Jpeg, false) { }
+
+            protected override string InternalCacheID =>
+                StandardRequestCacheID;
         }
 
         private static async Task<ImageData> RunFileTestAsync(string imageFileName, bool deleteFile, bool runTest)

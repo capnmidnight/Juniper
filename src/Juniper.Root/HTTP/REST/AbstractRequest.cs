@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
 using Juniper.IO;
@@ -11,6 +13,19 @@ namespace Juniper.HTTP.REST
     public abstract class AbstractRequest<MediaTypeT> : StreamSource
         where MediaTypeT : MediaType
     {
+        protected static string Add(string a, string b)
+        {
+            if(a is null
+                || b is null)
+            {
+                return null;
+            }
+            else
+            {
+                return Path.Combine(a, b);
+            }
+        }
+
         protected static Uri AddPath(Uri baseURI, string path)
         {
             var uriBuilder = new UriBuilder(baseURI);
@@ -21,16 +36,19 @@ namespace Juniper.HTTP.REST
         private readonly HttpMethods method;
         private readonly Uri serviceURI;
         private readonly bool hasRequestBody;
+        private readonly string cachePrefix;
 
         private readonly IDictionary<string, List<string>> queryParams =
             new SortedDictionary<string, List<string>>();
 
-        protected AbstractRequest(HttpMethods method, Uri serviceURI, MediaTypeT contentType, bool hasRequestBody)
+        protected AbstractRequest(HttpMethods method, Uri serviceURI, string cachePrefix, MediaTypeT contentType, bool hasRequestBody)
             : base(contentType)
         {
             this.method = method;
             this.serviceURI = serviceURI;
+            this.cachePrefix = cachePrefix;
             this.hasRequestBody = hasRequestBody;
+
             MediaType = contentType;
         }
 
@@ -48,7 +66,26 @@ namespace Juniper.HTTP.REST
                 && req.CacheID == CacheID;
         }
 
-        public override string CacheID => PathExt.FixPath(BaseURI.PathAndQuery.Substring(1));
+        public sealed override string CacheID
+        {
+            get
+            {
+                if (InternalCacheID is null)
+                {
+                    return null;
+                }
+                else if (string.IsNullOrEmpty(cachePrefix))
+                {
+                    return PathExt.FixPath(InternalCacheID);
+                }
+                else
+                {
+                    return PathExt.FixPath(Path.Combine(cachePrefix, InternalCacheID));
+                }
+            }
+        }
+
+        protected abstract string InternalCacheID { get; }
 
         protected virtual Uri BaseURI
         {
@@ -63,6 +100,36 @@ namespace Juniper.HTTP.REST
         }
 
         protected virtual Uri AuthenticatedURI => BaseURI;
+
+        protected string StandardRequestCacheID
+        {
+            get
+            {
+                var invalid = Path.GetInvalidFileNameChars();
+                var parts = (BaseURI.Host + BaseURI.PathAndQuery)
+                    .SplitX('/');
+
+                var sb = new StringBuilder();
+
+                for (var i = 0; i < parts.Length; ++i)
+                {
+                    var part = parts[i];
+                    for (var j = 0; j < part.Length; ++j)
+                    {
+                        sb.Append(invalid.Contains(part[j])
+                            ? '_'
+                            : part[j]);
+                    }
+
+                    if (i < parts.Length - 1)
+                    {
+                        sb.Append(Path.DirectorySeparatorChar);
+                    }
+                }
+
+                return sb.ToString();
+            }
+        }
 
         private void SetQuery(string key, string value, bool allowMany)
         {

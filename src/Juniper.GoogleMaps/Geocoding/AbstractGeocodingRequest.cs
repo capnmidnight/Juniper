@@ -1,18 +1,13 @@
-using System.IO;
-
 namespace Juniper.World.GIS.Google.Geocoding
 {
     public abstract class AbstractGeocodingRequest : AbstractGoogleMapsRequest<MediaType.Application>
     {
         private string language;
 
-        protected AbstractGeocodingRequest(string apiKey)
-            : base("geocode/json", apiKey, null, Juniper.MediaType.Application.Json)
+        protected AbstractGeocodingRequest(string apiKey, string cachePrefix)
+            : base("geocode/json", cachePrefix, Juniper.MediaType.Application.Json, apiKey, null)
         {
         }
-
-        public override string CacheID =>
-            Path.Combine("geocoding", base.CacheID);
 
         public string Language
         {

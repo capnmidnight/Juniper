@@ -13,7 +13,7 @@ namespace Juniper.World.GIS.Google.Geocoding
         private string region;
 
         public GeocodingRequest(string apiKey)
-            : base(apiKey)
+            : base(apiKey, "Geocoding")
         { }
 
         public string Place

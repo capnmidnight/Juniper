@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace Juniper.World.GIS.Google.Places
 {
@@ -12,10 +11,8 @@ namespace Juniper.World.GIS.Google.Places
         private readonly HashSet<PlaceSearchField> fields = new HashSet<PlaceSearchField>();
 
         public PlaceSearchRequest(string apiKey)
-            : base("place/findplacefromtext/json", apiKey, null, Juniper.MediaType.Application.Json)
+            : base("place/findplacefromtext/json", "Places", Juniper.MediaType.Application.Json, apiKey, null)
         { }
-
-        public override string CacheID => Path.Combine("places", base.CacheID);
 
         public string PhoneNumber
         {

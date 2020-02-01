@@ -138,7 +138,7 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
 
         private void Cache(MetadataResponse metadata)
         {
-            metadataCache[metadata.Location.ToString()] = metadata;
+            metadataCache[metadata.Location.ToString(CultureInfo.InvariantCulture)] = metadata;
             metadataCache[metadata.Pano_ID] = metadata;
         }
 

@@ -94,11 +94,11 @@ namespace Juniper.Speech.Azure.CognitiveServices
             }
         }
 
-        public override string CacheID
+        protected override string InternalCacheID
         {
             get
             {
-                var sb = new StringBuilder(base.CacheID);
+                var sb = new StringBuilder();
 
                 _ = sb.Append(VoiceName)
                   .Append(Text.GetHashCode())
