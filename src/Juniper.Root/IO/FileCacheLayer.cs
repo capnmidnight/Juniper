@@ -113,7 +113,8 @@ namespace Juniper.IO
 
         public bool Delete(ContentReference fileRef)
         {
-            return Resolve(fileRef).TryDelete();
+            var file = Resolve(fileRef);
+            return file.TryDelete();
         }
     }
 }

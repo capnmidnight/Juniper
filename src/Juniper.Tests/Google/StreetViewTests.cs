@@ -1,7 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -114,36 +113,17 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
             Assert.AreEqual(640, image.Info.Dimensions.Width);
             Assert.AreEqual(640, image.Info.Dimensions.Height);
         }
-        public class GoogleMapsCachingStrategy : CachingStrategy
-        {
-            public GoogleMapsCachingStrategy(string baseCachePath)
-            {
-                var gmapsCacheDirName = Path.Combine(baseCachePath, "GoogleMaps");
-                var gmapsCacheDir = new DirectoryInfo(gmapsCacheDirName);
-                AppendLayer(new GoogleMapsCacheLayer(gmapsCacheDir));
-                AppendLayer(new GoogleMapsStreamingAssetsCacheLayer());
-            }
-        }
-        public class StreamingAssetsCacheLayer : FileCacheLayer
-        {
-            private static string RootDir => @"C:\Users\smcbeth.DLS-INC\Projects\Yarrow\shared\StreamingAssets";
 
-            public StreamingAssetsCacheLayer()
-                : base(RootDir)
-            {
-            }
-        }
-
-        private Dictionary<string, MetadataResponse> metadataCache = new Dictionary<string, MetadataResponse>();
-
-        private void Cache(MetadataResponse metadata)
+        public class GoogleMapsStreamingAssetsCacheLayer : FileCacheLayer
         {
-            metadataCache[metadata.Location.ToString(CultureInfo.InvariantCulture)] = metadata;
-            metadataCache[metadata.Pano_ID] = metadata;
-        }
+            public GoogleMapsStreamingAssetsCacheLayer(string unityProjectDir)
+                : base(Path.Combine(unityProjectDir, "Assets", "StreamingAssets", "Google", "StreetView"))
+            { }
 
-        public class GoogleMapsStreamingAssetsCacheLayer : StreamingAssetsCacheLayer
-        {
+            public GoogleMapsStreamingAssetsCacheLayer(string unityProjectDir, string prefix)
+                : base(Path.Combine(unityProjectDir, "Assets", "StreamingAssets", prefix, "Google", "StreetView"))
+            { }
+
             public override bool CanCache(ContentReference fileRef)
             {
                 return !(fileRef is IGoogleMapsRequest)
@@ -152,29 +132,41 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
         }
 
         [Test]
-        public void GetAllManifests()
+        public void GetAllMetadata()
         {
             var unityProjectDir = @"C:\Users\smcbeth.DLS-INC\Projects\Yarrow\src\Yarrow - AndroidOculus";
             var cache = new CachingStrategy
             {
                 new GoogleMapsStreamingAssetsCacheLayer(unityProjectDir, "Yarrow")
             };
+
             var metadataDecoder = new JsonFactory<MetadataResponse>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
 
             var gmaps = new GoogleMapsClient(apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
+            var files = gmaps.CachedMetadata.ToArray();
+            Assert.AreNotEqual(0, files.Length);
+        }
 
-            foreach (var (fileRef, metadata) in gmaps.CachedMetadata)
+        [Test]
+        public async Task GetMetadataByFileRefAsync()
+        {
+            var unityProjectDir = @"C:\Users\smcbeth.DLS-INC\Projects\Yarrow\src\Yarrow - AndroidOculus";
+            var cache = new CachingStrategy
             {
-                if (metadata.Location != null)
-                {
-                    Cache(metadata);
-                }
-                else
-                {
-                    cache.Delete(fileRef);
-                }
-            }
+                new GoogleMapsStreamingAssetsCacheLayer(unityProjectDir, "Yarrow")
+            };
+
+            var metadataDecoder = new JsonFactory<MetadataResponse>();
+            var geocodingDecoder = new JsonFactory<GeocodingResponse>();
+
+            var gmaps = new GoogleMapsClient(apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
+            var (_, metadata) = gmaps.CachedMetadata.FirstOrDefault();
+            var pano = metadata.Pano_ID;
+            var fileRef = new ContentReference(pano, MediaType.Application.Json);
+            var metadata2 = await cache.LoadAsync(metadataDecoder, fileRef)
+                .ConfigureAwait(false);
+            Assert.AreEqual(metadata.Pano_ID, metadata2.Pano_ID);
         }
     }
 }

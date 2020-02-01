@@ -829,8 +829,10 @@ or
 
 #if DEBUG
                 await response.SendTextAsync(message)
-                    .ConfigureAwait(false);
+#else
+                await Task.CompletedTask
 #endif
+                    .ConfigureAwait(false);
             }
         }
 

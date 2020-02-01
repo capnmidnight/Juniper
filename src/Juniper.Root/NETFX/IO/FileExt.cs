@@ -13,7 +13,8 @@ namespace System.IO
         /// </returns>
         public static bool TryDelete(string path)
         {
-            if (File.Exists(path))
+            if (!string.IsNullOrEmpty(path)
+                && File.Exists(path))
             {
                 try
                 {
