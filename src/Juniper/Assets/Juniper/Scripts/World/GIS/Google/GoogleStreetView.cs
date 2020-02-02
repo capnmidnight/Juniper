@@ -139,6 +139,7 @@ namespace Juniper.World.GIS.Google
 
             Find.Any(out avatar);
             navPlane = avatar.GroundPlane.Ensure<Clickable>();
+            navPlane.Activate();
             navPointer = transform.Find("NavPointer");
             if (navPointer != null)
             {
@@ -167,9 +168,8 @@ namespace Juniper.World.GIS.Google
             var oldCubemapPath = Path.Combine(myPictures, "GoogleMaps");
             var oldGmapsPath = Path.Combine(oldCubemapPath, "streetview", "maps", "api");
 
-            cache.AddBackup(new TypeFilteredCacheLayer<ImageRequest>(new FileCacheLayer(oldCubemapPath)));
-            var oldGmapsCache = new FileCacheLayer(oldGmapsPath);
-            cache.AddBackup(new TypeFilteredCacheLayer<ImageRequest, MetadataRequest>(oldGmapsCache));
+            cache.AddBackup(new FileCacheLayer(oldCubemapPath));
+            cache.AddBackup(new FileCacheLayer(oldGmapsPath));
 #else
             if(gps != null && gps.HasCoord)
             {
@@ -178,8 +178,7 @@ namespace Juniper.World.GIS.Google
 #endif
 
             var newGmapsPath = Path.Combine(CachePrefix, "Google", "StreetView");
-            var streamingAssets = new StreamingAssetsCacheLayer(newGmapsPath);
-            cache.Add(new TypeFilteredCacheLayer<ImageRequest, MetadataRequest>(streamingAssets));
+            cache.Add(new StreamingAssetsCacheLayer(newGmapsPath));
             codec = new UnityTexture2DCodec(MediaType.Image.Jpeg);
             var metadataDecoder = new JsonFactory<MetadataResponse>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
@@ -271,7 +270,8 @@ namespace Juniper.World.GIS.Google
 
                                 return cb;
                             });
-                        }),
+                        }
+                    ),
                         ("Copying cubemap faces", async (prog) =>
                         {
                             for (var f = 0; f < CAPTURE_CUBEMAP_FACES.Length; ++f)
@@ -287,17 +287,16 @@ namespace Juniper.World.GIS.Google
                                     prog.Report(f + 1, CAPTURE_CUBEMAP_FACES.Length);
                                 });
                             }
-                        }),
+                        }
+                    ),
                         ("Concatenating faces", async (prog) =>
                         {
                             img = await JuniperSystem.OnMainThreadAsync(() =>
-                            processor.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), prog));
-                        }),
+                                processor.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), prog));
+                        }
+                    ),
                         ("Saving image", (prog) =>
-                        {
-                            cache.Save(codec, fileRef, img);
-                            return Task.CompletedTask;
-                        }));
+                            JuniperSystem.OnMainThreadAsync(() => cache.Save(codec, fileRef, img))));
 
                     loadingBar.Deactivate();
                 }
@@ -349,20 +348,9 @@ namespace Juniper.World.GIS.Google
             }
         }
 
-        private ContentReference MakeContentRef(string pano)
-        {
-            var name = pano;
-            if(!string.IsNullOrEmpty(CachePrefix))
-            {
-                name = Path.Combine(CachePrefix, name);
-            }
-
-            return name + codec.ContentType;
-        }
-
         private Texture2D Photosphere_CubemapNeeded(Photosphere source)
         {
-            var cubemapRef = MakeContentRef(source.CubemapCacheID);
+            var cubemapRef = source.CubemapName + codec.ContentType;
             if (cache == null
                 || codec == null
                 || string.IsNullOrEmpty(source.CubemapName)
@@ -372,7 +360,10 @@ namespace Juniper.World.GIS.Google
             }
             else
             {
-                return Decode(cache.OpenAsync(cubemapRef).Result);
+                using (var stream = cache.OpenAsync(cubemapRef).Result)
+                {
+                    return Decode(stream);
+                }
             }
         }
 
@@ -385,23 +376,13 @@ namespace Juniper.World.GIS.Google
             }
             else
             {
-                return Decode(await gmaps.GetImageAsync(source.CubemapCacheID, fov, heading, pitch));
+                return Decode(await gmaps.GetImageAsync(source.CubemapName, fov, heading, pitch));
             }
         }
 
         private Texture2D Decode(Stream imageStream)
         {
-            if (imageStream == null)
-            {
-                return null;
-            }
-            else
-            {
-                using (imageStream)
-                {
-                    return codec.Deserialize(imageStream);
-                }
-            }
+            return codec.Deserialize(imageStream);
         }
 
         private void NavPlane_Click(object sender, EventArgs e)

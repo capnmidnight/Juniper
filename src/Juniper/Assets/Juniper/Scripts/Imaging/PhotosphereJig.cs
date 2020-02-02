@@ -104,7 +104,7 @@ namespace Juniper.Imaging
 
             if (!IsBusy
                 && !IsComplete
-                && IsCubemapAvailable == false
+                && !IsCubemapAvailable
                 && mgr != null
                 && mgr.lodLevelRequirements != null
                 && mgr.lodLevelRequirements.Length > 0)

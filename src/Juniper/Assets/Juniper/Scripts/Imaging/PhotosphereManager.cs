@@ -96,7 +96,7 @@ namespace Juniper.Imaging
 
         private bool Photo_CheckIsCubemapAvailable(Photosphere source)
         {
-            return cache.IsCached(source.CubemapCacheID + codec.ContentType);
+            return cache.IsCached(source.CubemapName + codec.ContentType);
         }
 
         private Texture2D Photo_CubemapNeeded(Photosphere source)
