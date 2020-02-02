@@ -43,6 +43,11 @@ namespace Juniper.Animation
 
         private Direction state = Direction.Stopped;
 
+        private MeshRenderer startRend;
+        private MeshRenderer endRend;
+        private MaterialPropertyBlock startProps;
+        private MaterialPropertyBlock endProps;
+
         private Vector3 EndPosition
         {
             get
@@ -86,26 +91,32 @@ namespace Juniper.Animation
         }
 #endif
 
-        private Transform CreateChild(Material mat)
+        private MeshRenderer CreateChild(Material mat, out MaterialPropertyBlock props)
         {
             var obj = GameObject.CreatePrimitive(PrimitiveType.Quad);
             obj.Remove<MeshCollider>();
             var rend = obj.GetComponent<MeshRenderer>();
             rend.SetMaterial(mat);
             obj.transform.SetParent(transform, false);
-            return obj.transform;
+            props = new MaterialPropertyBlock();
+            rend.SetPropertyBlock(props);
+            return rend;
         }
+
+
 
         public void Awake()
         {
             Find.Any(out master);
 
-            var startChild = CreateChild(startMaterial);
-            startChild.transform.localRotation = Quaternion.Euler(0, 180, 0);
-            CreateChild(endMaterial);
+            startMaterial = Instantiate(startMaterial);
+            
 
-            startMaterial.SetFloat("_Alpha", 1);
-            endMaterial.SetFloat("_Alpha", 0);
+            startRend = CreateChild(startMaterial, out startProps);
+            startRend.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            endRend = CreateChild(endMaterial, out endProps);
+
+            SetAlpha(0);
 
             this.Remove<MeshRenderer>();
         }
@@ -162,9 +173,16 @@ namespace Juniper.Animation
             {
                 transform.rotation = Quaternion.SlerpUnclamped(startRotation, EndRotation, value);
                 transform.position = Vector3.LerpUnclamped(startPosition, EndPosition, value);
-                startMaterial.SetFloat("_Alpha", 1 - value);
-                endMaterial.SetFloat("_Alpha", value);
+                SetAlpha(value);
             }
+        }
+
+        private void SetAlpha(float value)
+        {
+            endProps.SetFloat("_Alpha", value);
+            endRend.SetPropertyBlock(endProps);
+            startProps.SetFloat("_Alpha", 1 - value);
+            startRend.SetPropertyBlock(startProps);
         }
     }
 }
