@@ -35,8 +35,8 @@ namespace Juniper.IO
             : base(RootDir)
         { }
 
-        public StreamingAssetsCacheLayer(string prefix)
-            : base(Path.Combine(RootDir, prefix))
+        public StreamingAssetsCacheLayer(string subDirName)
+            : base(Path.Combine(RootDir, subDirName))
         { }
     }
 }
