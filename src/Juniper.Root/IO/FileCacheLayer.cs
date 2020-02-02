@@ -88,25 +88,13 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(ofType));
             }
 
-            var q = new Queue<DirectoryInfo>()
+            foreach (var ext in ofType.Extensions)
             {
-                cacheLocation
-            };
-
-            while (q.Count > 0)
-            {
-                var here = q.Dequeue();
-                q.AddRange(here.GetDirectories());
-
-                var files = Directory.GetFiles(here.FullName);
-                foreach (var file in files)
+                foreach (var file in cacheLocation.GetFiles($"*.{ext}"))
                 {
-                    if (ofType.Matches(file))
-                    {
-                        var shortName = file.Substring(cacheLocation.FullName.Length + 1);
-                        var cacheID = PathExt.RemoveShortExtension(shortName);
-                        yield return cacheID + ofType;
-                    }
+                    var shortName = file.Name;
+                    var cacheID = PathExt.RemoveShortExtension(shortName);
+                    yield return cacheID + ofType;
                 }
             }
         }
