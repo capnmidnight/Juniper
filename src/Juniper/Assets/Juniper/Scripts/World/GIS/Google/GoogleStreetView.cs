@@ -495,7 +495,7 @@ namespace Juniper.World.GIS.Google
         {
             lastCursorPosition = cursorPosition;
             var point = GetRelativeLatLng(cursorPosition);
-            var pointMetadata = new YarrowMetadata(await gmaps.GetMetadataAsync(point, searchRadius, null));
+            var pointMetadata = await gmaps.GetMetadataAsync(point, searchRadius, null);
             if (pointMetadata != null)
             {
                 Cache(pointMetadata);
@@ -535,17 +535,17 @@ namespace Juniper.World.GIS.Google
                 var metaSubProgs = prog.Split("Searching by Pano_ID", "Searching by Lat/Lng", "Searching by Location Name");
                 if (metadata == null && searchPano != null)
                 {
-                    metadata = new YarrowMetadata(await gmaps.GetMetadataAsync(searchPano, searchRadius, metaSubProgs[0]));
+                    metadata = await gmaps.GetMetadataAsync(searchPano, searchRadius, metaSubProgs[0]);
                 }
 
                 if (metadata == null && searchPoint != null)
                 {
-                    metadata = new YarrowMetadata(await gmaps.GetMetadataAsync(searchPoint, searchRadius, metaSubProgs[1]));
+                    metadata = await gmaps.GetMetadataAsync(searchPoint, searchRadius, metaSubProgs[1]);
                 }
 
                 if (metadata == null && searchLocation != null)
                 {
-                    metadata = new YarrowMetadata(await gmaps.SearchMetadataAsync(searchLocation, searchRadius, metaSubProgs[2]));
+                    metadata = await gmaps.SearchMetadataAsync(searchLocation, searchRadius, metaSubProgs[2]);
                 }
 
                 if (metadata != null)
