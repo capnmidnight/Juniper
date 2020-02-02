@@ -10,10 +10,11 @@ using Juniper.World.GIS.Google.StreetView;
 
 namespace Juniper.World.GIS.Google
 {
-    public class GoogleMapsClient
+    public class GoogleMapsClient<MetadataTypeT>
+        where MetadataTypeT : MetadataResponse
     {
         private readonly IJsonFactory<GeocodingResponse> geocodingDecoder;
-        private readonly IJsonFactory<MetadataResponse> metadataDecoder;
+        private readonly IJsonFactory<MetadataTypeT> metadataDecoder;
 
         private readonly string apiKey;
         private readonly string signingKey;
@@ -21,7 +22,7 @@ namespace Juniper.World.GIS.Google
 
         private Exception lastError;
 
-        public GoogleMapsClient(string apiKey, string signingKey, IJsonFactory<MetadataResponse> metadataDecoder, IJsonFactory<GeocodingResponse> geocodingDecoder, CachingStrategy cache)
+        public GoogleMapsClient(string apiKey, string signingKey, IJsonFactory<MetadataTypeT> metadataDecoder, IJsonFactory<GeocodingResponse> geocodingDecoder, CachingStrategy cache)
         {
             this.metadataDecoder = metadataDecoder;
             this.geocodingDecoder = geocodingDecoder;
@@ -37,7 +38,7 @@ namespace Juniper.World.GIS.Google
             lastError = null;
         }
 
-        public IEnumerable<(ContentReference fileRef, MetadataResponse metadata)> CachedMetadata =>
+        public IEnumerable<(ContentReference fileRef, MetadataTypeT metadata)> CachedMetadata =>
             cache.Get(metadataDecoder);
 
         private async Task<T> LoadAsync<T>(IDeserializer<T> deserializer, ContentReference fileRef, IProgress prog)
@@ -45,7 +46,7 @@ namespace Juniper.World.GIS.Google
             var value = await cache
                 .LoadAsync(deserializer, fileRef, prog)
                 .ConfigureAwait(false);
-            if (value is MetadataResponse metadata)
+            if (value is MetadataTypeT metadata)
             {
                 if (metadata.Status != System.Net.HttpStatusCode.OK
                     || string.IsNullOrEmpty(metadata.Pano_ID)
@@ -78,7 +79,7 @@ namespace Juniper.World.GIS.Google
             }, prog);
         }
 
-        public Task<MetadataResponse> GetMetadataAsync(string pano, int searchRadius = 50, IProgress prog = null)
+        public Task<MetadataTypeT> GetMetadataAsync(string pano, int searchRadius = 50, IProgress prog = null)
         {
             return LoadAsync(metadataDecoder, new MetadataRequest(apiKey, signingKey)
             {
@@ -87,7 +88,7 @@ namespace Juniper.World.GIS.Google
             }, prog);
         }
 
-        public Task<MetadataResponse> SearchMetadataAsync(string placeName, int searchRadius = 50, IProgress prog = null)
+        public Task<MetadataTypeT> SearchMetadataAsync(string placeName, int searchRadius = 50, IProgress prog = null)
         {
             return LoadAsync(metadataDecoder, new MetadataRequest(apiKey, signingKey)
             {
@@ -96,7 +97,7 @@ namespace Juniper.World.GIS.Google
             }, prog);
         }
 
-        public Task<MetadataResponse> GetMetadataAsync(LatLngPoint latLng, int searchRadius = 50, IProgress prog = null)
+        public Task<MetadataTypeT> GetMetadataAsync(LatLngPoint latLng, int searchRadius = 50, IProgress prog = null)
         {
             return LoadAsync(metadataDecoder, new MetadataRequest(apiKey, signingKey)
             {

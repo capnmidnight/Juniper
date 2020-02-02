@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -19,6 +18,7 @@ using Juniper.World.GIS.Google.StreetView;
 
 using UnityEngine;
 using UnityEngine.Events;
+using Yarrow.Client;
 
 namespace Juniper.World.GIS.Google
 {
@@ -30,7 +30,7 @@ namespace Juniper.World.GIS.Google
         private static readonly Regex GMAPS_URL_LATLNG_PATTERN =
             new Regex("https?://www\\.google\\.com/maps/@(-?\\d+\\.\\d+,-?\\d+\\.\\d+)", RegexOptions.Compiled);
 
-        private readonly Dictionary<string, MetadataResponse> metadataCache = new Dictionary<string, MetadataResponse>();
+        private readonly Dictionary<string, YarrowMetadata> metadataCache = new Dictionary<string, YarrowMetadata>();
         private readonly Dictionary<string, Transform> navPointers = new Dictionary<string, Transform>();
 
         [SerializeField]
@@ -55,7 +55,7 @@ namespace Juniper.World.GIS.Google
         [ReadOnly]
         public string searchLocation;
 
-        private MetadataResponse metadata;
+        private YarrowMetadata metadata;
 
 
         private LatLngPoint origin;
@@ -64,7 +64,7 @@ namespace Juniper.World.GIS.Google
         private Vector3 navPointerPosition;
         private string navPointerPano;
 
-        private GoogleMapsClient gmaps;
+        private GoogleMapsClient<YarrowMetadata> gmaps;
         private GPSLocation gps;
         private PhotosphereManager photospheres;
         private Clickable navPlane;
@@ -180,10 +180,10 @@ namespace Juniper.World.GIS.Google
             var newGmapsPath = Path.Combine(CachePrefix, "Google", "StreetView");
             cache.Add(new StreamingAssetsCacheLayer(newGmapsPath));
             codec = new UnityTexture2DCodec(MediaType.Image.Jpeg);
-            var metadataDecoder = new JsonFactory<MetadataResponse>();
+            var metadataDecoder = new JsonFactory<YarrowMetadata>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
 
-            gmaps = new GoogleMapsClient(gmapsApiKey, gmapsSigningKey, metadataDecoder, geocodingDecoder, cache);
+            gmaps = new GoogleMapsClient<YarrowMetadata>(gmapsApiKey, gmapsSigningKey, metadataDecoder, geocodingDecoder, cache);
 
             foreach (var (fileRef, metadata) in cache.Get(metadataDecoder))
             {
@@ -213,7 +213,7 @@ namespace Juniper.World.GIS.Google
             navPlane.Click -= NavPlane_Click;
         }
 
-        private void Cache(MetadataResponse metadata)
+        private void Cache(YarrowMetadata metadata)
         {
             metadataCache[metadata.Location.ToString()] = metadata;
             metadataCache[metadata.Pano_ID] = metadata;
@@ -495,12 +495,12 @@ namespace Juniper.World.GIS.Google
         {
             lastCursorPosition = cursorPosition;
             var point = GetRelativeLatLng(cursorPosition);
-            var pointMetadata = await gmaps.GetMetadataAsync(point, searchRadius, null);
+            var pointMetadata = new YarrowMetadata(await gmaps.GetMetadataAsync(point, searchRadius, null));
             if (pointMetadata != null)
             {
                 Cache(pointMetadata);
 
-                MetadataResponse closestMetadata = null;
+                YarrowMetadata closestMetadata = null;
                 float minDistance = float.MaxValue;
                 foreach (var metadata in metadataCache.Values)
                 {
@@ -532,20 +532,20 @@ namespace Juniper.World.GIS.Google
             }
             else
             {
-                var metaSubProgs = prog.Split("Searching by PanoID", "Searching by Lat/Lng", "Searching by Location Name");
+                var metaSubProgs = prog.Split("Searching by Pano_ID", "Searching by Lat/Lng", "Searching by Location Name");
                 if (metadata == null && searchPano != null)
                 {
-                    metadata = await gmaps.GetMetadataAsync(searchPano, searchRadius, metaSubProgs[0]);
+                    metadata = new YarrowMetadata(await gmaps.GetMetadataAsync(searchPano, searchRadius, metaSubProgs[0]));
                 }
 
                 if (metadata == null && searchPoint != null)
                 {
-                    metadata = await gmaps.GetMetadataAsync(searchPoint, searchRadius, metaSubProgs[1]);
+                    metadata = new YarrowMetadata(await gmaps.GetMetadataAsync(searchPoint, searchRadius, metaSubProgs[1]));
                 }
 
                 if (metadata == null && searchLocation != null)
                 {
-                    metadata = await gmaps.SearchMetadataAsync(searchLocation, searchRadius, metaSubProgs[2]);
+                    metadata = new YarrowMetadata(await gmaps.SearchMetadataAsync(searchLocation, searchRadius, metaSubProgs[2]));
                 }
 
                 if (metadata != null)
@@ -669,7 +669,7 @@ namespace Juniper.World.GIS.Google
             return nextPoint;
         }
 
-        private Vector3 GetRelativeVector3(MetadataResponse metadata)
+        private Vector3 GetRelativeVector3(YarrowMetadata metadata)
         {
             var nextUTM = metadata.Location.ToUTM();
             var nextVec = nextUTM.ToVector3();

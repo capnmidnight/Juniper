@@ -143,7 +143,7 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
             var metadataDecoder = new JsonFactory<MetadataResponse>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
 
-            var gmaps = new GoogleMapsClient(apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
+            var gmaps = new GoogleMapsClient<MetadataResponse>(apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
             var files = gmaps.CachedMetadata.ToArray();
             Assert.AreNotEqual(0, files.Length);
         }
@@ -160,7 +160,7 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
             var metadataDecoder = new JsonFactory<MetadataResponse>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
 
-            var gmaps = new GoogleMapsClient(apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
+            var gmaps = new GoogleMapsClient<MetadataResponse>(apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
             var (_, metadata) = gmaps.CachedMetadata.FirstOrDefault();
             var pano = metadata.Pano_ID;
             var fileRef = new ContentReference(pano, MediaType.Application.Json);

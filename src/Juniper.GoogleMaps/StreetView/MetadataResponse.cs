@@ -38,6 +38,20 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public LatLngPoint Location { get; }
 
+        protected MetadataResponse(MetadataResponse copy)
+        {
+            if (copy is null)
+            {
+                throw new ArgumentNullException(nameof(copy));
+            }
+
+            Status = copy.Status;
+            Copyright = copy.Copyright;
+            Date = copy.Date;
+            Pano_ID = copy.Pano_ID;
+            Location = copy.Location;
+        }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected MetadataResponse(SerializationInfo info, StreamingContext context)
         {
@@ -57,7 +71,7 @@ namespace Juniper.World.GIS.Google.StreetView
             }
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             if (info is null)
             {
