@@ -11,13 +11,12 @@ namespace Juniper.IO
     /// originate from source layers and get cached in destination layers. Caching
     /// occurs automatically when a file is retrieved from a source.
     /// </summary>
-    public sealed class CachingStrategy : 
+    public sealed class CachingStrategy :
         ICacheDestinationLayer,
         IEnumerable<ICacheSourceLayer>
     {
         private readonly List<ICacheSourceLayer> sources = new List<ICacheSourceLayer>();
         private readonly List<ICacheDestinationLayer> destinations = new List<ICacheDestinationLayer>();
-        private readonly List<ICacheDestinationLayer> backups = new List<ICacheDestinationLayer>();
 
         /// <summary>
         /// Creates an empty caching strategy. Add cache layers to it with <see cref="AppendLayer(ICacheSourceLayer)"/>
@@ -52,7 +51,7 @@ namespace Juniper.IO
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public CachingStrategy Prepend(ICacheSourceLayer source)
+        public void Prepend(ICacheSourceLayer source)
         {
             sources.Insert(0, source);
 
@@ -60,8 +59,6 @@ namespace Juniper.IO
             {
                 destinations.Insert(0, dest);
             }
-
-            return this;
         }
 
         /// <summary>
@@ -71,11 +68,9 @@ namespace Juniper.IO
         /// </summary>
         /// <param name="dest"></param>
         /// <returns></returns>
-        public CachingStrategy AddBackup(ICacheDestinationLayer dest)
+        public void AddBackup(ICacheDestinationLayer dest)
         {
             sources.Insert(sources.Count - 1, dest);
-            backups.Add(dest);
-            return this;
         }
 
         /// <summary>
@@ -123,28 +118,6 @@ namespace Juniper.IO
         }
 
         /// <summary>
-        /// Retrieve the first destination layer of a given type.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="layer"></param>
-        /// <returns></returns>
-        public bool GetBackup<T>(out T layer)
-            where T : ICacheDestinationLayer
-        {
-            layer = default;
-            foreach (var dest in backups)
-            {
-                if (dest is T t)
-                {
-                    layer = t;
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
         /// Creates a stream that will write to the first primary cache layer that supports
         /// writing the given content reference, and any secondary cache layers as well.
         /// </summary>
@@ -154,38 +127,15 @@ namespace Juniper.IO
         /// <returns></returns>
         public Stream Create(ContentReference fileRef)
         {
-            Stream stream = null;
             foreach (var dest in destinations)
             {
                 if (dest.CanCache(fileRef))
                 {
-                    stream = dest.Create(fileRef);
+                    return dest.Create(fileRef);
                 }
             }
 
-            if (stream is null)
-            {
-                throw new InvalidOperationException("Could not cache the file " + fileRef);
-            }
-            else if (backups.Count > 0)
-            {
-                var backupStreams = new List<Stream>();
-                foreach (var dest in backups)
-                {
-                    if (dest.CanCache(fileRef))
-                    {
-                        backupStreams.Add(dest.Create(fileRef));
-                    }
-                }
-
-                if (backupStreams.Count > 0)
-                {
-                    backupStreams.Insert(0, stream);
-                    stream = new ForkedStream(backupStreams.ToArray());
-                }
-            }
-
-            return stream;
+            throw new InvalidOperationException("Could not cache the file " + fileRef);
         }
 
         /// <summary>
