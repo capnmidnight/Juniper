@@ -27,9 +27,9 @@ namespace Juniper.IO
         }
 
         private static string RootDir =>
-            NeedsUnpack
-            ? Application.persistentDataPath
-            : Application.streamingAssetsPath;
+            PathExt.FixPath(NeedsUnpack
+                ? Application.persistentDataPath
+                : Application.streamingAssetsPath);
 
         public StreamingAssetsCacheLayer()
             : base(RootDir)
