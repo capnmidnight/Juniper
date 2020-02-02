@@ -81,7 +81,7 @@ namespace Juniper.Animation
         /// <summary>
         /// The function that performs the 'tweening.
         /// </summary>
-        private Func<float, float, Direction, float> Tweener
+        private TweenFunc Tweener
         {
             get
             {

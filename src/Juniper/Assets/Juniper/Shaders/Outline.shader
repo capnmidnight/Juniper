@@ -5,6 +5,7 @@ Shader "UI/Unlit/Outline"
         _OutlineColor("Outline color", Color) = (0,0,0,1)
         _Outline("Outline width", Range(0.0, 0.25)) = 0.05
         _Center("Mesh Center", Vector) = (0,0,0,1)
+        _Alpha("Opacity", Range(0.0, 1.0)) = 1.0
     }
 
         SubShader
@@ -35,6 +36,7 @@ Shader "UI/Unlit/Outline"
                 uniform float4 _OutlineColor;
                 uniform float _Outline;
                 uniform float4 _Center;
+                uniform float _Alpha;
 
                 struct v2f
                 {
@@ -52,7 +54,7 @@ Shader "UI/Unlit/Outline"
 
                 float4 frag(v2f i) : COLOR
                 {
-                    return _OutlineColor;
+                    return _OutlineColor * _Alpha;
                 }
             ENDCG
         }

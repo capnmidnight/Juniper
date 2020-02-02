@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 using Juniper.Input;
 
-using TweenFuncT = System.Func<float, float, Juniper.Input.Direction, float>;
-
 namespace Juniper.Animation
 {
+    public delegate float TweenFunc(float t, float k, Direction d);
+
     /// <summary>
     /// Different modes of animating a single value from 0 to 1.
     /// </summary>
@@ -54,11 +54,10 @@ namespace Juniper.Animation
     }
 
     /// <summary>
-    /// Implementations for each of the values in <see cref="TweenType"/>. /// All functions receive
-    /// a value p, representing the proportion of the way through the animation process we are
-    /// calculating. All functions take an extra `k` parameter, for scaling tertiary effects; most
-    /// functions do not use it. /// All functions return a value v, mapping the value p to one of
-    /// the desired 'tween shapes.
+    /// Implementations for each of the values in <see cref="TweenType"/>.
+    /// All functions receive a value t, representing the proportion of the way through the animation process we are
+    /// calculating. All functions take an extra `k` parameter, for scaling tertiary effects; most functions do not use it.
+    /// All functions return a value v, mapping the value t to one of the desired 'tween shapes.
     /// </summary>
     public static class Tween
     {
@@ -69,10 +68,11 @@ namespace Juniper.Animation
                 || tween == TweenType.SineContinuous
                 || tween == TweenType.BumpContinuous;
         }
+
         /// <summary>
         /// A lookup for the tween functions, so we don't have to use reflection every time we want one.
         /// </summary>
-        public static readonly Dictionary<TweenType, TweenFuncT> Functions = new Dictionary<TweenType, TweenFuncT>(6)
+        public static readonly Dictionary<TweenType, TweenFunc> Functions = new Dictionary<TweenType, TweenFunc>(6)
         {
             { TweenType.Linear, Linear },
             { TweenType.LinearContinuous, LinearContinuous },
@@ -87,29 +87,29 @@ namespace Juniper.Animation
         /// <summary>
         /// The most basic form of `tween, values increase in proportion to time.
         /// </summary>
-        /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
+        /// <param name="t">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float Linear(float p, float k, Direction d)
+        public static float Linear(float t, float k, Direction d)
         {
-            return p;
+            return t;
         }
 
         /// <summary>
         /// The most basic form of `tween, values increase in proportion to time.
         /// </summary>
-        /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
+        /// <param name="t">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float LinearContinuous(float p, float k, Direction d)
+        public static float LinearContinuous(float t, float k, Direction d)
         {
             if (d == Direction.Forward)
             {
-                return p - 1;
+                return t - 1;
             }
             else
             {
-                return 1 - p;
+                return 1 - t;
             }
         }
 
@@ -117,37 +117,37 @@ namespace Juniper.Animation
         /// Values increase in proportion to the square of time, meaning they start growing
         /// slowly and then grow quickly.
         /// </summary>
-        /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
+        /// <param name="t">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float Quadratic(float p, float k, Direction d)
+        public static float Quadratic(float t, float k, Direction d)
         {
-            return p * p;
+            return t * t;
         }
 
         /// <summary>
         /// Values increase in proportion to the square of time.
         /// </summary>
-        /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
+        /// <param name="t">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float QuadraticContinuous(float p, float k, Direction d)
+        public static float QuadraticContinuous(float t, float k, Direction d)
         {
-            p = LinearContinuous(p, k, d);
-            return Math.Sign(p) * Quadratic(p, k, d);
+            t = LinearContinuous(t, k, d);
+            return Math.Sign(t) * Quadratic(t, k, d);
         }
 
         /// <summary>
         /// Values increase on a sine curve, meaning they start growing quickly and
         /// then slow down.
         /// </summary>
-        /// <param name="p"></param>
+        /// <param name="t"></param>
         /// <param name="k"></param>
         /// <param name="d"></param>
         /// <returns></returns>
-        public static float Sine(float p, float k, Direction d)
+        public static float Sine(float t, float k, Direction d)
         {
-            var a = p * Math.PI;
+            var a = t * Math.PI;
             return (float)Math.Sin(a);
         }
 
@@ -156,13 +156,13 @@ namespace Juniper.Animation
         /// Values increase on a sine curve, meaning they start growing quickly and
         /// then slow down.
         /// </summary>
-        /// <param name="p"></param>
+        /// <param name="t"></param>
         /// <param name="k"></param>
         /// <param name="d"></param>
         /// <returns></returns>
-        public static float SineContinuous(float p, float k, Direction d)
+        public static float SineContinuous(float t, float k, Direction d)
         {
-            var a = LinearContinuous(p, k, d) * Math.PI;
+            var a = LinearContinuous(t, k, d) * Math.PI;
             return (float)Math.Sin(a);
         }
 
@@ -170,12 +170,12 @@ namespace Juniper.Animation
         /// Similar to <see cref="Sine"/>, but values bump in the opposite direction slightly, before
         /// the beginning and the end of the curve.
         /// </summary>
-        /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
+        /// <param name="t">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float Bump(float p, float k, Direction d)
+        public static float Bump(float t, float k, Direction d)
         {
-            var a = p * Math.PI;
+            var a = t * Math.PI;
             return (float)(0.5f * (1 - Math.Cos(a)) - k * Math.Sin(2 * a));
         }
 
@@ -183,13 +183,13 @@ namespace Juniper.Animation
         /// Similar to <see cref="Sine"/>, but values bump in the opposite direction slightly, before
         /// the beginning and the end of the curve.
         /// </summary>
-        /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
+        /// <param name="t">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float BumpContinuous(float p, float k, Direction d)
+        public static float BumpContinuous(float t, float k, Direction d)
         {
-            p = LinearContinuous(p, k, d);
-            var a = p * Math.PI;
+            t = LinearContinuous(t, k, d);
+            var a = t * Math.PI;
             return (float)(Math.Sin(0.5f * a) + k * Math.Sin(a));
         }
     }

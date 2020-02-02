@@ -109,6 +109,8 @@ namespace Juniper
 
         public UnityImage splash;
 
+        public Transform presentationPoint;
+
         /// <summary>
         /// The material to apply to Darth Fader.
         /// </summary>
@@ -272,6 +274,8 @@ namespace Juniper
             loadingBar = sys.Query<LoadingBar>("LoadingBar");
 
             splash = sys.Query<UnityImage>("Canvas/SplashImage");
+
+            presentationPoint = sys.Find("PresentationPoint");
         }
 
         private IEnumerator LoadFirstSceneCoroutine()
