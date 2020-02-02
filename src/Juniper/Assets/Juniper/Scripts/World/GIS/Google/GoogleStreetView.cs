@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -146,6 +147,8 @@ namespace Juniper.World.GIS.Google
 
             Find.Any(out input);
 
+            cache = new CachingStrategy();
+
 #if UNITY_EDITOR
             this.ReceiveCredentials();
 
@@ -160,16 +163,23 @@ namespace Juniper.World.GIS.Google
                 SetLocation(gps.Coord.ToString());
             }
 
-            var baseCachePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            var oldCubemapPath = Path.Combine(myPictures, "GoogleMaps");
+            var oldGmapsPath = Path.Combine(oldCubemapPath, "streetview", "maps", "api");
+
+            cache.AddBackup(new TypeFilteredCacheLayer<ImageRequest>(new FileCacheLayer(oldCubemapPath)));
+            var oldGmapsCache = new FileCacheLayer(oldGmapsPath);
+            cache.AddBackup(new TypeFilteredCacheLayer<ImageRequest, MetadataRequest>(oldGmapsCache));
 #else
             if(gps != null && gps.HasCoord)
             {
                 SetLocation(gps.Coord.ToString());
             }
-            var baseCachePath = Application.persistentDataPath;
 #endif
 
-            cache = new GoogleMapsCachingStrategy(CachePrefix, baseCachePath);
+            var newGmapsPath = Path.Combine(CachePrefix, "Google", "StreetView");
+            var streamingAssets = new StreamingAssetsCacheLayer(newGmapsPath);
+            cache.Add(new TypeFilteredCacheLayer<ImageRequest, MetadataRequest>(streamingAssets));
             codec = new UnityTexture2DCodec(MediaType.Image.Jpeg);
             var metadataDecoder = new JsonFactory<MetadataResponse>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
@@ -225,7 +235,8 @@ namespace Juniper.World.GIS.Google
         {
             try
             {
-                if (cache.IsCached(photosphere.name + codec.ContentType))
+                var fileRef = photosphere.name + codec.ContentType;
+                if (cache.IsCached(fileRef))
                 {
                     Debug.Log("Cubemap already cached");
                 }
@@ -284,7 +295,7 @@ namespace Juniper.World.GIS.Google
                         }),
                         ("Saving image", (prog) =>
                         {
-                            cache.Save(codec, photosphere.name + codec.ContentType, img);
+                            cache.Save(codec, fileRef, img);
                             return Task.CompletedTask;
                         }));
 

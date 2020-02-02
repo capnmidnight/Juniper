@@ -5,6 +5,7 @@ using System.Linq;
 using Juniper.IO;
 using Juniper.Speech;
 using Juniper.Speech.Azure.CognitiveServices;
+
 using UnityEditor;
 
 using UnityEngine;
@@ -33,8 +34,10 @@ namespace Juniper.Events
                 var lines = File.ReadAllLines(keyFile);
                 var azureApiKey = lines[0];
                 var azureRegion = lines[1];
-                var cache = new CachingStrategy()
-                    .AppendLayer(new FileCacheLayer(Path.Combine("Assets", "StreamingAssets")));
+                var cache = new CachingStrategy
+                {
+                    new StreamingAssetsCacheLayer(Path.Combine("Yarrow", "Azure", "CognitiveServices"))
+                };
                 var voicesDecoder = new JsonFactory<Voice[]>();
                 var voicesClient = new VoicesClient(azureRegion, azureApiKey, voicesDecoder, cache);
                 var voicesTask = voicesClient.GetVoicesAsync();

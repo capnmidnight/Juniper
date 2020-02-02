@@ -253,7 +253,11 @@ namespace Juniper.Sound
                 && !string.IsNullOrEmpty(azureApiKey)
                 && !string.IsNullOrEmpty(azureResourceName))
             {
-                var cache = new UnityCachingStrategy();
+                var cache = new CachingStrategy
+                {
+                    new StreamingAssetsCacheLayer(Path.Combine("Yarrow", "Azure", "CognitiveServices"))
+                };
+
                 tts = new TextToSpeechClient(
                     azureRegion,
                     azureApiKey,
