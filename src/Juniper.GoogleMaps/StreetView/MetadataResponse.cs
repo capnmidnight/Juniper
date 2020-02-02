@@ -15,12 +15,6 @@ namespace Juniper.World.GIS.Google.StreetView
         IEquatable<MetadataResponse>,
         IComparable<MetadataResponse>
     {
-        private static readonly string STATUS_FIELD = nameof(Status).ToLowerInvariant();
-        private static readonly string COPYRIGHT_FIELD = nameof(Copyright).ToLowerInvariant();
-        private static readonly string DATE_FIELD = nameof(Date).ToLowerInvariant();
-        private static readonly string PANO_ID_FIELD = nameof(Pano_ID).ToLowerInvariant();
-        private static readonly string LOCATION_FIELD = nameof(Location).ToLowerInvariant();
-
         private static readonly Regex PANO_PATTERN = new Regex("^[a-zA-Z0-9_\\-]+$", RegexOptions.Compiled);
 
         public static bool IsPano(string panoString)
@@ -60,14 +54,16 @@ namespace Juniper.World.GIS.Google.StreetView
                 throw new ArgumentNullException(nameof(info));
             }
 
-            Status = info.GetString(STATUS_FIELD).MapToStatusCode();
-
-            if (Status == HttpStatusCode.OK)
+            foreach(var field in info)
             {
-                Copyright = info.GetString(COPYRIGHT_FIELD);
-                Date = info.GetDateTime(DATE_FIELD);
-                Pano_ID = info.GetString(PANO_ID_FIELD);
-                Location = info.GetValue<LatLngPoint>(LOCATION_FIELD);
+                switch (field.Name.ToLowerInvariant())
+                {
+                    case "status": Status = info.GetString(field.Name).MapToStatusCode(); break;
+                    case "copyright": Copyright = info.GetString(field.Name); break;
+                    case "date": Date = info.GetDateTime(field.Name); break;
+                    case "pano_id": Pano_ID = info.GetString(field.Name); break;
+                    case "location":  Location = info.GetValue<LatLngPoint>(field.Name); break;
+                }
             }
         }
 
@@ -78,13 +74,13 @@ namespace Juniper.World.GIS.Google.StreetView
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue(STATUS_FIELD, Status.ToString());
+            info.AddValue(nameof(Status), Status.ToString());
             if (Status == HttpStatusCode.OK)
             {
-                _ = info.MaybeAddValue(COPYRIGHT_FIELD, Copyright);
-                _ = info.MaybeAddValue(DATE_FIELD, Date.ToString("yyyy-MM", CultureInfo.InvariantCulture));
-                _ = info.MaybeAddValue(PANO_ID_FIELD, Pano_ID);
-                _ = info.MaybeAddValue(LOCATION_FIELD, new
+                _ = info.MaybeAddValue(nameof(Copyright), Copyright);
+                _ = info.MaybeAddValue(nameof(Date), Date.ToString("yyyy-MM", CultureInfo.InvariantCulture));
+                _ = info.MaybeAddValue(nameof(Pano_ID), Pano_ID);
+                _ = info.MaybeAddValue(nameof(Location), new
                 {
                     lat = Location.Latitude,
                     lng = Location.Longitude
