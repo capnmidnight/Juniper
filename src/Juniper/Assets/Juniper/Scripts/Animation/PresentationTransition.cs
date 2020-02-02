@@ -93,7 +93,6 @@ namespace Juniper.Animation
             var rend = obj.GetComponent<MeshRenderer>();
             rend.SetMaterial(mat);
             obj.transform.SetParent(transform, false);
-            obj.transform.localScale = transform.localScale;
             return obj.transform;
         }
 
@@ -107,8 +106,6 @@ namespace Juniper.Animation
 
             startMaterial.SetFloat("_Alpha", 1);
             endMaterial.SetFloat("_Alpha", 0);
-
-            transform.localScale = Vector3.one;
 
             this.Remove<MeshRenderer>();
         }
@@ -132,10 +129,11 @@ namespace Juniper.Animation
 
         public void Update()
         {
+            var nextState = state;
             if (state == Direction.Forward
                 && value < 1)
             {
-                value += Time.smoothDeltaTime;
+                value += Time.smoothDeltaTime / length;
                 if (value > 1)
                 {
                     value = 1;
@@ -144,24 +142,26 @@ namespace Juniper.Animation
             else if (state == Direction.Reverse
                 && value > 0)
             {
-                value -= Time.smoothDeltaTime;
+                value -= Time.smoothDeltaTime / length;
                 if (value < 0)
                 {
                     value = 0;
+                    nextState = Direction.Stopped;
                 }
             }
 
             var tweenFunc = Tween.Functions[tween];
             var tweenValue = tweenFunc(value, tweenK, state);
             RenderValue(tweenValue);
+            state = nextState;
         }
 
         private void RenderValue(float value)
         {
             if (state != Direction.Stopped)
             {
-                transform.rotation = Quaternion.Slerp(startRotation, EndRotation, value);
-                transform.position = Vector3.Lerp(startPosition, EndPosition, value);
+                transform.rotation = Quaternion.SlerpUnclamped(startRotation, EndRotation, value);
+                transform.position = Vector3.LerpUnclamped(startPosition, EndPosition, value);
                 startMaterial.SetFloat("_Alpha", 1 - value);
                 endMaterial.SetFloat("_Alpha", value);
             }
