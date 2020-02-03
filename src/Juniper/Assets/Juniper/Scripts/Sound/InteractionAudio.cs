@@ -468,6 +468,24 @@ namespace Juniper.Sound
             return PlayAudioClip(clip, camT, false);
         }
 
+        public async Task EnableDopplerAsync(bool value)
+        {
+#if UNITY_MODULES_AUDIO
+            await JuniperSystem.OnMainThreadAsync(() =>
+            {
+                var audioSources = Find.All<AudioSource>();
+                var doppler = value ? dopplerLevel : 0;
+                foreach (var audioSource in audioSources)
+                {
+                    audioSource.dopplerLevel = doppler;
+                }
+            });
+#endif
+
+            // burn a frame
+            await Task.Yield();
+        }
+
 #if UNITY_MODULES_AUDIO
 
         /// <summary>
@@ -630,19 +648,6 @@ namespace Juniper.Sound
             audioSource.dopplerLevel = dopplerLevel;
 
             return audioSource;
-        }
-
-        public void EnableDoppler(bool value)
-        {
-            JuniperSystem.OnMainThread(() =>
-            {
-                var audioSources = Find.All<AudioSource>();
-                var doppler = value ? dopplerLevel : 0;
-                foreach (var audioSource in audioSources)
-                {
-                    audioSource.dopplerLevel = doppler;
-                }
-            });
         }
 
         public void StopZone(string zoneName)
