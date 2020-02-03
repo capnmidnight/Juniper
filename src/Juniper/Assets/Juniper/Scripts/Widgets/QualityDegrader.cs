@@ -118,6 +118,9 @@ namespace Juniper.Widgets
 
         private const string GRAPHICS_QUALITY_KEY = "GraphicsQuality";
 
+        public bool collectStats = true;
+        private bool wasPaused = false;
+
         /// <summary>
         /// Setup the statistics tracking and get the main camera.
         /// </summary>
@@ -136,9 +139,31 @@ namespace Juniper.Widgets
 #endif
         }
 
-        private UnityAction QualityValueChange(int i)
+        public void Pause()
         {
-            return () => QualityLevel = i;
+            collectStats = false;
+        }
+
+        public void Resume()
+        {
+            collectStats = true;
+        }
+
+        private void OnApplicationPause(bool pause)
+        {
+            wasPaused = !collectStats;
+            if (!wasPaused)
+            {
+                Pause();
+            }
+        }
+
+        private void OnApplicationFocus(bool focus)
+        {
+            if (!wasPaused)
+            {
+                Resume();
+            }
         }
 
         /// <summary>
@@ -146,15 +171,20 @@ namespace Juniper.Widgets
         /// </summary>
         public void Update()
         {
-            if (frameStats.IsSaturated && IsBad)
+            if (collectStats)
             {
-                if (QualityLevel > 0)
-                {
-                    --QualityLevel;
-                }
+                frameStats.Add(1 / Time.unscaledDeltaTime);
 
-                ScreenDebugger.Print(QualityName);
-                frameStats.Clear();
+                if (frameStats.IsSaturated && IsBad)
+                {
+                    if (QualityLevel > 0)
+                    {
+                        --QualityLevel;
+                    }
+
+                    ScreenDebugger.Print(QualityName);
+                    frameStats.Clear();
+                }
             }
         }
     }
