@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 using Juniper;
 using Juniper.World;
 
@@ -36,6 +36,11 @@ namespace UnityEngine
             return parent.gameObject.IsActivated();
         }
 
+        public static Task<bool> IsActivatedAsync(this Component parent)
+        {
+            return JuniperSystem.OnMainThreadAsync(parent.IsActivated);
+        }
+
         /// <summary>
         /// Set the active state for the whole hierarchy from an object on up through its parent
         /// transforms. Useful for making absolutely sure a particular object is activated.
@@ -57,6 +62,11 @@ namespace UnityEngine
             parent.gameObject.SetActive(active);
         }
 
+        public static Task SetActiveAsync(this Component parent, bool active)
+        {
+            return JuniperSystem.OnMainThreadAsync(() => parent.SetActive(active));
+        }
+
         /// <summary>
         /// A shortcut for
         /// <code>
@@ -70,6 +80,11 @@ namespace UnityEngine
             parent.gameObject.Activate();
         }
 
+        public static Task ActivateAsync(this Component parent)
+        {
+            return JuniperSystem.OnMainThreadAsync(parent.Activate);
+        }
+
         /// <summary>
         /// A shortcut for
         /// <code>
@@ -81,6 +96,11 @@ namespace UnityEngine
         public static void Deactivate(this Component parent)
         {
             parent.gameObject.Deactivate();
+        }
+
+        public static Task DeactivateAsync(this Component parent)
+        {
+            return JuniperSystem.OnMainThreadAsync(parent.Deactivate);
         }
 
         public static void DestroyImmediate(this Object obj)

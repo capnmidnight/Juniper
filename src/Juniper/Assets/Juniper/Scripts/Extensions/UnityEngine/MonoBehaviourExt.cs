@@ -1,4 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
+using System.Threading.Tasks;
+using Juniper;
 
 namespace UnityEngine
 {
@@ -16,6 +18,11 @@ namespace UnityEngine
         {
             parent.gameObject.Activate();
             parent.enabled = true;
+        }
+
+        public static Task ActivateAsync(this MonoBehaviour parent)
+        {
+            return JuniperSystem.OnMainThreadAsync(parent.Activate);
         }
 
         public static object Run(this MonoBehaviour parent, IEnumerator routine)
