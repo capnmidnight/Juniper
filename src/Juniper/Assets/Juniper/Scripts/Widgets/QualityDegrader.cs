@@ -130,6 +130,9 @@ namespace Juniper.Widgets
             Find.Any(out display);
 
             QualityLevel = PlayerPrefs.GetInt(GRAPHICS_QUALITY_KEY, QualityLevel);
+#if UNITY_MODULES_XR
+            XRSettings.eyeTextureResolutionScale = 1.5f;
+#endif
         }
 
         private UnityAction QualityValueChange(int i)

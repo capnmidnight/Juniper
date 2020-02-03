@@ -197,10 +197,12 @@ namespace Juniper.Display
 
         protected CameraControl cameraCtrl;
 
+        public QualityDegrader qualityMgr;
+
         public virtual void Install(bool reset)
         {
             Avatar.Ensure();
-            this.Ensure<QualityDegrader>();
+            qualityMgr = this.Ensure<QualityDegrader>();
             cameraCtrl = this.Ensure<CameraControl>();
         }
 
