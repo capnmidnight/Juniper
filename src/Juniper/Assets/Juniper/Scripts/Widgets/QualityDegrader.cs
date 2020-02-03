@@ -7,6 +7,7 @@ using Juniper.Units;
 
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.XR;
 
 #if UNITY_POSTPROCESSING
 using UnityEngine.Rendering.PostProcessing;
