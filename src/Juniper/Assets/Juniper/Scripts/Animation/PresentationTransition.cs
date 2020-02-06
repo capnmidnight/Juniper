@@ -2,8 +2,6 @@ using Juniper.Input;
 
 using UnityEngine;
 
-using Yarrow;
-
 namespace Juniper.Animation
 {
     [DisallowMultipleComponent]

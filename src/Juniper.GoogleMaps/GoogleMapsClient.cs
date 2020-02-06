@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 
 using Juniper.Imaging;
 using Juniper.IO;
+using Juniper.Units;
 using Juniper.World.GIS.Google.Geocoding;
 using Juniper.World.GIS.Google.StreetView;
 
@@ -15,6 +17,7 @@ namespace Juniper.World.GIS.Google
     {
         private readonly IJsonFactory<GeocodingResponse> geocodingDecoder;
         private readonly IJsonFactory<MetadataTypeT> metadataDecoder;
+        private readonly Dictionary<string, MetadataTypeT> metadataCache = new Dictionary<string, MetadataTypeT>();
 
         private readonly string apiKey;
         private readonly string signingKey;
@@ -24,11 +27,24 @@ namespace Juniper.World.GIS.Google
 
         public GoogleMapsClient(string apiKey, string signingKey, IJsonFactory<MetadataTypeT> metadataDecoder, IJsonFactory<GeocodingResponse> geocodingDecoder, CachingStrategy cache)
         {
-            this.metadataDecoder = metadataDecoder;
-            this.geocodingDecoder = geocodingDecoder;
-            this.apiKey = apiKey;
-            this.signingKey = signingKey;
-            this.cache = cache;
+            this.apiKey = apiKey ?? throw new ArgumentNullException(nameof(apiKey));
+            this.signingKey = signingKey ?? throw new ArgumentNullException(nameof(signingKey));
+            this.metadataDecoder = metadataDecoder ?? throw new ArgumentNullException(nameof(metadataDecoder));
+            this.geocodingDecoder = geocodingDecoder ?? throw new ArgumentNullException(nameof(geocodingDecoder));
+            this.cache = cache ?? throw new ArgumentNullException(nameof(cache));
+
+
+            foreach (var (fileRef, metadata) in cache.Get(metadataDecoder))
+            {
+                if (metadata.Location != null)
+                {
+                    _ = Cache(metadata);
+                }
+                else
+                {
+                    _ = cache.Delete(fileRef);
+                }
+            }
         }
 
         public string Status => lastError?.Message ?? "NONE";
@@ -38,8 +54,16 @@ namespace Juniper.World.GIS.Google
             lastError = null;
         }
 
-        public IEnumerable<(ContentReference fileRef, MetadataTypeT metadata)> CachedMetadata =>
+        public IEnumerable<(ContentReference fileRef, MetadataTypeT metadata)> CachedMetadataFiles =>
             cache.Get(metadataDecoder);
+
+        public IReadOnlyCollection<MetadataTypeT> CachedMetadata =>
+            metadataCache.Values;
+
+        public bool IsCached(string pano)
+        {
+            return metadataCache.ContainsKey(pano);
+        }
 
         private async Task<T> LoadAsync<T>(IDeserializer<T> deserializer, ContentReference fileRef, IProgress prog)
         {
@@ -54,7 +78,7 @@ namespace Juniper.World.GIS.Google
                 {
                     if (cache.IsCached(fileRef))
                     {
-                        cache.Delete(fileRef);
+                        _ = cache.Delete(fileRef);
                     }
 
                     value = default;
@@ -79,31 +103,98 @@ namespace Juniper.World.GIS.Google
             }, prog);
         }
 
-        public Task<MetadataTypeT> GetMetadataAsync(string pano, int searchRadius = 50, IProgress prog = null)
+        public async Task<MetadataTypeT> GetMetadataAsync(string pano, int searchRadius = 50, IProgress prog = null)
         {
-            return LoadAsync(metadataDecoder, new MetadataRequest(apiKey, signingKey)
+            return Cache(await LoadAsync(metadataDecoder, new MetadataRequest(apiKey, signingKey)
             {
                 Pano = pano,
                 Radius = searchRadius
-            }, prog);
+            }, prog).ConfigureAwait(false));
         }
 
-        public Task<MetadataTypeT> SearchMetadataAsync(string placeName, int searchRadius = 50, IProgress prog = null)
+        public async Task<MetadataTypeT> SearchMetadataAsync(string placeName, int searchRadius = 50, IProgress prog = null)
         {
-            return LoadAsync(metadataDecoder, new MetadataRequest(apiKey, signingKey)
+            return Cache(await LoadAsync(metadataDecoder, new MetadataRequest(apiKey, signingKey)
             {
                 Place = placeName,
                 Radius = searchRadius
-            }, prog);
+            }, prog).ConfigureAwait(false));
         }
 
-        public Task<MetadataTypeT> GetMetadataAsync(LatLngPoint latLng, int searchRadius = 50, IProgress prog = null)
+        public async Task<MetadataTypeT> GetMetadataAsync(LatLngPoint latLng, int searchRadius = 50, IProgress prog = null)
         {
-            return LoadAsync(metadataDecoder, new MetadataRequest(apiKey, signingKey)
+            return Cache(await LoadAsync(metadataDecoder, new MetadataRequest(apiKey, signingKey)
             {
                 Location = latLng,
                 Radius = searchRadius
-            }, prog);
+            }, prog).ConfigureAwait(false));
+        }
+
+        public async Task<MetadataTypeT> SearchMetadataAsync(string searchLocation, string searchPano, LatLngPoint searchPoint, int searchRadius, IProgress prog = null)
+        {
+            try
+            {
+                if (metadataCache.ContainsKey(searchLocation))
+                {
+                    return metadataCache[searchLocation];
+                }
+
+                var metaSubProgs = prog.Split("Searching by Pano_ID", "Searching by Lat/Lng", "Searching by Location Name");
+                if (searchPano != null)
+                {
+                    return await GetMetadataAsync(searchPano, searchRadius, metaSubProgs[0])
+                        .ConfigureAwait(false);
+                }
+
+                if (searchPoint != null)
+                {
+                    return await GetMetadataAsync(searchPoint, searchRadius, metaSubProgs[1])
+                        .ConfigureAwait(false);
+                }
+
+                if (searchLocation != null)
+                {
+                    return await SearchMetadataAsync(searchLocation, searchRadius, metaSubProgs[2])
+                        .ConfigureAwait(false);
+                }
+
+                return default;
+            }
+            finally
+            {
+                prog.Report(1);
+            }
+        }
+
+        private MetadataTypeT Cache(MetadataTypeT metadata)
+        {
+            if (metadata != null)
+            {
+                metadataCache[metadata.Location.ToString(CultureInfo.InvariantCulture)] = metadata;
+                metadataCache[metadata.Pano_ID] = metadata;
+            }
+
+            return metadata;
+        }
+
+        public async Task<MetadataTypeT> FindClosestMetadataAsync(LatLngPoint point, int searchRadius)
+        {
+            var closestMetadata = await GetMetadataAsync(point, searchRadius, null)
+                .ConfigureAwait(false);
+
+            var minDistance = closestMetadata?.Location.Distance(point)
+                ?? float.MaxValue;
+            foreach (var metadata in metadataCache.Values)
+            {
+                var distance = point.Distance(metadata.Location);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    closestMetadata = metadata;
+                }
+            }
+
+            return closestMetadata;
         }
 
         public Task<Stream> GetImageAsync(string pano, int fov, int heading, int pitch, IProgress prog = null)

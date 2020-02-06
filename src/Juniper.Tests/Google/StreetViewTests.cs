@@ -146,7 +146,7 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
             };
 
             var gmaps = new GoogleMapsClient<MetadataResponse>(apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
-            var (_, metadata) = gmaps.CachedMetadata.FirstOrDefault();
+            var metadata = gmaps.CachedMetadata.FirstOrDefault();
             var pano = metadata.Pano_ID;
             var fileRef = new ContentReference(pano, MediaType.Application.Json);
             var metadata2 = await cache.LoadAsync(metadataDecoder, fileRef)

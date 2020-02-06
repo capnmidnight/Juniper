@@ -89,6 +89,11 @@ namespace Juniper.Sound
         }
 
         /// <summary>
+        /// A sub directory in StreamingAssets to which TTS audio files will be cached.
+        /// </summary>
+        public string CachePrefix;
+
+        /// <summary>
         /// The sound to play when an <see cref="Widgets.Openable"/> object has been closed.
         /// </summary>
         [Header("Interactions")]
@@ -253,10 +258,7 @@ namespace Juniper.Sound
                 && !string.IsNullOrEmpty(azureApiKey)
                 && !string.IsNullOrEmpty(azureResourceName))
             {
-                var cache = new CachingStrategy
-                {
-                    new StreamingAssetsCacheLayer(Path.Combine("Yarrow", "Azure", "CognitiveServices"))
-                };
+                var cache = GetCachingStrategy();
 
                 tts = new TextToSpeechClient(
                     azureRegion,
@@ -270,6 +272,24 @@ namespace Juniper.Sound
 #endif
                     new NAudioAudioDataDecoder(),
                     cache);
+            }
+        }
+
+        public CachingStrategy GetCachingStrategy()
+        {
+            if (string.IsNullOrEmpty(CachePrefix))
+            {
+                return new CachingStrategy
+                {
+                    new StreamingAssetsCacheLayer(Path.Combine("Azure", "CognitiveServices"))
+                };
+            }
+            else
+            {
+                return new CachingStrategy
+                {
+                    new StreamingAssetsCacheLayer(Path.Combine(CachePrefix, "Azure", "CognitiveServices"))
+                };
             }
         }
 

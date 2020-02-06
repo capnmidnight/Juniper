@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 
 using Juniper.IO;
+using Juniper.Sound;
 using Juniper.Speech;
 using Juniper.Speech.Azure.CognitiveServices;
 
@@ -18,7 +19,7 @@ namespace Juniper.Events
     [CustomEditor(typeof(Speakable))]
     public class SpeakableEditor : Editor
     {
-#if AZURE_SPEECHSDK
+#if !AZURE_SPEECHSDK
         private static readonly GUIContent VoiceLocaleDropdownLabel = new GUIContent("Locale");
         private static readonly GUIContent VoiceGenderDropdownLabel = new GUIContent("Gender");
         private static readonly GUIContent VoiceNameDropdownLabel = new GUIContent("Voice");
@@ -26,22 +27,23 @@ namespace Juniper.Events
 
         private static Voice[] GetVoices()
         {
-            var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var keyFile = Path.Combine(userProfile, "Projects", "DevKeys", "azure-speech.txt");
             Voice[] voices = null;
-            if (File.Exists(keyFile))
+            var audio = Find.Any<InteractionAudio>();
+            if (audio != null)
             {
-                var lines = File.ReadAllLines(keyFile);
-                var azureApiKey = lines[0];
-                var azureRegion = lines[1];
-                var cache = new CachingStrategy
+                var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                var keyFile = Path.Combine(userProfile, "Projects", "DevKeys", "azure-speech.txt");
+                if (File.Exists(keyFile))
                 {
-                    new StreamingAssetsCacheLayer(Path.Combine("Yarrow", "Azure", "CognitiveServices"))
-                };
-                var voicesDecoder = new JsonFactory<Voice[]>();
-                var voicesClient = new VoicesClient(azureRegion, azureApiKey, voicesDecoder, cache);
-                var voicesTask = voicesClient.GetVoicesAsync();
-                voices = voicesTask.Result;
+                    var lines = File.ReadAllLines(keyFile);
+                    var azureApiKey = lines[0];
+                    var azureRegion = lines[1];
+                    var cache = audio.GetCachingStrategy();
+                    var voicesDecoder = new JsonFactory<Voice[]>();
+                    var voicesClient = new VoicesClient(azureRegion, azureApiKey, voicesDecoder, cache);
+                    var voicesTask = voicesClient.GetVoicesAsync();
+                    voices = voicesTask.Result;
+                }
             }
 
             return voices;
