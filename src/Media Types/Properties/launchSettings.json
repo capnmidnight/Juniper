@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Media Types": {
+      "commandName": "Project",
+      "commandLineArgs": "\"$(PROJECTDIR)..\\Juniper.Root\""
+    }
+  }
+}

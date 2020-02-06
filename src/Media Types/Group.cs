@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Juniper.MediaTypes
@@ -21,9 +22,9 @@ namespace Juniper.MediaTypes
             ValuesFileName = className + ".Values.cs";
         }
 
-        public void Write(string directoryName)
+        public void Write(DirectoryInfo directory)
         {
-            TypeFileName.MakeFile(directoryName, (writer) =>
+            TypeFileName.MakeFile(directory, (writer) =>
             {
                 writer.WriteLine("        public sealed partial class {0} : MediaType", ClassName);
                 writer.WriteLine("        {");
@@ -47,7 +48,7 @@ namespace Juniper.MediaTypes
                 writer.WriteLine("        }");
             }, "using System.Linq;");
 
-            ValuesFileName.MakeFile(directoryName, (writer) =>
+            ValuesFileName.MakeFile(directory, (writer) =>
             {
                 writer.WriteLine("        public sealed partial class {0} : MediaType", ClassName);
                 writer.WriteLine("        {");

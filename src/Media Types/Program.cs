@@ -27,8 +27,26 @@ namespace Juniper.MediaTypes
             }
         }
 
-        public static async Task Main()
+        public static async Task Main(string[] args)
         {
+            if(args?.Length != 1)
+            {
+                System.Console.WriteLine("Usage: <exe> C:\\path\\to\\output\\dir");
+                return;
+            }
+
+            var outDirName = args[0];
+            if (outDirName[0] == '"')
+            {
+                outDirName = outDirName.Substring(1, outDirName.Length - 2);
+            }
+            var outDir = new DirectoryInfo(outDirName);
+            if (!outDir.Exists)
+            {
+                System.Console.WriteLine("Directory not found: " + outDir.FullName);
+                return;
+            }
+
             var groups = new Dictionary<string, Group>(StringComparer.InvariantCultureIgnoreCase);
 
             await ParseApacheConfAsync(groups)
@@ -42,15 +60,11 @@ namespace Juniper.MediaTypes
             PromotePrimaryExtension(groups, "Audio", "Mpeg", "mp3");
             PromotePrimaryExtension(groups, "Audio", "Ogg", "ogg");
 
-            var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var outDir = Path.Combine(home, "Projects", "Yarrow", "Juniper");
-            outDir = Path.Combine(outDir, "src", "Juniper.Root");
-
             WriteGroups(groups, outDir);
             WriteValues(groups, outDir);
         }
 
-        private static void WriteGroups(Dictionary<string, Group> groups, string outDir)
+        private static void WriteGroups(Dictionary<string, Group> groups, DirectoryInfo outDir)
         {
             foreach (var group in groups.Values)
             {
@@ -58,7 +72,7 @@ namespace Juniper.MediaTypes
             }
         }
 
-        private static void WriteValues(Dictionary<string, Group> groups, string outDir)
+        private static void WriteValues(Dictionary<string, Group> groups, DirectoryInfo outDir)
         {
             var allValues =
                 from grp in groups.Values
@@ -283,16 +297,16 @@ namespace Juniper.MediaTypes
             return s;
         }
 
-        public static void MakeFile(this string fileName, string directoryName, Action<StreamWriter> act, string usingBlock)
+        public static void MakeFile(this string fileName, DirectoryInfo directory, Action<StreamWriter> act, string usingBlock)
         {
             if (string.IsNullOrEmpty(fileName))
             {
                 throw new ArgumentException("Must provide a file name", nameof(fileName));
             }
 
-            if (string.IsNullOrEmpty(directoryName))
+            if (directory is null)
             {
-                throw new ArgumentException("Must provide an output directory name", nameof(directoryName));
+                throw new ArgumentException("Must provide an output directory", nameof(directory));
             }
 
             if (act is null)
@@ -300,7 +314,7 @@ namespace Juniper.MediaTypes
                 throw new ArgumentNullException(nameof(act));
             }
 
-            var filePath = Path.Combine(directoryName, fileName);
+            var filePath = Path.Combine(directory.FullName, fileName);
             using var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
             using var writer = new StreamWriter(stream);
 
@@ -323,9 +337,9 @@ namespace Juniper.MediaTypes
             writer.WriteLine("}");
         }
 
-        public static void MakeFile(this string fileName, string directoryName, Action<StreamWriter> act)
+        public static void MakeFile(this string fileName, DirectoryInfo directory, Action<StreamWriter> act)
         {
-            MakeFile(fileName, directoryName, act, null);
+            MakeFile(fileName, directory, act, null);
         }
     }
 }

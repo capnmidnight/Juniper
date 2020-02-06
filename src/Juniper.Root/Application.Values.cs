@@ -354,7 +354,7 @@ namespace Juniper
             public static readonly Application Set_Payment_Initiation = new Application("set-payment-initiation", new string[] { "setpay" });
             public static readonly Application Set_Registration = new Application("set-registration");
             public static readonly Application Set_Registration_Initiation = new Application("set-registration-initiation", new string[] { "setreg" });
-            public static readonly Application Sgml = new Application("sgml");
+            public static readonly Application SGML = new Application("sgml");
             public static readonly Application Sgml_Open_Catalog = new Application("sgml-open-catalog");
             public static readonly Application ShfXml = new Application("shf+xml", new string[] { "shf" });
             public static readonly Application Sieve = new Application("sieve");
@@ -1266,6 +1266,7 @@ namespace Juniper
             public static readonly Application VendorRuckusDownload = new Application("vnd.ruckus.download");
             public static readonly Application VendorS3sms = new Application("vnd.s3sms");
             public static readonly Application VendorSailingtrackerTrack = new Application("vnd.sailingtracker.track", new string[] { "st" });
+            public static readonly Application VendorSar = new Application("vnd.sar");
             public static readonly Application VendorSbmCid = new Application("vnd.sbm.cid");
             public static readonly Application VendorSbmMid2 = new Application("vnd.sbm.mid2");
             public static readonly Application VendorScribus = new Application("vnd.scribus");
@@ -1936,7 +1937,7 @@ namespace Juniper
                 Set_Payment_Initiation,
                 Set_Registration,
                 Set_Registration_Initiation,
-                Sgml,
+                SGML,
                 Sgml_Open_Catalog,
                 ShfXml,
                 Sieve,
@@ -2808,6 +2809,7 @@ namespace Juniper
                 VendorRuckusDownload,
                 VendorS3sms,
                 VendorSailingtrackerTrack,
+                VendorSar,
                 VendorSbmCid,
                 VendorSbmMid2,
                 VendorScribus,
