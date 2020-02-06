@@ -16,8 +16,16 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
     [TestFixture]
     public class StreetViewTests : ServicesTests
     {
+        private const string UnityProjectDir = @"C:\Users\smcbeth.DLS-INC\Projects\Yarrow\src\Yarrow - AndroidOculus";
+        private const string ProjectName = "Yarrow";
+        private static readonly string UnityProjectStreamingAssetsDir = Path.Combine(UnityProjectDir, "Assets", "StreamingAssets");
+        private static readonly string GmapsStreamingAssetsDir = Path.Combine(UnityProjectStreamingAssetsDir, ProjectName, "Google", "StreetView");
+
         private IImageCodec<ImageData> jpegDecoder;
         private IImageCodec<ImageData> pngDecoder;
+
+        private JsonFactory<MetadataResponse> metadataDecoder;
+        private JsonFactory<GeocodingResponse> geocodingDecoder;
 
         [SetUp]
         public override void Init()
@@ -31,6 +39,9 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
             pngDecoder = new TranscoderCodec<Hjg.Pngcs.ImageLines, ImageData>(
                 new HjgPngcsCodec(),
                 new HjgPngcsImageDataTranscoder());
+
+            metadataDecoder = new JsonFactory<MetadataResponse>();
+            geocodingDecoder = new JsonFactory<GeocodingResponse>();
         }
 
         [Test]
@@ -69,7 +80,6 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
         [Test]
         public async Task GetMetadataAsync()
         {
-            var metadataDecoder = new JsonFactory<MetadataResponse>();
             var metadataRequest = new MetadataRequest(apiKey, signingKey)
             {
                 Place = "Washington, DC"
@@ -114,34 +124,13 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
             Assert.AreEqual(640, image.Info.Dimensions.Height);
         }
 
-        public class GoogleMapsStreamingAssetsCacheLayer : FileCacheLayer
-        {
-            public GoogleMapsStreamingAssetsCacheLayer(string unityProjectDir)
-                : base(Path.Combine(unityProjectDir, "Assets", "StreamingAssets", "Google", "StreetView"))
-            { }
-
-            public GoogleMapsStreamingAssetsCacheLayer(string unityProjectDir, string prefix)
-                : base(Path.Combine(unityProjectDir, "Assets", "StreamingAssets", prefix, "Google", "StreetView"))
-            { }
-
-            public override bool CanCache(ContentReference fileRef)
-            {
-                return !(fileRef is IGoogleMapsRequest)
-                    && base.CanCache(fileRef);
-            }
-        }
-
         [Test]
         public void GetAllMetadata()
         {
-            var unityProjectDir = @"C:\Users\smcbeth.DLS-INC\Projects\Yarrow\src\Yarrow - AndroidOculus";
             var cache = new CachingStrategy
             {
-                new GoogleMapsStreamingAssetsCacheLayer(unityProjectDir, "Yarrow")
+                new FileCacheLayer(GmapsStreamingAssetsDir)
             };
-
-            var metadataDecoder = new JsonFactory<MetadataResponse>();
-            var geocodingDecoder = new JsonFactory<GeocodingResponse>();
 
             var gmaps = new GoogleMapsClient<MetadataResponse>(apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
             var files = gmaps.CachedMetadata.ToArray();
@@ -151,14 +140,10 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
         [Test]
         public async Task GetMetadataByFileRefAsync()
         {
-            var unityProjectDir = @"C:\Users\smcbeth.DLS-INC\Projects\Yarrow\src\Yarrow - AndroidOculus";
             var cache = new CachingStrategy
             {
-                new GoogleMapsStreamingAssetsCacheLayer(unityProjectDir, "Yarrow")
+                new FileCacheLayer(GmapsStreamingAssetsDir)
             };
-
-            var metadataDecoder = new JsonFactory<MetadataResponse>();
-            var geocodingDecoder = new JsonFactory<GeocodingResponse>();
 
             var gmaps = new GoogleMapsClient<MetadataResponse>(apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
             var (_, metadata) = gmaps.CachedMetadata.FirstOrDefault();
