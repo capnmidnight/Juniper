@@ -105,9 +105,12 @@ namespace Juniper.World.GIS.Google
                 else
                 {
                     var metadataRef = new ContentReference(metadata.Pano_ID, MediaType.Application.Json);
-                    await cache
-                        .CopyToAsync(fileRef, cache, metadataRef)
-                        .ConfigureAwait(false);
+                    if (!cache.IsCached(metadataRef))
+                    {
+                        await cache
+                            .CopyToAsync(fileRef, cache, metadataRef)
+                            .ConfigureAwait(false);
+                    }
                 }
             }
 
