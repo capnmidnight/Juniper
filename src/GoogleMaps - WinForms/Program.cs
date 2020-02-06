@@ -19,7 +19,7 @@ namespace Juniper
         private static readonly string MY_PICTURES = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 
         private static ImageViewer form;
-        private static GoogleMapsClient gmaps;
+        private static GoogleMapsClient<MetadataResponse> gmaps;
         private static IImageCodec<Image> imageDecoder;
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Juniper
             var lines = File.ReadAllLines(keyFileName);
             var apiKey = lines[0];
             var signingKey = lines[1];
-            gmaps = new GoogleMapsClient(
+            gmaps = new GoogleMapsClient<MetadataResponse>(
                 apiKey, signingKey,
                 metadataDecoder, geocodingDecoder,
                 cache);
