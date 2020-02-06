@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -20,7 +20,7 @@ using UnityEngine.Events;
 
 namespace Juniper.World.GIS.Google
 {
-    public class AbstractGoogleStreetView<MetadataTypeT> : SubSceneController, ICredentialReceiver
+    public abstract class AbstractGoogleStreetView<MetadataTypeT> : SubSceneController, ICredentialReceiver
         where MetadataTypeT : MetadataResponse
     {
         private static readonly Regex GMAPS_URL_PANO_PATTERN =
@@ -39,7 +39,7 @@ namespace Juniper.World.GIS.Google
         [HideInInspector]
         private string gmapsSigningKey;
 
-        public string CachePrefix;
+        protected abstract string CachePrefix { get; }
 
         public int searchRadius = 50;
 
@@ -58,7 +58,6 @@ namespace Juniper.World.GIS.Google
         private LatLngPoint origin;
         private Vector3 cursorPosition;
         private Vector3 lastCursorPosition;
-        private Vector3 navPointerPosition;
         private string navPointerPano;
 
         private MetadataTypeT metadata;
@@ -425,7 +424,7 @@ namespace Juniper.World.GIS.Google
                     {
                         color = Color.green;
                     }
-                    else if (gmaps.IsCached(pointer.Key))
+                    else if (gmaps.IsImageCached(pointer.Key))
                     {
                         color = Color.blue;
                     }
@@ -477,7 +476,6 @@ namespace Juniper.World.GIS.Google
             if (closestMetadata != null)
             {
                 navPointerPano = closestMetadata.Pano_ID;
-                navPointerPosition = GetRelativeVector3(closestMetadata);
             }
         }
 

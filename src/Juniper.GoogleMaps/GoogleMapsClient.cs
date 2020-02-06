@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Juniper.Imaging;
@@ -18,6 +19,7 @@ namespace Juniper.World.GIS.Google
         private readonly IJsonFactory<GeocodingResponse> geocodingDecoder;
         private readonly IJsonFactory<MetadataTypeT> metadataDecoder;
         private readonly Dictionary<string, MetadataTypeT> metadataCache = new Dictionary<string, MetadataTypeT>();
+        private readonly List<string> knownImages = new List<string>();
 
         private readonly string apiKey;
         private readonly string signingKey;
@@ -39,12 +41,24 @@ namespace Juniper.World.GIS.Google
                 if (metadata.Location != null)
                 {
                     _ = Cache(metadata);
+                    var imageRef = metadata.Pano_ID + MediaType.Image.Jpeg;
+                    if (cache.IsCached(imageRef))
+                    {
+                        knownImages.Add(metadata.Pano_ID);
+                    }
                 }
                 else
                 {
                     _ = cache.Delete(fileRef);
                 }
             }
+
+            foreach(var fileRef in cache.GetContentReferences(MediaType.Image.Jpeg))
+            {
+                knownImages.Add(fileRef.CacheID);
+            }
+
+            knownImages.Sort();
         }
 
         public string Status => lastError?.Message ?? "NONE";
@@ -58,11 +72,16 @@ namespace Juniper.World.GIS.Google
             cache.Get(metadataDecoder);
 
         public IReadOnlyCollection<MetadataTypeT> CachedMetadata =>
-            metadataCache.Values;
+            metadataCache.Values.ToArray();
 
-        public bool IsCached(string pano)
+        public bool IsMetadataCached(string pano)
         {
             return metadataCache.ContainsKey(pano);
+        }
+
+        public bool IsImageCached(string pano)
+        {
+            return knownImages.BinarySearch(pano) >= 0;
         }
 
         private async Task<T> LoadAsync<T>(IDeserializer<T> deserializer, ContentReference fileRef, IProgress prog)
@@ -197,15 +216,23 @@ namespace Juniper.World.GIS.Google
             return closestMetadata;
         }
 
-        public Task<Stream> GetImageAsync(string pano, int fov, int heading, int pitch, IProgress prog = null)
+        public async Task<Stream> GetImageAsync(string pano, int fov, int heading, int pitch, IProgress prog = null)
         {
-            return cache.GetStreamAsync(new ImageRequest(apiKey, signingKey, new Size(640, 640))
+            var imageStream = await cache.GetStreamAsync(new ImageRequest(apiKey, signingKey, new Size(640, 640))
             {
                 Pano = pano,
                 FOV = fov,
                 Heading = heading,
                 Pitch = pitch
-            }, prog);
+            }, prog).ConfigureAwait(false);
+
+            if(imageStream is object
+                && knownImages.MaybeAdd(pano))
+            {
+                knownImages.Sort();
+            }
+
+            return imageStream;
         }
     }
 }
