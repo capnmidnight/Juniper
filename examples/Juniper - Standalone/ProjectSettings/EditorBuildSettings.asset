@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Loader.unity
+    guid: 919d6c0d3fc26bc498b4468a20475eb8
+  - enabled: 1
+    path: Assets/Juniper/Scenes/Examples/Content.unity
+    guid: f211cdb044a26bc428d2bae7fa8d01d5
   m_configObjects: {}
