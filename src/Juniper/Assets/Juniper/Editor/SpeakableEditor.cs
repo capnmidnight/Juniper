@@ -19,7 +19,7 @@ namespace Juniper.Events
     [CustomEditor(typeof(Speakable))]
     public class SpeakableEditor : Editor
     {
-#if !AZURE_SPEECHSDK
+#if AZURE_SPEECHSDK
         private static readonly GUIContent VoiceLocaleDropdownLabel = new GUIContent("Locale");
         private static readonly GUIContent VoiceGenderDropdownLabel = new GUIContent("Gender");
         private static readonly GUIContent VoiceNameDropdownLabel = new GUIContent("Voice");
