@@ -600,7 +600,7 @@ namespace Juniper.World.GIS.Google
             return nextPoint;
         }
 
-        private Vector3 GetRelativeVector3(MetadataResponse metadata)
+        private Vector3 GetRelativeVector3(MetadataTypeT metadata)
         {
             var nextUTM = metadata.Location.ToUTM();
             var nextVec = nextUTM.ToVector3();
