@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sql", "Sql", "{44EA5B1C-AF6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.NeuroSky", "Juniper.NeuroSky\Juniper.NeuroSky.csproj", "{93E9DA18-7AE9-4A83-B2EF-5B5E71308DCE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.NeuroSky - Console", "Juniper.NeuroSky - Console\Juniper.NeuroSky - Console.csproj", "{A949A1B5-1953-46FB-8FEA-107B6AC79310}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeuroSky - Console", "NeuroSky - Console\NeuroSky - Console.csproj", "{A949A1B5-1953-46FB-8FEA-107B6AC79310}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Tests", "Juniper.Tests\Juniper.Tests.csproj", "{89AA6BA5-C528-424F-9E1F-2A916EC0DBAE}"
 EndProject
@@ -36,7 +36,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Client", "Juniper.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenTK - Console", "OpenTK - Console\OpenTK - Console.csproj", "{1F140295-3EEC-4151-BA35-7CCBE82BD23D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Server - Console", "Juniper.Server - Console\Juniper.Server - Console.csproj", "{30D3643D-A062-443D-8D11-BEFE8226C79D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server - Console", "Server - Console\Server - Console.csproj", "{30D3643D-A062-443D-8D11-BEFE8226C79D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Server", "Juniper.Server\Juniper.Server.csproj", "{049C8DD4-A88D-4FFF-B312-358E65B10694}"
 EndProject
@@ -114,7 +114,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.UnityEditor", "Juni
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicode - Console", "Unicode - Console\Unicode - Console.csproj", "{F24B7DFC-C1CB-4530-8920-0A879740E252}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.UnityEditor.ConfigurationManagement - Console", "Juniper.UnityEditor.ConfigurationManagement - Console\Juniper.UnityEditor.ConfigurationManagement - Console.csproj", "{0437E618-9D36-4E9A-877B-1E739FC8A148}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity ConfigurationManagement - Console", "UnityEditor ConfigurationManagement - Console\Unity ConfigurationManagement - Console.csproj", "{0437E618-9D36-4E9A-877B-1E739FC8A148}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Azure", "Juniper.Azure\Juniper.Azure.csproj", "{BD1F9AD2-256B-429E-B500-C572653758D7}"
 EndProject
