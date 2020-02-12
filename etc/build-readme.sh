@@ -5,7 +5,5 @@ printf "\n\`\`\`\n\n" >> README-parts/sloc.md
 
 cat \
     README-parts/intro.md \
-    README-parts/setup.md \
-    README-parts/dev.md \
     README-parts/sloc.md \
 	> ../README.md
