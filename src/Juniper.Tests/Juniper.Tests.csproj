@@ -1,13 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ImportGroup>
-    <Import Project="..\..\Juniper.targets" />
+    <Import Project="..\..\Juniper.props" />
   </ImportGroup>
 
   <PropertyGroup>
     <IsPackable>false</IsPackable>
     <TargetFramework>net48</TargetFramework>
   </PropertyGroup>
+
+  <ImportGroup>
+    <Import Project="..\..\Juniper.targets" />
+  </ImportGroup>
 
   <ItemGroup>
     <PackageReference Include="nunit" Version="3.12.0" />

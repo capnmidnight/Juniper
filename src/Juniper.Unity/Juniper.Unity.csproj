@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ImportGroup>
-    <Import Project="..\..\Juniper.targets" />
+    <Import Project="..\..\Juniper.props" />
   </ImportGroup>
 
   <PropertyGroup>
@@ -18,9 +18,9 @@
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
   </PropertyGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)|$(TargetFramework)'=='Release|net472'">
-    <Exec ContinueOnError="true" Command="XCOPY &quot;$(TargetDir)$(TargetName).*&quot; &quot;$(ProjectDir)..\Juniper\Plugins\Juniper&quot; /C /I /F /Y" />
-  </Target>
+  <ImportGroup>
+    <Import Project="..\..\Juniper.targets" />
+  </ImportGroup>
 
   <ItemGroup>
     <Reference Include="System.IO.Compression" />
@@ -28,5 +28,9 @@
     <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
     <Reference Include="$(UNITY_ROOT)\Editor\Data\Managed\UnityEngine.dll" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)|$(TargetFramework)'=='Release|net472'">
+    <Exec ContinueOnError="true" Command="XCOPY &quot;$(TargetDir)$(TargetName).*&quot; &quot;$(ProjectDir)..\Juniper\Plugins\Juniper&quot; /C /I /F /Y" />
+  </Target>
 
 </Project>

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   
   <ImportGroup>
-    <Import Project="..\..\Juniper.targets" />
+    <Import Project="..\..\Juniper.props" />
   </ImportGroup>
 
   <PropertyGroup>
@@ -18,6 +18,10 @@
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
   </PropertyGroup>
+
+  <ImportGroup>
+    <Import Project="..\..\Juniper.targets" />
+  </ImportGroup>
 
   <ItemGroup>
     <PackageReference Include="Veldrid" Version="4.7.0" />

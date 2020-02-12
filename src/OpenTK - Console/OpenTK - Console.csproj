@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ImportGroup>
-    <Import Project="..\..\Juniper.targets" />
+    <Import Project="..\..\Juniper.props" />
   </ImportGroup>
 
   <PropertyGroup>
@@ -19,6 +19,10 @@
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
     <DefineConstants>OPENGL4</DefineConstants>
   </PropertyGroup>
+
+  <ImportGroup>
+    <Import Project="..\..\Juniper.targets" />
+  </ImportGroup>
 
   <ItemGroup>
     <PackageReference Include="OpenTK" Version="3.1.0" />

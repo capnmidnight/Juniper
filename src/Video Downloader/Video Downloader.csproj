@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\Juniper.targets" />
+  <Import Project="..\..\Juniper.props" />
 
   <PropertyGroup>
     <AssemblyName>Juniper.VideoDownloader</AssemblyName>
@@ -20,5 +20,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
   </ItemGroup>
+
+  <ImportGroup>
+    <Import Project="..\..\Juniper.targets" />
+  </ImportGroup>
 
 </Project>
