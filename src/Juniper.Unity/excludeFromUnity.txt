@@ -1,6 +1,3 @@
 Newtonsoft.Json.dll
 UnityEngine.dll
 UnityEngine.xml
-thinkgear.dll
-thinkgear64.dll
-Juniper.NeuroSky.dll

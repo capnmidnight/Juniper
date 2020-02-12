@@ -9,6 +9,10 @@
         <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
         <ErrorReport>prompt</ErrorReport>
         <SkipDefaultEditorConfigAsAdditionalFile>true</SkipDefaultEditorConfigAsAdditionalFile>
+        <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+        <Platforms>AnyCPU</Platforms>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <Prefer32Bit>false</Prefer32Bit>
     </PropertyGroup>
 
     <ItemGroup>
