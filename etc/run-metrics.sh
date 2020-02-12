@@ -1,35 +1,38 @@
 scc \
 -c -i="cs,shader" \
 --exclude-dir="\
-..\\src\\Azure Text to Speech - Console,\
-..\\src\\Azure Text to Speech - WinForms,\
-..\\src\\GoogleMaps - WinForms,\
-..\\src\\Media Types,\
-..\\src\\NeuroSky - Console,\
-..\\src\\NLayer,\
-..\\src\\OpenTK - Console,\
-..\\src\\Primrose,\
-..\\src\\Server - Console,\
-..\\src\\small-town,\
-..\\src\\SqlSiphon,\
-..\\src\\Tetris - Console,\
-..\\src\\Tetris - WinForms,\
-..\\src\\Unicode - Console,\
-..\\src\\UnityEditor ConfigurationManagement - Console,\
-..\\src\\Veldrid - Console,\
-..\\src\\Video Downloader,\
-..\\src\\Juniper\\Packages,\
-..\\src\\Juniper\\ProjectSettings,\
-..\\src\\Juniper\\QCAR,\
-..\\src\\Juniper\\Assets\\GoogleARCore,\
-..\\src\\Juniper\\Assets\\GoogleVR,\
-..\\src\\Juniper\\Assets\\Low Poly Animated Animals,\
-..\\src\\Juniper\\Assets\\MagicLeap,\
-..\\src\\Juniper\\Assets\\Oculus,\
-..\\src\\Juniper\\Assets\\PicoMobileSDK,\
-..\\src\\Juniper\\Assets\\PlayServicesResolver,\
-..\\src\\Juniper\\Assets\\ResonanceAudio,\
-..\\src\\Juniper\\Assets\\Tobii,\
-..\\src\\Juniper\\Assets\\WaveVR,\
-..\\src\\Juniper\\Assets\\Juniper\\ThirdParty"\
+Azure Text to Speech - Console,\
+Azure Text to Speech - WinForms,\
+GoogleMaps - WinForms,\
+Media Types,\
+NeuroSky - Console,\
+NLayer,\
+OpenTK - Console,\
+Primrose,\
+Server - Console,\
+small-town,\
+SqlSiphon,\
+Tetris - Console,\
+Tetris - WinForms,\
+Unicode - Console,\
+UnityEditor ConfigurationManagement - Console,\
+Veldrid - Console,\
+Video Downloader,\
+Juniper.HjgPngcs,\
+Juniper.LibJpeg.NET,\
+Juniper.NLayer.NAudioSupport,\
+Juniper\\Packages,\
+Juniper\\ProjectSettings,\
+Juniper\\QCAR,\
+Juniper\\Assets\\GoogleARCore,\
+Juniper\\Assets\\GoogleVR,\
+Juniper\\Assets\\Low Poly Animated Animals,\
+Juniper\\Assets\\MagicLeap,\
+Juniper\\Assets\\Oculus,\
+Juniper\\Assets\\PicoMobileSDK,\
+Juniper\\Assets\\PlayServicesResolver,\
+Juniper\\Assets\\ResonanceAudio,\
+Juniper\\Assets\\Tobii,\
+Juniper\\Assets\\WaveVR,\
+Juniper\\Assets\\Juniper\\ThirdParty"\
     --avg-wage 150000 ../src

@@ -39,11 +39,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Juniper.HjgPngcs\Juniper.HjgPngcs.csproj" />
+    <ProjectReference Include="..\Juniper.LibJpeg.NET\Juniper.LibJpeg.NET.csproj" />
+    <ProjectReference Include="..\Juniper.NLayer.NAudioSupport\Juniper.NLayer.NAudioSupport.csproj" />
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)|$(TargetFramework)'=='Release|net472'">
-    <Exec ContinueOnError="true" Command="XCOPY &quot;$(TargetDir)$(TargetName).*&quot; &quot;$(ProjectDir)..\Juniper\Plugins\Juniper&quot; /C /I /F /Y" />
-  </Target>
 
 </Project>

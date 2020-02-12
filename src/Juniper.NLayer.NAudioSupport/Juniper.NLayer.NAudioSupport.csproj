@@ -5,8 +5,8 @@
   </ImportGroup>
 
   <PropertyGroup>
-    <AssemblyName>Juniper.Azure</AssemblyName>
-    <RootNamespace>Juniper.Speech.Azure</RootNamespace>
+    <AssemblyName>Juniper.NLayer.NAudioSupport</AssemblyName>
+    <RootNamespace>NLayer.NAudioSupport</RootNamespace>
     <OutputType>Library</OutputType>
     <TargetFramework>net472</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -23,7 +23,12 @@
   </ImportGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
+    <PackageReference Include="NAudio" Version="1.9.0" />
+    <PackageReference Include="NLayer.Core" Version="1.15.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
   </ItemGroup>
-  </Project>
+
+</Project>

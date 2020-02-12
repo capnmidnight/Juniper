@@ -35,10 +35,6 @@
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)|$(TargetFramework)'=='Release|net472'">
-    <Exec ContinueOnError="true" Command="XCOPY &quot;$(TargetDir)*&quot; &quot;$(ProjectDir)..\Juniper\Plugins\Juniper&quot; /exclude:$(ProjectDir)excludeFromUnity.txt /C /I /F /Y" />
-  </Target>
-
   <ItemGroup>
     <Compile Update="Application.cs">
       <DependentUpon>MediaType.cs</DependentUpon>
