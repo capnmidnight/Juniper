@@ -15,7 +15,7 @@
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-57.5 128,-57.5 128,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="64" y="-45.5" font-family="SegoeUI" font-size="10.00">UnityEngine.LabelAttribute</text>
 <polyline fill="none" stroke="black" points="0,-38.5 128,-38.5 "/>
-<text text-anchor="start" x="8" y="-26.5" font-family="SegoeUI" font-size="10.00">+ label</text>
+<text text-anchor="start" x="8" y="-26.5" font-family="SegoeUI" font-size="10.00">+ Label</text>
 <polyline fill="none" stroke="black" points="0,-19.5 128,-19.5 "/>
 <text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">+ LabelAttribute()</text>
 </a>

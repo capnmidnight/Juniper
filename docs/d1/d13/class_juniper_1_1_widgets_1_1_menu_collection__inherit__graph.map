@@ -1,0 +1,6 @@
+<map id="Juniper.Widgets.MenuCollection" name="Juniper.Widgets.MenuCollection">
+<area shape="rect" id="node1" title=" " alt="" coords="5,909,208,1163"/>
+<area shape="rect" id="node2" href="$db/d32/class_juniper_1_1_sub_scene_controller.html" title="SubSceneControllers are used by the MasterSceneController to manage workflow through an application...." alt="" coords="35,711,178,861"/>
+<area shape="rect" id="node3" href="$d9/d7e/class_juniper_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="29,131,184,663"/>
+<area shape="rect" id="node4" title=" " alt="" coords="52,5,161,83"/>
+</map>

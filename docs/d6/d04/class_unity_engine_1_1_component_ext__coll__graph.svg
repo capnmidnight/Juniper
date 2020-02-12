@@ -19,15 +19,15 @@
 <polyline fill="none" stroke="black" points="0,-129.5 131,-129.5 "/>
 <text text-anchor="start" x="8" y="-117.5" font-family="SegoeUI" font-size="10.00">+ WithLock()</text>
 <text text-anchor="start" x="8" y="-106.5" font-family="SegoeUI" font-size="10.00">+ IsActivated()</text>
-<text text-anchor="start" x="8" y="-95.5" font-family="SegoeUI" font-size="10.00">+ SetTreeActive()</text>
-<text text-anchor="start" x="8" y="-84.5" font-family="SegoeUI" font-size="10.00">+ SetActive()</text>
-<text text-anchor="start" x="8" y="-73.5" font-family="SegoeUI" font-size="10.00">+ Activate()</text>
-<text text-anchor="start" x="8" y="-62.5" font-family="SegoeUI" font-size="10.00">+ Activate()</text>
-<text text-anchor="start" x="8" y="-51.5" font-family="SegoeUI" font-size="10.00">+ Deactivate()</text>
-<text text-anchor="start" x="8" y="-40.5" font-family="SegoeUI" font-size="10.00">+ Destroy()</text>
-<text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">+ Query&lt; T &gt;()</text>
-<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">+ Query()</text>
-<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">and 12 more...</text>
+<text text-anchor="start" x="8" y="-95.5" font-family="SegoeUI" font-size="10.00">+ IsActivatedAsync()</text>
+<text text-anchor="start" x="8" y="-84.5" font-family="SegoeUI" font-size="10.00">+ SetTreeActive()</text>
+<text text-anchor="start" x="8" y="-73.5" font-family="SegoeUI" font-size="10.00">+ SetActive()</text>
+<text text-anchor="start" x="8" y="-62.5" font-family="SegoeUI" font-size="10.00">+ SetActiveAsync()</text>
+<text text-anchor="start" x="8" y="-51.5" font-family="SegoeUI" font-size="10.00">+ Activate()</text>
+<text text-anchor="start" x="8" y="-40.5" font-family="SegoeUI" font-size="10.00">+ ActivateAsync()</text>
+<text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">+ Deactivate()</text>
+<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">+ DeactivateAsync()</text>
+<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">and 18 more...</text>
 </a>
 </g>
 </g>

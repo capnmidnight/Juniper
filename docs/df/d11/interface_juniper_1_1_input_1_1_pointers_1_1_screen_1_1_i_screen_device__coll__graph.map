@@ -1,4 +1,5 @@
 <map id="Juniper.Input.Pointers.Screen.IScreenDevice" name="Juniper.Input.Pointers.Screen.IScreenDevice">
-<area shape="rect" id="node1" title=" " alt="" coords="5,424,200,531"/>
-<area shape="rect" id="node2" href="$d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="20,5,185,376"/>
+<area shape="rect" id="node1" title=" " alt="" coords="7,579,202,685"/>
+<area shape="rect" id="node2" href="$d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="22,160,187,531"/>
+<area shape="rect" id="node3" href="$d5/d9e/interface_juniper_1_1_input_1_1_pointers_1_1_i_laser_pointer.html" title=" " alt="" coords="5,5,204,112"/>
 </map>

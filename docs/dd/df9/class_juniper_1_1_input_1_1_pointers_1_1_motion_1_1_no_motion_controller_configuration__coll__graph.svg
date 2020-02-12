@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 189;
+var viewWidth = 187;
 var viewHeight = 687;
 var sectionId = 'dynsection-1';
 </script>
@@ -54,7 +54,7 @@ var sectionId = 'dynsection-1';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>Juniper.Input.Pointers.Motion.NoMotionControllerConfiguration</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-683 184.5,-683 184.5,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-683 183,-683 183,4 -4,4"/>
 <!-- Node5 -->
 <g id="node1" class="node"><title>Node5</title>
 <g id="a_node1"><a xlink:title=" ">
@@ -62,7 +62,7 @@ var sectionId = 'dynsection-1';
 <text text-anchor="start" x="20" y="-56.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Motion.</text>
 <text text-anchor="middle" x="89.5" y="-45.5" font-family="SegoeUI" font-size="10.00">NoMotionControllerConfiguration</text>
 <polyline fill="none" stroke="black" points="12,-38.5 167,-38.5 "/>
-<text text-anchor="start" x="20" y="-26.5" font-family="SegoeUI" font-size="10.00">+ this[Hands hand]</text>
+<text text-anchor="start" x="20" y="-26.5" font-family="SegoeUI" font-size="10.00">+ this[Hand hand]</text>
 <polyline fill="none" stroke="black" points="12,-19.5 167,-19.5 "/>
 <text text-anchor="middle" x="89.5" y="-7.5" font-family="SegoeUI" font-size="10.00"> </text>
 </a>
@@ -74,11 +74,11 @@ var sectionId = 'dynsection-1';
 <polygon fill="white" stroke="black" points="28.5,-106.5 28.5,-240.5 150.5,-240.5 150.5,-106.5 28.5,-106.5"/>
 <text text-anchor="start" x="36.5" y="-228.5" font-family="SegoeUI" font-size="10.00">AbstractMotionController</text>
 <text text-anchor="start" x="36.5" y="-217.5" font-family="SegoeUI" font-size="10.00">Configuration&lt; Unary,</text>
-<text text-anchor="middle" x="89.5" y="-206.5" font-family="SegoeUI" font-size="10.00"> KeyCode &gt;</text>
+<text text-anchor="middle" x="89.5" y="-206.5" font-family="SegoeUI" font-size="10.00"> Unary &gt;</text>
 <polyline fill="none" stroke="black" points="28.5,-199.5 150.5,-199.5 "/>
 <text text-anchor="start" x="36.5" y="-187.5" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
-<text text-anchor="start" x="36.5" y="-176.5" font-family="SegoeUI" font-size="10.00">&#45; touchPadButtons</text>
-<text text-anchor="start" x="36.5" y="-165.5" font-family="SegoeUI" font-size="10.00">&#45; triggerButtons</text>
+<text text-anchor="start" x="36.5" y="-176.5" font-family="SegoeUI" font-size="10.00">&#45; touchPadKeys</text>
+<text text-anchor="start" x="36.5" y="-165.5" font-family="SegoeUI" font-size="10.00">&#45; triggerKeys</text>
 <polyline fill="none" stroke="black" points="28.5,-158.5 150.5,-158.5 "/>
 <text text-anchor="start" x="36.5" y="-146.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
 <text text-anchor="start" x="36.5" y="-135.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
@@ -101,8 +101,8 @@ var sectionId = 'dynsection-1';
 <text text-anchor="middle" x="89.5" y="-388.5" font-family="SegoeUI" font-size="10.00">&lt; HandIDType, ButtonIDType &gt;</text>
 <polyline fill="none" stroke="black" points="0,-381.5 179,-381.5 "/>
 <text text-anchor="start" x="8" y="-369.5" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
-<text text-anchor="start" x="8" y="-358.5" font-family="SegoeUI" font-size="10.00">&#45; touchPadButtons</text>
-<text text-anchor="start" x="8" y="-347.5" font-family="SegoeUI" font-size="10.00">&#45; triggerButtons</text>
+<text text-anchor="start" x="8" y="-358.5" font-family="SegoeUI" font-size="10.00">&#45; touchPadKeys</text>
+<text text-anchor="start" x="8" y="-347.5" font-family="SegoeUI" font-size="10.00">&#45; triggerKeys</text>
 <polyline fill="none" stroke="black" points="0,-340.5 179,-340.5 "/>
 <text text-anchor="start" x="8" y="-328.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
 <text text-anchor="start" x="8" y="-317.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
@@ -115,7 +115,7 @@ var sectionId = 'dynsection-1';
 <g id="edge2" class="edge"><title>Node7&#45;&gt;Node6</title>
 <path fill="none" stroke="orange" d="M89.5,-278.164C89.5,-265.738 89.5,-252.957 89.5,-240.796"/>
 <polygon fill="orange" stroke="orange" points="86.0001,-278.497 89.5,-288.497 93.0001,-278.497 86.0001,-278.497"/>
-<text text-anchor="middle" x="135" y="-262" font-family="SegoeUI" font-size="10.00"> &lt; Unary, KeyCode &gt;</text>
+<text text-anchor="middle" x="129" y="-262" font-family="SegoeUI" font-size="10.00"> &lt; Unary, Unary &gt;</text>
 </g>
 <!-- Node8 -->
 <g id="node4" class="node"><title>Node8</title>
@@ -126,7 +126,7 @@ var sectionId = 'dynsection-1';
 <polyline fill="none" stroke="black" points="4,-520.5 175,-520.5 "/>
 <text text-anchor="start" x="12" y="-508.5" font-family="SegoeUI" font-size="10.00">+ HandType</text>
 <text text-anchor="start" x="12" y="-497.5" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
-<text text-anchor="start" x="12" y="-486.5" font-family="SegoeUI" font-size="10.00">+ this[Hands hand]</text>
+<text text-anchor="start" x="12" y="-486.5" font-family="SegoeUI" font-size="10.00">+ this[Hand hand]</text>
 <polyline fill="none" stroke="black" points="4,-479.5 175,-479.5 "/>
 <text text-anchor="start" x="12" y="-467.5" font-family="SegoeUI" font-size="10.00">+ MakePointerName()</text>
 </a>
@@ -144,7 +144,7 @@ var sectionId = 'dynsection-1';
 <text text-anchor="start" x="28" y="-666.5" font-family="SegoeUI" font-size="10.00">AbstractPointerConfiguration</text>
 <text text-anchor="middle" x="89.5" y="-655.5" font-family="SegoeUI" font-size="10.00">&lt; ButtonIDType &gt;</text>
 <polyline fill="none" stroke="black" points="20,-648.5 159,-648.5 "/>
-<text text-anchor="start" x="28" y="-636.5" font-family="SegoeUI" font-size="10.00">&#45; nativeButtons</text>
+<text text-anchor="start" x="28" y="-636.5" font-family="SegoeUI" font-size="10.00">&#45; nativeKeys</text>
 <polyline fill="none" stroke="black" points="20,-629.5 159,-629.5 "/>
 <text text-anchor="start" x="28" y="-617.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
 <text text-anchor="start" x="28" y="-606.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>

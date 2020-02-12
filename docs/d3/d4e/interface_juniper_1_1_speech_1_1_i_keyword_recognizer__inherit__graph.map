@@ -1,6 +1,4 @@
 <map id="Juniper.Speech.IKeywordRecognizer" name="Juniper.Speech.IKeywordRecognizer">
 <area shape="rect" id="node1" title=" " alt="" coords="5,5,235,83"/>
-<area shape="rect" id="node2" href="$d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html" title="A class that implements basic functionality for systems that manage speech recognition and route out ..." alt="" coords="15,131,225,311"/>
-<area shape="rect" id="node3" href="$d1/db3/class_juniper_1_1_speech_1_1_no_keyword_recognizer.html" title=" " alt="" coords="31,359,209,465"/>
-<area shape="rect" id="node4" href="$d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html" title=" " alt="" coords="7,513,233,591"/>
+<area shape="rect" id="node2" href="$d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html" title="A class that implements basic functionality for systems that manage speech recognition and route out ..." alt="" coords="7,131,233,721"/>
 </map>

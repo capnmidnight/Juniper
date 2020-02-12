@@ -1,7 +1,0 @@
-<map id="Juniper.Statistics.AbstractMotionFilter" name="Juniper.Statistics.AbstractMotionFilter">
-<area shape="rect" id="node1" title=" " alt="" coords="243,131,413,237"/>
-<area shape="rect" id="node3" href="$d2/de0/class_juniper_1_1_statistics_1_1_integration_motion_filter.html" title=" " alt="" coords="5,381,189,590"/>
-<area shape="rect" id="node4" href="$da/d6a/class_juniper_1_1_statistics_1_1_kalman_motion_filter.html" title=" " alt="" coords="214,285,442,685"/>
-<area shape="rect" id="node5" href="$d7/db7/class_juniper_1_1_statistics_1_1_lerp_motion_filter.html" title=" " alt="" coords="466,403,651,568"/>
-<area shape="rect" id="node2" title=" " alt="" coords="270,5,386,83"/>
-</map>

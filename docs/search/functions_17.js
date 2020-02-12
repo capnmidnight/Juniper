@@ -1,4 +1,8 @@
 var searchData=
 [
-  ['x',['X',['../da/d6a/class_juniper_1_1_statistics_1_1_kalman_motion_filter.html#a8be856e13f2f63169ceeab9cbe79aaf0',1,'Juniper::Statistics::KalmanMotionFilter']]]
+  ['x',['X',['../d2/d04/class_juniper_1_1_mathematics_1_1_kalman_motion_filter.html#a6669cff924a6dfe28e5885ed381009a0',1,'Juniper::Mathematics::KalmanMotionFilter']]],
+  ['xconference',['XConference',['../d7/d53/class_juniper_1_1_media_type_1_1_x_conference.html#aaad093a4d25b88ef5b44a6a960e43020',1,'Juniper.MediaType.XConference.XConference(string value, string[] extensions)'],['../d7/d53/class_juniper_1_1_media_type_1_1_x_conference.html#ab9315263ef18baafb61d278bfb0c6cbd',1,'Juniper.MediaType.XConference.XConference(string value)']]],
+  ['xor',['Xor',['../db/d82/struct_juniper_1_1_units_1_1_angle.html#a7056d749ed3ed0c1e7e8aa0604b27ff6',1,'Juniper::Units::Angle']]],
+  ['xor_3c_20itemt_20_3e',['Xor&lt; ItemT &gt;',['../d7/d0d/class_juniper_1_1_logic_1_1_logic_constructor.html#a74ec5b082b12c7fc90588669e978d531',1,'Juniper.Logic.LogicConstructor.Xor&lt; ItemT &gt;(IEnumerable&lt; IExpression&lt; ItemT &gt;&gt; exprs)'],['../d7/d0d/class_juniper_1_1_logic_1_1_logic_constructor.html#a67823153be20d4e816eafcec9f5351f6',1,'Juniper.Logic.LogicConstructor.Xor&lt; ItemT &gt;(params IExpression&lt; ItemT &gt;[] exprs)'],['../d7/d0d/class_juniper_1_1_logic_1_1_logic_constructor.html#a5a464c5d330c0ffe36b93c9b2755050c',1,'Juniper.Logic.LogicConstructor.Xor&lt; ItemT &gt;(IEnumerable&lt; ItemT &gt; items)'],['../d7/d0d/class_juniper_1_1_logic_1_1_logic_constructor.html#a987b10acbc12b3eb8e5cc695a05a0c58',1,'Juniper.Logic.LogicConstructor.Xor&lt; ItemT &gt;(params ItemT[] items)']]],
+  ['xorexpression',['XorExpression',['../d9/dbd/class_juniper_1_1_logic_1_1_xor_expression.html#ac64d3e85e9868408d29d028aa17bcbfa',1,'Juniper::Logic::XorExpression']]]
 ];

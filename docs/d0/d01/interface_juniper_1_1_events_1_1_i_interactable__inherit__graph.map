@@ -1,0 +1,10 @@
+<map id="Juniper.Events.IInteractable" name="Juniper.Events.IInteractable">
+<area shape="rect" id="node1" title="An interface for custom controls to report to the Input.UnifiedInputModule that they are enabled/disa..." alt="" coords="311,5,491,83"/>
+<area shape="rect" id="node2" href="$d7/d8c/class_juniper_1_1_widgets_1_1_abstract_touchable.html" title="The base class for all interactive, AR&#45;compatible, GUI controls /// This class is abstract to avoid i..." alt="" coords="317,131,485,560"/>
+<area shape="rect" id="node3" href="$dd/d30/class_juniper_1_1_widgets_1_1_abstract_valued.html" title="The Valued component adds a float field and range of valid values for that field to a Touchable objec..." alt="" coords="211,608,393,1155"/>
+<area shape="rect" id="node6" href="$d2/d70/class_juniper_1_1_widgets_1_1_clickable.html" title="An object that can be Touched on a screen or Clicked with a mouse and fires an event in response." alt="" coords="417,799,584,964"/>
+<area shape="rect" id="node4" href="$d9/d93/class_juniper_1_1_widgets_1_1_draggable.html" title="An object that can be picked up and put down in a new location." alt="" coords="5,1203,193,1456"/>
+<area shape="rect" id="node5" href="$d7/d7d/class_juniper_1_1_widgets_1_1_rotatable.html" title="A control that is rotatable in a single axis at a time." alt="" coords="218,1203,389,1456"/>
+<area shape="rect" id="node7" href="$dc/d25/class_juniper_1_1_widgets_1_1_openable.html" title="A control that is a container of other controls that are hidden until the control is clicked." alt="" coords="414,1217,585,1441"/>
+<area shape="rect" id="node8" href="$d2/da9/class_juniper_1_1_widgets_1_1_teleport_pad.html" title=" " alt="" coords="609,1254,795,1405"/>
+</map>

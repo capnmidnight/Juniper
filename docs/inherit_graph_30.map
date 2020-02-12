@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d0/dca/struct_juniper_1_1_h_s_v_color.html" title="The Hue/Saturation/Value color space." alt="" coords="5,5,127,32"/>
+<area shape="rect" id="node1" href="$df/db5/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_up_sampler.html" title="Upsampling (note that upsampler must also call color converter)" alt="" coords="5,39,176,80"/>
+<area shape="rect" id="node2" href="$da/da8/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_my_merged_up_sampler.html" title=" " alt="" coords="224,5,416,47"/>
+<area shape="rect" id="node3" href="$da/dc2/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_my_up_sampler.html" title=" " alt="" coords="235,71,405,112"/>
 </map>

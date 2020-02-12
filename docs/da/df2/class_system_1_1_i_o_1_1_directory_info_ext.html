@@ -94,7 +94,7 @@ $(function() {
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d7/d2d/class_system_1_1_i_o_1_1_directory_info_ext__coll__graph.svg" width="186" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d7/d2d/class_system_1_1_i_o_1_1_directory_info_ext__coll__graph.svg" width="186" height="162"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <table class="memberdecls">
@@ -109,12 +109,123 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a054f27a2b6f53823fdfdd0b72073eb67"><td class="memItemLeft" align="right" valign="top">static List&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/df2/class_system_1_1_i_o_1_1_directory_info_ext.html#a054f27a2b6f53823fdfdd0b72073eb67">Nuke</a> (this DirectoryInfo dir)</td></tr>
 <tr class="memdesc:a054f27a2b6f53823fdfdd0b72073eb67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recursively deletes all files and subdirectories within a given directory, accumulating a list of errors along the way.  <a href="#a054f27a2b6f53823fdfdd0b72073eb67">More...</a><br /></td></tr>
 <tr class="separator:a054f27a2b6f53823fdfdd0b72073eb67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9a5912214395822e89fad2d06a16275"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/df2/class_system_1_1_i_o_1_1_directory_info_ext.html#aa9a5912214395822e89fad2d06a16275">Contains</a> (this DirectoryInfo dir, FileInfo file)</td></tr>
+<tr class="separator:aa9a5912214395822e89fad2d06a16275"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4f10b4f35e1ae2bc07e89bd9ace356c"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/df2/class_system_1_1_i_o_1_1_directory_info_ext.html#ac4f10b4f35e1ae2bc07e89bd9ace356c">Contains</a> (this DirectoryInfo dir, DirectoryInfo subDir)</td></tr>
+<tr class="separator:ac4f10b4f35e1ae2bc07e89bd9ace356c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4650c2383ce208b169667e13f744edc"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/df2/class_system_1_1_i_o_1_1_directory_info_ext.html#ad4650c2383ce208b169667e13f744edc">IsJunction</a> (this DirectoryInfo directory)</td></tr>
+<tr class="separator:ad4650c2383ce208b169667e13f744edc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Extension methods and helper functions for dealing with Directories. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html#l00008">8</a> of file <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html">DirectoryInfoExt.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html#l00009">9</a> of file <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html">DirectoryInfoExt.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa9a5912214395822e89fad2d06a16275"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9a5912214395822e89fad2d06a16275">&#9670;&nbsp;</a></span>Contains() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool System.IO.DirectoryInfoExt.Contains </td>
+          <td>(</td>
+          <td class="paramtype">this DirectoryInfo&#160;</td>
+          <td class="paramname"><em>dir</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FileInfo&#160;</td>
+          <td class="paramname"><em>file</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html#l00087">87</a> of file <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html">DirectoryInfoExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        {</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="keywordflow">if</span> (file is <span class="keyword">null</span>)</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            {</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            }</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../da/df2/class_system_1_1_i_o_1_1_directory_info_ext.html#aa9a5912214395822e89fad2d06a16275">Contains</a>(dir, file.Directory);</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        }</div><div class="ttc" id="class_system_1_1_i_o_1_1_directory_info_ext_html_aa9a5912214395822e89fad2d06a16275"><div class="ttname"><a href="../../da/df2/class_system_1_1_i_o_1_1_directory_info_ext.html#aa9a5912214395822e89fad2d06a16275">System.IO.DirectoryInfoExt.Contains</a></div><div class="ttdeci">static bool Contains(this DirectoryInfo dir, FileInfo file)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/ded/_directory_info_ext_8cs_source.html#l00087">DirectoryInfoExt.cs:87</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ac4f10b4f35e1ae2bc07e89bd9ace356c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4f10b4f35e1ae2bc07e89bd9ace356c">&#9670;&nbsp;</a></span>Contains() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool System.IO.DirectoryInfoExt.Contains </td>
+          <td>(</td>
+          <td class="paramtype">this DirectoryInfo&#160;</td>
+          <td class="paramname"><em>dir</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DirectoryInfo&#160;</td>
+          <td class="paramname"><em>subDir</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html#l00097">97</a> of file <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html">DirectoryInfoExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        {</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="keywordflow">if</span> (dir is <span class="keyword">null</span>)</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            {</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(dir));</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            }</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="keywordflow">if</span> (subDir is <span class="keyword">null</span>)</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            {</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(subDir));</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            }</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            var subDirParts = subDir.FullName.SplitX(Path.DirectorySeparatorChar);</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            var dirParts = dir.FullName.SplitX(Path.DirectorySeparatorChar);</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            <span class="keywordflow">if</span> (subDirParts.Length &lt; dirParts.Length)</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            {</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            }</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            {</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                <span class="keywordflow">return</span> dirParts.Matches(subDirParts.Take(dirParts.Length));</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            }</div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
+<a id="ad4650c2383ce208b169667e13f744edc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4650c2383ce208b169667e13f744edc">&#9670;&nbsp;</a></span>IsJunction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool System.IO.DirectoryInfoExt.IsJunction </td>
+          <td>(</td>
+          <td class="paramtype">this DirectoryInfo&#160;</td>
+          <td class="paramname"><em>directory</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html#l00121">121</a> of file <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html">DirectoryInfoExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        {</div><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            <span class="keywordflow">return</span> directory is <span class="keywordtype">object</span></div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                &amp;&amp; (directory.Attributes &amp; FileAttributes.ReparsePoint) != 0;</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
 <a id="a054f27a2b6f53823fdfdd0b72073eb67"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a054f27a2b6f53823fdfdd0b72073eb67">&#9670;&nbsp;</a></span>Nuke()</h2>
 
@@ -148,8 +259,8 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A list of files that could not be deleted. If there were no errors, the returned value is an empty list.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html#l00056">56</a> of file <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html">DirectoryInfoExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        {</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            var allErrors = <span class="keyword">new</span> List&lt;string&gt;(10);</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordflow">foreach</span> (var file <span class="keywordflow">in</span> dir.RecurseFiles())</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            {</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="keywordflow">try</span></div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                {</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                    file.Delete();</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                }</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                <span class="keywordflow">catch</span></div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                {</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    allErrors.Add(file.FullName);</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                }</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            }</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordflow">if</span> (allErrors.Count == 0)</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            {</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                dir.Delete(<span class="keyword">true</span>);</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            }</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordflow">return</span> allErrors;</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html#l00057">57</a> of file <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html">DirectoryInfoExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        {</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordflow">if</span> (dir is <span class="keyword">null</span>)</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            {</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(dir));</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            }</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            var allErrors = <span class="keyword">new</span> List&lt;string&gt;(10);</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keywordflow">foreach</span> (var file <span class="keywordflow">in</span> dir.RecurseFiles())</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            {</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                <span class="keywordflow">try</span></div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                {</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                    file.Delete();</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                }</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#pragma warning disable CA1031 // Do not catch general exception types</span></div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                <span class="keywordflow">catch</span></div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                {</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                    allErrors.Add(file.FullName);</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                }</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">#pragma warning restore CA1031 // Do not catch general exception types</span></div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            }</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <span class="keywordflow">if</span> (allErrors.Count == 0)</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            {</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                dir.Delete(<span class="keyword">true</span>);</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            }</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordflow">return</span> allErrors;</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a46cec239aaf3a76853363a0c1d2bca1d"></a>
@@ -185,8 +296,8 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A lazy collection of directory names in both <em>dir</em>  and all subdirectories of <em>dir</em> .</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html#l00036">36</a> of file <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html">DirectoryInfoExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        {</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            var q = <span class="keyword">new</span> Queue&lt;DirectoryInfo&gt; { dir };</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <span class="keywordflow">while</span> (q.Count &gt; 0)</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            {</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                var here = q.Dequeue();</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="keywordflow">foreach</span> (var subDir <span class="keywordflow">in</span> here.GetDirectories())</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                {</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                    q.Enqueue(subDir);</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                    yield <span class="keywordflow">return</span> subDir;</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                }</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            }</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html#l00037">37</a> of file <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html">DirectoryInfoExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        {</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            var q = <span class="keyword">new</span> Queue&lt;DirectoryInfo&gt; { dir };</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <span class="keywordflow">while</span> (q.Count &gt; 0)</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            {</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                var here = q.Dequeue();</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keywordflow">foreach</span> (var subDir <span class="keywordflow">in</span> here.GetDirectories())</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                {</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                    q.Enqueue(subDir);</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                    yield <span class="keywordflow">return</span> subDir;</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                }</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            }</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a850cf338b1ecd0181b6aaa86a549e2a1"></a>
@@ -222,12 +333,12 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A lazy collection of filenames in both <em>path</em>  and all subdirectories of <em>path</em> .</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html#l00016">16</a> of file <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html">DirectoryInfoExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        {</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            var q = <span class="keyword">new</span> Queue&lt;DirectoryInfo&gt; { dir };</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            <span class="keywordflow">while</span> (q.Count &gt; 0)</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            {</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                var here = q.Dequeue();</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                q.AddRange(here.GetDirectories());</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                <span class="keywordflow">foreach</span> (var file <span class="keywordflow">in</span> here.GetFiles())</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                {</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                    yield <span class="keywordflow">return</span> file;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                }</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            }</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html#l00017">17</a> of file <a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html">DirectoryInfoExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        {</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            var q = <span class="keyword">new</span> Queue&lt;DirectoryInfo&gt; { dir };</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            <span class="keywordflow">while</span> (q.Count &gt; 0)</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            {</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                var here = q.Dequeue();</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                q.AddRange(here.GetDirectories());</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                <span class="keywordflow">foreach</span> (var file <span class="keywordflow">in</span> here.GetFiles())</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                {</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                    yield <span class="keywordflow">return</span> file;</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                }</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            }</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper.NETFXExtensions/IO/<a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html">DirectoryInfoExt.cs</a></li>
+<li>C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/NETFX/IO/<a class="el" href="../../d8/ded/_directory_info_ext_8cs_source.html">DirectoryInfoExt.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

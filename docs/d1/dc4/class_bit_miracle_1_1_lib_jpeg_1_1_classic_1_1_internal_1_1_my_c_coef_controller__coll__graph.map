@@ -1,0 +1,27 @@
+<map id="BitMiracle.LibJpeg.Classic.Internal.MyCCoefController" name="BitMiracle.LibJpeg.Classic.Internal.MyCCoefController">
+<area shape="rect" id="node1" title=" " alt="" coords="1873,1863,2087,2101"/>
+<area shape="rect" id="node2" href="$d2/d0f/interface_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_c_coef_controller.html" title="Coefficient buffer control" alt="" coords="1821,1180,1960,1272"/>
+<area shape="rect" id="node3" href="$dc/d80/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_jpeg_compress_struct.html" title="JPEG compression routine." alt="" coords="850,843,1057,1609"/>
+<area shape="rect" id="node8" href="$d4/d93/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_marker_writer.html" title="Marker writing" alt="" coords="425,1789,597,2175"/>
+<area shape="rect" id="node11" href="$da/d2d/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_c_prep_controller.html" title=" " alt="" coords="621,1855,811,2109"/>
+<area shape="rect" id="node13" href="$d8/d14/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_c_main_controller.html" title="Main buffer control (downsampled&#45;data buffer)" alt="" coords="1060,1899,1247,2065"/>
+<area shape="rect" id="node14" href="$d9/dfe/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_color_converter.html" title="Colorspace conversion" alt="" coords="1271,1782,1454,2182"/>
+<area shape="rect" id="node18" href="$d9/d87/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_downsampler.html" title="Downsampling" alt="" coords="836,1841,1036,2123"/>
+<area shape="rect" id="node19" href="$da/db1/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_comp_master.html" title="Master control module" alt="" coords="149,1826,400,2138"/>
+<area shape="rect" id="node21" href="$d0/dad/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_forward_dct.html" title=" " alt="" coords="1485,1672,1691,2292"/>
+<area shape="rect" id="node4" href="$d4/d34/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_jpeg_common_struct.html" title="Base class for both JPEG compressor and decompresor." alt="" coords="1383,343,1545,714"/>
+<area shape="rect" id="node5" href="$df/dbb/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_jpeg_error_message.html" title="Contains simple error&#45;reporting and trace&#45;message routines." alt="" coords="1181,5,1352,259"/>
+<area shape="rect" id="node6" title=" " alt="" coords="1579,93,1631,171"/>
+<area shape="rect" id="node7" href="$d5/dd5/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_jpeg_progress_manager.html" title="The progress monitor object." alt="" coords="1376,64,1547,200"/>
+<area shape="rect" id="node9" href="$d7/ddd/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_j_quant_table.html" title="DCT coefficient quantization tables." alt="" coords="743,79,913,185"/>
+<area shape="rect" id="node10" href="$d5/d55/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_jpeg_component_info.html" title="Basic info about one component (color channel)." alt="" coords="5,321,200,736"/>
+<area shape="rect" id="node12" href="$d1/d7e/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_entropy_encoder.html" title="Entropy encoding" alt="" coords="225,461,410,597"/>
+<area shape="rect" id="node15" href="$d2/d0f/interface_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_c_coef_controller.html" title="Coefficient buffer control" alt="" coords="435,475,621,582"/>
+<area shape="rect" id="node16" href="$d3/d74/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_j_huffman_table.html" title="Huffman coding table." alt="" coords="645,468,816,589"/>
+<area shape="rect" id="node17" href="$d7/d3b/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_scan_info.html" title="The script for encoding a multiple&#45;scan file is an array of these:" alt="" coords="840,446,1011,611"/>
+<area shape="rect" id="node20" href="$d6/d5e/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_jpeg_destination_manager.html" title="Data destination object for compression." alt="" coords="1035,439,1205,619"/>
+<area shape="rect" id="node22" href="$d4/dba/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_forward_dct_1_1_divisor_table.html" title=" " alt="" coords="1478,1173,1714,1279"/>
+<area shape="rect" id="node23" href="$df/db3/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_j_block.html" title="One block of coefficients." alt="" coords="1984,1173,2155,1279"/>
+<area shape="rect" id="node24" href="$d8/d75/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_j_virt_array.html" title=" " alt="" coords="2179,1151,2375,1301"/>
+<area shape="rect" id="node25" href="$d8/d75/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_j_virt_array.html" title="JPEG virtual array." alt="" coords="2192,461,2363,597"/>
+</map>

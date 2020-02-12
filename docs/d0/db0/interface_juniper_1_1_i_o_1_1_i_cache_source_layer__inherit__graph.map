@@ -1,0 +1,11 @@
+<map id="Juniper.IO.ICacheSourceLayer" name="Juniper.IO.ICacheSourceLayer">
+<area shape="rect" id="node1" title=" " alt="" coords="411,5,606,112"/>
+<area shape="rect" id="node2" href="$d3/d27/interface_juniper_1_1_i_o_1_1_i_cache_destination_layer.html" title=" " alt="" coords="199,182,386,303"/>
+<area shape="rect" id="node8" href="$db/d84/class_juniper_1_1_i_o_1_1_stream_source_layer.html" title=" " alt="" coords="410,182,607,303"/>
+<area shape="rect" id="node9" href="$da/d51/class_juniper_1_1_i_o_1_1_zip_file_cache_layer.html" title=" " alt="" coords="631,160,818,325"/>
+<area shape="rect" id="node3" href="$d7/d62/class_juniper_1_1_i_o_1_1_caching_strategy.html" title="A collection of source and destination layers for file content. Files originate from source layers an..." alt="" coords="5,373,183,656"/>
+<area shape="rect" id="node4" href="$df/dae/class_juniper_1_1_i_o_1_1_file_cache_layer.html" title=" " alt="" coords="207,417,378,612"/>
+<area shape="rect" id="node7" href="$d0/d39/class_juniper_1_1_i_o_1_1_memory_cache_layer.html" title=" " alt="" coords="403,439,599,590"/>
+<area shape="rect" id="node5" href="$d8/d62/class_juniper_1_1_i_o_1_1_streaming_assets_cache_layer.html" title=" " alt="" coords="81,704,288,840"/>
+<area shape="rect" id="node6" href="$d9/da9/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_google_maps_cache_layer.html" title=" " alt="" coords="313,711,491,833"/>
+</map>

@@ -1,6 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d0/d7e/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html" title=" " alt="" coords="5,53,245,94"/>
-<area shape="rect" id="node2" href="$d0/d65/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer_configuration.html" title=" " alt="" coords="293,45,521,101"/>
-<area shape="rect" id="node3" href="$d2/d45/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker_configuration.html" title=" " alt="" coords="579,5,798,61"/>
-<area shape="rect" id="node4" href="$da/de2/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_configuration.html" title=" " alt="" coords="569,85,808,141"/>
+<area shape="rect" id="node1" href="$d6/d5e/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_jpeg_destination_manager.html" title="Data destination object for compression." alt="" coords="5,5,176,47"/>
+<area shape="rect" id="node2" href="$d1/d1e/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_my_destination_manager.html" title="Expanded data destination object for output to Stream" alt="" coords="224,5,423,47"/>
 </map>

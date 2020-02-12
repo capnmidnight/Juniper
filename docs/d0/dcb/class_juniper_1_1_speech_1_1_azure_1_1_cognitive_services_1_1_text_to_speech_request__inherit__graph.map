@@ -1,0 +1,10 @@
+<map id="Juniper.Speech.Azure.CognitiveServices.TextToSpeechRequest" name="Juniper.Speech.Azure.CognitiveServices.TextToSpeechRequest">
+<area shape="rect" id="node1" title=" " alt="" coords="25,1595,228,1995"/>
+<area shape="rect" id="node2" href="$d4/dd9/class_juniper_1_1_speech_1_1_azure_1_1_cognitive_services_1_1_abstract_azure_speech_request.html" title=" " alt="" coords="20,1439,233,1545"/>
+<area shape="rect" id="node3" href="$d4/dd9/class_juniper_1_1_speech_1_1_azure_1_1_cognitive_services_1_1_abstract_azure_speech_request.html" title=" " alt="" coords="5,1255,248,1376"/>
+<area shape="rect" id="node4" href="$d0/dd1/class_juniper_1_1_speech_1_1_azure_1_1_abstract_azure_request.html" title=" " alt="" coords="41,1099,212,1205"/>
+<area shape="rect" id="node5" href="$db/d68/class_juniper_1_1_h_t_t_p_1_1_r_e_s_t_1_1_abstract_request.html" title=" " alt="" coords="21,635,232,1049"/>
+<area shape="rect" id="node6" href="$d4/d35/class_juniper_1_1_i_o_1_1_abstract_stream_source.html" title=" " alt="" coords="39,449,214,585"/>
+<area shape="rect" id="node7" href="$de/db8/class_juniper_1_1_i_o_1_1_content_reference.html" title=" " alt="" coords="53,132,200,400"/>
+<area shape="rect" id="node8" title=" " alt="" coords="21,5,232,83"/>
+</map>

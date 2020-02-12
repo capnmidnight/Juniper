@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d8/d59/class_juniper_1_1_units_1_1_converter.html" title="TODO: validate this against https://www.nist.gov/sites/default/files/documents/pml/wmd/metric/SP1038...." alt="" coords="5,5,160,32"/>
+<area shape="rect" id="node1" href="$da/daf/class_juniper_1_1_anchoring_1_1_abstract_anchor_store.html" title=" " alt="" coords="5,5,228,47"/>
+<area shape="rect" id="node2" href="$d9/d25/class_juniper_1_1_anchoring_1_1_mock_anchor_store.html" title="An anchor store that stores all anchors in the default data store for AbstractAnchorStore." alt="" coords="276,5,473,47"/>
 </map>

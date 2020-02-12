@@ -1,0 +1,4 @@
+<map id="Juniper.Events.TriggeredEvent" name="Juniper.Events.TriggeredEvent">
+<area shape="rect" id="node1" title="A component that can be used to trigger events after an object hits a collider. Useful for detecting ..." alt="" coords="5,131,169,252"/>
+<area shape="rect" id="node2" title=" " alt="" coords="33,5,142,83"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="BitMiracle.LibJpeg.Classic.Internal.JpegEntropyEncoder" name="BitMiracle.LibJpeg.Classic.Internal.JpegEntropyEncoder">
+<area shape="rect" id="node1" title="Entropy encoding" alt="" coords="117,5,302,141"/>
+<area shape="rect" id="node2" href="$d3/d91/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_arith_entropy_encoder.html" title=" " alt="" coords="5,387,192,494"/>
+<area shape="rect" id="node3" href="$d0/dd3/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_huffman_entropy_encoder.html" title="Expanded entropy encoder object for Huffman encoding." alt="" coords="217,189,423,692"/>
+</map>

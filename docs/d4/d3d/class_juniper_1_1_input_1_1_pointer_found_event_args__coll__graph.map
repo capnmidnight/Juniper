@@ -1,5 +1,6 @@
 <map id="Juniper.Input.PointerFoundEventArgs" name="Juniper.Input.PointerFoundEventArgs">
-<area shape="rect" id="node1" title="An event argument type for passing on the pointer that was found." alt="" coords="37,453,213,545"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,159,84,237"/>
-<area shape="rect" id="node3" href="$d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="109,5,303,391"/>
+<area shape="rect" id="node1" title="An event argument type for passing on the pointer that was found." alt="" coords="84,609,260,701"/>
+<area shape="rect" id="node2" href="$df/d96/class_juniper_1_1_event_args.html" title=" " alt="" coords="5,315,107,393"/>
+<area shape="rect" id="node3" href="$d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="155,161,349,547"/>
+<area shape="rect" id="node4" href="$d5/d9e/interface_juniper_1_1_input_1_1_pointers_1_1_i_laser_pointer.html" title=" " alt="" coords="153,5,351,112"/>
 </map>

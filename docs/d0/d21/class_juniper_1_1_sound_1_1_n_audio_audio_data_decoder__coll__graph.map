@@ -1,0 +1,11 @@
+<map id="Juniper.Sound.NAudioAudioDataDecoder" name="Juniper.Sound.NAudioAudioDataDecoder">
+<area shape="rect" id="node1" title=" " alt="" coords="427,792,649,987"/>
+<area shape="rect" id="node2" href="$db/d85/interface_juniper_1_1_sound_1_1_i_audio_decoder.html" title=" " alt="" coords="235,564,371,641"/>
+<area shape="rect" id="node3" href="$d1/d4d/interface_juniper_1_1_i_o_1_1_i_deserializer.html" title=" " alt="" coords="5,167,183,245"/>
+<area shape="rect" id="node4" href="$d1/d4d/interface_juniper_1_1_i_o_1_1_i_deserializer.html" title=" " alt="" coords="17,5,171,97"/>
+<area shape="rect" id="node5" href="$da/d97/interface_juniper_1_1_i_o_1_1_i_content_handler.html" title=" " alt="" coords="207,160,400,252"/>
+<area shape="rect" id="node6" href="$da/d97/interface_juniper_1_1_i_o_1_1_i_content_handler.html" title=" " alt="" coords="215,13,391,90"/>
+<area shape="rect" id="node7" href="$d9/d26/class_juniper_1_1_sound_1_1_audio_format.html" title=" " alt="" coords="427,476,649,729"/>
+<area shape="rect" id="node8" title=" " alt="" coords="425,167,606,245"/>
+<area shape="rect" id="node9" title=" " alt="" coords="689,167,741,245"/>
+</map>

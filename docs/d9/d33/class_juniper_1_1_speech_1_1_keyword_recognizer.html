@@ -81,21 +81,30 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#properties">Properties</a> &#124;
 <a href="#events">Events</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="../../d3/d10/class_juniper_1_1_speech_1_1_keyword_recognizer-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Juniper.Speech.KeywordRecognizer Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>A class that implements basic functionality for systems that manage speech recognition and route out the events associated with recognizing keywords.  
+ <a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#details">More...</a></p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Inheritance diagram for Juniper.Speech.KeywordRecognizer:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/de9/class_juniper_1_1_speech_1_1_keyword_recognizer__inherit__graph.svg" width="288" height="567"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d4/de9/class_juniper_1_1_speech_1_1_keyword_recognizer__inherit__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -109,53 +118,132 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a05d141f0f2c5c1dd64ab6bb0bfb06c99"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a05d141f0f2c5c1dd64ab6bb0bfb06c99">RefreshKeywords</a> ()</td></tr>
-<tr class="memdesc:a05d141f0f2c5c1dd64ab6bb0bfb06c99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find all of the keyword-responding components that are currently active in the scene, collect up their keywords, and register them return them as a set-array to be registered with the speech recognition system.  <a href="#a05d141f0f2c5c1dd64ab6bb0bfb06c99">More...</a><br /></td></tr>
-<tr class="separator:a05d141f0f2c5c1dd64ab6bb0bfb06c99"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a219f01b688cc54549e163b7fe577a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a5a219f01b688cc54549e163b7fe577a5">OnEnable</a> ()</td></tr>
-<tr class="memdesc:a5a219f01b688cc54549e163b7fe577a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the speech recognition system.  <a href="#a5a219f01b688cc54549e163b7fe577a5">More...</a><br /></td></tr>
-<tr class="separator:a5a219f01b688cc54549e163b7fe577a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ca48bc0f934b0564e88b415dbe3711b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a9ca48bc0f934b0564e88b415dbe3711b">OnDisable</a> ()</td></tr>
-<tr class="memdesc:a9ca48bc0f934b0564e88b415dbe3711b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tear down the speech recognition system.  <a href="#a9ca48bc0f934b0564e88b415dbe3711b">More...</a><br /></td></tr>
-<tr class="separator:a9ca48bc0f934b0564e88b415dbe3711b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6d9ed2b8e0dc73fd474efdc2c027597"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ac6d9ed2b8e0dc73fd474efdc2c027597">AddKeywordable</a> (<a class="el" href="../../d7/d4d/class_juniper_1_1_speech_1_1_keywordable.html">Keywordable</a> keywordable)</td></tr>
+<tr class="separator:ac6d9ed2b8e0dc73fd474efdc2c027597"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85ac098ccfe546ac00f03270e3046f20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a85ac098ccfe546ac00f03270e3046f20">RemoveKeywordable</a> (<a class="el" href="../../d7/d4d/class_juniper_1_1_speech_1_1_keywordable.html">Keywordable</a> keywordable)</td></tr>
+<tr class="separator:a85ac098ccfe546ac00f03270e3046f20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a994bf660d1a0d5ffe4ff1ab1acb480a4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a994bf660d1a0d5ffe4ff1ab1acb480a4">Update</a> ()</td></tr>
+<tr class="separator:a994bf660d1a0d5ffe4ff1ab1acb480a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d1da073e0748bf9a107dab19c98fbbd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a6d1da073e0748bf9a107dab19c98fbbd">OnDisable</a> ()</td></tr>
+<tr class="memdesc:a6d1da073e0748bf9a107dab19c98fbbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tear down the speech recognition system.  <a href="#a6d1da073e0748bf9a107dab19c98fbbd">More...</a><br /></td></tr>
+<tr class="separator:a6d1da073e0748bf9a107dab19c98fbbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ad4b59e060e839f205a586cb0521dd1c9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ad4b59e060e839f205a586cb0521dd1c9">Pause</a> ()</td></tr>
+<tr class="separator:ad4b59e060e839f205a586cb0521dd1c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a076438afedbde7dbbbed41f01fb55415"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a076438afedbde7dbbbed41f01fb55415">Resume</a> ()</td></tr>
+<tr class="separator:a076438afedbde7dbbbed41f01fb55415"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:acacd7df85a07bc429800acc5555c8f1e"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/db3/class_juniper_1_1_speech_1_1_no_keyword_recognizer.html#acacd7df85a07bc429800acc5555c8f1e">IsAvailable</a> = false</td></tr>
-<tr class="memdesc:acacd7df85a07bc429800acc5555c8f1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads as true if the current <a class="el" href="../../d2/d08/namespace_juniper_1_1_x_r.html">XR</a> subsystem supports speech recognition.  <a href="#acacd7df85a07bc429800acc5555c8f1e">More...</a><br /></td></tr>
-<tr class="separator:acacd7df85a07bc429800acc5555c8f1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55912394661a1298cda6f0606205daf5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d59/class_unity_engine_1_1_events_1_1_string_event.html">StringEvent</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a55912394661a1298cda6f0606205daf5">onKeywordRecognized</a> = new <a class="el" href="../../d9/d59/class_unity_engine_1_1_events_1_1_string_event.html">StringEvent</a>()</td></tr>
-<tr class="memdesc:a55912394661a1298cda6f0606205daf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Respond to the speech recognition system having detected a keyword. You should only use this version in the Unity Editor. If you are programmatically attaching event listeners, you should prefer <a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#aac09ccd9de031264f5e5a40556852f64" title="Respond to the speech recognition system having detected a keyword. You should only use this version ...">KeywordRecognized</a>.  <a href="#a55912394661a1298cda6f0606205daf5">More...</a><br /></td></tr>
-<tr class="separator:a55912394661a1298cda6f0606205daf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6954e5bc093dc5eaedaf0c3c7659bbf8"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a6954e5bc093dc5eaedaf0c3c7659bbf8">IsPermitted</a> = true</td></tr>
+<tr class="separator:a6954e5bc093dc5eaedaf0c3c7659bbf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcd0bd06409f6b5fb7a548e248a48bc3"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#afcd0bd06409f6b5fb7a548e248a48bc3">minimumIncompleteSimilarity</a> = 0.85f</td></tr>
+<tr class="separator:afcd0bd06409f6b5fb7a548e248a48bc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1e7fbe8ed55caad4e29491e27294c5c"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#aa1e7fbe8ed55caad4e29491e27294c5c">minimumCompleteSimilarity</a> = 0.7f</td></tr>
+<tr class="separator:aa1e7fbe8ed55caad4e29491e27294c5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0817c4bae5845435a80b1312a5e026c"><td class="memItemLeft" align="right" valign="top">UnityEvent&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ac0817c4bae5845435a80b1312a5e026c">onRecognitionStarted</a></td></tr>
+<tr class="separator:ac0817c4bae5845435a80b1312a5e026c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc5dfdef81e113e622db3b1a2ccdc777"><td class="memItemLeft" align="right" valign="top">UnityEvent&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#adc5dfdef81e113e622db3b1a2ccdc777">onRecognitionStopped</a></td></tr>
+<tr class="separator:adc5dfdef81e113e622db3b1a2ccdc777"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa76fac749356f86abf17e76a7bb848ea"><td class="memItemLeft" align="right" valign="top">UnityEvent&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#aa76fac749356f86abf17e76a7bb848ea">onRecognitionRecognizing</a></td></tr>
+<tr class="separator:aa76fac749356f86abf17e76a7bb848ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c16273be3b32b0e374a048de38ea80d"><td class="memItemLeft" align="right" valign="top">UnityEvent&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a3c16273be3b32b0e374a048de38ea80d">onRecognitionComplete</a></td></tr>
+<tr class="separator:a3c16273be3b32b0e374a048de38ea80d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a209ef649ce2e0004f62c46908397c163"><td class="memItemLeft" align="right" valign="top">UnityEvent&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a209ef649ce2e0004f62c46908397c163">onRecognitionCanceled</a></td></tr>
+<tr class="separator:a209ef649ce2e0004f62c46908397c163"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2cfb56cccfde10113b26d9ac40332f1"><td class="memItemLeft" align="right" valign="top">UnityEvent&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ad2cfb56cccfde10113b26d9ac40332f1">onRecognitionError</a></td></tr>
+<tr class="separator:ad2cfb56cccfde10113b26d9ac40332f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a9c86643e13e3855c743d73e638aa6480"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/db3/class_juniper_1_1_speech_1_1_no_keyword_recognizer.html#a9c86643e13e3855c743d73e638aa6480">Setup</a> ()</td></tr>
-<tr class="separator:a9c86643e13e3855c743d73e638aa6480"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adcfb3c22f9262e0451c1efc4e43fcab9"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/db3/class_juniper_1_1_speech_1_1_no_keyword_recognizer.html#adcfb3c22f9262e0451c1efc4e43fcab9">TearDown</a> ()</td></tr>
-<tr class="separator:adcfb3c22f9262e0451c1efc4e43fcab9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0125f9038c043ba3da3fdd2172fc7b31"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a0125f9038c043ba3da3fdd2172fc7b31">OnKeywordRecognized</a> (string keyword)</td></tr>
-<tr class="memdesc:a0125f9038c043ba3da3fdd2172fc7b31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes <a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a55912394661a1298cda6f0606205daf5" title="Respond to the speech recognition system having detected a keyword. You should only use this version ...">onKeywordRecognized</a> and <a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#aac09ccd9de031264f5e5a40556852f64" title="Respond to the speech recognition system having detected a keyword. You should only use this version ...">KeywordRecognized</a>.  <a href="#a0125f9038c043ba3da3fdd2172fc7b31">More...</a><br /></td></tr>
-<tr class="separator:a0125f9038c043ba3da3fdd2172fc7b31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbac0bc31702d40ee570cd967126a158"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#adbac0bc31702d40ee570cd967126a158">OnRecognitionStarted</a> ()</td></tr>
+<tr class="separator:adbac0bc31702d40ee570cd967126a158"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a473f413ee96ccc70684380a94dfea1ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a473f413ee96ccc70684380a94dfea1ce">OnRecognitionStopped</a> ()</td></tr>
+<tr class="separator:a473f413ee96ccc70684380a94dfea1ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a49171ade96eb05144490a9783275cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a5a49171ade96eb05144490a9783275cb">OnRecognitionRecognizing</a> ()</td></tr>
+<tr class="separator:a5a49171ade96eb05144490a9783275cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09b2bb1295851d4bdd5264535b52e430"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a09b2bb1295851d4bdd5264535b52e430">OnRecognitionComplete</a> ()</td></tr>
+<tr class="separator:a09b2bb1295851d4bdd5264535b52e430"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3b5a3e5804daccfc3e53a1788e3af72"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ae3b5a3e5804daccfc3e53a1788e3af72">OnRecognitionCanceled</a> ()</td></tr>
+<tr class="separator:ae3b5a3e5804daccfc3e53a1788e3af72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a3fe6d764770d671b2ee87a60636840"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a6a3fe6d764770d671b2ee87a60636840">OnRecognitionError</a> ()</td></tr>
+<tr class="separator:a6a3fe6d764770d671b2ee87a60636840"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1952191af011a21e97b340bc53de5482"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a1952191af011a21e97b340bc53de5482">ProcessText</a> (string text, bool isComplete)</td></tr>
+<tr class="separator:a1952191af011a21e97b340bc53de5482"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75a1fd854fb81616caace58879fbfa70"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a75a1fd854fb81616caace58879fbfa70">Setup</a> ()</td></tr>
+<tr class="separator:a75a1fd854fb81616caace58879fbfa70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1929e1b2fc07874509cd89569b5c483c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a1929e1b2fc07874509cd89569b5c483c">TearDown</a> ()</td></tr>
+<tr class="separator:a1929e1b2fc07874509cd89569b5c483c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a96c0a1503954169f0524093790c0cdb3"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a96c0a1503954169f0524093790c0cdb3">keywords</a></td></tr>
-<tr class="memdesc:a96c0a1503954169f0524093790c0cdb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">The keywords for which to listen.  <a href="#a96c0a1503954169f0524093790c0cdb3">More...</a><br /></td></tr>
-<tr class="separator:a96c0a1503954169f0524093790c0cdb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0ee07cf249a1a1d66d219d5363f8c1a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ab0ee07cf249a1a1d66d219d5363f8c1a">IsRunning</a></td></tr>
+<tr class="separator:ab0ee07cf249a1a1d66d219d5363f8c1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5338d4f5c9a91dc0ef11d6c72f8c9ef"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ae5338d4f5c9a91dc0ef11d6c72f8c9ef">IsStopping</a></td></tr>
+<tr class="separator:ae5338d4f5c9a91dc0ef11d6c72f8c9ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac13ff2bca6d5e6889872aa54be0b0ac2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ac13ff2bca6d5e6889872aa54be0b0ac2">IsStarting</a></td></tr>
+<tr class="separator:ac13ff2bca6d5e6889872aa54be0b0ac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8fbcf24d9fd59ec815c6305e2f57aa9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#aa8fbcf24d9fd59ec815c6305e2f57aa9">IsPaused</a></td></tr>
+<tr class="separator:aa8fbcf24d9fd59ec815c6305e2f57aa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:ac6b74de3a7cbc7983a8a8a65a57a83da"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ac6b74de3a7cbc7983a8a8a65a57a83da">IsAvailable</a><code> [get]</code></td></tr>
+<tr class="memdesc:ac6b74de3a7cbc7983a8a8a65a57a83da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads as true if the current <a class="el" href="../../d2/d08/namespace_juniper_1_1_x_r.html">XR</a> subsystem supports speech recognition.  <a href="#ac6b74de3a7cbc7983a8a8a65a57a83da">More...</a><br /></td></tr>
+<tr class="separator:ac6b74de3a7cbc7983a8a8a65a57a83da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="events"></a>
 Events</h2></td></tr>
-<tr class="memitem:aac09ccd9de031264f5e5a40556852f64"><td class="memItemLeft" align="right" valign="top">EventHandler&lt; <a class="el" href="../../d8/dcf/class_juniper_1_1_speech_1_1_keyword_recognized_event_args.html">KeywordRecognizedEventArgs</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#aac09ccd9de031264f5e5a40556852f64">KeywordRecognized</a></td></tr>
-<tr class="memdesc:aac09ccd9de031264f5e5a40556852f64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Respond to the speech recognition system having detected a keyword. You should only use this version if you are programmatically attaching event listeners. If you are attaching events in the Unity Editor, you should prefer <a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a55912394661a1298cda6f0606205daf5" title="Respond to the speech recognition system having detected a keyword. You should only use this version ...">onKeywordRecognized</a>.  <a href="#aac09ccd9de031264f5e5a40556852f64">More...</a><br /></td></tr>
-<tr class="separator:aac09ccd9de031264f5e5a40556852f64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a999c3d5c76ae8bd805af256bb62612e8"><td class="memItemLeft" align="right" valign="top">EventHandler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a999c3d5c76ae8bd805af256bb62612e8">RecognitionStarted</a></td></tr>
+<tr class="separator:a999c3d5c76ae8bd805af256bb62612e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84db79080507d834c5eb88fb5830d3cc"><td class="memItemLeft" align="right" valign="top">EventHandler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a84db79080507d834c5eb88fb5830d3cc">RecognitionStopped</a></td></tr>
+<tr class="separator:a84db79080507d834c5eb88fb5830d3cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb0421fe80e351f1e57f3d2a2d32659e"><td class="memItemLeft" align="right" valign="top">EventHandler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#abb0421fe80e351f1e57f3d2a2d32659e">RecognitionRecognizing</a></td></tr>
+<tr class="separator:abb0421fe80e351f1e57f3d2a2d32659e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b4ed45b4ebdbc34c1ef05556ae6221c"><td class="memItemLeft" align="right" valign="top">EventHandler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a0b4ed45b4ebdbc34c1ef05556ae6221c">RecognitionComplete</a></td></tr>
+<tr class="separator:a0b4ed45b4ebdbc34c1ef05556ae6221c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10141832c5ccf047af0962ef52de743c"><td class="memItemLeft" align="right" valign="top">EventHandler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a10141832c5ccf047af0962ef52de743c">RecognitionCanceled</a></td></tr>
+<tr class="separator:a10141832c5ccf047af0962ef52de743c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae873d13206b0a7629ea9dafe7beae617"><td class="memItemLeft" align="right" valign="top">EventHandler&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ae873d13206b0a7629ea9dafe7beae617">RecognitionError</a></td></tr>
+<tr class="separator:ae873d13206b0a7629ea9dafe7beae617"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a4d86f5fa3d8e978bec7d0dbcf91187a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a4d86f5fa3d8e978bec7d0dbcf91187a2">TearDownInternal</a> ()</td></tr>
+<tr class="separator:a4d86f5fa3d8e978bec7d0dbcf91187a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
+Static Private Member Functions</h2></td></tr>
+<tr class="memitem:a4cb9a6230f657babd6558257b987941d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a4cb9a6230f657babd6558257b987941d">IsWordChar</a> (char c)</td></tr>
+<tr class="separator:a4cb9a6230f657babd6558257b987941d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:ab22bfd8030d9a97a07db8a68f2d2f62d"><td class="memItemLeft" align="right" valign="top">readonly List&lt; <a class="el" href="../../d7/d4d/class_juniper_1_1_speech_1_1_keywordable.html">Keywordable</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ab22bfd8030d9a97a07db8a68f2d2f62d">keywordables</a> = new List&lt;<a class="el" href="../../d7/d4d/class_juniper_1_1_speech_1_1_keywordable.html">Keywordable</a>&gt;()</td></tr>
+<tr class="separator:ab22bfd8030d9a97a07db8a68f2d2f62d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c07e9274343428681e9ae665d0cebe8"><td class="memItemLeft" align="right" valign="top">DateTime&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a7c07e9274343428681e9ae665d0cebe8">lastMatchTime</a></td></tr>
+<tr class="separator:a7c07e9274343428681e9ae665d0cebe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12e8a436d94bde5faff45c1e50606ad2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/d4d/class_juniper_1_1_speech_1_1_keywordable.html">Keywordable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a12e8a436d94bde5faff45c1e50606ad2">lastReceiver</a></td></tr>
+<tr class="separator:a12e8a436d94bde5faff45c1e50606ad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a460ac4e45d61ff09e1fd2a2c13160606"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/d4d/class_juniper_1_1_speech_1_1_keywordable.html">Keywordable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a460ac4e45d61ff09e1fd2a2c13160606">resultReceiver</a></td></tr>
+<tr class="separator:a460ac4e45d61ff09e1fd2a2c13160606"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a654b147922a3d3f92a8cb58c42b01fe4"><td class="memItemLeft" align="right" valign="top">readonly object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a654b147922a3d3f92a8cb58c42b01fe4">syncRoot</a> = new object()</td></tr>
+<tr class="separator:a654b147922a3d3f92a8cb58c42b01fe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
+Static Private Attributes</h2></td></tr>
+<tr class="memitem:acffd343e10605711cf58e75b88ad740a"><td class="memItemLeft" align="right" valign="top">static readonly TimeSpan&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#acffd343e10605711cf58e75b88ad740a">DEBOUNCE_TIME</a> = TimeSpan.FromMilliseconds(250)</td></tr>
+<tr class="separator:acffd343e10605711cf58e75b88ad740a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00009">9</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+<div class="textblock"><p>A class that implements basic functionality for systems that manage speech recognition and route out the events associated with recognizing keywords. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00014">14</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a9ca48bc0f934b0564e88b415dbe3711b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ca48bc0f934b0564e88b415dbe3711b">&#9670;&nbsp;</a></span>OnDisable()</h2>
+<a id="ac6d9ed2b8e0dc73fd474efdc2c027597"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6d9ed2b8e0dc73fd474efdc2c027597">&#9670;&nbsp;</a></span>AddKeywordable()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -164,7 +252,69 @@ Events</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Juniper.Speech.AbstractKeywordRecognizer.OnDisable </td>
+          <td class="memname">void Juniper.Speech.KeywordRecognizer.AddKeywordable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d7/d4d/class_juniper_1_1_speech_1_1_keywordable.html">Keywordable</a>&#160;</td>
+          <td class="paramname"><em>keywordable</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00122">122</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        {</div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            lock (<a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a654b147922a3d3f92a8cb58c42b01fe4">syncRoot</a>)</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            {</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ab22bfd8030d9a97a07db8a68f2d2f62d">keywordables</a>.MaybeAdd(keywordable);</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            }</div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a654b147922a3d3f92a8cb58c42b01fe4"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a654b147922a3d3f92a8cb58c42b01fe4">Juniper.Speech.KeywordRecognizer.syncRoot</a></div><div class="ttdeci">readonly object syncRoot</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00120">KeywordRecognizer.cs:120</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_ab22bfd8030d9a97a07db8a68f2d2f62d"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ab22bfd8030d9a97a07db8a68f2d2f62d">Juniper.Speech.KeywordRecognizer.keywordables</a></div><div class="ttdeci">readonly List&lt; Keywordable &gt; keywordables</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00116">KeywordRecognizer.cs:116</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00116">Juniper.Speech.KeywordRecognizer.keywordables</a>, and <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00120">Juniper.Speech.KeywordRecognizer.syncRoot</a>.</p>
+
+</div>
+</div>
+<a id="a4cb9a6230f657babd6558257b987941d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cb9a6230f657babd6558257b987941d">&#9670;&nbsp;</a></span>IsWordChar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool Juniper.Speech.KeywordRecognizer.IsWordChar </td>
+          <td>(</td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>c</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00048">48</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        {</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keywordflow">return</span> <span class="keywordtype">char</span>.IsLetter(c)</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                || <span class="keywordtype">char</span>.IsWhiteSpace(c)</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                || <span class="keywordtype">char</span>.IsNumber(c);</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00138">Juniper.Speech.KeywordRecognizer.ProcessText()</a>.</p>
+
+</div>
+</div>
+<a id="a6d1da073e0748bf9a107dab19c98fbbd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d1da073e0748bf9a107dab19c98fbbd">&#9670;&nbsp;</a></span>OnDisable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Juniper.Speech.KeywordRecognizer.OnDisable </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -172,22 +322,22 @@ Events</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>Tear down the speech recognition system. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00087">87</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        {</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <a class="code" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#aef5545b430b69dd00c051aab0561d410">TearDown</a>();</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_speech_1_1_abstract_keyword_recognizer_html_aef5545b430b69dd00c051aab0561d410"><div class="ttname"><a href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#aef5545b430b69dd00c051aab0561d410">Juniper.Speech.AbstractKeywordRecognizer.TearDown</a></div><div class="ttdeci">abstract void TearDown()</div></div>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00227">227</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        {</div><div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a4d86f5fa3d8e978bec7d0dbcf91187a2">TearDownInternal</a>();</div><div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a4d86f5fa3d8e978bec7d0dbcf91187a2"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a4d86f5fa3d8e978bec7d0dbcf91187a2">Juniper.Speech.KeywordRecognizer.TearDownInternal</a></div><div class="ttdeci">void TearDownInternal()</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00182">KeywordRecognizer.cs:182</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#aef5545b430b69dd00c051aab0561d410">Juniper.Speech.AbstractKeywordRecognizer.TearDown()</a>.</p>
+<p class="reference">References <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00182">Juniper.Speech.KeywordRecognizer.TearDownInternal()</a>.</p>
 
 </div>
 </div>
-<a id="a5a219f01b688cc54549e163b7fe577a5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a219f01b688cc54549e163b7fe577a5">&#9670;&nbsp;</a></span>OnEnable()</h2>
+<a id="ae3b5a3e5804daccfc3e53a1788e3af72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3b5a3e5804daccfc3e53a1788e3af72">&#9670;&nbsp;</a></span>OnRecognitionCanceled()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -196,7 +346,7 @@ Events</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Juniper.Speech.AbstractKeywordRecognizer.OnEnable </td>
+          <td class="memname">void Juniper.Speech.KeywordRecognizer.OnRecognitionCanceled </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -204,22 +354,21 @@ Events</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Initialize the speech recognition system. </p>
-
-<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00079">79</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        {</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <a class="code" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a05d141f0f2c5c1dd64ab6bb0bfb06c99">RefreshKeywords</a>();</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_speech_1_1_abstract_keyword_recognizer_html_a05d141f0f2c5c1dd64ab6bb0bfb06c99"><div class="ttname"><a href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a05d141f0f2c5c1dd64ab6bb0bfb06c99">Juniper.Speech.AbstractKeywordRecognizer.RefreshKeywords</a></div><div class="ttdeci">void RefreshKeywords()</div><div class="ttdoc">Find all of the keyword-responding components that are currently active in the scene,...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00060">KeywordRecognizer.cs:60</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00099">99</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        {</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a209ef649ce2e0004f62c46908397c163">onRecognitionCanceled</a>?.Invoke();</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a10141832c5ccf047af0962ef52de743c">RecognitionCanceled</a>?.Invoke(<span class="keyword">this</span>, EventArgs.Empty);</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a209ef649ce2e0004f62c46908397c163"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a209ef649ce2e0004f62c46908397c163">Juniper.Speech.KeywordRecognizer.onRecognitionCanceled</a></div><div class="ttdeci">UnityEvent onRecognitionCanceled</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00065">KeywordRecognizer.cs:65</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a10141832c5ccf047af0962ef52de743c"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a10141832c5ccf047af0962ef52de743c">Juniper.Speech.KeywordRecognizer.RecognitionCanceled</a></div><div class="ttdeci">EventHandler RecognitionCanceled</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00072">KeywordRecognizer.cs:72</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00060">Juniper.Speech.AbstractKeywordRecognizer.RefreshKeywords()</a>.</p>
+<p class="reference">References <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00065">Juniper.Speech.KeywordRecognizer.onRecognitionCanceled</a>, and <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00072">Juniper.Speech.KeywordRecognizer.RecognitionCanceled</a>.</p>
 
 </div>
 </div>
-<a id="a0125f9038c043ba3da3fdd2172fc7b31"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0125f9038c043ba3da3fdd2172fc7b31">&#9670;&nbsp;</a></span>OnKeywordRecognized()</h2>
+<a id="a09b2bb1295851d4bdd5264535b52e430"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09b2bb1295851d4bdd5264535b52e430">&#9670;&nbsp;</a></span>OnRecognitionComplete()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -228,38 +377,228 @@ Events</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Juniper.Speech.AbstractKeywordRecognizer.OnKeywordRecognized </td>
+          <td class="memname">void Juniper.Speech.KeywordRecognizer.OnRecognitionComplete </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00093">93</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        {</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a3c16273be3b32b0e374a048de38ea80d">onRecognitionComplete</a>?.Invoke();</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a0b4ed45b4ebdbc34c1ef05556ae6221c">RecognitionComplete</a>?.Invoke(<span class="keyword">this</span>, EventArgs.Empty);</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a0b4ed45b4ebdbc34c1ef05556ae6221c"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a0b4ed45b4ebdbc34c1ef05556ae6221c">Juniper.Speech.KeywordRecognizer.RecognitionComplete</a></div><div class="ttdeci">EventHandler RecognitionComplete</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00071">KeywordRecognizer.cs:71</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a3c16273be3b32b0e374a048de38ea80d"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a3c16273be3b32b0e374a048de38ea80d">Juniper.Speech.KeywordRecognizer.onRecognitionComplete</a></div><div class="ttdeci">UnityEvent onRecognitionComplete</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00064">KeywordRecognizer.cs:64</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00064">Juniper.Speech.KeywordRecognizer.onRecognitionComplete</a>, and <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00071">Juniper.Speech.KeywordRecognizer.RecognitionComplete</a>.</p>
+
+</div>
+</div>
+<a id="a6a3fe6d764770d671b2ee87a60636840"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a3fe6d764770d671b2ee87a60636840">&#9670;&nbsp;</a></span>OnRecognitionError()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Juniper.Speech.KeywordRecognizer.OnRecognitionError </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00105">105</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        {</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ad2cfb56cccfde10113b26d9ac40332f1">onRecognitionError</a>?.Invoke();</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ae873d13206b0a7629ea9dafe7beae617">RecognitionError</a>?.Invoke(<span class="keyword">this</span>, EventArgs.Empty);</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_ae873d13206b0a7629ea9dafe7beae617"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ae873d13206b0a7629ea9dafe7beae617">Juniper.Speech.KeywordRecognizer.RecognitionError</a></div><div class="ttdeci">EventHandler RecognitionError</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00073">KeywordRecognizer.cs:73</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_ad2cfb56cccfde10113b26d9ac40332f1"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ad2cfb56cccfde10113b26d9ac40332f1">Juniper.Speech.KeywordRecognizer.onRecognitionError</a></div><div class="ttdeci">UnityEvent onRecognitionError</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00066">KeywordRecognizer.cs:66</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00066">Juniper.Speech.KeywordRecognizer.onRecognitionError</a>, and <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00073">Juniper.Speech.KeywordRecognizer.RecognitionError</a>.</p>
+
+</div>
+</div>
+<a id="a5a49171ade96eb05144490a9783275cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a49171ade96eb05144490a9783275cb">&#9670;&nbsp;</a></span>OnRecognitionRecognizing()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Juniper.Speech.KeywordRecognizer.OnRecognitionRecognizing </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00087">87</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        {</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#aa76fac749356f86abf17e76a7bb848ea">onRecognitionRecognizing</a>?.Invoke();</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#abb0421fe80e351f1e57f3d2a2d32659e">RecognitionRecognizing</a>?.Invoke(<span class="keyword">this</span>, EventArgs.Empty);</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_aa76fac749356f86abf17e76a7bb848ea"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#aa76fac749356f86abf17e76a7bb848ea">Juniper.Speech.KeywordRecognizer.onRecognitionRecognizing</a></div><div class="ttdeci">UnityEvent onRecognitionRecognizing</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00063">KeywordRecognizer.cs:63</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_abb0421fe80e351f1e57f3d2a2d32659e"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#abb0421fe80e351f1e57f3d2a2d32659e">Juniper.Speech.KeywordRecognizer.RecognitionRecognizing</a></div><div class="ttdeci">EventHandler RecognitionRecognizing</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00070">KeywordRecognizer.cs:70</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00063">Juniper.Speech.KeywordRecognizer.onRecognitionRecognizing</a>, and <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00070">Juniper.Speech.KeywordRecognizer.RecognitionRecognizing</a>.</p>
+
+</div>
+</div>
+<a id="adbac0bc31702d40ee570cd967126a158"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbac0bc31702d40ee570cd967126a158">&#9670;&nbsp;</a></span>OnRecognitionStarted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Juniper.Speech.KeywordRecognizer.OnRecognitionStarted </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00075">75</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        {</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ac0817c4bae5845435a80b1312a5e026c">onRecognitionStarted</a>?.Invoke();</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a999c3d5c76ae8bd805af256bb62612e8">RecognitionStarted</a>?.Invoke(<span class="keyword">this</span>, EventArgs.Empty);</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a999c3d5c76ae8bd805af256bb62612e8"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a999c3d5c76ae8bd805af256bb62612e8">Juniper.Speech.KeywordRecognizer.RecognitionStarted</a></div><div class="ttdeci">EventHandler RecognitionStarted</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00068">KeywordRecognizer.cs:68</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_ac0817c4bae5845435a80b1312a5e026c"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ac0817c4bae5845435a80b1312a5e026c">Juniper.Speech.KeywordRecognizer.onRecognitionStarted</a></div><div class="ttdeci">UnityEvent onRecognitionStarted</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00061">KeywordRecognizer.cs:61</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00061">Juniper.Speech.KeywordRecognizer.onRecognitionStarted</a>, and <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00068">Juniper.Speech.KeywordRecognizer.RecognitionStarted</a>.</p>
+
+</div>
+</div>
+<a id="a473f413ee96ccc70684380a94dfea1ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a473f413ee96ccc70684380a94dfea1ce">&#9670;&nbsp;</a></span>OnRecognitionStopped()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Juniper.Speech.KeywordRecognizer.OnRecognitionStopped </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00081">81</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        {</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#adc5dfdef81e113e622db3b1a2ccdc777">onRecognitionStopped</a>?.Invoke();</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a84db79080507d834c5eb88fb5830d3cc">RecognitionStopped</a>?.Invoke(<span class="keyword">this</span>, EventArgs.Empty);</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a84db79080507d834c5eb88fb5830d3cc"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a84db79080507d834c5eb88fb5830d3cc">Juniper.Speech.KeywordRecognizer.RecognitionStopped</a></div><div class="ttdeci">EventHandler RecognitionStopped</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00069">KeywordRecognizer.cs:69</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_adc5dfdef81e113e622db3b1a2ccdc777"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#adc5dfdef81e113e622db3b1a2ccdc777">Juniper.Speech.KeywordRecognizer.onRecognitionStopped</a></div><div class="ttdeci">UnityEvent onRecognitionStopped</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00062">KeywordRecognizer.cs:62</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00062">Juniper.Speech.KeywordRecognizer.onRecognitionStopped</a>, and <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00069">Juniper.Speech.KeywordRecognizer.RecognitionStopped</a>.</p>
+
+</div>
+</div>
+<a id="ad4b59e060e839f205a586cb0521dd1c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4b59e060e839f205a586cb0521dd1c9">&#9670;&nbsp;</a></span>Pause()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void Juniper.Speech.KeywordRecognizer.Pause </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00016">16</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        {</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            Microphone.End(<span class="keywordtype">string</span>.Empty);</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a1952191af011a21e97b340bc53de5482"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1952191af011a21e97b340bc53de5482">&#9670;&nbsp;</a></span>ProcessText()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Juniper.Speech.KeywordRecognizer.ProcessText </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>keyword</em></td><td>)</td>
+          <td class="paramname"><em>text</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>isComplete</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Invokes <a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a55912394661a1298cda6f0606205daf5" title="Respond to the speech recognition system having detected a keyword. You should only use this version ...">onKeywordRecognized</a> and <a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#aac09ccd9de031264f5e5a40556852f64" title="Respond to the speech recognition system having detected a keyword. You should only use this version ...">KeywordRecognized</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">keyword</td><td>Keyword.</td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00048">48</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        {</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <a class="code" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a55912394661a1298cda6f0606205daf5">onKeywordRecognized</a>?.Invoke(keyword);</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <a class="code" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#aac09ccd9de031264f5e5a40556852f64">KeywordRecognized</a>?.Invoke(<span class="keyword">this</span>, <span class="keyword">new</span> KeywordRecognizedEventArgs(keyword));</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_speech_1_1_abstract_keyword_recognizer_html_aac09ccd9de031264f5e5a40556852f64"><div class="ttname"><a href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#aac09ccd9de031264f5e5a40556852f64">Juniper.Speech.AbstractKeywordRecognizer.KeywordRecognized</a></div><div class="ttdeci">EventHandler&lt; KeywordRecognizedEventArgs &gt; KeywordRecognized</div><div class="ttdoc">Respond to the speech recognition system having detected a keyword. You should only use this version ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00042">KeywordRecognizer.cs:42</a></div></div>
-<div class="ttc" id="class_juniper_1_1_speech_1_1_abstract_keyword_recognizer_html_a55912394661a1298cda6f0606205daf5"><div class="ttname"><a href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a55912394661a1298cda6f0606205daf5">Juniper.Speech.AbstractKeywordRecognizer.onKeywordRecognized</a></div><div class="ttdeci">StringEvent onKeywordRecognized</div><div class="ttdoc">Respond to the speech recognition system having detected a keyword. You should only use this version ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00035">KeywordRecognizer.cs:35</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00138">138</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        {</div><div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            <span class="keywordflow">if</span> (!<span class="keywordtype">string</span>.IsNullOrEmpty(text))</div><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            {</div><div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                var resultText = <span class="keyword">new</span> string(text</div><div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                    .ToLowerInvariant()</div><div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                    .Where(<a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a4cb9a6230f657babd6558257b987941d">IsWordChar</a>)</div><div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                    .ToArray());</div><div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div><div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                <span class="keywordflow">if</span> (!<span class="keywordtype">string</span>.IsNullOrEmpty(resultText))</div><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                {</div><div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                    var maxSimilarity = 0f;</div><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                    Keywordable receiver = <span class="keyword">null</span>;</div><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                    <span class="keywordtype">string</span> match = <span class="keyword">null</span>;</div><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                    <span class="keywordflow">foreach</span> (var keywordable <span class="keywordflow">in</span> <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ab22bfd8030d9a97a07db8a68f2d2f62d">keywordables</a>)</div><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                    {</div><div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                        <span class="keywordflow">foreach</span> (var keyword <span class="keywordflow">in</span> keywordable.keywords)</div><div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                        {</div><div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                            var similarity = keyword.Similarity(resultText);</div><div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                            <span class="keywordflow">if</span> (similarity &gt; maxSimilarity)</div><div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                            {</div><div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                                match = keyword;</div><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                                maxSimilarity = similarity;</div><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                                receiver = keywordable;</div><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                            }</div><div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                        }</div><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                    }</div><div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                    <a class="code" href="../../de/d00/class_system_1_1_screen_debugger.html">ScreenDebugger</a>.<a class="code" href="../../de/d00/class_system_1_1_screen_debugger.html#af872504f6878ca63698a5c4ca3bbcc14">Print</a>($<span class="stringliteral">&quot;{text} =&gt; {resultText} = {match} ({Units.Converter.Label(maxSimilarity, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent)})&quot;</span>);</div><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div><div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                    <span class="keywordflow">if</span> (isComplete &amp;&amp; maxSimilarity &lt; <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#aa1e7fbe8ed55caad4e29491e27294c5c">minimumCompleteSimilarity</a></div><div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                        || !isComplete &amp;&amp; maxSimilarity &lt; <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#afcd0bd06409f6b5fb7a548e248a48bc3">minimumIncompleteSimilarity</a>)</div><div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                    {</div><div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                        receiver = <span class="keyword">null</span>;</div><div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                    }</div><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                    lock (<a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a654b147922a3d3f92a8cb58c42b01fe4">syncRoot</a>)</div><div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                    {</div><div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                        <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a460ac4e45d61ff09e1fd2a2c13160606">resultReceiver</a> = receiver;</div><div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                    }</div><div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                }</div><div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            }</div><div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a654b147922a3d3f92a8cb58c42b01fe4"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a654b147922a3d3f92a8cb58c42b01fe4">Juniper.Speech.KeywordRecognizer.syncRoot</a></div><div class="ttdeci">readonly object syncRoot</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00120">KeywordRecognizer.cs:120</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_afcd0bd06409f6b5fb7a548e248a48bc3"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#afcd0bd06409f6b5fb7a548e248a48bc3">Juniper.Speech.KeywordRecognizer.minimumIncompleteSimilarity</a></div><div class="ttdeci">float minimumIncompleteSimilarity</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00056">KeywordRecognizer.cs:56</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a4cb9a6230f657babd6558257b987941d"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a4cb9a6230f657babd6558257b987941d">Juniper.Speech.KeywordRecognizer.IsWordChar</a></div><div class="ttdeci">static bool IsWordChar(char c)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00048">KeywordRecognizer.cs:48</a></div></div>
+<div class="ttc" id="class_system_1_1_screen_debugger_html"><div class="ttname"><a href="../../de/d00/class_system_1_1_screen_debugger.html">System.ScreenDebugger</a></div><div class="ttdoc">The ScreenDebugger component is a global logging system that has the option of piping its output to a...</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d86/_screen_debugger_8cs_source.html#l00017">ScreenDebugger.cs:17</a></div></div>
+<div class="ttc" id="class_system_1_1_screen_debugger_html_af872504f6878ca63698a5c4ca3bbcc14"><div class="ttname"><a href="../../de/d00/class_system_1_1_screen_debugger.html#af872504f6878ca63698a5c4ca3bbcc14">System.ScreenDebugger.Print</a></div><div class="ttdeci">static void Print(string msg)</div><div class="ttdoc">Print a simple message</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d86/_screen_debugger_8cs_source.html#l00094">ScreenDebugger.cs:94</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a460ac4e45d61ff09e1fd2a2c13160606"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a460ac4e45d61ff09e1fd2a2c13160606">Juniper.Speech.KeywordRecognizer.resultReceiver</a></div><div class="ttdeci">Keywordable resultReceiver</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00119">KeywordRecognizer.cs:119</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_aa1e7fbe8ed55caad4e29491e27294c5c"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#aa1e7fbe8ed55caad4e29491e27294c5c">Juniper.Speech.KeywordRecognizer.minimumCompleteSimilarity</a></div><div class="ttdeci">float minimumCompleteSimilarity</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00059">KeywordRecognizer.cs:59</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_ab22bfd8030d9a97a07db8a68f2d2f62d"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ab22bfd8030d9a97a07db8a68f2d2f62d">Juniper.Speech.KeywordRecognizer.keywordables</a></div><div class="ttdeci">readonly List&lt; Keywordable &gt; keywordables</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00116">KeywordRecognizer.cs:116</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00042">Juniper.Speech.AbstractKeywordRecognizer.KeywordRecognized</a>, and <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00035">Juniper.Speech.AbstractKeywordRecognizer.onKeywordRecognized</a>.</p>
+<p class="reference">References <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00048">Juniper.Speech.KeywordRecognizer.IsWordChar()</a>, <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00116">Juniper.Speech.KeywordRecognizer.keywordables</a>, <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00059">Juniper.Speech.KeywordRecognizer.minimumCompleteSimilarity</a>, <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00056">Juniper.Speech.KeywordRecognizer.minimumIncompleteSimilarity</a>, <a class="el" href="../../db/d86/_screen_debugger_8cs_source.html#l00094">System.ScreenDebugger.Print()</a>, <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00119">Juniper.Speech.KeywordRecognizer.resultReceiver</a>, and <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00120">Juniper.Speech.KeywordRecognizer.syncRoot</a>.</p>
 
 </div>
 </div>
-<a id="a05d141f0f2c5c1dd64ab6bb0bfb06c99"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a05d141f0f2c5c1dd64ab6bb0bfb06c99">&#9670;&nbsp;</a></span>RefreshKeywords()</h2>
+<a id="a85ac098ccfe546ac00f03270e3046f20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85ac098ccfe546ac00f03270e3046f20">&#9670;&nbsp;</a></span>RemoveKeywordable()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -268,38 +607,30 @@ Events</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void Juniper.Speech.AbstractKeywordRecognizer.RefreshKeywords </td>
+          <td class="memname">void Juniper.Speech.KeywordRecognizer.RemoveKeywordable </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype"><a class="el" href="../../d7/d4d/class_juniper_1_1_speech_1_1_keywordable.html">Keywordable</a>&#160;</td>
+          <td class="paramname"><em>keywordable</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Find all of the keyword-responding components that are currently active in the scene, collect up their keywords, and register them return them as a set-array to be registered with the speech recognition system. </p>
-<dl class="section return"><dt>Returns</dt><dd>The active keywords.</dd></dl>
-
-<p>Implements <a class="el" href="../../da/d4a/interface_juniper_1_1_speech_1_1_i_keyword_recognizer.html#a1c6de8e723fe9c670af1c3ab783cc206">Juniper.Speech.IKeywordRecognizer</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00060">60</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        {</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <a class="code" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#aef5545b430b69dd00c051aab0561d410">TearDown</a>();</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <a class="code" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a96c0a1503954169f0524093790c0cdb3">keywords</a> = (from comp in <a class="code" href="../../d3/d40/class_unity_engine_1_1_component_ext.html">ComponentExt</a>.FindAll&lt;MonoBehaviour&gt;()</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                        where comp is IKeywordTriggered</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                        let trigger = (IKeywordTriggered)comp</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                        where trigger.Keywords != <span class="keyword">null</span></div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                        from keyword in trigger.Keywords</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                        where !<span class="keywordtype">string</span>.IsNullOrEmpty(keyword)</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                        select keyword)</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                .Distinct()</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                .OrderBy(x =&gt; x)</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                .ToArray();</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            <a class="code" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a36598af03b294b34b8e5f309720af402">Setup</a>();</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_speech_1_1_abstract_keyword_recognizer_html_aef5545b430b69dd00c051aab0561d410"><div class="ttname"><a href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#aef5545b430b69dd00c051aab0561d410">Juniper.Speech.AbstractKeywordRecognizer.TearDown</a></div><div class="ttdeci">abstract void TearDown()</div></div>
-<div class="ttc" id="class_unity_engine_1_1_component_ext_html"><div class="ttname"><a href="../../d3/d40/class_unity_engine_1_1_component_ext.html">UnityEngine.ComponentExt</a></div><div class="ttdoc">Extension methods for Unity's Component class.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d68/_component_ext_8cs_source.html#l00014">ComponentExt.cs:14</a></div></div>
-<div class="ttc" id="class_juniper_1_1_speech_1_1_abstract_keyword_recognizer_html_a36598af03b294b34b8e5f309720af402"><div class="ttname"><a href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a36598af03b294b34b8e5f309720af402">Juniper.Speech.AbstractKeywordRecognizer.Setup</a></div><div class="ttdeci">abstract void Setup()</div></div>
-<div class="ttc" id="class_juniper_1_1_speech_1_1_abstract_keyword_recognizer_html_a96c0a1503954169f0524093790c0cdb3"><div class="ttname"><a href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a96c0a1503954169f0524093790c0cdb3">Juniper.Speech.AbstractKeywordRecognizer.keywords</a></div><div class="ttdeci">string [] keywords</div><div class="ttdoc">The keywords for which to listen.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00028">KeywordRecognizer.cs:28</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00130">130</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        {</div><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            lock (<a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a654b147922a3d3f92a8cb58c42b01fe4">syncRoot</a>)</div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            {</div><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ab22bfd8030d9a97a07db8a68f2d2f62d">keywordables</a>.Remove(keywordable);</div><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            }</div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a654b147922a3d3f92a8cb58c42b01fe4"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a654b147922a3d3f92a8cb58c42b01fe4">Juniper.Speech.KeywordRecognizer.syncRoot</a></div><div class="ttdeci">readonly object syncRoot</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00120">KeywordRecognizer.cs:120</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_ab22bfd8030d9a97a07db8a68f2d2f62d"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ab22bfd8030d9a97a07db8a68f2d2f62d">Juniper.Speech.KeywordRecognizer.keywordables</a></div><div class="ttdeci">readonly List&lt; Keywordable &gt; keywordables</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00116">KeywordRecognizer.cs:116</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dd/db8/_i_keyword_triggered_8cs_source.html#l00015">Juniper.Speech.IKeywordTriggered.Keywords</a>, <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00028">Juniper.Speech.AbstractKeywordRecognizer.keywords</a>, <a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a36598af03b294b34b8e5f309720af402">Juniper.Speech.AbstractKeywordRecognizer.Setup()</a>, and <a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#aef5545b430b69dd00c051aab0561d410">Juniper.Speech.AbstractKeywordRecognizer.TearDown()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../df/de0/_keywordable_8cs_source.html#l00061">Juniper.Speech.Keywordable.OnEnable()</a>, and <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00079">Juniper.Speech.AbstractKeywordRecognizer.OnEnable()</a>.</p>
+<p class="reference">References <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00116">Juniper.Speech.KeywordRecognizer.keywordables</a>, and <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00120">Juniper.Speech.KeywordRecognizer.syncRoot</a>.</p>
 
 </div>
 </div>
-<a id="a9c86643e13e3855c743d73e638aa6480"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9c86643e13e3855c743d73e638aa6480">&#9670;&nbsp;</a></span>Setup()</h2>
+<a id="a076438afedbde7dbbbed41f01fb55415"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a076438afedbde7dbbbed41f01fb55415">&#9670;&nbsp;</a></span>Resume()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -308,7 +639,7 @@ Events</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override void Juniper.Speech.NoKeywordRecognizer.Setup </td>
+          <td class="memname">static void Juniper.Speech.KeywordRecognizer.Resume </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -316,20 +647,17 @@ Events</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a36598af03b294b34b8e5f309720af402">Juniper.Speech.AbstractKeywordRecognizer</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="../../da/de0/_no_keyword_recognizer_8cs_source.html#l00012">12</a> of file <a class="el" href="../../da/de0/_no_keyword_recognizer_8cs_source.html">NoKeywordRecognizer.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        {</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            <a class="code" href="../../d2/d08/namespace_juniper_1_1_x_r.html#a72e7ece2d6df2a8a7134c0a399784aeaaa603905470e2a5b8c13e96b579ef0dba">Debug</a>.Log(<span class="stringliteral">&quot;No speech recognition available&quot;</span>);</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        }</div><div class="ttc" id="namespace_juniper_1_1_x_r_html_a72e7ece2d6df2a8a7134c0a399784aeaaa603905470e2a5b8c13e96b579ef0dba"><div class="ttname"><a href="../../d2/d08/namespace_juniper_1_1_x_r.html#a72e7ece2d6df2a8a7134c0a399784aeaaa603905470e2a5b8c13e96b579ef0dba">Juniper.XR.GroundMeshVisualization.Debug</a></div><div class="ttdoc">Render the ground with a material that is always visible, and may include debugging information about...</div></div>
-</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00021">21</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        {</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            Microphone.GetDeviceCaps(<span class="keywordtype">string</span>.Empty, out _, out var maxFreq);</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            Microphone.Start(<span class="keywordtype">string</span>.Empty, <span class="keyword">true</span>, 5, maxFreq);</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
-<a id="adcfb3c22f9262e0451c1efc4e43fcab9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adcfb3c22f9262e0451c1efc4e43fcab9">&#9670;&nbsp;</a></span>TearDown()</h2>
+<a id="a75a1fd854fb81616caace58879fbfa70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75a1fd854fb81616caace58879fbfa70">&#9670;&nbsp;</a></span>Setup()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -338,7 +666,7 @@ Events</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override void Juniper.Speech.NoKeywordRecognizer.TearDown </td>
+          <td class="memname">void Juniper.Speech.KeywordRecognizer.Setup </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -346,20 +674,124 @@ Events</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#aef5545b430b69dd00c051aab0561d410">Juniper.Speech.AbstractKeywordRecognizer</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/d69/_keyword_recognizer_8_none_8cs_source.html#l00020">20</a> of file <a class="el" href="../../d0/d69/_keyword_recognizer_8_none_8cs_source.html">KeywordRecognizer.None.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        {</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <a class="code" href="../../d2/d08/namespace_juniper_1_1_x_r.html#a72e7ece2d6df2a8a7134c0a399784aeaaa603905470e2a5b8c13e96b579ef0dba">Debug</a>.LogWarning(<span class="stringliteral">&quot;No speech recognition available&quot;</span>);</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        }</div><div class="ttc" id="namespace_juniper_1_1_x_r_html_a72e7ece2d6df2a8a7134c0a399784aeaaa603905470e2a5b8c13e96b579ef0dba"><div class="ttname"><a href="../../d2/d08/namespace_juniper_1_1_x_r.html#a72e7ece2d6df2a8a7134c0a399784aeaaa603905470e2a5b8c13e96b579ef0dba">Juniper.XR.GroundMeshVisualization.Debug</a></div><div class="ttdoc">Render the ground with a material that is always visible, and may include debugging information about...</div></div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00192">Juniper.Speech.KeywordRecognizer.Update()</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/de0/_no_keyword_recognizer_8cs_source.html#l00017">17</a> of file <a class="el" href="../../da/de0/_no_keyword_recognizer_8cs_source.html">NoKeywordRecognizer.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        {</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a1929e1b2fc07874509cd89569b5c483c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1929e1b2fc07874509cd89569b5c483c">&#9670;&nbsp;</a></span>TearDown()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Juniper.Speech.KeywordRecognizer.TearDown </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d0/d69/_keyword_recognizer_8_none_8cs_source.html#l00025">25</a> of file <a class="el" href="../../d0/d69/_keyword_recognizer_8_none_8cs_source.html">KeywordRecognizer.None.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        {</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00182">Juniper.Speech.KeywordRecognizer.TearDownInternal()</a>.</p>
+
+</div>
+</div>
+<a id="a4d86f5fa3d8e978bec7d0dbcf91187a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d86f5fa3d8e978bec7d0dbcf91187a2">&#9670;&nbsp;</a></span>TearDownInternal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Juniper.Speech.KeywordRecognizer.TearDownInternal </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00182">182</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        {</div><div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ab0ee07cf249a1a1d66d219d5363f8c1a">IsRunning</a> &amp;&amp; !<a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ae5338d4f5c9a91dc0ef11d6c72f8c9ef">IsStopping</a>)</div><div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            {</div><div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a1929e1b2fc07874509cd89569b5c483c">TearDown</a>();</div><div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            }</div><div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_ae5338d4f5c9a91dc0ef11d6c72f8c9ef"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ae5338d4f5c9a91dc0ef11d6c72f8c9ef">Juniper.Speech.KeywordRecognizer.IsStopping</a></div><div class="ttdeci">bool IsStopping</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00112">KeywordRecognizer.cs:112</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a1929e1b2fc07874509cd89569b5c483c"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a1929e1b2fc07874509cd89569b5c483c">Juniper.Speech.KeywordRecognizer.TearDown</a></div><div class="ttdeci">void TearDown()</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d69/_keyword_recognizer_8_none_8cs_source.html#l00025">KeywordRecognizer.None.cs:25</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_ab0ee07cf249a1a1d66d219d5363f8c1a"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ab0ee07cf249a1a1d66d219d5363f8c1a">Juniper.Speech.KeywordRecognizer.IsRunning</a></div><div class="ttdeci">bool IsRunning</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00111">KeywordRecognizer.cs:111</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00111">Juniper.Speech.KeywordRecognizer.IsRunning</a>, <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00112">Juniper.Speech.KeywordRecognizer.IsStopping</a>, and <a class="el" href="../../d0/d69/_keyword_recognizer_8_none_8cs_source.html#l00025">Juniper.Speech.KeywordRecognizer.TearDown()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00227">Juniper.Speech.KeywordRecognizer.OnDisable()</a>.</p>
+
+</div>
+</div>
+<a id="a994bf660d1a0d5ffe4ff1ab1acb480a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a994bf660d1a0d5ffe4ff1ab1acb480a4">&#9670;&nbsp;</a></span>Update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Juniper.Speech.KeywordRecognizer.Update </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00192">192</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        {</div><div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ac6b74de3a7cbc7983a8a8a65a57a83da">IsAvailable</a>)</div><div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            {</div><div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ab0ee07cf249a1a1d66d219d5363f8c1a">IsRunning</a> &amp;&amp; !<a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#aa8fbcf24d9fd59ec815c6305e2f57aa9">IsPaused</a>)</div><div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                {</div><div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                    Keywordable receiver = <span class="keyword">null</span>;</div><div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                    lock (<a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a654b147922a3d3f92a8cb58c42b01fe4">syncRoot</a>)</div><div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                    {</div><div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                        <span class="keywordflow">if</span> (<a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a460ac4e45d61ff09e1fd2a2c13160606">resultReceiver</a> != <span class="keyword">null</span></div><div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                            &amp;&amp; (<a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a460ac4e45d61ff09e1fd2a2c13160606">resultReceiver</a> != <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a12e8a436d94bde5faff45c1e50606ad2">lastReceiver</a></div><div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                                || (DateTime.Now - <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a7c07e9274343428681e9ae665d0cebe8">lastMatchTime</a>) &gt; <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#acffd343e10605711cf58e75b88ad740a">DEBOUNCE_TIME</a>))</div><div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                        {</div><div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                            <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a12e8a436d94bde5faff45c1e50606ad2">lastReceiver</a> = <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a460ac4e45d61ff09e1fd2a2c13160606">resultReceiver</a>;</div><div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                            receiver = <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a460ac4e45d61ff09e1fd2a2c13160606">resultReceiver</a>;</div><div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                            <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a460ac4e45d61ff09e1fd2a2c13160606">resultReceiver</a> = <span class="keyword">null</span>;</div><div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                        }</div><div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                        <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a7c07e9274343428681e9ae665d0cebe8">lastMatchTime</a> = DateTime.Now;</div><div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                    }</div><div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;</div><div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                    <span class="keywordflow">if</span> (receiver != <span class="keyword">null</span>)</div><div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                    {</div><div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                        receiver.ActivateEvent();</div><div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                    }</div><div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                }</div><div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a6954e5bc093dc5eaedaf0c3c7659bbf8">IsPermitted</a> &amp;&amp; !<a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ac13ff2bca6d5e6889872aa54be0b0ac2">IsStarting</a>)</div><div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                {</div><div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                    <a class="code" href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a75a1fd854fb81616caace58879fbfa70">Setup</a>();</div><div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                }</div><div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;            }</div><div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a654b147922a3d3f92a8cb58c42b01fe4"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a654b147922a3d3f92a8cb58c42b01fe4">Juniper.Speech.KeywordRecognizer.syncRoot</a></div><div class="ttdeci">readonly object syncRoot</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00120">KeywordRecognizer.cs:120</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_acffd343e10605711cf58e75b88ad740a"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#acffd343e10605711cf58e75b88ad740a">Juniper.Speech.KeywordRecognizer.DEBOUNCE_TIME</a></div><div class="ttdeci">static readonly TimeSpan DEBOUNCE_TIME</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00190">KeywordRecognizer.cs:190</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_ac13ff2bca6d5e6889872aa54be0b0ac2"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ac13ff2bca6d5e6889872aa54be0b0ac2">Juniper.Speech.KeywordRecognizer.IsStarting</a></div><div class="ttdeci">bool IsStarting</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00113">KeywordRecognizer.cs:113</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a12e8a436d94bde5faff45c1e50606ad2"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a12e8a436d94bde5faff45c1e50606ad2">Juniper.Speech.KeywordRecognizer.lastReceiver</a></div><div class="ttdeci">Keywordable lastReceiver</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00118">KeywordRecognizer.cs:118</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a75a1fd854fb81616caace58879fbfa70"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a75a1fd854fb81616caace58879fbfa70">Juniper.Speech.KeywordRecognizer.Setup</a></div><div class="ttdeci">void Setup()</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d69/_keyword_recognizer_8_none_8cs_source.html#l00020">KeywordRecognizer.None.cs:20</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a7c07e9274343428681e9ae665d0cebe8"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a7c07e9274343428681e9ae665d0cebe8">Juniper.Speech.KeywordRecognizer.lastMatchTime</a></div><div class="ttdeci">DateTime lastMatchTime</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00117">KeywordRecognizer.cs:117</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_ac6b74de3a7cbc7983a8a8a65a57a83da"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ac6b74de3a7cbc7983a8a8a65a57a83da">Juniper.Speech.KeywordRecognizer.IsAvailable</a></div><div class="ttdeci">bool IsAvailable</div><div class="ttdoc">Reads as true if the current XR subsystem supports speech recognition.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d69/_keyword_recognizer_8_none_8cs_source.html#l00013">KeywordRecognizer.None.cs:13</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_aa8fbcf24d9fd59ec815c6305e2f57aa9"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#aa8fbcf24d9fd59ec815c6305e2f57aa9">Juniper.Speech.KeywordRecognizer.IsPaused</a></div><div class="ttdeci">bool IsPaused</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00114">KeywordRecognizer.cs:114</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a460ac4e45d61ff09e1fd2a2c13160606"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a460ac4e45d61ff09e1fd2a2c13160606">Juniper.Speech.KeywordRecognizer.resultReceiver</a></div><div class="ttdeci">Keywordable resultReceiver</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00119">KeywordRecognizer.cs:119</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_ab0ee07cf249a1a1d66d219d5363f8c1a"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#ab0ee07cf249a1a1d66d219d5363f8c1a">Juniper.Speech.KeywordRecognizer.IsRunning</a></div><div class="ttdeci">bool IsRunning</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00111">KeywordRecognizer.cs:111</a></div></div>
+<div class="ttc" id="class_juniper_1_1_speech_1_1_keyword_recognizer_html_a6954e5bc093dc5eaedaf0c3c7659bbf8"><div class="ttname"><a href="../../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a6954e5bc093dc5eaedaf0c3c7659bbf8">Juniper.Speech.KeywordRecognizer.IsPermitted</a></div><div class="ttdeci">const bool IsPermitted</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00045">KeywordRecognizer.cs:45</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../de/d9c/_abstract_shortcutable_8cs_source.html#l00088">Juniper.Input.AbstractShortcutable.ActivateEvent()</a>, <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00190">Juniper.Speech.KeywordRecognizer.DEBOUNCE_TIME</a>, <a class="el" href="../../d0/d69/_keyword_recognizer_8_none_8cs_source.html#l00013">Juniper.Speech.KeywordRecognizer.IsAvailable</a>, <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00114">Juniper.Speech.KeywordRecognizer.IsPaused</a>, <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00045">Juniper.Speech.KeywordRecognizer.IsPermitted</a>, <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00111">Juniper.Speech.KeywordRecognizer.IsRunning</a>, <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00113">Juniper.Speech.KeywordRecognizer.IsStarting</a>, <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00117">Juniper.Speech.KeywordRecognizer.lastMatchTime</a>, <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00118">Juniper.Speech.KeywordRecognizer.lastReceiver</a>, <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00119">Juniper.Speech.KeywordRecognizer.resultReceiver</a>, <a class="el" href="../../d0/d69/_keyword_recognizer_8_none_8cs_source.html#l00020">Juniper.Speech.KeywordRecognizer.Setup()</a>, and <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00120">Juniper.Speech.KeywordRecognizer.syncRoot</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="acacd7df85a07bc429800acc5555c8f1e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acacd7df85a07bc429800acc5555c8f1e">&#9670;&nbsp;</a></span>IsAvailable</h2>
+<a id="acffd343e10605711cf58e75b88ad740a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acffd343e10605711cf58e75b88ad740a">&#9670;&nbsp;</a></span>DEBOUNCE_TIME</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -368,109 +800,559 @@ Events</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const bool Juniper.Speech.NoKeywordRecognizer.IsAvailable = false</td>
+          <td class="memname">readonly TimeSpan Juniper.Speech.KeywordRecognizer.DEBOUNCE_TIME = TimeSpan.FromMilliseconds(250)</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00190">190</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00192">Juniper.Speech.KeywordRecognizer.Update()</a>.</p>
+
+</div>
+</div>
+<a id="aa8fbcf24d9fd59ec815c6305e2f57aa9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8fbcf24d9fd59ec815c6305e2f57aa9">&#9670;&nbsp;</a></span>IsPaused</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Juniper.Speech.KeywordRecognizer.IsPaused</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00114">114</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00192">Juniper.Speech.KeywordRecognizer.Update()</a>.</p>
+
+</div>
+</div>
+<a id="a6954e5bc093dc5eaedaf0c3c7659bbf8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6954e5bc093dc5eaedaf0c3c7659bbf8">&#9670;&nbsp;</a></span>IsPermitted</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const bool Juniper.Speech.KeywordRecognizer.IsPermitted = true</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00045">45</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00192">Juniper.Speech.KeywordRecognizer.Update()</a>.</p>
+
+</div>
+</div>
+<a id="ab0ee07cf249a1a1d66d219d5363f8c1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0ee07cf249a1a1d66d219d5363f8c1a">&#9670;&nbsp;</a></span>IsRunning</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Juniper.Speech.KeywordRecognizer.IsRunning</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00111">111</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00182">Juniper.Speech.KeywordRecognizer.TearDownInternal()</a>, and <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00192">Juniper.Speech.KeywordRecognizer.Update()</a>.</p>
+
+</div>
+</div>
+<a id="ac13ff2bca6d5e6889872aa54be0b0ac2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac13ff2bca6d5e6889872aa54be0b0ac2">&#9670;&nbsp;</a></span>IsStarting</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Juniper.Speech.KeywordRecognizer.IsStarting</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00113">113</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00192">Juniper.Speech.KeywordRecognizer.Update()</a>.</p>
+
+</div>
+</div>
+<a id="ae5338d4f5c9a91dc0ef11d6c72f8c9ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5338d4f5c9a91dc0ef11d6c72f8c9ef">&#9670;&nbsp;</a></span>IsStopping</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Juniper.Speech.KeywordRecognizer.IsStopping</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00112">112</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00182">Juniper.Speech.KeywordRecognizer.TearDownInternal()</a>.</p>
+
+</div>
+</div>
+<a id="ab22bfd8030d9a97a07db8a68f2d2f62d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab22bfd8030d9a97a07db8a68f2d2f62d">&#9670;&nbsp;</a></span>keywordables</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">readonly List&lt;<a class="el" href="../../d7/d4d/class_juniper_1_1_speech_1_1_keywordable.html">Keywordable</a>&gt; Juniper.Speech.KeywordRecognizer.keywordables = new List&lt;<a class="el" href="../../d7/d4d/class_juniper_1_1_speech_1_1_keywordable.html">Keywordable</a>&gt;()</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00116">116</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00122">Juniper.Speech.KeywordRecognizer.AddKeywordable()</a>, <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00138">Juniper.Speech.KeywordRecognizer.ProcessText()</a>, and <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00130">Juniper.Speech.KeywordRecognizer.RemoveKeywordable()</a>.</p>
+
+</div>
+</div>
+<a id="a7c07e9274343428681e9ae665d0cebe8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c07e9274343428681e9ae665d0cebe8">&#9670;&nbsp;</a></span>lastMatchTime</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">DateTime Juniper.Speech.KeywordRecognizer.lastMatchTime</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00117">117</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00192">Juniper.Speech.KeywordRecognizer.Update()</a>.</p>
+
+</div>
+</div>
+<a id="a12e8a436d94bde5faff45c1e50606ad2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12e8a436d94bde5faff45c1e50606ad2">&#9670;&nbsp;</a></span>lastReceiver</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d7/d4d/class_juniper_1_1_speech_1_1_keywordable.html">Keywordable</a> Juniper.Speech.KeywordRecognizer.lastReceiver</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00118">118</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00192">Juniper.Speech.KeywordRecognizer.Update()</a>.</p>
+
+</div>
+</div>
+<a id="aa1e7fbe8ed55caad4e29491e27294c5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1e7fbe8ed55caad4e29491e27294c5c">&#9670;&nbsp;</a></span>minimumCompleteSimilarity</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Juniper.Speech.KeywordRecognizer.minimumCompleteSimilarity = 0.7f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00059">59</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00138">Juniper.Speech.KeywordRecognizer.ProcessText()</a>.</p>
+
+</div>
+</div>
+<a id="afcd0bd06409f6b5fb7a548e248a48bc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcd0bd06409f6b5fb7a548e248a48bc3">&#9670;&nbsp;</a></span>minimumIncompleteSimilarity</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Juniper.Speech.KeywordRecognizer.minimumIncompleteSimilarity = 0.85f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00056">56</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00138">Juniper.Speech.KeywordRecognizer.ProcessText()</a>.</p>
+
+</div>
+</div>
+<a id="a209ef649ce2e0004f62c46908397c163"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a209ef649ce2e0004f62c46908397c163">&#9670;&nbsp;</a></span>onRecognitionCanceled</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">UnityEvent Juniper.Speech.KeywordRecognizer.onRecognitionCanceled</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00065">65</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00099">Juniper.Speech.KeywordRecognizer.OnRecognitionCanceled()</a>.</p>
+
+</div>
+</div>
+<a id="a3c16273be3b32b0e374a048de38ea80d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c16273be3b32b0e374a048de38ea80d">&#9670;&nbsp;</a></span>onRecognitionComplete</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">UnityEvent Juniper.Speech.KeywordRecognizer.onRecognitionComplete</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00064">64</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00093">Juniper.Speech.KeywordRecognizer.OnRecognitionComplete()</a>.</p>
+
+</div>
+</div>
+<a id="ad2cfb56cccfde10113b26d9ac40332f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2cfb56cccfde10113b26d9ac40332f1">&#9670;&nbsp;</a></span>onRecognitionError</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">UnityEvent Juniper.Speech.KeywordRecognizer.onRecognitionError</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00066">66</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00105">Juniper.Speech.KeywordRecognizer.OnRecognitionError()</a>.</p>
+
+</div>
+</div>
+<a id="aa76fac749356f86abf17e76a7bb848ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa76fac749356f86abf17e76a7bb848ea">&#9670;&nbsp;</a></span>onRecognitionRecognizing</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">UnityEvent Juniper.Speech.KeywordRecognizer.onRecognitionRecognizing</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00063">63</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00087">Juniper.Speech.KeywordRecognizer.OnRecognitionRecognizing()</a>.</p>
+
+</div>
+</div>
+<a id="ac0817c4bae5845435a80b1312a5e026c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0817c4bae5845435a80b1312a5e026c">&#9670;&nbsp;</a></span>onRecognitionStarted</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">UnityEvent Juniper.Speech.KeywordRecognizer.onRecognitionStarted</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00061">61</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00075">Juniper.Speech.KeywordRecognizer.OnRecognitionStarted()</a>.</p>
+
+</div>
+</div>
+<a id="adc5dfdef81e113e622db3b1a2ccdc777"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc5dfdef81e113e622db3b1a2ccdc777">&#9670;&nbsp;</a></span>onRecognitionStopped</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">UnityEvent Juniper.Speech.KeywordRecognizer.onRecognitionStopped</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00062">62</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00081">Juniper.Speech.KeywordRecognizer.OnRecognitionStopped()</a>.</p>
+
+</div>
+</div>
+<a id="a460ac4e45d61ff09e1fd2a2c13160606"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a460ac4e45d61ff09e1fd2a2c13160606">&#9670;&nbsp;</a></span>resultReceiver</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d7/d4d/class_juniper_1_1_speech_1_1_keywordable.html">Keywordable</a> Juniper.Speech.KeywordRecognizer.resultReceiver</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00119">119</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00138">Juniper.Speech.KeywordRecognizer.ProcessText()</a>, and <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00192">Juniper.Speech.KeywordRecognizer.Update()</a>.</p>
+
+</div>
+</div>
+<a id="a654b147922a3d3f92a8cb58c42b01fe4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a654b147922a3d3f92a8cb58c42b01fe4">&#9670;&nbsp;</a></span>syncRoot</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">readonly object Juniper.Speech.KeywordRecognizer.syncRoot = new object()</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00120">120</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00122">Juniper.Speech.KeywordRecognizer.AddKeywordable()</a>, <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00138">Juniper.Speech.KeywordRecognizer.ProcessText()</a>, <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00130">Juniper.Speech.KeywordRecognizer.RemoveKeywordable()</a>, and <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00192">Juniper.Speech.KeywordRecognizer.Update()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
+<a id="ac6b74de3a7cbc7983a8a8a65a57a83da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6b74de3a7cbc7983a8a8a65a57a83da">&#9670;&nbsp;</a></span>IsAvailable</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Juniper.Speech.KeywordRecognizer.IsAvailable</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>Reads as true if the current <a class="el" href="../../d2/d08/namespace_juniper_1_1_x_r.html">XR</a> subsystem supports speech recognition. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/de0/_no_keyword_recognizer_8cs_source.html#l00010">10</a> of file <a class="el" href="../../da/de0/_no_keyword_recognizer_8cs_source.html">NoKeywordRecognizer.cs</a>.</p>
-
-</div>
-</div>
-<a id="a96c0a1503954169f0524093790c0cdb3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a96c0a1503954169f0524093790c0cdb3">&#9670;&nbsp;</a></span>keywords</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string [] Juniper.Speech.AbstractKeywordRecognizer.keywords</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The keywords for which to listen. </p>
-
-<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00028">28</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00060">Juniper.Speech.AbstractKeywordRecognizer.RefreshKeywords()</a>.</p>
-
-</div>
-</div>
-<a id="a55912394661a1298cda6f0606205daf5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55912394661a1298cda6f0606205daf5">&#9670;&nbsp;</a></span>onKeywordRecognized</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d9/d59/class_unity_engine_1_1_events_1_1_string_event.html">StringEvent</a> Juniper.Speech.AbstractKeywordRecognizer.onKeywordRecognized = new <a class="el" href="../../d9/d59/class_unity_engine_1_1_events_1_1_string_event.html">StringEvent</a>()</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Respond to the speech recognition system having detected a keyword. You should only use this version in the Unity Editor. If you are programmatically attaching event listeners, you should prefer <a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#aac09ccd9de031264f5e5a40556852f64" title="Respond to the speech recognition system having detected a keyword. You should only use this version ...">KeywordRecognized</a>. </p>
-
-<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00035">35</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00048">Juniper.Speech.AbstractKeywordRecognizer.OnKeywordRecognized()</a>, and <a class="el" href="../../df/de0/_keywordable_8cs_source.html#l00138">Juniper.Speech.Keywordable.Start()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/d69/_keyword_recognizer_8_none_8cs_source.html#l00013">13</a> of file <a class="el" href="../../d0/d69/_keyword_recognizer_8_none_8cs_source.html">KeywordRecognizer.None.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        {</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            <span class="keyword">get</span></div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            {</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            }</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00192">Juniper.Speech.KeywordRecognizer.Update()</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Event Documentation</h2>
-<a id="aac09ccd9de031264f5e5a40556852f64"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aac09ccd9de031264f5e5a40556852f64">&#9670;&nbsp;</a></span>KeywordRecognized</h2>
+<a id="a10141832c5ccf047af0962ef52de743c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10141832c5ccf047af0962ef52de743c">&#9670;&nbsp;</a></span>RecognitionCanceled</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">EventHandler&lt;<a class="el" href="../../d8/dcf/class_juniper_1_1_speech_1_1_keyword_recognized_event_args.html">KeywordRecognizedEventArgs</a>&gt; Juniper.Speech.AbstractKeywordRecognizer.KeywordRecognized</td>
+          <td class="memname">EventHandler Juniper.Speech.KeywordRecognizer.RecognitionCanceled</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Respond to the speech recognition system having detected a keyword. You should only use this version if you are programmatically attaching event listeners. If you are attaching events in the Unity Editor, you should prefer <a class="el" href="../../d4/df5/class_juniper_1_1_speech_1_1_abstract_keyword_recognizer.html#a55912394661a1298cda6f0606205daf5" title="Respond to the speech recognition system having detected a keyword. You should only use this version ...">onKeywordRecognized</a>. </p>
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00072">72</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00042">42</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00048">Juniper.Speech.AbstractKeywordRecognizer.OnKeywordRecognized()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00099">Juniper.Speech.KeywordRecognizer.OnRecognitionCanceled()</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Speech/<a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a></li>
+<a id="a0b4ed45b4ebdbc34c1ef05556ae6221c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b4ed45b4ebdbc34c1ef05556ae6221c">&#9670;&nbsp;</a></span>RecognitionComplete</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">EventHandler Juniper.Speech.KeywordRecognizer.RecognitionComplete</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00071">71</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00093">Juniper.Speech.KeywordRecognizer.OnRecognitionComplete()</a>.</p>
+
+</div>
+</div>
+<a id="ae873d13206b0a7629ea9dafe7beae617"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae873d13206b0a7629ea9dafe7beae617">&#9670;&nbsp;</a></span>RecognitionError</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">EventHandler Juniper.Speech.KeywordRecognizer.RecognitionError</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00073">73</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00105">Juniper.Speech.KeywordRecognizer.OnRecognitionError()</a>.</p>
+
+</div>
+</div>
+<a id="abb0421fe80e351f1e57f3d2a2d32659e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb0421fe80e351f1e57f3d2a2d32659e">&#9670;&nbsp;</a></span>RecognitionRecognizing</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">EventHandler Juniper.Speech.KeywordRecognizer.RecognitionRecognizing</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00070">70</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00087">Juniper.Speech.KeywordRecognizer.OnRecognitionRecognizing()</a>.</p>
+
+</div>
+</div>
+<a id="a999c3d5c76ae8bd805af256bb62612e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a999c3d5c76ae8bd805af256bb62612e8">&#9670;&nbsp;</a></span>RecognitionStarted</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">EventHandler Juniper.Speech.KeywordRecognizer.RecognitionStarted</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00068">68</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00075">Juniper.Speech.KeywordRecognizer.OnRecognitionStarted()</a>.</p>
+
+</div>
+</div>
+<a id="a84db79080507d834c5eb88fb5830d3cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84db79080507d834c5eb88fb5830d3cc">&#9670;&nbsp;</a></span>RecognitionStopped</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">EventHandler Juniper.Speech.KeywordRecognizer.RecognitionStopped</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00069">69</a> of file <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html#l00081">Juniper.Speech.KeywordRecognizer.OnRecognitionStopped()</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper/Assets/Juniper/Scripts/Speech/<a class="el" href="../../d2/ddc/_keyword_recognizer_8cs_source.html">KeywordRecognizer.cs</a></li>
+<li>C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper/Assets/Juniper/Scripts/Speech/<a class="el" href="../../d0/d69/_keyword_recognizer_8_none_8cs_source.html">KeywordRecognizer.None.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

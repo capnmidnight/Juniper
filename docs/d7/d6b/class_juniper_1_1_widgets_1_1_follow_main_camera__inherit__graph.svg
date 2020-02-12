@@ -16,11 +16,11 @@
 <text text-anchor="start" x="8" y="-78.5" font-family="SegoeUI" font-size="10.00">Juniper.Widgets.FollowMain</text>
 <text text-anchor="middle" x="68" y="-67.5" font-family="SegoeUI" font-size="10.00">Camera</text>
 <polyline fill="none" stroke="black" points="0,-60.5 136,-60.5 "/>
-<text text-anchor="start" x="8" y="-48.5" font-family="SegoeUI" font-size="10.00">+ followDistance</text>
-<text text-anchor="start" x="8" y="-37.5" font-family="SegoeUI" font-size="10.00">&#45; f</text>
-<polyline fill="none" stroke="black" points="0,-30.5 136,-30.5 "/>
+<text text-anchor="start" x="8" y="-48.5" font-family="SegoeUI" font-size="10.00">&#45; f</text>
+<polyline fill="none" stroke="black" points="0,-41.5 136,-41.5 "/>
+<text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">+ OnValidate()</text>
 <text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
-<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">+ Start()</text>
+<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">+ OnEnable()</text>
 </a>
 </g>
 </g>

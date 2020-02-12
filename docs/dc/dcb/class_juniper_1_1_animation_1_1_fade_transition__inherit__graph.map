@@ -1,7 +1,7 @@
 <map id="Juniper.Animation.FadeTransition" name="Juniper.Animation.FadeTransition">
-<area shape="rect" id="node1" title="Performs a fade&#45;in/fade&#45;out animation on scene transitions." alt="" coords="70,968,283,1397"/>
-<area shape="rect" id="node2" href="$d6/d38/class_juniper_1_1_animation_1_1_abstract_transition_controller.html" title="Child classes of this class are able to animate transitions between program states." alt="" coords="5,593,188,920"/>
-<area shape="rect" id="node3" href="$d9/d7e/class_juniper_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="19,131,174,545"/>
+<area shape="rect" id="node1" title="Performs a fade&#45;in/fade&#45;out animation on scene transitions." alt="" coords="70,1100,283,1515"/>
+<area shape="rect" id="node2" href="$d6/d38/class_juniper_1_1_animation_1_1_abstract_transition_controller.html" title="Child classes of this class are able to animate transitions between program states." alt="" coords="5,711,188,1052"/>
+<area shape="rect" id="node3" href="$d9/d7e/class_juniper_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="19,131,174,663"/>
 <area shape="rect" id="node4" title=" " alt="" coords="42,5,151,83"/>
-<area shape="rect" id="node5" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="212,703,304,810"/>
+<area shape="rect" id="node5" href="$d7/dbe/interface_juniper_1_1_i_o_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="212,828,304,935"/>
 </map>

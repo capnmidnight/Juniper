@@ -1,0 +1,10 @@
+<map id="Juniper.Haptics.IHapticDevice" name="Juniper.Haptics.IHapticDevice">
+<area shape="rect" id="node1" title=" " alt="" coords="307,5,495,185"/>
+<area shape="rect" id="node2" href="$d0/d83/class_juniper_1_1_haptics_1_1_abstract_haptic_device.html" title="An interface for all haptic device subsystems." alt="" coords="321,233,480,428"/>
+<area shape="rect" id="node3" href="$d2/d3e/class_juniper_1_1_haptics_1_1_abstract_haptic_retained_expressor.html" title="Non&#45;iOS systems do not have built&#45;in haptic patterns. This class replicates the functionality of the ..." alt="" coords="225,476,387,759"/>
+<area shape="rect" id="node8" href="$d3/df6/class_juniper_1_1_haptics_1_1_no_haptics.html" title="When we are on a system that we know for a fact does not have haptics, we can initialize the haptic s..." alt="" coords="411,527,579,707"/>
+<area shape="rect" id="node4" href="$da/d4b/class_juniper_1_1_haptics_1_1_abstract_haptic_immediate_expressor.html" title=" " alt="" coords="23,858,197,979"/>
+<area shape="rect" id="node6" href="$db/da0/class_juniper_1_1_haptics_1_1_vive_focus_haptics.html" title=" " alt="" coords="221,873,391,965"/>
+<area shape="rect" id="node7" href="$d4/d07/class_juniper_1_1_haptics_1_1_windows_m_r_haptics.html" title=" " alt="" coords="415,807,637,1031"/>
+<area shape="rect" id="node5" href="$d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html" title="When no specific haptic implementation is available, but we know the system supports haptics,..." alt="" coords="5,1079,215,1200"/>
+</map>

@@ -88,51 +88,59 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Implementations for each of the values in <a class="el" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820" title="Different modes of animating a single value from 0 to 1.">TweenType</a>. /// All functions receive a value p, representing the proportion of the way through the animation process we are calculating. All functions take an extra <code>k</code> parameter, for scaling tertiary effects; most functions do not use it. /// All functions return a value v, mapping the value p to one of the desired 'tween shapes.  
+<p>Implementations for each of the values in <a class="el" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820" title="Different modes of animating a single value from 0 to 1.">TweenType</a>. All functions receive a value t, representing the proportion of the way through the animation process we are calculating. All functions take an extra <code>k</code> parameter, for scaling tertiary effects; most functions do not use it. All functions return a value v, mapping the value t to one of the desired 'tween shapes.  
  <a href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#details">More...</a></p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Collaboration diagram for Juniper.Animation.Tween:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../df/d20/class_juniper_1_1_animation_1_1_tween__coll__graph.svg" width="178" height="302"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../df/d20/class_juniper_1_1_animation_1_1_tween__coll__graph.svg" width="178" height="346"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a6630a324250a7a5fb2b025508d70f604"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a6630a324250a7a5fb2b025508d70f604">Linear</a> (float p, float k, <a class="el" href="../../d7/de5/namespace_juniper_1_1_input.html#ab007479d42906acdc5ed67438e087cb9">Direction</a> d)</td></tr>
-<tr class="memdesc:a6630a324250a7a5fb2b025508d70f604"><td class="mdescLeft">&#160;</td><td class="mdescRight">The most basic form of `tween, values increase in proportion to time.  <a href="#a6630a324250a7a5fb2b025508d70f604">More...</a><br /></td></tr>
-<tr class="separator:a6630a324250a7a5fb2b025508d70f604"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa107a6c6fe7b44aa20cf82e5443cbb3f"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#aa107a6c6fe7b44aa20cf82e5443cbb3f">Quadratic</a> (float p, float k, <a class="el" href="../../d7/de5/namespace_juniper_1_1_input.html#ab007479d42906acdc5ed67438e087cb9">Direction</a> d)</td></tr>
-<tr class="memdesc:aa107a6c6fe7b44aa20cf82e5443cbb3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Values increase in proportion to the square of time.  <a href="#aa107a6c6fe7b44aa20cf82e5443cbb3f">More...</a><br /></td></tr>
-<tr class="separator:aa107a6c6fe7b44aa20cf82e5443cbb3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a78f04fe634c2d71e26fe5d7371a7ee"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a4a78f04fe634c2d71e26fe5d7371a7ee">Cubic</a> (float p, float k, <a class="el" href="../../d7/de5/namespace_juniper_1_1_input.html#ab007479d42906acdc5ed67438e087cb9">Direction</a> d)</td></tr>
-<tr class="memdesc:a4a78f04fe634c2d71e26fe5d7371a7ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Values increase in proportion to the cube of time. This function is specifically scaled to provide the full shape of the cube function from -1 to 1.  <a href="#a4a78f04fe634c2d71e26fe5d7371a7ee">More...</a><br /></td></tr>
-<tr class="separator:a4a78f04fe634c2d71e26fe5d7371a7ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0cebe7f541c8c764ccb84f849d49a3d"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#af0cebe7f541c8c764ccb84f849d49a3d">Sine</a> (float p, float k, <a class="el" href="../../d7/de5/namespace_juniper_1_1_input.html#ab007479d42906acdc5ed67438e087cb9">Direction</a> d)</td></tr>
-<tr class="memdesc:af0cebe7f541c8c764ccb84f849d49a3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Values increase along a sine wave (actually, 1 minus cosine of time scaled to π)  <a href="#af0cebe7f541c8c764ccb84f849d49a3d">More...</a><br /></td></tr>
-<tr class="separator:af0cebe7f541c8c764ccb84f849d49a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1fd85089e36a87710c0cac9d849d5e60"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a1fd85089e36a87710c0cac9d849d5e60">Bump</a> (float p, float k, <a class="el" href="../../d7/de5/namespace_juniper_1_1_input.html#ab007479d42906acdc5ed67438e087cb9">Direction</a> d)</td></tr>
-<tr class="memdesc:a1fd85089e36a87710c0cac9d849d5e60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Similar to <a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#af0cebe7f541c8c764ccb84f849d49a3d" title="Values increase along a sine wave (actually, 1 minus cosine of time scaled to π)">Sine</a>, but values bump in the opposite direction slightly, before the beginning and the end of the curve.  <a href="#a1fd85089e36a87710c0cac9d849d5e60">More...</a><br /></td></tr>
-<tr class="separator:a1fd85089e36a87710c0cac9d849d5e60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1dfab0d47ff3c156aa810b112ad90150"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a1dfab0d47ff3c156aa810b112ad90150">PingPong</a> (float p, float k, <a class="el" href="../../d7/de5/namespace_juniper_1_1_input.html#ab007479d42906acdc5ed67438e087cb9">Direction</a> d)</td></tr>
-<tr class="memdesc:a1dfab0d47ff3c156aa810b112ad90150"><td class="mdescLeft">&#160;</td><td class="mdescRight">An inverted curve that plays both in and out.  <a href="#a1dfab0d47ff3c156aa810b112ad90150">More...</a><br /></td></tr>
-<tr class="separator:a1dfab0d47ff3c156aa810b112ad90150"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18f2587d5bbb3a5b73e500a256a647da"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a18f2587d5bbb3a5b73e500a256a647da">IsContinuous</a> (<a class="el" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a> tween)</td></tr>
+<tr class="separator:a18f2587d5bbb3a5b73e500a256a647da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1f887d700212f17c6c597ea27de3ef1"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#af1f887d700212f17c6c597ea27de3ef1">Linear</a> (float t, float k, <a class="el" href="../../d7/de5/namespace_juniper_1_1_input.html#ab007479d42906acdc5ed67438e087cb9">Direction</a> d)</td></tr>
+<tr class="memdesc:af1f887d700212f17c6c597ea27de3ef1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The most basic form of `tween, values increase in proportion to time.  <a href="#af1f887d700212f17c6c597ea27de3ef1">More...</a><br /></td></tr>
+<tr class="separator:af1f887d700212f17c6c597ea27de3ef1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae088ad06c39fb928570a67a93e1ce393"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#ae088ad06c39fb928570a67a93e1ce393">LinearContinuous</a> (float t, float k, <a class="el" href="../../d7/de5/namespace_juniper_1_1_input.html#ab007479d42906acdc5ed67438e087cb9">Direction</a> d)</td></tr>
+<tr class="memdesc:ae088ad06c39fb928570a67a93e1ce393"><td class="mdescLeft">&#160;</td><td class="mdescRight">The most basic form of `tween, values increase in proportion to time.  <a href="#ae088ad06c39fb928570a67a93e1ce393">More...</a><br /></td></tr>
+<tr class="separator:ae088ad06c39fb928570a67a93e1ce393"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0fba94fafebcaf1840a76955e188321"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#ad0fba94fafebcaf1840a76955e188321">Quadratic</a> (float t, float k, <a class="el" href="../../d7/de5/namespace_juniper_1_1_input.html#ab007479d42906acdc5ed67438e087cb9">Direction</a> d)</td></tr>
+<tr class="memdesc:ad0fba94fafebcaf1840a76955e188321"><td class="mdescLeft">&#160;</td><td class="mdescRight">Values increase in proportion to the square of time, meaning they start growing slowly and then grow quickly.  <a href="#ad0fba94fafebcaf1840a76955e188321">More...</a><br /></td></tr>
+<tr class="separator:ad0fba94fafebcaf1840a76955e188321"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae857bdda47331d8fdb30a72a2af6b619"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#ae857bdda47331d8fdb30a72a2af6b619">QuadraticContinuous</a> (float t, float k, <a class="el" href="../../d7/de5/namespace_juniper_1_1_input.html#ab007479d42906acdc5ed67438e087cb9">Direction</a> d)</td></tr>
+<tr class="memdesc:ae857bdda47331d8fdb30a72a2af6b619"><td class="mdescLeft">&#160;</td><td class="mdescRight">Values increase in proportion to the square of time.  <a href="#ae857bdda47331d8fdb30a72a2af6b619">More...</a><br /></td></tr>
+<tr class="separator:ae857bdda47331d8fdb30a72a2af6b619"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9793bd14464935ba4c4a25cb1d634eff"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a9793bd14464935ba4c4a25cb1d634eff">Sine</a> (float t, float k, <a class="el" href="../../d7/de5/namespace_juniper_1_1_input.html#ab007479d42906acdc5ed67438e087cb9">Direction</a> d)</td></tr>
+<tr class="memdesc:a9793bd14464935ba4c4a25cb1d634eff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Values increase on a sine curve, meaning they start growing quickly and then slow down.  <a href="#a9793bd14464935ba4c4a25cb1d634eff">More...</a><br /></td></tr>
+<tr class="separator:a9793bd14464935ba4c4a25cb1d634eff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a942fa786030ead2fe5741bfc5403ade5"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a942fa786030ead2fe5741bfc5403ade5">SineContinuous</a> (float t, float k, <a class="el" href="../../d7/de5/namespace_juniper_1_1_input.html#ab007479d42906acdc5ed67438e087cb9">Direction</a> d)</td></tr>
+<tr class="memdesc:a942fa786030ead2fe5741bfc5403ade5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Values increase on a sine curve, meaning they start growing quickly and then slow down.  <a href="#a942fa786030ead2fe5741bfc5403ade5">More...</a><br /></td></tr>
+<tr class="separator:a942fa786030ead2fe5741bfc5403ade5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0855e6a2ddb0d71517c83c317d2f4e87"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a0855e6a2ddb0d71517c83c317d2f4e87">Bump</a> (float t, float k, <a class="el" href="../../d7/de5/namespace_juniper_1_1_input.html#ab007479d42906acdc5ed67438e087cb9">Direction</a> d)</td></tr>
+<tr class="memdesc:a0855e6a2ddb0d71517c83c317d2f4e87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Similar to <a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a9793bd14464935ba4c4a25cb1d634eff" title="Values increase on a sine curve, meaning they start growing quickly and then slow down.">Sine</a>, but values bump in the opposite direction slightly, before the beginning and the end of the curve.  <a href="#a0855e6a2ddb0d71517c83c317d2f4e87">More...</a><br /></td></tr>
+<tr class="separator:a0855e6a2ddb0d71517c83c317d2f4e87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a2fca2731d0245cd7c47f325faac066"><td class="memItemLeft" align="right" valign="top">static float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a2a2fca2731d0245cd7c47f325faac066">BumpContinuous</a> (float t, float k, <a class="el" href="../../d7/de5/namespace_juniper_1_1_input.html#ab007479d42906acdc5ed67438e087cb9">Direction</a> d)</td></tr>
+<tr class="memdesc:a2a2fca2731d0245cd7c47f325faac066"><td class="mdescLeft">&#160;</td><td class="mdescRight">Similar to <a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a9793bd14464935ba4c4a25cb1d634eff" title="Values increase on a sine curve, meaning they start growing quickly and then slow down.">Sine</a>, but values bump in the opposite direction slightly, before the beginning and the end of the curve.  <a href="#a2a2fca2731d0245cd7c47f325faac066">More...</a><br /></td></tr>
+<tr class="separator:a2a2fca2731d0245cd7c47f325faac066"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a72977ee2a9acf28ab9aaf66f5bed2d2d"><td class="memItemLeft" align="right" valign="top">static readonly Dictionary&lt; <a class="el" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>, <a class="el" href="../../db/daa/_tween_type_8cs.html#af6033c448dca9f29a99add54cb0cfa84">TweenFuncT</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a72977ee2a9acf28ab9aaf66f5bed2d2d">Functions</a></td></tr>
-<tr class="memdesc:a72977ee2a9acf28ab9aaf66f5bed2d2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A lookup for the tween functions, so we don't have to use reflection every time we want one.  <a href="#a72977ee2a9acf28ab9aaf66f5bed2d2d">More...</a><br /></td></tr>
-<tr class="separator:a72977ee2a9acf28ab9aaf66f5bed2d2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a393ee3ba3509707bf9a012b849e81557"><td class="memItemLeft" align="right" valign="top">static readonly Dictionary&lt; <a class="el" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>, <a class="el" href="../../d0/db1/namespace_juniper_1_1_animation.html#a09369c29ea21898b86eb137ebe475435">TweenFunc</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a393ee3ba3509707bf9a012b849e81557">Functions</a></td></tr>
+<tr class="memdesc:a393ee3ba3509707bf9a012b849e81557"><td class="mdescLeft">&#160;</td><td class="mdescRight">A lookup for the tween functions, so we don't have to use reflection every time we want one.  <a href="#a393ee3ba3509707bf9a012b849e81557">More...</a><br /></td></tr>
+<tr class="separator:a393ee3ba3509707bf9a012b849e81557"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Implementations for each of the values in <a class="el" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820" title="Different modes of animating a single value from 0 to 1.">TweenType</a>. /// All functions receive a value p, representing the proportion of the way through the animation process we are calculating. All functions take an extra <code>k</code> parameter, for scaling tertiary effects; most functions do not use it. /// All functions return a value v, mapping the value p to one of the desired 'tween shapes. </p>
+<div class="textblock"><p>Implementations for each of the values in <a class="el" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820" title="Different modes of animating a single value from 0 to 1.">TweenType</a>. All functions receive a value t, representing the proportion of the way through the animation process we are calculating. All functions take an extra <code>k</code> parameter, for scaling tertiary effects; most functions do not use it. All functions return a value v, mapping the value t to one of the desired 'tween shapes. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00054">54</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00062">62</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a1fd85089e36a87710c0cac9d849d5e60"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1fd85089e36a87710c0cac9d849d5e60">&#9670;&nbsp;</a></span>Bump()</h2>
+<a id="a0855e6a2ddb0d71517c83c317d2f4e87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0855e6a2ddb0d71517c83c317d2f4e87">&#9670;&nbsp;</a></span>Bump()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -144,7 +152,7 @@ Static Public Attributes</h2></td></tr>
           <td class="memname">static float Juniper.Animation.Tween.Bump </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>p</em>, </td>
+          <td class="paramname"><em>t</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -171,25 +179,22 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Similar to <a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#af0cebe7f541c8c764ccb84f849d49a3d" title="Values increase along a sine wave (actually, 1 minus cosine of time scaled to π)">Sine</a>, but values bump in the opposite direction slightly, before the beginning and the end of the curve. </p>
+<p>Similar to <a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a9793bd14464935ba4c4a25cb1d634eff" title="Values increase on a sine curve, meaning they start growing quickly and then slow down.">Sine</a>, but values bump in the opposite direction slightly, before the beginning and the end of the curve. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">p</td><td>The proportional value, linearly progressing from 0 to 1.</td></tr>
+    <tr><td class="paramname">t</td><td>The proportional value, linearly progressing from 0 to 1.</td></tr>
     <tr><td class="paramname">k</td><td>The constant value, input by the developer.</td></tr>
     <tr><td class="paramname">d</td><td>The direction value, 1 for forward, -1 for backward.</td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00123">123</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        {</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#af0cebe7f541c8c764ccb84f849d49a3d">Sine</a>(p, 0, d) - k * Mathf.Sin(p * Mathf.PI * 2);</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_animation_1_1_tween_html_af0cebe7f541c8c764ccb84f849d49a3d"><div class="ttname"><a href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#af0cebe7f541c8c764ccb84f849d49a3d">Juniper.Animation.Tween.Sine</a></div><div class="ttdeci">static float Sine(float p, float k, Direction d)</div><div class="ttdoc">Values increase along a sine wave (actually, 1 minus cosine of time scaled to π)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/daa/_tween_type_8cs_source.html#l00111">TweenType.cs:111</a></div></div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00111">Juniper.Animation.Tween.Sine()</a>.</p>
-
+<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00176">176</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        {</div><div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            var a = t * Math.PI;</div><div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            <span class="keywordflow">return</span> (<span class="keywordtype">float</span>)(0.5f * (1 - Math.Cos(a)) - k * Math.Sin(2 * a));</div><div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
-<a id="a4a78f04fe634c2d71e26fe5d7371a7ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a78f04fe634c2d71e26fe5d7371a7ee">&#9670;&nbsp;</a></span>Cubic()</h2>
+<a id="a2a2fca2731d0245cd7c47f325faac066"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a2fca2731d0245cd7c47f325faac066">&#9670;&nbsp;</a></span>BumpContinuous()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -198,10 +203,10 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static float Juniper.Animation.Tween.Cubic </td>
+          <td class="memname">static float Juniper.Animation.Tween.BumpContinuous </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>p</em>, </td>
+          <td class="paramname"><em>t</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -228,22 +233,54 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Values increase in proportion to the cube of time. This function is specifically scaled to provide the full shape of the cube function from -1 to 1. </p>
+<p>Similar to <a class="el" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a9793bd14464935ba4c4a25cb1d634eff" title="Values increase on a sine curve, meaning they start growing quickly and then slow down.">Sine</a>, but values bump in the opposite direction slightly, before the beginning and the end of the curve. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">p</td><td>The proportional value, linearly progressing from 0 to 1.</td></tr>
+    <tr><td class="paramname">t</td><td>The proportional value, linearly progressing from 0 to 1.</td></tr>
     <tr><td class="paramname">k</td><td>The constant value, input by the developer.</td></tr>
     <tr><td class="paramname">d</td><td>The direction value, 1 for forward, -1 for backward.</td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00098">98</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        {</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            var c = 2 * p - 1;</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            <span class="keywordflow">return</span> 0.5f * (1 + c * c * c);</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00189">189</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        {</div><div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            t = <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#ae088ad06c39fb928570a67a93e1ce393">LinearContinuous</a>(t, k, d);</div><div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            var a = t * Math.PI;</div><div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            <span class="keywordflow">return</span> (<span class="keywordtype">float</span>)(Math.Sin(0.5f * a) + k * Math.Sin(a));</div><div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_animation_1_1_tween_html_ae088ad06c39fb928570a67a93e1ce393"><div class="ttname"><a href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#ae088ad06c39fb928570a67a93e1ce393">Juniper.Animation.Tween.LinearContinuous</a></div><div class="ttdeci">static float LinearContinuous(float t, float k, Direction d)</div><div class="ttdoc">The most basic form of `tween, values increase in proportion to time.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/daa/_tween_type_8cs_source.html#l00104">TweenType.cs:104</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00104">Juniper.Animation.Tween.LinearContinuous()</a>.</p>
+
 </div>
 </div>
-<a id="a6630a324250a7a5fb2b025508d70f604"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6630a324250a7a5fb2b025508d70f604">&#9670;&nbsp;</a></span>Linear()</h2>
+<a id="a18f2587d5bbb3a5b73e500a256a647da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18f2587d5bbb3a5b73e500a256a647da">&#9670;&nbsp;</a></span>IsContinuous()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool Juniper.Animation.Tween.IsContinuous </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>&#160;</td>
+          <td class="paramname"><em>tween</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00064">64</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        {</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keywordflow">return</span> tween == <a class="code" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>.LinearContinuous</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                || tween == <a class="code" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>.QuadraticContinuous</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                || tween == <a class="code" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>.SineContinuous</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                || tween == <a class="code" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>.BumpContinuous;</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        }</div><div class="ttc" id="namespace_juniper_1_1_animation_html_a8de32a5b2c01af7d37fec5183b8b5820"><div class="ttname"><a href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">Juniper.Animation.TweenType</a></div><div class="ttdeci">TweenType</div><div class="ttdoc">Different modes of animating a single value from 0 to 1.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/daa/_tween_type_8cs_source.html#l00013">TweenType.cs:13</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="af1f887d700212f17c6c597ea27de3ef1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1f887d700212f17c6c597ea27de3ef1">&#9670;&nbsp;</a></span>Linear()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -255,7 +292,7 @@ Static Public Attributes</h2></td></tr>
           <td class="memname">static float Juniper.Animation.Tween.Linear </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>p</em>, </td>
+          <td class="paramname"><em>t</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -285,19 +322,19 @@ Static Public Attributes</h2></td></tr>
 <p>The most basic form of `tween, values increase in proportion to time. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">p</td><td>The proportional value, linearly progressing from 0 to 1.</td></tr>
+    <tr><td class="paramname">t</td><td>The proportional value, linearly progressing from 0 to 1.</td></tr>
     <tr><td class="paramname">k</td><td>The constant value, input by the developer.</td></tr>
     <tr><td class="paramname">d</td><td>The direction value, 1 for forward, -1 for backward.</td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00075">75</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        {</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="keywordflow">return</span> p;</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00093">93</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        {</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="keywordflow">return</span> t;</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
-<a id="a1dfab0d47ff3c156aa810b112ad90150"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1dfab0d47ff3c156aa810b112ad90150">&#9670;&nbsp;</a></span>PingPong()</h2>
+<a id="ae088ad06c39fb928570a67a93e1ce393"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae088ad06c39fb928570a67a93e1ce393">&#9670;&nbsp;</a></span>LinearContinuous()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -306,10 +343,10 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static float Juniper.Animation.Tween.PingPong </td>
+          <td class="memname">static float Juniper.Animation.Tween.LinearContinuous </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>p</em>, </td>
+          <td class="paramname"><em>t</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -336,23 +373,25 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>An inverted curve that plays both in and out. </p>
-<dl class="section return"><dt>Returns</dt><dd>The pong quadratic.</dd></dl>
+<p>The most basic form of `tween, values increase in proportion to time. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">p</td><td>The proportional value, linearly progressing from 0 to 1.</td></tr>
+    <tr><td class="paramname">t</td><td>The proportional value, linearly progressing from 0 to 1.</td></tr>
     <tr><td class="paramname">k</td><td>The constant value, input by the developer.</td></tr>
     <tr><td class="paramname">d</td><td>The direction value, 1 for forward, -1 for backward.</td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00135">135</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        {</div><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            <span class="keywordflow">return</span> 2 * p - 4 * p * p;</div><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00104">104</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        {</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keywordflow">if</span> (d == <a class="code" href="../../d7/de5/namespace_juniper_1_1_input.html#ab007479d42906acdc5ed67438e087cb9">Direction</a>.Forward)</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            {</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                <span class="keywordflow">return</span> t - 1;</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            }</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            {</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                <span class="keywordflow">return</span> 1 - t;</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            }</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        }</div><div class="ttc" id="namespace_juniper_1_1_input_html_ab007479d42906acdc5ed67438e087cb9"><div class="ttname"><a href="../../d7/de5/namespace_juniper_1_1_input.html#ab007479d42906acdc5ed67438e087cb9">Juniper.Input.Direction</a></div><div class="ttdeci">Direction</div><div class="ttdoc">The directions we can move into and out of the state.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d69/_direction_8cs_source.html#l00006">Direction.cs:6</a></div></div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00189">Juniper.Animation.Tween.BumpContinuous()</a>, <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00134">Juniper.Animation.Tween.QuadraticContinuous()</a>, and <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00163">Juniper.Animation.Tween.SineContinuous()</a>.</p>
+
 </div>
 </div>
-<a id="aa107a6c6fe7b44aa20cf82e5443cbb3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa107a6c6fe7b44aa20cf82e5443cbb3f">&#9670;&nbsp;</a></span>Quadratic()</h2>
+<a id="ad0fba94fafebcaf1840a76955e188321"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0fba94fafebcaf1840a76955e188321">&#9670;&nbsp;</a></span>Quadratic()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -364,7 +403,63 @@ Static Public Attributes</h2></td></tr>
           <td class="memname">static float Juniper.Animation.Tween.Quadratic </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>p</em>, </td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>k</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d7/de5/namespace_juniper_1_1_input.html#ab007479d42906acdc5ed67438e087cb9">Direction</a>&#160;</td>
+          <td class="paramname"><em>d</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Values increase in proportion to the square of time, meaning they start growing slowly and then grow quickly. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t</td><td>The proportional value, linearly progressing from 0 to 1.</td></tr>
+    <tr><td class="paramname">k</td><td>The constant value, input by the developer.</td></tr>
+    <tr><td class="paramname">d</td><td>The direction value, 1 for forward, -1 for backward.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00123">123</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        {</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            <span class="keywordflow">return</span> t * t;</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00134">Juniper.Animation.Tween.QuadraticContinuous()</a>.</p>
+
+</div>
+</div>
+<a id="ae857bdda47331d8fdb30a72a2af6b619"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae857bdda47331d8fdb30a72a2af6b619">&#9670;&nbsp;</a></span>QuadraticContinuous()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static float Juniper.Animation.Tween.QuadraticContinuous </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -394,19 +489,23 @@ Static Public Attributes</h2></td></tr>
 <p>Values increase in proportion to the square of time. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">p</td><td>The proportional value, linearly progressing from 0 to 1.</td></tr>
+    <tr><td class="paramname">t</td><td>The proportional value, linearly progressing from 0 to 1.</td></tr>
     <tr><td class="paramname">k</td><td>The constant value, input by the developer.</td></tr>
     <tr><td class="paramname">d</td><td>The direction value, 1 for forward, -1 for backward.</td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00086">86</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        {</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            <span class="keywordflow">return</span> p * p;</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00134">134</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        {</div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            t = <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#ae088ad06c39fb928570a67a93e1ce393">LinearContinuous</a>(t, k, d);</div><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            <span class="keywordflow">return</span> Math.Sign(t) * <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#ad0fba94fafebcaf1840a76955e188321">Quadratic</a>(t, k, d);</div><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_animation_1_1_tween_html_ad0fba94fafebcaf1840a76955e188321"><div class="ttname"><a href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#ad0fba94fafebcaf1840a76955e188321">Juniper.Animation.Tween.Quadratic</a></div><div class="ttdeci">static float Quadratic(float t, float k, Direction d)</div><div class="ttdoc">Values increase in proportion to the square of time, meaning they start growing slowly and then grow ...</div><div class="ttdef"><b>Definition:</b> <a href="../../db/daa/_tween_type_8cs_source.html#l00123">TweenType.cs:123</a></div></div>
+<div class="ttc" id="class_juniper_1_1_animation_1_1_tween_html_ae088ad06c39fb928570a67a93e1ce393"><div class="ttname"><a href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#ae088ad06c39fb928570a67a93e1ce393">Juniper.Animation.Tween.LinearContinuous</a></div><div class="ttdeci">static float LinearContinuous(float t, float k, Direction d)</div><div class="ttdoc">The most basic form of `tween, values increase in proportion to time.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/daa/_tween_type_8cs_source.html#l00104">TweenType.cs:104</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00104">Juniper.Animation.Tween.LinearContinuous()</a>, and <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00123">Juniper.Animation.Tween.Quadratic()</a>.</p>
+
 </div>
 </div>
-<a id="af0cebe7f541c8c764ccb84f849d49a3d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af0cebe7f541c8c764ccb84f849d49a3d">&#9670;&nbsp;</a></span>Sine()</h2>
+<a id="a9793bd14464935ba4c4a25cb1d634eff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9793bd14464935ba4c4a25cb1d634eff">&#9670;&nbsp;</a></span>Sine()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -418,7 +517,7 @@ Static Public Attributes</h2></td></tr>
           <td class="memname">static float Juniper.Animation.Tween.Sine </td>
           <td>(</td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>p</em>, </td>
+          <td class="paramname"><em>t</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -445,26 +544,23 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Values increase along a sine wave (actually, 1 minus cosine of time scaled to π) </p>
-<dl class="section return"><dt>Returns</dt><dd>The sine.</dd></dl>
+<p>Values increase on a sine curve, meaning they start growing quickly and then slow down. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">p</td><td>The proportional value, linearly progressing from 0 to 1.</td></tr>
-    <tr><td class="paramname">k</td><td>The constant value, input by the developer.</td></tr>
-    <tr><td class="paramname">d</td><td>The direction value, 1 for forward, -1 for backward.</td></tr>
+    <tr><td class="paramname">t</td><td></td></tr>
+    <tr><td class="paramname">k</td><td></td></tr>
+    <tr><td class="paramname">d</td><td></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00111">111</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        {</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            <span class="keywordflow">return</span> 0.5f * (1 - Mathf.Cos(p * Mathf.PI));</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00123">Juniper.Animation.Tween.Bump()</a>.</p>
-
+<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00148">148</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        {</div><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            var a = t * Math.PI;</div><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            <span class="keywordflow">return</span> (<span class="keywordtype">float</span>)Math.Sin(a);</div><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a72977ee2a9acf28ab9aaf66f5bed2d2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a72977ee2a9acf28ab9aaf66f5bed2d2d">&#9670;&nbsp;</a></span>Functions</h2>
+<a id="a942fa786030ead2fe5741bfc5403ade5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a942fa786030ead2fe5741bfc5403ade5">&#9670;&nbsp;</a></span>SineContinuous()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -473,7 +569,66 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">readonly Dictionary&lt;<a class="el" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>, <a class="el" href="../../db/daa/_tween_type_8cs.html#af6033c448dca9f29a99add54cb0cfa84">TweenFuncT</a>&gt; Juniper.Animation.Tween.Functions</td>
+          <td class="memname">static float Juniper.Animation.Tween.SineContinuous </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>k</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d7/de5/namespace_juniper_1_1_input.html#ab007479d42906acdc5ed67438e087cb9">Direction</a>&#160;</td>
+          <td class="paramname"><em>d</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Values increase on a sine curve, meaning they start growing quickly and then slow down. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t</td><td></td></tr>
+    <tr><td class="paramname">k</td><td></td></tr>
+    <tr><td class="paramname">d</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00163">163</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        {</div><div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            var a = <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#ae088ad06c39fb928570a67a93e1ce393">LinearContinuous</a>(t, k, d) * Math.PI;</div><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            <span class="keywordflow">return</span> (<span class="keywordtype">float</span>)Math.Sin(a);</div><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_animation_1_1_tween_html_ae088ad06c39fb928570a67a93e1ce393"><div class="ttname"><a href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#ae088ad06c39fb928570a67a93e1ce393">Juniper.Animation.Tween.LinearContinuous</a></div><div class="ttdeci">static float LinearContinuous(float t, float k, Direction d)</div><div class="ttdoc">The most basic form of `tween, values increase in proportion to time.</div><div class="ttdef"><b>Definition:</b> <a href="../../db/daa/_tween_type_8cs_source.html#l00104">TweenType.cs:104</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00104">Juniper.Animation.Tween.LinearContinuous()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a393ee3ba3509707bf9a012b849e81557"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a393ee3ba3509707bf9a012b849e81557">&#9670;&nbsp;</a></span>Functions</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">readonly Dictionary&lt;<a class="el" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>, <a class="el" href="../../d0/db1/namespace_juniper_1_1_animation.html#a09369c29ea21898b86eb137ebe475435">TweenFunc</a>&gt; Juniper.Animation.Tween.Functions</td>
         </tr>
       </table>
   </td>
@@ -482,17 +637,17 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= <span class="keyword">new</span> Dictionary&lt;TweenType, TweenFuncT&gt;(6)</div><div class="line">        {</div><div class="line">            { <a class="code" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>.Linear, <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a6630a324250a7a5fb2b025508d70f604">Linear</a> },</div><div class="line">            { <a class="code" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>.Quadratic, <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#aa107a6c6fe7b44aa20cf82e5443cbb3f">Quadratic</a> },</div><div class="line">            { <a class="code" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>.Cubic, <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a4a78f04fe634c2d71e26fe5d7371a7ee">Cubic</a> },</div><div class="line">            { <a class="code" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>.Sine, <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#af0cebe7f541c8c764ccb84f849d49a3d">Sine</a> },</div><div class="line">            { <a class="code" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>.Bump, <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a1fd85089e36a87710c0cac9d849d5e60">Bump</a> },</div><div class="line">            { <a class="code" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>.PingPong, <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a1dfab0d47ff3c156aa810b112ad90150">PingPong</a> }</div><div class="line">        }</div></div><!-- fragment -->
+<b>Initial value:</b><div class="fragment"><div class="line">= <span class="keyword">new</span> Dictionary&lt;TweenType, TweenFunc&gt;(6)</div><div class="line">        {</div><div class="line">            { <a class="code" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>.Linear, <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#af1f887d700212f17c6c597ea27de3ef1">Linear</a> },</div><div class="line">            { <a class="code" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>.LinearContinuous, <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#ae088ad06c39fb928570a67a93e1ce393">LinearContinuous</a> },</div><div class="line">            { <a class="code" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>.Quadratic, <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#ad0fba94fafebcaf1840a76955e188321">Quadratic</a> },</div><div class="line">            { <a class="code" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>.QuadraticContinuous, <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#ae857bdda47331d8fdb30a72a2af6b619">QuadraticContinuous</a> },</div><div class="line">            { <a class="code" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>.Sine, <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a9793bd14464935ba4c4a25cb1d634eff">Sine</a> },</div><div class="line">            { <a class="code" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>.SineContinuous, <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a942fa786030ead2fe5741bfc5403ade5">SineContinuous</a> },</div><div class="line">            { <a class="code" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>.Bump, <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a0855e6a2ddb0d71517c83c317d2f4e87">Bump</a> },</div><div class="line">            { <a class="code" href="../../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820">TweenType</a>.BumpContinuous, <a class="code" href="../../d5/d91/class_juniper_1_1_animation_1_1_tween.html#a2a2fca2731d0245cd7c47f325faac066">BumpContinuous</a> }</div><div class="line">        }</div></div><!-- fragment -->
 <p>A lookup for the tween functions, so we don't have to use reflection every time we want one. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00059">59</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/daa/_tween_type_8cs_source.html#l00075">75</a> of file <a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d0/d8e/_abstract_transition_controller_8cs_source.html#l00218">Juniper.Animation.AbstractTransitionController.StartTransition()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/daa/_presentation_transition_8cs_source.html#l00139">Juniper.Animation.PresentationTransition.Update()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/<a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a></li>
+<li>C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Animation/<a class="el" href="../../db/daa/_tween_type_8cs_source.html">TweenType.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

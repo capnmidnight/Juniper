@@ -16,7 +16,7 @@
 <text text-anchor="start" x="8" y="-67.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Motion.</text>
 <text text-anchor="middle" x="98.5" y="-56.5" font-family="SegoeUI" font-size="10.00">WindowsMRMotionControllerConfiguration</text>
 <polyline fill="none" stroke="black" points="0,-49.5 197,-49.5 "/>
-<text text-anchor="start" x="8" y="-37.5" font-family="SegoeUI" font-size="10.00">+ this[Hands hand]</text>
+<text text-anchor="start" x="8" y="-37.5" font-family="SegoeUI" font-size="10.00">+ this[Hand hand]</text>
 <polyline fill="none" stroke="black" points="0,-30.5 197,-30.5 "/>
 <text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">+ WindowsMRMotionController</text>
 <text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">Configuration()</text>
@@ -32,8 +32,8 @@
 <text text-anchor="middle" x="98.5" y="-217.5" font-family="SegoeUI" font-size="10.00">Handedness, WindowsMRButtons &gt;</text>
 <polyline fill="none" stroke="black" points="14.5,-210.5 182.5,-210.5 "/>
 <text text-anchor="start" x="22.5" y="-198.5" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
-<text text-anchor="start" x="22.5" y="-187.5" font-family="SegoeUI" font-size="10.00">&#45; touchPadButtons</text>
-<text text-anchor="start" x="22.5" y="-176.5" font-family="SegoeUI" font-size="10.00">&#45; triggerButtons</text>
+<text text-anchor="start" x="22.5" y="-187.5" font-family="SegoeUI" font-size="10.00">&#45; touchPadKeys</text>
+<text text-anchor="start" x="22.5" y="-176.5" font-family="SegoeUI" font-size="10.00">&#45; triggerKeys</text>
 <polyline fill="none" stroke="black" points="14.5,-169.5 182.5,-169.5 "/>
 <text text-anchor="start" x="22.5" y="-157.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
 <text text-anchor="start" x="22.5" y="-146.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
@@ -56,8 +56,8 @@
 <text text-anchor="middle" x="98.5" y="-410.5" font-family="SegoeUI" font-size="10.00">&lt; HandIDType, ButtonIDType &gt;</text>
 <polyline fill="none" stroke="black" points="9,-403.5 188,-403.5 "/>
 <text text-anchor="start" x="17" y="-391.5" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
-<text text-anchor="start" x="17" y="-380.5" font-family="SegoeUI" font-size="10.00">&#45; touchPadButtons</text>
-<text text-anchor="start" x="17" y="-369.5" font-family="SegoeUI" font-size="10.00">&#45; triggerButtons</text>
+<text text-anchor="start" x="17" y="-380.5" font-family="SegoeUI" font-size="10.00">&#45; touchPadKeys</text>
+<text text-anchor="start" x="17" y="-369.5" font-family="SegoeUI" font-size="10.00">&#45; triggerKeys</text>
 <polyline fill="none" stroke="black" points="9,-362.5 188,-362.5 "/>
 <text text-anchor="start" x="17" y="-350.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
 <text text-anchor="start" x="17" y="-339.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
@@ -82,7 +82,7 @@
 <polyline fill="none" stroke="black" points="13,-542.5 184,-542.5 "/>
 <text text-anchor="start" x="21" y="-530.5" font-family="SegoeUI" font-size="10.00">+ HandType</text>
 <text text-anchor="start" x="21" y="-519.5" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
-<text text-anchor="start" x="21" y="-508.5" font-family="SegoeUI" font-size="10.00">+ this[Hands hand]</text>
+<text text-anchor="start" x="21" y="-508.5" font-family="SegoeUI" font-size="10.00">+ this[Hand hand]</text>
 <polyline fill="none" stroke="black" points="13,-501.5 184,-501.5 "/>
 <text text-anchor="start" x="21" y="-489.5" font-family="SegoeUI" font-size="10.00">+ MakePointerName()</text>
 </a>
@@ -100,7 +100,7 @@
 <text text-anchor="start" x="37" y="-688.5" font-family="SegoeUI" font-size="10.00">AbstractPointerConfiguration</text>
 <text text-anchor="middle" x="98.5" y="-677.5" font-family="SegoeUI" font-size="10.00">&lt; ButtonIDType &gt;</text>
 <polyline fill="none" stroke="black" points="29,-670.5 168,-670.5 "/>
-<text text-anchor="start" x="37" y="-658.5" font-family="SegoeUI" font-size="10.00">&#45; nativeButtons</text>
+<text text-anchor="start" x="37" y="-658.5" font-family="SegoeUI" font-size="10.00">&#45; nativeKeys</text>
 <polyline fill="none" stroke="black" points="29,-651.5 168,-651.5 "/>
 <text text-anchor="start" x="37" y="-639.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
 <text text-anchor="start" x="37" y="-628.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>

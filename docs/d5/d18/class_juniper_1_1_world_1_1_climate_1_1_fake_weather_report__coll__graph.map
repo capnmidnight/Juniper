@@ -1,8 +1,12 @@
 <map id="Juniper.World.Climate.FakeWeatherReport" name="Juniper.World.Climate.FakeWeatherReport">
-<area shape="rect" id="node1" title="An API&#45;compatible, editable object for making static weather reports." alt="" coords="179,593,357,993"/>
-<area shape="rect" id="node2" href="$de/d3a/interface_juniper_1_1_climate_1_1_i_weather_report.html" title=" " alt="" coords="5,197,160,479"/>
-<area shape="rect" id="node3" href="$d6/d53/class_juniper_1_1_world_1_1_g_i_s_1_1_lat_lng_point.html" title="A point in geographic space on a radial coordinate system." alt="" coords="185,197,351,479"/>
-<area shape="rect" id="node4" title=" " alt="" coords="222,5,314,83"/>
-<area shape="rect" id="node5" href="$d0/d94/struct_juniper_1_1_editable_date_time.html" title="A wrapper around System.DateTime that makes it possible to edit values in the Unity Editor." alt="" coords="376,145,573,531"/>
-<area shape="rect" id="node6" title=" " alt="" coords="449,5,501,83"/>
+<area shape="rect" id="node1" title="An API&#45;compatible, editable object for making static weather reports." alt="" coords="227,784,406,1023"/>
+<area shape="rect" id="node2" href="$de/d3a/interface_juniper_1_1_climate_1_1_i_weather_report.html" title=" " alt="" coords="54,299,209,582"/>
+<area shape="rect" id="node3" href="$d6/d53/class_juniper_1_1_world_1_1_g_i_s_1_1_lat_lng_point.html" title="A point in geographic space on a radial coordinate system." alt="" coords="233,175,400,707"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,13,97,90"/>
+<area shape="rect" id="node5" title=" " alt="" coords="122,13,309,90"/>
+<area shape="rect" id="node6" title=" " alt="" coords="333,13,506,90"/>
+<area shape="rect" id="node7" href="$d0/d94/struct_juniper_1_1_editable_date_time.html" title="A wrapper around System.DateTime that makes it possible to edit values in the Unity Editor." alt="" coords="630,241,827,641"/>
+<area shape="rect" id="node8" title=" " alt="" coords="531,5,697,97"/>
+<area shape="rect" id="node9" title=" " alt="" coords="722,13,885,90"/>
+<area shape="rect" id="node10" title=" " alt="" coords="909,13,961,90"/>
 </map>

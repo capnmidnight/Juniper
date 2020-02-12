@@ -1,6 +1,6 @@
 # Juniper For Fun and Profit
 
-This is a bunch of code that I use in my VR projects. The following README block is very out of date, but I don't consider this project ready for other people to use, yet. 
+This is a bunch of code that I use in my VR projects. The following README block is very out of date, but I don't consider this project ready for other people to use, yet.
 
 # Introduction
 
@@ -38,30 +38,19 @@ Juniper is a framework within Unity 3D for managing and developing virtual, augm
 		- *OpenWeatherMap* - Service integration for [OpenWeatherMap](https://openweathermap.org/)'s API.
 	- *GIS* - Latitude/Longitude points and conversions to different coordinate frames.
 
-## Tools
-
-- [Unity Hub](https://unity3d.com/get-unity/download). Unity Hub is very handy for managing different versions of Unity between different projects. There is also a link in Unity Hub to the Unity Download Archive for any version that Unity does not advertise through the Available Installs screen.
-	- **For Magic Leap**: [Magic Leap maintains their own fork of the Unity Editor](https://unity3d.com/partners/magicleap). It's currently an older version of Unity that is not compatible with the new Nestable Prefabs system, so be careful not to mix versions. You can upgrade from 2018.1 to later versions, but your scenes and prefabs will crash the editor if you try to downgrade. For that reason, there are copies of scenes and prefabs in the Juniper project specifically for Unity 2018.1.
-- [Visual Studio](https://visualstudio.microsoft.com/vs/). Unity can install this by default for you.
-- [Blender](https://www.blender.org/download/). There are a few 3D models in the project repository that Unity requires Blender to be installed to be able to import them.
-- [Toudor](https://nerdur.com/todour-pl/). The issues list for Juniper is maintained as a `todo.txt` file in the root of the project. Toudour provides a nice GUI for editing the list.
-- [Doxygen](http://www.doxygen.nl/download.html). This is only necessary for updating the documentation in Juniper, but it's a good idea to use it on your projects, too. Make sure to add it to your PATH.
-- [GraphViz](https://www.graphviz.org/download/). This is used by Doxygen to generate nicer diagrams for the documentation. Make sure to add it to your PATH.
-- [scc](https://github.com/boyter/scc/releases). This is used by the documentation generation scripts to estimate the project complexity. Make sure to add it to your PATH.
-
 # Code Metrics
 
 ```
 ───────────────────────────────────────────────────────────────────────────────
 Language                     Files       Lines      Code    Comments     Blanks
 ───────────────────────────────────────────────────────────────────────────────
-C#                             531       54233     32612       15037       6584
+C#                            1657      268811    189507       45443      33861
 ───────────────────────────────────────────────────────────────────────────────
-Total                          531       54233     32612       15037       6584
+Total                         1657      268811    189507       45443      33861
 ───────────────────────────────────────────────────────────────────────────────
-Estimated Cost to Develop $2,794,980
-Estimated Schedule Effort 15.621927 months
-Estimated People Required 7.951731
+Estimated Cost to Develop $17,735,319
+Estimated Schedule Effort 31.526044 months
+Estimated People Required 25.002706
 ───────────────────────────────────────────────────────────────────────────────
 
 

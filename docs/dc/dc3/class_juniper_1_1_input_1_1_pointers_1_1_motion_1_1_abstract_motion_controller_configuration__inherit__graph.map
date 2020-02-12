@@ -1,13 +1,11 @@
 <map id="Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration&lt; HandIDType, ButtonIDType &gt;" name="Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration&lt; HandIDType, ButtonIDType &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="428,347,667,527"/>
-<area shape="rect" id="node4" href="$da/de2/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_configuration.html" title=" " alt="" coords="11,604,249,784"/>
-<area shape="rect" id="node6" href="$da/de2/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_configuration.html" title=" " alt="" coords="273,604,544,784"/>
-<area shape="rect" id="node8" href="$da/de2/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_configuration.html" title=" " alt="" coords="568,604,807,784"/>
-<area shape="rect" id="node10" href="$da/de2/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_configuration.html" title=" " alt="" coords="831,604,1170,784"/>
-<area shape="rect" id="node2" href="$d0/d65/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer_configuration.html" title=" " alt="" coords="433,176,661,297"/>
-<area shape="rect" id="node3" href="$d0/d7e/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html" title=" " alt="" coords="455,5,640,127"/>
-<area shape="rect" id="node5" href="$d7/d33/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_motion_controller_configuration.html" title=" " alt="" coords="5,833,255,940"/>
-<area shape="rect" id="node7" href="$d4/d65/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_daydream_pointer_configuration.html" title=" " alt="" coords="299,841,518,933"/>
-<area shape="rect" id="node9" href="$de/d96/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_no_motion_controller_configuration.html" title=" " alt="" coords="584,841,791,933"/>
-<area shape="rect" id="node11" href="$dd/d07/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller_configuration.html" title=" " alt="" coords="869,833,1132,940"/>
+<area shape="rect" id="node1" title=" " alt="" coords="268,347,507,527"/>
+<area shape="rect" id="node4" href="$da/de2/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_configuration.html" title=" " alt="" coords="5,604,244,784"/>
+<area shape="rect" id="node6" href="$da/de2/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_configuration.html" title=" " alt="" coords="268,604,507,784"/>
+<area shape="rect" id="node8" href="$da/de2/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_configuration.html" title=" " alt="" coords="531,604,870,784"/>
+<area shape="rect" id="node2" href="$d0/d65/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer_configuration.html" title=" " alt="" coords="273,176,501,297"/>
+<area shape="rect" id="node3" href="$d0/d7e/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html" title=" " alt="" coords="295,5,480,127"/>
+<area shape="rect" id="node5" href="$de/d96/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_no_motion_controller_configuration.html" title=" " alt="" coords="21,841,228,933"/>
+<area shape="rect" id="node7" href="$d7/d33/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_motion_controller_configuration.html" title=" " alt="" coords="263,833,512,940"/>
+<area shape="rect" id="node9" href="$dd/d07/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller_configuration.html" title=" " alt="" coords="569,833,832,940"/>
 </map>

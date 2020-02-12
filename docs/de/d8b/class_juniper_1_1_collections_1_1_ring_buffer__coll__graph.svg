@@ -16,11 +16,11 @@
 <text text-anchor="start" x="8" y="-298.5" font-family="SegoeUI" font-size="10.00">Juniper.Collections.Ring</text>
 <text text-anchor="middle" x="59" y="-287.5" font-family="SegoeUI" font-size="10.00">Buffer&lt; T &gt;</text>
 <polyline fill="none" stroke="black" points="0,-280.5 118,-280.5 "/>
-<text text-anchor="start" x="8" y="-268.5" font-family="SegoeUI" font-size="10.00">+ Start</text>
-<text text-anchor="start" x="8" y="-257.5" font-family="SegoeUI" font-size="10.00">+ End</text>
-<text text-anchor="start" x="8" y="-246.5" font-family="SegoeUI" font-size="10.00">+ IsSaturated</text>
-<text text-anchor="start" x="8" y="-235.5" font-family="SegoeUI" font-size="10.00">+ Count</text>
-<text text-anchor="start" x="8" y="-224.5" font-family="SegoeUI" font-size="10.00">+ IsReadOnly</text>
+<text text-anchor="start" x="8" y="-268.5" font-family="SegoeUI" font-size="10.00">+ IsSaturated</text>
+<text text-anchor="start" x="8" y="-257.5" font-family="SegoeUI" font-size="10.00">+ IsReadOnly</text>
+<text text-anchor="start" x="8" y="-246.5" font-family="SegoeUI" font-size="10.00">+ Start</text>
+<text text-anchor="start" x="8" y="-235.5" font-family="SegoeUI" font-size="10.00">+ End</text>
+<text text-anchor="start" x="8" y="-224.5" font-family="SegoeUI" font-size="10.00">+ Count</text>
 <text text-anchor="start" x="8" y="-213.5" font-family="SegoeUI" font-size="10.00">+ this[int index]</text>
 <text text-anchor="start" x="8" y="-202.5" font-family="SegoeUI" font-size="10.00">&#45; width</text>
 <text text-anchor="start" x="8" y="-191.5" font-family="SegoeUI" font-size="10.00">&#45; buffer</text>

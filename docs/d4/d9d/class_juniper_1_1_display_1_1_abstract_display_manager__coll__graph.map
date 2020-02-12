@@ -1,52 +1,52 @@
 <map id="Juniper.Display.AbstractDisplayManager" name="Juniper.Display.AbstractDisplayManager">
-<area shape="rect" id="node1" title=" " alt="" coords="708,5891,913,6467"/>
-<area shape="rect" id="node2" title=" " alt="" coords="299,5,408,83"/>
-<area shape="rect" id="node4" href="$dc/dfb/class_juniper_1_1_input_1_1_camera_control.html" title=" " alt="" coords="711,5252,910,5828"/>
-<area shape="rect" id="node5" href="$dd/da9/class_juniper_1_1_avatar.html" title=" " alt="" coords="453,3561,643,4049"/>
-<area shape="rect" id="node6" href="$d7/d9d/class_juniper_1_1_anchoring_1_1_grounded.html" title="This component searches for the ground above or below the gameObject it&#39;s attached to...." alt="" coords="415,3095,598,3421"/>
-<area shape="rect" id="node9" href="$d7/d8c/class_juniper_1_1_widgets_1_1_abstract_touchable.html" title="The base class for all interactive, AR&#45;compatible, GUI controls /// This class is abstract to avoid i..." alt="" coords="1640,360,1808,672"/>
-<area shape="rect" id="node14" href="$d8/dea/class_juniper_1_1_animation_1_1_abstract_animator.html" title="An abstraction layer over different ways of showing UI state. Only one such component is allowed on a..." alt="" coords="1005,132,1179,268"/>
-<area shape="rect" id="node50" href="$df/df8/class_juniper_1_1_juniper_system.html" title=" " alt="" coords="43,3701,205,3910"/>
-<area shape="rect" id="node3" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="197,3205,289,3311"/>
-<area shape="rect" id="node26" href="$db/d40/class_juniper_1_1_input_1_1_abstract_unified_input_module.html" title="Finds all of the IPointerDevice s and fires raycaster events for all of them." alt="" coords="1385,4112,1580,4879"/>
-<area shape="rect" id="node7" href="$d9/d93/class_juniper_1_1_widgets_1_1_draggable.html" title="An object that can be picked up and put down in a new location." alt="" coords="674,2459,862,2698"/>
-<area shape="rect" id="node8" href="$dd/d30/class_juniper_1_1_widgets_1_1_abstract_valued.html" title="The Valued component adds a float field and range of valid values for that field to a Touchable objec..." alt="" coords="1195,1311,1378,1769"/>
-<area shape="rect" id="node10" title=" " alt="" coords="1442,161,1582,239"/>
-<area shape="rect" id="node11" title=" " alt="" coords="1607,161,1737,239"/>
-<area shape="rect" id="node12" title=" " alt="" coords="1762,161,1905,239"/>
-<area shape="rect" id="node13" title=" " alt="" coords="1929,161,2055,239"/>
-<area shape="rect" id="node15" title=" " alt="" coords="704,161,792,239"/>
-<area shape="rect" id="node42" href="$d1/d3b/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_touch_point.html" title="Perform pointer events on touch screens." alt="" coords="1269,2452,1464,2705"/>
-<area shape="rect" id="node16" title=" " alt="" coords="2079,161,2131,239"/>
-<area shape="rect" id="node32" href="$d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="1620,696,1833,1287"/>
-<area shape="rect" id="node17" title=" " alt="" coords="999,470,1148,562"/>
-<area shape="rect" id="node18" title=" " alt="" coords="1223,477,1351,555"/>
-<area shape="rect" id="node19" title=" " alt="" coords="1375,477,1473,555"/>
-<area shape="rect" id="node20" title=" " alt="" coords="1497,477,1615,555"/>
-<area shape="rect" id="node21" title=" " alt="" coords="877,477,974,555"/>
-<area shape="rect" id="node22" href="$d0/d32/interface_juniper_1_1_widgets_1_1_i_valued_control.html" title=" " alt="" coords="441,477,599,555"/>
-<area shape="rect" id="node23" href="$d0/d32/interface_juniper_1_1_widgets_1_1_i_valued_control.html" title=" " alt="" coords="441,161,676,239"/>
-<area shape="rect" id="node24" href="$d7/d3d/class_juniper_1_1_input_1_1_unified_input_module.html" title=" " alt="" coords="987,5097,1155,5189"/>
-<area shape="rect" id="node25" href="$d0/daf/class_juniper_1_1_input_1_1_daydream_input_module.html" title=" " alt="" coords="1345,4928,1495,5035"/>
-<area shape="rect" id="node27" title=" " alt="" coords="2163,3767,2295,3844"/>
-<area shape="rect" id="node28" href="$d0/d2e/interface_juniper_1_1_input_1_1_i_input_module.html" title=" " alt="" coords="2319,3708,2467,3903"/>
-<area shape="rect" id="node29" href="$d8/da1/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_motion_controller.html" title=" " alt="" coords="1260,3445,1452,3537"/>
-<area shape="rect" id="node30" href="$d4/d24/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_daydream_motion_controller.html" title=" " alt="" coords="1369,2729,1543,3071"/>
-<area shape="rect" id="node31" href="$d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="1436,1793,1689,2428"/>
-<area shape="rect" id="node33" href="$d2/d9a/class_juniper_1_1_input_1_1_pointers_1_1_gaze_1_1_gaze_pointer.html" title=" " alt="" coords="1521,3759,1703,3851"/>
-<area shape="rect" id="node34" href="$de/d9c/class_juniper_1_1_input_1_1_pointers_1_1_gaze_1_1_tobii_gaze_pointer.html" title=" " alt="" coords="1721,3190,1879,3326"/>
-<area shape="rect" id="node35" href="$d9/df7/class_juniper_1_1_input_1_1_pointers_1_1_gaze_1_1_abstract_gaze_pointer.html" title=" " alt="" coords="1842,2452,1995,2705"/>
-<area shape="rect" id="node36" href="$d5/d55/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title=" " alt="" coords="1977,1487,2215,1593"/>
-<area shape="rect" id="node37" href="$d5/d55/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title="A ScreenDevice is a AbstractPointerDevice&lt;ButtonIDType, ConfigType&gt; that has its primary pointer inte..." alt="" coords="2005,455,2243,577"/>
-<area shape="rect" id="node44" href="$d5/d55/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title=" " alt="" coords="1693,1487,1952,1593"/>
-<area shape="rect" id="node38" href="$db/d04/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_hand_tracker.html" title=" " alt="" coords="1728,3759,1920,3851"/>
-<area shape="rect" id="node39" href="$db/d09/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_no_hand_tracker.html" title=" " alt="" coords="1953,3190,2087,3326"/>
-<area shape="rect" id="node40" href="$d2/d07/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker.html" title=" " alt="" coords="2167,2525,2388,2632"/>
-<area shape="rect" id="node41" href="$d2/d07/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker.html" title=" " alt="" coords="2239,1487,2467,1593"/>
-<area shape="rect" id="node43" href="$d4/da7/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_mouse.html" title="A AbstractScreenDevice pointer for the standard mouse connected to a desktop system." alt="" coords="1625,2781,1820,3019"/>
-<area shape="rect" id="node45" href="$d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="1944,3613,2139,3998"/>
-<area shape="rect" id="node46" href="$d7/daa/class_juniper_1_1_display_1_1_abstract_display_manager_1_1_a_r_mode_event.html" title=" " alt="" coords="2735,5494,2929,5586"/>
-<area shape="rect" id="node47" title=" " alt="" coords="2735,5097,2932,5189"/>
-<area shape="rect" id="node48" href="$d5/dcb/class_juniper_1_1_display_1_1_abstract_display_manager_1_1_display_type_event.html" title=" " alt="" coords="2954,5494,3169,5586"/>
-<area shape="rect" id="node49" title=" " alt="" coords="2971,5105,3152,5182"/>
+<area shape="rect" id="node1" title=" " alt="" coords="715,7791,920,8381"/>
+<area shape="rect" id="node2" title=" " alt="" coords="607,5,716,83"/>
+<area shape="rect" id="node6" href="$dc/dfb/class_juniper_1_1_input_1_1_camera_control.html" title=" " alt="" coords="1313,4207,1511,4856"/>
+<area shape="rect" id="node7" href="$dd/da9/class_juniper_1_1_avatar.html" title=" " alt="" coords="1041,2157,1231,2807"/>
+<area shape="rect" id="node8" href="$d7/d9d/class_juniper_1_1_anchoring_1_1_grounded.html" title="This component searches for the ground above or below the gameObject it&#39;s attached to...." alt="" coords="1055,1753,1238,2051"/>
+<area shape="rect" id="node11" href="$d7/d8c/class_juniper_1_1_widgets_1_1_abstract_touchable.html" title="The base class for all interactive, AR&#45;compatible, GUI controls /// This class is abstract to avoid i..." alt="" coords="1972,277,2140,619"/>
+<area shape="rect" id="node32" href="$d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html" title="A class that implements basic functionality for systems that manage speech recognition and route out ..." alt="" coords="2165,175,2390,721"/>
+<area shape="rect" id="node38" href="$d2/d52/class_juniper_1_1_widgets_1_1_quality_degrader.html" title="This component manages the quality settings on the fly, making sure the application never falls below..." alt="" coords="307,7489,517,7728"/>
+<area shape="rect" id="node42" href="$db/d51/class_juniper_1_1_display_1_1_abstract_display_manager.html" title=" " alt="" coords="572,4919,777,5495"/>
+<area shape="rect" id="node43" href="$df/df8/class_juniper_1_1_juniper_system.html" title=" " alt="" coords="397,2304,592,2660"/>
+<area shape="rect" id="node46" href="$d9/d8c/class_juniper_1_1_ground_1_1_abstract_ground.html" title=" " alt="" coords="616,2333,795,2631"/>
+<area shape="rect" id="node3" href="$d7/dbe/interface_juniper_1_1_i_o_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="786,1849,878,1955"/>
+<area shape="rect" id="node25" href="$db/d40/class_juniper_1_1_input_1_1_abstract_unified_input_module.html" title="Finds all of the IPointerDevice s and fires raycaster events for all of them." alt="" coords="1894,2869,2090,3665"/>
+<area shape="rect" id="node4" href="$d8/d96/class_juniper_1_1_display_1_1_display_type_event.html" title=" " alt="" coords="613,4485,792,4577"/>
+<area shape="rect" id="node5" title=" " alt="" coords="613,4037,795,4115"/>
+<area shape="rect" id="node9" href="$d9/d93/class_juniper_1_1_widgets_1_1_draggable.html" title="An object that can be picked up and put down in a new location." alt="" coords="1053,1423,1241,1661"/>
+<area shape="rect" id="node10" href="$dd/d30/class_juniper_1_1_widgets_1_1_abstract_valued.html" title="The Valued component adds a float field and range of valid values for that field to a Touchable objec..." alt="" coords="1342,784,1525,1243"/>
+<area shape="rect" id="node12" title=" " alt="" coords="1821,5,1909,83"/>
+<area shape="rect" id="node33" href="$d1/d3b/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_touch_point.html" title="Perform pointer events on touch screens." alt="" coords="2516,321,2711,575"/>
+<area shape="rect" id="node34" href="$d6/d25/class_juniper_1_1_input_1_1_pointers_1_1_network_pointer.html" title=" " alt="" coords="2735,329,2932,567"/>
+<area shape="rect" id="node13" title=" " alt="" coords="2579,5,2631,83"/>
+<area shape="rect" id="node14" title=" " alt="" coords="927,402,1076,494"/>
+<area shape="rect" id="node15" title=" " alt="" coords="1100,409,1228,487"/>
+<area shape="rect" id="node16" title=" " alt="" coords="1253,409,1350,487"/>
+<area shape="rect" id="node17" title=" " alt="" coords="1374,409,1493,487"/>
+<area shape="rect" id="node18" title=" " alt="" coords="1517,409,1614,487"/>
+<area shape="rect" id="node19" href="$d0/d32/interface_juniper_1_1_widgets_1_1_i_valued_control.html" title=" " alt="" coords="1639,409,1796,487"/>
+<area shape="rect" id="node20" href="$d0/dc2/class_juniper_1_1_mathematics_1_1_abstract_motion_filter.html" title=" " alt="" coords="1142,4023,1333,4129"/>
+<area shape="rect" id="node21" title=" " alt="" coords="1179,3813,1295,3890"/>
+<area shape="rect" id="node22" title=" " alt="" coords="1357,4037,1419,4115"/>
+<area shape="rect" id="node23" href="$d7/d3d/class_juniper_1_1_input_1_1_unified_input_module.html" title=" " alt="" coords="1585,4030,1753,4122"/>
+<area shape="rect" id="node24" href="$d7/d0e/class_juniper_1_1_input_1_1_windows_m_r_input_module.html" title=" " alt="" coords="1704,3805,1867,3897"/>
+<area shape="rect" id="node26" title=" " alt="" coords="1739,2443,1871,2521"/>
+<area shape="rect" id="node27" href="$d8/da1/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_motion_controller.html" title=" " alt="" coords="2163,2436,2355,2528"/>
+<area shape="rect" id="node28" href="$d0/dc0/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_motion_controller.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="2172,1724,2345,2080"/>
+<area shape="rect" id="node29" href="$d2/d9a/class_juniper_1_1_input_1_1_pointers_1_1_gaze_1_1_gaze_pointer.html" title=" " alt="" coords="2379,2436,2562,2528"/>
+<area shape="rect" id="node30" href="$de/d9c/class_juniper_1_1_input_1_1_pointers_1_1_gaze_1_1_tobii_gaze_pointer.html" title=" " alt="" coords="2392,1834,2549,1970"/>
+<area shape="rect" id="node31" href="$db/d04/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_hand_tracker.html" title=" " alt="" coords="1896,2436,2088,2528"/>
+<area shape="rect" id="node35" href="$d4/da7/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_mouse.html" title="A AbstractScreenDevice pointer for the standard mouse connected to a desktop system." alt="" coords="1520,2326,1715,2638"/>
+<area shape="rect" id="node36" href="$dc/d6d/class_juniper_1_1_display_1_1_a_r_mode_event.html" title=" " alt="" coords="924,4493,1113,4570"/>
+<area shape="rect" id="node37" title=" " alt="" coords="920,4030,1117,4122"/>
+<area shape="rect" id="node39" href="$de/dc1/class_juniper_1_1_display_1_1_display_manager.html" title="Manages the camera FOV in the editor so that it matches the target system, or on desktop makes sure t..." alt="" coords="486,7276,687,7353"/>
+<area shape="rect" id="node40" href="$dc/d32/class_juniper_1_1_display_1_1_a_r_kit_display_manager.html" title=" " alt="" coords="539,6724,682,6816"/>
+<area shape="rect" id="node41" href="$de/df3/class_juniper_1_1_display_1_1_abstract_passthrough_display_manager.html" title=" " alt="" coords="515,5887,693,5994"/>
+<area shape="rect" id="node44" href="$df/d34/class_juniper_1_1_ground_1_1_terrain_manager.html" title="Manages references to the ground, either 3D terrain in VR apps or detected planes and meshes in AR ap..." alt="" coords="301,3921,505,3999"/>
+<area shape="rect" id="node45" href="$d9/d00/class_juniper_1_1_ground_1_1_a_r_kit_ground.html" title=" " alt="" coords="585,3689,703,3781"/>
+<area shape="rect" id="node47" href="$d7/dc6/class_juniper_1_1_mathematics_1_1_single_statistics_collection.html" title="Computes statistics on System.Single values." alt="" coords="106,7203,291,7427"/>
+<area shape="rect" id="node48" href="$d1/d70/class_juniper_1_1_mathematics_1_1_abstract_statistics_collection.html" title=" " alt="" coords="94,6387,293,7153"/>
+<area shape="rect" id="node49" href="$d1/d70/class_juniper_1_1_mathematics_1_1_abstract_statistics_collection.html" title="An abstract class for a collection wrapper that can automatically compute statistics on the values co..." alt="" coords="43,5557,242,6324"/>
+<area shape="rect" id="node50" title=" " alt="" coords="102,5168,181,5245"/>
 </map>

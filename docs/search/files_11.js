@@ -1,21 +1,25 @@
 var searchData=
 [
   ['radians_2ecs',['Radians.cs',['../d4/d37/_radians_8cs.html',1,'']]],
+  ['randomext_2ecs',['RandomExt.cs',['../d9/d00/_random_ext_8cs.html',1,'']]],
   ['ratio_2ecs',['Ratio.cs',['../d7/dff/_ratio_8cs.html',1,'']]],
-  ['rawaudio_2ecs',['RawAudio.cs',['../d3/d96/_raw_audio_8cs.html',1,'']]],
   ['rawimage_2ecs',['RawImage.cs',['../dc/de9/_raw_image_8cs.html',1,'']]],
-  ['rawpackage_2ecs',['RawPackage.cs',['../df/d1e/_raw_package_8cs.html',1,'']]],
   ['readme_2emd',['README.md',['../d9/dd6/_r_e_a_d_m_e_8md.html',1,'']]],
   ['readonlyattribute_2ecs',['ReadOnlyAttribute.cs',['../d2/da8/_read_only_attribute_8cs.html',1,'']]],
   ['readonlyattributedrawer_2ecs',['ReadOnlyAttributeDrawer.cs',['../d9/d06/_read_only_attribute_drawer_8cs.html',1,'']]],
+  ['readresult_2ecs',['ReadResult.cs',['../d3/dd3/_read_result_8cs.html',1,'']]],
   ['recttransformext_2ecs',['RectTransformExt.cs',['../dd/d7f/_rect_transform_ext_8cs.html',1,'']]],
   ['rendererext_2ecs',['RendererExt.cs',['../da/dc1/_renderer_ext_8cs.html',1,'']]],
   ['resonanceinteractionaudio_2ecs',['ResonanceInteractionAudio.cs',['../d4/ddc/_resonance_interaction_audio_8cs.html',1,'']]],
   ['resourceext_2ecs',['ResourceExt.cs',['../da/d0e/_resource_ext_8cs.html',1,'']]],
-  ['result_2ecs',['Result.cs',['../d1/dca/_result_8cs.html',1,'']]],
+  ['reversegeocodingrequest_2ecs',['ReverseGeocodingRequest.cs',['../d9/d26/_reverse_geocoding_request_8cs.html',1,'']]],
   ['ringbuffer_2ecs',['RingBuffer.cs',['../d9/dd6/_ring_buffer_8cs.html',1,'']]],
   ['rocketpack_2ecs',['RocketPack.cs',['../d6/d4a/_rocket_pack_8cs.html',1,'']]],
   ['rotatable_2ecs',['Rotatable.cs',['../d4/dbc/_rotatable_8cs.html',1,'']]],
   ['rotationhandle_2ecs',['RotationHandle.cs',['../da/d99/_rotation_handle_8cs.html',1,'']]],
-  ['runningmovement_2ecs',['RunningMovement.cs',['../dd/dd3/_running_movement_8cs.html',1,'']]]
+  ['route_2ecs',['Route.cs',['../d2/d28/_route_8cs.html',1,'']]],
+  ['routeattribute_2ecs',['RouteAttribute.cs',['../d9/df2/_route_attribute_8cs.html',1,'']]],
+  ['rule_2ecs',['Rule.cs',['../db/d7f/_rule_8cs.html',1,'']]],
+  ['runningmovement_2ecs',['RunningMovement.cs',['../dd/dd3/_running_movement_8cs.html',1,'']]],
+  ['runtimeexception_2ecs',['RuntimeException.cs',['../de/d62/_runtime_exception_8cs.html',1,'']]]
 ];

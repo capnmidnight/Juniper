@@ -158,7 +158,7 @@
 <text text-anchor="start" x="167.5" y="-40.5" font-family="SegoeUI" font-size="10.00">+ OnBeginDrag()</text>
 <text text-anchor="start" x="167.5" y="-29.5" font-family="SegoeUI" font-size="10.00">+ OnDrag()</text>
 <text text-anchor="start" x="167.5" y="-18.5" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
-<text text-anchor="start" x="167.5" y="-7.5" font-family="SegoeUI" font-size="10.00"># Update()</text>
+<text text-anchor="start" x="167.5" y="-7.5" font-family="SegoeUI" font-size="10.00">+ Update()</text>
 </a>
 </g>
 </g>

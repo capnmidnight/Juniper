@@ -17,8 +17,8 @@
 <polyline fill="none" stroke="black" points="0,-49.5 104,-49.5 "/>
 <text text-anchor="middle" x="52" y="-37.5" font-family="SegoeUI" font-size="10.00"> </text>
 <polyline fill="none" stroke="black" points="0,-30.5 104,-30.5 "/>
-<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">+ ToXMLLogString()</text>
-<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">+ ToShortString()</text>
+<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">+ ToShortString()</text>
+<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">+ Unroll()</text>
 </a>
 </g>
 </g>

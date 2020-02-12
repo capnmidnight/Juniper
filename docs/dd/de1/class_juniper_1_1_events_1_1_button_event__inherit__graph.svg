@@ -17,7 +17,7 @@
 <polyline fill="none" stroke="black" points="0,-280.5 144,-280.5 "/>
 <text text-anchor="start" x="8" y="-268.5" font-family="SegoeUI" font-size="10.00">+ buttonTypeName</text>
 <text text-anchor="start" x="8" y="-257.5" font-family="SegoeUI" font-size="10.00">+ buttonValueName</text>
-<text text-anchor="start" x="8" y="-246.5" font-family="SegoeUI" font-size="10.00">+ inputButton</text>
+<text text-anchor="start" x="8" y="-246.5" font-family="SegoeUI" font-size="10.00">+ inputKey</text>
 <text text-anchor="start" x="8" y="-235.5" font-family="SegoeUI" font-size="10.00">+ onClick</text>
 <text text-anchor="start" x="8" y="-224.5" font-family="SegoeUI" font-size="10.00">+ onDoubleClick</text>
 <text text-anchor="start" x="8" y="-213.5" font-family="SegoeUI" font-size="10.00">+ onLongPress</text>

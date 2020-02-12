@@ -25,13 +25,13 @@
 </g>
 <!-- Node1 -->
 <g id="node2" class="node"><title>Node1</title>
-<g id="a_node2"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="54,-116.5 54,-173.5 113,-173.5 113,-116.5 54,-116.5"/>
+<g id="a_node2"><a xlink:href="../../df/d96/class_juniper_1_1_event_args.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="45.5,-116.5 45.5,-173.5 121.5,-173.5 121.5,-116.5 45.5,-116.5"/>
 <text text-anchor="middle" x="83.5" y="-161.5" font-family="SegoeUI" font-size="10.00">EventArgs</text>
-<polyline fill="none" stroke="#bfbfbf" points="54,-154.5 113,-154.5 "/>
-<text text-anchor="middle" x="83.5" y="-142.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="#bfbfbf" points="54,-135.5 113,-135.5 "/>
-<text text-anchor="middle" x="83.5" y="-123.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="45.5,-154.5 121.5,-154.5 "/>
+<text text-anchor="start" x="53.5" y="-142.5" font-family="SegoeUI" font-size="10.00">+ Value</text>
+<polyline fill="none" stroke="black" points="45.5,-135.5 121.5,-135.5 "/>
+<text text-anchor="start" x="53.5" y="-123.5" font-family="SegoeUI" font-size="10.00">+ EventArgs()</text>
 </a>
 </g>
 </g>
@@ -39,6 +39,11 @@
 <g id="edge1" class="edge"><title>Node1&#45;&gt;Node0</title>
 <path fill="none" stroke="midnightblue" d="M83.5,-106.156C83.5,-97.4733 83.5,-88.2318 83.5,-79.5205"/>
 <polygon fill="none" stroke="midnightblue" points="80.0001,-106.398 83.5,-116.398 87.0001,-106.398 80.0001,-106.398"/>
+</g>
+<!-- Node1&#45;&gt;Node1 -->
+<g id="edge2" class="edge"><title>Node1&#45;&gt;Node1</title>
+<path fill="none" stroke="midnightblue" d="M131.432,-161.069C136.354,-157.904 139.5,-152.547 139.5,-145 139.5,-133.219 131.835,-126.776 121.714,-125.671"/>
+<polygon fill="none" stroke="midnightblue" points="130.082,-157.831 121.714,-164.329 132.308,-164.467 130.082,-157.831"/>
 </g>
 </g>
 </svg>

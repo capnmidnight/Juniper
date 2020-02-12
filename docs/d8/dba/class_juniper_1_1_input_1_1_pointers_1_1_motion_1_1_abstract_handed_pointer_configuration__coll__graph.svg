@@ -9,8 +9,8 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 233)">
 <title>Juniper.Input.Pointers.Motion.AbstractHandedPointerConfiguration&lt; HandIDType, ButtonIDType &gt;</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-233 175,-233 175,4 -4,4"/>
-<!-- Node14 -->
-<g id="node1" class="node"><title>Node14</title>
+<!-- Node12 -->
+<g id="node1" class="node"><title>Node12</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-101.5 171,-101.5 171,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-89.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Motion.</text>
@@ -19,20 +19,20 @@
 <polyline fill="none" stroke="black" points="0,-60.5 171,-60.5 "/>
 <text text-anchor="start" x="8" y="-48.5" font-family="SegoeUI" font-size="10.00">+ HandType</text>
 <text text-anchor="start" x="8" y="-37.5" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
-<text text-anchor="start" x="8" y="-26.5" font-family="SegoeUI" font-size="10.00">+ this[Hands hand]</text>
+<text text-anchor="start" x="8" y="-26.5" font-family="SegoeUI" font-size="10.00">+ this[Hand hand]</text>
 <polyline fill="none" stroke="black" points="0,-19.5 171,-19.5 "/>
 <text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">+ MakePointerName()</text>
 </a>
 </g>
 </g>
-<!-- Node15 -->
-<g id="node2" class="node"><title>Node15</title>
+<!-- Node13 -->
+<g id="node2" class="node"><title>Node13</title>
 <g id="a_node2"><a xlink:href="../../d0/d7e/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="16,-138.5 16,-228.5 155,-228.5 155,-138.5 16,-138.5"/>
 <text text-anchor="start" x="24" y="-216.5" font-family="SegoeUI" font-size="10.00">AbstractPointerConfiguration</text>
 <text text-anchor="middle" x="85.5" y="-205.5" font-family="SegoeUI" font-size="10.00">&lt; ButtonIDType &gt;</text>
 <polyline fill="none" stroke="black" points="16,-198.5 155,-198.5 "/>
-<text text-anchor="start" x="24" y="-186.5" font-family="SegoeUI" font-size="10.00">&#45; nativeButtons</text>
+<text text-anchor="start" x="24" y="-186.5" font-family="SegoeUI" font-size="10.00">&#45; nativeKeys</text>
 <polyline fill="none" stroke="black" points="16,-179.5 155,-179.5 "/>
 <text text-anchor="start" x="24" y="-167.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
 <text text-anchor="start" x="24" y="-156.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
@@ -40,8 +40,8 @@
 </a>
 </g>
 </g>
-<!-- Node15&#45;&gt;Node14 -->
-<g id="edge1" class="edge"><title>Node15&#45;&gt;Node14</title>
+<!-- Node13&#45;&gt;Node12 -->
+<g id="edge1" class="edge"><title>Node13&#45;&gt;Node12</title>
 <path fill="none" stroke="midnightblue" d="M85.5,-128.131C85.5,-119.311 85.5,-110.219 85.5,-101.523"/>
 <polygon fill="none" stroke="midnightblue" points="82.0001,-128.319 85.5,-138.319 89.0001,-128.319 82.0001,-128.319"/>
 </g>

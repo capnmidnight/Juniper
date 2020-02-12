@@ -1,22 +1,23 @@
 <map id="Juniper.Widgets.ScaleHandle" name="Juniper.Widgets.ScaleHandle">
-<area shape="rect" id="node1" title="A constraint handle that is used to scale the size of a target object." alt="" coords="5,1788,192,1880"/>
-<area shape="rect" id="node2" href="$d3/d3f/class_juniper_1_1_widgets_1_1_abstract_constraint_handle.html" title="An abstract class that manages reading the movement of a control handle and constraining that movemen..." alt="" coords="15,1544,182,1739"/>
-<area shape="rect" id="node3" title=" " alt="" coords="1203,5,1312,83"/>
-<area shape="rect" id="node7" href="$d7/d8c/class_juniper_1_1_widgets_1_1_abstract_touchable.html" title="The base class for all interactive, AR&#45;compatible, GUI controls /// This class is abstract to avoid i..." alt="" coords="948,360,1116,672"/>
-<area shape="rect" id="node12" href="$d8/dea/class_juniper_1_1_animation_1_1_abstract_animator.html" title="An abstraction layer over different ways of showing UI state. Only one such component is allowed on a..." alt="" coords="1295,132,1470,268"/>
-<area shape="rect" id="node4" title=" " alt="" coords="321,161,409,239"/>
-<area shape="rect" id="node5" href="$d9/d93/class_juniper_1_1_widgets_1_1_draggable.html" title="An object that can be picked up and put down in a new location." alt="" coords="137,1243,325,1481"/>
-<area shape="rect" id="node6" href="$dd/d30/class_juniper_1_1_widgets_1_1_abstract_valued.html" title="The Valued component adds a float field and range of valid values for that field to a Touchable objec..." alt="" coords="631,735,814,1193"/>
-<area shape="rect" id="node8" title=" " alt="" coords="530,161,670,239"/>
-<area shape="rect" id="node9" title=" " alt="" coords="695,161,825,239"/>
-<area shape="rect" id="node10" title=" " alt="" coords="850,161,993,239"/>
-<area shape="rect" id="node11" title=" " alt="" coords="1017,161,1143,239"/>
-<area shape="rect" id="node13" title=" " alt="" coords="1167,161,1219,239"/>
-<area shape="rect" id="node14" title=" " alt="" coords="1321,470,1471,562"/>
-<area shape="rect" id="node15" title=" " alt="" coords="257,477,385,555"/>
-<area shape="rect" id="node16" title=" " alt="" coords="410,477,507,555"/>
-<area shape="rect" id="node17" title=" " alt="" coords="531,477,650,555"/>
-<area shape="rect" id="node18" title=" " alt="" coords="674,477,771,555"/>
-<area shape="rect" id="node19" href="$d0/d32/interface_juniper_1_1_widgets_1_1_i_valued_control.html" title=" " alt="" coords="1140,477,1297,555"/>
-<area shape="rect" id="node20" href="$d0/d32/interface_juniper_1_1_widgets_1_1_i_valued_control.html" title=" " alt="" coords="1495,161,1729,239"/>
+<area shape="rect" id="node1" title="A constraint handle that is used to scale the size of a target object." alt="" coords="5,1817,192,1909"/>
+<area shape="rect" id="node2" href="$d3/d3f/class_juniper_1_1_widgets_1_1_abstract_constraint_handle.html" title="An abstract class that manages reading the movement of a control handle and constraining that movemen..." alt="" coords="15,1573,182,1768"/>
+<area shape="rect" id="node3" title=" " alt="" coords="1301,5,1411,83"/>
+<area shape="rect" id="node7" href="$d7/d8c/class_juniper_1_1_widgets_1_1_abstract_touchable.html" title="The base class for all interactive, AR&#45;compatible, GUI controls /// This class is abstract to avoid i..." alt="" coords="948,360,1116,701"/>
+<area shape="rect" id="node13" href="$d8/dea/class_juniper_1_1_animation_1_1_abstract_animator.html" title="An abstraction layer over different ways of showing UI state. Only one such component is allowed on a..." alt="" coords="1394,132,1569,268"/>
+<area shape="rect" id="node4" title=" " alt="" coords="273,161,361,239"/>
+<area shape="rect" id="node5" href="$d9/d93/class_juniper_1_1_widgets_1_1_draggable.html" title="An object that can be picked up and put down in a new location." alt="" coords="137,1272,325,1511"/>
+<area shape="rect" id="node6" href="$dd/d30/class_juniper_1_1_widgets_1_1_abstract_valued.html" title="The Valued component adds a float field and range of valid values for that field to a Touchable objec..." alt="" coords="631,764,814,1223"/>
+<area shape="rect" id="node8" title=" " alt="" coords="482,161,622,239"/>
+<area shape="rect" id="node9" title=" " alt="" coords="647,161,777,239"/>
+<area shape="rect" id="node10" title=" " alt="" coords="802,161,945,239"/>
+<area shape="rect" id="node11" title=" " alt="" coords="969,161,1095,239"/>
+<area shape="rect" id="node12" href="$da/d7e/interface_juniper_1_1_events_1_1_i_interactable.html" title="An interface for custom controls to report to the Input.UnifiedInputModule that they are enabled/disa..." alt="" coords="1119,161,1241,239"/>
+<area shape="rect" id="node14" title=" " alt="" coords="1266,161,1318,239"/>
+<area shape="rect" id="node15" title=" " alt="" coords="1321,485,1471,577"/>
+<area shape="rect" id="node16" title=" " alt="" coords="257,492,385,569"/>
+<area shape="rect" id="node17" title=" " alt="" coords="410,492,507,569"/>
+<area shape="rect" id="node18" title=" " alt="" coords="531,492,650,569"/>
+<area shape="rect" id="node19" title=" " alt="" coords="674,492,771,569"/>
+<area shape="rect" id="node20" href="$d0/d32/interface_juniper_1_1_widgets_1_1_i_valued_control.html" title=" " alt="" coords="1140,492,1297,569"/>
+<area shape="rect" id="node21" href="$d0/d32/interface_juniper_1_1_widgets_1_1_i_valued_control.html" title=" " alt="" coords="1593,161,1828,239"/>
 </map>

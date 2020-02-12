@@ -1,5 +1,6 @@
 <map id="Juniper.Widgets.FollowObject" name="Juniper.Widgets.FollowObject">
-<area shape="rect" id="node1" title="Make one object&#39;s pose follow the pose of another object." alt="" coords="26,204,217,457"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,115,83"/>
-<area shape="rect" id="node3" title=" " alt="" coords="139,5,227,83"/>
+<area shape="rect" id="node1" title="Make one object&#39;s pose follow the pose of another object." alt="" coords="138,375,329,643"/>
+<area shape="rect" id="node2" href="$d6/d22/class_juniper_1_1_widgets_1_1_abstract_follow_settings.html" title="Make one object&#39;s pose follow the pose of another object." alt="" coords="18,145,190,325"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,5,115,83"/>
+<area shape="rect" id="node4" title=" " alt="" coords="185,5,273,83"/>
 </map>

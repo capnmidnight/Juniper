@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['zebibytes_2ecs',['Zebibytes.cs',['../d0/dc6/_zebibytes_8cs.html',1,'']]],
-  ['zettabytes_2ecs',['Zettabytes.cs',['../d0/d42/_zettabytes_8cs.html',1,'']]]
+  ['yobibytes_2ecs',['Yobibytes.cs',['../d6/d47/_yobibytes_8cs.html',1,'']]],
+  ['yotabytes_2ecs',['Yotabytes.cs',['../de/db6/_yotabytes_8cs.html',1,'']]]
 ];

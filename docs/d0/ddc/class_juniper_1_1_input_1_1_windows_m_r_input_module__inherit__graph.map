@@ -1,7 +1,7 @@
 <map id="Juniper.Input.WindowsMRInputModule" name="Juniper.Input.WindowsMRInputModule">
-<area shape="rect" id="node1" title=" " alt="" coords="108,1092,307,1199"/>
-<area shape="rect" id="node2" href="$db/d40/class_juniper_1_1_input_1_1_abstract_unified_input_module.html" title="Finds all of the IPointerDevice s and fires raycaster events for all of them." alt="" coords="110,248,305,1044"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,64,137,141"/>
-<area shape="rect" id="node4" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="161,49,253,156"/>
-<area shape="rect" id="node5" href="$d0/d2e/interface_juniper_1_1_input_1_1_i_input_module.html" title=" " alt="" coords="277,5,425,200"/>
+<area shape="rect" id="node1" title=" " alt="" coords="40,1033,239,1140"/>
+<area shape="rect" id="node5" href="$d7/d3d/class_juniper_1_1_input_1_1_unified_input_module.html" title=" " alt="" coords="55,1188,223,1280"/>
+<area shape="rect" id="node2" href="$db/d40/class_juniper_1_1_input_1_1_abstract_unified_input_module.html" title="Finds all of the IPointerDevice s and fires raycaster events for all of them." alt="" coords="41,160,237,985"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,20,137,97"/>
+<area shape="rect" id="node4" href="$d7/dbe/interface_juniper_1_1_i_o_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="161,5,253,112"/>
 </map>

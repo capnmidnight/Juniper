@@ -86,6 +86,9 @@ $(function() {
 <div class="title">Juniper.Events.ILongPressHandler Interface Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Like a click event, but taking a lot longer to fulfill.  
+ <a href="../../d7/db1/interface_juniper_1_1_events_1_1_i_long_press_handler.html#details">More...</a></p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Inheritance diagram for Juniper.Events.ILongPressHandler:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -106,13 +109,16 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a0443a28fe7885cab9738fe6d7f3799e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/db1/interface_juniper_1_1_events_1_1_i_long_press_handler.html#a0443a28fe7885cab9738fe6d7f3799e8">OnLongPressUpdate</a> (PointerEventData evt)</td></tr>
+<tr class="memdesc:a0443a28fe7885cab9738fe6d7f3799e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">In the process of registering a Long Press event, the receiving control has the option to update its visual representationi based on how long the user has been pressing it.  <a href="#a0443a28fe7885cab9738fe6d7f3799e8">More...</a><br /></td></tr>
 <tr class="separator:a0443a28fe7885cab9738fe6d7f3799e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d19876d44e2eaaf55d6cc0fa7b62ec7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/db1/interface_juniper_1_1_events_1_1_i_long_press_handler.html#a6d19876d44e2eaaf55d6cc0fa7b62ec7">OnLongPress</a> (PointerEventData evt)</td></tr>
+<tr class="memdesc:a6d19876d44e2eaaf55d6cc0fa7b62ec7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method executes when the user presses on a control and does not release before the "long-press timeout" occurs. The "long-press timeout" is defined in <a class="el" href="../../dc/d82/class_juniper_1_1_input_1_1_pointers_1_1_mapped_button.html#ab3f5f16cc8ca7299a92c94ebd3914643">Input.Pointers.MappedButton&lt;ButtonIDType&gt;.THRESHOLD_LONG_PRESS</a>.  <a href="#a6d19876d44e2eaaf55d6cc0fa7b62ec7">More...</a><br /></td></tr>
 <tr class="separator:a6d19876d44e2eaaf55d6cc0fa7b62ec7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d1/dd5/_long_press_handler_8cs_source.html#l00005">5</a> of file <a class="el" href="../../d1/dd5/_long_press_handler_8cs_source.html">LongPressHandler.cs</a>.</p>
+<div class="textblock"><p>Like a click event, but taking a lot longer to fulfill. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d26/_i_long_press_handler_8cs_source.html#l00008">8</a> of file <a class="el" href="../../d6/d26/_i_long_press_handler_8cs_source.html">ILongPressHandler.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a6d19876d44e2eaaf55d6cc0fa7b62ec7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6d19876d44e2eaaf55d6cc0fa7b62ec7">&#9670;&nbsp;</a></span>OnLongPress()</h2>
@@ -130,9 +136,17 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>This method executes when the user presses on a control and does not release before the "long-press timeout" occurs. The "long-press timeout" is defined in <a class="el" href="../../dc/d82/class_juniper_1_1_input_1_1_pointers_1_1_mapped_button.html#ab3f5f16cc8ca7299a92c94ebd3914643">Input.Pointers.MappedButton&lt;ButtonIDType&gt;.THRESHOLD_LONG_PRESS</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">evt</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p>Implemented in <a class="el" href="../../d2/d70/class_juniper_1_1_widgets_1_1_clickable.html#a9e715b24ebd4ab43ffaa2268a1a421ee">Juniper.Widgets.Clickable</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dd5/_long_press_handler_8cs_source.html#l00027">Juniper.Events.LongPressEvents.ExecuteLongPress()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d3e/_long_press_events_8cs_source.html#l00051">Juniper.Events.LongPressEvents.ExecuteLongPress()</a>.</p>
 
 </div>
 </div>
@@ -152,14 +166,22 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>In the process of registering a Long Press event, the receiving control has the option to update its visual representationi based on how long the user has been pressing it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">evt</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p>Implemented in <a class="el" href="../../d2/d70/class_juniper_1_1_widgets_1_1_clickable.html#aaadd3b74bf94cf61fa0c4d530948ffb0">Juniper.Widgets.Clickable</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dd5/_long_press_handler_8cs_source.html#l00014">Juniper.Events.LongPressEvents.ExecuteLongPressUpdate()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d3e/_long_press_events_8cs_source.html#l00022">Juniper.Events.LongPressEvents.ExecuteLongPressUpdate()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Events/<a class="el" href="../../d1/dd5/_long_press_handler_8cs_source.html">LongPressHandler.cs</a></li>
+<li>C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper/Assets/Juniper/Scripts/Events/<a class="el" href="../../d6/d26/_i_long_press_handler_8cs_source.html">ILongPressHandler.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

@@ -15,29 +15,29 @@
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-277.5 116,-277.5 116,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="58" y="-265.5" font-family="SegoeUI" font-size="10.00">Juniper.Units.Yotabytes</text>
 <polyline fill="none" stroke="black" points="0,-258.5 116,-258.5 "/>
-<text text-anchor="start" x="8" y="-246.5" font-family="SegoeUI" font-size="10.00">+ PER_BYTE</text>
-<text text-anchor="start" x="8" y="-235.5" font-family="SegoeUI" font-size="10.00">+ PER_KILOBYTE</text>
-<text text-anchor="start" x="8" y="-224.5" font-family="SegoeUI" font-size="10.00">+ PER_MEGABYTE</text>
-<text text-anchor="start" x="8" y="-213.5" font-family="SegoeUI" font-size="10.00">+ PER_GIGABYTE</text>
-<text text-anchor="start" x="8" y="-202.5" font-family="SegoeUI" font-size="10.00">+ PER_TERABYTE</text>
-<text text-anchor="start" x="8" y="-191.5" font-family="SegoeUI" font-size="10.00">+ PER_PETABYTE</text>
-<text text-anchor="start" x="8" y="-180.5" font-family="SegoeUI" font-size="10.00">+ PER_EXABYTE</text>
-<text text-anchor="start" x="8" y="-169.5" font-family="SegoeUI" font-size="10.00">+ PER_ZETTABYTE</text>
-<text text-anchor="start" x="8" y="-158.5" font-family="SegoeUI" font-size="10.00">+ PER_KIBIBYTE</text>
-<text text-anchor="start" x="8" y="-147.5" font-family="SegoeUI" font-size="10.00">+ PER_MIBIBYTE</text>
-<text text-anchor="start" x="8" y="-136.5" font-family="SegoeUI" font-size="10.00">and 6 more...</text>
+<text text-anchor="start" x="8" y="-246.5" font-family="SegoeUI" font-size="10.00">+ PER_BIT</text>
+<text text-anchor="start" x="8" y="-235.5" font-family="SegoeUI" font-size="10.00">+ PER_BYTE</text>
+<text text-anchor="start" x="8" y="-224.5" font-family="SegoeUI" font-size="10.00">+ PER_KILOBYTE</text>
+<text text-anchor="start" x="8" y="-213.5" font-family="SegoeUI" font-size="10.00">+ PER_MEGABYTE</text>
+<text text-anchor="start" x="8" y="-202.5" font-family="SegoeUI" font-size="10.00">+ PER_GIGABYTE</text>
+<text text-anchor="start" x="8" y="-191.5" font-family="SegoeUI" font-size="10.00">+ PER_TERABYTE</text>
+<text text-anchor="start" x="8" y="-180.5" font-family="SegoeUI" font-size="10.00">+ PER_PETABYTE</text>
+<text text-anchor="start" x="8" y="-169.5" font-family="SegoeUI" font-size="10.00">+ PER_EXABYTE</text>
+<text text-anchor="start" x="8" y="-158.5" font-family="SegoeUI" font-size="10.00">+ PER_ZETTABYTE</text>
+<text text-anchor="start" x="8" y="-147.5" font-family="SegoeUI" font-size="10.00">+ PER_KIBIBYTE</text>
+<text text-anchor="start" x="8" y="-136.5" font-family="SegoeUI" font-size="10.00">and 7 more...</text>
 <polyline fill="none" stroke="black" points="0,-129.5 116,-129.5 "/>
-<text text-anchor="start" x="8" y="-117.5" font-family="SegoeUI" font-size="10.00">+ Bytes()</text>
-<text text-anchor="start" x="8" y="-106.5" font-family="SegoeUI" font-size="10.00">+ Kilobytes()</text>
-<text text-anchor="start" x="8" y="-95.5" font-family="SegoeUI" font-size="10.00">+ Megabytes()</text>
-<text text-anchor="start" x="8" y="-84.5" font-family="SegoeUI" font-size="10.00">+ Gigabytes()</text>
-<text text-anchor="start" x="8" y="-73.5" font-family="SegoeUI" font-size="10.00">+ Terabytes()</text>
-<text text-anchor="start" x="8" y="-62.5" font-family="SegoeUI" font-size="10.00">+ Petabytes()</text>
-<text text-anchor="start" x="8" y="-51.5" font-family="SegoeUI" font-size="10.00">+ Exabytes()</text>
-<text text-anchor="start" x="8" y="-40.5" font-family="SegoeUI" font-size="10.00">+ Zettabytes()</text>
-<text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">+ Kibibytes()</text>
-<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">+ Mibibytes()</text>
-<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">and 6 more...</text>
+<text text-anchor="start" x="8" y="-117.5" font-family="SegoeUI" font-size="10.00">+ Bits()</text>
+<text text-anchor="start" x="8" y="-106.5" font-family="SegoeUI" font-size="10.00">+ Bytes()</text>
+<text text-anchor="start" x="8" y="-95.5" font-family="SegoeUI" font-size="10.00">+ Kilobytes()</text>
+<text text-anchor="start" x="8" y="-84.5" font-family="SegoeUI" font-size="10.00">+ Megabytes()</text>
+<text text-anchor="start" x="8" y="-73.5" font-family="SegoeUI" font-size="10.00">+ Gigabytes()</text>
+<text text-anchor="start" x="8" y="-62.5" font-family="SegoeUI" font-size="10.00">+ Terabytes()</text>
+<text text-anchor="start" x="8" y="-51.5" font-family="SegoeUI" font-size="10.00">+ Petabytes()</text>
+<text text-anchor="start" x="8" y="-40.5" font-family="SegoeUI" font-size="10.00">+ Exabytes()</text>
+<text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">+ Zettabytes()</text>
+<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">+ Kibibytes()</text>
+<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">and 7 more...</text>
 </a>
 </g>
 </g>

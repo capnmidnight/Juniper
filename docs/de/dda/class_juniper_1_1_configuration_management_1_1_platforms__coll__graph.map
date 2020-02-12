@@ -1,7 +1,5 @@
 <map id="Juniper.ConfigurationManagement.Platforms" name="Juniper.ConfigurationManagement.Platforms">
-<area shape="rect" id="node1" title=" " alt="" coords="251,725,472,891"/>
-<area shape="rect" id="node2" href="$d5/d6b/class_juniper_1_1_configuration_management_1_1_platform_configuration.html" title=" " alt="" coords="5,189,227,663"/>
-<area shape="rect" id="node3" href="$d6/d4e/class_juniper_1_1_configuration_management_1_1_raw_package.html" title=" " alt="" coords="251,358,472,494"/>
-<area shape="rect" id="node4" href="$dc/d6b/class_juniper_1_1_configuration_management_1_1_abstract_package.html" title=" " alt="" coords="274,5,395,127"/>
-<area shape="rect" id="node5" title=" " alt="" coords="457,27,509,105"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,145,227,281"/>
+<area shape="rect" id="node2" title=" " alt="" coords="22,5,114,83"/>
+<area shape="rect" id="node3" title=" " alt="" coords="138,5,190,83"/>
 </map>

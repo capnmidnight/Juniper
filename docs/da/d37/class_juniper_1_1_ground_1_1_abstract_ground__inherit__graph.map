@@ -5,6 +5,6 @@
 <area shape="rect" id="node7" href="$dd/d92/class_juniper_1_1_ground_1_1_static_terrain.html" title=" " alt="" coords="417,637,603,759"/>
 <area shape="rect" id="node8" href="$de/df1/class_juniper_1_1_ground_1_1_windows_m_r_ground.html" title=" " alt="" coords="628,505,851,891"/>
 <area shape="rect" id="node2" title=" " alt="" coords="291,20,401,97"/>
-<area shape="rect" id="node3" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="425,5,517,112"/>
+<area shape="rect" id="node3" href="$d7/dbe/interface_juniper_1_1_i_o_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="425,5,517,112"/>
 <area shape="rect" id="node5" href="$df/d34/class_juniper_1_1_ground_1_1_terrain_manager.html" title="Manages references to the ground, either 3D terrain in VR apps or detected planes and meshes in AR ap..." alt="" coords="5,939,209,1016"/>
 </map>

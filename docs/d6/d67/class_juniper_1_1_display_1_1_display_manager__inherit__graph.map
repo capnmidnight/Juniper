@@ -1,8 +1,8 @@
 <map id="Juniper.Display.DisplayManager" name="Juniper.Display.DisplayManager">
-<area shape="rect" id="node1" title="Manages the camera FOV in the editor so that it matches the target system, or on desktop makes sure t..." alt="" coords="22,1152,223,1229"/>
-<area shape="rect" id="node2" href="$dc/d32/class_juniper_1_1_display_1_1_a_r_kit_display_manager.html" title=" " alt="" coords="51,1012,194,1104"/>
-<area shape="rect" id="node3" href="$de/df3/class_juniper_1_1_display_1_1_abstract_passthrough_display_manager.html" title=" " alt="" coords="33,857,212,964"/>
-<area shape="rect" id="node4" href="$db/d51/class_juniper_1_1_display_1_1_abstract_display_manager.html" title=" " alt="" coords="20,160,225,809"/>
+<area shape="rect" id="node1" title="Manages the camera FOV in the editor so that it matches the target system, or on desktop makes sure t..." alt="" coords="22,1211,223,1288"/>
+<area shape="rect" id="node2" href="$dc/d32/class_juniper_1_1_display_1_1_a_r_kit_display_manager.html" title=" " alt="" coords="51,1071,194,1163"/>
+<area shape="rect" id="node3" href="$de/df3/class_juniper_1_1_display_1_1_abstract_passthrough_display_manager.html" title=" " alt="" coords="33,916,212,1023"/>
+<area shape="rect" id="node4" href="$db/d51/class_juniper_1_1_display_1_1_abstract_display_manager.html" title=" " alt="" coords="20,160,225,868"/>
 <area shape="rect" id="node5" title=" " alt="" coords="5,20,115,97"/>
-<area shape="rect" id="node6" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="139,5,231,112"/>
+<area shape="rect" id="node6" href="$d7/dbe/interface_juniper_1_1_i_o_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="139,5,231,112"/>
 </map>

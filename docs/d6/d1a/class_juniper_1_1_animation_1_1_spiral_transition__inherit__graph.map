@@ -1,6 +1,6 @@
 <map id="Juniper.Animation.SpiralTransition" name="Juniper.Animation.SpiralTransition">
-<area shape="rect" id="node1" title="Take an object in world&#45;space and spiral it in to camera&#45;locked space (faux&#45;screen&#45;space)" alt="" coords="16,968,177,1280"/>
-<area shape="rect" id="node2" href="$d6/d38/class_juniper_1_1_animation_1_1_abstract_transition_controller.html" title="Child classes of this class are able to animate transitions between program states." alt="" coords="5,593,188,920"/>
-<area shape="rect" id="node3" href="$d9/d7e/class_juniper_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="19,131,174,545"/>
+<area shape="rect" id="node1" title="Take an object in world&#45;space and spiral it in to camera&#45;locked space (faux&#45;screen&#45;space)" alt="" coords="16,1100,177,1412"/>
+<area shape="rect" id="node2" href="$d6/d38/class_juniper_1_1_animation_1_1_abstract_transition_controller.html" title="Child classes of this class are able to animate transitions between program states." alt="" coords="5,711,188,1052"/>
+<area shape="rect" id="node3" href="$d9/d7e/class_juniper_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="19,131,174,663"/>
 <area shape="rect" id="node4" title=" " alt="" coords="42,5,151,83"/>
 </map>

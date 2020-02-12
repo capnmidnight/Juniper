@@ -1,7 +1,5 @@
 <map id="Juniper.Input.AbstractVelocityLocomotion" name="Juniper.Input.AbstractVelocityLocomotion">
-<area shape="rect" id="node1" title=" " alt="" coords="221,131,411,281"/>
-<area shape="rect" id="node3" href="$da/dcc/class_juniper_1_1_input_1_1_default_locomotion.html" title=" " alt="" coords="5,337,211,414"/>
-<area shape="rect" id="node4" href="$db/d36/class_juniper_1_1_input_1_1_hover_craft.html" title=" " alt="" coords="235,329,397,421"/>
-<area shape="rect" id="node5" href="$d8/d3f/class_juniper_1_1_input_1_1_running_movement.html" title="Controlling the camera from a desktop system. Very useful for quickly debugging things." alt="" coords="421,337,627,414"/>
-<area shape="rect" id="node2" title=" " alt="" coords="261,5,371,83"/>
+<area shape="rect" id="node1" title=" " alt="" coords="13,131,203,281"/>
+<area shape="rect" id="node3" href="$d8/d3f/class_juniper_1_1_input_1_1_running_movement.html" title="Controlling the camera from a desktop system. Very useful for quickly debugging things." alt="" coords="5,329,211,407"/>
+<area shape="rect" id="node2" title=" " alt="" coords="53,5,163,83"/>
 </map>

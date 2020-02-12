@@ -1,9 +1,9 @@
 <map id="Juniper.Widgets.Shaker" name="Juniper.Widgets.Shaker">
-<area shape="rect" id="node1" title="This component manages the activity of the user picking up a mobile device and holding it,..." alt="" coords="72,2137,293,2493"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,1909,115,1987"/>
-<area shape="rect" id="node3" title=" " alt="" coords="139,1909,227,1987"/>
-<area shape="rect" id="node4" href="$d5/d25/class_juniper_1_1_collections_1_1_statistics_1_1_single_statistics.html" title="Computes statistics on System.Single values." alt="" coords="251,1836,437,2060"/>
-<area shape="rect" id="node5" href="$db/dc4/class_juniper_1_1_collections_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="245,991,443,1787"/>
-<area shape="rect" id="node6" href="$db/dc4/class_juniper_1_1_collections_1_1_statistics_1_1_abstract_collection_statistics.html" title="An abstract class for a collection wrapper that can automatically compute statistics on the values co..." alt="" coords="239,132,449,928"/>
+<area shape="rect" id="node1" title="This component manages the activity of the user picking up a mobile device and holding it,..." alt="" coords="72,2079,293,2435"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,1851,115,1928"/>
+<area shape="rect" id="node3" title=" " alt="" coords="139,1851,227,1928"/>
+<area shape="rect" id="node4" href="$d7/dc6/class_juniper_1_1_mathematics_1_1_single_statistics_collection.html" title="Computes statistics on System.Single values." alt="" coords="251,1777,437,2001"/>
+<area shape="rect" id="node5" href="$d1/d70/class_juniper_1_1_mathematics_1_1_abstract_statistics_collection.html" title=" " alt="" coords="245,961,443,1728"/>
+<area shape="rect" id="node6" href="$d1/d70/class_juniper_1_1_mathematics_1_1_abstract_statistics_collection.html" title="An abstract class for a collection wrapper that can automatically compute statistics on the values co..." alt="" coords="245,132,443,899"/>
 <area shape="rect" id="node7" title=" " alt="" coords="305,5,383,83"/>
 </map>

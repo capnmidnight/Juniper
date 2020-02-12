@@ -1,11 +1,12 @@
 <map id="Juniper.Input.Pointers.Screen.Mouse" name="Juniper.Input.Pointers.Screen.Mouse">
-<area shape="rect" id="node1" title="A AbstractScreenDevice pointer for the standard mouse connected to a desktop system." alt="" coords="386,1479,581,1717"/>
-<area shape="rect" id="node2" href="$d5/d55/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title=" " alt="" coords="354,1323,613,1429"/>
-<area shape="rect" id="node3" href="$d5/d55/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title="A ScreenDevice is a AbstractPointerDevice&lt;ButtonIDType, ConfigType&gt; that has its primary pointer inte..." alt="" coords="364,1139,603,1260"/>
-<area shape="rect" id="node4" href="$da/d81/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html" title=" " alt="" coords="263,425,459,1089"/>
-<area shape="rect" id="node5" title=" " alt="" coords="122,152,231,229"/>
-<area shape="rect" id="node6" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="5,137,97,244"/>
-<area shape="rect" id="node7" href="$d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="490,5,655,376"/>
-<area shape="rect" id="node9" href="$dd/d2f/interface_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_i_screen_device.html" title=" " alt="" coords="486,711,646,803"/>
-<area shape="rect" id="node8" href="$dc/dc8/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_buttons.html" title="An interface for specifying how devices with buttons should behave." alt="" coords="255,115,466,266"/>
+<area shape="rect" id="node1" title="A AbstractScreenDevice pointer for the standard mouse connected to a desktop system." alt="" coords="386,1679,581,1991"/>
+<area shape="rect" id="node2" href="$d5/d55/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title=" " alt="" coords="387,1508,580,1629"/>
+<area shape="rect" id="node3" href="$d5/d55/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title="A ScreenDevice is a AbstractPointerDevice&lt;ButtonIDType, ConfigType&gt; that has its primary pointer inte..." alt="" coords="364,1309,603,1431"/>
+<area shape="rect" id="node4" href="$da/d81/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html" title=" " alt="" coords="261,581,460,1260"/>
+<area shape="rect" id="node5" title=" " alt="" coords="122,308,231,385"/>
+<area shape="rect" id="node6" href="$d7/dbe/interface_juniper_1_1_i_o_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="5,293,97,400"/>
+<area shape="rect" id="node7" href="$d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="490,161,655,532"/>
+<area shape="rect" id="node10" href="$dd/d2f/interface_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_i_screen_device.html" title=" " alt="" coords="486,875,646,967"/>
+<area shape="rect" id="node8" href="$d5/d9e/interface_juniper_1_1_input_1_1_pointers_1_1_i_laser_pointer.html" title=" " alt="" coords="473,5,672,112"/>
+<area shape="rect" id="node9" href="$dc/dc8/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_buttons.html" title="An interface for specifying how devices with buttons should behave." alt="" coords="255,286,466,407"/>
 </map>

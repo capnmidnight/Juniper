@@ -1,6 +1,6 @@
 # Juniper For Fun and Profit
 
-[TOC]
+This is a bunch of code that I use in my VR projects. The following README block is very out of date, but I don't consider this project ready for other people to use, yet.
 
 # Introduction
 

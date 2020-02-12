@@ -1,0 +1,4 @@
+<map id="Hjg.Pngcs.Chunks.ChunkPredicateId2" name="Hjg.Pngcs.Chunks.ChunkPredicateId2">
+<area shape="rect" id="node1" title="match if have same id and, if Text (or SPLT) if have the asame key" alt="" coords="5,131,239,237"/>
+<area shape="rect" id="node2" href="$d0/d04/interface_hjg_1_1_pngcs_1_1_chunks_1_1_i_chunk_predicate.html" title="Decides if another chunk &quot;matches&quot;, according to some criterion" alt="" coords="65,5,179,83"/>
+</map>

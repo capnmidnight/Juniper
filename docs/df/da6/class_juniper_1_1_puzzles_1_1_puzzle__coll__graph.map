@@ -1,0 +1,5 @@
+<map id="Juniper.Puzzles.Puzzle" name="Juniper.Puzzles.Puzzle">
+<area shape="rect" id="node1" title="A physical representation of a puzzle as a 2D array of tile pieces. The grid can be manipulated in va..." alt="" coords="73,204,223,589"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,5,163,83"/>
+<area shape="rect" id="node3" title=" " alt="" coords="187,5,239,83"/>
+</map>

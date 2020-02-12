@@ -1,4 +1,4 @@
 <map id="Juniper.World.OutdoorWindEstimate" name="Juniper.World.OutdoorWindEstimate">
-<area shape="rect" id="node1" title="Receives a wind speed and direction value from a wether reporting service and applies the values to a..." alt="" coords="5,131,185,311"/>
+<area shape="rect" id="node1" title="Receives a wind speed and direction value from a wether reporting service and applies the values to a..." alt="" coords="5,131,185,325"/>
 <area shape="rect" id="node2" title=" " alt="" coords="41,5,150,83"/>
 </map>

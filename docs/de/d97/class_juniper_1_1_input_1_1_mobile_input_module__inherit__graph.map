@@ -1,0 +1,6 @@
+<map id="Juniper.Input.MobileInputModule" name="Juniper.Input.MobileInputModule">
+<area shape="rect" id="node1" title=" " alt="" coords="56,1033,223,1140"/>
+<area shape="rect" id="node2" href="$db/d40/class_juniper_1_1_input_1_1_abstract_unified_input_module.html" title="Finds all of the IPointerDevice s and fires raycaster events for all of them." alt="" coords="41,160,237,985"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,20,137,97"/>
+<area shape="rect" id="node4" href="$d7/dbe/interface_juniper_1_1_i_o_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="161,5,253,112"/>
+</map>

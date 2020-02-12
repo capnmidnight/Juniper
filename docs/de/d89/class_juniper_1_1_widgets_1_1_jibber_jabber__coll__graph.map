@@ -1,8 +1,8 @@
 <map id="Juniper.Widgets.JibberJabber" name="Juniper.Widgets.JibberJabber">
-<area shape="rect" id="node1" title="Plays clips out of an AudioClipCollection at set intervals, making for a point source of ambient soun..." alt="" coords="21,516,211,681"/>
+<area shape="rect" id="node1" title="Plays clips out of an AudioClipCollection at set intervals, making for a point source of ambient soun..." alt="" coords="23,516,212,696"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,332,115,409"/>
-<area shape="rect" id="node3" href="$db/de2/class_juniper_1_1_audio_1_1_audio_clip_collection.html" title="A collection of related audio clips. For example, one might have many different gunshot sounds to hav..." alt="" coords="139,288,349,453"/>
-<area shape="rect" id="node4" title=" " alt="" coords="139,147,255,224"/>
-<area shape="rect" id="node5" href="$d4/d37/interface_juniper_1_1_audio_1_1_i_audio_clip_collection.html" title="The IAudioClipCollection interface is implemented by two classes. One is a savable collection of audi..." alt="" coords="279,132,425,239"/>
-<area shape="rect" id="node6" title=" " alt="" coords="265,5,439,83"/>
+<area shape="rect" id="node3" href="$df/d3a/class_juniper_1_1_sound_1_1_audio_clip_collection.html" title="A collection of related audio clips. For example, one might have many different gunshot sounds to hav..." alt="" coords="139,288,354,453"/>
+<area shape="rect" id="node4" title=" " alt="" coords="142,147,258,224"/>
+<area shape="rect" id="node5" href="$d3/d9a/interface_juniper_1_1_sound_1_1_i_audio_clip_collection.html" title="The IAudioClipCollection interface is implemented by two classes. One is a savable collection of audi..." alt="" coords="282,132,427,239"/>
+<area shape="rect" id="node6" title=" " alt="" coords="268,5,441,83"/>
 </map>

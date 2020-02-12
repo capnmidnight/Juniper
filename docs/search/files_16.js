@@ -1,8 +1,11 @@
 var searchData=
 [
+  ['wait_2ecs',['Wait.cs',['../dc/dfe/_wait_8cs.html',1,'']]],
   ['weather_2ecs',['Weather.cs',['../d5/dbe/_weather_8cs.html',1,'']]],
   ['weatherreport_2ecs',['WeatherReport.cs',['../df/db8/_weather_report_8cs.html',1,'']]],
-  ['windowskeywordrecognizer_2ecs',['WindowsKeywordRecognizer.cs',['../d8/dd6/_windows_keyword_recognizer_8cs.html',1,'']]],
+  ['websocketconnection_2ecs',['WebSocketConnection.cs',['../de/d2c/_web_socket_connection_8cs.html',1,'']]],
+  ['websocketpool_2ecs',['WebSocketPool.cs',['../df/d86/_web_socket_pool_8cs.html',1,'']]],
+  ['websocketroute_2ecs',['WebSocketRoute.cs',['../da/d01/_web_socket_route_8cs.html',1,'']]],
   ['windowsmranchorstore_2ecs',['WindowsMRAnchorStore.cs',['../de/dd4/_windows_m_r_anchor_store_8cs.html',1,'']]],
   ['windowsmrbuttons_2ecs',['WindowsMRButtons.cs',['../d3/dc9/_windows_m_r_buttons_8cs.html',1,'']]],
   ['windowsmrdisplaymanager_2ecs',['WindowsMRDisplayManager.cs',['../d3/d8c/_windows_m_r_display_manager_8cs.html',1,'']]],

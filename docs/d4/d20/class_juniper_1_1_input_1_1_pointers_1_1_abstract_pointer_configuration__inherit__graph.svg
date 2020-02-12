@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 1060;
+var viewWidth = 870;
 var viewHeight = 730;
 var sectionId = 'dynsection-0';
 </script>
@@ -54,127 +54,127 @@ var sectionId = 'dynsection-0';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>Juniper.Input.Pointers.AbstractPointerConfiguration&lt; ButtonIDType &gt;</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-726 1056,-726 1056,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-726 866,-726 866,4 -4,4"/>
 <!-- Node0 -->
 <g id="node1" class="node"><title>Node0</title>
 <g id="a_node1"><a xlink:title=" ">
-<polygon fill="#bfbfbf" stroke="black" points="582,-631.5 582,-721.5 762,-721.5 762,-631.5 582,-631.5"/>
-<text text-anchor="start" x="590" y="-709.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Abstract</text>
-<text text-anchor="middle" x="672" y="-698.5" font-family="SegoeUI" font-size="10.00">PointerConfiguration&lt; ButtonIDType &gt;</text>
-<polyline fill="none" stroke="black" points="582,-691.5 762,-691.5 "/>
-<text text-anchor="start" x="590" y="-679.5" font-family="SegoeUI" font-size="10.00">&#45; nativeButtons</text>
-<polyline fill="none" stroke="black" points="582,-672.5 762,-672.5 "/>
-<text text-anchor="start" x="590" y="-660.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
-<text text-anchor="start" x="590" y="-649.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
-<text text-anchor="start" x="590" y="-638.5" font-family="SegoeUI" font-size="10.00"># AddButton()</text>
+<polygon fill="#bfbfbf" stroke="black" points="502,-631.5 502,-721.5 682,-721.5 682,-631.5 502,-631.5"/>
+<text text-anchor="start" x="510" y="-709.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Abstract</text>
+<text text-anchor="middle" x="592" y="-698.5" font-family="SegoeUI" font-size="10.00">PointerConfiguration&lt; ButtonIDType &gt;</text>
+<polyline fill="none" stroke="black" points="502,-691.5 682,-691.5 "/>
+<text text-anchor="start" x="510" y="-679.5" font-family="SegoeUI" font-size="10.00">&#45; nativeKeys</text>
+<polyline fill="none" stroke="black" points="502,-672.5 682,-672.5 "/>
+<text text-anchor="start" x="510" y="-660.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
+<text text-anchor="start" x="510" y="-649.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
+<text text-anchor="start" x="510" y="-638.5" font-family="SegoeUI" font-size="10.00"># AddButton()</text>
 </a>
 </g>
 </g>
 <!-- Node1 -->
 <g id="node2" class="node"><title>Node1</title>
 <g id="a_node2"><a xlink:href="../../d0/d65/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer_configuration.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="402,-482.5 402,-583.5 560,-583.5 560,-482.5 402,-482.5"/>
-<text text-anchor="start" x="410" y="-571.5" font-family="SegoeUI" font-size="10.00">Juniper::Input::Pointers</text>
-<text text-anchor="start" x="410" y="-560.5" font-family="SegoeUI" font-size="10.00">::Motion::AbstractHandedPointer</text>
-<text text-anchor="middle" x="481" y="-549.5" font-family="SegoeUI" font-size="10.00">Configuration&lt; ButtonIDType &gt;</text>
-<polyline fill="none" stroke="black" points="402,-542.5 560,-542.5 "/>
-<text text-anchor="start" x="410" y="-530.5" font-family="SegoeUI" font-size="10.00">+ HandType</text>
-<text text-anchor="start" x="410" y="-519.5" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
-<text text-anchor="start" x="410" y="-508.5" font-family="SegoeUI" font-size="10.00">+ this[Hands hand]</text>
-<polyline fill="none" stroke="black" points="402,-501.5 560,-501.5 "/>
-<text text-anchor="start" x="410" y="-489.5" font-family="SegoeUI" font-size="10.00">+ MakePointerName()</text>
+<polygon fill="white" stroke="black" points="326,-482.5 326,-583.5 484,-583.5 484,-482.5 326,-482.5"/>
+<text text-anchor="start" x="334" y="-571.5" font-family="SegoeUI" font-size="10.00">Juniper::Input::Pointers</text>
+<text text-anchor="start" x="334" y="-560.5" font-family="SegoeUI" font-size="10.00">::Motion::AbstractHandedPointer</text>
+<text text-anchor="middle" x="405" y="-549.5" font-family="SegoeUI" font-size="10.00">Configuration&lt; ButtonIDType &gt;</text>
+<polyline fill="none" stroke="black" points="326,-542.5 484,-542.5 "/>
+<text text-anchor="start" x="334" y="-530.5" font-family="SegoeUI" font-size="10.00">+ HandType</text>
+<text text-anchor="start" x="334" y="-519.5" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
+<text text-anchor="start" x="334" y="-508.5" font-family="SegoeUI" font-size="10.00">+ this[Hand hand]</text>
+<polyline fill="none" stroke="black" points="326,-501.5 484,-501.5 "/>
+<text text-anchor="start" x="334" y="-489.5" font-family="SegoeUI" font-size="10.00">+ MakePointerName()</text>
 </a>
 </g>
 </g>
 <!-- Node0&#45;&gt;Node1 -->
 <g id="edge1" class="edge"><title>Node0&#45;&gt;Node1</title>
-<path fill="none" stroke="midnightblue" d="M604.071,-625.176C585.8,-611.64 566.056,-597.013 547.844,-583.52"/>
-<polygon fill="none" stroke="midnightblue" points="602.233,-628.17 612.352,-631.311 606.4,-622.545 602.233,-628.17"/>
+<path fill="none" stroke="midnightblue" d="M525.494,-625.176C507.605,-611.64 488.275,-597.013 470.444,-583.52"/>
+<polygon fill="none" stroke="midnightblue" points="523.515,-628.067 533.601,-631.311 527.739,-622.485 523.515,-628.067"/>
+</g>
+<!-- Node12 -->
+<g id="node13" class="node"><title>Node12</title>
+<g id="a_node13"><a xlink:href="../../d0/d7e/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="518,-488 518,-578 666,-578 666,-488 518,-488"/>
+<text text-anchor="start" x="526" y="-566" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Abstract</text>
+<text text-anchor="middle" x="592" y="-555" font-family="SegoeUI" font-size="10.00">PointerConfiguration&lt; Unary &gt;</text>
+<polyline fill="none" stroke="black" points="518,-548 666,-548 "/>
+<text text-anchor="start" x="526" y="-536" font-family="SegoeUI" font-size="10.00">&#45; nativeKeys</text>
+<polyline fill="none" stroke="black" points="518,-529 666,-529 "/>
+<text text-anchor="start" x="526" y="-517" font-family="SegoeUI" font-size="10.00">+ Install()</text>
+<text text-anchor="start" x="526" y="-506" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
+<text text-anchor="start" x="526" y="-495" font-family="SegoeUI" font-size="10.00"># AddButton()</text>
+</a>
+</g>
+</g>
+<!-- Node0&#45;&gt;Node12 -->
+<g id="edge12" class="edge"><title>Node0&#45;&gt;Node12</title>
+<path fill="none" stroke="orange" d="M592,-621.007C592,-606.852 592,-591.78 592,-578.226"/>
+<polygon fill="orange" stroke="orange" points="588.5,-621.117 592,-631.117 595.5,-621.117 588.5,-621.117"/>
+<text text-anchor="middle" x="616" y="-605" font-family="SegoeUI" font-size="10.00"> &lt; Unary &gt;</text>
 </g>
 <!-- Node14 -->
 <g id="node15" class="node"><title>Node14</title>
 <g id="a_node15"><a xlink:href="../../d0/d7e/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="598,-488 598,-578 746,-578 746,-488 598,-488"/>
-<text text-anchor="start" x="606" y="-566" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Abstract</text>
-<text text-anchor="middle" x="672" y="-555" font-family="SegoeUI" font-size="10.00">PointerConfiguration&lt; Unary &gt;</text>
-<polyline fill="none" stroke="black" points="598,-548 746,-548 "/>
-<text text-anchor="start" x="606" y="-536" font-family="SegoeUI" font-size="10.00">&#45; nativeButtons</text>
-<polyline fill="none" stroke="black" points="598,-529 746,-529 "/>
-<text text-anchor="start" x="606" y="-517" font-family="SegoeUI" font-size="10.00">+ Install()</text>
-<text text-anchor="start" x="606" y="-506" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
-<text text-anchor="start" x="606" y="-495" font-family="SegoeUI" font-size="10.00"># AddButton()</text>
+<polygon fill="white" stroke="black" points="684,-488 684,-578 862,-578 862,-488 684,-488"/>
+<text text-anchor="start" x="692" y="-566" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Abstract</text>
+<text text-anchor="middle" x="773" y="-555" font-family="SegoeUI" font-size="10.00">PointerConfiguration&lt; MouseButton &gt;</text>
+<polyline fill="none" stroke="black" points="684,-548 862,-548 "/>
+<text text-anchor="start" x="692" y="-536" font-family="SegoeUI" font-size="10.00">&#45; nativeKeys</text>
+<polyline fill="none" stroke="black" points="684,-529 862,-529 "/>
+<text text-anchor="start" x="692" y="-517" font-family="SegoeUI" font-size="10.00">+ Install()</text>
+<text text-anchor="start" x="692" y="-506" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
+<text text-anchor="start" x="692" y="-495" font-family="SegoeUI" font-size="10.00"># AddButton()</text>
 </a>
 </g>
 </g>
 <!-- Node0&#45;&gt;Node14 -->
 <g id="edge14" class="edge"><title>Node0&#45;&gt;Node14</title>
-<path fill="none" stroke="orange" d="M672,-621.007C672,-606.852 672,-591.78 672,-578.226"/>
-<polygon fill="orange" stroke="orange" points="668.5,-621.117 672,-631.117 675.5,-621.117 668.5,-621.117"/>
-<text text-anchor="middle" x="696" y="-605" font-family="SegoeUI" font-size="10.00"> &lt; Unary &gt;</text>
-</g>
-<!-- Node16 -->
-<g id="node17" class="node"><title>Node16</title>
-<g id="a_node17"><a xlink:href="../../d0/d7e/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="764,-488 764,-578 924,-578 924,-488 764,-488"/>
-<text text-anchor="start" x="772" y="-566" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Abstract</text>
-<text text-anchor="middle" x="844" y="-555" font-family="SegoeUI" font-size="10.00">PointerConfiguration&lt; KeyCode &gt;</text>
-<polyline fill="none" stroke="black" points="764,-548 924,-548 "/>
-<text text-anchor="start" x="772" y="-536" font-family="SegoeUI" font-size="10.00">&#45; nativeButtons</text>
-<polyline fill="none" stroke="black" points="764,-529 924,-529 "/>
-<text text-anchor="start" x="772" y="-517" font-family="SegoeUI" font-size="10.00">+ Install()</text>
-<text text-anchor="start" x="772" y="-506" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
-<text text-anchor="start" x="772" y="-495" font-family="SegoeUI" font-size="10.00"># AddButton()</text>
-</a>
-</g>
-</g>
-<!-- Node0&#45;&gt;Node16 -->
-<g id="edge16" class="edge"><title>Node0&#45;&gt;Node16</title>
-<path fill="none" stroke="orange" d="M733.756,-624.695C752.229,-609.498 772.326,-592.964 790.241,-578.226"/>
-<polygon fill="orange" stroke="orange" points="731.449,-622.061 725.95,-631.117 735.896,-627.466 731.449,-622.061"/>
-<text text-anchor="middle" x="788" y="-605" font-family="SegoeUI" font-size="10.00"> &lt; KeyCode &gt;</text>
+<path fill="none" stroke="orange" d="M656.727,-624.898C676.238,-609.646 697.492,-593.03 716.429,-578.226"/>
+<polygon fill="orange" stroke="orange" points="654.496,-622.2 648.773,-631.117 658.807,-627.715 654.496,-622.2"/>
+<text text-anchor="middle" x="722" y="-605" font-family="SegoeUI" font-size="10.00"> &lt; MouseButton &gt;</text>
 </g>
 <!-- Node2 -->
 <g id="node3" class="node"><title>Node2</title>
 <g id="a_node3"><a xlink:href="../../d2/d45/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker_configuration.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="99.5,-338 99.5,-417 306.5,-417 306.5,-338 99.5,-338"/>
-<text text-anchor="start" x="107.5" y="-405" font-family="SegoeUI" font-size="10.00">Juniper::Input::Pointers</text>
-<text text-anchor="start" x="107.5" y="-394" font-family="SegoeUI" font-size="10.00">::Motion::AbstractHandTrackerConfiguration</text>
-<text text-anchor="middle" x="203" y="-383" font-family="SegoeUI" font-size="10.00">&lt; HandIDType, ButtonIDType &gt;</text>
-<polyline fill="none" stroke="black" points="99.5,-376 306.5,-376 "/>
-<text text-anchor="start" x="107.5" y="-364" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
-<polyline fill="none" stroke="black" points="99.5,-357 306.5,-357 "/>
-<text text-anchor="middle" x="203" y="-345" font-family="SegoeUI" font-size="10.00"> </text>
+<polygon fill="white" stroke="black" points="43.5,-338 43.5,-417 250.5,-417 250.5,-338 43.5,-338"/>
+<text text-anchor="start" x="51.5" y="-405" font-family="SegoeUI" font-size="10.00">Juniper::Input::Pointers</text>
+<text text-anchor="start" x="51.5" y="-394" font-family="SegoeUI" font-size="10.00">::Motion::AbstractHandTrackerConfiguration</text>
+<text text-anchor="middle" x="147" y="-383" font-family="SegoeUI" font-size="10.00">&lt; HandIDType, ButtonIDType &gt;</text>
+<polyline fill="none" stroke="black" points="43.5,-376 250.5,-376 "/>
+<text text-anchor="start" x="51.5" y="-364" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
+<polyline fill="none" stroke="black" points="43.5,-357 250.5,-357 "/>
+<text text-anchor="middle" x="147" y="-345" font-family="SegoeUI" font-size="10.00"> </text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node2 -->
 <g id="edge2" class="edge"><title>Node1&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M392.537,-483.154C353.887,-461.813 309.202,-437.14 272.93,-417.113"/>
-<polygon fill="none" stroke="midnightblue" points="391.262,-486.449 401.708,-488.218 394.646,-480.321 391.262,-486.449"/>
+<path fill="none" stroke="midnightblue" d="M317.154,-479.735C282.597,-459.175 243.639,-435.997 211.729,-417.011"/>
+<polygon fill="none" stroke="midnightblue" points="315.455,-482.797 325.838,-484.902 319.034,-476.781 315.455,-482.797"/>
 </g>
 <!-- Node5 -->
 <g id="node6" class="node"><title>Node5</title>
 <g id="a_node6"><a xlink:href="../../da/de2/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_configuration.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="377,-310.5 377,-444.5 585,-444.5 585,-310.5 377,-310.5"/>
-<text text-anchor="start" x="385" y="-432.5" font-family="SegoeUI" font-size="10.00">Juniper::Input::Pointers</text>
-<text text-anchor="start" x="385" y="-421.5" font-family="SegoeUI" font-size="10.00">::Motion::AbstractMotionController</text>
-<text text-anchor="middle" x="481" y="-410.5" font-family="SegoeUI" font-size="10.00">Configuration&lt; HandIDType, ButtonIDType &gt;</text>
-<polyline fill="none" stroke="black" points="377,-403.5 585,-403.5 "/>
-<text text-anchor="start" x="385" y="-391.5" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
-<text text-anchor="start" x="385" y="-380.5" font-family="SegoeUI" font-size="10.00">&#45; touchPadButtons</text>
-<text text-anchor="start" x="385" y="-369.5" font-family="SegoeUI" font-size="10.00">&#45; triggerButtons</text>
-<polyline fill="none" stroke="black" points="377,-362.5 585,-362.5 "/>
-<text text-anchor="start" x="385" y="-350.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
-<text text-anchor="start" x="385" y="-339.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
-<text text-anchor="start" x="385" y="-328.5" font-family="SegoeUI" font-size="10.00"># AddButton()</text>
-<text text-anchor="start" x="385" y="-317.5" font-family="SegoeUI" font-size="10.00"># AddButton()</text>
+<polygon fill="white" stroke="black" points="301,-310.5 301,-444.5 509,-444.5 509,-310.5 301,-310.5"/>
+<text text-anchor="start" x="309" y="-432.5" font-family="SegoeUI" font-size="10.00">Juniper::Input::Pointers</text>
+<text text-anchor="start" x="309" y="-421.5" font-family="SegoeUI" font-size="10.00">::Motion::AbstractMotionController</text>
+<text text-anchor="middle" x="405" y="-410.5" font-family="SegoeUI" font-size="10.00">Configuration&lt; HandIDType, ButtonIDType &gt;</text>
+<polyline fill="none" stroke="black" points="301,-403.5 509,-403.5 "/>
+<text text-anchor="start" x="309" y="-391.5" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
+<text text-anchor="start" x="309" y="-380.5" font-family="SegoeUI" font-size="10.00">&#45; touchPadKeys</text>
+<text text-anchor="start" x="309" y="-369.5" font-family="SegoeUI" font-size="10.00">&#45; triggerKeys</text>
+<polyline fill="none" stroke="black" points="301,-362.5 509,-362.5 "/>
+<text text-anchor="start" x="309" y="-350.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
+<text text-anchor="start" x="309" y="-339.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
+<text text-anchor="start" x="309" y="-328.5" font-family="SegoeUI" font-size="10.00"># AddButton()</text>
+<text text-anchor="start" x="309" y="-317.5" font-family="SegoeUI" font-size="10.00"># AddButton()</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node5 -->
 <g id="edge5" class="edge"><title>Node1&#45;&gt;Node5</title>
-<path fill="none" stroke="midnightblue" d="M481,-472.128C481,-463.091 481,-453.726 481,-444.568"/>
-<polygon fill="none" stroke="midnightblue" points="477.5,-472.163 481,-482.163 484.5,-472.163 477.5,-472.163"/>
+<path fill="none" stroke="midnightblue" d="M405,-472.128C405,-463.091 405,-453.726 405,-444.568"/>
+<polygon fill="none" stroke="midnightblue" points="401.5,-472.163 405,-482.163 408.5,-472.163 401.5,-472.163"/>
 </g>
 <!-- Node3 -->
 <g id="node4" class="node"><title>Node3</title>
@@ -182,7 +182,7 @@ var sectionId = 'dynsection-0';
 <polygon fill="white" stroke="black" points="0,-145 0,-224 164,-224 164,-145 0,-145"/>
 <text text-anchor="start" x="8" y="-212" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Motion.</text>
 <text text-anchor="start" x="8" y="-201" font-family="SegoeUI" font-size="10.00">AbstractHandTrackerConfiguration</text>
-<text text-anchor="middle" x="82" y="-190" font-family="SegoeUI" font-size="10.00">&lt; Unary, KeyCode &gt;</text>
+<text text-anchor="middle" x="82" y="-190" font-family="SegoeUI" font-size="10.00">&lt; Unary, Unary &gt;</text>
 <polyline fill="none" stroke="black" points="0,-183 164,-183 "/>
 <text text-anchor="start" x="8" y="-171" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
 <polyline fill="none" stroke="black" points="0,-164 164,-164 "/>
@@ -192,9 +192,9 @@ var sectionId = 'dynsection-0';
 </g>
 <!-- Node2&#45;&gt;Node3 -->
 <g id="edge3" class="edge"><title>Node2&#45;&gt;Node3</title>
-<path fill="none" stroke="orange" d="M172.912,-329.005C152.417,-296.654 125.629,-254.369 106.45,-224.094"/>
-<polygon fill="orange" stroke="orange" points="170.206,-331.274 178.514,-337.848 176.119,-327.528 170.206,-331.274"/>
-<text text-anchor="middle" x="192.5" y="-278.5" font-family="SegoeUI" font-size="10.00"> &lt; Unary, KeyCode &gt;</text>
+<path fill="none" stroke="orange" d="M130.554,-328.173C119.581,-295.932 105.349,-254.11 95.1342,-224.094"/>
+<polygon fill="orange" stroke="orange" points="127.311,-329.509 133.846,-337.848 133.938,-327.254 127.311,-329.509"/>
+<text text-anchor="middle" x="156.5" y="-278.5" font-family="SegoeUI" font-size="10.00"> &lt; Unary, Unary &gt;</text>
 </g>
 <!-- Node4 -->
 <g id="node5" class="node"><title>Node4</title>
@@ -203,7 +203,7 @@ var sectionId = 'dynsection-0';
 <text text-anchor="start" x="18" y="-62" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Motion.</text>
 <text text-anchor="middle" x="82" y="-51" font-family="SegoeUI" font-size="10.00">NoHandTrackerConfiguration</text>
 <polyline fill="none" stroke="black" points="10,-44 154,-44 "/>
-<text text-anchor="start" x="18" y="-32" font-family="SegoeUI" font-size="10.00">+ this[Hands hand]</text>
+<text text-anchor="start" x="18" y="-32" font-family="SegoeUI" font-size="10.00">+ this[Hand hand]</text>
 <polyline fill="none" stroke="black" points="10,-25 154,-25 "/>
 <text text-anchor="middle" x="82" y="-13" font-family="SegoeUI" font-size="10.00"> </text>
 </a>
@@ -220,11 +220,11 @@ var sectionId = 'dynsection-0';
 <polygon fill="white" stroke="black" points="182.5,-117.5 182.5,-251.5 361.5,-251.5 361.5,-117.5 182.5,-117.5"/>
 <text text-anchor="start" x="190.5" y="-239.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Motion.</text>
 <text text-anchor="start" x="190.5" y="-228.5" font-family="SegoeUI" font-size="10.00">AbstractMotionControllerConfiguration</text>
-<text text-anchor="middle" x="272" y="-217.5" font-family="SegoeUI" font-size="10.00">&lt; WVR_DeviceType, WVR_InputId &gt;</text>
+<text text-anchor="middle" x="272" y="-217.5" font-family="SegoeUI" font-size="10.00">&lt; Unary, Unary &gt;</text>
 <polyline fill="none" stroke="black" points="182.5,-210.5 361.5,-210.5 "/>
 <text text-anchor="start" x="190.5" y="-198.5" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
-<text text-anchor="start" x="190.5" y="-187.5" font-family="SegoeUI" font-size="10.00">&#45; touchPadButtons</text>
-<text text-anchor="start" x="190.5" y="-176.5" font-family="SegoeUI" font-size="10.00">&#45; triggerButtons</text>
+<text text-anchor="start" x="190.5" y="-187.5" font-family="SegoeUI" font-size="10.00">&#45; touchPadKeys</text>
+<text text-anchor="start" x="190.5" y="-176.5" font-family="SegoeUI" font-size="10.00">&#45; triggerKeys</text>
 <polyline fill="none" stroke="black" points="182.5,-169.5 361.5,-169.5 "/>
 <text text-anchor="start" x="190.5" y="-157.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
 <text text-anchor="start" x="190.5" y="-146.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
@@ -235,23 +235,22 @@ var sectionId = 'dynsection-0';
 </g>
 <!-- Node5&#45;&gt;Node6 -->
 <g id="edge6" class="edge"><title>Node5&#45;&gt;Node6</title>
-<path fill="none" stroke="orange" d="M375.602,-303.918C370.92,-299.992 366.362,-296.01 362,-292 348.633,-279.713 335.374,-265.485 323.306,-251.507"/>
-<polygon fill="orange" stroke="orange" points="373.634,-306.83 383.585,-310.467 378.074,-301.419 373.634,-306.83"/>
-<text text-anchor="start" x="362" y="-284" font-family="SegoeUI" font-size="10.00"> &lt; WVR_DeviceType, WVR</text>
-<text text-anchor="middle" x="419.5" y="-273" font-family="SegoeUI" font-size="10.00">_InputId &gt;</text>
+<path fill="none" stroke="orange" d="M352.906,-301.688C341.406,-285.173 329.303,-267.792 318.062,-251.649"/>
+<polygon fill="orange" stroke="orange" points="350.27,-304.027 358.856,-310.234 356.014,-300.027 350.27,-304.027"/>
+<text text-anchor="middle" x="382.5" y="-278.5" font-family="SegoeUI" font-size="10.00"> &lt; Unary, Unary &gt;</text>
 </g>
 <!-- Node8 -->
 <g id="node9" class="node"><title>Node8</title>
 <g id="a_node9"><a xlink:href="../../da/de2/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_configuration.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="379.5,-117.5 379.5,-251.5 582.5,-251.5 582.5,-117.5 379.5,-117.5"/>
+<polygon fill="white" stroke="black" points="379.5,-117.5 379.5,-251.5 558.5,-251.5 558.5,-117.5 379.5,-117.5"/>
 <text text-anchor="start" x="387.5" y="-239.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Motion.</text>
 <text text-anchor="start" x="387.5" y="-228.5" font-family="SegoeUI" font-size="10.00">AbstractMotionControllerConfiguration</text>
-<text text-anchor="middle" x="481" y="-217.5" font-family="SegoeUI" font-size="10.00">&lt; GvrControllerHand, GvrControllerButton &gt;</text>
-<polyline fill="none" stroke="black" points="379.5,-210.5 582.5,-210.5 "/>
+<text text-anchor="middle" x="469" y="-217.5" font-family="SegoeUI" font-size="10.00">&lt; WVR_DeviceType, WVR_InputId &gt;</text>
+<polyline fill="none" stroke="black" points="379.5,-210.5 558.5,-210.5 "/>
 <text text-anchor="start" x="387.5" y="-198.5" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
-<text text-anchor="start" x="387.5" y="-187.5" font-family="SegoeUI" font-size="10.00">&#45; touchPadButtons</text>
-<text text-anchor="start" x="387.5" y="-176.5" font-family="SegoeUI" font-size="10.00">&#45; triggerButtons</text>
-<polyline fill="none" stroke="black" points="379.5,-169.5 582.5,-169.5 "/>
+<text text-anchor="start" x="387.5" y="-187.5" font-family="SegoeUI" font-size="10.00">&#45; touchPadKeys</text>
+<text text-anchor="start" x="387.5" y="-176.5" font-family="SegoeUI" font-size="10.00">&#45; triggerKeys</text>
+<polyline fill="none" stroke="black" points="379.5,-169.5 558.5,-169.5 "/>
 <text text-anchor="start" x="387.5" y="-157.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
 <text text-anchor="start" x="387.5" y="-146.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
 <text text-anchor="start" x="387.5" y="-135.5" font-family="SegoeUI" font-size="10.00"># AddButton()</text>
@@ -261,171 +260,128 @@ var sectionId = 'dynsection-0';
 </g>
 <!-- Node5&#45;&gt;Node8 -->
 <g id="edge8" class="edge"><title>Node5&#45;&gt;Node8</title>
-<path fill="none" stroke="orange" d="M481,-299.866C481,-283.899 481,-267.199 481,-251.649"/>
-<polygon fill="orange" stroke="orange" points="477.5,-300.233 481,-310.234 484.5,-300.234 477.5,-300.233"/>
-<text text-anchor="start" x="481" y="-284" font-family="SegoeUI" font-size="10.00"> &lt; GvrControllerHand,</text>
-<text text-anchor="middle" x="529.5" y="-273" font-family="SegoeUI" font-size="10.00"> GvrControllerButton &gt;</text>
+<path fill="none" stroke="orange" d="M430.526,-300.322C435.922,-284.217 441.575,-267.347 446.835,-251.649"/>
+<polygon fill="orange" stroke="orange" points="427.063,-299.64 427.204,-310.234 433.7,-301.864 427.063,-299.64"/>
+<text text-anchor="start" x="439" y="-284" font-family="SegoeUI" font-size="10.00"> &lt; WVR_DeviceType, WVR</text>
+<text text-anchor="middle" x="496.5" y="-273" font-family="SegoeUI" font-size="10.00">_InputId &gt;</text>
 </g>
 <!-- Node10 -->
 <g id="node11" class="node"><title>Node10</title>
 <g id="a_node11"><a xlink:href="../../da/de2/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_configuration.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="600.5,-117.5 600.5,-251.5 779.5,-251.5 779.5,-117.5 600.5,-117.5"/>
-<text text-anchor="start" x="608.5" y="-239.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Motion.</text>
-<text text-anchor="start" x="608.5" y="-228.5" font-family="SegoeUI" font-size="10.00">AbstractMotionControllerConfiguration</text>
-<text text-anchor="middle" x="690" y="-217.5" font-family="SegoeUI" font-size="10.00">&lt; Unary, KeyCode &gt;</text>
-<polyline fill="none" stroke="black" points="600.5,-210.5 779.5,-210.5 "/>
-<text text-anchor="start" x="608.5" y="-198.5" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
-<text text-anchor="start" x="608.5" y="-187.5" font-family="SegoeUI" font-size="10.00">&#45; touchPadButtons</text>
-<text text-anchor="start" x="608.5" y="-176.5" font-family="SegoeUI" font-size="10.00">&#45; triggerButtons</text>
-<polyline fill="none" stroke="black" points="600.5,-169.5 779.5,-169.5 "/>
-<text text-anchor="start" x="608.5" y="-157.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
-<text text-anchor="start" x="608.5" y="-146.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
-<text text-anchor="start" x="608.5" y="-135.5" font-family="SegoeUI" font-size="10.00"># AddButton()</text>
-<text text-anchor="start" x="608.5" y="-124.5" font-family="SegoeUI" font-size="10.00"># AddButton()</text>
+<polygon fill="white" stroke="black" points="577,-117.5 577,-251.5 831,-251.5 831,-117.5 577,-117.5"/>
+<text text-anchor="start" x="585" y="-239.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Motion.</text>
+<text text-anchor="start" x="585" y="-228.5" font-family="SegoeUI" font-size="10.00">AbstractMotionControllerConfiguration</text>
+<text text-anchor="middle" x="704" y="-217.5" font-family="SegoeUI" font-size="10.00">&lt; InteractionSourceHandedness, WindowsMRButtons &gt;</text>
+<polyline fill="none" stroke="black" points="577,-210.5 831,-210.5 "/>
+<text text-anchor="start" x="585" y="-198.5" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
+<text text-anchor="start" x="585" y="-187.5" font-family="SegoeUI" font-size="10.00">&#45; touchPadKeys</text>
+<text text-anchor="start" x="585" y="-176.5" font-family="SegoeUI" font-size="10.00">&#45; triggerKeys</text>
+<polyline fill="none" stroke="black" points="577,-169.5 831,-169.5 "/>
+<text text-anchor="start" x="585" y="-157.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
+<text text-anchor="start" x="585" y="-146.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
+<text text-anchor="start" x="585" y="-135.5" font-family="SegoeUI" font-size="10.00"># AddButton()</text>
+<text text-anchor="start" x="585" y="-124.5" font-family="SegoeUI" font-size="10.00"># AddButton()</text>
 </a>
 </g>
 </g>
 <!-- Node5&#45;&gt;Node10 -->
 <g id="edge10" class="edge"><title>Node5&#45;&gt;Node10</title>
-<path fill="none" stroke="orange" d="M568.803,-303.792C573.296,-299.837 577.718,-295.89 582,-292 596.033,-279.25 610.715,-265.248 624.571,-251.706"/>
-<polygon fill="orange" stroke="orange" points="566.416,-301.23 561.187,-310.444 571.021,-306.501 566.416,-301.23"/>
-<text text-anchor="middle" x="649.5" y="-278.5" font-family="SegoeUI" font-size="10.00"> &lt; Unary, KeyCode &gt;</text>
-</g>
-<!-- Node12 -->
-<g id="node13" class="node"><title>Node12</title>
-<g id="a_node13"><a xlink:href="../../da/de2/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_configuration.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="798,-117.5 798,-251.5 1052,-251.5 1052,-117.5 798,-117.5"/>
-<text text-anchor="start" x="806" y="-239.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Motion.</text>
-<text text-anchor="start" x="806" y="-228.5" font-family="SegoeUI" font-size="10.00">AbstractMotionControllerConfiguration</text>
-<text text-anchor="middle" x="925" y="-217.5" font-family="SegoeUI" font-size="10.00">&lt; InteractionSourceHandedness, WindowsMRButtons &gt;</text>
-<polyline fill="none" stroke="black" points="798,-210.5 1052,-210.5 "/>
-<text text-anchor="start" x="806" y="-198.5" font-family="SegoeUI" font-size="10.00">+ PointerNameStub</text>
-<text text-anchor="start" x="806" y="-187.5" font-family="SegoeUI" font-size="10.00">&#45; touchPadButtons</text>
-<text text-anchor="start" x="806" y="-176.5" font-family="SegoeUI" font-size="10.00">&#45; triggerButtons</text>
-<polyline fill="none" stroke="black" points="798,-169.5 1052,-169.5 "/>
-<text text-anchor="start" x="806" y="-157.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
-<text text-anchor="start" x="806" y="-146.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
-<text text-anchor="start" x="806" y="-135.5" font-family="SegoeUI" font-size="10.00"># AddButton()</text>
-<text text-anchor="start" x="806" y="-124.5" font-family="SegoeUI" font-size="10.00"># AddButton()</text>
-</a>
-</g>
-</g>
-<!-- Node5&#45;&gt;Node12 -->
-<g id="edge12" class="edge"><title>Node5&#45;&gt;Node12</title>
-<path fill="none" stroke="orange" d="M594.593,-310.161C640.487,-295.137 656.543,-304.951 699,-292 740.48,-279.347 748.711,-270.36 788,-252 791.234,-250.489 794.507,-248.952 797.807,-247.397"/>
-<polygon fill="orange" stroke="orange" points="593.287,-306.91 585,-313.511 595.595,-313.518 593.287,-306.91"/>
-<text text-anchor="start" x="752" y="-284" font-family="SegoeUI" font-size="10.00"> &lt; InteractionSourceHandedness,</text>
-<text text-anchor="middle" x="824" y="-273" font-family="SegoeUI" font-size="10.00"> WindowsMRButtons &gt;</text>
+<path fill="none" stroke="orange" d="M517.725,-310.142C517.817,-310.095 517.908,-310.047 518,-310 535.315,-301.043 541.146,-301.797 558,-292 578.615,-280.017 599.857,-265.763 619.538,-251.642"/>
+<polygon fill="orange" stroke="orange" points="516.348,-306.912 509.127,-314.665 519.606,-313.107 516.348,-306.912"/>
+<text text-anchor="start" x="592" y="-284" font-family="SegoeUI" font-size="10.00"> &lt; InteractionSourceHandedness,</text>
+<text text-anchor="middle" x="664" y="-273" font-family="SegoeUI" font-size="10.00"> WindowsMRButtons &gt;</text>
 </g>
 <!-- Node7 -->
 <g id="node8" class="node"><title>Node7</title>
-<g id="a_node8"><a xlink:href="../../d7/d33/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_motion_controller_configuration.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="178.5,-0.5 178.5,-79.5 365.5,-79.5 365.5,-0.5 178.5,-0.5"/>
-<text text-anchor="start" x="186.5" y="-67.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Motion.</text>
-<text text-anchor="middle" x="272" y="-56.5" font-family="SegoeUI" font-size="10.00">ViveFocusMotionControllerConfiguration</text>
-<polyline fill="none" stroke="black" points="178.5,-49.5 365.5,-49.5 "/>
-<text text-anchor="start" x="186.5" y="-37.5" font-family="SegoeUI" font-size="10.00">+ this[Hands hand]</text>
-<polyline fill="none" stroke="black" points="178.5,-30.5 365.5,-30.5 "/>
-<text text-anchor="start" x="186.5" y="-18.5" font-family="SegoeUI" font-size="10.00">+ ViveFocusMotionController</text>
-<text text-anchor="start" x="186.5" y="-7.5" font-family="SegoeUI" font-size="10.00">Configuration()</text>
+<g id="a_node8"><a xlink:href="../../de/d96/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_no_motion_controller_configuration.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="194.5,-6 194.5,-74 349.5,-74 349.5,-6 194.5,-6"/>
+<text text-anchor="start" x="202.5" y="-62" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Motion.</text>
+<text text-anchor="middle" x="272" y="-51" font-family="SegoeUI" font-size="10.00">NoMotionControllerConfiguration</text>
+<polyline fill="none" stroke="black" points="194.5,-44 349.5,-44 "/>
+<text text-anchor="start" x="202.5" y="-32" font-family="SegoeUI" font-size="10.00">+ this[Hand hand]</text>
+<polyline fill="none" stroke="black" points="194.5,-25 349.5,-25 "/>
+<text text-anchor="middle" x="272" y="-13" font-family="SegoeUI" font-size="10.00"> </text>
 </a>
 </g>
 </g>
 <!-- Node6&#45;&gt;Node7 -->
 <g id="edge7" class="edge"><title>Node6&#45;&gt;Node7</title>
-<path fill="none" stroke="midnightblue" d="M272,-107.048C272,-97.6554 272,-88.3842 272,-79.8917"/>
+<path fill="none" stroke="midnightblue" d="M272,-107.065C272,-95.4865 272,-84.0917 272,-74.1122"/>
 <polygon fill="none" stroke="midnightblue" points="268.5,-107.256 272,-117.256 275.5,-107.256 268.5,-107.256"/>
 </g>
 <!-- Node9 -->
 <g id="node10" class="node"><title>Node9</title>
-<g id="a_node10"><a xlink:href="../../d4/d65/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_daydream_pointer_configuration.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="399,-6 399,-74 563,-74 563,-6 399,-6"/>
-<text text-anchor="start" x="407" y="-62" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Motion.</text>
-<text text-anchor="middle" x="481" y="-51" font-family="SegoeUI" font-size="10.00">DaydreamPointerConfiguration</text>
-<polyline fill="none" stroke="black" points="399,-44 563,-44 "/>
-<text text-anchor="start" x="407" y="-32" font-family="SegoeUI" font-size="10.00">+ this[Hands hand]</text>
-<polyline fill="none" stroke="black" points="399,-25 563,-25 "/>
-<text text-anchor="start" x="407" y="-13" font-family="SegoeUI" font-size="10.00">+ DaydreamPointerConfiguration()</text>
+<g id="a_node10"><a xlink:href="../../d7/d33/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_motion_controller_configuration.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="375.5,-0.5 375.5,-79.5 562.5,-79.5 562.5,-0.5 375.5,-0.5"/>
+<text text-anchor="start" x="383.5" y="-67.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Motion.</text>
+<text text-anchor="middle" x="469" y="-56.5" font-family="SegoeUI" font-size="10.00">ViveFocusMotionControllerConfiguration</text>
+<polyline fill="none" stroke="black" points="375.5,-49.5 562.5,-49.5 "/>
+<text text-anchor="start" x="383.5" y="-37.5" font-family="SegoeUI" font-size="10.00">+ this[Hand hand]</text>
+<polyline fill="none" stroke="black" points="375.5,-30.5 562.5,-30.5 "/>
+<text text-anchor="start" x="383.5" y="-18.5" font-family="SegoeUI" font-size="10.00">+ ViveFocusMotionController</text>
+<text text-anchor="start" x="383.5" y="-7.5" font-family="SegoeUI" font-size="10.00">Configuration()</text>
 </a>
 </g>
 </g>
 <!-- Node8&#45;&gt;Node9 -->
 <g id="edge9" class="edge"><title>Node8&#45;&gt;Node9</title>
-<path fill="none" stroke="midnightblue" d="M481,-107.065C481,-95.4865 481,-84.0917 481,-74.1122"/>
-<polygon fill="none" stroke="midnightblue" points="477.5,-107.256 481,-117.256 484.5,-107.256 477.5,-107.256"/>
+<path fill="none" stroke="midnightblue" d="M469,-107.048C469,-97.6554 469,-88.3842 469,-79.8917"/>
+<polygon fill="none" stroke="midnightblue" points="465.5,-107.256 469,-117.256 472.5,-107.256 465.5,-107.256"/>
 </g>
 <!-- Node11 -->
 <g id="node12" class="node"><title>Node11</title>
-<g id="a_node12"><a xlink:href="../../de/d96/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_no_motion_controller_configuration.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="612.5,-6 612.5,-74 767.5,-74 767.5,-6 612.5,-6"/>
-<text text-anchor="start" x="620.5" y="-62" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Motion.</text>
-<text text-anchor="middle" x="690" y="-51" font-family="SegoeUI" font-size="10.00">NoMotionControllerConfiguration</text>
-<polyline fill="none" stroke="black" points="612.5,-44 767.5,-44 "/>
-<text text-anchor="start" x="620.5" y="-32" font-family="SegoeUI" font-size="10.00">+ this[Hands hand]</text>
-<polyline fill="none" stroke="black" points="612.5,-25 767.5,-25 "/>
-<text text-anchor="middle" x="690" y="-13" font-family="SegoeUI" font-size="10.00"> </text>
+<g id="a_node12"><a xlink:href="../../dd/d07/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller_configuration.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="605.5,-0.5 605.5,-79.5 802.5,-79.5 802.5,-0.5 605.5,-0.5"/>
+<text text-anchor="start" x="613.5" y="-67.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Motion.</text>
+<text text-anchor="middle" x="704" y="-56.5" font-family="SegoeUI" font-size="10.00">WindowsMRMotionControllerConfiguration</text>
+<polyline fill="none" stroke="black" points="605.5,-49.5 802.5,-49.5 "/>
+<text text-anchor="start" x="613.5" y="-37.5" font-family="SegoeUI" font-size="10.00">+ this[Hand hand]</text>
+<polyline fill="none" stroke="black" points="605.5,-30.5 802.5,-30.5 "/>
+<text text-anchor="start" x="613.5" y="-18.5" font-family="SegoeUI" font-size="10.00">+ WindowsMRMotionController</text>
+<text text-anchor="start" x="613.5" y="-7.5" font-family="SegoeUI" font-size="10.00">Configuration()</text>
 </a>
 </g>
 </g>
 <!-- Node10&#45;&gt;Node11 -->
 <g id="edge11" class="edge"><title>Node10&#45;&gt;Node11</title>
-<path fill="none" stroke="midnightblue" d="M690,-107.065C690,-95.4865 690,-84.0917 690,-74.1122"/>
-<polygon fill="none" stroke="midnightblue" points="686.5,-107.256 690,-117.256 693.5,-107.256 686.5,-107.256"/>
+<path fill="none" stroke="midnightblue" d="M704,-107.048C704,-97.6554 704,-88.3842 704,-79.8917"/>
+<polygon fill="none" stroke="midnightblue" points="700.5,-107.256 704,-117.256 707.5,-107.256 700.5,-107.256"/>
 </g>
 <!-- Node13 -->
 <g id="node14" class="node"><title>Node13</title>
-<g id="a_node14"><a xlink:href="../../dd/d07/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller_configuration.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="826.5,-0.5 826.5,-79.5 1023.5,-79.5 1023.5,-0.5 826.5,-0.5"/>
-<text text-anchor="start" x="834.5" y="-67.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Motion.</text>
-<text text-anchor="middle" x="925" y="-56.5" font-family="SegoeUI" font-size="10.00">WindowsMRMotionControllerConfiguration</text>
-<polyline fill="none" stroke="black" points="826.5,-49.5 1023.5,-49.5 "/>
-<text text-anchor="start" x="834.5" y="-37.5" font-family="SegoeUI" font-size="10.00">+ this[Hands hand]</text>
-<polyline fill="none" stroke="black" points="826.5,-30.5 1023.5,-30.5 "/>
-<text text-anchor="start" x="834.5" y="-18.5" font-family="SegoeUI" font-size="10.00">+ WindowsMRMotionController</text>
-<text text-anchor="start" x="834.5" y="-7.5" font-family="SegoeUI" font-size="10.00">Configuration()</text>
+<g id="a_node14"><a xlink:href="../../d4/d3d/class_juniper_1_1_input_1_1_pointers_1_1_unary_pointer_configuration.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="527.5,-343.5 527.5,-411.5 672.5,-411.5 672.5,-343.5 527.5,-343.5"/>
+<text text-anchor="start" x="535.5" y="-399.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Unary</text>
+<text text-anchor="middle" x="600" y="-388.5" font-family="SegoeUI" font-size="10.00">PointerConfiguration</text>
+<polyline fill="none" stroke="black" points="527.5,-381.5 672.5,-381.5 "/>
+<text text-anchor="middle" x="600" y="-369.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="527.5,-362.5 672.5,-362.5 "/>
+<text text-anchor="start" x="535.5" y="-350.5" font-family="SegoeUI" font-size="10.00">+ UnaryPointerConfiguration()</text>
 </a>
 </g>
 </g>
 <!-- Node12&#45;&gt;Node13 -->
 <g id="edge13" class="edge"><title>Node12&#45;&gt;Node13</title>
-<path fill="none" stroke="midnightblue" d="M925,-107.048C925,-97.6554 925,-88.3842 925,-79.8917"/>
-<polygon fill="none" stroke="midnightblue" points="921.5,-107.256 925,-117.256 928.5,-107.256 921.5,-107.256"/>
+<path fill="none" stroke="midnightblue" d="M594.846,-477.387C595.992,-455.4 597.276,-430.763 598.276,-411.58"/>
+<polygon fill="none" stroke="midnightblue" points="591.339,-477.433 594.314,-487.601 598.33,-477.797 591.339,-477.433"/>
 </g>
 <!-- Node15 -->
 <g id="node16" class="node"><title>Node15</title>
-<g id="a_node16"><a xlink:href="../../d4/d3d/class_juniper_1_1_input_1_1_pointers_1_1_unary_pointer_configuration.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="603.5,-343.5 603.5,-411.5 748.5,-411.5 748.5,-343.5 603.5,-343.5"/>
-<text text-anchor="start" x="611.5" y="-399.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Unary</text>
-<text text-anchor="middle" x="676" y="-388.5" font-family="SegoeUI" font-size="10.00">PointerConfiguration</text>
-<polyline fill="none" stroke="black" points="603.5,-381.5 748.5,-381.5 "/>
-<text text-anchor="middle" x="676" y="-369.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="603.5,-362.5 748.5,-362.5 "/>
-<text text-anchor="start" x="611.5" y="-350.5" font-family="SegoeUI" font-size="10.00">+ UnaryPointerConfiguration()</text>
+<g id="a_node16"><a xlink:href="../../d7/d0c/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_mouse_pointer_configuration.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="699,-343.5 699,-411.5 847,-411.5 847,-343.5 699,-343.5"/>
+<text text-anchor="start" x="707" y="-399.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Screen.</text>
+<text text-anchor="middle" x="773" y="-388.5" font-family="SegoeUI" font-size="10.00">MousePointerConfiguration</text>
+<polyline fill="none" stroke="black" points="699,-381.5 847,-381.5 "/>
+<text text-anchor="middle" x="773" y="-369.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="699,-362.5 847,-362.5 "/>
+<text text-anchor="start" x="707" y="-350.5" font-family="SegoeUI" font-size="10.00">+ MousePointerConfiguration()</text>
 </a>
 </g>
 </g>
 <!-- Node14&#45;&gt;Node15 -->
 <g id="edge15" class="edge"><title>Node14&#45;&gt;Node15</title>
-<path fill="none" stroke="midnightblue" d="M673.423,-477.387C673.996,-455.4 674.638,-430.763 675.138,-411.58"/>
-<polygon fill="none" stroke="midnightblue" points="669.919,-477.514 673.157,-487.601 676.916,-477.696 669.919,-477.514"/>
-</g>
-<!-- Node17 -->
-<g id="node18" class="node"><title>Node17</title>
-<g id="a_node18"><a xlink:href="../../d7/d0c/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_mouse_pointer_configuration.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="770,-343.5 770,-411.5 918,-411.5 918,-343.5 770,-343.5"/>
-<text text-anchor="start" x="778" y="-399.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.Screen.</text>
-<text text-anchor="middle" x="844" y="-388.5" font-family="SegoeUI" font-size="10.00">MousePointerConfiguration</text>
-<polyline fill="none" stroke="black" points="770,-381.5 918,-381.5 "/>
-<text text-anchor="middle" x="844" y="-369.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="770,-362.5 918,-362.5 "/>
-<text text-anchor="start" x="778" y="-350.5" font-family="SegoeUI" font-size="10.00">+ MousePointerConfiguration()</text>
-</a>
-</g>
-</g>
-<!-- Node16&#45;&gt;Node17 -->
-<g id="edge17" class="edge"><title>Node16&#45;&gt;Node17</title>
-<path fill="none" stroke="midnightblue" d="M844,-477.387C844,-455.4 844,-430.763 844,-411.58"/>
-<polygon fill="none" stroke="midnightblue" points="840.5,-477.601 844,-487.601 847.5,-477.601 840.5,-477.601"/>
+<path fill="none" stroke="midnightblue" d="M773,-477.387C773,-455.4 773,-430.763 773,-411.58"/>
+<polygon fill="none" stroke="midnightblue" points="769.5,-477.601 773,-487.601 776.5,-477.601 769.5,-477.601"/>
 </g>
 </g>
 </svg>

@@ -1,11 +1,21 @@
 var searchData=
 [
   ['ballisticspeed',['BallisticSpeed',['../d6/ddd/namespace_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aa631596d52c4397558a8e70486487fda5',1,'Juniper::Units']]],
-  ['bottom',['Bottom',['../d7/de5/namespace_juniper_1_1_input.html#ad5afcad5323b73bcac5c9707f1746ffaa2ad9d63b69c4a10a5cc9cad923133bc4',1,'Juniper::Input']]],
-  ['bottomleft',['BottomLeft',['../d7/de5/namespace_juniper_1_1_input.html#ad5afcad5323b73bcac5c9707f1746ffaa98e5a1c44509157ebcaf46c515c78875',1,'Juniper::Input']]],
-  ['bottomright',['BottomRight',['../d7/de5/namespace_juniper_1_1_input.html#ad5afcad5323b73bcac5c9707f1746ffaa9146bfc669fddc88db2c4d89297d0e9a',1,'Juniper::Input']]],
+  ['before_5fidat',['BEFORE_IDAT',['../d8/dd4/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk.html#a464ffc1b7da71a2d81c0bfa68de36525a422484982bd1aec91f424d70812c553a',1,'Hjg::Pngcs::Chunks::AbstractPngChunk']]],
+  ['before_5fplte_5fand_5fidat',['BEFORE_PLTE_AND_IDAT',['../d8/dd4/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk.html#a464ffc1b7da71a2d81c0bfa68de36525a7e46595f531be1c5f6cf84559fc9b92e',1,'Hjg::Pngcs::Chunks::AbstractPngChunk']]],
+  ['bits',['Bits',['../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77af10034efe0880222e7495496264ee1be',1,'Juniper::Units']]],
+  ['block',['Block',['../dc/d2c/namespace_juniper_1_1_h_t_t_p_1_1_server_1_1_administration_1_1_net_s_h.html#aa9b31adfb3c4ab24c1f9767fb8c711e8ae1e4c8c9ccd9fc39c391da4bcd093fb2',1,'Juniper::HTTP::Server::Administration::NetSH']]],
+  ['bottom',['Bottom',['../d7/de5/namespace_juniper_1_1_input.html#a3c254fe6d56e15db403bbde40bd23834a2ad9d63b69c4a10a5cc9cad923133bc4',1,'Juniper.Input.Bottom()'],['../d1/d6b/namespace_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_map_tiles.html#aac3a920b4c7e2f3b60dddadada83f125a71f262d796bed1ab30e8a2d5a8ddee6f',1,'Juniper.World.GIS.Google.MapTiles.bottom()']]],
+  ['bottomleft',['BottomLeft',['../d7/de5/namespace_juniper_1_1_input.html#a3c254fe6d56e15db403bbde40bd23834a98e5a1c44509157ebcaf46c515c78875',1,'Juniper.Input.BottomLeft()'],['../d1/d6b/namespace_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_map_tiles.html#aac3a920b4c7e2f3b60dddadada83f125a3e9e64ba9afe6b3c53635c1ba2f2cd85',1,'Juniper.World.GIS.Google.MapTiles.bottomleft()']]],
+  ['bottomright',['bottomright',['../d1/d6b/namespace_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_map_tiles.html#aac3a920b4c7e2f3b60dddadada83f125ae3b3c097359209ec7f812bc3b96a48e1',1,'Juniper.World.GIS.Google.MapTiles.bottomright()'],['../d7/de5/namespace_juniper_1_1_input.html#a3c254fe6d56e15db403bbde40bd23834a9146bfc669fddc88db2c4d89297d0e9a',1,'Juniper.Input.BottomRight()']]],
+  ['breadthfirst',['BreadthFirst',['../db/d80/namespace_juniper_1_1_collections.html#a4216ae732d8e686ab213555470efe555a42b647c4fc0abd66c203a137a529d312',1,'Juniper::Collections']]],
   ['brightness',['Brightness',['../d6/ddd/namespace_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aab25323f99788ce64617f018b8a9f5f70',1,'Juniper.Units.Brightness()'],['../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77ab25323f99788ce64617f018b8a9f5f70',1,'Juniper.Units.Brightness()']]],
-  ['broken_5fclouds',['BROKEN_CLOUDS',['../de/dac/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_o_w_m_weather.html#ad530c5e906e5716b875a99249a56681ea9ba74b03233f2da5e7f152360bbeaf8d',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::OWMWeather']]],
+  ['broken_5fclouds',['BROKEN_CLOUDS',['../da/db4/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_o_w_m_weather.html#ada5e81b1f765dc84c1eb2ec33a105ae6a9ba74b03233f2da5e7f152360bbeaf8d',1,'Juniper::World::Climate::OpenWeatherMap::OWMWeather']]],
+  ['buffer',['BUFFER',['../d2/d59/namespace_ar_1_1_com_1_1_hjg_1_1_pngcs.html#a2332c7a97292804baeb9f7f01125fde7a17de626bcae5109bb2f7a66dfc4a8a1d',1,'Ar::Com::Hjg::Pngcs']]],
   ['bump',['Bump',['../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820ac44447baeeae4f8eaa468d6abdacd98f',1,'Juniper::Animation']]],
+  ['bumpcontinuous',['BumpContinuous',['../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820ad0b0e3925082feb75166ef05b256f271',1,'Juniper::Animation']]],
+  ['bus_5fstation',['bus_station',['../d7/d19/namespace_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_geocoding.html#af69e83b6eb5b99734729682356fc7a0ea3882882a4b98f943a7505c5925d43e00',1,'Juniper::World::GIS::Google::Geocoding']]],
+  ['bypass',['Bypass',['../dc/d2c/namespace_juniper_1_1_h_t_t_p_1_1_server_1_1_administration_1_1_net_s_h.html#aa9b31adfb3c4ab24c1f9767fb8c711e8a5ce88c4d66118388a69c6fd4262ca3a1',1,'Juniper::HTTP::Server::Administration::NetSH']]],
+  ['byte',['BYTE',['../d5/d32/class_hjg_1_1_pngcs_1_1_image_line.html#a2f05048a357cf28618b6eb190df0d34bae409eb2ba6eb6801f52763ae370c350e',1,'Hjg::Pngcs::ImageLine']]],
   ['bytes',['Bytes',['../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77a600e754f49b68aa0fc90a9cd64eb7051',1,'Juniper::Units']]]
 ];

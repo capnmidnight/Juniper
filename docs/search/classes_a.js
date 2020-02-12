@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['kalmanmotionfilter',['KalmanMotionFilter',['../da/d6a/class_juniper_1_1_statistics_1_1_kalman_motion_filter.html',1,'Juniper::Statistics']]],
+  ['kalmanmotionfilter',['KalmanMotionFilter',['../d2/d04/class_juniper_1_1_mathematics_1_1_kalman_motion_filter.html',1,'Juniper::Mathematics']]],
   ['kelvin',['Kelvin',['../d9/d59/class_juniper_1_1_units_1_1_kelvin.html',1,'Juniper::Units']]],
-  ['keyboardshortcut',['KeyboardShortcut',['../d7/de9/class_juniper_1_1_input_1_1_keyboard_shortcut.html',1,'Juniper::Input']]],
+  ['keyboardable',['Keyboardable',['../db/d73/class_juniper_1_1_input_1_1_keyboardable.html',1,'Juniper::Input']]],
   ['keywordable',['Keywordable',['../d7/d4d/class_juniper_1_1_speech_1_1_keywordable.html',1,'Juniper::Speech']]],
   ['keywordrecognizedeventargs',['KeywordRecognizedEventArgs',['../d8/dcf/class_juniper_1_1_speech_1_1_keyword_recognized_event_args.html',1,'Juniper::Speech']]],
   ['keywordrecognizer',['KeywordRecognizer',['../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html',1,'Juniper::Speech']]],

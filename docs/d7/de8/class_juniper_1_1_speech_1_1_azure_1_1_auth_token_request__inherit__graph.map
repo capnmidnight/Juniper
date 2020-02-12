@@ -1,0 +1,9 @@
+<map id="Juniper.Speech.Azure.AuthTokenRequest" name="Juniper.Speech.Azure.AuthTokenRequest">
+<area shape="rect" id="node1" title=" " alt="" coords="23,1424,199,1560"/>
+<area shape="rect" id="node2" href="$d0/dd1/class_juniper_1_1_speech_1_1_azure_1_1_abstract_azure_request.html" title=" " alt="" coords="25,1268,196,1375"/>
+<area shape="rect" id="node3" href="$d0/dd1/class_juniper_1_1_speech_1_1_azure_1_1_abstract_azure_request.html" title=" " alt="" coords="12,1099,209,1205"/>
+<area shape="rect" id="node4" href="$db/d68/class_juniper_1_1_h_t_t_p_1_1_r_e_s_t_1_1_abstract_request.html" title=" " alt="" coords="5,635,216,1049"/>
+<area shape="rect" id="node5" href="$d4/d35/class_juniper_1_1_i_o_1_1_abstract_stream_source.html" title=" " alt="" coords="23,449,198,585"/>
+<area shape="rect" id="node6" href="$de/db8/class_juniper_1_1_i_o_1_1_content_reference.html" title=" " alt="" coords="37,132,184,400"/>
+<area shape="rect" id="node7" title=" " alt="" coords="5,5,216,83"/>
+</map>

@@ -1,6 +1,7 @@
 <map id="Juniper.Widgets.LoadingBar" name="Juniper.Widgets.LoadingBar">
-<area shape="rect" id="node1" title=" " alt="" coords="30,271,210,465"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,145,115,223"/>
-<area shape="rect" id="node3" href="$d9/daf/interface_juniper_1_1_progress_1_1_i_progress.html" title="Progress reporting interface for asynchronous operations." alt="" coords="139,145,223,223"/>
-<area shape="rect" id="node4" title=" " alt="" coords="113,5,250,97"/>
+<area shape="rect" id="node1" title=" " alt="" coords="91,359,271,568"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,5,115,83"/>
+<area shape="rect" id="node4" href="$d2/d3e/class_juniper_1_1_widgets_1_1_text_component_wrapper.html" title=" " alt="" coords="78,145,285,296"/>
+<area shape="rect" id="node3" href="$d3/ddf/interface_juniper_1_1_i_o_1_1_i_progress.html" title="Progress reporting interface for asynchronous operations." alt="" coords="309,175,453,267"/>
+<area shape="rect" id="node5" title=" " alt="" coords="158,5,205,83"/>
 </map>

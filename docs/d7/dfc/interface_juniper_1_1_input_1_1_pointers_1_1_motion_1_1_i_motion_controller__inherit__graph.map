@@ -1,15 +1,14 @@
 <map id="Juniper.Input.Pointers.Motion.IMotionController" name="Juniper.Input.Pointers.Motion.IMotionController">
-<area shape="rect" id="node1" title=" " alt="" coords="493,611,685,805"/>
-<area shape="rect" id="node4" href="$d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="483,855,696,1504"/>
-<area shape="rect" id="node2" href="$dc/d0e/interface_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_i_handed_pointer.html" title=" " alt="" coords="515,425,664,561"/>
-<area shape="rect" id="node3" href="$d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="507,5,672,376"/>
-<area shape="rect" id="node5" href="$d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="5,1603,259,2253"/>
-<area shape="rect" id="node8" href="$d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="283,1596,594,2260"/>
-<area shape="rect" id="node10" href="$d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="619,1603,861,2253"/>
-<area shape="rect" id="node12" href="$d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="885,1603,1152,2253"/>
-<area shape="rect" id="node6" href="$d4/d24/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_daydream_motion_controller.html" title=" " alt="" coords="36,2346,228,2702"/>
-<area shape="rect" id="node7" href="$d8/da1/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_motion_controller.html" title=" " alt="" coords="36,2788,228,2880"/>
-<area shape="rect" id="node9" href="$d3/d9d/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="343,2309,535,2739"/>
-<area shape="rect" id="node11" href="$d1/d71/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_no_motion_controller.html" title=" " alt="" coords="644,2383,836,2665"/>
-<area shape="rect" id="node13" href="$d0/dc0/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_motion_controller.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="923,2331,1115,2717"/>
+<area shape="rect" id="node1" title=" " alt="" coords="305,767,497,888"/>
+<area shape="rect" id="node5" href="$d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="294,937,507,1528"/>
+<area shape="rect" id="node2" href="$dc/d0e/interface_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_i_handed_pointer.html" title=" " alt="" coords="326,581,475,717"/>
+<area shape="rect" id="node3" href="$d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="318,161,483,532"/>
+<area shape="rect" id="node4" href="$d5/d9e/interface_juniper_1_1_input_1_1_pointers_1_1_i_laser_pointer.html" title=" " alt="" coords="301,5,500,112"/>
+<area shape="rect" id="node6" href="$d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="5,1620,263,2225"/>
+<area shape="rect" id="node9" href="$d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="287,1627,514,2218"/>
+<area shape="rect" id="node11" href="$d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="539,1620,849,2225"/>
+<area shape="rect" id="node7" href="$d0/dc0/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_motion_controller.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="38,2297,230,2667"/>
+<area shape="rect" id="node8" href="$d8/da1/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_motion_controller.html" title=" " alt="" coords="38,2739,230,2831"/>
+<area shape="rect" id="node10" href="$d1/d71/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_no_motion_controller.html" title=" " alt="" coords="305,2348,497,2616"/>
+<area shape="rect" id="node12" href="$d3/d9d/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="598,2275,790,2689"/>
 </map>

@@ -110,9 +110,9 @@ Static Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
-<tr class="memitem:a93c107ee31b0d659fd3d308dd41db36d"><td class="memItemLeft" align="right" valign="top">static DateTime&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd6/class_system_1_1_date_time_ext.html#a93c107ee31b0d659fd3d308dd41db36d">epoch</a> = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)</td></tr>
-<tr class="memdesc:a93c107ee31b0d659fd3d308dd41db36d"><td class="mdescLeft">&#160;</td><td class="mdescRight">The minimum time, according to Unix.  <a href="#a93c107ee31b0d659fd3d308dd41db36d">More...</a><br /></td></tr>
-<tr class="separator:a93c107ee31b0d659fd3d308dd41db36d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96841bae1424d7d29d3b5b449be0ac81"><td class="memItemLeft" align="right" valign="top">static readonly DateTime&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dd6/class_system_1_1_date_time_ext.html#a96841bae1424d7d29d3b5b449be0ac81">epoch</a> = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)</td></tr>
+<tr class="memdesc:a96841bae1424d7d29d3b5b449be0ac81"><td class="mdescLeft">&#160;</td><td class="mdescRight">The minimum time, according to Unix.  <a href="#a96841bae1424d7d29d3b5b449be0ac81">More...</a><br /></td></tr>
+<tr class="separator:a96841bae1424d7d29d3b5b449be0ac81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
@@ -151,8 +151,8 @@ Static Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of days since the Celestial Julian Day Calculation Epoch (Day 2451545 on the Julian Calendar). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html#l00043">43</a> of file <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html">DateTimeExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        {</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">float</span> JDEpoch = 2451545f;</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="comment">// Julian Day</span></div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            var jdDate = <span class="keyword">new</span> DateTime(time.Year, time.Month, time.Day, 12, 0, 0);</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keywordflow">if</span> (time.Hour &lt; 12)</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            {</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                jdDate = jdDate.AddDays(-1);</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            }</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            var delta = time - jdDate;</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            var <a class="code" href="../../d6/ddd/namespace_juniper_1_1_units.html#ae014f3ac9ce8ff7ef1d1da0a1f0d18b6a57cec4137b614c87cb4e24a3d003a3e0">Y</a> = jdDate.Year;</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            var M = jdDate.Month;</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            var D = jdDate.Day;</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="comment">// use integer division explicitly</span></div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            var JD = (1461 * (<a class="code" href="../../d6/ddd/namespace_juniper_1_1_units.html#ae014f3ac9ce8ff7ef1d1da0a1f0d18b6a57cec4137b614c87cb4e24a3d003a3e0">Y</a> + 4800 + (M - 14) / 12)) / 4</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                + (367 * (M - 2 - 12 * ((M - 14) / 12))) / 12</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                - (3 * ((Y + 4900 + (M - 14) / 12) / 100)) / 4</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                + D - 32075;</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keywordflow">return</span> JD + (float)delta.TotalDays - JDEpoch;</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }</div><div class="ttc" id="namespace_juniper_1_1_units_html_ae014f3ac9ce8ff7ef1d1da0a1f0d18b6a57cec4137b614c87cb4e24a3d003a3e0"><div class="ttname"><a href="../../d6/ddd/namespace_juniper_1_1_units.html#ae014f3ac9ce8ff7ef1d1da0a1f0d18b6a57cec4137b614c87cb4e24a3d003a3e0">Juniper.Units.CartesianAxis.Y</a></div><div class="ttdoc">The vertical axis</div></div>
+<p class="definition">Definition at line <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html#l00042">42</a> of file <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html">DateTimeExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        {</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="keyword">const</span> <span class="keywordtype">float</span> JDEpoch = 2451545f;</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="comment">// Julian Day</span></div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            var jdDate = <span class="keyword">new</span> DateTime(time.Year, time.Month, time.Day, 12, 0, 0);</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keywordflow">if</span> (time.Hour &lt; 12)</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            {</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                jdDate = jdDate.AddDays(-1);</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            }</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            var delta = time - jdDate;</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            var <a class="code" href="../../d6/ddd/namespace_juniper_1_1_units.html#ae014f3ac9ce8ff7ef1d1da0a1f0d18b6a57cec4137b614c87cb4e24a3d003a3e0">Y</a> = jdDate.Year;</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            var M = jdDate.Month;</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            var D = jdDate.Day;</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="comment">// use integer division explicitly</span></div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            var JD = (1461 * (<a class="code" href="../../d6/ddd/namespace_juniper_1_1_units.html#ae014f3ac9ce8ff7ef1d1da0a1f0d18b6a57cec4137b614c87cb4e24a3d003a3e0">Y</a> + 4800 + ((M - 14) / 12)) / 4)</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                + (367 * (M - 2 - (12 * ((M - 14) / 12))) / 12)</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                - (3 * ((Y + 4900 + ((M - 14) / 12)) / 100) / 4)</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                + D - 32075;</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keywordflow">return</span> JD + (float)delta.TotalDays - JDEpoch;</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }</div><div class="ttc" id="namespace_juniper_1_1_units_html_ae014f3ac9ce8ff7ef1d1da0a1f0d18b6a57cec4137b614c87cb4e24a3d003a3e0"><div class="ttname"><a href="../../d6/ddd/namespace_juniper_1_1_units.html#ae014f3ac9ce8ff7ef1d1da0a1f0d18b6a57cec4137b614c87cb4e24a3d003a3e0">Juniper.Units.CartesianAxis.Y</a></div><div class="ttdoc">The vertical axis</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -189,12 +189,12 @@ Static Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A structured date representation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html#l00018">18</a> of file <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html">DateTimeExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        {</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../d1/dd6/class_system_1_1_date_time_ext.html#a93c107ee31b0d659fd3d308dd41db36d">epoch</a>.AddSeconds(timeStamp).ToLocalTime();</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        }</div><div class="ttc" id="class_system_1_1_date_time_ext_html_a93c107ee31b0d659fd3d308dd41db36d"><div class="ttname"><a href="../../d1/dd6/class_system_1_1_date_time_ext.html#a93c107ee31b0d659fd3d308dd41db36d">System.DateTimeExt.epoch</a></div><div class="ttdeci">static DateTime epoch</div><div class="ttdoc">The minimum time, according to Unix.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d8c/_date_time_ext_8cs_source.html#l00009">DateTimeExt.cs:9</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html#l00017">17</a> of file <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html">DateTimeExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        {</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../d1/dd6/class_system_1_1_date_time_ext.html#a96841bae1424d7d29d3b5b449be0ac81">epoch</a>.AddSeconds(timeStamp).ToLocalTime();</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        }</div><div class="ttc" id="class_system_1_1_date_time_ext_html_a96841bae1424d7d29d3b5b449be0ac81"><div class="ttname"><a href="../../d1/dd6/class_system_1_1_date_time_ext.html#a96841bae1424d7d29d3b5b449be0ac81">System.DateTimeExt.epoch</a></div><div class="ttdeci">static readonly DateTime epoch</div><div class="ttdoc">The minimum time, according to Unix.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d8c/_date_time_ext_8cs_source.html#l00008">DateTimeExt.cs:8</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html#l00009">System.DateTimeExt.epoch</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html#l00008">System.DateTimeExt.epoch</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html#l00030">System.DateTimeExt.UnixTimestampToDateTime()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html#l00029">System.DateTimeExt.UnixTimestampToDateTime()</a>.</p>
 
 </div>
 </div>
@@ -231,16 +231,16 @@ Static Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A structured date representation.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html#l00030">30</a> of file <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html">DateTimeExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        {</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../d1/dd6/class_system_1_1_date_time_ext.html#a17baf3039cae645c805ec93f8850b57a">UnixTimestampToDateTime</a>((<span class="keywordtype">double</span>)timeStamp);</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        }</div><div class="ttc" id="class_system_1_1_date_time_ext_html_a17baf3039cae645c805ec93f8850b57a"><div class="ttname"><a href="../../d1/dd6/class_system_1_1_date_time_ext.html#a17baf3039cae645c805ec93f8850b57a">System.DateTimeExt.UnixTimestampToDateTime</a></div><div class="ttdeci">static DateTime UnixTimestampToDateTime(this double timeStamp)</div><div class="ttdoc">Converts time representations.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d8c/_date_time_ext_8cs_source.html#l00018">DateTimeExt.cs:18</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html#l00029">29</a> of file <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html">DateTimeExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        {</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../d1/dd6/class_system_1_1_date_time_ext.html#a17baf3039cae645c805ec93f8850b57a">UnixTimestampToDateTime</a>((<span class="keywordtype">double</span>)timeStamp);</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        }</div><div class="ttc" id="class_system_1_1_date_time_ext_html_a17baf3039cae645c805ec93f8850b57a"><div class="ttname"><a href="../../d1/dd6/class_system_1_1_date_time_ext.html#a17baf3039cae645c805ec93f8850b57a">System.DateTimeExt.UnixTimestampToDateTime</a></div><div class="ttdeci">static DateTime UnixTimestampToDateTime(this double timeStamp)</div><div class="ttdoc">Converts time representations.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d8c/_date_time_ext_8cs_source.html#l00017">DateTimeExt.cs:17</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html#l00018">System.DateTimeExt.UnixTimestampToDateTime()</a>.</p>
+<p class="reference">References <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html#l00017">System.DateTimeExt.UnixTimestampToDateTime()</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a93c107ee31b0d659fd3d308dd41db36d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a93c107ee31b0d659fd3d308dd41db36d">&#9670;&nbsp;</a></span>epoch</h2>
+<a id="a96841bae1424d7d29d3b5b449be0ac81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96841bae1424d7d29d3b5b449be0ac81">&#9670;&nbsp;</a></span>epoch</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -249,7 +249,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">DateTime System.DateTimeExt.epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)</td>
+          <td class="memname">readonly DateTime System.DateTimeExt.epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)</td>
         </tr>
       </table>
   </td>
@@ -261,14 +261,14 @@ Static Private Attributes</h2></td></tr>
 
 <p>The minimum time, according to Unix. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html#l00009">9</a> of file <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html">DateTimeExt.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html#l00008">8</a> of file <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html">DateTimeExt.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html#l00018">System.DateTimeExt.UnixTimestampToDateTime()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html#l00017">System.DateTimeExt.UnixTimestampToDateTime()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper.NETFXExtensions/<a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html">DateTimeExt.cs</a></li>
+<li>C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/NETFX/<a class="el" href="../../d6/d8c/_date_time_ext_8cs_source.html">DateTimeExt.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

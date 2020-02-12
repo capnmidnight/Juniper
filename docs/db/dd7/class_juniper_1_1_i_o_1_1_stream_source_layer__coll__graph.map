@@ -1,0 +1,7 @@
+<map id="Juniper.IO.StreamSourceLayer" name="Juniper.IO.StreamSourceLayer">
+<area shape="rect" id="node1" title=" " alt="" coords="5,663,203,784"/>
+<area shape="rect" id="node2" href="$d8/d8b/interface_juniper_1_1_i_o_1_1_i_cache_source_layer.html" title=" " alt="" coords="12,5,183,112"/>
+<area shape="rect" id="node4" href="$d3/d27/interface_juniper_1_1_i_o_1_1_i_cache_destination_layer.html" title=" " alt="" coords="99,161,253,268"/>
+<area shape="rect" id="node3" href="$d7/d62/class_juniper_1_1_i_o_1_1_caching_strategy.html" title="A collection of source and destination layers for file content. Files originate from source layers an..." alt="" coords="99,317,277,600"/>
+<area shape="rect" id="node5" title=" " alt="" coords="277,169,464,261"/>
+</map>

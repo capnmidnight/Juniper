@@ -1,4 +1,4 @@
 <map id="Juniper.Animation.Tween" name="Juniper.Animation.Tween">
-<area shape="rect" id="node1" title="Implementations for each of the values in TweenType. /// All functions receive a value p,..." alt="" coords="5,145,172,296"/>
+<area shape="rect" id="node1" title="Implementations for each of the values in TweenType. All functions receive a value t,..." alt="" coords="5,145,172,340"/>
 <area shape="rect" id="node2" title=" " alt="" coords="63,5,115,83"/>
 </map>

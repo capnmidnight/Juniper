@@ -1,5 +1,10 @@
 <map id="Juniper.ConfigurationManagement.AbstractPackage" name="Juniper.ConfigurationManagement.AbstractPackage">
-<area shape="rect" id="node1" title=" " alt="" coords="128,5,349,141"/>
-<area shape="rect" id="node2" href="$d6/d4e/class_juniper_1_1_configuration_management_1_1_raw_package.html" title=" " alt="" coords="5,189,227,340"/>
-<area shape="rect" id="node3" href="$da/d62/class_juniper_1_1_configuration_management_1_1_unity_package.html" title=" " alt="" coords="251,189,472,340"/>
+<area shape="rect" id="node1" title=" " alt="" coords="251,549,472,847"/>
+<area shape="rect" id="node5" href="$d2/daa/class_juniper_1_1_configuration_management_1_1_abstract_compressed_package.html" title=" " alt="" coords="127,895,350,1192"/>
+<area shape="rect" id="node8" href="$da/d62/class_juniper_1_1_configuration_management_1_1_unity_package.html" title=" " alt="" coords="375,939,596,1148"/>
+<area shape="rect" id="node2" href="$dd/d4b/class_juniper_1_1_configuration_management_1_1_package_reference.html" title=" " alt="" coords="242,131,481,501"/>
+<area shape="rect" id="node3" title=" " alt="" coords="133,5,347,83"/>
+<area shape="rect" id="node4" title=" " alt="" coords="371,5,597,83"/>
+<area shape="rect" id="node6" href="$d7/db0/class_juniper_1_1_configuration_management_1_1_asset_store_package.html" title=" " alt="" coords="5,1240,227,1391"/>
+<area shape="rect" id="node7" href="$da/d4b/class_juniper_1_1_configuration_management_1_1_juniper_package.html" title=" " alt="" coords="251,1240,472,1391"/>
 </map>

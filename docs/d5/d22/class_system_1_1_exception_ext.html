@@ -100,17 +100,16 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a2469513eee20c1648c14bf14538017ac"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d22/class_system_1_1_exception_ext.html#a2469513eee20c1648c14bf14538017ac">ToXMLLogString</a> (this Exception e, string featureName, string userName)</td></tr>
-<tr class="memdesc:a2469513eee20c1648c14bf14538017ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialze the exception with its stack trace, for logging purposes.  <a href="#a2469513eee20c1648c14bf14538017ac">More...</a><br /></td></tr>
-<tr class="separator:a2469513eee20c1648c14bf14538017ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a969a0b1cdb802b185857239d119b5838"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d22/class_system_1_1_exception_ext.html#a969a0b1cdb802b185857239d119b5838">ToShortString</a> (this Exception e, string featureName)</td></tr>
 <tr class="memdesc:a969a0b1cdb802b185857239d119b5838"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialize the exception in a format suitable for printing in the console.  <a href="#a969a0b1cdb802b185857239d119b5838">More...</a><br /></td></tr>
 <tr class="separator:a969a0b1cdb802b185857239d119b5838"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b32b0f7166fabb22398429e99507d94"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d22/class_system_1_1_exception_ext.html#a5b32b0f7166fabb22398429e99507d94">Unroll</a> (this Exception e)</td></tr>
+<tr class="separator:a5b32b0f7166fabb22398429e99507d94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Extension methods for <code>System.Exception</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../db/da6/_exception_ext_8cs_source.html#l00008">8</a> of file <a class="el" href="../../db/da6/_exception_ext_8cs_source.html">ExceptionExt.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/da6/_exception_ext_8cs_source.html#l00009">9</a> of file <a class="el" href="../../db/da6/_exception_ext_8cs_source.html">ExceptionExt.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a969a0b1cdb802b185857239d119b5838"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a969a0b1cdb802b185857239d119b5838">&#9670;&nbsp;</a></span>ToShortString()</h2>
@@ -156,12 +155,12 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A single-line string describing the high-level details of the error.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../db/da6/_exception_ext_8cs_source.html#l00044">44</a> of file <a class="el" href="../../db/da6/_exception_ext_8cs_source.html">ExceptionExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        {</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keywordflow">return</span> $<span class="stringliteral">&quot;ERRR[{featureName} ({e.GetType().FullName})]: {e.Message}&quot;</span>;</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../db/da6/_exception_ext_8cs_source.html#l00017">17</a> of file <a class="el" href="../../db/da6/_exception_ext_8cs_source.html">ExceptionExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        {</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            <span class="keywordflow">if</span> (e is <span class="keyword">null</span>)</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            {</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(nameof(e));</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            }</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <span class="keywordflow">if</span> (featureName is <span class="keyword">null</span>)</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            {</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                featureName = <span class="keywordtype">string</span>.Empty;</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            }</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (featureName.Length &gt; 0)</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            {</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                featureName += <span class="stringliteral">&quot; &quot;</span>;</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            }</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="keywordflow">return</span> $<span class="stringliteral">&quot;ERRR[{featureName}({e.GetType().FullName})]: {e.Message}&quot;</span>;</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
-<a id="a2469513eee20c1648c14bf14538017ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2469513eee20c1648c14bf14538017ac">&#9670;&nbsp;</a></span>ToXMLLogString()</h2>
+<a id="a5b32b0f7166fabb22398429e99507d94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b32b0f7166fabb22398429e99507d94">&#9670;&nbsp;</a></span>Unroll()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -170,27 +169,11 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static string System.ExceptionExt.ToXMLLogString </td>
+          <td class="memname">static string System.ExceptionExt.Unroll </td>
           <td>(</td>
           <td class="paramtype">this Exception&#160;</td>
-          <td class="paramname"><em>e</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>e</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>featureName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>userName</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -200,23 +183,12 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Serialze the exception with its stack trace, for logging purposes. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">e</td><td>The exception to serialize.</td></tr>
-    <tr><td class="paramname">featureName</td><td>An arbitrary label to assist in tracking down bugs.</td></tr>
-    <tr><td class="paramname">userName</td><td>The name of the person running the code that errored.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>A string of XML code that describes the error.</dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../db/da6/_exception_ext_8cs_source.html#l00017">17</a> of file <a class="el" href="../../db/da6/_exception_ext_8cs_source.html">ExceptionExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        {</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            var sb = <span class="keyword">new</span> StringBuilder();</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            sb.AppendFormat(<span class="stringliteral">@&quot;&lt;infoLog user=&quot;&quot;{0}&quot;&quot; log=&quot;&quot;{1}&quot;&quot; timestamp=&quot;&quot;{2}&quot;&quot;&gt;</span></div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="stringliteral">&quot;</span>, userName ?? <span class="stringliteral">&quot;none&quot;</span>, featureName, DateTime.Now);</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            var exp = e;</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <span class="keywordflow">for</span> (var i = 0; exp != <span class="keyword">null</span>; ++i)</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            {</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                sb.AppendFormat(</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="stringliteral">@&quot;&lt;exception depth=&quot;&quot;{0}&quot;&quot; type=&quot;&quot;{1}&quot;&quot;&gt;</span></div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="stringliteral">    &lt;source&gt;{2}&lt;/source&gt;</span></div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="stringliteral">    &lt;message&gt;{3}&lt;/message&gt;</span></div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="stringliteral">    &lt;stackTrace&gt;{4}&lt;/stackTrace&gt;</span></div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="stringliteral">&lt;/exception&gt;</span></div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="stringliteral">&quot;</span>, i, exp.GetType().FullName, exp.Source, exp.Message, exp.StackTrace, featureName);</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                exp = exp.InnerException;</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            }</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            sb.AppendLine(<span class="stringliteral">&quot;&lt;/infoLog&gt;&quot;</span>);</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <span class="keywordflow">return</span> sb.ToString();</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../db/da6/_exception_ext_8cs_source.html#l00036">36</a> of file <a class="el" href="../../db/da6/_exception_ext_8cs_source.html">ExceptionExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        {</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            var sb = <span class="keyword">new</span> StringBuilder();</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            var q = <span class="keyword">new</span> Queue&lt;Exception&gt;</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            {</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                e</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            };</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            <span class="keywordflow">while</span> (q.Count &gt; 0)</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            {</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                var here = q.Dequeue();</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keywordflow">if</span> (here is <span class="keywordtype">object</span>)</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                {</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                    sb.AppendLine(here.ToShortString(<span class="keywordtype">string</span>.Empty));</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                    sb.AppendLine(here.StackTrace);</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                    <span class="keywordflow">if</span> (here is AggregateException agg)</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                    {</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                        q.AddRange(agg.InnerExceptions);</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                    }</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                    <span class="keywordflow">else</span></div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                    {</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                        q.Enqueue(here.InnerException);</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                    }</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                }</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            }</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="keywordflow">return</span> sb.ToString();</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper.NETFXExtensions/<a class="el" href="../../db/da6/_exception_ext_8cs_source.html">ExceptionExt.cs</a></li>
+<li>C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/NETFX/<a class="el" href="../../db/da6/_exception_ext_8cs_source.html">ExceptionExt.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

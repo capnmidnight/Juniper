@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$db/d82/struct_juniper_1_1_units_1_1_angle.html" title="Represents an angle in degrees that doesn&#39;t wrap around to 0 when iterating past 360 degrees...." alt="" coords="5,5,136,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,13,116,39"/>
+<area shape="rect" id="node2" href="$d0/df0/class_hjg_1_1_pngcs_1_1_progressive_output_stream.html" title="stream that outputs to memory and allows to flush fragments every &#39;size&#39; bytes to some other destinat..." alt="" coords="164,5,351,47"/>
+<area shape="rect" id="node3" href="$d5/d5c/class_hjg_1_1_pngcs_1_1_png_i_dat_chunk_output_stream.html" title="outputs the stream for IDAT chunk , fragmented at fixed size (32k default)." alt="" coords="399,5,597,47"/>
 </map>

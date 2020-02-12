@@ -1,6 +1,6 @@
 <map id="Juniper.World.LightEstimation.OutdoorLightEstimate" name="Juniper.World.LightEstimation.OutdoorLightEstimate">
-<area shape="rect" id="node1" title="Modifies the base light estimate to include cloud cover values retrieved from a weather reporting ser..." alt="" coords="25,549,220,773"/>
+<area shape="rect" id="node1" title="Modifies the base light estimate to include cloud cover values retrieved from a weather reporting ser..." alt="" coords="25,549,220,788"/>
 <area shape="rect" id="node2" href="$d0/d37/class_juniper_1_1_world_1_1_light_estimation_1_1_abstract_light_estimate.html" title=" " alt="" coords="50,160,195,501"/>
 <area shape="rect" id="node3" title=" " alt="" coords="5,20,115,97"/>
-<area shape="rect" id="node4" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="139,5,231,112"/>
+<area shape="rect" id="node4" href="$d7/dbe/interface_juniper_1_1_i_o_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="139,5,231,112"/>
 </map>
