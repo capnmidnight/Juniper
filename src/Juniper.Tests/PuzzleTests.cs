@@ -2828,7 +2828,6 @@ namespace Juniper.Puzzles.Test
         public void IsFullRowBad1()
         {
             var p = new Puzzle(testGrid);
-            var q = new Puzzle(testGrid);
             Assert.IsFalse(p.IsFull(Puzzle.RowOrder, -1));
         }
 
@@ -2837,7 +2836,6 @@ namespace Juniper.Puzzles.Test
         public void IsFullRowBad2()
         {
             var p = new Puzzle(testGrid);
-            var q = new Puzzle(testGrid);
             Assert.IsFalse(p.IsFull(Puzzle.RowOrder, p.Height));
         }
 
@@ -2871,7 +2869,6 @@ namespace Juniper.Puzzles.Test
         public void IsFullColumnBad1()
         {
             var p = new Puzzle(testGrid);
-            var q = new Puzzle(testGrid);
             Assert.IsFalse(p.IsFull(Puzzle.ColumnOrder, -1));
         }
 
@@ -2880,7 +2877,6 @@ namespace Juniper.Puzzles.Test
         public void IsFullColumnBad2()
         {
             var p = new Puzzle(testGrid);
-            var q = new Puzzle(testGrid);
             Assert.IsFalse(p.IsFull(Puzzle.ColumnOrder, p.Width));
         }
 
@@ -3177,7 +3173,6 @@ namespace Juniper.Puzzles.Test
         public void IsEmptyRowBad1()
         {
             var p = new Puzzle(testGrid);
-            var q = new Puzzle(testGrid);
             Assert.IsTrue(p.IsEmpty(Puzzle.RowOrder, -1));
         }
 
@@ -3186,7 +3181,6 @@ namespace Juniper.Puzzles.Test
         public void IsEmptyRowBad2()
         {
             var p = new Puzzle(testGrid);
-            var q = new Puzzle(testGrid);
             Assert.IsTrue(p.IsEmpty(Puzzle.RowOrder, p.Height));
         }
 
@@ -3220,7 +3214,6 @@ namespace Juniper.Puzzles.Test
         public void IsEmptyColumnBad1()
         {
             var p = new Puzzle(testGrid);
-            var q = new Puzzle(testGrid);
             Assert.IsTrue(p.IsEmpty(Puzzle.ColumnOrder, -1));
         }
 
@@ -3229,7 +3222,6 @@ namespace Juniper.Puzzles.Test
         public void IsEmptyColumnBad2()
         {
             var p = new Puzzle(testGrid);
-            var q = new Puzzle(testGrid);
             Assert.IsTrue(p.IsEmpty(Puzzle.ColumnOrder, p.Width));
         }
 
