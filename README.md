@@ -1,6 +1,6 @@
 # Juniper For Fun and Profit
 
-[TOC]
+This is a bunch of code that I use in my VR projects. The following README block is very out of date, but I don't consider this project ready for other people to use, yet. 
 
 # Introduction
 
@@ -37,18 +37,6 @@ Juniper is a framework within Unity 3D for managing and developing virtual, augm
 	- *Climate* - Code relating to weather reporting.
 		- *OpenWeatherMap* - Service integration for [OpenWeatherMap](https://openweathermap.org/)'s API.
 	- *GIS* - Latitude/Longitude points and conversions to different coordinate frames.
-
-# Setup
-
-## Installation
-
-There are two ways to install Juniper.
-
-- [Download the UnityPackage](Juniper.unitypackage) and install it in your project, or
-- [Clone the repository](https://github.com/capnmidnight/Juniper) and copy the contents of the `src/Juniper/Assets/Juniper/` directory to your Assets folder in a directory named `Juniper`. This will also give you access to the `examples/` directory to see how projects are setup with Juniper.
-# Development
-
-Clone the repository and copy the `Package/` directory to one of the `Test/<PlatformName>Test/Assets` directories.
 
 ## Tools
 
