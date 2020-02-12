@@ -18,7 +18,7 @@ namespace Juniper.ConfigurationManagement
             var pkg = (from versions in packageDB.Values
                        from p in versions
                        where p.Source == PackageSources.Juniper
-                         && p.Name.StartsWith("K")
+                         && p.Name.StartsWith("K", StringComparison.OrdinalIgnoreCase)
                        select p)
                                .FirstOrDefault();
 

@@ -99,3 +99,6 @@ csharp_prefer_braces                      = true : suggestion
 
 # IDE0025: Use block body for properties
 csharp_style_expression_bodied_properties = when_on_single_line : warning
+
+# CA1307: Specify StringComparison
+dotnet_diagnostic.CA1307.severity = error
