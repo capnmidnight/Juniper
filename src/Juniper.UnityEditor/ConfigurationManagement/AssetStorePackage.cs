@@ -18,11 +18,8 @@ namespace Juniper.ConfigurationManagement
                 throw new ArgumentNullException(nameof(packages));
             }
 
-            var assetStoreRoot = Path.Combine(Project.AppData, "Unity", "Asset Store-5.x");
-            AddPackagesFromDirectory(packages, assetStoreRoot);
-
-            var userAssetStoreRoot = Path.Combine(Project.UserProfile, "Projects", "Packages");
-            AddPackagesFromDirectory(packages, userAssetStoreRoot);
+            AddPackagesFromDirectory(packages, Project.AssetStoreRoot);
+            AddPackagesFromDirectory(packages, Project.UserAssetStoreRoot);
             AddPackagesFromDirectory(packages, Project.UserDownloads);
         }
 
