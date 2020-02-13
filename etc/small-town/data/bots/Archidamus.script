@@ -1,0 +1,32 @@
+﻿Winter's-Tale
+{}
+wait USERID say start
+If you shall chance, Camillo, to visit Bohemia, on
+the like occasion whereon my services are now on
+foot, you shall see, as I have said, great
+difference betwixt our Bohemia and your Sicilia.
+wait Camillo say means to pay Bohemia the visitation which he justly owes him.
+Wherein our entertainment shall shame us we will be
+justified in our loves; for indeed--
+wait Camillo say Beseech you,--
+Verily, I speak it in the freedom of my knowledge:
+we cannot with such magnificence--in so rare--I know
+not what to say. We will give you sleepy drinks,
+that your senses, unintelligent of our insufficience,
+may, though they cannot praise us, as little accuse
+us.
+wait Camillo say You pay a great deal too dear for what's given freely.
+Believe me, I speak as my understanding instructs me
+and as mine honesty puts it to utterance.
+wait Camillo say winds. The heavens continue their loves!
+I think there is not in the world either malice or
+matter to alter it. You have an unspeakable
+comfort of your young prince Mamillius: it is a
+gentleman of the greatest promise that ever came
+into my note.
+wait Camillo say see him a man.
+Would they else be content to die?
+wait Camillo say desire to live.
+If the king had no son, they would desire to live
+on crutches till he had one.
+done USERID

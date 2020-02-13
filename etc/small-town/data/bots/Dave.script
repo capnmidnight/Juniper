@@ -1,0 +1,9 @@
+﻿welcome
+{ "user-key": 9001, "hat": 9001, "egg": 9001 }
+wait USERID say hi Carl
+wait USERID say skip me
+give USERID hat
+give USERID egg
+give USERID user-key
+tell USERID type "leave" to go to the next room.
+done USERID

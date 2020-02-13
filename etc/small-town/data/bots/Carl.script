@@ -1,0 +1,44 @@
+﻿welcome
+{ "user-key": 9001, "hat": 9001, "egg": 9001 }
+wait USERID say hi Carl
+tell USERID hello USERID! Welcome to the game.
+tell USERID You can skip this tutorial with "skip me".
+tell USERID Otherwise, type "ok" to continue the intro.
+wait USERID say ok
+tell USERID In this game, you type commands to perform
+tell USERID actions in rooms. If you type something
+tell USERID that isn't recognized as a command, you will
+tell USERID "say" it out loud, so that other users and
+tell USERID bots in the room can hear you.
+tell USERID say "ok" to continue.
+wait USERID say ok
+tell USERID The first thing you need to learn is how to
+tell USERID pick things up. To pick up an item, type
+tell USERID "take ITEM-NAME", where ITEM-NAME is the name
+tell USERID of the thing you want to pick up. I'll drop
+tell USERID the egg now, then you pick it up right away.
+drop egg
+wait USERID take egg
+tell USERID Good. You now have an egg in your inventory.
+tell USERID Type "inv" to see it. The egg is nutritious,
+tell USERID it will increase your health a little bit if
+tell USERID you type "eat egg".
+wait USERID eat egg
+tell USERID That's it for now. You can go on to the next
+tell USERID room now. The exit was hidden while I talked
+tell USERID to you. I'm going to give you the secret key
+tell USERID that you need to see the exit. Once you have
+tell USERID the key, you can type "look" to see the room
+tell USERID description. The exits will be listed, and you
+tell USERID can travel to the next room by just typing the
+tell USERID name of the exit. The name of the exit is the
+tell USERID word that appears before the word "to" in the
+give USERID user-key
+tell USERID exit line. In this case, it's "leave". Just
+tell USERID type "leave" to move on.
+tell USERID You can see the full list of commands at any
+tell USERID time by typing "help". You can learn about
+tell USERID each command by typing "explain COMMAND-NAME",
+tell USERID where COMMAND-NAME is the name of a command.
+tell USERID Have fun!
+done USERID

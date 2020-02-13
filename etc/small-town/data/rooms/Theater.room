@@ -1,0 +1,10 @@
+exits
+    north to Comedies cloaked when 180, 0.667
+    east to Histories cloaked when 180, 0.667, 60
+    west to Tragedies cloaked when 180, 0.667, 120
+
+The Theater
+
+You're in the lobby of a grand theater house. Ornate columns support the
+roof. Red curtains drape the ceiling. The theater has many rooms in which
+various plays can be performed.

@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)|$(TargetFramework)'=='Release|net472'">
-    <Exec ContinueOnError="true" Command="XCOPY &quot;$(TargetDir)$(TargetName).*&quot; &quot;$(ProjectDir)..\Juniper\Plugins\Editor\Juniper&quot; /C /I /F /Y" />
+    <Exec ContinueOnError="true" Command="XCOPY &quot;$(TargetDir)$(TargetName).*&quot; &quot;$(ProjectDir)..\Unity Editor Plugins&quot; /C /I /F /Y" />
   </Target>
 
 </Project>

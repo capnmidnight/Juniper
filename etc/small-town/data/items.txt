@@ -1,0 +1,160 @@
+head
+    hat 1 a dashing topper
+    crab-hat 2 chitin is tough
+    leather-helm 3 an olde football helmet
+    fur-hat 4 extremely warm
+    hard-hat 5 used in construction
+    pot 8 usually for sauces
+    steel-helm 18 not good in a thunderstorm
+    viking-helm 27 with ram's horn technology
+    spartan-helm 41 plumage ftw
+    crystal-helm 62 extremely hard
+    winged-helm 93 does not grant flight
+
+eyes
+    sunglasses 1 cheap, plastic things
+    monocle 2 ready for the opera
+    glasses 3 glass lenses, metal frames
+    goggles 5 protects the eyes
+    welding-goggles 8 with smoked lenses
+    visor 18 full eye protection
+
+shoulders
+    towel number three of forty two
+    blanket a little better than a towel
+    wool-coat very warm
+    brown-cloak totally not a blanket you can wear all the time
+    green-cloak feel one with nature
+    red-cape vogue
+    fur-coat less fashion, more rugged
+
+torso
+    pillow 1 tie it around your chest
+    wood-slats 2 WRAP it around your chest
+    leather-chest 4 impact resistant
+    reflective-vest 5 bright yellow
+    cookie-sheet 8 kind of charred on the edge
+    chain-mail 32 made of steel rings
+    kevlar 64 incredible stopping power
+    imperial-breastplate 128 adorned with prancing ponies
+
+pants
+    coarse-pants 1 made of sackcloth
+    slacks 2 made of fine cotton
+    jeans 4 sturdy work pants
+    leather-pants 8 for rock-stars
+    action-pants 32 strong canvas pants with great mobility
+    speedo 64 european-style swimsuit
+    silk-pants 128 extremely elegant
+
+belt
+    rope holds up the pants
+    braided-belt not very stylish
+    leather-belt much more stylish
+    work-belt could maybe hold tools
+    utility-belt people might ask if your name is Bruce
+
+shirt
+    t-shirt reads "whatever"
+    hawaiian flower-print
+    dress-shirt made of fine cotton
+    flannel helps keep you warm
+    under-armor feel like a superhero
+    puffy-shirt feel like a PIRATE
+    leather-shirt for rock-stars
+
+forearms
+    sleeve 1 cotton sleeve, to protect from minor cuts
+    lobster-tail 2 chitinous forearms
+    magazines 4 not pretty, but effective
+    fur-bracer 8 fairly decent protection, from cold and blows
+    leather-bracer 16 made from cow
+    aluminum-sheet 32 recovered from an airplane
+    imperial-bracer 64 grizzly bears etched into expertly crafted steel
+
+gloves
+    latex 1 protects against chemicals
+    leather-gloves 2 warming, but pliable
+    mittens 4 very warm, but dexterity is lacking
+    work-gloves 8 basic leather gloves for working
+    butcher-gloves 16 protects against cuts
+    gauntlet 32 steel gloves of awesome
+
+shins
+    shin-guards 1 worn during certain sporting events
+    big-lobster-tail 2 it is said that chitin promotes healing
+    catalogs 4 kind of like magazines, but bigger
+    leather-shins 8 good for deflecting kicks from toddlers
+    split-muffler 16 thin metal recovered from a vehicle
+    bronze-leggings 32 made popular during the Roman Empire
+    steel-guards 64 snakes adorn the front
+
+boots
+    chucks 1 canvas shoes with a star logo on the side
+    dress-shoes 2 leather-soled, snappy shoes
+    hiking-boots 4 sturdy ankle support for mountainous treks
+    steel-toed 8 used in construction
+    cowboy-boots 16 made from alligator
+    steel-boots 32 steel foot-gloves of awesome
+
+tool
+    needle 1 can only balance two angels on the head
+    stick 1 can be used for the disciplining of small children
+    fishing-pole 1 for teaching men to eat for a lifetime
+    screwdriver 2 this particular one is not a drink
+    hammer 3 for nails and skulls
+    handsaw 3 many teeth, so many teeth
+    rusty-metal 5 a rusty sword
+    shovel 5 used to butter bread
+    pickaxe 5 SMASH ROCK SMASH
+    butcher-knife 5 cuts meat
+    hunting-knife 7 used to butter bread
+    sword 10 a basic sword
+    axe 15 cuts wood
+    steel-sword 20 it glistens in the sun
+    cutlass 40 a curved blade for pirates
+    excalibur 80 doesn't make you King Arthur
+    katana 150 a great weapon for a great warrior
+
+food
+    egg 1 chicken fetus
+    water 1 the liquid of life
+    apple 5 fruit
+    peach 5 fruit
+    blueberries 5 fruit
+    crab 5 snip snip
+    lobster 5 snap snap
+    small-potion 10 recovers 10 health
+    apple-pie 20 quite yummy
+    peach-pie 20 quite yummy
+    blueberry-pie 20 quite yummy
+    large-potion 50 recovers 50 health
+
+none
+    scrap-metal pieces scavenged from machines and tools
+    sharpening-stone used to hone blades
+    sharp-blade precursor to a knife
+    bird worth two in the shrubbery
+    dead-bird maybe he's pining for the fjords?
+    feather bird-hair
+    rock definitely not a bird
+    steel-wool very scratchy
+    gold a yellow metal that seems to be highly valued in these realms
+    log runs over your neighbors dog
+    plank useful in construction
+    ore dug from the earth
+    coal also dug from the earth
+    crucible a ceramic cup of sorts
+    glass-blower mostly just a big, metal tube
+    ingot it's like a brick, made of IRON
+    emerald a very valuable jewel
+    hide skin of animal
+    leather toughened skin of animal
+    thread another name for string
+    pie-plate for the creation of delectable treats
+    sand it gets into everything
+    bottle can hold liquids, or secrets
+    herbs the buds of a special plant
+    horn the head dress of a strange animal
+    user-key don't lose this key, it will get you through many gates that NPCs are not allowed to cross.
+    sewer-key are you really sure you want to go into the sewer?

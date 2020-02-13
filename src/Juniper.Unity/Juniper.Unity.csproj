@@ -21,18 +21,18 @@
     <Reference Include="System.IO.Compression" />
     <ProjectReference Include="..\Juniper.Azure\Juniper.Azure.csproj" />
     <ProjectReference Include="..\Juniper.GoogleMaps\Juniper.GoogleMaps.csproj" />
-    <ProjectReference Include="..\Juniper.HjgPngcs\Juniper.HjgPngcs.csproj" />
-    <ProjectReference Include="..\Juniper.LibJpeg.NET\Juniper.LibJpeg.NET.csproj" />
     <ProjectReference Include="..\Juniper.NeuroSky\Juniper.NeuroSky.csproj" />
-    <ProjectReference Include="..\Juniper.NLayer.NAudioSupport\Juniper.NLayer.NAudioSupport.csproj" />
     <ProjectReference Include="..\Juniper.OpenWeatherMap\Juniper.OpenWeatherMap.csproj" />
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
     <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
+    <ProjectReference Include="..\..\lib\Juniper.HjgPngcs\Juniper.HjgPngcs.csproj" />
+    <ProjectReference Include="..\..\lib\Juniper.LibJpeg.NET\Juniper.LibJpeg.NET.csproj" />
+    <ProjectReference Include="..\..\lib\Juniper.NLayer.NAudioSupport\Juniper.NLayer.NAudioSupport.csproj" />
     <Reference Include="$(UNITY_ROOT)\Editor\Data\Managed\UnityEngine.dll" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)|$(TargetFramework)'=='Release|net472'">
-    <Exec ContinueOnError="true" Command="XCOPY &quot;$(TargetDir)*&quot; &quot;$(ProjectDir)..\Juniper\Plugins\Juniper&quot; /exclude:$(ProjectDir)excludeFromUnity.txt /C /I /F /Y" />
+    <Exec ContinueOnError="true" Command="XCOPY &quot;$(TargetDir)*&quot; &quot;$(ProjectDir)..\Unity Plugins&quot; /exclude:$(ProjectDir)excludeFromUnity.txt /C /I /F /Y" />
   </Target>
 
 </Project>

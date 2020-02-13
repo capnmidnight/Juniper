@@ -1,0 +1,11 @@
+﻿exits
+    north to Theater locked with user-key
+    south to Market
+    east to Eastern-Gate
+    west to Western-Gate
+    down to Sewer-1 locked with sewer-key
+
+Main Square
+
+The center square of a bustling town. The road forks into many directions.
+This would also make a good meeting-place for friends.
