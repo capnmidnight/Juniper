@@ -20,7 +20,6 @@ var searchData=
   ['listext',['ListExt',['../dc/da6/class_system_1_1_collections_1_1_generic_1_1_list_ext.html',1,'System::Collections::Generic']]],
   ['listview',['ListView',['../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html',1,'Juniper::Widgets']]],
   ['listviewitem',['ListViewItem',['../da/de9/class_juniper_1_1_widgets_1_1_list_view_item.html',1,'Juniper::Widgets']]],
-  ['loadedimageattributes',['LoadedImageAttributes',['../d1/d2e/class_bit_miracle_1_1_lib_jpeg_1_1_loaded_image_attributes.html',1,'BitMiracle::LibJpeg']]],
   ['loadingbar',['LoadingBar',['../d5/dae/class_juniper_1_1_widgets_1_1_loading_bar.html',1,'Juniper::Widgets']]],
   ['logicconstructor',['LogicConstructor',['../d7/d0d/class_juniper_1_1_logic_1_1_logic_constructor.html',1,'Juniper::Logic']]],
   ['longpressevents',['LongPressEvents',['../d6/d53/class_juniper_1_1_events_1_1_long_press_events.html',1,'Juniper::Events']]],

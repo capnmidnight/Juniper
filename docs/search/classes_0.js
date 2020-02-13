@@ -52,8 +52,6 @@ var searchData=
   ['abstractpassthroughdisplaymanager',['AbstractPassthroughDisplayManager',['../de/df3/class_juniper_1_1_display_1_1_abstract_passthrough_display_manager.html',1,'Juniper::Display']]],
   ['abstractpcmconversionstream',['AbstractPcmConversionStream',['../de/d0c/class_juniper_1_1_sound_1_1_abstract_pcm_conversion_stream.html',1,'Juniper::Sound']]],
   ['abstractpermissionhandler',['AbstractPermissionHandler',['../dc/d8d/class_juniper_1_1_permissions_1_1_abstract_permission_handler.html',1,'Juniper::Permissions']]],
-  ['abstractpngchunk',['AbstractPngChunk',['../d8/dd4/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk.html',1,'Hjg::Pngcs::Chunks']]],
-  ['abstractpngchunktextvar',['AbstractPngChunkTextVar',['../d2/d74/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk_text_var.html',1,'Hjg::Pngcs::Chunks']]],
   ['abstractpointerconfiguration',['AbstractPointerConfiguration',['../d0/d7e/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html',1,'Juniper::Input::Pointers']]],
   ['abstractpointerconfiguration_3c_20mousebutton_20_3e',['AbstractPointerConfiguration&lt; MouseButton &gt;',['../d0/d7e/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html',1,'Juniper::Input::Pointers']]],
   ['abstractpointerconfiguration_3c_20unary_20_3e',['AbstractPointerConfiguration&lt; Unary &gt;',['../d0/d7e/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html',1,'Juniper::Input::Pointers']]],
@@ -100,7 +98,6 @@ var searchData=
   ['addfirewallrule',['AddFirewallRule',['../d0/d62/class_juniper_1_1_h_t_t_p_1_1_server_1_1_administration_1_1_net_s_h_1_1_add_firewall_rule.html',1,'Juniper::HTTP::Server::Administration::NetSH']]],
   ['addresscomponent',['AddressComponent',['../dc/d49/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_geocoding_1_1_address_component.html',1,'Juniper::World::GIS::Google::Geocoding']]],
   ['addsslcert',['AddSslCert',['../d6/d52/class_juniper_1_1_h_t_t_p_1_1_server_1_1_administration_1_1_net_s_h_1_1_add_ssl_cert.html',1,'Juniper::HTTP::Server::Administration::NetSH']]],
-  ['adler32',['Adler32',['../d3/d87/class_hjg_1_1_pngcs_1_1_zlib_1_1_adler32.html',1,'Hjg::Pngcs::Zlib']]],
   ['alphatransition',['AlphaTransition',['../dc/de2/class_juniper_1_1_animation_1_1_alpha_transition.html',1,'Juniper::Animation']]],
   ['always',['Always',['../db/dcb/class_juniper_1_1_always.html',1,'Juniper']]],
   ['anchored',['Anchored',['../d3/de1/class_juniper_1_1_anchoring_1_1_anchored.html',1,'Juniper::Anchoring']]],
@@ -111,8 +108,6 @@ var searchData=
   ['api',['API',['../d1/d22/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_a_p_i.html',1,'Juniper::World::Climate::OpenWeatherMap']]],
   ['application',['Application',['../d7/d3e/class_juniper_1_1_media_type_1_1_application.html',1,'Juniper::MediaType']]],
   ['applleios',['ApplleiOS',['../d0/da8/class_juniper_1_1_appllei_o_s.html',1,'Juniper']]],
-  ['arithentropydecoder',['ArithEntropyDecoder',['../dd/d4e/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_arith_entropy_decoder.html',1,'BitMiracle::LibJpeg::Classic::Internal']]],
-  ['arithentropyencoder',['ArithEntropyEncoder',['../d3/d91/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_arith_entropy_encoder.html',1,'BitMiracle::LibJpeg::Classic::Internal']]],
   ['arkitanchorstore',['ARKitAnchorStore',['../d4/d2a/class_juniper_1_1_anchoring_1_1_a_r_kit_anchor_store.html',1,'Juniper::Anchoring']]],
   ['arkitdisplaymanager',['ARKitDisplayManager',['../dc/d32/class_juniper_1_1_display_1_1_a_r_kit_display_manager.html',1,'Juniper::Display']]],
   ['arkitground',['ARKitGround',['../d9/d00/class_juniper_1_1_ground_1_1_a_r_kit_ground.html',1,'Juniper::Ground']]],
@@ -130,7 +125,5 @@ var searchData=
   ['audioformat',['AudioFormat',['../d9/d26/class_juniper_1_1_sound_1_1_audio_format.html',1,'Juniper::Sound']]],
   ['audiosettingsext',['AudioSettingsExt',['../d2/d70/class_juniper_1_1_audio_settings_ext.html',1,'Juniper']]],
   ['authtokenrequest',['AuthTokenRequest',['../d5/de2/class_juniper_1_1_speech_1_1_azure_1_1_auth_token_request.html',1,'Juniper::Speech::Azure']]],
-  ['avatar',['Avatar',['../dd/da9/class_juniper_1_1_avatar.html',1,'Juniper']]],
-  ['azlibinputstream',['AZlibInputStream',['../dd/d12/class_hjg_1_1_pngcs_1_1_zlib_1_1_a_zlib_input_stream.html',1,'Hjg::Pngcs::Zlib']]],
-  ['azliboutputstream',['AZlibOutputStream',['../d8/d64/class_hjg_1_1_pngcs_1_1_zlib_1_1_a_zlib_output_stream.html',1,'Hjg::Pngcs::Zlib']]]
+  ['avatar',['Avatar',['../dd/da9/class_juniper_1_1_avatar.html',1,'Juniper']]]
 ];

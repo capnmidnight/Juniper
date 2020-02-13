@@ -1,6 +1,0 @@
-<map id="Hjg.Pngcs.Chunks.PngChunkTRNS" name="Hjg.Pngcs.Chunks.PngChunkTRNS">
-<area shape="rect" id="node1" title="tRNS chunk: http://www.w3.org/TR/PNG/#11tRNS" alt="" coords="5,809,220,1136"/>
-<area shape="rect" id="node2" href="$d2/dc1/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_single.html" title="A Chunk type that does not allow duplicate in an image" alt="" coords="45,639,181,760"/>
-<area shape="rect" id="node3" href="$d8/dd4/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk.html" title="Represents a instance of a PNG chunk" alt="" coords="27,145,198,589"/>
-<area shape="rect" id="node4" title=" " alt="" coords="87,5,139,83"/>
-</map>

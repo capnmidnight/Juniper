@@ -1,5 +1,0 @@
-<map id="Hjg.Pngcs.ProgressiveOutputStream" name="Hjg.Pngcs.ProgressiveOutputStream">
-<area shape="rect" id="node1" title="stream that outputs to memory and allows to flush fragments every &#39;size&#39; bytes to some other destinat..." alt="" coords="15,131,205,340"/>
-<area shape="rect" id="node3" href="$d5/d5c/class_hjg_1_1_pngcs_1_1_png_i_dat_chunk_output_stream.html" title="outputs the stream for IDAT chunk , fragmented at fixed size (32k default)." alt="" coords="5,388,215,553"/>
-<area shape="rect" id="node2" title=" " alt="" coords="55,5,165,83"/>
-</map>

@@ -18,8 +18,7 @@ namespace Juniper.ConfigurationManagement
             if (platforms is null)
             {
                 var configFactory = new JsonFactory<Platforms>();
-                var juniperPlatformsFileName = Path.Combine(Project.JuniperAssetPath, "platforms.json");
-                platforms = configFactory.Deserialize(juniperPlatformsFileName);
+                platforms = configFactory.Deserialize(Project.JuniperPlatformsFileName);
             }
 
             return platforms;

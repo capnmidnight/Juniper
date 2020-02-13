@@ -36,16 +36,5 @@ var searchData=
   ['motioncontroller',['MotionController',['../d8/da1/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_motion_controller.html',1,'Juniper::Input::Pointers::Motion']]],
   ['mouse',['Mouse',['../d4/da7/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_mouse.html',1,'Juniper::Input::Pointers::Screen']]],
   ['mousepointerconfiguration',['MousePointerConfiguration',['../d7/d0c/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_mouse_pointer_configuration.html',1,'Juniper::Input::Pointers::Screen']]],
-  ['mp3framedecompressor',['Mp3FrameDecompressor',['../dd/d83/class_n_layer_1_1_n_audio_support_1_1_mp3_frame_decompressor.html',1,'NLayer::NAudioSupport']]],
-  ['mp3framewrapper',['Mp3FrameWrapper',['../dd/dd2/class_n_layer_1_1_n_audio_support_1_1_mp3_frame_wrapper.html',1,'NLayer::NAudioSupport']]],
-  ['multipart',['Multipart',['../d3/de2/class_juniper_1_1_media_type_1_1_multipart.html',1,'Juniper::MediaType']]],
-  ['multipliertable',['MultiplierTable',['../d8/d53/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_inverse_dct_1_1_multiplier_table.html',1,'BitMiracle::LibJpeg::Classic::Internal::JpegInverseDct']]],
-  ['my1passcquantizer',['My1PassCQuantizer',['../d2/d68/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_my1_pass_c_quantizer.html',1,'BitMiracle::LibJpeg::Classic::Internal']]],
-  ['my2passcquantizer',['My2PassCQuantizer',['../da/d08/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_my2_pass_c_quantizer.html',1,'BitMiracle::LibJpeg::Classic::Internal']]],
-  ['myccoefcontroller',['MyCCoefController',['../df/dc7/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_my_c_coef_controller.html',1,'BitMiracle::LibJpeg::Classic::Internal']]],
-  ['mydestinationmanager',['MyDestinationManager',['../d1/d1e/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_my_destination_manager.html',1,'BitMiracle::LibJpeg::Classic::Internal']]],
-  ['mymergedupsampler',['MyMergedUpSampler',['../da/da8/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_my_merged_up_sampler.html',1,'BitMiracle::LibJpeg::Classic::Internal']]],
-  ['mysourcemanager',['MySourceManager',['../df/d3b/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_my_source_manager.html',1,'BitMiracle::LibJpeg::Classic::Internal']]],
-  ['mytransccoefcontroller',['MyTransCCoefController',['../dc/d40/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_my_trans_c_coef_controller.html',1,'BitMiracle::LibJpeg::Classic::Internal']]],
-  ['myupsampler',['MyUpSampler',['../da/dc2/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_my_up_sampler.html',1,'BitMiracle::LibJpeg::Classic::Internal']]]
+  ['multipart',['Multipart',['../d3/de2/class_juniper_1_1_media_type_1_1_multipart.html',1,'Juniper::MediaType']]]
 ];

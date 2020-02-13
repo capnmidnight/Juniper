@@ -1,6 +1,0 @@
-<map id="Hjg.Pngcs.Chunks.ChunkPredicateEquiv" name="Hjg.Pngcs.Chunks.ChunkPredicateEquiv">
-<area shape="rect" id="node1" title="An ad&#45;hoc criterion, perhaps useful, for equivalence. ChunkHelper.Equivalent(AbstractPngChunk,..." alt="" coords="9,667,223,773"/>
-<area shape="rect" id="node2" href="$d0/d04/interface_hjg_1_1_pngcs_1_1_chunks_1_1_i_chunk_predicate.html" title="Decides if another chunk &quot;matches&quot;, according to some criterion" alt="" coords="5,336,120,413"/>
-<area shape="rect" id="node3" href="$d8/dd4/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk.html" title="Represents a instance of a PNG chunk" alt="" coords="145,145,319,604"/>
-<area shape="rect" id="node4" title=" " alt="" coords="206,5,258,83"/>
-</map>

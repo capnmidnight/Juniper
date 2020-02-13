@@ -1,8 +1,0 @@
-<map id="Hjg.Pngcs.Chunks.AbstractPngChunkTextVar" name="Hjg.Pngcs.Chunks.AbstractPngChunkTextVar">
-<area shape="rect" id="node1" title="general class for textual chunks" alt="" coords="251,652,445,935"/>
-<area shape="rect" id="node4" href="$dd/de4/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_t_x_t.html" title="iTXt chunk: http://www.w3.org/TR/PNG/#11iTXt One of the three text chunks" alt="" coords="5,983,216,1251"/>
-<area shape="rect" id="node5" href="$de/d9c/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_t_e_x_t.html" title="tEXt chunk: latin1 uncompressed text" alt="" coords="241,1049,455,1185"/>
-<area shape="rect" id="node6" href="$d3/d58/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_z_t_x_t.html" title="zTXt chunk: http://www.w3.org/TR/PNG/#11zTXt" alt="" coords="479,1049,694,1185"/>
-<area shape="rect" id="node2" href="$d0/d05/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_multiple.html" title="A Chunk type that allows duplicate in an image" alt="" coords="277,512,419,604"/>
-<area shape="rect" id="node3" href="$d8/dd4/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk.html" title="Represents a instance of a PNG chunk" alt="" coords="263,5,433,464"/>
-</map>

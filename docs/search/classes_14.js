@@ -13,7 +13,6 @@ var searchData=
   ['unknown',['Unknown',['../d6/d0e/class_juniper_1_1_media_type_1_1_unknown.html',1,'Juniper::MediaType']]],
   ['uribuilderext',['UriBuilderExt',['../dc/d48/class_system_1_1_uri_builder_ext.html',1,'System']]],
   ['usaddress',['USAddress',['../d8/d61/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_u_s_address.html',1,'Juniper::World::GIS::Google']]],
-  ['utils',['Utils',['../d3/da9/class_bit_miracle_1_1_lib_jpeg_1_1_utils.html',1,'BitMiracle::LibJpeg']]],
   ['utm',['UTM',['../d8/d7a/class_juniper_1_1_units_1_1_u_t_m.html',1,'Juniper::Units']]],
   ['utmpoint',['UTMPoint',['../dd/d27/class_juniper_1_1_world_1_1_g_i_s_1_1_u_t_m_point.html',1,'Juniper::World::GIS']]],
   ['utmpointext',['UTMPointExt',['../dd/d0d/class_juniper_1_1_world_1_1_g_i_s_1_1_u_t_m_point_ext.html',1,'Juniper::World::GIS']]]

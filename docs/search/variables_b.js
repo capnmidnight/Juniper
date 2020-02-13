@@ -1,17 +1,7 @@
 var searchData=
 [
   ['key',['key',['../db/d73/class_juniper_1_1_input_1_1_keyboardable.html#a06cee8192da358df7a96f6e85550927b',1,'Juniper::Input::Keyboardable']]],
-  ['key_5fauthor',['KEY_Author',['../d2/d74/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk_text_var.html#aae4a49c1086ac8d3ba0ef80dccaec7e1',1,'Hjg::Pngcs::Chunks::AbstractPngChunkTextVar']]],
-  ['key_5fcomment',['KEY_Comment',['../d2/d74/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk_text_var.html#a72149d3b2e06c9515031dd27253e9e11',1,'Hjg::Pngcs::Chunks::AbstractPngChunkTextVar']]],
-  ['key_5fcopyright',['KEY_Copyright',['../d2/d74/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk_text_var.html#a954538cedeef203ca461681da33e9a51',1,'Hjg::Pngcs::Chunks::AbstractPngChunkTextVar']]],
-  ['key_5fcreation_5ftime',['KEY_Creation_Time',['../d2/d74/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk_text_var.html#a5f62ff4808b4ff82f26e4c4a15ff7da2',1,'Hjg::Pngcs::Chunks::AbstractPngChunkTextVar']]],
-  ['key_5fdescription',['KEY_Description',['../d2/d74/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk_text_var.html#ad8845a03f2d8b5674bc8c8d21f187400',1,'Hjg::Pngcs::Chunks::AbstractPngChunkTextVar']]],
-  ['key_5fdisclaimer',['KEY_Disclaimer',['../d2/d74/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk_text_var.html#a8586a42ecc82dc3e2a7ab9add4986625',1,'Hjg::Pngcs::Chunks::AbstractPngChunkTextVar']]],
   ['key_5flist_5fkey',['KEY_LIST_KEY',['../da/daf/class_juniper_1_1_anchoring_1_1_abstract_anchor_store.html#ac006621c9b61d636639780ba0dc15cb9',1,'Juniper::Anchoring::AbstractAnchorStore']]],
-  ['key_5fsoftware',['KEY_Software',['../d2/d74/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk_text_var.html#ae273eab9403d728525241aff83801dd6',1,'Hjg::Pngcs::Chunks::AbstractPngChunkTextVar']]],
-  ['key_5fsource',['KEY_Source',['../d2/d74/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk_text_var.html#a0e32bb8df8dd9435ef287207c68e842f',1,'Hjg::Pngcs::Chunks::AbstractPngChunkTextVar']]],
-  ['key_5ftitle',['KEY_Title',['../d2/d74/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk_text_var.html#a2398bc4503fb4d85dc9abd00b02d8826',1,'Hjg::Pngcs::Chunks::AbstractPngChunkTextVar']]],
-  ['key_5fwarning',['KEY_Warning',['../d2/d74/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk_text_var.html#a3fa0e90c22d3cbaca190701fa612d4c3',1,'Hjg::Pngcs::Chunks::AbstractPngChunkTextVar']]],
   ['keyboardshortcuts',['keyboardShortcuts',['../db/d40/class_juniper_1_1_input_1_1_abstract_unified_input_module.html#a2e86b7e305041246a80f58f444c9b458',1,'Juniper::Input::AbstractUnifiedInputModule']]],
   ['keycode',['keyCode',['../d7/d25/class_juniper_1_1_input_1_1_juniper_pointer_event_data.html#a3b5c3cf96691ff018c613ef6e399f40f',1,'Juniper::Input::JuniperPointerEventData']]],
   ['keypattern',['KeyPattern',['../df/d46/class_juniper_1_1_events_1_1_button_event.html#a3d93e4b5a209f5c9d72f41c759769e96',1,'Juniper::Events::ButtonEvent']]],

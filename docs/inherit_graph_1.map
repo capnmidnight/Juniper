@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$df/d29/struct_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_bitread_perm_state.html" title="Bitreading state saved across MCUs" alt="" coords="5,5,176,47"/>
+<area shape="rect" id="node1" href="$da/daf/class_juniper_1_1_anchoring_1_1_abstract_anchor_store.html" title=" " alt="" coords="5,5,228,47"/>
+<area shape="rect" id="node2" href="$d9/d25/class_juniper_1_1_anchoring_1_1_mock_anchor_store.html" title="An anchor store that stores all anchors in the default data store for AbstractAnchorStore." alt="" coords="276,5,473,47"/>
 </map>

@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ImportGroup>
+    <Import Project="..\..\Juniper.props" />
+  </ImportGroup>
+
+  <PropertyGroup>
+    <AssemblyName>Juniper.NLayer.NAudioSupport</AssemblyName>
+    <RootNamespace>NLayer.NAudioSupport</RootNamespace>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net472</TargetFramework>
+    <Authors>Sean T. McBeth</Authors>
+    <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
+  </PropertyGroup>
+
+  <ImportGroup>
+    <Import Project="..\..\Juniper.targets" />
+  </ImportGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NAudio" Version="1.9.0" />
+    <PackageReference Include="NLayer.Core" Version="1.15.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Juniper.Root\Juniper.Root.csproj" />
+  </ItemGroup>
+
+</Project>

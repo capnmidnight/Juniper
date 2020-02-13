@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['sample_2ecs',['Sample.cs',['../d7/daf/_sample_8cs.html',1,'']]],
-  ['samplerow_2ecs',['SampleRow.cs',['../db/d3a/_sample_row_8cs.html',1,'']]],
   ['scalehandle_2ecs',['ScaleHandle.cs',['../dd/d49/_scale_handle_8cs.html',1,'']]],
   ['scaletransition_2ecs',['ScaleTransition.cs',['../d4/d97/_scale_transition_8cs.html',1,'']]],
   ['screendebugger_2ecs',['ScreenDebugger.cs',['../db/d86/_screen_debugger_8cs.html',1,'']]],

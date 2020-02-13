@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['quantizertype',['QuantizerType',['../d2/d68/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_my1_pass_c_quantizer.html#aaa0515758e35f21adba8b84f3fd632e4',1,'BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.QuantizerType()'],['../da/d08/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_my2_pass_c_quantizer.html#a926cf6f7aa09e03093919501da6d77bc',1,'BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.QuantizerType()']]]
+  ['unary',['Unary',['../de/d75/namespace_juniper.html#ab0d94b9ed3239f43181c35fcb22163ab',1,'Juniper']]],
+  ['unitofmeasure',['UnitOfMeasure',['../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77',1,'Juniper::Units']]],
+  ['unityxrplatform',['UnityXRPlatform',['../d2/d08/namespace_juniper_1_1_x_r.html#a32fe4599735711eacf9dfb3329434154',1,'Juniper::XR']]]
 ];

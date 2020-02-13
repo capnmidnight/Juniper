@@ -108,13 +108,23 @@ namespace Juniper.ConfigurationManagement
 
         public static string PluginsPath => Path.Combine(UnityProjectRoot, "Plugins");
 
+        public static string JuniperAssetStoreCachePath => Path.Combine(UnityProjectRoot, "AssetStore");
+
         public static string JuniperAssetPath => Path.Combine(UnityAssetsPath, "Juniper");
+
+        public static string JuniperPlatformsFileName => Path.Combine(JuniperAssetPath, "platforms.json");
+
+        public static string JuniperDefinesFileName => Path.Combine(JuniperAssetPath, "defines.json");
 
         public static readonly string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
         public static readonly string UserProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
         public static readonly string UserDownloads = Path.Combine(UserProfile, "Downloads");
+
+        public static readonly string AssetStoreRoot = Path.Combine(AppData, "Unity", "Asset Store-5.x");
+
+        public static readonly string UserAssetStoreRoot = Path.Combine(UserProfile, "Projects", "Packages");
 
         public static List<string> CleanupDefines(IEnumerable<string> defs)
         {

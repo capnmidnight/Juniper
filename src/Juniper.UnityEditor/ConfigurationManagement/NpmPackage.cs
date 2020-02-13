@@ -38,16 +38,3 @@ namespace Juniper.ConfigurationManagement
         }
     }
 }
-
-
-/*
- *
-C:\Users\smcbeth.DLS-INC\AppData\Local\Unity\cache\packages\packages.unity.com\com.unity.xr.windowsmr@3.0.0
-
-C:\Users\smcbeth.DLS-INC\AppData\Local\Unity\cache\npm\packages.unity.com\com.unity.xr.windowsmr
-C:\Users\smcbeth.DLS-INC\AppData\Local\Unity\cache\npm\packages.unity.com\com.unity.xr.windowsmr\3.0.0
-C:\Users\smcbeth.DLS-INC\AppData\Local\Unity\cache\npm\packages.unity.com\com.unity.xr.windowsmr\3.0.0\package
-
-C:\Users\smcbeth.DLS-INC\AppData\Roaming\Unity\Asset Store-5.x
-
- */

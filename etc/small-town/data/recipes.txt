@@ -1,0 +1,42 @@
+plank from log; to plank 10; using axe.
+stick from plank; to stick 5; using axe.
+ingot from ore 5, coal 5; to ingot; using crucible.
+leather from hide; to leather.
+glass from sand 5; to glass; using crucible.
+bottle from glass; to bottle; using crucible, glass-blower.
+pie-plate from ingot; to pie-plate; using hammer.
+sharp-blade from scrap-metal; to sharp-blade; using sharpening-stone.
+
+small-potion from bottle, herbs 3; to small-potion.
+apple-pie from apple 5; to apple-pie; using pie-plate.
+peach-pie from peach 5; to peach-pie; using pie-plate.
+blueberry-pie from blueberry 20; to blueberry-pie; using pie-plate.
+large-potion from bottle, herbs 10; to large-potion.
+
+needle from ingot; to needle 100.
+fishing-pole from needle, thread 5, stick; to fishing-pole; using screwdriver.
+hammer from stick 5, ingot; to hammer 5.
+handsaw from plank, ingot; to handsaw 2; using hammer.
+rusty-metal from ingot, water; to rusty-metal.
+shovel from stick 3, ingot; to shovel 3; using hammer.
+pickaxe from stick 3, ingot; to shovel 3.
+butcher-knife from stick, sharp-blade; to butcher-knife; using hammer.
+hunting-knife from stick, sharp-blade; to hunting-knife; using hammer.
+sword from stick 5, ingot 2; to sword; using hammer.
+axe from plank, stick, ingot 2; to axe; using hammer.
+steel-sword from stick 10, ingot 5; to steel-sword; using hammer.
+cutlass from stick 10, ingot 5, coal 5; to cutlass; using hammer.
+excalibur from stick 10, ingot 5, jewel, coal 5; to excalibur; using hammer.
+katana from stick 10, ingot 10, leather, coal 5; to katana; using hammer.
+
+hat from leather; to hat; using needle.
+crab-hat from crab 3; to crab-hat; using handsaw, needle.
+leather-helm from leather 5; to leather-helm; using hunting-knife, needle.
+fur-hat from hide 5; to fur-hat; using hunting-knife, needle.
+hard-hat from hide 2, plank; to hard-hat; using handsaw, hammer.
+pot from ingot; to pot; using hammer.
+steel-helm from ingot, hide, plank; to steel-helm; using hammer, handsaw.
+viking-helm from horn 2, leather 5, plank, ingot; to viking-helm; using hammer, handsaw, needle.
+spartan-helm from feather 20, leather 5, plank, ingot; to spartan-helm; using hammer, handsaw, needle.
+crystal-helm from jewel 10; to crystal-helm; using crucible.
+winged-helm from feather 100, jewel 5, leather 5, plank, ingot; to winged-helm; using hammer, handsaw, needle.

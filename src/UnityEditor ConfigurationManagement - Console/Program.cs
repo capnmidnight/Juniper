@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-
-using static System.Console;
 
 namespace Juniper.ConfigurationManagement
 {
@@ -40,78 +37,78 @@ namespace Juniper.ConfigurationManagement
             //}
         }
 
-        private static void PrintPackageOps(IReadOnlyDictionary<string, IReadOnlyCollection<AbstractPackage>> packageDB, UnityPackageManifest manifest, PackageReference req)
+        /*
+    private static void PrintPackageOps(IReadOnlyDictionary<string, IReadOnlyCollection<AbstractPackage>> packageDB, UnityPackageManifest manifest, PackageReference req)
+    {
+        Write(req);
+        Write(" ");
+        WriteLine(Project.IsAvailable(req).ToYesNo("Available"));
+        if (req.ForRemoval)
         {
-            Write(req);
-            Write(" ");
-            WriteLine(Project.IsAvailable(req).ToYesNo("Available"));
-            /*
-            if (req.ForRemoval)
+            Write("Removing... ");
+            if (!manifest.ContainsKey(req.PackageID))
             {
-                Write("Removing... ");
-                if (!manifest.ContainsKey(req.PackageID))
-                {
-                    WriteLine("no need to remove, not in manifest.");
-                }
-                else
-                {
-                    WriteLine(manifest[req.PackageID]);
-                }
+                WriteLine("no need to remove, not in manifest.");
             }
             else
             {
-                Write("Adding... ");
-                if (!packageDB.ContainsKey(req.PackageID))
+                WriteLine(manifest[req.PackageID]);
+            }
+        }
+        else
+        {
+            Write("Adding... ");
+            if (!packageDB.ContainsKey(req.PackageID))
+            {
+                WriteLine("no package of any version found!");
+            }
+            else
+            {
+                var match = packageDB[req.PackageID]
+                    .OrderByDescending(p => p.CompareTo(req))
+                    .FirstOrDefault();
+
+                if (match == req)
                 {
-                    WriteLine("no package of any version found!");
+                    WriteLine(match);
+                }
+                else if (match is null)
+                {
+                    WriteLine("couldn't find a matching version of the package.");
+                }
+                else if (match < req)
+                {
+                    WriteLine("couldn't find the package, but an older version already exists in the manifest: " + match);
                 }
                 else
                 {
-                    var match = packageDB[req.PackageID]
-                        .OrderByDescending(p => p.CompareTo(req))
-                        .FirstOrDefault();
-
-                    if (match == req)
-                    {
-                        WriteLine(match);
-                    }
-                    else if (match is null)
-                    {
-                        WriteLine("couldn't find a matching version of the package.");
-                    }
-                    else if (match < req)
-                    {
-                        WriteLine("couldn't find the package, but an older version already exists in the manifest: " + match);
-                    }
-                    else
-                    {
-                        WriteLine("couldn't find the package, but an newer version already exists in the manifest: " + match);
-                    }
-                }
-
-                if (req.Source == PackageSources.UnityPackageManager
-                    && manifest.ContainsKey(req.PackageID))
-                {
-                    Write("The package exists in the manifest ");
-
-                    var match = manifest[req.PackageID];
-                    if (req == match)
-                    {
-                        WriteLine("and is an exact match.");
-                    }
-                    else if (match < req)
-                    {
-                        WriteLine(" but the version in the manifest is older: " + match);
-                    }
-                    else
-                    {
-                        WriteLine(" but the version in the manifest is newer: " + match);
-                    }
+                    WriteLine("couldn't find the package, but an newer version already exists in the manifest: " + match);
                 }
             }
 
-            WriteLine();
-            */
+            if (req.Source == PackageSources.UnityPackageManager
+                && manifest.ContainsKey(req.PackageID))
+            {
+                Write("The package exists in the manifest ");
+
+                var match = manifest[req.PackageID];
+                if (req == match)
+                {
+                    WriteLine("and is an exact match.");
+                }
+                else if (match < req)
+                {
+                    WriteLine(" but the version in the manifest is older: " + match);
+                }
+                else
+                {
+                    WriteLine(" but the version in the manifest is newer: " + match);
+                }
+            }
         }
+
+        WriteLine();
+    }
+        */
     }
 }

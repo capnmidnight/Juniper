@@ -58,16 +58,6 @@ var searchData=
   ['mouse_2ecs',['Mouse.cs',['../dc/dcd/_mouse_8cs.html',1,'']]],
   ['mousebutton_2ecs',['MouseButton.cs',['../de/de6/_mouse_button_8cs.html',1,'']]],
   ['mousepointerconfiguration_2ecs',['MousePointerConfiguration.cs',['../d3/d69/_mouse_pointer_configuration_8cs.html',1,'']]],
-  ['mp3framedecompressor_2ecs',['Mp3FrameDecompressor.cs',['../df/d9e/_mp3_frame_decompressor_8cs.html',1,'']]],
-  ['mp3framewrapper_2ecs',['Mp3FrameWrapper.cs',['../dd/da3/_mp3_frame_wrapper_8cs.html',1,'']]],
   ['multipart_2ecs',['Multipart.cs',['../d1/d9b/_multipart_8cs.html',1,'']]],
-  ['multipart_2evalues_2ecs',['Multipart.Values.cs',['../dc/da8/_multipart_8_values_8cs.html',1,'']]],
-  ['my1passcquantizer_2ecs',['My1PassCQuantizer.cs',['../df/d7b/_my1_pass_c_quantizer_8cs.html',1,'']]],
-  ['my2passcquantizer_2ecs',['My2PassCQuantizer.cs',['../da/d03/_my2_pass_c_quantizer_8cs.html',1,'']]],
-  ['myccoefcontroller_2ecs',['MyCCoefController.cs',['../db/daa/_my_c_coef_controller_8cs.html',1,'']]],
-  ['mydestinationmanager_2ecs',['MyDestinationManager.cs',['../d6/d45/_my_destination_manager_8cs.html',1,'']]],
-  ['mymergedupsampler_2ecs',['MyMergedUpSampler.cs',['../d7/d43/_my_merged_up_sampler_8cs.html',1,'']]],
-  ['mysourcemanager_2ecs',['MySourceManager.cs',['../d6/d14/_my_source_manager_8cs.html',1,'']]],
-  ['mytransccoefcontroller_2ecs',['MyTransCCoefController.cs',['../d9/de4/_my_trans_c_coef_controller_8cs.html',1,'']]],
-  ['myupsampler_2ecs',['MyUpSampler.cs',['../d9/d9c/_my_up_sampler_8cs.html',1,'']]]
+  ['multipart_2evalues_2ecs',['Multipart.Values.cs',['../dc/da8/_multipart_8_values_8cs.html',1,'']]]
 ];

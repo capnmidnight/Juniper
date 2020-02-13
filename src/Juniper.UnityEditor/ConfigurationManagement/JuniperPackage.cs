@@ -18,8 +18,7 @@ namespace Juniper.ConfigurationManagement
                 throw new ArgumentNullException(nameof(packages));
             }
 
-            var juniperPackagesRoot = Path.Combine(Project.JuniperAssetPath, "ThirdParty", "Optional");
-            var rootDir = new DirectoryInfo(juniperPackagesRoot);
+            var rootDir = new DirectoryInfo(Project.JuniperAssetStoreCachePath);
             foreach (var file in rootDir.GetFiles("*.zip"))
             {
                 var packageName = Path.GetFileNameWithoutExtension(file.Name);

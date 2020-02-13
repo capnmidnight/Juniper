@@ -6,7 +6,6 @@ var searchData=
   ['off',['Off',['../d7/de5/namespace_juniper_1_1_input.html#a2142c978c8700c9702ef9fe45dce440dad15305d7a4e34e02489c74a5ef542f36',1,'Juniper::Input']]],
   ['on',['On',['../d7/de5/namespace_juniper_1_1_input.html#a2142c978c8700c9702ef9fe45dce440da521c36a31c2762741cf0f8890cbe05e3',1,'Juniper::Input']]],
   ['one',['One',['../de/d75/namespace_juniper.html#ab0d94b9ed3239f43181c35fcb22163aba06c2cea18679d64399783748fa367bdd',1,'Juniper']]],
-  ['onepass',['OnePass',['../d7/df1/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_d_coef_controller.html#ab7050a1304f26635bb21e32be77cfc0caccd4cef52fe08da3eeac0e4396a2aca2',1,'BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.OnePass()'],['../dd/d76/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_d_post_controller.html#aba235a8d387af2286da7a165ce50c9aeaccd4cef52fe08da3eeac0e4396a2aca2',1,'BitMiracle.LibJpeg.Classic.Internal.JpegDPostController.OnePass()']]],
   ['opened',['Opened',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82a1a11b1adc359c03db0ca798a00e2632c',1,'Juniper::Input']]],
   ['opening_5fhours',['opening_hours',['../d9/de3/namespace_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_places.html#ab191fd962a6aa2b24450dd0160a75396a05a5c1ea8fc0894c488ca36bf06e7957',1,'Juniper::World::GIS::Google::Places']]],
   ['openvr',['OpenVR',['../d2/d08/namespace_juniper_1_1_x_r.html#a32fe4599735711eacf9dfb3329434154ace7fc0c476385de5949584bef08090a5',1,'Juniper::XR']]],
@@ -16,11 +15,8 @@ var searchData=
   ['option4',['Option4',['../d7/d19/namespace_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_geocoding.html#af69e83b6eb5b99734729682356fc7a0ea37da91914cfb1255dc604315ef44b6c3',1,'Juniper.World.GIS.Google.Geocoding.Option4()'],['../d2/d08/namespace_juniper_1_1_x_r.html#a4ae9c31f783775d0987fe0167e7fa64fa37da91914cfb1255dc604315ef44b6c3',1,'Juniper.XR.Option4()']]],
   ['option5',['Option5',['../d7/d19/namespace_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_geocoding.html#af69e83b6eb5b99734729682356fc7a0ea9e837b7a3d43abe885878022781f1efd',1,'Juniper.World.GIS.Google.Geocoding.Option5()'],['../d2/d08/namespace_juniper_1_1_x_r.html#a4ae9c31f783775d0987fe0167e7fa64fa9e837b7a3d43abe885878022781f1efd',1,'Juniper.XR.Option5()']]],
   ['options',['OPTIONS',['../de/d5f/namespace_juniper_1_1_h_t_t_p.html#a8d8f16039af07f5c579c3bb1c47f3537a164dd62adb30ca051b5289672a572f9b',1,'Juniper::HTTP']]],
-  ['ordered',['Ordered',['../db/dd2/namespace_bit_miracle_1_1_lib_jpeg.html#ac430ebce65d935de0f49bfacd588c749a26e09a1ee1517389c7b07f42df65561a',1,'BitMiracle::LibJpeg']]],
-  ['ordinary',['Ordinary',['../d7/df1/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_d_coef_controller.html#ab7050a1304f26635bb21e32be77cfc0ca5681660b68aa20365a8e3279790ea419',1,'BitMiracle::LibJpeg::Classic::Internal::JpegDCoefController']]],
   ['ounces',['Ounces',['../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77abf3358e168a810d1704bf8f87e3123ba',1,'Juniper::Units']]],
   ['out',['Out',['../dc/d2c/namespace_juniper_1_1_h_t_t_p_1_1_server_1_1_administration_1_1_net_s_h.html#a8621ffd5f3ba2eab70beab01decd2843a7c147cda9e49590f6abe83d118b7353b',1,'Juniper::HTTP::Server::Administration::NetSH']]],
-  ['output',['Output',['../da/db1/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_comp_master.html#a303dbdc06022e6e99a5b49b45df78608a29c2c02a361c9d7028472e5d92cd4a54',1,'BitMiracle::LibJpeg::Classic::Internal::JpegCompMaster']]],
   ['overcast_5fclouds',['OVERCAST_CLOUDS',['../da/db4/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_o_w_m_weather.html#ada5e81b1f765dc84c1eb2ec33a105ae6a6c06ec11e123860b0ff36ce572a8ff21',1,'Juniper::World::Climate::OpenWeatherMap::OWMWeather']]],
   ['overunder',['OverUnder',['../d6/dd8/class_juniper_1_1_imaging_1_1_skybox_manager.html#ac8ccbfbcf37fb306f02dfc673cb23eb9ae465a253ff195aa9095280684a78246c',1,'Juniper::Imaging::SkyboxManager']]]
 ];

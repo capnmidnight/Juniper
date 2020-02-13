@@ -1,0 +1,9 @@
+intro
+{"hammer": 9001, "sharpening-stone": 9001, "hunting-knife": 9001}
+wait USERID say hi Lucy
+wait USERID say skip me
+give USERID hammer
+give USERID sharpening-stone
+give USERID hunting-knife
+tell USERID type "leave" to go to the next room.
+done USERID

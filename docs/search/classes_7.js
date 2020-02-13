@@ -22,7 +22,5 @@ var searchData=
   ['httpstatusdescription',['HttpStatusDescription',['../d9/de5/class_system_1_1_net_1_1_http_status_description.html',1,'System::Net']]],
   ['httpstringext',['HttpStringExt',['../db/d00/class_system_1_1_http_string_ext.html',1,'System']]],
   ['httptohttpsredirect',['HttpToHttpsRedirect',['../d0/d9e/class_juniper_1_1_h_t_t_p_1_1_server_1_1_controllers_1_1_http_to_https_redirect.html',1,'Juniper::HTTP::Server::Controllers']]],
-  ['httpwebrequestext',['HttpWebRequestExt',['../d8/db1/class_system_1_1_net_1_1_http_web_request_ext.html',1,'System::Net']]],
-  ['huffmanentropydecoder',['HuffmanEntropyDecoder',['../d0/d46/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_huffman_entropy_decoder.html',1,'BitMiracle::LibJpeg::Classic::Internal']]],
-  ['huffmanentropyencoder',['HuffmanEntropyEncoder',['../d0/dd3/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_huffman_entropy_encoder.html',1,'BitMiracle::LibJpeg::Classic::Internal']]]
+  ['httpwebrequestext',['HttpWebRequestExt',['../d8/db1/class_system_1_1_net_1_1_http_web_request_ext.html',1,'System::Net']]]
 ];
