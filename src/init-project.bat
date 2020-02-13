@@ -20,6 +20,7 @@
 
 	echo.%platform%> "%dest%\Assets\StreamingAssets\juniper.txt"
 
+	@call :link /J "%dest%\AssetStore" "%juniper%..\lib\Unity Asset Store Packages"
 	@call :link /J "%dest%\Assets\ShaderControl" "%juniper%Unity Asset Store Packages\ShaderControl"
 	@call :link /j "%dest%\Assets\TextMesh Pro" "%juniper%Unity Asset Store Packages\TextMesh Pro"
 	@call :link /J "%dest%\Assets\SpeechSDK" "%juniper%Unity Asset Store Packages\SpeechSDK"

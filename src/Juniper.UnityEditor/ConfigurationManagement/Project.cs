@@ -110,7 +110,7 @@ namespace Juniper.ConfigurationManagement
 
         public static string JuniperAssetStoreCachePath => Path.Combine(UnityProjectRoot, "AssetStore");
 
-        public static string JuniperAssetPath => Path.Combine(UnityAssetsPath, "Juniper");
+        public static string JuniperAssetPath => Path.Combine(UnityAssetsPath, "Juniper", "Assets");
 
         public static string JuniperPlatformsFileName => Path.Combine(JuniperAssetPath, "platforms.json");
 
