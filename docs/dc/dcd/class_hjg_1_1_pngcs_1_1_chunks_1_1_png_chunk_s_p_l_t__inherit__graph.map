@@ -1,5 +1,0 @@
-<map id="Hjg.Pngcs.Chunks.PngChunkSPLT" name="Hjg.Pngcs.Chunks.PngChunkSPLT">
-<area shape="rect" id="node1" title="sPLT chunk: http://www.w3.org/TR/PNG/#11sPLT" alt="" coords="5,652,217,861"/>
-<area shape="rect" id="node2" href="$d0/d05/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_multiple.html" title="A Chunk type that allows duplicate in an image" alt="" coords="41,512,182,604"/>
-<area shape="rect" id="node3" href="$d8/dd4/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk.html" title="Represents a instance of a PNG chunk" alt="" coords="26,5,197,464"/>
-</map>

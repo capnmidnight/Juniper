@@ -1,6 +1,6 @@
 <map id="Juniper.Imaging.LibJpegNETCodec" name="Juniper.Imaging.LibJpegNETCodec">
-<area shape="rect" id="node1" title=" " alt="" coords="369,1420,586,1527"/>
-<area shape="rect" id="node2" href="$d8/d64/interface_juniper_1_1_imaging_1_1_i_image_codec.html" title=" " alt="" coords="167,1031,353,1108"/>
+<area shape="rect" id="node1" title=" " alt="" coords="410,1420,627,1527"/>
+<area shape="rect" id="node2" href="$d8/d64/interface_juniper_1_1_imaging_1_1_i_image_codec.html" title=" " alt="" coords="246,1031,431,1108"/>
 <area shape="rect" id="node3" href="$d8/d64/interface_juniper_1_1_imaging_1_1_i_image_codec.html" title=" " alt="" coords="147,568,373,645"/>
 <area shape="rect" id="node4" href="$da/df2/interface_juniper_1_1_i_o_1_1_i_factory.html" title=" " alt="" coords="154,441,366,519"/>
 <area shape="rect" id="node5" href="$da/df2/interface_juniper_1_1_i_o_1_1_i_factory.html" title=" " alt="" coords="153,287,367,379"/>
@@ -10,9 +10,8 @@
 <area shape="rect" id="node9" href="$d1/d4d/interface_juniper_1_1_i_o_1_1_i_deserializer.html" title=" " alt="" coords="183,5,337,97"/>
 <area shape="rect" id="node10" href="$da/d97/interface_juniper_1_1_i_o_1_1_i_content_handler.html" title=" " alt="" coords="365,160,576,237"/>
 <area shape="rect" id="node11" href="$da/d97/interface_juniper_1_1_i_o_1_1_i_content_handler.html" title=" " alt="" coords="383,13,559,90"/>
-<area shape="rect" id="node12" href="$d8/dcb/class_bit_miracle_1_1_lib_jpeg_1_1_compression_parameters.html" title="Parameters of compression." alt="" coords="377,987,578,1152"/>
-<area shape="rect" id="node13" href="$d4/d56/class_juniper_1_1_media_type.html" title=" " alt="" coords="602,781,761,1357"/>
-<area shape="rect" id="node14" title=" " alt="" coords="416,568,587,645"/>
-<area shape="rect" id="node15" title=" " alt="" coords="611,568,751,645"/>
-<area shape="rect" id="node16" title=" " alt="" coords="775,568,827,645"/>
+<area shape="rect" id="node12" href="$d4/d56/class_juniper_1_1_media_type.html" title=" " alt="" coords="558,781,717,1357"/>
+<area shape="rect" id="node13" title=" " alt="" coords="397,568,568,645"/>
+<area shape="rect" id="node14" title=" " alt="" coords="593,568,733,645"/>
+<area shape="rect" id="node15" title=" " alt="" coords="757,568,809,645"/>
 </map>

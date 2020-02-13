@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$dd/d9c/class_juniper_1_1_configuration_management_1_1_project.html" title=" " alt="" coords="5,5,227,47"/>
+<area shape="rect" id="node1" href="$d5/d55/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title=" " alt="" coords="5,5,261,61"/>
+<area shape="rect" id="node2" href="$d4/da7/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_mouse.html" title="A AbstractScreenDevice pointer for the standard mouse connected to a desktop system." alt="" coords="309,13,504,54"/>
 </map>

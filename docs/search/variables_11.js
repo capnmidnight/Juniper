@@ -1,11 +1,6 @@
 var searchData=
 [
-  ['q',['q',['../d3/de1/class_juniper_1_1_anchoring_1_1_anchored.html#a12eea7b6e188e9dfc76a514428eadbf6',1,'Juniper.Anchoring.Anchored.q()'],['../dc/d31/class_juniper_1_1_collections_1_1_priority_queue.html#a38e3b10c4477ccba243ce06662f046b1',1,'Juniper.Collections.PriorityQueue.q()']]],
-  ['q01_5fpos',['Q01_POS',['../d7/df1/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_d_coef_controller.html#a77b41e49fa51166847c6a24980806a16',1,'BitMiracle::LibJpeg::Classic::Internal::JpegDCoefController']]],
-  ['q02_5fpos',['Q02_POS',['../d7/df1/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_d_coef_controller.html#a761567f25847d103bf91b4fa95d9defc',1,'BitMiracle::LibJpeg::Classic::Internal::JpegDCoefController']]],
-  ['q10_5fpos',['Q10_POS',['../d7/df1/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_d_coef_controller.html#af7050822ccf1491548f2dae00fa369b9',1,'BitMiracle::LibJpeg::Classic::Internal::JpegDCoefController']]],
-  ['q11_5fpos',['Q11_POS',['../d7/df1/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_d_coef_controller.html#ab8fd067014b124ec7c036e674c3fe472',1,'BitMiracle::LibJpeg::Classic::Internal::JpegDCoefController']]],
-  ['q20_5fpos',['Q20_POS',['../d7/df1/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_d_coef_controller.html#a04e4f750a679e1d549bb4664aa47323e',1,'BitMiracle::LibJpeg::Classic::Internal::JpegDCoefController']]],
+  ['q',['q',['../dc/d31/class_juniper_1_1_collections_1_1_priority_queue.html#a38e3b10c4477ccba243ce06662f046b1',1,'Juniper.Collections.PriorityQueue.q()'],['../d3/de1/class_juniper_1_1_anchoring_1_1_anchored.html#a12eea7b6e188e9dfc76a514428eadbf6',1,'Juniper.Anchoring.Anchored.q()']]],
   ['qcelp',['Qcelp',['../d3/dec/class_juniper_1_1_media_type_1_1_audio.html#a48bee6e3cea7f04119bba20fdf76836e',1,'Juniper::MediaType::Audio']]],
   ['qsig',['QSIG',['../d7/d3e/class_juniper_1_1_media_type_1_1_application.html#a387c36339ea42865cf91ef90cf0616e5',1,'Juniper::MediaType::Application']]],
   ['quadrantlowerleft',['QuadrantLowerLeft',['../d3/da2/class_juniper_1_1_unicode_1_1_box_element_characters.html#a8c08f050d1d049412f0d56ef78362362',1,'Juniper::Unicode::BoxElementCharacters']]],
@@ -19,12 +14,7 @@ var searchData=
   ['quadrantupperrightandlowerleft',['QuadrantUpperRightAndLowerLeft',['../d3/da2/class_juniper_1_1_unicode_1_1_box_element_characters.html#a160fc9886c479f9596cf1472020f30e5',1,'Juniper::Unicode::BoxElementCharacters']]],
   ['quadrantupperrightandlowerleftandlowerright',['QuadrantUpperRightAndLowerLeftAndLowerRight',['../d3/da2/class_juniper_1_1_unicode_1_1_box_element_characters.html#aadaf6e907a622cceb675a3c0a05d6215',1,'Juniper::Unicode::BoxElementCharacters']]],
   ['qualitymgr',['qualityMgr',['../db/d51/class_juniper_1_1_display_1_1_abstract_display_manager.html#a57eec5bec989c02170e1eabe3d7aab85',1,'Juniper::Display::AbstractDisplayManager']]],
-  ['quant_5ftable',['quant_table',['../d5/d55/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_jpeg_component_info.html#ab524f1a7a21e3f66eabc36936eff28ab',1,'BitMiracle::LibJpeg::Classic::JpegComponentInfo']]],
-  ['quant_5ftbl_5fptrs',['Quant_tbl_ptrs',['../dc/d80/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_jpeg_compress_struct.html#aac5b4cc5c7bd7579d22753b492ab828e',1,'BitMiracle::LibJpeg::Classic::JpegCompressStruct']]],
-  ['quantbal',['quantBal',['../d7/ddd/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_j_quant_table.html#a375ba87161208c4bb86a0c956d132419',1,'BitMiracle::LibJpeg::Classic::JQuantTable']]],
-  ['quantizecolors',['quantizeColors',['../d7/d05/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_jpeg_decompress_struct.html#a1aeabe103cf5b51c44cd686e4fca5e99',1,'BitMiracle::LibJpeg::Classic::JpegDecompressStruct']]],
   ['queryparams',['queryParams',['../db/d68/class_juniper_1_1_h_t_t_p_1_1_r_e_s_t_1_1_abstract_request.html#a204b51105e54eadcd4da32abf5d327a2',1,'Juniper::HTTP::REST::AbstractRequest']]],
-  ['queuedchunks',['queuedChunks',['../db/d34/class_hjg_1_1_pngcs_1_1_chunks_1_1_chunks_list_for_write.html#a165f1a1f0db2d2c74143953d8bd71d70',1,'Hjg::Pngcs::Chunks::ChunksListForWrite']]],
   ['queuelength',['QueueLength',['../da/d75/class_juniper_1_1_sound_1_1_beats_1_1_beat_detector.html#ac3b0fa549cb17c1a941fbb8cdceba966',1,'Juniper::Sound::Beats::BeatDetector']]],
   ['quicktime',['Quicktime',['../d7/d83/class_juniper_1_1_media_type_1_1_video.html#abd24d95883e731b29db0b8f100371de1',1,'Juniper::MediaType::Video']]]
 ];

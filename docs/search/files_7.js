@@ -27,7 +27,5 @@ var searchData=
   ['httpstatusdescription_2ecs',['HttpStatusDescription.cs',['../da/d84/_http_status_description_8cs.html',1,'']]],
   ['httpstringext_2ecs',['HttpStringExt.cs',['../d8/d23/_http_string_ext_8cs.html',1,'']]],
   ['httptohttpsredirect_2ecs',['HttpToHttpsRedirect.cs',['../df/d00/_http_to_https_redirect_8cs.html',1,'']]],
-  ['httpwebrequestext_2ecs',['HttpWebRequestExt.cs',['../d2/d99/_http_web_request_ext_8cs.html',1,'']]],
-  ['huffmanentropydecoder_2ecs',['HuffmanEntropyDecoder.cs',['../d7/d12/_huffman_entropy_decoder_8cs.html',1,'']]],
-  ['huffmanentropyencoder_2ecs',['HuffmanEntropyEncoder.cs',['../d0/d1c/_huffman_entropy_encoder_8cs.html',1,'']]]
+  ['httpwebrequestext_2ecs',['HttpWebRequestExt.cs',['../d2/d99/_http_web_request_ext_8cs.html',1,'']]]
 ];

@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['sample',['Sample',['../d3/d54/class_bit_miracle_1_1_lib_jpeg_1_1_sample.html',1,'BitMiracle::LibJpeg']]],
-  ['samplerow',['SampleRow',['../da/dc0/class_bit_miracle_1_1_lib_jpeg_1_1_sample_row.html',1,'BitMiracle::LibJpeg']]],
-  ['savablestate',['SavableState',['../d3/d1e/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_huffman_entropy_decoder_1_1_savable_state.html',1,'BitMiracle.LibJpeg.Classic.Internal.HuffmanEntropyDecoder.SavableState'],['../d1/da3/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_huffman_entropy_encoder_1_1_savable_state.html',1,'BitMiracle.LibJpeg.Classic.Internal.HuffmanEntropyEncoder.SavableState']]],
   ['scalehandle',['ScaleHandle',['../d1/d66/class_juniper_1_1_widgets_1_1_scale_handle.html',1,'Juniper::Widgets']]],
   ['scaletransition',['ScaleTransition',['../d8/da8/class_juniper_1_1_animation_1_1_scale_transition.html',1,'Juniper::Animation']]],
   ['screendebugger',['ScreenDebugger',['../de/d00/class_system_1_1_screen_debugger.html',1,'System']]],
@@ -41,7 +38,7 @@ var searchData=
   ['stringbuilderext',['StringBuilderExt',['../d8/d0b/class_system_1_1_text_1_1_string_builder_ext.html',1,'System::Text']]],
   ['stringevent',['StringEvent',['../d9/d59/class_unity_engine_1_1_events_1_1_string_event.html',1,'UnityEngine::Events']]],
   ['stringeventargs',['StringEventArgs',['../d6/d09/class_juniper_1_1_string_event_args.html',1,'Juniper']]],
-  ['stringext',['StringExt',['../da/dbb/class_unity_editor_1_1_string_ext.html',1,'UnityEditor.StringExt'],['../d1/d3f/class_system_1_1_string_ext.html',1,'System.StringExt'],['../d8/d0d/class_juniper_1_1_google_1_1_string_ext.html',1,'Juniper.Google.StringExt']]],
+  ['stringext',['StringExt',['../d1/d3f/class_system_1_1_string_ext.html',1,'System.StringExt'],['../d8/d0d/class_juniper_1_1_google_1_1_string_ext.html',1,'Juniper.Google.StringExt'],['../da/dbb/class_unity_editor_1_1_string_ext.html',1,'UnityEditor.StringExt']]],
   ['stringfactory',['StringFactory',['../da/dac/class_juniper_1_1_i_o_1_1_string_factory.html',1,'Juniper::IO']]],
   ['stringreference',['StringReference',['../db/da2/class_unity_engine_1_1_string_reference.html',1,'UnityEngine']]],
   ['stringvariable',['StringVariable',['../d5/dd2/class_unity_engine_1_1_string_variable.html',1,'UnityEngine']]],

@@ -1,5 +1,0 @@
-<map id="Hjg.Pngcs.Chunks.PngChunkPLTE" name="Hjg.Pngcs.Chunks.PngChunkPLTE">
-<area shape="rect" id="node1" title=" " alt="" coords="5,681,216,964"/>
-<area shape="rect" id="node2" href="$d2/dc1/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_single.html" title="A Chunk type that does not allow duplicate in an image" alt="" coords="43,512,179,633"/>
-<area shape="rect" id="node3" href="$d8/dd4/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk.html" title="Represents a instance of a PNG chunk" alt="" coords="25,5,196,464"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="Hjg.Pngcs.Chunks.IChunkPredicate" name="Hjg.Pngcs.Chunks.IChunkPredicate">
-<area shape="rect" id="node1" title="Decides if another chunk &quot;matches&quot;, according to some criterion" alt="" coords="249,5,467,83"/>
-<area shape="rect" id="node2" href="$d9/d0f/class_hjg_1_1_pngcs_1_1_chunks_1_1_chunk_predicate_equiv.html" title="An ad&#45;hoc criterion, perhaps useful, for equivalence. ChunkHelper.Equivalent(AbstractPngChunk,..." alt="" coords="5,131,220,237"/>
-<area shape="rect" id="node3" href="$d1/d35/class_hjg_1_1_pngcs_1_1_chunks_1_1_chunk_predicate_id.html" title="Match if have same Chunk Id" alt="" coords="245,138,471,230"/>
-<area shape="rect" id="node4" href="$db/dbf/class_hjg_1_1_pngcs_1_1_chunks_1_1_chunk_predicate_id2.html" title="match if have same id and, if Text (or SPLT) if have the asame key" alt="" coords="496,131,729,237"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="BitMiracle.LibJpeg.Classic.JpegCommonStruct" name="BitMiracle.LibJpeg.Classic.JpegCommonStruct">
-<area shape="rect" id="node1" title="Base class for both JPEG compressor and decompresor." alt="" coords="138,5,309,435"/>
-<area shape="rect" id="node2" href="$dc/d80/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_jpeg_compress_struct.html" title="JPEG compression routine." alt="" coords="5,483,212,1455"/>
-<area shape="rect" id="node3" href="$d7/d05/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_jpeg_decompress_struct.html" title="JPEG decompression routine." alt="" coords="236,563,443,1374"/>
-</map>

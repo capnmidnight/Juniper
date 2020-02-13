@@ -1,5 +1,0 @@
-<map id="Hjg.Pngcs.Chunks.PngChunkGAMA" name="Hjg.Pngcs.Chunks.PngChunkGAMA">
-<area shape="rect" id="node1" title="gAMA chunk, see http://www.w3.org/TR/PNG/#11gAMA" alt="" coords="5,681,223,876"/>
-<area shape="rect" id="node2" href="$d2/dc1/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_single.html" title="A Chunk type that does not allow duplicate in an image" alt="" coords="46,512,182,633"/>
-<area shape="rect" id="node3" href="$d8/dd4/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk.html" title="Represents a instance of a PNG chunk" alt="" coords="29,5,199,464"/>
-</map>

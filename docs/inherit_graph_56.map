@@ -1,28 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d8/dd4/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk.html" title="Represents a instance of a PNG chunk" alt="" coords="5,605,180,646"/>
-<area shape="rect" id="node2" href="$d0/d05/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_multiple.html" title="A Chunk type that allows duplicate in an image" alt="" coords="228,158,411,199"/>
-<area shape="rect" id="node10" href="$d2/dc1/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_single.html" title="A Chunk type that does not allow duplicate in an image" alt="" coords="228,605,411,646"/>
-<area shape="rect" id="node26" href="$dc/de1/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_skipped.html" title=" " alt="" coords="228,670,411,711"/>
-<area shape="rect" id="node3" href="$d2/d74/class_hjg_1_1_pngcs_1_1_chunks_1_1_abstract_png_chunk_text_var.html" title="general class for textual chunks" alt="" coords="480,49,655,90"/>
-<area shape="rect" id="node7" href="$d0/df1/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_d_a_t.html" title=" " alt="" coords="462,115,673,141"/>
-<area shape="rect" id="node8" href="$d3/d17/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_s_p_l_t.html" title="sPLT chunk: http://www.w3.org/TR/PNG/#11sPLT" alt="" coords="461,165,673,192"/>
-<area shape="rect" id="node9" href="$dd/df6/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_u_n_k_n_o_w_n.html" title="Unknown (for our chunk factory) chunk type." alt="" coords="476,217,659,258"/>
-<area shape="rect" id="node4" href="$dd/de4/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_t_x_t.html" title="iTXt chunk: http://www.w3.org/TR/PNG/#11iTXt One of the three text chunks" alt="" coords="726,5,937,32"/>
-<area shape="rect" id="node5" href="$de/d9c/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_t_e_x_t.html" title="tEXt chunk: latin1 uncompressed text" alt="" coords="724,56,939,83"/>
-<area shape="rect" id="node6" href="$d3/d58/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_z_t_x_t.html" title="zTXt chunk: http://www.w3.org/TR/PNG/#11zTXt" alt="" coords="724,107,939,133"/>
-<area shape="rect" id="node11" href="$d6/df9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_b_k_g_d.html" title="bKGD chunk, see http://www.w3.org/TR/PNG/#11bKGD" alt="" coords="461,283,674,309"/>
-<area shape="rect" id="node12" href="$d5/d39/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_c_h_r_m.html" title="cHRM chunk, see http://www.w3.org/TR/PNG/#11cHRM" alt="" coords="459,333,676,360"/>
-<area shape="rect" id="node13" href="$d9/d23/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_g_a_m_a.html" title="gAMA chunk, see http://www.w3.org/TR/PNG/#11gAMA" alt="" coords="459,384,676,411"/>
-<area shape="rect" id="node14" href="$d7/d34/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_h_i_s_t.html" title="hIST chunk, see http://www.w3.org/TR/PNG/#11hIST Only for palette images" alt="" coords="462,435,673,461"/>
-<area shape="rect" id="node15" href="$de/da0/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_c_c_p.html" title="iCCP Chunk: see http://www.w3.org/TR/PNG/#11iCCP" alt="" coords="462,485,673,512"/>
-<area shape="rect" id="node16" href="$d5/d01/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_e_n_d.html" title="IEND chunk http://www.w3.org/TR/PNG/#11IEND" alt="" coords="462,536,673,563"/>
-<area shape="rect" id="node17" href="$d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html" title="IHDR chunk: http://www.w3.org/TR/PNG/#11IHDR" alt="" coords="462,587,673,613"/>
-<area shape="rect" id="node18" href="$d3/d36/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_o_f_f_s.html" title="oFFs chunk: http://www.libpng.org/pub/png/spec/register/pngext&#45;1.3.0&#45;pdg.html#C.oFFs" alt="" coords="460,637,675,664"/>
-<area shape="rect" id="node19" href="$da/d47/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_p_h_y_s.html" title="pHYs chunk: http://www.w3.org/TR/PNG/#11pHYs" alt="" coords="461,688,674,715"/>
-<area shape="rect" id="node20" href="$da/dc1/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_p_l_t_e.html" title=" " alt="" coords="462,739,673,765"/>
-<area shape="rect" id="node21" href="$df/d01/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_s_b_i_t.html" title=" " alt="" coords="462,789,673,816"/>
-<area shape="rect" id="node22" href="$db/d35/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_s_r_g_b.html" title="sRGB chunk: http://www.w3.org/TR/PNG/#11sRGB" alt="" coords="460,840,675,867"/>
-<area shape="rect" id="node23" href="$d0/db1/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_s_t_e_r.html" title="sTER chunk: http://www.libpng.org/pub/png/spec/register/pngext&#45;1.3.0&#45;pdg.html#C.sTER" alt="" coords="460,891,675,917"/>
-<area shape="rect" id="node24" href="$d9/d6a/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_t_i_m_e.html" title="tIME chunk: http://www.w3.org/TR/PNG/#11tIME" alt="" coords="461,941,673,968"/>
-<area shape="rect" id="node25" href="$d5/da1/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_t_r_n_s.html" title="tRNS chunk: http://www.w3.org/TR/PNG/#11tRNS" alt="" coords="460,992,675,1019"/>
+<area shape="rect" id="node1" href="$d1/d32/class_juniper_1_1_h_t_t_p_1_1_web_socket_connection.html" title=" " alt="" coords="5,5,235,47"/>
+<area shape="rect" id="node2" href="$d1/d3d/class_juniper_1_1_h_t_t_p_1_1_server_1_1_server_web_socket_connection.html" title=" " alt="" coords="283,5,465,47"/>
 </map>

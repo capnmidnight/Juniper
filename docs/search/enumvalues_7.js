@@ -1,10 +1,5 @@
 var searchData=
 [
-  ['h2v1_5fdownsampler',['h2v1_downsampler',['../d9/d87/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_downsampler.html#a15f6969ec5b417c82d7863164f33763ea7aae831774d6026a79b5fa58bb58e1a0',1,'BitMiracle::LibJpeg::Classic::Internal::JpegDownsampler']]],
-  ['h2v1_5fupsampler',['h2v1_upsampler',['../da/dc2/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_my_up_sampler.html#a77b4e70e181ea06c5b83b93e3ed06d98ab1d9f3d6c243b813f623c8fa5f5f318a',1,'BitMiracle::LibJpeg::Classic::Internal::MyUpSampler']]],
-  ['h2v2_5fdownsampler',['h2v2_downsampler',['../d9/d87/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_downsampler.html#a15f6969ec5b417c82d7863164f33763ea6cb2c520f430786048b20651cad3480f',1,'BitMiracle::LibJpeg::Classic::Internal::JpegDownsampler']]],
-  ['h2v2_5fsmooth_5fdownsampler',['h2v2_smooth_downsampler',['../d9/d87/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_downsampler.html#a15f6969ec5b417c82d7863164f33763ea00b5dc3dc96ba0c5a0e4e49114aac904',1,'BitMiracle::LibJpeg::Classic::Internal::JpegDownsampler']]],
-  ['h2v2_5fupsampler',['h2v2_upsampler',['../da/dc2/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_my_up_sampler.html#a77b4e70e181ea06c5b83b93e3ed06d98a403fcf8cf06c87deb86f1ea5ccb9b318',1,'BitMiracle::LibJpeg::Classic::Internal::MyUpSampler']]],
   ['hands',['Hands',['../d7/de5/namespace_juniper_1_1_input.html#af54716af4b3a87b6bca347779ff63f49ac0de26eacdb0be95995bddc8d719bc4b',1,'Juniper::Input']]],
   ['haze',['HAZE',['../da/db4/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_o_w_m_weather.html#ada5e81b1f765dc84c1eb2ec33a105ae6ab731ed2c9e5adcaf7dc95116bd0d03a3',1,'Juniper::World::Climate::OpenWeatherMap::OWMWeather']]],
   ['head',['HEAD',['../de/d5f/namespace_juniper_1_1_h_t_t_p.html#a8d8f16039af07f5c579c3bb1c47f3537ae15e216fc1c639f787b1231ecdfa1bf8',1,'Juniper::HTTP']]],
@@ -27,8 +22,6 @@ var searchData=
   ['hours',['Hours',['../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77a6a7e73161603d87b26a8eac49dab0a9c',1,'Juniper::Units']]],
   ['http',['HTTP',['../de/d5f/namespace_juniper_1_1_h_t_t_p.html#a6c1f14aa169c452d93e6b10746c6095ca293c9ea246ff9985dc6f62a650f78986',1,'Juniper::HTTP']]],
   ['https',['HTTPS',['../de/d5f/namespace_juniper_1_1_h_t_t_p.html#a6c1f14aa169c452d93e6b10746c6095ca0e8433f9a404f1f3ba601c14b026d321',1,'Juniper::HTTP']]],
-  ['huffman',['Huffman',['../d5/d06/namespace_hjg_1_1_pngcs_1_1_zlib.html#abd8e28c8d2b010d910c0d05f06d73af4a3342ecec260a073bf4005f15f833a1bb',1,'Hjg::Pngcs::Zlib']]],
-  ['huffmanoptimization',['HuffmanOptimization',['../da/db1/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_comp_master.html#a303dbdc06022e6e99a5b49b45df78608a9d909fa77b3e8f6cd30260d055cbde53',1,'BitMiracle::LibJpeg::Classic::Internal::JpegCompMaster']]],
   ['hugefilesize',['HugeFileSize',['../d6/ddd/namespace_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aa82d5fd73d4f3995c5dd0db1ab78ffccd',1,'Juniper::Units']]],
   ['hugevolume',['HugeVolume',['../d6/ddd/namespace_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aa88eb451e50f236fdf625ea96336ecf00',1,'Juniper::Units']]],
   ['hurricane',['HURRICANE',['../da/db4/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_o_w_m_weather.html#ada5e81b1f765dc84c1eb2ec33a105ae6aeb2bfb01f6a33407a5ea0d3710f5304d',1,'Juniper::World::Climate::OpenWeatherMap::OWMWeather']]],

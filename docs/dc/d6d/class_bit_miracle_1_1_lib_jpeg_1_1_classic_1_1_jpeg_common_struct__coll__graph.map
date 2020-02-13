@@ -1,6 +1,0 @@
-<map id="BitMiracle.LibJpeg.Classic.JpegCommonStruct" name="BitMiracle.LibJpeg.Classic.JpegCommonStruct">
-<area shape="rect" id="node1" title="Base class for both JPEG compressor and decompresor." alt="" coords="141,321,312,707"/>
-<area shape="rect" id="node2" href="$df/dbb/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_jpeg_error_message.html" title="Contains simple error&#45;reporting and trace&#45;message routines." alt="" coords="5,5,176,259"/>
-<area shape="rect" id="node3" title=" " alt="" coords="201,93,253,171"/>
-<area shape="rect" id="node4" href="$d5/dd5/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_jpeg_progress_manager.html" title="The progress monitor object." alt="" coords="277,64,448,200"/>
-</map>

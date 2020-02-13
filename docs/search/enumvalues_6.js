@@ -14,6 +14,5 @@ var searchData=
   ['giganticfilesize',['GiganticFileSize',['../d6/ddd/namespace_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aac806e1a961e5b0698a0a55ae2c015ea8',1,'Juniper::Units']]],
   ['gradians',['Gradians',['../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77a4164baf5eba3429444ca482c58d93cf1',1,'Juniper::Units']]],
   ['grams',['Grams',['../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77a9f688aa3a4a1282ea093c07dc643c163',1,'Juniper::Units']]],
-  ['grayscale',['Grayscale',['../db/dd2/namespace_bit_miracle_1_1_lib_jpeg.html#ab3b34a972fb09d2089359a4c0f2c7610ad3f6975213fb5546d8486b54b025dbd7',1,'BitMiracle::LibJpeg']]],
   ['grip',['Grip',['../d7/dac/namespace_juniper_1_1_input_1_1_pointers_1_1_motion.html#af527056cce88b66b9d9609b3707f49cfae6afa392888958511dd5c9e9b1d5a9db',1,'Juniper::Input::Pointers::Motion']]]
 ];

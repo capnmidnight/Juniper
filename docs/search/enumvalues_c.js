@@ -2,7 +2,6 @@ var searchData=
 [
   ['magicleap',['MagicLeap',['../d2/d08/namespace_juniper_1_1_x_r.html#a3c57b33a1d1dfa8cb15c0dcd8753aa3faf616b53526a20558db0b302aa6e72b76',1,'Juniper::XR']]],
   ['magicwindow',['MagicWindow',['../dc/dfb/class_juniper_1_1_input_1_1_camera_control.html#aaf175f42bd07ff5603565fa70a608abeaa303d0139db648bcf20cee24858a160a',1,'Juniper::Input::CameraControl']]],
-  ['main',['Main',['../da/db1/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_internal_1_1_jpeg_comp_master.html#a303dbdc06022e6e99a5b49b45df78608aa02c83a7dbd96295beaefb72c2bee2de',1,'BitMiracle::LibJpeg::Classic::Internal::JpegCompMaster']]],
   ['march',['March',['../d8/dd0/namespace_system.html#a9948aa83f3da57bc2f9e436b6a08675bafa3e5edac607a88d8fd7ecb9d6d67424',1,'System']]],
   ['mass',['Mass',['../d6/ddd/namespace_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aaff2864d6f652ee0ac254814f1ae4f4a8',1,'Juniper::Units']]],
   ['may',['May',['../d8/dd0/namespace_system.html#a9948aa83f3da57bc2f9e436b6a08675ba195fbb57ffe7449796d23466085ce6d8',1,'System']]],

@@ -1,195 +1,185 @@
 # Documentation Coverage
 
 ```
-100% - Juniper/Assets/Juniper/Scripts/Widgets/TranslationHandle.cs - (10 of 10)
+100% - Unity Scripts/Widgets/ScaleHandle.cs - (10 of 10)
 100% - Juniper.Root/Units/Mass/Kilograms.cs - (4 of 4)
+100% - Unity Scripts/Comment.cs - (1 of 1)
 100% - Juniper.Root/Units/Length/Feet.cs - (6 of 6)
 100% - Juniper.Root/NETFX/Collections/Generic/IEnumerableExt.cs - (1 of 1)
-100% - Juniper.Root/Units/Pressure/Pascals.cs - (4 of 4)
-100% - Juniper.Client/ThirdParty/HjgPngcs/FilterType.cs - (1 of 1)
+100% - Unity Scripts/Anchoring/MockWorldAnchor.cs - (2 of 2)
 100% - Juniper.Root/NETFX/Months.cs - (1 of 1)
 100% - Juniper.Root/NETFX/Collections/Generic/ListExt.cs - (1 of 1)
-100% - Juniper/Assets/Juniper/Scripts/Animation/WorkflowStep.cs - (10 of 10)
 100% - Juniper.Root/Units/FileSize/Yobibytes.cs - (17 of 17)
-100% - Juniper/Assets/Juniper/Scripts/LightEstimation/AbstractLightEstimate.cs - (20 of 20)
 100% - Juniper.Root/Units/Unary.cs - (1 of 1)
 100% - Juniper.Root/Units/FileSize/Bytes.cs - (17 of 17)
 100% - Juniper.Root/Units/Mass/Ounces.cs - (4 of 4)
 100% - Juniper.Root/Units/FileSize/Kilobytes.cs - (17 of 17)
 100% - Juniper.Root/Units/FileSize/Kibibytes.cs - (17 of 17)
+100% - Unity Scripts/Widgets/MaterialCollection.cs - (5 of 5)
 100% - Juniper.Root/Units/FileSize/Exabytes.cs - (17 of 17)
 100% - Juniper.Root/Mathematics/SingleStatisticsCollection.cs - (40 of 40)
-100% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JBufMode.cs - (1 of 1)
 100% - Juniper.UnityEditor/World/LatLngPointEditor.cs - (3 of 3)
 100% - Juniper.Root/Units/Time/Milliseconds.cs - (7 of 7)
 100% - Juniper.Root/Units/Speed/MetersPerSecond.cs - (4 of 4)
 100% - Juniper.Root/Collections/RingBuffer.cs - (21 of 21)
 100% - Juniper.OpenWeatherMap/OWMMain.cs - (9 of 9)
 100% - Juniper.Root/Units/Speed/MillimetersPerSecond.cs - (4 of 4)
+100% - Juniper.Root/Units/Pressure/Pascals.cs - (4 of 4)
 100% - Juniper.Root/Units/FileSize/Zettabytes.cs - (17 of 17)
+100% - Juniper.Root/Units/Temperature/Celsius.cs - (5 of 5)
 100% - Juniper.Root/Units/Angles/Degrees.cs - (4 of 4)
 100% - Juniper.Root/World/Climate/IWeatherReport.cs - (15 of 15)
 100% - Juniper.Client/Input/IPointerButtons.cs - (5 of 5)
 100% - Juniper.Root/Units/FileSize/Gigabytes.cs - (17 of 17)
-100% - Juniper/Assets/Juniper/Scripts/Widgets/MaterialCollection.cs - (5 of 5)
+100% - Unity Scripts/Anchoring/Anchored.cs - (17 of 17)
+100% - Unity Scripts/Widgets/AbstractConstraintHandle.cs - (12 of 12)
+100% - Juniper.OpenWeatherMap/API.cs - (3 of 3)
 100% - Juniper.Client/Sound/FloatsToPcmBytesStream.cs - (24 of 24)
 100% - Juniper.Root/Units/Time/Hours.cs - (11 of 11)
-100% - Juniper.Root/Units/FileSize/Zebibytes.cs - (17 of 17)
-100% - Juniper/Assets/Juniper/Scripts/Widgets/RotationHandle.cs - (10 of 10)
+100% - Unity Scripts/Widgets/JibberJabber.cs - (10 of 10)
 100% - Juniper.Unity/Extensions/UnityEngine/SavableValues/IValued.cs - (1 of 1)
+100% - Unity Scripts/Widgets/TranslationHandle.cs - (10 of 10)
+100% - Unity Scripts/Anchoring/MockAnchorStore.cs - (11 of 11)
 100% - Juniper.Root/Units/FileSize/Megabytes.cs - (17 of 17)
-100% - Juniper.Root/HiddenSettingsAccessor.cs - (1 of 1)
+100% - Unity Scripts/Widgets/DebugObject.cs - (1 of 1)
 100% - Juniper.Root/Units/FileSize/Mibibytes.cs - (17 of 17)
+100% - Juniper.Root/Units/Pressure/Kilopascals.cs - (4 of 4)
+100% - Unity Scripts/Sound/SingleAudioClipCollection.cs - (8 of 8)
 100% - Juniper.Root/Units/FileSize/Exbibytes.cs - (17 of 17)
-100% - Juniper/Assets/Juniper/Scripts/Sound/SingleAudioClipCollection.cs - (8 of 8)
+100% - Juniper.Root/XR/Platform.cs - (4 of 4)
 100% - Juniper.Root/Units/Speed/MilesPerHour.cs - (4 of 4)
-100% - Juniper/Assets/Juniper/Scripts/Haptics/AbstractHapticRetainedExpressor.cs - (8 of 8)
-100% - Juniper/Assets/Juniper/Scripts/LightEstimation/IndoorLightEstimate.cs - (19 of 19)
 100% - Juniper.Root/Units/Mass/Tons.cs - (4 of 4)
 100% - Juniper.Root/Units/Area/SquareKilometers.cs - (6 of 6)
-100% - Juniper/Assets/Juniper/Scripts/Events/LongPressEvents.cs - (2 of 2)
 100% - Juniper.Root/Units/Acceleration/MetersPerSecondSquared.cs - (2 of 2)
+100% - Unity Scripts/ImageTracking/AbstractTrackableFoundEventHandler.cs - (27 of 27)
 100% - Juniper.Root/Units/Volume/CubicFeet.cs - (6 of 6)
 100% - Juniper.Root/Units/Light/Nits.cs - (2 of 2)
 100% - Juniper.Root/Units/Pressure/Hectopascals.cs - (4 of 4)
 100% - Juniper.Unity/Extensions/UnityEngine/RendererExt.cs - (1 of 1)
 100% - Juniper.Unity/Collections/TextureSortComparer.cs - (4 of 4)
-100% - Juniper.Client/ThirdParty/LibJpeg.NET/Colorspace.cs - (3 of 3)
-100% - Juniper/Assets/Juniper/Editor/LabelAttributeDrawer.cs - (1 of 1)
+100% - Juniper.Client/Speech/IKeywordTriggered.cs - (1 of 1)
 100% - Juniper.Root/XR/AugmentedRealityTypes.cs - (7 of 7)
 100% - Juniper.Root/Units/Mass/Grams.cs - (4 of 4)
-100% - Juniper/Assets/Juniper/Scripts/LightEstimation/OutdoorLightEstimate.cs - (25 of 25)
 100% - Juniper.Root/IO/IProgress.cs - (3 of 3)
 100% - Juniper.Root/Units/Area/SquareMeters.cs - (6 of 6)
 100% - Juniper.Root/Units/FileSize/Tebibytes.cs - (17 of 17)
 100% - Juniper.Root/Units/Time/Microseconds.cs - (7 of 7)
 100% - Juniper.Root/Units/Volume/CubicMiles.cs - (6 of 6)
-100% - Juniper/Assets/Juniper/Scripts/Animation/ChildSwapAnimator.cs - (4 of 4)
-100% - Juniper.Root/Units/Mass/Pounds.cs - (4 of 4)
+100% - Unity Scripts/Animation/AbstractAnimator.cs - (3 of 3)
 100% - Juniper.Root/NETFX/ArrayExt.cs - (1 of 1)
-100% - Juniper/Assets/Juniper/Scripts/Events/TriggeredEvent.cs - (4 of 4)
-100% - Juniper.Client/Speech/IKeywordTriggered.cs - (1 of 1)
+100% - Juniper.Unity/Extensions/UnityEngine/TextMeshSize.cs - (17 of 17)
 100% - Juniper.Root/Units/Volume/CubicKilometers.cs - (6 of 6)
 100% - Juniper.Root/Units/Time/Minutes.cs - (7 of 7)
+100% - Juniper.OpenWeatherMap/WeatherReport.cs - (32 of 32)
 100% - Juniper.Root/Units/Volume/CubicMeters.cs - (6 of 6)
-100% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/ChunkCopyBehaviour.cs - (9 of 9)
-100% - Juniper/Assets/Juniper/Scripts/Widgets/JibberJabber.cs - (10 of 10)
-100% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/IChunkPredicate.cs - (1 of 1)
-100% - Juniper/Assets/Juniper/Scripts/Anchoring/MockAnchorStore.cs - (11 of 11)
-100% - Juniper/Assets/Juniper/Scripts/Widgets/Standoff.cs - (6 of 6)
+100% - Unity Scripts/Sound/IAudioClipCollection.cs - (4 of 4)
 100% - Juniper.OpenWeatherMap/OWMClouds.cs - (3 of 3)
-100% - Juniper/Assets/Juniper/Scripts/Widgets/Rotatable.cs - (57 of 57)
-100% - Juniper/Assets/Juniper/Scripts/Animation/Flipbook.cs - (8 of 8)
-100% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/ChunkLoadBehaviour.cs - (1 of 1)
-100% - Juniper.Root/Units/FileSize/Gibibytes.cs - (17 of 17)
+100% - Unity Scripts/Haptics/NoHaptics.cs - (3 of 3)
+100% - Unity Scripts/Widgets/Draggable.cs - (59 of 59)
 100% - Juniper.Root/Units/Temperature/Farenheit.cs - (5 of 5)
-100% - Juniper/Assets/Juniper/Scripts/Widgets/ScaleHandle.cs - (10 of 10)
 100% - Juniper.Root/Units/Time/Days.cs - (7 of 7)
+100% - Unity Editor Scripts/LabelAttributeDrawer.cs - (1 of 1)
+100% - Unity Scripts/Events/TriggeredEvent.cs - (4 of 4)
 100% - Juniper.Root/Units/Pressure/Millibars.cs - (4 of 4)
-100% - Juniper/Assets/Juniper/Scripts/Comment.cs - (1 of 1)
+100% - Juniper.Root/Units/FileSize/Gibibytes.cs - (17 of 17)
+100% - Unity Scripts/Widgets/RotationHandle.cs - (10 of 10)
 100% - Juniper.Root/Units/Area/SquareCentimeters.cs - (6 of 6)
-100% - Juniper.OpenWeatherMap/OWMSys.cs - (9 of 9)
-100% - Juniper/Assets/Juniper/Scripts/Events/IInteractable.cs - (1 of 1)
-100% - Juniper/Assets/Juniper/Scripts/Sound/VolumeFade.cs - (11 of 11)
 100% - Juniper.Root/Units/Length/Miles.cs - (6 of 6)
-100% - Juniper/Assets/Juniper/Scripts/Anchoring/MockWorldAnchor.cs - (2 of 2)
-100% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegConstants.cs - (21 of 21)
 100% - Juniper.Root/Units/Volume/CubicInches.cs - (6 of 6)
 100% - Juniper.Root/Units/FileSize/Pebibytes.cs - (17 of 17)
 100% - Juniper.Root/Units/Length/Centimeters.cs - (6 of 6)
 100% - Juniper.Root/Units/FileSize/Petabytes.cs - (17 of 17)
 100% - Juniper.Root/Units/Area/SquareInches.cs - (6 of 6)
-100% - Juniper/Assets/Juniper/Scripts/Events/ILongPressHandler.cs - (2 of 2)
-100% - Juniper/Assets/Juniper/Scripts/Animation/AbstractAnimator.cs - (3 of 3)
-100% - Juniper.OpenWeatherMap/WeatherReport.cs - (32 of 32)
+100% - Unity Scripts/Widgets/DetectVideoEnd.cs - (9 of 9)
+100% - Unity Scripts/Platforms/ARKit/ARKitTrackableFoundEventHandler.cs - (20 of 20)
+100% - Unity Scripts/Sound/VolumeFade.cs - (11 of 11)
 100% - Juniper.Root/Units/Time/Nanoseconds.cs - (7 of 7)
-100% - Juniper/Assets/Juniper/Scripts/Anchoring/AbstractAnchorStore`1.cs - (15 of 15)
 100% - Juniper.Root/NETFX/DateTimeExt.cs - (1 of 1)
 100% - Juniper.Root/Units/Volume/CubicCentimeters.cs - (6 of 6)
 100% - Juniper.Unity/Extensions/UnityEngine/SavableValues/AbstractVariable.cs - (2 of 2)
+100% - Unity Scripts/Widgets/Rotatable.cs - (57 of 57)
 100% - Juniper.Root/Units/FileSize/Yotabytes.cs - (17 of 17)
-100% - Juniper/Assets/Juniper/Scripts/Widgets/Draggable.cs - (59 of 59)
 100% - Juniper.Root/Mathematics/AbstractStatisticsCollection.cs - (47 of 47)
-100% - Juniper/Assets/Juniper/Scripts/Haptics/AbstractHapticDevice.cs - (3 of 3)
 100% - Juniper.Root/Units/FileSize/Bits.cs - (23 of 23)
-100% - Juniper/Assets/Juniper/Scripts/Sound/IAudioClipCollection.cs - (4 of 4)
-100% - Juniper.Root/Units/Temperature/Celsius.cs - (5 of 5)
+100% - Juniper.Client/Haptics/IHapticDevice.cs - (3 of 3)
+100% - Unity Scripts/Animation/Flipbook.cs - (8 of 8)
 100% - Juniper.Root/Units/Area/SquareFeet.cs - (6 of 6)
-100% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegProgressManager.cs - (6 of 6)
+100% - Juniper.Root/Units/CartesianAxis.cs - (6 of 6)
+100% - Unity Scripts/Haptics/AbstractHapticDevice.cs - (3 of 3)
 100% - Juniper.Root/Units/Length/Kilometers.cs - (6 of 6)
 100% - Juniper.OpenWeatherMap/OWMRain.cs - (3 of 3)
-100% - Juniper/Plugins/Juniper/iOS/TapticFeedback.mm - (8 of 8)
 100% - Juniper.Root/Units/Temperature/Kelvin.cs - (5 of 5)
-100% - Juniper/Assets/Juniper/Scripts/Haptics/NoHaptics.cs - (3 of 3)
 100% - Juniper.Root/Units/Length/Meters.cs - (6 of 6)
 100% - Juniper.Unity/Extensions/UnityEngine/ColorExt.cs - (1 of 1)
-100% - Juniper/Assets/Juniper/Scripts/Platforms/ARKit/ARKitTrackableFoundEventHandler.cs - (20 of 20)
 100% - Juniper.Root/Units/Area/SquareMillimeters.cs - (6 of 6)
-100% - Juniper.Root/Units/Pressure/Kilopascals.cs - (4 of 4)
+100% - Unity Scripts/Widgets/Label.cs - (10 of 10)
 100% - Juniper.Root/NETFX/Collections/Generic/NaturalSortComparer.cs - (5 of 5)
-100% - Juniper/Assets/Juniper/Scripts/Events/TimedEvent.cs - (9 of 9)
-100% - Juniper/Assets/Juniper/Scripts/Animation/UnityAnimator.cs - (5 of 5)
 100% - Juniper.Unity/Extensions/UnityEngine/SavableValues/AbstractReference.cs - (5 of 5)
-100% - Juniper/Assets/Juniper/Scripts/Widgets/AbstractValued.cs - (51 of 51)
-100% - Juniper/Assets/Juniper/Scripts/Widgets/Label.cs - (10 of 10)
+100% - Unity Scripts/LightEstimation/AbstractLightEstimate.cs - (20 of 20)
+100% - Unity Scripts/Animation/UnityAnimator.cs - (5 of 5)
+100% - Unity Scripts/Haptics/AbstractHapticRetainedExpressor.cs - (8 of 8)
+100% - Unity Scripts/Events/IInteractable.cs - (1 of 1)
+100% - Unity Scripts/LightEstimation/IndoorLightEstimate.cs - (19 of 19)
 100% - Juniper.Root/World/Climate/IWeatherAPI.cs - (4 of 4)
 100% - Juniper.Root/Units/Speed/FeetPerSecond.cs - (4 of 4)
-100% - Juniper/Assets/Juniper/Scripts/Extensions/NETFX/DateTimeExt2.cs - (3 of 3)
-100% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/DensityUnit.cs - (8 of 8)
+100% - Unity Scripts/Animation/WorkflowStep.cs - (10 of 10)
+100% - Unity Scripts/Events/TimedEvent.cs - (9 of 9)
 100% - Juniper.Client/Sound/AbstractPcmConversionStream.cs - (21 of 21)
-100% - Juniper.OpenWeatherMap/API.cs - (3 of 3)
+100% - Unity Scripts/Extensions/NETFX/DateTimeExt2.cs - (3 of 3)
+100% - Juniper.OpenWeatherMap/OWMSys.cs - (9 of 9)
+100% - Unity Scripts/Widgets/AbstractValued.cs - (51 of 51)
+100% - Unity Scripts/Events/ILongPressHandler.cs - (2 of 2)
 100% - Juniper.Root/Units/Length/Millimeters.cs - (6 of 6)
-100% - Juniper.Root/Units/Light/Lumens.cs - (2 of 2)
+100% - Juniper.Root/Units/FileSize/Zebibytes.cs - (17 of 17)
+100% - Unity Scripts/Widgets/Standoff.cs - (6 of 6)
 100% - Juniper.Root/Units/Angles/Radians.cs - (4 of 4)
+100% - Juniper.Root/Units/Light/Lumens.cs - (2 of 2)
 100% - Juniper.Root/Units/Length/Inches.cs - (6 of 6)
-100% - Juniper/Assets/Juniper/Scripts/Widgets/DebugObject.cs - (1 of 1)
-100% - Juniper/Assets/Juniper/Scripts/Sound/AudioClipCollection.cs - (8 of 8)
 100% - Juniper.OpenWeatherMap/OWMSnow.cs - (3 of 3)
-100% - Juniper.Client/ThirdParty/LibJpeg.NET/IDecompressDestination.cs - (5 of 5)
-100% - Juniper.Root/Units/CartesianAxis.cs - (6 of 6)
-100% - Juniper/Assets/Juniper/Scripts/Widgets/DetectVideoEnd.cs - (9 of 9)
+100% - Unity Scripts/Animation/ChildSwapAnimator.cs - (4 of 4)
+100% - Unity Plugins/iOS/TapticFeedback.mm - (8 of 8)
+100% - Unity Scripts/Anchoring/AbstractAnchorStore`1.cs - (15 of 15)
+100% - Unity Scripts/Sound/AudioClipCollection.cs - (8 of 8)
 100% - Juniper.Root/Units/Volume/CubicMillimeters.cs - (6 of 6)
 100% - Juniper.Root/Units/Time/Ticks.cs - (7 of 7)
 100% - Juniper.OpenWeatherMap/OWMWind.cs - (4 of 4)
 100% - Juniper.Unity/World/Climate/FakeWeatherReport.cs - (24 of 24)
 100% - Juniper.Root/Units/Acceleration/FeetPerSecondSquared.cs - (2 of 2)
 100% - Juniper.Root/IO/IProgressExt.cs - (1 of 1)
+100% - Juniper.Root/Units/Mass/Pounds.cs - (4 of 4)
+100% - Juniper.Root/HiddenSettingsAccessor.cs - (1 of 1)
 100% - Juniper.Root/NETFX/NumberExt.cs - (1 of 1)
-100% - Juniper/Assets/Juniper/Scripts/ImageTracking/AbstractTrackableFoundEventHandler.cs - (27 of 27)
 100% - Juniper.Root/Units/Area/SquareMiles.cs - (6 of 6)
 100% - Juniper.Root/Units/Pressure/PoundsPerSquareInch.cs - (4 of 4)
 100% - Juniper.Root/Units/Angles/Gradians.cs - (4 of 4)
-100% - Juniper/Assets/Juniper/Scripts/Anchoring/Anchored.cs - (17 of 17)
 100% - Juniper.Unity/Extensions/UnityEngine/LabelAttribute.cs - (2 of 2)
-100% - Juniper.Client/Haptics/IHapticDevice.cs - (3 of 3)
-100% - Juniper/Assets/Juniper/Scripts/Widgets/AbstractConstraintHandle.cs - (12 of 12)
-100% - Juniper.Unity/Extensions/UnityEngine/TextMeshSize.cs - (17 of 17)
 100% - Juniper.Root/NETFX/StringExt.cs - (2 of 2)
 100% - Juniper.Root/Units/Speed/KilometersPerHour.cs - (4 of 4)
+100% - Unity Scripts/Events/LongPressEvents.cs - (2 of 2)
 100% - Juniper.OpenWeatherMap/OWMCoord.cs - (4 of 4)
 100% - Juniper.Root/Units/Time/Seconds.cs - (7 of 7)
 100% - Juniper.Root/IO/IInstallable.cs - (3 of 3)
 100% - Juniper.Root/Units/Light/Brightness.cs - (2 of 2)
 100% - Juniper.Root/Units/FileSize/Terabytes.cs - (17 of 17)
-100% - Juniper.Root/XR/Platform.cs - (4 of 4)
+100% - Unity Scripts/LightEstimation/OutdoorLightEstimate.cs - (25 of 25)
 100% - Juniper.Client/Haptics/HapticExpression.cs - (1 of 1)
 100% - Juniper.Client/Sound/PcmBytesToFloatsStream.cs - (24 of 24)
- 94% - Juniper/Assets/Juniper/Scripts/Platforms/ARKit/ARKitLightMeasurement.cs - (17 of 18)
+ 94% - Unity Scripts/Platforms/ARKit/ARKitLightMeasurement.cs - (17 of 18)
 	 virtual void Juniper.World.LightEstimation.AbstractLightMeasurement.UpdateMeasurement
  94% - Juniper.Unity/EditableDateTime.cs - (16 of 17)
 	 bool Juniper.EditableDateTime.Equals
- 93% - Juniper/Assets/Juniper/Scripts/LightEstimation/LightMeasurement.cs - (15 of 16)
+ 93% - Unity Scripts/LightEstimation/LightMeasurement.cs - (15 of 16)
 	 virtual void Juniper.World.LightEstimation.AbstractLightMeasurement.UpdateMeasurement
  90% - Juniper.OpenWeatherMap/OWMWeather.cs - (10 of 11)
 	 async Task<T> Juniper.World.Climate.OpenWeatherMap.OWMWeather.GetIconAsync< T >
- 89% - Juniper/Assets/Juniper/Scripts/Widgets/Openable.cs - (33 of 37)
+ 89% - Unity Scripts/Widgets/Openable.cs - (33 of 37)
 	 EventHandler Juniper.Widgets.Clickable.LongPress
 	 UnityEvent Juniper.Widgets.Clickable.onLongPress
 	 virtual void Juniper.Widgets.Clickable.OnLongPress
 	 void Juniper.Widgets.Clickable.ActivateClick
- 88% - Juniper/Assets/Juniper/Scripts/World/OutdoorWindEstimate.cs - (8 of 9)
+ 88% - Unity Scripts/World/OutdoorWindEstimate.cs - (8 of 9)
 	 void Juniper.World.OutdoorWindEstimate.Awake
- 88% - Juniper/Assets/Juniper/Scripts/World/Climate/Weather.cs - (23 of 26)
+ 88% - Unity Scripts/World/Climate/Weather.cs - (23 of 26)
 	 ISerializer<WeatherReport> Juniper.World.Climate.Weather.serializer
 	 Task Juniper.World.Climate.Weather.GetReport
 	 Task Juniper.World.Climate.Weather.Request
@@ -197,30 +187,28 @@
 	 Stream Juniper.IO.ProgressStream.SourceStream
 	 readonly bool Juniper.IO.ProgressStream.ownStream
 	 string Juniper.IO.ProgressStream.Status
- 85% - Juniper/Assets/Juniper/Scripts/Widgets/Clickable.cs - (24 of 28)
+ 85% - Unity Scripts/Widgets/Clickable.cs - (24 of 28)
 	 EventHandler Juniper.Widgets.Clickable.LongPress
 	 UnityEvent Juniper.Widgets.Clickable.onLongPress
 	 virtual void Juniper.Widgets.Clickable.OnLongPress
 	 void Juniper.Widgets.Clickable.ActivateClick
- 85% - Juniper/Assets/Juniper/Scripts/Haptics/AbstractHapticImmediateExpressor.cs - (6 of 7)
-	 abstract void Juniper.Haptics.AbstractHapticImmediateExpressor.SetVibration
- 85% - Juniper/Assets/Juniper/Scripts/Widgets/AttentionDirector.cs - (24 of 28)
+ 85% - Unity Scripts/Platforms/ViveFocus/ViveFocusHaptics.cs - (6 of 7)
+	 WaveVR_Controller.Device Juniper.Haptics.ViveFocusHaptics.Controller
+ 85% - Unity Scripts/Widgets/AttentionDirector.cs - (24 of 28)
 	 IEnumerator Juniper.Widgets.AttentionDirector.PlayAction
 	 IEnumerator Juniper.Widgets.AttentionDirector.ScanCoroutine
 	 InteractionAudio Juniper.Widgets.AttentionDirector.interaction
 	 void Juniper.Widgets.AttentionDirector.Scan
- 85% - Juniper.Client/ThirdParty/LibJpeg.NET/CompressionParameters.cs - (6 of 7)
-	 internal BitMiracle.LibJpeg.CompressionParameters.CompressionParameters
- 85% - Juniper/Assets/Juniper/Scripts/Platforms/ViveFocus/ViveFocusHaptics.cs - (6 of 7)
-	 WaveVR_Controller.Device Juniper.Haptics.ViveFocusHaptics.Controller
- 85% - Juniper/Assets/Juniper/Scripts/Anchoring/Grounded.cs - (17 of 20)
+ 85% - Unity Scripts/Haptics/AbstractHapticImmediateExpressor.cs - (6 of 7)
+	 abstract void Juniper.Haptics.AbstractHapticImmediateExpressor.SetVibration
+ 85% - Unity Scripts/Anchoring/Grounded.cs - (17 of 20)
 	 Action Juniper.Anchoring.Grounded.GroundFound
 	 Action Juniper.Anchoring.Grounded.onGroundFound
 	 readonly string [] Juniper.Anchoring.Grounded.TERRAIN
- 84% - Juniper/Assets/Juniper/Scripts/World/GIS/SunPosition.cs - (11 of 13)
+ 84% - Unity Scripts/World/GIS/SunPosition.cs - (11 of 13)
 	 LatLngPoint Juniper.World.GIS.SunPosition.lastCoord
 	 void Juniper.World.GIS.SunPosition.Awake
- 84% - Juniper/Assets/Juniper/Scripts/Ground/StaticTerrain.cs - (16 of 19)
+ 84% - Unity Scripts/Ground/StaticTerrain.cs - (16 of 19)
 	 override void Juniper.Ground.StaticTerrain.Awake
 	 override void Juniper.Ground.StaticTerrain.VisualizationChanged
 	 void Juniper.Ground.AbstractGround.ToggleVisualization
@@ -229,27 +217,18 @@
 	 double [] Juniper.Mathematics.DiscreteKalmanFilter< TState, TMeasurement >.state
 	 readonly Func<TMeasurement, double[]> Juniper.Mathematics.DiscreteKalmanFilter< TState, TMeasurement >.measurementConvertFunc
 	 readonly Func<double[], TState> Juniper.Mathematics.DiscreteKalmanFilter< TState, TMeasurement >.stateConvertBackFunc
- 83% - Juniper.Client/ThirdParty/HjgPngcs/ImageInfo.cs - (15 of 18)
-	 const int Hjg.Pngcs.ImageInfo.MAX_COLS_ROWS_VAL
-	 override bool Hjg.Pngcs.ImageInfo.Equals
-	 override int Hjg.Pngcs.ImageInfo.GetHashCode
  83% - Juniper.Root/Collections/PriorityStack.cs - (10 of 12)
 	 Juniper.Collections.PriorityStack< T >.PriorityStack
 	 readonly List<T> Juniper.Collections.PriorityStack< T >.stack
- 82% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegMarkerWriter.cs - (19 of 23)
-	 BitMiracle.LibJpeg.Classic.Internal.JpegMarkerWriter.JpegMarkerWriter
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegMarkerWriter.m_last_restart_interval
-	 readonly JpegCompressStruct BitMiracle.LibJpeg.Classic.Internal.JpegMarkerWriter.m_cinfo
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegMarkerWriter.EmitDAC
- 82% - Juniper/Assets/Juniper/Scripts/Platforms/ARKit/ARKitGround.cs - (14 of 17)
-	 override void Juniper.Ground.ARKitGround.Awake
-	 virtual void Juniper.Ground.AbstractGround.VisualizationChanged
-	 void Juniper.Ground.AbstractGround.ToggleVisualization
- 82% - Juniper/Assets/Juniper/Scripts/Ground/TerrainManager.cs - (14 of 17)
+ 82% - Unity Scripts/Ground/TerrainManager.cs - (14 of 17)
 	 virtual void Juniper.Ground.AbstractGround.Awake
 	 virtual void Juniper.Ground.AbstractGround.VisualizationChanged
 	 void Juniper.Ground.AbstractGround.ToggleVisualization
- 82% - Juniper/Assets/Juniper/Scripts/ImageTracking/TrackerKeeper.cs - (32 of 39)
+ 82% - Unity Scripts/Platforms/ARKit/ARKitGround.cs - (14 of 17)
+	 override void Juniper.Ground.ARKitGround.Awake
+	 virtual void Juniper.Ground.AbstractGround.VisualizationChanged
+	 void Juniper.Ground.AbstractGround.ToggleVisualization
+ 82% - Unity Scripts/ImageTracking/TrackerKeeper.cs - (32 of 39)
 	 DisplayManager Juniper.ImageTracking.AbstractTrackerKeeper.xr
 	 virtual IEnumerable<TrackableFoundEventHandler> Juniper.ImageTracking.AbstractTrackerKeeper.FirstTargets
 	 virtual void Juniper.ImageTracking.AbstractTrackerKeeper.OnTrackingStarted
@@ -257,11 +236,11 @@
 	 virtual void Juniper.ImageTracking.AbstractTrackerKeeper.OnTrackingStopped
 	 virtual void Juniper.ImageTracking.AbstractTrackerKeeper.OnTrackingStopping
 	 virtual void Juniper.ImageTracking.AbstractTrackerKeeper.PrintDebugReport
- 81% - Juniper/Assets/Juniper/Scripts/Ground/NoTerrain.cs - (13 of 16)
+ 81% - Unity Scripts/Ground/NoTerrain.cs - (13 of 16)
 	 override void Juniper.Ground.NoTerrain.Awake
 	 virtual void Juniper.Ground.AbstractGround.VisualizationChanged
 	 void Juniper.Ground.AbstractGround.ToggleVisualization
- 80% - Juniper/Assets/Juniper/Scripts/Animation/SpiralTransition.cs - (45 of 56)
+ 80% - Unity Scripts/Animation/SpiralTransition.cs - (45 of 56)
 	 Direction Juniper.AbstractStateController.State
 	 Task Juniper.AbstractStateController.EnterAsync
 	 Task Juniper.AbstractStateController.ExitAsync
@@ -305,7 +284,7 @@
  80% - Juniper.Client/Primrose/Grammar.cs - (8 of 10)
 	 virtual List<Token> Juniper.Primrose.Grammar.Tokenize
 	 void Juniper.Primrose.Grammar.CrudeParsing
- 79% - Juniper/Assets/Juniper/Scripts/Animation/FadeTransition.cs - (50 of 63)
+ 79% - Unity Scripts/Animation/FadeTransition.cs - (50 of 63)
 	 Color Juniper.Animation.FadeTransition.fadeOutColor
 	 Direction Juniper.AbstractStateController.State
 	 Task Juniper.AbstractStateController.EnterAsync
@@ -319,14 +298,14 @@
 	 virtual void Juniper.AbstractStateController.SkipExit
 	 void Juniper.AbstractStateController.Enter
 	 void Juniper.AbstractStateController.Exit
- 79% - Juniper/Assets/Juniper/Scripts/Platforms/ARKit/ARKitTrackerKeeper.cs - (23 of 29)
+ 79% - Unity Scripts/Platforms/ARKit/ARKitTrackerKeeper.cs - (23 of 29)
 	 override void Juniper.ImageTracking.ARKitTrackerKeeper.OnTrackingStarting
 	 virtual IEnumerable<TrackableFoundEventHandler> Juniper.ImageTracking.AbstractTrackerKeeper.FirstTargets
 	 virtual void Juniper.ImageTracking.AbstractTrackerKeeper.OnTrackingStarted
 	 virtual void Juniper.ImageTracking.AbstractTrackerKeeper.OnTrackingStopped
 	 virtual void Juniper.ImageTracking.AbstractTrackerKeeper.OnTrackingStopping
 	 virtual void Juniper.ImageTracking.AbstractTrackerKeeper.PrintDebugReport
- 78% - Juniper/Assets/Juniper/Scripts/Widgets/VideoVader.cs - (45 of 57)
+ 78% - Unity Scripts/Widgets/VideoVader.cs - (45 of 57)
 	 Direction Juniper.AbstractStateController.State
 	 Task Juniper.AbstractStateController.EnterAsync
 	 Task Juniper.AbstractStateController.ExitAsync
@@ -339,7 +318,7 @@
 	 void Juniper.AbstractStateController.Enter
 	 void Juniper.AbstractStateController.Exit
 	 void Juniper.Widgets.VideoVader.FireComplete
- 78% - Juniper/Assets/Juniper/Scripts/Animation/AbstractTransitionController.cs - (40 of 51)
+ 78% - Unity Scripts/Animation/AbstractTransitionController.cs - (40 of 51)
 	 Direction Juniper.AbstractStateController.State
 	 Task Juniper.AbstractStateController.EnterAsync
 	 Task Juniper.AbstractStateController.ExitAsync
@@ -351,15 +330,10 @@
 	 virtual void Juniper.AbstractStateController.SkipExit
 	 void Juniper.AbstractStateController.Enter
 	 void Juniper.AbstractStateController.Exit
- 77% - Juniper/Assets/Juniper/Scripts/ScreenDebugger.cs - (7 of 9)
+ 77% - Unity Scripts/ScreenDebugger.cs - (7 of 9)
 	 void System.ScreenDebugger.Awake
 	 void System.ScreenDebugger.GetControls
- 77% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/ChunksListForWrite.cs - (14 of 18)
-	 internal Hjg.Pngcs.Chunks.ChunksListForWrite.ChunksListForWrite
-	 internal int Hjg.Pngcs.Chunks.ChunksListForWrite.WriteChunks
-	 readonly Dictionary<string, int> Hjg.Pngcs.Chunks.ChunksListForWrite.alreadyWrittenKeys
-	 readonly List<AbstractPngChunk> Hjg.Pngcs.Chunks.ChunksListForWrite.queuedChunks
- 77% - Juniper/Assets/Juniper/Scripts/Animation/AlphaTransition.cs - (38 of 49)
+ 77% - Unity Scripts/Animation/AlphaTransition.cs - (38 of 49)
 	 Direction Juniper.AbstractStateController.State
 	 Task Juniper.AbstractStateController.EnterAsync
 	 Task Juniper.AbstractStateController.ExitAsync
@@ -371,7 +345,7 @@
 	 virtual void Juniper.AbstractStateController.SkipExit
 	 void Juniper.AbstractStateController.Enter
 	 void Juniper.AbstractStateController.Exit
- 77% - Juniper/Assets/Juniper/Scripts/Animation/TranslationTransition.cs - (37 of 48)
+ 77% - Unity Scripts/Animation/ScaleTransition.cs - (37 of 48)
 	 Direction Juniper.AbstractStateController.State
 	 Task Juniper.AbstractStateController.EnterAsync
 	 Task Juniper.AbstractStateController.ExitAsync
@@ -383,7 +357,7 @@
 	 virtual void Juniper.AbstractStateController.SkipExit
 	 void Juniper.AbstractStateController.Enter
 	 void Juniper.AbstractStateController.Exit
- 77% - Juniper/Assets/Juniper/Scripts/Animation/ScaleTransition.cs - (37 of 48)
+ 77% - Unity Scripts/Animation/TranslationTransition.cs - (37 of 48)
 	 Direction Juniper.AbstractStateController.State
 	 Task Juniper.AbstractStateController.EnterAsync
 	 Task Juniper.AbstractStateController.ExitAsync
@@ -395,13 +369,9 @@
 	 virtual void Juniper.AbstractStateController.SkipExit
 	 void Juniper.AbstractStateController.Enter
 	 void Juniper.AbstractStateController.Exit
- 76% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegSourceManager.cs - (10 of 13)
-	 byte [] BitMiracle.LibJpeg.Classic.JpegSourceManager.nextInputByte
-	 int BitMiracle.LibJpeg.Classic.JpegSourceManager.bytesInBuffer
-	 int BitMiracle.LibJpeg.Classic.JpegSourceManager.position
+ 75% - Unity Scripts/Permissions/PermissionHandler.cs - (3 of 4)
+	 void Juniper.Permissions.AbstractPermissionHandler.Awake
  75% - Juniper.Client/Animation/TransitionValueChangedEventArgs.cs - (3 of 4)
-	 T Juniper.EventArgs< T >.Value
- 75% - Juniper/Assets/Juniper/Scripts/ImageTracking/TrackableFoundEventArgs.cs - (3 of 4)
 	 T Juniper.EventArgs< T >.Value
  75% - Juniper.Root/IO/CachingStrategy.cs - (12 of 16)
 	 IEnumerator IEnumerable. Juniper.IO.CachingStrategy.GetEnumerator
@@ -418,29 +388,11 @@
  75% - Juniper.Root/IO/ProgressSubdivision.cs - (6 of 8)
 	 Juniper.IO.ProgressSubdivision.ProgressSubdivision
 	 string Juniper.IO.ProgressSubdivision.Status
- 75% - Juniper/Assets/Juniper/Scripts/Permissions/PermissionHandler.cs - (3 of 4)
+ 75% - Unity Scripts/ImageTracking/TrackableFoundEventArgs.cs - (3 of 4)
+	 T Juniper.EventArgs< T >.Value
+ 75% - Unity Scripts/Platforms/WindowsMR/WindowsMRPermissionHandler.cs - (3 of 4)
 	 void Juniper.Permissions.AbstractPermissionHandler.Awake
- 75% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDestinationManager.cs - (6 of 8)
-	 byte [] BitMiracle.LibJpeg.Classic.JpegDestinationManager.buffer
-	 int BitMiracle.LibJpeg.Classic.JpegDestinationManager.position
- 75% - Juniper.Client/ThirdParty/LibJpeg.NET/SampleRow.cs - (6 of 8)
-	 readonly Sample [] BitMiracle.LibJpeg.SampleRow.m_samples
-	 readonly byte [] BitMiracle.LibJpeg.SampleRow.m_bytes
- 75% - Juniper/Assets/Juniper/Scripts/Platforms/WindowsMR/WindowsMRPermissionHandler.cs - (3 of 4)
-	 void Juniper.Permissions.AbstractPermissionHandler.Awake
- 75% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegMarkerStruct.cs - (3 of 4)
-	 internal BitMiracle.LibJpeg.Classic.JpegMarkerStruct.JpegMarkerStruct
- 73% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCommonStruct.cs - (11 of 15)
-	 JpegState
-	 internal JpegErrorMessage BitMiracle.LibJpeg.Classic.JpegCommonStruct.jpgError
-	 internal JpegProgressManager BitMiracle.LibJpeg.Classic.JpegCommonStruct.prog
-	 internal JpegState BitMiracle.LibJpeg.Classic.JpegCommonStruct.globalState
- 71% - Juniper.Root/Collections/NAryTree.cs - (10 of 14)
-	 IEnumerable<NAryTree<T> > Juniper.Collections.NAryTree< T >.Where
-	 Juniper.Collections.NAryTree< T >.NAryTree
-	 NAryTree<T> Juniper.Collections.NAryTree< T >.Remove
-	 int Juniper.Collections.NAryTree< T >.Count
- 71% - Juniper/Assets/Juniper/Scripts/Platforms/WindowsMR/WindowsMRGround.cs - (25 of 35)
+ 71% - Unity Scripts/Platforms/WindowsMR/WindowsMRGround.cs - (25 of 35)
 	 GameObject Juniper.Ground.WindowsMRGround.surfaceParent
 	 SpatialMappingBase.LODType Juniper.Ground.WindowsMRGround.LODType
 	 SpatialMappingBase.LODType Juniper.Ground.WindowsMRGround.lastLODType
@@ -451,7 +403,12 @@
 	 override void Juniper.Ground.WindowsMRGround.Awake
 	 virtual void Juniper.Ground.AbstractGround.VisualizationChanged
 	 void Juniper.Ground.AbstractGround.ToggleVisualization
- 70% - Juniper/Assets/Juniper/Scripts/Widgets/TeleportPad.cs - (24 of 34)
+ 71% - Juniper.Root/Collections/NAryTree.cs - (10 of 14)
+	 IEnumerable<NAryTree<T> > Juniper.Collections.NAryTree< T >.Where
+	 Juniper.Collections.NAryTree< T >.NAryTree
+	 NAryTree<T> Juniper.Collections.NAryTree< T >.Remove
+	 int Juniper.Collections.NAryTree< T >.Count
+ 70% - Unity Scripts/Widgets/TeleportPad.cs - (24 of 34)
 	 EventHandler Juniper.Widgets.Clickable.LongPress
 	 FadeTransition Juniper.Widgets.TeleportPad.darth
 	 Rigidbody Juniper.Widgets.TeleportPad.user
@@ -462,11 +419,6 @@
 	 void Juniper.Widgets.Clickable.ActivateClick
 	 void Juniper.Widgets.TeleportPad.Darth_Entered
 	 void Juniper.Widgets.TeleportPad.Start
- 69% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegErrorMessage.cs - (9 of 13)
-	 internal int BitMiracle.LibJpeg.Classic.JpegErrorMessage.m_numWarnings
-	 internal int BitMiracle.LibJpeg.Classic.JpegErrorMessage.m_traceLevel
-	 internal int BitMiracle.LibJpeg.Classic.JpegErrorMessage.msgCode
-	 internal object [] BitMiracle.LibJpeg.Classic.JpegErrorMessage.msgParam
  69% - Juniper.Root/World/GIS/UTMPoint.cs - (9 of 13)
 	 bool Juniper.World.GIS.UTMPoint.Equals
 	 override bool Juniper.World.GIS.UTMPoint.Equals
@@ -489,40 +441,14 @@
 	 readonly bool Juniper.Puzzles.Puzzle.RowOrder
 	 readonly int Juniper.Puzzles.Puzzle.EmptyTile
 	 void Juniper.Puzzles.Puzzle.Clear
- 66% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngMetadata.cs - (12 of 18)
-	 ChunksListForWrite Hjg.Pngcs.Chunks.PngMetadata.getChunkListW
-	 PngChunkPLTE Hjg.Pngcs.Chunks.PngMetadata.CreatePLTEChunk
-	 PngChunkPLTE Hjg.Pngcs.Chunks.PngMetadata.GetPLTE
-	 internal Hjg.Pngcs.Chunks.PngMetadata.PngMetadata
-	 readonly ChunksList Hjg.Pngcs.Chunks.PngMetadata.chunkList
-	 readonly bool Hjg.Pngcs.Chunks.PngMetadata.ReadOnly
- 66% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/ChunkPredicateEquiv.cs - (2 of 3)
-	 readonly AbstractPngChunk Hjg.Pngcs.Chunks.ChunkPredicateEquiv.chunk
  66% - Juniper.Root/World/GIS/LatLngPoint.cs - (8 of 12)
 	 bool Juniper.World.GIS.LatLngPoint.Equals
 	 int Juniper.World.GIS.LatLngPoint.CompareTo
 	 string Juniper.World.GIS.LatLngPoint.ToDMS
 	 string Juniper.World.GIS.LatLngPoint.ToString
- 66% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkMultiple.cs - (12 of 18)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 internal Hjg.Pngcs.Chunks.PngChunkMultiple.PngChunkMultiple
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
- 66% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkSkipped.cs - (12 of 18)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 internal Hjg.Pngcs.Chunks.PngChunkSkipped.PngChunkSkipped
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
  66% - Juniper.Client/Speech/KeywordRecognizedEventArgs.cs - (2 of 3)
 	 T Juniper.EventArgs< T >.Value
- 66% - Juniper.Client/ThirdParty/LibJpeg.NET/Sample.cs - (4 of 6)
-	 internal BitMiracle.LibJpeg.Sample.Sample
-	 readonly short [] BitMiracle.LibJpeg.Sample.m_components
- 65% - Juniper/Assets/Juniper/Scripts/AbstractStateController.cs - (25 of 38)
+ 65% - Unity Scripts/AbstractStateController.cs - (25 of 38)
 	 Direction Juniper.AbstractStateController.State
 	 Task Juniper.AbstractStateController.EnterAsync
 	 Task Juniper.AbstractStateController.ExitAsync
@@ -536,49 +462,11 @@
 	 void Juniper.AbstractStateController.Enter
 	 void Juniper.AbstractStateController.Exit
 	 void Juniper.AbstractStateController.SetState
- 64% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/MySourceManager.cs - (11 of 17)
-	 Stream BitMiracle.LibJpeg.Classic.Internal.MySourceManager.m_infile
-	 bool BitMiracle.LibJpeg.Classic.Internal.MySourceManager.m_start_of_file
-	 const int BitMiracle.LibJpeg.Classic.Internal.MySourceManager.INPUT_BUF_SIZE
-	 readonly JpegDecompressStruct BitMiracle.LibJpeg.Classic.Internal.MySourceManager.m_cinfo
-	 readonly byte [] BitMiracle.LibJpeg.Classic.Internal.MySourceManager.m_buffer
-	 void BitMiracle.LibJpeg.Classic.Internal.MySourceManager.Attach
- 63% - Juniper/Assets/Juniper/Scripts/Haptics/DefaultHaptics.cs - (7 of 11)
+ 63% - Unity Scripts/Haptics/DefaultHaptics.cs - (7 of 11)
 	 Gamepad Juniper.Haptics.DefaultHaptics.gp
 	 void Juniper.Haptics.DefaultHaptics.Awake
 	 void Juniper.Haptics.DefaultHaptics.Gamepad_GamepadAdded
 	 void Juniper.Haptics.DefaultHaptics.Gamepad_GamepadRemoved
- 63% - Juniper.Client/ThirdParty/LibJpeg.NET/JpegImage.cs - (14 of 22)
-	 MemoryStream BitMiracle.LibJpeg.JpegImage.CompressedData
-	 MemoryStream BitMiracle.LibJpeg.JpegImage.DecompressedData
-	 bool BitMiracle.LibJpeg.JpegImage.NeedCompressWith
-	 bool BitMiracle.LibJpeg.JpegImage.m_alreadyDisposed
-	 void BitMiracle.LibJpeg.JpegImage.Compress
-	 void BitMiracle.LibJpeg.JpegImage.Decompress
-	 void BitMiracle.LibJpeg.JpegImage.Dispose
-	 void BitMiracle.LibJpeg.JpegImage.FillDecompressedData
- 63% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkIDAT.cs - (12 of 19)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkIDAT.PngChunkIDAT
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 const string Hjg.Pngcs.Chunks.PngChunkIDAT.ID
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
- 62% - Juniper.Root/World/GIS/HorizontalSphericalPosition.cs - (5 of 8)
-	 bool Juniper.World.GIS.HorizontalSphericalPosition.Equals
-	 override bool Juniper.World.GIS.HorizontalSphericalPosition.Equals
-	 override int Juniper.World.GIS.HorizontalSphericalPosition.GetHashCode
- 62% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkSPLT.cs - (15 of 24)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkSPLT.PngChunkSPLT
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 const string Hjg.Pngcs.Chunks.PngChunkSPLT.ID
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 int Hjg.Pngcs.Chunks.PngChunkSPLT.GetNentries
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 void Hjg.Pngcs.Chunks.PngChunkSPLT.CloneData
  62% - Juniper.Root/World/GIS/GeocentricEclipticSphericalPosition.cs - (5 of 8)
 	 bool Juniper.World.GIS.GeocentricEclipticSphericalPosition.Equals
 	 override bool Juniper.World.GIS.GeocentricEclipticSphericalPosition.Equals
@@ -587,7 +475,11 @@
 	 bool Juniper.World.GIS.EquitorialSphericalPosition.Equals
 	 override bool Juniper.World.GIS.EquitorialSphericalPosition.Equals
 	 override int Juniper.World.GIS.EquitorialSphericalPosition.GetHashCode
- 61% - Juniper/Assets/Juniper/Scripts/Widgets/MenuView.cs - (24 of 39)
+ 62% - Juniper.Root/World/GIS/HorizontalSphericalPosition.cs - (5 of 8)
+	 bool Juniper.World.GIS.HorizontalSphericalPosition.Equals
+	 override bool Juniper.World.GIS.HorizontalSphericalPosition.Equals
+	 override int Juniper.World.GIS.HorizontalSphericalPosition.GetHashCode
+ 61% - Unity Scripts/Widgets/MenuView.cs - (24 of 39)
 	 AbstractStateController [] Juniper.Widgets.MenuView.transitions
 	 Direction Juniper.AbstractStateController.State
 	 Task Juniper.AbstractStateController.EnterAsync
@@ -603,7 +495,7 @@
 	 void Juniper.AbstractStateController.Exit
 	 void Juniper.Widgets.MenuView.Awake
 	 void Juniper.Widgets.MenuView.Trans_EnteredExited
- 60% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Probe.cs - (24 of 40)
+ 60% - Unity Scripts/Input/Pointers/Probe.cs - (24 of 40)
 	 LineRenderer Juniper.Input.Pointers.Probe.line
 	 Material Juniper.Input.Pointers.Probe.LaserPointerMaterial
 	 Material Juniper.Input.Pointers.Probe.laserPointerMaterial
@@ -620,37 +512,15 @@
 	 void Juniper.Input.Pointers.Probe.Destroy
 	 void Juniper.Input.Pointers.Probe.SetActive
 	 void Juniper.Input.Pointers.Probe.Start
- 60% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JVirtArray.cs - (3 of 5)
-	 internal delegate T [][] BitMiracle.LibJpeg.Classic.JVirtArray< T >.Allocator
-	 readonly T [][] BitMiracle.LibJpeg.Classic.JVirtArray< T >.buffer
- 60% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkSingle.cs - (12 of 20)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkSingle.PngChunkSingle
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 override bool Hjg.Pngcs.Chunks.PngChunkSingle.Equals
-	 override int Hjg.Pngcs.Chunks.PngChunkSingle.GetHashCode
  57% - Juniper.Client/Input/Direction.cs - (4 of 7)
 	 InputModes
 	 VirtualTouchPadButtons
 	 VirtualTriggerButton
- 57% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkUNKNOWN.cs - (12 of 21)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkUNKNOWN.PngChunkUNKNOWN
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 byte [] Hjg.Pngcs.Chunks.PngChunkUNKNOWN.GetData
-	 byte [] Hjg.Pngcs.Chunks.PngChunkUNKNOWN.data
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 void Hjg.Pngcs.Chunks.PngChunkUNKNOWN.SetData
- 57% - Juniper.Client/ThirdParty/LibJpeg.NET/DecompressorToJpegImage.cs - (4 of 7)
-	 Stream BitMiracle.LibJpeg.DecompressorToJpegImage.Output
-	 internal BitMiracle.LibJpeg.DecompressorToJpegImage.DecompressorToJpegImage
-	 readonly JpegImage BitMiracle.LibJpeg.DecompressorToJpegImage.m_jpegImage
- 57% - Juniper/Assets/Juniper/Scripts/SubSceneController.cs - (24 of 42)
+ 57% - Juniper.Client/Haptics/HapticPatternElement.cs - (4 of 7)
+	 bool Juniper.Haptics.HapticPatternElement.Equals
+	 override bool Juniper.Haptics.HapticPatternElement.Equals
+	 override int Juniper.Haptics.HapticPatternElement.GetHashCode
+ 57% - Unity Scripts/SubSceneController.cs - (24 of 42)
 	 Direction Juniper.AbstractStateController.State
 	 MasterSceneController Juniper.SubSceneController.master
 	 Task Juniper.AbstractStateController.EnterAsync
@@ -669,7 +539,7 @@
 	 void Juniper.SubSceneController.ShowScene
 	 void Juniper.SubSceneController.ShowView
 	 void Juniper.SubSceneController.SwitchToScene
- 57% - Juniper/Assets/Juniper/Scripts/Sound/InteractionAudio.cs - (20 of 35)
+ 57% - Unity Scripts/Sound/InteractionAudio.cs - (20 of 35)
 	 AudioListener Juniper.Sound.AbstractInteractionAudio.listener
 	 AudioSource Juniper.Sound.AbstractInteractionAudio.Spatialize
 	 CachingStrategy Juniper.Sound.AbstractInteractionAudio.GetCachingStrategy
@@ -685,112 +555,6 @@
 	 void Juniper.Sound.AbstractInteractionAudio.PlayZone
 	 void Juniper.Sound.AbstractInteractionAudio.SetDefaultMixerGroup
 	 void Juniper.Sound.AbstractInteractionAudio.StopZone
- 57% - Juniper.Client/Haptics/HapticPatternElement.cs - (4 of 7)
-	 bool Juniper.Haptics.HapticPatternElement.Equals
-	 override bool Juniper.Haptics.HapticPatternElement.Equals
-	 override int Juniper.Haptics.HapticPatternElement.GetHashCode
- 57% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkIEND.cs - (12 of 21)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkIEND.PngChunkIEND
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 const string Hjg.Pngcs.Chunks.PngChunkIEND.ID
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 override bool Hjg.Pngcs.Chunks.PngChunkSingle.Equals
-	 override int Hjg.Pngcs.Chunks.PngChunkSingle.GetHashCode
- 56% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/AbstractPngChunk.cs - (13 of 23)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 internal bool Hjg.Pngcs.Chunks.AbstractPngChunk.MustGoAfterPLTE
-	 internal bool Hjg.Pngcs.Chunks.AbstractPngChunk.MustGoBeforeIDAT
-	 internal bool Hjg.Pngcs.Chunks.AbstractPngChunk.MustGoBeforePLTE
-	 internal void Hjg.Pngcs.Chunks.AbstractPngChunk.Write
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 readonly Dictionary<string, Type> Hjg.Pngcs.Chunks.AbstractPngChunk.factoryMap
- 56% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkSTER.cs - (13 of 23)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkSTER.PngChunkSTER
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 const string Hjg.Pngcs.Chunks.PngChunkSTER.ID
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 override bool Hjg.Pngcs.Chunks.PngChunkSingle.Equals
-	 override int Hjg.Pngcs.Chunks.PngChunkSingle.GetHashCode
-	 void Hjg.Pngcs.Chunks.PngChunkSTER.CloneData
- 55% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkPHYS.cs - (16 of 29)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkPHYS.PngChunkPHYS
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 const string Hjg.Pngcs.Chunks.PngChunkPHYS.ID
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 long Hjg.Pngcs.Chunks.PngChunkPHYS.PixelsxUnitX
-	 long Hjg.Pngcs.Chunks.PngChunkPHYS.PixelsxUnitY
-	 override bool Hjg.Pngcs.Chunks.PngChunkSingle.Equals
-	 override int Hjg.Pngcs.Chunks.PngChunkSingle.GetHashCode
-	 void Hjg.Pngcs.Chunks.PngChunkPHYS.CloneData
-	 void Hjg.Pngcs.Chunks.PngChunkPHYS.SetAsDpi2
- 54% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkBKGD.cs - (18 of 33)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkBKGD.PngChunkBKGD
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 const string Hjg.Pngcs.Chunks.PngChunkBKGD.ID
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 int Hjg.Pngcs.Chunks.PngChunkBKGD.blue
-	 int Hjg.Pngcs.Chunks.PngChunkBKGD.gray
-	 int Hjg.Pngcs.Chunks.PngChunkBKGD.green
-	 int Hjg.Pngcs.Chunks.PngChunkBKGD.paletteIndex
-	 int Hjg.Pngcs.Chunks.PngChunkBKGD.red
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 override bool Hjg.Pngcs.Chunks.PngChunkSingle.Equals
-	 override int Hjg.Pngcs.Chunks.PngChunkSingle.GetHashCode
-	 void Hjg.Pngcs.Chunks.PngChunkBKGD.CloneData
- 53% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkPLTE.cs - (16 of 30)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkPLTE.PngChunkPLTE
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 const string Hjg.Pngcs.Chunks.PngChunkPLTE.ID
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 int Hjg.Pngcs.Chunks.PngChunkPLTE.GetNentries
-	 int Hjg.Pngcs.Chunks.PngChunkPLTE.nentries
-	 int [] Hjg.Pngcs.Chunks.PngChunkPLTE.entries
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 override bool Hjg.Pngcs.Chunks.PngChunkSingle.Equals
-	 override int Hjg.Pngcs.Chunks.PngChunkSingle.GetHashCode
-	 void Hjg.Pngcs.Chunks.PngChunkPLTE.CloneData
-	 void Hjg.Pngcs.Chunks.PngChunkPLTE.SetEntry
- 52% - Juniper.Client/ThirdParty/HjgPngcs/ImageLine.cs - (12 of 23)
-	 ESampleType
-	 ImageLine Hjg.Pngcs.ImageLine.PackToNewImageLine
-	 ImageLine Hjg.Pngcs.ImageLine.UnpackToNewImageLine
-	 bool Hjg.Pngcs.ImageLine.IsByte
-	 bool Hjg.Pngcs.ImageLine.IsInt
-	 byte [] Hjg.Pngcs.ImageLine.GetScanlineByte
-	 int [] Hjg.Pngcs.ImageLine.GetScanlineInt
-	 internal Hjg.Pngcs.ImageLine.ImageLine
-	 internal readonly int Hjg.Pngcs.ImageLine.bitDepth
-	 internal readonly int Hjg.Pngcs.ImageLine.channels
-	 override string Hjg.Pngcs.ImageLine.ToString
- 52% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkHIST.cs - (13 of 25)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkHIST.PngChunkHIST
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 int [] Hjg.Pngcs.Chunks.PngChunkHIST.GetHist
-	 int [] Hjg.Pngcs.Chunks.PngChunkHIST.hist
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 override bool Hjg.Pngcs.Chunks.PngChunkSingle.Equals
-	 override int Hjg.Pngcs.Chunks.PngChunkSingle.GetHashCode
-	 readonly string Hjg.Pngcs.Chunks.PngChunkHIST.ID
-	 void Hjg.Pngcs.Chunks.PngChunkHIST.CloneData
  51% - Juniper.Root/IO/CachingStream.cs - (14 of 27)
 	 Stream Juniper.IO.CachingStream.SourceStream
 	 int Juniper.IO.CachingStream.lastRead
@@ -807,134 +571,14 @@
 	 override void Juniper.IO.CachingStream.WriteByte
  50% - Juniper.Client/Animation/TweenType.cs - (1 of 2)
 	 delegate float Juniper.Animation.TweenFunc
- 50% - Juniper/Assets/Juniper/Scripts/Extensions/UnityEngine/Android/Device.cs - (1 of 2)
-	 int UnityEngine.Android.Device.cachedAPILevel
- 50% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JBLOCK.cs - (1 of 2)
-	 internal short [] BitMiracle.LibJpeg.Classic.JBlock.data
  50% - Juniper.Client/Imaging/Png/HjgPngcsImageDataTranscoder.cs - (2 of 4)
 	 FromImageT Juniper.Imaging.IImageTranscoder< FromImageT, ToImageT >.Translate
 	 ToImageT Juniper.Imaging.IImageTranscoder< FromImageT, ToImageT >.Translate
  50% - Juniper.Client/Imaging/Jpeg/LibJpegNETImageDataTranscoder.cs - (2 of 4)
 	 FromImageT Juniper.Imaging.IImageTranscoder< FromImageT, ToImageT >.Translate
 	 ToImageT Juniper.Imaging.IImageTranscoder< FromImageT, ToImageT >.Translate
- 50% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/MyDestinationManager.cs - (6 of 12)
-	 BitMiracle.LibJpeg.Classic.Internal.MyDestinationManager.MyDestinationManager
-	 byte [] BitMiracle.LibJpeg.Classic.Internal.MyDestinationManager.m_buffer
-	 const int BitMiracle.LibJpeg.Classic.Internal.MyDestinationManager.OUTPUT_BUF_SIZE
-	 readonly JpegCompressStruct BitMiracle.LibJpeg.Classic.Internal.MyDestinationManager.m_cinfo
-	 readonly Stream BitMiracle.LibJpeg.Classic.Internal.MyDestinationManager.m_outfile
-	 void BitMiracle.LibJpeg.Classic.Internal.MyDestinationManager.WriteBuffer
- 50% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/ChunksList.cs - (9 of 18)
-	 internal Hjg.Pngcs.Chunks.ChunksList.ChunksList
-	 internal const int Hjg.Pngcs.Chunks.ChunksList.CHUNK_GROUP_0_IDHR
-	 internal const int Hjg.Pngcs.Chunks.ChunksList.CHUNK_GROUP_1_AFTERIDHR
-	 internal const int Hjg.Pngcs.Chunks.ChunksList.CHUNK_GROUP_2_PLTE
-	 internal const int Hjg.Pngcs.Chunks.ChunksList.CHUNK_GROUP_3_AFTERPLTE
-	 internal const int Hjg.Pngcs.Chunks.ChunksList.CHUNK_GROUP_4_IDAT
-	 internal const int Hjg.Pngcs.Chunks.ChunksList.CHUNK_GROUP_5_AFTERIDAT
-	 internal const int Hjg.Pngcs.Chunks.ChunksList.CHUNK_GROUP_6_END
-	 internal readonly ImageInfo Hjg.Pngcs.Chunks.ChunksList.imageInfo
- 50% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/ChunkRaw.cs - (6 of 12)
-	 int Hjg.Pngcs.Chunks.ChunkRaw.crcval
-	 internal Hjg.Pngcs.Chunks.ChunkRaw.ChunkRaw
-	 internal MemoryStream Hjg.Pngcs.Chunks.ChunkRaw.GetAsByteStream
-	 internal void Hjg.Pngcs.Chunks.ChunkRaw.WriteChunk
-	 string Hjg.Pngcs.Chunks.ChunkRaw.Id
-	 void Hjg.Pngcs.Chunks.ChunkRaw.AllocData
- 50% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkICCP.cs - (14 of 28)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkICCP.PngChunkICCP
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 byte [] Hjg.Pngcs.Chunks.PngChunkICCP.compressedProfile
-	 const string Hjg.Pngcs.Chunks.PngChunkICCP.ID
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 override bool Hjg.Pngcs.Chunks.PngChunkSingle.Equals
-	 override int Hjg.Pngcs.Chunks.PngChunkSingle.GetHashCode
-	 string Hjg.Pngcs.Chunks.PngChunkICCP.GetProfileAsString
-	 string Hjg.Pngcs.Chunks.PngChunkICCP.GetProfileName
-	 string Hjg.Pngcs.Chunks.PngChunkICCP.profileName
-	 void Hjg.Pngcs.Chunks.PngChunkICCP.CloneData
- 49% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs - (77 of 155)
-	 JpegComponentInfo [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.compInfo
-	 internal DensityUnit BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_density_unit
-	 internal JColorSpace BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_in_color_space
-	 internal JColorSpace BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_jpeg_color_space
-	 internal JDctMethod BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_dct_method
-	 internal JHuffmanTable [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_ac_huff_tbl_ptrs
-	 internal JHuffmanTable [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_dc_huff_tbl_ptrs
-	 internal JQuantTable [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_quant_tbl_ptrs
-	 internal JpegCCoefController BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_coef
-	 internal JpegCMainController BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_main
-	 internal JpegCPrepController BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_prep
-	 internal JpegColorConverter BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_cconvert
-	 internal JpegCompMaster BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_master
-	 internal JpegDestinationManager BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_dest
-	 internal JpegDownsampler BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_downsample
-	 internal JpegEntropyEncoder BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_entropy
-	 internal JpegForwardDct BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_fdct
-	 internal JpegMarkerWriter BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_marker
-	 internal JpegScanInfo [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_scan_info
-	 internal JpegScanInfo [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.scriptSpace
-	 internal bool BitMiracle.LibJpeg.Classic.JpegCompressStruct.CIR601sampling
-	 internal bool BitMiracle.LibJpeg.Classic.JpegCompressStruct.arith_code
-	 internal bool BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_progressive_mode
-	 internal bool BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_raw_data_in
-	 internal bool BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_write_Adobe_marker
-	 internal bool BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_write_JFIF_header
-	 internal bool BitMiracle.LibJpeg.Classic.JpegCompressStruct.optimizeEntropyCoding
-	 internal byte BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_JFIF_major_version
-	 internal byte BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_JFIF_minor_version
-	 internal byte [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.arith_ac_K
-	 internal byte [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.arith_dc_L
-	 internal byte [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.arith_dc_U
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.jpeg_height
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.jpeg_width
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.lim_Se
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_Ah
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_Al
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_MCU_rows_in_scan
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_MCUs_per_row
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_Se
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_Ss
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_blocks_in_MCU
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_comps_in_scan
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_data_precision
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_image_height
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_image_width
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_input_components
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_input_smoothing
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_max_h_samp_factor
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_max_v_samp_factor
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_next_scanline
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_num_components
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_num_scans
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_restart_in_rows
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_restart_interval
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_script_space_size
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_total_iMCU_rows
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.min_DCT_h_scaled_size
-	 internal int BitMiracle.LibJpeg.Classic.JpegCompressStruct.min_DCT_v_scaled_size
-	 internal int [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_MCU_membership
-	 internal int [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_cur_comp_info
-	 internal int [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.natural_order
-	 internal short BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_X_density
-	 internal short BitMiracle.LibJpeg.Classic.JpegCompressStruct.m_Y_density
-	 readonly byte [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.bits_ac_chrominance
-	 readonly byte [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.bits_ac_luminance
-	 readonly byte [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.bits_dc_chrominance
-	 readonly byte [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.bits_dc_luminance
-	 readonly byte [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.val_ac_chrominance
-	 readonly byte [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.val_ac_luminance
-	 readonly byte [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.val_dc_chrominance
-	 readonly byte [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.val_dc_luminance
-	 readonly int [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.std_chrominance_quant_tbl
-	 readonly int [] BitMiracle.LibJpeg.Classic.JpegCompressStruct.std_luminance_quant_tbl
-	 void BitMiracle.LibJpeg.Classic.JpegCompressStruct.JpegCalcJpegDimensions
-	 void BitMiracle.LibJpeg.Classic.JpegCompressStruct.JpegCalcTransDimensions
-	 void BitMiracle.LibJpeg.Classic.JpegCompressStruct.JpegSetColorspaceSetComp
-	 void BitMiracle.LibJpeg.Classic.JpegCompressStruct.ReduceScript
+ 50% - Unity Scripts/Extensions/UnityEngine/Android/Device.cs - (1 of 2)
+	 int UnityEngine.Android.Device.cachedAPILevel
  48% - Juniper.NeuroSky/MindWaveAdapter.cs - (21 of 43)
 	 bool Juniper.NeuroSky.MindWaveAdapter.DataValueChanged
 	 bool? Juniper.NeuroSky.MindWaveAdapter.EnableAutoRead
@@ -958,47 +602,7 @@
 	 string Juniper.NeuroSky.MindWaveAdapter.StreamLogFileName
 	 void Juniper.NeuroSky.MindWaveAdapter.WriteDataLog
 	 void Juniper.NeuroSky.MindWaveAdapter.WriteStreamLog
- 48% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkTIME.cs - (13 of 27)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 DateTime Hjg.Pngcs.Chunks.PngChunkTIME.timestamp
-	 Hjg.Pngcs.Chunks.PngChunkTIME.PngChunkTIME
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 const string Hjg.Pngcs.Chunks.PngChunkTIME.ID
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 int [] Hjg.Pngcs.Chunks.PngChunkTIME.GetYMDHMS
-	 internal void Hjg.Pngcs.Chunks.PngChunkTIME.SetYMDHMS
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 override bool Hjg.Pngcs.Chunks.PngChunkSingle.Equals
-	 override int Hjg.Pngcs.Chunks.PngChunkSingle.GetHashCode
-	 void Hjg.Pngcs.Chunks.PngChunkTIME.CloneData
-	 void Hjg.Pngcs.Chunks.PngChunkTIME.SetNow
- 48% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkGAMA.cs - (12 of 25)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkGAMA.PngChunkGAMA
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 const string Hjg.Pngcs.Chunks.PngChunkGAMA.ID
-	 double Hjg.Pngcs.Chunks.PngChunkGAMA.GetGamma
-	 double Hjg.Pngcs.Chunks.PngChunkGAMA.gamma
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 override bool Hjg.Pngcs.Chunks.PngChunkSingle.Equals
-	 override int Hjg.Pngcs.Chunks.PngChunkSingle.GetHashCode
-	 void Hjg.Pngcs.Chunks.PngChunkGAMA.CloneData
-	 void Hjg.Pngcs.Chunks.PngChunkGAMA.SetGamma
- 47% - Juniper.Client/ThirdParty/LibJpeg.NET/BitmapDestination.cs - (9 of 19)
-	 BitMiracle.LibJpeg.BitmapDestination.BitmapDestination
-	 LoadedImageAttributes BitMiracle.LibJpeg.BitmapDestination.m_parameters
-	 Stream BitMiracle.LibJpeg.BitmapDestination.Output
-	 byte [] BitMiracle.LibJpeg.BitmapDestination.CreateBitmapInfoHeader
-	 byte [] BitMiracle.LibJpeg.BitmapDestination.CreateBitmapV4InfoHeader
-	 byte [][] BitMiracle.LibJpeg.BitmapDestination.m_pixels
-	 int BitMiracle.LibJpeg.BitmapDestination.m_currentRow
-	 int BitMiracle.LibJpeg.BitmapDestination.m_rowWidth
-	 void BitMiracle.LibJpeg.BitmapDestination.FillBitmapInfoHeader
-	 void BitMiracle.LibJpeg.BitmapDestination.WritePixels
- 47% - Juniper/Assets/Juniper/Scripts/Widgets/MenuCollection.cs - (24 of 51)
+ 47% - Unity Scripts/Widgets/MenuCollection.cs - (24 of 51)
 	 Direction Juniper.AbstractStateController.State
 	 IEnumerator Juniper.Widgets.MenuCollection.ExitingCouroutine
 	 IEnumerator Juniper.Widgets.MenuCollection.ShowMenuViewCoroutine
@@ -1026,114 +630,6 @@
 	 void Juniper.Widgets.MenuCollection.SetReturnMenuView
 	 void Juniper.Widgets.MenuCollection.ShowMenuView
 	 void Juniper.Widgets.MenuCollection.Start
- 47% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegInputController.cs - (8 of 17)
-	 ReadResult BitMiracle.LibJpeg.Classic.Internal.JpegInputController.ConsumeInput
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegInputController.EOIReached
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegInputController.HasMultipleScans
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegInputController.m_consumeData
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegInputController.m_eoi_reached
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegInputController.m_has_multiple_scans
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegInputController.m_inheaders
-	 readonly JpegDecompressStruct BitMiracle.LibJpeg.Classic.Internal.JpegInputController.m_cinfo
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegInputController.JpegCoreOutputDimensions
- 46% - Juniper.Client/ThirdParty/LibJpeg.NET/Jpeg.cs - (6 of 13)
-	 CompressionParameters BitMiracle.LibJpeg.Jpeg.m_compressionParameters
-	 DecompressionParameters BitMiracle.LibJpeg.Jpeg.m_decompressionParameters
-	 JpegCompressStruct BitMiracle.LibJpeg.Jpeg.ClassicCompressor
-	 JpegDecompressStruct BitMiracle.LibJpeg.Jpeg.ClassicDecompressor
-	 LoadedImageAttributes BitMiracle.LibJpeg.Jpeg.getImageParametersFromDecompressor
-	 void BitMiracle.LibJpeg.Jpeg.SetMarkerProcessor
-	 void BitMiracle.LibJpeg.Jpeg.applyParameters
- 45% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs - (75 of 164)
-	 ReadResult BitMiracle.LibJpeg.Classic.JpegDecompressStruct.JpegConsumeInputInHeader
-	 internal DensityUnit BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_densityUnit
-	 internal IJpegColorQuantizer BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_cquantize
-	 internal JColorSpace BitMiracle.LibJpeg.Classic.JpegDecompressStruct.jpegColorSpace
-	 internal JColorSpace BitMiracle.LibJpeg.Classic.JpegDecompressStruct.outColorSpace
-	 internal JColorTransform BitMiracle.LibJpeg.Classic.JpegDecompressStruct.color_transform
-	 internal JDctMethod BitMiracle.LibJpeg.Classic.JpegDecompressStruct.dctMethod
-	 internal JDitherMode BitMiracle.LibJpeg.Classic.JpegDecompressStruct.ditherMode
-	 internal JHuffmanTable [] BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_ac_huff_tbl_ptrs
-	 internal JHuffmanTable [] BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_dc_huff_tbl_ptrs
-	 internal JQuantTable [] BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_quant_tbl_ptrs
-	 internal JpegColorDeconverter BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_cconvert
-	 internal JpegDCoefController BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_coef
-	 internal JpegDMainController BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_main
-	 internal JpegDPostController BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_post
-	 internal JpegDecompMaster BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_master
-	 internal JpegEntropyDecoder BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_entropy
-	 internal JpegInputController BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_inputctl
-	 internal JpegInverseDct BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_idct
-	 internal JpegMarkerReader BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_marker
-	 internal JpegSourceManager BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_src
-	 internal JpegUpSampler BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_upsample
-	 internal List<JpegMarkerStruct> BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_marker_list
-	 internal bool BitMiracle.LibJpeg.Classic.JpegDecompressStruct.arithCode
-	 internal bool BitMiracle.LibJpeg.Classic.JpegDecompressStruct.bufferedImage
-	 internal bool BitMiracle.LibJpeg.Classic.JpegDecompressStruct.doBlockSmoothing
-	 internal bool BitMiracle.LibJpeg.Classic.JpegDecompressStruct.doFancyUpsampling
-	 internal bool BitMiracle.LibJpeg.Classic.JpegDecompressStruct.enable1PassQuant
-	 internal bool BitMiracle.LibJpeg.Classic.JpegDecompressStruct.enable2PassQuant
-	 internal bool BitMiracle.LibJpeg.Classic.JpegDecompressStruct.enableExternalQuant
-	 internal bool BitMiracle.LibJpeg.Classic.JpegDecompressStruct.isBaseline
-	 internal bool BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_CCIR601_sampling
-	 internal bool BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_saw_Adobe_marker
-	 internal bool BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_saw_JFIF_marker
-	 internal bool BitMiracle.LibJpeg.Classic.JpegDecompressStruct.progressiveMode
-	 internal bool BitMiracle.LibJpeg.Classic.JpegDecompressStruct.quantizeColors
-	 internal bool BitMiracle.LibJpeg.Classic.JpegDecompressStruct.rawDataOut
-	 internal bool BitMiracle.LibJpeg.Classic.JpegDecompressStruct.twoPassQuantize
-	 internal byte BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_Adobe_transform
-	 internal byte BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_JFIF_major_version
-	 internal byte BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_JFIF_minor_version
-	 internal byte [] BitMiracle.LibJpeg.Classic.JpegDecompressStruct.arithAcK
-	 internal byte [] BitMiracle.LibJpeg.Classic.JpegDecompressStruct.arithDcL
-	 internal byte [] BitMiracle.LibJpeg.Classic.JpegDecompressStruct.arithDcU
-	 internal byte [] BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_sample_range_limit
-	 internal byte [][] BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_colormap
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.actualColorCount
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.block_size
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.desiredNumberOfColors
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.imageHeight
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.imageWidth
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.inputIMcuRow
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.inputScanNumber
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.lim_Se
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_Ah
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_Al
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_MCU_rows_in_scan
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_MCUs_per_row
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_Se
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_Ss
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_blocks_in_MCU
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_comps_in_scan
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_dataPrecision
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_maxVSampleFactor
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_max_h_samp_factor
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_restart_interval
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_sampleRangeLimitOffset
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_total_iMCU_rows
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_unreadMarker
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.min_DCT_h_scaled_size
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.min_DCT_v_scaled_size
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.numComponents
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.outColorComponents
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.outputComponents
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.outputHeight
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.outputIMcuRow
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.outputScanNumber
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.outputScanline
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.outputWidth
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.recommendOutBufferHeight
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.scaleDenom
-	 internal int BitMiracle.LibJpeg.Classic.JpegDecompressStruct.scaleNum
-	 internal int [] BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_MCU_membership
-	 internal int [] BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_cur_comp_info
-	 internal int [] BitMiracle.LibJpeg.Classic.JpegDecompressStruct.natural_order
-	 internal int [][] BitMiracle.LibJpeg.Classic.JpegDecompressStruct.coefBits
-	 internal short BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_xDensity
-	 internal short BitMiracle.LibJpeg.Classic.JpegDecompressStruct.m_yDensity
-	 void BitMiracle.LibJpeg.Classic.JpegDecompressStruct.JpegConsumeInputStart
  45% - Juniper.Unity/HSVColor.cs - (5 of 11)
 	 bool Juniper.HSVColor.Equals
 	 override bool Juniper.HSVColor.Equals
@@ -1141,71 +637,7 @@
 	 readonly Color [] Juniper.HSVColor.SkinColorsRGB
 	 readonly HSVColor [] Juniper.HSVColor.SkinColorsHSV
 	 readonly int [] Juniper.HSVColor.SkinColors
- 45% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkOFFS.cs - (14 of 31)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkOFFS.PngChunkOFFS
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 const string Hjg.Pngcs.Chunks.PngChunkOFFS.ID
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 int Hjg.Pngcs.Chunks.PngChunkOFFS.units
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 long Hjg.Pngcs.Chunks.PngChunkOFFS.GetPosX
-	 long Hjg.Pngcs.Chunks.PngChunkOFFS.GetPosY
-	 long Hjg.Pngcs.Chunks.PngChunkOFFS.posX
-	 long Hjg.Pngcs.Chunks.PngChunkOFFS.posY
-	 override bool Hjg.Pngcs.Chunks.PngChunkSingle.Equals
-	 override int Hjg.Pngcs.Chunks.PngChunkSingle.GetHashCode
-	 void Hjg.Pngcs.Chunks.PngChunkOFFS.CloneData
-	 void Hjg.Pngcs.Chunks.PngChunkOFFS.SetPosX
-	 void Hjg.Pngcs.Chunks.PngChunkOFFS.SetPosY
- 44% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkSRGB.cs - (12 of 27)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkSRGB.PngChunkSRGB
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 const int Hjg.Pngcs.Chunks.PngChunkSRGB.RENDER_INTENT_Absolute_colorimetric
-	 const int Hjg.Pngcs.Chunks.PngChunkSRGB.RENDER_INTENT_Perceptual
-	 const int Hjg.Pngcs.Chunks.PngChunkSRGB.RENDER_INTENT_Relative_colorimetric
-	 const int Hjg.Pngcs.Chunks.PngChunkSRGB.RENDER_INTENT_Saturation
-	 const string Hjg.Pngcs.Chunks.PngChunkSRGB.ID
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 int Hjg.Pngcs.Chunks.PngChunkSRGB.Intent
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 override bool Hjg.Pngcs.Chunks.PngChunkSingle.Equals
-	 override int Hjg.Pngcs.Chunks.PngChunkSingle.GetHashCode
-	 void Hjg.Pngcs.Chunks.PngChunkSRGB.CloneData
- 44% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkTRNS.cs - (15 of 34)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkTRNS.PngChunkTRNS
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 const string Hjg.Pngcs.Chunks.PngChunkTRNS.ID
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 int Hjg.Pngcs.Chunks.PngChunkTRNS.GetGray
-	 int Hjg.Pngcs.Chunks.PngChunkTRNS.blue
-	 int Hjg.Pngcs.Chunks.PngChunkTRNS.gray
-	 int Hjg.Pngcs.Chunks.PngChunkTRNS.green
-	 int Hjg.Pngcs.Chunks.PngChunkTRNS.red
-	 int [] Hjg.Pngcs.Chunks.PngChunkTRNS.GetRGB
-	 int [] Hjg.Pngcs.Chunks.PngChunkTRNS.paletteAlpha
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 override bool Hjg.Pngcs.Chunks.PngChunkSingle.Equals
-	 override int Hjg.Pngcs.Chunks.PngChunkSingle.GetHashCode
-	 void Hjg.Pngcs.Chunks.PngChunkTRNS.CloneData
-	 void Hjg.Pngcs.Chunks.PngChunkTRNS.SetGray
-	 void Hjg.Pngcs.Chunks.PngChunkTRNS.SetRGB
- 43% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegDownsampler.cs - (7 of 16)
-	 BitMiracle.LibJpeg.Classic.Internal.JpegDownsampler.JpegDownsampler
-	 DownSampleMethod
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegDownsampler.NeedContextRows
-	 readonly DownSampleMethod [] BitMiracle.LibJpeg.Classic.Internal.JpegDownsampler.m_downSamplers
-	 readonly JpegCompressStruct BitMiracle.LibJpeg.Classic.Internal.JpegDownsampler.m_cinfo
-	 readonly bool BitMiracle.LibJpeg.Classic.Internal.JpegDownsampler.m_need_context_rows
-	 readonly byte [] BitMiracle.LibJpeg.Classic.Internal.JpegDownsampler.h_expand
-	 readonly byte [] BitMiracle.LibJpeg.Classic.Internal.JpegDownsampler.v_expand
-	 readonly int [] BitMiracle.LibJpeg.Classic.Internal.JpegDownsampler.rowgroup_height
- 43% - Juniper/Assets/Juniper/Scripts/Platforms/WindowsMR/WindowsMRHaptics.cs - (7 of 16)
+ 43% - Unity Scripts/Platforms/WindowsMR/WindowsMRHaptics.cs - (7 of 16)
 	 Dictionary<ushort, SimpleHapticsControllerFeedback> Juniper.Haptics.WindowsMRHaptics.expressions
 	 SimpleHapticsController Juniper.Haptics.WindowsMRHaptics.controller
 	 SimpleHapticsControllerFeedback Juniper.Haptics.WindowsMRHaptics.buzz
@@ -1215,188 +647,24 @@
 	 async Task Juniper.Haptics.WindowsMRHaptics.GetController
 	 uint Juniper.Haptics.WindowsMRHaptics.ControllerID
 	 uint Juniper.Haptics.WindowsMRHaptics._controllerID
- 43% - Juniper.Client/ThirdParty/HjgPngcs/PngReader.cs - (26 of 60)
-	 Dictionary<string, int> Hjg.Pngcs.PngReader.skipChunkIdsSet
-	 ImageLine Hjg.Pngcs.PngReader.GetRow
-	 ImageLine Hjg.Pngcs.PngReader.ReadRowByte
-	 ImageLine Hjg.Pngcs.PngReader.ReadRowInt
-	 ImageLines Hjg.Pngcs.PngReader.ReadRowsByte
-	 ImageLines Hjg.Pngcs.PngReader.ReadRowsInt
-	 bool Hjg.Pngcs.PngReader.FirstChunksNotYetRead
-	 bool Hjg.Pngcs.PngReader.Interlaced
-	 bool Hjg.Pngcs.PngReader.IsInterlaced
-	 bool Hjg.Pngcs.PngReader.disposedValue
-	 bool Hjg.Pngcs.PngReader.unpackedMode
-	 byte [] Hjg.Pngcs.PngReader.ReadRowByte
-	 int Hjg.Pngcs.PngReader.ReadRowRaw
-	 int Hjg.Pngcs.PngReader.bytesChunksLoaded
-	 int [] Hjg.Pngcs.PngReader.ReadRow
-	 int [] Hjg.Pngcs.PngReader.ReadRowInt
-	 internal AZlibInputStream Hjg.Pngcs.PngReader.idatIstream
-	 internal PngIDatChunkInputStream Hjg.Pngcs.PngReader.iIdatCstream
-	 long Hjg.Pngcs.PngReader.offset
-	 override string Hjg.Pngcs.PngReader.ToString
-	 readonly PngDeinterlacer Hjg.Pngcs.PngReader.deinterlacer
-	 readonly Stream Hjg.Pngcs.PngReader.inputStream
-	 void Hjg.Pngcs.PngReader.Close
-	 void Hjg.Pngcs.PngReader.DecodeLastReadRowToByte
-	 void Hjg.Pngcs.PngReader.DecodeLastReadRowToInt
-	 void Hjg.Pngcs.PngReader.Dispose
-	 void Hjg.Pngcs.PngReader.ReadSkippingAllRows
-	 void Hjg.Pngcs.PngReader.SetUnpackedMode
-	 void Hjg.Pngcs.PngReader.UnfilterRow
-	 void Hjg.Pngcs.PngReader.UnfilterRowAverage
-	 void Hjg.Pngcs.PngReader.UnfilterRowNone
-	 void Hjg.Pngcs.PngReader.UnfilterRowPaeth
-	 void Hjg.Pngcs.PngReader.UnfilterRowSub
-	 void Hjg.Pngcs.PngReader.UnfilterRowUp
- 42% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegMarkerReader.cs - (15 of 35)
-	 JpegDecompressStruct.JpegMarkerParserMethod BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.m_process_COM
-	 JpegMarkerStruct BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.m_cur_marker
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.SawSOF
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.SawSOI
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.m_saw_SOF
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.m_saw_SOI
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.APP0_DATA_LEN
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.APP14_DATA_LEN
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.APPN_DATA_LEN
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.DiscardedByteCount
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.NextRestartNumber
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.m_bytes_read
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.m_discarded_bytes
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.m_length_limit_COM
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.m_next_restart_num
-	 readonly JpegDecompressStruct BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.m_cinfo
-	 readonly JpegDecompressStruct.JpegMarkerParserMethod [] BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.m_process_APPn
-	 readonly int [] BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.m_length_limit_APPn
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.JpegSaveMarkers
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegMarkerReader.SkipBytes
- 42% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkSBIT.cs - (12 of 28)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkSBIT.PngChunkSBIT
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 const string Hjg.Pngcs.Chunks.PngChunkSBIT.ID
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 int Hjg.Pngcs.Chunks.PngChunkSBIT.Alphasb
-	 int Hjg.Pngcs.Chunks.PngChunkSBIT.Bluesb
-	 int Hjg.Pngcs.Chunks.PngChunkSBIT.GetLen
-	 int Hjg.Pngcs.Chunks.PngChunkSBIT.Graysb
-	 int Hjg.Pngcs.Chunks.PngChunkSBIT.Greensb
-	 int Hjg.Pngcs.Chunks.PngChunkSBIT.Redsb
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 override bool Hjg.Pngcs.Chunks.PngChunkSingle.Equals
-	 override int Hjg.Pngcs.Chunks.PngChunkSingle.GetHashCode
-	 void Hjg.Pngcs.Chunks.PngChunkSBIT.CloneData
- 42% - Juniper.Client/ThirdParty/HjgPngcs/PngWriter.cs - (23 of 54)
-	 AZlibOutputStream Hjg.Pngcs.PngWriter.datStreamDeflated
-	 ChunksListForWrite Hjg.Pngcs.PngWriter.GetChunksList
-	 FilterWriteStrategy Hjg.Pngcs.PngWriter.filterStrat
-	 PngIDatChunkOutputStream Hjg.Pngcs.PngWriter.datStream
-	 PngMetadata Hjg.Pngcs.PngWriter.GetMetadata
-	 bool Hjg.Pngcs.PngWriter.disposedValue
-	 bool Hjg.Pngcs.PngWriter.needsPack
-	 bool Hjg.Pngcs.PngWriter.unpackedMode
-	 int Hjg.Pngcs.PngWriter.rowNum
-	 readonly Stream Hjg.Pngcs.PngWriter.outputStream
-	 readonly int [] Hjg.Pngcs.PngWriter.histox
-	 void Hjg.Pngcs.PngWriter.CopyChunksFirst
-	 void Hjg.Pngcs.PngWriter.CopyChunksLast
-	 void Hjg.Pngcs.PngWriter.Dispose
-	 void Hjg.Pngcs.PngWriter.EncodeRowFromByte
-	 void Hjg.Pngcs.PngWriter.EncodeRowFromInt
-	 void Hjg.Pngcs.PngWriter.FilterAndSend
-	 void Hjg.Pngcs.PngWriter.FilterRow
-	 void Hjg.Pngcs.PngWriter.FilterRowAverage
-	 void Hjg.Pngcs.PngWriter.FilterRowNone
-	 void Hjg.Pngcs.PngWriter.FilterRowPaeth
-	 void Hjg.Pngcs.PngWriter.FilterRowSub
-	 void Hjg.Pngcs.PngWriter.FilterRowUp
-	 void Hjg.Pngcs.PngWriter.PrepareEncodeRow
-	 void Hjg.Pngcs.PngWriter.ReportResultsForFilter
-	 void Hjg.Pngcs.PngWriter.SetUseUnPackedMode
-	 void Hjg.Pngcs.PngWriter.WriteEndChunk
-	 void Hjg.Pngcs.PngWriter.WriteFirstChunks
-	 void Hjg.Pngcs.PngWriter.WriteLastChunks
-	 void Hjg.Pngcs.PngWriter.WriteRow
-	 void Hjg.Pngcs.PngWriter.WriteRowByte
- 41% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkIHDR.cs - (12 of 29)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkIHDR.PngChunkIHDR
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 const string Hjg.Pngcs.Chunks.PngChunkIHDR.ID
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 int Hjg.Pngcs.Chunks.PngChunkIHDR.Bitspc
-	 int Hjg.Pngcs.Chunks.PngChunkIHDR.Colormodel
-	 int Hjg.Pngcs.Chunks.PngChunkIHDR.Cols
-	 int Hjg.Pngcs.Chunks.PngChunkIHDR.Compmeth
-	 int Hjg.Pngcs.Chunks.PngChunkIHDR.Filmeth
-	 int Hjg.Pngcs.Chunks.PngChunkIHDR.Interlaced
-	 int Hjg.Pngcs.Chunks.PngChunkIHDR.Rows
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 override bool Hjg.Pngcs.Chunks.PngChunkSingle.Equals
-	 override int Hjg.Pngcs.Chunks.PngChunkSingle.GetHashCode
-	 void Hjg.Pngcs.Chunks.PngChunkIHDR.CloneData
- 41% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/My1PassCQuantizer.cs - (14 of 34)
-	 QuantizerType
-	 QuantizerType BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.m_quantizer
-	 bool BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.m_is_padded
-	 bool BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.m_on_odd_row
-	 byte [][] BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.m_colorindex
-	 byte [][] BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.m_sv_colormap
-	 const int BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.MAX_Q_COMPS
-	 const int BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.ODITHER_CELLS
-	 const int BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.ODITHER_MASK
-	 const int BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.ODITHER_SIZE
-	 int BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.m_row_index
-	 int BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.m_sv_actual
-	 int [] BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.m_colorindexOffset
-	 readonly JpegDecompressStruct BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.m_cinfo
-	 readonly byte [][] BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.base_dither_matrix
-	 readonly int [] BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.RGB_order
-	 readonly int [] BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.m_Ncolors
-	 readonly int [][][] BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.m_odither
-	 readonly short [][] BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.m_fserrors
-	 virtual void BitMiracle.LibJpeg.Classic.Internal.My1PassCQuantizer.ColorQuantize
  40% - Juniper.Client/Imaging/Jpeg/LibJpegNETCodec.cs - (2 of 5)
 	 Juniper.Imaging.LibJpegNETCodec.LibJpegNETCodec
 	 MediaType.Image Juniper.Imaging.LibJpegNETCodec.ContentType
 	 readonly CompressionParameters Juniper.Imaging.LibJpegNETCodec.compressionParams
- 40% - Juniper/Assets/Juniper/Scripts/Widgets/AbstractFollowSettings.cs - (4 of 10)
+ 40% - Unity Scripts/Widgets/AbstractFollowSettings.cs - (4 of 10)
 	 CartesianAxisFlags Juniper.Widgets.AbstractFollowSettings.FollowPosition
 	 bool Juniper.Widgets.AbstractFollowSettings.interpolatePosition
 	 bool Juniper.Widgets.AbstractFollowSettings.interpolateRotation
 	 float Juniper.Widgets.AbstractFollowSettings.maxRotationRate
 	 float Juniper.Widgets.AbstractFollowSettings.maxSpeed
 	 void Juniper.Widgets.AbstractFollowSettings.Copy
- 38% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/AbstractPngChunkTextVar.cs - (12 of 31)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.AbstractPngChunkTextVar
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Author
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Comment
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Copyright
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Creation_Time
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Description
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Disclaimer
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Software
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Source
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Title
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Warning
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 internal string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.Key
-	 internal string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.Val
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 void Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.SetKeyVal
  37% - Juniper.Root/Compression/Tar/TarArchiveEntry.cs - (3 of 8)
 	 Stream Juniper.Compression.Tar.TarArchiveEntry.Open
 	 bool Juniper.Compression.Tar.TarArchiveEntry.disposedValue
 	 long Juniper.Compression.Tar.TarArchiveEntry.Length
 	 readonly MemoryStream Juniper.Compression.Tar.TarArchiveEntry.copy
 	 void Juniper.Compression.Tar.TarArchiveEntry.Dispose
- 37% - Juniper/Assets/Juniper/Scripts/Widgets/QualityDegrader.cs - (6 of 16)
+ 37% - Unity Scripts/Widgets/QualityDegrader.cs - (6 of 16)
 	 DisplayManager Juniper.Widgets.QualityDegrader.display
 	 TerrainManager Juniper.Widgets.QualityDegrader.ground
 	 bool Juniper.Widgets.QualityDegrader.collectStats
@@ -1407,106 +675,7 @@
 	 void Juniper.Widgets.QualityDegrader.OnApplicationPause
 	 void Juniper.Widgets.QualityDegrader.Pause
 	 void Juniper.Widgets.QualityDegrader.Resume
- 37% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegComponentInfo.cs - (9 of 24)
-	 internal BitMiracle.LibJpeg.Classic.JpegComponentInfo.JpegComponentInfo
-	 internal JQuantTable BitMiracle.LibJpeg.Classic.JpegComponentInfo.quant_table
-	 internal bool BitMiracle.LibJpeg.Classic.JpegComponentInfo.component_needed
-	 internal int BitMiracle.LibJpeg.Classic.JpegComponentInfo.DCT_h_scaled_size
-	 internal int BitMiracle.LibJpeg.Classic.JpegComponentInfo.DCT_v_scaled_size
-	 internal int BitMiracle.LibJpeg.Classic.JpegComponentInfo.MCU_blocks
-	 internal int BitMiracle.LibJpeg.Classic.JpegComponentInfo.MCU_height
-	 internal int BitMiracle.LibJpeg.Classic.JpegComponentInfo.MCU_sample_width
-	 internal int BitMiracle.LibJpeg.Classic.JpegComponentInfo.MCU_width
-	 internal int BitMiracle.LibJpeg.Classic.JpegComponentInfo.downsampled_height
-	 internal int BitMiracle.LibJpeg.Classic.JpegComponentInfo.downsampled_width
-	 internal int BitMiracle.LibJpeg.Classic.JpegComponentInfo.height_in_blocks
-	 internal int BitMiracle.LibJpeg.Classic.JpegComponentInfo.last_col_width
-	 internal int BitMiracle.LibJpeg.Classic.JpegComponentInfo.last_row_height
-	 internal void BitMiracle.LibJpeg.Classic.JpegComponentInfo.Assign
- 37% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkCHRM.cs - (12 of 32)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkCHRM.PngChunkCHRM
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 const string Hjg.Pngcs.Chunks.PngChunkCHRM.ID
-	 double Hjg.Pngcs.Chunks.PngChunkCHRM.bluex
-	 double Hjg.Pngcs.Chunks.PngChunkCHRM.bluey
-	 double Hjg.Pngcs.Chunks.PngChunkCHRM.greenx
-	 double Hjg.Pngcs.Chunks.PngChunkCHRM.greeny
-	 double Hjg.Pngcs.Chunks.PngChunkCHRM.redx
-	 double Hjg.Pngcs.Chunks.PngChunkCHRM.redy
-	 double Hjg.Pngcs.Chunks.PngChunkCHRM.whitex
-	 double Hjg.Pngcs.Chunks.PngChunkCHRM.whitey
-	 double [] Hjg.Pngcs.Chunks.PngChunkCHRM.GetChromaticities
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 override bool Hjg.Pngcs.Chunks.PngChunkSingle.Equals
-	 override int Hjg.Pngcs.Chunks.PngChunkSingle.GetHashCode
-	 void Hjg.Pngcs.Chunks.PngChunkCHRM.CloneData
-	 void Hjg.Pngcs.Chunks.PngChunkCHRM.SetChromaticities
- 36% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkTEXT.cs - (12 of 33)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkTEXT.PngChunkTEXT
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Author
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Comment
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Copyright
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Creation_Time
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Description
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Disclaimer
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Software
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Source
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Title
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Warning
-	 const string Hjg.Pngcs.Chunks.PngChunkTEXT.ID
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 internal string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.Key
-	 internal string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.Val
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 void Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.SetKeyVal
-	 void Hjg.Pngcs.Chunks.PngChunkTEXT.CloneData
- 36% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/MyTransCCoefController.cs - (4 of 11)
-	 int BitMiracle.LibJpeg.Classic.Internal.MyTransCCoefController.m_MCU_rows_per_iMCU_row
-	 int BitMiracle.LibJpeg.Classic.Internal.MyTransCCoefController.m_MCU_vert_offset
-	 int BitMiracle.LibJpeg.Classic.Internal.MyTransCCoefController.m_iMCU_row_num
-	 int BitMiracle.LibJpeg.Classic.Internal.MyTransCCoefController.m_mcu_ctr
-	 readonly JBlock [][] BitMiracle.LibJpeg.Classic.Internal.MyTransCCoefController.m_dummy_buffer
-	 readonly JVirtArray<JBlock> [] BitMiracle.LibJpeg.Classic.Internal.MyTransCCoefController.m_whole_image
-	 readonly JpegCompressStruct BitMiracle.LibJpeg.Classic.Internal.MyTransCCoefController.m_cinfo
- 36% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkZTXT.cs - (12 of 33)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkZTXT.PngChunkZTXT??
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Author
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Comment
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Copyright
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Creation_Time
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Description
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Disclaimer
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Software
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Source
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Title
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Warning
-	 const string Hjg.Pngcs.Chunks.PngChunkZTXT.ID
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 internal string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.Key
-	 internal string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.Val
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 void Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.SetKeyVal
-	 void Hjg.Pngcs.Chunks.PngChunkZTXT.CloneData
- 35% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegDPostController.cs - (5 of 14)
-	 ProcessorType
-	 ProcessorType BitMiracle.LibJpeg.Classic.Internal.JpegDPostController.m_processor
-	 byte [][] BitMiracle.LibJpeg.Classic.Internal.JpegDPostController.m_buffer
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegDPostController.m_next_row
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegDPostController.m_starting_row
-	 readonly JVirtArray<byte> BitMiracle.LibJpeg.Classic.Internal.JpegDPostController.m_whole_image
-	 readonly JpegDecompressStruct BitMiracle.LibJpeg.Classic.Internal.JpegDPostController.m_cinfo
-	 readonly int BitMiracle.LibJpeg.Classic.Internal.JpegDPostController.m_strip_height
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegDPostController.PostProcessData
- 35% - Juniper/Assets/Juniper/Scripts/Speech/Keywordable.cs - (5 of 14)
+ 35% - Unity Scripts/Speech/Keywordable.cs - (5 of 14)
 	 UnifiedInputModule Juniper.Input.AbstractShortcutable.input
 	 bool Juniper.Input.AbstractShortcutable.interactable
 	 override bool Juniper.Speech.Keywordable.IsInteractable
@@ -1519,178 +688,29 @@
  33% - Juniper.GoogleMaps/Geocoding/AddressComponentTypes.cs - (1 of 3)
 	 GeometryLocationType
 	 LocationType
- 33% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JQuantTable.cs - (1 of 3)
-	 internal BitMiracle.LibJpeg.Classic.JQuantTable.JQuantTable
-	 internal readonly short [] BitMiracle.LibJpeg.Classic.JQuantTable.quantBal
- 33% - Juniper/Assets/Juniper/Scripts/Input/AbstractVelocityLocomotion.cs - (2 of 6)
+ 33% - Juniper.Root/ErrorEventArgs.cs - (1 of 3)
+	 T Juniper.EventArgs< T >.Value
+	 override string Juniper.ErrorEventArgs.ToString
+ 33% - Unity Scripts/Input/AbstractVelocityLocomotion.cs - (2 of 6)
 	 Avatar Juniper.Input.AbstractVelocityLocomotion.stage
 	 UnifiedInputModule Juniper.Input.AbstractVelocityLocomotion.input
 	 const float Juniper.Input.AbstractVelocityLocomotion.MOVEMENT_SCALE
 	 float Juniper.Input.AbstractVelocityLocomotion.jink
- 33% - Juniper.Root/ErrorEventArgs.cs - (1 of 3)
-	 T Juniper.EventArgs< T >.Value
-	 override string Juniper.ErrorEventArgs.ToString
- 33% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/ChunkPredicateId.cs - (1 of 3)
-	 Hjg.Pngcs.Chunks.ChunkPredicateId.ChunkPredicateId
-	 readonly string Hjg.Pngcs.Chunks.ChunkPredicateId.id
  33% - Juniper.UnityEditor/SerializedPropertyExt.cs - (1 of 3)
 	 FieldInfo Juniper.SerializedPropertyExt.Field
 	 FieldInfo object Juniper.SerializedPropertyExt.Object
- 33% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegDecompMaster.cs - (4 of 12)
-	 BitMiracle.LibJpeg.Classic.Internal.JpegDecompMaster.JpegDecompMaster
-	 IJpegColorQuantizer BitMiracle.LibJpeg.Classic.Internal.JpegDecompMaster.m_quantizer_1pass
-	 IJpegColorQuantizer BitMiracle.LibJpeg.Classic.Internal.JpegDecompMaster.m_quantizer_2pass
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegDecompMaster.IsDummyPass
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegDecompMaster.m_is_dummy_pass
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegDecompMaster.m_using_merged_upsample
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegDecompMaster.m_pass_number
-	 readonly JpegDecompressStruct BitMiracle.LibJpeg.Classic.Internal.JpegDecompMaster.m_cinfo
  33% - Juniper.Client/Imaging/Png/HjgPngcsCodec.cs - (2 of 6)
 	 Juniper.Imaging.HjgPngcsCodec.HjgPngcsCodec
 	 MediaType.Image Juniper.Imaging.HjgPngcsCodec.ContentType
 	 readonly int Juniper.Imaging.HjgPngcsCodec.IDATMaxSize
 	 readonly int Juniper.Imaging.HjgPngcsCodec.compressionLevel
- 32% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegColorDeconverter.cs - (10 of 31)
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.B_Y_OFF
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.G_Y_OFF
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.ONE_HALF
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.R_Y_OFF
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.SCALEBITS
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.TABLE_SIZE
-	 delegate void BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.color_convert_func
-	 int [] BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.m_Cb_b_tab
-	 int [] BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.m_Cb_g_tab
-	 int [] BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.m_Cr_g_tab
-	 int [] BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.m_Cr_r_tab
-	 int [] BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.m_perComponentOffsets
-	 int [] BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.rgb_y_tab
-	 readonly JpegDecompressStruct BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.m_cinfo
-	 readonly color_convert_func BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.m_converter
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.BuildRgbYTable
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.Rgb1GrayConvert
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.Rgb1RgbConvert
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.RgbConvert
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.RgbGrayConvert
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegColorDeconverter.YccRgbConvert
- 32% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegDMainController.cs - (8 of 25)
-	 BitMiracle.LibJpeg.Classic.Internal.JpegDMainController.JpegDMainController
-	 DataProcessor
-	 DataProcessor BitMiracle.LibJpeg.Classic.Internal.JpegDMainController.m_dataProcessor
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegDMainController.m_buffer_full
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegDMainController.CTX_POSTPONED_ROW
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegDMainController.CTX_PREPARE_FOR_IMCU
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegDMainController.CTX_PROCESS_IMCU
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegDMainController.m_context_state
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegDMainController.m_iMCU_row_ctr
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegDMainController.m_rowgroup_ctr
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegDMainController.m_rowgroups_avail
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegDMainController.m_whichFunny
-	 readonly JpegDecompressStruct BitMiracle.LibJpeg.Classic.Internal.JpegDMainController.m_cinfo
-	 readonly byte [][][] BitMiracle.LibJpeg.Classic.Internal.JpegDMainController.m_buffer
-	 readonly int [] BitMiracle.LibJpeg.Classic.Internal.JpegDMainController.m_funnyOffsets
-	 readonly int [][][] BitMiracle.LibJpeg.Classic.Internal.JpegDMainController.m_funnyIndices
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegDMainController.ProcessData
- 30% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegCPrepController.cs - (4 of 13)
-	 BitMiracle.LibJpeg.Classic.Internal.JpegCPrepController.JpegCPrepController
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegCPrepController.colorBufRowsOffset
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegCPrepController.nextBufRow
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegCPrepController.nextBufStop
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegCPrepController.rowsToGo
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegCPrepController.thisRowGroup
-	 readonly JpegCompressStruct BitMiracle.LibJpeg.Classic.Internal.JpegCPrepController.cinfo
-	 readonly byte [][][] BitMiracle.LibJpeg.Classic.Internal.JpegCPrepController.colorBuf
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegCPrepController.PreProcessData
- 30% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/MyMergedUpSampler.cs - (7 of 23)
-	 BitMiracle.LibJpeg.Classic.Internal.MyMergedUpSampler.MyMergedUpSampler
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegUpSampler.NeedContextRows
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegUpSampler.m_need_context_rows
-	 bool BitMiracle.LibJpeg.Classic.Internal.MyMergedUpSampler.m_spare_full
-	 const int BitMiracle.LibJpeg.Classic.Internal.MyMergedUpSampler.ONE_HALF
-	 const int BitMiracle.LibJpeg.Classic.Internal.MyMergedUpSampler.SCALEBITS
-	 int BitMiracle.LibJpeg.Classic.Internal.MyMergedUpSampler.m_rows_to_go
-	 int [] BitMiracle.LibJpeg.Classic.Internal.MyMergedUpSampler.m_Cb_b_tab
-	 int [] BitMiracle.LibJpeg.Classic.Internal.MyMergedUpSampler.m_Cb_g_tab
-	 int [] BitMiracle.LibJpeg.Classic.Internal.MyMergedUpSampler.m_Cr_g_tab
-	 int [] BitMiracle.LibJpeg.Classic.Internal.MyMergedUpSampler.m_Cr_r_tab
-	 override void BitMiracle.LibJpeg.Classic.Internal.MyMergedUpSampler.UpSample
-	 readonly JpegDecompressStruct BitMiracle.LibJpeg.Classic.Internal.MyMergedUpSampler.m_cinfo
-	 readonly bool BitMiracle.LibJpeg.Classic.Internal.MyMergedUpSampler.m_use_2v_upsample
-	 readonly byte [] BitMiracle.LibJpeg.Classic.Internal.MyMergedUpSampler.m_spare_row
-	 readonly int BitMiracle.LibJpeg.Classic.Internal.MyMergedUpSampler.m_out_row_width
- 30% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/My2PassCQuantizer.cs - (15 of 50)
-	 QuantizerType
-	 QuantizerType BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.m_quantizer
-	 bool BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.m_needs_zeroed
-	 bool BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.m_on_odd_row
-	 bool BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.m_useFinishPass1
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.BOX_C0_ELEMS
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.BOX_C0_LOG
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.BOX_C0_SHIFT
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.BOX_C1_ELEMS
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.BOX_C1_LOG
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.BOX_C1_SHIFT
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.BOX_C2_ELEMS
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.BOX_C2_LOG
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.BOX_C2_SHIFT
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.B_SCALE
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.C0_SHIFT
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.C1_SHIFT
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.C2_SHIFT
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.G_SCALE
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.HIST_C0_BITS
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.HIST_C0_ELEMS
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.HIST_C1_BITS
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.HIST_C1_ELEMS
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.HIST_C2_BITS
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.HIST_C2_ELEMS
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.MAXNUMCOLORS
-	 const int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.R_SCALE
-	 int [] BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.m_error_limiter
-	 readonly JpegDecompressStruct BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.m_cinfo
-	 readonly byte [][] BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.m_sv_colormap
-	 readonly int BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.m_desired
-	 readonly ushort [][] BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.m_histogram
-	 short [] BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.m_fserrors
-	 virtual void BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.ColorQuantize
-	 virtual void BitMiracle.LibJpeg.Classic.Internal.My2PassCQuantizer.FinishPass
- 28% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/PngChunkITXT.cs - (12 of 42)
-	 ChunkRaw Hjg.Pngcs.Chunks.AbstractPngChunk.CreateEmptyChunk
-	 Hjg.Pngcs.Chunks.PngChunkITXT.PngChunkITXT
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Pub
-	 bool Hjg.Pngcs.Chunks.AbstractPngChunk.Safe
-	 bool Hjg.Pngcs.Chunks.PngChunkITXT.IsCompressed
-	 bool Hjg.Pngcs.Chunks.PngChunkITXT.compressed
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Author
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Comment
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Copyright
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Creation_Time
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Description
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Disclaimer
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Software
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Source
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Title
-	 const string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.KEY_Warning
-	 const string Hjg.Pngcs.Chunks.PngChunkITXT.ID
-	 int Hjg.Pngcs.Chunks.AbstractPngChunk.Length
-	 internal string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.Key
-	 internal string Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.Val
-	 long Hjg.Pngcs.Chunks.AbstractPngChunk.Offset
-	 string Hjg.Pngcs.Chunks.PngChunkITXT.GetLangtag
-	 string Hjg.Pngcs.Chunks.PngChunkITXT.GetTranslatedTag
-	 string Hjg.Pngcs.Chunks.PngChunkITXT.langTag
-	 string Hjg.Pngcs.Chunks.PngChunkITXT.translatedTag
-	 void Hjg.Pngcs.Chunks.AbstractPngChunkTextVar.SetKeyVal
-	 void Hjg.Pngcs.Chunks.PngChunkITXT.CloneData
-	 void Hjg.Pngcs.Chunks.PngChunkITXT.SetCompressed
-	 void Hjg.Pngcs.Chunks.PngChunkITXT.SetLangtag
-	 void Hjg.Pngcs.Chunks.PngChunkITXT.SetTranslatedTag
- 28% - Juniper/Assets/Juniper/Scripts/Input/RunningMovement.cs - (2 of 7)
+ 28% - Unity Scripts/Input/RunningMovement.cs - (2 of 7)
 	 Avatar Juniper.Input.AbstractVelocityLocomotion.stage
 	 UnifiedInputModule Juniper.Input.AbstractVelocityLocomotion.input
 	 const float Juniper.Input.AbstractVelocityLocomotion.MOVEMENT_SCALE
 	 float Juniper.Input.AbstractVelocityLocomotion.jink
 	 void Juniper.Input.RunningMovement.Update
- 28% - Juniper/Assets/Juniper/Scripts/Widgets/FollowPlatformSettings.cs - (4 of 14)
+ 28% - Unity Scripts/Widgets/FollowPlatformSettings.cs - (4 of 14)
 	 CartesianAxisFlags Juniper.Widgets.AbstractFollowSettings.FollowPosition
 	 FollowObject Juniper.Widgets.FollowPlatformSettings.f
 	 PlatformType Juniper.Widgets.FollowPlatformSettings.platform
@@ -1701,29 +721,7 @@
 	 void Juniper.Widgets.AbstractFollowSettings.Copy
 	 void Juniper.Widgets.FollowPlatformSettings.Awake
 	 void Juniper.Widgets.FollowPlatformSettings.OnValidate
- 27% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegDCoefController.cs - (8 of 29)
-	 BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.JpegDCoefController
-	 DecompressorType
-	 DecompressorType BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.m_decompressor
-	 JVirtArray<JBlock> [] BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.GetCoefArrays
-	 ReadResult BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.DecompressData
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.Q01_POS
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.Q02_POS
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.Q10_POS
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.Q11_POS
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.Q20_POS
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.SAVED_COEFS
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.m_MCU_ctr
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.m_MCU_rows_per_iMCU_row
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.m_MCU_vert_offset
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.m_coef_bits_savedOffset
-	 int [] BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.m_coef_bits_latch
-	 readonly JBlock [] BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.m_MCU_buffer
-	 readonly JVirtArray<JBlock> [] BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.m_coef_arrays
-	 readonly JVirtArray<JBlock> [] BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.m_whole_image
-	 readonly JpegDecompressStruct BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.m_cinfo
-	 readonly bool BitMiracle.LibJpeg.Classic.Internal.JpegDCoefController.m_useDummyConsumeData
- 27% - Juniper/Assets/Juniper/Scripts/Widgets/FollowObject.cs - (8 of 29)
+ 27% - Unity Scripts/Widgets/FollowObject.cs - (8 of 29)
 	 CartesianAxisFlags Juniper.Widgets.AbstractFollowSettings.FollowPosition
 	 Quaternion Juniper.Widgets.FollowObject.NextRotation
 	 Vector3 Juniper.Widgets.FollowObject.GetEndPosition
@@ -1745,24 +743,7 @@
 	 void Juniper.Widgets.FollowObject.SkipToPosition
 	 void Juniper.Widgets.FollowObject.SkipToRotation
 	 void Juniper.Widgets.FollowObject.Update
- 27% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/MyUpSampler.cs - (6 of 22)
-	 BitMiracle.LibJpeg.Classic.Internal.MyUpSampler.MyUpSampler
-	 ComponentUpsampler
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegUpSampler.NeedContextRows
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegUpSampler.m_need_context_rows
-	 int BitMiracle.LibJpeg.Classic.Internal.MyUpSampler.m_currentComponent
-	 int BitMiracle.LibJpeg.Classic.Internal.MyUpSampler.m_next_row_out
-	 int BitMiracle.LibJpeg.Classic.Internal.MyUpSampler.m_rows_to_go
-	 int BitMiracle.LibJpeg.Classic.Internal.MyUpSampler.m_upsampleRowOffset
-	 readonly ComponentBuffer [] BitMiracle.LibJpeg.Classic.Internal.MyUpSampler.m_color_buf
-	 readonly ComponentUpsampler [] BitMiracle.LibJpeg.Classic.Internal.MyUpSampler.m_upsampleMethods
-	 readonly JpegDecompressStruct BitMiracle.LibJpeg.Classic.Internal.MyUpSampler.m_cinfo
-	 readonly byte [] BitMiracle.LibJpeg.Classic.Internal.MyUpSampler.m_h_expand
-	 readonly byte [] BitMiracle.LibJpeg.Classic.Internal.MyUpSampler.m_v_expand
-	 readonly int [] BitMiracle.LibJpeg.Classic.Internal.MyUpSampler.m_perComponentOffsets
-	 readonly int [] BitMiracle.LibJpeg.Classic.Internal.MyUpSampler.m_rowgroup_height
-	 void BitMiracle.LibJpeg.Classic.Internal.MyUpSampler.UpSampleComponent
- 26% - Juniper/Assets/Juniper/Scripts/World/GIS/Google/AbstractGoogleStreetView.cs - (24 of 92)
+ 26% - Unity Scripts/World/GIS/Google/AbstractGoogleStreetView.cs - (24 of 92)
 	 Avatar Juniper.World.GIS.Google.AbstractGoogleStreetView< MetadataTypeT >.avatar
 	 CachingStrategy Juniper.World.GIS.Google.AbstractGoogleStreetView< MetadataTypeT >.cache
 	 Clickable Juniper.World.GIS.Google.AbstractGoogleStreetView< MetadataTypeT >.navPlane
@@ -1831,7 +812,7 @@
 	 void Juniper.World.GIS.Google.AbstractGoogleStreetView< MetadataTypeT >.SetLocation
 	 void Juniper.World.GIS.Google.AbstractGoogleStreetView< MetadataTypeT >.SyncData
 	 void Juniper.World.GIS.Google.AbstractGoogleStreetView< MetadataTypeT >.Update
- 25% - Juniper/Assets/Juniper/Scripts/Display/AbstractPassthroughDisplayManager.cs - (8 of 31)
+ 25% - Unity Scripts/Platforms/ARKit/ARKitDisplayManager.cs - (8 of 31)
 	 ARModeEvent Juniper.Display.AbstractDisplayManager.onARModeChange
 	 Camera Juniper.Display.AbstractDisplayManager.EventCamera
 	 Camera Juniper.Display.AbstractDisplayManager.MainCamera
@@ -1855,7 +836,7 @@
 	 void Juniper.Display.AbstractDisplayManager.StartXRDisplay
 	 void Juniper.Display.AbstractDisplayManager.StopAR
 	 void Juniper.Display.AbstractDisplayManager.StopXRDisplay
- 25% - Juniper/Assets/Juniper/Scripts/Platforms/ARKit/ARKitDisplayManager.cs - (8 of 31)
+ 25% - Unity Scripts/Display/AbstractPassthroughDisplayManager.cs - (8 of 31)
 	 ARModeEvent Juniper.Display.AbstractDisplayManager.onARModeChange
 	 Camera Juniper.Display.AbstractDisplayManager.EventCamera
 	 Camera Juniper.Display.AbstractDisplayManager.MainCamera
@@ -1879,50 +860,7 @@
 	 void Juniper.Display.AbstractDisplayManager.StartXRDisplay
 	 void Juniper.Display.AbstractDisplayManager.StopAR
 	 void Juniper.Display.AbstractDisplayManager.StopXRDisplay
- 25% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegColorConverter.cs - (7 of 28)
-	 BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.JpegColorConverter
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.B_CB_OFF
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.B_CR_OFF
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.B_Y_OFF
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.CBCR_OFFSET
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.G_CB_OFF
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.G_CR_OFF
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.G_Y_OFF
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.ONE_HALF
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.R_CB_OFF
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.R_CR_OFF
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.R_Y_OFF
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.SCALEBITS
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.TABLE_SIZE
-	 int [] BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.m_rgb_ycc_tab
-	 internal delegate void BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.ConvertMethod
-	 readonly JpegCompressStruct BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.m_cinfo
-	 readonly bool BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.m_useNullStart
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.RgbConvert
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.RgbRgb1Convert
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegColorConverter.StartPass
- 25% - Juniper.Client/ThirdParty/HjgPngcs/ImageLines.cs - (4 of 16)
-	 Hjg.Pngcs.ImageLines.ImageLines
-	 ImageInfo Hjg.Pngcs.ImageLines.ImgInfo
-	 ImageLine.ESampleType Hjg.Pngcs.ImageLines.SampleType
-	 bool Hjg.Pngcs.ImageLines.SamplesUnpacked
-	 byte [][] Hjg.Pngcs.ImageLines.ScanlinesB
-	 int Hjg.Pngcs.ImageLines.BitDepth
-	 int Hjg.Pngcs.ImageLines.Channels
-	 int Hjg.Pngcs.ImageLines.ElementsPerRow
-	 int Hjg.Pngcs.ImageLines.Nrows
-	 int Hjg.Pngcs.ImageLines.RowOffset
-	 int Hjg.Pngcs.ImageLines.RowStep
-	 int [][] Hjg.Pngcs.ImageLines.Scanlines
- 25% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/ChunkPredicateId2.cs - (1 of 4)
-	 Hjg.Pngcs.Chunks.ChunkPredicateId2.ChunkPredicateId2
-	 readonly string Hjg.Pngcs.Chunks.ChunkPredicateId2.id
-	 readonly string Hjg.Pngcs.Chunks.ChunkPredicateId2.innerid
- 25% - Juniper.Root/IO/ProgressEventer.cs - (1 of 4)
-	 EventHandler<EventArgs> Juniper.IO.ProgressEventer.ProgressUpdated
-	 float Juniper.IO.ProgressEventer.Progress
-	 string Juniper.IO.ProgressEventer.Status
- 25% - Juniper/Assets/Juniper/Scripts/Input/Keyboardable.cs - (3 of 12)
+ 25% - Unity Scripts/Input/Keyboardable.cs - (3 of 12)
 	 KeyCode Juniper.Input.Keyboardable.KeyCode
 	 UnifiedInputModule Juniper.Input.AbstractShortcutable.input
 	 bool Juniper.Input.AbstractShortcutable.interactable
@@ -1932,10 +870,10 @@
 	 virtual void Juniper.Input.AbstractShortcutable.Awake
 	 virtual void Juniper.Input.AbstractShortcutable.Update
 	 void Juniper.Input.AbstractShortcutable.ActivateEvent
- 25% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JHuffmanTable.cs - (1 of 4)
-	 internal BitMiracle.LibJpeg.Classic.JHuffmanTable.JHuffmanTable
-	 internal byte [] BitMiracle.LibJpeg.Classic.JHuffmanTable.Bits
-	 internal byte [] BitMiracle.LibJpeg.Classic.JHuffmanTable.Huffval
+ 25% - Juniper.Root/IO/ProgressEventer.cs - (1 of 4)
+	 EventHandler<EventArgs> Juniper.IO.ProgressEventer.ProgressUpdated
+	 float Juniper.IO.ProgressEventer.Progress
+	 string Juniper.IO.ProgressEventer.Status
  22% - Juniper.Root/Puzzles/TetrisGame.cs - (17 of 74)
 	 EventHandler Juniper.Puzzles.TetrisGame.Flip
 	 EventHandler Juniper.Puzzles.TetrisGame.Thump
@@ -2054,23 +992,7 @@
 	 readonly byte [] Juniper.HTTP.Server.CIDRBlock.endBytes
 	 readonly byte [] Juniper.HTTP.Server.CIDRBlock.startBytes
 	 void Juniper.HTTP.Server.CIDRBlock.ValidateOther
- 21% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegCompMaster.cs - (4 of 19)
-	 BitMiracle.LibJpeg.Classic.Internal.JpegCompMaster.JpegCompMaster
-	 PassType
-	 PassType BitMiracle.LibJpeg.Classic.Internal.JpegCompMaster.m_pass_type
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegCompMaster.IsLastPass
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegCompMaster.MustCallPassStartup
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegCompMaster.PrepareForHuffmanOptimizationPass
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegCompMaster.m_call_pass_startup
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegCompMaster.m_is_last_pass
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegCompMaster.m_pass_number
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegCompMaster.m_scan_number
-	 readonly JpegCompressStruct BitMiracle.LibJpeg.Classic.Internal.JpegCompMaster.m_cinfo
-	 readonly int BitMiracle.LibJpeg.Classic.Internal.JpegCompMaster.m_total_passes
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegCompMaster.PrepareForMainPass
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegCompMaster.PrepareForOutputPass
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegCompMaster.SelectScanParameters
- 20% - Juniper/Assets/Juniper/Scripts/Display/AbstractDisplayManager.cs - (6 of 29)
+ 20% - Unity Scripts/Platforms/ViveFocus/ViveFocusDisplayManager.cs - (6 of 29)
 	 ARModeEvent Juniper.Display.AbstractDisplayManager.onARModeChange
 	 Camera Juniper.Display.AbstractDisplayManager.EventCamera
 	 Camera Juniper.Display.AbstractDisplayManager.MainCamera
@@ -2094,7 +1016,7 @@
 	 void Juniper.Display.AbstractDisplayManager.StartXRDisplay
 	 void Juniper.Display.AbstractDisplayManager.StopAR
 	 void Juniper.Display.AbstractDisplayManager.StopXRDisplay
- 20% - Juniper/Assets/Juniper/Scripts/Platforms/ViveFocus/ViveFocusDisplayManager.cs - (6 of 29)
+ 20% - Unity Scripts/Display/AbstractDisplayManager.cs - (6 of 29)
 	 ARModeEvent Juniper.Display.AbstractDisplayManager.onARModeChange
 	 Camera Juniper.Display.AbstractDisplayManager.EventCamera
 	 Camera Juniper.Display.AbstractDisplayManager.MainCamera
@@ -2118,35 +1040,6 @@
 	 void Juniper.Display.AbstractDisplayManager.StartXRDisplay
 	 void Juniper.Display.AbstractDisplayManager.StopAR
 	 void Juniper.Display.AbstractDisplayManager.StopXRDisplay
- 20% - Juniper.Client/ThirdParty/HjgPngcs/PngDeinterlacer.cs - (7 of 35)
-	 byte [][] Hjg.Pngcs.PngDeinterlacer.imageByte
-	 int Hjg.Pngcs.PngDeinterlacer.cols
-	 int Hjg.Pngcs.PngDeinterlacer.currRowReal
-	 int Hjg.Pngcs.PngDeinterlacer.currRowSubimg
-	 int Hjg.Pngcs.PngDeinterlacer.dX
-	 int Hjg.Pngcs.PngDeinterlacer.dXsamples
-	 int Hjg.Pngcs.PngDeinterlacer.dY
-	 int Hjg.Pngcs.PngDeinterlacer.oX
-	 int Hjg.Pngcs.PngDeinterlacer.oXsamples
-	 int Hjg.Pngcs.PngDeinterlacer.oY
-	 int Hjg.Pngcs.PngDeinterlacer.pass
-	 int Hjg.Pngcs.PngDeinterlacer.rows
-	 int [][] Hjg.Pngcs.PngDeinterlacer.imageInt
-	 internal Hjg.Pngcs.PngDeinterlacer.PngDeinterlacer
-	 internal byte [][] Hjg.Pngcs.PngDeinterlacer.GetImageByte
-	 internal int Hjg.Pngcs.PngDeinterlacer.GetPixelsToRead
-	 internal int [][] Hjg.Pngcs.PngDeinterlacer.GetImageInt
-	 internal void Hjg.Pngcs.PngDeinterlacer.DeinterlaceByte
-	 internal void Hjg.Pngcs.PngDeinterlacer.DeinterlaceInt
-	 internal void Hjg.Pngcs.PngDeinterlacer.SetImageByte
-	 internal void Hjg.Pngcs.PngDeinterlacer.SetImageInt
-	 internal void Hjg.Pngcs.PngDeinterlacer.SetPass
-	 readonly ImageInfo Hjg.Pngcs.PngDeinterlacer.imi
-	 readonly int Hjg.Pngcs.PngDeinterlacer.packedMask
-	 readonly int Hjg.Pngcs.PngDeinterlacer.packedShift
-	 readonly int Hjg.Pngcs.PngDeinterlacer.packedValsPerPixel
-	 void Hjg.Pngcs.PngDeinterlacer.DeinterlaceIntPacked
-	 void Hjg.Pngcs.PngDeinterlacer.DeinterlacePackedByte
  20% - Juniper.Root/IO/ProgressAggregator.cs - (2 of 10)
 	 IEnumerator IEnumerable. Juniper.IO.ProgressAggregator.GetEnumerator
 	 IEnumerator<IProgress> Juniper.IO.ProgressAggregator.GetEnumerator
@@ -2156,20 +1049,7 @@
 	 readonly IProgress Juniper.IO.ProgressAggregator.parent
 	 readonly ProgressSubdivision [] Juniper.IO.ProgressAggregator.subProgs
 	 string Juniper.IO.ProgressAggregator.Status
- 20% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/MyCCoefController.cs - (3 of 15)
-	 BitMiracle.LibJpeg.Classic.Internal.MyCCoefController.MyCCoefController
-	 JBufMode BitMiracle.LibJpeg.Classic.Internal.MyCCoefController.m_passModeSetByLastStartPass
-	 int BitMiracle.LibJpeg.Classic.Internal.MyCCoefController.m_MCU_rows_per_iMCU_row
-	 int BitMiracle.LibJpeg.Classic.Internal.MyCCoefController.m_MCU_vert_offset
-	 int BitMiracle.LibJpeg.Classic.Internal.MyCCoefController.m_iMCU_row_num
-	 int BitMiracle.LibJpeg.Classic.Internal.MyCCoefController.m_mcu_ctr
-	 readonly JBlock [][] BitMiracle.LibJpeg.Classic.Internal.MyCCoefController.m_MCU_buffer
-	 readonly JVirtArray<JBlock> [] BitMiracle.LibJpeg.Classic.Internal.MyCCoefController.m_whole_image
-	 readonly JpegCompressStruct BitMiracle.LibJpeg.Classic.Internal.MyCCoefController.m_cinfo
-	 virtual bool BitMiracle.LibJpeg.Classic.Internal.MyCCoefController.CompressData
-	 virtual void BitMiracle.LibJpeg.Classic.Internal.MyCCoefController.StartPass
-	 void BitMiracle.LibJpeg.Classic.Internal.MyCCoefController.StartIMcuRow
- 19% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Screen/AbstractScreenDevice.cs - (15 of 77)
+ 19% - Unity Scripts/Input/Pointers/Screen/AbstractScreenDevice.cs - (15 of 77)
 	 AbstractMotionFilter Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.motionFilter
 	 Avatar Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.stage
 	 IEventSystemHandler Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.EventTarget
@@ -2232,7 +1112,7 @@
 	 virtual void Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.PlayInteraction
 	 virtual void Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.Process
 	 void Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.Start
- 19% - Juniper/Assets/Juniper/Scripts/JuniperSystem.cs - (4 of 21)
+ 19% - Unity Scripts/JuniperSystem.cs - (4 of 21)
 	 AugmentedRealityTypes Juniper.JuniperSystem.SupportedARMode
 	 AugmentedRealityTypes Juniper.JuniperSystem.m_ARMode
 	 AugmentedRealityTypes Juniper.JuniperSystem.m_SupportedARMode
@@ -2250,7 +1130,7 @@
 	 bool Juniper.JuniperSystem.IsMainThreadReady
 	 bool Juniper.JuniperSystem.IsOnMainThread
 	 void Juniper.JuniperSystem.Update
- 18% - Juniper/Assets/Juniper/Scripts/Input/Pointers/AbstractPointerDevice.cs - (15 of 82)
+ 18% - Unity Scripts/Input/Pointers/AbstractPointerDevice.cs - (15 of 82)
 	 AbstractMotionFilter Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.lastMotionFilter
 	 AbstractMotionFilter Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.motionFilter
 	 Avatar Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.stage
@@ -2318,7 +1198,7 @@
 	 virtual void Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.Process
 	 void Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.Start
 	 void Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.TestEnterExit
- 17% - Juniper/Assets/Juniper/Scripts/Avatar.cs - (7 of 39)
+ 17% - Unity Scripts/Avatar.cs - (7 of 39)
 	 CapsuleCollider Juniper.Avatar.bodyShape
 	 GameObject Juniper.Avatar.MakeBody
 	 GameObject Juniper.Avatar.MakeGoogles
@@ -2351,7 +1231,7 @@
 	 void Juniper.Avatar.SetBodyPositionAndShape
 	 void Juniper.Avatar.SetPosition
 	 void Juniper.Avatar.SetViewRotation
- 17% - Juniper/Assets/Juniper/Scripts/Input/Pointers/NetworkPointer.cs - (15 of 84)
+ 17% - Unity Scripts/Input/Pointers/NetworkPointer.cs - (15 of 84)
 	 AbstractMotionFilter Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.motionFilter
 	 Avatar Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.stage
 	 DateTime Juniper.Input.Pointers.NetworkPointer.lastClickTime
@@ -2421,7 +1301,7 @@
 	 virtual void Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.PlayInteraction
 	 virtual void Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.Process
 	 void Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.Start
- 16% - Juniper/Assets/Juniper/Scripts/Input/AbstractShortcutable.cs - (2 of 12)
+ 16% - Unity Scripts/Input/AbstractShortcutable.cs - (2 of 12)
 	 Func<bool> Juniper.Input.AbstractShortcutable.isParentEnabled
 	 UnifiedInputModule Juniper.Input.AbstractShortcutable.input
 	 abstract void Juniper.Input.AbstractShortcutable.OnDisable
@@ -2439,7 +1319,7 @@
 	 delegate float Juniper.Imaging.CubemapRotationNeeded
 	 delegate void Juniper.Imaging.CubemapPositionUpdated
 	 delegate void Juniper.Imaging.CubemapRotationUpdated
- 13% - Juniper/Assets/Juniper/Scripts/Animation/PresentationTransition.cs - (3 of 22)
+ 13% - Unity Scripts/Animation/PresentationTransition.cs - (3 of 22)
 	 Direction Juniper.Animation.PresentationTransition.state
 	 MasterSceneController Juniper.Animation.PresentationTransition.master
 	 Material Juniper.Animation.PresentationTransition.endMaterial
@@ -2459,7 +1339,7 @@
 	 void Juniper.Animation.PresentationTransition.SetAlpha
 	 void Juniper.Animation.PresentationTransition.Toggle
 	 void Juniper.Animation.PresentationTransition.Update
- 13% - Juniper/Assets/Juniper/Scripts/World/GIS/Google/GoogleStreetView.cs - (2 of 15)
+ 13% - Unity Scripts/World/GIS/Google/GoogleStreetView.cs - (2 of 15)
 	 bool Juniper.World.GIS.Google.AbstractGoogleStreetView< MetadataTypeT >.IsBusy
 	 float [] Juniper.World.GIS.Google.AbstractGoogleStreetView< MetadataTypeT >.searchFOVs
 	 int Juniper.World.GIS.Google.AbstractGoogleStreetView< MetadataTypeT >.searchRadius
@@ -2473,33 +1353,6 @@
 	 void Juniper.World.GIS.Google.AbstractGoogleStreetView< MetadataTypeT >.ReceiveCredentials
 	 void Juniper.World.GIS.Google.AbstractGoogleStreetView< MetadataTypeT >.SetLocation
 	 void Juniper.World.GIS.Google.AbstractGoogleStreetView< MetadataTypeT >.Update
- 13% - Juniper.Client/ThirdParty/HjgPngcs/PngIDatChunkInputStream.cs - (4 of 30)
-	 IList<IdatChunkInfo> Hjg.Pngcs.PngIDatChunkInputStream.foundChunksInfo
-	 bool Hjg.Pngcs.PngIDatChunkInputStream.IsEnded
-	 bool Hjg.Pngcs.PngIDatChunkInputStream.checkCrc
-	 bool Hjg.Pngcs.PngIDatChunkInputStream.ended
-	 byte [] Hjg.Pngcs.PngIDatChunkInputStream.GetIdLastChunk
-	 int Hjg.Pngcs.PngIDatChunkInputStream.GetLenLastChunk
-	 int Hjg.Pngcs.PngIDatChunkInputStream.Read
-	 int Hjg.Pngcs.PngIDatChunkInputStream.lenLastChunk
-	 int Hjg.Pngcs.PngIDatChunkInputStream.toReadThisChunk
-	 long Hjg.Pngcs.PngIDatChunkInputStream.GetOffset
-	 long Hjg.Pngcs.PngIDatChunkInputStream.offset
-	 override bool Hjg.Pngcs.PngIDatChunkInputStream.CanRead
-	 override bool Hjg.Pngcs.PngIDatChunkInputStream.CanSeek
-	 override bool Hjg.Pngcs.PngIDatChunkInputStream.CanWrite
-	 override int Hjg.Pngcs.PngIDatChunkInputStream.ReadByte
-	 override long Hjg.Pngcs.PngIDatChunkInputStream.Length
-	 override long Hjg.Pngcs.PngIDatChunkInputStream.Position
-	 override long Hjg.Pngcs.PngIDatChunkInputStream.Seek
-	 override void Hjg.Pngcs.PngIDatChunkInputStream.Dispose
-	 override void Hjg.Pngcs.PngIDatChunkInputStream.Flush
-	 override void Hjg.Pngcs.PngIDatChunkInputStream.SetLength
-	 override void Hjg.Pngcs.PngIDatChunkInputStream.Write
-	 readonly CRC32 Hjg.Pngcs.PngIDatChunkInputStream.crcEngine
-	 readonly Stream Hjg.Pngcs.PngIDatChunkInputStream.inputStream
-	 readonly byte [] Hjg.Pngcs.PngIDatChunkInputStream.idLastChunk
-	 void Hjg.Pngcs.PngIDatChunkInputStream.EndChunkGoForNext
  12% - Juniper.GoogleMaps/GoogleMapsCacheLayer.cs - (1 of 8)
 	 IEnumerable<ContentReference> Juniper.IO.FileCacheLayer.GetContentReferences
 	 Juniper.World.GIS.Google.GoogleMapsCacheLayer.GoogleMapsCacheLayer
@@ -2508,14 +1361,6 @@
 	 bool Juniper.IO.FileCacheLayer.Delete
 	 bool Juniper.IO.FileCacheLayer.IsCached
 	 override bool Juniper.World.GIS.Google.GoogleMapsCacheLayer.CanCache
- 12% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegCMainController.cs - (1 of 8)
-	 BitMiracle.LibJpeg.Classic.Internal.JpegCMainController.JpegCMainController
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegCMainController.m_suspended
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegCMainController.m_cur_iMCU_row
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegCMainController.m_rowgroup_ctr
-	 readonly JpegCompressStruct BitMiracle.LibJpeg.Classic.Internal.JpegCMainController.m_cinfo
-	 readonly byte [][][] BitMiracle.LibJpeg.Classic.Internal.JpegCMainController.m_buffer
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegCMainController.start_pass
  11% - Juniper.Root/IO/FileCacheLayer.cs - (1 of 9)
 	 IEnumerable<ContentReference> Juniper.IO.FileCacheLayer.GetContentReferences
 	 Juniper.IO.FileCacheLayer.FileCacheLayer
@@ -2525,7 +1370,7 @@
 	 bool Juniper.IO.FileCacheLayer.IsCached
 	 readonly DirectoryInfo Juniper.IO.FileCacheLayer.cacheLocation
 	 virtual bool Juniper.IO.FileCacheLayer.CanCache
- 10% - Juniper/Assets/Juniper/Scripts/Platforms/WindowsMR/WindowsMRInputModule.cs - (6 of 58)
+ 10% - Unity Scripts/Platforms/WindowsMR/WindowsMRInputModule.cs - (6 of 58)
 	 Avatar Juniper.Input.AbstractUnifiedInputModule.stage
 	 GazePointer Juniper.Input.AbstractUnifiedInputModule.Gaze
 	 HandTracker [] Juniper.Input.AbstractUnifiedInputModule.Hands
@@ -2578,7 +1423,7 @@
 	 void Juniper.Input.AbstractUnifiedInputModule.RemoveKeyboardShortcut
 	 void Juniper.Input.AbstractUnifiedInputModule.RequestMode
 	 void Juniper.Input.AbstractUnifiedInputModule.ToggleModeRequested
- 10% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Gaze/NosePointer.cs - (1 of 10)
+ 10% - Unity Scripts/Input/Pointers/Gaze/NosePointer.cs - (1 of 10)
 	 bool Juniper.Input.Pointers.Gaze.AbstractGazePointer< HapticType >.gazed
 	 float Juniper.Input.Pointers.Gaze.AbstractGazePointer< HapticType >.gazeThreshold
 	 override Vector3 Juniper.Input.Pointers.Gaze.NosePointer.WorldPoint
@@ -2588,16 +1433,6 @@
 	 override bool Juniper.Input.Pointers.Gaze.AbstractGazePointer< HapticType >.IsConnected
 	 override void Juniper.Input.Pointers.Gaze.AbstractGazePointer< HapticType >.InternalUpdate
 	 override void Juniper.Input.Pointers.Gaze.AbstractGazePointer< HapticType >.Process
- 10% - Juniper.Client/ThirdParty/HjgPngcs/ProgressiveOutputStream.cs - (1 of 10)
-	 Hjg.Pngcs.ProgressiveOutputStream.ProgressiveOutputStream
-	 abstract void Hjg.Pngcs.ProgressiveOutputStream.FlushBuffer
-	 long Hjg.Pngcs.ProgressiveOutputStream.GetCountFlushed
-	 long Hjg.Pngcs.ProgressiveOutputStream.countFlushed
-	 override void Hjg.Pngcs.ProgressiveOutputStream.Close
-	 override void Hjg.Pngcs.ProgressiveOutputStream.Flush
-	 override void Hjg.Pngcs.ProgressiveOutputStream.Write
-	 readonly int Hjg.Pngcs.ProgressiveOutputStream.size
-	 void Hjg.Pngcs.ProgressiveOutputStream.Write
  10% - Juniper.Unity/IO/StreamingAssetsCacheLayer.cs - (1 of 10)
 	 IEnumerable<ContentReference> Juniper.IO.FileCacheLayer.GetContentReferences
 	 Juniper.IO.StreamingAssetsCacheLayer.StreamingAssetsCacheLayer
@@ -2628,7 +1463,7 @@
 	 readonly Uri Juniper.HTTP.Client.ClientWebSocketConnection.uri
 	 virtual void Juniper.HTTP.WebSocketConnection< WebSocketT >.Dispose
 	 void Juniper.HTTP.WebSocketConnection< WebSocketT >.Dispose
-  9% - Juniper/Assets/Juniper/Scripts/Widgets/LoadingBar.cs - (1 of 11)
+  9% - Unity Scripts/Widgets/LoadingBar.cs - (1 of 11)
 	 TextComponentWrapper Juniper.Widgets.LoadingBar.text
 	 Transform Juniper.Widgets.LoadingBar.indicator
 	 float Juniper.Widgets.LoadingBar.Progress
@@ -2639,7 +1474,7 @@
 	 void Juniper.Widgets.LoadingBar.OnEnable
 	 void Juniper.Widgets.LoadingBar.ResetValues
 	 void Juniper.Widgets.LoadingBar.Update
-  8% - Juniper/Assets/Juniper/Scripts/Input/StandaloneInputModule.cs - (5 of 57)
+  8% - Unity Scripts/Input/StandaloneInputModule.cs - (5 of 57)
 	 Avatar Juniper.Input.AbstractUnifiedInputModule.stage
 	 GazePointer Juniper.Input.AbstractUnifiedInputModule.Gaze
 	 HandTracker [] Juniper.Input.AbstractUnifiedInputModule.Hands
@@ -2692,60 +1527,7 @@
 	 void Juniper.Input.AbstractUnifiedInputModule.RemoveKeyboardShortcut
 	 void Juniper.Input.AbstractUnifiedInputModule.RequestMode
 	 void Juniper.Input.AbstractUnifiedInputModule.ToggleModeRequested
-  8% - Juniper/Assets/Juniper/Scripts/Input/MobileInputModule.cs - (5 of 57)
-	 Avatar Juniper.Input.AbstractUnifiedInputModule.stage
-	 GazePointer Juniper.Input.AbstractUnifiedInputModule.Gaze
-	 HandTracker [] Juniper.Input.AbstractUnifiedInputModule.Hands
-	 IPointerDevice Juniper.Input.AbstractUnifiedInputModule.ActiveController
-	 JuniperPointerEventData Juniper.Input.AbstractUnifiedInputModule.Clone
-	 JuniperPointerEventData Juniper.Input.AbstractUnifiedInputModule.GetJuniperPointerData
-	 KeywordRecognizer Juniper.Input.AbstractUnifiedInputModule.Voice
-	 Material Juniper.Input.AbstractUnifiedInputModule.laserPointerDisabledMaterial
-	 Material Juniper.Input.AbstractUnifiedInputModule.laserPointerEnabledMaterial
-	 Material Juniper.Input.AbstractUnifiedInputModule.laserPointerNormalMaterial
-	 MotionController [] Juniper.Input.AbstractUnifiedInputModule.Controllers
-	 Mouse Juniper.Input.AbstractUnifiedInputModule.Mouse
-	 NetworkPointer Juniper.Input.AbstractUnifiedInputModule.Helper
-	 T Juniper.Input.AbstractUnifiedInputModule.MakePointer< T >
-	 TouchPoint [] Juniper.Input.AbstractUnifiedInputModule.Touches
-	 bool Juniper.Input.AbstractUnifiedInputModule.AnyPointerDragging
-	 bool Juniper.Input.AbstractUnifiedInputModule.ControllersAvailable
-	 bool Juniper.Input.AbstractUnifiedInputModule.ControllersEnabled
-	 bool Juniper.Input.AbstractUnifiedInputModule.ControllersRequested
-	 bool Juniper.Input.AbstractUnifiedInputModule.GazeAvailable
-	 bool Juniper.Input.AbstractUnifiedInputModule.GazeEnabled
-	 bool Juniper.Input.AbstractUnifiedInputModule.GazeRequested
-	 bool Juniper.Input.AbstractUnifiedInputModule.HandsAvailable
-	 bool Juniper.Input.AbstractUnifiedInputModule.HandsEnabled
-	 bool Juniper.Input.AbstractUnifiedInputModule.HandsRequested
-	 bool Juniper.Input.AbstractUnifiedInputModule.HasGamepad
-	 bool Juniper.Input.AbstractUnifiedInputModule.IsModeRequested
-	 bool Juniper.Input.AbstractUnifiedInputModule.MouseAvailable
-	 bool Juniper.Input.AbstractUnifiedInputModule.MouseEnabled
-	 bool Juniper.Input.AbstractUnifiedInputModule.MouseRequested
-	 bool Juniper.Input.AbstractUnifiedInputModule.TouchAvailable
-	 bool Juniper.Input.AbstractUnifiedInputModule.TouchEnabled
-	 bool Juniper.Input.AbstractUnifiedInputModule.TouchRequested
-	 bool Juniper.Input.AbstractUnifiedInputModule.VoiceAvailable
-	 bool Juniper.Input.AbstractUnifiedInputModule.VoiceEnabled
-	 bool Juniper.Input.AbstractUnifiedInputModule.VoiceRequested
-	 bool Juniper.Input.AbstractUnifiedInputModule.paused
-	 float Juniper.Input.AbstractUnifiedInputModule.canvasOffset
-	 float Juniper.Input.AbstractUnifiedInputModule.maxPointerDistance
-	 float Juniper.Input.AbstractUnifiedInputModule.minPointerDistance
-	 int Juniper.Input.AbstractUnifiedInputModule.ControllerLayer
-	 override InputModes Juniper.Input.MobileInputModule.DefaultInputMode
-	 override bool Juniper.Input.MobileInputModule.HasFloorPosition
-	 override void Juniper.Input.AbstractUnifiedInputModule.Awake
-	 readonly List<IPointerDevice> Juniper.Input.AbstractUnifiedInputModule.Devices
-	 void Juniper.Input.AbstractUnifiedInputModule.AddKeyboardShortcut
-	 void Juniper.Input.AbstractUnifiedInputModule.AddPointer
-	 void Juniper.Input.AbstractUnifiedInputModule.ClickButtons
-	 void Juniper.Input.AbstractUnifiedInputModule.ProcessPointer
-	 void Juniper.Input.AbstractUnifiedInputModule.RemoveKeyboardShortcut
-	 void Juniper.Input.AbstractUnifiedInputModule.RequestMode
-	 void Juniper.Input.AbstractUnifiedInputModule.ToggleModeRequested
-  8% - Juniper/Assets/Juniper/Scripts/Platforms/ViveFocus/ViveFocusInputModule.cs - (5 of 57)
+  8% - Unity Scripts/Platforms/ViveFocus/ViveFocusInputModule.cs - (5 of 57)
 	 Avatar Juniper.Input.AbstractUnifiedInputModule.stage
 	 GazePointer Juniper.Input.AbstractUnifiedInputModule.Gaze
 	 HandTracker [] Juniper.Input.AbstractUnifiedInputModule.Hands
@@ -2798,6 +1580,59 @@
 	 void Juniper.Input.AbstractUnifiedInputModule.RemoveKeyboardShortcut
 	 void Juniper.Input.AbstractUnifiedInputModule.RequestMode
 	 void Juniper.Input.AbstractUnifiedInputModule.ToggleModeRequested
+  8% - Unity Scripts/Input/MobileInputModule.cs - (5 of 57)
+	 Avatar Juniper.Input.AbstractUnifiedInputModule.stage
+	 GazePointer Juniper.Input.AbstractUnifiedInputModule.Gaze
+	 HandTracker [] Juniper.Input.AbstractUnifiedInputModule.Hands
+	 IPointerDevice Juniper.Input.AbstractUnifiedInputModule.ActiveController
+	 JuniperPointerEventData Juniper.Input.AbstractUnifiedInputModule.Clone
+	 JuniperPointerEventData Juniper.Input.AbstractUnifiedInputModule.GetJuniperPointerData
+	 KeywordRecognizer Juniper.Input.AbstractUnifiedInputModule.Voice
+	 Material Juniper.Input.AbstractUnifiedInputModule.laserPointerDisabledMaterial
+	 Material Juniper.Input.AbstractUnifiedInputModule.laserPointerEnabledMaterial
+	 Material Juniper.Input.AbstractUnifiedInputModule.laserPointerNormalMaterial
+	 MotionController [] Juniper.Input.AbstractUnifiedInputModule.Controllers
+	 Mouse Juniper.Input.AbstractUnifiedInputModule.Mouse
+	 NetworkPointer Juniper.Input.AbstractUnifiedInputModule.Helper
+	 T Juniper.Input.AbstractUnifiedInputModule.MakePointer< T >
+	 TouchPoint [] Juniper.Input.AbstractUnifiedInputModule.Touches
+	 bool Juniper.Input.AbstractUnifiedInputModule.AnyPointerDragging
+	 bool Juniper.Input.AbstractUnifiedInputModule.ControllersAvailable
+	 bool Juniper.Input.AbstractUnifiedInputModule.ControllersEnabled
+	 bool Juniper.Input.AbstractUnifiedInputModule.ControllersRequested
+	 bool Juniper.Input.AbstractUnifiedInputModule.GazeAvailable
+	 bool Juniper.Input.AbstractUnifiedInputModule.GazeEnabled
+	 bool Juniper.Input.AbstractUnifiedInputModule.GazeRequested
+	 bool Juniper.Input.AbstractUnifiedInputModule.HandsAvailable
+	 bool Juniper.Input.AbstractUnifiedInputModule.HandsEnabled
+	 bool Juniper.Input.AbstractUnifiedInputModule.HandsRequested
+	 bool Juniper.Input.AbstractUnifiedInputModule.HasGamepad
+	 bool Juniper.Input.AbstractUnifiedInputModule.IsModeRequested
+	 bool Juniper.Input.AbstractUnifiedInputModule.MouseAvailable
+	 bool Juniper.Input.AbstractUnifiedInputModule.MouseEnabled
+	 bool Juniper.Input.AbstractUnifiedInputModule.MouseRequested
+	 bool Juniper.Input.AbstractUnifiedInputModule.TouchAvailable
+	 bool Juniper.Input.AbstractUnifiedInputModule.TouchEnabled
+	 bool Juniper.Input.AbstractUnifiedInputModule.TouchRequested
+	 bool Juniper.Input.AbstractUnifiedInputModule.VoiceAvailable
+	 bool Juniper.Input.AbstractUnifiedInputModule.VoiceEnabled
+	 bool Juniper.Input.AbstractUnifiedInputModule.VoiceRequested
+	 bool Juniper.Input.AbstractUnifiedInputModule.paused
+	 float Juniper.Input.AbstractUnifiedInputModule.canvasOffset
+	 float Juniper.Input.AbstractUnifiedInputModule.maxPointerDistance
+	 float Juniper.Input.AbstractUnifiedInputModule.minPointerDistance
+	 int Juniper.Input.AbstractUnifiedInputModule.ControllerLayer
+	 override InputModes Juniper.Input.MobileInputModule.DefaultInputMode
+	 override bool Juniper.Input.MobileInputModule.HasFloorPosition
+	 override void Juniper.Input.AbstractUnifiedInputModule.Awake
+	 readonly List<IPointerDevice> Juniper.Input.AbstractUnifiedInputModule.Devices
+	 void Juniper.Input.AbstractUnifiedInputModule.AddKeyboardShortcut
+	 void Juniper.Input.AbstractUnifiedInputModule.AddPointer
+	 void Juniper.Input.AbstractUnifiedInputModule.ClickButtons
+	 void Juniper.Input.AbstractUnifiedInputModule.ProcessPointer
+	 void Juniper.Input.AbstractUnifiedInputModule.RemoveKeyboardShortcut
+	 void Juniper.Input.AbstractUnifiedInputModule.RequestMode
+	 void Juniper.Input.AbstractUnifiedInputModule.ToggleModeRequested
   8% - Juniper.Server/ServerWebSocketConnection.cs - (2 of 23)
 	 EventHandler Juniper.HTTP.WebSocketConnection< WebSocketT >.Aborted
 	 EventHandler Juniper.HTTP.WebSocketConnection< WebSocketT >.Closed
@@ -2820,7 +1655,7 @@
 	 string Juniper.HTTP.Server.ServerWebSocketConnection.Token
 	 string Juniper.HTTP.Server.ServerWebSocketConnection.UserName
 	 void Juniper.HTTP.WebSocketConnection< WebSocketT >.Dispose
-  8% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Motion/NoMotionController.cs - (2 of 25)
+  8% - Unity Scripts/Input/Pointers/Motion/NoMotionController.cs - (2 of 25)
 	 override IEventSystemHandler Juniper.Input.Pointers.Motion.AbstractMotionController< HandIDType, ButtonIDType, ConfigType, HapticType >.ProcessButtons
 	 override Vector2 Juniper.Input.Pointers.Motion.NoMotionController.RoundTouchPoint
 	 override Vector2 Juniper.Input.Pointers.Motion.NoMotionController.SquareTouchPoint
@@ -2844,7 +1679,7 @@
 	 override void Juniper.Input.Pointers.Motion.AbstractMotionController< HandIDType, ButtonIDType, ConfigType, HapticType >.InternalUpdate
 	 readonly ButtonMapper<VirtualTouchPadButtons> Juniper.Input.Pointers.Motion.AbstractMotionController< HandIDType, ButtonIDType, ConfigType, HapticType >.touchPadButtons
 	 readonly ButtonMapper<VirtualTriggerButton> Juniper.Input.Pointers.Motion.AbstractMotionController< HandIDType, ButtonIDType, ConfigType, HapticType >.triggerButtons
-  7% - Juniper/Assets/Juniper/Scripts/Platforms/Tobii/TobiiGazePointer.cs - (1 of 14)
+  7% - Unity Scripts/Platforms/Tobii/TobiiGazePointer.cs - (1 of 14)
 	 GazePoint Juniper.Input.Pointers.Gaze.TobiiGazePointer.lastGaze
 	 HeadPose Juniper.Input.Pointers.Gaze.TobiiGazePointer.lastPose
 	 bool Juniper.Input.Pointers.Gaze.AbstractGazePointer< HapticType >.gazed
@@ -2858,21 +1693,7 @@
 	 override void Juniper.Input.Pointers.Gaze.AbstractGazePointer< HapticType >.InternalUpdate
 	 override void Juniper.Input.Pointers.Gaze.AbstractGazePointer< HapticType >.Process
 	 virtual Quaternion Juniper.Input.Pointers.Screen.AbstractScreenDevice< ButtonIDType, ConfigType, HapticType >.CameraRotationOffset
-  7% - Juniper.Client/ThirdParty/HjgPngcs/Zlib/AZlibInputStream.cs - (1 of 14)
-	 Hjg.Pngcs.Zlib.AZlibInputStream.AZlibInputStream
-	 Stream Hjg.Pngcs.Zlib.AZlibInputStream.rawStream
-	 bool Hjg.Pngcs.Zlib.AZlibInputStream.LeaveOpen
-	 override bool Hjg.Pngcs.Zlib.AZlibInputStream.CanRead
-	 override bool Hjg.Pngcs.Zlib.AZlibInputStream.CanSeek
-	 override bool Hjg.Pngcs.Zlib.AZlibInputStream.CanTimeout
-	 override bool Hjg.Pngcs.Zlib.AZlibInputStream.CanWrite
-	 override long Hjg.Pngcs.Zlib.AZlibInputStream.Length
-	 override long Hjg.Pngcs.Zlib.AZlibInputStream.Position
-	 override long Hjg.Pngcs.Zlib.AZlibInputStream.Seek
-	 override void Hjg.Pngcs.Zlib.AZlibInputStream.Dispose
-	 override void Hjg.Pngcs.Zlib.AZlibInputStream.SetLength
-	 override void Hjg.Pngcs.Zlib.AZlibInputStream.Write
-  6% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Gaze/GazePointer.cs - (1 of 15)
+  6% - Unity Scripts/Input/Pointers/Gaze/GazePointer.cs - (1 of 15)
 	 GameObject Juniper.Input.Pointers.Gaze.AbstractGazePointer< HapticType >.lastTarget
 	 GameObject Juniper.Input.Pointers.Gaze.AbstractGazePointer< HapticType >.target
 	 bool Juniper.Input.Pointers.Gaze.AbstractGazePointer< HapticType >.gazed
@@ -2887,22 +1708,6 @@
 	 override void Juniper.Input.Pointers.Gaze.AbstractGazePointer< HapticType >.Process
 	 virtual Quaternion Juniper.Input.Pointers.Screen.AbstractScreenDevice< ButtonIDType, ConfigType, HapticType >.CameraRotationOffset
 	 virtual Vector3 Juniper.Input.Pointers.Screen.AbstractScreenDevice< ButtonIDType, ConfigType, HapticType >.CameraPositionOffset
-  6% - Juniper.Client/ThirdParty/HjgPngcs/Zlib/AZlibOutputStream.cs - (1 of 16)
-	 EDeflateCompressStrategy Hjg.Pngcs.Zlib.AZlibOutputStream.Strategy
-	 Hjg.Pngcs.Zlib.AZlibOutputStream.AZlibOutputStream
-	 Stream Hjg.Pngcs.Zlib.AZlibOutputStream.RawStream
-	 bool Hjg.Pngcs.Zlib.AZlibOutputStream.LeaveOpen
-	 int Hjg.Pngcs.Zlib.AZlibOutputStream.CompressLevel
-	 override bool Hjg.Pngcs.Zlib.AZlibOutputStream.CanRead
-	 override bool Hjg.Pngcs.Zlib.AZlibOutputStream.CanSeek
-	 override bool Hjg.Pngcs.Zlib.AZlibOutputStream.CanTimeout
-	 override bool Hjg.Pngcs.Zlib.AZlibOutputStream.CanWrite
-	 override int Hjg.Pngcs.Zlib.AZlibOutputStream.Read
-	 override long Hjg.Pngcs.Zlib.AZlibOutputStream.Length
-	 override long Hjg.Pngcs.Zlib.AZlibOutputStream.Position
-	 override long Hjg.Pngcs.Zlib.AZlibOutputStream.Seek
-	 override void Hjg.Pngcs.Zlib.AZlibOutputStream.Dispose
-	 override void Hjg.Pngcs.Zlib.AZlibOutputStream.SetLength
   5% - Juniper.Root/HTTP/WebSocketConnection.cs - (2 of 38)
 	 EventHandler Juniper.HTTP.WebSocketConnection< WebSocketT >.Aborted
 	 EventHandler Juniper.HTTP.WebSocketConnection< WebSocketT >.Closed
@@ -2940,7 +1745,7 @@
 	 void Juniper.HTTP.WebSocketConnection< WebSocketT >.OnError
 	 void Juniper.HTTP.WebSocketConnection< WebSocketT >.OnMessage
 	 void Juniper.HTTP.WebSocketConnection< WebSocketT >.WebSocketConnection_Data
-  5% - Juniper/Assets/Juniper/Scripts/Speech/KeywordRecognizer.cs - (2 of 40)
+  5% - Unity Scripts/Speech/KeywordRecognizer.cs - (2 of 40)
 	 DateTime Juniper.Speech.KeywordRecognizer.lastMatchTime
 	 EventHandler Juniper.Speech.KeywordRecognizer.RecognitionCanceled
 	 EventHandler Juniper.Speech.KeywordRecognizer.RecognitionComplete
@@ -2979,32 +1784,7 @@
 	 void Juniper.Speech.KeywordRecognizer.TearDown
 	 void Juniper.Speech.KeywordRecognizer.TearDownInternal
 	 void Juniper.Speech.KeywordRecognizer.Update
-  4% - Juniper.Client/ThirdParty/HjgPngcs/Zlib/ZlibInputStream.cs - (1 of 25)
-	 DeflateStream Hjg.Pngcs.Zlib.ZlibInputStream.deflateStream
-	 Hjg.Pngcs.Zlib.ZlibInputStream.ZlibInputStream
-	 Stream Hjg.Pngcs.Zlib.AZlibInputStream.rawStream
-	 bool Hjg.Pngcs.Zlib.AZlibInputStream.LeaveOpen
-	 bool Hjg.Pngcs.Zlib.ZlibInputStream.closed
-	 bool Hjg.Pngcs.Zlib.ZlibInputStream.fdict
-	 bool Hjg.Pngcs.Zlib.ZlibInputStream.initdone
-	 byte [] Hjg.Pngcs.Zlib.ZlibInputStream.crcread
-	 byte [] Hjg.Pngcs.Zlib.ZlibInputStream.dictid
-	 override bool Hjg.Pngcs.Zlib.AZlibInputStream.CanRead
-	 override bool Hjg.Pngcs.Zlib.AZlibInputStream.CanSeek
-	 override bool Hjg.Pngcs.Zlib.AZlibInputStream.CanTimeout
-	 override bool Hjg.Pngcs.Zlib.AZlibInputStream.CanWrite
-	 override int Hjg.Pngcs.Zlib.ZlibInputStream.Read
-	 override long Hjg.Pngcs.Zlib.AZlibInputStream.Length
-	 override long Hjg.Pngcs.Zlib.AZlibInputStream.Position
-	 override long Hjg.Pngcs.Zlib.AZlibInputStream.Seek
-	 override void Hjg.Pngcs.Zlib.AZlibInputStream.Dispose
-	 override void Hjg.Pngcs.Zlib.AZlibInputStream.SetLength
-	 override void Hjg.Pngcs.Zlib.AZlibInputStream.Write
-	 override void Hjg.Pngcs.Zlib.ZlibInputStream.Close
-	 override void Hjg.Pngcs.Zlib.ZlibInputStream.Flush
-	 void Hjg.Pngcs.Zlib.ZlibInputStream.doInit
-	 void Hjg.Pngcs.Zlib.ZlibInputStream.initStream
-  4% - Juniper/Assets/Juniper/Scripts/Imaging/Photosphere.cs - (1 of 25)
+  4% - Unity Scripts/Imaging/Photosphere.cs - (1 of 25)
 	 Action<Photosphere> Juniper.Imaging.Photosphere.Ready
 	 CubemapAvailabilityNeeded Juniper.Imaging.Photosphere.CheckIsCubemapAvailable
 	 CubemapRotationNeeded Juniper.Imaging.Photosphere.GetRotation
@@ -3029,33 +1809,7 @@
 	 virtual void Juniper.Imaging.Photosphere.OnEnable
 	 virtual void Juniper.Imaging.Photosphere.Update
 	 void Juniper.Imaging.Photosphere.OnReady
-  3% - Juniper.Client/ThirdParty/HjgPngcs/Zlib/ZlibOutputStream.cs - (1 of 26)
-	 DeflateStream Hjg.Pngcs.Zlib.ZlibOutputStream.deflateStream
-	 EDeflateCompressStrategy Hjg.Pngcs.Zlib.AZlibOutputStream.Strategy
-	 Hjg.Pngcs.Zlib.ZlibOutputStream.ZlibOutputStream
-	 Stream Hjg.Pngcs.Zlib.AZlibOutputStream.RawStream
-	 bool Hjg.Pngcs.Zlib.AZlibOutputStream.LeaveOpen
-	 bool Hjg.Pngcs.Zlib.ZlibOutputStream.closed
-	 bool Hjg.Pngcs.Zlib.ZlibOutputStream.initdone
-	 int Hjg.Pngcs.Zlib.AZlibOutputStream.CompressLevel
-	 override bool Hjg.Pngcs.Zlib.AZlibOutputStream.CanRead
-	 override bool Hjg.Pngcs.Zlib.AZlibOutputStream.CanSeek
-	 override bool Hjg.Pngcs.Zlib.AZlibOutputStream.CanTimeout
-	 override bool Hjg.Pngcs.Zlib.AZlibOutputStream.CanWrite
-	 override int Hjg.Pngcs.Zlib.AZlibOutputStream.Read
-	 override long Hjg.Pngcs.Zlib.AZlibOutputStream.Length
-	 override long Hjg.Pngcs.Zlib.AZlibOutputStream.Position
-	 override long Hjg.Pngcs.Zlib.AZlibOutputStream.Seek
-	 override void Hjg.Pngcs.Zlib.AZlibOutputStream.Dispose
-	 override void Hjg.Pngcs.Zlib.AZlibOutputStream.SetLength
-	 override void Hjg.Pngcs.Zlib.ZlibOutputStream.Close
-	 override void Hjg.Pngcs.Zlib.ZlibOutputStream.Flush
-	 override void Hjg.Pngcs.Zlib.ZlibOutputStream.Write
-	 override void Hjg.Pngcs.Zlib.ZlibOutputStream.WriteByte
-	 readonly Adler32 Hjg.Pngcs.Zlib.ZlibOutputStream.adler32
-	 void Hjg.Pngcs.Zlib.ZlibOutputStream.DoInit
-	 void Hjg.Pngcs.Zlib.ZlibOutputStream.InitStream
-  3% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Motion/MotionController.cs - (1 of 27)
+  3% - Unity Scripts/Input/Pointers/Motion/MotionController.cs - (1 of 27)
 	 override IEventSystemHandler Juniper.Input.Pointers.Motion.AbstractMotionController< HandIDType, ButtonIDType, ConfigType, HapticType >.ProcessButtons
 	 override Vector2 Juniper.Input.Pointers.Motion.ViveFocusMotionController.RoundTouchPoint
 	 override Vector2 Juniper.Input.Pointers.Motion.ViveFocusMotionController.SquareTouchPoint
@@ -3082,7 +1836,7 @@
 	 override? WVR_DeviceType Juniper.Input.Pointers.Motion.ViveFocusMotionController.NativeHandID
 	 readonly ButtonMapper<VirtualTouchPadButtons> Juniper.Input.Pointers.Motion.AbstractMotionController< HandIDType, ButtonIDType, ConfigType, HapticType >.touchPadButtons
 	 readonly ButtonMapper<VirtualTriggerButton> Juniper.Input.Pointers.Motion.AbstractMotionController< HandIDType, ButtonIDType, ConfigType, HapticType >.triggerButtons
-  3% - Juniper/Assets/Juniper/Scripts/Platforms/ViveFocus/ViveFocusMotionController.cs - (1 of 30)
+  3% - Unity Scripts/Platforms/ViveFocus/ViveFocusMotionController.cs - (1 of 30)
 	 WaveVR_Controller.Device Juniper.Input.Pointers.Motion.ViveFocusMotionController.Device
 	 WaveVR_Controller.Device Juniper.Input.Pointers.Motion.ViveFocusMotionController._device
 	 WaveVR_ControllerPoseTracker Juniper.Input.Pointers.Motion.ViveFocusMotionController.Controller
@@ -3112,71 +1866,7 @@
 	 override? WVR_DeviceType Juniper.Input.Pointers.Motion.ViveFocusMotionController.NativeHandID
 	 readonly ButtonMapper<VirtualTouchPadButtons> Juniper.Input.Pointers.Motion.AbstractMotionController< HandIDType, ButtonIDType, ConfigType, HapticType >.touchPadButtons
 	 readonly ButtonMapper<VirtualTriggerButton> Juniper.Input.Pointers.Motion.AbstractMotionController< HandIDType, ButtonIDType, ConfigType, HapticType >.triggerButtons
-  3% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegForwardDct.cs - (2 of 65)
-	 BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct
-	 ForwardDctDelegate [] BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.forward_DCT
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.CONST_BITS
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.FAST_INTEGER_CONST_BITS
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.FAST_INTEGER_FIX_0_382683433
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.FAST_INTEGER_FIX_0_541196100
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.FAST_INTEGER_FIX_0_707106781
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.FAST_INTEGER_FIX_1_306562965
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.SLOW_INTEGER_CONST_BITS
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.SLOW_INTEGER_FIX_0_298631336
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.SLOW_INTEGER_FIX_0_390180644
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.SLOW_INTEGER_FIX_0_541196100
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.SLOW_INTEGER_FIX_0_765366865
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.SLOW_INTEGER_FIX_0_899976223
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.SLOW_INTEGER_FIX_1_175875602
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.SLOW_INTEGER_FIX_1_501321110
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.SLOW_INTEGER_FIX_1_847759065
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.SLOW_INTEGER_FIX_1_961570560
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.SLOW_INTEGER_FIX_2_053119869
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.SLOW_INTEGER_FIX_2_562915447
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.SLOW_INTEGER_FIX_3_072711026
-	 const int BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.SLOW_INTEGER_PASS1_BITS
-	 delegate void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.FloatDctMethodDelegate
-	 delegate void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.ForwardDctMethodDelegate
-	 readonly DivisorTable [] BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.m_dctTables
-	 readonly FloatDctMethodDelegate [] BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.do_float_dct
-	 readonly ForwardDctMethodDelegate [] BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.do_dct
-	 readonly JpegCompressStruct BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.m_cinfo
-	 readonly double [] BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.aanscalefactor
-	 readonly short [] BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.aanscales
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.ForwardDctFloatImpl
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.ForwardDctImpl
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct10x10
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct10x5
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct11x11
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct12x12
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct12x6
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct13x13
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct14x14
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct14x7
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct15x15
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct16x16
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct16x8
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct1x1
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct1x2
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct2x1
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct2x2
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct2x4
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct3x3
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct3x6
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct4x2
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct4x4
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct4x8
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct5x10
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct5x5
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct6x12
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct6x3
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct6x6
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct7x14
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct7x7
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct8x16
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct8x4
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegForwardDct.JpegForwardDct9x9
-  2% - Juniper/Assets/Juniper/Scripts/Imaging/PhotosphereJig.cs - (1 of 38)
+  2% - Unity Scripts/Imaging/PhotosphereJig.cs - (1 of 38)
 	 Action<Photosphere> Juniper.Imaging.Photosphere.Ready
 	 Action<PhotosphereJig, bool> Juniper.Imaging.PhotosphereJig.Complete
 	 Avatar Juniper.Imaging.PhotosphereJig.avatar
@@ -3214,7 +1904,7 @@
 	 void Juniper.Imaging.Photosphere.OnReady
 	 void Juniper.Imaging.PhotosphereJig.DestroyJig
 	 void Juniper.Imaging.PhotosphereJig.OnComplete
-  2% - Juniper/Assets/Juniper/Scripts/Input/Pointers/IPointerDevice.cs - (1 of 50)
+  2% - Unity Scripts/Input/Pointers/IPointerDevice.cs - (1 of 50)
 	 IEventSystemHandler Juniper.Input.Pointers.IPointerDevice.EventTarget
 	 IProbe Juniper.Input.Pointers.IPointerDevice.Probe
 	 Material Juniper.Input.Pointers.ILaserPointer.LaserPointerDisabledMaterial
@@ -3264,7 +1954,7 @@
 	 string Juniper.Input.Pointers.IPointerDevice.ProbeName
 	 void Juniper.Input.Pointers.IPointerDevice.OnProbeFound
 	 void Juniper.Input.Pointers.IPointerDevice.Process
-  1% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Screen/IScreenDevice.cs - (1 of 52)
+  1% - Unity Scripts/Input/Pointers/Screen/IScreenDevice.cs - (1 of 52)
 	 IEventSystemHandler Juniper.Input.Pointers.IPointerDevice.EventTarget
 	 IProbe Juniper.Input.Pointers.IPointerDevice.Probe
 	 Material Juniper.Input.Pointers.ILaserPointer.LaserPointerDisabledMaterial
@@ -3316,7 +2006,7 @@
 	 string Juniper.Input.Pointers.IPointerDevice.ProbeName
 	 void Juniper.Input.Pointers.IPointerDevice.OnProbeFound
 	 void Juniper.Input.Pointers.IPointerDevice.Process
-  1% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Motion/IHandedPointer.cs - (1 of 55)
+  1% - Unity Scripts/Input/Pointers/Motion/IHandedPointer.cs - (1 of 55)
 	 Hand Juniper.Input.Pointers.Motion.IHandedPointer.Hand
 	 IEventSystemHandler Juniper.Input.Pointers.IPointerDevice.EventTarget
 	 IProbe Juniper.Input.Pointers.IPointerDevice.Probe
@@ -3371,7 +2061,7 @@
 	 string Juniper.Input.Pointers.IPointerDevice.ProbeName
 	 void Juniper.Input.Pointers.IPointerDevice.OnProbeFound
 	 void Juniper.Input.Pointers.IPointerDevice.Process
-  1% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Motion/IMotionController.cs - (1 of 58)
+  1% - Unity Scripts/Input/Pointers/Motion/IMotionController.cs - (1 of 58)
 	 Hand Juniper.Input.Pointers.Motion.IHandedPointer.Hand
 	 IEventSystemHandler Juniper.Input.Pointers.IPointerDevice.EventTarget
 	 IProbe Juniper.Input.Pointers.IPointerDevice.Probe
@@ -3429,9 +2119,6 @@
 	 string Juniper.Input.Pointers.IPointerDevice.ProbeName
 	 void Juniper.Input.Pointers.IPointerDevice.OnProbeFound
 	 void Juniper.Input.Pointers.IPointerDevice.Process
-  0% - Juniper.Client/ThirdParty/HjgPngcs/PngjInputException.cs - (0 of 2)
-	 Hjg.Pngcs.PngjException.PngjException?
-	 Hjg.Pngcs.PngjInputException.PngjInputException
   0% - Juniper.Root/Compression/Tar/TarArchive.cs - (0 of 8)
 	 IReadOnlyCollection<TarArchiveEntry> Juniper.Compression.Tar.TarArchive.Entries
 	 Juniper.Compression.Tar.TarArchive.TarArchive
@@ -3441,14 +2128,6 @@
 	 readonly List<TarArchiveEntry> Juniper.Compression.Tar.TarArchive.entries
 	 void Juniper.Compression.Tar.TarArchive.Decompress
 	 void Juniper.Compression.Tar.TarArchive.Dispose
-  0% - Juniper/Assets/Juniper/Scripts/Input/RocketPack.cs - (0 of 5)
-	 Rigidbody Juniper.Input.RocketPack.body
-	 Transform Juniper.Input.RocketPack.camT
-	 float Juniper.Input.RocketPack.force
-	 void Juniper.Input.RocketPack.FixedUpdate
-	 void Juniper.Input.RocketPack.Start
-  0% - Juniper/Assets/Juniper/Scripts/Input/CameraControl.cs - (0 of 1)
-	 using UnityInput =  UnityEngine.Input
   0% - Juniper.Root/Mathematics/Vector4Serializable.cs - (0 of 10)
 	 Juniper.Mathematics.Vector4Serializable.Vector4Serializable
 	 bool Juniper.Mathematics.Vector4Serializable.Equals
@@ -3506,9 +2185,25 @@
 	 string Juniper.ConfigurationManagement.PackageReference.PackageSpec
 	 string Juniper.ConfigurationManagement.PackageReference.VersionSpec
 	 virtual void Juniper.ConfigurationManagement.AbstractPackage.Activate
-  0% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Motion/NoHandTrackerConfiguration.cs - (0 of 2)
-	 override string Juniper.Input.Pointers.Motion.AbstractHandTrackerConfiguration< HandIDType, ButtonIDType >.PointerNameStub
-	 override? Unary Juniper.Input.Pointers.Motion.NoHandTrackerConfiguration.this[Hand hand]
+  0% - Unity Scripts/Imaging/SkyboxManager.cs - (0 of 18)
+	 Color Juniper.Imaging.SkyboxManager.tint
+	 ImageType
+	 ImageType Juniper.Imaging.SkyboxManager.imageType
+	 Material Juniper.Imaging.SkyboxManager.skyboxMaterial
+	 Mode
+	 Mode Juniper.Imaging.SkyboxManager.layout
+	 StereoLayout
+	 StereoLayout Juniper.Imaging.SkyboxManager.stereoLayout
+	 Texture Juniper.Imaging.SkyboxManager.skyboxTexture
+	 bool Juniper.Imaging.SkyboxManager.mirror180OnBack
+	 bool Juniper.Imaging.SkyboxManager.useMipMap
+	 const string Juniper.Imaging.SkyboxManager.LAT_LON
+	 const string Juniper.Imaging.SkyboxManager.SIDES_6
+	 float Juniper.Imaging.SkyboxManager.exposure
+	 float Juniper.Imaging.SkyboxManager.rotation
+	 void Juniper.Imaging.SkyboxManager.Awake
+	 void Juniper.Imaging.SkyboxManager.SetTexture
+	 void Juniper.Imaging.SkyboxManager.Update
   0% - Juniper.GoogleMaps/Geocoding/GeocodingResult.cs - (0 of 17)
 	 AddressComponent Juniper.World.GIS.Google.Geocoding.GeocodingResult.GetAddressComponent
 	 AddressComponent [] Juniper.World.GIS.Google.Geocoding.GeocodingResult.Address_Components
@@ -3527,13 +2222,53 @@
 	 string Juniper.World.GIS.Google.Geocoding.GeocodingResult.Place_ID
 	 string [] Juniper.World.GIS.Google.Geocoding.GeocodingResult.TypeStrings
 	 void Juniper.World.GIS.Google.Geocoding.GeocodingResult.GetObjectData
-  0% - Juniper.Client/ThirdParty/HjgPngcs/Zlib/DeflateCompressLevel.cs - (0 of 4)
-	 const int Hjg.Pngcs.Zlib.DeflateCompressLevel.DEFAULT
-	 const int Hjg.Pngcs.Zlib.DeflateCompressLevel.FASTEST
-	 const int Hjg.Pngcs.Zlib.DeflateCompressLevel.NO_COMPRESSION
-	 const int Hjg.Pngcs.Zlib.DeflateCompressLevel.OPTIMAL
   0% - Juniper.Root/Console/ConsoleCommandProcessor.cs - (0 of 1)
 	 using C =  System.Console
+  0% - Unity Scripts/Widgets/AbstractTouchable.cs - (0 of 1)
+	 using InputButton =  UnityEngine.EventSystems.PointerEventData.InputButton
+  0% - Unity Scripts/PooledComponent.cs - (0 of 42)
+	 Component Juniper.PooledComponent< T >.GetComponent
+	 Component Juniper.PooledComponent< T >.GetComponentInChildren
+	 Component Juniper.PooledComponent< T >.GetComponentInParent
+	 Component [] Juniper.PooledComponent< T >.GetComponents
+	 Component [] Juniper.PooledComponent< T >.GetComponentsInChildren
+	 Component [] Juniper.PooledComponent< T >.GetComponentsInParent
+	 GameObject Juniper.PooledComponent< T >.gameObject
+	 Juniper.PooledComponent< T >.PooledComponent
+	 PooledComponent<T> Juniper.PooledComponent< T >.SetAnchors
+	 PooledComponent<T> Juniper.PooledComponent< T >.SetHeight
+	 PooledComponent<T> Juniper.PooledComponent< T >.SetPivot
+	 PooledComponent<T> Juniper.PooledComponent< T >.SetPosition
+	 PooledComponent<T> Juniper.PooledComponent< T >.SetScale
+	 PooledComponent<T> Juniper.PooledComponent< T >.SetSize
+	 PooledComponent<T> Juniper.PooledComponent< T >.SetWidth
+	 PooledComponent<Transform> Juniper.PooledComponent< T >.EnsureParent
+	 PooledComponent<U> Juniper.PooledComponent< T >.Ensure< U >
+	 Transform Juniper.PooledComponent< T >.Find
+	 Transform Juniper.PooledComponent< T >.Query
+	 Transform Juniper.PooledComponent< T >.transform
+	 U Juniper.PooledComponent< T >.GetComponent< U >
+	 U Juniper.PooledComponent< T >.GetComponentInChildren< U >
+	 U Juniper.PooledComponent< T >.GetComponentInParent< U >
+	 U Juniper.PooledComponent< T >.Query< U >
+	 U [] Juniper.PooledComponent< T >.GetComponents< U >
+	 U [] Juniper.PooledComponent< T >.GetComponentsInChildren< U >
+	 U [] Juniper.PooledComponent< T >.GetComponentsInParent< U >
+	 bool Juniper.PooledComponent< T >.CompareTag
+	 readonly T Juniper.PooledComponent< T >.Value
+	 readonly bool Juniper.PooledComponent< T >.IsNew
+	 string Juniper.PooledComponent< T >.tag
+	 void Juniper.PooledComponent< T >.Activate
+	 void Juniper.PooledComponent< T >.BroadcastMessage
+	 void Juniper.PooledComponent< T >.Deactivate
+	 void Juniper.PooledComponent< T >.Destroy
+	 void Juniper.PooledComponent< T >.GetComponents
+	 void Juniper.PooledComponent< T >.GetComponents< U >
+	 void Juniper.PooledComponent< T >.GetComponentsInChildren< U >
+	 void Juniper.PooledComponent< T >.GetComponentsInParent< U >
+	 void Juniper.PooledComponent< T >.SendMessage
+	 void Juniper.PooledComponent< T >.SendMessageUpwards
+	 void Juniper.PooledComponent< T >.SetActive
   0% - Juniper.Root/HTTP/BodyInfo.cs - (0 of 6)
 	 Juniper.HTTP.BodyInfo.BodyInfo
 	 bool Juniper.HTTP.BodyInfo.Equals
@@ -3543,33 +2278,22 @@
 	 string Juniper.HTTP.BodyInfo.MIMEType
   0% - Juniper.Root/Logging/INCSALogSource.cs - (0 of 1)
 	 EventHandler<StringEventArgs> Juniper.Logging.INCSALogSource.Log
-  0% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Motion/AbstractHandedPointer.cs - (0 of 8)
-	 Hand Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >._hand
-	 abstract bool Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >.IsDominantHand
-	 bool Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >.IsLeftHand
-	 bool Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >.IsNonDominantHand
-	 bool Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >.IsRightHand
-	 override Vector3 Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >.WorldPoint
-	 virtual ? HandIDType Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >.NativeHandID
-	 virtual Hand Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >.Hand
-  0% - Juniper.Root/Unknown.cs - (0 of 17)
-	 ReadOnlyCollection<string> Juniper.MediaType.Extensions
-	 bool Juniper.MediaType.Equals
-	 bool Juniper.MediaType.Matches
-	 float Juniper.MediaType.Weight
-	 internal Juniper.MediaType.Unknown.Unknown
-	 override bool Juniper.MediaType.Equals
-	 override int Juniper.MediaType.GetHashCode
-	 override string Juniper.MediaType.ToString
-	 readonly IReadOnlyCollection<MediaType> Juniper.MediaType.All
-	 readonly MediaType Juniper.MediaType.Any
-	 readonly ReadOnlyCollection<MediaType> Juniper.MediaType.Values
-	 string Juniper.MediaType.AddExtension
-	 string Juniper.MediaType.PrimaryExtension
-	 string Juniper.MediaType.SubTypeName
-	 string Juniper.MediaType.TypeName
-	 string Juniper.MediaType.Value
-	 virtual bool Juniper.MediaType.Matches
+  0% - Juniper.UnityEditor/TableView.cs - (0 of 7)
+	 IDisposable UnityEditor.TableView.Begin
+	 UnityEditor.TableView.TableView
+	 UnityEditor.TableView.TableView?
+	 UnityEditor.TableView.readonly
+	 Vector2 UnityEditor.TableView.scrollPosition
+	 readonly string UnityEditor.TableView.title
+	 void UnityEditor.TableView.DrawHeaders
+  0% - Unity Scripts/Input/Pointers/Motion/HandTracker.cs - (0 of 7)
+	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsButtonDown
+	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsButtonPressed
+	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsButtonUp
+	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsConnected
+	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsDominantHand
+	 override void Juniper.Input.Pointers.Motion.HandTracker.Reinstall
+	 override void Juniper.Input.Pointers.Motion.NoHandTracker.InternalUpdate
   0% - Juniper.UnityEditor/ConfigurationManagement/PlatformConfiguration.cs - (0 of 22)
 	 BuildTarget Juniper.ConfigurationManagement.PlatformConfiguration.GetBuildTarget
 	 BuildTargetGroup Juniper.ConfigurationManagement.PlatformConfiguration.GetTargetGroup
@@ -3593,43 +2317,6 @@
 	 void Juniper.ConfigurationManagement.PlatformConfiguration.Activate
 	 void Juniper.ConfigurationManagement.PlatformConfiguration.GetObjectData
 	 void Juniper.ConfigurationManagement.PlatformConfiguration.SwitchTarget
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/UnitySliderAdapter.cs - (0 of 4)
-	 EventHandler<float> Juniper.Widgets.UnitySliderAdapter.ValueChange
-	 Juniper.Widgets.UnitySliderAdapter.UnitySliderAdapter
-	 float Juniper.Widgets.UnitySliderAdapter.value
-	 readonly Slider Juniper.Widgets.UnitySliderAdapter.element
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/ListView.cs - (0 of 26)
-	 Color Juniper.Widgets.ListView.disabledColor
-	 Color Juniper.Widgets.ListView.highlightBackgroundColor
-	 Color Juniper.Widgets.ListView.highlightColor
-	 Color Juniper.Widgets.ListView.normalBackgroundColor
-	 Color Juniper.Widgets.ListView.normalColor
-	 Font Juniper.Widgets.ListView.font
-	 List<ListViewItem> Juniper.Widgets.ListView.Items
-	 List<ListViewItem> Juniper.Widgets.ListView.Selection
-	 ListViewItem Juniper.Widgets.ListView.AddItem
-	 ListViewItem Juniper.Widgets.ListView.FirstSelectedItem
-	 ListViewItem Juniper.Widgets.ListView.GetItem
-	 ScrollRect Juniper.Widgets.ListView.Container
-	 SelectionMode
-	 SelectionMode Juniper.Widgets.ListView.selectionMode
-	 UnityEvent Juniper.Widgets.ListView.onSelectionChanged
-	 bool Juniper.Widgets.ListView.ContainsItem
-	 int Juniper.Widgets.ListView.count
-	 int Juniper.Widgets.ListView.fontSize
-	 readonly List<ListViewItem> Juniper.Widgets.ListView.EMPTY_SELECTION
-	 void Juniper.Widgets.ListView.AddItems< T >
-	 void Juniper.Widgets.ListView.Awake
-	 void Juniper.Widgets.ListView.ChangeSelection
-	 void Juniper.Widgets.ListView.Clear
-	 void Juniper.Widgets.ListView.ClearSelection
-	 void Juniper.Widgets.ListView.RemoveItem
-	 void Juniper.Widgets.ListView.SetSelection
-  0% - Juniper/Assets/Juniper/Editor/ReadOnlyAttributeDrawer.cs - (0 of 2)
-	 override float Juniper.ReadOnlyDrawer.GetPropertyHeight
-	 override void Juniper.ReadOnlyDrawer.OnGUI
-  0% - Juniper/Assets/Juniper/Scripts/Statistics/LerpMotionFilter.cs - (0 of 1)
-	 using Vector3 =  UnityEngine.Vector3
   0% - Juniper.Root/Chemical.cs - (0 of 25)
 	 Juniper.MediaType.Chemical.Chemical
 	 ReadOnlyCollection<string> Juniper.MediaType.Extensions
@@ -3656,6 +2343,8 @@
 	 string Juniper.MediaType.SubTypeName
 	 string Juniper.MediaType.TypeName
 	 string Juniper.MediaType.Value
+  0% - Unity Scripts/Platforms/ARKit/ARKitAnchorStore.cs - (0 of 1)
+	 using AnchorType =  UnityEngine.XR.iOS.UnityARUserAnchorComponent
   0% - Juniper.GoogleMaps/GoogleMapsClient.cs - (0 of 22)
 	 Exception Juniper.World.GIS.Google.GoogleMapsClient< MetadataTypeT >.lastError
 	 IEnumerable<(ContentReference fileRef, MetadataTypeT metadata)> Juniper.World.GIS.Google.GoogleMapsClient< MetadataTypeT >.CachedMetadataFiles
@@ -3679,6 +2368,9 @@
 	 readonly string Juniper.World.GIS.Google.GoogleMapsClient< MetadataTypeT >.signingKey
 	 string Juniper.World.GIS.Google.GoogleMapsClient< MetadataTypeT >.Status
 	 void Juniper.World.GIS.Google.GoogleMapsClient< MetadataTypeT >.ClearError
+  0% - Unity Scripts/Input/Pointers/Motion/NoHandTrackerConfiguration.cs - (0 of 2)
+	 override string Juniper.Input.Pointers.Motion.AbstractHandTrackerConfiguration< HandIDType, ButtonIDType >.PointerNameStub
+	 override? Unary Juniper.Input.Pointers.Motion.NoHandTrackerConfiguration.this[Hand hand]
   0% - Juniper.Server/Administration/NetSH/DeleteSslCert.cs - (0 of 14)
 	 Encoding Juniper.Processes.AbstractShellCommand.Encoding
 	 EventHandler<ErrorEventArgs> Juniper.Processes.AbstractShellCommand.Err
@@ -3696,18 +2388,6 @@
 	 virtual async Task<int> Juniper.Processes.AbstractShellCommand.RunAsync
   0% - Juniper.Root/Console/ColorScope.cs - (0 of 1)
 	 using C =  System.Console
-  0% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Motion/AbstractMotionControllerConfiguration.cs - (0 of 11)
-	 Type Juniper.Input.Pointers.Motion.AbstractHandedPointerConfiguration< HandIDType, ButtonIDType >.HandType
-	 abstract ? HandIDType Juniper.Input.Pointers.Motion.AbstractHandedPointerConfiguration< HandIDType, ButtonIDType >.this[Hand hand]
-	 override string Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.PointerNameStub
-	 readonly Dictionary<VirtualTouchPadButtons, KeyCode> Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.touchPadKeys
-	 readonly Dictionary<VirtualTriggerButton, KeyCode> Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.triggerKeys
-	 string Juniper.Input.Pointers.Motion.AbstractHandedPointerConfiguration< HandIDType, ButtonIDType >.MakePointerName
-	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.AddButton
-	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Install
-	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Uninstall
-	 void Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.AddButton
-	 void Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.Install
   0% - Juniper.Root/Mathematics/Vector2Serializable.cs - (0 of 8)
 	 Juniper.Mathematics.Vector2Serializable.Vector2Serializable
 	 bool Juniper.Mathematics.Vector2Serializable.Equals
@@ -3717,6 +2397,9 @@
 	 override int Juniper.Mathematics.Vector2Serializable.GetHashCode
 	 override string Juniper.Mathematics.Vector2Serializable.ToString
 	 void Juniper.Mathematics.Vector2Serializable.GetObjectData
+  0% - Unity Scripts/Widgets/IValuedControl.cs - (0 of 2)
+	 EventHandler<T> Juniper.Widgets.IValuedControl< T >.ValueChange
+	 T Juniper.Widgets.IValuedControl< T >.value
   0% - Juniper.Root/IO/ContentReference.cs - (0 of 9)
 	 Juniper.IO.ContentReference.ContentReference
 	 bool Juniper.IO.ContentReference.Equals
@@ -3735,16 +2418,6 @@
 	 override IEnumerable<ItemT> Juniper.Logic.ItemExpression< ItemT >.GetItems
 	 override bool Juniper.Logic.ItemExpression< ItemT >.Evaluate
 	 override string Juniper.Logic.ItemExpression< ItemT >.ToString
-  0% - Juniper.Root/XR/Pose.cs - (0 of 9)
-	 Juniper.XR.Pose.Pose
-	 Juniper.XR.Pose.Pose???
-	 QuaternionSerializable Juniper.XR.Pose.Orientation
-	 Vector3Serializable Juniper.XR.Pose.Position
-	 bool Juniper.XR.Pose.Equals
-	 override bool Juniper.XR.Pose.Equals
-	 override int Juniper.XR.Pose.GetHashCode
-	 readonly Pose Juniper.XR.Pose.Identity
-	 void Juniper.XR.Pose.GetObjectData
   0% - Juniper.Root/IO/ISerializer.cs - (0 of 1)
 	 long Juniper.IO.ISerializer< in in T >.Serialize
   0% - Juniper.Root/Console/VirtualKeyState.cs - (0 of 160)
@@ -3908,184 +2581,13 @@
 	 readonly int Juniper.Console.VirtualKeyState.VK_XBUTTON1
 	 readonly int Juniper.Console.VirtualKeyState.VK_XBUTTON2
 	 readonly int Juniper.Console.VirtualKeyState.VK_ZOOM
+  0% - Unity Scripts/Platforms/WindowsMR/WindowsMRAnchorStore.cs - (0 of 1)
+	 using AnchorType =  UnityEngine.XR.WSA.WorldAnchor
   0% - Juniper.Client/Imaging/Windows/GDIImageDataTranscoder.cs - (0 of 4)
 	 FromImageT Juniper.Imaging.IImageTranscoder< FromImageT, ToImageT >.Translate
 	 Image Juniper.Imaging.GDIImageDataTranscoder.Translate
 	 ImageData Juniper.Imaging.GDIImageDataTranscoder.Translate
 	 ToImageT Juniper.Imaging.IImageTranscoder< FromImageT, ToImageT >.Translate
-  0% - Juniper/Assets/Juniper/Scripts/PooledComponent.cs - (0 of 42)
-	 Component Juniper.PooledComponent< T >.GetComponent
-	 Component Juniper.PooledComponent< T >.GetComponentInChildren
-	 Component Juniper.PooledComponent< T >.GetComponentInParent
-	 Component [] Juniper.PooledComponent< T >.GetComponents
-	 Component [] Juniper.PooledComponent< T >.GetComponentsInChildren
-	 Component [] Juniper.PooledComponent< T >.GetComponentsInParent
-	 GameObject Juniper.PooledComponent< T >.gameObject
-	 Juniper.PooledComponent< T >.PooledComponent
-	 PooledComponent<T> Juniper.PooledComponent< T >.SetAnchors
-	 PooledComponent<T> Juniper.PooledComponent< T >.SetHeight
-	 PooledComponent<T> Juniper.PooledComponent< T >.SetPivot
-	 PooledComponent<T> Juniper.PooledComponent< T >.SetPosition
-	 PooledComponent<T> Juniper.PooledComponent< T >.SetScale
-	 PooledComponent<T> Juniper.PooledComponent< T >.SetSize
-	 PooledComponent<T> Juniper.PooledComponent< T >.SetWidth
-	 PooledComponent<Transform> Juniper.PooledComponent< T >.EnsureParent
-	 PooledComponent<U> Juniper.PooledComponent< T >.Ensure< U >
-	 Transform Juniper.PooledComponent< T >.Find
-	 Transform Juniper.PooledComponent< T >.Query
-	 Transform Juniper.PooledComponent< T >.transform
-	 U Juniper.PooledComponent< T >.GetComponent< U >
-	 U Juniper.PooledComponent< T >.GetComponentInChildren< U >
-	 U Juniper.PooledComponent< T >.GetComponentInParent< U >
-	 U Juniper.PooledComponent< T >.Query< U >
-	 U [] Juniper.PooledComponent< T >.GetComponents< U >
-	 U [] Juniper.PooledComponent< T >.GetComponentsInChildren< U >
-	 U [] Juniper.PooledComponent< T >.GetComponentsInParent< U >
-	 bool Juniper.PooledComponent< T >.CompareTag
-	 readonly T Juniper.PooledComponent< T >.Value
-	 readonly bool Juniper.PooledComponent< T >.IsNew
-	 string Juniper.PooledComponent< T >.tag
-	 void Juniper.PooledComponent< T >.Activate
-	 void Juniper.PooledComponent< T >.BroadcastMessage
-	 void Juniper.PooledComponent< T >.Deactivate
-	 void Juniper.PooledComponent< T >.Destroy
-	 void Juniper.PooledComponent< T >.GetComponents
-	 void Juniper.PooledComponent< T >.GetComponents< U >
-	 void Juniper.PooledComponent< T >.GetComponentsInChildren< U >
-	 void Juniper.PooledComponent< T >.GetComponentsInParent< U >
-	 void Juniper.PooledComponent< T >.SendMessage
-	 void Juniper.PooledComponent< T >.SendMessageUpwards
-	 void Juniper.PooledComponent< T >.SetActive
-  0% - Juniper.Root/Text.cs - (0 of 113)
-	 Juniper.MediaType.Text.Text
-	 ReadOnlyCollection<string> Juniper.MediaType.Extensions
-	 bool Juniper.MediaType.Equals
-	 bool Juniper.MediaType.Matches
-	 float Juniper.MediaType.Weight
-	 new readonly Text [] Juniper.MediaType.Text.Values
-	 override bool Juniper.MediaType.Equals
-	 override bool Juniper.MediaType.Text.Matches
-	 override int Juniper.MediaType.GetHashCode
-	 override string Juniper.MediaType.ToString
-	 readonly IReadOnlyCollection<MediaType> Juniper.MediaType.All
-	 readonly MediaType Juniper.MediaType.Any
-	 readonly Text Juniper.MediaType.Text.AnyText
-	 readonly Text Juniper.MediaType.Text.Cache_Manifest
-	 readonly Text Juniper.MediaType.Text.Calendar
-	 readonly Text Juniper.MediaType.Text.Css
-	 readonly Text Juniper.MediaType.Text.Csv
-	 readonly Text Juniper.MediaType.Text.Csv_Schema
-	 readonly Text Juniper.MediaType.Text.Directory
-	 readonly Text Juniper.MediaType.Text.Dns
-	 readonly Text Juniper.MediaType.Text.Ecmascript
-	 readonly Text Juniper.MediaType.Text.Encaprtp
-	 readonly Text Juniper.MediaType.Text.Enriched
-	 readonly Text Juniper.MediaType.Text.Example
-	 readonly Text Juniper.MediaType.Text.Flexfec
-	 readonly Text Juniper.MediaType.Text.Fwdred
-	 readonly Text Juniper.MediaType.Text.Grammar_Ref_List
-	 readonly Text Juniper.MediaType.Text.Html
-	 readonly Text Juniper.MediaType.Text.Javascript
-	 readonly Text Juniper.MediaType.Text.Jcr_Cnd
-	 readonly Text Juniper.MediaType.Text.Markdown
-	 readonly Text Juniper.MediaType.Text.Mizar
-	 readonly Text Juniper.MediaType.Text.N3
-	 readonly Text Juniper.MediaType.Text.Parameters
-	 readonly Text Juniper.MediaType.Text.Parityfec
-	 readonly Text Juniper.MediaType.Text.Plain
-	 readonly Text Juniper.MediaType.Text.Provenance_Notation
-	 readonly Text Juniper.MediaType.Text.PrsFallensteinRst
-	 readonly Text Juniper.MediaType.Text.PrsLinesTag
-	 readonly Text Juniper.MediaType.Text.PrsPropLogic
-	 readonly Text Juniper.MediaType.Text.RED
-	 readonly Text Juniper.MediaType.Text.Raptorfec
-	 readonly Text Juniper.MediaType.Text.Rfc822_Headers
-	 readonly Text Juniper.MediaType.Text.Richtext
-	 readonly Text Juniper.MediaType.Text.Rtf
-	 readonly Text Juniper.MediaType.Text.Rtp_Enc_Aescm128
-	 readonly Text Juniper.MediaType.Text.Rtploopback
-	 readonly Text Juniper.MediaType.Text.Rtx
-	 readonly Text Juniper.MediaType.Text.Sgml
-	 readonly Text Juniper.MediaType.Text.Strings
-	 readonly Text Juniper.MediaType.Text.T140
-	 readonly Text Juniper.MediaType.Text.Tab_Separated_Values
-	 readonly Text Juniper.MediaType.Text.Troff
-	 readonly Text Juniper.MediaType.Text.Turtle
-	 readonly Text Juniper.MediaType.Text.Ulpfec
-	 readonly Text Juniper.MediaType.Text.Uri_List
-	 readonly Text Juniper.MediaType.Text.Vcard
-	 readonly Text Juniper.MediaType.Text.Vendor1d_Interleaved_Parityfec
-	 readonly Text Juniper.MediaType.Text.VendorA
-	 readonly Text Juniper.MediaType.Text.VendorAbc
-	 readonly Text Juniper.MediaType.Text.VendorAscii_Art
-	 readonly Text Juniper.MediaType.Text.VendorCurl
-	 readonly Text Juniper.MediaType.Text.VendorCurlDcurl
-	 readonly Text Juniper.MediaType.Text.VendorCurlMcurl
-	 readonly Text Juniper.MediaType.Text.VendorCurlScurl
-	 readonly Text Juniper.MediaType.Text.VendorDMClientScript
-	 readonly Text Juniper.MediaType.Text.VendorDebianCopyright
-	 readonly Text Juniper.MediaType.Text.VendorDvbSubtitle
-	 readonly Text Juniper.MediaType.Text.VendorEsmertecTheme_Descriptor
-	 readonly Text Juniper.MediaType.Text.VendorFiclabFlt
-	 readonly Text Juniper.MediaType.Text.VendorFly
-	 readonly Text Juniper.MediaType.Text.VendorFmiFlexstor
-	 readonly Text Juniper.MediaType.Text.VendorGml
-	 readonly Text Juniper.MediaType.Text.VendorGraphviz
-	 readonly Text Juniper.MediaType.Text.VendorHgl
-	 readonly Text Juniper.MediaType.Text.VendorIPTCNITF
-	 readonly Text Juniper.MediaType.Text.VendorIPTCNewsML
-	 readonly Text Juniper.MediaType.Text.VendorIn3d3dml
-	 readonly Text Juniper.MediaType.Text.VendorIn3dSpot
-	 readonly Text Juniper.MediaType.Text.VendorLatex_Z
-	 readonly Text Juniper.MediaType.Text.VendorMotorolaReflex
-	 readonly Text Juniper.MediaType.Text.VendorMs_Mediapackage
-	 readonly Text Juniper.MediaType.Text.VendorNet2phoneCommcenterCommand
-	 readonly Text Juniper.MediaType.Text.VendorRadisysMsml_Basic_Layout
-	 readonly Text Juniper.MediaType.Text.VendorSenxWarpscript
-	 readonly Text Juniper.MediaType.Text.VendorSiUricatalogue
-	 readonly Text Juniper.MediaType.Text.VendorSosi
-	 readonly Text Juniper.MediaType.Text.VendorSunJ2meApp_Descriptor
-	 readonly Text Juniper.MediaType.Text.VendorTrolltechLinguist
-	 readonly Text Juniper.MediaType.Text.VendorWapSi
-	 readonly Text Juniper.MediaType.Text.VendorWapSl
-	 readonly Text Juniper.MediaType.Text.VendorWapWml
-	 readonly Text Juniper.MediaType.Text.VendorWapWmlscript
-	 readonly Text Juniper.MediaType.Text.Vtt
-	 readonly Text Juniper.MediaType.Text.X_Asm
-	 readonly Text Juniper.MediaType.Text.X_C
-	 readonly Text Juniper.MediaType.Text.X_Fortran
-	 readonly Text Juniper.MediaType.Text.X_Java_Source
-	 readonly Text Juniper.MediaType.Text.X_Nfo
-	 readonly Text Juniper.MediaType.Text.X_Opml
-	 readonly Text Juniper.MediaType.Text.X_Pascal
-	 readonly Text Juniper.MediaType.Text.X_Setext
-	 readonly Text Juniper.MediaType.Text.X_Sfv
-	 readonly Text Juniper.MediaType.Text.X_Uuencode
-	 readonly Text Juniper.MediaType.Text.X_Vcalendar
-	 readonly Text Juniper.MediaType.Text.X_Vcard
-	 readonly Text Juniper.MediaType.Text.Xml
-	 readonly Text Juniper.MediaType.Text.Xml_External_Parsed_Entity
-	 string Juniper.MediaType.AddExtension
-	 string Juniper.MediaType.PrimaryExtension
-	 string Juniper.MediaType.SubTypeName
-	 string Juniper.MediaType.TypeName
-	 string Juniper.MediaType.Value
-  0% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Motion/NoHandTracker.cs - (0 of 6)
-	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsButtonDown
-	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsButtonPressed
-	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsButtonUp
-	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsConnected
-	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsDominantHand
-	 override void Juniper.Input.Pointers.Motion.NoHandTracker.InternalUpdate
-  0% - Juniper.Client/Imaging/Windows/GDIProcessor.cs - (0 of 8)
-	 Image Juniper.Imaging.GDIProcessor.Concatenate
-	 T Juniper.Imaging.IImageProcessor< T >.Concatenate
-	 int Juniper.Imaging.GDIProcessor.GetComponents
-	 int Juniper.Imaging.GDIProcessor.GetHeight
-	 int Juniper.Imaging.GDIProcessor.GetWidth
-	 int Juniper.Imaging.IImageProcessor< T >.GetComponents
-	 int Juniper.Imaging.IImageProcessor< T >.GetHeight
-	 int Juniper.Imaging.IImageProcessor< T >.GetWidth
   0% - Juniper.Root/Imaging/TranscoderCodec.cs - (0 of 6)
 	 Juniper.Imaging.TranscoderCodec< FromImageT, ToImageT >.TranscoderCodec
 	 MediaType.Image Juniper.Imaging.TranscoderCodec< FromImageT, ToImageT >.ContentType
@@ -4093,6 +2595,32 @@
 	 long Juniper.Imaging.TranscoderCodec< FromImageT, ToImageT >.Serialize
 	 readonly IImageCodec<FromImageT> Juniper.Imaging.TranscoderCodec< FromImageT, ToImageT >.codec
 	 readonly IImageTranscoder<FromImageT, ToImageT> Juniper.Imaging.TranscoderCodec< FromImageT, ToImageT >.transcoder
+  0% - Unity Scripts/Platforms/WindowsMR/WindowsMRMotionControllerConfiguration.cs - (0 of 5)
+	 Juniper.Input.Pointers.Motion.WindowsMRMotionControllerConfiguration.WindowsMRMotionControllerConfiguration
+	 override string Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.PointerNameStub
+	 override? InteractionSourceHandedness Juniper.Input.Pointers.Motion.WindowsMRMotionControllerConfiguration.this[Hand hand]
+	 void Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.AddButton
+	 void Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.Install
+  0% - Unity Scripts/Input/Pointers/ButtonMapper.cs - (0 of 19)
+	 Action<Interaction> Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.InteractionNeeded
+	 Func<ButtonIDType, bool> Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.ButtonDownNeeded
+	 Func<ButtonIDType, bool> Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.ButtonPressedNeeded
+	 Func<ButtonIDType, bool> Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.ButtonUpNeeded
+	 Func<int, JuniperPointerEventData, JuniperPointerEventData> Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.ClonedPointerEventNeeded
+	 IEventSystemHandler Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.Process
+	 JuniperPointerEventData Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.OnClonedPointerEventNeeded
+	 MappedButton<ButtonIDType> Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.FindMappedButton
+	 bool Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.IsButtonDown
+	 bool Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.IsButtonPressed
+	 bool Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.IsButtonUp
+	 bool Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.IsDragging
+	 bool Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.OnButtonDownNeeded
+	 bool Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.OnButtonPressedNeeded
+	 bool Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.OnButtonUpNeeded
+	 readonly List<MappedButton<ButtonIDType> > Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.buttons
+	 void Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.AddButton
+	 void Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.Install
+	 void Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.OnInteractionNeeded
   0% - Juniper.Root/Mathematics/Matrix4x4Serializable.cs - (0 of 7)
 	 Juniper.Mathematics.Matrix4x4Serializable.Matrix4x4Serializable
 	 bool Juniper.Mathematics.Matrix4x4Serializable.Equals
@@ -4184,22 +2712,25 @@
 	 string Juniper.World.GIS.Google.Geocoding.AddressComponent.Short_Name
 	 string [] Juniper.World.GIS.Google.Geocoding.AddressComponent.TypeStrings
 	 void Juniper.World.GIS.Google.Geocoding.AddressComponent.GetObjectData
-  0% - Juniper/Assets/Juniper/Scripts/Platforms/WindowsMR/WindowsMRMotionController.cs - (0 of 1)
-	 using HapticType =  Juniper.Haptics.WindowsMRHaptics
+  0% - Juniper.Root/IO/JsonFactory`2.cs - (0 of 4)
+	 Juniper.IO.JsonFactory< ResultT, MediaTypeT >.JsonFactory
+	 MediaTypeT Juniper.IO.JsonFactory< ResultT, MediaTypeT >.ContentType
+	 ResultT Juniper.IO.JsonFactory< ResultT, MediaTypeT >.Deserialize
+	 long Juniper.IO.JsonFactory< ResultT, MediaTypeT >.Serialize
   0% - Juniper.Root/BufferEventArgs.cs - (0 of 1)
 	 Juniper.BufferEventArgs.BufferEventArgs
+  0% - Juniper.Client/Sound/IAudioDecoder.cs - (0 of 3)
+	 AudioFormat Juniper.Sound.IAudioDecoder.Format
+	 ResultT Juniper.IO.IDeserializer< out out ResultT >.Deserialize
+	 bool Juniper.Sound.IAudioDecoder.SupportsFormat
+  0% - Unity Scripts/Statistics/IntegrationMotionFilter.cs - (0 of 1)
+	 using Vector3 =  UnityEngine.Vector3
+  0% - Unity Scripts/Statistics/KalmanMotionFilter.cs - (0 of 1)
+	 using Vector3 =  UnityEngine.Vector3
   0% - Juniper.Root/Logging/IInfoSource.cs - (0 of 3)
 	 EventHandler<ErrorEventArgs> Juniper.Logging.IErrorSource.Err
 	 EventHandler<StringEventArgs> Juniper.Logging.IInfoSource.Info
 	 EventHandler<StringEventArgs> Juniper.Logging.IWarningSource.Warning
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/TextComponentWrapper.cs - (0 of 7)
-	 T Juniper.Widgets.TextComponentWrapper.Get< T >
-	 TMP_Text Juniper.Widgets.TextComponentWrapper.textMeshPro
-	 Text Juniper.Widgets.TextComponentWrapper.unityText
-	 TextMesh Juniper.Widgets.TextComponentWrapper.unityTextMesh
-	 internal void Juniper.Widgets.TextComponentWrapper.SetupControls
-	 string Juniper.Widgets.TextComponentWrapper.Text
-	 void Juniper.Widgets.TextComponentWrapper.Awake
   0% - Juniper.Unity/Imaging/UnityTexture2DProcessor.cs - (0 of 8)
 	 T Juniper.Imaging.IImageProcessor< T >.Concatenate
 	 Texture2D Juniper.Imaging.UnityTexture2DProcessor.Concatenate
@@ -4212,15 +2743,11 @@
   0% - Juniper.Root/HTTP/DataMessageEventArgs.cs - (0 of 2)
 	 Juniper.HTTP.DataMessageEventArgs.DataMessageEventArgs
 	 T Juniper.EventArgs< T >.Value
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/ComponentBuffer.cs - (0 of 6)
-	 BitMiracle.LibJpeg.Classic.Internal.ComponentBuffer.ComponentBuffer
-	 byte [] BitMiracle.LibJpeg.Classic.Internal.ComponentBuffer.this[int i]
-	 byte [][] BitMiracle.LibJpeg.Classic.Internal.ComponentBuffer.buffer
-	 int BitMiracle.LibJpeg.Classic.Internal.ComponentBuffer.funnyOffset
-	 int [] BitMiracle.LibJpeg.Classic.Internal.ComponentBuffer.funnyIndices
-	 void BitMiracle.LibJpeg.Classic.Internal.ComponentBuffer.SetBuffer
   0% - Juniper.GoogleMaps/StreetView/LocationType.cs - (0 of 1)
 	 LocationType
+  0% - Unity Scripts/Input/Pointers/Gaze/TouchGazePointer.cs - (0 of 2)
+	 using HapticType =  Juniper.Haptics.iOS9Haptics
+	 using UnityInput =  UnityEngine.Input
   0% - Juniper.GoogleMaps/TimeZone/TimeZoneResponse.cs - (0 of 14)
 	 HttpStatusCode Juniper.World.GIS.Google.TimeZone.TimeZoneResponse.Status
 	 Juniper.World.GIS.Google.TimeZone.TimeZoneResponse.TimeZoneResponse
@@ -4245,63 +2772,36 @@
 	 IExpression<MediaType> Juniper.HTTP.Server.IRequestHandler.Accept
 	 Regex Juniper.HTTP.Server.IRequestHandler.Pattern
 	 int Juniper.HTTP.Server.IRequestHandler.Priority
-  0% - Juniper.Client/ThirdParty/HjgPngcs/Zlib/CRC32.cs - (0 of 10)
-	 Hjg.Pngcs.Zlib.CRC32.CRC32
-	 const uint Hjg.Pngcs.Zlib.CRC32.defaultPolynomial
-	 const uint Hjg.Pngcs.Zlib.CRC32.defaultSeed
-	 readonly uint Hjg.Pngcs.Zlib.CRC32.seed
-	 readonly uint [] Hjg.Pngcs.Zlib.CRC32.table
-	 uint Hjg.Pngcs.Zlib.CRC32.GetValue
-	 uint Hjg.Pngcs.Zlib.CRC32.hash
-	 uint [] Hjg.Pngcs.Zlib.CRC32.defaultTable
-	 void Hjg.Pngcs.Zlib.CRC32.Reset
-	 void Hjg.Pngcs.Zlib.CRC32.Update
-  0% - Juniper/Assets/Juniper/Scripts/Platforms/ARKit/ARKitAnchorStore.cs - (0 of 1)
-	 using AnchorType =  UnityEngine.XR.iOS.UnityARUserAnchorComponent
-  0% - Juniper/Assets/Juniper/Editor/HideInNormalInspectorDrawer.cs - (0 of 2)
-	 override float Juniper.HideInNormalInspectorDrawer.GetPropertyHeight
-	 override void Juniper.HideInNormalInspectorDrawer.OnGUI
-  0% - Juniper/Assets/Juniper/Scripts/Imaging/PhotosphereManager.cs - (0 of 21)
-	 Action<Photosphere> Juniper.Imaging.PhotosphereManager.PhotosphereReady
-	 CachingStrategy Juniper.Imaging.PhotosphereManager.cache
-	 CubemapRotationNeeded Juniper.Imaging.PhotosphereManager.RotationNeeded
-	 IImageCodec<Texture2D> Juniper.Imaging.PhotosphereManager.codec
-	 Photosphere Juniper.Imaging.PhotosphereManager.curSphere
-	 T Juniper.Imaging.PhotosphereManager.GetPhotosphere< T >
-	 Texture2D Juniper.Imaging.PhotosphereManager.Photo_CubemapNeeded
-	 TextureNeeded Juniper.Imaging.PhotosphereManager.CubemapNeeded
-	 bool Juniper.Imaging.PhotosphereManager.Photo_CheckIsCubemapAvailable
-	 float Juniper.Imaging.PhotosphereManager.Photo_GetRotation
-	 int Juniper.Imaging.PhotosphereManager.Count
-	 internal Vector2 [][] Juniper.Imaging.PhotosphereManager.fovTestAngles
-	 internal int [] Juniper.Imaging.PhotosphereManager.FOVs
-	 internal int [] Juniper.Imaging.PhotosphereManager.lodLevelRequirements
-	 readonly Dictionary<string, Photosphere> Juniper.Imaging.PhotosphereManager.photospheres
-	 void Juniper.Imaging.PhotosphereManager.CreatePhotosphere< T >
-	 void Juniper.Imaging.PhotosphereManager.Initialize< T >
-	 void Juniper.Imaging.PhotosphereManager.Photo_Ready
-	 void Juniper.Imaging.PhotosphereManager.RemovePhotosphere
-	 void Juniper.Imaging.PhotosphereManager.SetDetailLevels
-	 void Juniper.Imaging.PhotosphereManager.SetIO
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/Tooltipable.cs - (0 of 18)
-	 AbstractStateController Juniper.Widgets.Tooltipable.trans
-	 Func<bool> Juniper.Widgets.Tooltipable.isParentEnabled
-	 IEnumerator Juniper.Widgets.Tooltipable.HideTooltipCoroutine
-	 Speakable Juniper.Widgets.Tooltipable.speech
-	 TextComponentWrapper Juniper.Widgets.Tooltipable.textElement
-	 Transform Juniper.Widgets.Tooltipable.tooltip
-	 bool Juniper.Widgets.Tooltipable.IsInteractable
-	 float Juniper.Widgets.Tooltipable.delayBeforeDisplay
-	 float Juniper.Widgets.Tooltipable.delayBeforeHide
-	 string Juniper.Widgets.Tooltipable.Text
-	 void Juniper.Widgets.Tooltipable.Awake
-	 void Juniper.Widgets.Tooltipable.GetControls
-	 void Juniper.Widgets.Tooltipable.Hide
-	 void Juniper.Widgets.Tooltipable.HideTooltip
-	 void Juniper.Widgets.Tooltipable.OnEnable
-	 void Juniper.Widgets.Tooltipable.OnPointerEnter
-	 void Juniper.Widgets.Tooltipable.OnPointerExit
-	 void Juniper.Widgets.Tooltipable.ShowTooltip
+  0% - Juniper.Root/Unknown.cs - (0 of 17)
+	 ReadOnlyCollection<string> Juniper.MediaType.Extensions
+	 bool Juniper.MediaType.Equals
+	 bool Juniper.MediaType.Matches
+	 float Juniper.MediaType.Weight
+	 internal Juniper.MediaType.Unknown.Unknown
+	 override bool Juniper.MediaType.Equals
+	 override int Juniper.MediaType.GetHashCode
+	 override string Juniper.MediaType.ToString
+	 readonly IReadOnlyCollection<MediaType> Juniper.MediaType.All
+	 readonly MediaType Juniper.MediaType.Any
+	 readonly ReadOnlyCollection<MediaType> Juniper.MediaType.Values
+	 string Juniper.MediaType.AddExtension
+	 string Juniper.MediaType.PrimaryExtension
+	 string Juniper.MediaType.SubTypeName
+	 string Juniper.MediaType.TypeName
+	 string Juniper.MediaType.Value
+	 virtual bool Juniper.MediaType.Matches
+  0% - Unity Scripts/MasterSceneController.cs - (0 of 1)
+	 using UnityImage =  UnityEngine.UI.Image
+  0% - Unity Scripts/Input/Pointers/AbstractPointerConfiguration.cs - (0 of 4)
+	 readonly Dictionary<ButtonIDType, KeyCode> Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.nativeKeys
+	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.AddButton
+	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Install
+	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Uninstall
+  0% - Unity Scripts/Input/Pointers/Screen/MousePointerConfiguration.cs - (0 of 4)
+	 Juniper.Input.Pointers.Screen.MousePointerConfiguration.MousePointerConfiguration
+	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.AddButton
+	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Install
+	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Uninstall
   0% - Juniper.Root/Unicode/BoxDrawingSet.cs - (0 of 10)
 	 Juniper.Unicode.BoxDrawingSet.BoxDrawingSet
 	 char Juniper.Unicode.BoxDrawingSet.Horizontal
@@ -4319,54 +2819,22 @@
 	 MarkerAnchorPosition
 	 MarkerSize
 	 TileImageFormat
-  0% - Juniper.Client/Sound/IAudioDecoder.cs - (0 of 3)
-	 AudioFormat Juniper.Sound.IAudioDecoder.Format
-	 ResultT Juniper.IO.IDeserializer< out out ResultT >.Deserialize
-	 bool Juniper.Sound.IAudioDecoder.SupportsFormat
-  0% - Juniper/Assets/Juniper/Scripts/Input/JuniperPointerEventData.cs - (0 of 2)
-	 Juniper.Input.JuniperPointerEventData.JuniperPointerEventData
-	 KeyCode Juniper.Input.JuniperPointerEventData.keyCode
-  0% - Juniper/Assets/Juniper/Scripts/Settings/AccessibilitySettings.cs - (0 of 2)
-	 using Clickable =  Juniper.Widgets.Clickable
-	 using Selectable =  UnityEngine.UI.Selectable
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/FileSelector.cs - (0 of 31)
-	 Action Juniper.Widgets.FileSelector.onCancel
-	 Action<string> Juniper.Widgets.FileSelector.onSelected
-	 Button Juniper.Widgets.FileSelector.cancel
-	 Button Juniper.Widgets.FileSelector.ok
-	 Font Juniper.Widgets.FileSelector.font
-	 InputField Juniper.Widgets.FileSelector.path
-	 ListView Juniper.Widgets.FileSelector.container
-	 Regex Juniper.Widgets.FileSelector.fileFilter
-	 SelectionMode
-	 SelectionMode Juniper.Widgets.FileSelector.mode
-	 T Juniper.Widgets.FileSelector.Get< T >
-	 Text Juniper.Widgets.FileSelector.label
-	 Text Juniper.Widgets.FileSelector.title
-	 bool Juniper.Widgets.FileSelector.FilePassesFilter
-	 int Juniper.Widgets.FileSelector.fontSize
-	 string Juniper.Widgets.FileSelector.SelectedPath
-	 string Juniper.Widgets.FileSelector.filter
-	 string Juniper.Widgets.FileSelector.lastFilter
-	 string Juniper.Widgets.FileSelector.lastStartDirectory
-	 string Juniper.Widgets.FileSelector.startDirectory
-	 void Juniper.Widgets.FileSelector.AddEntry
-	 void Juniper.Widgets.FileSelector.Awake
-	 void Juniper.Widgets.FileSelector.CallAndExit
-	 void Juniper.Widgets.FileSelector.Cancel
-	 void Juniper.Widgets.FileSelector.MaybeSetStartDirectory
-	 void Juniper.Widgets.FileSelector.OK
-	 void Juniper.Widgets.FileSelector.ReadDirectory
-	 void Juniper.Widgets.FileSelector.Select
-	 void Juniper.Widgets.FileSelector.Show
-	 void Juniper.Widgets.FileSelector.ShowPath
-	 void Juniper.Widgets.FileSelector.Update
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegEntropyDecoder.cs - (0 of 5)
-	 DecodeMcuDelegate BitMiracle.LibJpeg.Classic.Internal.JpegEntropyDecoder.decodeMcu
-	 FinishPassDelegate BitMiracle.LibJpeg.Classic.Internal.JpegEntropyDecoder.finishPass
-	 abstract void BitMiracle.LibJpeg.Classic.Internal.JpegEntropyDecoder.StartPass
-	 delegate bool BitMiracle.LibJpeg.Classic.Internal.JpegEntropyDecoder.DecodeMcuDelegate
-	 delegate void BitMiracle.LibJpeg.Classic.Internal.JpegEntropyDecoder.FinishPassDelegate
+  0% - Unity Editor Scripts/Events/ButtonEventEditor.cs - (0 of 10)
+	 const string Juniper.Events.ButtonEventEditor.FIELD_ONCLICK
+	 const string Juniper.Events.ButtonEventEditor.FIELD_ONDOUBLECLICK
+	 const string Juniper.Events.ButtonEventEditor.FIELD_ONDOWN
+	 const string Juniper.Events.ButtonEventEditor.FIELD_ONLONGPRESS
+	 const string Juniper.Events.ButtonEventEditor.FIELD_ONUP
+	 override void Juniper.Events.ButtonEventEditor.OnInspectorGUI
+	 readonly ButtonEvent Juniper.Events.ButtonEventEditor._
+	 readonly GUIContent Juniper.Events.ButtonEventEditor.ButtonTypeLabel
+	 readonly GUIContent Juniper.Events.ButtonEventEditor.ButtonValueLabel
+	 readonly GUIContent Juniper.Events.ButtonEventEditor.InputKeyLabel
+  0% - Juniper.Root/Imaging/ImageData.cs - (0 of 4)
+	 ImageInfo Juniper.Imaging.ImageData.Info
+	 Juniper.Imaging.ImageData.ImageData
+	 Juniper.Imaging.ImageData.ImageData??
+	 byte [] Juniper.Imaging.ImageData.Data
   0% - Juniper.GoogleMaps/Geocoding/GeometryViewport.cs - (0 of 6)
 	 Juniper.World.GIS.Google.Geocoding.GeometryViewport.GeometryViewport
 	 LatLngPoint Juniper.World.GIS.Google.Geocoding.GeometryViewport.NorthEast
@@ -4374,8 +2842,6 @@
 	 readonly string Juniper.World.GIS.Google.Geocoding.GeometryViewport.NORTHEAST_FIELD
 	 readonly string Juniper.World.GIS.Google.Geocoding.GeometryViewport.SOUTHWEST_FIELD
 	 void Juniper.World.GIS.Google.Geocoding.GeometryViewport.GetObjectData
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/PlatformName.cs - (0 of 1)
-	 void Juniper.Widgets.PlatformName.Awake
   0% - Juniper.GoogleMaps/MapTiles/TileRequest.cs - (0 of 24)
 	 Juniper.World.GIS.Google.MapTiles.TileRequest.TileRequest
 	 LatLngPoint Juniper.World.GIS.Google.MapTiles.TileRequest.center
@@ -4401,6 +2867,10 @@
 	 string Juniper.World.GIS.Google.MapTiles.TileRequest.region
 	 void Juniper.World.GIS.Google.MapTiles.TileRequest.AddMarker
 	 void Juniper.World.GIS.Google.MapTiles.TileRequest.AddMarkerGroup
+  0% - Unity Scripts/Widgets/TabPanelButton.cs - (0 of 3)
+	 GameObject Juniper.Widgets.TabPanelButton.panel
+	 void Juniper.Widgets.TabPanelButton.AddListener
+	 void Juniper.Widgets.TabPanelButton.SetActive
   0% - Juniper.Server/RouteAttribute.cs - (0 of 12)
 	 AuthenticationSchemes Juniper.HTTP.Server.RouteAttribute.Authentication
 	 HttpMethods Juniper.HTTP.Server.RouteAttribute.Methods
@@ -4418,27 +2888,13 @@
 	 void Juniper.HTTP.Server.INCSALogDestination.OnLog
   0% - Juniper.Client/Primrose/Grammars/Basic.cs - (0 of 1)
 	 using Line =  System.Collections.Generic.List<Juniper.Primrose.Token>
-  0% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Motion/HandTracker.cs - (0 of 7)
-	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsButtonDown
-	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsButtonPressed
-	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsButtonUp
-	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsConnected
-	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsDominantHand
-	 override void Juniper.Input.Pointers.Motion.HandTracker.Reinstall
-	 override void Juniper.Input.Pointers.Motion.NoHandTracker.InternalUpdate
   0% - Juniper.Root/EventArgs.cs - (0 of 2)
 	 Juniper.EventArgs< T >.EventArgs
 	 T Juniper.EventArgs< T >.Value
   0% - Juniper.Root/IO/IPreloadable.cs - (0 of 1)
 	 void Juniper.IO.IPreloadable.Preload
-  0% - Juniper.UnityEditor/TableView.cs - (0 of 7)
-	 IDisposable UnityEditor.TableView.Begin
-	 UnityEditor.TableView.TableView
-	 UnityEditor.TableView.TableView?
-	 UnityEditor.TableView.readonly
-	 Vector2 UnityEditor.TableView.scrollPosition
-	 readonly string UnityEditor.TableView.title
-	 void UnityEditor.TableView.DrawHeaders
+  0% - Unity Scripts/Input/CameraControl.cs - (0 of 1)
+	 using UnityInput =  UnityEngine.Input
   0% - Juniper.GoogleMaps/StringExt.cs - (0 of 2)
 	 readonly Dictionary<HttpStatusCode, string> Juniper.Google.StringExt.REVERSE_CODE_MAP
 	 readonly Dictionary<string, HttpStatusCode> Juniper.Google.StringExt.CODE_MAP
@@ -4484,22 +2940,53 @@
 	 void Juniper.HTTP.DataMessageHandler< ResultT, FactoryT, SocketT >.OnError
 	 void Juniper.HTTP.DataMessageHandler< ResultT, FactoryT, SocketT >.Socket_Closed
 	 void Juniper.HTTP.DataMessageHandler< ResultT, FactoryT, SocketT >.Socket_DataMessage
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/TabPanelMenu.cs - (0 of 4)
-	 TabPanelButton [] Juniper.Widgets.TabPanelMenu.tabButtons
-	 void Juniper.Widgets.TabPanelMenu.ActivateButton
-	 void Juniper.Widgets.TabPanelMenu.Awake
-	 void Juniper.Widgets.TabPanelMenu.Show
-  0% - Juniper/Assets/Juniper/Scripts/Platforms/WindowsMR/WindowsMRMotionControllerConfiguration.cs - (0 of 5)
-	 Juniper.Input.Pointers.Motion.WindowsMRMotionControllerConfiguration.WindowsMRMotionControllerConfiguration
-	 override string Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.PointerNameStub
-	 override? InteractionSourceHandedness Juniper.Input.Pointers.Motion.WindowsMRMotionControllerConfiguration.this[Hand hand]
-	 void Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.AddButton
-	 void Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.Install
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/FollowMainCamera.cs - (0 of 4)
-	 FollowObject Juniper.Widgets.FollowMainCamera.f
-	 void Juniper.Widgets.FollowMainCamera.Awake
-	 void Juniper.Widgets.FollowMainCamera.OnEnable
-	 void Juniper.Widgets.FollowMainCamera.OnValidate
+  0% - Unity Scripts/Imaging/UnityTexture2DCodec.cs - (0 of 9)
+	 ImageInfo Juniper.Imaging.UnityTexture2DCodec.GetImageInfo
+	 Juniper.Imaging.UnityTexture2DCodec.UnityTexture2DCodec
+	 MediaType.Image Juniper.Imaging.UnityTexture2DCodec.ContentType
+	 Texture2D Juniper.Imaging.UnityTexture2DCodec.Deserialize
+	 Texture2D Juniper.Imaging.UnityTexture2DCodec.MakeTexture
+	 byte [] Juniper.Imaging.UnityTexture2DCodec.Serialize
+	 long Juniper.Imaging.UnityTexture2DCodec.Serialize
+	 readonly Texture2D.EXRFlags Juniper.Imaging.UnityTexture2DCodec.exrFlags
+	 readonly int Juniper.Imaging.UnityTexture2DCodec.jpegEncodingQuality
+  0% - Unity Editor Plugins/ConfigurationManagement/JuniperCompilerDefineManager.cs - (0 of 8)
+	 const float Juniper.ConfigurationManagement.JuniperCompilerDefineManager.narrowWidthValue
+	 const string Juniper.ConfigurationManagement.JuniperCompilerDefineManager.MENU_NAME
+	 readonly GUIContent Juniper.ConfigurationManagement.JuniperCompilerDefineManager.TITLE
+	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperCompilerDefineManager.buttonWidth
+	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperCompilerDefineManager.narrowWidth
+	 readonly TableView Juniper.ConfigurationManagement.JuniperCompilerDefineManager.definesTable
+	 string Juniper.ConfigurationManagement.JuniperCompilerDefineManager.newDefine
+	 void Juniper.ConfigurationManagement.JuniperCompilerDefineManager.OnGUI
+  0% - Unity Scripts/Events/ButtonEvent.cs - (0 of 27)
+	 EventHandler<JuniperPointerEventData> Juniper.Events.ButtonEvent.Click
+	 EventHandler<JuniperPointerEventData> Juniper.Events.ButtonEvent.DoubleClick
+	 EventHandler<JuniperPointerEventData> Juniper.Events.ButtonEvent.Down
+	 EventHandler<JuniperPointerEventData> Juniper.Events.ButtonEvent.LongPress
+	 EventHandler<JuniperPointerEventData> Juniper.Events.ButtonEvent.Up
+	 IEnumerable<Type> Juniper.Events.ButtonEvent.GetSupportedButtonTypes
+	 JuniperPointerEvent Juniper.Events.ButtonEvent.onClick
+	 JuniperPointerEvent Juniper.Events.ButtonEvent.onDoubleClick
+	 JuniperPointerEvent Juniper.Events.ButtonEvent.onDown
+	 JuniperPointerEvent Juniper.Events.ButtonEvent.onLongPress
+	 JuniperPointerEvent Juniper.Events.ButtonEvent.onUp
+	 KeyCode Juniper.Events.ButtonEvent.inputKey
+	 T Juniper.Events.ButtonEvent.GetButtonValue< T >
+	 bool Juniper.Events.ButtonEvent.IsDown
+	 bool Juniper.Events.ButtonEvent.IsPressed
+	 bool Juniper.Events.ButtonEvent.IsUp
+	 bool Juniper.Events.ButtonEvent.wasPressed
+	 readonly Regex Juniper.Events.ButtonEvent.KeyPattern
+	 string Juniper.Events.ButtonEvent.Key
+	 string Juniper.Events.ButtonEvent.buttonTypeName
+	 string Juniper.Events.ButtonEvent.buttonValueName
+	 void Juniper.Events.ButtonEvent.LateUpdate
+	 void Juniper.Events.ButtonEvent.OnClick
+	 void Juniper.Events.ButtonEvent.OnDoubleClick
+	 void Juniper.Events.ButtonEvent.OnDown
+	 void Juniper.Events.ButtonEvent.OnLongPress
+	 void Juniper.Events.ButtonEvent.OnUp
   0% - Juniper.Root/Compression/Zip/ZipFileCacheLayer.cs - (0 of 7)
 	 IEnumerable<ContentReference> Juniper.IO.ZipFileCacheLayer.GetContentReferences
 	 Juniper.IO.ZipFileCacheLayer.ZipFileCacheLayer
@@ -4525,12 +3012,6 @@
 	 override string Juniper.Speech.Azure.AuthTokenRequest.InternalCacheID
 	 override void Juniper.Speech.Azure.AuthTokenRequest.ModifyRequest
 	 readonly string Juniper.Speech.Azure.AuthTokenRequest.subscriptionKey
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegEntropyEncoder.cs - (0 of 5)
-	 EncodeMcuDelegate BitMiracle.LibJpeg.Classic.Internal.JpegEntropyEncoder.encodeMcu
-	 FinishPassDelegate BitMiracle.LibJpeg.Classic.Internal.JpegEntropyEncoder.finishPass
-	 abstract void BitMiracle.LibJpeg.Classic.Internal.JpegEntropyEncoder.StartPass
-	 delegate bool BitMiracle.LibJpeg.Classic.Internal.JpegEntropyEncoder.EncodeMcuDelegate
-	 delegate void BitMiracle.LibJpeg.Classic.Internal.JpegEntropyEncoder.FinishPassDelegate
   0% - Juniper.Root/Imaging/IImageProcessor.cs - (0 of 4)
 	 T Juniper.Imaging.IImageProcessor< T >.Concatenate
 	 int Juniper.Imaging.IImageProcessor< T >.GetComponents
@@ -4541,13 +3022,10 @@
 	 IEnumerable<ItemT> Juniper.Logic.IExpression< ItemT >.GetItems
 	 bool Juniper.Logic.IExpression< ItemT >.Evaluate
 	 bool Juniper.Logic.IExpression< ItemT >.HasNestedElements
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/ArithEntropyDecoder.cs - (0 of 6)
-	 BitMiracle.LibJpeg.Classic.Internal.ArithEntropyDecoder.ArithEntropyDecoder
-	 DecodeMcuDelegate BitMiracle.LibJpeg.Classic.Internal.JpegEntropyDecoder.decodeMcu
-	 FinishPassDelegate BitMiracle.LibJpeg.Classic.Internal.JpegEntropyDecoder.finishPass
-	 delegate bool BitMiracle.LibJpeg.Classic.Internal.JpegEntropyDecoder.DecodeMcuDelegate
-	 delegate void BitMiracle.LibJpeg.Classic.Internal.JpegEntropyDecoder.FinishPassDelegate
-	 override void BitMiracle.LibJpeg.Classic.Internal.ArithEntropyDecoder.StartPass
+  0% - Unity Scripts/Display/DefaultDisplayManager.cs - (0 of 1)
+	 using UnityInput =  UnityEngine.Input
+  0% - Unity Scripts/World/GIS/GPSLocation.cs - (0 of 1)
+	 using UnityInput =  UnityEngine.Input
   0% - Juniper.Root/Logic/XorExpression.cs - (0 of 8)
 	 IEnumerable<IExpression<ItemT> > Juniper.Logic.AbstractBinaryExpression< ItemT >.GetExpressions
 	 IEnumerable<ItemT> Juniper.Logic.AbstractBinaryExpression< ItemT >.GetItems
@@ -4557,9 +3035,6 @@
 	 bool Juniper.Logic.AbstractBinaryExpression< ItemT >.HasNestedElements
 	 override bool Juniper.Logic.XorExpression< ItemT >.Evaluate
 	 override string Juniper.Logic.AbstractBinaryExpression< ItemT >.ToString
-  0% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Screen/TouchPoint.cs - (0 of 2)
-	 using HapticType =  Juniper.Haptics.iOS9Haptics
-	 using UnityInput =  UnityEngine.Input
   0% - Juniper.GoogleMaps/MapTiles/LinePathStyle.cs - (0 of 7)
 	 Juniper.World.GIS.Google.MapTiles.LinePathStyle.LinePathStyle
 	 bool Juniper.World.GIS.Google.MapTiles.LinePathStyle.Equals
@@ -4568,11 +3043,6 @@
 	 override string Juniper.World.GIS.Google.MapTiles.LinePathStyle.ToString
 	 readonly string Juniper.World.GIS.Google.MapTiles.LinePathStyle.styleDef
 	 void Juniper.World.GIS.Google.MapTiles.LinePathStyle.GetObjectData
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/HuffmanEntropyEncoder.cs - (0 of 4)
-	 int BitMiracle.LibJpeg.Classic.Internal.HuffmanEntropyEncoder.SavableState.put_bits
-	 int BitMiracle.LibJpeg.Classic.Internal.HuffmanEntropyEncoder.SavableState.put_buffer
-	 int [] BitMiracle.LibJpeg.Classic.Internal.HuffmanEntropyEncoder.SavableState.last_dc_val
-	 void BitMiracle.LibJpeg.Classic.Internal.HuffmanEntropyEncoder.SavableState.ASSIGN_STATE
   0% - Juniper.UnityEditor/ConfigurationManagement/AbstractCompressedPackage.cs - (0 of 31)
 	 Dictionary<string, string> Juniper.ConfigurationManagement.AbstractCompressedPackage.compilerDefines
 	 IReadOnlyDictionary<string, string> Juniper.ConfigurationManagement.AbstractCompressedPackage.CompilerDefineSymbols
@@ -4605,20 +3075,6 @@
 	 string Juniper.ConfigurationManagement.PackageReference.VersionSpec
 	 virtual void Juniper.ConfigurationManagement.AbstractPackage.Activate
 	 void Juniper.ConfigurationManagement.AbstractCompressedPackage.Scan
-  0% - Juniper/Assets/Juniper/Scripts/Input/Pointers/IProbe.cs - (0 of 11)
-	 Material Juniper.Input.Pointers.IProbe.LaserPointerMaterial
-	 PhysicsRaycaster Juniper.Input.Pointers.IProbe.Raycaster
-	 Transform Juniper.Input.Pointers.IProbe.Cursor
-	 Vector2 Juniper.Input.Pointers.IProbe.TouchPoint
-	 XR.Pose Juniper.Input.Pointers.IProbe.ToJuniperPose
-	 bool Juniper.Input.Pointers.IProbe.CanGaze
-	 void Juniper.Input.Pointers.IProbe.AlignProbe
-	 void Juniper.Input.Pointers.IProbe.Destroy
-	 void Juniper.Input.Pointers.IProbe.SetActive
-	 void Juniper.Input.Pointers.IProbe.SetCursor
-	 void Juniper.Input.Pointers.IProbe.SetGaze
-  0% - Juniper.Client/ThirdParty/HjgPngcs/Zlib/EDeflateCompressStrategy.cs - (0 of 1)
-	 EDeflateCompressStrategy
   0% - Juniper.GoogleMaps/USAddress.cs - (0 of 10)
 	 Juniper.World.GIS.Google.USAddress.USAddress
 	 bool Juniper.World.GIS.Google.USAddress.Equals
@@ -4630,35 +3086,16 @@
 	 readonly string Juniper.World.GIS.Google.USAddress.street
 	 readonly string Juniper.World.GIS.Google.USAddress.zip
 	 void Juniper.World.GIS.Google.USAddress.GetObjectData
-  0% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Motion/AbstractHandedPointerConfiguration.cs - (0 of 7)
-	 Type Juniper.Input.Pointers.Motion.AbstractHandedPointerConfiguration< HandIDType, ButtonIDType >.HandType
-	 abstract ? HandIDType Juniper.Input.Pointers.Motion.AbstractHandedPointerConfiguration< HandIDType, ButtonIDType >.this[Hand hand]
-	 abstract string Juniper.Input.Pointers.Motion.AbstractHandedPointerConfiguration< HandIDType, ButtonIDType >.PointerNameStub
-	 string Juniper.Input.Pointers.Motion.AbstractHandedPointerConfiguration< HandIDType, ButtonIDType >.MakePointerName
-	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.AddButton
-	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Install
-	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Uninstall
   0% - Juniper.Unity/Input/Pointers/Screen/MouseButton.cs - (0 of 1)
 	 MouseButton
-  0% - Juniper/Assets/Juniper/Scripts/Imaging/SkyboxManager.cs - (0 of 18)
-	 Color Juniper.Imaging.SkyboxManager.tint
-	 ImageType
-	 ImageType Juniper.Imaging.SkyboxManager.imageType
-	 Material Juniper.Imaging.SkyboxManager.skyboxMaterial
-	 Mode
-	 Mode Juniper.Imaging.SkyboxManager.layout
-	 StereoLayout
-	 StereoLayout Juniper.Imaging.SkyboxManager.stereoLayout
-	 Texture Juniper.Imaging.SkyboxManager.skyboxTexture
-	 bool Juniper.Imaging.SkyboxManager.mirror180OnBack
-	 bool Juniper.Imaging.SkyboxManager.useMipMap
-	 const string Juniper.Imaging.SkyboxManager.LAT_LON
-	 const string Juniper.Imaging.SkyboxManager.SIDES_6
-	 float Juniper.Imaging.SkyboxManager.exposure
-	 float Juniper.Imaging.SkyboxManager.rotation
-	 void Juniper.Imaging.SkyboxManager.Awake
-	 void Juniper.Imaging.SkyboxManager.SetTexture
-	 void Juniper.Imaging.SkyboxManager.Update
+  0% - Unity Scripts/Widgets/FlowLayout.cs - (0 of 4)
+	 RectOffset Juniper.Widgets.FlowLayout.padding
+	 RectTransform Juniper.Widgets.FlowLayout.rect
+	 void Juniper.Widgets.FlowLayout.Awake
+	 void Juniper.Widgets.FlowLayout.Update
+  0% - Unity Scripts/Widgets/Selectable.cs - (0 of 2)
+	 UnityEvent Juniper.Widgets.Selectable.onSelected
+	 void Juniper.Widgets.Selectable.OnSelect
   0% - Juniper.Root/HTTP/REST/AbstractRequest.cs - (0 of 29)
 	 Juniper.HTTP.REST.AbstractRequest< MediaTypeT >.AbstractRequest
 	 MediaTypeT Juniper.HTTP.REST.AbstractRequest< MediaTypeT >.MediaType
@@ -4689,54 +3126,12 @@
 	 void Juniper.HTTP.REST.AbstractRequest< MediaTypeT >.RemoveQuery
 	 void Juniper.HTTP.REST.AbstractRequest< MediaTypeT >.SetQuery
 	 void Juniper.HTTP.REST.AbstractRequest< MediaTypeT >.SetQuery< U >
-  0% - Juniper/Plugins/Editor/Juniper/ConfigurationManagement/JuniperInstalledPackageManager.cs - (0 of 7)
-	 const int Juniper.ConfigurationManagement.JuniperInstalledPackageManager.buttonWidthValue
-	 const string Juniper.ConfigurationManagement.JuniperInstalledPackageManager.MENU_NAME
-	 readonly GUIContent Juniper.ConfigurationManagement.JuniperInstalledPackageManager.TITLE
-	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperInstalledPackageManager.buttonWidth
-	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperInstalledPackageManager.nameFieldWidth
-	 readonly TableView Juniper.ConfigurationManagement.JuniperInstalledPackageManager.installedPackageTable
-	 void Juniper.ConfigurationManagement.JuniperInstalledPackageManager.OnGUI
+  0% - Unity Scripts/Widgets/PlatformName.cs - (0 of 1)
+	 void Juniper.Widgets.PlatformName.Awake
   0% - Juniper.Root/Logging/IInfoDestination.cs - (0 of 1)
 	 void Juniper.Logging.IInfoDestination.OnInfo
   0% - Juniper.Client/Primrose/Grammars/RuntimeException.cs - (0 of 1)
 	 using Line =  System.Collections.Generic.List<Juniper.Primrose.Token>
-  0% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Screen/Mouse.cs - (0 of 1)
-	 using UnityInput =  UnityEngine.Input
-  0% - Juniper/Assets/Juniper/Scripts/Input/Pointers/UnaryPointerConfiguration.cs - (0 of 4)
-	 Juniper.Input.Pointers.UnaryPointerConfiguration.UnaryPointerConfiguration
-	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.AddButton
-	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Install
-	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Uninstall
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/LabeledInputField.cs - (0 of 11)
-	 InputField Juniper.Widgets.LabeledInputField.Field
-	 StringEvent Juniper.Widgets.LabeledInputField.onValueChanged
-	 Text Juniper.Widgets.LabeledInputField.Label
-	 UnityEvent Juniper.Widgets.LabeledInputField.onSelected
-	 bool Juniper.Widgets.LabeledInputField.Indicated
-	 bool Juniper.Widgets.LabeledInputField.Interactable
-	 bool Juniper.Widgets.LabeledInputField.indicatedBacker
-	 string Juniper.Widgets.LabeledInputField.LabelText
-	 string Juniper.Widgets.LabeledInputField.Text
-	 void Juniper.Widgets.LabeledInputField.Awake
-	 void Juniper.Widgets.LabeledInputField.HighlightLabel
-  0% - Juniper.Client/ThirdParty/HjgPngcs/FilterWriteStrategy.cs - (0 of 16)
-	 FilterType Hjg.Pngcs.FilterWriteStrategy.currentType
-	 const int Hjg.Pngcs.FilterWriteStrategy.COMPUTE_STATS_EVERY_N_LINES
-	 double [] Hjg.Pngcs.FilterWriteStrategy.preference
-	 int Hjg.Pngcs.FilterWriteStrategy.lastRowTested
-	 internal FilterType Hjg.Pngcs.FilterWriteStrategy.GimmeFilterType
-	 internal Hjg.Pngcs.FilterWriteStrategy.FilterWriteStrategy
-	 internal bool Hjg.Pngcs.FilterWriteStrategy.ComputesStatistics
-	 internal bool Hjg.Pngcs.FilterWriteStrategy.ShouldTestAll
-	 internal void Hjg.Pngcs.FilterWriteStrategy.FillResultsForFilter
-	 internal void Hjg.Pngcs.FilterWriteStrategy.SetPreference
-	 readonly FilterType Hjg.Pngcs.FilterWriteStrategy.configuredType
-	 readonly ImageInfo Hjg.Pngcs.FilterWriteStrategy.imgInfo
-	 readonly double [] Hjg.Pngcs.FilterWriteStrategy.histogram1
-	 readonly double [] Hjg.Pngcs.FilterWriteStrategy.lastEntropies
-	 readonly double [] Hjg.Pngcs.FilterWriteStrategy.lastSums
-	 readonly int Hjg.Pngcs.FilterWriteStrategy.discoverEachLines
   0% - Juniper.UnityEditor/ConfigurationManagement/PackageDefineSymbol.cs - (0 of 4)
 	 Juniper.ConfigurationManagement.PackageDefineSymbol.PackageDefineSymbol
 	 string Juniper.ConfigurationManagement.PackageDefineSymbol.CompilerDefine
@@ -4830,20 +3225,27 @@
 	 readonly string Juniper.Imaging.Size.WIDTH_FIELD
 	 string Juniper.Imaging.Size.ToString
 	 void Juniper.Imaging.Size.GetObjectData
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/IJpegColorQuantizer.cs - (0 of 4)
-	 void BitMiracle.LibJpeg.Classic.Internal.IJpegColorQuantizer.ColorQuantize
-	 void BitMiracle.LibJpeg.Classic.Internal.IJpegColorQuantizer.FinishPass
-	 void BitMiracle.LibJpeg.Classic.Internal.IJpegColorQuantizer.NewColorMap
-	 void BitMiracle.LibJpeg.Classic.Internal.IJpegColorQuantizer.StartPass
+  0% - Unity Editor Plugins/ConfigurationManagement/JuniperPlatformSelector.cs - (0 of 6)
+	 const int Juniper.ConfigurationManagement.JuniperPlatformSelector.buttonWidthValue
+	 const string Juniper.ConfigurationManagement.JuniperPlatformSelector.MENU_NAME
+	 readonly GUIContent Juniper.ConfigurationManagement.JuniperPlatformSelector.TITLE
+	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperPlatformSelector.buttonWidth
+	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperPlatformSelector.nameFieldWidth
+	 void Juniper.ConfigurationManagement.JuniperPlatformSelector.OnGUI
   0% - Juniper.Root/IO/StreamSourceLayer.cs - (0 of 5)
 	 IEnumerable<ContentReference> Juniper.IO.StreamSourceLayer.GetContentReferences
 	 Juniper.IO.StreamSourceLayer.StreamSourceLayer
 	 async Task<Stream> Juniper.IO.StreamSourceLayer.GetStreamAsync
 	 bool Juniper.IO.StreamSourceLayer.IsCached
 	 readonly CachingStrategy Juniper.IO.StreamSourceLayer.parent
-  0% - Juniper.Client/ThirdParty/HjgPngcs/PngjUnsupportedException.cs - (0 of 2)
-	 Hjg.Pngcs.PngjUnsupportedException.PngjUnsupportedException
-	 Hjg.Pngcs.PngjUnsupportedException.PngjUnsupportedException?
+  0% - Unity Editor Plugins/ConfigurationManagement/JuniperInstalledPackageManager.cs - (0 of 7)
+	 const int Juniper.ConfigurationManagement.JuniperInstalledPackageManager.buttonWidthValue
+	 const string Juniper.ConfigurationManagement.JuniperInstalledPackageManager.MENU_NAME
+	 readonly GUIContent Juniper.ConfigurationManagement.JuniperInstalledPackageManager.TITLE
+	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperInstalledPackageManager.buttonWidth
+	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperInstalledPackageManager.nameFieldWidth
+	 readonly TableView Juniper.ConfigurationManagement.JuniperInstalledPackageManager.installedPackageTable
+	 void Juniper.ConfigurationManagement.JuniperInstalledPackageManager.OnGUI
   0% - Juniper.Root/Mathematics/Matrix3x2Serializable.cs - (0 of 7)
 	 Juniper.Mathematics.Matrix3x2Serializable.Matrix3x2Serializable
 	 bool Juniper.Mathematics.Matrix3x2Serializable.Equals
@@ -4860,6 +3262,31 @@
 	 override string Juniper.World.GIS.Google.MapTiles.MarkerStyle.ToString
 	 readonly string Juniper.World.GIS.Google.MapTiles.MarkerStyle.styleDef
 	 void Juniper.World.GIS.Google.MapTiles.MarkerStyle.GetObjectData
+  0% - Juniper.Root/NamedActions/NamedFunc`1.cs - (0 of 2)
+	 Juniper.NamedFunc< T1, T2, T3, T4, T5, T6, T7, T8, TResult >.NamedFunc
+	 TResult Juniper.NamedFunc< T1, T2, T3, T4, T5, T6, T7, T8, TResult >.Invoke
+  0% - Unity Scripts/Imaging/PhotosphereManager.cs - (0 of 21)
+	 Action<Photosphere> Juniper.Imaging.PhotosphereManager.PhotosphereReady
+	 CachingStrategy Juniper.Imaging.PhotosphereManager.cache
+	 CubemapRotationNeeded Juniper.Imaging.PhotosphereManager.RotationNeeded
+	 IImageCodec<Texture2D> Juniper.Imaging.PhotosphereManager.codec
+	 Photosphere Juniper.Imaging.PhotosphereManager.curSphere
+	 T Juniper.Imaging.PhotosphereManager.GetPhotosphere< T >
+	 Texture2D Juniper.Imaging.PhotosphereManager.Photo_CubemapNeeded
+	 TextureNeeded Juniper.Imaging.PhotosphereManager.CubemapNeeded
+	 bool Juniper.Imaging.PhotosphereManager.Photo_CheckIsCubemapAvailable
+	 float Juniper.Imaging.PhotosphereManager.Photo_GetRotation
+	 int Juniper.Imaging.PhotosphereManager.Count
+	 internal Vector2 [][] Juniper.Imaging.PhotosphereManager.fovTestAngles
+	 internal int [] Juniper.Imaging.PhotosphereManager.FOVs
+	 internal int [] Juniper.Imaging.PhotosphereManager.lodLevelRequirements
+	 readonly Dictionary<string, Photosphere> Juniper.Imaging.PhotosphereManager.photospheres
+	 void Juniper.Imaging.PhotosphereManager.CreatePhotosphere< T >
+	 void Juniper.Imaging.PhotosphereManager.Initialize< T >
+	 void Juniper.Imaging.PhotosphereManager.Photo_Ready
+	 void Juniper.Imaging.PhotosphereManager.RemovePhotosphere
+	 void Juniper.Imaging.PhotosphereManager.SetDetailLevels
+	 void Juniper.Imaging.PhotosphereManager.SetIO
   0% - Juniper.UnityEditor/Header.cs - (0 of 3)
 	 UnityEditor.Header.Header
 	 virtual void UnityEditor.Header.Dispose
@@ -4876,8 +3303,17 @@
 	 string Juniper.Speech.Azure.CognitiveServices.VoicesClient.AzureRegion
 	 string Juniper.Speech.Azure.CognitiveServices.VoicesClient.authToken
 	 void Juniper.Speech.Azure.CognitiveServices.VoicesClient.ClearError
-  0% - Juniper/Assets/Juniper/Scripts/Input/Pointers/MappedButton.cs - (0 of 1)
-	 using InputButton =  UnityEngine.EventSystems.PointerEventData.InputButton
+  0% - Juniper.Root/Mathematics/QuaternionSerializable.cs - (0 of 10)
+	 Juniper.Mathematics.QuaternionSerializable.QuaternionSerializable
+	 bool Juniper.Mathematics.QuaternionSerializable.Equals
+	 float Juniper.Mathematics.QuaternionSerializable.W
+	 float Juniper.Mathematics.QuaternionSerializable.X
+	 float Juniper.Mathematics.QuaternionSerializable.Y
+	 float Juniper.Mathematics.QuaternionSerializable.Z
+	 override bool Juniper.Mathematics.QuaternionSerializable.Equals
+	 override int Juniper.Mathematics.QuaternionSerializable.GetHashCode
+	 override string Juniper.Mathematics.QuaternionSerializable.ToString
+	 void Juniper.Mathematics.QuaternionSerializable.GetObjectData
   0% - Juniper.Root/Logic/NotExpression.cs - (0 of 4)
 	 Juniper.Logic.NotExpression< ItemT >.NotExpression
 	 override IEnumerable<ItemT> Juniper.Logic.NotExpression< ItemT >.GetItems
@@ -4895,23 +3331,6 @@
 	 string Juniper.Speech.Azure.CognitiveServices.VoicesClient.AzureRegion
 	 virtual AudioFormat Juniper.Speech.Azure.CognitiveServices.TextToSpeechStreamClient.OutputFormat
 	 void Juniper.Speech.Azure.CognitiveServices.VoicesClient.ClearError
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/ValueDragger.cs - (0 of 16)
-	 FloatEvent Juniper.Widgets.ValueDragger.onValueChanged
-	 InputField Juniper.Widgets.ValueDragger.field
-	 Vector2 Juniper.Widgets.ValueDragger.drag
-	 Vector2 Juniper.Widgets.ValueDragger.start
-	 bool Juniper.Widgets.ValueDragger.locked
-	 bool Juniper.Widgets.ValueDragger.wasLocked
-	 float Juniper.Widgets.ValueDragger.delta
-	 float Juniper.Widgets.ValueDragger.max
-	 float Juniper.Widgets.ValueDragger.min
-	 string Juniper.Widgets.ValueDragger.lastText
-	 void Juniper.Widgets.ValueDragger.Awake
-	 void Juniper.Widgets.ValueDragger.ChangeValue
-	 void Juniper.Widgets.ValueDragger.OnPointerDown
-	 void Juniper.Widgets.ValueDragger.OnPointerUp
-	 void Juniper.Widgets.ValueDragger.OnTextChanged
-	 void Juniper.Widgets.ValueDragger.Update
   0% - Juniper.Root/Imaging/IImageTranscoder.cs - (0 of 2)
 	 FromImageT Juniper.Imaging.IImageTranscoder< FromImageT, ToImageT >.Translate
 	 ToImageT Juniper.Imaging.IImageTranscoder< FromImageT, ToImageT >.Translate
@@ -4921,6 +3340,9 @@
 	 ResultT Juniper.IO.BinaryFactory< ResultT >.Deserialize
 	 long Juniper.IO.BinaryFactory< ResultT >.Serialize
 	 override Type Juniper.IO.BinaryFactory< ResultT >.BindToType
+  0% - Unity Scripts/Settings/AccessibilitySettings.cs - (0 of 2)
+	 using Clickable =  Juniper.Widgets.Clickable
+	 using Selectable =  UnityEngine.UI.Selectable
   0% - Juniper.Server/Controllers/StaticFileServer.cs - (0 of 50)
 	 AuthenticationSchemes Juniper.HTTP.Server.Controllers.AbstractResponse.Authentication
 	 EventHandler<ErrorEventArgs> Juniper.HTTP.Server.Controllers.AbstractResponse.Err
@@ -4979,11 +3401,21 @@
   0% - Juniper.Root/NETFX/IO/PathExt.cs - (0 of 2)
 	 readonly char [] System.IO.PathExt.INVALID_CHARS
 	 readonly char [] System.IO.PathExt.INVALID_START_CHARS
+  0% - Unity Editor Scripts/EditorTextInputEditor.cs - (0 of 1)
+	 override void Juniper.Unity.Editor.EditorTextInputEditor.OnInspectorGUI
   0% - Juniper.NeuroSky/Baudrate.cs - (0 of 4)
 	 Baudrate
 	 DataType
 	 FilterType
 	 SerialDataFormat
+  0% - Unity Editor Plugins/ConfigurationManagement/JuniperOptionalPackageInstaller.cs - (0 of 7)
+	 const int Juniper.ConfigurationManagement.JuniperOptionalPackageManager.buttonWidthValue
+	 const string Juniper.ConfigurationManagement.JuniperOptionalPackageManager.MENU_NAME
+	 readonly GUIContent Juniper.ConfigurationManagement.JuniperOptionalPackageManager.TITLE
+	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperOptionalPackageManager.buttonWidth
+	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperOptionalPackageManager.nameFieldWidth
+	 readonly TableView Juniper.ConfigurationManagement.JuniperOptionalPackageManager.optionalPackageTable
+	 void Juniper.ConfigurationManagement.JuniperOptionalPackageManager.OnGUI
   0% - Juniper.Server/Controllers/NCSALogger.cs - (0 of 55)
 	 AuthenticationSchemes Juniper.HTTP.Server.Controllers.AbstractResponse.Authentication
 	 EventHandler<ErrorEventArgs> Juniper.HTTP.Server.Controllers.AbstractResponse.Err
@@ -5040,18 +3472,12 @@
 	 void Juniper.HTTP.Server.Controllers.NCSALogger.Dispose
 	 void Juniper.HTTP.Server.Controllers.NCSALogger.OnLog
 	 void Juniper.HTTP.Server.Controllers.NCSALogger.WriteLogs
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/LoadedImageAttributes.cs - (0 of 11)
-	 Colorspace BitMiracle.LibJpeg.LoadedImageAttributes.Colorspace
-	 DensityUnit BitMiracle.LibJpeg.LoadedImageAttributes.DensityUnit
-	 bool BitMiracle.LibJpeg.LoadedImageAttributes.QuantizeColors
-	 byte [][] BitMiracle.LibJpeg.LoadedImageAttributes.Colormap
-	 int BitMiracle.LibJpeg.LoadedImageAttributes.ActualNumberOfColors
-	 int BitMiracle.LibJpeg.LoadedImageAttributes.Components
-	 int BitMiracle.LibJpeg.LoadedImageAttributes.ComponentsPerSample
-	 int BitMiracle.LibJpeg.LoadedImageAttributes.DensityX
-	 int BitMiracle.LibJpeg.LoadedImageAttributes.DensityY
-	 int BitMiracle.LibJpeg.LoadedImageAttributes.Height
-	 int BitMiracle.LibJpeg.LoadedImageAttributes.Width
+  0% - Juniper.Root/Console/SizeChangedEventArgs.cs - (0 of 5)
+	 Juniper.Console.SizeChangedEventArgs.SizeChangedEventArgs
+	 int Juniper.Console.SizeChangedEventArgs.NewHeight
+	 int Juniper.Console.SizeChangedEventArgs.NewWidth
+	 int Juniper.Console.SizeChangedEventArgs.OldHeight
+	 int Juniper.Console.SizeChangedEventArgs.OldWidth
   0% - Juniper.Root/AnsiColor.cs - (0 of 9)
 	 const string Juniper.AnsiColor.Black
 	 const string Juniper.AnsiColor.Blue
@@ -5062,17 +3488,15 @@
 	 const string Juniper.AnsiColor.Reset
 	 const string Juniper.AnsiColor.White
 	 const string Juniper.AnsiColor.Yellow
-  0% - Juniper/Assets/Juniper/Scripts/World/Zone.cs - (0 of 1)
-	 string Juniper.World.Zone.zoneName
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegScanInfo.cs - (0 of 6)
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegScanInfo.Ah
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegScanInfo.Al
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegScanInfo.Se
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegScanInfo.Ss
-	 int BitMiracle.LibJpeg.Classic.Internal.JpegScanInfo.comps_in_scan
-	 int [] BitMiracle.LibJpeg.Classic.Internal.JpegScanInfo.component_index
   0% - Juniper.Client/Imaging/Windows/GDICodec.cs - (0 of 1)
 	 using GDIImageFormat =  System.Drawing.Imaging.ImageFormat
+  0% - Unity Scripts/Input/Pointers/Motion/NoHandTracker.cs - (0 of 6)
+	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsButtonDown
+	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsButtonPressed
+	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsButtonUp
+	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsConnected
+	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsDominantHand
+	 override void Juniper.Input.Pointers.Motion.NoHandTracker.InternalUpdate
   0% - Juniper.Root/Unicode/BoxDrawingCharacters.cs - (0 of 128)
 	 const char Juniper.Unicode.BoxDrawingCharacters.DoubleDownAndHorizontal
 	 const char Juniper.Unicode.BoxDrawingCharacters.DoubleDownAndLeft
@@ -5202,10 +3626,33 @@
 	 const char Juniper.Unicode.BoxDrawingCharacters.VerticalSingleAndHorizontalDouble
 	 const char Juniper.Unicode.BoxDrawingCharacters.VerticalSingleAndLeftDouble
 	 const char Juniper.Unicode.BoxDrawingCharacters.VerticalSingleAndRightDouble
-  0% - Juniper/Assets/Juniper/Scripts/Statistics/AbstractMotionFilter.cs - (0 of 3)
-	 abstract Vector3 Juniper.Mathematics.AbstractMotionFilter.Position
-	 abstract Vector3 Juniper.Mathematics.AbstractMotionFilter.PredictedPosition
-	 abstract void Juniper.Mathematics.AbstractMotionFilter.UpdateState
+  0% - Unity Scripts/Widgets/ListView.cs - (0 of 26)
+	 Color Juniper.Widgets.ListView.disabledColor
+	 Color Juniper.Widgets.ListView.highlightBackgroundColor
+	 Color Juniper.Widgets.ListView.highlightColor
+	 Color Juniper.Widgets.ListView.normalBackgroundColor
+	 Color Juniper.Widgets.ListView.normalColor
+	 Font Juniper.Widgets.ListView.font
+	 List<ListViewItem> Juniper.Widgets.ListView.Items
+	 List<ListViewItem> Juniper.Widgets.ListView.Selection
+	 ListViewItem Juniper.Widgets.ListView.AddItem
+	 ListViewItem Juniper.Widgets.ListView.FirstSelectedItem
+	 ListViewItem Juniper.Widgets.ListView.GetItem
+	 ScrollRect Juniper.Widgets.ListView.Container
+	 SelectionMode
+	 SelectionMode Juniper.Widgets.ListView.selectionMode
+	 UnityEvent Juniper.Widgets.ListView.onSelectionChanged
+	 bool Juniper.Widgets.ListView.ContainsItem
+	 int Juniper.Widgets.ListView.count
+	 int Juniper.Widgets.ListView.fontSize
+	 readonly List<ListViewItem> Juniper.Widgets.ListView.EMPTY_SELECTION
+	 void Juniper.Widgets.ListView.AddItems< T >
+	 void Juniper.Widgets.ListView.Awake
+	 void Juniper.Widgets.ListView.ChangeSelection
+	 void Juniper.Widgets.ListView.Clear
+	 void Juniper.Widgets.ListView.ClearSelection
+	 void Juniper.Widgets.ListView.RemoveItem
+	 void Juniper.Widgets.ListView.SetSelection
   0% - Juniper.Root/World/GIS/Datum.cs - (0 of 18)
 	 const double Juniper.World.GIS.DatumWGS_84.A
 	 const double Juniper.World.GIS.DatumWGS_84.E0
@@ -5233,41 +3680,6 @@
 	 readonly ConcurrentDictionary<MediaType, ConcurrentDictionary<string, MemoryStream> > Juniper.IO.MemoryCacheLayer.store
 	 virtual bool Juniper.IO.MemoryCacheLayer.CanCache
 	 virtual bool Juniper.IO.MemoryCacheLayer.IsCached
-  0% - Juniper.Azure/CognitiveServices/Voice.cs - (0 of 6)
-	 Juniper.Speech.Azure.CognitiveServices.Voice.Voice
-	 string Juniper.Speech.Azure.CognitiveServices.Voice.Gender
-	 string Juniper.Speech.Azure.CognitiveServices.Voice.Locale
-	 string Juniper.Speech.Azure.CognitiveServices.Voice.Name
-	 string Juniper.Speech.Azure.CognitiveServices.Voice.ShortName
-	 void Juniper.Speech.Azure.CognitiveServices.Voice.GetObjectData
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/DecompressionParameters.cs - (0 of 16)
-	 Colorspace BitMiracle.LibJpeg.DecompressionParameters.OutColorspace
-	 DCTMethod BitMiracle.LibJpeg.DecompressionParameters.DCTMethod
-	 DitherMode BitMiracle.LibJpeg.DecompressionParameters.DitherMode
-	 bool BitMiracle.LibJpeg.DecompressionParameters.BufferedImage
-	 bool BitMiracle.LibJpeg.DecompressionParameters.DoBlockSmoothing
-	 bool BitMiracle.LibJpeg.DecompressionParameters.DoFancyUpsampling
-	 bool BitMiracle.LibJpeg.DecompressionParameters.EnableExternalQuant
-	 bool BitMiracle.LibJpeg.DecompressionParameters.EnableOnePassQuantizer
-	 bool BitMiracle.LibJpeg.DecompressionParameters.EnableTwoPassQuantizer
-	 bool BitMiracle.LibJpeg.DecompressionParameters.QuantizeColors
-	 bool BitMiracle.LibJpeg.DecompressionParameters.RawDataOut
-	 bool BitMiracle.LibJpeg.DecompressionParameters.TwoPassQuantize
-	 int BitMiracle.LibJpeg.DecompressionParameters.DesiredNumberOfColors
-	 int BitMiracle.LibJpeg.DecompressionParameters.ScaleDenominator
-	 int BitMiracle.LibJpeg.DecompressionParameters.ScaleNumerator
-	 int BitMiracle.LibJpeg.DecompressionParameters.TraceLevel
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/RawImage.cs - (0 of 10)
-	 Colorspace BitMiracle.LibJpeg.RawImage.Colorspace
-	 byte [] BitMiracle.LibJpeg.RawImage.GetPixelRow
-	 int BitMiracle.LibJpeg.RawImage.ComponentsPerPixel
-	 int BitMiracle.LibJpeg.RawImage.Height
-	 int BitMiracle.LibJpeg.RawImage.Width
-	 int BitMiracle.LibJpeg.RawImage.m_currentRow
-	 internal BitMiracle.LibJpeg.RawImage.RawImage
-	 readonly List<SampleRow> BitMiracle.LibJpeg.RawImage.m_samples
-	 void BitMiracle.LibJpeg.RawImage.BeginRead
-	 void BitMiracle.LibJpeg.RawImage.EndRead
   0% - Juniper.GoogleMaps/MapTiles/LinePathCollection.cs - (0 of 18)
 	 IEnumerator IEnumerable. Juniper.World.GIS.Google.MapTiles.LinePathCollection.GetEnumerator
 	 IEnumerator<string> Juniper.World.GIS.Google.MapTiles.LinePathCollection.GetEnumerator
@@ -5287,40 +3699,6 @@
 	 void Juniper.World.GIS.Google.MapTiles.LinePathCollection.CopyTo
 	 void Juniper.World.GIS.Google.MapTiles.LinePathCollection.Insert
 	 void Juniper.World.GIS.Google.MapTiles.LinePathCollection.RemoveAt
-  0% - Juniper/Assets/Juniper/Editor/JuniperEditorWindow.cs - (0 of 33)
-	 CancellationToken Juniper.Unity.Editor.JuniperEditorWindow.cancelToken
-	 CancellationTokenSource Juniper.Unity.Editor.JuniperEditorWindow.tokenSource
-	 Exception Juniper.Unity.Editor.JuniperEditorWindow.CurrentError
-	 Exception Juniper.Unity.Editor.JuniperEditorWindow.curError
-	 Juniper.Unity.Editor.JuniperEditorWindow.JuniperEditorWindow
-	 Task Juniper.Unity.Editor.JuniperEditorWindow.RepaintAsync
-	 Task Juniper.Unity.Editor.JuniperEditorWindow.watcherTask
-	 bool Juniper.Unity.Editor.JuniperEditorWindow.Button
-	 readonly GUIContent Juniper.Unity.Editor.JuniperEditorWindow.windowTitle
-	 readonly GUILayoutOption Juniper.Unity.Editor.JuniperEditorWindow.availFieldWidth
-	 readonly GUILayoutOption Juniper.Unity.Editor.JuniperEditorWindow.distFieldWidth
-	 readonly GUILayoutOption Juniper.Unity.Editor.JuniperEditorWindow.latLngFieldWidth
-	 readonly GUILayoutOption Juniper.Unity.Editor.JuniperEditorWindow.panoFieldWidth
-	 readonly GUILayoutOption Juniper.Unity.Editor.JuniperEditorWindow.shortLabelWidth
-	 readonly TableView Juniper.Unity.Editor.JuniperEditorWindow.errorView
-	 readonly TaskFactory Juniper.Unity.Editor.JuniperEditorWindow.mainThread
-	 readonly bool Juniper.Unity.Editor.JuniperEditorWindow.startWatcher
-	 virtual void Juniper.Unity.Editor.JuniperEditorWindow.OnBackgroundUpdate
-	 virtual void Juniper.Unity.Editor.JuniperEditorWindow.OnEditorUpdate
-	 virtual void Juniper.Unity.Editor.JuniperEditorWindow.OnPaint
-	 virtual void Juniper.Unity.Editor.JuniperEditorWindow.OnReset
-	 virtual void Juniper.Unity.Editor.JuniperEditorWindow.OnSelectionChanged
-	 void Juniper.Unity.Editor.JuniperEditorWindow.BackgroundThread
-	 void Juniper.Unity.Editor.JuniperEditorWindow.ClearError
-	 void Juniper.Unity.Editor.JuniperEditorWindow.Init
-	 void Juniper.Unity.Editor.JuniperEditorWindow.OnBackgroundUpdateInternal
-	 void Juniper.Unity.Editor.JuniperEditorWindow.OnEditorUpdateInternal
-	 void Juniper.Unity.Editor.JuniperEditorWindow.OnGUI
-	 void Juniper.Unity.Editor.JuniperEditorWindow.OnPaintInternal
-	 void Juniper.Unity.Editor.JuniperEditorWindow.OnResetInternal
-	 void Juniper.Unity.Editor.JuniperEditorWindow.OnSelectionChangedInternal
-	 void Juniper.Unity.Editor.JuniperEditorWindow.StartWatcher
-	 void Juniper.Unity.Editor.JuniperEditorWindow.StopWatcher
   0% - Juniper.Root/IO/IDeserializer.cs - (0 of 1)
 	 ResultT Juniper.IO.IDeserializer< out out ResultT >.Deserialize
   0% - Juniper.Unity/Input/IKeyboardTriggered.cs - (0 of 1)
@@ -5356,27 +3734,6 @@
 	 readonly string Juniper.World.GIS.Google.Geocoding.GeometryResult.VIEWPORT_FIELD
 	 string Juniper.World.GIS.Google.Geocoding.GeometryResult.LocationTypeString
 	 void Juniper.World.GIS.Google.Geocoding.GeometryResult.GetObjectData
-  0% - Juniper.Client/ThirdParty/NLayer.NAudioSupport/Mp3FrameWrapper.cs - (0 of 20)
-	 MpegChannelMode NLayer.NAudioSupport.Mp3FrameWrapper.ChannelMode
-	 MpegLayer NLayer.NAudioSupport.Mp3FrameWrapper.Layer
-	 MpegVersion NLayer.NAudioSupport.Mp3FrameWrapper.Version
-	 NAudio.Wave.Mp3Frame NLayer.NAudioSupport.Mp3FrameWrapper._frame
-	 bool NLayer.NAudioSupport.Mp3FrameWrapper.HasCrc
-	 bool NLayer.NAudioSupport.Mp3FrameWrapper.IsCopyrighted
-	 bool NLayer.NAudioSupport.Mp3FrameWrapper.IsCorrupted
-	 int NLayer.NAudioSupport.Mp3FrameWrapper.BitRate
-	 int NLayer.NAudioSupport.Mp3FrameWrapper.BitRateIndex
-	 int NLayer.NAudioSupport.Mp3FrameWrapper.ChannelModeExtension
-	 int NLayer.NAudioSupport.Mp3FrameWrapper.FrameLength
-	 int NLayer.NAudioSupport.Mp3FrameWrapper.ReadBits
-	 int NLayer.NAudioSupport.Mp3FrameWrapper.SampleCount
-	 int NLayer.NAudioSupport.Mp3FrameWrapper.SampleRate
-	 int NLayer.NAudioSupport.Mp3FrameWrapper.SampleRateIndex
-	 int NLayer.NAudioSupport.Mp3FrameWrapper._bitsRead
-	 int NLayer.NAudioSupport.Mp3FrameWrapper._readOffset
-	 internal NAudio.Wave.Mp3Frame NLayer.NAudioSupport.Mp3FrameWrapper.WrappedFrame
-	 ulong NLayer.NAudioSupport.Mp3FrameWrapper._bitBucket
-	 void NLayer.NAudioSupport.Mp3FrameWrapper.Reset
   0% - Juniper.Root/Processes/AbstractShellCommand.cs - (0 of 19)
 	 Encoding Juniper.Processes.AbstractShellCommand.Encoding
 	 EventHandler<ErrorEventArgs> Juniper.Processes.AbstractShellCommand.Err
@@ -5438,28 +3795,86 @@
 	 string Juniper.MediaType.SubTypeName
 	 string Juniper.MediaType.TypeName
 	 string Juniper.MediaType.Value
-  0% - Juniper.Server/INCSALogSource.cs - (0 of 1)
-	 EventHandler<StringEventArgs> Juniper.HTTP.Server.INCSALogSource.Log
-  0% - Juniper/Assets/Juniper/Scripts/Input/Pointers/ButtonMapper.cs - (0 of 19)
-	 Action<Interaction> Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.InteractionNeeded
-	 Func<ButtonIDType, bool> Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.ButtonDownNeeded
-	 Func<ButtonIDType, bool> Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.ButtonPressedNeeded
-	 Func<ButtonIDType, bool> Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.ButtonUpNeeded
-	 Func<int, JuniperPointerEventData, JuniperPointerEventData> Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.ClonedPointerEventNeeded
-	 IEventSystemHandler Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.Process
-	 JuniperPointerEventData Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.OnClonedPointerEventNeeded
-	 MappedButton<ButtonIDType> Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.FindMappedButton
-	 bool Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.IsButtonDown
-	 bool Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.IsButtonPressed
-	 bool Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.IsButtonUp
-	 bool Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.IsDragging
-	 bool Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.OnButtonDownNeeded
-	 bool Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.OnButtonPressedNeeded
-	 bool Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.OnButtonUpNeeded
-	 readonly List<MappedButton<ButtonIDType> > Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.buttons
-	 void Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.AddButton
-	 void Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.Install
-	 void Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.OnInteractionNeeded
+  0% - Unity Scripts/Widgets/FileSelector.cs - (0 of 31)
+	 Action Juniper.Widgets.FileSelector.onCancel
+	 Action<string> Juniper.Widgets.FileSelector.onSelected
+	 Button Juniper.Widgets.FileSelector.cancel
+	 Button Juniper.Widgets.FileSelector.ok
+	 Font Juniper.Widgets.FileSelector.font
+	 InputField Juniper.Widgets.FileSelector.path
+	 ListView Juniper.Widgets.FileSelector.container
+	 Regex Juniper.Widgets.FileSelector.fileFilter
+	 SelectionMode
+	 SelectionMode Juniper.Widgets.FileSelector.mode
+	 T Juniper.Widgets.FileSelector.Get< T >
+	 Text Juniper.Widgets.FileSelector.label
+	 Text Juniper.Widgets.FileSelector.title
+	 bool Juniper.Widgets.FileSelector.FilePassesFilter
+	 int Juniper.Widgets.FileSelector.fontSize
+	 string Juniper.Widgets.FileSelector.SelectedPath
+	 string Juniper.Widgets.FileSelector.filter
+	 string Juniper.Widgets.FileSelector.lastFilter
+	 string Juniper.Widgets.FileSelector.lastStartDirectory
+	 string Juniper.Widgets.FileSelector.startDirectory
+	 void Juniper.Widgets.FileSelector.AddEntry
+	 void Juniper.Widgets.FileSelector.Awake
+	 void Juniper.Widgets.FileSelector.CallAndExit
+	 void Juniper.Widgets.FileSelector.Cancel
+	 void Juniper.Widgets.FileSelector.MaybeSetStartDirectory
+	 void Juniper.Widgets.FileSelector.OK
+	 void Juniper.Widgets.FileSelector.ReadDirectory
+	 void Juniper.Widgets.FileSelector.Select
+	 void Juniper.Widgets.FileSelector.Show
+	 void Juniper.Widgets.FileSelector.ShowPath
+	 void Juniper.Widgets.FileSelector.Update
+  0% - Juniper.Root/Model.cs - (0 of 47)
+	 Juniper.MediaType.Model.Model
+	 ReadOnlyCollection<string> Juniper.MediaType.Extensions
+	 bool Juniper.MediaType.Equals
+	 bool Juniper.MediaType.Matches
+	 float Juniper.MediaType.Weight
+	 new readonly Model [] Juniper.MediaType.Model.Values
+	 override bool Juniper.MediaType.Equals
+	 override bool Juniper.MediaType.Model.Matches
+	 override int Juniper.MediaType.GetHashCode
+	 override string Juniper.MediaType.ToString
+	 readonly IReadOnlyCollection<MediaType> Juniper.MediaType.All
+	 readonly MediaType Juniper.MediaType.Any
+	 readonly Model Juniper.MediaType.Model.AnyModel
+	 readonly Model Juniper.MediaType.Model.Example
+	 readonly Model Juniper.MediaType.Model.GltfJson
+	 readonly Model Juniper.MediaType.Model.Gltf_Binary
+	 readonly Model Juniper.MediaType.Model.Iges
+	 readonly Model Juniper.MediaType.Model.Mesh
+	 readonly Model Juniper.MediaType.Model.Stl
+	 readonly Model Juniper.MediaType.Model.Vendor3mf
+	 readonly Model Juniper.MediaType.Model.VendorColladaXml
+	 readonly Model Juniper.MediaType.Model.VendorDwf
+	 readonly Model Juniper.MediaType.Model.VendorFlatland3dml
+	 readonly Model Juniper.MediaType.Model.VendorGdl
+	 readonly Model Juniper.MediaType.Model.VendorGsGdl
+	 readonly Model Juniper.MediaType.Model.VendorGs_Gdl
+	 readonly Model Juniper.MediaType.Model.VendorGtw
+	 readonly Model Juniper.MediaType.Model.VendorMomlXml
+	 readonly Model Juniper.MediaType.Model.VendorMts
+	 readonly Model Juniper.MediaType.Model.VendorOpengex
+	 readonly Model Juniper.MediaType.Model.VendorParasolidTransmitBinary
+	 readonly Model Juniper.MediaType.Model.VendorParasolidTransmitText
+	 readonly Model Juniper.MediaType.Model.VendorRosetteAnnotated_Data_Model
+	 readonly Model Juniper.MediaType.Model.VendorUsdzZip
+	 readonly Model Juniper.MediaType.Model.VendorValveSourceCompiled_Map
+	 readonly Model Juniper.MediaType.Model.VendorVtu
+	 readonly Model Juniper.MediaType.Model.Vrml
+	 readonly Model Juniper.MediaType.Model.X3dBinary
+	 readonly Model Juniper.MediaType.Model.X3dFastinfoset
+	 readonly Model Juniper.MediaType.Model.X3dVrml
+	 readonly Model Juniper.MediaType.Model.X3dXml
+	 readonly Model Juniper.MediaType.Model.X3d_Vrml
+	 string Juniper.MediaType.AddExtension
+	 string Juniper.MediaType.PrimaryExtension
+	 string Juniper.MediaType.SubTypeName
+	 string Juniper.MediaType.TypeName
+	 string Juniper.MediaType.Value
   0% - Juniper.Server/Administration/NetSH/AbstractNetShCommand.cs - (0 of 13)
 	 Encoding Juniper.Processes.AbstractShellCommand.Encoding
 	 EventHandler<ErrorEventArgs> Juniper.Processes.AbstractShellCommand.Err
@@ -5539,12 +3954,6 @@
 	 void Juniper.HTTP.REST.AbstractRequest< MediaTypeT >.RemoveQuery
 	 void Juniper.HTTP.REST.AbstractRequest< MediaTypeT >.SetQuery
 	 void Juniper.HTTP.REST.AbstractRequest< MediaTypeT >.SetQuery< U >
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/DDerivedTable.cs - (0 of 5)
-	 JHuffmanTable BitMiracle.LibJpeg.Classic.Internal.DDerivedTable.pub
-	 byte [] BitMiracle.LibJpeg.Classic.Internal.DDerivedTable.lookSym
-	 int [] BitMiracle.LibJpeg.Classic.Internal.DDerivedTable.lookNBits
-	 int [] BitMiracle.LibJpeg.Classic.Internal.DDerivedTable.maxCode
-	 int [] BitMiracle.LibJpeg.Classic.Internal.DDerivedTable.valOffset
   0% - Juniper.Root/Message.cs - (0 of 39)
 	 Juniper.MediaType.Message.Message
 	 ReadOnlyCollection<string> Juniper.MediaType.Extensions
@@ -5585,94 +3994,11 @@
 	 string Juniper.MediaType.SubTypeName
 	 string Juniper.MediaType.TypeName
 	 string Juniper.MediaType.Value
-  0% - Juniper/Assets/Juniper/Scripts/Sound/Beats/BeatDetector.cs - (0 of 68)
-	 AudioSource Juniper.Sound.Beats.BeatDetector.Source
-	 BeatDetectorConfiguration Juniper.Sound.Beats.BeatDetector.Configuration
-	 OnSpectrumEventHandler Juniper.Sound.Beats.BeatDetector.OnSpectrum
-	 UnityEvent Juniper.Sound.Beats.BeatDetector.OnBeat
-	 UnityEvent Juniper.Sound.Beats.BeatDetector.OnMeasure
-	 UnityEvent Juniper.Sound.Beats.BeatDetector.OnNewSong
-	 UnityEvent Juniper.Sound.Beats.BeatDetector.OnSongEnd
-	 bool Juniper.Sound.Beats.BeatDetector.CanPlay
-	 bool Juniper.Sound.Beats.BeatDetector.VisualizeOutput
-	 bool Juniper.Sound.Beats.BeatDetector.wasVisualizeOutput
-	 bool [] Juniper.Sound.Beats.BeatDetector.didBeat
-	 float Juniper.Sound.Beats.BeatDetector.BandWidth
-	 float Juniper.Sound.Beats.BeatDetector.CurrentTime
-	 float Juniper.Sound.Beats.BeatDetector.LerpBeat
-	 float Juniper.Sound.Beats.BeatDetector.MeasuredBPM
-	 float Juniper.Sound.Beats.BeatDetector.Progress
-	 float Juniper.Sound.Beats.BeatDetector.TapTempo
-	 float Juniper.Sound.Beats.BeatDetector.TargetBPM
-	 float Juniper.Sound.Beats.BeatDetector.dBeat
-	 float Juniper.Sound.Beats.BeatDetector.diff
-	 float Juniper.Sound.Beats.BeatDetector.entries
-	 float Juniper.Sound.Beats.BeatDetector.lastBandWidth
-	 float Juniper.Sound.Beats.BeatDetector.lastBeat
-	 float Juniper.Sound.Beats.BeatDetector.lastT
-	 float Juniper.Sound.Beats.BeatDetector.lastTap
-	 float Juniper.Sound.Beats.BeatDetector.nextBeat
-	 float Juniper.Sound.Beats.BeatDetector.nowT
-	 float Juniper.Sound.Beats.BeatDetector.sum
-	 float Juniper.Sound.Beats.BeatDetector.tempo
-	 float [] Juniper.Sound.Beats.BeatDetector.acVals
-	 float [] Juniper.Sound.Beats.BeatDetector.beatScores
-	 float [] Juniper.Sound.Beats.BeatDetector.binnedAmplitude
-	 float [] Juniper.Sound.Beats.BeatDetector.binnedSpectrum
-	 float [] Juniper.Sound.Beats.BeatDetector.bpms
-	 float [] Juniper.Sound.Beats.BeatDetector.combinedSlice
-	 float [] Juniper.Sound.Beats.BeatDetector.currentSlice
-	 float [] Juniper.Sound.Beats.BeatDetector.delays
-	 float [] Juniper.Sound.Beats.BeatDetector.frequencyDomainSlice
-	 float [] Juniper.Sound.Beats.BeatDetector.onsets
-	 float [] Juniper.Sound.Beats.BeatDetector.outputs
-	 float [] Juniper.Sound.Beats.BeatDetector.rweight
-	 float [] Juniper.Sound.Beats.BeatDetector.visualizationBinnedSpectrum
-	 int Juniper.Sound.Beats.BeatDetector.BufferSize
-	 int Juniper.Sound.Beats.BeatDetector.FrequencyIndex
-	 int Juniper.Sound.Beats.BeatDetector.QueueLength
-	 int Juniper.Sound.Beats.BeatDetector.SamplingRate
-	 int Juniper.Sound.Beats.BeatDetector.TotalBeats
-	 int Juniper.Sound.Beats.BeatDetector.VisualizationBandCount
-	 int Juniper.Sound.Beats.BeatDetector._bufferSize
-	 int Juniper.Sound.Beats.BeatDetector._lastBufferMagnitude
-	 int Juniper.Sound.Beats.BeatDetector.beat
-	 int Juniper.Sound.Beats.BeatDetector.indx
-	 int Juniper.Sound.Beats.BeatDetector.ringBufferIndex
-	 int Juniper.Sound.Beats.BeatDetector.updatesSinceLastBeat
-	 int [] Juniper.Sound.Beats.BeatDetector.blipDelay
-	 readonly List<float> Juniper.Sound.Beats.BeatDetector.deltas
-	 readonly float Juniper.Sound.Beats.BeatDetector.BPMMidPointWeight
-	 readonly float Juniper.Sound.Beats.BeatDetector.decay
-	 readonly int Juniper.Sound.Beats.BeatDetector.maxlag
-	 string Juniper.Sound.Beats.BeatDetector.lastResourceName
-	 string Juniper.Sound.Beats.BeatDetector.resourceName
-	 void Juniper.Sound.Beats.BeatDetector.BinSpectrum
-	 void Juniper.Sound.Beats.BeatDetector.FollowBeat
-	 void Juniper.Sound.Beats.BeatDetector.InitArrays
-	 void Juniper.Sound.Beats.BeatDetector.NewSong
-	 void Juniper.Sound.Beats.BeatDetector.SongEnded
-	 void Juniper.Sound.Beats.BeatDetector.Start
-	 void Juniper.Sound.Beats.BeatDetector.Update
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegInverseDct.cs - (0 of 2)
-	 float [] BitMiracle.LibJpeg.Classic.Internal.JpegInverseDct.MultiplierTable.float_array
-	 int [] BitMiracle.LibJpeg.Classic.Internal.JpegInverseDct.MultiplierTable.int_array
   0% - Juniper.Root/World/People.cs - (0 of 2)
 	 readonly int [] Juniper.World.People.SkinColors
 	 readonly string [] Juniper.World.People.Names
   0% - Juniper.Root/IO/IContentHandler`1.cs - (0 of 1)
 	 MediaTypeT Juniper.IO.IContentHandler< out out MediaTypeT >.ContentType
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/TabPanelButton.cs - (0 of 3)
-	 GameObject Juniper.Widgets.TabPanelButton.panel
-	 void Juniper.Widgets.TabPanelButton.AddListener
-	 void Juniper.Widgets.TabPanelButton.SetActive
-  0% - Juniper/Assets/Juniper/Editor/EditorTextInputEditor.cs - (0 of 1)
-	 override void Juniper.Unity.Editor.EditorTextInputEditor.OnInspectorGUI
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegUpSampler.cs - (0 of 4)
-	 abstract void BitMiracle.LibJpeg.Classic.Internal.JpegUpSampler.StartPass
-	 abstract void BitMiracle.LibJpeg.Classic.Internal.JpegUpSampler.UpSample
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegUpSampler.NeedContextRows
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegUpSampler.m_need_context_rows
   0% - Juniper.Root/MediaType.cs - (0 of 24)
 	 Dictionary<string, List<MediaType> > Juniper.MediaType.byExtensions
 	 Dictionary<string, MediaType> Juniper.MediaType.byValue
@@ -5698,34 +4024,6 @@
 	 string Juniper.MediaType.Value
 	 virtual bool Juniper.MediaType.Matches
 	 void Juniper.MediaType.UpdateLookupTables
-  0% - Juniper/Assets/Juniper/Scripts/Events/ButtonEvent.cs - (0 of 27)
-	 EventHandler<JuniperPointerEventData> Juniper.Events.ButtonEvent.Click
-	 EventHandler<JuniperPointerEventData> Juniper.Events.ButtonEvent.DoubleClick
-	 EventHandler<JuniperPointerEventData> Juniper.Events.ButtonEvent.Down
-	 EventHandler<JuniperPointerEventData> Juniper.Events.ButtonEvent.LongPress
-	 EventHandler<JuniperPointerEventData> Juniper.Events.ButtonEvent.Up
-	 IEnumerable<Type> Juniper.Events.ButtonEvent.GetSupportedButtonTypes
-	 JuniperPointerEvent Juniper.Events.ButtonEvent.onClick
-	 JuniperPointerEvent Juniper.Events.ButtonEvent.onDoubleClick
-	 JuniperPointerEvent Juniper.Events.ButtonEvent.onDown
-	 JuniperPointerEvent Juniper.Events.ButtonEvent.onLongPress
-	 JuniperPointerEvent Juniper.Events.ButtonEvent.onUp
-	 KeyCode Juniper.Events.ButtonEvent.inputKey
-	 T Juniper.Events.ButtonEvent.GetButtonValue< T >
-	 bool Juniper.Events.ButtonEvent.IsDown
-	 bool Juniper.Events.ButtonEvent.IsPressed
-	 bool Juniper.Events.ButtonEvent.IsUp
-	 bool Juniper.Events.ButtonEvent.wasPressed
-	 readonly Regex Juniper.Events.ButtonEvent.KeyPattern
-	 string Juniper.Events.ButtonEvent.Key
-	 string Juniper.Events.ButtonEvent.buttonTypeName
-	 string Juniper.Events.ButtonEvent.buttonValueName
-	 void Juniper.Events.ButtonEvent.LateUpdate
-	 void Juniper.Events.ButtonEvent.OnClick
-	 void Juniper.Events.ButtonEvent.OnDoubleClick
-	 void Juniper.Events.ButtonEvent.OnDown
-	 void Juniper.Events.ButtonEvent.OnLongPress
-	 void Juniper.Events.ButtonEvent.OnUp
   0% - Juniper.Root/Logging/IErrorSource.cs - (0 of 1)
 	 EventHandler<ErrorEventArgs> Juniper.Logging.IErrorSource.Err
   0% - Juniper.UnityEditor/ConfigurationManagement/UnityPackageManifest.cs - (0 of 14)
@@ -5743,8 +4041,6 @@
 	 void Juniper.ConfigurationManagement.UnityPackageManifest.GetObjectData
 	 void Juniper.ConfigurationManagement.UnityPackageManifest.Remove
 	 void Juniper.ConfigurationManagement.UnityPackageManifest.Save
-  0% - Juniper/Assets/Juniper/Scripts/Statistics/KalmanMotionFilter.cs - (0 of 1)
-	 using Vector3 =  UnityEngine.Vector3
   0% - Juniper.Root/Compression/CompressedFileInfo.cs - (0 of 16)
 	 Juniper.Compression.CompressedFileInfo.CompressedFileInfo
 	 Juniper.Compression.CompressedFileInfo.CompressedFileInfo??
@@ -5762,38 +4058,26 @@
 	 override string Juniper.Compression.CompressedFileInfo.ToString
 	 string Juniper.Compression.CompressedFileInfo.FullName
 	 void Juniper.Compression.CompressedFileInfo.GetObjectData
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/Splitter.cs - (0 of 6)
-	 Animator Juniper.Widgets.Splitter.animator
-	 bool Juniper.Widgets.Splitter.open
-	 bool Juniper.Widgets.Splitter.wasOpen
-	 void Juniper.Widgets.Splitter.Awake
-	 void Juniper.Widgets.Splitter.Toggle
-	 void Juniper.Widgets.Splitter.Update
-  0% - Juniper.UnityEditor/ConfigurationManagement/Project.cs - (0 of 14)
+  0% - Juniper.UnityEditor/ConfigurationManagement/Project.cs - (0 of 19)
 	 BuildTargetGroup Juniper.ConfigurationManagement.Project.CurrentBuildTargetGroup
 	 IReadOnlyDictionary<string, IReadOnlyCollection<AbstractPackage> > Juniper.ConfigurationManagement.Project.PackageDatabase
 	 IReadOnlyDictionary<string, IReadOnlyCollection<AbstractPackage> > Juniper.ConfigurationManagement.Project.packageDB
 	 const string Juniper.ConfigurationManagement.Project.RECOMPILE_SLUG
 	 readonly string Juniper.ConfigurationManagement.Project.AppData
+	 readonly string Juniper.ConfigurationManagement.Project.AssetStoreRoot
+	 readonly string Juniper.ConfigurationManagement.Project.UserAssetStoreRoot
 	 readonly string Juniper.ConfigurationManagement.Project.UserDownloads
 	 readonly string Juniper.ConfigurationManagement.Project.UserProfile
 	 string Juniper.ConfigurationManagement.Project.JuniperAssetPath
+	 string Juniper.ConfigurationManagement.Project.JuniperAssetStoreCachePath
+	 string Juniper.ConfigurationManagement.Project.JuniperDefinesFileName
+	 string Juniper.ConfigurationManagement.Project.JuniperPlatformsFileName
 	 string Juniper.ConfigurationManagement.Project.PluginsPath
 	 string Juniper.ConfigurationManagement.Project.UnityAssetsPath
 	 string Juniper.ConfigurationManagement.Project.UnityEditorRoot
 	 string Juniper.ConfigurationManagement.Project.UnityProjectRoot
 	 string Juniper.ConfigurationManagement.Project.unityEditorDirectoryName
 	 string Juniper.ConfigurationManagement.Project.unityProjectDirectoryName
-  0% - Juniper/Assets/Juniper/Scripts/Statistics/IntegrationMotionFilter.cs - (0 of 1)
-	 using Vector3 =  UnityEngine.Vector3
-  0% - Juniper.Client/ThirdParty/HjgPngcs/PngjBadCrcException.cs - (0 of 2)
-	 Hjg.Pngcs.PngjBadCrcException.PngjBadCrcException
-	 Hjg.Pngcs.PngjException.PngjException?
-  0% - Juniper/Assets/Juniper/Scripts/Input/Pointers/AbstractPointerConfiguration.cs - (0 of 4)
-	 readonly Dictionary<ButtonIDType, KeyCode> Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.nativeKeys
-	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.AddButton
-	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Install
-	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Uninstall
   0% - Juniper.Root/Compression/Zip/ZipArchiveEntryStream.cs - (0 of 29)
 	 Juniper.Compression.Zip.ZipArchiveEntryStream.ZipArchiveEntryStream
 	 override IAsyncResult Juniper.Compression.Zip.ZipArchiveEntryStream.BeginRead
@@ -5887,23 +4171,9 @@
 	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnError
 	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnInfo
 	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnWarning
-  0% - Juniper.Root/Mathematics/QuaternionSerializable.cs - (0 of 10)
-	 Juniper.Mathematics.QuaternionSerializable.QuaternionSerializable
-	 bool Juniper.Mathematics.QuaternionSerializable.Equals
-	 float Juniper.Mathematics.QuaternionSerializable.W
-	 float Juniper.Mathematics.QuaternionSerializable.X
-	 float Juniper.Mathematics.QuaternionSerializable.Y
-	 float Juniper.Mathematics.QuaternionSerializable.Z
-	 override bool Juniper.Mathematics.QuaternionSerializable.Equals
-	 override int Juniper.Mathematics.QuaternionSerializable.GetHashCode
-	 override string Juniper.Mathematics.QuaternionSerializable.ToString
-	 void Juniper.Mathematics.QuaternionSerializable.GetObjectData
-  0% - Juniper.Root/Console/SizeChangedEventArgs.cs - (0 of 5)
-	 Juniper.Console.SizeChangedEventArgs.SizeChangedEventArgs
-	 int Juniper.Console.SizeChangedEventArgs.NewHeight
-	 int Juniper.Console.SizeChangedEventArgs.NewWidth
-	 int Juniper.Console.SizeChangedEventArgs.OldHeight
-	 int Juniper.Console.SizeChangedEventArgs.OldWidth
+  0% - Unity Scripts/Input/JuniperPointerEventData.cs - (0 of 2)
+	 Juniper.Input.JuniperPointerEventData.JuniperPointerEventData
+	 KeyCode Juniper.Input.JuniperPointerEventData.keyCode
   0% - Juniper.Azure/AbstractAzureRequest.cs - (0 of 25)
 	 Juniper.Speech.Azure.AbstractAzureRequest< MediaTypeT >.AbstractAzureRequest
 	 MediaTypeT Juniper.HTTP.REST.AbstractRequest< MediaTypeT >.MediaType
@@ -5949,13 +4219,6 @@
 	 virtual async Task<int> Juniper.Processes.AbstractShellCommand.RunAsync
   0% - Juniper.Root/Logging/IErrorDestination.cs - (0 of 1)
 	 void Juniper.Logging.IErrorDestination.OnError
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/HuffmanEntropyDecoder.cs - (0 of 3)
-	 int [] BitMiracle.LibJpeg.Classic.Internal.HuffmanEntropyDecoder.SavableState.last_dc_val
-	 uint BitMiracle.LibJpeg.Classic.Internal.HuffmanEntropyDecoder.SavableState.EOBRUN
-	 void BitMiracle.LibJpeg.Classic.Internal.HuffmanEntropyDecoder.SavableState.Assign
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/IValuedControl.cs - (0 of 2)
-	 EventHandler<T> Juniper.Widgets.IValuedControl< T >.ValueChange
-	 T Juniper.Widgets.IValuedControl< T >.value
   0% - Juniper.GoogleMaps/TimeZone/TimeZoneRequest.cs - (0 of 7)
 	 DateTime Juniper.World.GIS.Google.TimeZone.TimeZoneRequest.Timestamp
 	 DateTime Juniper.World.GIS.Google.TimeZone.TimeZoneRequest.timestamp
@@ -5974,17 +4237,19 @@
 	 override string Juniper.Primrose.Token.ToString
 	 string Juniper.Primrose.Token.Type
 	 string Juniper.Primrose.Token.Value
-  0% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Motion/NoMotionControllerConfiguration.cs - (0 of 4)
-	 override string Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.PointerNameStub
-	 override? Unary Juniper.Input.Pointers.Motion.NoMotionControllerConfiguration.this[Hand hand]
-	 void Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.AddButton
-	 void Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.Install
+  0% - Unity Scripts/Input/Pointers/Screen/TouchPoint.cs - (0 of 2)
+	 using HapticType =  Juniper.Haptics.iOS9Haptics
+	 using UnityInput =  UnityEngine.Input
   0% - Juniper.GoogleMaps/Geocoding/AbstractGeocodingRequest.cs - (0 of 5)
 	 Juniper.World.GIS.Google.Geocoding.AbstractGeocodingRequest.AbstractGeocodingRequest
 	 override Uri Juniper.World.GIS.Google.AbstractGoogleMapsRequest< MediaTypeT >.AuthenticatedURI
 	 override string Juniper.World.GIS.Google.AbstractGoogleMapsRequest< MediaTypeT >.InternalCacheID
 	 string Juniper.World.GIS.Google.Geocoding.AbstractGeocodingRequest.Language
 	 string Juniper.World.GIS.Google.Geocoding.AbstractGeocodingRequest.language
+  0% - Unity Scripts/Input/PointerFoundEventArgs.cs - (0 of 3)
+	 Juniper.Input.PointerFoundEventArgs.PointerFoundEventArgs
+	 T Juniper.EventArgs< T >.Value
+	 readonly IPointerDevice Juniper.Input.PointerFoundEventArgs.device
   0% - Juniper.Root/Logic/AndExpression.cs - (0 of 8)
 	 IEnumerable<IExpression<ItemT> > Juniper.Logic.AbstractBinaryExpression< ItemT >.GetExpressions
 	 IEnumerable<ItemT> Juniper.Logic.AbstractBinaryExpression< ItemT >.GetItems
@@ -5994,30 +4259,129 @@
 	 bool Juniper.Logic.AbstractBinaryExpression< ItemT >.HasNestedElements
 	 override bool Juniper.Logic.AndExpression< ItemT >.Evaluate
 	 override string Juniper.Logic.AbstractBinaryExpression< ItemT >.ToString
-  0% - Juniper/Plugins/Editor/Juniper/ConfigurationManagement/JuniperCompilerDefineManager.cs - (0 of 8)
-	 const float Juniper.ConfigurationManagement.JuniperCompilerDefineManager.narrowWidthValue
-	 const string Juniper.ConfigurationManagement.JuniperCompilerDefineManager.MENU_NAME
-	 readonly GUIContent Juniper.ConfigurationManagement.JuniperCompilerDefineManager.TITLE
-	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperCompilerDefineManager.buttonWidth
-	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperCompilerDefineManager.narrowWidth
-	 readonly TableView Juniper.ConfigurationManagement.JuniperCompilerDefineManager.definesTable
-	 string Juniper.ConfigurationManagement.JuniperCompilerDefineManager.newDefine
-	 void Juniper.ConfigurationManagement.JuniperCompilerDefineManager.OnGUI
-  0% - Juniper.Client/ThirdParty/HjgPngcs/PngjException.cs - (0 of 2)
-	 Hjg.Pngcs.PngjException.PngjException
-	 Hjg.Pngcs.PngjException.PngjException?
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/Selectable.cs - (0 of 2)
-	 UnityEvent Juniper.Widgets.Selectable.onSelected
-	 void Juniper.Widgets.Selectable.OnSelect
-  0% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Screen/MousePointerConfiguration.cs - (0 of 4)
-	 Juniper.Input.Pointers.Screen.MousePointerConfiguration.MousePointerConfiguration
+  0% - Unity Scripts/World/Zone.cs - (0 of 1)
+	 string Juniper.World.Zone.zoneName
+  0% - Unity Scripts/Widgets/Splitter.cs - (0 of 6)
+	 Animator Juniper.Widgets.Splitter.animator
+	 bool Juniper.Widgets.Splitter.open
+	 bool Juniper.Widgets.Splitter.wasOpen
+	 void Juniper.Widgets.Splitter.Awake
+	 void Juniper.Widgets.Splitter.Toggle
+	 void Juniper.Widgets.Splitter.Update
+  0% - Juniper.Root/IO/IStreamWrapper.cs - (0 of 1)
+	 Stream Juniper.IO.IStreamWrapper.SourceStream
+  0% - Unity Scripts/Sound/Beats/VMU.cs - (0 of 11)
+	 BeatDetector Juniper.Sound.Beats.VMU.detector
+	 Slider Juniper.Sound.Beats.VMU.progress
+	 Transform Juniper.Sound.Beats.VMU.Prefab
+	 Vector3 Juniper.Sound.Beats.VMU.BarScale
+	 bool Juniper.Sound.Beats.VMU.hasLayout
+	 readonly List<Transform> Juniper.Sound.Beats.VMU.bars
+	 void Juniper.Sound.Beats.VMU.BlinkBeat
+	 void Juniper.Sound.Beats.VMU.BlinkMeasure
+	 void Juniper.Sound.Beats.VMU.SetVMU
+	 void Juniper.Sound.Beats.VMU.Start
+	 void Juniper.Sound.Beats.VMU.Update
+  0% - Unity Scripts/Input/Pointers/IProbe.cs - (0 of 11)
+	 Material Juniper.Input.Pointers.IProbe.LaserPointerMaterial
+	 PhysicsRaycaster Juniper.Input.Pointers.IProbe.Raycaster
+	 Transform Juniper.Input.Pointers.IProbe.Cursor
+	 Vector2 Juniper.Input.Pointers.IProbe.TouchPoint
+	 XR.Pose Juniper.Input.Pointers.IProbe.ToJuniperPose
+	 bool Juniper.Input.Pointers.IProbe.CanGaze
+	 void Juniper.Input.Pointers.IProbe.AlignProbe
+	 void Juniper.Input.Pointers.IProbe.Destroy
+	 void Juniper.Input.Pointers.IProbe.SetActive
+	 void Juniper.Input.Pointers.IProbe.SetCursor
+	 void Juniper.Input.Pointers.IProbe.SetGaze
+  0% - Unity Scripts/Input/Pointers/Motion/AbstractMotionControllerConfiguration.cs - (0 of 11)
+	 Type Juniper.Input.Pointers.Motion.AbstractHandedPointerConfiguration< HandIDType, ButtonIDType >.HandType
+	 abstract ? HandIDType Juniper.Input.Pointers.Motion.AbstractHandedPointerConfiguration< HandIDType, ButtonIDType >.this[Hand hand]
+	 override string Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.PointerNameStub
+	 readonly Dictionary<VirtualTouchPadButtons, KeyCode> Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.touchPadKeys
+	 readonly Dictionary<VirtualTriggerButton, KeyCode> Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.triggerKeys
+	 string Juniper.Input.Pointers.Motion.AbstractHandedPointerConfiguration< HandIDType, ButtonIDType >.MakePointerName
 	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.AddButton
 	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Install
 	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Uninstall
-  0% - Juniper.Root/IO/IStreamWrapper.cs - (0 of 1)
-	 Stream Juniper.IO.IStreamWrapper.SourceStream
+	 void Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.AddButton
+	 void Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.Install
+  0% - Unity Scripts/Sound/Beats/BeatDetector.cs - (0 of 68)
+	 AudioSource Juniper.Sound.Beats.BeatDetector.Source
+	 BeatDetectorConfiguration Juniper.Sound.Beats.BeatDetector.Configuration
+	 OnSpectrumEventHandler Juniper.Sound.Beats.BeatDetector.OnSpectrum
+	 UnityEvent Juniper.Sound.Beats.BeatDetector.OnBeat
+	 UnityEvent Juniper.Sound.Beats.BeatDetector.OnMeasure
+	 UnityEvent Juniper.Sound.Beats.BeatDetector.OnNewSong
+	 UnityEvent Juniper.Sound.Beats.BeatDetector.OnSongEnd
+	 bool Juniper.Sound.Beats.BeatDetector.CanPlay
+	 bool Juniper.Sound.Beats.BeatDetector.VisualizeOutput
+	 bool Juniper.Sound.Beats.BeatDetector.wasVisualizeOutput
+	 bool [] Juniper.Sound.Beats.BeatDetector.didBeat
+	 float Juniper.Sound.Beats.BeatDetector.BandWidth
+	 float Juniper.Sound.Beats.BeatDetector.CurrentTime
+	 float Juniper.Sound.Beats.BeatDetector.LerpBeat
+	 float Juniper.Sound.Beats.BeatDetector.MeasuredBPM
+	 float Juniper.Sound.Beats.BeatDetector.Progress
+	 float Juniper.Sound.Beats.BeatDetector.TapTempo
+	 float Juniper.Sound.Beats.BeatDetector.TargetBPM
+	 float Juniper.Sound.Beats.BeatDetector.dBeat
+	 float Juniper.Sound.Beats.BeatDetector.diff
+	 float Juniper.Sound.Beats.BeatDetector.entries
+	 float Juniper.Sound.Beats.BeatDetector.lastBandWidth
+	 float Juniper.Sound.Beats.BeatDetector.lastBeat
+	 float Juniper.Sound.Beats.BeatDetector.lastT
+	 float Juniper.Sound.Beats.BeatDetector.lastTap
+	 float Juniper.Sound.Beats.BeatDetector.nextBeat
+	 float Juniper.Sound.Beats.BeatDetector.nowT
+	 float Juniper.Sound.Beats.BeatDetector.sum
+	 float Juniper.Sound.Beats.BeatDetector.tempo
+	 float [] Juniper.Sound.Beats.BeatDetector.acVals
+	 float [] Juniper.Sound.Beats.BeatDetector.beatScores
+	 float [] Juniper.Sound.Beats.BeatDetector.binnedAmplitude
+	 float [] Juniper.Sound.Beats.BeatDetector.binnedSpectrum
+	 float [] Juniper.Sound.Beats.BeatDetector.bpms
+	 float [] Juniper.Sound.Beats.BeatDetector.combinedSlice
+	 float [] Juniper.Sound.Beats.BeatDetector.currentSlice
+	 float [] Juniper.Sound.Beats.BeatDetector.delays
+	 float [] Juniper.Sound.Beats.BeatDetector.frequencyDomainSlice
+	 float [] Juniper.Sound.Beats.BeatDetector.onsets
+	 float [] Juniper.Sound.Beats.BeatDetector.outputs
+	 float [] Juniper.Sound.Beats.BeatDetector.rweight
+	 float [] Juniper.Sound.Beats.BeatDetector.visualizationBinnedSpectrum
+	 int Juniper.Sound.Beats.BeatDetector.BufferSize
+	 int Juniper.Sound.Beats.BeatDetector.FrequencyIndex
+	 int Juniper.Sound.Beats.BeatDetector.QueueLength
+	 int Juniper.Sound.Beats.BeatDetector.SamplingRate
+	 int Juniper.Sound.Beats.BeatDetector.TotalBeats
+	 int Juniper.Sound.Beats.BeatDetector.VisualizationBandCount
+	 int Juniper.Sound.Beats.BeatDetector._bufferSize
+	 int Juniper.Sound.Beats.BeatDetector._lastBufferMagnitude
+	 int Juniper.Sound.Beats.BeatDetector.beat
+	 int Juniper.Sound.Beats.BeatDetector.indx
+	 int Juniper.Sound.Beats.BeatDetector.ringBufferIndex
+	 int Juniper.Sound.Beats.BeatDetector.updatesSinceLastBeat
+	 int [] Juniper.Sound.Beats.BeatDetector.blipDelay
+	 readonly List<float> Juniper.Sound.Beats.BeatDetector.deltas
+	 readonly float Juniper.Sound.Beats.BeatDetector.BPMMidPointWeight
+	 readonly float Juniper.Sound.Beats.BeatDetector.decay
+	 readonly int Juniper.Sound.Beats.BeatDetector.maxlag
+	 string Juniper.Sound.Beats.BeatDetector.lastResourceName
+	 string Juniper.Sound.Beats.BeatDetector.resourceName
+	 void Juniper.Sound.Beats.BeatDetector.BinSpectrum
+	 void Juniper.Sound.Beats.BeatDetector.FollowBeat
+	 void Juniper.Sound.Beats.BeatDetector.InitArrays
+	 void Juniper.Sound.Beats.BeatDetector.NewSong
+	 void Juniper.Sound.Beats.BeatDetector.SongEnded
+	 void Juniper.Sound.Beats.BeatDetector.Start
+	 void Juniper.Sound.Beats.BeatDetector.Update
   0% - Juniper.Root/Logging/IWarningDestination.cs - (0 of 1)
 	 void Juniper.Logging.IWarningDestination.OnWarning
+  0% - Unity Scripts/Input/Pointers/Motion/NoMotionControllerConfiguration.cs - (0 of 4)
+	 override string Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.PointerNameStub
+	 override? Unary Juniper.Input.Pointers.Motion.NoMotionControllerConfiguration.this[Hand hand]
+	 void Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.AddButton
+	 void Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.Install
   0% - Juniper.Root/Font.cs - (0 of 24)
 	 Juniper.MediaType.Font.Font
 	 ReadOnlyCollection<string> Juniper.MediaType.Extensions
@@ -6043,24 +4407,12 @@
 	 string Juniper.MediaType.SubTypeName
 	 string Juniper.MediaType.TypeName
 	 string Juniper.MediaType.Value
-  0% - Juniper/Plugins/Editor/Juniper/ConfigurationManagement/JuniperPlatformSelector.cs - (0 of 6)
-	 const int Juniper.ConfigurationManagement.JuniperPlatformSelector.buttonWidthValue
-	 const string Juniper.ConfigurationManagement.JuniperPlatformSelector.MENU_NAME
-	 readonly GUIContent Juniper.ConfigurationManagement.JuniperPlatformSelector.TITLE
-	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperPlatformSelector.buttonWidth
-	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperPlatformSelector.nameFieldWidth
-	 void Juniper.ConfigurationManagement.JuniperPlatformSelector.OnGUI
   0% - Juniper.Root/IntegerEventArgs.cs - (0 of 2)
 	 Juniper.IntegerEventArgs.IntegerEventArgs
 	 T Juniper.EventArgs< T >.Value
   0% - Juniper.Server/Administration/NetSH/FirewallRuleAction.cs - (0 of 2)
 	 FirewallRuleAction
 	 FirewallRuleDirection
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegCCoefController.cs - (0 of 2)
-	 bool BitMiracle.LibJpeg.Classic.Internal.JpegCCoefController.CompressData
-	 void BitMiracle.LibJpeg.Classic.Internal.JpegCCoefController.StartPass
-  0% - Juniper/Assets/Juniper/Scripts/Platforms/WindowsMR/WindowsMRAnchorStore.cs - (0 of 1)
-	 using AnchorType =  UnityEngine.XR.WSA.WorldAnchor
   0% - Juniper.Root/Audio.cs - (0 of 192)
 	 Juniper.MediaType.Audio.Audio
 	 ReadOnlyCollection<string> Juniper.MediaType.Extensions
@@ -6254,16 +4606,6 @@
 	 string Juniper.MediaType.SubTypeName
 	 string Juniper.MediaType.TypeName
 	 string Juniper.MediaType.Value
-  0% - Juniper/Assets/Juniper/Scripts/Input/PointerFoundEventArgs.cs - (0 of 3)
-	 Juniper.Input.PointerFoundEventArgs.PointerFoundEventArgs
-	 T Juniper.EventArgs< T >.Value
-	 readonly IPointerDevice Juniper.Input.PointerFoundEventArgs.device
-  0% - Juniper.Client/ThirdParty/HjgPngcs/PngjOutputException.cs - (0 of 2)
-	 Hjg.Pngcs.PngjException.PngjException?
-	 Hjg.Pngcs.PngjOutputException.PngjOutputException
-  0% - Juniper.Client/ThirdParty/HjgPngcs/PngjInternalException.cs - (0 of 2)
-	 Hjg.Pngcs.PngjInternalException.PngjInternalException
-	 Hjg.Pngcs.PngjInternalException.PngjInternalException?
   0% - Juniper.Root/Mathematics/PlaneSerializable.cs - (0 of 9)
 	 Juniper.Mathematics.PlaneSerializable.PlaneSerializable
 	 bool Juniper.Mathematics.PlaneSerializable.Equals
@@ -6274,21 +4616,42 @@
 	 override bool Juniper.Mathematics.PlaneSerializable.Equals
 	 override int Juniper.Mathematics.PlaneSerializable.GetHashCode
 	 void Juniper.Mathematics.PlaneSerializable.GetObjectData
+  0% - Unity Scripts/Widgets/Tooltipable.cs - (0 of 18)
+	 AbstractStateController Juniper.Widgets.Tooltipable.trans
+	 Func<bool> Juniper.Widgets.Tooltipable.isParentEnabled
+	 IEnumerator Juniper.Widgets.Tooltipable.HideTooltipCoroutine
+	 Speakable Juniper.Widgets.Tooltipable.speech
+	 TextComponentWrapper Juniper.Widgets.Tooltipable.textElement
+	 Transform Juniper.Widgets.Tooltipable.tooltip
+	 bool Juniper.Widgets.Tooltipable.IsInteractable
+	 float Juniper.Widgets.Tooltipable.delayBeforeDisplay
+	 float Juniper.Widgets.Tooltipable.delayBeforeHide
+	 string Juniper.Widgets.Tooltipable.Text
+	 void Juniper.Widgets.Tooltipable.Awake
+	 void Juniper.Widgets.Tooltipable.GetControls
+	 void Juniper.Widgets.Tooltipable.Hide
+	 void Juniper.Widgets.Tooltipable.HideTooltip
+	 void Juniper.Widgets.Tooltipable.OnEnable
+	 void Juniper.Widgets.Tooltipable.OnPointerEnter
+	 void Juniper.Widgets.Tooltipable.OnPointerExit
+	 void Juniper.Widgets.Tooltipable.ShowTooltip
   0% - Juniper.Root/ColorUtil.cs - (0 of 1)
 	 readonly int [] Juniper.ColorUtil.SkinColors
-  0% - Juniper/Assets/Juniper/Scripts/Platforms/WindowsMR/WindowsMRButtons.cs - (0 of 1)
+  0% - Unity Scripts/Input/Pointers/UnaryPointerConfiguration.cs - (0 of 4)
+	 Juniper.Input.Pointers.UnaryPointerConfiguration.UnaryPointerConfiguration
+	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.AddButton
+	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Install
+	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Uninstall
+  0% - Unity Scripts/Platforms/WindowsMR/WindowsMRButtons.cs - (0 of 1)
 	 WindowsMRButtons
   0% - Juniper.GoogleMaps/Places/PlaceSearchResponse.cs - (0 of 2)
 	 Juniper.World.GIS.Google.Places.PlaceSearchResponse.PlaceSearchResponse
 	 void Juniper.World.GIS.Google.Places.PlaceSearchResponse.GetObjectData
+  0% - Unity Scripts/Platforms/WindowsMR/WindowsMRMotionController.cs - (0 of 1)
+	 using HapticType =  Juniper.Haptics.WindowsMRHaptics
   0% - Juniper.Root/World/GIS/LatLngPointEventArgs.cs - (0 of 2)
 	 Juniper.World.GIS.LatLngPointEventArgs.LatLngPointEventArgs
 	 T Juniper.EventArgs< T >.Value
-  0% - Juniper/Assets/Juniper/Scripts/World/GIS/GPSLocation.cs - (0 of 1)
-	 using UnityInput =  UnityEngine.Input
-  0% - Juniper/Assets/Juniper/Scripts/Input/Pointers/Gaze/TouchGazePointer.cs - (0 of 2)
-	 using HapticType =  Juniper.Haptics.iOS9Haptics
-	 using UnityInput =  UnityEngine.Input
   0% - Juniper.GoogleMaps/Geocoding/GeocodingResponse.cs - (0 of 8)
 	 GeocodingResult [] Juniper.World.GIS.Google.Geocoding.GeocodingResponse.Results
 	 HttpStatusCode Juniper.World.GIS.Google.Geocoding.GeocodingResponse.Status
@@ -6298,6 +4661,21 @@
 	 readonly string Juniper.World.GIS.Google.Geocoding.GeocodingResponse.STATUS_FIELD
 	 string Juniper.World.GIS.Google.Geocoding.GeocodingResponse.Error_Message
 	 void Juniper.World.GIS.Google.Geocoding.GeocodingResponse.GetObjectData
+  0% - Juniper.Root/Console/ConsoleBuffer.cs - (0 of 9)
+	 Juniper.Console.ConsoleBuffer.NativeMethods.RECT.RECT
+	 int Juniper.Console.ConsoleBuffer.NativeMethods.RECT.Bottom
+	 int Juniper.Console.ConsoleBuffer.NativeMethods.RECT.Height
+	 int Juniper.Console.ConsoleBuffer.NativeMethods.RECT.Left
+	 int Juniper.Console.ConsoleBuffer.NativeMethods.RECT.Right
+	 int Juniper.Console.ConsoleBuffer.NativeMethods.RECT.Top
+	 int Juniper.Console.ConsoleBuffer.NativeMethods.RECT.Width
+	 int Juniper.Console.ConsoleBuffer.NativeMethods.RECT.X
+	 int Juniper.Console.ConsoleBuffer.NativeMethods.RECT.Y
+  0% - Unity Scripts/Widgets/FollowMainCamera.cs - (0 of 4)
+	 FollowObject Juniper.Widgets.FollowMainCamera.f
+	 void Juniper.Widgets.FollowMainCamera.Awake
+	 void Juniper.Widgets.FollowMainCamera.OnEnable
+	 void Juniper.Widgets.FollowMainCamera.OnValidate
   0% - Juniper.Root/Unicode/BoxElementCharacters.cs - (0 of 32)
 	 const char Juniper.Unicode.BoxElementCharacters.DarkShade
 	 const char Juniper.Unicode.BoxElementCharacters.FullBlock
@@ -6386,6 +4764,8 @@
 	 override int Juniper.Mathematics.Vector3Serializable.GetHashCode
 	 override string Juniper.Mathematics.Vector3Serializable.ToString
 	 void Juniper.Mathematics.Vector3Serializable.GetObjectData
+  0% - Unity Scripts/Input/Pointers/MappedButton.cs - (0 of 1)
+	 using InputButton =  UnityEngine.EventSystems.PointerEventData.InputButton
   0% - Juniper.Root/Logic/AbstractUnaryExpression.cs - (0 of 6)
 	 IEnumerable<IExpression<ItemT> > Juniper.Logic.AbstractUnaryExpression< ItemT, ValueT >.GetExpressions
 	 Juniper.Logic.AbstractUnaryExpression< ItemT, ValueT >.AbstractUnaryExpression
@@ -6510,11 +4890,125 @@
 	 string Juniper.MediaType.Value
   0% - Juniper.UnityEditor/ConfigurationManagement/PackageSources.cs - (0 of 1)
 	 PackageSources
-  0% - Juniper.Root/Imaging/ImageData.cs - (0 of 4)
-	 ImageInfo Juniper.Imaging.ImageData.Info
-	 Juniper.Imaging.ImageData.ImageData
-	 Juniper.Imaging.ImageData.ImageData??
-	 byte [] Juniper.Imaging.ImageData.Data
+  0% - Juniper.Root/Text.cs - (0 of 113)
+	 Juniper.MediaType.Text.Text
+	 ReadOnlyCollection<string> Juniper.MediaType.Extensions
+	 bool Juniper.MediaType.Equals
+	 bool Juniper.MediaType.Matches
+	 float Juniper.MediaType.Weight
+	 new readonly Text [] Juniper.MediaType.Text.Values
+	 override bool Juniper.MediaType.Equals
+	 override bool Juniper.MediaType.Text.Matches
+	 override int Juniper.MediaType.GetHashCode
+	 override string Juniper.MediaType.ToString
+	 readonly IReadOnlyCollection<MediaType> Juniper.MediaType.All
+	 readonly MediaType Juniper.MediaType.Any
+	 readonly Text Juniper.MediaType.Text.AnyText
+	 readonly Text Juniper.MediaType.Text.Cache_Manifest
+	 readonly Text Juniper.MediaType.Text.Calendar
+	 readonly Text Juniper.MediaType.Text.Css
+	 readonly Text Juniper.MediaType.Text.Csv
+	 readonly Text Juniper.MediaType.Text.Csv_Schema
+	 readonly Text Juniper.MediaType.Text.Directory
+	 readonly Text Juniper.MediaType.Text.Dns
+	 readonly Text Juniper.MediaType.Text.Ecmascript
+	 readonly Text Juniper.MediaType.Text.Encaprtp
+	 readonly Text Juniper.MediaType.Text.Enriched
+	 readonly Text Juniper.MediaType.Text.Example
+	 readonly Text Juniper.MediaType.Text.Flexfec
+	 readonly Text Juniper.MediaType.Text.Fwdred
+	 readonly Text Juniper.MediaType.Text.Grammar_Ref_List
+	 readonly Text Juniper.MediaType.Text.Html
+	 readonly Text Juniper.MediaType.Text.Javascript
+	 readonly Text Juniper.MediaType.Text.Jcr_Cnd
+	 readonly Text Juniper.MediaType.Text.Markdown
+	 readonly Text Juniper.MediaType.Text.Mizar
+	 readonly Text Juniper.MediaType.Text.N3
+	 readonly Text Juniper.MediaType.Text.Parameters
+	 readonly Text Juniper.MediaType.Text.Parityfec
+	 readonly Text Juniper.MediaType.Text.Plain
+	 readonly Text Juniper.MediaType.Text.Provenance_Notation
+	 readonly Text Juniper.MediaType.Text.PrsFallensteinRst
+	 readonly Text Juniper.MediaType.Text.PrsLinesTag
+	 readonly Text Juniper.MediaType.Text.PrsPropLogic
+	 readonly Text Juniper.MediaType.Text.RED
+	 readonly Text Juniper.MediaType.Text.Raptorfec
+	 readonly Text Juniper.MediaType.Text.Rfc822_Headers
+	 readonly Text Juniper.MediaType.Text.Richtext
+	 readonly Text Juniper.MediaType.Text.Rtf
+	 readonly Text Juniper.MediaType.Text.Rtp_Enc_Aescm128
+	 readonly Text Juniper.MediaType.Text.Rtploopback
+	 readonly Text Juniper.MediaType.Text.Rtx
+	 readonly Text Juniper.MediaType.Text.Sgml
+	 readonly Text Juniper.MediaType.Text.Strings
+	 readonly Text Juniper.MediaType.Text.T140
+	 readonly Text Juniper.MediaType.Text.Tab_Separated_Values
+	 readonly Text Juniper.MediaType.Text.Troff
+	 readonly Text Juniper.MediaType.Text.Turtle
+	 readonly Text Juniper.MediaType.Text.Ulpfec
+	 readonly Text Juniper.MediaType.Text.Uri_List
+	 readonly Text Juniper.MediaType.Text.Vcard
+	 readonly Text Juniper.MediaType.Text.Vendor1d_Interleaved_Parityfec
+	 readonly Text Juniper.MediaType.Text.VendorA
+	 readonly Text Juniper.MediaType.Text.VendorAbc
+	 readonly Text Juniper.MediaType.Text.VendorAscii_Art
+	 readonly Text Juniper.MediaType.Text.VendorCurl
+	 readonly Text Juniper.MediaType.Text.VendorCurlDcurl
+	 readonly Text Juniper.MediaType.Text.VendorCurlMcurl
+	 readonly Text Juniper.MediaType.Text.VendorCurlScurl
+	 readonly Text Juniper.MediaType.Text.VendorDMClientScript
+	 readonly Text Juniper.MediaType.Text.VendorDebianCopyright
+	 readonly Text Juniper.MediaType.Text.VendorDvbSubtitle
+	 readonly Text Juniper.MediaType.Text.VendorEsmertecTheme_Descriptor
+	 readonly Text Juniper.MediaType.Text.VendorFiclabFlt
+	 readonly Text Juniper.MediaType.Text.VendorFly
+	 readonly Text Juniper.MediaType.Text.VendorFmiFlexstor
+	 readonly Text Juniper.MediaType.Text.VendorGml
+	 readonly Text Juniper.MediaType.Text.VendorGraphviz
+	 readonly Text Juniper.MediaType.Text.VendorHgl
+	 readonly Text Juniper.MediaType.Text.VendorIPTCNITF
+	 readonly Text Juniper.MediaType.Text.VendorIPTCNewsML
+	 readonly Text Juniper.MediaType.Text.VendorIn3d3dml
+	 readonly Text Juniper.MediaType.Text.VendorIn3dSpot
+	 readonly Text Juniper.MediaType.Text.VendorLatex_Z
+	 readonly Text Juniper.MediaType.Text.VendorMotorolaReflex
+	 readonly Text Juniper.MediaType.Text.VendorMs_Mediapackage
+	 readonly Text Juniper.MediaType.Text.VendorNet2phoneCommcenterCommand
+	 readonly Text Juniper.MediaType.Text.VendorRadisysMsml_Basic_Layout
+	 readonly Text Juniper.MediaType.Text.VendorSenxWarpscript
+	 readonly Text Juniper.MediaType.Text.VendorSiUricatalogue
+	 readonly Text Juniper.MediaType.Text.VendorSosi
+	 readonly Text Juniper.MediaType.Text.VendorSunJ2meApp_Descriptor
+	 readonly Text Juniper.MediaType.Text.VendorTrolltechLinguist
+	 readonly Text Juniper.MediaType.Text.VendorWapSi
+	 readonly Text Juniper.MediaType.Text.VendorWapSl
+	 readonly Text Juniper.MediaType.Text.VendorWapWml
+	 readonly Text Juniper.MediaType.Text.VendorWapWmlscript
+	 readonly Text Juniper.MediaType.Text.Vtt
+	 readonly Text Juniper.MediaType.Text.X_Asm
+	 readonly Text Juniper.MediaType.Text.X_C
+	 readonly Text Juniper.MediaType.Text.X_Fortran
+	 readonly Text Juniper.MediaType.Text.X_Java_Source
+	 readonly Text Juniper.MediaType.Text.X_Nfo
+	 readonly Text Juniper.MediaType.Text.X_Opml
+	 readonly Text Juniper.MediaType.Text.X_Pascal
+	 readonly Text Juniper.MediaType.Text.X_Setext
+	 readonly Text Juniper.MediaType.Text.X_Sfv
+	 readonly Text Juniper.MediaType.Text.X_Uuencode
+	 readonly Text Juniper.MediaType.Text.X_Vcalendar
+	 readonly Text Juniper.MediaType.Text.X_Vcard
+	 readonly Text Juniper.MediaType.Text.Xml
+	 readonly Text Juniper.MediaType.Text.Xml_External_Parsed_Entity
+	 string Juniper.MediaType.AddExtension
+	 string Juniper.MediaType.PrimaryExtension
+	 string Juniper.MediaType.SubTypeName
+	 string Juniper.MediaType.TypeName
+	 string Juniper.MediaType.Value
+  0% - Unity Scripts/Widgets/UnitySliderAdapter.cs - (0 of 4)
+	 EventHandler<float> Juniper.Widgets.UnitySliderAdapter.ValueChange
+	 Juniper.Widgets.UnitySliderAdapter.UnitySliderAdapter
+	 float Juniper.Widgets.UnitySliderAdapter.value
+	 readonly Slider Juniper.Widgets.UnitySliderAdapter.element
   0% - Juniper.GoogleMaps/Geocoding/ReverseGeocodingRequest.cs - (0 of 11)
 	 Juniper.World.GIS.Google.Geocoding.ReverseGeocodingRequest.ReverseGeocodingRequest
 	 LatLngPoint Juniper.World.GIS.Google.Geocoding.ReverseGeocodingRequest.latlng
@@ -6527,14 +5021,6 @@
 	 string Juniper.World.GIS.Google.Geocoding.AbstractGeocodingRequest.Language
 	 void Juniper.World.GIS.Google.Geocoding.ReverseGeocodingRequest.AddLocationType
 	 void Juniper.World.GIS.Google.Geocoding.ReverseGeocodingRequest.AddResultType
-  0% - Juniper/Plugins/Editor/Juniper/ConfigurationManagement/JuniperRequirePackageInstaller.cs - (0 of 7)
-	 const int Juniper.ConfigurationManagement.JuniperRequiredPackageInstaller.buttonWidthValue
-	 const string Juniper.ConfigurationManagement.JuniperRequiredPackageInstaller.MENU_NAME
-	 readonly GUIContent Juniper.ConfigurationManagement.JuniperRequiredPackageInstaller.TITLE
-	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperRequiredPackageInstaller.buttonWidth
-	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperRequiredPackageInstaller.nameFieldWidth
-	 readonly TableView Juniper.ConfigurationManagement.JuniperRequiredPackageInstaller.requiredPackageTable
-	 void Juniper.ConfigurationManagement.JuniperRequiredPackageInstaller.OnGUI
   0% - Juniper.Root/IO/ICacheDestinationLayer.cs - (0 of 6)
 	 IEnumerable<ContentReference> Juniper.IO.ICacheSourceLayer.GetContentReferences
 	 Stream Juniper.IO.ICacheDestinationLayer.Create
@@ -6551,18 +5037,6 @@
 	 int Juniper.Sound.Beats.BandPass.Low
 	 int Juniper.Sound.Beats.BandPass.LowN
 	 int Juniper.Sound.Beats.BandPass.Multiplier
-  0% - Juniper.Client/ThirdParty/NLayer.NAudioSupport/Mp3FrameDecompressor.cs - (0 of 9)
-	 NLayer.NAudioSupport.Mp3FrameDecompressor.Mp3FrameDecompressor
-	 StereoMode NLayer.NAudioSupport.Mp3FrameDecompressor.StereoMode
-	 WaveFormat NLayer.NAudioSupport.Mp3FrameDecompressor.OutputFormat
-	 int NLayer.NAudioSupport.Mp3FrameDecompressor.DecompressFrame
-	 readonly Mp3FrameWrapper NLayer.NAudioSupport.Mp3FrameDecompressor.frame
-	 readonly MpegFrameDecoder NLayer.NAudioSupport.Mp3FrameDecompressor.decoder
-	 void NLayer.NAudioSupport.Mp3FrameDecompressor.Dispose
-	 void NLayer.NAudioSupport.Mp3FrameDecompressor.Reset
-	 void NLayer.NAudioSupport.Mp3FrameDecompressor.SetEQ
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/ProgressBar.cs - (0 of 1)
-	 using UnityImage =  UnityEngine.UI.Image
   0% - Juniper.UnityEditor/ConfigurationManagement/JuniperPackage.cs - (0 of 25)
 	 Juniper.ConfigurationManagement.AbstractCompressedPackage.AbstractCompressedPackage??
 	 Juniper.ConfigurationManagement.JuniperPackage.JuniperPackage
@@ -6615,6 +5089,15 @@
 	 string Juniper.ConfigurationManagement.PackageReference.VersionSpec
 	 string Juniper.ConfigurationManagement.UnityPackage.ListingPath
 	 virtual void Juniper.ConfigurationManagement.AbstractPackage.Activate
+  0% - Juniper.Client/Imaging/Windows/GDIProcessor.cs - (0 of 8)
+	 Image Juniper.Imaging.GDIProcessor.Concatenate
+	 T Juniper.Imaging.IImageProcessor< T >.Concatenate
+	 int Juniper.Imaging.GDIProcessor.GetComponents
+	 int Juniper.Imaging.GDIProcessor.GetHeight
+	 int Juniper.Imaging.GDIProcessor.GetWidth
+	 int Juniper.Imaging.IImageProcessor< T >.GetComponents
+	 int Juniper.Imaging.IImageProcessor< T >.GetHeight
+	 int Juniper.Imaging.IImageProcessor< T >.GetWidth
   0% - Juniper.GoogleMaps/Geocoding/GeocodingRequest.cs - (0 of 21)
 	 GeometryViewport Juniper.World.GIS.Google.Geocoding.GeocodingRequest.bounds
 	 GeometryViewport? Juniper.World.GIS.Google.Geocoding.GeocodingRequest.Bounds
@@ -6656,6 +5139,8 @@
 	 bool Juniper.Logic.AbstractBinaryExpression< ItemT >.HasNestedElements
 	 override string Juniper.Logic.AbstractBinaryExpression< ItemT >.ToString
 	 readonly string Juniper.Logic.AbstractBinaryExpression< ItemT >.opName
+  0% - Unity Scripts/World/CompassRose.cs - (0 of 1)
+	 using UnityInput =  UnityEngine.Input
   0% - Juniper.GoogleMaps/MapTiles/Marker.cs - (0 of 10)
 	 Juniper.World.GIS.Google.MapTiles.Marker.Marker
 	 Juniper.World.GIS.Google.MapTiles.Marker.Marker???
@@ -6667,29 +5152,66 @@
 	 readonly string Juniper.World.GIS.Google.MapTiles.Marker.STYLE_FIELD
 	 string Juniper.World.GIS.Google.MapTiles.Marker.Center
 	 void Juniper.World.GIS.Google.MapTiles.Marker.GetObjectData
+  0% - Unity Scripts/Widgets/TextComponentWrapper.cs - (0 of 7)
+	 T Juniper.Widgets.TextComponentWrapper.Get< T >
+	 TMP_Text Juniper.Widgets.TextComponentWrapper.textMeshPro
+	 Text Juniper.Widgets.TextComponentWrapper.unityText
+	 TextMesh Juniper.Widgets.TextComponentWrapper.unityTextMesh
+	 internal void Juniper.Widgets.TextComponentWrapper.SetupControls
+	 string Juniper.Widgets.TextComponentWrapper.Text
+	 void Juniper.Widgets.TextComponentWrapper.Awake
   0% - Juniper.Root/NamedActions/AbstractNamedAction.cs - (0 of 2)
 	 Delegate Juniper.INamedAction.Method
 	 string Juniper.INamedAction.Name
+  0% - Unity Scripts/Widgets/ValueDragger.cs - (0 of 16)
+	 FloatEvent Juniper.Widgets.ValueDragger.onValueChanged
+	 InputField Juniper.Widgets.ValueDragger.field
+	 Vector2 Juniper.Widgets.ValueDragger.drag
+	 Vector2 Juniper.Widgets.ValueDragger.start
+	 bool Juniper.Widgets.ValueDragger.locked
+	 bool Juniper.Widgets.ValueDragger.wasLocked
+	 float Juniper.Widgets.ValueDragger.delta
+	 float Juniper.Widgets.ValueDragger.max
+	 float Juniper.Widgets.ValueDragger.min
+	 string Juniper.Widgets.ValueDragger.lastText
+	 void Juniper.Widgets.ValueDragger.Awake
+	 void Juniper.Widgets.ValueDragger.ChangeValue
+	 void Juniper.Widgets.ValueDragger.OnPointerDown
+	 void Juniper.Widgets.ValueDragger.OnPointerUp
+	 void Juniper.Widgets.ValueDragger.OnTextChanged
+	 void Juniper.Widgets.ValueDragger.Update
   0% - Juniper.Root/HTTP/DataMessage.cs - (0 of 4)
 	 Juniper.HTTP.DataMessage.DataMessage
 	 System.Collections.Generic.IReadOnlyCollection<byte> Juniper.HTTP.DataMessage.Data
 	 string Juniper.HTTP.DataMessage.Message
 	 void Juniper.HTTP.DataMessage.GetObjectData
-  0% - Juniper/Assets/Juniper/Scripts/Imaging/UnityTexture2DCodec.cs - (0 of 9)
-	 ImageInfo Juniper.Imaging.UnityTexture2DCodec.GetImageInfo
-	 Juniper.Imaging.UnityTexture2DCodec.UnityTexture2DCodec
-	 MediaType.Image Juniper.Imaging.UnityTexture2DCodec.ContentType
-	 Texture2D Juniper.Imaging.UnityTexture2DCodec.Deserialize
-	 Texture2D Juniper.Imaging.UnityTexture2DCodec.MakeTexture
-	 byte [] Juniper.Imaging.UnityTexture2DCodec.Serialize
-	 long Juniper.Imaging.UnityTexture2DCodec.Serialize
-	 readonly Texture2D.EXRFlags Juniper.Imaging.UnityTexture2DCodec.exrFlags
-	 readonly int Juniper.Imaging.UnityTexture2DCodec.jpegEncodingQuality
+  0% - Unity Scripts/Widgets/LabeledInputField.cs - (0 of 11)
+	 InputField Juniper.Widgets.LabeledInputField.Field
+	 StringEvent Juniper.Widgets.LabeledInputField.onValueChanged
+	 Text Juniper.Widgets.LabeledInputField.Label
+	 UnityEvent Juniper.Widgets.LabeledInputField.onSelected
+	 bool Juniper.Widgets.LabeledInputField.Indicated
+	 bool Juniper.Widgets.LabeledInputField.Interactable
+	 bool Juniper.Widgets.LabeledInputField.indicatedBacker
+	 string Juniper.Widgets.LabeledInputField.LabelText
+	 string Juniper.Widgets.LabeledInputField.Text
+	 void Juniper.Widgets.LabeledInputField.Awake
+	 void Juniper.Widgets.LabeledInputField.HighlightLabel
+  0% - Unity Editor Plugins/ConfigurationManagement/JuniperRequirePackageInstaller.cs - (0 of 7)
+	 const int Juniper.ConfigurationManagement.JuniperRequiredPackageInstaller.buttonWidthValue
+	 const string Juniper.ConfigurationManagement.JuniperRequiredPackageInstaller.MENU_NAME
+	 readonly GUIContent Juniper.ConfigurationManagement.JuniperRequiredPackageInstaller.TITLE
+	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperRequiredPackageInstaller.buttonWidth
+	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperRequiredPackageInstaller.nameFieldWidth
+	 readonly TableView Juniper.ConfigurationManagement.JuniperRequiredPackageInstaller.requiredPackageTable
+	 void Juniper.ConfigurationManagement.JuniperRequiredPackageInstaller.OnGUI
   0% - Juniper.Unity/ProjectConfiguration.cs - (0 of 4)
 	 PlatformType Juniper.ProjectConfiguration.Platform
 	 readonly ContentReference Juniper.ProjectConfiguration.FILE
 	 readonly ICacheDestinationLayer Juniper.ProjectConfiguration.CACHE
 	 readonly IFactory<string, MediaType.Text> Juniper.ProjectConfiguration.FACTORY
+  0% - Juniper.Server/INCSALogSource.cs - (0 of 1)
+	 EventHandler<StringEventArgs> Juniper.HTTP.Server.INCSALogSource.Log
   0% - Juniper.Root/Logic/EmptyExpression.cs - (0 of 6)
 	 IEnumerable<IExpression<ItemT> > Juniper.Logic.EmptyExpression< ItemT >.GetExpressions
 	 IEnumerable<ItemT> Juniper.Logic.EmptyExpression< ItemT >.GetItems
@@ -6697,9 +5219,6 @@
 	 bool Juniper.Logic.EmptyExpression< ItemT >.Evaluate
 	 bool Juniper.Logic.EmptyExpression< ItemT >.HasNestedElements
 	 override string Juniper.Logic.EmptyExpression< ItemT >.ToString
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/BitreadPermState.cs - (0 of 2)
-	 int BitMiracle.LibJpeg.Classic.Internal.BitreadPermState.bitsLeft
-	 int BitMiracle.LibJpeg.Classic.Internal.BitreadPermState.getBuffer
   0% - Juniper.UnityEditor/ConfigurationManagement/AbstractPackage.cs - (0 of 23)
 	 IReadOnlyDictionary<string, IReadOnlyCollection<AbstractPackage> > Juniper.ConfigurationManagement.AbstractPackage.packageDB
 	 Juniper.ConfigurationManagement.AbstractPackage.AbstractPackage
@@ -6730,10 +5249,11 @@
 	 int Juniper.World.GIS.Google.StreetView.AbstractStreetViewRequest< MediaTypeT >.Radius
 	 string Juniper.World.GIS.Google.StreetView.AbstractStreetViewRequest< MediaTypeT >.Pano
 	 string Juniper.World.GIS.Google.StreetView.AbstractStreetViewRequest< MediaTypeT >.Place
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/Shaker.cs - (0 of 1)
-	 using UnityInput =  UnityEngine.Input
   0% - Juniper.Root/Logging/INCSALogDestination.cs - (0 of 1)
 	 void Juniper.Logging.INCSALogDestination.OnLog
+  0% - Unity Scripts/Platforms/WindowsMR/WindowsMRInteractionAudio.cs - (0 of 2)
+	 override AudioSource Juniper.Audio.WindowsMRInteractionAudio.InternalSpatialize
+	 override void Juniper.Audio.WindowsMRInteractionAudio.UninstallSpatialization
   0% - Juniper.Root/Console/IConsoleBuffer.cs - (0 of 8)
 	 ConsoleColor Juniper.Console.IConsoleBuffer.GetBackgroundColor
 	 int Juniper.Console.IConsoleBuffer.AbsoluteBottom
@@ -6748,12 +5268,14 @@
 	 Regex Juniper.Primrose.Rule.Test
 	 string Juniper.Primrose.Rule.Name
 	 void Juniper.Primrose.Rule.CarveOutMatchedToken
+  0% - Unity Scripts/Statistics/AbstractMotionFilter.cs - (0 of 3)
+	 abstract Vector3 Juniper.Mathematics.AbstractMotionFilter.Position
+	 abstract Vector3 Juniper.Mathematics.AbstractMotionFilter.PredictedPosition
+	 abstract void Juniper.Mathematics.AbstractMotionFilter.UpdateState
   0% - Juniper.Root/StringEventArgs.cs - (0 of 3)
 	 Juniper.StringEventArgs.StringEventArgs
 	 T Juniper.EventArgs< T >.Value
 	 override string Juniper.StringEventArgs.ToString
-  0% - Juniper/Assets/Juniper/Scripts/Display/DefaultDisplayManager.cs - (0 of 1)
-	 using UnityInput =  UnityEngine.Input
   0% - Juniper.Server/Administration/NetSH/AbstractFirewallRuleCommand.cs - (0 of 15)
 	 Encoding Juniper.Processes.AbstractShellCommand.Encoding
 	 EventHandler<ErrorEventArgs> Juniper.Processes.AbstractShellCommand.Err
@@ -6770,10 +5292,6 @@
 	 string Juniper.Processes.AbstractShellCommand.TotalStandardError
 	 string Juniper.Processes.AbstractShellCommand.TotalStandardOutput
 	 virtual async Task<int> Juniper.Processes.AbstractShellCommand.RunAsync
-  0% - Juniper/Assets/Juniper/Scripts/EditorTextInput.cs - (0 of 3)
-	 StringEvent Juniper.Unity.EditorTextInput.OnSubmit
-	 string Juniper.Unity.EditorTextInput.value
-	 void Juniper.Unity.EditorTextInput.Submit
   0% - Juniper.Server/Administration/NetSH/ShowSslCert.cs - (0 of 14)
 	 Encoding Juniper.Processes.AbstractShellCommand.Encoding
 	 EventHandler<ErrorEventArgs> Juniper.Processes.AbstractShellCommand.Err
@@ -6789,15 +5307,6 @@
 	 string Juniper.Processes.AbstractShellCommand.TotalStandardError
 	 string Juniper.Processes.AbstractShellCommand.TotalStandardOutput
 	 virtual async Task<int> Juniper.Processes.AbstractShellCommand.RunAsync
-  0% - Juniper.Client/ThirdParty/HjgPngcs/IBytesConsumer.cs - (0 of 1)
-	 int Ar.Com.Hjg.Pngcs.IBytesConsumer.consume
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/ArithEntropyEncoder.cs - (0 of 6)
-	 BitMiracle.LibJpeg.Classic.Internal.ArithEntropyEncoder.ArithEntropyEncoder
-	 EncodeMcuDelegate BitMiracle.LibJpeg.Classic.Internal.JpegEntropyEncoder.encodeMcu
-	 FinishPassDelegate BitMiracle.LibJpeg.Classic.Internal.JpegEntropyEncoder.finishPass
-	 delegate bool BitMiracle.LibJpeg.Classic.Internal.JpegEntropyEncoder.EncodeMcuDelegate
-	 delegate void BitMiracle.LibJpeg.Classic.Internal.JpegEntropyEncoder.FinishPassDelegate
-	 override void BitMiracle.LibJpeg.Classic.Internal.ArithEntropyEncoder.StartPass
   0% - Juniper.GoogleMaps/StreetView/MetadataResponse.cs - (0 of 12)
 	 DateTime Juniper.World.GIS.Google.StreetView.MetadataResponse.Date
 	 HttpStatusCode Juniper.World.GIS.Google.StreetView.MetadataResponse.Status
@@ -6811,18 +5320,6 @@
 	 string Juniper.World.GIS.Google.StreetView.MetadataResponse.Copyright
 	 string Juniper.World.GIS.Google.StreetView.MetadataResponse.Pano_ID
 	 virtual void Juniper.World.GIS.Google.StreetView.MetadataResponse.GetObjectData
-  0% - Juniper/Assets/Juniper/Scripts/Sound/Beats/VMU.cs - (0 of 11)
-	 BeatDetector Juniper.Sound.Beats.VMU.detector
-	 Slider Juniper.Sound.Beats.VMU.progress
-	 Transform Juniper.Sound.Beats.VMU.Prefab
-	 Vector3 Juniper.Sound.Beats.VMU.BarScale
-	 bool Juniper.Sound.Beats.VMU.hasLayout
-	 readonly List<Transform> Juniper.Sound.Beats.VMU.bars
-	 void Juniper.Sound.Beats.VMU.BlinkBeat
-	 void Juniper.Sound.Beats.VMU.BlinkMeasure
-	 void Juniper.Sound.Beats.VMU.SetVMU
-	 void Juniper.Sound.Beats.VMU.Start
-	 void Juniper.Sound.Beats.VMU.Update
   0% - Juniper.UnityEditor/ConfigurationManagement/PackageReference.cs - (0 of 13)
 	 Juniper.ConfigurationManagement.PackageReference.PackageReference
 	 PackageSources Juniper.ConfigurationManagement.PackageReference.Source
@@ -6839,6 +5336,11 @@
 	 virtual string Juniper.ConfigurationManagement.PackageReference.Name
   0% - Juniper.Unity/Extensions/UnityEngine/CameraExt.cs - (0 of 1)
 	 readonly Vector3 [] UnityEngine.CameraExt.corners
+  0% - Unity Scripts/Input/UnifiedInputModule.cs - (0 of 1)
+	 using UnityInput =  UnityEngine.Input
+  0% - Unity Editor Scripts/ReadOnlyAttributeDrawer.cs - (0 of 2)
+	 override float Juniper.ReadOnlyDrawer.GetPropertyHeight
+	 override void Juniper.ReadOnlyDrawer.OnGUI
   0% - Juniper.Unity/Sound/Beats/BeatDetectorConfiguration.cs - (0 of 14)
 	 BandPass [] Juniper.Sound.Beats.BeatDetectorConfiguration.BandPasses
 	 bool Juniper.Sound.Beats.BeatDetectorConfiguration.LockBPM
@@ -6878,58 +5380,6 @@
 	 EventHandler<StringEventArgs> Juniper.Logging.IWarningSource.Warning
   0% - Juniper.Client/Primrose/Grammars/BasicInterpreter.cs - (0 of 1)
 	 using Line =  System.Collections.Generic.List<Juniper.Primrose.Token>
-  0% - Juniper.Server/Controllers/HttpRoute.cs - (0 of 47)
-	 AuthenticationSchemes Juniper.HTTP.Server.Controllers.AbstractResponse.Authentication
-	 EventHandler<ErrorEventArgs> Juniper.HTTP.Server.Controllers.AbstractResponse.Err
-	 EventHandler<StringEventArgs> Juniper.HTTP.Server.Controllers.AbstractResponse.Info
-	 EventHandler<StringEventArgs> Juniper.HTTP.Server.Controllers.AbstractResponse.Warning
-	 HttpMethods Juniper.HTTP.Server.Controllers.AbstractResponse.Methods
-	 HttpProtocols Juniper.HTTP.Server.Controllers.AbstractResponse.Protocols
-	 IExpression<(string Key, string Value)> Juniper.HTTP.Server.Controllers.AbstractResponse.Headers
-	 IExpression<HttpStatusCode> Juniper.HTTP.Server.Controllers.AbstractResponse.StatusCodes
-	 IExpression<MediaType> Juniper.HTTP.Server.Controllers.AbstractResponse.Accept
-	 Juniper.HTTP.Server.Controllers.AbstractResponse.AbstractResponse??
-	 Juniper.HTTP.Server.Controllers.AbstractResponse.AbstractResponse????
-	 Juniper.HTTP.Server.Controllers.AbstractResponse.AbstractResponse??????
-	 Juniper.HTTP.Server.Controllers.HttpRoute.HttpRoute
-	 Regex Juniper.HTTP.Server.Controllers.AbstractResponse.Pattern
-	 Task Juniper.HTTP.Server.Controllers.AbstractRoute.InvokeAsync
-	 async Task Juniper.HTTP.Server.Controllers.AbstractResponse.ExecuteAsync
-	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.Enabled
-	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.Equals
-	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsAcceptable
-	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsHeaderMatch
-	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsMethodMatch
-	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsPatternMatch
-	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsProtocolMatch
-	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsStatusCodeMatch
-	 const AuthenticationSchemes Juniper.HTTP.Server.Controllers.AbstractResponse.AllAuthSchemes
-	 const HttpMethods Juniper.HTTP.Server.Controllers.AbstractResponse.AllMethods
-	 const HttpProtocols Juniper.HTTP.Server.Controllers.AbstractResponse.AllProtocols
-	 int Juniper.HTTP.Server.Controllers.AbstractResponse.CompareTo
-	 int Juniper.HTTP.Server.Controllers.AbstractResponse.ParameterCount
-	 int Juniper.HTTP.Server.Controllers.AbstractResponse.Priority
-	 override Task Juniper.HTTP.Server.Controllers.HttpRoute.InvokeAsync
-	 override bool Juniper.HTTP.Server.Controllers.AbstractRoute.Equals
-	 override int Juniper.HTTP.Server.Controllers.AbstractRoute.CompareTo
-	 override int Juniper.HTTP.Server.Controllers.AbstractRoute.GetHashCode
-	 override string Juniper.HTTP.Server.Controllers.AbstractRoute.ToString
-	 readonly IExpression<(string Key, string Value)> Juniper.HTTP.Server.Controllers.AbstractResponse.NoHeaders
-	 readonly IExpression<HttpStatusCode> Juniper.HTTP.Server.Controllers.AbstractResponse.AllStatusCodes
-	 readonly IExpression<HttpStatusCode> Juniper.HTTP.Server.Controllers.AbstractResponse.DefaultCode
-	 readonly IExpression<MediaType> Juniper.HTTP.Server.Controllers.AbstractResponse.AnyMediaTypes
-	 readonly Regex Juniper.HTTP.Server.Controllers.AbstractResponse.AllRoutes
-	 string Juniper.HTTP.Server.Controllers.AbstractResponse.Name
-	 string Juniper.HTTP.Server.Controllers.AbstractResponse.RegexSource
-	 virtual bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsContextMatch
-	 virtual bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsRequestMatch
-	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnError
-	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnInfo
-	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnWarning
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/BitreadWorkingState.cs - (0 of 3)
-	 JpegDecompressStruct BitMiracle.LibJpeg.Classic.Internal.BitreadWorkingState.cinfo
-	 int BitMiracle.LibJpeg.Classic.Internal.BitreadWorkingState.bitsLeft
-	 int BitMiracle.LibJpeg.Classic.Internal.BitreadWorkingState.getBuffer
   0% - Juniper.Root/IO/ForkedStream.cs - (0 of 16)
 	 Juniper.IO.ForkedStream.ForkedStream
 	 override bool Juniper.IO.ForkedStream.CanRead
@@ -6947,8 +5397,6 @@
 	 override void Juniper.IO.ForkedStream.WriteByte
 	 readonly List<Stream> Juniper.IO.ForkedStream.streams
 	 void Juniper.IO.ForkedStream.AddStream
-  0% - Juniper/Assets/Juniper/Scripts/Input/UnifiedInputModule.cs - (0 of 1)
-	 using UnityInput =  UnityEngine.Input
   0% - Juniper.Root/Collections/Route.cs - (0 of 22)
 	 IReadOnlyList<ValueT> Juniper.Collections.Route< ValueT >.Nodes
 	 Juniper.Collections.Route< ValueT >.Route
@@ -6996,6 +5444,13 @@
 	 string Juniper.Speech.Azure.CognitiveServices.TextToSpeechRequest.Text
 	 string Juniper.Speech.Azure.CognitiveServices.TextToSpeechRequest.VoiceName
 	 string Juniper.Speech.Azure.CognitiveServices.TextToSpeechRequest.ssmlText
+  0% - Unity Scripts/EditorTextInput.cs - (0 of 3)
+	 StringEvent Juniper.Unity.EditorTextInput.OnSubmit
+	 string Juniper.Unity.EditorTextInput.value
+	 void Juniper.Unity.EditorTextInput.Submit
+  0% - Unity Editor Scripts/HideInNormalInspectorDrawer.cs - (0 of 2)
+	 override float Juniper.HideInNormalInspectorDrawer.GetPropertyHeight
+	 override void Juniper.HideInNormalInspectorDrawer.OnGUI
   0% - Juniper.GoogleMaps/Places/PlaceSearchRequest.cs - (0 of 14)
 	 Juniper.World.GIS.Google.Places.PlaceSearchRequest.PlaceSearchRequest
 	 PlaceSearchInputType Juniper.World.GIS.Google.Places.PlaceSearchRequest.inputtype
@@ -7011,6 +5466,15 @@
 	 void Juniper.World.GIS.Google.Places.PlaceSearchRequest.AddField
 	 void Juniper.World.GIS.Google.Places.PlaceSearchRequest.ClearFields
 	 void Juniper.World.GIS.Google.Places.PlaceSearchRequest.SetInput
+  0% - Unity Scripts/Input/Pointers/Motion/AbstractHandedPointer.cs - (0 of 8)
+	 Hand Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >._hand
+	 abstract bool Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >.IsDominantHand
+	 bool Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >.IsLeftHand
+	 bool Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >.IsNonDominantHand
+	 bool Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >.IsRightHand
+	 override Vector3 Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >.WorldPoint
+	 virtual ? HandIDType Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >.NativeHandID
+	 virtual Hand Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >.Hand
   0% - Juniper.Root/Collections/Graph`1.cs - (0 of 34)
 	 Graph<NodeT> Juniper.Collections.Graph< NodeT >.Clone
 	 IEnumerable<NodeT> Juniper.Collections.Graph< NodeT >.FindExits
@@ -7046,24 +5510,22 @@
 	 void Juniper.Collections.Graph< NodeT >.SetConnections
 	 void Juniper.Collections.Graph< NodeT >.SetNodeName
 	 void Juniper.Collections.Graph< NodeT >.SetRoute
-  0% - Juniper.Client/ThirdParty/HjgPngcs/Zlib/Adler32.cs - (0 of 9)
-	 const int Hjg.Pngcs.Zlib.Adler32._base
-	 const int Hjg.Pngcs.Zlib.Adler32._nmax
-	 int Hjg.Pngcs.Zlib.Adler32.pend
-	 uint Hjg.Pngcs.Zlib.Adler32.GetValue
-	 uint Hjg.Pngcs.Zlib.Adler32.a
-	 uint Hjg.Pngcs.Zlib.Adler32.b
-	 void Hjg.Pngcs.Zlib.Adler32.Reset
-	 void Hjg.Pngcs.Zlib.Adler32.Update
-	 void Hjg.Pngcs.Zlib.Adler32.UpdateModulus
-  0% - Juniper/Plugins/Editor/Juniper/ConfigurationManagement/JuniperOptionalPackageInstaller.cs - (0 of 7)
-	 const int Juniper.ConfigurationManagement.JuniperOptionalPackageManager.buttonWidthValue
-	 const string Juniper.ConfigurationManagement.JuniperOptionalPackageManager.MENU_NAME
-	 readonly GUIContent Juniper.ConfigurationManagement.JuniperOptionalPackageManager.TITLE
-	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperOptionalPackageManager.buttonWidth
-	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperOptionalPackageManager.nameFieldWidth
-	 readonly TableView Juniper.ConfigurationManagement.JuniperOptionalPackageManager.optionalPackageTable
-	 void Juniper.ConfigurationManagement.JuniperOptionalPackageManager.OnGUI
+  0% - Juniper.Root/XR/Pose.cs - (0 of 9)
+	 Juniper.XR.Pose.Pose
+	 Juniper.XR.Pose.Pose???
+	 QuaternionSerializable Juniper.XR.Pose.Orientation
+	 Vector3Serializable Juniper.XR.Pose.Position
+	 bool Juniper.XR.Pose.Equals
+	 override bool Juniper.XR.Pose.Equals
+	 override int Juniper.XR.Pose.GetHashCode
+	 readonly Pose Juniper.XR.Pose.Identity
+	 void Juniper.XR.Pose.GetObjectData
+  0% - Unity Scripts/Input/RocketPack.cs - (0 of 5)
+	 Rigidbody Juniper.Input.RocketPack.body
+	 Transform Juniper.Input.RocketPack.camT
+	 float Juniper.Input.RocketPack.force
+	 void Juniper.Input.RocketPack.FixedUpdate
+	 void Juniper.Input.RocketPack.Start
   0% - Juniper.Server/Administration/NetSH/AddSslCert.cs - (0 of 18)
 	 Encoding Juniper.Processes.AbstractShellCommand.Encoding
 	 EventHandler<ErrorEventArgs> Juniper.Processes.AbstractShellCommand.Err
@@ -7253,49 +5715,10 @@
   0% - Juniper.Root/Security/ICredentialReceiver.cs - (0 of 2)
 	 string Juniper.Security.ICredentialReceiver.CredentialFile
 	 void Juniper.Security.ICredentialReceiver.ReceiveCredentials
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/BitStream.cs - (0 of 18)
-	 BitMiracle.LibJpeg.BitStream.BitStream
-	 Stream BitMiracle.LibJpeg.BitStream.UnderlyingStream
-	 Stream BitMiracle.LibJpeg.BitStream.m_stream
-	 bool BitMiracle.LibJpeg.BitStream.WriteBit
-	 bool BitMiracle.LibJpeg.BitStream.m_alreadyDisposed
-	 const int BitMiracle.LibJpeg.BitStream.bitsInByte
-	 int BitMiracle.LibJpeg.BitStream.BitsAllocated
-	 int BitMiracle.LibJpeg.BitStream.Size
-	 int BitMiracle.LibJpeg.BitStream.Tell
-	 int BitMiracle.LibJpeg.BitStream.Write
-	 int BitMiracle.LibJpeg.BitStream.m_positionInByte
-	 int BitMiracle.LibJpeg.BitStream.m_size
-	 virtual int BitMiracle.LibJpeg.BitStream.Read
-	 virtual void BitMiracle.LibJpeg.BitStream.Dispose
-	 void BitMiracle.LibJpeg.BitStream.Dispose
-	 void BitMiracle.LibJpeg.BitStream.Seek
-	 void BitMiracle.LibJpeg.BitStream.SeekCurrent
-	 void BitMiracle.LibJpeg.BitStream.SeekSet
-  0% - Juniper.Client/ThirdParty/HjgPngcs/Chunks/ChunkHelper.cs - (0 of 21)
-	 internal const string Hjg.Pngcs.Chunks.ChunkHelper.IDAT
-	 internal const string Hjg.Pngcs.Chunks.ChunkHelper.IEND
-	 internal const string Hjg.Pngcs.Chunks.ChunkHelper.IHDR
-	 internal const string Hjg.Pngcs.Chunks.ChunkHelper.PLTE
-	 internal const string Hjg.Pngcs.Chunks.ChunkHelper.bKGD
-	 internal const string Hjg.Pngcs.Chunks.ChunkHelper.cHRM
-	 internal const string Hjg.Pngcs.Chunks.ChunkHelper.gAMA
-	 internal const string Hjg.Pngcs.Chunks.ChunkHelper.hIST
-	 internal const string Hjg.Pngcs.Chunks.ChunkHelper.iCCP
-	 internal const string Hjg.Pngcs.Chunks.ChunkHelper.iTXt
-	 internal const string Hjg.Pngcs.Chunks.ChunkHelper.pHYs
-	 internal const string Hjg.Pngcs.Chunks.ChunkHelper.sBIT
-	 internal const string Hjg.Pngcs.Chunks.ChunkHelper.sPLT
-	 internal const string Hjg.Pngcs.Chunks.ChunkHelper.sRGB
-	 internal const string Hjg.Pngcs.Chunks.ChunkHelper.tEXt
-	 internal const string Hjg.Pngcs.Chunks.ChunkHelper.tIME
-	 internal const string Hjg.Pngcs.Chunks.ChunkHelper.tRNS
-	 internal readonly byte [] Hjg.Pngcs.Chunks.ChunkHelper.b_IDAT
-	 internal readonly byte [] Hjg.Pngcs.Chunks.ChunkHelper.b_IEND
-	 internal readonly byte [] Hjg.Pngcs.Chunks.ChunkHelper.b_IHDR
-	 internal readonly byte [] Hjg.Pngcs.Chunks.ChunkHelper.b_PLTE
-  0% - Juniper/Assets/Juniper/Scripts/MasterSceneController.cs - (0 of 1)
-	 using UnityImage =  UnityEngine.UI.Image
+  0% - Unity Scripts/Statistics/LerpMotionFilter.cs - (0 of 1)
+	 using Vector3 =  UnityEngine.Vector3
+  0% - Unity Scripts/Input/Pointers/Screen/Mouse.cs - (0 of 1)
+	 using UnityInput =  UnityEngine.Input
   0% - Juniper.Azure/CognitiveServices/TextToSpeechClient.cs - (0 of 14)
 	 CachingStrategy Juniper.Speech.Azure.CognitiveServices.VoicesClient.Cache
 	 Juniper.Speech.Azure.CognitiveServices.TextToSpeechClient.TextToSpeechClient
@@ -7311,13 +5734,6 @@
 	 string Juniper.Speech.Azure.CognitiveServices.VoicesClient.AzureRegion
 	 void Juniper.Speech.Azure.CognitiveServices.TextToSpeechClient.CheckDecoderFormat
 	 void Juniper.Speech.Azure.CognitiveServices.VoicesClient.ClearError
-  0% - Juniper/Assets/Juniper/Scripts/World/CompassRose.cs - (0 of 1)
-	 using UnityInput =  UnityEngine.Input
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/FlowLayout.cs - (0 of 4)
-	 RectOffset Juniper.Widgets.FlowLayout.padding
-	 RectTransform Juniper.Widgets.FlowLayout.rect
-	 void Juniper.Widgets.FlowLayout.Awake
-	 void Juniper.Widgets.FlowLayout.Update
   0% - Juniper.Root/Imaging/ImageInfo.cs - (0 of 6)
 	 Juniper.Imaging.ImageInfo.ImageInfo
 	 Size Juniper.Imaging.ImageInfo.Dimensions
@@ -7325,67 +5741,47 @@
 	 int Juniper.Imaging.ImageInfo.BytesPerSample
 	 int Juniper.Imaging.ImageInfo.Components
 	 int Juniper.Imaging.ImageInfo.Stride
-  0% - Juniper.Root/Model.cs - (0 of 47)
-	 Juniper.MediaType.Model.Model
-	 ReadOnlyCollection<string> Juniper.MediaType.Extensions
-	 bool Juniper.MediaType.Equals
-	 bool Juniper.MediaType.Matches
-	 float Juniper.MediaType.Weight
-	 new readonly Model [] Juniper.MediaType.Model.Values
-	 override bool Juniper.MediaType.Equals
-	 override bool Juniper.MediaType.Model.Matches
-	 override int Juniper.MediaType.GetHashCode
-	 override string Juniper.MediaType.ToString
-	 readonly IReadOnlyCollection<MediaType> Juniper.MediaType.All
-	 readonly MediaType Juniper.MediaType.Any
-	 readonly Model Juniper.MediaType.Model.AnyModel
-	 readonly Model Juniper.MediaType.Model.Example
-	 readonly Model Juniper.MediaType.Model.GltfJson
-	 readonly Model Juniper.MediaType.Model.Gltf_Binary
-	 readonly Model Juniper.MediaType.Model.Iges
-	 readonly Model Juniper.MediaType.Model.Mesh
-	 readonly Model Juniper.MediaType.Model.Stl
-	 readonly Model Juniper.MediaType.Model.Vendor3mf
-	 readonly Model Juniper.MediaType.Model.VendorColladaXml
-	 readonly Model Juniper.MediaType.Model.VendorDwf
-	 readonly Model Juniper.MediaType.Model.VendorFlatland3dml
-	 readonly Model Juniper.MediaType.Model.VendorGdl
-	 readonly Model Juniper.MediaType.Model.VendorGsGdl
-	 readonly Model Juniper.MediaType.Model.VendorGs_Gdl
-	 readonly Model Juniper.MediaType.Model.VendorGtw
-	 readonly Model Juniper.MediaType.Model.VendorMomlXml
-	 readonly Model Juniper.MediaType.Model.VendorMts
-	 readonly Model Juniper.MediaType.Model.VendorOpengex
-	 readonly Model Juniper.MediaType.Model.VendorParasolidTransmitBinary
-	 readonly Model Juniper.MediaType.Model.VendorParasolidTransmitText
-	 readonly Model Juniper.MediaType.Model.VendorRosetteAnnotated_Data_Model
-	 readonly Model Juniper.MediaType.Model.VendorUsdzZip
-	 readonly Model Juniper.MediaType.Model.VendorValveSourceCompiled_Map
-	 readonly Model Juniper.MediaType.Model.VendorVtu
-	 readonly Model Juniper.MediaType.Model.Vrml
-	 readonly Model Juniper.MediaType.Model.X3dBinary
-	 readonly Model Juniper.MediaType.Model.X3dFastinfoset
-	 readonly Model Juniper.MediaType.Model.X3dVrml
-	 readonly Model Juniper.MediaType.Model.X3dXml
-	 readonly Model Juniper.MediaType.Model.X3d_Vrml
-	 string Juniper.MediaType.AddExtension
-	 string Juniper.MediaType.PrimaryExtension
-	 string Juniper.MediaType.SubTypeName
-	 string Juniper.MediaType.TypeName
-	 string Juniper.MediaType.Value
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/AbstractTouchable.cs - (0 of 1)
-	 using InputButton =  UnityEngine.EventSystems.PointerEventData.InputButton
-  0% - Juniper/Assets/Juniper/Editor/Events/ButtonEventEditor.cs - (0 of 10)
-	 const string Juniper.Events.ButtonEventEditor.FIELD_ONCLICK
-	 const string Juniper.Events.ButtonEventEditor.FIELD_ONDOUBLECLICK
-	 const string Juniper.Events.ButtonEventEditor.FIELD_ONDOWN
-	 const string Juniper.Events.ButtonEventEditor.FIELD_ONLONGPRESS
-	 const string Juniper.Events.ButtonEventEditor.FIELD_ONUP
-	 override void Juniper.Events.ButtonEventEditor.OnInspectorGUI
-	 readonly ButtonEvent Juniper.Events.ButtonEventEditor._
-	 readonly GUIContent Juniper.Events.ButtonEventEditor.ButtonTypeLabel
-	 readonly GUIContent Juniper.Events.ButtonEventEditor.ButtonValueLabel
-	 readonly GUIContent Juniper.Events.ButtonEventEditor.InputKeyLabel
+  0% - Juniper.Azure/CognitiveServices/Voice.cs - (0 of 6)
+	 Juniper.Speech.Azure.CognitiveServices.Voice.Voice
+	 string Juniper.Speech.Azure.CognitiveServices.Voice.Gender
+	 string Juniper.Speech.Azure.CognitiveServices.Voice.Locale
+	 string Juniper.Speech.Azure.CognitiveServices.Voice.Name
+	 string Juniper.Speech.Azure.CognitiveServices.Voice.ShortName
+	 void Juniper.Speech.Azure.CognitiveServices.Voice.GetObjectData
+  0% - Unity Editor Scripts/JuniperEditorWindow.cs - (0 of 33)
+	 CancellationToken Juniper.Unity.Editor.JuniperEditorWindow.cancelToken
+	 CancellationTokenSource Juniper.Unity.Editor.JuniperEditorWindow.tokenSource
+	 Exception Juniper.Unity.Editor.JuniperEditorWindow.CurrentError
+	 Exception Juniper.Unity.Editor.JuniperEditorWindow.curError
+	 Juniper.Unity.Editor.JuniperEditorWindow.JuniperEditorWindow
+	 Task Juniper.Unity.Editor.JuniperEditorWindow.RepaintAsync
+	 Task Juniper.Unity.Editor.JuniperEditorWindow.watcherTask
+	 bool Juniper.Unity.Editor.JuniperEditorWindow.Button
+	 readonly GUIContent Juniper.Unity.Editor.JuniperEditorWindow.windowTitle
+	 readonly GUILayoutOption Juniper.Unity.Editor.JuniperEditorWindow.availFieldWidth
+	 readonly GUILayoutOption Juniper.Unity.Editor.JuniperEditorWindow.distFieldWidth
+	 readonly GUILayoutOption Juniper.Unity.Editor.JuniperEditorWindow.latLngFieldWidth
+	 readonly GUILayoutOption Juniper.Unity.Editor.JuniperEditorWindow.panoFieldWidth
+	 readonly GUILayoutOption Juniper.Unity.Editor.JuniperEditorWindow.shortLabelWidth
+	 readonly TableView Juniper.Unity.Editor.JuniperEditorWindow.errorView
+	 readonly TaskFactory Juniper.Unity.Editor.JuniperEditorWindow.mainThread
+	 readonly bool Juniper.Unity.Editor.JuniperEditorWindow.startWatcher
+	 virtual void Juniper.Unity.Editor.JuniperEditorWindow.OnBackgroundUpdate
+	 virtual void Juniper.Unity.Editor.JuniperEditorWindow.OnEditorUpdate
+	 virtual void Juniper.Unity.Editor.JuniperEditorWindow.OnPaint
+	 virtual void Juniper.Unity.Editor.JuniperEditorWindow.OnReset
+	 virtual void Juniper.Unity.Editor.JuniperEditorWindow.OnSelectionChanged
+	 void Juniper.Unity.Editor.JuniperEditorWindow.BackgroundThread
+	 void Juniper.Unity.Editor.JuniperEditorWindow.ClearError
+	 void Juniper.Unity.Editor.JuniperEditorWindow.Init
+	 void Juniper.Unity.Editor.JuniperEditorWindow.OnBackgroundUpdateInternal
+	 void Juniper.Unity.Editor.JuniperEditorWindow.OnEditorUpdateInternal
+	 void Juniper.Unity.Editor.JuniperEditorWindow.OnGUI
+	 void Juniper.Unity.Editor.JuniperEditorWindow.OnPaintInternal
+	 void Juniper.Unity.Editor.JuniperEditorWindow.OnResetInternal
+	 void Juniper.Unity.Editor.JuniperEditorWindow.OnSelectionChangedInternal
+	 void Juniper.Unity.Editor.JuniperEditorWindow.StartWatcher
+	 void Juniper.Unity.Editor.JuniperEditorWindow.StopWatcher
   0% - Juniper.GoogleMaps/StreetView/ImageRequest.cs - (0 of 13)
 	 Juniper.World.GIS.Google.StreetView.ImageRequest.ImageRequest
 	 LatLngPoint? Juniper.World.GIS.Google.StreetView.AbstractStreetViewRequest< MediaTypeT >.Location
@@ -7400,18 +5796,13 @@
 	 int Juniper.World.GIS.Google.StreetView.ImageRequest.pitch
 	 string Juniper.World.GIS.Google.StreetView.AbstractStreetViewRequest< MediaTypeT >.Pano
 	 string Juniper.World.GIS.Google.StreetView.AbstractStreetViewRequest< MediaTypeT >.Place
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/IRawImage.cs - (0 of 7)
-	 Colorspace BitMiracle.LibJpeg.IRawImage.Colorspace
-	 byte [] BitMiracle.LibJpeg.IRawImage.GetPixelRow
-	 int BitMiracle.LibJpeg.IRawImage.ComponentsPerPixel
-	 int BitMiracle.LibJpeg.IRawImage.Height
-	 int BitMiracle.LibJpeg.IRawImage.Width
-	 void BitMiracle.LibJpeg.IRawImage.BeginRead
-	 void BitMiracle.LibJpeg.IRawImage.EndRead
-  0% - Juniper.Client/ThirdParty/HjgPngcs/PngHelperInternal.cs - (0 of 3)
-	 CRC32 Hjg.Pngcs.PngHelperInternal.crc32Engine
-	 readonly Encoding Hjg.Pngcs.PngHelperInternal.charsetLatin1
-	 readonly byte [] Hjg.Pngcs.PngHelperInternal.PNG_ID_SIGNATURE
+  0% - Unity Scripts/Widgets/TabPanelMenu.cs - (0 of 4)
+	 TabPanelButton [] Juniper.Widgets.TabPanelMenu.tabButtons
+	 void Juniper.Widgets.TabPanelMenu.ActivateButton
+	 void Juniper.Widgets.TabPanelMenu.Awake
+	 void Juniper.Widgets.TabPanelMenu.Show
+  0% - Unity Scripts/Widgets/ProgressBar.cs - (0 of 1)
+	 using UnityImage =  UnityEngine.UI.Image
   0% - Juniper.Root/IO/AbstractStreamSource.cs - (0 of 11)
 	 Juniper.IO.AbstractStreamSource.AbstractStreamSource
 	 abstract Task<Stream> Juniper.IO.AbstractStreamSource.GetStreamAsync
@@ -7424,6 +5815,16 @@
 	 sealed override string Juniper.IO.AbstractStreamSource.CacheID
 	 string Juniper.IO.ContentReference.FileName
 	 virtual MediaType Juniper.IO.ContentReference.ContentType
+  0% - Unity Scripts/Platforms/ViveFocus/ViveFocusMotionControllerConfiguration.cs - (0 of 1)
+	 using InputButton =  UnityEngine.EventSystems.PointerEventData.InputButton
+  0% - Unity Scripts/Input/Pointers/Motion/AbstractHandedPointerConfiguration.cs - (0 of 7)
+	 Type Juniper.Input.Pointers.Motion.AbstractHandedPointerConfiguration< HandIDType, ButtonIDType >.HandType
+	 abstract ? HandIDType Juniper.Input.Pointers.Motion.AbstractHandedPointerConfiguration< HandIDType, ButtonIDType >.this[Hand hand]
+	 abstract string Juniper.Input.Pointers.Motion.AbstractHandedPointerConfiguration< HandIDType, ButtonIDType >.PointerNameStub
+	 string Juniper.Input.Pointers.Motion.AbstractHandedPointerConfiguration< HandIDType, ButtonIDType >.MakePointerName
+	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.AddButton
+	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Install
+	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Uninstall
   0% - Juniper.Server/Controllers/BanHammer.cs - (0 of 53)
 	 AuthenticationSchemes Juniper.HTTP.Server.Controllers.AbstractResponse.Authentication
 	 CIDRBlock Juniper.HTTP.Server.Controllers.BanHammer.GetMatchingBlock
@@ -7527,43 +5928,6 @@
 	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnError
 	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnInfo
 	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnWarning
-  0% - Juniper.Client/ThirdParty/HjgPngcs/ChunkReaderMode.cs - (0 of 1)
-	 ChunkReaderMode
-  0% - Juniper.Root/Console/ConsoleBuffer.cs - (0 of 9)
-	 Juniper.Console.ConsoleBuffer.NativeMethods.RECT.RECT
-	 int Juniper.Console.ConsoleBuffer.NativeMethods.RECT.Bottom
-	 int Juniper.Console.ConsoleBuffer.NativeMethods.RECT.Height
-	 int Juniper.Console.ConsoleBuffer.NativeMethods.RECT.Left
-	 int Juniper.Console.ConsoleBuffer.NativeMethods.RECT.Right
-	 int Juniper.Console.ConsoleBuffer.NativeMethods.RECT.Top
-	 int Juniper.Console.ConsoleBuffer.NativeMethods.RECT.Width
-	 int Juniper.Console.ConsoleBuffer.NativeMethods.RECT.X
-	 int Juniper.Console.ConsoleBuffer.NativeMethods.RECT.Y
-  0% - Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/JpegUtils.cs - (0 of 8)
-	 readonly int [] BitMiracle.LibJpeg.Classic.Internal.JpegUtils.jpeg_aritab
-	 readonly int [] BitMiracle.LibJpeg.Classic.Internal.JpegUtils.jpeg_natural_order
-	 readonly int [] BitMiracle.LibJpeg.Classic.Internal.JpegUtils.jpeg_natural_order2
-	 readonly int [] BitMiracle.LibJpeg.Classic.Internal.JpegUtils.jpeg_natural_order3
-	 readonly int [] BitMiracle.LibJpeg.Classic.Internal.JpegUtils.jpeg_natural_order4
-	 readonly int [] BitMiracle.LibJpeg.Classic.Internal.JpegUtils.jpeg_natural_order5
-	 readonly int [] BitMiracle.LibJpeg.Classic.Internal.JpegUtils.jpeg_natural_order6
-	 readonly int [] BitMiracle.LibJpeg.Classic.Internal.JpegUtils.jpeg_natural_order7
-  0% - Juniper/Assets/Juniper/Scripts/Widgets/ListViewItem.cs - (0 of 1)
-	 using UnityImage =  UnityEngine.UI.Image
-  0% - Juniper/Assets/Juniper/Scripts/Platforms/ViveFocus/ViveFocusMotionControllerConfiguration.cs - (0 of 1)
-	 using InputButton =  UnityEngine.EventSystems.PointerEventData.InputButton
-  0% - Juniper.Client/ThirdParty/HjgPngcs/PngIDatChunkOutputStream.cs - (0 of 11)
-	 Hjg.Pngcs.PngIDatChunkOutputStream.PngIDatChunkOutputStream
-	 Hjg.Pngcs.PngIDatChunkOutputStream.PngIDatChunkOutputStream?
-	 const int Hjg.Pngcs.PngIDatChunkOutputStream.SIZE_DEFAULT
-	 long Hjg.Pngcs.ProgressiveOutputStream.GetCountFlushed
-	 override void Hjg.Pngcs.PngIDatChunkOutputStream.Close
-	 override void Hjg.Pngcs.PngIDatChunkOutputStream.Dispose
-	 override void Hjg.Pngcs.PngIDatChunkOutputStream.FlushBuffer
-	 override void Hjg.Pngcs.ProgressiveOutputStream.Flush
-	 override void Hjg.Pngcs.ProgressiveOutputStream.Write
-	 readonly Stream Hjg.Pngcs.PngIDatChunkOutputStream.outputStream
-	 void Hjg.Pngcs.ProgressiveOutputStream.Write
   0% - Juniper.NeuroSky/NativeMethods.cs - (0 of 19)
 	 const int libStreamSDK.NativeMethods.TG_MAX_CONNECTION_HANDLES
 	 const string libStreamSDK.NativeMethods.DLL_NAME
@@ -7587,6 +5951,8 @@
   0% - Juniper.Root/HTTP/HttpMethods.cs - (0 of 2)
 	 HttpMethods
 	 HttpProtocols
+  0% - Unity Scripts/Widgets/ListViewItem.cs - (0 of 1)
+	 using UnityImage =  UnityEngine.UI.Image
   0% - Juniper.Azure/CognitiveServices/VoiceListRequest.cs - (0 of 4)
 	 Juniper.Speech.Azure.CognitiveServices.VoiceListRequest.VoiceListRequest
 	 override string Juniper.Speech.Azure.CognitiveServices.VoiceListRequest.InternalCacheID
@@ -7621,6 +5987,8 @@
 	 void Juniper.Primrose.Cursor.SkipLeft
 	 void Juniper.Primrose.Cursor.SkipRight
 	 void Juniper.Primrose.Cursor.Up
+  0% - Unity Scripts/Widgets/Shaker.cs - (0 of 1)
+	 using UnityInput =  UnityEngine.Input
   0% - Juniper.Root/Logic/OrExpression.cs - (0 of 8)
 	 IEnumerable<IExpression<ItemT> > Juniper.Logic.AbstractBinaryExpression< ItemT >.GetExpressions
 	 IEnumerable<ItemT> Juniper.Logic.AbstractBinaryExpression< ItemT >.GetItems
@@ -7664,9 +6032,54 @@
 	 void Juniper.HTTP.REST.AbstractRequest< MediaTypeT >.RemoveQuery
 	 void Juniper.HTTP.REST.AbstractRequest< MediaTypeT >.SetQuery
 	 void Juniper.HTTP.REST.AbstractRequest< MediaTypeT >.SetQuery< U >
-  0% - Juniper/Assets/Juniper/Scripts/Platforms/WindowsMR/WindowsMRInteractionAudio.cs - (0 of 2)
-	 override AudioSource Juniper.Audio.WindowsMRInteractionAudio.InternalSpatialize
-	 override void Juniper.Audio.WindowsMRInteractionAudio.UninstallSpatialization
+  0% - Juniper.Server/Controllers/HttpRoute.cs - (0 of 47)
+	 AuthenticationSchemes Juniper.HTTP.Server.Controllers.AbstractResponse.Authentication
+	 EventHandler<ErrorEventArgs> Juniper.HTTP.Server.Controllers.AbstractResponse.Err
+	 EventHandler<StringEventArgs> Juniper.HTTP.Server.Controllers.AbstractResponse.Info
+	 EventHandler<StringEventArgs> Juniper.HTTP.Server.Controllers.AbstractResponse.Warning
+	 HttpMethods Juniper.HTTP.Server.Controllers.AbstractResponse.Methods
+	 HttpProtocols Juniper.HTTP.Server.Controllers.AbstractResponse.Protocols
+	 IExpression<(string Key, string Value)> Juniper.HTTP.Server.Controllers.AbstractResponse.Headers
+	 IExpression<HttpStatusCode> Juniper.HTTP.Server.Controllers.AbstractResponse.StatusCodes
+	 IExpression<MediaType> Juniper.HTTP.Server.Controllers.AbstractResponse.Accept
+	 Juniper.HTTP.Server.Controllers.AbstractResponse.AbstractResponse??
+	 Juniper.HTTP.Server.Controllers.AbstractResponse.AbstractResponse????
+	 Juniper.HTTP.Server.Controllers.AbstractResponse.AbstractResponse??????
+	 Juniper.HTTP.Server.Controllers.HttpRoute.HttpRoute
+	 Regex Juniper.HTTP.Server.Controllers.AbstractResponse.Pattern
+	 Task Juniper.HTTP.Server.Controllers.AbstractRoute.InvokeAsync
+	 async Task Juniper.HTTP.Server.Controllers.AbstractResponse.ExecuteAsync
+	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.Enabled
+	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.Equals
+	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsAcceptable
+	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsHeaderMatch
+	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsMethodMatch
+	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsPatternMatch
+	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsProtocolMatch
+	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsStatusCodeMatch
+	 const AuthenticationSchemes Juniper.HTTP.Server.Controllers.AbstractResponse.AllAuthSchemes
+	 const HttpMethods Juniper.HTTP.Server.Controllers.AbstractResponse.AllMethods
+	 const HttpProtocols Juniper.HTTP.Server.Controllers.AbstractResponse.AllProtocols
+	 int Juniper.HTTP.Server.Controllers.AbstractResponse.CompareTo
+	 int Juniper.HTTP.Server.Controllers.AbstractResponse.ParameterCount
+	 int Juniper.HTTP.Server.Controllers.AbstractResponse.Priority
+	 override Task Juniper.HTTP.Server.Controllers.HttpRoute.InvokeAsync
+	 override bool Juniper.HTTP.Server.Controllers.AbstractRoute.Equals
+	 override int Juniper.HTTP.Server.Controllers.AbstractRoute.CompareTo
+	 override int Juniper.HTTP.Server.Controllers.AbstractRoute.GetHashCode
+	 override string Juniper.HTTP.Server.Controllers.AbstractRoute.ToString
+	 readonly IExpression<(string Key, string Value)> Juniper.HTTP.Server.Controllers.AbstractResponse.NoHeaders
+	 readonly IExpression<HttpStatusCode> Juniper.HTTP.Server.Controllers.AbstractResponse.AllStatusCodes
+	 readonly IExpression<HttpStatusCode> Juniper.HTTP.Server.Controllers.AbstractResponse.DefaultCode
+	 readonly IExpression<MediaType> Juniper.HTTP.Server.Controllers.AbstractResponse.AnyMediaTypes
+	 readonly Regex Juniper.HTTP.Server.Controllers.AbstractResponse.AllRoutes
+	 string Juniper.HTTP.Server.Controllers.AbstractResponse.Name
+	 string Juniper.HTTP.Server.Controllers.AbstractResponse.RegexSource
+	 virtual bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsContextMatch
+	 virtual bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsRequestMatch
+	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnError
+	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnInfo
+	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnWarning
   0% - Juniper.Azure/CognitiveServices/AbstractAzureSpeechRequest.cs - (0 of 26)
 	 Juniper.Speech.Azure.CognitiveServices.AbstractAzureSpeechRequest< MediaTypeT >.AbstractAzureSpeechRequest
 	 MediaTypeT Juniper.HTTP.REST.AbstractRequest< MediaTypeT >.MediaType
@@ -9267,7 +7680,7 @@
 	 PlaceSearchField
 	 PlaceSearchInputType
 
-30% API documentation coverage
+28% API documentation coverage
 ```
 
 # Doxygen Warnings
@@ -9281,10 +7694,6 @@ Juniper.Root/IO/IContentHandler.cs:5: warning: Detected potential recursive clas
 
 Juniper.Root/IO/IContentHandler.cs:5: warning: Detected potential recursive class relation between class Juniper::IO::IContentHandler and base class IContentHandler< MediaType >!
 
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:1118: warning: Missing 'cref' or 'langword' attribute from <see> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:1149: warning: Missing 'cref' or 'langword' attribute from <see> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:1118: warning: Missing 'cref' or 'langword' attribute from <see> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:1149: warning: Missing 'cref' or 'langword' attribute from <see> tag.
 Juniper.Root/Mathematics/AbstractStatisticsCollection.cs:306: warning: argument 'one' of command @param is not found in the argument list of Juniper.Mathematics.AbstractStatisticsCollection< T >::AbstractStatisticsCollection(int capacity, T zero, T min, T max)
 Juniper.Root/Mathematics/AbstractStatisticsCollection.cs:312: warning: The following parameters of Juniper.Mathematics.AbstractStatisticsCollection.AbstractStatisticsCollection(int capacity, T zero, T min, T max) are not documented:
   parameter 'min'
@@ -9297,12 +7706,12 @@ Juniper.Root/IO/CachingStrategy.cs:185: warning: The following parameters of Jun
   parameter 'prog'
 Juniper.Unity/Extensions/UnityEngine/CameraExt.cs:10: warning: The following parameters of UnityEngine.CameraExt.IsInView(this Camera cam, Vector3 target) are not documented:
   parameter 'cam'
-Juniper/Assets/Juniper/Scripts/Extensions/UnityEngine/ComponentExt.cs:251: warning: The following parameters of UnityEngine.ComponentExt.Ensure< T >(this Component obj, Predicate< T > predicate) are not documented:
+Unity Scripts/Extensions/UnityEngine/ComponentExt.cs:251: warning: The following parameters of UnityEngine.ComponentExt.Ensure< T >(this Component obj, Predicate< T > predicate) are not documented:
   parameter 'predicate'
 Juniper.Root/Compression/Zip/Decompressor.cs:56: warning: argument 'fileName' of command @param is not found in the argument list of Juniper.Compression.Zip.Decompressor::CopyFile(this ZipArchive zip, string entryPath, Stream copyTo, IProgress prog=null)
 Juniper.Root/Compression/Zip/Decompressor.cs:63: warning: The following parameters of Juniper.Compression.Zip.Decompressor.CopyFile(this ZipArchive zip, string entryPath, Stream copyTo, IProgress prog=null) are not documented:
   parameter 'zip'
-Juniper/Assets/Juniper/Scripts/Haptics/DefaultHaptics.cs:56: warning: The following parameters of Juniper.Haptics.DefaultHaptics.SetVibration(long milliseconds, float amplitude) are not documented:
+Unity Scripts/Haptics/DefaultHaptics.cs:56: warning: The following parameters of Juniper.Haptics.DefaultHaptics.SetVibration(long milliseconds, float amplitude) are not documented:
   parameter 'milliseconds'
 Juniper.Root/Mathematics/DiscreteKalmanFilter.cs:11: warning: Unsupported xml/html tag <italic> found
 Juniper.Root/Mathematics/DiscreteKalmanFilter.cs:11: warning: Unsupported xml/html tag </italic> found
@@ -9316,7 +7725,7 @@ Juniper.Root/World/GIS/EquitorialSpherical.cs:17: warning: The following paramet
   parameter 'value'
 Juniper.Unity/Extensions/UnityEngine/Find.cs:138: warning: The following parameters of UnityEngine.Find.All< T >(Func< T, bool > filter, ref List< T > container) are not documented:
   parameter 'container'
-Juniper/Assets/Juniper/Scripts/Extensions/UnityEngine/GameObjectExt.cs:77: warning: The following parameters of UnityEngine.GameObjectExt.Ensure< T >(this GameObject obj, Predicate< T > predicate) are not documented:
+Unity Scripts/Extensions/UnityEngine/GameObjectExt.cs:77: warning: The following parameters of UnityEngine.GameObjectExt.Ensure< T >(this GameObject obj, Predicate< T > predicate) are not documented:
   parameter 'predicate'
 Juniper.Root/World/GIS/GeocentricEclipticSpherical.cs:34: warning: The following parameters of Juniper.Units.GeocentricEclipticSpherical.ToEquitorial(this GeocentricEclipticSphericalPosition p, float n) are not documented:
   parameter 'p'
@@ -9358,96 +7767,6 @@ Juniper.Root/NETFX/Net/HttpWebRequestExt.cs:455: warning: The following paramete
 Juniper.Root/IO/ICacheSourceLayerExt.cs:89: warning: The following parameters of Juniper.IO.ICacheSourceLayerExt.Get< ResultT, MediaTypeT >(this ICacheSourceLayer source, IFactory< ResultT, MediaTypeT > deserializer) are not documented:
   parameter 'source'
 Juniper.Root/IO/IProgressExt.cs:82: warning: argument 'prefix' of command @param is not found in the argument list of Juniper.IO.IProgressExt::Split(this IProgress parent, long numParts)
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCommonStruct.cs:92: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:307: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:318: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:329: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:340: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:341: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:415: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:439: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:450: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:472: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:490: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:507: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:559: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:604: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCommonStruct.cs:92: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:615: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:768: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:802: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:876: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:889: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:984: warning: Missing 'cref' or 'langword' attribute from <see> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:988: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:989: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:1109: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:1159: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:1196: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:1218: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:1305: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:1416: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:1460: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCompressStruct.cs:1276: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:247: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:254: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:261: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:282: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:542: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:556: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:579: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:638: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:693: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:705: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:743: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:268: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:294: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:311: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:328: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:339: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:365: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:380: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:395: warning: Missing 'cref' or 'langword' attribute from <see> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:397: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:410: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:429: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:448: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:463: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:477: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:489: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:501: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:594: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:614: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegCommonStruct.cs:92: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:761: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:826: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:827: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:874: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:951: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:988: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:1101: warning: Missing 'cref' or 'langword' attribute from <see> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:1118: warning: Missing 'cref' or 'langword' attribute from <see> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:1122: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:1149: warning: Missing 'cref' or 'langword' attribute from <see> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:1151: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:1185: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:1378: warning: Missing 'cref' or 'langword' attribute from <see> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:1587: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegDecompressStruct.cs:1607: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegErrorMessage.cs:67: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegErrorMessage.cs:96: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegErrorMessage.cs:130: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegErrorMessage.cs:147: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegErrorMessage.cs:189: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegErrorMessage.cs:19: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegMarkerStruct.cs:9: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegProgressManager.cs:12: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegProgressManager.cs:19: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegProgressManager.cs:26: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegProgressManager.cs:33: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegProgressManager.cs:40: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegProgressManager.cs:6: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JVirtArray.cs:54: warning: unable to resolve link to `BitMiracle.LibJpeg.Classic.jpeg_common_struct.ERREXIT(BitMiracle.LibJpeg.Classic.J_MESSAGE_CODE)' for \link command
 Juniper.Root/World/GIS/LatLng.cs:11: warning: argument 'p' of command @param is not found in the argument list of Juniper.Units.LatLng::Distance(this LatLngPoint A, LatLngPoint B)
 Juniper.Root/World/GIS/LatLng.cs:16: warning: The following parameters of Juniper.Units.LatLng.Distance(this LatLngPoint A, LatLngPoint B) are not documented:
   parameter 'A'
@@ -9466,10 +7785,8 @@ Juniper.Client/Imaging/Jpeg/LibJpegNETImageDataTranscoder.cs:40: warning: argume
 Juniper.Client/Imaging/Jpeg/LibJpegNETImageDataTranscoder.cs:44: warning: The following parameters of Juniper.Imaging.LibJpegNETImageDataTranscoder.Translate(ImageData image, IProgress prog=null) are not documented:
   parameter 'image'
   parameter 'prog'
-Juniper/Assets/Juniper/Scripts/MasterSceneController.cs:327: warning: The following parameters of Juniper.MasterSceneController.SwitchToScene(string sceneName, bool fromView) are not documented:
+Unity Scripts/MasterSceneController.cs:327: warning: The following parameters of Juniper.MasterSceneController.SwitchToScene(string sceneName, bool fromView) are not documented:
   parameter 'fromView'
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/My1PassCQuantizer.cs:64: warning: explicit link request to 'columns' could not be resolved
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/Internal/My2PassCQuantizer.cs:111: warning: explicit link request to 'columns' could not be resolved
 Juniper.Root/Collections/NAryTree.cs:82: warning: The following parameters of Juniper.Collections.NAryTree.Add(T node, Func< T, T, bool > isChildOf) are not documented:
   parameter 'isChildOf'
 Juniper.Root/Collections/NAryTree.cs:182: warning: The following parameters of Juniper.Collections.NAryTree.Accumulate< StateT >(TreeTraversalOrder order, StateT state, Func< StateT, NAryTree< T >, StateT > act) are not documented:
@@ -9478,19 +7795,16 @@ Juniper.Root/Collections/NAryTree.cs:182: warning: The following parameters of J
 Juniper.Root/IO/ProgressAggregator.cs:20: warning: argument 'prefix' of command @param is not found in the argument list of Juniper.IO.ProgressAggregator::ProgressAggregator(IProgress parent, long numParts)
 Juniper.Root/IO/ProgressStream.cs:33: warning: The following parameters of Juniper.IO.ProgressStream.ProgressStream(Stream stream, long length, IProgress parent, bool ownStream) are not documented:
   parameter 'ownStream'
-Juniper.Client/ThirdParty/LibJpeg.NET/SampleRow.cs:64: warning: unable to resolve link to `BitMiracle.LibJpeg.SampleRow.#ctor(System.Byte[],System.Int32,System.Byte,System.Byte)' for \link command
 Juniper.UnityEditor/ConfigurationManagement/UnityPackage.cs:12: warning: argument 'listingRoot' of command @param is not found in the argument list of Juniper.ConfigurationManagement.UnityPackage::Load(List< AbstractPackage > packages)
 Juniper.UnityEditor/ConfigurationManagement/UnityPackage.cs:12: warning: argument 'contentCacheRoot' of command @param is not found in the argument list of Juniper.ConfigurationManagement.UnityPackage::Load(List< AbstractPackage > packages)
 Juniper.Unity/Extensions/UnityEngine/VectorExt.cs:19: warning: The following parameters of UnityEngine.VectorExt.ToUTM(this Vector3 value, int donatedZone, UTMPoint.GlobeHemisphere hemisphere) are not documented:
   parameter 'hemisphere'
-Juniper/Assets/Juniper/Scripts/Sound/VolumeFade.cs:67: warning: argument 'channels' of command @param is not found in the argument list of Juniper.Sound.VolumeFade::OnAudioFilterRead(float [] data, int _)
-Juniper/Assets/Juniper/Scripts/Sound/VolumeFade.cs:73: warning: The following parameters of Juniper.Sound.VolumeFade.OnAudioFilterRead(float [] data, int _) are not documented:
+Unity Scripts/Sound/VolumeFade.cs:67: warning: argument 'channels' of command @param is not found in the argument list of Juniper.Sound.VolumeFade::OnAudioFilterRead(float [] data, int _)
+Unity Scripts/Sound/VolumeFade.cs:73: warning: The following parameters of Juniper.Sound.VolumeFade.OnAudioFilterRead(float [] data, int _) are not documented:
   parameter '_'
-Juniper/Assets/Juniper/Scripts/World/Climate/Weather.cs:291: warning: The following parameters of Juniper.World.Climate.Weather.Request(LatLngPoint location, bool force, IProgress prog) are not documented:
+Unity Scripts/World/Climate/Weather.cs:291: warning: The following parameters of Juniper.World.Climate.Weather.Request(LatLngPoint location, bool force, IProgress prog) are not documented:
   parameter 'prog'
-Juniper/Assets/Juniper/Scripts/World/Climate/Weather.cs:259: warning: The following parameters of Juniper.World.Climate.Weather.GetReport(bool force, IProgress prog) are not documented:
+Unity Scripts/World/Climate/Weather.cs:259: warning: The following parameters of Juniper.World.Climate.Weather.GetReport(bool force, IProgress prog) are not documented:
   parameter 'prog'
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JColorSpace.cs:4: warning: Missing 'cref' attribute from <seealso> tag.
-Juniper.Client/ThirdParty/LibJpeg.NET/Classic/JpegMarker.cs:4: warning: Missing 'cref' attribute from <seealso> tag.
 C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/etc/markdown/development.md:6: warning: found subsection command outside of section context!
 ```

@@ -6,7 +6,6 @@ var searchData=
   ['yang_5fdataxml',['Yang_DataXml',['../d7/d3e/class_juniper_1_1_media_type_1_1_application.html#ac1cf128b06142cb0066c7b7b9e642e88',1,'Juniper::MediaType::Application']]],
   ['yang_5fpatchjson',['Yang_PatchJson',['../d7/d3e/class_juniper_1_1_media_type_1_1_application.html#af88259c55a6da5f2493f88e9e582c59b',1,'Juniper::MediaType::Application']]],
   ['yang_5fpatchxml',['Yang_PatchXml',['../d7/d3e/class_juniper_1_1_media_type_1_1_application.html#a102e4a578cf8a1ac036dbfea36db1091',1,'Juniper::MediaType::Application']]],
-  ['ydensity',['YDensity',['../d7/d05/class_bit_miracle_1_1_lib_jpeg_1_1_classic_1_1_jpeg_decompress_struct.html#a9631fa800b3e8e23b84683beb87c033b',1,'BitMiracle::LibJpeg::Classic::JpegDecompressStruct']]],
   ['year',['Year',['../d0/d94/struct_juniper_1_1_editable_date_time.html#ae51c12fae1ab1961b5429c1301190835',1,'Juniper::EditableDateTime']]],
   ['yellow',['Yellow',['../d2/d3a/class_juniper_1_1_ansi_color.html#adc9695bcb8084e1974c6db7e020f1acd',1,'Juniper::AnsiColor']]],
   ['yinxml',['YinXml',['../d7/d3e/class_juniper_1_1_media_type_1_1_application.html#a49cd226826bf09b38bb9960ab9f912f5',1,'Juniper::MediaType::Application']]]

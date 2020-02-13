@@ -3,7 +3,6 @@ var searchData=
   ['radians',['Radians',['../da/dc0/class_juniper_1_1_units_1_1_radians.html',1,'Juniper::Units']]],
   ['randomext',['RandomExt',['../df/d4c/class_system_1_1_random_ext.html',1,'System']]],
   ['ratio',['Ratio',['../dd/d5b/class_juniper_1_1_units_1_1_ratio.html',1,'Juniper::Units']]],
-  ['rawimage',['RawImage',['../d8/da8/class_bit_miracle_1_1_lib_jpeg_1_1_raw_image.html',1,'BitMiracle::LibJpeg']]],
   ['readonlyattribute',['ReadOnlyAttribute',['../d8/dff/class_unity_engine_1_1_read_only_attribute.html',1,'UnityEngine']]],
   ['readonlydrawer',['ReadOnlyDrawer',['../d9/deb/class_juniper_1_1_read_only_drawer.html',1,'Juniper']]],
   ['rect',['RECT',['../d0/de7/struct_juniper_1_1_console_1_1_console_buffer_1_1_native_methods_1_1_r_e_c_t.html',1,'Juniper::Console::ConsoleBuffer::NativeMethods']]],
