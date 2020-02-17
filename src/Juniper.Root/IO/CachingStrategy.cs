@@ -166,7 +166,8 @@ namespace Juniper.IO
         {
             foreach (var source in sources)
             {
-                if (source.IsCached(fileRef))
+                if (!(source is StreamSourceLayer)
+                    && source.IsCached(fileRef))
                 {
                     return true;
                 }
