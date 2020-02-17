@@ -90,7 +90,7 @@ dotnet_diagnostic.CA2225.severity  = silent
 # RCS1079: Throwing of new NotImplementedException.
 dotnet_diagnostic.RCS1079.severity = silent
 
-[*.{csproj,js,json,fs}]
+[*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj,props,targets,js,json}]
 indent_size = 2
 
 [*.cs]
