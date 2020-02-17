@@ -236,29 +236,9 @@ namespace Juniper.Puzzles
             }
         }
 
-        public void Left_Depress()
-        {
-            SetLeft(true);
-        }
-
-        public void Left_Release()
-        {
-            SetLeft(false);
-        }
-
         public void SetLeft(bool value)
         {
             isLeftDown = value;
-        }
-
-        public void Right_Depress()
-        {
-            SetRight(true);
-        }
-
-        public void Right_Release()
-        {
-            SetRight(false);
         }
 
         public void SetRight(bool value)
@@ -266,29 +246,9 @@ namespace Juniper.Puzzles
             isRightDown = value;
         }
 
-        public void Flip_Depress()
-        {
-            SetFlip(true);
-        }
-
-        public void Flip_Release()
-        {
-            SetFlip(false);
-        }
-
         public void SetFlip(bool value)
         {
             isFlipDown = value;
-        }
-
-        public void Drop_Depress()
-        {
-            SetDrop(true);
-        }
-
-        public void Drop_Release()
-        {
-            SetDrop(false);
         }
 
         public void SetDrop(bool value)
