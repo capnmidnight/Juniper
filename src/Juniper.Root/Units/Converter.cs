@@ -188,7 +188,7 @@ namespace Juniper.Units
                 [Category.LargeFileSize] = UnitOfMeasure.Gibibytes,
                 [Category.HugeFileSize] = UnitOfMeasure.Tebibytes,
                 [Category.GiganticFileSize] = UnitOfMeasure.Pebibytes,
-                [Category.SlowBandwidth] = UnitOfMeasure.BitsPerSecond,
+                [Category.SlowestBandwidth] = UnitOfMeasure.BitsPerSecond,
                 [Category.VerySlowBandwidth] = UnitOfMeasure.BytesPerSecond,
                 [Category.SlowBandwidth] = UnitOfMeasure.KibibytesPerSecond,
                 [Category.RegularBandwidth] = UnitOfMeasure.MibibytesPerSecond,
