@@ -136,7 +136,7 @@ namespace Juniper.Azure.Tests
             {
                 Format = audioRequest.OutputFormat
             };
-            var audio = await cache
+            using var audio = await cache
                 .LoadAsync(audioDecoder, audioRequest)
                 .ConfigureAwait(false);
             Assert.AreEqual(MediaType.Audio.PCMA, audio.Format.ContentType);

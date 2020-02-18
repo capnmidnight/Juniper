@@ -9,6 +9,7 @@ using Juniper.IO;
 using Juniper.Security;
 
 using UnityEngine;
+
 using Juniper.Speech.Azure.CognitiveServices;
 
 #if UNITY_MODULES_AUDIO
@@ -295,7 +296,7 @@ namespace Juniper.Sound
 
         public async Task<AudioClip> PreloadSpeech(string text, string voiceName, float rateChange, float pitchChange)
         {
-            var audioData = await tts.GetDecodedAudioAsync(text, voiceName, rateChange, pitchChange);
+            using var audioData = await tts.GetDecodedAudioAsync(text, voiceName, rateChange, pitchChange);
             var reader = new BinaryReader(audioData.DataStream);
             var clip = AudioClip.Create(
                 text,
@@ -305,7 +306,7 @@ namespace Juniper.Sound
                 true,
                 floats =>
                 {
-                    for (int i = 0; i < floats.Length; ++i)
+                    for (var i = 0; i < floats.Length; ++i)
                     {
                         floats[i] = reader.ReadSingle();
                     }
@@ -585,13 +586,7 @@ namespace Juniper.Sound
         [Range(0, 5)]
         public float dopplerLevel = 0.68f;
 
-        protected virtual string DefaultAudioMixer
-        {
-            get
-            {
-                return "defaultAudioMixer";
-            }
-        }
+        protected virtual string DefaultAudioMixer => "defaultAudioMixer";
 
 
 #if UNITY_EDITOR

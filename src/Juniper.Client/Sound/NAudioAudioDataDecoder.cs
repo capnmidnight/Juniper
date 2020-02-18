@@ -117,7 +117,7 @@ namespace Juniper.Sound
 
             var audioFormat = MakeAudioFormat(sampleRate, bitsPerSample, channels);
             var pcmStream = new PcmBytesToFloatsStream(waveStream, bytesPerSample);
-            return new AudioData(audioFormat, pcmStream, samples);
+            return new AudioData(audioFormat, pcmStream, samples, stream);
         }
 
         private void ValidateFormat(int sampleRate, int bitsPerSample, int channels)
