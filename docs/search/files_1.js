@@ -9,6 +9,7 @@ var searchData=
   ['beatdetectorconfiguration_2ecs',['BeatDetectorConfiguration.cs',['../d8/d57/_beat_detector_configuration_8cs.html',1,'']]],
   ['binaryfactory_2ecs',['BinaryFactory.cs',['../d7/da1/_binary_factory_8cs.html',1,'']]],
   ['bits_2ecs',['Bits.cs',['../d1/dc9/_bits_8cs.html',1,'']]],
+  ['bitspersecond_2ecs',['BitsPerSecond.cs',['../d7/d85/_bits_per_second_8cs.html',1,'']]],
   ['bodyinfo_2ecs',['BodyInfo.cs',['../d4/d18/_body_info_8cs.html',1,'']]],
   ['booleanevent_2ecs',['BooleanEvent.cs',['../d2/d8e/_boolean_event_8cs.html',1,'']]],
   ['boolext_2ecs',['BoolExt.cs',['../da/d1b/_bool_ext_8cs.html',1,'']]],
@@ -21,5 +22,6 @@ var searchData=
   ['buttonevent_2ecs',['ButtonEvent.cs',['../d8/d05/_button_event_8cs.html',1,'']]],
   ['buttoneventeditor_2ecs',['ButtonEventEditor.cs',['../d9/d94/_button_event_editor_8cs.html',1,'']]],
   ['buttonmapper_2ecs',['ButtonMapper.cs',['../d3/d6a/_button_mapper_8cs.html',1,'']]],
-  ['bytes_2ecs',['Bytes.cs',['../d0/db1/_bytes_8cs.html',1,'']]]
+  ['bytes_2ecs',['Bytes.cs',['../d0/db1/_bytes_8cs.html',1,'']]],
+  ['bytespersecond_2ecs',['BytesPerSecond.cs',['../d5/d32/_bytes_per_second_8cs.html',1,'']]]
 ];

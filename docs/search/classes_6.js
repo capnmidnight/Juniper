@@ -16,7 +16,9 @@ var searchData=
   ['getfirewallrule',['GetFirewallRule',['../da/dcd/class_juniper_1_1_h_t_t_p_1_1_server_1_1_administration_1_1_net_s_h_1_1_get_firewall_rule.html',1,'Juniper::HTTP::Server::Administration::NetSH']]],
   ['getrequest',['GetRequest',['../d6/d6f/class_juniper_1_1_h_t_t_p_1_1_get_request.html',1,'Juniper::HTTP']]],
   ['gibibytes',['Gibibytes',['../dd/dd2/class_juniper_1_1_units_1_1_gibibytes.html',1,'Juniper::Units']]],
+  ['gibibytespersecond',['GibibytesPerSecond',['../d6/d74/class_juniper_1_1_units_1_1_gibibytes_per_second.html',1,'Juniper::Units']]],
   ['gigabytes',['Gigabytes',['../d9/dfc/class_juniper_1_1_units_1_1_gigabytes.html',1,'Juniper::Units']]],
+  ['gigabytespersecond',['GigabytesPerSecond',['../d8/d8c/class_juniper_1_1_units_1_1_gigabytes_per_second.html',1,'Juniper::Units']]],
   ['googlemapscachelayer',['GoogleMapsCacheLayer',['../d9/da9/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_google_maps_cache_layer.html',1,'Juniper::World::GIS::Google']]],
   ['googlemapsclient',['GoogleMapsClient',['../d1/dde/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_google_maps_client.html',1,'Juniper::World::GIS::Google']]],
   ['googlestreetview',['GoogleStreetView',['../d4/d92/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_google_street_view.html',1,'Juniper::World::GIS::Google']]],
@@ -24,6 +26,6 @@ var searchData=
   ['gradians',['Gradians',['../d4/d54/class_juniper_1_1_units_1_1_gradians.html',1,'Juniper::Units']]],
   ['grammar',['Grammar',['../d5/d0d/class_juniper_1_1_primrose_1_1_grammar.html',1,'Juniper::Primrose']]],
   ['grams',['Grams',['../d3/d18/class_juniper_1_1_units_1_1_grams.html',1,'Juniper::Units']]],
-  ['graph',['Graph',['../d2/dfb/class_juniper_1_1_collections_1_1_graph.html',1,'Juniper.Collections.Graph'],['../d2/dfb/class_juniper_1_1_collections_1_1_graph.html',1,'Juniper.Collections.Graph&lt; NodeT &gt;']]],
+  ['graph',['Graph',['../d2/dfb/class_juniper_1_1_collections_1_1_graph.html',1,'Juniper.Collections.Graph&lt; NodeT &gt;'],['../d2/dfb/class_juniper_1_1_collections_1_1_graph.html',1,'Juniper.Collections.Graph']]],
   ['grounded',['Grounded',['../d7/d9d/class_juniper_1_1_anchoring_1_1_grounded.html',1,'Juniper::Anchoring']]]
 ];

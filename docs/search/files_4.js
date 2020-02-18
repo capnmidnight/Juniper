@@ -13,7 +13,9 @@ var searchData=
   ['erroreventargs_2ecs',['ErrorEventArgs.cs',['../d4/dd4/_error_event_args_8cs.html',1,'']]],
   ['eventargs_2ecs',['EventArgs.cs',['../da/d0a/_event_args_8cs.html',1,'']]],
   ['exabytes_2ecs',['Exabytes.cs',['../d8/da0/_exabytes_8cs.html',1,'']]],
+  ['exabytespersecond_2ecs',['ExabytesPerSecond.cs',['../d6/d20/_exabytes_per_second_8cs.html',1,'']]],
   ['exbibytes_2ecs',['Exbibytes.cs',['../d1/d98/_exbibytes_8cs.html',1,'']]],
+  ['exbibytespersecond_2ecs',['ExbibytesPerSecond.cs',['../da/d96/_exbibytes_per_second_8cs.html',1,'']]],
   ['exceptionevent_2ecs',['ExceptionEvent.cs',['../d4/d15/_exception_event_8cs.html',1,'']]],
   ['exceptionext_2ecs',['ExceptionExt.cs',['../db/da6/_exception_ext_8cs.html',1,'']]]
 ];

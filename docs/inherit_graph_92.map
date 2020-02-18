@@ -1,4 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="5,5,316,91"/>
-<area shape="rect" id="node2" href="$d3/d9d/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="364,27,556,69"/>
+<area shape="rect" id="node1" href="$d2/d07/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker.html" title=" " alt="" coords="5,5,249,61"/>
+<area shape="rect" id="node2" href="$db/d09/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_no_hand_tracker.html" title=" " alt="" coords="297,13,489,54"/>
+<area shape="rect" id="node3" href="$db/d04/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_hand_tracker.html" title=" " alt="" coords="537,13,729,54"/>
 </map>

@@ -21,9 +21,9 @@
 <meta property="og:url" content="https://capnmidnight.github.io/Juniper">
 <meta name="twitter:image" content="http://capnmidnight.github.io/Juniper/$logo">
 <meta property="og:image" content="http://capnmidnight.github.io/Juniper/$logo">
-<meta property="og:title" content="Juniper: Development">
-<meta name="twitter:title" content="Juniper: Development">
-<title>Juniper: Development</title>
+<meta property="og:title" content="Juniper: Light Estimation">
+<meta name="twitter:title" content="Juniper: Light Estimation">
+<title>Juniper: Light Estimation</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -76,21 +76,79 @@ $(function() {
 </div><!-- top -->
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">Development </div>  </div>
+<div class="title">Light Estimation </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Clone the repository and copy the <code>Package/</code> directory to one of the <code>Test/&lt;PlatformName&gt;Test/Assets</code> directories.</p>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md7"></a>
+Introduction</h1>
+<p>Light Estimation is complex and requires multiple parts</p>
 <ul>
-<li><a href="https://unity3d.com/get-unity/download">Unity Hub</a>. Unity Hub is very handy for managing different versions of Unity between different projects. There is also a link in Unity Hub to the Unity Download Archive for any version that Unity does not advertise through the Available Installs screen.<ul>
-<li><b>For Magic Leap</b>: <a href="https://unity3d.com/partners/magicleap">Magic Leap maintains their own fork of the Unity Editor</a>. It's currently an older version of Unity that is not compatible with the new Nestable Prefabs system, so be careful not to mix versions. You can upgrade from 2018.1 to later versions, but your scenes and prefabs will crash the editor if you try to downgrade. For that reason, there are copies of scenes and prefabs in the <a class="el" href="../../de/d75/namespace_juniper.html">Juniper</a> project specifically for Unity 2018.1.</li>
+<li>The scene needs to be reoriented to Magnetic North, because the AR subsystem initializes its view of the scene to a completely arbitrary direction.</li>
+<li>The position of the sun needs to be calculated, which itself requires,</li>
+<li>Acquiring a GPS lock.</li>
+<li>Optionally, a Weather Report can be retrieved to enhance the estimate with Cloud Coverage data.</li>
+<li>Extremely optionally, a WindZone can be added to the scene to take advantage of the Wind Direction and Wind Speed values also returned with the Weather Report.</li>
+<li>A platform-specific light intensity and color value, estimated from the camera image, must be acquired from the AR subsystem</li>
+<li>And finally, all of this data needs to be fused into a composite light estimate.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md8"></a>
+Using Light Estimation in Your Project</h2>
+<p>The vast majority of these tasks are packed up together in a Prefab at: </p><pre class="fragment">Juniper/Prefabs/World.prefab
+</pre><p>This prefab contains GameObjects and Components:</p>
+<ul>
+<li>[GO] World: having the <code>CompassRose</code> component to reorient its children to North,<ul>
+<li>[GO] SunRig:<ul>
+<li>[GO] Sun: a directional light with the following components:<ul>
+<li>GPSLocation: starts Unity's location service and receives updates</li>
+<li>SunPosition: calculates the position of the sun with respect to the user given the current Latitude, Longitude, and Time.</li>
+<li>Weather: connects to a weather reporting API to receive the current weather conditions.<ul>
+<li>That weather reporting API is currently <a href="https://openweathermap.org/">OpenWeatherMap.org</a>. The service requires an authorization key, so you'll have to sign up to get one.</li>
 </ul>
 </li>
-<li><a href="https://visualstudio.microsoft.com/vs/">Visual Studio</a>. Unity can install this by default for you.</li>
-<li><a href="https://www.blender.org/download/">Blender</a>. There are a few 3D models in the project repository that Unity requires Blender to be installed to be able to import them.</li>
-<li><a href="https://nerdur.com/todour-pl/">Toudor</a>. The issues list for <a class="el" href="../../de/d75/namespace_juniper.html">Juniper</a> is maintained as a <code>todo.txt</code> file in the root of the project. Toudour provides a nice GUI for editing the list.</li>
-<li><a href="http://www.doxygen.nl/download.html">Doxygen</a>. This is only necessary for updating the documentation in <a class="el" href="../../de/d75/namespace_juniper.html">Juniper</a>, but it's a good idea to use it on your projects, too. Make sure to add it to your PATH.</li>
-<li><a href="https://www.graphviz.org/download/">GraphViz</a>. This is used by Doxygen to generate nicer diagrams for the documentation. Make sure to add it to your PATH.</li>
-<li><a href="https://github.com/boyter/scc/releases">scc</a>. This is used by the documentation generation scripts to estimate the project complexity. Make sure to add it to your PATH. </li>
+<li>OutdoorLightEstimate: fuses the data from GPSLocation, SunPosition, and Weather to modify the orientation, intensity, and shadowStrength of the light, while also changing the ambientIntensity and ambientColor in RenderSettings.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>[GO] WindZone: with the components:<ul>
+<li>[CMP] WindZone: pushes particles and trees around</li>
+<li>[CMP] OutdoorWindEstimate: reads the weather report and applies the Wind Speed and Wind Direction values to the WindZone.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md9"></a>
+Component Settings</h2>
+<p>Once you have the World prefab in your scene, expand the World object and find the Sun object. Pay the most attention to the highlighted fields:</p>
+<img src="../../WorldSettings.png" alt="World Settings" class="inline"/>
+<p>Notes:</p><ul>
+<li>Make sure the Light's type is set to Directional</li>
+<li>There is nothing to do in the GPSLocation component unless you want to simulate different locations in the world.</li>
+<li>The Weather component is optional, it can be removed if you don't want to make network requests or don't want cloud cover reporting.<ul>
+<li>If you do use the Weather component, you'll need an API key from the OpenWeatherMap.org. There is a development key in the repository, but it's meant for only one user at a time, so you should create your own.</li>
+<li>The weather report is necessary to receive cloud cover values. Cloud cover values allow us to skew the light estimate towards more ambient or more directional light. The AR subsystem only provides one light estimation value, and that value is based on the average intensity of pixels captured by the AR camera. Most systems treat this as a scale factor on the ambient light, but with our usage of cloud cover, we can achieve more accurate results.</li>
+</ul>
+</li>
+<li>The OutdoorLightEstimate component is where all the work is done of combining the data from all of the previous components and use the to set the light's orientation and intensity.<ul>
+<li>The Weather and SunPosition fields refer to the previous two components. Both components may be treated as optional. They should automatically populate when the OutdoorLightEstimate component is created, but in case they don't, configure their value here.</li>
+<li>The DefaultColor field is for setting a light color on systems that don't have light color analysis (ARKit is the only system that is known to have it right now). Keep this set to White unless you know you'll be running in an environment with a skewed environment color.</li>
+<li>SetAmbientLight and SetDirectionalLight checkboxes control whether or not the component will modify the ambient and/or directional light settings.</li>
+<li>AmbientScale controls the final output of the ambient light value after the estimation is complete.<ul>
+<li>Set it to 1 to not modify the ambient estimate.</li>
+<li>Set it to 0 to completely delete the ambient light.</li>
+<li>Set it to values greater than 1 to push the ambient light beyond what the light estimation predicts.</li>
+<li>Set it between 0 and 1 to subdue it under the estimate.</li>
+</ul>
+</li>
+<li>DirectionalScale similarly controls the final output of the directional light value, with the same control over values.</li>
+<li>The ShadowScale field changes the darkness of the shadows that are cast on the ground. Completely black shadows look very unnatural. The system will automatically make shadows lighter as the ambient light estimate increases, but this scale factor can be used to control it further.</li>
+<li>If the Cloud Cover cannot be determined (due to lack of access to a weather report for whatever reason), then a default value of 50% is used. The CloudCoverScale value controls how much that Cloud Scale value skews the light between ambient and directional.<ul>
+<li>A value of 0.5 means that the default cloud cover value of 50% will skew the light estimate 25% to ambient and 75% to directional. </li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->

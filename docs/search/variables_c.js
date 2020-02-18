@@ -85,7 +85,6 @@ var searchData=
   ['layer_5fmask',['LAYER_MASK',['../db/d51/class_juniper_1_1_display_1_1_abstract_display_manager.html#ab09097b8d699a56dd4a02277df010205',1,'Juniper::Display::AbstractDisplayManager']]],
   ['layout',['layout',['../d6/dd8/class_juniper_1_1_imaging_1_1_skybox_manager.html#a1d1b91ba3566140c37dbf0a15646d69a',1,'Juniper::Imaging::SkyboxManager']]],
   ['ldjson',['LdJson',['../d7/d3e/class_juniper_1_1_media_type_1_1_application.html#a7a043aa2d3e27364c92997d3700fe7b7',1,'Juniper::MediaType::Application']]],
-  ['left',['Left',['../d0/de7/struct_juniper_1_1_console_1_1_console_buffer_1_1_native_methods_1_1_r_e_c_t.html#a4f10bcaf12a5220943e8c244f9e95be5',1,'Juniper::Console::ConsoleBuffer::NativeMethods::RECT']]],
   ['leftdownheavyandrightuplight',['LeftDownHeavyAndRightUpLight',['../dd/dd1/class_juniper_1_1_unicode_1_1_box_drawing_characters.html#a61a4d82201ab5f95021b9c48850449eb',1,'Juniper::Unicode::BoxDrawingCharacters']]],
   ['leftfighteightsblock',['LeftFightEightsBlock',['../d3/da2/class_juniper_1_1_unicode_1_1_box_element_characters.html#aa5a23e18656ee96ae29490cf1b15d173',1,'Juniper::Unicode::BoxElementCharacters']]],
   ['lefthalfblock',['LeftHalfBlock',['../d3/da2/class_juniper_1_1_unicode_1_1_box_element_characters.html#a5185dd6f294316dc1ec99cb6c3ef72be',1,'Juniper::Unicode::BoxElementCharacters']]],

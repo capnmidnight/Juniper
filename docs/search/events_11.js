@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['warning',['Warning',['../d6/d23/interface_juniper_1_1_logging_1_1_i_warning_source.html#a10b65f716b15331a07657e5504b1d8e2',1,'Juniper.Logging.IWarningSource.Warning()'],['../db/d6e/class_juniper_1_1_processes_1_1_abstract_shell_command.html#a56b9e37468b08dc458f1e7b8d7411a7e',1,'Juniper.Processes.AbstractShellCommand.Warning()'],['../d9/d5c/class_juniper_1_1_h_t_t_p_1_1_server_1_1_controllers_1_1_abstract_response.html#aeddc3a516522a137b887bdf45fa6b737',1,'Juniper.HTTP.Server.Controllers.AbstractResponse.Warning()'],['../db/d78/class_juniper_1_1_h_t_t_p_1_1_server_1_1_http_server.html#ad5ea508c405729fd0b4a0d9e5050f0c3',1,'Juniper.HTTP.Server.HttpServer.Warning()']]]
+  ['valuechange',['ValueChange',['../dd/d30/class_juniper_1_1_widgets_1_1_abstract_valued.html#ad1e311c1990c513c53105b9a366ea502',1,'Juniper.Widgets.AbstractValued.ValueChange()'],['../d0/d32/interface_juniper_1_1_widgets_1_1_i_valued_control.html#a258670089b411116782d174c6a7cfa18',1,'Juniper.Widgets.IValuedControl.ValueChange()'],['../d4/dcc/class_juniper_1_1_widgets_1_1_unity_slider_adapter.html#acb78d118f7c60b29aae2f897ee182cf0',1,'Juniper.Widgets.UnitySliderAdapter.ValueChange()']]],
+  ['valuechanged',['ValueChanged',['../d6/d38/class_juniper_1_1_animation_1_1_abstract_transition_controller.html#a61106a64ae9cb4b8d330594a9159cf2e',1,'Juniper::Animation::AbstractTransitionController']]],
+  ['videoend',['VideoEnd',['../d3/d14/class_juniper_1_1_widgets_1_1_detect_video_end.html#ae58a07dcdc296aef64f3992a97858087',1,'Juniper::Widgets::DetectVideoEnd']]]
 ];

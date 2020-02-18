@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 1364;
+var viewWidth = 1495;
 var viewHeight = 394;
 var sectionId = 'dynsection-0';
 </script>
@@ -54,16 +54,16 @@ var sectionId = 'dynsection-0';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>Juniper.EventArgs&lt; T &gt;</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-390 1360,-390 1360,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-390 1491,-390 1491,4 -4,4"/>
 <!-- Node0 -->
 <g id="node1" class="node"><title>Node0</title>
 <g id="a_node1"><a xlink:title=" ">
-<polygon fill="#bfbfbf" stroke="black" points="712.5,-233.5 712.5,-290.5 831.5,-290.5 831.5,-233.5 712.5,-233.5"/>
-<text text-anchor="middle" x="772" y="-278.5" font-family="SegoeUI" font-size="10.00">Juniper.EventArgs&lt; T &gt;</text>
-<polyline fill="none" stroke="black" points="712.5,-271.5 831.5,-271.5 "/>
-<text text-anchor="start" x="720.5" y="-259.5" font-family="SegoeUI" font-size="10.00">+ Value</text>
-<polyline fill="none" stroke="black" points="712.5,-252.5 831.5,-252.5 "/>
-<text text-anchor="start" x="720.5" y="-240.5" font-family="SegoeUI" font-size="10.00">+ EventArgs()</text>
+<polygon fill="#bfbfbf" stroke="black" points="736.5,-233.5 736.5,-290.5 855.5,-290.5 855.5,-233.5 736.5,-233.5"/>
+<text text-anchor="middle" x="796" y="-278.5" font-family="SegoeUI" font-size="10.00">Juniper.EventArgs&lt; T &gt;</text>
+<polyline fill="none" stroke="black" points="736.5,-271.5 855.5,-271.5 "/>
+<text text-anchor="start" x="744.5" y="-259.5" font-family="SegoeUI" font-size="10.00">+ Value</text>
+<polyline fill="none" stroke="black" points="736.5,-252.5 855.5,-252.5 "/>
+<text text-anchor="start" x="744.5" y="-240.5" font-family="SegoeUI" font-size="10.00">+ EventArgs()</text>
 </a>
 </g>
 </g>
@@ -83,8 +83,8 @@ var sectionId = 'dynsection-0';
 </g>
 <!-- Node0&#45;&gt;Node2 -->
 <g id="edge2" class="edge"><title>Node0&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M702.321,-257.607C591.904,-250.993 370.625,-232.687 189,-186 186.048,-185.241 183.065,-184.418 180.068,-183.542"/>
-<polygon fill="none" stroke="midnightblue" points="702.146,-261.103 712.334,-258.193 702.555,-254.115 702.146,-261.103"/>
+<path fill="none" stroke="midnightblue" d="M726.161,-258.09C612.141,-252.072 379.6,-234.486 189,-186 186.046,-185.249 183.062,-184.432 180.063,-183.562"/>
+<polygon fill="none" stroke="midnightblue" points="726.322,-261.603 736.489,-258.62 726.681,-254.612 726.322,-261.603"/>
 </g>
 <!-- Node3 -->
 <g id="node4" class="node"><title>Node3</title>
@@ -102,245 +102,279 @@ var sectionId = 'dynsection-0';
 </g>
 <!-- Node0&#45;&gt;Node3 -->
 <g id="edge3" class="edge"><title>Node0&#45;&gt;Node3</title>
-<path fill="none" stroke="midnightblue" d="M702.239,-252.351C622.113,-241.381 487.253,-219.73 375,-186 371.898,-185.068 368.759,-184.067 365.604,-183.012"/>
-<polygon fill="none" stroke="midnightblue" points="701.834,-255.828 712.213,-253.7 702.773,-248.892 701.834,-255.828"/>
+<path fill="none" stroke="midnightblue" d="M726.312,-253.492C641.723,-243.27 495.337,-222 374,-186 371.256,-185.186 368.483,-184.315 365.697,-183.397"/>
+<polygon fill="none" stroke="midnightblue" points="725.972,-256.976 736.315,-254.684 726.8,-250.025 725.972,-256.976"/>
 </g>
 <!-- Node4 -->
 <g id="node5" class="node"><title>Node4</title>
-<g id="a_node5"><a xlink:href="../../db/d95/class_juniper_1_1_input_1_1_pointer_found_event_args.html" target="_top" xlink:title="An event argument type for passing on the pointer that was found.">
-<polygon fill="white" stroke="black" points="384,-112 384,-180 516,-180 516,-112 384,-112"/>
-<text text-anchor="start" x="392" y="-168" font-family="SegoeUI" font-size="10.00">Juniper.Input.PointerFound</text>
-<text text-anchor="middle" x="450" y="-157" font-family="SegoeUI" font-size="10.00">EventArgs</text>
-<polyline fill="none" stroke="black" points="384,-150 516,-150 "/>
-<text text-anchor="start" x="392" y="-138" font-family="SegoeUI" font-size="10.00">+ device</text>
-<polyline fill="none" stroke="black" points="384,-131 516,-131 "/>
-<text text-anchor="start" x="392" y="-119" font-family="SegoeUI" font-size="10.00">+ PointerFoundEventArgs()</text>
+<g id="a_node5"><a xlink:href="../../df/d1e/class_juniper_1_1_input_1_1_key_event.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="383.5,-117.5 383.5,-174.5 496.5,-174.5 496.5,-117.5 383.5,-117.5"/>
+<text text-anchor="middle" x="440" y="-162.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.KeyEvent</text>
+<polyline fill="none" stroke="black" points="383.5,-155.5 496.5,-155.5 "/>
+<text text-anchor="start" x="391.5" y="-143.5" font-family="SegoeUI" font-size="10.00">+ Name</text>
+<polyline fill="none" stroke="black" points="383.5,-136.5 496.5,-136.5 "/>
+<text text-anchor="start" x="391.5" y="-124.5" font-family="SegoeUI" font-size="10.00">+ KeyEvent()</text>
 </a>
 </g>
 </g>
 <!-- Node0&#45;&gt;Node4 -->
 <g id="edge4" class="edge"><title>Node0&#45;&gt;Node4</title>
-<path fill="none" stroke="midnightblue" d="M702.523,-243.596C652.362,-230.146 583.454,-209.834 525,-186 520.515,-184.171 515.941,-182.166 511.374,-180.06"/>
-<polygon fill="none" stroke="midnightblue" points="701.733,-247.008 712.296,-246.194 703.531,-240.243 701.733,-247.008"/>
-</g>
-<!-- Node5 -->
-<g id="node6" class="node"><title>Node5</title>
-<g id="a_node6"><a xlink:href="../../d8/dcf/class_juniper_1_1_speech_1_1_keyword_recognized_event_args.html" target="_top" xlink:title="Provides the keyword that was recognized in a speech recognition event.">
-<polygon fill="white" stroke="black" points="534,-112 534,-180 704,-180 704,-112 534,-112"/>
-<text text-anchor="start" x="542" y="-168" font-family="SegoeUI" font-size="10.00">Juniper.Speech.KeywordRecognized</text>
-<text text-anchor="middle" x="619" y="-157" font-family="SegoeUI" font-size="10.00">EventArgs</text>
-<polyline fill="none" stroke="black" points="534,-150 704,-150 "/>
-<text text-anchor="start" x="542" y="-138" font-family="SegoeUI" font-size="10.00">+ Keyword</text>
-<polyline fill="none" stroke="black" points="534,-131 704,-131 "/>
-<text text-anchor="start" x="542" y="-119" font-family="SegoeUI" font-size="10.00">+ KeywordRecognizedEventArgs()</text>
-</a>
-</g>
-</g>
-<!-- Node0&#45;&gt;Node5 -->
-<g id="edge5" class="edge"><title>Node0&#45;&gt;Node5</title>
-<path fill="none" stroke="midnightblue" d="M726.888,-227.387C706.828,-212.441 683.285,-194.898 663.318,-180.021"/>
-<polygon fill="none" stroke="midnightblue" points="724.853,-230.236 734.963,-233.404 729.035,-224.622 724.853,-230.236"/>
+<path fill="none" stroke="midnightblue" d="M726.281,-248.693C666.407,-236.789 578.534,-216.103 506,-186 498.256,-182.786 490.326,-178.792 482.771,-174.596"/>
+<polygon fill="none" stroke="midnightblue" points="725.897,-252.184 736.383,-250.671 727.242,-245.315 725.897,-252.184"/>
 </g>
 <!-- Node6 -->
 <g id="node7" class="node"><title>Node6</title>
-<g id="a_node7"><a xlink:href="../../df/d96/class_juniper_1_1_event_args.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="722,-112 722,-180 822,-180 822,-112 722,-112"/>
-<text text-anchor="start" x="730" y="-168" font-family="SegoeUI" font-size="10.00">Juniper.EventArgs&lt;</text>
-<text text-anchor="middle" x="772" y="-157" font-family="SegoeUI" font-size="10.00"> int &gt;</text>
-<polyline fill="none" stroke="black" points="722,-150 822,-150 "/>
-<text text-anchor="start" x="730" y="-138" font-family="SegoeUI" font-size="10.00">+ Value</text>
-<polyline fill="none" stroke="black" points="722,-131 822,-131 "/>
-<text text-anchor="start" x="730" y="-119" font-family="SegoeUI" font-size="10.00">+ EventArgs()</text>
+<g id="a_node7"><a xlink:href="../../db/d95/class_juniper_1_1_input_1_1_pointer_found_event_args.html" target="_top" xlink:title="An event argument type for passing on the pointer that was found.">
+<polygon fill="white" stroke="black" points="515,-112 515,-180 647,-180 647,-112 515,-112"/>
+<text text-anchor="start" x="523" y="-168" font-family="SegoeUI" font-size="10.00">Juniper.Input.PointerFound</text>
+<text text-anchor="middle" x="581" y="-157" font-family="SegoeUI" font-size="10.00">EventArgs</text>
+<polyline fill="none" stroke="black" points="515,-150 647,-150 "/>
+<text text-anchor="start" x="523" y="-138" font-family="SegoeUI" font-size="10.00">+ device</text>
+<polyline fill="none" stroke="black" points="515,-131 647,-131 "/>
+<text text-anchor="start" x="523" y="-119" font-family="SegoeUI" font-size="10.00">+ PointerFoundEventArgs()</text>
 </a>
 </g>
 </g>
 <!-- Node0&#45;&gt;Node6 -->
 <g id="edge6" class="edge"><title>Node0&#45;&gt;Node6</title>
-<path fill="none" stroke="orange" d="M772,-223.139C772,-209.189 772,-193.51 772,-180.021"/>
-<polygon fill="orange" stroke="orange" points="768.5,-223.404 772,-233.404 775.5,-223.404 768.5,-223.404"/>
-<text text-anchor="middle" x="789" y="-207" font-family="SegoeUI" font-size="10.00"> &lt; int &gt;</text>
+<path fill="none" stroke="midnightblue" d="M734.852,-228.578C706.187,-213.378 672.083,-195.295 643.277,-180.021"/>
+<polygon fill="none" stroke="midnightblue" points="733.48,-231.811 743.954,-233.404 736.759,-225.627 733.48,-231.811"/>
+</g>
+<!-- Node7 -->
+<g id="node8" class="node"><title>Node7</title>
+<g id="a_node8"><a xlink:href="../../d8/dcf/class_juniper_1_1_speech_1_1_keyword_recognized_event_args.html" target="_top" xlink:title="Provides the keyword that was recognized in a speech recognition event.">
+<polygon fill="white" stroke="black" points="665,-112 665,-180 835,-180 835,-112 665,-112"/>
+<text text-anchor="start" x="673" y="-168" font-family="SegoeUI" font-size="10.00">Juniper.Speech.KeywordRecognized</text>
+<text text-anchor="middle" x="750" y="-157" font-family="SegoeUI" font-size="10.00">EventArgs</text>
+<polyline fill="none" stroke="black" points="665,-150 835,-150 "/>
+<text text-anchor="start" x="673" y="-138" font-family="SegoeUI" font-size="10.00">+ Keyword</text>
+<polyline fill="none" stroke="black" points="665,-131 835,-131 "/>
+<text text-anchor="start" x="673" y="-119" font-family="SegoeUI" font-size="10.00">+ KeywordRecognizedEventArgs()</text>
+</a>
+</g>
+</g>
+<!-- Node0&#45;&gt;Node7 -->
+<g id="edge7" class="edge"><title>Node0&#45;&gt;Node7</title>
+<path fill="none" stroke="midnightblue" d="M781.053,-223.957C775.342,-209.805 768.874,-193.774 763.324,-180.021"/>
+<polygon fill="none" stroke="midnightblue" points="777.877,-225.44 784.865,-233.404 784.368,-222.821 777.877,-225.44"/>
 </g>
 <!-- Node8 -->
 <g id="node9" class="node"><title>Node8</title>
 <g id="a_node9"><a xlink:href="../../df/d96/class_juniper_1_1_event_args.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="840,-112 840,-180 940,-180 940,-112 840,-112"/>
-<text text-anchor="start" x="848" y="-168" font-family="SegoeUI" font-size="10.00">Juniper.EventArgs&lt;</text>
-<text text-anchor="middle" x="890" y="-157" font-family="SegoeUI" font-size="10.00"> string &gt;</text>
-<polyline fill="none" stroke="black" points="840,-150 940,-150 "/>
-<text text-anchor="start" x="848" y="-138" font-family="SegoeUI" font-size="10.00">+ Value</text>
-<polyline fill="none" stroke="black" points="840,-131 940,-131 "/>
-<text text-anchor="start" x="848" y="-119" font-family="SegoeUI" font-size="10.00">+ EventArgs()</text>
+<polygon fill="white" stroke="black" points="853,-112 853,-180 953,-180 953,-112 853,-112"/>
+<text text-anchor="start" x="861" y="-168" font-family="SegoeUI" font-size="10.00">Juniper.EventArgs&lt;</text>
+<text text-anchor="middle" x="903" y="-157" font-family="SegoeUI" font-size="10.00"> int &gt;</text>
+<polyline fill="none" stroke="black" points="853,-150 953,-150 "/>
+<text text-anchor="start" x="861" y="-138" font-family="SegoeUI" font-size="10.00">+ Value</text>
+<polyline fill="none" stroke="black" points="853,-131 953,-131 "/>
+<text text-anchor="start" x="861" y="-119" font-family="SegoeUI" font-size="10.00">+ EventArgs()</text>
 </a>
 </g>
 </g>
 <!-- Node0&#45;&gt;Node8 -->
 <g id="edge8" class="edge"><title>Node0&#45;&gt;Node8</title>
-<path fill="none" stroke="orange" d="M807.827,-226.387C823.069,-211.662 840.763,-194.568 855.82,-180.021"/>
-<polygon fill="orange" stroke="orange" points="805.325,-223.938 800.565,-233.404 810.188,-228.973 805.325,-223.938"/>
-<text text-anchor="middle" x="854.5" y="-207" font-family="SegoeUI" font-size="10.00"> &lt; string &gt;</text>
+<path fill="none" stroke="orange" d="M828.865,-225.985C842.6,-211.352 858.477,-194.436 872.006,-180.021"/>
+<polygon fill="orange" stroke="orange" points="826.193,-223.717 821.902,-233.404 831.297,-228.508 826.193,-223.717"/>
+<text text-anchor="middle" x="867" y="-207" font-family="SegoeUI" font-size="10.00"> &lt; int &gt;</text>
 </g>
 <!-- Node10 -->
 <g id="node11" class="node"><title>Node10</title>
 <g id="a_node11"><a xlink:href="../../df/d96/class_juniper_1_1_event_args.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="958,-112 958,-180 1058,-180 1058,-112 958,-112"/>
-<text text-anchor="start" x="966" y="-168" font-family="SegoeUI" font-size="10.00">Juniper.EventArgs&lt;</text>
-<text text-anchor="middle" x="1008" y="-157" font-family="SegoeUI" font-size="10.00"> LatLngPoint &gt;</text>
-<polyline fill="none" stroke="black" points="958,-150 1058,-150 "/>
-<text text-anchor="start" x="966" y="-138" font-family="SegoeUI" font-size="10.00">+ Value</text>
-<polyline fill="none" stroke="black" points="958,-131 1058,-131 "/>
-<text text-anchor="start" x="966" y="-119" font-family="SegoeUI" font-size="10.00">+ EventArgs()</text>
+<polygon fill="white" stroke="black" points="971,-112 971,-180 1071,-180 1071,-112 971,-112"/>
+<text text-anchor="start" x="979" y="-168" font-family="SegoeUI" font-size="10.00">Juniper.EventArgs&lt;</text>
+<text text-anchor="middle" x="1021" y="-157" font-family="SegoeUI" font-size="10.00"> string &gt;</text>
+<polyline fill="none" stroke="black" points="971,-150 1071,-150 "/>
+<text text-anchor="start" x="979" y="-138" font-family="SegoeUI" font-size="10.00">+ Value</text>
+<polyline fill="none" stroke="black" points="971,-131 1071,-131 "/>
+<text text-anchor="start" x="979" y="-119" font-family="SegoeUI" font-size="10.00">+ EventArgs()</text>
 </a>
 </g>
 </g>
 <!-- Node0&#45;&gt;Node10 -->
 <g id="edge10" class="edge"><title>Node0&#45;&gt;Node10</title>
-<path fill="none" stroke="orange" d="M841.162,-235.262C874.461,-221.978 914.543,-204.658 949,-186 952.455,-184.129 955.968,-182.117 959.471,-180.027"/>
-<polygon fill="orange" stroke="orange" points="839.525,-232.145 831.511,-239.075 842.097,-238.655 839.525,-232.145"/>
-<text text-anchor="middle" x="948" y="-207" font-family="SegoeUI" font-size="10.00"> &lt; LatLngPoint &gt;</text>
+<path fill="none" stroke="orange" d="M864.741,-232.88C895.1,-219.717 930.885,-203.169 962,-186 965.333,-184.161 968.723,-182.196 972.109,-180.161"/>
+<polygon fill="orange" stroke="orange" points="863.307,-229.687 855.504,-236.854 866.073,-236.117 863.307,-229.687"/>
+<text text-anchor="middle" x="950.5" y="-207" font-family="SegoeUI" font-size="10.00"> &lt; string &gt;</text>
 </g>
 <!-- Node12 -->
 <g id="node13" class="node"><title>Node12</title>
 <g id="a_node13"><a xlink:href="../../df/d96/class_juniper_1_1_event_args.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="1086,-112 1086,-180 1186,-180 1186,-112 1086,-112"/>
-<text text-anchor="start" x="1094" y="-168" font-family="SegoeUI" font-size="10.00">Juniper.EventArgs&lt;</text>
-<text text-anchor="middle" x="1136" y="-157" font-family="SegoeUI" font-size="10.00"> Exception &gt;</text>
-<polyline fill="none" stroke="black" points="1086,-150 1186,-150 "/>
-<text text-anchor="start" x="1094" y="-138" font-family="SegoeUI" font-size="10.00">+ Value</text>
-<polyline fill="none" stroke="black" points="1086,-131 1186,-131 "/>
-<text text-anchor="start" x="1094" y="-119" font-family="SegoeUI" font-size="10.00">+ EventArgs()</text>
+<polygon fill="white" stroke="black" points="1089,-112 1089,-180 1189,-180 1189,-112 1089,-112"/>
+<text text-anchor="start" x="1097" y="-168" font-family="SegoeUI" font-size="10.00">Juniper.EventArgs&lt;</text>
+<text text-anchor="middle" x="1139" y="-157" font-family="SegoeUI" font-size="10.00"> LatLngPoint &gt;</text>
+<polyline fill="none" stroke="black" points="1089,-150 1189,-150 "/>
+<text text-anchor="start" x="1097" y="-138" font-family="SegoeUI" font-size="10.00">+ Value</text>
+<polyline fill="none" stroke="black" points="1089,-131 1189,-131 "/>
+<text text-anchor="start" x="1097" y="-119" font-family="SegoeUI" font-size="10.00">+ EventArgs()</text>
 </a>
 </g>
 </g>
 <!-- Node0&#45;&gt;Node12 -->
 <g id="edge12" class="edge"><title>Node0&#45;&gt;Node12</title>
-<path fill="none" stroke="orange" d="M841.503,-250.774C902.877,-240.03 993.736,-219.879 1067,-186 1073.24,-183.112 1079.68,-179.865 1086,-176.508"/>
-<polygon fill="orange" stroke="orange" points="840.8,-247.343 831.535,-252.481 841.982,-254.242 840.8,-247.343"/>
-<text text-anchor="middle" x="1054" y="-207" font-family="SegoeUI" font-size="10.00"> &lt; Exception &gt;</text>
+<path fill="none" stroke="orange" d="M865.639,-249.562C924.583,-238.27 1010.35,-217.991 1080,-186 1083.91,-184.206 1087.85,-182.174 1091.74,-180.002"/>
+<polygon fill="orange" stroke="orange" points="864.868,-246.146 855.686,-251.432 866.161,-253.025 864.868,-246.146"/>
+<text text-anchor="middle" x="1072" y="-207" font-family="SegoeUI" font-size="10.00"> &lt; LatLngPoint &gt;</text>
 </g>
 <!-- Node14 -->
 <g id="node15" class="node"><title>Node14</title>
 <g id="a_node15"><a xlink:href="../../df/d96/class_juniper_1_1_event_args.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="1222,-112 1222,-180 1322,-180 1322,-112 1222,-112"/>
-<text text-anchor="start" x="1230" y="-168" font-family="SegoeUI" font-size="10.00">Juniper.EventArgs&lt;</text>
-<text text-anchor="middle" x="1272" y="-157" font-family="SegoeUI" font-size="10.00"> DataMessage &gt;</text>
-<polyline fill="none" stroke="black" points="1222,-150 1322,-150 "/>
-<text text-anchor="start" x="1230" y="-138" font-family="SegoeUI" font-size="10.00">+ Value</text>
-<polyline fill="none" stroke="black" points="1222,-131 1322,-131 "/>
-<text text-anchor="start" x="1230" y="-119" font-family="SegoeUI" font-size="10.00">+ EventArgs()</text>
+<polygon fill="white" stroke="black" points="1217,-112 1217,-180 1317,-180 1317,-112 1217,-112"/>
+<text text-anchor="start" x="1225" y="-168" font-family="SegoeUI" font-size="10.00">Juniper.EventArgs&lt;</text>
+<text text-anchor="middle" x="1267" y="-157" font-family="SegoeUI" font-size="10.00"> Exception &gt;</text>
+<polyline fill="none" stroke="black" points="1217,-150 1317,-150 "/>
+<text text-anchor="start" x="1225" y="-138" font-family="SegoeUI" font-size="10.00">+ Value</text>
+<polyline fill="none" stroke="black" points="1217,-131 1317,-131 "/>
+<text text-anchor="start" x="1225" y="-119" font-family="SegoeUI" font-size="10.00">+ EventArgs()</text>
 </a>
 </g>
 </g>
 <!-- Node0&#45;&gt;Node14 -->
 <g id="edge14" class="edge"><title>Node0&#45;&gt;Node14</title>
-<path fill="none" stroke="orange" d="M841.885,-256.882C927.614,-249.982 1076.19,-231.966 1195,-186 1203.8,-182.594 1212.94,-178.502 1221.71,-174.268"/>
-<polygon fill="orange" stroke="orange" points="841.446,-253.405 831.748,-257.67 841.989,-260.384 841.446,-253.405"/>
-<text text-anchor="middle" x="1180" y="-207" font-family="SegoeUI" font-size="10.00"> &lt; DataMessage &gt;</text>
+<path fill="none" stroke="orange" d="M865.836,-257.842C948.415,-251.918 1088.47,-234.894 1198,-186 1204.16,-183.252 1210.48,-180.127 1216.69,-176.87"/>
+<polygon fill="orange" stroke="orange" points="865.547,-254.353 855.809,-258.527 866.025,-261.337 865.547,-254.353"/>
+<text text-anchor="middle" x="1179" y="-207" font-family="SegoeUI" font-size="10.00"> &lt; Exception &gt;</text>
+</g>
+<!-- Node16 -->
+<g id="node17" class="node"><title>Node16</title>
+<g id="a_node17"><a xlink:href="../../df/d96/class_juniper_1_1_event_args.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="1358,-112 1358,-180 1458,-180 1458,-112 1358,-112"/>
+<text text-anchor="start" x="1366" y="-168" font-family="SegoeUI" font-size="10.00">Juniper.EventArgs&lt;</text>
+<text text-anchor="middle" x="1408" y="-157" font-family="SegoeUI" font-size="10.00"> DataMessage &gt;</text>
+<polyline fill="none" stroke="black" points="1358,-150 1458,-150 "/>
+<text text-anchor="start" x="1366" y="-138" font-family="SegoeUI" font-size="10.00">+ Value</text>
+<polyline fill="none" stroke="black" points="1358,-131 1458,-131 "/>
+<text text-anchor="start" x="1366" y="-119" font-family="SegoeUI" font-size="10.00">+ EventArgs()</text>
+</a>
+</g>
+</g>
+<!-- Node0&#45;&gt;Node16 -->
+<g id="edge16" class="edge"><title>Node0&#45;&gt;Node16</title>
+<path fill="none" stroke="orange" d="M865.587,-260.287C969.057,-257.223 1168.21,-243.552 1326,-186 1336.51,-182.165 1347.5,-177.457 1357.9,-172.656"/>
+<polygon fill="orange" stroke="orange" points="865.475,-256.789 855.574,-260.56 865.666,-263.787 865.475,-256.789"/>
+<text text-anchor="middle" x="1297" y="-207" font-family="SegoeUI" font-size="10.00"> &lt; DataMessage &gt;</text>
 </g>
 <!-- Node1 -->
 <g id="node2" class="node"><title>Node1</title>
 <g id="a_node2"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="742.5,-328.5 742.5,-385.5 801.5,-385.5 801.5,-328.5 742.5,-328.5"/>
-<text text-anchor="middle" x="772" y="-373.5" font-family="SegoeUI" font-size="10.00">EventArgs</text>
-<polyline fill="none" stroke="#bfbfbf" points="742.5,-366.5 801.5,-366.5 "/>
-<text text-anchor="middle" x="772" y="-354.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="#bfbfbf" points="742.5,-347.5 801.5,-347.5 "/>
-<text text-anchor="middle" x="772" y="-335.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polygon fill="white" stroke="#bfbfbf" points="766.5,-328.5 766.5,-385.5 825.5,-385.5 825.5,-328.5 766.5,-328.5"/>
+<text text-anchor="middle" x="796" y="-373.5" font-family="SegoeUI" font-size="10.00">EventArgs</text>
+<polyline fill="none" stroke="#bfbfbf" points="766.5,-366.5 825.5,-366.5 "/>
+<text text-anchor="middle" x="796" y="-354.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="#bfbfbf" points="766.5,-347.5 825.5,-347.5 "/>
+<text text-anchor="middle" x="796" y="-335.5" font-family="SegoeUI" font-size="10.00"> </text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node0 -->
 <g id="edge1" class="edge"><title>Node1&#45;&gt;Node0</title>
-<path fill="none" stroke="midnightblue" d="M772,-318.235C772,-309.028 772,-299.346 772,-290.705"/>
-<polygon fill="none" stroke="midnightblue" points="768.5,-318.349 772,-328.349 775.5,-318.349 768.5,-318.349"/>
+<path fill="none" stroke="midnightblue" d="M796,-318.235C796,-309.028 796,-299.346 796,-290.705"/>
+<polygon fill="none" stroke="midnightblue" points="792.5,-318.349 796,-328.349 799.5,-318.349 792.5,-318.349"/>
 </g>
-<!-- Node7 -->
-<g id="node8" class="node"><title>Node7</title>
-<g id="a_node8"><a xlink:href="../../db/dc2/class_juniper_1_1_integer_event_args.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="666,-6 666,-63 790,-63 790,-6 666,-6"/>
-<text text-anchor="middle" x="728" y="-51" font-family="SegoeUI" font-size="10.00">Juniper.IntegerEventArgs</text>
-<polyline fill="none" stroke="black" points="666,-44 790,-44 "/>
-<text text-anchor="middle" x="728" y="-32" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="666,-25 790,-25 "/>
-<text text-anchor="start" x="674" y="-13" font-family="SegoeUI" font-size="10.00">+ IntegerEventArgs()</text>
+<!-- Node5 -->
+<g id="node6" class="node"><title>Node5</title>
+<g id="a_node6"><a xlink:href="../../df/ddd/class_juniper_1_1_input_1_1_key_change_event.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="367,-6 367,-63 513,-63 513,-6 367,-6"/>
+<text text-anchor="middle" x="440" y="-51" font-family="SegoeUI" font-size="10.00">Juniper.Input.KeyChangeEvent</text>
+<polyline fill="none" stroke="black" points="367,-44 513,-44 "/>
+<text text-anchor="start" x="375" y="-32" font-family="SegoeUI" font-size="10.00">+ State</text>
+<polyline fill="none" stroke="black" points="367,-25 513,-25 "/>
+<text text-anchor="start" x="375" y="-13" font-family="SegoeUI" font-size="10.00">+ KeyChangeEvent()</text>
 </a>
 </g>
 </g>
-<!-- Node6&#45;&gt;Node7 -->
-<g id="edge7" class="edge"><title>Node6&#45;&gt;Node7</title>
-<path fill="none" stroke="midnightblue" d="M754.894,-102.43C749.573,-89.187 743.849,-74.942 739.055,-63.0122"/>
-<polygon fill="none" stroke="midnightblue" points="751.703,-103.875 758.679,-111.849 758.198,-101.265 751.703,-103.875"/>
+<!-- Node4&#45;&gt;Node5 -->
+<g id="edge5" class="edge"><title>Node4&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M440,-107.199C440,-92.7168 440,-76.4787 440,-63.1226"/>
+<polygon fill="none" stroke="midnightblue" points="436.5,-107.368 440,-117.369 443.5,-107.369 436.5,-107.368"/>
 </g>
 <!-- Node9 -->
 <g id="node10" class="node"><title>Node9</title>
-<g id="a_node10"><a xlink:href="../../d6/d09/class_juniper_1_1_string_event_args.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="808.5,-0.5 808.5,-68.5 927.5,-68.5 927.5,-0.5 808.5,-0.5"/>
-<text text-anchor="middle" x="868" y="-56.5" font-family="SegoeUI" font-size="10.00">Juniper.StringEventArgs</text>
-<polyline fill="none" stroke="black" points="808.5,-49.5 927.5,-49.5 "/>
-<text text-anchor="middle" x="868" y="-37.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="808.5,-30.5 927.5,-30.5 "/>
-<text text-anchor="start" x="816.5" y="-18.5" font-family="SegoeUI" font-size="10.00">+ StringEventArgs()</text>
-<text text-anchor="start" x="816.5" y="-7.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
+<g id="a_node10"><a xlink:href="../../db/dc2/class_juniper_1_1_integer_event_args.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="797,-6 797,-63 921,-63 921,-6 797,-6"/>
+<text text-anchor="middle" x="859" y="-51" font-family="SegoeUI" font-size="10.00">Juniper.IntegerEventArgs</text>
+<polyline fill="none" stroke="black" points="797,-44 921,-44 "/>
+<text text-anchor="middle" x="859" y="-32" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="797,-25 921,-25 "/>
+<text text-anchor="start" x="805" y="-13" font-family="SegoeUI" font-size="10.00">+ IntegerEventArgs()</text>
 </a>
 </g>
 </g>
 <!-- Node8&#45;&gt;Node9 -->
 <g id="edge9" class="edge"><title>Node8&#45;&gt;Node9</title>
-<path fill="none" stroke="midnightblue" d="M881.341,-101.901C879.111,-90.803 876.747,-79.0352 874.638,-68.5381"/>
-<polygon fill="none" stroke="midnightblue" points="877.938,-102.735 883.34,-111.849 884.801,-101.356 877.938,-102.735"/>
+<path fill="none" stroke="midnightblue" d="M885.894,-102.43C880.573,-89.187 874.849,-74.942 870.055,-63.0122"/>
+<polygon fill="none" stroke="midnightblue" points="882.703,-103.875 889.679,-111.849 889.198,-101.265 882.703,-103.875"/>
 </g>
 <!-- Node11 -->
 <g id="node12" class="node"><title>Node11</title>
-<g id="a_node12"><a xlink:href="../../d7/d61/class_juniper_1_1_world_1_1_g_i_s_1_1_lat_lng_point_event_args.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="945.5,-0.5 945.5,-68.5 1070.5,-68.5 1070.5,-0.5 945.5,-0.5"/>
-<text text-anchor="start" x="953.5" y="-56.5" font-family="SegoeUI" font-size="10.00">Juniper.World.GIS.LatLng</text>
-<text text-anchor="middle" x="1008" y="-45.5" font-family="SegoeUI" font-size="10.00">PointEventArgs</text>
-<polyline fill="none" stroke="black" points="945.5,-38.5 1070.5,-38.5 "/>
-<text text-anchor="middle" x="1008" y="-26.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="945.5,-19.5 1070.5,-19.5 "/>
-<text text-anchor="start" x="953.5" y="-7.5" font-family="SegoeUI" font-size="10.00">+ LatLngPointEventArgs()</text>
+<g id="a_node12"><a xlink:href="../../d6/d09/class_juniper_1_1_string_event_args.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="939.5,-0.5 939.5,-68.5 1058.5,-68.5 1058.5,-0.5 939.5,-0.5"/>
+<text text-anchor="middle" x="999" y="-56.5" font-family="SegoeUI" font-size="10.00">Juniper.StringEventArgs</text>
+<polyline fill="none" stroke="black" points="939.5,-49.5 1058.5,-49.5 "/>
+<text text-anchor="middle" x="999" y="-37.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="939.5,-30.5 1058.5,-30.5 "/>
+<text text-anchor="start" x="947.5" y="-18.5" font-family="SegoeUI" font-size="10.00">+ StringEventArgs()</text>
+<text text-anchor="start" x="947.5" y="-7.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
 </a>
 </g>
 </g>
 <!-- Node10&#45;&gt;Node11 -->
 <g id="edge11" class="edge"><title>Node10&#45;&gt;Node11</title>
-<path fill="none" stroke="midnightblue" d="M1008,-101.561C1008,-90.563 1008,-78.9281 1008,-68.5381"/>
-<polygon fill="none" stroke="midnightblue" points="1004.5,-101.849 1008,-111.849 1011.5,-101.849 1004.5,-101.849"/>
+<path fill="none" stroke="midnightblue" d="M1012.34,-101.901C1010.11,-90.803 1007.75,-79.0352 1005.64,-68.5381"/>
+<polygon fill="none" stroke="midnightblue" points="1008.94,-102.735 1014.34,-111.849 1015.8,-101.356 1008.94,-102.735"/>
 </g>
 <!-- Node13 -->
 <g id="node14" class="node"><title>Node13</title>
-<g id="a_node14"><a xlink:href="../../d1/df3/class_juniper_1_1_error_event_args.html" target="_top" xlink:title="An encapsulated Exception for passing to an ErrorHandler.">
-<polygon fill="white" stroke="black" points="1088.5,-0.5 1088.5,-68.5 1203.5,-68.5 1203.5,-0.5 1088.5,-0.5"/>
-<text text-anchor="middle" x="1146" y="-56.5" font-family="SegoeUI" font-size="10.00">Juniper.ErrorEventArgs</text>
-<polyline fill="none" stroke="black" points="1088.5,-49.5 1203.5,-49.5 "/>
-<text text-anchor="middle" x="1146" y="-37.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="1088.5,-30.5 1203.5,-30.5 "/>
-<text text-anchor="start" x="1096.5" y="-18.5" font-family="SegoeUI" font-size="10.00">+ ErrorEventArgs()</text>
-<text text-anchor="start" x="1096.5" y="-7.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
+<g id="a_node14"><a xlink:href="../../d7/d61/class_juniper_1_1_world_1_1_g_i_s_1_1_lat_lng_point_event_args.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="1076.5,-0.5 1076.5,-68.5 1201.5,-68.5 1201.5,-0.5 1076.5,-0.5"/>
+<text text-anchor="start" x="1084.5" y="-56.5" font-family="SegoeUI" font-size="10.00">Juniper.World.GIS.LatLng</text>
+<text text-anchor="middle" x="1139" y="-45.5" font-family="SegoeUI" font-size="10.00">PointEventArgs</text>
+<polyline fill="none" stroke="black" points="1076.5,-38.5 1201.5,-38.5 "/>
+<text text-anchor="middle" x="1139" y="-26.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="1076.5,-19.5 1201.5,-19.5 "/>
+<text text-anchor="start" x="1084.5" y="-7.5" font-family="SegoeUI" font-size="10.00">+ LatLngPointEventArgs()</text>
 </a>
 </g>
 </g>
 <!-- Node12&#45;&gt;Node13 -->
 <g id="edge13" class="edge"><title>Node12&#45;&gt;Node13</title>
-<path fill="none" stroke="midnightblue" d="M1139.97,-101.561C1140.97,-90.563 1142.03,-78.9281 1142.98,-68.5381"/>
-<polygon fill="none" stroke="midnightblue" points="1136.45,-101.572 1139.03,-111.849 1143.42,-102.209 1136.45,-101.572"/>
+<path fill="none" stroke="midnightblue" d="M1139,-101.561C1139,-90.563 1139,-78.9281 1139,-68.5381"/>
+<polygon fill="none" stroke="midnightblue" points="1135.5,-101.849 1139,-111.849 1142.5,-101.849 1135.5,-101.849"/>
 </g>
 <!-- Node15 -->
 <g id="node16" class="node"><title>Node15</title>
-<g id="a_node16"><a xlink:href="../../db/d61/class_juniper_1_1_h_t_t_p_1_1_data_message_event_args.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="1222,-0.5 1222,-68.5 1356,-68.5 1356,-0.5 1222,-0.5"/>
-<text text-anchor="start" x="1230" y="-56.5" font-family="SegoeUI" font-size="10.00">Juniper.HTTP.DataMessage</text>
-<text text-anchor="middle" x="1289" y="-45.5" font-family="SegoeUI" font-size="10.00">EventArgs</text>
-<polyline fill="none" stroke="black" points="1222,-38.5 1356,-38.5 "/>
-<text text-anchor="middle" x="1289" y="-26.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="1222,-19.5 1356,-19.5 "/>
-<text text-anchor="start" x="1230" y="-7.5" font-family="SegoeUI" font-size="10.00">+ DataMessageEventArgs()</text>
+<g id="a_node16"><a xlink:href="../../d1/df3/class_juniper_1_1_error_event_args.html" target="_top" xlink:title="An encapsulated Exception for passing to an ErrorHandler.">
+<polygon fill="white" stroke="black" points="1219.5,-0.5 1219.5,-68.5 1334.5,-68.5 1334.5,-0.5 1219.5,-0.5"/>
+<text text-anchor="middle" x="1277" y="-56.5" font-family="SegoeUI" font-size="10.00">Juniper.ErrorEventArgs</text>
+<polyline fill="none" stroke="black" points="1219.5,-49.5 1334.5,-49.5 "/>
+<text text-anchor="middle" x="1277" y="-37.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="1219.5,-30.5 1334.5,-30.5 "/>
+<text text-anchor="start" x="1227.5" y="-18.5" font-family="SegoeUI" font-size="10.00">+ ErrorEventArgs()</text>
+<text text-anchor="start" x="1227.5" y="-7.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
 </a>
 </g>
 </g>
 <!-- Node14&#45;&gt;Node15 -->
 <g id="edge15" class="edge"><title>Node14&#45;&gt;Node15</title>
-<path fill="none" stroke="midnightblue" d="M1278.69,-101.901C1280.41,-90.803 1282.24,-79.0352 1283.87,-68.5381"/>
-<polygon fill="none" stroke="midnightblue" points="1275.22,-101.431 1277.15,-111.849 1282.14,-102.505 1275.22,-101.431"/>
+<path fill="none" stroke="midnightblue" d="M1270.97,-101.561C1271.97,-90.563 1273.03,-78.9281 1273.98,-68.5381"/>
+<polygon fill="none" stroke="midnightblue" points="1267.45,-101.572 1270.03,-111.849 1274.42,-102.209 1267.45,-101.572"/>
+</g>
+<!-- Node17 -->
+<g id="node18" class="node"><title>Node17</title>
+<g id="a_node18"><a xlink:href="../../db/d61/class_juniper_1_1_h_t_t_p_1_1_data_message_event_args.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="1353,-0.5 1353,-68.5 1487,-68.5 1487,-0.5 1353,-0.5"/>
+<text text-anchor="start" x="1361" y="-56.5" font-family="SegoeUI" font-size="10.00">Juniper.HTTP.DataMessage</text>
+<text text-anchor="middle" x="1420" y="-45.5" font-family="SegoeUI" font-size="10.00">EventArgs</text>
+<polyline fill="none" stroke="black" points="1353,-38.5 1487,-38.5 "/>
+<text text-anchor="middle" x="1420" y="-26.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="1353,-19.5 1487,-19.5 "/>
+<text text-anchor="start" x="1361" y="-7.5" font-family="SegoeUI" font-size="10.00">+ DataMessageEventArgs()</text>
+</a>
+</g>
+</g>
+<!-- Node16&#45;&gt;Node17 -->
+<g id="edge17" class="edge"><title>Node16&#45;&gt;Node17</title>
+<path fill="none" stroke="midnightblue" d="M1412.72,-101.901C1413.94,-90.803 1415.23,-79.0352 1416.38,-68.5381"/>
+<polygon fill="none" stroke="midnightblue" points="1409.24,-101.527 1411.63,-111.849 1416.2,-102.29 1409.24,-101.527"/>
 </g>
 </g>
 </svg>

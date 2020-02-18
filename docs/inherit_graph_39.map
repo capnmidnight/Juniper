@@ -1,4 +1,10 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$df/d96/class_juniper_1_1_event_args.html" title=" " alt="" coords="5,5,139,47"/>
-<area shape="rect" id="node2" href="$d7/d61/class_juniper_1_1_world_1_1_g_i_s_1_1_lat_lng_point_event_args.html" title=" " alt="" coords="187,5,353,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,137,84,163"/>
+<area shape="rect" id="node2" href="$df/d96/class_juniper_1_1_event_args.html" title=" " alt="" coords="132,137,291,163"/>
+<area shape="rect" id="node3" href="$d4/d45/class_juniper_1_1_animation_1_1_transition_value_changed_event_args.html" title="Changes in the transition value can be captured in other scripts by subscribing to the ValueChanged e..." alt="" coords="359,5,545,47"/>
+<area shape="rect" id="node4" href="$db/dc5/class_juniper_1_1_image_tracking_1_1_tracking_state_change_event_args.html" title="Event arguments for AR tracked objects coming into and out of view." alt="" coords="349,71,555,112"/>
+<area shape="rect" id="node5" href="$df/d1e/class_juniper_1_1_input_1_1_key_event.html" title=" " alt="" coords="377,137,527,163"/>
+<area shape="rect" id="node7" href="$db/d95/class_juniper_1_1_input_1_1_pointer_found_event_args.html" title="An event argument type for passing on the pointer that was found." alt="" coords="365,188,539,229"/>
+<area shape="rect" id="node8" href="$d8/dcf/class_juniper_1_1_speech_1_1_keyword_recognized_event_args.html" title="Provides the keyword that was recognized in a speech recognition event." alt="" coords="339,253,565,295"/>
+<area shape="rect" id="node6" href="$df/ddd/class_juniper_1_1_input_1_1_key_change_event.html" title=" " alt="" coords="613,137,808,163"/>
 </map>

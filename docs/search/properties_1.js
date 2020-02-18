@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['back',['Back',['../d4/d33/struct_juniper_1_1_puzzles_1_1_tile.html#a6ab6d42ab503d63bf5232def23c1c375',1,'Juniper::Puzzles::Tile']]],
   ['backgroundcolor',['BackgroundColor',['../db/d51/class_juniper_1_1_display_1_1_abstract_display_manager.html#ab6baf92b0e77710725da3bae4eacdb31',1,'Juniper.Display.AbstractDisplayManager.BackgroundColor()'],['../da/de9/class_juniper_1_1_widgets_1_1_list_view_item.html#aa42312120a58c0f65e15f29beaa3baac',1,'Juniper.Widgets.ListViewItem.BackgroundColor()']]],
   ['bandwidth',['BandWidth',['../da/d75/class_juniper_1_1_sound_1_1_beats_1_1_beat_detector.html#ad1f249d8bbb4847e24b14e6cbb81e417',1,'Juniper::Sound::Beats::BeatDetector']]],
   ['basestream',['BaseStream',['../d5/d25/class_juniper_1_1_i_o_1_1_progress_stream.html#aea96aac6648f037377b3335fe63c615f',1,'Juniper::IO::ProgressStream']]],

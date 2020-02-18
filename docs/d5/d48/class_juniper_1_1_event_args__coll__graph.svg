@@ -9,8 +9,8 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 156)">
 <title>Juniper.EventArgs&lt; T &gt;</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-156 123,-156 123,4 -4,4"/>
-<!-- Node16 -->
-<g id="node1" class="node"><title>Node16</title>
+<!-- Node18 -->
+<g id="node1" class="node"><title>Node18</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-57.5 119,-57.5 119,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="59.5" y="-45.5" font-family="SegoeUI" font-size="10.00">Juniper.EventArgs&lt; T &gt;</text>
@@ -21,8 +21,8 @@
 </a>
 </g>
 </g>
-<!-- Node17 -->
-<g id="node2" class="node"><title>Node17</title>
+<!-- Node19 -->
+<g id="node2" class="node"><title>Node19</title>
 <g id="a_node2"><a xlink:title=" ">
 <polygon fill="white" stroke="#bfbfbf" points="30,-94.5 30,-151.5 89,-151.5 89,-94.5 30,-94.5"/>
 <text text-anchor="middle" x="59.5" y="-139.5" font-family="SegoeUI" font-size="10.00">EventArgs</text>
@@ -33,8 +33,8 @@
 </a>
 </g>
 </g>
-<!-- Node17&#45;&gt;Node16 -->
-<g id="edge1" class="edge"><title>Node17&#45;&gt;Node16</title>
+<!-- Node19&#45;&gt;Node18 -->
+<g id="edge1" class="edge"><title>Node19&#45;&gt;Node18</title>
 <path fill="none" stroke="midnightblue" d="M59.5,-84.2092C59.5,-75.2929 59.5,-65.9513 59.5,-57.5836"/>
 <polygon fill="none" stroke="midnightblue" points="56.0001,-84.3969 59.5,-94.397 63.0001,-84.397 56.0001,-84.3969"/>
 </g>

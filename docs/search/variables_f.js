@@ -78,7 +78,7 @@ var searchData=
   ['optionalpackagetable',['optionalPackageTable',['../dd/da0/class_juniper_1_1_configuration_management_1_1_juniper_optional_package_manager.html#af313bd9badf5faad043d558eed4dca0d',1,'Juniper::ConfigurationManagement::JuniperOptionalPackageManager']]],
   ['opus',['Opus',['../d3/dec/class_juniper_1_1_media_type_1_1_audio.html#af90a2e4b8c67ab0a453c75c633c4cd70',1,'Juniper::MediaType::Audio']]],
   ['orientation',['orientation',['../d6/d88/class_juniper_1_1_world_1_1_g_i_s_1_1_sun_position.html#a5ca5530b92433efa5daa8854c3ff1f56',1,'Juniper::World::GIS::SunPosition']]],
-  ['origin',['origin',['../de/db8/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_abstract_google_street_view.html#a2dce36731a83e3ddf56a2e51a1f31f5e',1,'Juniper::World::GIS::Google::AbstractGoogleStreetView']]],
+  ['origin',['origin',['../d6/d3e/class_juniper_1_1_input_1_1_abstract_key_event_source.html#a03c4d0eeddf2f8c8d994e119ca523dd5',1,'Juniper.Input.AbstractKeyEventSource.origin()'],['../de/db8/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_abstract_google_street_view.html#a2dce36731a83e3ddf56a2e51a1f31f5e',1,'Juniper.World.GIS.Google.AbstractGoogleStreetView.origin()']]],
   ['oscore',['Oscore',['../d7/d3e/class_juniper_1_1_media_type_1_1_application.html#a5d56372c93ee41c755f01642a88dc30c',1,'Juniper::MediaType::Application']]],
   ['otf',['Otf',['../d0/df4/class_juniper_1_1_media_type_1_1_font.html#a8328e05e924ed9ca6eba8cd5523ff479',1,'Juniper::MediaType::Font']]],
   ['outputhandle',['outputHandle',['../dd/d53/class_juniper_1_1_console_1_1_console_buffer.html#a90500ac86b450daf2bc40fa828312f3f',1,'Juniper::Console::ConsoleBuffer']]],

@@ -190,6 +190,7 @@ var menudata={children:[
 {text:"f",url:"functions_evnt.html#index_f"},
 {text:"g",url:"functions_evnt.html#index_g"},
 {text:"i",url:"functions_evnt.html#index_i"},
+{text:"k",url:"functions_evnt.html#index_k"},
 {text:"l",url:"functions_evnt.html#index_l"},
 {text:"m",url:"functions_evnt.html#index_m"},
 {text:"o",url:"functions_evnt.html#index_o"},

@@ -59,7 +59,6 @@ var searchData=
   ['riff24khz16bitmonopcm',['Riff24KHz16BitMonoPCM',['../d9/d26/class_juniper_1_1_sound_1_1_audio_format.html#acede73349000cf3b251619bbe3453a15',1,'Juniper::Sound::AudioFormat']]],
   ['riff8khz8bitmonoalaw',['Riff8KHz8BitMonoALAW',['../d9/d26/class_juniper_1_1_sound_1_1_audio_format.html#a2bfce4ac05f879cbf8dff663ea423853',1,'Juniper::Sound::AudioFormat']]],
   ['riff8khz8bitmonomulaw',['Riff8KHz8BitMonoMULAW',['../d9/d26/class_juniper_1_1_sound_1_1_audio_format.html#a74d7cf0f54b9b0b45860f24313cd2064',1,'Juniper::Sound::AudioFormat']]],
-  ['right',['Right',['../d0/de7/struct_juniper_1_1_console_1_1_console_buffer_1_1_native_methods_1_1_r_e_c_t.html#a5bbc26f12b9d223d568425b5be9b7d8f',1,'Juniper::Console::ConsoleBuffer::NativeMethods::RECT']]],
   ['rightdownheavyandleftupright',['RightDownHeavyAndLeftUpRight',['../dd/dd1/class_juniper_1_1_unicode_1_1_box_drawing_characters.html#a5a281a75aee74c693b83d9e6b37dbd63',1,'Juniper::Unicode::BoxDrawingCharacters']]],
   ['righthalfblock',['RightHalfBlock',['../d3/da2/class_juniper_1_1_unicode_1_1_box_element_characters.html#ac1381056b020246841a660d1b11983d1',1,'Juniper::Unicode::BoxElementCharacters']]],
   ['rightheavyandleftdownlight',['RightHeavyAndLeftDownLight',['../dd/dd1/class_juniper_1_1_unicode_1_1_box_drawing_characters.html#afbf9240d3300deb99f9b6549bf396e32',1,'Juniper::Unicode::BoxDrawingCharacters']]],

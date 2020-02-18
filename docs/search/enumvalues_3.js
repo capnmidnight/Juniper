@@ -12,7 +12,6 @@ var searchData=
   ['depthfirst',['DepthFirst',['../db/d80/namespace_juniper_1_1_collections.html#a4216ae732d8e686ab213555470efe555aef14bbc82271ba8488c94a6dd351ade3',1,'Juniper::Collections']]],
   ['desktop',['Desktop',['../d7/de5/namespace_juniper_1_1_input.html#af54716af4b3a87b6bca347779ff63f49a2310408a63388fe57e3a4177168a8798',1,'Juniper::Input']]],
   ['directory',['Directory',['../d7/d66/class_juniper_1_1_widgets_1_1_file_selector.html#a11718bc322ddc8d4da6ff00eda048afeae73cda510e8bb947f7e61089e5581494',1,'Juniper::Widgets::FileSelector']]],
-  ['disable_5fnewline_5fauto_5freturn',['DISABLE_NEWLINE_AUTO_RETURN',['../d8/d3a/class_juniper_1_1_console_1_1_console_buffer_1_1_native_methods.html#ac9bd7a42603b72c9d5d59cf027221683a62ddeb25178b66cf603439de5bc49de1',1,'Juniper::Console::ConsoleBuffer::NativeMethods']]],
   ['distance',['Distance',['../d6/ddd/namespace_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aa0aa6f4210bf373c95eda00232e93cd98',1,'Juniper::Units']]],
   ['dragged',['Dragged',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82a62aee9cee47e1c625a3b3805065946b4',1,'Juniper::Input']]],
   ['draggingended',['DraggingEnded',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82a749dcfb81b09aef49af7af77631ae5cf',1,'Juniper::Input']]],

@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['back1',['back1',['../dd/d53/class_juniper_1_1_console_1_1_console_buffer.html#a5bfe13fd121c962388e3f1ca7b3b3dfc',1,'Juniper::Console::ConsoleBuffer']]],
-  ['back2',['back2',['../dd/d53/class_juniper_1_1_console_1_1_console_buffer.html#a0f780d3f13482f7091f0854fa59790ed',1,'Juniper::Console::ConsoleBuffer']]],
   ['background',['background',['../da/dc3/class_juniper_1_1_console_1_1_color_scope.html#a92cb6f7e13cd39e53362cd0ac8317c16',1,'Juniper::Console::ColorScope']]],
   ['bacnet_5fxddzip',['Bacnet_XddZip',['../d7/d3e/class_juniper_1_1_media_type_1_1_application.html#ab7e62228bee008fd43b3300e1d900302',1,'Juniper::MediaType::Application']]],
   ['bandcount',['BandCount',['../d8/d8d/class_juniper_1_1_sound_1_1_beats_1_1_beat_detector_configuration.html#a5b48acf51768de30e89f4418fa1a4f2d',1,'Juniper::Sound::Beats::BeatDetectorConfiguration']]],
@@ -36,7 +34,6 @@ var searchData=
   ['bodyphysics',['BodyPhysics',['../dd/da9/class_juniper_1_1_avatar.html#ad117966b98199776fc00aab0d6ae8ad5',1,'Juniper::Avatar']]],
   ['bodyshape',['bodyShape',['../dd/da9/class_juniper_1_1_avatar.html#ae4286bb05510cec3f52914cf24d1cc3f',1,'Juniper::Avatar']]],
   ['boiling_5fpoint',['BOILING_POINT',['../de/d87/class_juniper_1_1_units_1_1_celsius.html#a7c55fa9d5a01795fbbd001a8939f259a',1,'Juniper.Units.Celsius.BOILING_POINT()'],['../d2/d75/class_juniper_1_1_units_1_1_farenheit.html#ad87c12ba8fc985a0649b80b61beac632',1,'Juniper.Units.Farenheit.BOILING_POINT()'],['../d9/d59/class_juniper_1_1_units_1_1_kelvin.html#a3f9a66cdff89fd0a6388eedc9bf1e711',1,'Juniper.Units.Kelvin.BOILING_POINT()']]],
-  ['bottom',['Bottom',['../d0/de7/struct_juniper_1_1_console_1_1_console_buffer_1_1_native_methods_1_1_r_e_c_t.html#a317210c94ce8b8c2e4e912fab0e6aaf8',1,'Juniper::Console::ConsoleBuffer::NativeMethods::RECT']]],
   ['bounds',['bounds',['../db/d3f/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_geocoding_1_1_geocoding_request.html#aa62e14a1f4bf8d449f280ef7928fe533',1,'Juniper::World::GIS::Google::Geocoding::GeocodingRequest']]],
   ['bpmmidpointweight',['BPMMidPointWeight',['../da/d75/class_juniper_1_1_sound_1_1_beats_1_1_beat_detector.html#a06d0900e949aa4dc18906b0d99786eaa',1,'Juniper::Sound::Beats::BeatDetector']]],
   ['bpms',['bpms',['../da/d75/class_juniper_1_1_sound_1_1_beats_1_1_beat_detector.html#a70b4a9c29dd7109baee2e548eb416694',1,'Juniper::Sound::Beats::BeatDetector']]],

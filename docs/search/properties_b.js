@@ -20,7 +20,6 @@ var searchData=
   ['minimumpointerdistance',['MinimumPointerDistance',['../da/d81/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html#a0e432f39f0add3f1c413696b0374a04f',1,'Juniper.Input.Pointers.AbstractPointerDevice.MinimumPointerDistance()'],['../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a9fcc2b4368ad41ce934c0b0b3dcb72e8',1,'Juniper.Input.Pointers.IPointerDevice.MinimumPointerDistance()']]],
   ['mouseavailable',['MouseAvailable',['../db/d40/class_juniper_1_1_input_1_1_abstract_unified_input_module.html#af20df78439e63244b91ed9ea9aa5b5d1',1,'Juniper::Input::AbstractUnifiedInputModule']]],
   ['mouseenabled',['MouseEnabled',['../db/d40/class_juniper_1_1_input_1_1_abstract_unified_input_module.html#af3e378e2b29479cda21a9ad40feb4dd2',1,'Juniper::Input::AbstractUnifiedInputModule']]],
-  ['mouseinputenabled',['MouseInputEnabled',['../dd/d53/class_juniper_1_1_console_1_1_console_buffer.html#a495d12260567b2f8d0b22e21bfcace05',1,'Juniper::Console::ConsoleBuffer']]],
   ['mouserequestapproved',['MouseRequestApproved',['../db/d40/class_juniper_1_1_input_1_1_abstract_unified_input_module.html#a7709446cc03da7c85d2593831959cef7',1,'Juniper::Input::AbstractUnifiedInputModule']]],
   ['mouserequested',['MouseRequested',['../db/d40/class_juniper_1_1_input_1_1_abstract_unified_input_module.html#a222b25baf470b4e6ec8108958add2584',1,'Juniper::Input::AbstractUnifiedInputModule']]]
 ];

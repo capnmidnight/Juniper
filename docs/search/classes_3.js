@@ -8,7 +8,7 @@ var searchData=
   ['datumwgs_5f84',['DatumWGS_84',['../d5/d97/class_juniper_1_1_world_1_1_g_i_s_1_1_datum_w_g_s__84.html',1,'Juniper::World::GIS']]],
   ['days',['Days',['../d8/d6d/class_juniper_1_1_units_1_1_days.html',1,'Juniper::Units']]],
   ['debugobject',['DebugObject',['../de/d32/class_juniper_1_1_widgets_1_1_debug_object.html',1,'Juniper::Widgets']]],
-  ['decompressor',['Decompressor',['../d8/dc2/class_juniper_1_1_compression_1_1_zip_1_1_decompressor.html',1,'Juniper.Compression.Zip.Decompressor'],['../d3/dd5/class_juniper_1_1_compression_1_1_tar_1_1_g_zip_1_1_decompressor.html',1,'Juniper.Compression.Tar.GZip.Decompressor']]],
+  ['decompressor',['Decompressor',['../d3/dd5/class_juniper_1_1_compression_1_1_tar_1_1_g_zip_1_1_decompressor.html',1,'Juniper.Compression.Tar.GZip.Decompressor'],['../d8/dc2/class_juniper_1_1_compression_1_1_zip_1_1_decompressor.html',1,'Juniper.Compression.Zip.Decompressor']]],
   ['defaultdisplaymanager',['DefaultDisplayManager',['../db/d8a/class_juniper_1_1_display_1_1_default_display_manager.html',1,'Juniper::Display']]],
   ['defaulthaptics',['DefaultHaptics',['../d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html',1,'Juniper::Haptics']]],
   ['defaultinteractionaudio',['DefaultInteractionAudio',['../d3/d8f/class_juniper_1_1_sound_1_1_default_interaction_audio.html',1,'Juniper::Sound']]],

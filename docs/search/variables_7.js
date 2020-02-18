@@ -55,8 +55,6 @@ var searchData=
   ['green',['Green',['../d2/d3a/class_juniper_1_1_ansi_color.html#a81becb4037c4f05c96a73cb6e273df0f',1,'Juniper::AnsiColor']]],
   ['grenderer',['gRenderer',['../de/df1/class_juniper_1_1_ground_1_1_windows_m_r_ground.html#ae9bdb0cac1e981adac21be9f4c243a1a',1,'Juniper::Ground::WindowsMRGround']]],
   ['grid',['grid',['../d7/d4d/class_juniper_1_1_puzzles_1_1_puzzle.html#a8043668ed5ef89529a0124c09d7a5b5b',1,'Juniper::Puzzles::Puzzle']]],
-  ['grid1',['grid1',['../dd/d53/class_juniper_1_1_console_1_1_console_buffer.html#a2571f36f64b369108ad63bcab3f8133b',1,'Juniper::Console::ConsoleBuffer']]],
-  ['grid2',['grid2',['../dd/d53/class_juniper_1_1_console_1_1_console_buffer.html#a256e23b28d93ce845757eaee0b2c7959',1,'Juniper::Console::ConsoleBuffer']]],
   ['ground',['ground',['../d2/d52/class_juniper_1_1_widgets_1_1_quality_degrader.html#a69f9b7030784a4a2682e4427f3ae9f85',1,'Juniper::Widgets::QualityDegrader']]],
   ['grounded',['grounded',['../d7/d9d/class_juniper_1_1_anchoring_1_1_grounded.html#a5e7a7baa9ab00043e750559f7883da3a',1,'Juniper::Anchoring::Grounded']]],
   ['grounder',['grounder',['../dd/da9/class_juniper_1_1_avatar.html#a98b9db1d7ceb428dbfc0fb9974a09605',1,'Juniper::Avatar']]],

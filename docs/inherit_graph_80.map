@@ -1,6 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d0/d7e/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html" title=" " alt="" coords="5,53,245,94"/>
-<area shape="rect" id="node2" href="$d0/d65/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer_configuration.html" title=" " alt="" coords="293,45,521,101"/>
-<area shape="rect" id="node3" href="$d2/d45/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker_configuration.html" title=" " alt="" coords="579,5,798,61"/>
-<area shape="rect" id="node4" href="$da/de2/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_configuration.html" title=" " alt="" coords="569,85,808,141"/>
+<area shape="rect" id="node1" href="$d8/d6c/class_juniper_1_1_input_1_1_abstract_polling_key_event_source.html" title=" " alt="" coords="5,5,189,47"/>
+<area shape="rect" id="node2" href="$d3/dd4/class_juniper_1_1_input_1_1_windows_a_p_i_key_event_source.html" title=" " alt="" coords="237,5,428,47"/>
 </map>

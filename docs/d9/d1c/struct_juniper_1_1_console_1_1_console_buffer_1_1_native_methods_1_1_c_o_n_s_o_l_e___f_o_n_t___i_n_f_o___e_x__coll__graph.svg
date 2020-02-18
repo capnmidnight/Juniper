@@ -37,7 +37,7 @@
 <text text-anchor="start" x="9.5" y="-208.5" font-family="SegoeUI" font-size="10.00">+ X</text>
 <text text-anchor="start" x="9.5" y="-197.5" font-family="SegoeUI" font-size="10.00">+ Y</text>
 <polyline fill="none" stroke="black" points="1.5,-190.5 150.5,-190.5 "/>
-<text text-anchor="start" x="9.5" y="-178.5" font-family="SegoeUI" font-size="10.00">+ COORD()</text>
+<text text-anchor="middle" x="76" y="-178.5" font-family="SegoeUI" font-size="10.00"> </text>
 </a>
 </g>
 </g>

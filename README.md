@@ -44,13 +44,13 @@ Juniper is a framework within Unity 3D for managing and developing virtual, augm
 ───────────────────────────────────────────────────────────────────────────────
 Language                     Files       Lines      Code    Comments     Blanks
 ───────────────────────────────────────────────────────────────────────────────
-C#                             970      107316     75937       17851      13528
+C#                             999      112492     77883       20451      14158
 ───────────────────────────────────────────────────────────────────────────────
-Total                          970      107316     75937       17851      13528
+Total                          999      112492     77883       20451      14158
 ───────────────────────────────────────────────────────────────────────────────
-Estimated Cost to Develop $6,789,043
-Estimated Schedule Effort 21.887589 months
-Estimated People Required 13.785679
+Estimated Cost to Develop $6,971,838
+Estimated Schedule Effort 22.109689 months
+Estimated People Required 14.014647
 ───────────────────────────────────────────────────────────────────────────────
 
 

@@ -21,7 +21,6 @@ var searchData=
   ['deletefirewallrule_2ecs',['DeleteFirewallRule.cs',['../dc/dc5/_net_s_h_2_delete_firewall_rule_8cs.html',1,'(Global Namespace)'],['../d9/db2/_power_shell_2_delete_firewall_rule_8cs.html',1,'(Global Namespace)']]],
   ['deletesslcert_2ecs',['DeleteSslCert.cs',['../d9/d06/_delete_ssl_cert_8cs.html',1,'']]],
   ['detectvideoend_2ecs',['DetectVideoEnd.cs',['../d6/d8a/_detect_video_end_8cs.html',1,'']]],
-  ['development_2emd',['development.md',['../da/d2b/development_8md.html',1,'']]],
   ['device_2ecs',['Device.cs',['../df/d53/_device_8cs.html',1,'']]],
   ['direction_2ecs',['Direction.cs',['../d4/d69/_direction_8cs.html',1,'']]],
   ['directoryext_2ecs',['DirectoryExt.cs',['../d0/dcd/_directory_ext_8cs.html',1,'']]],

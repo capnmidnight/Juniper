@@ -6,6 +6,7 @@ var searchData=
   ['rain_5fand_5fsnow',['RAIN_AND_SNOW',['../da/db4/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_o_w_m_weather.html#ada5e81b1f765dc84c1eb2ec33a105ae6aa2ff831efa8e759dcc0998d9f85d67b6',1,'Juniper::World::Climate::OpenWeatherMap::OWMWeather']]],
   ['range_5finterpolated',['RANGE_INTERPOLATED',['../d7/d19/namespace_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_geocoding.html#ae5f61e95d632d7e8d02dffe642e8db7cab2417b0611914d7d81d05e4c22b496da',1,'Juniper::World::GIS::Google::Geocoding']]],
   ['rating',['rating',['../d9/de3/namespace_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_places.html#ab191fd962a6aa2b24450dd0160a75396a2c5504ab9a86164db22a92dc8793843d',1,'Juniper::World::GIS::Google::Places']]],
+  ['regularbandwidth',['RegularBandwidth',['../d6/ddd/namespace_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aaa30c25ab393d1a329ef6ea0699735099',1,'Juniper::Units']]],
   ['regularfilesize',['RegularFileSize',['../d6/ddd/namespace_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aab29611ce333a560a9b1a6463a98fc88d',1,'Juniper::Units']]],
   ['release',['Release',['../dd/d0e/namespace_juniper_1_1_haptics.html#a033eb0472e5a7d12e4540107db61c90bab8e7b465df7c5979dc731d06e84ce2cf',1,'Juniper::Haptics']]],
   ['released',['Released',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82aea1e34304a5d8ffa7c9b0ed8ede4ef1a',1,'Juniper::Input']]],

@@ -1,3 +1,8 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d3/de3/class_system_1_1_i_async_result_ext.html" title=" " alt="" coords="5,5,163,32"/>
+<area shape="rect" id="node1" href="$d3/d6c/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_abstract_google_maps_request.html" title=" " alt="" coords="5,95,189,151"/>
+<area shape="rect" id="node2" href="$dc/dba/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_geocoding_1_1_abstract_geocoding_request.html" title=" " alt="" coords="237,37,475,79"/>
+<area shape="rect" id="node5" href="$d3/dea/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_places_1_1_place_search_request.html" title=" " alt="" coords="267,103,445,144"/>
+<area shape="rect" id="node6" href="$d4/d13/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_time_zone_1_1_time_zone_request.html" title=" " alt="" coords="263,168,449,209"/>
+<area shape="rect" id="node3" href="$db/d3f/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_geocoding_1_1_geocoding_request.html" title=" " alt="" coords="545,5,736,47"/>
+<area shape="rect" id="node4" href="$db/d0a/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_geocoding_1_1_reverse_geocoding_request.html" title=" " alt="" coords="523,71,759,112"/>
 </map>

@@ -11,9 +11,9 @@
 <polygon fill="white" stroke="none" points="-4,4 -4,-24 109,-24 109,4 -4,4"/>
 <!-- Node0 -->
 <g id="node1" class="node"><title>Node0</title>
-<g id="a_node1"><a xlink:href="dc/d48/class_system_1_1_uri_builder_ext.html" target="_top" xlink:title=" ">
+<g id="a_node1"><a xlink:href="d1/dd6/class_system_1_1_date_time_ext.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="0,-0.5 0,-19.5 105,-19.5 105,-0.5 0,-0.5"/>
-<text text-anchor="middle" x="52.5" y="-7.5" font-family="SegoeUI" font-size="10.00">System.UriBuilderExt</text>
+<text text-anchor="middle" x="52.5" y="-7.5" font-family="SegoeUI" font-size="10.00">System.DateTimeExt</text>
 </a>
 </g>
 </g>

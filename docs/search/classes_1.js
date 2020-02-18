@@ -8,6 +8,7 @@ var searchData=
   ['beatdetectorconfiguration',['BeatDetectorConfiguration',['../d8/d8d/class_juniper_1_1_sound_1_1_beats_1_1_beat_detector_configuration.html',1,'Juniper::Sound::Beats']]],
   ['binaryfactory',['BinaryFactory',['../d7/d35/class_juniper_1_1_i_o_1_1_binary_factory.html',1,'Juniper::IO']]],
   ['bits',['Bits',['../d4/db4/class_juniper_1_1_units_1_1_bits.html',1,'Juniper::Units']]],
+  ['bitspersecond',['BitsPerSecond',['../dd/da5/class_juniper_1_1_units_1_1_bits_per_second.html',1,'Juniper::Units']]],
   ['bodyinfo',['BodyInfo',['../d1/d6c/class_juniper_1_1_h_t_t_p_1_1_body_info.html',1,'Juniper::HTTP']]],
   ['booleanevent',['BooleanEvent',['../dc/d68/class_unity_engine_1_1_events_1_1_boolean_event.html',1,'UnityEngine::Events']]],
   ['boolext',['BoolExt',['../d7/dd6/class_system_1_1_bool_ext.html',1,'System']]],
@@ -22,5 +23,6 @@ var searchData=
   ['buttonmapper',['ButtonMapper',['../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html',1,'Juniper::Input::Pointers']]],
   ['buttonmapper_3c_20virtualtouchpadbuttons_20_3e',['ButtonMapper&lt; VirtualTouchPadButtons &gt;',['../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html',1,'Juniper::Input::Pointers']]],
   ['buttonmapper_3c_20virtualtriggerbutton_20_3e',['ButtonMapper&lt; VirtualTriggerButton &gt;',['../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html',1,'Juniper::Input::Pointers']]],
-  ['bytes',['Bytes',['../d7/d4c/class_juniper_1_1_units_1_1_bytes.html',1,'Juniper::Units']]]
+  ['bytes',['Bytes',['../d7/d4c/class_juniper_1_1_units_1_1_bytes.html',1,'Juniper::Units']]],
+  ['bytespersecond',['BytesPerSecond',['../d4/d6a/class_juniper_1_1_units_1_1_bytes_per_second.html',1,'Juniper::Units']]]
 ];

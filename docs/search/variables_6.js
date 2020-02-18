@@ -55,8 +55,6 @@ var searchData=
   ['for_5floop_5fdelims',['FOR_LOOP_DELIMS',['../d3/d4e/class_juniper_1_1_primrose_1_1_basic_interpreter.html#a09e9a2654833a65d5702f8f82848cd73',1,'Juniper::Primrose::BasicInterpreter']]],
   ['force',['force',['../de/d3b/class_juniper_1_1_input_1_1_rocket_pack.html#a25695c4238d9cebb30dd6bb22cde5d59',1,'Juniper::Input::RocketPack']]],
   ['forcek',['ForceK',['../d6/d76/class_juniper_1_1_widgets_1_1_shaker.html#a88190b813410d86104c39073ada84e9e',1,'Juniper::Widgets::Shaker']]],
-  ['fore1',['fore1',['../dd/d53/class_juniper_1_1_console_1_1_console_buffer.html#aab6aaa147f0fb617f834b122d149ca58',1,'Juniper::Console::ConsoleBuffer']]],
-  ['fore2',['fore2',['../dd/d53/class_juniper_1_1_console_1_1_console_buffer.html#a7e186636a1bba126f0dc030f1251b52c',1,'Juniper::Console::ConsoleBuffer']]],
   ['foreground',['foreground',['../da/dc3/class_juniper_1_1_console_1_1_color_scope.html#a59dc4f75bd0df849de6478c16b10fb64',1,'Juniper::Console::ColorScope']]],
   ['forloopcounters',['forLoopCounters',['../d3/d4e/class_juniper_1_1_primrose_1_1_basic_interpreter.html#a1036d2666be641aefb4b5dd88744bd2c',1,'Juniper::Primrose::BasicInterpreter']]],
   ['form_5fdata',['Form_Data',['../d3/de2/class_juniper_1_1_media_type_1_1_multipart.html#a6da9238cac5b6528e604e6da0c0910f8',1,'Juniper::MediaType::Multipart']]],

@@ -44,10 +44,10 @@ var searchData=
   ['endscale',['endScale',['../d8/d2c/class_juniper_1_1_animation_1_1_spiral_transition.html#a02b33c19a716a0ff8ab08e23a8ffc2fa',1,'Juniper::Animation::SpiralTransition']]],
   ['endvalue',['endValue',['../d7/d7d/class_juniper_1_1_widgets_1_1_rotatable.html#abbfcdd08fd856171c54fd26d03c9efed',1,'Juniper::Widgets::Rotatable']]],
   ['enriched',['Enriched',['../da/da0/class_juniper_1_1_media_type_1_1_text.html#a4d9c6e611a3c8c54f5f7357e957109c9',1,'Juniper::MediaType::Text']]],
-  ['entries',['entries',['../db/d2a/class_juniper_1_1_compression_1_1_tar_1_1_tar_archive.html#a989b942983a14bc5f5b4eb12e8ff7232',1,'Juniper.Compression.Tar.TarArchive.entries()'],['../da/d75/class_juniper_1_1_sound_1_1_beats_1_1_beat_detector.html#a59d1d30977b563ed10604037a3d7baca',1,'Juniper.Sound.Beats.BeatDetector.entries()'],['../db/d2a/class_juniper_1_1_compression_1_1_tar_1_1_tar_archive.html#a348ce82e4493b21051df877a77d505ce',1,'Juniper.Compression.Tar.TarArchive.Entries()']]],
+  ['entries',['Entries',['../db/d2a/class_juniper_1_1_compression_1_1_tar_1_1_tar_archive.html#a348ce82e4493b21051df877a77d505ce',1,'Juniper.Compression.Tar.TarArchive.Entries()'],['../db/d2a/class_juniper_1_1_compression_1_1_tar_1_1_tar_archive.html#a989b942983a14bc5f5b4eb12e8ff7232',1,'Juniper.Compression.Tar.TarArchive.entries()'],['../da/d75/class_juniper_1_1_sound_1_1_beats_1_1_beat_detector.html#a59d1d30977b563ed10604037a3d7baca',1,'Juniper.Sound.Beats.BeatDetector.entries()']]],
   ['entrystream',['entryStream',['../dc/dfa/class_juniper_1_1_compression_1_1_tar_1_1_tar_archive_entry_stream.html#ade819241f44242eb1ece9e886ef6b9bb',1,'Juniper.Compression.Tar.TarArchiveEntryStream.entryStream()'],['../d2/dfa/class_juniper_1_1_compression_1_1_zip_1_1_zip_archive_entry_stream.html#a8f01d7b4490da83627033c07e888c245',1,'Juniper.Compression.Zip.ZipArchiveEntryStream.entryStream()']]],
   ['ephemeralvalue',['EphemeralValue',['../da/d38/class_unity_engine_1_1_abstract_reference.html#a437f7b44e75855772535a349cc313949',1,'UnityEngine::AbstractReference']]],
-  ['epoch',['EPOCH',['../d3/d4e/class_juniper_1_1_primrose_1_1_basic_interpreter.html#aea18f33cf83fe680dc068ae59bd03cb4',1,'Juniper.Primrose.BasicInterpreter.EPOCH()'],['../db/d2a/class_juniper_1_1_compression_1_1_tar_1_1_tar_archive.html#ae435319d18b6c25c2c840a49a9cc65de',1,'Juniper.Compression.Tar.TarArchive.Epoch()'],['../d1/dd6/class_system_1_1_date_time_ext.html#a96841bae1424d7d29d3b5b449be0ac81',1,'System.DateTimeExt.epoch()']]],
+  ['epoch',['Epoch',['../db/d2a/class_juniper_1_1_compression_1_1_tar_1_1_tar_archive.html#ae435319d18b6c25c2c840a49a9cc65de',1,'Juniper.Compression.Tar.TarArchive.Epoch()'],['../d1/dd6/class_system_1_1_date_time_ext.html#a96841bae1424d7d29d3b5b449be0ac81',1,'System.DateTimeExt.epoch()'],['../d3/d4e/class_juniper_1_1_primrose_1_1_basic_interpreter.html#aea18f33cf83fe680dc068ae59bd03cb4',1,'Juniper.Primrose.BasicInterpreter.EPOCH()']]],
   ['eppxml',['EppXml',['../d7/d3e/class_juniper_1_1_media_type_1_1_application.html#a3ae274feeafc1b8bf075a17442b6bd2d',1,'Juniper::MediaType::Application']]],
   ['epubzip',['EpubZip',['../d7/d3e/class_juniper_1_1_media_type_1_1_application.html#aa171d29d714cacd156f0d3beabec7abe',1,'Juniper::MediaType::Application']]],
   ['equal_5fsign',['EQUAL_SIGN',['../d3/d4e/class_juniper_1_1_primrose_1_1_basic_interpreter.html#a320aec024381056b891bbd8443029eaf',1,'Juniper::Primrose::BasicInterpreter']]],
@@ -59,6 +59,7 @@ var searchData=
   ['eshop',['Eshop',['../d7/d3e/class_juniper_1_1_media_type_1_1_application.html#a6f584dea318d2f7c2f42dedd76d3e815',1,'Juniper::MediaType::Application']]],
   ['esq',['esq',['../d5/d97/class_juniper_1_1_world_1_1_g_i_s_1_1_datum_w_g_s__84.html#af04d1dd9857643d89e1c065cecf2e67c',1,'Juniper::World::GIS::DatumWGS_84']]],
   ['eventcam',['eventCam',['../db/d51/class_juniper_1_1_display_1_1_abstract_display_manager.html#af62b5e75d7235c0a911a5da84e30dacf',1,'Juniper::Display::AbstractDisplayManager']]],
+  ['events',['events',['../d6/d3e/class_juniper_1_1_input_1_1_abstract_key_event_source.html#a0af866915c715113ec610ddb20e3e2c8',1,'Juniper::Input::AbstractKeyEventSource']]],
   ['evrc',['EVRC',['../d3/dec/class_juniper_1_1_media_type_1_1_audio.html#ac3c895e07bc5c5646644b0d38ac943a3',1,'Juniper::MediaType::Audio']]],
   ['evrc0',['EVRC0',['../d3/dec/class_juniper_1_1_media_type_1_1_audio.html#a0ae7f3986b452946bb18381b88c92730',1,'Juniper::MediaType::Audio']]],
   ['evrc1',['EVRC1',['../d3/dec/class_juniper_1_1_media_type_1_1_audio.html#a28de2ee39d5b046e4eccd96f16ddedf2',1,'Juniper::MediaType::Audio']]],
@@ -81,6 +82,5 @@ var searchData=
   ['exr',['EXR',['../d4/d89/class_juniper_1_1_media_type_1_1_image.html#ad55030bd28934fdf667372989fb873a7',1,'Juniper::MediaType::Image']]],
   ['exrflags',['exrFlags',['../d6/dc7/class_juniper_1_1_imaging_1_1_unity_texture2_d_codec.html#ac7e82603ddfd8410650b4146425d770d',1,'Juniper::Imaging::UnityTexture2DCodec']]],
   ['extended',['Extended',['../d7/ded/class_juniper_1_1_image_tracking_1_1_abstract_trackable_found_event_handler.html#a5556e14f719ce198cf835f2ee93e5ba6',1,'Juniper::ImageTracking::AbstractTrackableFoundEventHandler']]],
-  ['extendedmodeenabled',['ExtendedModeEnabled',['../dd/d53/class_juniper_1_1_console_1_1_console_buffer.html#ad8e72c40a41447e2eafbf4f54f535bb3',1,'Juniper::Console::ConsoleBuffer']]],
   ['external_5fbody',['External_Body',['../d3/d64/class_juniper_1_1_media_type_1_1_message.html#ab0ce833aa3024e5f68a42993047d5ea5',1,'Juniper::MediaType::Message']]]
 ];

@@ -81,7 +81,7 @@ var searchData=
   ['imotioncontroller',['IMotionController',['../dc/d7d/interface_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_i_motion_controller.html',1,'Juniper::Input::Pointers::Motion']]],
   ['inamedaction',['INamedAction',['../d8/d48/interface_juniper_1_1_i_named_action.html',1,'Juniper']]],
   ['inches',['Inches',['../df/dda/class_juniper_1_1_units_1_1_inches.html',1,'Juniper::Units']]],
-  ['incsalogdestination',['INCSALogDestination',['../d3/dea/interface_juniper_1_1_logging_1_1_i_n_c_s_a_log_destination.html',1,'Juniper.Logging.INCSALogDestination'],['../d0/d05/interface_juniper_1_1_h_t_t_p_1_1_server_1_1_i_n_c_s_a_log_destination.html',1,'Juniper.HTTP.Server.INCSALogDestination']]],
+  ['incsalogdestination',['INCSALogDestination',['../d0/d05/interface_juniper_1_1_h_t_t_p_1_1_server_1_1_i_n_c_s_a_log_destination.html',1,'Juniper.HTTP.Server.INCSALogDestination'],['../d3/dea/interface_juniper_1_1_logging_1_1_i_n_c_s_a_log_destination.html',1,'Juniper.Logging.INCSALogDestination']]],
   ['incsalogsource',['INCSALogSource',['../d1/d25/interface_juniper_1_1_logging_1_1_i_n_c_s_a_log_source.html',1,'Juniper.Logging.INCSALogSource'],['../da/d80/interface_juniper_1_1_h_t_t_p_1_1_server_1_1_i_n_c_s_a_log_source.html',1,'Juniper.HTTP.Server.INCSALogSource']]],
   ['indoorlightestimate',['IndoorLightEstimate',['../d3/d32/class_juniper_1_1_world_1_1_light_estimation_1_1_indoor_light_estimate.html',1,'Juniper::World::LightEstimation']]],
   ['installable',['Installable',['../df/d33/class_juniper_1_1_i_o_1_1_installable.html',1,'Juniper::IO']]],

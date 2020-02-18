@@ -1,8 +1,10 @@
 var searchData=
 [
   ['tebibytes',['Tebibytes',['../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77ac6df81b4d9abadf768762d6142a7d5b5',1,'Juniper::Units']]],
+  ['tebibytespersecond',['TebibytesPerSecond',['../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77a740e6e5efc6017510dae89d251ce1671',1,'Juniper::Units']]],
   ['temperature',['Temperature',['../d6/ddd/namespace_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aaee7a8e262285ed49ea1b4e4ae11525bd',1,'Juniper::Units']]],
   ['terabytes',['Terabytes',['../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77a9a2365433d590975874f09f0d5b5216d',1,'Juniper::Units']]],
+  ['terabytespersecond',['TerabytesPerSecond',['../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77aa66b2509ff1a6424ab73384d05bfa572',1,'Juniper::Units']]],
   ['terrain',['terrain',['../d1/d6b/namespace_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_map_tiles.html#a9784ce5791f9def075f125b8bbd10483a47afa88cfb198f52733fa3d1f43d7f04',1,'Juniper::World::GIS::Google::MapTiles']]],
   ['textquery',['textquery',['../d9/de3/namespace_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_places.html#a439fe7c6664c16b58d01555fee84c812ae659f1d45befa12ff7016ec2912a19cb',1,'Juniper::World::GIS::Google::Places']]],
   ['tg_5fbaud_5f115200',['TG_BAUD_115200',['../d7/d22/namespacelib_stream_s_d_k.html#aa3b6680e6587f06f315770a6325d76a6a85728edae8e3ef602f49411846d53a86',1,'libStreamSDK']]],
@@ -41,7 +43,7 @@ var searchData=
   ['tons',['Tons',['../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77a6ab31f99aa318eb1b0799a15bff0a15a',1,'Juniper::Units']]],
   ['top',['top',['../d1/d6b/namespace_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_map_tiles.html#aac3a920b4c7e2f3b60dddadada83f125ab28354b543375bfa94dabaeda722927f',1,'Juniper.World.GIS.Google.MapTiles.top()'],['../d7/de5/namespace_juniper_1_1_input.html#a3c254fe6d56e15db403bbde40bd23834aa4ffdcf0dc1f31b9acaf295d75b51d00',1,'Juniper.Input.Top()']]],
   ['topleft',['topleft',['../d1/d6b/namespace_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_map_tiles.html#aac3a920b4c7e2f3b60dddadada83f125a7e216bac8ee267bdd7f0e7cfc3396512',1,'Juniper.World.GIS.Google.MapTiles.topleft()'],['../d7/de5/namespace_juniper_1_1_input.html#a3c254fe6d56e15db403bbde40bd23834ab32beb056fbfe36afbabc6c88c81ab36',1,'Juniper.Input.TopLeft()']]],
-  ['topright',['TopRight',['../d7/de5/namespace_juniper_1_1_input.html#a3c254fe6d56e15db403bbde40bd23834a1d85a557894c340c318493f33bfa8efb',1,'Juniper.Input.TopRight()'],['../d1/d6b/namespace_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_map_tiles.html#aac3a920b4c7e2f3b60dddadada83f125acfbbe1061a4f599c188bbee51be741d3',1,'Juniper.World.GIS.Google.MapTiles.topright()']]],
+  ['topright',['topright',['../d1/d6b/namespace_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_map_tiles.html#aac3a920b4c7e2f3b60dddadada83f125acfbbe1061a4f599c188bbee51be741d3',1,'Juniper.World.GIS.Google.MapTiles.topright()'],['../d7/de5/namespace_juniper_1_1_input.html#a3c254fe6d56e15db403bbde40bd23834a1d85a557894c340c318493f33bfa8efb',1,'Juniper.Input.TopRight()']]],
   ['tornado',['TORNADO',['../da/db4/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_o_w_m_weather.html#ada5e81b1f765dc84c1eb2ec33a105ae6ada3ecc9ebe820cc06327e70c60dd8601',1,'Juniper::World::Climate::OpenWeatherMap::OWMWeather']]],
   ['touch',['Touch',['../dc/dfb/class_juniper_1_1_input_1_1_camera_control.html#aaf175f42bd07ff5603565fa70a608abeaf0f31c9700c6b10d8a20dc487b2ae6a8',1,'Juniper.Input.CameraControl.Touch()'],['../d7/de5/namespace_juniper_1_1_input.html#af54716af4b3a87b6bca347779ff63f49af0f31c9700c6b10d8a20dc487b2ae6a8',1,'Juniper.Input.Touch()']]],
   ['touchpad',['Touchpad',['../d7/dac/namespace_juniper_1_1_input_1_1_pointers_1_1_motion.html#af527056cce88b66b9d9609b3707f49cfa8229bf08d472e129beff22e3984afdbd',1,'Juniper::Input::Pointers::Motion']]],

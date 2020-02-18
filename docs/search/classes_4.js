@@ -17,7 +17,9 @@ var searchData=
   ['eventargs_3c_20latlngpoint_20_3e',['EventArgs&lt; LatLngPoint &gt;',['../df/d96/class_juniper_1_1_event_args.html',1,'Juniper']]],
   ['eventargs_3c_20string_20_3e',['EventArgs&lt; string &gt;',['../df/d96/class_juniper_1_1_event_args.html',1,'Juniper']]],
   ['exabytes',['Exabytes',['../d6/dfc/class_juniper_1_1_units_1_1_exabytes.html',1,'Juniper::Units']]],
+  ['exabytespersecond',['ExabytesPerSecond',['../d1/df0/class_juniper_1_1_units_1_1_exabytes_per_second.html',1,'Juniper::Units']]],
   ['exbibytes',['Exbibytes',['../d3/d31/class_juniper_1_1_units_1_1_exbibytes.html',1,'Juniper::Units']]],
+  ['exbibytespersecond',['ExbibytesPerSecond',['../d2/d99/class_juniper_1_1_units_1_1_exbibytes_per_second.html',1,'Juniper::Units']]],
   ['exceptionevent',['ExceptionEvent',['../d2/d9d/class_unity_engine_1_1_events_1_1_exception_event.html',1,'UnityEngine::Events']]],
   ['exceptionext',['ExceptionExt',['../d5/d22/class_system_1_1_exception_ext.html',1,'System']]]
 ];
