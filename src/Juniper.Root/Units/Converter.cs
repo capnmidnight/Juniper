@@ -115,6 +115,27 @@ namespace Juniper.Units
             [UnitOfMeasure.Yotabytes] = new[] { Category.FileSize },
             [UnitOfMeasure.Yobibytes] = new[] { Category.FileSize },
 
+
+
+            [UnitOfMeasure.BitsPerSecond] = new[] { Category.Bandwidth, Category.SlowestBandwidth},
+            [UnitOfMeasure.BytesPerSecond] = new[] { Category.Bandwidth, Category.VerySlowBandwidth },
+            [UnitOfMeasure.KilobytesPerSecond] = new[] { Category.Bandwidth, Category.SlowBandwidth },
+            [UnitOfMeasure.KibibytesPerSecond] = new[] { Category.Bandwidth, Category.SlowBandwidth },
+            [UnitOfMeasure.MegabytesPerSecond] = new[] { Category.Bandwidth, Category.RegularBandwidth },
+            [UnitOfMeasure.MibibytesPerSecond] = new[] { Category.Bandwidth, Category.RegularBandwidth },
+            [UnitOfMeasure.GigabytesPerSecond] = new[] { Category.Bandwidth, Category.FastBandwidth },
+            [UnitOfMeasure.GibibytesPerSecond] = new[] { Category.Bandwidth, Category.FastBandwidth },
+            [UnitOfMeasure.TerabytesPerSecond] = new[] { Category.Bandwidth, Category.VeryFastBandwidth },
+            [UnitOfMeasure.TebibytesPerSecond] = new[] { Category.Bandwidth, Category.VeryFastBandwidth },
+            [UnitOfMeasure.PetabytesPerSecond] = new[] { Category.Bandwidth, Category.ScreamingBandwidth },
+            [UnitOfMeasure.PebibytesPerSecond] = new[] { Category.Bandwidth, Category.ScreamingBandwidth },
+            [UnitOfMeasure.ExabytesPerSecond] = new[] { Category.Bandwidth },
+            [UnitOfMeasure.ExbibytesPerSecond] = new[] { Category.Bandwidth },
+            [UnitOfMeasure.ZettabytesPerSecond] = new[] { Category.Bandwidth },
+            [UnitOfMeasure.ZebibytesPerSecond] = new[] { Category.Bandwidth },
+            [UnitOfMeasure.YotabytesPerSecond] = new[] { Category.Bandwidth },
+            [UnitOfMeasure.YobibytesPerSecond] = new[] { Category.Bandwidth },
+
             [UnitOfMeasure.Brightness] = new[] { Category.Brightness },
             [UnitOfMeasure.Lumens] = new[] { Category.Brightness },
             [UnitOfMeasure.Nits] = new[] { Category.Brightness }
@@ -166,7 +187,14 @@ namespace Juniper.Units
                 [Category.RegularFileSize] = UnitOfMeasure.Mibibytes,
                 [Category.LargeFileSize] = UnitOfMeasure.Gibibytes,
                 [Category.HugeFileSize] = UnitOfMeasure.Tebibytes,
-                [Category.GiganticFileSize] = UnitOfMeasure.Pebibytes
+                [Category.GiganticFileSize] = UnitOfMeasure.Pebibytes,
+                [Category.SlowBandwidth] = UnitOfMeasure.BitsPerSecond,
+                [Category.VerySlowBandwidth] = UnitOfMeasure.BytesPerSecond,
+                [Category.SlowBandwidth] = UnitOfMeasure.KibibytesPerSecond,
+                [Category.RegularBandwidth] = UnitOfMeasure.MibibytesPerSecond,
+                [Category.FastBandwidth] = UnitOfMeasure.GibibytesPerSecond,
+                [Category.VeryFastBandwidth] = UnitOfMeasure.TebibytesPerSecond,
+                [Category.ScreamingBandwidth] = UnitOfMeasure.PebibytesPerSecond
             },
 
             [SystemOfMeasure.Metric] = new Dictionary<Category, UnitOfMeasure>(26)
@@ -196,7 +224,14 @@ namespace Juniper.Units
                 [Category.RegularFileSize] = UnitOfMeasure.Megabytes,
                 [Category.LargeFileSize] = UnitOfMeasure.Gigabytes,
                 [Category.HugeFileSize] = UnitOfMeasure.Terabytes,
-                [Category.GiganticFileSize] = UnitOfMeasure.Petabytes
+                [Category.GiganticFileSize] = UnitOfMeasure.Petabytes,
+                [Category.SlowestBandwidth] = UnitOfMeasure.BitsPerSecond,
+                [Category.VerySlowBandwidth] = UnitOfMeasure.BytesPerSecond,
+                [Category.SlowBandwidth] = UnitOfMeasure.KilobytesPerSecond,
+                [Category.RegularBandwidth] = UnitOfMeasure.MegabytesPerSecond,
+                [Category.FastBandwidth] = UnitOfMeasure.GigabytesPerSecond,
+                [Category.VeryFastBandwidth] = UnitOfMeasure.TerabytesPerSecond,
+                [Category.ScreamingBandwidth] = UnitOfMeasure.PetabytesPerSecond
             }
         };
 
@@ -307,6 +342,25 @@ namespace Juniper.Units
             [UnitOfMeasure.Zebibytes] = " ZiB",
             [UnitOfMeasure.Yotabytes] = " YB",
             [UnitOfMeasure.Yobibytes] = " YiB",
+
+            [UnitOfMeasure.BitsPerSecond] = "b/s",
+            [UnitOfMeasure.BytesPerSecond] = " B/s",
+            [UnitOfMeasure.KilobytesPerSecond] = " KB/s",
+            [UnitOfMeasure.KibibytesPerSecond] = " KiB/s",
+            [UnitOfMeasure.MegabytesPerSecond] = " MB/s",
+            [UnitOfMeasure.MibibytesPerSecond] = " MiB/s",
+            [UnitOfMeasure.GigabytesPerSecond] = " GB/s",
+            [UnitOfMeasure.GibibytesPerSecond] = " GiB/s",
+            [UnitOfMeasure.TerabytesPerSecond] = " TB/s",
+            [UnitOfMeasure.TebibytesPerSecond] = " TiB/s",
+            [UnitOfMeasure.PetabytesPerSecond] = " PB/s",
+            [UnitOfMeasure.PebibytesPerSecond] = " PiB/s",
+            [UnitOfMeasure.ExabytesPerSecond] = " EB/s",
+            [UnitOfMeasure.ExbibytesPerSecond] = " EiB/s",
+            [UnitOfMeasure.ZettabytesPerSecond] = " ZB/s",
+            [UnitOfMeasure.ZebibytesPerSecond] = " ZiB/s",
+            [UnitOfMeasure.YotabytesPerSecond] = " YB/s",
+            [UnitOfMeasure.YobibytesPerSecond] = " YiB/s",
 
             [UnitOfMeasure.Brightness] = " L",
             [UnitOfMeasure.Lumens] = " lm",
@@ -796,6 +850,384 @@ namespace Juniper.Units
                 [UnitOfMeasure.Exbibytes] = Zettabytes.Exbibytes,
                 [UnitOfMeasure.Zebibytes] = Zettabytes.Zebibytes,
                 [UnitOfMeasure.Yobibytes] = Zettabytes.Yobibytes
+            },
+
+            [UnitOfMeasure.BitsPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.BytesPerSecond] = BitsPerSecond.BytesPerSecond,
+                [UnitOfMeasure.KilobytesPerSecond] = BitsPerSecond.KilobytesPerSecond,
+                [UnitOfMeasure.MegabytesPerSecond] = BitsPerSecond.MegabytesPerSecond,
+                [UnitOfMeasure.GigabytesPerSecond] = BitsPerSecond.GigabytesPerSecond,
+                [UnitOfMeasure.TerabytesPerSecond] = BitsPerSecond.TerabytesPerSecond,
+                [UnitOfMeasure.PetabytesPerSecond] = BitsPerSecond.PetabytesPerSecond,
+                [UnitOfMeasure.ExabytesPerSecond] = BitsPerSecond.ExabytesPerSecond,
+                [UnitOfMeasure.ZettabytesPerSecond] = BitsPerSecond.ZettabytesPerSecond,
+                [UnitOfMeasure.YotabytesPerSecond] = BitsPerSecond.YotabytesPerSecond,
+                [UnitOfMeasure.KibibytesPerSecond] = BitsPerSecond.KibibytesPerSecond,
+                [UnitOfMeasure.MibibytesPerSecond] = BitsPerSecond.MibibytesPerSecond,
+                [UnitOfMeasure.GibibytesPerSecond] = BitsPerSecond.GibibytesPerSecond,
+                [UnitOfMeasure.TebibytesPerSecond] = BitsPerSecond.TebibytesPerSecond,
+                [UnitOfMeasure.PebibytesPerSecond] = BitsPerSecond.PebibytesPerSecond,
+                [UnitOfMeasure.ExbibytesPerSecond] = BitsPerSecond.ExbibytesPerSecond,
+                [UnitOfMeasure.ZebibytesPerSecond] = BitsPerSecond.ZebibytesPerSecond,
+                [UnitOfMeasure.YobibytesPerSecond] = BitsPerSecond.YobibytesPerSecond
+            },
+
+            [UnitOfMeasure.BytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.BitsPerSecond] = BytesPerSecond.BitsPerSecond,
+                [UnitOfMeasure.KilobytesPerSecond] = BytesPerSecond.KilobytesPerSecond,
+                [UnitOfMeasure.MegabytesPerSecond] = BytesPerSecond.MegabytesPerSecond,
+                [UnitOfMeasure.GigabytesPerSecond] = BytesPerSecond.GigabytesPerSecond,
+                [UnitOfMeasure.TerabytesPerSecond] = BytesPerSecond.TerabytesPerSecond,
+                [UnitOfMeasure.PetabytesPerSecond] = BytesPerSecond.PetabytesPerSecond,
+                [UnitOfMeasure.ExabytesPerSecond] = BytesPerSecond.ExabytesPerSecond,
+                [UnitOfMeasure.ZettabytesPerSecond] = BytesPerSecond.ZettabytesPerSecond,
+                [UnitOfMeasure.YotabytesPerSecond] = BytesPerSecond.YotabytesPerSecond,
+                [UnitOfMeasure.KibibytesPerSecond] = BytesPerSecond.KibibytesPerSecond,
+                [UnitOfMeasure.MibibytesPerSecond] = BytesPerSecond.MibibytesPerSecond,
+                [UnitOfMeasure.GibibytesPerSecond] = BytesPerSecond.GibibytesPerSecond,
+                [UnitOfMeasure.TebibytesPerSecond] = BytesPerSecond.TebibytesPerSecond,
+                [UnitOfMeasure.PebibytesPerSecond] = BytesPerSecond.PebibytesPerSecond,
+                [UnitOfMeasure.ExbibytesPerSecond] = BytesPerSecond.ExbibytesPerSecond,
+                [UnitOfMeasure.ZebibytesPerSecond] = BytesPerSecond.ZebibytesPerSecond,
+                [UnitOfMeasure.YobibytesPerSecond] = BytesPerSecond.YobibytesPerSecond
+            },
+
+            [UnitOfMeasure.ExabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.BitsPerSecond] = ExabytesPerSecond.BitsPerSecond,
+                [UnitOfMeasure.BytesPerSecond] = ExabytesPerSecond.BytesPerSecond,
+                [UnitOfMeasure.KilobytesPerSecond] = ExabytesPerSecond.KilobytesPerSecond,
+                [UnitOfMeasure.MegabytesPerSecond] = ExabytesPerSecond.MegabytesPerSecond,
+                [UnitOfMeasure.GigabytesPerSecond] = ExabytesPerSecond.GigabytesPerSecond,
+                [UnitOfMeasure.TerabytesPerSecond] = ExabytesPerSecond.TerabytesPerSecond,
+                [UnitOfMeasure.PetabytesPerSecond] = ExabytesPerSecond.PetabytesPerSecond,
+                [UnitOfMeasure.ZettabytesPerSecond] = ExabytesPerSecond.ZettabytesPerSecond,
+                [UnitOfMeasure.YotabytesPerSecond] = ExabytesPerSecond.YotabytesPerSecond,
+                [UnitOfMeasure.KibibytesPerSecond] = ExabytesPerSecond.KibibytesPerSecond,
+                [UnitOfMeasure.MibibytesPerSecond] = ExabytesPerSecond.MibibytesPerSecond,
+                [UnitOfMeasure.GibibytesPerSecond] = ExabytesPerSecond.GibibytesPerSecond,
+                [UnitOfMeasure.TebibytesPerSecond] = ExabytesPerSecond.TebibytesPerSecond,
+                [UnitOfMeasure.PebibytesPerSecond] = ExabytesPerSecond.PebibytesPerSecond,
+                [UnitOfMeasure.ExbibytesPerSecond] = ExabytesPerSecond.ExbibytesPerSecond,
+                [UnitOfMeasure.ZebibytesPerSecond] = ExabytesPerSecond.ZebibytesPerSecond,
+                [UnitOfMeasure.YobibytesPerSecond] = ExabytesPerSecond.YobibytesPerSecond
+            },
+
+            [UnitOfMeasure.ExbibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.BitsPerSecond] = ExbibytesPerSecond.BitsPerSecond,
+                [UnitOfMeasure.BytesPerSecond] = ExbibytesPerSecond.BytesPerSecond,
+                [UnitOfMeasure.KilobytesPerSecond] = ExbibytesPerSecond.KilobytesPerSecond,
+                [UnitOfMeasure.MegabytesPerSecond] = ExbibytesPerSecond.MegabytesPerSecond,
+                [UnitOfMeasure.GigabytesPerSecond] = ExbibytesPerSecond.GigabytesPerSecond,
+                [UnitOfMeasure.TerabytesPerSecond] = ExbibytesPerSecond.TerabytesPerSecond,
+                [UnitOfMeasure.PetabytesPerSecond] = ExbibytesPerSecond.PetabytesPerSecond,
+                [UnitOfMeasure.ExabytesPerSecond] = ExbibytesPerSecond.ExabytesPerSecond,
+                [UnitOfMeasure.ZettabytesPerSecond] = ExbibytesPerSecond.ZettabytesPerSecond,
+                [UnitOfMeasure.YotabytesPerSecond] = ExbibytesPerSecond.YotabytesPerSecond,
+                [UnitOfMeasure.KibibytesPerSecond] = ExbibytesPerSecond.KibibytesPerSecond,
+                [UnitOfMeasure.MibibytesPerSecond] = ExbibytesPerSecond.MibibytesPerSecond,
+                [UnitOfMeasure.GibibytesPerSecond] = ExbibytesPerSecond.GibibytesPerSecond,
+                [UnitOfMeasure.TebibytesPerSecond] = ExbibytesPerSecond.TebibytesPerSecond,
+                [UnitOfMeasure.PebibytesPerSecond] = ExbibytesPerSecond.PebibytesPerSecond,
+                [UnitOfMeasure.ZebibytesPerSecond] = ExbibytesPerSecond.ZebibytesPerSecond,
+                [UnitOfMeasure.YobibytesPerSecond] = ExbibytesPerSecond.YobibytesPerSecond
+            },
+
+            [UnitOfMeasure.GibibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.BitsPerSecond] = GibibytesPerSecond.BitsPerSecond,
+                [UnitOfMeasure.BytesPerSecond] = GibibytesPerSecond.BytesPerSecond,
+                [UnitOfMeasure.KilobytesPerSecond] = GibibytesPerSecond.KilobytesPerSecond,
+                [UnitOfMeasure.MegabytesPerSecond] = GibibytesPerSecond.MegabytesPerSecond,
+                [UnitOfMeasure.GigabytesPerSecond] = GibibytesPerSecond.GigabytesPerSecond,
+                [UnitOfMeasure.TerabytesPerSecond] = GibibytesPerSecond.TerabytesPerSecond,
+                [UnitOfMeasure.PetabytesPerSecond] = GibibytesPerSecond.PetabytesPerSecond,
+                [UnitOfMeasure.ExabytesPerSecond] = GibibytesPerSecond.ExabytesPerSecond,
+                [UnitOfMeasure.ZettabytesPerSecond] = GibibytesPerSecond.ZettabytesPerSecond,
+                [UnitOfMeasure.YotabytesPerSecond] = GibibytesPerSecond.YotabytesPerSecond,
+                [UnitOfMeasure.KibibytesPerSecond] = GibibytesPerSecond.KibibytesPerSecond,
+                [UnitOfMeasure.MibibytesPerSecond] = GibibytesPerSecond.MibibytesPerSecond,
+                [UnitOfMeasure.TebibytesPerSecond] = GibibytesPerSecond.TebibytesPerSecond,
+                [UnitOfMeasure.PebibytesPerSecond] = GibibytesPerSecond.PebibytesPerSecond,
+                [UnitOfMeasure.ExbibytesPerSecond] = GibibytesPerSecond.ExbibytesPerSecond,
+                [UnitOfMeasure.ZebibytesPerSecond] = GibibytesPerSecond.ZebibytesPerSecond,
+                [UnitOfMeasure.YobibytesPerSecond] = GibibytesPerSecond.YobibytesPerSecond
+            },
+
+            [UnitOfMeasure.GigabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.BitsPerSecond] = GigabytesPerSecond.BitsPerSecond,
+                [UnitOfMeasure.BytesPerSecond] = GigabytesPerSecond.BytesPerSecond,
+                [UnitOfMeasure.KilobytesPerSecond] = GigabytesPerSecond.KilobytesPerSecond,
+                [UnitOfMeasure.MegabytesPerSecond] = GigabytesPerSecond.MegabytesPerSecond,
+                [UnitOfMeasure.TerabytesPerSecond] = GigabytesPerSecond.TerabytesPerSecond,
+                [UnitOfMeasure.PetabytesPerSecond] = GigabytesPerSecond.PetabytesPerSecond,
+                [UnitOfMeasure.ExabytesPerSecond] = GigabytesPerSecond.ExabytesPerSecond,
+                [UnitOfMeasure.ZettabytesPerSecond] = GigabytesPerSecond.ZettabytesPerSecond,
+                [UnitOfMeasure.YotabytesPerSecond] = GigabytesPerSecond.YotabytesPerSecond,
+                [UnitOfMeasure.KibibytesPerSecond] = GigabytesPerSecond.KibibytesPerSecond,
+                [UnitOfMeasure.MibibytesPerSecond] = GigabytesPerSecond.MibibytesPerSecond,
+                [UnitOfMeasure.GibibytesPerSecond] = GigabytesPerSecond.GibibytesPerSecond,
+                [UnitOfMeasure.TebibytesPerSecond] = GigabytesPerSecond.TebibytesPerSecond,
+                [UnitOfMeasure.PebibytesPerSecond] = GigabytesPerSecond.PebibytesPerSecond,
+                [UnitOfMeasure.ExbibytesPerSecond] = GigabytesPerSecond.ExbibytesPerSecond,
+                [UnitOfMeasure.ZebibytesPerSecond] = GigabytesPerSecond.ZebibytesPerSecond,
+                [UnitOfMeasure.YobibytesPerSecond] = GigabytesPerSecond.YobibytesPerSecond
+            },
+
+            [UnitOfMeasure.KibibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.BitsPerSecond] = KibibytesPerSecond.BitsPerSecond,
+                [UnitOfMeasure.BytesPerSecond] = KibibytesPerSecond.BytesPerSecond,
+                [UnitOfMeasure.KilobytesPerSecond] = KibibytesPerSecond.KilobytesPerSecond,
+                [UnitOfMeasure.MegabytesPerSecond] = KibibytesPerSecond.MegabytesPerSecond,
+                [UnitOfMeasure.GigabytesPerSecond] = KibibytesPerSecond.GigabytesPerSecond,
+                [UnitOfMeasure.TerabytesPerSecond] = KibibytesPerSecond.TerabytesPerSecond,
+                [UnitOfMeasure.PetabytesPerSecond] = KibibytesPerSecond.PetabytesPerSecond,
+                [UnitOfMeasure.ExabytesPerSecond] = KibibytesPerSecond.ExabytesPerSecond,
+                [UnitOfMeasure.ZettabytesPerSecond] = KibibytesPerSecond.ZettabytesPerSecond,
+                [UnitOfMeasure.YotabytesPerSecond] = KibibytesPerSecond.YotabytesPerSecond,
+                [UnitOfMeasure.MibibytesPerSecond] = KibibytesPerSecond.MibibytesPerSecond,
+                [UnitOfMeasure.GibibytesPerSecond] = KibibytesPerSecond.GibibytesPerSecond,
+                [UnitOfMeasure.TebibytesPerSecond] = KibibytesPerSecond.TebibytesPerSecond,
+                [UnitOfMeasure.PebibytesPerSecond] = KibibytesPerSecond.PebibytesPerSecond,
+                [UnitOfMeasure.ExbibytesPerSecond] = KibibytesPerSecond.ExbibytesPerSecond,
+                [UnitOfMeasure.ZebibytesPerSecond] = KibibytesPerSecond.ZebibytesPerSecond,
+                [UnitOfMeasure.YobibytesPerSecond] = KibibytesPerSecond.YobibytesPerSecond
+            },
+
+            [UnitOfMeasure.KilobytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.BitsPerSecond] = KilobytesPerSecond.BitsPerSecond,
+                [UnitOfMeasure.BytesPerSecond] = KilobytesPerSecond.BytesPerSecond,
+                [UnitOfMeasure.MegabytesPerSecond] = KilobytesPerSecond.MegabytesPerSecond,
+                [UnitOfMeasure.GigabytesPerSecond] = KilobytesPerSecond.GigabytesPerSecond,
+                [UnitOfMeasure.TerabytesPerSecond] = KilobytesPerSecond.TerabytesPerSecond,
+                [UnitOfMeasure.PetabytesPerSecond] = KilobytesPerSecond.PetabytesPerSecond,
+                [UnitOfMeasure.ExabytesPerSecond] = KilobytesPerSecond.ExabytesPerSecond,
+                [UnitOfMeasure.ZettabytesPerSecond] = KilobytesPerSecond.ZettabytesPerSecond,
+                [UnitOfMeasure.YotabytesPerSecond] = KilobytesPerSecond.YotabytesPerSecond,
+                [UnitOfMeasure.KibibytesPerSecond] = KilobytesPerSecond.KibibytesPerSecond,
+                [UnitOfMeasure.MibibytesPerSecond] = KilobytesPerSecond.MibibytesPerSecond,
+                [UnitOfMeasure.GibibytesPerSecond] = KilobytesPerSecond.GibibytesPerSecond,
+                [UnitOfMeasure.TebibytesPerSecond] = KilobytesPerSecond.TebibytesPerSecond,
+                [UnitOfMeasure.PebibytesPerSecond] = KilobytesPerSecond.PebibytesPerSecond,
+                [UnitOfMeasure.ExbibytesPerSecond] = KilobytesPerSecond.ExbibytesPerSecond,
+                [UnitOfMeasure.ZebibytesPerSecond] = KilobytesPerSecond.ZebibytesPerSecond,
+                [UnitOfMeasure.YobibytesPerSecond] = KilobytesPerSecond.YobibytesPerSecond
+            },
+
+            [UnitOfMeasure.MegabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.BitsPerSecond] = MegabytesPerSecond.BitsPerSecond,
+                [UnitOfMeasure.BytesPerSecond] = MegabytesPerSecond.BytesPerSecond,
+                [UnitOfMeasure.KilobytesPerSecond] = MegabytesPerSecond.KilobytesPerSecond,
+                [UnitOfMeasure.GigabytesPerSecond] = MegabytesPerSecond.GigabytesPerSecond,
+                [UnitOfMeasure.TerabytesPerSecond] = MegabytesPerSecond.TerabytesPerSecond,
+                [UnitOfMeasure.PetabytesPerSecond] = MegabytesPerSecond.PetabytesPerSecond,
+                [UnitOfMeasure.ExabytesPerSecond] = MegabytesPerSecond.ExabytesPerSecond,
+                [UnitOfMeasure.ZettabytesPerSecond] = MegabytesPerSecond.ZettabytesPerSecond,
+                [UnitOfMeasure.YotabytesPerSecond] = MegabytesPerSecond.YotabytesPerSecond,
+                [UnitOfMeasure.KibibytesPerSecond] = MegabytesPerSecond.KibibytesPerSecond,
+                [UnitOfMeasure.MibibytesPerSecond] = MegabytesPerSecond.MibibytesPerSecond,
+                [UnitOfMeasure.GibibytesPerSecond] = MegabytesPerSecond.GibibytesPerSecond,
+                [UnitOfMeasure.TebibytesPerSecond] = MegabytesPerSecond.TebibytesPerSecond,
+                [UnitOfMeasure.PebibytesPerSecond] = MegabytesPerSecond.PebibytesPerSecond,
+                [UnitOfMeasure.ExbibytesPerSecond] = MegabytesPerSecond.ExbibytesPerSecond,
+                [UnitOfMeasure.ZebibytesPerSecond] = MegabytesPerSecond.ZebibytesPerSecond,
+                [UnitOfMeasure.YobibytesPerSecond] = MegabytesPerSecond.YobibytesPerSecond
+            },
+
+            [UnitOfMeasure.MibibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.BitsPerSecond] = MibibytesPerSecond.BitsPerSecond,
+                [UnitOfMeasure.BytesPerSecond] = MibibytesPerSecond.BytesPerSecond,
+                [UnitOfMeasure.KilobytesPerSecond] = MibibytesPerSecond.KilobytesPerSecond,
+                [UnitOfMeasure.MegabytesPerSecond] = MibibytesPerSecond.MegabytesPerSecond,
+                [UnitOfMeasure.GigabytesPerSecond] = MibibytesPerSecond.GigabytesPerSecond,
+                [UnitOfMeasure.TerabytesPerSecond] = MibibytesPerSecond.TerabytesPerSecond,
+                [UnitOfMeasure.PetabytesPerSecond] = MibibytesPerSecond.PetabytesPerSecond,
+                [UnitOfMeasure.ExabytesPerSecond] = MibibytesPerSecond.ExabytesPerSecond,
+                [UnitOfMeasure.ZettabytesPerSecond] = MibibytesPerSecond.ZettabytesPerSecond,
+                [UnitOfMeasure.YotabytesPerSecond] = MibibytesPerSecond.YotabytesPerSecond,
+                [UnitOfMeasure.KibibytesPerSecond] = MibibytesPerSecond.KibibytesPerSecond,
+                [UnitOfMeasure.GibibytesPerSecond] = MibibytesPerSecond.GibibytesPerSecond,
+                [UnitOfMeasure.TebibytesPerSecond] = MibibytesPerSecond.TebibytesPerSecond,
+                [UnitOfMeasure.PebibytesPerSecond] = MibibytesPerSecond.PebibytesPerSecond,
+                [UnitOfMeasure.ExbibytesPerSecond] = MibibytesPerSecond.ExbibytesPerSecond,
+                [UnitOfMeasure.ZebibytesPerSecond] = MibibytesPerSecond.ZebibytesPerSecond,
+                [UnitOfMeasure.YobibytesPerSecond] = MibibytesPerSecond.YobibytesPerSecond
+            },
+
+            [UnitOfMeasure.PebibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.BitsPerSecond] = PebibytesPerSecond.BitsPerSecond,
+                [UnitOfMeasure.BytesPerSecond] = PebibytesPerSecond.BytesPerSecond,
+                [UnitOfMeasure.KilobytesPerSecond] = PebibytesPerSecond.KilobytesPerSecond,
+                [UnitOfMeasure.MegabytesPerSecond] = PebibytesPerSecond.MegabytesPerSecond,
+                [UnitOfMeasure.GigabytesPerSecond] = PebibytesPerSecond.GigabytesPerSecond,
+                [UnitOfMeasure.TerabytesPerSecond] = PebibytesPerSecond.TerabytesPerSecond,
+                [UnitOfMeasure.PetabytesPerSecond] = PebibytesPerSecond.PetabytesPerSecond,
+                [UnitOfMeasure.ExabytesPerSecond] = PebibytesPerSecond.ExabytesPerSecond,
+                [UnitOfMeasure.ZettabytesPerSecond] = PebibytesPerSecond.ZettabytesPerSecond,
+                [UnitOfMeasure.YotabytesPerSecond] = PebibytesPerSecond.YotabytesPerSecond,
+                [UnitOfMeasure.KibibytesPerSecond] = PebibytesPerSecond.KibibytesPerSecond,
+                [UnitOfMeasure.MibibytesPerSecond] = PebibytesPerSecond.MibibytesPerSecond,
+                [UnitOfMeasure.GibibytesPerSecond] = PebibytesPerSecond.GibibytesPerSecond,
+                [UnitOfMeasure.TebibytesPerSecond] = PebibytesPerSecond.TebibytesPerSecond,
+                [UnitOfMeasure.ExbibytesPerSecond] = PebibytesPerSecond.ExbibytesPerSecond,
+                [UnitOfMeasure.ZebibytesPerSecond] = PebibytesPerSecond.ZebibytesPerSecond,
+                [UnitOfMeasure.YobibytesPerSecond] = PebibytesPerSecond.YobibytesPerSecond
+            },
+
+            [UnitOfMeasure.PetabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.BitsPerSecond] = PetabytesPerSecond.BitsPerSecond,
+                [UnitOfMeasure.BytesPerSecond] = PetabytesPerSecond.BytesPerSecond,
+                [UnitOfMeasure.KilobytesPerSecond] = PetabytesPerSecond.KilobytesPerSecond,
+                [UnitOfMeasure.MegabytesPerSecond] = PetabytesPerSecond.MegabytesPerSecond,
+                [UnitOfMeasure.GigabytesPerSecond] = PetabytesPerSecond.GigabytesPerSecond,
+                [UnitOfMeasure.TerabytesPerSecond] = PetabytesPerSecond.TerabytesPerSecond,
+                [UnitOfMeasure.ExabytesPerSecond] = PetabytesPerSecond.ExabytesPerSecond,
+                [UnitOfMeasure.ZettabytesPerSecond] = PetabytesPerSecond.ZettabytesPerSecond,
+                [UnitOfMeasure.YotabytesPerSecond] = PetabytesPerSecond.YotabytesPerSecond,
+                [UnitOfMeasure.KibibytesPerSecond] = PetabytesPerSecond.KibibytesPerSecond,
+                [UnitOfMeasure.MibibytesPerSecond] = PetabytesPerSecond.MibibytesPerSecond,
+                [UnitOfMeasure.GibibytesPerSecond] = PetabytesPerSecond.GibibytesPerSecond,
+                [UnitOfMeasure.TebibytesPerSecond] = PetabytesPerSecond.TebibytesPerSecond,
+                [UnitOfMeasure.PebibytesPerSecond] = PetabytesPerSecond.PebibytesPerSecond,
+                [UnitOfMeasure.ExbibytesPerSecond] = PetabytesPerSecond.ExbibytesPerSecond,
+                [UnitOfMeasure.ZebibytesPerSecond] = PetabytesPerSecond.ZebibytesPerSecond,
+                [UnitOfMeasure.YobibytesPerSecond] = PetabytesPerSecond.YobibytesPerSecond
+            },
+
+            [UnitOfMeasure.TebibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.BitsPerSecond] = TebibytesPerSecond.BitsPerSecond,
+                [UnitOfMeasure.BytesPerSecond] = TebibytesPerSecond.BytesPerSecond,
+                [UnitOfMeasure.KilobytesPerSecond] = TebibytesPerSecond.KilobytesPerSecond,
+                [UnitOfMeasure.MegabytesPerSecond] = TebibytesPerSecond.MegabytesPerSecond,
+                [UnitOfMeasure.GigabytesPerSecond] = TebibytesPerSecond.GigabytesPerSecond,
+                [UnitOfMeasure.TerabytesPerSecond] = TebibytesPerSecond.TerabytesPerSecond,
+                [UnitOfMeasure.PetabytesPerSecond] = TebibytesPerSecond.PetabytesPerSecond,
+                [UnitOfMeasure.ExabytesPerSecond] = TebibytesPerSecond.ExabytesPerSecond,
+                [UnitOfMeasure.ZettabytesPerSecond] = TebibytesPerSecond.ZettabytesPerSecond,
+                [UnitOfMeasure.YotabytesPerSecond] = TebibytesPerSecond.YotabytesPerSecond,
+                [UnitOfMeasure.KibibytesPerSecond] = TebibytesPerSecond.KibibytesPerSecond,
+                [UnitOfMeasure.MibibytesPerSecond] = TebibytesPerSecond.MibibytesPerSecond,
+                [UnitOfMeasure.GibibytesPerSecond] = TebibytesPerSecond.GibibytesPerSecond,
+                [UnitOfMeasure.PebibytesPerSecond] = TebibytesPerSecond.PebibytesPerSecond,
+                [UnitOfMeasure.ExbibytesPerSecond] = TebibytesPerSecond.ExbibytesPerSecond,
+                [UnitOfMeasure.ZebibytesPerSecond] = TebibytesPerSecond.ZebibytesPerSecond,
+                [UnitOfMeasure.YobibytesPerSecond] = TebibytesPerSecond.YobibytesPerSecond
+            },
+
+            [UnitOfMeasure.TerabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.BitsPerSecond] = TerabytesPerSecond.BitsPerSecond,
+                [UnitOfMeasure.BytesPerSecond] = TerabytesPerSecond.BytesPerSecond,
+                [UnitOfMeasure.KilobytesPerSecond] = TerabytesPerSecond.KilobytesPerSecond,
+                [UnitOfMeasure.MegabytesPerSecond] = TerabytesPerSecond.MegabytesPerSecond,
+                [UnitOfMeasure.GigabytesPerSecond] = TerabytesPerSecond.GigabytesPerSecond,
+                [UnitOfMeasure.PetabytesPerSecond] = TerabytesPerSecond.PetabytesPerSecond,
+                [UnitOfMeasure.ExabytesPerSecond] = TerabytesPerSecond.ExabytesPerSecond,
+                [UnitOfMeasure.ZettabytesPerSecond] = TerabytesPerSecond.ZettabytesPerSecond,
+                [UnitOfMeasure.YotabytesPerSecond] = TerabytesPerSecond.YotabytesPerSecond,
+                [UnitOfMeasure.KibibytesPerSecond] = TerabytesPerSecond.KibibytesPerSecond,
+                [UnitOfMeasure.MibibytesPerSecond] = TerabytesPerSecond.MibibytesPerSecond,
+                [UnitOfMeasure.GibibytesPerSecond] = TerabytesPerSecond.GibibytesPerSecond,
+                [UnitOfMeasure.TebibytesPerSecond] = TerabytesPerSecond.TebibytesPerSecond,
+                [UnitOfMeasure.PebibytesPerSecond] = TerabytesPerSecond.PebibytesPerSecond,
+                [UnitOfMeasure.ExbibytesPerSecond] = TerabytesPerSecond.ExbibytesPerSecond,
+                [UnitOfMeasure.ZebibytesPerSecond] = TerabytesPerSecond.ZebibytesPerSecond,
+                [UnitOfMeasure.YobibytesPerSecond] = TerabytesPerSecond.YobibytesPerSecond
+            },
+
+            [UnitOfMeasure.YobibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.BitsPerSecond] = YobibytesPerSecond.BitsPerSecond,
+                [UnitOfMeasure.BytesPerSecond] = YobibytesPerSecond.BytesPerSecond,
+                [UnitOfMeasure.KilobytesPerSecond] = YobibytesPerSecond.KilobytesPerSecond,
+                [UnitOfMeasure.MegabytesPerSecond] = YobibytesPerSecond.MegabytesPerSecond,
+                [UnitOfMeasure.GigabytesPerSecond] = YobibytesPerSecond.GigabytesPerSecond,
+                [UnitOfMeasure.TerabytesPerSecond] = YobibytesPerSecond.TerabytesPerSecond,
+                [UnitOfMeasure.PetabytesPerSecond] = YobibytesPerSecond.PetabytesPerSecond,
+                [UnitOfMeasure.ExabytesPerSecond] = YobibytesPerSecond.ExabytesPerSecond,
+                [UnitOfMeasure.ZettabytesPerSecond] = YobibytesPerSecond.ZettabytesPerSecond,
+                [UnitOfMeasure.YotabytesPerSecond] = YobibytesPerSecond.YotabytesPerSecond,
+                [UnitOfMeasure.KibibytesPerSecond] = YobibytesPerSecond.KibibytesPerSecond,
+                [UnitOfMeasure.MibibytesPerSecond] = YobibytesPerSecond.MibibytesPerSecond,
+                [UnitOfMeasure.GibibytesPerSecond] = YobibytesPerSecond.GibibytesPerSecond,
+                [UnitOfMeasure.TebibytesPerSecond] = YobibytesPerSecond.TebibytesPerSecond,
+                [UnitOfMeasure.PebibytesPerSecond] = YobibytesPerSecond.PebibytesPerSecond,
+                [UnitOfMeasure.ExbibytesPerSecond] = YobibytesPerSecond.ExbibytesPerSecond,
+                [UnitOfMeasure.ZebibytesPerSecond] = YobibytesPerSecond.ZebibytesPerSecond
+            },
+
+            [UnitOfMeasure.YotabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.BitsPerSecond] = YotabytesPerSecond.BitsPerSecond,
+                [UnitOfMeasure.BytesPerSecond] = YotabytesPerSecond.BytesPerSecond,
+                [UnitOfMeasure.KilobytesPerSecond] = YotabytesPerSecond.KilobytesPerSecond,
+                [UnitOfMeasure.MegabytesPerSecond] = YotabytesPerSecond.MegabytesPerSecond,
+                [UnitOfMeasure.GigabytesPerSecond] = YotabytesPerSecond.GigabytesPerSecond,
+                [UnitOfMeasure.TerabytesPerSecond] = YotabytesPerSecond.TerabytesPerSecond,
+                [UnitOfMeasure.PetabytesPerSecond] = YotabytesPerSecond.PetabytesPerSecond,
+                [UnitOfMeasure.ExabytesPerSecond] = YotabytesPerSecond.ExabytesPerSecond,
+                [UnitOfMeasure.ZettabytesPerSecond] = YotabytesPerSecond.ZettabytesPerSecond,
+                [UnitOfMeasure.KibibytesPerSecond] = YotabytesPerSecond.KibibytesPerSecond,
+                [UnitOfMeasure.MibibytesPerSecond] = YotabytesPerSecond.MibibytesPerSecond,
+                [UnitOfMeasure.GibibytesPerSecond] = YotabytesPerSecond.GibibytesPerSecond,
+                [UnitOfMeasure.TebibytesPerSecond] = YotabytesPerSecond.TebibytesPerSecond,
+                [UnitOfMeasure.PebibytesPerSecond] = YotabytesPerSecond.PebibytesPerSecond,
+                [UnitOfMeasure.ExbibytesPerSecond] = YotabytesPerSecond.ExbibytesPerSecond,
+                [UnitOfMeasure.ZebibytesPerSecond] = YotabytesPerSecond.ZebibytesPerSecond,
+                [UnitOfMeasure.YobibytesPerSecond] = YotabytesPerSecond.YobibytesPerSecond
+            },
+
+            [UnitOfMeasure.ZebibytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.BitsPerSecond] = ZebibytesPerSecond.BitsPerSecond,
+                [UnitOfMeasure.BytesPerSecond] = ZebibytesPerSecond.BytesPerSecond,
+                [UnitOfMeasure.KilobytesPerSecond] = ZebibytesPerSecond.KilobytesPerSecond,
+                [UnitOfMeasure.MegabytesPerSecond] = ZebibytesPerSecond.MegabytesPerSecond,
+                [UnitOfMeasure.GigabytesPerSecond] = ZebibytesPerSecond.GigabytesPerSecond,
+                [UnitOfMeasure.TerabytesPerSecond] = ZebibytesPerSecond.TerabytesPerSecond,
+                [UnitOfMeasure.PetabytesPerSecond] = ZebibytesPerSecond.PetabytesPerSecond,
+                [UnitOfMeasure.ExabytesPerSecond] = ZebibytesPerSecond.ExabytesPerSecond,
+                [UnitOfMeasure.ZettabytesPerSecond] = ZebibytesPerSecond.ZettabytesPerSecond,
+                [UnitOfMeasure.YotabytesPerSecond] = ZebibytesPerSecond.YotabytesPerSecond,
+                [UnitOfMeasure.KibibytesPerSecond] = ZebibytesPerSecond.KibibytesPerSecond,
+                [UnitOfMeasure.MibibytesPerSecond] = ZebibytesPerSecond.MibibytesPerSecond,
+                [UnitOfMeasure.GibibytesPerSecond] = ZebibytesPerSecond.GibibytesPerSecond,
+                [UnitOfMeasure.TebibytesPerSecond] = ZebibytesPerSecond.TebibytesPerSecond,
+                [UnitOfMeasure.PebibytesPerSecond] = ZebibytesPerSecond.PebibytesPerSecond,
+                [UnitOfMeasure.ExbibytesPerSecond] = ZebibytesPerSecond.ExbibytesPerSecond,
+                [UnitOfMeasure.YobibytesPerSecond] = ZebibytesPerSecond.YobibytesPerSecond
+            },
+
+            [UnitOfMeasure.ZettabytesPerSecond] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
+            {
+                [UnitOfMeasure.BitsPerSecond] = ZettabytesPerSecond.BitsPerSecond,
+                [UnitOfMeasure.BytesPerSecond] = ZettabytesPerSecond.BytesPerSecond,
+                [UnitOfMeasure.KilobytesPerSecond] = ZettabytesPerSecond.KilobytesPerSecond,
+                [UnitOfMeasure.MegabytesPerSecond] = ZettabytesPerSecond.MegabytesPerSecond,
+                [UnitOfMeasure.GigabytesPerSecond] = ZettabytesPerSecond.GigabytesPerSecond,
+                [UnitOfMeasure.TerabytesPerSecond] = ZettabytesPerSecond.TerabytesPerSecond,
+                [UnitOfMeasure.PetabytesPerSecond] = ZettabytesPerSecond.PetabytesPerSecond,
+                [UnitOfMeasure.ExabytesPerSecond] = ZettabytesPerSecond.ExabytesPerSecond,
+                [UnitOfMeasure.YotabytesPerSecond] = ZettabytesPerSecond.YotabytesPerSecond,
+                [UnitOfMeasure.KibibytesPerSecond] = ZettabytesPerSecond.KibibytesPerSecond,
+                [UnitOfMeasure.MibibytesPerSecond] = ZettabytesPerSecond.MibibytesPerSecond,
+                [UnitOfMeasure.GibibytesPerSecond] = ZettabytesPerSecond.GibibytesPerSecond,
+                [UnitOfMeasure.TebibytesPerSecond] = ZettabytesPerSecond.TebibytesPerSecond,
+                [UnitOfMeasure.PebibytesPerSecond] = ZettabytesPerSecond.PebibytesPerSecond,
+                [UnitOfMeasure.ExbibytesPerSecond] = ZettabytesPerSecond.ExbibytesPerSecond,
+                [UnitOfMeasure.ZebibytesPerSecond] = ZettabytesPerSecond.ZebibytesPerSecond,
+                [UnitOfMeasure.YobibytesPerSecond] = ZettabytesPerSecond.YobibytesPerSecond
             },
 
             [UnitOfMeasure.SquareCentimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)

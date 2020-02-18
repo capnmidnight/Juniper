@@ -161,6 +161,46 @@ namespace Juniper.Units
         GiganticFileSize,
 
         /// <summary>
+        /// Bandwidth is measured in subdivisions of bytes per second.
+        /// </summary>
+        Bandwidth,
+
+        /// <summary>
+        /// Bits
+        /// </summary>
+        SlowestBandwidth,
+
+        /// <summary>
+        /// Plain bytes.
+        /// </summary>
+        VerySlowBandwidth,
+
+        /// <summary>
+        /// Kilo- or Kibibytes
+        /// </summary>
+        SlowBandwidth,
+
+        /// <summary>
+        /// Mega- or Mibibytes
+        /// </summary>
+        RegularBandwidth,
+
+        /// <summary>
+        /// Giga- or Gibibytes
+        /// </summary>
+        FastBandwidth,
+
+        /// <summary>
+        /// Tera- or Tebibytes
+        /// </summary>
+        VeryFastBandwidth,
+
+        /// <summary>
+        /// Peta- or Pebibytes
+        /// </summary>
+        ScreamingBandwidth,
+
+        /// <summary>
         /// A rather arbitrary set of conversions that are only
         /// used to maintain compatibility between AR subsystems
         /// and their light estimation processes. Does not necessarily

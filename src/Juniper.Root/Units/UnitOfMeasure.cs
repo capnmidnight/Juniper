@@ -347,6 +347,96 @@ namespace Juniper.Units
         Yobibytes,
 
         /// <summary>
+        /// The smallest unit, a 0 or 1
+        /// </summary>
+        BitsPerSecond,
+
+        /// <summary>
+        /// 8 bits.
+        /// </summary>
+        BytesPerSecond,
+
+        /// <summary>
+        /// 10e3 bytes
+        /// </summary>
+        KilobytesPerSecond,
+
+        /// <summary>
+        /// 2e10 bytes
+        /// </summary>
+        KibibytesPerSecond,
+
+        /// <summary>
+        /// 10e6 bytes
+        /// </summary>
+        MegabytesPerSecond,
+
+        /// <summary>
+        /// 2e20 bytes
+        /// </summary>
+        MibibytesPerSecond,
+
+        /// <summary>
+        /// 10e9 bytes
+        /// </summary>
+        GigabytesPerSecond,
+
+        /// <summary>
+        /// 2e30 bytes
+        /// </summary>
+        GibibytesPerSecond,
+
+        /// <summary>
+        /// 10e12 bytes
+        /// </summary>
+        TerabytesPerSecond,
+
+        /// <summary>
+        /// 2e40 bytes
+        /// </summary>
+        TebibytesPerSecond,
+
+        /// <summary>
+        /// 10e15 bytes
+        /// </summary>
+        PetabytesPerSecond,
+
+        /// <summary>
+        /// 2e50 bytes
+        /// </summary>
+        PebibytesPerSecond,
+
+        /// <summary>
+        /// 10e18 bytes
+        /// </summary>
+        ExabytesPerSecond,
+
+        /// <summary>
+        /// 2e60 bytes
+        /// </summary>
+        ExbibytesPerSecond,
+
+        /// <summary>
+        /// 10e21 bytes
+        /// </summary>
+        ZettabytesPerSecond,
+
+        /// <summary>
+        /// 2e70 bytes
+        /// </summary>
+        ZebibytesPerSecond,
+
+        /// <summary>
+        /// 10e24 bytes
+        /// </summary>
+        YotabytesPerSecond,
+
+        /// <summary>
+        /// 2e80 bytes
+        /// </summary>
+        YobibytesPerSecond,
+
+        /// <summary>
         /// This may not be a real brightness measurement. I've adapted it
         /// to work with the ARKit notion of Brightness.
         /// </summary>
