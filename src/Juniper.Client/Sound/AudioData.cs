@@ -12,6 +12,13 @@ namespace Juniper.Sound
         public long Samples { get; }
         public Stream DataStream { get; }
 
+        /// <summary>
+        /// NAudio doesn't dispose the original stream if the WaveStream
+        /// was created from a stream, rather than a file path. We never
+        /// load audio from a string file path, so we need to step in
+        /// and dispose that origin stream when we're done with the
+        /// NAudio WaveStream.
+        /// </summary>
         private readonly Stream baseStream;
 
         public AudioData(AudioFormat format, Stream dataStream, long samples, Stream baseStream)
