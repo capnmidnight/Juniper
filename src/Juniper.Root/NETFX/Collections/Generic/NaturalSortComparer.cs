@@ -24,6 +24,8 @@ namespace System.Collections.Generic
             isAscending = inAscendingOrder;
         }
 
+        private static readonly Regex SplitNums = new Regex("([0-9]+)", RegexOptions.Compiled);
+
         /// <summary>
         /// Compare two strings to see where they should be in relation to each other within a collection.
         /// </summary>
@@ -50,13 +52,13 @@ namespace System.Collections.Generic
 
             if (!table.TryGetValue(x, out var x1))
             {
-                x1 = Regex.Split(x.Replace(" ", ""), "([0-9]+)");
+                x1 = SplitNums.Split(x.Replace(" ", ""));
                 table.Add(x, x1);
             }
 
             if (!table.TryGetValue(y, out var y1))
             {
-                y1 = Regex.Split(y.Replace(" ", ""), "([0-9]+)");
+                y1 = SplitNums.Split(y.Replace(" ", ""));
                 table.Add(y, y1);
             }
 
