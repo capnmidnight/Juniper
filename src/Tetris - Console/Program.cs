@@ -6,7 +6,7 @@ using Juniper.Console;
 using Juniper.Input;
 using Juniper.Puzzles;
 
-using static Juniper.Input.VirtualKeyState;
+using static System.Windows.Forms.Keys;
 using static Juniper.Unicode.BoxDrawingSet;
 
 namespace Juniper
@@ -19,8 +19,18 @@ namespace Juniper
         private static ConsoleBuffer frame;
         private static TetrisGame game;
 
+        [STAThread]
         public static void Main()
         {
+            var keys = new Win32KeyEventSource();
+            while (true)
+            {
+                System.Console.WriteLine($"D {keys.IsKeyDown(D)}, ControlKey {keys.IsKeyDown(ControlKey)}, Control+D {keys.IsKeyDown(D | Control)}");
+            }
+        }
+
+        private static void RunGame()
+        { 
             frame = new ConsoleBuffer(16);
             game = new TetrisGame(20, 30);
 
@@ -28,23 +38,28 @@ namespace Juniper
             var board = frame.Window(PADDING, PADDING, game.Width, game.Height);
             var nextPiecePanel = frame.Window(border.AbsoluteRight + 1, 2, 7, 5);
             var scorePanel = frame.Window(nextPiecePanel.AbsoluteLeft, nextPiecePanel.AbsoluteBottom + 1, 7, 2);
+            var lastCommand = "";
+
 
             var keys = new Win32KeyEventSource();
-            keys.AddKeyAlias("up", VK_UP);
-            keys.AddKeyAlias("down", VK_DOWN);
-            keys.AddKeyAlias("left", VK_LEFT);
-            keys.AddKeyAlias("right", VK_RIGHT);
+            keys.AddKeyAlias("reverse flip", Control | Up);
+            keys.AddKeyAlias("flip", Up);
+            keys.AddKeyAlias("drop", Down);
+            keys.AddKeyAlias("left", Left);
+            keys.AddKeyAlias("right", Right);
 
             var keyActions = new Dictionary<string, Action<bool>>()
             {
-                ["up"] = game.SetFlip,
-                ["down"] = game.SetDrop,
+                ["flip"] = game.SetFlip,
+                ["reverse flip"] = game.SetReverseFlip,
+                ["drop"] = game.SetDrop,
                 ["left"] = game.SetLeft,
                 ["right"] = game.SetRight
             };
 
             keys.KeyChanged += delegate (object sender, KeyChangeEvent args)
             {
+                lastCommand = args.Name;
                 keyActions[args.Name](args.State);
             };
 
@@ -59,14 +74,14 @@ namespace Juniper
                 {
                     last = now;
                     game.Update(delta);
-                    Draw(border, board, nextPiecePanel, scorePanel);
+                    Draw(border, board, nextPiecePanel, scorePanel, lastCommand);
                 }
             }
 
             keys.Stop();
         }
 
-        private static void Draw(IConsoleBuffer border, IConsoleBuffer board, IConsoleBuffer nextPiecePanel, IConsoleBuffer scorePanel)
+        private static void Draw(IConsoleBuffer border, IConsoleBuffer board, IConsoleBuffer nextPiecePanel, IConsoleBuffer scorePanel, string lastCommand)
         {
             frame.Fill(ConsoleColor.DarkGray);
 
@@ -90,14 +105,7 @@ namespace Juniper
             var score = game.Score.ToString(CultureInfo.CurrentCulture);
             scorePanel.Draw(0, 0, $"Score", ConsoleColor.Black);
             scorePanel.Draw(2, 1, score, ConsoleColor.White);
-
-            var (x, y) = ConsoleBuffer.GetCursorPosition();
-            scorePanel.Draw(0, 2, "X", ConsoleColor.Black);
-            scorePanel.Draw(0, 3, x.ToString(CultureInfo.CurrentCulture), ConsoleColor.White);
-            scorePanel.Draw(0, 4, "Y", ConsoleColor.Black);
-            scorePanel.Draw(0, 5, y.ToString(CultureInfo.CurrentCulture), ConsoleColor.White);
-            frame.Draw(x / 16, y / 16, '*', ConsoleColor.Yellow);
-
+            scorePanel.Draw(0, 2, lastCommand, ConsoleColor.Black);
 
             frame.Flush();
         }

@@ -1,32 +1,29 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <ImportGroup>
     <Import Project="..\..\Juniper.props" />
   </ImportGroup>
 
   <PropertyGroup>
-    <AssemblyName>tetris</AssemblyName>
+    <AssemblyName>keys</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net48</TargetFramework>
     <StartupObject>Juniper.Program</StartupObject>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
   <ImportGroup>
     <Import Project="..\..\Juniper.targets" />
   </ImportGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'=='net472' Or '$(TargetFramework)'=='net48' Or '$(TargetFramework)'=='netcoreapp3.1'">
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-  </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Windows\Juniper.Windows.csproj" />
     <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
   </ItemGroup>
-  
+
 </Project>

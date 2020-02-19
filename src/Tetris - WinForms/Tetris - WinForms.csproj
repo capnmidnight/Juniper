@@ -21,6 +21,7 @@
   </ImportGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Juniper.Windows\Juniper.Windows.csproj" />
     <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
   </ItemGroup>
 

@@ -27,6 +27,7 @@ namespace Juniper.Puzzles
         private bool isLeftDown;
         private bool isRightDown;
         private bool isFlipDown;
+        private bool flipDirection;
         private bool isDropDown;
         private double advanceRate;
         private double moveRate;
@@ -158,7 +159,7 @@ namespace Juniper.Puzzles
                     if (sinceLastFlip >= millisPerFlip)
                     {
                         sinceLastFlip -= millisPerFlip;
-                        var pre = Current.Rotate(Clockwise);
+                        var pre = Current.Rotate(flipDirection);
                         PlayFlip();
                         if (isFlipDown && IsInBounds(CursorX, CursorY, pre)
                             && IsEmpty(CursorX, CursorY, pre))
@@ -249,6 +250,19 @@ namespace Juniper.Puzzles
         public void SetFlip(bool value)
         {
             isFlipDown = value;
+            if (value)
+            {
+                flipDirection = Puzzle.Clockwise;
+            }
+        }
+
+        public void SetReverseFlip(bool value)
+        {
+            isFlipDown = value;
+            if (value)
+            {
+                flipDirection = Puzzle.CounterClockwise;
+            }
         }
 
         public void SetDrop(bool value)

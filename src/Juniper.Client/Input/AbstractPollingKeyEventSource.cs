@@ -11,6 +11,7 @@ namespace Juniper.Input
         {
             var threadStart = new ThreadStart(Update);
             poller = new Thread(threadStart);
+            poller.SetApartmentState(ApartmentState.STA);
         }
 
         public override void Start()
@@ -27,20 +28,15 @@ namespace Juniper.Input
 
         private void Update()
         {
-            while (poller.ThreadState == ThreadState.Running)
+            while (IsRunning)
             {
-                lock (KeyState)
+                foreach (var key in Keys)
                 {
-                    foreach (var key in Keys)
-                    {
-                        KeyState[key] = IsKeyDown(key);
-                    }
-
-                    UpdateStates();
+                    KeyState[key] = IsKeyDown(key);
                 }
+
+                UpdateStates();
             }
         }
-
-        protected abstract bool IsKeyDown(KeyT key);
     }
 }

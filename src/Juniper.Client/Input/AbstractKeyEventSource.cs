@@ -6,13 +6,14 @@ using System.Threading;
 
 namespace Juniper.Input
 {
-    public abstract class AbstractKeyEventSource<KeyT>
+    public abstract class AbstractKeyEventSource<KeyT> :
+        IKeyEventSource
     {
         public event EventHandler<KeyChangeEvent> KeyChanged;
         public event EventHandler<KeyEvent> KeyDown;
         public event EventHandler<KeyEvent> KeyUp;
 
-        private readonly Dictionary<string, KeyT[]> aliases = new Dictionary<string, KeyT[]>();
+        private readonly Dictionary<string, KeyT> aliases = new Dictionary<string, KeyT>();
         private readonly Dictionary<string, KeyEvent> events = new Dictionary<string, KeyEvent>();
         private readonly Dictionary<string, KeyChangeEvent> upEvents = new Dictionary<string, KeyChangeEvent>();
         private readonly Dictionary<string, KeyChangeEvent> downEvents = new Dictionary<string, KeyChangeEvent>();
@@ -26,6 +27,8 @@ namespace Juniper.Input
 
         private readonly Context origin;
 
+        protected bool IsRunning { get; private set; }
+
         protected AbstractKeyEventSource()
         {
             origin = Thread.CurrentContext;
@@ -35,55 +38,55 @@ namespace Juniper.Input
         {
             Keys = KeyState.Keys.ToArray();
             names = aliases.Keys.ToArray();
+            IsRunning = true;
         }
 
-        public virtual void Stop() { }
+        public virtual void Stop()
+        {
+            IsRunning = false;
+        }
 
         protected void UpdateStates()
         {
-            foreach (var name in names)
+            if (IsRunning)
             {
-                var wasDown = aliasState[name];
-                var isDown = true;
-                foreach (var key in aliases[name])
+                foreach (var name in names)
                 {
-                    isDown &= KeyState[key];
-                }
+                    var key = aliases[name];
+                    var wasDown = aliasState[name];
+                    var isDown = KeyState[key];
 
-                aliasState[name] = isDown;
+                    aliasState[name] = isDown;
 
-                if (isDown != wasDown)
-                {
-                    if (isDown)
+                    if (isDown != wasDown)
                     {
-                        origin.DoCallBack(() =>
+                        if (isDown)
                         {
-                            KeyDown?.Invoke(this, events[name]);
-                            KeyChanged?.Invoke(this, downEvents[name]);
-                        });
-                    }
-                    else
-                    {
-                        origin.DoCallBack(() =>
+                            origin.DoCallBack(() =>
+                            {
+                                KeyDown?.Invoke(this, events[name]);
+                                KeyChanged?.Invoke(this, downEvents[name]);
+                            });
+                        }
+                        else
                         {
-                            KeyUp?.Invoke(this, events[name]);
-                            KeyChanged?.Invoke(this, upEvents[name]);
-                        });
+                            origin.DoCallBack(() =>
+                            {
+                                KeyUp?.Invoke(this, events[name]);
+                                KeyChanged?.Invoke(this, upEvents[name]);
+                            });
+                        }
                     }
                 }
             }
         }
 
-        public void AddKeyAlias(string name, params KeyT[] keys)
+        public void AddKeyAlias(string name, KeyT key)
         {
-            lock (KeyState)
+            if (!IsRunning)
             {
-                foreach (var key in keys)
-                {
-                    KeyState[key] = false;
-                }
-
-                aliases[name] = keys;
+                KeyState[key] = false;
+                aliases[name] = key;
                 aliasState[name] = false;
                 events[name] = new KeyEvent(name);
                 upEvents[name] = new KeyChangeEvent(name, false);
@@ -95,5 +98,7 @@ namespace Juniper.Input
         {
             return aliasState[name];
         }
+
+        public abstract bool IsKeyDown(KeyT key);
     }
 }
