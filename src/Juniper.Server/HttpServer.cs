@@ -207,16 +207,6 @@ namespace Juniper.HTTP.Server
                 // Set options on server
                 Domain = domain;
 
-                if (isValidAssignCert)
-                {
-                    AutoAssignCertificate = assignCert;
-                }
-
-                if (hasHttpPort)
-                {
-                    HttpPort = httpPort;
-                }
-
                 if (hasHttpsPort)
                 {
                     HttpsPort = httpsPort;
@@ -226,38 +216,51 @@ namespace Juniper.HTTP.Server
                     }
                 }
 
-                if (isValidListenCount)
+                if (isValidAssignCert)
                 {
-                    ListenerCount = listenerCount;
+                    AutoAssignCertificate = assignCert;
                 }
 
-                if (isValidContentPath
-                    && hasContentPath)
+                if (!AutoAssignCertificate)
                 {
-                    Add(new StaticFileServer(contentPath));
-                }
+                    if (hasHttpPort)
+                    {
+                        HttpPort = httpPort;
+                    }
 
-                if (hasLogPath)
-                {
-                    Add(new NCSALogger(logPath));
-                }
+                    if (isValidListenCount)
+                    {
+                        ListenerCount = listenerCount;
+                    }
 
-                if (IsAdministrator)
-                {
-                    var banController = hasBansPath
-                        ? new BanHammer(bansPath)
-                        : new BanHammer();
+                    if (isValidContentPath
+                        && hasContentPath)
+                    {
+                        Add(new StaticFileServer(contentPath));
+                    }
+
+                    if (hasLogPath)
+                    {
+                        Add(new NCSALogger(logPath));
+                    }
+
+                    if (IsAdministrator)
+                    {
+                        var banController = hasBansPath
+                            ? new BanHammer(bansPath)
+                            : new BanHammer();
 
 #if !NETCOREAPP && !NETSTANDARD
-                    banController.BanAdded += BanController_BanAdded;
-                    banController.BanRemoved += BanController_BanRemoved;
+                        banController.BanAdded += BanController_BanAdded;
+                        banController.BanRemoved += BanController_BanRemoved;
 #endif
 
-                    Add(banController);
+                        Add(banController);
+                    }
                 }
-
                 return true;
             }
+
             return false;
         }
 
@@ -602,9 +605,8 @@ or
                 ShowRoutes();
             }
 
-            AttemptCertificateAssignment();
-
-            if (HttpPort is null
+            if (!AttemptCertificateAssignment()
+                && HttpPort is null
                 && HttpsPort is null)
             {
                 OnError(new InvalidOperationException("No HTTP or HTTPS port specified."));
@@ -656,11 +658,15 @@ or
 #endif
         }
 
-        private void AttemptCertificateAssignment()
+        private bool AttemptCertificateAssignment()
         {
+            if (!AutoAssignCertificate)
+            {
+                return false;
+            }
+
             var platform = Environment.OSVersion.Platform;
             if (HttpsPort is object
-                && AutoAssignCertificate
                 && (platform == PlatformID.Win32NT
                     || platform == PlatformID.Win32Windows
                     || platform == PlatformID.Win32S))
@@ -678,15 +684,16 @@ or
                     {
                         OnWarning("No TLS cert found!");
                     }
-                    else
+                    else if (!TryAssignCertToApp(certHash, guid, out var message))
                     {
-                        if (!TryAssignCertToApp(certHash, guid, out var message))
-                        {
-                            OnWarning($@"Couldn't configure the certificate correctly:
+                        OnWarning($@"Couldn't configure the certificate correctly:
     Application GUID: {guid}
     TLS cert: {certHash}
     {message}");
-                        }
+                    }
+                    else
+                    {
+                        OnInfo("Certificate assigned!");
                     }
                 }
 #else
@@ -696,6 +703,8 @@ or
                 }
 #endif
             }
+
+            return true;
         }
 
         private void SetPrefix(string protocol, ushort port)
