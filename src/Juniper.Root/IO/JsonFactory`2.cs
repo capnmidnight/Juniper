@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-
+using System.Net;
 using Newtonsoft.Json;
 
 namespace Juniper.IO
@@ -56,6 +56,30 @@ namespace Juniper.IO
             writer.Flush();
             stream.Flush();
             return stream.Length;
+        }
+
+        public void Serialize(HttpListenerResponse response, ResultT value)
+        {
+            if (response is null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+
+            response.ContentType = ContentType;
+            response.ContentLength64 = Serialize(response.OutputStream, value);
+        }
+
+
+        public void Serialize(HttpWebRequest request, ResultT value)
+        {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            using var stream = request.GetRequestStream();
+            request.ContentType = ContentType;
+            request.ContentLength = Serialize(stream, value);
         }
     }
 }

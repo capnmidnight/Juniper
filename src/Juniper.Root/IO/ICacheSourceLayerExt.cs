@@ -78,6 +78,22 @@ namespace Juniper.IO
             return value != default;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = "The Unity Editor is synchronous")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = "Try to only use this in Unity")]
+        public static bool TryLoadJson<ResultT>(
+            this ICacheSourceLayer layer,
+            string name,
+            out ResultT value,
+            IProgress prog = null)
+            where ResultT : class
+        {
+            var deserializer = new JsonFactory<ResultT>();
+            var fileRef = name + MediaType.Application.Json;
+
+            return layer.TryLoad(deserializer, fileRef, out value, prog);
+        }
+
+
         /// <summary>
         /// Retrieve all the content references that can be deserialized by the
         /// given deserializer.

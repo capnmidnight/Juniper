@@ -68,5 +68,31 @@ namespace Juniper.IO
             using var stream = layer.Create(fileRef);
             serializer.Serialize(stream, value);
         }
+
+        public static void SaveJson<ResultType>(
+            this ICacheDestinationLayer layer,
+            string fileName,
+            ResultType value)
+        {
+            if (layer is null)
+            {
+                throw new ArgumentNullException(nameof(layer));
+            }
+
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if(fileName.Length == 0)
+            {
+                throw new ArgumentException("File name must be more than 0 characters long");
+            }
+
+            var serializer = new JsonFactory<ResultType>();
+            var fileRef = fileName + MediaType.Application.Json;
+            using var stream = layer.Create(fileRef);
+            serializer.Serialize(stream, value);
+        }
     }
 }
