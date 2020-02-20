@@ -154,15 +154,10 @@ namespace Juniper.Console
 
         private void Log<T>(uint level, Action<string> logger, ConsoleColor foreground, ConsoleColor background, T e)
         {
-            if (e is null)
-            {
-                throw new ArgumentNullException(nameof(e));
-            }
-
             if (level >= logLevel)
             {
                 using var scope = new ColorScope(background, foreground);
-                logger($"[{GetName(level)}] {e.ToString()}");
+                logger($"[{GetName(level)}] {e?.ToString()}");
             }
         }
 
