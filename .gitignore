@@ -85,3 +85,4 @@ tobii_gameintegration_*.dll
 *.lastcodeanalysissucceeded.meta
 *.blend1
 *.blend1.meta
+/src/Unity Asset Store Packages/ShaderControl/Editor/Resources/BuiltShaders.asset
