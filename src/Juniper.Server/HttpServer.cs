@@ -776,6 +776,8 @@ or
             var request = context.Request;
             var headers = request.Headers;
 
+            headers["X-Frame-Options"] = "sameorigin";
+
             response.SetStatus(HttpStatusCode.Continue);
 
 #if DEBUG
