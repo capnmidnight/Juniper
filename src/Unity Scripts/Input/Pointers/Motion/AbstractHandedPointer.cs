@@ -31,7 +31,7 @@ namespace Juniper.Input.Pointers.Motion
         {
             var pointer = MakePointer(PointerConfig.MakePointerName(hand));
 #if UNITY_EDITOR
-            pointer.motionFilter = ResourceExt.EditorLoadAsset<KalmanMotionFilter>("Assets/Juniper/Prefabs/Filters/handTrackingKalmanFilter.asset");
+            pointer.motionFilter = ResourceExt.EditorLoadAsset<KalmanMotionFilter>("Assets/Juniper/Assets/Prefabs/Filters/handTrackingKalmanFilter.asset");
 #endif
             pointer.Hand = hand;
             return pointer;

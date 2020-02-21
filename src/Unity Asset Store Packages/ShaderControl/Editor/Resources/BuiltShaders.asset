@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75691fe4a49db4a21986bd2b7ebe85e1, type: 3}
   m_Name: BuiltShaders
   m_EditorClassIdentifier: 
-  creationDateTicks: 637164092907206996
+  creationDateTicks: 637179011983201096
   shaders:
   - name: Standard
     simpleName: Standard
@@ -356,6 +356,25 @@ MonoBehaviour:
     - keyword: INSTANCING_ON
       includeInBuild: 1
     isInternal: 1
+  - name: TextMeshPro/Mobile/Distance Field
+    simpleName: Distance Field
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    - keyword: UNDERLAY_ON
+      includeInBuild: 1
+    - keyword: OUTLINE_ON
+      includeInBuild: 1
+    - keyword: UNITY_UI_ALPHACLIP
+      includeInBuild: 1
+    - keyword: UNITY_UI_CLIP_RECT
+      includeInBuild: 1
+    isInternal: 0
   - name: Legacy Shaders/Transparent/Cutout/VertexLit
     simpleName: VertexLit
     isExpanded: 0
@@ -394,25 +413,6 @@ MonoBehaviour:
     - keyword: VERTEXLIGHT_ON
       includeInBuild: 1
     isInternal: 0
-  - name: TextMeshPro/Mobile/Distance Field
-    simpleName: Distance Field
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    - keyword: UNDERLAY_ON
-      includeInBuild: 1
-    - keyword: OUTLINE_ON
-      includeInBuild: 1
-    - keyword: UNITY_UI_ALPHACLIP
-      includeInBuild: 1
-    - keyword: UNITY_UI_CLIP_RECT
-      includeInBuild: 1
-    isInternal: 0
   - name: ShaderControl/ChromaScreen
     simpleName: ChromaScreen
     isExpanded: 0
@@ -428,6 +428,21 @@ MonoBehaviour:
     - keyword: ENABLE_GREEN_CHANNEL
       includeInBuild: 1
     - keyword: ENABLE_RED_CHANNEL
+      includeInBuild: 1
+    isInternal: 0
+  - name: TextMeshPro/Mobile/Distance Field - Masking
+    simpleName: Distance Field - Masking
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    - keyword: UNITY_UI_ALPHACLIP
+      includeInBuild: 1
+    - keyword: UNITY_UI_CLIP_RECT
       includeInBuild: 1
     isInternal: 0
   - name: TextMeshPro/Bitmap
@@ -550,8 +565,8 @@ MonoBehaviour:
     - keyword: UNITY_UI_CLIP_RECT
       includeInBuild: 1
     isInternal: 0
-  - name: TextMeshPro/Mobile/Distance Field - Masking
-    simpleName: Distance Field - Masking
+  - name: Hidden/Internal-DeferredReflections
+    simpleName: Internal-DeferredReflections
     isExpanded: 0
     includeInBuild: 1
     type: 1
@@ -560,11 +575,9 @@ MonoBehaviour:
       includeInBuild: 1
     - keyword: STEREO_INSTANCING_ON
       includeInBuild: 1
-    - keyword: UNITY_UI_ALPHACLIP
+    - keyword: UNITY_HDR_ON
       includeInBuild: 1
-    - keyword: UNITY_UI_CLIP_RECT
-      includeInBuild: 1
-    isInternal: 0
+    isInternal: 1
   - name: Sprites/Default
     simpleName: Default
     isExpanded: 0
@@ -589,283 +602,6 @@ MonoBehaviour:
     - keyword: STEREO_INSTANCING_ON
       includeInBuild: 1
     - keyword: ETC1_EXTERNAL_ALPHA
-      includeInBuild: 1
-    isInternal: 1
-  - name: Hidden/Internal-DeferredReflections
-    simpleName: Internal-DeferredReflections
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    - keyword: UNITY_HDR_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: Hidden/BlitToDepth
-    simpleName: BlitToDepth
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: Oculus/Texture2D Blit
-    simpleName: Texture2D Blit
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 0
-  - name: Hidden/Internal-GUITextureClip
-    simpleName: Internal-GUITextureClip
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: Unlit/TexturedWithOpacity
-    simpleName: TexturedWithOpacity
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 0
-  - name: Hidden/ConvertTexture
-    simpleName: ConvertTexture
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: Skybox/Panoramic
-    simpleName: Panoramic
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: Hidden/BlitToDepth_MSAA
-    simpleName: BlitToDepth_MSAA
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: Hidden/Internal-CombineDepthNormals
-    simpleName: Internal-CombineDepthNormals
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: Hidden/BlitCopyDepth
-    simpleName: BlitCopyDepth
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: UI/DefaultETC1
-    simpleName: DefaultETC1
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: UI/Unlit/Outline
-    simpleName: Outline
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 0
-  - name: Hidden/Internal-UIRDefault
-    simpleName: Internal-UIRDefault
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: UI/Default
-    simpleName: Default
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: Hidden/VR/BlitTexArraySliceToDepth
-    simpleName: BlitTexArraySliceToDepth
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: Hidden/Internal-DepthNormalsTexture
-    simpleName: Internal-DepthNormalsTexture
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: Hidden/Compositing
-    simpleName: Compositing
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: Hidden/VR/BlitTexArraySlice
-    simpleName: BlitTexArraySlice
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: Skybox/Cubemap
-    simpleName: Cubemap
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: Hidden/Internal-MotionVectors
-    simpleName: Internal-MotionVectors
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: Hidden/Internal-StencilWrite
-    simpleName: Internal-StencilWrite
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: Hidden/Internal-ODSWorldTexture
-    simpleName: Internal-ODSWorldTexture
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: Unlit/SolidColorWithOpacity
-    simpleName: SolidColorWithOpacity
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 0
-  - name: Hidden/BlitCopyWithDepth
-    simpleName: BlitCopyWithDepth
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
-  - name: Hidden/Internal-GUIRoundedRect
-    simpleName: Internal-GUIRoundedRect
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
       includeInBuild: 1
     isInternal: 1
   - name: Hidden/CubeBlur
@@ -1000,17 +736,6 @@ MonoBehaviour:
     - keyword: STEREO_INSTANCING_ON
       includeInBuild: 1
     isInternal: 1
-  - name: Hidden/Internal-UIRAtlasBlitCopy
-    simpleName: Internal-UIRAtlasBlitCopy
-    isExpanded: 0
-    includeInBuild: 1
-    type: 1
-    keywords:
-    - keyword: STEREO_MULTIVIEW_ON
-      includeInBuild: 1
-    - keyword: STEREO_INSTANCING_ON
-      includeInBuild: 1
-    isInternal: 1
   - name: Oculus/Unlit Transparent Color
     simpleName: Unlit Transparent Color
     isExpanded: 0
@@ -1110,8 +835,283 @@ MonoBehaviour:
     - keyword: STEREO_INSTANCING_ON
       includeInBuild: 1
     isInternal: 1
+  - name: Hidden/Internal-UIRAtlasBlitCopy
+    simpleName: Internal-UIRAtlasBlitCopy
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: Hidden/Internal-GUIRoundedRect
+    simpleName: Internal-GUIRoundedRect
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: UI/DefaultETC1
+    simpleName: DefaultETC1
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: Unlit/SolidColorWithOpacity
+    simpleName: SolidColorWithOpacity
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 0
+  - name: Hidden/BlitToDepth
+    simpleName: BlitToDepth
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: Oculus/Texture2D Blit
+    simpleName: Texture2D Blit
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 0
+  - name: Hidden/Internal-GUITextureClip
+    simpleName: Internal-GUITextureClip
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: Unlit/TexturedWithOpacity
+    simpleName: TexturedWithOpacity
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 0
+  - name: Hidden/ConvertTexture
+    simpleName: ConvertTexture
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: Skybox/Panoramic
+    simpleName: Panoramic
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: Hidden/BlitToDepth_MSAA
+    simpleName: BlitToDepth_MSAA
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: Hidden/Internal-CombineDepthNormals
+    simpleName: Internal-CombineDepthNormals
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: Hidden/BlitCopyDepth
+    simpleName: BlitCopyDepth
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
   - name: Hidden/CubeBlend
     simpleName: CubeBlend
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: UI/Unlit/Outline
+    simpleName: Outline
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 0
+  - name: Hidden/Internal-UIRDefault
+    simpleName: Internal-UIRDefault
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: UI/Default
+    simpleName: Default
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: Hidden/VR/BlitTexArraySliceToDepth
+    simpleName: BlitTexArraySliceToDepth
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: Hidden/Internal-DepthNormalsTexture
+    simpleName: Internal-DepthNormalsTexture
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: Hidden/Compositing
+    simpleName: Compositing
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: Hidden/VR/BlitTexArraySlice
+    simpleName: BlitTexArraySlice
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: Skybox/Cubemap
+    simpleName: Cubemap
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: Hidden/Internal-MotionVectors
+    simpleName: Internal-MotionVectors
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: Hidden/Internal-StencilWrite
+    simpleName: Internal-StencilWrite
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: Hidden/Internal-ODSWorldTexture
+    simpleName: Internal-ODSWorldTexture
+    isExpanded: 0
+    includeInBuild: 1
+    type: 1
+    keywords:
+    - keyword: STEREO_MULTIVIEW_ON
+      includeInBuild: 1
+    - keyword: STEREO_INSTANCING_ON
+      includeInBuild: 1
+    isInternal: 1
+  - name: Hidden/BlitCopyWithDepth
+    simpleName: BlitCopyWithDepth
     isExpanded: 0
     includeInBuild: 1
     type: 1

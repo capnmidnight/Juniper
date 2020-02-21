@@ -225,7 +225,7 @@ namespace Juniper
         {
             if (reset && (subSceneNames == null || subSceneNames.Length == 0))
             {
-                subSceneNames = new string[] { "Assets/Juniper/Scenes/Examples/Content.unity" };
+                subSceneNames = new string[] { "Assets/Juniper/Assets/Scenes/Examples/Content.unity" };
             }
             SetupFader(reset);
             SetupSystemInterface();
@@ -245,7 +245,7 @@ namespace Juniper
 #if UNITY_EDITOR
             if (sceneFaderMaterial == null || reset)
             {
-                sceneFaderMaterial = ResourceExt.EditorLoadAsset<Material>("Assets/Juniper/Materials/FaderMaterial.mat");
+                sceneFaderMaterial = ResourceExt.EditorLoadAsset<Material>("Assets/Juniper/Assets/Materials/FaderMaterial.mat");
             }
 #endif
 
@@ -265,7 +265,7 @@ namespace Juniper
 #if UNITY_EDITOR
             if (sys == null)
             {
-                var prefab = ResourceExt.EditorLoadAsset<GameObject>("Assets/Juniper/Prefabs/UI/SystemUserInterface.prefab");
+                var prefab = ResourceExt.EditorLoadAsset<GameObject>("Assets/Juniper/Assets/Prefabs/UI/SystemUserInterface.prefab");
                 sys = Instantiate(prefab).transform;
                 sys.name = "SystemUserInterface";
             }

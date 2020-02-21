@@ -127,7 +127,7 @@ namespace Juniper.Animation
 #if UNITY_EDITOR
             if (reset)
             {
-                fadeOutSound = ResourceExt.EditorLoadAsset<AudioClip>("Assets/Juniper/Audio/Star Trek/hologram_off_2.mp3");
+                fadeOutSound = ResourceExt.EditorLoadAsset<AudioClip>("Assets/Juniper/Assets/Audio/Star Trek/hologram_off_2.mp3");
             }
 #endif
 

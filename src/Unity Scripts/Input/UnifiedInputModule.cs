@@ -223,22 +223,22 @@ namespace Juniper.Input
 #if UNITY_EDITOR
             if (pointerPrefab == null)
             {
-                pointerPrefab = ResourceExt.EditorLoadAsset<GameObject>("Assets/Juniper/Prefabs/Rigs/DiskProbe2018.2.prefab");
+                pointerPrefab = ResourceExt.EditorLoadAsset<GameObject>("Assets/Juniper/Assets/Prefabs/Rigs/DiskProbe2018.2.prefab");
             }
 
             if (laserPointerNormalMaterial == null)
             {
-                laserPointerNormalMaterial = ResourceExt.EditorLoadAsset<Material>("Assets/Juniper/Materials/LaserPointer_White.mat");
+                laserPointerNormalMaterial = ResourceExt.EditorLoadAsset<Material>("Assets/Juniper/Assets/Materials/LaserPointer_White.mat");
             }
 
             if (laserPointerEnabledMaterial == null)
             {
-                laserPointerEnabledMaterial = ResourceExt.EditorLoadAsset<Material>("Assets/Juniper/Materials/LaserPointer_Green.mat");
+                laserPointerEnabledMaterial = ResourceExt.EditorLoadAsset<Material>("Assets/Juniper/Assets/Materials/LaserPointer_Green.mat");
             }
 
             if (laserPointerDisabledMaterial == null)
             {
-                laserPointerDisabledMaterial = ResourceExt.EditorLoadAsset<Material>("Assets/Juniper/Materials/LaserPointer_Red.mat");
+                laserPointerDisabledMaterial = ResourceExt.EditorLoadAsset<Material>("Assets/Juniper/Assets/Materials/LaserPointer_Red.mat");
             }
 #endif
 
