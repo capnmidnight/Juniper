@@ -52,6 +52,7 @@ namespace Juniper.Display
                     {
                         cameraCtrl.playerMode = CameraControl.Mode.None;
                     }
+
                     ScreenDebugger.Print($"Mode is {cameraCtrl.playerMode.ToString()}");
                 }
             }

@@ -23,6 +23,11 @@ namespace Juniper.Display
             this.Ensure<GvrHeadset>();
         }
 
+        public void Start()
+        {
+            cameraCtrl.playerMode = CameraControl.Mode.None;
+        }
+
         public override void Uninstall()
         {
             this.Remove<GvrHeadset>();

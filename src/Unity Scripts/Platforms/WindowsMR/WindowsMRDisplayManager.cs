@@ -5,6 +5,11 @@ namespace Juniper.Display
 {
     public class WindowsMRDisplayManager : AbstractDisplayManager
     {
+        public void Start()
+        {
+            cameraCtrl.playerMode = Input.CameraControl.Mode.None;
+        }
+
 #if UNITY_5_3_OR_NEWER && (!UNITY_2017_1_OR_NEWER || (UNITY_2017_2_OR_NEWER && !UNITY_2017_3_OR_NEWER))
         public override void Update()
         {

@@ -5,7 +5,7 @@ using Juniper.Mathematics;
 
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
+
 using UnityInput = UnityEngine.Input;
 
 namespace Juniper.Input
@@ -28,7 +28,6 @@ namespace Juniper.Input
             NetworkView
         }
 
-        [FormerlySerializedAs("mode")]
         public Mode playerMode = Mode.Auto;
 
 #if UNITY_EDITOR

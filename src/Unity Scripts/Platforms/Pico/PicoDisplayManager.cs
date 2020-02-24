@@ -38,6 +38,11 @@ namespace Juniper.Display
             rightEye = MakeCamera(Pvr_UnitySDKAPI.Eye.RightEye);
         }
 
+        public void Start()
+        {
+            cameraCtrl.playerMode = CameraControl.Mode.None;
+        }
+
         public override void Uninstall()
         {
             leftEye.Destroy();

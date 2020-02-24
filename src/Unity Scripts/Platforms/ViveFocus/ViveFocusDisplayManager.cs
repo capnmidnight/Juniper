@@ -50,6 +50,11 @@ namespace Juniper.Display
             });
         }
 
+        public void Start()
+        {
+            cameraCtrl.playerMode = Input.CameraControl.Mode.None;
+        }
+
         public override void Uninstall()
         {
             this.Remove<WaveVR_DevicePoseTracker>();
