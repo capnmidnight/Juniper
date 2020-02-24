@@ -1,6 +1,4 @@
-using System.Linq;
 using Juniper.Units;
-using Juniper.XR;
 
 using UnityEngine;
 
@@ -21,7 +19,9 @@ namespace Juniper.Widgets
         /// </summary>
         public float FollowPositionThreshold = 0;
 
-        public float maxSpeed = 1;
+        public float speedConstant = 1;
+
+        public float speedProportion = 0;
 
         /// <summary>
         /// The distance to maintain from the target object.
@@ -34,26 +34,15 @@ namespace Juniper.Widgets
         [Header("Rotation")]
         public CartesianAxisFlags FollowRotation;
 
-        public bool interpolateRotation = true;
-
-        /// <summary>
-        /// The maximum allowable deviation in angles from the target's rotation..
-        /// </summary>
-        public Vector3 FollowRotationThreshold = 10 * Vector3.up;
-
-        public float maxRotationRate = 10;
-
         public void Copy(AbstractFollowSettings other)
         {
             FollowPosition = other.FollowPosition;
             interpolatePosition = other.interpolatePosition;
             FollowPositionThreshold = other.FollowPositionThreshold;
-            maxSpeed = other.maxSpeed;
+            speedConstant = other.speedConstant;
+            speedProportion = other.speedProportion;
             Distance = other.Distance;
             FollowRotation = other.FollowRotation;
-            interpolateRotation = other.interpolateRotation;
-            FollowRotationThreshold = other.FollowRotationThreshold;
-            maxRotationRate = other.maxRotationRate;
         }
     }
 }

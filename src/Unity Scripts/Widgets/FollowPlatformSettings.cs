@@ -31,7 +31,8 @@ namespace Juniper.Widgets
             }
 
 #if UNITY_EDITOR
-            if(GetComponents<FollowPlatformSettings>()
+            if (!Application.isPlaying &&
+                GetComponents<FollowPlatformSettings>()
                 .All(other => other.platform != PlatformType.None))
             {
                 var none = gameObject.AddComponent<FollowPlatformSettings>();
@@ -42,21 +43,21 @@ namespace Juniper.Widgets
 
         public void Awake()
         {
-            bool isGood = true;
+            var isGood = true;
             if (platform != JuniperSystem.CurrentPlatform)
             {
-                bool isDefault = platform == PlatformType.None
+                var isDefault = platform == PlatformType.None
                     && !GetComponents<FollowPlatformSettings>()
                         .Any(other => other.platform == JuniperSystem.CurrentPlatform);
 
                 if (!isDefault)
                 {
                     isGood = enabled = false;
-                    this.DestroyImmediate();
+                    this.Destroy();
                 }
             }
-            
-            if(isGood)
+
+            if (isGood)
             {
                 if (f == null)
                 {

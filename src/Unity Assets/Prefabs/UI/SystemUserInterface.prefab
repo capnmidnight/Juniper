@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 2136603413729688323}
   - component: {fileID: 4394750874605430313}
   - component: {fileID: -5190468254793785791}
+  - component: {fileID: 5798170809535405120}
   m_Layer: 1
   m_Name: SystemUserInterface
   m_TagString: Untagged
@@ -158,7 +159,6 @@ Transform:
   m_Children:
   - {fileID: 2136603413674418722}
   - {fileID: 2136603414953543728}
-  - {fileID: 6488379220911355336}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -188,14 +188,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FollowPosition: -1
-  interpolatePosition: 0
-  FollowPositionThreshold: 0
-  maxSpeed: 0
-  Distance: 2.5
-  FollowRotation: -1
-  interpolateRotation: 0
-  FollowRotationThreshold: {x: 0, y: 0, z: 0}
-  maxRotationRate: 0
+  interpolatePosition: 1
+  FollowPositionThreshold: 1
+  speedConstant: 0.1
+  speedProportion: 1
+  Distance: 2
+  FollowRotation: 2
   followObject: {fileID: 0}
 --- !u!114 &4394750874605430313
 MonoBehaviour:
@@ -211,13 +209,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FollowPosition: -1
   interpolatePosition: 1
-  FollowPositionThreshold: 0.5
-  maxSpeed: 5
+  FollowPositionThreshold: 1
+  speedConstant: 0.1
+  speedProportion: 1
   Distance: 2
   FollowRotation: 2
-  interpolateRotation: 1
-  FollowRotationThreshold: {x: 0, y: 10, z: 0}
-  maxRotationRate: 75
   platform: 772
   f: {fileID: 2136603413729688323}
 --- !u!114 &-5190468254793785791
@@ -235,12 +231,31 @@ MonoBehaviour:
   FollowPosition: -1
   interpolatePosition: 0
   FollowPositionThreshold: 0
-  maxSpeed: 0
-  Distance: 2.5
+  speedConstant: 0
+  speedProportion: 0
+  Distance: 3
   FollowRotation: -1
-  interpolateRotation: 0
-  FollowRotationThreshold: {x: 0, y: 0, z: 0}
-  maxRotationRate: 0
+  platform: 2176
+  f: {fileID: 2136603413729688323}
+--- !u!114 &5798170809535405120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2136603413729688320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10c906cbaf5c73542bd37bbbb7c2488c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FollowPosition: -1
+  interpolatePosition: 1
+  FollowPositionThreshold: 1
+  speedConstant: 0.1
+  speedProportion: 1
+  Distance: 2
+  FollowRotation: 2
   platform: 0
   f: {fileID: 2136603413729688323}
 --- !u!1 &2136603413746521413
@@ -1890,34 +1905,4 @@ Transform:
   - {fileID: 2136603413541744843}
   m_Father: {fileID: 2136603414497069987}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7501879241769962894
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6488379220911355336}
-  m_Layer: 1
-  m_Name: PresentationPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6488379220911355336
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7501879241769962894}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2136603413729688322}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
