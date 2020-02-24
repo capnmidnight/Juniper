@@ -42,7 +42,7 @@ namespace Juniper.Input
 #if UNITY_EDITOR
                 return editorMode;
 #else
-                return mode;
+                return playerMode;
 #endif
             }
         }
