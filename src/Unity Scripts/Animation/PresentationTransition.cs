@@ -50,15 +50,7 @@ namespace Juniper.Animation
         {
             get
             {
-                if (master is null
-                    || master.presentationPoint is null)
-                {
-                    return startPosition;
-                }
-                else
-                {
-                    return master.presentationPoint.position;
-                }
+                return master.systemUserInterface.position;
             }
         }
 
@@ -66,15 +58,7 @@ namespace Juniper.Animation
         {
             get
             {
-                if (master is null
-                    || master.presentationPoint is null)
-                {
-                    return startRotation;
-                }
-                else
-                {
-                    return master.presentationPoint.rotation;
-                }
+                return master.systemUserInterface.rotation;
             }
         }
 
@@ -108,7 +92,7 @@ namespace Juniper.Animation
             Find.Any(out master);
 
             startMaterial = Instantiate(startMaterial);
-            
+
 
             startRend = CreateChild(startMaterial, out startProps);
             startRend.transform.localRotation = Quaternion.Euler(0, 180, 0);
@@ -127,7 +111,7 @@ namespace Juniper.Animation
             }
             else
             {
-                if(value == 0)
+                if (value == 0)
                 {
                     startPosition = transform.position;
                     startRotation = transform.rotation;

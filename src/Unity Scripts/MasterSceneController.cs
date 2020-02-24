@@ -109,7 +109,7 @@ namespace Juniper
 
         public UnityImage splash;
 
-        public Transform presentationPoint;
+        public Transform systemUserInterface;
 
         /// <summary>
         /// The material to apply to Darth Fader.
@@ -261,21 +261,19 @@ namespace Juniper
 
         private void SetupSystemInterface()
         {
-            var sys = transform.Query("/SystemUserInterface");
+            systemUserInterface = transform.Query("/SystemUserInterface");
 #if UNITY_EDITOR
-            if (sys == null)
+            if (systemUserInterface == null)
             {
                 var prefab = ResourceExt.EditorLoadAsset<GameObject>("Assets/Juniper/Assets/Prefabs/UI/SystemUserInterface.prefab");
-                sys = Instantiate(prefab).transform;
-                sys.name = "SystemUserInterface";
+                systemUserInterface = Instantiate(prefab).transform;
+                systemUserInterface.name = "SystemUserInterface";
             }
 #endif
 
-            loadingBar = sys.Query<LoadingBar>("LoadingBar");
+            loadingBar = systemUserInterface.Query<LoadingBar>("LoadingBar");
 
-            splash = sys.Query<UnityImage>("Canvas/SplashImage");
-
-            presentationPoint = sys.Find("PresentationPoint");
+            splash = systemUserInterface.Query<UnityImage>("Canvas/SplashImage");
         }
 
         private IEnumerator LoadFirstSceneCoroutine()
