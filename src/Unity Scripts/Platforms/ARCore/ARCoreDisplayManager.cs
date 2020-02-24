@@ -65,18 +65,6 @@ namespace Juniper.Display
             }
         }
 
-        public override void Start()
-        {
-            base.Start();
-
-#if UNITY_EDITOR
-            if (cameraCtrl.mode == Input.CameraControl.Mode.MouseLocked && AnyActiveGoogleInstantPreview)
-            {
-                cameraCtrl.mode = Input.CameraControl.Mode.MouseScreenEdge;
-            }
-#endif
-        }
-
         public override void Uninstall()
         {
             this.Remove<ARCoreBackgroundRenderer>();

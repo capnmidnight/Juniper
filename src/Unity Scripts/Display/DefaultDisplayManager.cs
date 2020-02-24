@@ -20,59 +20,42 @@ namespace Juniper.Display
 
         public override void Update()
         {
-            if (cameraCtrl.mode == CameraControl.Mode.Auto)
+            if (cameraCtrl.ControlMode == CameraControl.Mode.Auto)
             {
                 if (Find.Any(out UnifiedInputModule input))
                 {
-#if UNITY_EDITOR
-                    if (input.TouchRequested)
-                    {
-#if UNITY_STANDALONE || UNITY_WSA
-                        cameraCtrl.mode = CameraControl.Mode.MouseLocked;
-#else
-                        cameraCtrl.mode = CameraControl.Mode.Touch;
-#endif
-                    }
-                    else if (input.MouseRequested)
-                    {
-                        cameraCtrl.mode = CameraControl.Mode.MouseScreenEdge;
-                    }
-                    else if (UnifiedInputModule.HasGamepad)
-                    {
-                        cameraCtrl.mode = CameraControl.Mode.Gamepad;
-                    }
-#elif UNITY_WSA
+#if UNITY_WSA
                     if (input.TouchRequested
                         && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
                     {
-                        cameraCtrl.mode = CameraControl.Mode.Touch;
+                        cameraCtrl.playerMode = CameraControl.Mode.Touch;
                     }
                     else if (input.MouseRequested
                         && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Mobile")
                     {
-                        cameraCtrl.mode = CameraControl.Mode.MouseLocked;
+                        cameraCtrl.playerMode = CameraControl.Mode.MouseLocked;
                     }
 
 #else
                     if (input.TouchRequested
                         && Application.isMobilePlatform)
                     {
-                        cameraCtrl.mode = CameraControl.Mode.Touch;
+                        cameraCtrl.playerMode = CameraControl.Mode.Touch;
                     }
                     else if (input.MouseRequested
                         && UnityInput.mousePresent)
                     {
-                        cameraCtrl.mode = CameraControl.Mode.MouseLocked;
+                        cameraCtrl.playerMode = CameraControl.Mode.MouseLocked;
                     }
 #endif
                     else
                     {
-                        cameraCtrl.mode = CameraControl.Mode.None;
+                        cameraCtrl.playerMode = CameraControl.Mode.None;
                     }
-                    ScreenDebugger.Print($"Mode is {cameraCtrl.mode.ToString()}");
+                    ScreenDebugger.Print($"Mode is {cameraCtrl.playerMode.ToString()}");
                 }
             }
-            else if (cameraCtrl.mode == CameraControl.Mode.MagicWindow)
+            else if (cameraCtrl.ControlMode == CameraControl.Mode.MagicWindow)
             {
                 UnityInput.gyro.enabled = true;
                 UnityInput.compensateSensors = true;

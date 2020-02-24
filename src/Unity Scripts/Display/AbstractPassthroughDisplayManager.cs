@@ -1,5 +1,6 @@
 using Juniper.Input;
 using Juniper.XR;
+
 using UnityEngine;
 
 namespace Juniper.Display
@@ -23,14 +24,14 @@ namespace Juniper.Display
         {
             base.OnARModeChange();
             if (Sys.m_ARMode == AugmentedRealityTypes.PassthroughCamera
-                && (cameraCtrl.mode == CameraControl.Mode.Auto || cameraCtrl.mode == CameraControl.Mode.Touch))
+                && (cameraCtrl.ControlMode == CameraControl.Mode.Auto || cameraCtrl.ControlMode == CameraControl.Mode.Touch))
             {
-                cameraCtrl.mode = CameraControl.Mode.None;
+                cameraCtrl.playerMode = CameraControl.Mode.None;
             }
             else if (Sys.m_ARMode == AugmentedRealityTypes.None
-                && (cameraCtrl.mode == CameraControl.Mode.Auto || cameraCtrl.mode == CameraControl.Mode.None))
+                && (cameraCtrl.ControlMode == CameraControl.Mode.Auto || cameraCtrl.ControlMode == CameraControl.Mode.None))
             {
-                cameraCtrl.mode = CameraControl.Mode.Touch;
+                cameraCtrl.playerMode = CameraControl.Mode.Touch;
             }
         }
     }

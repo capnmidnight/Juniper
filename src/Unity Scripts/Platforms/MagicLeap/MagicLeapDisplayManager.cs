@@ -27,13 +27,6 @@ namespace Juniper.Display
             listener.Ensure<MSAListener>();
         }
 
-        public override void Start()
-        {
-            base.Start();
-
-            cameraCtrl.mode = CameraControl.Mode.None;
-        }
-
         public override void Uninstall()
         {
             this.Remove<MSAListener>();

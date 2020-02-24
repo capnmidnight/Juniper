@@ -24,8 +24,6 @@ namespace Juniper.Display
         {
             base.Install(reset);
 
-            cameraCtrl.mode = Input.CameraControl.Mode.None;
-
             var head = this.Ensure<Pvr_UnitySDKHeadTrack>();
             if (head.IsNew)
             {

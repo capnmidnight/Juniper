@@ -5,7 +5,7 @@ using Juniper.Mathematics;
 
 using UnityEngine;
 using UnityEngine.Events;
-
+using UnityEngine.Serialization;
 using UnityInput = UnityEngine.Input;
 
 namespace Juniper.Input
@@ -28,7 +28,25 @@ namespace Juniper.Input
             NetworkView
         }
 
-        public Mode mode = Mode.Auto;
+        [FormerlySerializedAs("mode")]
+        public Mode playerMode = Mode.Auto;
+
+#if UNITY_EDITOR
+        public Mode editorMode = Mode.MouseLocked;
+#endif
+
+        public Mode ControlMode
+        {
+            get
+            {
+#if UNITY_EDITOR
+                return editorMode;
+#else
+                return mode;
+#endif
+            }
+        }
+
         private Mode lastMode = Mode.None;
 
         public InputEventButton requiredMouseButton = InputEventButton.None;
@@ -86,8 +104,8 @@ namespace Juniper.Input
         public float maximumY = 85F;
 
         private Quaternion target = Quaternion.identity;
-        private Juniper.XR.Pose? networkPose;
-        public Juniper.XR.Pose? NetworkPose
+        private XR.Pose? networkPose;
+        public XR.Pose? NetworkPose
         {
             get
             {
@@ -116,7 +134,7 @@ namespace Juniper.Input
         private void OnModeChange()
         {
             onModeChange?.Invoke();
-            ModeChange?.Invoke(mode);
+            ModeChange?.Invoke(ControlMode);
         }
 
         private bool firstTime = true;
@@ -330,13 +348,13 @@ namespace Juniper.Input
         {
             get
             {
-                if (mode == Mode.MagicWindow)
+                if (ControlMode == Mode.MagicWindow)
                 {
                     return NEUTRAL_POSITION_RESET
                         * UnityInput.gyro.attitude
                         * FLIP_IMAGE;
                 }
-                else if (mode == Mode.NetworkView)
+                else if (ControlMode == Mode.NetworkView)
                 {
                     return NetworkPose.Value.GetUnityQuaternion();
                 }
@@ -375,12 +393,12 @@ namespace Juniper.Input
 
         private void CheckMouseLock()
         {
-            if (mode == Mode.MouseLocked || mode == Mode.MouseScreenEdge)
+            if (ControlMode == Mode.MouseLocked || ControlMode == Mode.MouseScreenEdge)
             {
                 if (UnityInput.mousePresent && (firstTime || UnityInput.GetMouseButtonDown(0)))
                 {
                     firstTime = false;
-                    if (mode == Mode.MouseLocked)
+                    if (ControlMode == Mode.MouseLocked)
                     {
                         Cursor.lockState = CursorLockMode.Locked;
                     }
@@ -423,31 +441,31 @@ namespace Juniper.Input
             }
 #endif
 
-            if (mode != lastMode)
+            if (ControlMode != lastMode)
             {
                 OnModeChange();
-                lastMode = mode;
+                lastMode = ControlMode;
             }
 
             CheckMouseLock();
 
-            if (mode != Mode.None
+            if (ControlMode != Mode.None
                 && (!input.AnyPointerDragging
                     || Cursor.lockState == CursorLockMode.Locked))
             {
-                if (mode == Mode.MouseLocked)
+                if (ControlMode == Mode.MouseLocked)
                 {
                     CheckMode(
                         Cursor.lockState != CursorLockMode.Locked
                             ? Mode.MouseScreenEdge
-                            : mode,
+                            : ControlMode,
                         disableVertical);
                 }
-                else if (mode == Mode.MagicWindow)
+                else if (ControlMode == Mode.MagicWindow)
                 {
                     CheckMode(Mode.Touch, true);
                 }
-                else if (mode == Mode.Gamepad)
+                else if (ControlMode == Mode.Gamepad)
                 {
                     if (Application.isMobilePlatform)
                     {
@@ -460,7 +478,7 @@ namespace Juniper.Input
                 }
                 else
                 {
-                    CheckMode(mode, disableVertical);
+                    CheckMode(ControlMode, disableVertical);
                 }
             }
         }
