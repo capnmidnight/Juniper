@@ -23,13 +23,13 @@ namespace Juniper.Input
             }
         }
 
-        public override void Stop()
+        public override void Quit()
         {
             if (controlRef.TryGetTarget(out var control))
             {
                 control.KeyDown -= Form_KeyDown;
                 control.KeyUp -= Form_KeyUp;
-                base.Stop();
+                base.Quit();
             }
         }
 

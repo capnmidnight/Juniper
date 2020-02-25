@@ -20,9 +20,9 @@ namespace Juniper.Input
             poller.Start();
         }
 
-        public override void Stop()
+        public override void Quit()
         {
-            base.Stop();
+            base.Quit();
             poller.Join();
         }
 

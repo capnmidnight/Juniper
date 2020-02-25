@@ -78,7 +78,7 @@ namespace Juniper
                 }
             }
 
-            keys.Stop();
+            keys.Quit();
         }
 
         private static void Draw(IConsoleBuffer border, IConsoleBuffer board, IConsoleBuffer nextPiecePanel, IConsoleBuffer scorePanel, string lastCommand)

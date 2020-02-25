@@ -41,7 +41,7 @@ namespace Juniper.Input
             IsRunning = true;
         }
 
-        public virtual void Stop()
+        public virtual void Quit()
         {
             IsRunning = false;
         }

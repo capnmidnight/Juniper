@@ -76,7 +76,7 @@ namespace Juniper
 
             Application.Run(form);
 
-            keys.Stop();
+            keys.Quit();
             thread.Abort();
             buffer.Dispose();
             block.Dispose();

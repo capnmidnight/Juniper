@@ -10,6 +10,6 @@ namespace Juniper.Input
 
         bool IsDown(string name);
         void Start();
-        void Stop();
+        void Quit();
     }
 }
