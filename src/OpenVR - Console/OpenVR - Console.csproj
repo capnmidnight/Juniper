@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\Juniper.props" />
+  
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Juniper.OpenVR</RootNamespace>
+  </PropertyGroup>
+
+  <Import Project="..\..\Juniper.targets" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\Juniper.OpenVR\Juniper.OpenVR.csproj" />
+  </ItemGroup>
+
+</Project>
