@@ -3,11 +3,11 @@
   <Import Project="..\..\Juniper.props" />
 
   <PropertyGroup>
-    <RootNamespace>Juniper.OpenVR</RootNamespace>
+    <AssemblyName>Juniper.Valve.VR</AssemblyName>
+    <RootNamespace>Valve.VR</RootNamespace>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Authors>Sean T. McBeth</Authors>
-    <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Copyright>Copyright © Valve Corporation</Copyright>
   </PropertyGroup>
 
   <Import Project="..\..\Juniper.targets" />

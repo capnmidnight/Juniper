@@ -11,7 +11,7 @@
   <Import Project="..\..\Juniper.targets" />
 
   <ItemGroup>
-    <ProjectReference Include="..\Juniper.OpenVR\Juniper.OpenVR.csproj" />
+    <ProjectReference Include="..\..\lib\Juniper.Valve.VR\Juniper.Valve.VR.csproj" />
   </ItemGroup>
 
 </Project>

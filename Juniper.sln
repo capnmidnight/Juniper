@@ -71,9 +71,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keyboard - WinForms", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Windows", "src\Juniper.Windows\Juniper.Windows.csproj", "{55615C50-9D87-4A2E-98C1-D897CF86D30E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.OpenVR", "src\Juniper.OpenVR\Juniper.OpenVR.csproj", "{179E185F-E89C-4211-BA3F-24029712FB88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Valve.VR", "lib\Juniper.Valve.VR\Juniper.Valve.VR.csproj", "{179E185F-E89C-4211-BA3F-24029712FB88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenVR - Console", "src\OpenVR - Console\OpenVR - Console.csproj", "{7C810744-A29E-44C7-AB5A-73FF0B72353B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenVR - Console", "src\OpenVR - Console\OpenVR - Console.csproj", "{7C810744-A29E-44C7-AB5A-73FF0B72353B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
