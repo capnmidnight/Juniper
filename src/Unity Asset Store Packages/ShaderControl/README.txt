@@ -1,6 +1,6 @@
 ************************************
 *          SHADER CONTROL          *
-*    (C) Copyright 2016 Kronnect   * 
+* (C) Copyright 2016-2019 Kronnect * 
 *            README FILE           *
 ************************************
 
@@ -43,6 +43,29 @@ Of course, all updates of Shader Control will be eventually available on the Ass
 
 Version history
 ---------------
+
+Version 4.6
+- Added new filter "Modified" to Project View
+
+Version 4.5
+- Added a new sort by "Keyword" in Build View which lists all keywords in build and allows quick selection in Project View
+
+Version 4.4
+- Added "Select Materials In Project" and "Select Materials In Scene"
+- Project Panel now shows the shader name and not the shader filename (matching Build View list)
+- Improved performance of List Materials option
+
+Version 4.3
+- Added compatibility with Unity 2019.3
+
+Version 4.2
+- Shader Control now suggests converting all shader_features keywords to local with a single button (if suitable keywords are found)
+
+Version 4.1
+- Total keywords + global keywords (excluding keywords defined as local) are now shown in Project View
+- Added new filters to Project View: filter by Keyword Scope (global/local) and Pragma Type (multi_compile or shader_feature)
+- Added button to convert keyword to local (in Project View / Sort by Keyword)
+- Added button to restore shader backup from keyword view
 
 Version 4.0 
 - Support for multi_compile_local and shader_feature_local pragma directives

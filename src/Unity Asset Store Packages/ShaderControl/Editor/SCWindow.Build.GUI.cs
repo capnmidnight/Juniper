@@ -1,7 +1,7 @@
-/// <summary>
-/// Shader Control - (C) Copyright 2016-2019 Ramiro Oliva (Kronnect)
-/// </summary>
-/// 
+/*
+Shader Control - (C) Copyright 2016-2019 Ramiro Oliva (Kronnect)
+*/
+
 using UnityEngine;
 using UnityEditor;
 using System;
@@ -12,9 +12,10 @@ using System.Text;
 
 namespace ShaderControl {
 
-    public enum BuildVIewSortType {
+    public enum BuildViewSortType {
         ShaderName = 0,
-        Keyword = 1
+        ShaderKeywordCount = 1,
+        Keyword = 2
     }
 
     public enum BuildViewShaderOption {
@@ -26,7 +27,7 @@ namespace ShaderControl {
 
         Vector2 scrollViewPosBuild;
         string buildShaderNameFilter;
-        GUIContent[] viewShaderTexts = { new GUIContent("All Shaders", "Show all shaders included in the build"), new GUIContent("Project Shaders", "Show shaders with source code available"), new GUIContent("Hidden Shaders", "Show Unity internal shaders included in the build") };
+        GUIContent[] viewShaderTexts = { new GUIContent("All Shaders", "Show all shaders included in the build"), new GUIContent("Project Shaders", "Show shaders with source code available"), new GUIContent("Internal Shaders", "Show Unity internal shaders included in the build") };
 
         void DrawBuildGUI() {
 
@@ -41,7 +42,7 @@ namespace ShaderControl {
                 ClearBuildData();
             }
             if (GUILayout.Button("Help", GUILayout.Width(40))) {
-                ShowHelpWindow();
+                ShowHelpWindowBuildView();
             }
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.EndVertical();
@@ -54,6 +55,9 @@ namespace ShaderControl {
 
             if (!nextQuickBuild) {
                 EditorGUILayout.LabelField("Last build: " + ((shadersBuildInfo.creationDateTicks != 0) ? shadersBuildInfo.creationDateString : "no data yet. Click 'Quick Build' for more details."), EditorStyles.boldLabel);
+            }
+            if (shadersBuildInfo != null && shadersBuildInfo.requiresBuild) {
+                EditorGUILayout.HelpBox("Project shaders have been modified. Do a 'Quick Build' again to ensure the data shown in this tab is accurate.", MessageType.Warning);
             }
 
             if (shadersCount > 0) {
@@ -72,19 +76,19 @@ namespace ShaderControl {
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Sort By", GUILayout.Width(90));
                 EditorGUI.BeginChangeCheck();
-                shadersBuildInfo.sortType = (BuildVIewSortType)EditorGUILayout.EnumPopup(shadersBuildInfo.sortType);
+                shadersBuildInfo.sortType = (BuildViewSortType)EditorGUILayout.EnumPopup(shadersBuildInfo.sortType);
                 if (EditorGUI.EndChangeCheck()) {
                     if (shadersBuildInfo != null) {
                         shadersBuildInfo.Resort();
                     }
                     EditorUtility.SetDirty(shadersBuildInfo);
-                    EditorGUIUtility.ExitGUI();
+                    GUIUtility.ExitGUI();
                     return;
                 }
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Name Filter", GUILayout.Width(90));
+                EditorGUILayout.LabelField("Shader Name", GUILayout.Width(90));
                 EditorGUI.BeginChangeCheck();
                 buildShaderNameFilter = EditorGUILayout.TextField(buildShaderNameFilter);
                 if (GUILayout.Button(new GUIContent("Clear", "Clear filter."), EditorStyles.miniButton, GUILayout.Width(60))) {
@@ -97,14 +101,13 @@ namespace ShaderControl {
                     RefreshBuildStats(true);
                 }
 
-
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Keywords >=", GUILayout.Width(90));
-                minimumKeywordCount = EditorGUILayout.IntSlider(minimumKeywordCount, 0, maxBuildKeywordsCountFound);
-                EditorGUILayout.EndHorizontal();
-
-
+                if (shadersBuildInfo.sortType != BuildViewSortType.Keyword) {
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Keywords >=", GUILayout.Width(90));
+                    minimumKeywordCount = EditorGUILayout.IntSlider(minimumKeywordCount, 0, maxBuildKeywordsCountFound);
+                    EditorGUILayout.EndHorizontal();
+                }
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Keyword Filter", GUILayout.Width(90));
                 keywordFilter = EditorGUILayout.TextField(keywordFilter);
@@ -113,23 +116,19 @@ namespace ShaderControl {
                     GUIUtility.keyboardControl = 0;
                 }
                 EditorGUILayout.EndHorizontal();
-
                 if (EditorGUI.EndChangeCheck()) {
                     RefreshBuildStats(true);
                 }
 
                 EditorGUILayout.Separator();
 
-                if (totalBuildShaders == 0 || totalBuildIncludedShaders == 0 || totalBuildKeywords == 0 || (totalBuildKeywords == totalBuildIncludedKeywords && totalBuildShaders == totalBuildIncludedShaders))
-                {
-                    EditorGUILayout.HelpBox("Total Shaders: " + totalBuildShaders + "  Shaders Using Keywords: " + totalBuildShadersWithKeywords + "\nTotal Keywords: " + totalBuildKeywords, MessageType.Info);
-                }
-                else
-                {
+                if (totalBuildShaders == 0 || totalBuildIncludedShaders == 0 || totalBuildKeywords == 0 || (totalBuildKeywords == totalBuildIncludedKeywords && totalBuildShaders == totalBuildIncludedShaders)) {
+                    EditorGUILayout.HelpBox("Total Shaders: " + totalBuildShaders + "  Shaders Using Keywords: " + totalBuildShadersWithKeywords + "\nTotal Unique Keywords: " + totalBuildKeywords, MessageType.Info);
+                } else {
                     int shadersPerc = totalBuildIncludedShaders * 100 / totalBuildShaders;
                     int shadersWithKeywordsPerc = totalBuildIncludedShadersWithKeywords * 100 / totalBuildIncludedShaders;
                     int keywordsPerc = totalBuildIncludedKeywords * 100 / totalBuildKeywords;
-                    EditorGUILayout.HelpBox("Total Shaders: " + totalBuildIncludedShaders + " of " + totalBuildShaders + " (" + shadersPerc + "%" + "  Shaders Using Keywords: " + totalBuildIncludedShadersWithKeywords + " of " + totalBuildShadersWithKeywords + " (" + shadersWithKeywordsPerc + "%)\nTotal Keywords: " + totalBuildIncludedKeywords + " of " + totalBuildKeywords + " (" + keywordsPerc.ToString() + "%)", MessageType.Info);
+                    EditorGUILayout.HelpBox("Total Shaders: " + totalBuildIncludedShaders + " of " + totalBuildShaders + " (" + shadersPerc + "%" + "  Shaders Using Keywords: " + totalBuildIncludedShadersWithKeywords + " of " + totalBuildShadersWithKeywords + " (" + shadersWithKeywordsPerc + "%)\nTotal Unique Keywords: " + totalBuildIncludedKeywords + " of " + totalBuildKeywords + " (" + keywordsPerc.ToString() + "%)", MessageType.Info);
                 }
 
                 EditorGUILayout.Separator();
@@ -137,86 +136,129 @@ namespace ShaderControl {
                 scrollViewPosProject = EditorGUILayout.BeginScrollView(scrollViewPosProject);
 
                 bool requireUpdate = false;
-                for (int k = 0; k < shadersCount; k++) {
-                    ShaderBuildInfo sb = shadersBuildInfo.shaders[k];
-                    int kwCount = sb.keywords == null ? 0 : sb.keywords.Count;
-                    if (kwCount < minimumKeywordCount) continue;
-                    if (shadersBuildInfo.viewType == BuildViewShaderOption.ProjectShaders && sb.isInternal) continue;
-                    if (shadersBuildInfo.viewType == BuildViewShaderOption.UnityInternalShaders && !sb.isInternal) continue;
-                    if (!string.IsNullOrEmpty(keywordFilter) && !sb.ContainsKeyword(keywordFilter, false))
-                        continue;
-                    if (!string.IsNullOrEmpty(buildShaderNameFilter) && sb.name.IndexOf(buildShaderNameFilter, StringComparison.CurrentCulture)<0) continue;
 
-                    GUI.enabled = sb.includeInBuild;
-                    EditorGUILayout.BeginHorizontal();
-                    string shaderName = (sb.isInternal && shadersBuildInfo.viewType != BuildViewShaderOption.UnityInternalShaders) ? sb.name + " (internal)" : sb.name;
-                    sb.isExpanded = EditorGUILayout.Foldout(sb.isExpanded, shaderName + " (" + kwCount + " keyword" + (kwCount != 1 ? "s)" : ")"), sb.isInternal ? foldoutDim : foldoutNormal);
-                    GUILayout.FlexibleSpace();
-                    GUI.enabled = true;
-                    if (sb.name != "Standard") {
-                        EditorGUI.BeginChangeCheck();
-                        sb.includeInBuild = EditorGUILayout.ToggleLeft("Include", sb.includeInBuild, GUILayout.Width(90));
-                        if (EditorGUI.EndChangeCheck()) {
-                            requireUpdate = true;
+                if (shadersBuildInfo.sortType == BuildViewSortType.Keyword) {
+                    if (buildKeywordView != null) {
+                        int kvCount = buildKeywordView.Count;
+                        for (int s = 0; s < kvCount; s++) {
+                            BuildKeywordView kwv = buildKeywordView[s];
+                            string keyword = kwv.keyword;
+                            if (!string.IsNullOrEmpty(keywordFilter) && keyword.IndexOf(keywordFilter, StringComparison.InvariantCultureIgnoreCase) < 0)
+                                continue;
+                            EditorGUILayout.BeginHorizontal();
+                            kwv.foldout = EditorGUILayout.Foldout(kwv.foldout, new GUIContent("Keyword #" + (s + 1) + " <b>" + kwv.keyword + "</b> found in " + kwv.shaders.Count + " shader(s)"), foldoutRTF);
+
+                            if (!kwv.isInternal && GUILayout.Button("Show In Project View", EditorStyles.miniButton, GUILayout.Width(160))) {
+                                sortType = SortType.EnabledKeywordsCount;
+                                projectShaderNameFilter = "";
+                                keywordFilter = kwv.keyword;
+                                scanAllShaders = true;
+                                if (shaders == null) ScanProject();
+                                viewMode = ViewMode.Project;
+                                GUIUtility.ExitGUI();
+                            }
+
+                            EditorGUILayout.EndHorizontal();
+                            if (kwv.foldout) {
+                                int kvShadersCount = kwv.shaders.Count;
+                                for (int m = 0; m < kvShadersCount; m++) {
+                                    ShaderBuildInfo sb = kwv.shaders[m];
+                                    EditorGUILayout.BeginHorizontal();
+                                    EditorGUILayout.LabelField("", GUILayout.Width(30));
+                                    EditorGUILayout.LabelField(shaderIcon, GUILayout.Width(18));
+                                    EditorGUILayout.LabelField(sb.name);
+                                    if (sb.isInternal) {
+                                        GUILayout.Label("(Internal Shader)");
+                                    } else {
+                                        if (GUILayout.Button("Locate", EditorStyles.miniButton, GUILayout.Width(80))) {
+                                            PingShader(sb.name);
+                                        }
+                                        if (GUILayout.Button("Show In Project View", EditorStyles.miniButton, GUILayout.Width(160))) {
+                                            projectShaderNameFilter = sb.simpleName;
+                                            keywordFilter = "";
+                                            scanAllShaders = true;
+                                            PingShader(sb.name);
+                                            if (shaders == null) ScanProject();
+                                            viewMode = ViewMode.Project;
+                                            GUIUtility.ExitGUI();
+                                        }
+                                    }
+                                    EditorGUILayout.EndHorizontal();
+                                }
+                            }
                         }
                     }
-                    EditorGUILayout.EndHorizontal();
-                    if (sb.isExpanded) {
+                } else {
+                    for (int k = 0; k < shadersCount; k++) {
+                        ShaderBuildInfo sb = shadersBuildInfo.shaders[k];
+                        int kwCount = sb.keywords == null ? 0 : sb.keywords.Count;
+                        if (kwCount < minimumKeywordCount) continue;
+                        if (shadersBuildInfo.viewType == BuildViewShaderOption.ProjectShaders && sb.isInternal) continue;
+                        if (shadersBuildInfo.viewType == BuildViewShaderOption.UnityInternalShaders && !sb.isInternal) continue;
+                        if (!string.IsNullOrEmpty(keywordFilter) && !sb.ContainsKeyword(keywordFilter, false))
+                            continue;
+                        if (!string.IsNullOrEmpty(buildShaderNameFilter) && sb.name.IndexOf(buildShaderNameFilter, StringComparison.InvariantCultureIgnoreCase) < 0) continue;
+
                         GUI.enabled = sb.includeInBuild;
-                        EditorGUI.indentLevel++;
-                        if (kwCount == 0) {
-                            EditorGUILayout.LabelField("No keywords.");
-                        } else {
-                            if (!sb.isInternal)
-                            {
-                                EditorGUILayout.BeginHorizontal();
-                                EditorGUILayout.LabelField("", GUILayout.Width(15));
-                                if (GUILayout.Button("Locate", EditorStyles.miniButton, GUILayout.Width(80)))
-                                {
-                                    PingShader(sb.name);
-                                }
-                                if (!sb.isInternal && GUILayout.Button("Show In Project View", EditorStyles.miniButton, GUILayout.Width(120)))
-                                {
-                                    projectShaderNameFilter = sb.simpleName;
-                                    scanAllShaders = true;
-                                    PingShader(sb.name);
-                                    if (shaders == null) ScanProject();
-                                    viewMode = ViewMode.Project;
-                                    EditorGUIUtility.ExitGUI();
-                                }
-                                EditorGUILayout.EndHorizontal();
-                            }
-                            for (int j = 0; j < kwCount; j++) {
-                                KeywordBuildSettings kw = sb.keywords[j];
-                                EditorGUILayout.BeginHorizontal();
-                                EditorGUILayout.LabelField(kw.keyword);
-                                GUILayout.FlexibleSpace();
-                                EditorGUI.BeginChangeCheck();
-                                kw.includeInBuild = EditorGUILayout.ToggleLeft("Include", kw.includeInBuild, GUILayout.Width(90));
-                                if (EditorGUI.EndChangeCheck()) {
-                                    requireUpdate = true;
-                                }
-                                EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.BeginHorizontal();
+                        string shaderName = (sb.isInternal && shadersBuildInfo.viewType != BuildViewShaderOption.UnityInternalShaders) ? sb.name + " (internal)" : sb.name;
+                        sb.isExpanded = EditorGUILayout.Foldout(sb.isExpanded, shaderName + " (" + kwCount + " keyword" + (kwCount != 1 ? "s)" : ")"), sb.isInternal ? foldoutDim : foldoutNormal);
+                        GUILayout.FlexibleSpace();
+                        GUI.enabled = true;
+                        if (sb.name != "Standard") {
+                            EditorGUI.BeginChangeCheck();
+                            sb.includeInBuild = EditorGUILayout.ToggleLeft("Include", sb.includeInBuild, GUILayout.Width(90));
+                            if (EditorGUI.EndChangeCheck()) {
+                                requireUpdate = true;
                             }
                         }
-                        EditorGUI.indentLevel--;
+                        EditorGUILayout.EndHorizontal();
+                        if (sb.isExpanded) {
+                            GUI.enabled = sb.includeInBuild;
+                            EditorGUI.indentLevel++;
+                            if (kwCount == 0) {
+                                EditorGUILayout.LabelField("No keywords.");
+                            } else {
+                                if (!sb.isInternal) {
+                                    EditorGUILayout.BeginHorizontal();
+                                    EditorGUILayout.LabelField("", GUILayout.Width(15));
+                                    if (GUILayout.Button("Locate", EditorStyles.miniButton, GUILayout.Width(80))) {
+                                        PingShader(sb.name);
+                                    }
+                                    if (!sb.isInternal && GUILayout.Button("Show In Project View", EditorStyles.miniButton, GUILayout.Width(160))) {
+                                        projectShaderNameFilter = sb.simpleName;
+                                        scanAllShaders = true;
+                                        PingShader(sb.name);
+                                        if (shaders == null) ScanProject();
+                                        viewMode = ViewMode.Project;
+                                        GUIUtility.ExitGUI();
+                                    }
+                                    EditorGUILayout.EndHorizontal();
+                                }
+                                for (int j = 0; j < kwCount; j++) {
+                                    KeywordBuildSettings kw = sb.keywords[j];
+                                    EditorGUILayout.BeginHorizontal();
+                                    EditorGUILayout.LabelField(kw.keyword);
+                                    GUILayout.FlexibleSpace();
+                                    EditorGUI.BeginChangeCheck();
+                                    kw.includeInBuild = EditorGUILayout.ToggleLeft("Include", kw.includeInBuild, GUILayout.Width(90));
+                                    if (EditorGUI.EndChangeCheck()) {
+                                        requireUpdate = true;
+                                    }
+                                    EditorGUILayout.EndHorizontal();
+                                }
+                            }
+                            EditorGUI.indentLevel--;
+                        }
+                        GUI.enabled = true;
                     }
-                    GUI.enabled = true;
                 }
                 EditorGUILayout.EndScrollView();
 
-                if (requireUpdate)
-                {
+                if (requireUpdate) {
                     RefreshBuildStats(true);
                     EditorUtility.SetDirty(shadersBuildInfo);
                     AssetDatabase.SaveAssets();
-                }
-
-                // detect changes
-                if (issueRefresh)
-                {
-                    shadersBuildInfo.Refresh();
-                    RefreshBuildStats(false);
                 }
             }
 

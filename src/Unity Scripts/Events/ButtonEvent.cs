@@ -7,9 +7,7 @@ using Juniper.Input.Pointers;
 
 using UnityEngine;
 
-#if !NET_4_6 && !NET_3_5
 using System.Reflection;
-#endif
 
 namespace Juniper.Events
 {

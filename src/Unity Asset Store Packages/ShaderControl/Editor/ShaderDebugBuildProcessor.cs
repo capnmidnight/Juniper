@@ -37,7 +37,7 @@ namespace ShaderControl {
             // Locate shader control path
             string[] paths = AssetDatabase.GetAllAssetPaths();
             for (int k = 0; k < paths.Length; k++) {
-                if (paths[k].EndsWith("/ShaderControl/Editor", StringComparison.InvariantCulture)) {
+                if (paths[k].EndsWith("/ShaderControl/Editor", StringComparison.InvariantCultureIgnoreCase)) {
                     return paths[k] + "/Resources/BuiltShaders.asset";
                 }
             }
@@ -58,7 +58,7 @@ namespace ShaderControl {
                     AssetDatabase.SaveAssets();
                 }
             }
-            SCWindow.issueRefresh = true;
+            SCWindow.issueRefresh = 0;
         }
 
         public void OnProcessShader(
@@ -74,6 +74,8 @@ namespace ShaderControl {
                 shadersBuildInfo = AssetDatabase.LoadAssetAtPath<ShadersBuildInfo>(filename);
                 if (shadersBuildInfo == null) {
                     shadersBuildInfo = ScriptableObject.CreateInstance<ShadersBuildInfo>();
+                    Directory.CreateDirectory(Path.GetDirectoryName(filename));
+                    AssetDatabase.CreateAsset(shadersBuildInfo, filename);
                     EditorUtility.SetDirty(shadersBuildInfo);
                 }
             }
@@ -82,7 +84,7 @@ namespace ShaderControl {
             if (sb == null) {
                 sb = new ShaderBuildInfo();
                 sb.name = shader.name;
-                sb.simpleName = GetSimpleName(sb.name);
+                sb.simpleName = SCShader.GetSimpleName(sb.name);
                 sb.type = snippet.shaderType;
                 string path = AssetDatabase.GetAssetPath(shader);
                 sb.isInternal = string.IsNullOrEmpty(path) || !File.Exists(path);
@@ -96,7 +98,14 @@ namespace ShaderControl {
             for (int i = 0; i < count; ++i) {
                 ShaderKeywordSet ks = shaderCompilerData[i].shaderKeywordSet;
                 foreach (ShaderKeyword kw in ks.GetShaderKeywords()) {
-                    string kname = kw.GetKeywordName();
+#if UNITY_2019_3_OR_NEWER
+                    string kname = ShaderKeyword.GetKeywordName(shader, kw);
+#else
+                    string kname = kw.GetName();
+#endif
+                    if (string.IsNullOrEmpty(kname)) {
+                        continue;
+                    }
                     if (!sb.KeywordsIsIncluded(kname)) {
                         shaderCompilerData.RemoveAt(i);
                         count--;
@@ -112,14 +121,6 @@ namespace ShaderControl {
                 shaderCompilerData.Clear();
             }
 
-        }
-
-        string GetSimpleName(string longName) {
-            int k = longName.LastIndexOf("/");
-            if (k >= 0) {
-                return longName.Substring(k + 1);
-            }
-            return longName;
         }
 
     }

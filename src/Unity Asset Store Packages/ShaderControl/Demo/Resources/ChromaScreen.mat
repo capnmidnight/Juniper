@@ -5,11 +5,10 @@ Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_Name: ChromaScreen
   m_Shader: {fileID: 4800000, guid: d32de3ccd69914daf97f0c26770ec1e0, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: ENABLE_BLUE_CHANNEL ENABLE_GREEN_CHANNEL ENABLE_RED_CHANNEL
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0

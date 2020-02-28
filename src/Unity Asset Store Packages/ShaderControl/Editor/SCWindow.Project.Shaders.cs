@@ -15,7 +15,7 @@ namespace ShaderControl {
     public partial class SCWindow : EditorWindow {
 
         class KeywordView {
-            public string keyword;
+            public SCKeyword keyword;
             public List<SCShader> shaders;
             public bool foldout;
         }
@@ -29,8 +29,9 @@ namespace ShaderControl {
         int minimumKeywordCount;
         int totalShaderCount;
         int maxKeywordsCountFound = 0;
-        int totalKeywords, totalVariants, totalUsedKeywords, totalBuildVariants;
+        int totalKeywords, totalGlobalKeywords, totalVariants, totalUsedKeywords, totalBuildVariants, totalGlobalShaderFeatures;
         Dictionary<string, List<SCShader>> uniqueKeywords, uniqueEnabledKeywords;
+        Dictionary<string, SCKeyword> keywordsDict;
         List<KeywordView> keywordView;
 
         #region Shader handling
@@ -55,7 +56,7 @@ namespace ShaderControl {
                             if (unityShader != null) {
                                 SCShader shader = new SCShader();
                                 shader.fullName = unityShader.name;
-                                shader.name = Path.GetFileNameWithoutExtension(path);
+                                shader.name = SCShader.GetSimpleName(shader.fullName); //  Path.GetFileNameWithoutExtension(path);
                                 shader.path = path;
                                 string shaderGUID = path + "/" + unityShader.name;
                                 shader.GUID = shaderGUID;
@@ -81,7 +82,7 @@ namespace ShaderControl {
                     Material mat = (Material)AssetDatabase.LoadAssetAtPath<Material>(matPath);
                     if (mat.shader == null)
                         continue;
-                    SCMaterial scMat = new SCMaterial(mat.name, matPath, matGUID);
+                    SCMaterial scMat = new SCMaterial(mat, matPath, matGUID);
                     scMat.SetKeywords(mat.shaderKeywords);
                     string path = AssetDatabase.GetAssetPath(mat.shader);
                     string shaderGUID = path + "/" + mat.shader.name;
@@ -98,11 +99,12 @@ namespace ShaderControl {
                         shader.GUID = shaderGUID;
                         if (shad != null) {
                             shader.fullName = shad.name;
-                            shader.name = Path.GetFileNameWithoutExtension(path);
+                            shader.name = SCShader.GetSimpleName(shader.fullName); // Path.GetFileNameWithoutExtension(path);
                             shader.path = path;
                             ScanShader(shader);
                         } else {
-                            shader.name = mat.shader.name;
+                            shader.fullName = mat.shader.name;
+                            shader.name = SCShader.GetSimpleName(shader.fullName);
                         }
                         shaders.Add(shader);
                         shaderCache.Add(shaderGUID, shader);
@@ -152,7 +154,7 @@ namespace ShaderControl {
             shader.keywords.Clear();
             shader.hasBackup = File.Exists(shader.path + BACKUP_SUFFIX);
             shader.pendingChanges = false;
-            shader.editedByShaderControl = false;
+            shader.editedByShaderControl = shader.hasBackup;
 
             // Reads shader
             string[] shaderLines = File.ReadAllLines(shader.path);
@@ -298,19 +300,30 @@ namespace ShaderControl {
 
         void UpdateProjectStats() {
             totalKeywords = 0;
+            totalGlobalKeywords = 0;
             totalUsedKeywords = 0;
             totalVariants = 0;
             totalBuildVariants = 0;
+            totalGlobalShaderFeatures = 0;
+
             if (shaders == null)
                 return;
-            if (uniqueKeywords == null)
+
+            if (keywordsDict == null) {
+                keywordsDict = new Dictionary<string, SCKeyword>();
+            } else {
+                keywordsDict.Clear();
+            }
+            if (uniqueKeywords == null) {
                 uniqueKeywords = new Dictionary<string, List<SCShader>>();
-            else
+            } else {
                 uniqueKeywords.Clear();
-            if (uniqueEnabledKeywords == null)
+            }
+            if (uniqueEnabledKeywords == null) {
                 uniqueEnabledKeywords = new Dictionary<string, List<SCShader>>();
-            else
+            } else {
                 uniqueEnabledKeywords.Clear();
+            }
 
             int shadersCount = shaders.Count;
             for (int k = 0; k < shadersCount; k++) {
@@ -323,6 +336,9 @@ namespace ShaderControl {
                         shadersWithThisKeyword = new List<SCShader>();
                         uniqueKeywords[keyword.name] = shadersWithThisKeyword;
                         totalKeywords++;
+                        if (keyword.isGlobal) totalGlobalKeywords++;
+                        if (keyword.isGlobal && !keyword.isMultiCompile) totalGlobalShaderFeatures++;
+                        keywordsDict[keyword.name] = keyword;
                     }
                     shadersWithThisKeyword.Add(shader);
                     if (keyword.enabled) {
@@ -345,7 +361,9 @@ namespace ShaderControl {
                 keywordView.Clear();
             }
             foreach (KeyValuePair<string, List<SCShader>> kvp in uniqueEnabledKeywords) {
-                KeywordView kv = new KeywordView { keyword = kvp.Key, shaders = kvp.Value };
+                SCKeyword kw;
+                if (!keywordsDict.TryGetValue(kvp.Key, out kw)) continue;
+                KeywordView kv = new KeywordView { keyword = kw, shaders = kvp.Value };
                 keywordView.Add(kv);
             }
             keywordView.Sort(delegate (KeywordView x, KeywordView y) {
@@ -378,6 +396,14 @@ namespace ShaderControl {
             return false;
         }
 
+        void MakeBackup(SCShader shader) {
+            string backupPath = shader.path + BACKUP_SUFFIX;
+            if (!File.Exists(backupPath)) {
+                AssetDatabase.CopyAsset(shader.path, backupPath);
+                shader.hasBackup = true;
+            }
+        }
+
         void UpdateShader(SCShader shader) {
             if (shader.isReadOnly) {
                 EditorUtility.DisplayDialog("Locked file", "Shader file " + shader.name + " is read-only.", "Ok");
@@ -385,11 +411,7 @@ namespace ShaderControl {
             }
             try {
                 // Create backup
-                string backupPath = shader.path + BACKUP_SUFFIX;
-                if (!File.Exists(backupPath)) {
-                    AssetDatabase.CopyAsset(shader.path, backupPath);
-                    shader.hasBackup = true;
-                }
+                MakeBackup(shader);
 
                 // Reads and updates shader from disk
                 string[] shaderLines = File.ReadAllLines(shader.path);
@@ -448,16 +470,19 @@ namespace ShaderControl {
                             keywordLine.Clear();
                         }
                         keywordLine.pragmaType = pragmaType;
+                        j = shaderLines[k].IndexOf(' ', j + 20) + 1; // first space after pragma declaration
+                        if (j >= shaderLines[k].Length) continue;
                         // exclude potential comments inside the #pragma line
-                        int lastStringPos = shaderLines[k].IndexOf("//", j + 22);
+                        int lastStringPos = shaderLines[k].IndexOf("//", j);
                         if (lastStringPos < 0) {
                             lastStringPos = shaderLines[k].Length;
                         }
-                        int length = lastStringPos - j - 22;
-                        string[] kk = shaderLines[k].Substring(j + 22, length).Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                        int length = lastStringPos - j;
+                        string[] kk = shaderLines[k].Substring(j, length).Split(separator, StringSplitOptions.RemoveEmptyEntries);
                         // Sanitize keywords
-                        for (int i = 0; i < kk.Length; i++)
+                        for (int i = 0; i < kk.Length; i++) {
                             kk[i] = kk[i].Trim();
+                        }
                         // Act on keywords
                         switch (pragmaControl) {
                             case 1:
@@ -633,6 +658,55 @@ namespace ShaderControl {
                 Debug.Log("Unexpected exception caught while pruning materials: " + ex.Message);
             }
 
+        }
+
+        void ConvertToLocal(SCKeyword keyword) {
+            List<SCShader> shaders;
+            if (!uniqueKeywords.TryGetValue(keyword.name, out shaders)) return;
+            if (shaders == null) return;
+            for (int k=0;k<shaders.Count;k++) {
+                ConvertToLocal(keyword, shaders[k]);
+            }
+            AssetDatabase.Refresh();
+        }
+
+        void ConvertToLocal(SCKeyword keyword, SCShader shader) {
+            // Check total local keyword does not exceed 64 limit
+            int potentialCount = 0;
+            int kwCount = shader.keywords.Count;
+            for (int k=0;k<kwCount;k++) {
+                SCKeyword kw = shader.keywords[k];
+                if (!kw.isMultiCompile) potentialCount++;
+            }
+            if (potentialCount > 64) return;
+
+            string path = shader.path;
+            if (!File.Exists(path)) return;
+            string[] lines = File.ReadAllLines(path);
+            bool changed = false;
+            for (int k = 0; k < lines.Length; k++) {
+                // Just convert to local shader_features for now since multi_compile global keywords can be nabled using the Shader global API
+                if (lines[k].IndexOf(SCKeywordLine.PRAGMA_FEATURE_GLOBAL, StringComparison.InvariantCultureIgnoreCase) >= 0 && lines[k].IndexOf(keyword.name, StringComparison.InvariantCultureIgnoreCase) >= 0) {
+                    lines[k] = lines[k].Replace(SCKeywordLine.PRAGMA_FEATURE_GLOBAL, SCKeywordLine.PRAGMA_FEATURE_LOCAL);
+                    lines[k] = lines[k].Replace(SCKeywordLine.PRAGMA_FEATURE_GLOBAL.ToUpper(), SCKeywordLine.PRAGMA_FEATURE_LOCAL);
+                    changed = true;
+                }
+            }
+            if (changed) {
+                MakeBackup(shader);
+                File.WriteAllLines(path, lines, Encoding.UTF8);
+            }
+        }
+
+        void ConvertToLocalAll() {
+            int kvCount = keywordView.Count;
+            for (int s = 0; s < kvCount; s++) {
+                SCKeyword keyword = keywordView[s].keyword;
+                if (keyword.isGlobal && !keyword.isMultiCompile) {
+                    ConvertToLocal(keyword);
+                }
+            }
+            AssetDatabase.Refresh();
         }
 
         #endregion

@@ -56,6 +56,13 @@ namespace ShaderControl {
         }
 
         void OnGUI() {
+
+            // Detect changes
+            if (issueRefresh == 0) {
+                shadersBuildInfo.Refresh();
+                RefreshBuildStats(false);
+            }
+
             if (commentStyle == null) {
                 commentStyle = new GUIStyle(EditorStyles.label);
             }
@@ -89,7 +96,7 @@ namespace ShaderControl {
                 if (shaderIcon == null)
                     matIcon = new GUIContent();
             }
-            if (titleStyle==null) {
+            if (titleStyle == null) {
                 titleStyle = new GUIStyle(GUI.skin.box);
                 titleStyle.normal.textColor = EditorGUIUtility.isProSkin ? Color.white : Color.black;
                 titleStyle.richText = true;
@@ -113,17 +120,26 @@ namespace ShaderControl {
 
         void OnInspectorUpdate() {
             if (firstTime)
-                ShowHelpWindow();
+                ShowHelpWindowFirstTime();
 
         }
 
-        void ShowHelpWindow() {
+        void ShowHelpWindowFirstTime() {
             if (firstTime) {
                 SetEditorPrefBool("FIRST_TIME", true);
                 firstTime = false;
             }
             EditorUtility.DisplayDialog("About Shader Control", "Shader Control is a powerful tool that scans your project or build and lists any shader that could be adding unnecessary code to your build, increasing its size and compilation time.\n\nThe 'Project View' lists all shaders existing in your project. It's useful to locate, remove or disable keywords in order to reduce the total keywords used in your project.\n\nThe 'Build View' shows all the shaders and keywords compiled in the build (including shaders in the project plus all internal Unity shaders). It allows you to specify which shaders or keywords must be excluded from the next build.\n\nImportant: a disabled or excluded keyword will deactivate a shader feature. Make sure the shaders and keywords you're disabling or excluding from your build are not being used! You may need to review the shader documentation, its source code for comments or contact the author concerning the keywords that can be safely disabled before applying any change.\n\nAlthough Shader Control will make a backup copy of any shader being modified, it's recommended to make a backup copy of your project before applying automatic changes to your shaders from the Project View (any change in the Build View won't affect your files).\n\nPlease contact us on kronnect.com support forum for any question or suggestions. Thanks!", "Ok");
         }
+
+        void ShowHelpWindowBuildView() {
+            EditorUtility.DisplayDialog("About the Build View", "In this tab you decide which shaders (and keywords) can be compiled in next build.\n\nThe data shown here is collected from the last build since Shader Control was installed.\n\nThis tab lists ALL shaders and keywords used during the build, including Unity internal shaders which cannot be modified by Shader Control (for example to remove a keyword) but still can be excluded here from the next build, saving time and disk space.", "Ok");
+        }
+
+        void ShowHelpWindowProjectView() {
+            EditorUtility.DisplayDialog("About the Project View", "This tab lets you browse all shaders and keywords available in the files of your project. It does NOT show Unity internal shaders or keywords, unless they're referenced by a material.\n\nUnity has a limit of 256 total keywords (including internal shaders and keywords which cannot be modified). If you have exceeded this limit, you can:\n\n1.- Locate and remove shaders or keywords from the list below. To disable a keyword, uncheck it and press Save. Shader Control will modify the shader file for you!\n2.- Convert a keyword to local. This operation only can be used safely with keywords of type 'shader_feature'. Select 'Sort by Keyword' in the filters below and Shader Control will show a button 'Convert To Local' next to the keywords that can be converted.\n\nImportant: the total keyword count is the value shown in the Build View which includes Unity internal shaders and private keywords.", "Ok");
+        }
+
 
         public static void SetEditorPrefBool(string param, bool value) {
             EditorPrefs.SetBool(EDITOR_PREFIX + param, value);
@@ -135,11 +151,9 @@ namespace ShaderControl {
 
         #endregion
 
-        void PingShader(string name)
-        {
+        void PingShader(string name) {
             Shader shader = Shader.Find(name);
-            if (shader != null)
-            {
+            if (shader != null) {
                 Selection.activeObject = shader;
                 EditorGUIUtility.PingObject(shader);
             }

@@ -25,12 +25,14 @@ public class OVRManagerEditor : Editor
 	override public void OnInspectorGUI()
 	{
 #if UNITY_ANDROID
+		OVRProjectConfig projectConfig = OVRProjectConfig.GetProjectConfig();
+		bool hasModified = false;
+
+		// Target Devices
 		EditorGUILayout.LabelField("Target Devices");
 		EditorGUI.indentLevel++;
-		OVRProjectConfig projectConfig = OVRProjectConfig.GetProjectConfig();
 		List<OVRProjectConfig.DeviceType> oldTargetDeviceTypes = projectConfig.targetDeviceTypes;
 		List<OVRProjectConfig.DeviceType> targetDeviceTypes = new List<OVRProjectConfig.DeviceType>(oldTargetDeviceTypes);
-		bool hasModified = false;
 		int newCount = Mathf.Max(0, EditorGUILayout.IntField("Size", targetDeviceTypes.Count));
 		while (newCount < targetDeviceTypes.Count)
 		{
@@ -39,7 +41,7 @@ public class OVRManagerEditor : Editor
 		}
 		while (newCount > targetDeviceTypes.Count)
 		{
-			targetDeviceTypes.Add(OVRProjectConfig.DeviceType.GearVrOrGo);
+			targetDeviceTypes.Add(OVRProjectConfig.DeviceType.Quest);
 			hasModified = true;
 		}
 		for (int i = 0; i < targetDeviceTypes.Count; i++)
@@ -54,10 +56,46 @@ public class OVRManagerEditor : Editor
 		if (hasModified)
 		{
 			projectConfig.targetDeviceTypes = targetDeviceTypes;
-			OVRProjectConfig.CommitProjectConfig(projectConfig);
 		}
 		EditorGUI.indentLevel--;
+
+		// Show overlay support option if only targeting for Quest
+		if (OVRDeviceSelector.isTargetDeviceQuest)
+		{
+			EditorGUI.BeginChangeCheck();
+			bool focusAware = projectConfig.focusAware;
+			GUIContent focusAwareContent = new GUIContent("Enable Focus Aware [?]",
+				"If checked, the new overlay will be displayed when the user presses the home button. The game will not be paused, but will now receive InputFocusLost and InputFocusAcquired events.");
+			focusAware = EditorGUILayout.Toggle(focusAwareContent, focusAware);
+
+			if (EditorGUI.EndChangeCheck())
+			{
+				projectConfig.focusAware = focusAware;
+				OVRProjectConfig.CommitProjectConfig(projectConfig);
+			}
+		}
+
 		EditorGUILayout.Space();
+
+		// Hand Tracking Support
+		EditorGUI.BeginDisabledGroup(!targetDeviceTypes.Contains(OVRProjectConfig.DeviceType.Quest));
+		EditorGUILayout.LabelField("Input", EditorStyles.boldLabel);
+		OVRProjectConfig.HandTrackingSupport oldHandTrackingSupport = projectConfig.handTrackingSupport;
+		OVRProjectConfig.HandTrackingSupport newHandTrackingSupport = (OVRProjectConfig.HandTrackingSupport)EditorGUILayout.EnumPopup(
+			"Hand Tracking Support", oldHandTrackingSupport);
+		if (newHandTrackingSupport != oldHandTrackingSupport)
+		{
+			projectConfig.handTrackingSupport = newHandTrackingSupport;
+			hasModified = true;
+		}
+		EditorGUILayout.Space();
+		EditorGUI.EndDisabledGroup();
+
+		// apply any pending changes to project config
+		if (hasModified)
+		{
+			OVRProjectConfig.CommitProjectConfig(projectConfig);
+		}
 #endif
 
 		DrawDefaultInspector();
@@ -67,6 +105,22 @@ public class OVRManagerEditor : Editor
 #endif
 
 #if UNITY_ANDROID
+		EditorGUILayout.Space();
+		EditorGUILayout.LabelField("Security", EditorStyles.boldLabel);
+		EditorGUI.BeginChangeCheck();
+
+		bool disableBackups = projectConfig.disableBackups;
+		bool enableNSCConfig = projectConfig.enableNSCConfig;
+		SetupBoolField("Disable Backups", ref disableBackups);
+		SetupBoolField("Enable NSC Configuration", ref enableNSCConfig);
+
+		if(EditorGUI.EndChangeCheck())
+		{
+			projectConfig.disableBackups = disableBackups;
+			projectConfig.enableNSCConfig = enableNSCConfig;
+			OVRProjectConfig.CommitProjectConfig(projectConfig);
+		}
+
 		EditorGUILayout.Space();
 		EditorGUILayout.LabelField("Mixed Reality Capture for Quest (experimental)", EditorStyles.boldLabel);
 		EditorGUI.indentLevel++;
@@ -103,20 +157,14 @@ public class OVRManagerEditor : Editor
 				EditorGUILayout.LabelField("External Composition", EditorStyles.boldLabel);
 				EditorGUI.indentLevel++;
 
-				SetupColorField("backdropColor", ref manager.externalCompositionBackdropColor);
+				SetupColorField("backdropColor (Rift)", ref manager.externalCompositionBackdropColorRift);
+				SetupColorField("backdropColor (Quest)", ref manager.externalCompositionBackdropColorQuest);
 			}
 
-			if (manager.compositionMethod == OVRManager.CompositionMethod.Direct || manager.compositionMethod == OVRManager.CompositionMethod.Sandwich)
+			if (manager.compositionMethod == OVRManager.CompositionMethod.Direct)
 			{
 				EditorGUILayout.Space();
-				if (manager.compositionMethod == OVRManager.CompositionMethod.Direct)
-				{
-					EditorGUILayout.LabelField("Direct Composition", EditorStyles.boldLabel);
-				}
-				else
-				{
-					EditorGUILayout.LabelField("Sandwich Composition", EditorStyles.boldLabel);
-				}
+				EditorGUILayout.LabelField("Direct Composition", EditorStyles.boldLabel);
 				EditorGUI.indentLevel++;
 
 				EditorGUILayout.Space();
@@ -150,11 +198,6 @@ public class OVRManagerEditor : Editor
 				EditorGUILayout.Space();
 				EditorGUILayout.LabelField("Latency Control", EditorStyles.boldLabel);
 				SetupFloatField("handPoseStateLatency", ref manager.handPoseStateLatency);
-				if  (manager.compositionMethod == OVRManager.CompositionMethod.Sandwich)
-				{
-					SetupFloatField("sandwichCompositionRenderLatency", ref manager.sandwichCompositionRenderLatency);
-					SetupIntField("sandwichCompositionBufferedFrames", ref manager.sandwichCompositionBufferedFrames);
-				}
 				EditorGUI.indentLevel--;
 			}
 

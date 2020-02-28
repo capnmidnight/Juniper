@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 namespace ShaderControl {
 	public class SCMaterial {
-
-		public string name = "";
+        public Material unityMaterial;
 		public string path = "";
 		public string GUID = "";
 		public List<SCKeyword> keywords = new List<SCKeyword> ();
@@ -12,8 +11,8 @@ namespace ShaderControl {
 
 		HashSet<string> keywordSet = new HashSet<string>();
 
-		public SCMaterial (string name, string path, string GUID) {
-			this.name = name;
+		public SCMaterial (Material material, string path, string GUID) {
+            this.unityMaterial = material;
 			this.path = path;
 			this.GUID = GUID;
 		}

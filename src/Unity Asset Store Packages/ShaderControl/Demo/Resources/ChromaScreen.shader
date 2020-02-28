@@ -1,4 +1,4 @@
-Shader "ShaderControl/ChromaScreen"
+﻿Shader "ShaderControl/ChromaScreen"
 {
 	Properties
 	{

@@ -154,6 +154,13 @@ namespace ShaderControl {
             return new SCKeyword(name);
         }
 
+        public static string GetSimpleName(string longName) {
+            int k = longName.LastIndexOf("/");
+            if (k >= 0) {
+                return longName.Substring(k + 1);
+            }
+            return longName;
+        }
     }
 
     public class SCShaderPass {
@@ -226,7 +233,12 @@ namespace ShaderControl {
                     break;
                 }
             }
+            keyword.isMultiCompile = pragmaType == PragmaType.MultiCompileGlobal || pragmaType == PragmaType.MultiCompileLocal;
             if (goodKeyword) {
+                keyword.isGlobal = pragmaType != PragmaType.FeatureLocal && pragmaType != PragmaType.MultiCompileLocal && pragmaType != PragmaType.Unknown;
+                keyword.verboseName = keyword.name + " (";
+                keyword.verboseName += keyword.isMultiCompile ? "multi_compile" : "shader_feature";
+                keyword.verboseName += keyword.isGlobal ? ", global)" : ", local)";
                 keywords.Add(keyword);
             } else {
                 keyword.isUnderscoreKeyword = true;
@@ -273,9 +285,11 @@ namespace ShaderControl {
     }
 
     public class SCKeyword {
-        public string name;
+        public string name, verboseName;
         public bool enabled;
         public bool isUnderscoreKeyword;
+        public bool isGlobal = true;
+        public bool isMultiCompile = true;
 
         public SCKeyword(string name) {
             this.name = name;
