@@ -29,15 +29,6 @@
 	<assembly fullname="System.Core">
     	<type fullname="System.Linq.Expressions.Interpreter.LightLambda" preserve="all" />
   	</assembly>
-  	<assembly fullname="System.Private.CoreLib">
-  		<type fullname="System.Runtime.CompilerServices.NullableAttribute" preserve="all" />
-  	</assembly>
-  	<assembly fullname="System.Runtime">
-  		<type fullname="System.Runtime.CompilerServices.NullableAttribute" preserve="all" />
-  	</assembly>
-  	<assembly fullname="System.Runtime.Extensions">
-  		<type fullname="System.Runtime.CompilerServices.NullableAttribute" preserve="all" />
-  	</assembly>
 	<assembly fullname="Microsoft.CognitiveServices.Speech.core" preserve="all"/>
 	<assembly fullname="Microsoft.CognitiveServices.Speech.csharp" preserve="all"/>
 </linker>
