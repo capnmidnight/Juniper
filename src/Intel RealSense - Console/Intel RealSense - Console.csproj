@@ -8,7 +8,7 @@
     <AssemblyName>Juniper.Testing.Intel.RealSense.Console</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>Exe</OutputType>
-    <Platforms>x64</Platforms>
+    <PlatformTarget>x64</PlatformTarget>
     <TargetFramework>net48</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <StartupObject>Juniper.Program</StartupObject>
