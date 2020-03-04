@@ -5,7 +5,7 @@
   </ImportGroup>
 
   <PropertyGroup>
-    <AssemblyName>Juniper.UnityEditor.ConfigurationManagement.Console</AssemblyName>
+    <AssemblyName>Juniper.Testing.UnityEditor.ConfigurationManagement.Console</AssemblyName>
     <RootNamespace>Juniper.ConfigurationManagement</RootNamespace>
     <OutputType>Exe</OutputType>
     <TargetFramework>net48</TargetFramework>

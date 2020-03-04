@@ -3,6 +3,7 @@
   <Import Project="..\..\Juniper.props" />
   
   <PropertyGroup>
+    <AssemblyName>Juniper.Testing.OpenVR.Console</AssemblyName>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Juniper.OpenVR</RootNamespace>

@@ -5,7 +5,7 @@
   </ImportGroup>
 
   <PropertyGroup>
-    <AssemblyName>Veldrid_Testing</AssemblyName>
+    <AssemblyName>Juniper.Testing.Veldrid.Console</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>Exe</OutputType>
     <TargetFramework>net48</TargetFramework>

@@ -5,7 +5,7 @@
   </ImportGroup>
 
   <PropertyGroup>
-    <AssemblyName>aztts</AssemblyName>
+    <AssemblyName>Juniper.Testing.Azure.TTS.WinForms</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net48</TargetFramework>

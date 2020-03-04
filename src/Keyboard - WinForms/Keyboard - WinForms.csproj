@@ -5,7 +5,7 @@
   </ImportGroup>
 
   <PropertyGroup>
-    <AssemblyName>keys</AssemblyName>
+    <AssemblyName>Juniper.Testing.Keyboard.WinForms</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net48</TargetFramework>

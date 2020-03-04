@@ -5,7 +5,7 @@
   </ImportGroup>
 
   <PropertyGroup>
-    <AssemblyName>RealSense_Testing</AssemblyName>
+    <AssemblyName>Juniper.Testing.Intel.RealSense.Console</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>Exe</OutputType>
     <UseWindowsForms>true</UseWindowsForms>

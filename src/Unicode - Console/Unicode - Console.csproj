@@ -5,7 +5,7 @@
   </ImportGroup>
 
   <PropertyGroup>
-    <AssemblyName>Juniper.Unicode.Console</AssemblyName>
+    <AssemblyName>Juniper.Testing.Unicode.Console</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>Exe</OutputType>
     <TargetFramework>net48</TargetFramework>

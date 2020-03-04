@@ -5,7 +5,7 @@
   </ImportGroup>
 
   <PropertyGroup>
-    <AssemblyName>Juniper.NeuroSky.Console</AssemblyName>
+    <AssemblyName>Juniper.Testing.NeuroSky.Console</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>Exe</OutputType>
     <TargetFramework>net48</TargetFramework>

@@ -5,7 +5,7 @@
   </ImportGroup>
 
   <PropertyGroup>
-    <AssemblyName>gmaps</AssemblyName>
+    <AssemblyName>Juniper.Testing.Google.StreetView.WinForms</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net48</TargetFramework>
