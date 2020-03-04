@@ -31,10 +31,10 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
             set => veldridDeviceOptions.ResourceBindingModel = value;
         }
 
-        public PixelFormat? VeldridSwapchainDepthFormat
+        public SwapchainDepthFormat? VeldridSwapchainDepthFormat
         {
-            get => veldridDeviceOptions.SwapchainDepthFormat;
-            set => veldridDeviceOptions.SwapchainDepthFormat = value;
+            get => (SwapchainDepthFormat?)veldridDeviceOptions.SwapchainDepthFormat;
+            set => veldridDeviceOptions.SwapchainDepthFormat = (PixelFormat?)value;
         }
 
         public bool VeldridSwapchainSRGBFormat

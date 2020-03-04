@@ -65,7 +65,7 @@ namespace Juniper
             this.veldridGraphicsDevice1.VeldridPreferDepthRangeZeroToOne = false;
             this.veldridGraphicsDevice1.VeldridPreferStandardClipSpaceYDirection = false;
             this.veldridGraphicsDevice1.VeldridResourceBindingModel = Veldrid.ResourceBindingModel.Improved;
-            this.veldridGraphicsDevice1.VeldridSwapchainDepthFormat = null;
+            this.veldridGraphicsDevice1.VeldridSwapchainDepthFormat = Juniper.VeldridIntegration.WinFormsSupport.SwapchainDepthFormat.D24_UNorm_S8_UInt;
             this.veldridGraphicsDevice1.VeldridSwapchainSRGBFormat = false;
             this.veldridGraphicsDevice1.VeldridVSync = true;
             // 

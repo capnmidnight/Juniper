@@ -42,7 +42,7 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
                     Source = veldridSwapchainSource,
                     Width = (uint)Width,
                     Height = (uint)Height,
-                    DepthFormat = VeldridGraphicsDevice.VeldridSwapchainDepthFormat,
+                    DepthFormat = (PixelFormat?)VeldridGraphicsDevice.VeldridSwapchainDepthFormat,
                     SyncToVerticalBlank = VeldridGraphicsDevice.VeldridVSync,
                     ColorSrgb = VeldridGraphicsDevice.VeldridSwapchainSRGBFormat
                 };
