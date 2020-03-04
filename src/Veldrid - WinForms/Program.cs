@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Numerics;
 using System.Text;
@@ -14,6 +15,8 @@ namespace Juniper
         private static MainForm mainForm;
         private static DeviceBuffer vertexBuffer;
         private static DeviceBuffer indexBuffer;
+        private static Pipeline pipeline;
+        private static CommandList commandList;
 
         private static readonly VertexPositionColor[] quadVertices =
         {
@@ -25,43 +28,51 @@ namespace Juniper
 
         private static readonly ushort[] quadIndices = { 0, 1, 2, 3 };
 
+        private static ShaderDescription ReadShader(ShaderStages stage, string name)
+        {
+            var code = File.ReadAllText(Path.Combine("Shaders", $"{name}.glsl"));
+            return new ShaderDescription(
+                stage,
+                Encoding.UTF8.GetBytes(code),
+                "main");
+        }
+
+        private static Shader[] LoadShaders(ResourceFactory factory, string vertName, string fragName)
+        {
+            var vertexShaderDesc = ReadShader(ShaderStages.Vertex, vertName);
+            var fragmentShaderDesc = ReadShader(ShaderStages.Fragment, fragName);
+
+            return factory.CreateFromSpirv(vertexShaderDesc, fragmentShaderDesc);
+        }
+
         private static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += Application_ThreadException;
-            using var form = mainForm = new MainForm();
-            form.Prepare();
-            var g = form.Device;
-            var factory = g.ResourceFactory;
 
-            vertexBuffer = factory.CreateBuffer(new BufferDescription(4 * VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer));
-            indexBuffer = factory.CreateBuffer(new BufferDescription(4 * sizeof(ushort), BufferUsage.IndexBuffer));
-            g.UpdateBuffer(vertexBuffer, 0, quadVertices);
-            g.UpdateBuffer(indexBuffer, 0, quadIndices);
+            using var form = mainForm = new MainForm();
+            mainForm.Resize += Form_Resize;
+            mainForm.FormClosing += MainForm_FormClosing;
+            mainForm.Prepare();
+
+            var g = mainForm.Device;
+            var factory = g.ResourceFactory;
 
             var vertexLayout = new VertexLayoutDescription(
                 new VertexElementDescription("Position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float2),
                 new VertexElementDescription("Color", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float4));
 
-            var vertexCode = File.ReadAllText(Path.Combine("Shaders", "vert.glsl"));
-            var fragmentCode = File.ReadAllText(Path.Combine("Shaders", "frag.glsl"));
+            var shaderSet = new ShaderSetDescription(
+                    new VertexLayoutDescription[] { vertexLayout },
+                    LoadShaders(factory, "vert", "frag"));
 
-            var vertexShaderDesc = new ShaderDescription(
-                ShaderStages.Vertex,
-                Encoding.UTF8.GetBytes(vertexCode),
-                "main");
+            vertexBuffer = factory.CreateBuffer(new BufferDescription(4 * VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer));
+            g.UpdateBuffer(vertexBuffer, 0, quadVertices);
 
-            var fragmentShaderDesc = new ShaderDescription(
-                ShaderStages.Fragment,
-                Encoding.UTF8.GetBytes(fragmentCode),
-                "main");
+            indexBuffer = factory.CreateBuffer(new BufferDescription(4 * sizeof(ushort), BufferUsage.IndexBuffer));
+            g.UpdateBuffer(indexBuffer, 0, quadIndices);
 
-            var shaders = factory.CreateFromSpirv(vertexShaderDesc, fragmentShaderDesc);
-            using var vertexShader = shaders[0];
-            using var fragmentShader = shaders[1];
-
-            var frameBuffer = mainForm.VeldridFramebuffer;
             var pipelineDescription = new GraphicsPipelineDescription
             {
                 BlendState = BlendStateDescription.SingleOverrideBlend,
@@ -77,16 +88,50 @@ namespace Juniper
                     scissorTestEnabled: false),
                 PrimitiveTopology = PrimitiveTopology.TriangleStrip,
                 ResourceLayouts = System.Array.Empty<ResourceLayout>(),
-                ShaderSet = new ShaderSetDescription(
-                    new VertexLayoutDescription[] { vertexLayout },
-                    new Shader[] { vertexShader, fragmentShader }),
-                Outputs = frameBuffer.OutputDescription
+                ShaderSet = shaderSet,
+                Outputs = mainForm.VeldridFramebuffer.OutputDescription
             };
 
-            using var pipeline = factory.CreateGraphicsPipeline(pipelineDescription);
-            using var commandList = factory.CreateCommandList();
+            using var p = pipeline = factory.CreateGraphicsPipeline(pipelineDescription);
+
+            commandList = mainForm.Device.ResourceFactory.CreateCommandList();
+            CreateCommandList();
+            mainForm.CommandList = commandList;
+
+            Application.Run(mainForm);
+
+        }
+
+        private static void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            commandList?.Dispose();
+        }
+
+        private static void Form_Resize(object sender, System.EventArgs e)
+        {
+            CreateCommandList();
+        }
+
+        private static void CreateCommandList()
+        {
+            var width = mainForm.VeldridFramebuffer.Width;
+            var height = mainForm.VeldridFramebuffer.Height;
+            var size = Math.Min(width, height);
+            var x = (width - size) / 2;
+            var y = (height - size) / 2;
+            width = height = size;
+
             commandList.Begin();
-            commandList.SetFramebuffer(frameBuffer);
+            commandList.SetFramebuffer(mainForm.VeldridFramebuffer);
+            commandList.SetViewport(0, new Viewport
+            {
+                X = x,
+                Y = y,
+                Width = width,
+                Height = height,
+                MinDepth = 0,
+                MaxDepth = 1
+            });
             commandList.ClearColorTarget(0, RgbaFloat.Black);
             commandList.SetVertexBuffer(0, vertexBuffer);
             commandList.SetIndexBuffer(indexBuffer, IndexFormat.UInt16);
@@ -98,8 +143,6 @@ namespace Juniper
                 vertexOffset: 0,
                 instanceStart: 0);
             commandList.End();
-            form.CommandList = commandList;
-            Application.Run(form);
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
