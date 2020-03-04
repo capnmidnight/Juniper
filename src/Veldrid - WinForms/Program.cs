@@ -51,20 +51,25 @@ namespace Juniper
             Application.ThreadException += Application_ThreadException;
 
             using var form = mainForm = new MainForm();
-            mainForm.Prepare();
-
+            mainForm.Panel.Ready += MainForm_Load;
             mainForm.Panel.CommandListUpdate += Panel_CommandListUpdate;
 
-            var g = mainForm.Device;
+            Application.Run(mainForm);
+            pipeline?.Dispose();
+        }
+
+        private static void MainForm_Load(object sender, EventArgs e)
+        {
+            var g = mainForm.Device.VeldridDevice;
             var factory = g.ResourceFactory;
 
             vertexBuffer = factory.CreateBuffer(new BufferDescription(
-                (uint)quadVertices.Length * VertexPositionColor.SizeInBytes,
+                (uint)(quadVertices.Length * VertexPositionColor.SizeInBytes),
                 BufferUsage.VertexBuffer));
             g.UpdateBuffer(vertexBuffer, 0, quadVertices);
 
             indexBuffer = factory.CreateBuffer(new BufferDescription(
-                (uint)quadIndices.Length * sizeof(ushort),
+                (uint)(quadIndices.Length * sizeof(ushort)),
                 BufferUsage.IndexBuffer));
             g.UpdateBuffer(indexBuffer, 0, quadIndices);
 
@@ -74,7 +79,7 @@ namespace Juniper
                 Shaders = LoadShaders(factory, "vert", "frag")
             };
 
-            using var p = pipeline = factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
+            pipeline = factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
             {
                 BlendState = BlendStateDescription.SingleOverrideBlend,
                 DepthStencilState = new DepthStencilStateDescription
@@ -96,9 +101,6 @@ namespace Juniper
                 ShaderSet = shaderSet,
                 Outputs = mainForm.Panel.VeldridSwapChain.Framebuffer.OutputDescription
             });
-
-            Application.Run(mainForm);
-
         }
 
         private static void Panel_CommandListUpdate(object sender, VeldridIntegration.WinFormsSupport.UpdateCommandListEventArgs e)

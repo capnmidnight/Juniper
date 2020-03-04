@@ -7,8 +7,6 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
         
         public GraphicsDevice VeldridDevice { get; private set; }
 
-        public ResourceFactory ResourceFactory => VeldridDevice?.ResourceFactory;
-
         public GraphicsBackend VeldridBackend { get; set; }
 
         private GraphicsDeviceOptions veldridDeviceOptions;

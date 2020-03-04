@@ -10,24 +10,9 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
     {
         public VeldridGraphicsDevice VeldridGraphicsDevice { get; set; }
 
+        public event EventHandler Ready;
         public event UpdateCommandListHandler CommandListUpdate;
         private UpdateCommandListEventArgs updateArgs;
-
-        private void OnUpdateCommandList()
-        {
-            if (commandList is null
-                && VeldridGraphicsDevice is object
-                && VeldridGraphicsDevice.VeldridDevice is object)
-            {
-                commandList = VeldridGraphicsDevice.VeldridDevice.ResourceFactory.CreateCommandList();
-                updateArgs = new UpdateCommandListEventArgs(commandList);
-            }
-
-            if (commandList is object)
-            {
-                CommandListUpdate?.Invoke(this, updateArgs);
-            }
-        }
 
         public VeldridPanel()
         {
@@ -38,6 +23,34 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
             InitializeComponent();
         }
 
+        private void InitializeSwapchain()
+        {
+            if (VeldridSwapChain is null
+                && VeldridGraphicsDevice is object)
+            {
+                VeldridGraphicsDevice.Prepare();
+                if (VeldridGraphicsDevice.VeldridDevice is object)
+                {
+                    var swapchainDescription = new SwapchainDescription
+                    {
+                        Source = veldridSwapchainSource,
+                        Width = (uint)Width,
+                        Height = (uint)Height,
+                        DepthFormat = (PixelFormat?)VeldridGraphicsDevice.VeldridSwapchainDepthFormat,
+                        SyncToVerticalBlank = VeldridGraphicsDevice.VeldridVSync,
+                        ColorSrgb = VeldridGraphicsDevice.VeldridSwapchainSRGBFormat
+                    };
+
+                    var resourceFactory = VeldridGraphicsDevice.VeldridDevice.ResourceFactory;
+                    VeldridSwapChain = resourceFactory.CreateSwapchain(swapchainDescription);
+                    commandList = VeldridGraphicsDevice.VeldridDevice.ResourceFactory.CreateCommandList();
+                    updateArgs = new UpdateCommandListEventArgs(commandList);
+
+                    Ready?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
@@ -45,39 +58,18 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
             Invalidate();
         }
 
-        private bool prepared;
-        public void Prepare()
-        {
-            if (VeldridGraphicsDevice != null
-                && !prepared)
-            {
-                VeldridGraphicsDevice.Prepare();
-
-                var swapchainDescription = new SwapchainDescription
-                {
-                    Source = veldridSwapchainSource,
-                    Width = (uint)Width,
-                    Height = (uint)Height,
-                    DepthFormat = (PixelFormat?)VeldridGraphicsDevice.VeldridSwapchainDepthFormat,
-                    SyncToVerticalBlank = VeldridGraphicsDevice.VeldridVSync,
-                    ColorSrgb = VeldridGraphicsDevice.VeldridSwapchainSRGBFormat
-                };
-
-                var resourceFactory = VeldridGraphicsDevice.ResourceFactory;
-                VeldridSwapChain = resourceFactory.CreateSwapchain(swapchainDescription);
-
-                prepared = true;
-            }
-        }
-
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
 
-            if (VeldridGraphicsDevice != null
-                && VeldridSwapChain != null)
+            InitializeSwapchain();
+
+            if (commandList is object
+                && updateArgs is object
+                && VeldridGraphicsDevice is object
+                && VeldridSwapChain is object)
             {
-                OnUpdateCommandList();
+                CommandListUpdate?.Invoke(this, updateArgs);
                 VeldridGraphicsDevice.Draw(commandList, VeldridSwapChain);
             }
         }

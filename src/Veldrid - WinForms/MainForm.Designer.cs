@@ -49,6 +49,17 @@ namespace Juniper
             this.errorTextBox1.Size = new System.Drawing.Size(193, 424);
             this.errorTextBox1.TabIndex = 1;
             // 
+            // veldridGraphicsDevice1
+            // 
+            this.veldridGraphicsDevice1.VeldridBackend = Veldrid.GraphicsBackend.Direct3D11;
+            this.veldridGraphicsDevice1.VeldridHasMainSwapchain = false;
+            this.veldridGraphicsDevice1.VeldridPreferDepthRangeZeroToOne = true;
+            this.veldridGraphicsDevice1.VeldridPreferStandardClipSpaceYDirection = true;
+            this.veldridGraphicsDevice1.VeldridResourceBindingModel = Veldrid.ResourceBindingModel.Improved;
+            this.veldridGraphicsDevice1.VeldridSwapchainDepthFormat = Juniper.VeldridIntegration.WinFormsSupport.SwapchainDepthFormat.D24_UNorm_S8_UInt;
+            this.veldridGraphicsDevice1.VeldridSwapchainSRGBFormat = false;
+            this.veldridGraphicsDevice1.VeldridVSync = true;
+            // 
             // veldridPanel1
             // 
             this.veldridPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -60,17 +71,6 @@ namespace Juniper
             this.veldridPanel1.Size = new System.Drawing.Size(556, 424);
             this.veldridPanel1.TabIndex = 0;
             this.veldridPanel1.VeldridGraphicsDevice = this.veldridGraphicsDevice1;
-            // 
-            // veldridGraphicsDevice1
-            // 
-            this.veldridGraphicsDevice1.VeldridBackend = Veldrid.GraphicsBackend.Direct3D11;
-            this.veldridGraphicsDevice1.VeldridHasMainSwapchain = false;
-            this.veldridGraphicsDevice1.VeldridPreferDepthRangeZeroToOne = true;
-            this.veldridGraphicsDevice1.VeldridPreferStandardClipSpaceYDirection = true;
-            this.veldridGraphicsDevice1.VeldridResourceBindingModel = Veldrid.ResourceBindingModel.Improved;
-            this.veldridGraphicsDevice1.VeldridSwapchainDepthFormat = Juniper.VeldridIntegration.WinFormsSupport.SwapchainDepthFormat.D24_UNorm_S8_UInt;
-            this.veldridGraphicsDevice1.VeldridSwapchainSRGBFormat = false;
-            this.veldridGraphicsDevice1.VeldridVSync = true;
             // 
             // MainForm
             // 
@@ -88,8 +88,8 @@ namespace Juniper
 
         #endregion
 
-        private VeldridIntegration.WinFormsSupport.VeldridGraphicsDevice veldridGraphicsDevice1;
         private VeldridIntegration.WinFormsSupport.VeldridPanel veldridPanel1;
+        private VeldridIntegration.WinFormsSupport.VeldridGraphicsDevice veldridGraphicsDevice1;
         private System.Windows.Forms.TextBox errorTextBox1;
     }
 }

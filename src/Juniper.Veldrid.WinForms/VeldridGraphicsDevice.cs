@@ -24,10 +24,9 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
             InitializeComponent();
         }
 
-        private bool prepared;
-        public void Prepare()
+        internal void Prepare()
         {
-            if (!prepared)
+            if (VeldridDevice is null)
             {
                 VeldridDevice = VeldridBackend switch
                 {
@@ -43,8 +42,6 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
                 {
                     throw new InvalidOperationException($"Can't create a device for GraphicsBackend value: {VeldridBackend}");
                 }
-
-                prepared = true;
             }
         }
 
