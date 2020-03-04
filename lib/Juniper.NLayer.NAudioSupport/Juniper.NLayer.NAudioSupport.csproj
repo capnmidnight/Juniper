@@ -18,7 +18,7 @@
   </ImportGroup>
 
   <ItemGroup>
-    <PackageReference Include="NAudio" Version="1.9.0" />
+    <PackageReference Include="NAudio" Version="1.10.0" />
     <PackageReference Include="NLayer.Core" Version="1.15.0" />
   </ItemGroup>
 
