@@ -51,14 +51,14 @@ namespace Juniper
             Application.ThreadException += Application_ThreadException;
 
             using var form = mainForm = new MainForm();
-            mainForm.Panel.Ready += MainForm_Load;
+            mainForm.Panel.Ready += Panel_Ready;
             mainForm.Panel.CommandListUpdate += Panel_CommandListUpdate;
 
             Application.Run(mainForm);
             pipeline?.Dispose();
         }
 
-        private static void MainForm_Load(object sender, EventArgs e)
+        private static void Panel_Ready(object sender, EventArgs e)
         {
             var g = mainForm.Device.VeldridDevice;
             var factory = g.ResourceFactory;
