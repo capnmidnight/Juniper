@@ -1,4 +1,4 @@
-namespace Juniper.Console
+namespace Juniper.Terminal
 {
     public class SizeChangedEventArgs
     {

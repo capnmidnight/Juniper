@@ -2,12 +2,11 @@ using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Text;
-
 using Juniper.Puzzles;
 
 using static System.Console;
 
-namespace Juniper.Console
+namespace Juniper.Terminal
 {
 
     public sealed class ConsoleBuffer :

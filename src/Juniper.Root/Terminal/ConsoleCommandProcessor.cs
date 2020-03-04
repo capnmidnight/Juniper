@@ -6,12 +6,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 
 using Juniper.Logging;
-
 using static System.ConsoleColor;
 
-using C = System.Console;
-
-namespace Juniper.Console
+namespace Juniper.Terminal
 {
     public class ConsoleCommandProcessor :
         IReadOnlyDictionary<ConsoleKey, NamedAction>,
@@ -26,9 +23,9 @@ namespace Juniper.Console
 
         public void Pump()
         {
-            if (C.KeyAvailable)
+            if (Console.KeyAvailable)
             {
-                var keyInfo = C.ReadKey(true);
+                var keyInfo = Console.ReadKey(true);
                 if (actions.ContainsKey(keyInfo.Key))
                 {
                     Execute(keyInfo.Key);
@@ -72,11 +69,11 @@ namespace Juniper.Console
                 lines[i] = " " + lines[i];
             }
 
-            C.WriteLine();
+            Console.WriteLine();
             using var scope = new ColorScope(DarkGray, Yellow);
             foreach (var line in lines)
             {
-                C.WriteLine(line);
+                Console.WriteLine(line);
             }
         }
 
@@ -131,7 +128,7 @@ namespace Juniper.Console
             if (nextLogLevel < 4)
             {
                 logLevel = nextLogLevel;
-                C.WriteLine($"Logging level is now {GetName(logLevel)}");
+                Console.WriteLine($"Logging level is now {GetName(logLevel)}");
             }
         }
 
@@ -149,7 +146,7 @@ namespace Juniper.Console
 
         private void Log<T>(uint level, Action<string> logger, ConsoleColor foreground, T e)
         {
-            Log(level, logger, foreground, C.BackgroundColor, e);
+            Log(level, logger, foreground, Console.BackgroundColor, e);
         }
 
         private void Log<T>(uint level, Action<string> logger, ConsoleColor foreground, ConsoleColor background, T e)
@@ -170,37 +167,37 @@ namespace Juniper.Console
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void OnInfo(ConsoleColor color, string msg)
         {
-            Log(0, C.WriteLine, color, msg);
+            Log(0, Console.WriteLine, color, msg);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void OnInfo(string msg)
         {
-            Log(0, C.WriteLine, White, msg);
+            Log(0, Console.WriteLine, White, msg);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void OnLog(object sender, StringEventArgs e)
         {
-            Log(1, C.WriteLine, Cyan, e);
+            Log(1, Console.WriteLine, Cyan, e);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void OnWarning(object sender, StringEventArgs e)
         {
-            Log(2, C.WriteLine, Yellow, e);
+            Log(2, Console.WriteLine, Yellow, e);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void OnError(object sender, ErrorEventArgs e)
         {
-            Log(3, C.Error.WriteLine, Red, e);
+            Log(3, Console.Error.WriteLine, Red, e);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void OnError(ErrorEventArgs e)
         {
-            Log(3, C.Error.WriteLine, Red, e);
+            Log(3, Console.Error.WriteLine, Red, e);
         }
     }
 }

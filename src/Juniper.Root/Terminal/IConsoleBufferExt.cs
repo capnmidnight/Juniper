@@ -3,7 +3,7 @@ using System;
 using Juniper.Puzzles;
 using Juniper.Unicode;
 
-namespace Juniper.Console
+namespace Juniper.Terminal
 {
     public static class IConsoleBufferExt
     {

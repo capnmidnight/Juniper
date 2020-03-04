@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-
-using Juniper.Console;
 using Juniper.Input;
 using Juniper.Puzzles;
-
+using Juniper.Terminal;
 using static System.Windows.Forms.Keys;
 using static Juniper.Unicode.BoxDrawingSet;
 

@@ -1,9 +1,8 @@
 using System.Runtime.InteropServices;
 
-using Juniper.Console;
-
 using Keys = System.Windows.Forms.Keys;
 using static System.Windows.Forms.Keys;
+using Juniper.Terminal;
 
 namespace Juniper.Input
 {

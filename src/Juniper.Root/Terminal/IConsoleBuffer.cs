@@ -1,6 +1,6 @@
 using System;
 
-namespace Juniper.Console
+namespace Juniper.Terminal
 {
     public interface IConsoleBuffer
     {

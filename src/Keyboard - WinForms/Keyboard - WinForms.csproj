@@ -10,7 +10,6 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net48</TargetFramework>
     <StartupObject>Juniper.Program</StartupObject>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
     <UseWindowsForms>true</UseWindowsForms>

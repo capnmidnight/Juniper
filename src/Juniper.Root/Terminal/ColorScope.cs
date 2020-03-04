@@ -1,8 +1,6 @@
-﻿using System;
+using System;
 
-using C = System.Console;
-
-namespace Juniper.Console
+namespace Juniper.Terminal
 {
     public class ColorScope : IDisposable
     {
@@ -11,20 +9,20 @@ namespace Juniper.Console
 
         public ColorScope(ConsoleColor background, ConsoleColor foreground)
         {
-            this.background = C.BackgroundColor;
-            this.foreground = C.ForegroundColor;
-            C.BackgroundColor = background;
-            C.ForegroundColor = foreground;
+            this.background = Console.BackgroundColor;
+            this.foreground = Console.ForegroundColor;
+            Console.BackgroundColor = background;
+            Console.ForegroundColor = foreground;
         }
 
         public ColorScope(ConsoleColor foreground)
-            : this(C.BackgroundColor, foreground)
+            : this(Console.BackgroundColor, foreground)
         { }
 
         protected virtual void Dispose(bool disposing)
         {
-            C.BackgroundColor = background;
-            C.ForegroundColor = foreground;
+            Console.BackgroundColor = background;
+            Console.ForegroundColor = foreground;
         }
 
         public void Dispose()

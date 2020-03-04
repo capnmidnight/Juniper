@@ -5,13 +5,11 @@ using System.IO;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-
-using Juniper.Console;
 using Juniper.HTTP;
 using Juniper.HTTP.Server;
 using Juniper.HTTP.Server.Controllers;
 using Juniper.Processes;
-
+using Juniper.Terminal;
 using static System.Console;
 using static System.ConsoleColor;
 
