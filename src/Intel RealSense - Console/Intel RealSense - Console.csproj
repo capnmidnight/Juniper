@@ -8,8 +8,9 @@
     <AssemblyName>Juniper.Testing.Intel.RealSense.Console</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>Exe</OutputType>
-    <UseWindowsForms>true</UseWindowsForms>
+    <Platforms>x64</Platforms>
     <TargetFramework>net48</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
     <StartupObject>Juniper.Program</StartupObject>
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
