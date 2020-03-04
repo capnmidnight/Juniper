@@ -8,6 +8,18 @@ namespace Juniper
     public struct VertexPositionColor : IEquatable<VertexPositionColor>
     {
         public const uint SizeInBytes = sizeof(float) * 7;
+
+        public static readonly VertexLayoutDescription Layout =
+            new VertexLayoutDescription(
+                new VertexElementDescription(
+                    "Position",
+                    VertexElementSemantic.TextureCoordinate,
+                    VertexElementFormat.Float3),
+                new VertexElementDescription(
+                    "Color",
+                    VertexElementSemantic.TextureCoordinate,
+                    VertexElementFormat.Float4));
+
         public Vector3 Position { get; }
         public RgbaFloat Color { get; }
 

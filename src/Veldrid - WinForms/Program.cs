@@ -70,11 +70,7 @@ namespace Juniper
 
             var shaderSet = new ShaderSetDescription
             {
-                VertexLayouts = new VertexLayoutDescription[] {
-                    new VertexLayoutDescription(
-                        new VertexElementDescription("Position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
-                        new VertexElementDescription("Color", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float4))
-                },
+                VertexLayouts = new VertexLayoutDescription[] { VertexPositionColor.Layout },
                 Shaders = LoadShaders(factory, "vert", "frag")
             };
 
@@ -111,7 +107,6 @@ namespace Juniper
             var framebuffer = mainForm.Panel.VeldridSwapChain.Framebuffer;
             var width = framebuffer.Width;
             var height = framebuffer.Height;
-            var aspectRatio = (float)width / height;
             var size = Math.Min(width, height);
             var x = (width - size) / 2;
             var y = (height - size) / 2;
