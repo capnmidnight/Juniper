@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Threading;
 
 namespace Juniper.Input
 {
@@ -25,14 +23,7 @@ namespace Juniper.Input
 
         private string[] names;
 
-        private readonly Context origin;
-
         protected bool IsRunning { get; private set; }
-
-        protected AbstractKeyEventSource()
-        {
-            origin = Thread.CurrentContext;
-        }
 
         public virtual void Start()
         {
@@ -62,19 +53,13 @@ namespace Juniper.Input
                     {
                         if (isDown)
                         {
-                            origin.DoCallBack(() =>
-                            {
-                                KeyDown?.Invoke(this, events[name]);
-                                KeyChanged?.Invoke(this, downEvents[name]);
-                            });
+                            KeyDown?.Invoke(this, events[name]);
+                            KeyChanged?.Invoke(this, downEvents[name]);
                         }
                         else
                         {
-                            origin.DoCallBack(() =>
-                            {
-                                KeyUp?.Invoke(this, events[name]);
-                                KeyChanged?.Invoke(this, upEvents[name]);
-                            });
+                            KeyUp?.Invoke(this, events[name]);
+                            KeyChanged?.Invoke(this, upEvents[name]);
                         }
                     }
                 }

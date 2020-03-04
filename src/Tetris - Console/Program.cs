@@ -17,18 +17,14 @@ namespace Juniper
         private static ConsoleBuffer frame;
         private static TetrisGame game;
 
-        [STAThread]
+        [MTAThread]
         public static void Main()
         {
-            var keys = new Win32KeyEventSource();
-            while (true)
-            {
-                System.Console.WriteLine($"D {keys.IsKeyDown(D)}, ControlKey {keys.IsKeyDown(ControlKey)}, Control+D {keys.IsKeyDown(D | Control)}");
-            }
+            RunGame();
         }
 
         private static void RunGame()
-        { 
+        {
             frame = new ConsoleBuffer(16);
             game = new TetrisGame(20, 30);
 

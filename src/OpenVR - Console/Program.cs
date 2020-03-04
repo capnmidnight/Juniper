@@ -4,9 +4,9 @@ using Valve.VR;
 
 namespace Juniper
 {
-    class Program
+    public static class Program
     {
-        static void Main(string[] args)
+        public static void Main()
         {
             Console.WriteLine("Is Runtime Installed: {0}", OpenVR.IsRuntimeInstalled());
             var isHmdPresent = OpenVR.IsHmdPresent();
