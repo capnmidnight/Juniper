@@ -77,11 +77,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenVR - Console", "src\Ope
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scratch", "Scratch\Scratch.csproj", "{CA367EDA-C4B9-4B24-8439-B5B92F23CDDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intel RealSense - Console", "src\Intel RealSense - Console\Intel RealSense - Console.csproj", "{CC804AFC-BF17-497E-9B07-B0A6499D5BEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Intel RealSense - Console", "src\Intel RealSense - Console\Intel RealSense - Console.csproj", "{CC804AFC-BF17-497E-9B07-B0A6499D5BEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Veldrid.WinForms", "src\Juniper.Veldrid.WinForms\Juniper.Veldrid.WinForms.csproj", "{9AF249E4-B6C5-44F3-8F55-234ABB7FCD17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Veldrid.WinForms", "src\Juniper.Veldrid.WinForms\Juniper.Veldrid.WinForms.csproj", "{9AF249E4-B6C5-44F3-8F55-234ABB7FCD17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veldrid - WinForms", "src\Veldrid - WinForms\Veldrid - WinForms.csproj", "{C4C8A159-1D33-4703-9683-FAAAF4FFB97A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid - WinForms", "src\Veldrid - WinForms\Veldrid - WinForms.csproj", "{C4C8A159-1D33-4703-9683-FAAAF4FFB97A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
