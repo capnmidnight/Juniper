@@ -66,7 +66,7 @@ namespace Juniper.Imaging
                 prog.Report(y, image.Info.Dimensions.Height);
                 var dataIndex = y * image.Info.Stride;
                 var line = imageLines.ScanlinesB[y];
-                Array.Copy(image.Data, dataIndex, line, 0, image.Info.Stride);
+                Array.Copy(image.GetData(), dataIndex, line, 0, image.Info.Stride);
                 prog.Report(y + 1, image.Info.Dimensions.Height);
             }
 

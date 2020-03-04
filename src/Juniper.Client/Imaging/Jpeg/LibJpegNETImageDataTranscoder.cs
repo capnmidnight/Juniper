@@ -61,7 +61,7 @@ namespace Juniper.Imaging
                 {
                     var imageDataIndex = (y * image.Info.Stride) + (x * image.Info.Components);
                     var rowIndex = x * components;
-                    Array.Copy(image.Data, imageDataIndex, rowBuffer, rowIndex, components);
+                    Array.Copy(image.GetData(), imageDataIndex, rowBuffer, rowIndex, components);
                 }
 
                 rows[y] = new SampleRow(

@@ -24,12 +24,17 @@ namespace Juniper.Imaging
 
         public ImageInfo Info { get; }
 
-        public byte[] Data { get; }
+        private readonly byte[] _data;
+
+        public byte[] GetData()
+        {
+            return (byte[])_data.Clone();
+        }
 
         public ImageData(ImageInfo info, byte[] data)
         {
             Info = info ?? throw new ArgumentNullException(nameof(info));
-            Data = data ?? throw new ArgumentNullException(nameof(data));
+            _data = data ?? throw new ArgumentNullException(nameof(data));
         }
 
         public ImageData(Size size, int components, byte[] data)

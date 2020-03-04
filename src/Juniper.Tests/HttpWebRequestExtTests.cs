@@ -69,7 +69,7 @@ namespace Juniper.HTTP.Tests
                 new LibJpegNETCodec(80),
                 new LibJpegNETImageDataTranscoder());
 
-            var image = await cache
+            var actual = await cache
                 .LoadAsync(imageDecoder, imageRequest)
                 .ConfigureAwait(false);
 
@@ -77,16 +77,18 @@ namespace Juniper.HTTP.Tests
             {
                 var path = Path.Combine(myPictures, "portrait-expected.jpg");
                 var expected = imageDecoder.Deserialize(path);
-                Assert.AreEqual(expected.Info.Dimensions.Width, image.Info.Dimensions.Width);
-                Assert.AreEqual(expected.Info.Dimensions.Height, image.Info.Dimensions.Height);
-                Assert.AreEqual(expected.Data.Length, image.Data.Length);
-                for (var i = 0; i < expected.Data.Length; ++i)
+                var expectedData = expected.GetData();
+                var actualData = actual.GetData();
+                Assert.AreEqual(expected.Info.Dimensions.Width, actual.Info.Dimensions.Width);
+                Assert.AreEqual(expected.Info.Dimensions.Height, actual.Info.Dimensions.Height);
+                Assert.AreEqual(expectedData.Length, actualData.Length);
+                for (var i = 0; i < expectedData.Length; ++i)
                 {
-                    Assert.AreEqual(expected.Data[i], image.Data[i]);
+                    Assert.AreEqual(expectedData[i], actualData[i]);
                 }
             }
 
-            return image;
+            return actual;
         }
     }
 }

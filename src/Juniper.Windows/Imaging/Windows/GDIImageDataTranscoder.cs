@@ -36,13 +36,14 @@ namespace Juniper.Imaging
                 throw new ArgumentNullException(nameof(image));
             }
 
+            var raw = image.GetData();
             var outImage = new Bitmap(image.Info.Dimensions.Width, image.Info.Dimensions.Height);
             var imageData = outImage.LockBits(
                  new Rectangle(0, 0, image.Info.Dimensions.Width, image.Info.Dimensions.Height),
                  System.Drawing.Imaging.ImageLockMode.WriteOnly,
                  image.Info.Components.ToGDIPixelFormat());
 
-            Marshal.Copy(image.Data, 0, imageData.Scan0, image.Data.Length);
+            Marshal.Copy(raw, 0, imageData.Scan0, raw.Length);
 
             outImage.UnlockBits(imageData);
 

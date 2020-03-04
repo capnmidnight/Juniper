@@ -38,7 +38,7 @@ namespace Juniper.Imaging
                     {
                         var tileBufferI = y * tileWidth;
                         var bufferI = (bufferSize.Width * ((tileHeight * tileY) + y)) + (tileX * tileWidth);
-                        Array.Copy(tile.Data, tileBufferI, bufferData, bufferI, tileWidth);
+                        Array.Copy(tile.GetData(), tileBufferI, bufferData, bufferI, tileWidth);
                     }
 
                     p.Report(1);
