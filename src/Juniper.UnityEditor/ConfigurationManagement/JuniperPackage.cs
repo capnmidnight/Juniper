@@ -47,11 +47,6 @@ namespace Juniper.ConfigurationManagement
         {
             var targetGroup = Project.CurrentBuildTargetGroup;
 
-            if (Name == "Vuforia")
-            {
-                PlayerSettings.vuforiaEnabled = true;
-            }
-
             if (targetGroup == BuildTargetGroup.Android)
             {
                 if (Name == "GoogleARCore")

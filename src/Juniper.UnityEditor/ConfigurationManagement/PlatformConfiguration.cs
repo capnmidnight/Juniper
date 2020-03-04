@@ -280,7 +280,6 @@ namespace Juniper.ConfigurationManagement
             PlayerSettings.Android.androidTVCompatibility = false;
             PlayerSettings.Android.ARCoreEnabled = false;
             ApplleiOS.RequiresARKitSupport = false;
-            PlayerSettings.vuforiaEnabled = false;
         }
     }
 }
