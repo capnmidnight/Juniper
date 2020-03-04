@@ -87,16 +87,16 @@ namespace Juniper
                     depthClipEnabled: true,
                     scissorTestEnabled: false),
                 PrimitiveTopology = PrimitiveTopology.TriangleStrip,
-                ResourceLayouts = System.Array.Empty<ResourceLayout>(),
+                ResourceLayouts = Array.Empty<ResourceLayout>(),
                 ShaderSet = shaderSet,
-                Outputs = mainForm.VeldridFramebuffer.OutputDescription
+                Outputs = mainForm.Panel.VeldridSwapChain.Framebuffer.OutputDescription
             };
 
             using var p = pipeline = factory.CreateGraphicsPipeline(pipelineDescription);
 
             commandList = mainForm.Device.ResourceFactory.CreateCommandList();
             CreateCommandList();
-            mainForm.CommandList = commandList;
+            mainForm.Panel.VeldridCommandList = commandList;
 
             Application.Run(mainForm);
 
@@ -107,22 +107,24 @@ namespace Juniper
             commandList?.Dispose();
         }
 
-        private static void Form_Resize(object sender, System.EventArgs e)
+        private static void Form_Resize(object sender, EventArgs e)
         {
             CreateCommandList();
         }
 
         private static void CreateCommandList()
         {
-            var width = mainForm.VeldridFramebuffer.Width;
-            var height = mainForm.VeldridFramebuffer.Height;
+            var framebuffer = mainForm.Panel.VeldridSwapChain.Framebuffer;
+            var width = framebuffer.Width;
+            var height = framebuffer.Height;
             var size = Math.Min(width, height);
             var x = (width - size) / 2;
             var y = (height - size) / 2;
             width = height = size;
 
             commandList.Begin();
-            commandList.SetFramebuffer(mainForm.VeldridFramebuffer);
+
+            commandList.SetFramebuffer(framebuffer);
             commandList.SetViewport(0, new Viewport
             {
                 X = x,
@@ -132,6 +134,7 @@ namespace Juniper
                 MinDepth = 0,
                 MaxDepth = 1
             });
+
             commandList.ClearColorTarget(0, RgbaFloat.Black);
             commandList.SetVertexBuffer(0, vertexBuffer);
             commandList.SetIndexBuffer(indexBuffer, IndexFormat.UInt16);
@@ -142,6 +145,7 @@ namespace Juniper
                 indexStart: 0,
                 vertexOffset: 0,
                 instanceStart: 0);
+
             commandList.End();
         }
 

@@ -1,6 +1,6 @@
 using System;
 using System.Windows.Forms;
-
+using Juniper.VeldridIntegration.WinFormsSupport;
 using Veldrid;
 
 namespace Juniper
@@ -28,19 +28,6 @@ namespace Juniper
         }
 
         public GraphicsDevice Device => veldridGraphicsDevice1.VeldridDevice;
-
-        public CommandList CommandList
-        {
-            get
-            {
-                return veldridPanel1.VeldridCommandList;
-            }
-            set
-            {
-                veldridPanel1.VeldridCommandList = value;
-            }
-        }
-
-        public Framebuffer VeldridFramebuffer => veldridPanel1.VeldridSwapChain.Framebuffer;
+        public VeldridPanel Panel => veldridPanel1;
     }
 }

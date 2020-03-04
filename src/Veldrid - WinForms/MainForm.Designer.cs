@@ -1,3 +1,5 @@
+using Juniper.VeldridIntegration.WinFormsSupport;
+
 namespace Juniper
 {
     partial class MainForm
@@ -62,8 +64,8 @@ namespace Juniper
             // 
             this.veldridGraphicsDevice1.VeldridBackend = Veldrid.GraphicsBackend.Direct3D11;
             this.veldridGraphicsDevice1.VeldridHasMainSwapchain = false;
-            this.veldridGraphicsDevice1.VeldridPreferDepthRangeZeroToOne = false;
-            this.veldridGraphicsDevice1.VeldridPreferStandardClipSpaceYDirection = false;
+            this.veldridGraphicsDevice1.VeldridPreferDepthRangeZeroToOne = true;
+            this.veldridGraphicsDevice1.VeldridPreferStandardClipSpaceYDirection = true;
             this.veldridGraphicsDevice1.VeldridResourceBindingModel = Veldrid.ResourceBindingModel.Improved;
             this.veldridGraphicsDevice1.VeldridSwapchainDepthFormat = Juniper.VeldridIntegration.WinFormsSupport.SwapchainDepthFormat.D24_UNorm_S8_UInt;
             this.veldridGraphicsDevice1.VeldridSwapchainSRGBFormat = false;
