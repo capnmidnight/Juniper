@@ -5,6 +5,7 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
     partial class VeldridPanel
     {
         private readonly SwapchainSource veldridSwapchainSource;
+        private CommandList commandList;
         public Swapchain VeldridSwapChain { get; private set; }
 
 
@@ -23,6 +24,8 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
             {
                 VeldridSwapChain?.Dispose();
                 VeldridSwapChain = null;
+                commandList?.Dispose();
+                commandList = null;
                 components?.Dispose();
             }
 

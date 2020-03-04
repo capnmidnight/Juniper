@@ -16,14 +16,13 @@ namespace Juniper
         private static DeviceBuffer vertexBuffer;
         private static DeviceBuffer indexBuffer;
         private static Pipeline pipeline;
-        private static CommandList commandList;
 
         private static readonly VertexPositionColor[] quadVertices =
         {
-            new VertexPositionColor(new Vector2(-.75f, .75f), RgbaFloat.Red),
-            new VertexPositionColor(new Vector2(.75f, .75f), RgbaFloat.Green),
-            new VertexPositionColor(new Vector2(-.75f, -.75f), RgbaFloat.Blue),
-            new VertexPositionColor(new Vector2(.75f, -.75f), RgbaFloat.Yellow)
+            new VertexPositionColor(new Vector3(-0.5f, 0.5f, 0), RgbaFloat.Red),
+            new VertexPositionColor(new Vector3(0.5f, 0.5f, 0), RgbaFloat.Green),
+            new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0), RgbaFloat.Blue),
+            new VertexPositionColor(new Vector3(0.5f, -0.5f, 0), RgbaFloat.Yellow)
         };
 
         private static readonly ushort[] quadIndices = { 0, 1, 2, 3 };
@@ -52,71 +51,67 @@ namespace Juniper
             Application.ThreadException += Application_ThreadException;
 
             using var form = mainForm = new MainForm();
-            mainForm.Resize += Form_Resize;
-            mainForm.FormClosing += MainForm_FormClosing;
             mainForm.Prepare();
+
+            mainForm.Panel.CommandListUpdate += Panel_CommandListUpdate;
 
             var g = mainForm.Device;
             var factory = g.ResourceFactory;
 
-            var vertexLayout = new VertexLayoutDescription(
-                new VertexElementDescription("Position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float2),
-                new VertexElementDescription("Color", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float4));
-
-            var shaderSet = new ShaderSetDescription(
-                    new VertexLayoutDescription[] { vertexLayout },
-                    LoadShaders(factory, "vert", "frag"));
-
-            vertexBuffer = factory.CreateBuffer(new BufferDescription(4 * VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer));
+            vertexBuffer = factory.CreateBuffer(new BufferDescription(
+                (uint)quadVertices.Length * VertexPositionColor.SizeInBytes,
+                BufferUsage.VertexBuffer));
             g.UpdateBuffer(vertexBuffer, 0, quadVertices);
 
-            indexBuffer = factory.CreateBuffer(new BufferDescription(4 * sizeof(ushort), BufferUsage.IndexBuffer));
+            indexBuffer = factory.CreateBuffer(new BufferDescription(
+                (uint)quadIndices.Length * sizeof(ushort),
+                BufferUsage.IndexBuffer));
             g.UpdateBuffer(indexBuffer, 0, quadIndices);
 
-            var pipelineDescription = new GraphicsPipelineDescription
+            var shaderSet = new ShaderSetDescription
+            {
+                VertexLayouts = new VertexLayoutDescription[] {
+                    new VertexLayoutDescription(
+                        new VertexElementDescription("Position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
+                        new VertexElementDescription("Color", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float4))
+                },
+                Shaders = LoadShaders(factory, "vert", "frag")
+            };
+
+            using var p = pipeline = factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
             {
                 BlendState = BlendStateDescription.SingleOverrideBlend,
-                DepthStencilState = new DepthStencilStateDescription(
-                    depthTestEnabled: true,
-                    depthWriteEnabled: true,
-                    comparisonKind: ComparisonKind.LessEqual),
-                RasterizerState = new RasterizerStateDescription(
-                    cullMode: FaceCullMode.Back,
-                    fillMode: PolygonFillMode.Solid,
-                    frontFace: FrontFace.Clockwise,
-                    depthClipEnabled: true,
-                    scissorTestEnabled: false),
+                DepthStencilState = new DepthStencilStateDescription
+                {
+                    DepthTestEnabled = true,
+                    DepthWriteEnabled = true,
+                    DepthComparison = ComparisonKind.LessEqual
+                },
+                RasterizerState = new RasterizerStateDescription
+                {
+                    CullMode = FaceCullMode.Back,
+                    FillMode = PolygonFillMode.Solid,
+                    FrontFace = FrontFace.Clockwise,
+                    DepthClipEnabled = true,
+                    ScissorTestEnabled = false
+                },
                 PrimitiveTopology = PrimitiveTopology.TriangleStrip,
                 ResourceLayouts = Array.Empty<ResourceLayout>(),
                 ShaderSet = shaderSet,
                 Outputs = mainForm.Panel.VeldridSwapChain.Framebuffer.OutputDescription
-            };
-
-            using var p = pipeline = factory.CreateGraphicsPipeline(pipelineDescription);
-
-            commandList = mainForm.Device.ResourceFactory.CreateCommandList();
-            CreateCommandList();
-            mainForm.Panel.VeldridCommandList = commandList;
+            });
 
             Application.Run(mainForm);
 
         }
 
-        private static void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        private static void Panel_CommandListUpdate(object sender, VeldridIntegration.WinFormsSupport.UpdateCommandListEventArgs e)
         {
-            commandList?.Dispose();
-        }
-
-        private static void Form_Resize(object sender, EventArgs e)
-        {
-            CreateCommandList();
-        }
-
-        private static void CreateCommandList()
-        {
+            var commandList = e.CommandList;
             var framebuffer = mainForm.Panel.VeldridSwapChain.Framebuffer;
             var width = framebuffer.Width;
             var height = framebuffer.Height;
+            var aspectRatio = (float)width / height;
             var size = Math.Min(width, height);
             var x = (width - size) / 2;
             var y = (height - size) / 2;
@@ -136,9 +131,9 @@ namespace Juniper
             });
 
             commandList.ClearColorTarget(0, RgbaFloat.Black);
+            commandList.SetPipeline(pipeline);
             commandList.SetVertexBuffer(0, vertexBuffer);
             commandList.SetIndexBuffer(indexBuffer, IndexFormat.UInt16);
-            commandList.SetPipeline(pipeline);
             commandList.DrawIndexed(
                 indexCount: 4,
                 instanceCount: 1,

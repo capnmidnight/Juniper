@@ -1,6 +1,8 @@
 using System;
 using System.Windows.Forms;
+
 using Juniper.VeldridIntegration.WinFormsSupport;
+
 using Veldrid;
 
 namespace Juniper

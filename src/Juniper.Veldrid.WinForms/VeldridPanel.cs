@@ -8,10 +8,26 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
 {
     public partial class VeldridPanel : UserControl
     {
-
         public VeldridGraphicsDevice VeldridGraphicsDevice { get; set; }
 
-        public CommandList VeldridCommandList { get; set; }
+        public event UpdateCommandListHandler CommandListUpdate;
+        private UpdateCommandListEventArgs updateArgs;
+
+        private void OnUpdateCommandList()
+        {
+            if (commandList is null
+                && VeldridGraphicsDevice is object
+                && VeldridGraphicsDevice.VeldridDevice is object)
+            {
+                commandList = VeldridGraphicsDevice.VeldridDevice.ResourceFactory.CreateCommandList();
+                updateArgs = new UpdateCommandListEventArgs(commandList);
+            }
+
+            if (commandList is object)
+            {
+                CommandListUpdate?.Invoke(this, updateArgs);
+            }
+        }
 
         public VeldridPanel()
         {
@@ -59,10 +75,10 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
             base.OnPaint(e);
 
             if (VeldridGraphicsDevice != null
-                && VeldridCommandList != null
                 && VeldridSwapChain != null)
             {
-                VeldridGraphicsDevice.Draw(VeldridCommandList, VeldridSwapChain);
+                OnUpdateCommandList();
+                VeldridGraphicsDevice.Draw(commandList, VeldridSwapChain);
             }
         }
     }

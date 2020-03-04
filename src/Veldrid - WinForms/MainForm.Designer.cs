@@ -1,5 +1,3 @@
-using Juniper.VeldridIntegration.WinFormsSupport;
-
 namespace Juniper
 {
     partial class MainForm
@@ -15,9 +13,13 @@ namespace Juniper
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing)
             {
-                components.Dispose();
+                veldridPanel1?.Dispose();
+                veldridPanel1 = null;
+                veldridGraphicsDevice1?.Dispose();
+                veldridGraphicsDevice1 = null;
+                components?.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -57,7 +59,6 @@ namespace Juniper
             this.veldridPanel1.Name = "veldridPanel1";
             this.veldridPanel1.Size = new System.Drawing.Size(556, 424);
             this.veldridPanel1.TabIndex = 0;
-            this.veldridPanel1.VeldridCommandList = null;
             this.veldridPanel1.VeldridGraphicsDevice = this.veldridGraphicsDevice1;
             // 
             // veldridGraphicsDevice1
