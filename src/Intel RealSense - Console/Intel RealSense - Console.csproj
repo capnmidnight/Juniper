@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <ImportGroup>
+    <Import Project="..\..\Juniper.props" />
+  </ImportGroup>
+
+  <PropertyGroup>
+    <AssemblyName>RealSense_Testing</AssemblyName>
+    <RootNamespace>Juniper</RootNamespace>
+    <OutputType>Exe</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
+    <TargetFramework>net48</TargetFramework>
+    <StartupObject>Juniper.Program</StartupObject>
+    <Authors>Sean T. McBeth</Authors>
+    <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
+  </PropertyGroup>
+
+  <ImportGroup>
+    <Import Project="..\..\Juniper.targets" />
+  </ImportGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Intel.RealSenseWithNativeDll" Version="2.30.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Intel.RealSense">
+      <HintPath>C:\Program Files (x86)\Intel RealSense SDK 2.0\bin\x64\Intel.Realsense.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
