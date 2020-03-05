@@ -58,5 +58,10 @@ namespace System.Numerics
         {
             return new Juniper.Mathematics.QuaternionSerializable(q.X, q.Y, q.Z, q.W);
         }
+
+        public static Accord.Math.Plane ToAccordPlane(this Plane p)
+        {
+            return new Accord.Math.Plane(p.Normal.ToAccordVector3(), p.D);
+        }
     }
 }

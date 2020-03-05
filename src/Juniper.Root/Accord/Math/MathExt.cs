@@ -49,5 +49,10 @@ namespace Accord.Math
         {
             return new System.Numerics.Vector4(v.X, v.Y, v.Z, v.W);
         }
+
+        public static System.Numerics.Plane ToSystemPlane(this Plane p)
+        {
+            return new System.Numerics.Plane(p.Normal.ToSystemVector3(), p.Offset);
+        }
     }
 }

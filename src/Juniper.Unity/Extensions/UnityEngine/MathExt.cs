@@ -99,5 +99,15 @@ namespace UnityEngine
                 V30 = m.m30, V31 = m.m31, V32 = m.m32, V33 = m.m33
             };
         }
+
+        public static System.Numerics.Plane ToSystemPlane(this Plane p)
+        {
+            return new System.Numerics.Plane(p.normal.ToSystemVector3(), p.distance);
+        }
+
+        public static Accord.Math.Plane ToAccordPlane(this Plane p)
+        {
+            return new Accord.Math.Plane(p.normal.ToAccordVector3(), p.distance);
+        }
     }
 }

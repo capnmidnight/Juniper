@@ -32,5 +32,10 @@ namespace System.Numerics
                 m30 = m.M41, m31 = m.M42, m32 = m.M43, m33 = m.M44
             };
         }
+
+        public static UnityEngine.Plane ToUnityPlane(this Plane p)
+        {
+            return new UnityEngine.Plane(p.Normal.ToUnityVector3(), p.D);
+        }
     }
 }

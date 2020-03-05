@@ -27,5 +27,10 @@ namespace Accord.Math
                 m30 = m.V30, m31 = m.V31, m32 = m.V32, m33 = m.V33
             };
         }
+
+        public static UnityEngine.Plane ToUnityPlane(this Plane p)
+        {
+            return new UnityEngine.Plane(p.Normal.ToUnityVector3(), p.Offset);
+        }
     }
 }
