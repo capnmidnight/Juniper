@@ -74,5 +74,20 @@ namespace Juniper.Mathematics
         {
             return !(left == right);
         }
+
+        public System.Numerics.Vector2 ToSystemVector2()
+        {
+            return new System.Numerics.Vector2(X, Y);
+        }
+
+        public static implicit operator System.Numerics.Vector2(Vector2Serializable v)
+        {
+            return v.ToSystemVector2();
+        }
+
+        public static implicit operator Vector2Serializable(System.Numerics.Vector2 v)
+        {
+            return System.Numerics.MathExt.ToJuniperVector2Serializable(v);
+        }
     }
 }

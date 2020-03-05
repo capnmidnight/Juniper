@@ -103,8 +103,8 @@ namespace Juniper.Input
         public float maximumY = 85F;
 
         private Quaternion target = Quaternion.identity;
-        private XR.Pose? networkPose;
-        public XR.Pose? NetworkPose
+        private PoseSerializable? networkPose;
+        public PoseSerializable? NetworkPose
         {
             get
             {
@@ -115,7 +115,7 @@ namespace Juniper.Input
                 networkPose = value;
                 if (networkPose.HasValue)
                 {
-                    target = networkPose.Value.GetUnityQuaternion();
+                    target = networkPose.Value.Orientation.ToUnityQuaternion();
                 }
 
                 if (motionFilter != null)
@@ -355,7 +355,7 @@ namespace Juniper.Input
                 }
                 else if (ControlMode == Mode.NetworkView)
                 {
-                    return NetworkPose.Value.GetUnityQuaternion();
+                    return NetworkPose.Value.Orientation.ToUnityQuaternion();
                 }
                 else
                 {

@@ -115,35 +115,5 @@ namespace UnityEngine
         {
             t.gameObject.Destroy();
         }
-
-        public static Juniper.XR.Pose ToJuniperPose(this Transform t)
-        {
-            return new Juniper.XR.Pose(
-                t.position.x, t.position.y, t.position.z,
-                t.rotation.x, t.rotation.y, t.rotation.z, t.rotation.w);
-        }
-
-        public static Vector3 GetUnityVector3(this Juniper.XR.Pose pose)
-        {
-            return new Vector3(pose.Position.X, pose.Position.Y, pose.Position.Z);
-        }
-
-        public static Quaternion GetUnityQuaternion(this Juniper.XR.Pose pose)
-        {
-            return new Quaternion(pose.Orientation.X, pose.Orientation.Y, pose.Orientation.Z, pose.Orientation.W);
-        }
-
-        public static Pose ToUnityPose(this Juniper.XR.Pose pose)
-        {
-            return new Pose(
-                pose.GetUnityVector3(),
-                pose.GetUnityQuaternion());
-        }
-
-        public static Ray ToUnityRay(this Juniper.XR.Pose pose)
-        {
-            var p = pose.ToUnityPose();
-            return new Ray(p.position, p.forward);
-        }
     }
 }

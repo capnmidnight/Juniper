@@ -39,6 +39,6 @@ namespace Juniper.Input.Pointers
 
         void SetActive(bool active);
 
-        XR.Pose ToJuniperPose();
+        Mathematics.PoseSerializable ToJuniperPose();
     }
 }

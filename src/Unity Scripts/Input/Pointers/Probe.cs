@@ -421,12 +421,12 @@ namespace Juniper.Input.Pointers
             gameObject.SetActive(active);
         }
 
-        public XR.Pose ToJuniperPose()
+        public Mathematics.PoseSerializable ToJuniperPose()
         {
             var p = transform.position;
             var d = (Cursor.position - transform.position).normalized;
             var o = Quaternion.LookRotation(d);
-            return new XR.Pose(
+            return new Mathematics.PoseSerializable(
                 p.x, p.y, p.z,
                 o.x, o.y, o.z, o.w);
         }

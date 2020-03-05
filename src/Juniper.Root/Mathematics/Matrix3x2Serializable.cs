@@ -68,20 +68,22 @@ namespace Juniper.Mathematics
             return !(left == right);
         }
 
-        //public static implicit operator Matrix3x2(Matrix3x2Serializable v)
-        //{
-        //    return new Matrix3x2(
-        //        v.values[0], v.values[1],
-        //        v.values[2], v.values[3],
-        //        v.values[4], v.values[5]);
-        //}
+        public System.Numerics.Matrix3x2 ToSystemMatrix3x2()
+        {
+            return new System.Numerics.Matrix3x2(
+                Values[0], Values[1],
+                Values[2], Values[3],
+                Values[4], Values[5]);
+        }
 
-        //public static explicit operator Matrix3x2Serializable(Matrix3x2 v)
-        //{
-        //    return new Matrix3x2Serializable(
-        //        v.M11, v.M12,
-        //        v.M21, v.M22,
-        //        v.M31, v.M32);
-        //}
+        public static implicit operator System.Numerics.Matrix3x2(Matrix3x2Serializable v)
+        {
+            return v.ToSystemMatrix3x2();
+        }
+
+        public static explicit operator Matrix3x2Serializable(System.Numerics.Matrix3x2 v)
+        {
+            return System.Numerics.MathExt.ToJuniperMatrix3x2Serializable(v);
+        }
     }
 }

@@ -73,22 +73,44 @@ namespace Juniper.Mathematics
             return !(left == right);
         }
 
-        //public static implicit operator Matrix4x4(Matrix4x4Serializable v)
-        //{
-        //    return new Matrix4x4(
-        //        v.values[0x0], v.values[0x1], v.values[0x2], v.values[0x3],
-        //        v.values[0x4], v.values[0x5], v.values[0x6], v.values[0x7],
-        //        v.values[0x8], v.values[0x9], v.values[0xA], v.values[0xB],
-        //        v.values[0xC], v.values[0xD], v.values[0xE], v.values[0xF]);
-        //}
+        public System.Numerics.Matrix4x4 ToSystemMatrix4x4()
+        {
+            return new System.Numerics.Matrix4x4(
+                Values[0x0], Values[0x1], Values[0x2], Values[0x3],
+                Values[0x4], Values[0x5], Values[0x6], Values[0x7],
+                Values[0x8], Values[0x9], Values[0xA], Values[0xB],
+                Values[0xC], Values[0xD], Values[0xE], Values[0xF]);
+        }
 
-        //public static explicit operator Matrix4x4Serializable(Matrix4x4 v)
-        //{
-        //    return new Matrix4x4Serializable(
-        //        v.M11, v.M12, v.M13, v.M14,
-        //        v.M21, v.M22, v.M23, v.M24,
-        //        v.M31, v.M32, v.M33, v.M34,
-        //        v.M41, v.M42, v.M43, v.M44);
-        //}
+        public Accord.Math.Matrix4x4 ToAccordMatrix4x4()
+        {
+            return new Accord.Math.Matrix4x4
+            {
+                V00 = Values[0x0], V01 = Values[0x1], V02 = Values[0x2], V03 = Values[0x3],
+                V10 = Values[0x4], V11 = Values[0x5], V12 = Values[0x6], V13 = Values[0x7],
+                V20 = Values[0x8], V21 = Values[0x9], V22 = Values[0xA], V23 = Values[0xB],
+                V30 = Values[0xC], V31 = Values[0xD], V32 = Values[0xE], V33 = Values[0xF]
+            };
+        }
+
+        public static implicit operator System.Numerics.Matrix4x4(Matrix4x4Serializable v)
+        {
+            return v.ToSystemMatrix4x4();
+        }
+
+        public static explicit operator Matrix4x4Serializable(System.Numerics.Matrix4x4 v)
+        {
+            return System.Numerics.MathExt.ToJuniperMatrix4x4Serializable(v);
+        }
+
+        public static implicit operator Accord.Math.Matrix4x4(Matrix4x4Serializable v)
+        {
+            return v.ToAccordMatrix4x4();
+        }
+
+        public static explicit operator Matrix4x4Serializable(Accord.Math.Matrix4x4 v)
+        {
+            return Accord.Math.MathExt.ToJuniperMatrix4x4Serializable(v);
+        }
     }
 }

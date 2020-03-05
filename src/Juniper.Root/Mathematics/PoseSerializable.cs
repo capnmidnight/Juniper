@@ -1,9 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-using Juniper.Mathematics;
-
-namespace Juniper.XR
+namespace Juniper.Mathematics
 {
     [Serializable]
     public struct PoseSerializable : ISerializable, IEquatable<PoseSerializable>

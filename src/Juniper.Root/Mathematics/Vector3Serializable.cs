@@ -82,5 +82,50 @@ namespace Juniper.Mathematics
         {
             return !(left == right);
         }
+
+        public System.Numerics.Vector3 ToSystemVector3()
+        {
+            return new System.Numerics.Vector3(X, Y, Z);
+        }
+
+        public Accord.Math.Vector3 ToAccordVector3()
+        {
+            return new Accord.Math.Vector3(X, Y, Z);
+        }
+
+        public Accord.Math.Point3 ToAccordPoint3()
+        {
+            return new Accord.Math.Point3(X, Y, Z);
+        }
+
+        public static implicit operator System.Numerics.Vector3(Vector3Serializable v)
+        {
+            return v.ToSystemVector3();
+        }
+
+        public static implicit operator Vector3Serializable(System.Numerics.Vector3 v)
+        {
+            return System.Numerics.MathExt.ToJuniperVector3Serializable(v);
+        }
+
+        public static implicit operator Accord.Math.Vector3(Vector3Serializable v)
+        {
+            return v.ToAccordVector3();
+        }
+
+        public static implicit operator Vector3Serializable(Accord.Math.Vector3 v)
+        {
+            return Accord.Math.MathExt.ToJuniperVector3Serializable(v);
+        }
+
+        public static implicit operator Accord.Math.Point3(Vector3Serializable v)
+        {
+            return v.ToAccordPoint3();
+        }
+
+        public static implicit operator Vector3Serializable(Accord.Math.Point3 v)
+        {
+            return Accord.Math.MathExt.ToJuniperVector3Serializable(v);
+        }
     }
 }

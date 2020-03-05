@@ -87,5 +87,20 @@ namespace Juniper.Mathematics
         {
             return !(left == right);
         }
+
+        public System.Numerics.Quaternion ToSystemQuaternion()
+        {
+            return new System.Numerics.Quaternion(X, Y, Z, W);
+        }
+
+        public static implicit operator System.Numerics.Quaternion(QuaternionSerializable q)
+        {
+            return q.ToSystemQuaternion();
+        }
+
+        public static implicit operator QuaternionSerializable(System.Numerics.Quaternion q)
+        {
+            return System.Numerics.MathExt.ToJuniperQuaternionSerializable(q);
+        }
     }
 }
