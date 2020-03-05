@@ -1,11 +1,5 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.EventSystems;
-
-#if UNITY_MODULES_UI
-
-
-#endif
-
 
 namespace Juniper.Input
 {

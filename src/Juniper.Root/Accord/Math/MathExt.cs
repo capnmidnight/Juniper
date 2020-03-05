@@ -54,6 +54,11 @@ namespace Accord.Math
 
         public static System.Numerics.Plane ToSystemPlane(this Plane p)
         {
+            if (p is null)
+            {
+                throw new ArgumentNullException(nameof(p));
+            }
+
             return new System.Numerics.Plane(p.Normal.ToSystemVector3(), p.Offset);
         }
 

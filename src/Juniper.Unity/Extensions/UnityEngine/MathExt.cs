@@ -6,6 +6,11 @@ namespace UnityEngine
     {
         public static Juniper.Mathematics.PoseSerializable ToJuniperPoseSerializable(this Transform t)
         {
+            if (t is null)
+            {
+                throw new System.ArgumentNullException(nameof(t));
+            }
+
             return new Juniper.Mathematics.PoseSerializable(
                 t.position.x, t.position.y, t.position.z,
                 t.rotation.x, t.rotation.y, t.rotation.z, t.rotation.w);
@@ -13,6 +18,11 @@ namespace UnityEngine
 
         public static Juniper.Mathematics.Pose ToJuniperPose(this Transform t)
         {
+            if (t is null)
+            {
+                throw new System.ArgumentNullException(nameof(t));
+            }
+
             return new Juniper.Mathematics.Pose(
                 t.position.ToSystemVector3(),
                 t.rotation.ToSystemQuaternion());
