@@ -81,8 +81,8 @@ var sectionId = 'dynsection-1';
 <text text-anchor="start" x="371" y="-451.5" font-family="SegoeUI" font-size="10.00">+ defaultMixerGroup</text>
 <text text-anchor="start" x="371" y="-440.5" font-family="SegoeUI" font-size="10.00">+ dopplerLevel</text>
 <text text-anchor="start" x="371" y="-429.5" font-family="SegoeUI" font-size="10.00">+ IsTextToSpeechAvailable</text>
-<text text-anchor="start" x="371" y="-418.5" font-family="SegoeUI" font-size="10.00">+ DefaultAudioMixer</text>
-<text text-anchor="start" x="371" y="-407.5" font-family="SegoeUI" font-size="10.00"># listener</text>
+<text text-anchor="start" x="371" y="-418.5" font-family="SegoeUI" font-size="10.00"># listener</text>
+<text text-anchor="start" x="371" y="-407.5" font-family="SegoeUI" font-size="10.00"># DefaultAudioMixer</text>
 <text text-anchor="start" x="371" y="-396.5" font-family="SegoeUI" font-size="10.00">&#45; INTERACTION_SOUND_TAG</text>
 <text text-anchor="start" x="371" y="-385.5" font-family="SegoeUI" font-size="10.00">&#45; azureApiKey</text>
 <text text-anchor="start" x="371" y="-374.5" font-family="SegoeUI" font-size="10.00">&#45; azureRegion</text>

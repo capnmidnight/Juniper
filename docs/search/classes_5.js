@@ -19,6 +19,7 @@ var searchData=
   ['followmaincamera',['FollowMainCamera',['../d7/d21/class_juniper_1_1_widgets_1_1_follow_main_camera.html',1,'Juniper::Widgets']]],
   ['followobject',['FollowObject',['../d8/dfe/class_juniper_1_1_widgets_1_1_follow_object.html',1,'Juniper::Widgets']]],
   ['followplatformsettings',['FollowPlatformSettings',['../da/dcb/class_juniper_1_1_widgets_1_1_follow_platform_settings.html',1,'Juniper::Widgets']]],
+  ['followsystemuserinterface',['FollowSystemUserInterface',['../dd/d98/class_juniper_1_1_widgets_1_1_follow_system_user_interface.html',1,'Juniper::Widgets']]],
   ['font',['Font',['../d0/df4/class_juniper_1_1_media_type_1_1_font.html',1,'Juniper::MediaType']]],
   ['forkedstream',['ForkedStream',['../d7/d4c/class_juniper_1_1_i_o_1_1_forked_stream.html',1,'Juniper::IO']]]
 ];

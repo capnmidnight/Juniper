@@ -175,7 +175,7 @@ Protected Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-attribs"></a>
 Static Protected Attributes</h2></td></tr>
-<tr class="memitem:a9b6d8bd8cf595f9f9ae302c33252e36f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../df/dae/_integration_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d37/class_juniper_1_1_world_1_1_light_estimation_1_1_abstract_light_estimate.html#a9b6d8bd8cf595f9f9ae302c33252e36f">overhead</a> = new <a class="el" href="../../df/dae/_integration_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>(90, 0, 0)</td></tr>
+<tr class="memitem:a9b6d8bd8cf595f9f9ae302c33252e36f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d37/class_juniper_1_1_world_1_1_light_estimation_1_1_abstract_light_estimate.html#a9b6d8bd8cf595f9f9ae302c33252e36f">overhead</a> = new <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>(90, 0, 0)</td></tr>
 <tr class="memdesc:a9b6d8bd8cf595f9f9ae302c33252e36f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A static orientation for the straight above zenith.  <a href="#a9b6d8bd8cf595f9f9ae302c33252e36f">More...</a><br /></td></tr>
 <tr class="separator:a9b6d8bd8cf595f9f9ae302c33252e36f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -190,7 +190,7 @@ Properties</h2></td></tr>
 <tr class="memitem:a35b6cc0320572f4de97de41a25edeb49"><td class="memItemLeft" align="right" valign="top">override bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/df6/class_juniper_1_1_world_1_1_light_estimation_1_1_outdoor_light_estimate.html#a35b6cc0320572f4de97de41a25edeb49">HasSunRotation</a><code> [get]</code></td></tr>
 <tr class="memdesc:a35b6cc0320572f4de97de41a25edeb49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if it is not night time, we have a <a class="el" href="../../d6/df6/class_juniper_1_1_world_1_1_light_estimation_1_1_outdoor_light_estimate.html#ae94f04eb1cb14c4feead2f64daa1b41c" title="The component used for calculating the position of the sun.">sunPosition</a> component, and that component is capable of calculating the sun position.  <a href="#a35b6cc0320572f4de97de41a25edeb49">More...</a><br /></td></tr>
 <tr class="separator:a35b6cc0320572f4de97de41a25edeb49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f5ab5585db8a20fa13d5a8cd2fab3a4"><td class="memItemLeft" align="right" valign="top">override <a class="el" href="../../df/dae/_integration_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/df6/class_juniper_1_1_world_1_1_light_estimation_1_1_outdoor_light_estimate.html#a2f5ab5585db8a20fa13d5a8cd2fab3a4">SunRotation</a><code> [get]</code></td></tr>
+<tr class="memitem:a2f5ab5585db8a20fa13d5a8cd2fab3a4"><td class="memItemLeft" align="right" valign="top">override <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/df6/class_juniper_1_1_world_1_1_light_estimation_1_1_outdoor_light_estimate.html#a2f5ab5585db8a20fa13d5a8cd2fab3a4">SunRotation</a><code> [get]</code></td></tr>
 <tr class="memdesc:a2f5ab5585db8a20fa13d5a8cd2fab3a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a rotation quaternion that will put the "sun dot" of <a class="el" href="../../d6/d76/namespace_juniper_1_1_unity.html">Unity</a>'s default skybox into the correct position in the sky, unless it's night time, using an indoor lighting model instead.  <a href="#a2f5ab5585db8a20fa13d5a8cd2fab3a4">More...</a><br /></td></tr>
 <tr class="separator:a2f5ab5585db8a20fa13d5a8cd2fab3a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b638fd4dc7afefeec7eeeb25551903c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/df6/class_juniper_1_1_world_1_1_light_estimation_1_1_outdoor_light_estimate.html#a6b638fd4dc7afefeec7eeeb25551903c">IsNight</a><code> [get]</code></td></tr>
@@ -647,7 +647,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../df/dae/_integration_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a> Juniper.World.LightEstimation.AbstractLightEstimate.overhead = new <a class="el" href="../../df/dae/_integration_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>(90, 0, 0)</td>
+          <td class="memname"><a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a> Juniper.World.LightEstimation.AbstractLightEstimate.overhead = new <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>(90, 0, 0)</td>
         </tr>
       </table>
   </td>
@@ -957,7 +957,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override <a class="el" href="../../df/dae/_integration_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a> Juniper.World.LightEstimation.OutdoorLightEstimate.SunRotation</td>
+          <td class="memname">override <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a> Juniper.World.LightEstimation.OutdoorLightEstimate.SunRotation</td>
         </tr>
       </table>
   </td>

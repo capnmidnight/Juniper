@@ -30,7 +30,7 @@ var searchData=
   ['queryparams',['queryParams',['../db/d68/class_juniper_1_1_h_t_t_p_1_1_r_e_s_t_1_1_abstract_request.html#a204b51105e54eadcd4da32abf5d327a2',1,'Juniper::HTTP::REST::AbstractRequest']]],
   ['queuelength',['QueueLength',['../da/d75/class_juniper_1_1_sound_1_1_beats_1_1_beat_detector.html#ac3b0fa549cb17c1a941fbb8cdceba966',1,'Juniper::Sound::Beats::BeatDetector']]],
   ['quicktime',['Quicktime',['../d7/d83/class_juniper_1_1_media_type_1_1_video.html#abd24d95883e731b29db0b8f100371de1',1,'Juniper::MediaType::Video']]],
-  ['quit',['Quit',['../d0/dde/class_juniper_1_1_master_scene_controller.html#aa02a6ac456e07df25b6b51f43ce1cecd',1,'Juniper.MasterSceneController.Quit()'],['../db/d32/class_juniper_1_1_sub_scene_controller.html#a90146cfcf19cfe01c2dc814ea354020a',1,'Juniper.SubSceneController.Quit()']]],
+  ['quit',['Quit',['../d4/da9/interface_juniper_1_1_input_1_1_i_key_event_source.html#a56a27abab8b65c0a700c12db8d1cf3c2',1,'Juniper.Input.IKeyEventSource.Quit()'],['../d0/dde/class_juniper_1_1_master_scene_controller.html#aa02a6ac456e07df25b6b51f43ce1cecd',1,'Juniper.MasterSceneController.Quit()'],['../db/d32/class_juniper_1_1_sub_scene_controller.html#a90146cfcf19cfe01c2dc814ea354020a',1,'Juniper.SubSceneController.Quit()']]],
   ['quitapp',['QuitApp',['../d0/dde/class_juniper_1_1_master_scene_controller.html#a5d97031f1b9485c39bc873e6d12ed2d0',1,'Juniper::MasterSceneController']]],
   ['quitcoroutine',['QuitCoroutine',['../d0/dde/class_juniper_1_1_master_scene_controller.html#ad9dbe7036f41f41e3e415cdcfcc6c22d',1,'Juniper::MasterSceneController']]]
 ];

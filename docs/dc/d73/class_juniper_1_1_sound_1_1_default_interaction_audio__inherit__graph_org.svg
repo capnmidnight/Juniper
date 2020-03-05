@@ -40,8 +40,8 @@
 <text text-anchor="start" x="24.5" y="-494.5" font-family="SegoeUI" font-size="10.00">+ soundOnScrolled</text>
 <text text-anchor="start" x="24.5" y="-483.5" font-family="SegoeUI" font-size="10.00">and 6 more...</text>
 <text text-anchor="start" x="24.5" y="-472.5" font-family="SegoeUI" font-size="10.00">+ IsTextToSpeechAvailable</text>
-<text text-anchor="start" x="24.5" y="-461.5" font-family="SegoeUI" font-size="10.00">+ DefaultAudioMixer</text>
-<text text-anchor="start" x="24.5" y="-450.5" font-family="SegoeUI" font-size="10.00"># listener</text>
+<text text-anchor="start" x="24.5" y="-461.5" font-family="SegoeUI" font-size="10.00"># listener</text>
+<text text-anchor="start" x="24.5" y="-450.5" font-family="SegoeUI" font-size="10.00"># DefaultAudioMixer</text>
 <text text-anchor="start" x="24.5" y="-439.5" font-family="SegoeUI" font-size="10.00">&#45; INTERACTION_SOUND_TAG</text>
 <text text-anchor="start" x="24.5" y="-428.5" font-family="SegoeUI" font-size="10.00">&#45; azureApiKey</text>
 <text text-anchor="start" x="24.5" y="-417.5" font-family="SegoeUI" font-size="10.00">&#45; azureRegion</text>

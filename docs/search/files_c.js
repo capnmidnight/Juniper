@@ -22,6 +22,7 @@ var searchData=
   ['markerstyle_2ecs',['MarkerStyle.cs',['../dc/d9e/_marker_style_8cs.html',1,'']]],
   ['masterscenecontroller_2ecs',['MasterSceneController.cs',['../d3/dfa/_master_scene_controller_8cs.html',1,'']]],
   ['materialcollection_2ecs',['MaterialCollection.cs',['../de/d7a/_material_collection_8cs.html',1,'']]],
+  ['mathext_2ecs',['MathExt.cs',['../df/d9a/_juniper_8_root_2_accord_2_math_2_math_ext_8cs.html',1,'(Global Namespace)'],['../de/d15/_juniper_8_root_2_n_e_t_f_x_2_numerics_2_math_ext_8cs.html',1,'(Global Namespace)'],['../d2/df3/_juniper_8_unity_2_extensions_2_accord_2_math_2_math_ext_8cs.html',1,'(Global Namespace)'],['../d7/dc8/_juniper_8_unity_2_extensions_2_n_e_t_f_x_2_numerics_2_math_ext_8cs.html',1,'(Global Namespace)'],['../d3/d51/_juniper_8_unity_2_extensions_2_unity_engine_2_math_ext_8cs.html',1,'(Global Namespace)'],['../de/de2/_juniper_8_unity_2_mathematics_2_math_ext_8cs.html',1,'(Global Namespace)']]],
   ['matrix3x2serializable_2ecs',['Matrix3x2Serializable.cs',['../d7/d9e/_matrix3x2_serializable_8cs.html',1,'']]],
   ['matrix4x4serializable_2ecs',['Matrix4x4Serializable.cs',['../db/d18/_matrix4x4_serializable_8cs.html',1,'']]],
   ['mediatype_2ecs',['MediaType.cs',['../d5/d9e/_media_type_8cs.html',1,'']]],

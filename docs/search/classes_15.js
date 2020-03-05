@@ -11,7 +11,6 @@ var searchData=
   ['vectorext',['VectorExt',['../d2/dd8/class_unity_engine_1_1_vector_ext.html',1,'UnityEngine']]],
   ['video',['Video',['../d7/d83/class_juniper_1_1_media_type_1_1_video.html',1,'Juniper::MediaType']]],
   ['videovader',['VideoVader',['../dd/d40/class_juniper_1_1_widgets_1_1_video_vader.html',1,'Juniper::Widgets']]],
-  ['virtualkeystate',['VirtualKeyState',['../d2/d12/class_juniper_1_1_input_1_1_virtual_key_state.html',1,'Juniper::Input']]],
   ['vivefocusdisplaymanager',['ViveFocusDisplayManager',['../d1/d0c/class_juniper_1_1_display_1_1_vive_focus_display_manager.html',1,'Juniper::Display']]],
   ['vivefocushaptics',['ViveFocusHaptics',['../db/da0/class_juniper_1_1_haptics_1_1_vive_focus_haptics.html',1,'Juniper::Haptics']]],
   ['vivefocusinputmodule',['ViveFocusInputModule',['../d5/d1d/class_juniper_1_1_input_1_1_vive_focus_input_module.html',1,'Juniper::Input']]],

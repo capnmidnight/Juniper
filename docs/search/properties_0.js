@@ -1,10 +1,10 @@
 var searchData=
 [
-  ['absolutebottom',['AbsoluteBottom',['../d8/df3/interface_juniper_1_1_console_1_1_i_console_buffer.html#adb3cb46c0903cad6a88630d25dd6bf72',1,'Juniper::Console::IConsoleBuffer']]],
-  ['absoluteleft',['AbsoluteLeft',['../d8/df3/interface_juniper_1_1_console_1_1_i_console_buffer.html#af143bf10388484d1d9285f483f4b6bfb',1,'Juniper::Console::IConsoleBuffer']]],
+  ['absolutebottom',['AbsoluteBottom',['../d0/dc9/interface_juniper_1_1_terminal_1_1_i_console_buffer.html#ae1ec33b8005647433423b92024527294',1,'Juniper::Terminal::IConsoleBuffer']]],
+  ['absoluteleft',['AbsoluteLeft',['../d0/dc9/interface_juniper_1_1_terminal_1_1_i_console_buffer.html#a121e7130e5a00efbdaf9257e3d998ce0',1,'Juniper::Terminal::IConsoleBuffer']]],
   ['absoluteorientation',['AbsoluteOrientation',['../dc/dfb/class_juniper_1_1_input_1_1_camera_control.html#a58f769e2c7a6f2ad949fb8704fad9334',1,'Juniper::Input::CameraControl']]],
-  ['absoluteright',['AbsoluteRight',['../d8/df3/interface_juniper_1_1_console_1_1_i_console_buffer.html#a187dad4254bc6f4c9706ee06b11a8b51',1,'Juniper::Console::IConsoleBuffer']]],
-  ['absolutetop',['AbsoluteTop',['../d8/df3/interface_juniper_1_1_console_1_1_i_console_buffer.html#ac5b7571922edf4c468e705e750ab048c',1,'Juniper::Console::IConsoleBuffer']]],
+  ['absoluteright',['AbsoluteRight',['../d0/dc9/interface_juniper_1_1_terminal_1_1_i_console_buffer.html#a701ed6976271ad1a51c9c09c68974271',1,'Juniper::Terminal::IConsoleBuffer']]],
+  ['absolutetop',['AbsoluteTop',['../d0/dc9/interface_juniper_1_1_terminal_1_1_i_console_buffer.html#a7978c329a01b7be90057cc49732678f1',1,'Juniper::Terminal::IConsoleBuffer']]],
   ['accept',['Accept',['../d9/d5c/class_juniper_1_1_h_t_t_p_1_1_server_1_1_controllers_1_1_abstract_response.html#aa99cc516d860d23099a81b8d40f45d2a',1,'Juniper.HTTP.Server.Controllers.AbstractResponse.Accept()'],['../d4/d74/interface_juniper_1_1_h_t_t_p_1_1_server_1_1_i_request_handler.html#afa2d7b4298bf3b54943d0de9549f1d73',1,'Juniper.HTTP.Server.IRequestHandler.Accept()'],['../d9/dca/class_juniper_1_1_h_t_t_p_1_1_server_1_1_route_attribute.html#abdc530f14b79b18ebf3f6e1b5ce57e2d',1,'Juniper.HTTP.Server.RouteAttribute.Accept()']]],
   ['action',['Action',['../d0/d18/class_juniper_1_1_abstract_named_action.html#a33517dba3f90e1e0e96bf08bb0f131e1',1,'Juniper.AbstractNamedAction.Action()'],['../d0/d62/class_juniper_1_1_h_t_t_p_1_1_server_1_1_administration_1_1_net_s_h_1_1_add_firewall_rule.html#a6618013afcf1b71d331e99ccae3d4227',1,'Juniper.HTTP.Server.Administration.NetSH.AddFirewallRule.Action()']]],
   ['activecontroller',['ActiveController',['../db/d40/class_juniper_1_1_input_1_1_abstract_unified_input_module.html#aeebd0179781deec595f840c8ad189d35',1,'Juniper::Input::AbstractUnifiedInputModule']]],

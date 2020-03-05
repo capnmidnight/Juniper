@@ -17,7 +17,6 @@ var searchData=
   ['updoubleandhorizontalsingle',['UpDoubleANdHorizontalSingle',['../dd/dd1/class_juniper_1_1_unicode_1_1_box_drawing_characters.html#ad49e39ada088fb118103a42701eccc4f',1,'Juniper::Unicode::BoxDrawingCharacters']]],
   ['updoubleandleftsingle',['UpDoubleAndLeftSingle',['../dd/dd1/class_juniper_1_1_unicode_1_1_box_drawing_characters.html#ad12f46c13d9560539590946bd540964f',1,'Juniper::Unicode::BoxDrawingCharacters']]],
   ['updoubleandrightsingle',['UpDoubleAndRightSingle',['../dd/dd1/class_juniper_1_1_unicode_1_1_box_drawing_characters.html#a49ce8a28ec69943d652c3a484c478d76',1,'Juniper::Unicode::BoxDrawingCharacters']]],
-  ['upevents',['upEvents',['../d6/d3e/class_juniper_1_1_input_1_1_abstract_key_event_source.html#a4dbeb68a9f5d00273261d261fdccd131',1,'Juniper::Input::AbstractKeyEventSource']]],
   ['upheavyanddownhorizontallight',['UpHeavyAndDownHorizontalLight',['../dd/dd1/class_juniper_1_1_unicode_1_1_box_drawing_characters.html#aaaad83bd035956323c6a0eafdd012874',1,'Juniper::Unicode::BoxDrawingCharacters']]],
   ['upheavyanddowwnlight',['UpHeavyAndDowwnLight',['../dd/dd1/class_juniper_1_1_unicode_1_1_box_drawing_characters.html#ac19d1ee863ea1e2ed65d6bbe51bac509',1,'Juniper::Unicode::BoxDrawingCharacters']]],
   ['upheavyandhorizontallight',['UpHeavyAndHorizontalLight',['../dd/dd1/class_juniper_1_1_unicode_1_1_box_drawing_characters.html#a9dc9a01694ee201dbbfe296842148de7',1,'Juniper::Unicode::BoxDrawingCharacters']]],

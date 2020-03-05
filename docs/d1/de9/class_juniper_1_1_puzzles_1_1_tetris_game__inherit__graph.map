@@ -1,5 +1,5 @@
 <map id="Juniper.Puzzles.TetrisGame" name="Juniper.Puzzles.TetrisGame">
-<area shape="rect" id="node1" title=" " alt="" coords="5,637,184,1199"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,637,184,1213"/>
 <area shape="rect" id="node2" href="$d7/d4d/class_juniper_1_1_puzzles_1_1_puzzle.html" title="A physical representation of a puzzle as a 2D array of tile pieces. The grid can be manipulated in va..." alt="" coords="27,131,162,589"/>
 <area shape="rect" id="node3" title=" " alt="" coords="16,5,173,83"/>
 </map>

@@ -5,6 +5,7 @@ var searchData=
   ['_5fcontroller',['_controller',['../d0/dc0/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_motion_controller.html#a61735ad1ad8fc4a7895530673fe14bec',1,'Juniper::Input::Pointers::Motion::ViveFocusMotionController']]],
   ['_5fcontrollerid',['_controllerID',['../d4/d07/class_juniper_1_1_haptics_1_1_windows_m_r_haptics.html#ac49866635944c1e2f133053e18417328',1,'Juniper::Haptics::WindowsMRHaptics']]],
   ['_5fcurstate',['_curState',['../d9/d7e/class_juniper_1_1_abstract_state_controller.html#a1837c76cfe837c517233f02171f21246',1,'Juniper::AbstractStateController']]],
+  ['_5fdata',['_data',['../d7/dbb/class_juniper_1_1_imaging_1_1_image_data.html#a9313cf3fe87db5697d8b4088b07db7d0',1,'Juniper::Imaging::ImageData']]],
   ['_5fdevice',['_device',['../d0/dc0/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_motion_controller.html#a6191418ec64d7898d8e943f471d50b3a',1,'Juniper::Input::Pointers::Motion::ViveFocusMotionController']]],
   ['_5fdevicestate',['_deviceState',['../d3/d9d/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller.html#a77fa86ab52f60ce4e72e4d9ce2d5fb03',1,'Juniper::Input::Pointers::Motion::WindowsMRMotionController']]],
   ['_5fhand',['_hand',['../d1/d3f/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html#afe61605c0b2074b618fd8431304369ec',1,'Juniper::Input::Pointers::Motion::AbstractHandedPointer']]],

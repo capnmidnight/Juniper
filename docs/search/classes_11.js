@@ -16,7 +16,5 @@ var searchData=
   ['route',['Route',['../d0/d89/class_juniper_1_1_collections_1_1_route.html',1,'Juniper::Collections']]],
   ['route_3c_20nodet_20_3e',['Route&lt; NodeT &gt;',['../d0/d89/class_juniper_1_1_collections_1_1_route.html',1,'Juniper::Collections']]],
   ['routeattribute',['RouteAttribute',['../d9/dca/class_juniper_1_1_h_t_t_p_1_1_server_1_1_route_attribute.html',1,'Juniper::HTTP::Server']]],
-  ['rule',['Rule',['../de/d69/class_juniper_1_1_primrose_1_1_rule.html',1,'Juniper::Primrose']]],
-  ['runningmovement',['RunningMovement',['../d8/d3f/class_juniper_1_1_input_1_1_running_movement.html',1,'Juniper::Input']]],
-  ['runtimeexception',['RuntimeException',['../d5/dca/class_juniper_1_1_primrose_1_1_runtime_exception.html',1,'Juniper::Primrose']]]
+  ['runningmovement',['RunningMovement',['../d8/d3f/class_juniper_1_1_input_1_1_running_movement.html',1,'Juniper::Input']]]
 ];

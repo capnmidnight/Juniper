@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d0/d89/class_juniper_1_1_collections_1_1_route.html" title=" " alt="" coords="5,5,171,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,111,88,138"/>
+<area shape="rect" id="node2" href="$d3/d63/class_juniper_1_1_collections_1_1_priority_queue_1_1_p_q_comparer.html" title="A default Comparer to use when a comparer is not defined. If the type implements the IComparable&lt;T&gt; o..." alt="" coords="140,5,312,47"/>
+<area shape="rect" id="node3" href="$d5/dd5/class_juniper_1_1_collections_1_1_priority_stack_1_1_p_q_comparer.html" title="A default Comparer to use when a comparer is not defined. If the type implements the IComparable&lt;T&gt; o..." alt="" coords="140,71,312,112"/>
+<area shape="rect" id="node4" href="$d9/d6b/class_juniper_1_1_collections_1_1_texture_sort_comparer.html" title="Sorts textures according to their names." alt="" coords="138,136,314,177"/>
+<area shape="rect" id="node5" href="$d1/d51/class_system_1_1_collections_1_1_generic_1_1_natural_sort_comparer.html" title="Sorts a collection of strings, by first splitting out any numbers and treating them as numbers,..." alt="" coords="136,201,316,243"/>
 </map>

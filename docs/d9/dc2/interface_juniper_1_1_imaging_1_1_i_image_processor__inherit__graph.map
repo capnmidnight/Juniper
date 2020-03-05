@@ -1,13 +1,11 @@
 <map id="Juniper.Imaging.IImageProcessor&lt; T &gt;" name="Juniper.Imaging.IImageProcessor&lt; T &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="463,5,710,127"/>
+<area shape="rect" id="node1" title=" " alt="" coords="343,5,590,127"/>
 <area shape="rect" id="node2" href="$d3/dec/interface_juniper_1_1_imaging_1_1_i_image_processor.html" title=" " alt="" coords="5,189,219,325"/>
 <area shape="rect" id="node4" href="$d3/dec/interface_juniper_1_1_imaging_1_1_i_image_processor.html" title=" " alt="" coords="243,189,456,325"/>
 <area shape="rect" id="node6" href="$d3/dec/interface_juniper_1_1_imaging_1_1_i_image_processor.html" title=" " alt="" coords="480,189,693,325"/>
 <area shape="rect" id="node8" href="$d3/dec/interface_juniper_1_1_imaging_1_1_i_image_processor.html" title=" " alt="" coords="717,189,931,325"/>
-<area shape="rect" id="node10" href="$d3/dec/interface_juniper_1_1_imaging_1_1_i_image_processor.html" title=" " alt="" coords="955,189,1168,325"/>
 <area shape="rect" id="node3" href="$d6/d31/class_juniper_1_1_imaging_1_1_hjg_pngcs_processor.html" title=" " alt="" coords="27,375,197,511"/>
-<area shape="rect" id="node5" href="$de/dc8/class_juniper_1_1_imaging_1_1_lib_jpeg_n_e_t_processor.html" title=" " alt="" coords="229,382,467,503"/>
-<area shape="rect" id="node7" href="$da/df9/class_juniper_1_1_imaging_1_1_g_d_i_processor.html" title=" " alt="" coords="491,382,685,503"/>
-<area shape="rect" id="node9" href="$db/d34/class_juniper_1_1_imaging_1_1_unity_texture2_d_processor.html" title=" " alt="" coords="726,375,922,511"/>
-<area shape="rect" id="node11" href="$df/d17/class_juniper_1_1_imaging_1_1_image_data_processor.html" title=" " alt="" coords="972,375,1151,511"/>
+<area shape="rect" id="node5" href="$de/dc8/class_juniper_1_1_imaging_1_1_lib_jpeg_n_e_t_processor.html" title=" " alt="" coords="227,382,466,503"/>
+<area shape="rect" id="node7" href="$db/d34/class_juniper_1_1_imaging_1_1_unity_texture2_d_processor.html" title=" " alt="" coords="490,375,686,511"/>
+<area shape="rect" id="node9" href="$df/d17/class_juniper_1_1_imaging_1_1_image_data_processor.html" title=" " alt="" coords="735,375,913,511"/>
 </map>

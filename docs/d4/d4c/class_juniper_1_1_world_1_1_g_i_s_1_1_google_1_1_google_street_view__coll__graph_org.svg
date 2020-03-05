@@ -264,7 +264,7 @@
 <polygon fill="white" stroke="black" points="336.066,-1565.5 336.066,-1919.5 484.066,-1919.5 484.066,-1565.5 336.066,-1565.5"/>
 <text text-anchor="middle" x="410.066" y="-1907.5" font-family="SegoeUI" font-size="10.00">Juniper.MasterSceneController</text>
 <polyline fill="none" stroke="black" points="336.066,-1900.5 484.066,-1900.5 "/>
-<text text-anchor="start" x="344.066" y="-1888.5" font-family="SegoeUI" font-size="10.00">+ presentationPoint</text>
+<text text-anchor="start" x="344.066" y="-1888.5" font-family="SegoeUI" font-size="10.00">+ systemUserInterface</text>
 <text text-anchor="start" x="344.066" y="-1877.5" font-family="SegoeUI" font-size="10.00">+ sceneFaderMaterial</text>
 <text text-anchor="start" x="344.066" y="-1866.5" font-family="SegoeUI" font-size="10.00">+ subSceneNames</text>
 <text text-anchor="start" x="344.066" y="-1855.5" font-family="SegoeUI" font-size="10.00">+ AllScenes</text>

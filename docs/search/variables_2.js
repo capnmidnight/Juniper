@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['background',['background',['../da/dc3/class_juniper_1_1_console_1_1_color_scope.html#a92cb6f7e13cd39e53362cd0ac8317c16',1,'Juniper::Console::ColorScope']]],
+  ['background',['background',['../da/db8/class_juniper_1_1_terminal_1_1_color_scope.html#adf715f857a92c57024174eb7c355913d',1,'Juniper::Terminal::ColorScope']]],
   ['bacnet_5fxddzip',['Bacnet_XddZip',['../d7/d3e/class_juniper_1_1_media_type_1_1_application.html#ab7e62228bee008fd43b3300e1d900302',1,'Juniper::MediaType::Application']]],
   ['bandcount',['BandCount',['../d8/d8d/class_juniper_1_1_sound_1_1_beats_1_1_beat_detector_configuration.html#a5b48acf51768de30e89f4418fa1a4f2d',1,'Juniper::Sound::Beats::BeatDetectorConfiguration']]],
   ['bandpasses',['BandPasses',['../d8/d8d/class_juniper_1_1_sound_1_1_beats_1_1_beat_detector_configuration.html#a5f1e8270214ab8606fdeb06bc88829bd',1,'Juniper::Sound::Beats::BeatDetectorConfiguration']]],
@@ -9,7 +9,8 @@ var searchData=
   ['bars',['bars',['../dd/d4b/class_juniper_1_1_sound_1_1_beats_1_1_v_m_u.html#a480a78f6260c30d5aa05c625eb80b714',1,'Juniper::Sound::Beats::VMU']]],
   ['barscale',['BarScale',['../dd/d4b/class_juniper_1_1_sound_1_1_beats_1_1_v_m_u.html#a73e21ab6fbeafb161b5f4141eebed171',1,'Juniper::Sound::Beats::VMU']]],
   ['basemusicdirectory',['BaseMusicDirectory',['../d8/d8d/class_juniper_1_1_sound_1_1_beats_1_1_beat_detector_configuration.html#ae45c95becafd03a04c9ee05d725b0b06',1,'Juniper::Sound::Beats::BeatDetectorConfiguration']]],
-  ['basic',['Basic',['../d5/d0d/class_juniper_1_1_primrose_1_1_grammar.html#a550219431b8a81d915b022ded5d2d9d0',1,'Juniper.Primrose.Grammar.Basic()'],['../d3/dec/class_juniper_1_1_media_type_1_1_audio.html#a7ccc0d5fa31fec0a447b5af803891f75',1,'Juniper.MediaType.Audio.Basic()']]],
+  ['basestream',['baseStream',['../df/d45/class_juniper_1_1_sound_1_1_audio_data.html#a1a01a562f5744d6cabccad17497f3e1e',1,'Juniper::Sound::AudioData']]],
+  ['basic',['Basic',['../d3/dec/class_juniper_1_1_media_type_1_1_audio.html#a7ccc0d5fa31fec0a447b5af803891f75',1,'Juniper::MediaType::Audio']]],
   ['batch_5fsmtp',['Batch_SMTP',['../d7/d3e/class_juniper_1_1_media_type_1_1_application.html#ae83ee34eca983aef61306b577738b606',1,'Juniper::MediaType::Application']]],
   ['battery',['Battery',['../d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html#a4543c21dc18d651fa45e9bcc572574aa',1,'Juniper::NeuroSky::MindWaveAdapter']]],
   ['baudrate',['baudrate',['../d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html#a99365ad66c1281b6ad1d0dbb900ca26e',1,'Juniper::NeuroSky::MindWaveAdapter']]],

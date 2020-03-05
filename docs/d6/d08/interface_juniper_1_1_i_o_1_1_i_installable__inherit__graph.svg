@@ -495,7 +495,7 @@ var sectionId = 'dynsection-0';
 <polyline fill="none" stroke="black" points="2397.5,-2097 2545.5,-2097 "/>
 <text text-anchor="start" x="2405.5" y="-2085" font-family="SegoeUI" font-size="10.00">+ loadingBar</text>
 <text text-anchor="start" x="2405.5" y="-2074" font-family="SegoeUI" font-size="10.00">+ splash</text>
-<text text-anchor="start" x="2405.5" y="-2063" font-family="SegoeUI" font-size="10.00">+ presentationPoint</text>
+<text text-anchor="start" x="2405.5" y="-2063" font-family="SegoeUI" font-size="10.00">+ systemUserInterface</text>
 <text text-anchor="start" x="2405.5" y="-2052" font-family="SegoeUI" font-size="10.00">+ sceneFaderMaterial</text>
 <text text-anchor="start" x="2405.5" y="-2041" font-family="SegoeUI" font-size="10.00">+ subSceneNames</text>
 <text text-anchor="start" x="2405.5" y="-2030" font-family="SegoeUI" font-size="10.00">+ AllScenes</text>
@@ -577,8 +577,8 @@ var sectionId = 'dynsection-0';
 <text text-anchor="start" x="2754" y="-2030" font-family="SegoeUI" font-size="10.00">+ soundOnScrolled</text>
 <text text-anchor="start" x="2754" y="-2019" font-family="SegoeUI" font-size="10.00">and 6 more...</text>
 <text text-anchor="start" x="2754" y="-2008" font-family="SegoeUI" font-size="10.00">+ IsTextToSpeechAvailable</text>
-<text text-anchor="start" x="2754" y="-1997" font-family="SegoeUI" font-size="10.00">+ DefaultAudioMixer</text>
-<text text-anchor="start" x="2754" y="-1986" font-family="SegoeUI" font-size="10.00"># listener</text>
+<text text-anchor="start" x="2754" y="-1997" font-family="SegoeUI" font-size="10.00"># listener</text>
+<text text-anchor="start" x="2754" y="-1986" font-family="SegoeUI" font-size="10.00"># DefaultAudioMixer</text>
 <text text-anchor="start" x="2754" y="-1975" font-family="SegoeUI" font-size="10.00">&#45; INTERACTION_SOUND_TAG</text>
 <text text-anchor="start" x="2754" y="-1964" font-family="SegoeUI" font-size="10.00">&#45; azureApiKey</text>
 <text text-anchor="start" x="2754" y="-1953" font-family="SegoeUI" font-size="10.00">&#45; azureRegion</text>
@@ -727,20 +727,21 @@ var sectionId = 'dynsection-0';
 <!-- Node8 -->
 <g id="node9" class="node"><title>Node8</title>
 <g id="a_node9"><a xlink:href="../../d1/d0c/class_juniper_1_1_display_1_1_vive_focus_display_manager.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="323.5,-1239 323.5,-1318 449.5,-1318 449.5,-1239 323.5,-1239"/>
-<text text-anchor="start" x="331.5" y="-1306" font-family="SegoeUI" font-size="10.00">Juniper.Display.ViveFocus</text>
-<text text-anchor="middle" x="386.5" y="-1295" font-family="SegoeUI" font-size="10.00">DisplayManager</text>
-<polyline fill="none" stroke="black" points="323.5,-1288 449.5,-1288 "/>
-<text text-anchor="middle" x="386.5" y="-1276" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="323.5,-1269 449.5,-1269 "/>
-<text text-anchor="start" x="331.5" y="-1257" font-family="SegoeUI" font-size="10.00">+ Install()</text>
-<text text-anchor="start" x="331.5" y="-1246" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
+<polygon fill="white" stroke="black" points="323.5,-1233.5 323.5,-1323.5 449.5,-1323.5 449.5,-1233.5 323.5,-1233.5"/>
+<text text-anchor="start" x="331.5" y="-1311.5" font-family="SegoeUI" font-size="10.00">Juniper.Display.ViveFocus</text>
+<text text-anchor="middle" x="386.5" y="-1300.5" font-family="SegoeUI" font-size="10.00">DisplayManager</text>
+<polyline fill="none" stroke="black" points="323.5,-1293.5 449.5,-1293.5 "/>
+<text text-anchor="middle" x="386.5" y="-1281.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="323.5,-1274.5 449.5,-1274.5 "/>
+<text text-anchor="start" x="331.5" y="-1262.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
+<text text-anchor="start" x="331.5" y="-1251.5" font-family="SegoeUI" font-size="10.00">+ Start()</text>
+<text text-anchor="start" x="331.5" y="-1240.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
 </a>
 </g>
 </g>
 <!-- Node3&#45;&gt;Node8 -->
 <g id="edge8" class="edge"><title>Node3&#45;&gt;Node8</title>
-<path fill="none" stroke="midnightblue" d="M477.218,-1625.5C445.88,-1505.98 412.826,-1379.91 396.64,-1318.17"/>
+<path fill="none" stroke="midnightblue" d="M477.198,-1625.42C446.78,-1509.41 414.748,-1387.24 398.097,-1323.73"/>
 <polygon fill="none" stroke="midnightblue" points="473.837,-1626.41 479.759,-1635.19 480.609,-1624.63 473.837,-1626.41"/>
 </g>
 <!-- Node9 -->
@@ -752,7 +753,7 @@ var sectionId = 'dynsection-0';
 <polyline fill="none" stroke="black" points="467.5,-1282.5 633.5,-1282.5 "/>
 <text text-anchor="middle" x="550.5" y="-1270.5" font-family="SegoeUI" font-size="10.00"> </text>
 <polyline fill="none" stroke="black" points="467.5,-1263.5 633.5,-1263.5 "/>
-<text text-anchor="middle" x="550.5" y="-1251.5" font-family="SegoeUI" font-size="10.00"> </text>
+<text text-anchor="start" x="475.5" y="-1251.5" font-family="SegoeUI" font-size="10.00">+ Start()</text>
 </a>
 </g>
 </g>

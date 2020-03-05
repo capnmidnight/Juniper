@@ -21,6 +21,6 @@ var searchData=
   ['zone',['Zone',['../dc/db0/class_juniper_1_1_world_1_1_zone.html',1,'Juniper.World.Zone'],['../dd/d27/class_juniper_1_1_world_1_1_g_i_s_1_1_u_t_m_point.html#aaff9335a9ef454e76a63a303b3bcc6fb',1,'Juniper.World.GIS.UTMPoint.Zone()']]],
   ['zone_2ecs',['Zone.cs',['../df/d2c/_zone_8cs.html',1,'']]],
   ['zonename',['zoneName',['../dc/db0/class_juniper_1_1_world_1_1_zone.html#a9c1b96a76b0be227336f64530df22a95',1,'Juniper::World::Zone']]],
-  ['zoom',['Zoom',['../d4/d6f/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_map_tiles_1_1_tile_request.html#ae334e150f178d0c018de6421769e7125',1,'Juniper.World.GIS.Google.MapTiles.TileRequest.Zoom()'],['../d4/d6f/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_map_tiles_1_1_tile_request.html#a79cf9db06a6f92185d9684ce0adeb44e',1,'Juniper.World.GIS.Google.MapTiles.TileRequest.zoom()']]],
+  ['zoom',['zoom',['../d4/d6f/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_map_tiles_1_1_tile_request.html#a79cf9db06a6f92185d9684ce0adeb44e',1,'Juniper.World.GIS.Google.MapTiles.TileRequest.zoom()'],['../d4/d6f/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_map_tiles_1_1_tile_request.html#ae334e150f178d0c018de6421769e7125',1,'Juniper.World.GIS.Google.MapTiles.TileRequest.Zoom()']]],
   ['zstd',['Zstd',['../d7/d3e/class_juniper_1_1_media_type_1_1_application.html#ae56ea9e0cf4493eb74daeb1dc623bd74',1,'Juniper::MediaType::Application']]]
 ];

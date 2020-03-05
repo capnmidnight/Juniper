@@ -12,7 +12,6 @@ var searchData=
   ['video_2ecs',['Video.cs',['../d3/d05/_video_8cs.html',1,'']]],
   ['video_2evalues_2ecs',['Video.Values.cs',['../df/db4/_video_8_values_8cs.html',1,'']]],
   ['videovader_2ecs',['VideoVader.cs',['../d1/d94/_video_vader_8cs.html',1,'']]],
-  ['virtualkeystate_2ecs',['VirtualKeyState.cs',['../d8/da6/_virtual_key_state_8cs.html',1,'']]],
   ['virtualtouchpadbuttons_2ecs',['VirtualTouchPadButtons.cs',['../db/d2f/_virtual_touch_pad_buttons_8cs.html',1,'']]],
   ['virtualtriggerbutton_2ecs',['VirtualTriggerButton.cs',['../dd/d27/_virtual_trigger_button_8cs.html',1,'']]],
   ['vivefocusdisplaymanager_2ecs',['ViveFocusDisplayManager.cs',['../df/d63/_vive_focus_display_manager_8cs.html',1,'']]],

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['haptictype',['HapticType',['../d1/da4/_touch_gaze_pointer_8cs.html#a8f5775c371e41f7607bb411fd447fa73',1,'HapticType():&#160;TouchGazePointer.cs'],['../d5/dae/_touch_point_8cs.html#a8f5775c371e41f7607bb411fd447fa73',1,'HapticType():&#160;TouchPoint.cs'],['../d0/dcd/_windows_m_r_motion_controller_8cs.html#ab03f2f861f8ffa544118f82308aa19fa',1,'HapticType():&#160;WindowsMRMotionController.cs']]]
+  ['inputbutton',['InputButton',['../da/dca/_mapped_button_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9',1,'InputButton():&#160;MappedButton.cs'],['../d1/dec/_vive_focus_motion_controller_configuration_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9',1,'InputButton():&#160;ViveFocusMotionControllerConfiguration.cs'],['../d3/d04/_abstract_touchable_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9',1,'InputButton():&#160;AbstractTouchable.cs']]]
 ];

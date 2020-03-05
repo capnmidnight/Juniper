@@ -23,7 +23,6 @@ var searchData=
   ['gazethreshold',['gazeThreshold',['../d9/df7/class_juniper_1_1_input_1_1_pointers_1_1_gaze_1_1_abstract_gaze_pointer.html#a0eb0956e7eaf28853f2133b4a0ddf035',1,'Juniper::Input::Pointers::Gaze::AbstractGazePointer']]],
   ['gazetime',['gazeTime',['../d9/df7/class_juniper_1_1_input_1_1_pointers_1_1_gaze_1_1_abstract_gaze_pointer.html#abc0e099e4b59abf35708022dec5abc23',1,'Juniper::Input::Pointers::Gaze::AbstractGazePointer']]],
   ['gcollider',['gCollider',['../de/df1/class_juniper_1_1_ground_1_1_windows_m_r_ground.html#a64e245d121f6695660ee2a7e22298880',1,'Juniper::Ground::WindowsMRGround']]],
-  ['gdiformat',['gdiFormat',['../db/df9/class_juniper_1_1_imaging_1_1_g_d_i_codec.html#ac84e6ecc4ba76e6cead440b066997d99',1,'Juniper::Imaging::GDICodec']]],
   ['generateplanes',['generatePlanes',['../d9/d00/class_juniper_1_1_ground_1_1_a_r_kit_ground.html#a2528699f84f2bacddb60f02e7c17273d',1,'Juniper::Ground::ARKitGround']]],
   ['geocodingdecoder',['geocodingDecoder',['../d1/dde/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_google_maps_client.html#a2a3b8d9ab4320cdb014a8a077cf0efdd',1,'Juniper::World::GIS::Google::GoogleMapsClient']]],
   ['geojson',['GeoJson',['../d7/d3e/class_juniper_1_1_media_type_1_1_application.html#ad8d921d0b4bd9c82318a3b123fbc4050',1,'Juniper::MediaType::Application']]],

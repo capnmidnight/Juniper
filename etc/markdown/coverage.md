@@ -6,6 +6,7 @@
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Comment.cs - (1 of 1)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Length/Feet.cs - (6 of 6)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/NETFX/Collections/Generic/IEnumerableExt.cs - (1 of 1)
+100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Pressure/Pascals.cs - (4 of 4)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Anchoring/MockWorldAnchor.cs - (2 of 2)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/NETFX/Months.cs - (1 of 1)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/NETFX/Collections/Generic/ListExt.cs - (1 of 1)
@@ -24,7 +25,6 @@
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Collections/RingBuffer.cs - (21 of 21)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.OpenWeatherMap/OWMMain.cs - (9 of 9)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Speed/MillimetersPerSecond.cs - (4 of 4)
-100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Pressure/Pascals.cs - (4 of 4)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/FileSize/Zettabytes.cs - (17 of 17)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Temperature/Celsius.cs - (5 of 5)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Bandwidth/YotabytesPerSecond.cs - (17 of 17)
@@ -37,13 +37,12 @@
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.OpenWeatherMap/API.cs - (3 of 3)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Sound/FloatsToPcmBytesStream.cs - (24 of 24)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Time/Hours.cs - (11 of 11)
-100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/FileSize/Zebibytes.cs - (17 of 17)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/JibberJabber.cs - (10 of 10)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Unity/Extensions/UnityEngine/SavableValues/IValued.cs - (1 of 1)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/TranslationHandle.cs - (10 of 10)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Anchoring/MockAnchorStore.cs - (11 of 11)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/FileSize/Megabytes.cs - (17 of 17)
-100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/DebugObject.cs - (1 of 1)
+100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/HiddenSettingsAccessor.cs - (1 of 1)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/FileSize/Mibibytes.cs - (17 of 17)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Pressure/Kilopascals.cs - (4 of 4)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Sound/SingleAudioClipCollection.cs - (8 of 8)
@@ -68,14 +67,11 @@
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Bandwidth/BytesPerSecond.cs - (17 of 17)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Time/Microseconds.cs - (7 of 7)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Volume/CubicMiles.cs - (6 of 6)
-100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Bandwidth/TebibytePerSecond.cs - (17 of 17)
-100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Bandwidth/KibibytesPerSecond.cs - (17 of 17)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Animation/AbstractAnimator.cs - (3 of 3)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/NETFX/ArrayExt.cs - (1 of 1)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Unity/Extensions/UnityEngine/TextMeshSize.cs - (17 of 17)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Volume/CubicKilometers.cs - (6 of 6)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Time/Minutes.cs - (7 of 7)
-100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.OpenWeatherMap/WeatherReport.cs - (32 of 32)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Volume/CubicMeters.cs - (6 of 6)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Sound/IAudioClipCollection.cs - (4 of 4)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.OpenWeatherMap/OWMClouds.cs - (3 of 3)
@@ -101,13 +97,13 @@
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Bandwidth/TerabytesPerSecond.cs - (17 of 17)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Platforms/ARKit/ARKitTrackableFoundEventHandler.cs - (20 of 20)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Sound/VolumeFade.cs - (11 of 11)
+100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.OpenWeatherMap/WeatherReport.cs - (32 of 32)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Time/Nanoseconds.cs - (7 of 7)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/NETFX/DateTimeExt.cs - (1 of 1)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Volume/CubicCentimeters.cs - (6 of 6)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Unity/Extensions/UnityEngine/SavableValues/AbstractVariable.cs - (2 of 2)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/Rotatable.cs - (57 of 57)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/FileSize/Yotabytes.cs - (17 of 17)
-100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Pressure/PoundsPerSquareInch.cs - (4 of 4)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Mathematics/AbstractStatisticsCollection.cs - (47 of 47)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Bandwidth/MegabytesPerSecond.cs - (17 of 17)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/FileSize/Bits.cs - (23 of 23)
@@ -117,7 +113,6 @@
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/CartesianAxis.cs - (6 of 6)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Haptics/AbstractHapticDevice.cs - (3 of 3)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Length/Kilometers.cs - (6 of 6)
-100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.OpenWeatherMap/OWMRain.cs - (3 of 3)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Temperature/Kelvin.cs - (5 of 5)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Length/Meters.cs - (6 of 6)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Unity/Extensions/UnityEngine/ColorExt.cs - (1 of 1)
@@ -128,6 +123,7 @@
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/LightEstimation/AbstractLightEstimate.cs - (20 of 20)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Animation/UnityAnimator.cs - (5 of 5)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Haptics/AbstractHapticRetainedExpressor.cs - (8 of 8)
+100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Bandwidth/TebibytePerSecond.cs - (17 of 17)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Events/IInteractable.cs - (1 of 1)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/LightEstimation/IndoorLightEstimate.cs - (19 of 19)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/World/Climate/IWeatherAPI.cs - (4 of 4)
@@ -141,11 +137,13 @@
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/AbstractValued.cs - (51 of 51)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Events/ILongPressHandler.cs - (2 of 2)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Length/Millimeters.cs - (6 of 6)
+100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/FileSize/Zebibytes.cs - (17 of 17)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/Standoff.cs - (6 of 6)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Angles/Radians.cs - (4 of 4)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Light/Lumens.cs - (2 of 2)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Bandwidth/GibibytesPerSecond.cs - (17 of 17)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Length/Inches.cs - (6 of 6)
+100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Bandwidth/KibibytesPerSecond.cs - (17 of 17)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Bandwidth/ExabytesPerSecond.cs - (17 of 17)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Bandwidth/MibibytesPerSecond.cs - (17 of 17)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.OpenWeatherMap/OWMSnow.cs - (3 of 3)
@@ -154,6 +152,7 @@
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Anchoring/AbstractAnchorStore`1.cs - (15 of 15)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Sound/AudioClipCollection.cs - (8 of 8)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Volume/CubicMillimeters.cs - (6 of 6)
+100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.OpenWeatherMap/OWMRain.cs - (3 of 3)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Time/Ticks.cs - (7 of 7)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.OpenWeatherMap/OWMWind.cs - (4 of 4)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Unity/World/Climate/FakeWeatherReport.cs - (24 of 24)
@@ -161,10 +160,11 @@
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/IO/IProgressExt.cs - (1 of 1)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Mass/Pounds.cs - (4 of 4)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Bandwidth/GigabytesPerSecond.cs - (17 of 17)
-100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/HiddenSettingsAccessor.cs - (1 of 1)
+100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/DebugObject.cs - (1 of 1)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Bandwidth/ExbibytesPerSecond.cs - (17 of 17)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/NETFX/NumberExt.cs - (1 of 1)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Area/SquareMiles.cs - (6 of 6)
+100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Pressure/PoundsPerSquareInch.cs - (4 of 4)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Angles/Gradians.cs - (4 of 4)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Unity/Extensions/UnityEngine/LabelAttribute.cs - (2 of 2)
 100% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Units/Bandwidth/KilobytesPerSecond.cs - (17 of 17)
@@ -300,9 +300,6 @@
 	 override Vector4 Juniper.Mathematics.Vector4Statistics.Sqrt
 	 override Vector4 Juniper.Mathematics.Vector4Statistics.Subtract
 	 override bool Juniper.Mathematics.Vector4Statistics.LessThan
- 80% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Primrose/Grammar.cs - (8 of 10)
-	 virtual List<Token> Juniper.Primrose.Grammar.Tokenize
-	 void Juniper.Primrose.Grammar.CrudeParsing
  79% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Animation/FadeTransition.cs - (50 of 63)
 	 Color Juniper.Animation.FadeTransition.fadeOutColor
 	 Direction Juniper.AbstractStateController.State
@@ -486,6 +483,10 @@
 	 void Juniper.Haptics.DefaultHaptics.Awake
 	 void Juniper.Haptics.DefaultHaptics.Gamepad_GamepadAdded
 	 void Juniper.Haptics.DefaultHaptics.Gamepad_GamepadRemoved
+ 62% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/World/GIS/HorizontalSphericalPosition.cs - (5 of 8)
+	 bool Juniper.World.GIS.HorizontalSphericalPosition.Equals
+	 override bool Juniper.World.GIS.HorizontalSphericalPosition.Equals
+	 override int Juniper.World.GIS.HorizontalSphericalPosition.GetHashCode
  62% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/World/GIS/GeocentricEclipticSphericalPosition.cs - (5 of 8)
 	 bool Juniper.World.GIS.GeocentricEclipticSphericalPosition.Equals
 	 override bool Juniper.World.GIS.GeocentricEclipticSphericalPosition.Equals
@@ -494,10 +495,6 @@
 	 bool Juniper.World.GIS.EquitorialSphericalPosition.Equals
 	 override bool Juniper.World.GIS.EquitorialSphericalPosition.Equals
 	 override int Juniper.World.GIS.EquitorialSphericalPosition.GetHashCode
- 62% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/World/GIS/HorizontalSphericalPosition.cs - (5 of 8)
-	 bool Juniper.World.GIS.HorizontalSphericalPosition.Equals
-	 override bool Juniper.World.GIS.HorizontalSphericalPosition.Equals
-	 override int Juniper.World.GIS.HorizontalSphericalPosition.GetHashCode
  61% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/MenuView.cs - (24 of 39)
 	 AbstractStateController [] Juniper.Widgets.MenuView.transitions
 	 Direction Juniper.AbstractStateController.State
@@ -519,11 +516,11 @@
 	 Material Juniper.Input.Pointers.Probe.LaserPointerMaterial
 	 Material Juniper.Input.Pointers.Probe.laserPointerMaterial
 	 Material Juniper.Input.Pointers.Probe.lastLaserPointerMaterial
+	 Mathematics.PoseSerializable Juniper.Input.Pointers.Probe.ToJuniperPose
 	 PhysicsRaycaster Juniper.Input.Pointers.Probe.Raycaster
 	 Transform Juniper.Input.Pointers.Probe.Cursor
 	 Transform Juniper.Input.Pointers.Probe.touchpoint
 	 Vector2 Juniper.Input.Pointers.Probe.TouchPoint
-	 XR.Pose Juniper.Input.Pointers.Probe.ToJuniperPose
 	 bool Juniper.Input.Pointers.Probe.CanGaze
 	 bool Juniper.Input.Pointers.Probe.skipNormal
 	 float Juniper.Input.Pointers.Probe.normalOffset
@@ -670,13 +667,6 @@
 	 Juniper.Imaging.LibJpegNETCodec.LibJpegNETCodec
 	 MediaType.Image Juniper.Imaging.LibJpegNETCodec.ContentType
 	 readonly CompressionParameters Juniper.Imaging.LibJpegNETCodec.compressionParams
- 40% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/AbstractFollowSettings.cs - (4 of 10)
-	 CartesianAxisFlags Juniper.Widgets.AbstractFollowSettings.FollowPosition
-	 bool Juniper.Widgets.AbstractFollowSettings.interpolatePosition
-	 bool Juniper.Widgets.AbstractFollowSettings.interpolateRotation
-	 float Juniper.Widgets.AbstractFollowSettings.maxRotationRate
-	 float Juniper.Widgets.AbstractFollowSettings.maxSpeed
-	 void Juniper.Widgets.AbstractFollowSettings.Copy
  37% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Compression/Tar/TarArchiveEntry.cs - (3 of 8)
 	 Stream Juniper.Compression.Tar.TarArchiveEntry.Open
 	 bool Juniper.Compression.Tar.TarArchiveEntry.disposedValue
@@ -694,6 +684,12 @@
 	 void Juniper.Widgets.QualityDegrader.OnApplicationPause
 	 void Juniper.Widgets.QualityDegrader.Pause
 	 void Juniper.Widgets.QualityDegrader.Resume
+ 37% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/AbstractFollowSettings.cs - (3 of 8)
+	 CartesianAxisFlags Juniper.Widgets.AbstractFollowSettings.FollowPosition
+	 bool Juniper.Widgets.AbstractFollowSettings.interpolatePosition
+	 float Juniper.Widgets.AbstractFollowSettings.speedConstant
+	 float Juniper.Widgets.AbstractFollowSettings.speedProportion
+	 void Juniper.Widgets.AbstractFollowSettings.Copy
  35% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Speech/Keywordable.cs - (5 of 14)
 	 UnifiedInputModule Juniper.Input.AbstractShortcutable.input
 	 bool Juniper.Input.AbstractShortcutable.interactable
@@ -723,45 +719,28 @@
 	 MediaType.Image Juniper.Imaging.HjgPngcsCodec.ContentType
 	 readonly int Juniper.Imaging.HjgPngcsCodec.IDATMaxSize
 	 readonly int Juniper.Imaging.HjgPngcsCodec.compressionLevel
+ 31% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/FollowObject.cs - (7 of 22)
+	 CartesianAxisFlags Juniper.Widgets.AbstractFollowSettings.FollowPosition
+	 Quaternion Juniper.Widgets.FollowObject.EndRotation
+	 Vector3 Juniper.Widgets.FollowObject.EndPosition
+	 Vector3 Juniper.Widgets.FollowObject.NextPosition
+	 Vector3 Juniper.Widgets.FollowObject.targetVelocity
+	 Vector3 Juniper.Widgets.FollowObject.velocity
+	 bool Juniper.Widgets.AbstractFollowSettings.interpolatePosition
+	 const float Juniper.Widgets.FollowObject.CLOSE_THRESHOLD
+	 const float Juniper.Widgets.FollowObject.MAX_TIME
+	 float Juniper.Widgets.AbstractFollowSettings.speedConstant
+	 float Juniper.Widgets.AbstractFollowSettings.speedProportion
+	 void Juniper.Widgets.AbstractFollowSettings.Copy
+	 void Juniper.Widgets.FollowObject.Skip
+	 void Juniper.Widgets.FollowObject.SkipToPosition
+	 void Juniper.Widgets.FollowObject.Update
  28% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Input/RunningMovement.cs - (2 of 7)
 	 Avatar Juniper.Input.AbstractVelocityLocomotion.stage
 	 UnifiedInputModule Juniper.Input.AbstractVelocityLocomotion.input
 	 const float Juniper.Input.AbstractVelocityLocomotion.MOVEMENT_SCALE
 	 float Juniper.Input.AbstractVelocityLocomotion.jink
 	 void Juniper.Input.RunningMovement.Update
- 28% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/FollowPlatformSettings.cs - (4 of 14)
-	 CartesianAxisFlags Juniper.Widgets.AbstractFollowSettings.FollowPosition
-	 FollowObject Juniper.Widgets.FollowPlatformSettings.f
-	 PlatformType Juniper.Widgets.FollowPlatformSettings.platform
-	 bool Juniper.Widgets.AbstractFollowSettings.interpolatePosition
-	 bool Juniper.Widgets.AbstractFollowSettings.interpolateRotation
-	 float Juniper.Widgets.AbstractFollowSettings.maxRotationRate
-	 float Juniper.Widgets.AbstractFollowSettings.maxSpeed
-	 void Juniper.Widgets.AbstractFollowSettings.Copy
-	 void Juniper.Widgets.FollowPlatformSettings.Awake
-	 void Juniper.Widgets.FollowPlatformSettings.OnValidate
- 27% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/FollowObject.cs - (8 of 29)
-	 CartesianAxisFlags Juniper.Widgets.AbstractFollowSettings.FollowPosition
-	 Quaternion Juniper.Widgets.FollowObject.NextRotation
-	 Vector3 Juniper.Widgets.FollowObject.GetEndPosition
-	 Vector3 Juniper.Widgets.FollowObject.GetEndRotationEuler
-	 Vector3 Juniper.Widgets.FollowObject.NextPosition
-	 Vector3 Juniper.Widgets.FollowObject.rotationRate
-	 Vector3 Juniper.Widgets.FollowObject.targetRotationRate
-	 Vector3 Juniper.Widgets.FollowObject.targetVelocity
-	 Vector3 Juniper.Widgets.FollowObject.velocity
-	 bool Juniper.Widgets.AbstractFollowSettings.interpolatePosition
-	 bool Juniper.Widgets.AbstractFollowSettings.interpolateRotation
-	 const float Juniper.Widgets.FollowObject.CLOSE_THRESHOLD
-	 const float Juniper.Widgets.FollowObject.MAX_TIME
-	 float Juniper.Widgets.AbstractFollowSettings.maxRotationRate
-	 float Juniper.Widgets.AbstractFollowSettings.maxSpeed
-	 void Juniper.Widgets.AbstractFollowSettings.Copy
-	 void Juniper.Widgets.FollowObject.SetRate
-	 void Juniper.Widgets.FollowObject.Skip
-	 void Juniper.Widgets.FollowObject.SkipToPosition
-	 void Juniper.Widgets.FollowObject.SkipToRotation
-	 void Juniper.Widgets.FollowObject.Update
  26% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/World/GIS/Google/AbstractGoogleStreetView.cs - (24 of 92)
 	 Avatar Juniper.World.GIS.Google.AbstractGoogleStreetView< MetadataTypeT >.avatar
 	 CachingStrategy Juniper.World.GIS.Google.AbstractGoogleStreetView< MetadataTypeT >.cache
@@ -879,7 +858,7 @@
 	 void Juniper.Display.AbstractDisplayManager.StartXRDisplay
 	 void Juniper.Display.AbstractDisplayManager.StopAR
 	 void Juniper.Display.AbstractDisplayManager.StopXRDisplay
- 25% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Puzzles/TetrisGame.cs - (17 of 66)
+ 25% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Puzzles/TetrisGame.cs - (17 of 68)
 	 EventHandler Juniper.Puzzles.TetrisGame.Flip
 	 EventHandler Juniper.Puzzles.TetrisGame.Thump
 	 EventHandler<IntegerEventArgs> Juniper.Puzzles.TetrisGame.LineClear
@@ -888,6 +867,7 @@
 	 Puzzle Juniper.Puzzles.TetrisGame.Next
 	 bool Juniper.Puzzles.Puzzle.IsEmpty
 	 bool Juniper.Puzzles.TetrisGame.GameOver
+	 bool Juniper.Puzzles.TetrisGame.flipDirection
 	 bool Juniper.Puzzles.TetrisGame.isDropDown
 	 bool Juniper.Puzzles.TetrisGame.isFlipDown
 	 bool Juniper.Puzzles.TetrisGame.isLeftDown
@@ -925,6 +905,7 @@
 	 void Juniper.Puzzles.TetrisGame.SetDrop
 	 void Juniper.Puzzles.TetrisGame.SetFlip
 	 void Juniper.Puzzles.TetrisGame.SetLeft
+	 void Juniper.Puzzles.TetrisGame.SetReverseFlip
 	 void Juniper.Puzzles.TetrisGame.SetRight
 	 void Juniper.Puzzles.TetrisGame.TetrisClearRow
 	 void Juniper.Puzzles.TetrisGame.Update
@@ -943,6 +924,16 @@
 	 EventHandler<EventArgs> Juniper.IO.ProgressEventer.ProgressUpdated
 	 float Juniper.IO.ProgressEventer.Progress
 	 string Juniper.IO.ProgressEventer.Status
+ 25% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/FollowPlatformSettings.cs - (3 of 12)
+	 CartesianAxisFlags Juniper.Widgets.AbstractFollowSettings.FollowPosition
+	 FollowObject Juniper.Widgets.FollowPlatformSettings.f
+	 PlatformType Juniper.Widgets.FollowPlatformSettings.platform
+	 bool Juniper.Widgets.AbstractFollowSettings.interpolatePosition
+	 float Juniper.Widgets.AbstractFollowSettings.speedConstant
+	 float Juniper.Widgets.AbstractFollowSettings.speedProportion
+	 void Juniper.Widgets.AbstractFollowSettings.Copy
+	 void Juniper.Widgets.FollowPlatformSettings.Awake
+	 void Juniper.Widgets.FollowPlatformSettings.OnValidate
  22% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Server/HttpServer.cs - (11 of 48)
 	 AuthenticationSchemes Juniper.HTTP.Server.HttpServer.GetAuthenticationSchemeForRequest
 	 T Juniper.HTTP.Server.HttpServer.GetController< T >
@@ -951,6 +942,7 @@
 	 async Task Juniper.HTTP.Server.HttpServer.ExecuteRoutesAsync
 	 async Task Juniper.HTTP.Server.HttpServer.HandleConnectionAsync
 	 async Task Juniper.HTTP.Server.HttpServer.HandleErrorsAsync
+	 bool Juniper.HTTP.Server.HttpServer.AttemptCertificateAssignment
 	 bool Juniper.HTTP.Server.HttpServer.Check
 	 bool Juniper.HTTP.Server.HttpServer.IsAdministrator
 	 bool Juniper.HTTP.Server.HttpServer.IsRunning
@@ -967,7 +959,6 @@
 	 virtual void Juniper.HTTP.Server.HttpServer.Start
 	 void Juniper.HTTP.Server.HttpServer.Add
 	 void Juniper.HTTP.Server.HttpServer.AddController< T >
-	 void Juniper.HTTP.Server.HttpServer.AttemptCertificateAssignment
 	 void Juniper.HTTP.Server.HttpServer.BanController_BanAdded
 	 void Juniper.HTTP.Server.HttpServer.BanController_BanRemoved
 	 void Juniper.HTTP.Server.HttpServer.Cleanup
@@ -1003,54 +994,6 @@
 	 readonly byte [] Juniper.HTTP.Server.CIDRBlock.endBytes
 	 readonly byte [] Juniper.HTTP.Server.CIDRBlock.startBytes
 	 void Juniper.HTTP.Server.CIDRBlock.ValidateOther
- 20% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Platforms/ViveFocus/ViveFocusDisplayManager.cs - (6 of 29)
-	 ARModeEvent Juniper.Display.AbstractDisplayManager.onARModeChange
-	 Camera Juniper.Display.AbstractDisplayManager.EventCamera
-	 Camera Juniper.Display.AbstractDisplayManager.MainCamera
-	 CameraClearFlags Juniper.Display.AbstractDisplayManager.ClearFlags
-	 CameraControl Juniper.Display.AbstractDisplayManager.cameraCtrl
-	 Color Juniper.Display.AbstractDisplayManager.BackgroundColor
-	 DisplayTypeEvent Juniper.Display.AbstractDisplayManager.onDisplayTypeChange
-	 EventHandler<AugmentedRealityTypes> Juniper.Display.AbstractDisplayManager.ARModeChange
-	 EventHandler<DisplayTypes> Juniper.Display.AbstractDisplayManager.DisplayTypeChange
-	 JuniperSystem Juniper.Display.AbstractDisplayManager.Sys
-	 QualityDegrader Juniper.Display.AbstractDisplayManager.qualityMgr
-	 bool Juniper.Display.AbstractDisplayManager.actuallyCapture
-	 int Juniper.Display.AbstractDisplayManager.CullingMask
-	 virtual bool Juniper.Display.AbstractDisplayManager.ConfirmExit
-	 virtual void Juniper.Display.AbstractDisplayManager.Awake
-	 virtual void Juniper.Display.AbstractDisplayManager.OnARModeChange
-	 virtual void Juniper.Display.AbstractDisplayManager.OnDisplayTypeChange
-	 void Juniper.Display.AbstractDisplayManager.DisableDisplay
-	 void Juniper.Display.AbstractDisplayManager.ResumeDisplay
-	 void Juniper.Display.AbstractDisplayManager.StartAR
-	 void Juniper.Display.AbstractDisplayManager.StartXRDisplay
-	 void Juniper.Display.AbstractDisplayManager.StopAR
-	 void Juniper.Display.AbstractDisplayManager.StopXRDisplay
- 20% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Display/AbstractDisplayManager.cs - (6 of 29)
-	 ARModeEvent Juniper.Display.AbstractDisplayManager.onARModeChange
-	 Camera Juniper.Display.AbstractDisplayManager.EventCamera
-	 Camera Juniper.Display.AbstractDisplayManager.MainCamera
-	 CameraClearFlags Juniper.Display.AbstractDisplayManager.ClearFlags
-	 CameraControl Juniper.Display.AbstractDisplayManager.cameraCtrl
-	 Color Juniper.Display.AbstractDisplayManager.BackgroundColor
-	 DisplayTypeEvent Juniper.Display.AbstractDisplayManager.onDisplayTypeChange
-	 EventHandler<AugmentedRealityTypes> Juniper.Display.AbstractDisplayManager.ARModeChange
-	 EventHandler<DisplayTypes> Juniper.Display.AbstractDisplayManager.DisplayTypeChange
-	 JuniperSystem Juniper.Display.AbstractDisplayManager.Sys
-	 QualityDegrader Juniper.Display.AbstractDisplayManager.qualityMgr
-	 bool Juniper.Display.AbstractDisplayManager.actuallyCapture
-	 int Juniper.Display.AbstractDisplayManager.CullingMask
-	 virtual bool Juniper.Display.AbstractDisplayManager.ConfirmExit
-	 virtual void Juniper.Display.AbstractDisplayManager.Awake
-	 virtual void Juniper.Display.AbstractDisplayManager.OnARModeChange
-	 virtual void Juniper.Display.AbstractDisplayManager.OnDisplayTypeChange
-	 void Juniper.Display.AbstractDisplayManager.DisableDisplay
-	 void Juniper.Display.AbstractDisplayManager.ResumeDisplay
-	 void Juniper.Display.AbstractDisplayManager.StartAR
-	 void Juniper.Display.AbstractDisplayManager.StartXRDisplay
-	 void Juniper.Display.AbstractDisplayManager.StopAR
-	 void Juniper.Display.AbstractDisplayManager.StopXRDisplay
  20% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/IO/ProgressAggregator.cs - (2 of 10)
 	 IEnumerator IEnumerable. Juniper.IO.ProgressAggregator.GetEnumerator
 	 IEnumerator<IProgress> Juniper.IO.ProgressAggregator.GetEnumerator
@@ -1060,6 +1003,56 @@
 	 readonly IProgress Juniper.IO.ProgressAggregator.parent
 	 readonly ProgressSubdivision [] Juniper.IO.ProgressAggregator.subProgs
 	 string Juniper.IO.ProgressAggregator.Status
+ 20% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Platforms/ViveFocus/ViveFocusDisplayManager.cs - (6 of 30)
+	 ARModeEvent Juniper.Display.AbstractDisplayManager.onARModeChange
+	 Camera Juniper.Display.AbstractDisplayManager.EventCamera
+	 Camera Juniper.Display.AbstractDisplayManager.MainCamera
+	 CameraClearFlags Juniper.Display.AbstractDisplayManager.ClearFlags
+	 CameraControl Juniper.Display.AbstractDisplayManager.cameraCtrl
+	 Color Juniper.Display.AbstractDisplayManager.BackgroundColor
+	 DisplayTypeEvent Juniper.Display.AbstractDisplayManager.onDisplayTypeChange
+	 EventHandler<AugmentedRealityTypes> Juniper.Display.AbstractDisplayManager.ARModeChange
+	 EventHandler<DisplayTypes> Juniper.Display.AbstractDisplayManager.DisplayTypeChange
+	 JuniperSystem Juniper.Display.AbstractDisplayManager.Sys
+	 QualityDegrader Juniper.Display.AbstractDisplayManager.qualityMgr
+	 bool Juniper.Display.AbstractDisplayManager.actuallyCapture
+	 int Juniper.Display.AbstractDisplayManager.CullingMask
+	 virtual bool Juniper.Display.AbstractDisplayManager.ConfirmExit
+	 virtual void Juniper.Display.AbstractDisplayManager.Awake
+	 virtual void Juniper.Display.AbstractDisplayManager.OnARModeChange
+	 virtual void Juniper.Display.AbstractDisplayManager.OnDisplayTypeChange
+	 void Juniper.Display.AbstractDisplayManager.DisableDisplay
+	 void Juniper.Display.AbstractDisplayManager.ResumeDisplay
+	 void Juniper.Display.AbstractDisplayManager.StartAR
+	 void Juniper.Display.AbstractDisplayManager.StartXRDisplay
+	 void Juniper.Display.AbstractDisplayManager.StopAR
+	 void Juniper.Display.AbstractDisplayManager.StopXRDisplay
+	 void Juniper.Display.ViveFocusDisplayManager.Start
+ 20% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Platforms/WindowsMR/WindowsMRDisplayManager.cs - (6 of 30)
+	 ARModeEvent Juniper.Display.AbstractDisplayManager.onARModeChange
+	 Camera Juniper.Display.AbstractDisplayManager.EventCamera
+	 Camera Juniper.Display.AbstractDisplayManager.MainCamera
+	 CameraClearFlags Juniper.Display.AbstractDisplayManager.ClearFlags
+	 CameraControl Juniper.Display.AbstractDisplayManager.cameraCtrl
+	 Color Juniper.Display.AbstractDisplayManager.BackgroundColor
+	 DisplayTypeEvent Juniper.Display.AbstractDisplayManager.onDisplayTypeChange
+	 EventHandler<AugmentedRealityTypes> Juniper.Display.AbstractDisplayManager.ARModeChange
+	 EventHandler<DisplayTypes> Juniper.Display.AbstractDisplayManager.DisplayTypeChange
+	 JuniperSystem Juniper.Display.AbstractDisplayManager.Sys
+	 QualityDegrader Juniper.Display.AbstractDisplayManager.qualityMgr
+	 bool Juniper.Display.AbstractDisplayManager.actuallyCapture
+	 int Juniper.Display.AbstractDisplayManager.CullingMask
+	 virtual bool Juniper.Display.AbstractDisplayManager.ConfirmExit
+	 virtual void Juniper.Display.AbstractDisplayManager.Awake
+	 virtual void Juniper.Display.AbstractDisplayManager.OnARModeChange
+	 virtual void Juniper.Display.AbstractDisplayManager.OnDisplayTypeChange
+	 void Juniper.Display.AbstractDisplayManager.DisableDisplay
+	 void Juniper.Display.AbstractDisplayManager.ResumeDisplay
+	 void Juniper.Display.AbstractDisplayManager.StartAR
+	 void Juniper.Display.AbstractDisplayManager.StartXRDisplay
+	 void Juniper.Display.AbstractDisplayManager.StopAR
+	 void Juniper.Display.AbstractDisplayManager.StopXRDisplay
+	 void Juniper.Display.WindowsMRDisplayManager.Start
  19% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Input/Pointers/Screen/AbstractScreenDevice.cs - (15 of 77)
 	 AbstractMotionFilter Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.motionFilter
 	 Avatar Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.stage
@@ -1141,6 +1134,41 @@
 	 bool Juniper.JuniperSystem.IsMainThreadReady
 	 bool Juniper.JuniperSystem.IsOnMainThread
 	 void Juniper.JuniperSystem.Update
+ 19% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Display/AbstractDisplayManager.cs - (8 of 42)
+	 ? int Juniper.Display.AbstractDisplayManager.curMask
+	 ARModeEvent Juniper.Display.AbstractDisplayManager.onARModeChange
+	 AugmentedRealityTypes Juniper.Display.AbstractDisplayManager.lastARMode
+	 Camera Juniper.Display.AbstractDisplayManager.EventCamera
+	 Camera Juniper.Display.AbstractDisplayManager.MainCamera
+	 CameraClearFlags Juniper.Display.AbstractDisplayManager.ClearFlags
+	 CameraControl Juniper.Display.AbstractDisplayManager.cameraCtrl
+	 Color Juniper.Display.AbstractDisplayManager.BackgroundColor
+	 DisplayTypeEvent Juniper.Display.AbstractDisplayManager.onDisplayTypeChange
+	 DisplayTypes Juniper.Display.AbstractDisplayManager.lastDisplayType
+	 DisplayTypes Juniper.Display.AbstractDisplayManager.resumeMode
+	 EventHandler<AugmentedRealityTypes> Juniper.Display.AbstractDisplayManager.ARModeChange
+	 EventHandler<DisplayTypes> Juniper.Display.AbstractDisplayManager.DisplayTypeChange
+	 JuniperSystem Juniper.Display.AbstractDisplayManager.Sys
+	 JuniperSystem Juniper.Display.AbstractDisplayManager.jp
+	 Options Juniper.Display.AbstractDisplayManager.lastOption
+	 QualityDegrader Juniper.Display.AbstractDisplayManager.qualityMgr
+	 SystemTypes Juniper.Display.AbstractDisplayManager.lastSystem
+	 bool Juniper.Display.AbstractDisplayManager.IsValidDisplayChange
+	 bool Juniper.Display.AbstractDisplayManager.actuallyCapture
+	 int Juniper.Display.AbstractDisplayManager.CullingMask
+	 int Juniper.Display.AbstractDisplayManager.LAYER_MASK
+	 virtual bool Juniper.Display.AbstractDisplayManager.ConfirmExit
+	 virtual void Juniper.Display.AbstractDisplayManager.Awake
+	 virtual void Juniper.Display.AbstractDisplayManager.OnARModeChange
+	 virtual void Juniper.Display.AbstractDisplayManager.OnDisplayTypeChange
+	 void Juniper.Display.AbstractDisplayManager.ChangeARMode
+	 void Juniper.Display.AbstractDisplayManager.ChangeDisplayType
+	 void Juniper.Display.AbstractDisplayManager.DisableDisplay
+	 void Juniper.Display.AbstractDisplayManager.ResumeDisplay
+	 void Juniper.Display.AbstractDisplayManager.StartAR
+	 void Juniper.Display.AbstractDisplayManager.StartXRDisplay
+	 void Juniper.Display.AbstractDisplayManager.StopAR
+	 void Juniper.Display.AbstractDisplayManager.StopXRDisplay
  18% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Input/Pointers/AbstractPointerDevice.cs - (15 of 82)
 	 AbstractMotionFilter Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.lastMotionFilter
 	 AbstractMotionFilter Juniper.Input.Pointers.AbstractPointerDevice< ButtonIDType, ConfigType, HapticType >.motionFilter
@@ -1323,6 +1351,13 @@
 	 virtual void Juniper.Input.AbstractShortcutable.Awake
 	 virtual void Juniper.Input.AbstractShortcutable.Update
 	 void Juniper.Input.AbstractShortcutable.ActivateEvent
+ 14% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Sound/AudioData.cs - (1 of 7)
+	 AudioFormat Juniper.Sound.AudioData.Format
+	 Juniper.Sound.AudioData.AudioData
+	 Stream Juniper.Sound.AudioData.DataStream
+	 bool Juniper.Sound.AudioData.disposedValue
+	 long Juniper.Sound.AudioData.Samples
+	 void Juniper.Sound.AudioData.Dispose
  14% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Imaging/Marker.cs - (1 of 7)
 	 delegate Task<Texture2D> Juniper.Imaging.PhotosphereJigImageNeeded
 	 delegate Texture2D Juniper.Imaging.TextureNeeded
@@ -2139,8 +2174,10 @@
 	 readonly List<TarArchiveEntry> Juniper.Compression.Tar.TarArchive.entries
 	 void Juniper.Compression.Tar.TarArchive.Decompress
 	 void Juniper.Compression.Tar.TarArchive.Dispose
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Mathematics/Vector4Serializable.cs - (0 of 10)
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Mathematics/Vector4Serializable.cs - (0 of 12)
+	 Accord.Math.Vector4 Juniper.Mathematics.Vector4Serializable.ToAccordVector4
 	 Juniper.Mathematics.Vector4Serializable.Vector4Serializable
+	 System.Numerics.Vector4 Juniper.Mathematics.Vector4Serializable.ToSystemVector4
 	 bool Juniper.Mathematics.Vector4Serializable.Equals
 	 float Juniper.Mathematics.Vector4Serializable.W
 	 float Juniper.Mathematics.Vector4Serializable.X
@@ -2233,8 +2270,6 @@
 	 string Juniper.World.GIS.Google.Geocoding.GeocodingResult.Place_ID
 	 string [] Juniper.World.GIS.Google.Geocoding.GeocodingResult.TypeStrings
 	 void Juniper.World.GIS.Google.Geocoding.GeocodingResult.GetObjectData
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Console/ConsoleCommandProcessor.cs - (0 of 1)
-	 using C =  System.Console
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/AbstractTouchable.cs - (0 of 1)
 	 using InputButton =  UnityEngine.EventSystems.PointerEventData.InputButton
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/PooledComponent.cs - (0 of 42)
@@ -2297,6 +2332,19 @@
 	 Vector2 UnityEditor.TableView.scrollPosition
 	 readonly string UnityEditor.TableView.title
 	 void UnityEditor.TableView.DrawHeaders
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Terminal/ConsoleBufferSubdivision.cs - (0 of 12)
+	 ConsoleColor Juniper.Terminal.ConsoleBufferSubdivision.GetBackgroundColor
+	 Juniper.Terminal.ConsoleBufferSubdivision.ConsoleBufferSubdivision
+	 int Juniper.Terminal.ConsoleBufferSubdivision.AbsoluteBottom
+	 int Juniper.Terminal.ConsoleBufferSubdivision.AbsoluteLeft
+	 int Juniper.Terminal.ConsoleBufferSubdivision.AbsoluteRight
+	 int Juniper.Terminal.ConsoleBufferSubdivision.AbsoluteTop
+	 int Juniper.Terminal.ConsoleBufferSubdivision.Height
+	 int Juniper.Terminal.ConsoleBufferSubdivision.Width
+	 readonly IConsoleBuffer Juniper.Terminal.ConsoleBufferSubdivision.parent
+	 readonly int Juniper.Terminal.ConsoleBufferSubdivision.x
+	 readonly int Juniper.Terminal.ConsoleBufferSubdivision.y
+	 void Juniper.Terminal.ConsoleBufferSubdivision.Draw
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Input/Pointers/Motion/HandTracker.cs - (0 of 7)
 	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsButtonDown
 	 override bool Juniper.Input.Pointers.Motion.NoHandTracker.IsButtonPressed
@@ -2397,8 +2445,15 @@
 	 string Juniper.Processes.AbstractShellCommand.TotalStandardError
 	 string Juniper.Processes.AbstractShellCommand.TotalStandardOutput
 	 virtual async Task<int> Juniper.Processes.AbstractShellCommand.RunAsync
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Console/ColorScope.cs - (0 of 1)
-	 using C =  System.Console
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Server/IRequestHandler.cs - (0 of 8)
+	 AuthenticationSchemes Juniper.HTTP.Server.IRequestHandler.Authentication
+	 HttpMethods Juniper.HTTP.Server.IRequestHandler.Methods
+	 HttpProtocols Juniper.HTTP.Server.IRequestHandler.Protocols
+	 IExpression<(string Key, string Value)> Juniper.HTTP.Server.IRequestHandler.Headers
+	 IExpression<HttpStatusCode> Juniper.HTTP.Server.IRequestHandler.StatusCodes
+	 IExpression<MediaType> Juniper.HTTP.Server.IRequestHandler.Accept
+	 Regex Juniper.HTTP.Server.IRequestHandler.Pattern
+	 int Juniper.HTTP.Server.IRequestHandler.Priority
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Puzzles/Tile.cs - (0 of 6)
 	 ConsoleColor Juniper.Puzzles.Tile.Back
 	 ConsoleColor Juniper.Puzzles.Tile.Fore
@@ -2406,8 +2461,9 @@
 	 char Juniper.Puzzles.Tile.Token
 	 override bool Juniper.Puzzles.Tile.Equals
 	 override int Juniper.Puzzles.Tile.GetHashCode
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Mathematics/Vector2Serializable.cs - (0 of 8)
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Mathematics/Vector2Serializable.cs - (0 of 9)
 	 Juniper.Mathematics.Vector2Serializable.Vector2Serializable
+	 System.Numerics.Vector2 Juniper.Mathematics.Vector2Serializable.ToSystemVector2
 	 bool Juniper.Mathematics.Vector2Serializable.Equals
 	 float Juniper.Mathematics.Vector2Serializable.X
 	 float Juniper.Mathematics.Vector2Serializable.Y
@@ -2415,11 +2471,6 @@
 	 override int Juniper.Mathematics.Vector2Serializable.GetHashCode
 	 override string Juniper.Mathematics.Vector2Serializable.ToString
 	 void Juniper.Mathematics.Vector2Serializable.GetObjectData
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Input/WindowsAPIKeyEventSource.cs - (0 of 4)
-	 abstract bool Juniper.Input.AbstractPollingKeyEventSource< KeyT >.IsKeyDown
-	 override bool Juniper.Input.WindowsAPIKeyEventSource.IsKeyDown
-	 override void Juniper.Input.AbstractPollingKeyEventSource< KeyT >.Start
-	 override void Juniper.Input.AbstractPollingKeyEventSource< KeyT >.Stop
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/IValuedControl.cs - (0 of 2)
 	 EventHandler<T> Juniper.Widgets.IValuedControl< T >.ValueChange
 	 T Juniper.Widgets.IValuedControl< T >.value
@@ -2445,11 +2496,6 @@
 	 long Juniper.IO.ISerializer< in in T >.Serialize
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Platforms/WindowsMR/WindowsMRAnchorStore.cs - (0 of 1)
 	 using AnchorType =  UnityEngine.XR.WSA.WorldAnchor
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Imaging/Windows/GDIImageDataTranscoder.cs - (0 of 4)
-	 FromImageT Juniper.Imaging.IImageTranscoder< FromImageT, ToImageT >.Translate
-	 Image Juniper.Imaging.GDIImageDataTranscoder.Translate
-	 ImageData Juniper.Imaging.GDIImageDataTranscoder.Translate
-	 ToImageT Juniper.Imaging.IImageTranscoder< FromImageT, ToImageT >.Translate
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Imaging/TranscoderCodec.cs - (0 of 6)
 	 Juniper.Imaging.TranscoderCodec< FromImageT, ToImageT >.TranscoderCodec
 	 MediaType.Image Juniper.Imaging.TranscoderCodec< FromImageT, ToImageT >.ContentType
@@ -2483,8 +2529,10 @@
 	 void Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.AddButton
 	 void Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.Install
 	 void Juniper.Input.Pointers.ButtonMapper< ButtonIDType >.OnInteractionNeeded
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Mathematics/Matrix4x4Serializable.cs - (0 of 7)
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Mathematics/Matrix4x4Serializable.cs - (0 of 9)
+	 Accord.Math.Matrix4x4 Juniper.Mathematics.Matrix4x4Serializable.ToAccordMatrix4x4
 	 Juniper.Mathematics.Matrix4x4Serializable.Matrix4x4Serializable
+	 System.Numerics.Matrix4x4 Juniper.Mathematics.Matrix4x4Serializable.ToSystemMatrix4x4
 	 bool Juniper.Mathematics.Matrix4x4Serializable.Equals
 	 float [] Juniper.Mathematics.Matrix4x4Serializable.Values
 	 override bool Juniper.Mathematics.Matrix4x4Serializable.Equals
@@ -2574,19 +2622,12 @@
 	 string Juniper.World.GIS.Google.Geocoding.AddressComponent.Short_Name
 	 string [] Juniper.World.GIS.Google.Geocoding.AddressComponent.TypeStrings
 	 void Juniper.World.GIS.Google.Geocoding.AddressComponent.GetObjectData
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/IO/JsonFactory`2.cs - (0 of 4)
-	 Juniper.IO.JsonFactory< ResultT, MediaTypeT >.JsonFactory
-	 MediaTypeT Juniper.IO.JsonFactory< ResultT, MediaTypeT >.ContentType
-	 ResultT Juniper.IO.JsonFactory< ResultT, MediaTypeT >.Deserialize
-	 long Juniper.IO.JsonFactory< ResultT, MediaTypeT >.Serialize
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/BufferEventArgs.cs - (0 of 1)
 	 Juniper.BufferEventArgs.BufferEventArgs
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Sound/IAudioDecoder.cs - (0 of 3)
 	 AudioFormat Juniper.Sound.IAudioDecoder.Format
 	 ResultT Juniper.IO.IDeserializer< out out ResultT >.Deserialize
 	 bool Juniper.Sound.IAudioDecoder.SupportsFormat
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Statistics/IntegrationMotionFilter.cs - (0 of 1)
-	 using Vector3 =  UnityEngine.Vector3
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Statistics/KalmanMotionFilter.cs - (0 of 1)
 	 using Vector3 =  UnityEngine.Vector3
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Logging/IInfoSource.cs - (0 of 3)
@@ -2625,15 +2666,6 @@
 	 string Juniper.World.GIS.Google.TimeZone.TimeZoneResponse.TimeZoneId
 	 string Juniper.World.GIS.Google.TimeZone.TimeZoneResponse.TimeZoneName
 	 void Juniper.World.GIS.Google.TimeZone.TimeZoneResponse.GetObjectData
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Server/IRequestHandler.cs - (0 of 8)
-	 AuthenticationSchemes Juniper.HTTP.Server.IRequestHandler.Authentication
-	 HttpMethods Juniper.HTTP.Server.IRequestHandler.Methods
-	 HttpProtocols Juniper.HTTP.Server.IRequestHandler.Protocols
-	 IExpression<(string Key, string Value)> Juniper.HTTP.Server.IRequestHandler.Headers
-	 IExpression<HttpStatusCode> Juniper.HTTP.Server.IRequestHandler.StatusCodes
-	 IExpression<MediaType> Juniper.HTTP.Server.IRequestHandler.Accept
-	 Regex Juniper.HTTP.Server.IRequestHandler.Pattern
-	 int Juniper.HTTP.Server.IRequestHandler.Priority
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Unknown.cs - (0 of 17)
 	 ReadOnlyCollection<string> Juniper.MediaType.Extensions
 	 bool Juniper.MediaType.Equals
@@ -2692,11 +2724,12 @@
 	 readonly GUIContent Juniper.Events.ButtonEventEditor.ButtonTypeLabel
 	 readonly GUIContent Juniper.Events.ButtonEventEditor.ButtonValueLabel
 	 readonly GUIContent Juniper.Events.ButtonEventEditor.InputKeyLabel
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Imaging/ImageData.cs - (0 of 4)
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Imaging/ImageData.cs - (0 of 5)
 	 ImageInfo Juniper.Imaging.ImageData.Info
 	 Juniper.Imaging.ImageData.ImageData
 	 Juniper.Imaging.ImageData.ImageData??
-	 byte [] Juniper.Imaging.ImageData.Data
+	 byte [] Juniper.Imaging.ImageData.GetData
+	 readonly byte [] Juniper.Imaging.ImageData._data
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.GoogleMaps/Geocoding/GeometryViewport.cs - (0 of 6)
 	 Juniper.World.GIS.Google.Geocoding.GeometryViewport.GeometryViewport
 	 LatLngPoint Juniper.World.GIS.Google.Geocoding.GeometryViewport.NorthEast
@@ -2748,8 +2781,8 @@
 	 string Juniper.HTTP.Server.RouteAttribute.RegexSource
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Server/INCSALogDestination.cs - (0 of 1)
 	 void Juniper.HTTP.Server.INCSALogDestination.OnLog
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Primrose/Grammars/Basic.cs - (0 of 1)
-	 using Line =  System.Collections.Generic.List<Juniper.Primrose.Token>
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Unity/Input/Pointers/Screen/MouseButton.cs - (0 of 1)
+	 MouseButton
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/EventArgs.cs - (0 of 2)
 	 Juniper.EventArgs< T >.EventArgs
 	 T Juniper.EventArgs< T >.Value
@@ -2897,6 +2930,11 @@
 	 bool Juniper.Logic.AbstractBinaryExpression< ItemT >.HasNestedElements
 	 override bool Juniper.Logic.XorExpression< ItemT >.Evaluate
 	 override string Juniper.Logic.AbstractBinaryExpression< ItemT >.ToString
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/BLE.cs - (0 of 4)
+	 readonly Dictionary<string, string> Juniper.BLE.characteristics
+	 readonly Dictionary<string, string> Juniper.BLE.declarations
+	 readonly Dictionary<string, string> Juniper.BLE.descriptors
+	 readonly Dictionary<string, string> Juniper.BLE.services
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.GoogleMaps/MapTiles/LinePathStyle.cs - (0 of 7)
 	 Juniper.World.GIS.Google.MapTiles.LinePathStyle.LinePathStyle
 	 bool Juniper.World.GIS.Google.MapTiles.LinePathStyle.Equals
@@ -2937,6 +2975,15 @@
 	 string Juniper.ConfigurationManagement.PackageReference.VersionSpec
 	 virtual void Juniper.ConfigurationManagement.AbstractPackage.Activate
 	 void Juniper.ConfigurationManagement.AbstractCompressedPackage.Scan
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Terminal/IConsoleBuffer.cs - (0 of 8)
+	 ConsoleColor Juniper.Terminal.IConsoleBuffer.GetBackgroundColor
+	 int Juniper.Terminal.IConsoleBuffer.AbsoluteBottom
+	 int Juniper.Terminal.IConsoleBuffer.AbsoluteLeft
+	 int Juniper.Terminal.IConsoleBuffer.AbsoluteRight
+	 int Juniper.Terminal.IConsoleBuffer.AbsoluteTop
+	 int Juniper.Terminal.IConsoleBuffer.Height
+	 int Juniper.Terminal.IConsoleBuffer.Width
+	 void Juniper.Terminal.IConsoleBuffer.Draw
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.GoogleMaps/USAddress.cs - (0 of 10)
 	 Juniper.World.GIS.Google.USAddress.USAddress
 	 bool Juniper.World.GIS.Google.USAddress.Equals
@@ -2948,8 +2995,14 @@
 	 readonly string Juniper.World.GIS.Google.USAddress.street
 	 readonly string Juniper.World.GIS.Google.USAddress.zip
 	 void Juniper.World.GIS.Google.USAddress.GetObjectData
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Unity/Input/Pointers/Screen/MouseButton.cs - (0 of 1)
-	 MouseButton
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Mathematics/Pose.cs - (0 of 7)
+	 Juniper.Mathematics.Pose.Pose
+	 Quaternion Juniper.Mathematics.Pose.Orientation
+	 Vector3 Juniper.Mathematics.Pose.Position
+	 bool Juniper.Mathematics.Pose.Equals
+	 override bool Juniper.Mathematics.Pose.Equals
+	 override int Juniper.Mathematics.Pose.GetHashCode
+	 readonly Pose Juniper.Mathematics.Pose.Identity
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/FlowLayout.cs - (0 of 4)
 	 RectOffset Juniper.Widgets.FlowLayout.padding
 	 RectTransform Juniper.Widgets.FlowLayout.rect
@@ -2992,8 +3045,6 @@
 	 void Juniper.Widgets.PlatformName.Awake
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Logging/IInfoDestination.cs - (0 of 1)
 	 void Juniper.Logging.IInfoDestination.OnInfo
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Primrose/Grammars/RuntimeException.cs - (0 of 1)
-	 using Line =  System.Collections.Generic.List<Juniper.Primrose.Token>
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.UnityEditor/ConfigurationManagement/PackageDefineSymbol.cs - (0 of 4)
 	 Juniper.ConfigurationManagement.PackageDefineSymbol.PackageDefineSymbol
 	 string Juniper.ConfigurationManagement.PackageDefineSymbol.CompilerDefine
@@ -3065,15 +3116,6 @@
 	 readonly Regex Juniper.HTTP.Server.Administration.NetSH.GetFirewallRule.remoteIPRangePattern
 	 string Juniper.Processes.AbstractShellCommand.TotalStandardError
 	 string Juniper.Processes.AbstractShellCommand.TotalStandardOutput
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Primrose/Grammars/IInterpreter.cs - (0 of 8)
-	 EventHandler Juniper.Primrose.IInterpreter.ClearScreen
-	 EventHandler Juniper.Primrose.IInterpreter.ContinueNext
-	 EventHandler Juniper.Primrose.IInterpreter.Done
-	 EventHandler<Action<Func<string, byte[]> > > Juniper.Primrose.IInterpreter.LoadFile
-	 EventHandler<Action<string> > Juniper.Primrose.IInterpreter.Input
-	 EventHandler<ErrorEventArgs> Juniper.Primrose.IInterpreter.RuntimeError
-	 EventHandler<StringEventArgs> Juniper.Primrose.IInterpreter.Output
-	 void Juniper.Primrose.IInterpreter.Interpret
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Imaging/Size.cs - (0 of 12)
 	 Juniper.Imaging.Size.Size
 	 bool Juniper.Imaging.Size.Equals
@@ -3100,6 +3142,9 @@
 	 async Task<Stream> Juniper.IO.StreamSourceLayer.GetStreamAsync
 	 bool Juniper.IO.StreamSourceLayer.IsCached
 	 readonly CachingStrategy Juniper.IO.StreamSourceLayer.parent
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Input/JuniperPointerEventData.cs - (0 of 2)
+	 Juniper.Input.JuniperPointerEventData.JuniperPointerEventData
+	 KeyCode Juniper.Input.JuniperPointerEventData.keyCode
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Editor Plugins/ConfigurationManagement/JuniperInstalledPackageManager.cs - (0 of 7)
 	 const int Juniper.ConfigurationManagement.JuniperInstalledPackageManager.buttonWidthValue
 	 const string Juniper.ConfigurationManagement.JuniperInstalledPackageManager.MENU_NAME
@@ -3108,8 +3153,9 @@
 	 readonly GUILayoutOption Juniper.ConfigurationManagement.JuniperInstalledPackageManager.nameFieldWidth
 	 readonly TableView Juniper.ConfigurationManagement.JuniperInstalledPackageManager.installedPackageTable
 	 void Juniper.ConfigurationManagement.JuniperInstalledPackageManager.OnGUI
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Mathematics/Matrix3x2Serializable.cs - (0 of 7)
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Mathematics/Matrix3x2Serializable.cs - (0 of 8)
 	 Juniper.Mathematics.Matrix3x2Serializable.Matrix3x2Serializable
+	 System.Numerics.Matrix3x2 Juniper.Mathematics.Matrix3x2Serializable.ToSystemMatrix3x2
 	 bool Juniper.Mathematics.Matrix3x2Serializable.Equals
 	 float [] Juniper.Mathematics.Matrix3x2Serializable.Values
 	 override bool Juniper.Mathematics.Matrix3x2Serializable.Equals
@@ -3162,8 +3208,9 @@
 	 string Juniper.Speech.Azure.CognitiveServices.VoicesClient.AzureRegion
 	 string Juniper.Speech.Azure.CognitiveServices.VoicesClient.authToken
 	 void Juniper.Speech.Azure.CognitiveServices.VoicesClient.ClearError
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Mathematics/QuaternionSerializable.cs - (0 of 10)
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Mathematics/QuaternionSerializable.cs - (0 of 11)
 	 Juniper.Mathematics.QuaternionSerializable.QuaternionSerializable
+	 System.Numerics.Quaternion Juniper.Mathematics.QuaternionSerializable.ToSystemQuaternion
 	 bool Juniper.Mathematics.QuaternionSerializable.Equals
 	 float Juniper.Mathematics.QuaternionSerializable.W
 	 float Juniper.Mathematics.QuaternionSerializable.X
@@ -3331,12 +3378,6 @@
 	 void Juniper.HTTP.Server.Controllers.NCSALogger.Dispose
 	 void Juniper.HTTP.Server.Controllers.NCSALogger.OnLog
 	 void Juniper.HTTP.Server.Controllers.NCSALogger.WriteLogs
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Console/SizeChangedEventArgs.cs - (0 of 5)
-	 Juniper.Console.SizeChangedEventArgs.SizeChangedEventArgs
-	 int Juniper.Console.SizeChangedEventArgs.NewHeight
-	 int Juniper.Console.SizeChangedEventArgs.NewWidth
-	 int Juniper.Console.SizeChangedEventArgs.OldHeight
-	 int Juniper.Console.SizeChangedEventArgs.OldWidth
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/AnsiColor.cs - (0 of 9)
 	 const string Juniper.AnsiColor.Black
 	 const string Juniper.AnsiColor.Blue
@@ -3537,12 +3578,6 @@
 	 readonly ConcurrentDictionary<MediaType, ConcurrentDictionary<string, MemoryStream> > Juniper.IO.MemoryCacheLayer.store
 	 virtual bool Juniper.IO.MemoryCacheLayer.CanCache
 	 virtual bool Juniper.IO.MemoryCacheLayer.IsCached
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Input/Win32KeyEventSource.cs - (0 of 5)
-	 abstract bool Juniper.Input.AbstractPollingKeyEventSource< KeyT >.IsKeyDown
-	 override bool Juniper.Input.Win32KeyEventSource.IsKeyDown
-	 override void Juniper.Input.AbstractPollingKeyEventSource< KeyT >.Start
-	 override void Juniper.Input.AbstractPollingKeyEventSource< KeyT >.Stop
-	 readonly bool Juniper.Input.Win32KeyEventSource.IsAvailable
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.GoogleMaps/MapTiles/LinePathCollection.cs - (0 of 18)
 	 IEnumerator IEnumerable. Juniper.World.GIS.Google.MapTiles.LinePathCollection.GetEnumerator
 	 IEnumerator<string> Juniper.World.GIS.Google.MapTiles.LinePathCollection.GetEnumerator
@@ -3597,8 +3632,6 @@
 	 readonly string Juniper.World.GIS.Google.Geocoding.GeometryResult.VIEWPORT_FIELD
 	 string Juniper.World.GIS.Google.Geocoding.GeometryResult.LocationTypeString
 	 void Juniper.World.GIS.Google.Geocoding.GeometryResult.GetObjectData
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Imaging/Windows/GDICodec.cs - (0 of 1)
-	 using GDIImageFormat =  System.Drawing.Imaging.ImageFormat
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Processes/AbstractShellCommand.cs - (0 of 19)
 	 Encoding Juniper.Processes.AbstractShellCommand.Encoding
 	 EventHandler<ErrorEventArgs> Juniper.Processes.AbstractShellCommand.Err
@@ -3777,19 +3810,6 @@
 	 readonly AudioFormat Juniper.Sound.AudioFormat.Riff8KHz8BitMonoALAW
 	 readonly AudioFormat Juniper.Sound.AudioFormat.Riff8KHz8BitMonoMULAW
 	 string Juniper.Sound.AudioFormat.Name
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Console/ConsoleBufferSubdivision.cs - (0 of 12)
-	 ConsoleColor Juniper.Console.ConsoleBufferSubdivision.GetBackgroundColor
-	 Juniper.Console.ConsoleBufferSubdivision.ConsoleBufferSubdivision
-	 int Juniper.Console.ConsoleBufferSubdivision.AbsoluteBottom
-	 int Juniper.Console.ConsoleBufferSubdivision.AbsoluteLeft
-	 int Juniper.Console.ConsoleBufferSubdivision.AbsoluteRight
-	 int Juniper.Console.ConsoleBufferSubdivision.AbsoluteTop
-	 int Juniper.Console.ConsoleBufferSubdivision.Height
-	 int Juniper.Console.ConsoleBufferSubdivision.Width
-	 readonly IConsoleBuffer Juniper.Console.ConsoleBufferSubdivision.parent
-	 readonly int Juniper.Console.ConsoleBufferSubdivision.x
-	 readonly int Juniper.Console.ConsoleBufferSubdivision.y
-	 void Juniper.Console.ConsoleBufferSubdivision.Draw
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.GoogleMaps/AbstractGoogleMapsRequest.cs - (0 of 28)
 	 Juniper.World.GIS.Google.AbstractGoogleMapsRequest< MediaTypeT >.AbstractGoogleMapsRequest
 	 MediaTypeT Juniper.HTTP.REST.AbstractRequest< MediaTypeT >.MediaType
@@ -4041,9 +4061,6 @@
 	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnError
 	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnInfo
 	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnWarning
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Input/JuniperPointerEventData.cs - (0 of 2)
-	 Juniper.Input.JuniperPointerEventData.JuniperPointerEventData
-	 KeyCode Juniper.Input.JuniperPointerEventData.keyCode
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Azure/AbstractAzureRequest.cs - (0 of 25)
 	 Juniper.Speech.Azure.AbstractAzureRequest< MediaTypeT >.AbstractAzureRequest
 	 MediaTypeT Juniper.HTTP.REST.AbstractRequest< MediaTypeT >.MediaType
@@ -4087,6 +4104,12 @@
 	 string Juniper.Processes.AbstractShellCommand.TotalStandardError
 	 string Juniper.Processes.AbstractShellCommand.TotalStandardOutput
 	 virtual async Task<int> Juniper.Processes.AbstractShellCommand.RunAsync
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Terminal/SizeChangedEventArgs.cs - (0 of 5)
+	 Juniper.Terminal.SizeChangedEventArgs.SizeChangedEventArgs
+	 int Juniper.Terminal.SizeChangedEventArgs.NewHeight
+	 int Juniper.Terminal.SizeChangedEventArgs.NewWidth
+	 int Juniper.Terminal.SizeChangedEventArgs.OldHeight
+	 int Juniper.Terminal.SizeChangedEventArgs.OldWidth
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Logging/IErrorDestination.cs - (0 of 1)
 	 void Juniper.Logging.IErrorDestination.OnError
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.GoogleMaps/TimeZone/TimeZoneRequest.cs - (0 of 7)
@@ -4097,31 +4120,9 @@
 	 LatLngPoint Juniper.World.GIS.Google.TimeZone.TimeZoneRequest.location
 	 override Uri Juniper.World.GIS.Google.AbstractGoogleMapsRequest< MediaTypeT >.AuthenticatedURI
 	 override string Juniper.World.GIS.Google.AbstractGoogleMapsRequest< MediaTypeT >.InternalCacheID
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Primrose/Token.cs - (0 of 9)
-	 Juniper.Primrose.Token.Token
-	 Token Juniper.Primrose.Token.Clone
-	 Token Juniper.Primrose.Token.SplitAt
-	 int Juniper.Primrose.Token.Index
-	 int Juniper.Primrose.Token.Line
-	 object ICloneable. Juniper.Primrose.Token.Clone
-	 override string Juniper.Primrose.Token.ToString
-	 string Juniper.Primrose.Token.Type
-	 string Juniper.Primrose.Token.Value
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Input/WinFormsKeyEventSource.cs - (0 of 14)
-	 Dictionary<KeyT, bool> Juniper.Input.AbstractKeyEventSource< KeyT >.KeyState
-	 EventHandler<KeyChangeEvent> Juniper.Input.AbstractKeyEventSource< KeyT >.KeyChanged
-	 EventHandler<KeyEvent> Juniper.Input.AbstractKeyEventSource< KeyT >.KeyDown
-	 EventHandler<KeyEvent> Juniper.Input.AbstractKeyEventSource< KeyT >.KeyUp
-	 IReadOnlyCollection<KeyT> Juniper.Input.AbstractKeyEventSource< KeyT >.Keys
-	 Juniper.Input.WinFormsKeyEventSource.WinFormsKeyEventSource
-	 bool Juniper.Input.AbstractKeyEventSource< KeyT >.IsDown
-	 override void Juniper.Input.WinFormsKeyEventSource.Start
-	 override void Juniper.Input.WinFormsKeyEventSource.Stop
-	 readonly Control Juniper.Input.WinFormsKeyEventSource.control
-	 void Juniper.Input.AbstractKeyEventSource< KeyT >.AddKeyAlias
-	 void Juniper.Input.AbstractKeyEventSource< KeyT >.UpdateStates
-	 void Juniper.Input.WinFormsKeyEventSource.Form_KeyDown
-	 void Juniper.Input.WinFormsKeyEventSource.Form_KeyUp
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Terminal/ConsoleBuffer.cs - (0 of 2)
+	 internal int Juniper.Terminal.ConsoleBuffer.NativeMethods.POINT.X
+	 internal int Juniper.Terminal.ConsoleBuffer.NativeMethods.POINT.Y
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Input/Pointers/Screen/TouchPoint.cs - (0 of 2)
 	 using HapticType =  Juniper.Haptics.iOS9Haptics
 	 using UnityInput =  UnityEngine.Input
@@ -4169,10 +4170,10 @@
 	 void Juniper.Sound.Beats.VMU.Update
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Input/Pointers/IProbe.cs - (0 of 11)
 	 Material Juniper.Input.Pointers.IProbe.LaserPointerMaterial
+	 Mathematics.PoseSerializable Juniper.Input.Pointers.IProbe.ToJuniperPose
 	 PhysicsRaycaster Juniper.Input.Pointers.IProbe.Raycaster
 	 Transform Juniper.Input.Pointers.IProbe.Cursor
 	 Vector2 Juniper.Input.Pointers.IProbe.TouchPoint
-	 XR.Pose Juniper.Input.Pointers.IProbe.ToJuniperPose
 	 bool Juniper.Input.Pointers.IProbe.CanGaze
 	 void Juniper.Input.Pointers.IProbe.AlignProbe
 	 void Juniper.Input.Pointers.IProbe.Destroy
@@ -4260,82 +4261,20 @@
 	 void Juniper.Sound.Beats.BeatDetector.SongEnded
 	 void Juniper.Sound.Beats.BeatDetector.Start
 	 void Juniper.Sound.Beats.BeatDetector.Update
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Server/Controllers/BanHammer.cs - (0 of 53)
-	 AuthenticationSchemes Juniper.HTTP.Server.Controllers.AbstractResponse.Authentication
-	 CIDRBlock Juniper.HTTP.Server.Controllers.BanHammer.GetMatchingBlock
-	 EventHandler<ErrorEventArgs> Juniper.HTTP.Server.Controllers.AbstractResponse.Err
-	 EventHandler<EventArgs<CIDRBlock> > Juniper.HTTP.Server.Controllers.BanHammer.BanAdded
-	 EventHandler<EventArgs<CIDRBlock> > Juniper.HTTP.Server.Controllers.BanHammer.BanRemoved
-	 EventHandler<StringEventArgs> Juniper.HTTP.Server.Controllers.AbstractResponse.Info
-	 EventHandler<StringEventArgs> Juniper.HTTP.Server.Controllers.AbstractResponse.Warning
-	 HttpMethods Juniper.HTTP.Server.Controllers.AbstractResponse.Methods
-	 HttpProtocols Juniper.HTTP.Server.Controllers.AbstractResponse.Protocols
-	 IExpression<(string Key, string Value)> Juniper.HTTP.Server.Controllers.AbstractResponse.Headers
-	 IExpression<HttpStatusCode> Juniper.HTTP.Server.Controllers.AbstractResponse.StatusCodes
-	 IExpression<MediaType> Juniper.HTTP.Server.Controllers.AbstractResponse.Accept
-	 Juniper.HTTP.Server.Controllers.AbstractResponse.AbstractResponse??
-	 Juniper.HTTP.Server.Controllers.AbstractResponse.AbstractResponse????
-	 Juniper.HTTP.Server.Controllers.AbstractResponse.AbstractResponse??????
-	 Juniper.HTTP.Server.Controllers.BanHammer.BanHammer
-	 List<CIDRBlock> Juniper.HTTP.Server.Controllers.BanHammer.Blocks
-	 Regex Juniper.HTTP.Server.Controllers.AbstractResponse.Pattern
-	 async Task Juniper.HTTP.Server.Controllers.AbstractResponse.ExecuteAsync
-	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.Enabled
-	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.Equals
-	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsAcceptable
-	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsHeaderMatch
-	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsMethodMatch
-	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsPatternMatch
-	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsProtocolMatch
-	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsStatusCodeMatch
-	 const AuthenticationSchemes Juniper.HTTP.Server.Controllers.AbstractResponse.AllAuthSchemes
-	 const HttpMethods Juniper.HTTP.Server.Controllers.AbstractResponse.AllMethods
-	 const HttpProtocols Juniper.HTTP.Server.Controllers.AbstractResponse.AllProtocols
-	 int Juniper.HTTP.Server.Controllers.AbstractResponse.CompareTo
-	 int Juniper.HTTP.Server.Controllers.AbstractResponse.ParameterCount
-	 int Juniper.HTTP.Server.Controllers.AbstractResponse.Priority
-	 override Task Juniper.HTTP.Server.Controllers.BanHammer.InvokeAsync
-	 override bool Juniper.HTTP.Server.Controllers.AbstractResponse.Equals
-	 override bool Juniper.HTTP.Server.Controllers.BanHammer.IsRequestMatch
-	 override int Juniper.HTTP.Server.Controllers.AbstractResponse.GetHashCode
-	 override string Juniper.HTTP.Server.Controllers.AbstractResponse.ToString
-	 readonly FileInfo Juniper.HTTP.Server.Controllers.BanHammer.banFile
-	 readonly IExpression<(string Key, string Value)> Juniper.HTTP.Server.Controllers.AbstractResponse.NoHeaders
-	 readonly IExpression<HttpStatusCode> Juniper.HTTP.Server.Controllers.AbstractResponse.AllStatusCodes
-	 readonly IExpression<HttpStatusCode> Juniper.HTTP.Server.Controllers.AbstractResponse.DefaultCode
-	 readonly IExpression<MediaType> Juniper.HTTP.Server.Controllers.AbstractResponse.AnyMediaTypes
-	 readonly Regex Juniper.HTTP.Server.Controllers.AbstractResponse.AllRoutes
-	 string Juniper.HTTP.Server.Controllers.AbstractResponse.Name
-	 string Juniper.HTTP.Server.Controllers.AbstractResponse.RegexSource
-	 virtual bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsContextMatch
-	 virtual int Juniper.HTTP.Server.Controllers.AbstractResponse.CompareTo
-	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnError
-	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnInfo
-	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnWarning
-	 void Juniper.HTTP.Server.Controllers.BanHammer.OnBanAdded
-	 void Juniper.HTTP.Server.Controllers.BanHammer.OnBanRemoved
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Logging/IWarningDestination.cs - (0 of 1)
 	 void Juniper.Logging.IWarningDestination.OnWarning
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Input/AbstractPollingKeyEventSource.cs - (0 of 14)
-	 Dictionary<KeyT, bool> Juniper.Input.AbstractKeyEventSource< KeyT >.KeyState
-	 EventHandler<KeyChangeEvent> Juniper.Input.AbstractKeyEventSource< KeyT >.KeyChanged
-	 EventHandler<KeyEvent> Juniper.Input.AbstractKeyEventSource< KeyT >.KeyDown
-	 EventHandler<KeyEvent> Juniper.Input.AbstractKeyEventSource< KeyT >.KeyUp
-	 IReadOnlyCollection<KeyT> Juniper.Input.AbstractKeyEventSource< KeyT >.Keys
-	 Juniper.Input.AbstractPollingKeyEventSource< KeyT >.AbstractPollingKeyEventSource
-	 abstract bool Juniper.Input.AbstractPollingKeyEventSource< KeyT >.IsKeyDown
-	 bool Juniper.Input.AbstractKeyEventSource< KeyT >.IsDown
-	 override void Juniper.Input.AbstractPollingKeyEventSource< KeyT >.Start
-	 override void Juniper.Input.AbstractPollingKeyEventSource< KeyT >.Stop
-	 readonly Thread Juniper.Input.AbstractPollingKeyEventSource< KeyT >.poller
-	 void Juniper.Input.AbstractKeyEventSource< KeyT >.AddKeyAlias
-	 void Juniper.Input.AbstractKeyEventSource< KeyT >.UpdateStates
-	 void Juniper.Input.AbstractPollingKeyEventSource< KeyT >.Update
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Input/Pointers/Motion/NoMotionControllerConfiguration.cs - (0 of 4)
 	 override string Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.PointerNameStub
 	 override? Unary Juniper.Input.Pointers.Motion.NoMotionControllerConfiguration.this[Hand hand]
 	 void Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.AddButton
 	 void Juniper.Input.Pointers.Motion.AbstractMotionControllerConfiguration< HandIDType, ButtonIDType >.Install
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Input/IAbstractKeyEventSource.cs - (0 of 6)
+	 EventHandler<KeyChangeEvent> Juniper.Input.IKeyEventSource.KeyChanged
+	 EventHandler<KeyEvent> Juniper.Input.IKeyEventSource.KeyDown
+	 EventHandler<KeyEvent> Juniper.Input.IKeyEventSource.KeyUp
+	 bool Juniper.Input.IKeyEventSource.IsDown
+	 void Juniper.Input.IKeyEventSource.Quit
+	 void Juniper.Input.IKeyEventSource.Start
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Font.cs - (0 of 24)
 	 Juniper.MediaType.Font.Font
 	 ReadOnlyCollection<string> Juniper.MediaType.Extensions
@@ -4560,8 +4499,10 @@
 	 string Juniper.MediaType.SubTypeName
 	 string Juniper.MediaType.TypeName
 	 string Juniper.MediaType.Value
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Mathematics/PlaneSerializable.cs - (0 of 9)
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Mathematics/PlaneSerializable.cs - (0 of 11)
+	 Accord.Math.Plane Juniper.Mathematics.PlaneSerializable.ToAccordPlane
 	 Juniper.Mathematics.PlaneSerializable.PlaneSerializable
+	 System.Numerics.Plane Juniper.Mathematics.PlaneSerializable.ToSystemPlane
 	 bool Juniper.Mathematics.PlaneSerializable.Equals
 	 float Juniper.Mathematics.PlaneSerializable.D
 	 float Juniper.Mathematics.PlaneSerializable.X
@@ -4619,9 +4560,6 @@
 	 readonly string Juniper.World.GIS.Google.Geocoding.GeocodingResponse.STATUS_FIELD
 	 string Juniper.World.GIS.Google.Geocoding.GeocodingResponse.Error_Message
 	 void Juniper.World.GIS.Google.Geocoding.GeocodingResponse.GetObjectData
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Console/ConsoleBuffer.cs - (0 of 2)
-	 internal int Juniper.Console.ConsoleBuffer.NativeMethods.POINT.X
-	 internal int Juniper.Console.ConsoleBuffer.NativeMethods.POINT.Y
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/FollowMainCamera.cs - (0 of 4)
 	 FollowObject Juniper.Widgets.FollowMainCamera.f
 	 void Juniper.Widgets.FollowMainCamera.Awake
@@ -4673,11 +4611,6 @@
 	 IEnumerable<ContentReference> Juniper.IO.ICacheSourceLayer.GetContentReferences
 	 Task<Stream> Juniper.IO.ICacheSourceLayer.GetStreamAsync
 	 bool Juniper.IO.ICacheSourceLayer.IsCached
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Sound/AudioData.cs - (0 of 4)
-	 AudioFormat Juniper.Sound.AudioData.Format
-	 Juniper.Sound.AudioData.AudioData
-	 Stream Juniper.Sound.AudioData.DataStream
-	 long Juniper.Sound.AudioData.Samples
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/HTTP/GetRequest.cs - (0 of 20)
 	 Juniper.HTTP.GetRequest.GetRequest
 	 MediaTypeT Juniper.HTTP.REST.AbstractRequest< MediaTypeT >.MediaType
@@ -4705,8 +4638,11 @@
 	 string Juniper.ConfigurationManagement.NpmPackage.Name
 	 string Juniper.ConfigurationManagement.NpmPackage.Version
 	 void Juniper.ConfigurationManagement.NpmPackage.GetObjectData
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Mathematics/Vector3Serializable.cs - (0 of 9)
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Mathematics/Vector3Serializable.cs - (0 of 12)
+	 Accord.Math.Point3 Juniper.Mathematics.Vector3Serializable.ToAccordPoint3
+	 Accord.Math.Vector3 Juniper.Mathematics.Vector3Serializable.ToAccordVector3
 	 Juniper.Mathematics.Vector3Serializable.Vector3Serializable
+	 System.Numerics.Vector3 Juniper.Mathematics.Vector3Serializable.ToSystemVector3
 	 bool Juniper.Mathematics.Vector3Serializable.Equals
 	 float Juniper.Mathematics.Vector3Serializable.X
 	 float Juniper.Mathematics.Vector3Serializable.Y
@@ -4841,167 +4777,6 @@
 	 string Juniper.MediaType.Value
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.UnityEditor/ConfigurationManagement/PackageSources.cs - (0 of 1)
 	 PackageSources
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Input/VirtualKeyState.cs - (0 of 160)
-	 readonly int Juniper.Input.VirtualKeyState.VK_ACCEPT
-	 readonly int Juniper.Input.VirtualKeyState.VK_ADD
-	 readonly int Juniper.Input.VirtualKeyState.VK_APPS
-	 readonly int Juniper.Input.VirtualKeyState.VK_ATTN
-	 readonly int Juniper.Input.VirtualKeyState.VK_BACK
-	 readonly int Juniper.Input.VirtualKeyState.VK_BROWSER_BACK
-	 readonly int Juniper.Input.VirtualKeyState.VK_BROWSER_FAVORITES
-	 readonly int Juniper.Input.VirtualKeyState.VK_BROWSER_FORWARD
-	 readonly int Juniper.Input.VirtualKeyState.VK_BROWSER_HOME
-	 readonly int Juniper.Input.VirtualKeyState.VK_BROWSER_REFRESH
-	 readonly int Juniper.Input.VirtualKeyState.VK_BROWSER_SEARCH
-	 readonly int Juniper.Input.VirtualKeyState.VK_BROWSER_STOP
-	 readonly int Juniper.Input.VirtualKeyState.VK_CANCEL
-	 readonly int Juniper.Input.VirtualKeyState.VK_CAPITAL
-	 readonly int Juniper.Input.VirtualKeyState.VK_CLEAR
-	 readonly int Juniper.Input.VirtualKeyState.VK_CONTROL
-	 readonly int Juniper.Input.VirtualKeyState.VK_CONVERT
-	 readonly int Juniper.Input.VirtualKeyState.VK_CRSEL
-	 readonly int Juniper.Input.VirtualKeyState.VK_DECIMAL
-	 readonly int Juniper.Input.VirtualKeyState.VK_DELETE
-	 readonly int Juniper.Input.VirtualKeyState.VK_DIVIDE
-	 readonly int Juniper.Input.VirtualKeyState.VK_DOWN
-	 readonly int Juniper.Input.VirtualKeyState.VK_END
-	 readonly int Juniper.Input.VirtualKeyState.VK_EREOF
-	 readonly int Juniper.Input.VirtualKeyState.VK_ESCAPE
-	 readonly int Juniper.Input.VirtualKeyState.VK_EXECUTE
-	 readonly int Juniper.Input.VirtualKeyState.VK_EXSEL
-	 readonly int Juniper.Input.VirtualKeyState.VK_F1
-	 readonly int Juniper.Input.VirtualKeyState.VK_F10
-	 readonly int Juniper.Input.VirtualKeyState.VK_F11
-	 readonly int Juniper.Input.VirtualKeyState.VK_F12
-	 readonly int Juniper.Input.VirtualKeyState.VK_F13
-	 readonly int Juniper.Input.VirtualKeyState.VK_F14
-	 readonly int Juniper.Input.VirtualKeyState.VK_F15
-	 readonly int Juniper.Input.VirtualKeyState.VK_F16
-	 readonly int Juniper.Input.VirtualKeyState.VK_F17
-	 readonly int Juniper.Input.VirtualKeyState.VK_F18
-	 readonly int Juniper.Input.VirtualKeyState.VK_F19
-	 readonly int Juniper.Input.VirtualKeyState.VK_F2
-	 readonly int Juniper.Input.VirtualKeyState.VK_F20
-	 readonly int Juniper.Input.VirtualKeyState.VK_F21
-	 readonly int Juniper.Input.VirtualKeyState.VK_F22
-	 readonly int Juniper.Input.VirtualKeyState.VK_F23
-	 readonly int Juniper.Input.VirtualKeyState.VK_F24
-	 readonly int Juniper.Input.VirtualKeyState.VK_F3
-	 readonly int Juniper.Input.VirtualKeyState.VK_F4
-	 readonly int Juniper.Input.VirtualKeyState.VK_F5
-	 readonly int Juniper.Input.VirtualKeyState.VK_F6
-	 readonly int Juniper.Input.VirtualKeyState.VK_F7
-	 readonly int Juniper.Input.VirtualKeyState.VK_F8
-	 readonly int Juniper.Input.VirtualKeyState.VK_F9
-	 readonly int Juniper.Input.VirtualKeyState.VK_FINAL
-	 readonly int Juniper.Input.VirtualKeyState.VK_HANGEUL
-	 readonly int Juniper.Input.VirtualKeyState.VK_HANGUL
-	 readonly int Juniper.Input.VirtualKeyState.VK_HANJA
-	 readonly int Juniper.Input.VirtualKeyState.VK_HELP
-	 readonly int Juniper.Input.VirtualKeyState.VK_HOME
-	 readonly int Juniper.Input.VirtualKeyState.VK_ICO_00
-	 readonly int Juniper.Input.VirtualKeyState.VK_ICO_CLEAR
-	 readonly int Juniper.Input.VirtualKeyState.VK_ICO_HELP
-	 readonly int Juniper.Input.VirtualKeyState.VK_INSERT
-	 readonly int Juniper.Input.VirtualKeyState.VK_JUNJA
-	 readonly int Juniper.Input.VirtualKeyState.VK_KANA
-	 readonly int Juniper.Input.VirtualKeyState.VK_KANJI
-	 readonly int Juniper.Input.VirtualKeyState.VK_LAUNCH_APP1
-	 readonly int Juniper.Input.VirtualKeyState.VK_LAUNCH_APP2
-	 readonly int Juniper.Input.VirtualKeyState.VK_LAUNCH_MAIL
-	 readonly int Juniper.Input.VirtualKeyState.VK_LAUNCH_MEDIA_SELECT
-	 readonly int Juniper.Input.VirtualKeyState.VK_LBUTTON
-	 readonly int Juniper.Input.VirtualKeyState.VK_LCONTROL
-	 readonly int Juniper.Input.VirtualKeyState.VK_LEFT
-	 readonly int Juniper.Input.VirtualKeyState.VK_LMENU
-	 readonly int Juniper.Input.VirtualKeyState.VK_LSHIFT
-	 readonly int Juniper.Input.VirtualKeyState.VK_LWIN
-	 readonly int Juniper.Input.VirtualKeyState.VK_MBUTTON
-	 readonly int Juniper.Input.VirtualKeyState.VK_MEDIA_NEXT_TRACK
-	 readonly int Juniper.Input.VirtualKeyState.VK_MEDIA_PLAY_PAUSE
-	 readonly int Juniper.Input.VirtualKeyState.VK_MEDIA_PREV_TRACK
-	 readonly int Juniper.Input.VirtualKeyState.VK_MEDIA_STOP
-	 readonly int Juniper.Input.VirtualKeyState.VK_MENU
-	 readonly int Juniper.Input.VirtualKeyState.VK_MODECHANGE
-	 readonly int Juniper.Input.VirtualKeyState.VK_MULTIPLY
-	 readonly int Juniper.Input.VirtualKeyState.VK_NEXT
-	 readonly int Juniper.Input.VirtualKeyState.VK_NONAME
-	 readonly int Juniper.Input.VirtualKeyState.VK_NONCONVERT
-	 readonly int Juniper.Input.VirtualKeyState.VK_NUMLOCK
-	 readonly int Juniper.Input.VirtualKeyState.VK_NUMPAD0
-	 readonly int Juniper.Input.VirtualKeyState.VK_NUMPAD1
-	 readonly int Juniper.Input.VirtualKeyState.VK_NUMPAD2
-	 readonly int Juniper.Input.VirtualKeyState.VK_NUMPAD3
-	 readonly int Juniper.Input.VirtualKeyState.VK_NUMPAD4
-	 readonly int Juniper.Input.VirtualKeyState.VK_NUMPAD5
-	 readonly int Juniper.Input.VirtualKeyState.VK_NUMPAD6
-	 readonly int Juniper.Input.VirtualKeyState.VK_NUMPAD7
-	 readonly int Juniper.Input.VirtualKeyState.VK_NUMPAD8
-	 readonly int Juniper.Input.VirtualKeyState.VK_NUMPAD9
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_1
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_102
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_2
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_3
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_4
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_5
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_6
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_7
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_8
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_ATTN
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_AUTO
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_AX
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_BACKTAB
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_CLEAR
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_COMMA
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_COPY
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_CUSEL
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_ENLW
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_FINISH
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_FJ_JISHO
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_FJ_LOYA
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_FJ_MASSHOU
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_FJ_ROYA
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_FJ_TOUROKU
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_JUMP
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_MINUS
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_NEC_EQUAL
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_PA1
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_PA2
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_PA3
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_PERIOD
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_PLUS
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_RESET
-	 readonly int Juniper.Input.VirtualKeyState.VK_OEM_WSCTRL
-	 readonly int Juniper.Input.VirtualKeyState.VK_PA1
-	 readonly int Juniper.Input.VirtualKeyState.VK_PACKET
-	 readonly int Juniper.Input.VirtualKeyState.VK_PAUSE
-	 readonly int Juniper.Input.VirtualKeyState.VK_PLAY
-	 readonly int Juniper.Input.VirtualKeyState.VK_PRINT
-	 readonly int Juniper.Input.VirtualKeyState.VK_PRIOR
-	 readonly int Juniper.Input.VirtualKeyState.VK_PROCESSKEY
-	 readonly int Juniper.Input.VirtualKeyState.VK_RBUTTON
-	 readonly int Juniper.Input.VirtualKeyState.VK_RCONTROL
-	 readonly int Juniper.Input.VirtualKeyState.VK_RETURN
-	 readonly int Juniper.Input.VirtualKeyState.VK_RIGHT
-	 readonly int Juniper.Input.VirtualKeyState.VK_RMENU
-	 readonly int Juniper.Input.VirtualKeyState.VK_RSHIFT
-	 readonly int Juniper.Input.VirtualKeyState.VK_RWIN
-	 readonly int Juniper.Input.VirtualKeyState.VK_SCROLL
-	 readonly int Juniper.Input.VirtualKeyState.VK_SELECT
-	 readonly int Juniper.Input.VirtualKeyState.VK_SEPARATOR
-	 readonly int Juniper.Input.VirtualKeyState.VK_SHIFT
-	 readonly int Juniper.Input.VirtualKeyState.VK_SLEEP
-	 readonly int Juniper.Input.VirtualKeyState.VK_SNAPSHOT
-	 readonly int Juniper.Input.VirtualKeyState.VK_SPACE
-	 readonly int Juniper.Input.VirtualKeyState.VK_SUBTRACT
-	 readonly int Juniper.Input.VirtualKeyState.VK_TAB
-	 readonly int Juniper.Input.VirtualKeyState.VK_UP
-	 readonly int Juniper.Input.VirtualKeyState.VK_VOLUME_DOWN
-	 readonly int Juniper.Input.VirtualKeyState.VK_VOLUME_MUTE
-	 readonly int Juniper.Input.VirtualKeyState.VK_VOLUME_UP
-	 readonly int Juniper.Input.VirtualKeyState.VK_XBUTTON1
-	 readonly int Juniper.Input.VirtualKeyState.VK_XBUTTON2
-	 readonly int Juniper.Input.VirtualKeyState.VK_ZOOM
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Text.cs - (0 of 113)
 	 Juniper.MediaType.Text.Text
 	 ReadOnlyCollection<string> Juniper.MediaType.Extensions
@@ -5175,6 +4950,9 @@
 	 string Juniper.ConfigurationManagement.PackageReference.PackageID
 	 string Juniper.ConfigurationManagement.PackageReference.PackageSpec
 	 string Juniper.ConfigurationManagement.PackageReference.VersionSpec
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/FollowSystemUserInterface.cs - (0 of 2)
+	 Transform Juniper.Widgets.FollowSystemUserInterface.target
+	 void Juniper.Widgets.FollowSystemUserInterface.LateUpdate
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Azure/CognitiveServices/SpeechStyle.cs - (0 of 1)
 	 SpeechStyle
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.UnityEditor/ConfigurationManagement/UnityPackage.cs - (0 of 23)
@@ -5201,15 +4979,6 @@
 	 string Juniper.ConfigurationManagement.PackageReference.VersionSpec
 	 string Juniper.ConfigurationManagement.UnityPackage.ListingPath
 	 virtual void Juniper.ConfigurationManagement.AbstractPackage.Activate
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Imaging/Windows/GDIProcessor.cs - (0 of 8)
-	 Image Juniper.Imaging.GDIProcessor.Concatenate
-	 T Juniper.Imaging.IImageProcessor< T >.Concatenate
-	 int Juniper.Imaging.GDIProcessor.GetComponents
-	 int Juniper.Imaging.GDIProcessor.GetHeight
-	 int Juniper.Imaging.GDIProcessor.GetWidth
-	 int Juniper.Imaging.IImageProcessor< T >.GetComponents
-	 int Juniper.Imaging.IImageProcessor< T >.GetHeight
-	 int Juniper.Imaging.IImageProcessor< T >.GetWidth
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.GoogleMaps/Geocoding/GeocodingRequest.cs - (0 of 21)
 	 GeometryViewport Juniper.World.GIS.Google.Geocoding.GeocodingRequest.bounds
 	 GeometryViewport? Juniper.World.GIS.Google.Geocoding.GeocodingRequest.Bounds
@@ -5363,23 +5132,30 @@
 	 string Juniper.World.GIS.Google.StreetView.AbstractStreetViewRequest< MediaTypeT >.Place
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Logging/INCSALogDestination.cs - (0 of 1)
 	 void Juniper.Logging.INCSALogDestination.OnLog
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Terminal/ConsoleCommandProcessor.cs - (0 of 20)
+	 IEnumerable<ConsoleKey> Juniper.Terminal.ConsoleCommandProcessor.Keys
+	 IEnumerable<NamedAction> Juniper.Terminal.ConsoleCommandProcessor.Values
+	 IEnumerator IEnumerable. Juniper.Terminal.ConsoleCommandProcessor.GetEnumerator
+	 IEnumerator<KeyValuePair<ConsoleKey, NamedAction> > Juniper.Terminal.ConsoleCommandProcessor.GetEnumerator
+	 NamedAction Juniper.Terminal.ConsoleCommandProcessor.this[ConsoleKey key]
+	 bool Juniper.Terminal.ConsoleCommandProcessor.ContainsKey
+	 bool Juniper.Terminal.ConsoleCommandProcessor.TryGetValue
+	 int Juniper.Terminal.ConsoleCommandProcessor.Count
+	 readonly Dictionary<ConsoleKey, NamedAction> Juniper.Terminal.ConsoleCommandProcessor.actions
+	 uint Juniper.Terminal.ConsoleCommandProcessor.logLevel
+	 void Juniper.Terminal.ConsoleCommandProcessor.Add
+	 void Juniper.Terminal.ConsoleCommandProcessor.Execute
+	 void Juniper.Terminal.ConsoleCommandProcessor.Log< T >
+	 void Juniper.Terminal.ConsoleCommandProcessor.OnError
+	 void Juniper.Terminal.ConsoleCommandProcessor.OnInfo
+	 void Juniper.Terminal.ConsoleCommandProcessor.OnLog
+	 void Juniper.Terminal.ConsoleCommandProcessor.OnWarning
+	 void Juniper.Terminal.ConsoleCommandProcessor.PrintUsage
+	 void Juniper.Terminal.ConsoleCommandProcessor.Pump
+	 void Juniper.Terminal.ConsoleCommandProcessor.SetLogLevel
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Platforms/WindowsMR/WindowsMRInteractionAudio.cs - (0 of 2)
 	 override AudioSource Juniper.Audio.WindowsMRInteractionAudio.InternalSpatialize
 	 override void Juniper.Audio.WindowsMRInteractionAudio.UninstallSpatialization
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Console/IConsoleBuffer.cs - (0 of 8)
-	 ConsoleColor Juniper.Console.IConsoleBuffer.GetBackgroundColor
-	 int Juniper.Console.IConsoleBuffer.AbsoluteBottom
-	 int Juniper.Console.IConsoleBuffer.AbsoluteLeft
-	 int Juniper.Console.IConsoleBuffer.AbsoluteRight
-	 int Juniper.Console.IConsoleBuffer.AbsoluteTop
-	 int Juniper.Console.IConsoleBuffer.Height
-	 int Juniper.Console.IConsoleBuffer.Width
-	 void Juniper.Console.IConsoleBuffer.Draw
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Primrose/Rule.cs - (0 of 4)
-	 Juniper.Primrose.Rule.Rule
-	 Regex Juniper.Primrose.Rule.Test
-	 string Juniper.Primrose.Rule.Name
-	 void Juniper.Primrose.Rule.CarveOutMatchedToken
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Statistics/AbstractMotionFilter.cs - (0 of 3)
 	 abstract Vector3 Juniper.Mathematics.AbstractMotionFilter.Position
 	 abstract Vector3 Juniper.Mathematics.AbstractMotionFilter.PredictedPosition
@@ -5490,8 +5266,6 @@
 	 string Juniper.Processes.AbstractShellCommand.TotalStandardOutput
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Logging/IWarningSource.cs - (0 of 1)
 	 EventHandler<StringEventArgs> Juniper.Logging.IWarningSource.Warning
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Primrose/Grammars/BasicInterpreter.cs - (0 of 1)
-	 using Line =  System.Collections.Generic.List<Juniper.Primrose.Token>
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/IO/ForkedStream.cs - (0 of 16)
 	 Juniper.IO.ForkedStream.ForkedStream
 	 override bool Juniper.IO.ForkedStream.CanRead
@@ -5587,16 +5361,41 @@
 	 override Vector3 Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >.WorldPoint
 	 virtual ? HandIDType Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >.NativeHandID
 	 virtual Hand Juniper.Input.Pointers.Motion.AbstractHandedPointer< HandIDType, ButtonIDType, ConfigType, HapticType >.Hand
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/XR/Pose.cs - (0 of 9)
-	 Juniper.XR.Pose.Pose
-	 Juniper.XR.Pose.Pose???
-	 QuaternionSerializable Juniper.XR.Pose.Orientation
-	 Vector3Serializable Juniper.XR.Pose.Position
-	 bool Juniper.XR.Pose.Equals
-	 override bool Juniper.XR.Pose.Equals
-	 override int Juniper.XR.Pose.GetHashCode
-	 readonly Pose Juniper.XR.Pose.Identity
-	 void Juniper.XR.Pose.GetObjectData
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Collections/Graph`1.cs - (0 of 34)
+	 Graph<NodeT> Juniper.Collections.Graph< NodeT >.Clone
+	 IEnumerable<NodeT> Juniper.Collections.Graph< NodeT >.FindExits
+	 IEnumerable<NodeT> Juniper.Collections.Graph< NodeT >.Nodes
+	 IEnumerable<Route<NodeT> > Juniper.Collections.Graph< NodeT >.Connections
+	 IEnumerable<Route<NodeT> > Juniper.Collections.Graph< NodeT >.FindConnections
+	 IEnumerable<Route<NodeT> > Juniper.Collections.Graph< NodeT >.FindRoutes
+	 IEnumerable<Route<NodeT> > Juniper.Collections.Graph< NodeT >.Paths
+	 IEnumerable<Route<NodeT> > Juniper.Collections.Graph< NodeT >.Routes
+	 IReadOnlyDictionary<NodeT, string> Juniper.Collections.Graph< NodeT >.NodeNames
+	 IReadOnlyDictionary<string, NodeT> Juniper.Collections.Graph< NodeT >.NamedNodes
+	 Juniper.Collections.Graph< NodeT >.Graph
+	 NodeT Juniper.Collections.Graph< NodeT >.FindNamedNode
+	 Route<NodeT> Juniper.Collections.Graph< NodeT >.FindRoute
+	 Route<NodeT> [,] Juniper.Collections.Graph< NodeT >.network
+	 bool Juniper.Collections.Graph< NodeT >.Exists
+	 bool Juniper.Collections.Graph< NodeT >.HasContent
+	 bool Juniper.Collections.Graph< NodeT >.Solve
+	 bool Juniper.Collections.Graph< NodeT >.dirty
+	 readonly Dictionary<NodeT, int> Juniper.Collections.Graph< NodeT >.nodes
+	 readonly Dictionary<NodeT, string> Juniper.Collections.Graph< NodeT >.nodeNames
+	 readonly Dictionary<string, NodeT> Juniper.Collections.Graph< NodeT >.namedNodes
+	 readonly List<Route<NodeT> > Juniper.Collections.Graph< NodeT >.connections
+	 string Juniper.Collections.Graph< NodeT >.FindNodeName
+	 virtual void Juniper.Collections.Graph< NodeT >.GetObjectData
+	 void Juniper.Collections.Graph< NodeT >.AddConnection
+	 void Juniper.Collections.Graph< NodeT >.AddNode
+	 void Juniper.Collections.Graph< NodeT >.Remove
+	 void Juniper.Collections.Graph< NodeT >.RemoveNamedNode
+	 void Juniper.Collections.Graph< NodeT >.RemoveNodeName
+	 void Juniper.Collections.Graph< NodeT >.ResetNetwork
+	 void Juniper.Collections.Graph< NodeT >.SetConnection
+	 void Juniper.Collections.Graph< NodeT >.SetConnections
+	 void Juniper.Collections.Graph< NodeT >.SetNodeName
+	 void Juniper.Collections.Graph< NodeT >.SetRoute
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Input/RocketPack.cs - (0 of 5)
 	 Rigidbody Juniper.Input.RocketPack.body
 	 Transform Juniper.Input.RocketPack.camT
@@ -5794,6 +5593,12 @@
 	 void Juniper.Security.ICredentialReceiver.ReceiveCredentials
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Statistics/LerpMotionFilter.cs - (0 of 1)
 	 using Vector3 =  UnityEngine.Vector3
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/IO/JsonFactory`2.cs - (0 of 5)
+	 Juniper.IO.JsonFactory< ResultT, MediaTypeT >.JsonFactory
+	 MediaTypeT Juniper.IO.JsonFactory< ResultT, MediaTypeT >.ContentType
+	 ResultT Juniper.IO.JsonFactory< ResultT, MediaTypeT >.Deserialize
+	 long Juniper.IO.JsonFactory< ResultT, MediaTypeT >.Serialize
+	 void Juniper.IO.JsonFactory< ResultT, MediaTypeT >.Serialize
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Input/Pointers/Screen/Mouse.cs - (0 of 1)
 	 using UnityInput =  UnityEngine.Input
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Azure/CognitiveServices/TextToSpeechClient.cs - (0 of 14)
@@ -5902,25 +5707,67 @@
 	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.AddButton
 	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Install
 	 void Juniper.Input.Pointers.AbstractPointerConfiguration< ButtonIDType >.Uninstall
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Input/AbstractKeyEventSource.cs - (0 of 18)
-	 Dictionary<KeyT, bool> Juniper.Input.AbstractKeyEventSource< KeyT >.KeyState
-	 EventHandler<KeyChangeEvent> Juniper.Input.AbstractKeyEventSource< KeyT >.KeyChanged
-	 EventHandler<KeyEvent> Juniper.Input.AbstractKeyEventSource< KeyT >.KeyDown
-	 EventHandler<KeyEvent> Juniper.Input.AbstractKeyEventSource< KeyT >.KeyUp
-	 IReadOnlyCollection<KeyT> Juniper.Input.AbstractKeyEventSource< KeyT >.Keys
-	 Juniper.Input.AbstractKeyEventSource< KeyT >.AbstractKeyEventSource
-	 bool Juniper.Input.AbstractKeyEventSource< KeyT >.IsDown
-	 readonly Context Juniper.Input.AbstractKeyEventSource< KeyT >.origin
-	 readonly Dictionary<string, KeyChangeEvent> Juniper.Input.AbstractKeyEventSource< KeyT >.downEvents
-	 readonly Dictionary<string, KeyChangeEvent> Juniper.Input.AbstractKeyEventSource< KeyT >.upEvents
-	 readonly Dictionary<string, KeyEvent> Juniper.Input.AbstractKeyEventSource< KeyT >.events
-	 readonly Dictionary<string, KeyT[]> Juniper.Input.AbstractKeyEventSource< KeyT >.aliases
-	 readonly Dictionary<string, bool> Juniper.Input.AbstractKeyEventSource< KeyT >.aliasState
-	 string [] Juniper.Input.AbstractKeyEventSource< KeyT >.names
-	 virtual void Juniper.Input.AbstractKeyEventSource< KeyT >.Start
-	 virtual void Juniper.Input.AbstractKeyEventSource< KeyT >.Stop
-	 void Juniper.Input.AbstractKeyEventSource< KeyT >.AddKeyAlias
-	 void Juniper.Input.AbstractKeyEventSource< KeyT >.UpdateStates
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Server/Controllers/BanHammer.cs - (0 of 53)
+	 AuthenticationSchemes Juniper.HTTP.Server.Controllers.AbstractResponse.Authentication
+	 CIDRBlock Juniper.HTTP.Server.Controllers.BanHammer.GetMatchingBlock
+	 EventHandler<ErrorEventArgs> Juniper.HTTP.Server.Controllers.AbstractResponse.Err
+	 EventHandler<EventArgs<CIDRBlock> > Juniper.HTTP.Server.Controllers.BanHammer.BanAdded
+	 EventHandler<EventArgs<CIDRBlock> > Juniper.HTTP.Server.Controllers.BanHammer.BanRemoved
+	 EventHandler<StringEventArgs> Juniper.HTTP.Server.Controllers.AbstractResponse.Info
+	 EventHandler<StringEventArgs> Juniper.HTTP.Server.Controllers.AbstractResponse.Warning
+	 HttpMethods Juniper.HTTP.Server.Controllers.AbstractResponse.Methods
+	 HttpProtocols Juniper.HTTP.Server.Controllers.AbstractResponse.Protocols
+	 IExpression<(string Key, string Value)> Juniper.HTTP.Server.Controllers.AbstractResponse.Headers
+	 IExpression<HttpStatusCode> Juniper.HTTP.Server.Controllers.AbstractResponse.StatusCodes
+	 IExpression<MediaType> Juniper.HTTP.Server.Controllers.AbstractResponse.Accept
+	 Juniper.HTTP.Server.Controllers.AbstractResponse.AbstractResponse??
+	 Juniper.HTTP.Server.Controllers.AbstractResponse.AbstractResponse????
+	 Juniper.HTTP.Server.Controllers.AbstractResponse.AbstractResponse??????
+	 Juniper.HTTP.Server.Controllers.BanHammer.BanHammer
+	 List<CIDRBlock> Juniper.HTTP.Server.Controllers.BanHammer.Blocks
+	 Regex Juniper.HTTP.Server.Controllers.AbstractResponse.Pattern
+	 async Task Juniper.HTTP.Server.Controllers.AbstractResponse.ExecuteAsync
+	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.Enabled
+	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.Equals
+	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsAcceptable
+	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsHeaderMatch
+	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsMethodMatch
+	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsPatternMatch
+	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsProtocolMatch
+	 bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsStatusCodeMatch
+	 const AuthenticationSchemes Juniper.HTTP.Server.Controllers.AbstractResponse.AllAuthSchemes
+	 const HttpMethods Juniper.HTTP.Server.Controllers.AbstractResponse.AllMethods
+	 const HttpProtocols Juniper.HTTP.Server.Controllers.AbstractResponse.AllProtocols
+	 int Juniper.HTTP.Server.Controllers.AbstractResponse.CompareTo
+	 int Juniper.HTTP.Server.Controllers.AbstractResponse.ParameterCount
+	 int Juniper.HTTP.Server.Controllers.AbstractResponse.Priority
+	 override Task Juniper.HTTP.Server.Controllers.BanHammer.InvokeAsync
+	 override bool Juniper.HTTP.Server.Controllers.AbstractResponse.Equals
+	 override bool Juniper.HTTP.Server.Controllers.BanHammer.IsRequestMatch
+	 override int Juniper.HTTP.Server.Controllers.AbstractResponse.GetHashCode
+	 override string Juniper.HTTP.Server.Controllers.AbstractResponse.ToString
+	 readonly FileInfo Juniper.HTTP.Server.Controllers.BanHammer.banFile
+	 readonly IExpression<(string Key, string Value)> Juniper.HTTP.Server.Controllers.AbstractResponse.NoHeaders
+	 readonly IExpression<HttpStatusCode> Juniper.HTTP.Server.Controllers.AbstractResponse.AllStatusCodes
+	 readonly IExpression<HttpStatusCode> Juniper.HTTP.Server.Controllers.AbstractResponse.DefaultCode
+	 readonly IExpression<MediaType> Juniper.HTTP.Server.Controllers.AbstractResponse.AnyMediaTypes
+	 readonly Regex Juniper.HTTP.Server.Controllers.AbstractResponse.AllRoutes
+	 string Juniper.HTTP.Server.Controllers.AbstractResponse.Name
+	 string Juniper.HTTP.Server.Controllers.AbstractResponse.RegexSource
+	 virtual bool Juniper.HTTP.Server.Controllers.AbstractResponse.IsContextMatch
+	 virtual int Juniper.HTTP.Server.Controllers.AbstractResponse.CompareTo
+	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnError
+	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnInfo
+	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnWarning
+	 void Juniper.HTTP.Server.Controllers.BanHammer.OnBanAdded
+	 void Juniper.HTTP.Server.Controllers.BanHammer.OnBanRemoved
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Terminal/ColorScope.cs - (0 of 6)
+	 Juniper.Terminal.ColorScope.ColorScope
+	 Juniper.Terminal.ColorScope.~ColorScope
+	 readonly ConsoleColor Juniper.Terminal.ColorScope.background
+	 readonly ConsoleColor Juniper.Terminal.ColorScope.foreground
+	 virtual void Juniper.Terminal.ColorScope.Dispose
+	 void Juniper.Terminal.ColorScope.Dispose
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Server/Controllers/WebSocketRoute.cs - (0 of 48)
 	 AuthenticationSchemes Juniper.HTTP.Server.Controllers.AbstractResponse.Authentication
 	 EventHandler<ErrorEventArgs> Juniper.HTTP.Server.Controllers.AbstractResponse.Err
@@ -5970,6 +5817,16 @@
 	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnError
 	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnInfo
 	 void Juniper.HTTP.Server.Controllers.AbstractResponse.OnWarning
+  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Mathematics/PoseSerializable.cs - (0 of 9)
+	 Juniper.Mathematics.PoseSerializable.PoseSerializable
+	 Juniper.Mathematics.PoseSerializable.PoseSerializable???
+	 QuaternionSerializable Juniper.Mathematics.PoseSerializable.Orientation
+	 Vector3Serializable Juniper.Mathematics.PoseSerializable.Position
+	 bool Juniper.Mathematics.PoseSerializable.Equals
+	 override bool Juniper.Mathematics.PoseSerializable.Equals
+	 override int Juniper.Mathematics.PoseSerializable.GetHashCode
+	 readonly PoseSerializable Juniper.Mathematics.PoseSerializable.Identity
+	 void Juniper.Mathematics.PoseSerializable.GetObjectData
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.NeuroSky/NativeMethods.cs - (0 of 19)
 	 const int libStreamSDK.NativeMethods.TG_MAX_CONNECTION_HANDLES
 	 const string libStreamSDK.NativeMethods.DLL_NAME
@@ -6000,35 +5857,6 @@
 	 override string Juniper.Speech.Azure.CognitiveServices.VoiceListRequest.InternalCacheID
 	 override void Juniper.Speech.Azure.CognitiveServices.AbstractAzureSpeechRequest< MediaTypeT >.ModifyRequest
 	 string Juniper.Speech.Azure.CognitiveServices.AbstractAzureSpeechRequest< MediaTypeT >.AuthToken
-  0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Primrose/Cursor.cs - (0 of 28)
-	 Cursor Juniper.Primrose.Cursor.Clone
-	 Juniper.Primrose.Cursor.Cursor
-	 bool Juniper.Primrose.Cursor.FixCursor
-	 bool Juniper.Primrose.Cursor.ReverseFromNewline
-	 bool Juniper.Primrose.Cursor.moved
-	 int Juniper.Primrose.Cursor.CompareTo
-	 int Juniper.Primrose.Cursor.i
-	 int Juniper.Primrose.Cursor.x
-	 int Juniper.Primrose.Cursor.y
-	 override bool Juniper.Primrose.Cursor.Equals
-	 override int Juniper.Primrose.Cursor.GetHashCode
-	 override string Juniper.Primrose.Cursor.ToString
-	 readonly Regex Juniper.Primrose.Cursor.WordBoundary
-	 void Juniper.Primrose.Cursor.AdvanceN
-	 void Juniper.Primrose.Cursor.Copy
-	 void Juniper.Primrose.Cursor.Down
-	 void Juniper.Primrose.Cursor.End
-	 void Juniper.Primrose.Cursor.FullEnd
-	 void Juniper.Primrose.Cursor.FullHome
-	 void Juniper.Primrose.Cursor.Home
-	 void Juniper.Primrose.Cursor.IncY
-	 void Juniper.Primrose.Cursor.Left
-	 void Juniper.Primrose.Cursor.Right
-	 void Juniper.Primrose.Cursor.SetI
-	 void Juniper.Primrose.Cursor.SetXY
-	 void Juniper.Primrose.Cursor.SkipLeft
-	 void Juniper.Primrose.Cursor.SkipRight
-	 void Juniper.Primrose.Cursor.Up
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Widgets/Shaker.cs - (0 of 1)
 	 using UnityInput =  UnityEngine.Input
   0% - C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Logic/OrExpression.cs - (0 of 8)
@@ -7722,7 +7550,7 @@
 	 PlaceSearchField
 	 PlaceSearchInputType
 
-30% API documentation coverage
+31% API documentation coverage
 ```
 
 # Doxygen Warnings
@@ -7822,8 +7650,6 @@ C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/Extensions/Un
   parameter 'predicate'
 C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/World/GIS/GeocentricEclipticSpherical.cs:34: warning: The following parameters of Juniper.Units.GeocentricEclipticSpherical.ToEquitorial(this GeocentricEclipticSphericalPosition p, float n) are not documented:
   parameter 'p'
-C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Primrose/Grammar.cs:15: warning: found </code> tag without matching <code>
-C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Primrose/Grammar.cs:57: warning: code section ended without end marker
 C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Imaging/Png/HjgPngcsCodec.cs:43: warning: The following parameters of Juniper.Imaging.HjgPngcsCodec.Serialize(Stream stream, ImageLines value) are not documented:
   parameter 'value'
 C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Imaging/Png/HjgPngcsImageDataTranscoder.cs:11: warning: argument 'imageStream' of command @param is not found in the argument list of Juniper.Imaging.HjgPngcsImageDataTranscoder::Translate(ImageLines value, IProgress prog=null)
@@ -7857,7 +7683,7 @@ C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/NETFX/Net/Http
 C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/NETFX/Net/HttpWebRequestExt.cs:450: warning: argument 'prog' of command @param is not found in the argument list of System.Net.HttpWebRequestExt::GetAsync(this HttpWebRequest request)
 C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/NETFX/Net/HttpWebRequestExt.cs:455: warning: The following parameters of System.Net.HttpWebRequestExt.GetAsync(this HttpWebRequest request) are not documented:
   parameter 'request'
-C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/IO/ICacheSourceLayerExt.cs:89: warning: The following parameters of Juniper.IO.ICacheSourceLayerExt.Get< ResultT, MediaTypeT >(this ICacheSourceLayer source, IFactory< ResultT, MediaTypeT > deserializer) are not documented:
+C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/IO/ICacheSourceLayerExt.cs:105: warning: The following parameters of Juniper.IO.ICacheSourceLayerExt.Get< ResultT, MediaTypeT >(this ICacheSourceLayer source, IFactory< ResultT, MediaTypeT > deserializer) are not documented:
   parameter 'source'
 C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/IO/IProgressExt.cs:82: warning: argument 'prefix' of command @param is not found in the argument list of Juniper.IO.IProgressExt::Split(this IProgress parent, long numParts)
 C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/World/GIS/LatLng.cs:11: warning: argument 'p' of command @param is not found in the argument list of Juniper.Units.LatLng::Distance(this LatLngPoint A, LatLngPoint B)
@@ -7878,7 +7704,7 @@ C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Imaging/Jpeg
 C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Client/Imaging/Jpeg/LibJpegNETImageDataTranscoder.cs:44: warning: The following parameters of Juniper.Imaging.LibJpegNETImageDataTranscoder.Translate(ImageData image, IProgress prog=null) are not documented:
   parameter 'image'
   parameter 'prog'
-C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/MasterSceneController.cs:327: warning: The following parameters of Juniper.MasterSceneController.SwitchToScene(string sceneName, bool fromView) are not documented:
+C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Unity Scripts/MasterSceneController.cs:325: warning: The following parameters of Juniper.MasterSceneController.SwitchToScene(string sceneName, bool fromView) are not documented:
   parameter 'fromView'
 C:/Users/smcbeth.DLS-INC/Projects/Yarrow/Juniper/src/Juniper.Root/Collections/NAryTree.cs:82: warning: The following parameters of Juniper.Collections.NAryTree.Add(T node, Func< T, T, bool > isChildOf) are not documented:
   parameter 'isChildOf'

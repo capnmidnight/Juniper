@@ -9,8 +9,8 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 84)">
 <title>Juniper.Imaging.IImageTranscoder&lt; FromImageT, ToImageT &gt;</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-84 171,-84 171,4 -4,4"/>
-<!-- Node7 -->
-<g id="node1" class="node"><title>Node7</title>
+<!-- Node5 -->
+<g id="node1" class="node"><title>Node5</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-79.5 167,-79.5 167,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-67.5" font-family="SegoeUI" font-size="10.00">Juniper.Imaging.IImageTranscoder</text>

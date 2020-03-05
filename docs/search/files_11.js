@@ -17,7 +17,5 @@ var searchData=
   ['rotationhandle_2ecs',['RotationHandle.cs',['../da/d99/_rotation_handle_8cs.html',1,'']]],
   ['route_2ecs',['Route.cs',['../d2/d28/_route_8cs.html',1,'']]],
   ['routeattribute_2ecs',['RouteAttribute.cs',['../d9/df2/_route_attribute_8cs.html',1,'']]],
-  ['rule_2ecs',['Rule.cs',['../db/d7f/_rule_8cs.html',1,'']]],
-  ['runningmovement_2ecs',['RunningMovement.cs',['../dd/dd3/_running_movement_8cs.html',1,'']]],
-  ['runtimeexception_2ecs',['RuntimeException.cs',['../de/d62/_runtime_exception_8cs.html',1,'']]]
+  ['runningmovement_2ecs',['RunningMovement.cs',['../dd/dd3/_running_movement_8cs.html',1,'']]]
 ];

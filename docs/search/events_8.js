@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['keychanged',['KeyChanged',['../d6/d3e/class_juniper_1_1_input_1_1_abstract_key_event_source.html#a0ffdb7ee1d026b781fcaccaf3cf966a5',1,'Juniper::Input::AbstractKeyEventSource']]],
-  ['keydown',['KeyDown',['../d6/d3e/class_juniper_1_1_input_1_1_abstract_key_event_source.html#a592b9e3e017aa2bd49ebb0d083806d4d',1,'Juniper::Input::AbstractKeyEventSource']]],
-  ['keyup',['KeyUp',['../d6/d3e/class_juniper_1_1_input_1_1_abstract_key_event_source.html#a1bc609247ff3bc96863353faa0174df0',1,'Juniper::Input::AbstractKeyEventSource']]]
+  ['keychanged',['KeyChanged',['../d4/da9/interface_juniper_1_1_input_1_1_i_key_event_source.html#abb033f96d784010534938092b5e0dabc',1,'Juniper::Input::IKeyEventSource']]],
+  ['keydown',['KeyDown',['../d4/da9/interface_juniper_1_1_input_1_1_i_key_event_source.html#aad3cf35d62e4198767e24d8a01cf9146',1,'Juniper::Input::IKeyEventSource']]],
+  ['keyup',['KeyUp',['../d4/da9/interface_juniper_1_1_input_1_1_i_key_event_source.html#a7327ca3e7cde32e140c932c129aaa36c',1,'Juniper::Input::IKeyEventSource']]]
 ];

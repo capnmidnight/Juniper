@@ -7,6 +7,5 @@ var searchData=
   ['recognitionrecognizing',['RecognitionRecognizing',['../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#abb0421fe80e351f1e57f3d2a2d32659e',1,'Juniper::Speech::KeywordRecognizer']]],
   ['recognitionstarted',['RecognitionStarted',['../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a999c3d5c76ae8bd805af256bb62612e8',1,'Juniper::Speech::KeywordRecognizer']]],
   ['recognitionstopped',['RecognitionStopped',['../d9/d33/class_juniper_1_1_speech_1_1_keyword_recognizer.html#a84db79080507d834c5eb88fb5830d3cc',1,'Juniper::Speech::KeywordRecognizer']]],
-  ['rotationneeded',['RotationNeeded',['../d3/df0/class_juniper_1_1_imaging_1_1_photosphere_manager.html#a83f7d21fdda327aefbbcafc7c6233df0',1,'Juniper::Imaging::PhotosphereManager']]],
-  ['runtimeerror',['RuntimeError',['../d3/d4e/class_juniper_1_1_primrose_1_1_basic_interpreter.html#a60df92c74891d9b39bf3654e414fc9d5',1,'Juniper.Primrose.BasicInterpreter.RuntimeError()'],['../db/d34/interface_juniper_1_1_primrose_1_1_i_interpreter.html#af9cce3262c47bddef330155b859e551a',1,'Juniper.Primrose.IInterpreter.RuntimeError()']]]
+  ['rotationneeded',['RotationNeeded',['../d3/df0/class_juniper_1_1_imaging_1_1_photosphere_manager.html#a83f7d21fdda327aefbbcafc7c6233df0',1,'Juniper::Imaging::PhotosphereManager']]]
 ];

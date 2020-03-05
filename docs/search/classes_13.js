@@ -29,7 +29,6 @@ var searchData=
   ['timezonerequest',['TimeZoneRequest',['../d4/d13/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_time_zone_1_1_time_zone_request.html',1,'Juniper::World::GIS::Google::TimeZone']]],
   ['timezoneresponse',['TimeZoneResponse',['../d9/d8f/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_time_zone_1_1_time_zone_response.html',1,'Juniper::World::GIS::Google::TimeZone']]],
   ['tobiigazepointer',['TobiiGazePointer',['../de/d9c/class_juniper_1_1_input_1_1_pointers_1_1_gaze_1_1_tobii_gaze_pointer.html',1,'Juniper::Input::Pointers::Gaze']]],
-  ['token',['Token',['../d5/d98/class_juniper_1_1_primrose_1_1_token.html',1,'Juniper::Primrose']]],
   ['tons',['Tons',['../d4/df0/class_juniper_1_1_units_1_1_tons.html',1,'Juniper::Units']]],
   ['tooltipable',['Tooltipable',['../dc/d93/class_juniper_1_1_widgets_1_1_tooltipable.html',1,'Juniper::Widgets']]],
   ['touchgazepointer',['TouchGazePointer',['../df/d0b/class_juniper_1_1_input_1_1_pointers_1_1_gaze_1_1_touch_gaze_pointer.html',1,'Juniper::Input::Pointers::Gaze']]],

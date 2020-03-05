@@ -9,8 +9,8 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 73)">
 <title>Juniper.IO.ISerializer&lt; in in T &gt;</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-73 111,-73 111,4 -4,4"/>
-<!-- Node30 -->
-<g id="node1" class="node"><title>Node30</title>
+<!-- Node28 -->
+<g id="node1" class="node"><title>Node28</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-68.5 107,-68.5 107,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-56.5" font-family="SegoeUI" font-size="10.00">Juniper.IO.ISerializer</text>

@@ -61,7 +61,7 @@ var sectionId = 'dynsection-1';
 <polygon fill="#bfbfbf" stroke="black" points="895.97,-545.5 895.97,-899.5 1043.97,-899.5 1043.97,-545.5 895.97,-545.5"/>
 <text text-anchor="middle" x="969.97" y="-887.5" font-family="SegoeUI" font-size="10.00">Juniper.MasterSceneController</text>
 <polyline fill="none" stroke="black" points="895.97,-880.5 1043.97,-880.5 "/>
-<text text-anchor="start" x="903.97" y="-868.5" font-family="SegoeUI" font-size="10.00">+ presentationPoint</text>
+<text text-anchor="start" x="903.97" y="-868.5" font-family="SegoeUI" font-size="10.00">+ systemUserInterface</text>
 <text text-anchor="start" x="903.97" y="-857.5" font-family="SegoeUI" font-size="10.00">+ sceneFaderMaterial</text>
 <text text-anchor="start" x="903.97" y="-846.5" font-family="SegoeUI" font-size="10.00">+ subSceneNames</text>
 <text text-anchor="start" x="903.97" y="-835.5" font-family="SegoeUI" font-size="10.00">+ AllScenes</text>

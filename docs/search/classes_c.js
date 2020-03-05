@@ -5,6 +5,7 @@ var searchData=
   ['markerstyle',['MarkerStyle',['../d8/d74/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_map_tiles_1_1_marker_style.html',1,'Juniper::World::GIS::Google::MapTiles']]],
   ['masterscenecontroller',['MasterSceneController',['../d0/dde/class_juniper_1_1_master_scene_controller.html',1,'Juniper']]],
   ['materialcollection',['MaterialCollection',['../d0/dbf/class_juniper_1_1_widgets_1_1_material_collection.html',1,'Juniper::Widgets']]],
+  ['mathext',['MathExt',['../db/d98/class_accord_1_1_math_1_1_math_ext.html',1,'Accord.Math.MathExt'],['../df/d21/class_system_1_1_numerics_1_1_math_ext.html',1,'System.Numerics.MathExt'],['../d0/d92/class_unity_engine_1_1_math_ext.html',1,'UnityEngine.MathExt'],['../de/d82/class_juniper_1_1_mathematics_1_1_math_ext.html',1,'Juniper.Mathematics.MathExt']]],
   ['matrix3x2serializable',['Matrix3x2Serializable',['../df/d32/struct_juniper_1_1_mathematics_1_1_matrix3x2_serializable.html',1,'Juniper::Mathematics']]],
   ['matrix4x4serializable',['Matrix4x4Serializable',['../d2/dac/struct_juniper_1_1_mathematics_1_1_matrix4x4_serializable.html',1,'Juniper::Mathematics']]],
   ['mediatype',['MediaType',['../d4/d56/class_juniper_1_1_media_type.html',1,'Juniper']]],

@@ -1,8 +1,0 @@
-<map id="Juniper.Console.ConsoleCommandProcessor" name="Juniper.Console.ConsoleCommandProcessor">
-<area shape="rect" id="node1" title=" " alt="" coords="319,145,538,516"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,201,97"/>
-<area shape="rect" id="node3" href="$d0/dcc/interface_juniper_1_1_logging_1_1_i_info_destination.html" title=" " alt="" coords="225,13,336,90"/>
-<area shape="rect" id="node4" href="$d3/dff/interface_juniper_1_1_logging_1_1_i_warning_destination.html" title=" " alt="" coords="360,13,497,90"/>
-<area shape="rect" id="node5" href="$d3/dea/interface_juniper_1_1_logging_1_1_i_n_c_s_a_log_destination.html" title=" " alt="" coords="522,13,663,90"/>
-<area shape="rect" id="node6" href="$d1/d7a/interface_juniper_1_1_logging_1_1_i_error_destination.html" title=" " alt="" coords="688,13,807,90"/>
-</map>
