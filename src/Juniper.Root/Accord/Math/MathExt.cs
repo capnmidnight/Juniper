@@ -1,3 +1,5 @@
+using System;
+
 namespace Accord.Math
 {
     public static class MathExt
@@ -53,6 +55,16 @@ namespace Accord.Math
         public static System.Numerics.Plane ToSystemPlane(this Plane p)
         {
             return new System.Numerics.Plane(p.Normal.ToSystemVector3(), p.Offset);
+        }
+
+        public static Juniper.Mathematics.PlaneSerializable ToJuniperPlaneSerializable(this Plane p)
+        {
+            if (p is null)
+            {
+                throw new ArgumentNullException(nameof(p));
+            }
+
+            return new Juniper.Mathematics.PlaneSerializable(p.A, p.B, p.C, p.Offset);
         }
     }
 }

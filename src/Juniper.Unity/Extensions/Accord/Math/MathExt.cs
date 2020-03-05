@@ -1,3 +1,5 @@
+using System;
+
 namespace Accord.Math
 {
     public static class MathExt
@@ -30,6 +32,11 @@ namespace Accord.Math
 
         public static UnityEngine.Plane ToUnityPlane(this Plane p)
         {
+            if (p is null)
+            {
+                throw new ArgumentNullException(nameof(p));
+            }
+
             return new UnityEngine.Plane(p.Normal.ToUnityVector3(), p.Offset);
         }
     }

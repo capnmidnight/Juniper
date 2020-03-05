@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace UnityEngine
 {
     public static class MathExt
@@ -98,6 +100,11 @@ namespace UnityEngine
                 V20 = m.m20, V21 = m.m21, V22 = m.m22, V23 = m.m23,
                 V30 = m.m30, V31 = m.m31, V32 = m.m32, V33 = m.m33
             };
+        }
+
+        public static Juniper.Mathematics.PlaneSerializable ToJuniperPlaneSerializable(this Plane p)
+        {
+            return new Juniper.Mathematics.PlaneSerializable(p.normal.x, p.normal.y, p.normal.z, p.distance);
         }
 
         public static System.Numerics.Plane ToSystemPlane(this Plane p)
