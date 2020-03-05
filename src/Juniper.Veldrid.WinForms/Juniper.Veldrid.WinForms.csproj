@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Juniper.Veldrid\Juniper.Veldrid.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="VeldridPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>

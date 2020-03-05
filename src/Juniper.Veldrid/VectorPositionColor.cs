@@ -3,7 +3,7 @@ using System.Numerics;
 
 using Veldrid;
 
-namespace Juniper
+namespace Juniper.VeldridIntegration
 {
     public struct VertexPositionColor : IEquatable<VertexPositionColor>
     {
@@ -12,11 +12,11 @@ namespace Juniper
         public static readonly VertexLayoutDescription Layout =
             new VertexLayoutDescription(
                 new VertexElementDescription(
-                    "Position",
+                    nameof(Position),
                     VertexElementSemantic.TextureCoordinate,
                     VertexElementFormat.Float3),
                 new VertexElementDescription(
-                    "Color",
+                    nameof(Color),
                     VertexElementSemantic.TextureCoordinate,
                     VertexElementFormat.Float4));
 
@@ -43,7 +43,10 @@ namespace Juniper
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Position, Color);
+            var hashCode = -866678350;
+            hashCode = hashCode * -1521134295 + Position.GetHashCode();
+            hashCode = hashCode * -1521134295 + Color.GetHashCode();
+            return hashCode;
         }
 
         public static bool operator ==(VertexPositionColor left, VertexPositionColor right)

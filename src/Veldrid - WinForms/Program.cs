@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
+using Juniper.VeldridIntegration;
+
 using Veldrid;
 using Veldrid.SPIRV;
 
