@@ -5,7 +5,6 @@ root = true
 charset                            = utf-8
 end_of_line                        = crlf
 indent_style                       = space
-indent_size                        = 4
 trim_trailing_whitespace           = true
 
 ### listing of Code Analysis codes: https://docs.microsoft.com/en-us/visualstudio/code-quality/code-analysis-warnings-for-managed-code-by-checkid?view=vs-2015
@@ -60,6 +59,9 @@ dotnet_diagnostic.CA1040.severity  = none
 # CA1303: Do not pass literals as localized parameters
 dotnet_diagnostic.CA1303.severity  = silent
 
+# CA1307: Specify StringComparison
+dotnet_diagnostic.CA1307.severity = error
+
 # CA1308: Normalize strings to uppercase
 dotnet_diagnostic.CA1308.severity  = none
 
@@ -90,9 +92,6 @@ dotnet_diagnostic.CA2225.severity  = silent
 # RCS1079: Throwing of new NotImplementedException.
 dotnet_diagnostic.RCS1079.severity = silent
 
-[*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj,props,targets,js,json}]
-indent_size = 2
-
 [*.cs]
 csharp_indent_case_contents               = false
 csharp_prefer_braces                      = true : suggestion
@@ -100,5 +99,31 @@ csharp_prefer_braces                      = true : suggestion
 # IDE0025: Use block body for properties
 csharp_style_expression_bodied_properties = when_on_single_line : warning
 
-# CA1307: Specify StringComparison
-dotnet_diagnostic.CA1307.severity = error
+# Use tabs for solution files.
+[*.sln]
+indent_style = tab
+indent_size = 4
+
+# Code files
+[*.{cs,csx,vb,vbx,c,cpp,h,hpp,glsl,hlsl}]
+indent_size = 4
+
+# Script files
+[*.{js,fs,py,ss}]
+indent_size = 2
+
+# Shell files
+[*.{cmd,bat,ps1,sh}]
+indent_size = 4
+
+# Xml project files
+[*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
+indent_size = 2
+
+# Xml config files
+[*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
+indent_size = 2
+
+# JSON/YAML files
+[*.{json,yml,yaml}]
+indent_size = 2
