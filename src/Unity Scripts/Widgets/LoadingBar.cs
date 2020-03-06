@@ -85,7 +85,10 @@ namespace Juniper.Widgets
             s.x = Progress;
             indicator.transform.localScale = s;
             indicator.transform.localPosition = new Vector3(0.5f * (Progress - 1), 0, 0);
-            text.Text = Status;
+            if (text != null)
+            {
+                text.Text = Status;
+            }
         }
 
         public string Status
