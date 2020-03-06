@@ -19,15 +19,30 @@ namespace Juniper
         private static DeviceBuffer indexBuffer;
         private static Pipeline pipeline;
 
-        private static readonly VertexPositionColor[] quadVertices =
-        {
-            new VertexPositionColor(new Vector3(-0.5f, 0.5f, 0), RgbaFloat.Red),
-            new VertexPositionColor(new Vector3(0.5f, 0.5f, 0), RgbaFloat.Green),
-            new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0), RgbaFloat.Blue),
-            new VertexPositionColor(new Vector3(0.5f, -0.5f, 0), RgbaFloat.Yellow)
+        private static readonly Quad<VertexPositionColor>[] quads = new Quad<VertexPositionColor>[]{
+
+            new Quad<VertexPositionColor>(
+                new VertexPositionColor(new Vector3(-1.5f, 0.5f, 0), RgbaFloat.Cyan),
+                new VertexPositionColor(new Vector3(-0.5f, 0.5f, 0), RgbaFloat.Red),
+                new VertexPositionColor(new Vector3(-1.5f, -0.5f, 0), RgbaFloat.Black),
+                new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0), RgbaFloat.Blue)),
+
+            new Quad<VertexPositionColor>(
+                new VertexPositionColor(new Vector3(-0.5f, 0.5f, 0), RgbaFloat.Red),
+                new VertexPositionColor(new Vector3(0.5f, 0.5f, 0), RgbaFloat.Green),
+                new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0), RgbaFloat.Blue),
+                new VertexPositionColor(new Vector3(0.5f, -0.5f, 0), RgbaFloat.Yellow)),
+
+            new Quad<VertexPositionColor>(
+                new VertexPositionColor(new Vector3(0.5f, 0.5f, 0), RgbaFloat.Green),
+                new VertexPositionColor(new Vector3(1.5f, 0.5f, 0), RgbaFloat.CornflowerBlue),
+                new VertexPositionColor(new Vector3(0.5f, -0.5f, 0), RgbaFloat.Yellow),
+                new VertexPositionColor(new Vector3(1.5f, -0.5f, 0), RgbaFloat.DarkRed))
         };
 
-        private static readonly ushort[] quadIndices = { 0, 1, 2, 3 };
+        private static readonly (VertexPositionColor[] verts, ushort[] indices) unpackedQuads = quads.ToVertsShort();
+        private static readonly VertexPositionColor[] quadVertices = unpackedQuads.verts;
+        private static readonly ushort[] quadIndices = unpackedQuads.indices;
 
         private static ShaderDescription ReadShader(ShaderStages stage, string name)
         {
