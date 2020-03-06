@@ -135,7 +135,7 @@ namespace Juniper
             commandList.SetIndexBuffer(indexBuffer, IndexFormat.UInt16);
             commandList.DrawIndexed(
                 indexCount: (uint)quadIndices.Length,
-                instanceCount: quadIndices.Length / 4,
+                instanceCount: (uint)quadIndices.Length / 4,
                 indexStart: 0,
                 vertexOffset: 0,
                 instanceStart: 0);
