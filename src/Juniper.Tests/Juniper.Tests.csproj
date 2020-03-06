@@ -20,6 +20,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="Veldrid" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +36,7 @@
     <ProjectReference Include="..\Juniper.Server\Juniper.Server.csproj" />
     <ProjectReference Include="..\Juniper.UnityEditor\Juniper.UnityEditor.csproj" />
     <ProjectReference Include="..\Juniper.Unity\Juniper.Unity.csproj" />
+    <ProjectReference Include="..\Juniper.Veldrid\Juniper.Veldrid.csproj" />
   </ItemGroup>
 
   <ItemGroup>
