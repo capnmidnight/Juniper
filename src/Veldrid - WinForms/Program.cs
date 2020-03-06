@@ -44,22 +44,6 @@ namespace Juniper
         private static readonly VertexPositionColor[] quadVertices = unpackedQuads.verts;
         private static readonly ushort[] quadIndices = unpackedQuads.indices;
 
-        private static ShaderDescription ReadShader(ShaderStages stage, string name)
-        {
-            var code = File.ReadAllText(Path.Combine("Shaders", $"{name}.glsl"));
-            return new ShaderDescription(
-                stage,
-                Encoding.UTF8.GetBytes(code),
-                "main");
-        }
-
-        private static Shader[] LoadShaders(ResourceFactory factory, string vertName, string fragName)
-        {
-            var vertexShaderDesc = ReadShader(ShaderStages.Vertex, vertName);
-            var fragmentShaderDesc = ReadShader(ShaderStages.Fragment, fragName);
-
-            return factory.CreateFromSpirv(vertexShaderDesc, fragmentShaderDesc);
-        }
 
         private static void Main()
         {
@@ -90,11 +74,9 @@ namespace Juniper
                 BufferUsage.IndexBuffer));
             g.UpdateBuffer(indexBuffer, 0, quadIndices);
 
-            var shaderSet = new ShaderSetDescription
-            {
-                VertexLayouts = new VertexLayoutDescription[] { VertexPositionColor.Layout },
-                Shaders = LoadShaders(factory, "vert", "frag")
-            };
+            var material = Material
+                .LoadCachedAsync<VertexPositionColor>(factory, "Shaders\\vert.glsl", "Shaders\\frag.glsl")
+                .Result;
 
             pipeline = factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
             {
@@ -115,7 +97,7 @@ namespace Juniper
                 },
                 PrimitiveTopology = PrimitiveTopology.TriangleStrip,
                 ResourceLayouts = Array.Empty<ResourceLayout>(),
-                ShaderSet = shaderSet,
+                ShaderSet = material,
                 Outputs = mainForm.Panel.VeldridSwapChain.Framebuffer.OutputDescription
             });
         }
