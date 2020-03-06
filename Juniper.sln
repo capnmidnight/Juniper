@@ -9,7 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Juniper.props = Juniper.props
 		Juniper.targets = Juniper.targets
 		README.md = README.md
-		Unity.props = Unity.props
+		Unity.targets = Unity.targets
+		UnityEditor.targets = UnityEditor.targets
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sandboxes", "Sandboxes", "{9A01F9FD-B141-4584-92DE-9BFCEEA3A7E9}"

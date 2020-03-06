@@ -2,7 +2,6 @@
 
   <ImportGroup>
     <Import Project="..\..\Juniper.props" />
-    <Import Project="..\..\Unity.props" />
   </ImportGroup>
 
   <PropertyGroup>
@@ -16,6 +15,7 @@
 
   <ImportGroup>
     <Import Project="..\..\Juniper.targets" />
+    <Import Project="..\..\Unity.targets" />
   </ImportGroup>
 
   <ItemGroup>
