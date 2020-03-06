@@ -1,49 +1,40 @@
 using System;
-using System.IO;
 using System.Numerics;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
 using Juniper.VeldridIntegration;
 
 using Veldrid;
-using Veldrid.SPIRV;
 
 namespace Juniper
 {
     public static class Program
     {
         private static MainForm mainForm;
-        private static DeviceBuffer vertexBuffer;
-        private static DeviceBuffer indexBuffer;
         private static Pipeline pipeline;
 
-        private static readonly Quad<VertexPositionColor>[] quads = new Quad<VertexPositionColor>[]{
+        private static readonly Mesh<VertexPositionColor> quads = new Mesh<VertexPositionColor>(
+            new Quad<VertexPositionColor>[]{
 
-            new Quad<VertexPositionColor>(
-                new VertexPositionColor(new Vector3(-1.5f, 0.5f, 0), RgbaFloat.Cyan),
-                new VertexPositionColor(new Vector3(-0.5f, 0.5f, 0), RgbaFloat.Red),
-                new VertexPositionColor(new Vector3(-1.5f, -0.5f, 0), RgbaFloat.Black),
-                new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0), RgbaFloat.Blue)),
+                new Quad<VertexPositionColor>(
+                    new VertexPositionColor(new Vector3(-1.5f, 0.5f, 0), RgbaFloat.Cyan),
+                    new VertexPositionColor(new Vector3(-0.5f, 0.5f, 0), RgbaFloat.Red),
+                    new VertexPositionColor(new Vector3(-1.5f, -0.5f, 0), RgbaFloat.Black),
+                    new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0), RgbaFloat.Blue)),
 
-            new Quad<VertexPositionColor>(
-                new VertexPositionColor(new Vector3(-0.5f, 0.5f, 0), RgbaFloat.Red),
-                new VertexPositionColor(new Vector3(0.5f, 0.5f, 0), RgbaFloat.Green),
-                new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0), RgbaFloat.Blue),
-                new VertexPositionColor(new Vector3(0.5f, -0.5f, 0), RgbaFloat.Yellow)),
+                new Quad<VertexPositionColor>(
+                    new VertexPositionColor(new Vector3(-0.5f, 0.5f, 0), RgbaFloat.Red),
+                    new VertexPositionColor(new Vector3(0.5f, 0.5f, 0), RgbaFloat.Green),
+                    new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0), RgbaFloat.Blue),
+                    new VertexPositionColor(new Vector3(0.5f, -0.5f, 0), RgbaFloat.Yellow)),
 
-            new Quad<VertexPositionColor>(
-                new VertexPositionColor(new Vector3(0.5f, 0.5f, 0), RgbaFloat.Green),
-                new VertexPositionColor(new Vector3(1.5f, 0.5f, 0), RgbaFloat.CornflowerBlue),
-                new VertexPositionColor(new Vector3(0.5f, -0.5f, 0), RgbaFloat.Yellow),
-                new VertexPositionColor(new Vector3(1.5f, -0.5f, 0), RgbaFloat.DarkRed))
-        };
-
-        private static readonly (VertexPositionColor[] verts, ushort[] indices) unpackedQuads = quads.ToVertsShort();
-        private static readonly VertexPositionColor[] quadVertices = unpackedQuads.verts;
-        private static readonly ushort[] quadIndices = unpackedQuads.indices;
-
+                new Quad<VertexPositionColor>(
+                    new VertexPositionColor(new Vector3(0.5f, 0.5f, 0), RgbaFloat.Green),
+                    new VertexPositionColor(new Vector3(1.5f, 0.5f, 0), RgbaFloat.CornflowerBlue),
+                    new VertexPositionColor(new Vector3(0.5f, -0.5f, 0), RgbaFloat.Yellow),
+                    new VertexPositionColor(new Vector3(1.5f, -0.5f, 0), RgbaFloat.DarkRed))
+            });
 
         private static void Main()
         {
@@ -64,19 +55,11 @@ namespace Juniper
             var g = mainForm.Device.VeldridDevice;
             var factory = g.ResourceFactory;
 
-            vertexBuffer = factory.CreateBuffer(new BufferDescription(
-                (uint)(quadVertices.Length * VertexPositionColor.SizeInBytes),
-                BufferUsage.VertexBuffer));
-            g.UpdateBuffer(vertexBuffer, 0, quadVertices);
-
-            indexBuffer = factory.CreateBuffer(new BufferDescription(
-                (uint)(quadIndices.Length * sizeof(ushort)),
-                BufferUsage.IndexBuffer));
-            g.UpdateBuffer(indexBuffer, 0, quadIndices);
-
             var material = Material
                 .LoadCachedAsync<VertexPositionColor>(factory, "Shaders\\vert.glsl", "Shaders\\frag.glsl")
                 .Result;
+
+            quads.CreateBuffers(g);
 
             pipeline = factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
             {
@@ -128,15 +111,7 @@ namespace Juniper
 
             commandList.ClearColorTarget(0, RgbaFloat.Black);
             commandList.SetPipeline(pipeline);
-            commandList.SetVertexBuffer(0, vertexBuffer);
-            commandList.SetIndexBuffer(indexBuffer, IndexFormat.UInt16);
-            commandList.DrawIndexed(
-                indexCount: (uint)quadIndices.Length,
-                instanceCount: (uint)quadIndices.Length / 4,
-                indexStart: 0,
-                vertexOffset: 0,
-                instanceStart: 0);
-
+            commandList.DrawMesh(quads);
             commandList.End();
         }
 

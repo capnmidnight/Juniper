@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 
+using IndexT = System.UInt16;
+
 namespace Juniper.VeldridIntegration
 {
     public static class QuadExt
     {
-        public static Quad<VertexT>[] ToQuads<VertexT>(this VertexT[] verts, uint[] indices)
+        public static Quad<VertexT>[] ToQuads<VertexT>(this VertexT[] verts, IndexT[] indices)
             where VertexT : struct
         {
             if (verts is null)
