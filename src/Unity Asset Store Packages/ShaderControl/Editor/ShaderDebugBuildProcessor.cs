@@ -101,7 +101,7 @@ namespace ShaderControl {
 #if UNITY_2019_3_OR_NEWER
                     string kname = ShaderKeyword.GetKeywordName(shader, kw);
 #else
-                    string kname = kw.GetName();
+                    string kname = kw.GetKeywordName();
 #endif
                     if (string.IsNullOrEmpty(kname)) {
                         continue;
