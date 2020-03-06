@@ -2,6 +2,7 @@
 
   <ImportGroup>
     <Import Project="..\..\Juniper.props" />
+    <Import Project="..\..\Unity.props" />
   </ImportGroup>
 
   <PropertyGroup>
@@ -28,7 +29,6 @@
     <ProjectReference Include="..\..\lib\Juniper.HjgPngcs\Juniper.HjgPngcs.csproj" />
     <ProjectReference Include="..\..\lib\Juniper.LibJpeg.NET\Juniper.LibJpeg.NET.csproj" />
     <ProjectReference Include="..\..\lib\Juniper.NLayer.NAudioSupport\Juniper.NLayer.NAudioSupport.csproj" />
-    <Reference Include="$(UNITY_ROOT)\Editor\Data\Managed\UnityEngine.dll" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)|$(TargetFramework)'=='Release|net472'">

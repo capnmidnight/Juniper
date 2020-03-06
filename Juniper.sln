@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Juniper.props = Juniper.props
 		Juniper.targets = Juniper.targets
 		README.md = README.md
+		Unity.props = Unity.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sandboxes", "Sandboxes", "{9A01F9FD-B141-4584-92DE-9BFCEEA3A7E9}"
@@ -83,7 +84,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Veldrid.WinForms", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid - WinForms", "src\Veldrid - WinForms\Veldrid - WinForms.csproj", "{C4C8A159-1D33-4703-9683-FAAAF4FFB97A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Veldrid", "src\Juniper.Veldrid\Juniper.Veldrid.csproj", "{5DCE283D-9326-4D20-BE88-219E55A7C85E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Veldrid", "src\Juniper.Veldrid\Juniper.Veldrid.csproj", "{5DCE283D-9326-4D20-BE88-219E55A7C85E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

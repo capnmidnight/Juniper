@@ -1,0 +1,357 @@
+<Project>
+  <Choose>
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.3.3f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_3;UNITY_2019_3_3;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.3.3f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.3.2f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_3;UNITY_2019_3_2;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.3.2f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.3.1f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_3;UNITY_2019_3_1;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.3.1f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.3.0f6')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_3;UNITY_2019_3_0;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.3.0f6\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.3.0f5')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_3;UNITY_2019_3_0;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.3.0f5\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.3.0f4')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_3;UNITY_2019_3_0;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.3.0f4\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.3.0f3')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_3;UNITY_2019_3_0;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.3.0f3\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.3.0f2')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_3;UNITY_2019_3_0;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.3.0f2\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.3.0f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_3;UNITY_2019_3_0;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.3.0f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.21f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_21;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.21f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.20f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_20;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.20f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.19f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_19;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.19f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.18f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_18;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.18f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.17f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_17;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.17f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.16f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_16;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.16f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.15f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_15;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.15f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.14f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_14;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.14f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.13f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_13;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.13f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.12f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_12;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.12f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.11f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_11;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.11f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.10f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_10;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.10f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.9f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_9;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.9f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.8f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_8;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.8f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.7f2')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_7;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.7f2\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.7f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_7;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.7f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.6f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_6;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.6f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.5f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_5;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.5f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.4f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_4;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.4f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.3f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_3;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.3f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.2f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_2;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.2f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.1f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_1;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.1f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+    <When Condition="Exists('$(UNITY_HUB_ROOT)\2019.2.0f1')">
+      <PropertyGroup>
+        <DefineConstants>UNITY_2019;UNITY_2019_2;UNITY_2019_2_0;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER</DefineConstants>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="$(UNITY_HUB_ROOT)\2019.2.0f1\Editor\Data\Managed\UnityEngine.dll">
+          <Private>false</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+
+  </Choose>
+
+</Project>
