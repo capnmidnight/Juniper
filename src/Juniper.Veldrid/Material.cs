@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -125,7 +124,6 @@ namespace Juniper.VeldridIntegration
             return LoadAsync<VertexT>(new FileInfo(vertShaderFileName), new FileInfo(fragShaderFileName));
         }
 
-
         internal static void SetPipeline(CommandList commandList, Material mat)
         {
             if (commandList is null)
@@ -137,10 +135,12 @@ namespace Juniper.VeldridIntegration
         }
 
         private readonly Type vertexType;
-        private readonly VertexLayoutDescription layout;
         private readonly ShaderDescription vertShaderDesc;
         private readonly ShaderDescription fragShaderDesc;
+
         private Pipeline pipeline;
+
+        private GraphicsPipelineDescription pipelineDescription;
 
         private Material(Type vertType, byte[] vertShaderBytes, byte[] fragShaderBytes)
         {
@@ -171,33 +171,16 @@ namespace Juniper.VeldridIntegration
                 throw new ArgumentException($"Type argument {vertType.Name}'s Layout field is not of type VertexLayoutDescription.");
             }
 
-            layout = (VertexLayoutDescription)layoutField.GetValue(null);
+#if DEBUG
+            const bool debug = true;
+#else
+            const bool debug = false;
+#endif
 
-            vertShaderDesc = new ShaderDescription(ShaderStages.Vertex, vertShaderBytes, "main");
-            fragShaderDesc = new ShaderDescription(ShaderStages.Fragment, fragShaderBytes, "main");
-        }
+            vertShaderDesc = new ShaderDescription(ShaderStages.Vertex, vertShaderBytes, "main", debug);
+            fragShaderDesc = new ShaderDescription(ShaderStages.Fragment, fragShaderBytes, "main", debug);
 
-        public virtual void CreatePipeline(ResourceFactory factory, Framebuffer framebuffer)
-        {
-            if (factory is null)
-            {
-                throw new ArgumentNullException(nameof(factory));
-            }
-
-            if (framebuffer is null)
-            {
-                throw new ArgumentNullException(nameof(framebuffer));
-            }
-
-            var shaders = factory.CreateFromSpirv(vertShaderDesc, fragShaderDesc);
-
-            var shaderSet = new ShaderSetDescription
-            {
-                VertexLayouts = new VertexLayoutDescription[] { layout },
-                Shaders = shaders
-            };
-
-            pipeline = factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
+            pipelineDescription = new GraphicsPipelineDescription
             {
                 BlendState = BlendStateDescription.SingleOverrideBlend,
                 DepthStencilState = new DepthStencilStateDescription
@@ -215,10 +198,28 @@ namespace Juniper.VeldridIntegration
                     ScissorTestEnabled = false
                 },
                 PrimitiveTopology = PrimitiveTopology.TriangleStrip,
+                ResourceBindingModel = ResourceBindingModel.Improved,
                 ResourceLayouts = Array.Empty<ResourceLayout>(),
-                ShaderSet = shaderSet,
-                Outputs = framebuffer.OutputDescription
-            });
+            };
+
+            pipelineDescription.ShaderSet.VertexLayouts = new VertexLayoutDescription[] { (VertexLayoutDescription)layoutField.GetValue(null) };
+        }
+
+        public void CreatePipeline(ResourceFactory factory, Framebuffer framebuffer)
+        {
+            if (factory is null)
+            {
+                throw new ArgumentNullException(nameof(factory));
+            }
+
+            if (framebuffer is null)
+            {
+                throw new ArgumentNullException(nameof(framebuffer));
+            }
+
+            pipelineDescription.ShaderSet.Shaders = factory.CreateFromSpirv(vertShaderDesc, fragShaderDesc);
+            pipelineDescription.Outputs = framebuffer.OutputDescription;
+            pipeline = factory.CreateGraphicsPipeline(pipelineDescription);
         }
 
         public void Dispose()
