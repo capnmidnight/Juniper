@@ -40,7 +40,7 @@ namespace Juniper
         private static async Task Main()
         {
             material = await Material
-                .LoadCachedAsync<VertexPositionColor>("Shaders\\vert.glsl", "Shaders\\frag.glsl")
+                .LoadAsync<VertexPositionColor>("Shaders\\vert.glsl", "Shaders\\frag.glsl")
                 .ConfigureAwait(false);
 
             Application.EnableVisualStyles();

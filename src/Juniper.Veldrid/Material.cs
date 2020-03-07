@@ -125,51 +125,6 @@ namespace Juniper.VeldridIntegration
             return LoadAsync<VertexT>(new FileInfo(vertShaderFileName), new FileInfo(fragShaderFileName));
         }
 
-        private readonly static Dictionary<string, Material> materialCache = new Dictionary<string, Material>();
-
-        public static void ClearCache()
-        {
-            materialCache.Clear();
-        }
-
-        public static async Task<Material> LoadCachedAsync<VertexT>(FileInfo vertShaderFile, FileInfo fragShaderFile)
-           where VertexT : struct
-        {
-            if (vertShaderFile is null)
-            {
-                throw new ArgumentNullException(nameof(vertShaderFile));
-            }
-
-            if (fragShaderFile is null)
-            {
-                throw new ArgumentNullException(nameof(fragShaderFile));
-            }
-
-            var key = $"{vertShaderFile.FullName},{fragShaderFile.FullName}";
-            if (!materialCache.ContainsKey(key))
-            {
-                materialCache[key] = await LoadAsync<VertexT>(vertShaderFile, fragShaderFile)
-                    .ConfigureAwait(false);
-            }
-
-            return materialCache[key];
-        }
-
-        public static Task<Material> LoadCachedAsync<VertexT>(string vertShaderFileName, string fragShaderFileName)
-           where VertexT : struct
-        {
-            if (string.IsNullOrEmpty(vertShaderFileName))
-            {
-                throw new ArgumentException("Must provide a filename", nameof(vertShaderFileName));
-            }
-
-            if (string.IsNullOrEmpty(fragShaderFileName))
-            {
-                throw new ArgumentException("Must provide a filename", nameof(fragShaderFileName));
-            }
-
-            return LoadCachedAsync<VertexT>(new FileInfo(vertShaderFileName), new FileInfo(fragShaderFileName));
-        }
 
         internal static void SetPipeline(CommandList commandList, Material mat)
         {
