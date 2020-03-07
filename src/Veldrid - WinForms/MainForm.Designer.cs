@@ -51,7 +51,7 @@ namespace Juniper
             // 
             // veldridGraphicsDevice1
             // 
-            this.veldridGraphicsDevice1.VeldridBackend = Veldrid.GraphicsBackend.Direct3D11;
+            this.veldridGraphicsDevice1.VeldridBackend = Veldrid.GraphicsBackend.Vulkan;
             this.veldridGraphicsDevice1.VeldridHasMainSwapchain = false;
             this.veldridGraphicsDevice1.VeldridPreferDepthRangeZeroToOne = true;
             this.veldridGraphicsDevice1.VeldridPreferStandardClipSpaceYDirection = true;
