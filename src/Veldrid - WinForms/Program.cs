@@ -1,6 +1,7 @@
 using System;
 using System.Numerics;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Juniper.VeldridIntegration;
@@ -12,7 +13,7 @@ namespace Juniper
     public static class Program
     {
         private static MainForm mainForm;
-        private static Pipeline pipeline;
+        private static Material material;
 
         private static readonly Mesh<VertexPositionColor> quads = new Mesh<VertexPositionColor>(
             new Quad<VertexPositionColor>[]{
@@ -36,8 +37,12 @@ namespace Juniper
                     new VertexPositionColor(new Vector3(1.5f, -0.5f, 0), RgbaFloat.DarkRed))
             });
 
-        private static void Main()
+        private static async Task Main()
         {
+            material = await Material
+                .LoadCachedAsync<VertexPositionColor>("Shaders\\vert.glsl", "Shaders\\frag.glsl")
+                .ConfigureAwait(false);
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += Application_ThreadException;
@@ -45,9 +50,8 @@ namespace Juniper
             using var form = mainForm = new MainForm();
             mainForm.Panel.Ready += Panel_Ready;
             mainForm.Panel.CommandListUpdate += Panel_CommandListUpdate;
-
             Application.Run(mainForm);
-            pipeline?.Dispose();
+            material?.Dispose();
         }
 
         private static void Panel_Ready(object sender, EventArgs e)
@@ -55,34 +59,8 @@ namespace Juniper
             var g = mainForm.Device.VeldridDevice;
             var factory = g.ResourceFactory;
 
-            var material = Material
-                .LoadCachedAsync<VertexPositionColor>(factory, "Shaders\\vert.glsl", "Shaders\\frag.glsl")
-                .Result;
-
+            material.CreatePipeline(factory, mainForm.Panel.VeldridSwapChain.Framebuffer);
             quads.CreateBuffers(g);
-
-            pipeline = factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
-            {
-                BlendState = BlendStateDescription.SingleOverrideBlend,
-                DepthStencilState = new DepthStencilStateDescription
-                {
-                    DepthTestEnabled = true,
-                    DepthWriteEnabled = true,
-                    DepthComparison = ComparisonKind.LessEqual
-                },
-                RasterizerState = new RasterizerStateDescription
-                {
-                    CullMode = FaceCullMode.Back,
-                    FillMode = PolygonFillMode.Solid,
-                    FrontFace = FrontFace.Clockwise,
-                    DepthClipEnabled = true,
-                    ScissorTestEnabled = false
-                },
-                PrimitiveTopology = PrimitiveTopology.TriangleStrip,
-                ResourceLayouts = Array.Empty<ResourceLayout>(),
-                ShaderSet = material,
-                Outputs = mainForm.Panel.VeldridSwapChain.Framebuffer.OutputDescription
-            });
         }
 
         private static void Panel_CommandListUpdate(object sender, VeldridIntegration.WinFormsSupport.UpdateCommandListEventArgs e)
@@ -110,7 +88,7 @@ namespace Juniper
             });
 
             commandList.ClearColorTarget(0, RgbaFloat.Black);
-            commandList.SetPipeline(pipeline);
+            commandList.SetMaterial(material);
             commandList.DrawMesh(quads);
             commandList.End();
         }

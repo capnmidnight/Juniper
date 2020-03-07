@@ -1,15 +1,66 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 using Veldrid;
+using Veldrid.SPIRV;
 
 namespace Juniper.VeldridIntegration
 {
-    public abstract class Material
+    public class Material : IDisposable
     {
-        public static async Task<Material<VertexT>> LoadAsync<VertexT>(ResourceFactory factory, Stream vertShaderStream, Stream fragShaderStream)
+        public static Material Create<VertexT>(byte[] vertShaderBytes, byte[] fragShaderBytes)
+            where VertexT : struct
+        {
+            return new Material(typeof(VertexT), vertShaderBytes, fragShaderBytes);
+        }
+
+        public static Material Create<VertexT>(string vertShaderText, string fragShaderText)
+            where VertexT : struct
+        {
+            if (vertShaderText is null)
+            {
+                throw new ArgumentNullException(nameof(vertShaderText));
+            }
+
+            if (fragShaderText is null)
+            {
+                throw new ArgumentNullException(nameof(fragShaderText));
+            }
+
+            if (vertShaderText.Length == 0)
+            {
+                throw new ArgumentException("Shader is empty", nameof(vertShaderText));
+            }
+
+            if (fragShaderText.Length == 0)
+            {
+                throw new ArgumentException("Shader is empty", nameof(fragShaderText));
+            }
+
+            return Create<VertexT>(Encoding.UTF8.GetBytes(vertShaderText), Encoding.UTF8.GetBytes(fragShaderText));
+        }
+
+        public static Material Create<VertexT>(MemoryStream vertShaderMem, MemoryStream fragShaderMem)
+            where VertexT : struct
+        {
+            if (vertShaderMem is null)
+            {
+                throw new ArgumentNullException(nameof(vertShaderMem));
+            }
+
+            if (fragShaderMem is null)
+            {
+                throw new ArgumentNullException(nameof(fragShaderMem));
+            }
+
+            return Create<VertexT>(vertShaderMem.ToArray(), fragShaderMem.ToArray());
+        }
+
+        public static async Task<Material> LoadAsync<VertexT>(Stream vertShaderStream, Stream fragShaderStream)
             where VertexT : struct
         {
             if (vertShaderStream is null)
@@ -28,10 +79,10 @@ namespace Juniper.VeldridIntegration
             using var fragShaderMem = new MemoryStream();
             await fragShaderStream.CopyToAsync(fragShaderMem).ConfigureAwait(false);
 
-            return new Material<VertexT>(factory, vertShaderMem.ToArray(), fragShaderMem.ToArray());
+            return Create<VertexT>(vertShaderMem, fragShaderMem);
         }
 
-        public static Task<Material<VertexT>> LoadAsync<VertexT>(ResourceFactory factory, FileInfo vertShaderFile, FileInfo fragShaderFile)
+        public static Task<Material> LoadAsync<VertexT>(FileInfo vertShaderFile, FileInfo fragShaderFile)
            where VertexT : struct
         {
             if (vertShaderFile is null)
@@ -55,10 +106,10 @@ namespace Juniper.VeldridIntegration
                 throw new FileNotFoundException("Vertex shader missing", fragShaderFile.FullName);
             }
 
-            return LoadAsync<VertexT>(factory, vertShaderFile.OpenRead(), fragShaderFile.OpenRead());
+            return LoadAsync<VertexT>(vertShaderFile.OpenRead(), fragShaderFile.OpenRead());
         }
 
-        public static Task<Material<VertexT>> LoadAsync<VertexT>(ResourceFactory factory, string vertShaderFileName, string fragShaderFileName)
+        public static Task<Material> LoadAsync<VertexT>(string vertShaderFileName, string fragShaderFileName)
            where VertexT : struct
         {
             if (string.IsNullOrEmpty(vertShaderFileName))
@@ -71,7 +122,7 @@ namespace Juniper.VeldridIntegration
                 throw new ArgumentException("Must provide a filename", nameof(fragShaderFileName));
             }
 
-            return LoadAsync<VertexT>(factory, new FileInfo(vertShaderFileName), new FileInfo(fragShaderFileName));
+            return LoadAsync<VertexT>(new FileInfo(vertShaderFileName), new FileInfo(fragShaderFileName));
         }
 
         private readonly static Dictionary<string, Material> materialCache = new Dictionary<string, Material>();
@@ -81,7 +132,7 @@ namespace Juniper.VeldridIntegration
             materialCache.Clear();
         }
 
-        public static async Task<Material<VertexT>> LoadCachedAsync<VertexT>(ResourceFactory factory, FileInfo vertShaderFile, FileInfo fragShaderFile)
+        public static async Task<Material> LoadCachedAsync<VertexT>(FileInfo vertShaderFile, FileInfo fragShaderFile)
            where VertexT : struct
         {
             if (vertShaderFile is null)
@@ -95,16 +146,16 @@ namespace Juniper.VeldridIntegration
             }
 
             var key = $"{vertShaderFile.FullName},{fragShaderFile.FullName}";
-            if(!materialCache.ContainsKey(key))
+            if (!materialCache.ContainsKey(key))
             {
-                materialCache[key] = await LoadAsync<VertexT>(factory, vertShaderFile, fragShaderFile)
+                materialCache[key] = await LoadAsync<VertexT>(vertShaderFile, fragShaderFile)
                     .ConfigureAwait(false);
             }
 
-            return (Material<VertexT>)materialCache[key];
+            return materialCache[key];
         }
 
-        public static Task<Material<VertexT>> LoadCachedAsync<VertexT>(ResourceFactory factory, string vertShaderFileName, string fragShaderFileName)
+        public static Task<Material> LoadCachedAsync<VertexT>(string vertShaderFileName, string fragShaderFileName)
            where VertexT : struct
         {
             if (string.IsNullOrEmpty(vertShaderFileName))
@@ -117,7 +168,117 @@ namespace Juniper.VeldridIntegration
                 throw new ArgumentException("Must provide a filename", nameof(fragShaderFileName));
             }
 
-            return LoadCachedAsync<VertexT>(factory, new FileInfo(vertShaderFileName), new FileInfo(fragShaderFileName));
+            return LoadCachedAsync<VertexT>(new FileInfo(vertShaderFileName), new FileInfo(fragShaderFileName));
+        }
+
+        internal static void SetPipeline(CommandList commandList, Material mat)
+        {
+            if (commandList is null)
+            {
+                throw new ArgumentNullException(nameof(commandList));
+            }
+
+            commandList.SetPipeline(mat?.pipeline);
+        }
+
+        private readonly Type vertexType;
+        private readonly VertexLayoutDescription layout;
+        private readonly ShaderDescription vertShaderDesc;
+        private readonly ShaderDescription fragShaderDesc;
+        private Pipeline pipeline;
+
+        private Material(Type vertType, byte[] vertShaderBytes, byte[] fragShaderBytes)
+        {
+            if (vertType is null)
+            {
+                throw new ArgumentNullException(nameof(vertType));
+            }
+
+            if (vertShaderBytes is null)
+            {
+                throw new ArgumentNullException(nameof(vertShaderBytes));
+            }
+
+            if (fragShaderBytes is null)
+            {
+                throw new ArgumentNullException(nameof(fragShaderBytes));
+            }
+
+            vertexType = vertType;
+            var layoutField = vertexType.GetField("Layout", BindingFlags.Public | BindingFlags.Static);
+            if (layoutField is null)
+            {
+                throw new ArgumentException($"Type argument {vertType.Name} does not contain a static Layout field.");
+            }
+
+            if (layoutField.FieldType != typeof(VertexLayoutDescription))
+            {
+                throw new ArgumentException($"Type argument {vertType.Name}'s Layout field is not of type VertexLayoutDescription.");
+            }
+
+            layout = (VertexLayoutDescription)layoutField.GetValue(null);
+
+            vertShaderDesc = new ShaderDescription(ShaderStages.Vertex, vertShaderBytes, "main");
+            fragShaderDesc = new ShaderDescription(ShaderStages.Fragment, fragShaderBytes, "main");
+        }
+
+        public virtual void CreatePipeline(ResourceFactory factory, Framebuffer framebuffer)
+        {
+            if (factory is null)
+            {
+                throw new ArgumentNullException(nameof(factory));
+            }
+
+            if (framebuffer is null)
+            {
+                throw new ArgumentNullException(nameof(framebuffer));
+            }
+
+            var shaders = factory.CreateFromSpirv(vertShaderDesc, fragShaderDesc);
+
+            var shaderSet = new ShaderSetDescription
+            {
+                VertexLayouts = new VertexLayoutDescription[] { layout },
+                Shaders = shaders
+            };
+
+            pipeline = factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
+            {
+                BlendState = BlendStateDescription.SingleOverrideBlend,
+                DepthStencilState = new DepthStencilStateDescription
+                {
+                    DepthTestEnabled = true,
+                    DepthWriteEnabled = true,
+                    DepthComparison = ComparisonKind.LessEqual
+                },
+                RasterizerState = new RasterizerStateDescription
+                {
+                    CullMode = FaceCullMode.Back,
+                    FillMode = PolygonFillMode.Solid,
+                    FrontFace = FrontFace.Clockwise,
+                    DepthClipEnabled = true,
+                    ScissorTestEnabled = false
+                },
+                PrimitiveTopology = PrimitiveTopology.TriangleStrip,
+                ResourceLayouts = Array.Empty<ResourceLayout>(),
+                ShaderSet = shaderSet,
+                Outputs = framebuffer.OutputDescription
+            });
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                pipeline?.Dispose();
+                pipeline = null;
+            }
         }
     }
 }

@@ -13,5 +13,10 @@ namespace Juniper.VeldridIntegration
 
             mesh.Draw(commandList);
         }
+
+        public static void SetMaterial(this CommandList commandList, Material mat)
+        {
+            Material.SetPipeline(commandList, mat);
+        }
     }
 }
