@@ -225,6 +225,7 @@ namespace Juniper.ConfigurationManagement
             }
 
             var buildTargetGroup = GetTargetGroup();
+#pragma warning disable CS0618 // Type or member is obsolete
             var supportedVRSDKs = PlayerSettings.GetAvailableVirtualRealitySDKs(buildTargetGroup);
             var vrSDKs = XRPlatforms
                 .Distinct()
@@ -241,6 +242,7 @@ namespace Juniper.ConfigurationManagement
                     PlayerSettings.SetVirtualRealitySDKs(buildTargetGroup, vrSDKs);
                 }
             }
+#pragma warning restore CS0618 // Type or member is obsolete
 
             if (buildTargetGroup == BuildTargetGroup.WSA)
             {
@@ -276,7 +278,9 @@ namespace Juniper.ConfigurationManagement
         {
             AudioSettings.SetSpatializerPluginName(null);
             AudioSettingsExt.SetAmbisonicDecoderPluginName(null);
+#pragma warning disable CS0618 // Type or member is obsolete
             PlayerSettings.virtualRealitySupported = false;
+#pragma warning restore CS0618 // Type or member is obsolete
             PlayerSettings.Android.androidTVCompatibility = false;
             PlayerSettings.Android.ARCoreEnabled = false;
             ApplleiOS.RequiresARKitSupport = false;
