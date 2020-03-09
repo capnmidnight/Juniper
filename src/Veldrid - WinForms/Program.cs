@@ -13,34 +13,14 @@ namespace Juniper
     public static class Program
     {
         private static MainForm mainForm;
-        private static Material material;
-
-        private static readonly Mesh<VertexPositionColor> quads = new Mesh<VertexPositionColor>(
-            new Quad<VertexPositionColor>[]{
-
-                new Quad<VertexPositionColor>(
-                    new VertexPositionColor(new Vector3(-1.5f, 0.5f, 0), RgbaFloat.Cyan),
-                    new VertexPositionColor(new Vector3(-0.5f, 0.5f, 0), RgbaFloat.Red),
-                    new VertexPositionColor(new Vector3(-1.5f, -0.5f, 0), RgbaFloat.Black),
-                    new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0), RgbaFloat.Blue)),
-
-                new Quad<VertexPositionColor>(
-                    new VertexPositionColor(new Vector3(-0.5f, 0.5f, 0), RgbaFloat.Red),
-                    new VertexPositionColor(new Vector3(0.5f, 0.5f, 0), RgbaFloat.Green),
-                    new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0), RgbaFloat.Blue),
-                    new VertexPositionColor(new Vector3(0.5f, -0.5f, 0), RgbaFloat.Yellow)),
-
-                new Quad<VertexPositionColor>(
-                    new VertexPositionColor(new Vector3(0.5f, 0.5f, 0), RgbaFloat.Green),
-                    new VertexPositionColor(new Vector3(1.5f, 0.5f, 0), RgbaFloat.CornflowerBlue),
-                    new VertexPositionColor(new Vector3(0.5f, -0.5f, 0), RgbaFloat.Yellow),
-                    new VertexPositionColor(new Vector3(1.5f, -0.5f, 0), RgbaFloat.DarkRed))
-            });
+        private static Material<VertexPositionColor> material;
+        private static MeshRenderer<VertexPositionColor> renderer;
 
         private static async Task Main()
         {
-            material = await Material
-                .LoadAsync<VertexPositionColor>("Shaders\\vert.glsl", "Shaders\\frag.glsl")
+            material = await Material.LoadAsync<VertexPositionColor>(
+                    "Shaders\\vert.glsl",
+                    "Shaders\\frag.glsl")
                 .ConfigureAwait(false);
 
             Application.EnableVisualStyles();
@@ -50,17 +30,42 @@ namespace Juniper
             using var form = mainForm = new MainForm();
             mainForm.Panel.Ready += Panel_Ready;
             mainForm.Panel.CommandListUpdate += Panel_CommandListUpdate;
+            mainForm.FormClosing += MainForm_FormClosing;
             Application.Run(mainForm);
-            material?.Dispose();
+        }
+
+        private static void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            renderer?.Dispose();
         }
 
         private static void Panel_Ready(object sender, EventArgs e)
         {
-            var g = mainForm.Device.VeldridDevice;
-            var factory = g.ResourceFactory;
+            renderer = new MeshRenderer<VertexPositionColor>(
+                mainForm.Device.VeldridDevice,
+                mainForm.Panel.VeldridSwapChain.Framebuffer,
+                material,
+                new Mesh<VertexPositionColor>(
+                    new Quad<VertexPositionColor>[]{
 
-            material.CreatePipeline(factory, mainForm.Panel.VeldridSwapChain.Framebuffer);
-            quads.CreateBuffers(g);
+                        new Quad<VertexPositionColor>(
+                            new VertexPositionColor(new Vector3(-1.5f, 0.5f, 0), RgbaFloat.Cyan),
+                            new VertexPositionColor(new Vector3(-0.5f, 0.5f, 0), RgbaFloat.Red),
+                            new VertexPositionColor(new Vector3(-1.5f, -0.5f, 0), RgbaFloat.Black),
+                            new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0), RgbaFloat.Blue)),
+
+                        new Quad<VertexPositionColor>(
+                            new VertexPositionColor(new Vector3(-0.5f, 0.5f, 0), RgbaFloat.Red),
+                            new VertexPositionColor(new Vector3(0.5f, 0.5f, 0), RgbaFloat.Green),
+                            new VertexPositionColor(new Vector3(-0.5f, -0.5f, 0), RgbaFloat.Blue),
+                            new VertexPositionColor(new Vector3(0.5f, -0.5f, 0), RgbaFloat.Yellow)),
+
+                        new Quad<VertexPositionColor>(
+                            new VertexPositionColor(new Vector3(0.5f, 0.5f, 0), RgbaFloat.Green),
+                            new VertexPositionColor(new Vector3(1.5f, 0.5f, 0), RgbaFloat.CornflowerBlue),
+                            new VertexPositionColor(new Vector3(0.5f, -0.5f, 0), RgbaFloat.Yellow),
+                            new VertexPositionColor(new Vector3(1.5f, -0.5f, 0), RgbaFloat.DarkRed))
+                    }));
         }
 
         private static void Panel_CommandListUpdate(object sender, VeldridIntegration.WinFormsSupport.UpdateCommandListEventArgs e)
@@ -88,8 +93,7 @@ namespace Juniper
             });
 
             commandList.ClearColorTarget(0, RgbaFloat.Black);
-            commandList.SetMaterial(material);
-            commandList.DrawMesh(quads);
+            commandList.Render(renderer);
             commandList.End();
         }
 

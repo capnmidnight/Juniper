@@ -1,65 +1,15 @@
 using System;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 using Veldrid;
-using Veldrid.SPIRV;
 
 namespace Juniper.VeldridIntegration
 {
-    public class Material : IDisposable
+    public abstract class Material
     {
-        public static Material Create<VertexT>(byte[] vertShaderBytes, byte[] fragShaderBytes)
-            where VertexT : struct
-        {
-            return new Material(typeof(VertexT), vertShaderBytes, fragShaderBytes);
-        }
-
-        public static Material Create<VertexT>(string vertShaderText, string fragShaderText)
-            where VertexT : struct
-        {
-            if (vertShaderText is null)
-            {
-                throw new ArgumentNullException(nameof(vertShaderText));
-            }
-
-            if (fragShaderText is null)
-            {
-                throw new ArgumentNullException(nameof(fragShaderText));
-            }
-
-            if (vertShaderText.Length == 0)
-            {
-                throw new ArgumentException("Shader is empty", nameof(vertShaderText));
-            }
-
-            if (fragShaderText.Length == 0)
-            {
-                throw new ArgumentException("Shader is empty", nameof(fragShaderText));
-            }
-
-            return Create<VertexT>(Encoding.UTF8.GetBytes(vertShaderText), Encoding.UTF8.GetBytes(fragShaderText));
-        }
-
-        public static Material Create<VertexT>(MemoryStream vertShaderMem, MemoryStream fragShaderMem)
-            where VertexT : struct
-        {
-            if (vertShaderMem is null)
-            {
-                throw new ArgumentNullException(nameof(vertShaderMem));
-            }
-
-            if (fragShaderMem is null)
-            {
-                throw new ArgumentNullException(nameof(fragShaderMem));
-            }
-
-            return Create<VertexT>(vertShaderMem.ToArray(), fragShaderMem.ToArray());
-        }
-
-        public static async Task<Material> LoadAsync<VertexT>(Stream vertShaderStream, Stream fragShaderStream)
+        public static async Task<Material<VertexT>> LoadAsync<VertexT>(Stream vertShaderStream, Stream fragShaderStream)
             where VertexT : struct
         {
             if (vertShaderStream is null)
@@ -81,7 +31,29 @@ namespace Juniper.VeldridIntegration
             return Create<VertexT>(vertShaderMem, fragShaderMem);
         }
 
-        public static Task<Material> LoadAsync<VertexT>(FileInfo vertShaderFile, FileInfo fragShaderFile)
+        public static Material<VertexT> Load<VertexT>(Stream vertShaderStream, Stream fragShaderStream)
+           where VertexT : struct
+        {
+            if (vertShaderStream is null)
+            {
+                throw new ArgumentNullException(nameof(vertShaderStream));
+            }
+
+            if (fragShaderStream is null)
+            {
+                throw new ArgumentNullException(nameof(fragShaderStream));
+            }
+
+            using var vertShaderMem = new MemoryStream();
+            vertShaderStream.CopyTo(vertShaderMem);
+
+            using var fragShaderMem = new MemoryStream();
+            fragShaderStream.CopyTo(fragShaderMem);
+
+            return Create<VertexT>(vertShaderMem, fragShaderMem);
+        }
+
+        public static Task<Material<VertexT>> LoadAsync<VertexT>(FileInfo vertShaderFile, FileInfo fragShaderFile)
            where VertexT : struct
         {
             if (vertShaderFile is null)
@@ -108,7 +80,34 @@ namespace Juniper.VeldridIntegration
             return LoadAsync<VertexT>(vertShaderFile.OpenRead(), fragShaderFile.OpenRead());
         }
 
-        public static Task<Material> LoadAsync<VertexT>(string vertShaderFileName, string fragShaderFileName)
+        public static Material<VertexT> Load<VertexT>(FileInfo vertShaderFile, FileInfo fragShaderFile)
+           where VertexT : struct
+        {
+            if (vertShaderFile is null)
+            {
+                throw new ArgumentNullException(nameof(vertShaderFile));
+            }
+
+            if (!vertShaderFile.Exists)
+            {
+                throw new FileNotFoundException("Vertex shader missing", vertShaderFile.FullName);
+            }
+
+            if (fragShaderFile is null)
+            {
+                throw new ArgumentNullException(nameof(fragShaderFile));
+            }
+
+
+            if (!fragShaderFile.Exists)
+            {
+                throw new FileNotFoundException("Vertex shader missing", fragShaderFile.FullName);
+            }
+
+            return Load<VertexT>(vertShaderFile.OpenRead(), fragShaderFile.OpenRead());
+        }
+
+        public static Task<Material<VertexT>> LoadAsync<VertexT>(string vertShaderFileName, string fragShaderFileName)
            where VertexT : struct
         {
             if (string.IsNullOrEmpty(vertShaderFileName))
@@ -124,117 +123,68 @@ namespace Juniper.VeldridIntegration
             return LoadAsync<VertexT>(new FileInfo(vertShaderFileName), new FileInfo(fragShaderFileName));
         }
 
-        internal static void SetPipeline(CommandList commandList, Material mat)
+        public static Material<VertexT> Load<VertexT>(string vertShaderFileName, string fragShaderFileName)
+           where VertexT : struct
         {
-            if (commandList is null)
+            if (string.IsNullOrEmpty(vertShaderFileName))
             {
-                throw new ArgumentNullException(nameof(commandList));
+                throw new ArgumentException("Must provide a filename", nameof(vertShaderFileName));
             }
 
-            commandList.SetPipeline(mat?.pipeline);
+            if (string.IsNullOrEmpty(fragShaderFileName))
+            {
+                throw new ArgumentException("Must provide a filename", nameof(fragShaderFileName));
+            }
+
+            return Load<VertexT>(new FileInfo(vertShaderFileName), new FileInfo(fragShaderFileName));
         }
 
-        private readonly Type vertexType;
-        private readonly ShaderDescription vertShaderDesc;
-        private readonly ShaderDescription fragShaderDesc;
-
-        private Pipeline pipeline;
-
-        private GraphicsPipelineDescription pipelineDescription;
-
-        private Material(Type vertType, byte[] vertShaderBytes, byte[] fragShaderBytes)
+        public static Material<VertexT> Create<VertexT>(string vertShaderText, string fragShaderText)
+            where VertexT : struct
         {
-            if (vertType is null)
+            if (vertShaderText is null)
             {
-                throw new ArgumentNullException(nameof(vertType));
+                throw new ArgumentNullException(nameof(vertShaderText));
             }
 
-            if (vertShaderBytes is null)
+            if (fragShaderText is null)
             {
-                throw new ArgumentNullException(nameof(vertShaderBytes));
+                throw new ArgumentNullException(nameof(fragShaderText));
             }
 
-            if (fragShaderBytes is null)
+            if (vertShaderText.Length == 0)
             {
-                throw new ArgumentNullException(nameof(fragShaderBytes));
+                throw new ArgumentException("Shader is empty", nameof(vertShaderText));
             }
 
-            vertexType = vertType;
-            var layoutField = vertexType.GetField("Layout", BindingFlags.Public | BindingFlags.Static);
-            if (layoutField is null)
+            if (fragShaderText.Length == 0)
             {
-                throw new ArgumentException($"Type argument {vertType.Name} does not contain a static Layout field.");
+                throw new ArgumentException("Shader is empty", nameof(fragShaderText));
             }
 
-            if (layoutField.FieldType != typeof(VertexLayoutDescription))
-            {
-                throw new ArgumentException($"Type argument {vertType.Name}'s Layout field is not of type VertexLayoutDescription.");
-            }
-
-#if DEBUG
-            const bool debug = true;
-#else
-            const bool debug = false;
-#endif
-
-            vertShaderDesc = new ShaderDescription(ShaderStages.Vertex, vertShaderBytes, "main", debug);
-            fragShaderDesc = new ShaderDescription(ShaderStages.Fragment, fragShaderBytes, "main", debug);
-
-            pipelineDescription = new GraphicsPipelineDescription
-            {
-                BlendState = BlendStateDescription.SingleOverrideBlend,
-                DepthStencilState = new DepthStencilStateDescription
-                {
-                    DepthTestEnabled = true,
-                    DepthWriteEnabled = true,
-                    DepthComparison = ComparisonKind.LessEqual
-                },
-                RasterizerState = new RasterizerStateDescription
-                {
-                    CullMode = FaceCullMode.Back,
-                    FillMode = PolygonFillMode.Solid,
-                    FrontFace = FrontFace.Clockwise,
-                    DepthClipEnabled = true,
-                    ScissorTestEnabled = false
-                },
-                PrimitiveTopology = PrimitiveTopology.TriangleStrip,
-                ResourceBindingModel = ResourceBindingModel.Improved,
-                ResourceLayouts = Array.Empty<ResourceLayout>(),
-            };
-
-            pipelineDescription.ShaderSet.VertexLayouts = new VertexLayoutDescription[] { (VertexLayoutDescription)layoutField.GetValue(null) };
+            return Create<VertexT>(Encoding.UTF8.GetBytes(vertShaderText), Encoding.UTF8.GetBytes(fragShaderText));
         }
 
-        public void CreatePipeline(ResourceFactory factory, Framebuffer framebuffer)
+        public static Material<VertexT> Create<VertexT>(MemoryStream vertShaderMem, MemoryStream fragShaderMem)
+            where VertexT : struct
         {
-            if (factory is null)
+            if (vertShaderMem is null)
             {
-                throw new ArgumentNullException(nameof(factory));
+                throw new ArgumentNullException(nameof(vertShaderMem));
             }
 
-            if (framebuffer is null)
+            if (fragShaderMem is null)
             {
-                throw new ArgumentNullException(nameof(framebuffer));
+                throw new ArgumentNullException(nameof(fragShaderMem));
             }
 
-            pipelineDescription.ShaderSet.Shaders = factory.CreateFromSpirv(vertShaderDesc, fragShaderDesc);
-            pipelineDescription.Outputs = framebuffer.OutputDescription;
-            pipeline = factory.CreateGraphicsPipeline(pipelineDescription);
+            return Create<VertexT>(vertShaderMem.ToArray(), fragShaderMem.ToArray());
         }
 
-        public void Dispose()
+        public static Material<VertexT> Create<VertexT>(byte[] vertShaderBytes, byte[] fragShaderBytes)
+            where VertexT : struct
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                pipeline?.Dispose();
-                pipeline = null;
-            }
+            return new Material<VertexT>(vertShaderBytes, fragShaderBytes);
         }
     }
 }

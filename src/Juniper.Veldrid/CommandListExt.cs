@@ -4,19 +4,14 @@ namespace Juniper.VeldridIntegration
 {
     public static class CommandListExt
     {
-        public static void DrawMesh(this CommandList commandList, Mesh mesh)
+        public static void Render(this CommandList commandList, IRenderer renderer)
         {
-            if (mesh is null)
+            if (renderer is null)
             {
-                throw new System.ArgumentNullException(nameof(mesh));
+                throw new System.ArgumentNullException(nameof(renderer));
             }
 
-            mesh.Draw(commandList);
-        }
-
-        public static void SetMaterial(this CommandList commandList, Material mat)
-        {
-            Material.SetPipeline(commandList, mat);
+            renderer.Render(commandList);
         }
     }
 }

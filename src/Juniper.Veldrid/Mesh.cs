@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-using Veldrid;
-
 using IndexT = System.UInt16;
 
 namespace Juniper.VeldridIntegration
@@ -32,7 +30,10 @@ namespace Juniper.VeldridIntegration
                     vertices[indices[i + 3]]));
             }
 
-            return new Mesh<VertexT>(quads.ToArray(), vertices, indices);
+            return new Mesh<VertexT>(
+                faces: quads.ToArray(),
+                vertices: vertices,
+                indices: indices);
         }
 
         public static Mesh<VertexT> OfTris<VertexT>(VertexT[] vertices, IndexT[] indices)
@@ -57,9 +58,10 @@ namespace Juniper.VeldridIntegration
                     vertices[indices[i + 2]]));
             }
 
-            return new Mesh<VertexT>(triangles.ToArray(), vertices, indices);
+            return new Mesh<VertexT>(
+                faces: triangles.ToArray(),
+                vertices: vertices,
+                indices: indices);
         }
-
-        internal abstract void Draw(CommandList commandList);
     }
 }
