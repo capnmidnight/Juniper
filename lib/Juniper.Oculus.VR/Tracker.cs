@@ -130,29 +130,20 @@ namespace Oculus.VR
         /// </summary>
         public static Pose GetPose(int tracker = 0)
         {
-            if (!Manager.isHmdPresent)
+            if (!Manager.isHmdPresent
+                || 0 > tracker
+                || tracker > 3)
             {
                 return Pose.Identity;
             }
 
-            Pose p;
-            switch (tracker)
+            var p = tracker switch
             {
-                case 0:
-                p = Plugin.GetNodePose(Plugin.Node.TrackerZero, Plugin.ProcessingStep.Render).ToOVRPose();
-                break;
-                case 1:
-                p = Plugin.GetNodePose(Plugin.Node.TrackerOne, Plugin.ProcessingStep.Render).ToOVRPose();
-                break;
-                case 2:
-                p = Plugin.GetNodePose(Plugin.Node.TrackerTwo, Plugin.ProcessingStep.Render).ToOVRPose();
-                break;
-                case 3:
-                p = Plugin.GetNodePose(Plugin.Node.TrackerThree, Plugin.ProcessingStep.Render).ToOVRPose();
-                break;
-                default:
-                return Pose.Identity;
-            }
+                0 => Plugin.GetNodePose(Plugin.Node.TrackerZero, Plugin.ProcessingStep.Render).ToOVRPose(),
+                1 => Plugin.GetNodePose(Plugin.Node.TrackerOne, Plugin.ProcessingStep.Render).ToOVRPose(),
+                2 => Plugin.GetNodePose(Plugin.Node.TrackerTwo, Plugin.ProcessingStep.Render).ToOVRPose(),
+                _ => Plugin.GetNodePose(Plugin.Node.TrackerThree, Plugin.ProcessingStep.Render).ToOVRPose(),
+            };
 
             return new Pose(
                 p.Position,
