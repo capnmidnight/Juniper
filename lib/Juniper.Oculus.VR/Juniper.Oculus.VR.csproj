@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\Juniper.props" />
+
+  <PropertyGroup>
+    <AssemblyName>Juniper.Oculus.VR</AssemblyName>
+    <RootNamespace>Oculus.VR</RootNamespace>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Copyright>Copyright © Facebook Technologies, LLC</Copyright>
+  </PropertyGroup>
+
+  <Import Project="..\..\Juniper.targets" />
+
+  <ItemGroup>
+    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Juniper.Root\Juniper.Root.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="libOVRPlugin.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="OVRPlugin.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -87,6 +87,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Veldrid", "src\Juni
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scratch", "src\Scratch\Scratch.csproj", "{2312416C-E79A-47A3-857B-2DCA29B0D777}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Oculus.VR", "lib\Juniper.Oculus.VR\Juniper.Oculus.VR.csproj", "{2FE607BB-5489-47C8-A3EC-66DC003B61BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -229,6 +231,10 @@ Global
 		{2312416C-E79A-47A3-857B-2DCA29B0D777}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2312416C-E79A-47A3-857B-2DCA29B0D777}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2312416C-E79A-47A3-857B-2DCA29B0D777}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FE607BB-5489-47C8-A3EC-66DC003B61BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FE607BB-5489-47C8-A3EC-66DC003B61BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FE607BB-5489-47C8-A3EC-66DC003B61BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FE607BB-5489-47C8-A3EC-66DC003B61BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -268,6 +274,7 @@ Global
 		{C4C8A159-1D33-4703-9683-FAAAF4FFB97A} = {9A01F9FD-B141-4584-92DE-9BFCEEA3A7E9}
 		{5DCE283D-9326-4D20-BE88-219E55A7C85E} = {3F72C92A-C800-432F-A47D-359B8C938849}
 		{2312416C-E79A-47A3-857B-2DCA29B0D777} = {9A01F9FD-B141-4584-92DE-9BFCEEA3A7E9}
+		{2FE607BB-5489-47C8-A3EC-66DC003B61BF} = {3F72C92A-C800-432F-A47D-359B8C938849}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {26853D06-2187-498D-81B8-5BF110E83214}

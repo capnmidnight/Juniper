@@ -3,6 +3,7 @@ using System.Numerics;
 
 namespace Juniper.Mathematics
 {
+    [Serializable]
     public struct Pose : IEquatable<Pose>
     {
         public static readonly Pose Identity = new Pose(Vector3.Zero, Quaternion.Identity);
@@ -43,6 +44,25 @@ namespace Juniper.Mathematics
                 Orientation = a.Orientation * b.Orientation,
                 Position = Vector3.Transform(b.Position, a.Orientation) + a.Position
             };
+        }
+
+        /// <summary>
+        /// Converts the pose from left- to right-handed or vice-versa.
+        /// </summary>
+        public Pose FlipZ()
+        {
+            var v = Position;
+            var q = Orientation;
+            v.Z = -v.Z;
+            q.Z = -q.Z;
+            q.W = -q.W;
+            return new Pose(v, q);
+        }
+
+        public Pose Inverse()
+        {
+            var q = Quaternion.Inverse(Orientation);
+            return new Pose(Vector3.Transform(-Position, q), q);
         }
 
         public static bool operator ==(Pose left, Pose right)
