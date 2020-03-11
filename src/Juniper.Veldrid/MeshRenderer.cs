@@ -4,7 +4,7 @@ using Veldrid;
 namespace Juniper.VeldridIntegration
 {
     public class MeshRenderer<VertexT>
-        : IDisposable, IRenderer
+        : IDisposable
         where VertexT : struct
     {
         private readonly Material<VertexT> material;
@@ -51,7 +51,7 @@ namespace Juniper.VeldridIntegration
             }
         }
 
-        public void Render(CommandList commandList)
+        public void PreRender(CommandList commandList)
         {
             if (commandList is null)
             {
@@ -61,6 +61,15 @@ namespace Juniper.VeldridIntegration
             commandList.SetPipeline(pipeline);
             commandList.SetVertexBuffer(0, vertexBuffer);
             commandList.SetIndexBuffer(indexBuffer, IndexFormat.UInt16);
+        }
+
+        public void Draw(CommandList commandList)
+        {
+            if (commandList is null)
+            {
+                throw new ArgumentNullException(nameof(commandList));
+            }
+
             commandList.DrawIndexed(
                 indexCount: mesh.IndexCount,
                 instanceCount: mesh.FaceCount,
