@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Accord.Statistics.Filters;
+
 using Juniper.Imaging;
 using Juniper.IO;
 using Juniper.VeldridIntegration;

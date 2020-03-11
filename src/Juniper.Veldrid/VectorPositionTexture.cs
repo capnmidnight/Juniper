@@ -13,7 +13,7 @@ namespace Juniper.VeldridIntegration
             new VertexLayoutDescription(
                 new VertexElementDescription(
                     nameof(Position),
-                    VertexElementSemantic.TextureCoordinate,
+                    VertexElementSemantic.Position,
                     VertexElementFormat.Float3),
                 new VertexElementDescription(
                     nameof(UV),
