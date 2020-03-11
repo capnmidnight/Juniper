@@ -179,22 +179,13 @@ namespace Juniper
             var worldMatrix = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, time)
                 * Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, time / 3);
 
-            commandList.UpdateBuffer(projectionBuffer, 0, projectionMatrix);
-            commandList.UpdateBuffer(viewBuffer, 0, viewMatrix);
+            commandList.UpdateBuffer(projectionBuffer, 0, ref projectionMatrix);
+            commandList.UpdateBuffer(viewBuffer, 0, ref viewMatrix);
             commandList.UpdateBuffer(worldBuffer, 0, ref worldMatrix);
 
             commandList.SetFramebuffer(framebuffer);
             commandList.ClearColorTarget(0, RgbaFloat.Black);
             commandList.ClearDepthStencil(1);
-            commandList.SetViewport(0, new Viewport
-            {
-                X = 0,
-                Y = 0,
-                Width = width,
-                Height = height,
-                MinDepth = 0,
-                MaxDepth = 1
-            });
             renderer.Draw(commandList);
             commandList.End();
 
