@@ -8,6 +8,13 @@ namespace Juniper.Imaging
 {
     public class LibJpegNETImageDataTranscoder : IImageTranscoder<JpegImage, ImageData>
     {
+        private readonly bool padAlpha;
+
+        public LibJpegNETImageDataTranscoder(bool padAlpha = false)
+        {
+            this.padAlpha = padAlpha;
+        }
+
         /// <summary>
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.
         /// </summary>
@@ -19,14 +26,30 @@ namespace Juniper.Imaging
                 throw new ArgumentNullException(nameof(value));
             }
 
-            var stride = value.Width * value.ComponentsPerSample;
+            var inputStride = value.Width * value.ComponentsPerSample;
+            var outputComponents = padAlpha ? value.ComponentsPerSample + 1 : value.ComponentsPerSample;
+            var outputStride = value.Width * outputComponents;
             var numRows = value.Height;
-            var data = new byte[numRows * stride];
+            var data = new byte[numRows * outputStride];
             for (var i = 0; i < value.Height; ++i)
             {
                 prog.Report(i, value.Height);
                 var row = value.GetRow(i);
-                Array.Copy(row.ToBytes(), 0, data, i * stride, stride);
+                var outputI = i * outputStride;
+                Array.Copy(row.ToBytes(), 0, data, outputI, inputStride);
+                if(inputStride != outputStride)
+                {
+                    for(var j = outputI + outputStride - 1; j >= outputI; --j)
+                    {
+                        var outputComponent = j % outputComponents;
+                        var inputComponent = outputComponent % value.ComponentsPerSample;
+                        var outputXY = j / outputComponents;
+                        var inputXY = outputXY * value.ComponentsPerSample;
+                        var inputI = inputXY + inputComponent;
+                        var v = outputComponent == inputComponent ? data[inputI] : byte.MaxValue;
+                        data[j] = v;
+                    }
+                }
                 prog.Report(i + 1, value.Height);
             }
 
