@@ -51,12 +51,16 @@ namespace Juniper.VeldridIntegration
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("layout(");
-            foreach (var qualifier in Qualifiers)
+            if (Qualifiers.Length > 0)
             {
-                sb.Append(qualifier.ToString());
+                sb.Append("layout(");
+                foreach (var qualifier in Qualifiers)
+                {
+                    sb.Append(qualifier.ToString());
+                }
+                sb.Append(") ");
             }
-            _ = sb.AppendFormat(CultureInfo.InvariantCulture, ") {0} {1} {2}", Direction.ToString().ToLowerInvariant(), DataType, Name);
+            _ = sb.AppendFormat(CultureInfo.InvariantCulture, "{0} {1} {2}", Direction.ToString().ToLowerInvariant(), DataType, Name);
             return sb.ToString();
         }
 

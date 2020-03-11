@@ -18,7 +18,7 @@ namespace Juniper.VeldridIntegration
         private const string qualifierPatternString = @"\s*(binding|set|location|index|component)\s*=\s*(\d+)\s*";
         private static readonly string qualifierInLayoutPatternString = $"(?:{qualifierPatternString.Replace("(", "(?:")})";
         private static readonly Regex qualifierPattern = new Regex(qualifierPatternString, RegexOptions.Compiled);
-        private static readonly Regex inlineAttributeLayoutPattern = new Regex($@"layout\s*\(({qualifierInLayoutPatternString}(?:,{qualifierInLayoutPatternString})*)\)\s*(in|out)\s+(\w+)\s*(\w+);", RegexOptions.Compiled);
+        private static readonly Regex inlineAttributeLayoutPattern = new Regex($@"(layout\s*\(({qualifierInLayoutPatternString}(?:,{qualifierInLayoutPatternString})*)\)\s*)?(in|out)\s+(\w+)\s*(\w+);", RegexOptions.Compiled);
         private readonly VertexLayoutDescription vertLayout;
         private readonly ShaderDescription vertShaderDesc;
         private readonly ShaderDescription fragShaderDesc;
@@ -74,10 +74,11 @@ namespace Juniper.VeldridIntegration
 
             for (var i = 0; i < vertInputs.Length; ++i)
             {
-                var vertLayoutElement = vertLayout.Elements[i];
                 var vertInput = vertInputs[i];
+                var vertLayoutElement = vertLayout.Elements[i];
                 var size = vertLayoutElement.Format.Size();
-                if(vertInput.Name != vertLayoutElement.Name)
+
+                if (vertInput.Name != vertLayoutElement.Name)
                 {
                     throw new FormatException($"Vertex shader input '{vertInput}' name is {vertInput.Name}, but vertex layout description expected {vertLayoutElement.Name}.");
                 }
@@ -85,7 +86,7 @@ namespace Juniper.VeldridIntegration
                 {
                     throw new FormatException($"Vertex shader input '{vertInput}' size is {vertInput.Size}, but vertex layout description expected {size}.");
                 }
-                if(vertInput.Offset != vertLayoutElement.Offset)
+                if (vertInput.Offset != vertLayoutElement.Offset)
                 {
                     throw new FormatException($"Vertex shader input '{vertInput}' offset is {vertInput.Offset}, but vertex layout description expected {vertLayoutElement.Offset}.");
                 }
@@ -117,66 +118,65 @@ namespace Juniper.VeldridIntegration
 
         private static ShaderAttributeLayout[] ParseShaderAttributes(string shaderText)
         {
-            var attributes = new List<ShaderAttributeLayout>();
-            var inlineAttributeLayoutMatches = inlineAttributeLayoutPattern.Matches(shaderText);
-            for (var i = 0; i < inlineAttributeLayoutMatches.Count; ++i)
+            return inlineAttributeLayoutPattern.Matches(shaderText)
+                .Cast<Match>()
+                .Select((m, i) => ParseShaderAttribute(i, m))
+                .OrderBy(a => a.Direction)
+                .ThenBy(a => a.Location)
+                .ToArray();
+        }
+
+        private static ShaderAttributeLayout ParseShaderAttribute(int i, Match match)
+        {
+            var qualifiers = Array.Empty<ShaderAttributeQualifier>();
+            var hasLayout = match.Groups[1].Value.Length > 0;
+            if (hasLayout)
             {
-                var match = inlineAttributeLayoutMatches[i];
-                var directionString = match.Groups[2].Value;
-                if (!Enum.TryParse<ShaderAttributeDirection>(directionString, true, out var direction))
+                qualifiers = match.Groups[2].Value
+                    .Split(',')
+                    .Select(q => ParseShaderAttributeQualifier(match.Value, q))
+                    .ToArray();
+
+                if (qualifiers.Length == 0)
                 {
-                    throw new FormatException($"Invalid shader attribute direction '{directionString}' in line '{match.Value}'.");
-                }
-                else
-                {
-                    var qualifiersString = match.Groups[1].Value;
-                    var dataType = match.Groups[3].Value;
-                    var name = match.Groups[4].Value;
-
-                    var qualifierParts = qualifiersString.Split(',');
-                    var qualifiers = new List<ShaderAttributeQualifier>();
-                    foreach (var part in qualifierParts)
-                    {
-                        var qualifierMatch = qualifierPattern.Match(part);
-                        if (!qualifierMatch.Success)
-                        {
-                            throw new FormatException($"Invalid shader attribute qualifier '{part}' in line '{match.Value}'");
-                        }
-                        else
-                        {
-                            var qualifierTypeString = qualifierMatch.Groups[1].Value;
-                            var qualifierValueString = qualifierMatch.Groups[2].Value;
-                            if (!Enum.TryParse<ShaderAttributeQualifierType>(qualifierTypeString, true, out var qualifierType))
-                            {
-                                throw new FormatException($"Invalid shader attribute qualifier type '{qualifierTypeString}' for qualifier '{qualifierMatch.Value}' in line '{match.Value}'");
-                            }
-                            else if (!uint.TryParse(qualifierValueString, out var qualifierValue))
-                            {
-                                throw new FormatException($"Invalid shader attribute qualifier value '{qualifierValueString}' for qualifier '{qualifierMatch.Value}' in line '{match.Value}'");
-                            }
-                            else
-                            {
-                                var qualifier = new ShaderAttributeQualifier(qualifierType, qualifierValue);
-                                qualifiers.Add(qualifier);
-                            }
-                        }
-                    }
-
-                    if (qualifiers.Count == 0)
-                    {
-                        throw new FormatException($"No shader attribute qualifiers defined in line '{match.Value}'");
-                    }
-
-                    var shaderAttribute = new ShaderAttributeLayout(i, name, direction, dataType, qualifiers.ToArray());
-                    attributes.Add(shaderAttribute);
+                    throw new FormatException($"No shader attribute qualifiers defined in line '{match.Value}'");
                 }
             }
 
-            attributes.Sort((a, b) =>
-                ((int)a.Direction * 1000 + a.Location)
-                - ((int)b.Direction * 1000 + b.Location));
+            var directionString = match.Groups[3].Value;
+            if (!Enum.TryParse<ShaderAttributeDirection>(directionString, true, out var direction))
+            {
+                throw new FormatException($"Invalid shader attribute direction '{directionString}' in line '{match.Value}'.");
+            }
 
-            return attributes.ToArray();
+            var dataType = match.Groups[4].Value;
+            var name = match.Groups[5].Value;
+            var shaderAttribute = new ShaderAttributeLayout(i, name, direction, dataType, qualifiers);
+            return shaderAttribute;
+        }
+
+        private static ShaderAttributeQualifier ParseShaderAttributeQualifier(string line, string part)
+        {
+            var qualifierMatch = qualifierPattern.Match(part);
+            if (!qualifierMatch.Success)
+            {
+                throw new FormatException($"Invalid shader attribute qualifier '{part}' in line '{line}'");
+            }
+
+            var qualifierTypeString = qualifierMatch.Groups[1].Value;
+            var qualifierValueString = qualifierMatch.Groups[2].Value;
+            if (!Enum.TryParse<ShaderAttributeQualifierType>(qualifierTypeString, true, out var qualifierType))
+            {
+                throw new FormatException($"Invalid shader attribute qualifier type '{qualifierTypeString}' for qualifier '{qualifierMatch.Value}' in line '{line}'");
+            }
+
+            if (!uint.TryParse(qualifierValueString, out var qualifierValue))
+            {
+                throw new FormatException($"Invalid shader attribute qualifier value '{qualifierValueString}' for qualifier '{qualifierMatch.Value}' in line '{line}'");
+            }
+
+            var qualifier = new ShaderAttributeQualifier(qualifierType, qualifierValue);
+            return qualifier;
         }
 
         ~Material()
