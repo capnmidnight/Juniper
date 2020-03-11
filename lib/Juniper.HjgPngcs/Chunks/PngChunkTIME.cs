@@ -53,7 +53,14 @@ namespace Hjg.Pngcs.Chunks
             var min = PngHelperInternal.ReadInt1fromByte(c.Data, 5);
             var sec = PngHelperInternal.ReadInt1fromByte(c.Data, 6);
 
-            timestamp = new DateTime(year, mon, day, hour, min, sec);
+            try
+            {
+                timestamp = new DateTime(year, mon, day, hour, min, sec);
+            }
+            catch
+            {
+                timestamp = DateTime.MinValue;
+            }
         }
 
         public override void CloneDataFromRead(AbstractPngChunk other)
