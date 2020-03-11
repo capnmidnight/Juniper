@@ -1,6 +1,6 @@
-﻿namespace Juniper.VeldridIntegration
+namespace Juniper.VeldridIntegration
 {
-    public enum ShaderAttributeQualifierType
+    public enum ShaderLayoutQualifierType
     {
         Location,
         Index,

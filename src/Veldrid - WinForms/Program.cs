@@ -70,11 +70,7 @@ namespace Juniper
         private static MainForm mainForm;
         private static Material<VertexT> material;
         private static MeshRenderer<VertexT> renderer;
-        private static DeviceBuffer projectionBuffer;
-        private static DeviceBuffer viewBuffer;
-        private static DeviceBuffer worldBuffer;
         private static Texture surfaceTexture;
-        private static TextureView surfaceTextureView;
         private static DateTime start;
 
         private static async Task Main()
@@ -118,10 +114,6 @@ namespace Juniper
             var device = mainForm.Device.VeldridDevice;
             var factory = device.ResourceFactory;
 
-            projectionBuffer = factory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer));
-            viewBuffer = factory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer));
-            worldBuffer = factory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer));
-
             var image = images["rock"];
             surfaceTexture = factory.CreateTexture(new TextureDescription(
                 (uint)image.Info.Dimensions.Width, (uint)image.Info.Dimensions.Height, 1,
@@ -138,21 +130,8 @@ namespace Juniper
                 (uint)image.Info.Dimensions.Width, (uint)image.Info.Dimensions.Height, 1,
                 0, 0);
 
-            surfaceTextureView = factory.CreateTextureView(surfaceTexture);
-
-            var projViewLayout = factory.CreateResourceLayout(
-                new ResourceLayoutDescription(
-                    new ResourceLayoutElementDescription("ProjectionBuffer", ResourceKind.UniformBuffer, ShaderStages.Vertex),
-                    new ResourceLayoutElementDescription("ViewBuffer", ResourceKind.UniformBuffer, ShaderStages.Vertex)));
-
-            var worldTextureLayout = factory.CreateResourceLayout(
-                new ResourceLayoutDescription(
-                    new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.UniformBuffer, ShaderStages.Vertex),
-                    new ResourceLayoutElementDescription("SurfaceTexture", ResourceKind.TextureReadOnly, ShaderStages.Fragment),
-                    new ResourceLayoutElementDescription("SurfaceSampler", ResourceKind.Sampler, ShaderStages.Fragment)));
-
-            material.AddResource(projViewLayout, projectionBuffer, viewBuffer);
-            material.AddResource(worldTextureLayout, worldBuffer, surfaceTextureView, device.Aniso4xSampler);
+            material.AddTexture("SurfaceTexture", surfaceTexture);
+            material.CreateResources(device, factory);
 
             renderer = new MeshRenderer<VertexT>(
                 device,
@@ -179,9 +158,9 @@ namespace Juniper
             var worldMatrix = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, time)
                 * Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, time / 3);
 
-            commandList.UpdateBuffer(projectionBuffer, 0, ref projectionMatrix);
-            commandList.UpdateBuffer(viewBuffer, 0, ref viewMatrix);
-            commandList.UpdateBuffer(worldBuffer, 0, ref worldMatrix);
+            material.UpdateMatrix("ProjectionBuffer", commandList, ref projectionMatrix);
+            material.UpdateMatrix("ViewBuffer", commandList, ref viewMatrix);
+            material.UpdateMatrix("WorldBuffer", commandList, ref worldMatrix);
 
             commandList.SetFramebuffer(framebuffer);
             commandList.ClearColorTarget(0, RgbaFloat.Black);
@@ -201,7 +180,6 @@ namespace Juniper
         {
             renderer?.Dispose();
             material?.Dispose();
-            surfaceTextureView?.Dispose();
             surfaceTexture?.Dispose();
         }
     }

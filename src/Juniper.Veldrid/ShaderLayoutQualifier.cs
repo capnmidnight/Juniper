@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Globalization;
 
 namespace Juniper.VeldridIntegration
 {
-    public struct ShaderAttributeQualifier : IEquatable<ShaderAttributeQualifier>
+    public struct ShaderLayoutQualifier : IEquatable<ShaderLayoutQualifier>
     {
-        public ShaderAttributeQualifierType Type { get; }
+        public ShaderLayoutQualifierType Type { get; }
         public uint Value { get; }
 
-        public ShaderAttributeQualifier(ShaderAttributeQualifierType type, uint value)
+        public ShaderLayoutQualifier(ShaderLayoutQualifierType type, uint value)
         {
             Type = type;
             Value = value;
@@ -21,10 +21,10 @@ namespace Juniper.VeldridIntegration
 
         public override bool Equals(object obj)
         {
-            return obj is ShaderAttributeQualifier qualifier && Equals(qualifier);
+            return obj is ShaderLayoutQualifier qualifier && Equals(qualifier);
         }
 
-        public bool Equals(ShaderAttributeQualifier other)
+        public bool Equals(ShaderLayoutQualifier other)
         {
             return Type == other.Type &&
                    Value == other.Value;
@@ -38,12 +38,12 @@ namespace Juniper.VeldridIntegration
             return hashCode;
         }
 
-        public static bool operator ==(ShaderAttributeQualifier left, ShaderAttributeQualifier right)
+        public static bool operator ==(ShaderLayoutQualifier left, ShaderLayoutQualifier right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator !=(ShaderAttributeQualifier left, ShaderAttributeQualifier right)
+        public static bool operator !=(ShaderLayoutQualifier left, ShaderLayoutQualifier right)
         {
             return !(left == right);
         }
