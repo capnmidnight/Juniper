@@ -26,38 +26,47 @@ namespace Juniper.Imaging
                 throw new ArgumentNullException(nameof(value));
             }
 
-            var inputStride = value.Width * value.ComponentsPerSample;
-            var outputComponents = padAlpha ? value.ComponentsPerSample + 1 : value.ComponentsPerSample;
-            var outputStride = value.Width * outputComponents;
-            var numRows = value.Height;
-            var data = new byte[numRows * outputStride];
-            for (var i = 0; i < value.Height; ++i)
+            var width = value.Width;
+            var height = value.Height;
+
+            var inputComponents = value.ComponentsPerSample;
+            var inputStride = width * inputComponents;
+
+            var outputComponents = padAlpha ? inputComponents + 1 : inputComponents;
+            var outputStride = width * outputComponents;
+            var outputData = new byte[height * outputStride];
+
+            for (var y = 0; y < height; ++y)
             {
-                prog.Report(i, value.Height);
-                var row = value.GetRow(i);
-                var outputI = i * outputStride;
-                Array.Copy(row.ToBytes(), 0, data, outputI, inputStride);
-                if(inputStride != outputStride)
+                prog.Report(y, height);
+                var row = value.GetRow(y);
+                var inputData = row.ToBytes();
+                if (inputStride == outputStride)
                 {
-                    for(var j = outputI + outputStride - 1; j >= outputI; --j)
+                    var outputIndex = y * outputStride;
+                    Array.Copy(inputData, 0, outputData, outputIndex, inputStride);
+                }
+                else 
+                {
+                    for(int inputIndex = 0, outputIndex = y * outputStride;
+                        inputIndex < inputData.Length;
+                        inputIndex += inputComponents, outputIndex += outputComponents)
                     {
-                        var outputComponent = j % outputComponents;
-                        var inputComponent = outputComponent % value.ComponentsPerSample;
-                        var outputXY = j / outputComponents;
-                        var inputXY = outputXY * value.ComponentsPerSample;
-                        var inputI = inputXY + inputComponent;
-                        var v = outputComponent == inputComponent ? data[inputI] : byte.MaxValue;
-                        data[j] = v;
+                        for (var c = 0; c < inputComponents; ++c)
+                        {
+                            outputData[outputIndex + c] = inputData[inputIndex + c];
+                        }
+                        outputData[outputIndex + inputComponents] = byte.MaxValue;
                     }
                 }
-                prog.Report(i + 1, value.Height);
+                prog.Report(y + 1, height);
             }
 
             return new ImageData(
-                value.Width,
-                value.Height,
-                value.ComponentsPerSample,
-                data);
+                width,
+                height,
+                inputComponents,
+                outputData);
         }
 
         /// <summary>

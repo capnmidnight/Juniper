@@ -51,7 +51,7 @@ namespace Juniper.VeldridIntegration
             }
         }
 
-        public void PreRender(CommandList commandList)
+        public void Draw(CommandList commandList)
         {
             if (commandList is null)
             {
@@ -59,16 +59,9 @@ namespace Juniper.VeldridIntegration
             }
 
             commandList.SetPipeline(pipeline);
+            material.SetResources(commandList);
             commandList.SetVertexBuffer(0, vertexBuffer);
             commandList.SetIndexBuffer(indexBuffer, IndexFormat.UInt16);
-        }
-
-        public void Draw(CommandList commandList)
-        {
-            if (commandList is null)
-            {
-                throw new ArgumentNullException(nameof(commandList));
-            }
 
             commandList.DrawIndexed(
                 indexCount: mesh.IndexCount,

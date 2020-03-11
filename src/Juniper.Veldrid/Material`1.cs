@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 using Veldrid;
@@ -6,11 +8,14 @@ using Veldrid.SPIRV;
 
 namespace Juniper.VeldridIntegration
 {
-    public class Material<VertexT> : Material
+    public sealed class Material<VertexT>
+        : Material, IDisposable
         where VertexT : struct
     { 
         private readonly ShaderDescription vertShaderDesc;
         private readonly ShaderDescription fragShaderDesc;
+        private readonly List<(ResourceLayout layout, BindableResource[] resources)> layouts = new List<(ResourceLayout layout, BindableResource[] resources)>();
+        private readonly List<ResourceSet> resources = new List<ResourceSet>();
 
         internal Material(byte[] vertShaderBytes, byte[] fragShaderBytes)
         {
@@ -32,6 +37,51 @@ namespace Juniper.VeldridIntegration
 
             vertShaderDesc = new ShaderDescription(ShaderStages.Vertex, vertShaderBytes, "main", debug);
             fragShaderDesc = new ShaderDescription(ShaderStages.Fragment, fragShaderBytes, "main", debug);
+        }
+
+        ~Material()
+        {
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                foreach (var l in layouts)
+                {
+                    l.layout.Dispose();
+                    foreach(var r in l.resources)
+                    {
+                        if(r is IDisposable d)
+                        {
+                            d.Dispose();
+                        }
+                    }
+                }
+
+                layouts.Clear();
+
+                foreach (var resource in resources)
+                {
+                    resource.Dispose();
+                }
+                resources.Clear();
+            }
+        }
+
+        internal void SetResources(CommandList commandList)
+        {
+            for(var i = 0; i < resources.Count; ++i)
+            {
+                commandList.SetGraphicsResourceSet((uint)i, resources[i]);
+            }
         }
 
         public Pipeline Prepare(ResourceFactory factory, Framebuffer framebuffer)
@@ -58,6 +108,13 @@ namespace Juniper.VeldridIntegration
                 throw new ArgumentException($"Type argument {vertexType.Name}'s Layout field is not of type VertexLayoutDescription.");
             }
 
+            var resourceLayouts = new ResourceLayout[layouts.Count];
+            for (var i = 0; i < layouts.Count; ++i)
+            {
+                var l = layouts[i];
+                resourceLayouts[i] = l.layout;
+                resources.Add(factory.CreateResourceSet(new ResourceSetDescription(l.layout, l.resources)));
+            }
 
             return factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
             {
@@ -78,7 +135,7 @@ namespace Juniper.VeldridIntegration
                 },
                 PrimitiveTopology = PrimitiveTopology.TriangleStrip,
                 ResourceBindingModel = ResourceBindingModel.Improved,
-                ResourceLayouts = Array.Empty<ResourceLayout>(),
+                ResourceLayouts = resourceLayouts,
                 ShaderSet = new ShaderSetDescription
                 {
                     VertexLayouts = new VertexLayoutDescription[] { (VertexLayoutDescription)layoutField.GetValue(null) },
@@ -86,6 +143,16 @@ namespace Juniper.VeldridIntegration
                 },
                 Outputs = framebuffer.OutputDescription
             });
+        }
+
+        public void AddResource(ResourceLayout layout, params BindableResource[] resources)
+        {
+            if (layout is null)
+            {
+                throw new ArgumentNullException(nameof(layout));
+            }
+
+            layouts.Add((layout, resources));
         }
     }
 }

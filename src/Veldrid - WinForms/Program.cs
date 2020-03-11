@@ -19,9 +19,6 @@ namespace Juniper
 {
     public static class Program
     {
-        private static MainForm mainForm;
-        private static Material<VertexT> material;
-        private static MeshRenderer<VertexT> renderer;
         private static readonly Dictionary<MediaType, IImageCodec<ImageData>> decoders = new Dictionary<MediaType, IImageCodec<ImageData>>()
         {
             [MediaType.Image.Png] = new HjgPngcsCodec().Pipe(new HjgPngcsImageDataTranscoder()),
@@ -30,53 +27,55 @@ namespace Juniper
 
         private static readonly Dictionary<string, ImageData> images = new Dictionary<string, ImageData>();
 
-        private static DeviceBuffer projectionBuffer;
-        private static DeviceBuffer viewBuffer;
-        private static DeviceBuffer worldBuffer;
-        private static Texture surfaceTexture;
-        private static TextureView surfaceTextureView;
-        private static ResourceSet projViewSet;
-        private static ResourceSet worldTextureSet;
-
-        private static Mesh<VertexT> texturedCube = new Mesh<VertexT>(
+        private static readonly Mesh<VertexT> texturedCube = new Mesh<VertexT>(
             new Quad<VertexT>[]{
                 // Top
                 new Quad<VertexT>(
                     new VertexT(new Vector3(-0.5f, +0.5f, -0.5f), new Vector2(0, 0)),
                     new VertexT(new Vector3(+0.5f, +0.5f, -0.5f), new Vector2(1, 0)),
-                    new VertexT(new Vector3(+0.5f, +0.5f, +0.5f), new Vector2(1, 1)),
-                    new VertexT(new Vector3(-0.5f, +0.5f, +0.5f), new Vector2(0, 1))),
+                    new VertexT(new Vector3(-0.5f, +0.5f, +0.5f), new Vector2(0, 1)),
+                    new VertexT(new Vector3(+0.5f, +0.5f, +0.5f), new Vector2(1, 1))),
                 // Bottom
                 new Quad<VertexT>(
                     new VertexT(new Vector3(-0.5f,-0.5f, +0.5f),  new Vector2(0, 0)),
                     new VertexT(new Vector3(+0.5f,-0.5f, +0.5f),  new Vector2(1, 0)),
-                    new VertexT(new Vector3(+0.5f,-0.5f, -0.5f),  new Vector2(1, 1)),
-                    new VertexT(new Vector3(-0.5f,-0.5f, -0.5f),  new Vector2(0, 1))),
+                    new VertexT(new Vector3(-0.5f,-0.5f, -0.5f),  new Vector2(0, 1)),
+                    new VertexT(new Vector3(+0.5f,-0.5f, -0.5f),  new Vector2(1, 1))),
                 // Left
                 new Quad<VertexT>(
                     new VertexT(new Vector3(-0.5f, +0.5f, -0.5f), new Vector2(0, 0)),
                     new VertexT(new Vector3(-0.5f, +0.5f, +0.5f), new Vector2(1, 0)),
-                    new VertexT(new Vector3(-0.5f, -0.5f, +0.5f), new Vector2(1, 1)),
-                    new VertexT(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0, 1))),
+                    new VertexT(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0, 1)),
+                    new VertexT(new Vector3(-0.5f, -0.5f, +0.5f), new Vector2(1, 1))),
                 // Right
                 new Quad<VertexT>(
                     new VertexT(new Vector3(+0.5f, +0.5f, +0.5f), new Vector2(0, 0)),
                     new VertexT(new Vector3(+0.5f, +0.5f, -0.5f), new Vector2(1, 0)),
-                    new VertexT(new Vector3(+0.5f, -0.5f, -0.5f), new Vector2(1, 1)),
-                    new VertexT(new Vector3(+0.5f, -0.5f, +0.5f), new Vector2(0, 1))),
+                    new VertexT(new Vector3(+0.5f, -0.5f, +0.5f), new Vector2(0, 1)),
+                    new VertexT(new Vector3(+0.5f, -0.5f, -0.5f), new Vector2(1, 1))),
                 // Back
                 new Quad<VertexT>(
                     new VertexT(new Vector3(+0.5f, +0.5f, -0.5f), new Vector2(0, 0)),
                     new VertexT(new Vector3(-0.5f, +0.5f, -0.5f), new Vector2(1, 0)),
-                    new VertexT(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(1, 1)),
-                    new VertexT(new Vector3(+0.5f, -0.5f, -0.5f), new Vector2(0, 1))),
+                    new VertexT(new Vector3(+0.5f, -0.5f, -0.5f), new Vector2(0, 1)),
+                    new VertexT(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(1, 1))),
                 // Front
                 new Quad<VertexT>(
                     new VertexT(new Vector3(-0.5f, +0.5f, +0.5f), new Vector2(0, 0)),
                     new VertexT(new Vector3(+0.5f, +0.5f, +0.5f), new Vector2(1, 0)),
-                    new VertexT(new Vector3(+0.5f, -0.5f, +0.5f), new Vector2(1, 1)),
-                    new VertexT(new Vector3(-0.5f, -0.5f, +0.5f), new Vector2(0, 1)))
+                    new VertexT(new Vector3(-0.5f, -0.5f, +0.5f), new Vector2(0, 1)),
+                    new VertexT(new Vector3(+0.5f, -0.5f, +0.5f), new Vector2(1, 1)))
             });
+
+        private static MainForm mainForm;
+        private static Material<VertexT> material;
+        private static MeshRenderer<VertexT> renderer;
+        private static DeviceBuffer projectionBuffer;
+        private static DeviceBuffer viewBuffer;
+        private static DeviceBuffer worldBuffer;
+        private static Texture surfaceTexture;
+        private static TextureView surfaceTextureView;
+        private static DateTime start;
 
         private static async Task Main()
         {
@@ -152,43 +151,33 @@ namespace Juniper
                     new ResourceLayoutElementDescription("SurfaceTexture", ResourceKind.TextureReadOnly, ShaderStages.Fragment),
                     new ResourceLayoutElementDescription("SurfaceSampler", ResourceKind.Sampler, ShaderStages.Fragment)));
 
-            projViewSet = factory.CreateResourceSet(new ResourceSetDescription(
-                projViewLayout,
-                projectionBuffer,
-                viewBuffer));
-
-            worldTextureSet = factory.CreateResourceSet(new ResourceSetDescription(
-                worldTextureLayout,
-                worldBuffer,
-                surfaceTextureView,
-                device.Aniso4xSampler));
+            material.AddResource(projViewLayout, projectionBuffer, viewBuffer);
+            material.AddResource(worldTextureLayout, worldBuffer, surfaceTextureView, device.Aniso4xSampler);
 
             renderer = new MeshRenderer<VertexT>(
                 device,
                 mainForm.Panel.VeldridSwapChain.Framebuffer,
                 material,
                 texturedCube);
+
+            start = DateTime.Now;
         }
 
         private static void Panel_CommandListUpdate(object sender, VeldridIntegration.WinFormsSupport.UpdateCommandListEventArgs e)
         {
-            var ticks = Units.Ticks.Seconds(DateTime.Now.Ticks);
+            var time = (float)(DateTime.Now - start).TotalSeconds;
             var commandList = e.CommandList;
             var framebuffer = mainForm.Panel.VeldridSwapChain.Framebuffer;
             var width = framebuffer.Width;
             var height = framebuffer.Height;
             var aspectRatio = (float)width / height;
-            var size = Math.Min(width, height);
-            var x = (width - size) / 2;
-            var y = (height - size) / 2;
-            width = height = size;
 
             commandList.Begin();
 
             var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(Units.Degrees.Radians(60), aspectRatio, 0.5f, 100);
             var viewMatrix = Matrix4x4.CreateLookAt(Vector3.UnitZ * 2.5f, Vector3.Zero, Vector3.UnitY);
-            var worldMatrix = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, ticks)
-                * Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, ticks / 3);
+            var worldMatrix = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, time)
+                * Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, time / 3);
 
             commandList.UpdateBuffer(projectionBuffer, 0, projectionMatrix);
             commandList.UpdateBuffer(viewBuffer, 0, viewMatrix);
@@ -199,18 +188,17 @@ namespace Juniper
             commandList.ClearDepthStencil(1);
             commandList.SetViewport(0, new Viewport
             {
-                X = x,
-                Y = y,
+                X = 0,
+                Y = 0,
                 Width = width,
                 Height = height,
                 MinDepth = 0,
                 MaxDepth = 1
             });
-            renderer.PreRender(commandList);
-            commandList.SetGraphicsResourceSet(0, projViewSet);
-            commandList.SetGraphicsResourceSet(1, worldTextureSet);
             renderer.Draw(commandList);
             commandList.End();
+
+            mainForm.Panel.Invalidate();
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
@@ -221,6 +209,9 @@ namespace Juniper
         private static void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             renderer?.Dispose();
+            material?.Dispose();
+            surfaceTextureView?.Dispose();
+            surfaceTexture?.Dispose();
         }
     }
 }

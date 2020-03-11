@@ -3,8 +3,6 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-using Veldrid;
-
 namespace Juniper.VeldridIntegration
 {
     public abstract class Material
