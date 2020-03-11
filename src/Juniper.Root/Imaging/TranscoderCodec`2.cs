@@ -3,6 +3,16 @@ using System.IO;
 
 namespace Juniper.Imaging
 {
+    public static class Transcoder
+    {
+        public static IImageCodec<ToImageT> Create<ImageCodecT, FromImageT, ImageTranscoderT, ToImageT>(ImageCodecT codec, ImageTranscoderT transcoder)
+            where ImageCodecT : IImageCodec<FromImageT>
+            where ImageTranscoderT : IImageTranscoder<FromImageT, ToImageT>
+        {
+            return new TranscoderCodec<FromImageT, ToImageT>(codec, transcoder);
+        }
+    }
+
     public class TranscoderCodec<FromImageT, ToImageT>
         : IImageCodec<ToImageT>
     {
