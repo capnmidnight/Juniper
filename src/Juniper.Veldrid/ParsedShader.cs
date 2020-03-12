@@ -106,7 +106,7 @@ namespace Juniper.VeldridIntegration
             }
         }
 
-        private static (string type, string name, uint size)[] ParseIdentifiers(string blockText)
+        private static (ShaderDataType type, string name, uint size)[] ParseIdentifiers(string blockText)
         {
             return typedIdentPattern.Matches(blockText)
                 .Cast<Match>()
@@ -114,9 +114,14 @@ namespace Juniper.VeldridIntegration
                 .ToArray();
         }
 
-        private static (string type, string name, uint size) ParseIdentifier(Match match)
+        private static (ShaderDataType type, string name, uint size) ParseIdentifier(Match match)
         {
-            var type = match.Groups[1].Value;
+            var dataTypeString = match.Groups[1].Value;
+            if (!Enum.TryParse<ShaderDataType>(dataTypeString, true, out var dataType))
+            {
+                throw new FormatException($"Invalid shader attribute type '{dataTypeString}' in line '{match.Value}'.");
+            }
+
             var name = match.Groups[2].Value;
             var sizeString = match.Groups[3].Value;
             var size = 1u;
@@ -127,7 +132,7 @@ namespace Juniper.VeldridIntegration
                     throw new FormatException("Could not parse type size");
                 }
             }
-            return (type, name, size);
+            return (dataType, name, size);
         }
 
         private static ShaderAttribute[] ParseAttributes(string shaderText)
@@ -163,7 +168,12 @@ namespace Juniper.VeldridIntegration
                 throw new FormatException($"Invalid shader attribute direction '{directionString}' in line '{match.Value}'.");
             }
 
-            var dataType = match.Groups[4].Value;
+            var dataTypeString = match.Groups[4].Value;
+            if(!Enum.TryParse<ShaderDataType>(dataTypeString, true, out var dataType))
+            {
+                throw new FormatException($"Invalid shader attribute type '{dataTypeString}' in line '{match.Value}'.");
+            }
+
             var name = match.Groups[5].Value;
             return new ShaderAttribute(i, name, direction, dataType, qualifiers);
         }

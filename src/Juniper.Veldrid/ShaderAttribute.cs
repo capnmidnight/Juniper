@@ -14,34 +14,13 @@ namespace Juniper.VeldridIntegration
 
         public string Name { get; }
         public ShaderAttributeDirection Direction { get; }
-        public string DataType { get; }
-        public uint Size { get; }
+        public ShaderDataType DataType { get; }
 
-        public ShaderAttribute(int index, string name, ShaderAttributeDirection direction, string dataType, ShaderLayoutQualifier[] qualifiers)
+        public ShaderAttribute(int index, string name, ShaderAttributeDirection direction, ShaderDataType dataType, ShaderLayoutQualifier[] qualifiers)
         {
             Name = name;
             Direction = direction;
             DataType = dataType;
-            Size = DataType switch
-            {
-                "int" => 4,
-                "ivec2" => 8,
-                "ivec3" => 16,
-                "ivec4" => 32,
-                "uint" => 4,
-                "uvec2" => 8,
-                "uvec3" => 16,
-                "uvec4" => 32,
-                "float" => 4,
-                "vec2" => 8,
-                "vec3" => 16,
-                "vec4" => 32,
-                "double" => 8,
-                "dvec2" => 32,
-                "dvec3" => 64,
-                "dvec4" => 128,
-                _ => throw new FormatException($"Unrecognized data type {DataType}")
-            };
 
             layout = new ShaderLayout(index, qualifiers);
         }
@@ -69,26 +48,31 @@ namespace Juniper.VeldridIntegration
 
         public override bool Equals(object obj)
         {
-            return obj is ShaderAttribute attribute && Equals(attribute);
+            return obj is ShaderAttribute attribute
+                && Equals(attribute);
         }
 
         public bool Equals(ShaderAttribute other)
         {
-            return Name == other.Name
+            return layout.Equals(other.layout)
+                && Location == other.Location
+                && Component == other.Component
+                && Index == other.Index
+                && Name == other.Name
                 && Direction == other.Direction
-                && DataType == other.DataType
-                && Size == other.Size
-                && layout.Equals(other.layout);
+                && DataType == other.DataType;
         }
 
         public override int GetHashCode()
         {
-            var hashCode = 1631821752;
+            var hashCode = -99050907;
+            hashCode = hashCode * -1521134295 + layout.GetHashCode();
+            hashCode = hashCode * -1521134295 + Location.GetHashCode();
+            hashCode = hashCode * -1521134295 + Component.GetHashCode();
+            hashCode = hashCode * -1521134295 + Index.GetHashCode();
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
             hashCode = hashCode * -1521134295 + Direction.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(DataType);
-            hashCode = hashCode * -1521134295 + Size.GetHashCode();
-            hashCode = hashCode * -1521134295 + layout.GetHashCode();
+            hashCode = hashCode * -1521134295 + DataType.GetHashCode();
             return hashCode;
         }
 

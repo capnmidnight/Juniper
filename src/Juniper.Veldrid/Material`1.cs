@@ -75,9 +75,9 @@ namespace Juniper.VeldridIntegration
                 {
                     throw new FormatException($"Vertex shader input '{vertInput}' name is {vertInput.Name}, but vertex layout description expected {vertLayoutElement.Name}.");
                 }
-                if (vertInput.Size != size)
+                if (vertInput.DataType.Size() != size)
                 {
-                    throw new FormatException($"Vertex shader input '{vertInput}' size is {vertInput.Size}, but vertex layout description expected {size}.");
+                    throw new FormatException($"Vertex shader input '{vertInput}' size is {vertInput.DataType.Size()}, but vertex layout description expected {size}.");
                 }
                 if (vertInput.Component != vertLayoutElement.Offset)
                 {
@@ -187,7 +187,7 @@ namespace Juniper.VeldridIntegration
 
         private DeviceBuffer CreateBuffer(ResourceFactory factory, ShaderResource r)
         {
-            var buffer = factory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer));
+            var buffer = factory.CreateBuffer(new BufferDescription(r.Size, BufferUsage.UniformBuffer));
             buffers[r.Name] = buffer;
             return buffer;
         }

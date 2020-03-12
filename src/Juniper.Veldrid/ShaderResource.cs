@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Veldrid;
 
 namespace Juniper.VeldridIntegration
@@ -19,16 +19,19 @@ namespace Juniper.VeldridIntegration
 
         public ShaderStages Stage { get; }
 
-        public (string type, string name, uint size)[] Identifiers { get; }
+        public (ShaderDataType type, string name, uint size)[] Identifiers { get; }
 
-        public ShaderResource(string name, ShaderLayoutQualifier[] qualifiers, ResourceKind kind, ShaderStages stage, (string type, string name, uint size)[] resourceIdentifiers = null)
+        public ShaderResource(string name, ShaderLayoutQualifier[] qualifiers, ResourceKind kind, ShaderStages stage, (ShaderDataType type, string name, uint size)[] resourceIdentifiers = null)
         {
             layout = new ShaderLayout(0, qualifiers);
             Name = name;
             Kind = kind;
             Stage = stage;
-            Identifiers = resourceIdentifiers ?? Array.Empty<(string, string, uint)>();
+            Identifiers = resourceIdentifiers ?? Array.Empty<(ShaderDataType, string, uint)>();
         }
+
+        public uint Size =>
+            (uint)Identifiers.Sum(i => i.type.Size() * i.size);
 
         public override bool Equals(object obj)
         {
