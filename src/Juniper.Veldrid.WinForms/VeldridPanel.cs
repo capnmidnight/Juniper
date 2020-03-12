@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -60,17 +61,31 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
-
             InitializeSwapchain();
 
             if (commandList is object
                 && updateArgs is object
                 && VeldridGraphicsDevice is object
-                && VeldridSwapChain is object)
+                && VeldridGraphicsDevice.VeldridDevice is object
+                && VeldridSwapChain is object
+                && CommandListUpdate is object)
             {
                 CommandListUpdate?.Invoke(this, updateArgs);
-                VeldridGraphicsDevice.Draw(commandList, VeldridSwapChain);
+                VeldridGraphicsDevice?.Draw(commandList, VeldridSwapChain);
+            }
+            else
+            {
+                base.OnPaint(e);
+                using var g = CreateGraphics();
+                g.FillRectangle(SystemBrushes.ControlDark, ClientRectangle);
+
+                var icon = SystemIcons.Application;
+                var middleRect = ClientRectangle;
+                middleRect.X = (middleRect.Width - icon.Width * 2) / 2;
+                middleRect.Y = (middleRect.Height - icon.Height * 2) / 2;
+                middleRect.Width = icon.Width * 2;
+                middleRect.Height = icon.Height * 2;
+                g.DrawIcon(icon, middleRect);
             }
         }
     }
