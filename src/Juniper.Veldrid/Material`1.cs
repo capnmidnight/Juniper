@@ -157,7 +157,7 @@ namespace Juniper.VeldridIntegration
                 {
                     var elements = set.Select(e => (ResourceLayoutElementDescription)e).ToArray();
                     var layout = factory.CreateResourceLayout(new ResourceLayoutDescription(elements));
-                    var resources = set.Select(r => CreateResources(device, factory, r))
+                    var resources = set.Select(r => CreateResource(device, factory, r))
                         .ToArray();
                     return (layout, resources);
                 })
@@ -174,7 +174,7 @@ namespace Juniper.VeldridIntegration
                 .ToArray();
         }
 
-        private BindableResource CreateResources(GraphicsDevice device, ResourceFactory factory, ShaderResource r)
+        private BindableResource CreateResource(GraphicsDevice device, ResourceFactory factory, ShaderResource r)
         {
             return r.Kind switch
             {
