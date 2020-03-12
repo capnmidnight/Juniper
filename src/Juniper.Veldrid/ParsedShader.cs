@@ -40,7 +40,7 @@ namespace Juniper.VeldridIntegration
         private static readonly Regex qualifierPattern = new Regex(qualifierPatternString, RegexOptions.Compiled);
         private static readonly Regex attributeLayoutPattern = new Regex(attributeLayoutPatternString, RegexOptions.Compiled);
         private static readonly Regex resourceDescriptorPattern = new Regex(resourceDescriptorPatternString, RegexOptions.Compiled);
-        private static readonly Regex typedIdentPattern = new Regex(ident, RegexOptions.Compiled);
+        private static readonly Regex typedIdentPattern = new Regex(tident, RegexOptions.Compiled);
 
         public ShaderDescription Description { get; }
         public IReadOnlyList<ShaderAttribute> Attributes { get; }
@@ -73,7 +73,14 @@ namespace Juniper.VeldridIntegration
 
         private ShaderResource ParseResource(Match match)
         {
-            var qualifiers = match.Groups[1].Value
+            var parts = match.Groups
+                .Cast<Group>()
+                .Skip(1)
+                .Select(g => g.Value.Trim())
+                .Where(v => v.Length > 0)
+                .ToArray();
+
+            var qualifiers = parts[0]
                     .Split(',')
                     .Select(q => ParseLayoutQualifier(match.Value, q))
                     .ToArray();
@@ -83,24 +90,24 @@ namespace Juniper.VeldridIntegration
                 throw new FormatException($"No shader attribute qualifiers defined in line '{match.Value}'");
             }
 
-            var isInline = match.Groups[3].Value.Length > 0;
+            var isInline = parts.Length == 4;
             if (isInline)
             {
-                var dataType = match.Groups[3].Value;
+                var dataType = parts[2];
                 var kind = dataType switch
                 {
                     "texture2D" => ResourceKind.TextureReadOnly,
                     "sampler" => ResourceKind.Sampler,
                     _ => ResourceKind.UniformBuffer
                 };
-                var name = match.Groups[4].Value;
+                var name = parts[3];
                 return new ShaderResource(name, qualifiers, kind, Description.Stage);
             }
             else
             {
                 var kind = ResourceKind.UniformBuffer;
-                var name = match.Groups[6].Value;
-                var block = match.Groups[7].Value;
+                var name = parts[2];
+                var block = parts[3];
                 var identifiers = ParseIdentifiers(block);
                 return new ShaderResource(name, qualifiers, kind, Description.Stage, identifiers);
             }
@@ -116,14 +123,20 @@ namespace Juniper.VeldridIntegration
 
         private static (ShaderDataType type, string name, uint size) ParseIdentifier(Match match)
         {
-            var dataTypeString = match.Groups[1].Value;
+            var parts = match.Groups
+                .Cast<Group>()
+                .Skip(1)
+                .Select(g => g.Value.Trim())
+                .ToArray();
+
+            var dataTypeString = parts[0];
             if (!Enum.TryParse<ShaderDataType>(dataTypeString, true, out var dataType))
             {
                 throw new FormatException($"Invalid shader attribute type '{dataTypeString}' in line '{match.Value}'.");
             }
 
-            var name = match.Groups[2].Value;
-            var sizeString = match.Groups[3].Value;
+            var name = parts[1];
+            var sizeString = parts[2];
             var size = 1u;
             if(sizeString.Length > 0)
             {
