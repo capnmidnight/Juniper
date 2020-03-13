@@ -94,8 +94,8 @@ namespace Juniper
             }
 
             material = await Material.LoadAsync<VertexT>(
-                    "Shaders\\vert.glsl",
-                    "Shaders\\frag.glsl")
+                    "Shaders\\tex-cube-vert.glsl",
+                    "Shaders\\tex-cube-frag.glsl")
                 .ConfigureAwait(false);
 
             Application.EnableVisualStyles();

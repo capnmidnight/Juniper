@@ -55,10 +55,10 @@
     <None Update="Images\water.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Shaders\frag.glsl">
+    <None Update="Shaders\tex-cube-frag.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Shaders\vert.glsl">
+    <None Update="Shaders\tex-cube-vert.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
