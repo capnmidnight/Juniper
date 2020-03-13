@@ -124,12 +124,11 @@ namespace Juniper
             var device = mainForm.Device.VeldridDevice;
             var factory = device.ResourceFactory;
 
-            quadMaterial.CreateResources(device, factory);
             quadRenderer = new MeshRenderer<VertexPositionColor>(
                 device,
                 mainForm.Panel.VeldridSwapChain.Framebuffer,
-                quadMaterial,
-                quad);
+                quad,
+                quadMaterial);
 
             var image = images["rock"];
             surfaceTexture = factory.CreateTexture(new TextureDescription(
@@ -147,14 +146,12 @@ namespace Juniper
                 (uint)image.Info.Dimensions.Width, (uint)image.Info.Dimensions.Height, 1,
                 0, 0);
 
-            cubeMaterial.AddTexture("SurfaceTexture", surfaceTexture);
-            cubeMaterial.CreateResources(device, factory);
-
             cubeRenderer = new MeshRenderer<VertexPositionTexture>(
                 device,
                 mainForm.Panel.VeldridSwapChain.Framebuffer,
+                cube,
                 cubeMaterial,
-                cube);
+                ("SurfaceTexture", surfaceTexture));
 
             start = DateTime.Now;
         }
@@ -194,12 +191,12 @@ namespace Juniper
             {
                 var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(Units.Degrees.Radians(60), aspectRatio, 0.5f, 100);
                 var viewMatrix = Matrix4x4.CreateLookAt(Vector3.UnitZ * 2.5f, Vector3.Zero, Vector3.UnitY);
-                cubeMaterial.UpdateMatrix("ProjectionBuffer", commandList, ref projectionMatrix);
-                cubeMaterial.UpdateMatrix("ViewBuffer", commandList, ref viewMatrix);
+                cubeRenderer.UpdateMatrix("ProjectionBuffer", commandList, ref projectionMatrix);
+                cubeRenderer.UpdateMatrix("ViewBuffer", commandList, ref viewMatrix);
 
                 var worldMatrix = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, time)
                     * Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, time / 3);
-                cubeMaterial.UpdateMatrix("WorldBuffer", commandList, ref worldMatrix);
+                cubeRenderer.UpdateMatrix("WorldBuffer", commandList, ref worldMatrix);
                 cubeRenderer.Draw(commandList);
             }
 
@@ -216,10 +213,8 @@ namespace Juniper
         private static void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             cubeRenderer?.Dispose();
-            cubeMaterial?.Dispose();
             surfaceTexture?.Dispose();
             quadRenderer?.Dispose();
-            quadMaterial?.Dispose();
         }
     }
 }
