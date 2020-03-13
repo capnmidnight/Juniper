@@ -13,6 +13,8 @@ namespace Juniper.VeldridIntegration
         public VertexLayoutDescription VertexLayout { get; }
         public ParsedShader FragmentShader { get; }
 
+        public GraphicsPipelineDescription PipelineOptions { get; set; }
+
         internal Material(byte[] vertShaderBytes, byte[] fragShaderBytes)
         {
             if (vertShaderBytes is null)
@@ -33,6 +35,15 @@ namespace Juniper.VeldridIntegration
 
             ValidateVertShaderInputsMatchVertLayout();
             ValidateVertShaderOutputsMatchFragShaderOutputs();
+
+            PipelineOptions = new GraphicsPipelineDescription
+            {
+                BlendState = BlendStateDescription.SingleOverrideBlend,
+                DepthStencilState = DepthStencilStateDescription.DepthOnlyLessEqual,
+                RasterizerState = RasterizerStateDescription.Default,
+                PrimitiveTopology = PrimitiveTopology.TriangleStrip,
+                ResourceBindingModel = ResourceBindingModel.Improved
+            };
         }
 
         private void ValidateVertShaderInputsMatchVertLayout()

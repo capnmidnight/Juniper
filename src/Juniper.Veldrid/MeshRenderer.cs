@@ -71,7 +71,10 @@ namespace Juniper.VeldridIntegration
                 })
                 .ToArray();
 
-            layouts = layoutsAndResources.Select(l => l.layout).ToArray();
+            var pipelineOptions = material.PipelineOptions;
+
+            pipelineOptions.ResourceLayouts = layouts = layoutsAndResources.Select(l => l.layout).ToArray();
+
             resources = layoutsAndResources.SelectMany(l => l.resources)
                 .OfType<IDisposable>()
                 .Where(r => r != device.Aniso4xSampler)
@@ -83,33 +86,13 @@ namespace Juniper.VeldridIntegration
 
             (vertexBuffer, indexBuffer) = this.mesh.Prepare(device);
 
-            pipeline = factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
+            pipelineOptions.ShaderSet = new ShaderSetDescription
             {
-                BlendState = BlendStateDescription.SingleOverrideBlend,
-                DepthStencilState = new DepthStencilStateDescription
-                {
-                    DepthTestEnabled = true,
-                    DepthWriteEnabled = true,
-                    DepthComparison = ComparisonKind.LessEqual
-                },
-                RasterizerState = new RasterizerStateDescription
-                {
-                    CullMode = FaceCullMode.Back,
-                    FillMode = PolygonFillMode.Solid,
-                    FrontFace = FrontFace.Clockwise,
-                    DepthClipEnabled = true,
-                    ScissorTestEnabled = false
-                },
-                PrimitiveTopology = PrimitiveTopology.TriangleStrip,
-                ResourceBindingModel = ResourceBindingModel.Improved,
-                ResourceLayouts = layouts,
-                ShaderSet = new ShaderSetDescription
-                {
-                    VertexLayouts = new VertexLayoutDescription[] { material.VertexLayout },
-                    Shaders = factory.CreateFromSpirv(vertex.Description, fragment.Description)
-                },
-                Outputs = framebuffer.OutputDescription
-            });
+                VertexLayouts = new VertexLayoutDescription[] { material.VertexLayout },
+                Shaders = factory.CreateFromSpirv(vertex.Description, fragment.Description)
+            };
+            pipelineOptions.Outputs = framebuffer.OutputDescription;
+            pipeline = factory.CreateGraphicsPipeline(pipelineOptions);
         }
 
         private BindableResource CreateResource(GraphicsDevice device, ResourceFactory factory, ShaderResource r)
