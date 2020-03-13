@@ -1,10 +1,69 @@
 using System;
+using System.Collections.Generic;
+using System.Numerics;
+
 using Veldrid;
 
 namespace Juniper.VeldridIntegration
 {
     public static class DataTypeSizeExt
     {
+        private static readonly Dictionary<Type, uint> sizes = new Dictionary<Type, uint>
+        {
+            [typeof(RgbaByte)] = 4,
+            [typeof(RgbaFloat)] = 4 * sizeof(float),
+            [typeof(int)] = sizeof(int),
+            [typeof(uint)] = sizeof(uint),
+            [typeof(float)] = sizeof(float),
+            [typeof(Vector2)] = 2 * sizeof(float),
+            [typeof(Vector3)] = 3 * sizeof(float),
+            [typeof(Vector4)] = 4 * sizeof(float),
+            [typeof(Matrix4x4)] = 4 * 4 * sizeof(float),
+            [typeof(double)] = sizeof(double)
+        };
+
+        public static uint Size(this Type dataType)
+        {
+            if (dataType is null)
+            {
+                throw new ArgumentNullException(nameof(dataType));
+            }
+
+            if (!sizes.ContainsKey(dataType))
+            {
+                throw new FormatException($"Unrecognized data type {dataType.Name}");
+            }
+
+            return sizes[dataType];
+        }
+
+        private static readonly Dictionary<Type, VertexElementFormat> vertTypes = new Dictionary<Type, VertexElementFormat>
+        {
+            [typeof(RgbaByte)] = VertexElementFormat.Byte4_Norm,
+            [typeof(RgbaFloat)] = VertexElementFormat.Float4,
+            [typeof(int)] = VertexElementFormat.Int1,
+            [typeof(uint)] = VertexElementFormat.UInt1,
+            [typeof(float)] = VertexElementFormat.Float1,
+            [typeof(Vector2)] = VertexElementFormat.Float2,
+            [typeof(Vector3)] = VertexElementFormat.Float3,
+            [typeof(Vector4)] = VertexElementFormat.Float4
+        };
+
+        public static VertexElementFormat ToVertexElementFormat(this Type dataType)
+        {
+            if (dataType is null)
+            {
+                throw new ArgumentNullException(nameof(dataType));
+            }
+
+            if (!vertTypes.ContainsKey(dataType))
+            {
+                throw new FormatException($"Unrecognized data type {dataType.Name}");
+            }
+
+            return vertTypes[dataType];
+        }
+
         public static uint Size(this ShaderDataType dataType)
         {
             return dataType switch

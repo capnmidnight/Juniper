@@ -1,26 +1,15 @@
 using System;
 using System.Numerics;
-
 using Veldrid;
 
 namespace Juniper.VeldridIntegration
 {
     public struct VertexPositionTexture : IEquatable<VertexPositionTexture>
     {
-        public const uint SizeInBytes = sizeof(float) * 5;
-
-        public static readonly VertexLayoutDescription Layout =
-            new VertexLayoutDescription(
-                new VertexElementDescription(
-                    nameof(Position),
-                    VertexElementSemantic.Position,
-                    VertexElementFormat.Float3),
-                new VertexElementDescription(
-                    nameof(UV),
-                    VertexElementSemantic.TextureCoordinate,
-                    VertexElementFormat.Float2));
-
+        [VertexElement(VertexElementSemantic.Position)]
         public Vector3 Position { get; }
+
+        [VertexElement(VertexElementSemantic.TextureCoordinate)]
         public Vector2 UV { get; }
 
         public VertexPositionTexture(Vector3 position, Vector2 uv)

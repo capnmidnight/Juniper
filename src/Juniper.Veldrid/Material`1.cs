@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Reflection;
 
 using Veldrid;
 using Veldrid.SPIRV;
@@ -36,19 +35,8 @@ namespace Juniper.VeldridIntegration
                 throw new ArgumentNullException(nameof(fragShaderBytes));
             }
 
-            var vertType = typeof(VertexT);
-            var layoutField = vertType.GetField("Layout", BindingFlags.Public | BindingFlags.Static);
-            if (layoutField is null)
-            {
-                throw new ArgumentException($"Type argument {vertType.Name} does not contain a static Layout field.");
-            }
-
-            if (layoutField.FieldType != typeof(VertexLayoutDescription))
-            {
-                throw new ArgumentException($"Type argument {vertType.Name}'s Layout field is not of type VertexLayoutDescription.");
-            }
-
-            vertLayout = (VertexLayoutDescription)layoutField.GetValue(null);
+            var info = VertexTypeCache.GetDescription<VertexT>();
+            vertLayout = info.layout;
 
             vertex = new ParsedShader(ShaderStages.Vertex, vertShaderBytes);
             fragment = new ParsedShader(ShaderStages.Fragment, fragShaderBytes);
@@ -62,7 +50,7 @@ namespace Juniper.VeldridIntegration
             var vertInputs = vertex.Attributes.Where(a => a.Direction == ShaderAttributeDirection.In).ToArray();
             if (vertInputs.Length != vertLayout.Elements.Length)
             {
-                throw new FormatException($"Vertex shader input count ({vertInputs.Length}) does not match vert type layout elements ({vertLayout.Elements.Length}");
+                throw new FormatException($"Vertex shader input count ({vertInputs.Length}) does not match vert type layout elements ({vertLayout.Elements.Length})");
             }
 
             for (var i = 0; i < vertInputs.Length; ++i)

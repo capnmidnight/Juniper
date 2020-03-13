@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Reflection;
 
 using Veldrid;
 
@@ -35,20 +34,8 @@ namespace Juniper.VeldridIntegration
             this.faces = faces ?? throw new ArgumentNullException(nameof(faces));
             this.vertices = vertices ?? throw new ArgumentNullException(nameof(vertices));
             this.indices = indices ?? throw new ArgumentNullException(nameof(indices));
-
-            var vertType = typeof(VertexT);
-            var sizeField = vertType.GetField("SizeInBytes", BindingFlags.Public | BindingFlags.Static);
-            if (sizeField is null)
-            {
-                throw new ArgumentException($"Type argument {vertType.Name} does not contain a static SizeInBytes field.");
-            }
-
-            if (sizeField.FieldType != typeof(uint))
-            {
-                throw new ArgumentException($"Type argument {vertType.Name}'s Layout field is not of type UInt32.");
-            }
-
-            vertexSizeInBytes = (uint)sizeField.GetValue(null);
+            var info = VertexTypeCache.GetDescription<VertexT>();
+            vertexSizeInBytes = info.size;
         }
 
         internal (DeviceBuffer vertexBuffer, DeviceBuffer indexBuffer) Prepare(GraphicsDevice device)
