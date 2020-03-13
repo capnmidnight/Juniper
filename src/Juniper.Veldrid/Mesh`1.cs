@@ -21,6 +21,8 @@ namespace Juniper.VeldridIntegration
 
         public uint IndexCount => (uint)indices.Length;
 
+        public Type IndexType => typeof(IndexT);
+
         private Mesh(IFace<VertexT>[] faces, (VertexT[] vertices, IndexT[] indices) unpacked)
             : this(faces, unpacked.vertices, unpacked.indices)
         { }

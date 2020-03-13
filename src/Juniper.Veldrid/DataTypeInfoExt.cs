@@ -64,6 +64,29 @@ namespace Juniper.VeldridIntegration
             return vertTypes[dataType];
         }
 
+        private static readonly Dictionary<Type, IndexFormat> indexTypes = new Dictionary<Type, IndexFormat>()
+        {
+            [typeof(ushort)] = IndexFormat.UInt16,
+            [typeof(uint)] = IndexFormat.UInt32,
+            [typeof(short)] = IndexFormat.UInt16,
+            [typeof(int)] = IndexFormat.UInt32
+        };
+
+        public static IndexFormat ToIndexFormat(this Type dataType)
+        {
+            if (dataType is null)
+            {
+                throw new ArgumentNullException(nameof(dataType));
+            }
+
+            if (!indexTypes.ContainsKey(dataType))
+            {
+                throw new FormatException($"Unrecognized data type {dataType.Name}");
+            }
+
+            return indexTypes[dataType];
+        }
+
         public static uint Size(this ShaderDataType dataType)
         {
             return dataType switch

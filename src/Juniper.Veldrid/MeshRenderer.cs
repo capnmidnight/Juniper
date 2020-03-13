@@ -15,6 +15,7 @@ namespace Juniper.VeldridIntegration
         private readonly Dictionary<string, DeviceBuffer> buffers = new Dictionary<string, DeviceBuffer>();
         private readonly Dictionary<string, Texture> textures;
         private readonly Mesh<VertexT> mesh;
+        private readonly IndexFormat indexFormat;
 
         private Pipeline pipeline;
         private ResourceLayout[] layouts;
@@ -37,6 +38,7 @@ namespace Juniper.VeldridIntegration
             }
 
             this.mesh = mesh ?? throw new ArgumentNullException(nameof(mesh));
+            indexFormat = mesh.IndexType.ToIndexFormat();
 
             if (material is null)
             {
@@ -194,7 +196,7 @@ namespace Juniper.VeldridIntegration
                 commandList.SetGraphicsResourceSet((uint)i, resourceSets[i]);
             }
             commandList.SetVertexBuffer(0, vertexBuffer);
-            commandList.SetIndexBuffer(indexBuffer, IndexFormat.UInt16);
+            commandList.SetIndexBuffer(indexBuffer, indexFormat);
 
             commandList.DrawIndexed(
                 indexCount: mesh.IndexCount,
