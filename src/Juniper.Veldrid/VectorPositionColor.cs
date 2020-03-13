@@ -7,23 +7,23 @@ namespace Juniper.VeldridIntegration
 {
     public struct VertexPositionColor : IEquatable<VertexPositionColor>
     {
-        public const uint SizeInBytes = sizeof(float) * 7;
+        public const uint SizeInBytes = sizeof(float) * 6;
 
         public static readonly VertexLayoutDescription Layout =
             new VertexLayoutDescription(
                 new VertexElementDescription(
                     nameof(Position),
-                    VertexElementSemantic.TextureCoordinate,
-                    VertexElementFormat.Float3),
+                    VertexElementSemantic.Position,
+                    VertexElementFormat.Float2),
                 new VertexElementDescription(
                     nameof(Color),
-                    VertexElementSemantic.TextureCoordinate,
+                    VertexElementSemantic.Color,
                     VertexElementFormat.Float4));
 
-        public Vector3 Position { get; }
+        public Vector2 Position { get; }
         public RgbaFloat Color { get; }
 
-        public VertexPositionColor(Vector3 position, RgbaFloat color)
+        public VertexPositionColor(Vector2 position, RgbaFloat color)
         {
             Position = position;
             Color = color;

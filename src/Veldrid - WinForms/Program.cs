@@ -13,63 +13,62 @@ using Juniper.VeldridIntegration;
 
 using Veldrid;
 
-using VertexT = Juniper.VeldridIntegration.VertexPositionTexture;
-
 namespace Juniper
 {
     public static class Program
     {
-        private static readonly Dictionary<MediaType, IImageCodec<ImageData>> decoders = new Dictionary<MediaType, IImageCodec<ImageData>>()
-        {
-            [MediaType.Image.Png] = new HjgPngcsCodec().Pipe(new HjgPngcsImageDataTranscoder()),
-            [MediaType.Image.Jpeg] = new LibJpegNETCodec().Pipe(new LibJpegNETImageDataTranscoder(padAlpha: true))
-        };
+
+        private static Material<VertexPositionColor> quadMaterial;
+        private static MeshRenderer<VertexPositionColor> quadRenderer;
+        private static readonly Mesh<VertexPositionColor> quad = new Mesh<VertexPositionColor>(
+            new Quad<VertexPositionColor>(
+                new VertexPositionColor(new Vector2(-.75f, .75f), RgbaFloat.Red),
+                new VertexPositionColor(new Vector2(.75f, .75f), RgbaFloat.Green),
+                new VertexPositionColor(new Vector2(-.75f, -.75f), RgbaFloat.Blue),
+                new VertexPositionColor(new Vector2(.75f, -.75f), RgbaFloat.Yellow)));
+
+        private static Material<VertexPositionTexture> cubeMaterial;
+        private static MeshRenderer<VertexPositionTexture> cubeRenderer;
+        private static readonly Mesh<VertexPositionTexture> cube = new Mesh<VertexPositionTexture>(
+            // Top
+            new Quad<VertexPositionTexture>(
+                new VertexPositionTexture(new Vector3(-0.5f, +0.5f, -0.5f), new Vector2(0, 0)),
+                new VertexPositionTexture(new Vector3(+0.5f, +0.5f, -0.5f), new Vector2(1, 0)),
+                new VertexPositionTexture(new Vector3(-0.5f, +0.5f, +0.5f), new Vector2(0, 1)),
+                new VertexPositionTexture(new Vector3(+0.5f, +0.5f, +0.5f), new Vector2(1, 1))),
+            // Bottom
+            new Quad<VertexPositionTexture>(
+                new VertexPositionTexture(new Vector3(-0.5f,-0.5f, +0.5f),  new Vector2(0, 0)),
+                new VertexPositionTexture(new Vector3(+0.5f,-0.5f, +0.5f),  new Vector2(1, 0)),
+                new VertexPositionTexture(new Vector3(-0.5f,-0.5f, -0.5f),  new Vector2(0, 1)),
+                new VertexPositionTexture(new Vector3(+0.5f,-0.5f, -0.5f),  new Vector2(1, 1))),
+            // Left
+            new Quad<VertexPositionTexture>(
+                new VertexPositionTexture(new Vector3(-0.5f, +0.5f, -0.5f), new Vector2(0, 0)),
+                new VertexPositionTexture(new Vector3(-0.5f, +0.5f, +0.5f), new Vector2(1, 0)),
+                new VertexPositionTexture(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0, 1)),
+                new VertexPositionTexture(new Vector3(-0.5f, -0.5f, +0.5f), new Vector2(1, 1))),
+            // Right
+            new Quad<VertexPositionTexture>(
+                new VertexPositionTexture(new Vector3(+0.5f, +0.5f, +0.5f), new Vector2(0, 0)),
+                new VertexPositionTexture(new Vector3(+0.5f, +0.5f, -0.5f), new Vector2(1, 0)),
+                new VertexPositionTexture(new Vector3(+0.5f, -0.5f, +0.5f), new Vector2(0, 1)),
+                new VertexPositionTexture(new Vector3(+0.5f, -0.5f, -0.5f), new Vector2(1, 1))),
+            // Back
+            new Quad<VertexPositionTexture>(
+                new VertexPositionTexture(new Vector3(+0.5f, +0.5f, -0.5f), new Vector2(0, 0)),
+                new VertexPositionTexture(new Vector3(-0.5f, +0.5f, -0.5f), new Vector2(1, 0)),
+                new VertexPositionTexture(new Vector3(+0.5f, -0.5f, -0.5f), new Vector2(0, 1)),
+                new VertexPositionTexture(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(1, 1))),
+            // Front
+            new Quad<VertexPositionTexture>(
+                new VertexPositionTexture(new Vector3(-0.5f, +0.5f, +0.5f), new Vector2(0, 0)),
+                new VertexPositionTexture(new Vector3(+0.5f, +0.5f, +0.5f), new Vector2(1, 0)),
+                new VertexPositionTexture(new Vector3(-0.5f, -0.5f, +0.5f), new Vector2(0, 1)),
+                new VertexPositionTexture(new Vector3(+0.5f, -0.5f, +0.5f), new Vector2(1, 1))));
 
         private static readonly Dictionary<string, ImageData> images = new Dictionary<string, ImageData>();
-
-        private static readonly Mesh<VertexT> texturedCube = new Mesh<VertexT>(
-            new Quad<VertexT>[]{
-                // Top
-                new Quad<VertexT>(
-                    new VertexT(new Vector3(-0.5f, +0.5f, -0.5f), new Vector2(0, 0)),
-                    new VertexT(new Vector3(+0.5f, +0.5f, -0.5f), new Vector2(1, 0)),
-                    new VertexT(new Vector3(-0.5f, +0.5f, +0.5f), new Vector2(0, 1)),
-                    new VertexT(new Vector3(+0.5f, +0.5f, +0.5f), new Vector2(1, 1))),
-                // Bottom
-                new Quad<VertexT>(
-                    new VertexT(new Vector3(-0.5f,-0.5f, +0.5f),  new Vector2(0, 0)),
-                    new VertexT(new Vector3(+0.5f,-0.5f, +0.5f),  new Vector2(1, 0)),
-                    new VertexT(new Vector3(-0.5f,-0.5f, -0.5f),  new Vector2(0, 1)),
-                    new VertexT(new Vector3(+0.5f,-0.5f, -0.5f),  new Vector2(1, 1))),
-                // Left
-                new Quad<VertexT>(
-                    new VertexT(new Vector3(-0.5f, +0.5f, -0.5f), new Vector2(0, 0)),
-                    new VertexT(new Vector3(-0.5f, +0.5f, +0.5f), new Vector2(1, 0)),
-                    new VertexT(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0, 1)),
-                    new VertexT(new Vector3(-0.5f, -0.5f, +0.5f), new Vector2(1, 1))),
-                // Right
-                new Quad<VertexT>(
-                    new VertexT(new Vector3(+0.5f, +0.5f, +0.5f), new Vector2(0, 0)),
-                    new VertexT(new Vector3(+0.5f, +0.5f, -0.5f), new Vector2(1, 0)),
-                    new VertexT(new Vector3(+0.5f, -0.5f, +0.5f), new Vector2(0, 1)),
-                    new VertexT(new Vector3(+0.5f, -0.5f, -0.5f), new Vector2(1, 1))),
-                // Back
-                new Quad<VertexT>(
-                    new VertexT(new Vector3(+0.5f, +0.5f, -0.5f), new Vector2(0, 0)),
-                    new VertexT(new Vector3(-0.5f, +0.5f, -0.5f), new Vector2(1, 0)),
-                    new VertexT(new Vector3(+0.5f, -0.5f, -0.5f), new Vector2(0, 1)),
-                    new VertexT(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(1, 1))),
-                // Front
-                new Quad<VertexT>(
-                    new VertexT(new Vector3(-0.5f, +0.5f, +0.5f), new Vector2(0, 0)),
-                    new VertexT(new Vector3(+0.5f, +0.5f, +0.5f), new Vector2(1, 0)),
-                    new VertexT(new Vector3(-0.5f, -0.5f, +0.5f), new Vector2(0, 1)),
-                    new VertexT(new Vector3(+0.5f, -0.5f, +0.5f), new Vector2(1, 1)))
-            });
-
         private static MainForm mainForm;
-        private static Material<VertexT> material;
-        private static MeshRenderer<VertexT> renderer;
         private static Texture surfaceTexture;
         private static DateTime start;
 
@@ -78,6 +77,12 @@ namespace Juniper
             var imageDir = new DirectoryInfo("Images");
             if (imageDir.Exists)
             {
+                var decoders = new Dictionary<MediaType, IImageCodec<ImageData>>()
+                {
+                    [MediaType.Image.Png] = new HjgPngcsCodec().Pipe(new HjgPngcsImageDataTranscoder()),
+                    [MediaType.Image.Jpeg] = new LibJpegNETCodec().Pipe(new LibJpegNETImageDataTranscoder(padAlpha: true))
+                };
+
                 foreach (var file in imageDir.EnumerateFiles())
                 {
                     var name = Path.GetFileNameWithoutExtension(file.Name)
@@ -93,7 +98,12 @@ namespace Juniper
                 }
             }
 
-            material = await Material.LoadAsync<VertexT>(
+            quadMaterial = await Material.LoadAsync<VertexPositionColor>(
+                    "Shaders\\color-quad-vert.glsl",
+                    "Shaders\\color-quad-frag.glsl")
+                .ConfigureAwait(false);
+
+            cubeMaterial = await Material.LoadAsync<VertexPositionTexture>(
                     "Shaders\\tex-cube-vert.glsl",
                     "Shaders\\tex-cube-frag.glsl")
                 .ConfigureAwait(false);
@@ -114,6 +124,13 @@ namespace Juniper
             var device = mainForm.Device.VeldridDevice;
             var factory = device.ResourceFactory;
 
+            quadMaterial.CreateResources(device, factory);
+            quadRenderer = new MeshRenderer<VertexPositionColor>(
+                device,
+                mainForm.Panel.VeldridSwapChain.Framebuffer,
+                quadMaterial,
+                quad);
+
             var image = images["rock"];
             surfaceTexture = factory.CreateTexture(new TextureDescription(
                 (uint)image.Info.Dimensions.Width, (uint)image.Info.Dimensions.Height, 1,
@@ -130,14 +147,14 @@ namespace Juniper
                 (uint)image.Info.Dimensions.Width, (uint)image.Info.Dimensions.Height, 1,
                 0, 0);
 
-            material.AddTexture("SurfaceTexture", surfaceTexture);
-            material.CreateResources(device, factory);
+            cubeMaterial.AddTexture("SurfaceTexture", surfaceTexture);
+            cubeMaterial.CreateResources(device, factory);
 
-            renderer = new MeshRenderer<VertexT>(
+            cubeRenderer = new MeshRenderer<VertexPositionTexture>(
                 device,
                 mainForm.Panel.VeldridSwapChain.Framebuffer,
-                material,
-                texturedCube);
+                cubeMaterial,
+                cube);
 
             start = DateTime.Now;
         }
@@ -145,27 +162,47 @@ namespace Juniper
         private static void Panel_CommandListUpdate(object sender, VeldridIntegration.WinFormsSupport.UpdateCommandListEventArgs e)
         {
             var time = (float)(DateTime.Now - start).TotalSeconds;
+            var showQuad = (((int)(time / 5)) % 2) == 0;
             var commandList = e.CommandList;
             var framebuffer = mainForm.Panel.VeldridSwapChain.Framebuffer;
+
             var width = framebuffer.Width;
             var height = framebuffer.Height;
             var aspectRatio = (float)width / height;
 
             commandList.Begin();
 
-            var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(Units.Degrees.Radians(60), aspectRatio, 0.5f, 100);
-            var viewMatrix = Matrix4x4.CreateLookAt(Vector3.UnitZ * 2.5f, Vector3.Zero, Vector3.UnitY);
-            var worldMatrix = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, time)
-                * Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, time / 3);
-
-            material.UpdateMatrix("ProjectionBuffer", commandList, ref projectionMatrix);
-            material.UpdateMatrix("ViewBuffer", commandList, ref viewMatrix);
-            material.UpdateMatrix("WorldBuffer", commandList, ref worldMatrix);
-
             commandList.SetFramebuffer(framebuffer);
             commandList.ClearColorTarget(0, RgbaFloat.Black);
             commandList.ClearDepthStencil(1);
-            renderer.Draw(commandList);
+
+            if (showQuad)
+            {
+                var size = Math.Min(width, height);
+
+                commandList.SetViewport(0, new Viewport(
+                    x: (width - size) / 2,
+                    y: (height - size) / 2,
+                    width: size,
+                    height: size,
+                    minDepth: 0,
+                    maxDepth: 1));
+
+                quadRenderer.Draw(commandList);
+            }
+            else
+            {
+                var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(Units.Degrees.Radians(60), aspectRatio, 0.5f, 100);
+                var viewMatrix = Matrix4x4.CreateLookAt(Vector3.UnitZ * 2.5f, Vector3.Zero, Vector3.UnitY);
+                cubeMaterial.UpdateMatrix("ProjectionBuffer", commandList, ref projectionMatrix);
+                cubeMaterial.UpdateMatrix("ViewBuffer", commandList, ref viewMatrix);
+
+                var worldMatrix = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, time)
+                    * Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, time / 3);
+                cubeMaterial.UpdateMatrix("WorldBuffer", commandList, ref worldMatrix);
+                cubeRenderer.Draw(commandList);
+            }
+
             commandList.End();
 
             mainForm.Panel.Invalidate();
@@ -178,9 +215,11 @@ namespace Juniper
 
         private static void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            renderer?.Dispose();
-            material?.Dispose();
+            cubeRenderer?.Dispose();
+            cubeMaterial?.Dispose();
             surfaceTexture?.Dispose();
+            quadRenderer?.Dispose();
+            quadMaterial?.Dispose();
         }
     }
 }

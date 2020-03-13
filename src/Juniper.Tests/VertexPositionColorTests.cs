@@ -13,8 +13,8 @@ namespace Juniper.VeldridIntegration.Tests
         [Test]
         public void ListIndexOf()
         {
-            var a = new VertexPositionColor(new Vector3(-0.5f, 0.5f, 0), RgbaFloat.Red);
-            var b = new VertexPositionColor(new Vector3(-0.5f, 0.5f, 0), RgbaFloat.Red);
+            var a = new VertexPositionColor(new Vector2(-0.5f, 0.5f), RgbaFloat.Red);
+            var b = new VertexPositionColor(new Vector2(-0.5f, 0.5f), RgbaFloat.Red);
 
             var l = new List<VertexPositionColor>
             {
