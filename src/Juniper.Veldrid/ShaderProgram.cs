@@ -162,6 +162,13 @@ namespace Juniper.VeldridIntegration
         {
             if (disposing)
             {
+                pipeline?.Dispose();
+                pipeline = null;
+                indexBuffer?.Dispose();
+                indexBuffer = null;
+                vertexBuffer?.Dispose();
+                vertexBuffer = null;
+
                 foreach (var l in layouts)
                 {
                     l.Dispose();
@@ -180,12 +187,6 @@ namespace Juniper.VeldridIntegration
                 }
                 resourceSets = null;
 
-                pipeline?.Dispose();
-                pipeline = null;
-                indexBuffer?.Dispose();
-                indexBuffer = null;
-                vertexBuffer?.Dispose();
-                vertexBuffer = null;
             }
         }
 
