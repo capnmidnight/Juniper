@@ -2,7 +2,7 @@ using System;
 
 using Veldrid;
 
-namespace Juniper.VeldridIntegration.WinFormsSupport
+namespace Juniper.VeldridIntegration
 {
     public delegate void UpdateCommandListHandler(object sender, UpdateCommandListEventArgs e);
 
