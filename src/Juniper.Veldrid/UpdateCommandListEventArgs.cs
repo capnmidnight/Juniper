@@ -9,6 +9,9 @@ namespace Juniper.VeldridIntegration
     public class UpdateCommandListEventArgs : EventArgs
     {
         public CommandList CommandList { get; }
+        public uint Width { get; set; }
+        public uint Height { get; set; }
+
         public UpdateCommandListEventArgs(CommandList commandList)
         {
             CommandList = commandList;
