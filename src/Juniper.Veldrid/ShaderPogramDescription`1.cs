@@ -5,8 +5,8 @@ using Veldrid;
 
 namespace Juniper.VeldridIntegration
 {
-    public sealed class Material<VertexT>
-        : Material
+    public sealed class ShaderProgramDescription<VertexT>
+        : ShaderProgramDescription
         where VertexT : struct
     {
         public VertexLayoutDescription VertexLayout { get; }
@@ -17,7 +17,7 @@ namespace Juniper.VeldridIntegration
 
         public bool UseSpirV { get; } = true;
 
-        internal Material(byte[] vertShaderBytes, byte[] fragShaderBytes)
+        internal ShaderProgramDescription(byte[] vertShaderBytes, byte[] fragShaderBytes)
         {
             if (vertShaderBytes is null)
             {

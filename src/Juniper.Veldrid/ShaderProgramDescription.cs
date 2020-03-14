@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Juniper.VeldridIntegration
 {
-    public abstract class Material
+    public abstract class ShaderProgramDescription
     {
-        public static async Task<Material<VertexT>> LoadAsync<VertexT>(Stream vertShaderStream, Stream fragShaderStream)
+        public static async Task<ShaderProgramDescription<VertexT>> LoadAsync<VertexT>(Stream vertShaderStream, Stream fragShaderStream)
             where VertexT : struct
         {
             if (vertShaderStream is null)
@@ -29,7 +29,7 @@ namespace Juniper.VeldridIntegration
             return Create<VertexT>(vertShaderMem, fragShaderMem);
         }
 
-        public static Material<VertexT> Load<VertexT>(Stream vertShaderStream, Stream fragShaderStream)
+        public static ShaderProgramDescription<VertexT> Load<VertexT>(Stream vertShaderStream, Stream fragShaderStream)
            where VertexT : struct
         {
             if (vertShaderStream is null)
@@ -51,7 +51,7 @@ namespace Juniper.VeldridIntegration
             return Create<VertexT>(vertShaderMem, fragShaderMem);
         }
 
-        public static Task<Material<VertexT>> LoadAsync<VertexT>(FileInfo vertShaderFile, FileInfo fragShaderFile)
+        public static Task<ShaderProgramDescription<VertexT>> LoadAsync<VertexT>(FileInfo vertShaderFile, FileInfo fragShaderFile)
            where VertexT : struct
         {
             if (vertShaderFile is null)
@@ -78,7 +78,7 @@ namespace Juniper.VeldridIntegration
             return LoadAsync<VertexT>(vertShaderFile.OpenRead(), fragShaderFile.OpenRead());
         }
 
-        public static Material<VertexT> Load<VertexT>(FileInfo vertShaderFile, FileInfo fragShaderFile)
+        public static ShaderProgramDescription<VertexT> Load<VertexT>(FileInfo vertShaderFile, FileInfo fragShaderFile)
            where VertexT : struct
         {
             if (vertShaderFile is null)
@@ -105,7 +105,7 @@ namespace Juniper.VeldridIntegration
             return Load<VertexT>(vertShaderFile.OpenRead(), fragShaderFile.OpenRead());
         }
 
-        public static Task<Material<VertexT>> LoadAsync<VertexT>(string vertShaderFileName, string fragShaderFileName)
+        public static Task<ShaderProgramDescription<VertexT>> LoadAsync<VertexT>(string vertShaderFileName, string fragShaderFileName)
            where VertexT : struct
         {
             if (string.IsNullOrEmpty(vertShaderFileName))
@@ -121,7 +121,7 @@ namespace Juniper.VeldridIntegration
             return LoadAsync<VertexT>(new FileInfo(vertShaderFileName), new FileInfo(fragShaderFileName));
         }
 
-        public static Material<VertexT> Load<VertexT>(string vertShaderFileName, string fragShaderFileName)
+        public static ShaderProgramDescription<VertexT> Load<VertexT>(string vertShaderFileName, string fragShaderFileName)
            where VertexT : struct
         {
             if (string.IsNullOrEmpty(vertShaderFileName))
@@ -137,7 +137,7 @@ namespace Juniper.VeldridIntegration
             return Load<VertexT>(new FileInfo(vertShaderFileName), new FileInfo(fragShaderFileName));
         }
 
-        public static Material<VertexT> Create<VertexT>(string vertShaderText, string fragShaderText)
+        public static ShaderProgramDescription<VertexT> Create<VertexT>(string vertShaderText, string fragShaderText)
             where VertexT : struct
         {
             if (vertShaderText is null)
@@ -163,7 +163,7 @@ namespace Juniper.VeldridIntegration
             return Create<VertexT>(Encoding.UTF8.GetBytes(vertShaderText), Encoding.UTF8.GetBytes(fragShaderText));
         }
 
-        public static Material<VertexT> Create<VertexT>(MemoryStream vertShaderMem, MemoryStream fragShaderMem)
+        public static ShaderProgramDescription<VertexT> Create<VertexT>(MemoryStream vertShaderMem, MemoryStream fragShaderMem)
             where VertexT : struct
         {
             if (vertShaderMem is null)
@@ -179,10 +179,10 @@ namespace Juniper.VeldridIntegration
             return Create<VertexT>(vertShaderMem.ToArray(), fragShaderMem.ToArray());
         }
 
-        public static Material<VertexT> Create<VertexT>(byte[] vertShaderBytes, byte[] fragShaderBytes)
+        public static ShaderProgramDescription<VertexT> Create<VertexT>(byte[] vertShaderBytes, byte[] fragShaderBytes)
             where VertexT : struct
         {
-            return new Material<VertexT>(vertShaderBytes, fragShaderBytes);
+            return new ShaderProgramDescription<VertexT>(vertShaderBytes, fragShaderBytes);
         }
     }
 }

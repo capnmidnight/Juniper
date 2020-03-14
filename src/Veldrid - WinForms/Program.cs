@@ -18,8 +18,8 @@ namespace Juniper
     public static class Program
     {
 
-        private static Material<VertexPositionColor> quadMaterial;
-        private static MeshRenderer<VertexPositionColor> quadRenderer;
+        private static ShaderProgramDescription<VertexPositionColor> quadMaterial;
+        private static ShaderProgram<VertexPositionColor> quadRenderer;
         private static readonly Mesh<VertexPositionColor> quad = new Mesh<VertexPositionColor>(
             new Quad<VertexPositionColor>(
                 new VertexPositionColor(new Vector2(-.75f, .75f), RgbaFloat.Red),
@@ -27,8 +27,8 @@ namespace Juniper
                 new VertexPositionColor(new Vector2(-.75f, -.75f), RgbaFloat.Blue),
                 new VertexPositionColor(new Vector2(.75f, -.75f), RgbaFloat.Yellow)));
 
-        private static Material<VertexPositionTexture> cubeMaterial;
-        private static MeshRenderer<VertexPositionTexture> cubeRenderer;
+        private static ShaderProgramDescription<VertexPositionTexture> cubeMaterial;
+        private static ShaderProgram<VertexPositionTexture> cubeRenderer;
         private static readonly Mesh<VertexPositionTexture> cube = new Mesh<VertexPositionTexture>(
             // Top
             new Quad<VertexPositionTexture>(
@@ -98,12 +98,12 @@ namespace Juniper
                 }
             }
 
-            quadMaterial = await Material.LoadAsync<VertexPositionColor>(
+            quadMaterial = await ShaderProgramDescription.LoadAsync<VertexPositionColor>(
                     "Shaders\\color-quad-vert.glsl",
                     "Shaders\\color-quad-frag.glsl")
                 .ConfigureAwait(false);
 
-            cubeMaterial = await Material.LoadAsync<VertexPositionTexture>(
+            cubeMaterial = await ShaderProgramDescription.LoadAsync<VertexPositionTexture>(
                     "Shaders\\tex-cube-vert.glsl",
                     "Shaders\\tex-cube-frag.glsl")
                 .ConfigureAwait(false);
@@ -124,7 +124,7 @@ namespace Juniper
             var device = mainForm.Device.VeldridDevice;
             var factory = device.ResourceFactory;
 
-            quadRenderer = new MeshRenderer<VertexPositionColor>(
+            quadRenderer = new ShaderProgram<VertexPositionColor>(
                 device,
                 mainForm.Panel.VeldridSwapChain.Framebuffer,
                 quad,
@@ -146,7 +146,7 @@ namespace Juniper
                 (uint)image.Info.Dimensions.Width, (uint)image.Info.Dimensions.Height, 1,
                 0, 0);
 
-            cubeRenderer = new MeshRenderer<VertexPositionTexture>(
+            cubeRenderer = new ShaderProgram<VertexPositionTexture>(
                 device,
                 mainForm.Panel.VeldridSwapChain.Framebuffer,
                 cube,

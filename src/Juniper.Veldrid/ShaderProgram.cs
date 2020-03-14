@@ -8,7 +8,7 @@ using Veldrid.SPIRV;
 
 namespace Juniper.VeldridIntegration
 {
-    public class MeshRenderer<VertexT>
+    public class ShaderProgram<VertexT>
         : IDisposable
         where VertexT : struct
     {
@@ -25,7 +25,7 @@ namespace Juniper.VeldridIntegration
         private DeviceBuffer vertexBuffer;
         private DeviceBuffer indexBuffer;
 
-        public MeshRenderer(GraphicsDevice device, Framebuffer framebuffer, Mesh<VertexT> mesh, Material<VertexT> material, params (string name, Texture texture)[] textures)
+        public ShaderProgram(GraphicsDevice device, Framebuffer framebuffer, Mesh<VertexT> mesh, ShaderProgramDescription<VertexT> material, params (string name, Texture texture)[] textures)
         {
             if (device is null)
             {
@@ -106,7 +106,7 @@ namespace Juniper.VeldridIntegration
             pipeline = factory.CreateGraphicsPipeline(pipelineOptions);
         }
 
-        private static Shader[] CreateShaders(ResourceFactory factory, Material<VertexT> material)
+        private static Shader[] CreateShaders(ResourceFactory factory, ShaderProgramDescription<VertexT> material)
         {
             if (material.UseSpirV)
             {
