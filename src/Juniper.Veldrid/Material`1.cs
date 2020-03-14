@@ -15,6 +15,8 @@ namespace Juniper.VeldridIntegration
 
         public GraphicsPipelineDescription PipelineOptions { get; set; }
 
+        public bool UseSpirV { get; } = true;
+
         internal Material(byte[] vertShaderBytes, byte[] fragShaderBytes)
         {
             if (vertShaderBytes is null)

@@ -86,14 +86,36 @@ namespace Juniper.VeldridIntegration
 
             (vertexBuffer, indexBuffer) = this.mesh.Prepare(device);
 
+            var layout = material.VertexLayout;
+            if (device.BackendType == GraphicsBackend.Direct3D11
+                || material.UseSpirV)
+            {
+                for (var i = 0; i < material.VertexLayout.Elements.Length; ++i)
+                {
+                    material.VertexLayout.Elements[i].Semantic = VertexElementSemantic.TextureCoordinate;
+                }
+            }
+
             pipelineOptions.ShaderSet = new ShaderSetDescription
             {
-                VertexLayouts = new VertexLayoutDescription[] { material.VertexLayout },
-                Shaders = factory.CreateFromSpirv(vertex.Description, fragment.Description)
+                VertexLayouts = new VertexLayoutDescription[] { layout },
+                Shaders = CreateShaders(factory, material)
             };
-            
+
             pipelineOptions.Outputs = framebuffer.OutputDescription;
             pipeline = factory.CreateGraphicsPipeline(pipelineOptions);
+        }
+
+        private static Shader[] CreateShaders(ResourceFactory factory, Material<VertexT> material)
+        {
+            if (material.UseSpirV)
+            {
+                return factory.CreateFromSpirv(material.VertexShader.Description, material.FragmentShader.Description);
+            }
+            else
+            {
+                throw new InvalidOperationException("SPIR-V is the only supported shader format.");
+            }
         }
 
         private BindableResource CreateResource(GraphicsDevice device, ResourceFactory factory, ShaderResource r)
