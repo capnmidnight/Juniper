@@ -16,6 +16,7 @@ permissions and limitations under the License.
 
 using System;
 using System.Numerics;
+
 namespace Oculus.VR
 {
     /// <summary>
@@ -23,12 +24,6 @@ namespace Oculus.VR
     /// </summary>
     public static class Manager
     {
-#if DEBUG
-        private const bool isDebugBuild = true;
-#else
-        private const bool isDebugBuild = false;
-#endif
-
         public enum TrackingOrigin
         {
             EyeLevel = Plugin.TrackingOrigin.EyeLevel,
@@ -78,10 +73,9 @@ namespace Oculus.VR
                 display.RecenterPose();
             }
 
-            if (isDebugBuild)
-            {
-                Plugin.SetDeveloperMode(Plugin.Bool.True);
-            }
+#if DEBUG
+            Plugin.SetDeveloperMode(Plugin.Bool.True);
+#endif
 
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             {
