@@ -26,7 +26,7 @@ namespace Oculus.VR
 #if DEBUG
         private const bool isDebugBuild = true;
 #else
-        private const bool debug = false;
+        private const bool isDebugBuild = false;
 #endif
 
         public enum TrackingOrigin
