@@ -5,8 +5,7 @@ using Veldrid;
 
 namespace Juniper.VeldridIntegration
 {
-    public sealed class ShaderProgramDescription<VertexT>
-        : ShaderProgramDescription
+    public struct ShaderProgramDescription<VertexT>
         where VertexT : struct
     {
         public VertexLayoutDescription VertexLayout { get; }
@@ -15,7 +14,7 @@ namespace Juniper.VeldridIntegration
 
         public GraphicsPipelineDescription PipelineOptions { get; set; }
 
-        public bool UseSpirV { get; } = true;
+        public bool UseSpirV { get; }
 
         internal ShaderProgramDescription(byte[] vertShaderBytes, byte[] fragShaderBytes)
         {
@@ -29,14 +28,16 @@ namespace Juniper.VeldridIntegration
                 throw new ArgumentNullException(nameof(fragShaderBytes));
             }
 
+            UseSpirV = true;
+
             var (layout, _) = VertexTypeCache.GetDescription<VertexT>();
             VertexLayout = layout;
 
             VertexShader = new ParsedShader(ShaderStages.Vertex, vertShaderBytes);
             FragmentShader = new ParsedShader(ShaderStages.Fragment, fragShaderBytes);
 
-            ValidateVertShaderInputsMatchVertLayout();
-            ValidateVertShaderOutputsMatchFragShaderOutputs();
+            ValidateVertShaderInputsMatchVertLayout(VertexShader, layout);
+            ValidateVertShaderOutputsMatchFragShaderOutputs(VertexShader, FragmentShader);
 
             PipelineOptions = new GraphicsPipelineDescription
             {
@@ -48,18 +49,18 @@ namespace Juniper.VeldridIntegration
             };
         }
 
-        private void ValidateVertShaderInputsMatchVertLayout()
+        private static void ValidateVertShaderInputsMatchVertLayout(ParsedShader shader, VertexLayoutDescription layout)
         {
-            var vertInputs = VertexShader.Attributes.Where(a => a.Direction == ShaderAttributeDirection.In).ToArray();
-            if (vertInputs.Length != VertexLayout.Elements.Length)
+            var vertInputs = shader.Attributes.Where(a => a.Direction == ShaderAttributeDirection.In).ToArray();
+            if (vertInputs.Length != layout.Elements.Length)
             {
-                throw new FormatException($"Vertex shader input count ({vertInputs.Length}) does not match vert type layout elements ({VertexLayout.Elements.Length})");
+                throw new FormatException($"Vertex shader input count ({vertInputs.Length}) does not match vert type layout elements ({layout.Elements.Length})");
             }
 
             for (var i = 0; i < vertInputs.Length; ++i)
             {
                 var vertInput = vertInputs[i];
-                var vertLayoutElement = VertexLayout.Elements[i];
+                var vertLayoutElement = layout.Elements[i];
                 var size = vertLayoutElement.Format.Size();
 
                 if (vertInput.Name != vertLayoutElement.Name)
@@ -77,10 +78,10 @@ namespace Juniper.VeldridIntegration
             }
         }
 
-        private void ValidateVertShaderOutputsMatchFragShaderOutputs()
+        private static void ValidateVertShaderOutputsMatchFragShaderOutputs(ParsedShader vertexShader, ParsedShader fragmentShader)
         {
-            var vertOutputs = VertexShader.Attributes.Where(a => a.Direction == ShaderAttributeDirection.Out).ToArray();
-            var fragInputs = FragmentShader.Attributes.Where(a => a.Direction == ShaderAttributeDirection.In).ToArray();
+            var vertOutputs = vertexShader.Attributes.Where(a => a.Direction == ShaderAttributeDirection.Out).ToArray();
+            var fragInputs = fragmentShader.Attributes.Where(a => a.Direction == ShaderAttributeDirection.In).ToArray();
 
             if (vertOutputs.Length != fragInputs.Length)
             {

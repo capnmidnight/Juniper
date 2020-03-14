@@ -8,7 +8,7 @@ using Veldrid;
 
 namespace Juniper.VeldridIntegration
 {
-    public class ParsedShader
+    public struct ParsedShader : IEquatable<ParsedShader>
     {
         /// <summary>
         /// Optional whitespace
@@ -58,20 +58,20 @@ namespace Juniper.VeldridIntegration
 
             var shaderText = Encoding.UTF8.GetString(shaderBytes);
             Attributes = ParseAttributes(shaderText);
-            Resources = ParseShaderResources(shaderText);
+            Resources = ParseShaderResources(stage, shaderText);
         }
 
-        private ShaderResource[] ParseShaderResources(string shaderText)
+        private static ShaderResource[] ParseShaderResources(ShaderStages stage, string shaderText)
         {
             return resourceDescriptorPattern.Matches(shaderText)
                 .Cast<Match>()
-                .Select(ParseResource)
+                .Select(m => ParseResource(stage, m))
                 .OrderBy(r => r.Set)
                 .ThenBy(r => r.Binding)
                 .ToArray();
         }
 
-        private ShaderResource ParseResource(Match match)
+        private static ShaderResource ParseResource(ShaderStages stage, Match match)
         {
             var parts = match.Groups
                 .Cast<Group>()
@@ -101,7 +101,7 @@ namespace Juniper.VeldridIntegration
                     _ => ResourceKind.UniformBuffer
                 };
                 var name = parts[3];
-                return new ShaderResource(name, qualifiers, kind, Description.Stage);
+                return new ShaderResource(name, qualifiers, kind, stage);
             }
             else
             {
@@ -109,7 +109,7 @@ namespace Juniper.VeldridIntegration
                 var name = parts[2];
                 var block = parts[3];
                 var identifiers = ParseIdentifiers(block);
-                return new ShaderResource(name, qualifiers, kind, Description.Stage, identifiers);
+                return new ShaderResource(name, qualifiers, kind, stage, identifiers);
             }
         }
 
@@ -212,6 +212,37 @@ namespace Juniper.VeldridIntegration
             }
 
             return new ShaderLayoutQualifier(qualifierType, qualifierValue);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is ParsedShader shader && Equals(shader);
+        }
+
+        public bool Equals(ParsedShader other)
+        {
+            return Description.Equals(other.Description) &&
+                   EqualityComparer<IReadOnlyList<ShaderAttribute>>.Default.Equals(Attributes, other.Attributes) &&
+                   EqualityComparer<IReadOnlyList<ShaderResource>>.Default.Equals(Resources, other.Resources);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 1151065215;
+            hashCode = hashCode * -1521134295 + Description.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<IReadOnlyList<ShaderAttribute>>.Default.GetHashCode(Attributes);
+            hashCode = hashCode * -1521134295 + EqualityComparer<IReadOnlyList<ShaderResource>>.Default.GetHashCode(Resources);
+            return hashCode;
+        }
+
+        public static bool operator ==(ParsedShader left, ParsedShader right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(ParsedShader left, ParsedShader right)
+        {
+            return !(left == right);
         }
     }
 }
