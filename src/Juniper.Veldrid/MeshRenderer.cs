@@ -63,7 +63,7 @@ namespace Juniper.VeldridIntegration
                 .Select(g => g.ToArray())
                 .Select(set =>
                 {
-                    var elements = set.Select(e => (ResourceLayoutElementDescription)e).ToArray();
+                    var elements = set.Select(e => e.ToElementDescription()).ToArray();
                     var layout = factory.CreateResourceLayout(new ResourceLayoutDescription(elements));
                     var resources = set.Select(r => CreateResource(device, factory, r))
                         .ToArray();
