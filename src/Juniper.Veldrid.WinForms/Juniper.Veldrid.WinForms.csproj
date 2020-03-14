@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
     <ProjectReference Include="..\Juniper.Veldrid\Juniper.Veldrid.csproj" />
   </ItemGroup>
 

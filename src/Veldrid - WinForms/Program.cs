@@ -204,8 +204,6 @@ namespace Juniper
             }
 
             commandList.End();
-
-            mainForm.Panel.Invalidate();
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)

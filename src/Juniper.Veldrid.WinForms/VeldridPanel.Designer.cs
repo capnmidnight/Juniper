@@ -1,3 +1,6 @@
+using System.Threading;
+using System.Threading.Tasks;
+
 using Veldrid;
 
 namespace Juniper.VeldridIntegration.WinFormsSupport
@@ -6,6 +9,9 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
     {
         private readonly SwapchainSource veldridSwapchainSource;
         private CommandList commandList;
+        private CancellationTokenSource canceller;
+        private Task renderThread;
+
         public Swapchain VeldridSwapChain { get; private set; }
 
 
@@ -22,10 +28,22 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
         {
             if (disposing)
             {
-                VeldridSwapChain?.Dispose();
-                VeldridSwapChain = null;
+                canceller.Cancel();
+
+                while (renderThread.IsRunning()) ;
+
+                renderThread?.Dispose();
+                renderThread = null;
+
                 commandList?.Dispose();
                 commandList = null;
+
+                VeldridSwapChain?.Dispose();
+                VeldridSwapChain = null;
+
+                canceller?.Dispose();
+                canceller = null;
+
                 components?.Dispose();
             }
 

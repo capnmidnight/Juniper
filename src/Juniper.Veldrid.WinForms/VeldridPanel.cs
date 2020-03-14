@@ -1,6 +1,8 @@
 using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Veldrid;
@@ -13,15 +15,60 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
 
         public event EventHandler Ready;
         public event UpdateCommandListHandler CommandListUpdate;
+
+        private bool render;
         private UpdateCommandListEventArgs updateArgs;
+
+
 
         public VeldridPanel()
         {
+            InitializeComponent();
+
+            Paint += VeldridPanel_Paint;
+            Resize += VeldridPanel_Resize;
+
             var currentModule = typeof(VeldridPanel).Module;
             var hinstance = Marshal.GetHINSTANCE(currentModule);
             veldridSwapchainSource = SwapchainSource.CreateWin32(Handle, hinstance);
+            canceller = new CancellationTokenSource();
+        }
 
-            InitializeComponent();
+        private void VeldridPanel_Resize(object sender, EventArgs e)
+        {
+            render = false;
+            VeldridSwapChain?.Resize((uint)Width, (uint)Height);
+            InitializeSwapchain();
+            render = true;
+        }
+
+        private void VeldridPanel_Paint(object sender, PaintEventArgs e)
+        {
+            using var g = CreateGraphics();
+            g.FillRectangle(SystemBrushes.ControlDark, ClientRectangle);
+
+            var icon = SystemIcons.Application;
+            var middleRect = ClientRectangle;
+            middleRect.X = (middleRect.Width - icon.Width * 2) / 2;
+            middleRect.Y = (middleRect.Height - icon.Height * 2) / 2;
+            middleRect.Width = icon.Width * 2;
+            middleRect.Height = icon.Height * 2;
+            g.DrawIcon(icon, middleRect);
+
+            InitializeSwapchain();
+            Invalidate();
+        }
+
+        private void RenderThread()
+        {
+            while (!canceller.IsCancellationRequested)
+            {
+                if (render)
+                {
+                    CommandListUpdate(this, updateArgs);
+                    VeldridGraphicsDevice.Draw(commandList, VeldridSwapChain);
+                }
+            }
         }
 
         private void InitializeSwapchain()
@@ -46,46 +93,10 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
                     VeldridSwapChain = resourceFactory.CreateSwapchain(swapchainDescription);
                     commandList = VeldridGraphicsDevice.VeldridDevice.ResourceFactory.CreateCommandList();
                     updateArgs = new UpdateCommandListEventArgs(commandList);
-
+                    Paint -= VeldridPanel_Paint;
                     Ready?.Invoke(this, EventArgs.Empty);
+                    renderThread = Task.Factory.StartNew(RenderThread, canceller.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
                 }
-            }
-        }
-
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-            VeldridSwapChain?.Resize((uint)Width, (uint)Height);
-            Invalidate();
-        }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            InitializeSwapchain();
-
-            if (commandList is object
-                && updateArgs is object
-                && VeldridGraphicsDevice is object
-                && VeldridGraphicsDevice.VeldridDevice is object
-                && VeldridSwapChain is object
-                && CommandListUpdate is object)
-            {
-                CommandListUpdate?.Invoke(this, updateArgs);
-                VeldridGraphicsDevice?.Draw(commandList, VeldridSwapChain);
-            }
-            else
-            {
-                base.OnPaint(e);
-                using var g = CreateGraphics();
-                g.FillRectangle(SystemBrushes.ControlDark, ClientRectangle);
-
-                var icon = SystemIcons.Application;
-                var middleRect = ClientRectangle;
-                middleRect.X = (middleRect.Width - icon.Width * 2) / 2;
-                middleRect.Y = (middleRect.Height - icon.Height * 2) / 2;
-                middleRect.Width = icon.Width * 2;
-                middleRect.Height = icon.Height * 2;
-                g.DrawIcon(icon, middleRect);
             }
         }
     }
