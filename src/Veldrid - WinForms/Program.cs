@@ -131,8 +131,10 @@ namespace Juniper
                 quadMaterial);
 
             var image = images["rock"];
+            var imageWidth = (uint)image.Info.Dimensions.Width;
+            var imageHeight = (uint)image.Info.Dimensions.Height;
             surfaceTexture = factory.CreateTexture(new TextureDescription(
-                (uint)image.Info.Dimensions.Width, (uint)image.Info.Dimensions.Height, 1,
+                imageWidth, imageHeight, 1,
                 1, 1,
                 PixelFormat.R8_G8_B8_A8_UNorm,
                 TextureUsage.Sampled,
@@ -143,7 +145,7 @@ namespace Juniper
                 surfaceTexture,
                 imageData,
                 0, 0, 0,
-                (uint)image.Info.Dimensions.Width, (uint)image.Info.Dimensions.Height, 1,
+                imageWidth, imageHeight, 1,
                 0, 0);
 
             cubeRenderer = new ShaderProgram<VertexPositionTexture>(
