@@ -158,14 +158,15 @@ namespace Juniper
 
         private static void Panel_CommandListUpdate(object sender, VeldridIntegration.WinFormsSupport.UpdateCommandListEventArgs e)
         {
-            var time = (float)(DateTime.Now - start).TotalSeconds;
-            var showQuad = (((int)(time / 5)) % 2) == 0;
             var commandList = e.CommandList;
             var framebuffer = mainForm.Panel.VeldridSwapChain.Framebuffer;
 
             var width = framebuffer.Width;
             var height = framebuffer.Height;
             var aspectRatio = (float)width / height;
+
+            var time = (float)(DateTime.Now - start).TotalSeconds;
+            var showQuad = (((int)(time / 5)) % 2) == 0;
 
             commandList.Begin();
 

@@ -29,13 +29,13 @@ namespace Juniper.VeldridIntegration
                     uint size = 0;
                     for(var i = 0; i < members.Length; ++i)
                     {
-                        var m = members[i];
-                        m.info.Resolve(m.member);
+                        var (member, info) = members[i];
+                        info.Resolve(member);
                         descriptions[i] = new VertexElementDescription(
-                            m.info.Name,
-                            m.info.Format.Value,
-                            m.info.Semantics);
-                        size += m.info.Size;
+                            info.Name,
+                            info.Format.Value,
+                            info.Semantics);
+                        size += info.Size;
                     }
 
                     var layout = new VertexLayoutDescription(descriptions);

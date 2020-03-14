@@ -91,6 +91,7 @@ namespace Juniper.VeldridIntegration
                 VertexLayouts = new VertexLayoutDescription[] { material.VertexLayout },
                 Shaders = factory.CreateFromSpirv(vertex.Description, fragment.Description)
             };
+            
             pipelineOptions.Outputs = framebuffer.OutputDescription;
             pipeline = factory.CreateGraphicsPipeline(pipelineOptions);
         }

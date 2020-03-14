@@ -9,8 +9,8 @@ namespace Juniper.VeldridIntegration
         : Material
         where VertexT : struct
     {
-        public ParsedShader VertexShader { get; }
         public VertexLayoutDescription VertexLayout { get; }
+        public ParsedShader VertexShader { get; }
         public ParsedShader FragmentShader { get; }
 
         public GraphicsPipelineDescription PipelineOptions { get; set; }
