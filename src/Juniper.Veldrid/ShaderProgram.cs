@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
+using Juniper.Imaging;
+
 using Veldrid;
 using Veldrid.SPIRV;
 
@@ -13,9 +15,11 @@ namespace Juniper.VeldridIntegration
         where VertexT : struct
     {
         private readonly Dictionary<string, DeviceBuffer> buffers = new Dictionary<string, DeviceBuffer>();
-        private readonly Dictionary<string, Texture> textures;
+        private readonly List<(string name, ImageData image)> textureData = new List<(string name, ImageData image)>();
+        private readonly Dictionary<string, Texture> textures = new Dictionary<string, Texture>();
         private readonly Mesh<VertexT> mesh;
         private readonly IndexFormat indexFormat;
+        private readonly ShaderProgramDescription<VertexT> programDescription;
 
         private Pipeline pipeline;
         private ResourceLayout[] layouts;
@@ -25,8 +29,47 @@ namespace Juniper.VeldridIntegration
         private DeviceBuffer vertexBuffer;
         private DeviceBuffer indexBuffer;
 
-        public ShaderProgram(GraphicsDevice device, Framebuffer framebuffer, Mesh<VertexT> mesh, ShaderProgramDescription<VertexT> material, params (string name, Texture texture)[] textures)
+        public bool IsRunning { get; private set; }
+
+        public ShaderProgram(ShaderProgramDescription<VertexT> programDescription, Mesh<VertexT> mesh)
         {
+            if (!programDescription.UseSpirV)
+            {
+                throw new NotImplementedException("Support for only SPIR-V shaders are currently implemented.");
+            }
+
+            this.programDescription = programDescription;
+            this.mesh = mesh ?? throw new ArgumentNullException(nameof(mesh));
+            indexFormat = mesh.IndexType.ToIndexFormat();
+        }
+
+        public void AddTexture(string name, ImageData image)
+        {
+            if (IsRunning)
+            {
+                throw new InvalidOperationException("Cannot add textures while the program is running.");
+            }
+
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("Texture name cannot be null or empty.", nameof(name));
+            }
+
+            if (image is null)
+            {
+                throw new ArgumentNullException(nameof(image));
+            }
+
+            textureData.Add((name, image));
+        }
+
+        public void Begin(GraphicsDevice device, Framebuffer framebuffer)
+        {
+            if (IsRunning)
+            {
+                throw new InvalidOperationException("The program is already running.");
+            }
+
             if (device is null)
             {
                 throw new ArgumentNullException(nameof(device));
@@ -37,14 +80,6 @@ namespace Juniper.VeldridIntegration
                 throw new ArgumentNullException(nameof(framebuffer));
             }
 
-            this.mesh = mesh ?? throw new ArgumentNullException(nameof(mesh));
-            indexFormat = mesh.IndexType.ToIndexFormat();
-
-            if (material is null)
-            {
-                throw new ArgumentNullException(nameof(material));
-            }
-
             var factory = device.ResourceFactory;
 
             if (factory is null)
@@ -52,10 +87,33 @@ namespace Juniper.VeldridIntegration
                 throw new ArgumentException("GraphicsDevice is not ready. It has no ResourceFactory", nameof(device));
             }
 
-            this.textures = textures.ToDictionary(x => x.name, x => x.texture);
+            foreach (var (name, image) in textureData)
+            {
+                var imageData = image.GetData();
+                var imageWidth = (uint)image.Info.Dimensions.Width;
+                var imageHeight = (uint)image.Info.Dimensions.Height;
 
-            var vertex = material.VertexShader;
-            var fragment = material.FragmentShader;
+                var texture = factory.CreateTexture(new TextureDescription(
+                    imageWidth, imageHeight, 1,
+                    1, 1,
+                    PixelFormat.R8_G8_B8_A8_UNorm,
+                    TextureUsage.Sampled,
+                    TextureType.Texture2D));
+
+                textures[name] = texture;
+
+                device.UpdateTexture(
+                    texture,
+                    imageData,
+                    0, 0, 0,
+                    imageWidth, imageHeight, 1,
+                    0, 0);
+            }
+
+            textureData.Clear();
+
+            var vertex = programDescription.VertexShader;
+            var fragment = programDescription.FragmentShader;
 
             var layoutsAndResources = vertex.Resources
                 .Concat(fragment.Resources)
@@ -71,7 +129,7 @@ namespace Juniper.VeldridIntegration
                 })
                 .ToArray();
 
-            var pipelineOptions = material.PipelineOptions;
+            var pipelineOptions = programDescription.PipelineOptions;
 
             pipelineOptions.ResourceLayouts = layouts = layoutsAndResources.Select(l => l.layout).ToArray();
 
@@ -86,24 +144,26 @@ namespace Juniper.VeldridIntegration
 
             (vertexBuffer, indexBuffer) = this.mesh.Prepare(device);
 
-            var layout = material.VertexLayout;
+            var layout = programDescription.VertexLayout;
             if (device.BackendType == GraphicsBackend.Direct3D11
-                || material.UseSpirV)
+                || programDescription.UseSpirV)
             {
-                for (var i = 0; i < material.VertexLayout.Elements.Length; ++i)
+                for (var i = 0; i < programDescription.VertexLayout.Elements.Length; ++i)
                 {
-                    material.VertexLayout.Elements[i].Semantic = VertexElementSemantic.TextureCoordinate;
+                    programDescription.VertexLayout.Elements[i].Semantic = VertexElementSemantic.TextureCoordinate;
                 }
             }
 
             pipelineOptions.ShaderSet = new ShaderSetDescription
             {
                 VertexLayouts = new VertexLayoutDescription[] { layout },
-                Shaders = CreateShaders(factory, material)
+                Shaders = CreateShaders(factory, programDescription)
             };
 
             pipelineOptions.Outputs = framebuffer.OutputDescription;
             pipeline = factory.CreateGraphicsPipeline(pipelineOptions);
+
+            IsRunning = true;
         }
 
         private static Shader[] CreateShaders(ResourceFactory factory, ShaderProgramDescription<VertexT> material)
@@ -132,24 +192,22 @@ namespace Juniper.VeldridIntegration
 
         private DeviceBuffer CreateBuffer(ResourceFactory factory, ShaderResource r)
         {
-            var buffer = factory.CreateBuffer(new BufferDescription(r.Size, BufferUsage.UniformBuffer));
-            buffers[r.Name] = buffer;
-            return buffer;
+            return buffers[r.Name] = factory.CreateBuffer(new BufferDescription(r.Size, BufferUsage.UniformBuffer)); ;
         }
 
         public void UpdateMatrix(string name, CommandList commandList, ref Matrix4x4 matrix)
         {
+            if (!IsRunning)
+            {
+                throw new InvalidOperationException("Cannot update matrices when the program is not running.");
+            }
+
             if (commandList is null)
             {
                 throw new ArgumentNullException(nameof(commandList));
             }
 
             commandList.UpdateBuffer(buffers[name], 0, ref matrix);
-        }
-
-        public void AddTexture(string name, Texture texture)
-        {
-            textures[name] = texture;
         }
 
         public void Dispose()
@@ -187,11 +245,21 @@ namespace Juniper.VeldridIntegration
                 }
                 resourceSets = null;
 
+                foreach (var texture in textures.Values)
+                {
+                    texture.Dispose();
+                }
+                textures.Clear();
             }
         }
 
         public void Draw(CommandList commandList)
         {
+            if (!IsRunning)
+            {
+                throw new InvalidOperationException("Cannot draw when the program is not running.");
+            }
+
             if (commandList is null)
             {
                 throw new ArgumentNullException(nameof(commandList));

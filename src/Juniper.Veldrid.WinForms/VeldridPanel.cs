@@ -65,9 +65,13 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
             {
                 if (render)
                 {
+                    commandList.Begin();
+                    commandList.SetFramebuffer(VeldridSwapChain.Framebuffer);
                     updateArgs.Width = VeldridSwapChain.Framebuffer.Width;
                     updateArgs.Height = VeldridSwapChain.Framebuffer.Height;
                     CommandListUpdate(this, updateArgs);
+                    commandList.End();
+
                     VeldridGraphicsDevice.Draw(commandList, VeldridSwapChain);
                 }
             }
