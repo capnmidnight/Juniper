@@ -19,19 +19,19 @@ namespace Juniper.VeldridIntegration
 
         public ShaderStages Stage { get; }
 
-        public (ShaderDataType type, string name, uint size)[] Identifiers { get; }
+        private readonly (ShaderDataType type, string name, uint size)[] identifiers;
 
-        public ShaderResource(string name, ShaderLayoutQualifier[] qualifiers, ResourceKind kind, ShaderStages stage, (ShaderDataType type, string name, uint size)[] resourceIdentifiers = null)
+        public ShaderResource(string name, ShaderLayoutQualifier[] qualifiers, ResourceKind kind, ShaderStages stage, params (ShaderDataType type, string name, uint size)[] identifiers)
         {
             layout = new ShaderLayout(0, qualifiers);
             Name = name;
             Kind = kind;
             Stage = stage;
-            Identifiers = resourceIdentifiers ?? Array.Empty<(ShaderDataType, string, uint)>();
+            this.identifiers = identifiers;
         }
 
         public uint Size =>
-            (uint)Identifiers.Sum(i => i.type.Size() * i.size);
+            (uint)identifiers.Sum(i => i.type.Size() * i.size);
 
         public override bool Equals(object obj)
         {
