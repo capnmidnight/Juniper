@@ -6,6 +6,7 @@ using Veldrid;
 namespace Juniper.VeldridIntegration
 {
     public struct ShaderProgramDescription<VertexT>
+        : IEquatable<ShaderProgramDescription<VertexT>>
         where VertexT : struct
     {
         public VertexLayoutDescription VertexLayout { get; }
@@ -97,6 +98,41 @@ namespace Juniper.VeldridIntegration
                     throw new FormatException($"Vertex shader output '{vertOutput}' does not match frag shader input `{fragInput}'.");
                 }
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is ShaderProgramDescription<VertexT> description && Equals(description);
+        }
+
+        public bool Equals(ShaderProgramDescription<VertexT> other)
+        {
+            return VertexLayout.Equals(other.VertexLayout) &&
+                   VertexShader.Equals(other.VertexShader) &&
+                   FragmentShader.Equals(other.FragmentShader) &&
+                   PipelineOptions.Equals(other.PipelineOptions) &&
+                   UseSpirV == other.UseSpirV;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 2038128800;
+            hashCode = hashCode * -1521134295 + VertexLayout.GetHashCode();
+            hashCode = hashCode * -1521134295 + VertexShader.GetHashCode();
+            hashCode = hashCode * -1521134295 + FragmentShader.GetHashCode();
+            hashCode = hashCode * -1521134295 + PipelineOptions.GetHashCode();
+            hashCode = hashCode * -1521134295 + UseSpirV.GetHashCode();
+            return hashCode;
+        }
+
+        public static bool operator ==(ShaderProgramDescription<VertexT> left, ShaderProgramDescription<VertexT> right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(ShaderProgramDescription<VertexT> left, ShaderProgramDescription<VertexT> right)
+        {
+            return !(left == right);
         }
     }
 }

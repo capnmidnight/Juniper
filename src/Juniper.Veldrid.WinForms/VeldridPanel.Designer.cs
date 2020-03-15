@@ -14,6 +14,9 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
 
         public Swapchain VeldridSwapChain { get; private set; }
 
+        public float AspectRatio =>
+            (float)VeldridSwapChain.Framebuffer.Width / VeldridSwapChain.Framebuffer.Height;
+
 
         /// <summary> 
         /// Required designer variable.

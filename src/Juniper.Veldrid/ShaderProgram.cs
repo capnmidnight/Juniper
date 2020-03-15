@@ -210,6 +210,27 @@ namespace Juniper.VeldridIntegration
             commandList.UpdateBuffer(buffers[name], 0, ref matrix);
         }
 
+        public Camera CreateCamera(string projectionBufferName, string viewBufferName)
+        {
+            if (string.IsNullOrEmpty(projectionBufferName))
+            {
+                throw new ArgumentException("Must provide a name for the projection buffer.", nameof(projectionBufferName));
+            }
+
+            if (string.IsNullOrEmpty(viewBufferName))
+            {
+                throw new ArgumentException("Must provide a name for the view buffer", nameof(viewBufferName));
+            }
+
+            var proj = buffers[projectionBufferName];
+            buffers.Remove(projectionBufferName);
+
+            var view = buffers[viewBufferName];
+            buffers.Remove(viewBufferName);
+
+            return new Camera(proj, view);
+        }
+
         public void Dispose()
         {
             Dispose(true);
@@ -220,6 +241,8 @@ namespace Juniper.VeldridIntegration
         {
             if (disposing)
             {
+                IsRunning = false;
+
                 pipeline?.Dispose();
                 pipeline = null;
                 indexBuffer?.Dispose();

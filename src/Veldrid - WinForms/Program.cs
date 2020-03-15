@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Juniper.Imaging;
+using Juniper.Input;
 using Juniper.IO;
 using Juniper.VeldridIntegration;
 
@@ -17,10 +18,14 @@ namespace Juniper
 {
     public static class Program
     {
+        const float MOVE_SPEED = 0.01f;
+        private static Camera camera;
         private static ShaderProgram<VertexPositionColor> quadProgram;
         private static ShaderProgram<VertexPositionTexture> cubeProgram;
         private static MainForm mainForm;
         private static DateTime start;
+        private static DateTime last;
+        private static Win32KeyEventSource keys;
 
         private static void Main()
         {
@@ -29,9 +34,20 @@ namespace Juniper
             Application.ThreadException += Application_ThreadException;
 
             using var form = mainForm = new MainForm();
+            mainForm.Panel.Resize += Panel_Resize;
             mainForm.Panel.Ready += Panel_Ready;
             mainForm.Panel.CommandListUpdate += Panel_CommandListUpdate;
             mainForm.FormClosing += MainForm_FormClosing;
+
+            keys = new Win32KeyEventSource();
+            keys.AddKeyAlias("up", Keys.Up);
+            keys.AddKeyAlias("down", Keys.Down);
+            keys.AddKeyAlias("left", Keys.Left);
+            keys.AddKeyAlias("right", Keys.Right);
+            keys.DefineAxis("horizontal", "left", "right");
+            keys.DefineAxis("forward", "up", "down");
+            keys.Start();
+
             Application.Run(mainForm);
         }
 
@@ -127,25 +143,50 @@ namespace Juniper
             cubeProgram.AddTexture("SurfaceTexture", images["rock"]);
             cubeProgram.Begin(device, framebuffer);
 
-            start = DateTime.Now;
+            camera = cubeProgram.CreateCamera("ProjectionBuffer", "ViewBuffer");
+            camera.Position = 2.5f * Vector3.UnitZ;
+            camera.Forward = Vector3.Zero - camera.Position;
+            camera.AspectRatio = mainForm.Panel.AspectRatio;
+
+            last = start = DateTime.Now;
         }
+
+        private static void Panel_Resize(object sender, EventArgs e)
+        {
+            if(camera is object)
+            {
+                camera.AspectRatio = mainForm.Panel.AspectRatio;
+            }
+        }
+
+        private static void SetFPS(float fps)
+        {
+            mainForm.Text = $"MainForm - {fps:0.0}fps";
+        }
+
+        private static readonly Delegate setFPS = new Action<float>(SetFPS);
 
         private static void Panel_CommandListUpdate(object sender, UpdateCommandListEventArgs e)
         {
-            if (quadProgram is object
-                && cubeProgram is object)
+            if (quadProgram?.IsRunning == true
+                && cubeProgram?.IsRunning == true
+                && camera is object)
             {
                 var commandList = e.CommandList;
 
-                var aspectRatio = (float)e.Width / e.Height;
+                camera.AspectRatio = (float)e.Width / e.Height;
 
                 var time = (float)(DateTime.Now - start).TotalSeconds;
+                var dtime = (float)(DateTime.Now - last).TotalSeconds;
+                last = DateTime.Now; ;
+                var fps = Units.Seconds.Hertz(dtime);
+                mainForm.Invoke(setFPS, fps);
                 var showQuad = (((int)(time / 5)) % 2) == 0;
 
                 commandList.ClearColorTarget(0, RgbaFloat.Black);
                 commandList.ClearDepthStencil(1);
 
-                if (showQuad && quadProgram.IsRunning)
+                if (false && showQuad)
                 {
                     var size = Math.Min(e.Width, e.Height);
 
@@ -159,15 +200,20 @@ namespace Juniper
 
                     quadProgram.Draw(commandList);
                 }
-                else if (!showQuad && cubeProgram.IsRunning)
+                else
                 {
-                    var projectionMatrix = Matrix4x4.CreatePerspectiveFieldOfView(Units.Degrees.Radians(60), aspectRatio, 0.5f, 100);
-                    var viewMatrix = Matrix4x4.CreateLookAt(Vector3.UnitZ * 2.5f, Vector3.Zero, Vector3.UnitY);
-                    cubeProgram.UpdateMatrix("ProjectionBuffer", commandList, ref projectionMatrix);
-                    cubeProgram.UpdateMatrix("ViewBuffer", commandList, ref viewMatrix);
+                    var dx = keys.GetAxis("horizontal");
+                    var dz = keys.GetAxis("forward");
+                    if (dx != 0 || dz != 0)
+                    {
+                        var move = Vector3.Normalize(new Vector3(dx, 0, dz));
+                        camera.Position += Vector3.Transform(move, camera.Rotation) * time * MOVE_SPEED;
+                    }
+                    
 
-                    var worldMatrix = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, time)
-                        * Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, time / 3);
+                    camera.SetView(commandList);
+
+                    var worldMatrix = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, time);
                     cubeProgram.UpdateMatrix("WorldBuffer", commandList, ref worldMatrix);
                     cubeProgram.Draw(commandList);
                 }
@@ -182,7 +228,13 @@ namespace Juniper
         private static void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             cubeProgram?.Dispose();
+            cubeProgram = null;
+
             quadProgram?.Dispose();
+            quadProgram = null;
+
+            camera?.Dispose();
+            camera = null;
         }
     }
 }

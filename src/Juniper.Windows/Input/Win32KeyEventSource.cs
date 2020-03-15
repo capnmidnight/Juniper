@@ -1,3 +1,5 @@
+#if !NETCOREAPP
+
 using System.Runtime.InteropServices;
 
 using Keys = System.Windows.Forms.Keys;
@@ -41,3 +43,5 @@ namespace Juniper.Input
         }
     }
 }
+
+#endif

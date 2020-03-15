@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -6,31 +5,25 @@ namespace Juniper.Input
 {
     public class WinFormsKeyEventSource : AbstractKeyEventSource<Keys>
     {
-        private readonly WeakReference<Control> controlRef;
+        private readonly Control control;
 
         public WinFormsKeyEventSource(Control control)
         {
-            controlRef = new WeakReference<Control>(control ?? throw new ArgumentNullException(nameof(control)));
+            this.control = control;
         }
 
         public override void Start()
         {
-            if (controlRef.TryGetTarget(out var control))
-            {
-                base.Start();
-                control.KeyDown += Form_KeyDown;
-                control.KeyUp += Form_KeyUp;
-            }
+            base.Start();
+            control.KeyDown += Form_KeyDown;
+            control.KeyUp += Form_KeyUp;
         }
 
         public override void Quit()
         {
-            if (controlRef.TryGetTarget(out var control))
-            {
-                control.KeyDown -= Form_KeyDown;
-                control.KeyUp -= Form_KeyUp;
-                base.Quit();
-            }
+            control.KeyDown -= Form_KeyDown;
+            control.KeyUp -= Form_KeyUp;
+            base.Quit();
         }
 
         private void Form_KeyUp(object sender, KeyEventArgs e)

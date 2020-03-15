@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Accord.Math.Geometry;
 
 namespace Juniper.Input
 {
@@ -16,6 +17,7 @@ namespace Juniper.Input
         private readonly Dictionary<string, KeyChangeEvent> upEvents = new Dictionary<string, KeyChangeEvent>();
         private readonly Dictionary<string, KeyChangeEvent> downEvents = new Dictionary<string, KeyChangeEvent>();
         private readonly Dictionary<string, bool> aliasState = new Dictionary<string, bool>();
+        private readonly Dictionary<string, (string, string)> axes = new Dictionary<string, (string, string)>();
 
         protected Dictionary<KeyT, bool> KeyState { get; } = new Dictionary<KeyT, bool>();
 
@@ -84,6 +86,22 @@ namespace Juniper.Input
             return aliasState[name];
         }
 
+        public float GetValue(string name)
+        {
+            return IsDown(name) ? 1 : 0;
+        }
+
         public abstract bool IsKeyDown(KeyT key);
+
+        public void DefineAxis(string name, string negative, string positive)
+        {
+            axes[name] = (negative, positive);
+        }
+
+        public float GetAxis(string name)
+        {
+            var (negative, positive) = axes[name];
+            return GetValue(positive) - GetValue(negative);
+        }
     }
 }
