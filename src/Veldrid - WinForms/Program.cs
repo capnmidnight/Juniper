@@ -26,6 +26,7 @@ namespace Juniper
         private static DateTime start;
         private static DateTime last;
         private static Win32KeyEventSource keys;
+        private static Vector2 lastMouse;
 
         private static void Main()
         {
@@ -38,6 +39,7 @@ namespace Juniper
             mainForm.Panel.Ready += Panel_Ready;
             mainForm.Panel.CommandListUpdate += Panel_CommandListUpdate;
             mainForm.FormClosing += MainForm_FormClosing;
+            mainForm.Panel.MouseMove += Panel_MouseMove;
 
             keys = new Win32KeyEventSource();
             keys.AddKeyAlias("up", Keys.Up);
@@ -49,6 +51,28 @@ namespace Juniper
             keys.Start();
 
             Application.Run(mainForm);
+        }
+
+        private static void Panel_MouseMove(object sender, MouseEventArgs e)
+        {
+            var mouse = new Vector2(
+                e.X,
+                e.Y);
+            if (lastMouse == Vector2.Zero)
+            {
+                lastMouse = mouse;
+            }
+            var delta = lastMouse - mouse;
+            lastMouse = mouse;
+            if (camera != null)
+            {
+                var dRot = Quaternion.CreateFromYawPitchRoll(
+                    Units.Degrees.Radians(delta.X),
+                    Units.Degrees.Radians(delta.Y),
+                    0);
+
+                camera.Rotation *= dRot;
+            }
         }
 
         private static void Panel_Ready(object sender, EventArgs e)
@@ -178,9 +202,10 @@ namespace Juniper
 
                 var time = (float)(DateTime.Now - start).TotalSeconds;
                 var dtime = (float)(DateTime.Now - last).TotalSeconds;
-                last = DateTime.Now; ;
                 var fps = Units.Seconds.Hertz(dtime);
                 mainForm.Invoke(setFPS, fps);
+                last = DateTime.Now;
+
                 var showQuad = (((int)(time / 5)) % 2) == 0;
 
                 commandList.ClearColorTarget(0, RgbaFloat.Black);

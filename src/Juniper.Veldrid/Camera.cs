@@ -15,8 +15,8 @@ namespace Juniper.VeldridIntegration
         private float far = 1000;
         private float aspectRatio = 1;
         private Vector3 position = Vector3.Zero;
-        private Vector3 forward;
-        private Vector3 up;
+        private Vector3 forward = -Vector3.UnitZ;
+        private Vector3 up = Vector3.UnitY;
         private Quaternion rot;
         private Matrix4x4 projection;
         private Matrix4x4 view;
@@ -139,6 +139,11 @@ namespace Juniper.VeldridIntegration
             }
         }
 
+        private void UpdateView()
+        {
+            view = Matrix4x4.CreateLookAt(position, position + forward, up);
+        }
+
         public Vector3 Position
         {
             get
@@ -149,7 +154,7 @@ namespace Juniper.VeldridIntegration
             set
             {
                 position = value;
-                view = Matrix4x4.CreateLookAt(position, position + forward, up);
+                UpdateView();
             }
         }
 
@@ -163,20 +168,10 @@ namespace Juniper.VeldridIntegration
             set
             {
                 rot = value;
-                forward = Vector3.Transform(Vector3.UnitZ, rot);
+                forward = Vector3.Transform(-Vector3.UnitZ, rot);
                 up = Vector3.Transform(Vector3.UnitY, rot);
-                view = Matrix4x4.CreateLookAt(position, forward, up);
+                UpdateView();
             }
-        }
-
-        public void SetView(Vector3 forward, Vector3 up)
-        {
-            var rotM = Matrix4x4.CreateLookAt(Vector3.Zero, forward, up);
-            var trans = Matrix4x4.CreateTranslation(position);
-            rot = Quaternion.CreateFromRotationMatrix(rotM);
-            this.forward = Vector3.Normalize(forward);
-            this.up = Vector3.Normalize(up);
-            view = trans * rotM;
         }
 
         public Vector3 Forward
@@ -188,7 +183,10 @@ namespace Juniper.VeldridIntegration
 
             set
             {
-                SetView(value, up);
+                forward = value;
+                var right = Vector3.Cross(forward, up);
+                up = Vector3.Cross(right, forward);
+                UpdateView();
             }
         }
 
@@ -201,7 +199,10 @@ namespace Juniper.VeldridIntegration
 
             set
             {
-                SetView(forward, value);
+                up = value;
+                var right = Vector3.Cross(forward, up);
+                forward = Vector3.Cross(up, right);
+                UpdateView();
             }
         }
 
