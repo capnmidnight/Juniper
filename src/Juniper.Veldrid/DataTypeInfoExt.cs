@@ -18,6 +18,7 @@ namespace Juniper.VeldridIntegration
             [typeof(Vector2)] = 2 * sizeof(float),
             [typeof(Vector3)] = 3 * sizeof(float),
             [typeof(Vector4)] = 4 * sizeof(float),
+            [typeof(Matrix3x2)] = 3 * 2 * sizeof(float),
             [typeof(Matrix4x4)] = 4 * 4 * sizeof(float),
             [typeof(double)] = sizeof(double)
         };
