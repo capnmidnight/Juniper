@@ -236,13 +236,12 @@ namespace Juniper
 
                     commandList.Begin();
                     commandList.SetFramebuffer(swapchain.Framebuffer);
-                    commandList.ClearColorTarget(0, RgbaFloat.Black);
-                    commandList.ClearDepthStencil(1);
 
                     camera.SetView(commandList);
 
                     program.UpdateMatrix("WorldBuffer", commandList, ref worldMatrix);
                     program.Draw(commandList);
+
                     commandList.End();
                     device.SubmitCommands(commandList);
                     device.SwapBuffers(swapchain);

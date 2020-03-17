@@ -52,6 +52,8 @@ namespace Juniper.VeldridIntegration
             }
         }
 
+        public RgbaFloat ClearColor { get; set; } = RgbaFloat.Black;
+
         public Matrix4x4 Projection
         {
             get
@@ -213,6 +215,8 @@ namespace Juniper.VeldridIntegration
                 throw new ArgumentNullException(nameof(commandList));
             }
 
+            commandList.ClearColorTarget(0, ClearColor);
+            commandList.ClearDepthStencil(1);
             commandList.UpdateBuffer(projectionBuffer, 0, ref projection);
             commandList.UpdateBuffer(viewBuffer, 0, ref view);
         }
