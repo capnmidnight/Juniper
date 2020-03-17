@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Accord.Math.Geometry;
 
 namespace Juniper.Input
 {
@@ -21,7 +20,7 @@ namespace Juniper.Input
 
         protected Dictionary<KeyT, bool> KeyState { get; } = new Dictionary<KeyT, bool>();
 
-        protected IReadOnlyCollection<KeyT> Keys { get; private set; }
+        protected KeyT[] Keys { get; private set; }
 
         private string[] names;
 
@@ -43,8 +42,9 @@ namespace Juniper.Input
         {
             if (IsRunning)
             {
-                foreach (var name in names)
+                for(var i = 0; i < names.Length; ++i)
                 {
+                    var name = names[i];
                     var key = aliases[name];
                     var wasDown = aliasState[name];
                     var isDown = KeyState[key];

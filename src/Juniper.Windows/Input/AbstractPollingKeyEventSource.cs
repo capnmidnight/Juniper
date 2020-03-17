@@ -30,8 +30,9 @@ namespace Juniper.Input
         {
             while (IsRunning)
             {
-                foreach (var key in Keys)
+                for(var i = 0; i < Keys.Length; ++i)
                 {
+                    var key = Keys[i];
                     KeyState[key] = IsKeyDown(key);
                 }
 
