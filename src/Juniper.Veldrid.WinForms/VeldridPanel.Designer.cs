@@ -1,23 +1,7 @@
-using System.Threading;
-using System.Threading.Tasks;
-
-using Veldrid;
-
 namespace Juniper.VeldridIntegration.WinFormsSupport
 {
     partial class VeldridPanel
     {
-        private readonly SwapchainSource veldridSwapchainSource;
-        private CommandList commandList;
-        private CancellationTokenSource canceller;
-        private Task renderThread;
-
-        public Swapchain VeldridSwapChain { get; private set; }
-
-        public float AspectRatio =>
-            (float)VeldridSwapChain.Framebuffer.Width / VeldridSwapChain.Framebuffer.Height;
-
-
         /// <summary> 
         /// Required designer variable.
         /// </summary>
@@ -31,22 +15,6 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
         {
             if (disposing)
             {
-                canceller.Cancel();
-
-                while (renderThread.IsRunning()) ;
-
-                renderThread?.Dispose();
-                renderThread = null;
-
-                commandList?.Dispose();
-                commandList = null;
-
-                VeldridSwapChain?.Dispose();
-                VeldridSwapChain = null;
-
-                canceller?.Dispose();
-                canceller = null;
-
                 components?.Dispose();
             }
 

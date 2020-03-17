@@ -51,7 +51,7 @@ namespace Juniper
             // 
             // veldridGraphicsDevice1
             // 
-            this.veldridGraphicsDevice1.VeldridBackend = Veldrid.GraphicsBackend.Vulkan;
+            this.veldridGraphicsDevice1.Backend = Veldrid.GraphicsBackend.Vulkan;
             this.veldridGraphicsDevice1.VeldridHasMainSwapchain = false;
             this.veldridGraphicsDevice1.VeldridPreferDepthRangeZeroToOne = true;
             this.veldridGraphicsDevice1.VeldridPreferStandardClipSpaceYDirection = true;
@@ -70,7 +70,6 @@ namespace Juniper
             this.veldridPanel1.Name = "veldridPanel1";
             this.veldridPanel1.Size = new System.Drawing.Size(556, 424);
             this.veldridPanel1.TabIndex = 0;
-            this.veldridPanel1.VeldridGraphicsDevice = this.veldridGraphicsDevice1;
             // 
             // MainForm
             // 

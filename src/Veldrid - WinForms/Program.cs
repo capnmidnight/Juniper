@@ -18,15 +18,22 @@ namespace Juniper
 {
     public static class Program
     {
-        const float MOVE_SPEED = 0.01f;
-        private static Camera camera;
-        private static ShaderProgram<VertexPositionColor> quadProgram;
-        private static ShaderProgram<VertexPositionTexture> cubeProgram;
         private static MainForm mainForm;
-        private static DateTime start;
-        private static DateTime last;
         private static Win32KeyEventSource keys;
+        private static GraphicsDevice device;
+        private static Swapchain swapchain;
+        private static CommandList commandList;
+        private static ShaderProgram<VertexPositionTexture> program;
+        private static Camera camera;
         private static Vector2 lastMouse;
+        private static CancellationTokenSource canceller;
+        private static Task renderThread;
+
+        private static float AspectRatio => (float)swapchain.Framebuffer.Width / swapchain.Framebuffer.Height;
+
+        private static bool render;
+
+        private static event Action<float> UpdateFPS;
 
         private static void Main()
         {
@@ -35,10 +42,9 @@ namespace Juniper
             Application.ThreadException += Application_ThreadException;
 
             using var form = mainForm = new MainForm();
-            mainForm.Panel.Resize += Panel_Resize;
-            mainForm.Panel.Ready += Panel_Ready;
-            mainForm.Panel.CommandListUpdate += Panel_CommandListUpdate;
+            mainForm.Activated += MainForm_Activated;
             mainForm.FormClosing += MainForm_FormClosing;
+            mainForm.Panel.Resize += Panel_Resize;
             mainForm.Panel.MouseMove += Panel_MouseMove;
 
             keys = new Win32KeyEventSource();
@@ -53,74 +59,44 @@ namespace Juniper
             Application.Run(mainForm);
         }
 
-        private static void Panel_MouseMove(object sender, MouseEventArgs e)
+        private static void MainForm_Activated(object sender, EventArgs e)
         {
-            var mouse = new Vector2(
-                e.X,
-                e.Y);
-            if (lastMouse == Vector2.Zero)
-            {
-                lastMouse = mouse;
-            }
-            var delta = lastMouse - mouse;
-            lastMouse = mouse;
-            if (camera != null)
-            {
-                var dRot = Quaternion.CreateFromYawPitchRoll(
-                    Units.Degrees.Radians(delta.X),
-                    Units.Degrees.Radians(delta.Y),
-                    0);
-
-                camera.Rotation *= dRot;
-            }
+            _ = Task.Run(StartAsync);
         }
 
-        private static void Panel_Ready(object sender, EventArgs e)
+        private static async Task StartAsync()
         {
-            _ = Task.Run(() => PrepareShaderProgramAsync(mainForm.Device.VeldridDevice, mainForm.Panel.VeldridSwapChain.Framebuffer));
-        }
+            var images = GetImages();
 
-        private static async Task PrepareShaderProgramAsync(GraphicsDevice device, Framebuffer framebuffer)
-        {
-            var imageDir = new DirectoryInfo("Images");
-            if (!imageDir.Exists)
-            {
-                throw new FileNotFoundException("Could not find the Images directory at " + imageDir.FullName);
-            }
+            canceller = new CancellationTokenSource();
 
-            var images = new Dictionary<string, ImageData>();
-            var decoders = new Dictionary<MediaType, IImageCodec<ImageData>>()
+            var options = mainForm.Device.Options;
+            device = mainForm.Device.Backend switch
             {
-                [MediaType.Image.Png] = new HjgPngcsCodec().Pipe(new HjgPngcsImageDataTranscoder()),
-                [MediaType.Image.Jpeg] = new LibJpegNETCodec().Pipe(new LibJpegNETImageDataTranscoder(padAlpha: true))
+                GraphicsBackend.Direct3D11 => GraphicsDevice.CreateD3D11(options),
+                GraphicsBackend.Metal => GraphicsDevice.CreateMetal(options),
+                GraphicsBackend.Vulkan => GraphicsDevice.CreateVulkan(options),
+                _ => null
             };
 
-            foreach (var file in imageDir.EnumerateFiles())
+            if (device is null)
             {
-                var name = Path.GetFileNameWithoutExtension(file.Name)
-                    .ToLowerInvariant();
-                var type = (from t in MediaType.GuessByFile(file)
-                            where t is MediaType.Image
-                            select t)
-                        .FirstOrDefault();
-                if (decoders.ContainsKey(type))
-                {
-                    images[name] = decoders[type].Deserialize(file);
-                }
+                throw new InvalidOperationException($"Can't create a device for GraphicsBackend value: {mainForm.Device.Backend}");
             }
 
-            var quad = new Mesh<VertexPositionColor>(
-                new Quad<VertexPositionColor>(
-                    new VertexPositionColor(new Vector2(-.75f, .75f), RgbaFloat.Red),
-                    new VertexPositionColor(new Vector2(.75f, .75f), RgbaFloat.Green),
-                    new VertexPositionColor(new Vector2(-.75f, -.75f), RgbaFloat.Blue),
-                    new VertexPositionColor(new Vector2(.75f, -.75f), RgbaFloat.Yellow)));
-            var quadProgramDescription = await ShaderProgramDescription.LoadAsync<VertexPositionColor>(
-                    "Shaders\\color-quad-vert.glsl",
-                    "Shaders\\color-quad-frag.glsl")
-                .ConfigureAwait(false);
-            quadProgram = new ShaderProgram<VertexPositionColor>(quadProgramDescription, quad);
-            quadProgram.Begin(device, framebuffer);
+            var swapchainDescription = new SwapchainDescription
+            {
+                Source = mainForm.Panel.VeldridSwapchainSource,
+                Width = (uint)mainForm.Panel.ClientSize.Width,
+                Height = (uint)mainForm.Panel.ClientSize.Height,
+                DepthFormat = options.SwapchainDepthFormat,
+                SyncToVerticalBlank = options.SyncToVerticalBlank,
+                ColorSrgb = options.SwapchainSrgbFormat
+            };
+
+            var resourceFactory = device.ResourceFactory;
+            swapchain = resourceFactory.CreateSwapchain(swapchainDescription);
+            commandList = device.ResourceFactory.CreateCommandList();
 
             var cube = new Mesh<VertexPositionTexture>(
                 // Top
@@ -162,85 +138,147 @@ namespace Juniper
             var cubeProgramDescription = await ShaderProgramDescription.LoadAsync<VertexPositionTexture>(
                     "Shaders\\tex-cube-vert.glsl",
                     "Shaders\\tex-cube-frag.glsl")
-                .ConfigureAwait(false);
-            cubeProgram = new ShaderProgram<VertexPositionTexture>(cubeProgramDescription, cube);
-            cubeProgram.AddTexture("SurfaceTexture", images["rock"]);
-            cubeProgram.Begin(device, framebuffer);
+                .ConfigureAwait(true);
+            program = new ShaderProgram<VertexPositionTexture>(cubeProgramDescription, cube);
+            program.AddTexture("SurfaceTexture", images["rock"]);
+            program.Begin(device, swapchain.Framebuffer);
 
-            camera = cubeProgram.CreateCamera("ProjectionBuffer", "ViewBuffer");
+            camera = program.CreateCamera("ProjectionBuffer", "ViewBuffer");
             camera.Position = 2.5f * Vector3.UnitZ;
             camera.Forward = Vector3.Zero - camera.Position;
-            camera.AspectRatio = mainForm.Panel.AspectRatio;
+            camera.AspectRatio = AspectRatio;
 
-            last = start = DateTime.Now;
+            mainForm.Panel.StopOwnRender();
+            renderThread = Task.Factory.StartNew(RenderThread, canceller.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+        }
+
+        private static Dictionary<string, ImageData> GetImages()
+        {
+            var imageDir = new DirectoryInfo("Images");
+            if (!imageDir.Exists)
+            {
+                throw new FileNotFoundException("Could not find the Images directory at " + imageDir.FullName);
+            }
+
+            var images = new Dictionary<string, ImageData>();
+            var decoders = new Dictionary<MediaType, IImageCodec<ImageData>>()
+            {
+                [MediaType.Image.Png] = new HjgPngcsCodec().Pipe(new HjgPngcsImageDataTranscoder()),
+                [MediaType.Image.Jpeg] = new LibJpegNETCodec().Pipe(new LibJpegNETImageDataTranscoder(padAlpha: true))
+            };
+
+            foreach (var file in imageDir.EnumerateFiles())
+            {
+                var name = Path.GetFileNameWithoutExtension(file.Name)
+                    .ToLowerInvariant();
+                var type = (from t in MediaType.GuessByFile(file)
+                            where t is MediaType.Image
+                            select t)
+                        .FirstOrDefault();
+                if (decoders.ContainsKey(type))
+                {
+                    images[name] = decoders[type].Deserialize(file);
+                }
+            }
+
+            return images;
+        }
+
+        private static void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (render)
+            {
+                render = false;
+                keys.Quit();
+                canceller.Cancel();
+                _ = Task.Run(StopRenderingAsync);
+            }
+        }
+
+        private static async Task StopRenderingAsync()
+        {
+            while (renderThread.IsRunning())
+            {
+                await Task.Yield();
+            }
+
+            camera?.Dispose();
+            program?.Dispose();
+            commandList?.Dispose();
+            swapchain?.Dispose();
+            device?.Dispose();
+        }
+
+        private static void Panel_MouseMove(object sender, MouseEventArgs e)
+        {
+            var mouse = new Vector2(
+                e.X,
+                e.Y);
+            if (lastMouse == Vector2.Zero)
+            {
+                lastMouse = mouse;
+            }
+            var delta = lastMouse - mouse;
+            lastMouse = mouse;
+            if (camera != null)
+            {
+                var dRot = Quaternion.CreateFromYawPitchRoll(
+                    Units.Degrees.Radians(delta.X),
+                    Units.Degrees.Radians(delta.Y),
+                    0);
+
+                camera.Rotation *= dRot;
+            }
         }
 
         private static void Panel_Resize(object sender, EventArgs e)
         {
-            if(camera is object)
+            render = false;
+            swapchain?.Resize((uint)mainForm.Panel.ClientSize.Width, (uint)mainForm.Panel.ClientSize.Width);
+            if (camera is object)
             {
-                camera.AspectRatio = mainForm.Panel.AspectRatio;
+                camera.AspectRatio = AspectRatio;
             }
+            render = true;
         }
 
-        private static void SetFPS(float fps)
-        {
-            mainForm.Text = $"MainForm - {fps:0.0}fps";
-        }
 
-        private static readonly Delegate setFPS = new Action<float>(SetFPS);
-
-        private static void Panel_CommandListUpdate(object sender, UpdateCommandListEventArgs e)
+        private static void RenderThread()
         {
-            if (quadProgram?.IsRunning == true
-                && cubeProgram?.IsRunning == true
-                && camera is object)
+            render = true;
+            var start = DateTime.Now;
+            var last = start;
+            while (!canceller.IsCancellationRequested)
             {
-                var commandList = e.CommandList;
-
-                camera.AspectRatio = (float)e.Width / e.Height;
-
-                var time = (float)(DateTime.Now - start).TotalSeconds;
-                var dtime = (float)(DateTime.Now - last).TotalSeconds;
-                var fps = Units.Seconds.Hertz(dtime);
-                mainForm.Invoke(setFPS, fps);
-                last = DateTime.Now;
-
-                var showQuad = (((int)(time / 5)) % 2) == 0;
-
-                commandList.ClearColorTarget(0, RgbaFloat.Black);
-                commandList.ClearDepthStencil(1);
-
-                if (false && showQuad)
+                if (render)
                 {
-                    var size = Math.Min(e.Width, e.Height);
+                    var time = (float)(DateTime.Now - start).TotalSeconds;
+                    var dtime = (float)(DateTime.Now - last).TotalSeconds;
+                    last = DateTime.Now;
 
-                    commandList.SetViewport(0, new Viewport(
-                        x: (e.Width - size) / 2,
-                        y: (e.Height - size) / 2,
-                        width: size,
-                        height: size,
-                        minDepth: 0,
-                        maxDepth: 1));
-
-                    quadProgram.Draw(commandList);
-                }
-                else
-                {
                     var dx = keys.GetAxis("horizontal");
                     var dz = keys.GetAxis("forward");
                     if (dx != 0 || dz != 0)
                     {
                         var move = Vector3.Normalize(new Vector3(dx, 0, dz));
-                        camera.Position += Vector3.Transform(move, camera.Rotation) * time * MOVE_SPEED;
+                        camera.Position += Vector3.Transform(move, camera.Rotation) * dtime;
                     }
-                    
+
+                    var worldMatrix = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, time);
+
+                    commandList.Begin();
+                    commandList.SetFramebuffer(swapchain.Framebuffer);
+                    commandList.ClearColorTarget(0, RgbaFloat.Black);
+                    commandList.ClearDepthStencil(1);
 
                     camera.SetView(commandList);
 
-                    var worldMatrix = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, time);
-                    cubeProgram.UpdateMatrix("WorldBuffer", commandList, ref worldMatrix);
-                    cubeProgram.Draw(commandList);
+                    program.UpdateMatrix("WorldBuffer", commandList, ref worldMatrix);
+                    program.Draw(commandList);
+                    commandList.End();
+                    device.SubmitCommands(commandList);
+                    device.SwapBuffers(swapchain);
+                    device.WaitForIdle();
                 }
             }
         }
@@ -248,18 +286,6 @@ namespace Juniper
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
             mainForm.SetError(e.Exception);
-        }
-
-        private static void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            cubeProgram?.Dispose();
-            cubeProgram = null;
-
-            quadProgram?.Dispose();
-            quadProgram = null;
-
-            camera?.Dispose();
-            camera = null;
         }
     }
 }

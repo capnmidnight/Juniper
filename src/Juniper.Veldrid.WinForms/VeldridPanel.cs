@@ -1,8 +1,5 @@
-using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Veldrid;
@@ -11,35 +8,17 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
 {
     public partial class VeldridPanel : UserControl
     {
-        public VeldridGraphicsDevice VeldridGraphicsDevice { get; set; }
-
-        public event EventHandler Ready;
-        public event UpdateCommandListHandler CommandListUpdate;
-
-        private bool render;
-        private UpdateCommandListEventArgs updateArgs;
-
-
+        public SwapchainSource VeldridSwapchainSource { get; }
 
         public VeldridPanel()
         {
             InitializeComponent();
 
             Paint += VeldridPanel_Paint;
-            Resize += VeldridPanel_Resize;
 
             var currentModule = typeof(VeldridPanel).Module;
             var hinstance = Marshal.GetHINSTANCE(currentModule);
-            veldridSwapchainSource = SwapchainSource.CreateWin32(Handle, hinstance);
-            canceller = new CancellationTokenSource();
-        }
-
-        private void VeldridPanel_Resize(object sender, EventArgs e)
-        {
-            render = false;
-            VeldridSwapChain?.Resize((uint)Width, (uint)Height);
-            InitializeSwapchain();
-            render = true;
+            VeldridSwapchainSource = SwapchainSource.CreateWin32(Handle, hinstance);
         }
 
         private void VeldridPanel_Paint(object sender, PaintEventArgs e)
@@ -54,56 +33,11 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
             middleRect.Width = icon.Width * 2;
             middleRect.Height = icon.Height * 2;
             g.DrawIcon(icon, middleRect);
-
-            InitializeSwapchain();
-            Invalidate();
         }
 
-        private void RenderThread()
+        public void StopOwnRender()
         {
-            while (!canceller.IsCancellationRequested)
-            {
-                if (render)
-                {
-                    commandList.Begin();
-                    commandList.SetFramebuffer(VeldridSwapChain.Framebuffer);
-                    updateArgs.Width = VeldridSwapChain.Framebuffer.Width;
-                    updateArgs.Height = VeldridSwapChain.Framebuffer.Height;
-                    CommandListUpdate(this, updateArgs);
-                    commandList.End();
-
-                    VeldridGraphicsDevice.Draw(commandList, VeldridSwapChain);
-                }
-            }
-        }
-
-        private void InitializeSwapchain()
-        {
-            if (VeldridSwapChain is null
-                && VeldridGraphicsDevice is object)
-            {
-                VeldridGraphicsDevice.Prepare();
-                if (VeldridGraphicsDevice.VeldridDevice is object)
-                {
-                    var swapchainDescription = new SwapchainDescription
-                    {
-                        Source = veldridSwapchainSource,
-                        Width = (uint)Width,
-                        Height = (uint)Height,
-                        DepthFormat = (PixelFormat?)VeldridGraphicsDevice.VeldridSwapchainDepthFormat,
-                        SyncToVerticalBlank = VeldridGraphicsDevice.VeldridVSync,
-                        ColorSrgb = VeldridGraphicsDevice.VeldridSwapchainSRGBFormat
-                    };
-
-                    var resourceFactory = VeldridGraphicsDevice.VeldridDevice.ResourceFactory;
-                    VeldridSwapChain = resourceFactory.CreateSwapchain(swapchainDescription);
-                    commandList = VeldridGraphicsDevice.VeldridDevice.ResourceFactory.CreateCommandList();
-                    updateArgs = new UpdateCommandListEventArgs(commandList);
-                    Paint -= VeldridPanel_Paint;
-                    Ready?.Invoke(this, EventArgs.Empty);
-                    renderThread = Task.Factory.StartNew(RenderThread, canceller.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
-                }
-            }
+            Paint -= VeldridPanel_Paint;
         }
     }
 }

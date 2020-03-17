@@ -5,11 +5,11 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
     partial class VeldridGraphicsDevice
     {
         
-        public GraphicsDevice VeldridDevice { get; private set; }
+        public GraphicsBackend Backend { get; set; }
 
-        public GraphicsBackend VeldridBackend { get; set; }
+        public GraphicsDeviceOptions veldridDeviceOptions;
 
-        private GraphicsDeviceOptions veldridDeviceOptions;
+        public GraphicsDeviceOptions Options => veldridDeviceOptions;
 
         public bool VeldridHasMainSwapchain
         {
@@ -66,8 +66,6 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
         {
             if (disposing)
             {
-                VeldridDevice?.Dispose();
-                VeldridDevice = null;
                 components?.Dispose();
             }
             base.Dispose(disposing);
