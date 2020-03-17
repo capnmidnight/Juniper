@@ -245,6 +245,7 @@ namespace Juniper
 
         private static void RenderThread()
         {
+            GC.Collect();
             render = true;
             var start = DateTime.Now;
             var last = start;
