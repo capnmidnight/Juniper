@@ -33,8 +33,6 @@ namespace Juniper
 
         private static bool render;
 
-        private static event Action<float> UpdateFPS;
-
         private static void Main()
         {
             Application.EnableVisualStyles();
@@ -44,8 +42,6 @@ namespace Juniper
             using var form = mainForm = new MainForm();
             mainForm.Activated += MainForm_Activated;
             mainForm.FormClosing += MainForm_FormClosing;
-            mainForm.Panel.Resize += Panel_Resize;
-            mainForm.Panel.MouseMove += Panel_MouseMove;
 
             keys = new Win32KeyEventSource();
             keys.AddKeyAlias("up", Keys.Up);
@@ -148,6 +144,8 @@ namespace Juniper
             camera.Forward = Vector3.Zero - camera.Position;
             camera.AspectRatio = AspectRatio;
 
+            mainForm.Panel.MouseMove += Panel_MouseMove;
+            mainForm.Panel.Resize += Panel_Resize;
             mainForm.Panel.StopOwnRender();
             renderThread = Task.Factory.StartNew(RenderThread, canceller.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
@@ -184,31 +182,6 @@ namespace Juniper
             return images;
         }
 
-        private static void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (render)
-            {
-                render = false;
-                keys.Quit();
-                canceller.Cancel();
-                _ = Task.Run(StopRenderingAsync);
-            }
-        }
-
-        private static async Task StopRenderingAsync()
-        {
-            while (renderThread.IsRunning())
-            {
-                await Task.Yield();
-            }
-
-            camera?.Dispose();
-            program?.Dispose();
-            commandList?.Dispose();
-            swapchain?.Dispose();
-            device?.Dispose();
-        }
-
         private static void Panel_MouseMove(object sender, MouseEventArgs e)
         {
             var mouse = new Vector2(
@@ -220,25 +193,19 @@ namespace Juniper
             }
             var delta = lastMouse - mouse;
             lastMouse = mouse;
-            if (camera != null)
-            {
-                var dRot = Quaternion.CreateFromYawPitchRoll(
-                    Units.Degrees.Radians(delta.X),
-                    Units.Degrees.Radians(delta.Y),
-                    0);
+            var dRot = Quaternion.CreateFromYawPitchRoll(
+                Units.Degrees.Radians(delta.X),
+                Units.Degrees.Radians(delta.Y),
+                0);
 
-                camera.Rotation *= dRot;
-            }
+            camera.Rotation *= dRot;
         }
 
         private static void Panel_Resize(object sender, EventArgs e)
         {
             render = false;
-            swapchain?.Resize((uint)mainForm.Panel.ClientSize.Width, (uint)mainForm.Panel.ClientSize.Width);
-            if (camera is object)
-            {
-                camera.AspectRatio = AspectRatio;
-            }
+            swapchain.Resize((uint)mainForm.Panel.ClientSize.Width, (uint)mainForm.Panel.ClientSize.Width);
+            camera.AspectRatio = AspectRatio;
             render = true;
         }
 
@@ -282,6 +249,31 @@ namespace Juniper
                     device.WaitForIdle();
                 }
             }
+        }
+
+        private static void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (render)
+            {
+                render = false;
+                keys.Quit();
+                canceller.Cancel();
+                _ = Task.Run(StopRenderingAsync);
+            }
+        }
+
+        private static async Task StopRenderingAsync()
+        {
+            while (renderThread.IsRunning())
+            {
+                await Task.Yield();
+            }
+
+            camera?.Dispose();
+            program?.Dispose();
+            commandList?.Dispose();
+            swapchain?.Dispose();
+            device?.Dispose();
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
