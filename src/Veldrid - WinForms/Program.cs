@@ -18,6 +18,7 @@ namespace Juniper
 {
     public static class Program
     {
+        private const float MOVE_SPEED = 1.5f;
         private static MainForm mainForm;
         private static Win32KeyEventSource keys;
         private static GraphicsDevice device;
@@ -32,6 +33,8 @@ namespace Juniper
         private static float AspectRatio => (float)swapchain.Framebuffer.Width / swapchain.Framebuffer.Height;
 
         private static bool render;
+        private static bool moving;
+        private static Vector3 velocity;
 
         private static void Main()
         {
@@ -44,6 +47,7 @@ namespace Juniper
             mainForm.FormClosing += MainForm_FormClosing;
 
             keys = new Win32KeyEventSource();
+            keys.KeyChanged += Keys_KeyChanged;
             keys.AddKeyAlias("up", Keys.Up);
             keys.AddKeyAlias("down", Keys.Down);
             keys.AddKeyAlias("left", Keys.Left);
@@ -182,6 +186,17 @@ namespace Juniper
             return images;
         }
 
+        private static void Keys_KeyChanged(object sender, KeyChangeEvent e)
+        {
+            var dx = keys.GetAxis("horizontal");
+            var dz = keys.GetAxis("forward");
+            moving = dx != 0 || dz != 0;
+            if (moving)
+            {
+                velocity = MOVE_SPEED * Vector3.Transform(Vector3.Normalize(new Vector3(dx, 0, dz)), camera.Rotation);
+            }
+        }
+
         private static void Panel_MouseMove(object sender, MouseEventArgs e)
         {
             var mouse = new Vector2(
@@ -224,12 +239,9 @@ namespace Juniper
                     var dtime = (float)(DateTime.Now - last).TotalSeconds;
                     last = DateTime.Now;
 
-                    var dx = keys.GetAxis("horizontal");
-                    var dz = keys.GetAxis("forward");
-                    if (dx != 0 || dz != 0)
+                    if (moving)
                     {
-                        var move = Vector3.Normalize(new Vector3(dx, 0, dz));
-                        camera.Position += Vector3.Transform(move, camera.Rotation) * dtime;
+                        camera.Position += velocity * dtime;
                     }
 
                     var worldMatrix = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, time);
