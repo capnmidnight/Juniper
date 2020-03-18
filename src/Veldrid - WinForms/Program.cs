@@ -101,7 +101,7 @@ namespace Juniper
                 .ConfigureAwait(true);
             program = new ShaderProgram<VertexPositionTexture>(cubeProgramDescription, Mesh.ConvertVeldridMesh);
             program.LoadOBJ("Models/cube.obj");
-            program.Begin(device, swapchain.Framebuffer, "ProjectionBuffer", "ViewBuffer");
+            program.Begin(device, swapchain.Framebuffer, "ProjectionBuffer", "ViewBuffer", "WorldBuffer");
 
             program.Camera = camera = new Camera();
             camera.Position = 2.5f * Vector3.UnitZ;
@@ -181,8 +181,7 @@ namespace Juniper
 
                     camera.Clear(commandList);
 
-                    program.UpdateMatrix("WorldBuffer", commandList, ref worldMatrix);
-                    program.Draw(commandList);
+                    program.Draw(commandList, ref worldMatrix);
 
                     commandList.End();
                     device.SubmitCommands(commandList);

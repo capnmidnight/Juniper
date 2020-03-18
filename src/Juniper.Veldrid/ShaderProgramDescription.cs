@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Juniper.VeldridIntegration
 {
-    public abstract class ShaderProgramDescription
+    public static class ShaderProgramDescription
     {
         public static async Task<ShaderProgramDescription<VertexT>> LoadAsync<VertexT>(Stream vertShaderStream, Stream fragShaderStream)
             where VertexT : struct

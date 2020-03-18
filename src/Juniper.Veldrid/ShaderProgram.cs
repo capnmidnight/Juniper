@@ -35,6 +35,7 @@ namespace Juniper.VeldridIntegration
         private DeviceBuffer indexBuffer;
         private DeviceBuffer projectionBuffer;
         private DeviceBuffer viewBuffer;
+        private DeviceBuffer worldBuffer;
 
         public bool IsRunning { get; private set; }
         public Camera Camera { get; set; }
@@ -147,7 +148,7 @@ namespace Juniper.VeldridIntegration
             LoadOBJ(new FileInfo(objFileName));
         }
 
-        public void Begin(GraphicsDevice device, Framebuffer framebuffer, string projectionBufferName, string viewBufferName)
+        public void Begin(GraphicsDevice device, Framebuffer framebuffer, string projectionBufferName, string viewBufferName, string worldBufferName)
         {
             if (IsRunning)
             {
@@ -218,6 +219,9 @@ namespace Juniper.VeldridIntegration
 
             viewBuffer = buffers[viewBufferName];
             _ = buffers.Remove(viewBufferName);
+
+            worldBuffer = buffers[worldBufferName];
+            _ = buffers.Remove(worldBufferName);
 
             var pipelineOptions = programDescription.PipelineOptions;
 
@@ -321,6 +325,8 @@ namespace Juniper.VeldridIntegration
                 indexBuffer = null;
                 vertexBuffer?.Dispose();
                 vertexBuffer = null;
+                worldBuffer?.Dispose();
+                worldBuffer = null;
                 viewBuffer?.Dispose();
                 viewBuffer = null;
                 projectionBuffer?.Dispose();
@@ -352,7 +358,7 @@ namespace Juniper.VeldridIntegration
             }
         }
 
-        public void Draw(CommandList commandList)
+        public void Draw(CommandList commandList, ref Matrix4x4 worldMatrix)
         {
             if (!IsRunning)
             {
@@ -374,6 +380,7 @@ namespace Juniper.VeldridIntegration
 
             commandList.UpdateBuffer(projectionBuffer, 0, Camera.Projection);
             commandList.UpdateBuffer(viewBuffer, 0, Camera.View);
+            commandList.UpdateBuffer(worldBuffer, 0, ref worldMatrix);
 
             commandList.DrawIndexed(
                 indexCount: indexCount,
