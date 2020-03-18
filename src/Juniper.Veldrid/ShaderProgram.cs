@@ -33,8 +33,11 @@ namespace Juniper.VeldridIntegration
         private uint indexCount;
         private DeviceBuffer vertexBuffer;
         private DeviceBuffer indexBuffer;
+        private DeviceBuffer projectionBuffer;
+        private DeviceBuffer viewBuffer;
 
         public bool IsRunning { get; private set; }
+        public Camera Camera { get; set; }
 
         public ShaderProgram(ShaderProgramDescription<VertexT> programDescription, Func<ConstructedMeshInfo, Mesh<VertexT>> convertMesh)
         {
@@ -144,7 +147,7 @@ namespace Juniper.VeldridIntegration
             LoadOBJ(new FileInfo(objFileName));
         }
 
-        public void Begin(GraphicsDevice device, Framebuffer framebuffer)
+        public void Begin(GraphicsDevice device, Framebuffer framebuffer, string projectionBufferName, string viewBufferName)
         {
             if (IsRunning)
             {
@@ -209,6 +212,12 @@ namespace Juniper.VeldridIntegration
                     return (layout, resources);
                 })
                 .ToArray();
+
+            projectionBuffer = buffers[projectionBufferName];
+            _ = buffers.Remove(projectionBufferName);
+
+            viewBuffer = buffers[viewBufferName];
+            _ = buffers.Remove(viewBufferName);
 
             var pipelineOptions = programDescription.PipelineOptions;
 
@@ -294,27 +303,6 @@ namespace Juniper.VeldridIntegration
             commandList.UpdateBuffer(buffers[name], 0, ref matrix);
         }
 
-        public Camera CreateCamera(string projectionBufferName, string viewBufferName)
-        {
-            if (string.IsNullOrEmpty(projectionBufferName))
-            {
-                throw new ArgumentException("Must provide a name for the projection buffer.", nameof(projectionBufferName));
-            }
-
-            if (string.IsNullOrEmpty(viewBufferName))
-            {
-                throw new ArgumentException("Must provide a name for the view buffer", nameof(viewBufferName));
-            }
-
-            var proj = buffers[projectionBufferName];
-            buffers.Remove(projectionBufferName);
-
-            var view = buffers[viewBufferName];
-            buffers.Remove(viewBufferName);
-
-            return new Camera(proj, view);
-        }
-
         public void Dispose()
         {
             Dispose(true);
@@ -333,6 +321,10 @@ namespace Juniper.VeldridIntegration
                 indexBuffer = null;
                 vertexBuffer?.Dispose();
                 vertexBuffer = null;
+                viewBuffer?.Dispose();
+                viewBuffer = null;
+                projectionBuffer?.Dispose();
+                projectionBuffer = null;
 
                 foreach (var l in layouts)
                 {
@@ -379,6 +371,9 @@ namespace Juniper.VeldridIntegration
             }
             commandList.SetVertexBuffer(0, vertexBuffer);
             commandList.SetIndexBuffer(indexBuffer, indexFormat);
+
+            commandList.UpdateBuffer(projectionBuffer, 0, Camera.Projection);
+            commandList.UpdateBuffer(viewBuffer, 0, Camera.View);
 
             commandList.DrawIndexed(
                 indexCount: indexCount,

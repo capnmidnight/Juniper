@@ -101,11 +101,11 @@ namespace Juniper
                 .ConfigureAwait(true);
             program = new ShaderProgram<VertexPositionTexture>(cubeProgramDescription, Mesh.ConvertVeldridMesh);
             program.LoadOBJ("Models/cube.obj");
-            program.Begin(device, swapchain.Framebuffer);
+            program.Begin(device, swapchain.Framebuffer, "ProjectionBuffer", "ViewBuffer");
 
-            camera = program.CreateCamera("ProjectionBuffer", "ViewBuffer");
+            program.Camera = camera = new Camera();
             camera.Position = 2.5f * Vector3.UnitZ;
-            camera.Forward = Vector3.Zero - camera.Position;
+            camera.Forward = -camera.Position;
             camera.AspectRatio = AspectRatio;
 
             mainForm.Panel.MouseMove += Panel_MouseMove;
@@ -179,7 +179,7 @@ namespace Juniper
                     commandList.Begin();
                     commandList.SetFramebuffer(swapchain.Framebuffer);
 
-                    camera.SetView(commandList);
+                    camera.Clear(commandList);
 
                     program.UpdateMatrix("WorldBuffer", commandList, ref worldMatrix);
                     program.Draw(commandList);
@@ -210,7 +210,6 @@ namespace Juniper
                 await Task.Yield();
             }
 
-            camera?.Dispose();
             program?.Dispose();
             commandList?.Dispose();
             swapchain?.Dispose();

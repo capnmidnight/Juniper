@@ -5,11 +5,8 @@ using Veldrid;
 
 namespace Juniper.VeldridIntegration
 {
-    public class Camera : IDisposable
+    public class Camera
     {
-        private DeviceBuffer projectionBuffer;
-        private DeviceBuffer viewBuffer;
-
         private float verticalFOV = 60;
         private float near = 0.1f;
         private float far = 1000;
@@ -21,35 +18,10 @@ namespace Juniper.VeldridIntegration
         private Matrix4x4 projection;
         private Matrix4x4 view;
 
-        internal Camera(DeviceBuffer projectionBuffer, DeviceBuffer viewBuffer)
+        public Camera()
         {
-            this.projectionBuffer = projectionBuffer ?? throw new ArgumentNullException(nameof(projectionBuffer));
-            this.viewBuffer = viewBuffer ?? throw new ArgumentNullException(nameof(viewBuffer));
             UpdateProjectionMatrix();
             Rotation = Quaternion.Identity;
-        }
-
-        ~Camera()
-        {
-            Dispose(false);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                projectionBuffer?.Dispose();
-                projectionBuffer = null;
-
-                viewBuffer?.Dispose();
-                viewBuffer = null;
-            }
         }
 
         public RgbaFloat ClearColor { get; set; } = RgbaFloat.Black;
@@ -208,7 +180,7 @@ namespace Juniper.VeldridIntegration
             }
         }
 
-        public void SetView(CommandList commandList)
+        public void Clear(CommandList commandList)
         {
             if (commandList is null)
             {
@@ -217,8 +189,6 @@ namespace Juniper.VeldridIntegration
 
             commandList.ClearColorTarget(0, ClearColor);
             commandList.ClearDepthStencil(1);
-            commandList.UpdateBuffer(projectionBuffer, 0, ref projection);
-            commandList.UpdateBuffer(viewBuffer, 0, ref view);
         }
     }
 }
