@@ -1,15 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using Juniper.Imaging;
 using Juniper.Input;
-using Juniper.IO;
 using Juniper.VeldridIntegration;
 
 using Veldrid;
@@ -19,6 +14,7 @@ namespace Juniper
     public static class Program
     {
         private const float MOVE_SPEED = 1.5f;
+
         private static MainForm mainForm;
         private static Win32KeyEventSource keys;
         private static GraphicsDevice device;
@@ -66,11 +62,12 @@ namespace Juniper
 
         private static async Task StartAsync()
         {
-            var images = GetImages();
-
-            canceller = new CancellationTokenSource();
-
             var options = mainForm.Device.Options;
+            if (!GraphicsDevice.IsBackendSupported(mainForm.Device.Backend))
+            {
+                throw new NotSupportedException($"Graphics backend {mainForm.Device.Backend} is not supported on this system.");
+            }
+
             device = mainForm.Device.Backend switch
             {
                 GraphicsBackend.Direct3D11 => GraphicsDevice.CreateD3D11(options),
@@ -98,49 +95,12 @@ namespace Juniper
             swapchain = resourceFactory.CreateSwapchain(swapchainDescription);
             commandList = device.ResourceFactory.CreateCommandList();
 
-            var cube = new Mesh<VertexPositionTexture>(
-                // Top
-                new Quad<VertexPositionTexture>(
-                    new VertexPositionTexture(new Vector3(-0.5f, +0.5f, -0.5f), new Vector2(0, 0)),
-                    new VertexPositionTexture(new Vector3(+0.5f, +0.5f, -0.5f), new Vector2(1, 0)),
-                    new VertexPositionTexture(new Vector3(-0.5f, +0.5f, +0.5f), new Vector2(0, 1)),
-                    new VertexPositionTexture(new Vector3(+0.5f, +0.5f, +0.5f), new Vector2(1, 1))),
-                // Bottom
-                new Quad<VertexPositionTexture>(
-                    new VertexPositionTexture(new Vector3(-0.5f, -0.5f, +0.5f), new Vector2(0, 0)),
-                    new VertexPositionTexture(new Vector3(+0.5f, -0.5f, +0.5f), new Vector2(1, 0)),
-                    new VertexPositionTexture(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0, 1)),
-                    new VertexPositionTexture(new Vector3(+0.5f, -0.5f, -0.5f), new Vector2(1, 1))),
-                // Left
-                new Quad<VertexPositionTexture>(
-                    new VertexPositionTexture(new Vector3(-0.5f, +0.5f, -0.5f), new Vector2(0, 0)),
-                    new VertexPositionTexture(new Vector3(-0.5f, +0.5f, +0.5f), new Vector2(1, 0)),
-                    new VertexPositionTexture(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0, 1)),
-                    new VertexPositionTexture(new Vector3(-0.5f, -0.5f, +0.5f), new Vector2(1, 1))),
-                // Right
-                new Quad<VertexPositionTexture>(
-                    new VertexPositionTexture(new Vector3(+0.5f, +0.5f, +0.5f), new Vector2(0, 0)),
-                    new VertexPositionTexture(new Vector3(+0.5f, +0.5f, -0.5f), new Vector2(1, 0)),
-                    new VertexPositionTexture(new Vector3(+0.5f, -0.5f, +0.5f), new Vector2(0, 1)),
-                    new VertexPositionTexture(new Vector3(+0.5f, -0.5f, -0.5f), new Vector2(1, 1))),
-                // Back
-                new Quad<VertexPositionTexture>(
-                    new VertexPositionTexture(new Vector3(+0.5f, +0.5f, -0.5f), new Vector2(0, 0)),
-                    new VertexPositionTexture(new Vector3(-0.5f, +0.5f, -0.5f), new Vector2(1, 0)),
-                    new VertexPositionTexture(new Vector3(+0.5f, -0.5f, -0.5f), new Vector2(0, 1)),
-                    new VertexPositionTexture(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(1, 1))),
-                // Front
-                new Quad<VertexPositionTexture>(
-                    new VertexPositionTexture(new Vector3(-0.5f, +0.5f, +0.5f), new Vector2(0, 0)),
-                    new VertexPositionTexture(new Vector3(+0.5f, +0.5f, +0.5f), new Vector2(1, 0)),
-                    new VertexPositionTexture(new Vector3(-0.5f, -0.5f, +0.5f), new Vector2(0, 1)),
-                    new VertexPositionTexture(new Vector3(+0.5f, -0.5f, +0.5f), new Vector2(1, 1))));
             var cubeProgramDescription = await ShaderProgramDescription.LoadAsync<VertexPositionTexture>(
                     "Shaders\\tex-cube-vert.glsl",
                     "Shaders\\tex-cube-frag.glsl")
                 .ConfigureAwait(true);
-            program = new ShaderProgram<VertexPositionTexture>(cubeProgramDescription, cube);
-            program.AddTexture("SurfaceTexture", images["rock"]);
+            program = new ShaderProgram<VertexPositionTexture>(cubeProgramDescription, Mesh.ConvertVeldridMesh);
+            program.LoadOBJ("Models/cube.obj");
             program.Begin(device, swapchain.Framebuffer);
 
             camera = program.CreateCamera("ProjectionBuffer", "ViewBuffer");
@@ -151,39 +111,9 @@ namespace Juniper
             mainForm.Panel.MouseMove += Panel_MouseMove;
             mainForm.Panel.Resize += Panel_Resize;
             mainForm.Panel.StopOwnRender();
+
+            canceller = new CancellationTokenSource();
             renderThread = Task.Factory.StartNew(RenderThread, canceller.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
-        }
-
-        private static Dictionary<string, ImageData> GetImages()
-        {
-            var imageDir = new DirectoryInfo("Images");
-            if (!imageDir.Exists)
-            {
-                throw new FileNotFoundException("Could not find the Images directory at " + imageDir.FullName);
-            }
-
-            var images = new Dictionary<string, ImageData>();
-            var decoders = new Dictionary<MediaType, IImageCodec<ImageData>>()
-            {
-                [MediaType.Image.Png] = new HjgPngcsCodec().Pipe(new HjgPngcsImageDataTranscoder()),
-                [MediaType.Image.Jpeg] = new LibJpegNETCodec().Pipe(new LibJpegNETImageDataTranscoder(padAlpha: true))
-            };
-
-            foreach (var file in imageDir.EnumerateFiles())
-            {
-                var name = Path.GetFileNameWithoutExtension(file.Name)
-                    .ToLowerInvariant();
-                var type = (from t in MediaType.GuessByFile(file)
-                            where t is MediaType.Image
-                            select t)
-                        .FirstOrDefault();
-                if (decoders.ContainsKey(type))
-                {
-                    images[name] = decoders[type].Deserialize(file);
-                }
-            }
-
-            return images;
         }
 
         private static void Keys_KeyChanged(object sender, KeyChangeEvent e)

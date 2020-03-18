@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
+using Veldrid.Utilities;
 using IndexT = System.UInt16;
 
 namespace Juniper.VeldridIntegration
 {
-    public abstract class Mesh
+    public static class Mesh
     {
         public static Mesh<VertexT> OfQuads<VertexT>(VertexT[] vertices, IndexT[] indices)
             where VertexT : struct
@@ -62,6 +63,30 @@ namespace Juniper.VeldridIntegration
                 faces: triangles.ToArray(),
                 vertices: vertices,
                 indices: indices);
+        }
+
+        public static Mesh<VertexPositionTexture> ConvertVeldridMesh(ConstructedMeshInfo veldridMesh)
+        {
+            if (veldridMesh is null)
+            {
+                throw new ArgumentNullException(nameof(veldridMesh));
+            }
+
+            var indices = veldridMesh.Indices;
+            var vertices = veldridMesh.Vertices.Select(VertexPositionTexture.Convert).ToArray();
+            return OfTris(vertices, indices);
+        }
+
+        public static Mesh<VertexPositionNormalTexture> ConvertVeldridMeshWithNormals(ConstructedMeshInfo veldridMesh)
+        {
+            if (veldridMesh is null)
+            {
+                throw new ArgumentNullException(nameof(veldridMesh));
+            }
+
+            var indices = veldridMesh.Indices;
+            var vertices = veldridMesh.Vertices.Select(VertexPositionNormalTexture.Convert).ToArray();
+            return OfTris(vertices, indices);
         }
     }
 }

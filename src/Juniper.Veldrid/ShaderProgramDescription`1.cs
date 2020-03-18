@@ -45,7 +45,7 @@ namespace Juniper.VeldridIntegration
                 BlendState = BlendStateDescription.SingleOverrideBlend,
                 DepthStencilState = DepthStencilStateDescription.DepthOnlyLessEqual,
                 RasterizerState = RasterizerStateDescription.Default,
-                PrimitiveTopology = PrimitiveTopology.TriangleStrip,
+                PrimitiveTopology = PrimitiveTopology.TriangleList,
                 ResourceBindingModel = ResourceBindingModel.Improved
             };
         }

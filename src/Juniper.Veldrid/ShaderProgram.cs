@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 
@@ -7,6 +8,7 @@ using Juniper.Imaging;
 
 using Veldrid;
 using Veldrid.SPIRV;
+using Veldrid.Utilities;
 
 namespace Juniper.VeldridIntegration
 {
@@ -17,21 +19,24 @@ namespace Juniper.VeldridIntegration
         private readonly Dictionary<string, DeviceBuffer> buffers = new Dictionary<string, DeviceBuffer>();
         private readonly List<(string name, ImageData image)> textureData = new List<(string name, ImageData image)>();
         private readonly Dictionary<string, Texture> textures = new Dictionary<string, Texture>();
-        private readonly Mesh<VertexT> mesh;
+        private readonly List<Mesh<VertexT>> meshes = new List<Mesh<VertexT>>();
         private readonly IndexFormat indexFormat;
         private readonly ShaderProgramDescription<VertexT> programDescription;
+        private readonly Func<ConstructedMeshInfo, Mesh<VertexT>> convertMesh;
 
         private Pipeline pipeline;
         private ResourceLayout[] layouts;
         private IDisposable[] resources;
         private ResourceSet[] resourceSets;
 
+        private uint faceCount;
+        private uint indexCount;
         private DeviceBuffer vertexBuffer;
         private DeviceBuffer indexBuffer;
 
         public bool IsRunning { get; private set; }
 
-        public ShaderProgram(ShaderProgramDescription<VertexT> programDescription, Mesh<VertexT> mesh)
+        public ShaderProgram(ShaderProgramDescription<VertexT> programDescription, Func<ConstructedMeshInfo, Mesh<VertexT>> convertMesh)
         {
             if (!programDescription.UseSpirV)
             {
@@ -39,8 +44,26 @@ namespace Juniper.VeldridIntegration
             }
 
             this.programDescription = programDescription;
-            this.mesh = mesh ?? throw new ArgumentNullException(nameof(mesh));
-            indexFormat = mesh.IndexType.ToIndexFormat();
+            this.convertMesh = convertMesh;
+
+            var meshType = typeof(Mesh<VertexT>);
+            var indexFormatAttr = meshType.GetCustomAttribute<IndexTypeAttribute>(false);
+            if (indexFormatAttr == null)
+            {
+                throw new InvalidOperationException("Cannot get vertex index type information");
+            }
+
+            indexFormat = indexFormatAttr.Value.ToIndexFormat();
+        }
+
+        public void AddMesh(Mesh<VertexT> mesh)
+        {
+            if (mesh is null)
+            {
+                throw new ArgumentNullException(nameof(mesh));
+            }
+
+            meshes.Add(mesh);
         }
 
         public void AddTexture(string name, ImageData image)
@@ -61,6 +84,64 @@ namespace Juniper.VeldridIntegration
             }
 
             textureData.Add((name, image));
+        }
+
+        public void LoadOBJ(FileInfo objFile)
+        {
+            if (objFile is null)
+            {
+                throw new ArgumentNullException(nameof(objFile));
+            }
+
+            if (!objFile.Exists)
+            {
+                throw new FileNotFoundException("Could not find OBJ file", objFile.FullName);
+            }
+
+            var directory = objFile.Directory;
+
+            using var objStream = objFile.OpenRead();
+            var objParser = new ObjParser();
+            var obj = objParser.Parse(objStream);
+
+            var mtlFileName = Path.Combine(directory.FullName, obj.MaterialLibName);
+            var mtlFile = new FileInfo(mtlFileName);
+
+            if (!mtlFile.Exists)
+            {
+                throw new FileNotFoundException("Could not find MTL file", mtlFile.FullName);
+            }
+
+            using var mtlStream = mtlFile.OpenRead();
+            var mtlParser = new MtlParser();
+            var mtl = mtlParser.Parse(mtlStream);
+
+            foreach (var group in obj.MeshGroups)
+            {
+                var veldridMesh = obj.GetMesh(group);
+                var mesh = convertMesh(veldridMesh);
+                AddMesh(mesh);
+
+                if (veldridMesh.MaterialName is object)
+                {
+                    var materialDef = mtl.Definitions[veldridMesh.MaterialName];
+                    if (materialDef.DiffuseTexture is object)
+                    {
+                        var textureFileName = Path.Combine(directory.FullName, materialDef.DiffuseTexture);
+                        AddTexture("SurfaceTexture", ImageDecoderSet.Default.LoadImage(textureFileName));
+                    }
+                }
+            }
+        }
+
+        public void LoadOBJ(string objFileName)
+        {
+            if (string.IsNullOrEmpty(objFileName))
+            {
+                throw new ArgumentException("Must provide a filename", nameof(objFileName));
+            }
+
+            LoadOBJ(new FileInfo(objFileName));
         }
 
         public void Begin(GraphicsDevice device, Framebuffer framebuffer)
@@ -142,7 +223,10 @@ namespace Juniper.VeldridIntegration
                 .Select(l => factory.CreateResourceSet(new ResourceSetDescription(l.layout, l.resources)))
                 .ToArray();
 
-            (vertexBuffer, indexBuffer) = this.mesh.Prepare(device);
+            var mesh = meshes.Aggregate((a, b) => a + b);
+            faceCount = mesh.FaceCount;
+            indexCount = mesh.IndexCount;
+            (vertexBuffer, indexBuffer) = mesh.Prepare(device);
 
             var layout = programDescription.VertexLayout;
             if (device.BackendType == GraphicsBackend.Direct3D11
@@ -297,8 +381,8 @@ namespace Juniper.VeldridIntegration
             commandList.SetIndexBuffer(indexBuffer, indexFormat);
 
             commandList.DrawIndexed(
-                indexCount: mesh.IndexCount,
-                instanceCount: mesh.FaceCount,
+                indexCount: indexCount,
+                instanceCount: faceCount,
                 indexStart: 0,
                 vertexOffset: 0,
                 instanceStart: 0);

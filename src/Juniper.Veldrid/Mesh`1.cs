@@ -7,7 +7,8 @@ using IndexT = System.UInt16;
 
 namespace Juniper.VeldridIntegration
 {
-    public class Mesh<VertexT> : Mesh
+    [IndexType(typeof(IndexT))]
+    public class Mesh<VertexT>
         where VertexT : struct
     {
         private readonly IFace<VertexT>[] faces;
@@ -20,8 +21,6 @@ namespace Juniper.VeldridIntegration
         public uint VertexCount => (uint)vertices.Length;
 
         public uint IndexCount => (uint)indices.Length;
-
-        public Type IndexType => typeof(IndexT);
 
         private Mesh(IFace<VertexT>[] faces, (VertexT[] vertices, IndexT[] indices) unpacked)
             : this(faces, unpacked.vertices, unpacked.indices)
