@@ -1,8 +1,11 @@
 using System.Runtime.InteropServices;
+using System.Threading;
+
+using Juniper.Terminal;
+
+using static System.Windows.Forms.Keys;
 
 using Keys = System.Windows.Forms.Keys;
-using static System.Windows.Forms.Keys;
-using Juniper.Terminal;
 
 namespace Juniper.Input
 {
@@ -10,6 +13,10 @@ namespace Juniper.Input
         AbstractPollingKeyEventSource<Keys>
     {
         public static readonly bool IsAvailable = ConsoleBuffer.IsWindows;
+
+        public Win32KeyEventSource(CancellationToken token)
+            : base(token)
+        { }
 
         private static bool HasMod(Keys key, Keys mod)
         {

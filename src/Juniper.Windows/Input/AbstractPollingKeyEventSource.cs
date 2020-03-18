@@ -6,12 +6,14 @@ namespace Juniper.Input
         AbstractKeyEventSource<KeyT>
     {
         private readonly Thread poller;
+        private readonly CancellationToken canceller;
 
-        public AbstractPollingKeyEventSource()
+        public AbstractPollingKeyEventSource(CancellationToken token)
         {
             var threadStart = new ThreadStart(Update);
             poller = new Thread(threadStart);
             poller.SetApartmentState(ApartmentState.STA);
+            canceller = token;
         }
 
         public override void Start()
@@ -20,23 +22,26 @@ namespace Juniper.Input
             poller.Start();
         }
 
-        public override void Quit()
+        public override void Join()
         {
-            base.Quit();
+            base.Join();
             poller.Join();
         }
 
         private void Update()
         {
-            while (IsRunning)
+            while (!canceller.IsCancellationRequested)
             {
-                for(var i = 0; i < Keys.Length; ++i)
+                if (IsRunning)
                 {
-                    var key = Keys[i];
-                    KeyState[key] = IsKeyDown(key);
-                }
+                    for (var i = 0; i < Keys.Length; ++i)
+                    {
+                        var key = Keys[i];
+                        KeyState[key] = IsKeyDown(key);
+                    }
 
-                UpdateStates();
+                    UpdateStates();
+                }
             }
         }
     }

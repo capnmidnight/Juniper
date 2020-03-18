@@ -33,7 +33,7 @@ namespace Juniper.Input
             IsRunning = true;
         }
 
-        public virtual void Quit()
+        public virtual void Join()
         {
             IsRunning = false;
         }

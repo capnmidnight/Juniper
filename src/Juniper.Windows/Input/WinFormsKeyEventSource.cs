@@ -19,11 +19,11 @@ namespace Juniper.Input
             control.KeyUp += Form_KeyUp;
         }
 
-        public override void Quit()
+        public override void Join()
         {
             control.KeyDown -= Form_KeyDown;
             control.KeyUp -= Form_KeyUp;
-            base.Quit();
+            base.Join();
         }
 
         private void Form_KeyUp(object sender, KeyEventArgs e)

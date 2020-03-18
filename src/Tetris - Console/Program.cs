@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading;
 using Juniper.Input;
 using Juniper.Puzzles;
 using Juniper.Terminal;
@@ -34,8 +35,8 @@ namespace Juniper
             var scorePanel = frame.Window(nextPiecePanel.AbsoluteLeft, nextPiecePanel.AbsoluteBottom + 1, 7, 2);
             var lastCommand = "";
 
-
-            var keys = new Win32KeyEventSource();
+            using var canceller = new CancellationTokenSource();
+            var keys = new Win32KeyEventSource(canceller.Token);
             keys.AddKeyAlias("reverse flip", Control | Up);
             keys.AddKeyAlias("flip", Up);
             keys.AddKeyAlias("drop", Down);
@@ -72,7 +73,8 @@ namespace Juniper
                 }
             }
 
-            keys.Quit();
+            canceller.Cancel();
+            keys.Join();
         }
 
         private static void Draw(IConsoleBuffer border, IConsoleBuffer board, IConsoleBuffer nextPiecePanel, IConsoleBuffer scorePanel, string lastCommand)

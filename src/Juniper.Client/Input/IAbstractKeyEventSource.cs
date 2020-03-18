@@ -13,6 +13,6 @@ namespace Juniper.Input
         void DefineAxis(string name, string negative, string positive);
         float GetAxis(string name);
         void Start();
-        void Quit();
+        void Join();
     }
 }

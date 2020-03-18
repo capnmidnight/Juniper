@@ -23,14 +23,14 @@ namespace Juniper
         private static ShaderProgram<VertexPositionTexture> program;
         private static Camera camera;
         private static Vector2 lastMouse;
+        private static Matrix4x4 worldMatrix = Matrix4x4.Identity;
         private static CancellationTokenSource canceller;
-        private static Task renderThread;
+        private static Thread updateThread;
+        private static Thread renderThread;
 
         private static float AspectRatio => (float)swapchain.Framebuffer.Width / swapchain.Framebuffer.Height;
 
-        private static bool render;
-        private static bool moving;
-        private static Vector3 velocity;
+        private static bool running;
 
         private static void Main()
         {
@@ -42,21 +42,23 @@ namespace Juniper
             mainForm.Activated += MainForm_Activated;
             mainForm.FormClosing += MainForm_FormClosing;
 
-            keys = new Win32KeyEventSource();
-            keys.KeyChanged += Keys_KeyChanged;
+            canceller = new CancellationTokenSource();
+
+            keys = new Win32KeyEventSource(canceller.Token);
             keys.AddKeyAlias("up", Keys.Up);
             keys.AddKeyAlias("down", Keys.Down);
             keys.AddKeyAlias("left", Keys.Left);
             keys.AddKeyAlias("right", Keys.Right);
             keys.DefineAxis("horizontal", "left", "right");
             keys.DefineAxis("forward", "up", "down");
-            keys.Start();
 
             Application.Run(mainForm);
         }
 
         private static void MainForm_Activated(object sender, EventArgs e)
         {
+            mainForm.Activated -= MainForm_Activated;
+            keys.Start();
             _ = Task.Run(StartAsync);
         }
 
@@ -112,19 +114,12 @@ namespace Juniper
             mainForm.Panel.Resize += Panel_Resize;
             mainForm.Panel.StopOwnRender();
 
-            canceller = new CancellationTokenSource();
-            renderThread = Task.Factory.StartNew(RenderThread, canceller.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
-        }
-
-        private static void Keys_KeyChanged(object sender, KeyChangeEvent e)
-        {
-            var dx = keys.GetAxis("horizontal");
-            var dz = keys.GetAxis("forward");
-            moving = dx != 0 || dz != 0;
-            if (moving)
-            {
-                velocity = MOVE_SPEED * Vector3.Transform(Vector3.Normalize(new Vector3(dx, 0, dz)), camera.Rotation);
-            }
+            GC.Collect();
+            running = true;
+            updateThread = new Thread(new ThreadStart(Update));
+            renderThread = new Thread(new ThreadStart(Draw));
+            renderThread.Start();
+            updateThread.Start();
         }
 
         private static void Panel_MouseMove(object sender, MouseEventArgs e)
@@ -148,67 +143,90 @@ namespace Juniper
 
         private static void Panel_Resize(object sender, EventArgs e)
         {
-            render = false;
+            running = false;
             swapchain.Resize((uint)mainForm.Panel.ClientSize.Width, (uint)mainForm.Panel.ClientSize.Width);
             camera.AspectRatio = AspectRatio;
-            render = true;
+            running = true;
         }
 
-
-        private static void RenderThread()
+        private static void Update()
         {
-            GC.Collect();
-            render = true;
             var start = DateTime.Now;
             var last = start;
-            while (!canceller.IsCancellationRequested)
+            try
             {
-                if (render)
+                while (!canceller.IsCancellationRequested)
                 {
                     var time = (float)(DateTime.Now - start).TotalSeconds;
                     var dtime = (float)(DateTime.Now - last).TotalSeconds;
                     last = DateTime.Now;
 
-                    if (moving)
+                    if (running)
                     {
-                        camera.Position += velocity * dtime;
+                        var dx = keys.GetAxis("horizontal");
+                        var dz = keys.GetAxis("forward");
+                        var moving = dx != 0 || dz != 0;
+                        if (moving)
+                        {
+                            var velocity = MOVE_SPEED * Vector3.Transform(Vector3.Normalize(new Vector3(dx, 0, dz)), camera.Rotation);
+                            camera.Position += velocity * dtime;
+                        }
+
+                        worldMatrix = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, time);
                     }
-
-                    var worldMatrix = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, time);
-
-                    commandList.Begin();
-                    commandList.SetFramebuffer(swapchain.Framebuffer);
-
-                    camera.Clear(commandList);
-
-                    program.Draw(commandList, ref worldMatrix);
-
-                    commandList.End();
-                    device.SubmitCommands(commandList);
-                    device.SwapBuffers(swapchain);
-                    device.WaitForIdle();
                 }
+            }
+            catch (Exception exp)
+            {
+                mainForm.SetError(exp);
+            }
+        }
+
+
+        private static void Draw()
+        {
+            try
+            {
+                while (!canceller.IsCancellationRequested)
+                {
+                    if (running)
+                    {
+
+                        commandList.Begin();
+                        commandList.SetFramebuffer(swapchain.Framebuffer);
+
+                        camera.Clear(commandList);
+
+                        program.Draw(commandList, ref worldMatrix);
+
+                        commandList.End();
+                        device.SubmitCommands(commandList);
+                        device.SwapBuffers(swapchain);
+                        device.WaitForIdle();
+                    }
+                }
+            }
+            catch (Exception exp)
+            {
+                mainForm.SetError(exp);
             }
         }
 
         private static void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (render)
+            if (running)
             {
-                render = false;
-                keys.Quit();
+                running = false;
                 canceller.Cancel();
-                _ = Task.Run(StopRenderingAsync);
+                _ = Task.Run(StopAsync);
             }
         }
 
-        private static async Task StopRenderingAsync()
+        private static async Task StopAsync()
         {
-            while (renderThread.IsRunning())
-            {
-                await Task.Yield();
-            }
-
+            keys.Join();
+            renderThread.Join();
+            updateThread.Join();
             program?.Dispose();
             commandList?.Dispose();
             swapchain?.Dispose();

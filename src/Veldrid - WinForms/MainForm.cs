@@ -7,14 +7,23 @@ namespace Juniper
 {
     public partial class MainForm : Form
     {
+        private readonly Action<Exception> setError;
         public MainForm()
         {
+            setError = SetError;
             InitializeComponent();
         }
 
         public void SetError(Exception exp)
         {
-            errorTextBox1.Text = exp.Unroll();
+            if (InvokeRequired)
+            {
+                Invoke(setError, exp);
+            }
+            else
+            {
+                errorTextBox1.Text = exp.Unroll();
+            }
         }
 
         public VeldridGraphicsDevice Device => veldridGraphicsDevice1;
