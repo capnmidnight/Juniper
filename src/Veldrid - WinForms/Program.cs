@@ -116,8 +116,8 @@ namespace Juniper
 
             GC.Collect();
             running = true;
-            updateThread = new Thread(new ThreadStart(Update));
-            renderThread = new Thread(new ThreadStart(Draw));
+            updateThread = new Thread(Update);
+            renderThread = new Thread(Draw);
             renderThread.Start();
             updateThread.Start();
         }
