@@ -7,6 +7,7 @@ namespace Juniper.Input
     public sealed class Win32MouseMoveEventSource
         : IMouseMotionEventSource
     {
+        private readonly MouseMovedEventArgs args;
         private readonly Thread poller;
         private readonly CancellationToken canceller;
 
@@ -16,6 +17,7 @@ namespace Juniper.Input
 
         public Win32MouseMoveEventSource(CancellationToken token)
         {
+            args = new MouseMovedEventArgs();
             var threadStart = new ThreadStart(Update);
             poller = new Thread(threadStart);
             poller.SetApartmentState(ApartmentState.STA);
@@ -40,9 +42,11 @@ namespace Juniper.Input
                 {
                     if(lastX != 0 || lastY != 0)
                     {
-                        var dx = point.X - lastX;
-                        var dy = point.Y - lastY;
-                        Moved?.Invoke(this, new MouseMovedEventArgs(point.X, point.Y, dx, dy));
+                        args.DX = point.X - lastX;
+                        args.DY = point.Y - lastY;
+                        args.X = point.X;
+                        args.Y = point.Y;
+                        Moved?.Invoke(this, args);
                     }
 
                     lastX = point.X;

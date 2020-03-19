@@ -1,21 +1,13 @@
-﻿using System;
+using System;
 
 namespace Juniper.Input
 {
     public class MouseMovedEventArgs : EventArgs
     {
-        public int X { get; }
-        public int Y { get; }
+        public int X { get; set; }
+        public int Y { get; set; }
 
-        public int DX { get; }
-        public int DY { get; }
-
-        public MouseMovedEventArgs(int x, int y, int dx, int dy)
-        {
-            X = x;
-            Y = y;
-            DX = dx;
-            DY = dy;
-        }
+        public int DX { get; set; }
+        public int DY { get; set; }
     }
 }
