@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Juniper.VeldridIntegration;
 
 using Veldrid;
@@ -12,6 +13,8 @@ namespace Juniper
     public sealed class VeldridDemoProgram : IDisposable
     {
         private const float MOVE_SPEED = 1.5f;
+        private static readonly float MIN_PITCH = Units.Degrees.Radians(-80);
+        private static readonly float MAX_PITCH = Units.Degrees.Radians(80);
 
         private readonly List<WorldObj<VertexPositionTexture>> cubes = new List<WorldObj<VertexPositionTexture>>();
         private readonly GraphicsBackend backend;
@@ -26,6 +29,8 @@ namespace Juniper
         private ShaderProgram<VertexPositionTexture> program;
         private Camera camera;
         private Vector3 velocity;
+        private float yaw;
+        private float pitch;
         private Thread updateThread;
         private Thread renderThread;
         private Semaphore rendering;
@@ -162,20 +167,17 @@ namespace Juniper
 
         }
 
-        private float yaw, pitch;
-        private static float MIN_PITCH = Units.Degrees.Radians(-80);
-        private static float MAX_PITCH = Units.Degrees.Radians(80);
         public void SetMouseRotate(int dx, int dy)
         {
             if (camera is object)
             {
                 yaw -= Units.Degrees.Radians(dx);
                 pitch -= Units.Degrees.Radians(dy);
-                if(pitch < MIN_PITCH)
+                if (pitch < MIN_PITCH)
                 {
                     pitch = MIN_PITCH;
                 }
-                else if(pitch > MAX_PITCH)
+                else if (pitch > MAX_PITCH)
                 {
                     pitch = MAX_PITCH;
                 }
