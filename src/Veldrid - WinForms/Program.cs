@@ -173,19 +173,16 @@ namespace Juniper
                     var dtime = (float)(DateTime.Now - last).TotalSeconds;
                     last = DateTime.Now;
 
-                    if (running)
+                    var dx = keys.GetAxis("horizontal");
+                    var dz = keys.GetAxis("forward");
+                    var moving = dx != 0 || dz != 0;
+                    if (moving)
                     {
-                        var dx = keys.GetAxis("horizontal");
-                        var dz = keys.GetAxis("forward");
-                        var moving = dx != 0 || dz != 0;
-                        if (moving)
-                        {
-                            var velocity = MOVE_SPEED * Vector3.Transform(Vector3.Normalize(new Vector3(dx, 0, dz)), camera.Rotation);
-                            camera.Position += velocity * dtime;
-                        }
-
-                        worldMatrix = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, time);
+                        var velocity = MOVE_SPEED * Vector3.Transform(Vector3.Normalize(new Vector3(dx, 0, dz)), camera.Rotation);
+                        camera.Position += velocity * dtime;
                     }
+
+                    worldMatrix = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, time);
                 }
             }
             catch (Exception exp)
