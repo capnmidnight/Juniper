@@ -220,21 +220,6 @@ namespace Juniper.Terminal
             }
         }
 
-        public static (int x, int y) GetCursorPosition()
-        {
-            if (!IsWindows)
-            {
-                return default;
-            }
-
-            if (!NativeMethods.GetCursorPos(out var point))
-            {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
-
-            return (point.X, point.Y);
-        }
-
         public void SetFontSize(int width, int height)
         {
             if (!IsWindows)
@@ -254,8 +239,6 @@ namespace Juniper.Terminal
 
         internal static class NativeMethods
         {
-            [DllImport("user32", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
-            internal static extern bool GetCursorPos(out POINT point);
 
             [DllImport("kernel32", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
             internal static extern IntPtr GetStdHandle(int nStdHandle);
@@ -275,13 +258,6 @@ namespace Juniper.Terminal
             {
                 internal short X;
                 internal short Y;
-            }
-
-            [StructLayout(LayoutKind.Sequential)]
-            internal struct POINT
-            {
-                internal int X;
-                internal int Y;
             }
 
             [StructLayout(LayoutKind.Sequential)]

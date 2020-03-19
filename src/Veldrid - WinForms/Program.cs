@@ -14,7 +14,7 @@ namespace Juniper
         private static CancellationTokenSource canceller;
         private static MainForm mainForm;
         private static Win32KeyEventSource keys;
-        private static Vector2 lastMouse;
+        private static Win32MouseMoveEventSource mouse;
         private static VeldridDemoProgram demo;
 
         private static void Main()
@@ -26,9 +26,16 @@ namespace Juniper
             using var form = mainForm = new MainForm();
             mainForm.Activated += MainForm_Activated;
             mainForm.Panel.Resize += Panel_Resize;
-            mainForm.Panel.MouseMove += Panel_MouseMoveStart;
 
             canceller = new CancellationTokenSource();
+
+            demo = new VeldridDemoProgram(
+                mainForm.Device.Backend,
+                mainForm.Device.Options,
+                mainForm.Panel.VeldridSwapchainSource,
+                Width, Height,
+                canceller.Token);
+            demo.Error += mainForm.SetError;
 
             keys = new Win32KeyEventSource(canceller.Token);
             keys.Changed += Keys_Changed;
@@ -40,12 +47,16 @@ namespace Juniper
             keys.DefineAxis("forward", "up", "down");
             keys.Start();
 
+            mouse = new Win32MouseMoveEventSource(canceller.Token);
+            mouse.Moved += Mouse_Moved;
+            mouse.Start();
+
             Application.Run(mainForm);
 
             canceller.Cancel();
-
-            demo?.Dispose();
+            mouse.Quit();
             keys.Quit();
+            demo.Dispose();
         }
 
         private static uint Height => (uint)mainForm.Panel.ClientSize.Height;
@@ -60,14 +71,7 @@ namespace Juniper
 
         private static Task StartAsync()
         {
-            demo = new VeldridDemoProgram(
-                mainForm.Device.Backend,
-                mainForm.Device.Options,
-                mainForm.Panel.VeldridSwapchainSource,
-                Width, Height,
-                canceller.Token);
-
-            demo.Error += mainForm.SetError;
+            
             mainForm.Panel.StopOwnRender();
             return demo.StartAsync(
                 "Shaders\\tex-cube-vert.glsl",
@@ -76,22 +80,13 @@ namespace Juniper
 
         private static void Keys_Changed(object sender, KeyChangeEventArgs e)
         {
-            demo?.SetVelocity(keys.GetAxis("horizontal"), keys.GetAxis("forward"));
+            demo.SetVelocity(keys.GetAxis("horizontal"), keys.GetAxis("forward"));
         }
 
-        private static void Panel_MouseMoveStart(object sender, MouseEventArgs e)
-        {
-            lastMouse = new Vector2(e.X, e.Y);
-            mainForm.Panel.MouseMove -= Panel_MouseMoveStart;
-            mainForm.Panel.MouseMove += Panel_MouseMoveContinue;
-        }
 
-        private static void Panel_MouseMoveContinue(object sender, MouseEventArgs e)
+        private static void Mouse_Moved(object sender, MouseMovedEventArgs e)
         {
-            var mouse = new Vector2(e.X, e.Y);
-            var delta = lastMouse - mouse;
-            lastMouse = mouse;
-            demo?.SetMouseRotate(delta);
+            demo.SetMouseRotate(new Vector2(e.DX, e.DY));
         }
 
         private static void Panel_Resize(object sender, EventArgs e)
