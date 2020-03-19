@@ -157,9 +157,15 @@ namespace Juniper
         {
             if (rendering.WaitOne())
             {
-                swapchain.Resize((uint)mainForm.Panel.ClientSize.Width, (uint)mainForm.Panel.ClientSize.Width);
-                camera.AspectRatio = AspectRatio;
-                _ = rendering.Release();
+                try
+                {
+                    swapchain.Resize((uint)mainForm.Panel.ClientSize.Width, (uint)mainForm.Panel.ClientSize.Width);
+                    camera.AspectRatio = AspectRatio;
+                }
+                finally
+                {
+                    rendering.Release();
+                }
             }
         }
 
@@ -202,18 +208,24 @@ namespace Juniper
                 {
                     if (rendering.WaitOne())
                     {
-                        commandList.Begin();
-                        commandList.SetFramebuffer(swapchain.Framebuffer);
+                        try
+                        {
+                            commandList.Begin();
+                            commandList.SetFramebuffer(swapchain.Framebuffer);
 
-                        camera.Clear(commandList);
+                            camera.Clear(commandList);
 
-                        program.Draw(commandList, camera, ref worldMatrix);
+                            program.Draw(commandList, camera, ref worldMatrix);
 
-                        commandList.End();
-                        device.SubmitCommands(commandList);
-                        device.SwapBuffers(swapchain);
-                        device.WaitForIdle();
-                        _ = rendering.Release();
+                            commandList.End();
+                            device.SubmitCommands(commandList);
+                            device.SwapBuffers(swapchain);
+                            device.WaitForIdle();
+                        }
+                        finally
+                        {
+                            rendering.Release();
+                        }
                     }
                 }
             }
