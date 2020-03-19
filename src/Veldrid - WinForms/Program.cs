@@ -40,7 +40,6 @@ namespace Juniper
 
             using var form = mainForm = new MainForm();
             mainForm.Activated += MainForm_Activated;
-            mainForm.FormClosing += MainForm_FormClosing;
 
             canceller = new CancellationTokenSource();
 
@@ -53,6 +52,17 @@ namespace Juniper
             keys.DefineAxis("forward", "up", "down");
 
             Application.Run(mainForm);
+
+            canceller.Cancel();
+            keys.Join();
+
+            renderThread?.Join();
+            updateThread?.Join();
+            rendering?.Dispose();
+            program?.Dispose();
+            commandList?.Dispose();
+            swapchain?.Dispose();
+            device?.Dispose();
         }
 
         private static void MainForm_Activated(object sender, EventArgs e)
@@ -211,27 +221,6 @@ namespace Juniper
             {
                 mainForm.SetError(exp);
             }
-        }
-
-        private static void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (running)
-            {
-                running = false;
-                canceller.Cancel();
-                _ = Task.Run(StopAsync);
-            }
-        }
-
-        private static async Task StopAsync()
-        {
-            keys.Join();
-            renderThread.Join();
-            updateThread.Join();
-            program?.Dispose();
-            commandList?.Dispose();
-            swapchain?.Dispose();
-            device?.Dispose();
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
