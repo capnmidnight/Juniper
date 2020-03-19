@@ -38,7 +38,6 @@ namespace Juniper.VeldridIntegration
         private DeviceBuffer worldBuffer;
 
         public bool IsRunning { get; private set; }
-        public Camera Camera { get; set; }
 
         public ShaderProgram(ShaderProgramDescription<VertexT> programDescription, Func<ConstructedMeshInfo, Mesh<VertexT>> convertMesh)
         {
@@ -358,7 +357,7 @@ namespace Juniper.VeldridIntegration
             }
         }
 
-        public void Draw(CommandList commandList, ref Matrix4x4 worldMatrix)
+        public void Draw(CommandList commandList, Camera camera, ref Matrix4x4 worldMatrix)
         {
             if (!IsRunning)
             {
@@ -370,6 +369,11 @@ namespace Juniper.VeldridIntegration
                 throw new ArgumentNullException(nameof(commandList));
             }
 
+            if (camera is null)
+            {
+                throw new ArgumentNullException(nameof(camera));
+            }
+
             commandList.SetPipeline(pipeline);
             for (var i = 0; i < resourceSets.Length; ++i)
             {
@@ -378,8 +382,8 @@ namespace Juniper.VeldridIntegration
             commandList.SetVertexBuffer(0, vertexBuffer);
             commandList.SetIndexBuffer(indexBuffer, indexFormat);
 
-            commandList.UpdateBuffer(projectionBuffer, 0, Camera.Projection);
-            commandList.UpdateBuffer(viewBuffer, 0, Camera.View);
+            commandList.UpdateBuffer(projectionBuffer, 0, camera.Projection);
+            commandList.UpdateBuffer(viewBuffer, 0, camera.View);
             commandList.UpdateBuffer(worldBuffer, 0, ref worldMatrix);
 
             commandList.DrawIndexed(

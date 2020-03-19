@@ -105,10 +105,12 @@ namespace Juniper
             program.LoadOBJ("Models/cube.obj");
             program.Begin(device, swapchain.Framebuffer, "ProjectionBuffer", "ViewBuffer", "WorldBuffer");
 
-            program.Camera = camera = new Camera();
-            camera.Position = 2.5f * Vector3.UnitZ;
-            camera.Forward = -camera.Position;
-            camera.AspectRatio = AspectRatio;
+            camera = new Camera
+            {
+                AspectRatio = AspectRatio,
+                Position = -2.5f * Vector3.UnitZ,
+                Forward = Vector3.UnitZ
+            };
 
             mainForm.Panel.MouseMove += Panel_MouseMove;
             mainForm.Panel.Resize += Panel_Resize;
@@ -191,13 +193,12 @@ namespace Juniper
                 {
                     if (running)
                     {
-
                         commandList.Begin();
                         commandList.SetFramebuffer(swapchain.Framebuffer);
 
                         camera.Clear(commandList);
 
-                        program.Draw(commandList, ref worldMatrix);
+                        program.Draw(commandList, camera, ref worldMatrix);
 
                         commandList.End();
                         device.SubmitCommands(commandList);
