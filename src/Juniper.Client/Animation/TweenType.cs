@@ -176,7 +176,7 @@ namespace Juniper.Animation
         public static float Bump(float t, float k, Direction d)
         {
             var a = t * Math.PI;
-            return (float)(0.5f * (1 - Math.Cos(a)) - k * Math.Sin(2 * a));
+            return (float)((0.5f * (1 - Math.Cos(a))) - (k * Math.Sin(2 * a)));
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace Juniper.Animation
         {
             t = LinearContinuous(t, k, d);
             var a = t * Math.PI;
-            return (float)(Math.Sin(0.5f * a) + k * Math.Sin(a));
+            return (float)(Math.Sin(0.5f * a) + (k * Math.Sin(a)));
         }
     }
 }

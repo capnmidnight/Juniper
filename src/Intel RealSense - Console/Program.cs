@@ -44,8 +44,10 @@ namespace Juniper
 
             WriteLine("Device found. Streaming data...");
 
-            using var form = new MainForm();
-            form.ClientSize = new System.Drawing.Size(intrinsics.width, intrinsics.height);
+            using var form = new MainForm
+            {
+                ClientSize = new System.Drawing.Size(intrinsics.width, intrinsics.height)
+            };
             form.KeyUp += Form_KeyUp;
 
             using var graphics = form.CreateGraphics();

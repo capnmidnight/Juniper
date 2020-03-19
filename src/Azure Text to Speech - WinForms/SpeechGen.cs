@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -29,7 +30,7 @@ namespace Juniper
         {
             if (InvokeRequired)
             {
-                Invoke(new Action<Exception>(SetError), exception);
+                _ = Invoke(new Action<Exception>(SetError), exception);
             }
             else
             {
@@ -45,23 +46,18 @@ namespace Juniper
             }
         }
 
-        public Voice[] Voices
-        {
-            get
-            {
-                return voices;
-            }
-            set
-            {
-                voices = value;
-                regions = (from voice in Voices
-                           orderby voice.Locale
-                           select voice.Locale)
-                        .Distinct()
-                        .ToArray();
+        public IReadOnlyList<Voice> Voices => voices;
 
-                regionSelection.DataSource = regions;
-            }
+        public void SetVoices(Voice[] value)
+        {
+            voices = value;
+            regions = (from voice in Voices
+                       orderby voice.Locale
+                       select voice.Locale)
+                    .Distinct()
+                    .ToArray();
+
+            regionSelection.DataSource = regions;
         }
 
         private void RegionSelection_SelectedValueChanged(object sender, EventArgs e)
@@ -101,7 +97,7 @@ namespace Juniper
         {
             if (InvokeRequired)
             {
-                Invoke(new Action(Save));
+                _ = Invoke(new Action(Save));
             }
             else
             {

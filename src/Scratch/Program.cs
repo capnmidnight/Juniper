@@ -2,16 +2,15 @@ using System;
 
 namespace Scratch
 {
-    class Program
+    public class Program
     {
-
-        static void Main(string[] args)
+        public static void Main()
         {
-            foreach(var asm in AppDomain.CurrentDomain.GetAssemblies())
+            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
             {
-                foreach(var type in asm.GetTypes())
+                foreach (var type in asm.GetTypes())
                 {
-                    if(type.Name.Contains("nullableattribute", StringComparison.InvariantCultureIgnoreCase))
+                    if (type.Name.Contains("nullableattribute", StringComparison.InvariantCultureIgnoreCase))
                     {
                         Console.WriteLine($"{asm.FullName} -> {type.FullName}");
                     }

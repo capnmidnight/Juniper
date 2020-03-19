@@ -44,11 +44,9 @@ namespace Juniper
                 });
 
             using var p = player = new SoundPlayer();
-            using var f = form = new SpeechGen
-            {
-                Voices = await client.GetVoicesAsync()
-                    .ConfigureAwait(true)
-            };
+            using var f = form = new SpeechGen();
+            form.SetVoices(await client.GetVoicesAsync()
+                .ConfigureAwait(true));
 
             form.GenerateSpeech += Form_GenerateSpeech;
 

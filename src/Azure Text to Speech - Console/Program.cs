@@ -80,6 +80,7 @@ namespace Juniper
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Code Quality", "IDE0051:Remove unused private members", Justification = "Keeping around as an example")]
         private static async Task DecodeAudioAsync(string text, TextToSpeechClient ttsClient, Voice voice)
         {
             var audio = await ttsClient

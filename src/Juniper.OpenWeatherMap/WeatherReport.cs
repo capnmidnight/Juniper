@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -16,67 +17,67 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// When not null, the error response from the server.
         /// </summary>
-        public string error { get; set; }
+        public string Error { get; set; }
 
         /// <summary>
         /// response ID
         /// </summary>
-        public int id { get; set; }
+        public int ID { get; set; }
 
         /// <summary>
         /// name of the city for which the report covers.
         /// </summary>
-        public string name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// time-stamp for the period of time the report covers.
         /// </summary>
-        public long dt { get; set; }
+        public long DT { get; set; }
 
         /// <summary>
         /// atmospheric visibility
         /// </summary>
-        public int visibility { get; set; }
+        public int Visibility { get; set; }
 
         /// <summary>
         /// latitude/longitude for which the report covers.
         /// </summary>
-        public OWMCoord coord { get; set; }
+        public OWMCoord Coord { get; set; }
 
         /// <summary>
         /// various weather conditions that the report shows.
         /// </summary>
-        public OWMWeather[] weather { get; set; }
+        public IReadOnlyList<OWMWeather> Weather { get; set; }
 
         /// <summary>
         /// The main metrics portion of the weather forecast.
         /// </summary>
-        public OWMMain main { get; set; }
+        public OWMMain Main { get; set; }
 
         /// <summary>
         /// The current wind speed and direction.
         /// </summary>
-        public OWMWind wind { get; set; }
+        public OWMWind Wind { get; set; }
 
         /// <summary>
         /// The current cloud cover.
         /// </summary>
-        public OWMClouds clouds { get; set; }
+        public OWMClouds Clouds { get; set; }
 
         /// <summary>
         /// The expected rainfall for the next three hours.
         /// </summary>
-        public OWMRain rain { get; set; }
+        public OWMRain Rain { get; set; }
 
         /// <summary>
         /// The expected snowfall for the next three hours.
         /// </summary>
-        public OWMSnow snow { get; set; }
+        public OWMSnow Snow { get; set; }
 
         /// <summary>
         /// Additional geographic information about the weather report.
         /// </summary>
-        public OWMSys sys { get; set; }
+        public OWMSys Sys { get; set; }
 
         /// <summary>
         /// Deserializes a WeatherReport.
@@ -91,19 +92,19 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 throw new ArgumentNullException(nameof(info));
             }
 
-            error = info.GetString(nameof(error));
-            id = info.GetInt32(nameof(id));
-            name = info.GetString(nameof(name));
-            dt = info.GetInt64(nameof(dt));
-            visibility = info.GetInt32(nameof(visibility));
-            coord = (OWMCoord)info.GetValue(nameof(coord), typeof(OWMCoord));
-            weather = (OWMWeather[])info.GetValue(nameof(weather), typeof(OWMWeather[]));
-            main = (OWMMain)info.GetValue(nameof(main), typeof(OWMMain));
-            wind = (OWMWind)info.GetValue(nameof(wind), typeof(OWMWind));
-            clouds = (OWMClouds)info.GetValue(nameof(clouds), typeof(OWMClouds));
-            rain = (OWMRain)info.GetValue(nameof(rain), typeof(OWMRain));
-            snow = (OWMSnow)info.GetValue(nameof(snow), typeof(OWMSnow));
-            sys = (OWMSys)info.GetValue(nameof(sys), typeof(OWMSys));
+            Error = info.GetString("error");
+            ID = info.GetInt32("id");
+            Name = info.GetString("name");
+            DT = info.GetInt64("dt");
+            Visibility = info.GetInt32("visibility");
+            Coord = (OWMCoord)info.GetValue("coord", typeof(OWMCoord));
+            Weather = (OWMWeather[])info.GetValue("weather", typeof(OWMWeather[]));
+            Main = (OWMMain)info.GetValue("main", typeof(OWMMain));
+            Wind = (OWMWind)info.GetValue("wind", typeof(OWMWind));
+            Clouds = (OWMClouds)info.GetValue("clouds", typeof(OWMClouds));
+            Rain = (OWMRain)info.GetValue("rain", typeof(OWMRain));
+            Snow = (OWMSnow)info.GetValue("snow", typeof(OWMSnow));
+            Sys = (OWMSys)info.GetValue("sys", typeof(OWMSys));
         }
 
         /// <summary>
@@ -118,30 +119,30 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue(nameof(error), error);
-            info.AddValue(nameof(id), id);
-            info.AddValue(nameof(name), name);
-            info.AddValue(nameof(dt), dt);
-            info.AddValue(nameof(visibility), visibility);
-            info.AddValue(nameof(coord), coord);
-            info.AddValue(nameof(weather), weather);
-            info.AddValue(nameof(main), main);
-            info.AddValue(nameof(wind), wind);
-            info.AddValue(nameof(clouds), clouds);
-            info.AddValue(nameof(rain), rain);
-            info.AddValue(nameof(snow), snow);
-            info.AddValue(nameof(sys), sys);
+            info.AddValue("error", Error);
+            info.AddValue("id", ID);
+            info.AddValue("name", Name);
+            info.AddValue("dt", DT);
+            info.AddValue("visibility", Visibility);
+            info.AddValue("coord", Coord);
+            info.AddValue("weather", (OWMWeather[])Weather);
+            info.AddValue("main", Main);
+            info.AddValue("wind", Wind);
+            info.AddValue("clouds", Clouds);
+            info.AddValue("rain", Rain);
+            info.AddValue("snow", Snow);
+            info.AddValue("sys", Sys);
         }
 
         /// <summary>
         /// When not null, the error response from the server.
         /// </summary>
-        public string ErrorMessage => error;
+        public string ErrorMessage => Error;
 
         /// <summary>
         /// name of the city for which the report covers.
         /// </summary>
-        public string City => name;
+        public string City => Name;
 
         /// <summary>
         /// time-stamp for the period of time the report covers.
@@ -157,9 +158,9 @@ namespace Juniper.World.Climate.OpenWeatherMap
             {
                 if (repTime is null)
                 {
-                    if (error is null)
+                    if (Error is null)
                     {
-                        repTime = dt.UnixTimestampToDateTime();
+                        repTime = DT.UnixTimestampToDateTime();
                     }
                     else
                     {
@@ -174,7 +175,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// atmospheric visibility
         /// </summary>
-        public float? AtmosphericVisibility => visibility;
+        public float? AtmosphericVisibility => Visibility;
 
         /// <summary>
         /// A conversion of <see cref="OWMCoord"/> to Juniper's own internal Lat/Lng type.
@@ -188,9 +189,9 @@ namespace Juniper.World.Climate.OpenWeatherMap
         {
             get
             {
-                if (loc is null && coord is object)
+                if (loc is null && Coord is object)
                 {
-                    loc = new LatLngPoint(coord.lat, coord.lon, 0);
+                    loc = new LatLngPoint(Coord.lat, Coord.lon, 0);
                 }
 
                 return loc;
@@ -206,71 +207,71 @@ namespace Juniper.World.Climate.OpenWeatherMap
         {
             get
             {
-                if (weather is null)
+                if (Weather is null)
                 {
                     return "N/A";
                 }
                 else
                 {
-                    return string.Join(", ", (from w in weather
+                    return string.Join(", ", (from w in Weather
                                               select w.description).ToArray());
                 }
             }
         }
 
         /// <summary>
-        /// If <see cref="main"/> is not null, returns the current temperature from it.
+        /// If <see cref="Main"/> is not null, returns the current temperature from it.
         /// </summary>
         /// <value>The temperature.</value>
-        public float? Temperature => main?.temp;
+        public float? Temperature => Main?.temp;
 
         /// <summary>
-        /// If <see cref="main"/> is not null, returns the current atmospheric pressure from it.
+        /// If <see cref="Main"/> is not null, returns the current atmospheric pressure from it.
         /// </summary>
         /// <value>The atmospheric pressure.</value>
-        public float? AtmosphericPressure => main?.pressure;
+        public float? AtmosphericPressure => Main?.pressure;
 
         /// <summary>
-        /// If <see cref="main"/> is not null, returns the current humidity from it.
+        /// If <see cref="Main"/> is not null, returns the current humidity from it.
         /// </summary>
         /// <value>The humidity.</value>
-        public float? Humidity => main?.humidity / 100f;
+        public float? Humidity => Main?.humidity / 100f;
 
         /// <summary>
-        /// If <see cref="wind"/> is not null, returns the direction from it.
+        /// If <see cref="Wind"/> is not null, returns the direction from it.
         /// </summary>
         /// <value>The wind direction.</value>
-        public float? WindDirection => wind?.deg;
+        public float? WindDirection => Wind?.deg;
 
         /// <summary>
-        /// if <see cref="wind"/> is not null, returns the speed from it.
+        /// if <see cref="Wind"/> is not null, returns the speed from it.
         /// </summary>
         /// <value>The wind speed.</value>
-        public float? WindSpeed => wind?.speed;
+        public float? WindSpeed => Wind?.speed;
 
         /// <summary>
-        /// If <see cref="clouds"/> is not null, returns the cloud cover value, scaled to the range
+        /// If <see cref="Clouds"/> is not null, returns the cloud cover value, scaled to the range
         /// [0, 1].
         /// </summary>
         /// <value>The cloud cover.</value>
-        public float? CloudCover => clouds?.all / 100f;
+        public float? CloudCover => Clouds?.all / 100f;
 
         /// <summary>
-        /// If <see cref="sys"/> is not null, returns the country value from it.
+        /// If <see cref="Sys"/> is not null, returns the country value from it.
         /// </summary>
         /// <value>The country.</value>
-        public string Country => sys?.country;
+        public string Country => Sys?.country;
 
         /// <summary>
-        /// If <see cref="sys"/> is not null, returns the SunriseTime value from it.
+        /// If <see cref="Sys"/> is not null, returns the SunriseTime value from it.
         /// </summary>
         /// <value>The country.</value>
-        public DateTime? SunriseTime => sys?.SunriseTime;
+        public DateTime? SunriseTime => Sys?.SunriseTime;
 
         /// <summary>
-        /// If <see cref="sys"/> is not null, returns the SunsetTime value from it.
+        /// If <see cref="Sys"/> is not null, returns the SunsetTime value from it.
         /// </summary>
         /// <value>The country.</value>
-        public DateTime? SunsetTime => sys?.SunsetTime;
+        public DateTime? SunsetTime => Sys?.SunsetTime;
     }
 }

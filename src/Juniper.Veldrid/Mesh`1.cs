@@ -35,8 +35,8 @@ namespace Juniper.VeldridIntegration
             this.faces = faces ?? throw new ArgumentNullException(nameof(faces));
             this.vertices = vertices ?? throw new ArgumentNullException(nameof(vertices));
             this.indices = indices ?? throw new ArgumentNullException(nameof(indices));
-            var info = VertexTypeCache.GetDescription<VertexT>();
-            vertexSizeInBytes = info.size;
+            var (_, size) = VertexTypeCache.GetDescription<VertexT>();
+            vertexSizeInBytes = size;
         }
 
         internal (DeviceBuffer vertexBuffer, DeviceBuffer indexBuffer) Prepare(GraphicsDevice device)
