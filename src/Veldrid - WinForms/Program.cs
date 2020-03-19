@@ -27,10 +27,9 @@ namespace Juniper
         private static CancellationTokenSource canceller;
         private static Thread updateThread;
         private static Thread renderThread;
+        private static Semaphore rendering;
 
         private static float AspectRatio => (float)swapchain.Framebuffer.Width / swapchain.Framebuffer.Height;
-
-        private static bool running;
 
         private static void Main()
         {
@@ -127,7 +126,8 @@ namespace Juniper
             mainForm.Panel.StopOwnRender();
 
             GC.Collect();
-            running = true;
+
+            rendering = new Semaphore(1, 1);
             updateThread = new Thread(Update);
             renderThread = new Thread(Draw);
             renderThread.Start();
@@ -155,10 +155,12 @@ namespace Juniper
 
         private static void Panel_Resize(object sender, EventArgs e)
         {
-            running = false;
-            swapchain.Resize((uint)mainForm.Panel.ClientSize.Width, (uint)mainForm.Panel.ClientSize.Width);
-            camera.AspectRatio = AspectRatio;
-            running = true;
+            if (rendering.WaitOne())
+            {
+                swapchain.Resize((uint)mainForm.Panel.ClientSize.Width, (uint)mainForm.Panel.ClientSize.Width);
+                camera.AspectRatio = AspectRatio;
+                _ = rendering.Release();
+            }
         }
 
         private static void Update()
@@ -198,7 +200,7 @@ namespace Juniper
             {
                 while (!canceller.IsCancellationRequested)
                 {
-                    if (running)
+                    if (rendering.WaitOne())
                     {
                         commandList.Begin();
                         commandList.SetFramebuffer(swapchain.Framebuffer);
@@ -211,6 +213,7 @@ namespace Juniper
                         device.SubmitCommands(commandList);
                         device.SwapBuffers(swapchain);
                         device.WaitForIdle();
+                        _ = rendering.Release();
                     }
                 }
             }
