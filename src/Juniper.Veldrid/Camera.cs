@@ -5,26 +5,28 @@ using Veldrid;
 
 namespace Juniper.VeldridIntegration
 {
-    public class Camera
+
+    public class Camera : AbstractWorldObj
     {
         private float verticalFOV = 60;
         private float near = 0.1f;
         private float far = 1000;
         private float aspectRatio = 1;
-        private Vector3 position = Vector3.Zero;
-        private Vector3 forward = -Vector3.UnitZ;
-        private Vector3 up = Vector3.UnitY;
-        private Quaternion rot;
         private Matrix4x4 projection;
-        private Matrix4x4 view;
 
         public Camera()
         {
             UpdateProjectionMatrix();
-            Rotation = Quaternion.Identity;
         }
 
         public RgbaFloat ClearColor { get; set; } = RgbaFloat.Black;
+
+        public Matrix4x4 View => WorldOrView;
+
+        protected override void UpdateWorldOrView()
+        {
+            WorldOrView = Matrix4x4.CreateLookAt(Position, Position + Forward, Up);
+        }
 
         public Matrix4x4 Projection
         {
@@ -36,19 +38,6 @@ namespace Juniper.VeldridIntegration
             private set
             {
                 projection = value;
-            }
-        }
-
-        public Matrix4x4 View
-        {
-            get
-            {
-                return view;
-            }
-
-            private set
-            {
-                view = value;
             }
         }
 
@@ -110,73 +99,6 @@ namespace Juniper.VeldridIntegration
             {
                 aspectRatio = value;
                 UpdateProjectionMatrix();
-            }
-        }
-
-        private void UpdateView()
-        {
-            view = Matrix4x4.CreateLookAt(position, position + forward, up);
-        }
-
-        public Vector3 Position
-        {
-            get
-            {
-                return position;
-            }
-
-            set
-            {
-                position = value;
-                UpdateView();
-            }
-        }
-
-        public Quaternion Rotation
-        {
-            get
-            {
-                return rot;
-            }
-
-            set
-            {
-                rot = value;
-                forward = Vector3.Transform(-Vector3.UnitZ, rot);
-                up = Vector3.Transform(Vector3.UnitY, rot);
-                UpdateView();
-            }
-        }
-
-        public Vector3 Forward
-        {
-            get
-            {
-                return forward;
-            }
-
-            set
-            {
-                forward = value;
-                var right = Vector3.Cross(forward, up);
-                up = Vector3.Cross(right, forward);
-                UpdateView();
-            }
-        }
-
-        public Vector3 Up
-        {
-            get
-            {
-                return up;
-            }
-
-            set
-            {
-                up = value;
-                var right = Vector3.Cross(forward, up);
-                forward = Vector3.Cross(up, right);
-                UpdateView();
             }
         }
 

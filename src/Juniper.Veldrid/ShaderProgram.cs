@@ -357,7 +357,34 @@ namespace Juniper.VeldridIntegration
             }
         }
 
-        public void Draw(CommandList commandList, Camera camera, ref Matrix4x4 worldMatrix)
+        public WorldObj<VertexT> CreateObject()
+        {
+            return new WorldObj<VertexT>(this);
+        }
+
+        internal void Draw(CommandList commandList, Matrix4x4 worldMatrix)
+        {
+            if (!IsRunning)
+            {
+                throw new InvalidOperationException("Cannot draw when the program is not running.");
+            }
+
+            if (commandList is null)
+            {
+                throw new ArgumentNullException(nameof(commandList));
+            }
+
+            commandList.UpdateBuffer(worldBuffer, 0, ref worldMatrix);
+
+            commandList.DrawIndexed(
+                indexCount: indexCount,
+                instanceCount: faceCount,
+                indexStart: 0,
+                vertexOffset: 0,
+                instanceStart: 0);
+        }
+
+        public void Activate(CommandList commandList, Camera camera)
         {
             if (!IsRunning)
             {
@@ -384,14 +411,6 @@ namespace Juniper.VeldridIntegration
 
             commandList.UpdateBuffer(projectionBuffer, 0, camera.Projection);
             commandList.UpdateBuffer(viewBuffer, 0, camera.View);
-            commandList.UpdateBuffer(worldBuffer, 0, ref worldMatrix);
-
-            commandList.DrawIndexed(
-                indexCount: indexCount,
-                instanceCount: faceCount,
-                indexStart: 0,
-                vertexOffset: 0,
-                instanceStart: 0);
         }
     }
 }

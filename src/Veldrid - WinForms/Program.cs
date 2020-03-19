@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,9 +22,9 @@ namespace Juniper
         private static Swapchain swapchain;
         private static CommandList commandList;
         private static ShaderProgram<VertexPositionTexture> program;
+        private readonly static List<WorldObj<VertexPositionTexture>> cubes = new List<WorldObj<VertexPositionTexture>>();
         private static Camera camera;
         private static Vector2 lastMouse;
-        private static Matrix4x4 worldMatrix = Matrix4x4.Identity;
         private static CancellationTokenSource canceller;
         private static Thread updateThread;
         private static Thread renderThread;
@@ -114,11 +115,18 @@ namespace Juniper
             program.LoadOBJ("Models/cube.obj");
             program.Begin(device, swapchain.Framebuffer, "ProjectionBuffer", "ViewBuffer", "WorldBuffer");
 
+            for (var i = 0; i < 3; ++i)
+            {
+                var cube = program.CreateObject();
+                cube.Position = 1.25f * (i - 1) * Vector3.UnitX;
+                cubes.Add(cube);
+            }
+
             camera = new Camera
             {
                 AspectRatio = AspectRatio,
-                Position = -2.5f * Vector3.UnitZ,
-                Forward = Vector3.UnitZ
+                Position = 2.5f * Vector3.UnitZ,
+                //Forward = -Vector3.UnitZ
             };
 
             mainForm.Panel.MouseMove += Panel_MouseMove;
@@ -190,7 +198,10 @@ namespace Juniper
                         camera.Position += velocity * dtime;
                     }
 
-                    worldMatrix = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, time);
+                    for (var i = 0; i < cubes.Count; ++i)
+                    {
+                        cubes[i].Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, (time * (i - 1)));
+                    }
                 }
             }
             catch (Exception exp)
@@ -215,7 +226,12 @@ namespace Juniper
 
                             camera.Clear(commandList);
 
-                            program.Draw(commandList, camera, ref worldMatrix);
+                            program.Activate(commandList, camera);
+
+                            for (var i = 0; i < cubes.Count; ++i)
+                            {
+                                cubes[i].Draw(commandList);
+                            }
 
                             commandList.End();
                             device.SubmitCommands(commandList);
