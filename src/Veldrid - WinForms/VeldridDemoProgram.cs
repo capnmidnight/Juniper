@@ -162,16 +162,24 @@ namespace Juniper
 
         }
 
+        private float yaw, pitch;
+        private static float MIN_PITCH = Units.Degrees.Radians(-80);
+        private static float MAX_PITCH = Units.Degrees.Radians(80);
         public void SetMouseRotate(int dx, int dy)
         {
             if (camera is object)
             {
-                var dRot = Quaternion.CreateFromYawPitchRoll(
-                    Units.Degrees.Radians(dx),
-                    Units.Degrees.Radians(dy),
-                    0);
-
-                camera.Rotation *= dRot;
+                yaw -= Units.Degrees.Radians(dx);
+                pitch -= Units.Degrees.Radians(dy);
+                if(pitch < MIN_PITCH)
+                {
+                    pitch = MIN_PITCH;
+                }
+                else if(pitch > MAX_PITCH)
+                {
+                    pitch = MAX_PITCH;
+                }
+                camera.Rotation = Quaternion.CreateFromYawPitchRoll(yaw, pitch, 0);
             }
         }
 
