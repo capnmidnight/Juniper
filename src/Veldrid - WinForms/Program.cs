@@ -1,5 +1,4 @@
 using System;
-using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -71,7 +70,6 @@ namespace Juniper
 
         private static Task StartAsync()
         {
-            
             mainForm.Panel.StopOwnRender();
             return demo.StartAsync(
                 "Shaders\\tex-cube-vert.glsl",
@@ -83,10 +81,9 @@ namespace Juniper
             demo.SetVelocity(keys.GetAxis("horizontal"), keys.GetAxis("forward"));
         }
 
-
         private static void Mouse_Moved(object sender, MouseMovedEventArgs e)
         {
-            demo.SetMouseRotate(new Vector2(e.DX, e.DY));
+            demo.SetMouseRotate(e.DX, e.DY);
         }
 
         private static void Panel_Resize(object sender, EventArgs e)

@@ -162,14 +162,14 @@ namespace Juniper
 
         }
 
-        public void SetMouseRotate(Vector2 delta)
+        public void SetMouseRotate(int dx, int dy)
         {
             if (camera is object)
             {
                 var dRot = Quaternion.CreateFromYawPitchRoll(
-                                    Units.Degrees.Radians(delta.X),
-                                    Units.Degrees.Radians(delta.Y),
-                                    0);
+                    Units.Degrees.Radians(dx),
+                    Units.Degrees.Radians(dy),
+                    0);
 
                 camera.Rotation *= dRot;
             }
