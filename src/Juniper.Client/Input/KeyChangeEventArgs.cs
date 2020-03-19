@@ -1,10 +1,10 @@
 namespace Juniper.Input
 {
-    public class KeyChangeEvent : KeyEvent
+    public class KeyChangeEventArgs : KeyEventArgs
     {
         public bool State { get; }
 
-        public KeyChangeEvent(string name, bool state)
+        public KeyChangeEventArgs(string name, bool state)
             : base(name)
         {
             State = state;

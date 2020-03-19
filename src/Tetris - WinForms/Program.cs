@@ -66,7 +66,7 @@ namespace Juniper
                 ["right"] = game.SetRight
             };
 
-            keys.KeyChanged += delegate (object sender, KeyChangeEvent args)
+            keys.Changed += delegate (object sender, KeyChangeEventArgs args)
             {
                 keyActions[args.Name](args.State);
             };
@@ -76,7 +76,7 @@ namespace Juniper
 
             Application.Run(form);
 
-            keys.Join();
+            keys.Quit();
             thread.Abort();
             buffer.Dispose();
             block.Dispose();

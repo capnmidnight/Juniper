@@ -31,7 +31,7 @@ namespace Juniper
             canceller = new CancellationTokenSource();
 
             keys = new Win32KeyEventSource(canceller.Token);
-            keys.KeyChanged += Keys_KeyChanged;
+            keys.Changed += Keys_Changed;
             keys.AddKeyAlias("up", Keys.Up);
             keys.AddKeyAlias("down", Keys.Down);
             keys.AddKeyAlias("left", Keys.Left);
@@ -43,9 +43,9 @@ namespace Juniper
             Application.Run(mainForm);
 
             canceller.Cancel();
-            keys.Join();
 
             demo?.Dispose();
+            keys.Quit();
         }
 
         private static uint Height => (uint)mainForm.Panel.ClientSize.Height;
@@ -74,7 +74,7 @@ namespace Juniper
                 "Shaders\\tex-cube-frag.glsl");
         }
 
-        private static void Keys_KeyChanged(object sender, KeyChangeEvent e)
+        private static void Keys_Changed(object sender, KeyChangeEventArgs e)
         {
             demo?.SetVelocity(keys.GetAxis("horizontal"), keys.GetAxis("forward"));
         }

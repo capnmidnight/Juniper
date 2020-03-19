@@ -2,10 +2,10 @@ using System;
 
 namespace Juniper.Input
 {
-    public class KeyEvent : EventArgs
+    public class KeyEventArgs : EventArgs
     {
         public string Name { get; }
-        public KeyEvent(string name)
+        public KeyEventArgs(string name)
         {
             Name = name;
         }

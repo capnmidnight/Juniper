@@ -22,9 +22,9 @@ namespace Juniper.Input
             poller.Start();
         }
 
-        public override void Join()
+        public override void Quit()
         {
-            base.Join();
+            base.Quit();
             poller.Join();
         }
 

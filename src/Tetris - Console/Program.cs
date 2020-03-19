@@ -52,7 +52,7 @@ namespace Juniper
                 ["right"] = game.SetRight
             };
 
-            keys.KeyChanged += delegate (object sender, KeyChangeEvent args)
+            keys.Changed += delegate (object sender, KeyChangeEventArgs args)
             {
                 lastCommand = args.Name;
                 keyActions[args.Name](args.State);
@@ -74,7 +74,7 @@ namespace Juniper
             }
 
             canceller.Cancel();
-            keys.Join();
+            keys.Quit();
         }
 
         private static void Draw(IConsoleBuffer border, IConsoleBuffer board, IConsoleBuffer nextPiecePanel, IConsoleBuffer scorePanel, string lastCommand)

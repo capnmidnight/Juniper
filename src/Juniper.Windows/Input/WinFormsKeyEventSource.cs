@@ -19,20 +19,20 @@ namespace Juniper.Input
             control.KeyUp += Form_KeyUp;
         }
 
-        public override void Join()
+        public override void Quit()
         {
             control.KeyDown -= Form_KeyDown;
             control.KeyUp -= Form_KeyUp;
-            base.Join();
+            base.Quit();
         }
 
-        private void Form_KeyUp(object sender, KeyEventArgs e)
+        private void Form_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             KeyState[e.KeyData] = false;
             UpdateStates();
         }
 
-        private void Form_KeyDown(object sender, KeyEventArgs e)
+        private void Form_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             KeyState[e.KeyData] = true;
             UpdateStates();

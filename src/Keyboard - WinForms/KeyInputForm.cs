@@ -24,7 +24,7 @@ namespace Juniper
             keys.Start();
         }
 
-        private void OnKeyDown(object sender, KeyEventArgs e)
+        private void OnKeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             textBox1.Text += $"DOWN: Code({e.KeyCode}) Data({e.KeyData})\r\n";
         }

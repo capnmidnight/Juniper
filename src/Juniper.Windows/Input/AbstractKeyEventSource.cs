@@ -7,14 +7,14 @@ namespace Juniper.Input
     public abstract class AbstractKeyEventSource<KeyT> :
         IKeyEventSource
     {
-        public event EventHandler<KeyChangeEvent> KeyChanged;
-        public event EventHandler<KeyEvent> KeyDown;
-        public event EventHandler<KeyEvent> KeyUp;
+        public event EventHandler<KeyChangeEventArgs> Changed;
+        public event EventHandler<KeyEventArgs> Down;
+        public event EventHandler<KeyEventArgs> Up;
 
         private readonly Dictionary<string, KeyT> aliases = new Dictionary<string, KeyT>();
-        private readonly Dictionary<string, KeyEvent> events = new Dictionary<string, KeyEvent>();
-        private readonly Dictionary<string, KeyChangeEvent> upEvents = new Dictionary<string, KeyChangeEvent>();
-        private readonly Dictionary<string, KeyChangeEvent> downEvents = new Dictionary<string, KeyChangeEvent>();
+        private readonly Dictionary<string, KeyEventArgs> events = new Dictionary<string, KeyEventArgs>();
+        private readonly Dictionary<string, KeyChangeEventArgs> upEvents = new Dictionary<string, KeyChangeEventArgs>();
+        private readonly Dictionary<string, KeyChangeEventArgs> downEvents = new Dictionary<string, KeyChangeEventArgs>();
         private readonly Dictionary<string, bool> aliasState = new Dictionary<string, bool>();
         private readonly Dictionary<string, (string, string)> axes = new Dictionary<string, (string, string)>();
 
@@ -33,7 +33,7 @@ namespace Juniper.Input
             IsRunning = true;
         }
 
-        public virtual void Join()
+        public virtual void Quit()
         {
             IsRunning = false;
         }
@@ -55,13 +55,13 @@ namespace Juniper.Input
                     {
                         if (isDown)
                         {
-                            KeyDown?.Invoke(this, events[name]);
-                            KeyChanged?.Invoke(this, downEvents[name]);
+                            Down?.Invoke(this, events[name]);
+                            Changed?.Invoke(this, downEvents[name]);
                         }
                         else
                         {
-                            KeyUp?.Invoke(this, events[name]);
-                            KeyChanged?.Invoke(this, upEvents[name]);
+                            Up?.Invoke(this, events[name]);
+                            Changed?.Invoke(this, upEvents[name]);
                         }
                     }
                 }
@@ -75,9 +75,9 @@ namespace Juniper.Input
                 KeyState[key] = false;
                 aliases[name] = key;
                 aliasState[name] = false;
-                events[name] = new KeyEvent(name);
-                upEvents[name] = new KeyChangeEvent(name, false);
-                downEvents[name] = new KeyChangeEvent(name, true);
+                events[name] = new KeyEventArgs(name);
+                upEvents[name] = new KeyChangeEventArgs(name, false);
+                downEvents[name] = new KeyChangeEventArgs(name, true);
             }
         }
 
