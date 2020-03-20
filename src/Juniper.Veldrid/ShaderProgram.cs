@@ -207,7 +207,14 @@ namespace Juniper.VeldridIntegration
                 {
                     var elements = set.Select(e => e.ToElementDescription()).ToArray();
                     var layout = factory.CreateResourceLayout(new ResourceLayoutDescription(elements));
-                    var resources = set.Select(r => CreateResource(device, factory, r))
+                    var resources = set.Select(r => (BindableResource)(r.Kind switch
+                        {
+                            ResourceKind.Sampler => device.Aniso4xSampler,
+                            ResourceKind.TextureReadOnly => factory.CreateTextureView(textures[r.Name]),
+                            ResourceKind.TextureReadWrite => factory.CreateTextureView(textures[r.Name]),
+                            ResourceKind.UniformBuffer => CreateBuffer(factory, r),
+                            _ => throw new FormatException("Unknonw resource kind " + r.Kind)
+                        }))
                         .ToArray();
                     return (layout, resources);
                 })
@@ -272,18 +279,6 @@ namespace Juniper.VeldridIntegration
             {
                 throw new InvalidOperationException("SPIR-V is the only supported shader format.");
             }
-        }
-
-        private BindableResource CreateResource(GraphicsDevice device, ResourceFactory factory, ShaderResource r)
-        {
-            return r.Kind switch
-            {
-                ResourceKind.Sampler => device.Aniso4xSampler,
-                ResourceKind.TextureReadOnly => factory.CreateTextureView(textures[r.Name]),
-                ResourceKind.TextureReadWrite => factory.CreateTextureView(textures[r.Name]),
-                ResourceKind.UniformBuffer => CreateBuffer(factory, r),
-                _ => throw new FormatException("Unknonw resource kind " + r.Kind)
-            };
         }
 
         private DeviceBuffer CreateBuffer(ResourceFactory factory, ShaderResource r)
