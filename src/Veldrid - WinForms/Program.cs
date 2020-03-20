@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -72,8 +73,9 @@ namespace Juniper
         {
             mainForm.Panel.StopOwnRender();
             return demo.StartAsync(
-                "Shaders\\tex-cube-vert.glsl",
-                "Shaders\\tex-cube-frag.glsl");
+                Path.Combine("Shaders", "tex-cube-vert.glsl"),
+                Path.Combine("Shaders", "tex-cube-frag.glsl"),
+                Path.Combine("Models", "cube.obj"));
         }
 
         private static void Keys_Changed(object sender, KeyChangeEventArgs e)

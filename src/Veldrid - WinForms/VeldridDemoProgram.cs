@@ -59,7 +59,7 @@ namespace Juniper
             canceller = token;
         }
 
-        public async Task StartAsync(string vertexShaderFileName, string fragmentShaderFileName)
+        public async Task StartAsync(string vertexShaderFileName, string fragmentShaderFileName, string modelFileName)
         {
             if (string.IsNullOrEmpty(vertexShaderFileName))
             {
@@ -71,15 +71,20 @@ namespace Juniper
                 throw new ArgumentException("Must provide a fragment shader file name.", nameof(fragmentShaderFileName));
             }
 
+            if (string.IsNullOrEmpty(modelFileName))
+            {
+                throw new ArgumentException("Must provide a model file name.", nameof(modelFileName));
+            }
+
             var cubeProgramDescription = await ShaderProgramDescription.LoadAsync<VertexPositionTexture>(
                 vertexShaderFileName,
                 fragmentShaderFileName)
                 .ConfigureAwait(true);
 
-            Start(cubeProgramDescription);
+            Start(cubeProgramDescription, modelFileName);
         }
 
-        private void Start(ShaderProgramDescription<VertexPositionTexture> cubeProgramDescription)
+        private void Start(ShaderProgramDescription<VertexPositionTexture> cubeProgramDescription, string modelFileName)
         {
             device = backend switch
             {
@@ -110,7 +115,7 @@ namespace Juniper
             commandList = device.ResourceFactory.CreateCommandList();
 
             program = new ShaderProgram<VertexPositionTexture>(cubeProgramDescription, Mesh.ConvertVeldridMesh);
-            program.LoadOBJ("Models/cube.obj");
+            program.LoadOBJ(modelFileName);
             program.Begin(device, swapchain.Framebuffer, "ProjectionBuffer", "ViewBuffer", "WorldBuffer");
 
             for (var i = 0; i < 3; ++i)
