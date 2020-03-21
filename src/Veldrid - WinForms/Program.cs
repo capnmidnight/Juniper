@@ -25,9 +25,22 @@ namespace Juniper
 
             using var form = mainForm = new MainForm();
             mainForm.Activated += MainForm_Activated;
+            mainForm.FormClosing += MainForm_FormClosing;
+            mainForm.RequestStats += MainForm_RequestStats;
             mainForm.Panel.Resize += Panel_Resize;
 
             canceller = new CancellationTokenSource();
+
+            keys = new Win32KeyEventSource(canceller.Token);
+            keys.AddKeyAlias("up", Keys.Up);
+            keys.AddKeyAlias("down", Keys.Down);
+            keys.AddKeyAlias("left", Keys.Left);
+            keys.AddKeyAlias("right", Keys.Right);
+            keys.DefineAxis("horizontal", "left", "right");
+            keys.DefineAxis("forward", "up", "down");
+
+            mouse = new Win32MouseMoveEventSource(canceller.Token);
+            mouse.Moved += Mouse_Moved;
 
             demo = new VeldridDemoProgram(
                 mainForm.Device.Backend,
@@ -36,26 +49,10 @@ namespace Juniper
                 Width, Height,
                 canceller.Token);
             demo.Error += mainForm.SetError;
-
-            keys = new Win32KeyEventSource(canceller.Token);
-            keys.Changed += Keys_Changed;
-            keys.AddKeyAlias("up", Keys.Up);
-            keys.AddKeyAlias("down", Keys.Down);
-            keys.AddKeyAlias("left", Keys.Left);
-            keys.AddKeyAlias("right", Keys.Right);
-            keys.DefineAxis("horizontal", "left", "right");
-            keys.DefineAxis("forward", "up", "down");
-            keys.Start();
-
-            mouse = new Win32MouseMoveEventSource(canceller.Token);
-            mouse.Moved += Mouse_Moved;
-            mouse.Start();
+            demo.Update += Demo_Update;
 
             Application.Run(mainForm);
 
-            canceller.Cancel();
-            mouse.Quit();
-            keys.Quit();
             demo.Dispose();
         }
 
@@ -72,13 +69,20 @@ namespace Juniper
         private static Task StartAsync()
         {
             mainForm.Panel.StopOwnRender();
+            keys.Start();
+            mouse.Start();
             return demo.StartAsync(
-                Path.Combine("Shaders", "tex-cube-vert.glsl"),
-                Path.Combine("Shaders", "tex-cube-frag.glsl"),
+                Path.Combine("Shaders", "tex-cube.vert"),
+                Path.Combine("Shaders", "tex-cube.frag"),
                 Path.Combine("Models", "cube.obj"));
         }
 
-        private static void Keys_Changed(object sender, KeyChangeEventArgs e)
+        private static void Panel_Resize(object sender, EventArgs e)
+        {
+            demo.Resize(Width, Height);
+        }
+
+        private static void Demo_Update(float dt)
         {
             demo.SetVelocity(keys.GetAxis("horizontal"), keys.GetAxis("forward"));
         }
@@ -88,14 +92,25 @@ namespace Juniper
             demo.SetMouseRotate(e.DX, e.DY);
         }
 
-        private static void Panel_Resize(object sender, EventArgs e)
+        private static void MainForm_RequestStats(object sender, EventArgs e)
         {
-            demo.Resize(Width, Height);
+            mainForm.SetStats(
+                demo.MinFramesPerSecond,
+                demo.MeanFramesPerSecond,
+                demo.MaxFramesPerSecond);
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
             mainForm.SetError(e.Exception);
+        }
+
+        private static void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            canceller.Cancel();
+            mouse.Quit();
+            keys.Quit();
+            demo.Quit();
         }
     }
 }

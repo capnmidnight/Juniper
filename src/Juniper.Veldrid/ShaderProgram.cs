@@ -29,13 +29,12 @@ namespace Juniper.VeldridIntegration
         private IDisposable[] resources;
         private ResourceSet[] resourceSets;
 
-        private uint faceCount;
-        private uint indexCount;
+        private DeviceBuffer cameraBuffer;
+        private DeviceBuffer worldBuffer;
         private DeviceBuffer vertexBuffer;
         private DeviceBuffer indexBuffer;
-        private DeviceBuffer projectionBuffer;
-        private DeviceBuffer viewBuffer;
-        private DeviceBuffer worldBuffer;
+        private uint faceCount;
+        private uint indexCount;
 
         public bool IsRunning { get; private set; }
 
@@ -147,7 +146,7 @@ namespace Juniper.VeldridIntegration
             LoadOBJ(new FileInfo(objFileName));
         }
 
-        public void Begin(GraphicsDevice device, Framebuffer framebuffer, string projectionBufferName, string viewBufferName, string worldBufferName)
+        public void Begin(GraphicsDevice device, Framebuffer framebuffer, string cameraBufferName, string worldBufferName)
         {
             if (IsRunning)
             {
@@ -208,23 +207,20 @@ namespace Juniper.VeldridIntegration
                     var elements = set.Select(e => e.ToElementDescription()).ToArray();
                     var layout = factory.CreateResourceLayout(new ResourceLayoutDescription(elements));
                     var resources = set.Select(r => (BindableResource)(r.Kind switch
-                        {
-                            ResourceKind.Sampler => device.Aniso4xSampler,
-                            ResourceKind.TextureReadOnly => factory.CreateTextureView(textures[r.Name]),
-                            ResourceKind.TextureReadWrite => factory.CreateTextureView(textures[r.Name]),
-                            ResourceKind.UniformBuffer => CreateBuffer(factory, r),
-                            _ => throw new FormatException("Unknonw resource kind " + r.Kind)
-                        }))
+                    {
+                        ResourceKind.Sampler => device.Aniso4xSampler,
+                        ResourceKind.TextureReadOnly => factory.CreateTextureView(textures[r.Name]),
+                        ResourceKind.TextureReadWrite => factory.CreateTextureView(textures[r.Name]),
+                        ResourceKind.UniformBuffer => buffers[r.Name] = factory.CreateBuffer(new BufferDescription(r.Size, BufferUsage.UniformBuffer)),
+                        _ => throw new FormatException("Unknonw resource kind " + r.Kind)
+                    }))
                         .ToArray();
                     return (layout, resources);
                 })
                 .ToArray();
 
-            projectionBuffer = buffers[projectionBufferName];
-            _ = buffers.Remove(projectionBufferName);
-
-            viewBuffer = buffers[viewBufferName];
-            _ = buffers.Remove(viewBufferName);
+            cameraBuffer = buffers[cameraBufferName];
+            _ = buffers.Remove(cameraBufferName);
 
             worldBuffer = buffers[worldBufferName];
             _ = buffers.Remove(worldBufferName);
@@ -234,6 +230,7 @@ namespace Juniper.VeldridIntegration
             pipelineOptions.ResourceLayouts = layouts = layoutsAndResources.Select(l => l.layout).ToArray();
 
             resources = layoutsAndResources.SelectMany(l => l.resources)
+                .Where(r => r != null)
                 .OfType<IDisposable>()
                 .Where(r => r != device.Aniso4xSampler)
                 .ToArray();
@@ -241,11 +238,6 @@ namespace Juniper.VeldridIntegration
             resourceSets = layoutsAndResources
                 .Select(l => factory.CreateResourceSet(new ResourceSetDescription(l.layout, l.resources)))
                 .ToArray();
-
-            var mesh = meshes.Aggregate((a, b) => a + b);
-            faceCount = mesh.FaceCount;
-            indexCount = mesh.IndexCount;
-            (vertexBuffer, indexBuffer) = mesh.Prepare(device);
 
             var layout = programDescription.VertexLayout;
             if (device.BackendType == GraphicsBackend.Direct3D11
@@ -266,6 +258,11 @@ namespace Juniper.VeldridIntegration
             pipelineOptions.Outputs = framebuffer.OutputDescription;
             pipeline = factory.CreateGraphicsPipeline(pipelineOptions);
 
+            var mesh = meshes.Aggregate((a, b) => a + b);
+            faceCount = mesh.FaceCount;
+            indexCount = mesh.IndexCount;
+            (vertexBuffer, indexBuffer) = mesh.Prepare(device);
+
             IsRunning = true;
         }
 
@@ -279,11 +276,6 @@ namespace Juniper.VeldridIntegration
             {
                 throw new InvalidOperationException("SPIR-V is the only supported shader format.");
             }
-        }
-
-        private DeviceBuffer CreateBuffer(ResourceFactory factory, ShaderResource r)
-        {
-            return buffers[r.Name] = factory.CreateBuffer(new BufferDescription(r.Size, BufferUsage.UniformBuffer)); ;
         }
 
         public void UpdateMatrix(string name, CommandList commandList, ref Matrix4x4 matrix)
@@ -313,42 +305,53 @@ namespace Juniper.VeldridIntegration
             {
                 IsRunning = false;
 
-                pipeline?.Dispose();
-                pipeline = null;
                 indexBuffer?.Dispose();
                 indexBuffer = null;
                 vertexBuffer?.Dispose();
                 vertexBuffer = null;
                 worldBuffer?.Dispose();
                 worldBuffer = null;
-                viewBuffer?.Dispose();
-                viewBuffer = null;
-                projectionBuffer?.Dispose();
-                projectionBuffer = null;
+                cameraBuffer?.Dispose();
+                cameraBuffer = null;
 
-                foreach (var l in layouts)
+                if (resourceSets != null)
                 {
-                    l.Dispose();
+                    foreach (var set in resourceSets)
+                    {
+                        set.Dispose();
+                    }
+                    resourceSets = null;
                 }
-                layouts = null;
 
-                foreach (var r in resources)
+                if (resources != null)
                 {
-                    r.Dispose();
+                    foreach (var r in resources)
+                    {
+                        r.Dispose();
+                    }
+                    resources = null;
                 }
-                resources = null;
 
-                foreach (var set in resourceSets)
+                if (textures != null)
                 {
-                    set.Dispose();
+                    foreach (var texture in textures.Values)
+                    {
+                        texture.Dispose();
+                    }
+                    textures.Clear();
                 }
-                resourceSets = null;
 
-                foreach (var texture in textures.Values)
+                if (layouts != null)
                 {
-                    texture.Dispose();
+                    foreach (var l in layouts)
+                    {
+                        l.Dispose();
+                    }
+                    layouts = null;
                 }
-                textures.Clear();
+
+                pipeline?.Dispose();
+                pipeline = null;
             }
         }
 
@@ -401,11 +404,12 @@ namespace Juniper.VeldridIntegration
             {
                 commandList.SetGraphicsResourceSet((uint)i, resourceSets[i]);
             }
+
+            commandList.UpdateBuffer(cameraBuffer, 0, camera.Projection);
+            commandList.UpdateBuffer(cameraBuffer, camera.Projection.GetType().Size(), camera.View);
+
             commandList.SetVertexBuffer(0, vertexBuffer);
             commandList.SetIndexBuffer(indexBuffer, indexFormat);
-
-            commandList.UpdateBuffer(projectionBuffer, 0, camera.Projection);
-            commandList.UpdateBuffer(viewBuffer, 0, camera.View);
         }
     }
 }

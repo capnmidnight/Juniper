@@ -20,12 +20,7 @@
   </ImportGroup>
 
   <ItemGroup>
-    <PackageReference Include="Veldrid" Version="4.7.0" />
-    <PackageReference Include="Veldrid.StartupUtilities" Version="4.7.0" />
     <PackageReference Include="Veldrid.SPIRV" Version="1.0.13" />
-    <PackageReference Include="Veldrid.Utilities" Version="4.7.0" />
-    <ProjectReference Include="..\..\lib\Juniper.HjgPngcs\Juniper.HjgPngcs.csproj" />
-    <ProjectReference Include="..\..\lib\Juniper.LibJpeg.NET\Juniper.LibJpeg.NET.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +28,7 @@
     <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
     <ProjectReference Include="..\Juniper.Windows\Juniper.Windows.csproj" />
     <ProjectReference Include="..\Juniper.Veldrid.WinForms\Juniper.Veldrid.WinForms.csproj" />
+    <ProjectReference Include="..\Veldrid - Class Library\Veldrid - Class Library.csproj" />
   </ItemGroup>
 
   <ItemGroup>

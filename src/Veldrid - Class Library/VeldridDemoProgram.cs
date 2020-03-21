@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
-
+using Juniper.Mathematics;
 using Juniper.VeldridIntegration;
 
 using Veldrid;
@@ -23,6 +23,9 @@ namespace Juniper
         private readonly uint startWidth;
         private readonly uint startHeight;
         private readonly CancellationToken canceller;
+        private readonly SingleStatisticsCollection updateStats = new SingleStatisticsCollection(10);
+        private readonly SingleStatisticsCollection renderStats = new SingleStatisticsCollection(10);
+
         private GraphicsDevice device;
         private Swapchain swapchain;
         private CommandList commandList;
@@ -38,6 +41,7 @@ namespace Juniper
         private float AspectRatio => (float)swapchain.Framebuffer.Width / swapchain.Framebuffer.Height;
 
         public event Action<Exception> Error;
+        public event Action<float> Update;
 
         public VeldridDemoProgram(GraphicsBackend backend, GraphicsDeviceOptions options, SwapchainSource swapchainSource, uint startWidth, uint startHeight, CancellationToken token)
         {
@@ -57,6 +61,25 @@ namespace Juniper
             this.startWidth = startWidth;
             this.startHeight = startHeight;
             canceller = token;
+        }
+
+        public float? MinUpdatesPerSecond => updateStats.Minimum;
+        public float? MeanUpdatesPerSecond => updateStats.Mean;
+        public float? StdDevUpdatesPerSecond => updateStats.StandardDeviation;
+        public float? MaxUpdatesPerSecond => updateStats.Maximum;
+
+        public float? MinFramesPerSecond => renderStats.Minimum;
+        public float? MeanFramesPerSecond => renderStats.Mean;
+        public float? StdDevFramesPerSecond => renderStats.StandardDeviation;
+        public float? MaxFramesPerSecond => renderStats.Maximum;
+
+        public void Quit()
+        {
+            if (rendering.WaitOne())
+            {
+                updateThread.Join();
+                renderThread.Join();
+            }
         }
 
         public async Task StartAsync(string vertexShaderFileName, string fragmentShaderFileName, string modelFileName)
@@ -116,7 +139,7 @@ namespace Juniper
 
             program = new ShaderProgram<VertexPositionTexture>(cubeProgramDescription, Mesh.ConvertVeldridMesh);
             program.LoadOBJ(modelFileName);
-            program.Begin(device, swapchain.Framebuffer, "ProjectionBuffer", "ViewBuffer", "WorldBuffer");
+            program.Begin(device, swapchain.Framebuffer, "ProjectionBuffer", "WorldBuffer");
 
             for (var i = 0; i < 3; ++i)
             {
@@ -134,8 +157,8 @@ namespace Juniper
             GC.Collect();
 
             rendering = new Semaphore(1, 1);
-            updateThread = new Thread(Update);
-            renderThread = new Thread(Draw);
+            updateThread = new Thread(UpdateThread);
+            renderThread = new Thread(DrawThread);
             renderThread.Start();
             updateThread.Start();
         }
@@ -153,7 +176,7 @@ namespace Juniper
                 }
                 finally
                 {
-                    rendering.Release();
+                    _ = rendering.Release();
                 }
             }
         }
@@ -190,7 +213,7 @@ namespace Juniper
             }
         }
 
-        private void Update()
+        private void UpdateThread()
         {
             var start = DateTime.Now;
             var last = start;
@@ -201,6 +224,9 @@ namespace Juniper
                     var time = (float)(DateTime.Now - start).TotalSeconds;
                     var dtime = (float)(DateTime.Now - last).TotalSeconds;
                     last = DateTime.Now;
+
+                    updateStats.Add(1 / dtime);
+                    Update?.Invoke(dtime);
 
                     camera.Position += velocity * dtime;
 
@@ -217,16 +243,21 @@ namespace Juniper
         }
 
 
-        private void Draw()
+        private void DrawThread()
         {
             try
             {
+                var last = DateTime.Now;
                 while (!canceller.IsCancellationRequested)
                 {
                     if (rendering.WaitOne())
                     {
+                        var dtime = (float)(DateTime.Now - last).TotalSeconds;
+                        last = DateTime.Now;
+
                         try
                         {
+                            renderStats.Add(1 / dtime);
                             commandList.Begin();
                             commandList.SetFramebuffer(swapchain.Framebuffer);
 
@@ -246,7 +277,7 @@ namespace Juniper
                         }
                         finally
                         {
-                            rendering.Release();
+                            _ = rendering.Release();
                         }
                     }
                 }

@@ -36,6 +36,7 @@ namespace Juniper
             this.errorTextBox1 = new System.Windows.Forms.TextBox();
             this.veldridPanel1 = new Juniper.VeldridIntegration.WinFormsSupport.VeldridPanel();
             this.veldridGraphicsDevice1 = new Juniper.VeldridIntegration.WinFormsSupport.VeldridGraphicsDevice(this.components);
+            this.statsTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // errorTextBox1
@@ -49,6 +50,17 @@ namespace Juniper
             this.errorTextBox1.Size = new System.Drawing.Size(193, 424);
             this.errorTextBox1.TabIndex = 1;
             // 
+            // veldridPanel1
+            // 
+            this.veldridPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.veldridPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.veldridPanel1.Location = new System.Drawing.Point(30, 30);
+            this.veldridPanel1.Name = "veldridPanel1";
+            this.veldridPanel1.Size = new System.Drawing.Size(556, 424);
+            this.veldridPanel1.TabIndex = 0;
+            // 
             // veldridGraphicsDevice1
             // 
             this.veldridGraphicsDevice1.Backend = Veldrid.GraphicsBackend.Vulkan;
@@ -60,16 +72,9 @@ namespace Juniper
             this.veldridGraphicsDevice1.VeldridSwapchainSRGBFormat = false;
             this.veldridGraphicsDevice1.VeldridVSync = true;
             // 
-            // veldridPanel1
+            // statsTimer
             // 
-            this.veldridPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.veldridPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.veldridPanel1.Location = new System.Drawing.Point(30, 30);
-            this.veldridPanel1.Name = "veldridPanel1";
-            this.veldridPanel1.Size = new System.Drawing.Size(556, 424);
-            this.veldridPanel1.TabIndex = 0;
+            this.statsTimer.Tick += new System.EventHandler(this.statsTimer_Tick);
             // 
             // MainForm
             // 
@@ -90,5 +95,6 @@ namespace Juniper
         private VeldridIntegration.WinFormsSupport.VeldridPanel veldridPanel1;
         private VeldridIntegration.WinFormsSupport.VeldridGraphicsDevice veldridGraphicsDevice1;
         private System.Windows.Forms.TextBox errorTextBox1;
+        private System.Windows.Forms.Timer statsTimer;
     }
 }
