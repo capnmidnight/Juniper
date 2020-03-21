@@ -11,6 +11,8 @@ namespace Juniper.Mathematics
     /// </summary>
     public abstract class AbstractStatisticsCollection<T> : IList<T> where T : struct
     {
+        private readonly bool recomputeOnEveryInsertion;
+
         /// <summary>
         /// The value that represents 0 for <see cref="T"/>.
         /// </summary>
@@ -297,6 +299,7 @@ namespace Juniper.Mathematics
         /// <param name="max">The value that represents Minimum value for <typeparamref name="T"/></param>
         protected AbstractStatisticsCollection(IList<T> collection, T zero, T min, T max)
         {
+            recomputeOnEveryInsertion = collection is RingBuffer<T>;
             collect = collection;
             Zero = zero;
             MinValue = min;
@@ -355,24 +358,31 @@ namespace Juniper.Mathematics
         /// <param name="value"></param>
         protected void UpdateStatistics(T value)
         {
-            Minimum = Min(Minimum, value);
-            Maximum = Max(Maximum, value);
-
-            var prevMean = Mean;
-            var residual = Subtract(value, prevMean);
-            Mean = Add(prevMean, Divide(residual, Count));
-
-            if (Count > 1)
+            if (recomputeOnEveryInsertion)
             {
-                var secondResidual = Subtract(value, Mean);
-                var n2 = Count - 2;
-                var n1 = Count - 1;
-                Variance = Divide(
-                    Add(
-                        Scale(Variance, n2),
-                        Multiply(residual, secondResidual)),
-                    n1);
-                StandardDeviation = Sqrt(Variance);
+                RecomputeStatistics();
+            }
+            else
+            {
+                Minimum = Min(Minimum, value);
+                Maximum = Max(Maximum, value);
+
+                var prevMean = Mean;
+                var residual = Subtract(value, prevMean);
+                Mean = Add(prevMean, Divide(residual, Count));
+
+                if (Count > 1)
+                {
+                    var secondResidual = Subtract(value, Mean);
+                    var n2 = Count - 2;
+                    var n1 = Count - 1;
+                    Variance = Divide(
+                        Add(
+                            Scale(Variance, n2),
+                            Multiply(residual, secondResidual)),
+                        n1);
+                    StandardDeviation = Sqrt(Variance);
+                }
             }
         }
 
