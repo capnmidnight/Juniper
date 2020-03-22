@@ -31,16 +31,4 @@
     <ProjectReference Include="..\Veldrid - Class Library\Veldrid - Class Library.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Images\**">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Models\**">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Shaders\**">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>
