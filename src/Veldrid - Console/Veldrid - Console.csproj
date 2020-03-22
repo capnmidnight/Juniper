@@ -26,11 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Shaders\frag.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Shaders\vert.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
+    <ProjectReference Include="..\Juniper.Windows\Juniper.Windows.csproj" />
+    <ProjectReference Include="..\Juniper.Veldrid.WinForms\Juniper.Veldrid.WinForms.csproj" />
+    <ProjectReference Include="..\Veldrid - Class Library\Veldrid - Class Library.csproj" />
   </ItemGroup>
 </Project>

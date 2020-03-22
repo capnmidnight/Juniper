@@ -1,138 +1,115 @@
+using System;
 using System.IO;
-using System.Linq;
-using System.Numerics;
-using System.Reflection;
-using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+using Juniper.Input;
 
 using Veldrid;
-using Veldrid.SPIRV;
+using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
-
-using static System.Console;
 
 namespace Juniper
 {
+
     public static class Program
     {
-        private static DeviceBuffer vertexBuffer;
-        private static DeviceBuffer indexBuffer;
-        private static Shader[] shaders;
+        private static CancellationTokenSource canceller;
+        private static Sdl2Window window;
+        private static Win32KeyEventSource keys;
+        private static Win32MouseMoveEventSource mouse;
+        private static VeldridDemoProgram demo;
 
-        private static readonly VertexPositionColor[] quadVertices =
+        private static async Task Main()
         {
-            new VertexPositionColor(new Vector2(-.75f, .75f), RgbaFloat.Red),
-            new VertexPositionColor(new Vector2(.75f, .75f), RgbaFloat.Green),
-            new VertexPositionColor(new Vector2(-.75f, -.75f), RgbaFloat.Blue),
-            new VertexPositionColor(new Vector2(.75f, -.75f), RgbaFloat.Yellow)
-        };
-
-        private static readonly ushort[] quadIndices = { 0, 1, 2, 3 };
-
-        private static void DumpProps<T>(string name, T obj)
-        {
-            var type = typeof(T);
-            var props = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            var fieldWidth = props.Max(p => p.Name.Length);
-            var lineFormat = $"\t{{0,{fieldWidth}}} = {{1}}";
-
-            WriteLine(name);
-            foreach (var prop in props)
+            try
             {
-                WriteLine(lineFormat, prop.Name, prop.GetValue(obj, null));
-            }
+                canceller = new CancellationTokenSource();
 
-            WriteLine();
+                window = new Sdl2Window(
+                    "Veldrid - Console",
+                    100, 100,
+                    1280, 720,
+                    SDL_WindowFlags.AllowHighDpi | SDL_WindowFlags.OpenGL | SDL_WindowFlags.Shown,
+                    true);
+
+                using var device = VeldridStartup.CreateGraphicsDevice(
+                    window,
+                    new GraphicsDeviceOptions
+                    {
+                        SwapchainDepthFormat = PixelFormat.D24_UNorm_S8_UInt,
+                        ResourceBindingModel = ResourceBindingModel.Improved,
+                        SwapchainSrgbFormat = false,
+                        SyncToVerticalBlank = true,
+                        PreferDepthRangeZeroToOne = true,
+                        PreferStandardClipSpaceYDirection = true,
+                    },
+                    GraphicsBackend.Vulkan);
+
+                keys = new Win32KeyEventSource(canceller.Token);
+                keys.AddKeyAlias("up", Keys.Up);
+                keys.AddKeyAlias("down", Keys.Down);
+                keys.AddKeyAlias("left", Keys.Left);
+                keys.AddKeyAlias("right", Keys.Right);
+                keys.AddKeyAlias("quit", Keys.Escape);
+                keys.DefineAxis("horizontal", "left", "right");
+                keys.DefineAxis("forward", "up", "down");
+
+                mouse = new Win32MouseMoveEventSource(canceller.Token);
+                mouse.Moved += Mouse_Moved;
+
+                demo = new VeldridDemoProgram(
+                    device,
+                    canceller.Token);
+                demo.Error += Demo_Error; ;
+                demo.Update += Demo_Update;
+
+                keys.Start();
+                mouse.Start();
+
+                await demo.StartAsync(
+                    Path.Combine("Shaders", "tex-cube.vert"),
+                    Path.Combine("Shaders", "tex-cube.frag"),
+                    Path.Combine("Models", "cube.obj"))
+                    .ConfigureAwait(false);
+
+                while (!canceller.IsCancellationRequested)
+                {
+                    _ = window.PumpEvents();
+                }
+
+                mouse.Quit();
+                keys.Quit();
+                demo.Quit();
+                demo.Dispose();
+                window.Close();
+            }
+            catch (Exception exp)
+            {
+                await Console.Error.WriteLineAsync(exp.Unroll())
+                    .ConfigureAwait(false);
+            }
         }
 
-        public static void Main()
+        private static void Demo_Error(Exception obj)
         {
-            var windowOptions = new WindowCreateInfo()
+            Console.Error.WriteLine(obj.Unroll());
+        }
+
+        private static void Demo_Update(float dt)
+        {
+            if (keys.IsDown("quit"))
             {
-                X = 100,
-                Y = 100,
-                WindowWidth = 960,
-                WindowHeight = 540,
-                WindowTitle = "Veldrid Tutorial"
-            };
-
-            var window = VeldridStartup.CreateWindow(ref windowOptions);
-
-            using var g = VeldridStartup.CreateGraphicsDevice(window);
-            DumpProps(nameof(g), g);
-            DumpProps(nameof(g.Features), g.Features);
-
-            var factory = g.ResourceFactory;
-
-            vertexBuffer = factory.CreateBuffer(new BufferDescription(4 * VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer));
-            indexBuffer = factory.CreateBuffer(new BufferDescription(4 * sizeof(ushort), BufferUsage.IndexBuffer));
-            g.UpdateBuffer(vertexBuffer, 0, quadVertices);
-            g.UpdateBuffer(indexBuffer, 0, quadIndices);
-
-            var vertexLayout = new VertexLayoutDescription(
-                new VertexElementDescription("Position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float2),
-                new VertexElementDescription("Color", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float4));
-
-            var vertexCode = File.ReadAllText(Path.Combine("Shaders", "vert.glsl"));
-            var fragmentCode = File.ReadAllText(Path.Combine("Shaders", "frag.glsl"));
-
-            var vertexShaderDesc = new ShaderDescription(
-                ShaderStages.Vertex,
-                Encoding.UTF8.GetBytes(vertexCode),
-                "main");
-
-            var fragmentShaderDesc = new ShaderDescription(
-                ShaderStages.Fragment,
-                Encoding.UTF8.GetBytes(fragmentCode),
-                "main");
-
-            shaders = factory.CreateFromSpirv(vertexShaderDesc, fragmentShaderDesc);
-
-            using var vertexShader = shaders[0];
-            using var fragmentShader = shaders[1];
-
-            var pipelineDescription = new GraphicsPipelineDescription
-            {
-                BlendState = BlendStateDescription.SingleOverrideBlend,
-                DepthStencilState = new DepthStencilStateDescription(
-                    depthTestEnabled: true,
-                    depthWriteEnabled: true,
-                    comparisonKind: ComparisonKind.LessEqual),
-                RasterizerState = new RasterizerStateDescription(
-                    cullMode: FaceCullMode.Back,
-                    fillMode: PolygonFillMode.Solid,
-                    frontFace: FrontFace.Clockwise,
-                    depthClipEnabled: true,
-                    scissorTestEnabled: false),
-                PrimitiveTopology = PrimitiveTopology.TriangleStrip,
-                ResourceLayouts = System.Array.Empty<ResourceLayout>(),
-                ShaderSet = new ShaderSetDescription(
-                    new VertexLayoutDescription[] { vertexLayout },
-                    new Shader[] { vertexShader, fragmentShader }),
-                Outputs = g.SwapchainFramebuffer.OutputDescription
-            };
-
-            using var pipeline = factory.CreateGraphicsPipeline(pipelineDescription);
-            using var commandList = factory.CreateCommandList();
-            commandList.Begin();
-            commandList.SetFramebuffer(g.SwapchainFramebuffer);
-            commandList.ClearColorTarget(0, RgbaFloat.Black);
-            commandList.SetVertexBuffer(0, vertexBuffer);
-            commandList.SetIndexBuffer(indexBuffer, IndexFormat.UInt16);
-            commandList.SetPipeline(pipeline);
-            commandList.DrawIndexed(
-                indexCount: 4,
-                instanceCount: 1,
-                indexStart: 0,
-                vertexOffset: 0,
-                instanceStart: 0);
-            commandList.End();
-
-            while (window.Exists)
-            {
-                _ = window.PumpEvents();
-                g.SubmitCommands(commandList);
-                g.SwapBuffers();
+                canceller.Cancel();
             }
+
+            demo.SetVelocity(keys.GetAxis("horizontal"), keys.GetAxis("forward"));
+        }
+
+        private static void Mouse_Moved(object sender, MouseMovedEventArgs e)
+        {
+            demo.SetMouseRotate(e.DX, e.DY);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Juniper.Mathematics;
 using Juniper.VeldridIntegration;
 
@@ -16,19 +17,15 @@ namespace Juniper
         private static readonly float MIN_PITCH = Units.Degrees.Radians(-80);
         private static readonly float MAX_PITCH = Units.Degrees.Radians(80);
 
-        private readonly List<WorldObj<VertexPositionTexture>> cubes = new List<WorldObj<VertexPositionTexture>>();
-        private readonly GraphicsBackend backend;
-        private readonly GraphicsDeviceOptions options;
-        private readonly SwapchainSource swapchainSource;
-        private readonly uint startWidth;
-        private readonly uint startHeight;
+        private readonly bool ownDevice;
+        private readonly GraphicsDevice device;
+        private readonly Swapchain swapchain;
         private readonly CancellationToken canceller;
         private readonly SingleStatisticsCollection updateStats = new SingleStatisticsCollection(10);
         private readonly SingleStatisticsCollection renderStats = new SingleStatisticsCollection(10);
+        private readonly CommandList commandList;
+        private readonly List<WorldObj<VertexPositionTexture>> cubes = new List<WorldObj<VertexPositionTexture>>();
 
-        private GraphicsDevice device;
-        private Swapchain swapchain;
-        private CommandList commandList;
         private ShaderProgram<VertexPositionTexture> program;
         private Camera camera;
         private Vector3 velocity;
@@ -43,6 +40,20 @@ namespace Juniper
         public event Action<Exception> Error;
         public event Action<float> Update;
 
+        public VeldridDemoProgram(GraphicsDevice device, CancellationToken token)
+        {
+            if (device is null)
+            {
+                throw new ArgumentNullException(nameof(device));
+            }
+
+            ownDevice = false;
+            this.device = device;
+            swapchain = device.MainSwapchain;
+            commandList = device.ResourceFactory.CreateCommandList();
+            canceller = token;
+        }
+
         public VeldridDemoProgram(GraphicsBackend backend, GraphicsDeviceOptions options, SwapchainSource swapchainSource, uint startWidth, uint startHeight, CancellationToken token)
         {
             if (!GraphicsDevice.IsBackendSupported(backend))
@@ -55,11 +66,34 @@ namespace Juniper
                 throw new ArgumentNullException(nameof(swapchainSource));
             }
 
-            this.backend = backend;
-            this.options = options;
-            this.swapchainSource = swapchainSource;
-            this.startWidth = startWidth;
-            this.startHeight = startHeight;
+            ownDevice = true;
+
+            device = backend switch
+            {
+                GraphicsBackend.Direct3D11 => GraphicsDevice.CreateD3D11(options),
+                GraphicsBackend.Metal => GraphicsDevice.CreateMetal(options),
+                GraphicsBackend.Vulkan => GraphicsDevice.CreateVulkan(options),
+                _ => null
+            };
+
+            if (device is null)
+            {
+                throw new InvalidOperationException($"Can't create a device for GraphicsBackend value: {backend}");
+            }
+
+            var swapchainDescription = new SwapchainDescription
+            {
+                Source = swapchainSource,
+                Width = startWidth,
+                Height = startHeight,
+                DepthFormat = options.SwapchainDepthFormat,
+                SyncToVerticalBlank = options.SyncToVerticalBlank,
+                ColorSrgb = options.SwapchainSrgbFormat
+            };
+
+            swapchain = device.ResourceFactory.CreateSwapchain(swapchainDescription);
+            commandList = device.ResourceFactory.CreateCommandList();
+
             canceller = token;
         }
 
@@ -109,34 +143,6 @@ namespace Juniper
 
         private void Start(ShaderProgramDescription<VertexPositionTexture> cubeProgramDescription, string modelFileName)
         {
-            device = backend switch
-            {
-                GraphicsBackend.Direct3D11 => GraphicsDevice.CreateD3D11(options),
-                GraphicsBackend.Metal => GraphicsDevice.CreateMetal(options),
-                GraphicsBackend.Vulkan => GraphicsDevice.CreateVulkan(options),
-                _ => null
-            };
-
-            if (device is null)
-            {
-                throw new InvalidOperationException($"Can't create a device for GraphicsBackend value: {backend}");
-            }
-
-
-            var swapchainDescription = new SwapchainDescription
-            {
-                Source = swapchainSource,
-                Width = startWidth,
-                Height = startHeight,
-                DepthFormat = options.SwapchainDepthFormat,
-                SyncToVerticalBlank = options.SyncToVerticalBlank,
-                ColorSrgb = options.SwapchainSrgbFormat
-            };
-
-            var resourceFactory = device.ResourceFactory;
-            swapchain = resourceFactory.CreateSwapchain(swapchainDescription);
-            commandList = device.ResourceFactory.CreateCommandList();
-
             program = new ShaderProgram<VertexPositionTexture>(cubeProgramDescription, Mesh.ConvertVeldridMesh);
             program.LoadOBJ(modelFileName);
             program.Begin(device, swapchain.Framebuffer, "ProjectionBuffer", "WorldBuffer");
@@ -303,8 +309,12 @@ namespace Juniper
                 rendering?.Dispose();
                 program?.Dispose();
                 commandList?.Dispose();
-                swapchain?.Dispose();
-                device?.Dispose();
+
+                if (ownDevice)
+                {
+                    swapchain?.Dispose();
+                    device?.Dispose();
+                }
             }
         }
     }
