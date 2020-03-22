@@ -26,10 +26,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
     <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
-    <ProjectReference Include="..\Juniper.Veldrid.WPF\Juniper.Veldrid.WPF.csproj" />
     <ProjectReference Include="..\Juniper.Windows\Juniper.Windows.csproj" />
     <ProjectReference Include="..\Juniper.Veldrid\Juniper.Veldrid.csproj" />
     <ProjectReference Include="..\Veldrid - Class Library\Veldrid - Class Library.csproj" />
+    <ProjectReference Include="..\Juniper.Veldrid.WPF\Juniper.Veldrid.WPF.csproj" />
   </ItemGroup>
 
 </Project>
