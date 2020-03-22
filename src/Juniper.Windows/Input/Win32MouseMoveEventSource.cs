@@ -31,7 +31,10 @@ namespace Juniper.Input
 
         public void Quit()
         {
-            poller.Join();
+            if (poller.ThreadState == ThreadState.Running)
+            {
+                poller.Join();
+            }
         }
 
         private void Update()

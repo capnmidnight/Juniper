@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <Import Project="..\..\Juniper.props" />
+
+  <PropertyGroup>
+    <AssemblyName>Juniper.Veldrid.WPF</AssemblyName>
+    <RootNamespace>Juniper.VeldridIntegration.WPFSupport</RootNamespace>
+    <TargetFrameworks>net48;netcoreapp3.1</TargetFrameworks>
+    <Authors>Sean T. McBeth</Authors>
+    <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <Import Project="..\..\Juniper.targets" />
+
+  <ItemGroup>
+    <PackageReference Include="Veldrid" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Juniper.Veldrid\Juniper.Veldrid.csproj" />
+  </ItemGroup>
+
+</Project>

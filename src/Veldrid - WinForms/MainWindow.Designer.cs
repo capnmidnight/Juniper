@@ -1,6 +1,6 @@
 namespace Juniper
 {
-    partial class MainForm
+    partial class MainWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -17,8 +17,6 @@ namespace Juniper
             {
                 veldridPanel1?.Dispose();
                 veldridPanel1 = null;
-                veldridGraphicsDevice1?.Dispose();
-                veldridGraphicsDevice1 = null;
                 components?.Dispose();
             }
             base.Dispose(disposing);
@@ -35,7 +33,6 @@ namespace Juniper
             this.components = new System.ComponentModel.Container();
             this.errorTextBox1 = new System.Windows.Forms.TextBox();
             this.veldridPanel1 = new Juniper.VeldridIntegration.WinFormsSupport.VeldridPanel();
-            this.veldridGraphicsDevice1 = new Juniper.VeldridIntegration.WinFormsSupport.VeldridGraphicsDevice(this.components);
             this.statsTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
@@ -61,17 +58,6 @@ namespace Juniper
             this.veldridPanel1.Size = new System.Drawing.Size(556, 424);
             this.veldridPanel1.TabIndex = 0;
             // 
-            // veldridGraphicsDevice1
-            // 
-            this.veldridGraphicsDevice1.Backend = Veldrid.GraphicsBackend.Vulkan;
-            this.veldridGraphicsDevice1.VeldridHasMainSwapchain = false;
-            this.veldridGraphicsDevice1.VeldridPreferDepthRangeZeroToOne = true;
-            this.veldridGraphicsDevice1.VeldridPreferStandardClipSpaceYDirection = true;
-            this.veldridGraphicsDevice1.VeldridResourceBindingModel = Veldrid.ResourceBindingModel.Improved;
-            this.veldridGraphicsDevice1.VeldridSwapchainDepthFormat = Juniper.VeldridIntegration.WinFormsSupport.SwapchainDepthFormat.D24_UNorm_S8_UInt;
-            this.veldridGraphicsDevice1.VeldridSwapchainSRGBFormat = false;
-            this.veldridGraphicsDevice1.VeldridVSync = true;
-            // 
             // statsTimer
             // 
             this.statsTimer.Tick += new System.EventHandler(this.statsTimer_Tick);
@@ -93,7 +79,6 @@ namespace Juniper
         #endregion
 
         private VeldridIntegration.WinFormsSupport.VeldridPanel veldridPanel1;
-        private VeldridIntegration.WinFormsSupport.VeldridGraphicsDevice veldridGraphicsDevice1;
         private System.Windows.Forms.TextBox errorTextBox1;
         private System.Windows.Forms.Timer statsTimer;
     }

@@ -3,16 +3,16 @@
   <ImportGroup>
     <Import Project="..\..\Juniper.props" />
   </ImportGroup>
-
+  
   <PropertyGroup>
-    <AssemblyName>Juniper.Testing.Veldrid.WinForms</AssemblyName>
+    <AssemblyName>Juniper.Testing.Veldrid.WPF</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net48;netcoreapp3.1</TargetFrameworks>
-    <StartupObject>Juniper.Program</StartupObject>
+    <TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>
+    <StartupObject>Juniper.App</StartupObject>
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
-    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <ImportGroup>
@@ -26,9 +26,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
     <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
+    <ProjectReference Include="..\Juniper.Veldrid.WPF\Juniper.Veldrid.WPF.csproj" />
     <ProjectReference Include="..\Juniper.Windows\Juniper.Windows.csproj" />
     <ProjectReference Include="..\Juniper.Veldrid\Juniper.Veldrid.csproj" />
-    <ProjectReference Include="..\Juniper.Veldrid.WinForms\Juniper.Veldrid.WinForms.csproj" />
     <ProjectReference Include="..\Veldrid - Class Library\Veldrid - Class Library.csproj" />
   </ItemGroup>
 

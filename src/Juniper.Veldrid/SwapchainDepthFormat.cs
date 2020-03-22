@@ -1,6 +1,6 @@
 using Veldrid;
 
-namespace Juniper.VeldridIntegration.WinFormsSupport
+namespace Juniper.VeldridIntegration
 {
     public enum SwapchainDepthFormat
     {

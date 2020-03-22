@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Juniper.Input;
+using Juniper.VeldridIntegration;
+
+using Veldrid;
 
 namespace Juniper
 {
@@ -12,7 +15,7 @@ namespace Juniper
     public static class Program
     {
         private static CancellationTokenSource canceller;
-        private static MainForm mainForm;
+        private static MainWindow window;
         private static Win32KeyEventSource keys;
         private static Win32MouseMoveEventSource mouse;
         private static VeldridDemoProgram demo;
@@ -23,11 +26,11 @@ namespace Juniper
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += Application_ThreadException;
 
-            using var form = mainForm = new MainForm();
-            mainForm.Activated += MainForm_Activated;
-            mainForm.FormClosing += MainForm_FormClosing;
-            mainForm.RequestStats += MainForm_RequestStats;
-            mainForm.Panel.Resize += Panel_Resize;
+            using var form = window = new MainWindow();
+            window.Activated += MainForm_Activated;
+            window.FormClosing += MainForm_FormClosing;
+            window.RequestStats += MainForm_RequestStats;
+            window.Panel.Resize += Panel_Resize;
 
             canceller = new CancellationTokenSource();
 
@@ -43,32 +46,39 @@ namespace Juniper
             mouse.Moved += Mouse_Moved;
 
             demo = new VeldridDemoProgram(
-                mainForm.Device.Backend,
-                mainForm.Device.Options,
-                mainForm.Panel.VeldridSwapchainSource,
+                GraphicsBackend.Vulkan,
+                new GraphicsDeviceOptions
+                {
+                    PreferDepthRangeZeroToOne = true,
+                    PreferStandardClipSpaceYDirection = true,
+                    ResourceBindingModel = ResourceBindingModel.Improved,
+                    SwapchainDepthFormat = (PixelFormat)SwapchainDepthFormat.R16_UNorm,
+                    SwapchainSrgbFormat = false,
+                    SyncToVerticalBlank = true,
+                    HasMainSwapchain = false
+                },
+                window.Panel.VeldridSwapchainSource,
                 Width, Height,
                 canceller.Token);
-            demo.Error += mainForm.SetError;
+            demo.Error += window.SetError;
             demo.Update += Demo_Update;
 
-            Application.Run(mainForm);
-
-            demo.Dispose();
+            Application.Run(window);
         }
 
-        private static uint Height => (uint)mainForm.Panel.ClientSize.Height;
+        private static uint Height => (uint)window.Panel.ClientSize.Height;
 
-        private static uint Width => (uint)mainForm.Panel.ClientSize.Width;
+        private static uint Width => (uint)window.Panel.ClientSize.Width;
 
         private static void MainForm_Activated(object sender, EventArgs e)
         {
-            mainForm.Activated -= MainForm_Activated;
+            window.Activated -= MainForm_Activated;
             _ = Task.Run(StartAsync);
         }
 
         private static Task StartAsync()
         {
-            mainForm.Panel.StopOwnRender();
+            window.Panel.StopOwnRender();
             keys.Start();
             mouse.Start();
             return demo.StartAsync(
@@ -94,7 +104,7 @@ namespace Juniper
 
         private static void MainForm_RequestStats(object sender, EventArgs e)
         {
-            mainForm.SetStats(
+            window.SetStats(
                 demo.MinFramesPerSecond,
                 demo.MeanFramesPerSecond,
                 demo.MaxFramesPerSecond);
@@ -102,7 +112,7 @@ namespace Juniper
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
-            mainForm.SetError(e.Exception);
+            window.SetError(e.Exception);
         }
 
         private static void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -111,6 +121,7 @@ namespace Juniper
             mouse.Quit();
             keys.Quit();
             demo.Quit();
+            demo.Dispose();
         }
     }
 }
