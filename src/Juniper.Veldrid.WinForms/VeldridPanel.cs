@@ -48,11 +48,15 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
             g.FillRectangle(SystemBrushes.ControlDark, ClientRectangle);
 
             var icon = SystemIcons.Application;
-            var middleRect = new Rectangle();
-            middleRect.Width = icon.Width * 2;
-            middleRect.Height = icon.Height * 2;
-            middleRect.X = (ClientRectangle.Width - middleRect.Width) / 2;
-            middleRect.Y = (ClientRectangle.Height - middleRect.Height) / 2;
+            var w = icon.Width * 2;
+            var h = icon.Height * 2;
+            var middleRect = new Rectangle
+            {
+                Width = w,
+                Height = h,
+                X = (ClientRectangle.Width - w) / 2,
+                Y = (ClientRectangle.Height - h) / 2
+            };
             g.DrawIcon(icon, middleRect);
             Paint -= VeldridPanel_Paint;
         }

@@ -60,7 +60,7 @@ namespace Juniper
             // 
             // statsTimer
             // 
-            this.statsTimer.Tick += new System.EventHandler(this.statsTimer_Tick);
+            this.statsTimer.Tick += new System.EventHandler(this.StatsTimer_Tick);
             // 
             // MainForm
             // 

@@ -34,9 +34,9 @@ namespace Juniper.Input
             {
                 if (IsRunning)
                 {
-                    for (var i = 0; i < Keys.Length; ++i)
+                    for (var i = 0; i < keys.Length; ++i)
                     {
-                        var key = Keys[i];
+                        var key = keys[i];
                         KeyState[key] = IsKeyDown(key);
                     }
 

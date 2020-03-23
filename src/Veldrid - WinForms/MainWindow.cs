@@ -34,17 +34,14 @@ namespace Juniper
             }
         }
 
-        private void statsTimer_Tick(object sender, EventArgs e)
+        private void StatsTimer_Tick(object sender, EventArgs e)
         {
             RequestStats?.Invoke(this, EventArgs.Empty);
         }
 
         public void SetError(Exception exp)
         {
-            sync.Post(_ =>
-            {
-                errorTextBox1.Text = exp.Unroll();
-            }, null);
+            sync.Post(_ => errorTextBox1.Text = exp.Unroll(), null);
         }
 
         public void SetStats(float? minFPS, float? meanFPS, float? maxFPS)

@@ -5,7 +5,7 @@
   <PropertyGroup>
     <AssemblyName>Juniper.Veldrid.WPF</AssemblyName>
     <RootNamespace>Juniper.VeldridIntegration.WPFSupport</RootNamespace>
-    <TargetFrameworks>net48;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
     <UseWPF>true</UseWPF>

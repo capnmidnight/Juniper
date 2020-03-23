@@ -60,7 +60,7 @@ namespace Juniper.VeldridIntegration.WPFSupport
 
         protected override void DestroyWindowCore(HandleRef hwnd)
         {
-            NativeMethods.DestroyWindow(hwnd.Handle);
+            _ = NativeMethods.DestroyWindow(hwnd.Handle);
             Hwnd = IntPtr.Zero;
         }
 
@@ -71,7 +71,9 @@ namespace Juniper.VeldridIntegration.WPFSupport
             base.OnRenderSizeChanged(sizeInfo);
 
             if (HwndInitialized)
+            {
                 Resized();
+            }
         }
 
         protected override IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

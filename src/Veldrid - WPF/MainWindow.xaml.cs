@@ -31,10 +31,7 @@ namespace Juniper
 
         public void SetError(Exception exp)
         {
-            sync.Post(_ => 
-            {
-                textBlock.Text = exp.Unroll();
-            }, null);
+            sync.Post(_ => textBlock.Text = exp.Unroll(), null);
         }
 
         public void SetStats(float? minFPS, float? meanFPS, float? maxFPS)

@@ -99,10 +99,14 @@ csharp_prefer_braces                      = true : suggestion
 # IDE0025: Use block body for properties
 csharp_style_expression_bodied_properties = when_on_single_line : warning
 
+# IDE0048: add parentheses for clarity
+dotnet_style_parentheses_in_arithmetic_binary_operators = never_if_unnecessary:silent
+dotnet_style_parentheses_in_relational_binary_operators = never_if_unnecessary:silent
+dotnet_style_parentheses_in_other_binary_operators = never_if_unnecessary:silent
+
 # Use tabs for solution files.
 [*.sln]
 indent_style = tab
-indent_size = 4
 
 # Code files
 [*.{cs,csx,vb,vbx,c,cpp,h,hpp,glsl,hlsl}]

@@ -20,7 +20,8 @@ namespace Juniper.Input
 
         protected Dictionary<KeyT, bool> KeyState { get; } = new Dictionary<KeyT, bool>();
 
-        protected KeyT[] Keys { get; private set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1051:Do not declare visible instance fields", Justification = "It's necessary for reducing GC pressure.")]
+        protected KeyT[] keys;
 
         private string[] names;
 
@@ -28,7 +29,7 @@ namespace Juniper.Input
 
         public virtual void Start()
         {
-            Keys = KeyState.Keys.ToArray();
+            keys = KeyState.Keys.ToArray();
             names = aliases.Keys.ToArray();
             IsRunning = true;
         }

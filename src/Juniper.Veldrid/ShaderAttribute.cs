@@ -28,8 +28,9 @@ namespace Juniper.VeldridIntegration
         public override string ToString()
         {
             var sb = new StringBuilder(layout.ToString());
-            sb.AppendFormat(CultureInfo.InvariantCulture, "{0}{1} {2} {3}", layout, Direction.ToString().ToLowerInvariant(), DataType, Name);
-            return sb.ToString();
+            return sb
+                .AppendFormat(CultureInfo.InvariantCulture, "{0}{1} {2} {3}", layout, Direction.ToString().ToLowerInvariant(), DataType, Name)
+                .ToString();
         }
 
         private bool SubMatch(ShaderAttribute other)
