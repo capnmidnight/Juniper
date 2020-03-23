@@ -28,7 +28,8 @@ namespace Juniper
 
         private static void RunGame()
         {
-            frame = new ConsoleBuffer(16);
+            frame = new ConsoleBuffer();
+            frame.SetFontSize(16);
             game = new TetrisGame(20, 30);
 
             var border = frame.Window(0, 0, game.Width + PADDING_SIZE, game.Height + PADDING_SIZE);

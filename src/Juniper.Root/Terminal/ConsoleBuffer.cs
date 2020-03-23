@@ -1,6 +1,4 @@
 using System;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
 using System.Text;
 
 using Juniper.Puzzles;
@@ -40,24 +38,12 @@ namespace Juniper.Terminal
 
         public event EventHandler<SizeChangedEventArgs> SizeChanged;
 
-        public ConsoleBuffer(int gridSize)
-            : this(gridSize, WindowWidth, WindowHeight - 1)
+        public ConsoleBuffer()
+            : this(WindowWidth, WindowHeight - 1)
         { }
 
-        internal ConsoleBuffer(int gridSize, NativeMethods.COORD size)
-            : this(gridSize, size.X, size.Y)
-        { }
-
-        public ConsoleBuffer(int gridSize, int width, int height)
+        public ConsoleBuffer(int width, int height)
         {
-            if (IsWindows)
-            {
-                outputHandle = IsWindows
-                   ? NativeMethods.GetStdHandle(NativeMethods.STD_OUTPUT_HANDLE)
-                   : NativeMethods.INVALID_HANDLE_VALUE;
-                SetFontSize(gridSize, gridSize);
-            }
-
             width = Math.Min(width, LargestWindowWidth);
             height = Math.Min(height, LargestWindowHeight - 1);
 
@@ -218,58 +204,6 @@ namespace Juniper.Terminal
             if (pause)
             {
                 _ = ReadKey(true);
-            }
-        }
-
-        public void SetFontSize(int width, int height)
-        {
-            if (!IsWindows)
-            {
-                return;
-            }
-
-            var info = new NativeMethods.CONSOLE_FONT_INFO_EX();
-            info.cbSize = (uint)Marshal.SizeOf(info);
-            info.dwFontSize.X = (short)width;
-            info.dwFontSize.Y = (short)height;
-            if (!NativeMethods.SetCurrentConsoleFontEx(outputHandle, false, info))
-            {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
-        }
-
-        internal static class NativeMethods
-        {
-
-            [DllImport("kernel32", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
-            internal static extern IntPtr GetStdHandle(int nStdHandle);
-
-            [DllImport("kernel32", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
-            internal static extern bool SetCurrentConsoleFontEx(
-                IntPtr consoleOutput,
-                bool maximumWindow,
-                CONSOLE_FONT_INFO_EX consoleCurrentFontEx);
-
-            internal const int STD_OUTPUT_HANDLE = -11;
-            internal const int LF_FACESIZE = 32;
-            internal static readonly IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
-
-            [StructLayout(LayoutKind.Sequential)]
-            internal struct COORD
-            {
-                internal short X;
-                internal short Y;
-            }
-
-            [StructLayout(LayoutKind.Sequential)]
-            internal unsafe struct CONSOLE_FONT_INFO_EX
-            {
-                internal uint cbSize;
-                internal uint nFont;
-                internal COORD dwFontSize;
-                internal int FontFamily;
-                internal int FontWeight;
-                internal fixed char FaceName[LF_FACESIZE];
             }
         }
     }
