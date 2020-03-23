@@ -7,6 +7,7 @@ using Android.Content.PM;
 using Android.OS;
 
 using Juniper.VeldridIntegration;
+using Juniper.VeldridIntegration.AndroidSupport;
 
 using Veldrid;
 
@@ -30,7 +31,6 @@ namespace Juniper
 
             panel = new VeldridPanel(this);
             panel.Ready += Panel_Ready;
-            panel.Resize += Panel_Resize;
             panel.Destroying += Panel_Destroying;
             panel.Touch += Panel_Touch;
 
@@ -66,17 +66,11 @@ namespace Juniper
                     SyncToVerticalBlank = true,
                     HasMainSwapchain = false
                 },
-                panel.VeldridSwapchainSource,
-                panel.RenderWidth, panel.RenderHeight,
+                panel,
                 canceller.Token);
             //demo.Error += form.SetError;
             demo.Update += Demo_Update;
             _ = Task.Run(demo.StartAsync);
-        }
-
-        private static void Panel_Resize(object sender, EventArgs e)
-        {
-            demo.Resize(panel.RenderWidth, panel.RenderHeight);
         }
 
         private static void Demo_Update(float dt)

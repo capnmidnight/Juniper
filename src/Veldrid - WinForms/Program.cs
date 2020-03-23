@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -31,7 +30,6 @@ namespace Juniper
             panel = form.Panel;
             panel.Ready += Panel_Ready;
             panel.Destroying += Panel_Destroying;
-            panel.Resize += Panel_Resize;
             //window.RequestStats += MainForm_RequestStats;
 
             canceller = new CancellationTokenSource();
@@ -64,8 +62,7 @@ namespace Juniper
                     SyncToVerticalBlank = true,
                     HasMainSwapchain = false
                 },
-                panel.VeldridSwapchainSource,
-                panel.RenderWidth, panel.RenderHeight,
+                panel,
                 canceller.Token);
             //demo.Error += form.SetError;
             demo.Update += Demo_Update;
@@ -73,11 +70,6 @@ namespace Juniper
             mouse.Start();
 
             _ = Task.Run(demo.StartAsync);
-        }
-
-        private static void Panel_Resize(object sender, EventArgs e)
-        {
-            demo.Resize(panel.RenderWidth, panel.RenderHeight);
         }
 
         private static void Demo_Update(float dt)

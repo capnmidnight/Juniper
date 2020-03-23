@@ -33,7 +33,6 @@ namespace Juniper
 
                 panel = window.Panel;
                 panel.Ready += Panel_Ready;
-                panel.Resize += Panel_Resize;
                 panel.Destroying += Panel_Destroying;
 
                 canceller = new CancellationTokenSource();
@@ -65,19 +64,13 @@ namespace Juniper
                     SyncToVerticalBlank = true,
                     HasMainSwapchain = false
                 },
-                panel.VeldridSwapchainSource,
-                panel.RenderWidth, panel.RenderHeight,
+                panel,
                 canceller.Token);
             demo.Error += window.SetError;
             demo.Update += Demo_Update;
             keys.Start();
             mouse.Start();
             _ = Task.Run(demo.StartAsync);
-        }
-
-        private void Panel_Resize(object sender, EventArgs e)
-        {
-            demo.Resize(panel.RenderWidth, panel.RenderHeight);
         }
 
         private void Demo_Update(float dt)

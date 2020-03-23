@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup>
     <Import Project="..\..\Juniper.props" />
@@ -67,7 +67,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
-    <Compile Include="VeldridPanel.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -75,6 +74,7 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
+    <None Include="..\..\.editorconfig" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\strings.xml" />
@@ -94,6 +94,10 @@
     <PackageReference Include="Veldrid.SPIRV" Version="1.0.13" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Juniper.Veldrid.Android\Juniper.Veldrid.Android.csproj">
+      <Project>{2381c793-440f-466f-a5ff-8c85dc31c070}</Project>
+      <Name>Juniper.Veldrid.Android</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Juniper.Veldrid\Juniper.Veldrid.csproj">
       <Project>{5DCE283D-9326-4D20-BE88-219E55A7C85E}</Project>
       <Name>Juniper.Veldrid</Name>

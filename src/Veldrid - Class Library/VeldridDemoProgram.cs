@@ -47,16 +47,19 @@ namespace Juniper
                 throw new ArgumentNullException(nameof(device));
             }
 
-            ownDevice = false;
             this.device = device;
             swapchain = device.MainSwapchain;
+
             commandList = device.ResourceFactory.CreateCommandList();
             canceller = token;
+            ownDevice = false;
         }
 
-        public VeldridDemoProgram(GraphicsBackend backend, GraphicsDeviceOptions options, SwapchainSource swapchainSource, uint startWidth, uint startHeight, CancellationToken token)
+        private static (GraphicsDevice device, Swapchain swapchain) Init(GraphicsBackend backend, GraphicsDeviceOptions options, SwapchainSource swapchainSource, uint startWidth, uint startHeight)
         {
-            if (!GraphicsDevice.IsBackendSupported(backend))
+            if (!GraphicsDevice.IsBackendSupported(backend)
+                || backend == GraphicsBackend.OpenGL
+                || backend == GraphicsBackend.OpenGLES)
             {
                 throw new NotSupportedException($"Graphics backend {backend} is not supported on this system.");
             }
@@ -66,20 +69,13 @@ namespace Juniper
                 throw new ArgumentNullException(nameof(swapchainSource));
             }
 
-            ownDevice = true;
-
-            device = backend switch
+            var device = backend switch
             {
                 GraphicsBackend.Direct3D11 => GraphicsDevice.CreateD3D11(options),
                 GraphicsBackend.Metal => GraphicsDevice.CreateMetal(options),
                 GraphicsBackend.Vulkan => GraphicsDevice.CreateVulkan(options),
-                _ => null
+                _ => throw new InvalidOperationException($"Can't create a device for GraphicsBackend value: {backend}")
             };
-
-            if (device is null)
-            {
-                throw new InvalidOperationException($"Can't create a device for GraphicsBackend value: {backend}");
-            }
 
             var swapchainDescription = new SwapchainDescription
             {
@@ -91,10 +87,42 @@ namespace Juniper
                 ColorSrgb = options.SwapchainSrgbFormat
             };
 
-            swapchain = device.ResourceFactory.CreateSwapchain(swapchainDescription);
-            commandList = device.ResourceFactory.CreateCommandList();
+            var swapchain = device.ResourceFactory.CreateSwapchain(swapchainDescription);
 
+            return (device, swapchain);
+        }
+
+        public VeldridDemoProgram(GraphicsBackend backend, GraphicsDeviceOptions options, IVeldridPanel panel, CancellationToken token)
+        {
+            if (panel is null)
+            {
+                throw new ArgumentNullException(nameof(panel));
+            }
+
+            (device, swapchain) = Init(
+                backend,
+                options,
+                panel.VeldridSwapchainSource,
+                panel.RenderWidth, panel.RenderHeight);
+
+            commandList = device.ResourceFactory.CreateCommandList();
             canceller = token;
+            ownDevice = true;
+
+            panel.Resize += (o, e) => Resize(panel.RenderWidth, panel.RenderHeight);
+        }
+
+        public VeldridDemoProgram(GraphicsBackend backend, GraphicsDeviceOptions options, SwapchainSource swapchainSource, uint startWidth, uint startHeight, CancellationToken token)
+        {
+            (device, swapchain) = Init(
+                backend,
+                options,
+                swapchainSource,
+                startWidth, startHeight);
+
+            commandList = device.ResourceFactory.CreateCommandList();
+            canceller = token;
+            ownDevice = true;
         }
 
         public float? MinUpdatesPerSecond => updateStats.Minimum;

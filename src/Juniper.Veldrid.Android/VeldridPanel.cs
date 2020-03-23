@@ -3,14 +3,10 @@ using System;
 using Android.Content;
 using Android.Graphics;
 using Android.Runtime;
-using Android.Util;
 using Android.Views;
-
-using Juniper.VeldridIntegration;
-
 using Veldrid;
 
-namespace Juniper
+namespace Juniper.VeldridIntegration.AndroidSupport
 {
     public class VeldridPanel : SurfaceView, ISurfaceHolderCallback, IVeldridPanel
 
@@ -32,6 +28,11 @@ namespace Juniper
 
         public void SurfaceCreated(ISurfaceHolder holder)
         {
+            if (holder is null)
+            {
+                throw new ArgumentNullException(nameof(holder));
+            }
+
             VeldridSwapchainSource = SwapchainSource.CreateAndroidSurface(holder.Surface.Handle, JNIEnv.Handle);
             Ready?.Invoke(this, EventArgs.Empty);
         }
