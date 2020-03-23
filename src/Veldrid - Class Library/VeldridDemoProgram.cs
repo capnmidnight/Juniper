@@ -19,7 +19,6 @@ namespace Juniper
 
         private readonly bool ownDevice;
         private readonly GraphicsDevice device;
-        private readonly Swapchain swapchain;
         private readonly CancellationToken canceller;
         private readonly SingleStatisticsCollection updateStats = new SingleStatisticsCollection(10);
         private readonly SingleStatisticsCollection renderStats = new SingleStatisticsCollection(10);
@@ -35,7 +34,9 @@ namespace Juniper
         private Thread renderThread;
         private Semaphore rendering;
 
-        private float AspectRatio => (float)swapchain.Framebuffer.Width / swapchain.Framebuffer.Height;
+        private Swapchain Swapchain => device.MainSwapchain;
+        private Framebuffer Framebuffer => Swapchain.Framebuffer;
+        private float AspectRatio => (float)Framebuffer.Width / Framebuffer.Height;
 
         public event Action<Exception> Error;
         public event Action<float> Update;
@@ -48,18 +49,15 @@ namespace Juniper
             }
 
             this.device = device;
-            swapchain = device.MainSwapchain;
-
             commandList = device.ResourceFactory.CreateCommandList();
             canceller = token;
             ownDevice = false;
         }
 
-        private static (GraphicsDevice device, Swapchain swapchain) Init(GraphicsBackend backend, GraphicsDeviceOptions options, SwapchainSource swapchainSource, uint startWidth, uint startHeight)
+        private static GraphicsDevice Init(GraphicsBackend backend, GraphicsDeviceOptions options, SwapchainSource swapchainSource, uint startWidth, uint startHeight)
         {
             if (!GraphicsDevice.IsBackendSupported(backend)
-                || backend == GraphicsBackend.OpenGL
-                || backend == GraphicsBackend.OpenGLES)
+                || backend == GraphicsBackend.OpenGL)
             {
                 throw new NotSupportedException($"Graphics backend {backend} is not supported on this system.");
             }
@@ -68,14 +66,6 @@ namespace Juniper
             {
                 throw new ArgumentNullException(nameof(swapchainSource));
             }
-
-            var device = backend switch
-            {
-                GraphicsBackend.Direct3D11 => GraphicsDevice.CreateD3D11(options),
-                GraphicsBackend.Metal => GraphicsDevice.CreateMetal(options),
-                GraphicsBackend.Vulkan => GraphicsDevice.CreateVulkan(options),
-                _ => throw new InvalidOperationException($"Can't create a device for GraphicsBackend value: {backend}")
-            };
 
             var swapchainDescription = new SwapchainDescription
             {
@@ -87,9 +77,16 @@ namespace Juniper
                 ColorSrgb = options.SwapchainSrgbFormat
             };
 
-            var swapchain = device.ResourceFactory.CreateSwapchain(swapchainDescription);
+            var device = backend switch
+            {
+                GraphicsBackend.Direct3D11 => GraphicsDevice.CreateD3D11(options, swapchainDescription),
+                GraphicsBackend.Metal => GraphicsDevice.CreateMetal(options, swapchainDescription),
+                GraphicsBackend.Vulkan => GraphicsDevice.CreateVulkan(options, swapchainDescription),
+                GraphicsBackend.OpenGLES => GraphicsDevice.CreateOpenGLES(options, swapchainDescription),
+                _ => throw new InvalidOperationException($"Can't create a device for GraphicsBackend value: {backend}")
+            };
 
-            return (device, swapchain);
+            return device;
         }
 
         public VeldridDemoProgram(GraphicsBackend backend, GraphicsDeviceOptions options, IVeldridPanel panel, CancellationToken token)
@@ -99,7 +96,7 @@ namespace Juniper
                 throw new ArgumentNullException(nameof(panel));
             }
 
-            (device, swapchain) = Init(
+            device = Init(
                 backend,
                 options,
                 panel.VeldridSwapchainSource,
@@ -114,7 +111,7 @@ namespace Juniper
 
         public VeldridDemoProgram(GraphicsBackend backend, GraphicsDeviceOptions options, SwapchainSource swapchainSource, uint startWidth, uint startHeight, CancellationToken token)
         {
-            (device, swapchain) = Init(
+            device = Init(
                 backend,
                 options,
                 swapchainSource,
@@ -161,7 +158,7 @@ namespace Juniper
         {
             program = new ShaderProgram<VertexPositionTexture>(cubeProgramDescription, Mesh.ConvertVeldridMesh);
             program.LoadOBJ("Models/cube.obj", Resources.GetStream);
-            program.Begin(device, swapchain.Framebuffer, "ProjectionBuffer", "WorldBuffer");
+            program.Begin(device, Framebuffer, "ProjectionBuffer", "WorldBuffer");
 
             for (var i = 0; i < 3; ++i)
             {
@@ -187,13 +184,13 @@ namespace Juniper
 
         public void Resize(uint width, uint height)
         {
-            if (swapchain is object
+            if (Swapchain is object
                 && camera is object
                 && rendering.WaitOne())
             {
                 try
                 {
-                    swapchain.Resize(width, height);
+                    Swapchain.Resize(width, height);
                     camera.AspectRatio = AspectRatio;
                 }
                 finally
@@ -281,7 +278,7 @@ namespace Juniper
                         {
                             renderStats.Add(1 / dtime);
                             commandList.Begin();
-                            commandList.SetFramebuffer(swapchain.Framebuffer);
+                            commandList.SetFramebuffer(Framebuffer);
 
                             camera.Clear(commandList);
 
@@ -294,7 +291,7 @@ namespace Juniper
 
                             commandList.End();
                             device.SubmitCommands(commandList);
-                            device.SwapBuffers(swapchain);
+                            device.SwapBuffers(Swapchain);
                             device.WaitForIdle();
                         }
                         finally
@@ -328,7 +325,6 @@ namespace Juniper
 
                 if (ownDevice)
                 {
-                    swapchain?.Dispose();
                     device?.Dispose();
                 }
             }
