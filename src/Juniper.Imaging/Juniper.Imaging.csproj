@@ -18,13 +18,12 @@
     <Import Project="..\..\Juniper.targets" />
   </ImportGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
-    <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
     <ProjectReference Include="..\..\lib\Juniper.HjgPngcs\Juniper.HjgPngcs.csproj" />
     <ProjectReference Include="..\..\lib\Juniper.LibJpeg.NET\Juniper.LibJpeg.NET.csproj" />
   </ItemGroup>
