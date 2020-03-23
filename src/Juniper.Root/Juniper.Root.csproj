@@ -76,7 +76,6 @@
     <Compile Update="Multipart.Values.cs">
       <DependentUpon>Multipart.cs</DependentUpon>
     </Compile>
-    <Compile Update="Serial\SafeSerialPort.cs" />
     <Compile Update="Text.cs">
       <DependentUpon>MediaType.cs</DependentUpon>
     </Compile>

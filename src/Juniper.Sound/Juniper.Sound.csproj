@@ -5,10 +5,11 @@
   </ImportGroup>
 
   <PropertyGroup>
-    <AssemblyName>Juniper.Azure</AssemblyName>
-    <RootNamespace>Juniper.Speech.Azure</RootNamespace>
+    <AssemblyName>Juniper.Sound</AssemblyName>
+    <RootNamespace>Juniper.Sound</RootNamespace>
     <OutputType>Library</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
   </PropertyGroup>
@@ -18,8 +19,13 @@
   </ImportGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
-    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
-    <ProjectReference Include="..\Juniper.Sound\Juniper.Sound.csproj" />
+    <PackageReference Include="NAudio" Version="1.10.0" />
+    <PackageReference Include="NLayer.Core" Version="1.15.0" />
   </ItemGroup>
-  </Project>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\..\lib\Juniper.NLayer.NAudioSupport\Juniper.NLayer.NAudioSupport.csproj" />
+  </ItemGroup>
+
+</Project>
