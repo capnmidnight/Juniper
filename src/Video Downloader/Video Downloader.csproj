@@ -12,10 +12,6 @@
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
-  </ItemGroup>
-
   <ImportGroup>
     <Import Project="..\..\Juniper.targets" />
   </ImportGroup>

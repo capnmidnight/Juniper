@@ -20,9 +20,8 @@
   </ImportGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Juniper.Windows\Juniper.Windows.csproj" />
     <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
-    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Juniper.Windows\Juniper.Windows.csproj" />
   </ItemGroup>
 
 </Project>

@@ -21,10 +21,8 @@
   </ImportGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Juniper.Azure\Juniper.Azure.csproj" />
-    <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
-    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
     <ProjectReference Include="..\Juniper.Sound\Juniper.Sound.csproj" />
+    <ProjectReference Include="..\Juniper.Azure\Juniper.Azure.csproj" />
   </ItemGroup>
 
 </Project>

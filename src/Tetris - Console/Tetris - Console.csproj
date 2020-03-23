@@ -19,15 +19,11 @@
   </ImportGroup>
 
   <ItemGroup>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Windows\Juniper.Windows.csproj" />
-    <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
-    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
   </ItemGroup>
   
 </Project>

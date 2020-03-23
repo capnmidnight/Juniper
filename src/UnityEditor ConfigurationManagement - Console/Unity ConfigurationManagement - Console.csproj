@@ -19,14 +19,8 @@
   </ImportGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.IO.Compression" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
-    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
-    <ProjectReference Include="..\Juniper.UnityEditor\Juniper.UnityEditor.csproj" />
     <ProjectReference Include="..\Juniper.Unity\Juniper.Unity.csproj" />
+    <ProjectReference Include="..\Juniper.UnityEditor\Juniper.UnityEditor.csproj" />
   </ItemGroup>
 
   <ItemGroup>
