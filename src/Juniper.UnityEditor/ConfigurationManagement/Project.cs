@@ -168,7 +168,7 @@ namespace Juniper.ConfigurationManagement
         public static void Recompile()
         {
             var defines = GetDefines();
-            if(defines.Contains(RECOMPILE_SLUG))
+            if (defines.Contains(RECOMPILE_SLUG))
             {
                 defines.Remove(RECOMPILE_SLUG);
             }

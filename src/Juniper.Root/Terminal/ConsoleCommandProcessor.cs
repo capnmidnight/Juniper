@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 
 using Juniper.Logging;
+
 using static System.ConsoleColor;
 
 namespace Juniper.Terminal

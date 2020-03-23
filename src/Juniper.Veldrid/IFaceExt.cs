@@ -23,7 +23,7 @@ namespace Juniper.VeldridIntegration
             where VertexT : struct
         {
             var verts = new List<VertexT>();
-            if(faces.Length == 0)
+            if (faces.Length == 0)
             {
                 return (Array.Empty<VertexT>(), Array.Empty<IndexT>());
             }

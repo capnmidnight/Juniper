@@ -5,7 +5,7 @@ namespace Juniper
 {
     public static class Resources
     {
-        private readonly static Assembly assembly = typeof(Resources).Assembly;
+        private static readonly Assembly assembly = typeof(Resources).Assembly;
 
         public static Stream GetStream(string name)
         {

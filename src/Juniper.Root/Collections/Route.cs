@@ -331,7 +331,7 @@ namespace Juniper.Collections
             var hashCode = 1944944578;
             hashCode = (hashCode * -1521134295) + Cost.GetHashCode();
             var nodes = this.nodes.AsEnumerable();
-            if(Start.CompareTo(End) > 0)
+            if (Start.CompareTo(End) > 0)
             {
                 nodes = nodes.Reverse();
             }

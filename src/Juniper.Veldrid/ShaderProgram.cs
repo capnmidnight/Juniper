@@ -112,7 +112,7 @@ namespace Juniper.VeldridIntegration
             var mtlFileNameParts = directoryParts
                 .Append(obj.MaterialLibName)
                 .ToArray();
-            
+
             var mtlFileName = string.Join("/", mtlFileNameParts);
             using var mtlStream = getStream(mtlFileName);
             var mtlParser = new MtlParser();

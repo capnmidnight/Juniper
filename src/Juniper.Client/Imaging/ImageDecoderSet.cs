@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Juniper.IO;
-
 namespace Juniper.Imaging
 {
     public class ImageDecoderSet : IDictionary<MediaType, IImageCodec<ImageData>>

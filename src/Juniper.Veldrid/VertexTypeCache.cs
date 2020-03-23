@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+
 using Veldrid;
 
 namespace Juniper.VeldridIntegration
@@ -27,7 +28,7 @@ namespace Juniper.VeldridIntegration
 
                     var descriptions = new VertexElementDescription[members.Length];
                     uint size = 0;
-                    for(var i = 0; i < members.Length; ++i)
+                    for (var i = 0; i < members.Length; ++i)
                     {
                         var (member, info) = members[i];
                         info.Resolve(member);

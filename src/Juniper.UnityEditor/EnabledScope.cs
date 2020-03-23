@@ -8,7 +8,7 @@ namespace Juniper
     public class EnabledScope :
         IDisposable
     {
-        public  EnabledScope(bool enabled)
+        public EnabledScope(bool enabled)
         {
             EditorGUI.BeginDisabledGroup(!enabled);
         }

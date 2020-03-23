@@ -4,6 +4,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.Runtime;
 using Android.Views;
+
 using Veldrid;
 
 namespace Juniper.VeldridIntegration.AndroidSupport

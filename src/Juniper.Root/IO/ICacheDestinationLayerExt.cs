@@ -84,7 +84,7 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(fileName));
             }
 
-            if(fileName.Length == 0)
+            if (fileName.Length == 0)
             {
                 throw new ArgumentException("File name must be more than 0 characters long");
             }

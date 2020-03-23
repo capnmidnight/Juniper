@@ -41,9 +41,9 @@ namespace Juniper.Input
         {
             while (!canceller.IsCancellationRequested)
             {
-                if(NativeMethods.GetCursorPos(out var point))
+                if (NativeMethods.GetCursorPos(out var point))
                 {
-                    if(lastX != 0 || lastY != 0)
+                    if (lastX != 0 || lastY != 0)
                     {
                         args.DX = point.X - lastX;
                         args.DY = point.Y - lastY;

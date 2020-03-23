@@ -24,9 +24,9 @@ namespace Juniper.VeldridIntegration.WPFSupport
             VeldridSwapchainSource = SwapchainSource.CreateWin32(Hwnd, hinstance);
             Ready?.Invoke(this, EventArgs.Empty);
             var here = Parent as FrameworkElement;
-            while(here != null)
+            while (here != null)
             {
-                if(here is Window window)
+                if (here is Window window)
                 {
                     window.Closing += Window_Closing;
                     here = null;

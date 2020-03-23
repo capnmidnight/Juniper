@@ -908,7 +908,7 @@ or
             Err?.Invoke(sender, e);
         }
 
-#region IDisposable Support
+        #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
@@ -946,7 +946,7 @@ or
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-#endregion
+        #endregion
 
         private void ShowRoutes()
         {

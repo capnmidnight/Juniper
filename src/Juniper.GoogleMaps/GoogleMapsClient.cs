@@ -53,7 +53,7 @@ namespace Juniper.World.GIS.Google
                 }
             }
 
-            foreach(var fileRef in cache.GetContentReferences(MediaType.Image.Jpeg))
+            foreach (var fileRef in cache.GetContentReferences(MediaType.Image.Jpeg))
             {
                 knownImages.Add(fileRef.CacheID);
             }
@@ -229,7 +229,7 @@ namespace Juniper.World.GIS.Google
                 Pitch = pitch
             }, prog).ConfigureAwait(false);
 
-            if(imageStream is object
+            if (imageStream is object
                 && knownImages.MaybeAdd(pano))
             {
                 knownImages.Sort();

@@ -39,7 +39,7 @@ namespace Juniper
 
         private void Panel_Touch(object sender, Android.Views.View.TouchEventArgs e)
         {
-            if(e.Event.Action == Android.Views.MotionEventActions.Move
+            if (e.Event.Action == Android.Views.MotionEventActions.Move
                 && e.Event.HistorySize > 0)
             {
                 var lastX = e.Event.GetHistoricalX(0);

@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+
 using NUnit.Framework;
 
 namespace Juniper.Puzzles.Test

@@ -15,6 +15,7 @@ permissions and limitations under the License.
 ************************************************************************************/
 
 using System.Numerics;
+
 using Juniper.Mathematics;
 
 namespace Oculus.VR

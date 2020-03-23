@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Veldrid.Utilities;
+
 using IndexT = System.UInt16;
 
 namespace Juniper.VeldridIntegration

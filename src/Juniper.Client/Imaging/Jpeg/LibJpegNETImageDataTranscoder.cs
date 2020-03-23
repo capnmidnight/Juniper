@@ -46,9 +46,9 @@ namespace Juniper.Imaging
                     var outputIndex = y * outputStride;
                     Array.Copy(inputData, 0, outputData, outputIndex, inputStride);
                 }
-                else 
+                else
                 {
-                    for(int inputIndex = 0, outputIndex = y * outputStride;
+                    for (int inputIndex = 0, outputIndex = y * outputStride;
                         inputIndex < inputData.Length;
                         inputIndex += inputComponents, outputIndex += outputComponents)
                     {

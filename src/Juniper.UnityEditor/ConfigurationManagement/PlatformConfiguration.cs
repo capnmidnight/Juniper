@@ -55,7 +55,7 @@ namespace Juniper.ConfigurationManagement
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private PlatformConfiguration(SerializationInfo info, StreamingContext context)
         {
-            if(Enum.TryParse<PlatformType>(info.GetString(nameof(Name)), out var pType))
+            if (Enum.TryParse<PlatformType>(info.GetString(nameof(Name)), out var pType))
             {
                 Name = pType;
             }
@@ -144,7 +144,7 @@ namespace Juniper.ConfigurationManagement
         {
             return BuildPipeline.GetBuildTargetGroup(GetBuildTarget());
         }
-        
+
         public bool IsSupported()
         {
             return BuildPipeline.IsBuildTargetSupported(GetTargetGroup(), GetBuildTarget());

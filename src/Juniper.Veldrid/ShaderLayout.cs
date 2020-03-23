@@ -22,7 +22,7 @@ namespace Juniper.VeldridIntegration
             Component = 0;
             Index = -1;
 
-            foreach(var qualifier in qualifiers)
+            foreach (var qualifier in qualifiers)
             {
                 var value = (int)qualifier.Value;
                 switch (qualifier.Type)

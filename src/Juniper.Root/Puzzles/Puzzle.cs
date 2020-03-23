@@ -836,7 +836,7 @@ namespace Juniper.Puzzles
         public static bool operator <(Puzzle left, Puzzle right)
         {
             return (left is null && right is object)
-                || (left is object  && left.CompareTo(right) < 0);
+                || (left is object && left.CompareTo(right) < 0);
         }
 
         public static bool operator <=(Puzzle left, Puzzle right)

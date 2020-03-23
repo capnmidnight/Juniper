@@ -66,14 +66,14 @@ namespace Juniper.VeldridIntegration
             return (vertexBuffer, indexBuffer);
         }
 
-        public static Mesh<VertexT> operator+(Mesh<VertexT> a, Mesh<VertexT> b)
+        public static Mesh<VertexT> operator +(Mesh<VertexT> a, Mesh<VertexT> b)
         {
-            if(a is null)
+            if (a is null)
             {
                 return b;
             }
 
-            if(b is null)
+            if (b is null)
             {
                 return a;
             }

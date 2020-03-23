@@ -54,7 +54,7 @@ namespace Juniper.World.GIS.Google.StreetView
                 throw new ArgumentNullException(nameof(info));
             }
 
-            foreach(var field in info)
+            foreach (var field in info)
             {
                 switch (field.Name.ToLowerInvariant())
                 {
@@ -62,7 +62,7 @@ namespace Juniper.World.GIS.Google.StreetView
                     case "copyright": Copyright = info.GetString(field.Name); break;
                     case "date": Date = info.GetDateTime(field.Name); break;
                     case "pano_id": Pano_ID = info.GetString(field.Name); break;
-                    case "location":  Location = info.GetValue<LatLngPoint>(field.Name); break;
+                    case "location": Location = info.GetValue<LatLngPoint>(field.Name); break;
                 }
             }
         }

@@ -117,7 +117,7 @@ namespace Juniper.Units
 
 
 
-            [UnitOfMeasure.BitsPerSecond] = new[] { Category.Bandwidth, Category.SlowestBandwidth},
+            [UnitOfMeasure.BitsPerSecond] = new[] { Category.Bandwidth, Category.SlowestBandwidth },
             [UnitOfMeasure.BytesPerSecond] = new[] { Category.Bandwidth, Category.VerySlowBandwidth },
             [UnitOfMeasure.KilobytesPerSecond] = new[] { Category.Bandwidth, Category.SlowBandwidth },
             [UnitOfMeasure.KibibytesPerSecond] = new[] { Category.Bandwidth, Category.SlowBandwidth },

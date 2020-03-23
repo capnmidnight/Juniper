@@ -29,7 +29,7 @@ namespace Juniper.MediaTypes
 
         public static async Task Main(string[] args)
         {
-            if(args?.Length != 1)
+            if (args?.Length != 1)
             {
                 System.Console.WriteLine("Usage: <exe> C:\\path\\to\\output\\dir");
                 return;

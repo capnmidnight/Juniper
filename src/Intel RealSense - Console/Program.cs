@@ -14,7 +14,7 @@ namespace Juniper
 
     public static class Program
     {
-        const int fisheySensorIdx = 1;
+        private const int fisheySensorIdx = 1;
 
         private static Pose objectPoseInWorld, devicePoseInWorld;
 

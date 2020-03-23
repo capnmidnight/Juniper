@@ -138,9 +138,9 @@ namespace Juniper.VeldridIntegration
             var name = parts[1];
             var sizeString = parts[2];
             var size = 1u;
-            if(sizeString.Length > 0)
+            if (sizeString.Length > 0)
             {
-                if(!uint.TryParse(sizeString, out size))
+                if (!uint.TryParse(sizeString, out size))
                 {
                     throw new FormatException("Could not parse type size");
                 }
@@ -182,7 +182,7 @@ namespace Juniper.VeldridIntegration
             }
 
             var dataTypeString = match.Groups[4].Value;
-            if(!Enum.TryParse<ShaderDataType>(dataTypeString, true, out var dataType))
+            if (!Enum.TryParse<ShaderDataType>(dataTypeString, true, out var dataType))
             {
                 throw new FormatException($"Invalid shader attribute type '{dataTypeString}' in line '{match.Value}'.");
             }

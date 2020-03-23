@@ -95,9 +95,9 @@ namespace Juniper.Units
         /// </summary>
         /// <param name=" pebibytesPerSecond">The number of pebibytes per second/param>
         /// <returns>The number of bits per second/returns>
-        public static float BitsPerSecond(float  pebibytesPerSecond)
+        public static float BitsPerSecond(float pebibytesPerSecond)
         {
-            return  pebibytesPerSecond * Units.BitsPerSecond.PER_PEBIBYTE_PER_SECOND;
+            return pebibytesPerSecond * Units.BitsPerSecond.PER_PEBIBYTE_PER_SECOND;
         }
 
         /// <summary>
@@ -105,9 +105,9 @@ namespace Juniper.Units
         /// </summary>
         /// <param name=" pebibytesPerSecond">The number of pebibytes per second/param>
         /// <returns>The number of bytes per second/returns>
-        public static float BytesPerSecond(float  pebibytesPerSecond)
+        public static float BytesPerSecond(float pebibytesPerSecond)
         {
-            return  pebibytesPerSecond * Units.BytesPerSecond.PER_PEBIBYTE_PER_SECOND;
+            return pebibytesPerSecond * Units.BytesPerSecond.PER_PEBIBYTE_PER_SECOND;
         }
 
         /// <summary>
@@ -115,9 +115,9 @@ namespace Juniper.Units
         /// </summary>
         /// <param name=" pebibytesPerSecond">The number of pebibytes per second/param>
         /// <returns>The number of kilobytes per second/returns>
-        public static float KilobytesPerSecond(float  pebibytesPerSecond)
+        public static float KilobytesPerSecond(float pebibytesPerSecond)
         {
-            return  pebibytesPerSecond * Units.KilobytesPerSecond.PER_PEBIBYTE_PER_SECOND;
+            return pebibytesPerSecond * Units.KilobytesPerSecond.PER_PEBIBYTE_PER_SECOND;
         }
 
         /// <summary>
@@ -125,9 +125,9 @@ namespace Juniper.Units
         /// </summary>
         /// <param name=" pebibytesPerSecond">The number of pebibytes per second/param>
         /// <returns>The number of megabytes per second/returns>
-        public static float MegabytesPerSecond(float  pebibytesPerSecond)
+        public static float MegabytesPerSecond(float pebibytesPerSecond)
         {
-            return  pebibytesPerSecond * Units.MegabytesPerSecond.PER_PEBIBYTE_PER_SECOND;
+            return pebibytesPerSecond * Units.MegabytesPerSecond.PER_PEBIBYTE_PER_SECOND;
         }
 
         /// <summary>
@@ -135,9 +135,9 @@ namespace Juniper.Units
         /// </summary>
         /// <param name=" pebibytesPerSecond">The number of pebibytes per second/param>
         /// <returns>The number of gigabytes per second/returns>
-        public static float GigabytesPerSecond(float  pebibytesPerSecond)
+        public static float GigabytesPerSecond(float pebibytesPerSecond)
         {
-            return  pebibytesPerSecond * Units.GigabytesPerSecond.PER_PEBIBYTE_PER_SECOND;
+            return pebibytesPerSecond * Units.GigabytesPerSecond.PER_PEBIBYTE_PER_SECOND;
         }
 
         /// <summary>
@@ -145,9 +145,9 @@ namespace Juniper.Units
         /// </summary>
         /// <param name=" pebibytesPerSecond">The number of pebibytes per second/param>
         /// <returns>The number of terabytes per second/returns>
-        public static float TerabytesPerSecond(float  pebibytesPerSecond)
+        public static float TerabytesPerSecond(float pebibytesPerSecond)
         {
-            return  pebibytesPerSecond * Units.TerabytesPerSecond.PER_PEBIBYTE_PER_SECOND;
+            return pebibytesPerSecond * Units.TerabytesPerSecond.PER_PEBIBYTE_PER_SECOND;
         }
 
         /// <summary>
@@ -155,9 +155,9 @@ namespace Juniper.Units
         /// </summary>
         /// <param name=" pebibytesPerSecond">The number of pebibytes per second/param>
         /// <returns>The number of petabytes per second/returns>
-        public static float PetabytesPerSecond(float  pebibytesPerSecond)
+        public static float PetabytesPerSecond(float pebibytesPerSecond)
         {
-            return  pebibytesPerSecond * Units.PetabytesPerSecond.PER_PEBIBYTE_PER_SECOND;
+            return pebibytesPerSecond * Units.PetabytesPerSecond.PER_PEBIBYTE_PER_SECOND;
         }
 
         /// <summary>
@@ -165,9 +165,9 @@ namespace Juniper.Units
         /// </summary>
         /// <param name=" pebibytesPerSecond">The number of pebibytes per second/param>
         /// <returns>The number of exabytes per second/returns>
-        public static float ExabytesPerSecond(float  pebibytesPerSecond)
+        public static float ExabytesPerSecond(float pebibytesPerSecond)
         {
-            return  pebibytesPerSecond * Units.ExabytesPerSecond.PER_PEBIBYTE_PER_SECOND;
+            return pebibytesPerSecond * Units.ExabytesPerSecond.PER_PEBIBYTE_PER_SECOND;
         }
 
         /// <summary>
@@ -175,9 +175,9 @@ namespace Juniper.Units
         /// </summary>
         /// <param name=" pebibytesPerSecond">The number of pebibytes per second/param>
         /// <returns>The number of zettabytes per second/returns>
-        public static float ZettabytesPerSecond(float  pebibytesPerSecond)
+        public static float ZettabytesPerSecond(float pebibytesPerSecond)
         {
-            return  pebibytesPerSecond * Units.ZettabytesPerSecond.PER_PEBIBYTE_PER_SECOND;
+            return pebibytesPerSecond * Units.ZettabytesPerSecond.PER_PEBIBYTE_PER_SECOND;
         }
 
         /// <summary>
@@ -185,9 +185,9 @@ namespace Juniper.Units
         /// </summary>
         /// <param name=" pebibytesPerSecond">The number of pebibytes per second/param>
         /// <returns>The number of yotabytes per second/returns>
-        public static float YotabytesPerSecond(float  pebibytesPerSecond)
+        public static float YotabytesPerSecond(float pebibytesPerSecond)
         {
-            return  pebibytesPerSecond * Units.YotabytesPerSecond.PER_PEBIBYTE_PER_SECOND;
+            return pebibytesPerSecond * Units.YotabytesPerSecond.PER_PEBIBYTE_PER_SECOND;
         }
 
         /// <summary>
@@ -195,9 +195,9 @@ namespace Juniper.Units
         /// </summary>
         /// <param name=" pebibytesPerSecond">The number of pebibytes per second/param>
         /// <returns>The number of kibibytes per second/returns>
-        public static float KibibytesPerSecond(float  pebibytesPerSecond)
+        public static float KibibytesPerSecond(float pebibytesPerSecond)
         {
-            return  pebibytesPerSecond * Units.KibibytesPerSecond.PER_PEBIBYTE_PER_SECOND;
+            return pebibytesPerSecond * Units.KibibytesPerSecond.PER_PEBIBYTE_PER_SECOND;
         }
 
         /// <summary>
@@ -205,9 +205,9 @@ namespace Juniper.Units
         /// </summary>
         /// <param name=" pebibytesPerSecond">The number of pebibytes per second/param>
         /// <returns>The number of mibibytes per second/returns>
-        public static float MibibytesPerSecond(float  pebibytesPerSecond)
+        public static float MibibytesPerSecond(float pebibytesPerSecond)
         {
-            return  pebibytesPerSecond * Units.MibibytesPerSecond.PER_PEBIBYTE_PER_SECOND;
+            return pebibytesPerSecond * Units.MibibytesPerSecond.PER_PEBIBYTE_PER_SECOND;
         }
 
         /// <summary>
@@ -215,9 +215,9 @@ namespace Juniper.Units
         /// </summary>
         /// <param name=" pebibytesPerSecond">The number of pebibytes per second/param>
         /// <returns>The number of gibibytes per second/returns>
-        public static float GibibytesPerSecond(float  pebibytesPerSecond)
+        public static float GibibytesPerSecond(float pebibytesPerSecond)
         {
-            return  pebibytesPerSecond * Units.GibibytesPerSecond.PER_PEBIBYTE_PER_SECOND;
+            return pebibytesPerSecond * Units.GibibytesPerSecond.PER_PEBIBYTE_PER_SECOND;
         }
 
         /// <summary>
@@ -225,9 +225,9 @@ namespace Juniper.Units
         /// </summary>
         /// <param name=" pebibytesPerSecond">The number of pebibytes per second/param>
         /// <returns>The number of tebibytes per second/returns>
-        public static float TebibytesPerSecond(float  pebibytesPerSecond)
+        public static float TebibytesPerSecond(float pebibytesPerSecond)
         {
-            return  pebibytesPerSecond * Units.TebibytesPerSecond.PER_PEBIBYTE_PER_SECOND;
+            return pebibytesPerSecond * Units.TebibytesPerSecond.PER_PEBIBYTE_PER_SECOND;
         }
 
         /// <summary>
@@ -235,9 +235,9 @@ namespace Juniper.Units
         /// </summary>
         /// <param name=" pebibytesPerSecond">The number of pebibytes per second/param>
         /// <returns>The number of exbibytes per second/returns>
-        public static float ExbibytesPerSecond(float  pebibytesPerSecond)
+        public static float ExbibytesPerSecond(float pebibytesPerSecond)
         {
-            return  pebibytesPerSecond * Units.ExbibytesPerSecond.PER_PEBIBYTE_PER_SECOND;
+            return pebibytesPerSecond * Units.ExbibytesPerSecond.PER_PEBIBYTE_PER_SECOND;
         }
 
         /// <summary>
@@ -245,9 +245,9 @@ namespace Juniper.Units
         /// </summary>
         /// <param name=" pebibytesPerSecond">The number of pebibytes per second/param>
         /// <returns>The number of zebibytes per second/returns>
-        public static float ZebibytesPerSecond(float  pebibytesPerSecond)
+        public static float ZebibytesPerSecond(float pebibytesPerSecond)
         {
-            return  pebibytesPerSecond * Units.ZebibytesPerSecond.PER_PEBIBYTE_PER_SECOND;
+            return pebibytesPerSecond * Units.ZebibytesPerSecond.PER_PEBIBYTE_PER_SECOND;
         }
 
         /// <summary>
@@ -255,9 +255,9 @@ namespace Juniper.Units
         /// </summary>
         /// <param name=" pebibytesPerSecond">The number of pebibytes per second/param>
         /// <returns>The number of yobibytes per second/returns>
-        public static float YobibytesPerSecond(float  pebibytesPerSecond)
+        public static float YobibytesPerSecond(float pebibytesPerSecond)
         {
-            return  pebibytesPerSecond * Units.YobibytesPerSecond.PER_PEBIBYTE_PER_SECOND;
+            return pebibytesPerSecond * Units.YobibytesPerSecond.PER_PEBIBYTE_PER_SECOND;
         }
     }
 }

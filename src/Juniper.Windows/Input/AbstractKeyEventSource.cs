@@ -43,7 +43,7 @@ namespace Juniper.Input
         {
             if (IsRunning)
             {
-                for(var i = 0; i < names.Length; ++i)
+                for (var i = 0; i < names.Length; ++i)
                 {
                     var name = names[i];
                     var key = aliases[name];
