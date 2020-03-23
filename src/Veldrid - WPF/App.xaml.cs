@@ -53,7 +53,6 @@ namespace Juniper
         private void Panel_Ready(object sender, EventArgs e)
         {
             demo = new VeldridDemoProgram(
-                GraphicsBackend.Vulkan,
                 new GraphicsDeviceOptions
                 {
                     PreferDepthRangeZeroToOne = true,
