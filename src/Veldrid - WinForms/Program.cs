@@ -15,10 +15,11 @@ namespace Juniper
     public static class Program
     {
         private static CancellationTokenSource canceller;
-        private static MainWindow window;
+        private static IVeldridPanel panel;
+        private static VeldridDemoProgram demo;
+
         private static Win32KeyEventSource keys;
         private static Win32MouseMoveEventSource mouse;
-        private static VeldridDemoProgram demo;
 
         private static void Main()
         {
@@ -26,11 +27,12 @@ namespace Juniper
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += Application_ThreadException;
 
-            using var form = window = new MainWindow();
-            window.Activated += MainForm_Activated;
-            window.FormClosing += MainForm_FormClosing;
-            window.RequestStats += MainForm_RequestStats;
-            window.Panel.Resize += Panel_Resize;
+            using var form = new MainWindow();
+            panel = form.Panel;
+            panel.Ready += Panel_Ready;
+            panel.Destroying += Panel_Destroying;
+            panel.Resize += Panel_Resize;
+            //window.RequestStats += MainForm_RequestStats;
 
             canceller = new CancellationTokenSource();
 
@@ -45,6 +47,11 @@ namespace Juniper
             mouse = new Win32MouseMoveEventSource(canceller.Token);
             mouse.Moved += Mouse_Moved;
 
+            Application.Run(form);
+        }
+
+        private static void Panel_Ready(object sender, EventArgs e)
+        {
             demo = new VeldridDemoProgram(
                 GraphicsBackend.Vulkan,
                 new GraphicsDeviceOptions
@@ -57,39 +64,20 @@ namespace Juniper
                     SyncToVerticalBlank = true,
                     HasMainSwapchain = false
                 },
-                window.Panel.VeldridSwapchainSource,
-                Width, Height,
+                panel.VeldridSwapchainSource,
+                panel.RenderWidth, panel.RenderHeight,
                 canceller.Token);
-            demo.Error += window.SetError;
+            //demo.Error += form.SetError;
             demo.Update += Demo_Update;
-
-            Application.Run(window);
-        }
-
-        private static uint Height => (uint)window.Panel.ClientSize.Height;
-
-        private static uint Width => (uint)window.Panel.ClientSize.Width;
-
-        private static void MainForm_Activated(object sender, EventArgs e)
-        {
-            window.Activated -= MainForm_Activated;
-            _ = Task.Run(StartAsync);
-        }
-
-        private static Task StartAsync()
-        {
-            window.Panel.StopOwnRender();
             keys.Start();
             mouse.Start();
-            return demo.StartAsync(
-                Path.Combine("Shaders", "tex-cube.vert"),
-                Path.Combine("Shaders", "tex-cube.frag"),
-                Path.Combine("Models", "cube.obj"));
+
+            _ = Task.Run(demo.StartAsync);
         }
 
         private static void Panel_Resize(object sender, EventArgs e)
         {
-            demo.Resize(Width, Height);
+            demo.Resize(panel.RenderWidth, panel.RenderHeight);
         }
 
         private static void Demo_Update(float dt)
@@ -102,26 +90,26 @@ namespace Juniper
             demo.SetMouseRotate(e.DX, e.DY);
         }
 
-        private static void MainForm_RequestStats(object sender, EventArgs e)
-        {
-            window.SetStats(
-                demo.MinFramesPerSecond,
-                demo.MeanFramesPerSecond,
-                demo.MaxFramesPerSecond);
-        }
-
-        private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
-        {
-            window.SetError(e.Exception);
-        }
-
-        private static void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        private static void Panel_Destroying(object sender, EventArgs e)
         {
             canceller.Cancel();
             mouse.Quit();
             keys.Quit();
             demo.Quit();
             demo.Dispose();
+        }
+
+        private static void MainForm_RequestStats(object sender, EventArgs e)
+        {
+            //window.SetStats(
+            //    demo.MinFramesPerSecond,
+            //    demo.MeanFramesPerSecond,
+            //    demo.MaxFramesPerSecond);
+        }
+
+        private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
+        {
+            //window.SetError(e.Exception);
         }
     }
 }

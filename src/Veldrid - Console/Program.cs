@@ -68,11 +68,7 @@ namespace Juniper
                 keys.Start();
                 mouse.Start();
 
-                await demo.StartAsync(
-                    Path.Combine("Shaders", "tex-cube.vert"),
-                    Path.Combine("Shaders", "tex-cube.frag"),
-                    Path.Combine("Models", "cube.obj"))
-                    .ConfigureAwait(false);
+                await demo.StartAsync().ConfigureAwait(false);
 
                 while (!canceller.IsCancellationRequested)
                 {

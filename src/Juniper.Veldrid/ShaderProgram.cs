@@ -88,33 +88,33 @@ namespace Juniper.VeldridIntegration
             textureData.Add((name, image));
         }
 
-        public void LoadOBJ(FileInfo objFile)
+        public void LoadOBJ(string fileID, Func<string, Stream> getStream)
         {
-            if (objFile is null)
+            if (fileID is null)
             {
-                throw new ArgumentNullException(nameof(objFile));
+                throw new ArgumentNullException(nameof(fileID));
             }
 
-            if (!objFile.Exists)
+            if (getStream is null)
             {
-                throw new FileNotFoundException("Could not find OBJ file", objFile.FullName);
+                throw new ArgumentNullException(nameof(getStream));
             }
 
-            var directory = objFile.Directory;
-
-            using var objStream = objFile.OpenRead();
+            using var objStream = getStream(fileID);
             var objParser = new ObjParser();
             var obj = objParser.Parse(objStream);
 
-            var mtlFileName = Path.Combine(directory.FullName, obj.MaterialLibName);
-            var mtlFile = new FileInfo(mtlFileName);
+            var directoryParts = fileID.Split('/')
+                .Reverse()
+                .Skip(1)
+                .Reverse();
 
-            if (!mtlFile.Exists)
-            {
-                throw new FileNotFoundException("Could not find MTL file", mtlFile.FullName);
-            }
-
-            using var mtlStream = mtlFile.OpenRead();
+            var mtlFileNameParts = directoryParts
+                .Append(obj.MaterialLibName)
+                .ToArray();
+            
+            var mtlFileName = string.Join("/", mtlFileNameParts);
+            using var mtlStream = getStream(mtlFileName);
             var mtlParser = new MtlParser();
             var mtl = mtlParser.Parse(mtlStream);
 
@@ -129,21 +129,10 @@ namespace Juniper.VeldridIntegration
                     var materialDef = mtl.Definitions[veldridMesh.MaterialName];
                     if (materialDef.DiffuseTexture is object)
                     {
-                        var textureFileName = Path.Combine(directory.FullName, materialDef.DiffuseTexture);
-                        AddTexture("SurfaceTexture", ImageDecoderSet.Default.LoadImage(textureFileName));
+                        AddTexture("SurfaceTexture", ImageDecoderSet.Default.LoadImage(materialDef.DiffuseTexture, getStream));
                     }
                 }
             }
-        }
-
-        public void LoadOBJ(string objFileName)
-        {
-            if (string.IsNullOrEmpty(objFileName))
-            {
-                throw new ArgumentException("Must provide a filename", nameof(objFileName));
-            }
-
-            LoadOBJ(new FileInfo(objFileName));
         }
 
         public void Begin(GraphicsDevice device, Framebuffer framebuffer, string cameraBufferName, string worldBufferName)

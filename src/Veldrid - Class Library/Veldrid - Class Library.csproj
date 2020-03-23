@@ -18,6 +18,42 @@
   </ImportGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Images\grass.jpg">
+      <LogicalName>Images/grass.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\hand.png">
+      <LogicalName>Images/hand.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\rock.jpg">
+      <LogicalName>Images/rock.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\sand.jpg">
+      <LogicalName>Images/sand.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\sheep.png">
+      <LogicalName>Images/sheep.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\tiles.png">
+      <LogicalName>Images/tiles.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\water.jpg">
+      <LogicalName>Images/water.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Models\cube.mtl">
+      <LogicalName>Models/cube.mtl</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Models\cube.obj">
+      <LogicalName>Models/cube.obj</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shaders\tex-cube.frag">
+      <LogicalName>Shaders/tex-cube.frag</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shaders\tex-cube.vert">
+      <LogicalName>Shaders/tex-cube.vert</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Veldrid" Version="4.7.0" />
     <PackageReference Include="Veldrid.SPIRV" Version="1.0.13" />
   </ItemGroup>

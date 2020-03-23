@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,6 +18,7 @@ namespace Juniper
     {
         private CancellationTokenSource canceller;
         private MainWindow window;
+        private IVeldridPanel panel;
         private Win32KeyEventSource keys;
         private Win32MouseMoveEventSource mouse;
         private VeldridDemoProgram demo;
@@ -29,10 +29,12 @@ namespace Juniper
             if (MainWindow is MainWindow wind)
             {
                 window = wind;
-                window.Closing += Window_Closing;
                 window.RequestStats += MainForm_RequestStats;
-                window.Panel.Resize += Panel_Resize;
-                window.Panel.Ready += Panel_Ready;
+
+                panel = window.Panel;
+                panel.Ready += Panel_Ready;
+                panel.Resize += Panel_Resize;
+                panel.Destroying += Panel_Destroying;
 
                 canceller = new CancellationTokenSource();
 
@@ -63,31 +65,19 @@ namespace Juniper
                     SyncToVerticalBlank = true,
                     HasMainSwapchain = false
                 },
-                window.Panel.VeldridSwapchainSource,
-                Width, Height,
+                panel.VeldridSwapchainSource,
+                panel.RenderWidth, panel.RenderHeight,
                 canceller.Token);
             demo.Error += window.SetError;
             demo.Update += Demo_Update;
-            _ = Task.Run(StartAsync);
-        }
-
-        private uint Height => (uint)window.Panel.RenderSize.Height;
-
-        private uint Width => (uint)window.Panel.RenderSize.Width;
-
-        private Task StartAsync()
-        {
             keys.Start();
             mouse.Start();
-            return demo.StartAsync(
-                Path.Combine("Shaders", "tex-cube.vert"),
-                Path.Combine("Shaders", "tex-cube.frag"),
-                Path.Combine("Models", "cube.obj"));
+            _ = Task.Run(demo.StartAsync);
         }
 
         private void Panel_Resize(object sender, EventArgs e)
         {
-            demo.Resize(Width, Height);
+            demo.Resize(panel.RenderWidth, panel.RenderHeight);
         }
 
         private void Demo_Update(float dt)
@@ -112,7 +102,7 @@ namespace Juniper
             }
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Panel_Destroying(object sender, EventArgs e)
         {
             canceller.Cancel();
             mouse.Quit();

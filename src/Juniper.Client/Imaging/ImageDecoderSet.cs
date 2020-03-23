@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 using Juniper.IO;
@@ -138,11 +139,16 @@ namespace Juniper.Imaging
         }
 
 
-        public ImageData LoadImage(string fileName)
+        public ImageData LoadImage(string fileName, Func<string, Stream> getStream)
         {
             if (string.IsNullOrEmpty(fileName))
             {
                 throw new ArgumentException("Must provide an image name.", nameof(fileName));
+            }
+
+            if (getStream is null)
+            {
+                throw new ArgumentNullException(nameof(getStream));
             }
 
             var type = (from t in MediaType.GuessByFileName(fileName)
@@ -155,7 +161,8 @@ namespace Juniper.Imaging
                 throw new NotSupportedException($"Don't know how to decode image type {type}");
             }
 
-            return decoders[type].Deserialize(fileName);
+            using var stream = getStream(fileName);
+            return decoders[type].Deserialize(stream);
         }
     }
 }

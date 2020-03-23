@@ -5,11 +5,16 @@ using Veldrid;
 
 namespace Juniper.VeldridIntegration.WPFSupport
 {
-    public class VeldridPanel : Win32HwndControl
+    public class VeldridPanel : Win32HwndControl, IVeldridPanel
     {
-        public SwapchainSource VeldridSwapchainSource { get; internal set; }
+        public SwapchainSource VeldridSwapchainSource { get; private set; }
+
         public event EventHandler Ready;
         public event EventHandler Resize;
+        public event EventHandler Destroying;
+
+        public uint RenderWidth => (uint)RenderSize.Width;
+        public uint RenderHeight => (uint)RenderSize.Height;
 
         protected sealed override void Initialize()
         {
@@ -20,14 +25,15 @@ namespace Juniper.VeldridIntegration.WPFSupport
             //CompositionTarget.Rendering += OnCompositionTargetRendering;
         }
 
-        protected sealed override void Uninitialize()
-        {
-            //CompositionTarget.Rendering -= OnCompositionTargetRendering;
-        }
-
         protected sealed override void Resized()
         {
             Resize?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected sealed override void Uninitialize()
+        {
+            Destroying?.Invoke(this, EventArgs.Empty);
+            //CompositionTarget.Rendering -= OnCompositionTargetRendering;
         }
     }
 }

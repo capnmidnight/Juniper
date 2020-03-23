@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -6,19 +7,39 @@ using Veldrid;
 
 namespace Juniper.VeldridIntegration.WinFormsSupport
 {
-    public partial class VeldridPanel : UserControl
+    public class VeldridPanel : UserControl, IVeldridPanel
     {
-        public SwapchainSource VeldridSwapchainSource { get; }
+        public SwapchainSource VeldridSwapchainSource { get; private set; }
+
+        public event EventHandler Ready;
+        public event EventHandler Destroying;
+
+        public uint RenderWidth => (uint)Width;
+        public uint RenderHeight => (uint)Height;
 
         public VeldridPanel()
         {
-            InitializeComponent();
-
+            AutoScaleMode = AutoScaleMode.Font;
             Paint += VeldridPanel_Paint;
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
 
             var currentModule = typeof(VeldridPanel).Module;
             var hinstance = Marshal.GetHINSTANCE(currentModule);
             VeldridSwapchainSource = SwapchainSource.CreateWin32(Handle, hinstance);
+            Ready?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Destroying?.Invoke(this, null);
+            }
+            base.Dispose(disposing);
         }
 
         private void VeldridPanel_Paint(object sender, PaintEventArgs e)
@@ -33,10 +54,6 @@ namespace Juniper.VeldridIntegration.WinFormsSupport
             middleRect.X = (ClientRectangle.Width - middleRect.Width) / 2;
             middleRect.Y = (ClientRectangle.Height - middleRect.Height) / 2;
             g.DrawIcon(icon, middleRect);
-        }
-
-        public void StopOwnRender()
-        {
             Paint -= VeldridPanel_Paint;
         }
     }

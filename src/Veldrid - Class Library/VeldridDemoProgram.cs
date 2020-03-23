@@ -116,35 +116,23 @@ namespace Juniper
             }
         }
 
-        public async Task StartAsync(string vertexShaderFileName, string fragmentShaderFileName, string modelFileName)
+        public async Task StartAsync()
         {
-            if (string.IsNullOrEmpty(vertexShaderFileName))
-            {
-                throw new ArgumentException("Must provide a vertex shader file name.", nameof(vertexShaderFileName));
-            }
-
-            if (string.IsNullOrEmpty(fragmentShaderFileName))
-            {
-                throw new ArgumentException("Must provide a fragment shader file name.", nameof(fragmentShaderFileName));
-            }
-
-            if (string.IsNullOrEmpty(modelFileName))
-            {
-                throw new ArgumentException("Must provide a model file name.", nameof(modelFileName));
-            }
+            using var vertexShaderStream = Resources.GetStream("Shaders/tex-cube.vert");
+            using var fragmentShaderStream = Resources.GetStream("Shaders/tex-cube.frag");
 
             var cubeProgramDescription = await ShaderProgramDescription.LoadAsync<VertexPositionTexture>(
-                vertexShaderFileName,
-                fragmentShaderFileName)
+                vertexShaderStream,
+                fragmentShaderStream)
                 .ConfigureAwait(true);
 
-            Start(cubeProgramDescription, modelFileName);
+            Start(cubeProgramDescription);
         }
 
-        private void Start(ShaderProgramDescription<VertexPositionTexture> cubeProgramDescription, string modelFileName)
+        private void Start(ShaderProgramDescription<VertexPositionTexture> cubeProgramDescription)
         {
             program = new ShaderProgram<VertexPositionTexture>(cubeProgramDescription, Mesh.ConvertVeldridMesh);
-            program.LoadOBJ(modelFileName);
+            program.LoadOBJ("Models/cube.obj", Resources.GetStream);
             program.Begin(device, swapchain.Framebuffer, "ProjectionBuffer", "WorldBuffer");
 
             for (var i = 0; i < 3; ++i)
