@@ -5,10 +5,11 @@
   </ImportGroup>
 
   <PropertyGroup>
-    <AssemblyName>Juniper.GoogleMaps</AssemblyName>
-    <RootNamespace>Juniper.World.GIS.Google</RootNamespace>
+    <AssemblyName>Juniper.Imaging</AssemblyName>
+    <RootNamespace>Juniper.Imaging</RootNamespace>
     <OutputType>Library</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
   </PropertyGroup>
@@ -18,8 +19,14 @@
   </ImportGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Juniper.Imaging\Juniper.Imaging.csproj" />
+    <PackageReference Include="System.IO.Compression" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
+    <ProjectReference Include="..\..\lib\Juniper.HjgPngcs\Juniper.HjgPngcs.csproj" />
+    <ProjectReference Include="..\..\lib\Juniper.LibJpeg.NET\Juniper.LibJpeg.NET.csproj" />
   </ItemGroup>
 
 </Project>

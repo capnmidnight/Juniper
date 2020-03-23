@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 
-using Juniper.Imaging;
 using Juniper.World.GIS;
 
 namespace Juniper.Processes

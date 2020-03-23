@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 
-namespace Juniper.Imaging
+namespace Juniper
 {
     [Serializable]
     public sealed class Size : ISerializable, IEquatable<Size>

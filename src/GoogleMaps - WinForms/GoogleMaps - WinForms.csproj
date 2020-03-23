@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
+    <ProjectReference Include="..\Juniper.Imaging\Juniper.Imaging.csproj" />
     <ProjectReference Include="..\Juniper.Windows\Juniper.Windows.csproj" />
     <ProjectReference Include="..\Juniper.GoogleMaps\Juniper.GoogleMaps.csproj" />
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />

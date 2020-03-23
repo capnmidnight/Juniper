@@ -20,6 +20,7 @@
   </ImportGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Juniper.Imaging\Juniper.Imaging.csproj" />
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
     <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
   </ItemGroup>
