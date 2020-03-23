@@ -26,10 +26,2482 @@ namespace Juniper
 		
 		public static void UpdateIdValues()
 		{
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Animation.abc_fade_in = global::Juniper.Resource.Animation.abc_fade_in;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Animation.abc_fade_out = global::Juniper.Resource.Animation.abc_fade_out;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Animation.abc_grow_fade_in_from_bottom = global::Juniper.Resource.Animation.abc_grow_fade_in_from_bottom;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Animation.abc_popup_enter = global::Juniper.Resource.Animation.abc_popup_enter;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Animation.abc_popup_exit = global::Juniper.Resource.Animation.abc_popup_exit;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Animation.abc_shrink_fade_out_from_bottom = global::Juniper.Resource.Animation.abc_shrink_fade_out_from_bottom;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Animation.abc_slide_in_bottom = global::Juniper.Resource.Animation.abc_slide_in_bottom;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Animation.abc_slide_in_top = global::Juniper.Resource.Animation.abc_slide_in_top;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Animation.abc_slide_out_bottom = global::Juniper.Resource.Animation.abc_slide_out_bottom;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Animation.abc_slide_out_top = global::Juniper.Resource.Animation.abc_slide_out_top;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Animation.abc_tooltip_enter = global::Juniper.Resource.Animation.abc_tooltip_enter;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Animation.abc_tooltip_exit = global::Juniper.Resource.Animation.abc_tooltip_exit;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionBarDivider = global::Juniper.Resource.Attribute.actionBarDivider;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionBarItemBackground = global::Juniper.Resource.Attribute.actionBarItemBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionBarPopupTheme = global::Juniper.Resource.Attribute.actionBarPopupTheme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionBarSize = global::Juniper.Resource.Attribute.actionBarSize;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionBarSplitStyle = global::Juniper.Resource.Attribute.actionBarSplitStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionBarStyle = global::Juniper.Resource.Attribute.actionBarStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionBarTabBarStyle = global::Juniper.Resource.Attribute.actionBarTabBarStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionBarTabStyle = global::Juniper.Resource.Attribute.actionBarTabStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionBarTabTextStyle = global::Juniper.Resource.Attribute.actionBarTabTextStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionBarTheme = global::Juniper.Resource.Attribute.actionBarTheme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionBarWidgetTheme = global::Juniper.Resource.Attribute.actionBarWidgetTheme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionButtonStyle = global::Juniper.Resource.Attribute.actionButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionDropDownStyle = global::Juniper.Resource.Attribute.actionDropDownStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionLayout = global::Juniper.Resource.Attribute.actionLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionMenuTextAppearance = global::Juniper.Resource.Attribute.actionMenuTextAppearance;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionMenuTextColor = global::Juniper.Resource.Attribute.actionMenuTextColor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionModeBackground = global::Juniper.Resource.Attribute.actionModeBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionModeCloseButtonStyle = global::Juniper.Resource.Attribute.actionModeCloseButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionModeCloseDrawable = global::Juniper.Resource.Attribute.actionModeCloseDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionModeCopyDrawable = global::Juniper.Resource.Attribute.actionModeCopyDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionModeCutDrawable = global::Juniper.Resource.Attribute.actionModeCutDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionModeFindDrawable = global::Juniper.Resource.Attribute.actionModeFindDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionModePasteDrawable = global::Juniper.Resource.Attribute.actionModePasteDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionModePopupWindowStyle = global::Juniper.Resource.Attribute.actionModePopupWindowStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionModeSelectAllDrawable = global::Juniper.Resource.Attribute.actionModeSelectAllDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionModeShareDrawable = global::Juniper.Resource.Attribute.actionModeShareDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionModeSplitBackground = global::Juniper.Resource.Attribute.actionModeSplitBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionModeStyle = global::Juniper.Resource.Attribute.actionModeStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionModeWebSearchDrawable = global::Juniper.Resource.Attribute.actionModeWebSearchDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionOverflowButtonStyle = global::Juniper.Resource.Attribute.actionOverflowButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionOverflowMenuStyle = global::Juniper.Resource.Attribute.actionOverflowMenuStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionProviderClass = global::Juniper.Resource.Attribute.actionProviderClass;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.actionViewClass = global::Juniper.Resource.Attribute.actionViewClass;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.activityChooserViewStyle = global::Juniper.Resource.Attribute.activityChooserViewStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.alertDialogButtonGroupStyle = global::Juniper.Resource.Attribute.alertDialogButtonGroupStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.alertDialogCenterButtons = global::Juniper.Resource.Attribute.alertDialogCenterButtons;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.alertDialogStyle = global::Juniper.Resource.Attribute.alertDialogStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.alertDialogTheme = global::Juniper.Resource.Attribute.alertDialogTheme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.allowStacking = global::Juniper.Resource.Attribute.allowStacking;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.alpha = global::Juniper.Resource.Attribute.alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.alphabeticModifiers = global::Juniper.Resource.Attribute.alphabeticModifiers;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.arrowHeadLength = global::Juniper.Resource.Attribute.arrowHeadLength;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.arrowShaftLength = global::Juniper.Resource.Attribute.arrowShaftLength;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.autoCompleteTextViewStyle = global::Juniper.Resource.Attribute.autoCompleteTextViewStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.autoSizeMaxTextSize = global::Juniper.Resource.Attribute.autoSizeMaxTextSize;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.autoSizeMinTextSize = global::Juniper.Resource.Attribute.autoSizeMinTextSize;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.autoSizePresetSizes = global::Juniper.Resource.Attribute.autoSizePresetSizes;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.autoSizeStepGranularity = global::Juniper.Resource.Attribute.autoSizeStepGranularity;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.autoSizeTextType = global::Juniper.Resource.Attribute.autoSizeTextType;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.background = global::Juniper.Resource.Attribute.background;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.backgroundSplit = global::Juniper.Resource.Attribute.backgroundSplit;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.backgroundStacked = global::Juniper.Resource.Attribute.backgroundStacked;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.backgroundTint = global::Juniper.Resource.Attribute.backgroundTint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.backgroundTintMode = global::Juniper.Resource.Attribute.backgroundTintMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.barLength = global::Juniper.Resource.Attribute.barLength;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.borderlessButtonStyle = global::Juniper.Resource.Attribute.borderlessButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.buttonBarButtonStyle = global::Juniper.Resource.Attribute.buttonBarButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.buttonBarNegativeButtonStyle = global::Juniper.Resource.Attribute.buttonBarNegativeButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.buttonBarNeutralButtonStyle = global::Juniper.Resource.Attribute.buttonBarNeutralButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.buttonBarPositiveButtonStyle = global::Juniper.Resource.Attribute.buttonBarPositiveButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.buttonBarStyle = global::Juniper.Resource.Attribute.buttonBarStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.buttonGravity = global::Juniper.Resource.Attribute.buttonGravity;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.buttonIconDimen = global::Juniper.Resource.Attribute.buttonIconDimen;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.buttonPanelSideLayout = global::Juniper.Resource.Attribute.buttonPanelSideLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.buttonStyle = global::Juniper.Resource.Attribute.buttonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.buttonStyleSmall = global::Juniper.Resource.Attribute.buttonStyleSmall;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.buttonTint = global::Juniper.Resource.Attribute.buttonTint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.buttonTintMode = global::Juniper.Resource.Attribute.buttonTintMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.checkboxStyle = global::Juniper.Resource.Attribute.checkboxStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.checkedTextViewStyle = global::Juniper.Resource.Attribute.checkedTextViewStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.closeIcon = global::Juniper.Resource.Attribute.closeIcon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.closeItemLayout = global::Juniper.Resource.Attribute.closeItemLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.collapseContentDescription = global::Juniper.Resource.Attribute.collapseContentDescription;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.collapseIcon = global::Juniper.Resource.Attribute.collapseIcon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.color = global::Juniper.Resource.Attribute.color;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.colorAccent = global::Juniper.Resource.Attribute.colorAccent;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.colorBackgroundFloating = global::Juniper.Resource.Attribute.colorBackgroundFloating;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.colorButtonNormal = global::Juniper.Resource.Attribute.colorButtonNormal;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.colorControlActivated = global::Juniper.Resource.Attribute.colorControlActivated;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.colorControlHighlight = global::Juniper.Resource.Attribute.colorControlHighlight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.colorControlNormal = global::Juniper.Resource.Attribute.colorControlNormal;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.colorError = global::Juniper.Resource.Attribute.colorError;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.colorPrimary = global::Juniper.Resource.Attribute.colorPrimary;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.colorPrimaryDark = global::Juniper.Resource.Attribute.colorPrimaryDark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.colorSwitchThumbNormal = global::Juniper.Resource.Attribute.colorSwitchThumbNormal;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.commitIcon = global::Juniper.Resource.Attribute.commitIcon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.contentDescription = global::Juniper.Resource.Attribute.contentDescription;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.contentInsetEnd = global::Juniper.Resource.Attribute.contentInsetEnd;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.contentInsetEndWithActions = global::Juniper.Resource.Attribute.contentInsetEndWithActions;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.contentInsetLeft = global::Juniper.Resource.Attribute.contentInsetLeft;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.contentInsetRight = global::Juniper.Resource.Attribute.contentInsetRight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.contentInsetStart = global::Juniper.Resource.Attribute.contentInsetStart;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.contentInsetStartWithNavigation = global::Juniper.Resource.Attribute.contentInsetStartWithNavigation;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.controlBackground = global::Juniper.Resource.Attribute.controlBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.coordinatorLayoutStyle = global::Juniper.Resource.Attribute.coordinatorLayoutStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.customNavigationLayout = global::Juniper.Resource.Attribute.customNavigationLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.defaultQueryHint = global::Juniper.Resource.Attribute.defaultQueryHint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.dialogCornerRadius = global::Juniper.Resource.Attribute.dialogCornerRadius;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.dialogPreferredPadding = global::Juniper.Resource.Attribute.dialogPreferredPadding;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.dialogTheme = global::Juniper.Resource.Attribute.dialogTheme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.displayOptions = global::Juniper.Resource.Attribute.displayOptions;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.divider = global::Juniper.Resource.Attribute.divider;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.dividerHorizontal = global::Juniper.Resource.Attribute.dividerHorizontal;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.dividerPadding = global::Juniper.Resource.Attribute.dividerPadding;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.dividerVertical = global::Juniper.Resource.Attribute.dividerVertical;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.drawableSize = global::Juniper.Resource.Attribute.drawableSize;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.drawerArrowStyle = global::Juniper.Resource.Attribute.drawerArrowStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.dropdownListPreferredItemHeight = global::Juniper.Resource.Attribute.dropdownListPreferredItemHeight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.dropDownListViewStyle = global::Juniper.Resource.Attribute.dropDownListViewStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.editTextBackground = global::Juniper.Resource.Attribute.editTextBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.editTextColor = global::Juniper.Resource.Attribute.editTextColor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.editTextStyle = global::Juniper.Resource.Attribute.editTextStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.elevation = global::Juniper.Resource.Attribute.elevation;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.expandActivityOverflowButtonDrawable = global::Juniper.Resource.Attribute.expandActivityOverflowButtonDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.firstBaselineToTopHeight = global::Juniper.Resource.Attribute.firstBaselineToTopHeight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.font = global::Juniper.Resource.Attribute.font;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.fontFamily = global::Juniper.Resource.Attribute.fontFamily;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.fontProviderAuthority = global::Juniper.Resource.Attribute.fontProviderAuthority;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.fontProviderCerts = global::Juniper.Resource.Attribute.fontProviderCerts;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.fontProviderFetchStrategy = global::Juniper.Resource.Attribute.fontProviderFetchStrategy;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.fontProviderFetchTimeout = global::Juniper.Resource.Attribute.fontProviderFetchTimeout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.fontProviderPackage = global::Juniper.Resource.Attribute.fontProviderPackage;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.fontProviderQuery = global::Juniper.Resource.Attribute.fontProviderQuery;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.fontStyle = global::Juniper.Resource.Attribute.fontStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.fontVariationSettings = global::Juniper.Resource.Attribute.fontVariationSettings;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.fontWeight = global::Juniper.Resource.Attribute.fontWeight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.gapBetweenBars = global::Juniper.Resource.Attribute.gapBetweenBars;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.goIcon = global::Juniper.Resource.Attribute.goIcon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.height = global::Juniper.Resource.Attribute.height;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.hideOnContentScroll = global::Juniper.Resource.Attribute.hideOnContentScroll;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.homeAsUpIndicator = global::Juniper.Resource.Attribute.homeAsUpIndicator;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.homeLayout = global::Juniper.Resource.Attribute.homeLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.icon = global::Juniper.Resource.Attribute.icon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.iconifiedByDefault = global::Juniper.Resource.Attribute.iconifiedByDefault;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.iconTint = global::Juniper.Resource.Attribute.iconTint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.iconTintMode = global::Juniper.Resource.Attribute.iconTintMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.imageButtonStyle = global::Juniper.Resource.Attribute.imageButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.indeterminateProgressStyle = global::Juniper.Resource.Attribute.indeterminateProgressStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.initialActivityCount = global::Juniper.Resource.Attribute.initialActivityCount;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.isLightTheme = global::Juniper.Resource.Attribute.isLightTheme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.itemPadding = global::Juniper.Resource.Attribute.itemPadding;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.keylines = global::Juniper.Resource.Attribute.keylines;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.lastBaselineToBottomHeight = global::Juniper.Resource.Attribute.lastBaselineToBottomHeight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.layout = global::Juniper.Resource.Attribute.layout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.layout_anchor = global::Juniper.Resource.Attribute.layout_anchor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.layout_anchorGravity = global::Juniper.Resource.Attribute.layout_anchorGravity;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.layout_behavior = global::Juniper.Resource.Attribute.layout_behavior;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.layout_dodgeInsetEdges = global::Juniper.Resource.Attribute.layout_dodgeInsetEdges;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.layout_insetEdge = global::Juniper.Resource.Attribute.layout_insetEdge;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.layout_keyline = global::Juniper.Resource.Attribute.layout_keyline;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.lineHeight = global::Juniper.Resource.Attribute.lineHeight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.listChoiceBackgroundIndicator = global::Juniper.Resource.Attribute.listChoiceBackgroundIndicator;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.listDividerAlertDialog = global::Juniper.Resource.Attribute.listDividerAlertDialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.listItemLayout = global::Juniper.Resource.Attribute.listItemLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.listLayout = global::Juniper.Resource.Attribute.listLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.listMenuViewStyle = global::Juniper.Resource.Attribute.listMenuViewStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.listPopupWindowStyle = global::Juniper.Resource.Attribute.listPopupWindowStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.listPreferredItemHeight = global::Juniper.Resource.Attribute.listPreferredItemHeight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.listPreferredItemHeightLarge = global::Juniper.Resource.Attribute.listPreferredItemHeightLarge;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.listPreferredItemHeightSmall = global::Juniper.Resource.Attribute.listPreferredItemHeightSmall;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.listPreferredItemPaddingLeft = global::Juniper.Resource.Attribute.listPreferredItemPaddingLeft;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.listPreferredItemPaddingRight = global::Juniper.Resource.Attribute.listPreferredItemPaddingRight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.logo = global::Juniper.Resource.Attribute.logo;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.logoDescription = global::Juniper.Resource.Attribute.logoDescription;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.maxButtonHeight = global::Juniper.Resource.Attribute.maxButtonHeight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.measureWithLargestChild = global::Juniper.Resource.Attribute.measureWithLargestChild;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.multiChoiceItemLayout = global::Juniper.Resource.Attribute.multiChoiceItemLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.navigationContentDescription = global::Juniper.Resource.Attribute.navigationContentDescription;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.navigationIcon = global::Juniper.Resource.Attribute.navigationIcon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.navigationMode = global::Juniper.Resource.Attribute.navigationMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.numericModifiers = global::Juniper.Resource.Attribute.numericModifiers;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.overlapAnchor = global::Juniper.Resource.Attribute.overlapAnchor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.paddingBottomNoButtons = global::Juniper.Resource.Attribute.paddingBottomNoButtons;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.paddingEnd = global::Juniper.Resource.Attribute.paddingEnd;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.paddingStart = global::Juniper.Resource.Attribute.paddingStart;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.paddingTopNoTitle = global::Juniper.Resource.Attribute.paddingTopNoTitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.panelBackground = global::Juniper.Resource.Attribute.panelBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.panelMenuListTheme = global::Juniper.Resource.Attribute.panelMenuListTheme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.panelMenuListWidth = global::Juniper.Resource.Attribute.panelMenuListWidth;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.popupMenuStyle = global::Juniper.Resource.Attribute.popupMenuStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.popupTheme = global::Juniper.Resource.Attribute.popupTheme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.popupWindowStyle = global::Juniper.Resource.Attribute.popupWindowStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.preserveIconSpacing = global::Juniper.Resource.Attribute.preserveIconSpacing;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.progressBarPadding = global::Juniper.Resource.Attribute.progressBarPadding;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.progressBarStyle = global::Juniper.Resource.Attribute.progressBarStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.queryBackground = global::Juniper.Resource.Attribute.queryBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.queryHint = global::Juniper.Resource.Attribute.queryHint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.radioButtonStyle = global::Juniper.Resource.Attribute.radioButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.ratingBarStyle = global::Juniper.Resource.Attribute.ratingBarStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.ratingBarStyleIndicator = global::Juniper.Resource.Attribute.ratingBarStyleIndicator;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.ratingBarStyleSmall = global::Juniper.Resource.Attribute.ratingBarStyleSmall;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.searchHintIcon = global::Juniper.Resource.Attribute.searchHintIcon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.searchIcon = global::Juniper.Resource.Attribute.searchIcon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.searchViewStyle = global::Juniper.Resource.Attribute.searchViewStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.seekBarStyle = global::Juniper.Resource.Attribute.seekBarStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.selectableItemBackground = global::Juniper.Resource.Attribute.selectableItemBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.selectableItemBackgroundBorderless = global::Juniper.Resource.Attribute.selectableItemBackgroundBorderless;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.showAsAction = global::Juniper.Resource.Attribute.showAsAction;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.showDividers = global::Juniper.Resource.Attribute.showDividers;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.showText = global::Juniper.Resource.Attribute.showText;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.showTitle = global::Juniper.Resource.Attribute.showTitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.singleChoiceItemLayout = global::Juniper.Resource.Attribute.singleChoiceItemLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.spinBars = global::Juniper.Resource.Attribute.spinBars;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.spinnerDropDownItemStyle = global::Juniper.Resource.Attribute.spinnerDropDownItemStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.spinnerStyle = global::Juniper.Resource.Attribute.spinnerStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.splitTrack = global::Juniper.Resource.Attribute.splitTrack;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.srcCompat = global::Juniper.Resource.Attribute.srcCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.state_above_anchor = global::Juniper.Resource.Attribute.state_above_anchor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.statusBarBackground = global::Juniper.Resource.Attribute.statusBarBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.subMenuArrow = global::Juniper.Resource.Attribute.subMenuArrow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.submitBackground = global::Juniper.Resource.Attribute.submitBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.subtitle = global::Juniper.Resource.Attribute.subtitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.subtitleTextAppearance = global::Juniper.Resource.Attribute.subtitleTextAppearance;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.subtitleTextColor = global::Juniper.Resource.Attribute.subtitleTextColor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.subtitleTextStyle = global::Juniper.Resource.Attribute.subtitleTextStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.suggestionRowLayout = global::Juniper.Resource.Attribute.suggestionRowLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.switchMinWidth = global::Juniper.Resource.Attribute.switchMinWidth;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.switchPadding = global::Juniper.Resource.Attribute.switchPadding;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.switchStyle = global::Juniper.Resource.Attribute.switchStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.switchTextAppearance = global::Juniper.Resource.Attribute.switchTextAppearance;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.textAllCaps = global::Juniper.Resource.Attribute.textAllCaps;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.textAppearanceLargePopupMenu = global::Juniper.Resource.Attribute.textAppearanceLargePopupMenu;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.textAppearanceListItem = global::Juniper.Resource.Attribute.textAppearanceListItem;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.textAppearanceListItemSecondary = global::Juniper.Resource.Attribute.textAppearanceListItemSecondary;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.textAppearanceListItemSmall = global::Juniper.Resource.Attribute.textAppearanceListItemSmall;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.textAppearancePopupMenuHeader = global::Juniper.Resource.Attribute.textAppearancePopupMenuHeader;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.textAppearanceSearchResultSubtitle = global::Juniper.Resource.Attribute.textAppearanceSearchResultSubtitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.textAppearanceSearchResultTitle = global::Juniper.Resource.Attribute.textAppearanceSearchResultTitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.textAppearanceSmallPopupMenu = global::Juniper.Resource.Attribute.textAppearanceSmallPopupMenu;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.textColorAlertDialogListItem = global::Juniper.Resource.Attribute.textColorAlertDialogListItem;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.textColorSearchUrl = global::Juniper.Resource.Attribute.textColorSearchUrl;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.theme = global::Juniper.Resource.Attribute.theme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.thickness = global::Juniper.Resource.Attribute.thickness;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.thumbTextPadding = global::Juniper.Resource.Attribute.thumbTextPadding;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.thumbTint = global::Juniper.Resource.Attribute.thumbTint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.thumbTintMode = global::Juniper.Resource.Attribute.thumbTintMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.tickMark = global::Juniper.Resource.Attribute.tickMark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.tickMarkTint = global::Juniper.Resource.Attribute.tickMarkTint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.tickMarkTintMode = global::Juniper.Resource.Attribute.tickMarkTintMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.tint = global::Juniper.Resource.Attribute.tint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.tintMode = global::Juniper.Resource.Attribute.tintMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.title = global::Juniper.Resource.Attribute.title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.titleMargin = global::Juniper.Resource.Attribute.titleMargin;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.titleMarginBottom = global::Juniper.Resource.Attribute.titleMarginBottom;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.titleMarginEnd = global::Juniper.Resource.Attribute.titleMarginEnd;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.titleMargins = global::Juniper.Resource.Attribute.titleMargins;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.titleMarginStart = global::Juniper.Resource.Attribute.titleMarginStart;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.titleMarginTop = global::Juniper.Resource.Attribute.titleMarginTop;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.titleTextAppearance = global::Juniper.Resource.Attribute.titleTextAppearance;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.titleTextColor = global::Juniper.Resource.Attribute.titleTextColor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.titleTextStyle = global::Juniper.Resource.Attribute.titleTextStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.toolbarNavigationButtonStyle = global::Juniper.Resource.Attribute.toolbarNavigationButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.toolbarStyle = global::Juniper.Resource.Attribute.toolbarStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.tooltipForegroundColor = global::Juniper.Resource.Attribute.tooltipForegroundColor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.tooltipFrameBackground = global::Juniper.Resource.Attribute.tooltipFrameBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.tooltipText = global::Juniper.Resource.Attribute.tooltipText;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.track = global::Juniper.Resource.Attribute.track;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.trackTint = global::Juniper.Resource.Attribute.trackTint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.trackTintMode = global::Juniper.Resource.Attribute.trackTintMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.ttcIndex = global::Juniper.Resource.Attribute.ttcIndex;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.viewInflaterClass = global::Juniper.Resource.Attribute.viewInflaterClass;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.voiceIcon = global::Juniper.Resource.Attribute.voiceIcon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.windowActionBar = global::Juniper.Resource.Attribute.windowActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.windowActionBarOverlay = global::Juniper.Resource.Attribute.windowActionBarOverlay;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.windowActionModeOverlay = global::Juniper.Resource.Attribute.windowActionModeOverlay;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.windowFixedHeightMajor = global::Juniper.Resource.Attribute.windowFixedHeightMajor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.windowFixedHeightMinor = global::Juniper.Resource.Attribute.windowFixedHeightMinor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.windowFixedWidthMajor = global::Juniper.Resource.Attribute.windowFixedWidthMajor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.windowFixedWidthMinor = global::Juniper.Resource.Attribute.windowFixedWidthMinor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.windowMinWidthMajor = global::Juniper.Resource.Attribute.windowMinWidthMajor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.windowMinWidthMinor = global::Juniper.Resource.Attribute.windowMinWidthMinor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Attribute.windowNoTitle = global::Juniper.Resource.Attribute.windowNoTitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Boolean.abc_action_bar_embed_tabs = global::Juniper.Resource.Boolean.abc_action_bar_embed_tabs;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Boolean.abc_allow_stacked_button_bar = global::Juniper.Resource.Boolean.abc_allow_stacked_button_bar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Boolean.abc_config_actionMenuItemAllCaps = global::Juniper.Resource.Boolean.abc_config_actionMenuItemAllCaps;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_background_cache_hint_selector_material_dark = global::Juniper.Resource.Color.abc_background_cache_hint_selector_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_background_cache_hint_selector_material_light = global::Juniper.Resource.Color.abc_background_cache_hint_selector_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_btn_colored_borderless_text_material = global::Juniper.Resource.Color.abc_btn_colored_borderless_text_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_btn_colored_text_material = global::Juniper.Resource.Color.abc_btn_colored_text_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_color_highlight_material = global::Juniper.Resource.Color.abc_color_highlight_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_hint_foreground_material_dark = global::Juniper.Resource.Color.abc_hint_foreground_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_hint_foreground_material_light = global::Juniper.Resource.Color.abc_hint_foreground_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_input_method_navigation_guard = global::Juniper.Resource.Color.abc_input_method_navigation_guard;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_primary_text_disable_only_material_dark = global::Juniper.Resource.Color.abc_primary_text_disable_only_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_primary_text_disable_only_material_light = global::Juniper.Resource.Color.abc_primary_text_disable_only_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_primary_text_material_dark = global::Juniper.Resource.Color.abc_primary_text_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_primary_text_material_light = global::Juniper.Resource.Color.abc_primary_text_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_search_url_text = global::Juniper.Resource.Color.abc_search_url_text;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_search_url_text_normal = global::Juniper.Resource.Color.abc_search_url_text_normal;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_search_url_text_pressed = global::Juniper.Resource.Color.abc_search_url_text_pressed;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_search_url_text_selected = global::Juniper.Resource.Color.abc_search_url_text_selected;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_secondary_text_material_dark = global::Juniper.Resource.Color.abc_secondary_text_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_secondary_text_material_light = global::Juniper.Resource.Color.abc_secondary_text_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_tint_btn_checkable = global::Juniper.Resource.Color.abc_tint_btn_checkable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_tint_default = global::Juniper.Resource.Color.abc_tint_default;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_tint_edittext = global::Juniper.Resource.Color.abc_tint_edittext;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_tint_seek_thumb = global::Juniper.Resource.Color.abc_tint_seek_thumb;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_tint_spinner = global::Juniper.Resource.Color.abc_tint_spinner;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.abc_tint_switch_track = global::Juniper.Resource.Color.abc_tint_switch_track;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.accent_material_dark = global::Juniper.Resource.Color.accent_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.accent_material_light = global::Juniper.Resource.Color.accent_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.background_floating_material_dark = global::Juniper.Resource.Color.background_floating_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.background_floating_material_light = global::Juniper.Resource.Color.background_floating_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.background_material_dark = global::Juniper.Resource.Color.background_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.background_material_light = global::Juniper.Resource.Color.background_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.bright_foreground_disabled_material_dark = global::Juniper.Resource.Color.bright_foreground_disabled_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.bright_foreground_disabled_material_light = global::Juniper.Resource.Color.bright_foreground_disabled_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.bright_foreground_inverse_material_dark = global::Juniper.Resource.Color.bright_foreground_inverse_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.bright_foreground_inverse_material_light = global::Juniper.Resource.Color.bright_foreground_inverse_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.bright_foreground_material_dark = global::Juniper.Resource.Color.bright_foreground_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.bright_foreground_material_light = global::Juniper.Resource.Color.bright_foreground_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.button_material_dark = global::Juniper.Resource.Color.button_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.button_material_light = global::Juniper.Resource.Color.button_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.dim_foreground_disabled_material_dark = global::Juniper.Resource.Color.dim_foreground_disabled_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.dim_foreground_disabled_material_light = global::Juniper.Resource.Color.dim_foreground_disabled_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.dim_foreground_material_dark = global::Juniper.Resource.Color.dim_foreground_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.dim_foreground_material_light = global::Juniper.Resource.Color.dim_foreground_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.error_color_material_dark = global::Juniper.Resource.Color.error_color_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.error_color_material_light = global::Juniper.Resource.Color.error_color_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.foreground_material_dark = global::Juniper.Resource.Color.foreground_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.foreground_material_light = global::Juniper.Resource.Color.foreground_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.highlighted_text_material_dark = global::Juniper.Resource.Color.highlighted_text_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.highlighted_text_material_light = global::Juniper.Resource.Color.highlighted_text_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.material_blue_grey_800 = global::Juniper.Resource.Color.material_blue_grey_800;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.material_blue_grey_900 = global::Juniper.Resource.Color.material_blue_grey_900;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.material_blue_grey_950 = global::Juniper.Resource.Color.material_blue_grey_950;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.material_deep_teal_200 = global::Juniper.Resource.Color.material_deep_teal_200;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.material_deep_teal_500 = global::Juniper.Resource.Color.material_deep_teal_500;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.material_grey_100 = global::Juniper.Resource.Color.material_grey_100;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.material_grey_300 = global::Juniper.Resource.Color.material_grey_300;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.material_grey_50 = global::Juniper.Resource.Color.material_grey_50;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.material_grey_600 = global::Juniper.Resource.Color.material_grey_600;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.material_grey_800 = global::Juniper.Resource.Color.material_grey_800;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.material_grey_850 = global::Juniper.Resource.Color.material_grey_850;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.material_grey_900 = global::Juniper.Resource.Color.material_grey_900;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.notification_action_color_filter = global::Juniper.Resource.Color.notification_action_color_filter;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.notification_icon_bg_color = global::Juniper.Resource.Color.notification_icon_bg_color;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.primary_dark_material_dark = global::Juniper.Resource.Color.primary_dark_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.primary_dark_material_light = global::Juniper.Resource.Color.primary_dark_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.primary_material_dark = global::Juniper.Resource.Color.primary_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.primary_material_light = global::Juniper.Resource.Color.primary_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.primary_text_default_material_dark = global::Juniper.Resource.Color.primary_text_default_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.primary_text_default_material_light = global::Juniper.Resource.Color.primary_text_default_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.primary_text_disabled_material_dark = global::Juniper.Resource.Color.primary_text_disabled_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.primary_text_disabled_material_light = global::Juniper.Resource.Color.primary_text_disabled_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.ripple_material_dark = global::Juniper.Resource.Color.ripple_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.ripple_material_light = global::Juniper.Resource.Color.ripple_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.secondary_text_default_material_dark = global::Juniper.Resource.Color.secondary_text_default_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.secondary_text_default_material_light = global::Juniper.Resource.Color.secondary_text_default_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.secondary_text_disabled_material_dark = global::Juniper.Resource.Color.secondary_text_disabled_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.secondary_text_disabled_material_light = global::Juniper.Resource.Color.secondary_text_disabled_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.switch_thumb_disabled_material_dark = global::Juniper.Resource.Color.switch_thumb_disabled_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.switch_thumb_disabled_material_light = global::Juniper.Resource.Color.switch_thumb_disabled_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.switch_thumb_material_dark = global::Juniper.Resource.Color.switch_thumb_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.switch_thumb_material_light = global::Juniper.Resource.Color.switch_thumb_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.switch_thumb_normal_material_dark = global::Juniper.Resource.Color.switch_thumb_normal_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.switch_thumb_normal_material_light = global::Juniper.Resource.Color.switch_thumb_normal_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.tooltip_background_dark = global::Juniper.Resource.Color.tooltip_background_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Color.tooltip_background_light = global::Juniper.Resource.Color.tooltip_background_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_action_bar_content_inset_material = global::Juniper.Resource.Dimension.abc_action_bar_content_inset_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_action_bar_content_inset_with_nav = global::Juniper.Resource.Dimension.abc_action_bar_content_inset_with_nav;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_action_bar_default_height_material = global::Juniper.Resource.Dimension.abc_action_bar_default_height_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_action_bar_default_padding_end_material = global::Juniper.Resource.Dimension.abc_action_bar_default_padding_end_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_action_bar_default_padding_start_material = global::Juniper.Resource.Dimension.abc_action_bar_default_padding_start_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_action_bar_elevation_material = global::Juniper.Resource.Dimension.abc_action_bar_elevation_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_action_bar_icon_vertical_padding_material = global::Juniper.Resource.Dimension.abc_action_bar_icon_vertical_padding_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_action_bar_overflow_padding_end_material = global::Juniper.Resource.Dimension.abc_action_bar_overflow_padding_end_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_action_bar_overflow_padding_start_material = global::Juniper.Resource.Dimension.abc_action_bar_overflow_padding_start_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_action_bar_stacked_max_height = global::Juniper.Resource.Dimension.abc_action_bar_stacked_max_height;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_action_bar_stacked_tab_max_width = global::Juniper.Resource.Dimension.abc_action_bar_stacked_tab_max_width;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_action_bar_subtitle_bottom_margin_material = global::Juniper.Resource.Dimension.abc_action_bar_subtitle_bottom_margin_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_action_bar_subtitle_top_margin_material = global::Juniper.Resource.Dimension.abc_action_bar_subtitle_top_margin_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_action_button_min_height_material = global::Juniper.Resource.Dimension.abc_action_button_min_height_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_action_button_min_width_material = global::Juniper.Resource.Dimension.abc_action_button_min_width_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_action_button_min_width_overflow_material = global::Juniper.Resource.Dimension.abc_action_button_min_width_overflow_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_alert_dialog_button_bar_height = global::Juniper.Resource.Dimension.abc_alert_dialog_button_bar_height;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_alert_dialog_button_dimen = global::Juniper.Resource.Dimension.abc_alert_dialog_button_dimen;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_button_inset_horizontal_material = global::Juniper.Resource.Dimension.abc_button_inset_horizontal_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_button_inset_vertical_material = global::Juniper.Resource.Dimension.abc_button_inset_vertical_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_button_padding_horizontal_material = global::Juniper.Resource.Dimension.abc_button_padding_horizontal_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_button_padding_vertical_material = global::Juniper.Resource.Dimension.abc_button_padding_vertical_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_cascading_menus_min_smallest_width = global::Juniper.Resource.Dimension.abc_cascading_menus_min_smallest_width;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_config_prefDialogWidth = global::Juniper.Resource.Dimension.abc_config_prefDialogWidth;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_control_corner_material = global::Juniper.Resource.Dimension.abc_control_corner_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_control_inset_material = global::Juniper.Resource.Dimension.abc_control_inset_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_control_padding_material = global::Juniper.Resource.Dimension.abc_control_padding_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_dialog_corner_radius_material = global::Juniper.Resource.Dimension.abc_dialog_corner_radius_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_dialog_fixed_height_major = global::Juniper.Resource.Dimension.abc_dialog_fixed_height_major;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_dialog_fixed_height_minor = global::Juniper.Resource.Dimension.abc_dialog_fixed_height_minor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_dialog_fixed_width_major = global::Juniper.Resource.Dimension.abc_dialog_fixed_width_major;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_dialog_fixed_width_minor = global::Juniper.Resource.Dimension.abc_dialog_fixed_width_minor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_dialog_list_padding_bottom_no_buttons = global::Juniper.Resource.Dimension.abc_dialog_list_padding_bottom_no_buttons;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_dialog_list_padding_top_no_title = global::Juniper.Resource.Dimension.abc_dialog_list_padding_top_no_title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_dialog_min_width_major = global::Juniper.Resource.Dimension.abc_dialog_min_width_major;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_dialog_min_width_minor = global::Juniper.Resource.Dimension.abc_dialog_min_width_minor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_dialog_padding_material = global::Juniper.Resource.Dimension.abc_dialog_padding_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_dialog_padding_top_material = global::Juniper.Resource.Dimension.abc_dialog_padding_top_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_dialog_title_divider_material = global::Juniper.Resource.Dimension.abc_dialog_title_divider_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_disabled_alpha_material_dark = global::Juniper.Resource.Dimension.abc_disabled_alpha_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_disabled_alpha_material_light = global::Juniper.Resource.Dimension.abc_disabled_alpha_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_dropdownitem_icon_width = global::Juniper.Resource.Dimension.abc_dropdownitem_icon_width;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_dropdownitem_text_padding_left = global::Juniper.Resource.Dimension.abc_dropdownitem_text_padding_left;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_dropdownitem_text_padding_right = global::Juniper.Resource.Dimension.abc_dropdownitem_text_padding_right;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_edit_text_inset_bottom_material = global::Juniper.Resource.Dimension.abc_edit_text_inset_bottom_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_edit_text_inset_horizontal_material = global::Juniper.Resource.Dimension.abc_edit_text_inset_horizontal_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_edit_text_inset_top_material = global::Juniper.Resource.Dimension.abc_edit_text_inset_top_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_floating_window_z = global::Juniper.Resource.Dimension.abc_floating_window_z;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_list_item_padding_horizontal_material = global::Juniper.Resource.Dimension.abc_list_item_padding_horizontal_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_panel_menu_list_width = global::Juniper.Resource.Dimension.abc_panel_menu_list_width;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_progress_bar_height_material = global::Juniper.Resource.Dimension.abc_progress_bar_height_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_search_view_preferred_height = global::Juniper.Resource.Dimension.abc_search_view_preferred_height;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_search_view_preferred_width = global::Juniper.Resource.Dimension.abc_search_view_preferred_width;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_seekbar_track_background_height_material = global::Juniper.Resource.Dimension.abc_seekbar_track_background_height_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_seekbar_track_progress_height_material = global::Juniper.Resource.Dimension.abc_seekbar_track_progress_height_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_select_dialog_padding_start_material = global::Juniper.Resource.Dimension.abc_select_dialog_padding_start_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_switch_padding = global::Juniper.Resource.Dimension.abc_switch_padding;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_text_size_body_1_material = global::Juniper.Resource.Dimension.abc_text_size_body_1_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_text_size_body_2_material = global::Juniper.Resource.Dimension.abc_text_size_body_2_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_text_size_button_material = global::Juniper.Resource.Dimension.abc_text_size_button_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_text_size_caption_material = global::Juniper.Resource.Dimension.abc_text_size_caption_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_text_size_display_1_material = global::Juniper.Resource.Dimension.abc_text_size_display_1_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_text_size_display_2_material = global::Juniper.Resource.Dimension.abc_text_size_display_2_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_text_size_display_3_material = global::Juniper.Resource.Dimension.abc_text_size_display_3_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_text_size_display_4_material = global::Juniper.Resource.Dimension.abc_text_size_display_4_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_text_size_headline_material = global::Juniper.Resource.Dimension.abc_text_size_headline_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_text_size_large_material = global::Juniper.Resource.Dimension.abc_text_size_large_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_text_size_medium_material = global::Juniper.Resource.Dimension.abc_text_size_medium_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_text_size_menu_header_material = global::Juniper.Resource.Dimension.abc_text_size_menu_header_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_text_size_menu_material = global::Juniper.Resource.Dimension.abc_text_size_menu_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_text_size_small_material = global::Juniper.Resource.Dimension.abc_text_size_small_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_text_size_subhead_material = global::Juniper.Resource.Dimension.abc_text_size_subhead_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_text_size_subtitle_material_toolbar = global::Juniper.Resource.Dimension.abc_text_size_subtitle_material_toolbar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_text_size_title_material = global::Juniper.Resource.Dimension.abc_text_size_title_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.abc_text_size_title_material_toolbar = global::Juniper.Resource.Dimension.abc_text_size_title_material_toolbar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.compat_button_inset_horizontal_material = global::Juniper.Resource.Dimension.compat_button_inset_horizontal_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.compat_button_inset_vertical_material = global::Juniper.Resource.Dimension.compat_button_inset_vertical_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.compat_button_padding_horizontal_material = global::Juniper.Resource.Dimension.compat_button_padding_horizontal_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.compat_button_padding_vertical_material = global::Juniper.Resource.Dimension.compat_button_padding_vertical_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.compat_control_corner_material = global::Juniper.Resource.Dimension.compat_control_corner_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.compat_notification_large_icon_max_height = global::Juniper.Resource.Dimension.compat_notification_large_icon_max_height;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.compat_notification_large_icon_max_width = global::Juniper.Resource.Dimension.compat_notification_large_icon_max_width;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.disabled_alpha_material_dark = global::Juniper.Resource.Dimension.disabled_alpha_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.disabled_alpha_material_light = global::Juniper.Resource.Dimension.disabled_alpha_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.highlight_alpha_material_colored = global::Juniper.Resource.Dimension.highlight_alpha_material_colored;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.highlight_alpha_material_dark = global::Juniper.Resource.Dimension.highlight_alpha_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.highlight_alpha_material_light = global::Juniper.Resource.Dimension.highlight_alpha_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.hint_alpha_material_dark = global::Juniper.Resource.Dimension.hint_alpha_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.hint_alpha_material_light = global::Juniper.Resource.Dimension.hint_alpha_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.hint_pressed_alpha_material_dark = global::Juniper.Resource.Dimension.hint_pressed_alpha_material_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.hint_pressed_alpha_material_light = global::Juniper.Resource.Dimension.hint_pressed_alpha_material_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.notification_action_icon_size = global::Juniper.Resource.Dimension.notification_action_icon_size;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.notification_action_text_size = global::Juniper.Resource.Dimension.notification_action_text_size;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.notification_big_circle_margin = global::Juniper.Resource.Dimension.notification_big_circle_margin;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.notification_content_margin_start = global::Juniper.Resource.Dimension.notification_content_margin_start;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.notification_large_icon_height = global::Juniper.Resource.Dimension.notification_large_icon_height;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.notification_large_icon_width = global::Juniper.Resource.Dimension.notification_large_icon_width;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.notification_main_column_padding_top = global::Juniper.Resource.Dimension.notification_main_column_padding_top;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.notification_media_narrow_margin = global::Juniper.Resource.Dimension.notification_media_narrow_margin;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.notification_right_icon_size = global::Juniper.Resource.Dimension.notification_right_icon_size;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.notification_right_side_padding_top = global::Juniper.Resource.Dimension.notification_right_side_padding_top;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.notification_small_icon_background_padding = global::Juniper.Resource.Dimension.notification_small_icon_background_padding;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.notification_small_icon_size_as_large = global::Juniper.Resource.Dimension.notification_small_icon_size_as_large;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.notification_subtext_size = global::Juniper.Resource.Dimension.notification_subtext_size;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.notification_top_pad = global::Juniper.Resource.Dimension.notification_top_pad;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.notification_top_pad_large_text = global::Juniper.Resource.Dimension.notification_top_pad_large_text;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.tooltip_corner_radius = global::Juniper.Resource.Dimension.tooltip_corner_radius;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.tooltip_horizontal_padding = global::Juniper.Resource.Dimension.tooltip_horizontal_padding;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.tooltip_margin = global::Juniper.Resource.Dimension.tooltip_margin;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.tooltip_precise_anchor_extra_offset = global::Juniper.Resource.Dimension.tooltip_precise_anchor_extra_offset;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.tooltip_precise_anchor_threshold = global::Juniper.Resource.Dimension.tooltip_precise_anchor_threshold;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.tooltip_vertical_padding = global::Juniper.Resource.Dimension.tooltip_vertical_padding;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.tooltip_y_offset_non_touch = global::Juniper.Resource.Dimension.tooltip_y_offset_non_touch;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Dimension.tooltip_y_offset_touch = global::Juniper.Resource.Dimension.tooltip_y_offset_touch;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ab_share_pack_mtrl_alpha = global::Juniper.Resource.Drawable.abc_ab_share_pack_mtrl_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_action_bar_item_background_material = global::Juniper.Resource.Drawable.abc_action_bar_item_background_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_btn_borderless_material = global::Juniper.Resource.Drawable.abc_btn_borderless_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_btn_check_material = global::Juniper.Resource.Drawable.abc_btn_check_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_btn_check_to_on_mtrl_000 = global::Juniper.Resource.Drawable.abc_btn_check_to_on_mtrl_000;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_btn_check_to_on_mtrl_015 = global::Juniper.Resource.Drawable.abc_btn_check_to_on_mtrl_015;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_btn_colored_material = global::Juniper.Resource.Drawable.abc_btn_colored_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_btn_default_mtrl_shape = global::Juniper.Resource.Drawable.abc_btn_default_mtrl_shape;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_btn_radio_material = global::Juniper.Resource.Drawable.abc_btn_radio_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_btn_radio_to_on_mtrl_000 = global::Juniper.Resource.Drawable.abc_btn_radio_to_on_mtrl_000;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_btn_radio_to_on_mtrl_015 = global::Juniper.Resource.Drawable.abc_btn_radio_to_on_mtrl_015;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_btn_switch_to_on_mtrl_00001 = global::Juniper.Resource.Drawable.abc_btn_switch_to_on_mtrl_00001;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_btn_switch_to_on_mtrl_00012 = global::Juniper.Resource.Drawable.abc_btn_switch_to_on_mtrl_00012;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_cab_background_internal_bg = global::Juniper.Resource.Drawable.abc_cab_background_internal_bg;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_cab_background_top_material = global::Juniper.Resource.Drawable.abc_cab_background_top_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_cab_background_top_mtrl_alpha = global::Juniper.Resource.Drawable.abc_cab_background_top_mtrl_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_control_background_material = global::Juniper.Resource.Drawable.abc_control_background_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_dialog_material_background = global::Juniper.Resource.Drawable.abc_dialog_material_background;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_edit_text_material = global::Juniper.Resource.Drawable.abc_edit_text_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_ab_back_material = global::Juniper.Resource.Drawable.abc_ic_ab_back_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_arrow_drop_right_black_24dp = global::Juniper.Resource.Drawable.abc_ic_arrow_drop_right_black_24dp;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_clear_material = global::Juniper.Resource.Drawable.abc_ic_clear_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_commit_search_api_mtrl_alpha = global::Juniper.Resource.Drawable.abc_ic_commit_search_api_mtrl_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_go_search_api_material = global::Juniper.Resource.Drawable.abc_ic_go_search_api_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha = global::Juniper.Resource.Drawable.abc_ic_menu_copy_mtrl_am_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_menu_cut_mtrl_alpha = global::Juniper.Resource.Drawable.abc_ic_menu_cut_mtrl_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_menu_overflow_material = global::Juniper.Resource.Drawable.abc_ic_menu_overflow_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_menu_paste_mtrl_am_alpha = global::Juniper.Resource.Drawable.abc_ic_menu_paste_mtrl_am_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_menu_selectall_mtrl_alpha = global::Juniper.Resource.Drawable.abc_ic_menu_selectall_mtrl_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_menu_share_mtrl_alpha = global::Juniper.Resource.Drawable.abc_ic_menu_share_mtrl_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_search_api_material = global::Juniper.Resource.Drawable.abc_ic_search_api_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_star_black_16dp = global::Juniper.Resource.Drawable.abc_ic_star_black_16dp;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_star_black_36dp = global::Juniper.Resource.Drawable.abc_ic_star_black_36dp;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_star_black_48dp = global::Juniper.Resource.Drawable.abc_ic_star_black_48dp;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_star_half_black_16dp = global::Juniper.Resource.Drawable.abc_ic_star_half_black_16dp;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_star_half_black_36dp = global::Juniper.Resource.Drawable.abc_ic_star_half_black_36dp;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_star_half_black_48dp = global::Juniper.Resource.Drawable.abc_ic_star_half_black_48dp;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ic_voice_search_api_material = global::Juniper.Resource.Drawable.abc_ic_voice_search_api_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_item_background_holo_dark = global::Juniper.Resource.Drawable.abc_item_background_holo_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_item_background_holo_light = global::Juniper.Resource.Drawable.abc_item_background_holo_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_list_divider_material = global::Juniper.Resource.Drawable.abc_list_divider_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_list_divider_mtrl_alpha = global::Juniper.Resource.Drawable.abc_list_divider_mtrl_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_list_focused_holo = global::Juniper.Resource.Drawable.abc_list_focused_holo;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_list_longpressed_holo = global::Juniper.Resource.Drawable.abc_list_longpressed_holo;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_list_pressed_holo_dark = global::Juniper.Resource.Drawable.abc_list_pressed_holo_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_list_pressed_holo_light = global::Juniper.Resource.Drawable.abc_list_pressed_holo_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_list_selector_background_transition_holo_dark = global::Juniper.Resource.Drawable.abc_list_selector_background_transition_holo_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_list_selector_background_transition_holo_light = global::Juniper.Resource.Drawable.abc_list_selector_background_transition_holo_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_list_selector_disabled_holo_dark = global::Juniper.Resource.Drawable.abc_list_selector_disabled_holo_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_list_selector_disabled_holo_light = global::Juniper.Resource.Drawable.abc_list_selector_disabled_holo_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_list_selector_holo_dark = global::Juniper.Resource.Drawable.abc_list_selector_holo_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_list_selector_holo_light = global::Juniper.Resource.Drawable.abc_list_selector_holo_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_menu_hardkey_panel_mtrl_mult = global::Juniper.Resource.Drawable.abc_menu_hardkey_panel_mtrl_mult;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_popup_background_mtrl_mult = global::Juniper.Resource.Drawable.abc_popup_background_mtrl_mult;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ratingbar_indicator_material = global::Juniper.Resource.Drawable.abc_ratingbar_indicator_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ratingbar_material = global::Juniper.Resource.Drawable.abc_ratingbar_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_ratingbar_small_material = global::Juniper.Resource.Drawable.abc_ratingbar_small_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_scrubber_control_off_mtrl_alpha = global::Juniper.Resource.Drawable.abc_scrubber_control_off_mtrl_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_000 = global::Juniper.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_000;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_005 = global::Juniper.Resource.Drawable.abc_scrubber_control_to_pressed_mtrl_005;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_scrubber_primary_mtrl_alpha = global::Juniper.Resource.Drawable.abc_scrubber_primary_mtrl_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_scrubber_track_mtrl_alpha = global::Juniper.Resource.Drawable.abc_scrubber_track_mtrl_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_seekbar_thumb_material = global::Juniper.Resource.Drawable.abc_seekbar_thumb_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_seekbar_tick_mark_material = global::Juniper.Resource.Drawable.abc_seekbar_tick_mark_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_seekbar_track_material = global::Juniper.Resource.Drawable.abc_seekbar_track_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_spinner_mtrl_am_alpha = global::Juniper.Resource.Drawable.abc_spinner_mtrl_am_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_spinner_textfield_background_material = global::Juniper.Resource.Drawable.abc_spinner_textfield_background_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_switch_thumb_material = global::Juniper.Resource.Drawable.abc_switch_thumb_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_switch_track_mtrl_alpha = global::Juniper.Resource.Drawable.abc_switch_track_mtrl_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_tab_indicator_material = global::Juniper.Resource.Drawable.abc_tab_indicator_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_tab_indicator_mtrl_alpha = global::Juniper.Resource.Drawable.abc_tab_indicator_mtrl_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_textfield_activated_mtrl_alpha = global::Juniper.Resource.Drawable.abc_textfield_activated_mtrl_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_textfield_default_mtrl_alpha = global::Juniper.Resource.Drawable.abc_textfield_default_mtrl_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_textfield_search_activated_mtrl_alpha = global::Juniper.Resource.Drawable.abc_textfield_search_activated_mtrl_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_textfield_search_default_mtrl_alpha = global::Juniper.Resource.Drawable.abc_textfield_search_default_mtrl_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_textfield_search_material = global::Juniper.Resource.Drawable.abc_textfield_search_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_text_cursor_material = global::Juniper.Resource.Drawable.abc_text_cursor_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_text_select_handle_left_mtrl_dark = global::Juniper.Resource.Drawable.abc_text_select_handle_left_mtrl_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_text_select_handle_left_mtrl_light = global::Juniper.Resource.Drawable.abc_text_select_handle_left_mtrl_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_text_select_handle_middle_mtrl_dark = global::Juniper.Resource.Drawable.abc_text_select_handle_middle_mtrl_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_text_select_handle_middle_mtrl_light = global::Juniper.Resource.Drawable.abc_text_select_handle_middle_mtrl_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_text_select_handle_right_mtrl_dark = global::Juniper.Resource.Drawable.abc_text_select_handle_right_mtrl_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_text_select_handle_right_mtrl_light = global::Juniper.Resource.Drawable.abc_text_select_handle_right_mtrl_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.abc_vector_test = global::Juniper.Resource.Drawable.abc_vector_test;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.notification_action_background = global::Juniper.Resource.Drawable.notification_action_background;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.notification_bg = global::Juniper.Resource.Drawable.notification_bg;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.notification_bg_low = global::Juniper.Resource.Drawable.notification_bg_low;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.notification_bg_low_normal = global::Juniper.Resource.Drawable.notification_bg_low_normal;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.notification_bg_low_pressed = global::Juniper.Resource.Drawable.notification_bg_low_pressed;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.notification_bg_normal = global::Juniper.Resource.Drawable.notification_bg_normal;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.notification_bg_normal_pressed = global::Juniper.Resource.Drawable.notification_bg_normal_pressed;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.notification_icon_background = global::Juniper.Resource.Drawable.notification_icon_background;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.notification_template_icon_bg = global::Juniper.Resource.Drawable.notification_template_icon_bg;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.notification_template_icon_low_bg = global::Juniper.Resource.Drawable.notification_template_icon_low_bg;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.notification_tile_bg = global::Juniper.Resource.Drawable.notification_tile_bg;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.notify_panel_notification_icon_bg = global::Juniper.Resource.Drawable.notify_panel_notification_icon_bg;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.tooltip_frame_dark = global::Juniper.Resource.Drawable.tooltip_frame_dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Drawable.tooltip_frame_light = global::Juniper.Resource.Drawable.tooltip_frame_light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.actions = global::Juniper.Resource.Id.actions;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.action_bar = global::Juniper.Resource.Id.action_bar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.action_bar_activity_content = global::Juniper.Resource.Id.action_bar_activity_content;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.action_bar_container = global::Juniper.Resource.Id.action_bar_container;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.action_bar_root = global::Juniper.Resource.Id.action_bar_root;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.action_bar_spinner = global::Juniper.Resource.Id.action_bar_spinner;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.action_bar_subtitle = global::Juniper.Resource.Id.action_bar_subtitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.action_bar_title = global::Juniper.Resource.Id.action_bar_title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.action_container = global::Juniper.Resource.Id.action_container;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.action_context_bar = global::Juniper.Resource.Id.action_context_bar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.action_divider = global::Juniper.Resource.Id.action_divider;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.action_image = global::Juniper.Resource.Id.action_image;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.action_menu_divider = global::Juniper.Resource.Id.action_menu_divider;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.action_menu_presenter = global::Juniper.Resource.Id.action_menu_presenter;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.action_mode_bar = global::Juniper.Resource.Id.action_mode_bar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.action_mode_bar_stub = global::Juniper.Resource.Id.action_mode_bar_stub;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.action_mode_close_button = global::Juniper.Resource.Id.action_mode_close_button;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.action_text = global::Juniper.Resource.Id.action_text;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.activity_chooser_view_content = global::Juniper.Resource.Id.activity_chooser_view_content;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.add = global::Juniper.Resource.Id.add;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.alertTitle = global::Juniper.Resource.Id.alertTitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.all = global::Juniper.Resource.Id.all;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.ALT = global::Juniper.Resource.Id.ALT;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.always = global::Juniper.Resource.Id.always;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.async = global::Juniper.Resource.Id.async;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.beginning = global::Juniper.Resource.Id.beginning;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.blocking = global::Juniper.Resource.Id.blocking;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.bottom = global::Juniper.Resource.Id.bottom;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.buttonPanel = global::Juniper.Resource.Id.buttonPanel;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.center = global::Juniper.Resource.Id.center;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.center_horizontal = global::Juniper.Resource.Id.center_horizontal;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.center_vertical = global::Juniper.Resource.Id.center_vertical;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.checkbox = global::Juniper.Resource.Id.checkbox;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.chronometer = global::Juniper.Resource.Id.chronometer;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.clip_horizontal = global::Juniper.Resource.Id.clip_horizontal;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.clip_vertical = global::Juniper.Resource.Id.clip_vertical;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.collapseActionView = global::Juniper.Resource.Id.collapseActionView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.content = global::Juniper.Resource.Id.content;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.contentPanel = global::Juniper.Resource.Id.contentPanel;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.CTRL = global::Juniper.Resource.Id.CTRL;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.custom = global::Juniper.Resource.Id.custom;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.customPanel = global::Juniper.Resource.Id.customPanel;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.decor_content_parent = global::Juniper.Resource.Id.decor_content_parent;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.default_activity_button = global::Juniper.Resource.Id.default_activity_button;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.disableHome = global::Juniper.Resource.Id.disableHome;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.edit_query = global::Juniper.Resource.Id.edit_query;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.end = global::Juniper.Resource.Id.end;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.expanded_menu = global::Juniper.Resource.Id.expanded_menu;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.expand_activities_button = global::Juniper.Resource.Id.expand_activities_button;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.fill = global::Juniper.Resource.Id.fill;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.fill_horizontal = global::Juniper.Resource.Id.fill_horizontal;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.fill_vertical = global::Juniper.Resource.Id.fill_vertical;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.forever = global::Juniper.Resource.Id.forever;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.FUNCTION = global::Juniper.Resource.Id.FUNCTION;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.group_divider = global::Juniper.Resource.Id.group_divider;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.home = global::Juniper.Resource.Id.home;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.homeAsUp = global::Juniper.Resource.Id.homeAsUp;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.icon = global::Juniper.Resource.Id.icon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.icon_group = global::Juniper.Resource.Id.icon_group;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.ifRoom = global::Juniper.Resource.Id.ifRoom;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.image = global::Juniper.Resource.Id.image;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.info = global::Juniper.Resource.Id.info;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.italic = global::Juniper.Resource.Id.italic;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.left = global::Juniper.Resource.Id.left;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.line1 = global::Juniper.Resource.Id.line1;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.line3 = global::Juniper.Resource.Id.line3;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.listMode = global::Juniper.Resource.Id.listMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.list_item = global::Juniper.Resource.Id.list_item;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.message = global::Juniper.Resource.Id.message;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.META = global::Juniper.Resource.Id.META;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.middle = global::Juniper.Resource.Id.middle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.multiply = global::Juniper.Resource.Id.multiply;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.never = global::Juniper.Resource.Id.never;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.none = global::Juniper.Resource.Id.none;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.normal = global::Juniper.Resource.Id.normal;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.notification_background = global::Juniper.Resource.Id.notification_background;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.notification_main_column = global::Juniper.Resource.Id.notification_main_column;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.notification_main_column_container = global::Juniper.Resource.Id.notification_main_column_container;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.parentPanel = global::Juniper.Resource.Id.parentPanel;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.progress_circular = global::Juniper.Resource.Id.progress_circular;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.progress_horizontal = global::Juniper.Resource.Id.progress_horizontal;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.radio = global::Juniper.Resource.Id.radio;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.right = global::Juniper.Resource.Id.right;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.right_icon = global::Juniper.Resource.Id.right_icon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.right_side = global::Juniper.Resource.Id.right_side;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.screen = global::Juniper.Resource.Id.screen;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.scrollIndicatorDown = global::Juniper.Resource.Id.scrollIndicatorDown;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.scrollIndicatorUp = global::Juniper.Resource.Id.scrollIndicatorUp;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.scrollView = global::Juniper.Resource.Id.scrollView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.search_badge = global::Juniper.Resource.Id.search_badge;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.search_bar = global::Juniper.Resource.Id.search_bar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.search_button = global::Juniper.Resource.Id.search_button;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.search_close_btn = global::Juniper.Resource.Id.search_close_btn;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.search_edit_frame = global::Juniper.Resource.Id.search_edit_frame;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.search_go_btn = global::Juniper.Resource.Id.search_go_btn;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.search_mag_icon = global::Juniper.Resource.Id.search_mag_icon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.search_plate = global::Juniper.Resource.Id.search_plate;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.search_src_text = global::Juniper.Resource.Id.search_src_text;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.search_voice_btn = global::Juniper.Resource.Id.search_voice_btn;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.select_dialog_listview = global::Juniper.Resource.Id.select_dialog_listview;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.SHIFT = global::Juniper.Resource.Id.SHIFT;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.shortcut = global::Juniper.Resource.Id.shortcut;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.showCustom = global::Juniper.Resource.Id.showCustom;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.showHome = global::Juniper.Resource.Id.showHome;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.showTitle = global::Juniper.Resource.Id.showTitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.spacer = global::Juniper.Resource.Id.spacer;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.split_action_bar = global::Juniper.Resource.Id.split_action_bar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.src_atop = global::Juniper.Resource.Id.src_atop;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.src_in = global::Juniper.Resource.Id.src_in;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.src_over = global::Juniper.Resource.Id.src_over;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.start = global::Juniper.Resource.Id.start;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.submenuarrow = global::Juniper.Resource.Id.submenuarrow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.submit_area = global::Juniper.Resource.Id.submit_area;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.SYM = global::Juniper.Resource.Id.SYM;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.tabMode = global::Juniper.Resource.Id.tabMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.tag_transition_group = global::Juniper.Resource.Id.tag_transition_group;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.tag_unhandled_key_event_manager = global::Juniper.Resource.Id.tag_unhandled_key_event_manager;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.tag_unhandled_key_listeners = global::Juniper.Resource.Id.tag_unhandled_key_listeners;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.text = global::Juniper.Resource.Id.text;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.text2 = global::Juniper.Resource.Id.text2;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.textSpacerNoButtons = global::Juniper.Resource.Id.textSpacerNoButtons;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.textSpacerNoTitle = global::Juniper.Resource.Id.textSpacerNoTitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.time = global::Juniper.Resource.Id.time;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.title = global::Juniper.Resource.Id.title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.titleDividerNoCustom = global::Juniper.Resource.Id.titleDividerNoCustom;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.title_template = global::Juniper.Resource.Id.title_template;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.top = global::Juniper.Resource.Id.top;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.topPanel = global::Juniper.Resource.Id.topPanel;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.uniform = global::Juniper.Resource.Id.uniform;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.up = global::Juniper.Resource.Id.up;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.useLogo = global::Juniper.Resource.Id.useLogo;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.withText = global::Juniper.Resource.Id.withText;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Id.wrap_content = global::Juniper.Resource.Id.wrap_content;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Integer.abc_config_activityDefaultDur = global::Juniper.Resource.Integer.abc_config_activityDefaultDur;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Integer.abc_config_activityShortDur = global::Juniper.Resource.Integer.abc_config_activityShortDur;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Integer.cancel_button_image_alpha = global::Juniper.Resource.Integer.cancel_button_image_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Integer.config_tooltipAnimTime = global::Juniper.Resource.Integer.config_tooltipAnimTime;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Integer.status_bar_notification_info_maxnum = global::Juniper.Resource.Integer.status_bar_notification_info_maxnum;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_action_bar_title_item = global::Juniper.Resource.Layout.abc_action_bar_title_item;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_action_bar_up_container = global::Juniper.Resource.Layout.abc_action_bar_up_container;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_action_menu_item_layout = global::Juniper.Resource.Layout.abc_action_menu_item_layout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_action_menu_layout = global::Juniper.Resource.Layout.abc_action_menu_layout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_action_mode_bar = global::Juniper.Resource.Layout.abc_action_mode_bar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_action_mode_close_item_material = global::Juniper.Resource.Layout.abc_action_mode_close_item_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_activity_chooser_view = global::Juniper.Resource.Layout.abc_activity_chooser_view;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_activity_chooser_view_list_item = global::Juniper.Resource.Layout.abc_activity_chooser_view_list_item;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_alert_dialog_button_bar_material = global::Juniper.Resource.Layout.abc_alert_dialog_button_bar_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_alert_dialog_material = global::Juniper.Resource.Layout.abc_alert_dialog_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_alert_dialog_title_material = global::Juniper.Resource.Layout.abc_alert_dialog_title_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_cascading_menu_item_layout = global::Juniper.Resource.Layout.abc_cascading_menu_item_layout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_dialog_title_material = global::Juniper.Resource.Layout.abc_dialog_title_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_expanded_menu_layout = global::Juniper.Resource.Layout.abc_expanded_menu_layout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_list_menu_item_checkbox = global::Juniper.Resource.Layout.abc_list_menu_item_checkbox;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_list_menu_item_icon = global::Juniper.Resource.Layout.abc_list_menu_item_icon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_list_menu_item_layout = global::Juniper.Resource.Layout.abc_list_menu_item_layout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_list_menu_item_radio = global::Juniper.Resource.Layout.abc_list_menu_item_radio;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_popup_menu_header_item_layout = global::Juniper.Resource.Layout.abc_popup_menu_header_item_layout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_popup_menu_item_layout = global::Juniper.Resource.Layout.abc_popup_menu_item_layout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_screen_content_include = global::Juniper.Resource.Layout.abc_screen_content_include;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_screen_simple = global::Juniper.Resource.Layout.abc_screen_simple;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_screen_simple_overlay_action_mode = global::Juniper.Resource.Layout.abc_screen_simple_overlay_action_mode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_screen_toolbar = global::Juniper.Resource.Layout.abc_screen_toolbar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_search_dropdown_item_icons_2line = global::Juniper.Resource.Layout.abc_search_dropdown_item_icons_2line;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_search_view = global::Juniper.Resource.Layout.abc_search_view;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_select_dialog_material = global::Juniper.Resource.Layout.abc_select_dialog_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.abc_tooltip = global::Juniper.Resource.Layout.abc_tooltip;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.notification_action = global::Juniper.Resource.Layout.notification_action;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.notification_action_tombstone = global::Juniper.Resource.Layout.notification_action_tombstone;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.notification_template_custom_big = global::Juniper.Resource.Layout.notification_template_custom_big;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.notification_template_icon_group = global::Juniper.Resource.Layout.notification_template_icon_group;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.notification_template_part_chronometer = global::Juniper.Resource.Layout.notification_template_part_chronometer;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.notification_template_part_time = global::Juniper.Resource.Layout.notification_template_part_time;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.select_dialog_item_material = global::Juniper.Resource.Layout.select_dialog_item_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.select_dialog_multichoice_material = global::Juniper.Resource.Layout.select_dialog_multichoice_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.select_dialog_singlechoice_material = global::Juniper.Resource.Layout.select_dialog_singlechoice_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Layout.support_simple_spinner_dropdown_item = global::Juniper.Resource.Layout.support_simple_spinner_dropdown_item;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_action_bar_home_description = global::Juniper.Resource.String.abc_action_bar_home_description;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_action_bar_up_description = global::Juniper.Resource.String.abc_action_bar_up_description;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_action_menu_overflow_description = global::Juniper.Resource.String.abc_action_menu_overflow_description;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_action_mode_done = global::Juniper.Resource.String.abc_action_mode_done;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_activitychooserview_choose_application = global::Juniper.Resource.String.abc_activitychooserview_choose_application;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_activity_chooser_view_see_all = global::Juniper.Resource.String.abc_activity_chooser_view_see_all;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_capital_off = global::Juniper.Resource.String.abc_capital_off;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_capital_on = global::Juniper.Resource.String.abc_capital_on;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_font_family_body_1_material = global::Juniper.Resource.String.abc_font_family_body_1_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_font_family_body_2_material = global::Juniper.Resource.String.abc_font_family_body_2_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_font_family_button_material = global::Juniper.Resource.String.abc_font_family_button_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_font_family_caption_material = global::Juniper.Resource.String.abc_font_family_caption_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_font_family_display_1_material = global::Juniper.Resource.String.abc_font_family_display_1_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_font_family_display_2_material = global::Juniper.Resource.String.abc_font_family_display_2_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_font_family_display_3_material = global::Juniper.Resource.String.abc_font_family_display_3_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_font_family_display_4_material = global::Juniper.Resource.String.abc_font_family_display_4_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_font_family_headline_material = global::Juniper.Resource.String.abc_font_family_headline_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_font_family_menu_material = global::Juniper.Resource.String.abc_font_family_menu_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_font_family_subhead_material = global::Juniper.Resource.String.abc_font_family_subhead_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_font_family_title_material = global::Juniper.Resource.String.abc_font_family_title_material;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_menu_alt_shortcut_label = global::Juniper.Resource.String.abc_menu_alt_shortcut_label;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_menu_ctrl_shortcut_label = global::Juniper.Resource.String.abc_menu_ctrl_shortcut_label;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_menu_delete_shortcut_label = global::Juniper.Resource.String.abc_menu_delete_shortcut_label;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_menu_enter_shortcut_label = global::Juniper.Resource.String.abc_menu_enter_shortcut_label;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_menu_function_shortcut_label = global::Juniper.Resource.String.abc_menu_function_shortcut_label;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_menu_meta_shortcut_label = global::Juniper.Resource.String.abc_menu_meta_shortcut_label;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_menu_shift_shortcut_label = global::Juniper.Resource.String.abc_menu_shift_shortcut_label;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_menu_space_shortcut_label = global::Juniper.Resource.String.abc_menu_space_shortcut_label;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_menu_sym_shortcut_label = global::Juniper.Resource.String.abc_menu_sym_shortcut_label;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_prepend_shortcut_label = global::Juniper.Resource.String.abc_prepend_shortcut_label;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_searchview_description_clear = global::Juniper.Resource.String.abc_searchview_description_clear;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_searchview_description_query = global::Juniper.Resource.String.abc_searchview_description_query;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_searchview_description_search = global::Juniper.Resource.String.abc_searchview_description_search;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_searchview_description_submit = global::Juniper.Resource.String.abc_searchview_description_submit;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_searchview_description_voice = global::Juniper.Resource.String.abc_searchview_description_voice;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_search_hint = global::Juniper.Resource.String.abc_search_hint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_shareactionprovider_share_with = global::Juniper.Resource.String.abc_shareactionprovider_share_with;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_shareactionprovider_share_with_application = global::Juniper.Resource.String.abc_shareactionprovider_share_with_application;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.abc_toolbar_collapse_description = global::Juniper.Resource.String.abc_toolbar_collapse_description;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.app_name = global::Juniper.Resource.String.app_name;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.hello = global::Juniper.Resource.String.hello;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.search_menu_title = global::Juniper.Resource.String.search_menu_title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.String.status_bar_notification_info_overflow = global::Juniper.Resource.String.status_bar_notification_info_overflow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.AlertDialog_AppCompat = global::Juniper.Resource.Style.AlertDialog_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.AlertDialog_AppCompat_Light = global::Juniper.Resource.Style.AlertDialog_AppCompat_Light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Animation_AppCompat_Dialog = global::Juniper.Resource.Style.Animation_AppCompat_Dialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Animation_AppCompat_DropDownUp = global::Juniper.Resource.Style.Animation_AppCompat_DropDownUp;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Animation_AppCompat_Tooltip = global::Juniper.Resource.Style.Animation_AppCompat_Tooltip;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_AlertDialog_AppCompat = global::Juniper.Resource.Style.Base_AlertDialog_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_AlertDialog_AppCompat_Light = global::Juniper.Resource.Style.Base_AlertDialog_AppCompat_Light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Animation_AppCompat_Dialog = global::Juniper.Resource.Style.Base_Animation_AppCompat_Dialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Animation_AppCompat_DropDownUp = global::Juniper.Resource.Style.Base_Animation_AppCompat_DropDownUp;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Animation_AppCompat_Tooltip = global::Juniper.Resource.Style.Base_Animation_AppCompat_Tooltip;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_DialogWindowTitleBackground_AppCompat = global::Juniper.Resource.Style.Base_DialogWindowTitleBackground_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_DialogWindowTitle_AppCompat = global::Juniper.Resource.Style.Base_DialogWindowTitle_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Body1 = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Body1;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Body2 = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Body2;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Button = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Button;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Caption = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Caption;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Display1 = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Display1;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Display2 = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Display2;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Display3 = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Display3;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Display4 = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Display4;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Headline = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Headline;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Inverse = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Large = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Large;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Large_Inverse = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Large_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Large = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Large;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Small = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Small;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Medium = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Medium;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Medium_Inverse = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Medium_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Menu = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Menu;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_SearchResult = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_SearchResult;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Subtitle = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Subtitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Title = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_SearchResult_Title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Small = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Small;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Small_Inverse = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Small_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Subhead = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Subhead;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Subhead_Inverse = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Subhead_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Title = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Title_Inverse = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Title_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Tooltip = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Tooltip;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Menu = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Menu;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Subtitle = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Subtitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Title = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Widget_ActionMode_Title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Borderless_Colored = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Borderless_Colored;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Colored = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Colored;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Inverse = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Widget_Button_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Widget_DropDownItem = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Widget_DropDownItem;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Header = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Header;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Large = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Large;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Small = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Widget_PopupMenu_Small;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Widget_Switch = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Widget_Switch;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_AppCompat_Widget_TextView_SpinnerItem = global::Juniper.Resource.Style.Base_TextAppearance_AppCompat_Widget_TextView_SpinnerItem;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_Widget_AppCompat_ExpandedMenu_Item = global::Juniper.Resource.Style.Base_TextAppearance_Widget_AppCompat_ExpandedMenu_Item;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Subtitle = global::Juniper.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Subtitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Title = global::Juniper.Resource.Style.Base_TextAppearance_Widget_AppCompat_Toolbar_Title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_ThemeOverlay_AppCompat = global::Juniper.Resource.Style.Base_ThemeOverlay_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_ThemeOverlay_AppCompat_ActionBar = global::Juniper.Resource.Style.Base_ThemeOverlay_AppCompat_ActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_ThemeOverlay_AppCompat_Dark = global::Juniper.Resource.Style.Base_ThemeOverlay_AppCompat_Dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_ThemeOverlay_AppCompat_Dark_ActionBar = global::Juniper.Resource.Style.Base_ThemeOverlay_AppCompat_Dark_ActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog = global::Juniper.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog_Alert = global::Juniper.Resource.Style.Base_ThemeOverlay_AppCompat_Dialog_Alert;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_ThemeOverlay_AppCompat_Light = global::Juniper.Resource.Style.Base_ThemeOverlay_AppCompat_Light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Theme_AppCompat = global::Juniper.Resource.Style.Base_Theme_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Theme_AppCompat_CompactMenu = global::Juniper.Resource.Style.Base_Theme_AppCompat_CompactMenu;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Theme_AppCompat_Dialog = global::Juniper.Resource.Style.Base_Theme_AppCompat_Dialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Theme_AppCompat_DialogWhenLarge = global::Juniper.Resource.Style.Base_Theme_AppCompat_DialogWhenLarge;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Theme_AppCompat_Dialog_Alert = global::Juniper.Resource.Style.Base_Theme_AppCompat_Dialog_Alert;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Theme_AppCompat_Dialog_FixedSize = global::Juniper.Resource.Style.Base_Theme_AppCompat_Dialog_FixedSize;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Theme_AppCompat_Dialog_MinWidth = global::Juniper.Resource.Style.Base_Theme_AppCompat_Dialog_MinWidth;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Theme_AppCompat_Light = global::Juniper.Resource.Style.Base_Theme_AppCompat_Light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Theme_AppCompat_Light_DarkActionBar = global::Juniper.Resource.Style.Base_Theme_AppCompat_Light_DarkActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Theme_AppCompat_Light_Dialog = global::Juniper.Resource.Style.Base_Theme_AppCompat_Light_Dialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Theme_AppCompat_Light_DialogWhenLarge = global::Juniper.Resource.Style.Base_Theme_AppCompat_Light_DialogWhenLarge;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Theme_AppCompat_Light_Dialog_Alert = global::Juniper.Resource.Style.Base_Theme_AppCompat_Light_Dialog_Alert;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Theme_AppCompat_Light_Dialog_FixedSize = global::Juniper.Resource.Style.Base_Theme_AppCompat_Light_Dialog_FixedSize;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Theme_AppCompat_Light_Dialog_MinWidth = global::Juniper.Resource.Style.Base_Theme_AppCompat_Light_Dialog_MinWidth;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V21_ThemeOverlay_AppCompat_Dialog = global::Juniper.Resource.Style.Base_V21_ThemeOverlay_AppCompat_Dialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V21_Theme_AppCompat = global::Juniper.Resource.Style.Base_V21_Theme_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V21_Theme_AppCompat_Dialog = global::Juniper.Resource.Style.Base_V21_Theme_AppCompat_Dialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V21_Theme_AppCompat_Light = global::Juniper.Resource.Style.Base_V21_Theme_AppCompat_Light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V21_Theme_AppCompat_Light_Dialog = global::Juniper.Resource.Style.Base_V21_Theme_AppCompat_Light_Dialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V22_Theme_AppCompat = global::Juniper.Resource.Style.Base_V22_Theme_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V22_Theme_AppCompat_Light = global::Juniper.Resource.Style.Base_V22_Theme_AppCompat_Light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V23_Theme_AppCompat = global::Juniper.Resource.Style.Base_V23_Theme_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V23_Theme_AppCompat_Light = global::Juniper.Resource.Style.Base_V23_Theme_AppCompat_Light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V26_Theme_AppCompat = global::Juniper.Resource.Style.Base_V26_Theme_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V26_Theme_AppCompat_Light = global::Juniper.Resource.Style.Base_V26_Theme_AppCompat_Light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V26_Widget_AppCompat_Toolbar = global::Juniper.Resource.Style.Base_V26_Widget_AppCompat_Toolbar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V28_Theme_AppCompat = global::Juniper.Resource.Style.Base_V28_Theme_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V28_Theme_AppCompat_Light = global::Juniper.Resource.Style.Base_V28_Theme_AppCompat_Light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V7_ThemeOverlay_AppCompat_Dialog = global::Juniper.Resource.Style.Base_V7_ThemeOverlay_AppCompat_Dialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V7_Theme_AppCompat = global::Juniper.Resource.Style.Base_V7_Theme_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V7_Theme_AppCompat_Dialog = global::Juniper.Resource.Style.Base_V7_Theme_AppCompat_Dialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V7_Theme_AppCompat_Light = global::Juniper.Resource.Style.Base_V7_Theme_AppCompat_Light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V7_Theme_AppCompat_Light_Dialog = global::Juniper.Resource.Style.Base_V7_Theme_AppCompat_Light_Dialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V7_Widget_AppCompat_AutoCompleteTextView = global::Juniper.Resource.Style.Base_V7_Widget_AppCompat_AutoCompleteTextView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V7_Widget_AppCompat_EditText = global::Juniper.Resource.Style.Base_V7_Widget_AppCompat_EditText;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_V7_Widget_AppCompat_Toolbar = global::Juniper.Resource.Style.Base_V7_Widget_AppCompat_Toolbar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ActionBar = global::Juniper.Resource.Style.Base_Widget_AppCompat_ActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ActionBar_Solid = global::Juniper.Resource.Style.Base_Widget_AppCompat_ActionBar_Solid;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ActionBar_TabBar = global::Juniper.Resource.Style.Base_Widget_AppCompat_ActionBar_TabBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ActionBar_TabText = global::Juniper.Resource.Style.Base_Widget_AppCompat_ActionBar_TabText;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ActionBar_TabView = global::Juniper.Resource.Style.Base_Widget_AppCompat_ActionBar_TabView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ActionButton = global::Juniper.Resource.Style.Base_Widget_AppCompat_ActionButton;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ActionButton_CloseMode = global::Juniper.Resource.Style.Base_Widget_AppCompat_ActionButton_CloseMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ActionButton_Overflow = global::Juniper.Resource.Style.Base_Widget_AppCompat_ActionButton_Overflow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ActionMode = global::Juniper.Resource.Style.Base_Widget_AppCompat_ActionMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ActivityChooserView = global::Juniper.Resource.Style.Base_Widget_AppCompat_ActivityChooserView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_AutoCompleteTextView = global::Juniper.Resource.Style.Base_Widget_AppCompat_AutoCompleteTextView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_Button = global::Juniper.Resource.Style.Base_Widget_AppCompat_Button;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ButtonBar = global::Juniper.Resource.Style.Base_Widget_AppCompat_ButtonBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ButtonBar_AlertDialog = global::Juniper.Resource.Style.Base_Widget_AppCompat_ButtonBar_AlertDialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_Button_Borderless = global::Juniper.Resource.Style.Base_Widget_AppCompat_Button_Borderless;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_Button_Borderless_Colored = global::Juniper.Resource.Style.Base_Widget_AppCompat_Button_Borderless_Colored;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_Button_ButtonBar_AlertDialog = global::Juniper.Resource.Style.Base_Widget_AppCompat_Button_ButtonBar_AlertDialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_Button_Colored = global::Juniper.Resource.Style.Base_Widget_AppCompat_Button_Colored;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_Button_Small = global::Juniper.Resource.Style.Base_Widget_AppCompat_Button_Small;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_CompoundButton_CheckBox = global::Juniper.Resource.Style.Base_Widget_AppCompat_CompoundButton_CheckBox;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_CompoundButton_RadioButton = global::Juniper.Resource.Style.Base_Widget_AppCompat_CompoundButton_RadioButton;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_CompoundButton_Switch = global::Juniper.Resource.Style.Base_Widget_AppCompat_CompoundButton_Switch;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle = global::Juniper.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle_Common = global::Juniper.Resource.Style.Base_Widget_AppCompat_DrawerArrowToggle_Common;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_DropDownItem_Spinner = global::Juniper.Resource.Style.Base_Widget_AppCompat_DropDownItem_Spinner;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_EditText = global::Juniper.Resource.Style.Base_Widget_AppCompat_EditText;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ImageButton = global::Juniper.Resource.Style.Base_Widget_AppCompat_ImageButton;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_Light_ActionBar = global::Juniper.Resource.Style.Base_Widget_AppCompat_Light_ActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_Solid = global::Juniper.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_Solid;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabBar = global::Juniper.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText = global::Juniper.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText_Inverse = global::Juniper.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabText_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabView = global::Juniper.Resource.Style.Base_Widget_AppCompat_Light_ActionBar_TabView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu = global::Juniper.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu_Overflow = global::Juniper.Resource.Style.Base_Widget_AppCompat_Light_PopupMenu_Overflow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ListMenuView = global::Juniper.Resource.Style.Base_Widget_AppCompat_ListMenuView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ListPopupWindow = global::Juniper.Resource.Style.Base_Widget_AppCompat_ListPopupWindow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ListView = global::Juniper.Resource.Style.Base_Widget_AppCompat_ListView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ListView_DropDown = global::Juniper.Resource.Style.Base_Widget_AppCompat_ListView_DropDown;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ListView_Menu = global::Juniper.Resource.Style.Base_Widget_AppCompat_ListView_Menu;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_PopupMenu = global::Juniper.Resource.Style.Base_Widget_AppCompat_PopupMenu;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_PopupMenu_Overflow = global::Juniper.Resource.Style.Base_Widget_AppCompat_PopupMenu_Overflow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_PopupWindow = global::Juniper.Resource.Style.Base_Widget_AppCompat_PopupWindow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ProgressBar = global::Juniper.Resource.Style.Base_Widget_AppCompat_ProgressBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_ProgressBar_Horizontal = global::Juniper.Resource.Style.Base_Widget_AppCompat_ProgressBar_Horizontal;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_RatingBar = global::Juniper.Resource.Style.Base_Widget_AppCompat_RatingBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_RatingBar_Indicator = global::Juniper.Resource.Style.Base_Widget_AppCompat_RatingBar_Indicator;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_RatingBar_Small = global::Juniper.Resource.Style.Base_Widget_AppCompat_RatingBar_Small;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_SearchView = global::Juniper.Resource.Style.Base_Widget_AppCompat_SearchView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_SearchView_ActionBar = global::Juniper.Resource.Style.Base_Widget_AppCompat_SearchView_ActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_SeekBar = global::Juniper.Resource.Style.Base_Widget_AppCompat_SeekBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_SeekBar_Discrete = global::Juniper.Resource.Style.Base_Widget_AppCompat_SeekBar_Discrete;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_Spinner = global::Juniper.Resource.Style.Base_Widget_AppCompat_Spinner;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_Spinner_Underlined = global::Juniper.Resource.Style.Base_Widget_AppCompat_Spinner_Underlined;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_TextView_SpinnerItem = global::Juniper.Resource.Style.Base_Widget_AppCompat_TextView_SpinnerItem;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_Toolbar = global::Juniper.Resource.Style.Base_Widget_AppCompat_Toolbar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Base_Widget_AppCompat_Toolbar_Button_Navigation = global::Juniper.Resource.Style.Base_Widget_AppCompat_Toolbar_Button_Navigation;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Platform_AppCompat = global::Juniper.Resource.Style.Platform_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Platform_AppCompat_Light = global::Juniper.Resource.Style.Platform_AppCompat_Light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Platform_ThemeOverlay_AppCompat = global::Juniper.Resource.Style.Platform_ThemeOverlay_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Platform_ThemeOverlay_AppCompat_Dark = global::Juniper.Resource.Style.Platform_ThemeOverlay_AppCompat_Dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Platform_ThemeOverlay_AppCompat_Light = global::Juniper.Resource.Style.Platform_ThemeOverlay_AppCompat_Light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Platform_V21_AppCompat = global::Juniper.Resource.Style.Platform_V21_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Platform_V21_AppCompat_Light = global::Juniper.Resource.Style.Platform_V21_AppCompat_Light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Platform_V25_AppCompat = global::Juniper.Resource.Style.Platform_V25_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Platform_V25_AppCompat_Light = global::Juniper.Resource.Style.Platform_V25_AppCompat_Light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Platform_Widget_AppCompat_Spinner = global::Juniper.Resource.Style.Platform_Widget_AppCompat_Spinner;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.RtlOverlay_DialogWindowTitle_AppCompat = global::Juniper.Resource.Style.RtlOverlay_DialogWindowTitle_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.RtlOverlay_Widget_AppCompat_ActionBar_TitleItem = global::Juniper.Resource.Style.RtlOverlay_Widget_AppCompat_ActionBar_TitleItem;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.RtlOverlay_Widget_AppCompat_DialogTitle_Icon = global::Juniper.Resource.Style.RtlOverlay_Widget_AppCompat_DialogTitle_Icon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem = global::Juniper.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup = global::Juniper.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Shortcut = global::Juniper.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Shortcut;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_SubmenuArrow = global::Juniper.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_SubmenuArrow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Text = global::Juniper.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Text;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Title = global::Juniper.Resource.Style.RtlOverlay_Widget_AppCompat_PopupMenuItem_Title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.RtlOverlay_Widget_AppCompat_SearchView_MagIcon = global::Juniper.Resource.Style.RtlOverlay_Widget_AppCompat_SearchView_MagIcon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown = global::Juniper.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1 = global::Juniper.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2 = global::Juniper.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Query = global::Juniper.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Query;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text = global::Juniper.Resource.Style.RtlOverlay_Widget_AppCompat_Search_DropDown_Text;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton = global::Juniper.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = global::Juniper.Resource.Style.RtlUnderlay_Widget_AppCompat_ActionButton_Overflow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat = global::Juniper.Resource.Style.TextAppearance_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Body1 = global::Juniper.Resource.Style.TextAppearance_AppCompat_Body1;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Body2 = global::Juniper.Resource.Style.TextAppearance_AppCompat_Body2;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Button = global::Juniper.Resource.Style.TextAppearance_AppCompat_Button;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Caption = global::Juniper.Resource.Style.TextAppearance_AppCompat_Caption;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Display1 = global::Juniper.Resource.Style.TextAppearance_AppCompat_Display1;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Display2 = global::Juniper.Resource.Style.TextAppearance_AppCompat_Display2;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Display3 = global::Juniper.Resource.Style.TextAppearance_AppCompat_Display3;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Display4 = global::Juniper.Resource.Style.TextAppearance_AppCompat_Display4;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Headline = global::Juniper.Resource.Style.TextAppearance_AppCompat_Headline;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Inverse = global::Juniper.Resource.Style.TextAppearance_AppCompat_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Large = global::Juniper.Resource.Style.TextAppearance_AppCompat_Large;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Large_Inverse = global::Juniper.Resource.Style.TextAppearance_AppCompat_Large_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Subtitle = global::Juniper.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Subtitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Title = global::Juniper.Resource.Style.TextAppearance_AppCompat_Light_SearchResult_Title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Large = global::Juniper.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Large;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Small = global::Juniper.Resource.Style.TextAppearance_AppCompat_Light_Widget_PopupMenu_Small;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Medium = global::Juniper.Resource.Style.TextAppearance_AppCompat_Medium;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Medium_Inverse = global::Juniper.Resource.Style.TextAppearance_AppCompat_Medium_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Menu = global::Juniper.Resource.Style.TextAppearance_AppCompat_Menu;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_SearchResult_Subtitle = global::Juniper.Resource.Style.TextAppearance_AppCompat_SearchResult_Subtitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_SearchResult_Title = global::Juniper.Resource.Style.TextAppearance_AppCompat_SearchResult_Title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Small = global::Juniper.Resource.Style.TextAppearance_AppCompat_Small;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Small_Inverse = global::Juniper.Resource.Style.TextAppearance_AppCompat_Small_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Subhead = global::Juniper.Resource.Style.TextAppearance_AppCompat_Subhead;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Subhead_Inverse = global::Juniper.Resource.Style.TextAppearance_AppCompat_Subhead_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Title = global::Juniper.Resource.Style.TextAppearance_AppCompat_Title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Title_Inverse = global::Juniper.Resource.Style.TextAppearance_AppCompat_Title_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Tooltip = global::Juniper.Resource.Style.TextAppearance_AppCompat_Tooltip;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Menu = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Menu;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle_Inverse = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Subtitle_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title_Inverse = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_ActionMode_Title_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_Button = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_Button;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_Button_Borderless_Colored = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_Button_Borderless_Colored;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_Button_Colored = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_Button_Colored;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_Button_Inverse = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_Button_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_DropDownItem = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_DropDownItem;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Header = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Header;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Large = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Large;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Small = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_PopupMenu_Small;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_Switch = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_Switch;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_AppCompat_Widget_TextView_SpinnerItem = global::Juniper.Resource.Style.TextAppearance_AppCompat_Widget_TextView_SpinnerItem;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_Compat_Notification = global::Juniper.Resource.Style.TextAppearance_Compat_Notification;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_Compat_Notification_Info = global::Juniper.Resource.Style.TextAppearance_Compat_Notification_Info;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_Compat_Notification_Line2 = global::Juniper.Resource.Style.TextAppearance_Compat_Notification_Line2;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_Compat_Notification_Time = global::Juniper.Resource.Style.TextAppearance_Compat_Notification_Time;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_Compat_Notification_Title = global::Juniper.Resource.Style.TextAppearance_Compat_Notification_Title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_Widget_AppCompat_ExpandedMenu_Item = global::Juniper.Resource.Style.TextAppearance_Widget_AppCompat_ExpandedMenu_Item;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Subtitle = global::Juniper.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Subtitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Title = global::Juniper.Resource.Style.TextAppearance_Widget_AppCompat_Toolbar_Title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.ThemeOverlay_AppCompat = global::Juniper.Resource.Style.ThemeOverlay_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.ThemeOverlay_AppCompat_ActionBar = global::Juniper.Resource.Style.ThemeOverlay_AppCompat_ActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.ThemeOverlay_AppCompat_Dark = global::Juniper.Resource.Style.ThemeOverlay_AppCompat_Dark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.ThemeOverlay_AppCompat_Dark_ActionBar = global::Juniper.Resource.Style.ThemeOverlay_AppCompat_Dark_ActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.ThemeOverlay_AppCompat_Dialog = global::Juniper.Resource.Style.ThemeOverlay_AppCompat_Dialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.ThemeOverlay_AppCompat_Dialog_Alert = global::Juniper.Resource.Style.ThemeOverlay_AppCompat_Dialog_Alert;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.ThemeOverlay_AppCompat_Light = global::Juniper.Resource.Style.ThemeOverlay_AppCompat_Light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat = global::Juniper.Resource.Style.Theme_AppCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_CompactMenu = global::Juniper.Resource.Style.Theme_AppCompat_CompactMenu;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_DayNight = global::Juniper.Resource.Style.Theme_AppCompat_DayNight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_DayNight_DarkActionBar = global::Juniper.Resource.Style.Theme_AppCompat_DayNight_DarkActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_DayNight_Dialog = global::Juniper.Resource.Style.Theme_AppCompat_DayNight_Dialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_DayNight_DialogWhenLarge = global::Juniper.Resource.Style.Theme_AppCompat_DayNight_DialogWhenLarge;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_DayNight_Dialog_Alert = global::Juniper.Resource.Style.Theme_AppCompat_DayNight_Dialog_Alert;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_DayNight_Dialog_MinWidth = global::Juniper.Resource.Style.Theme_AppCompat_DayNight_Dialog_MinWidth;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_DayNight_NoActionBar = global::Juniper.Resource.Style.Theme_AppCompat_DayNight_NoActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_Dialog = global::Juniper.Resource.Style.Theme_AppCompat_Dialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_DialogWhenLarge = global::Juniper.Resource.Style.Theme_AppCompat_DialogWhenLarge;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_Dialog_Alert = global::Juniper.Resource.Style.Theme_AppCompat_Dialog_Alert;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_Dialog_MinWidth = global::Juniper.Resource.Style.Theme_AppCompat_Dialog_MinWidth;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_Light = global::Juniper.Resource.Style.Theme_AppCompat_Light;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_Light_DarkActionBar = global::Juniper.Resource.Style.Theme_AppCompat_Light_DarkActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_Light_Dialog = global::Juniper.Resource.Style.Theme_AppCompat_Light_Dialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_Light_DialogWhenLarge = global::Juniper.Resource.Style.Theme_AppCompat_Light_DialogWhenLarge;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_Light_Dialog_Alert = global::Juniper.Resource.Style.Theme_AppCompat_Light_Dialog_Alert;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_Light_Dialog_MinWidth = global::Juniper.Resource.Style.Theme_AppCompat_Light_Dialog_MinWidth;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_Light_NoActionBar = global::Juniper.Resource.Style.Theme_AppCompat_Light_NoActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Theme_AppCompat_NoActionBar = global::Juniper.Resource.Style.Theme_AppCompat_NoActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ActionBar = global::Juniper.Resource.Style.Widget_AppCompat_ActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ActionBar_Solid = global::Juniper.Resource.Style.Widget_AppCompat_ActionBar_Solid;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ActionBar_TabBar = global::Juniper.Resource.Style.Widget_AppCompat_ActionBar_TabBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ActionBar_TabText = global::Juniper.Resource.Style.Widget_AppCompat_ActionBar_TabText;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ActionBar_TabView = global::Juniper.Resource.Style.Widget_AppCompat_ActionBar_TabView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ActionButton = global::Juniper.Resource.Style.Widget_AppCompat_ActionButton;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ActionButton_CloseMode = global::Juniper.Resource.Style.Widget_AppCompat_ActionButton_CloseMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ActionButton_Overflow = global::Juniper.Resource.Style.Widget_AppCompat_ActionButton_Overflow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ActionMode = global::Juniper.Resource.Style.Widget_AppCompat_ActionMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ActivityChooserView = global::Juniper.Resource.Style.Widget_AppCompat_ActivityChooserView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_AutoCompleteTextView = global::Juniper.Resource.Style.Widget_AppCompat_AutoCompleteTextView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Button = global::Juniper.Resource.Style.Widget_AppCompat_Button;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ButtonBar = global::Juniper.Resource.Style.Widget_AppCompat_ButtonBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ButtonBar_AlertDialog = global::Juniper.Resource.Style.Widget_AppCompat_ButtonBar_AlertDialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Button_Borderless = global::Juniper.Resource.Style.Widget_AppCompat_Button_Borderless;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Button_Borderless_Colored = global::Juniper.Resource.Style.Widget_AppCompat_Button_Borderless_Colored;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Button_ButtonBar_AlertDialog = global::Juniper.Resource.Style.Widget_AppCompat_Button_ButtonBar_AlertDialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Button_Colored = global::Juniper.Resource.Style.Widget_AppCompat_Button_Colored;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Button_Small = global::Juniper.Resource.Style.Widget_AppCompat_Button_Small;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_CompoundButton_CheckBox = global::Juniper.Resource.Style.Widget_AppCompat_CompoundButton_CheckBox;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_CompoundButton_RadioButton = global::Juniper.Resource.Style.Widget_AppCompat_CompoundButton_RadioButton;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_CompoundButton_Switch = global::Juniper.Resource.Style.Widget_AppCompat_CompoundButton_Switch;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_DrawerArrowToggle = global::Juniper.Resource.Style.Widget_AppCompat_DrawerArrowToggle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_DropDownItem_Spinner = global::Juniper.Resource.Style.Widget_AppCompat_DropDownItem_Spinner;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_EditText = global::Juniper.Resource.Style.Widget_AppCompat_EditText;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ImageButton = global::Juniper.Resource.Style.Widget_AppCompat_ImageButton;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_ActionBar = global::Juniper.Resource.Style.Widget_AppCompat_Light_ActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid = global::Juniper.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid_Inverse = global::Juniper.Resource.Style.Widget_AppCompat_Light_ActionBar_Solid_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar = global::Juniper.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar_Inverse = global::Juniper.Resource.Style.Widget_AppCompat_Light_ActionBar_TabBar_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText = global::Juniper.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText_Inverse = global::Juniper.Resource.Style.Widget_AppCompat_Light_ActionBar_TabText_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView = global::Juniper.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView_Inverse = global::Juniper.Resource.Style.Widget_AppCompat_Light_ActionBar_TabView_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_ActionButton = global::Juniper.Resource.Style.Widget_AppCompat_Light_ActionButton;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_ActionButton_CloseMode = global::Juniper.Resource.Style.Widget_AppCompat_Light_ActionButton_CloseMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_ActionButton_Overflow = global::Juniper.Resource.Style.Widget_AppCompat_Light_ActionButton_Overflow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_ActionMode_Inverse = global::Juniper.Resource.Style.Widget_AppCompat_Light_ActionMode_Inverse;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_ActivityChooserView = global::Juniper.Resource.Style.Widget_AppCompat_Light_ActivityChooserView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_AutoCompleteTextView = global::Juniper.Resource.Style.Widget_AppCompat_Light_AutoCompleteTextView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_DropDownItem_Spinner = global::Juniper.Resource.Style.Widget_AppCompat_Light_DropDownItem_Spinner;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_ListPopupWindow = global::Juniper.Resource.Style.Widget_AppCompat_Light_ListPopupWindow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_ListView_DropDown = global::Juniper.Resource.Style.Widget_AppCompat_Light_ListView_DropDown;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_PopupMenu = global::Juniper.Resource.Style.Widget_AppCompat_Light_PopupMenu;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_PopupMenu_Overflow = global::Juniper.Resource.Style.Widget_AppCompat_Light_PopupMenu_Overflow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_SearchView = global::Juniper.Resource.Style.Widget_AppCompat_Light_SearchView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Light_Spinner_DropDown_ActionBar = global::Juniper.Resource.Style.Widget_AppCompat_Light_Spinner_DropDown_ActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ListMenuView = global::Juniper.Resource.Style.Widget_AppCompat_ListMenuView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ListPopupWindow = global::Juniper.Resource.Style.Widget_AppCompat_ListPopupWindow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ListView = global::Juniper.Resource.Style.Widget_AppCompat_ListView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ListView_DropDown = global::Juniper.Resource.Style.Widget_AppCompat_ListView_DropDown;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ListView_Menu = global::Juniper.Resource.Style.Widget_AppCompat_ListView_Menu;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_PopupMenu = global::Juniper.Resource.Style.Widget_AppCompat_PopupMenu;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_PopupMenu_Overflow = global::Juniper.Resource.Style.Widget_AppCompat_PopupMenu_Overflow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_PopupWindow = global::Juniper.Resource.Style.Widget_AppCompat_PopupWindow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ProgressBar = global::Juniper.Resource.Style.Widget_AppCompat_ProgressBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_ProgressBar_Horizontal = global::Juniper.Resource.Style.Widget_AppCompat_ProgressBar_Horizontal;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_RatingBar = global::Juniper.Resource.Style.Widget_AppCompat_RatingBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_RatingBar_Indicator = global::Juniper.Resource.Style.Widget_AppCompat_RatingBar_Indicator;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_RatingBar_Small = global::Juniper.Resource.Style.Widget_AppCompat_RatingBar_Small;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_SearchView = global::Juniper.Resource.Style.Widget_AppCompat_SearchView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_SearchView_ActionBar = global::Juniper.Resource.Style.Widget_AppCompat_SearchView_ActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_SeekBar = global::Juniper.Resource.Style.Widget_AppCompat_SeekBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_SeekBar_Discrete = global::Juniper.Resource.Style.Widget_AppCompat_SeekBar_Discrete;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Spinner = global::Juniper.Resource.Style.Widget_AppCompat_Spinner;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Spinner_DropDown = global::Juniper.Resource.Style.Widget_AppCompat_Spinner_DropDown;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Spinner_DropDown_ActionBar = global::Juniper.Resource.Style.Widget_AppCompat_Spinner_DropDown_ActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Spinner_Underlined = global::Juniper.Resource.Style.Widget_AppCompat_Spinner_Underlined;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_TextView_SpinnerItem = global::Juniper.Resource.Style.Widget_AppCompat_TextView_SpinnerItem;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Toolbar = global::Juniper.Resource.Style.Widget_AppCompat_Toolbar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_AppCompat_Toolbar_Button_Navigation = global::Juniper.Resource.Style.Widget_AppCompat_Toolbar_Button_Navigation;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_Compat_NotificationActionContainer = global::Juniper.Resource.Style.Widget_Compat_NotificationActionContainer;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_Compat_NotificationActionText = global::Juniper.Resource.Style.Widget_Compat_NotificationActionText;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Style.Widget_Support_CoordinatorLayout = global::Juniper.Resource.Style.Widget_Support_CoordinatorLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar = global::Juniper.Resource.Styleable.ActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBarLayout = global::Juniper.Resource.Styleable.ActionBarLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBarLayout_android_layout_gravity = global::Juniper.Resource.Styleable.ActionBarLayout_android_layout_gravity;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_background = global::Juniper.Resource.Styleable.ActionBar_background;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_backgroundSplit = global::Juniper.Resource.Styleable.ActionBar_backgroundSplit;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_backgroundStacked = global::Juniper.Resource.Styleable.ActionBar_backgroundStacked;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_contentInsetEnd = global::Juniper.Resource.Styleable.ActionBar_contentInsetEnd;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_contentInsetEndWithActions = global::Juniper.Resource.Styleable.ActionBar_contentInsetEndWithActions;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_contentInsetLeft = global::Juniper.Resource.Styleable.ActionBar_contentInsetLeft;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_contentInsetRight = global::Juniper.Resource.Styleable.ActionBar_contentInsetRight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_contentInsetStart = global::Juniper.Resource.Styleable.ActionBar_contentInsetStart;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_contentInsetStartWithNavigation = global::Juniper.Resource.Styleable.ActionBar_contentInsetStartWithNavigation;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_customNavigationLayout = global::Juniper.Resource.Styleable.ActionBar_customNavigationLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_displayOptions = global::Juniper.Resource.Styleable.ActionBar_displayOptions;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_divider = global::Juniper.Resource.Styleable.ActionBar_divider;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_elevation = global::Juniper.Resource.Styleable.ActionBar_elevation;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_height = global::Juniper.Resource.Styleable.ActionBar_height;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_hideOnContentScroll = global::Juniper.Resource.Styleable.ActionBar_hideOnContentScroll;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_homeAsUpIndicator = global::Juniper.Resource.Styleable.ActionBar_homeAsUpIndicator;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_homeLayout = global::Juniper.Resource.Styleable.ActionBar_homeLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_icon = global::Juniper.Resource.Styleable.ActionBar_icon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_indeterminateProgressStyle = global::Juniper.Resource.Styleable.ActionBar_indeterminateProgressStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_itemPadding = global::Juniper.Resource.Styleable.ActionBar_itemPadding;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_logo = global::Juniper.Resource.Styleable.ActionBar_logo;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_navigationMode = global::Juniper.Resource.Styleable.ActionBar_navigationMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_popupTheme = global::Juniper.Resource.Styleable.ActionBar_popupTheme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_progressBarPadding = global::Juniper.Resource.Styleable.ActionBar_progressBarPadding;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_progressBarStyle = global::Juniper.Resource.Styleable.ActionBar_progressBarStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_subtitle = global::Juniper.Resource.Styleable.ActionBar_subtitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_subtitleTextStyle = global::Juniper.Resource.Styleable.ActionBar_subtitleTextStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_title = global::Juniper.Resource.Styleable.ActionBar_title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionBar_titleTextStyle = global::Juniper.Resource.Styleable.ActionBar_titleTextStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionMenuItemView = global::Juniper.Resource.Styleable.ActionMenuItemView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionMenuItemView_android_minWidth = global::Juniper.Resource.Styleable.ActionMenuItemView_android_minWidth;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionMenuView = global::Juniper.Resource.Styleable.ActionMenuView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionMode = global::Juniper.Resource.Styleable.ActionMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionMode_background = global::Juniper.Resource.Styleable.ActionMode_background;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionMode_backgroundSplit = global::Juniper.Resource.Styleable.ActionMode_backgroundSplit;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionMode_closeItemLayout = global::Juniper.Resource.Styleable.ActionMode_closeItemLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionMode_height = global::Juniper.Resource.Styleable.ActionMode_height;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionMode_subtitleTextStyle = global::Juniper.Resource.Styleable.ActionMode_subtitleTextStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActionMode_titleTextStyle = global::Juniper.Resource.Styleable.ActionMode_titleTextStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActivityChooserView = global::Juniper.Resource.Styleable.ActivityChooserView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActivityChooserView_expandActivityOverflowButtonDrawable = global::Juniper.Resource.Styleable.ActivityChooserView_expandActivityOverflowButtonDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ActivityChooserView_initialActivityCount = global::Juniper.Resource.Styleable.ActivityChooserView_initialActivityCount;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AlertDialog = global::Juniper.Resource.Styleable.AlertDialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AlertDialog_android_layout = global::Juniper.Resource.Styleable.AlertDialog_android_layout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AlertDialog_buttonIconDimen = global::Juniper.Resource.Styleable.AlertDialog_buttonIconDimen;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AlertDialog_buttonPanelSideLayout = global::Juniper.Resource.Styleable.AlertDialog_buttonPanelSideLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AlertDialog_listItemLayout = global::Juniper.Resource.Styleable.AlertDialog_listItemLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AlertDialog_listLayout = global::Juniper.Resource.Styleable.AlertDialog_listLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AlertDialog_multiChoiceItemLayout = global::Juniper.Resource.Styleable.AlertDialog_multiChoiceItemLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AlertDialog_showTitle = global::Juniper.Resource.Styleable.AlertDialog_showTitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AlertDialog_singleChoiceItemLayout = global::Juniper.Resource.Styleable.AlertDialog_singleChoiceItemLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AnimatedStateListDrawableCompat = global::Juniper.Resource.Styleable.AnimatedStateListDrawableCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AnimatedStateListDrawableCompat_android_constantSize = global::Juniper.Resource.Styleable.AnimatedStateListDrawableCompat_android_constantSize;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AnimatedStateListDrawableCompat_android_dither = global::Juniper.Resource.Styleable.AnimatedStateListDrawableCompat_android_dither;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AnimatedStateListDrawableCompat_android_enterFadeDuration = global::Juniper.Resource.Styleable.AnimatedStateListDrawableCompat_android_enterFadeDuration;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AnimatedStateListDrawableCompat_android_exitFadeDuration = global::Juniper.Resource.Styleable.AnimatedStateListDrawableCompat_android_exitFadeDuration;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AnimatedStateListDrawableCompat_android_variablePadding = global::Juniper.Resource.Styleable.AnimatedStateListDrawableCompat_android_variablePadding;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AnimatedStateListDrawableCompat_android_visible = global::Juniper.Resource.Styleable.AnimatedStateListDrawableCompat_android_visible;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AnimatedStateListDrawableItem = global::Juniper.Resource.Styleable.AnimatedStateListDrawableItem;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AnimatedStateListDrawableItem_android_drawable = global::Juniper.Resource.Styleable.AnimatedStateListDrawableItem_android_drawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AnimatedStateListDrawableItem_android_id = global::Juniper.Resource.Styleable.AnimatedStateListDrawableItem_android_id;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AnimatedStateListDrawableTransition = global::Juniper.Resource.Styleable.AnimatedStateListDrawableTransition;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AnimatedStateListDrawableTransition_android_drawable = global::Juniper.Resource.Styleable.AnimatedStateListDrawableTransition_android_drawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AnimatedStateListDrawableTransition_android_fromId = global::Juniper.Resource.Styleable.AnimatedStateListDrawableTransition_android_fromId;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AnimatedStateListDrawableTransition_android_reversible = global::Juniper.Resource.Styleable.AnimatedStateListDrawableTransition_android_reversible;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AnimatedStateListDrawableTransition_android_toId = global::Juniper.Resource.Styleable.AnimatedStateListDrawableTransition_android_toId;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatImageView = global::Juniper.Resource.Styleable.AppCompatImageView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatImageView_android_src = global::Juniper.Resource.Styleable.AppCompatImageView_android_src;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatImageView_srcCompat = global::Juniper.Resource.Styleable.AppCompatImageView_srcCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatImageView_tint = global::Juniper.Resource.Styleable.AppCompatImageView_tint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatImageView_tintMode = global::Juniper.Resource.Styleable.AppCompatImageView_tintMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatSeekBar = global::Juniper.Resource.Styleable.AppCompatSeekBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatSeekBar_android_thumb = global::Juniper.Resource.Styleable.AppCompatSeekBar_android_thumb;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatSeekBar_tickMark = global::Juniper.Resource.Styleable.AppCompatSeekBar_tickMark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatSeekBar_tickMarkTint = global::Juniper.Resource.Styleable.AppCompatSeekBar_tickMarkTint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatSeekBar_tickMarkTintMode = global::Juniper.Resource.Styleable.AppCompatSeekBar_tickMarkTintMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextHelper = global::Juniper.Resource.Styleable.AppCompatTextHelper;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextHelper_android_drawableBottom = global::Juniper.Resource.Styleable.AppCompatTextHelper_android_drawableBottom;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextHelper_android_drawableEnd = global::Juniper.Resource.Styleable.AppCompatTextHelper_android_drawableEnd;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextHelper_android_drawableLeft = global::Juniper.Resource.Styleable.AppCompatTextHelper_android_drawableLeft;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextHelper_android_drawableRight = global::Juniper.Resource.Styleable.AppCompatTextHelper_android_drawableRight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextHelper_android_drawableStart = global::Juniper.Resource.Styleable.AppCompatTextHelper_android_drawableStart;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextHelper_android_drawableTop = global::Juniper.Resource.Styleable.AppCompatTextHelper_android_drawableTop;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextHelper_android_textAppearance = global::Juniper.Resource.Styleable.AppCompatTextHelper_android_textAppearance;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextView = global::Juniper.Resource.Styleable.AppCompatTextView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextView_android_textAppearance = global::Juniper.Resource.Styleable.AppCompatTextView_android_textAppearance;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextView_autoSizeMaxTextSize = global::Juniper.Resource.Styleable.AppCompatTextView_autoSizeMaxTextSize;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextView_autoSizeMinTextSize = global::Juniper.Resource.Styleable.AppCompatTextView_autoSizeMinTextSize;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextView_autoSizePresetSizes = global::Juniper.Resource.Styleable.AppCompatTextView_autoSizePresetSizes;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextView_autoSizeStepGranularity = global::Juniper.Resource.Styleable.AppCompatTextView_autoSizeStepGranularity;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextView_autoSizeTextType = global::Juniper.Resource.Styleable.AppCompatTextView_autoSizeTextType;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextView_firstBaselineToTopHeight = global::Juniper.Resource.Styleable.AppCompatTextView_firstBaselineToTopHeight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextView_fontFamily = global::Juniper.Resource.Styleable.AppCompatTextView_fontFamily;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextView_lastBaselineToBottomHeight = global::Juniper.Resource.Styleable.AppCompatTextView_lastBaselineToBottomHeight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextView_lineHeight = global::Juniper.Resource.Styleable.AppCompatTextView_lineHeight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTextView_textAllCaps = global::Juniper.Resource.Styleable.AppCompatTextView_textAllCaps;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme = global::Juniper.Resource.Styleable.AppCompatTheme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionBarDivider = global::Juniper.Resource.Styleable.AppCompatTheme_actionBarDivider;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionBarItemBackground = global::Juniper.Resource.Styleable.AppCompatTheme_actionBarItemBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionBarPopupTheme = global::Juniper.Resource.Styleable.AppCompatTheme_actionBarPopupTheme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionBarSize = global::Juniper.Resource.Styleable.AppCompatTheme_actionBarSize;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionBarSplitStyle = global::Juniper.Resource.Styleable.AppCompatTheme_actionBarSplitStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionBarStyle = global::Juniper.Resource.Styleable.AppCompatTheme_actionBarStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionBarTabBarStyle = global::Juniper.Resource.Styleable.AppCompatTheme_actionBarTabBarStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionBarTabStyle = global::Juniper.Resource.Styleable.AppCompatTheme_actionBarTabStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionBarTabTextStyle = global::Juniper.Resource.Styleable.AppCompatTheme_actionBarTabTextStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionBarTheme = global::Juniper.Resource.Styleable.AppCompatTheme_actionBarTheme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionBarWidgetTheme = global::Juniper.Resource.Styleable.AppCompatTheme_actionBarWidgetTheme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionButtonStyle = global::Juniper.Resource.Styleable.AppCompatTheme_actionButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionDropDownStyle = global::Juniper.Resource.Styleable.AppCompatTheme_actionDropDownStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionMenuTextAppearance = global::Juniper.Resource.Styleable.AppCompatTheme_actionMenuTextAppearance;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionMenuTextColor = global::Juniper.Resource.Styleable.AppCompatTheme_actionMenuTextColor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionModeBackground = global::Juniper.Resource.Styleable.AppCompatTheme_actionModeBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionModeCloseButtonStyle = global::Juniper.Resource.Styleable.AppCompatTheme_actionModeCloseButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionModeCloseDrawable = global::Juniper.Resource.Styleable.AppCompatTheme_actionModeCloseDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionModeCopyDrawable = global::Juniper.Resource.Styleable.AppCompatTheme_actionModeCopyDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionModeCutDrawable = global::Juniper.Resource.Styleable.AppCompatTheme_actionModeCutDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionModeFindDrawable = global::Juniper.Resource.Styleable.AppCompatTheme_actionModeFindDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionModePasteDrawable = global::Juniper.Resource.Styleable.AppCompatTheme_actionModePasteDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionModePopupWindowStyle = global::Juniper.Resource.Styleable.AppCompatTheme_actionModePopupWindowStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionModeSelectAllDrawable = global::Juniper.Resource.Styleable.AppCompatTheme_actionModeSelectAllDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionModeShareDrawable = global::Juniper.Resource.Styleable.AppCompatTheme_actionModeShareDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionModeSplitBackground = global::Juniper.Resource.Styleable.AppCompatTheme_actionModeSplitBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionModeStyle = global::Juniper.Resource.Styleable.AppCompatTheme_actionModeStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionModeWebSearchDrawable = global::Juniper.Resource.Styleable.AppCompatTheme_actionModeWebSearchDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionOverflowButtonStyle = global::Juniper.Resource.Styleable.AppCompatTheme_actionOverflowButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_actionOverflowMenuStyle = global::Juniper.Resource.Styleable.AppCompatTheme_actionOverflowMenuStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_activityChooserViewStyle = global::Juniper.Resource.Styleable.AppCompatTheme_activityChooserViewStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_alertDialogButtonGroupStyle = global::Juniper.Resource.Styleable.AppCompatTheme_alertDialogButtonGroupStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_alertDialogCenterButtons = global::Juniper.Resource.Styleable.AppCompatTheme_alertDialogCenterButtons;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_alertDialogStyle = global::Juniper.Resource.Styleable.AppCompatTheme_alertDialogStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_alertDialogTheme = global::Juniper.Resource.Styleable.AppCompatTheme_alertDialogTheme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_android_windowAnimationStyle = global::Juniper.Resource.Styleable.AppCompatTheme_android_windowAnimationStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_android_windowIsFloating = global::Juniper.Resource.Styleable.AppCompatTheme_android_windowIsFloating;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_autoCompleteTextViewStyle = global::Juniper.Resource.Styleable.AppCompatTheme_autoCompleteTextViewStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_borderlessButtonStyle = global::Juniper.Resource.Styleable.AppCompatTheme_borderlessButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_buttonBarButtonStyle = global::Juniper.Resource.Styleable.AppCompatTheme_buttonBarButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_buttonBarNegativeButtonStyle = global::Juniper.Resource.Styleable.AppCompatTheme_buttonBarNegativeButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_buttonBarNeutralButtonStyle = global::Juniper.Resource.Styleable.AppCompatTheme_buttonBarNeutralButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_buttonBarPositiveButtonStyle = global::Juniper.Resource.Styleable.AppCompatTheme_buttonBarPositiveButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_buttonBarStyle = global::Juniper.Resource.Styleable.AppCompatTheme_buttonBarStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_buttonStyle = global::Juniper.Resource.Styleable.AppCompatTheme_buttonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_buttonStyleSmall = global::Juniper.Resource.Styleable.AppCompatTheme_buttonStyleSmall;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_checkboxStyle = global::Juniper.Resource.Styleable.AppCompatTheme_checkboxStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_checkedTextViewStyle = global::Juniper.Resource.Styleable.AppCompatTheme_checkedTextViewStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_colorAccent = global::Juniper.Resource.Styleable.AppCompatTheme_colorAccent;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_colorBackgroundFloating = global::Juniper.Resource.Styleable.AppCompatTheme_colorBackgroundFloating;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_colorButtonNormal = global::Juniper.Resource.Styleable.AppCompatTheme_colorButtonNormal;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_colorControlActivated = global::Juniper.Resource.Styleable.AppCompatTheme_colorControlActivated;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_colorControlHighlight = global::Juniper.Resource.Styleable.AppCompatTheme_colorControlHighlight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_colorControlNormal = global::Juniper.Resource.Styleable.AppCompatTheme_colorControlNormal;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_colorError = global::Juniper.Resource.Styleable.AppCompatTheme_colorError;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_colorPrimary = global::Juniper.Resource.Styleable.AppCompatTheme_colorPrimary;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_colorPrimaryDark = global::Juniper.Resource.Styleable.AppCompatTheme_colorPrimaryDark;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_colorSwitchThumbNormal = global::Juniper.Resource.Styleable.AppCompatTheme_colorSwitchThumbNormal;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_controlBackground = global::Juniper.Resource.Styleable.AppCompatTheme_controlBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_dialogCornerRadius = global::Juniper.Resource.Styleable.AppCompatTheme_dialogCornerRadius;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_dialogPreferredPadding = global::Juniper.Resource.Styleable.AppCompatTheme_dialogPreferredPadding;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_dialogTheme = global::Juniper.Resource.Styleable.AppCompatTheme_dialogTheme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_dividerHorizontal = global::Juniper.Resource.Styleable.AppCompatTheme_dividerHorizontal;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_dividerVertical = global::Juniper.Resource.Styleable.AppCompatTheme_dividerVertical;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_dropdownListPreferredItemHeight = global::Juniper.Resource.Styleable.AppCompatTheme_dropdownListPreferredItemHeight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_dropDownListViewStyle = global::Juniper.Resource.Styleable.AppCompatTheme_dropDownListViewStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_editTextBackground = global::Juniper.Resource.Styleable.AppCompatTheme_editTextBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_editTextColor = global::Juniper.Resource.Styleable.AppCompatTheme_editTextColor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_editTextStyle = global::Juniper.Resource.Styleable.AppCompatTheme_editTextStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_homeAsUpIndicator = global::Juniper.Resource.Styleable.AppCompatTheme_homeAsUpIndicator;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_imageButtonStyle = global::Juniper.Resource.Styleable.AppCompatTheme_imageButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_listChoiceBackgroundIndicator = global::Juniper.Resource.Styleable.AppCompatTheme_listChoiceBackgroundIndicator;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_listDividerAlertDialog = global::Juniper.Resource.Styleable.AppCompatTheme_listDividerAlertDialog;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_listMenuViewStyle = global::Juniper.Resource.Styleable.AppCompatTheme_listMenuViewStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_listPopupWindowStyle = global::Juniper.Resource.Styleable.AppCompatTheme_listPopupWindowStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_listPreferredItemHeight = global::Juniper.Resource.Styleable.AppCompatTheme_listPreferredItemHeight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_listPreferredItemHeightLarge = global::Juniper.Resource.Styleable.AppCompatTheme_listPreferredItemHeightLarge;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_listPreferredItemHeightSmall = global::Juniper.Resource.Styleable.AppCompatTheme_listPreferredItemHeightSmall;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingLeft = global::Juniper.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingLeft;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingRight = global::Juniper.Resource.Styleable.AppCompatTheme_listPreferredItemPaddingRight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_panelBackground = global::Juniper.Resource.Styleable.AppCompatTheme_panelBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_panelMenuListTheme = global::Juniper.Resource.Styleable.AppCompatTheme_panelMenuListTheme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_panelMenuListWidth = global::Juniper.Resource.Styleable.AppCompatTheme_panelMenuListWidth;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_popupMenuStyle = global::Juniper.Resource.Styleable.AppCompatTheme_popupMenuStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_popupWindowStyle = global::Juniper.Resource.Styleable.AppCompatTheme_popupWindowStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_radioButtonStyle = global::Juniper.Resource.Styleable.AppCompatTheme_radioButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_ratingBarStyle = global::Juniper.Resource.Styleable.AppCompatTheme_ratingBarStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_ratingBarStyleIndicator = global::Juniper.Resource.Styleable.AppCompatTheme_ratingBarStyleIndicator;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_ratingBarStyleSmall = global::Juniper.Resource.Styleable.AppCompatTheme_ratingBarStyleSmall;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_searchViewStyle = global::Juniper.Resource.Styleable.AppCompatTheme_searchViewStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_seekBarStyle = global::Juniper.Resource.Styleable.AppCompatTheme_seekBarStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_selectableItemBackground = global::Juniper.Resource.Styleable.AppCompatTheme_selectableItemBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_selectableItemBackgroundBorderless = global::Juniper.Resource.Styleable.AppCompatTheme_selectableItemBackgroundBorderless;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_spinnerDropDownItemStyle = global::Juniper.Resource.Styleable.AppCompatTheme_spinnerDropDownItemStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_spinnerStyle = global::Juniper.Resource.Styleable.AppCompatTheme_spinnerStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_switchStyle = global::Juniper.Resource.Styleable.AppCompatTheme_switchStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_textAppearanceLargePopupMenu = global::Juniper.Resource.Styleable.AppCompatTheme_textAppearanceLargePopupMenu;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_textAppearanceListItem = global::Juniper.Resource.Styleable.AppCompatTheme_textAppearanceListItem;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_textAppearanceListItemSecondary = global::Juniper.Resource.Styleable.AppCompatTheme_textAppearanceListItemSecondary;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_textAppearanceListItemSmall = global::Juniper.Resource.Styleable.AppCompatTheme_textAppearanceListItemSmall;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_textAppearancePopupMenuHeader = global::Juniper.Resource.Styleable.AppCompatTheme_textAppearancePopupMenuHeader;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultSubtitle = global::Juniper.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultSubtitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultTitle = global::Juniper.Resource.Styleable.AppCompatTheme_textAppearanceSearchResultTitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_textAppearanceSmallPopupMenu = global::Juniper.Resource.Styleable.AppCompatTheme_textAppearanceSmallPopupMenu;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_textColorAlertDialogListItem = global::Juniper.Resource.Styleable.AppCompatTheme_textColorAlertDialogListItem;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_textColorSearchUrl = global::Juniper.Resource.Styleable.AppCompatTheme_textColorSearchUrl;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_toolbarNavigationButtonStyle = global::Juniper.Resource.Styleable.AppCompatTheme_toolbarNavigationButtonStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_toolbarStyle = global::Juniper.Resource.Styleable.AppCompatTheme_toolbarStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_tooltipForegroundColor = global::Juniper.Resource.Styleable.AppCompatTheme_tooltipForegroundColor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_tooltipFrameBackground = global::Juniper.Resource.Styleable.AppCompatTheme_tooltipFrameBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_viewInflaterClass = global::Juniper.Resource.Styleable.AppCompatTheme_viewInflaterClass;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_windowActionBar = global::Juniper.Resource.Styleable.AppCompatTheme_windowActionBar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_windowActionBarOverlay = global::Juniper.Resource.Styleable.AppCompatTheme_windowActionBarOverlay;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_windowActionModeOverlay = global::Juniper.Resource.Styleable.AppCompatTheme_windowActionModeOverlay;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_windowFixedHeightMajor = global::Juniper.Resource.Styleable.AppCompatTheme_windowFixedHeightMajor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_windowFixedHeightMinor = global::Juniper.Resource.Styleable.AppCompatTheme_windowFixedHeightMinor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_windowFixedWidthMajor = global::Juniper.Resource.Styleable.AppCompatTheme_windowFixedWidthMajor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_windowFixedWidthMinor = global::Juniper.Resource.Styleable.AppCompatTheme_windowFixedWidthMinor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_windowMinWidthMajor = global::Juniper.Resource.Styleable.AppCompatTheme_windowMinWidthMajor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_windowMinWidthMinor = global::Juniper.Resource.Styleable.AppCompatTheme_windowMinWidthMinor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.AppCompatTheme_windowNoTitle = global::Juniper.Resource.Styleable.AppCompatTheme_windowNoTitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ButtonBarLayout = global::Juniper.Resource.Styleable.ButtonBarLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ButtonBarLayout_allowStacking = global::Juniper.Resource.Styleable.ButtonBarLayout_allowStacking;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ColorStateListItem = global::Juniper.Resource.Styleable.ColorStateListItem;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ColorStateListItem_alpha = global::Juniper.Resource.Styleable.ColorStateListItem_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ColorStateListItem_android_alpha = global::Juniper.Resource.Styleable.ColorStateListItem_android_alpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ColorStateListItem_android_color = global::Juniper.Resource.Styleable.ColorStateListItem_android_color;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.CompoundButton = global::Juniper.Resource.Styleable.CompoundButton;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.CompoundButton_android_button = global::Juniper.Resource.Styleable.CompoundButton_android_button;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.CompoundButton_buttonTint = global::Juniper.Resource.Styleable.CompoundButton_buttonTint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.CompoundButton_buttonTintMode = global::Juniper.Resource.Styleable.CompoundButton_buttonTintMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.CoordinatorLayout = global::Juniper.Resource.Styleable.CoordinatorLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.CoordinatorLayout_keylines = global::Juniper.Resource.Styleable.CoordinatorLayout_keylines;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.CoordinatorLayout_Layout = global::Juniper.Resource.Styleable.CoordinatorLayout_Layout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity = global::Juniper.Resource.Styleable.CoordinatorLayout_Layout_android_layout_gravity;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor = global::Juniper.Resource.Styleable.CoordinatorLayout_Layout_layout_anchor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity = global::Juniper.Resource.Styleable.CoordinatorLayout_Layout_layout_anchorGravity;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior = global::Juniper.Resource.Styleable.CoordinatorLayout_Layout_layout_behavior;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges = global::Juniper.Resource.Styleable.CoordinatorLayout_Layout_layout_dodgeInsetEdges;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge = global::Juniper.Resource.Styleable.CoordinatorLayout_Layout_layout_insetEdge;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline = global::Juniper.Resource.Styleable.CoordinatorLayout_Layout_layout_keyline;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.CoordinatorLayout_statusBarBackground = global::Juniper.Resource.Styleable.CoordinatorLayout_statusBarBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.DrawerArrowToggle = global::Juniper.Resource.Styleable.DrawerArrowToggle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.DrawerArrowToggle_arrowHeadLength = global::Juniper.Resource.Styleable.DrawerArrowToggle_arrowHeadLength;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.DrawerArrowToggle_arrowShaftLength = global::Juniper.Resource.Styleable.DrawerArrowToggle_arrowShaftLength;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.DrawerArrowToggle_barLength = global::Juniper.Resource.Styleable.DrawerArrowToggle_barLength;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.DrawerArrowToggle_color = global::Juniper.Resource.Styleable.DrawerArrowToggle_color;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.DrawerArrowToggle_drawableSize = global::Juniper.Resource.Styleable.DrawerArrowToggle_drawableSize;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.DrawerArrowToggle_gapBetweenBars = global::Juniper.Resource.Styleable.DrawerArrowToggle_gapBetweenBars;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.DrawerArrowToggle_spinBars = global::Juniper.Resource.Styleable.DrawerArrowToggle_spinBars;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.DrawerArrowToggle_thickness = global::Juniper.Resource.Styleable.DrawerArrowToggle_thickness;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.FontFamily = global::Juniper.Resource.Styleable.FontFamily;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.FontFamilyFont = global::Juniper.Resource.Styleable.FontFamilyFont;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.FontFamilyFont_android_font = global::Juniper.Resource.Styleable.FontFamilyFont_android_font;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.FontFamilyFont_android_fontStyle = global::Juniper.Resource.Styleable.FontFamilyFont_android_fontStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.FontFamilyFont_android_fontVariationSettings = global::Juniper.Resource.Styleable.FontFamilyFont_android_fontVariationSettings;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.FontFamilyFont_android_fontWeight = global::Juniper.Resource.Styleable.FontFamilyFont_android_fontWeight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.FontFamilyFont_android_ttcIndex = global::Juniper.Resource.Styleable.FontFamilyFont_android_ttcIndex;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.FontFamilyFont_font = global::Juniper.Resource.Styleable.FontFamilyFont_font;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.FontFamilyFont_fontStyle = global::Juniper.Resource.Styleable.FontFamilyFont_fontStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.FontFamilyFont_fontVariationSettings = global::Juniper.Resource.Styleable.FontFamilyFont_fontVariationSettings;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.FontFamilyFont_fontWeight = global::Juniper.Resource.Styleable.FontFamilyFont_fontWeight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.FontFamilyFont_ttcIndex = global::Juniper.Resource.Styleable.FontFamilyFont_ttcIndex;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.FontFamily_fontProviderAuthority = global::Juniper.Resource.Styleable.FontFamily_fontProviderAuthority;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.FontFamily_fontProviderCerts = global::Juniper.Resource.Styleable.FontFamily_fontProviderCerts;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.FontFamily_fontProviderFetchStrategy = global::Juniper.Resource.Styleable.FontFamily_fontProviderFetchStrategy;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.FontFamily_fontProviderFetchTimeout = global::Juniper.Resource.Styleable.FontFamily_fontProviderFetchTimeout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.FontFamily_fontProviderPackage = global::Juniper.Resource.Styleable.FontFamily_fontProviderPackage;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.FontFamily_fontProviderQuery = global::Juniper.Resource.Styleable.FontFamily_fontProviderQuery;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.GradientColor = global::Juniper.Resource.Styleable.GradientColor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.GradientColorItem = global::Juniper.Resource.Styleable.GradientColorItem;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.GradientColorItem_android_color = global::Juniper.Resource.Styleable.GradientColorItem_android_color;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.GradientColorItem_android_offset = global::Juniper.Resource.Styleable.GradientColorItem_android_offset;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.GradientColor_android_centerColor = global::Juniper.Resource.Styleable.GradientColor_android_centerColor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.GradientColor_android_centerX = global::Juniper.Resource.Styleable.GradientColor_android_centerX;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.GradientColor_android_centerY = global::Juniper.Resource.Styleable.GradientColor_android_centerY;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.GradientColor_android_endColor = global::Juniper.Resource.Styleable.GradientColor_android_endColor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.GradientColor_android_endX = global::Juniper.Resource.Styleable.GradientColor_android_endX;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.GradientColor_android_endY = global::Juniper.Resource.Styleable.GradientColor_android_endY;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.GradientColor_android_gradientRadius = global::Juniper.Resource.Styleable.GradientColor_android_gradientRadius;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.GradientColor_android_startColor = global::Juniper.Resource.Styleable.GradientColor_android_startColor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.GradientColor_android_startX = global::Juniper.Resource.Styleable.GradientColor_android_startX;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.GradientColor_android_startY = global::Juniper.Resource.Styleable.GradientColor_android_startY;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.GradientColor_android_tileMode = global::Juniper.Resource.Styleable.GradientColor_android_tileMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.GradientColor_android_type = global::Juniper.Resource.Styleable.GradientColor_android_type;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.LinearLayoutCompat = global::Juniper.Resource.Styleable.LinearLayoutCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.LinearLayoutCompat_android_baselineAligned = global::Juniper.Resource.Styleable.LinearLayoutCompat_android_baselineAligned;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex = global::Juniper.Resource.Styleable.LinearLayoutCompat_android_baselineAlignedChildIndex;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.LinearLayoutCompat_android_gravity = global::Juniper.Resource.Styleable.LinearLayoutCompat_android_gravity;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.LinearLayoutCompat_android_orientation = global::Juniper.Resource.Styleable.LinearLayoutCompat_android_orientation;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.LinearLayoutCompat_android_weightSum = global::Juniper.Resource.Styleable.LinearLayoutCompat_android_weightSum;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.LinearLayoutCompat_divider = global::Juniper.Resource.Styleable.LinearLayoutCompat_divider;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.LinearLayoutCompat_dividerPadding = global::Juniper.Resource.Styleable.LinearLayoutCompat_dividerPadding;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.LinearLayoutCompat_Layout = global::Juniper.Resource.Styleable.LinearLayoutCompat_Layout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_gravity = global::Juniper.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_gravity;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_height = global::Juniper.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_height;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_weight = global::Juniper.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_weight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_width = global::Juniper.Resource.Styleable.LinearLayoutCompat_Layout_android_layout_width;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.LinearLayoutCompat_measureWithLargestChild = global::Juniper.Resource.Styleable.LinearLayoutCompat_measureWithLargestChild;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.LinearLayoutCompat_showDividers = global::Juniper.Resource.Styleable.LinearLayoutCompat_showDividers;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ListPopupWindow = global::Juniper.Resource.Styleable.ListPopupWindow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ListPopupWindow_android_dropDownHorizontalOffset = global::Juniper.Resource.Styleable.ListPopupWindow_android_dropDownHorizontalOffset;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ListPopupWindow_android_dropDownVerticalOffset = global::Juniper.Resource.Styleable.ListPopupWindow_android_dropDownVerticalOffset;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuGroup = global::Juniper.Resource.Styleable.MenuGroup;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuGroup_android_checkableBehavior = global::Juniper.Resource.Styleable.MenuGroup_android_checkableBehavior;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuGroup_android_enabled = global::Juniper.Resource.Styleable.MenuGroup_android_enabled;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuGroup_android_id = global::Juniper.Resource.Styleable.MenuGroup_android_id;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuGroup_android_menuCategory = global::Juniper.Resource.Styleable.MenuGroup_android_menuCategory;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuGroup_android_orderInCategory = global::Juniper.Resource.Styleable.MenuGroup_android_orderInCategory;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuGroup_android_visible = global::Juniper.Resource.Styleable.MenuGroup_android_visible;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem = global::Juniper.Resource.Styleable.MenuItem;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_actionLayout = global::Juniper.Resource.Styleable.MenuItem_actionLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_actionProviderClass = global::Juniper.Resource.Styleable.MenuItem_actionProviderClass;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_actionViewClass = global::Juniper.Resource.Styleable.MenuItem_actionViewClass;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_alphabeticModifiers = global::Juniper.Resource.Styleable.MenuItem_alphabeticModifiers;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_android_alphabeticShortcut = global::Juniper.Resource.Styleable.MenuItem_android_alphabeticShortcut;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_android_checkable = global::Juniper.Resource.Styleable.MenuItem_android_checkable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_android_checked = global::Juniper.Resource.Styleable.MenuItem_android_checked;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_android_enabled = global::Juniper.Resource.Styleable.MenuItem_android_enabled;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_android_icon = global::Juniper.Resource.Styleable.MenuItem_android_icon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_android_id = global::Juniper.Resource.Styleable.MenuItem_android_id;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_android_menuCategory = global::Juniper.Resource.Styleable.MenuItem_android_menuCategory;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_android_numericShortcut = global::Juniper.Resource.Styleable.MenuItem_android_numericShortcut;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_android_onClick = global::Juniper.Resource.Styleable.MenuItem_android_onClick;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_android_orderInCategory = global::Juniper.Resource.Styleable.MenuItem_android_orderInCategory;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_android_title = global::Juniper.Resource.Styleable.MenuItem_android_title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_android_titleCondensed = global::Juniper.Resource.Styleable.MenuItem_android_titleCondensed;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_android_visible = global::Juniper.Resource.Styleable.MenuItem_android_visible;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_contentDescription = global::Juniper.Resource.Styleable.MenuItem_contentDescription;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_iconTint = global::Juniper.Resource.Styleable.MenuItem_iconTint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_iconTintMode = global::Juniper.Resource.Styleable.MenuItem_iconTintMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_numericModifiers = global::Juniper.Resource.Styleable.MenuItem_numericModifiers;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_showAsAction = global::Juniper.Resource.Styleable.MenuItem_showAsAction;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuItem_tooltipText = global::Juniper.Resource.Styleable.MenuItem_tooltipText;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuView = global::Juniper.Resource.Styleable.MenuView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuView_android_headerBackground = global::Juniper.Resource.Styleable.MenuView_android_headerBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuView_android_horizontalDivider = global::Juniper.Resource.Styleable.MenuView_android_horizontalDivider;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuView_android_itemBackground = global::Juniper.Resource.Styleable.MenuView_android_itemBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuView_android_itemIconDisabledAlpha = global::Juniper.Resource.Styleable.MenuView_android_itemIconDisabledAlpha;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuView_android_itemTextAppearance = global::Juniper.Resource.Styleable.MenuView_android_itemTextAppearance;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuView_android_verticalDivider = global::Juniper.Resource.Styleable.MenuView_android_verticalDivider;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuView_android_windowAnimationStyle = global::Juniper.Resource.Styleable.MenuView_android_windowAnimationStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuView_preserveIconSpacing = global::Juniper.Resource.Styleable.MenuView_preserveIconSpacing;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.MenuView_subMenuArrow = global::Juniper.Resource.Styleable.MenuView_subMenuArrow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.PopupWindow = global::Juniper.Resource.Styleable.PopupWindow;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.PopupWindowBackgroundState = global::Juniper.Resource.Styleable.PopupWindowBackgroundState;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.PopupWindowBackgroundState_state_above_anchor = global::Juniper.Resource.Styleable.PopupWindowBackgroundState_state_above_anchor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.PopupWindow_android_popupAnimationStyle = global::Juniper.Resource.Styleable.PopupWindow_android_popupAnimationStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.PopupWindow_android_popupBackground = global::Juniper.Resource.Styleable.PopupWindow_android_popupBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.PopupWindow_overlapAnchor = global::Juniper.Resource.Styleable.PopupWindow_overlapAnchor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.RecycleListView = global::Juniper.Resource.Styleable.RecycleListView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.RecycleListView_paddingBottomNoButtons = global::Juniper.Resource.Styleable.RecycleListView_paddingBottomNoButtons;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.RecycleListView_paddingTopNoTitle = global::Juniper.Resource.Styleable.RecycleListView_paddingTopNoTitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SearchView = global::Juniper.Resource.Styleable.SearchView;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SearchView_android_focusable = global::Juniper.Resource.Styleable.SearchView_android_focusable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SearchView_android_imeOptions = global::Juniper.Resource.Styleable.SearchView_android_imeOptions;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SearchView_android_inputType = global::Juniper.Resource.Styleable.SearchView_android_inputType;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SearchView_android_maxWidth = global::Juniper.Resource.Styleable.SearchView_android_maxWidth;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SearchView_closeIcon = global::Juniper.Resource.Styleable.SearchView_closeIcon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SearchView_commitIcon = global::Juniper.Resource.Styleable.SearchView_commitIcon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SearchView_defaultQueryHint = global::Juniper.Resource.Styleable.SearchView_defaultQueryHint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SearchView_goIcon = global::Juniper.Resource.Styleable.SearchView_goIcon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SearchView_iconifiedByDefault = global::Juniper.Resource.Styleable.SearchView_iconifiedByDefault;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SearchView_layout = global::Juniper.Resource.Styleable.SearchView_layout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SearchView_queryBackground = global::Juniper.Resource.Styleable.SearchView_queryBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SearchView_queryHint = global::Juniper.Resource.Styleable.SearchView_queryHint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SearchView_searchHintIcon = global::Juniper.Resource.Styleable.SearchView_searchHintIcon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SearchView_searchIcon = global::Juniper.Resource.Styleable.SearchView_searchIcon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SearchView_submitBackground = global::Juniper.Resource.Styleable.SearchView_submitBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SearchView_suggestionRowLayout = global::Juniper.Resource.Styleable.SearchView_suggestionRowLayout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SearchView_voiceIcon = global::Juniper.Resource.Styleable.SearchView_voiceIcon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Spinner = global::Juniper.Resource.Styleable.Spinner;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Spinner_android_dropDownWidth = global::Juniper.Resource.Styleable.Spinner_android_dropDownWidth;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Spinner_android_entries = global::Juniper.Resource.Styleable.Spinner_android_entries;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Spinner_android_popupBackground = global::Juniper.Resource.Styleable.Spinner_android_popupBackground;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Spinner_android_prompt = global::Juniper.Resource.Styleable.Spinner_android_prompt;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Spinner_popupTheme = global::Juniper.Resource.Styleable.Spinner_popupTheme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.StateListDrawable = global::Juniper.Resource.Styleable.StateListDrawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.StateListDrawableItem = global::Juniper.Resource.Styleable.StateListDrawableItem;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.StateListDrawableItem_android_drawable = global::Juniper.Resource.Styleable.StateListDrawableItem_android_drawable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.StateListDrawable_android_constantSize = global::Juniper.Resource.Styleable.StateListDrawable_android_constantSize;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.StateListDrawable_android_dither = global::Juniper.Resource.Styleable.StateListDrawable_android_dither;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.StateListDrawable_android_enterFadeDuration = global::Juniper.Resource.Styleable.StateListDrawable_android_enterFadeDuration;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.StateListDrawable_android_exitFadeDuration = global::Juniper.Resource.Styleable.StateListDrawable_android_exitFadeDuration;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.StateListDrawable_android_variablePadding = global::Juniper.Resource.Styleable.StateListDrawable_android_variablePadding;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.StateListDrawable_android_visible = global::Juniper.Resource.Styleable.StateListDrawable_android_visible;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SwitchCompat = global::Juniper.Resource.Styleable.SwitchCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SwitchCompat_android_textOff = global::Juniper.Resource.Styleable.SwitchCompat_android_textOff;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SwitchCompat_android_textOn = global::Juniper.Resource.Styleable.SwitchCompat_android_textOn;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SwitchCompat_android_thumb = global::Juniper.Resource.Styleable.SwitchCompat_android_thumb;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SwitchCompat_showText = global::Juniper.Resource.Styleable.SwitchCompat_showText;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SwitchCompat_splitTrack = global::Juniper.Resource.Styleable.SwitchCompat_splitTrack;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SwitchCompat_switchMinWidth = global::Juniper.Resource.Styleable.SwitchCompat_switchMinWidth;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SwitchCompat_switchPadding = global::Juniper.Resource.Styleable.SwitchCompat_switchPadding;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SwitchCompat_switchTextAppearance = global::Juniper.Resource.Styleable.SwitchCompat_switchTextAppearance;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SwitchCompat_thumbTextPadding = global::Juniper.Resource.Styleable.SwitchCompat_thumbTextPadding;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SwitchCompat_thumbTint = global::Juniper.Resource.Styleable.SwitchCompat_thumbTint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SwitchCompat_thumbTintMode = global::Juniper.Resource.Styleable.SwitchCompat_thumbTintMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SwitchCompat_track = global::Juniper.Resource.Styleable.SwitchCompat_track;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SwitchCompat_trackTint = global::Juniper.Resource.Styleable.SwitchCompat_trackTint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.SwitchCompat_trackTintMode = global::Juniper.Resource.Styleable.SwitchCompat_trackTintMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.TextAppearance = global::Juniper.Resource.Styleable.TextAppearance;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.TextAppearance_android_fontFamily = global::Juniper.Resource.Styleable.TextAppearance_android_fontFamily;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.TextAppearance_android_shadowColor = global::Juniper.Resource.Styleable.TextAppearance_android_shadowColor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.TextAppearance_android_shadowDx = global::Juniper.Resource.Styleable.TextAppearance_android_shadowDx;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.TextAppearance_android_shadowDy = global::Juniper.Resource.Styleable.TextAppearance_android_shadowDy;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.TextAppearance_android_shadowRadius = global::Juniper.Resource.Styleable.TextAppearance_android_shadowRadius;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.TextAppearance_android_textColor = global::Juniper.Resource.Styleable.TextAppearance_android_textColor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.TextAppearance_android_textColorHint = global::Juniper.Resource.Styleable.TextAppearance_android_textColorHint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.TextAppearance_android_textColorLink = global::Juniper.Resource.Styleable.TextAppearance_android_textColorLink;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.TextAppearance_android_textSize = global::Juniper.Resource.Styleable.TextAppearance_android_textSize;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.TextAppearance_android_textStyle = global::Juniper.Resource.Styleable.TextAppearance_android_textStyle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.TextAppearance_android_typeface = global::Juniper.Resource.Styleable.TextAppearance_android_typeface;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.TextAppearance_fontFamily = global::Juniper.Resource.Styleable.TextAppearance_fontFamily;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.TextAppearance_textAllCaps = global::Juniper.Resource.Styleable.TextAppearance_textAllCaps;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar = global::Juniper.Resource.Styleable.Toolbar;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_android_gravity = global::Juniper.Resource.Styleable.Toolbar_android_gravity;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_android_minHeight = global::Juniper.Resource.Styleable.Toolbar_android_minHeight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_buttonGravity = global::Juniper.Resource.Styleable.Toolbar_buttonGravity;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_collapseContentDescription = global::Juniper.Resource.Styleable.Toolbar_collapseContentDescription;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_collapseIcon = global::Juniper.Resource.Styleable.Toolbar_collapseIcon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_contentInsetEnd = global::Juniper.Resource.Styleable.Toolbar_contentInsetEnd;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_contentInsetEndWithActions = global::Juniper.Resource.Styleable.Toolbar_contentInsetEndWithActions;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_contentInsetLeft = global::Juniper.Resource.Styleable.Toolbar_contentInsetLeft;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_contentInsetRight = global::Juniper.Resource.Styleable.Toolbar_contentInsetRight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_contentInsetStart = global::Juniper.Resource.Styleable.Toolbar_contentInsetStart;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_contentInsetStartWithNavigation = global::Juniper.Resource.Styleable.Toolbar_contentInsetStartWithNavigation;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_logo = global::Juniper.Resource.Styleable.Toolbar_logo;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_logoDescription = global::Juniper.Resource.Styleable.Toolbar_logoDescription;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_maxButtonHeight = global::Juniper.Resource.Styleable.Toolbar_maxButtonHeight;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_navigationContentDescription = global::Juniper.Resource.Styleable.Toolbar_navigationContentDescription;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_navigationIcon = global::Juniper.Resource.Styleable.Toolbar_navigationIcon;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_popupTheme = global::Juniper.Resource.Styleable.Toolbar_popupTheme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_subtitle = global::Juniper.Resource.Styleable.Toolbar_subtitle;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_subtitleTextAppearance = global::Juniper.Resource.Styleable.Toolbar_subtitleTextAppearance;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_subtitleTextColor = global::Juniper.Resource.Styleable.Toolbar_subtitleTextColor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_title = global::Juniper.Resource.Styleable.Toolbar_title;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_titleMargin = global::Juniper.Resource.Styleable.Toolbar_titleMargin;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_titleMarginBottom = global::Juniper.Resource.Styleable.Toolbar_titleMarginBottom;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_titleMarginEnd = global::Juniper.Resource.Styleable.Toolbar_titleMarginEnd;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_titleMargins = global::Juniper.Resource.Styleable.Toolbar_titleMargins;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_titleMarginStart = global::Juniper.Resource.Styleable.Toolbar_titleMarginStart;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_titleMarginTop = global::Juniper.Resource.Styleable.Toolbar_titleMarginTop;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_titleTextAppearance = global::Juniper.Resource.Styleable.Toolbar_titleTextAppearance;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.Toolbar_titleTextColor = global::Juniper.Resource.Styleable.Toolbar_titleTextColor;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.View = global::Juniper.Resource.Styleable.View;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ViewBackgroundHelper = global::Juniper.Resource.Styleable.ViewBackgroundHelper;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ViewBackgroundHelper_android_background = global::Juniper.Resource.Styleable.ViewBackgroundHelper_android_background;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ViewBackgroundHelper_backgroundTint = global::Juniper.Resource.Styleable.ViewBackgroundHelper_backgroundTint;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ViewBackgroundHelper_backgroundTintMode = global::Juniper.Resource.Styleable.ViewBackgroundHelper_backgroundTintMode;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ViewStubCompat = global::Juniper.Resource.Styleable.ViewStubCompat;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ViewStubCompat_android_id = global::Juniper.Resource.Styleable.ViewStubCompat_android_id;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ViewStubCompat_android_inflatedId = global::Juniper.Resource.Styleable.ViewStubCompat_android_inflatedId;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.ViewStubCompat_android_layout = global::Juniper.Resource.Styleable.ViewStubCompat_android_layout;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.View_android_focusable = global::Juniper.Resource.Styleable.View_android_focusable;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.View_android_theme = global::Juniper.Resource.Styleable.View_android_theme;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.View_paddingEnd = global::Juniper.Resource.Styleable.View_paddingEnd;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.View_paddingStart = global::Juniper.Resource.Styleable.View_paddingStart;
+			global::Juniper.VeldridIntegration.AndroidSupport.Resource.Styleable.View_theme = global::Juniper.Resource.Styleable.View_theme;
+		}
+		
+		public partial class Animation
+		{
+			
+			// aapt resource value: 0x7F010000
+			public const int abc_fade_in = 2130771968;
+			
+			// aapt resource value: 0x7F010001
+			public const int abc_fade_out = 2130771969;
+			
+			// aapt resource value: 0x7F010002
+			public const int abc_grow_fade_in_from_bottom = 2130771970;
+			
+			// aapt resource value: 0x7F010003
+			public const int abc_popup_enter = 2130771971;
+			
+			// aapt resource value: 0x7F010004
+			public const int abc_popup_exit = 2130771972;
+			
+			// aapt resource value: 0x7F010005
+			public const int abc_shrink_fade_out_from_bottom = 2130771973;
+			
+			// aapt resource value: 0x7F010006
+			public const int abc_slide_in_bottom = 2130771974;
+			
+			// aapt resource value: 0x7F010007
+			public const int abc_slide_in_top = 2130771975;
+			
+			// aapt resource value: 0x7F010008
+			public const int abc_slide_out_bottom = 2130771976;
+			
+			// aapt resource value: 0x7F010009
+			public const int abc_slide_out_top = 2130771977;
+			
+			// aapt resource value: 0x7F01000A
+			public const int abc_tooltip_enter = 2130771978;
+			
+			// aapt resource value: 0x7F01000B
+			public const int abc_tooltip_exit = 2130771979;
+			
+			static Animation()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Animation()
+			{
+			}
 		}
 		
 		public partial class Attribute
 		{
+			
+			// aapt resource value: 0x7F020000
+			public const int actionBarDivider = 2130837504;
+			
+			// aapt resource value: 0x7F020001
+			public const int actionBarItemBackground = 2130837505;
+			
+			// aapt resource value: 0x7F020002
+			public const int actionBarPopupTheme = 2130837506;
+			
+			// aapt resource value: 0x7F020003
+			public const int actionBarSize = 2130837507;
+			
+			// aapt resource value: 0x7F020004
+			public const int actionBarSplitStyle = 2130837508;
+			
+			// aapt resource value: 0x7F020005
+			public const int actionBarStyle = 2130837509;
+			
+			// aapt resource value: 0x7F020006
+			public const int actionBarTabBarStyle = 2130837510;
+			
+			// aapt resource value: 0x7F020007
+			public const int actionBarTabStyle = 2130837511;
+			
+			// aapt resource value: 0x7F020008
+			public const int actionBarTabTextStyle = 2130837512;
+			
+			// aapt resource value: 0x7F020009
+			public const int actionBarTheme = 2130837513;
+			
+			// aapt resource value: 0x7F02000A
+			public const int actionBarWidgetTheme = 2130837514;
+			
+			// aapt resource value: 0x7F02000B
+			public const int actionButtonStyle = 2130837515;
+			
+			// aapt resource value: 0x7F02000C
+			public const int actionDropDownStyle = 2130837516;
+			
+			// aapt resource value: 0x7F02000D
+			public const int actionLayout = 2130837517;
+			
+			// aapt resource value: 0x7F02000E
+			public const int actionMenuTextAppearance = 2130837518;
+			
+			// aapt resource value: 0x7F02000F
+			public const int actionMenuTextColor = 2130837519;
+			
+			// aapt resource value: 0x7F020010
+			public const int actionModeBackground = 2130837520;
+			
+			// aapt resource value: 0x7F020011
+			public const int actionModeCloseButtonStyle = 2130837521;
+			
+			// aapt resource value: 0x7F020012
+			public const int actionModeCloseDrawable = 2130837522;
+			
+			// aapt resource value: 0x7F020013
+			public const int actionModeCopyDrawable = 2130837523;
+			
+			// aapt resource value: 0x7F020014
+			public const int actionModeCutDrawable = 2130837524;
+			
+			// aapt resource value: 0x7F020015
+			public const int actionModeFindDrawable = 2130837525;
+			
+			// aapt resource value: 0x7F020016
+			public const int actionModePasteDrawable = 2130837526;
+			
+			// aapt resource value: 0x7F020017
+			public const int actionModePopupWindowStyle = 2130837527;
+			
+			// aapt resource value: 0x7F020018
+			public const int actionModeSelectAllDrawable = 2130837528;
+			
+			// aapt resource value: 0x7F020019
+			public const int actionModeShareDrawable = 2130837529;
+			
+			// aapt resource value: 0x7F02001A
+			public const int actionModeSplitBackground = 2130837530;
+			
+			// aapt resource value: 0x7F02001B
+			public const int actionModeStyle = 2130837531;
+			
+			// aapt resource value: 0x7F02001C
+			public const int actionModeWebSearchDrawable = 2130837532;
+			
+			// aapt resource value: 0x7F02001D
+			public const int actionOverflowButtonStyle = 2130837533;
+			
+			// aapt resource value: 0x7F02001E
+			public const int actionOverflowMenuStyle = 2130837534;
+			
+			// aapt resource value: 0x7F02001F
+			public const int actionProviderClass = 2130837535;
+			
+			// aapt resource value: 0x7F020020
+			public const int actionViewClass = 2130837536;
+			
+			// aapt resource value: 0x7F020021
+			public const int activityChooserViewStyle = 2130837537;
+			
+			// aapt resource value: 0x7F020022
+			public const int alertDialogButtonGroupStyle = 2130837538;
+			
+			// aapt resource value: 0x7F020023
+			public const int alertDialogCenterButtons = 2130837539;
+			
+			// aapt resource value: 0x7F020024
+			public const int alertDialogStyle = 2130837540;
+			
+			// aapt resource value: 0x7F020025
+			public const int alertDialogTheme = 2130837541;
+			
+			// aapt resource value: 0x7F020026
+			public const int allowStacking = 2130837542;
+			
+			// aapt resource value: 0x7F020027
+			public const int alpha = 2130837543;
+			
+			// aapt resource value: 0x7F020028
+			public const int alphabeticModifiers = 2130837544;
+			
+			// aapt resource value: 0x7F020029
+			public const int arrowHeadLength = 2130837545;
+			
+			// aapt resource value: 0x7F02002A
+			public const int arrowShaftLength = 2130837546;
+			
+			// aapt resource value: 0x7F02002B
+			public const int autoCompleteTextViewStyle = 2130837547;
+			
+			// aapt resource value: 0x7F02002C
+			public const int autoSizeMaxTextSize = 2130837548;
+			
+			// aapt resource value: 0x7F02002D
+			public const int autoSizeMinTextSize = 2130837549;
+			
+			// aapt resource value: 0x7F02002E
+			public const int autoSizePresetSizes = 2130837550;
+			
+			// aapt resource value: 0x7F02002F
+			public const int autoSizeStepGranularity = 2130837551;
+			
+			// aapt resource value: 0x7F020030
+			public const int autoSizeTextType = 2130837552;
+			
+			// aapt resource value: 0x7F020031
+			public const int background = 2130837553;
+			
+			// aapt resource value: 0x7F020032
+			public const int backgroundSplit = 2130837554;
+			
+			// aapt resource value: 0x7F020033
+			public const int backgroundStacked = 2130837555;
+			
+			// aapt resource value: 0x7F020034
+			public const int backgroundTint = 2130837556;
+			
+			// aapt resource value: 0x7F020035
+			public const int backgroundTintMode = 2130837557;
+			
+			// aapt resource value: 0x7F020036
+			public const int barLength = 2130837558;
+			
+			// aapt resource value: 0x7F020037
+			public const int borderlessButtonStyle = 2130837559;
+			
+			// aapt resource value: 0x7F020038
+			public const int buttonBarButtonStyle = 2130837560;
+			
+			// aapt resource value: 0x7F020039
+			public const int buttonBarNegativeButtonStyle = 2130837561;
+			
+			// aapt resource value: 0x7F02003A
+			public const int buttonBarNeutralButtonStyle = 2130837562;
+			
+			// aapt resource value: 0x7F02003B
+			public const int buttonBarPositiveButtonStyle = 2130837563;
+			
+			// aapt resource value: 0x7F02003C
+			public const int buttonBarStyle = 2130837564;
+			
+			// aapt resource value: 0x7F02003D
+			public const int buttonGravity = 2130837565;
+			
+			// aapt resource value: 0x7F02003E
+			public const int buttonIconDimen = 2130837566;
+			
+			// aapt resource value: 0x7F02003F
+			public const int buttonPanelSideLayout = 2130837567;
+			
+			// aapt resource value: 0x7F020040
+			public const int buttonStyle = 2130837568;
+			
+			// aapt resource value: 0x7F020041
+			public const int buttonStyleSmall = 2130837569;
+			
+			// aapt resource value: 0x7F020042
+			public const int buttonTint = 2130837570;
+			
+			// aapt resource value: 0x7F020043
+			public const int buttonTintMode = 2130837571;
+			
+			// aapt resource value: 0x7F020044
+			public const int checkboxStyle = 2130837572;
+			
+			// aapt resource value: 0x7F020045
+			public const int checkedTextViewStyle = 2130837573;
+			
+			// aapt resource value: 0x7F020046
+			public const int closeIcon = 2130837574;
+			
+			// aapt resource value: 0x7F020047
+			public const int closeItemLayout = 2130837575;
+			
+			// aapt resource value: 0x7F020048
+			public const int collapseContentDescription = 2130837576;
+			
+			// aapt resource value: 0x7F020049
+			public const int collapseIcon = 2130837577;
+			
+			// aapt resource value: 0x7F02004A
+			public const int color = 2130837578;
+			
+			// aapt resource value: 0x7F02004B
+			public const int colorAccent = 2130837579;
+			
+			// aapt resource value: 0x7F02004C
+			public const int colorBackgroundFloating = 2130837580;
+			
+			// aapt resource value: 0x7F02004D
+			public const int colorButtonNormal = 2130837581;
+			
+			// aapt resource value: 0x7F02004E
+			public const int colorControlActivated = 2130837582;
+			
+			// aapt resource value: 0x7F02004F
+			public const int colorControlHighlight = 2130837583;
+			
+			// aapt resource value: 0x7F020050
+			public const int colorControlNormal = 2130837584;
+			
+			// aapt resource value: 0x7F020051
+			public const int colorError = 2130837585;
+			
+			// aapt resource value: 0x7F020052
+			public const int colorPrimary = 2130837586;
+			
+			// aapt resource value: 0x7F020053
+			public const int colorPrimaryDark = 2130837587;
+			
+			// aapt resource value: 0x7F020054
+			public const int colorSwitchThumbNormal = 2130837588;
+			
+			// aapt resource value: 0x7F020055
+			public const int commitIcon = 2130837589;
+			
+			// aapt resource value: 0x7F020056
+			public const int contentDescription = 2130837590;
+			
+			// aapt resource value: 0x7F020057
+			public const int contentInsetEnd = 2130837591;
+			
+			// aapt resource value: 0x7F020058
+			public const int contentInsetEndWithActions = 2130837592;
+			
+			// aapt resource value: 0x7F020059
+			public const int contentInsetLeft = 2130837593;
+			
+			// aapt resource value: 0x7F02005A
+			public const int contentInsetRight = 2130837594;
+			
+			// aapt resource value: 0x7F02005B
+			public const int contentInsetStart = 2130837595;
+			
+			// aapt resource value: 0x7F02005C
+			public const int contentInsetStartWithNavigation = 2130837596;
+			
+			// aapt resource value: 0x7F02005D
+			public const int controlBackground = 2130837597;
+			
+			// aapt resource value: 0x7F02005E
+			public const int coordinatorLayoutStyle = 2130837598;
+			
+			// aapt resource value: 0x7F02005F
+			public const int customNavigationLayout = 2130837599;
+			
+			// aapt resource value: 0x7F020060
+			public const int defaultQueryHint = 2130837600;
+			
+			// aapt resource value: 0x7F020061
+			public const int dialogCornerRadius = 2130837601;
+			
+			// aapt resource value: 0x7F020062
+			public const int dialogPreferredPadding = 2130837602;
+			
+			// aapt resource value: 0x7F020063
+			public const int dialogTheme = 2130837603;
+			
+			// aapt resource value: 0x7F020064
+			public const int displayOptions = 2130837604;
+			
+			// aapt resource value: 0x7F020065
+			public const int divider = 2130837605;
+			
+			// aapt resource value: 0x7F020066
+			public const int dividerHorizontal = 2130837606;
+			
+			// aapt resource value: 0x7F020067
+			public const int dividerPadding = 2130837607;
+			
+			// aapt resource value: 0x7F020068
+			public const int dividerVertical = 2130837608;
+			
+			// aapt resource value: 0x7F020069
+			public const int drawableSize = 2130837609;
+			
+			// aapt resource value: 0x7F02006A
+			public const int drawerArrowStyle = 2130837610;
+			
+			// aapt resource value: 0x7F02006C
+			public const int dropdownListPreferredItemHeight = 2130837612;
+			
+			// aapt resource value: 0x7F02006B
+			public const int dropDownListViewStyle = 2130837611;
+			
+			// aapt resource value: 0x7F02006D
+			public const int editTextBackground = 2130837613;
+			
+			// aapt resource value: 0x7F02006E
+			public const int editTextColor = 2130837614;
+			
+			// aapt resource value: 0x7F02006F
+			public const int editTextStyle = 2130837615;
+			
+			// aapt resource value: 0x7F020070
+			public const int elevation = 2130837616;
+			
+			// aapt resource value: 0x7F020071
+			public const int expandActivityOverflowButtonDrawable = 2130837617;
+			
+			// aapt resource value: 0x7F020072
+			public const int firstBaselineToTopHeight = 2130837618;
+			
+			// aapt resource value: 0x7F020073
+			public const int font = 2130837619;
+			
+			// aapt resource value: 0x7F020074
+			public const int fontFamily = 2130837620;
+			
+			// aapt resource value: 0x7F020075
+			public const int fontProviderAuthority = 2130837621;
+			
+			// aapt resource value: 0x7F020076
+			public const int fontProviderCerts = 2130837622;
+			
+			// aapt resource value: 0x7F020077
+			public const int fontProviderFetchStrategy = 2130837623;
+			
+			// aapt resource value: 0x7F020078
+			public const int fontProviderFetchTimeout = 2130837624;
+			
+			// aapt resource value: 0x7F020079
+			public const int fontProviderPackage = 2130837625;
+			
+			// aapt resource value: 0x7F02007A
+			public const int fontProviderQuery = 2130837626;
+			
+			// aapt resource value: 0x7F02007B
+			public const int fontStyle = 2130837627;
+			
+			// aapt resource value: 0x7F02007C
+			public const int fontVariationSettings = 2130837628;
+			
+			// aapt resource value: 0x7F02007D
+			public const int fontWeight = 2130837629;
+			
+			// aapt resource value: 0x7F02007E
+			public const int gapBetweenBars = 2130837630;
+			
+			// aapt resource value: 0x7F02007F
+			public const int goIcon = 2130837631;
+			
+			// aapt resource value: 0x7F020080
+			public const int height = 2130837632;
+			
+			// aapt resource value: 0x7F020081
+			public const int hideOnContentScroll = 2130837633;
+			
+			// aapt resource value: 0x7F020082
+			public const int homeAsUpIndicator = 2130837634;
+			
+			// aapt resource value: 0x7F020083
+			public const int homeLayout = 2130837635;
+			
+			// aapt resource value: 0x7F020084
+			public const int icon = 2130837636;
+			
+			// aapt resource value: 0x7F020087
+			public const int iconifiedByDefault = 2130837639;
+			
+			// aapt resource value: 0x7F020085
+			public const int iconTint = 2130837637;
+			
+			// aapt resource value: 0x7F020086
+			public const int iconTintMode = 2130837638;
+			
+			// aapt resource value: 0x7F020088
+			public const int imageButtonStyle = 2130837640;
+			
+			// aapt resource value: 0x7F020089
+			public const int indeterminateProgressStyle = 2130837641;
+			
+			// aapt resource value: 0x7F02008A
+			public const int initialActivityCount = 2130837642;
+			
+			// aapt resource value: 0x7F02008B
+			public const int isLightTheme = 2130837643;
+			
+			// aapt resource value: 0x7F02008C
+			public const int itemPadding = 2130837644;
+			
+			// aapt resource value: 0x7F02008D
+			public const int keylines = 2130837645;
+			
+			// aapt resource value: 0x7F02008E
+			public const int lastBaselineToBottomHeight = 2130837646;
+			
+			// aapt resource value: 0x7F02008F
+			public const int layout = 2130837647;
+			
+			// aapt resource value: 0x7F020090
+			public const int layout_anchor = 2130837648;
+			
+			// aapt resource value: 0x7F020091
+			public const int layout_anchorGravity = 2130837649;
+			
+			// aapt resource value: 0x7F020092
+			public const int layout_behavior = 2130837650;
+			
+			// aapt resource value: 0x7F020093
+			public const int layout_dodgeInsetEdges = 2130837651;
+			
+			// aapt resource value: 0x7F020094
+			public const int layout_insetEdge = 2130837652;
+			
+			// aapt resource value: 0x7F020095
+			public const int layout_keyline = 2130837653;
+			
+			// aapt resource value: 0x7F020096
+			public const int lineHeight = 2130837654;
+			
+			// aapt resource value: 0x7F020097
+			public const int listChoiceBackgroundIndicator = 2130837655;
+			
+			// aapt resource value: 0x7F020098
+			public const int listDividerAlertDialog = 2130837656;
+			
+			// aapt resource value: 0x7F020099
+			public const int listItemLayout = 2130837657;
+			
+			// aapt resource value: 0x7F02009A
+			public const int listLayout = 2130837658;
+			
+			// aapt resource value: 0x7F02009B
+			public const int listMenuViewStyle = 2130837659;
+			
+			// aapt resource value: 0x7F02009C
+			public const int listPopupWindowStyle = 2130837660;
+			
+			// aapt resource value: 0x7F02009D
+			public const int listPreferredItemHeight = 2130837661;
+			
+			// aapt resource value: 0x7F02009E
+			public const int listPreferredItemHeightLarge = 2130837662;
+			
+			// aapt resource value: 0x7F02009F
+			public const int listPreferredItemHeightSmall = 2130837663;
+			
+			// aapt resource value: 0x7F0200A0
+			public const int listPreferredItemPaddingLeft = 2130837664;
+			
+			// aapt resource value: 0x7F0200A1
+			public const int listPreferredItemPaddingRight = 2130837665;
+			
+			// aapt resource value: 0x7F0200A2
+			public const int logo = 2130837666;
+			
+			// aapt resource value: 0x7F0200A3
+			public const int logoDescription = 2130837667;
+			
+			// aapt resource value: 0x7F0200A4
+			public const int maxButtonHeight = 2130837668;
+			
+			// aapt resource value: 0x7F0200A5
+			public const int measureWithLargestChild = 2130837669;
+			
+			// aapt resource value: 0x7F0200A6
+			public const int multiChoiceItemLayout = 2130837670;
+			
+			// aapt resource value: 0x7F0200A7
+			public const int navigationContentDescription = 2130837671;
+			
+			// aapt resource value: 0x7F0200A8
+			public const int navigationIcon = 2130837672;
+			
+			// aapt resource value: 0x7F0200A9
+			public const int navigationMode = 2130837673;
+			
+			// aapt resource value: 0x7F0200AA
+			public const int numericModifiers = 2130837674;
+			
+			// aapt resource value: 0x7F0200AB
+			public const int overlapAnchor = 2130837675;
+			
+			// aapt resource value: 0x7F0200AC
+			public const int paddingBottomNoButtons = 2130837676;
+			
+			// aapt resource value: 0x7F0200AD
+			public const int paddingEnd = 2130837677;
+			
+			// aapt resource value: 0x7F0200AE
+			public const int paddingStart = 2130837678;
+			
+			// aapt resource value: 0x7F0200AF
+			public const int paddingTopNoTitle = 2130837679;
+			
+			// aapt resource value: 0x7F0200B0
+			public const int panelBackground = 2130837680;
+			
+			// aapt resource value: 0x7F0200B1
+			public const int panelMenuListTheme = 2130837681;
+			
+			// aapt resource value: 0x7F0200B2
+			public const int panelMenuListWidth = 2130837682;
+			
+			// aapt resource value: 0x7F0200B3
+			public const int popupMenuStyle = 2130837683;
+			
+			// aapt resource value: 0x7F0200B4
+			public const int popupTheme = 2130837684;
+			
+			// aapt resource value: 0x7F0200B5
+			public const int popupWindowStyle = 2130837685;
+			
+			// aapt resource value: 0x7F0200B6
+			public const int preserveIconSpacing = 2130837686;
+			
+			// aapt resource value: 0x7F0200B7
+			public const int progressBarPadding = 2130837687;
+			
+			// aapt resource value: 0x7F0200B8
+			public const int progressBarStyle = 2130837688;
+			
+			// aapt resource value: 0x7F0200B9
+			public const int queryBackground = 2130837689;
+			
+			// aapt resource value: 0x7F0200BA
+			public const int queryHint = 2130837690;
+			
+			// aapt resource value: 0x7F0200BB
+			public const int radioButtonStyle = 2130837691;
+			
+			// aapt resource value: 0x7F0200BC
+			public const int ratingBarStyle = 2130837692;
+			
+			// aapt resource value: 0x7F0200BD
+			public const int ratingBarStyleIndicator = 2130837693;
+			
+			// aapt resource value: 0x7F0200BE
+			public const int ratingBarStyleSmall = 2130837694;
+			
+			// aapt resource value: 0x7F0200BF
+			public const int searchHintIcon = 2130837695;
+			
+			// aapt resource value: 0x7F0200C0
+			public const int searchIcon = 2130837696;
+			
+			// aapt resource value: 0x7F0200C1
+			public const int searchViewStyle = 2130837697;
+			
+			// aapt resource value: 0x7F0200C2
+			public const int seekBarStyle = 2130837698;
+			
+			// aapt resource value: 0x7F0200C3
+			public const int selectableItemBackground = 2130837699;
+			
+			// aapt resource value: 0x7F0200C4
+			public const int selectableItemBackgroundBorderless = 2130837700;
+			
+			// aapt resource value: 0x7F0200C5
+			public const int showAsAction = 2130837701;
+			
+			// aapt resource value: 0x7F0200C6
+			public const int showDividers = 2130837702;
+			
+			// aapt resource value: 0x7F0200C7
+			public const int showText = 2130837703;
+			
+			// aapt resource value: 0x7F0200C8
+			public const int showTitle = 2130837704;
+			
+			// aapt resource value: 0x7F0200C9
+			public const int singleChoiceItemLayout = 2130837705;
+			
+			// aapt resource value: 0x7F0200CA
+			public const int spinBars = 2130837706;
+			
+			// aapt resource value: 0x7F0200CB
+			public const int spinnerDropDownItemStyle = 2130837707;
+			
+			// aapt resource value: 0x7F0200CC
+			public const int spinnerStyle = 2130837708;
+			
+			// aapt resource value: 0x7F0200CD
+			public const int splitTrack = 2130837709;
+			
+			// aapt resource value: 0x7F0200CE
+			public const int srcCompat = 2130837710;
+			
+			// aapt resource value: 0x7F0200CF
+			public const int state_above_anchor = 2130837711;
+			
+			// aapt resource value: 0x7F0200D0
+			public const int statusBarBackground = 2130837712;
+			
+			// aapt resource value: 0x7F0200D1
+			public const int subMenuArrow = 2130837713;
+			
+			// aapt resource value: 0x7F0200D2
+			public const int submitBackground = 2130837714;
+			
+			// aapt resource value: 0x7F0200D3
+			public const int subtitle = 2130837715;
+			
+			// aapt resource value: 0x7F0200D4
+			public const int subtitleTextAppearance = 2130837716;
+			
+			// aapt resource value: 0x7F0200D5
+			public const int subtitleTextColor = 2130837717;
+			
+			// aapt resource value: 0x7F0200D6
+			public const int subtitleTextStyle = 2130837718;
+			
+			// aapt resource value: 0x7F0200D7
+			public const int suggestionRowLayout = 2130837719;
+			
+			// aapt resource value: 0x7F0200D8
+			public const int switchMinWidth = 2130837720;
+			
+			// aapt resource value: 0x7F0200D9
+			public const int switchPadding = 2130837721;
+			
+			// aapt resource value: 0x7F0200DA
+			public const int switchStyle = 2130837722;
+			
+			// aapt resource value: 0x7F0200DB
+			public const int switchTextAppearance = 2130837723;
+			
+			// aapt resource value: 0x7F0200DC
+			public const int textAllCaps = 2130837724;
+			
+			// aapt resource value: 0x7F0200DD
+			public const int textAppearanceLargePopupMenu = 2130837725;
+			
+			// aapt resource value: 0x7F0200DE
+			public const int textAppearanceListItem = 2130837726;
+			
+			// aapt resource value: 0x7F0200DF
+			public const int textAppearanceListItemSecondary = 2130837727;
+			
+			// aapt resource value: 0x7F0200E0
+			public const int textAppearanceListItemSmall = 2130837728;
+			
+			// aapt resource value: 0x7F0200E1
+			public const int textAppearancePopupMenuHeader = 2130837729;
+			
+			// aapt resource value: 0x7F0200E2
+			public const int textAppearanceSearchResultSubtitle = 2130837730;
+			
+			// aapt resource value: 0x7F0200E3
+			public const int textAppearanceSearchResultTitle = 2130837731;
+			
+			// aapt resource value: 0x7F0200E4
+			public const int textAppearanceSmallPopupMenu = 2130837732;
+			
+			// aapt resource value: 0x7F0200E5
+			public const int textColorAlertDialogListItem = 2130837733;
+			
+			// aapt resource value: 0x7F0200E6
+			public const int textColorSearchUrl = 2130837734;
+			
+			// aapt resource value: 0x7F0200E7
+			public const int theme = 2130837735;
+			
+			// aapt resource value: 0x7F0200E8
+			public const int thickness = 2130837736;
+			
+			// aapt resource value: 0x7F0200E9
+			public const int thumbTextPadding = 2130837737;
+			
+			// aapt resource value: 0x7F0200EA
+			public const int thumbTint = 2130837738;
+			
+			// aapt resource value: 0x7F0200EB
+			public const int thumbTintMode = 2130837739;
+			
+			// aapt resource value: 0x7F0200EC
+			public const int tickMark = 2130837740;
+			
+			// aapt resource value: 0x7F0200ED
+			public const int tickMarkTint = 2130837741;
+			
+			// aapt resource value: 0x7F0200EE
+			public const int tickMarkTintMode = 2130837742;
+			
+			// aapt resource value: 0x7F0200EF
+			public const int tint = 2130837743;
+			
+			// aapt resource value: 0x7F0200F0
+			public const int tintMode = 2130837744;
+			
+			// aapt resource value: 0x7F0200F1
+			public const int title = 2130837745;
+			
+			// aapt resource value: 0x7F0200F2
+			public const int titleMargin = 2130837746;
+			
+			// aapt resource value: 0x7F0200F3
+			public const int titleMarginBottom = 2130837747;
+			
+			// aapt resource value: 0x7F0200F4
+			public const int titleMarginEnd = 2130837748;
+			
+			// aapt resource value: 0x7F0200F7
+			public const int titleMargins = 2130837751;
+			
+			// aapt resource value: 0x7F0200F5
+			public const int titleMarginStart = 2130837749;
+			
+			// aapt resource value: 0x7F0200F6
+			public const int titleMarginTop = 2130837750;
+			
+			// aapt resource value: 0x7F0200F8
+			public const int titleTextAppearance = 2130837752;
+			
+			// aapt resource value: 0x7F0200F9
+			public const int titleTextColor = 2130837753;
+			
+			// aapt resource value: 0x7F0200FA
+			public const int titleTextStyle = 2130837754;
+			
+			// aapt resource value: 0x7F0200FB
+			public const int toolbarNavigationButtonStyle = 2130837755;
+			
+			// aapt resource value: 0x7F0200FC
+			public const int toolbarStyle = 2130837756;
+			
+			// aapt resource value: 0x7F0200FD
+			public const int tooltipForegroundColor = 2130837757;
+			
+			// aapt resource value: 0x7F0200FE
+			public const int tooltipFrameBackground = 2130837758;
+			
+			// aapt resource value: 0x7F0200FF
+			public const int tooltipText = 2130837759;
+			
+			// aapt resource value: 0x7F020100
+			public const int track = 2130837760;
+			
+			// aapt resource value: 0x7F020101
+			public const int trackTint = 2130837761;
+			
+			// aapt resource value: 0x7F020102
+			public const int trackTintMode = 2130837762;
+			
+			// aapt resource value: 0x7F020103
+			public const int ttcIndex = 2130837763;
+			
+			// aapt resource value: 0x7F020104
+			public const int viewInflaterClass = 2130837764;
+			
+			// aapt resource value: 0x7F020105
+			public const int voiceIcon = 2130837765;
+			
+			// aapt resource value: 0x7F020106
+			public const int windowActionBar = 2130837766;
+			
+			// aapt resource value: 0x7F020107
+			public const int windowActionBarOverlay = 2130837767;
+			
+			// aapt resource value: 0x7F020108
+			public const int windowActionModeOverlay = 2130837768;
+			
+			// aapt resource value: 0x7F020109
+			public const int windowFixedHeightMajor = 2130837769;
+			
+			// aapt resource value: 0x7F02010A
+			public const int windowFixedHeightMinor = 2130837770;
+			
+			// aapt resource value: 0x7F02010B
+			public const int windowFixedWidthMajor = 2130837771;
+			
+			// aapt resource value: 0x7F02010C
+			public const int windowFixedWidthMinor = 2130837772;
+			
+			// aapt resource value: 0x7F02010D
+			public const int windowMinWidthMajor = 2130837773;
+			
+			// aapt resource value: 0x7F02010E
+			public const int windowMinWidthMinor = 2130837774;
+			
+			// aapt resource value: 0x7F02010F
+			public const int windowNoTitle = 2130837775;
 			
 			static Attribute()
 			{
@@ -41,11 +2513,1653 @@ namespace Juniper
 			}
 		}
 		
+		public partial class Boolean
+		{
+			
+			// aapt resource value: 0x7F030000
+			public const int abc_action_bar_embed_tabs = 2130903040;
+			
+			// aapt resource value: 0x7F030001
+			public const int abc_allow_stacked_button_bar = 2130903041;
+			
+			// aapt resource value: 0x7F030002
+			public const int abc_config_actionMenuItemAllCaps = 2130903042;
+			
+			static Boolean()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Boolean()
+			{
+			}
+		}
+		
+		public partial class Color
+		{
+			
+			// aapt resource value: 0x7F040000
+			public const int abc_background_cache_hint_selector_material_dark = 2130968576;
+			
+			// aapt resource value: 0x7F040001
+			public const int abc_background_cache_hint_selector_material_light = 2130968577;
+			
+			// aapt resource value: 0x7F040002
+			public const int abc_btn_colored_borderless_text_material = 2130968578;
+			
+			// aapt resource value: 0x7F040003
+			public const int abc_btn_colored_text_material = 2130968579;
+			
+			// aapt resource value: 0x7F040004
+			public const int abc_color_highlight_material = 2130968580;
+			
+			// aapt resource value: 0x7F040005
+			public const int abc_hint_foreground_material_dark = 2130968581;
+			
+			// aapt resource value: 0x7F040006
+			public const int abc_hint_foreground_material_light = 2130968582;
+			
+			// aapt resource value: 0x7F040007
+			public const int abc_input_method_navigation_guard = 2130968583;
+			
+			// aapt resource value: 0x7F040008
+			public const int abc_primary_text_disable_only_material_dark = 2130968584;
+			
+			// aapt resource value: 0x7F040009
+			public const int abc_primary_text_disable_only_material_light = 2130968585;
+			
+			// aapt resource value: 0x7F04000A
+			public const int abc_primary_text_material_dark = 2130968586;
+			
+			// aapt resource value: 0x7F04000B
+			public const int abc_primary_text_material_light = 2130968587;
+			
+			// aapt resource value: 0x7F04000C
+			public const int abc_search_url_text = 2130968588;
+			
+			// aapt resource value: 0x7F04000D
+			public const int abc_search_url_text_normal = 2130968589;
+			
+			// aapt resource value: 0x7F04000E
+			public const int abc_search_url_text_pressed = 2130968590;
+			
+			// aapt resource value: 0x7F04000F
+			public const int abc_search_url_text_selected = 2130968591;
+			
+			// aapt resource value: 0x7F040010
+			public const int abc_secondary_text_material_dark = 2130968592;
+			
+			// aapt resource value: 0x7F040011
+			public const int abc_secondary_text_material_light = 2130968593;
+			
+			// aapt resource value: 0x7F040012
+			public const int abc_tint_btn_checkable = 2130968594;
+			
+			// aapt resource value: 0x7F040013
+			public const int abc_tint_default = 2130968595;
+			
+			// aapt resource value: 0x7F040014
+			public const int abc_tint_edittext = 2130968596;
+			
+			// aapt resource value: 0x7F040015
+			public const int abc_tint_seek_thumb = 2130968597;
+			
+			// aapt resource value: 0x7F040016
+			public const int abc_tint_spinner = 2130968598;
+			
+			// aapt resource value: 0x7F040017
+			public const int abc_tint_switch_track = 2130968599;
+			
+			// aapt resource value: 0x7F040018
+			public const int accent_material_dark = 2130968600;
+			
+			// aapt resource value: 0x7F040019
+			public const int accent_material_light = 2130968601;
+			
+			// aapt resource value: 0x7F04001A
+			public const int background_floating_material_dark = 2130968602;
+			
+			// aapt resource value: 0x7F04001B
+			public const int background_floating_material_light = 2130968603;
+			
+			// aapt resource value: 0x7F04001C
+			public const int background_material_dark = 2130968604;
+			
+			// aapt resource value: 0x7F04001D
+			public const int background_material_light = 2130968605;
+			
+			// aapt resource value: 0x7F04001E
+			public const int bright_foreground_disabled_material_dark = 2130968606;
+			
+			// aapt resource value: 0x7F04001F
+			public const int bright_foreground_disabled_material_light = 2130968607;
+			
+			// aapt resource value: 0x7F040020
+			public const int bright_foreground_inverse_material_dark = 2130968608;
+			
+			// aapt resource value: 0x7F040021
+			public const int bright_foreground_inverse_material_light = 2130968609;
+			
+			// aapt resource value: 0x7F040022
+			public const int bright_foreground_material_dark = 2130968610;
+			
+			// aapt resource value: 0x7F040023
+			public const int bright_foreground_material_light = 2130968611;
+			
+			// aapt resource value: 0x7F040024
+			public const int button_material_dark = 2130968612;
+			
+			// aapt resource value: 0x7F040025
+			public const int button_material_light = 2130968613;
+			
+			// aapt resource value: 0x7F040026
+			public const int dim_foreground_disabled_material_dark = 2130968614;
+			
+			// aapt resource value: 0x7F040027
+			public const int dim_foreground_disabled_material_light = 2130968615;
+			
+			// aapt resource value: 0x7F040028
+			public const int dim_foreground_material_dark = 2130968616;
+			
+			// aapt resource value: 0x7F040029
+			public const int dim_foreground_material_light = 2130968617;
+			
+			// aapt resource value: 0x7F04002A
+			public const int error_color_material_dark = 2130968618;
+			
+			// aapt resource value: 0x7F04002B
+			public const int error_color_material_light = 2130968619;
+			
+			// aapt resource value: 0x7F04002C
+			public const int foreground_material_dark = 2130968620;
+			
+			// aapt resource value: 0x7F04002D
+			public const int foreground_material_light = 2130968621;
+			
+			// aapt resource value: 0x7F04002E
+			public const int highlighted_text_material_dark = 2130968622;
+			
+			// aapt resource value: 0x7F04002F
+			public const int highlighted_text_material_light = 2130968623;
+			
+			// aapt resource value: 0x7F040030
+			public const int material_blue_grey_800 = 2130968624;
+			
+			// aapt resource value: 0x7F040031
+			public const int material_blue_grey_900 = 2130968625;
+			
+			// aapt resource value: 0x7F040032
+			public const int material_blue_grey_950 = 2130968626;
+			
+			// aapt resource value: 0x7F040033
+			public const int material_deep_teal_200 = 2130968627;
+			
+			// aapt resource value: 0x7F040034
+			public const int material_deep_teal_500 = 2130968628;
+			
+			// aapt resource value: 0x7F040035
+			public const int material_grey_100 = 2130968629;
+			
+			// aapt resource value: 0x7F040036
+			public const int material_grey_300 = 2130968630;
+			
+			// aapt resource value: 0x7F040037
+			public const int material_grey_50 = 2130968631;
+			
+			// aapt resource value: 0x7F040038
+			public const int material_grey_600 = 2130968632;
+			
+			// aapt resource value: 0x7F040039
+			public const int material_grey_800 = 2130968633;
+			
+			// aapt resource value: 0x7F04003A
+			public const int material_grey_850 = 2130968634;
+			
+			// aapt resource value: 0x7F04003B
+			public const int material_grey_900 = 2130968635;
+			
+			// aapt resource value: 0x7F04003C
+			public const int notification_action_color_filter = 2130968636;
+			
+			// aapt resource value: 0x7F04003D
+			public const int notification_icon_bg_color = 2130968637;
+			
+			// aapt resource value: 0x7F04003E
+			public const int primary_dark_material_dark = 2130968638;
+			
+			// aapt resource value: 0x7F04003F
+			public const int primary_dark_material_light = 2130968639;
+			
+			// aapt resource value: 0x7F040040
+			public const int primary_material_dark = 2130968640;
+			
+			// aapt resource value: 0x7F040041
+			public const int primary_material_light = 2130968641;
+			
+			// aapt resource value: 0x7F040042
+			public const int primary_text_default_material_dark = 2130968642;
+			
+			// aapt resource value: 0x7F040043
+			public const int primary_text_default_material_light = 2130968643;
+			
+			// aapt resource value: 0x7F040044
+			public const int primary_text_disabled_material_dark = 2130968644;
+			
+			// aapt resource value: 0x7F040045
+			public const int primary_text_disabled_material_light = 2130968645;
+			
+			// aapt resource value: 0x7F040046
+			public const int ripple_material_dark = 2130968646;
+			
+			// aapt resource value: 0x7F040047
+			public const int ripple_material_light = 2130968647;
+			
+			// aapt resource value: 0x7F040048
+			public const int secondary_text_default_material_dark = 2130968648;
+			
+			// aapt resource value: 0x7F040049
+			public const int secondary_text_default_material_light = 2130968649;
+			
+			// aapt resource value: 0x7F04004A
+			public const int secondary_text_disabled_material_dark = 2130968650;
+			
+			// aapt resource value: 0x7F04004B
+			public const int secondary_text_disabled_material_light = 2130968651;
+			
+			// aapt resource value: 0x7F04004C
+			public const int switch_thumb_disabled_material_dark = 2130968652;
+			
+			// aapt resource value: 0x7F04004D
+			public const int switch_thumb_disabled_material_light = 2130968653;
+			
+			// aapt resource value: 0x7F04004E
+			public const int switch_thumb_material_dark = 2130968654;
+			
+			// aapt resource value: 0x7F04004F
+			public const int switch_thumb_material_light = 2130968655;
+			
+			// aapt resource value: 0x7F040050
+			public const int switch_thumb_normal_material_dark = 2130968656;
+			
+			// aapt resource value: 0x7F040051
+			public const int switch_thumb_normal_material_light = 2130968657;
+			
+			// aapt resource value: 0x7F040052
+			public const int tooltip_background_dark = 2130968658;
+			
+			// aapt resource value: 0x7F040053
+			public const int tooltip_background_light = 2130968659;
+			
+			static Color()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Color()
+			{
+			}
+		}
+		
+		public partial class Dimension
+		{
+			
+			// aapt resource value: 0x7F050000
+			public const int abc_action_bar_content_inset_material = 2131034112;
+			
+			// aapt resource value: 0x7F050001
+			public const int abc_action_bar_content_inset_with_nav = 2131034113;
+			
+			// aapt resource value: 0x7F050002
+			public const int abc_action_bar_default_height_material = 2131034114;
+			
+			// aapt resource value: 0x7F050003
+			public const int abc_action_bar_default_padding_end_material = 2131034115;
+			
+			// aapt resource value: 0x7F050004
+			public const int abc_action_bar_default_padding_start_material = 2131034116;
+			
+			// aapt resource value: 0x7F050005
+			public const int abc_action_bar_elevation_material = 2131034117;
+			
+			// aapt resource value: 0x7F050006
+			public const int abc_action_bar_icon_vertical_padding_material = 2131034118;
+			
+			// aapt resource value: 0x7F050007
+			public const int abc_action_bar_overflow_padding_end_material = 2131034119;
+			
+			// aapt resource value: 0x7F050008
+			public const int abc_action_bar_overflow_padding_start_material = 2131034120;
+			
+			// aapt resource value: 0x7F050009
+			public const int abc_action_bar_stacked_max_height = 2131034121;
+			
+			// aapt resource value: 0x7F05000A
+			public const int abc_action_bar_stacked_tab_max_width = 2131034122;
+			
+			// aapt resource value: 0x7F05000B
+			public const int abc_action_bar_subtitle_bottom_margin_material = 2131034123;
+			
+			// aapt resource value: 0x7F05000C
+			public const int abc_action_bar_subtitle_top_margin_material = 2131034124;
+			
+			// aapt resource value: 0x7F05000D
+			public const int abc_action_button_min_height_material = 2131034125;
+			
+			// aapt resource value: 0x7F05000E
+			public const int abc_action_button_min_width_material = 2131034126;
+			
+			// aapt resource value: 0x7F05000F
+			public const int abc_action_button_min_width_overflow_material = 2131034127;
+			
+			// aapt resource value: 0x7F050010
+			public const int abc_alert_dialog_button_bar_height = 2131034128;
+			
+			// aapt resource value: 0x7F050011
+			public const int abc_alert_dialog_button_dimen = 2131034129;
+			
+			// aapt resource value: 0x7F050012
+			public const int abc_button_inset_horizontal_material = 2131034130;
+			
+			// aapt resource value: 0x7F050013
+			public const int abc_button_inset_vertical_material = 2131034131;
+			
+			// aapt resource value: 0x7F050014
+			public const int abc_button_padding_horizontal_material = 2131034132;
+			
+			// aapt resource value: 0x7F050015
+			public const int abc_button_padding_vertical_material = 2131034133;
+			
+			// aapt resource value: 0x7F050016
+			public const int abc_cascading_menus_min_smallest_width = 2131034134;
+			
+			// aapt resource value: 0x7F050017
+			public const int abc_config_prefDialogWidth = 2131034135;
+			
+			// aapt resource value: 0x7F050018
+			public const int abc_control_corner_material = 2131034136;
+			
+			// aapt resource value: 0x7F050019
+			public const int abc_control_inset_material = 2131034137;
+			
+			// aapt resource value: 0x7F05001A
+			public const int abc_control_padding_material = 2131034138;
+			
+			// aapt resource value: 0x7F05001B
+			public const int abc_dialog_corner_radius_material = 2131034139;
+			
+			// aapt resource value: 0x7F05001C
+			public const int abc_dialog_fixed_height_major = 2131034140;
+			
+			// aapt resource value: 0x7F05001D
+			public const int abc_dialog_fixed_height_minor = 2131034141;
+			
+			// aapt resource value: 0x7F05001E
+			public const int abc_dialog_fixed_width_major = 2131034142;
+			
+			// aapt resource value: 0x7F05001F
+			public const int abc_dialog_fixed_width_minor = 2131034143;
+			
+			// aapt resource value: 0x7F050020
+			public const int abc_dialog_list_padding_bottom_no_buttons = 2131034144;
+			
+			// aapt resource value: 0x7F050021
+			public const int abc_dialog_list_padding_top_no_title = 2131034145;
+			
+			// aapt resource value: 0x7F050022
+			public const int abc_dialog_min_width_major = 2131034146;
+			
+			// aapt resource value: 0x7F050023
+			public const int abc_dialog_min_width_minor = 2131034147;
+			
+			// aapt resource value: 0x7F050024
+			public const int abc_dialog_padding_material = 2131034148;
+			
+			// aapt resource value: 0x7F050025
+			public const int abc_dialog_padding_top_material = 2131034149;
+			
+			// aapt resource value: 0x7F050026
+			public const int abc_dialog_title_divider_material = 2131034150;
+			
+			// aapt resource value: 0x7F050027
+			public const int abc_disabled_alpha_material_dark = 2131034151;
+			
+			// aapt resource value: 0x7F050028
+			public const int abc_disabled_alpha_material_light = 2131034152;
+			
+			// aapt resource value: 0x7F050029
+			public const int abc_dropdownitem_icon_width = 2131034153;
+			
+			// aapt resource value: 0x7F05002A
+			public const int abc_dropdownitem_text_padding_left = 2131034154;
+			
+			// aapt resource value: 0x7F05002B
+			public const int abc_dropdownitem_text_padding_right = 2131034155;
+			
+			// aapt resource value: 0x7F05002C
+			public const int abc_edit_text_inset_bottom_material = 2131034156;
+			
+			// aapt resource value: 0x7F05002D
+			public const int abc_edit_text_inset_horizontal_material = 2131034157;
+			
+			// aapt resource value: 0x7F05002E
+			public const int abc_edit_text_inset_top_material = 2131034158;
+			
+			// aapt resource value: 0x7F05002F
+			public const int abc_floating_window_z = 2131034159;
+			
+			// aapt resource value: 0x7F050030
+			public const int abc_list_item_padding_horizontal_material = 2131034160;
+			
+			// aapt resource value: 0x7F050031
+			public const int abc_panel_menu_list_width = 2131034161;
+			
+			// aapt resource value: 0x7F050032
+			public const int abc_progress_bar_height_material = 2131034162;
+			
+			// aapt resource value: 0x7F050033
+			public const int abc_search_view_preferred_height = 2131034163;
+			
+			// aapt resource value: 0x7F050034
+			public const int abc_search_view_preferred_width = 2131034164;
+			
+			// aapt resource value: 0x7F050035
+			public const int abc_seekbar_track_background_height_material = 2131034165;
+			
+			// aapt resource value: 0x7F050036
+			public const int abc_seekbar_track_progress_height_material = 2131034166;
+			
+			// aapt resource value: 0x7F050037
+			public const int abc_select_dialog_padding_start_material = 2131034167;
+			
+			// aapt resource value: 0x7F050038
+			public const int abc_switch_padding = 2131034168;
+			
+			// aapt resource value: 0x7F050039
+			public const int abc_text_size_body_1_material = 2131034169;
+			
+			// aapt resource value: 0x7F05003A
+			public const int abc_text_size_body_2_material = 2131034170;
+			
+			// aapt resource value: 0x7F05003B
+			public const int abc_text_size_button_material = 2131034171;
+			
+			// aapt resource value: 0x7F05003C
+			public const int abc_text_size_caption_material = 2131034172;
+			
+			// aapt resource value: 0x7F05003D
+			public const int abc_text_size_display_1_material = 2131034173;
+			
+			// aapt resource value: 0x7F05003E
+			public const int abc_text_size_display_2_material = 2131034174;
+			
+			// aapt resource value: 0x7F05003F
+			public const int abc_text_size_display_3_material = 2131034175;
+			
+			// aapt resource value: 0x7F050040
+			public const int abc_text_size_display_4_material = 2131034176;
+			
+			// aapt resource value: 0x7F050041
+			public const int abc_text_size_headline_material = 2131034177;
+			
+			// aapt resource value: 0x7F050042
+			public const int abc_text_size_large_material = 2131034178;
+			
+			// aapt resource value: 0x7F050043
+			public const int abc_text_size_medium_material = 2131034179;
+			
+			// aapt resource value: 0x7F050044
+			public const int abc_text_size_menu_header_material = 2131034180;
+			
+			// aapt resource value: 0x7F050045
+			public const int abc_text_size_menu_material = 2131034181;
+			
+			// aapt resource value: 0x7F050046
+			public const int abc_text_size_small_material = 2131034182;
+			
+			// aapt resource value: 0x7F050047
+			public const int abc_text_size_subhead_material = 2131034183;
+			
+			// aapt resource value: 0x7F050048
+			public const int abc_text_size_subtitle_material_toolbar = 2131034184;
+			
+			// aapt resource value: 0x7F050049
+			public const int abc_text_size_title_material = 2131034185;
+			
+			// aapt resource value: 0x7F05004A
+			public const int abc_text_size_title_material_toolbar = 2131034186;
+			
+			// aapt resource value: 0x7F05004B
+			public const int compat_button_inset_horizontal_material = 2131034187;
+			
+			// aapt resource value: 0x7F05004C
+			public const int compat_button_inset_vertical_material = 2131034188;
+			
+			// aapt resource value: 0x7F05004D
+			public const int compat_button_padding_horizontal_material = 2131034189;
+			
+			// aapt resource value: 0x7F05004E
+			public const int compat_button_padding_vertical_material = 2131034190;
+			
+			// aapt resource value: 0x7F05004F
+			public const int compat_control_corner_material = 2131034191;
+			
+			// aapt resource value: 0x7F050050
+			public const int compat_notification_large_icon_max_height = 2131034192;
+			
+			// aapt resource value: 0x7F050051
+			public const int compat_notification_large_icon_max_width = 2131034193;
+			
+			// aapt resource value: 0x7F050052
+			public const int disabled_alpha_material_dark = 2131034194;
+			
+			// aapt resource value: 0x7F050053
+			public const int disabled_alpha_material_light = 2131034195;
+			
+			// aapt resource value: 0x7F050054
+			public const int highlight_alpha_material_colored = 2131034196;
+			
+			// aapt resource value: 0x7F050055
+			public const int highlight_alpha_material_dark = 2131034197;
+			
+			// aapt resource value: 0x7F050056
+			public const int highlight_alpha_material_light = 2131034198;
+			
+			// aapt resource value: 0x7F050057
+			public const int hint_alpha_material_dark = 2131034199;
+			
+			// aapt resource value: 0x7F050058
+			public const int hint_alpha_material_light = 2131034200;
+			
+			// aapt resource value: 0x7F050059
+			public const int hint_pressed_alpha_material_dark = 2131034201;
+			
+			// aapt resource value: 0x7F05005A
+			public const int hint_pressed_alpha_material_light = 2131034202;
+			
+			// aapt resource value: 0x7F05005B
+			public const int notification_action_icon_size = 2131034203;
+			
+			// aapt resource value: 0x7F05005C
+			public const int notification_action_text_size = 2131034204;
+			
+			// aapt resource value: 0x7F05005D
+			public const int notification_big_circle_margin = 2131034205;
+			
+			// aapt resource value: 0x7F05005E
+			public const int notification_content_margin_start = 2131034206;
+			
+			// aapt resource value: 0x7F05005F
+			public const int notification_large_icon_height = 2131034207;
+			
+			// aapt resource value: 0x7F050060
+			public const int notification_large_icon_width = 2131034208;
+			
+			// aapt resource value: 0x7F050061
+			public const int notification_main_column_padding_top = 2131034209;
+			
+			// aapt resource value: 0x7F050062
+			public const int notification_media_narrow_margin = 2131034210;
+			
+			// aapt resource value: 0x7F050063
+			public const int notification_right_icon_size = 2131034211;
+			
+			// aapt resource value: 0x7F050064
+			public const int notification_right_side_padding_top = 2131034212;
+			
+			// aapt resource value: 0x7F050065
+			public const int notification_small_icon_background_padding = 2131034213;
+			
+			// aapt resource value: 0x7F050066
+			public const int notification_small_icon_size_as_large = 2131034214;
+			
+			// aapt resource value: 0x7F050067
+			public const int notification_subtext_size = 2131034215;
+			
+			// aapt resource value: 0x7F050068
+			public const int notification_top_pad = 2131034216;
+			
+			// aapt resource value: 0x7F050069
+			public const int notification_top_pad_large_text = 2131034217;
+			
+			// aapt resource value: 0x7F05006A
+			public const int tooltip_corner_radius = 2131034218;
+			
+			// aapt resource value: 0x7F05006B
+			public const int tooltip_horizontal_padding = 2131034219;
+			
+			// aapt resource value: 0x7F05006C
+			public const int tooltip_margin = 2131034220;
+			
+			// aapt resource value: 0x7F05006D
+			public const int tooltip_precise_anchor_extra_offset = 2131034221;
+			
+			// aapt resource value: 0x7F05006E
+			public const int tooltip_precise_anchor_threshold = 2131034222;
+			
+			// aapt resource value: 0x7F05006F
+			public const int tooltip_vertical_padding = 2131034223;
+			
+			// aapt resource value: 0x7F050070
+			public const int tooltip_y_offset_non_touch = 2131034224;
+			
+			// aapt resource value: 0x7F050071
+			public const int tooltip_y_offset_touch = 2131034225;
+			
+			static Dimension()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Dimension()
+			{
+			}
+		}
+		
+		public partial class Drawable
+		{
+			
+			// aapt resource value: 0x7F060000
+			public const int abc_ab_share_pack_mtrl_alpha = 2131099648;
+			
+			// aapt resource value: 0x7F060001
+			public const int abc_action_bar_item_background_material = 2131099649;
+			
+			// aapt resource value: 0x7F060002
+			public const int abc_btn_borderless_material = 2131099650;
+			
+			// aapt resource value: 0x7F060003
+			public const int abc_btn_check_material = 2131099651;
+			
+			// aapt resource value: 0x7F060004
+			public const int abc_btn_check_to_on_mtrl_000 = 2131099652;
+			
+			// aapt resource value: 0x7F060005
+			public const int abc_btn_check_to_on_mtrl_015 = 2131099653;
+			
+			// aapt resource value: 0x7F060006
+			public const int abc_btn_colored_material = 2131099654;
+			
+			// aapt resource value: 0x7F060007
+			public const int abc_btn_default_mtrl_shape = 2131099655;
+			
+			// aapt resource value: 0x7F060008
+			public const int abc_btn_radio_material = 2131099656;
+			
+			// aapt resource value: 0x7F060009
+			public const int abc_btn_radio_to_on_mtrl_000 = 2131099657;
+			
+			// aapt resource value: 0x7F06000A
+			public const int abc_btn_radio_to_on_mtrl_015 = 2131099658;
+			
+			// aapt resource value: 0x7F06000B
+			public const int abc_btn_switch_to_on_mtrl_00001 = 2131099659;
+			
+			// aapt resource value: 0x7F06000C
+			public const int abc_btn_switch_to_on_mtrl_00012 = 2131099660;
+			
+			// aapt resource value: 0x7F06000D
+			public const int abc_cab_background_internal_bg = 2131099661;
+			
+			// aapt resource value: 0x7F06000E
+			public const int abc_cab_background_top_material = 2131099662;
+			
+			// aapt resource value: 0x7F06000F
+			public const int abc_cab_background_top_mtrl_alpha = 2131099663;
+			
+			// aapt resource value: 0x7F060010
+			public const int abc_control_background_material = 2131099664;
+			
+			// aapt resource value: 0x7F060011
+			public const int abc_dialog_material_background = 2131099665;
+			
+			// aapt resource value: 0x7F060012
+			public const int abc_edit_text_material = 2131099666;
+			
+			// aapt resource value: 0x7F060013
+			public const int abc_ic_ab_back_material = 2131099667;
+			
+			// aapt resource value: 0x7F060014
+			public const int abc_ic_arrow_drop_right_black_24dp = 2131099668;
+			
+			// aapt resource value: 0x7F060015
+			public const int abc_ic_clear_material = 2131099669;
+			
+			// aapt resource value: 0x7F060016
+			public const int abc_ic_commit_search_api_mtrl_alpha = 2131099670;
+			
+			// aapt resource value: 0x7F060017
+			public const int abc_ic_go_search_api_material = 2131099671;
+			
+			// aapt resource value: 0x7F060018
+			public const int abc_ic_menu_copy_mtrl_am_alpha = 2131099672;
+			
+			// aapt resource value: 0x7F060019
+			public const int abc_ic_menu_cut_mtrl_alpha = 2131099673;
+			
+			// aapt resource value: 0x7F06001A
+			public const int abc_ic_menu_overflow_material = 2131099674;
+			
+			// aapt resource value: 0x7F06001B
+			public const int abc_ic_menu_paste_mtrl_am_alpha = 2131099675;
+			
+			// aapt resource value: 0x7F06001C
+			public const int abc_ic_menu_selectall_mtrl_alpha = 2131099676;
+			
+			// aapt resource value: 0x7F06001D
+			public const int abc_ic_menu_share_mtrl_alpha = 2131099677;
+			
+			// aapt resource value: 0x7F06001E
+			public const int abc_ic_search_api_material = 2131099678;
+			
+			// aapt resource value: 0x7F06001F
+			public const int abc_ic_star_black_16dp = 2131099679;
+			
+			// aapt resource value: 0x7F060020
+			public const int abc_ic_star_black_36dp = 2131099680;
+			
+			// aapt resource value: 0x7F060021
+			public const int abc_ic_star_black_48dp = 2131099681;
+			
+			// aapt resource value: 0x7F060022
+			public const int abc_ic_star_half_black_16dp = 2131099682;
+			
+			// aapt resource value: 0x7F060023
+			public const int abc_ic_star_half_black_36dp = 2131099683;
+			
+			// aapt resource value: 0x7F060024
+			public const int abc_ic_star_half_black_48dp = 2131099684;
+			
+			// aapt resource value: 0x7F060025
+			public const int abc_ic_voice_search_api_material = 2131099685;
+			
+			// aapt resource value: 0x7F060026
+			public const int abc_item_background_holo_dark = 2131099686;
+			
+			// aapt resource value: 0x7F060027
+			public const int abc_item_background_holo_light = 2131099687;
+			
+			// aapt resource value: 0x7F060028
+			public const int abc_list_divider_material = 2131099688;
+			
+			// aapt resource value: 0x7F060029
+			public const int abc_list_divider_mtrl_alpha = 2131099689;
+			
+			// aapt resource value: 0x7F06002A
+			public const int abc_list_focused_holo = 2131099690;
+			
+			// aapt resource value: 0x7F06002B
+			public const int abc_list_longpressed_holo = 2131099691;
+			
+			// aapt resource value: 0x7F06002C
+			public const int abc_list_pressed_holo_dark = 2131099692;
+			
+			// aapt resource value: 0x7F06002D
+			public const int abc_list_pressed_holo_light = 2131099693;
+			
+			// aapt resource value: 0x7F06002E
+			public const int abc_list_selector_background_transition_holo_dark = 2131099694;
+			
+			// aapt resource value: 0x7F06002F
+			public const int abc_list_selector_background_transition_holo_light = 2131099695;
+			
+			// aapt resource value: 0x7F060030
+			public const int abc_list_selector_disabled_holo_dark = 2131099696;
+			
+			// aapt resource value: 0x7F060031
+			public const int abc_list_selector_disabled_holo_light = 2131099697;
+			
+			// aapt resource value: 0x7F060032
+			public const int abc_list_selector_holo_dark = 2131099698;
+			
+			// aapt resource value: 0x7F060033
+			public const int abc_list_selector_holo_light = 2131099699;
+			
+			// aapt resource value: 0x7F060034
+			public const int abc_menu_hardkey_panel_mtrl_mult = 2131099700;
+			
+			// aapt resource value: 0x7F060035
+			public const int abc_popup_background_mtrl_mult = 2131099701;
+			
+			// aapt resource value: 0x7F060036
+			public const int abc_ratingbar_indicator_material = 2131099702;
+			
+			// aapt resource value: 0x7F060037
+			public const int abc_ratingbar_material = 2131099703;
+			
+			// aapt resource value: 0x7F060038
+			public const int abc_ratingbar_small_material = 2131099704;
+			
+			// aapt resource value: 0x7F060039
+			public const int abc_scrubber_control_off_mtrl_alpha = 2131099705;
+			
+			// aapt resource value: 0x7F06003A
+			public const int abc_scrubber_control_to_pressed_mtrl_000 = 2131099706;
+			
+			// aapt resource value: 0x7F06003B
+			public const int abc_scrubber_control_to_pressed_mtrl_005 = 2131099707;
+			
+			// aapt resource value: 0x7F06003C
+			public const int abc_scrubber_primary_mtrl_alpha = 2131099708;
+			
+			// aapt resource value: 0x7F06003D
+			public const int abc_scrubber_track_mtrl_alpha = 2131099709;
+			
+			// aapt resource value: 0x7F06003E
+			public const int abc_seekbar_thumb_material = 2131099710;
+			
+			// aapt resource value: 0x7F06003F
+			public const int abc_seekbar_tick_mark_material = 2131099711;
+			
+			// aapt resource value: 0x7F060040
+			public const int abc_seekbar_track_material = 2131099712;
+			
+			// aapt resource value: 0x7F060041
+			public const int abc_spinner_mtrl_am_alpha = 2131099713;
+			
+			// aapt resource value: 0x7F060042
+			public const int abc_spinner_textfield_background_material = 2131099714;
+			
+			// aapt resource value: 0x7F060043
+			public const int abc_switch_thumb_material = 2131099715;
+			
+			// aapt resource value: 0x7F060044
+			public const int abc_switch_track_mtrl_alpha = 2131099716;
+			
+			// aapt resource value: 0x7F060045
+			public const int abc_tab_indicator_material = 2131099717;
+			
+			// aapt resource value: 0x7F060046
+			public const int abc_tab_indicator_mtrl_alpha = 2131099718;
+			
+			// aapt resource value: 0x7F06004E
+			public const int abc_textfield_activated_mtrl_alpha = 2131099726;
+			
+			// aapt resource value: 0x7F06004F
+			public const int abc_textfield_default_mtrl_alpha = 2131099727;
+			
+			// aapt resource value: 0x7F060050
+			public const int abc_textfield_search_activated_mtrl_alpha = 2131099728;
+			
+			// aapt resource value: 0x7F060051
+			public const int abc_textfield_search_default_mtrl_alpha = 2131099729;
+			
+			// aapt resource value: 0x7F060052
+			public const int abc_textfield_search_material = 2131099730;
+			
+			// aapt resource value: 0x7F060047
+			public const int abc_text_cursor_material = 2131099719;
+			
+			// aapt resource value: 0x7F060048
+			public const int abc_text_select_handle_left_mtrl_dark = 2131099720;
+			
+			// aapt resource value: 0x7F060049
+			public const int abc_text_select_handle_left_mtrl_light = 2131099721;
+			
+			// aapt resource value: 0x7F06004A
+			public const int abc_text_select_handle_middle_mtrl_dark = 2131099722;
+			
+			// aapt resource value: 0x7F06004B
+			public const int abc_text_select_handle_middle_mtrl_light = 2131099723;
+			
+			// aapt resource value: 0x7F06004C
+			public const int abc_text_select_handle_right_mtrl_dark = 2131099724;
+			
+			// aapt resource value: 0x7F06004D
+			public const int abc_text_select_handle_right_mtrl_light = 2131099725;
+			
+			// aapt resource value: 0x7F060053
+			public const int abc_vector_test = 2131099731;
+			
+			// aapt resource value: 0x7F060054
+			public const int notification_action_background = 2131099732;
+			
+			// aapt resource value: 0x7F060055
+			public const int notification_bg = 2131099733;
+			
+			// aapt resource value: 0x7F060056
+			public const int notification_bg_low = 2131099734;
+			
+			// aapt resource value: 0x7F060057
+			public const int notification_bg_low_normal = 2131099735;
+			
+			// aapt resource value: 0x7F060058
+			public const int notification_bg_low_pressed = 2131099736;
+			
+			// aapt resource value: 0x7F060059
+			public const int notification_bg_normal = 2131099737;
+			
+			// aapt resource value: 0x7F06005A
+			public const int notification_bg_normal_pressed = 2131099738;
+			
+			// aapt resource value: 0x7F06005B
+			public const int notification_icon_background = 2131099739;
+			
+			// aapt resource value: 0x7F06005C
+			public const int notification_template_icon_bg = 2131099740;
+			
+			// aapt resource value: 0x7F06005D
+			public const int notification_template_icon_low_bg = 2131099741;
+			
+			// aapt resource value: 0x7F06005E
+			public const int notification_tile_bg = 2131099742;
+			
+			// aapt resource value: 0x7F06005F
+			public const int notify_panel_notification_icon_bg = 2131099743;
+			
+			// aapt resource value: 0x7F060060
+			public const int tooltip_frame_dark = 2131099744;
+			
+			// aapt resource value: 0x7F060061
+			public const int tooltip_frame_light = 2131099745;
+			
+			static Drawable()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Drawable()
+			{
+			}
+		}
+		
+		public partial class Id
+		{
+			
+			// aapt resource value: 0x7F070017
+			public const int actions = 2131165207;
+			
+			// aapt resource value: 0x7F070006
+			public const int action_bar = 2131165190;
+			
+			// aapt resource value: 0x7F070007
+			public const int action_bar_activity_content = 2131165191;
+			
+			// aapt resource value: 0x7F070008
+			public const int action_bar_container = 2131165192;
+			
+			// aapt resource value: 0x7F070009
+			public const int action_bar_root = 2131165193;
+			
+			// aapt resource value: 0x7F07000A
+			public const int action_bar_spinner = 2131165194;
+			
+			// aapt resource value: 0x7F07000B
+			public const int action_bar_subtitle = 2131165195;
+			
+			// aapt resource value: 0x7F07000C
+			public const int action_bar_title = 2131165196;
+			
+			// aapt resource value: 0x7F07000D
+			public const int action_container = 2131165197;
+			
+			// aapt resource value: 0x7F07000E
+			public const int action_context_bar = 2131165198;
+			
+			// aapt resource value: 0x7F07000F
+			public const int action_divider = 2131165199;
+			
+			// aapt resource value: 0x7F070010
+			public const int action_image = 2131165200;
+			
+			// aapt resource value: 0x7F070011
+			public const int action_menu_divider = 2131165201;
+			
+			// aapt resource value: 0x7F070012
+			public const int action_menu_presenter = 2131165202;
+			
+			// aapt resource value: 0x7F070013
+			public const int action_mode_bar = 2131165203;
+			
+			// aapt resource value: 0x7F070014
+			public const int action_mode_bar_stub = 2131165204;
+			
+			// aapt resource value: 0x7F070015
+			public const int action_mode_close_button = 2131165205;
+			
+			// aapt resource value: 0x7F070016
+			public const int action_text = 2131165206;
+			
+			// aapt resource value: 0x7F070018
+			public const int activity_chooser_view_content = 2131165208;
+			
+			// aapt resource value: 0x7F070019
+			public const int add = 2131165209;
+			
+			// aapt resource value: 0x7F07001A
+			public const int alertTitle = 2131165210;
+			
+			// aapt resource value: 0x7F07001B
+			public const int all = 2131165211;
+			
+			// aapt resource value: 0x7F070000
+			public const int ALT = 2131165184;
+			
+			// aapt resource value: 0x7F07001C
+			public const int always = 2131165212;
+			
+			// aapt resource value: 0x7F07001D
+			public const int async = 2131165213;
+			
+			// aapt resource value: 0x7F07001E
+			public const int beginning = 2131165214;
+			
+			// aapt resource value: 0x7F07001F
+			public const int blocking = 2131165215;
+			
+			// aapt resource value: 0x7F070020
+			public const int bottom = 2131165216;
+			
+			// aapt resource value: 0x7F070021
+			public const int buttonPanel = 2131165217;
+			
+			// aapt resource value: 0x7F070022
+			public const int center = 2131165218;
+			
+			// aapt resource value: 0x7F070023
+			public const int center_horizontal = 2131165219;
+			
+			// aapt resource value: 0x7F070024
+			public const int center_vertical = 2131165220;
+			
+			// aapt resource value: 0x7F070025
+			public const int checkbox = 2131165221;
+			
+			// aapt resource value: 0x7F070026
+			public const int chronometer = 2131165222;
+			
+			// aapt resource value: 0x7F070027
+			public const int clip_horizontal = 2131165223;
+			
+			// aapt resource value: 0x7F070028
+			public const int clip_vertical = 2131165224;
+			
+			// aapt resource value: 0x7F070029
+			public const int collapseActionView = 2131165225;
+			
+			// aapt resource value: 0x7F07002A
+			public const int content = 2131165226;
+			
+			// aapt resource value: 0x7F07002B
+			public const int contentPanel = 2131165227;
+			
+			// aapt resource value: 0x7F070001
+			public const int CTRL = 2131165185;
+			
+			// aapt resource value: 0x7F07002C
+			public const int custom = 2131165228;
+			
+			// aapt resource value: 0x7F07002D
+			public const int customPanel = 2131165229;
+			
+			// aapt resource value: 0x7F07002E
+			public const int decor_content_parent = 2131165230;
+			
+			// aapt resource value: 0x7F07002F
+			public const int default_activity_button = 2131165231;
+			
+			// aapt resource value: 0x7F070030
+			public const int disableHome = 2131165232;
+			
+			// aapt resource value: 0x7F070031
+			public const int edit_query = 2131165233;
+			
+			// aapt resource value: 0x7F070032
+			public const int end = 2131165234;
+			
+			// aapt resource value: 0x7F070034
+			public const int expanded_menu = 2131165236;
+			
+			// aapt resource value: 0x7F070033
+			public const int expand_activities_button = 2131165235;
+			
+			// aapt resource value: 0x7F070035
+			public const int fill = 2131165237;
+			
+			// aapt resource value: 0x7F070036
+			public const int fill_horizontal = 2131165238;
+			
+			// aapt resource value: 0x7F070037
+			public const int fill_vertical = 2131165239;
+			
+			// aapt resource value: 0x7F070038
+			public const int forever = 2131165240;
+			
+			// aapt resource value: 0x7F070002
+			public const int FUNCTION = 2131165186;
+			
+			// aapt resource value: 0x7F070039
+			public const int group_divider = 2131165241;
+			
+			// aapt resource value: 0x7F07003A
+			public const int home = 2131165242;
+			
+			// aapt resource value: 0x7F07003B
+			public const int homeAsUp = 2131165243;
+			
+			// aapt resource value: 0x7F07003C
+			public const int icon = 2131165244;
+			
+			// aapt resource value: 0x7F07003D
+			public const int icon_group = 2131165245;
+			
+			// aapt resource value: 0x7F07003E
+			public const int ifRoom = 2131165246;
+			
+			// aapt resource value: 0x7F07003F
+			public const int image = 2131165247;
+			
+			// aapt resource value: 0x7F070040
+			public const int info = 2131165248;
+			
+			// aapt resource value: 0x7F070041
+			public const int italic = 2131165249;
+			
+			// aapt resource value: 0x7F070042
+			public const int left = 2131165250;
+			
+			// aapt resource value: 0x7F070043
+			public const int line1 = 2131165251;
+			
+			// aapt resource value: 0x7F070044
+			public const int line3 = 2131165252;
+			
+			// aapt resource value: 0x7F070045
+			public const int listMode = 2131165253;
+			
+			// aapt resource value: 0x7F070046
+			public const int list_item = 2131165254;
+			
+			// aapt resource value: 0x7F070047
+			public const int message = 2131165255;
+			
+			// aapt resource value: 0x7F070003
+			public const int META = 2131165187;
+			
+			// aapt resource value: 0x7F070048
+			public const int middle = 2131165256;
+			
+			// aapt resource value: 0x7F070049
+			public const int multiply = 2131165257;
+			
+			// aapt resource value: 0x7F07004A
+			public const int never = 2131165258;
+			
+			// aapt resource value: 0x7F07004B
+			public const int none = 2131165259;
+			
+			// aapt resource value: 0x7F07004C
+			public const int normal = 2131165260;
+			
+			// aapt resource value: 0x7F07004D
+			public const int notification_background = 2131165261;
+			
+			// aapt resource value: 0x7F07004E
+			public const int notification_main_column = 2131165262;
+			
+			// aapt resource value: 0x7F07004F
+			public const int notification_main_column_container = 2131165263;
+			
+			// aapt resource value: 0x7F070050
+			public const int parentPanel = 2131165264;
+			
+			// aapt resource value: 0x7F070051
+			public const int progress_circular = 2131165265;
+			
+			// aapt resource value: 0x7F070052
+			public const int progress_horizontal = 2131165266;
+			
+			// aapt resource value: 0x7F070053
+			public const int radio = 2131165267;
+			
+			// aapt resource value: 0x7F070054
+			public const int right = 2131165268;
+			
+			// aapt resource value: 0x7F070055
+			public const int right_icon = 2131165269;
+			
+			// aapt resource value: 0x7F070056
+			public const int right_side = 2131165270;
+			
+			// aapt resource value: 0x7F070057
+			public const int screen = 2131165271;
+			
+			// aapt resource value: 0x7F070058
+			public const int scrollIndicatorDown = 2131165272;
+			
+			// aapt resource value: 0x7F070059
+			public const int scrollIndicatorUp = 2131165273;
+			
+			// aapt resource value: 0x7F07005A
+			public const int scrollView = 2131165274;
+			
+			// aapt resource value: 0x7F07005B
+			public const int search_badge = 2131165275;
+			
+			// aapt resource value: 0x7F07005C
+			public const int search_bar = 2131165276;
+			
+			// aapt resource value: 0x7F07005D
+			public const int search_button = 2131165277;
+			
+			// aapt resource value: 0x7F07005E
+			public const int search_close_btn = 2131165278;
+			
+			// aapt resource value: 0x7F07005F
+			public const int search_edit_frame = 2131165279;
+			
+			// aapt resource value: 0x7F070060
+			public const int search_go_btn = 2131165280;
+			
+			// aapt resource value: 0x7F070061
+			public const int search_mag_icon = 2131165281;
+			
+			// aapt resource value: 0x7F070062
+			public const int search_plate = 2131165282;
+			
+			// aapt resource value: 0x7F070063
+			public const int search_src_text = 2131165283;
+			
+			// aapt resource value: 0x7F070064
+			public const int search_voice_btn = 2131165284;
+			
+			// aapt resource value: 0x7F070065
+			public const int select_dialog_listview = 2131165285;
+			
+			// aapt resource value: 0x7F070004
+			public const int SHIFT = 2131165188;
+			
+			// aapt resource value: 0x7F070066
+			public const int shortcut = 2131165286;
+			
+			// aapt resource value: 0x7F070067
+			public const int showCustom = 2131165287;
+			
+			// aapt resource value: 0x7F070068
+			public const int showHome = 2131165288;
+			
+			// aapt resource value: 0x7F070069
+			public const int showTitle = 2131165289;
+			
+			// aapt resource value: 0x7F07006A
+			public const int spacer = 2131165290;
+			
+			// aapt resource value: 0x7F07006B
+			public const int split_action_bar = 2131165291;
+			
+			// aapt resource value: 0x7F07006C
+			public const int src_atop = 2131165292;
+			
+			// aapt resource value: 0x7F07006D
+			public const int src_in = 2131165293;
+			
+			// aapt resource value: 0x7F07006E
+			public const int src_over = 2131165294;
+			
+			// aapt resource value: 0x7F07006F
+			public const int start = 2131165295;
+			
+			// aapt resource value: 0x7F070070
+			public const int submenuarrow = 2131165296;
+			
+			// aapt resource value: 0x7F070071
+			public const int submit_area = 2131165297;
+			
+			// aapt resource value: 0x7F070005
+			public const int SYM = 2131165189;
+			
+			// aapt resource value: 0x7F070072
+			public const int tabMode = 2131165298;
+			
+			// aapt resource value: 0x7F070073
+			public const int tag_transition_group = 2131165299;
+			
+			// aapt resource value: 0x7F070074
+			public const int tag_unhandled_key_event_manager = 2131165300;
+			
+			// aapt resource value: 0x7F070075
+			public const int tag_unhandled_key_listeners = 2131165301;
+			
+			// aapt resource value: 0x7F070076
+			public const int text = 2131165302;
+			
+			// aapt resource value: 0x7F070077
+			public const int text2 = 2131165303;
+			
+			// aapt resource value: 0x7F070078
+			public const int textSpacerNoButtons = 2131165304;
+			
+			// aapt resource value: 0x7F070079
+			public const int textSpacerNoTitle = 2131165305;
+			
+			// aapt resource value: 0x7F07007A
+			public const int time = 2131165306;
+			
+			// aapt resource value: 0x7F07007B
+			public const int title = 2131165307;
+			
+			// aapt resource value: 0x7F07007C
+			public const int titleDividerNoCustom = 2131165308;
+			
+			// aapt resource value: 0x7F07007D
+			public const int title_template = 2131165309;
+			
+			// aapt resource value: 0x7F07007E
+			public const int top = 2131165310;
+			
+			// aapt resource value: 0x7F07007F
+			public const int topPanel = 2131165311;
+			
+			// aapt resource value: 0x7F070080
+			public const int uniform = 2131165312;
+			
+			// aapt resource value: 0x7F070081
+			public const int up = 2131165313;
+			
+			// aapt resource value: 0x7F070082
+			public const int useLogo = 2131165314;
+			
+			// aapt resource value: 0x7F070083
+			public const int withText = 2131165315;
+			
+			// aapt resource value: 0x7F070084
+			public const int wrap_content = 2131165316;
+			
+			static Id()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Id()
+			{
+			}
+		}
+		
+		public partial class Integer
+		{
+			
+			// aapt resource value: 0x7F080000
+			public const int abc_config_activityDefaultDur = 2131230720;
+			
+			// aapt resource value: 0x7F080001
+			public const int abc_config_activityShortDur = 2131230721;
+			
+			// aapt resource value: 0x7F080002
+			public const int cancel_button_image_alpha = 2131230722;
+			
+			// aapt resource value: 0x7F080003
+			public const int config_tooltipAnimTime = 2131230723;
+			
+			// aapt resource value: 0x7F080004
+			public const int status_bar_notification_info_maxnum = 2131230724;
+			
+			static Integer()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Integer()
+			{
+			}
+		}
+		
+		public partial class Layout
+		{
+			
+			// aapt resource value: 0x7F090000
+			public const int abc_action_bar_title_item = 2131296256;
+			
+			// aapt resource value: 0x7F090001
+			public const int abc_action_bar_up_container = 2131296257;
+			
+			// aapt resource value: 0x7F090002
+			public const int abc_action_menu_item_layout = 2131296258;
+			
+			// aapt resource value: 0x7F090003
+			public const int abc_action_menu_layout = 2131296259;
+			
+			// aapt resource value: 0x7F090004
+			public const int abc_action_mode_bar = 2131296260;
+			
+			// aapt resource value: 0x7F090005
+			public const int abc_action_mode_close_item_material = 2131296261;
+			
+			// aapt resource value: 0x7F090006
+			public const int abc_activity_chooser_view = 2131296262;
+			
+			// aapt resource value: 0x7F090007
+			public const int abc_activity_chooser_view_list_item = 2131296263;
+			
+			// aapt resource value: 0x7F090008
+			public const int abc_alert_dialog_button_bar_material = 2131296264;
+			
+			// aapt resource value: 0x7F090009
+			public const int abc_alert_dialog_material = 2131296265;
+			
+			// aapt resource value: 0x7F09000A
+			public const int abc_alert_dialog_title_material = 2131296266;
+			
+			// aapt resource value: 0x7F09000B
+			public const int abc_cascading_menu_item_layout = 2131296267;
+			
+			// aapt resource value: 0x7F09000C
+			public const int abc_dialog_title_material = 2131296268;
+			
+			// aapt resource value: 0x7F09000D
+			public const int abc_expanded_menu_layout = 2131296269;
+			
+			// aapt resource value: 0x7F09000E
+			public const int abc_list_menu_item_checkbox = 2131296270;
+			
+			// aapt resource value: 0x7F09000F
+			public const int abc_list_menu_item_icon = 2131296271;
+			
+			// aapt resource value: 0x7F090010
+			public const int abc_list_menu_item_layout = 2131296272;
+			
+			// aapt resource value: 0x7F090011
+			public const int abc_list_menu_item_radio = 2131296273;
+			
+			// aapt resource value: 0x7F090012
+			public const int abc_popup_menu_header_item_layout = 2131296274;
+			
+			// aapt resource value: 0x7F090013
+			public const int abc_popup_menu_item_layout = 2131296275;
+			
+			// aapt resource value: 0x7F090014
+			public const int abc_screen_content_include = 2131296276;
+			
+			// aapt resource value: 0x7F090015
+			public const int abc_screen_simple = 2131296277;
+			
+			// aapt resource value: 0x7F090016
+			public const int abc_screen_simple_overlay_action_mode = 2131296278;
+			
+			// aapt resource value: 0x7F090017
+			public const int abc_screen_toolbar = 2131296279;
+			
+			// aapt resource value: 0x7F090018
+			public const int abc_search_dropdown_item_icons_2line = 2131296280;
+			
+			// aapt resource value: 0x7F090019
+			public const int abc_search_view = 2131296281;
+			
+			// aapt resource value: 0x7F09001A
+			public const int abc_select_dialog_material = 2131296282;
+			
+			// aapt resource value: 0x7F09001B
+			public const int abc_tooltip = 2131296283;
+			
+			// aapt resource value: 0x7F09001C
+			public const int notification_action = 2131296284;
+			
+			// aapt resource value: 0x7F09001D
+			public const int notification_action_tombstone = 2131296285;
+			
+			// aapt resource value: 0x7F09001E
+			public const int notification_template_custom_big = 2131296286;
+			
+			// aapt resource value: 0x7F09001F
+			public const int notification_template_icon_group = 2131296287;
+			
+			// aapt resource value: 0x7F090020
+			public const int notification_template_part_chronometer = 2131296288;
+			
+			// aapt resource value: 0x7F090021
+			public const int notification_template_part_time = 2131296289;
+			
+			// aapt resource value: 0x7F090022
+			public const int select_dialog_item_material = 2131296290;
+			
+			// aapt resource value: 0x7F090023
+			public const int select_dialog_multichoice_material = 2131296291;
+			
+			// aapt resource value: 0x7F090024
+			public const int select_dialog_singlechoice_material = 2131296292;
+			
+			// aapt resource value: 0x7F090025
+			public const int support_simple_spinner_dropdown_item = 2131296293;
+			
+			static Layout()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Layout()
+			{
+			}
+		}
+		
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7F010000
-			public const int app_name = 2130771968;
+			// aapt resource value: 0x7F0A0000
+			public const int abc_action_bar_home_description = 2131361792;
+			
+			// aapt resource value: 0x7F0A0001
+			public const int abc_action_bar_up_description = 2131361793;
+			
+			// aapt resource value: 0x7F0A0002
+			public const int abc_action_menu_overflow_description = 2131361794;
+			
+			// aapt resource value: 0x7F0A0003
+			public const int abc_action_mode_done = 2131361795;
+			
+			// aapt resource value: 0x7F0A0005
+			public const int abc_activitychooserview_choose_application = 2131361797;
+			
+			// aapt resource value: 0x7F0A0004
+			public const int abc_activity_chooser_view_see_all = 2131361796;
+			
+			// aapt resource value: 0x7F0A0006
+			public const int abc_capital_off = 2131361798;
+			
+			// aapt resource value: 0x7F0A0007
+			public const int abc_capital_on = 2131361799;
+			
+			// aapt resource value: 0x7F0A0008
+			public const int abc_font_family_body_1_material = 2131361800;
+			
+			// aapt resource value: 0x7F0A0009
+			public const int abc_font_family_body_2_material = 2131361801;
+			
+			// aapt resource value: 0x7F0A000A
+			public const int abc_font_family_button_material = 2131361802;
+			
+			// aapt resource value: 0x7F0A000B
+			public const int abc_font_family_caption_material = 2131361803;
+			
+			// aapt resource value: 0x7F0A000C
+			public const int abc_font_family_display_1_material = 2131361804;
+			
+			// aapt resource value: 0x7F0A000D
+			public const int abc_font_family_display_2_material = 2131361805;
+			
+			// aapt resource value: 0x7F0A000E
+			public const int abc_font_family_display_3_material = 2131361806;
+			
+			// aapt resource value: 0x7F0A000F
+			public const int abc_font_family_display_4_material = 2131361807;
+			
+			// aapt resource value: 0x7F0A0010
+			public const int abc_font_family_headline_material = 2131361808;
+			
+			// aapt resource value: 0x7F0A0011
+			public const int abc_font_family_menu_material = 2131361809;
+			
+			// aapt resource value: 0x7F0A0012
+			public const int abc_font_family_subhead_material = 2131361810;
+			
+			// aapt resource value: 0x7F0A0013
+			public const int abc_font_family_title_material = 2131361811;
+			
+			// aapt resource value: 0x7F0A0014
+			public const int abc_menu_alt_shortcut_label = 2131361812;
+			
+			// aapt resource value: 0x7F0A0015
+			public const int abc_menu_ctrl_shortcut_label = 2131361813;
+			
+			// aapt resource value: 0x7F0A0016
+			public const int abc_menu_delete_shortcut_label = 2131361814;
+			
+			// aapt resource value: 0x7F0A0017
+			public const int abc_menu_enter_shortcut_label = 2131361815;
+			
+			// aapt resource value: 0x7F0A0018
+			public const int abc_menu_function_shortcut_label = 2131361816;
+			
+			// aapt resource value: 0x7F0A0019
+			public const int abc_menu_meta_shortcut_label = 2131361817;
+			
+			// aapt resource value: 0x7F0A001A
+			public const int abc_menu_shift_shortcut_label = 2131361818;
+			
+			// aapt resource value: 0x7F0A001B
+			public const int abc_menu_space_shortcut_label = 2131361819;
+			
+			// aapt resource value: 0x7F0A001C
+			public const int abc_menu_sym_shortcut_label = 2131361820;
+			
+			// aapt resource value: 0x7F0A001D
+			public const int abc_prepend_shortcut_label = 2131361821;
+			
+			// aapt resource value: 0x7F0A001F
+			public const int abc_searchview_description_clear = 2131361823;
+			
+			// aapt resource value: 0x7F0A0020
+			public const int abc_searchview_description_query = 2131361824;
+			
+			// aapt resource value: 0x7F0A0021
+			public const int abc_searchview_description_search = 2131361825;
+			
+			// aapt resource value: 0x7F0A0022
+			public const int abc_searchview_description_submit = 2131361826;
+			
+			// aapt resource value: 0x7F0A0023
+			public const int abc_searchview_description_voice = 2131361827;
+			
+			// aapt resource value: 0x7F0A001E
+			public const int abc_search_hint = 2131361822;
+			
+			// aapt resource value: 0x7F0A0024
+			public const int abc_shareactionprovider_share_with = 2131361828;
+			
+			// aapt resource value: 0x7F0A0025
+			public const int abc_shareactionprovider_share_with_application = 2131361829;
+			
+			// aapt resource value: 0x7F0A0026
+			public const int abc_toolbar_collapse_description = 2131361830;
+			
+			// aapt resource value: 0x7F0A0027
+			public const int app_name = 2131361831;
+			
+			// aapt resource value: 0x7F0A0028
+			public const int hello = 2131361832;
+			
+			// aapt resource value: 0x7F0A0029
+			public const int search_menu_title = 2131361833;
+			
+			// aapt resource value: 0x7F0A002A
+			public const int status_bar_notification_info_overflow = 2131361834;
 			
 			static String()
 			{
@@ -53,6 +4167,2863 @@ namespace Juniper
 			}
 			
 			private String()
+			{
+			}
+		}
+		
+		public partial class Style
+		{
+			
+			// aapt resource value: 0x7F0B0000
+			public const int AlertDialog_AppCompat = 2131427328;
+			
+			// aapt resource value: 0x7F0B0001
+			public const int AlertDialog_AppCompat_Light = 2131427329;
+			
+			// aapt resource value: 0x7F0B0002
+			public const int Animation_AppCompat_Dialog = 2131427330;
+			
+			// aapt resource value: 0x7F0B0003
+			public const int Animation_AppCompat_DropDownUp = 2131427331;
+			
+			// aapt resource value: 0x7F0B0004
+			public const int Animation_AppCompat_Tooltip = 2131427332;
+			
+			// aapt resource value: 0x7F0B0005
+			public const int Base_AlertDialog_AppCompat = 2131427333;
+			
+			// aapt resource value: 0x7F0B0006
+			public const int Base_AlertDialog_AppCompat_Light = 2131427334;
+			
+			// aapt resource value: 0x7F0B0007
+			public const int Base_Animation_AppCompat_Dialog = 2131427335;
+			
+			// aapt resource value: 0x7F0B0008
+			public const int Base_Animation_AppCompat_DropDownUp = 2131427336;
+			
+			// aapt resource value: 0x7F0B0009
+			public const int Base_Animation_AppCompat_Tooltip = 2131427337;
+			
+			// aapt resource value: 0x7F0B000B
+			public const int Base_DialogWindowTitleBackground_AppCompat = 2131427339;
+			
+			// aapt resource value: 0x7F0B000A
+			public const int Base_DialogWindowTitle_AppCompat = 2131427338;
+			
+			// aapt resource value: 0x7F0B000C
+			public const int Base_TextAppearance_AppCompat = 2131427340;
+			
+			// aapt resource value: 0x7F0B000D
+			public const int Base_TextAppearance_AppCompat_Body1 = 2131427341;
+			
+			// aapt resource value: 0x7F0B000E
+			public const int Base_TextAppearance_AppCompat_Body2 = 2131427342;
+			
+			// aapt resource value: 0x7F0B000F
+			public const int Base_TextAppearance_AppCompat_Button = 2131427343;
+			
+			// aapt resource value: 0x7F0B0010
+			public const int Base_TextAppearance_AppCompat_Caption = 2131427344;
+			
+			// aapt resource value: 0x7F0B0011
+			public const int Base_TextAppearance_AppCompat_Display1 = 2131427345;
+			
+			// aapt resource value: 0x7F0B0012
+			public const int Base_TextAppearance_AppCompat_Display2 = 2131427346;
+			
+			// aapt resource value: 0x7F0B0013
+			public const int Base_TextAppearance_AppCompat_Display3 = 2131427347;
+			
+			// aapt resource value: 0x7F0B0014
+			public const int Base_TextAppearance_AppCompat_Display4 = 2131427348;
+			
+			// aapt resource value: 0x7F0B0015
+			public const int Base_TextAppearance_AppCompat_Headline = 2131427349;
+			
+			// aapt resource value: 0x7F0B0016
+			public const int Base_TextAppearance_AppCompat_Inverse = 2131427350;
+			
+			// aapt resource value: 0x7F0B0017
+			public const int Base_TextAppearance_AppCompat_Large = 2131427351;
+			
+			// aapt resource value: 0x7F0B0018
+			public const int Base_TextAppearance_AppCompat_Large_Inverse = 2131427352;
+			
+			// aapt resource value: 0x7F0B0019
+			public const int Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Large = 2131427353;
+			
+			// aapt resource value: 0x7F0B001A
+			public const int Base_TextAppearance_AppCompat_Light_Widget_PopupMenu_Small = 2131427354;
+			
+			// aapt resource value: 0x7F0B001B
+			public const int Base_TextAppearance_AppCompat_Medium = 2131427355;
+			
+			// aapt resource value: 0x7F0B001C
+			public const int Base_TextAppearance_AppCompat_Medium_Inverse = 2131427356;
+			
+			// aapt resource value: 0x7F0B001D
+			public const int Base_TextAppearance_AppCompat_Menu = 2131427357;
+			
+			// aapt resource value: 0x7F0B001E
+			public const int Base_TextAppearance_AppCompat_SearchResult = 2131427358;
+			
+			// aapt resource value: 0x7F0B001F
+			public const int Base_TextAppearance_AppCompat_SearchResult_Subtitle = 2131427359;
+			
+			// aapt resource value: 0x7F0B0020
+			public const int Base_TextAppearance_AppCompat_SearchResult_Title = 2131427360;
+			
+			// aapt resource value: 0x7F0B0021
+			public const int Base_TextAppearance_AppCompat_Small = 2131427361;
+			
+			// aapt resource value: 0x7F0B0022
+			public const int Base_TextAppearance_AppCompat_Small_Inverse = 2131427362;
+			
+			// aapt resource value: 0x7F0B0023
+			public const int Base_TextAppearance_AppCompat_Subhead = 2131427363;
+			
+			// aapt resource value: 0x7F0B0024
+			public const int Base_TextAppearance_AppCompat_Subhead_Inverse = 2131427364;
+			
+			// aapt resource value: 0x7F0B0025
+			public const int Base_TextAppearance_AppCompat_Title = 2131427365;
+			
+			// aapt resource value: 0x7F0B0026
+			public const int Base_TextAppearance_AppCompat_Title_Inverse = 2131427366;
+			
+			// aapt resource value: 0x7F0B0027
+			public const int Base_TextAppearance_AppCompat_Tooltip = 2131427367;
+			
+			// aapt resource value: 0x7F0B0028
+			public const int Base_TextAppearance_AppCompat_Widget_ActionBar_Menu = 2131427368;
+			
+			// aapt resource value: 0x7F0B0029
+			public const int Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle = 2131427369;
+			
+			// aapt resource value: 0x7F0B002A
+			public const int Base_TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse = 2131427370;
+			
+			// aapt resource value: 0x7F0B002B
+			public const int Base_TextAppearance_AppCompat_Widget_ActionBar_Title = 2131427371;
+			
+			// aapt resource value: 0x7F0B002C
+			public const int Base_TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse = 2131427372;
+			
+			// aapt resource value: 0x7F0B002D
+			public const int Base_TextAppearance_AppCompat_Widget_ActionMode_Subtitle = 2131427373;
+			
+			// aapt resource value: 0x7F0B002E
+			public const int Base_TextAppearance_AppCompat_Widget_ActionMode_Title = 2131427374;
+			
+			// aapt resource value: 0x7F0B002F
+			public const int Base_TextAppearance_AppCompat_Widget_Button = 2131427375;
+			
+			// aapt resource value: 0x7F0B0030
+			public const int Base_TextAppearance_AppCompat_Widget_Button_Borderless_Colored = 2131427376;
+			
+			// aapt resource value: 0x7F0B0031
+			public const int Base_TextAppearance_AppCompat_Widget_Button_Colored = 2131427377;
+			
+			// aapt resource value: 0x7F0B0032
+			public const int Base_TextAppearance_AppCompat_Widget_Button_Inverse = 2131427378;
+			
+			// aapt resource value: 0x7F0B0033
+			public const int Base_TextAppearance_AppCompat_Widget_DropDownItem = 2131427379;
+			
+			// aapt resource value: 0x7F0B0034
+			public const int Base_TextAppearance_AppCompat_Widget_PopupMenu_Header = 2131427380;
+			
+			// aapt resource value: 0x7F0B0035
+			public const int Base_TextAppearance_AppCompat_Widget_PopupMenu_Large = 2131427381;
+			
+			// aapt resource value: 0x7F0B0036
+			public const int Base_TextAppearance_AppCompat_Widget_PopupMenu_Small = 2131427382;
+			
+			// aapt resource value: 0x7F0B0037
+			public const int Base_TextAppearance_AppCompat_Widget_Switch = 2131427383;
+			
+			// aapt resource value: 0x7F0B0038
+			public const int Base_TextAppearance_AppCompat_Widget_TextView_SpinnerItem = 2131427384;
+			
+			// aapt resource value: 0x7F0B0039
+			public const int Base_TextAppearance_Widget_AppCompat_ExpandedMenu_Item = 2131427385;
+			
+			// aapt resource value: 0x7F0B003A
+			public const int Base_TextAppearance_Widget_AppCompat_Toolbar_Subtitle = 2131427386;
+			
+			// aapt resource value: 0x7F0B003B
+			public const int Base_TextAppearance_Widget_AppCompat_Toolbar_Title = 2131427387;
+			
+			// aapt resource value: 0x7F0B004A
+			public const int Base_ThemeOverlay_AppCompat = 2131427402;
+			
+			// aapt resource value: 0x7F0B004B
+			public const int Base_ThemeOverlay_AppCompat_ActionBar = 2131427403;
+			
+			// aapt resource value: 0x7F0B004C
+			public const int Base_ThemeOverlay_AppCompat_Dark = 2131427404;
+			
+			// aapt resource value: 0x7F0B004D
+			public const int Base_ThemeOverlay_AppCompat_Dark_ActionBar = 2131427405;
+			
+			// aapt resource value: 0x7F0B004E
+			public const int Base_ThemeOverlay_AppCompat_Dialog = 2131427406;
+			
+			// aapt resource value: 0x7F0B004F
+			public const int Base_ThemeOverlay_AppCompat_Dialog_Alert = 2131427407;
+			
+			// aapt resource value: 0x7F0B0050
+			public const int Base_ThemeOverlay_AppCompat_Light = 2131427408;
+			
+			// aapt resource value: 0x7F0B003C
+			public const int Base_Theme_AppCompat = 2131427388;
+			
+			// aapt resource value: 0x7F0B003D
+			public const int Base_Theme_AppCompat_CompactMenu = 2131427389;
+			
+			// aapt resource value: 0x7F0B003E
+			public const int Base_Theme_AppCompat_Dialog = 2131427390;
+			
+			// aapt resource value: 0x7F0B0042
+			public const int Base_Theme_AppCompat_DialogWhenLarge = 2131427394;
+			
+			// aapt resource value: 0x7F0B003F
+			public const int Base_Theme_AppCompat_Dialog_Alert = 2131427391;
+			
+			// aapt resource value: 0x7F0B0040
+			public const int Base_Theme_AppCompat_Dialog_FixedSize = 2131427392;
+			
+			// aapt resource value: 0x7F0B0041
+			public const int Base_Theme_AppCompat_Dialog_MinWidth = 2131427393;
+			
+			// aapt resource value: 0x7F0B0043
+			public const int Base_Theme_AppCompat_Light = 2131427395;
+			
+			// aapt resource value: 0x7F0B0044
+			public const int Base_Theme_AppCompat_Light_DarkActionBar = 2131427396;
+			
+			// aapt resource value: 0x7F0B0045
+			public const int Base_Theme_AppCompat_Light_Dialog = 2131427397;
+			
+			// aapt resource value: 0x7F0B0049
+			public const int Base_Theme_AppCompat_Light_DialogWhenLarge = 2131427401;
+			
+			// aapt resource value: 0x7F0B0046
+			public const int Base_Theme_AppCompat_Light_Dialog_Alert = 2131427398;
+			
+			// aapt resource value: 0x7F0B0047
+			public const int Base_Theme_AppCompat_Light_Dialog_FixedSize = 2131427399;
+			
+			// aapt resource value: 0x7F0B0048
+			public const int Base_Theme_AppCompat_Light_Dialog_MinWidth = 2131427400;
+			
+			// aapt resource value: 0x7F0B0055
+			public const int Base_V21_ThemeOverlay_AppCompat_Dialog = 2131427413;
+			
+			// aapt resource value: 0x7F0B0051
+			public const int Base_V21_Theme_AppCompat = 2131427409;
+			
+			// aapt resource value: 0x7F0B0052
+			public const int Base_V21_Theme_AppCompat_Dialog = 2131427410;
+			
+			// aapt resource value: 0x7F0B0053
+			public const int Base_V21_Theme_AppCompat_Light = 2131427411;
+			
+			// aapt resource value: 0x7F0B0054
+			public const int Base_V21_Theme_AppCompat_Light_Dialog = 2131427412;
+			
+			// aapt resource value: 0x7F0B0056
+			public const int Base_V22_Theme_AppCompat = 2131427414;
+			
+			// aapt resource value: 0x7F0B0057
+			public const int Base_V22_Theme_AppCompat_Light = 2131427415;
+			
+			// aapt resource value: 0x7F0B0058
+			public const int Base_V23_Theme_AppCompat = 2131427416;
+			
+			// aapt resource value: 0x7F0B0059
+			public const int Base_V23_Theme_AppCompat_Light = 2131427417;
+			
+			// aapt resource value: 0x7F0B005A
+			public const int Base_V26_Theme_AppCompat = 2131427418;
+			
+			// aapt resource value: 0x7F0B005B
+			public const int Base_V26_Theme_AppCompat_Light = 2131427419;
+			
+			// aapt resource value: 0x7F0B005C
+			public const int Base_V26_Widget_AppCompat_Toolbar = 2131427420;
+			
+			// aapt resource value: 0x7F0B005D
+			public const int Base_V28_Theme_AppCompat = 2131427421;
+			
+			// aapt resource value: 0x7F0B005E
+			public const int Base_V28_Theme_AppCompat_Light = 2131427422;
+			
+			// aapt resource value: 0x7F0B0063
+			public const int Base_V7_ThemeOverlay_AppCompat_Dialog = 2131427427;
+			
+			// aapt resource value: 0x7F0B005F
+			public const int Base_V7_Theme_AppCompat = 2131427423;
+			
+			// aapt resource value: 0x7F0B0060
+			public const int Base_V7_Theme_AppCompat_Dialog = 2131427424;
+			
+			// aapt resource value: 0x7F0B0061
+			public const int Base_V7_Theme_AppCompat_Light = 2131427425;
+			
+			// aapt resource value: 0x7F0B0062
+			public const int Base_V7_Theme_AppCompat_Light_Dialog = 2131427426;
+			
+			// aapt resource value: 0x7F0B0064
+			public const int Base_V7_Widget_AppCompat_AutoCompleteTextView = 2131427428;
+			
+			// aapt resource value: 0x7F0B0065
+			public const int Base_V7_Widget_AppCompat_EditText = 2131427429;
+			
+			// aapt resource value: 0x7F0B0066
+			public const int Base_V7_Widget_AppCompat_Toolbar = 2131427430;
+			
+			// aapt resource value: 0x7F0B0067
+			public const int Base_Widget_AppCompat_ActionBar = 2131427431;
+			
+			// aapt resource value: 0x7F0B0068
+			public const int Base_Widget_AppCompat_ActionBar_Solid = 2131427432;
+			
+			// aapt resource value: 0x7F0B0069
+			public const int Base_Widget_AppCompat_ActionBar_TabBar = 2131427433;
+			
+			// aapt resource value: 0x7F0B006A
+			public const int Base_Widget_AppCompat_ActionBar_TabText = 2131427434;
+			
+			// aapt resource value: 0x7F0B006B
+			public const int Base_Widget_AppCompat_ActionBar_TabView = 2131427435;
+			
+			// aapt resource value: 0x7F0B006C
+			public const int Base_Widget_AppCompat_ActionButton = 2131427436;
+			
+			// aapt resource value: 0x7F0B006D
+			public const int Base_Widget_AppCompat_ActionButton_CloseMode = 2131427437;
+			
+			// aapt resource value: 0x7F0B006E
+			public const int Base_Widget_AppCompat_ActionButton_Overflow = 2131427438;
+			
+			// aapt resource value: 0x7F0B006F
+			public const int Base_Widget_AppCompat_ActionMode = 2131427439;
+			
+			// aapt resource value: 0x7F0B0070
+			public const int Base_Widget_AppCompat_ActivityChooserView = 2131427440;
+			
+			// aapt resource value: 0x7F0B0071
+			public const int Base_Widget_AppCompat_AutoCompleteTextView = 2131427441;
+			
+			// aapt resource value: 0x7F0B0072
+			public const int Base_Widget_AppCompat_Button = 2131427442;
+			
+			// aapt resource value: 0x7F0B0078
+			public const int Base_Widget_AppCompat_ButtonBar = 2131427448;
+			
+			// aapt resource value: 0x7F0B0079
+			public const int Base_Widget_AppCompat_ButtonBar_AlertDialog = 2131427449;
+			
+			// aapt resource value: 0x7F0B0073
+			public const int Base_Widget_AppCompat_Button_Borderless = 2131427443;
+			
+			// aapt resource value: 0x7F0B0074
+			public const int Base_Widget_AppCompat_Button_Borderless_Colored = 2131427444;
+			
+			// aapt resource value: 0x7F0B0075
+			public const int Base_Widget_AppCompat_Button_ButtonBar_AlertDialog = 2131427445;
+			
+			// aapt resource value: 0x7F0B0076
+			public const int Base_Widget_AppCompat_Button_Colored = 2131427446;
+			
+			// aapt resource value: 0x7F0B0077
+			public const int Base_Widget_AppCompat_Button_Small = 2131427447;
+			
+			// aapt resource value: 0x7F0B007A
+			public const int Base_Widget_AppCompat_CompoundButton_CheckBox = 2131427450;
+			
+			// aapt resource value: 0x7F0B007B
+			public const int Base_Widget_AppCompat_CompoundButton_RadioButton = 2131427451;
+			
+			// aapt resource value: 0x7F0B007C
+			public const int Base_Widget_AppCompat_CompoundButton_Switch = 2131427452;
+			
+			// aapt resource value: 0x7F0B007D
+			public const int Base_Widget_AppCompat_DrawerArrowToggle = 2131427453;
+			
+			// aapt resource value: 0x7F0B007E
+			public const int Base_Widget_AppCompat_DrawerArrowToggle_Common = 2131427454;
+			
+			// aapt resource value: 0x7F0B007F
+			public const int Base_Widget_AppCompat_DropDownItem_Spinner = 2131427455;
+			
+			// aapt resource value: 0x7F0B0080
+			public const int Base_Widget_AppCompat_EditText = 2131427456;
+			
+			// aapt resource value: 0x7F0B0081
+			public const int Base_Widget_AppCompat_ImageButton = 2131427457;
+			
+			// aapt resource value: 0x7F0B0082
+			public const int Base_Widget_AppCompat_Light_ActionBar = 2131427458;
+			
+			// aapt resource value: 0x7F0B0083
+			public const int Base_Widget_AppCompat_Light_ActionBar_Solid = 2131427459;
+			
+			// aapt resource value: 0x7F0B0084
+			public const int Base_Widget_AppCompat_Light_ActionBar_TabBar = 2131427460;
+			
+			// aapt resource value: 0x7F0B0085
+			public const int Base_Widget_AppCompat_Light_ActionBar_TabText = 2131427461;
+			
+			// aapt resource value: 0x7F0B0086
+			public const int Base_Widget_AppCompat_Light_ActionBar_TabText_Inverse = 2131427462;
+			
+			// aapt resource value: 0x7F0B0087
+			public const int Base_Widget_AppCompat_Light_ActionBar_TabView = 2131427463;
+			
+			// aapt resource value: 0x7F0B0088
+			public const int Base_Widget_AppCompat_Light_PopupMenu = 2131427464;
+			
+			// aapt resource value: 0x7F0B0089
+			public const int Base_Widget_AppCompat_Light_PopupMenu_Overflow = 2131427465;
+			
+			// aapt resource value: 0x7F0B008A
+			public const int Base_Widget_AppCompat_ListMenuView = 2131427466;
+			
+			// aapt resource value: 0x7F0B008B
+			public const int Base_Widget_AppCompat_ListPopupWindow = 2131427467;
+			
+			// aapt resource value: 0x7F0B008C
+			public const int Base_Widget_AppCompat_ListView = 2131427468;
+			
+			// aapt resource value: 0x7F0B008D
+			public const int Base_Widget_AppCompat_ListView_DropDown = 2131427469;
+			
+			// aapt resource value: 0x7F0B008E
+			public const int Base_Widget_AppCompat_ListView_Menu = 2131427470;
+			
+			// aapt resource value: 0x7F0B008F
+			public const int Base_Widget_AppCompat_PopupMenu = 2131427471;
+			
+			// aapt resource value: 0x7F0B0090
+			public const int Base_Widget_AppCompat_PopupMenu_Overflow = 2131427472;
+			
+			// aapt resource value: 0x7F0B0091
+			public const int Base_Widget_AppCompat_PopupWindow = 2131427473;
+			
+			// aapt resource value: 0x7F0B0092
+			public const int Base_Widget_AppCompat_ProgressBar = 2131427474;
+			
+			// aapt resource value: 0x7F0B0093
+			public const int Base_Widget_AppCompat_ProgressBar_Horizontal = 2131427475;
+			
+			// aapt resource value: 0x7F0B0094
+			public const int Base_Widget_AppCompat_RatingBar = 2131427476;
+			
+			// aapt resource value: 0x7F0B0095
+			public const int Base_Widget_AppCompat_RatingBar_Indicator = 2131427477;
+			
+			// aapt resource value: 0x7F0B0096
+			public const int Base_Widget_AppCompat_RatingBar_Small = 2131427478;
+			
+			// aapt resource value: 0x7F0B0097
+			public const int Base_Widget_AppCompat_SearchView = 2131427479;
+			
+			// aapt resource value: 0x7F0B0098
+			public const int Base_Widget_AppCompat_SearchView_ActionBar = 2131427480;
+			
+			// aapt resource value: 0x7F0B0099
+			public const int Base_Widget_AppCompat_SeekBar = 2131427481;
+			
+			// aapt resource value: 0x7F0B009A
+			public const int Base_Widget_AppCompat_SeekBar_Discrete = 2131427482;
+			
+			// aapt resource value: 0x7F0B009B
+			public const int Base_Widget_AppCompat_Spinner = 2131427483;
+			
+			// aapt resource value: 0x7F0B009C
+			public const int Base_Widget_AppCompat_Spinner_Underlined = 2131427484;
+			
+			// aapt resource value: 0x7F0B009D
+			public const int Base_Widget_AppCompat_TextView_SpinnerItem = 2131427485;
+			
+			// aapt resource value: 0x7F0B009E
+			public const int Base_Widget_AppCompat_Toolbar = 2131427486;
+			
+			// aapt resource value: 0x7F0B009F
+			public const int Base_Widget_AppCompat_Toolbar_Button_Navigation = 2131427487;
+			
+			// aapt resource value: 0x7F0B00A0
+			public const int Platform_AppCompat = 2131427488;
+			
+			// aapt resource value: 0x7F0B00A1
+			public const int Platform_AppCompat_Light = 2131427489;
+			
+			// aapt resource value: 0x7F0B00A2
+			public const int Platform_ThemeOverlay_AppCompat = 2131427490;
+			
+			// aapt resource value: 0x7F0B00A3
+			public const int Platform_ThemeOverlay_AppCompat_Dark = 2131427491;
+			
+			// aapt resource value: 0x7F0B00A4
+			public const int Platform_ThemeOverlay_AppCompat_Light = 2131427492;
+			
+			// aapt resource value: 0x7F0B00A5
+			public const int Platform_V21_AppCompat = 2131427493;
+			
+			// aapt resource value: 0x7F0B00A6
+			public const int Platform_V21_AppCompat_Light = 2131427494;
+			
+			// aapt resource value: 0x7F0B00A7
+			public const int Platform_V25_AppCompat = 2131427495;
+			
+			// aapt resource value: 0x7F0B00A8
+			public const int Platform_V25_AppCompat_Light = 2131427496;
+			
+			// aapt resource value: 0x7F0B00A9
+			public const int Platform_Widget_AppCompat_Spinner = 2131427497;
+			
+			// aapt resource value: 0x7F0B00AA
+			public const int RtlOverlay_DialogWindowTitle_AppCompat = 2131427498;
+			
+			// aapt resource value: 0x7F0B00AB
+			public const int RtlOverlay_Widget_AppCompat_ActionBar_TitleItem = 2131427499;
+			
+			// aapt resource value: 0x7F0B00AC
+			public const int RtlOverlay_Widget_AppCompat_DialogTitle_Icon = 2131427500;
+			
+			// aapt resource value: 0x7F0B00AD
+			public const int RtlOverlay_Widget_AppCompat_PopupMenuItem = 2131427501;
+			
+			// aapt resource value: 0x7F0B00AE
+			public const int RtlOverlay_Widget_AppCompat_PopupMenuItem_InternalGroup = 2131427502;
+			
+			// aapt resource value: 0x7F0B00AF
+			public const int RtlOverlay_Widget_AppCompat_PopupMenuItem_Shortcut = 2131427503;
+			
+			// aapt resource value: 0x7F0B00B0
+			public const int RtlOverlay_Widget_AppCompat_PopupMenuItem_SubmenuArrow = 2131427504;
+			
+			// aapt resource value: 0x7F0B00B1
+			public const int RtlOverlay_Widget_AppCompat_PopupMenuItem_Text = 2131427505;
+			
+			// aapt resource value: 0x7F0B00B2
+			public const int RtlOverlay_Widget_AppCompat_PopupMenuItem_Title = 2131427506;
+			
+			// aapt resource value: 0x7F0B00B8
+			public const int RtlOverlay_Widget_AppCompat_SearchView_MagIcon = 2131427512;
+			
+			// aapt resource value: 0x7F0B00B3
+			public const int RtlOverlay_Widget_AppCompat_Search_DropDown = 2131427507;
+			
+			// aapt resource value: 0x7F0B00B4
+			public const int RtlOverlay_Widget_AppCompat_Search_DropDown_Icon1 = 2131427508;
+			
+			// aapt resource value: 0x7F0B00B5
+			public const int RtlOverlay_Widget_AppCompat_Search_DropDown_Icon2 = 2131427509;
+			
+			// aapt resource value: 0x7F0B00B6
+			public const int RtlOverlay_Widget_AppCompat_Search_DropDown_Query = 2131427510;
+			
+			// aapt resource value: 0x7F0B00B7
+			public const int RtlOverlay_Widget_AppCompat_Search_DropDown_Text = 2131427511;
+			
+			// aapt resource value: 0x7F0B00B9
+			public const int RtlUnderlay_Widget_AppCompat_ActionButton = 2131427513;
+			
+			// aapt resource value: 0x7F0B00BA
+			public const int RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = 2131427514;
+			
+			// aapt resource value: 0x7F0B00BB
+			public const int TextAppearance_AppCompat = 2131427515;
+			
+			// aapt resource value: 0x7F0B00BC
+			public const int TextAppearance_AppCompat_Body1 = 2131427516;
+			
+			// aapt resource value: 0x7F0B00BD
+			public const int TextAppearance_AppCompat_Body2 = 2131427517;
+			
+			// aapt resource value: 0x7F0B00BE
+			public const int TextAppearance_AppCompat_Button = 2131427518;
+			
+			// aapt resource value: 0x7F0B00BF
+			public const int TextAppearance_AppCompat_Caption = 2131427519;
+			
+			// aapt resource value: 0x7F0B00C0
+			public const int TextAppearance_AppCompat_Display1 = 2131427520;
+			
+			// aapt resource value: 0x7F0B00C1
+			public const int TextAppearance_AppCompat_Display2 = 2131427521;
+			
+			// aapt resource value: 0x7F0B00C2
+			public const int TextAppearance_AppCompat_Display3 = 2131427522;
+			
+			// aapt resource value: 0x7F0B00C3
+			public const int TextAppearance_AppCompat_Display4 = 2131427523;
+			
+			// aapt resource value: 0x7F0B00C4
+			public const int TextAppearance_AppCompat_Headline = 2131427524;
+			
+			// aapt resource value: 0x7F0B00C5
+			public const int TextAppearance_AppCompat_Inverse = 2131427525;
+			
+			// aapt resource value: 0x7F0B00C6
+			public const int TextAppearance_AppCompat_Large = 2131427526;
+			
+			// aapt resource value: 0x7F0B00C7
+			public const int TextAppearance_AppCompat_Large_Inverse = 2131427527;
+			
+			// aapt resource value: 0x7F0B00C8
+			public const int TextAppearance_AppCompat_Light_SearchResult_Subtitle = 2131427528;
+			
+			// aapt resource value: 0x7F0B00C9
+			public const int TextAppearance_AppCompat_Light_SearchResult_Title = 2131427529;
+			
+			// aapt resource value: 0x7F0B00CA
+			public const int TextAppearance_AppCompat_Light_Widget_PopupMenu_Large = 2131427530;
+			
+			// aapt resource value: 0x7F0B00CB
+			public const int TextAppearance_AppCompat_Light_Widget_PopupMenu_Small = 2131427531;
+			
+			// aapt resource value: 0x7F0B00CC
+			public const int TextAppearance_AppCompat_Medium = 2131427532;
+			
+			// aapt resource value: 0x7F0B00CD
+			public const int TextAppearance_AppCompat_Medium_Inverse = 2131427533;
+			
+			// aapt resource value: 0x7F0B00CE
+			public const int TextAppearance_AppCompat_Menu = 2131427534;
+			
+			// aapt resource value: 0x7F0B00CF
+			public const int TextAppearance_AppCompat_SearchResult_Subtitle = 2131427535;
+			
+			// aapt resource value: 0x7F0B00D0
+			public const int TextAppearance_AppCompat_SearchResult_Title = 2131427536;
+			
+			// aapt resource value: 0x7F0B00D1
+			public const int TextAppearance_AppCompat_Small = 2131427537;
+			
+			// aapt resource value: 0x7F0B00D2
+			public const int TextAppearance_AppCompat_Small_Inverse = 2131427538;
+			
+			// aapt resource value: 0x7F0B00D3
+			public const int TextAppearance_AppCompat_Subhead = 2131427539;
+			
+			// aapt resource value: 0x7F0B00D4
+			public const int TextAppearance_AppCompat_Subhead_Inverse = 2131427540;
+			
+			// aapt resource value: 0x7F0B00D5
+			public const int TextAppearance_AppCompat_Title = 2131427541;
+			
+			// aapt resource value: 0x7F0B00D6
+			public const int TextAppearance_AppCompat_Title_Inverse = 2131427542;
+			
+			// aapt resource value: 0x7F0B00D7
+			public const int TextAppearance_AppCompat_Tooltip = 2131427543;
+			
+			// aapt resource value: 0x7F0B00D8
+			public const int TextAppearance_AppCompat_Widget_ActionBar_Menu = 2131427544;
+			
+			// aapt resource value: 0x7F0B00D9
+			public const int TextAppearance_AppCompat_Widget_ActionBar_Subtitle = 2131427545;
+			
+			// aapt resource value: 0x7F0B00DA
+			public const int TextAppearance_AppCompat_Widget_ActionBar_Subtitle_Inverse = 2131427546;
+			
+			// aapt resource value: 0x7F0B00DB
+			public const int TextAppearance_AppCompat_Widget_ActionBar_Title = 2131427547;
+			
+			// aapt resource value: 0x7F0B00DC
+			public const int TextAppearance_AppCompat_Widget_ActionBar_Title_Inverse = 2131427548;
+			
+			// aapt resource value: 0x7F0B00DD
+			public const int TextAppearance_AppCompat_Widget_ActionMode_Subtitle = 2131427549;
+			
+			// aapt resource value: 0x7F0B00DE
+			public const int TextAppearance_AppCompat_Widget_ActionMode_Subtitle_Inverse = 2131427550;
+			
+			// aapt resource value: 0x7F0B00DF
+			public const int TextAppearance_AppCompat_Widget_ActionMode_Title = 2131427551;
+			
+			// aapt resource value: 0x7F0B00E0
+			public const int TextAppearance_AppCompat_Widget_ActionMode_Title_Inverse = 2131427552;
+			
+			// aapt resource value: 0x7F0B00E1
+			public const int TextAppearance_AppCompat_Widget_Button = 2131427553;
+			
+			// aapt resource value: 0x7F0B00E2
+			public const int TextAppearance_AppCompat_Widget_Button_Borderless_Colored = 2131427554;
+			
+			// aapt resource value: 0x7F0B00E3
+			public const int TextAppearance_AppCompat_Widget_Button_Colored = 2131427555;
+			
+			// aapt resource value: 0x7F0B00E4
+			public const int TextAppearance_AppCompat_Widget_Button_Inverse = 2131427556;
+			
+			// aapt resource value: 0x7F0B00E5
+			public const int TextAppearance_AppCompat_Widget_DropDownItem = 2131427557;
+			
+			// aapt resource value: 0x7F0B00E6
+			public const int TextAppearance_AppCompat_Widget_PopupMenu_Header = 2131427558;
+			
+			// aapt resource value: 0x7F0B00E7
+			public const int TextAppearance_AppCompat_Widget_PopupMenu_Large = 2131427559;
+			
+			// aapt resource value: 0x7F0B00E8
+			public const int TextAppearance_AppCompat_Widget_PopupMenu_Small = 2131427560;
+			
+			// aapt resource value: 0x7F0B00E9
+			public const int TextAppearance_AppCompat_Widget_Switch = 2131427561;
+			
+			// aapt resource value: 0x7F0B00EA
+			public const int TextAppearance_AppCompat_Widget_TextView_SpinnerItem = 2131427562;
+			
+			// aapt resource value: 0x7F0B00EB
+			public const int TextAppearance_Compat_Notification = 2131427563;
+			
+			// aapt resource value: 0x7F0B00EC
+			public const int TextAppearance_Compat_Notification_Info = 2131427564;
+			
+			// aapt resource value: 0x7F0B00ED
+			public const int TextAppearance_Compat_Notification_Line2 = 2131427565;
+			
+			// aapt resource value: 0x7F0B00EE
+			public const int TextAppearance_Compat_Notification_Time = 2131427566;
+			
+			// aapt resource value: 0x7F0B00EF
+			public const int TextAppearance_Compat_Notification_Title = 2131427567;
+			
+			// aapt resource value: 0x7F0B00F0
+			public const int TextAppearance_Widget_AppCompat_ExpandedMenu_Item = 2131427568;
+			
+			// aapt resource value: 0x7F0B00F1
+			public const int TextAppearance_Widget_AppCompat_Toolbar_Subtitle = 2131427569;
+			
+			// aapt resource value: 0x7F0B00F2
+			public const int TextAppearance_Widget_AppCompat_Toolbar_Title = 2131427570;
+			
+			// aapt resource value: 0x7F0B0108
+			public const int ThemeOverlay_AppCompat = 2131427592;
+			
+			// aapt resource value: 0x7F0B0109
+			public const int ThemeOverlay_AppCompat_ActionBar = 2131427593;
+			
+			// aapt resource value: 0x7F0B010A
+			public const int ThemeOverlay_AppCompat_Dark = 2131427594;
+			
+			// aapt resource value: 0x7F0B010B
+			public const int ThemeOverlay_AppCompat_Dark_ActionBar = 2131427595;
+			
+			// aapt resource value: 0x7F0B010C
+			public const int ThemeOverlay_AppCompat_Dialog = 2131427596;
+			
+			// aapt resource value: 0x7F0B010D
+			public const int ThemeOverlay_AppCompat_Dialog_Alert = 2131427597;
+			
+			// aapt resource value: 0x7F0B010E
+			public const int ThemeOverlay_AppCompat_Light = 2131427598;
+			
+			// aapt resource value: 0x7F0B00F3
+			public const int Theme_AppCompat = 2131427571;
+			
+			// aapt resource value: 0x7F0B00F4
+			public const int Theme_AppCompat_CompactMenu = 2131427572;
+			
+			// aapt resource value: 0x7F0B00F5
+			public const int Theme_AppCompat_DayNight = 2131427573;
+			
+			// aapt resource value: 0x7F0B00F6
+			public const int Theme_AppCompat_DayNight_DarkActionBar = 2131427574;
+			
+			// aapt resource value: 0x7F0B00F7
+			public const int Theme_AppCompat_DayNight_Dialog = 2131427575;
+			
+			// aapt resource value: 0x7F0B00FA
+			public const int Theme_AppCompat_DayNight_DialogWhenLarge = 2131427578;
+			
+			// aapt resource value: 0x7F0B00F8
+			public const int Theme_AppCompat_DayNight_Dialog_Alert = 2131427576;
+			
+			// aapt resource value: 0x7F0B00F9
+			public const int Theme_AppCompat_DayNight_Dialog_MinWidth = 2131427577;
+			
+			// aapt resource value: 0x7F0B00FB
+			public const int Theme_AppCompat_DayNight_NoActionBar = 2131427579;
+			
+			// aapt resource value: 0x7F0B00FC
+			public const int Theme_AppCompat_Dialog = 2131427580;
+			
+			// aapt resource value: 0x7F0B00FF
+			public const int Theme_AppCompat_DialogWhenLarge = 2131427583;
+			
+			// aapt resource value: 0x7F0B00FD
+			public const int Theme_AppCompat_Dialog_Alert = 2131427581;
+			
+			// aapt resource value: 0x7F0B00FE
+			public const int Theme_AppCompat_Dialog_MinWidth = 2131427582;
+			
+			// aapt resource value: 0x7F0B0100
+			public const int Theme_AppCompat_Light = 2131427584;
+			
+			// aapt resource value: 0x7F0B0101
+			public const int Theme_AppCompat_Light_DarkActionBar = 2131427585;
+			
+			// aapt resource value: 0x7F0B0102
+			public const int Theme_AppCompat_Light_Dialog = 2131427586;
+			
+			// aapt resource value: 0x7F0B0105
+			public const int Theme_AppCompat_Light_DialogWhenLarge = 2131427589;
+			
+			// aapt resource value: 0x7F0B0103
+			public const int Theme_AppCompat_Light_Dialog_Alert = 2131427587;
+			
+			// aapt resource value: 0x7F0B0104
+			public const int Theme_AppCompat_Light_Dialog_MinWidth = 2131427588;
+			
+			// aapt resource value: 0x7F0B0106
+			public const int Theme_AppCompat_Light_NoActionBar = 2131427590;
+			
+			// aapt resource value: 0x7F0B0107
+			public const int Theme_AppCompat_NoActionBar = 2131427591;
+			
+			// aapt resource value: 0x7F0B010F
+			public const int Widget_AppCompat_ActionBar = 2131427599;
+			
+			// aapt resource value: 0x7F0B0110
+			public const int Widget_AppCompat_ActionBar_Solid = 2131427600;
+			
+			// aapt resource value: 0x7F0B0111
+			public const int Widget_AppCompat_ActionBar_TabBar = 2131427601;
+			
+			// aapt resource value: 0x7F0B0112
+			public const int Widget_AppCompat_ActionBar_TabText = 2131427602;
+			
+			// aapt resource value: 0x7F0B0113
+			public const int Widget_AppCompat_ActionBar_TabView = 2131427603;
+			
+			// aapt resource value: 0x7F0B0114
+			public const int Widget_AppCompat_ActionButton = 2131427604;
+			
+			// aapt resource value: 0x7F0B0115
+			public const int Widget_AppCompat_ActionButton_CloseMode = 2131427605;
+			
+			// aapt resource value: 0x7F0B0116
+			public const int Widget_AppCompat_ActionButton_Overflow = 2131427606;
+			
+			// aapt resource value: 0x7F0B0117
+			public const int Widget_AppCompat_ActionMode = 2131427607;
+			
+			// aapt resource value: 0x7F0B0118
+			public const int Widget_AppCompat_ActivityChooserView = 2131427608;
+			
+			// aapt resource value: 0x7F0B0119
+			public const int Widget_AppCompat_AutoCompleteTextView = 2131427609;
+			
+			// aapt resource value: 0x7F0B011A
+			public const int Widget_AppCompat_Button = 2131427610;
+			
+			// aapt resource value: 0x7F0B0120
+			public const int Widget_AppCompat_ButtonBar = 2131427616;
+			
+			// aapt resource value: 0x7F0B0121
+			public const int Widget_AppCompat_ButtonBar_AlertDialog = 2131427617;
+			
+			// aapt resource value: 0x7F0B011B
+			public const int Widget_AppCompat_Button_Borderless = 2131427611;
+			
+			// aapt resource value: 0x7F0B011C
+			public const int Widget_AppCompat_Button_Borderless_Colored = 2131427612;
+			
+			// aapt resource value: 0x7F0B011D
+			public const int Widget_AppCompat_Button_ButtonBar_AlertDialog = 2131427613;
+			
+			// aapt resource value: 0x7F0B011E
+			public const int Widget_AppCompat_Button_Colored = 2131427614;
+			
+			// aapt resource value: 0x7F0B011F
+			public const int Widget_AppCompat_Button_Small = 2131427615;
+			
+			// aapt resource value: 0x7F0B0122
+			public const int Widget_AppCompat_CompoundButton_CheckBox = 2131427618;
+			
+			// aapt resource value: 0x7F0B0123
+			public const int Widget_AppCompat_CompoundButton_RadioButton = 2131427619;
+			
+			// aapt resource value: 0x7F0B0124
+			public const int Widget_AppCompat_CompoundButton_Switch = 2131427620;
+			
+			// aapt resource value: 0x7F0B0125
+			public const int Widget_AppCompat_DrawerArrowToggle = 2131427621;
+			
+			// aapt resource value: 0x7F0B0126
+			public const int Widget_AppCompat_DropDownItem_Spinner = 2131427622;
+			
+			// aapt resource value: 0x7F0B0127
+			public const int Widget_AppCompat_EditText = 2131427623;
+			
+			// aapt resource value: 0x7F0B0128
+			public const int Widget_AppCompat_ImageButton = 2131427624;
+			
+			// aapt resource value: 0x7F0B0129
+			public const int Widget_AppCompat_Light_ActionBar = 2131427625;
+			
+			// aapt resource value: 0x7F0B012A
+			public const int Widget_AppCompat_Light_ActionBar_Solid = 2131427626;
+			
+			// aapt resource value: 0x7F0B012B
+			public const int Widget_AppCompat_Light_ActionBar_Solid_Inverse = 2131427627;
+			
+			// aapt resource value: 0x7F0B012C
+			public const int Widget_AppCompat_Light_ActionBar_TabBar = 2131427628;
+			
+			// aapt resource value: 0x7F0B012D
+			public const int Widget_AppCompat_Light_ActionBar_TabBar_Inverse = 2131427629;
+			
+			// aapt resource value: 0x7F0B012E
+			public const int Widget_AppCompat_Light_ActionBar_TabText = 2131427630;
+			
+			// aapt resource value: 0x7F0B012F
+			public const int Widget_AppCompat_Light_ActionBar_TabText_Inverse = 2131427631;
+			
+			// aapt resource value: 0x7F0B0130
+			public const int Widget_AppCompat_Light_ActionBar_TabView = 2131427632;
+			
+			// aapt resource value: 0x7F0B0131
+			public const int Widget_AppCompat_Light_ActionBar_TabView_Inverse = 2131427633;
+			
+			// aapt resource value: 0x7F0B0132
+			public const int Widget_AppCompat_Light_ActionButton = 2131427634;
+			
+			// aapt resource value: 0x7F0B0133
+			public const int Widget_AppCompat_Light_ActionButton_CloseMode = 2131427635;
+			
+			// aapt resource value: 0x7F0B0134
+			public const int Widget_AppCompat_Light_ActionButton_Overflow = 2131427636;
+			
+			// aapt resource value: 0x7F0B0135
+			public const int Widget_AppCompat_Light_ActionMode_Inverse = 2131427637;
+			
+			// aapt resource value: 0x7F0B0136
+			public const int Widget_AppCompat_Light_ActivityChooserView = 2131427638;
+			
+			// aapt resource value: 0x7F0B0137
+			public const int Widget_AppCompat_Light_AutoCompleteTextView = 2131427639;
+			
+			// aapt resource value: 0x7F0B0138
+			public const int Widget_AppCompat_Light_DropDownItem_Spinner = 2131427640;
+			
+			// aapt resource value: 0x7F0B0139
+			public const int Widget_AppCompat_Light_ListPopupWindow = 2131427641;
+			
+			// aapt resource value: 0x7F0B013A
+			public const int Widget_AppCompat_Light_ListView_DropDown = 2131427642;
+			
+			// aapt resource value: 0x7F0B013B
+			public const int Widget_AppCompat_Light_PopupMenu = 2131427643;
+			
+			// aapt resource value: 0x7F0B013C
+			public const int Widget_AppCompat_Light_PopupMenu_Overflow = 2131427644;
+			
+			// aapt resource value: 0x7F0B013D
+			public const int Widget_AppCompat_Light_SearchView = 2131427645;
+			
+			// aapt resource value: 0x7F0B013E
+			public const int Widget_AppCompat_Light_Spinner_DropDown_ActionBar = 2131427646;
+			
+			// aapt resource value: 0x7F0B013F
+			public const int Widget_AppCompat_ListMenuView = 2131427647;
+			
+			// aapt resource value: 0x7F0B0140
+			public const int Widget_AppCompat_ListPopupWindow = 2131427648;
+			
+			// aapt resource value: 0x7F0B0141
+			public const int Widget_AppCompat_ListView = 2131427649;
+			
+			// aapt resource value: 0x7F0B0142
+			public const int Widget_AppCompat_ListView_DropDown = 2131427650;
+			
+			// aapt resource value: 0x7F0B0143
+			public const int Widget_AppCompat_ListView_Menu = 2131427651;
+			
+			// aapt resource value: 0x7F0B0144
+			public const int Widget_AppCompat_PopupMenu = 2131427652;
+			
+			// aapt resource value: 0x7F0B0145
+			public const int Widget_AppCompat_PopupMenu_Overflow = 2131427653;
+			
+			// aapt resource value: 0x7F0B0146
+			public const int Widget_AppCompat_PopupWindow = 2131427654;
+			
+			// aapt resource value: 0x7F0B0147
+			public const int Widget_AppCompat_ProgressBar = 2131427655;
+			
+			// aapt resource value: 0x7F0B0148
+			public const int Widget_AppCompat_ProgressBar_Horizontal = 2131427656;
+			
+			// aapt resource value: 0x7F0B0149
+			public const int Widget_AppCompat_RatingBar = 2131427657;
+			
+			// aapt resource value: 0x7F0B014A
+			public const int Widget_AppCompat_RatingBar_Indicator = 2131427658;
+			
+			// aapt resource value: 0x7F0B014B
+			public const int Widget_AppCompat_RatingBar_Small = 2131427659;
+			
+			// aapt resource value: 0x7F0B014C
+			public const int Widget_AppCompat_SearchView = 2131427660;
+			
+			// aapt resource value: 0x7F0B014D
+			public const int Widget_AppCompat_SearchView_ActionBar = 2131427661;
+			
+			// aapt resource value: 0x7F0B014E
+			public const int Widget_AppCompat_SeekBar = 2131427662;
+			
+			// aapt resource value: 0x7F0B014F
+			public const int Widget_AppCompat_SeekBar_Discrete = 2131427663;
+			
+			// aapt resource value: 0x7F0B0150
+			public const int Widget_AppCompat_Spinner = 2131427664;
+			
+			// aapt resource value: 0x7F0B0151
+			public const int Widget_AppCompat_Spinner_DropDown = 2131427665;
+			
+			// aapt resource value: 0x7F0B0152
+			public const int Widget_AppCompat_Spinner_DropDown_ActionBar = 2131427666;
+			
+			// aapt resource value: 0x7F0B0153
+			public const int Widget_AppCompat_Spinner_Underlined = 2131427667;
+			
+			// aapt resource value: 0x7F0B0154
+			public const int Widget_AppCompat_TextView_SpinnerItem = 2131427668;
+			
+			// aapt resource value: 0x7F0B0155
+			public const int Widget_AppCompat_Toolbar = 2131427669;
+			
+			// aapt resource value: 0x7F0B0156
+			public const int Widget_AppCompat_Toolbar_Button_Navigation = 2131427670;
+			
+			// aapt resource value: 0x7F0B0157
+			public const int Widget_Compat_NotificationActionContainer = 2131427671;
+			
+			// aapt resource value: 0x7F0B0158
+			public const int Widget_Compat_NotificationActionText = 2131427672;
+			
+			// aapt resource value: 0x7F0B0159
+			public const int Widget_Support_CoordinatorLayout = 2131427673;
+			
+			static Style()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Style()
+			{
+			}
+		}
+		
+		public partial class Styleable
+		{
+			
+			// aapt resource value: { 0x7F020031,0x7F020032,0x7F020033,0x7F020057,0x7F020058,0x7F020059,0x7F02005A,0x7F02005B,0x7F02005C,0x7F02005F,0x7F020064,0x7F020065,0x7F020070,0x7F020080,0x7F020081,0x7F020082,0x7F020083,0x7F020084,0x7F020089,0x7F02008C,0x7F0200A2,0x7F0200A9,0x7F0200B4,0x7F0200B7,0x7F0200B8,0x7F0200D3,0x7F0200D6,0x7F0200F1,0x7F0200FA }
+			public static int[] ActionBar = new int[] {
+					2130837553,
+					2130837554,
+					2130837555,
+					2130837591,
+					2130837592,
+					2130837593,
+					2130837594,
+					2130837595,
+					2130837596,
+					2130837599,
+					2130837604,
+					2130837605,
+					2130837616,
+					2130837632,
+					2130837633,
+					2130837634,
+					2130837635,
+					2130837636,
+					2130837641,
+					2130837644,
+					2130837666,
+					2130837673,
+					2130837684,
+					2130837687,
+					2130837688,
+					2130837715,
+					2130837718,
+					2130837745,
+					2130837754};
+			
+			// aapt resource value: { 0x10100B3 }
+			public static int[] ActionBarLayout = new int[] {
+					16842931};
+			
+			// aapt resource value: 0
+			public const int ActionBarLayout_android_layout_gravity = 0;
+			
+			// aapt resource value: 0
+			public const int ActionBar_background = 0;
+			
+			// aapt resource value: 1
+			public const int ActionBar_backgroundSplit = 1;
+			
+			// aapt resource value: 2
+			public const int ActionBar_backgroundStacked = 2;
+			
+			// aapt resource value: 3
+			public const int ActionBar_contentInsetEnd = 3;
+			
+			// aapt resource value: 4
+			public const int ActionBar_contentInsetEndWithActions = 4;
+			
+			// aapt resource value: 5
+			public const int ActionBar_contentInsetLeft = 5;
+			
+			// aapt resource value: 6
+			public const int ActionBar_contentInsetRight = 6;
+			
+			// aapt resource value: 7
+			public const int ActionBar_contentInsetStart = 7;
+			
+			// aapt resource value: 8
+			public const int ActionBar_contentInsetStartWithNavigation = 8;
+			
+			// aapt resource value: 9
+			public const int ActionBar_customNavigationLayout = 9;
+			
+			// aapt resource value: 10
+			public const int ActionBar_displayOptions = 10;
+			
+			// aapt resource value: 11
+			public const int ActionBar_divider = 11;
+			
+			// aapt resource value: 12
+			public const int ActionBar_elevation = 12;
+			
+			// aapt resource value: 13
+			public const int ActionBar_height = 13;
+			
+			// aapt resource value: 14
+			public const int ActionBar_hideOnContentScroll = 14;
+			
+			// aapt resource value: 15
+			public const int ActionBar_homeAsUpIndicator = 15;
+			
+			// aapt resource value: 16
+			public const int ActionBar_homeLayout = 16;
+			
+			// aapt resource value: 17
+			public const int ActionBar_icon = 17;
+			
+			// aapt resource value: 18
+			public const int ActionBar_indeterminateProgressStyle = 18;
+			
+			// aapt resource value: 19
+			public const int ActionBar_itemPadding = 19;
+			
+			// aapt resource value: 20
+			public const int ActionBar_logo = 20;
+			
+			// aapt resource value: 21
+			public const int ActionBar_navigationMode = 21;
+			
+			// aapt resource value: 22
+			public const int ActionBar_popupTheme = 22;
+			
+			// aapt resource value: 23
+			public const int ActionBar_progressBarPadding = 23;
+			
+			// aapt resource value: 24
+			public const int ActionBar_progressBarStyle = 24;
+			
+			// aapt resource value: 25
+			public const int ActionBar_subtitle = 25;
+			
+			// aapt resource value: 26
+			public const int ActionBar_subtitleTextStyle = 26;
+			
+			// aapt resource value: 27
+			public const int ActionBar_title = 27;
+			
+			// aapt resource value: 28
+			public const int ActionBar_titleTextStyle = 28;
+			
+			// aapt resource value: { 0x101013F }
+			public static int[] ActionMenuItemView = new int[] {
+					16843071};
+			
+			// aapt resource value: 0
+			public const int ActionMenuItemView_android_minWidth = 0;
+			
+			// aapt resource value: { 0xFFFFFFFF }
+			public static int[] ActionMenuView = new int[] {
+					-1};
+			
+			// aapt resource value: { 0x7F020031,0x7F020032,0x7F020047,0x7F020080,0x7F0200D6,0x7F0200FA }
+			public static int[] ActionMode = new int[] {
+					2130837553,
+					2130837554,
+					2130837575,
+					2130837632,
+					2130837718,
+					2130837754};
+			
+			// aapt resource value: 0
+			public const int ActionMode_background = 0;
+			
+			// aapt resource value: 1
+			public const int ActionMode_backgroundSplit = 1;
+			
+			// aapt resource value: 2
+			public const int ActionMode_closeItemLayout = 2;
+			
+			// aapt resource value: 3
+			public const int ActionMode_height = 3;
+			
+			// aapt resource value: 4
+			public const int ActionMode_subtitleTextStyle = 4;
+			
+			// aapt resource value: 5
+			public const int ActionMode_titleTextStyle = 5;
+			
+			// aapt resource value: { 0x7F020071,0x7F02008A }
+			public static int[] ActivityChooserView = new int[] {
+					2130837617,
+					2130837642};
+			
+			// aapt resource value: 0
+			public const int ActivityChooserView_expandActivityOverflowButtonDrawable = 0;
+			
+			// aapt resource value: 1
+			public const int ActivityChooserView_initialActivityCount = 1;
+			
+			// aapt resource value: { 0x10100F2,0x7F02003E,0x7F02003F,0x7F020099,0x7F02009A,0x7F0200A6,0x7F0200C8,0x7F0200C9 }
+			public static int[] AlertDialog = new int[] {
+					16842994,
+					2130837566,
+					2130837567,
+					2130837657,
+					2130837658,
+					2130837670,
+					2130837704,
+					2130837705};
+			
+			// aapt resource value: 0
+			public const int AlertDialog_android_layout = 0;
+			
+			// aapt resource value: 1
+			public const int AlertDialog_buttonIconDimen = 1;
+			
+			// aapt resource value: 2
+			public const int AlertDialog_buttonPanelSideLayout = 2;
+			
+			// aapt resource value: 3
+			public const int AlertDialog_listItemLayout = 3;
+			
+			// aapt resource value: 4
+			public const int AlertDialog_listLayout = 4;
+			
+			// aapt resource value: 5
+			public const int AlertDialog_multiChoiceItemLayout = 5;
+			
+			// aapt resource value: 6
+			public const int AlertDialog_showTitle = 6;
+			
+			// aapt resource value: 7
+			public const int AlertDialog_singleChoiceItemLayout = 7;
+			
+			// aapt resource value: { 0x101011C,0x1010194,0x1010195,0x1010196,0x101030C,0x101030D }
+			public static int[] AnimatedStateListDrawableCompat = new int[] {
+					16843036,
+					16843156,
+					16843157,
+					16843158,
+					16843532,
+					16843533};
+			
+			// aapt resource value: 3
+			public const int AnimatedStateListDrawableCompat_android_constantSize = 3;
+			
+			// aapt resource value: 0
+			public const int AnimatedStateListDrawableCompat_android_dither = 0;
+			
+			// aapt resource value: 4
+			public const int AnimatedStateListDrawableCompat_android_enterFadeDuration = 4;
+			
+			// aapt resource value: 5
+			public const int AnimatedStateListDrawableCompat_android_exitFadeDuration = 5;
+			
+			// aapt resource value: 2
+			public const int AnimatedStateListDrawableCompat_android_variablePadding = 2;
+			
+			// aapt resource value: 1
+			public const int AnimatedStateListDrawableCompat_android_visible = 1;
+			
+			// aapt resource value: { 0x10100D0,0x1010199 }
+			public static int[] AnimatedStateListDrawableItem = new int[] {
+					16842960,
+					16843161};
+			
+			// aapt resource value: 1
+			public const int AnimatedStateListDrawableItem_android_drawable = 1;
+			
+			// aapt resource value: 0
+			public const int AnimatedStateListDrawableItem_android_id = 0;
+			
+			// aapt resource value: { 0x1010199,0x1010449,0x101044A,0x101044B }
+			public static int[] AnimatedStateListDrawableTransition = new int[] {
+					16843161,
+					16843849,
+					16843850,
+					16843851};
+			
+			// aapt resource value: 0
+			public const int AnimatedStateListDrawableTransition_android_drawable = 0;
+			
+			// aapt resource value: 2
+			public const int AnimatedStateListDrawableTransition_android_fromId = 2;
+			
+			// aapt resource value: 3
+			public const int AnimatedStateListDrawableTransition_android_reversible = 3;
+			
+			// aapt resource value: 1
+			public const int AnimatedStateListDrawableTransition_android_toId = 1;
+			
+			// aapt resource value: { 0x1010119,0x7F0200CE,0x7F0200EF,0x7F0200F0 }
+			public static int[] AppCompatImageView = new int[] {
+					16843033,
+					2130837710,
+					2130837743,
+					2130837744};
+			
+			// aapt resource value: 0
+			public const int AppCompatImageView_android_src = 0;
+			
+			// aapt resource value: 1
+			public const int AppCompatImageView_srcCompat = 1;
+			
+			// aapt resource value: 2
+			public const int AppCompatImageView_tint = 2;
+			
+			// aapt resource value: 3
+			public const int AppCompatImageView_tintMode = 3;
+			
+			// aapt resource value: { 0x1010142,0x7F0200EC,0x7F0200ED,0x7F0200EE }
+			public static int[] AppCompatSeekBar = new int[] {
+					16843074,
+					2130837740,
+					2130837741,
+					2130837742};
+			
+			// aapt resource value: 0
+			public const int AppCompatSeekBar_android_thumb = 0;
+			
+			// aapt resource value: 1
+			public const int AppCompatSeekBar_tickMark = 1;
+			
+			// aapt resource value: 2
+			public const int AppCompatSeekBar_tickMarkTint = 2;
+			
+			// aapt resource value: 3
+			public const int AppCompatSeekBar_tickMarkTintMode = 3;
+			
+			// aapt resource value: { 0x1010034,0x101016D,0x101016E,0x101016F,0x1010170,0x1010392,0x1010393 }
+			public static int[] AppCompatTextHelper = new int[] {
+					16842804,
+					16843117,
+					16843118,
+					16843119,
+					16843120,
+					16843666,
+					16843667};
+			
+			// aapt resource value: 2
+			public const int AppCompatTextHelper_android_drawableBottom = 2;
+			
+			// aapt resource value: 6
+			public const int AppCompatTextHelper_android_drawableEnd = 6;
+			
+			// aapt resource value: 3
+			public const int AppCompatTextHelper_android_drawableLeft = 3;
+			
+			// aapt resource value: 4
+			public const int AppCompatTextHelper_android_drawableRight = 4;
+			
+			// aapt resource value: 5
+			public const int AppCompatTextHelper_android_drawableStart = 5;
+			
+			// aapt resource value: 1
+			public const int AppCompatTextHelper_android_drawableTop = 1;
+			
+			// aapt resource value: 0
+			public const int AppCompatTextHelper_android_textAppearance = 0;
+			
+			// aapt resource value: { 0x1010034,0x7F02002C,0x7F02002D,0x7F02002E,0x7F02002F,0x7F020030,0x7F020072,0x7F020074,0x7F02008E,0x7F020096,0x7F0200DC }
+			public static int[] AppCompatTextView = new int[] {
+					16842804,
+					2130837548,
+					2130837549,
+					2130837550,
+					2130837551,
+					2130837552,
+					2130837618,
+					2130837620,
+					2130837646,
+					2130837654,
+					2130837724};
+			
+			// aapt resource value: 0
+			public const int AppCompatTextView_android_textAppearance = 0;
+			
+			// aapt resource value: 1
+			public const int AppCompatTextView_autoSizeMaxTextSize = 1;
+			
+			// aapt resource value: 2
+			public const int AppCompatTextView_autoSizeMinTextSize = 2;
+			
+			// aapt resource value: 3
+			public const int AppCompatTextView_autoSizePresetSizes = 3;
+			
+			// aapt resource value: 4
+			public const int AppCompatTextView_autoSizeStepGranularity = 4;
+			
+			// aapt resource value: 5
+			public const int AppCompatTextView_autoSizeTextType = 5;
+			
+			// aapt resource value: 6
+			public const int AppCompatTextView_firstBaselineToTopHeight = 6;
+			
+			// aapt resource value: 7
+			public const int AppCompatTextView_fontFamily = 7;
+			
+			// aapt resource value: 8
+			public const int AppCompatTextView_lastBaselineToBottomHeight = 8;
+			
+			// aapt resource value: 9
+			public const int AppCompatTextView_lineHeight = 9;
+			
+			// aapt resource value: 10
+			public const int AppCompatTextView_textAllCaps = 10;
+			
+			// aapt resource value: { 0x1010057,0x10100AE,0x7F020000,0x7F020001,0x7F020002,0x7F020003,0x7F020004,0x7F020005,0x7F020006,0x7F020007,0x7F020008,0x7F020009,0x7F02000A,0x7F02000B,0x7F02000C,0x7F02000E,0x7F02000F,0x7F020010,0x7F020011,0x7F020012,0x7F020013,0x7F020014,0x7F020015,0x7F020016,0x7F020017,0x7F020018,0x7F020019,0x7F02001A,0x7F02001B,0x7F02001C,0x7F02001D,0x7F02001E,0x7F020021,0x7F020022,0x7F020023,0x7F020024,0x7F020025,0x7F02002B,0x7F020037,0x7F020038,0x7F020039,0x7F02003A,0x7F02003B,0x7F02003C,0x7F020040,0x7F020041,0x7F020044,0x7F020045,0x7F02004B,0x7F02004C,0x7F02004D,0x7F02004E,0x7F02004F,0x7F020050,0x7F020051,0x7F020052,0x7F020053,0x7F020054,0x7F02005D,0x7F020061,0x7F020062,0x7F020063,0x7F020066,0x7F020068,0x7F02006B,0x7F02006C,0x7F02006D,0x7F02006E,0x7F02006F,0x7F020082,0x7F020088,0x7F020097,0x7F020098,0x7F02009B,0x7F02009C,0x7F02009D,0x7F02009E,0x7F02009F,0x7F0200A0,0x7F0200A1,0x7F0200B0,0x7F0200B1,0x7F0200B2,0x7F0200B3,0x7F0200B5,0x7F0200BB,0x7F0200BC,0x7F0200BD,0x7F0200BE,0x7F0200C1,0x7F0200C2,0x7F0200C3,0x7F0200C4,0x7F0200CB,0x7F0200CC,0x7F0200DA,0x7F0200DD,0x7F0200DE,0x7F0200DF,0x7F0200E0,0x7F0200E1,0x7F0200E2,0x7F0200E3,0x7F0200E4,0x7F0200E5,0x7F0200E6,0x7F0200FB,0x7F0200FC,0x7F0200FD,0x7F0200FE,0x7F020104,0x7F020106,0x7F020107,0x7F020108,0x7F020109,0x7F02010A,0x7F02010B,0x7F02010C,0x7F02010D,0x7F02010E,0x7F02010F }
+			public static int[] AppCompatTheme = new int[] {
+					16842839,
+					16842926,
+					2130837504,
+					2130837505,
+					2130837506,
+					2130837507,
+					2130837508,
+					2130837509,
+					2130837510,
+					2130837511,
+					2130837512,
+					2130837513,
+					2130837514,
+					2130837515,
+					2130837516,
+					2130837518,
+					2130837519,
+					2130837520,
+					2130837521,
+					2130837522,
+					2130837523,
+					2130837524,
+					2130837525,
+					2130837526,
+					2130837527,
+					2130837528,
+					2130837529,
+					2130837530,
+					2130837531,
+					2130837532,
+					2130837533,
+					2130837534,
+					2130837537,
+					2130837538,
+					2130837539,
+					2130837540,
+					2130837541,
+					2130837547,
+					2130837559,
+					2130837560,
+					2130837561,
+					2130837562,
+					2130837563,
+					2130837564,
+					2130837568,
+					2130837569,
+					2130837572,
+					2130837573,
+					2130837579,
+					2130837580,
+					2130837581,
+					2130837582,
+					2130837583,
+					2130837584,
+					2130837585,
+					2130837586,
+					2130837587,
+					2130837588,
+					2130837597,
+					2130837601,
+					2130837602,
+					2130837603,
+					2130837606,
+					2130837608,
+					2130837611,
+					2130837612,
+					2130837613,
+					2130837614,
+					2130837615,
+					2130837634,
+					2130837640,
+					2130837655,
+					2130837656,
+					2130837659,
+					2130837660,
+					2130837661,
+					2130837662,
+					2130837663,
+					2130837664,
+					2130837665,
+					2130837680,
+					2130837681,
+					2130837682,
+					2130837683,
+					2130837685,
+					2130837691,
+					2130837692,
+					2130837693,
+					2130837694,
+					2130837697,
+					2130837698,
+					2130837699,
+					2130837700,
+					2130837707,
+					2130837708,
+					2130837722,
+					2130837725,
+					2130837726,
+					2130837727,
+					2130837728,
+					2130837729,
+					2130837730,
+					2130837731,
+					2130837732,
+					2130837733,
+					2130837734,
+					2130837755,
+					2130837756,
+					2130837757,
+					2130837758,
+					2130837764,
+					2130837766,
+					2130837767,
+					2130837768,
+					2130837769,
+					2130837770,
+					2130837771,
+					2130837772,
+					2130837773,
+					2130837774,
+					2130837775};
+			
+			// aapt resource value: 2
+			public const int AppCompatTheme_actionBarDivider = 2;
+			
+			// aapt resource value: 3
+			public const int AppCompatTheme_actionBarItemBackground = 3;
+			
+			// aapt resource value: 4
+			public const int AppCompatTheme_actionBarPopupTheme = 4;
+			
+			// aapt resource value: 5
+			public const int AppCompatTheme_actionBarSize = 5;
+			
+			// aapt resource value: 6
+			public const int AppCompatTheme_actionBarSplitStyle = 6;
+			
+			// aapt resource value: 7
+			public const int AppCompatTheme_actionBarStyle = 7;
+			
+			// aapt resource value: 8
+			public const int AppCompatTheme_actionBarTabBarStyle = 8;
+			
+			// aapt resource value: 9
+			public const int AppCompatTheme_actionBarTabStyle = 9;
+			
+			// aapt resource value: 10
+			public const int AppCompatTheme_actionBarTabTextStyle = 10;
+			
+			// aapt resource value: 11
+			public const int AppCompatTheme_actionBarTheme = 11;
+			
+			// aapt resource value: 12
+			public const int AppCompatTheme_actionBarWidgetTheme = 12;
+			
+			// aapt resource value: 13
+			public const int AppCompatTheme_actionButtonStyle = 13;
+			
+			// aapt resource value: 14
+			public const int AppCompatTheme_actionDropDownStyle = 14;
+			
+			// aapt resource value: 15
+			public const int AppCompatTheme_actionMenuTextAppearance = 15;
+			
+			// aapt resource value: 16
+			public const int AppCompatTheme_actionMenuTextColor = 16;
+			
+			// aapt resource value: 17
+			public const int AppCompatTheme_actionModeBackground = 17;
+			
+			// aapt resource value: 18
+			public const int AppCompatTheme_actionModeCloseButtonStyle = 18;
+			
+			// aapt resource value: 19
+			public const int AppCompatTheme_actionModeCloseDrawable = 19;
+			
+			// aapt resource value: 20
+			public const int AppCompatTheme_actionModeCopyDrawable = 20;
+			
+			// aapt resource value: 21
+			public const int AppCompatTheme_actionModeCutDrawable = 21;
+			
+			// aapt resource value: 22
+			public const int AppCompatTheme_actionModeFindDrawable = 22;
+			
+			// aapt resource value: 23
+			public const int AppCompatTheme_actionModePasteDrawable = 23;
+			
+			// aapt resource value: 24
+			public const int AppCompatTheme_actionModePopupWindowStyle = 24;
+			
+			// aapt resource value: 25
+			public const int AppCompatTheme_actionModeSelectAllDrawable = 25;
+			
+			// aapt resource value: 26
+			public const int AppCompatTheme_actionModeShareDrawable = 26;
+			
+			// aapt resource value: 27
+			public const int AppCompatTheme_actionModeSplitBackground = 27;
+			
+			// aapt resource value: 28
+			public const int AppCompatTheme_actionModeStyle = 28;
+			
+			// aapt resource value: 29
+			public const int AppCompatTheme_actionModeWebSearchDrawable = 29;
+			
+			// aapt resource value: 30
+			public const int AppCompatTheme_actionOverflowButtonStyle = 30;
+			
+			// aapt resource value: 31
+			public const int AppCompatTheme_actionOverflowMenuStyle = 31;
+			
+			// aapt resource value: 32
+			public const int AppCompatTheme_activityChooserViewStyle = 32;
+			
+			// aapt resource value: 33
+			public const int AppCompatTheme_alertDialogButtonGroupStyle = 33;
+			
+			// aapt resource value: 34
+			public const int AppCompatTheme_alertDialogCenterButtons = 34;
+			
+			// aapt resource value: 35
+			public const int AppCompatTheme_alertDialogStyle = 35;
+			
+			// aapt resource value: 36
+			public const int AppCompatTheme_alertDialogTheme = 36;
+			
+			// aapt resource value: 1
+			public const int AppCompatTheme_android_windowAnimationStyle = 1;
+			
+			// aapt resource value: 0
+			public const int AppCompatTheme_android_windowIsFloating = 0;
+			
+			// aapt resource value: 37
+			public const int AppCompatTheme_autoCompleteTextViewStyle = 37;
+			
+			// aapt resource value: 38
+			public const int AppCompatTheme_borderlessButtonStyle = 38;
+			
+			// aapt resource value: 39
+			public const int AppCompatTheme_buttonBarButtonStyle = 39;
+			
+			// aapt resource value: 40
+			public const int AppCompatTheme_buttonBarNegativeButtonStyle = 40;
+			
+			// aapt resource value: 41
+			public const int AppCompatTheme_buttonBarNeutralButtonStyle = 41;
+			
+			// aapt resource value: 42
+			public const int AppCompatTheme_buttonBarPositiveButtonStyle = 42;
+			
+			// aapt resource value: 43
+			public const int AppCompatTheme_buttonBarStyle = 43;
+			
+			// aapt resource value: 44
+			public const int AppCompatTheme_buttonStyle = 44;
+			
+			// aapt resource value: 45
+			public const int AppCompatTheme_buttonStyleSmall = 45;
+			
+			// aapt resource value: 46
+			public const int AppCompatTheme_checkboxStyle = 46;
+			
+			// aapt resource value: 47
+			public const int AppCompatTheme_checkedTextViewStyle = 47;
+			
+			// aapt resource value: 48
+			public const int AppCompatTheme_colorAccent = 48;
+			
+			// aapt resource value: 49
+			public const int AppCompatTheme_colorBackgroundFloating = 49;
+			
+			// aapt resource value: 50
+			public const int AppCompatTheme_colorButtonNormal = 50;
+			
+			// aapt resource value: 51
+			public const int AppCompatTheme_colorControlActivated = 51;
+			
+			// aapt resource value: 52
+			public const int AppCompatTheme_colorControlHighlight = 52;
+			
+			// aapt resource value: 53
+			public const int AppCompatTheme_colorControlNormal = 53;
+			
+			// aapt resource value: 54
+			public const int AppCompatTheme_colorError = 54;
+			
+			// aapt resource value: 55
+			public const int AppCompatTheme_colorPrimary = 55;
+			
+			// aapt resource value: 56
+			public const int AppCompatTheme_colorPrimaryDark = 56;
+			
+			// aapt resource value: 57
+			public const int AppCompatTheme_colorSwitchThumbNormal = 57;
+			
+			// aapt resource value: 58
+			public const int AppCompatTheme_controlBackground = 58;
+			
+			// aapt resource value: 59
+			public const int AppCompatTheme_dialogCornerRadius = 59;
+			
+			// aapt resource value: 60
+			public const int AppCompatTheme_dialogPreferredPadding = 60;
+			
+			// aapt resource value: 61
+			public const int AppCompatTheme_dialogTheme = 61;
+			
+			// aapt resource value: 62
+			public const int AppCompatTheme_dividerHorizontal = 62;
+			
+			// aapt resource value: 63
+			public const int AppCompatTheme_dividerVertical = 63;
+			
+			// aapt resource value: 65
+			public const int AppCompatTheme_dropdownListPreferredItemHeight = 65;
+			
+			// aapt resource value: 64
+			public const int AppCompatTheme_dropDownListViewStyle = 64;
+			
+			// aapt resource value: 66
+			public const int AppCompatTheme_editTextBackground = 66;
+			
+			// aapt resource value: 67
+			public const int AppCompatTheme_editTextColor = 67;
+			
+			// aapt resource value: 68
+			public const int AppCompatTheme_editTextStyle = 68;
+			
+			// aapt resource value: 69
+			public const int AppCompatTheme_homeAsUpIndicator = 69;
+			
+			// aapt resource value: 70
+			public const int AppCompatTheme_imageButtonStyle = 70;
+			
+			// aapt resource value: 71
+			public const int AppCompatTheme_listChoiceBackgroundIndicator = 71;
+			
+			// aapt resource value: 72
+			public const int AppCompatTheme_listDividerAlertDialog = 72;
+			
+			// aapt resource value: 73
+			public const int AppCompatTheme_listMenuViewStyle = 73;
+			
+			// aapt resource value: 74
+			public const int AppCompatTheme_listPopupWindowStyle = 74;
+			
+			// aapt resource value: 75
+			public const int AppCompatTheme_listPreferredItemHeight = 75;
+			
+			// aapt resource value: 76
+			public const int AppCompatTheme_listPreferredItemHeightLarge = 76;
+			
+			// aapt resource value: 77
+			public const int AppCompatTheme_listPreferredItemHeightSmall = 77;
+			
+			// aapt resource value: 78
+			public const int AppCompatTheme_listPreferredItemPaddingLeft = 78;
+			
+			// aapt resource value: 79
+			public const int AppCompatTheme_listPreferredItemPaddingRight = 79;
+			
+			// aapt resource value: 80
+			public const int AppCompatTheme_panelBackground = 80;
+			
+			// aapt resource value: 81
+			public const int AppCompatTheme_panelMenuListTheme = 81;
+			
+			// aapt resource value: 82
+			public const int AppCompatTheme_panelMenuListWidth = 82;
+			
+			// aapt resource value: 83
+			public const int AppCompatTheme_popupMenuStyle = 83;
+			
+			// aapt resource value: 84
+			public const int AppCompatTheme_popupWindowStyle = 84;
+			
+			// aapt resource value: 85
+			public const int AppCompatTheme_radioButtonStyle = 85;
+			
+			// aapt resource value: 86
+			public const int AppCompatTheme_ratingBarStyle = 86;
+			
+			// aapt resource value: 87
+			public const int AppCompatTheme_ratingBarStyleIndicator = 87;
+			
+			// aapt resource value: 88
+			public const int AppCompatTheme_ratingBarStyleSmall = 88;
+			
+			// aapt resource value: 89
+			public const int AppCompatTheme_searchViewStyle = 89;
+			
+			// aapt resource value: 90
+			public const int AppCompatTheme_seekBarStyle = 90;
+			
+			// aapt resource value: 91
+			public const int AppCompatTheme_selectableItemBackground = 91;
+			
+			// aapt resource value: 92
+			public const int AppCompatTheme_selectableItemBackgroundBorderless = 92;
+			
+			// aapt resource value: 93
+			public const int AppCompatTheme_spinnerDropDownItemStyle = 93;
+			
+			// aapt resource value: 94
+			public const int AppCompatTheme_spinnerStyle = 94;
+			
+			// aapt resource value: 95
+			public const int AppCompatTheme_switchStyle = 95;
+			
+			// aapt resource value: 96
+			public const int AppCompatTheme_textAppearanceLargePopupMenu = 96;
+			
+			// aapt resource value: 97
+			public const int AppCompatTheme_textAppearanceListItem = 97;
+			
+			// aapt resource value: 98
+			public const int AppCompatTheme_textAppearanceListItemSecondary = 98;
+			
+			// aapt resource value: 99
+			public const int AppCompatTheme_textAppearanceListItemSmall = 99;
+			
+			// aapt resource value: 100
+			public const int AppCompatTheme_textAppearancePopupMenuHeader = 100;
+			
+			// aapt resource value: 101
+			public const int AppCompatTheme_textAppearanceSearchResultSubtitle = 101;
+			
+			// aapt resource value: 102
+			public const int AppCompatTheme_textAppearanceSearchResultTitle = 102;
+			
+			// aapt resource value: 103
+			public const int AppCompatTheme_textAppearanceSmallPopupMenu = 103;
+			
+			// aapt resource value: 104
+			public const int AppCompatTheme_textColorAlertDialogListItem = 104;
+			
+			// aapt resource value: 105
+			public const int AppCompatTheme_textColorSearchUrl = 105;
+			
+			// aapt resource value: 106
+			public const int AppCompatTheme_toolbarNavigationButtonStyle = 106;
+			
+			// aapt resource value: 107
+			public const int AppCompatTheme_toolbarStyle = 107;
+			
+			// aapt resource value: 108
+			public const int AppCompatTheme_tooltipForegroundColor = 108;
+			
+			// aapt resource value: 109
+			public const int AppCompatTheme_tooltipFrameBackground = 109;
+			
+			// aapt resource value: 110
+			public const int AppCompatTheme_viewInflaterClass = 110;
+			
+			// aapt resource value: 111
+			public const int AppCompatTheme_windowActionBar = 111;
+			
+			// aapt resource value: 112
+			public const int AppCompatTheme_windowActionBarOverlay = 112;
+			
+			// aapt resource value: 113
+			public const int AppCompatTheme_windowActionModeOverlay = 113;
+			
+			// aapt resource value: 114
+			public const int AppCompatTheme_windowFixedHeightMajor = 114;
+			
+			// aapt resource value: 115
+			public const int AppCompatTheme_windowFixedHeightMinor = 115;
+			
+			// aapt resource value: 116
+			public const int AppCompatTheme_windowFixedWidthMajor = 116;
+			
+			// aapt resource value: 117
+			public const int AppCompatTheme_windowFixedWidthMinor = 117;
+			
+			// aapt resource value: 118
+			public const int AppCompatTheme_windowMinWidthMajor = 118;
+			
+			// aapt resource value: 119
+			public const int AppCompatTheme_windowMinWidthMinor = 119;
+			
+			// aapt resource value: 120
+			public const int AppCompatTheme_windowNoTitle = 120;
+			
+			// aapt resource value: { 0x7F020026 }
+			public static int[] ButtonBarLayout = new int[] {
+					2130837542};
+			
+			// aapt resource value: 0
+			public const int ButtonBarLayout_allowStacking = 0;
+			
+			// aapt resource value: { 0x10101A5,0x101031F,0x7F020027 }
+			public static int[] ColorStateListItem = new int[] {
+					16843173,
+					16843551,
+					2130837543};
+			
+			// aapt resource value: 2
+			public const int ColorStateListItem_alpha = 2;
+			
+			// aapt resource value: 1
+			public const int ColorStateListItem_android_alpha = 1;
+			
+			// aapt resource value: 0
+			public const int ColorStateListItem_android_color = 0;
+			
+			// aapt resource value: { 0x1010107,0x7F020042,0x7F020043 }
+			public static int[] CompoundButton = new int[] {
+					16843015,
+					2130837570,
+					2130837571};
+			
+			// aapt resource value: 0
+			public const int CompoundButton_android_button = 0;
+			
+			// aapt resource value: 1
+			public const int CompoundButton_buttonTint = 1;
+			
+			// aapt resource value: 2
+			public const int CompoundButton_buttonTintMode = 2;
+			
+			// aapt resource value: { 0x7F02008D,0x7F0200D0 }
+			public static int[] CoordinatorLayout = new int[] {
+					2130837645,
+					2130837712};
+			
+			// aapt resource value: 0
+			public const int CoordinatorLayout_keylines = 0;
+			
+			// aapt resource value: { 0x10100B3,0x7F020090,0x7F020091,0x7F020092,0x7F020093,0x7F020094,0x7F020095 }
+			public static int[] CoordinatorLayout_Layout = new int[] {
+					16842931,
+					2130837648,
+					2130837649,
+					2130837650,
+					2130837651,
+					2130837652,
+					2130837653};
+			
+			// aapt resource value: 0
+			public const int CoordinatorLayout_Layout_android_layout_gravity = 0;
+			
+			// aapt resource value: 1
+			public const int CoordinatorLayout_Layout_layout_anchor = 1;
+			
+			// aapt resource value: 2
+			public const int CoordinatorLayout_Layout_layout_anchorGravity = 2;
+			
+			// aapt resource value: 3
+			public const int CoordinatorLayout_Layout_layout_behavior = 3;
+			
+			// aapt resource value: 4
+			public const int CoordinatorLayout_Layout_layout_dodgeInsetEdges = 4;
+			
+			// aapt resource value: 5
+			public const int CoordinatorLayout_Layout_layout_insetEdge = 5;
+			
+			// aapt resource value: 6
+			public const int CoordinatorLayout_Layout_layout_keyline = 6;
+			
+			// aapt resource value: 1
+			public const int CoordinatorLayout_statusBarBackground = 1;
+			
+			// aapt resource value: { 0x7F020029,0x7F02002A,0x7F020036,0x7F02004A,0x7F020069,0x7F02007E,0x7F0200CA,0x7F0200E8 }
+			public static int[] DrawerArrowToggle = new int[] {
+					2130837545,
+					2130837546,
+					2130837558,
+					2130837578,
+					2130837609,
+					2130837630,
+					2130837706,
+					2130837736};
+			
+			// aapt resource value: 0
+			public const int DrawerArrowToggle_arrowHeadLength = 0;
+			
+			// aapt resource value: 1
+			public const int DrawerArrowToggle_arrowShaftLength = 1;
+			
+			// aapt resource value: 2
+			public const int DrawerArrowToggle_barLength = 2;
+			
+			// aapt resource value: 3
+			public const int DrawerArrowToggle_color = 3;
+			
+			// aapt resource value: 4
+			public const int DrawerArrowToggle_drawableSize = 4;
+			
+			// aapt resource value: 5
+			public const int DrawerArrowToggle_gapBetweenBars = 5;
+			
+			// aapt resource value: 6
+			public const int DrawerArrowToggle_spinBars = 6;
+			
+			// aapt resource value: 7
+			public const int DrawerArrowToggle_thickness = 7;
+			
+			// aapt resource value: { 0x7F020075,0x7F020076,0x7F020077,0x7F020078,0x7F020079,0x7F02007A }
+			public static int[] FontFamily = new int[] {
+					2130837621,
+					2130837622,
+					2130837623,
+					2130837624,
+					2130837625,
+					2130837626};
+			
+			// aapt resource value: { 0x1010532,0x1010533,0x101053F,0x101056F,0x1010570,0x7F020073,0x7F02007B,0x7F02007C,0x7F02007D,0x7F020103 }
+			public static int[] FontFamilyFont = new int[] {
+					16844082,
+					16844083,
+					16844095,
+					16844143,
+					16844144,
+					2130837619,
+					2130837627,
+					2130837628,
+					2130837629,
+					2130837763};
+			
+			// aapt resource value: 0
+			public const int FontFamilyFont_android_font = 0;
+			
+			// aapt resource value: 2
+			public const int FontFamilyFont_android_fontStyle = 2;
+			
+			// aapt resource value: 4
+			public const int FontFamilyFont_android_fontVariationSettings = 4;
+			
+			// aapt resource value: 1
+			public const int FontFamilyFont_android_fontWeight = 1;
+			
+			// aapt resource value: 3
+			public const int FontFamilyFont_android_ttcIndex = 3;
+			
+			// aapt resource value: 5
+			public const int FontFamilyFont_font = 5;
+			
+			// aapt resource value: 6
+			public const int FontFamilyFont_fontStyle = 6;
+			
+			// aapt resource value: 7
+			public const int FontFamilyFont_fontVariationSettings = 7;
+			
+			// aapt resource value: 8
+			public const int FontFamilyFont_fontWeight = 8;
+			
+			// aapt resource value: 9
+			public const int FontFamilyFont_ttcIndex = 9;
+			
+			// aapt resource value: 0
+			public const int FontFamily_fontProviderAuthority = 0;
+			
+			// aapt resource value: 1
+			public const int FontFamily_fontProviderCerts = 1;
+			
+			// aapt resource value: 2
+			public const int FontFamily_fontProviderFetchStrategy = 2;
+			
+			// aapt resource value: 3
+			public const int FontFamily_fontProviderFetchTimeout = 3;
+			
+			// aapt resource value: 4
+			public const int FontFamily_fontProviderPackage = 4;
+			
+			// aapt resource value: 5
+			public const int FontFamily_fontProviderQuery = 5;
+			
+			// aapt resource value: { 0x101019D,0x101019E,0x10101A1,0x10101A2,0x10101A3,0x10101A4,0x1010201,0x101020B,0x1010510,0x1010511,0x1010512,0x1010513 }
+			public static int[] GradientColor = new int[] {
+					16843165,
+					16843166,
+					16843169,
+					16843170,
+					16843171,
+					16843172,
+					16843265,
+					16843275,
+					16844048,
+					16844049,
+					16844050,
+					16844051};
+			
+			// aapt resource value: { 0x10101A5,0x1010514 }
+			public static int[] GradientColorItem = new int[] {
+					16843173,
+					16844052};
+			
+			// aapt resource value: 0
+			public const int GradientColorItem_android_color = 0;
+			
+			// aapt resource value: 1
+			public const int GradientColorItem_android_offset = 1;
+			
+			// aapt resource value: 7
+			public const int GradientColor_android_centerColor = 7;
+			
+			// aapt resource value: 3
+			public const int GradientColor_android_centerX = 3;
+			
+			// aapt resource value: 4
+			public const int GradientColor_android_centerY = 4;
+			
+			// aapt resource value: 1
+			public const int GradientColor_android_endColor = 1;
+			
+			// aapt resource value: 10
+			public const int GradientColor_android_endX = 10;
+			
+			// aapt resource value: 11
+			public const int GradientColor_android_endY = 11;
+			
+			// aapt resource value: 5
+			public const int GradientColor_android_gradientRadius = 5;
+			
+			// aapt resource value: 0
+			public const int GradientColor_android_startColor = 0;
+			
+			// aapt resource value: 8
+			public const int GradientColor_android_startX = 8;
+			
+			// aapt resource value: 9
+			public const int GradientColor_android_startY = 9;
+			
+			// aapt resource value: 6
+			public const int GradientColor_android_tileMode = 6;
+			
+			// aapt resource value: 2
+			public const int GradientColor_android_type = 2;
+			
+			// aapt resource value: { 0x10100AF,0x10100C4,0x1010126,0x1010127,0x1010128,0x7F020065,0x7F020067,0x7F0200A5,0x7F0200C6 }
+			public static int[] LinearLayoutCompat = new int[] {
+					16842927,
+					16842948,
+					16843046,
+					16843047,
+					16843048,
+					2130837605,
+					2130837607,
+					2130837669,
+					2130837702};
+			
+			// aapt resource value: 2
+			public const int LinearLayoutCompat_android_baselineAligned = 2;
+			
+			// aapt resource value: 3
+			public const int LinearLayoutCompat_android_baselineAlignedChildIndex = 3;
+			
+			// aapt resource value: 0
+			public const int LinearLayoutCompat_android_gravity = 0;
+			
+			// aapt resource value: 1
+			public const int LinearLayoutCompat_android_orientation = 1;
+			
+			// aapt resource value: 4
+			public const int LinearLayoutCompat_android_weightSum = 4;
+			
+			// aapt resource value: 5
+			public const int LinearLayoutCompat_divider = 5;
+			
+			// aapt resource value: 6
+			public const int LinearLayoutCompat_dividerPadding = 6;
+			
+			// aapt resource value: { 0x10100B3,0x10100F4,0x10100F5,0x1010181 }
+			public static int[] LinearLayoutCompat_Layout = new int[] {
+					16842931,
+					16842996,
+					16842997,
+					16843137};
+			
+			// aapt resource value: 0
+			public const int LinearLayoutCompat_Layout_android_layout_gravity = 0;
+			
+			// aapt resource value: 2
+			public const int LinearLayoutCompat_Layout_android_layout_height = 2;
+			
+			// aapt resource value: 3
+			public const int LinearLayoutCompat_Layout_android_layout_weight = 3;
+			
+			// aapt resource value: 1
+			public const int LinearLayoutCompat_Layout_android_layout_width = 1;
+			
+			// aapt resource value: 7
+			public const int LinearLayoutCompat_measureWithLargestChild = 7;
+			
+			// aapt resource value: 8
+			public const int LinearLayoutCompat_showDividers = 8;
+			
+			// aapt resource value: { 0x10102AC,0x10102AD }
+			public static int[] ListPopupWindow = new int[] {
+					16843436,
+					16843437};
+			
+			// aapt resource value: 0
+			public const int ListPopupWindow_android_dropDownHorizontalOffset = 0;
+			
+			// aapt resource value: 1
+			public const int ListPopupWindow_android_dropDownVerticalOffset = 1;
+			
+			// aapt resource value: { 0x101000E,0x10100D0,0x1010194,0x10101DE,0x10101DF,0x10101E0 }
+			public static int[] MenuGroup = new int[] {
+					16842766,
+					16842960,
+					16843156,
+					16843230,
+					16843231,
+					16843232};
+			
+			// aapt resource value: 5
+			public const int MenuGroup_android_checkableBehavior = 5;
+			
+			// aapt resource value: 0
+			public const int MenuGroup_android_enabled = 0;
+			
+			// aapt resource value: 1
+			public const int MenuGroup_android_id = 1;
+			
+			// aapt resource value: 3
+			public const int MenuGroup_android_menuCategory = 3;
+			
+			// aapt resource value: 4
+			public const int MenuGroup_android_orderInCategory = 4;
+			
+			// aapt resource value: 2
+			public const int MenuGroup_android_visible = 2;
+			
+			// aapt resource value: { 0x1010002,0x101000E,0x10100D0,0x1010106,0x1010194,0x10101DE,0x10101DF,0x10101E1,0x10101E2,0x10101E3,0x10101E4,0x10101E5,0x101026F,0x7F02000D,0x7F02001F,0x7F020020,0x7F020028,0x7F020056,0x7F020085,0x7F020086,0x7F0200AA,0x7F0200C5,0x7F0200FF }
+			public static int[] MenuItem = new int[] {
+					16842754,
+					16842766,
+					16842960,
+					16843014,
+					16843156,
+					16843230,
+					16843231,
+					16843233,
+					16843234,
+					16843235,
+					16843236,
+					16843237,
+					16843375,
+					2130837517,
+					2130837535,
+					2130837536,
+					2130837544,
+					2130837590,
+					2130837637,
+					2130837638,
+					2130837674,
+					2130837701,
+					2130837759};
+			
+			// aapt resource value: 13
+			public const int MenuItem_actionLayout = 13;
+			
+			// aapt resource value: 14
+			public const int MenuItem_actionProviderClass = 14;
+			
+			// aapt resource value: 15
+			public const int MenuItem_actionViewClass = 15;
+			
+			// aapt resource value: 16
+			public const int MenuItem_alphabeticModifiers = 16;
+			
+			// aapt resource value: 9
+			public const int MenuItem_android_alphabeticShortcut = 9;
+			
+			// aapt resource value: 11
+			public const int MenuItem_android_checkable = 11;
+			
+			// aapt resource value: 3
+			public const int MenuItem_android_checked = 3;
+			
+			// aapt resource value: 1
+			public const int MenuItem_android_enabled = 1;
+			
+			// aapt resource value: 0
+			public const int MenuItem_android_icon = 0;
+			
+			// aapt resource value: 2
+			public const int MenuItem_android_id = 2;
+			
+			// aapt resource value: 5
+			public const int MenuItem_android_menuCategory = 5;
+			
+			// aapt resource value: 10
+			public const int MenuItem_android_numericShortcut = 10;
+			
+			// aapt resource value: 12
+			public const int MenuItem_android_onClick = 12;
+			
+			// aapt resource value: 6
+			public const int MenuItem_android_orderInCategory = 6;
+			
+			// aapt resource value: 7
+			public const int MenuItem_android_title = 7;
+			
+			// aapt resource value: 8
+			public const int MenuItem_android_titleCondensed = 8;
+			
+			// aapt resource value: 4
+			public const int MenuItem_android_visible = 4;
+			
+			// aapt resource value: 17
+			public const int MenuItem_contentDescription = 17;
+			
+			// aapt resource value: 18
+			public const int MenuItem_iconTint = 18;
+			
+			// aapt resource value: 19
+			public const int MenuItem_iconTintMode = 19;
+			
+			// aapt resource value: 20
+			public const int MenuItem_numericModifiers = 20;
+			
+			// aapt resource value: 21
+			public const int MenuItem_showAsAction = 21;
+			
+			// aapt resource value: 22
+			public const int MenuItem_tooltipText = 22;
+			
+			// aapt resource value: { 0x10100AE,0x101012C,0x101012D,0x101012E,0x101012F,0x1010130,0x1010131,0x7F0200B6,0x7F0200D1 }
+			public static int[] MenuView = new int[] {
+					16842926,
+					16843052,
+					16843053,
+					16843054,
+					16843055,
+					16843056,
+					16843057,
+					2130837686,
+					2130837713};
+			
+			// aapt resource value: 4
+			public const int MenuView_android_headerBackground = 4;
+			
+			// aapt resource value: 2
+			public const int MenuView_android_horizontalDivider = 2;
+			
+			// aapt resource value: 5
+			public const int MenuView_android_itemBackground = 5;
+			
+			// aapt resource value: 6
+			public const int MenuView_android_itemIconDisabledAlpha = 6;
+			
+			// aapt resource value: 1
+			public const int MenuView_android_itemTextAppearance = 1;
+			
+			// aapt resource value: 3
+			public const int MenuView_android_verticalDivider = 3;
+			
+			// aapt resource value: 0
+			public const int MenuView_android_windowAnimationStyle = 0;
+			
+			// aapt resource value: 7
+			public const int MenuView_preserveIconSpacing = 7;
+			
+			// aapt resource value: 8
+			public const int MenuView_subMenuArrow = 8;
+			
+			// aapt resource value: { 0x1010176,0x10102C9,0x7F0200AB }
+			public static int[] PopupWindow = new int[] {
+					16843126,
+					16843465,
+					2130837675};
+			
+			// aapt resource value: { 0x7F0200CF }
+			public static int[] PopupWindowBackgroundState = new int[] {
+					2130837711};
+			
+			// aapt resource value: 0
+			public const int PopupWindowBackgroundState_state_above_anchor = 0;
+			
+			// aapt resource value: 1
+			public const int PopupWindow_android_popupAnimationStyle = 1;
+			
+			// aapt resource value: 0
+			public const int PopupWindow_android_popupBackground = 0;
+			
+			// aapt resource value: 2
+			public const int PopupWindow_overlapAnchor = 2;
+			
+			// aapt resource value: { 0x7F0200AC,0x7F0200AF }
+			public static int[] RecycleListView = new int[] {
+					2130837676,
+					2130837679};
+			
+			// aapt resource value: 0
+			public const int RecycleListView_paddingBottomNoButtons = 0;
+			
+			// aapt resource value: 1
+			public const int RecycleListView_paddingTopNoTitle = 1;
+			
+			// aapt resource value: { 0x10100DA,0x101011F,0x1010220,0x1010264,0x7F020046,0x7F020055,0x7F020060,0x7F02007F,0x7F020087,0x7F02008F,0x7F0200B9,0x7F0200BA,0x7F0200BF,0x7F0200C0,0x7F0200D2,0x7F0200D7,0x7F020105 }
+			public static int[] SearchView = new int[] {
+					16842970,
+					16843039,
+					16843296,
+					16843364,
+					2130837574,
+					2130837589,
+					2130837600,
+					2130837631,
+					2130837639,
+					2130837647,
+					2130837689,
+					2130837690,
+					2130837695,
+					2130837696,
+					2130837714,
+					2130837719,
+					2130837765};
+			
+			// aapt resource value: 0
+			public const int SearchView_android_focusable = 0;
+			
+			// aapt resource value: 3
+			public const int SearchView_android_imeOptions = 3;
+			
+			// aapt resource value: 2
+			public const int SearchView_android_inputType = 2;
+			
+			// aapt resource value: 1
+			public const int SearchView_android_maxWidth = 1;
+			
+			// aapt resource value: 4
+			public const int SearchView_closeIcon = 4;
+			
+			// aapt resource value: 5
+			public const int SearchView_commitIcon = 5;
+			
+			// aapt resource value: 6
+			public const int SearchView_defaultQueryHint = 6;
+			
+			// aapt resource value: 7
+			public const int SearchView_goIcon = 7;
+			
+			// aapt resource value: 8
+			public const int SearchView_iconifiedByDefault = 8;
+			
+			// aapt resource value: 9
+			public const int SearchView_layout = 9;
+			
+			// aapt resource value: 10
+			public const int SearchView_queryBackground = 10;
+			
+			// aapt resource value: 11
+			public const int SearchView_queryHint = 11;
+			
+			// aapt resource value: 12
+			public const int SearchView_searchHintIcon = 12;
+			
+			// aapt resource value: 13
+			public const int SearchView_searchIcon = 13;
+			
+			// aapt resource value: 14
+			public const int SearchView_submitBackground = 14;
+			
+			// aapt resource value: 15
+			public const int SearchView_suggestionRowLayout = 15;
+			
+			// aapt resource value: 16
+			public const int SearchView_voiceIcon = 16;
+			
+			// aapt resource value: { 0x10100B2,0x1010176,0x101017B,0x1010262,0x7F0200B4 }
+			public static int[] Spinner = new int[] {
+					16842930,
+					16843126,
+					16843131,
+					16843362,
+					2130837684};
+			
+			// aapt resource value: 3
+			public const int Spinner_android_dropDownWidth = 3;
+			
+			// aapt resource value: 0
+			public const int Spinner_android_entries = 0;
+			
+			// aapt resource value: 1
+			public const int Spinner_android_popupBackground = 1;
+			
+			// aapt resource value: 2
+			public const int Spinner_android_prompt = 2;
+			
+			// aapt resource value: 4
+			public const int Spinner_popupTheme = 4;
+			
+			// aapt resource value: { 0x101011C,0x1010194,0x1010195,0x1010196,0x101030C,0x101030D }
+			public static int[] StateListDrawable = new int[] {
+					16843036,
+					16843156,
+					16843157,
+					16843158,
+					16843532,
+					16843533};
+			
+			// aapt resource value: { 0x1010199 }
+			public static int[] StateListDrawableItem = new int[] {
+					16843161};
+			
+			// aapt resource value: 0
+			public const int StateListDrawableItem_android_drawable = 0;
+			
+			// aapt resource value: 3
+			public const int StateListDrawable_android_constantSize = 3;
+			
+			// aapt resource value: 0
+			public const int StateListDrawable_android_dither = 0;
+			
+			// aapt resource value: 4
+			public const int StateListDrawable_android_enterFadeDuration = 4;
+			
+			// aapt resource value: 5
+			public const int StateListDrawable_android_exitFadeDuration = 5;
+			
+			// aapt resource value: 2
+			public const int StateListDrawable_android_variablePadding = 2;
+			
+			// aapt resource value: 1
+			public const int StateListDrawable_android_visible = 1;
+			
+			// aapt resource value: { 0x1010124,0x1010125,0x1010142,0x7F0200C7,0x7F0200CD,0x7F0200D8,0x7F0200D9,0x7F0200DB,0x7F0200E9,0x7F0200EA,0x7F0200EB,0x7F020100,0x7F020101,0x7F020102 }
+			public static int[] SwitchCompat = new int[] {
+					16843044,
+					16843045,
+					16843074,
+					2130837703,
+					2130837709,
+					2130837720,
+					2130837721,
+					2130837723,
+					2130837737,
+					2130837738,
+					2130837739,
+					2130837760,
+					2130837761,
+					2130837762};
+			
+			// aapt resource value: 1
+			public const int SwitchCompat_android_textOff = 1;
+			
+			// aapt resource value: 0
+			public const int SwitchCompat_android_textOn = 0;
+			
+			// aapt resource value: 2
+			public const int SwitchCompat_android_thumb = 2;
+			
+			// aapt resource value: 3
+			public const int SwitchCompat_showText = 3;
+			
+			// aapt resource value: 4
+			public const int SwitchCompat_splitTrack = 4;
+			
+			// aapt resource value: 5
+			public const int SwitchCompat_switchMinWidth = 5;
+			
+			// aapt resource value: 6
+			public const int SwitchCompat_switchPadding = 6;
+			
+			// aapt resource value: 7
+			public const int SwitchCompat_switchTextAppearance = 7;
+			
+			// aapt resource value: 8
+			public const int SwitchCompat_thumbTextPadding = 8;
+			
+			// aapt resource value: 9
+			public const int SwitchCompat_thumbTint = 9;
+			
+			// aapt resource value: 10
+			public const int SwitchCompat_thumbTintMode = 10;
+			
+			// aapt resource value: 11
+			public const int SwitchCompat_track = 11;
+			
+			// aapt resource value: 12
+			public const int SwitchCompat_trackTint = 12;
+			
+			// aapt resource value: 13
+			public const int SwitchCompat_trackTintMode = 13;
+			
+			// aapt resource value: { 0x1010095,0x1010096,0x1010097,0x1010098,0x101009A,0x101009B,0x1010161,0x1010162,0x1010163,0x1010164,0x10103AC,0x7F020074,0x7F0200DC }
+			public static int[] TextAppearance = new int[] {
+					16842901,
+					16842902,
+					16842903,
+					16842904,
+					16842906,
+					16842907,
+					16843105,
+					16843106,
+					16843107,
+					16843108,
+					16843692,
+					2130837620,
+					2130837724};
+			
+			// aapt resource value: 10
+			public const int TextAppearance_android_fontFamily = 10;
+			
+			// aapt resource value: 6
+			public const int TextAppearance_android_shadowColor = 6;
+			
+			// aapt resource value: 7
+			public const int TextAppearance_android_shadowDx = 7;
+			
+			// aapt resource value: 8
+			public const int TextAppearance_android_shadowDy = 8;
+			
+			// aapt resource value: 9
+			public const int TextAppearance_android_shadowRadius = 9;
+			
+			// aapt resource value: 3
+			public const int TextAppearance_android_textColor = 3;
+			
+			// aapt resource value: 4
+			public const int TextAppearance_android_textColorHint = 4;
+			
+			// aapt resource value: 5
+			public const int TextAppearance_android_textColorLink = 5;
+			
+			// aapt resource value: 0
+			public const int TextAppearance_android_textSize = 0;
+			
+			// aapt resource value: 2
+			public const int TextAppearance_android_textStyle = 2;
+			
+			// aapt resource value: 1
+			public const int TextAppearance_android_typeface = 1;
+			
+			// aapt resource value: 11
+			public const int TextAppearance_fontFamily = 11;
+			
+			// aapt resource value: 12
+			public const int TextAppearance_textAllCaps = 12;
+			
+			// aapt resource value: { 0x10100AF,0x1010140,0x7F02003D,0x7F020048,0x7F020049,0x7F020057,0x7F020058,0x7F020059,0x7F02005A,0x7F02005B,0x7F02005C,0x7F0200A2,0x7F0200A3,0x7F0200A4,0x7F0200A7,0x7F0200A8,0x7F0200B4,0x7F0200D3,0x7F0200D4,0x7F0200D5,0x7F0200F1,0x7F0200F2,0x7F0200F3,0x7F0200F4,0x7F0200F5,0x7F0200F6,0x7F0200F7,0x7F0200F8,0x7F0200F9 }
+			public static int[] Toolbar = new int[] {
+					16842927,
+					16843072,
+					2130837565,
+					2130837576,
+					2130837577,
+					2130837591,
+					2130837592,
+					2130837593,
+					2130837594,
+					2130837595,
+					2130837596,
+					2130837666,
+					2130837667,
+					2130837668,
+					2130837671,
+					2130837672,
+					2130837684,
+					2130837715,
+					2130837716,
+					2130837717,
+					2130837745,
+					2130837746,
+					2130837747,
+					2130837748,
+					2130837749,
+					2130837750,
+					2130837751,
+					2130837752,
+					2130837753};
+			
+			// aapt resource value: 0
+			public const int Toolbar_android_gravity = 0;
+			
+			// aapt resource value: 1
+			public const int Toolbar_android_minHeight = 1;
+			
+			// aapt resource value: 2
+			public const int Toolbar_buttonGravity = 2;
+			
+			// aapt resource value: 3
+			public const int Toolbar_collapseContentDescription = 3;
+			
+			// aapt resource value: 4
+			public const int Toolbar_collapseIcon = 4;
+			
+			// aapt resource value: 5
+			public const int Toolbar_contentInsetEnd = 5;
+			
+			// aapt resource value: 6
+			public const int Toolbar_contentInsetEndWithActions = 6;
+			
+			// aapt resource value: 7
+			public const int Toolbar_contentInsetLeft = 7;
+			
+			// aapt resource value: 8
+			public const int Toolbar_contentInsetRight = 8;
+			
+			// aapt resource value: 9
+			public const int Toolbar_contentInsetStart = 9;
+			
+			// aapt resource value: 10
+			public const int Toolbar_contentInsetStartWithNavigation = 10;
+			
+			// aapt resource value: 11
+			public const int Toolbar_logo = 11;
+			
+			// aapt resource value: 12
+			public const int Toolbar_logoDescription = 12;
+			
+			// aapt resource value: 13
+			public const int Toolbar_maxButtonHeight = 13;
+			
+			// aapt resource value: 14
+			public const int Toolbar_navigationContentDescription = 14;
+			
+			// aapt resource value: 15
+			public const int Toolbar_navigationIcon = 15;
+			
+			// aapt resource value: 16
+			public const int Toolbar_popupTheme = 16;
+			
+			// aapt resource value: 17
+			public const int Toolbar_subtitle = 17;
+			
+			// aapt resource value: 18
+			public const int Toolbar_subtitleTextAppearance = 18;
+			
+			// aapt resource value: 19
+			public const int Toolbar_subtitleTextColor = 19;
+			
+			// aapt resource value: 20
+			public const int Toolbar_title = 20;
+			
+			// aapt resource value: 21
+			public const int Toolbar_titleMargin = 21;
+			
+			// aapt resource value: 22
+			public const int Toolbar_titleMarginBottom = 22;
+			
+			// aapt resource value: 23
+			public const int Toolbar_titleMarginEnd = 23;
+			
+			// aapt resource value: 26
+			public const int Toolbar_titleMargins = 26;
+			
+			// aapt resource value: 24
+			public const int Toolbar_titleMarginStart = 24;
+			
+			// aapt resource value: 25
+			public const int Toolbar_titleMarginTop = 25;
+			
+			// aapt resource value: 27
+			public const int Toolbar_titleTextAppearance = 27;
+			
+			// aapt resource value: 28
+			public const int Toolbar_titleTextColor = 28;
+			
+			// aapt resource value: { 0x1010000,0x10100DA,0x7F0200AD,0x7F0200AE,0x7F0200E7 }
+			public static int[] View = new int[] {
+					16842752,
+					16842970,
+					2130837677,
+					2130837678,
+					2130837735};
+			
+			// aapt resource value: { 0x10100D4,0x7F020034,0x7F020035 }
+			public static int[] ViewBackgroundHelper = new int[] {
+					16842964,
+					2130837556,
+					2130837557};
+			
+			// aapt resource value: 0
+			public const int ViewBackgroundHelper_android_background = 0;
+			
+			// aapt resource value: 1
+			public const int ViewBackgroundHelper_backgroundTint = 1;
+			
+			// aapt resource value: 2
+			public const int ViewBackgroundHelper_backgroundTintMode = 2;
+			
+			// aapt resource value: { 0x10100D0,0x10100F2,0x10100F3 }
+			public static int[] ViewStubCompat = new int[] {
+					16842960,
+					16842994,
+					16842995};
+			
+			// aapt resource value: 0
+			public const int ViewStubCompat_android_id = 0;
+			
+			// aapt resource value: 2
+			public const int ViewStubCompat_android_inflatedId = 2;
+			
+			// aapt resource value: 1
+			public const int ViewStubCompat_android_layout = 1;
+			
+			// aapt resource value: 1
+			public const int View_android_focusable = 1;
+			
+			// aapt resource value: 0
+			public const int View_android_theme = 0;
+			
+			// aapt resource value: 2
+			public const int View_paddingEnd = 2;
+			
+			// aapt resource value: 3
+			public const int View_paddingStart = 3;
+			
+			// aapt resource value: 4
+			public const int View_theme = 4;
+			
+			static Styleable()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Styleable()
 			{
 			}
 		}
