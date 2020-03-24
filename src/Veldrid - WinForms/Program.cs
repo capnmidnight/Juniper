@@ -14,6 +14,7 @@ namespace Juniper
     public static class Program
     {
         private static CancellationTokenSource canceller;
+        private static MainWindow window;
         private static IVeldridPanel panel;
         private static VeldridDemoProgram demo;
 
@@ -26,7 +27,7 @@ namespace Juniper
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += Application_ThreadException;
 
-            using var form = new MainWindow();
+            using var form = window = new MainWindow();
             panel = form.Panel;
             panel.Ready += Panel_Ready;
             panel.Destroying += Panel_Destroying;
@@ -63,12 +64,13 @@ namespace Juniper
                 },
                 panel,
                 canceller.Token);
-            //demo.Error += form.SetError;
+            demo.Error += window.SetError;
             demo.Update += Demo_Update;
             keys.Start();
             mouse.Start();
 
-            _ = Task.Run(demo.StartAsync);
+            _ = Task.Run(demo.StartAsync)
+                .OnError(window.SetError);
         }
 
         private static void Demo_Update(float dt)
@@ -92,15 +94,15 @@ namespace Juniper
 
         private static void MainForm_RequestStats(object sender, EventArgs e)
         {
-            //window.SetStats(
-            //    demo.MinFramesPerSecond,
-            //    demo.MeanFramesPerSecond,
-            //    demo.MaxFramesPerSecond);
+            window.SetStats(
+                demo.MinFramesPerSecond,
+                demo.MeanFramesPerSecond,
+                demo.MaxFramesPerSecond);
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
-            //window.SetError(e.Exception);
+            window.SetError(e.Exception);
         }
     }
 }
