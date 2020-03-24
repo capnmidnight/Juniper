@@ -12,12 +12,13 @@ layout(set = 1, binding = 0) uniform WorldBuffer
 };
 
 layout(location = 0) in vec3 Position;
-layout(location = 1) in vec2 UV;
+layout(location = 1) in vec3 Normal;
+layout(location = 2) in vec2 TextureCoordinates;
 
 layout(location = 0) out vec2 fsin_texCoords;
 
 void main()
 {
     gl_Position = Projection * View * World * vec4(Position, 1);
-    fsin_texCoords = UV;
+    fsin_texCoords = TextureCoordinates;
 }

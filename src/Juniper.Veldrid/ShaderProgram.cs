@@ -19,10 +19,9 @@ namespace Juniper.VeldridIntegration
         private readonly Dictionary<string, DeviceBuffer> buffers = new Dictionary<string, DeviceBuffer>();
         private readonly List<(string name, ImageData image)> textureData = new List<(string name, ImageData image)>();
         private readonly Dictionary<string, Texture> textures = new Dictionary<string, Texture>();
-        private readonly List<Mesh<VertexT>> meshes = new List<Mesh<VertexT>>();
+        private readonly List<ConstructedMeshInfo> meshes = new List<ConstructedMeshInfo>();
         private readonly IndexFormat indexFormat;
         private readonly ShaderProgramDescription<VertexT> programDescription;
-        private readonly Func<ConstructedMeshInfo, Mesh<VertexT>> convertMesh;
 
         private Pipeline pipeline;
         private ResourceLayout[] layouts;
@@ -31,14 +30,12 @@ namespace Juniper.VeldridIntegration
 
         private DeviceBuffer cameraBuffer;
         private DeviceBuffer worldBuffer;
-        private DeviceBuffer vertexBuffer;
-        private DeviceBuffer indexBuffer;
-        private uint faceCount;
-        private uint indexCount;
+        private DeviceBuffer[] vertexBuffers;
+        private DeviceBuffer[] indexBuffers;
 
         public bool IsRunning { get; private set; }
 
-        public ShaderProgram(ShaderProgramDescription<VertexT> programDescription, Func<ConstructedMeshInfo, Mesh<VertexT>> convertMesh)
+        public ShaderProgram(ShaderProgramDescription<VertexT> programDescription)
         {
             if (!programDescription.UseSpirV)
             {
@@ -46,19 +43,10 @@ namespace Juniper.VeldridIntegration
             }
 
             this.programDescription = programDescription;
-            this.convertMesh = convertMesh;
-
-            var meshType = typeof(Mesh<VertexT>);
-            var indexFormatAttr = meshType.GetCustomAttribute<IndexTypeAttribute>(false);
-            if (indexFormatAttr == null)
-            {
-                throw new InvalidOperationException("Cannot get vertex index type information");
-            }
-
-            indexFormat = indexFormatAttr.Value.ToIndexFormat();
+            indexFormat = typeof(ushort).ToIndexFormat();
         }
 
-        public void AddMesh(Mesh<VertexT> mesh)
+        public void AddMesh(ConstructedMeshInfo mesh)
         {
             if (mesh is null)
             {
@@ -120,16 +108,18 @@ namespace Juniper.VeldridIntegration
 
             foreach (var group in obj.MeshGroups)
             {
-                var veldridMesh = obj.GetMesh(group);
-                var mesh = convertMesh(veldridMesh);
-                AddMesh(mesh);
-
-                if (veldridMesh.MaterialName is object)
+                var mesh = obj.GetMesh(group);
+                if (mesh.Indices.Length > 0)
                 {
-                    var materialDef = mtl.Definitions[veldridMesh.MaterialName];
-                    if (materialDef.DiffuseTexture is object)
+                    AddMesh(mesh);
+
+                    if (mesh.MaterialName is object)
                     {
-                        AddTexture("SurfaceTexture", ImageDecoderSet.Default.LoadImage(materialDef.DiffuseTexture, getStream));
+                        var materialDef = mtl.Definitions[mesh.MaterialName];
+                        if (materialDef.DiffuseTexture is object)
+                        {
+                            AddTexture("SurfaceTexture", ImageDecoderSet.Default.LoadImage(materialDef.DiffuseTexture, getStream));
+                        }
                     }
                 }
             }
@@ -247,10 +237,22 @@ namespace Juniper.VeldridIntegration
             pipelineOptions.Outputs = framebuffer.OutputDescription;
             pipeline = factory.CreateGraphicsPipeline(pipelineOptions);
 
-            var mesh = meshes.Aggregate((a, b) => a + b);
-            faceCount = mesh.FaceCount;
-            indexCount = mesh.IndexCount;
-            (vertexBuffer, indexBuffer) = mesh.Prepare(device);
+            vertexBuffers = new DeviceBuffer[meshes.Count];
+            indexBuffers = new DeviceBuffer[meshes.Count];
+
+            for (var i = 0; i < meshes.Count; ++i)
+            {
+                var mesh = meshes[i];
+                var vertexBuffer
+                    = vertexBuffers[i]
+                    = factory.CreateBuffer(new BufferDescription((uint)(mesh.Vertices.Length * typeof(VertexT).Size()), BufferUsage.VertexBuffer));
+                device.UpdateBuffer(vertexBuffer, 0, mesh.Vertices);
+
+                var indexBuffer
+                    = indexBuffers[i]
+                    = factory.CreateBuffer(new BufferDescription((uint)(mesh.Indices.Length * typeof(ushort).Size()), BufferUsage.IndexBuffer));
+                device.UpdateBuffer(indexBuffer, 0, mesh.Indices);
+            }
 
             IsRunning = true;
         }
@@ -294,10 +296,23 @@ namespace Juniper.VeldridIntegration
             {
                 IsRunning = false;
 
-                indexBuffer?.Dispose();
-                indexBuffer = null;
-                vertexBuffer?.Dispose();
-                vertexBuffer = null;
+                if(indexBuffers != null)
+                {
+                    foreach(var indexBuffer in indexBuffers)
+                    {
+                        indexBuffer.Dispose();
+                    }
+                    indexBuffers = null;
+                }
+
+                if (vertexBuffers != null)
+                {
+                    foreach (var vertexBuffer in vertexBuffers)
+                    {
+                        vertexBuffer.Dispose();
+                    }
+                    vertexBuffers = null;
+                }
                 worldBuffer?.Dispose();
                 worldBuffer = null;
                 cameraBuffer?.Dispose();
@@ -363,12 +378,23 @@ namespace Juniper.VeldridIntegration
 
             commandList.UpdateBuffer(worldBuffer, 0, ref worldMatrix);
 
-            commandList.DrawIndexed(
-                indexCount: indexCount,
-                instanceCount: faceCount,
-                indexStart: 0,
-                vertexOffset: 0,
-                instanceStart: 0);
+
+            for (var i = 0; i < meshes.Count; ++i)
+            {
+                commandList.SetVertexBuffer(0, vertexBuffers[i]);
+                commandList.SetIndexBuffer(indexBuffers[i], indexFormat);
+
+                var mesh = meshes[i];
+                var indexCount = (uint)(mesh.Indices.Length);
+                var faceCount = indexCount / 3;
+
+                commandList.DrawIndexed(
+                    indexCount: indexCount,
+                    instanceCount: faceCount,
+                    indexStart: 0,
+                    vertexOffset: 0,
+                    instanceStart: 0);
+            }
         }
 
         public void Activate(CommandList commandList, Camera camera)
@@ -396,9 +422,6 @@ namespace Juniper.VeldridIntegration
 
             commandList.UpdateBuffer(cameraBuffer, 0, camera.Projection);
             commandList.UpdateBuffer(cameraBuffer, camera.Projection.GetType().Size(), camera.View);
-
-            commandList.SetVertexBuffer(0, vertexBuffer);
-            commandList.SetIndexBuffer(indexBuffer, indexFormat);
         }
     }
 }

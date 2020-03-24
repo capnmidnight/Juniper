@@ -11,12 +11,12 @@ using Veldrid.Utilities;
 
 namespace Juniper
 {
-    public sealed class VeldridDemoProgram : VeldridProgram<VeldridIntegration.VertexPositionTexture>
+    public sealed class VeldridDemoProgram : VeldridProgram<VertexPositionNormalTexture>
     {
         private readonly SingleStatisticsCollection updateStats = new SingleStatisticsCollection(10);
         private readonly SingleStatisticsCollection renderStats = new SingleStatisticsCollection(10);
 
-        private readonly List<WorldObj<VeldridIntegration.VertexPositionTexture>> cubes = new List<WorldObj<VeldridIntegration.VertexPositionTexture>>();
+        private readonly List<WorldObj<VertexPositionNormalTexture>> cubes = new List<WorldObj<VertexPositionNormalTexture>>();
 
         private const float MOVE_SPEED = 1.5f;
         private static readonly float MIN_PITCH = Units.Degrees.Radians(-80);
@@ -56,19 +56,14 @@ namespace Juniper
         public float? StdDevFramesPerSecond => renderStats.StandardDeviation;
         public float? MaxFramesPerSecond => renderStats.Maximum;
 
-        protected override Task<ShaderProgramDescription<VeldridIntegration.VertexPositionTexture>> CreateProgramAsync()
+        protected override Task<ShaderProgramDescription<VertexPositionNormalTexture>> CreateProgramAsync()
         {
             using var vertexShaderStream = Resources.GetStream("Shaders/tex-cube.vert");
             using var fragmentShaderStream = Resources.GetStream("Shaders/tex-cube.frag");
 
-            return ShaderProgramDescription.LoadAsync<VeldridIntegration.VertexPositionTexture>(
+            return ShaderProgramDescription.LoadAsync<VertexPositionNormalTexture>(
                 vertexShaderStream,
                 fragmentShaderStream);
-        }
-
-        protected override Mesh<VeldridIntegration.VertexPositionTexture> ConvertMesh(ConstructedMeshInfo meshInfo)
-        {
-            return Mesh.ConvertVeldridMesh(meshInfo);
         }
 
         protected override void OnProgramCreated()

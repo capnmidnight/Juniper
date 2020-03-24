@@ -31,13 +31,11 @@ namespace Juniper.VeldridIntegration
 
             UseSpirV = true;
 
-            var (layout, _) = VertexTypeCache.GetDescription<VertexT>();
-            VertexLayout = layout;
-
             VertexShader = new ParsedShader(ShaderStages.Vertex, vertShaderBytes);
             FragmentShader = new ParsedShader(ShaderStages.Fragment, fragShaderBytes);
+            VertexLayout = VertexTypeCache.GetDescription<VertexT>();
 
-            ValidateVertShaderInputsMatchVertLayout(VertexShader, layout);
+            ValidateVertShaderInputsMatchVertLayout(VertexShader, VertexLayout);
             ValidateVertShaderOutputsMatchFragShaderOutputs(VertexShader, FragmentShader);
 
             PipelineOptions = new GraphicsPipelineDescription
@@ -68,10 +66,12 @@ namespace Juniper.VeldridIntegration
                 {
                     throw new FormatException($"Vertex shader input '{vertInput}' name is {vertInput.Name}, but vertex layout description expected {vertLayoutElement.Name}.");
                 }
+
                 if (vertInput.DataType.Size() != size)
                 {
                     throw new FormatException($"Vertex shader input '{vertInput}' size is {vertInput.DataType.Size()}, but vertex layout description expected {size}.");
                 }
+
                 if (vertInput.Component != vertLayoutElement.Offset)
                 {
                     throw new FormatException($"Vertex shader input '{vertInput}' offset is {vertInput.Component}, but vertex layout description expected {vertLayoutElement.Offset}.");

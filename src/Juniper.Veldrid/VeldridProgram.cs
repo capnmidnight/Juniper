@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Veldrid;
-using Veldrid.Utilities;
 
 namespace Juniper.VeldridIntegration
 {
@@ -168,21 +167,14 @@ namespace Juniper.VeldridIntegration
 
         protected abstract Task<ShaderProgramDescription<VertexT>> CreateProgramAsync();
 
+        protected abstract void OnProgramCreated();
+
         public async Task StartAsync()
         {
             var programDescription = await CreateProgramAsync()
                 .ConfigureAwait(false);
 
-            Start(programDescription);
-        }
-
-        protected abstract void OnProgramCreated();
-
-        protected abstract Mesh<VertexT> ConvertMesh(ConstructedMeshInfo meshInfo);
-
-        protected void Start(ShaderProgramDescription<VertexT> programDescription)
-        {
-            Program = new ShaderProgram<VertexT>(programDescription, ConvertMesh);
+            Program = new ShaderProgram<VertexT>(programDescription);
 
             OnProgramCreated();
 

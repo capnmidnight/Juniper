@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 
 using Veldrid;
+using Veldrid.Utilities;
 
 namespace Juniper.VeldridIntegration
 {
@@ -12,6 +13,8 @@ namespace Juniper.VeldridIntegration
         {
             [typeof(RgbaByte)] = 4,
             [typeof(RgbaFloat)] = 4 * sizeof(float),
+            [typeof(short)] = sizeof(short),
+            [typeof(ushort)] = sizeof(ushort),
             [typeof(int)] = sizeof(int),
             [typeof(uint)] = sizeof(uint),
             [typeof(float)] = sizeof(float),
@@ -20,7 +23,10 @@ namespace Juniper.VeldridIntegration
             [typeof(Vector4)] = 4 * sizeof(float),
             [typeof(Matrix3x2)] = 3 * 2 * sizeof(float),
             [typeof(Matrix4x4)] = 4 * 4 * sizeof(float),
-            [typeof(double)] = sizeof(double)
+            [typeof(double)] = sizeof(double),
+            [typeof(VertexPosition)] = VertexPosition.SizeInBytes,
+            [typeof(VertexPositionTexture)] = VertexPositionTexture.SizeInBytes,
+            [typeof(VertexPositionNormalTexture)] = VertexPositionNormalTexture.SizeInBytes
         };
 
         public static uint Size(this Type dataType)
