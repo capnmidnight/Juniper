@@ -53,8 +53,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Unity", "src\Junipe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.UnityEditor", "src\Juniper.UnityEditor\Juniper.UnityEditor.csproj", "{188892B1-B715-4B4C-8399-ADA954ED1716}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unicode - Console", "src\Unicode - Console\Unicode - Console.csproj", "{F24B7DFC-C1CB-4530-8920-0A879740E252}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unity ConfigurationManagement - Console", "src\UnityEditor ConfigurationManagement - Console\Unity ConfigurationManagement - Console.csproj", "{0437E618-9D36-4E9A-877B-1E739FC8A148}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Azure", "src\Juniper.Azure\Juniper.Azure.csproj", "{BD1F9AD2-256B-429E-B500-C572653758D7}"
@@ -101,9 +99,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veldrid - Android", "src\Ve
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Veldrid.Android", "src\Juniper.Veldrid.Android\Juniper.Veldrid.Android.csproj", "{2381C793-440F-466F-A5FF-8C85DC31C070}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Imaging", "src\Juniper.Imaging\Juniper.Imaging.csproj", "{3DD3B2FF-C306-4333-98A7-92F14E557099}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Imaging", "src\Juniper.Imaging\Juniper.Imaging.csproj", "{3DD3B2FF-C306-4333-98A7-92F14E557099}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Sound", "src\Juniper.Sound\Juniper.Sound.csproj", "{258B6B70-D108-4836-B0F9-4D0DADD000D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Sound", "src\Juniper.Sound\Juniper.Sound.csproj", "{258B6B70-D108-4836-B0F9-4D0DADD000D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -179,10 +177,6 @@ Global
 		{188892B1-B715-4B4C-8399-ADA954ED1716}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{188892B1-B715-4B4C-8399-ADA954ED1716}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{188892B1-B715-4B4C-8399-ADA954ED1716}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F24B7DFC-C1CB-4530-8920-0A879740E252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F24B7DFC-C1CB-4530-8920-0A879740E252}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F24B7DFC-C1CB-4530-8920-0A879740E252}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F24B7DFC-C1CB-4530-8920-0A879740E252}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0437E618-9D36-4E9A-877B-1E739FC8A148}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0437E618-9D36-4E9A-877B-1E739FC8A148}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0437E618-9D36-4E9A-877B-1E739FC8A148}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -303,7 +297,6 @@ Global
 		{9DF2B191-6D22-4925-8C5F-612418F86EC8} = {3F72C92A-C800-432F-A47D-359B8C938849}
 		{3BCE2DC9-AA02-4146-87E5-357B5BB6E9D5} = {3F72C92A-C800-432F-A47D-359B8C938849}
 		{188892B1-B715-4B4C-8399-ADA954ED1716} = {3F72C92A-C800-432F-A47D-359B8C938849}
-		{F24B7DFC-C1CB-4530-8920-0A879740E252} = {9A01F9FD-B141-4584-92DE-9BFCEEA3A7E9}
 		{0437E618-9D36-4E9A-877B-1E739FC8A148} = {9A01F9FD-B141-4584-92DE-9BFCEEA3A7E9}
 		{BD1F9AD2-256B-429E-B500-C572653758D7} = {3F72C92A-C800-432F-A47D-359B8C938849}
 		{D6A1ABCD-0808-49B6-A764-0EF47D152C7D} = {3F72C92A-C800-432F-A47D-359B8C938849}

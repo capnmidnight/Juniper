@@ -15,5 +15,10 @@
   <ImportGroup>
     <Import Project="..\..\Juniper.targets" />
   </ImportGroup>
+  
+
+  <ItemGroup>
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+  </ItemGroup>
 
 </Project>
