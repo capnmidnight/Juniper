@@ -142,7 +142,7 @@ namespace Juniper.VeldridIntegration
                             var faceCount = indexCount / 3;
                             commandList.SetVertexBuffer(0, vertexBuffers[i]);
                             commandList.SetIndexBuffer(indexBuffers[i], IndexFormat.UInt16);
-                            commandList.SetGraphicsResourceSet(1, resourceSets[i]);
+                            commandList.SetGraphicsResourceSet(2, resourceSets[i]);
                             commandList.DrawIndexed(
                                 indexCount: indexCount,
                                 instanceCount: faceCount,

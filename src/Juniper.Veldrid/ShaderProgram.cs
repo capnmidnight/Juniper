@@ -104,6 +104,8 @@ namespace Juniper.VeldridIntegration
                     new ResourceLayoutElementDescription("ProjectionBuffer", ResourceKind.UniformBuffer, ShaderStages.Vertex),
                     new ResourceLayoutElementDescription("DiffuseSampler", ResourceKind.Sampler, ShaderStages.Fragment))),
                 factory.CreateResourceLayout(new ResourceLayoutDescription(
+                    new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.UniformBuffer, ShaderStages.Vertex))),
+                factory.CreateResourceLayout(new ResourceLayoutDescription(
                     new ResourceLayoutElementDescription("DiffuseTexture", ResourceKind.TextureReadOnly, ShaderStages.Fragment)))
             };
 
@@ -223,7 +225,6 @@ namespace Juniper.VeldridIntegration
                 throw new ArgumentNullException(nameof(camera));
             }
 
-            commandList.UpdateBuffer(cameraBuffer, camera.WorldOffset, worldMatrix);
             commandList.SetGraphicsResourceSet(0, resourceSet);
 
             models[modelIndex].Draw(device, commandList, camera, worldMatrix);

@@ -10,6 +10,8 @@ namespace Juniper.VeldridIntegration
     {
         private readonly ShaderProgram<VertexT> program;
         private readonly int modelIndex;
+        private DeviceBuffer worldBuffer;
+        private ResourceSet resources;
 
         public WorldObj(ShaderProgram<VertexT> program, int modelIndex)
         {
@@ -27,6 +29,11 @@ namespace Juniper.VeldridIntegration
 
         public void Draw(GraphicsDevice device, CommandList commandList, Camera camera)
         {
+            if (device is null)
+            {
+                throw new ArgumentNullException(nameof(device));
+            }
+
             if (commandList is null)
             {
                 throw new ArgumentNullException(nameof(commandList));
@@ -37,6 +44,16 @@ namespace Juniper.VeldridIntegration
                 throw new ArgumentNullException(nameof(camera));
             }
 
+            if(worldBuffer is null)
+            {
+                var layout = device.ResourceFactory.CreateResourceLayout(new ResourceLayoutDescription(
+                    new ResourceLayoutElementDescription("WorldBuffer", ResourceKind.UniformBuffer, ShaderStages.Vertex)));
+                worldBuffer = device.ResourceFactory.CreateBuffer(new BufferDescription(World.GetType().Size(), BufferUsage.UniformBuffer));
+                resources = device.ResourceFactory.CreateResourceSet(new ResourceSetDescription(layout, worldBuffer));
+            }
+
+            commandList.UpdateBuffer(worldBuffer, 0, World);
+            commandList.SetGraphicsResourceSet(1, resources);
             program.Draw(device, commandList, camera, modelIndex, World);
         }
     }
