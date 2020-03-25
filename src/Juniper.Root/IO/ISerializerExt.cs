@@ -11,6 +11,51 @@ namespace Juniper.IO
 {
     public static class ISerializerExt
     {
+        public static byte[] Serialize<T>(this ISerializer<T> serializer, T value)
+        {
+            if (serializer is null)
+            {
+                throw new ArgumentNullException(nameof(serializer));
+            }
+
+            using var mem = new MemoryStream();
+            serializer.Serialize(mem, value);
+            mem.Flush();
+
+            return mem.ToArray();
+        }
+
+        public static void Serialize<T>(this ISerializer<T> serializer, FileInfo file, T value)
+        {
+            if (serializer is null)
+            {
+                throw new ArgumentNullException(nameof(serializer));
+            }
+
+            if (file is null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+
+            using var stream = file.Open(FileMode.Create, FileAccess.Write, FileShare.Read);
+            serializer.Serialize(stream, value);
+        }
+
+        public static void Serialize<T>(this ISerializer<T> serializer, string fileName, T value)
+        {
+            if (fileName is null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (fileName.Length == 0)
+            {
+                throw new ArgumentException("path must not be empty string", nameof(fileName));
+            }
+
+            serializer.Serialize(new FileInfo(fileName), value);
+        }
+
         public static void Serialize<T>(this ISerializer<T> serializer, HttpWebRequest request, MediaType type, T value)
         {
             if (serializer is null)
@@ -80,51 +125,6 @@ namespace Juniper.IO
             }
 
             return socket.SendAsync(message, value, serializer);
-        }
-
-        public static byte[] Serialize<T>(this ISerializer<T> serializer, T value)
-        {
-            if (serializer is null)
-            {
-                throw new ArgumentNullException(nameof(serializer));
-            }
-
-            using var mem = new MemoryStream();
-            serializer.Serialize(mem, value);
-            mem.Flush();
-
-            return mem.ToArray();
-        }
-
-        public static void Serialize<T>(this ISerializer<T> serializer, FileInfo file, T value)
-        {
-            if (serializer is null)
-            {
-                throw new ArgumentNullException(nameof(serializer));
-            }
-
-            if (file is null)
-            {
-                throw new ArgumentNullException(nameof(file));
-            }
-
-            using var stream = file.Open(FileMode.Create, FileAccess.Write, FileShare.Read);
-            serializer.Serialize(stream, value);
-        }
-
-        public static void Serialize<T>(this ISerializer<T> serializer, string fileName, T value)
-        {
-            if (fileName is null)
-            {
-                throw new ArgumentNullException(nameof(fileName));
-            }
-
-            if (fileName.Length == 0)
-            {
-                throw new ArgumentException("path must not be empty string", nameof(fileName));
-            }
-
-            serializer.Serialize(new FileInfo(fileName), value);
         }
 
         public static string ToString<T>(this ISerializer<T> serializer, T value)

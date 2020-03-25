@@ -23,8 +23,9 @@ namespace Juniper.ConfigurationManagement
             if (manifest is null)
             {
                 var unityPackageManifestPath = Path.Combine(Project.UnityProjectRoot, "Packages", "manifest.json");
+                using var stream = FileDataSource.Instance.GetStream(unityPackageManifestPath);
                 var factory = new JsonFactory<UnityPackageManifest>();
-                manifest = factory.Deserialize(unityPackageManifestPath);
+                manifest = factory.Deserialize(stream);
             }
 
             return manifest;

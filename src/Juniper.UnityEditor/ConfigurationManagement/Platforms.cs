@@ -16,8 +16,9 @@ namespace Juniper.ConfigurationManagement
         {
             if (platforms is null)
             {
+                using var stream = FileDataSource.Instance.GetStream(Project.JuniperPlatformsFileName);
                 var configFactory = new JsonFactory<Platforms>();
-                platforms = configFactory.Deserialize(Project.JuniperPlatformsFileName);
+                platforms = configFactory.Deserialize(stream);
             }
 
             return platforms;

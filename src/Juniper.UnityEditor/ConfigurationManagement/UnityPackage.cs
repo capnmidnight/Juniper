@@ -38,7 +38,8 @@ namespace Juniper.ConfigurationManagement
                     foreach (var versionDir in packageDir.GetDirectories())
                     {
                         var packageFileName = Path.Combine(versionDir.FullName, "package", "package.json");
-                        var package = packageFactory.Deserialize(packageFileName);
+                        using var stream = FileDataSource.Instance.GetStream(packageFileName);
+                        var package = packageFactory.Deserialize(stream);
                         var packageName = package.DisplayName;
                         if (packageName.StartsWith("Oculus", StringComparison.OrdinalIgnoreCase))
                         {
@@ -59,7 +60,8 @@ namespace Juniper.ConfigurationManagement
                 foreach (var packageDir in builtInRootDir.GetDirectories())
                 {
                     var packageFileName = Path.Combine(packageDir.FullName, "package.json");
-                    var package = packageFactory.Deserialize(packageFileName);
+                    using var stream = FileDataSource.Instance.GetStream(packageFileName);
+                    var package = packageFactory.Deserialize(stream);
                     var packageName = package.DisplayName;
                     var version = package.Version;
                     packages.Add(new UnityPackage(package.Name, packageName, version, packageDir.FullName));

@@ -21,8 +21,9 @@ namespace Juniper.ConfigurationManagement
             {
                 if (compilerDefines is null)
                 {
+                    using var stream = FileDataSource.Instance.GetStream(Project.JuniperDefinesFileName);
                     var definesFactory = new JsonFactory<PackageDefineSymbol[]>();
-                    compilerDefines = definesFactory.Deserialize(Project.JuniperDefinesFileName)
+                    compilerDefines = definesFactory.Deserialize(stream)
                         .ToDictionary(d => d.Name, d => d.CompilerDefine);
                 }
 
