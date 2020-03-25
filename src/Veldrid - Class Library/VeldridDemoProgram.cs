@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
 using System.Threading;
-using System.Threading.Tasks;
 
+using Juniper.IO;
 using Juniper.Mathematics;
 using Juniper.VeldridIntegration;
 
@@ -16,7 +18,7 @@ namespace Juniper
         private readonly SingleStatisticsCollection updateStats = new SingleStatisticsCollection(10);
         private readonly SingleStatisticsCollection renderStats = new SingleStatisticsCollection(10);
 
-        private readonly List<WorldObj<VertexPositionNormalTexture>> cubes = new List<WorldObj<VertexPositionNormalTexture>>();
+        private readonly List<WorldObj<VertexPositionNormalTexture>> objects = new List<WorldObj<VertexPositionNormalTexture>>();
 
         private const float MOVE_SPEED = 1.5f;
         private static readonly float MIN_PITCH = Units.Degrees.Radians(-80);
@@ -24,26 +26,15 @@ namespace Juniper
         private Vector3 velocity;
         private float yaw;
         private float pitch;
-        private float time;
+
+        private static IDataSource AsmSource => new AssemblyResourceDataSource(typeof(VeldridDemoProgram).Assembly);
 
         public VeldridDemoProgram(GraphicsDevice device, CancellationToken token)
-            : base(device, token)
+            : base(device, AsmSource, token)
         { }
 
         public VeldridDemoProgram(GraphicsDeviceOptions options, IVeldridPanel panel, CancellationToken token)
-            : base(options, panel, token)
-        { }
-
-        public VeldridDemoProgram(GraphicsBackend backend, GraphicsDeviceOptions options, IVeldridPanel panel, CancellationToken token)
-            : base(backend, options, panel, token)
-        { }
-
-        public VeldridDemoProgram(GraphicsDeviceOptions options, SwapchainSource swapchainSource, uint startWidth, uint startHeight, CancellationToken token)
-            : base(options, swapchainSource, startWidth, startHeight, token)
-        { }
-
-        public VeldridDemoProgram(GraphicsBackend backend, GraphicsDeviceOptions options, SwapchainSource swapchainSource, uint startWidth, uint startHeight, CancellationToken token)
-            : base(backend, options, swapchainSource, startWidth, startHeight, token)
+            : base(options, panel, AsmSource, token)
         { }
 
         public float? MinUpdatesPerSecond => updateStats.Minimum;
@@ -56,25 +47,31 @@ namespace Juniper
         public float? StdDevFramesPerSecond => renderStats.StandardDeviation;
         public float? MaxFramesPerSecond => renderStats.Maximum;
 
-        protected override Task<ShaderProgramDescription<VertexPositionNormalTexture>> CreateProgramAsync()
+        protected override ShaderProgramDescription<VertexPositionNormalTexture> CreateProgram()
         {
-            using var vertexShaderStream = Resources.GetStream("Shaders/tex-cube.vert");
-            using var fragmentShaderStream = Resources.GetStream("Shaders/tex-cube.frag");
+            var shaderLoader = new ShaderDeserializer();
 
-            return ShaderProgramDescription.LoadAsync<VertexPositionNormalTexture>(
-                vertexShaderStream,
-                fragmentShaderStream);
+            using var vertShaderStream = DataSource.GetStream("Shaders/tex-cube.vert");
+            using var fragShaderStream = DataSource.GetStream("Shaders/tex-cube.frag");
+
+            var vertShaderData = shaderLoader.Deserialize(vertShaderStream);
+            var fragShaderData = shaderLoader.Deserialize(fragShaderStream);
+
+            return new ShaderProgramDescription<VertexPositionNormalTexture>(vertShaderData, fragShaderData);
         }
+
+        private readonly Random rand = new Random();
 
         protected override void OnProgramCreated()
         {
-            Program.LoadOBJ("Models/cube.obj", Resources.GetStream);
+            Program.LoadModel("Models/cube.obj", Device);
 
-            for (var i = 0; i < 3; ++i)
+            for (var i = 0; i < 1000; ++i)
             {
-                var cube = Program.CreateObject();
-                cube.Position = 1.25f * (i - 1) * Vector3.UnitX;
-                cubes.Add(cube);
+                var item = Program.CreateObject(0);
+                item.Position = rand.NextVector3() * 100;
+                item.Rotation = rand.NextQuaternion();
+                objects.Add(item);
             }
         }
 
@@ -89,7 +86,6 @@ namespace Juniper
             {
                 velocity = Vector3.Zero;
             }
-
         }
 
         public void SetMouseRotate(int dx, int dy)
@@ -112,24 +108,18 @@ namespace Juniper
 
         protected override void UpdateState(float dtime)
         {
-            time += dtime;
             updateStats.Add(1 / dtime);
 
             Camera.Position += velocity * dtime;
-
-            for (var i = 0; i < cubes.Count; ++i)
-            {
-                cubes[i].Rotation = Quaternion.CreateFromAxisAngle(Vector3.UnitY, (time * (i - 1)));
-            }
         }
 
-        protected override void Draw(float dtime, CommandList commandList)
+        protected override void Draw(CommandList commandList, float dtime)
         {
             renderStats.Add(1 / dtime);
 
-            for (var i = 0; i < cubes.Count; ++i)
+            for (var i = 0; i < objects.Count; ++i)
             {
-                cubes[i].Draw(commandList);
+                objects[i].Draw(Device, commandList, Camera);
             }
         }
     }

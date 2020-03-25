@@ -69,7 +69,7 @@ namespace Juniper
                 canceller.Token);
             //demo.Error += form.SetError;
             demo.Update += Demo_Update;
-            _ = Task.Run(demo.StartAsync);
+            demo.Start();
         }
 
         private static void Demo_Update(float dt)

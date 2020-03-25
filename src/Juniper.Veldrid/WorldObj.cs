@@ -9,10 +9,12 @@ namespace Juniper.VeldridIntegration
         where VertexT : struct
     {
         private readonly ShaderProgram<VertexT> program;
+        private readonly int modelIndex;
 
-        public WorldObj(ShaderProgram<VertexT> program)
+        public WorldObj(ShaderProgram<VertexT> program, int modelIndex)
         {
             this.program = program;
+            this.modelIndex = modelIndex;
         }
 
         public Matrix4x4 World => WorldOrView;
@@ -23,14 +25,19 @@ namespace Juniper.VeldridIntegration
                 * Matrix4x4.CreateTranslation(Position);
         }
 
-        public void Draw(CommandList commandList)
+        public void Draw(GraphicsDevice device, CommandList commandList, Camera camera)
         {
             if (commandList is null)
             {
                 throw new ArgumentNullException(nameof(commandList));
             }
 
-            program.Draw(commandList, World);
+            if (camera is null)
+            {
+                throw new ArgumentNullException(nameof(camera));
+            }
+
+            program.Draw(device, commandList, camera, modelIndex, World);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Numerics;
 
 using Juniper.Imaging;
-
+using Juniper.IO;
 using Veldrid;
 using Veldrid.SPIRV;
 using Veldrid.Utilities;
@@ -16,116 +16,61 @@ namespace Juniper.VeldridIntegration
         : IDisposable
         where VertexT : struct
     {
-        private readonly Dictionary<string, DeviceBuffer> buffers = new Dictionary<string, DeviceBuffer>();
-        private readonly List<(string name, ImageData image)> textureData = new List<(string name, ImageData image)>();
-        private readonly Dictionary<string, Texture> textures = new Dictionary<string, Texture>();
-        private readonly List<ConstructedMeshInfo> meshes = new List<ConstructedMeshInfo>();
-        private readonly IndexFormat indexFormat;
+        private readonly List<Model> models = new List<Model>();
+        private readonly IDataSource dataSource;
         private readonly ShaderProgramDescription<VertexT> programDescription;
 
         private Pipeline pipeline;
         private ResourceLayout[] layouts;
-        private IDisposable[] resources;
-        private ResourceSet[] resourceSets;
+        private IDisposable[] disposableResources;
+        private ResourceSet resourceSet;
 
         private DeviceBuffer cameraBuffer;
-        private DeviceBuffer worldBuffer;
-        private DeviceBuffer[] vertexBuffers;
-        private DeviceBuffer[] indexBuffers;
 
         public bool IsRunning { get; private set; }
 
-        public ShaderProgram(ShaderProgramDescription<VertexT> programDescription)
+        public ShaderProgram(IDataSource dataSource, ShaderProgramDescription<VertexT> programDescription)
         {
+            if (dataSource is null)
+            {
+                throw new ArgumentNullException(nameof(dataSource));
+            }
+
             if (!programDescription.UseSpirV)
             {
                 throw new NotImplementedException("Support for only SPIR-V shaders are currently implemented.");
             }
 
+            this.dataSource = dataSource;
             this.programDescription = programDescription;
-            indexFormat = typeof(ushort).ToIndexFormat();
         }
 
-        public void AddMesh(ConstructedMeshInfo mesh)
+        public void LoadModel(string name, GraphicsDevice device = null)
         {
-            if (mesh is null)
-            {
-                throw new ArgumentNullException(nameof(mesh));
-            }
-
-            meshes.Add(mesh);
+            LoadModel(name, dataSource, device);
         }
 
-        public void AddTexture(string name, ImageData image)
+        public void LoadModel(string name, IDataSource dataSource, GraphicsDevice device = null)
         {
-            if (IsRunning)
-            {
-                throw new InvalidOperationException("Cannot add textures while the program is running.");
-            }
-
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new ArgumentException("Texture name cannot be null or empty.", nameof(name));
-            }
-
-            if (image is null)
-            {
-                throw new ArgumentNullException(nameof(image));
-            }
-
-            textureData.Add((name, image));
+            AddModel(new Model(name, dataSource), device);
         }
 
-        public void LoadOBJ(string fileID, Func<string, Stream> getStream)
+        public void AddModel(Model model, GraphicsDevice device = null)
         {
-            if (fileID is null)
+            if (model is null)
             {
-                throw new ArgumentNullException(nameof(fileID));
+                throw new ArgumentNullException(nameof(model));
             }
 
-            if (getStream is null)
+            if(device != null)
             {
-                throw new ArgumentNullException(nameof(getStream));
+                model.Preload(device);
             }
 
-            using var objStream = getStream(fileID);
-            var objParser = new ObjParser();
-            var obj = objParser.Parse(objStream);
-
-            var directoryParts = fileID.Split('/')
-                .Reverse()
-                .Skip(1)
-                .Reverse();
-
-            var mtlFileNameParts = directoryParts
-                .Append(obj.MaterialLibName)
-                .ToArray();
-
-            var mtlFileName = string.Join("/", mtlFileNameParts);
-            using var mtlStream = getStream(mtlFileName);
-            var mtlParser = new MtlParser();
-            var mtl = mtlParser.Parse(mtlStream);
-
-            foreach (var group in obj.MeshGroups)
-            {
-                var mesh = obj.GetMesh(group);
-                if (mesh.Indices.Length > 0)
-                {
-                    AddMesh(mesh);
-
-                    if (mesh.MaterialName is object)
-                    {
-                        var materialDef = mtl.Definitions[mesh.MaterialName];
-                        if (materialDef.DiffuseTexture is object)
-                        {
-                            AddTexture("SurfaceTexture", ImageDecoderSet.Default.LoadImage(materialDef.DiffuseTexture, getStream));
-                        }
-                    }
-                }
-            }
+            models.Add(model);
         }
 
-        public void Begin(GraphicsDevice device, Framebuffer framebuffer, string cameraBufferName, string worldBufferName)
+        public void Begin(GraphicsDevice device, Framebuffer framebuffer)
         {
             if (IsRunning)
             {
@@ -149,74 +94,32 @@ namespace Juniper.VeldridIntegration
                 throw new ArgumentException("GraphicsDevice is not ready. It has no ResourceFactory", nameof(device));
             }
 
-            foreach (var (name, image) in textureData)
-            {
-                var imageData = image.GetData();
-                var imageWidth = (uint)image.Info.Dimensions.Width;
-                var imageHeight = (uint)image.Info.Dimensions.Height;
-
-                var texture = factory.CreateTexture(new TextureDescription(
-                    imageWidth, imageHeight, 1,
-                    1, 1,
-                    PixelFormat.R8_G8_B8_A8_UNorm,
-                    TextureUsage.Sampled,
-                    TextureType.Texture2D));
-
-                textures[name] = texture;
-
-                device.UpdateTexture(
-                    texture,
-                    imageData,
-                    0, 0, 0,
-                    imageWidth, imageHeight, 1,
-                    0, 0);
-            }
-
-            textureData.Clear();
-
             var vertex = programDescription.VertexShader;
             var fragment = programDescription.FragmentShader;
 
-            var layoutsAndResources = vertex.Resources
-                .Concat(fragment.Resources)
-                .GroupBy(r => r.Set)
-                .Select(g => g.ToArray())
-                .Select(set =>
-                {
-                    var elements = set.Select(e => e.ToElementDescription()).ToArray();
-                    var layout = factory.CreateResourceLayout(new ResourceLayoutDescription(elements));
-                    var resources = set.Select(r => (BindableResource)(r.Kind switch
-                    {
-                        ResourceKind.Sampler => device.Aniso4xSampler,
-                        ResourceKind.TextureReadOnly => factory.CreateTextureView(textures[r.Name]),
-                        ResourceKind.TextureReadWrite => factory.CreateTextureView(textures[r.Name]),
-                        ResourceKind.UniformBuffer => buffers[r.Name] = factory.CreateBuffer(new BufferDescription(r.Size, BufferUsage.UniformBuffer)),
-                        _ => throw new FormatException("Unknonw resource kind " + r.Kind)
-                    }))
-                        .ToArray();
-                    return (layout, resources);
-                })
-                .ToArray();
-
-            cameraBuffer = buffers[cameraBufferName];
-            _ = buffers.Remove(cameraBufferName);
-
-            worldBuffer = buffers[worldBufferName];
-            _ = buffers.Remove(worldBufferName);
-
             var pipelineOptions = programDescription.PipelineOptions;
+            pipelineOptions.ResourceLayouts = layouts = new ResourceLayout[]
+            {
+                factory.CreateResourceLayout(new ResourceLayoutDescription(
+                    new ResourceLayoutElementDescription("ProjectionBuffer", ResourceKind.UniformBuffer, ShaderStages.Vertex),
+                    new ResourceLayoutElementDescription("DiffuseSampler", ResourceKind.Sampler, ShaderStages.Fragment))),
+                factory.CreateResourceLayout(new ResourceLayoutDescription(
+                    new ResourceLayoutElementDescription("DiffuseTexture", ResourceKind.TextureReadOnly, ShaderStages.Fragment)))
+            };
 
-            pipelineOptions.ResourceLayouts = layouts = layoutsAndResources.Select(l => l.layout).ToArray();
+            var vertexResources = new BindableResource[]
+            {
+                cameraBuffer = factory.CreateBuffer(new BufferDescription(vertex.Resources[0].Size, BufferUsage.UniformBuffer)),
+                device.Aniso4xSampler
+            };
 
-            resources = layoutsAndResources.SelectMany(l => l.resources)
-                .Where(r => r != null)
+            disposableResources = vertexResources
+                .Where(r => r != null
+                    && r != device.Aniso4xSampler)
                 .OfType<IDisposable>()
-                .Where(r => r != device.Aniso4xSampler)
                 .ToArray();
 
-            resourceSets = layoutsAndResources
-                .Select(l => factory.CreateResourceSet(new ResourceSetDescription(l.layout, l.resources)))
-                .ToArray();
+            resourceSet = factory.CreateResourceSet(new ResourceSetDescription(layouts[0], vertexResources));
 
             var layout = programDescription.VertexLayout;
             if (device.BackendType == GraphicsBackend.Direct3D11
@@ -237,23 +140,6 @@ namespace Juniper.VeldridIntegration
             pipelineOptions.Outputs = framebuffer.OutputDescription;
             pipeline = factory.CreateGraphicsPipeline(pipelineOptions);
 
-            vertexBuffers = new DeviceBuffer[meshes.Count];
-            indexBuffers = new DeviceBuffer[meshes.Count];
-
-            for (var i = 0; i < meshes.Count; ++i)
-            {
-                var mesh = meshes[i];
-                var vertexBuffer
-                    = vertexBuffers[i]
-                    = factory.CreateBuffer(new BufferDescription((uint)(mesh.Vertices.Length * typeof(VertexT).Size()), BufferUsage.VertexBuffer));
-                device.UpdateBuffer(vertexBuffer, 0, mesh.Vertices);
-
-                var indexBuffer
-                    = indexBuffers[i]
-                    = factory.CreateBuffer(new BufferDescription((uint)(mesh.Indices.Length * typeof(ushort).Size()), BufferUsage.IndexBuffer));
-                device.UpdateBuffer(indexBuffer, 0, mesh.Indices);
-            }
-
             IsRunning = true;
         }
 
@@ -269,21 +155,6 @@ namespace Juniper.VeldridIntegration
             }
         }
 
-        public void UpdateMatrix(string name, CommandList commandList, ref Matrix4x4 matrix)
-        {
-            if (!IsRunning)
-            {
-                throw new InvalidOperationException("Cannot update matrices when the program is not running.");
-            }
-
-            if (commandList is null)
-            {
-                throw new ArgumentNullException(nameof(commandList));
-            }
-
-            commandList.UpdateBuffer(buffers[name], 0, ref matrix);
-        }
-
         public void Dispose()
         {
             Dispose(true);
@@ -296,53 +167,19 @@ namespace Juniper.VeldridIntegration
             {
                 IsRunning = false;
 
-                if(indexBuffers != null)
-                {
-                    foreach(var indexBuffer in indexBuffers)
-                    {
-                        indexBuffer.Dispose();
-                    }
-                    indexBuffers = null;
-                }
-
-                if (vertexBuffers != null)
-                {
-                    foreach (var vertexBuffer in vertexBuffers)
-                    {
-                        vertexBuffer.Dispose();
-                    }
-                    vertexBuffers = null;
-                }
-                worldBuffer?.Dispose();
-                worldBuffer = null;
                 cameraBuffer?.Dispose();
                 cameraBuffer = null;
 
-                if (resourceSets != null)
-                {
-                    foreach (var set in resourceSets)
-                    {
-                        set.Dispose();
-                    }
-                    resourceSets = null;
-                }
+                resourceSet?.Dispose();
+                resourceSet = null;
 
-                if (resources != null)
+                if (disposableResources != null)
                 {
-                    foreach (var r in resources)
+                    foreach (var r in disposableResources)
                     {
                         r.Dispose();
                     }
-                    resources = null;
-                }
-
-                if (textures != null)
-                {
-                    foreach (var texture in textures.Values)
-                    {
-                        texture.Dispose();
-                    }
-                    textures.Clear();
+                    disposableResources = null;
                 }
 
                 if (layouts != null)
@@ -356,15 +193,20 @@ namespace Juniper.VeldridIntegration
 
                 pipeline?.Dispose();
                 pipeline = null;
+
+                foreach(var model in models)
+                {
+                    model.Dispose();
+                }
             }
         }
 
-        public WorldObj<VertexT> CreateObject()
+        public WorldObj<VertexT> CreateObject(int modelIndex)
         {
-            return new WorldObj<VertexT>(this);
+            return new WorldObj<VertexT>(this, modelIndex);
         }
 
-        internal void Draw(CommandList commandList, Matrix4x4 worldMatrix)
+        internal void Draw(GraphicsDevice device, CommandList commandList, Camera camera, int modelIndex, Matrix4x4 worldMatrix)
         {
             if (!IsRunning)
             {
@@ -376,25 +218,15 @@ namespace Juniper.VeldridIntegration
                 throw new ArgumentNullException(nameof(commandList));
             }
 
-            commandList.UpdateBuffer(worldBuffer, 0, ref worldMatrix);
-
-
-            for (var i = 0; i < meshes.Count; ++i)
+            if (camera is null)
             {
-                commandList.SetVertexBuffer(0, vertexBuffers[i]);
-                commandList.SetIndexBuffer(indexBuffers[i], indexFormat);
-
-                var mesh = meshes[i];
-                var indexCount = (uint)(mesh.Indices.Length);
-                var faceCount = indexCount / 3;
-
-                commandList.DrawIndexed(
-                    indexCount: indexCount,
-                    instanceCount: faceCount,
-                    indexStart: 0,
-                    vertexOffset: 0,
-                    instanceStart: 0);
+                throw new ArgumentNullException(nameof(camera));
             }
+
+            commandList.UpdateBuffer(cameraBuffer, camera.WorldOffset, worldMatrix);
+            commandList.SetGraphicsResourceSet(0, resourceSet);
+
+            models[modelIndex].Draw(device, commandList, camera, worldMatrix);
         }
 
         public void Activate(CommandList commandList, Camera camera)
@@ -415,13 +247,8 @@ namespace Juniper.VeldridIntegration
             }
 
             commandList.SetPipeline(pipeline);
-            for (var i = 0; i < resourceSets.Length; ++i)
-            {
-                commandList.SetGraphicsResourceSet((uint)i, resourceSets[i]);
-            }
-
             commandList.UpdateBuffer(cameraBuffer, 0, camera.Projection);
-            commandList.UpdateBuffer(cameraBuffer, camera.Projection.GetType().Size(), camera.View);
+            commandList.UpdateBuffer(cameraBuffer, camera.ViewOffset, camera.View);
         }
     }
 }

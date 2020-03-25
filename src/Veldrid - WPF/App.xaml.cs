@@ -69,7 +69,7 @@ namespace Juniper
             demo.Update += Demo_Update;
             keys.Start();
             mouse.Start();
-            _ = Task.Run(demo.StartAsync);
+            demo.Start();
         }
 
         private void Demo_Update(float dt)

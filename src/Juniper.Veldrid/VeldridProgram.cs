@@ -1,7 +1,8 @@
 using System;
 using System.Numerics;
 using System.Threading;
-using System.Threading.Tasks;
+
+using Juniper.IO;
 
 using Veldrid;
 
@@ -11,7 +12,6 @@ namespace Juniper.VeldridIntegration
         where VertexT : struct
     {
         private readonly bool ownDevice;
-        private readonly GraphicsDevice device;
         private readonly CancellationToken canceller;
         private readonly CommandList commandList;
 
@@ -22,9 +22,12 @@ namespace Juniper.VeldridIntegration
         private Thread renderThread;
         private Semaphore rendering;
 
-        private Swapchain Swapchain => device.MainSwapchain;
+        protected GraphicsDevice Device { get; }
+        private Swapchain Swapchain => Device.MainSwapchain;
         private Framebuffer Framebuffer => Swapchain.Framebuffer;
         private float AspectRatio => (float)Framebuffer.Width / Framebuffer.Height;
+
+        protected IDataSource DataSource { get; }
 
         public event Action<Exception> Error;
         public event Action<float> Update;
@@ -93,14 +96,20 @@ namespace Juniper.VeldridIntegration
             return device;
         }
 
-        protected VeldridProgram(GraphicsDevice device, CancellationToken token)
+        protected VeldridProgram(GraphicsDevice device, IDataSource dataSource, CancellationToken token)
         {
             if (device is null)
             {
                 throw new ArgumentNullException(nameof(device));
             }
 
-            this.device = device;
+            if (dataSource is null)
+            {
+                throw new ArgumentNullException(nameof(dataSource));
+            }
+
+            Device = device;
+            DataSource = dataSource;
             commandList = device.ResourceFactory.CreateCommandList();
             canceller = token;
             ownDevice = false;
@@ -112,24 +121,31 @@ namespace Juniper.VeldridIntegration
             };
         }
 
-        protected VeldridProgram(GraphicsDeviceOptions options, IVeldridPanel panel, CancellationToken token)
-            : this(PrefferedBackend, options, panel, token)
+        protected VeldridProgram(GraphicsDeviceOptions options, IVeldridPanel panel, IDataSource dataSource, CancellationToken token)
+            : this(PrefferedBackend, options, panel, dataSource, token)
         { }
 
-        protected VeldridProgram(GraphicsBackend backend, GraphicsDeviceOptions options, IVeldridPanel panel, CancellationToken token)
+        protected VeldridProgram(GraphicsBackend backend, GraphicsDeviceOptions options, IVeldridPanel panel, IDataSource dataSource, CancellationToken token)
         {
             if (panel is null)
             {
                 throw new ArgumentNullException(nameof(panel));
             }
 
-            device = Init(
+            if (dataSource is null)
+            {
+                throw new ArgumentNullException(nameof(dataSource));
+            }
+
+            DataSource = dataSource;
+
+            Device = Init(
                 backend,
                 options,
                 panel.VeldridSwapchainSource,
                 panel.RenderWidth, panel.RenderHeight);
 
-            commandList = device.ResourceFactory.CreateCommandList();
+            commandList = Device.ResourceFactory.CreateCommandList();
             canceller = token;
             ownDevice = true;
 
@@ -142,43 +158,20 @@ namespace Juniper.VeldridIntegration
             panel.Resize += (o, e) => Resize(panel.RenderWidth, panel.RenderHeight);
         }
 
-        protected VeldridProgram(GraphicsDeviceOptions options, SwapchainSource swapchainSource, uint startWidth, uint startHeight, CancellationToken token)
-            : this(PrefferedBackend, options, swapchainSource, startWidth, startHeight, token)
-        { }
-
-        protected VeldridProgram(GraphicsBackend backend, GraphicsDeviceOptions options, SwapchainSource swapchainSource, uint startWidth, uint startHeight, CancellationToken token)
-        {
-            device = Init(
-                backend,
-                options,
-                swapchainSource,
-                startWidth, startHeight);
-
-            commandList = device.ResourceFactory.CreateCommandList();
-            canceller = token;
-            ownDevice = true;
-
-            Camera = new Camera
-            {
-                AspectRatio = AspectRatio,
-                Position = 2.5f * Vector3.UnitZ
-            };
-        }
-
-        protected abstract Task<ShaderProgramDescription<VertexT>> CreateProgramAsync();
+        protected abstract ShaderProgramDescription<VertexT> CreateProgram();
 
         protected abstract void OnProgramCreated();
 
-        public async Task StartAsync()
+        public void Start()
         {
-            var programDescription = await CreateProgramAsync()
-                .ConfigureAwait(false);
+            var programDescription = CreateProgram();
 
-            Program = new ShaderProgram<VertexT>(programDescription);
+            var dataSource = new AssemblyResourceDataSource(GetType().Assembly);
+            Program = new ShaderProgram<VertexT>(dataSource, programDescription);
 
             OnProgramCreated();
 
-            Program.Begin(device, Framebuffer, "ProjectionBuffer", "WorldBuffer");
+            Program.Begin(Device, Framebuffer);
 
             GC.Collect();
 
@@ -229,7 +222,7 @@ namespace Juniper.VeldridIntegration
             }
         }
 
-        protected abstract void Draw(float dtime, CommandList commandList);
+        protected abstract void Draw(CommandList commandList, float dtime);
 
         private void DrawThread()
         {
@@ -252,12 +245,12 @@ namespace Juniper.VeldridIntegration
 
                             Program.Activate(commandList, Camera);
 
-                            Draw(dtime, commandList);
+                            Draw(commandList, dtime);
 
                             commandList.End();
-                            device.SubmitCommands(commandList);
-                            device.SwapBuffers(Swapchain);
-                            device.WaitForIdle();
+                            Device.SubmitCommands(commandList);
+                            Device.SwapBuffers(Swapchain);
+                            Device.WaitForIdle();
                         }
                         finally
                         {
@@ -299,7 +292,7 @@ namespace Juniper.VeldridIntegration
 
                 if (ownDevice)
                 {
-                    device?.Dispose();
+                    Device?.Dispose();
                 }
             }
         }

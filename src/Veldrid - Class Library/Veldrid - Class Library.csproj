@@ -18,6 +18,10 @@
   </ImportGroup>
 
   <ItemGroup>
+    <None Remove="Models\International Congress of Munich.zip" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="Images\grass.jpg">
       <LogicalName>Images/grass.jpg</LogicalName>
     </EmbeddedResource>
@@ -44,6 +48,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Models\cube.obj">
       <LogicalName>Models/cube.obj</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Models\International Congress of Munich.zip">
+      <LogicalName>Models/International Congress of Munich.zip</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Shaders\tex-cube.frag">
       <LogicalName>Shaders/tex-cube.frag</LogicalName>

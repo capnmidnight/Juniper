@@ -14,9 +14,14 @@ namespace Juniper.VeldridIntegration
         private float aspectRatio = 1;
         private Matrix4x4 projection;
 
+        public uint ViewOffset { get; }
+        public uint WorldOffset { get; }
+
         public Camera()
         {
             UpdateProjectionMatrix();
+            ViewOffset = Projection.GetType().Size();
+            WorldOffset = ViewOffset + View.GetType().Size();
         }
 
         public RgbaFloat ClearColor { get; set; } = RgbaFloat.Black;

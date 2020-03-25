@@ -17,22 +17,22 @@ namespace Juniper.VeldridIntegration
 
         public bool UseSpirV { get; }
 
-        internal ShaderProgramDescription(byte[] vertShaderBytes, byte[] fragShaderBytes)
+        public ShaderProgramDescription(ShaderData vertShaderData, ShaderData fragShaderData)
         {
-            if (vertShaderBytes is null)
+            if (vertShaderData is null)
             {
-                throw new ArgumentNullException(nameof(vertShaderBytes));
+                throw new ArgumentNullException(nameof(vertShaderData));
             }
 
-            if (fragShaderBytes is null)
+            if (fragShaderData is null)
             {
-                throw new ArgumentNullException(nameof(fragShaderBytes));
+                throw new ArgumentNullException(nameof(fragShaderData));
             }
 
             UseSpirV = true;
 
-            VertexShader = new ParsedShader(ShaderStages.Vertex, vertShaderBytes);
-            FragmentShader = new ParsedShader(ShaderStages.Fragment, fragShaderBytes);
+            VertexShader = vertShaderData.ForStage(ShaderStages.Vertex);
+            FragmentShader = fragShaderData.ForStage(ShaderStages.Fragment);
             VertexLayout = VertexTypeCache.GetDescription<VertexT>();
 
             ValidateVertShaderInputsMatchVertLayout(VertexShader, VertexLayout);

@@ -27,9 +27,14 @@ namespace Juniper.VeldridIntegration
 
         public override string ToString()
         {
-            var sb = new StringBuilder(layout.ToString());
-            return sb
-                .AppendFormat(CultureInfo.InvariantCulture, "{0}{1} {2} {3}", layout, Direction.ToString().ToLowerInvariant(), DataType, Name)
+            return new StringBuilder()
+                .AppendFormat(
+                    CultureInfo.InvariantCulture,
+                    "{0}{1} {2} {3}",
+                    layout,
+                    Direction.ToString().ToLowerInvariant(),
+                    DataType,
+                    Name)
                 .ToString();
         }
 

@@ -31,7 +31,7 @@ namespace Juniper
             panel = form.Panel;
             panel.Ready += Panel_Ready;
             panel.Destroying += Panel_Destroying;
-            //window.RequestStats += MainForm_RequestStats;
+            window.RequestStats += MainForm_RequestStats;
 
             canceller = new CancellationTokenSource();
 
@@ -68,9 +68,7 @@ namespace Juniper
             demo.Update += Demo_Update;
             keys.Start();
             mouse.Start();
-
-            _ = Task.Run(demo.StartAsync)
-                .OnError(window.SetError);
+            demo.Start();
         }
 
         private static void Demo_Update(float dt)

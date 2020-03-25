@@ -34,11 +34,6 @@ namespace Juniper.VeldridIntegration
         public uint Size =>
             (uint)identifiers.Sum(i => i.type.Size() * i.size);
 
-        public ResourceLayoutElementDescription ToElementDescription()
-        {
-            return new ResourceLayoutElementDescription(Name, Kind, Stage);
-        }
-
         public override bool Equals(object obj)
         {
             return obj is ShaderResource resource && Equals(resource);

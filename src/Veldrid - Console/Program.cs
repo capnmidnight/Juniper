@@ -20,7 +20,7 @@ namespace Juniper
         private static Win32MouseMoveEventSource mouse;
         private static VeldridDemoProgram demo;
 
-        private static async Task Main()
+        private static void Main()
         {
             try
             {
@@ -66,8 +66,7 @@ namespace Juniper
 
                 keys.Start();
                 mouse.Start();
-
-                await demo.StartAsync().ConfigureAwait(false);
+                demo.Start();
 
                 while (!canceller.IsCancellationRequested)
                 {
@@ -82,8 +81,7 @@ namespace Juniper
             }
             catch (Exception exp)
             {
-                await Console.Error.WriteLineAsync(exp.Unroll())
-                    .ConfigureAwait(false);
+                Console.Error.WriteLine(exp.Unroll());
             }
         }
 

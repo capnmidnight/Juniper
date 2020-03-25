@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup>
     <Import Project="..\..\Juniper.props" />
@@ -94,6 +94,10 @@
     <PackageReference Include="Veldrid.SPIRV" Version="1.0.13" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj">
+      <Project>{9DF2B191-6D22-4925-8C5F-612418F86EC8}</Project>
+      <Name>Juniper.Root</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Juniper.Veldrid.Android\Juniper.Veldrid.Android.csproj">
       <Project>{2381c793-440f-466f-a5ff-8c85dc31c070}</Project>
       <Name>Juniper.Veldrid.Android</Name>
