@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Threading;
 using System.Threading.Tasks;
+
 using Juniper.Imaging;
 using Juniper.IO;
 
@@ -83,19 +83,7 @@ namespace Juniper.VeldridIntegration
                     && materials.ContainsKey(mesh.MaterialName))
                 {
                     var mat = materials[mesh.MaterialName];
-                    var mapFileNames = new (string name, string path)[]
-                    {
-                        (nameof(mat.DiffuseTexture), mat.DiffuseTexture),
-                        (nameof(mat.AlphaMap), mat.AlphaMap),
-                        (nameof(mat.BumpMap), mat.BumpMap),
-                        (nameof(mat.DisplacementMap), mat.DisplacementMap),
-                        (nameof(mat.AmbientTexture), mat.AmbientTexture),
-                        (nameof(mat.SpecularColorTexture), mat.SpecularColorTexture),
-                        (nameof(mat.SpecularHighlightTexture), mat.SpecularHighlightTexture),
-                        (nameof(mat.StencilDecalTexture), mat.StencilDecalTexture)
-                    };
-
-                    foreach (var (name, path) in mapFileNames)
+                    foreach (var (name, path) in GetMaps(mat))
                     {
                         if (path is object)
                         {
@@ -103,6 +91,54 @@ namespace Juniper.VeldridIntegration
                         }
                     }
                 }
+            }
+        }
+
+        private IEnumerable<(string name, string path)> GetMaps(MaterialDefinition mat)
+        {
+            if (mat is null)
+            {
+                throw new ArgumentNullException(nameof(mat));
+            }
+
+            if (mat.DiffuseTexture is object)
+            {
+                yield return (nameof(mat.DiffuseTexture), mat.DiffuseTexture);
+            }
+
+            if (mat.AlphaMap is object)
+            {
+                yield return (nameof(mat.AlphaMap), mat.AlphaMap);
+            }
+
+            if (mat.BumpMap is object)
+            {
+                yield return (nameof(mat.BumpMap), mat.BumpMap);
+            }
+
+            if (mat.DisplacementMap is object)
+            {
+                yield return (nameof(mat.DisplacementMap), mat.DisplacementMap);
+            }
+
+            if (mat.AmbientTexture is object)
+            {
+                yield return (nameof(mat.AmbientTexture), mat.AmbientTexture);
+            }
+
+            if (mat.SpecularColorTexture is object)
+            {
+                yield return (nameof(mat.SpecularColorTexture), mat.SpecularColorTexture);
+            }
+
+            if (mat.SpecularHighlightTexture is object)
+            {
+                yield return (nameof(mat.SpecularHighlightTexture), mat.SpecularHighlightTexture);
+            }
+
+            if (mat.StencilDecalTexture is object)
+            {
+                yield return (nameof(mat.StencilDecalTexture), mat.StencilDecalTexture);
             }
         }
 
