@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Media;
 
 using Veldrid;
 
@@ -14,8 +15,8 @@ namespace Juniper.VeldridIntegration.WPFSupport
         public event EventHandler Resize;
         public event EventHandler Destroying;
 
-        public uint RenderWidth => (uint)RenderSize.Width;
-        public uint RenderHeight => (uint)RenderSize.Height;
+        public uint RenderWidth => (uint)(RenderSize.Width * VisualTreeHelper.GetDpi(this).DpiScaleX);
+        public uint RenderHeight => (uint)(RenderSize.Height * VisualTreeHelper.GetDpi(this).DpiScaleY);
 
         protected sealed override void Initialize()
         {
