@@ -66,10 +66,10 @@ namespace Juniper
         {
             Program.LoadModel("Models/cube.obj", Device);
 
-            for (var i = 0; i < 1000; ++i)
+            for (var i = 0; i < 100; ++i)
             {
                 var item = Program.CreateObject(0);
-                item.Position = rand.NextVector3() * 100;
+                item.Position = rand.NextVector3() * 10;
                 item.Rotation = rand.NextQuaternion();
                 objects.Add(item);
             }
