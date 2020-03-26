@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 
 namespace Juniper.Imaging
 {
@@ -29,6 +30,28 @@ namespace Juniper.Imaging
         public byte[] GetData()
         {
             return (byte[])_data.Clone();
+        }
+
+        public Vector3 GetRGB(int i)
+        {
+            return _data.GetRGB(i);
+        }
+
+        public Vector3 GetRGB(int x, int y)
+        {
+            var i = y * Info.Stride + x * Info.Components;
+            return GetRGB(i);
+        }
+
+        public void SetRGB(int i, Vector3 rgb)
+        {
+            _data.SetRGB(i, rgb);
+        }
+
+        public void SetRGB(int x, int y, Vector3 rgb)
+        {
+            var i = y * Info.Stride + x * Info.Components;
+            SetRGB(i, rgb);
         }
 
         public ImageData(ImageInfo info, byte[] data)

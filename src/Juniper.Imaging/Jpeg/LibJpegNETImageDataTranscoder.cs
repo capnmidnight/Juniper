@@ -65,7 +65,7 @@ namespace Juniper.Imaging
             return new ImageData(
                 width,
                 height,
-                inputComponents,
+                outputComponents,
                 outputData);
         }
 

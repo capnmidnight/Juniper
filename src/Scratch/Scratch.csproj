@@ -1,34 +1,31 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\Juniper.props" />
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Exe</OutputType>
     <RootNamespace>Scratch</RootNamespace>
     <AssemblyName>Scratch</AssemblyName>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
+    <TargetFramework>net48</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
+  <Import Project="..\..\Juniper.targets" />
+  
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <ProjectReference Include="..\..\lib\Juniper.HjgPngcs\Juniper.HjgPngcs.csproj" />
+    <ProjectReference Include="..\..\lib\Juniper.LibJpeg.NET\Juniper.LibJpeg.NET.csproj" />
+    <ProjectReference Include="..\..\lib\Juniper.NLayer.NAudioSupport\Juniper.NLayer.NAudioSupport.csproj" />
+    <ProjectReference Include="..\..\lib\Juniper.Oculus.VR\Juniper.Oculus.VR.csproj" />
+    <ProjectReference Include="..\..\lib\Juniper.Valve.VR\Juniper.Valve.VR.csproj" />
+    <ProjectReference Include="..\Juniper.Azure\Juniper.Azure.csproj" />
+    <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
+    <ProjectReference Include="..\Juniper.GoogleMaps\Juniper.GoogleMaps.csproj" />
+    <ProjectReference Include="..\Juniper.Imaging\Juniper.Imaging.csproj" />
+    <ProjectReference Include="..\Juniper.NeuroSky\Juniper.NeuroSky.csproj" />
+    <ProjectReference Include="..\Juniper.OpenWeatherMap\Juniper.OpenWeatherMap.csproj" />
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Juniper.Server\Juniper.Server.csproj" />
+    <ProjectReference Include="..\Juniper.Sound\Juniper.Sound.csproj" />
+    <ProjectReference Include="..\Juniper.Tests\Juniper.Tests.csproj" />
+    <ProjectReference Include="..\Juniper.Windows\Juniper.Windows.csproj" />
   </ItemGroup>
 </Project>
