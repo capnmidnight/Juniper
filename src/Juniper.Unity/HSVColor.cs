@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 
 using UnityEngine;
+using UnityColor = UnityEngine.Color;
 
 namespace Juniper
 {
@@ -9,7 +10,7 @@ namespace Juniper
     /// The Hue/Saturation/Value color space.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1051:Do not declare visible instance fields", Justification = "This is an object that is meant to be edited in the Unity Editor, so its values must be public fields, not properties.")]
-    public struct HSVColor : IEquatable<HSVColor>, IEquatable<Color>
+    public struct HSVColor : IEquatable<HSVColor>, IEquatable<UnityColor>
     {
         private static readonly int[] SkinColors = {
             0xFFDFC4,
@@ -44,13 +45,13 @@ namespace Juniper
         };
 
 #pragma warning disable HAA0602 // Delegate on struct instance caused a boxing allocation
-        public static readonly Color[] SkinColorsRGB = SkinColors
+        public static readonly UnityColor[] SkinColorsRGB = SkinColors
             .Select(c =>
             {
                 var r = (c & 0xff0000) >> 16;
                 var g = (c & 0x00ff00) >> 8;
                 var b = (c & 0x0000ff);
-                return new Color(r / 255f, g / 255f, b / 255f);
+                return new UnityColor(r / 255f, g / 255f, b / 255f);
             })
             .ToArray();
 
@@ -102,7 +103,7 @@ namespace Juniper
                 && a == other.a;
         }
 
-        public bool Equals(Color other)
+        public bool Equals(UnityColor other)
         {
             return Equals((HSVColor)other);
         }
@@ -110,7 +111,7 @@ namespace Juniper
         public override bool Equals(object obj)
         {
             return obj is HSVColor hsv && Equals(hsv)
-                || obj is Color rgb && Equals(rgb);
+                || obj is UnityColor rgb && Equals(rgb);
         }
 
         public override int GetHashCode()
@@ -198,7 +199,7 @@ namespace Juniper
         /// </summary>
         /// <returns></returns>
         /// <param name="c">C.</param>
-        public static implicit operator HSVColor(Color c)
+        public static implicit operator HSVColor(UnityColor c)
         {
             return c.ToHSVColor();
         }
@@ -208,7 +209,7 @@ namespace Juniper
         /// </summary>
         /// <returns></returns>
         /// <param name="hsv">Hsv.</param>
-        public static implicit operator Color(HSVColor hsv)
+        public static implicit operator UnityColor(HSVColor hsv)
         {
             return hsv.ToColor();
         }

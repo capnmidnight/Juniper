@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 
 using Juniper.IO;
+using GDIColor = System.Drawing.Color;
 
 namespace Juniper.Imaging
 {
@@ -58,11 +59,11 @@ namespace Juniper.Imaging
             {
                 if (components == 4)
                 {
-                    g.Clear(Color.Transparent);
+                    g.Clear(GDIColor.Transparent);
                 }
                 else
                 {
-                    g.Clear(Color.Black);
+                    g.Clear(GDIColor.Black);
                 }
 
                 for (var y = 0; y < rows; ++y)
