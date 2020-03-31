@@ -28,17 +28,17 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from minutes to microseconds.
         /// </summary>
-        public const float PER_MINUTE = PER_MILLISECOND * Units.Milliseconds.PER_MINUTE;
+        public const float PER_MINUTE = PER_SECOND * Units.Seconds.PER_MINUTE;
 
         /// <summary>
         /// Conversion factor from hours to microseconds.
         /// </summary>
-        public const float PER_HOUR = PER_MINUTE * Units.Milliseconds.PER_HOUR;
+        public const float PER_HOUR = PER_MINUTE * Units.Minutes.PER_HOUR;
 
         /// <summary>
         /// Conversion factor from days to microseconds.
         /// </summary>
-        public const float PER_DAY = PER_HOUR * Units.Milliseconds.PER_DAY;
+        public const float PER_DAY = PER_HOUR * Units.Hours.PER_DAY;
 
         /// <summary>
         /// Convert from microseconds to nanoseconds.

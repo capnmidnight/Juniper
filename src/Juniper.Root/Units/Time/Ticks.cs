@@ -11,37 +11,37 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from ticks to nonoseconds.
         /// </summary>
-        public const float PER_NANOSECOND = 1 / Units.Nanoseconds.PER_TICK;
+        public const float PER_NANOSECOND = 100;
 
         /// <summary>
         /// Conversion factor from ticks to nonoseconds.
         /// </summary>
-        public const float PER_MICROSECOND = 10;
+        public const float PER_MICROSECOND = PER_NANOSECOND * Units.Nanoseconds.PER_MICROSECOND;
 
         /// <summary>
         /// Conversion factor from mircoseconds to microseconds.
         /// </summary>
-        public const float PER_MILLISECOND = PER_MICROSECOND * Units.Microseconds.PER_MILLISECOND;
+        public const float PER_MILLISECOND = TimeSpan.TicksPerMillisecond;
 
         /// <summary>
         /// Conversion factor from seconds to microseconds.
         /// </summary>
-        public const float PER_SECOND = PER_MILLISECOND * Units.Microseconds.PER_SECOND;
+        public const float PER_SECOND = TimeSpan.TicksPerSecond;
 
         /// <summary>
         /// Conversion factor from minutes to microseconds.
         /// </summary>
-        public const float PER_MINUTE = PER_SECOND * Units.Microseconds.PER_MINUTE;
+        public const float PER_MINUTE = TimeSpan.TicksPerMinute;
 
         /// <summary>
         /// Conversion factor from hours to microseconds.
         /// </summary>
-        public const float PER_HOUR = PER_MINUTE * Units.Microseconds.PER_HOUR;
+        public const float PER_HOUR = TimeSpan.TicksPerHour;
 
         /// <summary>
         /// Conversion factor from days to microseconds.
         /// </summary>
-        public const float PER_DAY = PER_HOUR * Units.Microseconds.PER_DAY;
+        public const float PER_DAY = TimeSpan.TicksPerDay;
 
         /// <summary>
         /// Convert from ticks to ticks.
