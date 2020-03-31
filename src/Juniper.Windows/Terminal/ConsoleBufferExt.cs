@@ -13,7 +13,7 @@ namespace Juniper.Terminal
 
         public static void SetFontSize(this ConsoleBuffer buffer, int width, int height)
         {
-            if (!ConsoleBuffer.IsWindows)
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 return;
             }

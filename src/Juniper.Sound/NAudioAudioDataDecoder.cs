@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 using System.IO;
-
+using System.Runtime.InteropServices;
 using NAudio.Wave;
 
 namespace Juniper.Sound
@@ -78,16 +78,15 @@ namespace Juniper.Sound
 
         private IMp3FrameDecompressor CreateMp3FrameDecompressor(WaveFormat format)
         {
-            if (Environment.OSVersion.Platform == PlatformID.Unix
-                || Environment.OSVersion.Platform == PlatformID.MacOSX)
-            {
-                // This works on Android, but only seems to work for some Mp3 files.
-                return new NLayer.NAudioSupport.Mp3FrameDecompressor(format);
-            }
-            else
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 // This seems to work for all Mp3 files, but only works on Windows.
                 return Mp3FileReader.CreateAcmFrameDecompressor(format);
+            }
+            else
+            {
+                // This works on Android, but only seems to work for some Mp3 files.
+                return new NLayer.NAudioSupport.Mp3FrameDecompressor(format);
             }
         }
 

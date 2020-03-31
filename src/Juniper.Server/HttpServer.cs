@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -666,12 +667,9 @@ or
             {
                 return false;
             }
-
-            var platform = Environment.OSVersion.Platform;
+            
             if (HttpsPort is object
-                && (platform == PlatformID.Win32NT
-                    || platform == PlatformID.Win32Windows
-                    || platform == PlatformID.Win32S))
+                && RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 if (string.IsNullOrEmpty(Domain))
                 {
@@ -701,7 +699,7 @@ or
 #else
                 else
                 {
-                    OnWarning($"Don't know how to assign certificates on this platform: {platform}");
+                    OnWarning($"Don't know how to assign certificates on this platform: {System.Environment.OSVersion.Platform}");
                 }
 #endif
             }

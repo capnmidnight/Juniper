@@ -1,8 +1,6 @@
 using System.Runtime.InteropServices;
 using System.Threading;
 
-using Juniper.Terminal;
-
 using static System.Windows.Forms.Keys;
 
 using Keys = System.Windows.Forms.Keys;
@@ -12,7 +10,7 @@ namespace Juniper.Input
     public sealed class Win32KeyEventSource :
         AbstractPollingKeyEventSource<Keys>
     {
-        public static readonly bool IsAvailable = ConsoleBuffer.IsWindows;
+        public static bool IsAvailable { get; } = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
         public Win32KeyEventSource(CancellationToken token)
             : base(token)

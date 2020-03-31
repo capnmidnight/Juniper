@@ -11,17 +11,6 @@ namespace Juniper.Terminal
     public sealed class ConsoleBuffer :
         IConsoleBuffer
     {
-        public static readonly bool IsWindows
-            = Environment.OSVersion.Platform == PlatformID.Win32NT
-#if !NETSTANDARD && !NETCOREAPP
-            || Environment.OSVersion.Platform == PlatformID.Win32S
-            || Environment.OSVersion.Platform == PlatformID.Win32Windows
-            || Environment.OSVersion.Platform == PlatformID.WinCE
-#endif
-            ;
-
-        private readonly IntPtr outputHandle;
-
         private readonly ConsoleColor startFore;
         private readonly ConsoleColor startBack;
         private ConsoleColor lastBack;
