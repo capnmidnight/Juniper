@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Numerics;
 
 namespace Juniper.Units
 {
@@ -1711,6 +1712,87 @@ namespace Juniper.Units
         }
 
         /// <summary>
+        /// Convert a value from one unit of measure to another.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <returns></returns>
+        public static Vector2 Convert(this Vector2 value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
+        {
+            if (fromUnit == toUnit)
+            {
+                return value;
+            }
+            else if (Conversions.TryGetValue(fromUnit, out var forFromUnit)
+                && Conversions[fromUnit].TryGetValue(toUnit, out var conversion))
+            {
+                return new Vector2(
+                    conversion(value.X),
+                    conversion(value.Y));
+            }
+            else
+            {
+                throw new InvalidCastException($"Cannot convert {value.ToString(CultureInfo.CurrentCulture)} in {fromUnit.ToString()} to {toUnit.ToString()}.");
+            }
+        }
+
+        /// <summary>
+        /// Convert a value from one unit of measure to another.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <returns></returns>
+        public static Vector3 Convert(this Vector3 value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
+        {
+            if (fromUnit == toUnit)
+            {
+                return value;
+            }
+            else if (Conversions.TryGetValue(fromUnit, out var forFromUnit)
+                && Conversions[fromUnit].TryGetValue(toUnit, out var conversion))
+            {
+                return new Vector3(
+                    conversion(value.X),
+                    conversion(value.Y),
+                    conversion(value.Z));
+            }
+            else
+            {
+                throw new InvalidCastException($"Cannot convert {value.ToString(CultureInfo.CurrentCulture)} in {fromUnit.ToString()} to {toUnit.ToString()}.");
+            }
+        }
+
+        /// <summary>
+        /// Convert a value from one unit of measure to another.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <returns></returns>
+        public static Vector4 Convert(this Vector4 value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
+        {
+            if (fromUnit == toUnit)
+            {
+                return value;
+            }
+            else if (Conversions.TryGetValue(fromUnit, out var forFromUnit)
+                && Conversions[fromUnit].TryGetValue(toUnit, out var conversion))
+            {
+                return new Vector4(
+                    conversion(value.X),
+                    conversion(value.Y),
+                    conversion(value.Z),
+                    conversion(value.W));
+            }
+            else
+            {
+                throw new InvalidCastException($"Cannot convert {value.ToString(CultureInfo.CurrentCulture)} in {fromUnit.ToString()} to {toUnit.ToString()}.");
+            }
+        }
+
+        /// <summary>
         /// Convert a value from one unit of measure to the analogous unit of measure in a different
         /// system of measure.
         /// </summary>
@@ -1729,10 +1811,37 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="value"></param>
         /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
         /// <returns></returns>
-        public static float Convert(this float value, UnitOfMeasure fromUnit)
+        public static Vector2 Convert(this Vector2 value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
         {
-            return value.Convert(fromUnit, SystemOfMeasure.USCustomary);
+            return value.Convert(fromUnit, FindConversion(fromUnit, toSystem));
+        }
+
+        /// <summary>
+        /// Convert a value from one unit of measure to the analogous unit of measure in a different
+        /// system of measure.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
+        /// <returns></returns>
+        public static Vector3 Convert(this Vector3 value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
+        {
+            return value.Convert(fromUnit, FindConversion(fromUnit, toSystem));
+        }
+
+        /// <summary>
+        /// Convert a value from one unit of measure to the analogous unit of measure in a different
+        /// system of measure.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
+        /// <returns></returns>
+        public static Vector4 Convert(this Vector4 value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
+        {
+            return value.Convert(fromUnit, FindConversion(fromUnit, toSystem));
         }
 
         /// <summary>
@@ -1743,6 +1852,42 @@ namespace Juniper.Units
         /// <param name="toUnit"></param>
         /// <returns></returns>
         public static float? Convert(this float? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
+        {
+            return value?.Convert(fromUnit, toUnit);
+        }
+
+        /// <summary>
+        /// Convert a value from one unit of measure to another.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <returns></returns>
+        public static Vector2? Convert(this Vector2? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
+        {
+            return value?.Convert(fromUnit, toUnit);
+        }
+
+        /// <summary>
+        /// Convert a value from one unit of measure to another.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <returns></returns>
+        public static Vector3? Convert(this Vector3? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
+        {
+            return value?.Convert(fromUnit, toUnit);
+        }
+
+        /// <summary>
+        /// Convert a value from one unit of measure to another.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <returns></returns>
+        public static Vector4? Convert(this Vector4? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
         {
             return value?.Convert(fromUnit, toUnit);
         }
@@ -1766,10 +1911,37 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="value"></param>
         /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
         /// <returns></returns>
-        public static float? Convert(this float? value, UnitOfMeasure fromUnit)
+        public static Vector2? Convert(this Vector2? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
         {
-            return value?.Convert(fromUnit);
+            return value?.Convert(fromUnit, toSystem);
+        }
+
+        /// <summary>
+        /// Convert a value from one unit of measure to the analogous unit of measure in a different
+        /// system of measure.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
+        /// <returns></returns>
+        public static Vector3? Convert(this Vector3? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
+        {
+            return value?.Convert(fromUnit, toSystem);
+        }
+
+        /// <summary>
+        /// Convert a value from one unit of measure to the analogous unit of measure in a different
+        /// system of measure.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
+        /// <returns></returns>
+        public static Vector4? Convert(this Vector4? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
+        {
+            return value?.Convert(fromUnit, toSystem);
         }
 
         /// <summary>
@@ -1805,12 +1977,87 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="value"></param>
         /// <param name="unit"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this Vector2 value, UnitOfMeasure unit, int sigfigs)
+        {
+            return value.SigFig(sigfigs) + unit.Abbreviate();
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, with no unit conversion, with its
+        /// abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="unit"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this Vector3 value, UnitOfMeasure unit, int sigfigs)
+        {
+            return value.SigFig(sigfigs) + unit.Abbreviate();
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, with no unit conversion, with its
+        /// abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="unit"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this Vector4 value, UnitOfMeasure unit, int sigfigs)
+        {
+            return value.SigFig(sigfigs) + unit.Abbreviate();
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, with no unit conversion, with its
+        /// abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="unit"></param>
         /// <returns></returns>
         public static string Label(this float value, UnitOfMeasure unit)
         {
             return (float.IsInfinity(value) || float.IsNaN(value))
                 ? value.ToString(CultureInfo.CurrentCulture)
                 : value.SigFig(DEFAULT_SIGNIFICANT_FIGURES) + unit.Abbreviate();
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, with no unit conversion, with its
+        /// abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="unit"></param>
+        /// <returns></returns>
+        public static string Label(this Vector2 value, UnitOfMeasure unit)
+        {
+            return value.SigFig(DEFAULT_SIGNIFICANT_FIGURES) + unit.Abbreviate();
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, with no unit conversion, with its
+        /// abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="unit"></param>
+        /// <returns></returns>
+        public static string Label(this Vector3 value, UnitOfMeasure unit)
+        {
+            return value.SigFig(DEFAULT_SIGNIFICANT_FIGURES) + unit.Abbreviate();
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, with no unit conversion, with its
+        /// abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="unit"></param>
+        /// <returns></returns>
+        public static string Label(this Vector4 value, UnitOfMeasure unit)
+        {
+            return value.SigFig(DEFAULT_SIGNIFICANT_FIGURES) + unit.Abbreviate();
         }
 
         /// <summary>
@@ -1823,6 +2070,54 @@ namespace Juniper.Units
         /// <param name="sigfigs"></param>
         /// <returns></returns>
         public static string Label(this float value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit, int sigfigs)
+        {
+            return value
+                .Convert(fromUnit, toUnit)
+                .Label(toUnit, sigfigs);
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted directly to a different unit
+        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this Vector2 value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit, int sigfigs)
+        {
+            return value
+                .Convert(fromUnit, toUnit)
+                .Label(toUnit, sigfigs);
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted directly to a different unit
+        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this Vector3 value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit, int sigfigs)
+        {
+            return value
+                .Convert(fromUnit, toUnit)
+                .Label(toUnit, sigfigs);
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted directly to a different unit
+        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this Vector4 value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit, int sigfigs)
         {
             return value
                 .Convert(fromUnit, toUnit)
@@ -1850,10 +2145,39 @@ namespace Juniper.Units
         /// <param name="value"></param>
         /// <param name="fromUnit"></param>
         /// <param name="toSystem"></param>
+        /// <param name="sigfigs"></param>
         /// <returns></returns>
-        public static string Label(this float value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
+        public static string Label(this Vector2 value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem, int sigfigs)
         {
-            return value.Label(fromUnit, FindConversion(fromUnit, toSystem));
+            return value.Label(fromUnit, FindConversion(fromUnit, toSystem), sigfigs);
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted to a given system of
+        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this Vector3 value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem, int sigfigs)
+        {
+            return value.Label(fromUnit, FindConversion(fromUnit, toSystem), sigfigs);
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted to a given system of
+        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this Vector4 value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem, int sigfigs)
+        {
+            return value.Label(fromUnit, FindConversion(fromUnit, toSystem), sigfigs);
         }
 
         /// <summary>
@@ -1869,6 +2193,103 @@ namespace Juniper.Units
             return value
                 .Convert(fromUnit, toUnit)
                 .Label(toUnit);
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted directly to a different unit
+        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <returns></returns>
+        public static string Label(this Vector2 value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
+        {
+            return value
+                .Convert(fromUnit, toUnit)
+                .Label(toUnit);
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted directly to a different unit
+        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <returns></returns>
+        public static string Label(this Vector3 value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
+        {
+            return value
+                .Convert(fromUnit, toUnit)
+                .Label(toUnit);
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted directly to a different unit
+        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <returns></returns>
+        public static string Label(this Vector4 value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
+        {
+            return value
+                .Convert(fromUnit, toUnit)
+                .Label(toUnit);
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted to a given system of
+        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
+        /// <returns></returns>
+        public static string Label(this float value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
+        {
+            return value.Label(fromUnit, FindConversion(fromUnit, toSystem));
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted to a given system of
+        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
+        /// <returns></returns>
+        public static string Label(this Vector2 value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
+        {
+            return value.Label(fromUnit, FindConversion(fromUnit, toSystem));
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted to a given system of
+        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
+        /// <returns></returns>
+        public static string Label(this Vector3 value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
+        {
+            return value.Label(fromUnit, FindConversion(fromUnit, toSystem));
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted to a given system of
+        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
+        /// <returns></returns>
+        public static string Label(this Vector4 value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
+        {
+            return value.Label(fromUnit, FindConversion(fromUnit, toSystem));
         }
 
         /// <summary>
@@ -1892,8 +2313,89 @@ namespace Juniper.Units
         /// <param name="value"></param>
         /// <param name="fromUnit"></param>
         /// <param name="toSystem"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this Vector2? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem, int sigfigs)
+        {
+            return value?.Label(fromUnit, toSystem, sigfigs) ?? "N/A";
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted to a given system of
+        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this Vector3? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem, int sigfigs)
+        {
+            return value?.Label(fromUnit, toSystem, sigfigs) ?? "N/A";
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted to a given system of
+        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this Vector4? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem, int sigfigs)
+        {
+            return value?.Label(fromUnit, toSystem, sigfigs) ?? "N/A";
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted to a given system of
+        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
         /// <returns></returns>
         public static string Label(this float? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
+        {
+            return value?.Label(fromUnit, toSystem) ?? "N/A";
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted to a given system of
+        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
+        /// <returns></returns>
+        public static string Label(this Vector2? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
+        {
+            return value?.Label(fromUnit, toSystem) ?? "N/A";
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted to a given system of
+        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
+        /// <returns></returns>
+        public static string Label(this Vector3? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
+        {
+            return value?.Label(fromUnit, toSystem) ?? "N/A";
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted to a given system of
+        /// measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toSystem"></param>
+        /// <returns></returns>
+        public static string Label(this Vector4? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
         {
             return value?.Label(fromUnit, toSystem) ?? "N/A";
         }
@@ -1919,8 +2421,89 @@ namespace Juniper.Units
         /// <param name="value"></param>
         /// <param name="fromUnit"></param>
         /// <param name="toUnit"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this Vector2? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit, int sigfigs)
+        {
+            return value?.Label(fromUnit, toUnit, sigfigs) ?? "N/A";
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted directly to a different unit
+        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this Vector3? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit, int sigfigs)
+        {
+            return value?.Label(fromUnit, toUnit, sigfigs) ?? "N/A";
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted directly to a different unit
+        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this Vector4? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit, int sigfigs)
+        {
+            return value?.Label(fromUnit, toUnit, sigfigs) ?? "N/A";
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted directly to a different unit
+        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
         /// <returns></returns>
         public static string Label(this float? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
+        {
+            return value?.Label(fromUnit, toUnit) ?? "N/A";
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted directly to a different unit
+        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <returns></returns>
+        public static string Label(this Vector2? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
+        {
+            return value?.Label(fromUnit, toUnit) ?? "N/A";
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted directly to a different unit
+        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <returns></returns>
+        public static string Label(this Vector3? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
+        {
+            return value?.Label(fromUnit, toUnit) ?? "N/A";
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, converted directly to a different unit
+        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <returns></returns>
+        public static string Label(this Vector4? value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit)
         {
             return value?.Label(fromUnit, toUnit) ?? "N/A";
         }
@@ -1944,8 +2527,83 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="value"></param>
         /// <param name="unit"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this Vector2? value, UnitOfMeasure unit, int sigfigs)
+        {
+            return value?.Label(unit, sigfigs) ?? "N/A";
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, with no unit conversion, with its
+        /// abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="unit"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this Vector3? value, UnitOfMeasure unit, int sigfigs)
+        {
+            return value?.Label(unit, sigfigs) ?? "N/A";
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, with no unit conversion, with its
+        /// abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="unit"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this Vector4? value, UnitOfMeasure unit, int sigfigs)
+        {
+            return value?.Label(unit, sigfigs) ?? "N/A";
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, with no unit conversion, with its
+        /// abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="unit"></param>
         /// <returns></returns>
         public static string Label(this float? value, UnitOfMeasure unit)
+        {
+            return value?.Label(unit) ?? "N/A";
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, with no unit conversion, with its
+        /// abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="unit"></param>
+        /// <returns></returns>
+        public static string Label(this Vector2? value, UnitOfMeasure unit)
+        {
+            return value?.Label(unit) ?? "N/A";
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, with no unit conversion, with its
+        /// abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="unit"></param>
+        /// <returns></returns>
+        public static string Label(this Vector3? value, UnitOfMeasure unit)
+        {
+            return value?.Label(unit) ?? "N/A";
+        }
+
+        /// <summary>
+        /// Convert a source value of a given unit of measure, with no unit conversion, with its
+        /// abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="unit"></param>
+        /// <returns></returns>
+        public static string Label(this Vector4? value, UnitOfMeasure unit)
         {
             return value?.Label(unit) ?? "N/A";
         }

@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Numerics;
 using System.Text;
 
 using static System.Math;
@@ -10,36 +11,27 @@ namespace System
     /// </summary>
     public static class NumberExt
     {
-        /// <summary>
-        /// Print a number to a string with the proper number of significant digits (not just number
-        /// of digits after the decimal). In other words, `2345` printed to 3 significant digits will
-        /// print as `2350`.
-        /// </summary>
-        /// <param name="value">The number to format.</param>
-        /// <param name="numDigits">The number of significant digits to print.</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentOutOfRangeException">When numDigits is less than 1.</exception>
-        public static string SigFig(this float value, int numDigits)
+        private static void AppendSigFig(float value, int numDigits, StringBuilder output)
         {
             if (numDigits < 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(numDigits), "Must specify at least 1 significant digit.");
             }
-            else if (value == 0)
+
+            if (value == 0)
             {
-                return "0";
+                output.Append("0");
             }
             else if (float.IsPositiveInfinity(value))
             {
-                return "∞";
+                output.Append("∞");
             }
             else if (float.IsNegativeInfinity(value))
             {
-                return "-∞";
+                output.Append("-∞");
             }
             else
             {
-                var output = new StringBuilder();
                 if (value < 0)
                 {
                     output.Append('-');
@@ -78,9 +70,89 @@ namespace System
                         output.Append('0');
                     }
                 }
-
-                return output.ToString();
             }
+        }
+
+        /// <summary>
+        /// Print a number to a string with the proper number of significant digits (not just number
+        /// of digits after the decimal). In other words, `2345` printed to 3 significant digits will
+        /// print as `2350`.
+        /// </summary>
+        /// <param name="value">The number to format.</param>
+        /// <param name="numDigits">The number of significant digits to print.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">When numDigits is less than 1.</exception>
+        public static string SigFig(this float value, int numDigits)
+        {
+            var output = new StringBuilder();
+            AppendSigFig(value, numDigits, output);
+            return output.ToString();
+        }
+
+        /// <summary>
+        /// Print a number to a string with the proper number of significant digits (not just number
+        /// of digits after the decimal). In other words, `2345` printed to 3 significant digits will
+        /// print as `2350`.
+        /// </summary>
+        /// <param name="value">The number to format.</param>
+        /// <param name="numDigits">The number of significant digits to print.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">When numDigits is less than 1.</exception>
+        public static string SigFig(this Vector2 value, int numDigits)
+        {
+            var output = new StringBuilder();
+            output.Append("(");
+            AppendSigFig(value.X, numDigits, output);
+            output.Append(", ");
+            AppendSigFig(value.Y, numDigits, output);
+            output.Append(")");
+            return output.ToString();
+        }
+
+        /// <summary>
+        /// Print a number to a string with the proper number of significant digits (not just number
+        /// of digits after the decimal). In other words, `2345` printed to 3 significant digits will
+        /// print as `2350`.
+        /// </summary>
+        /// <param name="value">The number to format.</param>
+        /// <param name="numDigits">The number of significant digits to print.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">When numDigits is less than 1.</exception>
+        public static string SigFig(this Vector3 value, int numDigits)
+        {
+            var output = new StringBuilder();
+            output.Append("(");
+            AppendSigFig(value.X, numDigits, output);
+            output.Append(", ");
+            AppendSigFig(value.Y, numDigits, output);
+            output.Append(", ");
+            AppendSigFig(value.Z, numDigits, output);
+            output.Append(")");
+            return output.ToString();
+        }
+
+        /// <summary>
+        /// Print a number to a string with the proper number of significant digits (not just number
+        /// of digits after the decimal). In other words, `2345` printed to 3 significant digits will
+        /// print as `2350`.
+        /// </summary>
+        /// <param name="value">The number to format.</param>
+        /// <param name="numDigits">The number of significant digits to print.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">When numDigits is less than 1.</exception>
+        public static string SigFig(this Vector4 value, int numDigits)
+        {
+            var output = new StringBuilder();
+            output.Append("(");
+            AppendSigFig(value.X, numDigits, output);
+            output.Append(", ");
+            AppendSigFig(value.Y, numDigits, output);
+            output.Append(", ");
+            AppendSigFig(value.Z, numDigits, output);
+            output.Append(", ");
+            AppendSigFig(value.W, numDigits, output);
+            output.Append(")");
+            return output.ToString();
         }
 
         /// <summary>
@@ -93,6 +165,48 @@ namespace System
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException">When numDigits is less than 1.</exception>
         public static string SigFig(this float? value, int numDigits)
+        {
+            return value?.SigFig(numDigits);
+        }
+
+        /// <summary>
+        /// Print a nullable number to a string with the proper number of significant digits (not just
+        /// number of digits after the decimal). In other words, `2345` printed to 3 significant digits
+        /// will print as `2350`.
+        /// </summary>
+        /// <param name="value">The number to format.</param>
+        /// <param name="numDigits">The number of significant digits to print.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">When numDigits is less than 1.</exception>
+        public static string SigFig(this Vector2? value, int numDigits)
+        {
+            return value?.SigFig(numDigits);
+        }
+
+        /// <summary>
+        /// Print a nullable number to a string with the proper number of significant digits (not just
+        /// number of digits after the decimal). In other words, `2345` printed to 3 significant digits
+        /// will print as `2350`.
+        /// </summary>
+        /// <param name="value">The number to format.</param>
+        /// <param name="numDigits">The number of significant digits to print.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">When numDigits is less than 1.</exception>
+        public static string SigFig(this Vector3? value, int numDigits)
+        {
+            return value?.SigFig(numDigits);
+        }
+
+        /// <summary>
+        /// Print a nullable number to a string with the proper number of significant digits (not just
+        /// number of digits after the decimal). In other words, `2345` printed to 3 significant digits
+        /// will print as `2350`.
+        /// </summary>
+        /// <param name="value">The number to format.</param>
+        /// <param name="numDigits">The number of significant digits to print.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException">When numDigits is less than 1.</exception>
+        public static string SigFig(this Vector4? value, int numDigits)
         {
             return value?.SigFig(numDigits);
         }
