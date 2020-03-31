@@ -14,9 +14,8 @@ ANY KIND, either express or implied. See the License for the specific language g
 permissions and limitations under the License.
 ************************************************************************************/
 
+using System;
 using System.Numerics;
-
-using Juniper.Mathematics;
 
 namespace Oculus.VR
 {
@@ -34,6 +33,7 @@ namespace Oculus.VR
 
         public static Tracker.Frustum ToFrustum(this Plugin.Frustumf f)
         {
+            const float RAD2DEG = (float)(180 / Math.PI);
             return new Tracker.Frustum()
             {
                 nearZ = f.zNear,
@@ -41,8 +41,8 @@ namespace Oculus.VR
 
                 fov = new Vector2()
                 {
-                    X = Juniper.Units.Radians.Degrees(f.fovX),
-                    Y = Juniper.Units.Radians.Degrees(f.fovY)
+                    X = f.fovX * RAD2DEG,
+                    Y = f.fovY * RAD2DEG
                 }
             };
         }

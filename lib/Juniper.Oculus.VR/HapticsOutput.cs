@@ -77,6 +77,8 @@ namespace Oculus.VR
                 }
             }
 
+            private const float SECONDS_PER_TICK = 1f / TimeSpan.TicksPerSecond;
+
             /// <summary>
             /// The system calls this each frame to update haptics playback.
             /// </summary>
@@ -84,7 +86,7 @@ namespace Oculus.VR
             {
                 var hapticsState = Plugin.GetControllerHapticsState(m_controller);
 
-                var elapsedTime = Juniper.Units.Ticks.Seconds(DateTime.Now.Ticks) - m_prevSamplesQueuedTime;
+                var elapsedTime = DateTime.Now.Ticks * SECONDS_PER_TICK - m_prevSamplesQueuedTime;
                 if (m_prevSamplesQueued > 0)
                 {
                     var expectedSamples = m_prevSamplesQueued - (int)(elapsedTime * HapticsConfig.SampleRateHz + 0.5f);
@@ -114,7 +116,7 @@ namespace Oculus.VR
                     }
 
                     m_prevSamplesQueued = hapticsState.SamplesQueued;
-                    m_prevSamplesQueuedTime = Juniper.Units.Ticks.Seconds(DateTime.Now.Ticks);
+                    m_prevSamplesQueuedTime = DateTime.Now.Ticks * SECONDS_PER_TICK;
                 }
 
                 var desiredSamplesCount = HapticsConfig.OptimalBufferSamplesCount;
@@ -213,7 +215,7 @@ namespace Oculus.VR
 
                     hapticsState = Plugin.GetControllerHapticsState(m_controller);
                     m_prevSamplesQueued = hapticsState.SamplesQueued;
-                    m_prevSamplesQueuedTime = Juniper.Units.Ticks.Seconds(DateTime.Now.Ticks);
+                    m_prevSamplesQueuedTime = DateTime.Now.Ticks * SECONDS_PER_TICK;
                 }
             }
 

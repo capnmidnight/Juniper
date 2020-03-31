@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Juniper.Root\Juniper.Root.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="libOVRPlugin.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

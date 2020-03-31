@@ -574,7 +574,7 @@ namespace Oculus.VR
         /// </summary>
         public static void SetColorScaleAndOffset(Vector4 colorScale, Vector4 colorOffset, bool applyToAllLayers)
         {
-            Plugin.SetColorScaleAndOffset(colorScale, colorOffset, applyToAllLayers);
+            Plugin.SetColorScaleAndOffset(colorScale.ToVector4f(), colorOffset.ToVector4f(), applyToAllLayers);
         }
 
         private static Manager.TrackingOrigin _trackingOriginType = Manager.TrackingOrigin.EyeLevel;

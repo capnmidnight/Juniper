@@ -18,8 +18,6 @@ using System;
 using System.Numerics;
 using System.Text.RegularExpressions;
 
-using Juniper.Mathematics;
-
 namespace Oculus.VR
 {
     /// <summary>

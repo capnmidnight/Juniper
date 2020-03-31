@@ -14,38 +14,51 @@ ANY KIND, either express or implied. See the License for the specific language g
 permissions and limitations under the License.
 ************************************************************************************/
 
+using System;
+using System.Numerics;
+
 namespace Oculus.VR
 {
-    /// <summary>
-    /// An affine transformation built from a Unity position and orientation.
-    /// </summary>
-    public static class PoseExt
+    public struct Pose : IEquatable<Pose>
     {
-        // Warning: this function is not a strict reverse of OVRPlugin.Posef.ToOVRPose(), even after flipZ()
-        public static Plugin.Posef ToPosef_Legacy(this Juniper.Mathematics.Pose p)
+        public static Pose Identity { get; } = new Pose(Vector3.Zero, Quaternion.Identity);
+
+        public Quaternion Orientation;
+        public Vector3 Position;
+
+        public Pose(Vector3 position, Quaternion orientation)
         {
-            return new Plugin.Posef()
-            {
-                Position = p.Position.ToVector3f(),
-                Orientation = p.Orientation.ToQuatf()
-            };
+            Orientation = orientation;
+            Position = position;
         }
 
-        public static Plugin.Posef ToPosef(this Juniper.Mathematics.Pose pose)
+        public override bool Equals(object obj)
         {
-            var result = new Plugin.Posef();
+            return obj is Pose pose && Equals(pose);
+        }
 
-            var p = pose.Position;
-            result.Position.x = p.X;
-            result.Position.y = p.Y;
-            result.Position.z = -p.Z;
+        public bool Equals(Pose other)
+        {
+            return Orientation.Equals(other.Orientation) &&
+                   Position.Equals(other.Position);
+        }
 
-            var q = pose.Orientation;
-            result.Orientation.x = -q.X;
-            result.Orientation.y = -q.Y;
-            result.Orientation.z = q.Z;
-            result.Orientation.w = q.W;
-            return result;
+        public override int GetHashCode()
+        {
+            var hashCode = 1543317779;
+            hashCode = hashCode * -1521134295 + Orientation.GetHashCode();
+            hashCode = hashCode * -1521134295 + Position.GetHashCode();
+            return hashCode;
+        }
+
+        public static bool operator ==(Pose left, Pose right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Pose left, Pose right)
+        {
+            return !(left == right);
         }
     }
 }

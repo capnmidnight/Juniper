@@ -18,8 +18,6 @@ using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
 
-using Juniper.Mathematics;
-
 namespace Oculus.VR
 {
     // Internal C# wrapper for OVRPlugin.
@@ -435,7 +433,17 @@ namespace Oculus.VR
             public float y;
             public float z;
             public float w;
+
             public static readonly Vector4f zero = new Vector4f { x = 0.0f, y = 0.0f, z = 0.0f, w = 0.0f };
+
+            public Vector4f(float x, float y, float z, float w)
+            {
+                this.x = x;
+                this.y = y;
+                this.z = z;
+                this.w = w;
+            }
+
             public override string ToString()
             {
                 return string.Format("{0}, {1}, {2}, {3}", x, y, z, w);
@@ -483,13 +491,30 @@ namespace Oculus.VR
         }
 
         [StructLayout(LayoutKind.Sequential)]
+        public struct Rect
+        {
+            public float X;
+            public float Y;
+            public float Width;
+            public float Height;
+
+            public Rect(float x, float y, float width, float height)
+            {
+                X = x;
+                Y = y;
+                Width = width;
+                Height = height;
+            }
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
         public struct TextureRectMatrixf
         {
             public Rect leftRect;
             public Rect rightRect;
-            public Vector4 leftScaleBias;
-            public Vector4 rightScaleBias;
-            public static readonly TextureRectMatrixf zero = new TextureRectMatrixf { leftRect = new Rect(0, 0, 1, 1), rightRect = new Rect(0, 0, 1, 1), leftScaleBias = new Vector4(1, 1, 0, 0), rightScaleBias = new Vector4(1, 1, 0, 0) };
+            public Vector4f leftScaleBias;
+            public Vector4f rightScaleBias;
+            public static readonly TextureRectMatrixf zero = new TextureRectMatrixf { leftRect = new Rect(0, 0, 1, 1), rightRect = new Rect(0, 0, 1, 1), leftScaleBias = new Vector4f(1, 1, 0, 0), rightScaleBias = new Vector4f(1, 1, 0, 0) };
 
             public override string ToString()
             {
@@ -1514,7 +1539,7 @@ namespace Oculus.VR
         }
 
         public static bool EnqueueSubmitLayer(bool onTop, bool headLocked, bool noDepthBufferTesting, IntPtr leftTexture, IntPtr rightTexture, int layerId, int frameIndex, Posef pose, Vector3f scale, int layerIndex = 0, OverlayShape shape = OverlayShape.Quad,
-                                            bool overrideTextureRectMatrix = false, TextureRectMatrixf textureRectMatrix = default(TextureRectMatrixf), bool overridePerLayerColorScaleAndOffset = false, Vector4 colorScale = default(Vector4), Vector4 colorOffset = default(Vector4),
+                                            bool overrideTextureRectMatrix = false, TextureRectMatrixf textureRectMatrix = default(TextureRectMatrixf), bool overridePerLayerColorScaleAndOffset = false, Vector4f colorScale = default(Vector4f), Vector4f colorOffset = default(Vector4f),
                                             bool expensiveSuperSample = false, bool hidden = false)
         {
             if (!initialized)
@@ -2864,7 +2889,7 @@ namespace Oculus.VR
             }
         }
 
-        public static bool SetColorScaleAndOffset(Vector4 colorScale, Vector4 colorOffset, bool applyToAllLayers)
+        public static bool SetColorScaleAndOffset(Vector4f colorScale, Vector4f colorOffset, bool applyToAllLayers)
         {
             if (version >= OVRP_1_31_0.version)
             {
@@ -3586,7 +3611,7 @@ namespace Oculus.VR
             public static extern Result ovrp_GetTimeInSeconds(out double value);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_SetColorScaleAndOffset(Vector4 colorScale, Vector4 colorOffset, Bool applyToAllLayers);
+            public static extern Result ovrp_SetColorScaleAndOffset(Vector4f colorScale, Vector4f colorOffset, Bool applyToAllLayers);
         }
 
         private static class OVRP_1_32_0
@@ -3603,7 +3628,7 @@ namespace Oculus.VR
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Result ovrp_EnqueueSubmitLayer2(uint flags, IntPtr textureLeft, IntPtr textureRight, int layerId, int frameIndex, ref Posef pose, ref Vector3f scale, int layerIndex,
-            Bool overrideTextureRectMatrix, ref TextureRectMatrixf textureRectMatrix, Bool overridePerLayerColorScaleAndOffset, ref Vector4 colorScale, ref Vector4 colorOffset);
+            Bool overrideTextureRectMatrix, ref TextureRectMatrixf textureRectMatrix, Bool overridePerLayerColorScaleAndOffset, ref Vector4f colorScale, ref Vector4f colorOffset);
         }
 
         private static class OVRP_1_38_0
