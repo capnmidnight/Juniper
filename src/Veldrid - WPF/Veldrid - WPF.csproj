@@ -8,7 +8,7 @@
     <AssemblyName>Juniper.Testing.Veldrid.WPF</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>netcoreapp3.1;net48</TargetFrameworks>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <StartupObject>Juniper.App</StartupObject>
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
