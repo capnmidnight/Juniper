@@ -14,10 +14,7 @@
   <Import Project="..\..\Juniper.targets" />
 
   <ItemGroup>
-    <PackageReference Include="Veldrid" Version="4.7.0" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\lib\veldrid\src\Veldrid\Veldrid.csproj" />
     <ProjectReference Include="..\Juniper.Veldrid\Juniper.Veldrid.csproj" />
   </ItemGroup>
 

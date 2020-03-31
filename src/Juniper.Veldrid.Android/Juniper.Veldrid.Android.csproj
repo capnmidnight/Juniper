@@ -57,9 +57,6 @@
     <None Include="..\..\.editorconfig" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Veldrid">
-      <Version>4.7.0</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="28.0.0.3" />
   </ItemGroup>
   <ItemGroup>
@@ -69,6 +66,10 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\lib\veldrid\src\Veldrid\Veldrid.csproj">
+      <Project>{5ed86ad3-8ebb-4423-8c4b-cabc2e8507a7}</Project>
+      <Name>Veldrid</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Juniper.Veldrid\Juniper.Veldrid.csproj">
       <Project>{5dce283d-9326-4d20-be88-219e55a7c85e}</Project>
       <Name>Juniper.Veldrid</Name>

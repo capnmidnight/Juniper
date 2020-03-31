@@ -1,0 +1,4 @@
+[submodule "lib/veldrid"]
+	path = lib/veldrid
+	url = https://github.com/capnmidnight/veldrid.git
+	branch = master

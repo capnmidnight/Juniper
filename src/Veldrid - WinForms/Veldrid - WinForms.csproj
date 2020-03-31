@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\lib\veldrid\src\Veldrid\Veldrid.csproj" />
     <ProjectReference Include="..\Juniper.Windows\Juniper.Windows.csproj" />
     <ProjectReference Include="..\Juniper.Veldrid\Juniper.Veldrid.csproj" />
     <ProjectReference Include="..\Veldrid - Class Library\Veldrid - Class Library.csproj" />

@@ -58,11 +58,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Veldrid" Version="4.7.0" />
     <PackageReference Include="Veldrid.SPIRV" Version="1.0.13" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\lib\veldrid\src\Veldrid\Veldrid.csproj" />
     <ProjectReference Include="..\Juniper.Veldrid\Juniper.Veldrid.csproj" />
   </ItemGroup>
 

@@ -90,10 +90,14 @@
     <Folder Include="Resources\mipmap-xxxhdpi\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Veldrid" Version="4.7.0" />
-    <PackageReference Include="Veldrid.SPIRV" Version="1.0.13" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\..\lib\veldrid\src\Veldrid.Utilities\Veldrid.Utilities.csproj">
+      <Project>{2812e771-6908-4e99-af3a-77dd95b4807b}</Project>
+      <Name>Veldrid.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\lib\veldrid\src\Veldrid\Veldrid.csproj">
+      <Project>{5ed86ad3-8ebb-4423-8c4b-cabc2e8507a7}</Project>
+      <Name>Veldrid</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj">
       <Project>{9DF2B191-6D22-4925-8C5F-612418F86EC8}</Project>
       <Name>Juniper.Root</Name>
