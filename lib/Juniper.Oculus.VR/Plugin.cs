@@ -57,12 +57,6 @@ namespace Oculus.VR
                         _version = _versionZero;
                     }
 
-                    // Unity 5.1.1f3-p3 have OVRPlugin version "0.5.0", which isn't accurate.
-                    if (_version == OVRP_0_5_0.version)
-                    {
-                        _version = OVRP_0_1_0.version;
-                    }
-
                     if (_version > _versionZero && _version < OVRP_1_3_0.version)
                     {
                         throw new PlatformNotSupportedException("Oculus Utilities version " + wrapperVersion + " is too new for OVRPlugin version " + _version.ToString() + ". Update to the latest version of Unity.");
@@ -130,6 +124,7 @@ namespace Oculus.VR
             public byte d7;
         }
 
+        #region Interop Types
         public enum Bool
         {
             False = 0,
@@ -1124,7 +1119,9 @@ namespace Oculus.VR
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)MeshConstants.MaxVertices)]
             public Vector4f[] BlendWeights;
         }
+        #endregion
 
+        #region Public API
         public static bool initialized => OVRP_1_1_0.ovrp_GetInitialized() == Plugin.Bool.True;
 
         public static bool chromatic
@@ -3073,30 +3070,26 @@ namespace Oculus.VR
                 return false;
             }
         }
+        #endregion
 
+        #region Internal API
         private const string pluginName = "OVRPlugin";
         private static readonly System.Version _versionZero = new System.Version(0, 0, 0);
 
         private static class OVRP_0_1_0
         {
-            public static readonly System.Version version = new System.Version(0, 1, 0);
-
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Sizei ovrp_GetEyeTextureSize(Eye eyeId);
         }
 
         private static class OVRP_0_1_1
         {
-            public static readonly System.Version version = new System.Version(0, 1, 1);
-
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Bool ovrp_SetOverlayQuad2(Bool onTop, Bool headLocked, IntPtr texture, IntPtr device, Posef pose, Vector3f scale);
         }
 
         private static class OVRP_0_1_2
         {
-            public static readonly System.Version version = new System.Version(0, 1, 2);
-
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Posef ovrp_GetNodePose(Node nodeId);
 
@@ -3115,15 +3108,8 @@ namespace Oculus.VR
             public static extern Posef ovrp_GetNodeAcceleration(Node nodeId);
         }
 
-        private static class OVRP_0_5_0
-        {
-            public static readonly System.Version version = new System.Version(0, 5, 0);
-        }
-
         private static class OVRP_1_0_0
         {
-            public static readonly System.Version version = new System.Version(1, 0, 0);
-
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern TrackingOrigin ovrp_GetTrackingOriginType();
 
@@ -3139,7 +3125,7 @@ namespace Oculus.VR
 
         private static class OVRP_1_1_0
         {
-            public static readonly System.Version version = new System.Version(1, 1, 0);
+            public static System.Version version { get; } = new System.Version(1, 1, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Bool ovrp_GetInitialized();
@@ -3157,15 +3143,6 @@ namespace Oculus.VR
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern IntPtr ovrp_GetAudioInId();
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern float ovrp_GetEyeTextureScale();
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Bool ovrp_SetEyeTextureScale(float value);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Bool ovrp_GetTrackingOrientationSupported();
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Bool ovrp_GetTrackingOrientationEnabled();
@@ -3280,8 +3257,6 @@ namespace Oculus.VR
 
         private static class OVRP_1_2_0
         {
-            public static readonly System.Version version = new System.Version(1, 2, 0);
-
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Bool ovrp_SetSystemVSyncCount(int vsyncCount);
 
@@ -3291,7 +3266,7 @@ namespace Oculus.VR
 
         private static class OVRP_1_3_0
         {
-            public static readonly System.Version version = new System.Version(1, 3, 0);
+            public static System.Version version { get; } = new System.Version(1, 3, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Bool ovrp_GetEyeOcclusionMeshEnabled();
@@ -3305,7 +3280,7 @@ namespace Oculus.VR
 
         private static class OVRP_1_5_0
         {
-            public static readonly System.Version version = new System.Version(1, 5, 0);
+            public static System.Version version { get; } = new System.Version(1, 5, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern SystemRegion ovrp_GetSystemRegion();
@@ -3313,7 +3288,7 @@ namespace Oculus.VR
 
         private static class OVRP_1_6_0
         {
-            public static readonly System.Version version = new System.Version(1, 6, 0);
+            public static System.Version version { get; } = new System.Version(1, 6, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Bool ovrp_GetTrackingIPDEnabled();
@@ -3345,7 +3320,7 @@ namespace Oculus.VR
 
         private static class OVRP_1_7_0
         {
-            public static readonly System.Version version = new System.Version(1, 7, 0);
+            public static System.Version version { get; } = new System.Version(1, 7, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Bool ovrp_GetAppChromaticCorrection();
@@ -3356,7 +3331,7 @@ namespace Oculus.VR
 
         private static class OVRP_1_8_0
         {
-            public static readonly System.Version version = new System.Version(1, 8, 0);
+            public static System.Version version { get; } = new System.Version(1, 8, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Bool ovrp_GetBoundaryConfigured();
@@ -3394,7 +3369,7 @@ namespace Oculus.VR
 
         private static class OVRP_1_9_0
         {
-            public static readonly System.Version version = new System.Version(1, 9, 0);
+            public static System.Version version { get; } = new System.Version(1, 9, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern SystemHeadset ovrp_GetSystemHeadsetType();
@@ -3417,12 +3392,12 @@ namespace Oculus.VR
 
         private static class OVRP_1_10_0
         {
-            public static readonly System.Version version = new System.Version(1, 10, 0);
+            public static System.Version version { get; } = new System.Version(1, 10, 0);
         }
 
         private static class OVRP_1_11_0
         {
-            public static readonly System.Version version = new System.Version(1, 11, 0);
+            public static System.Version version { get; } = new System.Version(1, 11, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Bool ovrp_SetDesiredEyeTextureFormat(EyeTextureFormat value);
@@ -3433,7 +3408,7 @@ namespace Oculus.VR
 
         private static class OVRP_1_12_0
         {
-            public static readonly System.Version version = new System.Version(1, 12, 0);
+            public static System.Version version { get; } = new System.Version(1, 12, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern float ovrp_GetAppFramerate();
@@ -3447,27 +3422,15 @@ namespace Oculus.VR
 
         private static class OVRP_1_15_0
         {
-            public static readonly System.Version version = new System.Version(1, 15, 0);
+            public static System.Version version { get; } = new System.Version(1, 15, 0);
 
             public const int OVRP_EXTERNAL_CAMERA_NAME_SIZE = 32;
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_InitializeMixedReality();
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_ShutdownMixedReality();
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Bool ovrp_GetMixedRealityInitialized();
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Result ovrp_UpdateExternalCamera();
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Result ovrp_GetExternalCameraCount(out int cameraCount);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_GetExternalCameraName(int cameraId, [MarshalAs(UnmanagedType.LPArray, SizeConst = OVRP_EXTERNAL_CAMERA_NAME_SIZE)] char[] cameraName);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Result ovrp_GetExternalCameraIntrinsics(int cameraId, out CameraIntrinsics cameraIntrinsics);
@@ -3503,83 +3466,15 @@ namespace Oculus.VR
 
         private static class OVRP_1_16_0
         {
-            public static readonly System.Version version = new System.Version(1, 16, 0);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_UpdateCameraDevices();
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Bool ovrp_IsCameraDeviceAvailable(CameraDevice cameraDevice);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_SetCameraDevicePreferredColorFrameSize(CameraDevice cameraDevice, Sizei preferredColorFrameSize);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_OpenCameraDevice(CameraDevice cameraDevice);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_CloseCameraDevice(CameraDevice cameraDevice);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Bool ovrp_HasCameraDeviceOpened(CameraDevice cameraDevice);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Bool ovrp_IsCameraDeviceColorFrameAvailable(CameraDevice cameraDevice);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_GetCameraDeviceColorFrameSize(CameraDevice cameraDevice, out Sizei colorFrameSize);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_GetCameraDeviceColorFrameBgraPixels(CameraDevice cameraDevice, out IntPtr colorFrameBgraPixels, out int colorFrameRowPitch);
+            public static System.Version version { get; } = new System.Version(1, 16, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Result ovrp_GetControllerState4(uint controllerMask, ref ControllerState4 controllerState);
         }
 
-        private static class OVRP_1_17_0
-        {
-            public static readonly System.Version version = new System.Version(1, 17, 0);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_GetExternalCameraPose(CameraDevice camera, out Posef cameraPose);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_ConvertPoseToCameraSpace(CameraDevice camera, ref Posef trackingSpacePose, out Posef cameraSpacePose);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_GetCameraDeviceIntrinsicsParameters(CameraDevice camera, out Bool supportIntrinsics, out CameraDeviceIntrinsicsParameters intrinsicsParameters);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_DoesCameraDeviceSupportDepth(CameraDevice camera, out Bool supportDepth);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_GetCameraDeviceDepthSensingMode(CameraDevice camera, out CameraDeviceDepthSensingMode depthSensoringMode);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_SetCameraDeviceDepthSensingMode(CameraDevice camera, CameraDeviceDepthSensingMode depthSensoringMode);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_GetCameraDevicePreferredDepthQuality(CameraDevice camera, out CameraDeviceDepthQuality depthQuality);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_SetCameraDevicePreferredDepthQuality(CameraDevice camera, CameraDeviceDepthQuality depthQuality);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_IsCameraDeviceDepthFrameAvailable(CameraDevice camera, out Bool available);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_GetCameraDeviceDepthFrameSize(CameraDevice camera, out Sizei depthFrameSize);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_GetCameraDeviceDepthFramePixels(CameraDevice cameraDevice, out IntPtr depthFramePixels, out int depthFrameRowPitch);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_GetCameraDeviceDepthConfidencePixels(CameraDevice cameraDevice, out IntPtr depthConfidencePixels, out int depthConfidenceRowPitch);
-        }
-
         private static class OVRP_1_18_0
         {
-            public static readonly System.Version version = new System.Version(1, 18, 0);
+            public static System.Version version { get; } = new System.Version(1, 18, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Result ovrp_SetHandNodePoseStateLatency(double latencyInSeconds);
@@ -3591,14 +3486,9 @@ namespace Oculus.VR
             public static extern Result ovrp_GetAppHasInputFocus(out Bool appHasInputFocus);
         }
 
-        private static class OVRP_1_19_0
-        {
-            public static readonly System.Version version = new System.Version(1, 19, 0);
-        }
-
         private static class OVRP_1_21_0
         {
-            public static readonly System.Version version = new System.Version(1, 21, 0);
+            public static System.Version version { get; } = new System.Version(1, 21, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Result ovrp_GetTiledMultiResSupported(out Bool foveationSupported);
@@ -3630,7 +3520,7 @@ namespace Oculus.VR
 
         private static class OVRP_1_28_0
         {
-            public static readonly System.Version version = new System.Version(1, 28, 0);
+            public static System.Version version { get; } = new System.Version(1, 28, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Result ovrp_GetDominantHand(out Handedness dominantHand);
@@ -3650,7 +3540,7 @@ namespace Oculus.VR
 
         private static class OVRP_1_29_0
         {
-            public static readonly System.Version version = new System.Version(1, 29, 0);
+            public static System.Version version { get; } = new System.Version(1, 29, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Result ovrp_GetLayerAndroidSurfaceObject(int layerId, ref IntPtr surfaceObject);
@@ -3667,7 +3557,7 @@ namespace Oculus.VR
 
         private static class OVRP_1_30_0
         {
-            public static readonly System.Version version = new System.Version(1, 30, 0);
+            public static System.Version version { get; } = new System.Version(1, 30, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Result ovrp_GetCurrentTrackingTransformPose(out Posef trackingTransformPose);
@@ -3690,7 +3580,7 @@ namespace Oculus.VR
 
         private static class OVRP_1_31_0
         {
-            public static readonly System.Version version = new System.Version(1, 31, 0);
+            public static System.Version version { get; } = new System.Version(1, 31, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Result ovrp_GetTimeInSeconds(out double value);
@@ -3701,7 +3591,7 @@ namespace Oculus.VR
 
         private static class OVRP_1_32_0
         {
-            public static readonly System.Version version = new System.Version(1, 32, 0);
+            public static System.Version version { get; } = new System.Version(1, 32, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Result ovrp_AddCustomMetadata(string name, string param);
@@ -3709,38 +3599,19 @@ namespace Oculus.VR
 
         private static class OVRP_1_34_0
         {
-            public static readonly System.Version version = new System.Version(1, 34, 0);
+            public static System.Version version { get; } = new System.Version(1, 34, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Result ovrp_EnqueueSubmitLayer2(uint flags, IntPtr textureLeft, IntPtr textureRight, int layerId, int frameIndex, ref Posef pose, ref Vector3f scale, int layerIndex,
             Bool overrideTextureRectMatrix, ref TextureRectMatrixf textureRectMatrix, Bool overridePerLayerColorScaleAndOffset, ref Vector4 colorScale, ref Vector4 colorOffset);
-
-        }
-
-        private static class OVRP_1_35_0
-        {
-            public static readonly System.Version version = new System.Version(1, 35, 0);
-        }
-
-        private static class OVRP_1_36_0
-        {
-            public static readonly System.Version version = new System.Version(1, 36, 0);
-        }
-
-        private static class OVRP_1_37_0
-        {
-            public static readonly System.Version version = new System.Version(1, 37, 0);
         }
 
         private static class OVRP_1_38_0
         {
-            public static readonly System.Version version = new System.Version(1, 38, 0);
+            public static System.Version version { get; } = new System.Version(1, 38, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Result ovrp_GetTrackingTransformRelativePose(ref Posef trackingTransformRelativePose, TrackingOrigin trackingOrigin);
-
-            [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
-            public static extern Result ovrp_GetExternalCameraCalibrationRawPose(int cameraId, out Posef rawPose);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Result ovrp_SetDeveloperMode(Bool active);
@@ -3753,37 +3624,17 @@ namespace Oculus.VR
             public static extern Result ovrp_GetNodePositionValid(Node nodeId, ref Bool nodePositionValid);
         }
 
-        private static class OVRP_1_39_0
-        {
-            public static readonly System.Version version = new System.Version(1, 39, 0);
-        }
-
-        private static class OVRP_1_40_0
-        {
-            public static readonly System.Version version = new System.Version(1, 40, 0);
-        }
-
-        private static class OVRP_1_41_0
-        {
-            public static readonly System.Version version = new System.Version(1, 41, 0);
-        }
-
         private static class OVRP_1_42_0
         {
-            public static readonly System.Version version = new System.Version(1, 42, 0);
+            public static System.Version version { get; } = new System.Version(1, 42, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Result ovrp_GetAdaptiveGpuPerformanceScale2(ref float adaptiveGpuPerformanceScale);
         }
 
-        private static class OVRP_1_43_0
-        {
-            public static readonly System.Version version = new System.Version(1, 43, 0);
-        }
-
         private static class OVRP_1_44_0
         {
-            public static readonly System.Version version = new System.Version(1, 44, 0);
+            public static System.Version version { get; } = new System.Version(1, 44, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Result ovrp_GetHandTrackingEnabled(ref Bool handTrackingEnabled);
@@ -3819,10 +3670,11 @@ namespace Oculus.VR
 
         private static class OVRP_1_45_0
         {
-            public static readonly System.Version version = new System.Version(1, 45, 0);
+            public static System.Version version { get; } = new System.Version(1, 45, 0);
 
             [DllImport(pluginName, CallingConvention = CallingConvention.Cdecl)]
             public static extern Result ovrp_GetSystemHmd3DofModeEnabled(ref Bool enabled);
         }
+        #endregion
     }
 }
