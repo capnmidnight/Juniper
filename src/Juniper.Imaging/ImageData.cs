@@ -32,23 +32,23 @@ namespace Juniper.Imaging
             return (byte[])_data.Clone();
         }
 
-        public Color GetRGB(int i)
+        public Color3 GetRGB(int i)
         {
-            return new Color(_data.GetRGB(i), ColorSpace.RGB);
+            return new Color3(_data.GetRGB(i), ColorSpace.RGB);
         }
 
-        public Color GetRGB(int x, int y)
+        public Color3 GetRGB(int x, int y)
         {
             var i = y * Info.Stride + x * Info.Components;
             return GetRGB(i);
         }
 
-        public void SetRGB(int i, Color rgb)
+        public void SetRGB(int i, Color3 rgb)
         {
             _data.SetRGB(i, rgb);
         }
 
-        public void SetRGB(int x, int y, Color rgb)
+        public void SetRGB(int x, int y, Color3 rgb)
         {
             if(rgb.Space != ColorSpace.RGB)
             {

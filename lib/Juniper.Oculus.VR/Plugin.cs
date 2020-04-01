@@ -15,7 +15,6 @@ permissions and limitations under the License.
 ************************************************************************************/
 
 using System;
-using System.Numerics;
 using System.Runtime.InteropServices;
 
 namespace Oculus.VR
@@ -23,8 +22,6 @@ namespace Oculus.VR
     // Internal C# wrapper for OVRPlugin.
     public static class Plugin
     {
-        public const bool isSupportedPlatform = true;
-
         public static readonly System.Version wrapperVersion = OVRP_1_45_0.version;
 
         private static System.Version _version;

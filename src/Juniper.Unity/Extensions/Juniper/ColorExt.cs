@@ -1,19 +1,20 @@
-using JuniperColor = Juniper.Color;
-using UnityColor = UnityEngine.Color;
+using UnityEngine;
 
 namespace Juniper
 {
     public static class ColorExt
     {
-        public static UnityColor ToUnityColor(this JuniperColor color)
+        public static readonly Color TransparentBlack = new Color(0, 0, 0, 0);
+
+        public static Color ToColor(this Color3 color)
         {
             color = color.ConvertTo(ColorSpace.RGB);
-            return new UnityColor(color.X, color.Y, color.Z);
+            return new Color(color.X, color.Y, color.Z);
         }
 
-        public static JuniperColor ToJuniperColor(this UnityColor color)
+        public static Color3 ToColor3(this Color color)
         {
-            return new JuniperColor(
+            return new Color3(
                 color.r,
                 color.g,
                 color.b,
