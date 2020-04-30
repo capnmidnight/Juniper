@@ -19,6 +19,15 @@ namespace Juniper.HTTP.Server
             UserName = userName;
         }
 
+        public ServerWebSocketConnection(WebSocket socket, string userName, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
+            : base(rxBufferSize, dataBufferSize)
+        {
+            context = null;
+            disposedValue = true;
+            Socket = socket;
+            UserName = userName;
+        }
+
         private bool disposedValue;
 
         protected override void Dispose(bool disposing)

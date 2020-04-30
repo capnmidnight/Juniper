@@ -8,7 +8,7 @@ namespace Juniper.HTTP.Server.Controllers
 {
     public class WebSocketPool
     {
-        private static readonly Dictionary<string, string> userNames = new Dictionary<string, string>();
+        protected static readonly Dictionary<string, string> userNames = new Dictionary<string, string>();
         public static void SetUserToken(string userName, string token)
         {
             lock (userNames)
@@ -17,11 +17,11 @@ namespace Juniper.HTTP.Server.Controllers
             }
         }
 
-        private readonly Dictionary<int, ServerWebSocketConnection> sockets = new Dictionary<int, ServerWebSocketConnection>();
+        protected readonly Dictionary<int, ServerWebSocketConnection> sockets = new Dictionary<int, ServerWebSocketConnection>();
 
         public IReadOnlyCollection<ServerWebSocketConnection> Sockets => sockets.Values;
 
-        private void Socket_Closed(object sender, EventArgs e)
+        protected void Socket_Closed(object sender, EventArgs e)
         {
             if (sender is ServerWebSocketConnection socket)
             {
@@ -68,5 +68,39 @@ namespace Juniper.HTTP.Server.Controllers
 
             return sockets[id];
         }
+
+#if NETCOREAPP
+        public async Task<ServerWebSocketConnection> GetAsync(Microsoft.AspNetCore.Http.HttpContext context)
+        {
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            var id = context.GetHashCode();
+            if (!sockets.ContainsKey(id))
+            {
+                var token = context.Request.Headers["Sec-WebSocket-Protocol"];
+                if (token.Count == 1 && !userNames.ContainsKey(token[0]))
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                }
+                else
+                {
+                    var webSocket = await context
+                        .WebSockets
+                        .AcceptWebSocketAsync(token)
+                        .ConfigureAwait(false);
+
+                    var socket = new ServerWebSocketConnection(webSocket, userNames.Get(token));
+
+                    socket.Closed += Socket_Closed;
+                    sockets.Add(id, socket);
+                }
+            }
+
+            return sockets[id];
+        }
+#endif
     }
 }
