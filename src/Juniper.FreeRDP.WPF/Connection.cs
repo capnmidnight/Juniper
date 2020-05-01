@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -10,35 +11,223 @@ using Juniper.IO;
 namespace Juniper
 {
     [Serializable]
-    public sealed class Connection : ISerializable
+    public sealed class Connection : ISerializable, INotifyPropertyChanged
     {
-        public string Name { get; set; }
-        public string Server { get; set; }
-        public int Port { get; set; }
-        public string WindowSize { get; set; }
-        public int ColorDepth { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public bool SavePassword { get; set; }
-        public string Domain { get; set; }
+        public static readonly string[] WindowSizes =
+        {
+            "Fullscreen",
+            "1920x1080",
+            "1280x720",
+            "1152x864",
+            "1024x768",
+            "800x600"
+        };
+
+        public static readonly string[] ColorDepths = {
+            "Default",
+            "16",
+            "32"
+        };
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private string lastName;
+        private string curName;
+        private static readonly PropertyChangedEventArgs changedName = new PropertyChangedEventArgs(nameof(Name));
+        public string Name
+        {
+            get
+            {
+                return curName;
+            }
+            set
+            {
+                if (curName != value)
+                {
+                    curName = value;
+                    PropertyChanged?.Invoke(this, changedName);
+                    CheckDirty();
+                }
+            }
+        }
+
+        private string lastServer;
+        private string curServer;
+        private static readonly PropertyChangedEventArgs changedServer = new PropertyChangedEventArgs(nameof(Server));
+        public string Server
+        {
+            get
+            {
+                return curServer;
+            }
+            set
+            {
+                if (curServer != value)
+                {
+                    curServer = value;
+                    PropertyChanged?.Invoke(this, changedServer);
+                    CheckDirty();
+                }
+            }
+        }
+
+        private int lastPort;
+        private int curPort;
+        private static readonly PropertyChangedEventArgs changedPort = new PropertyChangedEventArgs(nameof(Port));
+        public int Port
+        {
+            get
+            {
+                return curPort;
+            }
+            set
+            {
+                if (curPort != value)
+                {
+                    curPort = value;
+                    PropertyChanged?.Invoke(this, changedPort);
+                    CheckDirty();
+                }
+            }
+        }
+
+        private string lastWindowSize;
+        private string curWindowSize;
+        private static readonly PropertyChangedEventArgs changedWindowSize = new PropertyChangedEventArgs(nameof(WindowSize));
+        public string WindowSize
+        {
+            get
+            {
+                return curWindowSize;
+            }
+            set
+            {
+                if (curWindowSize != value)
+                {
+                    curWindowSize = value;
+                    PropertyChanged?.Invoke(this, changedWindowSize);
+                    CheckDirty();
+                }
+            }
+        }
+
+        private string lastColorDepth;
+        private string curColorDepth;
+        private static readonly PropertyChangedEventArgs changedColorDepth = new PropertyChangedEventArgs(nameof(ColorDepth));
+        public string ColorDepth
+        {
+            get
+            {
+                return curColorDepth;
+            }
+            set
+            {
+                if (curColorDepth != value)
+                {
+                    curColorDepth = value;
+                    PropertyChanged?.Invoke(this, changedColorDepth);
+                    CheckDirty();
+                }
+            }
+        }
+
+        private string lastUserName;
+        private string curUserName;
+        private static readonly PropertyChangedEventArgs changedUserName = new PropertyChangedEventArgs(nameof(UserName));
+        public string UserName
+        {
+            get
+            {
+                return curUserName;
+            }
+            set
+            {
+                if (curUserName != value)
+                {
+                    curUserName = value;
+                    PropertyChanged?.Invoke(this, changedUserName);
+                    CheckDirty();
+                }
+            }
+        }
+
+
+        private string lastDomain;
+        private string curDomain;
+        private static readonly PropertyChangedEventArgs changedDomain = new PropertyChangedEventArgs(nameof(Domain));
+        public string Domain
+        {
+            get
+            {
+                return curDomain;
+            }
+            set
+            {
+                if (curDomain != value)
+                {
+                    curDomain = value;
+                    PropertyChanged?.Invoke(this, changedDomain);
+                    CheckDirty();
+                }
+            }
+        }
 
         public Connection()
         {
-            Name = "<New connection>";
-            Port = 3389;
+            curName = "<New connection>";
+            curPort = 3389;
+            curWindowSize = WindowSizes[0];
+            curColorDepth = ColorDepths[0];
+            Commit();
         }
 
         private Connection(SerializationInfo info, StreamingContext context)
         {
-            Name = info.GetString(nameof(Name));
-            Server = info.GetString(nameof(Server));
-            Port = info.GetInt32(nameof(Port));
-            WindowSize = info.GetString(nameof(WindowSize));
-            ColorDepth = info.GetInt32(nameof(ColorDepth));
-            UserName = info.GetString(nameof(UserName));
-            Password = info.GetString(nameof(Password));
-            SavePassword = info.GetBoolean(nameof(SavePassword));
-            Domain = info.GetString(nameof(Domain));
+            curName = info.GetString(nameof(Name));
+            curServer = info.GetString(nameof(Server));
+            curPort = info.GetInt32(nameof(Port));
+            curWindowSize = info.GetString(nameof(WindowSize));
+            curColorDepth = info.GetString(nameof(ColorDepth));
+            curUserName = info.GetString(nameof(UserName));
+            curDomain = info.GetString(nameof(Domain));
+            Commit();
+        }
+
+        private bool wasDirty;
+        public bool IsDirty
+        {
+            get
+            {
+                return Name != lastName
+                    || Server != lastServer
+                    || Port != lastPort
+                    || WindowSize != lastWindowSize
+                    || ColorDepth != lastColorDepth
+                    || UserName != lastUserName
+                    || Domain != lastDomain;
+            }
+        }
+
+        private static readonly PropertyChangedEventArgs changedIsDirty = new PropertyChangedEventArgs(nameof(IsDirty));
+        private void CheckDirty()
+        {
+            if (wasDirty != IsDirty)
+            {
+                wasDirty = IsDirty;
+                PropertyChanged?.Invoke(this, changedIsDirty);
+            }
+        }
+
+        private void Commit()
+        {
+            lastName = curName;
+            lastServer = curServer;
+            lastPort = curPort;
+            lastWindowSize = curWindowSize;
+            lastColorDepth = curColorDepth;
+            lastUserName = curUserName;
+            lastDomain = curDomain;
+            CheckDirty();
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -54,12 +243,10 @@ namespace Juniper
             info.AddValue(nameof(WindowSize), WindowSize);
             info.AddValue(nameof(ColorDepth), ColorDepth);
             info.AddValue(nameof(UserName), UserName);
-            info.AddValue(nameof(Password), SavePassword ? Password : string.Empty);
-            info.AddValue(nameof(SavePassword), SavePassword);
             info.AddValue(nameof(Domain), Domain);
         }
 
-        public void Start()
+        public void Start(string password)
         {
             if (!string.IsNullOrEmpty(Server))
             {
@@ -85,7 +272,7 @@ namespace Juniper
                 }
 
                 if (WindowSize is object
-                    && WindowSize != "Fullscreen")
+                    && WindowSize != WindowSizes[0])
                 {
                     procStart.ArgumentList.Add($"/size:{WindowSize}");
                 }
@@ -94,7 +281,8 @@ namespace Juniper
                     procStart.ArgumentList.Add("/f");
                 }
 
-                if (ColorDepth > 0)
+                if (ColorDepth is object
+                    && ColorDepth != ColorDepths[0])
                 {
                     procStart.ArgumentList.Add($"/bpp:{ColorDepth}");
                 }
@@ -104,9 +292,9 @@ namespace Juniper
                     procStart.ArgumentList.Add($"/u:{UserName}");
                 }
 
-                if (!string.IsNullOrEmpty(Password))
+                if (!string.IsNullOrEmpty(password))
                 {
-                    procStart.ArgumentList.Add($"/p:{Password}");
+                    procStart.ArgumentList.Add($"/p:{password}");
                 }
 
                 if (!string.IsNullOrEmpty(Domain))
@@ -119,6 +307,7 @@ namespace Juniper
         }
 
         private static FileInfo _connectionsFile;
+
         private static FileInfo ConnectionsFile
         {
             get
@@ -133,7 +322,7 @@ namespace Juniper
             }
         }
 
-        public static List<Connection> Load()
+        public static IEnumerable<Connection> Load()
         {
             if (ConnectionsFile.Exists)
             {
@@ -141,13 +330,13 @@ namespace Juniper
                 using var stream = ConnectionsFile.OpenRead();
                 if (loader.TryDeserialize(stream, out var connections))
                 {
-                    return connections.ToList();
+                    return connections;
                 }
             }
-            return new List<Connection>();
+            return Array.Empty<Connection>();
         }
 
-        public static void Save(List<Connection> connections)
+        public static void Save(IEnumerable<Connection> connections)
         {
             if (connections is null)
             {
@@ -158,6 +347,10 @@ namespace Juniper
             var saver = new JsonFactory<Connection[]>();
             using var stream = ConnectionsFile.Open(FileMode.Create, FileAccess.Write, FileShare.None);
             saver.Serialize(stream, connections.ToArray());
+            foreach(var connection in connections)
+            {
+                connection.Commit();
+            }
         }
     }
 }

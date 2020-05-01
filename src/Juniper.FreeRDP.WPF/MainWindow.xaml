@@ -31,18 +31,16 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0">Connections</Label>
-                <ComboBox x:Name="ConnectionsCombo" Grid.Column="1" SelectionChanged="ConnectionsCombo_SelectionChanged" />
+                <ComboBox x:Name="ConnectionsCombo" Grid.Column="1" ItemsSource="{Binding Connections}" DisplayMemberPath="Name" SelectionChanged="ConnectionsCombo_SelectionChanged" />
                 <Button x:Name="NewButton" Grid.Column="2" Padding="10,1,10,1" Margin="10,0,0,0" Click="NewButton_Click">New</Button>
-                <Button x:Name="SaveButton" Grid.Column="3" Padding="10,1,10,1" Margin="10,0,0,0" Click="SaveButton_Click" IsEnabled="False">Save</Button>
-                <Button x:Name="DeleteButton" Grid.Column="4" Padding="10,1,10,1" Margin="20,0,0,0" Click="DeleteButton_Click" IsEnabled="False">Delete</Button>
+                <Button x:Name="DeleteButton" Grid.Column="4" Padding="10,1,10,1" Margin="20,0,0,0" Click="DeleteButton_Click" IsEnabled="{Binding HasConnection}">Delete</Button>
             </Grid>
-            <GroupBox x:Name="ConnectionGroup" Grid.Row="1" Header="Connection Properties" Margin="0,10,0,0" IsEnabled="False">
-                <Grid>
+            <GroupBox x:Name="ConnectionGroup" Grid.Row="1" Header="Connection Properties" Margin="0,10,0,0" IsEnabled="{Binding HasConnection}">
+                <Grid DataContext="{Binding CurrentConnection}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -50,45 +48,44 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="10"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <Label Grid.Row="0" Grid.Column="0" Target="{Binding ElementName=NameBox}" Content="Name"  HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                    <TextBox x:Name="NameBox" Grid.Row="0" Grid.Column="1" VerticalContentAlignment="Center" TextChanged="NameBox_TextChanged"/>
+                    <TextBox x:Name="NameBox" Grid.Row="0" Grid.Column="1" Text="{Binding Name, Mode=TwoWay}" VerticalContentAlignment="Center"/>
 
                     <Label Grid.Row="1" Grid.Column="0" Target="{Binding ElementName=ServerBox}" Content="Server"  HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                    <TextBox x:Name="ServerBox" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" TextChanged="ServerBox_TextChanged"/>
+                    <TextBox x:Name="ServerBox" Grid.Row="1" Grid.Column="1" Text="{Binding Server, Mode=TwoWay}" VerticalContentAlignment="Center"/>
 
                     <Label Grid.Row="1" Grid.Column="2" Target="{Binding ElementName=PortBox}" Content="Port"  HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                    <TextBox x:Name="PortBox" Grid.Row="1" Grid.Column="3" VerticalContentAlignment="Center" Text="3389" TextChanged="PortBox_TextChanged"/>
+                    <TextBox x:Name="PortBox" Grid.Row="1" Grid.Column="3" Text="{Binding Port}" VerticalContentAlignment="Center" TextChanged="PortBox_TextChanged"/>
 
 
-                    <Label Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Right" VerticalAlignment="Center">Window size</Label>
-                    <ComboBox x:Name="WindowSizeCombo" Grid.Row="2" Grid.Column="1" SelectedIndex="0" VerticalContentAlignment="Center" SelectionChanged="WindowSizeCombo_SelectionChanged">
-                    </ComboBox>
+                    <Label Grid.Row="2" Grid.Column="0" Target="{Binding ElementName=WindowSizeCombo}" HorizontalAlignment="Right" VerticalAlignment="Center">Window size</Label>
+                    <ComboBox x:Name="WindowSizeCombo" Grid.Row="2" Grid.Column="1" VerticalContentAlignment="Center" SelectedItem="{Binding WindowSize, Mode=TwoWay}"/>
 
-                    <Label Grid.Row="2" Grid.Column="2" Content="Color depth"  HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                    <ComboBox x:Name="ColorDepthCombo" Grid.Row="2" Grid.Column="3" SelectedIndex="0" SelectionChanged="ColorDepthCombo_SelectionChanged">
-                    </ComboBox>
+                    <Label Grid.Row="2" Grid.Column="2" Target="{Binding ElementName=ColorDepthCombo}" Content="Color depth"  HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="ColorDepthCombo" Grid.Row="2" Grid.Column="3" SelectedItem="{Binding ColorDepth, Mode=TwoWay}"/>
 
 
-                    <Label Grid.Row="3" Grid.Column="0" Content="User name"  HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                    <TextBox x:Name="UserNameBox" Grid.Row="3" Grid.Column="1" TextChanged="UserNameBox_TextChanged"/>
 
-                    <Label Grid.Row="3" Grid.Column="2" Content="Password"  HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                    <PasswordBox x:Name="PasswordBox" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" PasswordChanged="PasswordBox_PasswordChanged"/>
+                    <Label Grid.Row="3" Grid.Column="0" Target="{Binding ElementName=UserNameBox}" Content="User name" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox x:Name="UserNameBox" Grid.Row="3" Grid.Column="1" Text="{Binding UserName, Mode=TwoWay}"/>
 
-                    <Label Grid.Row="4" Grid.Column="0" Content="Domain"  HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                    <TextBox x:Name="DomainBox" Grid.Row="4" Grid.Column="1" TextChanged="DomainBox_TextChanged"/>
+                    <Label Grid.Row="3" Grid.Column="2" Target="{Binding ElementName=DomainBox}" Content="Domain"  HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBox x:Name="DomainBox" Grid.Row="3" Grid.Column="3" Text="{Binding Domain, Mode=TwoWay}"/>
 
-                    <Label Grid.Row="4" Grid.Column="2" Content="Save password"  HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                    <CheckBox x:Name="SavePasswordCheck" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Center" Checked="SavePasswordCheck_Checked"/>
+                    <Button x:Name="SaveButton" Grid.Row="5" Grid.Column="1" Click="SaveButton_Click" IsEnabled="{Binding IsDirty}">Save</Button>
                 </Grid>
             </GroupBox>
             <StackPanel Grid.Row="3" Orientation="Horizontal" FlowDirection="RightToLeft">
                 <Button x:Name="CancelButton" Width="70" Content="_Cancel" Margin="0,0,10,0" Click="CancelButton_Click"/>
                 <Button x:Name="OKButton" Width="43" Content="_OK" Click="OKButton_Click"/>
+
+                <PasswordBox x:Name="PasswordBox" Width="200"/>
+                <Label Target="{Binding ElementName=PasswordBox}" Content="Password"/>
             </StackPanel>
         </Grid>
     </DockPanel>
