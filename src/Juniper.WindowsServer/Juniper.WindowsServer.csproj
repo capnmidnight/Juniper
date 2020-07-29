@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\Juniper.Server\Juniper.Server.csproj" />
+  </ItemGroup>
+
+</Project>
