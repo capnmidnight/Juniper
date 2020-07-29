@@ -8,12 +8,10 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Juniper.HTTP.Server.Administration.NetSH;
 using Juniper.HTTP.Server.Controllers;
 using Juniper.Logging;
 using Juniper.Processes;
@@ -29,21 +27,6 @@ namespace Juniper.HTTP.Server
         ILoggingSource,
         INCSALogSource
     {
-
-        public static bool IsAdministrator
-        {
-            get
-            {
-#if !NETCOREAPP && !NETSTANDARD
-                var identity = System.Security.Principal.WindowsIdentity.GetCurrent();
-                var principal = new System.Security.Principal.WindowsPrincipal(identity);
-                return principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
-#else
-                return false;
-#endif
-            }
-        }
-
         private readonly Thread listenThread;
         private readonly Thread cleanupThread;
         private readonly HttpListener listener;
@@ -90,12 +73,6 @@ namespace Juniper.HTTP.Server
         /// The domain.
         /// </value>
         public string Domain { get; set; }
-
-        /// <summary>
-        /// Set to true if the server should attempt to run netsh to assign
-        /// a certificate to the application before starting the server.
-        /// </summary>
-        public bool AutoAssignCertificate { get; set; }
 
         /// <summary>
         /// Event for handling Common Log Format logs.
@@ -168,12 +145,6 @@ namespace Juniper.HTTP.Server
                 options.TryGetValue("domain", out var domain),
                 "No domain specified");
 
-            var isValidAssignCert = Check(
-                options.TryGetBool("assignCert", out var assignCert)
-                && hasDomain
-                || !options.ContainsKey("assignCert"),
-                "Must provide the --domain option to auto-assign a certificate");
-
             var isValidListenCount = Check(
                 options.TryGetInt32("listeners", out var listenerCount)
                 && listenerCount > 0
@@ -219,48 +190,32 @@ namespace Juniper.HTTP.Server
 #endif
                 }
 
-                if (isValidAssignCert)
+                if (hasHttpPort)
                 {
-                    AutoAssignCertificate = assignCert;
+                    HttpPort = httpPort;
                 }
 
-                if (!AutoAssignCertificate)
+                if (isValidListenCount)
                 {
-                    if (hasHttpPort)
-                    {
-                        HttpPort = httpPort;
-                    }
-
-                    if (isValidListenCount)
-                    {
-                        ListenerCount = listenerCount;
-                    }
-
-                    if (isValidContentPath
-                        && hasContentPath)
-                    {
-                        Add(new StaticFileServer(contentPath));
-                    }
-
-                    if (hasLogPath)
-                    {
-                        Add(new NCSALogger(logPath));
-                    }
-
-                    if (IsAdministrator)
-                    {
-                        var banController = hasBansPath
-                            ? new BanHammer(bansPath)
-                            : new BanHammer();
-
-#if !NETCOREAPP && !NETSTANDARD
-                        banController.BanAdded += BanController_BanAdded;
-                        banController.BanRemoved += BanController_BanRemoved;
-#endif
-
-                        Add(banController);
-                    }
+                    ListenerCount = listenerCount;
                 }
+
+                if (isValidContentPath
+                    && hasContentPath)
+                {
+                    Add(new StaticFileServer(contentPath));
+                }
+
+                if (hasLogPath)
+                {
+                    Add(new NCSALogger(logPath));
+                }
+
+                var banController = hasBansPath
+                    ? new BanHammer(bansPath)
+                    : new BanHammer();
+
+                Add(banController);
                 return true;
             }
 
@@ -276,122 +231,6 @@ namespace Juniper.HTTP.Server
 
             return isValid;
         }
-
-        private void BanController_BanAdded(object sender, EventArgs<CIDRBlock> e)
-        {
-            _ = Task.Run(() => AddBanAsync(e.Value));
-        }
-
-        private static Task<bool> BanExistsAsync(string name)
-        {
-            return new GetFirewallRule(name).ExistsAsync();
-        }
-
-        private async Task AddBanAsync(CIDRBlock block)
-        {
-            OnInfo($"Adding ban to firewall: {block}");
-            var name = $"Ban {block}";
-            var exists = await BanExistsAsync(name).ConfigureAwait(false);
-            if (!exists)
-            {
-                var add = new AddFirewallRule(name, FirewallRuleDirection.In, FirewallRuleAction.Block, block);
-                await add.RunAsync()
-                    .ConfigureAwait(false);
-            }
-        }
-
-        private void BanController_BanRemoved(object sender, EventArgs<CIDRBlock> e)
-        {
-            _ = Task.Run(() => RemoveBanAsync(e.Value));
-        }
-
-        private static async Task RemoveBanAsync(CIDRBlock e)
-        {
-            var name = $"Ban {e}";
-            var exists = await BanExistsAsync(name).ConfigureAwait(false);
-            if (exists)
-            {
-                var delete = new DeleteFirewallRule(name);
-                await delete.RunAsync()
-                    .ConfigureAwait(false);
-            }
-        }
-
-#if !NETSTANDARD && !NETCOREAPP
-        private void GetTLSParameters(out Guid guid, out string certHash)
-        {
-            var asm = Assembly.GetExecutingAssembly();
-            guid = System.Runtime.InteropServices.Marshal.GetTypeLibGuidForAssembly(asm);
-            certHash = null;
-            using var store = new System.Security.Cryptography.X509Certificates.X509Store(
-                System.Security.Cryptography.X509Certificates.StoreLocation.LocalMachine);
-
-            store.Open(System.Security.Cryptography.X509Certificates.OpenFlags.ReadOnly);
-
-            certHash = (from cert in store.Certificates.Cast<System.Security.Cryptography.X509Certificates.X509Certificate2>()
-                        where cert.Subject == "CN=" + Domain
-                          && DateTime.TryParse(cert.GetEffectiveDateString(), out var effectiveDate)
-                          && DateTime.TryParse(cert.GetExpirationDateString(), out var expirationDate)
-                          && effectiveDate <= DateTime.Now
-                          && DateTime.Now < expirationDate
-                        select cert.Thumbprint)
-                       .FirstOrDefault();
-        }
-
-
-        private bool TryAssignCertToApp(string certHash, Guid appGuid, out string message)
-        {
-            var endpoint = new IPEndPoint(IPAddress.Parse("0.0.0.0"), HttpsPort.Value);
-
-            var showCert = new ShowSslCert(endpoint);
-
-            showCert.Info += OnInfo;
-            showCert.Warning += OnWarning;
-            showCert.Err += OnError;
-
-            _ = showCert.Run();
-
-            showCert.Info -= OnInfo;
-            showCert.Warning -= OnWarning;
-            showCert.Err -= OnError;
-
-            if (showCert.TotalStandardOutput.Contains(appGuid.ToString()))
-            {
-                message = null;
-                return true;
-            }
-
-            if (showCert.TotalStandardOutput.Contains(endpoint.ToString()))
-            {
-                var deleteCert = new DeleteSslCert(endpoint);
-
-                deleteCert.Info += OnInfo;
-                deleteCert.Warning += OnWarning;
-                deleteCert.Err += OnError;
-
-                _ = deleteCert.Run();
-
-                deleteCert.Info -= OnInfo;
-                deleteCert.Warning -= OnWarning;
-                deleteCert.Err -= OnError;
-            }
-
-            var addCert = new AddSslCert(endpoint, certHash, appGuid);
-
-            addCert.Info += OnInfo;
-            addCert.Warning += OnWarning;
-            addCert.Err += OnError;
-
-            _ = addCert.Run();
-
-            addCert.Info -= OnInfo;
-            addCert.Warning -= OnWarning;
-            addCert.Err -= OnError;
-
-            message = addCert.TotalStandardOutput;
-            return !message.Contains("The parameter is incorrect.");
-        }
-#endif
 
         public void Add(params object[] controllers)
         {
@@ -608,8 +447,7 @@ or
                 ShowRoutes();
             }
 
-            if (!AttemptCertificateAssignment()
-                && HttpPort is null
+            if (HttpPort is null
                 && HttpsPort is null)
             {
                 OnError(new InvalidOperationException("No HTTP or HTTPS port specified."));
@@ -659,52 +497,6 @@ or
                 OnWarning("Maybe don't run unencrypted HTTP in production, k?");
             }
 #endif
-        }
-
-        private bool AttemptCertificateAssignment()
-        {
-            if (!AutoAssignCertificate)
-            {
-                return false;
-            }
-            
-            if (HttpsPort is object
-                && RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                if (string.IsNullOrEmpty(Domain))
-                {
-                    OnWarning("No domain was specified. Can't auto-assign a TLS certificate.");
-                }
-#if !NETCOREAPP && !NETSTANDARD
-                else
-                {
-                    GetTLSParameters(out var guid, out var certHash);
-
-                    if (string.IsNullOrEmpty(certHash))
-                    {
-                        OnWarning("No TLS cert found!");
-                    }
-                    else if (!TryAssignCertToApp(certHash, guid, out var message))
-                    {
-                        OnWarning($@"Couldn't configure the certificate correctly:
-    Application GUID: {guid}
-    TLS cert: {certHash}
-    {message}");
-                    }
-                    else
-                    {
-                        OnInfo("Certificate assigned!");
-                    }
-                }
-#else
-                else
-                {
-                    OnWarning($"Don't know how to assign certificates on this platform: {System.Environment.OSVersion.Platform}");
-                }
-#endif
-            }
-
-            return true;
         }
 
         private void SetPrefix(string protocol, ushort port)
