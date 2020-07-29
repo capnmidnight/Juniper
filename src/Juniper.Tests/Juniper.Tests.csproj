@@ -39,6 +39,7 @@
     <ProjectReference Include="..\Juniper.OpenWeatherMap\Juniper.OpenWeatherMap.csproj" />
     <ProjectReference Include="..\Juniper.Unity\Juniper.Unity.csproj" />
     <ProjectReference Include="..\Juniper.UnityEditor\Juniper.UnityEditor.csproj" />
+    <ProjectReference Include="..\Juniper.WindowsServer\Juniper.WindowsServer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

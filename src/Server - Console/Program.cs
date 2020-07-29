@@ -43,8 +43,8 @@ namespace Juniper
             options.SetValues(
                 ("path", Path.Combine("..", "..", "..", "content")),
                 ("domain", "localhost"),
-                ("http", HttpServer.IsAdministrator ? "80" : "8080"),
-                ("https", HttpServer.IsAdministrator ? "443" : "8081"));
+                ("http", "80"),
+                ("https", "443"));
 #endif
 
             options.SetValues(args);
