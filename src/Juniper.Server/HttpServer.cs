@@ -438,7 +438,10 @@ or
 
 #if DEBUG
             var redirector = GetController<HttpToHttpsRedirect>();
-            //redirector.Enabled = false;
+            if (redirector != null)
+            {
+                redirector.Enabled = false;
+            }
 #endif
 
             if (routes.Count > 0)
