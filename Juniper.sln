@@ -76,8 +76,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Valve.VR", "lib\Jun
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenVR - Console", "src\OpenVR - Console\OpenVR - Console.csproj", "{7C810744-A29E-44C7-AB5A-73FF0B72353B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Intel RealSense - Console", "src\Intel RealSense - Console\Intel RealSense - Console.csproj", "{CC804AFC-BF17-497E-9B07-B0A6499D5BEF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Veldrid.WinForms", "src\Juniper.Veldrid.WinForms\Juniper.Veldrid.WinForms.csproj", "{9AF249E4-B6C5-44F3-8F55-234ABB7FCD17}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veldrid - WinForms", "src\Veldrid - WinForms\Veldrid - WinForms.csproj", "{C4C8A159-1D33-4703-9683-FAAAF4FFB97A}"
