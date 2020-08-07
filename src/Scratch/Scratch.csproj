@@ -23,7 +23,6 @@
     <ProjectReference Include="..\Juniper.NeuroSky\Juniper.NeuroSky.csproj" />
     <ProjectReference Include="..\Juniper.OpenWeatherMap\Juniper.OpenWeatherMap.csproj" />
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
-    <ProjectReference Include="..\Juniper.Server\Juniper.Server.csproj" />
     <ProjectReference Include="..\Juniper.Sound\Juniper.Sound.csproj" />
     <ProjectReference Include="..\Juniper.Tests\Juniper.Tests.csproj" />
     <ProjectReference Include="..\Juniper.Windows\Juniper.Windows.csproj" />
