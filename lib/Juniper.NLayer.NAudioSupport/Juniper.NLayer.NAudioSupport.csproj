@@ -1,9 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <ImportGroup>
-    <Import Project="..\..\Juniper.props" />
-  </ImportGroup>
-
   <PropertyGroup>
     <AssemblyName>Juniper.NLayer.NAudioSupport</AssemblyName>
     <RootNamespace>NLayer.NAudioSupport</RootNamespace>
@@ -12,10 +8,6 @@
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
   </PropertyGroup>
-
-  <ImportGroup>
-    <Import Project="..\..\Juniper.targets" />
-  </ImportGroup>
 
   <ItemGroup>
     <PackageReference Include="NAudio" Version="1.10.0" />

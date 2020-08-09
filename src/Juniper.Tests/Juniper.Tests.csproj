@@ -1,17 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <ImportGroup>
-    <Import Project="..\..\Juniper.props" />
-  </ImportGroup>
-
   <PropertyGroup>
     <IsPackable>false</IsPackable>
     <TargetFramework>net48</TargetFramework>
   </PropertyGroup>
-
-  <ImportGroup>
-    <Import Project="..\..\Juniper.targets" />
-  </ImportGroup>
 
   <ItemGroup>
     <PackageReference Include="nunit" Version="3.12.0" />
@@ -33,11 +24,8 @@
     <ProjectReference Include="..\Juniper.Imaging\Juniper.Imaging.csproj" />
     <ProjectReference Include="..\Juniper.Sound\Juniper.Sound.csproj" />
     <ProjectReference Include="..\Juniper.Azure\Juniper.Azure.csproj" />
-    <ProjectReference Include="..\Juniper.Veldrid\Juniper.Veldrid.csproj" />
     <ProjectReference Include="..\Juniper.GoogleMaps\Juniper.GoogleMaps.csproj" />
     <ProjectReference Include="..\Juniper.OpenWeatherMap\Juniper.OpenWeatherMap.csproj" />
-    <ProjectReference Include="..\Juniper.Unity\Juniper.Unity.csproj" />
-    <ProjectReference Include="..\Juniper.UnityEditor\Juniper.UnityEditor.csproj" />
   </ItemGroup>
 
   <ItemGroup>
