@@ -16,8 +16,6 @@ namespace Juniper
 {
     internal static class Program
     {
-        private static readonly string MY_PICTURES = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-
         private static ImageViewer form;
         private static GoogleMapsClient<MetadataResponse> gmaps;
         private static IImageCodec<Image> imageDecoder;
@@ -34,15 +32,16 @@ namespace Juniper
 
             var metadataDecoder = new JsonFactory<MetadataResponse>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
-            var gmapsCacheDirName = Path.Combine(MY_PICTURES, "GoogleMaps");
+            var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var assetsRoot = Path.Combine(userProfile, "Box", "VR Initiatives", "Engineering", "Assets");
+            var keyFileName = Path.Combine(assetsRoot, "DevKeys", "google-streetview.txt");
+            var gmapsCacheDirName = Path.Combine(assetsRoot, "GoogleMaps");
             var gmapsCacheDir = new DirectoryInfo(gmapsCacheDirName);
             var cache = new CachingStrategy
             {
                 new FileCacheLayer(gmapsCacheDir)
             };
 
-            var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var keyFileName = Path.Combine(userProfile, "Projects", "DevKeys", "google-streetview.txt");
             var lines = File.ReadAllLines(keyFileName);
             var apiKey = lines[0];
             var signingKey = lines[1];
