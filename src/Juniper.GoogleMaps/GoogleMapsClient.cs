@@ -1,15 +1,14 @@
+using Juniper.IO;
+using Juniper.Units;
+using Juniper.World.GIS.Google.Geocoding;
+using Juniper.World.GIS.Google.StreetView;
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Juniper.Imaging;
-using Juniper.IO;
-using Juniper.Units;
-using Juniper.World.GIS.Google.Geocoding;
-using Juniper.World.GIS.Google.StreetView;
 
 namespace Juniper.World.GIS.Google
 {
@@ -89,28 +88,17 @@ namespace Juniper.World.GIS.Google
             var value = await cache
                 .LoadAsync(deserializer, fileRef, prog)
                 .ConfigureAwait(false);
-            if (value is MetadataTypeT metadata)
+            if (value is MetadataTypeT metadata
+                && metadata.Status == System.Net.HttpStatusCode.OK
+                    && !string.IsNullOrEmpty(metadata.Pano_ID)
+                    && metadata.Location is object)
             {
-                if (metadata.Status != System.Net.HttpStatusCode.OK
-                    || string.IsNullOrEmpty(metadata.Pano_ID)
-                    || metadata.Location is null)
+                var metadataRef = new ContentReference(metadata.Pano_ID, MediaType.Application.Json);
+                if (!cache.IsCached(metadataRef))
                 {
-                    if (cache.IsCached(fileRef))
-                    {
-                        _ = cache.Delete(fileRef);
-                    }
-
-                    value = default;
-                }
-                else
-                {
-                    var metadataRef = new ContentReference(metadata.Pano_ID, MediaType.Application.Json);
-                    if (!cache.IsCached(metadataRef))
-                    {
-                        await cache
-                            .CopyToAsync(fileRef, cache, metadataRef)
-                            .ConfigureAwait(false);
-                    }
+                    await cache
+                        .CopyToAsync(fileRef, cache, metadataRef)
+                        .ConfigureAwait(false);
                 }
             }
 
@@ -190,7 +178,9 @@ namespace Juniper.World.GIS.Google
 
         private MetadataTypeT Cache(MetadataTypeT metadata)
         {
-            if (metadata != null)
+            if (metadata != null
+                && metadata.Location is object
+                && metadata.Pano_ID is object)
             {
                 metadataCache[metadata.Location.ToString(CultureInfo.InvariantCulture)] = metadata;
                 metadataCache[metadata.Pano_ID] = metadata;

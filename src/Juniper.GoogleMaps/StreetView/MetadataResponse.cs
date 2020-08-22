@@ -32,6 +32,8 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public LatLngPoint Location { get; }
 
+        public string ErrorMessage { get; }
+
         protected MetadataResponse(MetadataResponse copy)
         {
             if (copy is null)
@@ -63,6 +65,7 @@ namespace Juniper.World.GIS.Google.StreetView
                     case "date": Date = info.GetDateTime(field.Name); break;
                     case "pano_id": Pano_ID = info.GetString(field.Name); break;
                     case "location": Location = info.GetValue<LatLngPoint>(field.Name); break;
+                    case "error_message": ErrorMessage = info.GetString(field.Name); break;
                 }
             }
         }

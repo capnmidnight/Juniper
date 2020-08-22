@@ -97,8 +97,15 @@ namespace Juniper
         {
             var metadata = await gmaps.SearchMetadataAsync(location)
                             .ConfigureAwait(false);
-            await GetImageDataAsync(metadata)
-                .ConfigureAwait(false);
+            if (metadata.Status == System.Net.HttpStatusCode.OK)
+            {
+                await GetImageDataAsync(metadata)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                form.SetError(metadata.ErrorMessage);
+            }
         }
 
         private static void Form_LatLngSubmitted(object sender, LatLngPointEventArgs e)
@@ -112,8 +119,15 @@ namespace Juniper
         {
             var metadata = await gmaps.GetMetadataAsync(point)
                             .ConfigureAwait(false);
-            await GetImageDataAsync(metadata)
-                .ConfigureAwait(false);
+            if (metadata.Status == System.Net.HttpStatusCode.OK)
+            {
+                await GetImageDataAsync(metadata)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                form.SetError(metadata.ErrorMessage);
+            }
         }
 
         private static void Form_PanoSubmitted(object sender, StringEventArgs e)
@@ -127,8 +141,15 @@ namespace Juniper
         {
             var metadata = await gmaps.GetMetadataAsync(pano)
                             .ConfigureAwait(false);
-            await GetImageDataAsync(metadata)
-                .ConfigureAwait(false);
+            if (metadata.Status == System.Net.HttpStatusCode.OK)
+            {
+                await GetImageDataAsync(metadata)
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                form.SetError(metadata.ErrorMessage);
+            }
         }
 
         private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)

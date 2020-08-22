@@ -102,6 +102,8 @@ namespace Juniper.IO
             {
                 BaseStream.Dispose();
             }
+
+            base.Dispose(disposing);
         }
 
         /// <summary>
