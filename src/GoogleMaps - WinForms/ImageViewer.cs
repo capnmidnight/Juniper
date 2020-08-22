@@ -56,7 +56,7 @@ namespace Juniper
             }
         }
 
-        public void SetError(Exception exp = null)
+        public void SetError(Exception exp)
         {
             if (InvokeRequired)
             {
@@ -64,7 +64,19 @@ namespace Juniper
             }
             else
             {
-                var msg = exp?.Message ?? "ERROR";
+                SetError(exp?.Message);
+            }
+        }
+
+        public void SetError(string msg = null)
+        {
+            if (InvokeRequired)
+            {
+                _ = Invoke(new Action<string>(SetError), msg);
+            }
+            else
+            {
+                msg ??= "ERROR";
 
                 if (panoTextbox.Text.Length == 0)
                 {
