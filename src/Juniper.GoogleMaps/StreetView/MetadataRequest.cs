@@ -5,5 +5,18 @@ namespace Juniper.World.GIS.Google.StreetView
         public MetadataRequest(string apiKey, string signingKey)
             : base("streetview/metadata", apiKey, signingKey, Juniper.MediaType.Application.Json)
         { }
+
+        protected override string InternalCacheID
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(Pano))
+                {
+                    return Pano;
+                }
+
+                return base.InternalCacheID;
+            }
+        }
     }
 }
