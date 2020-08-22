@@ -1,7 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
-  <Import Project="..\..\Juniper.props" />
-
   <PropertyGroup>
     <AssemblyName>Juniper.Veldrid.WinForms</AssemblyName>
     <RootNamespace>Juniper.VeldridIntegration.WinFormsSupport</RootNamespace>
@@ -10,8 +8,6 @@
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
-
-  <Import Project="..\..\Juniper.targets" />
 
   <ItemGroup>
     <ProjectReference Include="..\..\lib\veldrid\src\Veldrid\Veldrid.csproj" />

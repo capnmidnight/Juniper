@@ -6,8 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0AB9B157-DC46-4E6F-9926-46AB72C95ED8}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		Juniper.props = Juniper.props
-		Juniper.targets = Juniper.targets
 		Juniper.vsext = Juniper.vsext
 		README.md = README.md
 		Unity.targets = Unity.targets
@@ -124,7 +122,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Veldrid", "Veldrid", "{F6BE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.FreeRDP.WPF", "src\Juniper.FreeRDP.WPF\Juniper.FreeRDP.WPF.csproj", "{9891E39D-4FC6-43B9-85EC-7E65AFCDE095}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Server", "src\Juniper.Server\Juniper.Server.csproj", "{A3EB35F9-B4A9-43B5-BFCC-5476656CA834}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Server", "src\Juniper.Server\Juniper.Server.csproj", "{A3EB35F9-B4A9-43B5-BFCC-5476656CA834}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

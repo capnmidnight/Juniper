@@ -1,7 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\Juniper.props" />
-
   <PropertyGroup>
     <AssemblyName>Juniper.Oculus.VR</AssemblyName>
     <RootNamespace>Oculus.VR</RootNamespace>
@@ -9,8 +7,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Copyright>Copyright © Facebook Technologies, LLC</Copyright>
   </PropertyGroup>
-
-  <Import Project="..\..\Juniper.targets" />
 
   <ItemGroup>
     <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />

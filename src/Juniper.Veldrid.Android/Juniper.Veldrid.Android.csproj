@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\Juniper.props" />
+
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -20,6 +20,7 @@
     <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidUseAapt2>true</AndroidUseAapt2>
   </PropertyGroup>
+
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>portable</DebugType>
@@ -29,6 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>portable</DebugType>
     <Optimize>true</Optimize>
@@ -37,7 +39,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <Import Project="..\..\Juniper.targets" />
+
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Mono.Android" />
@@ -47,24 +49,30 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
   </ItemGroup>
+
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VeldridPanel.cs" />
   </ItemGroup>
+
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
     <None Include="..\..\.editorconfig" />
   </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="28.0.0.3" />
   </ItemGroup>
+
   <ItemGroup>
     <AndroidResource Include="Resources\values\strings.xml" />
   </ItemGroup>
+
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\lib\veldrid\src\Veldrid\Veldrid.csproj">
       <Project>{5ed86ad3-8ebb-4423-8c4b-cabc2e8507a7}</Project>
@@ -75,6 +83,7 @@
       <Name>Juniper.Veldrid</Name>
     </ProjectReference>
   </ItemGroup>
+
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

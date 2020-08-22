@@ -1,8 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-
-  <ImportGroup>
-    <Import Project="..\..\Juniper.props" />
-  </ImportGroup>
   
   <PropertyGroup>
     <AssemblyName>Juniper.Testing.Veldrid.WPF</AssemblyName>
@@ -14,10 +10,6 @@
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
-
-  <ImportGroup>
-    <Import Project="..\..\Juniper.targets" />
-  </ImportGroup>
 
   <ItemGroup>
     <PackageReference Include="Veldrid.SPIRV" Version="1.0.13" />

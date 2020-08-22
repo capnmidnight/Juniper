@@ -1,7 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\Juniper.props" />
-
   <PropertyGroup>
     <AssemblyName>Juniper.Valve.VR</AssemblyName>
     <RootNamespace>Valve.VR</RootNamespace>
@@ -9,8 +7,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Copyright>Copyright © Valve Corporation</Copyright>
   </PropertyGroup>
-
-  <Import Project="..\..\Juniper.targets" />
 
   <ItemGroup>
     <None Update="openvr_api.dll">

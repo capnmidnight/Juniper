@@ -1,6 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <Import Project="..\..\Juniper.props" />
   
   <PropertyGroup>
     <AssemblyName>Juniper.Testing.OpenVR.Console</AssemblyName>
@@ -8,8 +6,6 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Juniper.OpenVR</RootNamespace>
   </PropertyGroup>
-
-  <Import Project="..\..\Juniper.targets" />
 
   <ItemGroup>
     <ProjectReference Include="..\..\lib\Juniper.Valve.VR\Juniper.Valve.VR.csproj" />

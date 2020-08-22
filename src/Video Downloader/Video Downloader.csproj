@@ -1,7 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <Import Project="..\..\Juniper.props" />
-
   <PropertyGroup>
     <AssemblyName>Juniper.VideoDownloader</AssemblyName>
     <RootNamespace>Juniper.VideoDownloader</RootNamespace>
@@ -11,11 +9,6 @@
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
   </PropertyGroup>
-
-  <ImportGroup>
-    <Import Project="..\..\Juniper.targets" />
-  </ImportGroup>
-  
 
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />

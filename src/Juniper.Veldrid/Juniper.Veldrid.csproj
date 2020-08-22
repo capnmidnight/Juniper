@@ -1,6 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  
-  <Import Project="..\..\Juniper.props" />
 
   <PropertyGroup>
     <AssemblyName>Juniper.Veldrid</AssemblyName>
@@ -9,8 +7,6 @@
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
   </PropertyGroup>
-
-  <Import Project="..\..\Juniper.targets" />
 
   <ItemGroup>
     <PackageReference Include="Veldrid.SPIRV" Version="1.0.13" />

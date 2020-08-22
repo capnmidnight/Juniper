@@ -1,5 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\Juniper.props" />
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -7,8 +6,6 @@
     <AssemblyName>Scratch</AssemblyName>
     <TargetFramework>net48</TargetFramework>
   </PropertyGroup>
-
-  <Import Project="..\..\Juniper.targets" />
   
   <ItemGroup>
     <ProjectReference Include="..\..\lib\Juniper.HjgPngcs\Juniper.HjgPngcs.csproj" />
