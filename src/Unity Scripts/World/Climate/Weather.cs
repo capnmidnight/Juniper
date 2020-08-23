@@ -49,7 +49,8 @@ namespace Juniper.World.Climate
             get
             {
                 var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                var keyFile = Path.Combine(userProfile, "Projects", "DevKeys", "openweathermap.txt");
+                var assetsRoot = Path.Combine(userProfile, "Box", "VR Initiatives", "Engineering", "Assets");
+                var keyFile = Path.Combine(assetsRoot, "DevKeys", "openweathermap.txt");
                 return keyFile;
             }
         }

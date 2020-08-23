@@ -93,6 +93,7 @@ namespace Juniper.Strings.Tests
         {
             var path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var brokenPath = path.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            Assert.AreNotEqual(path, brokenPath);
             var fixedPath = PathExt.FixPath(brokenPath);
             Assert.AreEqual(path, fixedPath);
         }

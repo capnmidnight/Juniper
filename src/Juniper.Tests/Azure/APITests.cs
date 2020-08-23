@@ -25,12 +25,13 @@ namespace Juniper.Azure.Tests
         public void Setup()
         {
             var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var keyFile = Path.Combine(userProfile, "Projects", "DevKeys", "azure-speech.txt");
+            var assetsRoot = Path.Combine(userProfile, "Box", "VR Initiatives", "Engineering", "Assets");
+            var keyFile = Path.Combine(assetsRoot, "DevKeys", "azure-speech.txt");
             var lines = File.ReadAllLines(keyFile);
             subscriptionKey = lines[0];
             region = lines[1];
             resourceName = lines[2];
-            var cacheDirName = Path.Combine(userProfile, "Projects");
+            var cacheDirName = Path.Combine(assetsRoot, "Azure");
             var cacheDir = new DirectoryInfo(cacheDirName);
             cache = new CachingStrategy
             {

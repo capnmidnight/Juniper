@@ -91,7 +91,8 @@ namespace Juniper.World.GIS.Google
             get
             {
                 var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                var keyFile = Path.Combine(userProfile, "Projects", "DevKeys", "google-streetview.txt");
+                var assetsRoot = Path.Combine(userProfile, "Box", "VR Initiatives", "Engineering", "Assets");
+                var keyFile = Path.Combine(assetsRoot, "DevKeys", "google-streetview.txt");
                 return keyFile;
             }
         }
@@ -160,15 +161,16 @@ namespace Juniper.World.GIS.Google
             {
                 SetLocation(gps.Coord.ToString());
             }
-
-            var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            var oldCubemapPath = Path.Combine(myPictures, "GoogleMaps");
+            
+            var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var assetsRoot = Path.Combine(userProfile, "Box", "VR Initiatives", "Engineering", "Assets");
+            var oldCubemapPath = Path.Combine(assetsRoot, "GoogleMaps");
             var oldGmapsPath = Path.Combine(oldCubemapPath, "streetview", "maps", "api");
 
             cache.AddBackup(new FileCacheLayer(oldCubemapPath));
             cache.AddBackup(new FileCacheLayer(oldGmapsPath));
 #else
-            if(gps != null && gps.HasCoord)
+            if (gps != null && gps.HasCoord)
             {
                 SetLocation(gps.Coord.ToString());
             }

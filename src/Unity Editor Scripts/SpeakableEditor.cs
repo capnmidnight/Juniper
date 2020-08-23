@@ -32,7 +32,8 @@ namespace Juniper.Events
             if (audio != null)
             {
                 var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                var keyFile = Path.Combine(userProfile, "Projects", "DevKeys", "azure-speech.txt");
+                var assetsRoot = Path.Combine(userProfile, "Box", "VR Initiatives", "Engineering", "Assets");
+                var keyFile = Path.Combine(assetsRoot, "DevKeys", "azure-speech.txt");
                 if (File.Exists(keyFile))
                 {
                     var lines = File.ReadAllLines(keyFile);

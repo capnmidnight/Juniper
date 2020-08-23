@@ -2,6 +2,7 @@ using System;
 using System.IO;
 
 using Juniper.IO;
+using Juniper.IO.Tests;
 
 using NUnit.Framework;
 
@@ -16,15 +17,12 @@ namespace Juniper.World.GIS.Google.Tests
         [SetUp]
         public virtual void Init()
         {
-            var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var keyFile = Path.Combine(home, "Projects", "DevKeys", "google-streetview.txt");
+            var keyFile = Path.Combine(CachingTests.TestRootDir, "DevKeys", "google-streetview.txt");
             var lines = File.ReadAllLines(keyFile);
             apiKey = lines[0];
             signingKey = lines[1];
 
-            var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            var cacheDirName = Path.Combine(myPictures, "GoogleMaps");
-
+            var cacheDirName = Path.Combine(CachingTests.TestRootDir, "GoogleMaps");
             var cacheDir = new DirectoryInfo(cacheDirName);
             cache = new CachingStrategy
             {
