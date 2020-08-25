@@ -9,6 +9,8 @@ namespace Juniper.Mathematics
         ISerializable,
         IEquatable<Vector4Serializable>
     {
+        private const string TYPE_NAME = "Vector4";
+
         public float X { get; }
 
         public float Y { get; }
@@ -33,6 +35,12 @@ namespace Juniper.Mathematics
                 throw new ArgumentNullException(nameof(info));
             }
 
+            var type = info.GetString("Type");
+            if (type != TYPE_NAME)
+            {
+                throw new SerializationException($"Input type `{type}` does not match expected type `{TYPE_NAME}`.");
+            }
+
             X = info.GetSingle(nameof(X));
             Y = info.GetSingle(nameof(Y));
             Z = info.GetSingle(nameof(Z));
@@ -46,6 +54,7 @@ namespace Juniper.Mathematics
                 throw new ArgumentNullException(nameof(info));
             }
 
+            info.AddValue("Type", TYPE_NAME);
             info.AddValue(nameof(X), X);
             info.AddValue(nameof(Y), Y);
             info.AddValue(nameof(Z), Z);

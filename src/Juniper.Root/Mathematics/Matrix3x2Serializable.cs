@@ -8,6 +8,8 @@ namespace Juniper.Mathematics
     public struct Matrix3x2Serializable :
         ISerializable, IEquatable<Matrix3x2Serializable>
     {
+        private const string TYPE_NAME = "Matrix3x2";
+
         private static readonly string VALUES_FIELD = nameof(Values).ToLowerInvariant();
 
         public float[] Values { get; }
@@ -30,6 +32,12 @@ namespace Juniper.Mathematics
                 throw new ArgumentNullException(nameof(info));
             }
 
+            var type = info.GetString("Type");
+            if (type != TYPE_NAME)
+            {
+                throw new SerializationException($"Input type `{type}` does not match expected type `{TYPE_NAME}`.");
+            }
+
             Values = info.GetValue<float[]>(VALUES_FIELD);
         }
 
@@ -40,6 +48,7 @@ namespace Juniper.Mathematics
                 throw new ArgumentNullException(nameof(info));
             }
 
+            info.AddValue("Type", TYPE_NAME);
             info.AddValue(VALUES_FIELD, Values);
         }
 

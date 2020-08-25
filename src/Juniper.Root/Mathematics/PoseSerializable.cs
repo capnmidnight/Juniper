@@ -6,6 +6,8 @@ namespace Juniper.Mathematics
     [Serializable]
     public struct PoseSerializable : ISerializable, IEquatable<PoseSerializable>
     {
+        private const string TYPE_NAME = "Pose";
+
         public static readonly PoseSerializable Identity = new PoseSerializable(0, 0, 0, 0, 0, 0, 1);
 
         public Vector3Serializable Position { get; }
@@ -25,7 +27,13 @@ namespace Juniper.Mathematics
         private PoseSerializable(SerializationInfo info, StreamingContext context)
             : this(info?.GetVector3(nameof(Position)) ?? throw new ArgumentNullException(nameof(info)),
                 info.GetQuaternion(nameof(Orientation)))
-        { }
+        {
+            var type = info.GetString("Type");
+            if (type != TYPE_NAME)
+            {
+                throw new SerializationException($"Input type `{type}` does not match expected type `{TYPE_NAME}`.");
+            }
+        }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -34,6 +42,7 @@ namespace Juniper.Mathematics
                 throw new ArgumentNullException(nameof(info));
             }
 
+            info.AddValue("Type", TYPE_NAME);
             info.AddVector3(nameof(Position), Position);
             info.AddQuaternion(nameof(Orientation), Orientation);
         }
