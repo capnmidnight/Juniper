@@ -9,6 +9,17 @@ namespace System.IO
     public static class DirectoryInfoExt
     {
         /// <summary>
+        /// Retrieve the named subdirectory of a given directory, or Null if it doesn't exist.
+        /// </summary>
+        /// <param name="sub">The sub.</param>
+        /// <returns></returns>
+        public static DirectoryInfo Nav(this DirectoryInfo dir, string sub)
+        {
+            return dir.GetDirectories()
+                .FirstOrDefault(d => d.Name == sub);
+        }
+
+        /// <summary>
         /// Recurses through all subdirectories in a given directory to find all
         /// files contained within.
         /// </summary>
