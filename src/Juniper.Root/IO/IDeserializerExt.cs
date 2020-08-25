@@ -10,6 +10,17 @@ namespace Juniper.IO
 
     public static class IDeserializerExt
     {
+        public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, FileInfo file, IProgress prog)
+        {
+            if (file is null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+
+            using var stream = file.OpenRead();
+            return deserializer.Deserialize(stream, file.Length, prog);
+        }
+
         public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, Stream stream, long length, IProgress prog)
         {
             if (deserializer is null)
