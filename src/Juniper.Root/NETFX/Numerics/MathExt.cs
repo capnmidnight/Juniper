@@ -10,6 +10,16 @@ namespace System.Numerics
                 v.M31, v.M32);
         }
 
+        public static float[] ToArray(this Matrix3x2 v)
+        {
+            return new float[]
+            {
+                v.M11, v.M12,
+                v.M21, v.M22,
+                v.M31, v.M32
+            };
+        }
+
         public static Juniper.Mathematics.Matrix4x4Serializable ToJuniperMatrix4x4Serializable(this Matrix4x4 v)
         {
             return new Juniper.Mathematics.Matrix4x4Serializable(
@@ -29,14 +39,35 @@ namespace System.Numerics
             };
         }
 
+        public static float[] ToArray(this Matrix4x4 v)
+        {
+            return new float[]
+            {
+                v.M11, v.M12, v.M13, v.M14,
+                v.M21, v.M22, v.M23, v.M24,
+                v.M31, v.M32, v.M33, v.M34,
+                v.M41, v.M42, v.M43, v.M44
+            };
+        }
+
         public static Juniper.Mathematics.Vector2Serializable ToJuniperVector2Serializable(this Vector2 v)
         {
             return new Juniper.Mathematics.Vector2Serializable(v.X, v.Y);
         }
 
+        public static float[] ToArray(this Vector2 v)
+        {
+            return new float[] { v.X, v.Y };
+        }
+
         public static Juniper.Mathematics.Vector3Serializable ToJuniperVector3Serializable(this Vector3 v)
         {
             return new Juniper.Mathematics.Vector3Serializable(v.X, v.Y, v.Z);
+        }
+
+        public static float[] ToArray(this Vector3 v)
+        {
+            return new float[] { v.X, v.Y, v.Z };
         }
 
         public static Accord.Math.Vector3 ToAccordVector3(this Vector3 v)
@@ -49,6 +80,11 @@ namespace System.Numerics
             return new Juniper.Mathematics.Vector4Serializable(v.X, v.Y, v.Z, v.W);
         }
 
+        public static float[] ToArray(this Vector4 v)
+        {
+            return new float[] { v.X, v.Y, v.Z, v.W };
+        }
+
         public static Accord.Math.Vector4 ToAccordVector4(this Vector4 v)
         {
             return new Accord.Math.Vector4(v.X, v.Y, v.Z, v.W);
@@ -59,9 +95,19 @@ namespace System.Numerics
             return new Juniper.Mathematics.QuaternionSerializable(q.X, q.Y, q.Z, q.W);
         }
 
+        public static float[] ToArray(this Quaternion q)
+        {
+            return new float[] { q.X, q.Y, q.Z, q.W };
+        }
+
         public static Juniper.Mathematics.PlaneSerializable ToJuniperPlaneSerializable(this Plane p)
         {
             return new Juniper.Mathematics.PlaneSerializable(p.Normal.X, p.Normal.Y, p.Normal.Z, p.D);
+        }
+
+        public static float[] ToArray(this Plane p)
+        {
+            return new float[] { p.Normal.X, p.Normal.Y, p.Normal.Z, p.D };
         }
 
         public static Accord.Math.Plane ToAccordPlane(this Plane p)
