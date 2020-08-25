@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace System.IO
 {
@@ -237,6 +238,30 @@ namespace System.IO
         public static string Rel2Abs(string relativePath)
         {
             return Rel2Abs(relativePath, null);
+        }
+
+        public static string ToUnixStyle(string path)
+        {
+            if (path is null)
+            {
+                return null;
+            }
+
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT
+                || Environment.OSVersion.Platform == PlatformID.Win32S
+                || Environment.OSVersion.Platform == PlatformID.Win32Windows)
+            {
+                path = path.Replace(Path.DirectorySeparatorChar, '/');
+                if (path.Length >=3
+                    && 'A' <= path[0] && path[0] <= 'Z'
+                    && path[1] == ':'
+                    && path[2] == '/')
+                {
+                    path = $"/{path[0]}/{path.Substring(3)}";
+                }
+            }
+
+            return path;
         }
     }
 }

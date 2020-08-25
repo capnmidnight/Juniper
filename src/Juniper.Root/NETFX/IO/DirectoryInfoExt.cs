@@ -3,6 +3,8 @@ using System.Linq;
 
 namespace System.IO
 {
+
+
     /// <summary>
     /// Extension methods and helper functions for dealing with Directories.
     /// </summary>
@@ -13,10 +15,48 @@ namespace System.IO
         /// </summary>
         /// <param name="sub">The sub.</param>
         /// <returns></returns>
-        public static DirectoryInfo Nav(this DirectoryInfo dir, string sub)
+        public static DirectoryInfo CD(this DirectoryInfo dir, string sub)
         {
+            if(dir is null)
+            {
+                throw new ArgumentNullException(nameof(dir));
+            }
+
             return dir.GetDirectories()
                 .FirstOrDefault(d => d.Name == sub);
+        }
+
+        /// <summary>
+        /// Retrieve the named subdirectory of a given directory, or Null if it doesn't exist.
+        /// </summary>
+        /// <param name="sub">The sub.</param>
+        /// <returns></returns>
+        public static DirectoryInfo MkDir(this DirectoryInfo dir, string sub)
+        {
+            if (dir is null)
+            {
+                throw new ArgumentNullException(nameof(dir));
+            }
+
+            var subdir = new DirectoryInfo(Path.Combine(dir.FullName, sub));
+            subdir.Create();
+            return subdir;
+        }
+
+        /// <summary>
+        /// Makes a file info reference in a given directory.
+        /// </summary>
+        /// <param name="fileName">The name of the file to "touch".</param>
+        /// <returns></returns>
+        public static FileInfo Touch(this DirectoryInfo dir, string fileName)
+        {
+            if (dir is null)
+            {
+                throw new ArgumentNullException(nameof(dir));
+            }
+
+            var file = new FileInfo(Path.Combine(dir.FullName, fileName));
+            return file;
         }
 
         /// <summary>
