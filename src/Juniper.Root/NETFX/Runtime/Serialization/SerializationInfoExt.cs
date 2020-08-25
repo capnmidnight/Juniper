@@ -225,5 +225,23 @@ namespace System.Runtime.Serialization
 
             return false;
         }
+
+        public static void CheckForType(this SerializationInfo info, string expected)
+        {
+            if (info is null)
+            {
+                throw new ArgumentNullException(nameof(info));
+            }
+
+            foreach (var field in info)
+            {
+                if (field.Name == "Type"
+                    && field.Value is string actual
+                    && actual != expected)
+                {
+                    throw new SerializationException($"Input type `{actual}` does not match expected type `{expected}`.");
+                }
+            }
+        }
     }
 }

@@ -28,12 +28,7 @@ namespace Juniper.Mathematics
                 throw new ArgumentNullException(nameof(info));
             }
 
-            var type = info.GetString("Type");
-            if (type != TYPE_NAME)
-            {
-                throw new SerializationException($"Input type `{type}` does not match expected type `{TYPE_NAME}`.");
-            }
-
+            info.CheckForType(TYPE_NAME);
             X = info.GetSingle(nameof(X));
             Y = info.GetSingle(nameof(Y));
         }

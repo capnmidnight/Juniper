@@ -37,12 +37,7 @@ namespace Juniper.Mathematics
                 throw new ArgumentNullException(nameof(info));
             }
 
-            var type = info.GetString("Type");
-            if (type != TYPE_NAME)
-            {
-                throw new SerializationException($"Input type `{type}` does not match expected type `{TYPE_NAME}`.");
-            }
-
+            info.CheckForType(TYPE_NAME);
             Values = info.GetValue<float[]>(VALUES_FIELD);
         }
 
@@ -95,10 +90,22 @@ namespace Juniper.Mathematics
         {
             return new Accord.Math.Matrix4x4
             {
-                V00 = Values[0x0], V01 = Values[0x1], V02 = Values[0x2], V03 = Values[0x3],
-                V10 = Values[0x4], V11 = Values[0x5], V12 = Values[0x6], V13 = Values[0x7],
-                V20 = Values[0x8], V21 = Values[0x9], V22 = Values[0xA], V23 = Values[0xB],
-                V30 = Values[0xC], V31 = Values[0xD], V32 = Values[0xE], V33 = Values[0xF]
+                V00 = Values[0x0],
+                V01 = Values[0x1],
+                V02 = Values[0x2],
+                V03 = Values[0x3],
+                V10 = Values[0x4],
+                V11 = Values[0x5],
+                V12 = Values[0x6],
+                V13 = Values[0x7],
+                V20 = Values[0x8],
+                V21 = Values[0x9],
+                V22 = Values[0xA],
+                V23 = Values[0xB],
+                V30 = Values[0xC],
+                V31 = Values[0xD],
+                V32 = Values[0xE],
+                V33 = Values[0xF]
             };
         }
 

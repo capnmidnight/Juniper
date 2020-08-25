@@ -28,11 +28,7 @@ namespace Juniper.Mathematics
             : this(info?.GetVector3(nameof(Position)) ?? throw new ArgumentNullException(nameof(info)),
                 info.GetQuaternion(nameof(Orientation)))
         {
-            var type = info.GetString("Type");
-            if (type != TYPE_NAME)
-            {
-                throw new SerializationException($"Input type `{type}` does not match expected type `{TYPE_NAME}`.");
-            }
+            info.CheckForType(TYPE_NAME);
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
