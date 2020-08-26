@@ -14,6 +14,22 @@ namespace Juniper.Mathematics
 
         public float Y { get; }
 
+        public Vector2Serializable(float[] values)
+        {
+            if (values is null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
+            if (values.Length != 2)
+            {
+                throw new ArgumentOutOfRangeException(nameof(values), "Array initialization requires 2 values");
+            }
+
+            X = values[0];
+            Y = values[1];
+        }
+
         public Vector2Serializable(float x, float y)
         {
             X = x;

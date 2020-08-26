@@ -19,6 +19,24 @@ namespace Juniper.Mathematics
 
         public float W { get; }
 
+        public Vector4Serializable(float[] values)
+        {
+            if (values is null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
+            if (values.Length != 4)
+            {
+                throw new ArgumentOutOfRangeException(nameof(values), "Array initialization requires 4 values");
+            }
+
+            X = values[0];
+            Y = values[1];
+            Z = values[2];
+            W = values[3];
+        }
+
         public Vector4Serializable(float x, float y, float z, float w)
         {
             X = x;

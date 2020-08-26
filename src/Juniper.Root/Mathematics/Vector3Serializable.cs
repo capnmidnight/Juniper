@@ -17,6 +17,23 @@ namespace Juniper.Mathematics
 
         public float Z { get; }
 
+        public Vector3Serializable(float[] values)
+        {
+            if (values is null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
+            if (values.Length != 3)
+            {
+                throw new ArgumentOutOfRangeException(nameof(values), "Array initialization requires 3 values");
+            }
+
+            X = values[0];
+            Y = values[1];
+            Z = values[2];
+        }
+
         public Vector3Serializable(float x, float y, float z)
         {
             X = x;

@@ -14,15 +14,29 @@ namespace Juniper.Mathematics
 
         public float[] Values { get; }
 
-        public Matrix3x2Serializable(float m11, float m12, float m21, float m22, float m31, float m32)
+        public Matrix3x2Serializable(float[] values)
         {
-            Values = new[]
+            if (values is null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
+            if (values.Length != 6)
+            {
+                throw new ArgumentOutOfRangeException(nameof(values), "values array must be 16 elements long");
+            }
+
+            Values = values;
+        }
+
+        public Matrix3x2Serializable(float m11, float m12, float m21, float m22, float m31, float m32)
+            : this(new[]
             {
                 m11, m12,
                 m21, m22,
                 m31, m32
-            };
-        }
+            })
+        { }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private Matrix3x2Serializable(SerializationInfo info, StreamingContext context)

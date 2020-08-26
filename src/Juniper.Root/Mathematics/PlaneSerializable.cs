@@ -17,6 +17,24 @@ namespace Juniper.Mathematics
 
         public float D { get; }
 
+        public PlaneSerializable(float[] values)
+        {
+            if (values is null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
+            if (values.Length != 4)
+            {
+                throw new ArgumentOutOfRangeException(nameof(values), "Array initialization requires 4 values");
+            }
+
+            X = values[0];
+            Y = values[1];
+            Z = values[2];
+            D = values[3];
+        }
+
         public PlaneSerializable(float x, float y, float z, float w)
         {
             X = x;
