@@ -26,7 +26,7 @@ namespace Juniper
             {
                 if (typePattern is null)
                 {
-                    typePattern = new Regex("(\\*|\\w+)/(\\*|\\w+)(?:;q=(1|0?\\.\\d+))?", RegexOptions.Compiled);
+                    typePattern = new Regex("(\\*|\\w+)/(\\*|(-|\\w)+)(?:;q=(1|0?\\.\\d+))?", RegexOptions.Compiled);
                 }
 
                 return typePattern;
