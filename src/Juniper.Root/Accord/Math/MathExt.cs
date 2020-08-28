@@ -22,6 +22,26 @@ namespace Accord.Math
                 v.V30, v.V31, v.V32, v.V33);
         }
 
+        public static Matrix4x4 ToAccordMatrix4x4(this float[] values)
+        {
+            if (values is null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
+            if (values.Length != 16)
+            {
+                throw new ArgumentOutOfRangeException(nameof(values), "values array must be 16 elements long");
+            }
+
+            return new Matrix4x4 {
+                V00 = values[0], V01 = values[1], V02 = values[2], V03 = values[3],
+                V10 = values[4], V11 = values[5], V12 = values[6], V13 = values[7],
+                V20 = values[8], V21 = values[9], V22 = values[10],V23 = values[11],
+                V30 = values[12],V31 = values[13],V32 = values[14],V33 = values[15]
+            };
+        }
+
         public static Juniper.Mathematics.Vector3Serializable ToJuniperVector3Serializable(this Vector3 v)
         {
             return new Juniper.Mathematics.Vector3Serializable(v.X, v.Y, v.Z);
@@ -30,6 +50,21 @@ namespace Accord.Math
         public static System.Numerics.Vector3 ToSystemVector3(this Vector3 v)
         {
             return new System.Numerics.Vector3(v.X, v.Y, v.Z);
+        }
+
+        public static Vector3 ToAccordVector3(float[] values)
+        {
+            if (values is null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
+            if (values.Length != 3)
+            {
+                throw new ArgumentOutOfRangeException(nameof(values), "values array must be 3 elements long");
+            }
+
+            return new Vector3(values[0], values[1], values[2]);
         }
 
         public static Juniper.Mathematics.Vector3Serializable ToJuniperVector3Serializable(this Point3 v)
@@ -42,6 +77,31 @@ namespace Accord.Math
             return new System.Numerics.Vector3(v.X, v.Y, v.Z);
         }
 
+        public static Point3 ToAccordPoint3(float[] values)
+        {
+            if (values is null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
+            if (values.Length != 3)
+            {
+                throw new ArgumentOutOfRangeException(nameof(values), "values array must be 3 elements long");
+            }
+
+            return new Point3(values[0], values[1], values[2]);
+        }
+
+        public static float[] ToArray(Point3 v)
+        {
+            return new float[]
+            {
+                v.X,
+                v.Y,
+                v.Z
+            };
+        }
+
         public static Juniper.Mathematics.Vector4Serializable ToJuniperVector4Serializable(this Vector4 v)
         {
             return new Juniper.Mathematics.Vector4Serializable(v.X, v.Y, v.Z, v.W);
@@ -50,6 +110,21 @@ namespace Accord.Math
         public static System.Numerics.Vector4 ToSystemVector4(this Vector4 v)
         {
             return new System.Numerics.Vector4(v.X, v.Y, v.Z, v.W);
+        }
+
+        public static Vector4 ToAccordVector4(float[] values)
+        {
+            if (values is null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
+            if (values.Length != 4)
+            {
+                throw new ArgumentOutOfRangeException(nameof(values), "values array must be 4 elements long");
+            }
+
+            return new Vector4(values[0], values[1], values[2], values[3]);
         }
 
         public static System.Numerics.Plane ToSystemPlane(this Plane p)
@@ -70,6 +145,37 @@ namespace Accord.Math
             }
 
             return new Juniper.Mathematics.PlaneSerializable(p.A, p.B, p.C, p.Offset);
+        }
+
+        public static float[] ToArray(Plane p)
+        {
+            if(p is null)
+            {
+                throw new ArgumentNullException(nameof(p));
+            }
+
+            return new float[]
+            {
+                p.A,
+                p.B,
+                p.C,
+                p.Offset
+            };
+        }
+
+        public static Plane ToAccordPlane(float[] values)
+        {
+            if (values is null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
+            if (values.Length != 4)
+            {
+                throw new ArgumentOutOfRangeException(nameof(values), "values array must be 4 elements long");
+            }
+
+            return new Plane(values[0], values[1], values[2], values[3]);
         }
     }
 }
