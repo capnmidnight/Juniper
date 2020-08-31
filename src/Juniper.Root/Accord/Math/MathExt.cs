@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Accord.Math
 {
@@ -50,6 +51,43 @@ namespace Accord.Math
         public static System.Numerics.Vector3 ToSystemVector3(this Vector3 v)
         {
             return new System.Numerics.Vector3(v.X, v.Y, v.Z);
+        }
+
+        /// <summary>
+        /// Convert a Vector3 with a given UTM Zone to a <see cref="UTMPoint"/>
+        /// </summary>
+        /// <returns>The utm.</returns>
+        /// <param name="v">      Value.</param>
+        /// <param name="donatedZone">Donated zone.</param>
+        public static Juniper.World.GIS.UTMPoint ToUTM(this Vector3 v, int donatedZone, Juniper.World.GIS.UTMPoint.GlobeHemisphere hemisphere)
+        {
+            return new Juniper.World.GIS.UTMPoint(v.X, v.Z, v.Y, donatedZone, hemisphere);
+        }
+
+        /// <summary>
+        /// Calculate the centroid of a cloud of points. The centroid is just a fancy name for the
+        /// average of all the vectors together.
+        /// </summary>
+        /// <returns>The centroid.</returns>
+        /// <param name="points">Points.</param>
+        public static Vector3 Centroid(this IEnumerable<Vector3> points)
+        {
+            if (points is null)
+            {
+                throw new ArgumentNullException(nameof(points));
+            }
+
+            var count = 0;
+            var avg = new Vector3();
+            foreach (var point in points)
+            {
+                ++count;
+                avg += point;
+            }
+
+            avg /= count;
+
+            return avg;
         }
 
         public static Vector3 ToAccordVector3(float[] values)

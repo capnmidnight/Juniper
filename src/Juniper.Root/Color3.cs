@@ -1,10 +1,59 @@
 using System;
+using System.Linq;
 using System.Numerics;
 
 namespace Juniper
 {
     public struct Color3 : IEquatable<Color3>
     {
+        private static readonly int[] SkinColors = {
+            0xFFDFC4,
+            0xF0D5BE,
+            0xEECEB3,
+            0xE1B899,
+            0xE5C298,
+            0xFFDCB2,
+            0xE5B887,
+            0xE5A073,
+            0xE79E6D,
+            0xDB9065,
+            0xCE967C,
+            0xC67856,
+            0xBA6C49,
+            0xA57257,
+            0xF0C8C9,
+            0xDDA8A0,
+            0xB97C6D,
+            0xA8756C,
+            0xAD6452,
+            0x5C3836,
+            0xCB8442,
+            0xBD723C,
+            0x704139,
+            0xA3866A,
+            0x870400,
+            0x710101,
+            0x430000,
+            0x5B0001,
+            0x302E2E
+        };
+
+#pragma warning disable HAA0602 // Delegate on struct instance caused a boxing allocation
+        public static readonly Color3[] SkinColorsRGB = SkinColors
+            .Select(c =>
+            {
+                var r = (c & 0xff0000) >> 16;
+                var g = (c & 0x00ff00) >> 8;
+                var b = (c & 0x0000ff);
+                return new Color3(r / 255f, g / 255f, b / 255f, ColorSpace.RGB);
+            })
+            .ToArray();
+
+        public static readonly Color3[] SkinColorsHSV = SkinColorsRGB
+            .Select(c => c.ConvertTo(ColorSpace.HSV))
+            .ToArray();
+#pragma warning restore HAA0602 // Delegate on struct instance caused a boxing allocation
+
         public float X { get; }
         public float Y { get; }
         public float Z { get; }
@@ -163,6 +212,103 @@ namespace Juniper
                 c.Y / s,
                 c.Z / s,
                 c.Space);
+        }
+
+        /// <summary>
+        /// Lerp two HSV colors (which makes a lot more sense than lerp-ing two RGP colors).
+        /// </summary>
+        /// <returns>The lerp.</returns>
+        /// <param name="a">The alpha component.</param>
+        /// <param name="b">The blue component.</param>
+        /// <param name="t">T.</param>
+        public static Color3 Lerp(Color3 a, Color3 b, float t)
+        {
+            var origSpace = a.Space;
+            if(a.Space != ColorSpace.HSV)
+            {
+                a = a.ConvertTo(ColorSpace.HSV);
+            }
+
+            if (b.Space != ColorSpace.HSV)
+            {
+                b = b.ConvertTo(ColorSpace.HSV);
+            }
+
+            var c = a * (1 - t) + b * t;
+            if(origSpace != ColorSpace.HSV)
+            {
+                c.ConvertTo(origSpace);
+            }
+
+            return c;
+        }
+
+
+
+        /// <summary>
+        /// Converts a whitebalance value to a color value that can be used with a <see
+        /// cref="Light"/> object.
+        /// </summary>
+        /// <param name="val"></param>
+        /// <returns></returns>
+        public static Color3 FromKelvin(float val)
+        {
+            var t = val / 100f;
+            float r, g, b;
+
+            if (t <= 66)
+            {
+                r = 255;
+            }
+            else
+            {
+                r = t - 60;
+                r = 329.698727446f * (float)Math.Pow(r, -0.1332047592f);
+            }
+
+            if (t <= 66)
+            {
+                g = t;
+                g = 99.4708025861f * (float)Math.Log(g) - 161.1195681661f;
+            }
+            else
+            {
+                g = t - 60;
+                g = 288.1221695283f * (float)Math.Pow(g, -0.0755148492f);
+            }
+
+            if (t >= 66)
+            {
+                b = 255;
+            }
+            else if (t <= 19)
+            {
+                b = 0;
+            }
+            else
+            {
+                b = t - 10;
+                b = 138.5177312231f * (float)Math.Log(b) - 305.0447927307f;
+            }
+
+            r = (float)MathX.Clamp(r, 0, 255) / 255;
+            g = (float)MathX.Clamp(g, 0, 255) / 255;
+            b = (float)MathX.Clamp(b, 0, 255) / 255;
+
+            return new Color3(r, g, b, ColorSpace.RGB);
+        }
+    }
+
+    public static class MathX
+    {
+        public static double Clamp(double v, double min, double max)
+        {
+            return Math.Min(max, Math.Max(min, v));
+        }
+
+        public static double Clamp(float v, float min, float max)
+        {
+            return Math.Min(max, Math.Max(min, v));
         }
     }
 }
