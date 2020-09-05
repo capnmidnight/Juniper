@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Juniper.IO
+namespace Juniper.Progress
 {
     public class ProgressEventer : IProgress
     {

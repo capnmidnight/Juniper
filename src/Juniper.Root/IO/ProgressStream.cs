@@ -1,3 +1,5 @@
+using Juniper.Progress;
+
 using System.IO;
 
 namespace Juniper.IO

@@ -1,7 +1,8 @@
 using System;
 using System.Drawing;
 
-using Juniper.IO;
+using Juniper.Progress;
+
 using GDIColor = System.Drawing.Color;
 
 namespace Juniper.Imaging

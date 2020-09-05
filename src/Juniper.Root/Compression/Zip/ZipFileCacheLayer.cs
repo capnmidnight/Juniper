@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Juniper.Compression;
 using Juniper.Compression.Zip;
+using Juniper.Progress;
 
 namespace Juniper.IO
 {

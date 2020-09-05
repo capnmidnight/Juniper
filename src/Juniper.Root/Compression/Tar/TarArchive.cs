@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-using Juniper.IO;
+using Juniper.Progress;
 
 namespace Juniper.Compression.Tar
 {

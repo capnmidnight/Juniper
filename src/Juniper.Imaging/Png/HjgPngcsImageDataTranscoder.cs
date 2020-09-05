@@ -2,7 +2,7 @@ using System;
 
 using Hjg.Pngcs;
 
-using Juniper.IO;
+using Juniper.Progress;
 
 namespace Juniper.Imaging
 {

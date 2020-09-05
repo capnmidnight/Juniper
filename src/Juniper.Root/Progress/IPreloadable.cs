@@ -1,4 +1,4 @@
-namespace Juniper.IO
+namespace Juniper.Progress
 {
     public interface IPreloadable
     {

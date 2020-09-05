@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Juniper.Climate;
 using Juniper.IO;
+using Juniper.Progress;
 using Juniper.Units;
 using Juniper.World.GIS;
 

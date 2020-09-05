@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using static System.Math;
 
-namespace Juniper.IO
+namespace Juniper.Progress
 {
 
     /// <summary>

@@ -1,6 +1,6 @@
 using System;
 
-namespace Juniper.IO
+namespace Juniper.Progress
 {
     /// <summary>
     /// A small chunk of a progress meter, reporting its own progress

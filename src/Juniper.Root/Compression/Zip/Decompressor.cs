@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 
 using Juniper.IO;
+using Juniper.Progress;
 
 namespace Juniper.Compression.Zip
 {

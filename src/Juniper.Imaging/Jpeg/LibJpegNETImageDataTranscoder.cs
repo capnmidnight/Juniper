@@ -2,7 +2,7 @@ using System;
 
 using BitMiracle.LibJpeg;
 
-using Juniper.IO;
+using Juniper.Progress;
 
 namespace Juniper.Imaging
 {

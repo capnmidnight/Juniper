@@ -4,7 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 
-using Juniper.IO;
+using Juniper.Progress;
 
 namespace Juniper.Compression.Tar.GZip
 {
