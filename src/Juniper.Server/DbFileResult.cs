@@ -72,6 +72,7 @@ namespace Juniper.HTTP.Server
             }
             else
             {
+                response.StatusCode = (int)HttpStatusCode.OK;
                 response.ContentType = contentType;
                 response.ContentLength = size;
                 response.Headers["Content-Disposition"] = $"attachment; filename=\"{fileName}\"";
