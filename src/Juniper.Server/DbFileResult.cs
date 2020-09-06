@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using System;
+using System.Data;
 using System.Data.Common;
 using System.Net;
 using System.Threading.Tasks;
@@ -57,8 +58,9 @@ namespace Juniper.HTTP.Server
             makeCommand(cmd);
 
             using var reader = await cmd.ExecuteReaderAsync(
-                System.Data.CommandBehavior.SingleResult
-                | System.Data.CommandBehavior.SequentialAccess)
+                CommandBehavior.SingleResult
+                | CommandBehavior.SequentialAccess
+                | CommandBehavior.CloseConnection)
                 .ConfigureAwait(false);
             var read = await reader.ReadAsync()
                 .ConfigureAwait(false);
