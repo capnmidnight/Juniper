@@ -4,10 +4,10 @@ namespace Juniper
     {
         public sealed partial class Audio : MediaType
         {
-            public static readonly Audio Aac = new Audio("aac");
-            public static readonly Audio Ac3 = new Audio("ac3");
+            public static readonly Audio Aac = new Audio("aac", new string[] { "aac" });
+            public static readonly Audio Ac3 = new Audio("ac3", new string[] { "ac3" });
             public static readonly Audio Adpcm = new Audio("adpcm", new string[] { "adp" });
-            public static readonly Audio AMR = new Audio("amr");
+            public static readonly Audio AMR = new Audio("amr", new string[] { "amr" });
             public static readonly Audio AMR_WB = new Audio("amr-wb");
             public static readonly Audio Amr_WbPlus = new Audio("amr-wb+");
             public static readonly Audio Aptx = new Audio("aptx");
@@ -61,7 +61,7 @@ namespace Juniper
             public static readonly Audio G7291 = new Audio("g7291");
             public static readonly Audio G729D = new Audio("g729d");
             public static readonly Audio G729E = new Audio("g729e");
-            public static readonly Audio GSM = new Audio("gsm");
+            public static readonly Audio GSM = new Audio("gsm", new string[] { "gsm" });
             public static readonly Audio GSM_EFR = new Audio("gsm-efr");
             public static readonly Audio GSM_HR_08 = new Audio("gsm-hr-08");
             public static readonly Audio ILBC = new Audio("ilbc");
@@ -164,9 +164,12 @@ namespace Juniper
             public static readonly Audio VendorRip = new Audio("vnd.rip", new string[] { "rip" });
             public static readonly Audio VendorSealedmediaSoftsealMpeg = new Audio("vnd.sealedmedia.softseal.mpeg");
             public static readonly Audio VendorVmxCvsd = new Audio("vnd.vmx.cvsd");
+            public static readonly Audio VendorWave = new Audio("vnd.wave", new string[] { "wav" });
             public static readonly Audio VMR_WB = new Audio("vmr-wb");
             public static readonly Audio Vorbis = new Audio("vorbis");
             public static readonly Audio Vorbis_Config = new Audio("vorbis-config");
+            public static readonly Audio Wav = new Audio("wav", new string[] { "wav" });
+            public static readonly Audio Wave = new Audio("wave", new string[] { "wav" });
             public static readonly Audio Webm = new Audio("webm", new string[] { "weba" });
             public static readonly Audio X_Aac = new Audio("x-aac", new string[] { "aac" });
             public static readonly Audio X_Aiff = new Audio("x-aiff", new string[] { "aif", "aiff", "aifc" });
@@ -339,9 +342,12 @@ namespace Juniper
                 VendorRip,
                 VendorSealedmediaSoftsealMpeg,
                 VendorVmxCvsd,
+                VendorWave,
                 VMR_WB,
                 Vorbis,
                 Vorbis_Config,
+                Wav,
+                Wave,
                 Webm,
                 X_Aac,
                 X_Aiff,
