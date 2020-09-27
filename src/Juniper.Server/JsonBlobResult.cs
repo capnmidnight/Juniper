@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Juniper.HTTP.Server
@@ -12,11 +13,22 @@ namespace Juniper.HTTP.Server
     /// </summary>
     public class JsonBlobResult : IActionResult
     {
+        private static readonly JsonSerializerOptions DefaultOptions = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = false
+        };
+
         private readonly string json;
 
         public JsonBlobResult(string json)
         {
             this.json = json;
+        }
+
+        public static JsonBlobResult Create<T>(T obj, JsonSerializerOptions options = null)
+        {
+            return new JsonBlobResult( JsonSerializer.Serialize(obj, options ?? DefaultOptions));
         }
 
         /// <summary>
