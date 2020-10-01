@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Transactions;
 
 using Juniper.Collections;
 
@@ -40,11 +41,16 @@ namespace Juniper.Compression
             var tree = new NAryTree<CompressedFileInfo>(new CompressedFileInfo());
             var directories = rawEntries.Directories();
             var files = rawEntries.Files();
-            var entries = directories.Concat(files);
+            var entries = directories.Concat(files)
+                .Select(e => new NAryTree<CompressedFileInfo>())
+                .ToDictionary(e => e.Value.FullName);
 
-            foreach (var entry in entries)
+            foreach (var entry in entries.Values)
             {
-                tree.Add(entry, (parent, child) => parent.Contains(child));
+                var parent = entry.Value.ParentPath is null
+                    ? tree
+                    : entries[entry.Value.ParentPath];
+                parent.Add(entry);
             }
 
             return tree;

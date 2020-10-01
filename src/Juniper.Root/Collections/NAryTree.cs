@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Juniper.Collections
 {
@@ -16,15 +16,17 @@ namespace Juniper.Collections
         /// </summary>
         public T Value { get; internal set; }
 
+        protected List<NAryTree<T>> ChildNodes { get; } = new List<NAryTree<T>>();
+
         /// <summary>
         /// All nodes below the current node.
         /// </summary>
-        public List<NAryTree<T>> Children { get; } = new List<NAryTree<T>>();
+        public IReadOnlyList<NAryTree<T>> Children => ChildNodes;
 
         /// <summary>
         /// The next node above the current node.
         /// </summary>
-        protected NAryTree<T> Parent { get; set; }
+        public NAryTree<T> Parent { get; private set; }
 
         public int Count { get; private set; }
 
@@ -38,12 +40,6 @@ namespace Juniper.Collections
         public NAryTree(T value)
         {
             Value = value;
-        }
-
-        private NAryTree(T value, NAryTree<T> parent)
-            : this(value)
-        {
-            Parent = parent;
         }
 
         /// <summary>
@@ -68,143 +64,236 @@ namespace Juniper.Collections
         /// <summary>
         /// Returns true if there are no child nodes.
         /// </summary>
-        public bool IsLeaf => Children.Count == 0;
+        public bool IsLeaf => ChildNodes.Count == 0;
 
         /// <summary>
         /// Returns true if this node has no parent node.
         /// </summary>
         public bool IsRoot => Parent is null;
 
-        /// <summary>
-        /// Add an element as a child of the node.
-        /// </summary>
-        /// <param name="node">The node to add.</param>
-        public void Add(T node, Func<T, T, bool> isChildOf)
+        private void Recount()
         {
-            if (Value is null)
+            SearchNodesDepthFirst(
+                (item) => item.Count = 1,
+                null,
+                (item) => item.Count += item.Children.Sum(child => child.Count));
+        }
+
+        public void Add(T value)
+        {
+            Add(new NAryTree<T>(value));
+        }
+
+        public void AddRange(IEnumerable<T> values)
+        {
+            if (values is null)
             {
-                Value = node;
+                throw new ArgumentNullException(nameof(values));
             }
-            else
+
+            AddRange(values.Select(v => new NAryTree<T>(v)));
+        }
+
+        public void AddRange(IEnumerable<NAryTree<T>> nodes)
+        {
+            if (nodes is null)
             {
-                var q = new Queue<NAryTree<T>>
-                {
-                    this
-                };
+                throw new ArgumentNullException(nameof(nodes));
+            }
 
-                NAryTree<T> lastParent = null;
-                while (q.Count > 0)
-                {
-                    var here = q.Dequeue();
-                    if (isChildOf(here.Value, node))
-                    {
-                        ++here.Count;
-                        lastParent = here;
-                        q.AddRange(here.Children);
-                    }
-                }
+            foreach (var node in nodes)
+            {
+                node.Parent = this;
+                ChildNodes.Add(node);
+            }
+            Recount();
+        }
 
-                if (lastParent != null)
+        public void Add(NAryTree<T> node)
+        {
+            if (node is null)
+            {
+                throw new ArgumentNullException(nameof(node));
+            }
+
+            node.Parent = this;
+            ChildNodes.Add(node);
+            Recount();
+        }
+
+        public IEnumerable<T> ValuesDepthFirst
+        {
+            get
+            {
+                foreach (var node in NodesDepthFirst)
                 {
-                    lastParent.Children.Add(new NAryTree<T>(node, lastParent));
+                    yield return node.Value;
                 }
             }
         }
 
-        public NAryTree<T> Remove(T node)
+        public IEnumerable<NAryTree<T>> NodesDepthFirst
         {
-            var q = new Queue<NAryTree<T>>
+            get
             {
-                this
-            };
-
-            NAryTree<T> found = null;
-            while (q.Count > 0 && found is null)
-            {
-                var here = q.Dequeue();
-                if (here.Value.Equals(node))
+                var toVisit = new Stack<NAryTree<T>>();
+                toVisit.Push(this);
+                while (toVisit.Count > 0)
                 {
-                    found = here;
+                    var here = toVisit.Pop();
+                    yield return here;
+
+                    if (here.Children.Count > 0)
+                    {
+                        foreach (var child in here.Children.AsEnumerable().Reverse())
+                        {
+                            toVisit.Push(child);
+                        }
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<T> ValuesBreadthFirst
+        {
+            get
+            {
+                foreach (var node in NodesBreadthFirst)
+                {
+                    yield return node.Value;
+                }
+            }
+        }
+
+        public IEnumerable<NAryTree<T>> NodesBreadthFirst
+        {
+            get
+            {
+                var toVisit = new Queue<NAryTree<T>>();
+                toVisit.Enqueue(this);
+                while (toVisit.Count > 0)
+                {
+                    var here = toVisit.Dequeue();
+                    yield return here;
+
+                    if (here.Children.Count > 0)
+                    {
+                        foreach (var child in here.Children.AsEnumerable().Reverse())
+                        {
+                            toVisit.Enqueue(child);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void SearchValuesDepthFirst(Action<T> preItem, Action<T> perItem, Action<T> postItem)
+        {
+            SearchNodesDepthFirst(
+                null,
+                null,
+                (node) => preItem(node.Value),
+                (node) => perItem(node.Value),
+                (node) => postItem(node.Value),
+                null,
+                null);
+        }
+
+        public void SearchValuesDepthFirst(Action<T> preGroup, Action<T> preItem, Action<T> perItem, Action<T> postItem, Action<T> postGroup)
+        {
+            SearchNodesDepthFirst(
+                null,
+                (node) => preGroup(node.Value),
+                (node) => preItem(node.Value),
+                (node) => perItem(node.Value),
+                (node) => postItem(node.Value),
+                (node) => postGroup(node.Value),
+                null);
+        }
+
+        public void SearchValuesDepthFirst(Action start, Action<T> preGroup, Action<T> preItem, Action<T> perItem, Action<T> postItem, Action<T> postGroup, Action end)
+        {
+            SearchNodesDepthFirst(
+                start,
+                (node) => preGroup(node.Value),
+                (node) => preItem(node.Value),
+                (node) => perItem(node.Value),
+                (node) => postItem(node.Value),
+                (node) => postGroup(node.Value),
+                end);
+        }
+
+        public void SearchNodesDepthFirst(Action<NAryTree<T>> preItem, Action<NAryTree<T>> perItem, Action<NAryTree<T>> postItem)
+        {
+            SearchNodesDepthFirst(
+                null,
+                null,
+                preItem,
+                perItem,
+                postItem,
+                null,
+                null);
+        }
+
+        public void SearchNodesDepthFirst(Action<NAryTree<T>> preGroup, Action<NAryTree<T>> preItem, Action<NAryTree<T>> perItem, Action<NAryTree<T>> postItem, Action<NAryTree<T>> postGroup)
+        {
+            SearchNodesDepthFirst(
+                null,
+                preGroup,
+                preItem,
+                perItem,
+                postItem,
+                postGroup,
+                null);
+        }
+
+        public void SearchNodesDepthFirst(Action start, Action<NAryTree<T>> preGroup, Action<NAryTree<T>> preItem, Action<NAryTree<T>> perItem, Action<NAryTree<T>> postItem, Action<NAryTree<T>> postGroup, Action end)
+        {
+            NAryTree<T> last = null;
+
+            var visited = new Stack<NAryTree<T>>();
+            var toVisit = new Stack<NAryTree<T>>();
+            toVisit.Push(this);
+
+            start?.Invoke();
+            while (toVisit.Count > 0)
+            {
+                var here = toVisit.Pop();
+                while (visited.Count > 0
+                    && visited.Peek() != here.Parent)
+                {
+                    last = visited.Pop();
+                    postGroup?.Invoke(last);
+                    postItem?.Invoke(last);
+                }
+
+                preItem?.Invoke(here);
+                perItem?.Invoke(here);
+
+                if (here.Children.Count == 0)
+                {
+                    postItem?.Invoke(here);
                 }
                 else
                 {
-                    q.AddRange(here.Children);
-                }
-            }
-
-            if (found != null)
-            {
-                found.Parent.Count -= found.Count;
-                _ = found.Parent.Children.Remove(found);
-                found.Parent = null;
-            }
-
-            return found;
-        }
-
-        public IEnumerable<NAryTree<T>> Where(Func<NAryTree<T>, bool> predicate, TreeTraversalOrder order = TreeTraversalOrder.BreadthFirst)
-        {
-            // how to do recursion without killing the function call stack
-            var items = new List<NAryTree<T>>
-            {
-                this
-            };
-            while (items.Count > 0)
-            {
-                var index = (order == TreeTraversalOrder.BreadthFirst)
-                    ? 0
-                    : items.Count - 1;
-                var here = items[index];
-                items.RemoveAt(index);
-
-                if (predicate(here))
-                {
-                    yield return here;
-                    items.AddRange(here.Children);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Perform an operation over the trie, using a local stack instead of the function call
-        /// stack frame.
-        /// </summary>
-        public IEnumerable<NAryTree<T>> Flatten(TreeTraversalOrder order = TreeTraversalOrder.BreadthFirst)
-        {
-            return Where(_ => true, order);
-        }
-
-        /// <summary>
-        /// Perform an operation over the trie, using a local stack instead of the function call
-        /// stack frame.
-        /// </summary>
-        /// <param name="act">Act.</param>
-        public StateT Accumulate<StateT>(TreeTraversalOrder order, StateT state, Func<StateT, NAryTree<T>, StateT> act)
-        {
-            foreach (var child in Flatten(order))
-            {
-                state = act(state, child);
-            }
-
-            return state;
-        }
-
-        /// <summary>
-        /// Print out a debugging string.
-        /// </summary>
-        /// <returns>A text representation of the tree.</returns>
-        public override string ToString()
-        {
-            return Accumulate(TreeTraversalOrder.DepthFirst, new StringBuilder(), (sb, here) =>
-            {
-                for (var i = 0; i < here.Depth; ++i)
-                {
-                    _ = sb.Append("--");
+                    visited.Push(here);
+                    preGroup?.Invoke(here);
+                    foreach (var child in here.Children.AsEnumerable().Reverse())
+                    {
+                        toVisit.Push(child);
+                    }
                 }
 
-                _ = sb.AppendLine(here.Value.ToString());
-                return sb;
-            }).ToString();
+                last = here;
+            }
+
+            while (visited.Count > 0)
+            {
+                last = visited.Pop();
+                postGroup?.Invoke(last);
+                postItem?.Invoke(last);
+            }
+            end?.Invoke();
         }
     }
 }

@@ -15,9 +15,11 @@ namespace Juniper.Compression
         IComparable<CompressedFileInfo>,
         ISerializable
     {
+        public string Name { get; }
         public string FullName { get; }
         public bool IsFile { get; }
         public long Length { get; }
+        public string ParentPath { get; }
 
         internal readonly string[] pathParts;
 
@@ -27,10 +29,16 @@ namespace Juniper.Compression
 
         private CompressedFileInfo(string name, bool isFile, long size, string[] pathParts)
         {
-            FullName = name;
+            Name = name;
+            FullName = pathParts.Join(Path.DirectorySeparatorChar);
             IsFile = isFile;
             Length = size;
             this.pathParts = pathParts;
+            if(pathParts.Length > 0)
+            {
+                var parentPathParts = pathParts.Take(pathParts.Length - 1).ToArray();
+                ParentPath = parentPathParts.Join(Path.DirectorySeparatorChar);
+            }
         }
 
         internal CompressedFileInfo(string name, bool isFile, long size)
@@ -71,8 +79,8 @@ namespace Juniper.Compression
         {
             return !IsFile
                 && other is object
-                && other.pathParts.Length >= pathParts.Length
-                && other.pathParts.Take(pathParts.Length).Matches(pathParts);
+                && !other.IsFile
+                && other.FullName == this.ParentPath;
         }
 
         public bool Equals(CompressedFileInfo other)
