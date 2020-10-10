@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 using System;
 using System.Data;
@@ -15,7 +16,7 @@ namespace Juniper.HTTP.Server
     /// </summary>
     public class DbFileResult : IActionResult
     {
-        private readonly DbContext db;
+        private readonly DatabaseFacade db;
         private readonly long size;
         private readonly string contentType;
         private readonly string fileName;
@@ -30,7 +31,7 @@ namespace Juniper.HTTP.Server
         /// <param name="contentType">The content type of the file that will be sent. This should be retrieved separately.</param>
         /// <param name="fileName">The name of the file that will be sent. This should be retrieved separately.</param>
         /// <param name="makeCommand">A callback function to construct the Command that will perform the query to retrieve the file stream.</param>
-        public DbFileResult(DbContext db, long size, string contentType, string fileName, Action<DbCommand> makeCommand)
+        public DbFileResult(DatabaseFacade db, long size, string contentType, string fileName, Action<DbCommand> makeCommand)
         {
             this.db = db;
             this.size = size;
@@ -51,7 +52,7 @@ namespace Juniper.HTTP.Server
                 throw new ArgumentNullException(nameof(context));
             }
 
-            using var conn = db.Database.GetDbConnection();
+            using var conn = db.GetDbConnection();
             await conn.OpenAsync().ConfigureAwait(false);
 
             using var cmd = conn.CreateCommand();
