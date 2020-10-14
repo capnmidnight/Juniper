@@ -9,7 +9,6 @@ namespace Juniper.Collections
     /// </summary>
     /// <typeparam name="T">Any type of object</typeparam>
     public partial class NAryTree<T>
-        where T : IEquatable<T>
     {
         /// <summary>
         /// The value stored in this node.
