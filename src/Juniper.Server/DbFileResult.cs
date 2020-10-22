@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
 using System;
-using System.Data;
 using System.Data.Common;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -52,35 +51,23 @@ namespace Juniper.HTTP.Server
                 throw new ArgumentNullException(nameof(context));
             }
 
-            using var conn = db.GetDbConnection();
-            await conn.OpenAsync().ConfigureAwait(false);
-
-            using var cmd = conn.CreateCommand();
-            makeCommand(cmd);
-
-            using var reader = await cmd.ExecuteReaderAsync(
-                CommandBehavior.SingleResult
-                | CommandBehavior.SequentialAccess
-                | CommandBehavior.CloseConnection)
-                .ConfigureAwait(false);
-            var read = await reader.ReadAsync()
-                .ConfigureAwait(false);
-
             var response = context.HttpContext.Response;
-            if (!read)
+            using var handler = new DbFileStreamHandler(db, makeCommand);
+            try
             {
-                response.StatusCode = (int)HttpStatusCode.NotFound;
-            }
-            else
-            {
+                using var stream = await handler.GetStreamAsync()
+                    .ConfigureAwait(false);
                 response.StatusCode = (int)HttpStatusCode.OK;
                 response.ContentType = contentType;
                 response.ContentLength = size;
                 response.Headers["Content-Disposition"] = $"attachment; filename=\"{fileName}\"";
 
-                using var stream = reader.GetStream(0);
                 await stream.CopyToAsync(context.HttpContext.Response.Body)
                     .ConfigureAwait(false);
+            }
+            catch (EndOfStreamException)
+            {
+                response.StatusCode = (int)HttpStatusCode.NotFound;
             }
         }
     }
