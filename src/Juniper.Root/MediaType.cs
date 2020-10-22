@@ -286,7 +286,18 @@ namespace Juniper
             }
         }
 
-        public virtual bool Matches(string fileName)
+        public virtual bool Matches(string mimeType)
+        {
+            if (string.IsNullOrEmpty(mimeType))
+            {
+                return false;
+            }
+
+            return ReferenceEquals(this, Any)
+                || Value == mimeType;
+        }
+
+        public virtual bool GuessMatches(string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
             {
@@ -297,14 +308,14 @@ namespace Juniper
             return types.Contains(this);
         }
 
-        public bool Matches(FileInfo file)
+        public bool GuessMatches(FileInfo file)
         {
             if (file is null)
             {
                 throw new ArgumentNullException(nameof(file));
             }
 
-            return Matches(file.Name);
+            return GuessMatches(file.Name);
         }
 
         public string AddExtension(string fileName)

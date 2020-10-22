@@ -68,13 +68,13 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(outputFile));
             }
 
-            if (MediaType.Application.Json.Matches(outputFile))
+            if (MediaType.Application.Json.GuessMatches(outputFile))
             {
                 var json = new JsonFactory<T>();
                 using var stream = outputFile.Create();
                 item.Save(stream, json);
             }
-            else if (MediaType.Application.Octet_Stream.Matches(outputFile))
+            else if (MediaType.Application.Octet_Stream.GuessMatches(outputFile))
             {
                 var bin = new BinaryFactory<T>();
                 using var stream = outputFile.Create();

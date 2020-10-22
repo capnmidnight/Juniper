@@ -110,7 +110,7 @@ namespace Juniper.IO
 
             foreach (var file in Decompressor.Entries(zipFile).Files())
             {
-                if (ofType.Matches(file.FullName))
+                if (ofType.GuessMatches(file.FullName))
                 {
                     var cacheID = PathExt.RemoveShortExtension(file.FullName);
                     yield return cacheID + ofType;

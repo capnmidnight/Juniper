@@ -21,11 +21,11 @@ namespace Juniper.Collections
             }
 
             using var stream = file.OpenRead();
-            if (MediaType.Application.Json.Matches(file))
+            if (MediaType.Application.Json.GuessMatches(file))
             {
                 return LoadJSON<NodeT>(stream);
             }
-            else if (MediaType.Application.Octet_Stream.Matches(file))
+            else if (MediaType.Application.Octet_Stream.GuessMatches(file))
             {
                 return LoadBinary<NodeT>(stream);
             }

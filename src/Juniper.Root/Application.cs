@@ -12,15 +12,27 @@ namespace Juniper
 
             public static readonly Application AnyApplication = new Application("*");
 
-            public override bool Matches(string fileName)
+            public override bool GuessMatches(string fileName)
             {
                 if (ReferenceEquals(this, AnyApplication))
                 {
-                    return Values.Any(x => x.Matches(fileName));
+                    return Values.Any(x => x.GuessMatches(fileName));
                 }
                 else
                 {
-                    return base.Matches(fileName);
+                    return base.GuessMatches(fileName);
+                }
+            }
+
+            public override bool Matches(string mimeType)
+            {
+                if (ReferenceEquals(this, AnyApplication))
+                {
+                    return Values.Any(x => x.Matches(mimeType));
+                }
+                else
+                {
+                    return base.Matches(mimeType);
                 }
             }
         }
