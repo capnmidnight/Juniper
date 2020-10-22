@@ -35,6 +35,19 @@ namespace Juniper.Units
             }
         };
 
+        public static string Format(long value, UnitOfMeasure units = UnitOfMeasure.Bytes)
+        {
+            var isNegative = value < 0;
+            value = Math.Abs(value);
+            var str = Format((ulong)value, units);
+            if (isNegative)
+            {
+                str = System.Globalization.NumberFormatInfo.CurrentInfo.NegativeSign + str;
+            }
+
+            return str;
+        }
+
         public static string Format(ulong value, UnitOfMeasure units = UnitOfMeasure.Bytes)
         {
             if (value < 1)
