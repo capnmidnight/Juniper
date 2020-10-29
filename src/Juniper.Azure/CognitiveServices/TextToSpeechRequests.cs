@@ -35,7 +35,7 @@ namespace Juniper.Speech.Azure.CognitiveServices
             var rounded = Round(precent, 2);
             var value = rounded.ToString("0.00", CultureInfo.InvariantCulture);
             _ = sb.Append(value)
-                .Append("%");
+                .Append('%');
             if (addQuotes)
             {
                 _ = sb.Append('\'');
@@ -155,7 +155,7 @@ namespace Juniper.Speech.Azure.CognitiveServices
                     AddPercentField(sb, "volume", VolumeChange, true);
                 }
 
-                _ = sb.Append(">");
+                _ = sb.Append('>');
             }
 
             if (UseStyle)
