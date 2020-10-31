@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <AssemblyName>Juniper.Server</AssemblyName>
-    <RootNamespace>Juniper.HTTP.Server</RootNamespace>
+    <RootNamespace>Juniper</RootNamespace>
     <OutputType>Library</OutputType>
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <Authors>Sean T. McBeth</Authors>

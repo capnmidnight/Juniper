@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using Juniper.IO;
 
-namespace Juniper.HTTP.Server
+namespace Juniper.HTTP
 {
     public static class HttpListenerResponseExt
     {

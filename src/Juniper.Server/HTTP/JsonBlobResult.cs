@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace Juniper.HTTP.Server
+namespace Juniper.HTTP
 {
     /// <summary>
     /// Takes a chunk of JSON text and sends it down the pipe with the Content-Length set.

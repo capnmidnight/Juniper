@@ -3,7 +3,7 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Juniper.HTTP.Client
+namespace Juniper.HTTP
 {
     public class ClientWebSocketConnection : WebSocketConnection<ClientWebSocket>
     {

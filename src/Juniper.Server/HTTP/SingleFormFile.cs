@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 using Microsoft.AspNetCore.Http;
 
-namespace Juniper.Server.HTTP
+namespace Juniper.HTTP
 {
     public class SingleFormFile
     {

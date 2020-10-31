@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Juniper.HTTP.Server
+namespace Juniper.HTTP
 {
     /// <summary>
     /// When using Entity Framework in ASP.NET Core, this ActionResult can be used to retrieve and stream
