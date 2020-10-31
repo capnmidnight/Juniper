@@ -34,7 +34,7 @@ namespace Juniper.Compression
             IsFile = isFile;
             Length = size;
             this.pathParts = pathParts;
-            if(pathParts.Length > 0)
+            if (pathParts.Length > 0)
             {
                 var parentPathParts = pathParts.Take(pathParts.Length - 1).ToArray();
                 ParentPath = parentPathParts.Join(Path.DirectorySeparatorChar);

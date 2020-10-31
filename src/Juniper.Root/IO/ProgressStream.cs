@@ -1,6 +1,6 @@
-using Juniper.Progress;
-
 using System.IO;
+
+using Juniper.Progress;
 
 namespace Juniper.IO
 {

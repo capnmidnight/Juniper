@@ -1,7 +1,5 @@
 using System.Globalization;
 
-using Juniper.Imaging;
-
 namespace Juniper.World.GIS.Google.StreetView
 {
     public class ImageRequest : AbstractStreetViewRequest<MediaType.Image>

@@ -24,7 +24,7 @@ namespace Juniper.Mathematics
                 throw new ArgumentNullException(nameof(values));
             }
 
-            if(values.Length != 4)
+            if (values.Length != 4)
             {
                 throw new ArgumentOutOfRangeException(nameof(values), "Array initialization requires 4 values");
             }

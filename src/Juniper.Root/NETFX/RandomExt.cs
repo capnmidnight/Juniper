@@ -23,7 +23,7 @@ namespace System
             {
                 throw new ArgumentNullException(nameof(rand));
             }
-            
+
             return Quaternion.CreateFromYawPitchRoll(
                 (float)rand.NextDouble() * 2 - 1,
                 (float)rand.NextDouble() * 2 - 1,

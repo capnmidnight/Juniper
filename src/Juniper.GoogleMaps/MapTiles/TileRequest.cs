@@ -4,8 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-using Juniper.Imaging;
-
 namespace Juniper.World.GIS.Google.MapTiles
 {
     public class TileRequest : AbstractGoogleMapsRequest<MediaType.Image>

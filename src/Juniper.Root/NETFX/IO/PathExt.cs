@@ -1,6 +1,5 @@
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace System.IO
 {
@@ -252,7 +251,7 @@ namespace System.IO
                 || Environment.OSVersion.Platform == PlatformID.Win32Windows)
             {
                 path = path.Replace(Path.DirectorySeparatorChar, '/');
-                if (path.Length >=3
+                if (path.Length >= 3
                     && 'A' <= path[0] && path[0] <= 'Z'
                     && path[1] == ':'
                     && path[2] == '/')

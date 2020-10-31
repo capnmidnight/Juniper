@@ -35,11 +35,24 @@ namespace Accord.Math
                 throw new ArgumentOutOfRangeException(nameof(values), "values array must be 16 elements long");
             }
 
-            return new Matrix4x4 {
-                V00 = values[0], V01 = values[1], V02 = values[2], V03 = values[3],
-                V10 = values[4], V11 = values[5], V12 = values[6], V13 = values[7],
-                V20 = values[8], V21 = values[9], V22 = values[10],V23 = values[11],
-                V30 = values[12],V31 = values[13],V32 = values[14],V33 = values[15]
+            return new Matrix4x4
+            {
+                V00 = values[0],
+                V01 = values[1],
+                V02 = values[2],
+                V03 = values[3],
+                V10 = values[4],
+                V11 = values[5],
+                V12 = values[6],
+                V13 = values[7],
+                V20 = values[8],
+                V21 = values[9],
+                V22 = values[10],
+                V23 = values[11],
+                V30 = values[12],
+                V31 = values[13],
+                V32 = values[14],
+                V33 = values[15]
             };
         }
 
@@ -187,7 +200,7 @@ namespace Accord.Math
 
         public static float[] ToArray(Plane p)
         {
-            if(p is null)
+            if (p is null)
             {
                 throw new ArgumentNullException(nameof(p));
             }

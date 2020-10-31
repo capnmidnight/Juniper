@@ -1,7 +1,7 @@
+using System.Collections.Generic;
+
 using Juniper.Units;
 using Juniper.World.GIS;
-
-using System.Collections.Generic;
 
 namespace System.Numerics
 {
@@ -74,11 +74,24 @@ namespace System.Numerics
 
         public static Accord.Math.Matrix4x4 ToAccordMatrix4x4(this Matrix4x4 v)
         {
-            return new Accord.Math.Matrix4x4{
-                V00 = v.M11, V01 = v.M12, V02 = v.M13, V03 = v.M14,
-                V10 = v.M21, V11 = v.M22, V12 = v.M23, V13 = v.M24,
-                V20 = v.M31, V21 = v.M32, V22 = v.M33, V23 = v.M34,
-                V30 = v.M41, V31 = v.M42, V32 = v.M43, V33 = v.M44
+            return new Accord.Math.Matrix4x4
+            {
+                V00 = v.M11,
+                V01 = v.M12,
+                V02 = v.M13,
+                V03 = v.M14,
+                V10 = v.M21,
+                V11 = v.M22,
+                V12 = v.M23,
+                V13 = v.M24,
+                V20 = v.M31,
+                V21 = v.M32,
+                V22 = v.M33,
+                V23 = v.M34,
+                V30 = v.M41,
+                V31 = v.M42,
+                V32 = v.M43,
+                V33 = v.M44
             };
         }
 
@@ -97,8 +110,8 @@ namespace System.Numerics
             return new Matrix4x4(
                 values[0], values[1], values[2], values[3],
                 values[4], values[5], values[6], values[7],
-                values[8], values[9], values[10],values[11],
-                values[12],values[13],values[14],values[15]);
+                values[8], values[9], values[10], values[11],
+                values[12], values[13], values[14], values[15]);
         }
 
         public static float[] ToArray(this Matrix4x4 v)

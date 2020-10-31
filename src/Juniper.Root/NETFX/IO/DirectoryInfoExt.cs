@@ -17,7 +17,7 @@ namespace System.IO
         /// <returns></returns>
         public static DirectoryInfo CD(this DirectoryInfo dir, string sub)
         {
-            if(dir is null)
+            if (dir is null)
             {
                 throw new ArgumentNullException(nameof(dir));
             }

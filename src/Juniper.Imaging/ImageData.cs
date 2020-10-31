@@ -1,5 +1,4 @@
 using System;
-using System.Numerics;
 
 namespace Juniper.Imaging
 {
@@ -50,7 +49,7 @@ namespace Juniper.Imaging
 
         public void SetRGB(int x, int y, Color3 rgb)
         {
-            if(rgb.Space != ColorSpace.RGB)
+            if (rgb.Space != ColorSpace.RGB)
             {
                 rgb = rgb.ConvertTo(ColorSpace.RGB);
             }

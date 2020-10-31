@@ -1,9 +1,9 @@
-using Accord.Math;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+using Accord.Math;
 
 namespace Juniper.Units
 {
@@ -60,7 +60,7 @@ namespace Juniper.Units
                               where kv.Value.Contains(units)
                               select (SystemOfMeasure?)kv.Key)
                             .FirstOrDefault();
-                if(system is null)
+                if (system is null)
                 {
                     throw new ArgumentException("Units parameter must be a file type. Given: " + units, nameof(units));
                 }

@@ -224,7 +224,7 @@ namespace Juniper
         public static Color3 Lerp(Color3 a, Color3 b, float t)
         {
             var origSpace = a.Space;
-            if(a.Space != ColorSpace.HSV)
+            if (a.Space != ColorSpace.HSV)
             {
                 a = a.ConvertTo(ColorSpace.HSV);
             }
@@ -235,7 +235,7 @@ namespace Juniper
             }
 
             var c = a * (1 - t) + b * t;
-            if(origSpace != ColorSpace.HSV)
+            if (origSpace != ColorSpace.HSV)
             {
                 c.ConvertTo(origSpace);
             }
