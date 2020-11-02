@@ -83,6 +83,12 @@
     <Compile Update="Video.Values.cs">
       <DependentUpon>Video.cs</DependentUpon>
     </Compile>
+    <Compile Update="XShader.cs">
+      <DependentUpon>MediaType.cs</DependentUpon>
+    </Compile>
+    <Compile Update="XShader.Values.cs">
+      <DependentUpon>XShader.cs</DependentUpon>
+    </Compile>
     <Compile Update="XConference.cs">
       <DependentUpon>MediaType.cs</DependentUpon>
     </Compile>

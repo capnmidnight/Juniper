@@ -6,7 +6,7 @@ namespace Juniper
         {
             public static readonly Model Example = new Model("example");
             public static readonly Model Gltf_Binary = new Model("gltf-binary");
-            public static readonly Model GltfJson = new Model("gltf+json", new string[] { "json" });
+            public static readonly Model Gltf_Json = new Model("gltf+json", new string[] { "json" });
             public static readonly Model Iges = new Model("iges", new string[] { "igs", "iges" });
             public static readonly Model Mesh = new Model("mesh", new string[] { "msh", "mesh", "silo" });
             public static readonly Model Stl = new Model("stl");
@@ -37,7 +37,7 @@ namespace Juniper
             public static new readonly Model[] Values = {
                 Example,
                 Gltf_Binary,
-                GltfJson,
+                Gltf_Json,
                 Iges,
                 Mesh,
                 Stl,

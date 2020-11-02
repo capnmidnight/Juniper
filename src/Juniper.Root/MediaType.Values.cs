@@ -1844,7 +1844,7 @@ namespace Juniper
             Message.VendorWfaWsc,
             Model.Example,
             Model.Gltf_Binary,
-            Model.GltfJson,
+            Model.Gltf_Json,
             Model.Iges,
             Model.Mesh,
             Model.Stl,
@@ -2079,7 +2079,9 @@ namespace Juniper
             Video.X_Msvideo,
             Video.X_Sgi_Movie,
             Video.X_Smv,
-            XConference.X_Cooltalk
+            XConference.X_Cooltalk,
+            XShader.X_Fragment,
+            XShader.X_Vertex
         });
     }
 }
