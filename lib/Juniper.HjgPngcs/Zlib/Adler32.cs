@@ -3,10 +3,10 @@ namespace Hjg.Pngcs.Zlib
     public class Adler32
     {
         private uint a = 1;
-        private uint b = 0;
+        private uint b;
         private const int _base = 65521; /* largest prime smaller than 65536 */
         private const int _nmax = 5550;
-        private int pend = 0; // how many bytes have I read witouth computing modulus
+        private int pend; // how many bytes have I read witouth computing modulus
 
         public void Update(byte data)
         {

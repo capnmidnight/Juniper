@@ -79,9 +79,9 @@ namespace Hjg.Pngcs
         /// <remarks>
         ///  Default: { "fdAT" }. chunks with these ids will be skipped (nor even CRC checked)
         /// </remarks>
-        public string[] SkipChunkIds { get; set; }
+        public IReadOnlyList<string> SkipChunkIds { get; set; }
 
-        private Dictionary<string, int> skipChunkIdsSet = null; // lazily created
+        private Dictionary<string, int> skipChunkIdsSet; // lazily created
 
         /// <summary>
         /// A high level wrapper of a ChunksList : list of read chunks
@@ -119,7 +119,7 @@ namespace Hjg.Pngcs
         private readonly PngDeinterlacer deinterlacer;
 
         // this only influences the 1-2-4 bitdepth format
-        private bool unpackedMode = false;
+        private bool unpackedMode;
 
         /// <summary>
         /// number of chunk group (0-6) last read, or currently reading
@@ -132,8 +132,8 @@ namespace Hjg.Pngcs
         /// </summary>
         private int rowNum = -1; //
 
-        private long offset = 0;  // offset in InputStream = bytes read
-        private int bytesChunksLoaded = 0; // bytes loaded from anciallary chunks
+        private long offset;  // offset in InputStream = bytes read
+        private int bytesChunksLoaded; // bytes loaded from anciallary chunks
 
         private readonly Stream inputStream;
         internal AZlibInputStream idatIstream;
@@ -245,9 +245,7 @@ namespace Hjg.Pngcs
                 {
                     idatIstream.Close();
                 }
-#pragma warning disable RCS1075 // Avoid empty catch clause that catches System.Exception.
                 catch (Exception) { }
-#pragma warning restore RCS1075 // Avoid empty catch clause that catches System.Exception.
                 ReadLastChunks();
             }
 
@@ -263,11 +261,7 @@ namespace Hjg.Pngcs
                 {
                     idatIstream.Close();
                 }
-#pragma warning disable RCS1075 // Avoid empty catch clause that catches System.Exception.
-                catch (Exception)
-#pragma warning restore RCS1075 // Avoid empty catch clause that catches System.Exception.
-                {
-                }
+                catch (Exception) { }
 
                 CurrentChunkGroup = ChunksList.CHUNK_GROUP_6_END;
             }
@@ -538,19 +532,6 @@ namespace Hjg.Pngcs
             chunksList.AppendReadChunk(pngChunk, CurrentChunkGroup);
             offset += clen + 4L;
             return pngChunk;
-        }
-
-        /// <summary>
-        /// Logs/prints a warning.
-        /// </summary>
-        /// <remarks>
-        /// The default behaviour is print to stderr, but it can be overriden.
-        /// This happens rarely - most errors are fatal.
-        /// </remarks>
-        /// <param name="warn"></param>
-        internal void LogWarn(string warn)
-        {
-            Console.Error.WriteLine(warn);
         }
 
         /// <summary>
@@ -1003,7 +984,7 @@ namespace Hjg.Pngcs
         }
 
         #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
+        private bool disposedValue; // To detect redundant calls
 
         private void Dispose(bool disposing)
         {

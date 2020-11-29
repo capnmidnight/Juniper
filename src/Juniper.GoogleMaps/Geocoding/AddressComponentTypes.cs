@@ -114,7 +114,7 @@ namespace Juniper.World.GIS.Google.Geocoding
         /// <summary>
         /// An alias for <see cref="locality"/>.
         /// </summary>
-        city = 1L << 15,
+        city = locality,
 
         ///<summary>
         /// indicates a first-order civil entity below a locality. For some

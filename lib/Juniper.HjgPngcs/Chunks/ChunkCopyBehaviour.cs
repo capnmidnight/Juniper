@@ -11,7 +11,7 @@ namespace Hjg.Pngcs.Chunks
         /// <summary>
         /// Don't copy any chunk
         /// </summary>
-        public static readonly int COPY_NONE = 0;
+        public static readonly int COPY_NONE;
 
         /// <summary>
         /// Copy the Palette, if present

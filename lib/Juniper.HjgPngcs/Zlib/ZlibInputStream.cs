@@ -16,24 +16,24 @@ namespace Hjg.Pngcs.Zlib
         }
 
         private DeflateStream deflateStream; // lazily created, if real read is called
-        private bool initdone = false;
-        private bool closed = false;
+        private bool initdone;
+        private bool closed;
 
         // private Adler32 adler32 ; // we dont check adler32!
         private bool fdict;// merely informational, not used
         private byte[] dictid; // merely informational, not used
-        private byte[] crcread = null; // merely informational, not checked
+        private byte[] crcread; // merely informational, not checked
 
         public override int Read(byte[] array, int offset, int count)
         {
             if (!initdone)
             {
-                doInit();
+                DoInit();
             }
 
             if (deflateStream is null && count > 0)
             {
-                initStream();
+                InitStream();
             }
             // we dont't check CRC on reading
             var r = deflateStream.Read(array, offset, count);
@@ -53,7 +53,7 @@ namespace Hjg.Pngcs.Zlib
         {
             if (!initdone)
             {
-                doInit(); // can happen if never called write
+                DoInit(); // can happen if never called write
             }
 
             if (closed)
@@ -78,7 +78,7 @@ namespace Hjg.Pngcs.Zlib
             }
         }
 
-        private void initStream()
+        private void InitStream()
         {
             if (deflateStream is object)
             {
@@ -88,7 +88,7 @@ namespace Hjg.Pngcs.Zlib
             deflateStream = new DeflateStream(rawStream, CompressionMode.Decompress, true);
         }
 
-        private void doInit()
+        private void DoInit()
         {
             if (initdone)
             {

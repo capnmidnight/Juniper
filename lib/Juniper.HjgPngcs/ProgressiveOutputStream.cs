@@ -10,7 +10,7 @@ namespace Hjg.Pngcs
     internal abstract class ProgressiveOutputStream : MemoryStream
     {
         private readonly int size;
-        private long countFlushed = 0;
+        private long countFlushed;
 
         protected ProgressiveOutputStream(int size_0)
         {

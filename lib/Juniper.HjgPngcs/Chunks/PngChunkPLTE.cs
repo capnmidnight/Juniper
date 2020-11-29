@@ -10,7 +10,7 @@ namespace Hjg.Pngcs.Chunks
     {
         public const string ID = ChunkHelper.PLTE;
 
-        private int nentries = 0;
+        private int nentries;
 
         private int[] entries;
 

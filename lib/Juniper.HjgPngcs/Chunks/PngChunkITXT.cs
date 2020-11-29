@@ -10,7 +10,7 @@ namespace Hjg.Pngcs.Chunks
     {
         public const string ID = ChunkHelper.iTXt;
 
-        private bool compressed = false;
+        private bool compressed;
         private string langTag = "";
         private string translatedTag = "";
 

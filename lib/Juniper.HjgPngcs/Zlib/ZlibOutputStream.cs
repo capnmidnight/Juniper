@@ -12,8 +12,8 @@ namespace Hjg.Pngcs.Zlib
 
         private DeflateStream deflateStream; // lazily created, if real read/write is called
         private readonly Adler32 adler32 = new Adler32();
-        private bool initdone = false;
-        private bool closed = false;
+        private bool initdone;
+        private bool closed;
 
         public override void WriteByte(byte value)
         {
