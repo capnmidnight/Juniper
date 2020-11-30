@@ -20,11 +20,11 @@ namespace System
 
             if (value == 0)
             {
-                output.Append("0");
+                output.Append('0');
             }
             else if (float.IsPositiveInfinity(value))
             {
-                output.Append("∞");
+                output.Append('∞');
             }
             else if (float.IsNegativeInfinity(value))
             {
@@ -101,11 +101,11 @@ namespace System
         public static string SigFig(this Vector2 value, int numDigits)
         {
             var output = new StringBuilder();
-            output.Append("(");
+            output.Append('(');
             AppendSigFig(value.X, numDigits, output);
             output.Append(", ");
             AppendSigFig(value.Y, numDigits, output);
-            output.Append(")");
+            output.Append(')');
             return output.ToString();
         }
 
@@ -121,13 +121,13 @@ namespace System
         public static string SigFig(this Vector3 value, int numDigits)
         {
             var output = new StringBuilder();
-            output.Append("(");
+            output.Append('(');
             AppendSigFig(value.X, numDigits, output);
             output.Append(", ");
             AppendSigFig(value.Y, numDigits, output);
             output.Append(", ");
             AppendSigFig(value.Z, numDigits, output);
-            output.Append(")");
+            output.Append(')');
             return output.ToString();
         }
 
@@ -143,7 +143,7 @@ namespace System
         public static string SigFig(this Vector4 value, int numDigits)
         {
             var output = new StringBuilder();
-            output.Append("(");
+            output.Append('(');
             AppendSigFig(value.X, numDigits, output);
             output.Append(", ");
             AppendSigFig(value.Y, numDigits, output);
@@ -151,7 +151,7 @@ namespace System
             AppendSigFig(value.Z, numDigits, output);
             output.Append(", ");
             AppendSigFig(value.W, numDigits, output);
-            output.Append(")");
+            output.Append(')');
             return output.ToString();
         }
 

@@ -11,6 +11,11 @@ namespace System.Linq
                 throw new ArgumentNullException(nameof(arr));
             }
 
+            if (predicate is null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
             var height = arr.GetLength(0);
             var width = arr.GetLength(1);
             for (var y = 0; y < height; ++y)

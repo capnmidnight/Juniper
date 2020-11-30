@@ -51,6 +51,12 @@ namespace Juniper.IO
                 SourceStream.Dispose();
                 outStream.Dispose();
             }
+
+            try
+            {
+                base.Dispose();
+            }
+            catch { }
         }
 
         public override void Close()

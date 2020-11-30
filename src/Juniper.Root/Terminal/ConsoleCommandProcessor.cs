@@ -20,7 +20,7 @@ namespace Juniper.Terminal
     {
         private readonly Dictionary<ConsoleKey, NamedAction> actions = new Dictionary<ConsoleKey, NamedAction>();
 
-        private uint logLevel = 0;
+        private uint logLevel;
 
         public void Pump()
         {

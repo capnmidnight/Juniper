@@ -173,7 +173,7 @@ namespace Juniper.Compression.Tar
 
         private readonly List<TarArchiveEntry> entries;
 
-        private bool disposedValue = false;
+        private bool disposedValue;
 
         public TarArchive(Stream stream)
         {
