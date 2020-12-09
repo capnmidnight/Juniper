@@ -54,7 +54,7 @@ namespace Juniper.IO
 
             try
             {
-                base.Dispose();
+                base.Dispose(disposing);
             }
             catch { }
         }

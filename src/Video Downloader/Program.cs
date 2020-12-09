@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 
 using Juniper.IO;
+using Juniper.Progress;
 
 using static System.Console;
 using static Juniper.MediaType;

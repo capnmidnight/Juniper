@@ -17,7 +17,7 @@ namespace Juniper.HTTP
             }
         }
 
-        protected readonly Dictionary<int, ServerWebSocketConnection> sockets = new Dictionary<int, ServerWebSocketConnection>();
+        private readonly Dictionary<int, ServerWebSocketConnection> sockets = new Dictionary<int, ServerWebSocketConnection>();
 
         public IReadOnlyCollection<ServerWebSocketConnection> Sockets => sockets.Values;
 

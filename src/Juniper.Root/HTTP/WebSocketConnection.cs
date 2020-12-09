@@ -173,7 +173,7 @@ namespace Juniper.HTTP
         {
             if (DataMessage is object)
             {
-                var dataMessageDeserializer = new BinaryFactory<DataMessageEventArgs>();
+                var dataMessageDeserializer = new JsonFactory<DataMessageEventArgs>();
                 if (dataMessageDeserializer.TryDeserialize(e.Value.ToArray(), out var dataMsg))
                 {
                     OnDataMessage(dataMsg);
@@ -202,7 +202,7 @@ namespace Juniper.HTTP
             OnDebug($"Send: {value} => {message}");
             var data = serializer.Serialize(value);
             var dataMessage = new DataMessage(message, data);
-            var msgSerializer = new BinaryFactory<DataMessage>();
+            var msgSerializer = new JsonFactory<DataMessage>();
             return SendAsync(msgSerializer.Serialize(dataMessage));
         }
 
@@ -234,7 +234,7 @@ namespace Juniper.HTTP
             }
 
             var segment = new ArraySegment<byte>(buffer.ToArray());
-            OnDebug($"Send: {buffer.Length.ToString(CultureInfo.CurrentCulture)} bytes. Type: {messageType.ToString()}.");
+            OnDebug($"Send: {buffer.Length.ToString(CultureInfo.CurrentCulture)} bytes. Type: {messageType}.");
             await Socket
                 .SendAsync(segment, messageType, true, CancellationToken.None)
                 .ConfigureAwait(false);
@@ -286,8 +286,6 @@ namespace Juniper.HTTP
         #endregion
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "<Pending>")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
         private void OnDebug(string msg)
         {
 #if DEBUG
