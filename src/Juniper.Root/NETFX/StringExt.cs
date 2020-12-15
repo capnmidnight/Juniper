@@ -12,6 +12,27 @@ namespace System
     /// </summary>
     public static class StringExt
     {
+        private static readonly Random rand = new Random();
+
+        /// <summary>
+        /// Generates a random string of a specified length. The default character set is Arabic numberals and upper-case Latin alphabet letters, as used in English.
+        /// </summary>
+        /// <param name="length"></param>
+        /// <param name="charSet"></param>
+        /// <returns></returns>
+        public static string Random(uint length, string charSet = null)
+        {
+
+            var str = "";
+            for (var i = 0; i < length; ++i)
+            {
+                var idx = rand.NextChar(charSet);
+                str += charSet[idx];
+            }
+
+            return str;
+        }
+
         /// <summary>
         /// Perforum `Uri.UnescapeDataString(value)` on this string.
         /// </summary>

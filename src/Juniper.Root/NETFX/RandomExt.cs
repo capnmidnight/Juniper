@@ -104,5 +104,22 @@ namespace System
 
             return rand.NextDouble() < weight;
         }
+
+        private const string DEFAULT_CHAR_SET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZ";
+        public static char NextChar(this Random rand, string charSet)
+        {
+            if (charSet is null)
+            {
+                charSet = DEFAULT_CHAR_SET;
+            }
+
+            if(charSet.Length == 0)
+            {
+                throw new ArgumentException(nameof(charSet), "Character set for random selection must not be the empty string");
+            }
+
+            var idx = rand.Next(0, charSet.Length);
+            return charSet[idx];
+        }
     }
 }
