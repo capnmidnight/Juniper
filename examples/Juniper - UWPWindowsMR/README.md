@@ -1,2 +1,0 @@
-# README
-For some versions of Windows, the HoloLens Sensor driver does not automatically install. Download the package from [https://www.microsoft.com/en-us/download/confirmation.aspx?id=56265](here) and follow the installation instructions on the page

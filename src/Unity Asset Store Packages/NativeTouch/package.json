@@ -1,8 +1,0 @@
-{
-    "name": "com.e7.native-touch",
-    "author": "Sirawat Pitaksarit/5argon - Exceed7 Experiments",
-    "displayName": "Native Touch",
-    "version": "4.0.1",
-    "unity": "2017.1",
-    "description": "Faster touch via callbacks from the OS, with a real hardware timestamp."
-}
