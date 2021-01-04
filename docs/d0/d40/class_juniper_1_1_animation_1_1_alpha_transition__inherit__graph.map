@@ -1,7 +1,0 @@
-<map id="Juniper.Animation.AlphaTransition" name="Juniper.Animation.AlphaTransition">
-<area shape="rect" id="node1" title="Performs a shrinking/growing animation on scene transitions." alt="" coords="5,1100,223,1251"/>
-<area shape="rect" id="node5" href="$dd/d40/class_juniper_1_1_widgets_1_1_video_vader.html" title="Manages the life&#45;cycle of a video that can be faded out or faded in." alt="" coords="23,1299,205,1523"/>
-<area shape="rect" id="node2" href="$d6/d38/class_juniper_1_1_animation_1_1_abstract_transition_controller.html" title="Child classes of this class are able to animate transitions between program states." alt="" coords="23,711,205,1052"/>
-<area shape="rect" id="node3" href="$d9/d7e/class_juniper_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="37,131,191,663"/>
-<area shape="rect" id="node4" title=" " alt="" coords="59,5,169,83"/>
-</map>

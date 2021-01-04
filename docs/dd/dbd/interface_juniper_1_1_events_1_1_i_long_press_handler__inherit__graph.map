@@ -1,7 +1,0 @@
-<map id="Juniper.Events.ILongPressHandler" name="Juniper.Events.ILongPressHandler">
-<area shape="rect" id="node1" title="Like a click event, but taking a lot longer to fulfill." alt="" coords="107,131,277,237"/>
-<area shape="rect" id="node3" href="$d2/d70/class_juniper_1_1_widgets_1_1_clickable.html" title="An object that can be Touched on a screen or Clicked with a mouse and fires an event in response." alt="" coords="109,285,275,451"/>
-<area shape="rect" id="node2" title=" " alt="" coords="121,5,263,83"/>
-<area shape="rect" id="node4" href="$dc/d25/class_juniper_1_1_widgets_1_1_openable.html" title="A control that is a container of other controls that are hidden until the control is clicked." alt="" coords="5,499,176,723"/>
-<area shape="rect" id="node5" href="$d2/da9/class_juniper_1_1_widgets_1_1_teleport_pad.html" title=" " alt="" coords="200,535,387,686"/>
-</map>

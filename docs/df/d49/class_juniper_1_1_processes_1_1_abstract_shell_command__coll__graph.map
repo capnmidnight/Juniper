@@ -1,7 +1,0 @@
-<map id="Juniper.Processes.AbstractShellCommand" name="Juniper.Processes.AbstractShellCommand">
-<area shape="rect" id="node1" title=" " alt="" coords="81,256,269,553"/>
-<area shape="rect" id="node2" href="$df/d21/interface_juniper_1_1_logging_1_1_i_logging_source.html" title=" " alt="" coords="119,131,230,208"/>
-<area shape="rect" id="node3" href="$de/dad/interface_juniper_1_1_logging_1_1_i_info_source.html" title=" " alt="" coords="5,5,93,83"/>
-<area shape="rect" id="node4" href="$d6/d23/interface_juniper_1_1_logging_1_1_i_warning_source.html" title=" " alt="" coords="117,5,232,83"/>
-<area shape="rect" id="node5" href="$d4/d12/interface_juniper_1_1_logging_1_1_i_error_source.html" title=" " alt="" coords="257,5,351,83"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="Juniper.Units.Angle" name="Juniper.Units.Angle">
-<area shape="rect" id="node1" title="Represents an angle in degrees that doesn&#39;t wrap around to 0 when iterating past 360 degrees...." alt="" coords="55,131,186,633"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,97,83"/>
-<area shape="rect" id="node3" title=" " alt="" coords="121,5,261,83"/>
-</map>

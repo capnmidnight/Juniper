@@ -1,6 +1,0 @@
-<map id="Juniper.IO.CachingStrategy" name="Juniper.IO.CachingStrategy">
-<area shape="rect" id="node1" title="A collection of source and destination layers for file content. Files originate from source layers an..." alt="" coords="99,315,277,597"/>
-<area shape="rect" id="node2" href="$d3/d27/interface_juniper_1_1_i_o_1_1_i_cache_destination_layer.html" title=" " alt="" coords="13,160,168,267"/>
-<area shape="rect" id="node3" href="$d8/d8b/interface_juniper_1_1_i_o_1_1_i_cache_source_layer.html" title=" " alt="" coords="5,5,176,112"/>
-<area shape="rect" id="node4" title=" " alt="" coords="192,167,379,259"/>
-</map>

@@ -1,7 +1,0 @@
-<map id="Juniper.Input.Pointers.Motion.AbstractHandTrackerConfiguration&lt; HandIDType, ButtonIDType &gt;" name="Juniper.Input.Pointers.Motion.AbstractHandTrackerConfiguration&lt; HandIDType, ButtonIDType &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="10,347,229,453"/>
-<area shape="rect" id="node4" href="$d2/d45/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker_configuration.html" title=" " alt="" coords="10,516,229,623"/>
-<area shape="rect" id="node2" href="$d0/d65/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer_configuration.html" title=" " alt="" coords="5,176,233,297"/>
-<area shape="rect" id="node3" href="$d0/d7e/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html" title=" " alt="" coords="27,5,212,127"/>
-<area shape="rect" id="node5" href="$d5/dc9/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_no_hand_tracker_configuration.html" title=" " alt="" coords="23,672,215,764"/>
-</map>

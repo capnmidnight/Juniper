@@ -1,9 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title=" " alt="" coords="5,177,107,203"/>
-<area shape="rect" id="node2" href="$d1/d22/class_juniper_1_1_configuration_management_1_1_juniper_compiler_define_manager.html" title="An editor to respond to changes in XRSystem." alt="" coords="155,5,376,47"/>
-<area shape="rect" id="node3" href="$d2/d83/class_juniper_1_1_configuration_management_1_1_juniper_installed_package_manager.html" title="An editor to respond to changes in XRSystem." alt="" coords="155,71,376,112"/>
-<area shape="rect" id="node4" href="$dd/da0/class_juniper_1_1_configuration_management_1_1_juniper_optional_package_manager.html" title="An editor to respond to changes in XRSystem." alt="" coords="155,136,376,177"/>
-<area shape="rect" id="node5" href="$df/dfa/class_juniper_1_1_configuration_management_1_1_juniper_platform_selector.html" title="An editor to respond to changes in XRSystem." alt="" coords="155,201,376,243"/>
-<area shape="rect" id="node6" href="$d0/dfd/class_juniper_1_1_configuration_management_1_1_juniper_required_package_installer.html" title="An editor to respond to changes in XRSystem." alt="" coords="155,267,376,308"/>
-<area shape="rect" id="node7" href="$d1/d02/class_juniper_1_1_unity_1_1_editor_1_1_juniper_editor_window.html" title=" " alt="" coords="177,332,354,373"/>
-</map>

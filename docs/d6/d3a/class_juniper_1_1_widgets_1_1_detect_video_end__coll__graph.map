@@ -1,4 +1,0 @@
-<map id="Juniper.Widgets.DetectVideoEnd" name="Juniper.Widgets.DetectVideoEnd">
-<area shape="rect" id="node1" title="Detects when a video player has played past the end of a video clip, either terminally or looping." alt="" coords="5,131,212,296"/>
-<area shape="rect" id="node2" title=" " alt="" coords="54,5,163,83"/>
-</map>

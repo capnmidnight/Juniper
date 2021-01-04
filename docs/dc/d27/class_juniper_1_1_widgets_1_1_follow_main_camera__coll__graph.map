@@ -1,7 +1,0 @@
-<map id="Juniper.Widgets.FollowMainCamera" name="Juniper.Widgets.FollowMainCamera">
-<area shape="rect" id="node1" title=" " alt="" coords="5,661,187,783"/>
-<area shape="rect" id="node2" title=" " alt="" coords="36,5,145,83"/>
-<area shape="rect" id="node4" href="$d6/d22/class_juniper_1_1_widgets_1_1_abstract_follow_settings.html" title="Make one object&#39;s pose follow the pose of another object." alt="" coords="90,132,262,297"/>
-<area shape="rect" id="node3" href="$d8/dfe/class_juniper_1_1_widgets_1_1_follow_object.html" title="Make one object&#39;s pose follow the pose of another object." alt="" coords="90,375,281,599"/>
-<area shape="rect" id="node5" title=" " alt="" coords="287,176,375,253"/>
-</map>

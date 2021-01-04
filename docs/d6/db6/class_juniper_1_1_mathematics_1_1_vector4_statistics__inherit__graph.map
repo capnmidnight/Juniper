@@ -1,6 +1,0 @@
-<map id="Juniper.Mathematics.Vector4Statistics" name="Juniper.Mathematics.Vector4Statistics">
-<area shape="rect" id="node1" title="A RingBuffer of UnityEngine.Vector4 values that also calculates some basic statistics along the way." alt="" coords="11,1777,198,2001"/>
-<area shape="rect" id="node2" href="$d1/d70/class_juniper_1_1_mathematics_1_1_abstract_statistics_collection.html" title=" " alt="" coords="5,961,204,1728"/>
-<area shape="rect" id="node3" href="$d1/d70/class_juniper_1_1_mathematics_1_1_abstract_statistics_collection.html" title="An abstract class for a collection wrapper that can automatically compute statistics on the values co..." alt="" coords="5,132,204,899"/>
-<area shape="rect" id="node4" title=" " alt="" coords="65,5,144,83"/>
-</map>

@@ -1,8 +1,0 @@
-<map id="Juniper.World.Climate.OpenWeatherMap.WeatherReport" name="Juniper.World.Climate.OpenWeatherMap.WeatherReport">
-<area shape="rect" id="node1" title="response from the OpenWeatherMap API. http://openweathermap.org/current::current_JSON." alt="" coords="104,727,291,1171"/>
-<area shape="rect" id="node2" href="$de/d3a/interface_juniper_1_1_climate_1_1_i_weather_report.html" title=" " alt="" coords="5,257,160,539"/>
-<area shape="rect" id="node3" title=" " alt="" coords="130,5,222,83"/>
-<area shape="rect" id="node4" href="$d6/d53/class_juniper_1_1_world_1_1_g_i_s_1_1_lat_lng_point.html" title="A point in geographic space on a radial coordinate system." alt="" coords="246,132,413,664"/>
-<area shape="rect" id="node5" title=" " alt="" coords="247,5,433,83"/>
-<area shape="rect" id="node6" title=" " alt="" coords="457,5,631,83"/>
-</map>

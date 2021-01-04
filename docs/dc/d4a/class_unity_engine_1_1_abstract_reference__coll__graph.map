@@ -1,4 +1,0 @@
-<map id="UnityEngine.AbstractReference&lt; T, U &gt;" name="UnityEngine.AbstractReference&lt; T, U &gt;">
-<area shape="rect" id="node1" title="A reference to either a savable *Variable or a static value set in the editor." alt="" coords="5,131,203,281"/>
-<area shape="rect" id="node2" href="$d8/d2c/interface_unity_engine_1_1_i_valued.html" title="An abstraction for Reference{T}s and Varabile{T}s to make them usuable in shared contexts." alt="" coords="55,5,153,83"/>
-</map>

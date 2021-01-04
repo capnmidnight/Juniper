@@ -1,6 +1,0 @@
-<map id="UnityEngine.FloatReference" name="UnityEngine.FloatReference">
-<area shape="rect" id="node1" title="A reference to either a savable FloatVariable or a static float value set in the editor." alt="" coords="15,545,193,623"/>
-<area shape="rect" id="node2" href="$da/d38/class_unity_engine_1_1_abstract_reference.html" title=" " alt="" coords="31,345,177,496"/>
-<area shape="rect" id="node3" href="$da/d38/class_unity_engine_1_1_abstract_reference.html" title="A reference to either a savable *Variable or a static value set in the editor." alt="" coords="5,132,203,283"/>
-<area shape="rect" id="node4" href="$d8/d2c/interface_unity_engine_1_1_i_valued.html" title="An abstraction for Reference{T}s and Varabile{T}s to make them usuable in shared contexts." alt="" coords="55,5,153,83"/>
-</map>

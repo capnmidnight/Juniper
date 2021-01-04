@@ -1,9 +1,0 @@
-<map id="Juniper.SubSceneController" name="Juniper.SubSceneController">
-<area shape="rect" id="node1" title="SubSceneControllers are used by the MasterSceneController to manage workflow through an application...." alt="" coords="33,713,213,864"/>
-<area shape="rect" id="node4" href="$de/ded/class_juniper_1_1_widgets_1_1_menu_collection.html" title=" " alt="" coords="5,1141,208,1394"/>
-<area shape="rect" id="node5" href="$de/db8/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_abstract_google_street_view.html" title=" " alt="" coords="232,913,448,1621"/>
-<area shape="rect" id="node2" href="$d9/d7e/class_juniper_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="45,132,200,664"/>
-<area shape="rect" id="node3" title=" " alt="" coords="68,5,177,83"/>
-<area shape="rect" id="node6" href="$de/db8/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_abstract_google_street_view.html" title=" " alt="" coords="232,1684,448,2392"/>
-<area shape="rect" id="node7" href="$d4/d92/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_google_street_view.html" title=" " alt="" coords="254,2441,426,2548"/>
-</map>

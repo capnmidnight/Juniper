@@ -1,6 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title=" " alt="" coords="5,78,87,105"/>
-<area shape="rect" id="node2" href="$d8/d96/class_juniper_1_1_display_1_1_display_type_event.html" title=" " alt="" coords="140,5,319,47"/>
-<area shape="rect" id="node3" href="$d9/df7/class_juniper_1_1_events_1_1_juniper_pointer_event.html" title="Events that receive a JuniperPointerEventData object as a callback parameter." alt="" coords="135,71,324,112"/>
-<area shape="rect" id="node4" href="$dc/d68/class_unity_engine_1_1_events_1_1_boolean_event.html" title="An event that passes a boolean value as an argument." alt="" coords="140,136,319,177"/>
-</map>

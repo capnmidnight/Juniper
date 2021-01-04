@@ -1,8 +1,0 @@
-<map id="Juniper.Haptics.AbstractHapticImmediateExpressor" name="Juniper.Haptics.AbstractHapticImmediateExpressor">
-<area shape="rect" id="node1" title=" " alt="" coords="37,777,211,899"/>
-<area shape="rect" id="node6" href="$d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html" title="When no specific haptic implementation is available, but we know the system supports haptics,..." alt="" coords="19,947,229,1068"/>
-<area shape="rect" id="node2" href="$d2/d3e/class_juniper_1_1_haptics_1_1_abstract_haptic_retained_expressor.html" title="Non&#45;iOS systems do not have built&#45;in haptic patterns. This class replicates the functionality of the ..." alt="" coords="19,461,229,729"/>
-<area shape="rect" id="node3" href="$d0/d83/class_juniper_1_1_haptics_1_1_abstract_haptic_device.html" title="An interface for all haptic device subsystems." alt="" coords="53,233,195,413"/>
-<area shape="rect" id="node4" title=" " alt="" coords="5,57,115,134"/>
-<area shape="rect" id="node5" href="$d8/d03/interface_juniper_1_1_haptics_1_1_i_haptic_device.html" title=" " alt="" coords="139,5,237,185"/>
-</map>

@@ -1,5 +1,0 @@
-var searchData=
-[
-  ['x',['X',['../d5/df9/struct_juniper_1_1_mathematics_1_1_plane_serializable.html#a2b754d9dcb344bd8f2d7cd65abebd6c7',1,'Juniper.Mathematics.PlaneSerializable.X()'],['../d6/dc6/struct_juniper_1_1_mathematics_1_1_quaternion_serializable.html#aa6090adb1ff4de44cd3608ef5555725d',1,'Juniper.Mathematics.QuaternionSerializable.X()'],['../d8/dac/struct_juniper_1_1_mathematics_1_1_vector2_serializable.html#a463f7581df18c31a70188b596f2ee64c',1,'Juniper.Mathematics.Vector2Serializable.X()'],['../d2/d09/struct_juniper_1_1_mathematics_1_1_vector3_serializable.html#a41bc7d1bde104ac3f3e730ad391143e6',1,'Juniper.Mathematics.Vector3Serializable.X()'],['../d1/db8/struct_juniper_1_1_mathematics_1_1_vector4_serializable.html#a345ea24d2ca00b74ba7483151cb0512d',1,'Juniper.Mathematics.Vector4Serializable.X()'],['../dd/d27/class_juniper_1_1_world_1_1_g_i_s_1_1_u_t_m_point.html#a6250104f3330d1a2ab39ee9a8d043504',1,'Juniper.World.GIS.UTMPoint.X()']]],
-  ['xrplatforms',['XRPlatforms',['../d5/d6b/class_juniper_1_1_configuration_management_1_1_platform_configuration.html#a6943547eaf4093233170ba5176382c0b',1,'Juniper::ConfigurationManagement::PlatformConfiguration']]]
-];

@@ -1,9 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$dd/dd9/interface_juniper_1_1_logic_1_1_i_expression.html" title=" " alt="" coords="5,136,171,177"/>
-<area shape="rect" id="node2" href="$d6/df2/class_juniper_1_1_logic_1_1_abstract_binary_expression.html" title=" " alt="" coords="225,71,408,112"/>
-<area shape="rect" id="node6" href="$dd/d72/class_juniper_1_1_logic_1_1_abstract_unary_expression.html" title=" " alt="" coords="221,136,412,177"/>
-<area shape="rect" id="node7" href="$d0/dea/class_juniper_1_1_logic_1_1_empty_expression.html" title=" " alt="" coords="219,201,415,243"/>
-<area shape="rect" id="node3" href="$df/d14/class_juniper_1_1_logic_1_1_and_expression.html" title=" " alt="" coords="463,5,645,47"/>
-<area shape="rect" id="node4" href="$d2/d18/class_juniper_1_1_logic_1_1_or_expression.html" title=" " alt="" coords="467,71,641,112"/>
-<area shape="rect" id="node5" href="$d9/dbd/class_juniper_1_1_logic_1_1_xor_expression.html" title=" " alt="" coords="463,136,645,177"/>
-</map>

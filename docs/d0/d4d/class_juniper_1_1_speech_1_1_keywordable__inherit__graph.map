@@ -1,6 +1,0 @@
-<map id="Juniper.Speech.Keywordable" name="Juniper.Speech.Keywordable">
-<area shape="rect" id="node1" title="An object that can be fires an event when a particular keyword is uttered." alt="" coords="63,403,249,568"/>
-<area shape="rect" id="node2" href="$d3/d5b/class_juniper_1_1_input_1_1_abstract_shortcutable.html" title=" " alt="" coords="5,131,147,355"/>
-<area shape="rect" id="node3" title=" " alt="" coords="21,5,131,83"/>
-<area shape="rect" id="node4" href="$dd/dd1/interface_juniper_1_1_speech_1_1_i_keyword_triggered.html" title="An interface for systems that respond to keyword utterances." alt="" coords="171,204,301,281"/>
-</map>

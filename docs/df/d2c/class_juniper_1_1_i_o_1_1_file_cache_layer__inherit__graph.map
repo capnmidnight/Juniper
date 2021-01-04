@@ -1,7 +1,0 @@
-<map id="Juniper.IO.FileCacheLayer" name="Juniper.IO.FileCacheLayer">
-<area shape="rect" id="node1" title=" " alt="" coords="131,315,302,509"/>
-<area shape="rect" id="node4" href="$d8/d62/class_juniper_1_1_i_o_1_1_streaming_assets_cache_layer.html" title=" " alt="" coords="5,557,212,693"/>
-<area shape="rect" id="node5" href="$d9/da9/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_google_maps_cache_layer.html" title=" " alt="" coords="237,565,415,686"/>
-<area shape="rect" id="node2" href="$d3/d27/interface_juniper_1_1_i_o_1_1_i_cache_destination_layer.html" title=" " alt="" coords="139,160,294,267"/>
-<area shape="rect" id="node3" href="$d8/d8b/interface_juniper_1_1_i_o_1_1_i_cache_source_layer.html" title=" " alt="" coords="131,5,302,112"/>
-</map>

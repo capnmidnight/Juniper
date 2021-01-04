@@ -1,9 +1,0 @@
-<map id="Juniper.World.GIS.Google.GoogleStreetView" name="Juniper.World.GIS.Google.GoogleStreetView">
-<area shape="rect" id="node1" title=" " alt="" coords="125,2427,297,2533"/>
-<area shape="rect" id="node2" href="$de/db8/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_abstract_google_street_view.html" title=" " alt="" coords="103,1684,319,2377"/>
-<area shape="rect" id="node3" href="$de/db8/class_juniper_1_1_world_1_1_g_i_s_1_1_google_1_1_abstract_google_street_view.html" title=" " alt="" coords="103,913,319,1621"/>
-<area shape="rect" id="node4" href="$db/d32/class_juniper_1_1_sub_scene_controller.html" title="SubSceneControllers are used by the MasterSceneController to manage workflow through an application...." alt="" coords="11,713,154,864"/>
-<area shape="rect" id="node5" href="$d9/d7e/class_juniper_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="5,132,160,664"/>
-<area shape="rect" id="node6" title=" " alt="" coords="28,5,137,83"/>
-<area shape="rect" id="node7" href="$d7/d48/interface_juniper_1_1_security_1_1_i_credential_receiver.html" title=" " alt="" coords="179,750,331,827"/>
-</map>

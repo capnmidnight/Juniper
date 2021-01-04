@@ -1,9 +1,0 @@
-<map id="Juniper.Sound.Beats.BeatDetector" name="Juniper.Sound.Beats.BeatDetector">
-<area shape="rect" id="node1" title=" " alt="" coords="162,579,329,1228"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,343,115,421"/>
-<area shape="rect" id="node3" href="$d4/ddc/class_juniper_1_1_sound_1_1_beats_1_1_on_spectrum_event_handler.html" title=" " alt="" coords="139,336,352,428"/>
-<area shape="rect" id="node4" title=" " alt="" coords="171,49,319,141"/>
-<area shape="rect" id="node5" href="$d8/d8d/class_juniper_1_1_sound_1_1_beats_1_1_beat_detector_configuration.html" title=" " alt="" coords="377,248,543,516"/>
-<area shape="rect" id="node6" href="$db/d03/class_juniper_1_1_sound_1_1_beats_1_1_band_pass.html" title=" " alt="" coords="353,5,549,185"/>
-<area shape="rect" id="node7" title=" " alt="" coords="573,57,625,134"/>
-</map>

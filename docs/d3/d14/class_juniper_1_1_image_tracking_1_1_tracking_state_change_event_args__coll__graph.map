@@ -1,8 +1,0 @@
-<map id="Juniper.ImageTracking.TrackingStateChangeEventArgs" name="Juniper.ImageTracking.TrackingStateChangeEventArgs">
-<area shape="rect" id="node1" title="Event arguments for AR tracked objects coming into and out of view." alt="" coords="63,779,286,871"/>
-<area shape="rect" id="node2" href="$df/d96/class_juniper_1_1_event_args.html" title=" " alt="" coords="5,463,107,540"/>
-<area shape="rect" id="node3" href="$d7/ded/class_juniper_1_1_image_tracking_1_1_abstract_trackable_found_event_handler.html" title=" " alt="" coords="155,287,357,716"/>
-<area shape="rect" id="node4" title=" " alt="" coords="148,139,257,217"/>
-<area shape="rect" id="node5" href="$dc/d68/class_unity_engine_1_1_events_1_1_boolean_event.html" title="An event that passes a boolean value as an argument." alt="" coords="281,132,460,224"/>
-<area shape="rect" id="node6" title=" " alt="" coords="305,5,436,83"/>
-</map>

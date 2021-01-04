@@ -1,9 +1,0 @@
-<map id="Juniper.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;" name="Juniper.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;">
-<area shape="rect" id="node1" title="A store for points in space that the system will restore on second&#45;run. By default,..." alt="" coords="184,132,371,488"/>
-<area shape="rect" id="node3" href="$d4/d2a/class_juniper_1_1_anchoring_1_1_a_r_kit_anchor_store.html" title=" " alt="" coords="12,624,167,833"/>
-<area shape="rect" id="node5" href="$d9/de9/class_juniper_1_1_anchoring_1_1_windows_m_r_anchor_store.html" title=" " alt="" coords="191,631,364,826"/>
-<area shape="rect" id="node6" href="$da/daf/class_juniper_1_1_anchoring_1_1_abstract_anchor_store.html" title=" " alt="" coords="389,551,611,907"/>
-<area shape="rect" id="node2" title=" " alt="" coords="223,5,332,83"/>
-<area shape="rect" id="node4" href="$df/d66/class_juniper_1_1_anchoring_1_1_anchor_store.html" title="Anchors provide a means to restore the position of objects between sessions. In some AR systems,..." alt="" coords="5,971,173,1063"/>
-<area shape="rect" id="node7" href="$d9/d25/class_juniper_1_1_anchoring_1_1_mock_anchor_store.html" title="An anchor store that stores all anchors in the default data store for AbstractAnchorStore." alt="" coords="401,956,599,1077"/>
-</map>

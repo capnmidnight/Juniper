@@ -1,9 +1,0 @@
-<map id="Juniper.Anchoring.Anchored" name="Juniper.Anchoring.Anchored">
-<area shape="rect" id="node1" title="Creates a fixed point of reference in space. Some AR subsystems are able to prioritize the tracking o..." alt="" coords="85,935,267,1188"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,115,83"/>
-<area shape="rect" id="node6" href="$da/daf/class_juniper_1_1_anchoring_1_1_abstract_anchor_store.html" title="A store for points in space that the system will restore on second&#45;run. By default,..." alt="" coords="92,160,247,487"/>
-<area shape="rect" id="node3" title=" " alt="" coords="284,773,372,850"/>
-<area shape="rect" id="node4" href="$df/d66/class_juniper_1_1_anchoring_1_1_anchor_store.html" title="Anchors provide a means to restore the position of objects between sessions. In some AR systems,..." alt="" coords="92,765,260,857"/>
-<area shape="rect" id="node5" href="$d4/d2a/class_juniper_1_1_anchoring_1_1_a_r_kit_anchor_store.html" title=" " alt="" coords="93,536,248,716"/>
-<area shape="rect" id="node7" title=" " alt="" coords="143,5,195,83"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="Juniper.Haptics.AbstractHapticRetainedExpressor" name="Juniper.Haptics.AbstractHapticRetainedExpressor">
-<area shape="rect" id="node1" title="Non&#45;iOS systems do not have built&#45;in haptic patterns. This class replicates the functionality of the ..." alt="" coords="43,461,205,744"/>
-<area shape="rect" id="node2" href="$d0/d83/class_juniper_1_1_haptics_1_1_abstract_haptic_device.html" title="An interface for all haptic device subsystems." alt="" coords="53,233,195,413"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,57,115,134"/>
-<area shape="rect" id="node4" href="$d8/d03/interface_juniper_1_1_haptics_1_1_i_haptic_device.html" title=" " alt="" coords="139,5,237,185"/>
-</map>

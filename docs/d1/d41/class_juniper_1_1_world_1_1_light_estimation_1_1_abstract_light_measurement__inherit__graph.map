@@ -1,7 +1,0 @@
-<map id="Juniper.World.LightEstimation.AbstractLightMeasurement" name="Juniper.World.LightEstimation.AbstractLightMeasurement">
-<area shape="rect" id="node1" title=" " alt="" coords="25,160,220,472"/>
-<area shape="rect" id="node4" href="$d6/d83/class_juniper_1_1_world_1_1_light_estimation_1_1_a_r_kit_light_measurement.html" title=" " alt="" coords="20,520,225,641"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,20,115,97"/>
-<area shape="rect" id="node3" href="$d7/dbe/interface_juniper_1_1_i_o_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="139,5,231,112"/>
-<area shape="rect" id="node5" href="$d2/dc4/class_juniper_1_1_world_1_1_light_estimation_1_1_light_measurement.html" title="Abstracts the measurement of light intensity from camera frames for Augmented Reality Light Estimatio..." alt="" coords="25,689,220,781"/>
-</map>

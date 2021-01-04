@@ -1,5 +1,0 @@
-<map id="Juniper.IO.ProgressSubdivision" name="Juniper.IO.ProgressSubdivision">
-<area shape="rect" id="node1" title="A small chunk of a progress meter, reporting its own progress up to a parent progress tracker." alt="" coords="62,160,261,325"/>
-<area shape="rect" id="node2" href="$d3/ddf/interface_juniper_1_1_i_o_1_1_i_progress.html" title="Progress reporting interface for asynchronous operations." alt="" coords="5,5,149,97"/>
-<area shape="rect" id="node3" href="$d3/ddf/interface_juniper_1_1_i_o_1_1_i_progress.html" title="Progress reporting interface for asynchronous operations." alt="" coords="173,5,317,97"/>
-</map>

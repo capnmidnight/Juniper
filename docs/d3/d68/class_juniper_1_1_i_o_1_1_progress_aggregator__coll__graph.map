@@ -1,7 +1,0 @@
-<map id="Juniper.IO.ProgressAggregator" name="Juniper.IO.ProgressAggregator">
-<area shape="rect" id="node1" title=" " alt="" coords="183,388,382,583"/>
-<area shape="rect" id="node2" href="$d3/ddf/interface_juniper_1_1_i_o_1_1_i_progress.html" title="Progress reporting interface for asynchronous operations." alt="" coords="5,5,149,97"/>
-<area shape="rect" id="node4" href="$d1/d87/class_juniper_1_1_i_o_1_1_progress_subdivision.html" title="A small chunk of a progress meter, reporting its own progress up to a parent progress tracker." alt="" coords="77,160,275,325"/>
-<area shape="rect" id="node3" title=" " alt="" coords="395,204,573,281"/>
-<area shape="rect" id="node5" href="$d3/ddf/interface_juniper_1_1_i_o_1_1_i_progress.html" title="Progress reporting interface for asynchronous operations." alt="" coords="212,5,356,97"/>
-</map>
