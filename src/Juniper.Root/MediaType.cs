@@ -50,7 +50,7 @@ namespace Juniper
             }
             else
             {
-                throw new ArgumentException($"Type value does not match expected pattern {TYPE_PATTERN.ToString()}", nameof(value));
+                throw new ArgumentException($"Type value does not match expected pattern {TYPE_PATTERN}", nameof(value));
             }
         }
 
@@ -238,7 +238,7 @@ namespace Juniper
             var match = TYPE_PATTERN.Match(value);
             if (!match.Success)
             {
-                throw new ArgumentException($"Type value does not match expected pattern {TYPE_PATTERN.ToString()}", nameof(value));
+                throw new ArgumentException($"Type value does not match expected pattern {TYPE_PATTERN}", nameof(value));
             }
 
             TypeName = match.Groups[1].Value;
