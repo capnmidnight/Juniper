@@ -38,7 +38,6 @@ namespace Juniper
             0x302E2E
         };
 
-#pragma warning disable HAA0602 // Delegate on struct instance caused a boxing allocation
         public static readonly Color3[] SkinColorsRGB = SkinColors
             .Select(c =>
             {
@@ -52,7 +51,6 @@ namespace Juniper
         public static readonly Color3[] SkinColorsHSV = SkinColorsRGB
             .Select(c => c.ConvertTo(ColorSpace.HSV))
             .ToArray();
-#pragma warning restore HAA0602 // Delegate on struct instance caused a boxing allocation
 
         public float X { get; }
         public float Y { get; }
