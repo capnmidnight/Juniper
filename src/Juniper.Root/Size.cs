@@ -112,12 +112,9 @@ namespace Juniper
             return hashCode;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
         public override string ToString()
         {
-            return Width.ToString()
-                + "x"
-                + Height.ToString();
+            return $"{Width}x{Height}";
         }
 
         public static explicit operator string(Size size)

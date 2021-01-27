@@ -57,8 +57,6 @@ namespace Juniper.IO
             return deserializer.Deserialize(progStream);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = "The Unity Editor is synchronous")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = "Try to only use this in Unity")]
         public static bool TryLoad<ResultT>(
             this ICacheSourceLayer layer,
             IDeserializer<ResultT> deserializer,
@@ -80,8 +78,6 @@ namespace Juniper.IO
             return value != default;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD002:Avoid problematic synchronous waits", Justification = "The Unity Editor is synchronous")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD104:Offer async methods", Justification = "Try to only use this in Unity")]
         public static bool TryLoadJson<ResultT>(
             this ICacheSourceLayer layer,
             string name,

@@ -8,14 +8,12 @@ namespace Juniper.World.GIS.Google.Geocoding
     [Serializable]
     public class GeocodingResult : ISerializable
     {
-        public bool partial_match { get; }
-
         private static readonly string ADDRESS_COMPONENTS_FIELD = nameof(Address_Components).ToLowerInvariant();
         private static readonly string FORMATTED_ADDRESS_FIELD = nameof(Formatted_Address).ToLowerInvariant();
         private static readonly string PLACE_ID_FIELD = nameof(Place_ID).ToLowerInvariant();
         private static readonly string TYPES_FIELD = nameof(Types).ToLowerInvariant();
         private static readonly string GEOMETRY_FIELD = nameof(Geometry).ToLowerInvariant();
-        private static readonly string PARTIAL_MATCH_FIELD = nameof(partial_match).ToLowerInvariant();
+        private static readonly string PARTIAL_MATCH_FIELD = nameof(Partial_Match).ToLowerInvariant();
 
         private readonly Dictionary<int, AddressComponent> addressComponentLookup;
 
@@ -30,6 +28,8 @@ namespace Juniper.World.GIS.Google.Geocoding
         public HashSet<AddressComponentTypes> Types { get; }
 
         public GeometryResult Geometry { get; }
+
+        public bool Partial_Match { get; }
 
         protected GeocodingResult(SerializationInfo info, StreamingContext context)
         {
@@ -48,6 +48,14 @@ namespace Juniper.World.GIS.Google.Geocoding
                                                            ? parsedType
                                                            : AddressComponentTypes.None);
             Geometry = info.GetValue<GeometryResult>(GEOMETRY_FIELD);
+
+            foreach(var field in info)
+            {
+                if(field.Name == PARTIAL_MATCH_FIELD)
+                {
+                    Partial_Match = (bool)field.Value;
+                }
+            }
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -57,9 +65,9 @@ namespace Juniper.World.GIS.Google.Geocoding
                 throw new ArgumentNullException(nameof(info));
             }
 
-            if (partial_match)
+            if (Partial_Match)
             {
-                info.AddValue(PARTIAL_MATCH_FIELD, partial_match);
+                info.AddValue(PARTIAL_MATCH_FIELD, Partial_Match);
             }
 
             info.AddValue(ADDRESS_COMPONENTS_FIELD, Address_Components);

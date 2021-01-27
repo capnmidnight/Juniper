@@ -16,7 +16,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public static MarkerStyle CustomIcon(Uri image, MarkerAnchorPosition anchorPosition)
         {
-            return new MarkerStyle($"anchor:{anchorPosition.ToString()}:icon:{image}");
+            return new MarkerStyle($"anchor:{anchorPosition}:icon:{image}");
         }
 
         public static MarkerStyle CustomIcon(Uri image, int anchorX, int anchorY)
