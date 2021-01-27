@@ -9,6 +9,15 @@ namespace Juniper.IO
 {
     public class FileCacheLayer : ICacheDestinationLayer
     {
+        /// <summary>
+        /// Creates a caching layer that uses the user's temp directory.
+        /// </summary>
+        /// <returns></returns>
+        public static ICacheDestinationLayer GetTempCache()
+        {
+            return new FileCacheLayer(Path.GetTempPath());
+        }
+
         private readonly DirectoryInfo cacheLocation;
 
         public FileCacheLayer(DirectoryInfo cacheLocation)

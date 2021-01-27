@@ -17,6 +17,18 @@ namespace Juniper.IO
         ICacheDestinationLayer,
         IEnumerable<ICacheSourceLayer>
     {
+        /// <summary>
+        /// Creates a caching strategy that uses the user's temp directory.
+        /// </summary>
+        /// <returns></returns>
+        public static CachingStrategy GetTempCache()
+        {
+            return new CachingStrategy
+            {
+                FileCacheLayer.GetTempCache()
+            };
+        }
+
         private readonly List<ICacheSourceLayer> sources = new List<ICacheSourceLayer>();
         private readonly List<ICacheDestinationLayer> destinations = new List<ICacheDestinationLayer>();
 

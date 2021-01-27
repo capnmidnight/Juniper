@@ -13,34 +13,25 @@ using Juniper.World.GIS.Google.StreetView;
 
 namespace Juniper.World.GIS.Google
 {
-    public class GoogleMapsClient<MetadataTypeT>
-        where MetadataTypeT : MetadataResponse
+    public class GoogleMapsClient : GoogleMapsStreamingClient, IGoogleMapsClient
     {
         private readonly IJsonFactory<GeocodingResponse> geocodingDecoder;
-        private readonly IJsonFactory<MetadataTypeT> metadataDecoder;
-        private readonly Dictionary<string, MetadataTypeT> metadataCache = new Dictionary<string, MetadataTypeT>();
+        private readonly IJsonFactory<MetadataResponse> metadataDecoder;
+        private readonly Dictionary<string, MetadataResponse> metadataCache = new Dictionary<string, MetadataResponse>();
         private readonly List<string> knownImages = new List<string>();
 
-        private readonly string apiKey;
-        private readonly string signingKey;
-        private readonly CachingStrategy cache;
-
-        private Exception lastError;
-
-        public GoogleMapsClient(string apiKey, string signingKey, IJsonFactory<MetadataTypeT> metadataDecoder, IJsonFactory<GeocodingResponse> geocodingDecoder, CachingStrategy cache)
+        public GoogleMapsClient(string apiKey, string signingKey, IJsonFactory<MetadataResponse> metadataDecoder, IJsonFactory<GeocodingResponse> geocodingDecoder, CachingStrategy cache)
+            : base(apiKey, signingKey, cache)
         {
-            this.apiKey = apiKey ?? throw new ArgumentNullException(nameof(apiKey));
-            this.signingKey = signingKey ?? throw new ArgumentNullException(nameof(signingKey));
             this.metadataDecoder = metadataDecoder ?? throw new ArgumentNullException(nameof(metadataDecoder));
             this.geocodingDecoder = geocodingDecoder ?? throw new ArgumentNullException(nameof(geocodingDecoder));
-            this.cache = cache ?? throw new ArgumentNullException(nameof(cache));
 
 
             foreach (var (fileRef, metadata) in cache.Get(metadataDecoder))
             {
                 if (metadata.Location != null)
                 {
-                    _ = Cache(metadata);
+                    _ = Encache(metadata);
                     var imageRef = metadata.Pano_ID + MediaType.Image.Jpeg;
                     if (cache.IsCached(imageRef))
                     {
@@ -61,17 +52,15 @@ namespace Juniper.World.GIS.Google
             knownImages.Sort();
         }
 
-        public string Status => lastError?.Message ?? "NONE";
+        public GoogleMapsClient(string apiKey, string signingKey, IJsonFactory<MetadataResponse> metadataFactory, IJsonFactory<GeocodingResponse> geocodingFactory)
+            : this(apiKey, signingKey, metadataFactory, geocodingFactory, CachingStrategy.GetTempCache())
+        { }
 
-        public void ClearError()
-        {
-            lastError = null;
-        }
 
-        public IEnumerable<(ContentReference fileRef, MetadataTypeT metadata)> CachedMetadataFiles =>
-            cache.Get(metadataDecoder);
+        public IEnumerable<(ContentReference fileRef, MetadataResponse metadata)> CachedMetadataFiles =>
+            Cache.Get(metadataDecoder);
 
-        public IReadOnlyCollection<MetadataTypeT> CachedMetadata =>
+        public IReadOnlyCollection<MetadataResponse> CachedMetadata =>
             metadataCache.Values.ToArray();
 
         public bool IsMetadataCached(string pano)
@@ -86,19 +75,19 @@ namespace Juniper.World.GIS.Google
 
         private async Task<T> LoadAsync<T>(IDeserializer<T> deserializer, ContentReference fileRef, IProgress prog)
         {
-            var value = await cache
+            var value = await Cache
                 .LoadAsync(deserializer, fileRef, prog)
                 .ConfigureAwait(false);
-            if (value is MetadataTypeT metadata
+            if (value is MetadataResponse metadata
                 && metadata.Status == System.Net.HttpStatusCode.OK
                     && !string.IsNullOrEmpty(metadata.Pano_ID)
                     && metadata.Location is object)
             {
                 var metadataRef = new ContentReference(metadata.Pano_ID, MediaType.Application.Json);
-                if (!cache.IsCached(metadataRef))
+                if (!Cache.IsCached(metadataRef))
                 {
-                    await cache
-                        .CopyToAsync(fileRef, cache, metadataRef)
+                    await Cache
+                        .CopyToAsync(fileRef, Cache, metadataRef)
                         .ConfigureAwait(false);
                 }
             }
@@ -108,40 +97,40 @@ namespace Juniper.World.GIS.Google
 
         public Task<GeocodingResponse> ReverseGeocodeAsync(LatLngPoint latLng, IProgress prog = null)
         {
-            return LoadAsync(geocodingDecoder, new ReverseGeocodingRequest(apiKey)
+            return LoadAsync(geocodingDecoder, new ReverseGeocodingRequest(ApiKey)
             {
                 Location = latLng
             }, prog);
         }
 
-        public async Task<MetadataTypeT> GetMetadataAsync(string pano, int searchRadius = 50, IProgress prog = null)
+        public async Task<MetadataResponse> GetMetadataAsync(string pano, int searchRadius = 50, IProgress prog = null)
         {
-            return Cache(await LoadAsync(metadataDecoder, new MetadataRequest(apiKey, signingKey)
+            return Encache(await LoadAsync(metadataDecoder, new MetadataRequest(ApiKey, SigningKey)
             {
                 Pano = pano,
                 Radius = searchRadius
             }, prog).ConfigureAwait(false));
         }
 
-        public async Task<MetadataTypeT> SearchMetadataAsync(string placeName, int searchRadius = 50, IProgress prog = null)
+        public async Task<MetadataResponse> SearchMetadataAsync(string placeName, int searchRadius = 50, IProgress prog = null)
         {
-            return Cache(await LoadAsync(metadataDecoder, new MetadataRequest(apiKey, signingKey)
+            return Encache(await LoadAsync(metadataDecoder, new MetadataRequest(ApiKey, SigningKey)
             {
                 Place = placeName,
                 Radius = searchRadius
             }, prog).ConfigureAwait(false));
         }
 
-        public async Task<MetadataTypeT> GetMetadataAsync(LatLngPoint latLng, int searchRadius = 50, IProgress prog = null)
+        public async Task<MetadataResponse> GetMetadataAsync(LatLngPoint latLng, int searchRadius = 50, IProgress prog = null)
         {
-            return Cache(await LoadAsync(metadataDecoder, new MetadataRequest(apiKey, signingKey)
+            return Encache(await LoadAsync(metadataDecoder, new MetadataRequest(ApiKey, SigningKey)
             {
                 Location = latLng,
                 Radius = searchRadius
             }, prog).ConfigureAwait(false));
         }
 
-        public async Task<MetadataTypeT> SearchMetadataAsync(string searchLocation, string searchPano, LatLngPoint searchPoint, int searchRadius, IProgress prog = null)
+        public async Task<MetadataResponse> SearchMetadataAsync(string searchLocation, string searchPano, LatLngPoint searchPoint, int searchRadius, IProgress prog = null)
         {
             try
             {
@@ -177,7 +166,7 @@ namespace Juniper.World.GIS.Google
             }
         }
 
-        private MetadataTypeT Cache(MetadataTypeT metadata)
+        private MetadataResponse Encache(MetadataResponse metadata)
         {
             if (metadata != null
                 && metadata.Location is object
@@ -190,7 +179,7 @@ namespace Juniper.World.GIS.Google
             return metadata;
         }
 
-        public async Task<MetadataTypeT> FindClosestMetadataAsync(LatLngPoint point, int searchRadius)
+        public async Task<MetadataResponse> FindClosestMetadataAsync(LatLngPoint point, int searchRadius)
         {
             var closestMetadata = await GetMetadataAsync(point, searchRadius, null)
                 .ConfigureAwait(false);
@@ -210,15 +199,9 @@ namespace Juniper.World.GIS.Google
             return closestMetadata;
         }
 
-        public async Task<Stream> GetImageAsync(string pano, int fov, int heading, int pitch, IProgress prog = null)
+        public override Task<Stream> GetImageStreamAsync(string pano, int fov, int heading, int pitch, IProgress prog = null)
         {
-            var imageStream = await cache.GetStreamAsync(new ImageRequest(apiKey, signingKey, new Size(640, 640))
-            {
-                Pano = pano,
-                FOV = fov,
-                Heading = heading,
-                Pitch = pitch
-            }, prog).ConfigureAwait(false);
+            var imageStream = base.GetImageStreamAsync(pano, fov, heading, pitch, prog);
 
             if (imageStream is object
                 && knownImages.MaybeAdd(pano))
