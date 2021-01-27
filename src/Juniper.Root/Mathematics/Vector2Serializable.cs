@@ -36,7 +36,6 @@ namespace Juniper.Mathematics
             Y = y;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private Vector2Serializable(SerializationInfo info, StreamingContext context)
         {
             if (info is null)

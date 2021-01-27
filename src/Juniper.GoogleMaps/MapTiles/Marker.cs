@@ -23,7 +23,6 @@ namespace Juniper.World.GIS.Google.MapTiles
         public Marker(LatLngPoint center, MarkerStyle style = default)
             : this(center?.ToString(CultureInfo.InvariantCulture) ?? throw new ArgumentNullException(nameof(center)), style) { }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private Marker(SerializationInfo info, StreamingContext context)
         {
             if (info is null)

@@ -56,7 +56,6 @@ namespace Juniper.Compression
             : this(entry?.FullName ?? throw new ArgumentNullException(nameof(entry)), true, entry.Length)
         { }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private CompressedFileInfo(SerializationInfo info, StreamingContext context)
             : this(info?.GetString(nameof(FullName)) ?? throw new ArgumentNullException(nameof(info)),
                 info.GetBoolean(nameof(IsFile)),

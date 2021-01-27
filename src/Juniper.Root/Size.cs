@@ -52,7 +52,6 @@ namespace Juniper
             Height = height;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private Size(SerializationInfo info, StreamingContext context)
         {
             if (info is null)

@@ -152,7 +152,6 @@ namespace Juniper.Collections
             : this(true, nodes.Prepend(secondNode).Prepend(firstNode), cost)
         { }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected Route(SerializationInfo info, StreamingContext context)
             : this(false,
                 info?.GetValue<ValueT[]>(nameof(nodes)),

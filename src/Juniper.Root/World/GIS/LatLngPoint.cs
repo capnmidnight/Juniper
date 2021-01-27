@@ -56,7 +56,6 @@ namespace Juniper.World.GIS
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Context parameter is required by ISerializable interface")]
         private LatLngPoint(SerializationInfo info, StreamingContext context)
         {
             if (info is null)

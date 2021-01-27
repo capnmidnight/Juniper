@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.Serialization;
 
 namespace Juniper.HTTP
@@ -16,7 +16,6 @@ namespace Juniper.HTTP
             Data = data;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         private DataMessage(SerializationInfo info, StreamingContext context)
         {
             if (info is null)
