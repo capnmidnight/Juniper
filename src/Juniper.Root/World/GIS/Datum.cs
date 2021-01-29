@@ -13,10 +13,10 @@ namespace Juniper.World.GIS
         public const double pointScaleFactor = 0.9996;
         public const double E0 = 500000;
 
-        public const double A = (equatorialRadius / (1 + n)) * (1 + (n * n / 4) + (n * n * n * n / 64));
         public const double flattening = 1 / invF;
-        private const double n = flattening / (2 - flattening);
         private const double flatteningComp = 1 - flattening;
+        private const double n = flattening / (2 - flattening);
+        public const double A = (equatorialRadius / (1 + n)) * (1 + (n * n / 4) + (n * n * n * n / 64));
 
         public static readonly double e = Sqrt(1 - (flatteningComp * flatteningComp));
         public static readonly double esq = 1 - (flatteningComp * flatteningComp);
