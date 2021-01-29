@@ -11,7 +11,7 @@ namespace Juniper.World.GIS.Google
 
         void ClearError();
 
-        Task<Stream> GetImageStreamAsync(string pano, int fov, int heading, int pitch, IProgress prog = null);        
+        Task<Stream> GetImageStreamAsync(string pano, int fov, int heading, int pitch, IProgress prog = null);
         Task<Stream> GetMetadataStreamAsync(LatLngPoint latLng, int searchRadius = 50, IProgress prog = null);
         Task<Stream> GetMetadataStreamAsync(string pano, int searchRadius = 50, IProgress prog = null);
         Task<Stream> ReverseGeocodeStreamAsync(LatLngPoint latLng, IProgress prog = null);
