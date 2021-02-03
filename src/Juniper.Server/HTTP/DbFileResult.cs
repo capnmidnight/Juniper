@@ -1,10 +1,12 @@
 using System;
+using System.Data;
 using System.Data.Common;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Juniper.HTTP
@@ -52,17 +54,38 @@ namespace Juniper.HTTP
             }
 
             var response = context.HttpContext.Response;
-            using var handler = new DbFileStreamHandler(db, makeCommand);
+
             try
             {
-                using var stream = await handler.GetStreamAsync()
+                using var conn = db.GetDbConnection();
+                await conn.OpenAsync()
                     .ConfigureAwait(false);
+
+                using var cmd = conn.CreateCommand();
+                makeCommand(cmd);
+
+                using var reader = await cmd.ExecuteReaderAsync(
+                    CommandBehavior.SingleResult
+                    | CommandBehavior.SequentialAccess
+                    | CommandBehavior.CloseConnection)
+                    .ConfigureAwait(false);
+
+                var read = await reader.ReadAsync()
+                    .ConfigureAwait(false);
+
+                if (!read)
+                {
+                    throw new EndOfStreamException();
+                }
+
+                using var stream = reader.GetStream(0);
+
                 response.StatusCode = (int)HttpStatusCode.OK;
                 response.ContentType = contentType;
                 response.ContentLength = size;
                 response.Headers["Content-Disposition"] = $"attachment; filename=\"{fileName}\"";
 
-                await stream.CopyToAsync(context.HttpContext.Response.Body)
+                await stream.CopyToAsync(response.Body)
                     .ConfigureAwait(false);
             }
             catch (EndOfStreamException)

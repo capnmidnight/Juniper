@@ -51,7 +51,7 @@ namespace Juniper.HTTP
                 response.ContentLength = stream.Length;
                 response.Headers["Content-Disposition"] = $"attachment; filename=\"{fileName}\"";
 
-                await stream.CopyToAsync(context.HttpContext.Response.Body)
+                await stream.CopyToAsync(response.Body)
                     .ConfigureAwait(false);
             }
             catch (EndOfStreamException)
