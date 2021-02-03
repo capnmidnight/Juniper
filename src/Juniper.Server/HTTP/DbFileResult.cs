@@ -2,10 +2,8 @@ using System;
 using System.Data;
 using System.Data.Common;
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
@@ -15,12 +13,10 @@ namespace Juniper.HTTP
     /// When using Entity Framework in ASP.NET Core, this ActionResult can be used to retrieve and stream
     /// a single BLOB to the Response body.
     /// </summary>
-    public class DbFileResult : IActionResult
+    public class DbFileResult : AbstractStreamResult
     {
         private readonly DatabaseFacade db;
         private readonly long size;
-        private readonly string contentType;
-        private readonly string fileName;
         private readonly Action<DbCommand> makeCommand;
 
         /// <summary>
@@ -33,65 +29,45 @@ namespace Juniper.HTTP
         /// <param name="fileName">The name of the file that will be sent. This should be retrieved separately.</param>
         /// <param name="makeCommand">A callback function to construct the Command that will perform the query to retrieve the file stream.</param>
         public DbFileResult(DatabaseFacade db, long size, string contentType, string fileName, Action<DbCommand> makeCommand)
+            : base(contentType, fileName)
         {
             this.db = db;
             this.size = size;
-            this.contentType = contentType;
-            this.fileName = fileName;
             this.makeCommand = makeCommand;
         }
 
-        /// <summary>
-        /// Performs the database query.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public async Task ExecuteResultAsync(ActionContext context)
+        protected override long GetStreamLength(Stream stream)
         {
-            if (context is null)
+            return size;
+        }
+
+        protected override async Task ExecuteAsync(Func<Stream, Task> writeStream)
+        {
+            using var conn = db.GetDbConnection();
+            await conn.OpenAsync()
+                .ConfigureAwait(false);
+
+            using var cmd = conn.CreateCommand();
+            makeCommand(cmd);
+
+            using var reader = await cmd.ExecuteReaderAsync(
+                CommandBehavior.SingleResult
+                | CommandBehavior.SequentialAccess
+                | CommandBehavior.CloseConnection)
+                .ConfigureAwait(false);
+
+            var read = await reader.ReadAsync()
+                .ConfigureAwait(false);
+
+            if (!read)
             {
-                throw new ArgumentNullException(nameof(context));
+                throw new EndOfStreamException();
             }
 
-            var response = context.HttpContext.Response;
+            using var stream = reader.GetStream(0);
 
-            try
-            {
-                using var conn = db.GetDbConnection();
-                await conn.OpenAsync()
-                    .ConfigureAwait(false);
-
-                using var cmd = conn.CreateCommand();
-                makeCommand(cmd);
-
-                using var reader = await cmd.ExecuteReaderAsync(
-                    CommandBehavior.SingleResult
-                    | CommandBehavior.SequentialAccess
-                    | CommandBehavior.CloseConnection)
-                    .ConfigureAwait(false);
-
-                var read = await reader.ReadAsync()
-                    .ConfigureAwait(false);
-
-                if (!read)
-                {
-                    throw new EndOfStreamException();
-                }
-
-                using var stream = reader.GetStream(0);
-
-                response.StatusCode = (int)HttpStatusCode.OK;
-                response.ContentType = contentType;
-                response.ContentLength = size;
-                response.Headers["Content-Disposition"] = $"attachment; filename=\"{fileName}\"";
-
-                await stream.CopyToAsync(response.Body)
-                    .ConfigureAwait(false);
-            }
-            catch (EndOfStreamException)
-            {
-                response.StatusCode = (int)HttpStatusCode.NotFound;
-            }
+            await writeStream(stream)
+                .ConfigureAwait(false);
         }
     }
 }
