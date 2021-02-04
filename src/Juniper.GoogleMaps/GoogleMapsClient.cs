@@ -32,10 +32,10 @@ namespace Juniper.World.GIS.Google
                 if (metadata.Location != null)
                 {
                     _ = Encache(metadata);
-                    var imageRef = metadata.Pano_ID + MediaType.Image.Jpeg;
+                    var imageRef = metadata.Pano_id + MediaType.Image.Jpeg;
                     if (cache.IsCached(imageRef))
                     {
-                        knownImages.Add(metadata.Pano_ID);
+                        knownImages.Add(metadata.Pano_id);
                     }
                 }
                 else
@@ -80,10 +80,10 @@ namespace Juniper.World.GIS.Google
                 .ConfigureAwait(false);
             if (value is MetadataResponse metadata
                 && metadata.Status == System.Net.HttpStatusCode.OK
-                    && !string.IsNullOrEmpty(metadata.Pano_ID)
+                    && !string.IsNullOrEmpty(metadata.Pano_id)
                     && metadata.Location is object)
             {
-                var metadataRef = new ContentReference(metadata.Pano_ID, MediaType.Application.Json);
+                var metadataRef = new ContentReference(metadata.Pano_id, MediaType.Application.Json);
                 if (!Cache.IsCached(metadataRef))
                 {
                     await Cache
@@ -170,10 +170,10 @@ namespace Juniper.World.GIS.Google
         {
             if (metadata != null
                 && metadata.Location is object
-                && metadata.Pano_ID is object)
+                && metadata.Pano_id is object)
             {
                 metadataCache[metadata.Location.ToString(CultureInfo.InvariantCulture)] = metadata;
-                metadataCache[metadata.Pano_ID] = metadata;
+                metadataCache[metadata.Pano_id] = metadata;
             }
 
             return metadata;

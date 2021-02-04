@@ -53,8 +53,8 @@ namespace Juniper.World.GIS.Google.Geocoding
 
             info.AddValue(LOCATION_FIELD, new
             {
-                lat = Location.Latitude,
-                lng = Location.Longitude
+                lat = Location.Lat,
+                lng = Location.Lng
             });
             info.AddValue(LOCATION_TYPE_FIELD, Location_Type.ToString());
             info.AddValue(VIEWPORT_FIELD, Viewport);

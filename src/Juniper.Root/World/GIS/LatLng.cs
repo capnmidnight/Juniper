@@ -52,13 +52,13 @@ namespace Juniper.Units
                 throw new ArgumentNullException(nameof(latlng));
             }
 
-            var hemisphere = latlng.Latitude < 0
+            var hemisphere = latlng.Lat < 0
                     ? UTMPoint.GlobeHemisphere.Southern
                     : UTMPoint.GlobeHemisphere.Northern;
 
             const double k0 = 0.9996;
 
-            double phi = Degrees.Radians(latlng.Latitude);
+            double phi = Degrees.Radians(latlng.Lat);
             var sinPhi = Sin(phi);
             var cosPhi = Cos(phi);
             var sin2Phi = 2 * sinPhi * cosPhi;
@@ -70,9 +70,9 @@ namespace Juniper.Units
             var ePhi = DatumWGS_84.e * sinPhi;
             var N = DatumWGS_84.equatorialRadius / Sqrt(1 - (ePhi * ePhi));
 
-            var utmz = 1 + (int)Floor((latlng.Longitude + 180) / 6.0);
+            var utmz = 1 + (int)Floor((latlng.Lng + 180) / 6.0);
             var zcm = 3 + (6.0 * (utmz - 1)) - 180;
-            var A = Degrees.Radians((float)(latlng.Longitude - zcm)) * cosPhi;
+            var A = Degrees.Radians((float)(latlng.Lng - zcm)) * cosPhi;
 
             var M = DatumWGS_84.equatorialRadius * (
                 (phi * DatumWGS_84.alpha1)
@@ -103,7 +103,7 @@ namespace Juniper.Units
             return new UTMPoint(
                 (float)easting,
                 (float)northing,
-                latlng.Altitude,
+                latlng.Alt,
                 utmz,
                 hemisphere);
         }

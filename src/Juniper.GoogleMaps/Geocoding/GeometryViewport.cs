@@ -38,14 +38,14 @@ namespace Juniper.World.GIS.Google.Geocoding
 
             info.AddValue(SOUTHWEST_FIELD, new
             {
-                lat = SouthWest.Latitude,
-                lng = SouthWest.Longitude
+                lat = SouthWest.Lat,
+                lng = SouthWest.Lng
             });
 
             info.AddValue(NORTHEAST_FIELD, new
             {
-                lat = NorthEast.Latitude,
-                lng = NorthEast.Longitude
+                lat = NorthEast.Lat,
+                lng = NorthEast.Lng
             });
         }
     }

@@ -283,11 +283,11 @@ namespace System.Numerics
                 throw new ArgumentNullException(nameof(value));
             }
 
-            var lat = Degrees.Radians(value.Latitude);
-            var lng = Degrees.Radians(value.Longitude);
+            var lat = Degrees.Radians(value.Lat);
+            var lng = Degrees.Radians(value.Lng);
             var x = DatumWGS_84.equatorialRadius * lng;
             var y = DatumWGS_84.equatorialRadius * Math.Log(Math.Tan(Math.PI / 4 + lat / 2));
-            return new Vector3((float)x, (float)y, value.Altitude);
+            return new Vector3((float)x, (float)y, value.Alt);
         }
 
         /// <summary>

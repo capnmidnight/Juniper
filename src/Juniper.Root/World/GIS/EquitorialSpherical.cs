@@ -27,12 +27,12 @@ namespace Juniper.Units
             }
 
             var GMST = (18.697374558f + (24.06570982441908f * n)).Repeat(24);
-            var LST = GMST + Degrees.Hours(location.Longitude);
+            var LST = GMST + Degrees.Hours(location.Lng);
             var RA = Degrees.Hours(value.RightAscensionDegrees);
             var H = Hours.Radians(LST - RA);
             var sin_H = Sin(H);
             var cos_H = Cos(H);
-            var lat_rad = Degrees.Radians(location.Latitude);
+            var lat_rad = Degrees.Radians(location.Lat);
             // var lng_rad = lng_deg * Deg2Rad;
             var delta_rad = Degrees.Radians(value.DeclinationDegrees);
             var sin_delta = Sin(delta_rad);

@@ -19,19 +19,19 @@ namespace Juniper.World.GIS
         /// An altitude value thrown in just for kicks. It makes some calculations and conversions
         /// easier if we keep the Altitude value.
         /// </summary>
-        public float Altitude { get; }
+        public float Alt { get; }
 
         /// <summary>
         /// Lines of latitude run east/west around the globe, parallel to the equator, never
         /// intersecting. They measure angular distance north/south.
         /// </summary>
-        public float Latitude { get; }
+        public float Lat { get; }
 
         /// <summary>
         /// Lines of longitude run north/south around the globe, intersecting at the poles. They
         /// measure angular distance east/west.
         /// </summary>
-        public float Longitude { get; }
+        public float Lng { get; }
 
         /// <summary>
         /// Create a new instance of LatLngPoint.
@@ -41,9 +41,9 @@ namespace Juniper.World.GIS
         /// <param name="alt">The altitude</param>
         public LatLngPoint(float lat, float lng, float alt)
         {
-            Latitude = lat;
-            Longitude = lng;
-            Altitude = alt;
+            Lat = lat;
+            Lng = lng;
+            Alt = alt;
         }
 
         public LatLngPoint(float lat, float lng) : this(lat, lng, 0) { }
@@ -63,22 +63,25 @@ namespace Juniper.World.GIS
                 throw new ArgumentNullException(nameof(info));
             }
 
-            Latitude = Longitude = Altitude = 0;
+            Lat = Lng = Alt = 0;
             foreach (var pair in info)
             {
                 switch (pair.Name.ToLowerInvariant().Substring(0, 3))
                 {
                     case "lat":
-                    Latitude = info.GetSingle(pair.Name);
+                    case "latitude":
+                    Lat = info.GetSingle(pair.Name);
                     break;
 
                     case "lon":
                     case "lng":
-                    Longitude = info.GetSingle(pair.Name);
+                    case "longitude":
+                    Lng = info.GetSingle(pair.Name);
                     break;
 
                     case "alt":
-                    Altitude = info.GetSingle(pair.Name);
+                    case "altitude":
+                    Alt = info.GetSingle(pair.Name);
                     break;
                 }
             }
@@ -96,9 +99,9 @@ namespace Juniper.World.GIS
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue(nameof(Latitude), Latitude);
-            info.AddValue(nameof(Longitude), Longitude);
-            info.AddValue(nameof(Altitude), Altitude);
+            info.AddValue(nameof(Lat), Lat);
+            info.AddValue(nameof(Lng), Lng);
+            info.AddValue(nameof(Alt), Alt);
         }
 
         /// <summary>
@@ -186,9 +189,9 @@ namespace Juniper.World.GIS
 
         public string ToDMS(int sigfigs, IFormatProvider provider)
         {
-            var latStr = ToDMS(Latitude, "S", "N", sigfigs, provider);
-            var lngStr = ToDMS(Longitude, "W", "E", sigfigs, provider);
-            var altStr = Units.Converter.Label(Altitude, Units.UnitOfMeasure.Meters);
+            var latStr = ToDMS(Lat, "S", "N", sigfigs, provider);
+            var lngStr = ToDMS(Lng, "W", "E", sigfigs, provider);
+            var altStr = Units.Converter.Label(Alt, Units.UnitOfMeasure.Meters);
             return $"<{latStr}, {lngStr}> alt {altStr}";
         }
 
@@ -231,7 +234,7 @@ namespace Juniper.World.GIS
 
         public string ToString(IFormatProvider provider)
         {
-            return Latitude.ToString("0.000000", provider) + "," + Longitude.ToString("0.000000", provider);
+            return Lat.ToString("0.000000", provider) + "," + Lng.ToString("0.000000", provider);
         }
 
         public static explicit operator string(LatLngPoint value)
@@ -246,7 +249,7 @@ namespace Juniper.World.GIS
         /// <returns>A decimal degrees printed format with rounding</returns>
         public string ToString(int sigfigs)
         {
-            return $"({Latitude.SigFig(sigfigs)}°, {Longitude.SigFig(sigfigs)}°)";
+            return $"({Lat.SigFig(sigfigs)}°, {Lng.SigFig(sigfigs)}°)";
         }
 
         /// <summary>
@@ -256,7 +259,7 @@ namespace Juniper.World.GIS
         /// <returns>A decimal degrees printed format with a .NET number format specifier</returns>
         public string ToString(string precision, IFormatProvider provider)
         {
-            return $"({Latitude.ToString(precision, provider)}°, {Longitude.ToString(precision, provider)}°)";
+            return $"({Lat.ToString(precision, provider)}°, {Lng.ToString(precision, provider)}°)";
         }
 
         public string ToString(string precision)
@@ -277,9 +280,9 @@ namespace Juniper.World.GIS
         public bool Equals(LatLngPoint other)
         {
             return other is object
-                && Latitude == other.Latitude
-                && Longitude == other.Longitude
-                && Altitude == other.Altitude;
+                && Lat == other.Lat
+                && Lng == other.Lng
+                && Alt == other.Alt;
         }
 
         public static bool operator ==(LatLngPoint left, LatLngPoint right)
@@ -299,9 +302,9 @@ namespace Juniper.World.GIS
         /// <returns>A hash code</returns>
         public override int GetHashCode()
         {
-            return Latitude.GetHashCode()
-                ^ Longitude.GetHashCode()
-                ^ Altitude.GetHashCode();
+            return Lat.GetHashCode()
+                ^ Lng.GetHashCode()
+                ^ Alt.GetHashCode();
         }
 
         public int CompareTo(LatLngPoint other)
@@ -312,9 +315,9 @@ namespace Juniper.World.GIS
             }
             else
             {
-                var byLat = Latitude.CompareTo(other.Latitude);
-                var byLng = Longitude.CompareTo(other.Longitude);
-                var byAlt = Altitude.CompareTo(other.Altitude);
+                var byLat = Lat.CompareTo(other.Lat);
+                var byLng = Lng.CompareTo(other.Lng);
+                var byAlt = Alt.CompareTo(other.Alt);
 
                 if (byLat == 0
                     && byLng == 0)
