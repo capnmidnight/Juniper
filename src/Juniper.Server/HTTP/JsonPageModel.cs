@@ -12,12 +12,16 @@ namespace Juniper.HTTP
 
         protected JsonPageModel(IHostEnvironment env)
         {
+            Environment = env;
+
             serializerOptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = env.IsDevelopment()
+                WriteIndented = Environment.IsDevelopment()
             };
         }
+
+        protected IHostEnvironment Environment { get; }
 
         protected IActionResult Json<T>(T value)
         {
