@@ -29,6 +29,11 @@ namespace Juniper.IO
             };
         }
 
+        public static CachingStrategy GetNoCache()
+        {
+            return new CachingStrategy();
+        }
+
         private readonly List<ICacheSourceLayer> sources = new List<ICacheSourceLayer>();
         private readonly List<ICacheDestinationLayer> destinations = new List<ICacheDestinationLayer>();
 
