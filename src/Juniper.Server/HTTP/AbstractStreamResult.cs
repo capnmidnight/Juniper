@@ -12,7 +12,7 @@ namespace Juniper.HTTP
         private readonly string contentType;
         private readonly string fileName;
 
-        protected AbstractStreamResult(string contentType, string fileName)
+        protected AbstractStreamResult(string contentType, string fileName = null)
         {
             this.contentType = contentType;
             this.fileName = fileName;
@@ -28,7 +28,10 @@ namespace Juniper.HTTP
             response.StatusCode = (int)HttpStatusCode.OK;
             response.ContentType = contentType;
             response.ContentLength = GetStreamLength(stream);
-            response.Headers["Content-Disposition"] = $"attachment; filename=\"{WebUtility.UrlEncode(fileName)}\"";
+            if (!string.IsNullOrEmpty(this.fileName))
+            {
+                response.Headers["Content-Disposition"] = $"attachment; filename=\"{WebUtility.UrlEncode(fileName)}\"";
+            }
 
             await stream.CopyToAsync(response.Body)
                 .ConfigureAwait(false);

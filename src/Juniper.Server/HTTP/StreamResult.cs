@@ -23,6 +23,10 @@ namespace Juniper.HTTP
             this.getStream = getStream;
         }
 
+        public StreamResult(string contentType, Func<Task<Stream>> getStream)
+            : this(contentType, null, getStream)
+        { }
+
         protected override long GetStreamLength(Stream stream)
         {
             return stream.Length;
