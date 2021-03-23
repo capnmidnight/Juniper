@@ -28,7 +28,7 @@ namespace Juniper.HTTP
             response.StatusCode = (int)HttpStatusCode.OK;
             response.ContentType = contentType;
             response.ContentLength = GetStreamLength(stream);
-            response.Headers["Content-Disposition"] = $"attachment; filename=\"{fileName}\"";
+            response.Headers["Content-Disposition"] = $"attachment; filename=\"{WebUtility.UrlEncode(fileName)}\"";
 
             await stream.CopyToAsync(response.Body)
                 .ConfigureAwait(false);
