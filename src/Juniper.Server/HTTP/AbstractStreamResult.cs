@@ -28,7 +28,7 @@ namespace Juniper.HTTP
             response.StatusCode = (int)HttpStatusCode.OK;
             response.ContentType = contentType;
             response.ContentLength = GetStreamLength(stream);
-            if (!string.IsNullOrEmpty(this.fileName))
+            if (!string.IsNullOrEmpty(fileName))
             {
                 response.Headers["Content-Disposition"] = $"attachment; filename=\"{WebUtility.UrlEncode(fileName)}\"";
             }
