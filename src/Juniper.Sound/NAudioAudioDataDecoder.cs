@@ -1,7 +1,6 @@
 using System;
 using System.Globalization;
 using System.IO;
-using System.Runtime.InteropServices;
 
 using NAudio.Wave;
 
@@ -64,7 +63,7 @@ namespace Juniper.Sound
             }
             else if (Format.ContentType == MediaType.Audio.Mpeg)
             {
-                return new Mp3FileReader(stream, CreateMp3FrameDecompressor);
+                return new Mp3FileReader(stream);
             }
             else if (Format.ContentType == MediaType.Audio.PCMA)
             {
@@ -74,20 +73,6 @@ namespace Juniper.Sound
             else
             {
                 throw new NotSupportedException($"Don't know how to decode audio format {Format.ContentType}");
-            }
-        }
-
-        private IMp3FrameDecompressor CreateMp3FrameDecompressor(WaveFormat format)
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                // This seems to work for all Mp3 files, but only works on Windows.
-                return Mp3FileReader.CreateAcmFrameDecompressor(format);
-            }
-            else
-            {
-                // This works on Android, but only seems to work for some Mp3 files.
-                return new NLayer.NAudioSupport.Mp3FrameDecompressor(format);
             }
         }
 
