@@ -6,6 +6,11 @@ namespace Juniper.Units
     public static class CubicMillimeters
     {
         /// <summary>
+        /// Conversion factor from cubic micrometers to cubic millimeters.
+        /// </summary>
+        public const float PER_CUBIC_MICROMETER = 1 / Units.CubicMicrometers.PER_CUBIC_MILLIMETER;
+
+        /// <summary>
         /// Conversion factor from cubic centimeters to cubic millimeters.
         /// </summary>
         public const float PER_CUBIC_CENTIMETER = Millimeters.PER_CENTIMETER * Millimeters.PER_CENTIMETER * Millimeters.PER_CENTIMETER;
@@ -34,6 +39,16 @@ namespace Juniper.Units
         /// Conversion factor from cubic miles to cubic millimeters.
         /// </summary>
         public const float PER_CUBIC_MILE = PER_CUBIC_FOOT * Units.CubicFeet.PER_CUBIC_MILE;
+
+        /// <summary>
+        /// Convert from cubic millimeters to cubic micrometers.
+        /// </summary>
+        /// <param name="cubicMillimeters">The number of cubic millimeters</param>
+        /// <returns>The number of cubic micrometers</returns>
+        public static float CubicMicrometers(float cubicMillimeters)
+        {
+            return cubicMillimeters * Units.CubicMicrometers.PER_CUBIC_MILLIMETER;
+        }
 
         /// <summary>
         /// Convert from cubic millimeters to cubic centimeters.

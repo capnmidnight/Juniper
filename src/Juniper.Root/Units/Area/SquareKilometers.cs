@@ -6,6 +6,11 @@ namespace Juniper.Units
     public static class SquareKilometers
     {
         /// <summary>
+        /// Conversion factor from square micrometers to square kilometers.
+        /// </summary>
+        public const float PER_SQUARE_MICROMETER = 1 / Units.SquareMicrometers.PER_SQUARE_KILOMETER;
+
+        /// <summary>
         /// Conversion factor from square millimeters to square kilometers.
         /// </summary>
         public const float PER_SQUARE_MILLIMETER = 1 / Units.SquareMillimeters.PER_SQUARE_KILOMETER;
@@ -34,6 +39,16 @@ namespace Juniper.Units
         /// Conversion factor from square miles to square kilometers.
         /// </summary>
         public const float PER_SQUARE_MILE = PER_SQUARE_FOOT * Units.SquareFeet.PER_SQUARE_MILE;
+
+        /// <summary>
+        /// Convert from square kilometers to square micrometers.
+        /// </summary>
+        /// <param name="squareKilometers">The number of square kilometers</param>
+        /// <returns>The number of square micrometers</returns>
+        public static float SquareMicrometers(float squareKilometers)
+        {
+            return squareKilometers * Units.SquareMicrometers.PER_SQUARE_KILOMETER;
+        }
 
         /// <summary>
         /// Convert from square kilometers to square millimeters.

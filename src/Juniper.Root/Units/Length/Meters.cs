@@ -6,12 +6,17 @@ namespace Juniper.Units
     public static class Meters
     {
         /// <summary>
+        /// Conversion factor from micrometers to meters.
+        /// </summary>
+        public const float PER_MICROMETER = 1 / Units.Micrometers.PER_METER;
+
+        /// <summary>
         /// Conversion factor from millimeters to meters.
         /// </summary>
         public const float PER_MILLIMETER = 1 / Units.Millimeters.PER_METER;
 
         /// <summary>
-        /// Conversion factor from millimeters to meters.
+        /// Conversion factor from centimeters to meters.
         /// </summary>
         public const float PER_CENTIMETER = 1 / Units.Centimeters.PER_METER;
 
@@ -34,6 +39,16 @@ namespace Juniper.Units
         /// Conversion factor from miles to meters.
         /// </summary>
         public const float PER_MILE = PER_FOOT * Units.Feet.PER_MILE;
+
+        /// <summary>
+        /// Convert from meters to micrometers.
+        /// </summary>
+        /// <param name="meters">The number of meters</param>
+        /// <returns>The number of micrometers</returns>
+        public static float Micrometers(float meters)
+        {
+            return meters * Units.Micrometers.PER_METER;
+        }
 
         /// <summary>
         /// Convert from meters to millimeters.

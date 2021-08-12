@@ -6,6 +6,11 @@ namespace Juniper.Units
     public static class Inches
     {
         /// <summary>
+        /// Conversion factor from micrometers to inches.
+        /// </summary>
+        public const float PER_MICROMETER = 1 / Units.Micrometers.PER_INCH;
+
+        /// <summary>
         /// Conversion factor from millimeters to inches.
         /// </summary>
         public const float PER_MILLIMETER = 1 / Units.Millimeters.PER_INCH;
@@ -34,6 +39,16 @@ namespace Juniper.Units
         /// Conversion factor from miles to inches.
         /// </summary>
         public const float PER_MILE = PER_FOOT * Units.Feet.PER_MILE;
+
+        /// <summary>
+        /// Convert from inches to micrometers.
+        /// </summary>
+        /// <param name="inches">The number of inches</param>
+        /// <returns>The number of micrometers</returns>
+        public static float Micrometers(float inches)
+        {
+            return inches * Units.Micrometers.PER_INCH;
+        }
 
         /// <summary>
         /// Convert from inches to millimeters.

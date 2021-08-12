@@ -6,6 +6,11 @@ namespace Juniper.Units
     public static class SquareMeters
     {
         /// <summary>
+        /// Conversion factor from square micrometers to square meters.
+        /// </summary>
+        public const float PER_SQUARE_MICROMETER = 1 / Units.SquareMicrometers.PER_SQUARE_METER;
+
+        /// <summary>
         /// Conversion factor from square millimeters to square meters.
         /// </summary>
         public const float PER_SQUARE_MILLIMETER = 1 / Units.SquareMillimeters.PER_SQUARE_METER;
@@ -34,6 +39,16 @@ namespace Juniper.Units
         /// Conversion factor from square miles to square meters.
         /// </summary>
         public const float PER_SQUARE_MILE = PER_SQUARE_FOOT * Units.SquareFeet.PER_SQUARE_MILE;
+
+        /// <summary>
+        /// Convert from square meters to square micrometers.
+        /// </summary>
+        /// <param name="squareMeters">The number of square meters</param>
+        /// <returns>The number of square micrometers</returns>
+        public static float SquareMicrometers(float squareMeters)
+        {
+            return squareMeters * Units.SquareMicrometers.PER_SQUARE_METER;
+        }
 
         /// <summary>
         /// Convert from square meters to square millimeters.

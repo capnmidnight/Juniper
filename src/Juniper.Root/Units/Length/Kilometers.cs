@@ -6,6 +6,11 @@ namespace Juniper.Units
     public static class Kilometers
     {
         /// <summary>
+        /// Conversion factor from micrometers to kilometers.
+        /// </summary>
+        public const float PER_MICROMETER = 1 / Units.Micrometers.PER_KILOMETER;
+
+        /// <summary>
         /// Conversion factor from millimeters to kilometers.
         /// </summary>
         public const float PER_MILLIMETER = 1 / Units.Millimeters.PER_KILOMETER;
@@ -34,6 +39,16 @@ namespace Juniper.Units
         /// Conversion factor from miles to kilometers.
         /// </summary>
         public const float PER_MILE = PER_FOOT * Units.Feet.PER_MILE;
+
+        /// <summary>
+        /// Convert from kilometers to micrometers.
+        /// </summary>
+        /// <param name="kilometers">The number of kilometers</param>
+        /// <returns>The number of micrometers</returns>
+        public static float Micrometers(float kilometers)
+        {
+            return kilometers * Units.Micrometers.PER_MILLIMETER;
+        }
 
         /// <summary>
         /// Convert from kilometers to millimeters.
