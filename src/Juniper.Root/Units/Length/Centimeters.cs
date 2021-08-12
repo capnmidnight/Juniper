@@ -36,6 +36,16 @@ namespace Juniper.Units
         public const float PER_METER = 100f;
 
         /// <summary>
+        /// Conversion factor from rods to centimeters.
+        /// </summary>
+        public const float PER_ROD = PER_FOOT * Units.Feet.PER_ROD;
+
+        /// <summary>
+        /// Conversion factor from furlongs to centimeters.
+        /// </summary>
+        public const float PER_FURLONG = PER_ROD * Units.Rods.PER_FURLONG;
+
+        /// <summary>
         /// Conversion factor from kilometers to centimeters.
         /// </summary>
         public const float PER_KILOMETER = PER_METER * Units.Meters.PER_KILOMETER;
@@ -43,7 +53,7 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from miles to centimeters.
         /// </summary>
-        public const float PER_MILE = PER_FOOT * Units.Feet.PER_MILE;
+        public const float PER_MILE = PER_FURLONG * Units.Furlongs.PER_MILE;
 
         /// <summary>
         /// Convert from centimeters to micrometers.
@@ -99,10 +109,30 @@ namespace Juniper.Units
         /// Convert from centimeters to meters.
         /// </summary>
         /// <param name="centimeters">The number of centimeters</param>
-        /// <returns>The number of centimeters</returns>
+        /// <returns>The number of meters</returns>
         public static float Meters(float centimeters)
         {
             return centimeters * Units.Meters.PER_CENTIMETER;
+        }
+
+        /// <summary>
+        /// Convert from centimeters to rods.
+        /// </summary>
+        /// <param name="centimeters">The number of centimeters</param>
+        /// <returns>The number of rods</returns>
+        public static float Rods(float centimeters)
+        {
+            return centimeters * Units.Rods.PER_CENTIMETER;
+        }
+
+        /// <summary>
+        /// Convert from centimeters to furlongs.
+        /// </summary>
+        /// <param name="centimeters">The number of centimeters</param>
+        /// <returns>The number of furlongs</returns>
+        public static float Furlongs(float centimeters)
+        {
+            return centimeters * Units.Furlongs.PER_CENTIMETER;
         }
 
         /// <summary>

@@ -36,6 +36,16 @@ namespace Juniper.Units
         public const float PER_YARD = 1 / Units.Yards.PER_METER;
 
         /// <summary>
+        /// Conversion factor from rods to meters.
+        /// </summary>
+        public const float PER_ROD = PER_FOOT * Units.Feet.PER_ROD;
+
+        /// <summary>
+        /// Conversion factor from furlongs to meters.
+        /// </summary>
+        public const float PER_FURLONG = PER_ROD * Units.Rods.PER_FURLONG;
+
+        /// <summary>
         /// Conversion factor from kilometers to meters.
         /// </summary>
         public const float PER_KILOMETER = 1000f;
@@ -43,7 +53,7 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from miles to meters.
         /// </summary>
-        public const float PER_MILE = PER_FOOT * Units.Feet.PER_MILE;
+        public const float PER_MILE = PER_FURLONG * Units.Furlongs.PER_MILE;
 
         /// <summary>
         /// Convert from meters to micrometers.
@@ -103,6 +113,26 @@ namespace Juniper.Units
         public static float Yards(float meters)
         {
             return meters * Units.Yards.PER_METER;
+        }
+
+        /// <summary>
+        /// Convert from meters to rods.
+        /// </summary>
+        /// <param name="meters">The number of meters</param>
+        /// <returns>The number of rods</returns>
+        public static float Rods(float meters)
+        {
+            return meters * Units.Rods.PER_METER;
+        }
+
+        /// <summary>
+        /// Convert from meters to furlongs.
+        /// </summary>
+        /// <param name="meters">The number of meters</param>
+        /// <returns>The number of furlongs</returns>
+        public static float Furlongs(float meters)
+        {
+            return meters * Units.Furlongs.PER_METER;
         }
 
         /// <summary>
