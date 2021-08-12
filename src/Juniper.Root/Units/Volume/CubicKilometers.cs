@@ -26,6 +26,11 @@ namespace Juniper.Units
         public const float PER_CUBIC_INCH = 1 / Units.CubicInches.PER_CUBIC_KILOMETER;
 
         /// <summary>
+        /// Conversion factor from liters to cubic kilometers.
+        /// </summary>
+        public const float PER_LITER = 1 / Units.Liters.PER_CUBIC_KILOMETER;
+
+        /// <summary>
         /// Conversion factor from cubic feet to cubic kilometers.
         /// </summary>
         public const float PER_CUBIC_FOOT = 1 / Units.CubicFeet.PER_CUBIC_KILOMETER;
@@ -78,6 +83,16 @@ namespace Juniper.Units
         public static float CubicInches(float cubicKilometers)
         {
             return cubicKilometers * Units.CubicInches.PER_CUBIC_KILOMETER;
+        }
+
+        /// <summary>
+        /// Convert from cubic kilometers to liters.
+        /// </summary>
+        /// <param name="cubicKilometers">The number of cubic kilometers</param>
+        /// <returns>The number of liters</returns>
+        public static float Liters(float cubicKilometers)
+        {
+            return cubicKilometers * Units.Liters.PER_CUBIC_KILOMETER;
         }
 
         /// <summary>

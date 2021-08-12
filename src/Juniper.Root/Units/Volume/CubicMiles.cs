@@ -26,6 +26,11 @@ namespace Juniper.Units
         public const float PER_CUBIC_INCH = 1 / Units.CubicInches.PER_CUBIC_MILE;
 
         /// <summary>
+        /// Conversion factor from liters to cubic miles.
+        /// </summary>
+        public const float PER_LITER = 1 / Units.Liters.PER_CUBIC_MILE;
+
+        /// <summary>
         /// Conversion factor from cubic feet to cubic miles.
         /// </summary>
         public const float PER_CUBIC_FOOT = 1 / Units.CubicFeet.PER_CUBIC_MILE;
@@ -78,6 +83,16 @@ namespace Juniper.Units
         public static float CubicInches(float cubicMiles)
         {
             return cubicMiles * Units.CubicInches.PER_CUBIC_MILE;
+        }
+
+        /// <summary>
+        /// Convert from cubic miles to liters.
+        /// </summary>
+        /// <param name="cubicMiles">The number of cubic miles</param>
+        /// <returns>The number of liters</returns>
+        public static float Liters(float cubicMiles)
+        {
+            return cubicMiles * Units.Liters.PER_CUBIC_MILE;
         }
 
         /// <summary>
