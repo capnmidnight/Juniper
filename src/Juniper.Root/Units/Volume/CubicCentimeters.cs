@@ -8,12 +8,12 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from cubic micrometers to cubic millimeters.
         /// </summary>
-        public const float PER_CUBIC_MICROMETER = 1 / Units.CubicMicrometers.PER_CUBIC_CENTIMETER;
+        public const float PER_CUBIC_MICROMETER = SquareCentimeters.PER_SQUARE_MICROMETER * Centimeters.PER_MICROMETER;
 
         /// <summary>
         /// Conversion factor from cubic millimeters to cubic centimeters.
         /// </summary>
-        public const float PER_CUBIC_MILLIMETER = 1 / Units.CubicMillimeters.PER_CUBIC_CENTIMETER;
+        public const float PER_CUBIC_MILLIMETER = SquareCentimeters.PER_SQUARE_MILLIMETER * Centimeters.PER_MILLIMETER;
 
         /// <summary>
         /// Conversion factor from milliliters to cubic centimeters.
@@ -23,32 +23,37 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from cubic inches to cubic centimeters.
         /// </summary>
-        public const float PER_CUBIC_INCH = Centimeters.PER_INCH * Centimeters.PER_INCH * Centimeters.PER_INCH;
+        public const float PER_CUBIC_INCH = SquareCentimeters.PER_SQUARE_INCH * Centimeters.PER_INCH;
 
         /// <summary>
         /// Conversion factor from liters to cubic centimeters.
         /// </summary>
-        public const float PER_LITER = 1000;
+        public const float PER_LITER = PER_MILLILITER * Units.Milliliters.PER_LITER;
 
         /// <summary>
         /// Conversion factor from cubic feet to cubic centimeters.
         /// </summary>
-        public const float PER_CUBIC_FOOT = PER_CUBIC_INCH * Units.CubicInches.PER_CUBIC_FOOT;
+        public const float PER_CUBIC_FOOT = SquareCentimeters.PER_SQUARE_FOOT * Centimeters.PER_FOOT;
 
         /// <summary>
         /// Conversion factor from cubic meters to cubic centimeters.
         /// </summary>
-        public const float PER_CUBIC_METER = Centimeters.PER_METER * Centimeters.PER_METER * Centimeters.PER_METER;
+        public const float PER_CUBIC_METER = SquareCentimeters.PER_SQUARE_METER * Centimeters.PER_METER;
+
+        /// <summary>
+        /// Conversion factor from kiloliters to cubic centimeters.
+        /// </summary>
+        public const float PER_KILOLITER = PER_LITER * Units.Liters.PER_KILOLITER;
 
         /// <summary>
         /// Conversion factor from cubic kilometers to cubic centimeters.
         /// </summary>
-        public const float PER_CUBIC_KILOMETER = PER_CUBIC_METER * Units.CubicMeters.PER_CUBIC_KILOMETER;
+        public const float PER_CUBIC_KILOMETER = SquareCentimeters.PER_SQUARE_KILOMETER * Centimeters.PER_KILOMETER;
 
         /// <summary>
         /// Conversion factor from cubic miles to cubic centimeters.
         /// </summary>
-        public const float PER_CUBIC_MILE = PER_CUBIC_FOOT * Units.CubicFeet.PER_CUBIC_MILE;
+        public const float PER_CUBIC_MILE = SquareCentimeters.PER_SQUARE_MILE * Centimeters.PER_MILE;
 
         /// <summary>
         /// Convert from cubic centimeters to cubic micrometers.
@@ -118,6 +123,16 @@ namespace Juniper.Units
         public static float CubicMeters(float cubicCentimeters)
         {
             return cubicCentimeters * Units.CubicMeters.PER_CUBIC_CENTIMETER;
+        }
+
+        /// <summary>
+        /// Convert from cubic centimeters to kiloliters.
+        /// </summary>
+        /// <param name="cubicCentimeters">The number of cubic centimeters</param>
+        /// <returns>The number of kiloliters</returns>
+        public static float Kiloliters(float cubicCentimeters)
+        {
+            return CubicMeters(cubicCentimeters);
         }
 
         /// <summary>

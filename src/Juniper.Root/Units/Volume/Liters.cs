@@ -23,7 +23,7 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from milliliters to liters.
         /// </summary>
-        public const float PER_MILLILITER = PER_CUBIC_MILLIMETER;
+        public const float PER_MILLILITER = 1 / Units.Milliliters.PER_LITER;
 
         /// <summary>
         /// Conversion factor from cubic inches to liters.
@@ -38,7 +38,12 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from cubic meters to liters.
         /// </summary>
-        public const float PER_CUBIC_METER = 1000;
+        public const float PER_CUBIC_METER = PER_KILOLITER;
+
+        /// <summary>
+        /// Conversion factor from kiloliters to liters.
+        /// </summary>
+        public const float PER_KILOLITER = 1000;
 
         /// <summary>
         /// Conversion factor from cubic kilometers to liters.
@@ -118,6 +123,16 @@ namespace Juniper.Units
         public static float CubicMeters(float liters)
         {
             return liters * Units.CubicMeters.PER_LITER;
+        }
+
+        /// <summary>
+        /// Convert from liters to kiloliters.
+        /// </summary>
+        /// <param name="liters">The number of liters</param>
+        /// <returns>The number of kiloliters</returns>
+        public static float Kiloliters(float liters)
+        {
+            return CubicMeters(liters);
         }
 
         /// <summary>
