@@ -26,6 +26,11 @@ namespace Juniper.Units
         public const float PER_FOOT = PER_INCH * Units.Inches.PER_FOOT;
 
         /// <summary>
+        /// Conversion factor from yards to micrometers.
+        /// </summary>
+        public const float PER_YARD = PER_FOOT * Units.Feet.PER_YARD;
+
+        /// <summary>
         /// Conversion factor from meters to micrometers.
         /// </summary>
         public const float PER_METER = PER_CENTIMETER * Units.Centimeters.PER_METER;
@@ -78,6 +83,16 @@ namespace Juniper.Units
         public static float Feet(float micrometers)
         {
             return micrometers * Units.Feet.PER_MICROMETER;
+        }
+
+        /// <summary>
+        /// Convert from micrometers to yards.
+        /// </summary>
+        /// <param name="micrometers">The number of micrometers</param>
+        /// <returns>The number of yards</returns>
+        public static float Yards(float micrometers)
+        {
+            return micrometers * Units.Yards.PER_MICROMETER;
         }
 
         /// <summary>

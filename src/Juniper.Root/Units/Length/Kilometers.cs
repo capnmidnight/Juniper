@@ -31,6 +31,11 @@ namespace Juniper.Units
         public const float PER_FOOT = 1 / Units.Feet.PER_KILOMETER;
 
         /// <summary>
+        /// Conversion factor from yards to kilometers.
+        /// </summary>
+        public const float PER_YARD = 1 / Units.Yards.PER_KILOMETER;
+
+        /// <summary>
         /// Conversion factor from meters to kilometers.
         /// </summary>
         public const float PER_METER = 1 / Units.Meters.PER_KILOMETER;
@@ -84,10 +89,20 @@ namespace Juniper.Units
         /// Convert from kilometers to feet.
         /// </summary>
         /// <param name="kilometers">The number of kilometers</param>
-        /// <returns>The number of kilometers</returns>
+        /// <returns>The number of feet</returns>
         public static float Feet(float kilometers)
         {
             return kilometers * Units.Feet.PER_KILOMETER;
+        }
+
+        /// <summary>
+        /// Convert from kilometers to yards.
+        /// </summary>
+        /// <param name="kilometers">The number of kilometers</param>
+        /// <returns>The number of yards</returns>
+        public static float Yards(float kilometers)
+        {
+            return kilometers * Units.Yards.PER_KILOMETER;
         }
 
         /// <summary>

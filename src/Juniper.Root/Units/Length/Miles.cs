@@ -31,6 +31,11 @@ namespace Juniper.Units
         public const float PER_FOOT = 1 / Units.Feet.PER_MILE;
 
         /// <summary>
+        /// Conversion factor from yards to miles.
+        /// </summary>
+        public const float PER_YARD = 1 / Units.Yards.PER_MILE;
+
+        /// <summary>
         /// Conversion factor from meters to miles.
         /// </summary>
         public const float PER_METER = 1 / Units.Meters.PER_MILE;
@@ -88,6 +93,16 @@ namespace Juniper.Units
         public static float Feet(float miles)
         {
             return miles * Units.Feet.PER_MILE;
+        }
+
+        /// <summary>
+        /// Convert from miles to yards.
+        /// </summary>
+        /// <param name="miles">The number of miles</param>
+        /// <returns>The number of yards</returns>
+        public static float Yards(float miles)
+        {
+            return miles * Units.Yards.PER_MILE;
         }
 
         /// <summary>

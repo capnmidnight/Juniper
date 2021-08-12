@@ -26,6 +26,11 @@ namespace Juniper.Units
         public const float PER_FOOT = 12;
 
         /// <summary>
+        /// Conversion factor from yards to inches.
+        /// </summary>
+        public const float PER_YARD = PER_FOOT * Units.Feet.PER_YARD;
+
+        /// <summary>
         /// Conversion factor from meters to inches.
         /// </summary>
         public const float PER_METER = PER_CENTIMETER * Units.Centimeters.PER_METER;
@@ -78,6 +83,16 @@ namespace Juniper.Units
         public static float Feet(float inches)
         {
             return inches * Units.Feet.PER_INCH;
+        }
+
+        /// <summary>
+        /// Convert from inches to yards.
+        /// </summary>
+        /// <param name="inches">The number of inches</param>
+        /// <returns>The number of yards</returns>
+        public static float Yards(float inches)
+        {
+            return inches * Units.Yards.PER_INCH;
         }
 
         /// <summary>
