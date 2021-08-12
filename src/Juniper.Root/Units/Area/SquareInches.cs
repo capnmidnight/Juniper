@@ -8,37 +8,52 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from square micrometers to square inches.
         /// </summary>
-        public const float PER_SQUARE_MICROMETER = 1 / Units.SquareMicrometers.PER_SQUARE_INCH;
+        public const float PER_SQUARE_MICROMETER = Inches.PER_MICROMETER * Inches.PER_MICROMETER;
 
         /// <summary>
         /// Conversion factor from square millimeters to square inches.
         /// </summary>
-        public const float PER_SQUARE_MILLIMETER = 1 / Units.SquareMillimeters.PER_SQUARE_INCH;
+        public const float PER_SQUARE_MILLIMETER = Inches.PER_MILLIMETER * Inches.PER_MILLIMETER;
 
         /// <summary>
         /// Conversion factor from square centimeters to square inches.
         /// </summary>
-        public const float PER_SQUARE_CENTIMETER = 1 / Units.SquareCentimeters.PER_SQUARE_INCH;
+        public const float PER_SQUARE_CENTIMETER = Inches.PER_CENTIMETER * Inches.PER_CENTIMETER;
 
         /// <summary>
         /// Conversion factor from square feet to square inches.
         /// </summary>
-        public const float PER_SQUARE_FOOT = Units.Inches.PER_FOOT * Units.Inches.PER_FOOT;
+        public const float PER_SQUARE_FOOT = Inches.PER_FOOT * Inches.PER_FOOT;
+
+        /// <summary>
+        /// Conversion factor from square yards to square inches.
+        /// </summary>
+        public const float PER_SQUARE_YARD = Inches.PER_YARD * Inches.PER_YARD;
 
         /// <summary>
         /// Conversion factor from square meters to square inches.
         /// </summary>
-        public const float PER_SQUARE_METER = PER_SQUARE_CENTIMETER * Units.SquareCentimeters.PER_SQUARE_METER;
+        public const float PER_SQUARE_METER = Inches.PER_METER * Inches.PER_METER;
+
+        /// <summary>
+        /// Conversion factor from square rod to square inches.
+        /// </summary>
+        public const float PER_SQUARE_ROD = Inches.PER_ROD * Inches.PER_ROD;
+
+        /// <summary>
+        /// Conversion factor from acres to square inches.
+        /// </summary>
+        public const float PER_ACRE = PER_SQUARE_ROD * Units.SquareRods.PER_ACRE;
 
         /// <summary>
         /// Conversion factor from square kilometers to square inches.
         /// </summary>
-        public const float PER_SQUARE_KILOMETER = PER_SQUARE_METER * Units.SquareMeters.PER_SQUARE_KILOMETER;
+        public const float PER_SQUARE_KILOMETER = Inches.PER_KILOMETER * Inches.PER_KILOMETER;
 
         /// <summary>
         /// Conversion factor from square miles to square inches.
         /// </summary>
-        public const float PER_SQUARE_MILE = PER_SQUARE_FOOT * Units.SquareFeet.PER_SQUARE_MILE;
+        public const float PER_SQUARE_MILE = Inches.PER_MILE * Inches.PER_MILE;
 
         /// <summary>
         /// Convert from square inches to square micrometers.
@@ -81,13 +96,43 @@ namespace Juniper.Units
         }
 
         /// <summary>
+        /// Convert from square inches to square yards.
+        /// </summary>
+        /// <param name="squareInches">The number of square inches</param>
+        /// <returns>The number of square yards</returns>
+        public static float SquareYards(float squareInches)
+        {
+            return squareInches * Units.SquareYards.PER_SQUARE_INCH;
+        }
+
+        /// <summary>
         /// Convert from square inches to square meters.
         /// </summary>
         /// <param name="squareInches">The number of square inches</param>
-        /// <returns>The number of square meters</returns>
+        /// <returns>The number of square centimeters</returns>
         public static float SquareMeters(float squareInches)
         {
             return squareInches * Units.SquareMeters.PER_SQUARE_INCH;
+        }
+
+        /// <summary>
+        /// Convert from square inches to square rods.
+        /// </summary>
+        /// <param name="squareInches">The number of square inches</param>
+        /// <returns>The number of square rods</returns>
+        public static float SquareRods(float squareInches)
+        {
+            return squareInches * Units.SquareRods.PER_SQUARE_INCH;
+        }
+
+        /// <summary>
+        /// Convert from square inches to acres.
+        /// </summary>
+        /// <param name="squareInches">The number of square inches</param>
+        /// <returns>The number of acres</returns>
+        public static float Acres(float squareInches)
+        {
+            return squareInches * Units.Acres.PER_SQUARE_INCH;
         }
 
         /// <summary>
