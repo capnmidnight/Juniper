@@ -21,6 +21,11 @@ namespace Juniper.Units
         public const float PER_CUBIC_CENTIMETER = 1 / Units.CubicCentimeters.PER_CUBIC_KILOMETER;
 
         /// <summary>
+        /// Conversion factor from milliliters to cubic kilometers.
+        /// </summary>
+        public const float PER_MILLILITER = PER_CUBIC_CENTIMETER;
+
+        /// <summary>
         /// Conversion factor from cubic inches to cubic kilometers.
         /// </summary>
         public const float PER_CUBIC_INCH = 1 / Units.CubicInches.PER_CUBIC_KILOMETER;
@@ -73,6 +78,16 @@ namespace Juniper.Units
         public static float CubicCentimeters(float cubicKilometers)
         {
             return cubicKilometers * Units.CubicCentimeters.PER_CUBIC_KILOMETER;
+        }
+
+        /// <summary>
+        /// Convert from cubic kilometers to milliliters.
+        /// </summary>
+        /// <param name="cubicKilometers">The number of cubic kilometers</param>
+        /// <returns>The number of milliliters</returns>
+        public static float Milliliters(float cubicKilometers)
+        {
+            return CubicCentimeters(cubicKilometers);
         }
 
         /// <summary>

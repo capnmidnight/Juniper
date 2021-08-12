@@ -21,6 +21,11 @@ namespace Juniper.Units
         public const float PER_CUBIC_CENTIMETER = 1 / Units.CubicCentimeters.PER_CUBIC_INCH;
 
         /// <summary>
+        /// Conversion factor from milliliters to cubic inches.
+        /// </summary>
+        public const float PER_MILLILITER = PER_CUBIC_CENTIMETER;
+
+        /// <summary>
         /// Conversion factor from liters to cubic inches.
         /// </summary>
         public const float PER_LITER = PER_CUBIC_CENTIMETER * Units.CubicCentimeters.PER_LITER;
@@ -73,6 +78,16 @@ namespace Juniper.Units
         public static float CubicCentimeters(float cubicInches)
         {
             return cubicInches * Units.CubicCentimeters.PER_CUBIC_INCH;
+        }
+
+        /// <summary>
+        /// Convert from cubic inches to milliliters.
+        /// </summary>
+        /// <param name="cubicIncehs">The number of cubic inches</param>
+        /// <returns>The number of milliliters</returns>
+        public static float Milliliters(float cubicIncehs)
+        {
+            return CubicCentimeters(cubicIncehs);
         }
 
         /// <summary>
