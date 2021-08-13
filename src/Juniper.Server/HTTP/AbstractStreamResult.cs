@@ -11,11 +11,13 @@ namespace Juniper.HTTP
     {
         private readonly string contentType;
         private readonly string fileName;
+        private readonly int cacheTime;
 
-        protected AbstractStreamResult(string contentType, string fileName = null)
+        protected AbstractStreamResult(string contentType, string fileName, int cacheTime)
         {
             this.contentType = contentType;
             this.fileName = fileName;
+            this.cacheTime = cacheTime;
         }
 
         protected abstract Task ExecuteAsync(Func<Stream, Task> writeStream);
@@ -31,6 +33,11 @@ namespace Juniper.HTTP
             if (!string.IsNullOrEmpty(fileName))
             {
                 response.Headers["Content-Disposition"] = $"attachment; filename=\"{WebUtility.UrlEncode(fileName)}\"";
+            }
+
+            if (cacheTime > 0)
+            {
+                response.Headers["Cache-Control"] = $"public,max-age={cacheTime}";
             }
 
             await stream.CopyToAsync(response.Body)

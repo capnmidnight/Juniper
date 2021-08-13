@@ -16,15 +16,24 @@ namespace Juniper.HTTP
         /// </summary>
         /// <param name="contentType">The content type of the stream that will be written. This should be retrieved separately.</param>
         /// <param name="fileName">The name of the file that will be sent. This should be retrieved separately.</param>
+        /// <param name="cacheTime">The number of seconds to tell the client to cache the result.</param>
         /// <param name="getStream">A callback function to construct the stream to write.</param>
-        public StreamResult(string contentType, string fileName, Func<Task<Stream>> getStream)
-            : base(contentType, fileName)
+        public StreamResult(string contentType, string fileName, int cacheTime, Func<Task<Stream>> getStream)
+            : base(contentType, fileName, cacheTime)
         {
             this.getStream = getStream;
         }
 
+        public StreamResult(string contentType, string fileName, Func<Task<Stream>> getStream)
+            : this(contentType, fileName, 0, getStream)
+        { }
+
+        public StreamResult(string contentType, int cacheTime, Func<Task<Stream>> getStream)
+            : this(contentType, null, cacheTime, getStream)
+        { }
+
         public StreamResult(string contentType, Func<Task<Stream>> getStream)
-            : this(contentType, null, getStream)
+            : this(contentType, null, 0, getStream)
         { }
 
         protected override long GetStreamLength(Stream stream)

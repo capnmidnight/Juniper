@@ -27,17 +27,26 @@ namespace Juniper.HTTP
         /// <param name="size">The size of the file that will be sent. This should be retrieved separately.</param>
         /// <param name="contentType">The content type of the file that will be sent. This should be retrieved separately.</param>
         /// <param name="fileName">The name of the file that will be sent. This should be retrieved separately.</param>
+        /// <param name="cacheTime">The number of seconds to tell the client to cache the result.</param>
         /// <param name="makeCommand">A callback function to construct the Command that will perform the query to retrieve the file stream.</param>
-        public DbFileResult(DatabaseFacade db, long size, string contentType, string fileName, Action<DbCommand> makeCommand)
-            : base(contentType, fileName)
+        public DbFileResult(DatabaseFacade db, long size, string contentType, string fileName, int cacheTime, Action<DbCommand> makeCommand)
+            : base(contentType, fileName, cacheTime)
         {
             this.db = db;
             this.size = size;
             this.makeCommand = makeCommand;
         }
 
+        public DbFileResult(DatabaseFacade db, long size, string contentType, string fileName, Action<DbCommand> makeCommand)
+            : this(db, size, contentType, fileName, 0, makeCommand)
+        { }
+
+        public DbFileResult(DatabaseFacade db, long size, string contentType, int cacheTime, Action<DbCommand> makeCommand)
+            : this(db, size, contentType, null, cacheTime, makeCommand)
+        { }
+
         public DbFileResult(DatabaseFacade db, long size, string contentType, Action<DbCommand> makeCommand)
-            : this(db, size, contentType, null, makeCommand)
+            : this(db, size, contentType, null, 0, makeCommand)
         { }
 
         protected override long GetStreamLength(Stream stream)
