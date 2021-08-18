@@ -4,7 +4,8 @@
     <AssemblyName>Juniper.Server</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net5.0</TargetFrameworks>
+    <TargetFramework>net5.0</TargetFramework>
+    <RuntimeIdentifiers>win-x86;win-x64;linux-x64;osx-x64;osx-arm64</RuntimeIdentifiers>
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
   </PropertyGroup>

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Http;
+
 namespace Juniper.HTTP
 {
     public class WebSocketPool
@@ -69,8 +71,7 @@ namespace Juniper.HTTP
             return sockets[id];
         }
 
-#if NETCOREAPP
-        public async Task<ServerWebSocketConnection> GetAsync(Microsoft.AspNetCore.Http.HttpContext context)
+        public async Task<ServerWebSocketConnection> GetAsync(HttpContext context)
         {
             if (context is null)
             {
@@ -101,6 +102,5 @@ namespace Juniper.HTTP
 
             return sockets[id];
         }
-#endif
     }
 }
