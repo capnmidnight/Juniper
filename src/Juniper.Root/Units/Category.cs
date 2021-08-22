@@ -42,6 +42,9 @@ namespace Juniper.Units
 
         Area,
         Volume,
+        Space,
+        DryVolume,
+        LiquidVolume,
 
         /// <summary>
         /// Very small measures of displacement.
@@ -50,6 +53,7 @@ namespace Juniper.Units
 
         VerySmallArea,
         VerySmallVolume,
+        VerySmallLiquidVolume,
 
         /// <summary>
         /// Small measures of displacement.
@@ -58,6 +62,7 @@ namespace Juniper.Units
 
         SmallArea,
         SmallVolume,
+        SmallLiquidVolume,
 
         /// <summary>
         /// Long measures of displacement.
@@ -66,6 +71,7 @@ namespace Juniper.Units
 
         LargeArea,
         LargeVolume,
+        LargeLiquidVolume,
 
         /// <summary>
         /// Measures of displacement.
@@ -74,6 +80,7 @@ namespace Juniper.Units
 
         LandMass,
         HugeVolume,
+        HugeLiquidVolume,
 
         /// <summary>
         /// Measures of a warping of space.

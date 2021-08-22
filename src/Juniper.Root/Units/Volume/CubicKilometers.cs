@@ -5,54 +5,26 @@ namespace Juniper.Units
     /// </summary>
     public static class CubicKilometers
     {
-        /// <summary>
-        /// Conversion factor from cubic micrometers to cubic millimeters.
-        /// </summary>
-        public const float PER_CUBIC_MICROMETER = SquareKilometers.PER_SQUARE_MICROMETER * Kilometers.PER_MICROMETER;
-
-        /// <summary>
-        /// Conversion factor from cubic millimeters to cubic kilometers.
-        /// </summary>
-        public const float PER_CUBIC_MILLIMETER = SquareKilometers.PER_SQUARE_MILLIMETER * Kilometers.PER_MILLIMETER;
-
-        /// <summary>
-        /// Conversion factor from cubic centimeters to cubic kilometers.
-        /// </summary>
-        public const float PER_CUBIC_CENTIMETER = SquareKilometers.PER_SQUARE_CENTIMETER * Kilometers.PER_CENTIMETER;
-
-        /// <summary>
-        /// Conversion factor from milliliters to cubic kilometers.
-        /// </summary>
-        public const float PER_MILLILITER = PER_CUBIC_CENTIMETER;
-
-        /// <summary>
-        /// Conversion factor from cubic inches to cubic kilometers.
-        /// </summary>
-        public const float PER_CUBIC_INCH = SquareKilometers.PER_SQUARE_INCH * Kilometers.PER_INCH;
-
-        /// <summary>
-        /// Conversion factor from liters to cubic kilometers.
-        /// </summary>
+        public const float PER_CUBIC_MICROMETER = 1 / Units.CubicMicrometers.PER_CUBIC_KILOMETER;
+        public const float PER_CUBIC_MILLIMETER = 1 / Units.CubicMillimeters.PER_CUBIC_KILOMETER;
+        public const float PER_MINIM = 1 / Units.Minims.PER_CUBIC_KILOMETER;
+        public const float PER_CUBIC_CENTIMETER = 1 / Units.CubicCentimeters.PER_CUBIC_KILOMETER;
+        public const float PER_MILLILITER = 1 / Units.Milliliters.PER_CUBIC_KILOMETER;
+        public const float PER_FLUID_DRAM = 1 / Units.FluidDrams.PER_CUBIC_KILOMETER;
+        public const float PER_TEASPOON = 1 / Units.Teaspoons.PER_CUBIC_KILOMETER;
+        public const float PER_TABLESPOON = 1 / Units.Tablespoons.PER_CUBIC_KILOMETER;
+        public const float PER_CUBIC_INCH = 1 / Units.CubicInches.PER_CUBIC_KILOMETER;
+        public const float PER_FLUID_OUNCE = 1 / Units.FluidOunces.PER_CUBIC_KILOMETER;
+        public const float PER_GILL = 1 / Units.Gills.PER_CUBIC_KILOMETER;
+        public const float PER_CUP = 1 / Units.Cups.PER_CUBIC_KILOMETER;
+        public const float PER_LIQUID_PINT = 1 / Units.LiquidPints.PER_CUBIC_KILOMETER;
+        public const float PER_LIQUID_QUART = 1 / Units.LiquidQuarts.PER_CUBIC_KILOMETER;
         public const float PER_LITER = 1 / Units.Liters.PER_CUBIC_KILOMETER;
-
-        /// <summary>
-        /// Conversion factor from cubic feet to cubic kilometers.
-        /// </summary>
-        public const float PER_CUBIC_FOOT = SquareKilometers.PER_SQUARE_FOOT * Kilometers.PER_FOOT;
-
-        /// <summary>
-        /// Conversion factor from cubic meters to cubic kilometers.
-        /// </summary>
-        public const float PER_CUBIC_METER = SquareKilometers.PER_SQUARE_METER * Kilometers.PER_METER;
-
-        /// <summary>
-        /// Conversion factor from kiloliters to cubic kilometers.
-        /// </summary>
-        public const float PER_KILOLITER = PER_CUBIC_METER;
-
-        /// <summary>
-        /// Conversion factor from cubic miles to cubic kilometers.
-        /// </summary>
+        public const float PER_GALLON = 1 / Units.Gallons.PER_CUBIC_KILOMETER;
+        public const float PER_CUBIC_FOOT = 1 / Units.CubicFeet.PER_CUBIC_KILOMETER;
+        public const float PER_CUBIC_METER = 1 / Units.CubicMeters.PER_CUBIC_KILOMETER;
+        public const float PER_KILOLITER = 1 / Units.Kiloliters.PER_CUBIC_KILOMETER;
+        public const float PER_CUBIC_KILOMETER = 1;
         public const float PER_CUBIC_MILE = SquareKilometers.PER_SQUARE_MILE * Kilometers.PER_MILE;
 
         /// <summary>
@@ -75,6 +47,11 @@ namespace Juniper.Units
             return cubicKilometers * Units.CubicMillimeters.PER_CUBIC_KILOMETER;
         }
 
+        public static float Minims(float cubicKilometers)
+        {
+            return cubicKilometers * Units.Minims.PER_CUBIC_KILOMETER;
+        }
+
         /// <summary>
         /// Convert from cubic kilometers to cubic centimeters.
         /// </summary>
@@ -95,6 +72,21 @@ namespace Juniper.Units
             return CubicCentimeters(cubicKilometers);
         }
 
+        public static float FluidDrams(float cubicKilometers)
+        {
+            return cubicKilometers * Units.FluidDrams.PER_CUBIC_KILOMETER;
+        }
+
+        public static float Teaspoons(float cubicKilometers)
+        {
+            return cubicKilometers * Units.Teaspoons.PER_CUBIC_KILOMETER;
+        }
+
+        public static float Tablespoons(float cubicKilometers)
+        {
+            return cubicKilometers * Units.Tablespoons.PER_CUBIC_KILOMETER;
+        }
+
         /// <summary>
         /// Convert from cubic kilometers to cubic inches.
         /// </summary>
@@ -105,6 +97,31 @@ namespace Juniper.Units
             return cubicKilometers * Units.CubicInches.PER_CUBIC_KILOMETER;
         }
 
+        public static float FluidOunces(float cubicKilometers)
+        {
+            return cubicKilometers * Units.FluidOunces.PER_CUBIC_KILOMETER;
+        }
+
+        public static float Gills(float cubicKilometers)
+        {
+            return cubicKilometers * Units.Gills.PER_CUBIC_KILOMETER;
+        }
+
+        public static float Cups(float cubicKilometers)
+        {
+            return cubicKilometers * Units.Cups.PER_CUBIC_KILOMETER;
+        }
+
+        public static float LiquidPints(float cubicKilometers)
+        {
+            return cubicKilometers * Units.LiquidPints.PER_CUBIC_KILOMETER;
+        }
+
+        public static float LiquidQuarts(float cubicKilometers)
+        {
+            return cubicKilometers * Units.LiquidQuarts.PER_CUBIC_KILOMETER;
+        }
+
         /// <summary>
         /// Convert from cubic kilometers to liters.
         /// </summary>
@@ -113,6 +130,11 @@ namespace Juniper.Units
         public static float Liters(float cubicKilometers)
         {
             return cubicKilometers * Units.Liters.PER_CUBIC_KILOMETER;
+        }
+
+        public static float Gallons(float cubicKilometers)
+        {
+            return cubicKilometers * Units.Gallons.PER_CUBIC_KILOMETER;
         }
 
         /// <summary>

@@ -40,6 +40,10 @@ namespace Juniper.Units
         /// </summary>
         UTM,
 
+        Micrometers,
+        SquareMicrometers,
+        CubicMicrometers,
+
         /// <summary>
         /// One thousandth of a meter.
         /// </summary>
@@ -95,6 +99,25 @@ namespace Juniper.Units
 
         SquareMiles,
         CubicMiles,
+
+        /// <summary>
+        /// A very small volume that nobody uses.
+        /// </summary>
+        Minims,
+        FluidDrams,
+        Teaspoons,
+        Tablespoons,
+        FluidOunces,
+        Gills,
+        Cups,
+        LiquidPints,
+        LiquidQuarts,
+        Gallons,
+
+        Milliliters,
+        Liters,
+        Kiloliters,
+
 
         /// <summary>
         /// One cubic centimeter of water.

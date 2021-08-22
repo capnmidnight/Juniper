@@ -5,54 +5,26 @@ namespace Juniper.Units
     /// </summary>
     public static class CubicMicrometers
     {
-        /// <summary>
-        /// Conversion factor from cubic millimeters to cubic micrometers.
-        /// </summary>
+        public const float PER_CUBIC_MICROMETER = 1;
         public const float PER_CUBIC_MILLIMETER = SquareMicrometers.PER_SQUARE_MILLIMETER * Micrometers.PER_MILLIMETER;
-
-        /// <summary>
-        /// Conversion factor from cubic centimeters to cubic micrometers.
-        /// </summary>
+        public const float PER_MINIM = PER_CUBIC_MILLIMETER * Units.CubicMillimeters.PER_MINIM;
         public const float PER_CUBIC_CENTIMETER = SquareMicrometers.PER_SQUARE_CENTIMETER * Micrometers.PER_CENTIMETER;
-
-        /// <summary>
-        /// Conversion factor from milliliters to cubic micrometers.
-        /// </summary>
         public const float PER_MILLILITER = PER_CUBIC_CENTIMETER;
-
-        /// <summary>
-        /// Conversion factor from cubic inches to cubic micrometers.
-        /// </summary>
+        public const float PER_FLUID_DRAM = PER_MILLILITER * Units.Milliliters.PER_FLUID_DRAM;
+        public const float PER_TEASPOON = PER_FLUID_DRAM * Units.FluidDrams.PER_TEASPOON;
+        public const float PER_TABLESPOON = PER_FLUID_DRAM * Units.FluidDrams.PER_TABLESPOON;
         public const float PER_CUBIC_INCH = SquareMicrometers.PER_SQUARE_INCH * Micrometers.PER_INCH;
-
-        /// <summary>
-        /// Conversion factor from liters to cubic micrometers.
-        /// </summary>
+        public const float PER_FLUID_OUNCE = PER_TABLESPOON * Units.Tablespoons.PER_FLUID_OUNCE;
+        public const float PER_GILL = PER_FLUID_OUNCE * Units.FluidOunces.PER_GILL;
+        public const float PER_CUP = PER_GILL * Units.Gills.PER_CUP;
+        public const float PER_LIQUID_PINT = PER_CUP * Units.Cups.PER_LIQUID_PINT;
+        public const float PER_LIQUID_QUART = PER_LIQUID_PINT * Units.Cups.PER_LIQUID_QUART;
         public const float PER_LITER = PER_CUBIC_CENTIMETER * Units.CubicCentimeters.PER_LITER;
-
-        /// <summary>
-        /// Conversion factor from cubic feet to cubic micrometers.
-        /// </summary>
+        public const float PER_GALLON = PER_LIQUID_QUART * Units.LiquidQuarts.PER_GALLON;
         public const float PER_CUBIC_FOOT = SquareMicrometers.PER_SQUARE_FOOT * Micrometers.PER_FOOT;
-
-        /// <summary>
-        /// Conversion factor from cubic meters to cubic micrometers.
-        /// </summary>
         public const float PER_CUBIC_METER = SquareMicrometers.PER_SQUARE_METER * Micrometers.PER_METER;
-
-        /// <summary>
-        /// Conversion factor from kiloliters to cubic micrometers.
-        /// </summary>
         public const float PER_KILOLITER = PER_CUBIC_METER;
-
-        /// <summary>
-        /// Conversion factor from cubic kilometers to cubic micrometers.
-        /// </summary>
         public const float PER_CUBIC_KILOMETER = SquareMicrometers.PER_SQUARE_KILOMETER * Micrometers.PER_KILOMETER;
-
-        /// <summary>
-        /// Conversion factor from cubic miles to cubic micrometers.
-        /// </summary>
         public const float PER_CUBIC_MILE = SquareMicrometers.PER_SQUARE_MILE * Micrometers.PER_MILE;
 
         /// <summary>
@@ -63,6 +35,11 @@ namespace Juniper.Units
         public static float CubicMillimeters(float cubicMicrometers)
         {
             return cubicMicrometers * Units.CubicMillimeters.PER_CUBIC_MICROMETER;
+        }
+
+        public static float Minims(float cubicMicrometers)
+        {
+            return cubicMicrometers * Units.Minims.PER_CUBIC_MICROMETER;
         }
 
         /// <summary>
@@ -85,6 +62,21 @@ namespace Juniper.Units
             return CubicCentimeters(cubicMicrometers);
         }
 
+        public static float FluidDrams(float cubicMicrometers)
+        {
+            return cubicMicrometers * Units.FluidDrams.PER_CUBIC_MICROMETER;
+        }
+
+        public static float Teaspoons(float cubicMicrometers)
+        {
+            return cubicMicrometers * Units.Teaspoons.PER_CUBIC_MICROMETER;
+        }
+
+        public static float Tablespoons(float cubicMicrometers)
+        {
+            return cubicMicrometers * Units.Tablespoons.PER_CUBIC_MICROMETER;
+        }
+
         /// <summary>
         /// Convert from cubic micrometers to cubic inches.
         /// </summary>
@@ -95,6 +87,31 @@ namespace Juniper.Units
             return cubicMicrometers * Units.CubicInches.PER_CUBIC_MICROMETER;
         }
 
+        public static float FluidOunces(float cubicMicrometers)
+        {
+            return cubicMicrometers * Units.FluidOunces.PER_CUBIC_MICROMETER;
+        }
+
+        public static float Gills(float cubicMicrometers)
+        {
+            return cubicMicrometers * Units.Gills.PER_CUBIC_MICROMETER;
+        }
+
+        public static float Cups(float cubicMicrometers)
+        {
+            return cubicMicrometers * Units.Cups.PER_CUBIC_MICROMETER;
+        }
+
+        public static float LiquidPints(float cubicMicrometers)
+        {
+            return cubicMicrometers * Units.LiquidPints.PER_CUBIC_MICROMETER;
+        }
+
+        public static float LiquidQuarts(float cubicMicrometers)
+        {
+            return cubicMicrometers * Units.LiquidQuarts.PER_CUBIC_MICROMETER;
+        }
+
         /// <summary>
         /// Convert from cubic micrometers to liters.
         /// </summary>
@@ -103,6 +120,11 @@ namespace Juniper.Units
         public static float Liters(float cubicMicrometers)
         {
             return cubicMicrometers * Units.Liters.PER_CUBIC_MICROMETER;
+        }
+
+        public static float Gallons(float cubicMicrometers)
+        {
+            return cubicMicrometers * Units.Gallons.PER_CUBIC_MICROMETER;
         }
 
         /// <summary>

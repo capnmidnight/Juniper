@@ -5,154 +5,176 @@ namespace Juniper.Units
     /// </summary>
     public static class Milliliters
     {
-        /// <summary>
-        /// Conversion factor from cubic micrometers to milliliters.
-        /// </summary>
         public const float PER_CUBIC_MICROMETER = Units.CubicCentimeters.PER_CUBIC_MICROMETER;
-
-        /// <summary>
-        /// Conversion factor from cubic millimeters to milliliters.
-        /// </summary>
         public const float PER_CUBIC_MILLIMETER = Units.CubicCentimeters.PER_CUBIC_MILLIMETER;
-
-        /// <summary>
-        /// Conversion factor from cubic centimeters to milliliters.
-        /// </summary>
+        public const float PER_MINIM = 1 / Units.Minims.PER_MILLILITER;
         public const float PER_CUBIC_CENTIMETER = 1;
-
-        /// <summary>
-        /// Conversion factor from cubic inches to milliliters.
-        /// </summary>
+        public const float PER_MILLILITER = 1;
+        public const float PER_FLUID_DRAM = PER_TEASPOON * Units.Teaspoons.PER_FLUID_DRAM;
+        public const float PER_TEASPOON = PER_TABLESPOON * Units.Tablespoons.PER_TEASPOON;
+        public const float PER_TABLESPOON = PER_FLUID_OUNCE * Units.FluidOunces.PER_TABLESPOON;
         public const float PER_CUBIC_INCH = Units.CubicCentimeters.PER_CUBIC_INCH;
-
-        /// <summary>
-        /// Conversion factor from liters to milliliters.
-        /// </summary>
+        public const float PER_FLUID_OUNCE = PER_GILL * Units.Gills.PER_FLUID_OUNCE; 
+        public const float PER_GILL = PER_CUP * Units.Cups.PER_GILL; 
+        public const float PER_CUP = PER_LIQUID_PINT * Units.LiquidPints.PER_CUP; 
+        public const float PER_LIQUID_PINT = PER_LIQUID_QUART * Units.LiquidQuarts.PER_LIQUID_PINT; 
+        public const float PER_LIQUID_QUART = PER_GALLON * Units.Gallons.PER_LIQUID_QUART; 
         public const float PER_LITER = 1000;
-
-        /// <summary>
-        /// Conversion factor from cubic feet to milliliters.
-        /// </summary>
+        public const float PER_GALLON = PER_LITER * Units.Liters.PER_GALLON; 
         public const float PER_CUBIC_FOOT = Units.CubicCentimeters.PER_CUBIC_FOOT;
-
-        /// <summary>
-        /// Conversion factor from cubic meters to milliliters.
-        /// </summary>
         public const float PER_CUBIC_METER = Units.CubicCentimeters.PER_CUBIC_METER;
-
-        /// <summary>
-        /// Conversion factor from kiloliters to milliliters.
-        /// </summary>
         public const float PER_KILOLITER = PER_LITER * Units.Liters.PER_KILOLITER;
-
-        /// <summary>
-        /// Conversion factor from cubic kilometers to milliliters.
-        /// </summary>
         public const float PER_CUBIC_KILOMETER = Units.CubicCentimeters.PER_CUBIC_KILOMETER;
-
-        /// <summary>
-        /// Conversion factor from cubic miles to milliliters.
-        /// </summary>
         public const float PER_CUBIC_MILE = Units.CubicCentimeters.PER_CUBIC_MILE;
 
         /// <summary>
-        /// Convert from milliliters to cubic micrometers.
+        /// Convert from cubic micrometers to milliliters.
         /// </summary>
-        /// <param name="milliliters">The number of milliliters</param>
-        /// <returns>The number of cubic micrometers</returns>
+        /// <param name="milliliters">The number of cubic micrometers</param>
+        /// <returns>The number of milliliters</returns>
         public static float CubicMicrometers(float milliliters)
         {
-            return Units.CubicCentimeters.CubicMicrometers(milliliters);
+            return milliliters * Units.CubicMicrometers.PER_MILLILITER;
         }
 
         /// <summary>
-        /// Convert from milliliters to cubic millimeters.
+        /// Convert from cubic micrometers to cubic millimeters.
         /// </summary>
-        /// <param name="milliliters">The number of milliliters</param>
+        /// <param name="milliliters">The number of cubic micrometers</param>
         /// <returns>The number of cubic millimeters</returns>
         public static float CubicMillimeters(float milliliters)
         {
-            return Units.CubicCentimeters.CubicMillimeters(milliliters);
+            return milliliters * Units.CubicMillimeters.PER_MILLILITER;
+        }
+
+        public static float Minims(float milliliters)
+        {
+            return milliliters * Units.Minims.PER_MILLILITER;
         }
 
         /// <summary>
-        /// Convert from milliliters to cubic centimeters.
+        /// Convert from cubic micrometers to cubic centimeters.
         /// </summary>
-        /// <param name="milliliters">The number of milliliters</param>
+        /// <param name="milliliters">The number of cubic micrometers</param>
         /// <returns>The number of cubic centimeters</returns>
         public static float CubicCentimeters(float milliliters)
         {
-            return milliliters;
+            return milliliters * Units.CubicCentimeters.PER_MILLILITER;
+        }
+
+        public static float FluidDrams(float milliliters)
+        {
+            return milliliters * Units.FluidDrams.PER_MILLILITER;
+        }
+
+        public static float Teaspoons(float milliliters)
+        {
+            return milliliters * Units.Teaspoons.PER_MILLILITER;
+        }
+
+        public static float Tablespoons(float milliliters)
+        {
+            return milliliters * Units.Tablespoons.PER_MILLILITER;
         }
 
         /// <summary>
-        /// Convert from milliliters to cubic inches.
+        /// Convert from cubic micrometers to cubic inches.
         /// </summary>
-        /// <param name="milliliters">The number of milliliters</param>
+        /// <param name="milliliters">The number of cubic micrometers</param>
         /// <returns>The number of cubic inches</returns>
         public static float CubicInches(float milliliters)
         {
-            return Units.CubicCentimeters.CubicInches(milliliters);
+            return milliliters * Units.CubicInches.PER_MILLILITER;
+        }
+
+        public static float FluidOunces(float milliliters)
+        {
+            return milliliters * Units.FluidOunces.PER_MILLILITER;
+        }
+
+        public static float Gills(float milliliters)
+        {
+            return milliliters * Units.Gills.PER_MILLILITER;
+        }
+
+        public static float Cups(float milliliters)
+        {
+            return milliliters * Units.Cups.PER_MILLILITER;
+        }
+
+        public static float LiquidPints(float milliliters)
+        {
+            return milliliters * Units.LiquidPints.PER_MILLILITER;
+        }
+
+        public static float LiquidQuarts(float milliliters)
+        {
+            return milliliters * Units.LiquidQuarts.PER_MILLILITER;
         }
 
         /// <summary>
-        /// Convert from milliliters to liters.
+        /// Convert from cubic micrometers to liters.
         /// </summary>
-        /// <param name="milliliters">The number of milliliters</param>
+        /// <param name="milliliters">The number of cubic micrometers</param>
         /// <returns>The number of liters</returns>
         public static float Liters(float milliliters)
         {
-            return Units.CubicCentimeters.Liters(milliliters);
+            return milliliters * Units.Liters.PER_MILLILITER;
+        }
+
+        public static float Gallons(float milliliters)
+        {
+            return milliliters * Units.Gallons.PER_MILLILITER;
         }
 
         /// <summary>
-        /// Convert from milliliters to cubic feet.
+        /// Convert from cubic micrometers to cubic feet.
         /// </summary>
-        /// <param name="milliliters">The number of milliliters</param>
+        /// <param name="milliliters">The number of cubic micrometers</param>
         /// <returns>The number of cubic feet</returns>
         public static float CubicFeet(float milliliters)
         {
-            return Units.CubicCentimeters.CubicFeet(milliliters);
+            return milliliters * Units.CubicFeet.PER_MILLILITER;
         }
 
         /// <summary>
-        /// Convert from milliliters to cubic meters.
+        /// Convert from cubic micrometers to cubic meters.
         /// </summary>
-        /// <param name="milliliters">The number of milliliters</param>
-        /// <returns>The number of milliliters</returns>
+        /// <param name="milliliters">The number of cubic micrometers</param>
+        /// <returns>The number of cubic meters</returns>
         public static float CubicMeters(float milliliters)
         {
-            return Units.CubicCentimeters.CubicMeters(milliliters);
+            return milliliters * Units.CubicMeters.PER_MILLILITER;
         }
 
         /// <summary>
-        /// Convert from milliliters to kiloliters.
+        /// Convert from cubic micrometers to kiloliters.
         /// </summary>
-        /// <param name="milliliters">The number of milliliters</param>
+        /// <param name="milliliters">The number of cubic micrometers</param>
         /// <returns>The number of kiloliters</returns>
         public static float Kiloliters(float milliliters)
         {
-            return Units.CubicCentimeters.Kiloliters(milliliters);
+            return CubicMeters(milliliters);
         }
 
         /// <summary>
-        /// Convert from milliliters to cubic kilometers.
+        /// Convert from cubic micrometers to cubic kilometers.
         /// </summary>
-        /// <param name="milliliters">The number of milliliters</param>
+        /// <param name="milliliters">The number of cubic micrometers</param>
         /// <returns>The number of cubic kilometers</returns>
         public static float CubicKilometers(float milliliters)
         {
-            return Units.CubicCentimeters.CubicKilometers(milliliters);
+            return milliliters * Units.CubicKilometers.PER_MILLILITER;
         }
 
         /// <summary>
-        /// Convert from milliliters to cubic miles.
+        /// Convert from cubic micrometers to cubic miles.
         /// </summary>
-        /// <param name="milliliters">The number of milliliters</param>
+        /// <param name="milliliters">The number of cubic micrometers</param>
         /// <returns>The number of cubic miles</returns>
         public static float CubicMiles(float milliliters)
         {
-            return Units.CubicCentimeters.CubicMiles(milliliters);
+            return milliliters * Units.CubicMiles.PER_MILLILITER;
         }
     }
 }

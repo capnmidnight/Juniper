@@ -30,23 +30,27 @@ namespace Juniper.Units
             [UnitOfMeasure.LatLng] = new[] { Category.Geo },
             [UnitOfMeasure.UTM] = new[] { Category.Geo },
 
+            [UnitOfMeasure.Micrometers] = new[] { Category.Length },
+            [UnitOfMeasure.SquareMicrometers] = new[] { Category.Area },
+            [UnitOfMeasure.CubicMicrometers] = new[] { Category.Volume, Category.Space },
+
             [UnitOfMeasure.Millimeters] = new[] { Category.Length, Category.VeryShortLength },
             [UnitOfMeasure.SquareMillimeters] = new[] { Category.Area, Category.VerySmallArea },
-            [UnitOfMeasure.CubicMillimeters] = new[] { Category.Volume, Category.VerySmallVolume },
+            [UnitOfMeasure.CubicMillimeters] = new[] { Category.Volume, Category.Space, Category.VerySmallVolume },
 
             [UnitOfMeasure.Centimeters] = new[] { Category.Length, Category.ShortLength },
             [UnitOfMeasure.SquareCentimeters] = new[] { Category.Area, Category.SmallArea },
             [UnitOfMeasure.CubicCentimeters] = new[] { Category.Volume, Category.SmallVolume },
             [UnitOfMeasure.Inches] = new[] { Category.Length, Category.ShortLength },
             [UnitOfMeasure.SquareInches] = new[] { Category.Area, Category.SmallArea },
-            [UnitOfMeasure.CubicInches] = new[] { Category.Volume, Category.SmallVolume },
+            [UnitOfMeasure.CubicInches] = new[] { Category.Volume, Category.Space, Category.SmallVolume },
 
             [UnitOfMeasure.Feet] = new[] { Category.Length, Category.LongLength },
             [UnitOfMeasure.SquareFeet] = new[] { Category.Area, Category.LargeArea },
             [UnitOfMeasure.CubicFeet] = new[] { Category.Volume, Category.LargeVolume },
             [UnitOfMeasure.Meters] = new[] { Category.Length, Category.LongLength },
             [UnitOfMeasure.SquareMeters] = new[] { Category.Area, Category.LargeArea },
-            [UnitOfMeasure.CubicMeters] = new[] { Category.Volume, Category.LargeVolume },
+            [UnitOfMeasure.CubicMeters] = new[] { Category.Volume, Category.Space, Category.LargeVolume },
 
             [UnitOfMeasure.Kilometers] = new[] { Category.Length, Category.Distance },
             [UnitOfMeasure.SquareKilometers] = new[] { Category.Area, Category.LandMass },
@@ -54,6 +58,21 @@ namespace Juniper.Units
             [UnitOfMeasure.Miles] = new[] { Category.Length, Category.Distance },
             [UnitOfMeasure.SquareMiles] = new[] { Category.Area, Category.LandMass },
             [UnitOfMeasure.CubicMiles] = new[] { Category.Volume, Category.HugeVolume },
+
+            [UnitOfMeasure.Milliliters] = new[] { Category.Volume, Category.LiquidVolume, Category.VerySmallLiquidVolume },
+            [UnitOfMeasure.Liters] = new[] { Category.Volume, Category.LiquidVolume, Category.LargeLiquidVolume },
+            [UnitOfMeasure.Kiloliters] = new[] { Category.Volume, Category.LiquidVolume, Category.HugeLiquidVolume },
+
+            [UnitOfMeasure.Minims] = new[] { Category.LiquidVolume },
+            [UnitOfMeasure.FluidDrams] = new[] { Category.LiquidVolume },
+            [UnitOfMeasure.Teaspoons] = new[] { Category.Volume, Category.LiquidVolume },
+            [UnitOfMeasure.Tablespoons] = new[] { Category.Volume, Category.LiquidVolume },
+            [UnitOfMeasure.FluidOunces] = new[] { Category.LiquidVolume, Category.VerySmallLiquidVolume },
+            [UnitOfMeasure.Gills] = new[] { Category.LiquidVolume },
+            [UnitOfMeasure.Cups] = new[] { Category.Volume, Category.LiquidVolume, Category.SmallLiquidVolume },
+            [UnitOfMeasure.LiquidPints] = new[] { Category.LiquidVolume },
+            [UnitOfMeasure.LiquidQuarts] = new[] { Category.LiquidVolume },
+            [UnitOfMeasure.Gallons] = new[] { Category.LiquidVolume, Category.LargeLiquidVolume },
 
             [UnitOfMeasure.Grams] = new[] { Category.Mass, Category.SmallMass },
             [UnitOfMeasure.Ounces] = new[] { Category.Mass, Category.SmallMass },
@@ -195,7 +214,9 @@ namespace Juniper.Units
                 [Category.RegularBandwidth] = UnitOfMeasure.MibibytesPerSecond,
                 [Category.FastBandwidth] = UnitOfMeasure.GibibytesPerSecond,
                 [Category.VeryFastBandwidth] = UnitOfMeasure.TebibytesPerSecond,
-                [Category.ScreamingBandwidth] = UnitOfMeasure.PebibytesPerSecond
+                [Category.ScreamingBandwidth] = UnitOfMeasure.PebibytesPerSecond,
+                [Category.VerySmallLiquidVolume] = UnitOfMeasure.FluidOunces,
+                [Category.LargeLiquidVolume] = UnitOfMeasure.Gallons
             },
 
             [SystemOfMeasure.Metric] = new Dictionary<Category, UnitOfMeasure>(26)
@@ -232,7 +253,9 @@ namespace Juniper.Units
                 [Category.RegularBandwidth] = UnitOfMeasure.MegabytesPerSecond,
                 [Category.FastBandwidth] = UnitOfMeasure.GigabytesPerSecond,
                 [Category.VeryFastBandwidth] = UnitOfMeasure.TerabytesPerSecond,
-                [Category.ScreamingBandwidth] = UnitOfMeasure.PetabytesPerSecond
+                [Category.ScreamingBandwidth] = UnitOfMeasure.PetabytesPerSecond,
+                [Category.VerySmallLiquidVolume] = UnitOfMeasure.Milliliters,
+                [Category.LargeLiquidVolume] = UnitOfMeasure.Liters
             }
         };
 
@@ -266,6 +289,7 @@ namespace Juniper.Units
             [UnitOfMeasure.Radians] = " rad",
             [UnitOfMeasure.Gradians] = "ᵍ",
 
+            [UnitOfMeasure.Micrometers] = " μm",
             [UnitOfMeasure.Millimeters] = " mm",
             [UnitOfMeasure.Centimeters] = " cm",
             [UnitOfMeasure.Inches] = " in",
@@ -274,6 +298,7 @@ namespace Juniper.Units
             [UnitOfMeasure.Kilometers] = " km",
             [UnitOfMeasure.Miles] = " mi",
 
+            [UnitOfMeasure.SquareMicrometers] = " μm²",
             [UnitOfMeasure.SquareMillimeters] = " mm²",
             [UnitOfMeasure.SquareCentimeters] = " cm²",
             [UnitOfMeasure.SquareInches] = " in²",
@@ -282,11 +307,25 @@ namespace Juniper.Units
             [UnitOfMeasure.SquareKilometers] = " km²",
             [UnitOfMeasure.SquareMiles] = " mi²",
 
+            [UnitOfMeasure.CubicMicrometers] = " μm³",
             [UnitOfMeasure.CubicMillimeters] = " mm³",
+            [UnitOfMeasure.Minims] = " min",
             [UnitOfMeasure.CubicCentimeters] = " cm³",
+            [UnitOfMeasure.Milliliters] = " mL",
+            [UnitOfMeasure.FluidDrams] = " dr",
+            [UnitOfMeasure.Teaspoons] = " tsp",
+            [UnitOfMeasure.Tablespoons] = " Tbsp",
             [UnitOfMeasure.CubicInches] = " in³",
+            [UnitOfMeasure.FluidOunces] = " fl oz",
+            [UnitOfMeasure.Gills] = " gill",
+            [UnitOfMeasure.Cups] = " cup",
+            [UnitOfMeasure.LiquidPints] = " pt",
+            [UnitOfMeasure.LiquidQuarts] = " qt",
+            [UnitOfMeasure.Liters] = " L",
+            [UnitOfMeasure.Gallons] = " gal",
             [UnitOfMeasure.CubicFeet] = " ft³",
             [UnitOfMeasure.CubicMeters] = " m³",
+            [UnitOfMeasure.Kiloliters] = " kL",
             [UnitOfMeasure.CubicKilometers] = " km³",
             [UnitOfMeasure.CubicMiles] = " mi³",
 
@@ -372,7 +411,7 @@ namespace Juniper.Units
         /// A look-up to quickly find the conversion function for each unit of measure pairing
         /// without having to use reflection every time.
         /// </summary>
-        private static readonly Dictionary<UnitOfMeasure, Dictionary<UnitOfMeasure, Func<float, float>>> Conversions = new Dictionary<UnitOfMeasure, Dictionary<UnitOfMeasure, Func<float, float>>>(76)
+        private static readonly Dictionary<UnitOfMeasure, Dictionary<UnitOfMeasure, Func<float, float>>> Conversions = new Dictionary<UnitOfMeasure, Dictionary<UnitOfMeasure, Func<float, float>>>(99)
         {
             [UnitOfMeasure.FeetPerSecondSquared] = new Dictionary<UnitOfMeasure, Func<float, float>>(1)
             {
@@ -403,76 +442,6 @@ namespace Juniper.Units
                 [UnitOfMeasure.Degrees] = Radians.Degrees,
                 [UnitOfMeasure.Gradians] = Radians.Gradians,
                 [UnitOfMeasure.Hours] = Radians.Hours
-            },
-
-            [UnitOfMeasure.CubicCentimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
-            {
-                [UnitOfMeasure.CubicMillimeters] = CubicCentimeters.CubicMillimeters,
-                [UnitOfMeasure.CubicInches] = CubicCentimeters.CubicInches,
-                [UnitOfMeasure.CubicFeet] = CubicCentimeters.CubicFeet,
-                [UnitOfMeasure.CubicMeters] = CubicCentimeters.CubicMeters,
-                [UnitOfMeasure.CubicKilometers] = CubicCentimeters.CubicKilometers,
-                [UnitOfMeasure.CubicMiles] = CubicCentimeters.CubicMiles
-            },
-
-            [UnitOfMeasure.CubicFeet] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
-            {
-                [UnitOfMeasure.CubicMillimeters] = CubicFeet.CubicMillimeters,
-                [UnitOfMeasure.CubicCentimeters] = CubicFeet.CubicCentimeters,
-                [UnitOfMeasure.CubicInches] = CubicFeet.CubicInches,
-                [UnitOfMeasure.CubicMeters] = CubicFeet.CubicMeters,
-                [UnitOfMeasure.CubicKilometers] = CubicFeet.CubicKilometers,
-                [UnitOfMeasure.CubicMiles] = CubicFeet.CubicMiles
-            },
-
-            [UnitOfMeasure.CubicInches] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
-            {
-                [UnitOfMeasure.CubicMillimeters] = CubicInches.CubicMillimeters,
-                [UnitOfMeasure.CubicCentimeters] = CubicInches.CubicCentimeters,
-                [UnitOfMeasure.CubicFeet] = CubicInches.CubicFeet,
-                [UnitOfMeasure.CubicMeters] = CubicInches.CubicMeters,
-                [UnitOfMeasure.CubicKilometers] = CubicInches.CubicKilometers,
-                [UnitOfMeasure.CubicMiles] = CubicInches.CubicMiles
-            },
-
-            [UnitOfMeasure.CubicKilometers] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
-            {
-                [UnitOfMeasure.CubicMillimeters] = CubicKilometers.CubicMillimeters,
-                [UnitOfMeasure.CubicCentimeters] = CubicKilometers.CubicCentimeters,
-                [UnitOfMeasure.CubicInches] = CubicKilometers.CubicInches,
-                [UnitOfMeasure.CubicFeet] = CubicKilometers.CubicFeet,
-                [UnitOfMeasure.CubicMeters] = CubicKilometers.CubicMeters,
-                [UnitOfMeasure.CubicMiles] = CubicKilometers.CubicMiles
-            },
-
-            [UnitOfMeasure.CubicMeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
-            {
-                [UnitOfMeasure.CubicMillimeters] = CubicMeters.CubicMillimeters,
-                [UnitOfMeasure.CubicCentimeters] = CubicMeters.CubicCentimeters,
-                [UnitOfMeasure.CubicInches] = CubicMeters.CubicInches,
-                [UnitOfMeasure.CubicFeet] = CubicMeters.CubicFeet,
-                [UnitOfMeasure.CubicKilometers] = CubicMeters.CubicKilometers,
-                [UnitOfMeasure.CubicMiles] = CubicMeters.CubicMiles
-            },
-
-            [UnitOfMeasure.CubicMiles] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
-            {
-                [UnitOfMeasure.CubicMillimeters] = CubicMiles.CubicMillimeters,
-                [UnitOfMeasure.CubicCentimeters] = CubicMiles.CubicCentimeters,
-                [UnitOfMeasure.CubicInches] = CubicMiles.CubicInches,
-                [UnitOfMeasure.CubicFeet] = CubicMiles.CubicFeet,
-                [UnitOfMeasure.CubicMeters] = CubicMiles.CubicMeters,
-                [UnitOfMeasure.CubicKilometers] = CubicMiles.CubicKilometers
-            },
-
-            [UnitOfMeasure.CubicMillimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
-            {
-                [UnitOfMeasure.CubicCentimeters] = CubicMillimeters.CubicCentimeters,
-                [UnitOfMeasure.CubicInches] = CubicMillimeters.CubicInches,
-                [UnitOfMeasure.CubicFeet] = CubicMillimeters.CubicFeet,
-                [UnitOfMeasure.CubicMeters] = CubicMillimeters.CubicMeters,
-                [UnitOfMeasure.CubicKilometers] = CubicMillimeters.CubicKilometers,
-                [UnitOfMeasure.CubicMiles] = CubicMillimeters.CubicMiles
             },
 
             [UnitOfMeasure.Bits] = new Dictionary<UnitOfMeasure, Func<float, float>>(17)
@@ -1231,8 +1200,20 @@ namespace Juniper.Units
                 [UnitOfMeasure.YobibytesPerSecond] = ZettabytesPerSecond.YobibytesPerSecond
             },
 
-            [UnitOfMeasure.SquareCentimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
+            [UnitOfMeasure.SquareMicrometers] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
             {
+                [UnitOfMeasure.SquareMillimeters] = SquareMicrometers.SquareMillimeters,
+                [UnitOfMeasure.SquareCentimeters] = SquareMicrometers.SquareCentimeters,
+                [UnitOfMeasure.SquareInches] = SquareMicrometers.SquareInches,
+                [UnitOfMeasure.SquareFeet] = SquareMicrometers.SquareFeet,
+                [UnitOfMeasure.SquareMeters] = SquareMicrometers.SquareMeters,
+                [UnitOfMeasure.SquareKilometers] = SquareMicrometers.SquareKilometers,
+                [UnitOfMeasure.SquareMiles] = SquareMicrometers.SquareMiles
+            },
+
+            [UnitOfMeasure.SquareCentimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
+            {
+                [UnitOfMeasure.SquareMicrometers] = SquareCentimeters.SquareMicrometers,
                 [UnitOfMeasure.SquareMillimeters] = SquareCentimeters.SquareMillimeters,
                 [UnitOfMeasure.SquareInches] = SquareCentimeters.SquareInches,
                 [UnitOfMeasure.SquareFeet] = SquareCentimeters.SquareFeet,
@@ -1241,8 +1222,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareCentimeters.SquareMiles
             },
 
-            [UnitOfMeasure.SquareFeet] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
+            [UnitOfMeasure.SquareFeet] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
             {
+                [UnitOfMeasure.SquareMicrometers] = SquareFeet.SquareMicrometers,
                 [UnitOfMeasure.SquareMillimeters] = SquareFeet.SquareMillimeters,
                 [UnitOfMeasure.SquareCentimeters] = SquareFeet.SquareCentimeters,
                 [UnitOfMeasure.SquareInches] = SquareFeet.SquareInches,
@@ -1251,8 +1233,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareFeet.SquareMiles
             },
 
-            [UnitOfMeasure.SquareInches] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
+            [UnitOfMeasure.SquareInches] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
             {
+                [UnitOfMeasure.SquareMicrometers] = SquareInches.SquareMicrometers,
                 [UnitOfMeasure.SquareMillimeters] = SquareInches.SquareMillimeters,
                 [UnitOfMeasure.SquareCentimeters] = SquareInches.SquareCentimeters,
                 [UnitOfMeasure.SquareFeet] = SquareInches.SquareFeet,
@@ -1261,8 +1244,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareInches.SquareMiles
             },
 
-            [UnitOfMeasure.SquareKilometers] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
+            [UnitOfMeasure.SquareKilometers] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
             {
+                [UnitOfMeasure.SquareMicrometers] = SquareKilometers.SquareMicrometers,
                 [UnitOfMeasure.SquareMillimeters] = SquareKilometers.SquareMillimeters,
                 [UnitOfMeasure.SquareCentimeters] = SquareKilometers.SquareCentimeters,
                 [UnitOfMeasure.SquareInches] = SquareKilometers.SquareInches,
@@ -1271,8 +1255,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareKilometers.SquareMiles
             },
 
-            [UnitOfMeasure.SquareMeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
+            [UnitOfMeasure.SquareMeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
             {
+                [UnitOfMeasure.SquareMicrometers] = SquareMeters.SquareMicrometers,
                 [UnitOfMeasure.SquareMillimeters] = SquareMeters.SquareMillimeters,
                 [UnitOfMeasure.SquareCentimeters] = SquareMeters.SquareCentimeters,
                 [UnitOfMeasure.SquareInches] = SquareMeters.SquareInches,
@@ -1281,8 +1266,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareMeters.SquareMiles
             },
 
-            [UnitOfMeasure.SquareMiles] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
+            [UnitOfMeasure.SquareMiles] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
             {
+                [UnitOfMeasure.SquareMicrometers] = SquareMiles.SquareMicrometers,
                 [UnitOfMeasure.SquareMillimeters] = SquareMiles.SquareMillimeters,
                 [UnitOfMeasure.SquareCentimeters] = SquareMiles.SquareCentimeters,
                 [UnitOfMeasure.SquareInches] = SquareMiles.SquareInches,
@@ -1291,8 +1277,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareKilometers] = SquareMiles.SquareKilometers
             },
 
-            [UnitOfMeasure.SquareMillimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
+            [UnitOfMeasure.SquareMillimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
             {
+                [UnitOfMeasure.SquareMicrometers] = SquareMillimeters.SquareMicrometers,
                 [UnitOfMeasure.SquareCentimeters] = SquareMillimeters.SquareCentimeters,
                 [UnitOfMeasure.SquareInches] = SquareMillimeters.SquareInches,
                 [UnitOfMeasure.SquareFeet] = SquareMillimeters.SquareFeet,
@@ -1301,8 +1288,20 @@ namespace Juniper.Units
                 [UnitOfMeasure.SquareMiles] = SquareMillimeters.SquareMiles
             },
 
-            [UnitOfMeasure.Centimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
+            [UnitOfMeasure.Micrometers] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
             {
+                [UnitOfMeasure.Centimeters] = Micrometers.Centimeters,
+                [UnitOfMeasure.Millimeters] = Micrometers.Millimeters,
+                [UnitOfMeasure.Inches] = Micrometers.Inches,
+                [UnitOfMeasure.Feet] = Micrometers.Feet,
+                [UnitOfMeasure.Meters] = Micrometers.Meters,
+                [UnitOfMeasure.Kilometers] = Micrometers.Kilometers,
+                [UnitOfMeasure.Miles] = Micrometers.Miles
+            },
+
+            [UnitOfMeasure.Centimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
+            {
+                [UnitOfMeasure.Micrometers] = Centimeters.Micrometers,
                 [UnitOfMeasure.Millimeters] = Centimeters.Millimeters,
                 [UnitOfMeasure.Inches] = Centimeters.Inches,
                 [UnitOfMeasure.Feet] = Centimeters.Feet,
@@ -1311,8 +1310,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Miles] = Centimeters.Miles
             },
 
-            [UnitOfMeasure.Feet] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
+            [UnitOfMeasure.Feet] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
             {
+                [UnitOfMeasure.Micrometers] = Feet.Micrometers,
                 [UnitOfMeasure.Millimeters] = Feet.Millimeters,
                 [UnitOfMeasure.Centimeters] = Feet.Centimeters,
                 [UnitOfMeasure.Inches] = Feet.Inches,
@@ -1321,8 +1321,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Miles] = Feet.Miles
             },
 
-            [UnitOfMeasure.Inches] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
+            [UnitOfMeasure.Inches] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
             {
+                [UnitOfMeasure.Micrometers] = Inches.Micrometers,
                 [UnitOfMeasure.Millimeters] = Inches.Millimeters,
                 [UnitOfMeasure.Centimeters] = Inches.Centimeters,
                 [UnitOfMeasure.Feet] = Inches.Feet,
@@ -1331,8 +1332,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Miles] = Inches.Miles
             },
 
-            [UnitOfMeasure.Kilometers] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
+            [UnitOfMeasure.Kilometers] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
             {
+                [UnitOfMeasure.Micrometers] = Kilometers.Micrometers,
                 [UnitOfMeasure.Millimeters] = Kilometers.Millimeters,
                 [UnitOfMeasure.Centimeters] = Kilometers.Centimeters,
                 [UnitOfMeasure.Inches] = Kilometers.Inches,
@@ -1341,8 +1343,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Miles] = Kilometers.Miles
             },
 
-            [UnitOfMeasure.Meters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
+            [UnitOfMeasure.Meters] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
             {
+                [UnitOfMeasure.Micrometers] = Meters.Micrometers,
                 [UnitOfMeasure.Millimeters] = Meters.Millimeters,
                 [UnitOfMeasure.Centimeters] = Meters.Centimeters,
                 [UnitOfMeasure.Inches] = Meters.Inches,
@@ -1351,8 +1354,9 @@ namespace Juniper.Units
                 [UnitOfMeasure.Miles] = Meters.Miles
             },
 
-            [UnitOfMeasure.Miles] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
+            [UnitOfMeasure.Miles] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
             {
+                [UnitOfMeasure.Micrometers] = Miles.Micrometers,
                 [UnitOfMeasure.Millimeters] = Miles.Millimeters,
                 [UnitOfMeasure.Centimeters] = Miles.Centimeters,
                 [UnitOfMeasure.Inches] = Miles.Inches,
@@ -1361,14 +1365,519 @@ namespace Juniper.Units
                 [UnitOfMeasure.Kilometers] = Miles.Kilometers
             },
 
-            [UnitOfMeasure.Millimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(6)
+            [UnitOfMeasure.Millimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(7)
             {
+                [UnitOfMeasure.Micrometers] = Millimeters.Micrometers,
                 [UnitOfMeasure.Centimeters] = Millimeters.Centimeters,
                 [UnitOfMeasure.Inches] = Millimeters.Inches,
                 [UnitOfMeasure.Feet] = Millimeters.Feet,
                 [UnitOfMeasure.Meters] = Millimeters.Meters,
                 [UnitOfMeasure.Kilometers] = Millimeters.Kilometers,
                 [UnitOfMeasure.Miles] = Millimeters.Miles
+            },
+
+            [UnitOfMeasure.CubicCentimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicFeet] = CubicCentimeters.CubicFeet,
+                [UnitOfMeasure.CubicInches] = CubicCentimeters.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = CubicCentimeters.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = CubicCentimeters.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = CubicCentimeters.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = CubicCentimeters.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = CubicCentimeters.CubicMillimeters,
+                [UnitOfMeasure.Cups] = CubicCentimeters.Cups,
+                [UnitOfMeasure.FluidDrams] = CubicCentimeters.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = CubicCentimeters.FluidOunces,
+                [UnitOfMeasure.Gallons] = CubicCentimeters.Gallons,
+                [UnitOfMeasure.Gills] = CubicCentimeters.Gills,
+                [UnitOfMeasure.Kiloliters] = CubicCentimeters.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = CubicCentimeters.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = CubicCentimeters.LiquidQuarts,
+                [UnitOfMeasure.Liters] = CubicCentimeters.Liters,
+                [UnitOfMeasure.Milliliters] = CubicCentimeters.Milliliters,
+                [UnitOfMeasure.Minims] = CubicCentimeters.Minims,
+                [UnitOfMeasure.Tablespoons] = CubicCentimeters.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = CubicCentimeters.Teaspoons
+            },
+
+            [UnitOfMeasure.CubicFeet] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = CubicFeet.CubicCentimeters,
+                [UnitOfMeasure.CubicInches] = CubicFeet.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = CubicFeet.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = CubicFeet.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = CubicFeet.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = CubicFeet.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = CubicFeet.CubicMillimeters,
+                [UnitOfMeasure.Cups] = CubicFeet.Cups,
+                [UnitOfMeasure.FluidDrams] = CubicFeet.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = CubicFeet.FluidOunces,
+                [UnitOfMeasure.Gallons] = CubicFeet.Gallons,
+                [UnitOfMeasure.Gills] = CubicFeet.Gills,
+                [UnitOfMeasure.Kiloliters] = CubicFeet.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = CubicFeet.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = CubicFeet.LiquidQuarts,
+                [UnitOfMeasure.Liters] = CubicFeet.Liters,
+                [UnitOfMeasure.Milliliters] = CubicFeet.Milliliters,
+                [UnitOfMeasure.Minims] = CubicFeet.Minims,
+                [UnitOfMeasure.Tablespoons] = CubicFeet.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = CubicFeet.Teaspoons
+            },
+
+            [UnitOfMeasure.CubicInches] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicInches] = CubicInches.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = CubicInches.CubicFeet,
+                [UnitOfMeasure.CubicKilometers] = CubicInches.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = CubicInches.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = CubicInches.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = CubicInches.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = CubicInches.CubicMillimeters,
+                [UnitOfMeasure.Cups] = CubicInches.Cups,
+                [UnitOfMeasure.FluidDrams] = CubicInches.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = CubicInches.FluidOunces,
+                [UnitOfMeasure.Gallons] = CubicInches.Gallons,
+                [UnitOfMeasure.Gills] = CubicInches.Gills,
+                [UnitOfMeasure.Kiloliters] = CubicInches.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = CubicInches.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = CubicInches.LiquidQuarts,
+                [UnitOfMeasure.Liters] = CubicInches.Liters,
+                [UnitOfMeasure.Milliliters] = CubicInches.Milliliters,
+                [UnitOfMeasure.Minims] = CubicInches.Minims,
+                [UnitOfMeasure.Tablespoons] = CubicInches.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = CubicInches.Teaspoons
+            },
+
+            [UnitOfMeasure.CubicKilometers] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = CubicKilometers.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = CubicKilometers.CubicFeet,
+                [UnitOfMeasure.CubicInches] = CubicKilometers.CubicInches,
+                [UnitOfMeasure.CubicMeters] = CubicKilometers.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = CubicKilometers.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = CubicKilometers.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = CubicKilometers.CubicMillimeters,
+                [UnitOfMeasure.Cups] = CubicKilometers.Cups,
+                [UnitOfMeasure.FluidDrams] = CubicKilometers.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = CubicKilometers.FluidOunces,
+                [UnitOfMeasure.Gallons] = CubicKilometers.Gallons,
+                [UnitOfMeasure.Gills] = CubicKilometers.Gills,
+                [UnitOfMeasure.Kiloliters] = CubicKilometers.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = CubicKilometers.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = CubicKilometers.LiquidQuarts,
+                [UnitOfMeasure.Liters] = CubicKilometers.Liters,
+                [UnitOfMeasure.Milliliters] = CubicKilometers.Milliliters,
+                [UnitOfMeasure.Minims] = CubicKilometers.Minims,
+                [UnitOfMeasure.Tablespoons] = CubicKilometers.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = CubicKilometers.Teaspoons
+            },
+
+            [UnitOfMeasure.CubicMeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = CubicMeters.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = CubicMeters.CubicFeet,
+                [UnitOfMeasure.CubicInches] = CubicMeters.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = CubicMeters.CubicKilometers,
+                [UnitOfMeasure.CubicMicrometers] = CubicMeters.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = CubicMeters.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = CubicMeters.CubicMillimeters,
+                [UnitOfMeasure.Cups] = CubicMeters.Cups,
+                [UnitOfMeasure.FluidDrams] = CubicMeters.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = CubicMeters.FluidOunces,
+                [UnitOfMeasure.Gallons] = CubicMeters.Gallons,
+                [UnitOfMeasure.Gills] = CubicMeters.Gills,
+                [UnitOfMeasure.Kiloliters] = CubicMeters.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = CubicMeters.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = CubicMeters.LiquidQuarts,
+                [UnitOfMeasure.Liters] = CubicMeters.Liters,
+                [UnitOfMeasure.Milliliters] = CubicMeters.Milliliters,
+                [UnitOfMeasure.Minims] = CubicMeters.Minims,
+                [UnitOfMeasure.Tablespoons] = CubicMeters.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = CubicMeters.Teaspoons
+            },
+
+            [UnitOfMeasure.CubicMicrometers] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = CubicMicrometers.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = CubicMicrometers.CubicFeet,
+                [UnitOfMeasure.CubicInches] = CubicMicrometers.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = CubicMicrometers.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = CubicMicrometers.CubicMeters,
+                [UnitOfMeasure.CubicMiles] = CubicMicrometers.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = CubicMicrometers.CubicMillimeters,
+                [UnitOfMeasure.Cups] = CubicMicrometers.Cups,
+                [UnitOfMeasure.FluidDrams] = CubicMicrometers.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = CubicMicrometers.FluidOunces,
+                [UnitOfMeasure.Gallons] = CubicMicrometers.Gallons,
+                [UnitOfMeasure.Gills] = CubicMicrometers.Gills,
+                [UnitOfMeasure.Kiloliters] = CubicMicrometers.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = CubicMicrometers.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = CubicMicrometers.LiquidQuarts,
+                [UnitOfMeasure.Liters] = CubicMicrometers.Liters,
+                [UnitOfMeasure.Milliliters] = CubicMicrometers.Milliliters,
+                [UnitOfMeasure.Minims] = CubicMicrometers.Minims,
+                [UnitOfMeasure.Tablespoons] = CubicMicrometers.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = CubicMicrometers.Teaspoons
+            },
+
+            [UnitOfMeasure.CubicMiles] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = CubicMiles.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = CubicMiles.CubicFeet,
+                [UnitOfMeasure.CubicInches] = CubicMiles.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = CubicMiles.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = CubicMiles.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = CubicMiles.CubicMicrometers,
+                [UnitOfMeasure.CubicMillimeters] = CubicMiles.CubicMillimeters,
+                [UnitOfMeasure.Cups] = CubicMiles.Cups,
+                [UnitOfMeasure.FluidDrams] = CubicMiles.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = CubicMiles.FluidOunces,
+                [UnitOfMeasure.Gallons] = CubicMiles.Gallons,
+                [UnitOfMeasure.Gills] = CubicMiles.Gills,
+                [UnitOfMeasure.Kiloliters] = CubicMiles.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = CubicMiles.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = CubicMiles.LiquidQuarts,
+                [UnitOfMeasure.Liters] = CubicMiles.Liters,
+                [UnitOfMeasure.Milliliters] = CubicMiles.Milliliters,
+                [UnitOfMeasure.Minims] = CubicMiles.Minims,
+                [UnitOfMeasure.Tablespoons] = CubicMiles.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = CubicMiles.Teaspoons
+            },
+
+            [UnitOfMeasure.CubicMillimeters] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = CubicMillimeters.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = CubicMillimeters.CubicFeet,
+                [UnitOfMeasure.CubicInches] = CubicMillimeters.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = CubicMillimeters.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = CubicMillimeters.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = CubicMillimeters.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = CubicMillimeters.CubicMiles,
+                [UnitOfMeasure.Cups] = CubicMillimeters.Cups,
+                [UnitOfMeasure.FluidDrams] = CubicMillimeters.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = CubicMillimeters.FluidOunces,
+                [UnitOfMeasure.Gallons] = CubicMillimeters.Gallons,
+                [UnitOfMeasure.Gills] = CubicMillimeters.Gills,
+                [UnitOfMeasure.Kiloliters] = CubicMillimeters.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = CubicMillimeters.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = CubicMillimeters.LiquidQuarts,
+                [UnitOfMeasure.Liters] = CubicMillimeters.Liters,
+                [UnitOfMeasure.Milliliters] = CubicMillimeters.Milliliters,
+                [UnitOfMeasure.Minims] = CubicMillimeters.Minims,
+                [UnitOfMeasure.Tablespoons] = CubicMillimeters.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = CubicMillimeters.Teaspoons
+            },
+
+            [UnitOfMeasure.Cups] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = Cups.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = Cups.CubicFeet,
+                [UnitOfMeasure.CubicInches] = Cups.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = Cups.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = Cups.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = Cups.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = Cups.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = Cups.CubicMillimeters,
+                [UnitOfMeasure.FluidDrams] = Cups.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = Cups.FluidOunces,
+                [UnitOfMeasure.Gallons] = Cups.Gallons,
+                [UnitOfMeasure.Gills] = Cups.Gills,
+                [UnitOfMeasure.Kiloliters] = Cups.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = Cups.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = Cups.LiquidQuarts,
+                [UnitOfMeasure.Liters] = Cups.Liters,
+                [UnitOfMeasure.Milliliters] = Cups.Milliliters,
+                [UnitOfMeasure.Minims] = Cups.Minims,
+                [UnitOfMeasure.Tablespoons] = Cups.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = Cups.Teaspoons
+            },
+
+            [UnitOfMeasure.FluidDrams] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = FluidDrams.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = FluidDrams.CubicFeet,
+                [UnitOfMeasure.CubicInches] = FluidDrams.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = FluidDrams.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = FluidDrams.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = FluidDrams.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = FluidDrams.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = FluidDrams.CubicMillimeters,
+                [UnitOfMeasure.Cups] = FluidDrams.Cups,
+                [UnitOfMeasure.FluidOunces] = FluidDrams.FluidOunces,
+                [UnitOfMeasure.Gallons] = FluidDrams.Gallons,
+                [UnitOfMeasure.Gills] = FluidDrams.Gills,
+                [UnitOfMeasure.Kiloliters] = FluidDrams.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = FluidDrams.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = FluidDrams.LiquidQuarts,
+                [UnitOfMeasure.Liters] = FluidDrams.Liters,
+                [UnitOfMeasure.Milliliters] = FluidDrams.Milliliters,
+                [UnitOfMeasure.Minims] = FluidDrams.Minims,
+                [UnitOfMeasure.Tablespoons] = FluidDrams.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = FluidDrams.Teaspoons
+            },
+
+            [UnitOfMeasure.FluidOunces] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = FluidOunces.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = FluidOunces.CubicFeet,
+                [UnitOfMeasure.CubicInches] = FluidOunces.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = FluidOunces.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = FluidOunces.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = FluidOunces.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = FluidOunces.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = FluidOunces.CubicMillimeters,
+                [UnitOfMeasure.Cups] = FluidOunces.Cups,
+                [UnitOfMeasure.FluidDrams] = FluidOunces.FluidDrams,
+                [UnitOfMeasure.Gallons] = FluidOunces.Gallons,
+                [UnitOfMeasure.Gills] = FluidOunces.Gills,
+                [UnitOfMeasure.Kiloliters] = FluidOunces.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = FluidOunces.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = FluidOunces.LiquidQuarts,
+                [UnitOfMeasure.Liters] = FluidOunces.Liters,
+                [UnitOfMeasure.Milliliters] = FluidOunces.Milliliters,
+                [UnitOfMeasure.Minims] = FluidOunces.Minims,
+                [UnitOfMeasure.Tablespoons] = FluidOunces.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = FluidOunces.Teaspoons
+            },
+
+            [UnitOfMeasure.Gallons] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = Gallons.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = Gallons.CubicFeet,
+                [UnitOfMeasure.CubicInches] = Gallons.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = Gallons.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = Gallons.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = Gallons.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = Gallons.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = Gallons.CubicMillimeters,
+                [UnitOfMeasure.Cups] = Gallons.Cups,
+                [UnitOfMeasure.FluidDrams] = Gallons.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = Gallons.FluidOunces,
+                [UnitOfMeasure.Gills] = Gallons.Gills,
+                [UnitOfMeasure.Kiloliters] = Gallons.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = Gallons.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = Gallons.LiquidQuarts,
+                [UnitOfMeasure.Liters] = Gallons.Liters,
+                [UnitOfMeasure.Milliliters] = Gallons.Milliliters,
+                [UnitOfMeasure.Minims] = Gallons.Minims,
+                [UnitOfMeasure.Tablespoons] = Gallons.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = Gallons.Teaspoons
+            },
+
+            [UnitOfMeasure.Gills] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = Gills.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = Gills.CubicFeet,
+                [UnitOfMeasure.CubicInches] = Gills.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = Gills.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = Gills.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = Gills.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = Gills.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = Gills.CubicMillimeters,
+                [UnitOfMeasure.Cups] = Gills.Cups,
+                [UnitOfMeasure.FluidDrams] = Gills.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = Gills.FluidOunces,
+                [UnitOfMeasure.Gallons] = Gills.Gallons,
+                [UnitOfMeasure.Kiloliters] = Gills.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = Gills.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = Gills.LiquidQuarts,
+                [UnitOfMeasure.Liters] = Gills.Liters,
+                [UnitOfMeasure.Milliliters] = Gills.Milliliters,
+                [UnitOfMeasure.Minims] = Gills.Minims,
+                [UnitOfMeasure.Tablespoons] = Gills.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = Gills.Teaspoons
+            },
+
+            [UnitOfMeasure.Kiloliters] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = Kiloliters.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = Kiloliters.CubicFeet,
+                [UnitOfMeasure.CubicInches] = Kiloliters.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = Kiloliters.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = Kiloliters.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = Kiloliters.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = Kiloliters.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = Kiloliters.CubicMillimeters,
+                [UnitOfMeasure.Cups] = Kiloliters.Cups,
+                [UnitOfMeasure.FluidDrams] = Kiloliters.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = Kiloliters.FluidOunces,
+                [UnitOfMeasure.Gallons] = Kiloliters.Gallons,
+                [UnitOfMeasure.Gills] = Kiloliters.Gills,
+                [UnitOfMeasure.LiquidPints] = Kiloliters.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = Kiloliters.LiquidQuarts,
+                [UnitOfMeasure.Liters] = Kiloliters.Liters,
+                [UnitOfMeasure.Milliliters] = Kiloliters.Milliliters,
+                [UnitOfMeasure.Minims] = Kiloliters.Minims,
+                [UnitOfMeasure.Tablespoons] = Kiloliters.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = Kiloliters.Teaspoons
+            },
+
+            [UnitOfMeasure.LiquidPints] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = LiquidPints.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = LiquidPints.CubicFeet,
+                [UnitOfMeasure.CubicInches] = LiquidPints.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = LiquidPints.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = LiquidPints.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = LiquidPints.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = LiquidPints.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = LiquidPints.CubicMillimeters,
+                [UnitOfMeasure.Cups] = LiquidPints.Cups,
+                [UnitOfMeasure.FluidDrams] = LiquidPints.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = LiquidPints.FluidOunces,
+                [UnitOfMeasure.Gallons] = LiquidPints.Gallons,
+                [UnitOfMeasure.Gills] = LiquidPints.Gills,
+                [UnitOfMeasure.Kiloliters] = LiquidPints.Kiloliters,
+                [UnitOfMeasure.LiquidQuarts] = LiquidPints.LiquidQuarts,
+                [UnitOfMeasure.Liters] = LiquidPints.Liters,
+                [UnitOfMeasure.Milliliters] = LiquidPints.Milliliters,
+                [UnitOfMeasure.Minims] = LiquidPints.Minims,
+                [UnitOfMeasure.Tablespoons] = LiquidPints.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = LiquidPints.Teaspoons
+            },
+
+            [UnitOfMeasure.LiquidQuarts] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = LiquidQuarts.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = LiquidQuarts.CubicFeet,
+                [UnitOfMeasure.CubicInches] = LiquidQuarts.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = LiquidQuarts.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = LiquidQuarts.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = LiquidQuarts.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = LiquidQuarts.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = LiquidQuarts.CubicMillimeters,
+                [UnitOfMeasure.Cups] = LiquidQuarts.Cups,
+                [UnitOfMeasure.FluidDrams] = LiquidQuarts.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = LiquidQuarts.FluidOunces,
+                [UnitOfMeasure.Gallons] = LiquidQuarts.Gallons,
+                [UnitOfMeasure.Gills] = LiquidQuarts.Gills,
+                [UnitOfMeasure.Kiloliters] = LiquidQuarts.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = LiquidQuarts.LiquidPints,
+                [UnitOfMeasure.Liters] = LiquidQuarts.Liters,
+                [UnitOfMeasure.Milliliters] = LiquidQuarts.Milliliters,
+                [UnitOfMeasure.Minims] = LiquidQuarts.Minims,
+                [UnitOfMeasure.Tablespoons] = LiquidQuarts.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = LiquidQuarts.Teaspoons
+            },
+
+            [UnitOfMeasure.Liters] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = Liters.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = Liters.CubicFeet,
+                [UnitOfMeasure.CubicInches] = Liters.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = Liters.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = Liters.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = Liters.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = Liters.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = Liters.CubicMillimeters,
+                [UnitOfMeasure.Cups] = Liters.Cups,
+                [UnitOfMeasure.FluidDrams] = Liters.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = Liters.FluidOunces,
+                [UnitOfMeasure.Gallons] = Liters.Gallons,
+                [UnitOfMeasure.Gills] = Liters.Gills,
+                [UnitOfMeasure.Kiloliters] = Liters.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = Liters.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = Liters.LiquidQuarts,
+                [UnitOfMeasure.Milliliters] = Liters.Milliliters,
+                [UnitOfMeasure.Minims] = Liters.Minims,
+                [UnitOfMeasure.Tablespoons] = Liters.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = Liters.Teaspoons
+            },
+
+            [UnitOfMeasure.Milliliters] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = Milliliters.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = Milliliters.CubicFeet,
+                [UnitOfMeasure.CubicInches] = Milliliters.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = Milliliters.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = Milliliters.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = Milliliters.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = Milliliters.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = Milliliters.CubicMillimeters,
+                [UnitOfMeasure.Cups] = Milliliters.Cups,
+                [UnitOfMeasure.FluidDrams] = Milliliters.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = Milliliters.FluidOunces,
+                [UnitOfMeasure.Gallons] = Milliliters.Gallons,
+                [UnitOfMeasure.Gills] = Milliliters.Gills,
+                [UnitOfMeasure.Kiloliters] = Milliliters.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = Milliliters.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = Milliliters.LiquidQuarts,
+                [UnitOfMeasure.Liters] = Milliliters.Liters,
+                [UnitOfMeasure.Minims] = Milliliters.Minims,
+                [UnitOfMeasure.Tablespoons] = Milliliters.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = Milliliters.Teaspoons
+            },
+
+            [UnitOfMeasure.Minims] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = Minims.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = Minims.CubicFeet,
+                [UnitOfMeasure.CubicInches] = Minims.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = Minims.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = Minims.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = Minims.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = Minims.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = Minims.CubicMillimeters,
+                [UnitOfMeasure.Cups] = Minims.Cups,
+                [UnitOfMeasure.FluidDrams] = Minims.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = Minims.FluidOunces,
+                [UnitOfMeasure.Gallons] = Minims.Gallons,
+                [UnitOfMeasure.Gills] = Minims.Gills,
+                [UnitOfMeasure.Kiloliters] = Minims.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = Minims.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = Minims.LiquidQuarts,
+                [UnitOfMeasure.Liters] = Minims.Liters,
+                [UnitOfMeasure.Milliliters] = Minims.Milliliters,
+                [UnitOfMeasure.Tablespoons] = Minims.Tablespoons,
+                [UnitOfMeasure.Teaspoons] = Minims.Teaspoons
+            },
+
+            [UnitOfMeasure.Tablespoons] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = Tablespoons.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = Tablespoons.CubicFeet,
+                [UnitOfMeasure.CubicInches] = Tablespoons.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = Tablespoons.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = Tablespoons.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = Tablespoons.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = Tablespoons.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = Tablespoons.CubicMillimeters,
+                [UnitOfMeasure.Cups] = Tablespoons.Cups,
+                [UnitOfMeasure.FluidDrams] = Tablespoons.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = Tablespoons.FluidOunces,
+                [UnitOfMeasure.Gallons] = Tablespoons.Gallons,
+                [UnitOfMeasure.Gills] = Tablespoons.Gills,
+                [UnitOfMeasure.Kiloliters] = Tablespoons.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = Tablespoons.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = Tablespoons.LiquidQuarts,
+                [UnitOfMeasure.Liters] = Tablespoons.Liters,
+                [UnitOfMeasure.Milliliters] = Tablespoons.Milliliters,
+                [UnitOfMeasure.Minims] = Tablespoons.Minims,
+                [UnitOfMeasure.Teaspoons] = Tablespoons.Teaspoons
+            },
+
+            [UnitOfMeasure.Teaspoons] = new Dictionary<UnitOfMeasure, Func<float, float>>(20)
+            {
+                [UnitOfMeasure.CubicCentimeters] = Teaspoons.CubicCentimeters,
+                [UnitOfMeasure.CubicFeet] = Teaspoons.CubicFeet,
+                [UnitOfMeasure.CubicInches] = Teaspoons.CubicInches,
+                [UnitOfMeasure.CubicKilometers] = Teaspoons.CubicKilometers,
+                [UnitOfMeasure.CubicMeters] = Teaspoons.CubicMeters,
+                [UnitOfMeasure.CubicMicrometers] = Teaspoons.CubicMicrometers,
+                [UnitOfMeasure.CubicMiles] = Teaspoons.CubicMiles,
+                [UnitOfMeasure.CubicMillimeters] = Teaspoons.CubicMillimeters,
+                [UnitOfMeasure.Cups] = Teaspoons.Cups,
+                [UnitOfMeasure.FluidDrams] = Teaspoons.FluidDrams,
+                [UnitOfMeasure.FluidOunces] = Teaspoons.FluidOunces,
+                [UnitOfMeasure.Gallons] = Teaspoons.Gallons,
+                [UnitOfMeasure.Gills] = Teaspoons.Gills,
+                [UnitOfMeasure.Kiloliters] = Teaspoons.Kiloliters,
+                [UnitOfMeasure.LiquidPints] = Teaspoons.LiquidPints,
+                [UnitOfMeasure.LiquidQuarts] = Teaspoons.LiquidQuarts,
+                [UnitOfMeasure.Liters] = Teaspoons.Liters,
+                [UnitOfMeasure.Milliliters] = Teaspoons.Milliliters,
+                [UnitOfMeasure.Minims] = Teaspoons.Minims,
+                [UnitOfMeasure.Tablespoons] = Teaspoons.Tablespoons
             },
 
             [UnitOfMeasure.Brightness] = new Dictionary<UnitOfMeasure, Func<float, float>>(2)
