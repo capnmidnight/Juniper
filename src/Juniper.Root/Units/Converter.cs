@@ -2169,15 +2169,15 @@ namespace Juniper.Units
         {
             if (!Conversions.ContainsKey(fromUnit))
             {
-                throw new ArgumentException($"Unit type {fromUnit.ToString()} not recognized for conversion");
+                throw new ArgumentException($"Unit type {fromUnit} not recognized for conversion");
             }
             else if (!TypeGroups.ContainsKey(fromUnit))
             {
-                throw new ArgumentException($"Unit type {fromUnit.ToString()} has not had type groupings defined");
+                throw new ArgumentException($"Unit type {fromUnit} has not had type groupings defined");
             }
             else if (!SystemUnits.ContainsKey(toSystem))
             {
-                throw new ArgumentException($"System type {toSystem.ToString()} not specified");
+                throw new ArgumentException($"System type {toSystem} not specified");
             }
             else
             {
@@ -2192,7 +2192,7 @@ namespace Juniper.Units
                     }
                 }
 
-                throw new ArgumentException($"Unit type {fromUnit.ToString()} does not have a matching conversion in system {toSystem.ToString()}");
+                throw new ArgumentException($"Unit type {fromUnit} does not have a matching conversion in system {toSystem}");
             }
         }
 
@@ -2216,7 +2216,7 @@ namespace Juniper.Units
             }
             else
             {
-                throw new InvalidCastException($"Cannot convert {value.ToString(CultureInfo.CurrentCulture)} in {fromUnit.ToString()} to {toUnit.ToString()}.");
+                throw new InvalidCastException($"Cannot convert {value.ToString(CultureInfo.CurrentCulture)} in {fromUnit} to {toUnit}.");
             }
         }
 
@@ -2242,7 +2242,7 @@ namespace Juniper.Units
             }
             else
             {
-                throw new InvalidCastException($"Cannot convert {value.ToString(CultureInfo.CurrentCulture)} in {fromUnit.ToString()} to {toUnit.ToString()}.");
+                throw new InvalidCastException($"Cannot convert {value.ToString(CultureInfo.CurrentCulture)} in {fromUnit} to {toUnit}.");
             }
         }
 
@@ -2269,7 +2269,7 @@ namespace Juniper.Units
             }
             else
             {
-                throw new InvalidCastException($"Cannot convert {value.ToString(CultureInfo.CurrentCulture)} in {fromUnit.ToString()} to {toUnit.ToString()}.");
+                throw new InvalidCastException($"Cannot convert {value.ToString(CultureInfo.CurrentCulture)} in {fromUnit} to {toUnit}.");
             }
         }
 
@@ -2297,7 +2297,7 @@ namespace Juniper.Units
             }
             else
             {
-                throw new InvalidCastException($"Cannot convert {value.ToString(CultureInfo.CurrentCulture)} in {fromUnit.ToString()} to {toUnit.ToString()}.");
+                throw new InvalidCastException($"Cannot convert {value.ToString(CultureInfo.CurrentCulture)} in {fromUnit} to {toUnit}.");
             }
         }
 
