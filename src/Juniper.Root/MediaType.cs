@@ -145,7 +145,7 @@ namespace Juniper
         {
             if (string.IsNullOrEmpty(fileName))
             {
-                throw new ArgumentException("Must provide a valid fileName", nameof(fileName));
+                return Array.Empty<MediaType>();
             }
 
             var ext = Path.GetExtension(fileName);
@@ -156,7 +156,7 @@ namespace Juniper
         {
             if (file is null)
             {
-                throw new ArgumentNullException(nameof(file));
+                return Array.Empty<MediaType>();
             }
 
             return GuessByFileName(file.Name);
