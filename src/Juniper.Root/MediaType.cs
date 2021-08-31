@@ -120,7 +120,7 @@ namespace Juniper
             return type is object;
         }
 
-        private static IReadOnlyList<MediaType> GuessByExtension(ref string ext)
+        public static IReadOnlyList<MediaType> GuessByExtension(string ext)
         {
             if (string.IsNullOrEmpty(ext))
             {
@@ -149,7 +149,7 @@ namespace Juniper
             }
 
             var ext = Path.GetExtension(fileName);
-            return GuessByExtension(ref ext);
+            return GuessByExtension(ext);
         }
 
         public static IReadOnlyList<MediaType> GuessByFile(FileInfo file)
