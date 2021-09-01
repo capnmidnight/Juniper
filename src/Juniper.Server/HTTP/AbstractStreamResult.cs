@@ -15,8 +15,9 @@ namespace Juniper.HTTP
 
         protected AbstractStreamResult(string contentType, string fileName, int cacheTime)
         {
+            var type = MediaType.Parse(contentType);
             this.contentType = contentType;
-            this.fileName = fileName;
+            this.fileName = type.AddExtension(fileName);
             this.cacheTime = cacheTime;
         }
 

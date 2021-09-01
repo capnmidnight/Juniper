@@ -41,14 +41,6 @@ namespace Juniper.HTTP
             : this(db, size, contentType, fileName, 0, makeCommand)
         { }
 
-        public DbFileResult(DatabaseFacade db, long size, string contentType, int cacheTime, Action<DbCommand> makeCommand)
-            : this(db, size, contentType, null, cacheTime, makeCommand)
-        { }
-
-        public DbFileResult(DatabaseFacade db, long size, string contentType, Action<DbCommand> makeCommand)
-            : this(db, size, contentType, null, 0, makeCommand)
-        { }
-
         protected override long GetStreamLength(Stream stream)
         {
             return size;
