@@ -54,7 +54,7 @@ namespace Juniper.IO
         private static string GetCacheFileName(ContentReference fileRef)
         {
             var baseName = fileRef.CacheID.Replace('\\', '/');
-            var cacheFileName = fileRef.ContentType.AddExtension(baseName);
+            var cacheFileName = baseName?.AddExtension(fileRef.ContentType);
             return cacheFileName;
         }
 

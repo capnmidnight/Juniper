@@ -10,6 +10,14 @@ using Juniper.IO;
 
 namespace Juniper
 {
+    public static class StringExt
+    {
+        public static string AddExtension(this string str, MediaType contentType)
+        {
+            return contentType.AddExtension(str);
+        }
+    }
+
     public partial class MediaType :
         IEquatable<MediaType>,
         IEquatable<string>

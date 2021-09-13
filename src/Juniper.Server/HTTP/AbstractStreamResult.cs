@@ -17,7 +17,7 @@ namespace Juniper.HTTP
         {
             var type = MediaType.Parse(contentType);
             this.contentType = contentType;
-            this.fileName = type.AddExtension(fileName);
+            this.fileName = fileName?.AddExtension(type);
             this.cacheTime = cacheTime;
         }
 
