@@ -151,9 +151,7 @@ namespace Juniper.Mathematics
         /// <returns></returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-#pragma warning disable HAA0401 // Possible allocation of reference type enumerator
             return GetEnumerator();
-#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
         }
 
         /// <summary>
