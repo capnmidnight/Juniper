@@ -88,7 +88,7 @@ namespace Juniper.Units
         /// <summary>
         /// The number of yotabytes per yobibyte
         /// </summary>
-        public const float PER_YOBIBYTE = Units.Bytes.PER_YOBIBYTE / Units.Bytes.PER_YOTABYTE;
+        public const float PER_YOBIBYTE = PER_ZEBIBYTE * Units.Zebibytes.PER_YOBIBYTE;
 
         /// <summary>
         /// Convert yotabytes to bits

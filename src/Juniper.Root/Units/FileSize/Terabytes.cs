@@ -73,7 +73,7 @@ namespace Juniper.Units
         /// <summary>
         /// The number of terabytes per pebibyte
         /// </summary>
-        public const float PER_PEBIBYTE = 1024;
+        public const float PER_PEBIBYTE = PER_TEBIBYTE * Units.Tebibytes.PER_PEBIBYTE;
 
         /// <summary>
         /// The number of terabytes per exbibyte

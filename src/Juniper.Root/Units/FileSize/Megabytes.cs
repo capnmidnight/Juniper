@@ -63,7 +63,7 @@ namespace Juniper.Units
         /// <summary>
         /// The number of megabytes per gibibyte
         /// </summary>
-        public const float PER_GIBIBYTE = 1024;
+        public const float PER_GIBIBYTE = PER_MIBIBYTE * Units.Mibibytes.PER_GIBIBYTE;
 
         /// <summary>
         /// The number of megabytes per tebibyte

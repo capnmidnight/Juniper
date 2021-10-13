@@ -78,7 +78,7 @@ namespace Juniper.Units
         /// <summary>
         /// The number of petabytes per exbibyte
         /// </summary>
-        public const float PER_EXBIBYTE = 1024;
+        public const float PER_EXBIBYTE = PER_PEBIBYTE * Units.Pebibytes.PER_EXBIBYTE;
 
         /// <summary>
         /// The number of petabytes per zebibyte

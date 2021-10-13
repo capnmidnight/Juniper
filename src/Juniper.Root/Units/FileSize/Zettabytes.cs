@@ -83,7 +83,7 @@ namespace Juniper.Units
         /// <summary>
         /// The number of zettabytes per zebibyte
         /// </summary>
-        public const float PER_ZEBIBYTE = Units.Bytes.PER_ZEBIBYTE / Units.Bytes.PER_ZETTABYTE;
+        public const float PER_ZEBIBYTE = PER_EXBIBYTE * Units.Exbibytes.PER_ZEBIBYTE;
 
         /// <summary>
         /// The number of zettabytes per yobibyte

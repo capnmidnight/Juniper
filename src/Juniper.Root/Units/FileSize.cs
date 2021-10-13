@@ -67,6 +67,11 @@ namespace Juniper.Units
 
                 var systemBase = system == SystemOfMeasure.Metric ? 1000 : 1024;
                 var deltaSize = (int)(Math.Log(value) / Math.Log(systemBase));
+                var divisor = Math.Pow(systemBase, deltaSize);
+                if (2 * value >= systemBase * divisor)
+                {
+                    deltaSize += 1;
+                }
 
                 var levels = systemLevels[system.Value];
                 var curSize = levels.IndexOf(units);
