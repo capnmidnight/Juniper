@@ -4,6 +4,41 @@ using System.Linq;
 
 namespace Juniper.Collections
 {
+    public static class NAryTree
+    {
+        public static NAryTree<V> ToTree<K, V>(this IEnumerable<V> items, Func<V, K> getKey, Func<V, K> getParentKey)
+        {
+            var rootNode = new NAryTree<V>(default);
+            var nodes = new Dictionary<K, NAryTree<V>>();
+
+            foreach (var item in items)
+            {
+                var nodeID = getKey(item);
+                var node = new NAryTree<V>(item);
+                nodes.Add(nodeID, node);
+            }
+
+            foreach (var node in nodes.Values)
+            {
+                var parentNodeID = getParentKey(node.Value);
+                var isParentNodeDefined = parentNodeID != null;
+                var hasParentNode = isParentNodeDefined && nodes.ContainsKey(parentNodeID);
+                var parentNode = !isParentNodeDefined
+                    ? rootNode
+                    : hasParentNode
+                        ? nodes[parentNodeID]
+                        : null;
+
+                if (parentNode is object)
+                {
+                    parentNode.Add(node);
+                }
+            }
+
+            return rootNode;
+        }
+    }
+
     /// <summary>
     /// A node in an N-ary tree.
     /// </summary>
@@ -26,8 +61,6 @@ namespace Juniper.Collections
         /// The next node above the current node.
         /// </summary>
         public NAryTree<T> Parent { get; private set; }
-
-        public int Count { get; private set; }
 
         public NAryTree()
         { }
@@ -70,14 +103,6 @@ namespace Juniper.Collections
         /// </summary>
         public bool IsRoot => Parent is null;
 
-        private void Recount()
-        {
-            SearchNodesDepthFirst(
-                (item) => item.Count = 1,
-                null,
-                (item) => item.Count += item.Children.Sum(child => child.Count));
-        }
-
         public void Add(T value)
         {
             Add(new NAryTree<T>(value));
@@ -105,7 +130,6 @@ namespace Juniper.Collections
                 node.Parent = this;
                 ChildNodes.Add(node);
             }
-            Recount();
         }
 
         public void Add(NAryTree<T> node)
@@ -117,182 +141,115 @@ namespace Juniper.Collections
 
             node.Parent = this;
             ChildNodes.Add(node);
-            Recount();
         }
 
-        public IEnumerable<T> ValuesDepthFirst
+        public IEnumerable<T> ValuesDepthFirst()
         {
-            get
+            foreach (var node in NodesDepthFirst())
             {
-                foreach (var node in NodesDepthFirst)
-                {
-                    yield return node.Value;
-                }
+                yield return node.Value;
             }
         }
 
-        public IEnumerable<NAryTree<T>> NodesDepthFirst
+        public IEnumerable<NAryTree<T>> NodesDepthFirst()
         {
-            get
-            {
-                var toVisit = new Stack<NAryTree<T>>();
-                toVisit.Push(this);
-                while (toVisit.Count > 0)
-                {
-                    var here = toVisit.Pop();
-                    yield return here;
-
-                    if (here.Children.Count > 0)
-                    {
-                        foreach (var child in here.Children.AsEnumerable().Reverse())
-                        {
-                            toVisit.Push(child);
-                        }
-                    }
-                }
-            }
-        }
-
-        public IEnumerable<T> ValuesBreadthFirst
-        {
-            get
-            {
-                foreach (var node in NodesBreadthFirst)
-                {
-                    yield return node.Value;
-                }
-            }
-        }
-
-        public IEnumerable<NAryTree<T>> NodesBreadthFirst
-        {
-            get
-            {
-                var toVisit = new Queue<NAryTree<T>>();
-                toVisit.Enqueue(this);
-                while (toVisit.Count > 0)
-                {
-                    var here = toVisit.Dequeue();
-                    yield return here;
-
-                    if (here.Children.Count > 0)
-                    {
-                        foreach (var child in here.Children.AsEnumerable().Reverse())
-                        {
-                            toVisit.Enqueue(child);
-                        }
-                    }
-                }
-            }
-        }
-
-        public void SearchValuesDepthFirst(Action<T> preItem, Action<T> perItem, Action<T> postItem)
-        {
-            SearchNodesDepthFirst(
-                null,
-                null,
-                (node) => preItem(node.Value),
-                (node) => perItem(node.Value),
-                (node) => postItem(node.Value),
-                null,
-                null);
-        }
-
-        public void SearchValuesDepthFirst(Action<T> preGroup, Action<T> preItem, Action<T> perItem, Action<T> postItem, Action<T> postGroup)
-        {
-            SearchNodesDepthFirst(
-                null,
-                (node) => preGroup(node.Value),
-                (node) => preItem(node.Value),
-                (node) => perItem(node.Value),
-                (node) => postItem(node.Value),
-                (node) => postGroup(node.Value),
-                null);
-        }
-
-        public void SearchValuesDepthFirst(Action start, Action<T> preGroup, Action<T> preItem, Action<T> perItem, Action<T> postItem, Action<T> postGroup, Action end)
-        {
-            SearchNodesDepthFirst(
-                start,
-                (node) => preGroup(node.Value),
-                (node) => preItem(node.Value),
-                (node) => perItem(node.Value),
-                (node) => postItem(node.Value),
-                (node) => postGroup(node.Value),
-                end);
-        }
-
-        public void SearchNodesDepthFirst(Action<NAryTree<T>> preItem, Action<NAryTree<T>> perItem, Action<NAryTree<T>> postItem)
-        {
-            SearchNodesDepthFirst(
-                null,
-                null,
-                preItem,
-                perItem,
-                postItem,
-                null,
-                null);
-        }
-
-        public void SearchNodesDepthFirst(Action<NAryTree<T>> preGroup, Action<NAryTree<T>> preItem, Action<NAryTree<T>> perItem, Action<NAryTree<T>> postItem, Action<NAryTree<T>> postGroup)
-        {
-            SearchNodesDepthFirst(
-                null,
-                preGroup,
-                preItem,
-                perItem,
-                postItem,
-                postGroup,
-                null);
-        }
-
-        public void SearchNodesDepthFirst(Action start, Action<NAryTree<T>> preGroup, Action<NAryTree<T>> preItem, Action<NAryTree<T>> perItem, Action<NAryTree<T>> postItem, Action<NAryTree<T>> postGroup, Action end)
-        {
-            NAryTree<T> last = null;
-
-            var visited = new Stack<NAryTree<T>>();
             var toVisit = new Stack<NAryTree<T>>();
             toVisit.Push(this);
-
-            start?.Invoke();
             while (toVisit.Count > 0)
             {
                 var here = toVisit.Pop();
-                while (visited.Count > 0
-                    && visited.Peek() != here.Parent)
-                {
-                    last = visited.Pop();
-                    postGroup?.Invoke(last);
-                    postItem?.Invoke(last);
-                }
+                yield return here;
 
-                preItem?.Invoke(here);
-                perItem?.Invoke(here);
-
-                if (here.Children.Count == 0)
+                if (here.Children.Count > 0)
                 {
-                    postItem?.Invoke(here);
-                }
-                else
-                {
-                    visited.Push(here);
-                    preGroup?.Invoke(here);
                     foreach (var child in here.Children.AsEnumerable().Reverse())
                     {
                         toVisit.Push(child);
                     }
                 }
-
-                last = here;
             }
+        }
 
-            while (visited.Count > 0)
+        public IEnumerable<T> ValuesBreadthFirst()
+        {
+            foreach (var node in NodesBreadthFirst())
             {
-                last = visited.Pop();
-                postGroup?.Invoke(last);
-                postItem?.Invoke(last);
+                yield return node.Value;
             }
-            end?.Invoke();
+        }
+
+        public IEnumerable<NAryTree<T>> NodesBreadthFirst()
+        {
+            var toVisit = new Queue<NAryTree<T>>();
+            toVisit.Enqueue(this);
+            while (toVisit.Count > 0)
+            {
+                var here = toVisit.Dequeue();
+                yield return here;
+
+                if (here.Children.Count > 0)
+                {
+                    foreach (var child in here.Children.AsEnumerable().Reverse())
+                    {
+                        toVisit.Enqueue(child);
+                    }
+                }
+            }
+        }
+
+        public NAryTree<T> Trim(Func<NAryTree<T>, bool> filter)
+        {
+            var toVisit = new Queue<NAryTree<T>>();
+            toVisit.Enqueue(this);
+            while (toVisit.Count > 0)
+            {
+                var here = toVisit.Dequeue();
+                if (filter(here))
+                {
+                    here.RemoveFromParent();
+                }
+                else if (here.Children.Count > 0)
+                {
+                    foreach (var child in here.Children.AsEnumerable().Reverse())
+                    {
+                        toVisit.Enqueue(child);
+                    }
+                }
+            }
+
+            return this;
+        }
+
+        public bool Contains(NAryTree<T> node)
+        {
+            while (node is object)
+            {
+                if (node == this)
+                {
+                    return true;
+                }
+
+                node = node.Parent;
+            }
+
+            return false;
+        }
+
+        public void Remove(NAryTree<T> child)
+        {
+            if (child.Parent == this)
+            {
+                child.Parent = null;
+                ChildNodes.Remove(child);
+            }
+        }
+
+        public void RemoveFromParent()
+        {
+            if (Parent is object)
+            {
+                Parent.Remove(this);
+            }
         }
     }
 }
