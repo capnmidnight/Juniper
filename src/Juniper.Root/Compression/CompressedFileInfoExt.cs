@@ -49,7 +49,7 @@ namespace Juniper.Compression
                 var parent = entry.Value.ParentPath is null
                     ? tree
                     : entries[entry.Value.ParentPath];
-                parent.Add(entry);
+                parent.Connect(entry);
             }
 
             return tree;

@@ -6,7 +6,10 @@ namespace Juniper.Collections
 {
     public static class NAryTree
     {
-        public static NAryTree<V> ToTree<K, V>(this IEnumerable<V> items, Func<V, K> getKey, Func<V, K> getParentKey)
+        public static NAryTree<V> ToTree<K, V>(this IEnumerable<V> items,
+            Func<V, K> getKey,
+            Func<V, K> getParentKey,
+            Func<V, int> getOrder = null)
         {
             var rootNode = new NAryTree<V>(default);
             var nodes = new Dictionary<K, NAryTree<V>>();
@@ -31,7 +34,12 @@ namespace Juniper.Collections
 
                 if (parentNode is object)
                 {
-                    parentNode.Add(node);
+                    var index = parentNode.Children.Count;
+                    if (getOrder is object)
+                    {
+                        index = getOrder(node.Value);
+                    }
+                    parentNode.Connect(node, index);
                 }
             }
 
@@ -105,7 +113,7 @@ namespace Juniper.Collections
 
         public void Add(T value)
         {
-            Add(new NAryTree<T>(value));
+            Connect(new NAryTree<T>(value));
         }
 
         public void AddRange(IEnumerable<T> values)
@@ -132,15 +140,25 @@ namespace Juniper.Collections
             }
         }
 
-        public void Add(NAryTree<T> node)
+        public void Connect(NAryTree<T> node)
+        {
+            Connect(node, ChildNodes.Count);
+        }
+
+        public void Connect(NAryTree<T> node, int index)
         {
             if (node is null)
             {
                 throw new ArgumentNullException(nameof(node));
             }
 
+            if (index < 0 || ChildNodes.Count < index)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
             node.Parent = this;
-            ChildNodes.Add(node);
+            ChildNodes.Insert(index, node);
         }
 
         public IEnumerable<T> ValuesDepthFirst()
