@@ -121,5 +121,23 @@ namespace System
             var idx = rand.Next(0, charSet.Length);
             return charSet[idx];
         }
+
+        /// <summary>
+        /// Generates a random string of a specified length. The default character set is Arabic numberals and upper-case Latin alphabet letters, as used in English.
+        /// </summary>
+        /// <param name="length"></param>
+        /// <param name="charSet"></param>
+        /// <returns></returns>
+        public static string NextString(this Random rand, uint length, string charSet = null)
+        {
+            var str = "";
+            for (var i = 0; i < length; ++i)
+            {
+                var idx = rand.NextChar(charSet);
+                str += charSet[idx];
+            }
+
+            return str;
+        }
     }
 }
