@@ -4,12 +4,12 @@ using Hjg.Pngcs;
 
 namespace Juniper.Imaging
 {
-    public class HjgPngcsCodec : IImageCodec<ImageLines>
+    public class PngCodec : IImageCodec<ImageLines>
     {
         private readonly int compressionLevel;
         private readonly int IDATMaxSize;
 
-        public HjgPngcsCodec(int compressionLevel = 9, int IDATMaxSize = 0x1000)
+        public PngCodec(int compressionLevel = 9, int IDATMaxSize = 0x1000)
         {
             this.compressionLevel = compressionLevel;
             this.IDATMaxSize = IDATMaxSize;
@@ -72,6 +72,9 @@ namespace Juniper.Imaging
 
             var length = stream.Length;
             png.End();
+
+            stream.Flush();
+            stream.Close();
 
             return length;
         }

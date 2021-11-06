@@ -34,11 +34,12 @@ namespace Juniper.Imaging
                     var p = progs[tileI];
                     p.Report(0);
                     var tile = images[tileY, tileX];
+                    var tileData = tile.GetData();
                     for (var y = 0; y < tileHeight; ++y)
                     {
                         var tileBufferI = y * tileWidth;
                         var bufferI = (bufferSize.Width * ((tileHeight * tileY) + y)) + (tileX * tileWidth);
-                        Array.Copy(tile.GetData(), tileBufferI, bufferData, bufferI, tileWidth);
+                        Array.Copy(tileData, tileBufferI, bufferData, bufferI, tileWidth);
                     }
 
                     p.Report(1);

@@ -6,11 +6,11 @@ using Juniper.Progress;
 
 namespace Juniper.Imaging
 {
-    public class LibJpegNETImageDataTranscoder : IImageTranscoder<JpegImage, ImageData>
+    public class JpegTranscoder : IImageTranscoder<JpegImage, ImageData>
     {
         private readonly bool padAlpha;
 
-        public LibJpegNETImageDataTranscoder(bool padAlpha = false)
+        public JpegTranscoder(bool padAlpha = false)
         {
             this.padAlpha = padAlpha;
         }
@@ -83,9 +83,10 @@ namespace Juniper.Imaging
             var subProgs = prog.Split("Copying", "Saving");
             var copyProg = subProgs[0];
             var saveProg = subProgs[1];
+            var imageData = image.GetData();
             var rows = new SampleRow[image.Info.Dimensions.Height];
-            var rowBuffer = new byte[image.Info.Stride];
             var components = (byte)Math.Min(image.Info.Components, 3);
+            var rowBuffer = new byte[image.Info.Dimensions.Width * components];
             for (var y = 0; y < image.Info.Dimensions.Height; ++y)
             {
                 copyProg.Report(y, image.Info.Dimensions.Height);
@@ -93,7 +94,7 @@ namespace Juniper.Imaging
                 {
                     var imageDataIndex = (y * image.Info.Stride) + (x * image.Info.Components);
                     var rowIndex = x * components;
-                    Array.Copy(image.GetData(), imageDataIndex, rowBuffer, rowIndex, components);
+                    Array.Copy(imageData, imageDataIndex, rowBuffer, rowIndex, components);
                 }
 
                 rows[y] = new SampleRow(

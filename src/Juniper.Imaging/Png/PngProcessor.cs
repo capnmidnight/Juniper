@@ -6,7 +6,7 @@ using Juniper.Progress;
 
 namespace Juniper.Imaging
 {
-    public class HjgPngcsProcessor : IImageProcessor<ImageLines>
+    public class PngProcessor : IImageProcessor<ImageLines>
     {
         public int GetWidth(ImageLines img)
         {

@@ -6,7 +6,7 @@ using Juniper.Progress;
 
 namespace Juniper.Imaging
 {
-    public class LibJpegNETProcessor : IImageProcessor<JpegImage>
+    public class JpegProcessor : IImageProcessor<JpegImage>
     {
         public int GetWidth(JpegImage img)
         {

@@ -5,11 +5,11 @@ using BitMiracle.LibJpeg;
 
 namespace Juniper.Imaging
 {
-    public class LibJpegNETCodec : IImageCodec<JpegImage>
+    public class JpegCodec : IImageCodec<JpegImage>
     {
         private readonly CompressionParameters compressionParams;
 
-        public LibJpegNETCodec(int quality = 100, int smoothingFactor = 1, bool progressive = false)
+        public JpegCodec(int quality = 100, int smoothingFactor = 1, bool progressive = false)
         {
             compressionParams = new CompressionParameters
             {
@@ -53,6 +53,7 @@ namespace Juniper.Imaging
             }
 
             value.WriteJpeg(stream, compressionParams);
+            stream.Flush();
             return stream.Length;
         }
     }

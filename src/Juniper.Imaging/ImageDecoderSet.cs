@@ -10,8 +10,8 @@ namespace Juniper.Imaging
     {
         public static readonly ImageDecoderSet Default = new ImageDecoderSet()
         {
-            [MediaType.Image.Png] = new HjgPngcsCodec().Pipe(new HjgPngcsImageDataTranscoder()),
-            [MediaType.Image.Jpeg] = new LibJpegNETCodec().Pipe(new LibJpegNETImageDataTranscoder(padAlpha: true))
+            [MediaType.Image.Png] = new PngCodec().Pipe(new PngTranscoder()),
+            [MediaType.Image.Jpeg] = new JpegCodec().Pipe(new JpegTranscoder(padAlpha: true))
         };
 
         private readonly Dictionary<MediaType, IImageCodec<ImageData>> decoders;
@@ -46,7 +46,6 @@ namespace Juniper.Imaging
             decoders = new Dictionary<MediaType, IImageCodec<ImageData>>(dictionary, comparer);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1043:Use Integral Or String Argument For Indexers", Justification = "<Pending>")]
         public IImageCodec<ImageData> this[MediaType mediaType]
         {
             get

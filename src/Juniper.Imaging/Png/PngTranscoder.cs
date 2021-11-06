@@ -6,7 +6,7 @@ using Juniper.Progress;
 
 namespace Juniper.Imaging
 {
-    public class HjgPngcsImageDataTranscoder : IImageTranscoder<ImageLines, ImageData>
+    public class PngTranscoder : IImageTranscoder<ImageLines, ImageData>
     {
         /// <summary>
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
@@ -61,12 +61,14 @@ namespace Juniper.Imaging
                 image.Info.Dimensions.Height,
                 image.Info.Stride);
 
+            var imageData = image.GetData();
+
             for (var y = 0; y < image.Info.Dimensions.Height; ++y)
             {
                 prog.Report(y, image.Info.Dimensions.Height);
                 var dataIndex = y * image.Info.Stride;
                 var line = imageLines.ScanlinesB[y];
-                Array.Copy(image.GetData(), dataIndex, line, 0, image.Info.Stride);
+                Array.Copy(imageData, dataIndex, line, 0, image.Info.Stride);
                 prog.Report(y + 1, image.Info.Dimensions.Height);
             }
 
