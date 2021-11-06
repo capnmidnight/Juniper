@@ -133,8 +133,7 @@ namespace System
             var str = "";
             for (var i = 0; i < length; ++i)
             {
-                var idx = rand.NextChar(charSet);
-                str += charSet[idx];
+                str += rand.NextChar(charSet);
             }
 
             return str;
