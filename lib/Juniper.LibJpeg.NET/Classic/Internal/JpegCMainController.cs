@@ -38,7 +38,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         }
 
         // Initialize for a processing pass.
+#pragma warning disable IDE1006 // Naming Styles
         public void start_pass(JBufMode pass_mode)
+#pragma warning restore IDE1006 // Naming Styles
         {
             /* Do nothing in raw-data mode. */
             if (m_cinfo.m_raw_data_in)
@@ -61,7 +63,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// This routine handles the simple pass-through mode,
         /// where we have only a strip buffer.
         /// </summary>
+#pragma warning disable IDE1006 // Naming Styles
         public void process_data(byte[][] input_buf, ref int in_row_ctr, int in_rows_avail)
+#pragma warning restore IDE1006 // Naming Styles
         {
             while (m_cur_iMCU_row < m_cinfo.m_total_iMCU_rows)
             {

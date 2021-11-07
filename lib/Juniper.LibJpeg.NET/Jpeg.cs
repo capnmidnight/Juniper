@@ -130,7 +130,9 @@ namespace BitMiracle.LibJpeg
         /// Tunes decompressor
         /// </summary>
         /// <param name="jpeg">Stream with input compressed JPEG data</param>
+#pragma warning disable IDE1006 // Naming Styles
         private void beforeDecompress(Stream jpeg)
+#pragma warning restore IDE1006 // Naming Styles
         {
             ClassicDecompressor.JpegStdioSrc(jpeg);
             /* Read file header, set default decompression parameters */
@@ -140,8 +142,10 @@ namespace BitMiracle.LibJpeg
             ClassicDecompressor.JpegCalcOutputDimensions();
         }
 
+#pragma warning disable IDE1006 // Naming Styles
         private LoadedImageAttributes getImageParametersFromDecompressor()
         {
+#pragma warning restore IDE1006 // Naming Styles
             return new LoadedImageAttributes
             {
                 Colorspace = (Colorspace)ClassicDecompressor.Out_color_space,
@@ -176,7 +180,9 @@ namespace BitMiracle.LibJpeg
             ClassicDecompressor.JpegSetMarkerProcessor(markerCode, f);
         }
 
+#pragma warning disable IDE1006 // Naming Styles
         private void applyParameters(DecompressionParameters parameters)
+#pragma warning restore IDE1006 // Naming Styles
         {
             Debug.Assert(parameters is object);
 
@@ -202,7 +208,9 @@ namespace BitMiracle.LibJpeg
             ClassicDecompressor.Err.TraceLevel = parameters.TraceLevel;
         }
 
+#pragma warning disable IDE1006 // Naming Styles
         private void applyParameters(CompressionParameters parameters)
+#pragma warning restore IDE1006 // Naming Styles
         {
             Debug.Assert(parameters is object);
 

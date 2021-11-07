@@ -48,8 +48,12 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         */
         private class SavableState
         {
+#pragma warning disable IDE1006 // Naming Styles
             public int put_buffer { get; set; }       /* current bit-accumulation buffer */
+#pragma warning restore IDE1006 // Naming Styles
+#pragma warning disable IDE1006 // Naming Styles
             public int put_bits { get; set; }           /* # of bits now in it */
+#pragma warning restore IDE1006 // Naming Styles
             public int[] last_dc_val = new int[JpegConstants.MAX_COMPS_IN_SCAN]; /* last DC coef for each component */
 
             public void ASSIGN_STATE(SavableState src)

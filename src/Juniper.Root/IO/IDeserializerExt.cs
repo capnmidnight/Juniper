@@ -89,13 +89,11 @@ namespace Juniper.IO
                 value = deserializer.Deserialize(stream);
                 return true;
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch
             {
                 value = default;
                 return false;
             }
-#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, byte[] data, IProgress prog)

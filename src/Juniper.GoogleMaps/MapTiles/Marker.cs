@@ -59,10 +59,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public override int GetHashCode()
         {
-            var hashCode = -1099193654;
-            hashCode = (hashCode * -1521134295) + EqualityComparer<MarkerStyle>.Default.GetHashCode(Style);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(Center);
-            return hashCode;
+            return HashCode.Combine(Style, Center);
         }
 
         public static bool operator ==(Marker left, Marker right)

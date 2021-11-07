@@ -23,7 +23,7 @@ namespace Juniper.World.GIS.Google
         }
 
         protected override string InternalCacheID =>
-            BaseURI.Query.Substring(1);
+            BaseURI.Query[1..];
 
         protected override Uri AuthenticatedURI
         {

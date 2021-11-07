@@ -139,7 +139,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// Compute a/b rounded up to next integer, ie, ceil(a/b)
         /// Assumes a >= 0, b > 0
         /// </summary>
+#pragma warning disable IDE1006 // Naming Styles
         public static long jdiv_round_up(long a, long b)
+#pragma warning restore IDE1006 // Naming Styles
         {
             return (a + b - 1L) / b;
         }
@@ -148,7 +150,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// Compute a rounded up to next multiple of b, ie, ceil(a/b)*b
         /// Assumes a >= 0, b > 0
         /// </summary>
+#pragma warning disable IDE1006 // Naming Styles
         public static int jround_up(int a, int b)
+#pragma warning restore IDE1006 // Naming Styles
         {
             a += b - 1;
             return a - (a % b);
@@ -160,7 +164,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         /// to output_array[dest_row++]; these areas may overlap for duplication.
         /// The source and destination arrays must be at least as wide as num_cols.
         /// </summary>
+#pragma warning disable IDE1006 // Naming Styles
         public static void jcopy_sample_rows(ComponentBuffer input_array, int source_row, byte[][] output_array, int dest_row, int num_rows, int num_cols)
+#pragma warning restore IDE1006 // Naming Styles
         {
             for (var row = 0; row < num_rows; row++)
             {
@@ -168,7 +174,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
         }
 
+#pragma warning disable IDE1006 // Naming Styles
         public static void jcopy_sample_rows(ComponentBuffer input_array, int source_row, ComponentBuffer output_array, int dest_row, int num_rows, int num_cols)
+#pragma warning restore IDE1006 // Naming Styles
         {
             for (var row = 0; row < num_rows; row++)
             {
@@ -176,7 +184,9 @@ namespace BitMiracle.LibJpeg.Classic.Internal
             }
         }
 
+#pragma warning disable IDE1006 // Naming Styles
         public static void jcopy_sample_rows(byte[][] input_array, int source_row, byte[][] output_array, int dest_row, int num_rows, int num_cols)
+#pragma warning restore IDE1006 // Naming Styles
         {
             for (var row = 0; row < num_rows; row++)
             {

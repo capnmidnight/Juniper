@@ -277,12 +277,10 @@ namespace System.Collections.Generic
                         value = e.Current;
                         anySucceed = true;
                     }
-#pragma warning disable CA1031 // Do not catch general exception types
                     catch (InvalidOperationException)
                     {
                         value = null;
                     }
-#pragma warning restore CA1031 // Do not catch general exception types
 
                     if (value is object)
                     {

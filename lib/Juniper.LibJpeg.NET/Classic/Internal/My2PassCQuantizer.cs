@@ -119,16 +119,32 @@ namespace BitMiracle.LibJpeg.Classic.Internal
         private struct Box
         {
             /* The bounds of the box (inclusive); expressed as histogram indexes */
+#pragma warning disable IDE1006 // Naming Styles
             public int c0min { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
+#pragma warning disable IDE1006 // Naming Styles
             public int c0max { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
+#pragma warning disable IDE1006 // Naming Styles
             public int c1min { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
+#pragma warning disable IDE1006 // Naming Styles
             public int c1max { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
+#pragma warning disable IDE1006 // Naming Styles
             public int c2min { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
+#pragma warning disable IDE1006 // Naming Styles
             public int c2max { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
             /* The volume (actually 2-norm) of the box */
+#pragma warning disable IDE1006 // Naming Styles
             public int volume { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
             /* The number of nonzero histogram cells within this box */
+#pragma warning disable IDE1006 // Naming Styles
             public long colorcount { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
         }
 
         private enum QuantizerType

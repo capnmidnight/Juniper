@@ -101,10 +101,7 @@ namespace Juniper.World.GIS.Google.Geocoding
 
         public override int GetHashCode()
         {
-            var hashCode = 644590467;
-            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(Long_Name);
-            hashCode = (hashCode * -1521134295) + Key.GetHashCode();
-            return hashCode;
+            return HashCode.Combine(Long_Name, Key);
         }
     }
 }

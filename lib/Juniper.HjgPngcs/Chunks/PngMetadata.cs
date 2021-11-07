@@ -49,7 +49,9 @@ namespace Hjg.Pngcs.Chunks
             QueueChunk(chunk, true);
         }
 
+#pragma warning disable IDE1006 // Naming Styles
         private ChunksListForWrite getChunkListW()
+#pragma warning restore IDE1006 // Naming Styles
         {
             return (ChunksListForWrite)chunkList;
         }

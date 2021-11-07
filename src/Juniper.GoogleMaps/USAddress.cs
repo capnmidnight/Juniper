@@ -79,12 +79,7 @@ namespace Juniper.World.GIS.Google
 
         public override int GetHashCode()
         {
-            var hashCode = 289995594;
-            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(street);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(city);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(state);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(zip);
-            return hashCode;
+            return HashCode.Combine(street, city, state, zip);
         }
 
         public static bool operator ==(USAddress left, USAddress right)

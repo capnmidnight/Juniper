@@ -144,13 +144,7 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public override int GetHashCode()
         {
-            var hashCode = -1311455165;
-            hashCode = (hashCode * -1521134295) + Status.GetHashCode();
-            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(Copyright);
-            hashCode = (hashCode * -1521134295) + Date.GetHashCode();
-            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(Pano_id);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<LatLngPoint>.Default.GetHashCode(Location);
-            return hashCode;
+            return HashCode.Combine(Status, Copyright, Date, Pano_id, Location);
         }
 
         public static bool operator ==(MetadataResponse left, MetadataResponse right)

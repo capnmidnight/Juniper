@@ -72,7 +72,7 @@ namespace Juniper.Imaging
 
             if (!anyNotNull)
             {
-                throw new ArgumentNullException($"Expected at least one image in {nameof(images)} to be not null");
+                throw new ArgumentNullException(nameof(images), $"Expected at least one image in {nameof(images)} to be not null");
             }
         }
 

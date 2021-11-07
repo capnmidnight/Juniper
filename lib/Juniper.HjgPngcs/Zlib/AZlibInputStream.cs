@@ -5,7 +5,9 @@ namespace Hjg.Pngcs.Zlib
 {
     public abstract class AZlibInputStream : Stream
     {
+#pragma warning disable IDE1006 // Naming Styles
         protected Stream rawStream { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
 
         protected bool LeaveOpen { get; }
 
