@@ -1,6 +1,6 @@
-using System;
-
 using Juniper.World.GIS;
+
+using System;
 
 namespace Juniper.Climate
 {

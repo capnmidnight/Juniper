@@ -1,8 +1,8 @@
-using System;
-
 using Hjg.Pngcs;
 
 using Juniper.Progress;
+
+using System;
 
 namespace Juniper.Imaging
 {

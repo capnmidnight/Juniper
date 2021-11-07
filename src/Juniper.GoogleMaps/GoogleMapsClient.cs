@@ -1,15 +1,15 @@
+using Juniper.IO;
+using Juniper.Progress;
+using Juniper.Units;
+using Juniper.World.GIS.Google.Geocoding;
+using Juniper.World.GIS.Google.StreetView;
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Juniper.IO;
-using Juniper.Progress;
-using Juniper.Units;
-using Juniper.World.GIS.Google.Geocoding;
-using Juniper.World.GIS.Google.StreetView;
 
 namespace Juniper.World.GIS.Google
 {
@@ -27,7 +27,7 @@ namespace Juniper.World.GIS.Google
             this.geocodingDecoder = geocodingDecoder ?? throw new ArgumentNullException(nameof(geocodingDecoder));
 
 
-            foreach (var (fileRef, metadata) in cache.Get(metadataDecoder))
+            foreach ((var fileRef, var metadata) in cache.Get(metadataDecoder))
             {
                 if (metadata.Location != null)
                 {

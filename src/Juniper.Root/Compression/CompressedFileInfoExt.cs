@@ -1,8 +1,8 @@
+using Juniper.Collections;
+
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
-using Juniper.Collections;
 
 namespace Juniper.Compression
 {

@@ -17,7 +17,7 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public Size Size
         {
-            get { return size; }
+            get => size;
             set
             {
                 size = value;
@@ -27,7 +27,7 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public int Heading
         {
-            get { return heading; }
+            get => heading;
             set
             {
                 heading = value;
@@ -37,7 +37,7 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public int Pitch
         {
-            get { return pitch; }
+            get => pitch;
             set
             {
                 pitch = value;
@@ -47,7 +47,7 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public int FOV
         {
-            get { return fov; }
+            get => fov;
             set
             {
                 fov = value;

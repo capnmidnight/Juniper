@@ -1,6 +1,6 @@
-using System.IO;
-
 using Hjg.Pngcs;
+
+using System.IO;
 
 namespace Juniper.Imaging
 {

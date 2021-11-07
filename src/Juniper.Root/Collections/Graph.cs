@@ -1,7 +1,7 @@
+using Juniper.IO;
+
 using System;
 using System.IO;
-
-using Juniper.IO;
 
 namespace Juniper.Collections
 {

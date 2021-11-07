@@ -1,7 +1,7 @@
+using Juniper.Collections;
+
 using System.Collections;
 using System.Collections.Generic;
-
-using Juniper.Collections;
 
 namespace Juniper.Mathematics
 {
@@ -123,14 +123,8 @@ namespace Juniper.Mathematics
         /// <value>The element at the specified index.</value>
         public T this[int index]
         {
-            get
-            {
-                return collect[index];
-            }
-            set
-            {
-                collect[index] = value;
-            }
+            get => collect[index];
+            set => collect[index] = value;
         }
 
         /// <summary>

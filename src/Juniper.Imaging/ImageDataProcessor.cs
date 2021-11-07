@@ -1,6 +1,6 @@
-using System;
-
 using Juniper.Progress;
+
+using System;
 
 namespace Juniper.Imaging
 {

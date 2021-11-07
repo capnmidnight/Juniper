@@ -16,20 +16,14 @@ namespace Juniper.World.GIS.Google.Places
 
         public string PhoneNumber
         {
-            get { return inputtype == PlaceSearchInputType.phonenumber ? input : default; }
-            set
-            {
-                SetInput(value, PlaceSearchInputType.phonenumber);
-            }
+            get => inputtype == PlaceSearchInputType.phonenumber ? input : default;
+            set => SetInput(value, PlaceSearchInputType.phonenumber);
         }
 
         public string TextQuery
         {
-            get { return inputtype == PlaceSearchInputType.textquery ? input : default; }
-            set
-            {
-                SetInput(value, PlaceSearchInputType.textquery);
-            }
+            get => inputtype == PlaceSearchInputType.textquery ? input : default;
+            set => SetInput(value, PlaceSearchInputType.textquery);
         }
 
         private void SetInput(string input, PlaceSearchInputType inputtype)
@@ -71,7 +65,7 @@ namespace Juniper.World.GIS.Google.Places
 
         public string Language
         {
-            get { return language; }
+            get => language;
             set
             {
                 language = value;

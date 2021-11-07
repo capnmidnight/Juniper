@@ -1,10 +1,10 @@
+using Juniper.Progress;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Juniper.Progress;
 
 namespace Juniper.IO
 {
@@ -144,7 +144,7 @@ namespace Juniper.IO
 
             var items = new Dictionary<ContentReference, ResultT>();
             var refs = source.GetContentReferences(deserializer.ContentType).ToArray();
-            foreach (var (itemProg, contentRef) in prog.Zip(refs))
+            foreach ((var itemProg, var contentRef) in prog.Zip(refs))
             {
                 var stream = await source
                     .GetStreamAsync(contentRef, itemProg)

@@ -1,6 +1,6 @@
-using System.IO;
-
 using Juniper.Progress;
+
+using System.IO;
 
 namespace Juniper.IO
 {
@@ -54,7 +54,7 @@ namespace Juniper.IO
         /// </summary>
         private long TotalByteCount
         {
-            get { return totalRead; }
+            get => totalRead;
 
             set
             {
@@ -133,8 +133,8 @@ namespace Juniper.IO
         /// </summary>
         public override long Position
         {
-            get { return BaseStream.Position; }
-            set { BaseStream.Position = value; }
+            get => BaseStream.Position;
+            set => BaseStream.Position = value;
         }
 
         /// <summary>

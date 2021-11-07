@@ -198,8 +198,8 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public string this[int index]
         {
-            get { return Points[index]; }
-            set { Points[index] = value; }
+            get => Points[index];
+            set => Points[index] = value;
         }
 
         public void Add(string item)

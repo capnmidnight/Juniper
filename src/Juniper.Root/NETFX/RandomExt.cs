@@ -113,7 +113,7 @@ namespace System
                 charSet = DEFAULT_CHAR_SET;
             }
 
-            if(charSet.Length == 0)
+            if (charSet.Length == 0)
             {
                 throw new ArgumentException(nameof(charSet), "Character set for random selection must not be the empty string");
             }

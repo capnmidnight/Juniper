@@ -16,7 +16,7 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public string Pano
         {
-            get { return pano; }
+            get => pano;
             set
             {
                 placeName = default;
@@ -29,7 +29,7 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public string Place
         {
-            get { return placeName; }
+            get => placeName;
             set
             {
                 placeName = value;
@@ -42,7 +42,7 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public LatLngPoint Location
         {
-            get { return location; }
+            get => location;
             set
             {
                 placeName = default;
@@ -55,7 +55,7 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public int Radius
         {
-            get { return radius; }
+            get => radius;
             set
             {
                 radius = value;

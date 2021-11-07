@@ -1,9 +1,9 @@
+using Juniper.Progress;
+
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-
-using Juniper.Progress;
 
 namespace Juniper.IO
 {

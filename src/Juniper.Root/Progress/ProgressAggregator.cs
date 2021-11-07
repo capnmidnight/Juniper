@@ -64,13 +64,7 @@ namespace Juniper.Progress
 
         public int Count => subProgs.Length;
 
-        public IProgress this[int index]
-        {
-            get
-            {
-                return subProgs[index];
-            }
-        }
+        public IProgress this[int index] => subProgs[index];
 
         public void ReportWithStatus(float progress, string status)
         {

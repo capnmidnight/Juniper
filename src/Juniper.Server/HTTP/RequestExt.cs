@@ -1,6 +1,6 @@
-using System.Linq;
-
 using Microsoft.AspNetCore.Http;
+
+using System.Linq;
 
 namespace Juniper.HTTP
 {

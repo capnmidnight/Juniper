@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-
 using Juniper.IO;
 using Juniper.Progress;
 using Juniper.World.GIS.Google.Geocoding;
 using Juniper.World.GIS.Google.StreetView;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Juniper.World.GIS.Google
 {

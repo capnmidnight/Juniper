@@ -49,9 +49,9 @@ namespace Juniper.World.GIS.Google.Geocoding
                                                            : AddressComponentTypes.None);
             Geometry = info.GetValue<GeometryResult>(GEOMETRY_FIELD);
 
-            foreach(var field in info)
+            foreach (var field in info)
             {
-                if(field.Name == PARTIAL_MATCH_FIELD)
+                if (field.Name == PARTIAL_MATCH_FIELD)
                 {
                     Partial_Match = (bool)field.Value;
                 }

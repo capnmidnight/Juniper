@@ -129,7 +129,7 @@ namespace Juniper.Progress
 
         public static void Run(this IProgress parent, params NamedAction<IProgress>[] actors)
         {
-            foreach (var (prog, act) in parent.Split(actors))
+            foreach ((var prog, var act) in parent.Split(actors))
             {
                 prog.Report(0);
                 act.Invoke(prog);
@@ -139,7 +139,7 @@ namespace Juniper.Progress
 
         public static void Run(this IProgress parent, params NamedAction[] actors)
         {
-            foreach (var (prog, act) in parent.Split(actors))
+            foreach ((var prog, var act) in parent.Split(actors))
             {
                 prog.Report(0);
                 act.Invoke();
@@ -149,7 +149,7 @@ namespace Juniper.Progress
 
         public static void Run(this IProgress parent, params Action<IProgress>[] actors)
         {
-            foreach (var (prog, act) in parent.Split2(actors))
+            foreach ((var prog, var act) in parent.Split2(actors))
             {
                 prog.Report(0);
                 act.Invoke(prog);
@@ -159,7 +159,7 @@ namespace Juniper.Progress
 
         public static void Run(this IProgress parent, params Action[] actors)
         {
-            foreach (var (prog, act) in parent.Split2(actors))
+            foreach ((var prog, var act) in parent.Split2(actors))
             {
                 prog.Report(0);
                 act.Invoke();
@@ -169,7 +169,7 @@ namespace Juniper.Progress
 
         public static async Task RunAsync(this IProgress parent, params NamedFunc<IProgress, Task>[] actors)
         {
-            foreach (var (prog, act) in parent.Split(actors))
+            foreach ((var prog, var act) in parent.Split(actors))
             {
                 prog.Report(0);
                 await act.Invoke(prog)
@@ -180,7 +180,7 @@ namespace Juniper.Progress
 
         public static async Task RunAsync(this IProgress parent, params NamedFunc<Task>[] actors)
         {
-            foreach (var (prog, act) in parent.Split(actors))
+            foreach ((var prog, var act) in parent.Split(actors))
             {
                 prog.Report(0);
                 await act.Invoke()
@@ -191,7 +191,7 @@ namespace Juniper.Progress
 
         public static async Task RunAsync(this IProgress parent, params Func<IProgress, Task>[] actors)
         {
-            foreach (var (prog, act) in parent.Split2(actors))
+            foreach ((var prog, var act) in parent.Split2(actors))
             {
                 prog.Report(0);
                 await act.Invoke(prog)
@@ -202,7 +202,7 @@ namespace Juniper.Progress
 
         public static async Task RunAsync(this IProgress parent, params Func<Task>[] actors)
         {
-            foreach (var (prog, act) in parent.Split2(actors))
+            foreach ((var prog, var act) in parent.Split2(actors))
             {
                 prog.Report(0);
                 await act.Invoke()

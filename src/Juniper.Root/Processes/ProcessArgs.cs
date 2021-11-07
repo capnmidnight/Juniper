@@ -1,8 +1,8 @@
+using Juniper.World.GIS;
+
 using System;
 using System.Collections.Generic;
 using System.Net;
-
-using Juniper.World.GIS;
 
 namespace Juniper.Processes
 {
@@ -45,7 +45,7 @@ namespace Juniper.Processes
                 throw new ArgumentNullException(nameof(pairs));
             }
 
-            foreach (var (Key, Value) in pairs)
+            foreach ((var Key, var Value) in pairs)
             {
                 dict[Key] = Value;
             }

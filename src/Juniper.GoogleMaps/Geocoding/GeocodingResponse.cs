@@ -1,8 +1,8 @@
+using Juniper.Google;
+
 using System;
 using System.Net;
 using System.Runtime.Serialization;
-
-using Juniper.Google;
 
 namespace Juniper.World.GIS.Google.Geocoding
 {

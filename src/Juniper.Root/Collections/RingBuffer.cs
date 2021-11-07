@@ -34,7 +34,7 @@ namespace Juniper.Collections
         /// </summary>
         private int Start
         {
-            get { return start; }
+            get => start;
 
             set
             {
@@ -59,7 +59,7 @@ namespace Juniper.Collections
         /// </summary>
         private int End
         {
-            get { return end; }
+            get => end;
 
 
             set

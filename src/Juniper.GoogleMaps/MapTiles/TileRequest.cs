@@ -27,7 +27,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public Size Size
         {
-            get { return size; }
+            get => size;
             set
             {
                 size = value;
@@ -37,7 +37,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public int Zoom
         {
-            get { return zoom; }
+            get => zoom;
             set
             {
                 zoom = value;
@@ -47,7 +47,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public string Address
         {
-            get { return address; }
+            get => address;
             set
             {
                 address = value;
@@ -58,7 +58,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public LatLngPoint Center
         {
-            get { return center; }
+            get => center;
             set
             {
                 address = default;
@@ -69,7 +69,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public int Scale
         {
-            get { return scale; }
+            get => scale;
             set
             {
                 scale = value;
@@ -79,7 +79,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public string Language
         {
-            get { return language; }
+            get => language;
             set
             {
                 language = value;
@@ -89,7 +89,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public string Region
         {
-            get { return region; }
+            get => region;
             set
             {
                 region = value;
@@ -99,7 +99,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public MapImageType MapType
         {
-            get { return maptype; }
+            get => maptype;
             set
             {
                 maptype = value;

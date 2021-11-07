@@ -43,9 +43,9 @@ namespace Juniper.Compression.Zip
 
         public override long Position
         {
-            get { return entryStream.Position; }
+            get => entryStream.Position;
 
-            set { entryStream.Position = value; }
+            set => entryStream.Position = value;
         }
 
         public override void Flush()
@@ -127,9 +127,9 @@ namespace Juniper.Compression.Zip
 
         public override int ReadTimeout
         {
-            get { return entryStream.ReadTimeout; }
+            get => entryStream.ReadTimeout;
 
-            set { entryStream.ReadTimeout = value; }
+            set => entryStream.ReadTimeout = value;
         }
 
         public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
@@ -144,9 +144,9 @@ namespace Juniper.Compression.Zip
 
         public override int WriteTimeout
         {
-            get { return entryStream.WriteTimeout; }
+            get => entryStream.WriteTimeout;
 
-            set { entryStream.WriteTimeout = value; }
+            set => entryStream.WriteTimeout = value;
         }
     }
 }

@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-
 using Juniper.Units;
 using Juniper.World.GIS;
+
+using System.Collections.Generic;
 
 namespace System.Numerics
 {

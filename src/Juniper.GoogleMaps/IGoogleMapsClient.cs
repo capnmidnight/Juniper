@@ -1,8 +1,8 @@
-using System.Threading.Tasks;
-
 using Juniper.Progress;
 using Juniper.World.GIS.Google.Geocoding;
 using Juniper.World.GIS.Google.StreetView;
+
+using System.Threading.Tasks;
 
 namespace Juniper.World.GIS.Google
 {

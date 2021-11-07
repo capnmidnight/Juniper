@@ -11,7 +11,7 @@ namespace Juniper.World.GIS.Google.Geocoding
 
         public string Language
         {
-            get { return language; }
+            get => language;
             set
             {
                 language = value;

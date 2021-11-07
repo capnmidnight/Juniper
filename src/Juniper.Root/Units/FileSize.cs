@@ -1,9 +1,9 @@
+using Accord.Math;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using Accord.Math;
 
 namespace Juniper.Units
 {
@@ -57,8 +57,8 @@ namespace Juniper.Units
             else
             {
                 var system = (from kv in systemLevels
-                              where kv.Value.Contains(units)
-                              select (SystemOfMeasure?)kv.Key)
+                                           where kv.Value.Contains(units)
+                                           select (SystemOfMeasure?)kv.Key)
                             .FirstOrDefault();
                 if (system is null)
                 {

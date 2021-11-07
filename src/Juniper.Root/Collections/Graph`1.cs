@@ -1,9 +1,9 @@
+using Juniper.IO;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-
-using Juniper.IO;
 
 namespace Juniper.Collections
 {
@@ -71,8 +71,8 @@ namespace Juniper.Collections
             nodes = new Dictionary<NodeT, int>();
 
             foreach (var node in (from route in routes
-                                  from node in route.Nodes
-                                  select node)
+                                    from node in route.Nodes
+                                    select node)
                         .Distinct())
             {
                 AddNode(node);
@@ -160,24 +160,12 @@ namespace Juniper.Collections
 
         public IEnumerable<Route<NodeT>> Connections => connections;
 
-        public IEnumerable<Route<NodeT>> Paths
-        {
-            get
-            {
-                return from route in Routes
-                       where route.IsPath
-                       select route;
-            }
-        }
+        public IEnumerable<Route<NodeT>> Paths => from route in Routes
+                                                  where route.IsPath
+                                                  select route;
 
-        public bool HasContent
-        {
-            get
-            {
-                return nodes.Count > 0
+        public bool HasContent => nodes.Count > 0
                     && connections.Count > 0;
-            }
-        }
 
         private void AddNode(NodeT node)
         {
@@ -220,7 +208,7 @@ namespace Juniper.Collections
 
         public void SetConnections(params (NodeT start, NodeT end, float cost)[] connections)
         {
-            foreach (var (start, end, cost) in connections)
+            foreach ((var start, var end, var cost) in connections)
             {
                 AddConnection(start, end, cost);
             }

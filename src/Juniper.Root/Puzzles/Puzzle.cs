@@ -103,10 +103,7 @@ namespace Juniper.Puzzles
         /// </summary>
         public int[,] Grid
         {
-            get
-            {
-                return grid;
-            }
+            get => grid;
             set
             {
                 if (value != null && value.GetWidth() != 0 && value.GetHeight() != 0)

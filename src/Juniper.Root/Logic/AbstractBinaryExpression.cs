@@ -32,14 +32,8 @@ namespace Juniper.Logic
             }
         }
 
-        public bool HasNestedElements
-        {
-            get
-            {
-                return Item1 is AbstractBinaryExpression<ItemT>
+        public bool HasNestedElements => Item1 is AbstractBinaryExpression<ItemT>
                     || Item2 is AbstractBinaryExpression<ItemT>;
-            }
-        }
 
         public IEnumerable<IExpression<ItemT>> GetExpressions()
         {

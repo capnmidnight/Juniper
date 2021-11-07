@@ -1,3 +1,5 @@
+using Juniper.Logging;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -5,8 +7,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-
-using Juniper.Logging;
 
 namespace Juniper.Processes
 {
@@ -91,10 +91,16 @@ namespace Juniper.Processes
 #endif
 
             var outputAccum = new StringBuilder();
-            void Proc_AccumOutputData(object sender, DataReceivedEventArgs e) => _ = outputAccum.AppendLine(e.Data);
+            void Proc_AccumOutputData(object sender, DataReceivedEventArgs e)
+            {
+                _ = outputAccum.AppendLine(e.Data);
+            }
 
             var errorAccum = new StringBuilder();
-            void Proc_AccumErrorData(object sender, DataReceivedEventArgs e) => _ = errorAccum.AppendLine(e.Data);
+            void Proc_AccumErrorData(object sender, DataReceivedEventArgs e)
+            {
+                _ = errorAccum.AppendLine(e.Data);
+            }
 
             proc.OutputDataReceived += Proc_AccumOutputData;
             proc.OutputDataReceived += Proc_OutputDataReceived;

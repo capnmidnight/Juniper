@@ -18,7 +18,7 @@ namespace Juniper.World.GIS.Google.Geocoding
 
         public string Place
         {
-            get { return place_id; }
+            get => place_id;
             set
             {
                 place_id = value;
@@ -31,7 +31,7 @@ namespace Juniper.World.GIS.Google.Geocoding
 
         public string Address
         {
-            get { return address; }
+            get => address;
             set
             {
                 address = value;
@@ -56,32 +56,32 @@ namespace Juniper.World.GIS.Google.Geocoding
 
         public string PostalCodeFilter
         {
-            get { return components.Get(AddressComponentTypes.postal_code, default); }
-            set { SetComponent(AddressComponentTypes.postal_code, value); }
+            get => components.Get(AddressComponentTypes.postal_code, default);
+            set => SetComponent(AddressComponentTypes.postal_code, value);
         }
 
         public string CountryFilter
         {
-            get { return components.Get(AddressComponentTypes.country, default); }
-            set { SetComponent(AddressComponentTypes.country, value); }
+            get => components.Get(AddressComponentTypes.country, default);
+            set => SetComponent(AddressComponentTypes.country, value);
         }
 
         public string RouteHint
         {
-            get { return components.Get(AddressComponentTypes.route, default); }
-            set { SetComponent(AddressComponentTypes.route, value); }
+            get => components.Get(AddressComponentTypes.route, default);
+            set => SetComponent(AddressComponentTypes.route, value);
         }
 
         public string LocalityHint
         {
-            get { return components.Get(AddressComponentTypes.locality, default); }
-            set { SetComponent(AddressComponentTypes.locality, value); }
+            get => components.Get(AddressComponentTypes.locality, default);
+            set => SetComponent(AddressComponentTypes.locality, value);
         }
 
         public string AdministrativeAreaHint
         {
-            get { return components.Get(AddressComponentTypes.administrative_area, default); }
-            set { SetComponent(AddressComponentTypes.administrative_area, value); }
+            get => components.Get(AddressComponentTypes.administrative_area, default);
+            set => SetComponent(AddressComponentTypes.administrative_area, value);
         }
 
         public void SetBounds(LatLngPoint southWest, LatLngPoint northEast)
@@ -91,7 +91,7 @@ namespace Juniper.World.GIS.Google.Geocoding
 
         public GeometryViewport Bounds
         {
-            get { return bounds; }
+            get => bounds;
             set
             {
                 bounds = value;
@@ -105,7 +105,7 @@ namespace Juniper.World.GIS.Google.Geocoding
 
         public string Region
         {
-            get { return region; }
+            get => region;
             set
             {
                 region = value;

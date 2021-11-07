@@ -1,3 +1,5 @@
+using Juniper.IO;
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -7,8 +9,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
-using Juniper.IO;
 
 namespace Juniper.HTTP
 {
@@ -29,10 +29,7 @@ namespace Juniper.HTTP
         private WebSocketT socket;
         protected WebSocketT Socket
         {
-            get
-            {
-                return socket;
-            }
+            get => socket;
             set
             {
                 socket?.Dispose();

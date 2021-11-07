@@ -1,10 +1,10 @@
+using Microsoft.AspNetCore.Http;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Http;
 
 namespace Juniper.HTTP
 {
@@ -31,8 +31,8 @@ namespace Juniper.HTTP
                 socket.Dispose();
 
                 var keys = (from s in sockets
-                            where socket == s.Value
-                            select s.Key);
+                                         where socket == s.Value
+                                         select s.Key);
 
                 foreach (var key in keys)
                 {

@@ -1,6 +1,6 @@
-using System.IO;
-
 using Juniper.IO;
+
+using System.IO;
 
 namespace Juniper.World.GIS.Google
 {

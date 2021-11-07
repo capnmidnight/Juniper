@@ -1,11 +1,11 @@
+using Juniper.HTTP;
+
 using System;
 using System.IO;
 using System.Net;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
-
-using Juniper.HTTP;
 
 namespace Juniper.IO
 {

@@ -13,7 +13,7 @@ namespace Juniper.World.GIS.Google.TimeZone
 
         public LatLngPoint Location
         {
-            get { return location; }
+            get => location;
             set
             {
                 location = value;
@@ -23,7 +23,7 @@ namespace Juniper.World.GIS.Google.TimeZone
 
         public DateTime Timestamp
         {
-            get { return timestamp; }
+            get => timestamp;
             set
             {
                 timestamp = value;

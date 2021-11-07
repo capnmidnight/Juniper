@@ -1,12 +1,11 @@
+using Juniper.Google;
+
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
-
-using Juniper.Google;
 
 namespace Juniper.World.GIS.Google.StreetView
 {

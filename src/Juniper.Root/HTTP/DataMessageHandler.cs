@@ -1,9 +1,9 @@
+using Juniper.IO;
+
 using System;
 using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-
-using Juniper.IO;
 
 namespace Juniper.HTTP
 {

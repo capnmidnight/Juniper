@@ -1,6 +1,6 @@
-using System.Collections.Generic;
-
 using Juniper.Mathematics;
+
+using System.Collections.Generic;
 
 namespace System.Runtime.Serialization
 {

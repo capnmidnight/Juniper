@@ -1,7 +1,7 @@
+using Juniper.Puzzles;
+
 using System;
 using System.Text;
-
-using Juniper.Puzzles;
 
 using static System.Console;
 

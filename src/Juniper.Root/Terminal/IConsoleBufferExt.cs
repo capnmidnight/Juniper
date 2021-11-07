@@ -1,7 +1,7 @@
-using System;
-
 using Juniper.Puzzles;
 using Juniper.Unicode;
+
+using System;
 
 namespace Juniper.Terminal
 {

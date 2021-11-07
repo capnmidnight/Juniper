@@ -95,10 +95,7 @@ namespace Juniper.IO
         /// </summary>
         public override long Position
         {
-            get
-            {
-                return SourceStream.Position;
-            }
+            get => SourceStream.Position;
 
             set
             {

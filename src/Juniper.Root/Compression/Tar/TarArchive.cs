@@ -1,9 +1,9 @@
+using Juniper.Progress;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-
-using Juniper.Progress;
 
 namespace Juniper.Compression.Tar
 {

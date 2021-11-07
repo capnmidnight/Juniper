@@ -1,11 +1,11 @@
+using Juniper.Compression.Tar;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Runtime.Serialization;
-
-using Juniper.Compression.Tar;
 
 namespace Juniper.Compression
 {
@@ -79,7 +79,7 @@ namespace Juniper.Compression
             return !IsFile
                 && other is object
                 && !other.IsFile
-                && other.FullName == this.ParentPath;
+                && other.FullName == ParentPath;
         }
 
         public bool Equals(CompressedFileInfo other)

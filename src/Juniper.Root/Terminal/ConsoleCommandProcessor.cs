@@ -1,11 +1,11 @@
+using Juniper.Logging;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
-
-using Juniper.Logging;
 
 using static System.ConsoleColor;
 
@@ -53,7 +53,7 @@ namespace Juniper.Terminal
             var format = $"  {{0,-{maxKeyLen}}} : {{1}}";
 
             var lines = (from command in actions
-                         select string.Format(CultureInfo.InvariantCulture, format, command.Key, command.Value.Name))
+                              select string.Format(CultureInfo.InvariantCulture, format, command.Key, command.Value.Name))
                          .Prepend("Usage:")
                          .Prepend("")
                          .Append("")
@@ -84,13 +84,7 @@ namespace Juniper.Terminal
 
         public int Count => actions.Count;
 
-        public NamedAction this[ConsoleKey key]
-        {
-            get
-            {
-                return actions[key];
-            }
-        }
+        public NamedAction this[ConsoleKey key] => actions[key];
 
         public void Add(ConsoleKey key, string description, Action action)
         {
@@ -99,7 +93,7 @@ namespace Juniper.Terminal
 
         public void Add((ConsoleKey key, string description, Action action) entry)
         {
-            var (key, description, action) = entry;
+            (var key, var description, var action) = entry;
             Add(key, description, action);
         }
 

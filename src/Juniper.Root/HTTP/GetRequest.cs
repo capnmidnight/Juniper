@@ -1,6 +1,6 @@
-using System;
-
 using Juniper.HTTP.REST;
+
+using System;
 
 namespace Juniper.HTTP
 {

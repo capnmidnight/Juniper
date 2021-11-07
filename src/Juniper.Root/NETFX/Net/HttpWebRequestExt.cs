@@ -1,9 +1,9 @@
-using System.IO;
-using System.Threading.Tasks;
-
 using Juniper.HTTP;
 using Juniper.IO;
 using Juniper.Progress;
+
+using System.IO;
+using System.Threading.Tasks;
 
 namespace System.Net
 {

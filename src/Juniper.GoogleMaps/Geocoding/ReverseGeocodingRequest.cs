@@ -39,7 +39,7 @@ namespace Juniper.World.GIS.Google.Geocoding
 
         public LatLngPoint Location
         {
-            get { return latlng; }
+            get => latlng;
             set
             {
                 latlng = value;

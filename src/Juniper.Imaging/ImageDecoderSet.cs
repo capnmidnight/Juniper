@@ -48,28 +48,16 @@ namespace Juniper.Imaging
 
         public IImageCodec<ImageData> this[MediaType mediaType]
         {
-            get
-            {
-                return decoders[mediaType];
-            }
+            get => decoders[mediaType];
 
-            set
-            {
-                decoders[mediaType] = value;
-            }
+            set => decoders[mediaType] = value;
         }
 
         public IImageCodec<ImageData> this[string mediaTypeName]
         {
-            get
-            {
-                return this[MediaType.Lookup(mediaTypeName)];
-            }
+            get => this[MediaType.Lookup(mediaTypeName)];
 
-            set
-            {
-                this[MediaType.Lookup(mediaTypeName)] = value;
-            }
+            set => this[MediaType.Lookup(mediaTypeName)] = value;
         }
 
         public ICollection<MediaType> Keys => decoders.Keys;
@@ -149,8 +137,8 @@ namespace Juniper.Imaging
             }
 
             var type = (from t in MediaType.GuessByFileName(fileName)
-                        where t is MediaType.Image
-                        select t)
+                              where t is MediaType.Image
+                              select t)
                     .FirstOrDefault();
 
             if (!decoders.ContainsKey(type))

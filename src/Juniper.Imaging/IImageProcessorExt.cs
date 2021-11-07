@@ -1,8 +1,8 @@
+using Juniper.Progress;
+
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
-
-using Juniper.Progress;
 
 namespace Juniper.Imaging
 {
