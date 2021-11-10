@@ -1,27 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <IsPackable>false</IsPackable>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="nunit" Version="3.12.0" />
+    <PackageReference Include="nunit" Version="3.13.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
-    <PackageReference Include="Veldrid" Version="4.8.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="System.IO.Compression" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\Juniper.Azure.Sound\Juniper.Azure.Sound.csproj" />
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
     <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
     <ProjectReference Include="..\Juniper.Imaging\Juniper.Imaging.csproj" />
+    <ProjectReference Include="..\Juniper.Sound.NAudio\Juniper.Sound.NAudio.csproj" />
     <ProjectReference Include="..\Juniper.Sound\Juniper.Sound.csproj" />
     <ProjectReference Include="..\Juniper.Azure\Juniper.Azure.csproj" />
     <ProjectReference Include="..\Juniper.GoogleMaps\Juniper.GoogleMaps.csproj" />

@@ -66,8 +66,8 @@ namespace Juniper.HTTP.Tests
                     "2015-05.min.jpg");
 
             var imageDecoder = new TranscoderCodec<BitMiracle.LibJpeg.JpegImage, ImageData>(
-                new LibJpegNETCodec(80),
-                new LibJpegNETImageDataTranscoder());
+                new JpegCodec(80),
+                new JpegTranscoder());
 
             var actual = await cache
                 .LoadAsync(imageDecoder, imageRequest)

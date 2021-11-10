@@ -193,7 +193,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             prog.Report(0);
             if (NeedsNewReport(location) || force)
             {
-                var url = new Uri($"{serverURI}/data/{version.ToString(2)}/{operation}?lat={location.Latitude.ToString(CultureInfo.InvariantCulture)}&lon={location.Longitude.ToString(CultureInfo.InvariantCulture)}&units={units}&appid={apiKey}");
+                var url = new Uri($"{serverURI}/data/{version.ToString(2)}/{operation}?lat={location.Lat.ToString(CultureInfo.InvariantCulture)}&lon={location.Lng.ToString(CultureInfo.InvariantCulture)}&units={units}&appid={apiKey}");
                 try
                 {
                     var requester = HttpWebRequestExt.Create(url);

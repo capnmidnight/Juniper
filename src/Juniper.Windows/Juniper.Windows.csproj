@@ -4,7 +4,7 @@
     <AssemblyName>Juniper.Windows</AssemblyName>
     <RootNamespace>Juniper.Windows</RootNamespace>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net48;netcoreapp3.1</TargetFrameworks>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseWindowsForms>true</UseWindowsForms>
     <Authors>Sean T. McBeth</Authors>

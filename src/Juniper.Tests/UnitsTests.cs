@@ -18,9 +18,9 @@ namespace Juniper.Units.Tests
             var utm = latLng.ToUTM();
             var latLng2 = utm.ToLatLng();
             var utm2 = latLng2.ToUTM();
-            Assert.AreEqual(latLng.Altitude, latLng2.Altitude, 0.0001);
-            Assert.AreEqual(latLng.Longitude, latLng2.Longitude, 0.0001);
-            Assert.AreEqual(latLng.Latitude, latLng2.Latitude, 0.0001);
+            Assert.AreEqual(latLng.Alt, latLng2.Alt, 0.0001);
+            Assert.AreEqual(latLng.Lng, latLng2.Lng, 0.0001);
+            Assert.AreEqual(latLng.Lat, latLng2.Lat, 0.0001);
             Assert.AreEqual(utm.X, utm2.X, 0.5);
             Assert.AreEqual(utm.Y, utm2.Y, 0.5);
             Assert.AreEqual(utm.Zone, utm2.Zone);

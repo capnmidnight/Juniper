@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using Juniper;
 using Juniper.Imaging;
 using Juniper.IO;
@@ -18,8 +17,8 @@ namespace Scratch
                 .GetFiles("*.jpg")
                 .First(f => f.Name.StartsWith("test", StringComparison.OrdinalIgnoreCase));
             using var imageStream = imageFile.OpenRead();
-            var codec = new LibJpegNETCodec()
-                .Pipe(new LibJpegNETImageDataTranscoder());
+            var codec = new JpegCodec()
+                .Pipe(new JpegTranscoder());
             var image = codec.Deserialize(imageStream);
             var spaces = new ColorSpace[]
             {

@@ -148,7 +148,7 @@ namespace System
                 throw new ArgumentNullException(nameof(arr));
             }
 
-            return arr.GetLength(0);
+            return arr.GetLength(1);
         }
 
         public static int GetHeight<T>(this T[,] arr)
@@ -158,7 +158,7 @@ namespace System
                 throw new ArgumentNullException(nameof(arr));
             }
 
-            return arr.GetLength(1);
+            return arr.GetLength(0);
         }
     }
 }

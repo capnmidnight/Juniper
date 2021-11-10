@@ -12,11 +12,12 @@ namespace Juniper.Puzzles.Test
         public PuzzleTests()
         {
             testGrid = new int[,] {
-{ 1, 2, 3 },
-{ 4, 5, 6 },
-{ 7, 8, 9 },
-{ 10, 11, 12 },
-{ 13, 14, 15 } };
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, 9 },
+                { 10, 11, 12 },
+                { 13, 14, 15 }
+            };
         }
 
 
@@ -127,7 +128,7 @@ namespace Juniper.Puzzles.Test
             {
                 for (var y = 0; y < puz.Height; ++y)
                 {
-                    Assert.AreEqual(testGrid[x, y], puz[x, y]);
+                    Assert.AreEqual(testGrid[y, x], puz[x, y]);
                 }
             }
         }
@@ -140,7 +141,7 @@ namespace Juniper.Puzzles.Test
             var q = new Puzzle(testGrid);
             var grid = new int[testGrid.GetWidth(), testGrid.GetHeight()];
             Array.Copy(testGrid, grid, testGrid.Length);
-            grid[grid.GetWidth() - 1, grid.GetHeight() - 1] = 99;
+            grid[grid.GetHeight() - 1, grid.GetWidth() - 1] = 99;
             var r = new Puzzle(grid);
 
             Assert.AreEqual(q, p);
@@ -1998,7 +1999,10 @@ namespace Juniper.Puzzles.Test
         public void FillPuzzle()
         {
             var puz = new Puzzle(4, 5);
-            var piece = new Puzzle(new int[,] { { 2, 3, Puzzle.EmptyTile }, { Puzzle.EmptyTile, 5, 6 } });
+            var piece = new Puzzle(new int[,] {
+                { 2, 3, Puzzle.EmptyTile },
+                { Puzzle.EmptyTile, 5, 6 }
+            });
             puz.Fill(1, 3, piece);
             for (var y = 3; y < 5; ++y)
             {
@@ -2015,7 +2019,8 @@ namespace Juniper.Puzzles.Test
         {
             var puz = new Puzzle(testGrid);
             var quz = new Puzzle(testGrid);
-            puz.Fill(-2, -2, new Puzzle(new int[2, 2] { { 1, -1 }, { 2, 3 } }));
+            var piece = new Puzzle(new int[2, 2] { { 1, -1 }, { 2, 3 } });
+            puz.Fill(-2, -2, piece);
             Assert.AreEqual(quz, puz);
         }
 
@@ -2025,7 +2030,8 @@ namespace Juniper.Puzzles.Test
         {
             var puz = new Puzzle(testGrid);
             var quz = new Puzzle(testGrid);
-            puz.Fill(-2, 0, new Puzzle(new int[2, 2] { { 1, -1 }, { 2, 3 } }));
+            var piece = new Puzzle(new int[2, 2] { { 1, -1 }, { 2, 3 } });
+            puz.Fill(-2, 0, piece);
             Assert.AreEqual(quz, puz);
         }
 
@@ -2035,7 +2041,8 @@ namespace Juniper.Puzzles.Test
         {
             var puz = new Puzzle(testGrid);
             var quz = new Puzzle(testGrid);
-            puz.Fill(-2, puz.Height, new Puzzle(new int[2, 2] { { 1, -1 }, { 2, 3 } }));
+            var piece = new Puzzle(new int[2, 2] { { 1, -1 }, { 2, 3 } });
+            puz.Fill(-2, puz.Height, piece);
             Assert.AreEqual(quz, puz);
         }
 
@@ -2045,7 +2052,8 @@ namespace Juniper.Puzzles.Test
         {
             var puz = new Puzzle(testGrid);
             var quz = new Puzzle(testGrid);
-            puz.Fill(0, -2, new Puzzle(new int[2, 2] { { 1, -1 }, { 2, 3 } }));
+            var piece = new Puzzle(new int[2, 2] { { 1, -1 }, { 2, 3 } });
+            puz.Fill(0, -2, piece);
             Assert.AreEqual(quz, puz);
         }
 
@@ -2055,7 +2063,8 @@ namespace Juniper.Puzzles.Test
         {
             var puz = new Puzzle(testGrid);
             var quz = new Puzzle(testGrid);
-            puz.Fill(0, puz.Height, new Puzzle(new int[2, 2] { { 1, -1 }, { 2, 3 } }));
+            var piece = new Puzzle(new int[2, 2] { { 1, -1 }, { 2, 3 } });
+            puz.Fill(0, puz.Height, piece);
             Assert.AreEqual(quz, puz);
         }
 
@@ -2065,7 +2074,8 @@ namespace Juniper.Puzzles.Test
         {
             var puz = new Puzzle(testGrid);
             var quz = new Puzzle(testGrid);
-            puz.Fill(puz.Width, -2, new Puzzle(new int[2, 2] { { 1, -1 }, { 2, 3 } }));
+            var piece = new Puzzle(new int[2, 2] { { 1, -1 }, { 2, 3 } });
+            puz.Fill(puz.Width, -2, piece);
             Assert.AreEqual(quz, puz);
         }
 
@@ -2075,7 +2085,8 @@ namespace Juniper.Puzzles.Test
         {
             var puz = new Puzzle(testGrid);
             var quz = new Puzzle(testGrid);
-            puz.Fill(puz.Width, 0, new Puzzle(new int[2, 2] { { 1, -1 }, { 2, 3 } }));
+            var piece = new Puzzle(new int[2, 2] { { 1, -1 }, { 2, 3 } });
+            puz.Fill(puz.Width, 0, piece);
             Assert.AreEqual(quz, puz);
         }
 
@@ -2085,7 +2096,8 @@ namespace Juniper.Puzzles.Test
         {
             var puz = new Puzzle(testGrid);
             var quz = new Puzzle(testGrid);
-            puz.Fill(puz.Width, puz.Height, new Puzzle(new int[2, 2] { { 1, -1 }, { 2, 3 } }));
+            var piece = new Puzzle(new int[2, 2] { { 1, -1 }, { 2, 3 } });
+            puz.Fill(puz.Width, puz.Height, piece);
             Assert.AreEqual(quz, puz);
         }
 
@@ -2123,13 +2135,15 @@ namespace Juniper.Puzzles.Test
         public void ShiftColumnsDown()
         {
             var before = new int[,] {
-{ 1, 2, 3 },
-{ 4, Puzzle.EmptyTile, 5 },
-{ 6, 7, 8 } };
+                { 1, 2, 3 },
+                { 4, Puzzle.EmptyTile, 5 },
+                { 6, 7, 8 }
+            };
             var after = new int[,] {
-{ 1, Puzzle.EmptyTile, 3 },
-{ 4, 2, 5 },
-{ 6, 7, 8 } };
+                { 1, Puzzle.EmptyTile, 3 },
+                { 4, 2, 5 },
+                { 6, 7, 8 }
+            };
             var p = new Puzzle(before);
             var q = new Puzzle(after);
             p.ShiftColumnsDown();
@@ -2182,7 +2196,7 @@ namespace Juniper.Puzzles.Test
 
 
         [TestCase]
-        public void ShiftColumnsRight()
+        public void ShiftRowsRight()
         {
             var before = new int[,] {
 { 1, 2, 3 },
@@ -2194,14 +2208,14 @@ namespace Juniper.Puzzles.Test
 { 6, 7, 8 } };
             var p = new Puzzle(before);
             var q = new Puzzle(after);
-            p.ShiftColumnsRight();
+            p.ShiftRowsRight();
             Assert.AreEqual(q, p);
         }
 
 
 
         [TestCase]
-        public void ShiftColumnsRight2()
+        public void ShiftRowsRight2()
         {
             var before = new int[,] {
                 {1, 2, 3, 4},
@@ -2221,12 +2235,12 @@ namespace Juniper.Puzzles.Test
                 {Puzzle.EmptyTile, 25, 27, 28}};
             var p = new Puzzle(before);
             var q = new Puzzle(after);
-            p.ShiftColumnsRight();
+            p.ShiftRowsRight();
             Assert.AreEqual(q, p);
         }
 
         [TestCase]
-        public void ShiftColumnsRight3()
+        public void ShiftRowsRight3()
         {
             var before = new int[,] {
 { 1, 2, 3 },
@@ -2238,13 +2252,13 @@ namespace Juniper.Puzzles.Test
 { Puzzle.EmptyTile, 6, 8 } };
             var p = new Puzzle(before);
             var q = new Puzzle(after);
-            p.ShiftColumnsRight();
+            p.ShiftRowsRight();
             Assert.AreEqual(q, p);
         }
 
 
         [TestCase]
-        public void ShiftColumnsLeft()
+        public void ShiftRowsLeft()
         {
             var before = new int[,] {
 { 1, 2, 3 },
@@ -2256,14 +2270,14 @@ namespace Juniper.Puzzles.Test
 { 6, 7, 8 } };
             var p = new Puzzle(before);
             var q = new Puzzle(after);
-            p.ShiftColumnsLeft();
+            p.ShiftRowsLeft();
             Assert.AreEqual(q, p);
         }
 
 
 
         [TestCase]
-        public void ShiftColumnsLeft2()
+        public void ShiftRowsLeft2()
         {
             var before = new int[,] {
                 {1, 2, 3, 4},
@@ -2283,12 +2297,12 @@ namespace Juniper.Puzzles.Test
                 {25, 27, 28, Puzzle.EmptyTile}};
             var p = new Puzzle(before);
             var q = new Puzzle(after);
-            p.ShiftColumnsLeft();
+            p.ShiftRowsLeft();
             Assert.AreEqual(q, p);
         }
 
         [TestCase]
-        public void ShiftColumnsLeft3()
+        public void ShiftRowsLeft3()
         {
             var before = new int[,] {
 { 1, 2, 3 },
@@ -2300,7 +2314,7 @@ namespace Juniper.Puzzles.Test
 { 6, 8, Puzzle.EmptyTile } };
             var p = new Puzzle(before);
             var q = new Puzzle(after);
-            p.ShiftColumnsLeft();
+            p.ShiftRowsLeft();
             Assert.AreEqual(q, p);
         }
 
@@ -3158,7 +3172,7 @@ namespace Juniper.Puzzles.Test
         public void IsEmptyRow2()
         {
             var puz = new Puzzle(testGrid);
-            puz[1, 2] = Puzzle.EmptyTile;
+            puz[2, 1] = Puzzle.EmptyTile;
             Assert.IsFalse(puz.IsEmpty(Puzzle.RowOrder, 2));
         }
 
@@ -3199,7 +3213,7 @@ namespace Juniper.Puzzles.Test
         public void IsEmptyColumn2()
         {
             var puz = new Puzzle(testGrid);
-            puz[2, 1] = Puzzle.EmptyTile;
+            puz[1, 2] = Puzzle.EmptyTile;
             Assert.IsFalse(puz.IsEmpty(Puzzle.ColumnOrder, 2));
         }
 

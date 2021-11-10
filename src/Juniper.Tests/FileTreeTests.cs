@@ -40,7 +40,7 @@ namespace Juniper.Compression.Tests
             using var mem = new MemoryStream(Juniper.Tests.Properties.Resources.test_zip);
             var tree = Zip.Decompressor.Entries(mem).Tree();
             Assert.IsNotNull(tree);
-            Assert.AreEqual(2, tree.Count);
+            Assert.AreEqual(2, tree.Children.Count);
             Assert.IsTrue(tree.Children.Any(v => v.Value.FullName == TestFile1));
             Assert.IsTrue(tree.Children.Any(v => v.Value.FullName == TestFile2));
         }

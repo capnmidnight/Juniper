@@ -274,13 +274,8 @@ namespace Juniper.Puzzles
         {
             if (IsInBounds(0, row))
             {
-                for (var x = 0; x < Width; ++x)
-                {
-                    for (var y = row; y > 0; --y)
-                    {
-                        this[x, y] = this[x, y - 1];
-                    }
-                }
+                Clear(RowOrder, row);
+                ShiftRowsDown();
             }
         }
 

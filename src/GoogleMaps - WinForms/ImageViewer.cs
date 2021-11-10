@@ -49,7 +49,7 @@ namespace Juniper
             else
             {
                 locationTextBox.Text = address ?? string.Empty;
-                panoTextbox.Text = metadata.Pano_ID;
+                panoTextbox.Text = metadata.Pano_id;
                 latLngTextbox.Text = metadata.Location.ToString(CultureInfo.InvariantCulture);
                 cubeMapPictureBox.Image?.Dispose();
                 cubeMapPictureBox.Image = image;

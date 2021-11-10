@@ -17,7 +17,7 @@ namespace Juniper
     internal static class Program
     {
         private static ImageViewer form;
-        private static GoogleMapsClient<MetadataResponse> gmaps;
+        private static GoogleMapsClient gmaps;
         private static IImageCodec<Image> imageDecoder;
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Juniper
             var lines = File.ReadAllLines(keyFileName);
             var apiKey = lines[0];
             var signingKey = lines[1];
-            gmaps = new GoogleMapsClient<MetadataResponse>(
+            gmaps = new GoogleMapsClient(
                 apiKey, signingKey,
                 metadataDecoder, geocodingDecoder,
                 cache);
@@ -70,7 +70,7 @@ namespace Juniper
                     .ConfigureAwait(false);
                 try
                 {
-                    using var stream = await gmaps.GetImageAsync(metadata.Pano_ID, 20, 0, 0)
+                    using var stream = await gmaps.GetImageStreamAsync(metadata.Pano_id, 20, 0, 0)
                         .ConfigureAwait(false);
                     var image = imageDecoder.Deserialize(stream);
                     form.SetImage(metadata, geo, image);

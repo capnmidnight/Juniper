@@ -33,12 +33,12 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
             base.Init();
 
             jpegDecoder = new TranscoderCodec<BitMiracle.LibJpeg.JpegImage, ImageData>(
-                new LibJpegNETCodec(80),
-                new LibJpegNETImageDataTranscoder());
+                new JpegCodec(80),
+                new JpegTranscoder());
 
             pngDecoder = new TranscoderCodec<Hjg.Pngcs.ImageLines, ImageData>(
-                new HjgPngcsCodec(),
-                new HjgPngcsImageDataTranscoder());
+                new PngCodec(),
+                new PngTranscoder());
 
             metadataDecoder = new JsonFactory<MetadataResponse>();
             geocodingDecoder = new JsonFactory<GeocodingResponse>();
@@ -89,9 +89,9 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
                 .ConfigureAwait(false);
             Assert.AreEqual(HttpStatusCode.OK, metadata.Status);
             Assert.IsNotNull(metadata.Copyright);
-            Assert.AreEqual("2016-07", metadata.Date.ToString("yyyy-MM", CultureInfo.InvariantCulture));
+            Assert.AreEqual("2016-07", metadata.Date?.ToString("yyyy-MM", CultureInfo.InvariantCulture));
             Assert.IsNotNull(metadata.Location);
-            Assert.IsNotNull(metadata.Pano_ID);
+            Assert.IsNotNull(metadata.Pano_id);
         }
 
         [Test]
@@ -132,7 +132,7 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
                 new FileCacheLayer(GmapsStreamingAssetsDir)
             };
 
-            var gmaps = new GoogleMapsClient<MetadataResponse>(apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
+            var gmaps = new GoogleMapsClient(apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
             var files = gmaps.CachedMetadata.ToArray();
             Assert.AreNotEqual(0, files.Length);
         }
@@ -145,13 +145,13 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
                 new FileCacheLayer(GmapsStreamingAssetsDir)
             };
 
-            var gmaps = new GoogleMapsClient<MetadataResponse>(apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
+            var gmaps = new GoogleMapsClient(apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
             var metadata = gmaps.CachedMetadata.FirstOrDefault();
-            var pano = metadata.Pano_ID;
+            var pano = metadata.Pano_id;
             var fileRef = new ContentReference(pano, MediaType.Application.Json);
             var metadata2 = await cache.LoadAsync(metadataDecoder, fileRef)
                 .ConfigureAwait(false);
-            Assert.AreEqual(metadata.Pano_ID, metadata2.Pano_ID);
+            Assert.AreEqual(metadata.Pano_id, metadata2.Pano_id);
         }
     }
 }

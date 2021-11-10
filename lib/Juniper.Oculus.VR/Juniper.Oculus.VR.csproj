@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Juniper.Oculus.VR</AssemblyName>
     <RootNamespace>Oculus.VR</RootNamespace>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Copyright>Copyright © Facebook Technologies, LLC</Copyright>
   </PropertyGroup>

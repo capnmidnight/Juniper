@@ -4,7 +4,7 @@
     <AssemblyName>Juniper.Azure</AssemblyName>
     <RootNamespace>Juniper.Speech.Azure</RootNamespace>
     <OutputType>Library</OutputType>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
   </PropertyGroup>
