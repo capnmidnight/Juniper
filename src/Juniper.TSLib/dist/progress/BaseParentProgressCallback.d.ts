@@ -1,4 +1,4 @@
-import { IProgress } from "../";
+import type { IProgress } from "./IProgress";
 export declare class BaseParentProgressCallback {
     private readonly prog;
     private weightTotal;

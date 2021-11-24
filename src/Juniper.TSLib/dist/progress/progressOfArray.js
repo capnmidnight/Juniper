@@ -1,4 +1,4 @@
-import { progressSplitWeighted } from "../";
+import { progressSplitWeighted } from "./progressSplit";
 export async function progressOfArray(onProgress, items, callback) {
     const weights = items.map(() => 1);
     const progs = progressSplitWeighted(onProgress, weights);

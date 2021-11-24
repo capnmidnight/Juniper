@@ -1,4 +1,5 @@
-import { BaseProgress, isDefined } from "../";
+import { isDefined } from "../typeChecks";
+import { BaseProgress } from "./BaseProgress";
 class CombinedProgressCallback extends BaseProgress {
     onProgs;
     constructor(onProgs) {

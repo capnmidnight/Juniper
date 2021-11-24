@@ -1,4 +1,4 @@
-import { BaseParentProgressCallback } from "../";
+import { BaseParentProgressCallback } from "./BaseParentProgressCallback";
 export function progressSplitWeighted(onProgress, subProgressWeights) {
     const prog = new WeightedParentProgressCallback(subProgressWeights, onProgress);
     return prog.subProgressCallbacks;

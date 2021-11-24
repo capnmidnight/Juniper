@@ -1,4 +1,4 @@
-import { isDefined } from "../";
+import { isDefined } from "../typeChecks";
 
 export function mapJoin<KeyT, ValueT>(dest: Map<KeyT, ValueT>, ...sources: Map<KeyT, ValueT>[]): Map<KeyT, ValueT> {
     for (const source of sources) {

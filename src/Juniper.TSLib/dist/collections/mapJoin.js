@@ -1,4 +1,4 @@
-import { isDefined } from "../";
+import { isDefined } from "../typeChecks";
 export function mapJoin(dest, ...sources) {
     for (const source of sources) {
         if (isDefined(source)) {

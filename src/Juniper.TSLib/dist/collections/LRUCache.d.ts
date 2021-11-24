@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventBase } from "../";
+import { TypedEvent, TypedEventBase } from "../events/EventBase";
 export declare class LRUCacheItemEvicted<KeyT, ValueT> extends TypedEvent<"itemevicted"> {
     readonly key: KeyT;
     readonly value: ValueT;

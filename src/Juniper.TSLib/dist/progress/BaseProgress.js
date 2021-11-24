@@ -1,4 +1,4 @@
-import { arrayClear } from "../";
+import { arrayClear } from "../collections/arrayClear";
 export class BaseProgress {
     attached = new Array();
     soFar = null;

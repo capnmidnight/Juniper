@@ -1,4 +1,4 @@
-import type { TypedEventBase } from "../";
+import { TypedEventBase } from "./EventBase";
 /**
  * Wait for a specific event, one time.
  * @param target - the event target.

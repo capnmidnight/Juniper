@@ -1,4 +1,4 @@
-import { BaseGraphNode } from "../";
+import { BaseGraphNode } from "./BaseGraphNode";
 export declare function buildTree<K, V>(items: readonly V[], getKey: (v: V) => K, getParentKey: (v: V) => K, getOrder?: (v: V) => number): TreeNode<V>;
 /**
  * A TreeNode is a GraphNode that can have only one parent.
@@ -19,6 +19,6 @@ export declare class TreeNode<ValueT> extends BaseGraphNode<ValueT> {
     search(predicate: (n: TreeNode<ValueT>) => boolean): TreeNode<ValueT>;
     get parent(): TreeNode<ValueT>;
     get children(): TreeNode<ValueT>[];
-    get isRoot(): any;
-    get isLeaf(): any;
+    get isRoot(): boolean;
+    get isLeaf(): boolean;
 }

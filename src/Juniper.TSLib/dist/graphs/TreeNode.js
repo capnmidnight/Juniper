@@ -1,4 +1,4 @@
-import { BaseGraphNode } from "../";
+import { BaseGraphNode } from "./BaseGraphNode";
 export function buildTree(items, getKey, getParentKey, getOrder) {
     const rootNode = new TreeNode(null);
     const nodes = new Map();

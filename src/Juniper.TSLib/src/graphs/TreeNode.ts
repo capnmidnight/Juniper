@@ -1,4 +1,4 @@
-import { BaseGraphNode } from "../";
+import { BaseGraphNode } from "./BaseGraphNode";
 
 export function buildTree<K, V>(
     items: readonly V[],

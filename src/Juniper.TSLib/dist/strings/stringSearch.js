@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from "../";
+import { isNullOrUndefined } from "../typeChecks";
 /**
  * Performs the Boyer-Moore fast string search algorithm
  * over Unicode graphemes, instead of individual bytes

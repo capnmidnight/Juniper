@@ -1,4 +1,4 @@
-import { BaseParentProgressCallback } from "../";
+import { BaseParentProgressCallback } from "./BaseParentProgressCallback";
 export function progressPopper(progress) {
     return new PoppableParentProgressCallback(progress);
 }

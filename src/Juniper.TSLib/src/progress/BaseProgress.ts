@@ -1,4 +1,5 @@
-import { arrayClear, IProgress } from "../";
+import { arrayClear } from "../collections/arrayClear";
+import type { IProgress } from "./IProgress";
 
 export abstract class BaseProgress implements IProgress {
     private readonly attached = new Array<IProgress>();

@@ -1,4 +1,6 @@
-import { add, Exception, isDefined, isGoodNumber, isString } from "../";
+import { Exception } from "../Exception";
+import { isDefined, isGoodNumber, isString } from "../typeChecks";
+import { add } from "./add";
 function targetValidateEvent(target, type) {
     return ("on" + type) in target;
 }

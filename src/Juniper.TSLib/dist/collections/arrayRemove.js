@@ -1,4 +1,4 @@
-import { arrayRemoveAt } from "../";
+import { arrayRemoveAt } from "./arrayRemoveAt";
 /**
  * Removes a given item from an array, returning true if the item was removed.
  */

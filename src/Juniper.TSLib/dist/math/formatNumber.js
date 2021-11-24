@@ -1,4 +1,4 @@
-import { isNumber } from "../";
+import { isNumber } from "../typeChecks";
 export function formatNumber(value, digits = 0) {
     if (isNumber(value)) {
         return value.toFixed(digits);

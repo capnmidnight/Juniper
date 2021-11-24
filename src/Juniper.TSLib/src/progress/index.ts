@@ -1,5 +1,6 @@
 export * from "./BaseParentProgressCallback";
 export * from "./BaseProgress";
+export * from "./ChildProgressCallback";
 export * from "./IProgress";
 export * from "./progressCombine";
 export * from "./progressOfArray";

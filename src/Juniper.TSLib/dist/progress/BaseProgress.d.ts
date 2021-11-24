@@ -1,4 +1,4 @@
-import { IProgress } from "../";
+import type { IProgress } from "./IProgress";
 export declare abstract class BaseProgress implements IProgress {
     private readonly attached;
     private soFar;

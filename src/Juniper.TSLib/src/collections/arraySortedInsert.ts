@@ -1,4 +1,6 @@
-import { arrayBinarySearch, arrayInsertAt, isBoolean, isDefined, isFunction, isNullOrUndefined } from "../";
+import { isBoolean, isDefined, isFunction, isNullOrUndefined } from "../typeChecks";
+import { arrayBinarySearch } from "./arrayBinarySearch";
+import { arrayInsertAt } from "./arrayInsertAt";
 
 /**
  * Performs an insert operation that maintains the sort

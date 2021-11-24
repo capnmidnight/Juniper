@@ -1,4 +1,4 @@
-import { BaseGraphNode } from "../";
+import { BaseGraphNode } from "./BaseGraphNode";
 export declare class GraphNode<ValueT> extends BaseGraphNode<ValueT> {
     connectTo(node: GraphNode<ValueT>): void;
     connectAt(child: GraphNode<ValueT>, index: number): void;
@@ -7,6 +7,6 @@ export declare class GraphNode<ValueT> extends BaseGraphNode<ValueT> {
     isConnectedTo(node: GraphNode<ValueT>): boolean;
     flatten(): GraphNode<ValueT>[];
     get connections(): GraphNode<ValueT>[];
-    get isEntryPoint(): any;
-    get isExitPoint(): any;
+    get isEntryPoint(): boolean;
+    get isExitPoint(): boolean;
 }

@@ -1,5 +1,5 @@
-import type { IProgress } from "../";
-import { progressSplitWeighted } from "../";
+import { IProgress } from "./IProgress";
+import { progressSplitWeighted } from "./progressSplit";
 
 export type subProgressCallback = (onProgress: IProgress) => Promise<any>;
 

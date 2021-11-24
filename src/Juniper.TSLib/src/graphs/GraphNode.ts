@@ -1,4 +1,4 @@
-import { BaseGraphNode } from "../";
+import { BaseGraphNode } from "./BaseGraphNode";
 
 export class GraphNode<ValueT> extends BaseGraphNode<ValueT>{
 

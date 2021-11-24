@@ -1,4 +1,4 @@
-import { isFunction, isObject } from "./";
+import { isFunction, isObject } from "./typeChecks";
 export function isDisposable(obj) {
     return isObject(obj)
         && "dispose" in obj

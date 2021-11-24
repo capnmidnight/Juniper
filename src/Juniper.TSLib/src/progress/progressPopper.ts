@@ -1,5 +1,5 @@
-import type { IProgress } from "../";
-import { BaseParentProgressCallback } from "../";
+import { BaseParentProgressCallback } from "./BaseParentProgressCallback";
+import { IProgress } from "./IProgress";
 
 export function progressPopper(progress: IProgress) {
     return new PoppableParentProgressCallback(progress);

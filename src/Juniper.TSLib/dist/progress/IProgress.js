@@ -1,4 +1,4 @@
-import { isDefined, isFunction } from "../";
+import { isDefined, isFunction } from "../typeChecks";
 export function isProgressCallback(obj) {
     return isDefined(obj)
         && isFunction(obj.report)

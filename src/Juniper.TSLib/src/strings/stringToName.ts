@@ -1,4 +1,4 @@
-import { isDefined } from "../";
+import { isDefined } from "../typeChecks";
 
 export function stringToName(...parts: string[]): string {
     const goodParts = [];

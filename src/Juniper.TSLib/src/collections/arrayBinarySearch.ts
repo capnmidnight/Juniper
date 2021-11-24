@@ -1,4 +1,4 @@
-import { isDefined, isNullOrUndefined } from "../";
+import { isDefined, isNullOrUndefined } from "../typeChecks";
 
 function defaultKeySelector<T>(obj: T): any {
     return obj;

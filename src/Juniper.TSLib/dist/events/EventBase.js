@@ -1,4 +1,6 @@
-import { arrayClear, arrayRemoveAt, isBoolean, isDefined, isFunction, isNullOrUndefined } from "../";
+import { arrayClear } from "../collections/arrayClear";
+import { arrayRemoveAt } from "../collections/arrayRemoveAt";
+import { isBoolean, isDefined, isFunction, isNullOrUndefined } from "../typeChecks";
 const allListeners = new WeakMap();
 export class EventBase {
     listeners = new Map();

@@ -1,4 +1,5 @@
-import { arrayBinarySearch, arrayBinarySearchByKey, arrayRemoveAt } from "../";
+import { arrayBinarySearch, arrayBinarySearchByKey } from "./arrayBinarySearch";
+import { arrayRemoveAt } from "./arrayRemoveAt";
 function removeAtIndex(arr, idx) {
     if (Number.isInteger(idx)) {
         arrayRemoveAt(arr, idx - 1);

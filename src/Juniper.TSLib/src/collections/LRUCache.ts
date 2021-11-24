@@ -1,4 +1,7 @@
-import { arrayClear, arrayRemove, isDefined, TypedEvent, TypedEventBase } from "../";
+import { TypedEvent, TypedEventBase } from "../events/EventBase";
+import { isDefined } from "../typeChecks";
+import { arrayClear } from "./arrayClear";
+import { arrayRemove } from "./arrayRemove";
 
 export class LRUCacheItemEvicted<KeyT, ValueT> extends TypedEvent<"itemevicted">
 {

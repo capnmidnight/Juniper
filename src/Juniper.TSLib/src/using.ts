@@ -1,4 +1,4 @@
-import { isFunction, isObject } from "./";
+import { isFunction, isObject } from "./typeChecks";
 
 export interface IDisposable {
     dispose(): void;

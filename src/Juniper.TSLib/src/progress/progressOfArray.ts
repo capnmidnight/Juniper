@@ -1,5 +1,5 @@
-import type { IProgress } from "../";
-import { progressSplitWeighted } from "../";
+import { IProgress } from "./IProgress";
+import { progressSplitWeighted } from "./progressSplit";
 
 export async function progressOfArray<T, U>(onProgress: IProgress | undefined, items: T[], callback: (val: T, prog: IProgress, i?: number) => Promise<U>) {
     const weights = items.map(() => 1);

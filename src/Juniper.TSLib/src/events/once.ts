@@ -1,5 +1,7 @@
-import type { TypedEventBase } from "../";
-import { add, Exception, isDefined, isGoodNumber, isString } from "../";
+import { Exception } from "../Exception";
+import { isDefined, isGoodNumber, isString } from "../typeChecks";
+import { add } from "./add";
+import { TypedEventBase } from "./EventBase";
 
 function targetValidateEvent(target: EventTarget, type: string) {
     return ("on" + type) in target;

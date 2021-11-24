@@ -1,4 +1,7 @@
-import { clamp, isNumber, project, unproject } from "../";
+import { isNumber } from "../typeChecks";
+import { clamp } from "./clamp";
+import { project } from "./project";
+import { unproject } from "./unproject";
 
 export function formatVolume(value: number): string {
     if (isNumber(value)) {

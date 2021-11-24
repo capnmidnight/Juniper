@@ -1,4 +1,4 @@
-import { progressSplitWeighted } from "../";
+import { progressSplitWeighted } from "./progressSplit";
 export async function progressTasksWeighted(prog, taskDefs) {
     const weights = new Array(taskDefs.length);
     const callbacks = new Array(taskDefs.length);
