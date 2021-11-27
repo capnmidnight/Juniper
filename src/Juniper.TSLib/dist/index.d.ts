@@ -1,6 +1,7 @@
 export * from "./collections";
 export * from "./events";
 export * from "./Exception";
+export * from "./flags";
 export * from "./graphs";
 export * from "./math";
 export * from "./progress";

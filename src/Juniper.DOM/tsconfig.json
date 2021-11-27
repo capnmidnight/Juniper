@@ -11,7 +11,7 @@
   "compileOnSave": true,
 
   "compilerOptions": {
-    "lib": [ "ESNext", "DOM", "WebWorker" ],
+    "lib": [ "ESNext", "DOM" ],
 
     "outDir": "dist/",
 

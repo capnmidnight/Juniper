@@ -8,7 +8,6 @@ export * from "./documentReady";
 export * from "./elementSetClass";
 export * from "./evts";
 export * from "./fadeOut";
-export * from "./flags";
 export * from "./getColumnIndex";
 export * from "./grid";
 export * from "./InputRangeWithNumber";
