@@ -52,7 +52,7 @@ export function isContinuous(tween) {
 /**
  * A lookup for the tween functions, so we don't have to use reflection every time we want one.
  **/
-export const functions = new Map([
+export const functions = /*@__PURE__*/ new Map([
     [TweenType.Linear, linear],
     [TweenType.LinearContinuous, linearContinuous],
     [TweenType.Quadratic, quadratic],

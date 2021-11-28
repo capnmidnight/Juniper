@@ -63,7 +63,7 @@ export function isContinuous(tween: TweenType): boolean {
 /**
  * A lookup for the tween functions, so we don't have to use reflection every time we want one.
  **/
-export const functions = new Map<TweenType, TweenFunc>([
+export const functions = /*@__PURE__*/ new Map<TweenType, TweenFunc>([
     [TweenType.Linear, linear],
     [TweenType.LinearContinuous, linearContinuous],
     [TweenType.Quadratic, quadratic],
