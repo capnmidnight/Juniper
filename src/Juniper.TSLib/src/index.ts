@@ -8,3 +8,4 @@ export * from "./progress";
 export * from "./strings";
 export * from "./typeChecks";
 export * from "./using";
+export * from "./workers";
