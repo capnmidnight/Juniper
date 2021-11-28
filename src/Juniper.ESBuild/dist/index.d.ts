@@ -14,7 +14,9 @@ export declare class Build {
     private readonly minWorkerEntries;
     private readonly isWatch;
     private readonly isTest;
+    private outDirName;
     constructor(args: string[]);
+    outDir(name: string): this;
     plugin(pgn: PluginFactory): this;
     define(def: DefineFactory): this;
     external(extern: string): this;

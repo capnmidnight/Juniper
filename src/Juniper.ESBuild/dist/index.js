@@ -11,10 +11,15 @@ export class Build {
     minWorkerEntries = new Array();
     isWatch;
     isTest;
+    outDirName = "wwwroot";
     constructor(args) {
         args.sort();
         this.isWatch = args.indexOf("--watch") !== -1;
         this.isTest = args.indexOf("--test") !== -1;
+    }
+    outDir(name) {
+        this.outDirName = name;
+        return this;
     }
     plugin(pgn) {
         this.plugins.push(pgn);
@@ -76,7 +81,7 @@ export class Build {
     }
     makeBundle(entryPoints, name, isTest, minify, isWorker) {
         const JS_EXT = minify ? ".min" : "";
-        const outdir = `wwwroot/${isWorker ? "workers" : "js"}`;
+        const outdir = `${this.outDirName}/${isWorker ? "workers" : "js"}`;
         const stub = isTest ? "-test" : "";
         const entryNames = `[dir]/[name]${stub}${JS_EXT}`;
         const define = {

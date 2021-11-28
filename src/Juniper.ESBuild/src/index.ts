@@ -20,11 +20,17 @@ export class Build {
     private readonly isWatch: boolean;
     private readonly isTest: boolean;
 
+    private outDirName = "wwwroot";
 
     constructor(args: string[]) {
         args.sort();
         this.isWatch = args.indexOf("--watch") !== -1;
         this.isTest = args.indexOf("--test") !== -1;
+    }
+
+    outDir(name: string) {
+        this.outDirName = name;
+        return this;
     }
 
     plugin(pgn: PluginFactory) {
@@ -95,7 +101,7 @@ export class Build {
 
     private makeBundle(entryPoints: string[], name: string, isTest: boolean, minify: boolean, isWorker: boolean) {
         const JS_EXT = minify ? ".min" : "";
-        const outdir = `wwwroot/${isWorker ? "workers" : "js"}`;
+        const outdir = `${this.outDirName}/${isWorker ? "workers" : "js"}`;
         const stub = isTest ? "-test" : "";
         const entryNames = `[dir]/[name]${stub}${JS_EXT}`;
         const define: DefMap = {
