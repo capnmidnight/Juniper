@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "juniper-dom",
+  "name": "juniper-tslib-worker",
   "private": true,
   "type": "module",
   "main": "dist/index.js",
@@ -8,13 +8,11 @@
     "init": "npm ci",
     "build": "tsc --build"
   },
+  "dependencies": {
+    "juniper-tslib": "file:../juniper-tslib"
+  },
   "devDependencies": {
     "tslib": "2.3.1",
     "typescript": "4.3.5"
-  },
-  "dependencies": {
-    "juniper-mediatypes": "file:../Juniper.MediaTypes.Browser",
-    "juniper-tslib": "file:../Juniper.TSLib",
-    "juniper-tslib-browser": "file:../Juniper.TSLib.Browser"
   }
 }

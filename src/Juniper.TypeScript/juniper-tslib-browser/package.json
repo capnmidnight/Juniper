@@ -9,7 +9,7 @@
     "build": "tsc --build"
   },
   "dependencies": {
-    "juniper-tslib": "file:../Juniper.TSLib"
+    "juniper-tslib": "file:../juniper-tslib"
   },
   "devDependencies": {
     "tslib": "2.3.1",
