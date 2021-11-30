@@ -11,9 +11,11 @@ export function isMacOS() {
     return /^mac/i.test(navigator.platform);
 }
 export function isIOS() {
-    return /iPad|iPhone|iPod/.test(navigator.platform)
+    return /iP(ad|hone|od)/.test(navigator.platform)
         || /Macintosh(.*?) FxiOS(.*?)\//.test(navigator.platform)
-        || isMacOS() && navigator.maxTouchPoints > 2;
+        || isMacOS()
+            && "maxTouchPoints" in navigator
+            && navigator.maxTouchPoints > 2;
 }
 export function isApple() {
     return isIOS()
@@ -51,10 +53,7 @@ export const oculusBrowserVersion = isOculusBrowser && {
     minor: parseFloat(oculusMatch[2]),
     patch: parseFloat(oculusMatch[3])
 };
-//export const isOculusGo = isOculusBrowser() && /pacific/i.test(navigator.userAgent);
-//export const isOculusQuest = isOculusBrowser() && /quest/i.test(navigator.userAgent);
-//export const isOculusQuest2 = isOculusBrowser() && /quest 2/i.test(navigator.userAgent);
-//export const isOculusQuest1 = isOculusBrowser() && !isOculusQuest2;
-export function hasFullscreenAPI() {
-    return "document" in globalThis && "requestFullscreen" in document.documentElement;
-}
+export const isOculusGo = isOculusBrowser && /pacific/i.test(navigator.userAgent);
+export const isOculusQuest = isOculusBrowser && /quest/i.test(navigator.userAgent);
+export const isOculusQuest2 = isOculusBrowser && /quest 2/i.test(navigator.userAgent);
+export const isOculusQuest1 = isOculusBrowser && !isOculusQuest2;

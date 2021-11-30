@@ -45,10 +45,6 @@ export function isArray(obj: any): obj is Array<any> {
     return obj instanceof Array;
 }
 
-export function isHTMLElement(obj: any): obj is HTMLElement {
-    return obj instanceof HTMLElement;
-}
-
 export function assertNever(x: never, msg?: string): never {
     throw new Error((msg || "Unexpected object: ") + x);
 }
@@ -82,14 +78,4 @@ export function isArrayBufferView(obj: any): obj is ArrayBufferView {
         || obj instanceof Float64Array
         || "BigUint64Array" in globalThis && obj instanceof globalThis["BigUint64Array"]
         || "BigInt64Array" in globalThis && obj instanceof globalThis["BigInt64Array"];
-}
-
-export function isXHRBodyInit(obj: any): obj is BodyInit {
-    return isString(obj)
-        || isArrayBufferView(obj)
-        || obj instanceof Blob
-        || obj instanceof FormData
-        || obj instanceof ArrayBuffer
-        || obj instanceof ReadableStream
-        || "Document" in globalThis && obj instanceof Document;
 }

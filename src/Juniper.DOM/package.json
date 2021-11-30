@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "juniper-mediatypes": "file:../Juniper.MediaTypes.Browser",
-    "juniper-tslib": "file:../Juniper.TSLib"
+    "juniper-tslib": "file:../Juniper.TSLib",
+    "juniper-tslib-browser": "file:../Juniper.TSLib.Browser"
   }
 }

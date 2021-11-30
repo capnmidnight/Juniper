@@ -35,9 +35,6 @@ export function isDate(obj) {
 export function isArray(obj) {
     return obj instanceof Array;
 }
-export function isHTMLElement(obj) {
-    return obj instanceof HTMLElement;
-}
 export function assertNever(x, msg) {
     throw new Error((msg || "Unexpected object: ") + x);
 }
@@ -66,13 +63,4 @@ export function isArrayBufferView(obj) {
         || obj instanceof Float64Array
         || "BigUint64Array" in globalThis && obj instanceof globalThis["BigUint64Array"]
         || "BigInt64Array" in globalThis && obj instanceof globalThis["BigInt64Array"];
-}
-export function isXHRBodyInit(obj) {
-    return isString(obj)
-        || isArrayBufferView(obj)
-        || obj instanceof Blob
-        || obj instanceof FormData
-        || obj instanceof ArrayBuffer
-        || obj instanceof ReadableStream
-        || "Document" in globalThis && obj instanceof Document;
 }

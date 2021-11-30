@@ -16,4 +16,7 @@ export declare const oculusBrowserVersion: {
     minor: number;
     patch: number;
 };
-export declare function hasFullscreenAPI(): boolean;
+export declare const isOculusGo: boolean;
+export declare const isOculusQuest: boolean;
+export declare const isOculusQuest2: boolean;
+export declare const isOculusQuest1: boolean;
