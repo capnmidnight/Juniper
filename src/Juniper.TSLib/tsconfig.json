@@ -11,25 +11,26 @@
   "compileOnSave": true,
 
   "compilerOptions": {
-    "lib": [ "ESNext", "WebWorker" ],
-
+    "composite": true,
+    "rootDir": "src/",
     "outDir": "dist/",
 
+    "lib": [ "ESNext", "WebWorker" ],
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Node",
-    "sourceMap": false,
-    "incremental": true,
 
     "declaration": true,
     "disableSizeLimit": true,
     "downlevelIteration": true,
     "importHelpers": true,
+    "incremental": true,
     "experimentalDecorators": false,
     "removeComments": false,
     "resolveJsonModule": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
+    "sourceMap": false,
 
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
