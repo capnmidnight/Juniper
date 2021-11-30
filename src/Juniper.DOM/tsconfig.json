@@ -11,9 +11,9 @@
   "compileOnSave": true,
 
   "references": [
-    { "path": "../Juniper.MediaTypes.Browser" },
-    { "path": "../Juniper.TSLib" },
-    { "path": "../Juniper.TSLib.Browser" }
+    { "path": "node_modules/juniper-mediatypes" },
+    { "path": "node_modules/juniper-tslib" },
+    { "path": "node_modules/juniper-tslib-browser" }
   ],
 
   "compilerOptions": {

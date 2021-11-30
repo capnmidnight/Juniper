@@ -9,7 +9,7 @@
   ],
 
   "references": [
-    { "path": "../Juniper.TSLib" }
+    { "path": "node_modules/juniper-tslib" }
   ],
 
   "compileOnSave": true,
