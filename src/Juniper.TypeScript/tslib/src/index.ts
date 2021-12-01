@@ -9,6 +9,7 @@ export * from "./hax";
 export * from "./math";
 export * from "./progress";
 export * from "./strings";
+export * from "./timers";
 export * from "./typeChecks";
 export * from "./units";
 export * from "./using";
