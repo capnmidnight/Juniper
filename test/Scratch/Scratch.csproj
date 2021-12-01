@@ -13,15 +13,15 @@
     <ProjectReference Include="..\..\lib\Juniper.NLayer.NAudioSupport\Juniper.NLayer.NAudioSupport.csproj" />
     <ProjectReference Include="..\..\lib\Juniper.Oculus.VR\Juniper.Oculus.VR.csproj" />
     <ProjectReference Include="..\..\lib\Juniper.Valve.VR\Juniper.Valve.VR.csproj" />
-    <ProjectReference Include="..\Juniper.Azure\Juniper.Azure.csproj" />
-    <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
-    <ProjectReference Include="..\Juniper.GoogleMaps\Juniper.GoogleMaps.csproj" />
-    <ProjectReference Include="..\Juniper.Imaging\Juniper.Imaging.csproj" />
-    <ProjectReference Include="..\Juniper.NeuroSky\Juniper.NeuroSky.csproj" />
-    <ProjectReference Include="..\Juniper.OpenWeatherMap\Juniper.OpenWeatherMap.csproj" />
-    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
-    <ProjectReference Include="..\Juniper.Sound\Juniper.Sound.csproj" />
-    <ProjectReference Include="..\Juniper.Tests\Juniper.Tests.csproj" />
-    <ProjectReference Include="..\Juniper.Windows\Juniper.Windows.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Azure\Juniper.Azure.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Client\Juniper.Client.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.GoogleMaps\Juniper.GoogleMaps.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Imaging\Juniper.Imaging.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.NeuroSky\Juniper.NeuroSky.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.OpenWeatherMap\Juniper.OpenWeatherMap.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Sound\Juniper.Sound.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Tests\Juniper.Tests.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Windows\Juniper.Windows.csproj" />
   </ItemGroup>
 </Project>

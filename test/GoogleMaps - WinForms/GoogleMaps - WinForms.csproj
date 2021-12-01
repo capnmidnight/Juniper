@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Juniper.Windows\Juniper.Windows.csproj" />
-    <ProjectReference Include="..\Juniper.GoogleMaps\Juniper.GoogleMaps.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Windows\Juniper.Windows.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.GoogleMaps\Juniper.GoogleMaps.csproj" />
   </ItemGroup>
 
 </Project>

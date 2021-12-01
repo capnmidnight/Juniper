@@ -13,8 +13,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Juniper.Sound\Juniper.Sound.csproj" />
-    <ProjectReference Include="..\Juniper.Azure\Juniper.Azure.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Sound\Juniper.Sound.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Azure\Juniper.Azure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Juniper.Windows\Juniper.Windows.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Windows\Juniper.Windows.csproj" />
   </ItemGroup>
 
   <ItemGroup>

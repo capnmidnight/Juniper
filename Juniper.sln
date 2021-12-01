@@ -19,25 +19,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{622B919C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.NeuroSky", "src\Juniper.NeuroSky\Juniper.NeuroSky.csproj", "{93E9DA18-7AE9-4A83-B2EF-5B5E71308DCE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeuroSky - Console", "src\NeuroSky - Console\NeuroSky - Console.csproj", "{A949A1B5-1953-46FB-8FEA-107B6AC79310}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NeuroSky - Console", "test\NeuroSky - Console\NeuroSky - Console.csproj", "{A949A1B5-1953-46FB-8FEA-107B6AC79310}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Tests", "src\Juniper.Tests\Juniper.Tests.csproj", "{89AA6BA5-C528-424F-9E1F-2A916EC0DBAE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Video Downloader", "src\Video Downloader\Video Downloader.csproj", "{28173EEF-EDB3-4E56-A851-AFE2E66243B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Video Downloader", "test\Video Downloader\Video Downloader.csproj", "{28173EEF-EDB3-4E56-A851-AFE2E66243B3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure Text to Speech - Console", "src\Azure Text to Speech - Console\Azure Text to Speech - Console.csproj", "{F71D0B3E-C425-426A-86FC-2C3A8DB672E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure Text to Speech - Console", "test\Azure Text to Speech - Console\Azure Text to Speech - Console.csproj", "{F71D0B3E-C425-426A-86FC-2C3A8DB672E8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleMaps - WinForms", "src\GoogleMaps - WinForms\GoogleMaps - WinForms.csproj", "{C7061267-84C6-4AA9-AA62-4A1D9F0A5F93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleMaps - WinForms", "test\GoogleMaps - WinForms\GoogleMaps - WinForms.csproj", "{C7061267-84C6-4AA9-AA62-4A1D9F0A5F93}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure Text to Speech - WinForms", "src\Azure Text to Speech - WinForms\Azure Text to Speech - WinForms.csproj", "{D6C9CC8A-2077-4F31-979F-3104613E1D37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure Text to Speech - WinForms", "test\Azure Text to Speech - WinForms\Azure Text to Speech - WinForms.csproj", "{D6C9CC8A-2077-4F31-979F-3104613E1D37}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Client", "src\Juniper.Client\Juniper.Client.csproj", "{BD5B6E34-CA14-4636-83C0-DA4AADDF08BE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Media Types", "src\Media Types\Media Types.csproj", "{28550D32-3E1C-46B6-AD93-69DFCEAA0481}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Media Types", "test\Media Types\Media Types.csproj", "{28550D32-3E1C-46B6-AD93-69DFCEAA0481}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tetris - Console", "src\Tetris - Console\Tetris - Console.csproj", "{B8E78C06-0505-4659-BA77-C91043F74D63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tetris - Console", "test\Tetris - Console\Tetris - Console.csproj", "{B8E78C06-0505-4659-BA77-C91043F74D63}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tetris - WinForms", "src\Tetris - WinForms\Tetris - WinForms.csproj", "{D039330A-0B5E-417D-AEE6-B3B0BC12E2DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tetris - WinForms", "test\Tetris - WinForms\Tetris - WinForms.csproj", "{D039330A-0B5E-417D-AEE6-B3B0BC12E2DF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Root", "src\Juniper.Root\Juniper.Root.csproj", "{9DF2B191-6D22-4925-8C5F-612418F86EC8}"
 EndProject
@@ -53,15 +53,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.LibJpeg.NET", "lib\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.NLayer.NAudioSupport", "lib\Juniper.NLayer.NAudioSupport\Juniper.NLayer.NAudioSupport.csproj", "{C8D0C109-8051-4F60-9770-2D7F53F38B1D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keyboard - WinForms", "src\Keyboard - WinForms\Keyboard - WinForms.csproj", "{69E5489C-0FF2-4371-BD9B-69681B92CC21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Keyboard - WinForms", "test\Keyboard - WinForms\Keyboard - WinForms.csproj", "{69E5489C-0FF2-4371-BD9B-69681B92CC21}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Windows", "src\Juniper.Windows\Juniper.Windows.csproj", "{55615C50-9D87-4A2E-98C1-D897CF86D30E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Valve.VR", "lib\Juniper.Valve.VR\Juniper.Valve.VR.csproj", "{179E185F-E89C-4211-BA3F-24029712FB88}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenVR - Console", "src\OpenVR - Console\OpenVR - Console.csproj", "{7C810744-A29E-44C7-AB5A-73FF0B72353B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenVR - Console", "test\OpenVR - Console\OpenVR - Console.csproj", "{7C810744-A29E-44C7-AB5A-73FF0B72353B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scratch", "src\Scratch\Scratch.csproj", "{2312416C-E79A-47A3-857B-2DCA29B0D777}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scratch", "test\Scratch\Scratch.csproj", "{2312416C-E79A-47A3-857B-2DCA29B0D777}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Oculus.VR", "lib\Juniper.Oculus.VR\Juniper.Oculus.VR.csproj", "{2FE607BB-5489-47C8-A3EC-66DC003B61BF}"
 EndProject
