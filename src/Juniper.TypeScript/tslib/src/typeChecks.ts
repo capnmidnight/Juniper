@@ -79,3 +79,17 @@ export function isArrayBufferView(obj: any): obj is ArrayBufferView {
         || "BigUint64Array" in globalThis && obj instanceof globalThis["BigUint64Array"]
         || "BigInt64Array" in globalThis && obj instanceof globalThis["BigInt64Array"];
 }
+
+export function isHTMLElement(obj: any): obj is HTMLElement {
+    return obj instanceof HTMLElement;
+}
+
+export function isXHRBodyInit(obj: any): obj is BodyInit {
+    return isString(obj)
+        || isArrayBufferView(obj)
+        || obj instanceof Blob
+        || obj instanceof FormData
+        || obj instanceof ArrayBuffer
+        || obj instanceof ReadableStream
+        || "Document" in globalThis && obj instanceof Document;
+}

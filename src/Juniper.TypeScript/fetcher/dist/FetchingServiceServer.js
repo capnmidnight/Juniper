@@ -1,4 +1,4 @@
-import { WorkerServer } from "juniper-tslib-worker";
+import { WorkerServer } from "juniper-tslib";
 import { FetchingServiceImpl } from "./FetchingServiceImpl";
 export class FetchingServiceServer extends WorkerServer {
     constructor(self) {

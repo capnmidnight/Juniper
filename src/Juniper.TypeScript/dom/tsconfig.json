@@ -12,8 +12,7 @@
 
   "references": [
     { "path": "node_modules/juniper-mediatypes" },
-    { "path": "node_modules/juniper-tslib" },
-    { "path": "node_modules/juniper-tslib-browser" }
+    { "path": "node_modules/juniper-tslib" }
   ],
 
   "compilerOptions": {

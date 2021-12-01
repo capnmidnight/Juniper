@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "juniper-tslib-worker",
+  "name": "juniper-fetcher",
   "private": true,
   "type": "module",
   "main": "dist/index.js",
@@ -12,9 +12,7 @@
   "dependencies": {
     "juniper-dom": "file:../dom",
     "juniper-mediatypes": "file:../mediatypes",
-    "juniper-tslib": "file:../tslib",
-    "juniper-tslib-browser": "file:../browser",
-    "juniper-tslib-worker": "file:../worker"
+    "juniper-tslib": "file:../tslib"
   },
   "devDependencies": {
     "juniper-esbuild": "file:../build",

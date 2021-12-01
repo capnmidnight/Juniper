@@ -1,4 +1,4 @@
-import { WorkerClient } from "juniper-tslib-browser";
+import { WorkerClient } from "juniper-tslib";
 function isDOMParsersSupportedType(type) {
     return type === "application/xhtml+xml"
         || type === "application/xml"

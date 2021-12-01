@@ -1,5 +1,5 @@
 import { BaseProgress, IProgress, isFunction} from "juniper-tslib";
-import { isHTMLElement } from "juniper-tslib-browser";
+import { isHTMLElement } from "juniper-tslib";
 import { elementApply, IElementAppliable } from "./tags";
 
 type EventListenerOpts = boolean | AddEventListenerOptions;

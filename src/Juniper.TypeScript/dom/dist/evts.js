@@ -1,5 +1,5 @@
 import { BaseProgress, isFunction } from "juniper-tslib";
-import { isHTMLElement } from "juniper-tslib-browser";
+import { isHTMLElement } from "juniper-tslib";
 import { elementApply } from "./tags";
 export function makeEnterKeyEventHandler(callback) {
     return (ev) => {

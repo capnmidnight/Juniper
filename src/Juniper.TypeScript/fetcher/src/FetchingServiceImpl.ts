@@ -1,6 +1,5 @@
 import type { IProgress } from "juniper-tslib";
-import { isDefined, isString, mapJoin, progressPopper } from "juniper-tslib";
-import { isXHRBodyInit } from "juniper-tslib-browser";
+import { isDefined, isString, isXHRBodyInit, mapJoin, progressPopper } from "juniper-tslib";
 import type { IFetchingService, IRequest, IRequestWithBody, IResponse } from "./IFetcher";
 import { ResponseTranslator } from "./ResponseTranslator";
 

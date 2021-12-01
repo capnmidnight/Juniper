@@ -57,3 +57,4 @@ export const isOculusGo = isOculusBrowser && /pacific/i.test(navigator.userAgent
 export const isOculusQuest = isOculusBrowser && /quest/i.test(navigator.userAgent);
 export const isOculusQuest2 = isOculusBrowser && /quest 2/i.test(navigator.userAgent);
 export const isOculusQuest1 = isOculusBrowser && !isOculusQuest2;
+export const isWorker = !("Document" in globalThis);

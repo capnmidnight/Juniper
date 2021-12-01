@@ -1,4 +1,4 @@
-import { WorkerPool } from "juniper-tslib-browser";
+import { WorkerPool } from "juniper-tslib";
 import { FetchingServiceImpl } from "./FetchingServiceImpl";
 export class BaseFetchingServicePool extends WorkerPool {
     fetcher = new FetchingServiceImpl();

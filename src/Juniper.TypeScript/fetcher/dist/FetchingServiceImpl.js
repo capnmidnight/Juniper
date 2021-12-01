@@ -1,5 +1,4 @@
-import { isDefined, isString, mapJoin, progressPopper } from "juniper-tslib";
-import { isXHRBodyInit } from "juniper-tslib-browser";
+import { isDefined, isString, isXHRBodyInit, mapJoin, progressPopper } from "juniper-tslib";
 import { ResponseTranslator } from "./ResponseTranslator";
 function trackProgress(name, xhr, target, onProgress, skipLoading, prevTask) {
     return new Promise((resolve, reject) => {

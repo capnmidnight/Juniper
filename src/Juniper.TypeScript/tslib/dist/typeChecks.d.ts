@@ -17,3 +17,5 @@ export declare function isDefined<T>(obj: T | null | undefined): obj is T;
 export declare function isEventListener(obj: EventListenerOrEventListenerObject): obj is EventListener;
 export declare function isEventListenerObject(obj: EventListenerOrEventListenerObject): obj is EventListenerObject;
 export declare function isArrayBufferView(obj: any): obj is ArrayBufferView;
+export declare function isHTMLElement(obj: any): obj is HTMLElement;
+export declare function isXHRBodyInit(obj: any): obj is BodyInit;

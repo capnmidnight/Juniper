@@ -1,6 +1,5 @@
-import { IProgress } from "juniper-tslib";
-import type { FullWorkerClientOptions, WorkerClient, WorkerConstructorT } from "juniper-tslib-browser";
-import { WorkerPool } from "juniper-tslib-browser";
+import type { FullWorkerClientOptions, WorkerClient, WorkerConstructorT } from "juniper-tslib";
+import { IProgress, WorkerPool } from "juniper-tslib";
 import { FetchingServiceClient } from "./FetchingServiceClient";
 import { FetchingServiceImpl } from "./FetchingServiceImpl";
 import type { IFetchingService, IRequest, IRequestWithBody, IResponse } from "./IFetcher";

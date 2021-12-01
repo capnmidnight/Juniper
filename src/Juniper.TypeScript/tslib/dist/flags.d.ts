@@ -20,3 +20,4 @@ export declare const isOculusGo: boolean;
 export declare const isOculusQuest: boolean;
 export declare const isOculusQuest2: boolean;
 export declare const isOculusQuest1: boolean;
+export declare const isWorker: boolean;
