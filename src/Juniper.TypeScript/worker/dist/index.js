@@ -1,2 +1,2 @@
-export * from "./workers";
+export * from "./WorkerServer";
 export * from "./typeChecks";
