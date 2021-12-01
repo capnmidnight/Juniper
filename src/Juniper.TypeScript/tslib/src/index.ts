@@ -5,6 +5,7 @@ export * from "./Exception";
 export * from "./flags";
 export * from "./gis";
 export * from "./graphs";
+export * from "./hax";
 export * from "./math";
 export * from "./progress";
 export * from "./strings";
