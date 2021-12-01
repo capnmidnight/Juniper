@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "juniper-tslib-worker",
+  "name": "juniper-tslib-browser",
   "private": true,
   "type": "module",
   "main": "dist/index.js",
@@ -9,7 +9,7 @@
     "build": "tsc --build"
   },
   "dependencies": {
-    "juniper-tslib": "file:../juniper-tslib"
+    "juniper-tslib": "file:../tslib"
   },
   "devDependencies": {
     "tslib": "2.3.1",
