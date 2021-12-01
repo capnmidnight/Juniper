@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "name": "juniper-tslib-worker",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "init": "npm ci",
+    "build": "node --experimental-modules esbuild.config.js",
+    "watch": "node --experimental-modules esbuild.config.js --watch"
+  },
+  "dependencies": {
+    "juniper-dom": "file:../dom",
+    "juniper-mediatypes": "file:../mediatypes",
+    "juniper-tslib": "file:../tslib",
+    "juniper-tslib-browser": "file:../browser",
+    "juniper-tslib-worker": "file:../worker"
+  },
+  "devDependencies": {
+    "juniper-esbuild": "file:../build",
+    "tslib": "2.3.1",
+    "typescript": "4.3.5"
+  }
+}
