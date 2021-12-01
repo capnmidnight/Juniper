@@ -18,4 +18,5 @@ export declare function isEventListener(obj: EventListenerOrEventListenerObject)
 export declare function isEventListenerObject(obj: EventListenerOrEventListenerObject): obj is EventListenerObject;
 export declare function isArrayBufferView(obj: any): obj is ArrayBufferView;
 export declare function isHTMLElement(obj: any): obj is HTMLElement;
+export declare function isArrayBuffer(val: any): val is ArrayBuffer;
 export declare function isXHRBodyInit(obj: any): obj is BodyInit;

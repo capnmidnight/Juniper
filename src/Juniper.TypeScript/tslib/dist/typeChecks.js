@@ -67,12 +67,18 @@ export function isArrayBufferView(obj) {
 export function isHTMLElement(obj) {
     return obj instanceof HTMLElement;
 }
+export function isArrayBuffer(val) {
+    return val && typeof ArrayBuffer !== "undefined" &&
+        (val instanceof ArrayBuffer ||
+            // Sometimes we get an ArrayBuffer that doesn't satisfy instanceof
+            (val.constructor && val.constructor.name === "ArrayBuffer"));
+}
 export function isXHRBodyInit(obj) {
     return isString(obj)
         || isArrayBufferView(obj)
         || obj instanceof Blob
         || obj instanceof FormData
-        || obj instanceof ArrayBuffer
+        || isArrayBuffer(obj)
         || obj instanceof ReadableStream
         || "Document" in globalThis && obj instanceof Document;
 }
