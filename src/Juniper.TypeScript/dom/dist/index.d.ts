@@ -7,6 +7,7 @@ export * from "./css";
 export * from "./DialogBox";
 export * from "./documentReady";
 export * from "./elementSetClass";
+export * from "./EventedGamepad";
 export * from "./evts";
 export * from "./fadeOut";
 export * from "./fonts";
