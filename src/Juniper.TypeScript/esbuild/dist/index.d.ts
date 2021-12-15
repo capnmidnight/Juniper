@@ -1,0 +1,30 @@
+import { Plugin } from "esbuild";
+declare type Define = [string, string];
+declare type DefineFactory = (minify: boolean) => Define;
+declare type PluginFactory = (minify: boolean) => Plugin;
+export declare class Build {
+    private readonly browserEntries;
+    private readonly minBrowserEntries;
+    private readonly testEntries;
+    private readonly minTestEntries;
+    private readonly workerEntries;
+    private readonly plugins;
+    private readonly defines;
+    private readonly externals;
+    private readonly minWorkerEntries;
+    private readonly isWatch;
+    private readonly isTest;
+    private outDirName;
+    constructor(args: string[]);
+    outDir(name: string): this;
+    plugin(pgn: PluginFactory): this;
+    define(def: DefineFactory): this;
+    external(extern: string): this;
+    bundle(name: string): this;
+    worker(name: string): this;
+    test(name: string): this;
+    private task;
+    run(): Promise<void>;
+    private makeBundle;
+}
+export {};
