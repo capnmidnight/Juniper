@@ -1,5 +1,5 @@
-import type { IPoint } from "./point.js";
-import { Point } from "./point.js";
+import type { IPoint } from "./Point";
+import { Point } from "./Point";
 import type { ISize } from "./Size";
 import { Size } from "./Size";
 export interface PaddingRect {

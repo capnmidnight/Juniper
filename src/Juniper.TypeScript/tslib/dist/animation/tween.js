@@ -49,20 +49,6 @@ export function isContinuous(tween) {
         || tween == TweenType.SineContinuous
         || tween == TweenType.BumpContinuous;
 }
-/**
- * A lookup for the tween functions, so we don't have to use reflection every time we want one.
- **/
-export const functions = /*@__PURE__*/ new Map([
-    [TweenType.Linear, linear],
-    [TweenType.LinearContinuous, linearContinuous],
-    [TweenType.Quadratic, quadratic],
-    [TweenType.QuadraticContinuous, quadraticContinuous],
-    [TweenType.Sine, sine],
-    [TweenType.SineContinuous, sineContinuous],
-    [TweenType.Bump, bump],
-    [TweenType.BumpContinuous, bumpContinuous],
-    [TweenType.Jump, jump]
-]);
 export function linear(t) {
     return t;
 }

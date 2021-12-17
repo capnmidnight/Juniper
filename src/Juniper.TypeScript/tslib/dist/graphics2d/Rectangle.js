@@ -1,5 +1,5 @@
 import { isDefined } from "../typeChecks";
-import { Point } from "./point.js";
+import { Point } from "./Point";
 import { Size } from "./Size";
 export class Rectangle {
     point;

@@ -44,10 +44,6 @@ export declare enum TweenType {
  * All functions return a value v, mapping the value t to one of the desired 'tween shapes.
  **/
 export declare function isContinuous(tween: TweenType): boolean;
-/**
- * A lookup for the tween functions, so we don't have to use reflection every time we want one.
- **/
-export declare const functions: Map<TweenType, TweenFunc>;
 export declare function linear(t: number): number;
 export declare function quadratic(t: number): number;
 export declare function sine(t: number): number;
