@@ -53,5 +53,5 @@ if (!hasFullscreenAPI()) {
 }
 
 export function hasFullscreenAPI() {
-    return "requestFullscreen" in document.documentElement;
+    return "requestFullscreen" in HTMLElement.prototype;
 }
