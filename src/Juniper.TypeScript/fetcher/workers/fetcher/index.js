@@ -23,54 +23,6 @@ var TweenType;
   TweenType2[TweenType2["BumpContinuous"] = 7] = "BumpContinuous";
   TweenType2[TweenType2["Jump"] = 8] = "Jump";
 })(TweenType || (TweenType = {}));
-var functions = /* @__PURE__ */ new Map([
-  [TweenType.Linear, linear],
-  [TweenType.LinearContinuous, linearContinuous],
-  [TweenType.Quadratic, quadratic],
-  [TweenType.QuadraticContinuous, quadraticContinuous],
-  [TweenType.Sine, sine],
-  [TweenType.SineContinuous, sineContinuous],
-  [TweenType.Bump, bump],
-  [TweenType.BumpContinuous, bumpContinuous],
-  [TweenType.Jump, jump]
-]);
-function linear(t2) {
-  return t2;
-}
-function quadratic(t2) {
-  return t2 * t2;
-}
-function sine(t2) {
-  var a = t2 * Math.PI;
-  return Math.sin(a);
-}
-function bump(t2, k) {
-  var a = t2 * Math.PI;
-  return 0.5 * (1 - Math.cos(a)) - k * Math.sin(2 * a);
-}
-function jump(t2, k) {
-  var a = (t2 - 0.5) * Math.PI;
-  return t2 * t2 + k * Math.cos(a);
-}
-function linearContinuous(t2, _k, d) {
-  if (d) {
-    return t2 - 1;
-  } else {
-    return 1 - t2;
-  }
-}
-function quadraticContinuous(t2, _k, d) {
-  t2 = linearContinuous(t2, null, d);
-  return Math.sign(t2) * quadratic(t2);
-}
-function sineContinuous(t2, _k, d) {
-  t2 = linearContinuous(t2, null, d);
-  return sine(t2);
-}
-function bumpContinuous(t2, k, d) {
-  t2 = linearContinuous(t2, null, d);
-  return bump(t2, k);
-}
 
 // ../tslib/dist/typeChecks.js
 function t(o, s, c) {
@@ -102,6 +54,12 @@ function isDefined(obj) {
 }
 function isArrayBufferView(obj) {
   return obj instanceof Uint8Array || obj instanceof Uint8ClampedArray || obj instanceof Int8Array || obj instanceof Uint16Array || obj instanceof Int16Array || obj instanceof Uint32Array || obj instanceof Int32Array || obj instanceof Float32Array || obj instanceof Float64Array || "BigUint64Array" in globalThis && obj instanceof globalThis["BigUint64Array"] || "BigInt64Array" in globalThis && obj instanceof globalThis["BigInt64Array"];
+}
+function isArrayBuffer(val) {
+  return val && typeof ArrayBuffer !== "undefined" && (val instanceof ArrayBuffer || val.constructor && val.constructor.name === "ArrayBuffer");
+}
+function isXHRBodyInit(obj) {
+  return isString(obj) || isArrayBufferView(obj) || obj instanceof Blob || obj instanceof FormData || isArrayBuffer(obj) || obj instanceof ReadableStream || "Document" in globalThis && obj instanceof Document;
 }
 
 // ../tslib/dist/collections/arrayRemoveAt.js
@@ -239,6 +197,100 @@ function mapJoin(dest, ...sources) {
   return dest;
 }
 
+// ../tslib/dist/eventSystem/PointerName.js
+var PointerName;
+(function(PointerName2) {
+  PointerName2[PointerName2["LocalUser"] = 0] = "LocalUser";
+  PointerName2[PointerName2["Mouse"] = 1] = "Mouse";
+  PointerName2[PointerName2["Pen"] = 2] = "Pen";
+  PointerName2[PointerName2["Touch0"] = 3] = "Touch0";
+  PointerName2[PointerName2["Touch1"] = 4] = "Touch1";
+  PointerName2[PointerName2["Touch2"] = 5] = "Touch2";
+  PointerName2[PointerName2["Touch3"] = 6] = "Touch3";
+  PointerName2[PointerName2["Touch4"] = 7] = "Touch4";
+  PointerName2[PointerName2["Touch5"] = 8] = "Touch5";
+  PointerName2[PointerName2["Touch6"] = 9] = "Touch6";
+  PointerName2[PointerName2["Touch7"] = 10] = "Touch7";
+  PointerName2[PointerName2["Touch8"] = 11] = "Touch8";
+  PointerName2[PointerName2["Touch9"] = 12] = "Touch9";
+  PointerName2[PointerName2["Touch10"] = 13] = "Touch10";
+  PointerName2[PointerName2["Touches"] = 14] = "Touches";
+  PointerName2[PointerName2["MotionController"] = 15] = "MotionController";
+  PointerName2[PointerName2["MotionControllerLeft"] = 16] = "MotionControllerLeft";
+  PointerName2[PointerName2["MotionControllerRight"] = 17] = "MotionControllerRight";
+  PointerName2[PointerName2["RemoteUser"] = 18] = "RemoteUser";
+})(PointerName || (PointerName = {}));
+
+// ../tslib/dist/eventSystem/Direction.js
+var Direction;
+(function(Direction2) {
+  Direction2[Direction2["Forward"] = 1] = "Forward";
+  Direction2[Direction2["Stopped"] = 0] = "Stopped";
+  Direction2[Direction2["Reverse"] = -1] = "Reverse";
+})(Direction || (Direction = {}));
+
+// ../tslib/dist/eventSystem/Hand.js
+var Hand;
+(function(Hand2) {
+  Hand2["None"] = "";
+  Hand2["Left"] = "left";
+  Hand2["Right"] = "right";
+})(Hand || (Hand = {}));
+
+// ../tslib/dist/eventSystem/Interaction.js
+var Interaction;
+(function(Interaction2) {
+  Interaction2["None"] = "none";
+  Interaction2["Entered"] = "entered";
+  Interaction2["EnteredDisabled"] = "entereddisabled";
+  Interaction2["Pressed"] = "pressed";
+  Interaction2["PressedDisabled"] = "presseddisabled";
+  Interaction2["Clicked"] = "clicked";
+  Interaction2["ClickedDisabled"] = "clickeddisabled";
+  Interaction2["DraggingStarted"] = "draggingstarted";
+  Interaction2["DraggingStartedDisabled"] = "draggingstarteddisabled";
+  Interaction2["Dragged"] = "dragged";
+  Interaction2["DraggingEnded"] = "draggingended";
+  Interaction2["Released"] = "released";
+  Interaction2["Exited"] = "exited";
+  Interaction2["Opened"] = "opened";
+  Interaction2["Closed"] = "closed";
+  Interaction2["Error"] = "error";
+  Interaction2["Success"] = "success";
+  Interaction2["StartUp"] = "startup";
+  Interaction2["ShutDown"] = "shutdown";
+  Interaction2["Scrolled"] = "scrolled";
+})(Interaction || (Interaction = {}));
+
+// ../tslib/dist/eventSystem/MouseButton.js
+var MouseButton;
+(function(MouseButton2) {
+  MouseButton2[MouseButton2["Mouse0"] = 0] = "Mouse0";
+  MouseButton2[MouseButton2["Mouse1"] = 1] = "Mouse1";
+  MouseButton2[MouseButton2["Mouse2"] = 2] = "Mouse2";
+  MouseButton2[MouseButton2["Mouse3"] = 3] = "Mouse3";
+  MouseButton2[MouseButton2["Mouse4"] = 4] = "Mouse4";
+})(MouseButton || (MouseButton = {}));
+var MouseButtons;
+(function(MouseButtons2) {
+  MouseButtons2[MouseButtons2["None"] = 0] = "None";
+  MouseButtons2[MouseButtons2["Mouse0"] = 1] = "Mouse0";
+  MouseButtons2[MouseButtons2["Mouse1"] = 2] = "Mouse1";
+  MouseButtons2[MouseButtons2["Mouse2"] = 4] = "Mouse2";
+  MouseButtons2[MouseButtons2["Mouse3"] = 8] = "Mouse3";
+  MouseButtons2[MouseButtons2["Mouse4"] = 16] = "Mouse4";
+})(MouseButtons || (MouseButtons = {}));
+
+// ../tslib/dist/eventSystem/VirtualButtons.js
+var VirtualButtons;
+(function(VirtualButtons2) {
+  VirtualButtons2[VirtualButtons2["None"] = 0] = "None";
+  VirtualButtons2[VirtualButtons2["Primary"] = 1] = "Primary";
+  VirtualButtons2[VirtualButtons2["Secondary"] = 2] = "Secondary";
+  VirtualButtons2[VirtualButtons2["Menu"] = 3] = "Menu";
+  VirtualButtons2[VirtualButtons2["Info"] = 4] = "Info";
+})(VirtualButtons || (VirtualButtons = {}));
+
 // ../tslib/dist/flags.js
 var oculusBrowserPattern = /OculusBrowser\/(\d+)\.(\d+)\.(\d+)/i;
 var oculusMatch = navigator.userAgent.match(oculusBrowserPattern);
@@ -251,6 +303,7 @@ var oculusBrowserVersion = isOculusBrowser && {
 var isOculusGo = isOculusBrowser && /pacific/i.test(navigator.userAgent);
 var isOculusQuest = isOculusBrowser && /quest/i.test(navigator.userAgent);
 var isOculusQuest2 = isOculusBrowser && /quest 2/i.test(navigator.userAgent);
+var isWorker = !("Document" in globalThis);
 
 // ../tslib/dist/gis/Datum.js
 var invF = 298.257223563;
@@ -283,6 +336,18 @@ var GlobeHemisphere;
   GlobeHemisphere2[GlobeHemisphere2["Northern"] = 0] = "Northern";
   GlobeHemisphere2[GlobeHemisphere2["Southern"] = 1] = "Southern";
 })(GlobeHemisphere || (GlobeHemisphere = {}));
+
+// ../tslib/dist/graphics2d/CubeMapFaceIndex.js
+var CubeMapFaceIndex;
+(function(CubeMapFaceIndex2) {
+  CubeMapFaceIndex2[CubeMapFaceIndex2["None"] = -1] = "None";
+  CubeMapFaceIndex2[CubeMapFaceIndex2["Left"] = 0] = "Left";
+  CubeMapFaceIndex2[CubeMapFaceIndex2["Right"] = 1] = "Right";
+  CubeMapFaceIndex2[CubeMapFaceIndex2["Up"] = 2] = "Up";
+  CubeMapFaceIndex2[CubeMapFaceIndex2["Down"] = 3] = "Down";
+  CubeMapFaceIndex2[CubeMapFaceIndex2["Back"] = 4] = "Back";
+  CubeMapFaceIndex2[CubeMapFaceIndex2["Front"] = 5] = "Front";
+})(CubeMapFaceIndex || (CubeMapFaceIndex = {}));
 
 // ../tslib/dist/math/angleClamp.js
 var Tau = 2 * Math.PI;
@@ -389,93 +454,205 @@ var PoppableParentProgressCallback = class extends BaseParentProgressCallback {
   }
 };
 
-// ../tslib/dist/units/fileSize.js
-var labels = new Map([
-  [2, new Map([
-    [0, "B"],
-    [1, "KiB"],
-    [2, "MiB"],
-    [3, "GiB"],
-    [4, "TiB"]
-  ])],
-  [10, new Map([
-    [0, "B"],
-    [1, "KB"],
-    [2, "MB"],
-    [3, "GB"],
-    [4, "TB"]
-  ])]
-]);
+// ../tslib/dist/workers/WorkerClient.js
+var _WorkerClient = class extends TypedEventBase {
+  constructor(worker) {
+    super();
+    __publicField(this, "worker");
+    __publicField(this, "taskCounter", 0);
+    __publicField(this, "invocations", new Map());
+    this.worker = worker;
+    if (!_WorkerClient.isSupported) {
+      console.warn("Workers are not supported on this system.");
+    }
+    this.worker.addEventListener("message", (evt) => {
+      const data = evt.data;
+      switch (data.type) {
+        case "event":
+          this.propogateEvent(data);
+          break;
+        case "progress":
+          this.progressReport(data);
+          break;
+        case "return":
+          this.methodReturned(data);
+          break;
+        case "error":
+          this.invocationError(data);
+          break;
+        default:
+          assertNever(data);
+      }
+    });
+  }
+  postMessage(message, transferables) {
+    if (message.type !== "methodCall") {
+      assertNever(message.type);
+    }
+    if (transferables) {
+      this.worker.postMessage(message, transferables);
+    } else {
+      this.worker.postMessage(message);
+    }
+  }
+  dispose() {
+    this.worker.terminate();
+  }
+  propogateEvent(data) {
+    const evt = new TypedEvent(data.eventName);
+    this.dispatchEvent(Object.assign(evt, data.data));
+  }
+  progressReport(data) {
+    const invocation = this.invocations.get(data.taskID);
+    const { onProgress } = invocation;
+    if (onProgress) {
+      onProgress.report(data.soFar, data.total, data.msg, data.est);
+    }
+  }
+  methodReturned(data) {
+    const messageHandler = this.removeInvocation(data.taskID);
+    const { resolve } = messageHandler;
+    resolve(data.returnValue);
+  }
+  invocationError(data) {
+    const messageHandler = this.removeInvocation(data.taskID);
+    const { reject, methodName } = messageHandler;
+    reject(new Error(`${methodName} failed. Reason: ${data.errorMessage}`));
+  }
+  removeInvocation(taskID) {
+    const invocation = this.invocations.get(taskID);
+    this.invocations.delete(taskID);
+    return invocation;
+  }
+  callMethod(methodName, parameters, transferables, onProgress) {
+    if (!_WorkerClient.isSupported) {
+      return Promise.reject(new Error("Workers are not supported on this system."));
+    }
+    let params = null;
+    let tfers = null;
+    if (isProgressCallback(parameters)) {
+      onProgress = parameters;
+      parameters = null;
+      transferables = null;
+    }
+    if (isProgressCallback(transferables) && !onProgress) {
+      onProgress = transferables;
+      transferables = null;
+    }
+    if (isArray(parameters)) {
+      params = parameters;
+    }
+    if (isArray(transferables)) {
+      tfers = transferables;
+    }
+    const taskID = this.taskCounter++;
+    return new Promise((resolve, reject) => {
+      const invocation = {
+        onProgress,
+        resolve,
+        reject,
+        methodName
+      };
+      this.invocations.set(taskID, invocation);
+      let message = null;
+      if (isDefined(parameters)) {
+        message = {
+          type: "methodCall",
+          taskID,
+          methodName,
+          params
+        };
+      } else {
+        message = {
+          type: "methodCall",
+          taskID,
+          methodName
+        };
+      }
+      this.postMessage(message, tfers);
+    });
+  }
+};
+var WorkerClient = _WorkerClient;
+__publicField(WorkerClient, "isSupported", "Worker" in globalThis);
 
-// ../tslib/dist/units/length.js
-var MICROMETERS_PER_MILLIMETER = 1e3;
-var MILLIMETERS_PER_CENTIMETER = 10;
-var CENTIMETERS_PER_INCH = 2.54;
-var CENTIMETERS_PER_METER = 100;
-var INCHES_PER_HAND = 4;
-var HANDS_PER_FOOT = 3;
-var FEET_PER_YARD = 3;
-var FEET_PER_ROD = 16.5;
-var METERS_PER_KILOMETER = 1e3;
-var RODS_PER_FURLONG = 40;
-var FURLONGS_PER_MILE = 8;
-var MICROMETERS_PER_CENTIMETER = MICROMETERS_PER_MILLIMETER * MILLIMETERS_PER_CENTIMETER;
-var MICROMETERS_PER_INCH = MICROMETERS_PER_CENTIMETER * CENTIMETERS_PER_INCH;
-var MICROMETERS_PER_HAND = MICROMETERS_PER_INCH * INCHES_PER_HAND;
-var MICROMETERS_PER_FOOT = MICROMETERS_PER_HAND * HANDS_PER_FOOT;
-var MICROMETERS_PER_YARD = MICROMETERS_PER_FOOT * FEET_PER_YARD;
-var MICROMETERS_PER_METER = MICROMETERS_PER_CENTIMETER * CENTIMETERS_PER_METER;
-var MICROMETERS_PER_ROD = MICROMETERS_PER_FOOT * FEET_PER_ROD;
-var MICROMETERS_PER_FURLONG = MICROMETERS_PER_ROD * RODS_PER_FURLONG;
-var MICROMETERS_PER_KILOMETER = MICROMETERS_PER_METER * METERS_PER_KILOMETER;
-var MICROMETERS_PER_MILE = MICROMETERS_PER_FURLONG * FURLONGS_PER_MILE;
-var MILLIMETERS_PER_INCH = MILLIMETERS_PER_CENTIMETER * CENTIMETERS_PER_INCH;
-var MILLIMETERS_PER_HAND = MILLIMETERS_PER_INCH * INCHES_PER_HAND;
-var MILLIMETERS_PER_FOOT = MILLIMETERS_PER_HAND * HANDS_PER_FOOT;
-var MILLIMETERS_PER_YARD = MILLIMETERS_PER_FOOT * FEET_PER_YARD;
-var MILLIMETERS_PER_METER = MILLIMETERS_PER_CENTIMETER * CENTIMETERS_PER_METER;
-var MILLIMETERS_PER_ROD = MILLIMETERS_PER_FOOT * FEET_PER_ROD;
-var MILLIMETERS_PER_FURLONG = MILLIMETERS_PER_ROD * RODS_PER_FURLONG;
-var MILLIMETERS_PER_KILOMETER = MILLIMETERS_PER_METER * METERS_PER_KILOMETER;
-var MILLIMETERS_PER_MILE = MILLIMETERS_PER_FURLONG * FURLONGS_PER_MILE;
-var CENTIMETERS_PER_HAND = CENTIMETERS_PER_INCH * INCHES_PER_HAND;
-var CENTIMETERS_PER_FOOT = CENTIMETERS_PER_HAND * HANDS_PER_FOOT;
-var CENTIMETERS_PER_YARD = CENTIMETERS_PER_FOOT * FEET_PER_YARD;
-var CENTIMETERS_PER_ROD = CENTIMETERS_PER_FOOT * FEET_PER_ROD;
-var CENTIMETERS_PER_FURLONG = CENTIMETERS_PER_ROD * RODS_PER_FURLONG;
-var CENTIMETERS_PER_KILOMETER = CENTIMETERS_PER_METER * METERS_PER_KILOMETER;
-var CENTIMETERS_PER_MILE = CENTIMETERS_PER_FURLONG * FURLONGS_PER_MILE;
-var INCHES_PER_FOOT = INCHES_PER_HAND * HANDS_PER_FOOT;
-var INCHES_PER_YARD = INCHES_PER_FOOT * FEET_PER_YARD;
-var INCHES_PER_METER = CENTIMETERS_PER_METER / CENTIMETERS_PER_INCH;
-var INCHES_PER_ROD = INCHES_PER_FOOT * FEET_PER_ROD;
-var INCHES_PER_FURLONG = INCHES_PER_ROD * RODS_PER_FURLONG;
-var INCHES_PER_KILOMETER = INCHES_PER_METER * METERS_PER_KILOMETER;
-var INCHES_PER_MILE = INCHES_PER_FURLONG * FURLONGS_PER_MILE;
-var HANDS_PER_YARD = HANDS_PER_FOOT * FEET_PER_YARD;
-var HANDS_PER_METER = CENTIMETERS_PER_METER / CENTIMETERS_PER_HAND;
-var HANDS_PER_ROD = HANDS_PER_FOOT * FEET_PER_ROD;
-var HANDS_PER_FURLONG = HANDS_PER_ROD * RODS_PER_FURLONG;
-var HANDS_PER_KILOMETER = HANDS_PER_METER * METERS_PER_KILOMETER;
-var HANDS_PER_MILE = HANDS_PER_FURLONG * FURLONGS_PER_MILE;
-var FEET_PER_METER = INCHES_PER_METER / INCHES_PER_FOOT;
-var FEET_PER_FURLONG = FEET_PER_ROD * RODS_PER_FURLONG;
-var FEET_PER_KILOMETER = FEET_PER_METER * METERS_PER_KILOMETER;
-var FEET_PER_MILE = FEET_PER_FURLONG * FURLONGS_PER_MILE;
-var YARDS_PER_METER = INCHES_PER_METER / INCHES_PER_YARD;
-var YARDS_PER_ROD = FEET_PER_ROD / FEET_PER_YARD;
-var YARDS_PER_FURLONG = YARDS_PER_ROD * RODS_PER_FURLONG;
-var YARDS_PER_KILOMETER = YARDS_PER_METER * METERS_PER_KILOMETER;
-var YARDS_PER_MILE = YARDS_PER_FURLONG * FURLONGS_PER_MILE;
-var METERS_PER_ROD = FEET_PER_ROD / FEET_PER_METER;
-var METERS_PER_FURLONG = METERS_PER_ROD * RODS_PER_FURLONG;
-var METERS_PER_MILE = METERS_PER_FURLONG * FURLONGS_PER_MILE;
-var RODS_PER_KILOMETER = METERS_PER_KILOMETER / METERS_PER_ROD;
-var RODS_PER_MILE = RODS_PER_FURLONG * FURLONGS_PER_MILE;
-var FURLONGS_PER_KILOMETER = METERS_PER_KILOMETER / METERS_PER_FURLONG;
-var KILOMETERS_PER_MILE = FURLONGS_PER_MILE / FURLONGS_PER_KILOMETER;
+// ../tslib/dist/workers/WorkerPool.js
+var WorkerPool = class extends TypedEventBase {
+  constructor(options, WorkerClientClass) {
+    super();
+    __publicField(this, "scriptPath");
+    __publicField(this, "taskCounter");
+    __publicField(this, "workers");
+    this.scriptPath = options.scriptPath;
+    let workerPoolSize = -1;
+    const workersDef = options.workers;
+    let workers = null;
+    if (isNumber(workersDef)) {
+      workerPoolSize = workersDef;
+    } else if (isDefined(workersDef)) {
+      this.taskCounter = workersDef.curTaskCounter;
+      workers = workersDef.workers;
+      workerPoolSize = workers.length;
+    } else {
+      workerPoolSize = navigator.hardwareConcurrency || 4;
+    }
+    if (workerPoolSize < 1) {
+      throw new Error("Worker pool size must be a postive integer greater than 0");
+    }
+    this.workers = new Array(workerPoolSize);
+    if (isNullOrUndefined(workers)) {
+      this.taskCounter = 0;
+      for (let i = 0; i < workerPoolSize; ++i) {
+        this.workers[i] = new WorkerClientClass(new Worker(this.scriptPath, { type: "module" }));
+      }
+    } else {
+      for (let i = 0; i < workerPoolSize; ++i) {
+        this.workers[i] = new WorkerClientClass(workers[i]);
+      }
+    }
+    for (const worker of this.workers) {
+      worker.addBubbler(this);
+    }
+  }
+  dispose() {
+    for (const worker of this.workers) {
+      worker.dispose();
+    }
+    arrayClear(this.workers);
+  }
+  callMethod(methodName, params, transferables, onProgress) {
+    if (!WorkerClient.isSupported) {
+      return Promise.reject(new Error("Workers are not supported on this system."));
+    }
+    let parameters = null;
+    let tfers = null;
+    if (isProgressCallback(params)) {
+      onProgress = params;
+      params = null;
+      transferables = null;
+    }
+    if (isProgressCallback(transferables) && !onProgress) {
+      onProgress = transferables;
+      transferables = null;
+    }
+    if (isArray(params)) {
+      parameters = params;
+    }
+    if (isArray(transferables)) {
+      tfers = transferables;
+    }
+    const worker = this.nextWorker();
+    return worker.callMethod(methodName, parameters, tfers, onProgress);
+  }
+  nextWorker() {
+    const taskID = this.taskCounter++;
+    const workerID = taskID % this.workers.length;
+    return this.workers[workerID];
+  }
+};
+__publicField(WorkerPool, "isSupported", "Worker" in globalThis);
 
-// ../worker/dist/workers/WorkerServer.js
+// ../tslib/dist/workers/WorkerServer.js
 var WorkerServerProgress = class extends BaseProgress {
   constructor(server, taskID) {
     super();
@@ -612,264 +789,6 @@ var WorkerServer = class {
     object.addEventListener(type, (evt) => this.onEvent(type, evt, makePayload, transferReturnValue));
   }
 };
-
-// ../browser/dist/fullscreen.js
-if (!hasFullscreenAPI()) {
-  const Elm = Element.prototype;
-  const Doc = Document.prototype;
-  if ("webkitRequestFullscreen" in Elm) {
-    Elm.requestFullscreen = Elm.webkitRequestFullscreen;
-    Doc.exitFullscreen = Doc.webkitRequestFullscreen;
-    Object.defineProperties(Doc, {
-      "fullscreenEnabled": {
-        get: function() {
-          return this.webkitFullscreenEnabled;
-        }
-      },
-      "fullscreenElement": {
-        get: function() {
-          return this.webkitFullscreenElement;
-        }
-      }
-    });
-  } else if ("mozRequestFullScreen" in Elm) {
-    Elm.requestFullscreen = Elm.mozRequestFullScreen;
-    Doc.exitFullscreen = Doc.mozCancelFullScreen;
-    Object.defineProperties(Doc, {
-      "fullscreenEnabled": {
-        get: function() {
-          return this.mozFullScreenEnabled;
-        }
-      },
-      "fullscreenElement": {
-        get: function() {
-          return this.mozFullScreenElement;
-        }
-      }
-    });
-  } else if ("msRequestFullscreen" in Elm) {
-    Elm.requestFullscreen = Elm.msRequestFullscreen;
-    Doc.exitFullscreen = Doc.msExitFullscreen;
-    Object.defineProperties(Doc, {
-      "fullscreenEnabled": {
-        get: function() {
-          return this.msFullscreenEnabled;
-        }
-      },
-      "fullscreenElement": {
-        get: function() {
-          return this.msFullscreenElement;
-        }
-      }
-    });
-  }
-}
-function hasFullscreenAPI() {
-  return "requestFullscreen" in document.documentElement;
-}
-
-// ../browser/dist/typeChecks.js
-function isXHRBodyInit(obj) {
-  return isString(obj) || isArrayBufferView(obj) || obj instanceof Blob || obj instanceof FormData || obj instanceof ArrayBuffer || obj instanceof ReadableStream || "Document" in globalThis && obj instanceof Document;
-}
-
-// ../browser/dist/workers/WorkerClient.js
-var _WorkerClient = class extends TypedEventBase {
-  constructor(worker) {
-    super();
-    __publicField(this, "worker");
-    __publicField(this, "taskCounter", 0);
-    __publicField(this, "invocations", new Map());
-    this.worker = worker;
-    if (!_WorkerClient.isSupported) {
-      console.warn("Workers are not supported on this system.");
-    }
-    this.worker.addEventListener("message", (evt) => {
-      const data = evt.data;
-      switch (data.type) {
-        case "event":
-          this.propogateEvent(data);
-          break;
-        case "progress":
-          this.progressReport(data);
-          break;
-        case "return":
-          this.methodReturned(data);
-          break;
-        case "error":
-          this.invocationError(data);
-          break;
-        default:
-          assertNever(data);
-      }
-    });
-  }
-  postMessage(message, transferables) {
-    if (message.type !== "methodCall") {
-      assertNever(message.type);
-    }
-    if (transferables) {
-      this.worker.postMessage(message, transferables);
-    } else {
-      this.worker.postMessage(message);
-    }
-  }
-  dispose() {
-    this.worker.terminate();
-  }
-  propogateEvent(data) {
-    const evt = new TypedEvent(data.eventName);
-    this.dispatchEvent(Object.assign(evt, data.data));
-  }
-  progressReport(data) {
-    const invocation = this.invocations.get(data.taskID);
-    const { onProgress } = invocation;
-    if (onProgress) {
-      onProgress.report(data.soFar, data.total, data.msg, data.est);
-    }
-  }
-  methodReturned(data) {
-    const messageHandler = this.removeInvocation(data.taskID);
-    const { resolve } = messageHandler;
-    resolve(data.returnValue);
-  }
-  invocationError(data) {
-    const messageHandler = this.removeInvocation(data.taskID);
-    const { reject, methodName } = messageHandler;
-    reject(new Error(`${methodName} failed. Reason: ${data.errorMessage}`));
-  }
-  removeInvocation(taskID) {
-    const invocation = this.invocations.get(taskID);
-    this.invocations.delete(taskID);
-    return invocation;
-  }
-  callMethod(methodName, parameters, transferables, onProgress) {
-    if (!_WorkerClient.isSupported) {
-      return Promise.reject(new Error("Workers are not supported on this system."));
-    }
-    let params = null;
-    let tfers = null;
-    if (isProgressCallback(parameters)) {
-      onProgress = parameters;
-      parameters = null;
-      transferables = null;
-    }
-    if (isProgressCallback(transferables) && !onProgress) {
-      onProgress = transferables;
-      transferables = null;
-    }
-    if (isArray(parameters)) {
-      params = parameters;
-    }
-    if (isArray(transferables)) {
-      tfers = transferables;
-    }
-    const taskID = this.taskCounter++;
-    return new Promise((resolve, reject) => {
-      const invocation = {
-        onProgress,
-        resolve,
-        reject,
-        methodName
-      };
-      this.invocations.set(taskID, invocation);
-      let message = null;
-      if (isDefined(parameters)) {
-        message = {
-          type: "methodCall",
-          taskID,
-          methodName,
-          params
-        };
-      } else {
-        message = {
-          type: "methodCall",
-          taskID,
-          methodName
-        };
-      }
-      this.postMessage(message, tfers);
-    });
-  }
-};
-var WorkerClient = _WorkerClient;
-__publicField(WorkerClient, "isSupported", "Worker" in globalThis);
-
-// ../browser/dist/workers/WorkerPool.js
-var WorkerPool = class extends TypedEventBase {
-  constructor(options, WorkerClientClass) {
-    super();
-    __publicField(this, "scriptPath");
-    __publicField(this, "taskCounter");
-    __publicField(this, "workers");
-    this.scriptPath = options.scriptPath;
-    let workerPoolSize = -1;
-    const workersDef = options.workers;
-    let workers = null;
-    if (isNumber(workersDef)) {
-      workerPoolSize = workersDef;
-    } else if (isDefined(workersDef)) {
-      this.taskCounter = workersDef.curTaskCounter;
-      workers = workersDef.workers;
-      workerPoolSize = workers.length;
-    } else {
-      workerPoolSize = navigator.hardwareConcurrency || 4;
-    }
-    if (workerPoolSize < 1) {
-      throw new Error("Worker pool size must be a postive integer greater than 0");
-    }
-    this.workers = new Array(workerPoolSize);
-    if (isNullOrUndefined(workers)) {
-      this.taskCounter = 0;
-      for (let i = 0; i < workerPoolSize; ++i) {
-        this.workers[i] = new WorkerClientClass(new Worker(this.scriptPath, { type: "module" }));
-      }
-    } else {
-      for (let i = 0; i < workerPoolSize; ++i) {
-        this.workers[i] = new WorkerClientClass(workers[i]);
-      }
-    }
-    for (const worker of this.workers) {
-      worker.addBubbler(this);
-    }
-  }
-  dispose() {
-    for (const worker of this.workers) {
-      worker.dispose();
-    }
-    arrayClear(this.workers);
-  }
-  callMethod(methodName, params, transferables, onProgress) {
-    if (!WorkerClient.isSupported) {
-      return Promise.reject(new Error("Workers are not supported on this system."));
-    }
-    let parameters = null;
-    let tfers = null;
-    if (isProgressCallback(params)) {
-      onProgress = params;
-      params = null;
-      transferables = null;
-    }
-    if (isProgressCallback(transferables) && !onProgress) {
-      onProgress = transferables;
-      transferables = null;
-    }
-    if (isArray(params)) {
-      parameters = params;
-    }
-    if (isArray(transferables)) {
-      tfers = transferables;
-    }
-    const worker = this.nextWorker();
-    return worker.callMethod(methodName, parameters, tfers, onProgress);
-  }
-  nextWorker() {
-    const taskID = this.taskCounter++;
-    const workerID = taskID % this.workers.length;
-    return this.workers[workerID];
-  }
-};
-__publicField(WorkerPool, "isSupported", "Worker" in globalThis);
 
 // src/ResponseTranslator.ts
 var ResponseTranslator = class {
