@@ -12,6 +12,7 @@
     "gl-matrix": "3.4.3",
     "juniper-dom": "file:../dom",
     "juniper-fetcher": "file:../fetcher",
+    "juniper-fetcher-base": "file:../fetcher-base",
     "juniper-tslib": "file:../tslib"
   },
   "devDependencies": {

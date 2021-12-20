@@ -1,12 +1,13 @@
 {
   "version": "1.0.0",
-  "name": "juniper-fetcher",
+  "name": "juniper-fetcher-worker",
   "private": true,
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
     "init": "npm ci",
-    "build": "tsc --build"
+    "build": "node --experimental-modules esbuild.config.js",
+    "watch": "node --experimental-modules esbuild.config.js --watch"
   },
   "dependencies": {
     "juniper-dom": "file:../dom",

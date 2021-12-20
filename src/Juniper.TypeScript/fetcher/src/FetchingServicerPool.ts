@@ -1,8 +1,8 @@
+import type { IFetchingService, IRequest, IRequestWithBody, IResponse } from "juniper-fetcher-base";
+import { FetchingServiceImpl } from "juniper-fetcher-base";
 import type { FullWorkerClientOptions, WorkerClient, WorkerConstructorT } from "juniper-tslib";
 import { IProgress, WorkerPool } from "juniper-tslib";
 import { FetchingServiceClient } from "./FetchingServiceClient";
-import { FetchingServiceImpl } from "./FetchingServiceImpl";
-import type { IFetchingService, IRequest, IRequestWithBody, IResponse } from "./IFetcher";
 
 export abstract class BaseFetchingServicePool<EventsT, FetcherWorkerClientT extends WorkerClient<EventsT> & IFetchingService>
     extends WorkerPool<EventsT, FetcherWorkerClientT>

@@ -11,6 +11,7 @@
   "references": [
     { "path": "node_modules/juniper-dom" },
     { "path": "node_modules/juniper-fetcher" },
+    { "path": "node_modules/juniper-fetcher-base" },
     { "path": "node_modules/juniper-tslib" }
   ],
 

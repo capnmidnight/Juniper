@@ -1,5 +1,5 @@
+import type { IFetchingService, IRequest, IRequestWithBody, IResponse } from "juniper-fetcher-base";
 import { IProgress, WorkerClient } from "juniper-tslib";
-import type { IFetchingService, IRequest, IRequestWithBody, IResponse } from "./IFetcher";
 export declare class FetchingServiceClient extends WorkerClient<void> implements IFetchingService {
     setRequestVerificationToken(value: string): void;
     private makeRequest;

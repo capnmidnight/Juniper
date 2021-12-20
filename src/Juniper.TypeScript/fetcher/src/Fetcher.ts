@@ -13,8 +13,8 @@ import {
     IFetchingService,
     IRequestWithBody,
     IResponse
-} from "./IFetcher";
-import { ResponseTranslator } from "./ResponseTranslator";
+} from "juniper-fetcher-base";
+import { ResponseTranslator } from "juniper-fetcher-base";
 
 
 let testAudio: HTMLAudioElement = null;

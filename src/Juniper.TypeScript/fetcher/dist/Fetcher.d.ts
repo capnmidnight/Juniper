@@ -1,8 +1,8 @@
 import type { CanvasImageTypes } from "juniper-dom";
 import { MediaType } from "juniper-mediatypes";
 import { IProgress } from "juniper-tslib";
-import { IFetcher, IFetcherGetHeadersAndProgressAndTimeoutAndWithCredentials, IFetcherGetResult, IFetcherHeadHeadersAndTimeoutAndWithCredentials, IFetcherHeadResult, IFetcherPostHeadersAndProgressAndBodyAndTimeoutAndWithCredentials, IFetcherPostResult, IFetchingService, IResponse } from "./IFetcher";
-import { ResponseTranslator } from "./ResponseTranslator";
+import { IFetcher, IFetcherGetHeadersAndProgressAndTimeoutAndWithCredentials, IFetcherGetResult, IFetcherHeadHeadersAndTimeoutAndWithCredentials, IFetcherHeadResult, IFetcherPostHeadersAndProgressAndBodyAndTimeoutAndWithCredentials, IFetcherPostResult, IFetchingService, IResponse } from "juniper-fetcher-base";
+import { ResponseTranslator } from "juniper-fetcher-base";
 declare type HTTPMethods = "GET" | "POST" | "HEAD";
 declare class RequestBuilder extends ResponseTranslator implements IFetcherGetHeadersAndProgressAndTimeoutAndWithCredentials, IFetcherPostHeadersAndProgressAndBodyAndTimeoutAndWithCredentials, IFetcherHeadHeadersAndTimeoutAndWithCredentials, IFetcherGetResult, IFetcherPostResult, IFetcherHeadResult {
     private readonly fetcher;

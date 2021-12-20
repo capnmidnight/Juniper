@@ -1,7 +1,7 @@
 import { BackgroundAudio, BackgroundVideo, getInput, hasImageBitmap, Img, Script, type } from "juniper-dom";
 import { Application_Javascript, Application_Json, Application_Wasm, mediaTypeGuessByFileName, Text_Plain, Text_Xml } from "juniper-mediatypes";
 import { assertNever, Exception, isDefined, isString, once, waitFor } from "juniper-tslib";
-import { ResponseTranslator } from "./ResponseTranslator";
+import { ResponseTranslator } from "juniper-fetcher-base";
 let testAudio = null;
 function shouldTry(path) {
     if (testAudio === null) {

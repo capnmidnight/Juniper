@@ -5,25 +5,6 @@ var __publicField = (obj, key, value) => {
   return value;
 };
 
-// ../tslib/dist/collections/arrayClear.js
-function arrayClear(arr) {
-  return arr.splice(0);
-}
-
-// ../tslib/dist/animation/tween.js
-var TweenType;
-(function(TweenType2) {
-  TweenType2[TweenType2["Linear"] = 0] = "Linear";
-  TweenType2[TweenType2["LinearContinuous"] = 1] = "LinearContinuous";
-  TweenType2[TweenType2["Quadratic"] = 2] = "Quadratic";
-  TweenType2[TweenType2["QuadraticContinuous"] = 3] = "QuadraticContinuous";
-  TweenType2[TweenType2["Sine"] = 4] = "Sine";
-  TweenType2[TweenType2["SineContinuous"] = 5] = "SineContinuous";
-  TweenType2[TweenType2["Bump"] = 6] = "Bump";
-  TweenType2[TweenType2["BumpContinuous"] = 7] = "BumpContinuous";
-  TweenType2[TweenType2["Jump"] = 8] = "Jump";
-})(TweenType || (TweenType = {}));
-
 // ../tslib/dist/typeChecks.js
 function t(o, s, c) {
   return typeof o === s || o instanceof c;
@@ -65,6 +46,11 @@ function isXHRBodyInit(obj) {
 // ../tslib/dist/collections/arrayRemoveAt.js
 function arrayRemoveAt(arr, idx) {
   return arr.splice(idx, 1)[0];
+}
+
+// ../tslib/dist/collections/arrayClear.js
+function arrayClear(arr) {
+  return arr.splice(0);
 }
 
 // ../tslib/dist/events/EventBase.js
@@ -336,18 +322,6 @@ var GlobeHemisphere;
   GlobeHemisphere2[GlobeHemisphere2["Northern"] = 0] = "Northern";
   GlobeHemisphere2[GlobeHemisphere2["Southern"] = 1] = "Southern";
 })(GlobeHemisphere || (GlobeHemisphere = {}));
-
-// ../tslib/dist/graphics2d/CubeMapFaceIndex.js
-var CubeMapFaceIndex;
-(function(CubeMapFaceIndex2) {
-  CubeMapFaceIndex2[CubeMapFaceIndex2["None"] = -1] = "None";
-  CubeMapFaceIndex2[CubeMapFaceIndex2["Left"] = 0] = "Left";
-  CubeMapFaceIndex2[CubeMapFaceIndex2["Right"] = 1] = "Right";
-  CubeMapFaceIndex2[CubeMapFaceIndex2["Up"] = 2] = "Up";
-  CubeMapFaceIndex2[CubeMapFaceIndex2["Down"] = 3] = "Down";
-  CubeMapFaceIndex2[CubeMapFaceIndex2["Back"] = 4] = "Back";
-  CubeMapFaceIndex2[CubeMapFaceIndex2["Front"] = 5] = "Front";
-})(CubeMapFaceIndex || (CubeMapFaceIndex = {}));
 
 // ../tslib/dist/math/angleClamp.js
 var Tau = 2 * Math.PI;
@@ -790,18 +764,10 @@ var WorkerServer = class {
   }
 };
 
-// src/ResponseTranslator.ts
+// ../fetcher-base/dist/ResponseTranslator.js
 var ResponseTranslator = class {
   async translateResponse(responseTask, translate) {
-    const {
-      status,
-      content,
-      contentType,
-      contentLength,
-      fileName,
-      headers,
-      date
-    } = await responseTask;
+    const { status, content, contentType, contentLength, fileName, headers, date } = await responseTask;
     return {
       status,
       content: await translate(content),
@@ -814,7 +780,7 @@ var ResponseTranslator = class {
   }
 };
 
-// src/FetchingServiceImpl.ts
+// ../fetcher-base/dist/FetchingServiceImpl.js
 function trackProgress(name, xhr, target, onProgress, skipLoading, prevTask) {
   return new Promise((resolve, reject) => {
     let prevDone = !prevTask;
@@ -1048,6 +1014,6 @@ function addFetcherMethods(server, fetcher) {
   server.addMethod("head", fetcher, fetcher.head);
 }
 
-// src/fetcher/index.ts
+// src/index.ts
 globalThis.server = new FetchingServiceServer(globalThis);
 //# sourceMappingURL=index.js.map

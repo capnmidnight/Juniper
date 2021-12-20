@@ -45,7 +45,7 @@
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
 
-    "noEmit": false,
+    "noEmit": true,
     "noEmitHelpers": true,
     "noEmitOnError": false,
     "noErrorTruncation": true,
