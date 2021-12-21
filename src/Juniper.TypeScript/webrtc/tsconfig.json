@@ -7,15 +7,9 @@
     "node_modules"
   ],
 
-  "references": [
-    { "path": "node_modules/juniper-tslib" }
-  ],
-
   "compileOnSave": true,
 
   "compilerOptions": {
-    "composite": true,
-
     "lib": [ "ESNext", "DOM" ],
     "target": "ESNext",
     "module": "ESNext",

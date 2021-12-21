@@ -8,14 +8,9 @@
     "node_modules"
   ],
 
-  "references": [
-    { "path": "node_modules/juniper-tslib" }
-  ],
-
   "compileOnSave": true,
 
   "compilerOptions": {
-    "composite": true,
     "rootDir": "src/",
 
     "lib": [ "ESNext", "WebWorker", "Webworker.Iterable", "DOM", "DOM.Iterable" ],
