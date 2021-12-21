@@ -1,6 +1,5 @@
 export * from "./collections";
 export * from "./events";
-export * from "./eventSystem";
 export * from "./Exception";
 export * from "./flags";
 export * from "./gis";

@@ -1,6 +1,6 @@
 import { backgroundColor, color, columnGap, display, Div, elementApply, elementClearChildren, elementToggleDisplay, getMonospaceFamily, gridAutoFlow, gridColumn, height, isModifierless, left, opacity, overflow, overflowY, padding, pointerEvents, position, styles, TextNode, top, width, zIndex } from "juniper-dom";
 import { assertNever } from "juniper-tslib";
-import { isWorkerLoggerMessageData, MessageType } from "./models";
+import { isWorkerLoggerMessageData } from "./models";
 function track(a, b) {
     return styles(gridColumn(`${a}/${b}`), getMonospaceFamily());
 }
@@ -77,13 +77,13 @@ export class WindowLogger {
             const slug = `worker:${name || this.workerCount.toFixed(0)}:`;
             if (isWorkerLoggerMessageData(evt.data)) {
                 switch (evt.data.method) {
-                    case MessageType.Log:
+                    case "log":
                         this.log(slug + evt.data.id, ...evt.data.values);
                         break;
-                    case MessageType.Delete:
+                    case "delete":
                         this.delete(slug + evt.data.id);
                         break;
-                    case MessageType.Clear:
+                    case "clear":
                         for (const key of this.logs.keys()) {
                             if (key.startsWith(slug)) {
                                 this.delete(key);

@@ -1,4 +1,4 @@
-import { KEY, MessageType } from "./models";
+import { KEY } from "./models";
 export class WorkerLogger {
     msg = {
         key: KEY,
@@ -13,13 +13,13 @@ export class WorkerLogger {
         self.postMessage(this.msg);
     }
     log(id, ...values) {
-        this.post(MessageType.Log, id, ...values);
+        this.post("log", id, ...values);
     }
     delete(id) {
-        this.post(MessageType.Delete, id);
+        this.post("delete", id);
     }
     clear() {
-        this.post(MessageType.Clear);
+        this.post("clear");
     }
     addWorker(_name, _worker) {
         // no-op

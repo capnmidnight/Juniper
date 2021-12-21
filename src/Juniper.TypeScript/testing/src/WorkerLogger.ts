@@ -17,15 +17,15 @@ export class WorkerLogger implements ILogger {
     }
 
     log(id: string, ...values: any[]): void {
-        this.post(MessageType.Log, id, ...values);
+        this.post("log", id, ...values);
     }
 
     delete(id: string): void {
-        this.post(MessageType.Delete, id);
+        this.post("delete", id);
     }
 
     clear(): void {
-        this.post(MessageType.Clear);
+        this.post("clear");
     }
 
     addWorker(_name: string, _worker: Worker): void {

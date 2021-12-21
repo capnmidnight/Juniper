@@ -1,4 +1,4 @@
-export enum MouseButton{
+export enum MouseButton {
     Mouse0 = 0,
     Mouse1 = 1,
     Mouse2 = 2,
@@ -6,7 +6,7 @@ export enum MouseButton{
     Mouse4 = 4
 }
 
-export enum MouseButtons{
+export enum MouseButtons {
     None = 0,
     Mouse0 = 1 << MouseButton.Mouse0,
     Mouse1 = 1 << MouseButton.Mouse1,

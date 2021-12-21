@@ -1,5 +1,5 @@
 import { AudioStreamSource, Pose } from "juniper-audio";
-import { PointerName } from "juniper-tslib";
+import { PointerName } from "juniper-dom";
 import { RemoteUser } from "./RemoteUser";
 export declare type ConferenceEventTypes = "error" | "info" | "serverConnected" | "serverDisconnected" | "serverFailed" | "roomJoined" | "roomLeft" | "userJoined" | "userLeft" | "userNameChanged" | "audioMuteStatusChanged" | "videoMuteStatusChanged" | "audioAdded" | "audioRemoved" | "videoAdded" | "videoRemoved" | "userPosed" | "userPointer" | "chat";
 export declare class ConferenceEvent<T extends ConferenceEventTypes> extends Event {

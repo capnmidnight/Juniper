@@ -1,4 +1,5 @@
-import { IDisposable, PointerName, TypedEvent, TypedEventBase } from "juniper-tslib";
+import { PointerName } from "juniper-dom";
+import { IDisposable, TypedEvent, TypedEventBase } from "juniper-tslib";
 import { UserLeftEvent, UserPointerEvent, UserPosedEvent } from "./ConferenceEvents";
 declare class RemoteUserEvent<T extends string> extends TypedEvent<T> {
     readonly user: RemoteUser;

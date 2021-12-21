@@ -1,10 +1,10 @@
+import { PointerName } from "juniper-dom";
 import {
     arrayClear,
     arrayRemove,
     arrayScan,
     IDisposable,
     isArrayBuffer,
-    PointerName,
     TypedEvent,
     TypedEventBase
 } from "juniper-tslib";

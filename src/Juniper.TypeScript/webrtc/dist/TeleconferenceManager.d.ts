@@ -1,6 +1,7 @@
 import type { AudioManager, DeviceManagerAudioInputChangedEvent } from "juniper-audio";
+import { PointerName } from "juniper-dom";
 import type { IDisposable } from "juniper-tslib";
-import { PointerName, TypedEventBase } from "juniper-tslib";
+import { TypedEventBase } from "juniper-tslib";
 import { ConferenceEvents } from "./ConferenceEvents";
 import { ConnectionState } from "./ConnectionState";
 import { DecayingGain } from "./DecayingGain";

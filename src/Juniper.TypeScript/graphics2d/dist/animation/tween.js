@@ -1,53 +1,14 @@
 /**
- * Different modes of animating a single value from 0 to 1.
- **/
-export var TweenType;
-(function (TweenType) {
-    /**
-     * The most basic form of `tween, values increase in proportion to time, from
-     * 0 to 1 in the forward direction, then 1 to 0 in the reverse direction.
-     **/
-    TweenType[TweenType["Linear"] = 0] = "Linear";
-    /**
-     * Values increase in proportion to time from -1 to 0 in the forward direction,
-     * then 0 to 1 in the reverse, rather than decreasing from 1 to 0.
-     **/
-    TweenType[TweenType["LinearContinuous"] = 1] = "LinearContinuous";
-    /**
-     * Values increase in proportion to the square of time, from 0 to 1 in the forward direction,
-     * then 1 to 0 in the reverse direction.
-     **/
-    TweenType[TweenType["Quadratic"] = 2] = "Quadratic";
-    /**
-     * Values increase in proportion to the square of time. from -1 to 0 in the forward direction,
-     * then 0 to 1 in the reverse direction.
-     **/
-    TweenType[TweenType["QuadraticContinuous"] = 3] = "QuadraticContinuous";
-    TweenType[TweenType["Sine"] = 4] = "Sine";
-    TweenType[TweenType["SineContinuous"] = 5] = "SineContinuous";
-    /**
-     * Similar to <see cref="Sine"/>, but values bump in the opposite direction slightly, before
-     * the beginning and the end of the curve.
-     **/
-    TweenType[TweenType["Bump"] = 6] = "Bump";
-    /**
-     * Similar to <see cref="Sine"/>, but values bump in the opposite direction slightly, before
-     * the beginning and the end of the curve.
-     **/
-    TweenType[TweenType["BumpContinuous"] = 7] = "BumpContinuous";
-    TweenType[TweenType["Jump"] = 8] = "Jump";
-})(TweenType || (TweenType = {}));
-/**
  * Implementations for each of the values in <see cref="TweenType"/>.
  * All functions receive a value t, representing the proportion of the way through the animation process we are
  * calculating. All functions take an extra `k` parameter, for scaling tertiary effects; most functions do not use it.
  * All functions return a value v, mapping the value t to one of the desired 'tween shapes.
  **/
 export function isContinuous(tween) {
-    return tween == TweenType.LinearContinuous
-        || tween == TweenType.QuadraticContinuous
-        || tween == TweenType.SineContinuous
-        || tween == TweenType.BumpContinuous;
+    return tween == "LinearContinuous"
+        || tween == "QuadraticContinuous"
+        || tween == "SineContinuous"
+        || tween == "BumpContinuous";
 }
 export function linear(t) {
     return t;

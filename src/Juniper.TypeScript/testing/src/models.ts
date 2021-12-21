@@ -7,11 +7,7 @@ export interface ILogger {
     addWorker(name: string, worker: Worker): void;
 }
 
-export enum MessageType {
-    Log = "log",
-    Delete = "delete",
-    Clear = "clear"
-}
+export type MessageType = "log" | "delete" | "clear";
 
 export const KEY = "XXX_QUAKE_LOGGER_XXX";
 

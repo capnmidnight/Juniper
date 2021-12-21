@@ -27,7 +27,7 @@ import {
     zIndex
 } from "juniper-dom";
 import { assertNever } from "juniper-tslib";
-import { ILogger, isWorkerLoggerMessageData, MessageType } from "./models";
+import { ILogger, isWorkerLoggerMessageData } from "./models";
 
 function track(a: number, b: number) {
     return styles(
@@ -141,13 +141,13 @@ export class WindowLogger implements ILogger, ErsatzElement {
             const slug = `worker:${name || this.workerCount.toFixed(0)}:`;
             if (isWorkerLoggerMessageData(evt.data)) {
                 switch (evt.data.method) {
-                    case MessageType.Log:
+                    case "log":
                         this.log(slug + evt.data.id, ...evt.data.values);
                         break;
-                    case MessageType.Delete:
+                    case "delete":
                         this.delete(slug + evt.data.id);
                         break;
-                    case MessageType.Clear:
+                    case "clear":
                         for (const key of this.logs.keys()) {
                             if (key.startsWith(slug)) {
                                 this.delete(key);

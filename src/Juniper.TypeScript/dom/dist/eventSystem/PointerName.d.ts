@@ -1,0 +1,21 @@
+export declare enum PointerName {
+    LocalUser = 0,
+    Mouse = 1,
+    Pen = 2,
+    Touch0 = 3,
+    Touch1 = 4,
+    Touch2 = 5,
+    Touch3 = 6,
+    Touch4 = 7,
+    Touch5 = 8,
+    Touch6 = 9,
+    Touch7 = 10,
+    Touch8 = 11,
+    Touch9 = 12,
+    Touch10 = 13,
+    Touches = 14,
+    MotionController = 15,
+    MotionControllerLeft = 16,
+    MotionControllerRight = 17,
+    RemoteUser = 18
+}

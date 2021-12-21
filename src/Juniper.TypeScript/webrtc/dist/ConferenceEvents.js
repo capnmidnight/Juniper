@@ -1,5 +1,5 @@
 import { Pose } from "juniper-audio";
-import { PointerName } from "juniper-tslib";
+import { PointerName } from "juniper-dom";
 export class ConferenceEvent extends Event {
     eventType;
     constructor(eventType) {

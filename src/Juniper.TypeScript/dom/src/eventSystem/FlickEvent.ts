@@ -1,4 +1,4 @@
-import { TypedEvent } from "../events/EventBase";
+import { TypedEvent } from "juniper-tslib";
 
 export class FlickEvent extends TypedEvent<"flick"> {
     constructor(public direction: number) {

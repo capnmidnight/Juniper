@@ -10,6 +10,7 @@
 
   "references": [
     { "path": "node_modules/juniper-audio" },
+    { "path": "node_modules/juniper-dom" },
     { "path": "node_modules/juniper-tslib" }
   ],
 

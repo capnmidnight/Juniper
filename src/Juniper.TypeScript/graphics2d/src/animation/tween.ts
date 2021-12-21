@@ -3,49 +3,48 @@ export type TweenFunc = (t: number, k: number, d: boolean) => number;
 /**
  * Different modes of animating a single value from 0 to 1.
  **/
-export enum TweenType {
+export type TweenType =
     /**
      * The most basic form of `tween, values increase in proportion to time, from
      * 0 to 1 in the forward direction, then 1 to 0 in the reverse direction.
      **/
-    Linear,
+    "Linear"
 
     /**
      * Values increase in proportion to time from -1 to 0 in the forward direction,
      * then 0 to 1 in the reverse, rather than decreasing from 1 to 0.
      **/
-    LinearContinuous,
+    | "LinearContinuous"
 
     /**
      * Values increase in proportion to the square of time, from 0 to 1 in the forward direction,
      * then 1 to 0 in the reverse direction.
      **/
-    Quadratic,
+    | "Quadratic"
 
     /**
      * Values increase in proportion to the square of time. from -1 to 0 in the forward direction,
      * then 0 to 1 in the reverse direction.
      **/
-    QuadraticContinuous,
+    | "QuadraticContinuous"
 
-    Sine,
+    | "Sine"
 
-    SineContinuous,
-
-    /**
-     * Similar to <see cref="Sine"/>, but values bump in the opposite direction slightly, before
-     * the beginning and the end of the curve.
-     **/
-    Bump,
+    | "SineContinuous"
 
     /**
      * Similar to <see cref="Sine"/>, but values bump in the opposite direction slightly, before
      * the beginning and the end of the curve.
      **/
-    BumpContinuous,
+    | "Bump"
 
-    Jump
-}
+    /**
+     * Similar to <see cref="Sine"/>, but values bump in the opposite direction slightly, before
+     * the beginning and the end of the curve.
+     **/
+    | "BumpContinuous"
+
+    | "Jump";
 
 /**
  * Implementations for each of the values in <see cref="TweenType"/>.
@@ -54,10 +53,10 @@ export enum TweenType {
  * All functions return a value v, mapping the value t to one of the desired 'tween shapes.
  **/
 export function isContinuous(tween: TweenType): boolean {
-    return tween == TweenType.LinearContinuous
-        || tween == TweenType.QuadraticContinuous
-        || tween == TweenType.SineContinuous
-        || tween == TweenType.BumpContinuous;
+    return tween == "LinearContinuous"
+        || tween == "QuadraticContinuous"
+        || tween == "SineContinuous"
+        || tween == "BumpContinuous";
 }
 
 export function linear(t: number): number {

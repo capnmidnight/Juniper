@@ -6,8 +6,9 @@ import {
 } from "@microsoft/signalr";
 import type { AudioManager, DeviceManagerAudioInputChangedEvent } from "juniper-audio";
 import { MediaStreamSource, removeVertex } from "juniper-audio";
+import { PointerName } from "juniper-dom";
 import type { IDisposable } from "juniper-tslib";
-import { assertNever, PointerName, TypedEventBase } from "juniper-tslib";
+import { assertNever, TypedEventBase } from "juniper-tslib";
 import adapter from 'webrtc-adapter';
 import {
     ConferenceErrorEvent,
