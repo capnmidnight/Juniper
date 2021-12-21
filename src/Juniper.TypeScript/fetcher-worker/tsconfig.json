@@ -9,9 +9,6 @@
   ],
 
   "references": [
-    { "path": "node_modules/juniper-dom" },
-    { "path": "node_modules/juniper-fetcher-base" },
-    { "path": "node_modules/juniper-mediatypes" },
     { "path": "node_modules/juniper-tslib" }
   ],
 
@@ -20,7 +17,6 @@
   "compilerOptions": {
     "composite": true,
     "rootDir": "src/",
-    "outDir": "dist/",
 
     "lib": [ "ESNext", "WebWorker", "Webworker.Iterable", "DOM", "DOM.Iterable" ],
     "target": "ESNext",

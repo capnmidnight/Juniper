@@ -1,17 +1,13 @@
 {
   "include": [
-    "src/**/*.ts"
+    "**/*.ts"
   ],
 
   "exclude": [
-    "dist",
     "node_modules"
   ],
 
   "references": [
-    { "path": "node_modules/juniper-dom" },
-    { "path": "node_modules/juniper-fetcher-base" },
-    { "path": "node_modules/juniper-mediatypes" },
     { "path": "node_modules/juniper-tslib" }
   ],
 
@@ -19,8 +15,6 @@
 
   "compilerOptions": {
     "composite": true,
-    "rootDir": "src/",
-    "outDir": "dist/",
 
     "lib": [ "ESNext", "WebWorker", "Webworker.Iterable", "DOM", "DOM.Iterable" ],
     "target": "ESNext",
@@ -45,7 +39,7 @@
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
 
-    "noEmit": false,
+    "noEmit": true,
     "noEmitHelpers": true,
     "noEmitOnError": false,
     "noErrorTruncation": true,

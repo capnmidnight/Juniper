@@ -15,8 +15,12 @@ export declare class Build {
     private readonly isWatch;
     private readonly isTest;
     private outDirName;
+    private bundleOutDirName;
+    private workerOutDirName;
     constructor(args: string[]);
     outDir(name: string): this;
+    bundleOutDir(name: string): this;
+    workerOutDir(name: string): this;
     plugin(pgn: PluginFactory): this;
     define(def: DefineFactory): this;
     external(extern: string): this;

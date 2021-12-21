@@ -2,8 +2,6 @@
   "version": "1.0.0",
   "name": "juniper-mediatypes",
   "private": true,
-  "type": "module",
-  "main": "dist/index.js",
   "scripts": {
     "init": "npm ci",
     "build": "tsc --build"

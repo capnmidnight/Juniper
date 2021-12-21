@@ -1,15 +1,13 @@
 {
   "include": [
-    "src/**/*.ts"
+    "**/*.ts"
   ],
 
   "exclude": [
-    "dist",
     "node_modules"
   ],
 
   "references": [
-    { "path": "node_modules/juniper-dom" },
     { "path": "node_modules/juniper-tslib" }
   ],
 
@@ -17,8 +15,7 @@
 
   "compilerOptions": {
     "composite": true,
-    "rootDir": "src/",
-    "outDir": "dist/",
+    "rootDir": "./",
 
     "lib": [ "ESNext", "DOM", "WebWorker" ],
     "target": "ESNext",
@@ -43,7 +40,7 @@
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
 
-    "noEmit": false,
+    "noEmit": true,
     "noEmitHelpers": true,
     "noEmitOnError": false,
     "noErrorTruncation": true,

@@ -21,6 +21,8 @@ export class Build {
     private readonly isTest: boolean;
 
     private outDirName = "wwwroot";
+    private bundleOutDirName = "workers";
+    private workerOutDirName = "js";
 
     constructor(args: string[]) {
         args.sort();
@@ -30,6 +32,16 @@ export class Build {
 
     outDir(name: string) {
         this.outDirName = name;
+        return this;
+    }
+
+    bundleOutDir(name: string) {
+        this.bundleOutDirName = name;
+        return this;
+    }
+
+    workerOutDir(name: string) {
+        this.workerOutDirName = name;
         return this;
     }
 
@@ -101,7 +113,15 @@ export class Build {
 
     private makeBundle(entryPoints: string[], name: string, isTest: boolean, minify: boolean, isWorker: boolean) {
         const JS_EXT = minify ? ".min" : "";
-        const outdir = `${this.outDirName}/${isWorker ? "workers" : "js"}`;
+
+        const outDirParts = [
+            this.outDirName,
+            isWorker
+                ? this.workerOutDirName
+                : this.bundleOutDirName
+        ];
+        const outdir = outDirParts.filter(x => x).join("/");
+
         const stub = isTest ? "-test" : "";
         const entryNames = `[dir]/[name]${stub}${JS_EXT}`;
         const define: DefMap = {

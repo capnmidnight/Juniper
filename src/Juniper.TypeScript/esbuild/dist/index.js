@@ -12,6 +12,8 @@ export class Build {
     isWatch;
     isTest;
     outDirName = "wwwroot";
+    bundleOutDirName = "workers";
+    workerOutDirName = "js";
     constructor(args) {
         args.sort();
         this.isWatch = args.indexOf("--watch") !== -1;
@@ -19,6 +21,14 @@ export class Build {
     }
     outDir(name) {
         this.outDirName = name;
+        return this;
+    }
+    bundleOutDir(name) {
+        this.bundleOutDirName = name;
+        return this;
+    }
+    workerOutDir(name) {
+        this.workerOutDirName = name;
         return this;
     }
     plugin(pgn) {
@@ -81,7 +91,13 @@ export class Build {
     }
     makeBundle(entryPoints, name, isTest, minify, isWorker) {
         const JS_EXT = minify ? ".min" : "";
-        const outdir = `${this.outDirName}/${isWorker ? "workers" : "js"}`;
+        const outDirParts = [
+            this.outDirName,
+            isWorker
+                ? this.workerOutDirName
+                : this.bundleOutDirName
+        ];
+        const outdir = outDirParts.filter(x => x).join("/");
         const stub = isTest ? "-test" : "";
         const entryNames = `[dir]/[name]${stub}${JS_EXT}`;
         const define = {

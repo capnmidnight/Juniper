@@ -1,10 +1,9 @@
 {
   "include": [
-    "src/**/*.ts"
+    "**/*.ts"
   ],
   
   "exclude": [
-    "dist",
     "node_modules"
   ],
 
@@ -12,8 +11,6 @@
 
   "compilerOptions": {
     "composite": true,
-    "rootDir": "src/",
-    "outDir": "dist/",
 
     "lib": [ "ESNext" ],
     "target": "ESNext",
@@ -38,7 +35,7 @@
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
 
-    "noEmit": false,
+    "noEmit": true,
     "noEmitHelpers": true,
     "noEmitOnError": false,
     "noErrorTruncation": true,

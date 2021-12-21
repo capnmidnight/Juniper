@@ -1,25 +1,21 @@
 {
   "include": [
-    "src/**/*.ts"
+    "**/*.ts"
   ],
 
   "exclude": [
-    "dist",
     "node_modules"
   ],
 
   "compileOnSave": true,
 
   "references": [
-    { "path": "node_modules/juniper-mediatypes" },
     { "path": "node_modules/juniper-tslib" }
   ],
 
   "compilerOptions": {
     "composite": true,
-    "rootDir": "src/",
-    "outDir": "dist/",
-
+    
     "lib": [ "ESNext", "DOM" ],
     "target": "ESNext",
     "module": "ESNext",
@@ -43,7 +39,7 @@
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
 
-    "noEmit": false,
+    "noEmit": true,
     "noEmitHelpers": true,
     "noEmitOnError": false,
     "noErrorTruncation": true,
