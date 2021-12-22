@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "name": "juniper-google-maps",
+  "private": true,
+  "scripts": {
+    "init": "npm ci",
+    "build": "tsc --build"
+  },
+  "dependencies": {
+    "@googlemaps/js-api-loader": "1.12.10",
+    "gl-matrix": "3.4.3",
+    "juniper-tslib": "file:../tslib"
+  },
+  "devDependencies": {
+    "@types/google.maps": "3.47.0",
+    "tslib": "2.3.1",
+    "typescript": "4.3.5"
+  }
+}
