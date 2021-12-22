@@ -1,0 +1,16 @@
+import { getAudioGraph, getVertexName } from "./nodes";
+import { arrayScan } from "juniper-tslib";
+import { BaseGraphDialog } from "juniper-dom/BaseGraphDialog";
+
+export class AudioGraphDialog extends BaseGraphDialog<AudioNode | AudioParam>{
+    constructor() {
+        super("Audio graph", getVertexName);
+    }
+
+    override onShown() {
+        const graph = getAudioGraph();
+        this.setGraph(graph);
+        this.setOrigin(arrayScan(graph, g => getVertexName(g.value) === "final-destination"));
+        super.onShown();
+    }
+}
