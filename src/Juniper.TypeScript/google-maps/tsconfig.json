@@ -12,7 +12,7 @@
   "compilerOptions": {
     "rootDir": "./",
 
-    "lib": [ "ESNext", "DOM" ],
+    "lib": [ "ESNext", "DOM", "WebWorker" ],
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Node",
