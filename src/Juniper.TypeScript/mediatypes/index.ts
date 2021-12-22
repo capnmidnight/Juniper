@@ -126,9 +126,14 @@ export class MediaType {
         return fileName;
     }
 
-    matches(value: MediaType): boolean {
-        return (this.typeName === "*" && this.subTypeName === "*")
-            || (this.typeName === value.typeName && (this.subTypeName === "*" || this.subTypeName === value.subTypeName));
+    matches(value: MediaType | string): boolean {
+        if (value instanceof MediaType) {
+            return (this.typeName === "*" && this.subTypeName === "*")
+                || (this.typeName === value.typeName && (this.subTypeName === "*" || this.subTypeName === value.subTypeName));
+        }
+        else {
+            return value === this.value;
+        }
     }
 
     matchesFileName(fileName: string): boolean {
