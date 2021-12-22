@@ -5,7 +5,7 @@ var __publicField = (obj, key, value) => {
   return value;
 };
 
-// ../tslib/dist/typeChecks.js
+// ../tslib/typeChecks.ts
 function t(o, s, c) {
   return typeof o === s || o instanceof c;
 }
@@ -43,22 +43,22 @@ function isXHRBodyInit(obj) {
   return isString(obj) || isArrayBufferView(obj) || obj instanceof Blob || obj instanceof FormData || isArrayBuffer(obj) || obj instanceof ReadableStream || "Document" in globalThis && obj instanceof Document;
 }
 
-// ../tslib/dist/collections/arrayRemoveAt.js
+// ../tslib/collections/arrayRemoveAt.ts
 function arrayRemoveAt(arr, idx) {
   return arr.splice(idx, 1)[0];
 }
 
-// ../tslib/dist/collections/arrayClear.js
+// ../tslib/collections/arrayClear.ts
 function arrayClear(arr) {
   return arr.splice(0);
 }
 
-// ../tslib/dist/events/EventBase.js
-var allListeners = new WeakMap();
+// ../tslib/events/EventBase.ts
+var allListeners = /* @__PURE__ */ new WeakMap();
 var EventBase = class {
   constructor() {
-    __publicField(this, "listeners", new Map());
-    __publicField(this, "listenerOptions", new Map());
+    __publicField(this, "listeners", /* @__PURE__ */ new Map());
+    __publicField(this, "listenerOptions", /* @__PURE__ */ new Map());
     allListeners.set(this, this.listeners);
   }
   addEventListener(type, callback, options) {
@@ -118,8 +118,8 @@ var TypedEvent = class extends Event {
 var TypedEventBase = class extends EventBase {
   constructor() {
     super(...arguments);
-    __publicField(this, "bubblers", new Set());
-    __publicField(this, "scopes", new WeakMap());
+    __publicField(this, "bubblers", /* @__PURE__ */ new Set());
+    __publicField(this, "scopes", /* @__PURE__ */ new WeakMap());
   }
   addBubbler(bubbler) {
     this.bubblers.add(bubbler);
@@ -171,7 +171,7 @@ var TypedEventBase = class extends EventBase {
   }
 };
 
-// ../tslib/dist/collections/mapJoin.js
+// ../tslib/collections/mapJoin.ts
 function mapJoin(dest, ...sources) {
   for (const source of sources) {
     if (isDefined(source)) {
@@ -183,7 +183,7 @@ function mapJoin(dest, ...sources) {
   return dest;
 }
 
-// ../tslib/dist/flags.js
+// ../tslib/flags.ts
 var oculusBrowserPattern = /OculusBrowser\/(\d+)\.(\d+)\.(\d+)/i;
 var oculusMatch = navigator.userAgent.match(oculusBrowserPattern);
 var isOculusBrowser = !!oculusMatch;
@@ -197,7 +197,7 @@ var isOculusQuest = isOculusBrowser && /quest/i.test(navigator.userAgent);
 var isOculusQuest2 = isOculusBrowser && /quest 2/i.test(navigator.userAgent);
 var isWorker = !("Document" in globalThis);
 
-// ../tslib/dist/gis/Datum.js
+// ../tslib/gis/Datum.ts
 var invF = 298.257223563;
 var equatorialRadius = 6378137;
 var flattening = 1 / invF;
@@ -222,17 +222,10 @@ var delta = [
   56 * n * n * n / 15
 ];
 
-// ../tslib/dist/gis/UTMPoint.js
-var GlobeHemisphere;
-(function(GlobeHemisphere2) {
-  GlobeHemisphere2[GlobeHemisphere2["Northern"] = 0] = "Northern";
-  GlobeHemisphere2[GlobeHemisphere2["Southern"] = 1] = "Southern";
-})(GlobeHemisphere || (GlobeHemisphere = {}));
-
-// ../tslib/dist/math/angleClamp.js
+// ../tslib/math/angleClamp.ts
 var Tau = 2 * Math.PI;
 
-// ../tslib/dist/progress/BaseProgress.js
+// ../tslib/progress/BaseProgress.ts
 var BaseProgress = class {
   constructor() {
     __publicField(this, "attached", new Array());
@@ -264,12 +257,10 @@ var BaseProgress = class {
   }
 };
 
-// ../tslib/dist/progress/ChildProgressCallback.js
+// ../tslib/progress/ChildProgressCallback.ts
 var ChildProgressCallback = class extends BaseProgress {
   constructor(i, prog) {
     super();
-    __publicField(this, "i");
-    __publicField(this, "prog");
     this.i = i;
     this.prog = prog;
   }
@@ -279,16 +270,15 @@ var ChildProgressCallback = class extends BaseProgress {
   }
 };
 
-// ../tslib/dist/progress/BaseParentProgressCallback.js
+// ../tslib/progress/BaseParentProgressCallback.ts
 var BaseParentProgressCallback = class {
   constructor(prog) {
-    __publicField(this, "prog");
+    this.prog = prog;
     __publicField(this, "weightTotal", 0);
     __publicField(this, "start");
     __publicField(this, "subProgressCallbacks", new Array());
     __publicField(this, "subProgressWeights", new Array());
     __publicField(this, "subProgressValues", new Array());
-    this.prog = prog;
     this.start = performance.now();
     for (let i = 0; i < this.subProgressWeights.length; ++i) {
       this.subProgressValues[i] = 0;
@@ -319,12 +309,12 @@ var BaseParentProgressCallback = class {
   }
 };
 
-// ../tslib/dist/progress/IProgress.js
+// ../tslib/progress/IProgress.ts
 function isProgressCallback(obj) {
   return isDefined(obj) && isFunction(obj.report) && isFunction(obj.attach) && isFunction(obj.end);
 }
 
-// ../tslib/dist/progress/progressPopper.js
+// ../tslib/progress/progressPopper.ts
 function progressPopper(progress) {
   return new PoppableParentProgressCallback(progress);
 }
@@ -334,14 +324,13 @@ var PoppableParentProgressCallback = class extends BaseParentProgressCallback {
   }
 };
 
-// ../tslib/dist/workers/WorkerClient.js
+// ../tslib/workers/WorkerClient.ts
 var _WorkerClient = class extends TypedEventBase {
   constructor(worker) {
     super();
-    __publicField(this, "worker");
-    __publicField(this, "taskCounter", 0);
-    __publicField(this, "invocations", new Map());
     this.worker = worker;
+    __publicField(this, "taskCounter", 0);
+    __publicField(this, "invocations", /* @__PURE__ */ new Map());
     if (!_WorkerClient.isSupported) {
       console.warn("Workers are not supported on this system.");
     }
@@ -456,7 +445,7 @@ var _WorkerClient = class extends TypedEventBase {
 var WorkerClient = _WorkerClient;
 __publicField(WorkerClient, "isSupported", "Worker" in globalThis);
 
-// ../tslib/dist/workers/WorkerPool.js
+// ../tslib/workers/WorkerPool.ts
 var WorkerPool = class extends TypedEventBase {
   constructor(options, WorkerClientClass) {
     super();
@@ -532,12 +521,10 @@ var WorkerPool = class extends TypedEventBase {
 };
 __publicField(WorkerPool, "isSupported", "Worker" in globalThis);
 
-// ../tslib/dist/workers/WorkerServer.js
+// ../tslib/workers/WorkerServer.ts
 var WorkerServerProgress = class extends BaseProgress {
   constructor(server, taskID) {
     super();
-    __publicField(this, "server");
-    __publicField(this, "taskID");
     this.server = server;
     this.taskID = taskID;
   }
@@ -555,9 +542,8 @@ var WorkerServerProgress = class extends BaseProgress {
 };
 var WorkerServer = class {
   constructor(self) {
-    __publicField(this, "self");
-    __publicField(this, "methods", new Map());
     this.self = self;
+    __publicField(this, "methods", /* @__PURE__ */ new Map());
     this.self.addEventListener("message", (evt) => {
       const data = evt.data;
       this.callMethod(data);
@@ -806,7 +792,7 @@ function readResponse(xhr) {
 var FetchingServiceImpl = class extends ResponseTranslator {
   constructor() {
     super(...arguments);
-    this.defaultPostHeaders = new Map();
+    this.defaultPostHeaders = /* @__PURE__ */ new Map();
   }
   setRequestVerificationToken(value) {
     this.defaultPostHeaders.set("RequestVerificationToken", value);
@@ -826,7 +812,7 @@ var FetchingServiceImpl = class extends ResponseTranslator {
   }
   async postXHR(xhrType, request, prog) {
     let body = null;
-    const headers = mapJoin(new Map(), this.defaultPostHeaders, request.headers);
+    const headers = mapJoin(/* @__PURE__ */ new Map(), this.defaultPostHeaders, request.headers);
     if (request.body instanceof FormData && isDefined(headers)) {
       const toDelete = new Array();
       for (const key of headers.keys()) {
