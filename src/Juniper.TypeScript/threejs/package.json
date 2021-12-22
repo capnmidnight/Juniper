@@ -18,6 +18,7 @@
     "juniper-emoji": "file:../emoji",
     "juniper-fetcher": "file:../fetcher",
     "juniper-tslib": "file:../tslib",
+    "juniper-units": "file:../units",
     "juniper-webrtc": "file:../webrtc",
     "three": "0.134.0",
     "webxr-polyfill": "2.0.3"
