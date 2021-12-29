@@ -1,4 +1,4 @@
-﻿welcome
+welcome
 { "user-key": 9001, "hat": 9001, "egg": 9001 }
 wait USERID say hi Carl
 tell USERID hello USERID! Welcome to the game.

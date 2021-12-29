@@ -1,4 +1,4 @@
-﻿Room definitions
+Room definitions
 ================
 
 Any file with the `.room` extension is a room, and its file name minus the

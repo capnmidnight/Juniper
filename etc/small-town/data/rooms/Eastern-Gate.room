@@ -1,4 +1,4 @@
-﻿exits
+exits
 	east to Outside-Eastern-Gate locked when 240, 0.75 with user-key
 
 This gate protects the city from the monsters outside. The gate
