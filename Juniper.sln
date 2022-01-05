@@ -83,35 +83,35 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Sound.NAudio", "src
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TypeScript", "TypeScript", "{50FE6766-BF94-4FE1-B977-76A7B94935E1}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "audio", "src\Juniper.TypeScript\audio\audio.njsproj", "{1DA7010B-02B3-40FB-A2FC-16ECBBBFA20E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "audio", "src\Juniper.TypeScript\audio\audio.csproj", "{1DA7010B-02B3-40FB-A2FC-16ECBBBFA20E}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "dom", "src\Juniper.TypeScript\dom\dom.njsproj", "{11AC51D4-F07B-45E2-80FB-D53F8645448D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dom", "src\Juniper.TypeScript\dom\dom.csproj", "{11AC51D4-F07B-45E2-80FB-D53F8645448D}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "emoji", "src\Juniper.TypeScript\emoji\emoji.njsproj", "{A6EDAF53-0124-40F5-96C5-0D631684FA60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "emoji", "src\Juniper.TypeScript\emoji\emoji.csproj", "{A6EDAF53-0124-40F5-96C5-0D631684FA60}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "esbuild", "src\Juniper.TypeScript\esbuild\esbuild.njsproj", "{9A6556BD-5A41-444B-8A02-1CD9E831C9E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "esbuild", "src\Juniper.TypeScript\esbuild\esbuild.csproj", "{9A6556BD-5A41-444B-8A02-1CD9E831C9E3}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "fetcher", "src\Juniper.TypeScript\fetcher\fetcher.njsproj", "{53B9A510-2724-4EB8-9A83-9A4698D336D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "fetcher", "src\Juniper.TypeScript\fetcher\fetcher.csproj", "{53B9A510-2724-4EB8-9A83-9A4698D336D9}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "fetcher-base", "src\Juniper.TypeScript\fetcher-base\fetcher-base.njsproj", "{BB3BAA87-A6B7-4AC7-A6EC-C85DB38D5AFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "fetcher-base", "src\Juniper.TypeScript\fetcher-base\fetcher-base.csproj", "{BB3BAA87-A6B7-4AC7-A6EC-C85DB38D5AFE}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "fetcher-worker", "src\Juniper.TypeScript\fetcher-worker\fetcher-worker.njsproj", "{BCA75536-4172-4353-96ED-2ABA4A0A1D6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "fetcher-worker", "src\Juniper.TypeScript\fetcher-worker\fetcher-worker.csproj", "{BCA75536-4172-4353-96ED-2ABA4A0A1D6A}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "google-maps", "src\Juniper.TypeScript\google-maps\google-maps.njsproj", "{DCE8D787-DAB7-4F74-BF1F-E80CFA215589}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "google-maps", "src\Juniper.TypeScript\google-maps\google-maps.csproj", "{DCE8D787-DAB7-4F74-BF1F-E80CFA215589}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "graphics2d", "src\Juniper.TypeScript\graphics2d\graphics2d.njsproj", "{5F7E76E3-218C-490C-B0FA-E7861D8AEBCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "graphics2d", "src\Juniper.TypeScript\graphics2d\graphics2d.csproj", "{5F7E76E3-218C-490C-B0FA-E7861D8AEBCF}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "mediatypes", "src\Juniper.TypeScript\mediatypes\mediatypes.njsproj", "{03355151-5A71-4B19-9C3C-72C99AA09C44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mediatypes", "src\Juniper.TypeScript\mediatypes\mediatypes.csproj", "{03355151-5A71-4B19-9C3C-72C99AA09C44}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "testing", "src\Juniper.TypeScript\testing\testing.njsproj", "{3FA00B01-004D-4B57-A5CF-9766E4263A2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "testing", "src\Juniper.TypeScript\testing\testing.csproj", "{3FA00B01-004D-4B57-A5CF-9766E4263A2F}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "threejs", "src\Juniper.TypeScript\threejs\threejs.njsproj", "{F01DA8C2-DABF-44F1-962C-E9317A63FF6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "threejs", "src\Juniper.TypeScript\threejs\threejs.csproj", "{F01DA8C2-DABF-44F1-962C-E9317A63FF6D}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "tslib", "src\Juniper.TypeScript\tslib\tslib.njsproj", "{6E4ED4F7-7FCD-41A3-9BE3-10B58720D00C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tslib", "src\Juniper.TypeScript\tslib\tslib.csproj", "{6E4ED4F7-7FCD-41A3-9BE3-10B58720D00C}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "units", "src\Juniper.TypeScript\units\units.njsproj", "{BCA9AD9A-E0BA-4B1B-B0E6-3827F9B39EB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "units", "src\Juniper.TypeScript\units\units.csproj", "{BCA9AD9A-E0BA-4B1B-B0E6-3827F9B39EB6}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "webrtc", "src\Juniper.TypeScript\webrtc\webrtc.njsproj", "{DFD46E55-D4C9-42BB-A43A-1E1F6BA699E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "webrtc", "src\Juniper.TypeScript\webrtc\webrtc.csproj", "{DFD46E55-D4C9-42BB-A43A-1E1F6BA699E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
