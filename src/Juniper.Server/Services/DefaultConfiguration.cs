@@ -1,4 +1,4 @@
-﻿using Juniper.Configuration;
+using Juniper.Configuration;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -77,13 +77,15 @@ namespace Juniper.Services
             });
         }
 
-        public static void ConfigureViews(this IServiceCollection services, IWebHostEnvironment env)
+        private const string DEFAULT_ADMIN_PATH = "/Admin";
+
+        public static void ConfigureViews(this IServiceCollection services, IWebHostEnvironment env, string adminPath = DEFAULT_ADMIN_PATH)
         {
             services.AddControllersWithViews();
 
             var razorPages = services.AddRazorPages(options =>
             {
-                options.Conventions.AuthorizeFolder("/Editor");
+                options.Conventions.AuthorizeFolder(adminPath);
             });
 
             if (env.IsDevelopment())
@@ -113,6 +115,23 @@ namespace Juniper.Services
 
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        public static void ConfigureDefaultServices<ContextT>(this IServiceCollection services, IWebHostEnvironment env, string connectionStringName, string adminPath, bool useSignalR = true)
+            where ContextT : IdentityDbContext
+        {
+            services.AddTransient<IConfigureOptions<KestrelServerOptions>, LetsEncryptService>();
+            services.ConfigureDatabase<ContextT>(env, connectionStringName);
+            services.ConfigureAuthentication<ContextT>();
+            if (useSignalR)
+            {
+                services.ConfigureSignalR();
+            }
+
+            services.ConfigureViews(env, adminPath);
+            services.ConfigureLogging(env, useSignalR);
+        }
+
+
+        // This method gets called by the runtime. Use this method to add services to the container.
         public static void ConfigureDefaultServices<ContextT>(this IServiceCollection services, IWebHostEnvironment env, string connectionStringName, bool useSignalR = true)
             where ContextT : IdentityDbContext
         {
@@ -124,12 +143,12 @@ namespace Juniper.Services
                 services.ConfigureSignalR();
             }
 
-            services.ConfigureViews(env);
+            services.ConfigureViews(env, DEFAULT_ADMIN_PATH);
             services.ConfigureLogging(env, useSignalR);
         }
 
 
-        private static void ConfigureUsage(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, Action<IEndpointRouteBuilder> configEndPoint)
+        private static void ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, Action<IEndpointRouteBuilder> configEndPoint)
         {
             if (env.IsDevelopment())
             {
@@ -178,16 +197,16 @@ namespace Juniper.Services
         }
 
 
-        public static void ConfigureUsage(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config)
+        public static void ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config)
         {
-            app.ConfigureUsage(env, config, null);
+            app.ConfigureRequestPipeline(env, config, null);
         }
 
 
         public static void ConfigureRequestPipeline<HubT>(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, string hubPath)
             where HubT: Hub
         {
-            app.ConfigureUsage(env, config, endpoints =>
+            app.ConfigureRequestPipeline(env, config, endpoints =>
             {
                 endpoints.MapHub<HubT>(hubPath);
             });
