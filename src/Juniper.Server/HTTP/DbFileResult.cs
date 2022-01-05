@@ -2,12 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-using System;
 using System.Data;
 using System.Data.Common;
-using System.IO;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace Juniper.HTTP
 {

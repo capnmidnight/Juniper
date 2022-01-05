@@ -1,8 +1,6 @@
 using Juniper.Configuration;
 
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.Extensions.Hosting;
 
 namespace Juniper.TagHelpers
 {

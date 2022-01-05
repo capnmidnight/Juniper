@@ -1,7 +1,3 @@
-using Microsoft.AspNetCore.Http;
-
-using System.Linq;
-
 namespace Juniper.HTTP
 {
     public static class RequestExt

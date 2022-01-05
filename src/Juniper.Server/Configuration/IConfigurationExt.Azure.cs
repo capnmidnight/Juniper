@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Configuration;
-
 namespace Juniper.Configuration
 {
     public static partial class IConfigurationExt

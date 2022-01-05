@@ -1,10 +1,6 @@
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-using System;
-using System.IO;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Juniper.Services
