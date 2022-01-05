@@ -1,0 +1,143 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>tslib</Name>
+    <RootNamespace>tslib</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>6e4ed4f7-7fcd-41a3-9be3-10b58720d00c</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>
+    </StartupFile>
+    <StartWebBrowser>False</StartWebBrowser>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <StartWebBrowser>false</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="package.json" />
+    <Content Include="tsconfig.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="collections\" />
+    <Folder Include="events\" />
+    <Folder Include="gis\" />
+    <Folder Include="graphics2d\" />
+    <Folder Include="graphs\" />
+    <Folder Include="hax\" />
+    <Folder Include="math\" />
+    <Folder Include="progress\" />
+    <Folder Include="strings\" />
+    <Folder Include="timers\" />
+    <Folder Include="types\" />
+    <Folder Include="workers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="collections\arrayBinarySearch.ts" />
+    <TypeScriptCompile Include="collections\arrayBinarySearchRemove.ts" />
+    <TypeScriptCompile Include="collections\arrayClear.ts" />
+    <TypeScriptCompile Include="collections\arrayInsertAt.ts" />
+    <TypeScriptCompile Include="collections\arrayRandom.ts" />
+    <TypeScriptCompile Include="collections\arrayRemove.ts" />
+    <TypeScriptCompile Include="collections\arrayRemoveAt.ts" />
+    <TypeScriptCompile Include="collections\arrayReplace.ts" />
+    <TypeScriptCompile Include="collections\arrayScan.ts" />
+    <TypeScriptCompile Include="collections\arrayShuffle.ts" />
+    <TypeScriptCompile Include="collections\arraySortedInsert.ts" />
+    <TypeScriptCompile Include="collections\arrayZip.ts" />
+    <TypeScriptCompile Include="collections\index.ts" />
+    <TypeScriptCompile Include="collections\LRUCache.ts" />
+    <TypeScriptCompile Include="collections\makeLookup.ts" />
+    <TypeScriptCompile Include="collections\mapBuild.ts" />
+    <TypeScriptCompile Include="collections\mapJoin.ts" />
+    <TypeScriptCompile Include="collections\mapMap.ts" />
+    <TypeScriptCompile Include="collections\mapUnderwrite.ts" />
+    <TypeScriptCompile Include="events\add.ts" />
+    <TypeScriptCompile Include="events\EventBase.ts" />
+    <TypeScriptCompile Include="events\index.ts" />
+    <TypeScriptCompile Include="events\once.ts" />
+    <TypeScriptCompile Include="events\sleep.ts" />
+    <TypeScriptCompile Include="events\waitFor.ts" />
+    <TypeScriptCompile Include="Exception.ts" />
+    <TypeScriptCompile Include="flags.ts" />
+    <TypeScriptCompile Include="gis\Datum.ts" />
+    <TypeScriptCompile Include="gis\index.ts" />
+    <TypeScriptCompile Include="gis\LatLngPoint.ts" />
+    <TypeScriptCompile Include="gis\UTMPoint.ts" />
+    <TypeScriptCompile Include="graphics2d\index.ts" />
+    <TypeScriptCompile Include="graphics2d\Point.ts" />
+    <TypeScriptCompile Include="graphics2d\Rectangle.ts" />
+    <TypeScriptCompile Include="graphics2d\Size.ts" />
+    <TypeScriptCompile Include="graphs\BaseGraphNode.ts" />
+    <TypeScriptCompile Include="graphs\GraphNode.ts" />
+    <TypeScriptCompile Include="graphs\index.ts" />
+    <TypeScriptCompile Include="graphs\TreeNode.ts" />
+    <TypeScriptCompile Include="hax\haxMethod.ts" />
+    <TypeScriptCompile Include="hax\index.ts" />
+    <TypeScriptCompile Include="index.ts" />
+    <TypeScriptCompile Include="math\angleClamp.ts" />
+    <TypeScriptCompile Include="math\clamp.ts" />
+    <TypeScriptCompile Include="math\deg2rad.ts" />
+    <TypeScriptCompile Include="math\formatNumber.ts" />
+    <TypeScriptCompile Include="math\formatVolume.ts" />
+    <TypeScriptCompile Include="math\index.ts" />
+    <TypeScriptCompile Include="math\lerp.ts" />
+    <TypeScriptCompile Include="math\powerOf2.ts" />
+    <TypeScriptCompile Include="math\project.ts" />
+    <TypeScriptCompile Include="math\rad2deg.ts" />
+    <TypeScriptCompile Include="math\truncate.ts" />
+    <TypeScriptCompile Include="math\unproject.ts" />
+    <TypeScriptCompile Include="progress\BaseParentProgressCallback.ts" />
+    <TypeScriptCompile Include="progress\BaseProgress.ts" />
+    <TypeScriptCompile Include="progress\ChildProgressCallback.ts" />
+    <TypeScriptCompile Include="progress\index.ts" />
+    <TypeScriptCompile Include="progress\IProgress.ts" />
+    <TypeScriptCompile Include="progress\progressCombine.ts" />
+    <TypeScriptCompile Include="progress\progressOfArray.ts" />
+    <TypeScriptCompile Include="progress\progressPopper.ts" />
+    <TypeScriptCompile Include="progress\progressSplit.ts" />
+    <TypeScriptCompile Include="progress\progressTasks.ts" />
+    <TypeScriptCompile Include="strings\index.ts" />
+    <TypeScriptCompile Include="strings\parseQueryString.ts" />
+    <TypeScriptCompile Include="strings\stringRandom.ts" />
+    <TypeScriptCompile Include="strings\stringReverse.ts" />
+    <TypeScriptCompile Include="strings\stringSearch.ts" />
+    <TypeScriptCompile Include="strings\stringToName.ts" />
+    <TypeScriptCompile Include="timers\BaseTimer.ts" />
+    <TypeScriptCompile Include="timers\index.ts" />
+    <TypeScriptCompile Include="timers\ITimer.ts" />
+    <TypeScriptCompile Include="timers\RequestAnimationFrameTimer.ts" />
+    <TypeScriptCompile Include="timers\SetIntervalTimer.ts" />
+    <TypeScriptCompile Include="timers\SetTimeoutTimer.ts" />
+    <TypeScriptCompile Include="typeChecks.ts" />
+    <TypeScriptCompile Include="types\audio.d.ts" />
+    <TypeScriptCompile Include="types\battery.d.ts" />
+    <TypeScriptCompile Include="types\gamepad.d.ts" />
+    <TypeScriptCompile Include="types\glsl.d.ts" />
+    <TypeScriptCompile Include="types\offscreencanvas.d.ts" />
+    <TypeScriptCompile Include="types\webxr.d.ts" />
+    <TypeScriptCompile Include="types\WebXRPolyfill.d.ts" />
+    <TypeScriptCompile Include="using.ts" />
+    <TypeScriptCompile Include="workers\index.ts" />
+    <TypeScriptCompile Include="workers\WorkerClient.ts" />
+    <TypeScriptCompile Include="workers\WorkerClientOptions.ts" />
+    <TypeScriptCompile Include="workers\WorkerMessages.ts" />
+    <TypeScriptCompile Include="workers\WorkerPool.ts" />
+    <TypeScriptCompile Include="workers\WorkerServer.ts" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
+</Project>

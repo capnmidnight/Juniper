@@ -55,12 +55,12 @@ namespace Juniper.Puzzles
 
         private static int[,] MakeEmptyGrid(int width, int height)
         {
-            var grid = new int[width, height];
-            for (var x = 0; x < width; ++x)
+            var grid = new int[height, width];
+            for (var y = 0; y < height; ++y)
             {
-                for (var y = 0; y < height; ++y)
+                for (var x = 0; x < width; ++x)
                 {
-                    grid[x, y] = -1;
+                    grid[y, x] = -1;
                 }
             }
 

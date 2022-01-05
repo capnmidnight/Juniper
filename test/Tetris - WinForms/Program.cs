@@ -75,9 +75,10 @@ namespace Juniper
             thread.Start();
 
             Application.Run(form);
+            running = false;
 
+            thread.Join();
             keys.Quit();
-            thread.Abort();
             buffer.Dispose();
             block.Dispose();
             bgimage.Dispose();
@@ -86,9 +87,11 @@ namespace Juniper
             form.Dispose();
         }
 
+        private static bool running;
         private static void Run()
         {
-            while (thread.ThreadState == ThreadState.Running)
+            running = true;
+            while (running)
             {
                 var now = DateTime.Now;
                 var delta = now - last;

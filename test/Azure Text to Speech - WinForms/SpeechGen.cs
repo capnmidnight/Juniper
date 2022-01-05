@@ -97,7 +97,7 @@ namespace Juniper
         {
             if (InvokeRequired)
             {
-                _ = Invoke(new Action(Save));
+                Invoke(new Action(Save));
             }
             else
             {

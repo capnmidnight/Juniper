@@ -4,7 +4,7 @@
     <AssemblyName>Juniper.MediaTypes</AssemblyName>
     <RootNamespace>Juniper.MediaTypes</RootNamespace>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
   </PropertyGroup>
