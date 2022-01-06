@@ -90,13 +90,13 @@ export class ConfirmationDialog extends DialogBox implements Widget {
         this.confirmButton3D = new TextMeshButton("confirmationDialogConfirmButton", "Yes", newStyle(confirmButton3DStyle, fontFamily));
         this.confirmButton3D.addEventListener("click", () =>
             this.confirmButton.click());
-        this.confirmButton3D.position.set(1, -0.5, 0.1);
+        this.confirmButton3D.position.set(1, -0.5, 0.5);
 
         this.cancelButton3D = new TextMeshButton("confirmationDialogCancelButton", "No", newStyle(cancelButton3DStyle, fontFamily));
         this.cancelButton3D.addEventListener("click", () =>
             this.cancelButton.click());
 
-        this.cancelButton3D.position.set(2, -0.5, 0.1);
+        this.cancelButton3D.position.set(2, -0.5, 0.5);
 
         elementApply(this.container, styles(
             maxWidth("calc(100% - 2em)"),
