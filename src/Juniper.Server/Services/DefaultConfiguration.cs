@@ -3,6 +3,7 @@ using Juniper.Configuration;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,16 @@ namespace Juniper.Services
 {
     public static class DefaultConfiguration
     {
+        private const string DEFAULT_ADMIN_PATH = "/Admin";
+
+        public class Options
+        {
+            public string AdminPath { get; set; } = DEFAULT_ADMIN_PATH;
+            public bool UseIdentity { get; set; } = true;
+            public bool UseEmail { get; set; } = true;
+            public bool UseSignalR { get; set; } = true;
+        }
+
         public static void ConfigureDatabase<ContextT>(this IServiceCollection services, IWebHostEnvironment env, string connectionStringName)
             where ContextT : DbContext
         {
@@ -77,8 +88,6 @@ namespace Juniper.Services
             });
         }
 
-        private const string DEFAULT_ADMIN_PATH = "/Admin";
-
         public static void ConfigureViews(this IServiceCollection services, IWebHostEnvironment env, string adminPath = DEFAULT_ADMIN_PATH)
         {
             services.AddControllersWithViews();
@@ -112,43 +121,36 @@ namespace Juniper.Services
             }
         }
 
-
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public static void ConfigureDefaultServices<ContextT>(this IServiceCollection services, IWebHostEnvironment env, string connectionStringName, string adminPath, bool useSignalR = true)
+        public static IServiceCollection ConfigureDefaultServices<ContextT>(this IServiceCollection services, IWebHostEnvironment env, string connectionStringName, Options options = null)
             where ContextT : IdentityDbContext
         {
+            options ??= new();
+
             services.AddTransient<IConfigureOptions<KestrelServerOptions>, LetsEncryptService>();
             services.ConfigureDatabase<ContextT>(env, connectionStringName);
-            services.ConfigureAuthentication<ContextT>();
-            if (useSignalR)
+
+            if (options.UseIdentity)
+            {
+                services.ConfigureAuthentication<ContextT>();
+            }
+
+            if (options.UseEmail)
+            {
+                services.AddTransient<IEmailSender, EmailSender>();
+            }
+
+            if (options.UseSignalR)
             {
                 services.ConfigureSignalR();
             }
 
-            services.ConfigureViews(env, adminPath);
-            services.ConfigureLogging(env, useSignalR);
+            services.ConfigureViews(env, options.AdminPath);
+            services.ConfigureLogging(env, options.UseSignalR);
+
+            return services;
         }
 
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public static void ConfigureDefaultServices<ContextT>(this IServiceCollection services, IWebHostEnvironment env, string connectionStringName, bool useSignalR = true)
-            where ContextT : IdentityDbContext
-        {
-            services.AddTransient<IConfigureOptions<KestrelServerOptions>, LetsEncryptService>();
-            services.ConfigureDatabase<ContextT>(env, connectionStringName);
-            services.ConfigureAuthentication<ContextT>();
-            if (useSignalR)
-            {
-                services.ConfigureSignalR();
-            }
-
-            services.ConfigureViews(env, DEFAULT_ADMIN_PATH);
-            services.ConfigureLogging(env, useSignalR);
-        }
-
-
-        private static void ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, Action<IEndpointRouteBuilder> configEndPoint)
+        private static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, Action<IEndpointRouteBuilder> configEndPoint)
         {
             if (env.IsDevelopment())
             {
@@ -194,19 +196,21 @@ namespace Juniper.Services
                         configEndPoint(endpoints);
                     }
                 });
+
+            return app;
         }
 
 
-        public static void ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config)
+        public static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config)
         {
-            app.ConfigureRequestPipeline(env, config, null);
+            return app.ConfigureRequestPipeline(env, config, null);
         }
 
 
-        public static void ConfigureRequestPipeline<HubT>(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, string hubPath)
-            where HubT: Hub
+        public static IApplicationBuilder ConfigureRequestPipeline<HubT>(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, string hubPath)
+            where HubT : Hub
         {
-            app.ConfigureRequestPipeline(env, config, endpoints =>
+            return app.ConfigureRequestPipeline(env, config, endpoints =>
             {
                 endpoints.MapHub<HubT>(hubPath);
             });
