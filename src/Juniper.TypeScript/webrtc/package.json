@@ -11,7 +11,7 @@
     "juniper-audio": "file:../audio",
     "juniper-dom": "file:../dom",
     "juniper-tslib": "file:../tslib",
-    "webrtc-adapter": "8.1.0"
+    "webrtc-adapter": "8.1.1"
   },
   "devDependencies": {
     "tslib": "2.3.1",
