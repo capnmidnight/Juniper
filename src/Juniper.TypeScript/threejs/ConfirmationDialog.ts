@@ -16,6 +16,7 @@ import {
     elementSetDisplay,
     elementSetText
 } from "juniper-dom/tags";
+import type { Environment } from "./environment/Environment";
 import { objectSetVisible, objGraph } from "./objects";
 import { TextMeshButton } from "./TextMeshButton";
 import { TextMeshLabel } from "./TextMeshLabel";
@@ -78,7 +79,7 @@ export class ConfirmationDialog extends DialogBox implements Widget {
 
     private readonly animator = new Animator();
 
-    constructor(private readonly renderer: THREE.WebGLRenderer, fontFamily: string) {
+    constructor(private readonly env: Environment, fontFamily: string) {
         super("Confirm action");
 
         this.confirmButton.innerText = "Yes";
@@ -89,13 +90,13 @@ export class ConfirmationDialog extends DialogBox implements Widget {
         this.confirmButton3D = new TextMeshButton("confirmationDialogConfirmButton", "Yes", newStyle(confirmButton3DStyle, fontFamily));
         this.confirmButton3D.addEventListener("click", () =>
             this.confirmButton.click());
-        this.confirmButton3D.position.set(1, -0.5, 0.01);
+        this.confirmButton3D.position.set(1, -0.5, 0.1);
 
         this.cancelButton3D = new TextMeshButton("confirmationDialogCancelButton", "No", newStyle(cancelButton3DStyle, fontFamily));
         this.cancelButton3D.addEventListener("click", () =>
             this.cancelButton.click());
 
-        this.cancelButton3D.position.set(2, -0.5, 0.01);
+        this.cancelButton3D.position.set(2, -0.5, 0.1);
 
         elementApply(this.container, styles(
             maxWidth("calc(100% - 2em)"),
@@ -138,17 +139,27 @@ export class ConfirmationDialog extends DialogBox implements Widget {
         this.animator.clear();
     }
 
+    private get use3D() {
+        return this.env.renderer.xr.isPresenting || this.env.testSpaceLayout;
+    }
+
     protected override async onShowing(): Promise<void> {
         await super.onShowing();
 
-        if (this.renderer.xr.isPresenting) {
+        if (this.use3D) {
             this.root.visible = true;
             await this.showHide(0, 1);
         }
     }
 
+    override onShown(): void {
+        if (this.use3D) {
+            this.element.style.display = "none";
+        }
+    }
+
     protected override async onClosing(): Promise<void> {
-        if (this.renderer.xr.isPresenting) {
+        if (this.use3D) {
             await this.showHide(1, -1);
             this.root.visible = false;
         }

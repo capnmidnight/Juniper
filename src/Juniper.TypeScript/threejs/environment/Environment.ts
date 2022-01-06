@@ -104,7 +104,7 @@ export class Environment
 
         this.interactionAudio = new InteractionAudio(this.audio, this.eventSystem);
 
-        this.confirmationDialog = new ConfirmationDialog(this.renderer, dialogFontFamily);
+        this.confirmationDialog = new ConfirmationDialog(this, dialogFontFamily);
         this.devicesDialog = new DeviceDialog(this);
 
         elementApply(
