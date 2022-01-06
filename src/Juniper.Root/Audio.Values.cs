@@ -78,7 +78,6 @@ namespace Juniper
             public static readonly Audio MELP600 = new Audio("melp600");
             public static readonly Audio Midi = new Audio("midi", new string[] { "mid", "midi", "kar", "rmi" });
             public static readonly Audio Mobile_Xmf = new Audio("mobile-xmf");
-            public static readonly Audio Mp3 = new Audio("mp3", new string[] { "mp3" });
             public static readonly Audio Mp4 = new Audio("mp4", new string[] { "m4a", "mp4a" });
             public static readonly Audio MP4A_LATM = new Audio("mp4a-latm");
             public static readonly Audio MPA = new Audio("mpa");

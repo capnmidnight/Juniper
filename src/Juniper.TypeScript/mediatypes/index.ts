@@ -127,13 +127,12 @@ export class MediaType {
     }
 
     matches(value: MediaType | string): boolean {
-        if (value instanceof MediaType) {
-            return (this.typeName === "*" && this.subTypeName === "*")
-                || (this.typeName === value.typeName && (this.subTypeName === "*" || this.subTypeName === value.subTypeName));
+        if (!(value instanceof MediaType)) {
+            value = mediaTypeParse(value);
         }
-        else {
-            return value === this.value;
-        }
+
+        return (this.typeName === "*" && this.subTypeName === "*")
+            || (this.typeName === value.typeName && (this.subTypeName === "*" || this.subTypeName === value.subTypeName));
     }
 
     matchesFileName(fileName: string): boolean {
@@ -1924,7 +1923,6 @@ export const Audio_MELP2400 = audio("melp2400");
 export const Audio_MELP600 = audio("melp600");
 export const Audio_Midi = audio("midi", "mid", "midi", "kar", "rmi");
 export const Audio_Mobile_Xmf = audio("mobile-xmf");
-export const Audio_Mp3 = audio("mp3", "mp3");
 export const Audio_Mp4 = audio("mp4", "m4a", "mp4a");
 export const Audio_MP4A_LATM = audio("mp4a-latm");
 export const Audio_MPA = audio("mpa");
