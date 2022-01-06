@@ -8,7 +8,7 @@ import type { AudioManager } from "juniper-audio/AudioManager";
 import type { DeviceManagerAudioInputChangedEvent } from "juniper-audio/DeviceManager";
 import { MediaStreamSource, removeVertex } from "juniper-audio/nodes";
 import { PointerName } from "juniper-dom/eventSystem/PointerName";
-import type { IDisposable } from "juniper-tslib";
+import { IDisposable, singleton } from "juniper-tslib";
 import { assertNever, TypedEventBase } from "juniper-tslib";
 import adapter from 'webrtc-adapter';
 import {
@@ -50,8 +50,8 @@ import {
 let loggingEnabled = window.location.hostname === "localhost"
     || /\bdebug\b/.test(window.location.search);
 
-const sockets = new Array<WebSocket>();
-const fakeSocket = function (...args: any[]): WebSocket {
+const sockets = singleton("yarrowSockets", () => new Array<WebSocket>());
+function fakeSocket(...args: any[]): WebSocket {
     console.log("New connection", ...args);
     const socket = new (WebSocket as any)(...args);
     sockets.push(socket);
@@ -158,10 +158,6 @@ export class TeleconferenceManager
 
         this.audio.devices.addEventListener("audioinputchanged", (evt) =>
             this.onAudioInputChanged(evt));
-
-        Object.assign(window, {
-            users: this.users
-        });
 
         this.hub.onclose(() => {
             this.lastRoom = null;

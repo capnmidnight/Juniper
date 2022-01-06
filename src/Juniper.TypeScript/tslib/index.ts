@@ -8,6 +8,7 @@ export * from "./graphs";
 export * from "./hax";
 export * from "./math";
 export * from "./progress";
+export * from "./singleton";
 export * from "./strings";
 export * from "./timers";
 export * from "./typeChecks";

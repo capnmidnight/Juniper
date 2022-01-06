@@ -1,13 +1,11 @@
 import { bump } from "juniper-2d/animation/tween";
-import type { IDisposable } from "juniper-tslib";
+import { IDisposable, singleton } from "juniper-tslib";
 import { InteractiveObject3D } from "../eventSystem/InteractiveObject3D";
 
 /**
  * This is a hack to make sure all Applications get the same scaleOnHover state as the Environment.
  **/
-const scaledItems = ((window as any).yarrowScaledItems) || new Map<THREE.Object3D, ScaleState>();
-Object.assign(window, { yarrowScaledItems: scaledItems });
-
+const scaledItems = singleton("yarrowScaledItems", () => new Map<THREE.Object3D, ScaleState>());
 const start = 1;
 const end = 1.1;
 const timeScale = 0.005;
