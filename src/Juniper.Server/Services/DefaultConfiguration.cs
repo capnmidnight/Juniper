@@ -162,7 +162,7 @@ namespace Juniper.Services
                 app.UseHsts();
             }
 
-            app.Use(async (context, next) =>
+            return app.Use(async (context, next) =>
             {
                 context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                 await next();
@@ -196,8 +196,6 @@ namespace Juniper.Services
                         configEndPoint(endpoints);
                     }
                 });
-
-            return app;
         }
 
 
@@ -214,6 +212,18 @@ namespace Juniper.Services
             {
                 endpoints.MapHub<HubT>(hubPath);
             });
+        }
+
+        public static IHostBuilder ConfigureJuniperHost<StartupT>(this IHostBuilder host)
+            where StartupT : class
+        {
+            return host.UseSystemd()
+                .ConfigureWebHostDefaults(webBuilder =>
+                    webBuilder
+#if DEBUG
+                        .UseUrls("https://*:443", "http://*:80")
+#endif
+                        .UseStartup<StartupT>());
         }
     }
 }
