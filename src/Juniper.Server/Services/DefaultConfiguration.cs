@@ -11,6 +11,11 @@ using Microsoft.Extensions.Options;
 
 namespace Juniper.Services
 {
+ 
+    /// <summary>
+    /// Extension methods that configure defaults for how I like
+    /// to setup my servers.
+    /// </summary>
     public static class DefaultConfiguration
     {
         private const string DEFAULT_ADMIN_PATH = "/Admin";
@@ -23,9 +28,13 @@ namespace Juniper.Services
             public bool UseSignalR { get; set; } = true;
         }
 
-        public static void ConfigureDatabase<ContextT>(this IServiceCollection services, IWebHostEnvironment env, string connectionStringName)
-            where ContextT : DbContext
+        public static IServiceCollection ConfigureDefaultServices<ContextT>(this IServiceCollection services, IWebHostEnvironment env, string connectionStringName, Options config = null)
+            where ContextT : IdentityDbContext
         {
+            config ??= new();
+
+            services.AddTransient<IConfigureOptions<KestrelServerOptions>, LetsEncryptService>();
+
             services.AddDbContext<ContextT>(options =>
             {
                 options.UseNpgsql($"name=ConnectionStrings:{connectionStringName}", opts =>
@@ -37,115 +46,83 @@ namespace Juniper.Services
                     options.LogTo(Console.WriteLine, LogLevel.Information);
                 }
             });
-        }
 
-        public static void ConfigureAuthentication<ContextT>(this IServiceCollection services)
-            where ContextT : IdentityDbContext
-        {
-            services.AddDefaultIdentity<IdentityUser>(options =>
-            {
-                options.User.RequireUniqueEmail = true;
-
-                options.Password.RequireDigit = true;
-                options.Password.RequireLowercase = true;
-                options.Password.RequireUppercase = true;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequiredLength = 8;
-                options.Password.RequiredUniqueChars = 1;
-
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 3;
-                options.Lockout.AllowedForNewUsers = true;
-
-                options.SignIn.RequireConfirmedAccount = false;
-                options.SignIn.RequireConfirmedPhoneNumber = false;
-                options.SignIn.RequireConfirmedEmail = false;
-            })
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ContextT>();
-
-            services.Configure<CookieAuthenticationOptions>(options =>
-            {
-                options.Cookie.IsEssential = true;
-                options.Cookie.SameSite = SameSiteMode.Strict;
-                options.Cookie.HttpOnly = true;
-
-                options.ExpireTimeSpan = TimeSpan.FromDays(5);
-                options.SlidingExpiration = true;
-
-                options.LoginPath = "/Identity/Account/Login";
-                options.LogoutPath = "/Identity/Account/Logout";
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-            });
-        }
-
-        public static void ConfigureSignalR(this IServiceCollection services)
-        {
-            services.AddSignalR(options =>
-            {
-                options.ClientTimeoutInterval = TimeSpan.FromSeconds(5);
-                options.HandshakeTimeout = TimeSpan.FromSeconds(5);
-            });
-        }
-
-        public static void ConfigureViews(this IServiceCollection services, IWebHostEnvironment env, string adminPath = DEFAULT_ADMIN_PATH)
-        {
             services.AddControllersWithViews();
 
             var razorPages = services.AddRazorPages(options =>
             {
-                options.Conventions.AuthorizeFolder(adminPath);
+                options.Conventions.AuthorizeFolder(config.AdminPath);
             });
 
             if (env.IsDevelopment())
             {
                 razorPages.AddRazorRuntimeCompilation();
-            }
-        }
 
-        public static void ConfigureLogging(this IServiceCollection services, IWebHostEnvironment env, bool useSignalR = true)
-        {
-            if (env.IsDevelopment())
-            {
                 services.AddLogging(options =>
                 {
                     var console = options.AddConsole();
 
                     console.AddFilter("Microsoft.AspNetCore.Http.Connections", LogLevel.Debug);
 
-                    if (useSignalR)
+                    if (config.UseSignalR)
                     {
                         console.AddFilter("Microsoft.AspNetCore.SignalR", LogLevel.Debug);
                     }
                 });
             }
-        }
 
-        public static IServiceCollection ConfigureDefaultServices<ContextT>(this IServiceCollection services, IWebHostEnvironment env, string connectionStringName, Options options = null)
-            where ContextT : IdentityDbContext
-        {
-            options ??= new();
-
-            services.AddTransient<IConfigureOptions<KestrelServerOptions>, LetsEncryptService>();
-            services.ConfigureDatabase<ContextT>(env, connectionStringName);
-
-            if (options.UseIdentity)
+            if (config.UseIdentity)
             {
-                services.ConfigureAuthentication<ContextT>();
+                services.AddDefaultIdentity<IdentityUser>(options =>
+                {
+                    options.User.RequireUniqueEmail = true;
+
+                    options.Password.RequireDigit = true;
+                    options.Password.RequireLowercase = true;
+                    options.Password.RequireUppercase = true;
+                    options.Password.RequireNonAlphanumeric = true;
+                    options.Password.RequiredLength = 8;
+                    options.Password.RequiredUniqueChars = 1;
+
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                    options.Lockout.MaxFailedAccessAttempts = 3;
+                    options.Lockout.AllowedForNewUsers = true;
+
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.SignIn.RequireConfirmedPhoneNumber = false;
+                    options.SignIn.RequireConfirmedEmail = false;
+                })
+                    .AddRoles<IdentityRole>()
+                    .AddEntityFrameworkStores<ContextT>();
+
+                services.Configure<CookieAuthenticationOptions>(options =>
+                {
+                    options.Cookie.IsEssential = true;
+                    options.Cookie.SameSite = SameSiteMode.Strict;
+                    options.Cookie.HttpOnly = true;
+
+                    options.ExpireTimeSpan = TimeSpan.FromDays(5);
+                    options.SlidingExpiration = true;
+
+                    options.LoginPath = "/Identity/Account/Login";
+                    options.LogoutPath = "/Identity/Account/Logout";
+                    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                });
             }
 
-            if (options.UseEmail)
+            if (config.UseEmail)
             {
                 services.AddTransient<IEmailSender, EmailSender>();
             }
 
-            if (options.UseSignalR)
+            if (config.UseSignalR)
             {
-                services.ConfigureSignalR();
+                services.AddSignalR(options =>
+                {
+                    options.ClientTimeoutInterval = TimeSpan.FromSeconds(5);
+                    options.HandshakeTimeout = TimeSpan.FromSeconds(5);
+                });
             }
-
-            services.ConfigureViews(env, options.AdminPath);
-            services.ConfigureLogging(env, options.UseSignalR);
 
             return services;
         }
