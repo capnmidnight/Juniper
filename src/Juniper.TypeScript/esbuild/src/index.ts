@@ -135,6 +135,7 @@ export class Build {
         }
 
         return esbuild({
+            platform: "browser",
             color: true,
             outbase: "src",
             logLevel: "warning",

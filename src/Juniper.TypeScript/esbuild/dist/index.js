@@ -109,6 +109,7 @@ export class Build {
             define[key] = value;
         }
         return esbuild({
+            platform: "browser",
             color: true,
             outbase: "src",
             logLevel: "warning",
