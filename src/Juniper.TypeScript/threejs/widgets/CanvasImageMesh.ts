@@ -42,5 +42,6 @@ export class CanvasImageMesh<T extends ICanvasImage> implements Widget {
         elementSetDisplay(this, v, "inline-block");
         objectSetVisible(this, v);
         objectSetVisible(this.mesh, v);
+        this.image.visible = v;
     }
 }
