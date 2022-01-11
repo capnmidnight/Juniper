@@ -1,5 +1,6 @@
 import { CanvasTypes, isOffscreenCanvas } from "juniper-dom/canvas";
 import { isWorker } from "juniper-tslib";
+import { Image_Jpeg } from "../mediatypes";
 import { openWindow } from "./windowing";
 
 
@@ -8,13 +9,17 @@ export async function canvasView(canvas: CanvasTypes): Promise<void> {
         return;
     }
 
-    let url: string;
+    let blob: Blob;
     if (isOffscreenCanvas(canvas)) {
-        const blob = await canvas.convertToBlob();
-        url = URL.createObjectURL(blob);
+        blob = await canvas.convertToBlob({
+            type: Image_Jpeg.value
+        });
     }
     else {
-        url = canvas.toDataURL();
+        blob = await new Promise(resolve => canvas.toBlob(resolve, Image_Jpeg.value));
     }
+
+    const url = URL.createObjectURL(blob);
+
     openWindow(url, 0, 0, canvas.width + 10, canvas.height + 100);
 }
