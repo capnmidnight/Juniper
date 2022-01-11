@@ -2,17 +2,21 @@ import type { CanvasImageTypes } from "juniper-dom/canvas";
 import { createCanvasFromImageBitmap, isImageBitmap, isOffscreenCanvas } from "juniper-dom/canvas";
 import type { IFetcher } from "juniper-fetcher";
 import type { IProgress } from "juniper-tslib";
-import { isArray, isNumber } from "juniper-tslib";
-import { isMeshBasicMaterial, isMeshPhysicalMaterial, isMeshStandardMaterial, isTexture } from "./typeChecks";
+import { isNumber } from "juniper-tslib";
+import { isTexture } from "./typeChecks";
 
 const inchesPerMeter = 39.3701;
 
-export class TexturedMesh extends THREE.Mesh {
+type Material = THREE.Material & {
+    map: THREE.Texture;
+};
+
+export class TexturedMesh extends THREE.Mesh<THREE.BufferGeometry, Material> {
     isVideo: boolean;
     private _imageWidth: number = 0;
     private _imageHeight: number = 0;
 
-    constructor(geom: THREE.BufferGeometry, mat: THREE.Material) {
+    constructor(geom: THREE.BufferGeometry, mat: Material) {
         super(geom, mat);
         this.isVideo = false;
 
@@ -91,18 +95,11 @@ export class TexturedMesh extends THREE.Mesh {
             this.isVideo = img instanceof HTMLVideoElement;
         }
 
-        if (!isArray(this.material)) {
-            if (isMeshBasicMaterial(this.material)
-                || isMeshStandardMaterial(this.material)
-                || isMeshPhysicalMaterial(this.material)) {
-                this.material.map = img;
-            }
-            this.material.needsUpdate = true;
-        }
+        this.material.map = img;
+        this.material.needsUpdate = true;
 
         return img;
     }
-
 
     async loadImage(path: string, fetcher: IFetcher, onProgress?: IProgress): Promise<void> {
         let { content: img } = await fetcher
@@ -114,10 +111,17 @@ export class TexturedMesh extends THREE.Mesh {
     }
 
     updateTexture() {
-        if (isMeshBasicMaterial(this.material)
-            || isMeshStandardMaterial(this.material)
-            || isMeshPhysicalMaterial(this.material)) {
-            this.material.map.needsUpdate = true;
+        const img = this.material.map.image;
+        if (isNumber(img.width)
+            && isNumber(img.height)
+            && (this.imageWidth !== img.width
+                || this.imageHeight !== img.height)) {
+            this._imageWidth = img.width;
+            this._imageHeight = img.height
+            this.material.map.dispose();
+            this.material.map = new THREE.Texture(img);
+            this.material.needsUpdate = true;
         }
+        this.material.map.needsUpdate = true;
     }
 }
