@@ -13,6 +13,7 @@ export interface ICanvasImage extends TypedEventBase<CanvasImageEvents> {
     width: number;
     height: number;
     aspectRatio: number;
+    visible: boolean;
 }
 
 export interface CanvasImageOptions {
@@ -31,6 +32,8 @@ export abstract class CanvasImage<T>
     private _canvas: CanvasTypes;
     private _scale = 250;
     private _g: Context2D;
+    private _visible = true;
+    private wasVisible: boolean = null;
 
     private redrawnEvt = new TypedEvent("redrawn");
     readonly element: HTMLCanvasElement = null;
@@ -66,7 +69,8 @@ export abstract class CanvasImage<T>
     }
 
     protected redraw(): void {
-        if (this.onRedraw()) {
+        if ((this.visible || this.wasVisible) && this.onRedraw()) {
+            this.wasVisible = this.visible;
             this.dispatchEvent(this.redrawnEvt);
         }
     }
@@ -106,6 +110,18 @@ export abstract class CanvasImage<T>
     set scale(v) {
         if (this.scale !== v) {
             this._scale = v;
+            this.redraw();
+        }
+    }
+
+    get visible() {
+        return this._visible;
+    }
+
+    set visible(v) {
+        if (this.visible !== v) {
+            this.wasVisible = this._visible;
+            this._visible = v;
             this.redraw();
         }
     }
