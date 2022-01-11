@@ -430,7 +430,8 @@ export class TextImage
     protected onRedraw() {
         this.g.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        if (this.fontFamily
+        if (this.visible
+            && this.fontFamily
             && this.fontSize
             && (this.textFillColor || (this.textStrokeColor && this.textStrokeSize))
             && this.value) {
