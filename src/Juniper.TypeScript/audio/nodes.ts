@@ -1,5 +1,5 @@
 import { onUserGesture } from "juniper-dom/onUserGesture";
-import { assertNever, GraphNode, IDisposable, isArray, isDefined, isNullOrUndefined, once } from "juniper-tslib";
+import { assertNever, GraphNode, IDisposable, isArray, isDefined, isNullOrUndefined, once, singleton } from "juniper-tslib";
 
 export interface WrappedAudioNode extends IDisposable {
     node: AudioNode;
@@ -32,8 +32,8 @@ export type AudioConnection
 
 export type BaseAudioNodeParamType = number | ChannelCountMode | ChannelInterpretation;
 
-const connections = new Map<AudioNode, Set<AudioNode | AudioParam>>();
-const names = new Map<AudioNode | AudioParam, string>();
+const connections = singleton("Juniper:Audio:connections", () => new Map<AudioNode, Set<AudioNode | AudioParam>>());
+const names = singleton("Juniper:Audio:names", () => new Map<AudioNode | AudioParam, string>());
 
 function resolveOutput(node: AudioNodeType): AudioNode {
     if (isErsatzAudioNode(node)) {
