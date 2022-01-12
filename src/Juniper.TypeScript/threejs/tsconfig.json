@@ -26,6 +26,7 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "sourceMap": false,
+    "useDefineForClassFields": true,
 
     "allowJs": false,
     "allowSyntheticDefaultImports": true,

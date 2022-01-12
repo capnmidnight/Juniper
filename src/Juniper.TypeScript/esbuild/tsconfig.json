@@ -21,6 +21,7 @@
     "moduleResolution": "Node",
     "sourceMap": false,
     "incremental": true,
+    "useDefineForClassFields": true,
 
     "declaration": true,
     "disableSizeLimit": true,
