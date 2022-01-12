@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "init": "npm ci",
-    "build": "tsc --build"
+    "build": "npx tsc --build"
   },
   "devDependencies": {
     "tslib": "2.3.1",

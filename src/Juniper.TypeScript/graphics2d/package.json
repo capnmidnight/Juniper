@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "init": "npm ci",
-    "build": "tsc --build"
+    "build": "npx tsc --build"
   },
   "dependencies": {
     "gl-matrix": "3.4.3",

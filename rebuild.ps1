@@ -14,4 +14,4 @@ cd ..\units; npm i; npm run build
 cd ..\audio; npm i; npm run build
 cd ..\webrtc; npm i; npm run build
 cd ..\threejs; npm i; npm run build
-cd ..\..\
+cd ..\..\..\
