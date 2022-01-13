@@ -33,8 +33,6 @@ namespace Juniper.Processes
         public event EventHandler<StringEventArgs> Warning;
         public event EventHandler<ErrorEventArgs> Err;
 
-        public bool UseShellExecute { get; set; }
-
         public bool LoadUserProfile { get; set; }
 
         public bool AccumulateOutput { get; set; }
@@ -46,6 +44,29 @@ namespace Juniper.Processes
         public string TotalStandardOutput { get; private set; }
 
         public string TotalStandardError { get; private set; }
+
+        public static string FindCommandPath(string command)
+        {
+            var path = Environment.GetEnvironmentVariable("PATH");
+
+            var directories = new List<string>(path.Split(Path.PathSeparator));
+            directories.Insert(0, Environment.CurrentDirectory);
+
+            var choices = new List<string>();
+            foreach (var part in directories)
+            {
+                foreach (var ext in exts)
+                {
+                    if (ext.Length > 0 || Environment.OSVersion.Platform == PlatformID.Unix)
+                    {
+                        choices.Add(Path.Combine(part, command + ext));
+                    }
+                }
+            }
+
+            return choices.Where(File.Exists)
+                .FirstOrDefault();
+        }
 
         public ShellCommand(string command, params string[] args)
         {
@@ -59,27 +80,10 @@ namespace Juniper.Processes
                 throw new InvalidOperationException($"{nameof(command)} cannot be an empty string.");
             }
 
+            this.command = FindCommandPath(command);
             this.args = args ?? Array.Empty<string>();
 
             CommandName = this.args.Prepend(command).ToArray().Join(' ');
-
-            var path = Environment.GetEnvironmentVariable("PATH");
-            var parts = new List<string>(path.Split(Path.PathSeparator));
-            parts.Insert(0, Environment.CurrentDirectory);
-            var choices = new List<string>();
-            foreach (var part in parts)
-            {
-                foreach (var ext in exts)
-                {
-                    if (ext.Length > 0 || Environment.OSVersion.Platform == PlatformID.Unix)
-                    {
-                        choices.Add(Path.Combine(part, command + ext));
-                    }
-                }
-            }
-
-            this.command = choices.Where(File.Exists)
-                .FirstOrDefault();
         }
 
         public async Task<int> RunAsync(CancellationToken? token = null)
@@ -99,7 +103,7 @@ namespace Juniper.Processes
                 StartInfo = new ProcessStartInfo(command)
                 {
                     Arguments = args.ToArray().Join(' '),
-                    UseShellExecute = UseShellExecute,
+                    UseShellExecute = false,
                     LoadUserProfile = LoadUserProfile,
                     StandardErrorEncoding = Encoding,
                     StandardOutputEncoding = Encoding,
@@ -112,28 +116,45 @@ namespace Juniper.Processes
                 }
             };
 
-            var outputAccum = new StringBuilder();
-            var errorAccum = new StringBuilder();
-
-            void Proc_AccumOutputData(object sender, DataReceivedEventArgs e)
-            {
-                _ = outputAccum.AppendLine(e.Data);
-            }
-
-            void Proc_AccumErrorData(object sender, DataReceivedEventArgs e)
-            {
-                _ = errorAccum.AppendLine(e.Data);
-            }
-
             if (AccumulateOutput)
             {
                 TotalStandardOutput = string.Empty;
                 TotalStandardError = string.Empty;
 
+                var outputAccum = new StringBuilder();
+                var errorAccum = new StringBuilder();
+
+                void Proc_AccumOutputData(object sender, DataReceivedEventArgs e)
+                {
+                    _ = outputAccum.AppendLine(e.Data);
+                }
+
+                void Proc_AccumErrorData(object sender, DataReceivedEventArgs e)
+                {
+                    _ = errorAccum.AppendLine(e.Data);
+                }
+
                 proc.OutputDataReceived += Proc_AccumOutputData;
                 proc.ErrorDataReceived += Proc_AccumErrorData;
+
+                await ExecuteProcess(proc, token);
+
+                proc.OutputDataReceived -= Proc_AccumOutputData;
+                proc.ErrorDataReceived -= Proc_AccumErrorData;
+
+                TotalStandardOutput = outputAccum.ToString();
+                TotalStandardError = errorAccum.ToString();
+            }
+            else
+            {
+                await ExecuteProcess(proc, token);
             }
 
+            return proc.ExitCode;
+        }
+
+        private async Task ExecuteProcess(Process proc, CancellationToken? token)
+        {
             proc.OutputDataReceived += Proc_OutputDataReceived;
             proc.ErrorDataReceived += Proc_ErrorDataReceived;
 
@@ -157,17 +178,6 @@ namespace Juniper.Processes
 
             proc.OutputDataReceived -= Proc_OutputDataReceived;
             proc.ErrorDataReceived -= Proc_ErrorDataReceived;
-
-            if (AccumulateOutput)
-            {
-                proc.OutputDataReceived -= Proc_AccumOutputData;
-                proc.ErrorDataReceived -= Proc_AccumErrorData;
-
-                TotalStandardOutput = outputAccum.ToString();
-                TotalStandardError = errorAccum.ToString();
-            }
-
-            return proc.ExitCode;
         }
 
         public async Task<int> RunSafeAsync(CancellationToken? token = null)
