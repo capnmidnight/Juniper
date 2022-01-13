@@ -47,25 +47,16 @@ namespace Juniper.Processes
 
         public static string FindCommandPath(string command)
         {
-            var path = Environment.GetEnvironmentVariable("PATH");
+            var PATH = Environment.GetEnvironmentVariable("PATH");
+            var directories = PATH.Split(Path.PathSeparator);
+            var choices = from dir in directories.Prepend(Environment.CurrentDirectory)
+                          from ext in exts
+                          where ext.Length > 0 || Environment.OSVersion.Platform == PlatformID.Unix
+                          let exe = Path.Combine(dir, command + ext)
+                          where File.Exists(exe)
+                          select exe;
 
-            var directories = new List<string>(path.Split(Path.PathSeparator));
-            directories.Insert(0, Environment.CurrentDirectory);
-
-            var choices = new List<string>();
-            foreach (var part in directories)
-            {
-                foreach (var ext in exts)
-                {
-                    if (ext.Length > 0 || Environment.OSVersion.Platform == PlatformID.Unix)
-                    {
-                        choices.Add(Path.Combine(part, command + ext));
-                    }
-                }
-            }
-
-            return choices.Where(File.Exists)
-                .FirstOrDefault();
+            return choices.FirstOrDefault();
         }
 
         public ShellCommand(string command, params string[] args)
