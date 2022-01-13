@@ -1,19 +1,32 @@
 using Juniper.Logging;
-
+using System.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Juniper.Processes
 {
-    public abstract class AbstractShellCommand :
-        ILoggingSource
+    public class ShellCommand :
+        ILoggingSource,
+        IDisposable
     {
+        private static readonly string[] exts = {
+            "",
+            ".exe",
+            ".cmd"
+        };
+
         private readonly string command;
+        private readonly string[] args;
+        private readonly CancellationTokenSource canceller = new();
+
+        private bool disposedValue;
+        private Task task;
 
         public event EventHandler<StringEventArgs> Info;
         public event EventHandler<StringEventArgs> Warning;
@@ -23,13 +36,15 @@ namespace Juniper.Processes
 
         public bool LoadUserProfile { get; set; }
 
-        public Encoding Encoding { get; set; }
+        public Encoding Encoding { get; set; } = Encoding.UTF8;
+
+        public string LastCommand { get; private set; }
 
         public string TotalStandardOutput { get; private set; }
 
         public string TotalStandardError { get; private set; }
 
-        protected AbstractShellCommand(string command)
+        public ShellCommand(string command, params string[] args)
         {
             if (command is null)
             {
@@ -41,30 +56,39 @@ namespace Juniper.Processes
                 throw new InvalidOperationException($"{nameof(command)} cannot be an empty string.");
             }
 
-            this.command = command;
+            var path = Environment.GetEnvironmentVariable("PATH");
+            var parts = new List<string>(path.Split(Path.PathSeparator));
+            parts.Insert(0, Environment.CurrentDirectory);
+            var choices = new List<string>();
+            foreach (var part in parts)
+            {
+                foreach (var ext in exts)
+                {
+                    if (ext.Length > 0 || Environment.OSVersion.Platform == PlatformID.Unix)
+                    {
+                        choices.Add(Path.Combine(part, command + ext));
+                    }
+                }
+            }
+
+            this.command = choices.Where(File.Exists)
+                .FirstOrDefault();
+
+            if (this.command is null)
+            {
+                throw new FileNotFoundException(command);
+            }
+
+            this.args = args ?? Array.Empty<string>();
         }
 
-        protected abstract IEnumerable<string> Arguments
+        public async Task<int> RunAsync(CancellationToken? token = null)
         {
-            get;
-        }
+            if (task is not null)
+            {
+                throw new InvalidOperationException("Cannot invoke the command a second time");
+            }
 
-        public Task<int> RunAsync()
-        {
-            return RunAsync(Arguments);
-        }
-
-        public int Run()
-        {
-            return RunAsync().Result;
-        }
-
-#if DEBUG
-        public string LastCommand { get; private set; }
-#endif
-
-        protected virtual async Task<int> RunAsync(IEnumerable<string> arguments)
-        {
             TotalStandardOutput = string.Empty;
             TotalStandardError = string.Empty;
 
@@ -72,7 +96,7 @@ namespace Juniper.Processes
             {
                 StartInfo = new ProcessStartInfo(command)
                 {
-                    Arguments = arguments.ToArray().Join(' '),
+                    Arguments = args.ToArray().Join(' '),
                     UseShellExecute = UseShellExecute,
                     LoadUserProfile = LoadUserProfile,
                     StandardErrorEncoding = Encoding,
@@ -86,9 +110,7 @@ namespace Juniper.Processes
                 }
             };
 
-#if DEBUG
-            LastCommand = $"{Environment.CurrentDirectory}> {proc.StartInfo.FileName} {proc.StartInfo.Arguments}";
-#endif
+            LastCommand = $"{proc.StartInfo.FileName} {proc.StartInfo.Arguments}";
 
             var outputAccum = new StringBuilder();
             void Proc_AccumOutputData(object sender, DataReceivedEventArgs e)
@@ -124,8 +146,15 @@ namespace Juniper.Processes
             proc.BeginOutputReadLine();
             proc.BeginErrorReadLine();
 
-            await Task.Run(proc.WaitForExit)
-                .ConfigureAwait(false);
+            if (token is null)
+            {
+                await RunProcess(proc, canceller.Token).ConfigureAwait(false);
+            }
+            else
+            {
+                using var linkedCanceller = CancellationTokenSource.CreateLinkedTokenSource(token.Value, canceller.Token);
+                await RunProcess(proc, linkedCanceller.Token).ConfigureAwait(false);
+            }
 
             TotalStandardOutput = outputAccum.ToString();
             TotalStandardError = errorAccum.ToString();
@@ -136,6 +165,46 @@ namespace Juniper.Processes
             proc.OutputDataReceived -= Proc_AccumOutputData;
 
             return proc.ExitCode;
+        }
+
+        private async Task RunProcess(Process proc, CancellationToken token)
+        {
+            task = Task.Run(proc.WaitForExit, token);
+            await task.ConfigureAwait(false);
+            if (task.IsCanceled && !proc.HasExited)
+            {
+                proc.Kill();
+            }
+            task = null;
+        }
+
+        public void Kill()
+        {
+            canceller.Cancel();
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    if (task?.IsCompleted == false)
+                    {
+                        Kill();
+                        task.RunSynchronously();
+                    }
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
 
         private void Proc_OutputDataReceived(object sender, DataReceivedEventArgs e)
