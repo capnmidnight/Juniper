@@ -21,7 +21,7 @@ namespace Juniper.Services
     {
         ShellCommand Command { get; set; }
 
-        Task<int> RunAsync(CancellationToken? token);
+        Task RunAsync(CancellationToken? token);
     }
 
     public class ScopedShellCommand : IScopedShellCommand
@@ -36,29 +36,35 @@ namespace Juniper.Services
 
         private void Command_Info(object sender, StringEventArgs e)
         {
-            logger.LogInformation("({LastCommand}): {Message}", Command.LastCommand, e.Value);
+            logger.LogInformation("({LastCommand}): {Message}", Command.CommandName, e.Value);
         }
 
         private void Command_Warning(object sender, StringEventArgs e)
         {
-            logger.LogWarning("({LastCommand}): {Message}", Command.LastCommand, e.Value);
+            logger.LogWarning("({LastCommand}): {Message}", Command.CommandName, e.Value);
         }
 
-        private void Command_Err(object sender, ErrorEventArgs e)
-        {
-            logger.LogError(e.Value, "({LastCommand}): {Message}", Command.LastCommand, e.Value.Message);
-        }
-
-        public async Task<int> RunAsync(CancellationToken? token)
+        public async Task RunAsync(CancellationToken? token)
         {
             Command.Info += Command_Info;
             Command.Warning += Command_Warning;
-            Command.Err += Command_Err;
-            var result = await Command.RunAsync(token);
-            Command.Info -= Command_Info;
-            Command.Warning -= Command_Warning;
-            Command.Err -= Command_Err;
-            return result;
+            try
+            {
+                var result = await Command.RunAsync(token);
+                if(result != 0)
+                {
+                    throw new Exception($"Non-zero exit value = {result}");
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "({LastCommand}): {Message}", Command.CommandName, ex.Message);
+            }
+            finally
+            {
+                Command.Info -= Command_Info;
+                Command.Warning -= Command_Warning;
+            }
         }
     }
 

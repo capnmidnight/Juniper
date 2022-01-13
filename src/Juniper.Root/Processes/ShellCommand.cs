@@ -1,8 +1,9 @@
 using Juniper.Logging;
-using System.IO;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -36,9 +37,11 @@ namespace Juniper.Processes
 
         public bool LoadUserProfile { get; set; }
 
+        public bool AccumulateOutput { get; set; }
+
         public Encoding Encoding { get; set; } = Encoding.UTF8;
 
-        public string LastCommand { get; private set; }
+        public string CommandName { get; private set; }
 
         public string TotalStandardOutput { get; private set; }
 
@@ -55,6 +58,10 @@ namespace Juniper.Processes
             {
                 throw new InvalidOperationException($"{nameof(command)} cannot be an empty string.");
             }
+
+            this.args = args ?? Array.Empty<string>();
+
+            CommandName = this.args.Prepend(command).ToArray().Join(' ');
 
             var path = Environment.GetEnvironmentVariable("PATH");
             var parts = new List<string>(path.Split(Path.PathSeparator));
@@ -73,13 +80,6 @@ namespace Juniper.Processes
 
             this.command = choices.Where(File.Exists)
                 .FirstOrDefault();
-
-            if (this.command is null)
-            {
-                throw new FileNotFoundException(command);
-            }
-
-            this.args = args ?? Array.Empty<string>();
         }
 
         public async Task<int> RunAsync(CancellationToken? token = null)
@@ -89,8 +89,10 @@ namespace Juniper.Processes
                 throw new InvalidOperationException("Cannot invoke the command a second time");
             }
 
-            TotalStandardOutput = string.Empty;
-            TotalStandardError = string.Empty;
+            if (command is null)
+            {
+                throw new InvalidOperationException("Cannot find command: " + CommandName);
+            }
 
             using var proc = new Process()
             {
@@ -110,37 +112,34 @@ namespace Juniper.Processes
                 }
             };
 
-            LastCommand = $"{proc.StartInfo.FileName} {proc.StartInfo.Arguments}";
-
             var outputAccum = new StringBuilder();
+            var errorAccum = new StringBuilder();
+
             void Proc_AccumOutputData(object sender, DataReceivedEventArgs e)
             {
                 _ = outputAccum.AppendLine(e.Data);
             }
 
-            var errorAccum = new StringBuilder();
             void Proc_AccumErrorData(object sender, DataReceivedEventArgs e)
             {
                 _ = errorAccum.AppendLine(e.Data);
             }
 
-            proc.OutputDataReceived += Proc_AccumOutputData;
+            if (AccumulateOutput)
+            {
+                TotalStandardOutput = string.Empty;
+                TotalStandardError = string.Empty;
+
+                proc.OutputDataReceived += Proc_AccumOutputData;
+                proc.ErrorDataReceived += Proc_AccumErrorData;
+            }
+
             proc.OutputDataReceived += Proc_OutputDataReceived;
-            proc.ErrorDataReceived += Proc_AccumErrorData;
             proc.ErrorDataReceived += Proc_ErrorDataReceived;
 
-            try
+            if (!proc.Start())
             {
-                if (!proc.Start())
-                {
-                    throw new InvalidOperationException("Could not start process.");
-                }
-            }
-            catch (Exception exp)
-            {
-                exp.Data.Add("ProcessStart", proc.StartInfo);
-                OnError(exp);
-                throw;
+                throw new InvalidOperationException("Could not start process.");
             }
 
             proc.BeginOutputReadLine();
@@ -156,15 +155,32 @@ namespace Juniper.Processes
                 await RunProcess(proc, linkedCanceller.Token).ConfigureAwait(false);
             }
 
-            TotalStandardOutput = outputAccum.ToString();
-            TotalStandardError = errorAccum.ToString();
-
-            proc.ErrorDataReceived -= Proc_ErrorDataReceived;
             proc.OutputDataReceived -= Proc_OutputDataReceived;
-            proc.ErrorDataReceived -= Proc_AccumErrorData;
-            proc.OutputDataReceived -= Proc_AccumOutputData;
+            proc.ErrorDataReceived -= Proc_ErrorDataReceived;
+
+            if (AccumulateOutput)
+            {
+                proc.OutputDataReceived -= Proc_AccumOutputData;
+                proc.ErrorDataReceived -= Proc_AccumErrorData;
+
+                TotalStandardOutput = outputAccum.ToString();
+                TotalStandardError = errorAccum.ToString();
+            }
 
             return proc.ExitCode;
+        }
+
+        public async Task<int> RunSafeAsync(CancellationToken? token = null)
+        {
+            try
+            {
+                return await RunAsync(token);
+            }
+            catch (Exception ex)
+            {
+                OnError(ex);
+                return -1;
+            }
         }
 
         private async Task RunProcess(Process proc, CancellationToken token)
