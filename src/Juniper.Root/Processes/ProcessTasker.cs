@@ -1,7 +1,6 @@
 using Juniper.Logging;
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -12,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Juniper.Processes
 {
-    public class ShellCommand :
+    public class ProcessTasker :
         ILoggingSource,
         IDisposable
     {
@@ -59,7 +58,7 @@ namespace Juniper.Processes
             return choices.FirstOrDefault();
         }
 
-        public ShellCommand(string command, params string[] args)
+        public ProcessTasker(string command, params string[] args)
         {
             if (command is null)
             {

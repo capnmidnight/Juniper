@@ -2,6 +2,33 @@ using Juniper.Processes;
 
 namespace Juniper.Services
 {
+    public class ShellCommand
+    {
+        private readonly string command;
+        private readonly string[] args;
+
+        public ShellCommand(string command, params string[] args)
+        {
+            if (command is null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
+
+            if (command.Length == 0)
+            {
+                throw new InvalidOperationException($"{nameof(command)} cannot be an empty string.");
+            }
+
+            this.command = command;
+            this.args = args ?? Array.Empty<string>();
+        }
+
+        internal ProcessTasker CreateTask()
+        {
+            return new ProcessTasker(command, args);
+        }
+    }
+
     public static class IServiceCollectionExtensions
     {
         public static IServiceCollection AddShellCommands(this IServiceCollection services, Action<ShellCommandTree> addCommands)
@@ -19,15 +46,12 @@ namespace Juniper.Services
 
     public interface IScopedShellCommand
     {
-        ShellCommand Command { get; set; }
-
-        Task RunAsync(CancellationToken? token);
+        Task RunAsync(ShellCommand command, CancellationToken? token);
     }
 
     public class ScopedShellCommand : IScopedShellCommand
     {
         private readonly ILogger<ScopedShellCommand> logger;
-        public ShellCommand Command { get; set; }
 
         public ScopedShellCommand(ILogger<ScopedShellCommand> logger)
         {
@@ -36,21 +60,28 @@ namespace Juniper.Services
 
         private void Command_Info(object sender, StringEventArgs e)
         {
-            logger.LogInformation("({LastCommand}): {Message}", Command.CommandName, e.Value);
+            if (sender is ProcessTasker proc)
+            {
+                logger.LogInformation("({LastCommand}): {Message}", proc.CommandName, e.Value);
+            }
         }
 
         private void Command_Warning(object sender, StringEventArgs e)
         {
-            logger.LogWarning("({LastCommand}): {Message}", Command.CommandName, e.Value);
+            if (sender is ProcessTasker proc)
+            {
+                logger.LogWarning("({LastCommand}): {Message}", proc.CommandName, e.Value);
+            }
         }
 
-        public async Task RunAsync(CancellationToken? token)
+        public async Task RunAsync(ShellCommand command, CancellationToken? token)
         {
-            Command.Info += Command_Info;
-            Command.Warning += Command_Warning;
+            using var task = command.CreateTask();
+            task.Info += Command_Info;
+            task.Warning += Command_Warning;
             try
             {
-                var result = await Command.RunAsync(token);
+                var result = await task.RunAsync(token);
                 if(result != 0)
                 {
                     throw new Exception($"Non-zero exit value = {result}");
@@ -58,12 +89,12 @@ namespace Juniper.Services
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "({LastCommand}): {Message}", Command.CommandName, ex.Message);
+                logger.LogError(ex, "({LastCommand}): {Message}", task.CommandName, ex.Message);
             }
             finally
             {
-                Command.Info -= Command_Info;
-                Command.Warning -= Command_Warning;
+                task.Info -= Command_Info;
+                task.Warning -= Command_Warning;
             }
         }
     }
@@ -74,10 +105,9 @@ namespace Juniper.Services
         IShellCommandTree AddCommands(params ShellCommand[] commands);
     }
 
-    public class ShellCommandTree : IShellCommandTree, IDisposable
+    public class ShellCommandTree : IShellCommandTree
     {
         private readonly List<ShellCommand[]> commandTree = new();
-        private bool disposedValue;
 
         public IEnumerable<IEnumerable<ShellCommand>> CommandTree => commandTree;
 
@@ -85,32 +115,6 @@ namespace Juniper.Services
         {
             commandTree.Add(commands);
             return this;
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    foreach (var commands in commandTree)
-                    {
-                        foreach (var command in commands)
-                        {
-                            command.Dispose();
-                        }
-                    }
-                }
-
-                disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
         }
     }
 
@@ -136,8 +140,7 @@ namespace Juniper.Services
             {
                 using var scope = services.CreateScope();
                 var scopedCommand = scope.ServiceProvider.GetRequiredService<IScopedShellCommand>();
-                scopedCommand.Command = command;
-                await scopedCommand.RunAsync(stoppingToken);
+                await scopedCommand.RunAsync(command, stoppingToken);
             }
         }
     }
