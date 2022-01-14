@@ -1,6 +1,6 @@
 import { CanvasTypes, isOffscreenCanvas } from "juniper-dom/canvas";
 import { isWorker } from "juniper-tslib";
-import { Image_Jpeg } from "../mediatypes";
+import { Image_Jpeg } from "juniper-mediatypes";
 import { openWindow } from "./windowing";
 
 

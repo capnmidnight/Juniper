@@ -10,8 +10,6 @@
   "compileOnSave": true,
 
   "compilerOptions": {
-    "composite": true,
-
     "lib": [ "ESNext" ],
     "target": "ESNext",
     "module": "ESNext",
@@ -28,7 +26,6 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "sourceMap": false,
-    "useDefineForClassFields": true,
 
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
