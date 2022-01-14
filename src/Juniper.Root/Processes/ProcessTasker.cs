@@ -1,19 +1,15 @@
-using Juniper.Logging;
 
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Juniper.Processes
 {
-    public class ProcessTasker :
-        ILoggingSource,
-        IDisposable
+    public class ProcessTasker : AbstractTasker
     {
         private static readonly string[] exts = {
             "",
@@ -25,12 +21,7 @@ namespace Juniper.Processes
         private readonly string[] args;
         private readonly CancellationTokenSource canceller = new();
 
-        private bool disposedValue;
         private Task task;
-
-        public event EventHandler<StringEventArgs> Info;
-        public event EventHandler<StringEventArgs> Warning;
-        public event EventHandler<ErrorEventArgs> Err;
 
         public bool LoadUserProfile { get; set; }
 
@@ -38,11 +29,11 @@ namespace Juniper.Processes
 
         public Encoding Encoding { get; set; } = Encoding.UTF8;
 
-        public string CommandName { get; private set; }
-
         public string TotalStandardOutput { get; private set; }
 
         public string TotalStandardError { get; private set; }
+
+        public int? ExitCode { get; private set; }
 
         public static string FindCommandPath(string command)
         {
@@ -76,7 +67,7 @@ namespace Juniper.Processes
             CommandName = this.args.Prepend(command).ToArray().Join(' ');
         }
 
-        public async Task<int> RunAsync(CancellationToken? token = null)
+        public override async Task RunAsync(CancellationToken? token = null)
         {
             if (task is not null)
             {
@@ -87,6 +78,8 @@ namespace Juniper.Processes
             {
                 throw new InvalidOperationException("Cannot find command: " + CommandName);
             }
+
+            ExitCode = null;
 
             using var proc = new Process()
             {
@@ -139,8 +132,6 @@ namespace Juniper.Processes
             {
                 await ExecuteProcess(proc, token);
             }
-
-            return proc.ExitCode;
         }
 
         private async Task ExecuteProcess(Process proc, CancellationToken? token)
@@ -168,18 +159,12 @@ namespace Juniper.Processes
 
             proc.OutputDataReceived -= Proc_OutputDataReceived;
             proc.ErrorDataReceived -= Proc_ErrorDataReceived;
-        }
 
-        public async Task<int> RunSafeAsync(CancellationToken? token = null)
-        {
-            try
+            ExitCode = proc.ExitCode;
+
+            if (ExitCode != 0)
             {
-                return await RunAsync(token);
-            }
-            catch (Exception ex)
-            {
-                OnError(ex);
-                return -1;
+                throw new Exception($"Non-zero exit value = {ExitCode}");
             }
         }
 
@@ -199,30 +184,6 @@ namespace Juniper.Processes
             canceller.Cancel();
         }
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    if (task?.IsCompleted == false)
-                    {
-                        Kill();
-                        task.RunSynchronously();
-                    }
-                }
-
-                disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
-
         private void Proc_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             OnInfo(e.Data);
@@ -231,24 +192,6 @@ namespace Juniper.Processes
         private void Proc_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
             OnWarning(e.Data);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void OnInfo(string message)
-        {
-            Info?.Invoke(this, new StringEventArgs(message));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void OnWarning(string message)
-        {
-            Warning?.Invoke(this, new StringEventArgs(message));
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void OnError(Exception exp)
-        {
-            Err?.Invoke(this, new ErrorEventArgs(exp));
         }
     }
 }

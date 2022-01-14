@@ -196,11 +196,13 @@ namespace Juniper.Services
         {
             return host.UseSystemd()
                 .ConfigureWebHostDefaults(webBuilder =>
+                {
                     webBuilder
 #if DEBUG
                         .UseUrls("https://*:443", "http://*:80")
 #endif
-                        .UseStartup<StartupT>());
+                        .UseStartup<StartupT>();
+                });
         }
     }
 }
