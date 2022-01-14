@@ -1,4 +1,3 @@
-
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -22,8 +21,6 @@ namespace Juniper.Processes
         private readonly CancellationTokenSource canceller = new();
 
         private Task task;
-
-        public bool LoadUserProfile { get; set; }
 
         public bool AccumulateOutput { get; set; }
 
@@ -86,10 +83,10 @@ namespace Juniper.Processes
                 StartInfo = new ProcessStartInfo(command)
                 {
                     Arguments = args.ToArray().Join(' '),
-                    UseShellExecute = false,
-                    LoadUserProfile = LoadUserProfile,
                     StandardErrorEncoding = Encoding,
                     StandardOutputEncoding = Encoding,
+                    LoadUserProfile = false,
+                    UseShellExecute = false,
                     ErrorDialog = false,
                     CreateNoWindow = true,
                     RedirectStandardError = true,
