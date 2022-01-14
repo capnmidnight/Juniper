@@ -23,6 +23,8 @@ namespace Juniper.Services
 
         public override Task RunAsync(CancellationToken? token = null)
         {
+            var outFile = new FileInfo(to);
+            outFile.Directory.Create();
             File.Copy(from, to, overwrite);
             OnInfo("Copied!");
             return Task.CompletedTask;
