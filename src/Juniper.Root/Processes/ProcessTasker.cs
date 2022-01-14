@@ -85,7 +85,6 @@ namespace Juniper.Processes
                     Arguments = args.ToArray().Join(' '),
                     StandardErrorEncoding = Encoding,
                     StandardOutputEncoding = Encoding,
-                    LoadUserProfile = false,
                     UseShellExecute = false,
                     ErrorDialog = false,
                     CreateNoWindow = true,
