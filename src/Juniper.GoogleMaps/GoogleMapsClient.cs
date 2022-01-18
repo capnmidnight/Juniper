@@ -17,8 +17,8 @@ namespace Juniper.World.GIS.Google
     {
         private readonly IJsonFactory<GeocodingResponse> geocodingDecoder;
         private readonly IJsonFactory<MetadataResponse> metadataDecoder;
-        private readonly Dictionary<string, MetadataResponse> metadataCache = new Dictionary<string, MetadataResponse>();
-        private readonly List<string> knownImages = new List<string>();
+        private readonly Dictionary<string, MetadataResponse> metadataCache = new();
+        private readonly List<string> knownImages = new();
 
         public GoogleMapsClient(string apiKey, string signingKey, IJsonFactory<MetadataResponse> metadataDecoder, IJsonFactory<GeocodingResponse> geocodingDecoder, CachingStrategy cache)
             : base(apiKey, signingKey, cache)
@@ -81,7 +81,7 @@ namespace Juniper.World.GIS.Google
             if (value is MetadataResponse metadata
                 && metadata.Status == System.Net.HttpStatusCode.OK
                     && !string.IsNullOrEmpty(metadata.Pano_id)
-                    && metadata.Location is object)
+                    && metadata.Location is not null)
             {
                 var metadataRef = new ContentReference(metadata.Pano_id, MediaType.Application.Json);
                 if (!Cache.IsCached(metadataRef))
@@ -169,8 +169,8 @@ namespace Juniper.World.GIS.Google
         private MetadataResponse Encache(MetadataResponse metadata)
         {
             if (metadata != null
-                && metadata.Location is object
-                && metadata.Pano_id is object)
+                && metadata.Location is not null
+                && metadata.Pano_id is not null)
             {
                 metadataCache[metadata.Location.ToString(CultureInfo.InvariantCulture)] = metadata;
                 metadataCache[metadata.Pano_id] = metadata;
@@ -203,7 +203,7 @@ namespace Juniper.World.GIS.Google
         {
             var imageStream = base.GetImageStreamAsync(pano, fov, heading, pitch, prog);
 
-            if (imageStream is object
+            if (imageStream is not null
                 && knownImages.MaybeAdd(pano))
             {
                 knownImages.Sort();

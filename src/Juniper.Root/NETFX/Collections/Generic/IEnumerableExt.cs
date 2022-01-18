@@ -36,7 +36,7 @@ namespace System.Collections.Generic
         /// <summary>
         /// A random number generator to use with the following methods.
         /// </summary>
-        private static readonly Random r = new Random();
+        private static readonly Random r = new();
 
         /// <summary>
         /// Get a random item out of the collection.
@@ -268,7 +268,7 @@ namespace System.Collections.Generic
             var anySucceed = false;
             foreach (var e in enums)
             {
-                if (e is object)
+                if (e is not null)
                 {
                     anyExist = true;
                     object value;
@@ -282,7 +282,7 @@ namespace System.Collections.Generic
                         value = null;
                     }
 
-                    if (value is object)
+                    if (value is not null)
                     {
                         yield return value;
                     }

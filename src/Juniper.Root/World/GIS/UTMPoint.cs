@@ -142,7 +142,7 @@ namespace Juniper.World.GIS
 
         public bool Equals(UTMPoint other)
         {
-            return other is object
+            return other is not null
                 && Hemisphere == other.Hemisphere
                 && X == other.X
                 && Y == other.Y
@@ -153,7 +153,7 @@ namespace Juniper.World.GIS
         public static bool operator ==(UTMPoint left, UTMPoint right)
         {
             return ReferenceEquals(left, right)
-                || (left is object && left.Equals(right));
+                || (left is not null && left.Equals(right));
         }
 
         public static bool operator !=(UTMPoint left, UTMPoint right)

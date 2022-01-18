@@ -19,7 +19,7 @@ namespace Juniper.Configuration
             var extTypes = new FileExtensionContentTypeProvider();
             var optionalTypes = config.GetSection("ContentTypes")
                 ?.GetChildren();
-            if (optionalTypes is object)
+            if (optionalTypes is not null)
             {
                 foreach (var type in optionalTypes)
                 {

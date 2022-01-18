@@ -1,7 +1,7 @@
+using Juniper.HTTP;
+
 using System;
 using System.Net;
-
-using Juniper.HTTP;
 
 namespace Juniper.Speech.Azure.CognitiveServices
 {

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 
@@ -10,7 +9,7 @@ namespace Juniper.IO
         public static bool operator ==(ContentReference left, ContentReference right)
         {
             return (left is null && right is null)
-                || (left is object && left.Equals(right));
+                || (left is not null && left.Equals(right));
         }
 
         public static bool operator !=(ContentReference left, ContentReference right)
@@ -77,7 +76,7 @@ namespace Juniper.IO
 
         public bool Equals(ContentReference other)
         {
-            return other is object
+            return other is not null
                 && other.ContentType == ContentType
                 && other.CacheID == CacheID;
         }
@@ -100,7 +99,7 @@ namespace Juniper.IO
                 var nameStub = CacheID;
                 var fileStub = new FileInfo(nameStub);
                 nameStub = fileStub.Name;
-                if (ContentType.PrimaryExtension is object)
+                if (ContentType.PrimaryExtension is not null)
                 {
                     return $"{nameStub}.{ContentType.PrimaryExtension}";
                 }
@@ -113,10 +112,7 @@ namespace Juniper.IO
 
         public override int GetHashCode()
         {
-            var hashCode = -1239926094;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(CacheID);
-            hashCode = hashCode * -1521134295 + EqualityComparer<MediaType>.Default.GetHashCode(ContentType);
-            return hashCode;
+            return HashCode.Combine(CacheID, ContentType);
         }
     }
 }

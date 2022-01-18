@@ -99,7 +99,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public bool Equals(MarkerStyle other)
         {
-            return other is object
+            return other is not null
                 && styleDef == other.styleDef;
         }
 
@@ -111,7 +111,7 @@ namespace Juniper.World.GIS.Google.MapTiles
         public static bool operator ==(MarkerStyle left, MarkerStyle right)
         {
             return ReferenceEquals(left, right)
-                || (left is object && left.Equals(right));
+                || (left is not null && left.Equals(right));
         }
 
         public static bool operator !=(MarkerStyle left, MarkerStyle right)

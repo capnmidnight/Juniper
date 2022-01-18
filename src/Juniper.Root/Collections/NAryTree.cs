@@ -32,10 +32,10 @@ namespace Juniper.Collections
                         ? nodes[parentNodeID]
                         : null;
 
-                if (parentNode is object)
+                if (parentNode is not null)
                 {
                     var index = parentNode.Children.Count;
-                    if (getOrder is object)
+                    if (getOrder is not null)
                     {
                         index = getOrder(node.Value);
                     }
@@ -91,7 +91,7 @@ namespace Juniper.Collections
             {
                 var depth = 0;
                 var here = this;
-                while (here is object)
+                while (here is not null)
                 {
                     ++depth;
                     here = here.Parent;
@@ -240,7 +240,7 @@ namespace Juniper.Collections
 
         public bool Contains(NAryTree<T> node)
         {
-            while (node is object)
+            while (node is not null)
             {
                 if (node == this)
                 {
@@ -264,7 +264,7 @@ namespace Juniper.Collections
 
         public void RemoveFromParent()
         {
-            if (Parent is object)
+            if (Parent is not null)
             {
                 Parent.Remove(this);
             }

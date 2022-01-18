@@ -8,7 +8,7 @@ namespace Juniper
     [Serializable]
     public sealed class Size : ISerializable, IEquatable<Size>
     {
-        private static readonly Regex SizePattern = new Regex("^(\\d+)x(\\d+)$", RegexOptions.Compiled);
+        private static readonly Regex SizePattern = new("^(\\d+)x(\\d+)$", RegexOptions.Compiled);
         private static readonly string WIDTH_FIELD = nameof(Width).ToLowerInvariant();
         private static readonly string HEIGHT_FIELD = nameof(Height).ToLowerInvariant();
 
@@ -81,7 +81,7 @@ namespace Juniper
 
         public bool Equals(Size other)
         {
-            return other is object
+            return other is not null
                 && Width == other.Width
                 && Height == other.Height;
         }
@@ -89,7 +89,7 @@ namespace Juniper
         public static bool operator ==(Size left, Size right)
         {
             return ReferenceEquals(left, right)
-                || (left is object && left.Equals(right));
+                || (left is not null && left.Equals(right));
         }
 
         public static bool operator !=(Size left, Size right)
@@ -106,10 +106,7 @@ namespace Juniper
 
         public override int GetHashCode()
         {
-            var hashCode = 859600377;
-            hashCode = (hashCode * -1521134295) + Width.GetHashCode();
-            hashCode = (hashCode * -1521134295) + Height.GetHashCode();
-            return hashCode;
+            return HashCode.Combine(Width, Height);
         }
 
         public override string ToString()

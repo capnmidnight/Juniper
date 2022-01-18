@@ -41,7 +41,7 @@ namespace Juniper
             }
         }
 
-        public static readonly MediaType Any = new MediaType("*/*");
+        public static readonly MediaType Any = new("*/*");
 
         public static readonly IReadOnlyCollection<MediaType> All = new MediaType[] { Any };
 
@@ -76,7 +76,7 @@ namespace Juniper
 
         private static IEnumerable<MediaType> InternalParseAll(string[] acceptTypes)
         {
-            if (acceptTypes is object)
+            if (acceptTypes is not null)
             {
                 foreach (var typeStr in acceptTypes)
                 {
@@ -125,7 +125,7 @@ namespace Juniper
                 type = new MediaType(typeName, subTypeName);
             }
 
-            return type is object;
+            return type is not null;
         }
 
         public static IReadOnlyList<MediaType> GuessByExtension(string ext)
@@ -136,7 +136,7 @@ namespace Juniper
             }
             else if (ext[0] == '.')
             {
-                ext = ext.Substring(1);
+                ext = ext[1..];
             }
 
             if (byExtensions.ContainsKey(ext))
@@ -333,7 +333,7 @@ namespace Juniper
                 throw new ArgumentNullException(nameof(fileName));
             }
 
-            if (PrimaryExtension is object)
+            if (PrimaryExtension is not null)
             {
                 var currentExtension = PathExt.GetShortExtension(fileName);
                 if (Extensions.IndexOf(currentExtension) == -1)
@@ -359,7 +359,7 @@ namespace Juniper
 
         public bool Equals(MediaType other)
         {
-            return other is object
+            return other is not null
                 && (TypeName == "*"
                     || other.TypeName == "*"
                     || TypeName == other.TypeName)
@@ -371,7 +371,7 @@ namespace Juniper
         public static bool operator ==(MediaType left, MediaType right)
         {
             return (left is null && right is null)
-                || (left is object && left.Equals(right));
+                || (left is not null && left.Equals(right));
         }
 
         public static bool operator !=(MediaType left, MediaType right)
@@ -382,7 +382,7 @@ namespace Juniper
         public static bool operator ==(MediaType left, string right)
         {
             return (left is null && right is null)
-                || (left is object && left.Equals(right));
+                || (left is not null && left.Equals(right));
         }
 
         public static bool operator !=(MediaType left, string right)
@@ -393,7 +393,7 @@ namespace Juniper
         public static bool operator ==(string left, MediaType right)
         {
             return (left is null && right is null)
-                || (right is object && right.Equals(left));
+                || (right is not null && right.Equals(left));
         }
 
         public static bool operator !=(string left, MediaType right)
@@ -415,13 +415,7 @@ namespace Juniper
 
         public override int GetHashCode()
         {
-            var hashCode = -1006577490;
-            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(TypeName);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(SubTypeName);
-            hashCode = (hashCode * -1521134295) + Weight.GetHashCode();
-            hashCode = (hashCode * -1521134295) + EqualityComparer<ReadOnlyCollection<string>>.Default.GetHashCode(Extensions);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(PrimaryExtension);
-            return hashCode;
+            return HashCode.Combine(TypeName, SubTypeName, Weight, Extensions, PrimaryExtension);
         }
     }
 }

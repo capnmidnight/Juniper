@@ -169,7 +169,7 @@ namespace System.IO
 
         public static bool IsJunction(this DirectoryInfo directory)
         {
-            return directory is object
+            return directory is not null
                 && (directory.Attributes & FileAttributes.ReparsePoint) != 0;
         }
     }

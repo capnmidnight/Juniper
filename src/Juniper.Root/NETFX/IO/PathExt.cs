@@ -127,7 +127,7 @@ namespace System.IO
             }
             else
             {
-                return path.Substring(i + 1);
+                return path[(i + 1)..];
             }
         }
 
@@ -145,7 +145,7 @@ namespace System.IO
             }
             else
             {
-                return path.Substring(i + 1);
+                return path[(i + 1)..];
             }
         }
 
@@ -156,9 +156,9 @@ namespace System.IO
                 throw new ArgumentNullException(nameof(name));
             }
 
-            if (ext is object)
+            if (ext is not null)
             {
-                name = name.Substring(0, name.Length - ext.Length - 1);
+                name = name[..(name.Length - ext.Length - 1)];
             }
 
             return name;
@@ -256,7 +256,7 @@ namespace System.IO
                     && path[1] == ':'
                     && path[2] == '/')
                 {
-                    path = $"/{path[0]}/{path.Substring(3)}";
+                    path = $"/{path[0]}/{path[3..]}";
                 }
             }
 

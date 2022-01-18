@@ -13,7 +13,7 @@ namespace System
         /// <param name="val">The variable in which to store the value, if it exists.</param>
         public static void MaybeSet<T>(this T? item, ref T val) where T : struct
         {
-            if (item is object)
+            if (item is not null)
             {
                 val = item.Value;
             }
@@ -27,7 +27,7 @@ namespace System
         /// <param name="val">The variable in which to store the value, if it exists.</param>
         public static void MaybeSet<T>(this T item, ref T val) where T : class
         {
-            if (item is object)
+            if (item is not null)
             {
                 val = item;
             }

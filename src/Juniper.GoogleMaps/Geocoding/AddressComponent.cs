@@ -76,7 +76,7 @@ namespace Juniper.World.GIS.Google.Geocoding
 
         public bool Equals(AddressComponent other)
         {
-            return other is object
+            return other is not null
                 && Key == other.Key
                 && Long_Name == other.Long_Name;
         }
@@ -84,7 +84,7 @@ namespace Juniper.World.GIS.Google.Geocoding
         public static bool operator ==(AddressComponent left, AddressComponent right)
         {
             return ReferenceEquals(left, right)
-                || (left is object && left.Equals(right));
+                || (left is not null && left.Equals(right));
         }
 
         public static bool operator !=(AddressComponent left, AddressComponent right)

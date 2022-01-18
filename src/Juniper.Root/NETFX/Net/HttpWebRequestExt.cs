@@ -388,9 +388,9 @@ namespace System.Net
             }
 
             var info = getInfo();
-            if (info is object)
+            if (info is not null)
             {
-                if (info.MIMEType is object)
+                if (info.MIMEType is not null)
                 {
                     request.ContentType = info.MIMEType;
                 }

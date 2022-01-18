@@ -1,6 +1,6 @@
-using System.Net;
-
 using Juniper.HTTP;
+
+using System.Net;
 
 namespace Juniper.Speech.Azure
 {

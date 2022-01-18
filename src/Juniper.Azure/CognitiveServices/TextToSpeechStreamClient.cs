@@ -1,9 +1,9 @@
+using Juniper.IO;
+using Juniper.Sound;
+
 using System;
 using System.IO;
 using System.Threading.Tasks;
-
-using Juniper.IO;
-using Juniper.Sound;
 
 namespace Juniper.Speech.Azure.CognitiveServices
 {

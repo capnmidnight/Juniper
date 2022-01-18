@@ -1,7 +1,6 @@
 using Juniper.Compression.Tar;
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -77,14 +76,14 @@ namespace Juniper.Compression
         public bool Contains(CompressedFileInfo other)
         {
             return !IsFile
-                && other is object
+                && other is not null
                 && !other.IsFile
                 && other.FullName == ParentPath;
         }
 
         public bool Equals(CompressedFileInfo other)
         {
-            return other is object
+            return other is not null
                 && FullName == other.FullName
                 && IsFile == other.IsFile
                 && Length == other.Length;
@@ -99,7 +98,7 @@ namespace Juniper.Compression
         public static bool operator ==(CompressedFileInfo left, CompressedFileInfo right)
         {
             return (left is null && right is null)
-                || (left is object && left.Equals(right));
+                || (left is not null && left.Equals(right));
         }
 
         public static bool operator !=(CompressedFileInfo left, CompressedFileInfo right)
@@ -139,16 +138,12 @@ namespace Juniper.Compression
 
         public override int GetHashCode()
         {
-            var hashCode = -353277081;
-            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(FullName);
-            hashCode = (hashCode * -1521134295) + IsFile.GetHashCode();
-            hashCode = (hashCode * -1521134295) + Length.GetHashCode();
-            return hashCode;
+            return HashCode.Combine(FullName, IsFile, Length);
         }
 
         public static bool operator <(CompressedFileInfo left, CompressedFileInfo right)
         {
-            return left is null ? right is object : left.CompareTo(right) < 0;
+            return left is null ? right is not null : left.CompareTo(right) < 0;
         }
 
         public static bool operator <=(CompressedFileInfo left, CompressedFileInfo right)
@@ -158,7 +153,7 @@ namespace Juniper.Compression
 
         public static bool operator >(CompressedFileInfo left, CompressedFileInfo right)
         {
-            return left is object && left.CompareTo(right) > 0;
+            return left is not null && left.CompareTo(right) > 0;
         }
 
         public static bool operator >=(CompressedFileInfo left, CompressedFileInfo right)

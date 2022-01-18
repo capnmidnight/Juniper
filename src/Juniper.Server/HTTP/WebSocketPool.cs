@@ -4,7 +4,8 @@ namespace Juniper.HTTP
 {
     public class WebSocketPool
     {
-        protected static readonly Dictionary<string, string> userNames = new Dictionary<string, string>();
+        protected static readonly Dictionary<string, string> userNames = new
+();
         public static void SetUserToken(string userName, string token)
         {
             lock (userNames)
@@ -13,7 +14,7 @@ namespace Juniper.HTTP
             }
         }
 
-        private readonly Dictionary<int, ServerWebSocketConnection> sockets = new Dictionary<int, ServerWebSocketConnection>();
+        private readonly Dictionary<int, ServerWebSocketConnection> sockets = new();
 
         public IReadOnlyCollection<ServerWebSocketConnection> Sockets => sockets.Values;
 
@@ -46,7 +47,7 @@ namespace Juniper.HTTP
             if (!sockets.ContainsKey(id))
             {
                 var token = context.Request.Headers["Sec-WebSocket-Protocol"];
-                if (token is object && !userNames.ContainsKey(token))
+                if (token is not null && !userNames.ContainsKey(token))
                 {
                     context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                 }

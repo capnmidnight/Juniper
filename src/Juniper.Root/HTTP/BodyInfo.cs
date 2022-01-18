@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace Juniper.HTTP
 {
@@ -21,23 +20,20 @@ namespace Juniper.HTTP
 
         public bool Equals(BodyInfo other)
         {
-            return other is object
+            return other is not null
                 && MIMEType == other.MIMEType
                 && Length == other.Length;
         }
 
         public override int GetHashCode()
         {
-            var hashCode = -1731715182;
-            hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(MIMEType);
-            hashCode = (hashCode * -1521134295) + Length.GetHashCode();
-            return hashCode;
+            return HashCode.Combine(MIMEType, Length);
         }
 
         public static bool operator ==(BodyInfo left, BodyInfo right)
         {
             return (left is null && right is null)
-                || (left is object && left.Equals(right));
+                || (left is not null && left.Equals(right));
         }
 
         public static bool operator !=(BodyInfo left, BodyInfo right)

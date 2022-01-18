@@ -47,7 +47,7 @@ namespace Juniper.HTTP.REST
 
         public override bool Equals(object obj)
         {
-            return obj is object
+            return obj is not null
                 && obj is AbstractRequest<MediaTypeT> req
                 && req.CacheID == CacheID;
         }
@@ -183,7 +183,7 @@ namespace Juniper.HTTP.REST
                 request.Header("Upgrade-Insecure-Requests", 1);
             }
 
-            if (MediaType is object)
+            if (MediaType is not null)
             {
                 request.Accept = MediaType;
             }

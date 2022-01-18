@@ -11,7 +11,7 @@ using Microsoft.Extensions.Options;
 
 namespace Juniper.Services
 {
- 
+
     /// <summary>
     /// Extension methods that configure defaults for how I like
     /// to setup my servers.

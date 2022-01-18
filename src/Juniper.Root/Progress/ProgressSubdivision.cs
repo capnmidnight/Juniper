@@ -73,11 +73,11 @@ namespace Juniper.Progress
         {
             Progress = progress;
             var prog = start + progress * length;
-            if (prefix is object && status is object)
+            if (prefix is not null && status is not null)
             {
                 Status = prefix + " " + status;
             }
-            else if (status is object)
+            else if (status is not null)
             {
                 Status = status;
             }

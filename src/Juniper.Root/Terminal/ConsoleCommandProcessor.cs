@@ -53,7 +53,7 @@ namespace Juniper.Terminal
             var format = $"  {{0,-{maxKeyLen}}} : {{1}}";
 
             var lines = (from command in actions
-                              select string.Format(CultureInfo.InvariantCulture, format, command.Key, command.Value.Name))
+                         select string.Format(CultureInfo.InvariantCulture, format, command.Key, command.Value.Name))
                          .Prepend("Usage:")
                          .Prepend("")
                          .Append("")

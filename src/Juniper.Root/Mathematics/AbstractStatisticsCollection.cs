@@ -532,7 +532,7 @@ namespace Juniper.Mathematics
         /// <returns></returns>
         private T Min(T? a, T b)
         {
-            if (a is object && LessThan(a.Value, b))
+            if (a is not null && LessThan(a.Value, b))
             {
                 return a.Value;
             }
@@ -550,7 +550,7 @@ namespace Juniper.Mathematics
         /// <returns></returns>
         private T Max(T? a, T b)
         {
-            if (a is object && LessThan(b, a.Value))
+            if (a is not null && LessThan(b, a.Value))
             {
                 return a.Value;
             }

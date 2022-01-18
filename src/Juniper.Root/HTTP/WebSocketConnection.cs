@@ -168,7 +168,7 @@ namespace Juniper.HTTP
 
         private void WebSocketConnection_Data(object sender, BufferEventArgs e)
         {
-            if (DataMessage is object)
+            if (DataMessage is not null)
             {
                 var dataMessageDeserializer = new JsonFactory<DataMessageEventArgs>();
                 if (dataMessageDeserializer.TryDeserialize(e.Value.ToArray(), out var dataMsg))

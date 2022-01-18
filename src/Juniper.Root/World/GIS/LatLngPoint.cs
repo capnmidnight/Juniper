@@ -66,7 +66,7 @@ namespace Juniper.World.GIS
             Lat = Lng = Alt = 0;
             foreach (var pair in info)
             {
-                switch (pair.Name.ToLowerInvariant().Substring(0, 3))
+                switch (pair.Name.ToLowerInvariant()[..3])
                 {
                     case "lat":
                     case "latitude":
@@ -142,7 +142,7 @@ namespace Juniper.World.GIS
                 point = new LatLngPoint(lat, lng);
             }
 
-            return point is object;
+            return point is not null;
         }
 
         public static bool TryParse(string value, out LatLngPoint point)
@@ -162,7 +162,7 @@ namespace Juniper.World.GIS
                 point = new LatLngPoint(lat, lng);
             }
 
-            return point is object;
+            return point is not null;
         }
 
         public static LatLngPoint Parse(string value)
@@ -279,7 +279,7 @@ namespace Juniper.World.GIS
 
         public bool Equals(LatLngPoint other)
         {
-            return other is object
+            return other is not null
                 && Lat == other.Lat
                 && Lng == other.Lng
                 && Alt == other.Alt;
@@ -288,7 +288,7 @@ namespace Juniper.World.GIS
         public static bool operator ==(LatLngPoint left, LatLngPoint right)
         {
             return ReferenceEquals(left, right)
-                || (left is object && left.Equals(right));
+                || (left is not null && left.Equals(right));
         }
 
         public static bool operator !=(LatLngPoint left, LatLngPoint right)
@@ -338,7 +338,7 @@ namespace Juniper.World.GIS
         public static bool operator <(LatLngPoint left, LatLngPoint right)
         {
             return left is null
-                ? right is object
+                ? right is not null
                 : left.CompareTo(right) < 0;
         }
 
@@ -350,7 +350,7 @@ namespace Juniper.World.GIS
 
         public static bool operator >(LatLngPoint left, LatLngPoint right)
         {
-            return left is object
+            return left is not null
                 && left.CompareTo(right) > 0;
         }
 

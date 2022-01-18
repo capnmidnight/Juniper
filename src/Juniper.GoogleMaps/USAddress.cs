@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Juniper.World.GIS.Google
@@ -65,7 +64,7 @@ namespace Juniper.World.GIS.Google
 
         public bool Equals(USAddress other)
         {
-            return other is object
+            return other is not null
                 && street == other.street
                 && city == other.city
                 && state == other.state
@@ -85,7 +84,7 @@ namespace Juniper.World.GIS.Google
         public static bool operator ==(USAddress left, USAddress right)
         {
             return ReferenceEquals(left, right)
-                || (left is object && left.Equals(right));
+                || (left is not null && left.Equals(right));
         }
 
         public static bool operator !=(USAddress left, USAddress right)

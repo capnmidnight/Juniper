@@ -176,11 +176,11 @@ namespace Juniper.HTTP
                 throw new ArgumentNullException(nameof(response));
             }
 
-            if (type is object
+            if (type is not null
                 && type != MediaType.Text.AnyText
                 && type != MediaType.Image.AnyImage
                 && type != MediaType.Application.Javascript
-                && fileName is object)
+                && fileName is not null)
             {
                 response.Headers.Add("Content-Disposition", $"attachment; filename={fileName}");
             }

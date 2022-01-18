@@ -57,8 +57,8 @@ namespace Juniper.Units
             else
             {
                 var system = (from kv in systemLevels
-                                           where kv.Value.Contains(units)
-                                           select (SystemOfMeasure?)kv.Key)
+                              where kv.Value.Contains(units)
+                              select (SystemOfMeasure?)kv.Key)
                             .FirstOrDefault();
                 if (system is null)
                 {

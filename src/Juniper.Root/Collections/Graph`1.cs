@@ -71,8 +71,8 @@ namespace Juniper.Collections
             nodes = new Dictionary<NodeT, int>();
 
             foreach (var node in (from route in routes
-                                    from node in route.Nodes
-                                    select node)
+                                  from node in route.Nodes
+                                  select node)
                         .Distinct())
             {
                 AddNode(node);
@@ -142,13 +142,13 @@ namespace Juniper.Collections
         {
             get
             {
-                if (network is object)
+                if (network is not null)
                 {
                     for (var x = 0; x < network.GetLength(0); ++x)
                     {
                         for (var y = 0; y < network.GetLength(1); ++y)
                         {
-                            if (network[x, y] is object)
+                            if (network[x, y] is not null)
                             {
                                 yield return network[x, y];
                             }
@@ -274,7 +274,7 @@ namespace Juniper.Collections
 
         private void Remove(IEnumerable<Route<NodeT>> toRemove)
         {
-            if (network is object)
+            if (network is not null)
             {
                 var arr = toRemove.ToArray();
                 dirty |= arr.Length > 0;
@@ -298,7 +298,7 @@ namespace Juniper.Collections
             return !startPoint.Equals(endPoint)
                 && Exists(startPoint)
                 && Exists(endPoint)
-                && network[nodes[startPoint], nodes[endPoint]] is object;
+                && network[nodes[startPoint], nodes[endPoint]] is not null;
         }
 
         public IEnumerable<Route<NodeT>> FindConnections(NodeT node)
@@ -310,7 +310,7 @@ namespace Juniper.Collections
 
         public IEnumerable<Route<NodeT>> FindConnections(Route<NodeT> route)
         {
-            if (route is object)
+            if (route is not null)
             {
                 return Connections.Where(route.CanConnectTo);
             }
@@ -338,7 +338,7 @@ namespace Juniper.Collections
                 for (var y = 0; y < network.GetLength(1); ++y)
                 {
                     var route = network[x, y];
-                    if (route is object)
+                    if (route is not null)
                     {
                         yield return route;
                     }

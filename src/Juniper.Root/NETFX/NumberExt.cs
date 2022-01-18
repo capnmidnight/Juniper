@@ -352,8 +352,8 @@ namespace System
         public static bool DiffersFrom(this float? here, float? there)
         {
             return here.HasValue != there.HasValue
-                || (here is object
-                    && there is object
+                || (here is not null
+                    && there is not null
                     && Abs(there.Value - here.Value) > ALPHA);
         }
 

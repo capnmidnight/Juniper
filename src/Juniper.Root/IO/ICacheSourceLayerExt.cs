@@ -150,7 +150,7 @@ namespace Juniper.IO
                     .GetStreamAsync(contentRef, itemProg)
                     .ConfigureAwait(false);
 
-                if (stream is object
+                if (stream is not null
                     && deserializer.TryDeserialize(stream, out var value))
                 {
                     items.Add(contentRef, value);

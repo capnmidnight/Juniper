@@ -83,8 +83,8 @@ namespace Juniper.Collections
         public static bool operator ==(Route<ValueT> left, Route<ValueT> right)
         {
             return (left is null && right is null)
-                || (left is object && left.CompareTo(right) == 0)
-                || (right is object && right.CompareTo(left) == 0);
+                || (left is not null && left.CompareTo(right) == 0)
+                || (right is not null && right.CompareTo(left) == 0);
         }
 
         public static bool operator !=(Route<ValueT> left, Route<ValueT> right)
@@ -94,14 +94,14 @@ namespace Juniper.Collections
 
         public static bool operator <(Route<ValueT> left, Route<ValueT> right)
         {
-            return (left is object && left.CompareTo(right) == -1)
-                || (right is object && right.CompareTo(left) == 1);
+            return (left is not null && left.CompareTo(right) == -1)
+                || (right is not null && right.CompareTo(left) == 1);
         }
 
         public static bool operator >(Route<ValueT> left, Route<ValueT> right)
         {
-            return (left is object && left.CompareTo(right) == 1)
-                || (right is object && right.CompareTo(left) == -1);
+            return (left is not null && left.CompareTo(right) == 1)
+                || (right is not null && right.CompareTo(left) == -1);
         }
 
         public static bool operator <=(Route<ValueT> left, Route<ValueT> right)
@@ -280,7 +280,7 @@ namespace Juniper.Collections
 
         public bool CanConnectTo(Route<ValueT> other)
         {
-            return other is object
+            return other is not null
                 && (Start.Equals(other.Start)
                     || Start.Equals(other.End)
                     || End.Equals(other.Start)
@@ -291,7 +291,7 @@ namespace Juniper.Collections
 
         public bool Parallels(Route<ValueT> other)
         {
-            return other is object
+            return other is not null
                 && ((Start.Equals(other.Start) && End.Equals(other.End))
                     || (Start.Equals(other.End) && End.Equals(other.Start)));
         }

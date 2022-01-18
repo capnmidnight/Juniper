@@ -217,7 +217,7 @@ namespace System.Runtime.Serialization
                 throw new ArgumentNullException(nameof(info));
             }
 
-            if (value is object)
+            if (value is not null)
             {
                 info.AddValue(name, value);
                 return true;

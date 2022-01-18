@@ -1,7 +1,6 @@
 using Juniper.Google;
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
 using System.Runtime.Serialization;
@@ -15,7 +14,7 @@ namespace Juniper.World.GIS.Google.StreetView
         IEquatable<MetadataResponse>,
         IComparable<MetadataResponse>
     {
-        private static readonly Regex PANO_PATTERN = new Regex("^[a-zA-Z0-9_\\-]+$", RegexOptions.Compiled);
+        private static readonly Regex PANO_PATTERN = new("^[a-zA-Z0-9_\\-]+$", RegexOptions.Compiled);
 
         public static bool IsPano(string panoString)
         {
@@ -138,7 +137,7 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public bool Equals(MetadataResponse other)
         {
-            return other is object
+            return other is not null
                 && CompareTo(other) == 0;
         }
 
@@ -150,7 +149,7 @@ namespace Juniper.World.GIS.Google.StreetView
         public static bool operator ==(MetadataResponse left, MetadataResponse right)
         {
             return (left is null && right is null)
-                || (left is object && left.Equals(right));
+                || (left is not null && left.Equals(right));
         }
 
         public static bool operator !=(MetadataResponse left, MetadataResponse right)
@@ -161,7 +160,7 @@ namespace Juniper.World.GIS.Google.StreetView
         public static bool operator <(MetadataResponse left, MetadataResponse right)
         {
             return left is null
-                ? right is object
+                ? right is not null
                 : left.CompareTo(right) < 0;
         }
 
@@ -173,7 +172,7 @@ namespace Juniper.World.GIS.Google.StreetView
 
         public static bool operator >(MetadataResponse left, MetadataResponse right)
         {
-            return left is object
+            return left is not null
                 && left.CompareTo(right) > 0;
         }
 

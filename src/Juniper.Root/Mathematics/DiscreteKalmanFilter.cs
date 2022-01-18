@@ -209,7 +209,7 @@ namespace Juniper.Mathematics
                 throw new Exception("Control matrix can be null only if control vector dimension is set to 0!");
             }
 
-            if (ControlMatrix is object && (ControlMatrix.GetLength(0) != StateVectorDimension || ControlMatrix.GetLength(1) != ControlVectorDimension))
+            if (ControlMatrix is not null && (ControlMatrix.GetLength(0) != StateVectorDimension || ControlMatrix.GetLength(1) != ControlVectorDimension))
             {
                 throw new Exception("Control matrix dimensions are not valid!");
             }
@@ -281,7 +281,7 @@ namespace Juniper.Mathematics
             state = TransitionMatrix.Dot(state);
 
             //x'(k) =  x'(k) + B * u(k)
-            if (controlVector is object)
+            if (controlVector is not null)
             {
                 state = state.Add(ControlMatrix.Dot(controlVector));
             }

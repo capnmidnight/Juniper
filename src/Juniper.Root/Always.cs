@@ -73,7 +73,7 @@ namespace Juniper
         public static bool NotNull<T>(T value)
             where T : class
         {
-            return value is object;
+            return value is not null;
         }
     }
 }

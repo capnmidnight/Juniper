@@ -13,7 +13,7 @@ namespace Juniper.IO
     {
         internal readonly FileInfo zipFile;
 
-        private readonly Dictionary<string, bool> filesExist = new Dictionary<string, bool>();
+        private readonly Dictionary<string, bool> filesExist = new();
 
         public ZipFileCacheLayer(FileInfo zipFile)
         {
@@ -71,7 +71,7 @@ namespace Juniper.IO
                     var cacheFileName = GetCacheFileName(fileRef);
                     using var zip = Decompressor.Open(zipFile);
                     var entry = zip.GetEntry(cacheFileName);
-                    filesExist[fileRef.CacheID] = entry is object;
+                    filesExist[fileRef.CacheID] = entry is not null;
                 }
                 else
                 {

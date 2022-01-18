@@ -1,7 +1,7 @@
+using Juniper.IO;
+
 using System;
 using System.Threading.Tasks;
-
-using Juniper.IO;
 
 namespace Juniper.Speech.Azure.CognitiveServices
 {

@@ -8,7 +8,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 {
     public class TileRequest : AbstractGoogleMapsRequest<MediaType.Image>
     {
-        private readonly List<Marker> markers = new List<Marker>();
+        private readonly List<Marker> markers = new();
         private int scale;
         private string language;
         private string region;
@@ -131,7 +131,7 @@ namespace Juniper.World.GIS.Google.MapTiles
                     }
                 }
 
-                if (Path is object)
+                if (Path is not null)
                 {
                     SetQuery(nameof(Path), Path);
                 }

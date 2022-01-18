@@ -869,7 +869,7 @@ namespace Juniper.Puzzles
         public static bool operator ==(Puzzle left, Puzzle right)
         {
             return (left is null && right is null)
-                || (left is object && left.Equals(right));
+                || (left is not null && left.Equals(right));
         }
 
         public static bool operator !=(Puzzle left, Puzzle right)
@@ -879,8 +879,8 @@ namespace Juniper.Puzzles
 
         public static bool operator <(Puzzle left, Puzzle right)
         {
-            return (left is null && right is object)
-                || (left is object && left.CompareTo(right) < 0);
+            return (left is null && right is not null)
+                || (left is not null && left.CompareTo(right) < 0);
         }
 
         public static bool operator <=(Puzzle left, Puzzle right)
@@ -890,13 +890,13 @@ namespace Juniper.Puzzles
 
         public static bool operator >(Puzzle left, Puzzle right)
         {
-            return left is object && left.CompareTo(right) > 0;
+            return left is not null && left.CompareTo(right) > 0;
         }
 
         public static bool operator >=(Puzzle left, Puzzle right)
         {
             return (left is null && right is null)
-                || (left is object && left.CompareTo(right) >= 0);
+                || (left is not null && left.CompareTo(right) >= 0);
         }
     }
 }

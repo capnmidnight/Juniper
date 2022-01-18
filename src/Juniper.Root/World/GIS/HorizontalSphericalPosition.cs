@@ -86,7 +86,7 @@ namespace Juniper.World.GIS
 
         public bool Equals(HorizontalSphericalPosition other)
         {
-            return other is object
+            return other is not null
                 && AltitudeDegrees == other.AltitudeDegrees
                 && AzimuthDegrees == other.AzimuthDegrees
                 && RadiusAU == other.RadiusAU;
@@ -95,7 +95,7 @@ namespace Juniper.World.GIS
         public static bool operator ==(HorizontalSphericalPosition left, HorizontalSphericalPosition right)
         {
             return ReferenceEquals(left, right)
-                || (left is object && left.Equals(right));
+                || (left is not null && left.Equals(right));
         }
 
         public static bool operator !=(HorizontalSphericalPosition left, HorizontalSphericalPosition right)
