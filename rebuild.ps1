@@ -1,17 +1,30 @@
-cd src\Juniper.TypeScript
-cd .\esbuild; npm i; npm run build
-cd ..\emoji; npm i; npm run build
-cd ..\tslib; npm i; npm run build
-cd ..\mediatypes; npm i; npm run build
-cd ..\dom; npm i; npm run build
-cd ..\fetcher-base; npm i; npm run build
-cd ..\fetcher; npm i; npm run build
-cd ..\fetcher-worker; npm i; npm run build
-cd ..\google-maps; npm i; npm run build
-cd ..\graphics2d; npm i; npm run build
-cd ..\testing; npm i; npm run build
-cd ..\units; npm i; npm run build
-cd ..\audio; npm i; npm run build
-cd ..\webrtc; npm i; npm run build
-cd ..\threejs; npm i; npm run build
-cd ..\..\..\
+npm --prefix src\Juniper.TypeScript\esbuild ci
+npm run --prefix src\Juniper.TypeScript\esbuild build
+npm --prefix src\Juniper.TypeScript\emoji ci
+npm run --prefix src\Juniper.TypeScript\emoji build
+npm --prefix src\Juniper.TypeScript\tslib ci
+npm run --prefix src\Juniper.TypeScript\tslib build
+npm --prefix src\Juniper.TypeScript\mediatypes ci
+npm run --prefix src\Juniper.TypeScript\mediatypes build
+npm --prefix src\Juniper.TypeScript\dom ci
+npm run --prefix src\Juniper.TypeScript\dom build
+npm --prefix src\Juniper.TypeScript\fetcher-base ci
+npm run --prefix src\Juniper.TypeScript\fetcher-base build
+npm --prefix src\Juniper.TypeScript\fetcher ci
+npm run --prefix src\Juniper.TypeScript\fetcher build
+npm --prefix src\Juniper.TypeScript\fetcher-worker ci
+npm run --prefix src\Juniper.TypeScript\fetcher-worker build
+npm --prefix src\Juniper.TypeScript\google-maps ci
+npm run --prefix src\Juniper.TypeScript\google-maps build
+npm --prefix src\Juniper.TypeScript\graphics2d ci
+npm run --prefix src\Juniper.TypeScript\graphics2d build
+npm --prefix src\Juniper.TypeScript\testing ci
+npm run --prefix src\Juniper.TypeScript\testing build
+npm --prefix src\Juniper.TypeScript\units ci
+npm run --prefix src\Juniper.TypeScript\units build
+npm --prefix src\Juniper.TypeScript\audio ci
+npm run --prefix src\Juniper.TypeScript\audio build
+npm --prefix src\Juniper.TypeScript\webrtc ci
+npm run --prefix src\Juniper.TypeScript\webrtc build
+npm --prefix src\Juniper.TypeScript\threejs ci
+npm run --prefix src\Juniper.TypeScript\threejs build
