@@ -12,8 +12,8 @@ export class Build {
     isWatch;
     isTest;
     outDirName = "wwwroot";
-    bundleOutDirName = "workers";
-    workerOutDirName = "js";
+    bundleOutDirName = "js";
+    workerOutDirName = "workers";
     constructor(args) {
         args.sort();
         this.isWatch = args.indexOf("--watch") !== -1;

@@ -21,8 +21,8 @@ export class Build {
     private readonly isTest: boolean;
 
     private outDirName = "wwwroot";
-    private bundleOutDirName = "workers";
-    private workerOutDirName = "js";
+    private bundleOutDirName = "js";
+    private workerOutDirName = "workers";
 
     constructor(args: string[]) {
         args.sort();
