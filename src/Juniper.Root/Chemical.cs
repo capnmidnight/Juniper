@@ -10,7 +10,7 @@ namespace Juniper
 
             private Chemical(string value) : this(value, null) { }
 
-            public static readonly Chemical AnyChemical = new Chemical("*");
+            public static readonly Chemical AnyChemical = new("*");
 
             public override bool GuessMatches(string fileName)
             {

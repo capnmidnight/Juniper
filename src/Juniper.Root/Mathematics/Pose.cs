@@ -6,7 +6,7 @@ namespace Juniper.Mathematics
     [Serializable]
     public struct Pose : IEquatable<Pose>
     {
-        public static readonly Pose Identity = new Pose(Vector3.Zero, Quaternion.Identity);
+        public static readonly Pose Identity = new(Vector3.Zero, Quaternion.Identity);
 
         public Vector3 Position { get; set; }
 
@@ -31,10 +31,7 @@ namespace Juniper.Mathematics
 
         public override int GetHashCode()
         {
-            var hashCode = -388643783;
-            hashCode = hashCode * -1521134295 + Position.GetHashCode();
-            hashCode = hashCode * -1521134295 + Orientation.GetHashCode();
-            return hashCode;
+            return HashCode.Combine(Position, Orientation);
         }
 
         public static Pose operator *(Pose a, Pose b)

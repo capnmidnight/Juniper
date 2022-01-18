@@ -179,13 +179,13 @@ namespace System
                     {
                         if (value[i] == token)
                         {
-                            parts[count] = value.Substring(start, i - start);
+                            parts[count] = value[start..i];
                             start = i + 1;
                             ++count;
                         }
                     }
 
-                    parts[parts.Length - 1] = value.Substring(start, value.Length - start);
+                    parts[^1] = value[start..];
 
                     return parts;
                 }

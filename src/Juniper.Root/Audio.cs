@@ -10,7 +10,7 @@ namespace Juniper
 
             private Audio(string value) : this(value, null) { }
 
-            public static readonly Audio AnyAudio = new Audio("*");
+            public static readonly Audio AnyAudio = new("*");
 
             public override bool GuessMatches(string fileName)
             {

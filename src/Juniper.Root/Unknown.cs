@@ -9,7 +9,7 @@ namespace Juniper
                 var slashIndex = value.IndexOf('/');
                 if (0 <= slashIndex)
                 {
-                    value = value.Substring(slashIndex + 1);
+                    value = value[(slashIndex + 1)..];
                 }
 
                 return value;

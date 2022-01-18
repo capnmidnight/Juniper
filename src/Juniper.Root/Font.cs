@@ -10,7 +10,7 @@ namespace Juniper
 
             private Font(string value) : this(value, null) { }
 
-            public static readonly Font AnyFont = new Font("*");
+            public static readonly Font AnyFont = new("*");
 
             public override bool GuessMatches(string fileName)
             {

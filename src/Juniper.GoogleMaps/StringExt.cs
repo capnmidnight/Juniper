@@ -5,7 +5,7 @@ namespace Juniper.Google
 {
     public static class StringExt
     {
-        private static readonly Dictionary<string, HttpStatusCode> CODE_MAP = new Dictionary<string, HttpStatusCode>
+        private static readonly Dictionary<string, HttpStatusCode> CODE_MAP = new()
         {
             { "OK", HttpStatusCode.OK },
             { "ZERO_RESULTS", HttpStatusCode.NoContent },

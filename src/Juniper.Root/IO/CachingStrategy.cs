@@ -34,8 +34,8 @@ namespace Juniper.IO
             return new CachingStrategy();
         }
 
-        private readonly List<ICacheSourceLayer> sources = new List<ICacheSourceLayer>();
-        private readonly List<ICacheDestinationLayer> destinations = new List<ICacheDestinationLayer>();
+        private readonly List<ICacheSourceLayer> sources = new();
+        private readonly List<ICacheDestinationLayer> destinations = new();
 
         /// <summary>
         /// Creates an empty caching strategy. Add cache layers to it with <see cref="AppendLayer(ICacheSourceLayer)"/>
@@ -185,7 +185,7 @@ namespace Juniper.IO
         {
             foreach (var source in sources)
             {
-                if (!(source is StreamSourceLayer)
+                if (source is not StreamSourceLayer
                     && source.IsCached(fileRef))
                 {
                     return true;

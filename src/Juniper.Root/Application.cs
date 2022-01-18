@@ -10,7 +10,7 @@ namespace Juniper
 
             private Application(string value) : this(value, null) { }
 
-            public static readonly Application AnyApplication = new Application("*");
+            public static readonly Application AnyApplication = new("*");
 
             public override bool GuessMatches(string fileName)
             {

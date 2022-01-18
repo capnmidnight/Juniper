@@ -4,7 +4,7 @@ namespace Juniper.Configuration
 {
     public static class IWebHostEnvironmentExt
     {
-        private static readonly Regex versionPattern = new Regex("\"version\": \"([^\"]+)\"", RegexOptions.Compiled);
+        private static readonly Regex versionPattern = new("\"version\": \"([^\"]+)\"", RegexOptions.Compiled);
 
         public static Version GetVersion(this IWebHostEnvironment env)
         {

@@ -10,7 +10,7 @@ namespace Juniper.World.GIS.Google
     public abstract class AbstractGoogleMapsRequest<MediaTypeT> : AbstractRequest<MediaTypeT>, IGoogleMapsRequest
         where MediaTypeT : MediaType
     {
-        private static readonly Uri gmaps = new Uri("https://maps.googleapis.com/maps/api/");
+        private static readonly Uri gmaps = new("https://maps.googleapis.com/maps/api/");
 
         private readonly string apiKey;
         private readonly string signingKey;
@@ -40,10 +40,8 @@ namespace Juniper.World.GIS.Google
                 else
                 {
                     var pkBytes = Convert.FromBase64String(signingKey.FromGoogleModifiedBase64());
-#pragma warning disable CA5350 // Do Not Use Weak Cryptographic Algorithms
                     // Google requires use of this particular hashing algorithm.
                     using var hasher = new HMACSHA1(pkBytes);
-#pragma warning restore CA5350 // Do Not Use Weak Cryptographic Algorithms
                     var urlBytes = Encoding.ASCII.GetBytes(unsignedUriWithKey.LocalPath + unsignedUriWithKey.Query);
                     var hash = hasher.ComputeHash(urlBytes);
                     var signature = Convert.ToBase64String(hash).ToGoogleModifiedBase64();

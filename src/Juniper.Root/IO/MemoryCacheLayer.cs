@@ -9,7 +9,7 @@ namespace Juniper.IO
 {
     public class MemoryCacheLayer : ICacheDestinationLayer
     {
-        private readonly ConcurrentDictionary<MediaType, ConcurrentDictionary<string, MemoryStream>> store = new ConcurrentDictionary<MediaType, ConcurrentDictionary<string, MemoryStream>>();
+        private readonly ConcurrentDictionary<MediaType, ConcurrentDictionary<string, MemoryStream>> store = new();
 
         public virtual bool CanCache(ContentReference fileRef)
         {

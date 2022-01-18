@@ -10,7 +10,7 @@ namespace Juniper
 
             private Message(string value) : this(value, null) { }
 
-            public static readonly Message AnyMessage = new Message("*");
+            public static readonly Message AnyMessage = new("*");
 
             public override bool GuessMatches(string fileName)
             {

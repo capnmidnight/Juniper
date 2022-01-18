@@ -10,7 +10,7 @@ namespace Juniper
 
             private Image(string value) : this(value, null) { }
 
-            public static readonly Image AnyImage = new Image("*");
+            public static readonly Image AnyImage = new("*");
 
             public override bool GuessMatches(string fileName)
             {

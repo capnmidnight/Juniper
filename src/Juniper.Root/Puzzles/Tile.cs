@@ -23,11 +23,7 @@ namespace Juniper.Puzzles
 
         public override int GetHashCode()
         {
-            var hashCode = -1601273053;
-            hashCode = hashCode * -1521134295 + Fore.GetHashCode();
-            hashCode = hashCode * -1521134295 + Back.GetHashCode();
-            hashCode = hashCode * -1521134295 + Token.GetHashCode();
-            return hashCode;
+            return HashCode.Combine(Fore, Back, Token);
         }
 
         public static bool operator ==(Tile left, Tile right)

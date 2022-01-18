@@ -10,7 +10,7 @@ namespace Juniper
 
             private Video(string value) : this(value, null) { }
 
-            public static readonly Video AnyVideo = new Video("*");
+            public static readonly Video AnyVideo = new("*");
 
             public override bool GuessMatches(string fileName)
             {

@@ -5,7 +5,7 @@ namespace Juniper.IO
 {
     public class FileDataSource : IDataSource
     {
-        public static readonly FileDataSource Instance = new FileDataSource();
+        public static readonly FileDataSource Instance = new();
         private FileDataSource()
         { }
 

@@ -4,7 +4,7 @@ namespace Juniper.Unicode
 {
     public class BoxDrawingSet
     {
-        public static readonly BoxDrawingSet Light = new BoxDrawingSet(
+        public static readonly BoxDrawingSet Light = new(
             LightVertical,
             LightHorizontal,
             LightDownAndRight,
@@ -12,7 +12,7 @@ namespace Juniper.Unicode
             LightUpAndRight,
             LightUpAndLeft);
 
-        public static readonly BoxDrawingSet Heavy = new BoxDrawingSet(
+        public static readonly BoxDrawingSet Heavy = new(
             HeavyVertical,
             HeavyHorizontal,
             HeavyDownAndRight,
@@ -20,7 +20,7 @@ namespace Juniper.Unicode
             HeavyUpAndRight,
             HeavyUpAndLeft);
 
-        public static readonly BoxDrawingSet DoubleLight = new BoxDrawingSet(
+        public static readonly BoxDrawingSet DoubleLight = new(
             DoubleVertical,
             DoubleHorizontal,
             DoubleDownAndRight,

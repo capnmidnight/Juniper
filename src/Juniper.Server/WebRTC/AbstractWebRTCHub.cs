@@ -29,11 +29,12 @@ namespace Juniper.WebRTC
         Task SendOffer(string fromUserID, string toUserID, string offerJSON);
         Task SendAnswer(string fromUserID, string toUserID, string answerJSON);
     }
+
     public abstract class AbstractWebRTCHub<ClientT> : Hub<ClientT>, IWebRTCHubServer
         where ClientT : class, IWebRTCHubClient
     {
-        private static readonly Regex ICE_TYPE_PATTERN = new Regex("\\btyp (\\w+)\\b", RegexOptions.Compiled);
-        private static readonly TimeSpan offset = new TimeSpan(0, 10, 0);
+        private static readonly Regex ICE_TYPE_PATTERN = new("\\btyp (\\w+)\\b", RegexOptions.Compiled);
+        private static readonly TimeSpan offset = new(0, 10, 0);
 
         protected abstract string[] IceTypes { get; }
         protected abstract string CoTURNSecret { get; }

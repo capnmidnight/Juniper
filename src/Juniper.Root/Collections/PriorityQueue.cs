@@ -20,7 +20,7 @@ namespace Juniper.Collections
         IEnumerable<T>
         where T : IComparable<T>
     {
-        private readonly List<T> q = new List<T>();
+        private readonly List<T> q = new();
 
         /// <summary>
         /// Default constructor, uses natural ordering comparator for objects

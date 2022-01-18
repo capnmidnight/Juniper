@@ -28,7 +28,7 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(fileRef));
             }
 
-            if (!(fileRef is AbstractStreamSource streamSource))
+            if (fileRef is not AbstractStreamSource streamSource)
             {
                 throw new InvalidOperationException("This layer can only retrieve data from stream sources.");
             }

@@ -10,7 +10,7 @@ namespace Juniper
 
             private Text(string value) : this(value, null) { }
 
-            public static readonly Text AnyText = new Text("*");
+            public static readonly Text AnyText = new("*");
 
             public override bool GuessMatches(string fileName)
             {

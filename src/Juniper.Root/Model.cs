@@ -10,7 +10,7 @@ namespace Juniper
 
             private Model(string value) : this(value, null) { }
 
-            public static readonly Model AnyModel = new Model("*");
+            public static readonly Model AnyModel = new("*");
 
             public override bool GuessMatches(string fileName)
             {

@@ -5,7 +5,7 @@ namespace Juniper.IO
 {
     public class ForkedStream : Stream
     {
-        private readonly List<Stream> streams = new List<Stream>();
+        private readonly List<Stream> streams = new();
 
         public ForkedStream(params Stream[] streams)
         {

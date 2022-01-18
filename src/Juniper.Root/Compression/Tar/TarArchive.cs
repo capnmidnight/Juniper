@@ -67,7 +67,7 @@ namespace Juniper.Compression.Tar
                 throw new InvalidDataException($"Invalid timestamp for file entry [{fileName}] ");
             }
 
-            return Epoch.AddSeconds(unixTimeStamp.Value);
+            return DateTimeExt.UnixTimestampToDateTime(unixTimeStamp.Value);
         }
 
         private static long ReadFileSize(byte[] header, string fileName)
@@ -168,8 +168,6 @@ namespace Juniper.Compression.Tar
             return value;
         }
         #endregion Tar file parsing functions
-
-        private static readonly DateTimeOffset Epoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
 
         private readonly List<TarArchiveEntry> entries;
 

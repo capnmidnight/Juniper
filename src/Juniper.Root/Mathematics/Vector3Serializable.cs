@@ -86,11 +86,7 @@ namespace Juniper.Mathematics
 
         public override int GetHashCode()
         {
-            var hashCode = -307843816;
-            hashCode = (hashCode * -1521134295) + X.GetHashCode();
-            hashCode = (hashCode * -1521134295) + Y.GetHashCode();
-            hashCode = (hashCode * -1521134295) + Z.GetHashCode();
-            return hashCode;
+            return HashCode.Combine(X, Y, Z);
         }
 
         public static bool operator ==(Vector3Serializable left, Vector3Serializable right)

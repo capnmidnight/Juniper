@@ -25,11 +25,11 @@ namespace Juniper.Services
             var privKeyFileName = letsEncrypt.GetValue<string>("PrivateKeyPath");
             if (!File.Exists(fullChainFileName))
             {
-                logger.LogError("Certificate file {0} does not exist.", fullChainFileName);
+                logger.LogError("Certificate file {fullChainFileName} does not exist.", fullChainFileName);
             }
             else if (!File.Exists(privKeyFileName))
             {
-                logger.LogError("Private key file {0} does not exist.", privKeyFileName);
+                logger.LogError("Private key file {privKeyFileName} does not exist.", privKeyFileName);
             }
             else
             {

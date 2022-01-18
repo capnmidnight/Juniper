@@ -10,7 +10,7 @@ namespace Juniper
 
             private Multipart(string value) : this(value, null) { }
 
-            public static readonly Multipart AnyMultipart = new Multipart("*");
+            public static readonly Multipart AnyMultipart = new("*");
 
             public override bool GuessMatches(string fileName)
             {

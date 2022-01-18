@@ -7,7 +7,6 @@ namespace Juniper.World.GIS.Google.Geocoding
     /// cref="https://developers.google.com/maps/documentation/javascript/geocoding#GeocodingAddressTypes"/>
     /// </summary>
     [Flags]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1707:Identifiers should not contain underscores", Justification = "These values are parsed from Google Maps request results")]
     public enum AddressComponentTypes : long
     {
         None,

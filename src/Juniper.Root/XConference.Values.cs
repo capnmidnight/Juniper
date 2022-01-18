@@ -4,7 +4,7 @@ namespace Juniper
     {
         public sealed partial class XConference : MediaType
         {
-            public static readonly XConference X_Cooltalk = new XConference("x-cooltalk", new string[] { "ice" });
+            public static readonly XConference X_Cooltalk = new("x-cooltalk", new string[] { "ice" });
 
             public static new readonly XConference[] Values = {
                 X_Cooltalk

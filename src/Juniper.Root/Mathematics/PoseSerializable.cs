@@ -8,7 +8,7 @@ namespace Juniper.Mathematics
     {
         private const string TYPE_NAME = "Pose";
 
-        public static readonly PoseSerializable Identity = new PoseSerializable(0, 0, 0, 0, 0, 0, 1);
+        public static readonly PoseSerializable Identity = new(0, 0, 0, 0, 0, 0, 1);
 
         public Vector3Serializable Position { get; }
         public QuaternionSerializable Orientation { get; }

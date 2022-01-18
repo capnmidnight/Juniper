@@ -9,7 +9,7 @@ namespace Juniper.Units
 {
     public static class FileSize
     {
-        private static readonly Dictionary<SystemOfMeasure, UnitOfMeasure[]> systemLevels = new Dictionary<SystemOfMeasure, UnitOfMeasure[]>(2)
+        private static readonly Dictionary<SystemOfMeasure, UnitOfMeasure[]> systemLevels = new(2)
         {
             [SystemOfMeasure.Metric] = new[] {
                 UnitOfMeasure.Bytes,

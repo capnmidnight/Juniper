@@ -17,7 +17,7 @@ namespace Juniper.Units
         /// cref="Category"/>, to make conversions within categories possible. Every UnitOfMeasure
         /// should be included in a Category.
         /// </summary>
-        private static readonly Dictionary<UnitOfMeasure, Category[]> TypeGroups = new Dictionary<UnitOfMeasure, Category[]>(80)
+        private static readonly Dictionary<UnitOfMeasure, Category[]> TypeGroups = new(80)
         {
             [UnitOfMeasure.None] = new[] { Category.None },
 
@@ -178,7 +178,7 @@ namespace Juniper.Units
         /// possible to ask which units are used for short distance measurements in the Metric
         /// system. Not every UnitOfMeasure need be included in a SystemOfMeasure.
         /// </summary>
-        private static readonly Dictionary<SystemOfMeasure, Dictionary<Category, UnitOfMeasure>> SystemUnits = new Dictionary<SystemOfMeasure, Dictionary<Category, UnitOfMeasure>>(2)
+        private static readonly Dictionary<SystemOfMeasure, Dictionary<Category, UnitOfMeasure>> SystemUnits = new(2)
         {
             [SystemOfMeasure.USCustomary] = new Dictionary<Category, UnitOfMeasure>(26)
             {
@@ -281,7 +281,7 @@ namespace Juniper.Units
         /// <summary>
         /// All the short-form symbols of each <see cref="UnitOfMeasure"/>.
         /// </summary>
-        public static readonly Dictionary<UnitOfMeasure, string> Abbreviations = new Dictionary<UnitOfMeasure, string>(74)
+        public static readonly Dictionary<UnitOfMeasure, string> Abbreviations = new(74)
         {
             [UnitOfMeasure.Units] = " ea",
 
@@ -411,7 +411,7 @@ namespace Juniper.Units
         /// A look-up to quickly find the conversion function for each unit of measure pairing
         /// without having to use reflection every time.
         /// </summary>
-        private static readonly Dictionary<UnitOfMeasure, Dictionary<UnitOfMeasure, Func<float, float>>> Conversions = new Dictionary<UnitOfMeasure, Dictionary<UnitOfMeasure, Func<float, float>>>(99)
+        private static readonly Dictionary<UnitOfMeasure, Dictionary<UnitOfMeasure, Func<float, float>>> Conversions = new(99)
         {
             [UnitOfMeasure.FeetPerSecondSquared] = new Dictionary<UnitOfMeasure, Func<float, float>>(1)
             {

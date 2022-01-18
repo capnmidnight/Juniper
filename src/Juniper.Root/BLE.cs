@@ -21,7 +21,7 @@ namespace Juniper
   step on anyone else's toes.
 */
 
-        public static readonly Dictionary<string, string> services = new Dictionary<string, string>
+        public static readonly Dictionary<string, string> services = new()
         {
             ["00001811"] = "Alert Notification Service",
             ["00001815"] = "Automation IO",
@@ -61,7 +61,7 @@ namespace Juniper
             ["00002000"] = "RFID Scanner"
         };
 
-        public static readonly Dictionary<string, string> declarations = new Dictionary<string, string>
+        public static readonly Dictionary<string, string> declarations = new()
         {
             ["00002803"] = "Characteristic Declaration",
             ["00002802"] = "Include",
@@ -98,7 +98,7 @@ namespace Juniper
           else's toes.
         */
 
-        public static readonly Dictionary<string, string> characteristics = new Dictionary<string, string>
+        public static readonly Dictionary<string, string> characteristics = new()
         {
             ["00002A7E"] = "Aerobic Heart Rate Lower Limit",
             ["00002A84"] = "Aerobic Heart Rate Upper Limit",
@@ -336,7 +336,7 @@ namespace Juniper
           the higher value ranges so you don't step on anyone else's toes.
         */
 
-        public static readonly Dictionary<string, string> descriptors = new Dictionary<string, string>
+        public static readonly Dictionary<string, string> descriptors = new()
         {
             ["00002905"] = "Characteristic Aggregate Format",
             ["00002900"] = "Characteristic Extended Properties",

@@ -10,7 +10,7 @@ namespace Juniper
 
             private XConference(string value) : this(value, null) { }
 
-            public static readonly XConference AnyXConference = new XConference("*");
+            public static readonly XConference AnyXConference = new("*");
 
             public override bool GuessMatches(string fileName)
             {

@@ -22,7 +22,7 @@ namespace Juniper.Puzzles
                                     {  7,  7,  7 } })
         };
 
-        private static readonly Random rand = new Random();
+        private static readonly Random rand = new();
 
         private bool isLeftDown;
         private bool isRightDown;

@@ -10,7 +10,7 @@ namespace System.Collections.Generic
         /// <summary>
         /// A random number generator to use with the following methods.
         /// </summary>
-        private static readonly Random r = new Random();
+        private static readonly Random r = new();
 
         /// <summary>
         /// Removes a random item from the given collection. Kind of like dealing cards out

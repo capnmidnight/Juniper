@@ -5,7 +5,7 @@ namespace System
         /// <summary>
         /// The minimum time, according to Unix.
         /// </summary>
-        private static readonly DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        public static readonly DateTime Epoch = new(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
         /// Converts time representations.
@@ -16,7 +16,7 @@ namespace System
         /// <returns>A structured date representation.</returns>
         public static DateTime UnixTimestampToDateTime(this double timeStamp)
         {
-            return epoch.AddSeconds(timeStamp).ToLocalTime();
+            return Epoch.AddSeconds(timeStamp).ToLocalTime();
         }
 
         /// <summary>

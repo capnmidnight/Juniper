@@ -5,7 +5,7 @@ namespace Juniper.World.GIS.Google.Geocoding
 {
     public class ReverseGeocodingRequest : AbstractGeocodingRequest
     {
-        private static readonly HashSet<AddressComponentTypes> AcceptableResultTypes = new HashSet<AddressComponentTypes>(new[]{
+        private static readonly HashSet<AddressComponentTypes> AcceptableResultTypes = new(new[]{
             AddressComponentTypes.street_address,
             AddressComponentTypes.route,
             AddressComponentTypes.intersection,
@@ -29,8 +29,8 @@ namespace Juniper.World.GIS.Google.Geocoding
             AddressComponentTypes.point_of_interest
         });
 
-        private readonly HashSet<AddressComponentTypes> result_type = new HashSet<AddressComponentTypes>();
-        private readonly HashSet<GeometryLocationType> location_type = new HashSet<GeometryLocationType>();
+        private readonly HashSet<AddressComponentTypes> result_type = new();
+        private readonly HashSet<GeometryLocationType> location_type = new();
         private LatLngPoint latlng;
 
         public ReverseGeocodingRequest(string apiKey)

@@ -4,33 +4,33 @@ namespace Juniper
     {
         public sealed partial class Message : MediaType
         {
-            public static readonly Message CPIM = new Message("cpim");
-            public static readonly Message Delivery_Status = new Message("delivery-status");
-            public static readonly Message Disposition_Notification = new Message("disposition-notification");
-            public static readonly Message Example = new Message("example");
-            public static readonly Message External_Body = new Message("external-body");
-            public static readonly Message Feedback_Report = new Message("feedback-report");
-            public static readonly Message Global = new Message("global");
-            public static readonly Message Global_Delivery_Status = new Message("global-delivery-status");
-            public static readonly Message Global_Disposition_Notification = new Message("global-disposition-notification");
-            public static readonly Message Global_Headers = new Message("global-headers");
-            public static readonly Message Http = new Message("http");
-            public static readonly Message ImdnXml = new Message("imdn+xml", new string[] { "xml" });
+            public static readonly Message CPIM = new("cpim");
+            public static readonly Message Delivery_Status = new("delivery-status");
+            public static readonly Message Disposition_Notification = new("disposition-notification");
+            public static readonly Message Example = new("example");
+            public static readonly Message External_Body = new("external-body");
+            public static readonly Message Feedback_Report = new("feedback-report");
+            public static readonly Message Global = new("global");
+            public static readonly Message Global_Delivery_Status = new("global-delivery-status");
+            public static readonly Message Global_Disposition_Notification = new("global-disposition-notification");
+            public static readonly Message Global_Headers = new("global-headers");
+            public static readonly Message Http = new("http");
+            public static readonly Message ImdnXml = new("imdn+xml", new string[] { "xml" });
 
             [System.Obsolete("OBSOLETED by RFC5537")]
-            public static readonly Message News = new Message("news");
+            public static readonly Message News = new("news");
 
-            public static readonly Message Partial = new Message("partial");
-            public static readonly Message Rfc822 = new Message("rfc822", new string[] { "eml", "mime" });
-            public static readonly Message S_Http = new Message("s-http");
-            public static readonly Message Sip = new Message("sip");
-            public static readonly Message Sipfrag = new Message("sipfrag");
-            public static readonly Message Tracking_Status = new Message("tracking-status");
+            public static readonly Message Partial = new("partial");
+            public static readonly Message Rfc822 = new("rfc822", new string[] { "eml", "mime" });
+            public static readonly Message S_Http = new("s-http");
+            public static readonly Message Sip = new("sip");
+            public static readonly Message Sipfrag = new("sipfrag");
+            public static readonly Message Tracking_Status = new("tracking-status");
 
             [System.Obsolete("OBSOLETED by request")]
-            public static readonly Message VendorSiSimp = new Message("vnd.si.simp");
+            public static readonly Message VendorSiSimp = new("vnd.si.simp");
 
-            public static readonly Message VendorWfaWsc = new Message("vnd.wfa.wsc");
+            public static readonly Message VendorWfaWsc = new("vnd.wfa.wsc");
 
             public static new readonly Message[] Values = {
                 CPIM,

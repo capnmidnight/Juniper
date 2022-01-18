@@ -24,7 +24,7 @@ namespace System.Collections.Generic
             isAscending = inAscendingOrder;
         }
 
-        private static readonly Regex SplitNums = new Regex("([0-9]+)", RegexOptions.Compiled);
+        private static readonly Regex SplitNums = new("([0-9]+)", RegexOptions.Compiled);
 
         /// <summary>
         /// Compare two strings to see where they should be in relation to each other within a collection.
@@ -105,7 +105,7 @@ namespace System.Collections.Generic
         /// <summary>
         /// Used to memoize strings to their split representation.
         /// </summary>
-        private readonly Dictionary<string, string[]> table = new Dictionary<string, string[]>(5);
+        private readonly Dictionary<string, string[]> table = new(5);
 
         /// <summary>
         /// Compares two subparts of a string to see if they are numbers.

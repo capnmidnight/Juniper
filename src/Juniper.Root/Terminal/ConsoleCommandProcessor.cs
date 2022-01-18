@@ -18,7 +18,7 @@ namespace Juniper.Terminal
         INCSALogDestination,
         IErrorDestination
     {
-        private readonly Dictionary<ConsoleKey, NamedAction> actions = new Dictionary<ConsoleKey, NamedAction>();
+        private readonly Dictionary<ConsoleKey, NamedAction> actions = new();
 
         private uint logLevel;
 

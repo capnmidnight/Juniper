@@ -7,7 +7,7 @@ namespace Juniper.World.GIS.Google.Geocoding
         private string place_id;
         private string address;
 
-        private readonly Dictionary<AddressComponentTypes, string> components = new Dictionary<AddressComponentTypes, string>();
+        private readonly Dictionary<AddressComponentTypes, string> components = new();
 
         private GeometryViewport bounds;
         private string region;

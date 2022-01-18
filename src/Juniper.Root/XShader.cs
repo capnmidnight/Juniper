@@ -10,7 +10,7 @@ namespace Juniper
 
             private XShader(string value) : this(value, null) { }
 
-            public static readonly XShader AnyXShader = new XShader("*");
+            public static readonly XShader AnyXShader = new("*");
 
             public override bool GuessMatches(string fileName)
             {

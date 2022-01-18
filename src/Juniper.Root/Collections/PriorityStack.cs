@@ -22,7 +22,7 @@ namespace Juniper.Collections
             }
         }
 
-        private readonly List<T> stack = new List<T>();
+        private readonly List<T> stack = new();
 
         /// <summary>
         /// Default constructor, uses natural ordering comparator for objects
@@ -91,7 +91,7 @@ namespace Juniper.Collections
         /// <returns></returns>
         public T Peek()
         {
-            return stack[stack.Count - 1];
+            return stack[^1];
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Juniper.Collections
         /// </summary>
         public T Pop()
         {
-            var obj = stack[stack.Count - 1];
+            var obj = stack[^1];
             stack.RemoveAt(stack.Count - 1);
             return obj;
         }

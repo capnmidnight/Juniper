@@ -143,12 +143,7 @@ namespace Juniper
 
         public override int GetHashCode()
         {
-            var hashCode = 434561789;
-            hashCode = hashCode * -1521134295 + X.GetHashCode();
-            hashCode = hashCode * -1521134295 + Y.GetHashCode();
-            hashCode = hashCode * -1521134295 + Z.GetHashCode();
-            hashCode = hashCode * -1521134295 + Space.GetHashCode();
-            return hashCode;
+            return HashCode.Combine(X, Y, Z, Space);
         }
 
         public static bool operator ==(Color3 left, Color3 right)

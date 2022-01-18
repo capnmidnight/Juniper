@@ -5,7 +5,7 @@ namespace Juniper
 {
     public class EmojiGroup : Emoji
     {
-        private static readonly Random rand = new Random();
+        private static readonly Random rand = new();
 
         public IReadOnlyList<Emoji> Alts { get; }
 
