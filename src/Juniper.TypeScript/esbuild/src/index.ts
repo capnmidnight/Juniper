@@ -9,8 +9,6 @@ type PluginFactory = (minify: boolean) => Plugin;
 export class Build {
     private readonly browserEntries = new Array<string>();
     private readonly minBrowserEntries = new Array<string>();
-    private readonly testEntries = new Array<string>();
-    private readonly minTestEntries = new Array<string>();
     private readonly workerEntries = new Array<string>();
     private readonly plugins = new Array<PluginFactory>();
     private readonly defines = new Array<DefineFactory>();
@@ -18,8 +16,8 @@ export class Build {
     private readonly minWorkerEntries = new Array<string>();
 
     private readonly isWatch: boolean;
-    private readonly isTest: boolean;
 
+    private rootDirName = "src";
     private outDirName = "wwwroot";
     private bundleOutDirName = "js";
     private workerOutDirName = "workers";
@@ -27,7 +25,11 @@ export class Build {
     constructor(args: string[]) {
         args.sort();
         this.isWatch = args.indexOf("--watch") !== -1;
-        this.isTest = args.indexOf("--test") !== -1;
+    }
+
+    rootDir(name: string) {
+        this.rootDirName = name;
+        return this;
     }
 
     outDir(name: string) {
@@ -61,27 +63,18 @@ export class Build {
     }
 
     bundle(name: string) {
-        this.task("src", name, false, false);
+        this.task(name, false);
         return this;
     }
 
     worker(name: string) {
-        this.task("src", name, false, true);
+        this.task(name, true);
         return this;
     }
 
-    test(name: string) {
-        this.task("tests", name, true, false);
-        return this;
-    }
-
-    private task(root: string, name: string, isTest: boolean, isWorker: boolean) {
-        const entry = `${root}/${name}/index.ts`;
-        if (isTest) {
-            this.testEntries.push(entry);
-            this.minTestEntries.push(entry);
-        }
-        else if (isWorker) {
+    private task(name: string, isWorker: boolean) {
+        const entry = `${this.rootDirName}/${name}/index.ts`;
+        if (isWorker) {
             this.workerEntries.push(entry);
             this.minWorkerEntries.push(entry);
         }
@@ -94,15 +87,12 @@ export class Build {
     async run() {
         const start = Date.now();
 
-        const tasks = this.isTest
-            ? [
-                this.makeBundle(this.testEntries, "minified browser bundles", true, false, false),
-                this.makeBundle(this.minTestEntries, "minified workers", true, true, false)]
-            : [
-                this.makeBundle(this.browserEntries, "browser bundles", false, false, false),
-                this.makeBundle(this.workerEntries, "workers", false, false, true),
-                this.makeBundle(this.minBrowserEntries, "minified browser bundles", false, true, false),
-                this.makeBundle(this.minWorkerEntries, "minified workers", false, true, true)];
+        const tasks = [
+            this.makeBundle(this.browserEntries, "browser bundles", false, false),
+            this.makeBundle(this.workerEntries, "workers", false, true),
+            this.makeBundle(this.minBrowserEntries, "minified browser bundles", true, false),
+            this.makeBundle(this.minWorkerEntries, "minified workers", true, true)
+        ];
 
         await Promise.all(tasks).then(() => {
             const end = Date.now();
@@ -111,7 +101,7 @@ export class Build {
         });
     }
 
-    private makeBundle(entryPoints: string[], name: string, isTest: boolean, minify: boolean, isWorker: boolean) {
+    private makeBundle(entryPoints: string[], name: string, minify: boolean, isWorker: boolean) {
         const JS_EXT = minify ? ".min" : "";
 
         const outDirParts = [
@@ -122,8 +112,7 @@ export class Build {
         ];
         const outdir = outDirParts.filter(x => x).join("/");
 
-        const stub = isTest ? "-test" : "";
-        const entryNames = `[dir]/[name]${stub}${JS_EXT}`;
+        const entryNames = `[dir]/[name]${JS_EXT}`;
         const define: DefMap = {
             DEBUG: JSON.stringify(!minify),
             JS_EXT: JSON.stringify(JS_EXT + ".js")

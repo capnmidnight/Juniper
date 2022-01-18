@@ -11,7 +11,7 @@
   "compileOnSave": true,
 
   "compilerOptions": {
-    "lib": [ "ESNext" ],
+    "lib": [ "ESNext", "ESNext.Array" ],
 
     "rootDir": "src/",
     "outDir": "dist/",

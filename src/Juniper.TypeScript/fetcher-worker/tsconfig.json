@@ -13,7 +13,7 @@
   "compilerOptions": {
     "rootDir": "src/",
 
-    "lib": [ "ESNext", "WebWorker", "Webworker.Iterable", "DOM", "DOM.Iterable" ],
+    "lib": [ "ESNext", "WebWorker", "Webworker.Iterable", "DOM", "DOM.Iterable", "ESNext.Array" ],
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Node",
