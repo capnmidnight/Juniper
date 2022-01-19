@@ -7,14 +7,16 @@ namespace Juniper.TagHelpers
     public abstract class Bundle : TagHelper
     {
         private readonly IWebHostEnvironment env;
+        private readonly IConfiguration config;
         private readonly string tagName;
         private readonly string srcAttr;
         private readonly string root;
         private readonly string ext;
 
-        protected Bundle(IWebHostEnvironment env, string tagName, string type, string srcAttr, string root, string ext)
+        protected Bundle(IWebHostEnvironment env, IConfiguration config, string tagName, string type, string srcAttr, string root, string ext)
         {
             this.env = env;
+            this.config = config;
             this.tagName = tagName;
             Type = type;
             this.srcAttr = srcAttr;
@@ -55,7 +57,7 @@ namespace Juniper.TagHelpers
                 output.Attributes.SetAttribute("type", Type);
                 if (Versioned && string.IsNullOrEmpty(Version))
                 {
-                    Version = env.GetVersion().ToString();
+                    Version = env.GetVersion(config).ToString();
                 }
 
                 if (!string.IsNullOrEmpty(Version))
@@ -70,16 +72,16 @@ namespace Juniper.TagHelpers
 
     public class BundleJs : Bundle
     {
-        public BundleJs(IWebHostEnvironment env)
-            : base(env, "script", "module", "src", "js", ".js")
+        public BundleJs(IWebHostEnvironment env, IConfiguration config)
+            : base(env, config, "script", "module", "src", "js", ".js")
         {
         }
     }
 
     public class BundleCss : Bundle
     {
-        public BundleCss(IWebHostEnvironment env)
-            : base(env, "link", "text/css", "href", "css", ".css")
+        public BundleCss(IWebHostEnvironment env, IConfiguration config)
+            : base(env, config, "link", "text/css", "href", "css", ".css")
         {
         }
 
