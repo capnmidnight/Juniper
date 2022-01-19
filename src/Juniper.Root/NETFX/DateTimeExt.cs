@@ -2,10 +2,10 @@ namespace System
 {
     public static class DateTimeExt
     {
-        /// <summary>
-        /// The minimum time, according to Unix.
-        /// </summary>
-        public static readonly DateTime Epoch = new(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        public static DateOnly ToDateOnly(this DateTime date)
+        {
+            return DateOnly.FromDateTime(date);
+        }
 
         /// <summary>
         /// Converts time representations.
@@ -16,7 +16,7 @@ namespace System
         /// <returns>A structured date representation.</returns>
         public static DateTime UnixTimestampToDateTime(this double timeStamp)
         {
-            return Epoch.AddSeconds(timeStamp).ToLocalTime();
+            return DateTime.UnixEpoch.AddSeconds(timeStamp).ToLocalTime();
         }
 
         /// <summary>
