@@ -1,5 +1,5 @@
 import { isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString } from "juniper-tslib";
-import { Attr, autoPlay, controls, loop, muted, playsInline, type } from "./attrs";
+import { Attr, autoPlay, className, controls, loop, muted, playsInline, type } from "./attrs";
 import { CSSInJSRule, display, margin, styles } from "./css";
 
 export interface ErsatzElement {
@@ -267,6 +267,7 @@ export function Header(...rest: ElementChild[]): HTMLElement { return tag("heade
 export function HGroup(...rest: ElementChild[]): HTMLElement { return tag("hgroup", ...rest); }
 export function HTML(...rest: ElementChild[]): HTMLHtmlElement { return tag("html", ...rest); }
 export function I(...rest: ElementChild[]): HTMLElement { return tag("i", ...rest); }
+export function FAIcon(iconName: string, ...rest: ElementChild[]): HTMLElement { return I(className(`fa fa-${iconName}`), ...rest); }
 export function IFrame(...rest: ElementChild[]): HTMLIFrameElement { return tag("iframe", ...rest); }
 export function Img(...rest: ElementChild[]): HTMLImageElement { return tag("img", ...rest); }
 export function Input(...rest: ElementChild[]): HTMLInputElement { return tag("input", ...rest); }
