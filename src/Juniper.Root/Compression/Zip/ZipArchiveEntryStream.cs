@@ -110,11 +110,6 @@ namespace Juniper.Compression.Zip
             return entryStream.FlushAsync(cancellationToken);
         }
 
-        public override object InitializeLifetimeService()
-        {
-            return entryStream.InitializeLifetimeService();
-        }
-
         public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
             return entryStream.ReadAsync(buffer, offset, count, cancellationToken);

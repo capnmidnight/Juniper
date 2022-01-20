@@ -174,14 +174,9 @@ namespace Juniper.HTTP.REST
 
         public override async Task<Stream> GetStreamAsync(IProgress prog = null)
         {
-            var request = (HttpWebRequest)WebRequest.Create(AuthenticatedURI);
+            var request = HttpWebRequestExt.Create(AuthenticatedURI);
 
             request = request.Method(method);
-
-            if (AuthenticatedURI.Scheme == "http")
-            {
-                request.Header("Upgrade-Insecure-Requests", 1);
-            }
 
             if (MediaType is not null)
             {
