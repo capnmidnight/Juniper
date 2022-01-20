@@ -1,4 +1,3 @@
-using Juniper.Logging;
 
 using System;
 using System.Runtime.CompilerServices;
@@ -7,14 +6,7 @@ using System.Threading.Tasks;
 
 namespace Juniper.Processes
 {
-    public interface ITasker : ILoggingSource, IDisposable
-    {
-        string CommandName { get; }
-        Task RunAsync(CancellationToken? token = null);
-        Task RunSafeAsync(CancellationToken? token = null);
-    }
-
-    public abstract class AbstractTasker : ITasker
+    public abstract class AbstractCommand : ICommand
     {
         public string CommandName { get; protected set; }
 

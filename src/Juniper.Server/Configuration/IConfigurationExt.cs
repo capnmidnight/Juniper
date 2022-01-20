@@ -29,5 +29,21 @@ namespace Juniper.Configuration
 
             return extTypes;
         }
+        public static Version GetVersion(this IConfiguration config, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                var rand = new Random();
+                return new Version(
+                    rand.Next(0, 1000),
+                    rand.Next(0, 1000),
+                    rand.Next(0, 1000),
+                    rand.Next(0, 1000));
+            }
+            else
+            {
+                return config.GetValue<Version>("Version");
+            }
+        }
     }
 }

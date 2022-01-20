@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Juniper.Processes
 {
-    public class ProcessTasker : AbstractTasker
+    public class ShellCommand : AbstractCommand
     {
         private static readonly string[] exts = {
             "",
@@ -18,7 +18,7 @@ namespace Juniper.Processes
 
         private readonly string command;
         private readonly string[] args;
-        private readonly CancellationTokenSource canceller = new();
+        private CancellationTokenSource canceller;
 
         private Task task;
 
@@ -46,7 +46,7 @@ namespace Juniper.Processes
             return choices.FirstOrDefault();
         }
 
-        public ProcessTasker(string command, params string[] args)
+        public ShellCommand(string command, params string[] args)
         {
             if (command is null)
             {
@@ -62,6 +62,14 @@ namespace Juniper.Processes
             this.args = args ?? Array.Empty<string>();
 
             CommandName = this.args.Prepend(command).ToArray().Join(' ');
+        }
+
+        protected override void OnDisposing()
+        {
+            base.OnDisposing();
+
+            canceller?.Dispose();
+            canceller = null;
         }
 
         public override async Task RunAsync(CancellationToken? token = null)
@@ -132,35 +140,44 @@ namespace Juniper.Processes
 
         private async Task ExecuteProcess(Process proc, CancellationToken? token)
         {
-            proc.OutputDataReceived += Proc_OutputDataReceived;
-            proc.ErrorDataReceived += Proc_ErrorDataReceived;
-
-            if (!proc.Start())
+            canceller = new CancellationTokenSource();
+            try
             {
-                throw new InvalidOperationException("Could not start process.");
+                proc.OutputDataReceived += Proc_OutputDataReceived;
+                proc.ErrorDataReceived += Proc_ErrorDataReceived;
+
+                if (!proc.Start())
+                {
+                    throw new InvalidOperationException("Could not start process.");
+                }
+
+                proc.BeginOutputReadLine();
+                proc.BeginErrorReadLine();
+
+                if (token is null)
+                {
+                    await RunProcess(proc, canceller.Token).ConfigureAwait(false);
+                }
+                else
+                {
+                    using var linkedCanceller = CancellationTokenSource.CreateLinkedTokenSource(token.Value, canceller.Token);
+                    await RunProcess(proc, linkedCanceller.Token).ConfigureAwait(false);
+                }
+
+                proc.OutputDataReceived -= Proc_OutputDataReceived;
+                proc.ErrorDataReceived -= Proc_ErrorDataReceived;
+
+                ExitCode = proc.ExitCode;
+
+                if (ExitCode != 0)
+                {
+                    throw new Exception($"Non-zero exit value = {ExitCode}");
+                }
             }
-
-            proc.BeginOutputReadLine();
-            proc.BeginErrorReadLine();
-
-            if (token is null)
+            finally
             {
-                await RunProcess(proc, canceller.Token).ConfigureAwait(false);
-            }
-            else
-            {
-                using var linkedCanceller = CancellationTokenSource.CreateLinkedTokenSource(token.Value, canceller.Token);
-                await RunProcess(proc, linkedCanceller.Token).ConfigureAwait(false);
-            }
-
-            proc.OutputDataReceived -= Proc_OutputDataReceived;
-            proc.ErrorDataReceived -= Proc_ErrorDataReceived;
-
-            ExitCode = proc.ExitCode;
-
-            if (ExitCode != 0)
-            {
-                throw new Exception($"Non-zero exit value = {ExitCode}");
+                canceller?.Dispose();
+                canceller = null;
             }
         }
 
@@ -177,7 +194,7 @@ namespace Juniper.Processes
 
         public void Kill()
         {
-            canceller.Cancel();
+            canceller?.Cancel();
         }
 
         private void Proc_OutputDataReceived(object sender, DataReceivedEventArgs e)

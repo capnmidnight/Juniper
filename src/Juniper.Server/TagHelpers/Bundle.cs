@@ -57,7 +57,7 @@ namespace Juniper.TagHelpers
                 output.Attributes.SetAttribute("type", Type);
                 if (Versioned && string.IsNullOrEmpty(Version))
                 {
-                    Version = env.GetVersion(config).ToString();
+                    Version = config.GetVersion(env).ToString();
                 }
 
                 if (!string.IsNullOrEmpty(Version))

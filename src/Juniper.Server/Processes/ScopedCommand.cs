@@ -1,12 +1,5 @@
-using Juniper.Processes;
-
-namespace Juniper.Services
+namespace Juniper.Processes
 {
-    public interface IScopedShellCommand
-    {
-        Task RunAsync(ICommand command, CancellationToken? token);
-    }
-
     public class ScopedCommand : IScopedShellCommand
     {
         private readonly ILogger<ICommand> logger;
@@ -18,7 +11,7 @@ namespace Juniper.Services
 
         private void Command_Info(object sender, StringEventArgs e)
         {
-            if (sender is ITasker proc)
+            if (sender is ICommand proc)
             {
                 logger.LogInformation("({LastCommand}): {Message}", proc.CommandName, e.Value);
             }
@@ -26,7 +19,7 @@ namespace Juniper.Services
 
         private void Command_Warning(object sender, StringEventArgs e)
         {
-            if (sender is ITasker proc)
+            if (sender is ICommand proc)
             {
                 logger.LogWarning("({LastCommand}): {Message}", proc.CommandName, e.Value);
             }
@@ -34,7 +27,7 @@ namespace Juniper.Services
 
         private void Command_Error(object sender, ErrorEventArgs e)
         {
-            if (sender is ITasker proc)
+            if (sender is ICommand proc)
             {
                 logger.LogError(e.Value, "({LastCommand}): {Message}", proc.CommandName, e.Value.Message);
             }
@@ -42,23 +35,22 @@ namespace Juniper.Services
 
         public async Task RunAsync(ICommand command, CancellationToken? token)
         {
-            using var task = command.CreateTask();
-            task.Info += Command_Info;
-            task.Warning += Command_Warning;
-            task.Err += Command_Error;
+            command.Info += Command_Info;
+            command.Warning += Command_Warning;
+            command.Err += Command_Error;
             try
             {
-                await task.RunAsync(token);
+                await command.RunAsync(token);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "({LastCommand}): {Message}", task.CommandName, ex.Message);
+                logger.LogError(ex, "({LastCommand}): {Message}", command.CommandName, ex.Message);
             }
             finally
             {
-                task.Info -= Command_Info;
-                task.Warning -= Command_Warning;
-                task.Err -= Command_Error;
+                command.Info -= Command_Info;
+                command.Warning -= Command_Warning;
+                command.Err -= Command_Error;
             }
         }
     }

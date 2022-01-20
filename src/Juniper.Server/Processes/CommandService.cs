@@ -1,11 +1,11 @@
-namespace Juniper.Services
+namespace Juniper.Processes
 {
     public class CommandService : BackgroundService
     {
         private readonly IServiceProvider services;
-        private readonly IShellCommandTree commandTree;
+        private readonly ICommandTree commandTree;
 
-        public CommandService(IServiceProvider services, IShellCommandTree commandTree)
+        public CommandService(IServiceProvider services, ICommandTree commandTree)
         {
             this.services = services;
             this.commandTree = commandTree;

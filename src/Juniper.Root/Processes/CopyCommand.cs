@@ -1,8 +1,10 @@
-using Juniper.Processes;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Juniper.Services
+namespace Juniper.Processes
 {
-    public class CopyCommand : AbstractTasker, ICommand
+    public class CopyCommand : AbstractCommand
     {
         private readonly string from;
         private readonly string to;
@@ -14,11 +16,6 @@ namespace Juniper.Services
             this.to = to;
             this.overwrite = overwrite;
             CommandName = $"copy {from} to {to}";
-        }
-
-        public ITasker CreateTask()
-        {
-            return this;
         }
 
         public override Task RunAsync(CancellationToken? token = null)
