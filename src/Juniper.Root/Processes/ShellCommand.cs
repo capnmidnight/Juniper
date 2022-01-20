@@ -199,12 +199,18 @@ namespace Juniper.Processes
 
         private void Proc_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            OnInfo(e.Data);
+            if (e.Data is not null)
+            {
+                OnInfo(e.Data);
+            }
         }
 
         private void Proc_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
-            OnWarning(e.Data);
+            if (e.Data is not null)
+            {
+                OnWarning(e.Data);
+            }
         }
     }
 }
