@@ -74,12 +74,6 @@ namespace Juniper.IO
                 using var stream = outputFile.Create();
                 item.Save(stream, json);
             }
-            else if (MediaType.Application.Octet_Stream.GuessMatches(outputFile))
-            {
-                var bin = new BinaryFactory<T>();
-                using var stream = outputFile.Create();
-                item.Save(stream, bin);
-            }
         }
 
         public static void Save<T>(this T item, string fileName)

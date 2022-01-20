@@ -109,14 +109,14 @@ namespace Juniper.Compression.Tar
             return entryStream.FlushAsync(cancellationToken);
         }
 
-        public override object InitializeLifetimeService()
-        {
-            return entryStream.InitializeLifetimeService();
-        }
-
         public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
             return entryStream.ReadAsync(buffer, offset, count, cancellationToken);
+        }
+
+        public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
+        {
+            return entryStream.ReadAsync(buffer, cancellationToken);
         }
 
         public override int ReadByte()
@@ -133,6 +133,11 @@ namespace Juniper.Compression.Tar
         public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
             return entryStream.WriteAsync(buffer, offset, count, cancellationToken);
+        }
+
+        public override ValueTask WriteAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default)
+        {
+            return entryStream.WriteAsync(buffer, cancellationToken);
         }
 
         public override void WriteByte(byte value)

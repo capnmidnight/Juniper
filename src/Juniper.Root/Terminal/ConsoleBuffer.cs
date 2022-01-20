@@ -28,21 +28,11 @@ namespace Juniper.Terminal
         public event EventHandler<SizeChangedEventArgs> SizeChanged;
 
         public ConsoleBuffer()
-            : this(WindowWidth, WindowHeight - 1)
-        { }
-
-        public ConsoleBuffer(int width, int height)
         {
-            width = Math.Min(width, LargestWindowWidth);
-            height = Math.Min(height, LargestWindowHeight - 1);
-
             OutputEncoding = Encoding.Unicode;
 
             lastFore = startFore = ForegroundColor;
             lastBack = startBack = BackgroundColor;
-
-            SetWindowSize(width, height + 1);
-            SetBufferSize(width, height + 1);
 
             CheckGrids();
         }

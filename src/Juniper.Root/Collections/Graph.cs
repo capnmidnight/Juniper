@@ -25,19 +25,10 @@ namespace Juniper.Collections
             {
                 return LoadJSON<NodeT>(stream);
             }
-            else if (MediaType.Application.Octet_Stream.GuessMatches(file))
-            {
-                return LoadBinary<NodeT>(stream);
-            }
             else
             {
                 throw new InvalidOperationException("Don't know how to read the file type.");
             }
-        }
-
-        public static Graph<NodeT> LoadBinary<NodeT>(Stream stream) where NodeT : IComparable<NodeT>
-        {
-            return Load(new BinaryFactory<Graph<NodeT>>(), stream);
         }
 
         public static Graph<NodeT> LoadJSON<NodeT>(Stream stream) where NodeT : IComparable<NodeT>
