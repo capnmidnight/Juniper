@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -14,8 +11,8 @@ namespace Juniper.Processes
     public class CopyJsonValueCommand : AbstractCommand
     {
         private readonly DirectoryInfo root;
-        private readonly string from;
-        private readonly string to;
+        private readonly string readFile;
+        private readonly string writeFile;
         private readonly string readField;
         private readonly string writeField;
 
@@ -34,24 +31,25 @@ namespace Juniper.Processes
             return JsonObject.Parse(json);
         }
 
-        public CopyJsonValueCommand(DirectoryInfo root, string from, string to, string readField, string writeField)
+        public CopyJsonValueCommand(DirectoryInfo root, string readFile, string readField, string writeFile, string writeField)
         {
             this.root = root;
+            this.readFile = PathExt.FixPath(readFile);
             this.readField = readField;
+            this.writeFile = PathExt.FixPath(writeFile);
             this.writeField = writeField;
-            this.from = PathExt.FixPath(from);
-            this.to = PathExt.FixPath(to);
+            CommandName = $"Json Copy [{readFile}:{readField} -> {writeFile}:{writeField}]";
         }
 
         public override async Task RunAsync(CancellationToken? token = null)
         {
             var fromPath = Path.Combine(
                 root.FullName,
-                from);
+                readFile);
 
             var toPath = Path.Combine(
                 root.FullName,
-                to);
+                writeFile);
 
             var fromJson = await ReadJsonAsync(fromPath, token);
             if(token?.IsCancellationRequested == true)
@@ -62,7 +60,7 @@ namespace Juniper.Processes
 
             if (fromJson is null)
             {
-                OnError(new FileNotFoundException($"Couldn't find {from}"));
+                OnError(new FileNotFoundException($"Couldn't find {readFile}"));
                 return;
             }
 
@@ -75,14 +73,14 @@ namespace Juniper.Processes
 
             if (toJson is null)
             {
-                OnError(new FileNotFoundException($"Couldn't find {to}"));
+                OnError(new FileNotFoundException($"Couldn't find {writeFile}"));
                 return;
             }
 
             var value = fromJson[readField]?.GetValue<string>();
             if (value is null)
             {
-                OnError(new FieldAccessException($"{from} had no {readField}"));
+                OnError(new FieldAccessException($"{readFile} had no {readField}"));
                 return;
             }
 
