@@ -191,15 +191,15 @@ namespace Juniper.Services
             });
         }
 
-        public static IHostBuilder ConfigureJuniperHost<StartupT>(this IHostBuilder host)
+        public static IHostBuilder ConfigureJuniperHost<StartupT>(this IHostBuilder host, int httpsPort = 443, int httpPort = 80)
             where StartupT : class
         {
             return host.UseSystemd()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
-#if DEBUG
-                        .UseUrls("https://*:443", "http://*:80")
+#if DEBUG && false
+                        .UseUrls($"https://*:{httpsPort}", $"http://*:{httpPort}")
 #endif
                         .UseStartup<StartupT>();
                 });

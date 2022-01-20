@@ -1,16 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  
+
   <PropertyGroup>
-    <AssemblyName>Juniper.LibJpeg</AssemblyName>
-    <RootNamespace>BitMiracle.LibJpeg</RootNamespace>
+    <AssemblyName>Juniper.HjgPngcs</AssemblyName>
+    <RootNamespace>Hjg.Pngcs</RootNamespace>
     <OutputType>Library</OutputType>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+    <PackageReference Include="System.IO.Compression" Version="4.3.0" />
   </ItemGroup>
 
 </Project>

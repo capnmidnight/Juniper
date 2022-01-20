@@ -1,5 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  
   <PropertyGroup>
     <AssemblyName>Juniper.Azure</AssemblyName>
     <RootNamespace>Juniper.Speech.Azure</RootNamespace>
@@ -8,9 +8,8 @@
     <Authors>Sean T. McBeth</Authors>
     <Copyright>Copyright © Sean T. McBeth 2019</Copyright>
   </PropertyGroup>
-  
   <ItemGroup>
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
     <ProjectReference Include="..\Juniper.Sound\Juniper.Sound.csproj" />
   </ItemGroup>
-  
 </Project>
