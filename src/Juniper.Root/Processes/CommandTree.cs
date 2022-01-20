@@ -25,6 +25,12 @@ namespace Juniper.Processes
             return this;
         }
 
+        public ICommandTree AddCommands(IEnumerable<ICommand> commands)
+        {
+            commandTree.Add(commands.ToArray());
+            return this;
+        }
+
         public async Task ExecuteAsync(CancellationToken? stoppingToken = null)
         {
             foreach (var commands in commandTree)

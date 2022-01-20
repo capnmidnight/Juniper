@@ -7,5 +7,6 @@ namespace Juniper.Processes
     {
         IEnumerable<IEnumerable<ICommand>> Tree { get; }
         ICommandTree AddCommands(params ICommand[] commands);
+        ICommandTree AddCommands(IEnumerable<ICommand> commands);
     }
 }
