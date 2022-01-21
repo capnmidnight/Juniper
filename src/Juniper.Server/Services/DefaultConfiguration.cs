@@ -191,13 +191,23 @@ namespace Juniper.Services
             });
         }
 
-        public static IHostBuilder ConfigureJuniperHost<StartupT>(this IHostBuilder host)
+        public struct PortOptions
+        {
+            public int HttpPort { get; set; }
+            public int HttpsPort { get; set; }
+        }
+
+        public static IHostBuilder ConfigureJuniperHost<StartupT>(this IHostBuilder host, PortOptions? ports = null)
             where StartupT : class
         {
             return host.UseSystemd()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<StartupT>();
+                    if(ports is not null)
+                    {
+                        webBuilder.UseUrls($"https://*:{ports.Value.HttpsPort}", $"http://*:{ports.Value.HttpPort}");
+                    }
                 });
         }
     }
