@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
+using System.Reflection;
+
 namespace Juniper.Services
 {
 
@@ -204,10 +206,20 @@ namespace Juniper.Services
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<StartupT>();
-                    if(ports is not null)
+#if DEBUG
+                    if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != Environments.Development)
+                    {
+                        webBuilder.ConfigureAppConfiguration(app =>
+                        {
+                            app.AddUserSecrets(Assembly.GetEntryAssembly());
+                        });
+                    }
+
+                    if (ports is not null)
                     {
                         webBuilder.UseUrls($"https://*:{ports.Value.HttpsPort}", $"http://*:{ports.Value.HttpPort}");
                     }
+#endif
                 });
         }
     }
