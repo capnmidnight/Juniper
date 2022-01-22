@@ -49,19 +49,31 @@ namespace System.Collections.Generic
             }
         }
 
-        public static void Randomize<T>(this List<T> items)
+        public static void Shuffle<T>(this List<T> items)
         {
             if (items is null)
             {
                 throw new ArgumentNullException(nameof(items));
             }
 
-            var temp = items.ToList();
-            items.Clear();
-            while (temp.Count > 0)
+            var rand = new Random();
+
+            for (var i = 0; i < items.Count - 1; ++i)
             {
-                items.Add(temp.RemoveRandom());
+                var subLength = items.Count - i;
+                var subIndex = rand.Next(subLength);
+                var temp = items[i];
+                var j = subIndex + i;
+                items[i] = items[j];
+                items[j] = temp;
             }
+        }
+
+        public static List<T> Shuffled<T>(this List<T> items)
+        {
+            var newItems = items.ToList();
+            newItems.Shuffle();
+            return newItems;
         }
 
         /// <summary>
@@ -154,9 +166,105 @@ namespace System.Collections.Generic
                 throw new ArgumentNullException(nameof(list));
             }
 
-            return list.Select(v => v.Clone())
-                .Cast<T>()
+            return list.Select(v =>
+                    (T)v.Clone())
                 .ToList();
+        }
+
+        public static List<T>[] Partition<T>(this List<T> items, int partitionSize, bool removeItems = true)
+        {
+            if (items is null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
+            var partitions = new List<List<T>>();
+            List<T> partition = null;
+            foreach (var item in items)
+            {
+                if (partition is null)
+                {
+                    partition = new List<T>();
+                }
+                partition.Add(item);
+                if (partition.Count == partitionSize)
+                {
+                    partitions.Add(partition);
+                    partition = null;
+                }
+            }
+
+            if (partition is not null)
+            {
+                partitions.Add(partition);
+            }
+
+            if (removeItems)
+            {
+                items.Clear();
+            }
+
+            return partitions.ToArray();
+        }
+
+        public static List<T>[] DealOut<T>(this List<T> deck, int numHands, bool removeItems = true)
+        {
+            if (deck is null)
+            {
+                throw new ArgumentNullException(nameof(deck));
+            }
+
+            var hands = new List<T>[numHands];
+            for (int i = 0; i < numHands; ++i)
+            {
+                hands[i] = new List<T>();
+            }
+
+            for (int i = 0; i < deck.Count; ++i)
+            {
+                int hand = i % numHands;
+                hands[hand].Add(deck[i]);
+            }
+
+            if (removeItems)
+            {
+                deck.Clear();
+            }
+
+            return hands;
+        }
+
+        public static List<T>[] Deal<T>(this List<T> deck, int numHands, int handSize, bool removeItems = true)
+        {
+            if (deck is null)
+            {
+                throw new ArgumentNullException(nameof(deck));
+            }
+
+            var count = numHands * handSize;
+            if (count > deck.Count)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(numHands)} ({numHands}) x {nameof(handSize)} ({handSize}) > {nameof(deck)}.Length ({deck.Count}).");
+            }
+
+            var hands = new List<T>[numHands];
+            for (int i = 0; i < numHands; ++i)
+            {
+                hands[i] = new List<T>(handSize);
+            }
+
+            for (int i = 0; i < count; ++i)
+            {
+                int hand = i % numHands;
+                hands[hand].Add(deck[i]);
+            }
+
+            if (removeItems)
+            {
+                deck.RemoveRange(0, count);
+            }
+
+            return hands;
         }
     }
 }

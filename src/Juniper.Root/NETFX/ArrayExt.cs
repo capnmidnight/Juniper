@@ -38,6 +38,33 @@ namespace System
             }
         }
 
+        public static void Shuffle<T>(this T[] items)
+        {
+            if (items is null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
+            var rand = new Random();
+
+            for (var i = 0; i < items.Length - 1; ++i)
+            {
+                var subLength = items.Length - i;
+                var subIndex = rand.Next(subLength);
+                var temp = items[i];
+                var j = subIndex + i;
+                items[i] = items[j];
+                items[j] = temp;
+            }
+        }
+
+        public static T[] Shuffled<T>(this T[] items)
+        {
+            var newItems = items.ToArray();
+            newItems.Shuffle();
+            return newItems;
+        }
+
         /// <summary>
         /// <para>Creates a new array from an old array, with the specified item not included in the array (including duplicates).</para>
         /// <para>If the item is not located in the array, returns a copy of the old array.</para>
@@ -127,13 +154,14 @@ namespace System
         /// </returns>
         public static IEnumerable<T> Exclude<T>(this IEnumerable<T> first, IEnumerable<T> second)
         {
+            if (first is null)
+            {
+                throw new ArgumentNullException(nameof(first));
+            }
+
             if (second is null)
             {
                 return first;
-            }
-            else if (first is null)
-            {
-                return null;
             }
             else
             {
@@ -159,6 +187,29 @@ namespace System
             }
 
             return arr.GetLength(0);
+        }
+
+        public static IEnumerable<T[]> Partition<T>(this T[] deck, int handSize)
+        {
+            List<T> partition = null;
+            foreach (var item in deck)
+            {
+                if (partition is null)
+                {
+                    partition = new List<T>();
+                }
+                partition.Add(item);
+                if (partition.Count == handSize)
+                {
+                    yield return partition.ToArray();
+                    partition = null;
+                }
+            }
+
+            if (partition is not null)
+            {
+                yield return partition.ToArray();
+            }
         }
     }
 }
