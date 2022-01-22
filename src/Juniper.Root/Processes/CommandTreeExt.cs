@@ -10,33 +10,39 @@ namespace Juniper.Processes
             return new ShellCommand("npm", "run", "--prefix", Path.Combine(juniperDir.FullName, "src", "Juniper.TypeScript", name), cmd);
         }
 
-        private static readonly string[] names = new[]
-            {
-                "esbuild",
-                "emoji",
-                "tslib",
-                "mediatypes",
-                "dom",
-                "fetcher-base",
-                "fetcher",
-                "fetcher-worker",
-                "google-maps",
-                "graphics2d",
-                "testing",
-                "units",
-                "audio",
-                "webrtc",
-                "threejs"
-            };
+        private static readonly string[] toInstall = new[]
+        {
+            "esbuild",
+            "emoji",
+            "tslib",
+            "mediatypes",
+            "dom",
+            "fetcher-base",
+            "fetcher",
+            "fetcher-worker",
+            "google-maps",
+            "graphics2d",
+            "testing",
+            "units",
+            "audio",
+            "webrtc",
+            "threejs"
+        };
 
         public static ICommandTree InitJuniper(this ICommandTree commands, DirectoryInfo juniperDir)
         {
-            return commands.AddCommands(names.Select(name => NPM(juniperDir, name, "init")));
+            return commands.AddCommands(toInstall.Select(name => NPM(juniperDir, name, "init")));
         }
+
+        private static readonly string[] toBuild = new[]
+        {
+            "esbuild",
+            "fetcher-worker"
+        };
 
         public static ICommandTree BuildJuniper(this ICommandTree commands, DirectoryInfo juniperDir)
         {
-            return commands.AddCommands(names.Select(name => NPM(juniperDir, name, "build")));
+            return commands.AddCommands(toBuild.Select(name => NPM(juniperDir, name, "build")));
         }
 
         static CopyCommand Copy(DirectoryInfo juniperDir, DirectoryInfo outputDir, string from, string to)

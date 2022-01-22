@@ -21,14 +21,13 @@ namespace Juniper.Processes
 
         public ICommandTree AddCommands(params ICommand[] commands)
         {
-            commandTree.Add(commands);
+            commandTree.AddRange(commands.Partition(4));
             return this;
         }
 
         public ICommandTree AddCommands(IEnumerable<ICommand> commands)
         {
-            commandTree.Add(commands.ToArray());
-            return this;
+            return AddCommands(commands.ToArray());
         }
 
         public async Task ExecuteAsync(CancellationToken? stoppingToken = null)
