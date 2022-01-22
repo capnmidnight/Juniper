@@ -7,12 +7,12 @@
     "build": "npx tsc --build"
   },
   "dependencies": {
-    "@googlemaps/js-api-loader": "1.13.1",
+    "@googlemaps/js-api-loader": "1.13.2",
     "gl-matrix": "3.4.3",
     "juniper-tslib": "file:../tslib"
   },
   "devDependencies": {
-    "@types/google.maps": "3.47.2",
+    "@types/google.maps": "3.47.3",
     "tslib": "2.3.1",
     "typescript": "4.3.5"
   }
