@@ -215,9 +215,11 @@ namespace Juniper.Services
                         });
                     }
 
-                    if (ports is not null)
+                    if (ports is not null && Environment.OSVersion.Platform == PlatformID.Win32NT)
                     {
-                        webBuilder.UseUrls($"https://*:{ports.Value.HttpsPort}", $"http://*:{ports.Value.HttpPort}");
+                        webBuilder.UseUrls(
+                            $"https://*:{ports.Value.HttpsPort}", 
+                            $"http://*:{ports.Value.HttpPort}");
                     }
 #endif
                 });
