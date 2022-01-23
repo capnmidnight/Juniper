@@ -35,8 +35,11 @@ namespace Juniper.Services
         {
             config ??= new();
 
-            services.AddTransient<IConfigureOptions<KestrelServerOptions>, LetsEncryptService>();
-
+            if (!env.IsDevelopment())
+            {
+                services.AddTransient<IConfigureOptions<KestrelServerOptions>, LetsEncryptService>();
+            }
+            
             services.AddDbContext<ContextT>(options =>
             {
                 options.UseNpgsql($"name=ConnectionStrings:{connectionStringName}", opts =>
@@ -218,7 +221,7 @@ namespace Juniper.Services
                     if (ports is not null && Environment.OSVersion.Platform == PlatformID.Win32NT)
                     {
                         webBuilder.UseUrls(
-                            $"https://*:{ports.Value.HttpsPort}", 
+                            $"https://*:{ports.Value.HttpsPort}",
                             $"http://*:{ports.Value.HttpPort}");
                     }
 #endif
