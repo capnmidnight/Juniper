@@ -2,7 +2,7 @@ import { mapBuild, TypedEvent, TypedEventBase } from "juniper-tslib";
 import { buttonSetEnabled } from "./buttonSetEnabled";
 import { borderBottom, borderBottomColor, borderRadius, boxShadow, display, flexDirection, marginBottom, paddingTop, rule, zIndex } from "./css";
 import { elementSetClass } from "./elementSetClass";
-import { elementSetDisplay, ErsatzElements, Style } from "./tags";
+import { Elements, elementSetDisplay, ErsatzElements, Style } from "./tags";
 
 export class TabControlTabSelectedEvent extends TypedEvent<"tabselected">{
     constructor(public tabname: string) {
@@ -48,7 +48,7 @@ export class TabControl
     private displayTypes: Map<HTMLElement, string>;
     private _enabled = true;
 
-    public readonly elements: HTMLElement[];
+    public readonly elements: Elements[];
 
     constructor(tabButtonRoot: HTMLElement, private readonly tabPanelRoot: HTMLElement, private buttonStyle: string = "secondary") {
         super();

@@ -12,8 +12,10 @@ export function isErsatzElement(obj: any): obj is ErsatzElement {
         && (obj as any).element instanceof Node;
 }
 
+export type Elements = HTMLElement | ErsatzElement;
+
 export interface ErsatzElements {
-    elements: HTMLElement[];
+    elements: Elements[];
 }
 
 export function isErsatzElements(obj: any): obj is ErsatzElements {
@@ -21,8 +23,6 @@ export function isErsatzElements(obj: any): obj is ErsatzElements {
         && "elements" in obj
         && (obj as any).elements instanceof Array;
 }
-
-export type Elements = HTMLElement | ErsatzElement;
 
 
 export function resolveElement(elem: Elements): HTMLElement {
@@ -117,10 +117,10 @@ export function elementApply(elem: Elements, ...children: ElementChild[]): Eleme
                 elem.append(child);
             }
             else if (isErsatzElement(child)) {
-                elem.append(child.element);
+                elem.append(resolveElement(child));
             }
             else if (isErsatzElements(child)) {
-                elem.append(...child.elements);
+                elem.append(...child.elements.map(resolveElement));
             }
             else if (isIElementAppliable(child)) {
                 child.applyToElement(elem);
