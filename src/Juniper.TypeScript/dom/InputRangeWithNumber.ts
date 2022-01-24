@@ -1,3 +1,4 @@
+import { TypedEvent, TypedEventBase } from "../tslib";
 import { className } from "./attrs";
 import { columnGap, display, gridAutoFlow, gridTemplateColumns, rule } from "./css";
 import { Div, ElementChild, ErsatzElement, InputNumber, InputRange, Style } from "./tags";
@@ -10,12 +11,18 @@ Style(
         gridTemplateColumns("1fr auto"))
 );
 
-export class InputRangeWithNumberElement implements ErsatzElement {
+export class InputRangeWithNumberElement
+    extends TypedEventBase<{
+        "input": TypedEvent<"input">;
+    }>
+    implements ErsatzElement {
     public readonly element: HTMLElement;
     private rangeInput: HTMLInputElement;
     private numberInput: HTMLInputElement;
 
     constructor(...rest: ElementChild[]) {
+        super();
+
         this.element = Div(
             className("input-range-with-number"),
             this.rangeInput = InputRange(...rest),
@@ -28,12 +35,14 @@ export class InputRangeWithNumberElement implements ErsatzElement {
         this.numberInput.disabled = this.rangeInput.disabled;
         this.numberInput.placeholder = this.rangeInput.placeholder;
 
-        this.rangeInput.addEventListener("input", () =>
-            this.numberInput.valueAsNumber = this.rangeInput.valueAsNumber);
-
         this.numberInput.addEventListener("input", () => {
             this.rangeInput.valueAsNumber = this.numberInput.valueAsNumber;
             this.rangeInput.dispatchEvent(new Event("input"));
+        });
+
+        this.rangeInput.addEventListener("input", () => {
+            this.numberInput.valueAsNumber = this.rangeInput.valueAsNumber;
+            this.dispatchEvent(new TypedEvent("input"));
         });
     }
 

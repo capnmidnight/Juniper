@@ -1,5 +1,5 @@
 import { isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString } from "juniper-tslib";
-import { Attr, autoPlay, className, controls, loop, muted, playsInline, type } from "./attrs";
+import { Attr, autoPlay, className, controls, htmlFor, loop, muted, playsInline, type } from "./attrs";
 import { CSSInJSRule, display, margin, styles } from "./css";
 
 export interface ErsatzElement {
@@ -274,6 +274,20 @@ export function Input(...rest: ElementChild[]): HTMLInputElement { return tag("i
 export function Ins(...rest: ElementChild[]): HTMLModElement { return tag("ins", ...rest); }
 export function KBD(...rest: ElementChild[]): HTMLElement { return tag("kbd", ...rest); }
 export function Label(...rest: ElementChild[]): HTMLLabelElement { return tag("label", ...rest); }
+export function PreLabeled<T extends Elements>(id: string, label: ElementChild, input: T): [HTMLLabelElement, T] {
+    resolveElement(input).id = id;
+    return [
+        Label(htmlFor(id), label),
+        input
+    ];
+}
+export function PostLabeled<T extends Elements>(id: string, label: ElementChild, input: T): [T, HTMLLabelElement] {
+    resolveElement(input).id = id;
+    return [
+        input,
+        Label(htmlFor(id), label)
+    ];
+}
 export function Legend(...rest: ElementChild[]): HTMLLegendElement { return tag("legend", ...rest); }
 export function LI(...rest: ElementChild[]): HTMLLIElement { return tag("li", ...rest); }
 export function Link(...rest: ElementChild[]): HTMLLinkElement { return tag("link", ...rest); }

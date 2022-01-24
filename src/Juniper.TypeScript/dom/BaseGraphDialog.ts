@@ -1,8 +1,6 @@
 import { vec2 } from "gl-matrix";
 import { GraphNode, mapBuild, RequestAnimationFrameTimer, stringRandom } from "juniper-tslib";
 import {
-    htmlFor,
-    id,
     max,
     min,
     step,
@@ -25,16 +23,15 @@ import {
     Div,
     elementApply,
     InputCheckbox,
-    InputNumber,
-    Label
+    InputNumber, PreLabeled
 } from "./tags";
 
 
-export const size = 20;
-export const mid = size / 2;
-export const delta = vec2.create();
+const size = 20;
+const mid = size / 2;
+const delta = vec2.create();
 
-export function clamp(a: number, b: number) {
+function clamp(a: number, b: number) {
     if (a < 0) {
         return 0;
     }
@@ -101,33 +98,46 @@ export class BaseGraphDialog<T> extends DialogBox {
                     alignItems("middle")
                 ),
 
-                Label(htmlFor("limit" + idPostfix), "Limit"),
-                this.t = InputNumber(
-                    id("limit" + idPostfix),
-                    min(0),
-                    max(1000),
-                    step(0.1),
-                    value(5)),
+                ...PreLabeled(
+                    "limit" + idPostfix,
+                    "Limit",
+                    this.t = InputNumber(
+                        min(0),
+                        max(1000),
+                        step(0.1),
+                        value(5)
+                    )
+                ),
 
-                Label(htmlFor("cooling" + idPostfix), "Cooling"),
-                this.cooling = InputCheckbox(id("cooling" + idPostfix)),
+                ...PreLabeled(
+                    "cooling" + idPostfix,
+                    "Cooling",
+                    this.cooling = InputCheckbox()
+                ),
 
-                Label(htmlFor("attract" + idPostfix), "Attract"),
-                this.attract = InputNumber(
-                    id("attract" + idPostfix),
-                    min(-100),
-                    max(100),
-                    step(0.1),
-                    value(1)),
+                ...PreLabeled(
+                    "attract" + idPostfix,
+                    "Attract",
+                    this.attract = InputNumber(
+                        min(-100),
+                        max(100),
+                        step(0.1),
+                        value(1)
+                    )
+                ),
 
-                Label(htmlFor("repel" + idPostfix), "Repel"),
-                this.repel = InputNumber(
-                    id("repel" + idPostfix),
-                    min(-100),
-                    max(100),
-                    step(0.1),
-                    value(1))
+                ...PreLabeled(
+                    "repel" + idPostfix,
+                    "Repel",
+                    this.repel = InputNumber(
+                        min(-100),
+                        max(100),
+                        step(0.1),
+                        value(1)
+                    )
+                )
             ),
+
             this.canvas = Canvas(
                 styles(
                     display("block"),
