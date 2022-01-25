@@ -10,7 +10,7 @@
   "compileOnSave": true,
 
   "compilerOptions": {
-    "lib": [ "ESNext" ],
+    "lib": [ "ESNext", "WebWorker", "DOM" ],
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Node",
