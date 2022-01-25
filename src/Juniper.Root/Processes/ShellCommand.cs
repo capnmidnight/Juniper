@@ -24,6 +24,8 @@ namespace Juniper.Processes
 
         public bool AccumulateOutput { get; set; }
 
+        public bool LoadWindowsUserProfile { get; set; }
+
         public Encoding Encoding { get; set; } = Encoding.UTF8;
 
         public string TotalStandardOutput { get; private set; }
@@ -86,21 +88,31 @@ namespace Juniper.Processes
 
             ExitCode = null;
 
+            var startInfo = new ProcessStartInfo(command)
+            {
+                Arguments = args.ToArray().Join(' '),
+                StandardErrorEncoding = Encoding,
+                StandardOutputEncoding = Encoding,
+                ErrorDialog = false,
+                CreateNoWindow = true,
+                RedirectStandardError = true,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                WindowStyle = ProcessWindowStyle.Hidden
+            };
+
+            if(Environment.OSVersion.Platform == PlatformID.Win32NT
+                && LoadWindowsUserProfile)
+            {
+                // We have to use reflection here because the property doesn't exist on other platforms.
+                typeof(ProcessStartInfo)
+                    .GetProperty("LoadUserProfile")
+                    .SetValue(startInfo, true);
+            }
+
             using var proc = new Process()
             {
-                StartInfo = new ProcessStartInfo(command)
-                {
-                    Arguments = args.ToArray().Join(' '),
-                    StandardErrorEncoding = Encoding,
-                    StandardOutputEncoding = Encoding,
-                    UseShellExecute = false,
-                    ErrorDialog = false,
-                    CreateNoWindow = true,
-                    RedirectStandardError = true,
-                    RedirectStandardInput = true,
-                    RedirectStandardOutput = true,
-                    WindowStyle = ProcessWindowStyle.Hidden
-                }
+                StartInfo = startInfo
             };
 
             if (AccumulateOutput)

@@ -34,6 +34,11 @@ namespace Juniper.Processes
             return commands.AddCommands(toInstall.Select(name => NPM(juniperDir, name, "init")));
         }
 
+        public static ICommandTree InstallJuniper(this ICommandTree commands, DirectoryInfo juniperDir)
+        {
+            return commands.AddCommands(toInstall.Select(name => NPM(juniperDir, name, "inst")));
+        }
+
         private static readonly string[] toBuild = new[]
         {
             "esbuild",

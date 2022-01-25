@@ -6,6 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "init": "npm ci",
+    "inst": "npm install",
     "build": "node --experimental-modules esbuild.config.js",
     "watch": "node --experimental-modules esbuild.config.js --watch"
   },

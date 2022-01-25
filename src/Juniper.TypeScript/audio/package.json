@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "init": "npm ci",
+    "inst": "npm install",
     "build": "npx tsc --build"
   },
   "dependencies": {
