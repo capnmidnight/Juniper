@@ -26,6 +26,8 @@ namespace Juniper.Processes
 
         public bool LoadWindowsUserProfile { get; set; }
 
+        public string WorkingDirectory { get; set; }
+
         public Encoding Encoding { get; set; } = Encoding.UTF8;
 
         public string TotalStandardOutput { get; private set; }
@@ -90,6 +92,7 @@ namespace Juniper.Processes
 
             var startInfo = new ProcessStartInfo(command)
             {
+                WorkingDirectory = WorkingDirectory,
                 Arguments = args.ToArray().Join(' '),
                 StandardErrorEncoding = Encoding,
                 StandardOutputEncoding = Encoding,
