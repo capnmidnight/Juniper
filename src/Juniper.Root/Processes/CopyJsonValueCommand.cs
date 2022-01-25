@@ -21,7 +21,7 @@ namespace Juniper.Processes
             {
                 return null;
             }
-            
+
             var json = token.HasValue
                 ? await File.ReadAllTextAsync(path.FullName, token.Value)
                 : await File.ReadAllTextAsync(path.FullName);
@@ -29,10 +29,29 @@ namespace Juniper.Processes
             return JsonNode.Parse(json);
         }
 
-        public static async Task<string> ReadJsonValue(FileInfo file, string field)
+        public static async Task<string> ReadJsonValueAsync(FileInfo file, string field)
         {
-            var node = await ReadJsonAsync(file, null);
-            return node[field]?.GetValue<string>();
+            var doc = await ReadJsonAsync(file, null);
+            return doc[field]?.GetValue<string>();
+        }
+
+        public static async Task WriteJsonValueAsync(FileInfo file, string field, string value)
+        {
+            var doc = await ReadJsonAsync(file, null);
+            if(doc is null)
+            {
+                doc = JsonNode.Parse("{}");
+            }
+
+            doc[field] = value;
+
+            var json = doc.ToJsonString(new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                WriteIndented = true
+            });
+
+            await File.WriteAllTextAsync(file.FullName, json);
         }
 
         public CopyJsonValueCommand(FileInfo readFile, string readField, FileInfo writeFile, string writeField)
@@ -47,7 +66,7 @@ namespace Juniper.Processes
         public override async Task RunAsync(CancellationToken? token = null)
         {
             var fromJson = await ReadJsonAsync(readFile, token);
-            if(token?.IsCancellationRequested == true)
+            if (token?.IsCancellationRequested == true)
             {
                 OnWarning("Operation cancelled");
                 return;
