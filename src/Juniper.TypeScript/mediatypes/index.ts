@@ -1,18 +1,46 @@
+import { isDefined, isString, singleton } from "juniper-tslib";
 
-const byValue = new Map<string, MediaType>();
-const byExtension = new Map<string, MediaType[]>();
-const typePattern = /(\*|\w+)\/(\*|(-|\w)+)(?:;q=(1|0?\.\d+))?/;
-const depMessages = new WeakMap<MediaType, string>();
+export interface MediaType {
+    typeName: string;
+    subTypeName: string;
+    value: string;
+    fullValue: string;
+    extensions: ReadonlyArray<string>;
+    primaryExtension: string;
+
+    withParameter(key: string, value: string): MediaType;
+
+    toString(): string;
+    addExtension(fileName: string): string;
+    matches(value: MediaType | string): boolean;
+    matchesFileName(fileName: string): boolean;
+}
+
+
+const byValue = singleton("Juniper:MediaTypes:byValue", () => new Map<string, MediaType>());
+const byExtension = singleton("Juniper:MediaTypes:byExtension", () => new Map<string, MediaType[]>());
+const depMessages = singleton("Juniper:MediaTypes:depMessages", () => new WeakMap<MediaType, string>());
 
 function register(type: MediaType): MediaType {
-    byValue.set(type.value, type);
+    let isNew = false;
+    type = singleton("Juniper.MediaTypes:" + type.value, () => {
+        isNew = true;
+        return type;
+    });
 
-    for (const ext of type.extensions) {
-        if (!byExtension.has(ext)) {
-            byExtension.set(ext, new Array<MediaType>());
+    if (isNew) {
+        byValue.set(type.value, type);
+
+        for (const ext of type.extensions) {
+            if (!byExtension.has(ext)) {
+                byExtension.set(ext, new Array<MediaType>());
+            }
+
+            const byExts = byExtension.get(ext);
+            if (byExts.indexOf(type) < 0) {
+                byExts.push(type);
+            }
         }
-
-        byExtension.get(ext).push(type);
     }
 
     return type;
@@ -23,33 +51,60 @@ function deprecate(type: MediaType, msg: string): MediaType {
     return type;
 }
 
-export class MediaType {
-    private readonly _weightedValue: string;
-    private readonly _value: string;
+const subTypePattern = /(?:([^\.]+)\.)?([^\+;]+)(?:\+([^;]+))?((?:; *([^=]+)=([^;]+))*)/;
+class InternalMediaType implements MediaType {
+    private readonly _tree: string;
+    private readonly _subType: string;
+    private readonly _suffix: string;
+    private readonly _parameters: ReadonlyMap<string, string>;
 
-    private readonly weight: number;
+    private readonly _value: string;
+    private readonly _fullValue: string;
+
     private readonly _extensions: ReadonlyArray<string>;
     private readonly _primaryExtension: string = null;
 
 
-    constructor(typeName: string, subTypeName: string);
-    constructor(typeName: string, subTypeName: string, extensions: ReadonlyArray<string>);
-    constructor(typeName: string, subTypeName: string, weight: number);
-    constructor(typeName: string, subTypeName: string, weight: number, extensions: ReadonlyArray<string>);
     constructor(
-        public readonly typeName: string,
-        private readonly _subTypeName: string,
-        weightOrExtensions?: number | ReadonlyArray<string>,
+        private readonly _type: string,
+        private readonly _fullSubType: string,
         extensions?: ReadonlyArray<string>) {
-        this._value = `${this.typeName}/${this._subTypeName}`;
-        this._weightedValue = `"${this.value};q=${this.weight}`;
 
-        if (weightOrExtensions instanceof Array) {
-            this.weight = 1;
-            extensions = weightOrExtensions || extensions;
+        const parameters = new Map<string, string>();
+        this._parameters = parameters;
+
+        const subTypeParts = this._fullSubType.match(subTypePattern);
+        this._tree = subTypeParts[1];
+        this._subType = subTypeParts[2];
+        this._suffix = subTypeParts[3];
+        const paramStr = subTypeParts[4];
+
+        this._value = this._fullValue = this._type + "/";
+
+        if (isDefined(this._tree)) {
+            this._value = this._fullValue += this._tree + ".";
         }
-        else {
-            this.weight = weightOrExtensions;
+
+        this._value = this._fullValue += this._subType;
+
+        if (isDefined(this._suffix)) {
+            this._value = this._fullValue += "+" + this._suffix;
+        }
+
+        if (isDefined(paramStr)) {
+            const pairs = paramStr.split(';')
+                .map(p => p.trim())
+                .filter(p => p.length > 0)
+                .map(p => p.split('='));
+            for (const [key, ...values] of pairs) {
+                const value = values.join("=");
+                parameters.set(key, value);
+                const slug = `; ${key}=${value}`;
+                this._fullValue += slug;
+                if (key !== "q") {
+                    this._value += slug;
+                }
+            }
         }
 
         this._extensions = extensions || [];
@@ -63,8 +118,9 @@ export class MediaType {
         }
     }
 
-    withWeight(weight: number): MediaType {
-        const type = new MediaType(this.typeName, this._subTypeName, weight, this.extensions);
+    withParameter(key: string, value: string): MediaType {
+        const newSubType = `${this._fullSubType}; ${key}=${value}`;
+        const type = new InternalMediaType(this.typeName, newSubType, this.extensions);
         const msg = depMessages.get(this);
         if (msg) {
             depMessages.set(type, msg);
@@ -72,9 +128,23 @@ export class MediaType {
         return type;
     }
 
+    get typeName(): string {
+        this.check();
+        return this._type;
+    }
+
+    get tree(): string {
+        this.check();
+        return this._tree;
+    }
+
+    get suffix(): string {
+        return this._suffix;
+    }
+
     get subTypeName(): string {
         this.check();
-        return this._subTypeName;
+        return this._subType;
     }
 
     get value(): string {
@@ -82,9 +152,14 @@ export class MediaType {
         return this._value;
     }
 
-    get weightedValue(): string {
+    get fullValue(): string {
         this.check();
-        return this._weightedValue;
+        return this._fullValue;
+    }
+
+    get parameters(): ReadonlyMap<string, string> {
+        this.check();
+        return this._parameters;
     }
 
     get extensions(): ReadonlyArray<string> {
@@ -98,11 +173,11 @@ export class MediaType {
     }
 
     toString() {
-        if (this.weight === 1) {
+        if (this.parameters.get("q") === "1") {
             return this.value;
         }
         else {
-            return this.weightedValue;
+            return this.fullValue;
         }
     }
 
@@ -127,7 +202,7 @@ export class MediaType {
     }
 
     matches(value: MediaType | string): boolean {
-        if (!(value instanceof MediaType)) {
+        if (isString(value)) {
             value = mediaTypeParse(value);
         }
 
@@ -151,6 +226,7 @@ export class MediaType {
     }
 }
 
+const typePattern = /([^\/]+)\/(.+)/;
 export function mediaTypeParse(value: string): MediaType {
     if (!value) {
         return null;
@@ -161,18 +237,14 @@ export function mediaTypeParse(value: string): MediaType {
         return null;
     }
 
-    const typeName = match[1];
-    const subTypeName = match[2];
-    const rawValue = `${typeName}/${subTypeName}`;
-    const basicType = byValue.get(rawValue) || new MediaType(typeName, subTypeName);
-    if (match.length === 4) {
-        const weight = parseFloat(match[3]);
-        if (Number.isNaN(weight)
-            || !Number.isFinite(weight)) {
-            return null;
-        }
+    const type = match[1];
+    const subType = match[2];
+    const parsedType = new InternalMediaType(type, subType);
+    const weight = parsedType.parameters.get("q");
+    const basicType = byValue.get(parsedType.value) || new InternalMediaType(type, subType, []);
 
-        return basicType.withWeight(weight);
+    if (isDefined(weight)) {
+        return basicType.withParameter("q", weight);
     }
     else {
         return basicType;
@@ -180,11 +252,11 @@ export function mediaTypeParse(value: string): MediaType {
 }
 
 export function mediaTypesMatch(value: string | MediaType, pattern: string | MediaType): boolean {
-    if (!(value instanceof MediaType)) {
+    if (isString(value)) {
         value = mediaTypeParse(value);
     }
 
-    if (!(pattern instanceof MediaType)) {
+    if (isString(pattern)) {
         pattern = mediaTypeParse(pattern);
     }
 
@@ -219,7 +291,7 @@ export function mediaTypeGuessByExtension(ext: string): MediaType[] {
         return byExtension.get(ext);
     }
     else {
-        return [new MediaType("unknown", ext, [ext])];
+        return [new InternalMediaType("unknown", ext, [ext])];
     }
 }
 
@@ -234,14 +306,9 @@ export function mediaTypeNormalizeFileName(fileName: string, fileType: string): 
     return fileType;
 }
 
-
-export const anyMediaType = register(new MediaType("*", "*"));
-export const unknownMediaType = register(new MediaType("unknown", "unknown"));
-
-
 const specialize = (group: string) =>
     (value: string, ...extensions: string[]) =>
-        register(new MediaType(group, value, extensions));
+        register(new InternalMediaType(group, value, extensions));
 
 const application = specialize("application");
 const audio = specialize("audio");
@@ -426,7 +493,7 @@ export const Application_JoseJson = application("jose+json", "json");
 export const Application_JrdJson = application("jrd+json", "json");
 export const Application_Json = application("json", "json");
 export const Application_Json5 = application("json5", "json5");
-export const Application_JsonUTF8 = application("json", "json;charset=UTF-8");
+export const Application_JsonUTF8 = application("json; charset=UTF-8", "json");
 export const Application_Json_PatchJson = application("json-patch+json", "json");
 export const Application_Json_Seq = application("json-seq");
 export const Application_JsonmlJson = application("jsonml+json", "jsonml");
