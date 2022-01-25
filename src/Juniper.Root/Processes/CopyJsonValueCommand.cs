@@ -10,48 +10,43 @@ namespace Juniper.Processes
 {
     public class CopyJsonValueCommand : AbstractCommand
     {
-        private readonly DirectoryInfo root;
-        private readonly string readFile;
-        private readonly string writeFile;
+        private readonly FileInfo readFile;
+        private readonly FileInfo writeFile;
         private readonly string readField;
         private readonly string writeField;
 
-        private static async Task<JsonNode> ReadJsonAsync(string path, CancellationToken? token)
+        private static async Task<JsonNode> ReadJsonAsync(FileInfo path, CancellationToken? token)
         {
-            if (path is null
-                || !File.Exists(path))
+            if (path?.Exists != true)
             {
                 return null;
             }
-
+            
             var json = token.HasValue
-                ? await File.ReadAllTextAsync(path, token.Value)
-                : await File.ReadAllTextAsync(path);
+                ? await File.ReadAllTextAsync(path.FullName, token.Value)
+                : await File.ReadAllTextAsync(path.FullName);
 
-            return JsonObject.Parse(json);
+            return JsonNode.Parse(json);
         }
 
-        public CopyJsonValueCommand(DirectoryInfo root, string readFile, string readField, string writeFile, string writeField)
+        public static async Task<string> ReadJsonValue(FileInfo file, string field)
         {
-            this.root = root;
-            this.readFile = PathExt.FixPath(readFile);
+            var node = await ReadJsonAsync(file, null);
+            return node[field]?.GetValue<string>();
+        }
+
+        public CopyJsonValueCommand(FileInfo readFile, string readField, FileInfo writeFile, string writeField)
+        {
+            this.readFile = readFile;
             this.readField = readField;
-            this.writeFile = PathExt.FixPath(writeFile);
+            this.writeFile = writeFile;
             this.writeField = writeField;
             CommandName = $"Json Copy [{readFile}:{readField} -> {writeFile}:{writeField}]";
         }
 
         public override async Task RunAsync(CancellationToken? token = null)
         {
-            var fromPath = Path.Combine(
-                root.FullName,
-                readFile);
-
-            var toPath = Path.Combine(
-                root.FullName,
-                writeFile);
-
-            var fromJson = await ReadJsonAsync(fromPath, token);
+            var fromJson = await ReadJsonAsync(readFile, token);
             if(token?.IsCancellationRequested == true)
             {
                 OnWarning("Operation cancelled");
@@ -64,7 +59,7 @@ namespace Juniper.Processes
                 return;
             }
 
-            var toJson = await ReadJsonAsync(toPath, token);
+            var toJson = await ReadJsonAsync(writeFile, token);
             if (token?.IsCancellationRequested == true)
             {
                 OnWarning("Operation cancelled");
@@ -93,11 +88,11 @@ namespace Juniper.Processes
 
             if (token.HasValue)
             {
-                await File.WriteAllTextAsync(toPath, appsettingsJson, token.Value);
+                await File.WriteAllTextAsync(writeFile.FullName, appsettingsJson, token.Value);
             }
             else
             {
-                await File.WriteAllTextAsync(toPath, appsettingsJson);
+                await File.WriteAllTextAsync(writeFile.FullName, appsettingsJson);
             }
 
             if (token?.IsCancellationRequested == true)
