@@ -199,7 +199,7 @@ namespace Juniper.Processes
 
         private void Proc_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            if (e.Data is not null)
+            if (e.Data is not null && e.Data.Length > 0)
             {
                 OnInfo(e.Data);
             }
@@ -207,7 +207,7 @@ namespace Juniper.Processes
 
         private void Proc_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
-            if (e.Data is not null)
+            if (e.Data is not null && e.Data.Length > 0)
             {
                 OnWarning(e.Data);
             }
