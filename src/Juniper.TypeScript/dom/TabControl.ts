@@ -48,7 +48,7 @@ export function TabControl(...tabPanels: ITabPanel[]): TabControlElement {
     const tabButtons = tabPanels.map(panel => {
         return Button(
             className("btn btn-secondary"),
-            customData("tabname", panel.element.id),
+            customData("tabname", panel.tabName),
             panel.buttonLabel
         );
     });
