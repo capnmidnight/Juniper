@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -10,46 +11,36 @@ namespace Juniper.Processes
             return new ShellCommand(juniperDir.CD("src", "Juniper.TypeScript", name), "npm", "run", cmd);
         }
 
-        private static readonly string[] toInstall = new[]
+        private static IEnumerable<string> AllProjects(DirectoryInfo juniperDir, bool all = true)
         {
-            "esbuild",
-            "emoji",
-            "tslib",
-            "timers",
-            "mediatypes",
-            "dom",
-            "fetcher-base",
-            "fetcher",
-            "fetcher-worker",
-            "google-maps",
-            "graphics2d",
-            "testing",
-            "units",
-            "audio",
-            "webrtc",
-            "threejs"
-        };
+            return juniperDir.CD("src", "Juniper.TypeScript")
+                .EnumerateDirectories()
+                .Where(d => all || d.EnumerateDirectories().Any(sd => sd.Name == "dist"))
+                .Select(x => x.Name);
+        }
 
         public static ICommandTree InitJuniper(this ICommandTree commands, DirectoryInfo juniperDir)
         {
-            return commands.AddCommands(toInstall.Select(name => NPM(juniperDir, name, "init")));
+            return commands.AddCommands(
+                AllProjects(juniperDir)
+                    .Select(name =>
+                        NPM(juniperDir, name, "init")));
         }
 
         public static ICommandTree InstallJuniper(this ICommandTree commands, DirectoryInfo juniperDir)
         {
-            return commands.AddCommands(toInstall.Select(name => NPM(juniperDir, name, "inst")));
+            return commands.AddCommands(
+                AllProjects(juniperDir)
+                    .Select(name =>
+                        NPM(juniperDir, name, "inst")));
         }
-
-        private static readonly string[] toBuild = new[]
-        {
-            "esbuild",
-            "fetcher-worker"
-        };
 
         public static ICommandTree BuildJuniper(this ICommandTree commands, DirectoryInfo juniperDir, bool checkAll = false)
         {
-            var tasks = checkAll ? toInstall : toBuild;
-            return commands.AddCommands(tasks.Select(name => NPM(juniperDir, name, "build")));
+            return commands.AddCommands(
+                AllProjects(juniperDir, checkAll)
+                    .Select(name =>
+                        NPM(juniperDir, name, "build")));
         }
 
         static CopyCommand Copy(DirectoryInfo juniperDir, DirectoryInfo outputDir, string from, string to)
