@@ -28,6 +28,7 @@ namespace Juniper.Services
             public bool UseIdentity { get; set; } = true;
             public bool UseEmail { get; set; } = true;
             public bool UseSignalR { get; set; } = true;
+            public bool LogSQL { get; set; }
         }
 
         public static IServiceCollection ConfigureDefaultServices<ContextT>(this IServiceCollection services, IWebHostEnvironment env, string connectionStringName, Options config = null)
@@ -39,14 +40,14 @@ namespace Juniper.Services
             {
                 services.AddTransient<IConfigureOptions<KestrelServerOptions>, LetsEncryptService>();
             }
-            
+
             services.AddDbContext<ContextT>(options =>
             {
                 options.UseNpgsql($"name=ConnectionStrings:{connectionStringName}", opts =>
                     opts.EnableRetryOnFailure()
                         .UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery));
 
-                if (env.IsDevelopment())
+                if (env.IsDevelopment() && config.LogSQL)
                 {
                     options.LogTo(Console.WriteLine, LogLevel.Information);
                 }
