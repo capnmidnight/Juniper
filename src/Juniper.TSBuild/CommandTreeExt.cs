@@ -75,7 +75,9 @@ namespace Juniper.Processes
         public static ICommandTree CopyJuniperScripts(this ICommandTree commands, DirectoryInfo juniperDir, DirectoryInfo outputDir)
         {
             return commands.AddCommands(
-                Copy("fetcher-worker", juniperDir, outputDir));
+                Copy("fetcher-worker", juniperDir, outputDir)
+                    .Union(Copy("environment", juniperDir, outputDir))
+                    .Union(Copy("tele", juniperDir, outputDir)));
         }
     }
 }

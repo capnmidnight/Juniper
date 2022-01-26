@@ -11,11 +11,9 @@ export declare class Build {
     private readonly isWatch;
     private rootDirName;
     private outDirName;
-    private bundleOutDirName;
     constructor(args: string[]);
     rootDir(name: string): this;
     outDir(name: string): this;
-    bundleOutDir(name: string): this;
     plugin(pgn: PluginFactory): this;
     define(def: DefineFactory): this;
     external(extern: string): this;

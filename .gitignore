@@ -111,3 +111,5 @@ tobii_gameintegration_*.dll
 /src/Unity Asset Store Packages/ShaderControl/Editor/Resources/BuiltShaders.asset
 node_modules/
 /src/Juniper.TypeScript/fetcher-worker/dist/
+/src/Juniper.TypeScript/environment/dist/
+/src/Juniper.TypeScript/tele/dist/

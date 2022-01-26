@@ -7,8 +7,7 @@ export class Build {
     externals = new Array();
     isWatch;
     rootDirName = "src";
-    outDirName = "wwwroot";
-    bundleOutDirName = "js";
+    outDirName = "wwwroot/js";
     constructor(args) {
         args.sort();
         this.isWatch = args.indexOf("--watch") !== -1;
@@ -19,10 +18,6 @@ export class Build {
     }
     outDir(name) {
         this.outDirName = name;
-        return this;
-    }
-    bundleOutDir(name) {
-        this.bundleOutDirName = name;
         return this;
     }
     plugin(pgn) {
@@ -57,11 +52,6 @@ export class Build {
     }
     makeBundle(entryPoints, name, minify) {
         const JS_EXT = minify ? ".min" : "";
-        const outDirParts = [
-            this.outDirName,
-            this.bundleOutDirName
-        ];
-        const outdir = outDirParts.filter(x => x).join("/");
         const entryNames = `[dir]/[name]${JS_EXT}`;
         const define = {
             DEBUG: JSON.stringify(!minify),
@@ -81,7 +71,7 @@ export class Build {
             bundle: true,
             sourcemap: true,
             entryPoints,
-            outdir,
+            outdir: this.outDirName,
             entryNames,
             define,
             minify,

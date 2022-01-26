@@ -16,8 +16,7 @@ export class Build {
     private readonly isWatch: boolean;
 
     private rootDirName = "src";
-    private outDirName = "wwwroot";
-    private bundleOutDirName = "js";
+    private outDirName = "wwwroot/js";
 
     constructor(args: string[]) {
         args.sort();
@@ -31,11 +30,6 @@ export class Build {
 
     outDir(name: string) {
         this.outDirName = name;
-        return this;
-    }
-
-    bundleOutDir(name: string) {
-        this.bundleOutDirName = name;
         return this;
     }
 
@@ -78,13 +72,6 @@ export class Build {
 
     private makeBundle(entryPoints: string[], name: string, minify: boolean) {
         const JS_EXT = minify ? ".min" : "";
-
-        const outDirParts = [
-            this.outDirName,
-            this.bundleOutDirName
-        ];
-        const outdir = outDirParts.filter(x => x).join("/");
-
         const entryNames = `[dir]/[name]${JS_EXT}`;
         const define: DefMap = {
             DEBUG: JSON.stringify(!minify),
@@ -106,7 +93,7 @@ export class Build {
             bundle: true,
             sourcemap: true,
             entryPoints,
-            outdir,
+            outdir: this.outDirName,
             entryNames,
             define,
             minify,

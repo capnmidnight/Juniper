@@ -1,0 +1,33 @@
+{
+  "version": "1.0.0",
+  "name": "juniper-tele",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "update": "npm ci",
+    "inst": "npm install",
+    "build": "node --experimental-modules esbuild.config.js",
+    "watch": "node --experimental-modules esbuild.config.js --watch"
+  },
+  "devDependencies": {
+    "@types/three": "0.136.1",
+    "juniper-esbuild": "file:../esbuild",
+    "tslib": "2.3.1",
+    "typescript": "4.3.5"
+  },
+  "dependencies": {
+    "juniper-2d": "file:../graphics2d",
+    "juniper-audio": "file:../audio",
+    "juniper-dom": "file:../dom",
+    "juniper-emoji": "file:../emoji",
+    "juniper-environment": "file:../environment",
+    "juniper-fetcher": "file:../fetcher",
+    "juniper-threejs": "file:../threejs",
+    "juniper-timers": "file:../timers",
+    "juniper-tslib": "file:../tslib",
+    "juniper-units": "file:../units",
+    "juniper-webrtc": "file:../webrtc",
+    "three": "0.136.0",
+    "webxr-polyfill": "2.0.3"
+  }
+}
