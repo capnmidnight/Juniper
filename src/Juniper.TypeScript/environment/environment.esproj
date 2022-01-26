@@ -3,7 +3,8 @@
     <ProjectGuid>f411aa75-571b-447a-bf45-00dd0af740e2</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <BuildCommand>npm run update &amp;&amp; npm run build</BuildCommand>
+    <BuildCommand>
+    </BuildCommand>
   </PropertyGroup>
   <ItemGroup>
     <Script Include="**" Exclude="*.esproj;**\node_modules\**" />
