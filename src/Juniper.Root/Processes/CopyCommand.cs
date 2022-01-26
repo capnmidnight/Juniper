@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,7 +24,9 @@ namespace Juniper.Processes
             var outFile = new FileInfo(to);
             outFile.Directory.Create();
             File.Copy(from, to, overwrite);
-            OnInfo("Copied!");
+            var fromRel = PathExt.Abs2Rel(from, Environment.CurrentDirectory);
+            var toRel = PathExt.Abs2Rel(to, Environment.CurrentDirectory);
+            OnInfo($"Copied! {fromRel} -> {toRel}");
             return Task.CompletedTask;
         }
     }
