@@ -77,11 +77,7 @@ namespace Juniper.Processes
             CommandName = this.args.Prepend(command).ToArray().Join(' ');
             if (workingDir is not null)
             {
-                var path = PathExt.Abs2Rel(workingDir.FullName, Environment.CurrentDirectory);
-                if (!string.IsNullOrEmpty(path))
-                {
-                    CommandName = $"({path}) {CommandName}";
-                }
+                CommandName = $"({workingDir.Name}) {CommandName}";
             }
         }
 
