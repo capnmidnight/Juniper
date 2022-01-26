@@ -1,8 +1,9 @@
 import { mapBuild, TypedEvent, TypedEventBase } from "juniper-tslib";
+import { className, customData } from "./attrs";
 import { buttonSetEnabled } from "./buttonSetEnabled";
 import { borderBottom, borderBottomColor, borderRadius, boxShadow, display, flexDirection, marginBottom, paddingTop, rule, zIndex } from "./css";
 import { elementSetClass } from "./elementSetClass";
-import { Elements, elementSetDisplay, ErsatzElements, Style } from "./tags";
+import { Button, Div, Elements, elementSetDisplay, ErsatzElement, ErsatzElements, Style } from "./tags";
 
 export class TabControlTabSelectedEvent extends TypedEvent<"tabselected">{
     constructor(public tabname: string) {
@@ -12,6 +13,11 @@ export class TabControlTabSelectedEvent extends TypedEvent<"tabselected">{
 
 interface TabControlEvents {
     tabselected: TabControlTabSelectedEvent;
+}
+
+export interface ITabPanel extends ErsatzElement {
+    tabName: string;
+    buttonLabel: string;
 }
 
 Style(
@@ -38,7 +44,25 @@ Style(
     )
 );
 
-export class TabControl
+export function TabControl(...tabPanels: ITabPanel[]): TabControlElement {
+    const tabButtons = tabPanels.map(panel => {
+        return Button(
+            className("btn btn-secondary"),
+            customData("tabname", panel.element.id),
+            panel.buttonLabel
+        );
+    });
+
+    tabButtons[0].className = "btn btn-outline-secondary";
+    tabButtons[0].disabled = true;
+
+    return new TabControlElement(
+        Div(className("tabs"), ...tabButtons),
+        Div(className("tab-container"), ...tabPanels)
+    );
+}
+
+export class TabControlElement
     extends TypedEventBase<TabControlEvents>
     implements ErsatzElements {
     private curTab: string = null;
@@ -50,15 +74,15 @@ export class TabControl
 
     public readonly elements: Elements[];
 
-    constructor(tabButtonRoot: HTMLElement, private readonly tabPanelRoot: HTMLElement, private buttonStyle: string = "secondary") {
+    constructor(public readonly tabButtonRoot: HTMLElement, public readonly tabPanelRoot: HTMLElement) {
         super();
 
         this.elements = [
-            tabButtonRoot,
+            this.tabButtonRoot,
             this.tabPanelRoot
         ];
 
-        this.tabButtons = Array.from(tabButtonRoot.querySelectorAll("button"));
+        this.tabButtons = Array.from(this.tabButtonRoot.querySelectorAll("button"));
         let firstViewSelector: () => void = null;
         for (const tabButton of this.tabButtons) {
             const name = tabButton.dataset.tabname;
@@ -91,7 +115,7 @@ export class TabControl
         this._enabled = v;
         for (const tabButton of this.tabButtons) {
             tabButton.disabled = !v
-                || tabButton.classList.contains(`btn-outline-${this.buttonStyle}`);
+                || tabButton.classList.contains("btn-outline-secondary");
         }
 
         elementSetClass(
@@ -120,7 +144,7 @@ export class TabControl
             buttonSetEnabled(
                 otherTabButton,
                 otherTabButton !== tabButton,
-                this.buttonStyle);
+                "secondary");
         }
 
         for (const view of this.views) {
