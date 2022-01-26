@@ -15,32 +15,43 @@ namespace System.IO
         /// </summary>
         /// <param name="sub">The sub.</param>
         /// <returns></returns>
-        public static DirectoryInfo CD(this DirectoryInfo dir, string sub)
+        private static DirectoryInfo DirectoryOp(this DirectoryInfo dir, string[] subs, bool create)
         {
             if (dir is null)
             {
                 throw new ArgumentNullException(nameof(dir));
             }
 
-            return dir.GetDirectories()
-                .FirstOrDefault(d => d.Name == sub);
+            dir = new DirectoryInfo(Path.Combine(subs.Prepend(dir.FullName).ToArray()));
+            
+            if(!dir.Exists)
+            {
+                if (create)
+                {
+                    dir.Create();
+                }
+                else
+                {
+                    dir = null;
+                }
+            }
+
+            return dir;
+        }
+
+        public static DirectoryInfo CD(this DirectoryInfo dir, params string[] subs)
+        {
+            return dir.DirectoryOp(subs, false);
         }
 
         /// <summary>
-        /// Retrieve the named subdirectory of a given directory, or Null if it doesn't exist.
+        /// Retrieve the named subdirectory of a given directory, creating it if it doesn't exist.
         /// </summary>
         /// <param name="sub">The sub.</param>
         /// <returns></returns>
-        public static DirectoryInfo MkDir(this DirectoryInfo dir, string sub)
+        public static DirectoryInfo MkDir(this DirectoryInfo dir, params string[] subs)
         {
-            if (dir is null)
-            {
-                throw new ArgumentNullException(nameof(dir));
-            }
-
-            var subdir = new DirectoryInfo(Path.Combine(dir.FullName, sub));
-            subdir.Create();
-            return subdir;
+            return dir.DirectoryOp(subs, true);
         }
 
         /// <summary>

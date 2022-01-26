@@ -18,15 +18,14 @@ namespace Juniper.Processes
 
         private readonly string command;
         private readonly string[] args;
-        private CancellationTokenSource canceller;
+        private readonly DirectoryInfo workingDir;
 
+        private CancellationTokenSource canceller;
         private Task task;
 
         public bool AccumulateOutput { get; set; }
 
         public bool LoadWindowsUserProfile { get; set; }
-
-        public string WorkingDirectory { get; set; }
 
         public Encoding Encoding { get; set; } = Encoding.UTF8;
 
@@ -49,8 +48,12 @@ namespace Juniper.Processes
 
             return choices.FirstOrDefault();
         }
-
         public ShellCommand(string command, params string[] args)
+            : this(null, command, args)
+        {
+        }
+
+        public ShellCommand(DirectoryInfo workingDir, string command, params string[] args)
         {
             if (command is null)
             {
@@ -64,8 +67,14 @@ namespace Juniper.Processes
 
             this.command = FindCommandPath(command);
             this.args = args ?? Array.Empty<string>();
+            this.workingDir = workingDir;
 
             CommandName = this.args.Prepend(command).ToArray().Join(' ');
+            if (workingDir is not null)
+            {
+                var path = PathExt.Abs2Rel(workingDir.FullName, Environment.CurrentDirectory);
+                CommandName = $"({path}) {CommandName}";
+            }
         }
 
         protected override void OnDisposing()
@@ -92,7 +101,7 @@ namespace Juniper.Processes
 
             var startInfo = new ProcessStartInfo(command)
             {
-                WorkingDirectory = WorkingDirectory,
+                WorkingDirectory = workingDir.FullName,
                 Arguments = args.ToArray().Join(' '),
                 StandardErrorEncoding = Encoding,
                 StandardOutputEncoding = Encoding,

@@ -7,10 +7,7 @@ namespace Juniper.Processes
     {
         private static ShellCommand NPM(DirectoryInfo juniperDir, string name, string cmd)
         {
-            return new ShellCommand("npm", "run", cmd)
-            {
-                WorkingDirectory = Path.Combine(juniperDir.FullName, "src", "Juniper.TypeScript", name)
-            };
+            return new ShellCommand(juniperDir.CD("src", "Juniper.TypeScript", name), "npm", "run", cmd);
         }
 
         private static readonly string[] toInstall = new[]
