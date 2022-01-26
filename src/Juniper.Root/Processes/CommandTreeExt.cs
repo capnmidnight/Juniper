@@ -15,7 +15,7 @@ namespace Juniper.Processes
         {
             return juniperDir.CD("src", "Juniper.TypeScript")
                 .EnumerateDirectories()
-                .Where(d => all || d.EnumerateDirectories().Any(sd => sd.Name == "dist"))
+                .Where(d => all || d.EnumerateDirectories().Any(sd => sd.Name == "src"))
                 .Select(x => x.Name);
         }
 
