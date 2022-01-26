@@ -11,6 +11,7 @@
     "@microsoft/signalr": "6.0.1",
     "juniper-audio": "file:../audio",
     "juniper-dom": "file:../dom",
+    "juniper-timers": "file:../timers",
     "juniper-tslib": "file:../tslib",
     "webrtc-adapter": "8.1.1"
   },

@@ -1,4 +1,4 @@
-import { lerp } from "../math/lerp";
+import { lerp } from "juniper-tslib/math/lerp";
 
 export class TimerTickEvent {
     t = 0;

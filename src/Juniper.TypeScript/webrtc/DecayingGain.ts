@@ -1,6 +1,7 @@
 import { connect } from "juniper-audio/nodes";
-import type { ITimer } from "juniper-tslib";
-import { SetIntervalTimer, TimerTickEvent, unproject } from "juniper-tslib";
+import type { ITimer } from "juniper-timers";
+import { SetIntervalTimer, TimerTickEvent } from "juniper-timers";
+import { unproject } from "juniper-tslib";
 import { ActivityDetector } from "./ActivityDetector";
 
 export class DecayingGain {

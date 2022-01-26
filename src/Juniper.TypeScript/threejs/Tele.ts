@@ -1,5 +1,6 @@
 import type { TextImageOptions } from "juniper-2d/TextImage";
-import type { IProgress, TimerTickEvent } from "juniper-tslib";
+import { TimerTickEvent } from "juniper-timers";
+import type { IProgress } from "juniper-tslib";
 import {
     isDefined,
     progressTasks,

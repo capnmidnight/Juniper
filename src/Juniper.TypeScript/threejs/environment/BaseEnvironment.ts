@@ -14,6 +14,7 @@ import {
 } from "juniper-dom/css";
 import { Style } from "juniper-dom/tags";
 import type { IFetcher } from "juniper-fetcher";
+import { TimerTickEvent } from "juniper-timers";
 import type { IProgress } from "juniper-tslib";
 import {
     deg2rad,
@@ -21,7 +22,6 @@ import {
     isDesktop,
     isFirefox,
     progressOfArray,
-    TimerTickEvent,
     TypedEvent,
     TypedEventBase
 } from "juniper-tslib";

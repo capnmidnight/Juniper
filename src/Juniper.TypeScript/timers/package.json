@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "juniper-2d",
+  "name": "juniper-timers",
   "private": true,
   "scripts": {
     "init": "npm ci",
@@ -9,9 +9,6 @@
   },
   "dependencies": {
     "gl-matrix": "3.4.3",
-    "juniper-audio": "file:../audio",
-    "juniper-dom": "file:../dom",
-    "juniper-timers": "file:../timers",
     "juniper-tslib": "file:../tslib"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-import { BaseTimer } from "juniper-tslib";
+import { BaseTimer } from "juniper-timers";
 
 export class ThreeJSTimer extends BaseTimer<XRAnimationLoopCallback> {
 

@@ -18,6 +18,7 @@
     "juniper-dom": "file:../dom",
     "juniper-emoji": "file:../emoji",
     "juniper-fetcher": "file:../fetcher",
+    "juniper-timers": "file:../timers",
     "juniper-tslib": "file:../tslib",
     "juniper-units": "file:../units",
     "juniper-webrtc": "file:../webrtc",

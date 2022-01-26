@@ -1,12 +1,11 @@
 import { vec2 } from "gl-matrix";
-import { GraphNode, mapBuild, RequestAnimationFrameTimer, stringRandom } from "juniper-tslib";
 import {
     max,
     min,
     step,
     value
-} from "./attrs";
-import { resizeCanvas } from "./canvas";
+} from "juniper-dom/attrs";
+import { resizeCanvas } from "juniper-dom/canvas";
 import {
     alignItems,
     columnGap,
@@ -16,15 +15,17 @@ import {
     height,
     styles,
     width
-} from "./css";
-import { DialogBox } from "./DialogBox";
+} from "juniper-dom/css";
+import { DialogBox } from "juniper-dom/DialogBox";
 import {
     Canvas,
     Div,
     elementApply,
     InputCheckbox,
     InputNumber, PreLabeled
-} from "./tags";
+} from "juniper-dom/tags";
+import { RequestAnimationFrameTimer } from "juniper-timers";
+import { GraphNode, mapBuild, stringRandom } from "juniper-tslib";
 
 
 const size = 20;

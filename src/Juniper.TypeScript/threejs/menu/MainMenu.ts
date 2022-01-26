@@ -1,3 +1,4 @@
+import { TimerTickEvent } from "juniper-timers";
 import {
     buildTree,
     dispose,
@@ -7,7 +8,6 @@ import {
     progressOfArray,
     progressSplitWeighted,
     progressTasksWeighted,
-    TimerTickEvent,
     TreeNode,
     TypedEventBase
 } from "juniper-tslib";

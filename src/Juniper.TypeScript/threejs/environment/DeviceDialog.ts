@@ -24,7 +24,8 @@ import {
     Option,
     Select
 } from "juniper-dom/tags";
-import { makeLookup, SetTimeoutTimer, stringRandom } from "juniper-tslib";
+import { SetTimeoutTimer } from "juniper-timers";
+import { makeLookup, stringRandom } from "juniper-tslib";
 import { ActivityDetector } from "juniper-webrtc/ActivityDetector";
 import type { Environment } from "./Environment";
 
