@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Juniper.Processes
 {
@@ -19,12 +20,12 @@ namespace Juniper.Processes
                 .Select(x => x.Name);
         }
 
-        public static ICommandTree InitJuniper(this ICommandTree commands, DirectoryInfo juniperDir)
+        public static ICommandTree UpdateJuniper(this ICommandTree commands, DirectoryInfo juniperDir)
         {
             return commands.AddCommands(
                 AllProjects(juniperDir)
                     .Select(name =>
-                        NPM(juniperDir, name, "init")));
+                        NPM(juniperDir, name, "update")));
         }
 
         public static ICommandTree InstallJuniper(this ICommandTree commands, DirectoryInfo juniperDir)
@@ -43,27 +44,38 @@ namespace Juniper.Processes
                         NPM(juniperDir, name, "build")));
         }
 
-        static CopyCommand Copy(DirectoryInfo juniperDir, DirectoryInfo outputDir, string from, string to)
+        public static ICommandTree WatchJuniper(this ICommandTree commands, DirectoryInfo juniperDir, DirectoryInfo outDir)
         {
-            return new CopyCommand(
-                Path.Combine(
-                    juniperDir.FullName,
-                    "src",
-                    "Juniper.TypeScript",
-                    PathExt.FixPath(from)),
-                Path.Combine(
-                    outputDir.FullName,
-                    "wwwroot",
-                    PathExt.FixPath(to)));
+            return commands.AddCommands(
+                AllProjects(juniperDir, false)
+                    .Select(name => NPM(juniperDir, name, "watch")
+                        .OnStandardOutput(
+                            new Regex("done in \\d+(\\.\\d+)?s|browser bundles rebuilt", RegexOptions.Compiled),
+                            Copy(name, juniperDir, outDir))));
+        }
+
+        private static readonly string[] filesToCopy =
+        {
+            "index.js",
+            "index.js.map",
+            "index.min.js",
+            "index.min.js.map"
+        };
+
+        private static IEnumerable<ICommand> Copy(string name, DirectoryInfo juniperDir, DirectoryInfo outputDir)
+        {
+            var from = juniperDir.MkDir("src", "Juniper.TypeScript", name, "dist");
+            var to = outputDir.MkDir(name);
+            return filesToCopy.Select(file =>
+               new CopyCommand(
+                   from.Touch(file).FullName,
+                   to.Touch(file).FullName));
         }
 
         public static ICommandTree CopyJuniperScripts(this ICommandTree commands, DirectoryInfo juniperDir, DirectoryInfo outputDir)
         {
             return commands.AddCommands(
-                Copy(juniperDir, outputDir, "fetcher-worker/dist/index.js", "workers/fetcher/index.js"),
-                Copy(juniperDir, outputDir, "fetcher-worker/dist/index.js.map", "workers/fetcher/index.js.map"),
-                Copy(juniperDir, outputDir, "fetcher-worker/dist/index.min.js", "workers/fetcher/index.min.js"),
-                Copy(juniperDir, outputDir, "fetcher-worker/dist/index.min.js.map", "workers/fetcher/index.min.js.map"));
+                Copy("fetcher-worker", juniperDir, outputDir));
         }
     }
 }

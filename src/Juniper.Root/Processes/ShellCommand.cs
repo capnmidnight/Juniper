@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,9 +18,25 @@ namespace Juniper.Processes
             ".cmd"
         };
 
+        public static string FindCommandPath(string command)
+        {
+            var PATH = Environment.GetEnvironmentVariable("PATH");
+            var directories = PATH.Split(Path.PathSeparator);
+            var choices = from dir in directories.Prepend(Environment.CurrentDirectory)
+                          from ext in exts
+                          where ext.Length > 0 || Environment.OSVersion.Platform == PlatformID.Unix
+                          let exe = Path.Combine(dir, command + ext)
+                          where File.Exists(exe)
+                          select exe;
+
+            return choices.FirstOrDefault();
+        }
+
         private readonly string command;
         private readonly string[] args;
         private readonly DirectoryInfo workingDir;
+        private readonly Dictionary<Regex, ICommand[]> stdOutputCommands = new();
+        private readonly Dictionary<Regex, ICommand[]> stdErrorCommands = new();
 
         private CancellationTokenSource canceller;
         private Task task;
@@ -35,19 +53,6 @@ namespace Juniper.Processes
 
         public int? ExitCode { get; private set; }
 
-        public static string FindCommandPath(string command)
-        {
-            var PATH = Environment.GetEnvironmentVariable("PATH");
-            var directories = PATH.Split(Path.PathSeparator);
-            var choices = from dir in directories.Prepend(Environment.CurrentDirectory)
-                          from ext in exts
-                          where ext.Length > 0 || Environment.OSVersion.Platform == PlatformID.Unix
-                          let exe = Path.Combine(dir, command + ext)
-                          where File.Exists(exe)
-                          select exe;
-
-            return choices.FirstOrDefault();
-        }
         public ShellCommand(string command, params string[] args)
             : this(null, command, args)
         {
@@ -78,6 +83,18 @@ namespace Juniper.Processes
                     CommandName = $"({path}) {CommandName}";
                 }
             }
+        }
+
+        public ShellCommand OnStandardOutput(Regex pattern, IEnumerable<ICommand> command)
+        {
+            stdOutputCommands.Add(pattern, command.ToArray());
+            return this;
+        }
+
+        public ShellCommand OnStandardError(Regex pattern, IEnumerable<ICommand> command)
+        {
+            stdErrorCommands.Add(pattern, command.ToArray());
+            return this;
         }
 
         protected override void OnDisposing()
@@ -224,11 +241,49 @@ namespace Juniper.Processes
             canceller?.Cancel();
         }
 
+        private async Task ProcessCommands(Dictionary<Regex, ICommand[]> outputCommands, string line)
+        {
+            foreach (var (pattern, commands) in outputCommands)
+            {
+                if (pattern.IsMatch(line))
+                {
+                    await Task.WhenAll(commands.Select(RunCommand));
+                }
+            }
+        }
+
+        private async Task RunCommand(ICommand command)
+        {
+            command.Info += Command_Info;
+            command.Warning += Command_Warning;
+            command.Err += Command_Error;
+            await command.RunSafeAsync();
+            command.Info -= Command_Info;
+            command.Warning -= Command_Warning;
+            command.Err -= Command_Error;
+        }
+
+        private void Command_Info(object sender, StringEventArgs e)
+        {
+            OnInfo(e.Value);
+        }
+
+        private void Command_Warning(object sender, StringEventArgs e)
+        {
+            OnWarning(e.Value);
+        }
+
+        private void Command_Error(object sender, ErrorEventArgs e)
+        {
+            OnError(e.Value);
+        }
+
         private void Proc_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             if (e.Data is not null && e.Data.Length > 0)
             {
                 OnInfo(e.Data);
+                _ = ProcessCommands(stdOutputCommands, e.Data);
             }
         }
 
@@ -237,6 +292,7 @@ namespace Juniper.Processes
             if (e.Data is not null && e.Data.Length > 0)
             {
                 OnWarning(e.Data);
+                _ = ProcessCommands(stdErrorCommands, e.Data);
             }
         }
     }
