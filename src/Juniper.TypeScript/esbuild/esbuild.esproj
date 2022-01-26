@@ -3,9 +3,7 @@
     <ProjectGuid>9A6556BD-5A41-444B-8A02-1CD9E831C9E3</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <StartupCommand>set BROWSER=none&amp;&amp;npm start</StartupCommand>
-    <JavaScriptTestRoot>src\</JavaScriptTestRoot>
-    <JavaScriptTestFramework>Jest</JavaScriptTestFramework>
+    <BuildCommand>npm run build</BuildCommand>
   </PropertyGroup>
   <ItemGroup>
     <Script Include="**" Exclude="*.esproj;**\node_modules\**" />

@@ -2,11 +2,6 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>BCA75536-4172-4353-96ED-2ABA4A0A1D6A</ProjectGuid>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <StartupCommand>set BROWSER=none&amp;&amp;npm start</StartupCommand>
-    <JavaScriptTestRoot>src\</JavaScriptTestRoot>
-    <JavaScriptTestFramework>Jest</JavaScriptTestFramework>
-  </PropertyGroup>
   <ItemGroup>
     <Script Include="**" Exclude="*.esproj;**\node_modules\**" />
   </ItemGroup>

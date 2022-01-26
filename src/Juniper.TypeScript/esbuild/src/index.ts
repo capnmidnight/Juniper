@@ -9,18 +9,15 @@ type PluginFactory = (minify: boolean) => Plugin;
 export class Build {
     private readonly browserEntries = new Array<string>();
     private readonly minBrowserEntries = new Array<string>();
-    private readonly workerEntries = new Array<string>();
     private readonly plugins = new Array<PluginFactory>();
     private readonly defines = new Array<DefineFactory>();
     private readonly externals = new Array<string>();
-    private readonly minWorkerEntries = new Array<string>();
 
     private readonly isWatch: boolean;
 
     private rootDirName = "src";
     private outDirName = "wwwroot";
     private bundleOutDirName = "js";
-    private workerOutDirName = "workers";
 
     constructor(args: string[]) {
         args.sort();
@@ -42,11 +39,6 @@ export class Build {
         return this;
     }
 
-    workerOutDir(name: string) {
-        this.workerOutDirName = name;
-        return this;
-    }
-
     plugin(pgn: PluginFactory) {
         this.plugins.push(pgn);
         return this;
@@ -63,35 +55,18 @@ export class Build {
     }
 
     bundle(name: string) {
-        this.task(name, false);
-        return this;
-    }
-
-    worker(name: string) {
-        this.task(name, true);
-        return this;
-    }
-
-    private task(name: string, isWorker: boolean) {
         const entry = `${this.rootDirName}/${name}/index.ts`;
-        if (isWorker) {
-            this.workerEntries.push(entry);
-            this.minWorkerEntries.push(entry);
-        }
-        else {
-            this.browserEntries.push(entry);
-            this.minBrowserEntries.push(entry);
-        }
+        this.browserEntries.push(entry);
+        this.minBrowserEntries.push(entry);
+        return this;
     }
 
     async run() {
         const start = Date.now();
 
         const tasks = [
-            this.makeBundle(this.browserEntries, "browser bundles", false, false),
-            this.makeBundle(this.workerEntries, "workers", false, true),
-            this.makeBundle(this.minBrowserEntries, "minified browser bundles", true, false),
-            this.makeBundle(this.minWorkerEntries, "minified workers", true, true)
+            this.makeBundle(this.browserEntries, "browser bundles", false),
+            this.makeBundle(this.minBrowserEntries, "minified browser bundles", true)
         ];
 
         await Promise.all(tasks).then(() => {
@@ -101,14 +76,12 @@ export class Build {
         });
     }
 
-    private makeBundle(entryPoints: string[], name: string, minify: boolean, isWorker: boolean) {
+    private makeBundle(entryPoints: string[], name: string, minify: boolean) {
         const JS_EXT = minify ? ".min" : "";
 
         const outDirParts = [
             this.outDirName,
-            isWorker
-                ? this.workerOutDirName
-                : this.bundleOutDirName
+            this.bundleOutDirName
         ];
         const outdir = outDirParts.filter(x => x).join("/");
 

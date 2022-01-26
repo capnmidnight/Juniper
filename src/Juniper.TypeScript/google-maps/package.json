@@ -3,7 +3,7 @@
   "name": "juniper-google-maps",
   "private": true,
   "scripts": {
-    "init": "npm ci",
+    "update": "npm ci",
     "inst": "npm install",
     "build": "npx tsc --build"
   },
