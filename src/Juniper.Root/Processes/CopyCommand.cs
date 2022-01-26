@@ -16,7 +16,7 @@ namespace Juniper.Processes
             this.from = from;
             this.to = to;
             this.overwrite = overwrite;
-            CommandName = $"copy {from} to {to}";
+            CommandName = $"copy";
         }
 
         public override Task RunAsync(CancellationToken? token = null)
