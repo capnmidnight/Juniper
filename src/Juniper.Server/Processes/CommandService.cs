@@ -13,17 +13,24 @@ namespace Juniper.Processes
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await Task.WhenAll(commandTree.Tree.Select(commands => ExecuteCommandsAsync(commands, stoppingToken)));
+            foreach (var commands in commandTree.Tree)
+            {
+                await ExecuteCommandsAsync(commands, stoppingToken);
+            }
         }
 
         private async Task ExecuteCommandsAsync(IEnumerable<ICommand> commands, CancellationToken stoppingToken)
         {
-            foreach (var command in commands)
-            {
-                using var scope = services.CreateScope();
-                var scopedCommand = scope.ServiceProvider.GetRequiredService<IScopedShellCommand>();
-                await scopedCommand.RunAsync(command, stoppingToken);
-            }
+            await Task.WhenAll(commands
+                .Select(command =>
+                    ExecuteCommandAsync(command, stoppingToken)));
+        }
+
+        private async Task ExecuteCommandAsync(ICommand command, CancellationToken stoppingToken)
+        {
+            using var scope = services.CreateScope();
+            var scopedCommand = scope.ServiceProvider.GetRequiredService<IScopedShellCommand>();
+            await scopedCommand.RunAsync(command, stoppingToken);
         }
     }
 }
