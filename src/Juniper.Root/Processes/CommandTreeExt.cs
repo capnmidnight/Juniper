@@ -45,9 +45,10 @@ namespace Juniper.Processes
             "fetcher-worker"
         };
 
-        public static ICommandTree BuildJuniper(this ICommandTree commands, DirectoryInfo juniperDir)
+        public static ICommandTree BuildJuniper(this ICommandTree commands, DirectoryInfo juniperDir, bool checkAll = false)
         {
-            return commands.AddCommands(toBuild.Select(name => NPM(juniperDir, name, "build")));
+            var tasks = checkAll ? toInstall : toBuild;
+            return commands.AddCommands(tasks.Select(name => NPM(juniperDir, name, "build")));
         }
 
         static CopyCommand Copy(DirectoryInfo juniperDir, DirectoryInfo outputDir, string from, string to)

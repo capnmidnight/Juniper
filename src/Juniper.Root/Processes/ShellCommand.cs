@@ -73,7 +73,10 @@ namespace Juniper.Processes
             if (workingDir is not null)
             {
                 var path = PathExt.Abs2Rel(workingDir.FullName, Environment.CurrentDirectory);
-                CommandName = $"({path}) {CommandName}";
+                if (!string.IsNullOrEmpty(path))
+                {
+                    CommandName = $"({path}) {CommandName}";
+                }
             }
         }
 
@@ -113,7 +116,7 @@ namespace Juniper.Processes
                 WindowStyle = ProcessWindowStyle.Hidden
             };
 
-            if(Environment.OSVersion.Platform == PlatformID.Win32NT
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT
                 && LoadWindowsUserProfile)
             {
                 // We have to use reflection here because the property doesn't exist on other platforms.
