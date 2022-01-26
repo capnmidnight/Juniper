@@ -52,7 +52,7 @@ if (!("OfflineAudioContext" in globalThis) && "webkitOfflineAudioContext" in glo
 type withPoseCallback<T> = (pose: Pose) => T;
 
 
-const USE_HEADPHONES_KEY = "yarrow:useHeadphones";
+const USE_HEADPHONES_KEY = "juniper::useHeadphones";
 const useHeadphonesToggledEvt = new TypedEvent("useheadphonestoggled");
 
 const hasStreamSources = "createMediaStreamSource" in AudioContext.prototype;
