@@ -140,7 +140,8 @@ namespace Juniper.Processes
 
             using var proc = new Process()
             {
-                StartInfo = startInfo
+                StartInfo = startInfo,
+                EnableRaisingEvents = true
             };
 
             if (AccumulateOutput)
@@ -183,6 +184,9 @@ namespace Juniper.Processes
             canceller = new CancellationTokenSource();
             try
             {
+                AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
+                AppDomain.CurrentDomain.DomainUnload += CurrentDomain_ProcessExit;
+                AppDomain.CurrentDomain.UnhandledException += CurrentDomain_ProcessExit;
                 proc.OutputDataReceived += Proc_OutputDataReceived;
                 proc.ErrorDataReceived += Proc_ErrorDataReceived;
 
@@ -204,6 +208,9 @@ namespace Juniper.Processes
                     await RunProcess(proc, linkedCanceller.Token).ConfigureAwait(false);
                 }
 
+                AppDomain.CurrentDomain.ProcessExit -= CurrentDomain_ProcessExit;
+                AppDomain.CurrentDomain.DomainUnload -= CurrentDomain_ProcessExit;
+                AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_ProcessExit;
                 proc.OutputDataReceived -= Proc_OutputDataReceived;
                 proc.ErrorDataReceived -= Proc_ErrorDataReceived;
 
@@ -235,6 +242,11 @@ namespace Juniper.Processes
         public void Kill()
         {
             canceller?.Cancel();
+        }
+
+        private void CurrentDomain_ProcessExit(object sender, EventArgs e)
+        {
+            Kill();
         }
 
         private async Task ProcessCommands(Dictionary<Regex, ICommand[]> outputCommands, string line)
