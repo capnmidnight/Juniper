@@ -280,7 +280,7 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
                         resolve();
                     }
                 }
-                else if (this.channel) {
+                else if (this.channel && this.channel.readyState === "open") {
                     if (msg === Message.Pose) {
                         this.recvPose(
                             data[2], data[3], data[4],
@@ -328,7 +328,7 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
     private async sendMessage(msgName: Message.Pose, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, height: number): Promise<void>;
     private async sendMessage(msgName: Message.Pointer, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, pointerName: PointerName): Promise<void>;
     private async sendMessage(msgName: Message, px: number, py: number, pz: number, fx: number, fy: number, fz: number, ux: number, uy: number, uz: number, pointerNameOrHeight: number | PointerName): Promise<void> {
-        if (this.channel) {
+        if (this.channel && this.channel.readyState === "open") {
             this.locks.withSkipLock(msgName, async () => {
                 const buffer = msgName === Message.Pose ? this.sendPoseBuffer : this.sendPointerBuffer;
                 const invocationID = ++this.invocationCount;
