@@ -1,8 +1,9 @@
+import { singleton } from "juniper-tslib";
 import type { IProgress } from "juniper-tslib";
 import { isFunction, isObject, isPromise, isString } from "juniper-tslib";
 
 const DEFAULT_TEST_TEXT = "The quick brown fox jumps over the lazy dog";
-const loadedFonts: string[] = [];
+const loadedFonts = singleton<string[]>("juniper::loadedFonts", () => []);
 
 export interface FontDescription {
     fontSize: number;
