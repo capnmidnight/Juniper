@@ -15,6 +15,7 @@ namespace Juniper.Processes
             "esbuild",
             "emoji",
             "tslib",
+            "timers",
             "mediatypes",
             "dom",
             "fetcher-base",
