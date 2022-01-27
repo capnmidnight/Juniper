@@ -26,7 +26,7 @@
     "juniper-tslib": "file:../tslib",
     "juniper-units": "file:../units",
     "juniper-webrtc": "file:../webrtc",
-    "three": "0.136.0",
+    "three": "0.137.0",
     "webxr-polyfill": "2.0.3"
   }
 }
