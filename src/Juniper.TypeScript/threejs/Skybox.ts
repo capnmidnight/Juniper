@@ -1,21 +1,15 @@
 import { CubeMapFaceIndex } from "juniper-2d/CubeMapFaceIndex";
 import type { CanvasImageTypes, CanvasTypes, Context2D } from "juniper-dom/canvas";
 import { createUtilityCanvas, isImageBitmap } from "juniper-dom/canvas";
-import type { IFetcher } from "juniper-fetcher";
-import type { IProgress } from "juniper-tslib";
 import {
-    Exception,
-    isArray,
-    isBoolean,
-    isDefined,
-    isGoodNumber,
+    Exception, IProgress, isArray, isDefined, isFunction, isGoodNumber,
     isNumber,
     isOculusBrowser,
     isString,
     LRUCache,
     oculusBrowserVersion
 } from "juniper-tslib";
-import type { AvatarLocal } from "./AvatarLocal";
+import { BaseEnvironment } from "./environment/BaseEnvironment";
 import { isEuler, isQuaternion } from "./typeChecks";
 
 type SkyboxRotation = THREE.Quaternion | THREE.Euler | number[] | number;
@@ -30,6 +24,9 @@ const FACES = [1,
     4,
     5
 ];
+
+const hasWebXRLayers = "XRWebGLBinding" in globalThis
+    && isFunction(XRWebGLBinding.prototype.createCubeLayer);
 
 const CUBEMAP_PATTERN = {
     rows: 3,
@@ -67,27 +64,21 @@ export class Skybox {
 
     private curImagePath: string = null;
     private layer: XRCubeLayer = null;
-    private wasPresenting = false;
     private wasVisible = false;
+    private webXRLayerEnabled = false;
     private wasWebXRLayerAvailable: boolean = null;
     private stageHeading = 0;
     private rotationNeedsUpdate = false;
     private imageNeedsUpdate = false;
 
-    webXRLayerEnabled = false;
     visible = true;
 
-    constructor(private readonly fetcher: IFetcher,
-        private readonly renderer: THREE.WebGLRenderer,
-        private readonly trueScene: THREE.Scene,
-        private readonly avatar: AvatarLocal,
-        webXRLayerEnabled?: boolean) {
+    constructor(private readonly env: BaseEnvironment<unknown>) {
 
-        this.webXRLayerEnabled = isBoolean(webXRLayerEnabled)
-            && webXRLayerEnabled
-            ||  !(isOculusBrowser && oculusBrowserVersion.major <= 14);
+        this.webXRLayerEnabled = hasWebXRLayers
+            && !(isOculusBrowser && oculusBrowserVersion.major <= 14);
 
-        this.trueScene.background = black;
+        this.env.scene.background = black;
 
         this.imgCache.addEventListener("itemevicted", (evt) => {
             if (isImageBitmap(evt.value)) {
@@ -134,7 +125,7 @@ export class Skybox {
             return this.imgTasks.get(path);
         }
 
-        const task = this.fetcher
+        const task = this.env.fetcher
             .get(path)
             .progress(onProgress)
             .image()
@@ -248,16 +239,17 @@ export class Skybox {
 
     update(frame: XRFrame) {
         if (this.cube) {
-            const binding = (this.renderer.xr as any).getBinding() as XRWebGLBinding;
-            const isPresenting = frame && this.renderer.xr.isPresenting;
-            const isWebXRLayerAvailable = this.webXRLayerEnabled && !!binding;
+            const binding = (this.env.renderer.xr as any).getBinding() as XRWebGLBinding;
+            const isWebXRLayerAvailable = this.webXRLayerEnabled
+                && this.env.renderer.xr.isPresenting
+                && frame
+                && !!binding;
 
-            if (isPresenting !== this.wasPresenting
-                || isWebXRLayerAvailable !== this.wasWebXRLayerAvailable) {
-                if (isPresenting && isWebXRLayerAvailable) {
-                    const session = this.renderer.xr.getSession() as any as XRSession;
-                    const space = this.renderer.xr.getReferenceSpace();
-                    const baseLayer = (this.renderer.xr as any).getBaseLayer() as XRLayer;
+            if (isWebXRLayerAvailable !== this.wasWebXRLayerAvailable) {
+                if (isWebXRLayerAvailable) {
+                    const session = this.env.renderer.xr.getSession() as any as XRSession;
+                    const space = this.env.renderer.xr.getReferenceSpace();
+                    const baseLayer = (this.env.renderer.xr as any).getBaseLayer() as XRLayer;
 
                     this.layer = binding.createCubeLayer({
                         space,
@@ -274,7 +266,7 @@ export class Skybox {
                         ]
                     });
 
-                    this.trueScene.background = null;
+                    this.env.scene.background = null;
                 }
                 else if (this.layer) {
                     this.layer.destroy();
@@ -292,20 +284,20 @@ export class Skybox {
                     this.imageNeedsUpdate = true;
                 }
 
-                if (this.avatar.heading !== this.stageHeading) {
+                if (this.env.avatar.heading !== this.stageHeading) {
                     this.rotationNeedsUpdate = true;
-                    this.stageHeading = this.avatar.heading;
-                    this.stageRotation.setFromAxisAngle(U, this.avatar.heading);
+                    this.stageHeading = this.env.avatar.heading;
+                    this.stageRotation.setFromAxisAngle(U, this.env.avatar.heading);
                 }
             }
             else {
-                const visible = this.trueScene.background === this.rt.texture;
+                const visible = this.env.scene.background === this.rt.texture;
                 if (this.visible != visible) {
                     if (this.visible) {
-                        this.trueScene.background = this.rt.texture;
+                        this.env.scene.background = this.rt.texture;
                     }
                     else {
-                        this.trueScene.background = black;
+                        this.env.scene.background = black;
                     }
                 }
 
@@ -337,7 +329,7 @@ export class Skybox {
 
             if (this.imageNeedsUpdate) {
                 if (this.layer) {
-                    const gl = this.renderer.getContext();
+                    const gl = this.env.renderer.getContext();
                     const glayer = binding.getSubImage(this.layer, frame);
 
                     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
@@ -370,13 +362,12 @@ export class Skybox {
                     gl.bindTexture(gl.TEXTURE_CUBE_MAP, null);
                 }
                 else {
-                    this.rtCamera.update(this.renderer, this.rtScene);
+                    this.rtCamera.update(this.env.renderer, this.rtScene);
                 }
             }
 
             this.imageNeedsUpdate = false;
             this.rotationNeedsUpdate = false;
-            this.wasPresenting = isPresenting;
             this.wasVisible = this.visible;
             this.wasWebXRLayerAvailable = isWebXRLayerAvailable;
         }

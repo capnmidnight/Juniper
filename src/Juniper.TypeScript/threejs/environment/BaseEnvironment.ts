@@ -145,20 +145,9 @@ export abstract class BaseEnvironment<Events>
             defaultAvatarHeight);
 
 
-        this.eventSystem = new EventSystem(
-            this.renderer,
-            this.camera,
-            this.scene,
-            this.stage,
-            this.cursor3D,
-            this.cameraControl,
-            this.avatar);
+        this.eventSystem = new EventSystem(this);
 
-        this.skybox = new Skybox(
-            fetcher,
-            this.renderer,
-            this.scene,
-            this.avatar);
+        this.skybox = new Skybox(this);
 
         this.timer = new ThreeJSTimer(this.renderer);
 
@@ -166,7 +155,6 @@ export abstract class BaseEnvironment<Events>
         haxMethod(
             this.renderer.state,
             "bindXRFramebuffer",
-            this.renderer.state.bindXRFramebuffer,
             (framebuffer) => {
                 this.currentFrameBuffer = framebuffer;
             });

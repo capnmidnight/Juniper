@@ -11,11 +11,9 @@ import {
     isDefined,
     TypedEventBase
 } from "juniper-tslib";
-import type { AvatarLocal } from "../AvatarLocal";
-import type { CameraControl } from "../CameraFOVControl";
+import { BaseEnvironment } from "../environment/BaseEnvironment";
 import { FOREGROUND } from "../layers";
 import { objGraph } from "../objects";
-import type { Cursor3D } from "./Cursor3D";
 import { EventSystemEvent } from "./EventSystemEvent";
 import { isClickable, isDraggable, isInteractiveHit, isObjVisible } from "./InteractiveObject3D";
 import type { IPointer } from "./IPointer";
@@ -67,24 +65,18 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
     private readonly pointerEvents = new Map<IPointer, Map<string, EventSystemEvent<string>>>();
 
     constructor(
-        private readonly renderer: THREE.WebGLRenderer,
-        private readonly camera: THREE.PerspectiveCamera,
-        private readonly scene: THREE.Object3D,
-        stage: THREE.Object3D,
-        private readonly cursor3D: Cursor3D,
-        private readonly cameraControl: CameraControl,
-        private readonly avatar: AvatarLocal) {
+        private readonly env: BaseEnvironment<unknown>) {
         super();
 
-        this.raycaster.camera = this.camera;
+        this.raycaster.camera = this.env.camera;
         this.raycaster.layers.set(FOREGROUND);
 
-        this.mouse = new PointerMouse(this, this.renderer, this.camera);
-        this.pen = new PointerPen(this, this.renderer, this.camera);
-        this.touches = new PointerMultiTouch(this, this.renderer, this.camera);
+        this.mouse = new PointerMouse(this, this.env.renderer, this.env.camera);
+        this.pen = new PointerPen(this, this.env.renderer, this.env.camera);
+        this.touches = new PointerMultiTouch(this, this.env.renderer, this.env.camera);
 
         for (let i = 0; i < 2; ++i) {
-            this.hands[i] = new PointerHand(this, this.renderer, i);
+            this.hands[i] = new PointerHand(this, this.env.renderer, i);
         }
 
         this.pointers = [
@@ -96,7 +88,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
 
         for (const pointer of this.pointers) {
             if (pointer.cursor) {
-                objGraph(stage, pointer.cursor);
+                objGraph(this.env.stage, pointer.cursor);
             }
         }
 
@@ -111,13 +103,13 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
             if (evt.key === "ContextMenu") this.menuPressed = false;
         });
 
-        this.avatar.evtSys = this;
+        this.env.avatar.evtSys = this;
 
         this.checkXRMouse();
     }
 
     onFlick(direction: number) {
-        this.avatar.onFlick(direction);
+        this.env.avatar.onFlick(direction);
     }
 
     onConnected(_hand: PointerHand) {
@@ -164,8 +156,8 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
             case "move":
                 {
                     const moveEvt = this.getEvent(pointer, "move", curHit);
-                    this.avatar.onMove(moveEvt);
-                    this.cameraControl.onMove(moveEvt);
+                    this.env.avatar.onMove(moveEvt);
+                    this.env.cameraControl.onMove(moveEvt);
 
                     if (isDefined(draggedHit)) {
                         draggedObj.dispatchEvent(moveEvt.to3(draggedHit));
@@ -194,7 +186,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
             case "down":
                 {
                     const downEvt = this.getEvent(pointer, "down", curHit);
-                    this.avatar.onDown(downEvt);
+                    this.env.avatar.onDown(downEvt);
 
                     if (isClickable(hoveredHit)
                         || isDraggable(hoveredHit)) {
@@ -286,7 +278,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
         }
 
         pointer.updateCursor(
-            this.avatar.worldPos,
+            this.env.avatar.worldPos,
             draggedHit || pressedHit || hoveredHit || curHit,
             2);
     }
@@ -342,7 +334,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
     refreshCursors() {
         for (const pointer of this.pointers) {
             if (pointer.cursor) {
-                pointer.cursor = this.cursor3D.clone();
+                pointer.cursor = this.env.cursor3D.clone();
             }
         }
     }
@@ -352,7 +344,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
 
         this.raycaster.ray.origin.copy(pointer.origin);
         this.raycaster.ray.direction.copy(pointer.direction);
-        this.raycaster.intersectObject(this.scene, true, this.hits);
+        this.raycaster.intersectObject(this.env.scene, true, this.hits);
 
         pointer.curHit = null;
         let minDist = Number.MAX_VALUE;
