@@ -15,11 +15,8 @@ import {
 import { Style } from "juniper-dom/tags";
 import type { IFetcher } from "juniper-fetcher";
 import { TimerTickEvent } from "juniper-timers";
-import { arrayRemove, IProgress } from "juniper-tslib";
 import {
-    deg2rad,
-    haxMethod,
-    isDesktop,
+    arrayRemove, deg2rad, IProgress, isDesktop,
     isFirefox,
     progressOfArray,
     TypedEvent,
@@ -85,7 +82,6 @@ export abstract class BaseEnvironment<Events>
 
     private readonly layers = new Array<XRLayer>();
     private readonly fader: Fader;
-    private currentFrameBuffer: WebGLFramebuffer = null;
     private fadeDepth = 0;
 
     readonly cursor3D: Cursor3D = new Cursor3D();
@@ -153,13 +149,6 @@ export abstract class BaseEnvironment<Events>
         this.timer = new ThreeJSTimer(this.renderer);
 
         this.renderer.xr.enabled = true;
-        haxMethod(
-            this.renderer.state,
-            "bindXRFramebuffer",
-            (framebuffer) => {
-                this.currentFrameBuffer = framebuffer;
-            });
-
         this.sun.name = "Sun";
         this.sun.position.set(0, 1, 1);
         this.sun.lookAt(0, 0, 0);
@@ -239,14 +228,11 @@ export abstract class BaseEnvironment<Events>
                 spectator.projectionMatrix.copy(this.camera.projectionMatrix);
                 spectator.position.copy(cam.position);
                 spectator.quaternion.copy(cam.quaternion);
-
-                const curFB = this.currentFrameBuffer;
+                const curRT = this.renderer.getRenderTarget();
                 this.renderer.xr.isPresenting = false;
-                this.renderer.state.bindXRFramebuffer(null);
-                this.renderer.setRenderTarget(this.renderer.getRenderTarget());
-                this.renderer.clear();
+                this.renderer.setRenderTarget(null);
                 this.renderer.render(this.scene, spectator);
-                this.renderer.state.bindXRFramebuffer(curFB);
+                this.renderer.setRenderTarget(curRT);
                 this.renderer.xr.isPresenting = true;
             }
         }

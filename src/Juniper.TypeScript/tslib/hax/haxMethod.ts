@@ -1,14 +1,12 @@
 import { Exception } from "../";
-import { isNullOrUndefined } from "../typeChecks";
 
-export function haxMethod<T, K extends keyof T, V extends T[K] & Function>(obj: T, name: K, hax: V, obj2: any = null) {
-    const method = obj[name] as V;
-    if (isNullOrUndefined(method)) {
-        throw new Exception(`There is no method named "${name}" in the provided object.`);
+export function haxMethod<T, K extends keyof T, V extends T[K] & Function>(obj: T, method: V, name: K, hax: V, obj2: any = null) {
+    if (method != obj[name]) {
+        throw new Exception(`The provided method is not the same object as the field "${name}" in the provided object.`);
     }
 
-    (obj as any)[name] = function(...params: any[]) {
-        method.apply(obj, params);
+    (obj as any)[name] = function (...params: any[]) {
         hax.apply(obj2, params);
+        method.apply(obj, params);
     };
 }
