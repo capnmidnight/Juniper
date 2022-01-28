@@ -49,18 +49,36 @@ namespace Juniper.Processes
             return new ShellCommand(juniperDir.CD("src", "Juniper.TypeScript", name), "npm", "run", cmd);
         }
 
-        private static IEnumerable<string> AllProjects(DirectoryInfo juniperDir, bool all = true)
+        private static IEnumerable<string> AllProjectsNames(DirectoryInfo juniperDir)
+        {
+            return juniperDir.GetJuniperProjectDirectories()
+                .Select(x => x.Name);
+        }
+
+        private static IEnumerable<DirectoryInfo> AllBundles(DirectoryInfo juniperDir)
+        {
+            return juniperDir.GetJuniperProjectDirectories()
+                .Where(d => d.EnumerateFiles().Any(f => f.Name == "esbuild.config.js"));
+        }
+
+        private static IEnumerable<string> AllBundleNames(DirectoryInfo juniperDir)
+        {
+            return AllBundles(juniperDir)
+                .Select(d => d.Name);
+        }
+
+        public static IEnumerable<DirectoryInfo> GetJuniperProjectDirectories(this DirectoryInfo juniperDir)
         {
             return juniperDir.CD("src", "Juniper.TypeScript")
                 .EnumerateDirectories()
-                .Where(d => all || d.EnumerateDirectories().Any(sd => sd.Name == "src"))
-                .Select(x => x.Name);
+                .Where(d => d.EnumerateFiles()
+                    .Any(f => f.Name == "package.json"));
         }
 
         public static ICommandTree UpdateJuniper(this ICommandTree commands, DirectoryInfo juniperDir)
         {
             return commands.AddCommands(
-                AllProjects(juniperDir)
+                AllProjectsNames(juniperDir)
                     .Select(name =>
                         NPM(juniperDir, name, "update")));
         }
@@ -68,15 +86,23 @@ namespace Juniper.Processes
         public static ICommandTree InstallJuniper(this ICommandTree commands, DirectoryInfo juniperDir)
         {
             return commands.AddCommands(
-                AllProjects(juniperDir)
+                AllProjectsNames(juniperDir)
                     .Select(name =>
                         NPM(juniperDir, name, "inst")));
         }
 
-        public static ICommandTree BuildJuniper(this ICommandTree commands, DirectoryInfo juniperDir, bool checkAll = false)
+        public static ICommandTree BuildAllJuniperProjects(this ICommandTree commands, DirectoryInfo juniperDir)
         {
             return commands.AddCommands(
-                AllProjects(juniperDir, checkAll)
+                AllProjectsNames(juniperDir)
+                    .Select(name =>
+                        NPM(juniperDir, name, "build")));
+        }
+
+        public static ICommandTree BuildAllJuniperBundles(this ICommandTree commands, DirectoryInfo juniperDir)
+        {
+            return commands.AddCommands(
+                AllBundleNames(juniperDir)
                     .Select(name =>
                         NPM(juniperDir, name, "build")));
         }
@@ -92,8 +118,7 @@ namespace Juniper.Processes
 
         public static IEnumerable<ShellCommand> GetJuniperWatchCommands(this DirectoryInfo juniperDir, DirectoryInfo outDir)
         {
-            return AllProjects(juniperDir, false)
-                .Where(name => name != "esbuild")
+            return AllBundleNames(juniperDir)
                 .Select(name => NPM(juniperDir, name, "watch")
                     .OnStandardOutput(
                         watchAllDonePattern,
