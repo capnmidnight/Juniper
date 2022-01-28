@@ -247,9 +247,7 @@ export class Skybox {
 
             if (isWebXRLayerAvailable !== this.wasWebXRLayerAvailable) {
                 if (isWebXRLayerAvailable) {
-                    const session = this.env.renderer.xr.getSession() as any as XRSession;
                     const space = this.env.renderer.xr.getReferenceSpace();
-                    const baseLayer = (this.env.renderer.xr as any).getBaseLayer() as XRLayer;
 
                     this.layer = binding.createCubeLayer({
                         space,
@@ -259,16 +257,11 @@ export class Skybox {
                         viewPixelHeight: FACE_SIZE
                     });
 
-                    session.updateRenderState({
-                        layers: [
-                            this.layer,
-                            baseLayer
-                        ]
-                    });
-
+                    this.env.addWebXRLayer(this.layer);
                     this.env.scene.background = null;
                 }
                 else if (this.layer) {
+                    this.env.removeWebXRLayer(this.layer);
                     this.layer.destroy();
                     this.layer = null;
                 }

@@ -15,7 +15,7 @@ import {
 import { Style } from "juniper-dom/tags";
 import type { IFetcher } from "juniper-fetcher";
 import { TimerTickEvent } from "juniper-timers";
-import type { IProgress } from "juniper-tslib";
+import { arrayRemove, IProgress } from "juniper-tslib";
 import {
     deg2rad,
     haxMethod,
@@ -83,6 +83,7 @@ Style(
 export abstract class BaseEnvironment<Events>
     extends TypedEventBase<Events & BaseEnvironmentEvents> {
 
+    private readonly layers = new Array<XRLayer>();
     private readonly fader: Fader;
     private currentFrameBuffer: WebGLFramebuffer = null;
     private fadeDepth = 0;
@@ -257,6 +258,23 @@ export abstract class BaseEnvironment<Events>
     protected async onQuitting(): Promise<void> {
         this.dispatchEvent(new TypedEvent("quitting"));
         window.location.href = "/";
+    }
+
+    addWebXRLayer(layer: XRLayer) {
+        this.layers.push(layer);
+
+        const session = this.renderer.xr.getSession() as any as XRSession;
+        const baseLayer = (this.renderer.xr as any).getBaseLayer() as XRLayer;
+        session.updateRenderState({
+            layers: [
+                ...this.layers,
+                baseLayer
+            ]
+        });
+    }
+
+    removeWebXRLayer(layer: XRLayer) {
+        arrayRemove(this.layers, layer);
     }
 
     clearScene() {
