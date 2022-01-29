@@ -47,9 +47,9 @@ namespace Juniper.Processes
 
         public Encoding Encoding { get; set; } = Encoding.UTF8;
 
-        public string TotalStandardOutput { get; private set; }
+        public List<string> TotalStandardOutput { get; private set; }
 
-        public string TotalStandardError { get; private set; }
+        public List<string> TotalStandardError { get; private set; }
 
         public int? ExitCode { get; private set; }
 
@@ -117,7 +117,7 @@ namespace Juniper.Processes
 
             var startInfo = new ProcessStartInfo(command)
             {
-                WorkingDirectory = workingDir.FullName,
+                WorkingDirectory = workingDir?.FullName,
                 Arguments = args.ToArray().Join(' '),
                 StandardErrorEncoding = Encoding,
                 StandardOutputEncoding = Encoding,
@@ -146,32 +146,26 @@ namespace Juniper.Processes
 
             if (AccumulateOutput)
             {
-                TotalStandardOutput = string.Empty;
-                TotalStandardError = string.Empty;
+                TotalStandardOutput = new();
+                TotalStandardError = new();
 
-                var outputAccum = new StringBuilder();
-                var errorAccum = new StringBuilder();
-
-                void Proc_AccumOutputData(object sender, DataReceivedEventArgs e)
+                void Proc_AccumOutputData(object sender, StringEventArgs e)
                 {
-                    _ = outputAccum.AppendLine(e.Data);
+                    TotalStandardOutput.Add(e.Value);
                 }
 
-                void Proc_AccumErrorData(object sender, DataReceivedEventArgs e)
+                void Proc_AccumErrorData(object sender, StringEventArgs e)
                 {
-                    _ = errorAccum.AppendLine(e.Data);
+                    TotalStandardError.Add(e.Value);
                 }
 
-                proc.OutputDataReceived += Proc_AccumOutputData;
-                proc.ErrorDataReceived += Proc_AccumErrorData;
+                Info += Proc_AccumOutputData;
+                Warning += Proc_AccumErrorData;
 
                 await ExecuteProcess(proc, token);
 
-                proc.OutputDataReceived -= Proc_AccumOutputData;
-                proc.ErrorDataReceived -= Proc_AccumErrorData;
-
-                TotalStandardOutput = outputAccum.ToString();
-                TotalStandardError = errorAccum.ToString();
+                Info -= Proc_AccumOutputData;
+                Warning -= Proc_AccumErrorData;
             }
             else
             {
