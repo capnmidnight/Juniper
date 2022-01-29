@@ -45,6 +45,8 @@ import { ThreeJSTimer } from "../ThreeJSTimer";
 import { isMesh } from "../typeChecks";
 
 const spectator = new THREE.PerspectiveCamera();
+const lastViewport = new THREE.Vector4();
+const curViewport = new THREE.Vector4();
 
 const gridWidth = 15;
 const gridSize = feet2Meters(gridWidth);
@@ -221,9 +223,11 @@ export abstract class BaseEnvironment<Events>
             }
 
             this.renderer.render(this.scene, this.camera);
-
-            if (this.renderer.xr.isPresenting
-                && isDesktop()
+            if (!this.renderer.xr.isPresenting) {
+                lastViewport.copy(curViewport);
+                this.renderer.getViewport(curViewport);
+            }
+            else if(isDesktop()
                 && !isFirefox()) {
                 spectator.projectionMatrix.copy(this.camera.projectionMatrix);
                 spectator.position.copy(cam.position);
@@ -231,7 +235,10 @@ export abstract class BaseEnvironment<Events>
                 const curRT = this.renderer.getRenderTarget();
                 this.renderer.xr.isPresenting = false;
                 this.renderer.setRenderTarget(null);
+                this.renderer.setViewport(lastViewport);
+                this.renderer.clear();
                 this.renderer.render(this.scene, spectator);
+                this.renderer.setViewport(curViewport);
                 this.renderer.setRenderTarget(curRT);
                 this.renderer.xr.isPresenting = true;
             }
