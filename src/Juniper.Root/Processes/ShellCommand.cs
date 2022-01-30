@@ -12,10 +12,11 @@ namespace Juniper.Processes
 {
     public class ShellCommand : AbstractCommand
     {
-        private static readonly string[] exts = {
-            "",
-            ".exe",
-            ".cmd"
+        private static readonly Dictionary<PlatformID, string[]> exts = new()
+        {
+            { PlatformID.Unix, new[] { "", ".app" } },
+            { PlatformID.Win32NT, new[] { ".exe", ".cmd" } },
+            { PlatformID.Other, new[] { "" } }
         };
 
         public static string FindCommandPath(string command)
@@ -28,11 +29,12 @@ namespace Juniper.Processes
             var PATH = Environment.GetEnvironmentVariable("PATH");
             var directories = PATH.Split(Path.PathSeparator);
             var execDir = new FileInfo(Environment.ProcessPath).Directory;
+            var platform = Environment.OSVersion.Platform;
             return from dir in directories
                         .Prepend(Environment.CurrentDirectory)
                         .Prepend(execDir.FullName)
-                   from ext in exts
-                   where ext.Length > 0 || Environment.OSVersion.Platform == PlatformID.Unix
+                        .Distinct()
+                   from ext in exts[Environment.OSVersion.Platform]
                    let exe = Path.Combine(dir, command + ext)
                    where File.Exists(exe)
                    select exe;

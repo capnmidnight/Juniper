@@ -23,7 +23,7 @@ namespace Juniper.Processes
 
         private static string[]? allFilesToCopy = null;
 
-        private static IEnumerable<ICommand> Copy(string name, DirectoryInfo juniperDir, DirectoryInfo outputDir, Por por)
+        private static IEnumerable<ICommand> Copy(string name, DirectoryInfo inputDir, DirectoryInfo outputDir, Por por)
         {
             if(allFilesToCopy is null)
             {
@@ -36,7 +36,7 @@ namespace Juniper.Processes
                     ? minifiedFilesToCopy
                     : allFilesToCopy;
 
-            var from = juniperDir.MkDir("src", "Juniper.TypeScript", name, "dist");
+            var from = inputDir.MkDir(name, "dist");
             var to = outputDir.MkDir(name);
             return toCopy.Select(file =>
                new CopyCommand(
@@ -44,9 +44,9 @@ namespace Juniper.Processes
                    to.Touch(file).FullName));
         }
 
-        private static ShellCommand NPM(DirectoryInfo juniperDir, string name, string cmd)
+        public static ShellCommand NPM(DirectoryInfo tsRootDir, string name, string cmd)
         {
-            return new ShellCommand(juniperDir.CD("src", "Juniper.TypeScript", name), "npm", "run", cmd);
+            return new ShellCommand(tsRootDir.CD(name), "npm", "run", cmd);
         }
 
         private static IEnumerable<string> AllProjectsNames(DirectoryInfo juniperDir)
@@ -67,7 +67,7 @@ namespace Juniper.Processes
                 .Select(d => d.Name);
         }
 
-        public static IEnumerable<DirectoryInfo> GetJuniperProjectDirectories(this DirectoryInfo juniperDir)
+        private static IEnumerable<DirectoryInfo> GetJuniperProjectDirectories(this DirectoryInfo juniperDir)
         {
             return juniperDir.CD("src", "Juniper.TypeScript")
                 .EnumerateDirectories()
@@ -77,34 +77,38 @@ namespace Juniper.Processes
 
         public static ICommandTree UpdateJuniper(this ICommandTree commands, DirectoryInfo juniperDir)
         {
+            var juniperTSDir = juniperDir.CD("src", "Juniper.TypeScript");
             return commands.AddCommands(
                 AllProjectsNames(juniperDir)
                     .Select(name =>
-                        NPM(juniperDir, name, "update")));
+                        NPM(juniperTSDir, name, "update")));
         }
 
         public static ICommandTree InstallJuniper(this ICommandTree commands, DirectoryInfo juniperDir)
         {
+            var juniperTSDir = juniperDir.CD("src", "Juniper.TypeScript");
             return commands.AddCommands(
                 AllProjectsNames(juniperDir)
                     .Select(name =>
-                        NPM(juniperDir, name, "inst")));
+                        NPM(juniperTSDir, name, "inst")));
         }
 
         public static ICommandTree BuildAllJuniperProjects(this ICommandTree commands, DirectoryInfo juniperDir)
         {
+            var juniperTSDir = juniperDir.CD("src", "Juniper.TypeScript");
             return commands.AddCommands(
                 AllProjectsNames(juniperDir)
                     .Select(name =>
-                        NPM(juniperDir, name, "build")));
+                        NPM(juniperTSDir, name, "build")));
         }
 
         public static ICommandTree BuildAllJuniperBundles(this ICommandTree commands, DirectoryInfo juniperDir)
         {
+            var juniperTSDir = juniperDir.CD("src", "Juniper.TypeScript");
             return commands.AddCommands(
                 AllBundleNames(juniperDir)
                     .Select(name =>
-                        NPM(juniperDir, name, "build")));
+                        NPM(juniperTSDir, name, "build")));
         }
 
         public static ICommandTree WatchJuniper(this ICommandTree commands, DirectoryInfo juniperDir, DirectoryInfo outDir)
@@ -118,25 +122,27 @@ namespace Juniper.Processes
 
         public static IEnumerable<ShellCommand> GetJuniperWatchCommands(this DirectoryInfo juniperDir, DirectoryInfo outDir)
         {
+            var juniperTSDir = juniperDir.CD("src", "Juniper.TypeScript");
             return AllBundleNames(juniperDir)
-                .Select(name => NPM(juniperDir, name, "watch")
+                .Select(name => NPM(juniperTSDir, name, "watch")
                     .OnStandardOutput(
                         watchAllDonePattern,
-                        Copy(name, juniperDir, outDir, Por.All))
+                        Copy(name, juniperTSDir, outDir, Por.All))
                     .OnStandardOutput(
                         watchBasicDonePattern,
-                        Copy(name, juniperDir, outDir, Por.Basic))
+                        Copy(name, juniperTSDir, outDir, Por.Basic))
                     .OnStandardOutput(
                         watchMinifiedDonePattern,
-                        Copy(name, juniperDir, outDir, Por.Minified)));
+                        Copy(name, juniperTSDir, outDir, Por.Minified)));
         }
 
         public static ICommandTree CopyJuniperScripts(this ICommandTree commands, DirectoryInfo juniperDir, DirectoryInfo outputDir)
         {
+            var juniperTSDir = juniperDir.CD("src", "Juniper.TypeScript");
             var cmds =
-                Copy("fetcher-worker", juniperDir, outputDir, Por.All)
-                    .Union(Copy("environment", juniperDir, outputDir, Por.All))
-                    .Union(Copy("tele", juniperDir, outputDir, Por.All))
+                Copy("fetcher-worker", juniperTSDir, outputDir, Por.All)
+                    .Union(Copy("environment", juniperTSDir, outputDir, Por.All))
+                    .Union(Copy("tele", juniperTSDir, outputDir, Por.All))
                 .ToArray();
             return commands.AddCommands(cmds);
         }
