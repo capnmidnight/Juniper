@@ -22,7 +22,10 @@ namespace Juniper.Processes
         {
             var PATH = Environment.GetEnvironmentVariable("PATH");
             var directories = PATH.Split(Path.PathSeparator);
-            var choices = from dir in directories.Prepend(Environment.CurrentDirectory)
+            var execDir = new FileInfo(Environment.ProcessPath).Directory;
+            var choices = from dir in directories
+                            .Prepend(Environment.CurrentDirectory)
+                            .Prepend(execDir.FullName)
                           from ext in exts
                           where ext.Length > 0 || Environment.OSVersion.Platform == PlatformID.Unix
                           let exe = Path.Combine(dir, command + ext)
@@ -171,6 +174,21 @@ namespace Juniper.Processes
             {
                 await ExecuteProcess(proc, token);
             }
+        }
+
+        public async Task<string[]> RunForStdOutAsync(CancellationToken? token = null)
+        {
+            var accum = AccumulateOutput;
+            AccumulateOutput = true;
+            await RunAsync(token);
+            var output = TotalStandardOutput.ToArray();
+            if (!accum)
+            {
+                AccumulateOutput = false;
+                TotalStandardOutput = null;
+                TotalStandardError = null;
+            }
+            return output;
         }
 
         private async Task ExecuteProcess(Process proc, CancellationToken? token)
