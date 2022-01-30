@@ -6,11 +6,11 @@ namespace Juniper
     {
         private const string YT_DLP = "yt-dlp";
 
-        public static bool IsAvailable => FindCommandPath(YT_DLP) is null;
+        public static bool IsAvailable => FindCommandPath(YT_DLP) is not null;
         public static IEnumerable<string> AttemptPaths => FindCommandPaths(YT_DLP);
 
         private static readonly HttpClient http = new();
-        public record Output(string? contentType, string url);
+        public record Output(string? ContentType, string Url);
 
         private YouTubeDLP(string youtubeUrl)
             : base(YT_DLP, "--get-url", youtubeUrl)
