@@ -43,8 +43,8 @@ namespace Juniper.Processes
         private readonly string command;
         private readonly string[] args;
         private readonly DirectoryInfo workingDir;
-        private readonly Dictionary<Regex, ICommand[]> stdOutputCommands = new();
-        private readonly Dictionary<Regex, ICommand[]> stdErrorCommands = new();
+        private readonly Dictionary<Regex, List<ICommand>> stdOutputCommands = new();
+        private readonly Dictionary<Regex, List<ICommand>> stdErrorCommands = new();
 
         private CancellationTokenSource canceller;
         private Task task;
@@ -89,16 +89,53 @@ namespace Juniper.Processes
             }
         }
 
-        public ShellCommand OnStandardOutput(Regex pattern, IEnumerable<ICommand> command)
+        public ShellCommand OnStandardOutput(Regex pattern, params ICommand[] commands)
         {
-            stdOutputCommands.Add(pattern, command.ToArray());
+            if (!stdOutputCommands.ContainsKey(pattern))
+            {
+                stdOutputCommands.Add(pattern, new List<ICommand>());
+            }
+
+            stdOutputCommands[pattern].AddRange(commands);
             return this;
         }
 
-        public ShellCommand OnStandardError(Regex pattern, IEnumerable<ICommand> command)
+        public ShellCommand OnStandardOutput(Regex pattern, IEnumerable<ICommand> commands)
         {
-            stdErrorCommands.Add(pattern, command.ToArray());
+            return OnStandardOutput(pattern, commands.ToArray());
+        }
+
+        public ShellCommand OnStandardOutput(Regex pattern, Action act)
+        {
+            return OnStandardOutput(pattern, new CallbackCommand(act));
+        }
+
+        public Task ContinueAfter(Regex pattern)
+        {
+            var taskCompleter = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            OnStandardOutput(pattern, taskCompleter.SetResult);
+            return taskCompleter.Task;
+        }
+
+        public ShellCommand OnStandardError(Regex pattern, params ICommand[] commands)
+        {
+            if (!stdErrorCommands.ContainsKey(pattern))
+            {
+                stdErrorCommands.Add(pattern, new List<ICommand>());
+            }
+
+            stdErrorCommands[pattern].AddRange(commands);
             return this;
+        }
+
+        public ShellCommand OnStandardError(Regex pattern, IEnumerable<ICommand> commands)
+        {
+            return OnStandardError(pattern, commands.ToArray());
+        }
+
+        public ShellCommand OnStandardError(Regex pattern, Action act)
+        {
+            return OnStandardError(pattern, new CallbackCommand(act));
         }
 
         protected override void OnDisposing()
@@ -266,7 +303,7 @@ namespace Juniper.Processes
             Kill();
         }
 
-        private async Task ProcessCommands(Dictionary<Regex, ICommand[]> outputCommands, string line)
+        private async Task ProcessCommands(Dictionary<Regex, List<ICommand>> outputCommands, string line)
         {
             foreach (var (pattern, commands) in outputCommands)
             {
