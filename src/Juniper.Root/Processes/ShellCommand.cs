@@ -20,19 +20,22 @@ namespace Juniper.Processes
 
         public static string FindCommandPath(string command)
         {
+            return FindCommandPaths(command).FirstOrDefault();
+        }
+
+        public static IEnumerable<string> FindCommandPaths(string command)
+        {
             var PATH = Environment.GetEnvironmentVariable("PATH");
             var directories = PATH.Split(Path.PathSeparator);
             var execDir = new FileInfo(Environment.ProcessPath).Directory;
-            var choices = from dir in directories
-                            .Prepend(Environment.CurrentDirectory)
-                            .Prepend(execDir.FullName)
-                          from ext in exts
-                          where ext.Length > 0 || Environment.OSVersion.Platform == PlatformID.Unix
-                          let exe = Path.Combine(dir, command + ext)
-                          where File.Exists(exe)
-                          select exe;
-
-            return choices.FirstOrDefault();
+            return from dir in directories
+                        .Prepend(Environment.CurrentDirectory)
+                        .Prepend(execDir.FullName)
+                   from ext in exts
+                   where ext.Length > 0 || Environment.OSVersion.Platform == PlatformID.Unix
+                   let exe = Path.Combine(dir, command + ext)
+                   where File.Exists(exe)
+                   select exe;
         }
 
         private readonly string command;

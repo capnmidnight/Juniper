@@ -7,6 +7,7 @@ namespace Juniper
         private const string YT_DLP = "yt-dlp";
 
         public static bool IsAvailable => FindCommandPath(YT_DLP) is null;
+        public static IEnumerable<string> AttemptPaths => FindCommandPaths(YT_DLP);
 
         private static readonly HttpClient http = new();
         public record Output(string? contentType, string url);
