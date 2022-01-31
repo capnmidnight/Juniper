@@ -10,6 +10,8 @@ namespace Juniper.IO
     public class JsonFactory<ResultT, MediaTypeT> : IFactory<ResultT, MediaTypeT>
         where MediaTypeT : MediaType
     {
+        public Formatting Formatting { get; set; } = Formatting.Indented;
+
         public JsonFactory(MediaTypeT contentType)
         {
             ContentType = contentType;
@@ -48,7 +50,7 @@ namespace Juniper.IO
             using var writer = new StreamWriter(stream);
             using var jsonWriter = new JsonTextWriter(writer)
             {
-                Formatting = Formatting.Indented
+                Formatting = Formatting
             };
 
             var serializer = new JsonSerializer();
