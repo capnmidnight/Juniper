@@ -89,7 +89,11 @@ namespace Juniper.IO
                 value = deserializer.Deserialize(stream);
                 return true;
             }
-            catch
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
+#pragma warning disable CS0168 // Variable is declared but never used
+            catch (Exception exp)
+#pragma warning restore CS0168 // Variable is declared but never used
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
             {
                 value = default;
                 return false;
