@@ -16,15 +16,22 @@ namespace Juniper
         public record Result(MediaEntry? Video, MediaEntry? Audio);
 
 
-        private YouTubeDLP(string youtubeUrl)
-            : base(YT_DLP, "--get-url", youtubeUrl)
+        private YouTubeDLP(string cmd, string youtubeUrl)
+            : base(YT_DLP, cmd, youtubeUrl)
         {
 
         }
 
+        public static async Task<string> GetJSON(string youtubUrl)
+        {
+            var cmd = new YouTubeDLP("-j", youtubUrl);
+            var lines = await cmd.RunForStdOutAsync();
+            return lines.Join(Environment.NewLine);
+        }
+
         public static async Task<Result> GetURLs(string youtubeUrl)
         {
-            var cmd = new YouTubeDLP(youtubeUrl);
+            var cmd = new YouTubeDLP("--get-url", youtubeUrl);
             var urls = await cmd.RunForStdOutAsync();
             var output = await Task.WhenAll(urls.Select(GetURL));
             var vid = output.FirstOrDefault(v => MediaType.Video.AnyVideo.Matches(v.ContentType));
