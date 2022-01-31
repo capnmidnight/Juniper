@@ -1,5 +1,7 @@
 using System.Text.RegularExpressions;
 
+using Juniper.TSWatcher;
+
 namespace Juniper.Processes
 {
     public static class CommandTreeExt
@@ -25,7 +27,7 @@ namespace Juniper.Processes
 
         private static IEnumerable<ICommand> Copy(string name, DirectoryInfo inputDir, DirectoryInfo outputDir, Por por)
         {
-            if(allFilesToCopy is null)
+            if (allFilesToCopy is null)
             {
                 allFilesToCopy = basicFilesToCopy.Union(minifiedFilesToCopy).ToArray();
             }
@@ -47,6 +49,11 @@ namespace Juniper.Processes
         public static ShellCommand NPM(DirectoryInfo tsRootDir, string name, string cmd)
         {
             return new ShellCommand(tsRootDir.CD(name), "npm", "run", cmd);
+        }
+
+        private static ProxiedWatchCommand ProxiedNPM(CommandProxier proxy, params string[] pathParts)
+        {
+            return new ProxiedWatchCommand(proxy, pathParts);
         }
 
         private static IEnumerable<string> AllProjectsNames(DirectoryInfo juniperDir)
@@ -120,11 +127,29 @@ namespace Juniper.Processes
         private static readonly Regex watchBasicDonePattern = new("^browser bundles rebuilt$", RegexOptions.Compiled);
         private static readonly Regex watchMinifiedDonePattern = new("^minified browser bundles rebuilt$", RegexOptions.Compiled);
 
-        public static IEnumerable<ShellCommand> GetJuniperWatchCommands(this DirectoryInfo juniperDir, DirectoryInfo outDir)
+        public static IEnumerable<AbstractShellCommand> GetJuniperWatchCommands(this DirectoryInfo juniperDir, DirectoryInfo outDir)
         {
             var juniperTSDir = juniperDir.CD("src", "Juniper.TypeScript");
             return AllBundleNames(juniperDir)
                 .Select(name => NPM(juniperTSDir, name, "watch")
+                    .OnStandardOutput(
+                        watchAllDonePattern,
+                        Copy(name, juniperTSDir, outDir, Por.All))
+                    .OnStandardOutput(
+                        watchBasicDonePattern,
+                        Copy(name, juniperTSDir, outDir, Por.Basic))
+                    .OnStandardOutput(
+                        watchMinifiedDonePattern,
+                        Copy(name, juniperTSDir, outDir, Por.Minified)));
+        }
+
+        public static IEnumerable<AbstractShellCommand> GetJuniperProxiedWatchCommands(this DirectoryInfo juniperDir, CommandProxier proxy, DirectoryInfo outDir)
+        {
+            var juniperTSDir = juniperDir.CD("src", "Juniper.TypeScript");
+            var relPath = PathExt.Abs2Rel(juniperTSDir.FullName, proxy.Root.FullName);
+            var pathParts = relPath.SplitX(Path.DirectorySeparatorChar);
+            return AllBundleNames(juniperDir)
+                .Select(name => ProxiedNPM(proxy, pathParts.Append(name).ToArray())
                     .OnStandardOutput(
                         watchAllDonePattern,
                         Copy(name, juniperTSDir, outDir, Por.All))

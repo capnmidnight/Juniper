@@ -1,18 +1,19 @@
-
-using System;
 using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Juniper.Processes
 {
     public abstract class AbstractCommand : ICommand
     {
-        public string CommandName { get; protected set; }
+        public string CommandName { get; private set; }
 
-        public event EventHandler<StringEventArgs> Info;
-        public event EventHandler<StringEventArgs> Warning;
-        public event EventHandler<ErrorEventArgs> Err;
+        public event EventHandler<StringEventArgs>? Info;
+        public event EventHandler<StringEventArgs>? Warning;
+        public event EventHandler<ErrorEventArgs>? Err;
+
+        protected AbstractCommand(string commandName)
+        {
+            CommandName = commandName;
+        }
 
         public abstract Task RunAsync();
 
@@ -28,20 +29,17 @@ namespace Juniper.Processes
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void OnInfo(string message)
+        protected virtual void OnInfo(string message)
         {
             Info?.Invoke(this, new StringEventArgs(message));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void OnWarning(string message)
+        protected virtual void OnWarning(string message)
         {
             Warning?.Invoke(this, new StringEventArgs(message));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected void OnError(Exception exp)
+        protected virtual void OnError(Exception exp)
         {
             Err?.Invoke(this, new ErrorEventArgs(exp));
         }

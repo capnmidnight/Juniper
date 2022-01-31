@@ -1,20 +1,14 @@
 using Juniper.Logging;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace Juniper.Processes
 {
     public class CommandTree : ICommandTree, ILoggingSource
     {
         private readonly List<ICommand[]> commandTree = new();
 
-        public event EventHandler<StringEventArgs> Info;
-        public event EventHandler<StringEventArgs> Warning;
-        public event EventHandler<ErrorEventArgs> Err;
+        public event EventHandler<StringEventArgs>? Info;
+        public event EventHandler<StringEventArgs>? Warning;
+        public event EventHandler<ErrorEventArgs>? Err;
 
         public IEnumerable<IEnumerable<ICommand>> Tree => commandTree;
 
@@ -62,17 +56,17 @@ namespace Juniper.Processes
             }
         }
 
-        private void Tasker_Info(object sender, StringEventArgs e)
+        private void Tasker_Info(object? sender, StringEventArgs e)
         {
             Info?.Invoke(sender, e);
         }
 
-        private void Tasker_Warning(object sender, StringEventArgs e)
+        private void Tasker_Warning(object? sender, StringEventArgs e)
         {
             Warning?.Invoke(sender, e);
         }
 
-        private void Tasker_Err(object sender, ErrorEventArgs e)
+        private void Tasker_Err(object? sender, ErrorEventArgs e)
         {
             Err?.Invoke(sender, e);
         }

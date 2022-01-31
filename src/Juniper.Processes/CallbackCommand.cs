@@ -1,7 +1,3 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace Juniper.Processes
 {
     public class CallbackCommand : AbstractCommand
@@ -9,6 +5,7 @@ namespace Juniper.Processes
         private readonly Action act;
 
         public CallbackCommand(Action act)
+            : base("Callback")
         {
             this.act = act;
         }

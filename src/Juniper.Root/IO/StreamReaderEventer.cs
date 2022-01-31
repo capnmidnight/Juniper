@@ -26,7 +26,6 @@ namespace Juniper.IO
                 var line = reader.ReadLine();
                 if (line is not null)
                 {
-                    Console.WriteLine("Echo: " + line);
                     Line?.Invoke(this, new StringEventArgs(line));
                 }
                 else

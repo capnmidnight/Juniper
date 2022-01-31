@@ -1,10 +1,6 @@
-using System;
-using System.IO;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Juniper.Processes
 {
@@ -15,7 +11,7 @@ namespace Juniper.Processes
         private readonly string readField;
         private readonly string writeField;
 
-        private static async Task<JsonNode> ReadJsonAsync(FileInfo path)
+        private static async Task<JsonNode?> ReadJsonAsync(FileInfo path)
         {
             if (path?.Exists != true)
             {
@@ -27,18 +23,24 @@ namespace Juniper.Processes
             return JsonNode.Parse(json);
         }
 
-        public static async Task<string> ReadJsonValueAsync(FileInfo file, string field)
+        public static async Task<string?> ReadJsonValueAsync(FileInfo file, string field)
         {
             var doc = await ReadJsonAsync(file);
+            if(doc is null)
+            {
+                return null;
+            }
+
             return doc[field]?.GetValue<string>();
         }
 
         public static async Task WriteJsonValueAsync(FileInfo file, string field, string value)
         {
             var doc = await ReadJsonAsync(file);
-            if (doc is null)
+            doc ??= JsonNode.Parse("{}");
+            if(doc is null)
             {
-                doc = JsonNode.Parse("{}");
+                throw new FileNotFoundException(file.FullName);
             }
 
             doc[field] = value;
@@ -53,12 +55,12 @@ namespace Juniper.Processes
         }
 
         public CopyJsonValueCommand(FileInfo readFile, string readField, FileInfo writeFile, string writeField)
+            : base($"Json Copy [{readFile}:{readField} -> {writeFile}:{writeField}]")
         {
             this.readFile = readFile;
             this.readField = readField;
             this.writeFile = writeFile;
             this.writeField = writeField;
-            CommandName = $"Json Copy [{readFile}:{readField} -> {writeFile}:{writeField}]";
         }
 
         public override async Task RunAsync()

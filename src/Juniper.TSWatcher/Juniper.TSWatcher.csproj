@@ -8,9 +8,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Processes\Juniper.Processes.csproj" />
+    <ProjectReference Include="..\Juniper.ProcessManager\Juniper.ProcessManager.csproj">
+      <ReferenceOutputAssembly>True</ReferenceOutputAssembly>
+    </ProjectReference>
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
-    <ProjectReference Include="..\Juniper.TSWatcher\Juniper.TSWatcher.csproj" />
   </ItemGroup>
-
 
 </Project>

@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Juniper.Processes
 {
-    public class ShellCommand : AbstractCommand
+
+    public class ShellCommand : AbstractShellCommand
     {
         private static readonly Dictionary<PlatformID, string[]> exts = new()
         {
@@ -19,60 +13,50 @@ namespace Juniper.Processes
             { PlatformID.Other, new[] { "" } }
         };
 
-        public static string FindCommandPath(string command)
+        public static string? FindCommandPath(string? command)
         {
+            if (command is null)
+            {
+                return null;
+            }
+
             return FindCommandPaths(command).FirstOrDefault();
         }
 
-        public static IEnumerable<string> FindCommandPaths(string command)
+        public static IEnumerable<string> FindCommandPaths(string? command)
         {
-            var PATH = Environment.GetEnvironmentVariable("PATH");
-            var directories = PATH.Split(Path.PathSeparator);
-            var execDir = new FileInfo(Environment.ProcessPath).Directory;
+            if (command is null)
+            {
+                return Array.Empty<string>();
+            }
+
+            var PATH = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
+            var directories = PATH.Split(Path.PathSeparator)
+                .Prepend(Environment.CurrentDirectory);
+
+            if (Environment.ProcessPath is not null)
+            {
+                var execDir = new FileInfo(Environment.ProcessPath).Directory;
+                if (execDir is not null)
+                {
+                    directories = directories.Prepend(execDir.FullName);
+                }
+            }
+
             var platform = Environment.OSVersion.Platform;
-            return from dir in directories
-                        .Prepend(Environment.CurrentDirectory)
-                        .Prepend(execDir.FullName)
-                        .Distinct()
+            return from dir in directories.Distinct()
+                   where !string.IsNullOrEmpty(dir)
+                        && Directory.Exists(dir)
                    from ext in exts[Environment.OSVersion.Platform]
                    let exe = Path.Combine(dir, command + ext)
                    where File.Exists(exe)
                    select exe;
         }
 
-        private readonly string command;
-        private readonly string[] args;
-        private readonly DirectoryInfo workingDir;
-        private readonly Dictionary<Regex, List<ICommand>> stdOutputCommands = new();
-        private readonly Dictionary<Regex, List<ICommand>> stdErrorCommands = new();
-
-        private bool running;
-
-        public bool AccumulateOutput { get; set; }
-
-        public bool LoadWindowsUserProfile { get; set; }
-
-        public bool CreateWindow { get; set; }
-
-        public Encoding Encoding { get; set; } = Encoding.UTF8;
-
-        public List<string> TotalStandardOutput { get; private set; }
-
-        public List<string> TotalStandardError { get; private set; }
-
-        public int? ExitCode { get; private set; }
-
-        private event EventHandler<StringEventArgs> Input;
-        private event EventHandler KillProc;
-        public event EventHandler Started;
-
-        public ShellCommand(string command, params string[] args)
-            : this(null, command, args)
+        private static string MakeCommandName(DirectoryInfo? workingDir, ref string? command, ref string[] args)
         {
-        }
+            command = FindCommandPath(command);
 
-        public ShellCommand(DirectoryInfo workingDir, string command, params string[] args)
-        {
             if (command is null)
             {
                 throw new ArgumentNullException(nameof(command));
@@ -83,64 +67,54 @@ namespace Juniper.Processes
                 throw new InvalidOperationException($"{nameof(command)} cannot be an empty string.");
             }
 
-            this.command = FindCommandPath(command);
-            this.args = args ?? Array.Empty<string>();
-            this.workingDir = workingDir;
+            args ??= Array.Empty<string>();
 
-            CommandName = this.args.Prepend(command).ToArray().Join(' ');
+            var commandName = args.Prepend(command).ToArray().Join(' ');
             if (workingDir is not null)
             {
-                CommandName = $"({workingDir.Name}) {CommandName}";
+                commandName = $"({workingDir.Name}) {commandName}";
             }
+
+            return commandName;
         }
 
-        public ShellCommand OnStandardOutput(Regex pattern, params ICommand[] commands)
+        private readonly string command;
+        private readonly string[] args;
+        private readonly DirectoryInfo? workingDir;
+
+        private bool running;
+
+        public bool LoadWindowsUserProfile { get; set; }
+
+        public bool CreateWindow { get; set; }
+
+        public Encoding Encoding { get; set; } = Encoding.UTF8;
+
+        public List<string>? TotalStandardOutput { get; private set; }
+
+        public List<string>? TotalStandardError { get; private set; }
+
+        public int? ExitCode { get; private set; }
+
+        private event EventHandler<StringEventArgs>? Input;
+        private event EventHandler? KillProc;
+
+        public ShellCommand(string command, params string[] args)
+            : this(null, command, args)
         {
-            if (!stdOutputCommands.ContainsKey(pattern))
+        }
+
+        public ShellCommand(DirectoryInfo? workingDir, string? command, params string[] args)
+            : base(MakeCommandName(workingDir, ref command, ref args))
+        {
+            if (command is null)
             {
-                stdOutputCommands.Add(pattern, new List<ICommand>());
+                throw new ArgumentNullException(nameof(command));
             }
 
-            stdOutputCommands[pattern].AddRange(commands);
-            return this;
-        }
-
-        public ShellCommand OnStandardOutput(Regex pattern, IEnumerable<ICommand> commands)
-        {
-            return OnStandardOutput(pattern, commands.ToArray());
-        }
-
-        public ShellCommand OnStandardOutput(Regex pattern, Action act)
-        {
-            return OnStandardOutput(pattern, new CallbackCommand(act));
-        }
-
-        public Task ContinueAfter(Regex pattern)
-        {
-            var taskCompleter = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-            OnStandardOutput(pattern, taskCompleter.SetResult);
-            return taskCompleter.Task;
-        }
-
-        public ShellCommand OnStandardError(Regex pattern, params ICommand[] commands)
-        {
-            if (!stdErrorCommands.ContainsKey(pattern))
-            {
-                stdErrorCommands.Add(pattern, new List<ICommand>());
-            }
-
-            stdErrorCommands[pattern].AddRange(commands);
-            return this;
-        }
-
-        public ShellCommand OnStandardError(Regex pattern, IEnumerable<ICommand> commands)
-        {
-            return OnStandardError(pattern, commands.ToArray());
-        }
-
-        public ShellCommand OnStandardError(Regex pattern, Action act)
-        {
-            return OnStandardError(pattern, new CallbackCommand(act));
+            this.workingDir = workingDir;
+            this.command = command;
+            this.args = args;
         }
 
         public override async Task RunAsync()
@@ -178,9 +152,8 @@ namespace Juniper.Processes
                 && LoadWindowsUserProfile)
             {
                 // We have to use reflection here because the property doesn't exist on other platforms.
-                typeof(ProcessStartInfo)
-                    .GetProperty("LoadUserProfile")
-                    .SetValue(startInfo, true);
+                var prop = typeof(ProcessStartInfo).GetProperty("LoadUserProfile");
+                prop?.SetValue(startInfo, true);
             }
 
             using var proc = new Process()
@@ -194,12 +167,12 @@ namespace Juniper.Processes
                 TotalStandardOutput = new();
                 TotalStandardError = new();
 
-                void Proc_AccumOutputData(object sender, StringEventArgs e)
+                void Proc_AccumOutputData(object? sender, StringEventArgs e)
                 {
                     TotalStandardOutput.Add(e.Value);
                 }
 
-                void Proc_AccumErrorData(object sender, StringEventArgs e)
+                void Proc_AccumErrorData(object? sender, StringEventArgs e)
                 {
                     TotalStandardError.Add(e.Value);
                 }
@@ -223,7 +196,7 @@ namespace Juniper.Processes
             var accum = AccumulateOutput;
             AccumulateOutput = true;
             await RunAsync();
-            var output = TotalStandardOutput.ToArray();
+            var output = TotalStandardOutput?.ToArray() ?? Array.Empty<string>();
             if (!accum)
             {
                 AccumulateOutput = false;
@@ -238,18 +211,18 @@ namespace Juniper.Processes
             var syncroot = new object();
             var completer = new TaskCompletionSource();
             var task = completer.Task;
-            void Proc_InputDataReceived(object sender, StringEventArgs e)
+            void Proc_InputDataReceived(object? sender, StringEventArgs e)
             {
                 proc.StandardInput.WriteLine(e.Value);
             }
 
-            void Proc_KillProc(object sender, EventArgs e)
+            void Proc_KillProc(object? sender, EventArgs e)
             {
                 proc.Kill(true);
                 Proc_Exited(sender, e);
             }
 
-            void Proc_Exited(object sender, EventArgs e)
+            void Proc_Exited(object? sender, EventArgs e)
             {
                 if (completer is not null)
                 {
@@ -275,8 +248,6 @@ namespace Juniper.Processes
                 throw new InvalidOperationException("Could not start process.");
             }
 
-            Started?.Invoke(this, EventArgs.Empty);
-
             proc.BeginOutputReadLine();
             proc.BeginErrorReadLine();
 
@@ -300,6 +271,22 @@ namespace Juniper.Processes
             }
         }
 
+        private void Proc_OutputDataReceived(object? sender, DataReceivedEventArgs e)
+        {
+            if (e.Data is not null && e.Data.Length > 0)
+            {
+                OnInfo(e.Data);
+            }
+        }
+
+        private void Proc_ErrorDataReceived(object? sender, DataReceivedEventArgs e)
+        {
+            if (e.Data is not null && e.Data.Length > 0)
+            {
+                OnWarning(e.Data);
+            }
+        }
+
         public void Send(string message)
         {
             Input?.Invoke(this, new StringEventArgs(message));
@@ -310,64 +297,9 @@ namespace Juniper.Processes
             KillProc?.Invoke(this, EventArgs.Empty);
         }
 
-        private void CurrentDomain_ProcessExit(object sender, EventArgs e)
+        private void CurrentDomain_ProcessExit(object? sender, EventArgs e)
         {
             Kill();
-        }
-
-        private async Task ProcessCommands(Dictionary<Regex, List<ICommand>> outputCommands, string line)
-        {
-            foreach (var (pattern, commands) in outputCommands)
-            {
-                if (pattern.IsMatch(line))
-                {
-                    await Task.WhenAll(commands.Select(RunCommand));
-                }
-            }
-        }
-
-        private async Task RunCommand(ICommand command)
-        {
-            command.Info += Command_Info;
-            command.Warning += Command_Warning;
-            command.Err += Command_Error;
-            await command.RunSafeAsync();
-            command.Info -= Command_Info;
-            command.Warning -= Command_Warning;
-            command.Err -= Command_Error;
-        }
-
-        private void Command_Info(object sender, StringEventArgs e)
-        {
-            OnInfo(e.Value);
-        }
-
-        private void Command_Warning(object sender, StringEventArgs e)
-        {
-            OnWarning(e.Value);
-        }
-
-        private void Command_Error(object sender, ErrorEventArgs e)
-        {
-            OnError(e.Value);
-        }
-
-        private void Proc_OutputDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            if (e.Data is not null && e.Data.Length > 0)
-            {
-                OnInfo(e.Data);
-                _ = ProcessCommands(stdOutputCommands, e.Data);
-            }
-        }
-
-        private void Proc_ErrorDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            if (e.Data is not null && e.Data.Length > 0)
-            {
-                OnWarning(e.Data);
-                _ = ProcessCommands(stdErrorCommands, e.Data);
-            }
         }
     }
 }

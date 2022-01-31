@@ -1,13 +1,18 @@
 using Juniper.World.GIS;
 
-using System;
-using System.Collections.Generic;
 using System.Net;
 
 namespace Juniper.Processes
 {
     public static class ProcessArgs
     {
+        public static Dictionary<string, string> ToArgsDict(this string[] args)
+        {
+            var dict = new Dictionary<string, string>();
+            dict.SetValues(args);
+            return dict;
+        }
+
         public static void SetValues(this IDictionary<string, string> dict, params string[] args)
         {
             if (dict is null)
@@ -321,7 +326,7 @@ namespace Juniper.Processes
             }
         }
 
-        public static bool TryGetIPAddress(this IDictionary<string, string> dict, string key, out IPAddress v)
+        public static bool TryGetIPAddress(this IDictionary<string, string> dict, string key, out IPAddress? v)
         {
             if (dict is null)
             {
@@ -330,7 +335,7 @@ namespace Juniper.Processes
 
             if (!dict.ContainsKey(key))
             {
-                v = default;
+                v = null;
                 return false;
             }
             else
@@ -339,7 +344,7 @@ namespace Juniper.Processes
             }
         }
 
-        public static bool TryGetMediaType(this IDictionary<string, string> dict, string key, out MediaType v)
+        public static bool TryGetMediaType(this IDictionary<string, string> dict, string key, out MediaType? v)
         {
             if (dict is null)
             {
@@ -348,7 +353,7 @@ namespace Juniper.Processes
 
             if (!dict.ContainsKey(key))
             {
-                v = default;
+                v = null;
                 return false;
             }
             else
@@ -357,7 +362,7 @@ namespace Juniper.Processes
             }
         }
 
-        public static bool TryGetSize(this IDictionary<string, string> dict, string key, out Size v)
+        public static bool TryGetSize(this IDictionary<string, string> dict, string key, out Size? v)
         {
             if (dict is null)
             {
@@ -366,7 +371,7 @@ namespace Juniper.Processes
 
             if (!dict.ContainsKey(key))
             {
-                v = default;
+                v = null;
                 return false;
             }
             else
@@ -375,7 +380,7 @@ namespace Juniper.Processes
             }
         }
 
-        public static bool TryGetLatLng(this IDictionary<string, string> dict, string key, out LatLngPoint v)
+        public static bool TryGetLatLng(this IDictionary<string, string> dict, string key, out LatLngPoint? v)
         {
             if (dict is null)
             {
@@ -384,7 +389,7 @@ namespace Juniper.Processes
 
             if (!dict.ContainsKey(key))
             {
-                v = default;
+                v = null;
                 return false;
             }
             else

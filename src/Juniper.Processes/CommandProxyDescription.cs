@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using System.Runtime.Serialization;
 
 namespace Juniper.Processes
@@ -10,18 +8,16 @@ namespace Juniper.Processes
         public int TaskID { get; private set; }
         public string Command { get; private set; }
         public string[] Args { get; private set; }
-        public DirectoryInfo WorkingDir { get; private set; }
+        public DirectoryInfo? WorkingDir { get; private set; }
 
-        public CommandProxyDescription() { }
-
-        public CommandProxyDescription(CommandProxyDescription cmd, string command, params string[] args)
+        public CommandProxyDescription(CommandProxyDescription? cmd, string command, params string[] args)
         {
             TaskID = cmd?.TaskID ?? 0;
             Command = command;
             Args = args;
         }
 
-        public CommandProxyDescription(int taskID, DirectoryInfo workingDir, string command, params string[] args)
+        public CommandProxyDescription(int taskID, DirectoryInfo? workingDir, string command, params string[] args)
         {
             TaskID = taskID;
             WorkingDir = workingDir;
@@ -31,13 +27,19 @@ namespace Juniper.Processes
 
         private CommandProxyDescription(SerializationInfo info, StreamingContext context)
         {
+            var command = info.GetString(nameof(Command));
+            if(command is null)
+            {
+                throw new InvalidDataException($"Field '{nameof(Command)} not found.");
+            }
+
             TaskID = info.GetInt32(nameof(TaskID));
             var workingDir = info.GetString(nameof(WorkingDir));
             if (workingDir is not null)
             {
                 WorkingDir = new(workingDir);
             }
-            Command = info.GetString(nameof(Command));
+            Command = command;
             Args = info.GetValue<string[]>(nameof(Args));
         }
 
