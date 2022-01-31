@@ -14,37 +14,13 @@ namespace Juniper.Processes
         public event EventHandler<StringEventArgs> Warning;
         public event EventHandler<ErrorEventArgs> Err;
 
-        private bool disposedValue;
+        public abstract Task RunAsync();
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    OnDisposing();
-                }
-
-                disposedValue = true;
-            }
-        }
-
-        protected virtual void OnDisposing() { }
-
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
-
-        public abstract Task RunAsync(CancellationToken? token = null);
-
-        public async Task RunSafeAsync(CancellationToken? token = null)
+        public async Task RunSafeAsync()
         {
             try
             {
-                await RunAsync(token);
+                await RunAsync();
             }
             catch (Exception ex)
             {

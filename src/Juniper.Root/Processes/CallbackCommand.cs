@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,7 +13,7 @@ namespace Juniper.Processes
             this.act = act;
         }
 
-        public override Task RunAsync(CancellationToken? token = null)
+        public override Task RunAsync()
         {
             act();
             return Task.CompletedTask; ;

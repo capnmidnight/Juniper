@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Juniper.Processes
 {
-    public interface ICommand : ILoggingSource, IDisposable
+    public interface ICommand : ILoggingSource
     {
         string CommandName { get; }
-        Task RunAsync(CancellationToken? token = null);
-        Task RunSafeAsync(CancellationToken? token = null);
+        Task RunAsync();
+        Task RunSafeAsync();
     }
 }

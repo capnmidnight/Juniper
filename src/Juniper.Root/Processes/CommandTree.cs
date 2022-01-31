@@ -11,7 +11,6 @@ namespace Juniper.Processes
     public class CommandTree : ICommandTree, ILoggingSource
     {
         private readonly List<ICommand[]> commandTree = new();
-        private bool disposedValue;
 
         public event EventHandler<StringEventArgs> Info;
         public event EventHandler<StringEventArgs> Warning;
@@ -30,29 +29,29 @@ namespace Juniper.Processes
             return AddCommands(commands.ToArray());
         }
 
-        public async Task ExecuteAsync(CancellationToken? stoppingToken = null)
+        public async Task ExecuteAsync()
         {
             foreach (var commands in commandTree)
             {
-                await ExecuteCommandsAsync(commands, stoppingToken);
+                await ExecuteCommandsAsync(commands);
             }
         }
 
-        private async Task ExecuteCommandsAsync(ICommand[] commands, CancellationToken? stoppingToken)
+        private async Task ExecuteCommandsAsync(ICommand[] commands)
         {
             await Task.WhenAll(commands
                 .Select(command =>
-                    ExecuteCommandAsync(command, stoppingToken)));
+                    ExecuteCommandAsync(command)));
         }
 
-        private async Task ExecuteCommandAsync(ICommand command, CancellationToken? stoppingToken)
+        private async Task ExecuteCommandAsync(ICommand command)
         {
             command.Info += Tasker_Info;
             command.Warning += Tasker_Warning;
             command.Err += Tasker_Err;
             try
             {
-                await command.RunAsync(stoppingToken)
+                await command.RunAsync()
                     .ConfigureAwait(false);
             }
             finally
@@ -76,36 +75,6 @@ namespace Juniper.Processes
         private void Tasker_Err(object sender, ErrorEventArgs e)
         {
             Err?.Invoke(sender, e);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    foreach (var commands in Tree)
-                    {
-                        foreach (var command in commands)
-                        {
-                            try
-                            {
-                                command.Dispose();
-                            }
-                            catch { }
-                        }
-                    }
-                }
-
-                disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
         }
     }
 }

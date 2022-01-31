@@ -46,12 +46,13 @@ namespace Juniper.Processes
         private readonly Dictionary<Regex, List<ICommand>> stdOutputCommands = new();
         private readonly Dictionary<Regex, List<ICommand>> stdErrorCommands = new();
 
-        private CancellationTokenSource canceller;
-        private Task task;
+        private bool running;
 
         public bool AccumulateOutput { get; set; }
 
         public bool LoadWindowsUserProfile { get; set; }
+
+        public bool CreateWindow { get; set; }
 
         public Encoding Encoding { get; set; } = Encoding.UTF8;
 
@@ -60,6 +61,10 @@ namespace Juniper.Processes
         public List<string> TotalStandardError { get; private set; }
 
         public int? ExitCode { get; private set; }
+
+        private event EventHandler<StringEventArgs> Input;
+        private event EventHandler KillProc;
+        public event EventHandler Started;
 
         public ShellCommand(string command, params string[] args)
             : this(null, command, args)
@@ -138,17 +143,9 @@ namespace Juniper.Processes
             return OnStandardError(pattern, new CallbackCommand(act));
         }
 
-        protected override void OnDisposing()
+        public override async Task RunAsync()
         {
-            base.OnDisposing();
-
-            canceller?.Dispose();
-            canceller = null;
-        }
-
-        public override async Task RunAsync(CancellationToken? token = null)
-        {
-            if (task is not null)
+            if (running)
             {
                 throw new InvalidOperationException("Cannot invoke the command a second time");
             }
@@ -165,13 +162,16 @@ namespace Juniper.Processes
                 WorkingDirectory = workingDir?.FullName,
                 Arguments = args.ToArray().Join(' '),
                 StandardErrorEncoding = Encoding,
+                StandardInputEncoding = Encoding,
                 StandardOutputEncoding = Encoding,
-                ErrorDialog = false,
-                CreateNoWindow = true,
                 RedirectStandardError = true,
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
-                WindowStyle = ProcessWindowStyle.Hidden
+                ErrorDialog = !CreateWindow,
+                CreateNoWindow = !CreateWindow,
+                WindowStyle = CreateWindow
+                    ? ProcessWindowStyle.Normal
+                    : ProcessWindowStyle.Hidden
             };
 
             if (Environment.OSVersion.Platform == PlatformID.Win32NT
@@ -207,22 +207,22 @@ namespace Juniper.Processes
                 Info += Proc_AccumOutputData;
                 Warning += Proc_AccumErrorData;
 
-                await ExecuteProcess(proc, token);
+                await ExecuteProcess(proc);
 
                 Info -= Proc_AccumOutputData;
                 Warning -= Proc_AccumErrorData;
             }
             else
             {
-                await ExecuteProcess(proc, token);
+                await ExecuteProcess(proc);
             }
         }
 
-        public async Task<string[]> RunForStdOutAsync(CancellationToken? token = null)
+        public async Task<string[]> RunForStdOutAsync()
         {
             var accum = AccumulateOutput;
             AccumulateOutput = true;
-            await RunAsync(token);
+            await RunAsync();
             var output = TotalStandardOutput.ToArray();
             if (!accum)
             {
@@ -233,69 +233,81 @@ namespace Juniper.Processes
             return output;
         }
 
-        private async Task ExecuteProcess(Process proc, CancellationToken? token)
+        private async Task ExecuteProcess(Process proc)
         {
-            canceller = new CancellationTokenSource();
-            try
+            var syncroot = new object();
+            var completer = new TaskCompletionSource();
+            var task = completer.Task;
+            void Proc_InputDataReceived(object sender, StringEventArgs e)
             {
-                AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
-                AppDomain.CurrentDomain.DomainUnload += CurrentDomain_ProcessExit;
-                AppDomain.CurrentDomain.UnhandledException += CurrentDomain_ProcessExit;
-                proc.OutputDataReceived += Proc_OutputDataReceived;
-                proc.ErrorDataReceived += Proc_ErrorDataReceived;
+                proc.StandardInput.WriteLine(e.Value);
+            }
 
-                if (!proc.Start())
+            void Proc_KillProc(object sender, EventArgs e)
+            {
+                proc.Kill(true);
+                Proc_Exited(sender, e);
+            }
+
+            void Proc_Exited(object sender, EventArgs e)
+            {
+                if (completer is not null)
                 {
-                    throw new InvalidOperationException("Could not start process.");
-                }
-
-                proc.BeginOutputReadLine();
-                proc.BeginErrorReadLine();
-
-                if (token is null)
-                {
-                    await RunProcess(proc, canceller.Token).ConfigureAwait(false);
-                }
-                else
-                {
-                    using var linkedCanceller = CancellationTokenSource.CreateLinkedTokenSource(token.Value, canceller.Token);
-                    await RunProcess(proc, linkedCanceller.Token).ConfigureAwait(false);
-                }
-
-                AppDomain.CurrentDomain.ProcessExit -= CurrentDomain_ProcessExit;
-                AppDomain.CurrentDomain.DomainUnload -= CurrentDomain_ProcessExit;
-                AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_ProcessExit;
-                proc.OutputDataReceived -= Proc_OutputDataReceived;
-                proc.ErrorDataReceived -= Proc_ErrorDataReceived;
-
-                ExitCode = proc.ExitCode;
-
-                if (ExitCode != 0)
-                {
-                    throw new Exception($"Non-zero exit value = {ExitCode}");
+                    lock (syncroot)
+                    {
+                        completer?.SetResult();
+                        completer = null;
+                    }
                 }
             }
-            finally
+
+            Input += Proc_InputDataReceived;
+            KillProc += Proc_KillProc;
+            AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
+            AppDomain.CurrentDomain.DomainUnload += CurrentDomain_ProcessExit;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_ProcessExit;
+            proc.OutputDataReceived += Proc_OutputDataReceived;
+            proc.ErrorDataReceived += Proc_ErrorDataReceived;
+            proc.Exited += Proc_Exited;
+
+            if (!proc.Start())
             {
-                canceller?.Dispose();
-                canceller = null;
+                throw new InvalidOperationException("Could not start process.");
+            }
+
+            Started?.Invoke(this, EventArgs.Empty);
+
+            proc.BeginOutputReadLine();
+            proc.BeginErrorReadLine();
+
+            await task;
+
+            AppDomain.CurrentDomain.ProcessExit -= CurrentDomain_ProcessExit;
+            AppDomain.CurrentDomain.DomainUnload -= CurrentDomain_ProcessExit;
+            AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_ProcessExit;
+            proc.OutputDataReceived -= Proc_OutputDataReceived;
+            proc.ErrorDataReceived -= Proc_ErrorDataReceived;
+            proc.Exited -= Proc_Exited;
+            Input -= Proc_InputDataReceived;
+            KillProc -= Proc_KillProc;
+
+            ExitCode = proc.ExitCode;
+            running = false;
+
+            if (ExitCode != 0)
+            {
+                throw new Exception($"Non-zero exit value = {ExitCode}");
             }
         }
 
-        private async Task RunProcess(Process proc, CancellationToken token)
+        public void Send(string message)
         {
-            task = Task.Run(proc.WaitForExit, token);
-            await task.ConfigureAwait(false);
-            if (task.IsCanceled && !proc.HasExited)
-            {
-                proc.Kill();
-            }
-            task = null;
+            Input?.Invoke(this, new StringEventArgs(message));
         }
 
         public void Kill()
         {
-            canceller?.Cancel();
+            KillProc?.Invoke(this, EventArgs.Empty);
         }
 
         private void CurrentDomain_ProcessExit(object sender, EventArgs e)

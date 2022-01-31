@@ -15,30 +15,28 @@ namespace Juniper.Processes
         private readonly string readField;
         private readonly string writeField;
 
-        private static async Task<JsonNode> ReadJsonAsync(FileInfo path, CancellationToken? token)
+        private static async Task<JsonNode> ReadJsonAsync(FileInfo path)
         {
             if (path?.Exists != true)
             {
                 return null;
             }
 
-            var json = token.HasValue
-                ? await File.ReadAllTextAsync(path.FullName, token.Value)
-                : await File.ReadAllTextAsync(path.FullName);
+            var json = await File.ReadAllTextAsync(path.FullName);
 
             return JsonNode.Parse(json);
         }
 
         public static async Task<string> ReadJsonValueAsync(FileInfo file, string field)
         {
-            var doc = await ReadJsonAsync(file, null);
+            var doc = await ReadJsonAsync(file);
             return doc[field]?.GetValue<string>();
         }
 
         public static async Task WriteJsonValueAsync(FileInfo file, string field, string value)
         {
-            var doc = await ReadJsonAsync(file, null);
-            if(doc is null)
+            var doc = await ReadJsonAsync(file);
+            if (doc is null)
             {
                 doc = JsonNode.Parse("{}");
             }
@@ -63,14 +61,9 @@ namespace Juniper.Processes
             CommandName = $"Json Copy [{readFile}:{readField} -> {writeFile}:{writeField}]";
         }
 
-        public override async Task RunAsync(CancellationToken? token = null)
+        public override async Task RunAsync()
         {
-            var fromJson = await ReadJsonAsync(readFile, token);
-            if (token?.IsCancellationRequested == true)
-            {
-                OnWarning("Operation cancelled");
-                return;
-            }
+            var fromJson = await ReadJsonAsync(readFile);
 
             if (fromJson is null)
             {
@@ -78,12 +71,7 @@ namespace Juniper.Processes
                 return;
             }
 
-            var toJson = await ReadJsonAsync(writeFile, token);
-            if (token?.IsCancellationRequested == true)
-            {
-                OnWarning("Operation cancelled");
-                return;
-            }
+            var toJson = await ReadJsonAsync(writeFile);
 
             if (toJson is null)
             {
@@ -105,20 +93,7 @@ namespace Juniper.Processes
                 WriteIndented = true
             });
 
-            if (token.HasValue)
-            {
-                await File.WriteAllTextAsync(writeFile.FullName, appsettingsJson, token.Value);
-            }
-            else
-            {
-                await File.WriteAllTextAsync(writeFile.FullName, appsettingsJson);
-            }
-
-            if (token?.IsCancellationRequested == true)
-            {
-                OnWarning("Operation cancelled");
-                return;
-            }
+            await File.WriteAllTextAsync(writeFile.FullName, appsettingsJson);
 
             OnInfo($"Wrote {writeField} = {value}");
         }

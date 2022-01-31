@@ -19,7 +19,7 @@ namespace Juniper.Processes
             CommandName = $"copy";
         }
 
-        public override Task RunAsync(CancellationToken? token = null)
+        public override Task RunAsync()
         {
             var outFile = new FileInfo(to);
             outFile.Directory.Create();

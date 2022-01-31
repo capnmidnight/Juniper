@@ -15,22 +15,20 @@ namespace Juniper.Processes
         {
             foreach (var commands in commandTree.Tree)
             {
-                await ExecuteCommandsAsync(commands, stoppingToken);
+                await ExecuteCommandsAsync(commands);
             }
         }
 
-        private async Task ExecuteCommandsAsync(IEnumerable<ICommand> commands, CancellationToken stoppingToken)
+        private async Task ExecuteCommandsAsync(IEnumerable<ICommand> commands)
         {
-            await Task.WhenAll(commands
-                .Select(command =>
-                    ExecuteCommandAsync(command, stoppingToken)));
+            await Task.WhenAll(commands.Select(ExecuteCommandAsync));
         }
 
-        private async Task ExecuteCommandAsync(ICommand command, CancellationToken stoppingToken)
+        private async Task ExecuteCommandAsync(ICommand command)
         {
             using var scope = services.CreateScope();
             var scopedCommand = scope.ServiceProvider.GetRequiredService<IScopedShellCommand>();
-            await scopedCommand.RunAsync(command, stoppingToken);
+            await scopedCommand.RunAsync(command);
         }
     }
 }

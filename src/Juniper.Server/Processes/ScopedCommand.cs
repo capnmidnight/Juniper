@@ -33,14 +33,14 @@ namespace Juniper.Processes
             }
         }
 
-        public async Task RunAsync(ICommand command, CancellationToken? token)
+        public async Task RunAsync(ICommand command)
         {
             command.Info += Command_Info;
             command.Warning += Command_Warning;
             command.Err += Command_Error;
             try
             {
-                await command.RunAsync(token);
+                await command.RunAsync();
             }
             catch (Exception ex)
             {

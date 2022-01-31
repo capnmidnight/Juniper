@@ -20,7 +20,7 @@ namespace Juniper
 
         public static async Task<Output[]> GetURLs(string youtubeUrl)
         {
-            using var cmd = new YouTubeDLP(youtubeUrl);
+            var cmd = new YouTubeDLP(youtubeUrl);
             var urls = await cmd.RunForStdOutAsync();
             var output = await Task.WhenAll(urls.Select(GetURL));
             return output.ToArray();
