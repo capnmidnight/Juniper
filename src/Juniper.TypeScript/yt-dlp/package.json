@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "name": "juniper-yt-dlp",
+  "private": true,
+  "scripts": {
+    "update": "npm ci",
+    "inst": "npm install",
+    "build": "npx tsc --build"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "tslib": "2.3.1",
+    "typescript": "4.3.5"
+  }
+}
