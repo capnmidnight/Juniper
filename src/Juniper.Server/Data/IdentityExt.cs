@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Juniper.Data
 {
-    public record BootsrapUser(string Email, bool bootstrap, params string[] roles);
+    public record BootsrapUser(string Email, bool Bootstrap, params string[] Roles);
 
     public static class IdentityExt
     {
@@ -89,7 +89,7 @@ namespace Juniper.Data
                 {
                     var code = await userMgr.GeneratePasswordResetTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    logger.LogWarning($"Core user {user.Email} does not have a password. Reset it here: /Identity/Account/ResetPassword?code={code}");
+                    logger.LogWarning("Core user {email} does not have a password. Reset it here: /Identity/Account/ResetPassword?code={code}", user.Email, code);
                 }
             }
         }

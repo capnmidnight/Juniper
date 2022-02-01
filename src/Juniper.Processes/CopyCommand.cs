@@ -2,11 +2,11 @@ namespace Juniper.Processes
 {
     public class CopyCommand : AbstractCommand
     {
-        private readonly string from;
-        private readonly string to;
+        private readonly FileInfo from;
+        private readonly FileInfo to;
         private readonly bool overwrite;
 
-        public CopyCommand(string from, string to, bool overwrite = true)
+        public CopyCommand(FileInfo from, FileInfo to, bool overwrite = true)
             : base("Copy")
         {
             this.from = from;
@@ -14,13 +14,16 @@ namespace Juniper.Processes
             this.overwrite = overwrite;
         }
 
+        public CopyCommand(string from, string to, bool overwrite = true)
+            : this(new FileInfo(from), new FileInfo(to), overwrite)
+        { }
+
         public override Task RunAsync()
         {
-            var outFile = new FileInfo(to);
-            outFile.Directory?.Create();
-            File.Copy(from, to, overwrite);
-            var fromRel = PathExt.Abs2Rel(from, Environment.CurrentDirectory);
-            var toRel = PathExt.Abs2Rel(to, Environment.CurrentDirectory);
+            to.Directory?.Create();
+            File.Copy(from.FullName, to.FullName, overwrite);
+            var fromRel = PathExt.Abs2Rel(from.FullName, Environment.CurrentDirectory);
+            var toRel = PathExt.Abs2Rel(to.FullName, Environment.CurrentDirectory);
             OnInfo($"Copied! {fromRel} -> {toRel}");
             return Task.CompletedTask;
         }
