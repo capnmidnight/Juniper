@@ -11,7 +11,7 @@ namespace Juniper.Speech.Azure.CognitiveServices
     {
         private readonly string azureResourceName;
 
-        public TextToSpeechStreamClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, IJsonDecoder<Voice[]> voiceListDecoder, AudioFormat outputFormat, CachingStrategy cache)
+        public TextToSpeechStreamClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, IJsonDecoder<Voice[]> voiceListDecoder, CachingStrategy cache)
             : base(azureRegion, azureSubscriptionKey, voiceListDecoder, cache)
         {
             if (string.IsNullOrEmpty(azureResourceName))
@@ -20,18 +20,13 @@ namespace Juniper.Speech.Azure.CognitiveServices
             }
 
             this.azureResourceName = azureResourceName;
-
-            OutputFormat = outputFormat
-                ?? throw new ArgumentException("Must provide an audio output format", nameof(outputFormat));
         }
 
-        public virtual AudioFormat OutputFormat { get; set; }
-
-        public TextToSpeechStreamClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, IJsonDecoder<Voice[]> voiceListDecoder, AudioFormat outputFormat)
-            : this(azureRegion, azureSubscriptionKey, azureResourceName, voiceListDecoder, outputFormat, null)
+        public TextToSpeechStreamClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, IJsonDecoder<Voice[]> voiceListDecoder)
+            : this(azureRegion, azureSubscriptionKey, azureResourceName, voiceListDecoder, null)
         { }
 
-        public async Task<Stream> GetAudioDataStreamAsync(string text, string voiceName, float rateChange = 0, float pitchChange = 0)
+        public async Task<Stream> GetAudioDataStreamAsync(AudioFormat outputFormat, string text, string voiceName, float rateChange = 0, float pitchChange = 0)
         {
             if (string.IsNullOrEmpty(text))
             {
@@ -45,7 +40,7 @@ namespace Juniper.Speech.Azure.CognitiveServices
 
             try
             {
-                var ttsRequest = new TextToSpeechRequest(AzureRegion, azureResourceName, OutputFormat)
+                var ttsRequest = new TextToSpeechRequest(AzureRegion, azureResourceName, outputFormat)
                 {
                     Text = text,
                     VoiceName = voiceName,
@@ -69,9 +64,9 @@ namespace Juniper.Speech.Azure.CognitiveServices
             }
         }
 
-        public Task<Stream> GetAudioDataStreamAsync(string text, Voice voice, float rateChange = 0, float pitchChange = 0)
+        public Task<Stream> GetAudioDataStreamAsync(AudioFormat outputFormat, string text, Voice voice, float rateChange = 0, float pitchChange = 0)
         {
-            return GetAudioDataStreamAsync(text, voice?.ShortName, rateChange, pitchChange);
+            return GetAudioDataStreamAsync(outputFormat, text, voice?.ShortName, rateChange, pitchChange);
         }
     }
 }

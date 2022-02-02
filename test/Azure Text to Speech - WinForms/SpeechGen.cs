@@ -18,7 +18,15 @@ namespace Juniper
 
             var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             saveFile.InitialDirectory = userProfile;
+            formats = TextToSpeechRequest.SupportedFormats;
+            decodableFormats = formats
+                .Where(format => NAudioAudioDataDecoder.SupportedFormats.Contains(format.ContentType))
+                .ToArray();
+            formatSelection.DataSource = formats;
         }
+
+        private readonly AudioFormat[] formats;
+        private readonly AudioFormat[] decodableFormats;
 
         private Voice[] voices;
 
@@ -35,7 +43,7 @@ namespace Juniper
             else
             {
                 var head = exception;
-                while (head is object)
+                while (head is not null)
                 {
                     textBox.Text += head.Message;
                     textBox.Text += Environment.NewLine;
@@ -88,9 +96,16 @@ namespace Juniper
             voiceNameSelection.DataSource = voiceNames;
         }
 
+        private void FormatSelection_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedFormat = (AudioFormat)formatSelection.SelectedItem;
+            playButton.Enabled = decodableFormats.Contains(selectedFormat);
+        }
+
         private void PlayButton_Click(object sender, EventArgs e)
         {
-            Generate(null, AudioFormat.Riff24KHz16BitMonoPCM);
+            var selectedFormat = (AudioFormat)formatSelection.SelectedItem;
+            Generate(null, selectedFormat);
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
@@ -105,23 +120,20 @@ namespace Juniper
             }
         }
 
-        private static readonly AudioFormat[] SUPPORTED_FORMATS =
-        {
-            AudioFormat.Audio24KHz160KbitrateMonoMP3,
-            AudioFormat.Riff24KHz16BitMonoPCM
-        };
-
         private void Save()
         {
+            var selectedFormat = (AudioFormat)formatSelection.SelectedItem;
+            var exts = selectedFormat.ContentType.Extensions.Select(ext => $"*.{ext}")
+                .ToArray()
+                .Join(";");
+            saveFile.Filter = $"{selectedFormat.ContentType.SubTypeName.ToUpperInvariant()} files ({exts})|{exts}|All files (*.*)|*.*";
             if (saveFile.ShowDialog() == DialogResult.OK)
             {
-                foreach (var format in SUPPORTED_FORMATS)
+                var types = MediaType.GuessByFileName(saveFile.FileName);
+                if (types.Any(t => selectedFormat.ContentType.Matches(t)))
                 {
-                    if (format.ContentType.Matches(saveFile.FileName))
-                    {
-                        Generate(saveFile.FileName, format);
-                        return;
-                    }
+                    Generate(saveFile.FileName, selectedFormat);
+                    return;
                 }
             }
         }
@@ -137,6 +149,7 @@ namespace Juniper
                                    && voice.ShortName == selectedVoiceName
                                  select voice)
                         .FirstOrDefault();
+            var decodeRequired = format.ContentType != MediaType.Audio.Wave;
 
             GenerateSpeech?.Invoke(this, new GenerateSpeechEventArgs(
                 selectedVoice,
@@ -144,7 +157,8 @@ namespace Juniper
                 textBox.Text,
                 rateChange.Value / 50f,
                 pitchChange.Value / 50f,
-                fileName));
+                fileName,
+                decodeRequired));
         }
     }
 }

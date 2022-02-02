@@ -22,7 +22,7 @@ namespace Juniper.Speech.Azure.CognitiveServices
                 throw new InvalidOperationException("An AuthToken is required to be able to submit this request.");
             }
 
-            base.ModifyRequest(request);
+            base.ModifyRequest(request, prog);
             request.Header("Authorization", $"Bearer {AuthToken}");
         }
     }

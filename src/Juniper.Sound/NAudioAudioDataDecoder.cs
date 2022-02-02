@@ -13,10 +13,10 @@ namespace Juniper.Sound
     {
         public static readonly MediaType.Audio[] SupportedFormats =
         {
-            MediaType.Audio.X_Wav,
+            MediaType.Audio.Wave,
             MediaType.Audio.Mpeg,
-            MediaType.Audio.Vorbis,
-            MediaType.Audio.PCMA
+            MediaType.Audio.OggVorbis,
+            MediaType.Audio.Raw
         };
 
         public NAudioAudioDataDecoder()
@@ -65,31 +65,6 @@ namespace Juniper.Sound
 
         public WaveStream MakeDecodingStream(Stream stream)
         {
-            if (Format.ContentType == MediaType.Audio.X_Wav)
-            {
-                return new WaveFileReader(stream);
-            }
-            else if (Format.ContentType == MediaType.Audio.Mpeg)
-            {
-                return new ManagedMpegStream(stream);
-            }
-            else if(Format.ContentType == MediaType.Audio.Vorbis)
-            {
-                return new VorbisWaveReader(stream, true);
-            }
-            else if (Format.ContentType == MediaType.Audio.PCMA)
-            {
-                var format = new WaveFormat(Format.SampleRate, Format.BitsPerSample, Format.Channels);
-                return new RawSourceWaveStream(stream, format);
-            }
-            else
-            {
-                throw new NotSupportedException($"Don't know how to decode audio format {Format.ContentType}");
-            }
-        }
-
-        public AudioData Deserialize(Stream stream)
-        {
             if (stream is null)
             {
                 throw new ArgumentNullException(nameof(stream));
@@ -102,6 +77,31 @@ namespace Juniper.Sound
                 stream = mem;
             }
 
+            if (Format.ContentType == MediaType.Audio.Wave)
+            {
+                return new WaveFileReader(stream);
+            }
+            else if (Format.ContentType == MediaType.Audio.Mpeg)
+            {
+                return new ManagedMpegStream(stream);
+            }
+            else if(Format.ContentType == MediaType.Audio.OggVorbis)
+            {
+                return new VorbisWaveReader(stream, true);
+            }
+            else if (Format.ContentType == MediaType.Audio.Raw)
+            {
+                var format = new WaveFormat(Format.SampleRate, Format.BitsPerSample, Format.Channels);
+                return new RawSourceWaveStream(stream, format);
+            }
+            else
+            {
+                throw new NotSupportedException($"Don't know how to decode audio format {Format.ContentType}");
+            }
+        }
+
+        public AudioData Deserialize(Stream stream)
+        {
             var waveStream = MakeDecodingStream(stream);
             var format = waveStream.WaveFormat;
             var sampleRate = format.SampleRate;
@@ -115,6 +115,16 @@ namespace Juniper.Sound
             var audioFormat = MakeAudioFormat(sampleRate, bitsPerSample, channels);
             var pcmStream = new PcmBytesToFloatsStream(waveStream, bytesPerSample);
             return new AudioData(audioFormat, pcmStream, samples, stream);
+        }
+
+        public Stream ToWave(Stream stream)
+        {
+            var mem = new MemoryStream();
+            var waveStream = MakeDecodingStream(stream);
+            WaveFileWriter.WriteWavFileToStream(mem, waveStream);
+            mem.Flush();
+            mem.Position = 0;
+            return mem;
         }
 
         private void ValidateFormat(int sampleRate, int bitsPerSample, int channels)

@@ -179,6 +179,7 @@ namespace Juniper.HTTP.REST
             ModifyRequest(request, progs[0]);
 
             var response = await http.SendAsync(request).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
             var stream = await response.Content.ReadAsStreamAsync();
             return new ProgressStream(stream, stream.Length, progs[1], true);
         }

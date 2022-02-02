@@ -1,7 +1,5 @@
-using Juniper.HTTP;
 using Juniper.Progress;
 
-using System.Net;
 using System.Net.Http;
 
 namespace Juniper.Speech.Azure
@@ -20,9 +18,9 @@ namespace Juniper.Speech.Azure
 
         protected override void ModifyRequest(HttpRequestMessage request, IProgress prog = null)
         {
-            base.ModifyRequest(request);
+            base.ModifyRequest(request, prog);
             request.Header("Ocp-Apim-Subscription-Key", subscriptionKey)
-                .ContentType(MediaType.Application.X_Www_Form_Urlencoded);
+                .Body(new StringContent(""), MediaType.Application.X_Www_Form_Urlencoded);
         }
     }
 }

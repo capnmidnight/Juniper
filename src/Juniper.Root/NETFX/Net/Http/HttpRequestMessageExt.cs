@@ -396,19 +396,34 @@ namespace System.Net.Http
             return request;
         }
 
-        public static HttpRequestMessage ContentType(this HttpRequestMessage request, MediaType contentType)
+
+        public static HttpContent ContentType(this HttpContent content, MediaType contentType)
         {
             if (contentType is null)
             {
                 throw new ArgumentNullException(nameof(contentType));
             }
 
-            return request.Header("Content-Type", contentType);
+            content.Headers.ContentType = contentType;
+            return content;
+        }
+
+        public static HttpRequestMessage ContentType(this HttpRequestMessage request, MediaType contentType)
+        {
+            request.Content.ContentType(contentType);
+            return request;
         }
 
         public static HttpRequestMessage ContentLength(this HttpRequestMessage request, long contentLength)
         {
-            return request.Header("Content-Length", contentLength);
+            request.Content.ContentLength(contentLength);
+            return request;
+        }
+
+        public static HttpContent ContentLength(this HttpContent content, long contentLength)
+        {
+            content.Headers.ContentLength = contentLength;
+            return content;
         }
     }
 }

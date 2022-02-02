@@ -1,3 +1,7 @@
+using Juniper.IO;
+using Juniper.Sound;
+using Juniper.Speech.Azure.CognitiveServices;
+
 using System;
 using System.IO;
 using System.Media;
@@ -5,48 +9,43 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using Juniper.IO;
-using Juniper.Sound;
-using Juniper.Speech.Azure.CognitiveServices;
-
 namespace Juniper
 {
     public static class Program
     {
         private static SpeechGen form;
         private static SoundPlayer player;
-        private static TextToSpeechStreamClient client;
+        private static TextToSpeechClient client;
 
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        public static async Task Main()
+        public static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += Application_ThreadException;
 
             // credentials
-            var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var keyFile = Path.Combine(userProfile, "Projects", "DevKeys", "azure-speech.txt");
-            var lines = File.ReadAllLines(keyFile);
-
-            client = new TextToSpeechStreamClient(
-                lines[1],
+            var userProfile = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
+            var projectsDir = userProfile.CD("Projects");
+            var keyFile = projectsDir.CD("DevKeys").Touch("azure-speech.txt");
+            var lines = File.ReadAllLines(keyFile.FullName);
+            client = new TextToSpeechClient(
                 lines[0],
+                lines[1],
                 lines[2],
                 new JsonFactory<Voice[]>(),
-                AudioFormat.Raw24KHz16BitMonoPCM,
+                new NAudioAudioDataDecoder(),
                 new CachingStrategy
                 {
-                    new FileCacheLayer(new DirectoryInfo(Path.Combine(userProfile, "Projects")))
+                    new FileCacheLayer(projectsDir)
                 });
 
             using var p = player = new SoundPlayer();
             using var f = form = new SpeechGen();
-            form.SetVoices(await client.GetVoicesAsync()
-                .ConfigureAwait(true));
+            form.SetVoices(client.GetVoicesAsync().Result);
 
             form.GenerateSpeech += Form_GenerateSpeech;
 
@@ -64,15 +63,22 @@ namespace Juniper
               {
                   try
                   {
-                      client.OutputFormat = e.Format;
-                      var newStream = await client.GetAudioDataStreamAsync(e.Text, e.Voice, e.RateChange, e.PitchChange)
-                          .ConfigureAwait(true);
-                      if (e.FileName is object)
+                      if (e.FileName is not null)
                       {
+                          var newStream = await client.GetAudioDataStreamAsync(e.Format, e.Text, e.Voice, e.RateChange, e.PitchChange)
+                              .ConfigureAwait(true);
                           SaveStream(newStream, e.FileName);
+                      }
+                      else if(!e.DecodeRequired)
+                      {
+                          var newStream = await client.GetAudioDataStreamAsync(e.Format, e.Text, e.Voice, e.RateChange, e.PitchChange)
+                              .ConfigureAwait(true);
+                          PlayStream(newStream);
                       }
                       else
                       {
+                          var newStream = await client.GetWaveAudioAsync(e.Format, e.Text, e.Voice, e.RateChange, e.PitchChange)
+                              .ConfigureAwait(true);
                           PlayStream(newStream);
                       }
                   }
@@ -91,6 +97,7 @@ namespace Juniper
             using (newStream)
             {
                 newStream.CopyTo(outFile);
+                outFile.Flush();
             }
         }
 
@@ -104,7 +111,7 @@ namespace Juniper
 
         private static void StopPlayback()
         {
-            if (player.Stream is object)
+            if (player.Stream is not null)
             {
                 var stream = player.Stream;
                 player.Stop();
