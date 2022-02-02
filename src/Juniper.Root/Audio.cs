@@ -8,6 +8,8 @@ namespace Juniper
         {
             private Audio(string value, string[] extensions) : base("audio/" + value, extensions) { }
 
+            private Audio(string[] extensions) : base("application/octet-stream", extensions) { }
+
             private Audio(string value) : this(value, null) { }
 
             public static readonly Audio AnyAudio = new("*");

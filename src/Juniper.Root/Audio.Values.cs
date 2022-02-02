@@ -4,10 +4,10 @@ namespace Juniper
     {
         public partial class Audio : MediaType
         {
-            public static readonly Audio Aac = new("aac", new string[] { "aac" });
-            public static readonly Audio Ac3 = new("ac3", new string[] { "ac3" });
-            public static readonly Audio Adpcm = new("adpcm", new string[] { "adp" });
-            public static readonly Audio AMR = new("amr", new string[] { "amr" });
+            public static readonly Audio Aac = new("aac", new[] { "aac" });
+            public static readonly Audio Ac3 = new("ac3", new[] { "ac3" });
+            public static readonly Audio Adpcm = new("adpcm", new[] { "adp" });
+            public static readonly Audio AMR = new("amr", new[] { "amr" });
             public static readonly Audio AMR_WB = new("amr-wb");
             public static readonly Audio Amr_WbPlus = new("amr-wb+");
             public static readonly Audio Aptx = new("aptx");
@@ -15,7 +15,7 @@ namespace Juniper
             public static readonly Audio ATRAC_ADVANCED_LOSSLESS = new("atrac-advanced-lossless");
             public static readonly Audio ATRAC_X = new("atrac-x");
             public static readonly Audio ATRAC3 = new("atrac3");
-            public static readonly Audio Basic = new("basic", new string[] { "au", "snd" });
+            public static readonly Audio Basic = new("basic", new[] { "au", "snd" });
             public static readonly Audio BV16 = new("bv16");
             public static readonly Audio BV32 = new("bv32");
             public static readonly Audio Clearmode = new("clearmode");
@@ -61,7 +61,7 @@ namespace Juniper
             public static readonly Audio G7291 = new("g7291");
             public static readonly Audio G729D = new("g729d");
             public static readonly Audio G729E = new("g729e");
-            public static readonly Audio GSM = new("gsm", new string[] { "gsm" });
+            public static readonly Audio GSM = new("gsm", new[] { "gsm" });
             public static readonly Audio GSM_EFR = new("gsm-efr");
             public static readonly Audio GSM_HR_08 = new("gsm-hr-08");
             public static readonly Audio ILBC = new("ilbc");
@@ -76,32 +76,34 @@ namespace Juniper
             public static readonly Audio MELP1200 = new("melp1200");
             public static readonly Audio MELP2400 = new("melp2400");
             public static readonly Audio MELP600 = new("melp600");
-            public static readonly Audio Midi = new("midi", new string[] { "mid", "midi", "kar", "rmi" });
+            public static readonly Audio Midi = new("midi", new[] { "mid", "midi", "kar", "rmi" });
             public static readonly Audio Mobile_Xmf = new("mobile-xmf");
-            public static readonly Audio Mp4 = new("mp4", new string[] { "m4a", "mp4a" });
+            public static readonly Audio Mp4 = new("mp4", new[] { "m4a", "mp4a" });
             public static readonly Audio MP4A_LATM = new("mp4a-latm");
             public static readonly Audio MPA = new("mpa");
             public static readonly Audio Mpa_Robust = new("mpa-robust");
-            public static readonly Audio Mpeg = new("mpeg", new string[] { "mp3", "mp2", "mp2a", "mpga", "m2a", "m3a" });
+            public static readonly Audio Mpeg = new("mpeg", new[] { "mp3", "mp2", "mp2a", "mpga", "m2a", "m3a" });
             public static readonly Audio Mpeg4_Generic = new("mpeg4-generic");
             public static readonly Audio Musepack = new("musepack");
-            public static readonly Audio Ogg = new("ogg", new string[] { "ogg", "oga", "spx" });
-            public static readonly Audio Opus = new("opus");
+            public static readonly Audio Ogg = new("ogg", new[] { "ogg", "oga", "spx" });
+            public static readonly Audio OggOpus = new("ogg", new[] { "ogg", "oga", "spx" });
+            public static readonly Audio OggVorbis = new("ogg", new[] { "ogg" });
             public static readonly Audio Parityfec = new("parityfec");
-            public static readonly Audio PCMA = new("pcma");
+            public static readonly Audio PCMA = new("pcma", new[] { "wav" });
             public static readonly Audio PCMA_WB = new("pcma-wb");
-            public static readonly Audio PCMU = new("pcmu");
+            public static readonly Audio PCMU = new("pcmu", new[] { "wav" });
             public static readonly Audio PCMU_WB = new("pcmu-wb");
             public static readonly Audio PrsSid = new("prs.sid");
             public static readonly Audio Qcelp = new("qcelp");
             public static readonly Audio Raptorfec = new("raptorfec");
+            public static readonly Audio Raw = new(new[] { "dat" });
             public static readonly Audio RED = new("red");
             public static readonly Audio Rtp_Enc_Aescm128 = new("rtp-enc-aescm128");
             public static readonly Audio Rtp_Midi = new("rtp-midi");
             public static readonly Audio Rtploopback = new("rtploopback");
             public static readonly Audio Rtx = new("rtx");
-            public static readonly Audio S3m = new("s3m", new string[] { "s3m" });
-            public static readonly Audio Silk = new("silk", new string[] { "sil" });
+            public static readonly Audio S3m = new("s3m", new[] { "s3m" });
+            public static readonly Audio Silk = new("silk", new[] { "sil" });
             public static readonly Audio SMV = new("smv");
             public static readonly Audio SMV_QCP = new("smv-qcp");
             public static readonly Audio SMV0 = new("smv0");
@@ -129,8 +131,8 @@ namespace Juniper
             public static readonly Audio VendorCmlesRadio_Events = new("vnd.cmles.radio-events");
             public static readonly Audio VendorCnsAnp1 = new("vnd.cns.anp1");
             public static readonly Audio VendorCnsInf1 = new("vnd.cns.inf1");
-            public static readonly Audio VendorDeceAudio = new("vnd.dece.audio", new string[] { "uva", "uvva" });
-            public static readonly Audio VendorDigital_Winds = new("vnd.digital-winds", new string[] { "eol" });
+            public static readonly Audio VendorDeceAudio = new("vnd.dece.audio", new[] { "uva", "uvva" });
+            public static readonly Audio VendorDigital_Winds = new("vnd.digital-winds", new[] { "eol" });
             public static readonly Audio VendorDlnaAdts = new("vnd.dlna.adts");
             public static readonly Audio VendorDolbyHeaac1 = new("vnd.dolby.heaac.1");
             public static readonly Audio VendorDolbyHeaac2 = new("vnd.dolby.heaac.2");
@@ -140,20 +142,20 @@ namespace Juniper
             public static readonly Audio VendorDolbyPl2x = new("vnd.dolby.pl2x");
             public static readonly Audio VendorDolbyPl2z = new("vnd.dolby.pl2z");
             public static readonly Audio VendorDolbyPulse1 = new("vnd.dolby.pulse.1");
-            public static readonly Audio VendorDra = new("vnd.dra", new string[] { "dra" });
-            public static readonly Audio VendorDts = new("vnd.dts", new string[] { "dts" });
-            public static readonly Audio VendorDtsHd = new("vnd.dts.hd", new string[] { "dtshd" });
+            public static readonly Audio VendorDra = new("vnd.dra", new[] { "dra" });
+            public static readonly Audio VendorDts = new("vnd.dts", new[] { "dts" });
+            public static readonly Audio VendorDtsHd = new("vnd.dts.hd", new[] { "dtshd" });
             public static readonly Audio VendorDtsUhd = new("vnd.dts.uhd");
             public static readonly Audio VendorDvbFile = new("vnd.dvb.file");
             public static readonly Audio VendorEveradPlj = new("vnd.everad.plj");
             public static readonly Audio VendorHnsAudio = new("vnd.hns.audio");
-            public static readonly Audio VendorLucentVoice = new("vnd.lucent.voice", new string[] { "lvp" });
-            public static readonly Audio VendorMs_PlayreadyMediaPya = new("vnd.ms-playready.media.pya", new string[] { "pya" });
+            public static readonly Audio VendorLucentVoice = new("vnd.lucent.voice", new[] { "lvp" });
+            public static readonly Audio VendorMs_PlayreadyMediaPya = new("vnd.ms-playready.media.pya", new[] { "pya" });
             public static readonly Audio VendorNokiaMobile_Xmf = new("vnd.nokia.mobile-xmf");
             public static readonly Audio VendorNortelVbk = new("vnd.nortel.vbk");
-            public static readonly Audio VendorNueraEcelp4800 = new("vnd.nuera.ecelp4800", new string[] { "ecelp4800" });
-            public static readonly Audio VendorNueraEcelp7470 = new("vnd.nuera.ecelp7470", new string[] { "ecelp7470" });
-            public static readonly Audio VendorNueraEcelp9600 = new("vnd.nuera.ecelp9600", new string[] { "ecelp9600" });
+            public static readonly Audio VendorNueraEcelp4800 = new("vnd.nuera.ecelp4800", new[] { "ecelp4800" });
+            public static readonly Audio VendorNueraEcelp7470 = new("vnd.nuera.ecelp7470", new[] { "ecelp7470" });
+            public static readonly Audio VendorNueraEcelp9600 = new("vnd.nuera.ecelp9600", new[] { "ecelp9600" });
             public static readonly Audio VendorOctelSbc = new("vnd.octel.sbc");
             public static readonly Audio VendorPresonusMultitrack = new("vnd.presonus.multitrack");
 
@@ -161,29 +163,29 @@ namespace Juniper
             public static readonly Audio VendorQcelp = new("vnd.qcelp");
 
             public static readonly Audio VendorRhetorex32kadpcm = new("vnd.rhetorex.32kadpcm");
-            public static readonly Audio VendorRip = new("vnd.rip", new string[] { "rip" });
+            public static readonly Audio VendorRip = new("vnd.rip", new[] { "rip" });
             public static readonly Audio VendorSealedmediaSoftsealMpeg = new("vnd.sealedmedia.softseal.mpeg");
             public static readonly Audio VendorVmxCvsd = new("vnd.vmx.cvsd");
-            public static readonly Audio VendorWave = new("vnd.wave", new string[] { "wav" });
+            public static readonly Audio VendorWave = new("vnd.wave", new[] { "wav" });
             public static readonly Audio VMR_WB = new("vmr-wb");
-            public static readonly Audio Vorbis = new("vorbis");
             public static readonly Audio Vorbis_Config = new("vorbis-config");
-            public static readonly Audio Wav = new("wav", new string[] { "wav" });
-            public static readonly Audio Wave = new("wave", new string[] { "wav" });
-            public static readonly Audio Webm = new("webm", new string[] { "weba" });
-            public static readonly Audio X_Aac = new("x-aac", new string[] { "aac" });
-            public static readonly Audio X_Aiff = new("x-aiff", new string[] { "aif", "aiff", "aifc" });
-            public static readonly Audio X_Caf = new("x-caf", new string[] { "caf" });
-            public static readonly Audio X_Flac = new("x-flac", new string[] { "flac" });
-            public static readonly Audio X_Matroska = new("x-matroska", new string[] { "mka" });
-            public static readonly Audio X_Mpegurl = new("x-mpegurl", new string[] { "m3u" });
-            public static readonly Audio X_Ms_Wax = new("x-ms-wax", new string[] { "wax" });
-            public static readonly Audio X_Ms_Wma = new("x-ms-wma", new string[] { "wma" });
-            public static readonly Audio X_Pn_Realaudio = new("x-pn-realaudio", new string[] { "ram", "ra" });
-            public static readonly Audio X_Pn_Realaudio_Plugin = new("x-pn-realaudio-plugin", new string[] { "rmp" });
+            public static readonly Audio Wav = new("wav", new[] { "wav" });
+            public static readonly Audio Wave = new("wave", new[] { "wav" });
+            public static readonly Audio Webm = new("webm", new[] { "weba" });
+            public static readonly Audio WebMOpus = new("webm; codec=opus", new[] { "weba" });
+            public static readonly Audio X_Aac = new("x-aac", new[] { "aac" });
+            public static readonly Audio X_Aiff = new("x-aiff", new[] { "aif", "aiff", "aifc" });
+            public static readonly Audio X_Caf = new("x-caf", new[] { "caf" });
+            public static readonly Audio X_Flac = new("x-flac", new[] { "flac" });
+            public static readonly Audio X_Matroska = new("x-matroska", new[] { "mka" });
+            public static readonly Audio X_Mpegurl = new("x-mpegurl", new[] { "m3u" });
+            public static readonly Audio X_Ms_Wax = new("x-ms-wax", new[] { "wax" });
+            public static readonly Audio X_Ms_Wma = new("x-ms-wma", new[] { "wma" });
+            public static readonly Audio X_Pn_Realaudio = new("x-pn-realaudio", new[] { "ram", "ra" });
+            public static readonly Audio X_Pn_Realaudio_Plugin = new("x-pn-realaudio-plugin", new[] { "rmp" });
             public static readonly Audio X_Tta = new("x-tta");
-            public static readonly Audio X_Wav = new("x-wav", new string[] { "wav" });
-            public static readonly Audio Xm = new("xm", new string[] { "xm" });
+            public static readonly Audio X_Wav = new("x-wav", new[] { "wav" });
+            public static readonly Audio Xm = new("xm", new[] { "xm" });
 
             public static new readonly Audio[] Values = {
                 Aac,
@@ -268,7 +270,8 @@ namespace Juniper
                 Mpeg4_Generic,
                 Musepack,
                 Ogg,
-                Opus,
+                OggOpus,
+                OggVorbis,
                 Parityfec,
                 PCMA,
                 PCMA_WB,
@@ -277,6 +280,7 @@ namespace Juniper
                 PrsSid,
                 Qcelp,
                 Raptorfec,
+                Raw,
                 RED,
                 Rtp_Enc_Aescm128,
                 Rtp_Midi,
@@ -344,11 +348,11 @@ namespace Juniper
                 VendorVmxCvsd,
                 VendorWave,
                 VMR_WB,
-                Vorbis,
                 Vorbis_Config,
                 Wav,
                 Wave,
                 Webm,
+                WebMOpus,
                 X_Aac,
                 X_Aiff,
                 X_Caf,
