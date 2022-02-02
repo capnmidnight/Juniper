@@ -1,6 +1,7 @@
 using Juniper.HTTP;
 
 using System.Net;
+using System.Net.Http;
 
 namespace Juniper.Speech.Azure
 {
@@ -9,14 +10,14 @@ namespace Juniper.Speech.Azure
         private readonly string subscriptionKey;
 
         public AuthTokenRequest(string region, string subscriptionKey)
-            : base(HttpMethods.POST, region, "api.cognitive", "sts/v1.0/issueToken", Juniper.MediaType.Text.Plain, true)
+            : base(HttpMethod.Post, region, "api.cognitive", "sts/v1.0/issueToken", Juniper.MediaType.Text.Plain, true)
         {
             this.subscriptionKey = subscriptionKey;
         }
 
         protected override string InternalCacheID => null;
 
-        protected override void ModifyRequest(HttpWebRequest request)
+        protected override void ModifyRequest(HttpRequestMessage request)
         {
             base.ModifyRequest(request);
             request.Header("Ocp-Apim-Subscription-Key", subscriptionKey);

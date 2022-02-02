@@ -4,12 +4,12 @@ namespace Juniper.HTTP
 {
     public sealed class BodyInfo : IEquatable<BodyInfo>
     {
-        public string MIMEType { get; }
+        public MediaType ContentType { get; }
         public long Length { get; }
 
-        public BodyInfo(string mime, long length)
+        public BodyInfo(MediaType contentType, long length)
         {
-            MIMEType = mime;
+            ContentType = contentType;
             Length = length;
         }
 
@@ -21,13 +21,13 @@ namespace Juniper.HTTP
         public bool Equals(BodyInfo other)
         {
             return other is not null
-                && MIMEType == other.MIMEType
+                && ContentType == other.ContentType
                 && Length == other.Length;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(MIMEType, Length);
+            return HashCode.Combine(ContentType, Length);
         }
 
         public static bool operator ==(BodyInfo left, BodyInfo right)

@@ -5,6 +5,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 
 using static System.Math;
@@ -47,7 +48,7 @@ namespace Juniper.Speech.Azure.CognitiveServices
         private int ssmlTextLength;
 
         public TextToSpeechRequest(string region, string resourceName, AudioFormat outputFormat)
-            : base(HttpMethods.POST, region, "cognitiveservices/v1", outputFormat?.ContentType ?? throw new ArgumentNullException(nameof(outputFormat)), true)
+            : base(HttpMethod.Post, region, "cognitiveservices/v1", outputFormat?.ContentType ?? throw new ArgumentNullException(nameof(outputFormat)), true)
         {
             this.resourceName = resourceName;
             OutputFormat = outputFormat;
@@ -185,13 +186,17 @@ namespace Juniper.Speech.Azure.CognitiveServices
             return new BodyInfo(Juniper.MediaType.Application.SsmlXml, ssmlTextLength);
         }
 
-        protected override void WriteBody(Stream stream)
+        protected override Stream GetBodyStream()
         {
+            var stream = new MemoryStream(ssmlTextLength);
             using var writer = new StreamWriter(stream);
             writer.Write(ssmlText);
+            stream.Flush();
+            stream.Position = 0;
+            return stream;
         }
 
-        protected override void ModifyRequest(HttpWebRequest request)
+        protected override void ModifyRequest(HttpRequestMessage request)
         {
             base.ModifyRequest(request);
             _ = request.KeepAlive()

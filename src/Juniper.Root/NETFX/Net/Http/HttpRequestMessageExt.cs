@@ -1,52 +1,24 @@
+using Juniper;
 using Juniper.HTTP;
 using Juniper.IO;
 using Juniper.Progress;
 
-using System.IO;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
-namespace System.Net
+using System.IO;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Text;
+
+namespace System.Net.Http
 {
     /// <summary>
-    /// Utility functions and extension methods on <see cref="HttpWebRequest"/> queries
+    /// Utility functions and extension methods on <see cref="HttpRequestMessage"/> queries
     /// </summary>
-    public static class HttpWebRequestExt
+    public static class HttpRequestMessageExt
     {
         /// <summary>
-        /// Creates a new <see cref="HttpWebRequest"/> object for a given URI
-        /// with the "Upgrade-Insecure-Requests" header already set to True.
-        /// </summary>
-        /// <param name="uri">The <see cref="Uri"/> object for which to create the request.</param>
-        /// <returns>An <see cref="HttpWebRequest"/> object.</returns>
-        public static HttpWebRequest Create(Uri uri)
-        {
-            if (uri is null)
-            {
-                throw new ArgumentNullException(nameof(uri));
-            }
-
-            var request = (HttpWebRequest)WebRequest.Create(uri);
-            if (uri.Scheme == "http")
-            {
-                request.Header("Upgrade-Insecure-Requests", 1);
-            }
-
-            return request;
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="HttpWebRequest"/> object for a given URI
-        /// with the "Upgrade-Insecure-Requests" header already set to True.
-        /// </summary>
-        /// <param name="uri">A string value that represents a URI.</param>
-        /// <returns>An <see cref="HttpWebRequest"/> object.</returns>
-        public static HttpWebRequest Create(string url)
-        {
-            return Create(new Uri(url));
-        }
-
-        /// <summary>
-        /// Adds an HTTP header to a <see cref="HttpWebRequest"/>, providing
+        /// Adds an HTTP header to a <see cref="HttpRequestMessage"/>, providing
         /// a literate interface for adding headers to requests. The header
         /// value will be converted to a string with its type's default
         /// ToString method.
@@ -57,12 +29,12 @@ namespace System.Net
         /// <param name="value">The value of the header that is being added to the request. Boolean values get converted to "1" for True and "0" for False.</param>
         /// <returns>The request that was passed as the first argument, so that literate calls may be chained together.</returns>
         /// <example><![CDATA[
-        /// var request = HttpWebRequestExt.Create("https://www.example.com");
+        /// var request = HttpRequestMessageExt.Create("https://www.example.com");
         /// request.Header("Keep-Alive", 1)
         ///     .Header("DNT", 1")
         ///     .Header("Accept", MediaType.Text.Plain");
         /// ]]></example>
-        public static HttpWebRequest Header<T>(this HttpWebRequest request, string name, T value)
+        public static HttpRequestMessage Header<T>(this HttpRequestMessage request, string name, T value)
         {
             if (request is null)
             {
@@ -101,12 +73,12 @@ namespace System.Net
         /// <param name="request">The request to which to add the header</param>
         /// <returns>The request that was passed as the first argument, so that literate calls may be chained together.</returns>
         /// <example><![CDATA[
-        /// var request = HttpWebRequestExt.Create("https://www.example.com");
+        /// var request = HttpRequestMessageExt.Create("https://www.example.com");
         /// request.Header("Keep-Alive", 1)
         ///     .DoNotTrack()
         ///     .Header("Accept", MediaType.Text.Plain");
         /// ]]></example>
-        public static HttpWebRequest DoNotTrack(this HttpWebRequest request)
+        public static HttpRequestMessage DoNotTrack(this HttpRequestMessage request)
         {
             if (request is null)
             {
@@ -117,40 +89,49 @@ namespace System.Net
             return request;
         }
 
-        public static HttpWebRequest Host(this HttpWebRequest request, string host)
+        public static HttpRequestMessage UserAgent(this HttpRequestMessage request, string agent)
         {
             if (request is null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
 
-            request.Host = host;
+            var parts = agent.Split(' ').ToList();
+            for(var i = parts.Count -1; i > 0; i--)
+            {
+                if(parts[i].EndsWith(')')
+                    && !parts[i].StartsWith('('))
+                {
+                    parts[i - 1] += " " + parts[i];
+                    parts.RemoveAt(i);
+                }
+            }
+
+            request.Headers.UserAgent.Clear();
+
+            foreach(var part in parts)
+            {
+                if(ProductInfoHeaderValue.TryParse(part, out var value))
+                {
+                    request.Headers.UserAgent.Add(value);
+                }
+            }
+            
             return request;
         }
 
-        public static HttpWebRequest UserAgent(this HttpWebRequest request, string agent)
+        public static HttpRequestMessage Referrer(this HttpRequestMessage request, string referrer)
         {
             if (request is null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
 
-            request.UserAgent = agent;
+            request.Headers.Referrer = new Uri(referrer);
             return request;
         }
 
-        public static HttpWebRequest Referer(this HttpWebRequest request, string referer)
-        {
-            if (request is null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
-
-            request.Referer = referer;
-            return request;
-        }
-
-        public static HttpWebRequest FetchMode(this HttpWebRequest request, string mode)
+        public static HttpRequestMessage FetchMode(this HttpRequestMessage request, string mode)
         {
             if (request is null)
             {
@@ -161,7 +142,7 @@ namespace System.Net
             return request;
         }
 
-        public static HttpWebRequest FetchSite(this HttpWebRequest request, string site)
+        public static HttpRequestMessage FetchSite(this HttpRequestMessage request, string site)
         {
             if (request is null)
             {
@@ -179,19 +160,19 @@ namespace System.Net
         /// <param name="type">The Content-Type to use as the Header value.</param>
         /// <returns>The request that was passed as the first argument, so that literate calls may be chained together.</returns>
         /// <example><![CDATA[
-        /// var request = HttpWebRequestExt.Create("https://www.example.com");
+        /// var request = HttpRequestMessageExt.Create("https://www.example.com");
         /// request.Header("Keep-Alive", 1)
         ///     .Header("DNT", 1")
         ///     .Accept(MediaType.Text.Plain");
         /// ]]></example>
-        public static HttpWebRequest Accept(this HttpWebRequest request, string type)
+        public static HttpRequestMessage Accept(this HttpRequestMessage request, MediaType type)
         {
             if (request is null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
 
-            request.Accept = type;
+            request.Headers.Accept.Add(type);
             return request;
         }
 
@@ -202,21 +183,21 @@ namespace System.Net
         /// <param name="type">The encoding string to use as the Header value.</param>
         /// <returns>The request that was passed as the first argument, so that literate calls may be chained together.</returns>
         /// <example><![CDATA[
-        /// var request = HttpWebRequestExt.Create("https://www.example.com");
+        /// var request = HttpRequestMessageExt.Create("https://www.example.com");
         /// request.Header("Keep-Alive", 1)
         ///     .Header("DNT", 1")
-        ///     .Accept(MediaType.Text.Plain")
+        ///     .Accept(MediaType.Text.Plain)
         ///     .Encoding("utf-8");
         /// ]]></example>
-        public static HttpWebRequest TransferEncoding(this HttpWebRequest request, string encoding)
+        public static HttpRequestMessage TransferEncoding(this HttpRequestMessage request, string encoding)
         {
             if (request is null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
 
-            request.SendChunked = true;
-            request.TransferEncoding = encoding;
+            request.Headers.TransferEncodingChunked = true;
+            request.Headers.TransferEncoding.Add(TransferCodingHeaderValue.Parse(encoding));
             return request;
         }
 
@@ -227,25 +208,25 @@ namespace System.Net
         /// <param name="type">The encoding string to use as the Header value.</param>
         /// <returns>The request that was passed as the first argument, so that literate calls may be chained together.</returns>
         /// <example><![CDATA[
-        /// var request = HttpWebRequestExt.Create("https://www.example.com");
+        /// var request = HttpRequestMessageExt.Create("https://www.example.com");
         /// request.Header("Keep-Alive", 1)
         ///     .Header("DNT", 1")
         ///     .Accept(MediaType.Text.Plain")
         ///     .Encoding("utf-8");
         /// ]]></example>
-        public static HttpWebRequest AcceptEncoding(this HttpWebRequest request, string encoding)
+        public static HttpRequestMessage AcceptEncoding(this HttpRequestMessage request, string encoding)
         {
             request.Header("Accept-Encoding", encoding);
             return request;
         }
 
-        public static HttpWebRequest AcceptLanguage(this HttpWebRequest request, string language)
+        public static HttpRequestMessage AcceptLanguage(this HttpRequestMessage request, string language)
         {
             request.Header("Accept-Language", language);
             return request;
         }
 
-        public static HttpWebRequest IfRange(this HttpWebRequest request, string value)
+        public static HttpRequestMessage IfRange(this HttpRequestMessage request, string value)
         {
             request.Header("If-Range", value);
             return request;
@@ -257,40 +238,24 @@ namespace System.Net
         /// <param name="request">The request to which to add the Header</param>
         /// <returns>The request that was passed as the first argument, so that literate calls may be chained together.</returns>
         /// <example><![CDATA[
-        /// var request = HttpWebRequestExt.Create("https://www.example.com");
+        /// var request = HttpRequestMessageExt.Create("https://www.example.com");
         /// request.Header("Keep-Alive", 1)
         ///     .Header("DNT", 1")
         ///     .Accept(MediaType.Text.Plain")
         ///     .KeepAlive();
         /// ]]></example>
-        public static HttpWebRequest KeepAlive(this HttpWebRequest request)
+        public static HttpRequestMessage KeepAlive(this HttpRequestMessage request)
         {
             if (request is null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
 
-            request.KeepAlive = true;
+            request.Headers.Connection.Add("keep-alive");
             return request;
         }
 
-        public static HttpWebRequest Cookie(this HttpWebRequest request, string keyValue, string domain)
-        {
-            if (request is null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
-
-            if (keyValue is null)
-            {
-                throw new ArgumentNullException(nameof(keyValue));
-            }
-
-            var parts = keyValue.SplitX('=');
-            return request.Cookie(parts[0], parts[1], domain);
-        }
-
-        public static HttpWebRequest Cookie(this HttpWebRequest request, string key, string value, string domain)
+        public static HttpRequestMessage Cookie(this HttpRequestMessage request, string key, string value, string path = null, string domain = null, DateTime? expiration = null, bool secure = true, bool httpOnly = true)
         {
             if (request is null)
             {
@@ -307,9 +272,49 @@ namespace System.Net
                 throw new ArgumentException("Key must have a value.", nameof(key));
             }
 
-            var cookie = new Cookie(key, value, string.Empty, domain);
-            request.CookieContainer ??= new CookieContainer();
-            request.CookieContainer.Add(cookie);
+            if(value.Contains(';')
+                || value.Contains(','))
+            {
+                value = JsonConvert.ToString(value);
+            }
+
+            var sb = new StringBuilder();
+            sb.Append(key);
+            sb.Append('=');
+            sb.Append(value);
+
+            if(path is not null)
+            {
+                sb.Append("; Path=");
+                sb.Append(path);
+            }
+
+            if(domain is not null)
+            {
+                sb.Append("; Domain=");
+                sb.Append(domain);
+            }
+
+            if(expiration is not null)
+            {
+                sb.Append("; Expires=");
+                sb.Append(expiration.Value
+                    .ToUniversalTime()
+                    .ToString("R"));
+            }
+
+            if (secure)
+            {
+                sb.Append("; Secure");
+            }
+
+            if (httpOnly)
+            {
+                sb.Append("; HttpOnly");
+            }
+
+            request.Header("Set-Cookie", sb.ToString());
+
             return request;
         }
 
@@ -320,20 +325,20 @@ namespace System.Net
         /// <param name="method">The HTTP method to use for the request.</param>
         /// <returns>The request that was passed as the first argument, so that literate calls may be chained together.</returns>
         /// <example><![CDATA[
-        /// var request = HttpWebRequestExt.Create("https://www.example.com");
+        /// var request = HttpRequestMessageExt.Create("https://www.example.com");
         /// request.Method(HttpMethod.GET)
         ///     .Header("Keep-Alive", 1)
         ///     .Header("DNT", 1")
         ///     .Accept(MediaType.Text.Plain");
         /// ]]></example>
-        public static HttpWebRequest Method(this HttpWebRequest request, HttpMethods method)
+        public static HttpRequestMessage Method(this HttpRequestMessage request, HttpMethod method)
         {
             if (request is null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
 
-            request.Method = method.ToString();
+            request.Method = method;
             return request;
         }
 
@@ -343,7 +348,7 @@ namespace System.Net
         /// <param name="userName">Basic HTTP authentication user name.</param>
         /// <param name="password">Basic HTTP authentication user password.</param>
         /// <returns>The request that was passed as the first argument, so that literate calls may be chained together.</returns>
-        public static HttpWebRequest BasicAuth(this HttpWebRequest request, string userName, string password)
+        public static HttpRequestMessage BasicAuth(this HttpRequestMessage request, string userName, string password)
         {
             if (request is null)
             {
@@ -362,7 +367,7 @@ namespace System.Net
         }
 
         /// <summary>
-        /// Writes a body to an <see cref="HttpWebRequest"/>. Writing HTTP bodies with HttpWebRequest requires
+        /// Writes a body to an <see cref="HttpRequestMessage"/>. Writing HTTP bodies with HttpRequestMessage requires
         /// certain operations be done in a specific order, an order that might not make sense for every calling
         /// site. This method enforces that order.
         /// </summary>
@@ -370,7 +375,7 @@ namespace System.Net
         /// <param name="getInfo"></param>
         /// <param name="writeBody"></param>
         /// <returns></returns>
-        public static async Task WriteBodyAsync(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog = null)
+        public static HttpRequestMessage Body(this HttpRequestMessage request, Func<BodyInfo> getInfo, Func<Stream> getStream, IProgress prog = null)
         {
             if (request is null)
             {
@@ -382,88 +387,34 @@ namespace System.Net
                 throw new ArgumentNullException(nameof(getInfo));
             }
 
-            if (writeBody is null)
+            if (getStream is null)
             {
-                throw new ArgumentNullException(nameof(writeBody));
+                throw new ArgumentNullException(nameof(getStream));
             }
 
             var info = getInfo();
             if (info is not null)
             {
-                if (info.MIMEType is not null)
-                {
-                    request.ContentType = info.MIMEType;
-                }
-
                 if (info.Length >= 0)
                 {
-                    request.ContentLength = info.Length;
                     if (info.Length > 0)
                     {
-                        using var stream = await request
-                            .GetRequestStreamAsync()
-                            .ConfigureAwait(false);
-                        using var progStream = new ProgressStream(stream, info.Length, prog, true);
-                        writeBody(stream);
-
-                        await progStream.FlushAsync()
-                            .ConfigureAwait(false);
+                        var stream = getStream();
+                        var progStream = new ProgressStream(stream, info.Length, prog, true);
+                        request.Content = new StreamContent(progStream);
                     }
+
+                    request.Header("Content-Length", info.Length);
+                }
+
+
+                if (info.ContentType is not null)
+                {
+                    request.Header("Content-Type", info.ContentType);
                 }
             }
-        }
 
-        /// <summary>
-        /// Perform a DELETE request, writing the body through a stream, and return the results as a stream.
-        /// </summary>
-        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
-        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static async Task<HttpWebResponse> DeleteAsync(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog)
-        {
-            if (request is null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
-
-            request = request.Method(HttpMethods.DELETE);
-            await request
-                .WriteBodyAsync(getInfo, writeBody, prog)
-                .ConfigureAwait(false);
-            return (HttpWebResponse)await request.GetResponseAsync()
-                .ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Perform a DELETE request, writing the body through a stream, and return the results as a stream.
-        /// </summary>
-        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
-        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static Task<HttpWebResponse> DeleteAsync(this HttpWebRequest request)
-        {
-            if (request is null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
-
-            return request.DeleteAsync(null, null, null);
-        }
-
-        /// <summary>
-        /// Perform a GET request and return the results as a stream of bytes
-        /// </summary>
-        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
-        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static async Task<HttpWebResponse> GetAsync(this HttpWebRequest request)
-        {
-            if (request is null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
-
-            return (HttpWebResponse)await request
-                .Method(HttpMethods.GET)
-                .GetResponseAsync()
-                .ConfigureAwait(false);
+            return request;
         }
     }
 }

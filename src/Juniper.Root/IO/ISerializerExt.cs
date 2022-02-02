@@ -2,7 +2,7 @@ using Juniper.HTTP;
 
 using System;
 using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,7 +56,7 @@ namespace Juniper.IO
             serializer.Serialize(new FileInfo(fileName), value);
         }
 
-        public static void Serialize<T>(this ISerializer<T> serializer, HttpWebRequest request, MediaType type, T value)
+        public static void Serialize<T>(this ISerializer<T> serializer, HttpRequestMessage request, MediaType type, T value)
         {
             if (serializer is null)
             {
@@ -68,25 +68,17 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(request));
             }
 
-            using var stream = request.GetRequestStream();
-            request.ContentType = type;
-            request.ContentLength = serializer.Serialize(stream, value);
+            var stream = serializer.GetStream(value);
+            request.Body(() => new BodyInfo(type, stream.Length), () => stream);
         }
 
-        public static void Serialize<T>(this ISerializer<T> serializer, HttpListenerResponse response, MediaType type, T value)
+        public static MemoryStream GetStream<T>(this ISerializer<T> serializer, T value)
         {
-            if (serializer is null)
-            {
-                throw new ArgumentNullException(nameof(serializer));
-            }
-
-            if (response is null)
-            {
-                throw new ArgumentNullException(nameof(response));
-            }
-
-            response.ContentType = type;
-            response.ContentLength64 = serializer.Serialize(response.OutputStream, value);
+            var stream = new MemoryStream();
+            serializer.Serialize(stream, value);
+            stream.Flush();
+            stream.Position = 0;
+            return stream;
         }
 
         public static Task SerializeAsync<T, U>(this ISerializer<T> serializer, WebSocketConnection<U> socket, T value)

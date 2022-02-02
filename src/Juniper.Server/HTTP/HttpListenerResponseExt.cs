@@ -8,31 +8,6 @@ namespace Juniper.HTTP
 {
     public static class HttpListenerResponseExt
     {
-        public static async Task SendContentAsync(
-            this HttpListenerResponse response,
-            ICacheSourceLayer layer,
-            ContentReference fileRef)
-        {
-            if (layer is null)
-            {
-                throw new ArgumentNullException(nameof(layer));
-            }
-
-            if (fileRef is null)
-            {
-                throw new ArgumentNullException(nameof(fileRef));
-            }
-
-            response.SetFileName(fileRef.ContentType, fileRef.FileName);
-
-            using var stream = await layer
-                .GetStreamAsync(fileRef, null)
-                .ConfigureAwait(false);
-
-            await response
-                .SendStreamAsync(fileRef.ContentType, stream)
-                .ConfigureAwait(false);
-        }
 
         public static async Task SendContentAsync(
             this HttpListenerResponse response,

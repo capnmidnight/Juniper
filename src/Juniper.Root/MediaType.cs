@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 
 namespace Juniper
@@ -204,6 +205,16 @@ namespace Juniper
         public static implicit operator string(MediaType mediaType)
         {
             return mediaType?.ToString();
+        }
+
+        public static implicit operator MediaTypeWithQualityHeaderValue(MediaType mediaType)
+        {
+            if(mediaType.Weight < 1)
+            {
+                return new MediaTypeWithQualityHeaderValue(mediaType, mediaType.Weight);
+            }
+
+            return new MediaTypeWithQualityHeaderValue(mediaType);
         }
 
         private readonly string weightedValue;

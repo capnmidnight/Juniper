@@ -33,7 +33,8 @@ namespace Juniper.IO
                 throw new InvalidOperationException("This layer can only retrieve data from stream sources.");
             }
 
-            var stream = await streamSource.GetStreamAsync(prog)
+            var stream = await streamSource
+                .GetStreamAsync(prog)
                 .ConfigureAwait(false);
 
             if (parent.CanCache(fileRef))

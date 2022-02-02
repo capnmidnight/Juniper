@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,8 @@ namespace Juniper.HTTP.REST
     public abstract class AbstractRequest<MediaTypeT> : AbstractStreamSource
         where MediaTypeT : MediaType
     {
+        private static readonly HttpClient http = new(new HttpClientHandler { UseCookies = false });
+
         protected static Uri AddPath(Uri baseURI, string path)
         {
             var uriBuilder = new UriBuilder(baseURI);
@@ -21,14 +24,14 @@ namespace Juniper.HTTP.REST
             return uriBuilder.Uri;
         }
 
-        private readonly HttpMethods method;
+        private readonly HttpMethod method;
         private readonly Uri serviceURI;
         private readonly bool hasRequestBody;
 
         private readonly IDictionary<string, List<string>> queryParams =
             new SortedDictionary<string, List<string>>();
 
-        protected AbstractRequest(HttpMethods method, Uri serviceURI, MediaTypeT contentType, bool hasRequestBody)
+        protected AbstractRequest(HttpMethod method, Uri serviceURI, MediaTypeT contentType, bool hasRequestBody)
             : base(contentType)
         {
             this.method = method;
@@ -163,24 +166,22 @@ namespace Juniper.HTTP.REST
             return RemoveQuery(key, value.ToString());
         }
 
-        protected virtual void ModifyRequest(HttpWebRequest request) { }
+        protected virtual void ModifyRequest(HttpRequestMessage request) { }
 
         protected virtual BodyInfo GetBodyInfo()
         {
             return null;
         }
 
-        protected virtual void WriteBody(Stream stream) { }
+        protected virtual Stream GetBodyStream() { return null; }
 
         public override async Task<Stream> GetStreamAsync(IProgress prog = null)
         {
-            var request = HttpWebRequestExt.Create(AuthenticatedURI);
-
-            request = request.Method(method);
+            var request = new HttpRequestMessage(method, AuthenticatedURI);
 
             if (MediaType is not null)
             {
-                request.Accept = MediaType;
+                request.Headers.Accept.Add(MediaType);
             }
 
             ModifyRequest(request);
@@ -189,22 +190,12 @@ namespace Juniper.HTTP.REST
             {
                 var progs = prog.Split("Requesting", "Retrieving");
                 prog = progs[1];
-                await request.WriteBodyAsync(GetBodyInfo, WriteBody, progs[0])
-                    .ConfigureAwait(false);
-            }
-            else
-            {
-                request.ContentLength = 0;
+                request.Body(GetBodyInfo, GetBodyStream, progs[0]);
             }
 
-            var response = (HttpWebResponse)await request
-                .GetResponseAsync()
-                .ConfigureAwait(false);
-
-            return new ProgressStream(
-                response.GetResponseStream(),
-                response.ContentLength,
-                prog, false);
+            var response = await http.SendAsync(request).ConfigureAwait(false);
+            var stream = await response.Content.ReadAsStreamAsync();
+            return new ProgressStream(stream, stream.Length, prog, true);
         }
 
         public override int GetHashCode()
