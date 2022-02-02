@@ -1,10 +1,11 @@
-using System;
-using System.Globalization;
-using System.IO;
-
+using NAudio.Vorbis;
 using NAudio.Wave;
 
 using NLayer.NAudioSupport;
+
+using System;
+using System.Globalization;
+using System.IO;
 
 namespace Juniper.Sound
 {
@@ -14,6 +15,7 @@ namespace Juniper.Sound
         {
             MediaType.Audio.X_Wav,
             MediaType.Audio.Mpeg,
+            MediaType.Audio.Vorbis,
             MediaType.Audio.PCMA
         };
 
@@ -70,6 +72,10 @@ namespace Juniper.Sound
             else if (Format.ContentType == MediaType.Audio.Mpeg)
             {
                 return new ManagedMpegStream(stream);
+            }
+            else if(Format.ContentType == MediaType.Audio.Vorbis)
+            {
+                return new VorbisWaveReader(stream, true);
             }
             else if (Format.ContentType == MediaType.Audio.PCMA)
             {
