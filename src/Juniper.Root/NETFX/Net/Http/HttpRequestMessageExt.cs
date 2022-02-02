@@ -1,11 +1,7 @@
 using Juniper;
-using Juniper.HTTP;
-using Juniper.IO;
-using Juniper.Progress;
 
 using Newtonsoft.Json;
 
-using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
@@ -44,6 +40,11 @@ namespace System.Net.Http
             if (name is null)
             {
                 throw new ArgumentNullException(nameof(name));
+            }
+
+            if(name.Length == 0)
+            {
+                throw new ArgumentException("Header name must not be empty string", nameof(name));
             }
 
             if (value is null)
@@ -85,8 +86,7 @@ namespace System.Net.Http
                 throw new ArgumentNullException(nameof(request));
             }
 
-            request.Header("DNT", 1);
-            return request;
+            return request.Header("DNT", 1);
         }
 
         public static HttpRequestMessage UserAgent(this HttpRequestMessage request, string agent)
@@ -120,6 +120,11 @@ namespace System.Net.Http
             return request;
         }
 
+        public static HttpRequestMessage ImpersonateGoogleChrome(this HttpRequestMessage request)
+        {
+            return request.UserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36");
+        }
+
         public static HttpRequestMessage Referrer(this HttpRequestMessage request, string referrer)
         {
             if (request is null)
@@ -138,8 +143,7 @@ namespace System.Net.Http
                 throw new ArgumentNullException(nameof(request));
             }
 
-            request.Header("Sec-Fetch-Mode", mode);
-            return request;
+            return request.Header("Sec-Fetch-Mode", mode);
         }
 
         public static HttpRequestMessage FetchSite(this HttpRequestMessage request, string site)
@@ -149,8 +153,7 @@ namespace System.Net.Http
                 throw new ArgumentNullException(nameof(request));
             }
 
-            request.Header("Sec-Fetch-Site", site);
-            return request;
+            return request.Header("Sec-Fetch-Site", site);
         }
 
         /// <summary>
@@ -216,20 +219,17 @@ namespace System.Net.Http
         /// ]]></example>
         public static HttpRequestMessage AcceptEncoding(this HttpRequestMessage request, string encoding)
         {
-            request.Header("Accept-Encoding", encoding);
-            return request;
+            return request.Header("Accept-Encoding", encoding);
         }
 
         public static HttpRequestMessage AcceptLanguage(this HttpRequestMessage request, string language)
         {
-            request.Header("Accept-Language", language);
-            return request;
+            return request.Header("Accept-Language", language);
         }
 
         public static HttpRequestMessage IfRange(this HttpRequestMessage request, string value)
         {
-            request.Header("If-Range", value);
-            return request;
+            return request.Header("If-Range", value);
         }
 
         /// <summary>
@@ -313,9 +313,7 @@ namespace System.Net.Http
                 sb.Append("; HttpOnly");
             }
 
-            request.Header("Set-Cookie", sb.ToString());
-
-            return request;
+            return request.Header("Set-Cookie", sb.ToString());
         }
 
         /// <summary>
@@ -358,7 +356,7 @@ namespace System.Net.Http
             if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password))
             {
                 var authPair = userName + ":" + password;
-                var authBytes = Text.Encoding.UTF8.GetBytes(authPair);
+                var authBytes = Encoding.UTF8.GetBytes(authPair);
                 var auth64 = Convert.ToBase64String(authBytes);
                 request.Header("Authorization", "Basic " + auth64);
             }
