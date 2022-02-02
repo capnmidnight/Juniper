@@ -4,6 +4,8 @@ using System.IO;
 
 using NAudio.Wave;
 
+using NLayer.NAudioSupport;
+
 namespace Juniper.Sound
 {
     public class NAudioAudioDataDecoder : IAudioDecoder
@@ -67,7 +69,7 @@ namespace Juniper.Sound
             }
             else if (Format.ContentType == MediaType.Audio.Mpeg)
             {
-                return new Mp3FileReader(stream);
+                return new ManagedMpegStream(stream);
             }
             else if (Format.ContentType == MediaType.Audio.PCMA)
             {
