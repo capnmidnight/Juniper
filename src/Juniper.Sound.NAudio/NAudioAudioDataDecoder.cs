@@ -55,7 +55,9 @@ namespace Juniper.Sound
             }
         }
 
+#pragma warning disable CA1822 // Mark members as static
         public MediaType.Audio OutputContentType => MediaType.Audio.PCMA;
+#pragma warning restore CA1822 // Mark members as static
 
         public WaveStream MakeDecodingStream(Stream stream)
         {
