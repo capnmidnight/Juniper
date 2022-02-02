@@ -73,9 +73,7 @@ namespace Juniper.World.GIS
 
         public override int GetHashCode()
         {
-            return LatitudeDegrees.GetHashCode()
-                ^ LongitudeDegrees.GetHashCode()
-                ^ RadiusAU.GetHashCode();
+            return HashCode.Combine(LatitudeDegrees, LongitudeDegrees, RadiusAU);
         }
 
         public override bool Equals(object obj)

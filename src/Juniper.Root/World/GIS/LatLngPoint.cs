@@ -302,9 +302,7 @@ namespace Juniper.World.GIS
         /// <returns>A hash code</returns>
         public override int GetHashCode()
         {
-            return Lat.GetHashCode()
-                ^ Lng.GetHashCode()
-                ^ Alt.GetHashCode();
+            return HashCode.Combine(Lat, Lng, Alt);
         }
 
         public int CompareTo(LatLngPoint other)

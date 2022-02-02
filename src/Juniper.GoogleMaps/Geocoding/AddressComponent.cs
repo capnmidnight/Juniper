@@ -19,13 +19,13 @@ namespace Juniper.World.GIS.Google.Geocoding
                 throw new ArgumentNullException(nameof(types));
             }
 
-            var key = 0;
+            var hash = new HashCode();
             foreach (var type in types)
             {
-                key ^= type.GetHashCode();
+                hash.Add(type);
             }
 
-            return key;
+            return hash.ToHashCode();
         }
 
         public string Long_Name { get; }

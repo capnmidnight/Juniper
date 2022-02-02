@@ -56,8 +56,7 @@ namespace Juniper.Mathematics
 
         public override int GetHashCode()
         {
-            return Position.GetHashCode()
-                ^ Orientation.GetHashCode();
+            return HashCode.Combine(Position, Orientation);
         }
 
         public static bool operator ==(PoseSerializable left, PoseSerializable right)

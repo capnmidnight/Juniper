@@ -327,18 +327,20 @@ namespace Juniper.Collections
 
         public override int GetHashCode()
         {
-            var hashCode = 1944944578;
-            hashCode = (hashCode * -1521134295) + Cost.GetHashCode();
+            var hash = new HashCode();
+            hash.Add(Cost);
+
             var nodes = this.nodes.AsEnumerable();
             if (Start.CompareTo(End) > 0)
             {
                 nodes = nodes.Reverse();
             }
-            foreach (var node in nodes)
+            foreach(var node in nodes)
             {
-                hashCode = (hashCode * -1521134295) + EqualityComparer<ValueT>.Default.GetHashCode(node);
+                hash.Add(node);
             }
-            return hashCode;
+
+            return hash.ToHashCode();
         }
     }
 }

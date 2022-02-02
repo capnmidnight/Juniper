@@ -73,9 +73,7 @@ namespace Juniper.World.GIS
 
         public override int GetHashCode()
         {
-            return RightAscensionDegrees.GetHashCode()
-                ^ DeclinationDegrees.GetHashCode()
-                ^ RadiusAU.GetHashCode();
+            return HashCode.Combine(RightAscensionDegrees, DeclinationDegrees, RadiusAU);
         }
 
         public override bool Equals(object obj)

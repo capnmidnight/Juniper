@@ -72,7 +72,12 @@ namespace Juniper.Mathematics
 
         public override int GetHashCode()
         {
-            return 1291433875 + EqualityComparer<float[]>.Default.GetHashCode(Values);
+            var hash = new HashCode();
+            foreach(var value in Values)
+            {
+                hash.Add(value);
+            }
+            return hash.ToHashCode();
         }
 
         public static bool operator ==(Matrix3x2Serializable left, Matrix3x2Serializable right)

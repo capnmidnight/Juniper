@@ -127,12 +127,7 @@ namespace Juniper.World.GIS
 
         public override int GetHashCode()
         {
-            var H = (byte)Hemisphere;
-            return H.GetHashCode()
-                ^ X.GetHashCode()
-                ^ Y.GetHashCode()
-                ^ Z.GetHashCode()
-                ^ Zone.GetHashCode();
+            return HashCode.Combine(Hemisphere, X, Y, Z, Zone);
         }
 
         public override bool Equals(object obj)

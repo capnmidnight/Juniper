@@ -74,9 +74,7 @@ namespace Juniper.World.GIS
 
         public override int GetHashCode()
         {
-            return AltitudeDegrees.GetHashCode()
-                ^ AzimuthDegrees.GetHashCode()
-                ^ RadiusAU.GetHashCode();
+            return HashCode.Combine(AltitudeDegrees, AzimuthDegrees, RadiusAU);
         }
 
         public override bool Equals(object obj)

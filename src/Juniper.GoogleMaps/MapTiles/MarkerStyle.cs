@@ -105,7 +105,7 @@ namespace Juniper.World.GIS.Google.MapTiles
 
         public override int GetHashCode()
         {
-            return -340221435 + EqualityComparer<string>.Default.GetHashCode(styleDef);
+            return styleDef.GetHashCode();
         }
 
         public static bool operator ==(MarkerStyle left, MarkerStyle right)
