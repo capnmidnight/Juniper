@@ -372,49 +372,45 @@ namespace System.Net.Http
         /// site. This method enforces that order.
         /// </summary>
         /// <param name="request">The request to which to write the </param>
-        /// <param name="getInfo"></param>
-        /// <param name="writeBody"></param>
+        /// <param name="content"></param>
+        /// <param name="contentType"></param>
+        /// <param name="contentLength"></param>
         /// <returns></returns>
-        public static HttpRequestMessage Body(this HttpRequestMessage request, Func<BodyInfo> getInfo, Func<Stream> getStream, IProgress prog = null)
+        public static HttpRequestMessage Body(this HttpRequestMessage request, HttpContent content, MediaType contentType = null, long? contentLength = null)
         {
             if (request is null)
             {
                 throw new ArgumentNullException(nameof(request));
             }
 
-            if (getInfo is null)
+            request.Content = content;
+
+            if(contentType is not null)
             {
-                throw new ArgumentNullException(nameof(getInfo));
+                request.ContentType(contentType);
             }
 
-            if (getStream is null)
+            if (contentLength is not null)
             {
-                throw new ArgumentNullException(nameof(getStream));
-            }
-
-            var info = getInfo();
-            if (info is not null)
-            {
-                if (info.Length >= 0)
-                {
-                    if (info.Length > 0)
-                    {
-                        var stream = getStream();
-                        var progStream = new ProgressStream(stream, info.Length, prog, true);
-                        request.Content = new StreamContent(progStream);
-                    }
-
-                    request.Header("Content-Length", info.Length);
-                }
-
-
-                if (info.ContentType is not null)
-                {
-                    request.Header("Content-Type", info.ContentType);
-                }
+                request.ContentLength(contentLength.Value);
             }
 
             return request;
+        }
+
+        public static HttpRequestMessage ContentType(this HttpRequestMessage request, MediaType contentType)
+        {
+            if (contentType is null)
+            {
+                throw new ArgumentNullException(nameof(contentType));
+            }
+
+            return request.Header("Content-Type", contentType);
+        }
+
+        public static HttpRequestMessage ContentLength(this HttpRequestMessage request, long contentLength)
+        {
+            return request.Header("Content-Length", contentLength);
         }
     }
 }

@@ -1,10 +1,9 @@
-using Juniper.HTTP;
+using Juniper.Progress;
 using Juniper.Sound;
 
 using System;
 using System.Globalization;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 
@@ -18,37 +17,35 @@ namespace Juniper.Speech.Azure.CognitiveServices
 
         private static void AddPercentField(StringBuilder sb, string fieldName, float fieldValue, bool addQuotes)
         {
-            _ = sb.Append(' ')
+            sb.Append(' ')
               .Append(fieldName)
               .Append('=');
 
             if (addQuotes)
             {
-                _ = sb.Append('\'');
+                sb.Append('\'');
             }
 
             if (fieldValue > 0)
             {
-                _ = sb.Append('+');
+                sb.Append('+');
             }
 
             var precent = Units.Proportion.Percent(fieldValue);
             var rounded = Round(precent, 2);
             var value = rounded.ToString("0.00", CultureInfo.InvariantCulture);
-            _ = sb.Append(value)
+            sb.Append(value)
                 .Append('%');
             if (addQuotes)
             {
-                _ = sb.Append('\'');
+                sb.Append('\'');
             }
         }
 
         private readonly string resourceName;
-        private string ssmlText;
-        private int ssmlTextLength;
 
         public TextToSpeechRequest(string region, string resourceName, AudioFormat outputFormat)
-            : base(HttpMethod.Post, region, "cognitiveservices/v1", outputFormat?.ContentType ?? throw new ArgumentNullException(nameof(outputFormat)), true)
+            : base(HttpMethod.Post, region, "cognitiveservices/v1", outputFormat?.ContentType ?? throw new ArgumentNullException(nameof(outputFormat)))
         {
             this.resourceName = resourceName;
             OutputFormat = outputFormat;
@@ -101,13 +98,13 @@ namespace Juniper.Speech.Azure.CognitiveServices
             {
                 var sb = new StringBuilder();
 
-                _ = sb.Append(VoiceName)
+                sb.Append(VoiceName)
                   .Append(Text.GetHashCode())
                   .Append(OutputFormat.Name);
 
                 if (UseStyle)
                 {
-                    _ = sb.Append("style=")
+                    sb.Append("style=")
                       .Append(StyleString);
                 }
 
@@ -130,8 +127,12 @@ namespace Juniper.Speech.Azure.CognitiveServices
             }
         }
 
-        protected override BodyInfo GetBodyInfo()
+        protected override void ModifyRequest(HttpRequestMessage request, IProgress prog = null)
         {
+            base.ModifyRequest(request);
+            request.KeepAlive()
+                .UserAgent(resourceName);
+
             var sb = new StringBuilder(300)
                 .Append("<speak version='1.0' xmlns='https://www.w3.org/2001/10/synthesis' xml:lang='en-US'>")
                 .Append("<voice name='")
@@ -140,7 +141,7 @@ namespace Juniper.Speech.Azure.CognitiveServices
 
             if (UseProsody)
             {
-                _ = sb.Append("<prosody");
+                sb.Append("<prosody");
                 if (HasPitchChange)
                 {
                     AddPercentField(sb, "pitch", PitchChange, true);
@@ -156,52 +157,32 @@ namespace Juniper.Speech.Azure.CognitiveServices
                     AddPercentField(sb, "volume", VolumeChange, true);
                 }
 
-                _ = sb.Append('>');
+                sb.Append('>');
             }
 
             if (UseStyle)
             {
-                _ = sb.Append("<mstts:express-as type='")
+                sb.Append("<mstts:express-as type='")
                   .Append(StyleString)
                   .Append("'>");
             }
 
-            _ = sb.Append(Text);
+            sb.Append(Text);
 
             if (UseStyle)
             {
-                _ = sb.Append("</mstts:express-as>");
+                sb.Append("</mstts:express-as>");
             }
 
             if (UseProsody)
             {
-                _ = sb.Append("</prosody>");
+                sb.Append("</prosody>");
             }
 
-            _ = sb.Append("</voice>")
+            sb.Append("</voice>")
               .Append("</speak>");
 
-            ssmlText = sb.ToString();
-            ssmlTextLength = Encoding.UTF8.GetByteCount(ssmlText);
-            return new BodyInfo(Juniper.MediaType.Application.SsmlXml, ssmlTextLength);
-        }
-
-        protected override Stream GetBodyStream()
-        {
-            var stream = new MemoryStream(ssmlTextLength);
-            using var writer = new StreamWriter(stream);
-            writer.Write(ssmlText);
-            stream.Flush();
-            stream.Position = 0;
-            return stream;
-        }
-
-        protected override void ModifyRequest(HttpRequestMessage request)
-        {
-            base.ModifyRequest(request);
-            _ = request.KeepAlive()
-                .UserAgent(resourceName)
-                .Header("X-Microsoft-OutputFormat", OutputFormat.Name);
+            request.Body(new StringContent(sb.ToString(), Encoding.UTF8, MediaType.Application.SsmlXml));
         }
     }
 }

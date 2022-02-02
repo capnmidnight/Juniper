@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,27 +25,25 @@ namespace Juniper.HTTP.REST
 
         private readonly HttpMethod method;
         private readonly Uri serviceURI;
-        private readonly bool hasRequestBody;
 
         private readonly IDictionary<string, List<string>> queryParams =
             new SortedDictionary<string, List<string>>();
 
-        protected AbstractRequest(HttpMethod method, Uri serviceURI, MediaTypeT contentType, bool hasRequestBody)
+        protected AbstractRequest(HttpMethod method, Uri serviceURI, MediaTypeT contentType)
             : base(contentType)
         {
             this.method = method;
             this.serviceURI = serviceURI;
-            this.hasRequestBody = hasRequestBody;
 
-            MediaType = contentType;
+            ResponseBodyMediaType = contentType;
         }
 
-        public MediaTypeT MediaType
+        public MediaTypeT ResponseBodyMediaType
         {
             get;
         }
 
-        public override MediaType ContentType => MediaType;
+        public override MediaType ContentType => ResponseBodyMediaType;
 
         public override bool Equals(object obj)
         {
@@ -166,36 +163,24 @@ namespace Juniper.HTTP.REST
             return RemoveQuery(key, value.ToString());
         }
 
-        protected virtual void ModifyRequest(HttpRequestMessage request) { }
-
-        protected virtual BodyInfo GetBodyInfo()
-        {
-            return null;
-        }
-
-        protected virtual Stream GetBodyStream() { return null; }
+        protected virtual void ModifyRequest(HttpRequestMessage request, IProgress prog = null) { }
 
         public override async Task<Stream> GetStreamAsync(IProgress prog = null)
         {
             var request = new HttpRequestMessage(method, AuthenticatedURI);
 
-            if (MediaType is not null)
+            if (ResponseBodyMediaType is not null)
             {
-                request.Headers.Accept.Add(MediaType);
+                request.Accept(ResponseBodyMediaType);
             }
 
-            ModifyRequest(request);
+            var progs = prog.Split("Requesting", "Retrieving");
 
-            if (hasRequestBody)
-            {
-                var progs = prog.Split("Requesting", "Retrieving");
-                prog = progs[1];
-                request.Body(GetBodyInfo, GetBodyStream, progs[0]);
-            }
+            ModifyRequest(request, progs[0]);
 
             var response = await http.SendAsync(request).ConfigureAwait(false);
             var stream = await response.Content.ReadAsStreamAsync();
-            return new ProgressStream(stream, stream.Length, prog, true);
+            return new ProgressStream(stream, stream.Length, progs[1], true);
         }
 
         public override int GetHashCode()

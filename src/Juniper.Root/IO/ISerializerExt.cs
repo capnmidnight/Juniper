@@ -74,7 +74,7 @@ namespace Juniper.IO
             }
 
             var stream = serializer.GetStream(value);
-            request.Body(() => new BodyInfo(type, stream.Length), () => stream);
+            request.Body(new StreamContent(stream), type);
         }
 
         public static MemoryStream GetStream<T, M>(this ISerializer<T, M> serializer, T value)
