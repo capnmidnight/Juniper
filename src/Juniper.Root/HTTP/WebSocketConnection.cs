@@ -189,7 +189,8 @@ namespace Juniper.HTTP
             return SendAsync(Encoding.UTF8.GetBytes(msg), WebSocketMessageType.Text);
         }
 
-        public Task SendAsync<ValueT>(string message, ValueT value, ISerializer<ValueT> serializer)
+        public Task SendAsync<ValueT, M>(string message, ValueT value, ISerializer<ValueT, M> serializer)
+            where M : MediaType
         {
             if (serializer is null)
             {

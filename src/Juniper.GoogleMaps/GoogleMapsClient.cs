@@ -73,7 +73,8 @@ namespace Juniper.World.GIS.Google
             return knownImages.BinarySearch(pano) >= 0;
         }
 
-        private async Task<T> LoadAsync<T>(IDeserializer<T> deserializer, ContentReference fileRef, IProgress prog)
+        private async Task<T> LoadAsync<T, M>(IDeserializer<T, M> deserializer, ContentReference fileRef, IProgress prog)
+            where M : MediaType
         {
             var value = await Cache
                 .LoadAsync(deserializer, fileRef, prog)

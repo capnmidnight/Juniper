@@ -6,8 +6,9 @@ namespace Juniper.IO
 
     public static class ISaveableExt
     {
-        public static void Save<T>(this T item, Stream outputStream, ISerializer<T> serializer)
+        public static void Save<T, M>(this T item, Stream outputStream, ISerializer<T, M> serializer)
             where T : ISaveable<T>
+            where M : MediaType
         {
             if (outputStream is null)
             {
@@ -22,8 +23,9 @@ namespace Juniper.IO
             serializer.Serialize(outputStream, item);
         }
 
-        public static void Save<T>(this T item, FileInfo outputFile, ISerializer<T> serializer)
+        public static void Save<T, M>(this T item, FileInfo outputFile, ISerializer<T, M> serializer)
             where T : ISaveable<T>
+            where M : MediaType
         {
             if (outputFile is null)
             {
@@ -39,8 +41,9 @@ namespace Juniper.IO
             item.Save(outputStream, serializer);
         }
 
-        public static void Save<T>(this T item, string fileName, ISerializer<T> serializer)
+        public static void Save<T, M>(this T item, string fileName, ISerializer<T, M> serializer)
             where T : ISaveable<T>
+            where M : MediaType
         {
             if (serializer is null)
             {

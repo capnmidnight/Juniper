@@ -8,14 +8,16 @@ namespace Juniper.IO
     {
         public StringFactory(MediaType.Text contentType)
         {
-            ContentType = contentType;
+            InputContentType = contentType;
         }
 
         public StringFactory()
             : this(MediaType.Text.Plain)
         { }
 
-        public MediaType.Text ContentType { get; }
+        public MediaType.Text InputContentType { get; }
+
+        public MediaType.Text OutputContentType => InputContentType;
 
         public string Deserialize(Stream stream)
         {

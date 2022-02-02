@@ -1,6 +1,6 @@
 namespace Juniper.IO
 {
-    public interface IFactory<ResultT, out MediaTypeT> : ISerializer<ResultT>, IDeserializer<ResultT>, IContentHandler<MediaTypeT>
+    public interface IFactory<ResultT, out MediaTypeT> : ISerializer<ResultT, MediaTypeT>, IDeserializer<ResultT, MediaTypeT>
         where MediaTypeT : MediaType
     {
     }

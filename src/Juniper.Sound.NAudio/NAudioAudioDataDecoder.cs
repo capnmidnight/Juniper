@@ -40,7 +40,7 @@ namespace Juniper.Sound
             }
         }
 
-        public MediaType.Audio ContentType
+        public MediaType.Audio InputContentType
         {
             get
             {
@@ -54,6 +54,8 @@ namespace Juniper.Sound
                 }
             }
         }
+
+        public MediaType.Audio OutputContentType => MediaType.Audio.PCMA;
 
         public WaveStream MakeDecodingStream(Stream stream)
         {

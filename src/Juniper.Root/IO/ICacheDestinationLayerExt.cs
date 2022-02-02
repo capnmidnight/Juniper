@@ -46,11 +46,12 @@ namespace Juniper.IO
             }
         }
 
-        public static void Save<ResultType>(
+        public static void Save<ResultType, M>(
             this ICacheDestinationLayer layer,
-            ISerializer<ResultType> serializer,
+            ISerializer<ResultType, M> serializer,
             ContentReference fileRef,
             ResultType value)
+            where M : MediaType
         {
             if (layer is null)
             {

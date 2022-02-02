@@ -13,13 +13,15 @@ namespace Juniper.IO
 
         public JsonFactory(MediaTypeT contentType)
         {
-            ContentType = contentType;
+            InputContentType = contentType;
         }
 
-        public MediaTypeT ContentType
+        public MediaTypeT InputContentType
         {
             get;
         }
+
+        public MediaTypeT OutputContentType => InputContentType;
 
         public ResultT Deserialize(Stream stream)
         {

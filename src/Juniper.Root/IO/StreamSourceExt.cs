@@ -8,7 +8,8 @@ namespace Juniper.IO
 
     public static class StreamSourceExt
     {
-        public static async Task<ResultT> DecodeAsync<ResultT>(this AbstractStreamSource source, IDeserializer<ResultT> deserializer, IProgress prog = null)
+        public static async Task<ResultT> DecodeAsync<ResultT, M>(this AbstractStreamSource source, IDeserializer<ResultT, M> deserializer, IProgress prog = null)
+            where M : MediaType
         {
             if (source is null)
             {

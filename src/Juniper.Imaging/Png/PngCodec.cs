@@ -1,82 +1,78 @@
 using Hjg.Pngcs;
 
-using System.IO;
+using Juniper.Progress;
+
+using System;
 
 namespace Juniper.Imaging
 {
-    public class PngCodec : IImageCodec<ImageLines>
+    public class PngCodec : IImageCodec<ImageLines, ImageData>
     {
-        private readonly int compressionLevel;
-        private readonly int IDATMaxSize;
-
-        public PngCodec(int compressionLevel = 9, int IDATMaxSize = 0x1000)
-        {
-            this.compressionLevel = compressionLevel;
-            this.IDATMaxSize = IDATMaxSize;
-        }
-
-        public MediaType.Image ContentType =>
-            MediaType.Image.Png;
-
         /// <summary>
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
         /// </summary>
-        /// <param name="stream">Png bytes.</param>
-        public ImageLines Deserialize(Stream stream)
+        /// <param name="imageStream">Png bytes.</param>
+        public ImageData Translate(ImageLines value, IProgress prog = null)
         {
-            if (stream is null)
+            if (value is null)
             {
-                throw new System.ArgumentNullException(nameof(stream));
+                throw new ArgumentNullException(nameof(value));
             }
 
-            using var png = new PngReader(stream);
-            png.SetUnpackedMode(true);
-            var image = png.ReadRowsByte();
-            png.End();
-            return image;
+            var numRows = value.Nrows;
+            var data = new byte[numRows * value.ElementsPerRow];
+            for (var i = 0; i < numRows; ++i)
+            {
+                prog.Report(i, numRows);
+                var row = value.ScanlinesB[i];
+                Array.Copy(row, 0, data, i * value.ElementsPerRow, row.Length);
+                prog.Report(i + 1, numRows);
+            }
+
+            return new ImageData(
+                value.ImgInfo.BytesPerRow / value.ImgInfo.BytesPixel,
+                value.Nrows,
+                value.Channels,
+                data);
         }
 
         /// <summary>
         /// Encodes a raw file buffer of image data into a PNG image.
         /// </summary>
-        /// <param name="stream">Png bytes.</param>
-        public long Serialize(Stream stream, ImageLines value)
+        /// <param name="outputStream">Png bytes.</param>
+        public ImageLines Translate(ImageData image, IProgress prog = null)
         {
-            if (stream is null)
+            if (image is null)
             {
-                throw new System.ArgumentNullException(nameof(stream));
+                throw new ArgumentNullException(nameof(image));
             }
 
-            if (value is null)
+            var imageInfo = new Hjg.Pngcs.ImageInfo(
+                image.Info.Dimensions.Width,
+                image.Info.Dimensions.Height,
+                image.Info.BitsPerSample / image.Info.Components,
+                image.Info.Components == 4);
+
+            var imageLines = new ImageLines(
+                imageInfo,
+                ImageLine.ESampleType.BYTE,
+                true,
+                0,
+                image.Info.Dimensions.Height,
+                image.Info.Stride);
+
+            var imageData = image.GetData();
+
+            for (var y = 0; y < image.Info.Dimensions.Height; ++y)
             {
-                throw new System.ArgumentNullException(nameof(value));
+                prog.Report(y, image.Info.Dimensions.Height);
+                var dataIndex = y * image.Info.Stride;
+                var line = imageLines.ScanlinesB[y];
+                Array.Copy(imageData, dataIndex, line, 0, image.Info.Stride);
+                prog.Report(y + 1, image.Info.Dimensions.Height);
             }
 
-            var info = value.ImgInfo;
-
-            using var png = new PngWriter(stream, info)
-            {
-                CompLevel = compressionLevel,
-                IdatMaxSize = IDATMaxSize
-            };
-
-            png.SetFilterType(FilterType.FILTER_PAETH);
-
-            var metadata = png.GetMetadata();
-            metadata.SetDpi(100);
-
-            for (var i = 0; i < value.Nrows; ++i)
-            {
-                png.WriteRow(value.GetImageLineAtMatrixRow(i), i);
-            }
-
-            var length = stream.Length;
-            png.End();
-
-            stream.Flush();
-            stream.Close();
-
-            return length;
+            return imageLines;
         }
     }
 }

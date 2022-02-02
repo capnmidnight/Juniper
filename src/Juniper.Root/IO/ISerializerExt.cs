@@ -1,4 +1,5 @@
 using Juniper.HTTP;
+using Juniper.Progress;
 
 using System;
 using System.IO;
@@ -11,7 +12,8 @@ namespace Juniper.IO
 {
     public static class ISerializerExt
     {
-        public static byte[] Serialize<T>(this ISerializer<T> serializer, T value)
+        public static byte[] Serialize<T, M>(this ISerializer<T, M> serializer, T value)
+            where M :MediaType
         {
             if (serializer is null)
             {
@@ -25,7 +27,8 @@ namespace Juniper.IO
             return mem.ToArray();
         }
 
-        public static void Serialize<T>(this ISerializer<T> serializer, FileInfo file, T value)
+        public static void Serialize<T, M>(this ISerializer<T, M> serializer, FileInfo file, T value)
+            where M : MediaType
         {
             if (serializer is null)
             {
@@ -41,7 +44,8 @@ namespace Juniper.IO
             serializer.Serialize(stream, value);
         }
 
-        public static void Serialize<T>(this ISerializer<T> serializer, string fileName, T value)
+        public static void Serialize<T, M>(this ISerializer<T, M> serializer, string fileName, T value)
+            where M : MediaType
         {
             if (fileName is null)
             {
@@ -56,7 +60,8 @@ namespace Juniper.IO
             serializer.Serialize(new FileInfo(fileName), value);
         }
 
-        public static void Serialize<T>(this ISerializer<T> serializer, HttpRequestMessage request, MediaType type, T value)
+        public static void Serialize<T, M>(this ISerializer<T, M> serializer, HttpRequestMessage request, MediaType type, T value)
+            where M : MediaType
         {
             if (serializer is null)
             {
@@ -72,7 +77,8 @@ namespace Juniper.IO
             request.Body(() => new BodyInfo(type, stream.Length), () => stream);
         }
 
-        public static MemoryStream GetStream<T>(this ISerializer<T> serializer, T value)
+        public static MemoryStream GetStream<T, M>(this ISerializer<T, M> serializer, T value)
+            where M : MediaType
         {
             var stream = new MemoryStream();
             serializer.Serialize(stream, value);
@@ -81,7 +87,8 @@ namespace Juniper.IO
             return stream;
         }
 
-        public static Task SerializeAsync<T, U>(this ISerializer<T> serializer, WebSocketConnection<U> socket, T value)
+        public static Task SerializeAsync<T, M, U>(this ISerializer<T, M> serializer, WebSocketConnection<U> socket, T value)
+            where M : MediaType
             where U : WebSocket
         {
             if (serializer is null)
@@ -98,7 +105,8 @@ namespace Juniper.IO
             return socket.SendAsync(data);
         }
 
-        public static Task SerializeAsync<T, U>(this ISerializer<T> serializer, WebSocketConnection<U> socket, string message, T value)
+        public static Task SerializeAsync<T, M, U>(this ISerializer<T, M> serializer, WebSocketConnection<U> socket, string message, T value)
+            where M : MediaType
             where U : WebSocket
         {
             if (serializer is null)
@@ -119,7 +127,8 @@ namespace Juniper.IO
             return socket.SendAsync(message, value, serializer);
         }
 
-        public static string ToString<T>(this ISerializer<T> serializer, T value)
+        public static string ToString<T, M>(this ISerializer<T, M> serializer, T value)
+            where M : MediaType
         {
             if (serializer is null)
             {

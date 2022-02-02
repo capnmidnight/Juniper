@@ -2,7 +2,7 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed partial class Image : MediaType
+        public partial class Image : MediaType
         {
             public static readonly Image Aces = new("aces");
             public static readonly Image Avci = new("avci");

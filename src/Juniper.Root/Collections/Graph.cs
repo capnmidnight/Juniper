@@ -36,7 +36,8 @@ namespace Juniper.Collections
             return Load(new JsonFactory<Graph<NodeT>>(), stream);
         }
 
-        private static Graph<NodeT> Load<NodeT>(IDeserializer<Graph<NodeT>> deserializer, Stream stream)
+        private static Graph<NodeT> Load<NodeT, M>(IDeserializer<Graph<NodeT>, M> deserializer, Stream stream)
+            where M : MediaType
             where NodeT : IComparable<NodeT>
         {
             if (deserializer is null)

@@ -9,11 +9,11 @@ namespace Juniper.Imaging
 
     public static class IImageProcessorExt
     {
-        public static void ValidateImages<T>(this IImageProcessor<T> codec, T[,] images, IProgress prog, out int rows, out int columns, out int components, out int tileWidth, out int tileHeight)
+        public static void ValidateImages<T>(this IImageProcessor<T> factory, T[,] images, IProgress prog, out int rows, out int columns, out int components, out int tileWidth, out int tileHeight)
         {
-            if (codec is null)
+            if (factory is null)
             {
-                throw new ArgumentNullException(nameof(codec));
+                throw new ArgumentNullException(nameof(factory));
             }
 
             if (images is null)
@@ -52,15 +52,15 @@ namespace Juniper.Imaging
                     {
                         if (!anyNotNull)
                         {
-                            tileWidth = codec.GetWidth(img);
-                            tileHeight = codec.GetHeight(img);
-                            components = codec.GetComponents(img);
+                            tileWidth = factory.GetWidth(img);
+                            tileHeight = factory.GetHeight(img);
+                            components = factory.GetComponents(img);
                         }
 
                         anyNotNull = true;
                         if (img is object
-                            && (codec.GetWidth(img) != tileWidth
-                                || codec.GetHeight(img) != tileHeight))
+                            && (factory.GetWidth(img) != tileWidth
+                                || factory.GetHeight(img) != tileHeight))
                         {
                             var yStr = y.ToString(CultureInfo.InvariantCulture);
                             var xStr = x.ToString(CultureInfo.InvariantCulture);
@@ -76,11 +76,11 @@ namespace Juniper.Imaging
             }
         }
 
-        public static Task<T> ConcatenateAsync<T>(this IImageProcessor<T> codec, T[,] images, IProgress prog = null)
+        public static Task<T> ConcatenateAsync<T>(this IImageProcessor<T> factory, T[,] images, IProgress prog = null)
         {
-            if (codec is null)
+            if (factory is null)
             {
-                throw new ArgumentNullException(nameof(codec));
+                throw new ArgumentNullException(nameof(factory));
             }
 
             if (images is null)
@@ -88,7 +88,7 @@ namespace Juniper.Imaging
                 throw new ArgumentNullException(nameof(images));
             }
 
-            return Task.Run(() => codec.Concatenate(images, prog));
+            return Task.Run(() => factory.Concatenate(images, prog));
         }
     }
 }

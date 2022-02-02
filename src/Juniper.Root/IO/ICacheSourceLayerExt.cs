@@ -28,11 +28,12 @@ namespace Juniper.IO
             return layer.GetStreamAsync(fileRef, null);
         }
 
-        public static async Task<ResultT> LoadAsync<ResultT>(
+        public static async Task<ResultT> LoadAsync<ResultT, M>(
             this ICacheSourceLayer layer,
-            IDeserializer<ResultT> deserializer,
+            IDeserializer<ResultT, M> deserializer,
             ContentReference fileRef,
             IProgress prog = null)
+            where M : MediaType
         {
             if (layer is null)
             {
@@ -57,12 +58,13 @@ namespace Juniper.IO
             return deserializer.Deserialize(progStream);
         }
 
-        public static bool TryLoad<ResultT>(
+        public static bool TryLoad<ResultT, M>(
             this ICacheSourceLayer layer,
-            IDeserializer<ResultT> deserializer,
+            IDeserializer<ResultT, M> deserializer,
             ContentReference fileRef,
             out ResultT value,
             IProgress prog = null)
+            where M : MediaType
             where ResultT : class
         {
             value = default;
@@ -116,7 +118,7 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(deserializer));
             }
 
-            foreach (var contentRef in source.GetContentReferences(deserializer.ContentType))
+            foreach (var contentRef in source.GetContentReferences(deserializer.OutputContentType))
             {
                 if (source.TryLoad(deserializer, contentRef, out var result))
                 {
@@ -143,7 +145,7 @@ namespace Juniper.IO
             }
 
             var items = new Dictionary<ContentReference, ResultT>();
-            var refs = source.GetContentReferences(deserializer.ContentType).ToArray();
+            var refs = source.GetContentReferences(deserializer.OutputContentType).ToArray();
             foreach ((var itemProg, var contentRef) in prog.Zip(refs))
             {
                 var stream = await source

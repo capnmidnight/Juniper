@@ -1,16 +1,11 @@
-using Juniper.IO;
+using Juniper.Progress;
 
 namespace Juniper.Imaging
 {
-    public interface IImageCodec<T> : IFactory<T, MediaType.Image>
+    public interface IImageCodec<FromImageT, ToImageT>
     {
-    }
+        ToImageT Translate(FromImageT value, IProgress prog);
 
-    public static class IImageCodecExt
-    {
-        public static IImageCodec<ToImageT> Pipe<FromImageT, ToImageT>(this IImageCodec<FromImageT> codec, IImageTranscoder<FromImageT, ToImageT> transcoder)
-        {
-            return new TranscoderCodec<FromImageT, ToImageT>(codec, transcoder);
-        }
+        FromImageT Translate(ToImageT image, IProgress prog);
     }
 }
