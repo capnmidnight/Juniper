@@ -2,7 +2,7 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed partial class Message : MediaType
+        public partial class Message : MediaType
         {
             public static readonly Message CPIM = new("cpim");
             public static readonly Message Delivery_Status = new("delivery-status");

@@ -2,7 +2,7 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed class Unknown : MediaType
+        public class Unknown : MediaType
         {
             private static string MakeExtension(string value)
             {

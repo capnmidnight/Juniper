@@ -4,7 +4,7 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed partial class Message : MediaType
+        public partial class Message : MediaType
         {
             private Message(string value, string[] extensions) : base("message/" + value, extensions) { }
 

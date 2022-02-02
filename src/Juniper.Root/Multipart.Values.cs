@@ -2,7 +2,7 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed partial class Multipart : MediaType
+        public partial class Multipart : MediaType
         {
             public static readonly Multipart Alternative = new("alternative");
             public static readonly Multipart Appledouble = new("appledouble");

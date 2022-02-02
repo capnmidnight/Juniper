@@ -2,7 +2,7 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed partial class Application : MediaType
+        public partial class Application : MediaType
         {
             public static readonly Application A2L = new("a2l");
             public static readonly Application Activemessage = new("activemessage");

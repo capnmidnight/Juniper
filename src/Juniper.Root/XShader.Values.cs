@@ -2,7 +2,7 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed partial class XShader : MediaType
+        public partial class XShader : MediaType
         {
             public static readonly XShader X_Vertex = new("x-vertex", new string[] { "vert", "glsl" });
             public static readonly XShader X_Fragment = new("x-fragment", new string[] { "frag", "glsl" });

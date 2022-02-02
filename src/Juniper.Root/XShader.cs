@@ -4,7 +4,7 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed partial class XShader : MediaType
+        public partial class XShader : MediaType
         {
             private XShader(string value, string[] extensions) : base("x-shader/" + value, extensions) { }
 

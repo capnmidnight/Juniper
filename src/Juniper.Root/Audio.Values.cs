@@ -2,7 +2,7 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed partial class Audio : MediaType
+        public partial class Audio : MediaType
         {
             public static readonly Audio Aac = new("aac", new string[] { "aac" });
             public static readonly Audio Ac3 = new("ac3", new string[] { "ac3" });

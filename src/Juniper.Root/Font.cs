@@ -4,7 +4,7 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed partial class Font : MediaType
+        public partial class Font : MediaType
         {
             private Font(string value, string[] extensions) : base("font/" + value, extensions) { }
 

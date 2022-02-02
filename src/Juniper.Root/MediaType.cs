@@ -426,7 +426,16 @@ namespace Juniper
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(TypeName, SubTypeName, Weight, Extensions, PrimaryExtension);
+            var hash = new HashCode();
+            hash.Add(TypeName);
+            hash.Add(SubTypeName);
+            hash.Add(Weight);
+            hash.Add(PrimaryExtension);
+            foreach (var value in Extensions)
+            {
+                hash.Add(value);
+            }
+            return hash.ToHashCode();
         }
     }
 }

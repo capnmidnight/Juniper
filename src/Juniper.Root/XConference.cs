@@ -4,7 +4,7 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed partial class XConference : MediaType
+        public partial class XConference : MediaType
         {
             private XConference(string value, string[] extensions) : base("xconference/" + value, extensions) { }
 

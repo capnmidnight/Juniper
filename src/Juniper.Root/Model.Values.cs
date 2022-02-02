@@ -2,7 +2,7 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed partial class Model : MediaType
+        public partial class Model : MediaType
         {
             public static readonly Model Example = new("example");
             public static readonly Model Gltf_Binary = new("gltf-binary", new[] { "glb" });
