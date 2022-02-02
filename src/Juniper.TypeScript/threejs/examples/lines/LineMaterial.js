@@ -1,24 +1,39 @@
+/**
+ * parameters = {
+ *  color: <hex>,
+ *  linewidth: <float>,
+ *  dashed: <boolean>,
+ *  dashScale: <float>,
+ *  dashSize: <float>,
+ *  dashOffset: <float>,
+ *  gapSize: <float>,
+ *  resolution: <THREE.Vector2>, // to be set by renderer
+ * }
+ */
+
+
 THREE.UniformsLib.line = {
 
-	worldUnits: { value: 1 },
-	linewidth: { value: 1 },
-	resolution: { value: new THREE.Vector2( 1, 1 ) },
-	dashScale: { value: 1 },
-	dashSize: { value: 1 },
-	gapSize: { value: 1 } // todo FIX - maybe change to totalSize
+    worldUnits: { value: 1 },
+    linewidth: { value: 1 },
+    resolution: { value: new THREE.Vector2(1, 1) },
+    dashOffset: { value: 0 },
+    dashScale: { value: 1 },
+    dashSize: { value: 1 },
+    gapSize: { value: 1 } // todo FIX - maybe change to totalSize
 
 };
 
-THREE.ShaderLib[ 'line' ] = {
+THREE.ShaderLib['line'] = {
 
-	uniforms: THREE.UniformsUtils.merge( [
-		THREE.UniformsLib.common,
-		THREE.UniformsLib.fog,
-		THREE.UniformsLib.line
-	] ),
+    uniforms: THREE.UniformsUtils.merge([
+        THREE.UniformsLib.common,
+        THREE.UniformsLib.fog,
+        THREE.UniformsLib.line
+    ]),
 
-	vertexShader:
-		/* glsl */`
+    vertexShader:
+	/* glsl */`
 		#include <common>
 		#include <color_pars_vertex>
 		#include <fog_pars_vertex>
@@ -34,10 +49,23 @@ THREE.ShaderLib[ 'line' ] = {
 		attribute vec3 instanceColorStart;
 		attribute vec3 instanceColorEnd;
 
-		varying vec2 vUv;
-		varying vec4 worldPos;
-		varying vec3 worldStart;
-		varying vec3 worldEnd;
+		#ifdef WORLD_UNITS
+
+			varying vec4 worldPos;
+			varying vec3 worldStart;
+			varying vec3 worldEnd;
+
+			#ifdef USE_DASH
+
+				varying vec2 vUv;
+
+			#endif
+
+		#else
+
+			varying vec2 vUv;
+
+		#endif
 
 		#ifdef USE_DASH
 
@@ -74,19 +102,26 @@ THREE.ShaderLib[ 'line' ] = {
 			#ifdef USE_DASH
 
 				vLineDistance = ( position.y < 0.5 ) ? dashScale * instanceDistanceStart : dashScale * instanceDistanceEnd;
+				vUv = uv;
 
 			#endif
 
 			float aspect = resolution.x / resolution.y;
 
-			vUv = uv;
-
 			// camera space
 			vec4 start = modelViewMatrix * vec4( instanceStart, 1.0 );
 			vec4 end = modelViewMatrix * vec4( instanceEnd, 1.0 );
 
-			worldStart = start.xyz;
-			worldEnd = end.xyz;
+			#ifdef WORLD_UNITS
+
+				worldStart = start.xyz;
+				worldEnd = end.xyz;
+
+			#else
+
+				vUv = uv;
+
+			#endif
 
 			// special case for perspective projection, and segments that terminate either in, or behind, the camera plane
 			// clearly the gpu firmware has a way of addressing this issue when projecting into ndc space
@@ -228,31 +263,45 @@ THREE.ShaderLib[ 'line' ] = {
 		}
 		`,
 
-	fragmentShader:
-		/* glsl */`
+    fragmentShader:
+	/* glsl */`
 		uniform vec3 diffuse;
 		uniform float opacity;
 		uniform float linewidth;
 
 		#ifdef USE_DASH
 
+			uniform float dashOffset;
 			uniform float dashSize;
 			uniform float gapSize;
 
 		#endif
 
 		varying float vLineDistance;
-		varying vec4 worldPos;
-		varying vec3 worldStart;
-		varying vec3 worldEnd;
+
+		#ifdef WORLD_UNITS
+
+			varying vec4 worldPos;
+			varying vec3 worldStart;
+			varying vec3 worldEnd;
+
+			#ifdef USE_DASH
+
+				varying vec2 vUv;
+
+			#endif
+
+		#else
+
+			varying vec2 vUv;
+
+		#endif
 
 		#include <common>
 		#include <color_pars_fragment>
 		#include <fog_pars_fragment>
 		#include <logdepthbuf_pars_fragment>
 		#include <clipping_planes_pars_fragment>
-
-		varying vec2 vUv;
 
 		vec2 closestLineToLine(vec3 p1, vec3 p2, vec3 p3, vec3 p4) {
 
@@ -291,7 +340,7 @@ THREE.ShaderLib[ 'line' ] = {
 
 				if ( vUv.y < - 1.0 || vUv.y > 1.0 ) discard; // discard endcaps
 
-				if ( mod( vLineDistance, dashSize + gapSize ) > dashSize ) discard; // todo - FIX
+				if ( mod( vLineDistance + dashOffset, dashSize + gapSize ) > dashSize ) discard; // todo - FIX
 
 			#endif
 
@@ -312,7 +361,7 @@ THREE.ShaderLib[ 'line' ] = {
 
 				#ifndef USE_DASH
 
-					#ifdef ALPHA_TO_COVERAGE
+					#ifdef USE_ALPHA_TO_COVERAGE
 
 						float dnorm = fwidth( norm );
 						alpha = 1.0 - smoothstep( 0.5 - dnorm, 0.5 + dnorm, norm );
@@ -331,7 +380,7 @@ THREE.ShaderLib[ 'line' ] = {
 
 			#else
 
-				#ifdef ALPHA_TO_COVERAGE
+				#ifdef USE_ALPHA_TO_COVERAGE
 
 					// artifacts appear on some hardware if a derivative is taken within a conditional
 					float a = vUv.x;
@@ -379,264 +428,264 @@ THREE.ShaderLib[ 'line' ] = {
 
 class LineMaterial extends THREE.ShaderMaterial {
 
-	constructor( parameters ) {
+    constructor(parameters) {
 
-		super( {
+        super({
 
-			type: 'LineMaterial',
+            type: 'LineMaterial',
 
-			uniforms: THREE.UniformsUtils.clone( THREE.ShaderLib[ 'line' ].uniforms ),
+            uniforms: THREE.UniformsUtils.clone(THREE.ShaderLib['line'].uniforms),
 
-			vertexShader: THREE.ShaderLib[ 'line' ].vertexShader,
-			fragmentShader: THREE.ShaderLib[ 'line' ].fragmentShader,
+            vertexShader: THREE.ShaderLib['line'].vertexShader,
+            fragmentShader: THREE.ShaderLib['line'].fragmentShader,
 
-			clipping: true // required for clipping support
+            clipping: true // required for clipping support
 
-		} );
+        });
 
-		Object.defineProperties( this, {
+        Object.defineProperties(this, {
 
-			color: {
+            color: {
 
-				enumerable: true,
+                enumerable: true,
 
-				get: function () {
+                get: function () {
 
-					return this.uniforms.diffuse.value;
+                    return this.uniforms.diffuse.value;
 
-				},
+                },
 
-				set: function ( value ) {
+                set: function (value) {
 
-					this.uniforms.diffuse.value = value;
+                    this.uniforms.diffuse.value = value;
 
-				}
+                }
 
-			},
+            },
 
-			worldUnits: {
+            worldUnits: {
 
-				enumerable: true,
+                enumerable: true,
 
-				get: function () {
+                get: function () {
 
-					return 'WORLD_UNITS' in this.defines;
+                    return 'WORLD_UNITS' in this.defines;
 
-				},
+                },
 
-				set: function ( value ) {
+                set: function (value) {
 
-					if ( value === true ) {
+                    if (value === true) {
 
-						this.defines.WORLD_UNITS = '';
+                        this.defines.WORLD_UNITS = '';
 
-					} else {
+                    } else {
 
-						delete this.defines.WORLD_UNITS;
+                        delete this.defines.WORLD_UNITS;
 
-					}
+                    }
 
-				}
+                }
 
-			},
+            },
 
-			linewidth: {
+            linewidth: {
 
-				enumerable: true,
+                enumerable: true,
 
-				get: function () {
+                get: function () {
 
-					return this.uniforms.linewidth.value;
+                    return this.uniforms.linewidth.value;
 
-				},
+                },
 
-				set: function ( value ) {
+                set: function (value) {
 
-					this.uniforms.linewidth.value = value;
+                    this.uniforms.linewidth.value = value;
 
-				}
+                }
 
-			},
+            },
 
-			dashed: {
+            dashed: {
 
-				enumerable: true,
+                enumerable: true,
 
-				get: function () {
+                get: function () {
 
-					return Boolean( 'USE_DASH' in this.defines );
+                    return Boolean('USE_DASH' in this.defines);
 
-				},
+                },
 
-				set( value ) {
+                set(value) {
 
-					if ( Boolean( value ) !== Boolean( 'USE_DASH' in this.defines ) ) {
+                    if (Boolean(value) !== Boolean('USE_DASH' in this.defines)) {
 
-						this.needsUpdate = true;
+                        this.needsUpdate = true;
 
-					}
+                    }
 
-					if ( value === true ) {
+                    if (value === true) {
 
-						this.defines.USE_DASH = '';
+                        this.defines.USE_DASH = '';
 
-					} else {
+                    } else {
 
-						delete this.defines.USE_DASH;
+                        delete this.defines.USE_DASH;
 
-					}
+                    }
 
-				}
+                }
 
-			},
+            },
 
-			dashScale: {
+            dashScale: {
 
-				enumerable: true,
+                enumerable: true,
 
-				get: function () {
+                get: function () {
 
-					return this.uniforms.dashScale.value;
+                    return this.uniforms.dashScale.value;
 
-				},
+                },
 
-				set: function ( value ) {
+                set: function (value) {
 
-					this.uniforms.dashScale.value = value;
+                    this.uniforms.dashScale.value = value;
 
-				}
+                }
 
-			},
+            },
 
-			dashSize: {
+            dashSize: {
 
-				enumerable: true,
+                enumerable: true,
 
-				get: function () {
+                get: function () {
 
-					return this.uniforms.dashSize.value;
+                    return this.uniforms.dashSize.value;
 
-				},
+                },
 
-				set: function ( value ) {
+                set: function (value) {
 
-					this.uniforms.dashSize.value = value;
+                    this.uniforms.dashSize.value = value;
 
-				}
+                }
 
-			},
+            },
 
-			dashOffset: {
+            dashOffset: {
 
-				enumerable: true,
+                enumerable: true,
 
-				get: function () {
+                get: function () {
 
-					return this.uniforms.dashOffset.value;
+                    return this.uniforms.dashOffset.value;
 
-				},
+                },
 
-				set: function ( value ) {
+                set: function (value) {
 
-					this.uniforms.dashOffset.value = value;
+                    this.uniforms.dashOffset.value = value;
 
-				}
+                }
 
-			},
+            },
 
-			gapSize: {
+            gapSize: {
 
-				enumerable: true,
+                enumerable: true,
 
-				get: function () {
+                get: function () {
 
-					return this.uniforms.gapSize.value;
+                    return this.uniforms.gapSize.value;
 
-				},
+                },
 
-				set: function ( value ) {
+                set: function (value) {
 
-					this.uniforms.gapSize.value = value;
+                    this.uniforms.gapSize.value = value;
 
-				}
+                }
 
-			},
+            },
 
-			opacity: {
+            opacity: {
 
-				enumerable: true,
+                enumerable: true,
 
-				get: function () {
+                get: function () {
 
-					return this.uniforms.opacity.value;
+                    return this.uniforms.opacity.value;
 
-				},
+                },
 
-				set: function ( value ) {
+                set: function (value) {
 
-					this.uniforms.opacity.value = value;
+                    this.uniforms.opacity.value = value;
 
-				}
+                }
 
-			},
+            },
 
-			resolution: {
+            resolution: {
 
-				enumerable: true,
+                enumerable: true,
 
-				get: function () {
+                get: function () {
 
-					return this.uniforms.resolution.value;
+                    return this.uniforms.resolution.value;
 
-				},
+                },
 
-				set: function ( value ) {
+                set: function (value) {
 
-					this.uniforms.resolution.value.copy( value );
+                    this.uniforms.resolution.value.copy(value);
 
-				}
+                }
 
-			},
+            },
 
-			alphaToCoverage: {
+            alphaToCoverage: {
 
-				enumerable: true,
+                enumerable: true,
 
-				get: function () {
+                get: function () {
 
-					return Boolean( 'ALPHA_TO_COVERAGE' in this.defines );
+                    return Boolean('USE_ALPHA_TO_COVERAGE' in this.defines);
 
-				},
+                },
 
-				set: function ( value ) {
+                set: function (value) {
 
-					if ( Boolean( value ) !== Boolean( 'ALPHA_TO_COVERAGE' in this.defines ) ) {
+                    if (Boolean(value) !== Boolean('USE_ALPHA_TO_COVERAGE' in this.defines)) {
 
-						this.needsUpdate = true;
+                        this.needsUpdate = true;
 
-					}
+                    }
 
-					if ( value === true ) {
+                    if (value === true) {
 
-						this.defines.ALPHA_TO_COVERAGE = '';
-						this.extensions.derivatives = true;
+                        this.defines.USE_ALPHA_TO_COVERAGE = '';
+                        this.extensions.derivatives = true;
 
-					} else {
+                    } else {
 
-						delete this.defines.ALPHA_TO_COVERAGE;
-						this.extensions.derivatives = false;
+                        delete this.defines.USE_ALPHA_TO_COVERAGE;
+                        this.extensions.derivatives = false;
 
-					}
+                    }
 
-				}
+                }
 
-			}
+            }
 
-		} );
+        });
 
-		this.setValues( parameters );
+        this.setValues(parameters);
 
-	}
+    }
 
 }
 

@@ -1,6 +1,6 @@
-import { clamp, isArray, once, TypedEvent, TypedEventBase } from "juniper-tslib";
+import { clamp, once, TypedEvent, TypedEventBase } from "juniper-tslib";
 import { cube as geom } from "./Cube";
-import { solid } from "./materials";
+import { solidTransparent } from "./materials";
 import { ErsatzObject } from "./objects";
 
 interface FaderEvents {
@@ -17,15 +17,17 @@ export class Fader extends TypedEventBase<FaderEvents>
     speed: number;
 
     readonly object: THREE.Mesh;
+    private readonly material: THREE.MeshBasicMaterial;
 
-    constructor(name: string, t = 0.15, color: (THREE.Color | number) = 0x000000) {
+    constructor(name: string, t = 0.15) {
         super();
 
-        this.object = new THREE.Mesh(geom, solid({
+        this.material = solidTransparent({
             name: "FaderMaterial",
-            color,
+            color: 0x000000,
             side: THREE.BackSide
-        }));
+        });
+        this.object = new THREE.Mesh(geom, this.material);
 
         this.object.name = name;
         this.object.renderOrder = Number.MAX_VALUE;
@@ -62,9 +64,8 @@ export class Fader extends TypedEventBase<FaderEvents>
             }
         }
 
-        if (!isArray(this.object.material)) {
-            this.object.material.opacity = this.opacity;
-            this.object.material.transparent = this.opacity < 1;
-        }
+        this.material.opacity = this.opacity;
+        this.material.transparent = this.opacity < 1;
+        this.material.needsUpdate = true;
     }
 }

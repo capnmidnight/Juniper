@@ -11,4 +11,5 @@ export class LineSegments2 extends Mesh {
     readonly isLineSegments2: true;
 
     computeLineDistances(): this;
+    raycast(raycaster: THREE.Raycaster, intersects: THREE.Intersection[]): void;
 }
