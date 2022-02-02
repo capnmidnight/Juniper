@@ -1,4 +1,4 @@
-﻿using Juniper.Processes;
+using Juniper.Processes;
 using Juniper.TSWatcher;
 using Juniper.Units;
 
@@ -181,8 +181,13 @@ namespace Juniper.TSBuild
             return this;
         }
 
-        private async Task<Level> GetBuildLevel()
+        private async Task<Level> GetBuildLevel(bool isDev, Level? forceLevel)
         {
+            if (forceLevel is not null)
+            {
+                return forceLevel.Value;
+            }
+
             if (!serverBuildInfo.Exists)
             {
                 return Level.High;
@@ -193,32 +198,34 @@ namespace Juniper.TSBuild
                 CopyJsonValueCommand.ReadJsonValueAsync(serverBuildInfo, "Version"));
 
             return v[0] != v[1]
-                ? Level.Medium
+                ? isDev ? Level.Medium : Level.High
                 : Level.Low;
         }
 
-        public async Task CheckAsync(Level? forceLevel = null)
+        public async Task CheckAsync(bool isDev, Level? forceLevel)
         {
-            var buildLevel = await GetBuildLevel();
-            if (buildLevel == Level.High || forceLevel == Level.High)
+            var buildLevel = await GetBuildLevel(isDev, forceLevel);
+            switch (buildLevel)
             {
+                case Level.High:
                 Console.WriteLine("Running full install and build");
                 await RunFullBuild(true);
-            }
-            else if (buildLevel == Level.Medium || forceLevel == Level.Medium)
-            {
+                break;
+
+                case Level.Medium:
                 Console.WriteLine("Running build");
                 await RunFullBuild(false);
-            }
-            else
-            {
+                break;
+
+                default:
                 Console.WriteLine("Build unnecessary");
+                break;
             }
         }
 
-        public BuildSystem Check(Level? forceLevel = null)
+        public BuildSystem Check(bool isDev, Level? forceLevel = null)
         {
-            CheckAsync(forceLevel).Wait();
+            CheckAsync(isDev, forceLevel).Wait();
             return this;
         }
 

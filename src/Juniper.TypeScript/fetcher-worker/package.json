@@ -5,8 +5,8 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "update": "npm ci",
-    "inst": "npm install",
+    "update": "npm install",
+    "inst": "npm ci",
     "build": "node --experimental-modules esbuild.config.js",
     "watch": "node --experimental-modules esbuild.config.js --watch"
   },

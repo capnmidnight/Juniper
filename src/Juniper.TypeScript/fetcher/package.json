@@ -3,8 +3,8 @@
   "name": "juniper-fetcher",
   "private": true,
   "scripts": {
-    "update": "npm ci",
-    "inst": "npm install",
+    "update": "npm install",
+    "inst": "npm ci",
     "build": "npx tsc --build"
   },
   "dependencies": {
