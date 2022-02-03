@@ -40,7 +40,8 @@ export function hasWebXR() {
 }
 
 export function hasWebXRLayers() {
-    return "XRWebGLBinding" in globalThis
+    return false // disable for now
+        && "XRWebGLBinding" in globalThis
         && isFunction(XRWebGLBinding.prototype.createCubeLayer)
         && !(isOculusBrowser && oculusBrowserVersion.major <= 14);
 }

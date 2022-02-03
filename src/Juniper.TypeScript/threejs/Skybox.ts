@@ -2,12 +2,15 @@ import { CubeMapFaceIndex } from "juniper-2d/CubeMapFaceIndex";
 import type { CanvasImageTypes, CanvasTypes, Context2D } from "juniper-dom/canvas";
 import { createUtilityCanvas, isImageBitmap } from "juniper-dom/canvas";
 import {
-    Exception, IProgress, isArray, isDefined, isFunction, isGoodNumber,
+    Exception,
+    hasWebXRLayers,
+    IProgress,
+    isArray,
+    isDefined,
+    isGoodNumber,
     isNumber,
-    isOculusBrowser,
     isString,
-    LRUCache,
-    oculusBrowserVersion
+    LRUCache
 } from "juniper-tslib";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
 import { isEuler, isQuaternion } from "./typeChecks";
@@ -24,9 +27,6 @@ const FACES = [1,
     4,
     5
 ];
-
-const hasWebXRLayers = "XRWebGLBinding" in globalThis
-    && isFunction(XRWebGLBinding.prototype.createCubeLayer);
 
 const CUBEMAP_PATTERN = {
     rows: 3,
@@ -65,18 +65,17 @@ export class Skybox {
     private curImagePath: string = null;
     private layer: XRCubeLayer = null;
     private wasVisible = false;
-    private webXRLayerEnabled = false;
     private wasWebXRLayerAvailable: boolean = null;
     private stageHeading = 0;
     private rotationNeedsUpdate = false;
     private imageNeedsUpdate = false;
+    private webXRLayerEnabled = true;
 
     visible = true;
 
     constructor(private readonly env: BaseEnvironment<unknown>) {
 
-        this.webXRLayerEnabled = hasWebXRLayers
-            && !(isOculusBrowser && oculusBrowserVersion.major <= 14);
+        this.webXRLayerEnabled &&= hasWebXRLayers();
 
         this.env.scene.background = black;
 
@@ -242,8 +241,8 @@ export class Skybox {
             const binding = (this.env.renderer.xr as any).getBinding() as XRWebGLBinding;
             const isWebXRLayerAvailable = this.webXRLayerEnabled
                 && this.env.renderer.xr.isPresenting
-                && frame
-                && !!binding;
+                && isDefined(frame)
+                && isDefined(binding);
 
             if (isWebXRLayerAvailable !== this.wasWebXRLayerAvailable) {
                 if (isWebXRLayerAvailable) {
@@ -258,7 +257,6 @@ export class Skybox {
                     });
 
                     this.env.addWebXRLayer(this.layer, Number.MAX_VALUE);
-                    this.env.scene.background = null;
                 }
                 else if (this.layer) {
                     this.env.removeWebXRLayer(this.layer);
@@ -284,22 +282,18 @@ export class Skybox {
                 }
             }
             else {
-                const visible = this.env.scene.background === this.rt.texture;
-                if (this.visible != visible) {
-                    if (this.visible) {
-                        this.env.scene.background = this.rt.texture;
-                    }
-                    else {
-                        this.env.scene.background = black;
-                    }
-                }
-
                 this.rotationNeedsUpdate
                     = this.imageNeedsUpdate
                     = this.imageNeedsUpdate
                     || this.rotationNeedsUpdate;
             }
 
+            const bg = this.layer
+                ? null
+                : this.visible
+                    ? this.rt.texture
+                    : black;
+            this.env.scene.background = bg;
 
             if (this.rotationNeedsUpdate) {
                 this.layerRotation
@@ -323,18 +317,15 @@ export class Skybox {
             if (this.imageNeedsUpdate) {
                 if (this.layer) {
                     const gl = this.env.renderer.getContext();
-                    const glayer = binding.getSubImage(this.layer, frame);
-
-                    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
-                    gl.bindTexture(gl.TEXTURE_CUBE_MAP, glayer.colorTexture);
-
+                    const gLayer = binding.getSubImage(this.layer, frame);
                     const imgs = this.cube.images as CanvasImageTypes[];
 
-                    for (let i = 0; i < imgs.length; ++i) {
-                        if (this.visible || i === 0) {
-                            this.flipper.fillRect(0, 0, FACE_SIZE, FACE_SIZE);
-                        }
+                    this.flipper.fillRect(0, 0, FACE_SIZE, FACE_SIZE);
 
+                    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+                    gl.bindTexture(gl.TEXTURE_CUBE_MAP, gLayer.colorTexture);
+
+                    for (let i = 0; i < imgs.length; ++i) {
                         if (this.visible) {
                             const img = imgs[FACES[i]];
                             this.flipper.drawImage(

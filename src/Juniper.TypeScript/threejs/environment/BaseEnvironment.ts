@@ -16,7 +16,12 @@ import { Style } from "juniper-dom/tags";
 import type { IFetcher } from "juniper-fetcher";
 import { TimerTickEvent } from "juniper-timers";
 import {
-    arrayRemove, arraySortByKeyInPlace, deg2rad, IProgress, isDefined, isDesktop,
+    arrayRemove,
+    arraySortByKeyInPlace,
+    deg2rad,
+    IProgress,
+    isDefined,
+    isDesktop,
     isFirefox,
     progressOfArray,
     TypedEvent,
@@ -82,6 +87,7 @@ Style(
 export abstract class BaseEnvironment<Events>
     extends TypedEventBase<Events & BaseEnvironmentEvents> {
 
+    private baseLayer: XRProjectionLayer;
     private readonly layers = new Array<XRLayer>();
     private readonly layerSortOrder = new Map<XRLayer, number>();
 
@@ -199,6 +205,20 @@ export abstract class BaseEnvironment<Events>
 
     private update(evt: TimerTickEvent): void {
         if (this.screenControl.visible) {
+            const session = this.renderer.xr.getSession() as any as XRSession;
+            const baseLayer = session && (this.renderer.xr as any).getBaseLayer() as XRProjectionLayer;
+            if (baseLayer !== this.baseLayer) {
+                if (isDefined(this.baseLayer)) {
+                    this.removeWebXRLayer(this.baseLayer);
+                    this.baseLayer = null;
+                }
+
+                if (isDefined(baseLayer)) {
+                    this.baseLayer = baseLayer;
+                    this.addWebXRLayer(baseLayer, 0);
+                }
+            }
+
             this.screenControl.resize();
             this.eventSystem.update();
             this.cameraControl.update(evt.dt);
@@ -224,12 +244,13 @@ export abstract class BaseEnvironment<Events>
                 }
             }
 
+            this.renderer.clear();
             this.renderer.render(this.scene, this.camera);
             if (!this.renderer.xr.isPresenting) {
                 lastViewport.copy(curViewport);
                 this.renderer.getViewport(curViewport);
             }
-            else if(isDesktop()
+            else if (isDesktop()
                 && !isFirefox()) {
                 spectator.projectionMatrix.copy(this.camera.projectionMatrix);
                 spectator.position.copy(cam.position);
@@ -258,7 +279,7 @@ export abstract class BaseEnvironment<Events>
     addWebXRLayer(layer: XRLayer, sortOrder: number) {
         this.layers.push(layer);
         this.layerSortOrder.set(layer, sortOrder);
-        arraySortByKeyInPlace(this.layers, this.layerSortOrder.get);
+        arraySortByKeyInPlace(this.layers, (l) => -this.layerSortOrder.get(l));
         this.updateLayers();
     }
 
@@ -271,12 +292,9 @@ export abstract class BaseEnvironment<Events>
     private updateLayers() {
         const session = this.renderer.xr.getSession() as any as XRSession;
         if (isDefined(session)) {
-            const baseLayer = (this.renderer.xr as any).getBaseLayer() as XRLayer;
+            console.log(this.layers.length, this.layers);
             session.updateRenderState({
-                layers: [
-                    ...this.layers,
-                    baseLayer
-                ]
+                layers: this.layers
             });
         }
     }
