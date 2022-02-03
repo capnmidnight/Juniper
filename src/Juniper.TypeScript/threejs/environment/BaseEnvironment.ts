@@ -1,5 +1,4 @@
 import type { CanvasTypes } from "juniper-dom/canvas";
-import { createUtilityCanvas } from "juniper-dom/canvas";
 import {
     border,
     height,
@@ -17,14 +16,10 @@ import type { IFetcher } from "juniper-fetcher";
 import { TimerTickEvent } from "juniper-timers";
 import {
     arrayRemove,
-    arraySortByKeyInPlace,
-    deg2rad,
-    IProgress,
+    arraySortByKeyInPlace, IProgress,
     isDefined,
     isDesktop,
-    isFirefox,
-    progressOfArray,
-    TypedEvent,
+    isFirefox, TypedEvent,
     TypedEventBase
 } from "juniper-tslib";
 import { feet2Meters } from "juniper-units/length";
@@ -38,11 +33,9 @@ import { EventSystem } from "../eventSystem/EventSystem";
 import type { InteractiveObject3D } from "../eventSystem/InteractiveObject3D";
 import { GLTFLoader } from "../examples/loaders/GLTFLoader";
 import { Fader } from "../Fader";
-import { Image2DMesh } from "../Image2DMesh";
-import { deepSetLayer, FOREGROUND, PHOTOSPHERE_CAPTURE, PURGATORY } from "../layers";
+import { FOREGROUND, PURGATORY } from "../layers";
 import { LoadingBar } from "../LoadingBar";
 import { obj, objGraph } from "../objects";
-import { PhotosphereCaptureResolution } from "../PhotosphereCaptureResolution";
 import { resolveCamera } from "../resolveCamera";
 import { ScreenControl } from "../ScreenControl";
 import { Skybox } from "../Skybox";
@@ -55,13 +48,6 @@ const curViewport = new THREE.Vector4();
 
 const gridWidth = 15;
 const gridSize = feet2Meters(gridWidth);
-
-const FOVOffsets = new Map<PhotosphereCaptureResolution, number>([
-    [PhotosphereCaptureResolution.Low, 4],
-    [PhotosphereCaptureResolution.Medium, 8],
-    [PhotosphereCaptureResolution.High, 3],
-    [PhotosphereCaptureResolution.Fine, 2],
-]);
 
 interface BaseEnvironmentEvents {
     sceneclearing: TypedEvent<"sceneclearing">;
@@ -123,10 +109,10 @@ export abstract class BaseEnvironment<Events>
             precision: "lowp",
             antialias: true,
             depth: true,
-            stencil: true,
+            stencil: false,
+            alpha: false,
             premultipliedAlpha: true,
             logarithmicDepthBuffer: true,
-            alpha: false,
             preserveDrawingBuffer: false
         });
 
@@ -324,104 +310,6 @@ export abstract class BaseEnvironment<Events>
             this.skybox.visible = true;
             await this.fader.fadeIn();
         }
-    }
-
-    async constructPhotosphere(quality: PhotosphereCaptureResolution, fixWatermarks: boolean, getImagePath: (fov: number, heading: number, pitch: number) => string, downloadProg: IProgress): Promise<THREE.Object3D> {
-        this.avatar.reset();
-
-        const photosphere = obj("Photosphere");
-        photosphere.layers.set(PHOTOSPHERE_CAPTURE);
-        objGraph(this.foreground, photosphere);
-
-        const FOV = quality as number;
-
-        // Overlap images to crop copyright notices out of
-        // most of the images...
-        const dFOV = fixWatermarks
-            ? FOVOffsets.get(FOV)
-            : 0;
-
-        photosphere.position.y = this.camera.getWorldPosition(new THREE.Vector3()).y;
-        const size = 2;
-
-        const angles = new Array<[number, number, number, number]>();
-
-        for (let pitch = -90 + FOV; pitch < 90; pitch += FOV) {
-            for (let heading = -180; heading < 180; heading += FOV) {
-                angles.push([heading, pitch, FOV + dFOV, size]);
-            }
-        }
-
-        // Include the top and the bottom
-        angles.push([0, -90, FOV + dFOV, size]);
-        angles.push([0, 90, FOV + dFOV, size]);
-
-        if (fixWatermarks) {
-            // Include an uncropped image so that
-            // at least one of the copyright notices is visible.
-            angles.push([0, -90, FOV, 0.5 * size]);
-            angles.push([0, 90, FOV, 0.5 * size]);
-        }
-
-        this.camera.layers.set(PHOTOSPHERE_CAPTURE);
-
-        await progressOfArray(downloadProg, angles, async (set, prog) => {
-            const [heading, pitch, fov, size] = set;
-            const halfFOV = 0.5 * deg2rad(fov);
-            const dist = 0.5 * size / Math.tan(halfFOV);
-            const path = getImagePath(fov, heading, pitch);
-            const frame = new Image2DMesh(this, path, { transparent: false, side: THREE.DoubleSide });
-            deepSetLayer(frame, PHOTOSPHERE_CAPTURE);
-            await frame.loadImage(path, prog);
-            const euler = new THREE.Euler(deg2rad(pitch), -deg2rad(heading), 0, "YXZ");
-            const quat = new THREE.Quaternion().setFromEuler(euler);
-            const pos = new THREE.Vector3(0, 0, -dist)
-                .applyQuaternion(quat);
-            frame.scale.setScalar(size);
-            frame.quaternion.copy(quat);
-            frame.position.copy(pos);
-            photosphere.add(frame);
-        });
-
-        this.camera.layers.set(FOREGROUND);
-
-        return photosphere;
-    }
-
-    async capturePhotosphere(renderProg: IProgress, quadFaceSize: number): Promise<CanvasTypes> {
-        const metrics = this.screenControl.getMetrics();
-        const { heading, pitch } = this.avatar;
-        this.screenControl.setMetrics(quadFaceSize, quadFaceSize, 1, 90);
-
-        const canv = createUtilityCanvas(quadFaceSize * 4, quadFaceSize * 3);
-        const g = canv.getContext("2d");
-
-        const captureParams = [
-            [0, 1, 1, 0],
-            [1, 0, 0, 1],
-            [0, 0, 1, 1],
-            [-1, 0, 2, 1],
-            [2, 0, 3, 1],
-            [0, -1, 1, 2]
-        ];
-
-        this.camera.layers.set(PHOTOSPHERE_CAPTURE);
-
-        for (let i = 0; i < captureParams.length; ++i) {
-            const [h, p, dx, dy] = captureParams[i];
-            renderProg.report(i, captureParams.length, "rendering");
-            this.avatar.setOrientationImmediate(h * Math.PI / 2, p * Math.PI / 2);
-            this.renderer.render(this.scene, this.camera);
-            g.drawImage(this.renderer.domElement, dx * quadFaceSize, dy * quadFaceSize);
-            renderProg.report(i + 1, captureParams.length, "rendering");
-        }
-
-        this.camera.layers.set(FOREGROUND);
-
-
-        this.screenControl.setMetrics(metrics.width, metrics.height, metrics.pixelRatio, metrics.fov);
-        this.avatar.setOrientationImmediate(heading, pitch);
-        return canv;
     }
 
     async loadModel(path: string, onProgress?: IProgress): Promise<THREE.Group> {
