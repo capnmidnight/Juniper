@@ -74,6 +74,8 @@ export function arraySortByKeyInPlace<T, V>(newArr: T[], keySelector: (obj: T) =
     });
 }
 
+(window as any).sortArray = arraySortByKeyInPlace;
+
 const numericPattern = /^(\d+)/;
 /**
  * Creates a new array that is sorted by the key extracted

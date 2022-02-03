@@ -1,6 +1,7 @@
 export * from "./arrayBinarySearch";
 export * from "./arrayBinarySearchRemove";
 export * from "./arrayClear";
+export * from "./arrayCompare";
 export * from "./arrayInsertAt";
 export * from "./arrayRandom";
 export * from "./arrayRemove";
