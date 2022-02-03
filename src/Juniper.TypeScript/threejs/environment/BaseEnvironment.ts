@@ -108,11 +108,11 @@ export abstract class BaseEnvironment<Events>
             powerPreference: "high-performance",
             precision: "lowp",
             antialias: true,
-            depth: true,
-            stencil: false,
             alpha: false,
             premultipliedAlpha: true,
+            depth: true,
             logarithmicDepthBuffer: true,
+            stencil: false,
             preserveDrawingBuffer: false
         });
 
