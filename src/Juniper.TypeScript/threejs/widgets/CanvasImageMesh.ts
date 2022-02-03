@@ -1,6 +1,7 @@
 import { isHTMLCanvas } from "juniper-dom/canvas";
 import type { ICanvasImage } from "juniper-dom/CanvasImage";
 import { elementIsDisplayed, elementSetDisplay } from "juniper-dom/tags";
+import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { Image2DMesh } from "../Image2DMesh";
 import { obj, objectSetVisible } from "../objects";
 import type { Widget } from "./widgets";
@@ -10,10 +11,10 @@ export class CanvasImageMesh<T extends ICanvasImage> implements Widget {
     readonly object: THREE.Object3D;
     readonly mesh: Image2DMesh;
 
-    constructor(name: string, public readonly image: T) {
+    constructor(protected readonly env: BaseEnvironment<unknown>, name: string, public readonly image: T) {
 
         this.object = obj(name,
-            this.mesh = new Image2DMesh(`${name}-image`));
+            this.mesh = new Image2DMesh(this.env, `${name}-image`));
         this.mesh.setImage(image.canvas);
         this.mesh.objectHeight = 0.1;
         this.mesh.updateTexture();

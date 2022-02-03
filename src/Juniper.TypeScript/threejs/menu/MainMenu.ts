@@ -36,7 +36,7 @@ export class MainMenu
     constructor(public readonly env: Environment) {
         super();
 
-        this.menu = new Menu(this.env.fetcher);
+        this.menu = new Menu(this.env);
         this.env.worldUISpace.add(this.menu);
 
         Object.seal(this);
@@ -101,7 +101,7 @@ export class MainMenu
             const item = this.node2MenuItem.get(child);
             if (isNullOrUndefined(item.back)
                 && this.images.has(item.filePath)) {
-                const imgMesh = new Image2DMesh(item.filePath + item.name);
+                const imgMesh = new Image2DMesh(this.env, item.filePath + item.name);
                 imgMesh.setImage(this.images.get(item.filePath));
                 imgMesh.frustumCulled = false;
                 item.back = imgMesh;

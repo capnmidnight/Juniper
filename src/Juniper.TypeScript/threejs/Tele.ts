@@ -103,11 +103,7 @@ export class Tele
 
         this.conference.addEventListener("userJoined", (evt: UserJoinedEvent) => {
             const user = new AvatarRemote(
-                this.env.eventSystem,
-                this.env.stage,
-                this.env.audio.audioCtx,
-                this.env.avatar,
-                this.env.cursor3D,
+                this.env,
                 evt.user,
                 evt.source,
                 this.avatarNameTagFont,

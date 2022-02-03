@@ -11,9 +11,7 @@ import { UserPointerEvent, UserPosedEvent } from "juniper-webrtc/ConferenceEvent
 import type { RemoteUser } from "juniper-webrtc/RemoteUser";
 import { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeading } from "./animation/lookAngles";
-import type { AvatarLocal } from "./AvatarLocal";
-import type { Cursor3D } from "./eventSystem/Cursor3D";
-import type { EventSystem } from "./eventSystem/EventSystem";
+import type { Environment } from "./environment/Environment";
 import { PointerRemote } from "./eventSystem/PointerRemote";
 import { objGraph } from "./objects";
 import { setMatrixFromUpFwdPos } from "./setMatrixFromUpFwdPos";
@@ -67,11 +65,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
     private _headPulse = 1;
 
     constructor(
-        private readonly eventSys: EventSystem,
-        private readonly stage: THREE.Object3D,
-        audioCtx: AudioContext,
-        private readonly local: AvatarLocal,
-        private cursor3D: Cursor3D,
+        private readonly env: Environment,
         user: RemoteUser,
         source: AudioStreamSource,
         font: Partial<TextImageOptions>,
@@ -81,7 +75,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         this.height = this.defaultAvatarHeight;
 
         this.name = user.userName;
-        this.nameTag = new TextMesh(`nameTag-${user.userName}-${user.userID}`);
+        this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`);
         this.nameTag.createTextImage(Object.assign({}, nameTagFont, font));
         this.nameTag.position.y = 0.25;
         this.userName = user.userName;
@@ -91,10 +85,10 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
             this.setPose(evt.pose, evt.height));
 
         user.addEventListener("userPointer", (evt: UserPointerEvent) => {
-            this.setPointer(this.local.worldPos, evt.name, evt.pose);
+            this.setPointer(this.env.avatar.worldPos, evt.name, evt.pose);
         });
 
-        this.activity = new ActivityDetector(`remote-user-activity-${user.userName}-${user.userID}`, audioCtx);
+        this.activity = new ActivityDetector(`remote-user-activity-${user.userName}-${user.userID}`, this.env.audio.audioCtx);
 
         source.addEventListener("sourceadded", (evt) => {
             connect(evt.source, this.activity);
@@ -196,7 +190,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
             this.body.remove(pointer.object);
             this.pointers.delete(name);
             if (pointer.cursor) {
-                this.stage.remove(pointer.cursor.object);
+                this.env.stage.remove(pointer.cursor.object);
             }
         }
     }
@@ -204,7 +198,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
     refreshCursors() {
         for (const pointer of this.pointers.values()) {
             if (pointer.cursor) {
-                pointer.cursor = this.cursor3D.clone();
+                pointer.cursor = this.env.cursor3D.clone();
             }
         }
     }
@@ -224,7 +218,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
             this.headSize = scale;
             this.body.scale.setScalar(scale);
 
-            F.copy(this.local.worldPos);
+            F.copy(this.env.avatar.worldPos);
             this.body.worldToLocal(F);
             F.sub(this.body.position)
                 .normalize()
@@ -241,7 +235,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
             pointer.animate(dt);
         }
 
-        this.nameTag.lookAt(this.local.worldPos);
+        this.nameTag.lookAt(this.env.avatar.worldPos);
     }
 
     setPose(pose: Pose, height: number): void {
@@ -260,17 +254,17 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
 
         if (!pointer) {
             pointer = new PointerRemote(
-                this.eventSys,
+                this.env.eventSystem,
                 this.userName,
                 this.isInstructor,
                 name,
-                this.cursor3D && this.cursor3D.clone());
+                this.env.cursor3D && this.env.cursor3D.clone());
 
             this.pointers.set(name, pointer);
 
             objGraph(this.body, pointer);
             if (pointer.cursor) {
-                objGraph(this.stage, pointer.cursor);
+                objGraph(this.env.stage, pointer.cursor);
             }
 
             if (name === PointerName.Mouse) {

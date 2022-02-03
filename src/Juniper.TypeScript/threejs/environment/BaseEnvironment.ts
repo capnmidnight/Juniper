@@ -352,9 +352,9 @@ export abstract class BaseEnvironment<Events>
             const halfFOV = 0.5 * deg2rad(fov);
             const dist = 0.5 * size / Math.tan(halfFOV);
             const path = getImagePath(fov, heading, pitch);
-            const frame = new Image2DMesh(path, { transparent: false, side: THREE.DoubleSide });
+            const frame = new Image2DMesh(this, path, { transparent: false, side: THREE.DoubleSide });
             deepSetLayer(frame, PHOTOSPHERE_CAPTURE);
-            await frame.loadImage(path, this.fetcher, prog);
+            await frame.loadImage(path, prog);
             const euler = new THREE.Euler(deg2rad(pitch), -deg2rad(heading), 0, "YXZ");
             const quat = new THREE.Quaternion().setFromEuler(euler);
             const pos = new THREE.Vector3(0, 0, -dist)

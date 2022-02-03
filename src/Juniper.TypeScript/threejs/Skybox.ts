@@ -9,7 +9,7 @@ import {
     LRUCache,
     oculusBrowserVersion
 } from "juniper-tslib";
-import { BaseEnvironment } from "./environment/BaseEnvironment";
+import type { BaseEnvironment } from "./environment/BaseEnvironment";
 import { isEuler, isQuaternion } from "./typeChecks";
 
 type SkyboxRotation = THREE.Quaternion | THREE.Euler | number[] | number;

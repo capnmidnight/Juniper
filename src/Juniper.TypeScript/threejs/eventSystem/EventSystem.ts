@@ -11,7 +11,7 @@ import {
     isDefined,
     TypedEventBase
 } from "juniper-tslib";
-import { BaseEnvironment } from "../environment/BaseEnvironment";
+import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { FOREGROUND } from "../layers";
 import { objGraph } from "../objects";
 import { EventSystemEvent } from "./EventSystemEvent";

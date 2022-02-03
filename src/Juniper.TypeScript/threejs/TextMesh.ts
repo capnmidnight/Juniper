@@ -1,5 +1,6 @@
 import type { TextImageOptions } from "juniper-2d/TextImage";
 import { TextImage } from "juniper-2d/TextImage";
+import type { BaseEnvironment } from "./environment/BaseEnvironment";
 import { Image2DMesh } from "./Image2DMesh";
 
 const redrawnEvt = { type: "redrawn" };
@@ -9,8 +10,8 @@ export class TextMesh extends Image2DMesh {
 
     private _onRedrawn: () => void;
 
-    constructor(name: string, materialOptions?: THREE.MeshBasicMaterialParameters) {
-        super(name, materialOptions);
+    constructor(env: BaseEnvironment<unknown>, name: string, materialOptions?: THREE.MeshBasicMaterialParameters) {
+        super(env, name, materialOptions);
 
         this._onRedrawn = this.onRedrawn.bind(this);
     }

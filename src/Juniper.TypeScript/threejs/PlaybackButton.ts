@@ -3,6 +3,7 @@ import { MouseButtons } from "juniper-dom/eventSystem/MouseButton";
 import { keycapDigits } from "juniper-emoji/numbers";
 import { TypedEvent, TypedEventBase } from "juniper-tslib";
 import { ButtonFactory } from "./ButtonFactory";
+import type { BaseEnvironment } from "./environment/BaseEnvironment";
 import { EventSystemThreeJSEvent } from "./eventSystem/EventSystemEvent";
 import { MeshButton } from "./MeshButton";
 import { ErsatzObject, obj, objGraph } from "./objects";
@@ -32,6 +33,7 @@ export class PlaybackButton
     private pauseButton: MeshButton = null;
 
     constructor(
+        env: BaseEnvironment<unknown>,
         buttonFactory: ButtonFactory,
         name: string,
         label: string,
@@ -42,7 +44,7 @@ export class PlaybackButton
 
         this.object = obj(`playback-${name}`);
 
-        this.textLabel = new TextMeshLabel(`playback-${name}-label`, label, {
+        this.textLabel = new TextMeshLabel(env, `playback-${name}-label`, label, {
             minHeight: size,
             maxHeight: size,
             minWidth: size,

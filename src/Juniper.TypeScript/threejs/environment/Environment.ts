@@ -45,8 +45,8 @@ export class Environment
     readonly xrUI: SpaceUI;
     readonly screenUISpace = new ScreenUI();
     readonly confirmationDialog: ConfirmationDialog;
-    readonly compassImage = new CanvasImageMesh("Horizon", new ArtificialHorizon());
-    readonly clockImage = new CanvasImageMesh("Clock", new ClockImage());
+    readonly compassImage = new CanvasImageMesh(this, "Horizon", new ArtificialHorizon());
+    readonly clockImage = new CanvasImageMesh(this, "Clock", new ClockImage());
     readonly settingsButton: ButtonImageWidget;
     readonly muteMicButton: ToggleButton;
     readonly muteEnvAudioButton: ToggleButton;
@@ -146,7 +146,7 @@ export class Environment
         elementApply(this.screenUISpace.bottomRowRight, this.fullscreenButton, this.vrButton); //, this.arButton);
 
         if (BatteryImage.isAvailable && isMobile()) {
-            this.batteryImage = new CanvasImageMesh("Battery", new BatteryImage());
+            this.batteryImage = new CanvasImageMesh(this, "Battery", new BatteryImage());
             this.xrUI.addItem(this.batteryImage, { x: 0.75, y: -1, scale: 1 });
             elementApply(this.screenUISpace.topRowRight, this.batteryImage);
         }
