@@ -48,6 +48,17 @@ function arraySortedInsertInternal<T, V>(arr: T[], item: T, ks: (obj: T) => V, a
  */
 export function arraySortByKey<T, V>(arr: ReadonlyArray<T>, keySelector: (obj: T) => V): T[] {
     const newArr = Array.from(arr);
+    arraySortByKeyInPlace<T, V>(newArr, keySelector);
+    return newArr;
+}
+
+/**
+ * Sorts an existing array by the key extracted by the keySelector
+ * callback, without creating a new array.
+ * @param arr
+ * @param keySelector
+ */
+export function arraySortByKeyInPlace<T, V>(newArr: T[], keySelector: (obj: T) => V) {
     newArr.sort((a, b) => {
         const keyA = keySelector(a);
         const keyB = keySelector(b);
@@ -61,10 +72,7 @@ export function arraySortByKey<T, V>(arr: ReadonlyArray<T>, keySelector: (obj: T
             return 0;
         }
     });
-
-    return newArr;
 }
-
 
 const numericPattern = /^(\d+)/;
 /**

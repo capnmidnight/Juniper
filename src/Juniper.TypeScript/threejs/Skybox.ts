@@ -257,7 +257,7 @@ export class Skybox {
                         viewPixelHeight: FACE_SIZE
                     });
 
-                    this.env.addWebXRLayer(this.layer);
+                    this.env.addWebXRLayer(this.layer, Number.MAX_VALUE);
                     this.env.scene.background = null;
                 }
                 else if (this.layer) {

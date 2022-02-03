@@ -16,7 +16,7 @@ import { Style } from "juniper-dom/tags";
 import type { IFetcher } from "juniper-fetcher";
 import { TimerTickEvent } from "juniper-timers";
 import {
-    arrayRemove, deg2rad, IProgress, isDesktop,
+    arrayRemove, arraySortByKeyInPlace, deg2rad, IProgress, isDefined, isDesktop,
     isFirefox,
     progressOfArray,
     TypedEvent,
@@ -83,6 +83,8 @@ export abstract class BaseEnvironment<Events>
     extends TypedEventBase<Events & BaseEnvironmentEvents> {
 
     private readonly layers = new Array<XRLayer>();
+    private readonly layerSortOrder = new Map<XRLayer, number>();
+
     private readonly fader: Fader;
     private fadeDepth = 0;
 
@@ -253,21 +255,30 @@ export abstract class BaseEnvironment<Events>
         window.location.href = "/";
     }
 
-    addWebXRLayer(layer: XRLayer) {
+    addWebXRLayer(layer: XRLayer, sortOrder: number) {
         this.layers.push(layer);
-
-        const session = this.renderer.xr.getSession() as any as XRSession;
-        const baseLayer = (this.renderer.xr as any).getBaseLayer() as XRLayer;
-        session.updateRenderState({
-            layers: [
-                ...this.layers,
-                baseLayer
-            ]
-        });
+        this.layerSortOrder.set(layer, sortOrder);
+        arraySortByKeyInPlace(this.layers, this.layerSortOrder.get);
+        this.updateLayers();
     }
 
     removeWebXRLayer(layer: XRLayer) {
+        this.layerSortOrder.delete(layer);
         arrayRemove(this.layers, layer);
+        this.updateLayers();
+    }
+
+    private updateLayers() {
+        const session = this.renderer.xr.getSession() as any as XRSession;
+        if (isDefined(session)) {
+            const baseLayer = (this.renderer.xr as any).getBaseLayer() as XRLayer;
+            session.updateRenderState({
+                layers: [
+                    ...this.layers,
+                    baseLayer
+                ]
+            });
+        }
     }
 
     clearScene() {
