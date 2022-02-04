@@ -2,7 +2,7 @@ namespace System
 {
     public static class UriBuilderExt
     {
-        public static void AddQuery(this UriBuilder builder, string keyValue)
+        public static UriBuilder AddQuery(this UriBuilder builder, string keyValue)
         {
             if (builder is null)
             {
@@ -17,9 +17,11 @@ namespace System
             {
                 builder.Query += keyValue;
             }
+
+            return builder;
         }
 
-        public static void AddQuery(this UriBuilder builder, string key, string value)
+        public static UriBuilder AddQuery<T>(this UriBuilder builder, string key, T value)
         {
             if (builder is null)
             {
@@ -38,29 +40,7 @@ namespace System
                 throw new ArgumentException("Key must not be an empty string", nameof(key));
             }
 
-            builder.AddQuery($"{key}={value}");
-        }
-
-        public static void AddQuery<T>(this UriBuilder builder, string key, T value)
-        {
-            if (builder is null)
-            {
-                throw new ArgumentNullException(nameof(builder));
-            }
-
-            if (key is null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-
-            key = key.Trim();
-
-            if (key.Length == 0)
-            {
-                throw new ArgumentException("Key must not be an empty string", nameof(key));
-            }
-
-            builder.AddQuery($"{key}={value}");
+            return builder.AddQuery($"{key}={value}");
         }
     }
 }
