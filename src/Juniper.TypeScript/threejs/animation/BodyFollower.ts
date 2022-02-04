@@ -9,6 +9,7 @@ const curPos = new THREE.Vector3();
 const curDir = new THREE.Vector3();
 const dQuat = new THREE.Quaternion();
 let curAngle = 0;
+let copyCounter = 0;
 
 function minRotAngle(to: number, from: number) {
     const a = to - from;
@@ -29,10 +30,10 @@ function minRotAngle(to: number, from: number) {
 }
 
 export class BodyFollower extends THREE.Object3D {
-    private readonly lerp: boolean;
-    private readonly maxDistance: number;
-    private readonly minAngle: number;
-    private readonly maxAngle: number;
+    private lerp: boolean;
+    private maxDistance: number;
+    private minAngle: number;
+    private maxAngle: number;
 
     constructor(name: string,
         private readonly minDistance: number,
@@ -50,6 +51,16 @@ export class BodyFollower extends THREE.Object3D {
         this.maxAngle = Math.PI - this.minAngle;
 
         Object.seal(this);
+    }
+
+    override copy(source: this, recursive = true): this {
+        super.copy(source, recursive);
+        this.name = source.name + (++copyCounter);
+        this.lerp = source.lerp;
+        this.maxDistance = source.maxDistance;
+        this.minAngle = source.minAngle;
+        this.maxAngle = source.maxAngle;
+        return this;
     }
 
     update(height: number, position: THREE.Vector3, angle: number, dt: number) {

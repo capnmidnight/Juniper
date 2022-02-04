@@ -3,7 +3,6 @@ import type { CanvasImageTypes, CanvasTypes, Context2D } from "juniper-dom/canva
 import { createUtilityCanvas, isImageBitmap } from "juniper-dom/canvas";
 import {
     Exception,
-    hasWebXRLayers,
     IProgress,
     isArray,
     isDefined,
@@ -13,6 +12,7 @@ import {
     LRUCache
 } from "juniper-tslib";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
+import { hasWebXRLayers } from "./hasWebXRLayers";
 import { isEuler, isQuaternion } from "./typeChecks";
 
 type SkyboxRotation = THREE.Quaternion | THREE.Euler | number[] | number;
@@ -75,7 +75,7 @@ export class Skybox {
 
     constructor(private readonly env: BaseEnvironment<unknown>) {
 
-        this.webXRLayerEnabled &&= hasWebXRLayers();
+        this.webXRLayerEnabled &&= hasWebXRLayers(env);
 
         this.env.scene.background = black;
 
@@ -269,6 +269,12 @@ export class Skybox {
                     = true;
             }
 
+            this.env.scene.background = this.layer
+                ? null
+                : this.visible
+                    ? this.rt.texture
+                    : black;
+
             if (this.layer) {
                 if (this.visible !== this.wasVisible
                     || this.layer.needsRedraw) {
@@ -287,13 +293,6 @@ export class Skybox {
                     = this.imageNeedsUpdate
                     || this.rotationNeedsUpdate;
             }
-
-            const bg = this.layer
-                ? null
-                : this.visible
-                    ? this.rt.texture
-                    : black;
-            this.env.scene.background = bg;
 
             if (this.rotationNeedsUpdate) {
                 this.layerRotation

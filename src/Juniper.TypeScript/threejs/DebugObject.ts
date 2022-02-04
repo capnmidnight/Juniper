@@ -12,11 +12,11 @@ export class DebugObject extends THREE.Object3D {
     constructor(color: string);
     constructor(color: number);
     constructor(color: THREE.Color);
-    constructor(color?: (string | number | THREE.Color)) {
+    constructor(private color?: (string | number | THREE.Color)) {
         super();
 
-        if (isDefined(color)) {
-            this.center = new Cube(0.5, 0.5, 0.5, lit({ color }));
+        if (isDefined(this.color)) {
+            this.center = new Cube(0.5, 0.5, 0.5, lit({ color: this.color }));
             this.add(this.center);
         }
 
@@ -29,6 +29,13 @@ export class DebugObject extends THREE.Object3D {
         this.zn.position.z = -1;
 
         this.add(this.xp, this.yp, this.zn);
+    }
+
+    override copy(source: this, recursive = true): this {
+        super.copy(source, recursive);
+        this.color = source.color;
+        this.center = new Cube(0.5, 0.5, 0.5, lit({ color: source.color }));
+        return this;
     }
 
     get size(): number {

@@ -13,7 +13,6 @@ import {
     progressTasksWeighted,
     TaskDef
 } from "juniper-tslib";
-import { cleanup } from "../cleanup";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { Image2DMesh } from "../Image2DMesh";
 import { TextMesh } from "../TextMesh";
@@ -129,17 +128,17 @@ export class Menu extends THREE.Object3D {
 
         const tasks: TaskDef[] = [
             [1, (prog) => loadFont(this.menuFont, null, prog)],
-            [1, (prog) => this.backButton.back.loadImage(imgs.backButton, prog)],
-            [1, (prog) => this.defaultButtonImage.loadImage(imgs.defaultButton, prog)],
-            [1, (prog) => this.menuTitle.back.loadImage(imgs.title, prog)],
-            [1, (prog) => this.nextButton.back.loadImage(imgs.title, prog)],
-            [1, (prog) => this.prevButton.back.loadImage(imgs.title, prog)],
-            [1, (prog) => this.logo.back.loadImage(imgs.logo.back, prog)]
+            [1, (prog) => this.backButton.back.mesh.loadImage(imgs.backButton, prog)],
+            [1, (prog) => this.defaultButtonImage.mesh.loadImage(imgs.defaultButton, prog)],
+            [1, (prog) => this.menuTitle.back.mesh.loadImage(imgs.title, prog)],
+            [1, (prog) => this.nextButton.back.mesh.loadImage(imgs.title, prog)],
+            [1, (prog) => this.prevButton.back.mesh.loadImage(imgs.title, prog)],
+            [1, (prog) => this.logo.back.mesh.loadImage(imgs.logo.back, prog)]
         ];
 
         if (imgs.logo.front) {
             this.logo.front = new Image2DMesh(this.env, "LogoFront", { transparent: true });
-            tasks.push([1, (prog) => this.logo.front.loadImage(imgs.logo.front, prog)]);
+            tasks.push([1, (prog) => this.logo.front.mesh.loadImage(imgs.logo.front, prog)]);
         }
 
         await progressTasksWeighted(onProgress, tasks);
@@ -147,10 +146,6 @@ export class Menu extends THREE.Object3D {
         if (imgs.logo.front) {
             this.logo.front.width = 1;
         }
-    }
-
-    clearMenu() {
-        cleanup(this);
     }
 
     async showMenu<T extends MenuItemDescription>(
@@ -193,7 +188,7 @@ export class Menu extends THREE.Object3D {
 
         await this.curBlowout;
 
-        this.clearMenu();
+        this.clear();
 
         this.menuTitle.text = title;
 
@@ -315,7 +310,7 @@ export class Menu extends THREE.Object3D {
         if (!item.back) {
             if (item.filePath) {
                 item.back = new Image2DMesh(this.env, `${item.name}-Background`);
-                await item.back.loadImage(item.filePath, onProgress);
+                await item.back.mesh.loadImage(item.filePath, onProgress);
             }
             else {
                 item.back = this.defaultButtonImage.clone() as Image2DMesh;

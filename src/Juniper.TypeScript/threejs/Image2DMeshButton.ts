@@ -42,7 +42,7 @@ export class Image2DMeshButton extends TextMeshButton {
         image.position.z = 0.01;
         image.scale.setScalar(0.75);
 
-        image.loadImage(path);
+        image.mesh.loadImage(path);
 
         return image;
     }

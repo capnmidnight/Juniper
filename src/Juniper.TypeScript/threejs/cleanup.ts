@@ -1,4 +1,4 @@
-import { isArray, isClosable, isDisposable } from "juniper-tslib";
+import { dispose, isArray } from "juniper-tslib";
 import { removeScaledObj } from "./animation/scaleOnHover";
 
 export function cleanup(obj: any) {
@@ -16,7 +16,8 @@ export function cleanup(obj: any) {
                     here.material,
                     here.geometry);
             }
-            else if (here.isMaterial) {
+
+            if (here.isMaterial) {
                 cleanupQ.push(...Object.values(here));
             }
 
@@ -26,15 +27,11 @@ export function cleanup(obj: any) {
                 removeScaledObj(here);
             }
 
-            if (isDisposable(here)) {
-                here.dispose();
-            }
-            else if (isClosable(here)) {
-                here.close();
-            }
-            else if (isArray(here)) {
+            if (isArray(here)) {
                 cleanupQ.push(...here);
             }
+
+            dispose(here);
         }
     }
 

@@ -108,7 +108,7 @@ export abstract class BaseEnvironment<Events>
             powerPreference: "high-performance",
             precision: "lowp",
             antialias: true,
-            alpha: false,
+            alpha: true,
             premultipliedAlpha: true,
             depth: true,
             logarithmicDepthBuffer: true,
@@ -278,7 +278,6 @@ export abstract class BaseEnvironment<Events>
     private updateLayers() {
         const session = this.renderer.xr.getSession() as any as XRSession;
         if (isDefined(session)) {
-            console.log(this.layers.length, this.layers);
             session.updateRenderState({
                 layers: this.layers
             });

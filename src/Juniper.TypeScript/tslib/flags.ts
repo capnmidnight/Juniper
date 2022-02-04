@@ -1,4 +1,3 @@
-import { isFunction } from "./typeChecks";
 
 export function isChrome() {
     return "chrome" in globalThis && !navigator.userAgent.match("CriOS");
@@ -37,13 +36,6 @@ export function isMobileVR() {
 export function hasWebXR() {
     return "xr" in navigator
         && "isSessionSupported" in (navigator as any).xr;
-}
-
-export function hasWebXRLayers() {
-    return false // disable for now
-        && "XRWebGLBinding" in globalThis
-        && isFunction(XRWebGLBinding.prototype.createCubeLayer)
-        && !(isOculusBrowser && oculusBrowserVersion.major <= 14);
 }
 
 export function hasWebVR() {

@@ -11,6 +11,7 @@ import {
     TreeNode,
     TypedEventBase
 } from "juniper-tslib";
+import { cleanup } from "../cleanup";
 import type { Application, ApplicationEvents } from "../environment/Application";
 import { ApplicationJoinRoomEvent } from "../environment/ApplicationEvents";
 import type { Environment } from "../environment/Environment";
@@ -102,7 +103,7 @@ export class MainMenu
             if (isNullOrUndefined(item.back)
                 && this.images.has(item.filePath)) {
                 const imgMesh = new Image2DMesh(this.env, item.filePath + item.name);
-                imgMesh.setImage(this.images.get(item.filePath));
+                imgMesh.mesh.setImage(this.images.get(item.filePath));
                 imgMesh.frustumCulled = false;
                 item.back = imgMesh;
             }
@@ -128,7 +129,7 @@ export class MainMenu
 
     dispose() {
         this.env.worldUISpace.remove(this.menu);
-        this.menu.clearMenu();
+        cleanup(this.menu);
         this.menu.removeFromParent();
         this.destroyMenuItems();
     }

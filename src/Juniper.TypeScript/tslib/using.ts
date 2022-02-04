@@ -12,30 +12,58 @@ export interface ICloneable {
     clone(): unknown;
 }
 
+export interface IDestroyable {
+    destroy(): void;
+}
+
+function interfaceSigCheck<T>(obj: any, ...funcNames: string[]): obj is T {
+    if (!isObject(obj)) {
+        return false;
+    }
+
+    obj = obj as any;
+
+    for (const funcName of funcNames) {
+        if (!(funcName in obj)) {
+            return false;
+        }
+
+        const func = obj[funcName];
+        if(!isFunction(func)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 export function isDisposable(obj: any): obj is IDisposable {
-    return isObject(obj)
-        && "dispose" in obj
-        && isFunction((obj as IDisposable).dispose);
+    return interfaceSigCheck(obj, "dispose");
+}
+
+export function isDestroyable(obj: any): obj is IDestroyable {
+    return interfaceSigCheck(obj, "destroy");
 }
 
 export function isClosable(obj: any): obj is IClosable {
-    return isObject(obj)
-        && "close" in obj
-        && isFunction((obj as IClosable).close);
+    return interfaceSigCheck(obj, "close");
 }
 
 export function isCloneable(obj: any): obj is ICloneable {
-    return isObject(obj)
-        && "clone" in obj
-        && isFunction((obj as ICloneable).clone);
+    return interfaceSigCheck(obj, "clone");
 }
 
 export function dispose(val: any): void {
     if (isDisposable(val)) {
         val.dispose();
     }
-    else if (isClosable(val)) {
+
+    if (isClosable(val)) {
         val.close();
+    }
+
+    if (isDestroyable(val)) {
+        val.destroy();
     }
 }
 

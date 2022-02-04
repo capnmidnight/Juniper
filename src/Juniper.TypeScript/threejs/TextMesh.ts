@@ -17,7 +17,7 @@ export class TextMesh extends Image2DMesh {
     }
 
     private onRedrawn() {
-        this.updateTexture();
+        this.mesh.updateTexture();
         this.scale.set(this._textImage.width, this._textImage.height, 0.01);
         this.dispatchEvent(redrawnEvt);
     }
@@ -37,7 +37,7 @@ export class TextMesh extends Image2DMesh {
 
             if (this.textImage) {
                 this.textImage.addEventListener("redrawn", this._onRedrawn);
-                this.setImage(this.textImage.canvas);
+                this.mesh.setImage(this.textImage.canvas);
                 this._onRedrawn();
             }
         }
