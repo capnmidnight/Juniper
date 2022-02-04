@@ -3,23 +3,37 @@ import type { ICanvasImage } from "juniper-dom/CanvasImage";
 import { elementIsDisplayed, elementSetDisplay } from "juniper-dom/tags";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { Image2DMesh } from "../Image2DMesh";
-import { obj, objectSetVisible } from "../objects";
+import { objectSetVisible } from "../objects";
 import type { Widget } from "./widgets";
 
 
-export class CanvasImageMesh<T extends ICanvasImage> implements Widget {
-    readonly object: THREE.Object3D;
-    readonly mesh: Image2DMesh;
+export class CanvasImageMesh<T extends ICanvasImage>
+    extends Image2DMesh
+    implements Widget {
 
-    constructor(protected readonly env: BaseEnvironment<unknown>, name: string, public readonly image: T) {
+    get object() {
+        return this;
+    }
 
-        this.object = obj(name,
-            this.mesh = new Image2DMesh(this.env, `${name}-image`));
+    constructor(env: BaseEnvironment<unknown>, name: string, public image: T) {
+        super(env, name);
+
+        if (this.mesh) {
+            this.setImage(image);
+        }
+    }
+
+    private setImage(image: T): void {
         this.mesh.setImage(image.canvas);
         this.mesh.objectHeight = 0.1;
         this.mesh.updateTexture();
-
         image.addEventListener("redrawn", () => this.mesh.updateTexture());
+    }
+
+    override copy(source: this, recursive = true): this {
+        super.copy(source, recursive);
+        this.setImage(source.image);
+        return this;
     }
 
     get element() {
@@ -31,15 +45,11 @@ export class CanvasImageMesh<T extends ICanvasImage> implements Widget {
         }
     }
 
-    get name() {
-        return this.object.name;
-    }
-
-    get visible() {
+    get isVisible() {
         return elementIsDisplayed(this);
     }
 
-    set visible(v) {
+    set isVisible(v) {
         elementSetDisplay(this, v, "inline-block");
         objectSetVisible(this, v);
         objectSetVisible(this.mesh, v);

@@ -47,6 +47,7 @@ export class Environment
     readonly confirmationDialog: ConfirmationDialog;
     readonly compassImage = new CanvasImageMesh(this, "Horizon", new ArtificialHorizon());
     readonly clockImage = new CanvasImageMesh(this, "Clock", new ClockImage());
+    readonly batteryImage: CanvasImageMesh<BatteryImage>;
     readonly settingsButton: ButtonImageWidget;
     readonly muteMicButton: ToggleButton;
     readonly muteEnvAudioButton: ToggleButton;
@@ -55,7 +56,6 @@ export class Environment
     //readonly arButton: ScreenModeToggleButton;
     readonly vrButton: ScreenModeToggleButton;
     readonly fullscreenButton: ScreenModeToggleButton;
-    readonly batteryImage: CanvasImageMesh<BatteryImage>;
     readonly devicesDialog: DeviceDialog;
     readonly apps: ApplicationLoader;
     readonly uiButtons: ButtonFactory;
@@ -210,7 +210,7 @@ export class Environment
     private refreshSpaceUI() {
         this.xrUI.visible = this.renderer.xr.isPresenting
             || this.testSpaceLayout;
-        this.clockImage.visible = this.xrUI.visible
+        this.clockImage.isVisible = this.xrUI.visible
             || this.DEBUG;
     }
 
