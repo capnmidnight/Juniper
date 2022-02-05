@@ -1,4 +1,3 @@
-import { CanvasTypes, Context2D, createUtilityCanvas, setContextSize } from "juniper-dom/canvas";
 import { arrayCompare, IDisposable, isDefined } from "juniper-tslib";
 import { cleanup } from "./cleanup";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
@@ -17,8 +16,6 @@ let copyCounter = 0;
 
 export class Image2DMesh extends THREE.Object3D implements IDisposable {
     private readonly lastMatrixWorld = new THREE.Matrix4();
-    private layerCanvas: CanvasTypes = null;
-    private layerCtx: Context2D = null;
     private layer: XRQuadLayer = null;
     private wasVisible = false;
     private webXRLayerEnabled = true;
@@ -101,15 +98,6 @@ export class Image2DMesh extends THREE.Object3D implements IDisposable {
                     || this.mesh.material.map.needsUpdate) {
                     const gl = this.env.renderer.getContext();
                     const gLayer = binding.getSubImage(this.layer, frame);
-
-                    if (this.layerCtx) {
-                        setContextSize(this.layerCtx, this.mesh.imageWidth, this.mesh.imageHeight);
-                    }
-                    else {
-                        this.layerCanvas = createUtilityCanvas(this.mesh.imageWidth, this.mesh.imageHeight);
-                        this.layerCtx = this.layerCanvas.getContext("2d");
-                    }
-                    this.layerCtx.drawImage(this.mesh.material.map.image, 0, 0);
 
                     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
                     gl.bindTexture(gl.TEXTURE_2D, gLayer.colorTexture);
