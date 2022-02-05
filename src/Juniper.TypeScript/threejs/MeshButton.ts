@@ -12,10 +12,16 @@ export class MeshButton extends MeshLabel {
 
         this.collider = new Collider(geometry);
         this.collider.name = `Collider-${this.name}`;
-        this.collider.scale.setScalar(size);
-
+        this.size = size;
         this.add(this.collider);
 
         scaleOnHover(this);
+    }
+
+    override set size(v: number) {
+        super.size = v;
+        if (this.collider) {
+            this.collider.scale.setScalar(v);
+        }
     }
 }

@@ -12,17 +12,25 @@ export class MeshLabel extends THREE.Object3D {
 
         this.name = name + id;
 
-        this.enabledMesh = this.createMesh(`${this.name}-enabled`, geometry, enabledMaterial, size);
-        this.disabledMesh = this.createMesh(`${this.name}-disabled`, geometry, disabledMaterial, size);
+        this.enabledMesh = this.createMesh(`${this.name}-enabled`, geometry, enabledMaterial);
+        this.disabledMesh = this.createMesh(`${this.name}-disabled`, geometry, disabledMaterial);
         this.disabledMesh.visible = false;
-
+        this.size = size;
         this.add(this.enabledMesh, this.disabledMesh);
     }
 
-    private createMesh(id: string, geometry: THREE.BufferGeometry, material: THREE.Material, size: number) {
+    get size(): number {
+        return this.enabledMesh.scale.x;
+    }
+
+    set size(v: number) {
+        this.enabledMesh.scale.setScalar(v);
+        this.disabledMesh.scale.setScalar(v);
+    }
+
+    private createMesh(id: string, geometry: THREE.BufferGeometry, material: THREE.Material) {
         const mesh = new THREE.Mesh(geometry, material);
         mesh.name = "Mesh-" + id;
-        mesh.scale.setScalar(size);
         return mesh;
     }
 
