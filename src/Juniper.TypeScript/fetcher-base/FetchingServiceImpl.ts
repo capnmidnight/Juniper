@@ -111,6 +111,10 @@ function readResponse<T>(xhr: XMLHttpRequest) {
 
     const headers = new Map<string, string>(parts);
 
+    if (xhr.status >= 400) {
+        throw new Error(`Error [${xhr.status}]: ${xhr.responseText}.`);
+    }
+
     const response: IResponse<T> = {
         status: xhr.status,
         content: xhr.response as T,
