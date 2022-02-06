@@ -41,19 +41,10 @@ type XREventType =
     | 'squeeze'
     | 'squeezestart'
     | 'squeezeend'
-    | 'inputsourceschange';
-
-type XREventType =
+    | 'inputsourceschange'
     | 'devicechange'
     | 'visibilitychange'
-    | 'end'
     | 'inputsourceschange'
-    | 'select'
-    | 'selectstart'
-    | 'selectend'
-    | 'squeeze'
-    | 'squeezestart'
-    | 'squeezeend'
     | 'reset';
 
 type XRPlaneSet = Set<XRPlane>;
@@ -67,7 +58,7 @@ interface XRSessionEvent extends Event {
     readonly session: XRSession;
 }
 
-class XRWebGLLayer extends EventTarget implements XRLayer {
+declare class XRWebGLLayer extends EventTarget implements XRLayer {
     static getNativeFramebufferScaleFactor(session: XRSession): number;
     constructor(session: XRSession, gl: WebGLRenderingContext | WebGL2RenderingContext | undefined, options?: XRWebGLLayerInit);
     readonly antialias: boolean;
@@ -80,7 +71,15 @@ class XRWebGLLayer extends EventTarget implements XRLayer {
 
 interface XRSpace extends EventTarget { }
 
-interface XRRenderStateInit extends XRRenderState {
+interface XRRenderState {
+    readonly baseLayer?: XRWebGLLayer;
+    readonly depthNear: number;
+    readonly depthFar: number;
+    readonly inlineVerticalFieldOfView?: number;
+    readonly layers?: XRLayer[];
+}
+
+interface XRRenderStateInit {
     baseLayer?: XRWebGLLayer;
     depthFar?: number;
     depthNear?: number;
@@ -173,7 +172,7 @@ interface _XRCompositionLayer extends XRCompositionLayer, EventTarget {
     space: XRSpace;
 
     // Events
-    onredraw: (evt: XRRedrawEventMap[K]) => any;
+    onredraw: (evt: XRRedrawEventMap["redraw"]) => any;
     addEventListener<K extends keyof XRRedrawEventMap>(type: K, callback: (evt: XRRedrawEventMap[K]) => any, options?: boolean | AddEventListenerOptions);
     removeEventListener<K extends keyof XRRedrawEventMap>(type: K, callback: (evt: XRRedrawEventMap[K]) => any);
 }
@@ -271,7 +270,7 @@ interface XRWebGLSubImage extends XRSubImage {
     readonly textureHeight: number;
 }
 
-class XRWebGLBinding {
+declare class XRWebGLBinding {
     constructor(session: XRSession, context: WebGLRenderingContext);
 
     readonly nativeProjectionScaleFactor: number;
@@ -282,7 +281,7 @@ class XRWebGLBinding {
     createEquirectLayer(init?: XREquirectLayerInit): XREquirectLayer;
     createCubeLayer(init?: XRCubeLayerInit): XRCubeLayer;
 
-    getSubImage(layer: XRCompositionLayer, frame: XRFrame, eye: XREye = "none"): XRWebGLSubImage;
+    getSubImage(layer: XRCompositionLayer, frame: XRFrame, eye?: XREye): XRWebGLSubImage;
     getViewSubImage(layer: XRProjectionLayer, view: XRView): XRWebGLSubImage;
 }
 
@@ -313,20 +312,6 @@ interface XRViewport {
     readonly y: number;
     readonly width: number;
     readonly height: number;
-}
-
-interface XRRenderState {
-    readonly depthNear: number;
-    readonly depthFar: number;
-    readonly inlineVerticalFieldOfView?: number | undefined;
-    readonly baseLayer?: XRWebGLLayer | undefined;
-}
-
-interface XRRenderStateInit {
-    depthNear?: number | undefined;
-    depthFar?: number | undefined;
-    inlineVerticalFieldOfView?: number | undefined;
-    baseLayer?: XRWebGLLayer | undefined;
 }
 
 interface XRInputSource {
@@ -378,10 +363,6 @@ interface XRSession extends EventTarget {
     requestAnimationFrame(callback: XRFrameRequestCallback): number;
     cancelAnimationFrame(id: number): void;
     end(): Promise<void>;
-    renderState: XRRenderState;
-    inputSources: XRInputSource[];
-    environmentBlendMode: XREnvironmentBlendMode;
-    visibilityState: XRVisibilityState;
 
     // hit test
     requestHitTestSource(options: XRHitTestOptionsInit): Promise<XRHitTestSource>;
@@ -396,13 +377,14 @@ interface XRSession extends EventTarget {
     updateWorldTrackingState(options: { planeDetectionState?: { enabled: boolean } | undefined }): void;
 }
 
+declare class XRSession {
+    prototype: XRSession;
+}
+
 interface XRReferenceSpace extends EventTarget {
     getOffsetReferenceSpace(originOffset: XRRigidTransform): XRReferenceSpace;
     onreset: any;
 }
-
-type XRPlaneSet = Set<XRPlane>;
-type XRAnchorSet = Set<XRAnchor>;
 
 interface XRFrame {
     readonly session: XRSession;
@@ -421,6 +403,10 @@ interface XRFrame {
     };
     // Hand tracking
     getJointPose(joint: XRJointSpace, baseSpace: EventTarget): XRJointPose;
+}
+
+declare class XRFrame {
+    prototype: XRFrame;
 }
 
 interface XRViewerPose {
@@ -449,7 +435,7 @@ interface DOMPointInit {
     z?: number | undefined;
 }
 
-class XRRigidTransform {
+declare class XRRigidTransform {
     constructor(matrix: Float32Array | DOMPointInit, direction?: DOMPointInit);
     position: DOMPointReadOnly;
     orientation: DOMPointReadOnly;
@@ -471,7 +457,7 @@ interface XRRayDirectionInit {
     w?: number | undefined;
 }
 
-class XRRay {
+declare class XRRay {
     readonly origin: DOMPointReadOnly;
     readonly direction: XRRayDirectionInit;
     matrix: Float32Array;
@@ -479,7 +465,7 @@ class XRRay {
     constructor(transformOrOrigin: XRRigidTransform | DOMPointInit, direction?: XRRayDirectionInit);
 }
 
-enum XRHitTestTrackableType {
+declare enum XRHitTestTrackableType {
     'point',
     'plane',
     'mesh',
@@ -532,7 +518,7 @@ interface XRPlane {
     lastChangedTime: number;
 }
 
-enum XRHandJoint {
+declare enum XRHandJoint {
     'wrist',
     'thumb-metacarpal',
     'thumb-phalanx-proximal',
@@ -566,10 +552,6 @@ interface XRJointSpace extends EventTarget {
 
 interface XRJointPose extends XRPose {
     readonly radius: number | undefined;
-}
-
-interface XRHand extends Map<XRHandJoint, XRJointSpace> {
-    readonly size: number;
 }
 
 interface XRInputSourceChangeEvent {

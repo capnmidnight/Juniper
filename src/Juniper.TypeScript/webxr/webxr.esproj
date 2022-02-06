@@ -1,6 +1,11 @@
 <Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.4.0-alpha">
   <PropertyGroup Label="Globals">
-    <ProjectGuid>DFD46E55-D4C9-42BB-A43A-1E1F6BA699E7</ProjectGuid>
+    <ProjectGuid>f7881a2c-2783-46a0-a424-6500b5809e60</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <StartupCommand>set BROWSER=none&amp;&amp;npm start</StartupCommand>
+    <JavaScriptTestRoot>src\</JavaScriptTestRoot>
+    <JavaScriptTestFramework>Jest</JavaScriptTestFramework>
   </PropertyGroup>
   <ItemGroup>
     <Script Include="**" Exclude="*.esproj;**\node_modules\**" />
@@ -15,9 +20,4 @@
     <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
     <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
   </Target>
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties tsconfig_1json__JsonSchema="https://json.schemastore.org/vsext.json" />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>

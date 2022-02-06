@@ -2,6 +2,7 @@
   "version": "1.0.0",
   "name": "juniper-yt-dlp",
   "private": true,
+  "types": "index.d.ts",
   "scripts": {
     "update": "npm install",
     "inst": "npm ci",

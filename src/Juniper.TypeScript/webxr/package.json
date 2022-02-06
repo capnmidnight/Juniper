@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "name": "@types/webxr",
+  "description": "TypeScript definitions for WebXR",
+  "private": true,
+  "main": "",
+  "types": "index.d.ts",
+  "scripts": {},
+  "typeScriptVersion": "4.3"
+}

@@ -13,6 +13,7 @@
     "juniper-dom": "file:../dom",
     "juniper-timers": "file:../timers",
     "juniper-tslib": "file:../tslib",
+    "juniper-webxr": "file:../webxr",
     "webrtc-adapter": "8.1.1"
   },
   "devDependencies": {
