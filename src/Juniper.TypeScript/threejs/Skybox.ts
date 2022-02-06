@@ -127,7 +127,7 @@ export class Skybox {
         const task = this.env.fetcher
             .get(path)
             .progress(onProgress)
-            .image()
+            .canvasImage()
             .then(response => {
                 this.imgCache.set(path, response.content);
                 this.imgTasks.delete(path);

@@ -1,3 +1,4 @@
+import { CanvasImageTypes } from "juniper-dom/canvas";
 import { TimerTickEvent } from "juniper-timers";
 import {
     buildTree,
@@ -28,7 +29,7 @@ export class MainMenu
     private readonly menu: Menu;
     private readonly node2MenuItem = new Map<Node, MenuItemDescription>();
     private readonly menuItem2Node = new Map<MenuItemDescription, Node>();
-    private readonly images = new Map<string, HTMLImageElement>();
+    private readonly images = new Map<string, CanvasImageTypes>();
 
     private menuDesc: MenuDescription = null;
     private curMenu: Node = null;
@@ -94,7 +95,7 @@ export class MainMenu
                 let { content: img } = await this.env.fetcher
                     .get(f)
                     .progress(prog)
-                    .image();
+                    .canvasImage();
                 this.images.set(f, img);
             });
 
