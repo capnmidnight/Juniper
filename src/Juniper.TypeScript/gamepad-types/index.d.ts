@@ -16,3 +16,8 @@ interface Gamepad {
     readonly hand: GamepadHand;
     readonly pose: GamepadPose;
 }
+
+interface GamepadHapticActuator {
+    pulse(strength: number, lengthMS: number): Promise<void>;
+}
+

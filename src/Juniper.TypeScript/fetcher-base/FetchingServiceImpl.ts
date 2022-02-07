@@ -61,7 +61,7 @@ function trackProgress(name: string, xhr: XMLHttpRequest, target: (XMLHttpReques
     });
 }
 
-function sendRequest(xhr: XMLHttpRequest, xhrType: XMLHttpRequestResponseType, method: string, path: string, timeout: number, headers: Map<string, string>, body?: BodyInit): void {
+function sendRequest(xhr: XMLHttpRequest, xhrType: XMLHttpRequestResponseType, method: string, path: string, timeout: number, headers: Map<string, string>, body?: XMLHttpRequestBodyInit): void {
     xhr.open(method, path);
     xhr.responseType = xhrType;
     xhr.timeout = timeout;
@@ -167,7 +167,7 @@ export class FetchingServiceImpl
 
     private async postXHR<T>(xhrType: XMLHttpRequestResponseType, request: IRequestWithBody, prog: IProgress): Promise<IResponse<T>> {
 
-        let body: BodyInit = null;
+        let body: XMLHttpRequestBodyInit = null;
 
         
         const headers = mapJoin(new Map<string, string>(), this.defaultPostHeaders, request.headers);

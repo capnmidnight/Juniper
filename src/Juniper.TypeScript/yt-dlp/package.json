@@ -8,5 +8,6 @@
     "update": "echo no update",
     "inst": "echo no install",
     "build": "echo no build"
-  }
+  },
+  "typeScriptVersion": "4.5"
 }

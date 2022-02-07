@@ -12,12 +12,14 @@
   "devDependencies": {
     "@types/audio-types": "file:../audio-types",
     "@types/battery-types": "file:../battery-types",
+    "@types/gamepad-types": "file:../gamepad-types",
+    "@types/offscreencanvas-types": "file:../offscreencanvas-types",
     "@types/three": "0.137.0",
     "@types/webxr-polyfill-types": "file:../webxr-polyfill-types",
     "@types/webxr-types": "file:../webxr-types",
     "juniper-esbuild": "file:../esbuild",
     "tslib": "2.3.1",
-    "typescript": "4.3.5"
+    "typescript": "4.5.5"
   },
   "dependencies": {
     "juniper-2d": "file:../graphics2d",

@@ -91,7 +91,7 @@ export function isArrayBuffer(val: any): val is ArrayBuffer {
             (val.constructor && val.constructor.name === "ArrayBuffer"));
 }
 
-export function isXHRBodyInit(obj: any): obj is BodyInit {
+export function isXHRBodyInit(obj: any): obj is XMLHttpRequestBodyInit {
     return isString(obj)
         || isArrayBufferView(obj)
         || obj instanceof Blob

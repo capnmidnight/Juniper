@@ -162,8 +162,8 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
         this.sendInvocationCompleteBuffer[0] = Message.InvocationComplete;
 
         this.connection = new RTCPeerConnection(rtcConfig);
-        this.connection.addEventListener("icecandidateerror", (evt: RTCPeerConnectionIceErrorEvent) => {
-            this.dispatchEvent(new RemoteUserIceErrorEvent(this, evt));
+        this.connection.addEventListener("icecandidateerror", (evt: Event) => {
+            this.dispatchEvent(new RemoteUserIceErrorEvent(this, evt as RTCPeerConnectionIceErrorEvent));
         });
 
         this.connection.addEventListener("icecandidate", async (evt: RTCPeerConnectionIceEvent) => {

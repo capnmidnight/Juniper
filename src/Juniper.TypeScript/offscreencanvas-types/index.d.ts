@@ -17,10 +17,8 @@ interface OffscreenCanvasRenderingContext2D extends CanvasState, CanvasTransform
     readonly canvas: OffscreenCanvas;
 }
 
-declare var OffscreenCanvasRenderingContext2D: {
-    prototype: OffscreenCanvasRenderingContext2D;
-    new(): OffscreenCanvasRenderingContext2D;
-};
+declare class OffscreenCanvasRenderingContext2D {
+}
 
 // https://html.spec.whatwg.org/multipage/canvas.html#the-offscreencanvas-interface
 // Possible contextId values are defined by the enum OffscreenRenderingContextId { "2d", "bitmaprenderer", "webgl", "webgl2" }
@@ -41,6 +39,10 @@ interface OffscreenCanvas extends EventTarget, Transferable {
 
     transferToImageBitmap(): ImageBitmap;
 }
+
+declare class OffscreenCanvas {
+    constructor(width: number, height: number);
+};
 
 // https://html.spec.whatwg.org/multipage/canvas.html#canvasdrawimage
 interface CanvasDrawImage {
@@ -76,7 +78,19 @@ interface Window {
 
 declare function postMessage(message: any, targetOrigin: string, transfer?: Array<Transferable | OffscreenCanvas>): void;
 
-declare var OffscreenCanvas: {
-    prototype: OffscreenCanvas;
-    new(width: number, height: number): OffscreenCanvas;
-};
+interface WebGL2RenderingContextBase {
+    texImage3D(target: GLenum, level: GLint, internalformat: GLint, width: GLsizei, height: GLsizei, depth: GLsizei, border: GLint, format: GLenum, type: GLenum, source: TexImageSource | OffscreenCanvas): void;
+    texSubImage3D(target: GLenum, level: GLint, xoffset: GLint, yoffset: GLint, zoffset: GLint, width: GLsizei, height: GLsizei, depth: GLsizei, format: GLenum, type: GLenum, source: TexImageSource | OffscreenCanvas): void;
+}
+
+interface WebGL2RenderingContextOverloads {
+    texImage2D(target: GLenum, level: GLint, internalformat: GLint, format: GLenum, type: GLenum, source: TexImageSource | OffscreenCanvas): void;
+    texImage2D(target: GLenum, level: GLint, internalformat: GLint, width: GLsizei, height: GLsizei, border: GLint, format: GLenum, type: GLenum, source: TexImageSource | OffscreenCanvas): void;
+    texSubImage2D(target: GLenum, level: GLint, xoffset: GLint, yoffset: GLint, format: GLenum, type: GLenum, source: TexImageSource | OffscreenCanvas): void;
+    texSubImage2D(target: GLenum, level: GLint, xoffset: GLint, yoffset: GLint, width: GLsizei, height: GLsizei, format: GLenum, type: GLenum, source: TexImageSource | OffscreenCanvas): void;
+}
+
+interface WebGLRenderingContextOverloads {
+    texImage2D(target: GLenum, level: GLint, internalformat: GLint, format: GLenum, type: GLenum, source: TexImageSource | OffscreenCanvas): void;
+    texSubImage2D(target: GLenum, level: GLint, xoffset: GLint, yoffset: GLint, format: GLenum, type: GLenum, source: TexImageSource | OffscreenCanvas): void;
+}

@@ -594,32 +594,35 @@ export class AvatarLocal
 
     private motionEnabled = false;
 
+    private async getPermission(): Promise<PermissionState | "not-supported"> {
+        if (!("DeviceOrientationEvent" in globalThis)) {
+            return "not-supported";
+        }
+
+        const dev = DeviceOrientationEvent as any;
+
+        if ("requestPermission" in dev
+            && isFunction(dev["requestPermission"])) {
+            // iOS 13+
+            return await dev.requestPermission();
+        }
+
+        return "granted";
+    }
+
     async startMotionControl() {
         if (!this.motionEnabled) {
             this.onScreenOrientationChangeEvent(); // run once on load
-
-            // iOS 13+
-
-            if ("DeviceOrientationEvent" in globalThis
-                && isFunction(DeviceOrientationEvent.requestPermission)) {
-                try {
-                    const response = await DeviceOrientationEvent.requestPermission();
-                    if (response == "granted") {
-                        globalThis.addEventListener("orientationchange", this.onScreenOrientationChangeEvent);
-                        globalThis.addEventListener("deviceorientation", this.onDeviceOrientationChangeEvent);
-                    }
-
-                } catch (error) {
-
-                    console.error("DeviceOrientationControls: Unable to use DeviceOrientation API:", error);
-
+            try {
+                const permission = await this.getPermission();
+                this.motionEnabled = permission === "granted";
+                if (this.motionEnabled) {
+                    globalThis.addEventListener("orientationchange", this.onScreenOrientationChangeEvent);
+                    globalThis.addEventListener("deviceorientation", this.onDeviceOrientationChangeEvent);
                 }
-            } else {
-                globalThis.addEventListener("orientationchange", this.onScreenOrientationChangeEvent);
-                globalThis.addEventListener("deviceorientation", this.onDeviceOrientationChangeEvent);
+            } catch (error) {
+                console.error("DeviceOrientationControls: Unable to use DeviceOrientation API:", error);
             }
-
-            this.motionEnabled = true;
         }
     }
 

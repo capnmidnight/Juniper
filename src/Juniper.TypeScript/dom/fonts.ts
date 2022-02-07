@@ -1,6 +1,5 @@
-import { singleton } from "juniper-tslib";
 import type { IProgress } from "juniper-tslib";
-import { isFunction, isObject, isPromise, isString } from "juniper-tslib";
+import { isString, singleton } from "juniper-tslib";
 
 const DEFAULT_TEST_TEXT = "The quick brown fox jumps over the lazy dog";
 const loadedFonts = singleton<string[]>("juniper::loadedFonts", () => []);
@@ -34,51 +33,12 @@ export function makeFont(style: FontDescription): string {
     return fontParts.join(" ");
 }
 
-interface FontFace {
-    family: string;
-    style: string;
-    weight: string;
-    stretch: string;
-    unicodeRange: string;
-    variant: string;
-    featureSettings: string;
-    variationSettings: string;
-    display: string;
-    ascentOverride: string;
-    descentOverride: string;
-    lineGapOverride: string;
-
-    status: string;
-
-    load(): Promise<FontFace>;
-    loaded: Promise<FontFace>;
-};
-
-interface FontFaceSet extends EventTarget {
-    status: string;
-    ready: Promise<void>;
-    check(font: string, text?: string): boolean;
-    load(font: string, text?: string): Promise<FontFace[]>;
-}
-
-interface FontLoadingDocument extends Document {
-    fonts: FontFaceSet;
-}
-
-function isFontLoadingDocument(doc: Document): doc is FontLoadingDocument {
-    return isObject((doc as any).fonts)
-        && isString((doc as any).fonts.status)
-        && isPromise((doc as any).fonts.ready)
-        && isFunction((doc as any).fonts.check)
-        && isFunction((doc as any).fonts.load);
-}
-
 export async function loadFont(font: string | FontDescription, testString: string | null = null, onProgress?: IProgress) {
     if (!isString(font)) {
         font = makeFont(font);
     }
 
-    if (isFontLoadingDocument(document) && loadedFonts.indexOf(font) === -1) {
+    if (loadedFonts.indexOf(font) === -1) {
         testString = testString || DEFAULT_TEST_TEXT;
         if (onProgress) {
             onProgress.report(0, 1, font);

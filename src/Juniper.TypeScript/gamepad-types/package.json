@@ -10,5 +10,5 @@
     "inst": "echo no install",
     "build": "echo no build"
   },
-  "typeScriptVersion": "4.3"
+  "typeScriptVersion": "4.5"
 }
