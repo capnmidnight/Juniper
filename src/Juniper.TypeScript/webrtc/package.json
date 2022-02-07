@@ -13,10 +13,11 @@
     "juniper-dom": "file:../dom",
     "juniper-timers": "file:../timers",
     "juniper-tslib": "file:../tslib",
-    "juniper-webxr": "file:../webxr",
     "webrtc-adapter": "8.1.1"
   },
   "devDependencies": {
+    "@types/audio-types": "file:../audio-types",
+    "@types/webxr-types": "file:../webxr-types",
     "tslib": "2.3.1",
     "typescript": "4.3.5"
   }

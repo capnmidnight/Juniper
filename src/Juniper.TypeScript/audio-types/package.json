@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "name": "@types/audio-types",
+  "description": "TypeScript definitions for HTMLAudioElement setSinkId",
+  "private": true,
+  "main": "",
+  "types": "index.d.ts",
+  "scripts": {},
+  "typeScriptVersion": "4.3"
+}
