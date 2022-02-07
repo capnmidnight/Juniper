@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "name": "@types/webxr-polyfill-types",
-  "description": "TypeScript definitions for WebXRPolyfill",
+  "name": "@types/offscreencanvas-types",
+  "description": "TypeScript definitions for OffscreenCanvas",
   "private": true,
   "main": "",
   "types": "index.d.ts",

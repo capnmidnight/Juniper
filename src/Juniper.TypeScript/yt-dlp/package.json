@@ -1,15 +1,12 @@
 {
   "version": "1.0.0",
-  "name": "juniper-yt-dlp",
+  "name": "@types/yt-dlp",
   "private": true,
+  "main": "",
   "types": "index.d.ts",
   "scripts": {
-    "update": "npm install",
-    "inst": "npm ci",
+    "update": "echo no update",
+    "inst": "echo no install",
     "build": "echo no build"
-  },
-  "devDependencies": {
-    "tslib": "2.3.1",
-    "typescript": "4.3.5"
   }
 }

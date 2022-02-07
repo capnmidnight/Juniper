@@ -60,7 +60,7 @@ interface YTMetadataPlaylist {
     uploader_url: string;
 }
 
-export interface YTMetadata {
+interface YTMetadata {
     id: string;
     title: string;
     formats: YTMetadataFormat[];

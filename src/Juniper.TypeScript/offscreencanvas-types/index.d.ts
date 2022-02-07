@@ -49,13 +49,13 @@ interface CanvasDrawImage {
     drawImage(image: CanvasImageSource | OffscreenCanvas, dx: number, dy: number, dw: number, dh: number): void;
 
     drawImage(image: CanvasImageSource | OffscreenCanvas, sx: number, sy: number, sw: number, sh: number,
-              dx: number, dy: number, dw: number, dh: number): void;
+        dx: number, dy: number, dw: number, dh: number): void;
 }
 
 // https://html.spec.whatwg.org/multipage/imagebitmap-and-animations.html#dom-createimagebitmap
 declare function createImageBitmap(image: ImageBitmapSource | OffscreenCanvas): Promise<ImageBitmap>;
 declare function createImageBitmap(image: ImageBitmapSource | OffscreenCanvas, sx: number, sy: number,
-                                   sw: number, sh: number): Promise<ImageBitmap>;
+    sw: number, sh: number): Promise<ImageBitmap>;
 
 // OffscreenCanvas should be a part of Transferable => extend all postMessage methods
 interface Worker {
