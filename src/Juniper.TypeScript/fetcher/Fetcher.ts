@@ -15,7 +15,9 @@ import {
     IResponse
 } from "juniper-fetcher-base/IFetcher";
 import { ResponseTranslator } from "juniper-fetcher-base/ResponseTranslator";
-import { Application_Javascript, Application_Json, Application_Wasm, MediaType, mediaTypeGuessByFileName, Text_Plain, Text_Xml } from "juniper-mediatypes";
+import { MediaType, mediaTypeGuessByFileName } from "juniper-mediatypes";
+import { Application_Javascript, Application_Json, Application_Wasm } from "juniper-mediatypes/application";
+import { Text_Plain, Text_Xml } from "juniper-mediatypes/text";
 import { assertNever, Exception, IProgress, isDefined, isString, once, waitFor } from "juniper-tslib";
 
 
