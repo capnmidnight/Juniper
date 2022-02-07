@@ -56,6 +56,16 @@ const nextFlick = new THREE.Vector3();
 const rotStage = new THREE.Matrix4();
 const userMovedEvt = new AvatarMovedEvent();
 
+interface DeviceOrientationEventWithPermissionRequest extends Function {
+    requestPermission(): Promise<PermissionState>;
+}
+
+function isPermissionedDeviceOrientationEvent(obj: any): obj is DeviceOrientationEventWithPermissionRequest {
+    return obj === DeviceOrientationEvent
+        && "requestPermission" in obj
+        && isFunction(obj.requestPermission);
+}
+
 enum CameraControlMode {
     None = "none",
     MouseFPS = "mousefirstperson",
@@ -599,12 +609,9 @@ export class AvatarLocal
             return "not-supported";
         }
 
-        const dev = DeviceOrientationEvent as any;
-
-        if ("requestPermission" in dev
-            && isFunction(dev["requestPermission"])) {
-            // iOS 13+
-            return await dev.requestPermission();
+        // iOS 13+
+        if (isPermissionedDeviceOrientationEvent(DeviceOrientationEvent)) {
+            return await DeviceOrientationEvent.requestPermission();
         }
 
         return "granted";
@@ -613,15 +620,11 @@ export class AvatarLocal
     async startMotionControl() {
         if (!this.motionEnabled) {
             this.onScreenOrientationChangeEvent(); // run once on load
-            try {
-                const permission = await this.getPermission();
-                this.motionEnabled = permission === "granted";
-                if (this.motionEnabled) {
-                    globalThis.addEventListener("orientationchange", this.onScreenOrientationChangeEvent);
-                    globalThis.addEventListener("deviceorientation", this.onDeviceOrientationChangeEvent);
-                }
-            } catch (error) {
-                console.error("DeviceOrientationControls: Unable to use DeviceOrientation API:", error);
+            const permission = await this.getPermission();
+            this.motionEnabled = permission === "granted";
+            if (this.motionEnabled) {
+                globalThis.addEventListener("orientationchange", this.onScreenOrientationChangeEvent);
+                globalThis.addEventListener("deviceorientation", this.onDeviceOrientationChangeEvent);
             }
         }
     }
