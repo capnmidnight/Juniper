@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@types/audio-types": "file:../audio-types",
+    "@types/battery-types": "file:../battery-types",
     "@types/three": "0.137.0",
     "@types/webxr-types": "file:../webxr-types",
     "juniper-esbuild": "file:../esbuild",
