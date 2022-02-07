@@ -13,6 +13,7 @@
     "@types/audio-types": "file:../audio-types",
     "@types/battery-types": "file:../battery-types",
     "@types/three": "0.137.0",
+    "@types/webxr-polyfill-types": "file:../webxr-polyfill-types",
     "@types/webxr-types": "file:../webxr-types",
     "juniper-esbuild": "file:../esbuild",
     "tslib": "2.3.1",

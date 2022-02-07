@@ -1,1 +1,0 @@
-declare module "webxr-polyfill/src/WebXRPolyfill";
