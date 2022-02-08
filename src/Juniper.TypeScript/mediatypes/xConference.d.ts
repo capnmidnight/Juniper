@@ -1,2 +1,2 @@
-export declare const anyXConference: void;
-export declare const XConference_XCooltalk: void;
+export declare const anyXConference: import("./util").MediaType;
+export declare const XConference_XCooltalk: import("./util").MediaType;

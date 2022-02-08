@@ -236,6 +236,10 @@ export function mediaTypeNormalizeFileName(fileName, fileType) {
     return fileType;
 }
 export function create(group, value, ...extensions) {
-    register(new InternalMediaType(group, value, extensions));
+    return register(new InternalMediaType(group, value, extensions));
 }
-export const specialize = (group) => (value, ...extensions) => create(group, value, ...extensions);
+export function specialize(group) {
+    return function (value, ...extensions) {
+        return create(group, value, ...extensions);
+    };
+}

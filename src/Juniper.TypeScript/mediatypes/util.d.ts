@@ -17,5 +17,5 @@ export declare function mediaTypesMatch(value: string | MediaType, pattern: stri
 export declare function mediaTypeGuessByFileName(fileName: string): MediaType[];
 export declare function mediaTypeGuessByExtension(ext: string): MediaType[];
 export declare function mediaTypeNormalizeFileName(fileName: string, fileType: string): string;
-export declare function create(group: string, value: string, ...extensions: string[]): void;
-export declare const specialize: (group: string) => (value: string, ...extensions: string[]) => void;
+export declare function create(group: string, value: string, ...extensions: string[]): MediaType;
+export declare function specialize(group: string): (value: string, ...extensions: string[]) => MediaType;
