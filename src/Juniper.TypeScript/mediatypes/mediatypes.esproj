@@ -2,6 +2,9 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>03355151-5A71-4B19-9C3C-72C99AA09C44</ProjectGuid>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <BuildCommand>npm run build</BuildCommand>
+  </PropertyGroup>
   <ItemGroup>
     <Script Include="**" Exclude="*.esproj;**\node_modules\**" />
   </ItemGroup>

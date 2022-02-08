@@ -2,6 +2,7 @@
   "version": "1.0.0",
   "name": "juniper-fetcher",
   "private": true,
+  "type": "module",
   "scripts": {
     "update": "npm install",
     "inst": "npm ci",
@@ -16,7 +17,6 @@
   "devDependencies": {
     "@types/offscreencanvas-types": "file:../offscreencanvas-types",
     "juniper-esbuild": "file:../esbuild",
-    "tslib": "2.3.1",
     "typescript": "4.5.5"
   }
 }
