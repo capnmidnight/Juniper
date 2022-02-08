@@ -1,4 +1,6 @@
 {
+  "extends": "../tsconfig.json",
+
   "include": [
     "**/*.ts"
   ],
@@ -11,44 +13,6 @@
 
   "compilerOptions": {
     "lib": [ "ESNext", "DOM", "WebWorker" ],
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "Node",
-
-    "declaration": true,
-    "disableSizeLimit": true,
-    "downlevelIteration": true,
-    "experimentalDecorators": false,
-    "importHelpers": true,
-    "incremental": true,
-    "removeComments": false,
-    "resolveJsonModule": true,
-    "skipDefaultLibCheck": true,
-    "skipLibCheck": true,
-    "sourceMap": false,
-
-    "allowJs": false,
-    "allowSyntheticDefaultImports": true,
-    "allowUmdGlobalAccess": true,
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false,
-
-    "noEmit": true,
-    "noEmitHelpers": true,
-    "noEmitOnError": false,
-    "noErrorTruncation": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "noImplicitOverride": true,
-    "noImplicitReturns": true,
-    "noImplicitUseStrict": false,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-
-    "strictBindCallApply": true,
-    "strictFunctionTypes": true,
-    "strictNullChecks": false,
-    "strictPropertyInitialization": false
+    "noEmit": true
   }
 }

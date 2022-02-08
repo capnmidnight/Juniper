@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.4.0-alpha">
+    <PropertyGroup Label="Globals">
+        <ProjectGuid>3dacaf64-ebff-46de-86f2-75a4253c6e15</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Script Include="**" Exclude="*.esproj;**\node_modules\**" />
+    </ItemGroup>
+    <!-- This target is copied from the ASP.NET SPA template in order to ensure node_modules are in place. -->
+    <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)audio\node_modules') ">
+        <!-- Ensure Node.js is installed -->
+        <Exec Command="node --version" ContinueOnError="true">
+            <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+        </Exec>
+        <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+        <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+        <Exec WorkingDirectory="$(SpaRoot)audio" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)dom" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)emoji" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)environment" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)esbuild" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)fetcher" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)fetcher-base" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)fetcher-worker" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)google-maps" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)graphics2d" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)mediatypes" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)tele" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)testing" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)threejs" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)tslib" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)units" Command="npm install" />
+        <Exec WorkingDirectory="$(SpaRoot)webrtc" Command="npm install" />
+    </Target>
+</Project>

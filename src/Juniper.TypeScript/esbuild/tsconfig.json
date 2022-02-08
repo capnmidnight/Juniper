@@ -1,8 +1,10 @@
 {
+  "extends": "../tsconfig.json",
+
   "include": [
     "src/**/*.ts"
   ],
-  
+
   "exclude": [
     "dist",
     "node_modules"
@@ -12,48 +14,6 @@
 
   "compilerOptions": {
     "lib": [ "ESNext", "ESNext.Array" ],
-
-    "rootDir": "src/",
-    "outDir": "dist/",
-
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "sourceMap": false,
-    "incremental": true,
-
-    "declaration": true,
-    "disableSizeLimit": true,
-    "downlevelIteration": true,
-    "importHelpers": true,
-    "experimentalDecorators": false,
-    "removeComments": false,
-    "resolveJsonModule": true,
-    "skipDefaultLibCheck": true,
-    "skipLibCheck": true,
-
-    "allowJs": false,
-    "allowSyntheticDefaultImports": true,
-    "allowUmdGlobalAccess": true,
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false,
-
-    "noEmit": false,
-    "noEmitHelpers": true,
-    "noEmitOnError": false,
-    "noErrorTruncation": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "noImplicitOverride": true,
-    "noImplicitReturns": true,
-    "noImplicitUseStrict": false,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-
-    "strictBindCallApply": true,
-    "strictFunctionTypes": true,
-    "strictNullChecks": false,
-    "strictPropertyInitialization": false
+    "noEmit": false
   }
 }
