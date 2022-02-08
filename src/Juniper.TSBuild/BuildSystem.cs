@@ -123,13 +123,19 @@ namespace Juniper.TSBuild
 
             juniperProjects = juniperTsDir
                 .EnumerateDirectories()
-                .Where(d => d.EnumerateFiles()
-                    .Any(f => f.Name == "package.json"))
+                .Where(IsProjectDirectory)
                 .ToArray();
             juniperBundles = juniperProjects
                 .Where(d => d.EnumerateFiles()
                     .Any(f => f.Name == "esbuild.config.js"))
                 .ToArray();
+        }
+
+        private static bool IsProjectDirectory(DirectoryInfo d)
+        {
+            var pkg = d.Touch("package.json");
+            var types = CopyJsonValueCommand.ReadJsonValueAsync(pkg, "types").Result;
+            return types == null;
         }
 
         public BuildSystem AddDependency(FileInfo from, FileInfo to)
@@ -229,7 +235,7 @@ namespace Juniper.TSBuild
             return this;
         }
 
-        private async Task RunFullBuild(bool init, bool install = true)
+        private static async Task WithCommandTree(Action<CommandTree> buildTree)
         {
             var commands = new CommandTree();
             commands.Info += (sender, e) =>
@@ -256,30 +262,7 @@ namespace Juniper.TSBuild
                 }
             };
 
-            if (install)
-            {
-                commands.AddCommands(NPM(init ? "inst" : "update", juniperProjects));
-            }
-
-            commands.AddCommands(NPM("build", init ? juniperProjects : juniperBundles))
-                .AddCommands(Copy(Por.All, serverJsDir, juniperBundles));
-
-            if (install)
-            {
-                commands.AddCommands(NPM(init ? "inst" : "update", clientDir));
-            }
-
-            commands
-                .AddCommands(NPM("build", clientDir)
-                    .Cast<ICommand>()
-                    .Union(dependencies.Select(kv => new CopyCommand(kv.Key, kv.Value))))
-                .AddCommands(
-                    new CopyJsonValueCommand(
-                        clientPackage, "version",
-                        serverAppSettings, "Version"),
-                    new CopyJsonValueCommand(
-                        clientPackage, "version",
-                        serverBuildInfo, "Version"));
+            buildTree(commands);
 
             var start = DateTime.Now;
             await commands.ExecuteAsync();
@@ -287,6 +270,46 @@ namespace Juniper.TSBuild
             var delta = end - start;
 
             Console.WriteLine($"Done in {delta.TotalSeconds:0.00}s");
+        }
+
+        public async Task InstallAsync()
+        {
+            await WithCommandTree(commands =>
+            {
+                commands.AddCommands(NPM("update", juniperProjects));
+                commands.AddCommands(NPM("update", clientDir));
+            });
+        }
+
+        private async Task RunFullBuild(bool init, bool install = true)
+        {
+            await WithCommandTree(commands =>
+            {
+                if (install)
+                {
+                    commands.AddCommands(NPM(init ? "inst" : "update", juniperProjects));
+                }
+
+                commands.AddCommands(NPM("build", init ? juniperProjects : juniperBundles))
+                    .AddCommands(Copy(Por.All, serverJsDir, juniperBundles));
+
+                if (install)
+                {
+                    commands.AddCommands(NPM(init ? "inst" : "update", clientDir));
+                }
+
+                commands
+                    .AddCommands(NPM("build", clientDir)
+                        .Cast<ICommand>()
+                        .Union(dependencies.Select(kv => new CopyCommand(kv.Key, kv.Value))))
+                    .AddCommands(
+                        new CopyJsonValueCommand(
+                            clientPackage, "version",
+                            serverAppSettings, "Version"),
+                        new CopyJsonValueCommand(
+                            clientPackage, "version",
+                            serverBuildInfo, "Version"));
+            });
         }
 
         public async Task WriteVersion()

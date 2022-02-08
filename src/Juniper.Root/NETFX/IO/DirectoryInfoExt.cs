@@ -23,17 +23,10 @@ namespace System.IO
             }
 
             dir = new DirectoryInfo(Path.Combine(subs.Prepend(dir.FullName).ToArray()));
-            
-            if(!dir.Exists)
+
+            if (!dir.Exists && create)
             {
-                if (create)
-                {
-                    dir.Create();
-                }
-                else
-                {
-                    dir = null;
-                }
+                dir.Create();
             }
 
             return dir;
