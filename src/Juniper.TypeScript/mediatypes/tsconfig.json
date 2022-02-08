@@ -13,6 +13,7 @@
 
   "compilerOptions": {
     "lib": [ "ESNext", "DOM", "WebWorker" ],
-    "noEmit": true
+    "noEmit": false,
+    "sourceMap": true
   }
 }

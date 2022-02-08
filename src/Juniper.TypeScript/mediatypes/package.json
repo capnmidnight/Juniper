@@ -3,6 +3,7 @@
   "name": "juniper-mediatypes",
   "private": true,
   "type": "module",
+  "main": "./index.js",
   "scripts": {
     "update": "npm install",
     "inst": "npm ci",

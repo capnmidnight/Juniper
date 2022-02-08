@@ -1,0 +1,9 @@
+export declare const anyChemical: void;
+export declare const Chemical_X_Cdx: void;
+export declare const Chemical_X_Cif: void;
+export declare const Chemical_X_Cmdf: void;
+export declare const Chemical_X_Cml: void;
+export declare const Chemical_X_Csml: void;
+export declare const Chemical_X_Pdb: void;
+export declare const Chemical_X_Xyz: void;
+export declare const allChemical: void[];
