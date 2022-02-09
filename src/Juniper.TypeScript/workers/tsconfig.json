@@ -12,7 +12,7 @@
   "compileOnSave": true,
 
   "compilerOptions": {
-    "lib": [ "ESNext", "DOM", "WebWorker" ],
+    "lib": [ "ESNext" ],
     "noEmit": true
   }
 }

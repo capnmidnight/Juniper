@@ -11,13 +11,14 @@
     "watch": "node --experimental-modules esbuild.config.js --watch"
   },
   "dependencies": {
+    "@types/offscreencanvas-types": "file:../offscreencanvas-types",
     "juniper-dom": "file:../dom",
     "juniper-fetcher-base": "file:../fetcher-base",
     "juniper-mediatypes": "file:../mediatypes",
-    "juniper-tslib": "file:../tslib"
+    "juniper-tslib": "file:../tslib",
+    "juniper-worker-server": "file:../worker-server"
   },
   "devDependencies": {
-    "@types/offscreencanvas-types": "file:../offscreencanvas-types",
     "juniper-esbuild": "file:../esbuild",
     "typescript": "4.5.5"
   }

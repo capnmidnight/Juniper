@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "juniper-tdd",
+  "name": "juniper-workers",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,10 +9,6 @@
     "build": "npx tsc --build"
   },
   "dependencies": {
-    "@types/offscreencanvas-types": "file:../offscreencanvas-types",
-    "gl-matrix": "3.4.3",
-    "juniper-dom": "file:../dom",
-    "juniper-mediatypes": "file:../mediatypes",
     "juniper-tslib": "file:../tslib"
   },
   "devDependencies": {

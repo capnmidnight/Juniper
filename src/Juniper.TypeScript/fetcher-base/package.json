@@ -9,12 +9,12 @@
     "build": "npx tsc --build"
   },
   "dependencies": {
+    "@types/offscreencanvas-types": "file:../offscreencanvas-types",
     "juniper-dom": "file:../dom",
     "juniper-mediatypes": "file:../mediatypes",
     "juniper-tslib": "file:../tslib"
   },
   "devDependencies": {
-    "@types/offscreencanvas-types": "file:../offscreencanvas-types",
     "typescript": "4.5.5"
   }
 }

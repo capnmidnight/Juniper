@@ -80,23 +80,9 @@ export function isArrayBufferView(obj: any): obj is ArrayBufferView {
         || "BigInt64Array" in globalThis && obj instanceof globalThis["BigInt64Array"];
 }
 
-export function isHTMLElement(obj: any): obj is HTMLElement {
-    return obj instanceof HTMLElement;
-}
-
 export function isArrayBuffer(val: any): val is ArrayBuffer {
     return val && typeof ArrayBuffer !== "undefined" &&
         (val instanceof ArrayBuffer ||
             // Sometimes we get an ArrayBuffer that doesn't satisfy instanceof
             (val.constructor && val.constructor.name === "ArrayBuffer"));
-}
-
-export function isXHRBodyInit(obj: any): obj is XMLHttpRequestBodyInit {
-    return isString(obj)
-        || isArrayBufferView(obj)
-        || obj instanceof Blob
-        || obj instanceof FormData
-        || isArrayBuffer(obj)
-        || obj instanceof ReadableStream
-        || "Document" in globalThis && obj instanceof Document;
 }

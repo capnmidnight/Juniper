@@ -10,6 +10,10 @@
     "watch": "node --experimental-modules esbuild.config.js --watch"
   },
   "devDependencies": {
+    "juniper-esbuild": "file:../esbuild",
+    "typescript": "4.5.5"
+  },
+  "dependencies": {
     "@types/audio-types": "file:../audio-types",
     "@types/battery-types": "file:../battery-types",
     "@types/gamepad-types": "file:../gamepad-types",
@@ -17,10 +21,6 @@
     "@types/three": "0.137.0",
     "@types/webxr-polyfill-types": "file:../webxr-polyfill-types",
     "@types/webxr-types": "file:../webxr-types",
-    "juniper-esbuild": "file:../esbuild",
-    "typescript": "4.5.5"
-  },
-  "dependencies": {
     "juniper-2d": "file:../graphics2d",
     "juniper-audio": "file:../audio",
     "juniper-dom": "file:../dom",

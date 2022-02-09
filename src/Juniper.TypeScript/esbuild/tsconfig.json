@@ -2,7 +2,7 @@
   "extends": "../tsconfig.json",
 
   "include": [
-    "src/**/*.ts"
+    "**/*.ts"
   ],
 
   "exclude": [
@@ -14,6 +14,7 @@
 
   "compilerOptions": {
     "lib": [ "ESNext", "ESNext.Array" ],
-    "noEmit": false
+    "noEmit": false,
+    "sourceMap": true
   }
 }

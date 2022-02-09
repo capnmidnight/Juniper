@@ -1,5 +1,4 @@
-import { BaseProgress, IProgress, isFunction} from "juniper-tslib";
-import { isHTMLElement } from "juniper-tslib";
+import { BaseProgress, IProgress, isFunction } from "juniper-tslib";
 import { elementApply, IElementAppliable } from "./tags";
 
 type EventListenerOpts = boolean | AddEventListenerOptions;
@@ -56,9 +55,7 @@ export class HtmlEvt<T extends Event>
     }
 
     applyToElement(elem: HTMLElement) {
-        if (isHTMLElement(elem)) {
-            this.add(elem);
-        }
+        this.add(elem);
     }
 
     /**

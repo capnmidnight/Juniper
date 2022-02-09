@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@microsoft/signalr": "6.0.1",
+    "@types/audio-types": "file:../audio-types",
+    "@types/offscreencanvas-types": "file:../offscreencanvas-types",
+    "@types/webxr-types": "file:../webxr-types",
     "juniper-audio": "file:../audio",
     "juniper-dom": "file:../dom",
     "juniper-timers": "file:../timers",
@@ -17,9 +20,6 @@
     "webrtc-adapter": "8.1.1"
   },
   "devDependencies": {
-    "@types/audio-types": "file:../audio-types",
-    "@types/offscreencanvas-types": "file:../offscreencanvas-types",
-    "@types/webxr-types": "file:../webxr-types",
     "typescript": "4.5.5"
   }
 }

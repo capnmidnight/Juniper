@@ -8,14 +8,14 @@ namespace Juniper.TSBuild
 {
     public class BuildSystem
     {
-        private static DirectoryInfo ResolveStartDir(ref string? startDir, string testDirName, params string[] addlTestDirNames)
+        private static DirectoryInfo ResolveStartDir(ref DirectoryInfo? startDir, string testDirName, params string[] addlTestDirNames)
         {
             var testDirNames = addlTestDirNames
                 .Prepend(testDirName)
                 .ToArray();
 
-            startDir ??= Environment.CurrentDirectory;
-            var dir = new DirectoryInfo(startDir);
+            startDir ??= new DirectoryInfo(Environment.CurrentDirectory);
+            var dir = startDir;
 
             while (dir != null
                 && dir.GetDirectories()
@@ -53,7 +53,6 @@ namespace Juniper.TSBuild
 
         private static string[] AllFileNames => basicFileNames.Union(minifiedFileNames).ToArray();
 
-
         protected static IEnumerable<ICommand> Copy(Por por, DirectoryInfo outputDir, params DirectoryInfo[] inputDirs)
         {
             var fileNames = por == Por.Basic
@@ -62,27 +61,44 @@ namespace Juniper.TSBuild
                     ? minifiedFileNames
                     : AllFileNames;
 
-            return inputDirs.SelectMany(inputDir =>
-            {
-                var from = inputDir.MkDir("dist");
-                var to = outputDir.MkDir(inputDir.Name);
-                return fileNames.Select(file =>
-                   new CopyCommand(
-                       from.Touch(file),
-                       to.Touch(file)));
-            });
+            return from inputDir in inputDirs
+                   let fromDir = inputDir.MkDir("dist")
+                   let toDir = outputDir.MkDir(inputDir.Name)
+                   from file in fileNames
+                   select new CopyCommand(fromDir.Touch(file), toDir.Touch(file));
         }
 
+        protected static IEnumerable<ICommand> Delete(params FileInfo[] files)
+        {
+            return Delete(files.AsEnumerable());
+        }
 
+        protected static IEnumerable<ICommand> Delete(IEnumerable<FileInfo> files)
+        {
+            return from file in files
+                   where file.Exists
+                   select new DeleteCommand(file);
+        }
 
         protected static IEnumerable<ShellCommand> NPM(string cmd, params DirectoryInfo[] dirs)
         {
-            return dirs.Select(dir => new ShellCommand(dir, "npm", "run", cmd));
+            return NPM(cmd, dirs.AsEnumerable());
+        }
+
+        protected static IEnumerable<ShellCommand> NPM(string cmd, IEnumerable<DirectoryInfo> dirs)
+        {
+            return from dir in dirs
+                   select new ShellCommand(dir, "npm", "run", cmd);
         }
 
         protected static ProxiedWatchCommand ProxiedNPM(CommandProxier proxy, params string[] pathParts)
         {
             return new ProxiedWatchCommand(proxy, pathParts);
+        }
+
+        protected static ProxiedWatchCommand ProxiedNPM(CommandProxier proxy, IEnumerable<string> pathParts)
+        {
+            return ProxiedNPM(proxy, pathParts.ToArray());
         }
 
         private readonly DirectoryInfo projectDir;
@@ -98,7 +114,7 @@ namespace Juniper.TSBuild
         private readonly DirectoryInfo[] juniperBundles;
         private readonly Dictionary<FileInfo, FileInfo> dependencies = new();
 
-        public BuildSystem(string clientName, string serverName, string? startDir = null)
+        public BuildSystem(string clientName, string serverName, DirectoryInfo? startDir = null)
         {
             projectDir = ResolveStartDir(ref startDir, clientName, serverName);
             var juniper = projectDir
@@ -135,7 +151,8 @@ namespace Juniper.TSBuild
         {
             var pkg = d.Touch("package.json");
             var types = CopyJsonValueCommand.ReadJsonValueAsync(pkg, "types").Result;
-            return types == null;
+            return pkg.Exists
+                && types is null;
         }
 
         public BuildSystem AddDependency(FileInfo from, FileInfo to)
@@ -187,11 +204,11 @@ namespace Juniper.TSBuild
             return this;
         }
 
-        private async Task<Level> GetBuildLevel(bool isDev, Level? forceLevel)
+        private async Task<Level> GetBuildLevel(bool isDev, Level forceLevel)
         {
-            if (forceLevel is not null)
+            if (forceLevel > Level.None)
             {
-                return forceLevel.Value;
+                return forceLevel;
             }
 
             if (!serverBuildInfo.Exists)
@@ -206,33 +223,6 @@ namespace Juniper.TSBuild
             return v[0] != v[1]
                 ? isDev ? Level.Medium : Level.High
                 : Level.Low;
-        }
-
-        public async Task CheckAsync(bool isDev, Level? forceLevel)
-        {
-            var buildLevel = await GetBuildLevel(isDev, forceLevel);
-            switch (buildLevel)
-            {
-                case Level.High:
-                Console.WriteLine("Running full install and build");
-                await RunFullBuild(true);
-                break;
-
-                case Level.Medium:
-                Console.WriteLine("Running build");
-                await RunFullBuild(false);
-                break;
-
-                default:
-                Console.WriteLine("Build unnecessary");
-                break;
-            }
-        }
-
-        public BuildSystem Check(bool isDev, Level? forceLevel = null)
-        {
-            CheckAsync(isDev, forceLevel).Wait();
-            return this;
         }
 
         private static async Task WithCommandTree(Action<CommandTree> buildTree)
@@ -281,35 +271,56 @@ namespace Juniper.TSBuild
             });
         }
 
-        private async Task RunFullBuild(bool init, bool install = true)
+
+        private static readonly Dictionary<Level, string> buildLevelMessages = new()
         {
-            await WithCommandTree(commands =>
+            { Level.High, "Running full install and build" },
+            { Level.Medium, "Running update and build" },
+            { Level.Low, "No build" }
+        };
+
+        public BuildSystem Check(bool isDev, Level forceLevel = Level.None)
+        {
+            CheckAsync(isDev, forceLevel).Wait();
+            return this;
+        }
+
+        public async Task CheckAsync(bool isDev, Level forceLevel)
+        {
+            var buildLevel = await GetBuildLevel(isDev, forceLevel);
+            Console.WriteLine(buildLevelMessages[buildLevel]);
+
+            if (buildLevel > Level.Low)
             {
-                if (install)
+                var init = buildLevel >= Level.High;
+                var install = buildLevel >= Level.Medium;
+                await WithCommandTree(commands =>
                 {
-                    commands.AddCommands(NPM(init ? "inst" : "update", juniperProjects));
-                }
+                    if (init)
+                    {
+                        commands.AddCommands(Delete(juniperProjects.Append(clientDir).Select(d => d.Touch("tsconfig.tsbuildinfo"))));
+                    }
 
-                commands.AddCommands(NPM("build", init ? juniperProjects : juniperBundles))
-                    .AddCommands(Copy(Por.All, serverJsDir, juniperBundles));
+                    if (install)
+                    {
+                        commands.AddCommands(NPM(init ? "inst" : "update", juniperProjects)
+                            .Union(NPM(init ? "inst" : "update", clientDir)));
+                    }
 
-                if (install)
-                {
-                    commands.AddCommands(NPM(init ? "inst" : "update", clientDir));
-                }
-
-                commands
-                    .AddCommands(NPM("build", clientDir)
-                        .Cast<ICommand>()
-                        .Union(dependencies.Select(kv => new CopyCommand(kv.Key, kv.Value))))
-                    .AddCommands(
-                        new CopyJsonValueCommand(
-                            clientPackage, "version",
-                            serverAppSettings, "Version"),
-                        new CopyJsonValueCommand(
-                            clientPackage, "version",
-                            serverBuildInfo, "Version"));
-            });
+                    commands.AddCommands(NPM("build", init ? juniperProjects : juniperBundles))
+                        .AddCommands(Copy(Por.All, serverJsDir, juniperBundles))
+                        .AddCommands(NPM("build", clientDir)
+                            .Cast<ICommand>()
+                            .Union(dependencies.Select(kv => new CopyCommand(kv.Key, kv.Value))))
+                        .AddCommands(
+                            new CopyJsonValueCommand(
+                                clientPackage, "version",
+                                serverAppSettings, "Version"),
+                            new CopyJsonValueCommand(
+                                clientPackage, "version",
+                                serverBuildInfo, "Version"));
+                });
+            }
         }
 
         public async Task WriteVersion()

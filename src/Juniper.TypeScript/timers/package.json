@@ -9,11 +9,11 @@
     "build": "npx tsc --build"
   },
   "dependencies": {
+    "@types/webxr-types": "file:../webxr-types",
     "gl-matrix": "3.4.3",
     "juniper-tslib": "file:../tslib"
   },
   "devDependencies": {
-    "@types/webxr-types": "file:../webxr-types",
     "typescript": "4.5.5"
   }
 }

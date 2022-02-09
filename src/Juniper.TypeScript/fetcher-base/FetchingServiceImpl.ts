@@ -1,7 +1,17 @@
-import type { IProgress } from "juniper-tslib";
-import { isDefined, isString, isXHRBodyInit, mapJoin, progressPopper } from "juniper-tslib";
+import { IProgress, isArrayBuffer, isArrayBufferView } from "juniper-tslib";
+import { isDefined, isString, mapJoin, progressPopper } from "juniper-tslib";
 import type { IFetchingService, IRequest, IRequestWithBody, IResponse } from "./IFetcher";
 import { ResponseTranslator } from "./ResponseTranslator";
+
+export function isXHRBodyInit(obj: any): obj is XMLHttpRequestBodyInit {
+    return isString(obj)
+        || isArrayBufferView(obj)
+        || obj instanceof Blob
+        || obj instanceof FormData
+        || isArrayBuffer(obj)
+        || obj instanceof ReadableStream
+        || "Document" in globalThis && obj instanceof Document;
+}
 
 function trackProgress(name: string, xhr: XMLHttpRequest, target: (XMLHttpRequest | XMLHttpRequestUpload), onProgress: IProgress, skipLoading: boolean, prevTask?: Promise<void>): Promise<void> {
     return new Promise((resolve: () => void, reject: (msg: string) => void) => {

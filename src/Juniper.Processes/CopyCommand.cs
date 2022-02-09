@@ -14,10 +14,6 @@ namespace Juniper.Processes
             this.overwrite = overwrite;
         }
 
-        public CopyCommand(string from, string to, bool overwrite = true)
-            : this(new FileInfo(from), new FileInfo(to), overwrite)
-        { }
-
         public override Task RunAsync()
         {
             to.Directory?.Create();

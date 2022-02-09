@@ -1,6 +1,6 @@
 import { FetchingServiceImpl } from "juniper-fetcher-base/FetchingServiceImpl";
 import type { IFetchingService, IResponse } from "juniper-fetcher-base/IFetcher";
-import { WorkerServer } from "juniper-tslib";
+import { WorkerServer } from "juniper-worker-server";
 
 export class FetchingServiceServer extends WorkerServer {
     constructor(self: DedicatedWorkerGlobalScope) {

@@ -9,6 +9,10 @@
     "build": "npx tsc --build"
   },
   "dependencies": {
+    "@types/audio-types": "file:../audio-types",
+    "@types/battery-types": "file:../battery-types",
+    "@types/offscreencanvas-types": "file:../offscreencanvas-types",
+    "@types/webxr-types": "file:../webxr-types",
     "gl-matrix": "3.4.3",
     "juniper-audio": "file:../audio",
     "juniper-dom": "file:../dom",
@@ -16,10 +20,6 @@
     "juniper-tslib": "file:../tslib"
   },
   "devDependencies": {
-    "@types/audio-types": "file:../audio-types",
-    "@types/battery-types": "file:../battery-types",
-    "@types/offscreencanvas-types": "file:../offscreencanvas-types",
-    "@types/webxr-types": "file:../webxr-types",
     "typescript": "4.5.5"
   }
 }

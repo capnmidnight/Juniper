@@ -5,6 +5,8 @@ namespace Juniper.Units
     /// </summary>
     public enum Level
     {
+        None,
+
         /// <summary>
         /// The minimum setting.
         /// </summary>
