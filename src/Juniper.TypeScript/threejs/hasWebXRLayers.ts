@@ -5,5 +5,5 @@ export function hasWebXRLayers(env: BaseEnvironment<unknown>) {
     return env.renderer.getContextAttributes().alpha
         && "XRWebGLBinding" in globalThis
         && isFunction(XRWebGLBinding.prototype.createCubeLayer)
-        && !(isOculusBrowser && oculusBrowserVersion.major <= 14);
+        && !(isOculusBrowser && oculusBrowserVersion.major <= 15);
 }
