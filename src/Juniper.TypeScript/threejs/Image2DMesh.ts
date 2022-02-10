@@ -1,4 +1,4 @@
-import { arrayCompare, IDisposable, isDefined } from "juniper-tslib";
+import { arrayCompare, IDisposable, isDefined, isNullOrUndefined } from "juniper-tslib";
 import { cleanup } from "./cleanup";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
 import { hasWebXRLayers } from "./hasWebXRLayers";
@@ -7,10 +7,13 @@ import { objectGetRelativePose } from "./objectGetRelativePose";
 import { objectIsFullyVisible } from "./objects";
 import { plane } from "./Plane";
 import { TexturedMesh } from "./TexturedMesh";
+import { isMesh } from "./typeChecks";
 
 const P = new THREE.Vector4();
 const Q = new THREE.Quaternion();
 const S = new THREE.Vector3();
+
+const IMAGE_2D_MESH_SLUG = "XXX_IMAGE_2D_MESH_XXX";
 
 let copyCounter = 0;
 
@@ -20,6 +23,7 @@ export class Image2DMesh extends THREE.Object3D implements IDisposable {
     private wasVisible = false;
     private webXRLayerEnabled = true;
     private wasWebXRLayerAvailable: boolean = null;
+    private lastImage: any = null;
     protected env: BaseEnvironment<unknown> = null;
     mesh: TexturedMesh = null;
 
@@ -32,6 +36,7 @@ export class Image2DMesh extends THREE.Object3D implements IDisposable {
                 { transparent: true, opacity: 1 },
                 materialOptions,
                 { name: this.name })));
+            this.mesh.name = IMAGE_2D_MESH_SLUG;
             this.add(this.mesh);
         }
     }
@@ -49,8 +54,18 @@ export class Image2DMesh extends THREE.Object3D implements IDisposable {
     override copy(source: this, recursive = true) {
         super.copy(source, recursive);
         this.setEnvAndName(source.env, source.name + (++copyCounter));
-        this.mesh = source.mesh.clone();
-        this.add(this.mesh);
+        for (let i = this.children.length - 1; i >= 0; --i) {
+            const child = this.children[i];
+            if (isMesh(child)
+                && child.name === IMAGE_2D_MESH_SLUG) {
+                child.removeFromParent();
+                this.mesh = new TexturedMesh(source.env, child.geometry, child.material as any);
+            }
+        }
+        if (isNullOrUndefined(this.mesh)) {
+            this.mesh = source.mesh.clone();
+            this.add(this.mesh);
+        }
         return this;
     }
 
@@ -65,6 +80,7 @@ export class Image2DMesh extends THREE.Object3D implements IDisposable {
 
             const useLayerChanged = isWebXRLayerAvailable !== this.wasWebXRLayerAvailable;
             const visibleChanged = isVisible != this.wasVisible;
+            const imageChanged = this.mesh.material.map.image !== this.lastImage;
 
             if (useLayerChanged || visibleChanged) {
                 if (isWebXRLayerAvailable && isVisible) {
@@ -93,7 +109,8 @@ export class Image2DMesh extends THREE.Object3D implements IDisposable {
             }
 
             if (this.layer) {
-                if (this.layer.needsRedraw
+                if (imageChanged
+                    || this.layer.needsRedraw
                     || this.mesh.material.needsUpdate
                     || this.mesh.material.map.needsUpdate) {
                     const gl = this.env.renderer.getContext();
@@ -122,6 +139,7 @@ export class Image2DMesh extends THREE.Object3D implements IDisposable {
 
             this.wasWebXRLayerAvailable = isWebXRLayerAvailable;
             this.wasVisible = isVisible;
+            this.lastImage = this.mesh.material.map.image;
         }
     }
 }
