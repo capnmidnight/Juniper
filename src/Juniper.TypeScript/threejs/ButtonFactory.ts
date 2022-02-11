@@ -38,8 +38,6 @@ export class ButtonFactory {
     private readonly readyTask: Promise<void>;
 
     private onLoadComplete: () => void = null;
-    private iconWidth: number = null;
-    private iconHeight: number = null;
     private canvas: CanvasTypes = null;
     private texture: THREE.Texture = null;
     private enabledMaterial: THREE.MeshBasicMaterial = null;
@@ -53,61 +51,55 @@ export class ButtonFactory {
 
     async load(prog?: IProgress) {
         const popper = progressPopper(prog);
-        const images = new Map(await Promise.all(
+        const imageSets = new Map(await Promise.all(
             Array.from(this.imagePaths.entries())
                 .map((kv) =>
                     loadIcons(this.fetcher, kv[0], kv[1], popper))));
-
-        const rows = images.size;
-        const cols = Math.max(...Array.from(images.values())
-            .map(arr => arr.size));
-
-        const width = Math.max(...Array.from(images.values())
-            .map(arr => Array.from(arr.values()).map(img => img.width)
-                .reduce((a, b) => a + b, 0)));
-
-        const height = Array.from(images.values())
-            .map(arr => Math.max(...Array.from(arr.values()).map(img => img.height)))
-            .reduce((a, b) => a + b, 0);
-
+        const images = Array.from(imageSets.values())
+            .map(set => Array.from(set.values()))
+            .flat();
+        const iconWidth = Math.max(...images.map(img => img.width));
+        const iconHeight = Math.max(...images.map(img => img.height));
+        const area = iconWidth * iconHeight * images.length;
+        const squareDim = Math.sqrt(area);
+        const cols = Math.floor(squareDim / iconWidth);
+        const rows = Math.ceil(images.length / cols);
+        const width = cols * iconWidth;
+        const height = rows * iconHeight;
         const canvWidth = nextPowerOf2(width);
         const canvHeight = nextPowerOf2(height);
-
         const widthRatio = width / canvWidth;
         const heightRatio = height / canvHeight;
+        const du = iconWidth / canvWidth;
+        const dv = iconHeight / canvHeight;
 
-        this.iconWidth = width / cols;
-        this.iconHeight = height / rows;
-        const du = this.iconWidth / canvWidth;
-        const dv = this.iconHeight / canvHeight;
         this.canvas = createUICanvas(canvWidth, canvHeight);
 
         const g = this.canvas.getContext("2d");
         g.fillStyle = "#1e4388";
         g.fillRect(0, 0, canvWidth, canvHeight);
 
-        let r = 0;
-        for (const [name, imgRows] of images) {
+        let i = 0;
+        for (const [name, imgRows] of imageSets) {
             this.uvDescrips.set(name, new Map<string, UVRect>());
 
-            let c = 0;
             for (const [imgName, img] of imgRows) {
-                const u = widthRatio * (c * this.iconWidth / width);
+                const c = i % cols;
+                const r = (i - c) / cols;
+                const u = widthRatio * (c * iconWidth / width);
                 const v = heightRatio * (1 - r / rows) - dv;
-                const x = c * this.iconWidth;
-                const y = r * this.iconHeight + canvHeight - height;
-                const w = this.iconWidth - 2 * this.padding;
-                const h = this.iconHeight - 2 * this.padding;
+                const x = c * iconWidth;
+                const y = r * iconHeight + canvHeight - height;
+                const w = iconWidth - 2 * this.padding;
+                const h = iconHeight - 2 * this.padding;
 
                 g.drawImage(img,
                     0, 0, img.width, img.height,
                     x + this.padding, y + this.padding, w, h);
                 this.uvDescrips.get(name).set(imgName, { u, v, du, dv });
 
-                ++c;
+                ++i;
             }
-
-            ++r;
         }
 
         this.texture = new THREE.CanvasTexture(this.canvas as any);
