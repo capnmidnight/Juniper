@@ -22,17 +22,14 @@ namespace Juniper.Services
     {
         private const string DEFAULT_ADMIN_PATH = "/Admin";
 
-        public class Options
+        public class BasicOptions
         {
             public string AdminPath { get; set; } = DEFAULT_ADMIN_PATH;
-            public bool UseIdentity { get; set; } = true;
             public bool UseEmail { get; set; } = true;
             public bool UseSignalR { get; set; } = true;
-            public bool LogSQL { get; set; }
         }
 
-        public static IServiceCollection ConfigureDefaultServices<ContextT>(this IServiceCollection services, IWebHostEnvironment env, string connectionStringName, Options config = null)
-            where ContextT : IdentityDbContext
+        public static IServiceCollection ConfigureDefaultServices(this IServiceCollection services, IWebHostEnvironment env, BasicOptions config = null)
         {
             config ??= new();
 
@@ -41,23 +38,14 @@ namespace Juniper.Services
                 services.AddTransient<IConfigureOptions<KestrelServerOptions>, LetsEncryptService>();
             }
 
-            services.AddDbContext<ContextT>(options =>
-            {
-                options.UseNpgsql($"name=ConnectionStrings:{connectionStringName}", opts =>
-                    opts.EnableRetryOnFailure()
-                        .UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery));
-
-                if (env.IsDevelopment() && config.LogSQL)
-                {
-                    options.LogTo(Console.WriteLine, LogLevel.Information);
-                }
-            });
-
             services.AddControllersWithViews();
 
             var razorPages = services.AddRazorPages(options =>
             {
-                options.Conventions.AuthorizeFolder(config.AdminPath);
+                if (!string.IsNullOrEmpty(config.AdminPath))
+                {
+                    options.Conventions.AuthorizeFolder(config.AdminPath);
+                }
             });
 
             if (env.IsDevelopment())
@@ -76,6 +64,46 @@ namespace Juniper.Services
                     }
                 });
             }
+
+            if (config.UseEmail)
+            {
+                services.AddTransient<IEmailSender, EmailSender>();
+            }
+
+            if (config.UseSignalR)
+            {
+                services.AddSignalR(options =>
+                {
+                    options.ClientTimeoutInterval = TimeSpan.FromSeconds(5);
+                    options.HandshakeTimeout = TimeSpan.FromSeconds(5);
+                });
+            }
+
+            return services;
+        }
+
+        public class Options : BasicOptions
+        {
+            public bool UseIdentity { get; set; } = true;
+            public bool LogSQL { get; set; }
+        }
+
+        public static IServiceCollection ConfigureDefaultServices<ContextT>(this IServiceCollection services, IWebHostEnvironment env, string connectionStringName, Options config = null)
+            where ContextT : IdentityDbContext
+        {
+            services.ConfigureDefaultServices(env, config);
+
+            services.AddDbContext<ContextT>(options =>
+            {
+                options.UseNpgsql($"name=ConnectionStrings:{connectionStringName}", opts =>
+                    opts.EnableRetryOnFailure()
+                        .UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery));
+
+                if (env.IsDevelopment() && config.LogSQL)
+                {
+                    options.LogTo(Console.WriteLine, LogLevel.Information);
+                }
+            });
 
             if (config.UseIdentity)
             {
@@ -116,24 +144,10 @@ namespace Juniper.Services
                 });
             }
 
-            if (config.UseEmail)
-            {
-                services.AddTransient<IEmailSender, EmailSender>();
-            }
-
-            if (config.UseSignalR)
-            {
-                services.AddSignalR(options =>
-                {
-                    options.ClientTimeoutInterval = TimeSpan.FromSeconds(5);
-                    options.HandshakeTimeout = TimeSpan.FromSeconds(5);
-                });
-            }
-
             return services;
         }
 
-        private static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, Action<IEndpointRouteBuilder> configEndPoint)
+        private static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, bool withAuth, bool withWebSockets, Action<IEndpointRouteBuilder> configEndPoint)
         {
             if (env.IsDevelopment())
             {
@@ -141,16 +155,17 @@ namespace Juniper.Services
             }
             else
             {
-                app.UseExceptionHandler("/Error");
-                app.UseHsts();
+                app.UseExceptionHandler("~/Error")
+                    .UseHsts();
             }
 
-            return app.Use(async (context, next) =>
+            app.Use(async (context, next) =>
             {
                 context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                 await next();
             })
                 .UseHttpsRedirection()
+                .UseStatusCodePagesWithRedirects("~/status/{0}")
                 .UseStaticFiles(new StaticFileOptions
                 {
                     ContentTypeProvider = config.GetContentTypes(),
@@ -166,11 +181,20 @@ namespace Juniper.Services
                 {
                     DefaultFileNames = config.GetDefaultFiles()
                 })
-                .UseRouting()
-                .UseAuthentication()
-                .UseAuthorization()
-                .UseWebSockets()
-                .UseEndpoints(endpoints =>
+                .UseRouting();
+
+            if (withAuth)
+            {
+                app.UseAuthentication()
+                    .UseAuthorization();
+            }
+
+            if (withWebSockets)
+            {
+                app.UseWebSockets();
+            }
+
+            return app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();
                     endpoints.MapRazorPages();
@@ -184,14 +208,14 @@ namespace Juniper.Services
 
         public static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config)
         {
-            return app.ConfigureRequestPipeline(env, config, null);
+            return app.ConfigureRequestPipeline(env, config, false, false, null);
         }
 
 
         public static IApplicationBuilder ConfigureRequestPipeline<HubT>(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, string hubPath)
             where HubT : Hub
         {
-            return app.ConfigureRequestPipeline(env, config, endpoints =>
+            return app.ConfigureRequestPipeline(env, config, true, false, endpoints =>
             {
                 endpoints.MapHub<HubT>(hubPath);
             });
