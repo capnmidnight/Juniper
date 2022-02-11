@@ -1,6 +1,4 @@
 import { type } from "juniper-dom/attrs";
-import type { CanvasImageTypes } from "juniper-dom/canvas";
-import { hasImageBitmap } from "juniper-dom/canvas";
 import { BackgroundAudio, BackgroundVideo, getInput, Img, Script } from "juniper-dom/tags";
 import {
     IFetcher,
@@ -43,10 +41,6 @@ function shouldTry(path: string): boolean {
 }
 
 type HTTPMethods = "GET" | "POST" | "HEAD";
-
-function identity<T>(v: T): T {
-    return v;
-}
 
 class RequestBuilder
     extends ResponseTranslator
@@ -292,56 +286,23 @@ class RequestBuilder
     private async htmlElement<
         ElementT extends HTMLAudioElement | HTMLVideoElement | HTMLImageElement | HTMLScriptElement,
         EventsT extends HTMLElementEventMap,
-        ResolveEventKeyT extends keyof EventsT & string,
-        ResponseT>(
+        ResolveEventKeyT extends keyof EventsT & string>(
             element: ElementT,
             resolveEvt: ResolveEventKeyT,
-            getResponse: () => Promise<IResponse<ResponseT>>,
-            translateContent: (content: ResponseT) => string): Promise<IResponse<ElementT>> {
-        let path = this.request.path;
-
-        const r: IResponse<ElementT> = {
-            status: 500,
-            content: element,
-            contentLength: null,
-            contentType: null,
-            date: null,
-            fileName: this.request.path,
-            headers: null
-        };
-
-        if (this.useBlobURIs) {
-            const response = await getResponse();
-            r.status = response.status;
-            r.contentType = response.contentType;
-            r.contentLength = response.contentLength;
-            r.fileName = response.fileName;
-            r.headers = response.headers;
-            r.date = response.date;
-            path = translateContent(response.content);
-            this.prog = null;
-            this.request.timeout = null;
-        }
-
-        const task = once<EventsT, ResolveEventKeyT>(r.content, resolveEvt, "error", this.request.timeout);
-        r.content.src = path;
-
+            getResponse: () => Promise<IResponse<string>>): Promise<IResponse<ElementT>> {
+        const response = await getResponse();
+        const task = once<EventsT, ResolveEventKeyT>(element, resolveEvt, "error");
+        element.src = response.content;
         await task;
-        r.status = r.status || 200;
 
-        if (this.prog) {
-            this.prog.report(1, 1, "complete");
-        }
-
-        return r;
+        return this.translateResponse(Promise.resolve(response), () => element);
     }
 
     image(acceptType?: string | MediaType): Promise<IResponse<HTMLImageElement>> {
         return this.htmlElement(
             Img(),
             "load",
-            () => this.file(acceptType),
-            identity
+            () => this.file(acceptType)
         );
     }
 
@@ -349,8 +310,10 @@ class RequestBuilder
         return this.htmlElement(
             BackgroundAudio(autoPlaying, false, looping),
             "canplay",
-            () => this.audioBlob(acceptType),
-            URL.createObjectURL
+            () => this.translateResponse(
+                this.audioBlob(acceptType),
+                URL.createObjectURL
+            )
         );
     }
 
@@ -358,8 +321,7 @@ class RequestBuilder
         return this.htmlElement(
             BackgroundVideo(autoPlaying, false, looping),
             "canplay",
-            () => this.file(acceptType),
-            identity
+            () => this.file(acceptType)
         );
     }
 
@@ -369,8 +331,7 @@ class RequestBuilder
         await this.htmlElement(
             tag,
             "load",
-            () => this.file(Application_Javascript),
-            identity);
+            () => this.file(Application_Javascript));
     }
 
     async script(test: () => boolean): Promise<void> {
