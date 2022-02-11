@@ -155,7 +155,7 @@ namespace Juniper.Services
             }
             else
             {
-                app.UseExceptionHandler("~/Error")
+                app.UseExceptionHandler("/Error")
                     .UseHsts();
             }
 
@@ -165,7 +165,7 @@ namespace Juniper.Services
                 await next();
             })
                 .UseHttpsRedirection()
-                .UseStatusCodePagesWithRedirects("~/status/{0}")
+                .UseStatusCodePagesWithRedirects("/status/{0}")
                 .UseStaticFiles(new StaticFileOptions
                 {
                     ContentTypeProvider = config.GetContentTypes(),
