@@ -21,13 +21,13 @@ async function loadIcons(fetcher: IFetcher, setName: string, iconNames: Map<stri
 }
 
 async function loadIcon(fetcher: IFetcher, iconName: string, iconPath: string, popper: PoppableParentProgressCallback): Promise<[string, CanvasImageTypes]> {
+    const { content } = await fetcher
+        .get(iconPath)
+        .progress(popper.pop())
+        .image();
     return [
         iconName,
-        (await fetcher
-            .get(iconPath)
-            .progress(popper.pop())
-            .canvasImage())
-            .content
+        content
     ];
 }
 

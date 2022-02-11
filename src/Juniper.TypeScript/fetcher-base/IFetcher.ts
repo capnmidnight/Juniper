@@ -1,4 +1,3 @@
-import { CanvasImageTypes } from "juniper-dom/canvas";
 import type { MediaType } from "juniper-mediatypes";
 import { IProgress } from "juniper-tslib";
 
@@ -223,7 +222,6 @@ export interface IFetcherGetResult {
 
     image(acceptType?: string | MediaType): Promise<IResponse<HTMLImageElement>>;
     imageBitmap(acceptType?: string | MediaType): Promise<IResponse<ImageBitmap>>;
-    canvasImage(acceptType?: string | MediaType): Promise<IResponse<CanvasImageTypes>>;
 
     audio(autoPlaying: boolean, looping: boolean, acceptType?: string | MediaType): Promise<IResponse<HTMLAudioElement>>;
     audioBuffer(audioCtx: BaseAudioContext, acceptType?: string | MediaType): Promise<IResponse<AudioBuffer>>;

@@ -95,7 +95,7 @@ export class MainMenu
                 let { content: img } = await this.env.fetcher
                     .get(f)
                     .progress(prog)
-                    .canvasImage();
+                    .image();
                 this.images.set(f, img);
             });
 

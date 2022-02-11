@@ -113,7 +113,7 @@ export class TexturedMesh extends THREE.Mesh<THREE.BufferGeometry, Material> {
         let { content: img } = await this.env.fetcher
             .get(path)
             .progress(onProgress)
-            .canvasImage();
+            .image();
         const texture = this.setImage(img);
         texture.name = path;
     }

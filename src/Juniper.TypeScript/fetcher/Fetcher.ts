@@ -247,15 +247,6 @@ class RequestBuilder
         }
     }
 
-    canvasImage(acceptType?: string | MediaType): Promise<IResponse<CanvasImageTypes>> {
-        if (hasImageBitmap) {
-            return this.imageBitmap(acceptType);
-        }
-        else {
-            return this.image(acceptType);
-        }
-    }
-
     private async audioBlob(acceptType: string | MediaType): Promise<IResponse<Blob>> {
         let goodBlob: IResponse<Blob> = null;
         if (!shouldTry(this.request.path)) {
