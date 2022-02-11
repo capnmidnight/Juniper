@@ -12,7 +12,6 @@ import {
     LRUCache
 } from "juniper-tslib";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
-import { hasWebXRLayers } from "./hasWebXRLayers";
 import { isEuler, isQuaternion } from "./typeChecks";
 
 type SkyboxRotation = THREE.Quaternion | THREE.Euler | number[] | number;
@@ -75,7 +74,7 @@ export class Skybox {
 
     constructor(private readonly env: BaseEnvironment<unknown>) {
 
-        this.webXRLayerEnabled &&= hasWebXRLayers(env);
+        this.webXRLayerEnabled &&= this.env.hasWebXRLayers;
 
         this.env.scene.background = black;
 

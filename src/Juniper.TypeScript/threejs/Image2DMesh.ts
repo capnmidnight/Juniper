@@ -1,7 +1,6 @@
 import { arrayCompare, IDisposable, isDefined, isNullOrUndefined } from "juniper-tslib";
 import { cleanup } from "./cleanup";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
-import { hasWebXRLayers } from "./hasWebXRLayers";
 import { solid } from "./materials";
 import { objectGetRelativePose } from "./objectGetRelativePose";
 import { objectIsFullyVisible } from "./objects";
@@ -48,7 +47,7 @@ export class Image2DMesh extends THREE.Object3D implements IDisposable {
     private setEnvAndName(env: BaseEnvironment<unknown>, name: string) {
         this.env = env;
         this.name = name;
-        this.webXRLayerEnabled &&= hasWebXRLayers(this.env);
+        this.webXRLayerEnabled &&= this.env.hasWebXRLayers;
     }
 
     override copy(source: this, recursive = true) {

@@ -19,7 +19,7 @@ import {
     arraySortByKeyInPlace, IProgress,
     isDefined,
     isDesktop,
-    isFirefox, TypedEvent,
+    isFirefox, isFunction, isOculusBrowser, oculusBrowserVersion, TypedEvent,
     TypedEventBase
 } from "juniper-tslib";
 import { feet2Meters } from "juniper-units/length";
@@ -41,6 +41,7 @@ import { ScreenControl } from "../ScreenControl";
 import { Skybox } from "../Skybox";
 import { ThreeJSTimer } from "../ThreeJSTimer";
 import { isMesh } from "../typeChecks";
+
 
 const spectator = new THREE.PerspectiveCamera();
 const lastViewport = new THREE.Vector4();
@@ -260,6 +261,31 @@ export abstract class BaseEnvironment<Events>
     protected async onQuitting(): Promise<void> {
         this.dispatchEvent(new TypedEvent("quitting"));
         window.location.href = "/";
+    }
+
+    get hasAlpha() {
+        return this.renderer.getContextAttributes().alpha;
+    }
+
+    get hasXRWebGLBinding() {
+        return "XRWebGLBinding" in globalThis;
+    }
+
+    get hasCreateCubeLayer() {
+        return this.hasXRWebGLBinding
+            && isFunction(XRWebGLBinding.prototype.createCubeLayer);
+    }
+
+    get oculusVersion() {
+        return isOculusBrowser
+            ? oculusBrowserVersion.major
+            : Number.MAX_SAFE_INTEGER;
+    }
+
+    get hasWebXRLayers() {
+        return this.hasAlpha
+            && this.hasCreateCubeLayer
+            && this.oculusVersion >= 15;
     }
 
     addWebXRLayer(layer: XRLayer, sortOrder: number) {
