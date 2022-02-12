@@ -6,6 +6,13 @@ type DefMap = { [key: string]: string };
 
 type PluginFactory = (minify: boolean) => Plugin;
 
+function normalizeDirName(dirName: string): string {
+    if (!dirName.endsWith('/')) {
+        dirName += '/';
+    }
+    return dirName;
+}
+
 export class Build {
     private readonly browserEntries = new Array<string>();
     private readonly minBrowserEntries = new Array<string>();
@@ -15,8 +22,8 @@ export class Build {
 
     private readonly isWatch: boolean;
 
-    private rootDirName = "src";
-    private outDirName = "wwwroot/js";
+    private rootDirName = "src/";
+    private outDirName = "wwwroot/js/";
 
     constructor(args: string[]) {
         args.sort();
@@ -24,12 +31,12 @@ export class Build {
     }
 
     rootDir(name: string) {
-        this.rootDirName = name;
+        this.rootDirName = normalizeDirName(name);
         return this;
     }
 
     outDir(name: string) {
-        this.outDirName = name;
+        this.outDirName = normalizeDirName(name);
         return this;
     }
 
@@ -49,7 +56,8 @@ export class Build {
     }
 
     bundle(name: string) {
-        const entry = `${this.rootDirName}/${name}/index.ts`;
+        name = normalizeDirName(name);
+        const entry = this.rootDirName + name + "index.ts";
         this.browserEntries.push(entry);
         this.minBrowserEntries.push(entry);
         return this;

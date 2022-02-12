@@ -1,4 +1,10 @@
 import { build as esbuild } from "esbuild";
+function normalizeDirName(dirName) {
+    if (!dirName.endsWith('/')) {
+        dirName += '/';
+    }
+    return dirName;
+}
 export class Build {
     browserEntries = new Array();
     minBrowserEntries = new Array();
@@ -6,18 +12,18 @@ export class Build {
     defines = new Array();
     externals = new Array();
     isWatch;
-    rootDirName = "src";
-    outDirName = "wwwroot/js";
+    rootDirName = "src/";
+    outDirName = "wwwroot/js/";
     constructor(args) {
         args.sort();
         this.isWatch = args.indexOf("--watch") !== -1;
     }
     rootDir(name) {
-        this.rootDirName = name;
+        this.rootDirName = normalizeDirName(name);
         return this;
     }
     outDir(name) {
-        this.outDirName = name;
+        this.outDirName = normalizeDirName(name);
         return this;
     }
     plugin(pgn) {
@@ -33,7 +39,8 @@ export class Build {
         return this;
     }
     bundle(name) {
-        const entry = `${this.rootDirName}/${name}/index.ts`;
+        name = normalizeDirName(name);
+        const entry = this.rootDirName + name + "index.ts";
         this.browserEntries.push(entry);
         this.minBrowserEntries.push(entry);
         return this;
