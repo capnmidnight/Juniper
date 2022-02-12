@@ -2,7 +2,6 @@ import { specialize } from "./util";
 
 const model = specialize("model");
 
-export const anyModel = model("*");
 export const Model_Example = model("example");
 export const Model_Gltf_Binary = model("gltf-binary", "glb");
 export const Model_Gltf_Json = model("gltf+json", "gltf");
@@ -32,34 +31,3 @@ export const Model_X3dBinary = model("x3d+binary", "x3db", "x3dbz");
 export const Model_X3dFastinfoset = model("x3d+fastinfoset", "fastinfoset");
 export const Model_X3dVrml = model("x3d+vrml", "x3dv", "x3dvz");
 export const Model_X3dXml = model("x3d+xml", "x3d", "x3dz");
-export const allModel = [
-    Model_Example,
-    Model_Gltf_Binary,
-    Model_Gltf_Json,
-    Model_Iges,
-    Model_Mesh,
-    Model_Stl,
-    Model_Vendor_3mf,
-    Model_Vendor_ColladaXml,
-    Model_Vendor_Dwf,
-    Model_Vendor_Flatland3dml,
-    Model_Vendor_Gdl,
-    Model_Vendor_Gs_Gdl,
-    Model_Vendor_GsGdl,
-    Model_Vendor_Gtw,
-    Model_Vendor_MomlXml,
-    Model_Vendor_Mts,
-    Model_Vendor_Opengex,
-    Model_Vendor_ParasolidTransmitBinary,
-    Model_Vendor_ParasolidTransmitText,
-    Model_Vendor_RosetteAnnotated_Data_Model,
-    Model_Vendor_UsdzZip,
-    Model_Vendor_ValveSourceCompiled_Map,
-    Model_Vendor_Vtu,
-    Model_Vrml,
-    Model_X3d_Vrml,
-    Model_X3dBinary,
-    Model_X3dFastinfoset,
-    Model_X3dVrml,
-    Model_X3dXml
-];
