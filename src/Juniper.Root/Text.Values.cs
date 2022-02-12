@@ -20,6 +20,7 @@ namespace Juniper
 
             public static readonly Text Encaprtp = new("encaprtp");
             public static readonly Text Enriched = new("enriched");
+            public static readonly Text Event_Stream = new("event-stream");
             public static readonly Text Example = new("example");
             public static readonly Text Flexfec = new("flexfec");
             public static readonly Text Fwdred = new("fwdred");
@@ -121,6 +122,7 @@ namespace Juniper
                 Dns,
                 Encaprtp,
                 Enriched,
+                Event_Stream,
                 Example,
                 Flexfec,
                 Fwdred,

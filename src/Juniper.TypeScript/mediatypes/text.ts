@@ -15,6 +15,7 @@ export const Text_Dns = text("dns");
 export const Text_Ecmascript = deprecate(text("ecmascript"), "in favor of application/ecmascript");
 export const Text_Encaprtp = text("encaprtp");
 export const Text_Enriched = text("enriched");
+export const Text_Event_Stream = text("event-stream");
 export const Text_Example = text("example");
 export const Text_Flexfec = text("flexfec");
 export const Text_Fwdred = text("fwdred");
