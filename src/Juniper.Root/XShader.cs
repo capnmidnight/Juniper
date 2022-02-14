@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Juniper
@@ -6,33 +7,16 @@ namespace Juniper
     {
         public partial class XShader : MediaType
         {
-            private XShader(string value, string[] extensions) : base("x-shader/" + value, extensions) { }
-
-            private XShader(string value) : this(value, null) { }
-
+            private static List<XShader> _allXShad;
+            private static List<XShader> AllXShad => _allXShad ??= new();
+            public static IReadOnlyCollection<XShader> AllXShader => AllXShad;
             public static readonly XShader AnyXShader = new("*");
 
-            public override bool GuessMatches(string fileName)
+            internal XShader(string value, params string[] extensions) : base("x-shader", value, extensions)
             {
-                if (ReferenceEquals(this, AnyXShader))
+                if (SubType != "*")
                 {
-                    return Values.Any(x => x.GuessMatches(fileName));
-                }
-                else
-                {
-                    return base.GuessMatches(fileName);
-                }
-            }
-
-            public override bool Matches(string mimeType)
-            {
-                if (ReferenceEquals(this, AnyXShader))
-                {
-                    return Values.Any(x => x.Matches(mimeType));
-                }
-                else
-                {
-                    return base.Matches(mimeType);
+                    AllXShad.Add(this);
                 }
             }
         }

@@ -12,7 +12,7 @@ namespace Juniper.IO
         }
 
         public StringFactory()
-            : this(MediaType.Text.Plain)
+            : this(MediaType.Text_Plain)
         { }
 
         public MediaType.Text InputContentType { get; }

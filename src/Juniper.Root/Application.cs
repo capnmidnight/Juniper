@@ -1,38 +1,23 @@
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Juniper
 {
     public partial class MediaType
     {
+
         public partial class Application : MediaType
         {
-            private Application(string value, string[] extensions) : base("application/" + value, extensions) { }
-
-            private Application(string value) : this(value, null) { }
-
+            private static List<Application> _allApp;
+            private static List<Application> AllApp => _allApp ??= new();
+            public static IReadOnlyCollection<Application> AllApplication => AllApp;
             public static readonly Application AnyApplication = new("*");
 
-            public override bool GuessMatches(string fileName)
+            internal Application(string value, params string[] extensions) : base("application", value, extensions)
             {
-                if (ReferenceEquals(this, AnyApplication))
+                if (SubType != "*")
                 {
-                    return Values.Any(x => x.GuessMatches(fileName));
-                }
-                else
-                {
-                    return base.GuessMatches(fileName);
-                }
-            }
-
-            public override bool Matches(string mimeType)
-            {
-                if (ReferenceEquals(this, AnyApplication))
-                {
-                    return Values.Any(x => x.Matches(mimeType));
-                }
-                else
-                {
-                    return base.Matches(mimeType);
+                    AllApp.Add(this);
                 }
             }
         }

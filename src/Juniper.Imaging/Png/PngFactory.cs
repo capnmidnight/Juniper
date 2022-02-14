@@ -15,7 +15,7 @@ namespace Juniper.Imaging
             this.IDATMaxSize = IDATMaxSize;
         }
 
-        public MediaType.Image InputContentType => MediaType.Image.Png;
+        public MediaType.Image InputContentType => MediaType.Image_Png;
 
         public MediaType.Image OutputContentType => InputContentType;
 

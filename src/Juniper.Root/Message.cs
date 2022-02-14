@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Juniper
@@ -6,33 +7,16 @@ namespace Juniper
     {
         public partial class Message : MediaType
         {
-            private Message(string value, string[] extensions) : base("message/" + value, extensions) { }
-
-            private Message(string value) : this(value, null) { }
-
+            private static List<Message> _allMessage;
+            private static List<Message> AllMsg => _allMessage ??= new();
+            public static IReadOnlyCollection<Message> AllMessage => AllMsg;
             public static readonly Message AnyMessage = new("*");
 
-            public override bool GuessMatches(string fileName)
+            internal Message(string value, params string[] extensions) : base("message", value, extensions)
             {
-                if (ReferenceEquals(this, AnyMessage))
+                if (SubType != "*")
                 {
-                    return Values.Any(x => x.GuessMatches(fileName));
-                }
-                else
-                {
-                    return base.GuessMatches(fileName);
-                }
-            }
-
-            public override bool Matches(string mimeType)
-            {
-                if (ReferenceEquals(this, AnyMessage))
-                {
-                    return Values.Any(x => x.Matches(mimeType));
-                }
-                else
-                {
-                    return base.Matches(mimeType);
+                    AllMsg.Add(this);
                 }
             }
         }

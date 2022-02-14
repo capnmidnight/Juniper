@@ -1,13 +1,13 @@
-using Juniper.IO;
-
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
+
+using Accord.Math;
+
+using Juniper.IO;
 
 namespace Juniper
 {
@@ -23,28 +23,17 @@ namespace Juniper
         IEquatable<MediaType>,
         IEquatable<string>
     {
-        private static Dictionary<string, List<MediaType>> byExtensions;
+        private static Dictionary<string, List<MediaType>> _byExtensions;
+        private static Dictionary<string, List<MediaType>> ByExtensions => _byExtensions ??= new();
 
-        private static Dictionary<string, MediaType> byValue;
+        private static Dictionary<string, MediaType> _byValue;
+        private static Dictionary<string, MediaType> ByValue => _byValue ??= new();
 
-        private static Regex typePattern;
+        private static Regex _typePattern;
+        private static Regex TypePattern => _typePattern ??= new("([^\\/]+)\\/(.+)", RegexOptions.Compiled);
 
-        private static Regex TYPE_PATTERN
-        {
-            get
-            {
-                if (typePattern is null)
-                {
-                    typePattern = new Regex("(\\*|\\w+)/(\\*|(-|\\w)+)(?:;q=(1|0?\\.\\d+))?", RegexOptions.Compiled);
-                }
-
-                return typePattern;
-            }
-        }
-
-        public static readonly MediaType Any = new("*/*");
-
-        public static readonly IReadOnlyCollection<MediaType> All = new MediaType[] { Any };
+        private static Regex _subTypePattern;
+        private static Regex SubTypePattern => _subTypePattern ??= new("(?:([^\\.]+)\\.)?([^\\+;]+)(\\+[^;]*)?((?:; *([^=]+)=([^;]+))*)", RegexOptions.Compiled);
 
         public static MediaType Parse(string value)
         {
@@ -59,7 +48,7 @@ namespace Juniper
             }
             else
             {
-                throw new ArgumentException($"Type value does not match expected pattern {TYPE_PATTERN}", nameof(value));
+                throw new ArgumentException($"Type value does not match expected pattern {TypePattern}", nameof(value));
             }
         }
 
@@ -98,35 +87,24 @@ namespace Juniper
                 return false;
             }
 
-            var match = TYPE_PATTERN.Match(value);
+            var match = TypePattern.Match(value);
             if (!match.Success)
             {
                 return false;
             }
 
+
             var typeName = match.Groups[1].Value;
             var subTypeName = match.Groups[2].Value;
-            var rawValue = typeName + "/" + subTypeName;
+            var parsedType = new MediaType(typeName, subTypeName);
+            var weight = parsedType.Parameters.Get("q");
+            var basicType = ByValue.Get(parsedType.Value, parsedType);
 
-            if (match.Groups.Count == 4
-                && float.TryParse(
-                    match.Groups[3].Value,
-                    NumberStyles.Integer | NumberStyles.AllowDecimalPoint,
-                    CultureInfo.InvariantCulture,
-                    out var weight))
-            {
-                type = new MediaType(typeName, subTypeName, weight);
-            }
-            else if (byValue.ContainsKey(rawValue))
-            {
-                type = byValue[rawValue];
-            }
-            else
-            {
-                type = new MediaType(typeName, subTypeName);
-            }
+            type = weight is not null
+                ? basicType.WithParameter("q", weight)
+                : basicType;
 
-            return type is not null;
+            return type != null;
         }
 
         public static IReadOnlyList<MediaType> GuessByExtension(string ext)
@@ -140,13 +118,13 @@ namespace Juniper
                 ext = ext[1..];
             }
 
-            if (byExtensions.ContainsKey(ext))
+            if (ByExtensions.ContainsKey(ext))
             {
-                return byExtensions[ext];
+                return ByExtensions[ext];
             }
             else
             {
-                return new MediaType[] { new Unknown("unknown/" + ext) };
+                return new[] { new Unknown(ext) };
             }
         }
 
@@ -180,9 +158,9 @@ namespace Juniper
                 value = parts[0];
             }
 
-            if (byValue.ContainsKey(value))
+            if (ByValue.ContainsKey(value))
             {
-                return byValue[value];
+                return ByValue[value];
             }
 
             var name = Array.Find(parts, p => p.Length > 0);
@@ -209,111 +187,123 @@ namespace Juniper
 
         public static implicit operator MediaTypeWithQualityHeaderValue(MediaType mediaType)
         {
-            if(mediaType.Weight < 1)
-            {
-                return new MediaTypeWithQualityHeaderValue(mediaType, mediaType.Weight);
-            }
-
             return new MediaTypeWithQualityHeaderValue(mediaType);
         }
 
-        private readonly string weightedValue;
+        public string Type { get; }
+        public string FullSubType { get; }
+        public string Tree { get; }
+        public string SubType { get; }
+        public string Suffix { get; }
+
+        private readonly Dictionary<string, string> _params = new();
+        public IReadOnlyDictionary<string, string> Parameters => _params;
 
         public string Value { get; }
+        public string FullValue { get; }
 
-        public string TypeName { get; }
+        private readonly string[] _extensions;
+        public IReadOnlyCollection<string> Extensions => _extensions;
 
-        public string SubTypeName { get; }
+        public string PrimaryExtension => _extensions.FirstOrDefault();
 
-        public float Weight { get; }
-
-        public ReadOnlyCollection<string> Extensions { get; }
-
-        public string PrimaryExtension { get; }
-
-        private MediaType(string typeName, string subTypeName, float weight)
+        protected internal MediaType(string type, string fullSubType, params string[] extensions)
         {
-            TypeName = typeName;
-            SubTypeName = subTypeName;
-            Weight = weight;
-            Value = typeName + "/" + subTypeName;
-            weightedValue = $"{Value};q={weight.ToString(CultureInfo.InvariantCulture)}";
+            Type = type;
+            FullSubType = fullSubType;
+            _extensions = extensions;
 
-            var extensions = Array.Empty<string>();
-            Extensions = Array.AsReadOnly(extensions);
-            PrimaryExtension = null;
-
-            UpdateLookupTables();
-        }
-
-        private MediaType(string typeName, string subTypeName)
-            : this(typeName, subTypeName, 1)
-        { }
-
-        protected internal MediaType(string value, string[] extensions = null)
-        {
-            Value = value;
-
-            var match = TYPE_PATTERN.Match(value);
-            if (!match.Success)
+            var subTypeParts = SubTypePattern.Match(FullSubType);
+            if (subTypeParts.Success)
             {
-                throw new ArgumentException($"Type value does not match expected pattern {TYPE_PATTERN}", nameof(value));
-            }
+                Tree = subTypeParts.Groups[1].Value;
+                SubType = subTypeParts.Groups[2].Value;
+                Suffix = subTypeParts.Groups[3].Value;
+                var paramStr = subTypeParts.Groups[4].Value;
 
-            TypeName = match.Groups[1].Value;
-            SubTypeName = match.Groups[2].Value;
-            Weight = 1;
-            weightedValue = $"{Value};q={Weight.ToString(CultureInfo.InvariantCulture)}";
+                Value = FullValue = Type + "/";
 
-            if (extensions is null)
-            {
-                extensions = Array.Empty<string>();
-            }
-
-            Extensions = Array.AsReadOnly(extensions);
-            if (Extensions.Count >= 1)
-            {
-                PrimaryExtension = extensions[0];
-            }
-
-            UpdateLookupTables();
-        }
-
-        private void UpdateLookupTables()
-        {
-            if (byValue is null)
-            {
-                byValue = new Dictionary<string, MediaType>(1000);
-            }
-
-            if (byExtensions is null)
-            {
-                byExtensions = new Dictionary<string, List<MediaType>>(1000);
-            }
-
-            _ = byValue.Default(Value, this);
-
-            foreach (var ext in Extensions)
-            {
-                if (!byExtensions.ContainsKey(ext))
+                if (!string.IsNullOrEmpty(Tree))
                 {
-                    byExtensions[ext] = new List<MediaType>();
+                    Value = FullValue += Tree + ".";
                 }
 
-                var exts = byExtensions[ext];
-                exts.Add(this);
+                Value = FullValue += SubType;
+
+                if (!string.IsNullOrEmpty(Suffix))
+                {
+                    Value = FullValue += Suffix;
+                    Suffix = Suffix[1..];
+                }
+
+                if (!string.IsNullOrEmpty(paramStr))
+                {
+                    var pairs = paramStr.SplitX(';')
+                        .Select(p => p.Trim())
+                        .Where(p => p.Length > 0)
+                        .Select(p => p.SplitX('='));
+
+                    foreach (var pair in pairs)
+                    {
+                        var key = pair.FirstOrDefault();
+                        var value = pair.Skip(1).ToArray().Join("=");
+                        _params[key] = value;
+                        var slug = $"; {key}={value}";
+                        FullValue += slug;
+                        if (key != "q")
+                        {
+                            Value += slug;
+                        }
+                    }
+                }
+            }
+
+            if (Type != "*" && SubType != "*"
+                && Type != "unknown" && SubType != "unknown")
+            {
+                foreach (var ext in Extensions)
+                {
+                    if (!ByExtensions.ContainsKey(ext))
+                    {
+                        ByExtensions.Add(ext, new());
+                    }
+
+                    ByExtensions[ext].Add(this);
+                }
+
+                if (ByValue.ContainsKey(Value))
+                {
+
+                }
+                else
+                {
+                    ByValue.Add(Value, this);
+                }
             }
         }
 
-        public virtual bool Matches(string mimeType)
+        public MediaType WithParameter(string key, string value)
         {
-            if (string.IsNullOrEmpty(mimeType))
+            var newSubType = $"{FullSubType}; {key}={value}";
+            return new MediaType(Type, newSubType, _extensions);
+        }
+
+        public bool Matches(string mimeType)
+        {
+            return Matches(Parse(mimeType));
+        }
+
+        public virtual bool Matches(MediaType value)
+        {
+            if (value is null)
             {
                 return false;
             }
 
             return ReferenceEquals(this, Any)
-                || Value == mimeType;
+                || Value == value.Value
+                || (Type == value.Type
+                    && SubType == "*");
         }
 
         public virtual bool GuessMatches(string fileName)
@@ -346,11 +336,17 @@ namespace Juniper
 
             if (PrimaryExtension is not null)
             {
-                var currentExtension = PathExt.GetShortExtension(fileName);
-                if (Extensions.IndexOf(currentExtension) == -1)
+                var idx = fileName.LastIndexOf('.');
+                if (idx > -1)
                 {
-                    fileName += "." + PrimaryExtension;
+                    var currentExtension = fileName[(idx + 1)..];
+                    if (Extensions.Contains(currentExtension))
+                    {
+                        fileName = fileName[0..idx];
+                    }
                 }
+
+                fileName = $"{fileName}.{PrimaryExtension}";
             }
 
             return fileName;
@@ -371,12 +367,12 @@ namespace Juniper
         public bool Equals(MediaType other)
         {
             return other is not null
-                && (TypeName == "*"
-                    || other.TypeName == "*"
-                    || TypeName == other.TypeName)
-                && (SubTypeName == "*"
-                    || other.SubTypeName == "*"
-                    || SubTypeName == other.SubTypeName);
+                && (Tree == "*"
+                    || other.Tree == "*"
+                    || Tree == other.Tree)
+                && (SubType == "*"
+                    || other.SubType == "*"
+                    || SubType == other.SubType);
         }
 
         public static bool operator ==(MediaType left, MediaType right)
@@ -414,23 +410,27 @@ namespace Juniper
 
         public override string ToString()
         {
-            if (Weight == 1)
+            if (!Parameters.ContainsKey("q")
+                || Parameters["q"] == "1")
             {
                 return Value;
             }
             else
             {
-                return weightedValue;
+                return FullValue;
             }
         }
 
         public override int GetHashCode()
         {
             var hash = new HashCode();
-            hash.Add(TypeName);
-            hash.Add(SubTypeName);
-            hash.Add(Weight);
-            hash.Add(PrimaryExtension);
+            hash.Add(Tree);
+            hash.Add(SubType);
+            foreach (var (key, value) in Parameters)
+            {
+                hash.Add(key);
+                hash.Add(value);
+            }
             foreach (var value in Extensions)
             {
                 hash.Add(value);

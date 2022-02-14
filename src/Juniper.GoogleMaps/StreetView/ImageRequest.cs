@@ -10,7 +10,7 @@ namespace Juniper.World.GIS.Google.StreetView
         private Size size;
 
         public ImageRequest(string apiKey, string signingKey, Size size)
-            : base("streetview", apiKey, signingKey, Juniper.MediaType.Image.Jpeg)
+            : base("streetview", apiKey, signingKey, MediaType.Image_Jpeg)
         {
             Size = size;
         }

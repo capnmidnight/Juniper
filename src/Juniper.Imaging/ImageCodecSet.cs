@@ -10,8 +10,8 @@ namespace Juniper.Imaging
     {
         public static readonly ImageCodecSet Default = new()
         {
-            [MediaType.Image.Png] = new PngFactory().Pipe(new PngCodec()),
-            [MediaType.Image.Jpeg] = new JpegFactory().Pipe(new JpegCodec(padAlpha: true))
+            [MediaType.Image_Png] = new PngFactory().Pipe(new PngCodec()),
+            [MediaType.Image_Jpeg] = new JpegFactory().Pipe(new JpegCodec(padAlpha: true))
         };
 
         private readonly Dictionary<MediaType, IImageFactory<ImageData>> decoders;

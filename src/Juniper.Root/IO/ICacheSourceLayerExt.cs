@@ -70,7 +70,7 @@ namespace Juniper.IO
             value = default;
 
             var task = layer.LoadAsync(deserializer, fileRef, prog);
-            Task.WaitAny(task);
+            Task.WhenAny(task).Wait();
 
             if (task.IsSuccessful())
             {
@@ -88,7 +88,7 @@ namespace Juniper.IO
             where ResultT : class
         {
             var deserializer = new JsonFactory<ResultT>();
-            var fileRef = name + MediaType.Application.Json;
+            var fileRef = name + MediaType.Application_Json;
 
             return layer.TryLoad(deserializer, fileRef, out value, prog);
         }

@@ -115,7 +115,7 @@ namespace Juniper.Imaging
 
         public MediaType.Image InputContentType => factory.InputContentType;
 
-        public MediaType.Image OutputContentType => MediaType.Image.Raw;
+        public MediaType.Image OutputContentType => MediaType.Image_Raw;
 
         public ToImageT Deserialize(Stream stream)
         {

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Juniper
@@ -6,33 +7,16 @@ namespace Juniper
     {
         public partial class Multipart : MediaType
         {
-            private Multipart(string value, string[] extensions) : base("multipart/" + value, extensions) { }
-
-            private Multipart(string value) : this(value, null) { }
-
+            private static List<Multipart> _allMultipart;
+            private static List<Multipart> AllMulti => _allMultipart ??= new();
+            public static IReadOnlyCollection<Multipart> AllMultipart => AllMulti;
             public static readonly Multipart AnyMultipart = new("*");
 
-            public override bool GuessMatches(string fileName)
+            internal Multipart(string value, params string[] extensions) : base("multipart", value, extensions)
             {
-                if (ReferenceEquals(this, AnyMultipart))
+                if (SubType != "*")
                 {
-                    return Values.Any(x => x.GuessMatches(fileName));
-                }
-                else
-                {
-                    return base.GuessMatches(fileName);
-                }
-            }
-
-            public override bool Matches(string mimeType)
-            {
-                if (ReferenceEquals(this, AnyMultipart))
-                {
-                    return Values.Any(x => x.Matches(mimeType));
-                }
-                else
-                {
-                    return base.Matches(mimeType);
+                    AllMulti.Add(this);
                 }
             }
         }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Juniper
@@ -6,33 +7,16 @@ namespace Juniper
     {
         public partial class XConference : MediaType
         {
-            private XConference(string value, string[] extensions) : base("xconference/" + value, extensions) { }
-
-            private XConference(string value) : this(value, null) { }
-
+            private static List<XConference> _allXConf;
+            public static List<XConference> AllXConf => _allXConf ??= new();
+            public static IReadOnlyCollection<XConference> AllXConference => AllXConf;
             public static readonly XConference AnyXConference = new("*");
 
-            public override bool GuessMatches(string fileName)
+            internal XConference(string value, params string[] extensions) : base("xconference", value, extensions)
             {
-                if (ReferenceEquals(this, AnyXConference))
+                if (SubType != "*")
                 {
-                    return Values.Any(x => x.GuessMatches(fileName));
-                }
-                else
-                {
-                    return base.GuessMatches(fileName);
-                }
-            }
-
-            public override bool Matches(string mimeType)
-            {
-                if (ReferenceEquals(this, AnyXConference))
-                {
-                    return Values.Any(x => x.Matches(mimeType));
-                }
-                else
-                {
-                    return base.Matches(mimeType);
+                    AllXConf.Add(this);
                 }
             }
         }

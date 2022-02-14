@@ -120,12 +120,7 @@ class InternalMediaType implements MediaType {
 
     withParameter(key: string, value: string): MediaType {
         const newSubType = `${this._fullSubType}; ${key}=${value}`;
-        const type = new InternalMediaType(this.typeName, newSubType, this.extensions);
-        const msg = depMessages.get(this);
-        if (msg) {
-            depMessages.set(type, msg);
-        }
-        return type;
+        return new InternalMediaType(this.typeName, newSubType, this.extensions);
     }
 
     get typeName(): string {
@@ -241,7 +236,8 @@ export function mediaTypeParse(value: string): MediaType {
     const subType = match[2];
     const parsedType = new InternalMediaType(type, subType);
     const weight = parsedType.parameters.get("q");
-    const basicType = byValue.get(parsedType.value) || new InternalMediaType(type, subType, []);
+    const basicType = byValue.get(parsedType.value)
+        || parsedType;
 
     if (isDefined(weight)) {
         return basicType.withParameter("q", weight);
@@ -311,7 +307,7 @@ export function create(group: string, value: string, ...extensions: string[]): M
 }
 
 export function specialize(group: string) {
-    return function(value: string, ...extensions: string[]): MediaType {
+    return function (value: string, ...extensions: string[]): MediaType {
         return create(group, value, ...extensions);
     };
 }

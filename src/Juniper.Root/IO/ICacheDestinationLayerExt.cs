@@ -69,7 +69,7 @@ namespace Juniper.IO
             }
 
             using var stream = layer.Create(fileRef);
-            serializer.Serialize(stream, value);
+            _ = serializer.Serialize(stream, value);
         }
 
         public static void SaveJson<ResultType>(
@@ -93,9 +93,9 @@ namespace Juniper.IO
             }
 
             var serializer = new JsonFactory<ResultType>();
-            var fileRef = fileName + MediaType.Application.Json;
+            var fileRef = fileName + MediaType.Application_Json;
             using var stream = layer.Create(fileRef);
-            serializer.Serialize(stream, value);
+            _ = serializer.Serialize(stream, value);
         }
     }
 }

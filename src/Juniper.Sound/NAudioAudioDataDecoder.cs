@@ -13,10 +13,10 @@ namespace Juniper.Sound
     {
         public static readonly MediaType.Audio[] SupportedFormats =
         {
-            MediaType.Audio.Wave,
-            MediaType.Audio.Mpeg,
-            MediaType.Audio.OggVorbis,
-            MediaType.Audio.Raw
+            MediaType.Audio_Wave,
+            MediaType.Audio_Mpeg,
+            MediaType.Audio_OggVorbis,
+            MediaType.Audio_Raw
         };
 
         public NAudioAudioDataDecoder()
@@ -60,7 +60,7 @@ namespace Juniper.Sound
         }
 
 #pragma warning disable CA1822 // Mark members as static
-        public MediaType.Audio OutputContentType => MediaType.Audio.PCMA;
+        public MediaType.Audio OutputContentType => MediaType.Audio_PCMA;
 #pragma warning restore CA1822 // Mark members as static
 
         public WaveStream MakeDecodingStream(Stream stream)
@@ -77,19 +77,19 @@ namespace Juniper.Sound
                 stream = mem;
             }
 
-            if (Format.ContentType == MediaType.Audio.Wave)
+            if (Format.ContentType == MediaType.Audio_Wave)
             {
                 return new WaveFileReader(stream);
             }
-            else if (Format.ContentType == MediaType.Audio.Mpeg)
+            else if (Format.ContentType == MediaType.Audio_Mpeg)
             {
                 return new ManagedMpegStream(stream);
             }
-            else if(Format.ContentType == MediaType.Audio.OggVorbis)
+            else if(Format.ContentType == MediaType.Audio_OggVorbis)
             {
                 return new VorbisWaveReader(stream, true);
             }
-            else if (Format.ContentType == MediaType.Audio.Raw)
+            else if (Format.ContentType == MediaType.Audio_Raw)
             {
                 var format = new WaveFormat(Format.SampleRate, Format.BitsPerSample, Format.Channels);
                 return new RawSourceWaveStream(stream, format);
@@ -152,7 +152,7 @@ namespace Juniper.Sound
             var formatName = $"float-{sampsStr}khz-{bitsPerSample.ToString(CultureInfo.CurrentCulture)}bit-{channelString}-pcm";
             var audioFormat = new AudioFormat(
                 formatName,
-                MediaType.Audio.PCMA,
+                MediaType.Audio_PCMA,
                 sampleRate,
                 bitsPerSample,
                 channels);

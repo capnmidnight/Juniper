@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Juniper
@@ -6,33 +7,16 @@ namespace Juniper
     {
         public partial class Video : MediaType
         {
-            private Video(string value, string[] extensions) : base("video/" + value, extensions) { }
-
-            private Video(string value) : this(value, null) { }
-
+            private static List<Video> _allVideo;
+            private static List<Video> AllVid => _allVideo ??= new();
+            public static IReadOnlyCollection<Video> AllVideo => AllVid;
             public static readonly Video AnyVideo = new("*");
 
-            public override bool GuessMatches(string fileName)
+            internal Video(string value, params string[] extensions) : base("video", value, extensions)
             {
-                if (ReferenceEquals(this, AnyVideo))
+                if (SubType != "*")
                 {
-                    return Values.Any(x => x.GuessMatches(fileName));
-                }
-                else
-                {
-                    return base.GuessMatches(fileName);
-                }
-            }
-
-            public override bool Matches(string mimeType)
-            {
-                if (ReferenceEquals(this, AnyVideo))
-                {
-                    return Values.Any(x => x.Matches(mimeType));
-                }
-                else
-                {
-                    return base.Matches(mimeType);
+                    AllVid.Add(this);
                 }
             }
         }

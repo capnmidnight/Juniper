@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Juniper
@@ -6,36 +7,22 @@ namespace Juniper
     {
         public partial class Audio : MediaType
         {
-            private Audio(string value, string[] extensions) : base("audio/" + value, extensions) { }
-
-            private Audio(string[] extensions) : base("application/octet-stream", extensions) { }
-
-            private Audio(string value) : this(value, null) { }
-
+            private static List<Audio> _allAudio;
+            private static List<Audio> AllAud => _allAudio ??= new();
+            public static IReadOnlyCollection<Audio> AllAudio => AllAud;
             public static readonly Audio AnyAudio = new("*");
 
-            public override bool GuessMatches(string fileName)
+            internal Audio(string value, params string[] extensions) : base("audio", value, extensions)
             {
-                if (ReferenceEquals(this, AnyAudio))
+                if (SubType != "*")
                 {
-                    return Values.Any(x => x.GuessMatches(fileName));
-                }
-                else
-                {
-                    return base.GuessMatches(fileName);
+                    AllAud.Add(this);
                 }
             }
 
-            public override bool Matches(string mimeType)
+            internal Audio(string[] extensions) : base("application", "octet-stream", extensions)
             {
-                if (ReferenceEquals(this, AnyAudio))
-                {
-                    return Values.Any(x => x.Matches(mimeType));
-                }
-                else
-                {
-                    return base.Matches(mimeType);
-                }
+                AllAud.Add(this);
             }
         }
     }

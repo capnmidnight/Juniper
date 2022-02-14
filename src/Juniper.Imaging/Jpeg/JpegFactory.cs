@@ -19,7 +19,7 @@ namespace Juniper.Imaging
             };
         }
 
-        public MediaType.Image InputContentType => MediaType.Image.Jpeg;
+        public MediaType.Image InputContentType => MediaType.Image_Jpeg;
 
         public MediaType.Image OutputContentType => InputContentType;
 

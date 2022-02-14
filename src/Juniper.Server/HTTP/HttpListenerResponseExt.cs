@@ -47,7 +47,7 @@ namespace Juniper.HTTP
                 throw new FileNotFoundException("File not found: " + file.FullName, file.FullName);
             }
 
-            MediaType type = MediaType.Application.Octet_Stream;
+            MediaType type = MediaType.Application_Octet_Stream;
             var types = MediaType.GuessByFile(file);
             if (types.Count > 0)
             {
@@ -66,7 +66,7 @@ namespace Juniper.HTTP
             this HttpListenerResponse response,
             string text)
         {
-            return response.SendTextAsync(MediaType.Text.Plain, text);
+            return response.SendTextAsync(MediaType.Text_Plain, text);
         }
 
         public static Task SendTextAsync(
@@ -154,7 +154,7 @@ namespace Juniper.HTTP
             if (type is not null
                 && type != MediaType.Text.AnyText
                 && type != MediaType.Image.AnyImage
-                && type != MediaType.Application.Javascript
+                && type != MediaType.Application_Javascript
                 && fileName is not null)
             {
                 response.Headers.Add("Content-Disposition", $"attachment; filename={fileName}");

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Juniper
@@ -6,33 +7,16 @@ namespace Juniper
     {
         public partial class Font : MediaType
         {
-            private Font(string value, string[] extensions) : base("font/" + value, extensions) { }
-
-            private Font(string value) : this(value, null) { }
-
+            private static List<Font> _allFont;
+            private static List<Font> AllFnt => _allFont ??= new();
+            public static IReadOnlyCollection<Font> AllFont => AllFnt;
             public static readonly Font AnyFont = new("*");
 
-            public override bool GuessMatches(string fileName)
+            internal Font(string value, params string[] extensions) : base("font", value, extensions)
             {
-                if (ReferenceEquals(this, AnyFont))
+                if (SubType != "*")
                 {
-                    return Values.Any(x => x.GuessMatches(fileName));
-                }
-                else
-                {
-                    return base.GuessMatches(fileName);
-                }
-            }
-
-            public override bool Matches(string mimeType)
-            {
-                if (ReferenceEquals(this, AnyFont))
-                {
-                    return Values.Any(x => x.Matches(mimeType));
-                }
-                else
-                {
-                    return base.Matches(mimeType);
+                    AllFnt.Add(this);
                 }
             }
         }

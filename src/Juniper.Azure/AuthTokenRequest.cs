@@ -9,7 +9,7 @@ namespace Juniper.Speech.Azure
         private readonly string subscriptionKey;
 
         public AuthTokenRequest(string region, string subscriptionKey)
-            : base(HttpMethod.Post, region, "api.cognitive", "sts/v1.0/issueToken", MediaType.Text.Plain)
+            : base(HttpMethod.Post, region, "api.cognitive", "sts/v1.0/issueToken", MediaType.Text_Plain)
         {
             this.subscriptionKey = subscriptionKey;
         }
@@ -20,7 +20,7 @@ namespace Juniper.Speech.Azure
         {
             base.ModifyRequest(request, prog);
             request.Header("Ocp-Apim-Subscription-Key", subscriptionKey)
-                .Body(new StringContent(""), MediaType.Application.X_Www_Form_Urlencoded);
+                .Body(new StringContent(""), MediaType.Application_X_Www_Form_Urlencoded);
         }
     }
 }

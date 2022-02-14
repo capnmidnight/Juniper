@@ -32,7 +32,39 @@ namespace System.Collections.Generic
         /// dict.Get("c"); // --> 0
         /// dict.Get("d", 3); // --> 3
         /// ]]></code></example>
+        public static TValue Get<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue defaultValue = default)
+        {
+            if (key is null)
+            {
+                return defaultValue;
+            }
+            else if (dict?.ContainsKey(key) == true)
+            {
+                return dict[key];
+            }
+            else
+            {
+                return defaultValue;
+            }
+        }
+
         public static TValue Get<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue defaultValue = default)
+        {
+            if (key is null)
+            {
+                return defaultValue;
+            }
+            else if (dict?.ContainsKey(key) == true)
+            {
+                return dict[key];
+            }
+            else
+            {
+                return defaultValue;
+            }
+        }
+
+        public static TValue Get<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dict, TKey key, TValue defaultValue = default)
         {
             if (key is null)
             {
@@ -70,7 +102,41 @@ namespace System.Collections.Generic
         /// dict.Get("c"); // --> 0
         /// dict.Get("d", 3); // --> 3
         /// ]]></code></example>
+        public static KeyT GetKey<KeyT, ValueT>(this Dictionary<KeyT, ValueT> dict, ValueT value)
+        {
+            if (dict is null)
+            {
+                throw new ArgumentNullException(nameof(dict));
+            }
+
+            foreach (var pair in dict)
+            {
+                if (pair.Value.Equals(value))
+                {
+                    return pair.Key;
+                }
+            }
+
+            return default;
+        }
         public static KeyT GetKey<KeyT, ValueT>(this IDictionary<KeyT, ValueT> dict, ValueT value)
+        {
+            if (dict is null)
+            {
+                throw new ArgumentNullException(nameof(dict));
+            }
+
+            foreach (var pair in dict)
+            {
+                if (pair.Value.Equals(value))
+                {
+                    return pair.Key;
+                }
+            }
+
+            return default;
+        }
+        public static KeyT GetKey<KeyT, ValueT>(this IReadOnlyDictionary<KeyT, ValueT> dict, ValueT value)
         {
             if (dict is null)
             {
@@ -139,20 +205,11 @@ namespace System.Collections.Generic
             return dict[key];
         }
 
-        public static bool MaybeRemove<KeyT, ValueT>(this IDictionary<KeyT, ValueT> dict, KeyT key)
+        public static string ToString<KeyType, ValueType>(this Dictionary<KeyType, ValueType> dict, string kvSeperator, string entrySeperator)
         {
-            if (dict is null)
-            {
-                throw new ArgumentNullException(nameof(dict));
-            }
-
-            if (dict.ContainsKey(key))
-            {
-                dict.Remove(key);
-                return true;
-            }
-
-            return false;
+            return (from kv in dict
+                    select $"{kv.Key}{kvSeperator}{kv.Value}")
+                .ToString(entrySeperator);
         }
 
         public static string ToString<KeyType, ValueType>(this IDictionary<KeyType, ValueType> dict, string kvSeperator, string entrySeperator)
@@ -160,6 +217,22 @@ namespace System.Collections.Generic
             return (from kv in dict
                     select $"{kv.Key}{kvSeperator}{kv.Value}")
                 .ToString(entrySeperator);
+        }
+
+        public static string ToString<KeyType, ValueType>(this IReadOnlyDictionary<KeyType, ValueType> dict, string kvSeperator, string entrySeperator)
+        {
+            return (from kv in dict
+                    select $"{kv.Key}{kvSeperator}{kv.Value}")
+                .ToString(entrySeperator);
+        }
+
+        public static string ToString<KeyType, ElementType>(this Dictionary<KeyType, List<ElementType>> dict, string kvSeperator, string entrySeperator)
+        {
+            return (from kv in dict
+                    select (from elem in kv.Value
+                            select $"{kv.Key}{kvSeperator}{elem}")
+                        .ToString(entrySeperator))
+                    .ToString(entrySeperator);
         }
 
         public static string ToString<KeyType, ElementType>(this IDictionary<KeyType, List<ElementType>> dict, string kvSeperator, string entrySeperator)
@@ -171,7 +244,48 @@ namespace System.Collections.Generic
                     .ToString(entrySeperator);
         }
 
+        public static string ToString<KeyType, ElementType>(this IReadOnlyDictionary<KeyType, List<ElementType>> dict, string kvSeperator, string entrySeperator)
+        {
+            return (from kv in dict
+                    select (from elem in kv.Value
+                            select $"{kv.Key}{kvSeperator}{elem}")
+                        .ToString(entrySeperator))
+                    .ToString(entrySeperator);
+        }
+
+        public static Dictionary<B, A> Invert<A, B>(this Dictionary<A, B> dict)
+        {
+            if (dict is null)
+            {
+                throw new ArgumentNullException(nameof(dict));
+            }
+
+            var dict2 = new Dictionary<B, A>();
+            foreach (var kv in dict)
+            {
+                dict2[kv.Value] = kv.Key;
+            }
+
+            return dict2;
+        }
+
         public static Dictionary<B, A> Invert<A, B>(this IDictionary<A, B> dict)
+        {
+            if (dict is null)
+            {
+                throw new ArgumentNullException(nameof(dict));
+            }
+
+            var dict2 = new Dictionary<B, A>();
+            foreach (var kv in dict)
+            {
+                dict2[kv.Value] = kv.Key;
+            }
+
+            return dict2;
+        }
+
+        public static Dictionary<B, A> Invert<A, B>(this IReadOnlyDictionary<A, B> dict)
         {
             if (dict is null)
             {

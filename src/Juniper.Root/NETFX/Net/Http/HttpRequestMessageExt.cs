@@ -28,7 +28,7 @@ namespace System.Net.Http
         /// var request = HttpRequestMessageExt.Create("https://www.example.com");
         /// request.Header("Keep-Alive", 1)
         ///     .Header("DNT", 1")
-        ///     .Header("Accept", MediaType.Text.Plain");
+        ///     .Header("Accept", MediaType.Text_Plain");
         /// ]]></example>
         public static HttpRequestMessage Header<T>(this HttpRequestMessage request, string name, T value)
         {
@@ -77,7 +77,7 @@ namespace System.Net.Http
         /// var request = HttpRequestMessageExt.Create("https://www.example.com");
         /// request.Header("Keep-Alive", 1)
         ///     .DoNotTrack()
-        ///     .Header("Accept", MediaType.Text.Plain");
+        ///     .Header("Accept", MediaType.Text_Plain");
         /// ]]></example>
         public static HttpRequestMessage DoNotTrack(this HttpRequestMessage request)
         {
@@ -166,7 +166,7 @@ namespace System.Net.Http
         /// var request = HttpRequestMessageExt.Create("https://www.example.com");
         /// request.Header("Keep-Alive", 1)
         ///     .Header("DNT", 1")
-        ///     .Accept(MediaType.Text.Plain");
+        ///     .Accept(MediaType.Text_Plain");
         /// ]]></example>
         public static HttpRequestMessage Accept(this HttpRequestMessage request, MediaType type)
         {
@@ -189,7 +189,7 @@ namespace System.Net.Http
         /// var request = HttpRequestMessageExt.Create("https://www.example.com");
         /// request.Header("Keep-Alive", 1)
         ///     .Header("DNT", 1")
-        ///     .Accept(MediaType.Text.Plain)
+        ///     .Accept(MediaType.Text_Plain)
         ///     .Encoding("utf-8");
         /// ]]></example>
         public static HttpRequestMessage TransferEncoding(this HttpRequestMessage request, string encoding)
@@ -214,7 +214,7 @@ namespace System.Net.Http
         /// var request = HttpRequestMessageExt.Create("https://www.example.com");
         /// request.Header("Keep-Alive", 1)
         ///     .Header("DNT", 1")
-        ///     .Accept(MediaType.Text.Plain")
+        ///     .Accept(MediaType.Text_Plain")
         ///     .Encoding("utf-8");
         /// ]]></example>
         public static HttpRequestMessage AcceptEncoding(this HttpRequestMessage request, string encoding)
@@ -241,7 +241,7 @@ namespace System.Net.Http
         /// var request = HttpRequestMessageExt.Create("https://www.example.com");
         /// request.Header("Keep-Alive", 1)
         ///     .Header("DNT", 1")
-        ///     .Accept(MediaType.Text.Plain")
+        ///     .Accept(MediaType.Text_Plain")
         ///     .KeepAlive();
         /// ]]></example>
         public static HttpRequestMessage KeepAlive(this HttpRequestMessage request)
@@ -327,7 +327,7 @@ namespace System.Net.Http
         /// request.Method(HttpMethod.GET)
         ///     .Header("Keep-Alive", 1)
         ///     .Header("DNT", 1")
-        ///     .Accept(MediaType.Text.Plain");
+        ///     .Accept(MediaType.Text_Plain");
         /// ]]></example>
         public static HttpRequestMessage Method(this HttpRequestMessage request, HttpMethod method)
         {

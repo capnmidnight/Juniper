@@ -5,7 +5,7 @@ namespace Juniper.IO
         IJsonFactory<T>,
         IJsonDecoder<T>
     {
-        public JsonFactory() : base(MediaType.Application.Json)
+        public JsonFactory() : base(MediaType.Application_Json)
         { }
     }
 }

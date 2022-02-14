@@ -20,7 +20,7 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(serializer));
             }
 
-            serializer.Serialize(outputStream, item);
+            _ = serializer.Serialize(outputStream, item);
         }
 
         public static void Save<T, M>(this T item, FileInfo outputFile, ISerializer<T, M> serializer)
@@ -71,7 +71,7 @@ namespace Juniper.IO
                 throw new ArgumentNullException(nameof(outputFile));
             }
 
-            if (MediaType.Application.Json.GuessMatches(outputFile))
+            if (MediaType.Application_Json.GuessMatches(outputFile))
             {
                 var json = new JsonFactory<T>();
                 using var stream = outputFile.Create();

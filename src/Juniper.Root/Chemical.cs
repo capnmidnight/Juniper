@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Juniper
@@ -6,33 +7,16 @@ namespace Juniper
     {
         public partial class Chemical : MediaType
         {
-            private Chemical(string value, string[] extensions) : base("chemical/" + value, extensions) { }
-
-            private Chemical(string value) : this(value, null) { }
-
+            private static List<Chemical> _allChem;
+            private static List<Chemical> AllChem => _allChem ??= new();
+            public static IReadOnlyCollection<Chemical> AllChemical => AllChem;
             public static readonly Chemical AnyChemical = new("*");
 
-            public override bool GuessMatches(string fileName)
+            internal Chemical(string value, params string[] extensions) : base("chemical", value, extensions)
             {
-                if (ReferenceEquals(this, AnyChemical))
+                if (SubType != "*")
                 {
-                    return Values.Any(x => x.GuessMatches(fileName));
-                }
-                else
-                {
-                    return base.GuessMatches(fileName);
-                }
-            }
-
-            public override bool Matches(string mimeType)
-            {
-                if (ReferenceEquals(this, AnyChemical))
-                {
-                    return Values.Any(x => x.Matches(mimeType));
-                }
-                else
-                {
-                    return base.Matches(mimeType);
+                    AllChem.Add(this);
                 }
             }
         }

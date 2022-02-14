@@ -32,7 +32,7 @@ namespace Juniper.World.GIS.Google
                 if (metadata.Location != null)
                 {
                     _ = Encache(metadata);
-                    var imageRef = metadata.Pano_id + MediaType.Image.Jpeg;
+                    var imageRef = metadata.Pano_id + MediaType.Image_Jpeg;
                     if (cache.IsCached(imageRef))
                     {
                         knownImages.Add(metadata.Pano_id);
@@ -44,7 +44,7 @@ namespace Juniper.World.GIS.Google
                 }
             }
 
-            foreach (var fileRef in cache.GetContentReferences(MediaType.Image.Jpeg))
+            foreach (var fileRef in cache.GetContentReferences(MediaType.Image_Jpeg))
             {
                 knownImages.Add(fileRef.CacheID);
             }
@@ -84,7 +84,7 @@ namespace Juniper.World.GIS.Google
                     && !string.IsNullOrEmpty(metadata.Pano_id)
                     && metadata.Location is not null)
             {
-                var metadataRef = new ContentReference(metadata.Pano_id, MediaType.Application.Json);
+                var metadataRef = new ContentReference(metadata.Pano_id, MediaType.Application_Json);
                 if (!Cache.IsCached(metadataRef))
                 {
                     await Cache

@@ -126,7 +126,7 @@ namespace Juniper
             var exts = selectedFormat.ContentType.Extensions.Select(ext => $"*.{ext}")
                 .ToArray()
                 .Join(";");
-            saveFile.Filter = $"{selectedFormat.ContentType.SubTypeName.ToUpperInvariant()} files ({exts})|{exts}|All files (*.*)|*.*";
+            saveFile.Filter = $"{selectedFormat.ContentType.SubType.ToUpperInvariant()} files ({exts})|{exts}|All files (*.*)|*.*";
             if (saveFile.ShowDialog() == DialogResult.OK)
             {
                 var types = MediaType.GuessByFileName(saveFile.FileName);
@@ -149,7 +149,7 @@ namespace Juniper
                                    && voice.ShortName == selectedVoiceName
                                  select voice)
                         .FirstOrDefault();
-            var decodeRequired = format.ContentType != MediaType.Audio.Wave;
+            var decodeRequired = format.ContentType != MediaType.Audio_Wave;
 
             GenerateSpeech?.Invoke(this, new GenerateSpeechEventArgs(
                 selectedVoice,

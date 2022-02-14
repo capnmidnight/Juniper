@@ -29,7 +29,7 @@ namespace Juniper.Speech.Azure.CognitiveServices
             }
 
             if (voiceListDecoder is null
-                || voiceListDecoder.InputContentType != MediaType.Application.Json)
+                || voiceListDecoder.InputContentType != MediaType.Application_Json)
             {
                 throw new ArgumentException("Must provide a JSON deserializer for the voice list data", nameof(voiceListDecoder));
             }
