@@ -147,7 +147,7 @@ namespace Juniper.Services
             return services;
         }
 
-        private static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, bool withAuth, bool withWebSockets, Action<IEndpointRouteBuilder> configEndPoint)
+        private static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, PortOptions? ports, bool withAuth, bool withWebSockets, Action<IEndpointRouteBuilder> configEndPoint)
         {
             if (env.IsDevelopment())
             {
@@ -155,17 +155,26 @@ namespace Juniper.Services
             }
             else
             {
-                app.UseExceptionHandler("/Error")
-                    .UseHsts();
+                app.UseExceptionHandler("/Error");
+
+                if (ports?.HttpsPort > 0)
+                {
+                    app.UseHsts();
+                }
             }
 
             app.Use(async (context, next) =>
             {
                 context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                 await next();
-            })
-                .UseHttpsRedirection()
-                .UseStatusCodePagesWithRedirects("/status/{0}")
+            });
+
+            if (ports?.HttpsPort > 0)
+            {
+                app.UseHttpsRedirection();
+            }
+
+            app.UseStatusCodePagesWithRedirects("/status/{0}")
                 .UseStaticFiles(new StaticFileOptions
                 {
                     ContentTypeProvider = config.GetContentTypes(),
@@ -206,25 +215,23 @@ namespace Juniper.Services
         }
 
 
-        public static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config)
+        public static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, PortOptions? ports)
         {
-            return app.ConfigureRequestPipeline(env, config, false, false, null);
+            return app.ConfigureRequestPipeline(env, config, ports, false, false, null);
         }
 
 
-        public static IApplicationBuilder ConfigureRequestPipeline<HubT>(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, string hubPath)
+        public static IApplicationBuilder ConfigureRequestPipeline<HubT>(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, PortOptions? ports, string hubPath)
             where HubT : Hub
         {
-            return app.ConfigureRequestPipeline(env, config, true, false, endpoints =>
-            {
-                endpoints.MapHub<HubT>(hubPath);
-            });
+            return app.ConfigureRequestPipeline(env, config, ports, true, false, endpoints =>
+                endpoints.MapHub<HubT>(hubPath));
         }
 
         public struct PortOptions
         {
-            public int HttpPort { get; set; }
-            public int HttpsPort { get; set; }
+            public uint? HttpPort { get; set; }
+            public uint? HttpsPort { get; set; }
         }
 
         public static IHostBuilder ConfigureJuniperHost<StartupT>(this IHostBuilder host, PortOptions? ports = null)
@@ -238,16 +245,26 @@ namespace Juniper.Services
                     if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != Environments.Development)
                     {
                         webBuilder.ConfigureAppConfiguration(app =>
-                        {
-                            app.AddUserSecrets(Assembly.GetEntryAssembly());
-                        });
+                            app.AddUserSecrets(Assembly.GetEntryAssembly()));
                     }
 
-                    if (ports is not null && Environment.OSVersion.Platform == PlatformID.Win32NT)
+                    if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                     {
-                        webBuilder.UseUrls(
-                            $"https://*:{ports.Value.HttpsPort}",
-                            $"http://*:{ports.Value.HttpPort}");
+                        var urls = new List<string>();
+                        if (ports?.HttpPort > 0)
+                        {
+                            urls.Add($"http://*:{ports.Value.HttpPort}");
+                        }
+
+                        if (ports?.HttpsPort > 0)
+                        {
+                            urls.Add($"https://*:{ports.Value.HttpsPort}");
+                        }
+
+                        if (urls.Count > 0)
+                        {
+                            webBuilder.UseUrls(urls.ToArray());
+                        }
                     }
 #endif
                 });
