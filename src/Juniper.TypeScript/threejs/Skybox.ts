@@ -60,7 +60,7 @@ export class Skybox {
     private readonly cube: THREE.CubeTexture;
     private readonly flipped: CanvasTypes;
     private readonly flipper: Context2D;
-
+    
     private curImagePath: string = null;
     private layer: XRCubeLayer = null;
     private wasVisible = false;
@@ -87,6 +87,28 @@ export class Skybox {
         for (let i = 0; i < this.frames.length; ++i) {
             const f = this.frames[i] = createUtilityCanvas(FACE_SIZE, FACE_SIZE);
             this.frameContexts[i] = f.getContext("2d");
+        }
+
+        for (let row = 0; row < CUBEMAP_PATTERN.rows; ++row) {
+            const indices = CUBEMAP_PATTERN.indices[row];
+            const rotations = CUBEMAP_PATTERN.rotations[row];
+            for (let column = 0; column < CUBEMAP_PATTERN.columns; ++column) {
+                const i = indices[column];
+                if (i > -1) {
+                    const g = this.frameContexts[i];
+                    const rotation = rotations[column];
+                    if (rotation > 0) {
+                        if ((rotation % 2) === 0) {
+                            g.translate(FACE_SIZE_HALF, FACE_SIZE_HALF);
+                        }
+                        else {
+                            g.translate(FACE_SIZE_HALF, FACE_SIZE_HALF);
+                        }
+                        g.rotate(rotation);
+                        g.translate(-FACE_SIZE_HALF, -FACE_SIZE_HALF);
+                    }
+                }
+            }
         }
 
         this.cube = new THREE.CubeTexture(this.frames);
@@ -158,30 +180,16 @@ export class Skybox {
             const height = image.height / CUBEMAP_PATTERN.rows;
             for (let row = 0; row < CUBEMAP_PATTERN.rows; ++row) {
                 const indices = CUBEMAP_PATTERN.indices[row];
-                const rotations = CUBEMAP_PATTERN.rotations[row];
                 for (let column = 0; column < CUBEMAP_PATTERN.columns; ++column) {
                     const i = indices[column];
                     if (i > -1) {
                         const g = this.frameContexts[i];
-                        const rotation = rotations[column];
-                        g.save();
-                        if (rotation > 0) {
-                            if ((rotation % 2) === 0) {
-                                g.translate(FACE_SIZE_HALF, FACE_SIZE_HALF);
-                            }
-                            else {
-                                g.translate(FACE_SIZE_HALF, FACE_SIZE_HALF);
-                            }
-                            g.rotate(rotation);
-                            g.translate(-FACE_SIZE_HALF, -FACE_SIZE_HALF);
-                        }
                         g.drawImage(
                             image,
                             column * width, row * height,
                             width, height,
                             0, 0,
                             FACE_SIZE, FACE_SIZE);
-                        g.restore();
                     }
                 }
             }
