@@ -125,7 +125,7 @@ export class MainMenu
     }
 
     update(evt: TimerTickEvent) {
-        this.menu.update(evt.dt);
+        this.menu.update(evt.dt, evt.frame);
     }
 
     dispose() {

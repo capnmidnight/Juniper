@@ -3,7 +3,7 @@ import { bump } from "juniper-2d/animation/tween";
 import { TextDirection, TextImageOptions } from "juniper-2d/TextImage";
 import type { FontDescription } from "juniper-dom/fonts";
 import { loadFont } from "juniper-dom/fonts";
-import type { IProgress } from "juniper-tslib";
+import { arrayReplace, IProgress } from "juniper-tslib";
 import {
     clamp,
     isFunction,
@@ -65,6 +65,7 @@ export class Menu extends THREE.Object3D {
     private readonly defaultButtonImage: Image2DMesh;
     private readonly animator = new Animator();
     private readonly lastMenuIndex = new Map<number, number>();
+    private readonly buttons = new Array<MenuItem>();
 
     private menuFont: FontDescription = null;
     private curBlowout: Promise<void> = Promise.resolve();
@@ -174,6 +175,15 @@ export class Menu extends THREE.Object3D {
         await this.showMenuInternal(menuID, title, items, pageSize, index, onClick, onBack, onProgress);
     }
 
+
+    private disableAll(): void {
+        setTimeout(() => {
+            for (const button of this.buttons) {
+                button.disabled = true;
+            }
+        }, 10);
+    }
+
     private async showMenuInternal<T extends MenuItemDescription>(
         menuID: number,
         title: string,
@@ -204,17 +214,9 @@ export class Menu extends THREE.Object3D {
             displayItems.push(this.nextButton);
         }
 
-        const disableAll = () => {
-            setTimeout(() => {
-                for (const button of buttons) {
-                    button.disabled = true;
-                }
-            }, 10);
-        };
-
         const oldOnClick = onClick;
         onClick = (item: T) => {
-            disableAll();
+            this.disableAll();
             oldOnClick(item);
         };
 
@@ -223,20 +225,24 @@ export class Menu extends THREE.Object3D {
 
             const oldOnBack = onBack;
             onBack = () => {
-                disableAll();
+                this.disableAll();
                 oldOnBack();
             };
         }
 
         const onPrev = () => {
-            disableAll();
+            this.disableAll();
             this.showMenuInternal(menuID, title, items, pageSize, index - pageSize, onClick, onBack);
         };
 
         const onNext = () => {
-            disableAll();
+            this.disableAll();
             this.showMenuInternal(menuID, title, items, pageSize, index + pageSize, onClick, onBack);
         };
+
+        for (const button of this.buttons) {
+            button.update(null);
+        }
 
         const buttons = await progressOfArray(onProgress, displayItems, (item: MenuItemDescription, onProgress: IProgress) => {
             if (item === this.backButton) {
@@ -253,14 +259,16 @@ export class Menu extends THREE.Object3D {
             }
         });
 
+        arrayReplace(this.buttons, ...buttons);
+
         const space = 0.05;
         const radius = 3;
-        const midPoint = (buttons.length - 1) / 2;
+        const midPoint = (this.buttons.length - 1) / 2;
         const l = Math.ceil(midPoint);
         const r = Math.floor(midPoint + 1);
-        const left = buttons.slice(0, l).reverse();
-        const mid = buttons.slice(l, r);
-        const right = buttons.slice(r, buttons.length);
+        const left = this.buttons.slice(0, l).reverse();
+        const mid = this.buttons.slice(l, r);
+        const right = this.buttons.slice(r, this.buttons.length);
 
         let midWidth = 0;
         let a = 0;
@@ -285,15 +293,18 @@ export class Menu extends THREE.Object3D {
             a += 0.5 * (button.width + space) / radius;
         }
 
-        for (const button of buttons) {
+        for (const button of this.buttons) {
             this.add(button);
         }
 
         await this.blowOut(false);
     }
 
-    update(dt: number): void {
+    update(dt: number, frame: XRFrame): void {
         this.animator.update(dt);
+        for (const button of this.buttons) {
+            button.update(frame);
+        }
     }
 
     private setButtonPosition(button: MenuItem, a: number, radius: number) {

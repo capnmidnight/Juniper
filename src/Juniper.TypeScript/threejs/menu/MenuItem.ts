@@ -1,4 +1,5 @@
 import { scaleOnHover } from "../animation/scaleOnHover";
+import { Image2DMesh } from "../Image2DMesh";
 import { PlaneCollider } from "../Plane";
 
 export class MenuItem extends THREE.Object3D {
@@ -7,7 +8,14 @@ export class MenuItem extends THREE.Object3D {
 
     startX: number = 0;
 
-    constructor(width: number, height: number, name: string, public front: THREE.Object3D, public back: THREE.Object3D, public isClickable: boolean, enabled: boolean) {
+    useWebXRLayers = false;
+
+    constructor(width: number, height: number,
+        name: string,
+        public front: THREE.Object3D,
+        public back: THREE.Object3D,
+        public isClickable: boolean,
+        enabled: boolean) {
         super();
 
         this.name = `MenuItem-${name}`;
@@ -36,6 +44,18 @@ export class MenuItem extends THREE.Object3D {
 
         if (this.isClickable) {
             scaleOnHover(this);
+        }
+    }
+
+    update(frame: XRFrame) {
+        if (this.useWebXRLayers) {
+            if (this.back instanceof Image2DMesh) {
+                this.back.checkLayer(frame);
+            }
+
+            if (this.front instanceof Image2DMesh) {
+                this.front.checkLayer(frame);
+            }
         }
     }
 
