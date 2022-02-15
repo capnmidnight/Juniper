@@ -1,7 +1,7 @@
 import { arrayCompare, IDisposable, isDefined, isNullOrUndefined } from "juniper-tslib";
 import { cleanup } from "./cleanup";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
-import { solid } from "./materials";
+import { solidTransparent } from "./materials";
 import { objectGetRelativePose } from "./objectGetRelativePose";
 import { objectIsFullyVisible } from "./objects";
 import { plane } from "./Plane";
@@ -31,8 +31,8 @@ export class Image2DMesh extends THREE.Object3D implements IDisposable {
 
         if (env) {
             this.setEnvAndName(env, name);
-            this.mesh = new TexturedMesh(this.env, plane, solid(Object.assign(
-                { transparent: true, opacity: 1 },
+            this.mesh = new TexturedMesh(this.env, plane, solidTransparent(Object.assign(
+                {},
                 materialOptions,
                 { name: this.name })));
             this.mesh.name = IMAGE_2D_MESH_SLUG;

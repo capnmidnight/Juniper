@@ -364,6 +364,7 @@ export class Menu extends THREE.Object3D {
                     maxHeight: item.height
                 };
                 const img = new TextMesh(this.env, item.text);
+                img.mesh.renderOrder = 1;
 
                 img.addEventListener("redrawn", () => {
                     const y = (img.textHeight - item.height + 0.025) / 2;
