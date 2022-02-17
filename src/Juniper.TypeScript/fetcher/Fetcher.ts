@@ -280,8 +280,8 @@ class RequestBuilder
         ResolveEventKeyT extends keyof EventsT & string>(
             element: ElementT,
             resolveEvt: ResolveEventKeyT,
-            getResponse: () => Promise<IResponse<string>>): Promise<IResponse<ElementT>> {
-        const response = await getResponse();
+            acceptType: string | MediaType): Promise<IResponse<ElementT>> {
+        const response = await this.file(acceptType);
         const task = once<EventsT, ResolveEventKeyT>(element, resolveEvt, "error");
         element.src = response.content;
         await task;
@@ -293,7 +293,7 @@ class RequestBuilder
         return this.htmlElement(
             Img(),
             "load",
-            () => this.file(acceptType)
+            acceptType
         );
     }
 
@@ -301,10 +301,7 @@ class RequestBuilder
         return this.htmlElement(
             BackgroundAudio(autoPlaying, false, looping),
             "canplay",
-            () => this.translateResponse(
-                this.audioBlob(acceptType),
-                URL.createObjectURL
-            )
+            acceptType
         );
     }
 
@@ -312,7 +309,7 @@ class RequestBuilder
         return this.htmlElement(
             BackgroundVideo(autoPlaying, false, looping),
             "canplay",
-            () => this.file(acceptType)
+            acceptType
         );
     }
 
@@ -322,7 +319,7 @@ class RequestBuilder
         await this.htmlElement(
             tag,
             "load",
-            () => this.file(Application_Javascript));
+            Application_Javascript);
     }
 
     async script(test: () => boolean): Promise<void> {
