@@ -9,7 +9,14 @@ import { makeLookup } from "./makeLookup";
   as of September 1st, 2017.
 
   Theoretically, Services have a required set of Characteristics, though I've
-  never seen this enforced. A lot of apps assume any particular Service will only ever contain one of any type of Characteristic, but this is not expressed in the spec and only comes about from folks who don't understand how Descriptors work to differentiate between multiple Characteristics of the same type. Services in practice are nothing but an arbitrary ID coupled with an arbitrary set of Characteristics. This makes it possible for vendors to make up their own Services whenever they want. Just be sure to stick to the higher value ranges so you don't step on anyone else's toes.
+  never seen this enforced. A lot of apps assume any particular Service will only
+  ever contain one of any type of Characteristic, but this is not expressed in the
+  spec and only comes about from folks who don't understand how Descriptors work
+  to differentiate between multiple Characteristics of the same type. Services in
+  practice are nothing but an arbitrary ID coupled with an arbitrary set of
+  Characteristics. This makes it possible for vendors to make up their own
+  Services whenever they want. Just be sure to stick to the higher value ranges so
+  you don't step on anyone else's toes.
 */
 
 export const Services = makeLookup({
