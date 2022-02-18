@@ -21,7 +21,7 @@ export class Image2DMesh extends THREE.Object3D implements IDisposable {
     private layer: XRQuadLayer = null;
     private wasVisible = false;
     private webXRLayerEnabled = true;
-    private wasWebXRLayerAvailable: boolean = null;
+    private wasLayersAvailable: boolean = null;
     private lastImage: any = null;
     protected env: BaseEnvironment<unknown> = null;
     mesh: TexturedMesh = null;
@@ -72,17 +72,28 @@ export class Image2DMesh extends THREE.Object3D implements IDisposable {
         if (this.mesh.material.map.image) {
             const isVisible = objectIsFullyVisible(this);
             const binding = (this.env.renderer.xr as any).getBinding() as XRWebGLBinding;
-            const isWebXRLayerAvailable = this.webXRLayerEnabled
+            const isLayersAvailable = this.webXRLayerEnabled
                 && this.env.renderer.xr.isPresenting
                 && isDefined(frame)
                 && isDefined(binding);
+            const useLayer = isLayersAvailable && isVisible;
 
-            const useLayerChanged = isWebXRLayerAvailable !== this.wasWebXRLayerAvailable;
+            const layersAvailableChanged = isLayersAvailable !== this.wasLayersAvailable;
             const visibleChanged = isVisible != this.wasVisible;
-            const imageChanged = this.mesh.material.map.image !== this.lastImage;
+            const imageChanged = this.mesh.material.map.image !== this.lastImage
+                || this.mesh.material.map.needsUpdate;
 
-            if (useLayerChanged || visibleChanged) {
-                if (isWebXRLayerAvailable && isVisible) {
+            if (layersAvailableChanged || visibleChanged || imageChanged) {
+                if ((!useLayer || imageChanged) && this.layer) {
+                    this.env.removeWebXRLayer(this.layer);
+                    this.layer.destroy();
+                    this.layer = null;
+                    if (this.visible) {
+                        this.mesh.visible = true;
+                    }
+                }
+
+                if (useLayer) {
                     const space = this.env.renderer.xr.getReferenceSpace();
 
                     this.layer = binding.createQuadLayer({
@@ -97,21 +108,10 @@ export class Image2DMesh extends THREE.Object3D implements IDisposable {
                     this.env.addWebXRLayer(this.layer, 500);
                     this.mesh.visible = false;
                 }
-                else if (this.layer) {
-                    this.env.removeWebXRLayer(this.layer);
-                    this.layer.destroy();
-                    this.layer = null;
-                    if (this.visible) {
-                        this.mesh.visible = true;
-                    }
-                }
             }
 
             if (this.layer) {
-                if (imageChanged
-                    || this.layer.needsRedraw
-                    || this.mesh.material.needsUpdate
-                    || this.mesh.material.map.needsUpdate) {
+                if (imageChanged || this.layer.needsRedraw) {
                     const gl = this.env.renderer.getContext();
                     const gLayer = binding.getSubImage(this.layer, frame);
 
@@ -136,7 +136,7 @@ export class Image2DMesh extends THREE.Object3D implements IDisposable {
                 }
             }
 
-            this.wasWebXRLayerAvailable = isWebXRLayerAvailable;
+            this.wasLayersAvailable = isLayersAvailable;
             this.wasVisible = isVisible;
             this.lastImage = this.mesh.material.map.image;
         }
