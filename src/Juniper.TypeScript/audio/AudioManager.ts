@@ -4,7 +4,7 @@ import { display, styles } from "juniper-dom/css";
 import type { ErsatzElement } from "juniper-dom/tags";
 import { Audio, BackgroundAudio, elementApply } from "juniper-dom/tags";
 import type { IFetcher } from "juniper-fetcher";
-import type { IDisposable, IProgress } from "juniper-tslib";
+import { IDisposable, IProgress, once } from "juniper-tslib";
 import {
     arrayRemove,
     arraySortedInsert,
@@ -362,21 +362,22 @@ export class AudioManager
         return sourceTask;
     }
 
-    private async createSourceFromFile(id: string, path: string, looping: boolean, autoPlaying: boolean, onProgress?: IProgress): Promise<MediaElementAudioSourceNode | AudioBufferSourceNode> {
+    private async createSourceFromFile(id: string, path: string, looping: boolean, autoPlaying: boolean, prog?: IProgress): Promise<MediaElementAudioSourceNode | AudioBufferSourceNode> {
         if (useElementSourceForClips) {
-            const { content: elem, fileName } = await this.fetcher
-                .get(path)
-                .progress(onProgress)
-                .audio(autoPlaying, looping);
+            const elem = BackgroundAudio(autoPlaying, false, looping);
+            const loadTask = once<HTMLMediaElementEventMap, "canplay">(elem, "canplay");
+            elem.src = path;
+            await loadTask;
+            prog?.report(1, 1);
             return MediaElementSource(
-                stringToName("audio-element-source", fileName, id, path),
+                stringToName("audio-element-source", id, path),
                 this.audioCtx,
                 elem);
         }
         else {
             const { content: data, fileName } = await this.fetcher
                 .get(path)
-                .progress(onProgress)
+                .progress(prog)
                 .audioBuffer(this.audioCtx);
             return BufferSource(
                 stringToName("audio-buffer-source", fileName, id, path),
