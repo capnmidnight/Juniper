@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -51,7 +52,7 @@ namespace Juniper.HTTP
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public virtual async Task ExecuteResultAsync(ActionContext context)
+        public async Task ExecuteResultAsync(ActionContext context)
         {
             if (context is null)
             {
