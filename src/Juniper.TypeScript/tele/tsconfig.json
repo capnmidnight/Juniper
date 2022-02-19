@@ -7,12 +7,5 @@
 
   "exclude": [
     "node_modules"
-  ],
-
-  "compileOnSave": true,
-
-  "compilerOptions": {
-    "lib": [ "ESNext", "DOM", "WebWorker" ],
-    "noEmit": true
-  }
+  ]
 }

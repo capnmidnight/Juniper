@@ -9,10 +9,7 @@
     "node_modules"
   ],
 
-  "compileOnSave": true,
-
   "compilerOptions": {
-    "lib": [ "ESNext", "WebWorker" ],
-    "noEmit": true
+    "lib": [ "ESNext", "WebWorker" ]
   }
 }
