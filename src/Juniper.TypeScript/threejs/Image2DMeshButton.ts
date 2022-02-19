@@ -34,8 +34,9 @@ export class Image2DMeshButton extends TextMeshButton {
     private createSubImage(env: BaseEnvironment<unknown>, id: string, opacity: number, path: string) {
         const image = new Image2DMesh(
             env,
-            `text-${id}`, {
-                side: THREE.FrontSide,
+            `text-${id}`,
+            false, {
+            side: THREE.FrontSide,
             opacity
         });
 

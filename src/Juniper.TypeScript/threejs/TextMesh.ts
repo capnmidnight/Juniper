@@ -11,7 +11,7 @@ export class TextMesh extends Image2DMesh {
     private _onRedrawn: () => void;
 
     constructor(env: BaseEnvironment<unknown>, name: string, materialOptions?: THREE.MeshBasicMaterialParameters) {
-        super(env, name, materialOptions);
+        super(env, name, false, materialOptions);
 
         this._onRedrawn = this.onRedrawn.bind(this);
     }

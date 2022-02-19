@@ -74,7 +74,7 @@ export class Skybox {
 
     constructor(private readonly env: BaseEnvironment<unknown>) {
 
-        this.webXRLayerEnabled &&= this.env.hasWebXRLayers;
+        this.webXRLayerEnabled &&= this.env.hasXRCompositionLayers;
 
         this.env.scene.background = black;
 
@@ -245,17 +245,16 @@ export class Skybox {
 
     update(frame: XRFrame) {
         if (this.cube) {
-            const binding = (this.env.renderer.xr as any).getBinding() as XRWebGLBinding;
             const isWebXRLayerAvailable = this.webXRLayerEnabled
                 && this.env.renderer.xr.isPresenting
                 && isDefined(frame)
-                && isDefined(binding);
+                && isDefined(this.env.xrBinding);
 
             if (isWebXRLayerAvailable !== this.wasWebXRLayerAvailable) {
                 if (isWebXRLayerAvailable) {
                     const space = this.env.renderer.xr.getReferenceSpace();
 
-                    this.layer = binding.createCubeLayer({
+                    this.layer = this.env.xrBinding.createCubeLayer({
                         space,
                         layout: "mono",
                         isStatic: false,
@@ -323,7 +322,7 @@ export class Skybox {
             if (this.imageNeedsUpdate) {
                 if (this.layer) {
                     const gl = this.env.renderer.getContext();
-                    const gLayer = binding.getSubImage(this.layer, frame);
+                    const gLayer = this.env.xrBinding.getSubImage(this.layer, frame);
                     const imgs = this.cube.images as CanvasImageTypes[];
 
                     this.flipper.fillRect(0, 0, FACE_SIZE, FACE_SIZE);

@@ -192,7 +192,19 @@ export abstract class BaseEnvironment<Events>
 
     private update(evt: TimerTickEvent): void {
         if (this.screenControl.visible) {
-            const session = this.renderer.xr.getSession() as any as XRSession;
+            const session = this.xrSession;
+
+            this._xrBinding = (this.renderer.xr as any).getBinding() as XRWebGLBinding
+
+            if (this.hasXRMediaLayers && (this._xrMediaBinding === null) !== this.renderer.xr.isPresenting) {
+                if (this._xrMediaBinding === null) {
+                    this._xrMediaBinding = new XRMediaBinding(session);
+                }
+                else {
+                    this._xrMediaBinding = null;
+                }
+            }
+
             const baseLayer = session && (this.renderer.xr as any).getBaseLayer() as XRProjectionLayer;
             if (baseLayer !== this.baseLayer) {
                 if (isDefined(this.baseLayer)) {
@@ -267,25 +279,46 @@ export abstract class BaseEnvironment<Events>
         return this.renderer.getContextAttributes().alpha;
     }
 
-    get hasXRWebGLBinding() {
-        return "XRWebGLBinding" in globalThis;
+    get xrSession(): XRSession {
+        return this.renderer.xr.getSession() as any as XRSession;
     }
 
-    get hasCreateCubeLayer() {
-        return this.hasXRWebGLBinding
-            && isFunction(XRWebGLBinding.prototype.createCubeLayer);
+    private _xrBinding: XRWebGLBinding = null;
+    get xrBinding(): XRWebGLBinding {
+        return this._xrBinding;
     }
 
-    get oculusVersion() {
-        return isOculusBrowser
-            ? oculusBrowserVersion.major
-            : Number.MAX_SAFE_INTEGER;
+    private _xrMediaBinding: XRMediaBinding = null;
+    get xrMediaBinding(): XRMediaBinding {
+        return this._xrMediaBinding;
     }
 
-    get hasWebXRLayers() {
+    private get isReadyForLayers(): boolean {
         return this.hasAlpha
-            && this.hasCreateCubeLayer
-            && this.oculusVersion >= 15;
+            && (!isOculusBrowser
+                || oculusBrowserVersion.major >= 15);
+    }
+
+    private _hasXRMediaLayers: boolean = null;
+    get hasXRMediaLayers(): boolean {
+        if (this._hasXRMediaLayers === null) {
+            this._hasXRMediaLayers = this.isReadyForLayers
+                && "XRMediaBinding" in globalThis
+                && isFunction(XRMediaBinding.prototype.createQuadLayer);
+        }
+
+        return this._hasXRMediaLayers;
+    }
+
+    private _hasXRCompositionLayers: boolean = null;
+    get hasXRCompositionLayers(): boolean {
+        if (this._hasXRCompositionLayers === null) {
+            this._hasXRCompositionLayers = this.isReadyForLayers
+                && "XRWebGLBinding" in globalThis
+                && isFunction(XRWebGLBinding.prototype.createCubeLayer);
+        }
+
+        return this._hasXRCompositionLayers;
     }
 
     addWebXRLayer(layer: XRLayer, sortOrder: number) {
@@ -302,7 +335,7 @@ export abstract class BaseEnvironment<Events>
     }
 
     private updateLayers() {
-        const session = this.renderer.xr.getSession() as any as XRSession;
+        const session = this.xrSession;
         if (isDefined(session)) {
             session.updateRenderState({
                 layers: this.layers

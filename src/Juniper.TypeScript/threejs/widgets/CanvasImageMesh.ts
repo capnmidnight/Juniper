@@ -16,7 +16,7 @@ export class CanvasImageMesh<T extends ICanvasImage>
     }
 
     constructor(env: BaseEnvironment<unknown>, name: string, public image: T) {
-        super(env, name);
+        super(env, name, false);
 
         if (this.mesh) {
             this.setImage(image);

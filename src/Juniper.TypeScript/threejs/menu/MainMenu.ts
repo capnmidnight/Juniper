@@ -103,7 +103,7 @@ export class MainMenu
             const item = this.node2MenuItem.get(child);
             if (isNullOrUndefined(item.back)
                 && this.images.has(item.filePath)) {
-                const imgMesh = new Image2DMesh(this.env, item.filePath + item.name);
+                const imgMesh = new Image2DMesh(this.env, item.filePath + item.name, true);
                 imgMesh.mesh.setImage(this.images.get(item.filePath));
                 imgMesh.frustumCulled = false;
                 item.back = imgMesh;
