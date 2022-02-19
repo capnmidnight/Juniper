@@ -162,7 +162,7 @@ interface XRRedrawEventMap {
 interface XRCompositionLayer extends XRLayer {
     readonly layout: XRLayerLayout;
     blendTextureSourceAlpha: boolean;
-    chromaticAberrationCorrection: boolean;
+    chromaticAberrationCorrection?: boolean;
     readonly mipLevels: number;
     readonly needsRedraw: boolean;
     destroy(): void;
@@ -177,10 +177,16 @@ interface _XRCompositionLayer extends XRCompositionLayer, EventTarget {
     removeEventListener<K extends keyof XRRedrawEventMap>(type: K, callback: (evt: XRRedrawEventMap[K]) => any);
 }
 
-interface XRProjectionLayerInit {
+interface _ConfigurableTextureType {
     textureType?: XRTextureType;
+}
+
+interface _ConfigurablePixelFormat {
     colorFormat?: GLenum;
     depthFormat?: GLenum;
+}
+
+interface XRProjectionLayerInit extends _ConfigurableTextureType, _ConfigurablePixelFormat {
     scaleFactor?: number;
 }
 
@@ -192,57 +198,54 @@ interface XRProjectionLayer extends XRCompositionLayer {
     fixedFoveation: number;
 }
 
-
-interface XRLayerInit {
+interface _LayerInit {
     space: XRSpace;
-    colorFormat?: GLenum;
-    depthFormat?: GLenum;
+    layout?: XRLayerLayout;
+}
+
+interface XRLayerInit extends _LayerInit, _ConfigurablePixelFormat {
     mipLevels?: number;
     viewPixelWidth: number;
     viewPixelHeight: number;
-    layout?: XRLayerLayout;
     isStatic?: boolean;
 }
 
-interface XRCylinderLayerInit extends XRLayerInit {
-    textureType?: XRTextureType;
-    transform?: XRRigidTransform;
-    radius?: number;
-    centralAngle?: number;
-    aspectRatio?: number;
+interface XRMediaLayerInit extends _LayerInit {
+    invertStereo?: boolean;
 }
 
-interface XRCylinderLayer extends _XRCompositionLayer {
+interface _CylinderLayer {
     transform: XRRigidTransform;
     radius: number;
     centralAngle: number;
     aspectRatio: number;
 }
 
-interface XRQuadLayerInit extends XRLayerInit {
-    textureType?: XRTextureType;
-    transform?: XRRigidTransform;
-    width?: number;
-    height?: number;
+interface XRCylinderLayerInit extends XRLayerInit, _ConfigurableTextureType, Partial<_CylinderLayer> {
 }
 
-interface XRQuadLayer extends _XRCompositionLayer {
-    transform: XRRigidTransform;
+interface XRMediaCylinderLayerInit extends XRMediaLayerInit, Partial<_CylinderLayer> {
+}
 
+interface XRCylinderLayer extends _XRCompositionLayer, _CylinderLayer {
+}
+
+interface _QuadLayer {
+    transform: XRRigidTransform;
     width: number;
     height: number;
 }
 
-interface XREquirectLayerInit extends XRLayerInit {
-    textureType?: XRTextureType;
-    transform?: XRRigidTransform;
-    radius?: number;
-    centralHorizontalAngle?: number;
-    upperVerticalAngle?: number;
-    lowerVerticalAngle?: number;
+interface XRQuadLayerInit extends XRLayerInit, _ConfigurableTextureType, Partial<_QuadLayer> {
 }
 
-interface XREquirectLayer extends _XRCompositionLayer {
+interface XRMediaQuadLayerInit extends XRMediaLayerInit, Partial<_QuadLayer> {
+}
+
+interface XRQuadLayer extends _XRCompositionLayer, _QuadLayer {
+}
+
+interface _EquirectLayer {
     transform: XRRigidTransform;
     radius: number;
     centralHorizontalAngle: number;
@@ -250,12 +253,23 @@ interface XREquirectLayer extends _XRCompositionLayer {
     lowerVerticalAngle: number;
 }
 
-interface XRCubeLayerInit extends XRLayerInit {
-    orientation?: DOMPointReadOnly;
+interface XREquirectLayerInit extends XRLayerInit, _ConfigurableTextureType, Partial<_EquirectLayer> {
 }
 
-interface XRCubeLayer extends _XRCompositionLayer {
+interface XRMediaEquirectLayerInit extends XRMediaLayerInit, Partial<_EquirectLayer> {
+}
+
+interface XREquirectLayer extends _XRCompositionLayer, _EquirectLayer {
+}
+
+interface _CubeLayer {
     orientation: DOMPointReadOnly;
+}
+
+interface XRCubeLayerInit extends XRLayerInit, Partial<_CubeLayer> {
+}
+
+interface XRCubeLayer extends _XRCompositionLayer, _CubeLayer {
 }
 
 interface XRSubImage {
@@ -283,6 +297,14 @@ declare class XRWebGLBinding {
 
     getSubImage(layer: XRCompositionLayer, frame: XRFrame, eye?: XREye): XRWebGLSubImage;
     getViewSubImage(layer: XRProjectionLayer, view: XRView): XRWebGLSubImage;
+}
+
+declare class XRMediaBinding {
+    constructor(sesion: XRSession);
+
+    createQuadLayer(video: HTMLVideoElement, init?: XRMediaQuadLayerInit): XRQuadLayer;
+    createCylinderLayer(video: HTMLVideoElement, init?: XRMediaCylinderLayerInit): XRCylinderLayer;
+    createEquirectLayer(video: HTMLVideoElement, init?: XRMediaEquirectLayerInit): XREquirectLayer;
 }
 
 type XRAnimationLoopCallback = (time: number, frame?: XRFrame) => void;
