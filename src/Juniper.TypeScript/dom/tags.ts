@@ -134,6 +134,12 @@ export function elementApply(elem: Elements, ...children: ElementChild[]): Eleme
     return elem;
 }
 
+export function mediaElementForwardEvents(from: HTMLMediaElement, to: HTMLMediaElement) {
+    from.addEventListener("play", () => to.play());
+    from.addEventListener("pause", () => to.pause());
+    from.addEventListener("seeked", () => to.currentTime = from.currentTime);
+}
+
 export function getElement<T extends HTMLElement>(selector: string): T {
     return document.querySelector<T>(selector);
 }
