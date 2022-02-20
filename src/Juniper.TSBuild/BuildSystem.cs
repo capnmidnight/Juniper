@@ -82,13 +82,8 @@ namespace Juniper.TSBuild
 
         protected static IEnumerable<ShellCommand> NPM(string cmd, params DirectoryInfo[] dirs)
         {
-            return NPM(cmd, dirs.AsEnumerable());
-        }
-
-        protected static IEnumerable<ShellCommand> NPM(string cmd, IEnumerable<DirectoryInfo> dirs)
-        {
             return from dir in dirs
-                   select new ShellCommand(dir, "npm", "run", cmd);
+                   select new ShellCommand(dir, "npm", cmd);
         }
 
         protected static ProxiedWatchCommand ProxiedNPM(CommandProxier proxy, params string[] pathParts)
@@ -266,8 +261,26 @@ namespace Juniper.TSBuild
         {
             await WithCommandTree(commands =>
             {
-                commands.AddCommands(NPM("update", juniperProjects));
-                commands.AddCommands(NPM("update", clientDir));
+                commands.AddCommands(NPM("run update", juniperProjects));
+                commands.AddCommands(NPM("run update", clientDir));
+            });
+        }
+
+        public async Task AuditAsync()
+        {
+            await WithCommandTree(commands =>
+            {
+                commands.AddCommands(NPM("audit", juniperProjects));
+                commands.AddCommands(NPM("audit", clientDir));
+            });
+        }
+
+        public async Task AuditFixAsync()
+        {
+            await WithCommandTree(commands =>
+            {
+                commands.AddCommands(NPM("audit fix", juniperProjects));
+                commands.AddCommands(NPM("audit fix", clientDir));
             });
         }
 
@@ -303,13 +316,14 @@ namespace Juniper.TSBuild
 
                     if (install)
                     {
-                        commands.AddCommands(NPM(init ? "inst" : "update", juniperProjects)
-                            .Union(NPM(init ? "inst" : "update", clientDir)));
+                        var cmd = "run " + (init ? "inst" : "update");
+                        commands.AddCommands(NPM(cmd, juniperProjects)
+                            .Union(NPM(cmd, clientDir)));
                     }
 
-                    commands.AddCommands(NPM("build", init ? juniperProjects : juniperBundles))
+                    commands.AddCommands(NPM("run build", init ? juniperProjects : juniperBundles))
                         .AddCommands(Copy(Por.All, serverJsDir, juniperBundles))
-                        .AddCommands(NPM("build", clientDir)
+                        .AddCommands(NPM("run build", clientDir)
                             .Cast<ICommand>()
                             .Union(dependencies.Select(kv => new CopyCommand(kv.Key, kv.Value))))
                         .AddCommands(
