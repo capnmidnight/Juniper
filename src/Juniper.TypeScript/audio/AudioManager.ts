@@ -334,7 +334,7 @@ export class AudioManager
         }
 
         if (onProgress) {
-            onProgress.report(0, 1);
+            onProgress.report(0, 1, path);
         }
 
         const source = await this.getSourceTask(id, path, looping, autoPlaying, onProgress);
@@ -342,7 +342,7 @@ export class AudioManager
         this.clips.set(id, clip);
 
         if (onProgress) {
-            onProgress.report(1, 1);
+            onProgress.report(1, 1, path);
         }
 
         return clip;
@@ -368,7 +368,6 @@ export class AudioManager
             const loadTask = once<HTMLMediaElementEventMap, "canplay">(elem, "canplay");
             elem.src = path;
             await loadTask;
-            prog?.report(1, 1);
             return MediaElementSource(
                 stringToName("audio-element-source", id, path),
                 this.audioCtx,

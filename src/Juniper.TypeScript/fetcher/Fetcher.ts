@@ -251,7 +251,7 @@ class RequestBuilder
         let goodBlob: IResponse<Blob> = null;
         if (!shouldTry(this.request.path)) {
             if (this.prog) {
-                this.prog.report(1, 1, "skip");
+                this.prog.report(1, 1, "skip " + this.request.path);
             }
         }
         else {
