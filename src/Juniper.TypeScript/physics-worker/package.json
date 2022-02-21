@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "name": "juniper-physics-worker",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "update": "npm install",
+    "inst": "npm ci",
+    "build": "node --experimental-modules esbuild.config.js",
+    "watch": "node --experimental-modules esbuild.config.js --watch"
+  },
+  "dependencies": {
+    "@types/webxr-types": "file:../webxr-types",
+    "juniper-physics-base": "file:../physics-base",
+    "juniper-tslib": "file:../tslib",
+    "juniper-worker-server": "file:../worker-server"
+  },
+  "devDependencies": {
+    "juniper-esbuild": "file:../esbuild",
+    "typescript": "4.5.5"
+  }
+}

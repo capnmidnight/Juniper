@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "name": "juniper-phsyics",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "update": "npm install",
+    "inst": "npm ci",
+    "build": "npx tsc --build"
+  },
+  "devDependencies": {
+    "typescript": "4.5.5"
+  },
+  "dependencies": {
+    "@types/webxr-types": "file:../webxr-types",
+    "juniper-physics-base": "file:../physics-base",
+    "juniper-tslib": "file:../tslib",
+    "juniper-worker-client": "file:../worker-client"
+  }
+}

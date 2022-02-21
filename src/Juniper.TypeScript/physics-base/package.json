@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "name": "juniper-physics-base",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "update": "npm install",
+    "inst": "npm ci",
+    "build": "npx tsc --build"
+  },
+  "dependencies": {
+    "@types/webxr-types": "file:../webxr-types",
+    "cannon-es": "0.19.0",
+    "juniper-timers": "file:../timers",
+    "juniper-tslib": "file:../tslib"
+  },
+  "devDependencies": {
+    "typescript": "4.5.5"
+  }
+}
