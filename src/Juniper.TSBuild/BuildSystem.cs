@@ -82,6 +82,11 @@ namespace Juniper.TSBuild
 
         protected static IEnumerable<ShellCommand> NPM(string cmd, params DirectoryInfo[] dirs)
         {
+            return NPM(cmd, dirs.AsEnumerable());
+        }
+
+        protected static IEnumerable<ShellCommand> NPM(string cmd, IEnumerable<DirectoryInfo> dirs)
+        { 
             return from dir in dirs
                    select new ShellCommand(dir, "npm", cmd);
         }
@@ -260,28 +265,22 @@ namespace Juniper.TSBuild
         public async Task InstallAsync()
         {
             await WithCommandTree(commands =>
-            {
-                commands.AddCommands(NPM("run update", juniperProjects));
-                commands.AddCommands(NPM("run update", clientDir));
-            });
+                commands.AddCommands(NPM("run update", juniperProjects
+                    .Append(clientDir))));
         }
 
         public async Task AuditAsync()
         {
             await WithCommandTree(commands =>
-            {
-                commands.AddCommands(NPM("audit", juniperProjects));
-                commands.AddCommands(NPM("audit", clientDir));
-            });
+                commands.AddCommands(NPM("audit", juniperProjects
+                    .Append(clientDir))));
         }
 
         public async Task AuditFixAsync()
         {
             await WithCommandTree(commands =>
-            {
-                commands.AddCommands(NPM("audit fix", juniperProjects));
-                commands.AddCommands(NPM("audit fix", clientDir));
-            });
+                commands.AddCommands(NPM("audit fix", juniperProjects
+                    .Append(clientDir))));
         }
 
 
@@ -311,14 +310,16 @@ namespace Juniper.TSBuild
                 {
                     if (init)
                     {
-                        commands.AddCommands(Delete(juniperProjects.Append(clientDir).Select(d => d.Touch("tsconfig.tsbuildinfo"))));
+                        commands.AddCommands(Delete(juniperProjects
+                            .Append(clientDir)
+                            .Select(d => d
+                                .Touch("tsconfig.tsbuildinfo"))));
                     }
 
                     if (install)
                     {
                         var cmd = "run " + (init ? "inst" : "update");
-                        commands.AddCommands(NPM(cmd, juniperProjects)
-                            .Union(NPM(cmd, clientDir)));
+                        commands.AddCommands(NPM(cmd, juniperProjects.Append(clientDir)));
                     }
 
                     commands.AddCommands(NPM("run build", init ? juniperProjects : juniperBundles))
