@@ -100,7 +100,7 @@ export class Environment
             await this.fadeIn();
         });
 
-        this.audio = new AudioManager(this.fetcher, DEFAULT_LOCAL_USER_ID);
+        this.audio = new AudioManager(DEFAULT_LOCAL_USER_ID);
         this.audio.setAudioProperties(1, 4, "exponential");
 
         this.interactionAudio = new InteractionAudio(this.audio, this.eventSystem);

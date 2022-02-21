@@ -1,4 +1,4 @@
-import type { IPlayableSource } from "juniper-audio/sources/IPlayableSource";
+import type { AudioElementSource } from "juniper-audio/sources/AudioElementSource";
 import { MouseButtons } from "juniper-dom/eventSystem/MouseButton";
 import { keycapDigits } from "juniper-emoji/numbers";
 import { TypedEvent, TypedEventBase } from "juniper-tslib";
@@ -31,13 +31,15 @@ export class PlaybackButton
     private readonly textLabel: TextMeshLabel;
     private playButton: MeshButton = null;
     private pauseButton: MeshButton = null;
+    private stopButton: MeshButton = null;
+    private replayButton: MeshButton = null;
 
     constructor(
         env: BaseEnvironment<unknown>,
         buttonFactory: ButtonFactory,
         name: string,
         label: string,
-        clip: IPlayableSource) {
+        clip: AudioElementSource) {
         super();
 
         label = translations.get(label) || label;
@@ -56,17 +58,21 @@ export class PlaybackButton
         this.load(buttonFactory, clip);
     }
 
-    private async load(buttonFactory: ButtonFactory, clip: IPlayableSource) {
+    private async load(buttonFactory: ButtonFactory, clip: AudioElementSource) {
         const [
             enabledMaterial,
             disabledMaterial,
             playGeometry,
-            pauseGeometry
+            pauseGeometry,
+            stopGeometry,
+            replayGeometry
         ] = await Promise.all([
             buttonFactory.getMaterial(true),
             buttonFactory.getMaterial(false),
             buttonFactory.getGeometry("media", "play"),
-            buttonFactory.getGeometry("media", "pause")
+            buttonFactory.getGeometry("media", "pause"),
+            buttonFactory.getGeometry("media", "stop"),
+            buttonFactory.getGeometry("media", "replay")
         ]);
 
         objGraph(
@@ -84,45 +90,55 @@ export class PlaybackButton
                 enabledMaterial,
                 disabledMaterial,
                 size
+            ),
+            this.stopButton = new MeshButton(
+                "StopButton",
+                stopGeometry,
+                enabledMaterial,
+                disabledMaterial,
+                size
+            ),
+            this.replayButton = new MeshButton(
+                "ReplayButton",
+                replayGeometry,
+                enabledMaterial,
+                disabledMaterial,
+                size
             )
         );
 
         this.object.children.forEach((child, i, arr) =>
             child.position.x = (i - arr.length / 2) * size);
 
-        this.isPlaying = false;
+        const refresh = () => {
+            this.playButton.disabled = clip.playbackState === "playing";
+            this.pauseButton.disabled = clip.playbackState !== "playing";
+            this.stopButton.disabled = clip.playbackState === "stopped";
+            this.replayButton.disabled = clip.playbackState === "stopped";
+        }
 
-        const onStop = (evt: EventSystemThreeJSEvent<"click">) => {
-            if ((!evt || evt.buttons === MouseButtons.Mouse0) && this.isPlaying) {
-                clip.stop();
-                this.dispatchEvent(stopEvt);
-                this.isPlaying = false;
-            }
-        };
+        refresh();
 
-        this.playButton.addEventListener("click", async (ev: THREE.Event) => {
-            const evt = ev as EventSystemThreeJSEvent<"click">;
-            if (evt.buttons === MouseButtons.Mouse0) {
-                this.isPlaying = true;
-                this.dispatchEvent(playEvt);
-                await clip.play();
-                onStop(evt);
-            }
-        });
+        clip.addEventListener("played", refresh);
+        clip.addEventListener("paused", refresh);
+        clip.addEventListener("stopped", refresh);
 
-        this.pauseButton.addEventListener("click", (ev: THREE.Event) => {
-            const evt = ev as EventSystemThreeJSEvent<"click">;
-            onStop(evt);
-        });
-    }
+        clip.addEventListener("played", () => this.dispatchEvent(playEvt));
+        clip.addEventListener("stopped", () => this.dispatchEvent(stopEvt));
 
-    private get isPlaying() {
-        return !this.pauseButton.disabled;
-    }
+        const onClick = (btn: MeshButton, callback: () => void) => {
+            btn.addEventListener("click", async (ev: THREE.Event) => {
+                const evt = ev as EventSystemThreeJSEvent<"click">;
+                if (evt.buttons === MouseButtons.Mouse0) {
+                    callback();
+                }
+            });
+        }
 
-    private set isPlaying(v) {
-        this.playButton.disabled = v;
-        this.pauseButton.disabled = !v;
+        onClick(this.playButton, () => clip.play());
+        onClick(this.pauseButton, () => clip.pause());
+        onClick(this.stopButton, () => clip.stop());
+        onClick(this.replayButton, () => clip.restart());
     }
 
     get label(): string {

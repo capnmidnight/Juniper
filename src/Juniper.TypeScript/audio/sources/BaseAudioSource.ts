@@ -15,8 +15,8 @@ export interface AudioSourceEvents {
     "sourceadded": AudioSourceAddedEvent;
 }
 
-export abstract class BaseAudioSource<AudioNodeT extends AudioNode>
-    extends BaseAudioElement<BaseEmitter, AudioSourceEvents>
+export abstract class BaseAudioSource<AudioNodeT extends AudioNode, EventTypeT = void>
+    extends BaseAudioElement<BaseEmitter, AudioSourceEvents & EventTypeT>
     implements ErsatzAudioNode {
 
     private source: AudioNodeT = null;

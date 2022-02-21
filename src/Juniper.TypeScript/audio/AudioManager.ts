@@ -3,16 +3,10 @@ import { autoPlay, id, playsInline, srcObject } from "juniper-dom/attrs";
 import { display, styles } from "juniper-dom/css";
 import type { ErsatzElement } from "juniper-dom/tags";
 import { Audio, BackgroundAudio, elementApply } from "juniper-dom/tags";
-import type { IFetcher } from "juniper-fetcher";
-import { IDisposable, IProgress, once } from "juniper-tslib";
 import {
     arrayRemove,
-    arraySortedInsert,
-    isDefined,
-    isMobileVR,
-    isOculusBrowser,
-    oculusBrowserVersion,
-    stringToName,
+    arraySortedInsert, IDisposable, IProgress, isDefined,
+    isMobileVR, once, stringToName,
     TypedEvent,
     TypedEventBase
 } from "juniper-tslib";
@@ -24,7 +18,6 @@ import type { ErsatzAudioNode } from "./nodes";
 import {
     audioReady,
     BiquadFilter,
-    BufferSource,
     disconnect,
     DynamicsCompressor,
     Gain,
@@ -33,11 +26,9 @@ import {
     MediaStreamSource
 } from "./nodes";
 import type { Pose } from "./Pose";
-import { AudioBufferSpawningSource } from "./sources/AudioBufferSpawningSource";
 import { AudioElementSource } from "./sources/AudioElementSource";
 import type { AudioStreamSourceNode } from "./sources/AudioStreamSource";
 import { AudioStreamSource } from "./sources/AudioStreamSource";
-import type { IPlayableSource } from "./sources/IPlayableSource";
 import { BaseEmitter } from "./sources/spatializers/BaseEmitter";
 
 if (!("AudioContext" in globalThis) && "webkitAudioContext" in globalThis) {
@@ -56,10 +47,7 @@ const USE_HEADPHONES_KEY = "juniper::useHeadphones";
 const useHeadphonesToggledEvt = new TypedEvent("useheadphonestoggled");
 
 const hasStreamSources = "createMediaStreamSource" in AudioContext.prototype;
-const hasBuggyMediaStreamSources = isOculusBrowser && oculusBrowserVersion.major < 16; // fix for full-page crash in Oculus Browser
-const useElementSources = !hasStreamSources;
-const useElementSourceForUsers = useElementSources;
-const useElementSourceForClips = hasBuggyMediaStreamSources || useElementSources || true;
+const useElementSourceForUsers = !hasStreamSources;
 
 interface AudioManagerEvents {
     useheadphonestoggled: TypedEvent<"useheadphonestoggled">;
@@ -82,9 +70,9 @@ export class AudioManager
 
     private readonly sortedUserIDs = new Array<string>();
     private readonly users = new Map<string, AudioStreamSource>();
-    private readonly clips = new Map<string, IPlayableSource>();
+    private readonly clips = new Map<string, AudioElementSource>();
     private readonly clipPaths = new Map<string, string>();
-    private readonly pathSources = new Map<string, Promise<MediaElementAudioSourceNode | AudioBufferSourceNode>>();
+    private readonly pathSources = new Map<string, Promise<MediaElementAudioSourceNode>>();
     private readonly pathCounts = new Map<string, number>();
 
 
@@ -104,7 +92,7 @@ export class AudioManager
     /**
      * Creates a new manager of audio sources, destinations, and their spatialization.
      **/
-    constructor(private readonly fetcher: IFetcher, defaultLocalUserID: string) {
+    constructor(defaultLocalUserID: string) {
         super();
 
         this.audioCtx = new AudioContext();
@@ -303,7 +291,7 @@ export class AudioManager
         return this.audioDestination;
     }
 
-    createBasicClip(id: string, path: string, vol: number, onProgress?: IProgress): Promise<IPlayableSource> {
+    createBasicClip(id: string, path: string, vol: number, onProgress?: IProgress): Promise<AudioElementSource> {
         return this.createClip(id, path, false, false, false, false, vol, [], onProgress);
     }
 
@@ -317,7 +305,7 @@ export class AudioManager
      * @param vol - the volume at which to set the clip.
      * @param effectNames - names of pre-canned effects to load on the control.
      * @param path - a path for loading the media of the sound effect.
-     * @param onProgress - an optional callback function to use for tracking progress of loading the clip.
+     * @param prog - an optional callback function to use for tracking progress of loading the clip.
      */
     async createClip(
         id: string,
@@ -328,27 +316,27 @@ export class AudioManager
         randomize: boolean,
         vol: number,
         effectNames: string[],
-        onProgress?: IProgress): Promise<IPlayableSource> {
+        prog?: IProgress): Promise<AudioElementSource> {
         if (path == null || path.length === 0) {
             throw new Error("No clip source path provided");
         }
 
-        if (onProgress) {
-            onProgress.report(0, 1, path);
+        if (isDefined(prog)) {
+            prog.report(0, 1, path);
         }
 
-        const source = await this.getSourceTask(id, path, looping, autoPlaying, onProgress);
+        const source = await this.getSourceTask(id, path, looping, autoPlaying, prog);
         const clip = this.makeClip(source, id, path, spatialize, randomize, autoPlaying, vol, ...effectNames);
         this.clips.set(id, clip);
 
-        if (onProgress) {
-            onProgress.report(1, 1, path);
+        if (isDefined(prog)) {
+            prog.report(1, 1, path);
         }
 
         return clip;
     }
 
-    private getSourceTask(id: string, path: string, looping: boolean, autoPlaying: boolean, onProgress: IProgress): Promise<MediaElementAudioSourceNode | AudioBufferSourceNode> {
+    private getSourceTask(id: string, path: string, looping: boolean, autoPlaying: boolean, onProgress: IProgress): Promise<MediaElementAudioSourceNode> {
         this.clipPaths.set(id, path);
         let sourceTask = this.pathSources.get(path);
         if (isDefined(sourceTask)) {
@@ -362,29 +350,24 @@ export class AudioManager
         return sourceTask;
     }
 
-    private async createSourceFromFile(id: string, path: string, looping: boolean, autoPlaying: boolean, prog?: IProgress): Promise<MediaElementAudioSourceNode | AudioBufferSourceNode> {
-        if (useElementSourceForClips) {
-            const elem = BackgroundAudio(autoPlaying, false, looping);
-            const loadTask = once<HTMLMediaElementEventMap, "canplay">(elem, "canplay");
-            elem.src = path;
-            await loadTask;
-            return MediaElementSource(
-                stringToName("audio-element-source", id, path),
-                this.audioCtx,
-                elem);
+    private async createSourceFromFile(id: string, path: string, looping: boolean, autoPlaying: boolean, prog?: IProgress): Promise<MediaElementAudioSourceNode> {
+        if (isDefined(prog)) {
+            prog.report(0, 1, path);
         }
-        else {
-            const { content: data, fileName } = await this.fetcher
-                .get(path)
-                .progress(prog)
-                .audioBuffer(this.audioCtx);
-            return BufferSource(
-                stringToName("audio-buffer-source", fileName, id, path),
-                this.audioCtx, {
-                buffer: data,
-                loop: looping
-            });
+
+        const elem = BackgroundAudio(autoPlaying, false, looping);
+        const loadTask = once<HTMLMediaElementEventMap, "canplay">(elem, "canplay");
+        elem.src = path;
+        await loadTask;
+
+        if (isDefined(prog)) {
+            prog.report(1, 1, path);
         }
+
+        return MediaElementSource(
+            stringToName("audio-element-source", id, path),
+            this.audioCtx,
+            elem);
     }
 
     private createSourceFromStream(id: string, stream: MediaStream): AudioStreamSourceNode {
@@ -409,34 +392,23 @@ export class AudioManager
     }
 
     private makeClip(
-        source: MediaElementAudioSourceNode | AudioBufferSourceNode,
+        source: MediaElementAudioSourceNode,
         id: string,
         path: string,
         spatialize: boolean,
         randomize: boolean,
         autoPlaying: boolean,
         vol: number,
-        ...effectNames: string[]) {
-        let clip: IPlayableSource = null;
+        ...effectNames: string[]): AudioElementSource {
         const nodeID = stringToName(id, path);
-        if (source instanceof MediaElementAudioSourceNode) {
-            clip = new AudioElementSource(
-                stringToName("audio-clip-element", nodeID),
-                this.audioCtx,
-                source,
-                randomize,
-                this.createSpatializer(nodeID, spatialize, false),
-                ...effectNames);
-        }
-        else {
-            clip = new AudioBufferSpawningSource(
-                stringToName("audio-clip-spawner", nodeID),
-                this.audioCtx,
-                source,
-                randomize,
-                this.createSpatializer(nodeID, spatialize, false),
-                ...effectNames);
-        }
+
+        const clip = new AudioElementSource(
+            stringToName("audio-clip-element", nodeID),
+            this.audioCtx,
+            source,
+            randomize,
+            this.createSpatializer(nodeID, spatialize, false),
+            ...effectNames);
 
         if (autoPlaying) {
             clip.play();
@@ -479,7 +451,7 @@ export class AudioManager
     /**
      * Get an existing audio clip.
      */
-    getClip(id: string): IPlayableSource {
+    getClip(id: string): AudioElementSource {
         return this.clips.get(id);
     }
 
@@ -510,7 +482,7 @@ export class AudioManager
     /**
      * Remove an audio clip from audio processing.
      **/
-    removeClip(id: string): IPlayableSource {
+    removeClip(id: string): AudioElementSource {
         const path = this.clipPaths.get(id);
         this.pathCounts.set(path, this.pathCounts.get(path) - 1);
         if (this.pathCounts.get(path) === 0) {
