@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -11,6 +11,7 @@ namespace Juniper.MediaTypes
     public static partial class Program
     {
         private static XNamespace ns;
+        private static readonly HttpClient http = new(new HttpClientHandler { UseCookies = false });
 
         private static void PromotePrimaryExtension(Dictionary<string, Group> groups, string group, string entry, string ext)
         {
@@ -38,7 +39,7 @@ namespace Juniper.MediaTypes
             var outDirName = args[0];
             if (outDirName[0] == '"')
             {
-                outDirName = outDirName.Substring(1, outDirName.Length - 2);
+                outDirName = outDirName[1..^1];
             }
             var outDir = new DirectoryInfo(outDirName);
             if (!outDir.Exists)
@@ -98,12 +99,12 @@ namespace Juniper.MediaTypes
 
         private static async Task ParseApacheConfAsync(Dictionary<string, Group> groups)
         {
-            using var response = await HttpWebRequestExt
-                .Create(new Uri("http://svn.apache.org/viewvc/httpd/httpd/trunk/docs/conf/mime.types?view=co"))
-                .Accept("text/plain")
-                .GetAsync()
-                .ConfigureAwait(false);
-            using var stream = response.GetResponseStream();
+            using var request = new HttpRequestMessage(
+                HttpMethod.Get,
+                new Uri("http://svn.apache.org/viewvc/httpd/httpd/trunk/docs/conf/mime.types?view=co"))
+                .Accept(MediaType.Text_Plain);
+            using var response = await http.SendAsync(request);
+            using var stream = await response.Content.ReadAsStreamAsync();
             using var reader = new StreamReader(stream);
             var searching = true;
             while (!reader.EndOfStream)
@@ -112,7 +113,7 @@ namespace Juniper.MediaTypes
                     .ConfigureAwait(false);
                 if (line.StartsWith("# ", StringComparison.Ordinal))
                 {
-                    line = line.Substring(2);
+                    line = line[2..];
                 }
 
                 if (!searching)
@@ -127,8 +128,8 @@ namespace Juniper.MediaTypes
                         extensions = null;
                     }
                     var slashIndex = value.IndexOf('/');
-                    var groupName = value.Substring(0, slashIndex);
-                    var name = value.Substring(slashIndex + 1);
+                    var groupName = value[..slashIndex];
+                    var name = value[(slashIndex + 1)..];
 
                     var group = groups.GetGroup(groupName);
                     name = name.CamelCase();
@@ -138,7 +139,7 @@ namespace Juniper.MediaTypes
                         var plusIndex = value.IndexOf('+');
                         if (0 <= plusIndex && plusIndex < value.Length - 1)
                         {
-                            extensions = new string[] { value.Substring(plusIndex + 1) };
+                            extensions = new string[] { value[(plusIndex + 1)..] };
                         }
                     }
 
@@ -153,13 +154,13 @@ namespace Juniper.MediaTypes
 
         private static async Task ParseIANAXmlAsync(Dictionary<string, Group> groups)
         {
-            using var response = await HttpWebRequestExt
-                .Create(new Uri("https://www.iana.org/assignments/media-types/media-types.xml"))
+            using var request = new HttpRequestMessage(
+                HttpMethod.Get,
+                new Uri("https://www.iana.org/assignments/media-types/media-types.xml"))
                 .UserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36")
-                .Accept("text/xml")
-                .GetAsync()
-                .ConfigureAwait(false);
-            using var stream = response.GetResponseStream();
+                .Accept(MediaType.Text_Xml);
+            using var response = await http.SendAsync(request);
+            using var stream = await response.Content.ReadAsStreamAsync();
             var fullRegistry = XElement.Load(stream);
             ns = fullRegistry.GetDefaultNamespace();
             var files = fullRegistry.Descendants(ns + "file");
@@ -174,11 +175,11 @@ namespace Juniper.MediaTypes
                 string deprecationMessage = null;
                 if (isDeprecated)
                 {
-                    deprecationMessage = nameAndDescription.Substring(deprecationMessageIndex + 1).Trim();
-                    name = nameAndDescription.Substring(0, deprecationMessageIndex);
+                    deprecationMessage = nameAndDescription[(deprecationMessageIndex + 1)..].Trim();
+                    name = nameAndDescription[..deprecationMessageIndex];
                     if (deprecationMessage.StartsWith("-", StringComparison.Ordinal))
                     {
-                        deprecationMessage = deprecationMessage.Substring(1).Trim();
+                        deprecationMessage = deprecationMessage[1..].Trim();
                     }
                 }
 
@@ -189,7 +190,7 @@ namespace Juniper.MediaTypes
                 string[] extensions = null;
                 if (0 <= plusIndex && plusIndex < value.Length - 1)
                 {
-                    extensions = new string[] { value.Substring(plusIndex + 1) };
+                    extensions = new string[] { value[(plusIndex + 1)..] };
                 }
 
                 name = name.CamelCase();
@@ -276,12 +277,12 @@ namespace Juniper.MediaTypes
 
             if (s.StartsWith("vnd.", StringComparison.InvariantCultureIgnoreCase))
             {
-                s = "vendor." + s.Substring(4);
+                s = "vendor." + s[4..];
             }
 
             if (s.EndsWith("+", StringComparison.InvariantCultureIgnoreCase))
             {
-                s = s.Substring(0, s.Length - 1) + ".plus";
+                s = s[0..^1] + ".plus";
             }
 
             var words = s.Split('+', '.');

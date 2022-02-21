@@ -4,7 +4,7 @@
     <AssemblyName>Juniper.Testing.Azure.TTS.Console</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <StartupObject>Juniper.Program</StartupObject>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <Authors>Sean T. McBeth</Authors>
@@ -12,8 +12,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Juniper.Azure.Sound\Juniper.Azure.Sound.csproj" />
-    <ProjectReference Include="..\..\src\Juniper.Sound.NAudio\Juniper.Sound.NAudio.csproj" />
+    <PackageReference Include="NAudio" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Juniper.Azure\Juniper.Azure.csproj" />
   </ItemGroup>
   
 </Project>

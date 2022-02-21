@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 using Juniper.HTTP.REST;
@@ -29,7 +30,7 @@ namespace Juniper.HTTP.Tests
         private sealed class ImageRequest : AbstractRequest<MediaType.Image>
         {
             public ImageRequest(Uri baseURI, string path)
-                : base(HttpMethods.GET, AddPath(baseURI, path), Juniper.MediaType.Image.Jpeg, false) { }
+                : base(HttpMethod.Get, AddPath(baseURI, path), MediaType.Image_Jpeg) { }
 
             protected override string InternalCacheID =>
                 StandardRequestCacheID;
@@ -65,9 +66,7 @@ namespace Juniper.HTTP.Tests
                     new Uri("https://www.seanmcbeth.com"),
                     "2015-05.min.jpg");
 
-            var imageDecoder = new TranscoderCodec<BitMiracle.LibJpeg.JpegImage, ImageData>(
-                new JpegCodec(80),
-                new JpegTranscoder());
+            var imageDecoder = new JpegFactory(80).Pipe(new JpegCodec());
 
             var actual = await cache
                 .LoadAsync(imageDecoder, imageRequest)

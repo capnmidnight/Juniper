@@ -32,12 +32,6 @@ namespace Juniper.IO.Tests
         }
 
         [Test]
-        public void TestBinaryDictionary()
-        {
-            DictionaryTest<BinaryFactory<Dictionary<string, int>>>();
-        }
-
-        [Test]
         public void TestJsonDictionary()
         {
             DictionaryTest<JsonFactory<Dictionary<string, int>>>();

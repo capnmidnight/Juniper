@@ -37,70 +37,64 @@ namespace Juniper
             };
 
             var voiceListDecoder = new JsonFactory<Voice[]>();
-            var outputFormats = new[]
-            {
-                AudioFormat.Audio16KHz32KbitrateMonoMP3,
-                AudioFormat.Audio16KHz64KbitrateMonoMP3,
-                AudioFormat.Audio16KHz128KbitrateMonoMP3,
-                AudioFormat.Audio24KHz48KbitrateMonoMP3,
-                AudioFormat.Audio24KHz94KbitrateMonoMP3,
-                AudioFormat.Audio24KHz160KbitrateMonoMP3
-            };
 
             var audioDecoder = new NAudioAudioDataDecoder();
 
-            foreach (var outputFormat in outputFormats)
+            var ttsClient = new TextToSpeechClient(
+                region,
+                subscriptionKey,
+                resourceName,
+                voiceListDecoder,
+                audioDecoder,
+                cache);
+
+            var voices = await ttsClient
+                .GetVoicesAsync()
+                .ConfigureAwait(false);
+            var voice = Array.Find(voices, v => v.Locale == "en-US" && v.Gender == "Female");
+
+            try
             {
-                System.Console.Write(outputFormat.Name);
-                System.Console.Write(":> ");
-                var ttsClient = new TextToSpeechClient(
-                    region,
-                    subscriptionKey,
-                    resourceName,
-                    voiceListDecoder,
-                    outputFormat,
-                    audioDecoder,
-                    cache);
-
-                var voices = await ttsClient
-                    .GetVoicesAsync()
-                    .ConfigureAwait(false);
-                var voice = Array.Find(voices, v => v.Locale == "en-US" && v.Gender == "Female");
-
-                try
-                {
-                    //await DecodeAudio(text, audioDecoder, ttsClient, voice);
-                    await PlayAudioAsync(text, audioDecoder, ttsClient, voice).ConfigureAwait(false);
-                    System.Console.WriteLine("Success!");
-                }
-                catch (Exception exp)
-                {
-                    System.Console.WriteLine(exp.Message);
-                }
+                //await DecodeAudio(text, audioDecoder, ttsClient, voice);
+                await PlayAudioAsync(text, audioDecoder, ttsClient, voice).ConfigureAwait(false);
+                Console.WriteLine("Success!");
+            }
+            catch (Exception exp)
+            {
+                Console.WriteLine(exp.Message);
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Code Quality", "IDE0051:Remove unused private members", Justification = "Keeping around as an example")]
         private static async Task DecodeAudioAsync(string text, TextToSpeechClient ttsClient, Voice voice)
         {
-            var audio = await ttsClient
-                .GetDecodedAudioAsync(text, voice.ShortName)
+            foreach (var outputFormat in TextToSpeechStreamClient.SupportedFormats)
+            {
+                Console.Write(outputFormat.Name);
+                Console.Write(":> ");
+                var audio = await ttsClient
+                .GetDecodedAudioAsync(outputFormat, text, voice.ShortName)
                 .ConfigureAwait(false);
-            await PlayAsync(audio)
-                .ConfigureAwait(false);
+                await PlayAsync(audio)
+                    .ConfigureAwait(false);
+            }
         }
 
         private static async Task PlayAudioAsync(string text, NAudioAudioDataDecoder audioDecoder, TextToSpeechClient ttsClient, Voice voice)
         {
-            using var audioStream = await ttsClient
-                .GetAudioDataStreamAsync(text, voice.ShortName)
-                .ConfigureAwait(false);
-            using var waveStream = audioDecoder.MakeDecodingStream(audioStream);
-            var sr = waveStream.WaveFormat.SampleRate;
-            var bps = waveStream.WaveFormat.BitsPerSample;
-            System.Console.Write($"{bps} * {sr} = {bps * sr}");
-            //await Task.Yield();
-            await PlayAsync(waveStream).ConfigureAwait(false);
+            foreach (var outputFormat in TextToSpeechStreamClient.SupportedFormats)
+            {
+                Console.Write(outputFormat.Name);
+                Console.Write(":> ");
+                using var audioStream = await ttsClient
+                    .GetAudioDataStreamAsync(outputFormat, text, voice.ShortName)
+                    .ConfigureAwait(false);
+                using var waveStream = audioDecoder.MakeDecodingStream(audioStream);
+                var sr = waveStream.WaveFormat.SampleRate;
+                var bps = waveStream.WaveFormat.BitsPerSample;
+                Console.Write($"{bps} * {sr} = {bps * sr}");
+                //await Task.Yield();
+                await PlayAsync(waveStream).ConfigureAwait(false);
+            }
         }
 
         public static Task PlayAsync(AudioData audio)

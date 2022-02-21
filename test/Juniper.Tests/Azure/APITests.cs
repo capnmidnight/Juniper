@@ -68,7 +68,10 @@ namespace Juniper.Azure.Tests
                          select v)
                         .First();
 
-            var format = AudioFormat.Audio16KHz128KbitrateMonoMP3;
+            var format = TextToSpeechStreamClient.SupportedFormats.FirstOrDefault(f => f.ContentType == MediaType.Audio_Mpeg
+                && f.Channels == 1
+                && f.SampleRate == 16000
+                && f.BitsPerSample == 32);
             var audioRequest = new TextToSpeechRequest(region, resourceName, format)
             {
                 Text = "Hello, world",
@@ -140,7 +143,7 @@ namespace Juniper.Azure.Tests
             using var audio = await cache
                 .LoadAsync(audioDecoder, audioRequest)
                 .ConfigureAwait(false);
-            Assert.AreEqual(MediaType.Audio.PCMA, audio.Format.ContentType);
+            Assert.AreEqual(MediaType.Audio_PCMA, audio.Format.ContentType);
             Assert.AreEqual(audioRequest.OutputFormat.SampleRate, audio.Format.SampleRate);
         }
     }

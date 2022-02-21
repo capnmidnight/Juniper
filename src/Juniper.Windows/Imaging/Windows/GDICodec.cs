@@ -6,15 +6,17 @@ using GDIImageFormat = System.Drawing.Imaging.ImageFormat;
 
 namespace Juniper.Imaging
 {
-    public class GDICodec : IImageCodec<Image>
+    public class GDICodec : IImageFactory<Image>
     {
         private readonly GDIImageFormat gdiFormat;
 
-        public MediaType.Image ContentType { get; }
+        public MediaType.Image InputContentType { get; }
+        public MediaType.Image OutputContentType => InputContentType;
+
 
         public GDICodec(MediaType.Image format)
         {
-            ContentType = format ?? throw new ArgumentNullException(nameof(format));
+            InputContentType = format ?? throw new ArgumentNullException(nameof(format));
             gdiFormat = format.ToGDIImageFormat();
         }
 

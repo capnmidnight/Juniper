@@ -21,8 +21,8 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
         private static readonly string UnityProjectStreamingAssetsDir = Path.Combine(UnityProjectDir, "Assets", "StreamingAssets");
         private static readonly string GmapsStreamingAssetsDir = Path.Combine(UnityProjectStreamingAssetsDir, ProjectName, "Google", "StreetView");
 
-        private IImageCodec<ImageData> jpegDecoder;
-        private IImageCodec<ImageData> pngDecoder;
+        private IImageFactory<ImageData> jpegDecoder;
+        private IImageFactory<ImageData> pngDecoder;
 
         private JsonFactory<MetadataResponse> metadataDecoder;
         private JsonFactory<GeocodingResponse> geocodingDecoder;
@@ -32,13 +32,8 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
         {
             base.Init();
 
-            jpegDecoder = new TranscoderCodec<BitMiracle.LibJpeg.JpegImage, ImageData>(
-                new JpegCodec(80),
-                new JpegTranscoder());
-
-            pngDecoder = new TranscoderCodec<Hjg.Pngcs.ImageLines, ImageData>(
-                new PngCodec(),
-                new PngTranscoder());
+            jpegDecoder = new JpegFactory(80).Pipe(new JpegCodec());
+            pngDecoder = new PngFactory().Pipe(new PngCodec());
 
             metadataDecoder = new JsonFactory<MetadataResponse>();
             geocodingDecoder = new JsonFactory<GeocodingResponse>();
@@ -148,7 +143,7 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
             var gmaps = new GoogleMapsClient(apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
             var metadata = gmaps.CachedMetadata.FirstOrDefault();
             var pano = metadata.Pano_id;
-            var fileRef = new ContentReference(pano, MediaType.Application.Json);
+            var fileRef = new ContentReference(pano, MediaType.Application_Json);
             var metadata2 = await cache.LoadAsync(metadataDecoder, fileRef)
                 .ConfigureAwait(false);
             Assert.AreEqual(metadata.Pano_id, metadata2.Pano_id);

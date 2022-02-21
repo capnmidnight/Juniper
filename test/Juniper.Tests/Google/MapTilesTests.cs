@@ -54,9 +54,7 @@ namespace Juniper.World.GIS.Google.MapTiles.Tests
                 Zoom = 20,
                 Address = "4909 Rutland Pl, Alexandria, VA, 22304"
             };
-            var decoder = new TranscoderCodec<Hjg.Pngcs.ImageLines, ImageData>(
-                new PngCodec(),
-                new PngTranscoder());
+            var decoder = new PngFactory().Pipe(new PngCodec());
             var results = await cache
                 .LoadAsync(decoder, search)
                 .ConfigureAwait(false);

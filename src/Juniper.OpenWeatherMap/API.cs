@@ -1,6 +1,6 @@
 using System;
 using System.Globalization;
-using System.Net;
+using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
@@ -25,7 +25,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// The version number of the service we're targeting.
         /// </summary>
-        private static readonly Version version = new Version(2, 5);
+        private static readonly Version version = new(2, 5);
 
         /// <summary>
         /// The directory in which to find the API on the host.
@@ -76,7 +76,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             errorFactory = new JsonFactory<WeatherReportException>();
             this.apiKey = apiKey;
 
-            if (lastReportJSON is object)
+            if (lastReportJSON is not null)
             {
                 if (factory.TryParse(lastReportJSON, out var report))
                 {
@@ -98,7 +98,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <returns></returns>
         private bool NeedsNewReport(LatLngPoint location)
         {
-            if (LastReport is null || LastReport.ErrorMessage is object)
+            if (LastReport is null || LastReport.ErrorMessage is not null)
             {
                 return true;
             }
@@ -154,7 +154,6 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// </summary>
             /// <param name="info"></param>
             /// <param name="context"></param>
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
             protected WeatherReportException(SerializationInfo info, StreamingContext context)
                 : base(info?.GetString("error") ?? throw new ArgumentNullException(nameof(info)))
             {
@@ -176,6 +175,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             }
         }
 
+        private static readonly HttpClient http = new(new HttpClientHandler { UseCookies = false });
         /// <summary>
         /// Initiate a new request for a weather report at a given location.
         /// </summary>
@@ -196,12 +196,11 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 var url = new Uri($"{serverURI}/data/{version.ToString(2)}/{operation}?lat={location.Lat.ToString(CultureInfo.InvariantCulture)}&lon={location.Lng.ToString(CultureInfo.InvariantCulture)}&units={units}&appid={apiKey}");
                 try
                 {
-                    var requester = HttpWebRequestExt.Create(url);
-                    requester.Accept = MediaType.Application.Json;
-                    using var response = await requester
-                        .GetAsync()
+                    using var request = new HttpRequestMessage(HttpMethod.Get, url)
+                        .Accept(MediaType.Application_Json);
+                    using var response = await http.SendAsync(request)
                         .ConfigureAwait(false);
-                    if (weatherFactory.TryDeserialize<WeatherReport>(response, out var report))
+                    if (weatherFactory.TryDeserialize(response, out var report))
                     {
                         LastReport = report;
                     }
@@ -225,7 +224,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             set
             {
                 var reportJSON = errorFactory.ToString(value);
-                weatherFactory.TryParse(reportJSON, out var errorReport);
+                _ = weatherFactory.TryParse(reportJSON, out var errorReport);
                 LastReport = errorReport;
             }
         }

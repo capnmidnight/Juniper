@@ -14,15 +14,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Juniper.Azure.Sound\Juniper.Azure.Sound.csproj" />
-    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
-    <ProjectReference Include="..\Juniper.Client\Juniper.Client.csproj" />
-    <ProjectReference Include="..\Juniper.Imaging\Juniper.Imaging.csproj" />
-    <ProjectReference Include="..\Juniper.Sound.NAudio\Juniper.Sound.NAudio.csproj" />
-    <ProjectReference Include="..\Juniper.Sound\Juniper.Sound.csproj" />
-    <ProjectReference Include="..\Juniper.Azure\Juniper.Azure.csproj" />
-    <ProjectReference Include="..\Juniper.GoogleMaps\Juniper.GoogleMaps.csproj" />
-    <ProjectReference Include="..\Juniper.OpenWeatherMap\Juniper.OpenWeatherMap.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Client\Juniper.Client.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Imaging\Juniper.Imaging.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Sound\Juniper.Sound.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Azure\Juniper.Azure.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.GoogleMaps\Juniper.GoogleMaps.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.OpenWeatherMap\Juniper.OpenWeatherMap.csproj" />
   </ItemGroup>
 
   <ItemGroup>

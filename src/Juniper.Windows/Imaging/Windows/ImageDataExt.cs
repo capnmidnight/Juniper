@@ -25,35 +25,35 @@ namespace Juniper.Imaging
         {
             if (format == System.Drawing.Imaging.ImageFormat.Bmp)
             {
-                return MediaType.Image.Bmp;
+                return MediaType.Image_Bmp;
             }
             else if (format == System.Drawing.Imaging.ImageFormat.Emf)
             {
-                return MediaType.Image.Emf;
+                return MediaType.Image_Emf;
             }
             else if (format == System.Drawing.Imaging.ImageFormat.Gif)
             {
-                return MediaType.Image.Gif;
+                return MediaType.Image_Gif;
             }
             else if (format == System.Drawing.Imaging.ImageFormat.Icon)
             {
-                return MediaType.Image.X_Icon;
+                return MediaType.Image_X_Icon;
             }
             else if (format == System.Drawing.Imaging.ImageFormat.Jpeg)
             {
-                return MediaType.Image.Jpeg;
+                return MediaType.Image_Jpeg;
             }
             else if (format == System.Drawing.Imaging.ImageFormat.Png)
             {
-                return MediaType.Image.Png;
+                return MediaType.Image_Png;
             }
             else if (format == System.Drawing.Imaging.ImageFormat.Tiff)
             {
-                return MediaType.Image.Tiff;
+                return MediaType.Image_Tiff;
             }
             else if (format == System.Drawing.Imaging.ImageFormat.Wmf)
             {
-                return MediaType.Image.Wmf;
+                return MediaType.Image_Wmf;
             }
             else
             {
@@ -63,35 +63,35 @@ namespace Juniper.Imaging
 
         public static System.Drawing.Imaging.ImageFormat ToGDIImageFormat(this MediaType.Image format)
         {
-            if (format == MediaType.Image.Bmp)
+            if (format == MediaType.Image_Bmp)
             {
                 return System.Drawing.Imaging.ImageFormat.Bmp;
             }
-            else if (format == MediaType.Image.Emf)
+            else if (format == MediaType.Image_Emf)
             {
                 return System.Drawing.Imaging.ImageFormat.Emf;
             }
-            else if (format == MediaType.Image.Gif)
+            else if (format == MediaType.Image_Gif)
             {
                 return System.Drawing.Imaging.ImageFormat.Gif;
             }
-            else if (format == MediaType.Image.X_Icon)
+            else if (format == MediaType.Image_X_Icon)
             {
                 return System.Drawing.Imaging.ImageFormat.Icon;
             }
-            else if (format == MediaType.Image.Jpeg)
+            else if (format == MediaType.Image_Jpeg)
             {
                 return System.Drawing.Imaging.ImageFormat.Jpeg;
             }
-            else if (format == MediaType.Image.Png)
+            else if (format == MediaType.Image_Png)
             {
                 return System.Drawing.Imaging.ImageFormat.Png;
             }
-            else if (format == MediaType.Image.Tiff)
+            else if (format == MediaType.Image_Tiff)
             {
                 return System.Drawing.Imaging.ImageFormat.Tiff;
             }
-            else if (format == MediaType.Image.Wmf)
+            else if (format == MediaType.Image_Wmf)
             {
                 return System.Drawing.Imaging.ImageFormat.Wmf;
             }
@@ -118,7 +118,7 @@ namespace Juniper.Imaging
             }
             else
             {
-                throw new NotSupportedException($"Pixel format {img.PixelFormat.ToString()}");
+                throw new NotSupportedException($"Pixel format {img.PixelFormat}");
             }
         }
     }

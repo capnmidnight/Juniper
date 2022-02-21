@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 
 namespace Juniper.IO
@@ -336,6 +337,88 @@ namespace Juniper.IO
             }
 
             using var stream = request.InputStream;
+            return deserializer.TryDeserialize(stream, out value);
+        }
+
+        public static ResultT Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpResponseMessage response, IProgress prog)
+            where M : MediaType
+        {
+            if (deserializer is null)
+            {
+                throw new ArgumentNullException(nameof(deserializer));
+            }
+
+            if (response is null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+
+            using var stream = response.Content.ReadAsStream();
+            if (response.Content.Headers.ContentLength is not null)
+            {
+                return deserializer.Deserialize(stream, response.Content.Headers.ContentLength.Value, prog);
+            }
+            else
+            {
+                return deserializer.Deserialize(stream, prog);
+            }
+        }
+
+        public static ResultT Deserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpResponseMessage response)
+            where M : MediaType
+        {
+            if (deserializer is null)
+            {
+                throw new ArgumentNullException(nameof(deserializer));
+            }
+
+            if (response is null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+
+            using var stream = response.Content.ReadAsStream();
+            return deserializer.Deserialize(stream);
+        }
+
+        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpResponseMessage response, out ResultT value, IProgress prog)
+            where M : MediaType
+        {
+            if (deserializer is null)
+            {
+                throw new ArgumentNullException(nameof(deserializer));
+            }
+
+            if (response is null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+
+            using var stream = response.Content.ReadAsStream();
+            if (response.Content.Headers.ContentLength is not null)
+            {
+                return deserializer.TryDeserialize(stream, out value, response.Content.Headers.ContentLength.Value, prog);
+            }
+            else
+            {
+                return deserializer.TryDeserialize(stream, out value, prog);
+            }
+        }
+
+        public static bool TryDeserialize<ResultT, M>(this IDeserializer<ResultT, M> deserializer, HttpResponseMessage response, out ResultT value)
+            where M : MediaType
+        {
+            if (deserializer is null)
+            {
+                throw new ArgumentNullException(nameof(deserializer));
+            }
+
+            if (response is null)
+            {
+                throw new ArgumentNullException(nameof(response));
+            }
+
+            using var stream = response.Content.ReadAsStream();
             return deserializer.TryDeserialize(stream, out value);
         }
 

@@ -18,7 +18,7 @@ namespace Juniper
     {
         private static ImageViewer form;
         private static GoogleMapsClient gmaps;
-        private static IImageCodec<Image> imageDecoder;
+        private static IImageFactory<Image> imageDecoder;
 
         /// <summary>
         /// The main entry point for the application.
@@ -50,7 +50,7 @@ namespace Juniper
                 metadataDecoder, geocodingDecoder,
                 cache);
 
-            imageDecoder = new GDICodec(MediaType.Image.Jpeg);
+            imageDecoder = new GDICodec(MediaType.Image_Jpeg);
 
             form = new ImageViewer();
             form.LocationSubmitted += Form_LocationSubmitted;

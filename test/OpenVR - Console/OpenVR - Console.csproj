@@ -3,12 +3,12 @@
   <PropertyGroup>
     <AssemblyName>Juniper.Testing.OpenVR.Console</AssemblyName>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <RootNamespace>Juniper.OpenVR</RootNamespace>
   </PropertyGroup>
-
+  
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\Juniper.Valve.VR\Juniper.Valve.VR.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Valve.VR\Juniper.Valve.VR.csproj" />
   </ItemGroup>
 
 </Project>

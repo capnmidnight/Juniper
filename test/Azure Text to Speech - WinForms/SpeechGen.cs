@@ -18,7 +18,7 @@ namespace Juniper
 
             var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             saveFile.InitialDirectory = userProfile;
-            formats = TextToSpeechRequest.SupportedFormats;
+            formats = TextToSpeechStreamClient.SupportedFormats;
             decodableFormats = formats
                 .Where(format => NAudioAudioDataDecoder.SupportedFormats.Contains(format.ContentType))
                 .ToArray();

@@ -17,8 +17,8 @@ namespace Scratch
                 .GetFiles("*.jpg")
                 .First(f => f.Name.StartsWith("test", StringComparison.OrdinalIgnoreCase));
             using var imageStream = imageFile.OpenRead();
-            var codec = new JpegCodec()
-                .Pipe(new JpegTranscoder());
+            var codec = new JpegFactory()
+                .Pipe(new JpegCodec());
             var image = codec.Deserialize(imageStream);
             var spaces = new ColorSpace[]
             {
@@ -44,7 +44,8 @@ namespace Scratch
 
                 for (var i = 0; i < images.Length; ++i)
                 {
-                    var path = Path.Combine(desktopDirectory.FullName, $"test ({s * images.Length + i + 1}).jpg");
+                    var index = (s * images.Length) + i + 1;
+                    var path = Path.Combine(desktopDirectory.FullName, $"test ({index}).jpg");
                     codec.Serialize(path, images[i]);
                 }
             }

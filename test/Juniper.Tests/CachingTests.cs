@@ -22,7 +22,7 @@ namespace Juniper.IO.Tests
         public void ListFiles()
         {
             var fileLayer = new FileCacheLayer(Path.Combine(TestRootDir, "DevKeys"));
-            var files = fileLayer.GetContentReferences(MediaType.Text.Plain)
+            var files = fileLayer.GetContentReferences(MediaType.Text_Plain)
                 .ToArray();
             Assert.AreNotEqual(0, files.Length);
         }
@@ -31,7 +31,7 @@ namespace Juniper.IO.Tests
         public void ListMetadatas()
         {
             var fileLayer = new FileCacheLayer(Path.Combine(TestRootDir, "GoogleMaps"));
-            var jsonFiles = fileLayer.GetContentReferences(MediaType.Application.Json)
+            var jsonFiles = fileLayer.GetContentReferences(MediaType.Application_Json)
                 .ToArray();
             Assert.AreNotEqual(0, jsonFiles.Length);
         }

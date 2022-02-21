@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
@@ -17,21 +18,25 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// main weather forecast.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         public string main { get; set; }
 
         /// <summary>
         /// An extended description of the main weather forecast.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         public string description { get; set; }
 
         /// <summary>
         /// name of the icon to use to go along with the weather forecast.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         public string icon { get; set; }
 
         /// <summary>
         /// An enumeration of the current conditions.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         public int id { get; set; }
 
         /// <summary>
@@ -39,7 +44,6 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1801:Review unused parameters", Justification = "Parameter `context` is required by ISerializable interface")]
         protected OWMWeather(SerializationInfo info, StreamingContext context)
         {
             if (info is null)
@@ -75,14 +79,16 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// full URL to the <see cref="icon"/> on OpenWeatherMap's server.
         /// </summary>
         /// <value>The icon URL.</value>
-        public Uri IconURL => new Uri($"http://openweathermap.org/img/w/{icon}.png");
+        public Uri IconURL => new($"http://openweathermap.org/img/w/{icon}.png");
 
-        public async Task<T> GetIconAsync<T>(IImageCodec<T> decoder)
+        private static readonly HttpClient http = new(new HttpClientHandler
         {
-            var request = HttpWebRequestExt.Create(IconURL);
-            using var response = await request
-                .GetAsync()
-                .ConfigureAwait(false);
+            UseCookies = false
+        });
+        public async Task<T> GetIconAsync<T>(IImageFactory<T> decoder)
+        {
+            using var request = new HttpRequestMessage(HttpMethod.Get, IconURL);
+            using var response = await http.SendAsync(request);
             return decoder.Deserialize(response);
         }
 
