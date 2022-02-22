@@ -1,6 +1,8 @@
-using System.Net;
-
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
+
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace Juniper.HTTP
 {
@@ -9,7 +11,14 @@ namespace Juniper.HTTP
         private readonly string contentType;
         private readonly string fileName;
         private readonly int cacheTime;
-        private readonly long size;
+        protected readonly long size;
+
+        protected readonly bool hasRange;
+        protected readonly long rangeStart;
+        protected readonly long rangeEnd;
+        protected long RangeLength => Math.Min(rangeEnd, size) - rangeStart;
+
+        private static readonly Regex rangePattern = new(@"^bytes=(\d*)=(\d*)$", RegexOptions.Compiled);
 
         /// <summary>
         /// Creates a new ActionResult that sends along the file metadata.
@@ -19,7 +28,8 @@ namespace Juniper.HTTP
         /// <param name="contentType">The content type of the file that will be sent. This should be retrieved separately.</param>
         /// <param name="fileName">The name of the file that will be sent. This should be retrieved separately.</param>
         /// <param name="cacheTime">The number of seconds to tell the client to cache the result.</param>
-        public FileInfoResult(long size, string contentType, string fileName, int cacheTime)
+        /// <param name="range">A range request expression.</param>
+        public FileInfoResult(long size, string contentType, string fileName, int cacheTime, string range)
             : base()
         {
             var type = MediaType.Parse(contentType);
@@ -27,11 +37,17 @@ namespace Juniper.HTTP
             this.fileName = fileName?.AddExtension(type);
             this.cacheTime = cacheTime;
             this.size = size;
-        }
 
-        public FileInfoResult(long size, string contentType, string fileName)
-            : this(size, contentType, fileName, 0)
-        { }
+            hasRange = !string.IsNullOrEmpty(range);
+            if (hasRange)
+            {
+                var rangeMatch = rangePattern.Match(range);
+                var rangeStart = rangeMatch.Groups[1].Value;
+                var rangeEnd = rangeMatch.Groups[2].Value;
+                this.rangeStart = rangeStart.Length > 0 ? long.Parse(rangeStart) : 0;
+                this.rangeEnd = rangeEnd.Length > 0 ? long.Parse(rangeEnd) : size;
+            }
+        }
 
         /// <summary>
         /// Performs the stream operation.
@@ -46,17 +62,23 @@ namespace Juniper.HTTP
             }
 
             var response = context.HttpContext.Response;
-            response.StatusCode = (int)HttpStatusCode.OK;
+            response.StatusCode = StatusCodes.Status200OK;
             response.ContentType = contentType;
-            response.ContentLength = size;
+            response.ContentLength = hasRange ? RangeLength : size;
+            if (hasRange)
+            {
+                response.Headers[HeaderNames.AcceptRanges] = "bytes";
+                response.Headers[HeaderNames.ContentRange] = $"bytes {rangeStart}-{rangeEnd}/{size}";
+            }
+
             if (!string.IsNullOrEmpty(fileName))
             {
-                response.Headers["Content-Disposition"] = $"attachment; filename=\"{WebUtility.UrlEncode(fileName)}\"";
+                response.Headers[HeaderNames.ContentDisposition] = $"attachment; filename=\"{WebUtility.UrlEncode(fileName)}\"";
             }
 
             if (cacheTime > 0)
             {
-                response.Headers["Cache-Control"] = $"public,max-age={cacheTime}";
+                response.Headers[HeaderNames.CacheControl] = $"public,max-age={cacheTime}";
             }
 
             try
@@ -65,7 +87,7 @@ namespace Juniper.HTTP
             }
             catch (Exception)
             {
-                response.StatusCode = (int)HttpStatusCode.NotFound;
+                response.StatusCode = StatusCodes.Status404NotFound;
             }
         }
 

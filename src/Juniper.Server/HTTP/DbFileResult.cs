@@ -1,6 +1,7 @@
 using System.Data;
 using System.Data.Common;
 
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
@@ -25,16 +26,13 @@ namespace Juniper.HTTP
         /// <param name="fileName">The name of the file that will be sent. This should be retrieved separately.</param>
         /// <param name="cacheTime">The number of seconds to tell the client to cache the result.</param>
         /// <param name="makeCommand">A callback function to construct the Command that will perform the query to retrieve the file stream.</param>
-        public DbFileResult(DatabaseFacade db, long size, string contentType, string fileName, int cacheTime, Action<DbCommand> makeCommand)
-            : base(size, contentType, fileName, cacheTime)
+        /// <param name="range">A range request expression.</param>
+        public DbFileResult(DatabaseFacade db, long size, string contentType, string fileName, int cacheTime, string range, Action<DbCommand> makeCommand)
+            : base(size, contentType, fileName, cacheTime, range)
         {
             this.db = db;
             this.makeCommand = makeCommand;
         }
-
-        public DbFileResult(DatabaseFacade db, long size, string contentType, string fileName, Action<DbCommand> makeCommand)
-            : this(db, size, contentType, fileName, 0, makeCommand)
-        { }
 
         /// <summary>
         /// Performs the stream operation.
@@ -44,7 +42,7 @@ namespace Juniper.HTTP
         protected override async Task WriteBody(HttpResponse response)
         {
             using var conn = db.GetDbConnection();
-            await conn.OpenAsync()
+            await conn.OpenAsync(response.HttpContext.RequestAborted)
                 .ConfigureAwait(false);
 
             using var cmd = conn.CreateCommand();
@@ -53,10 +51,11 @@ namespace Juniper.HTTP
             using var reader = await cmd.ExecuteReaderAsync(
                 CommandBehavior.SingleResult
                 | CommandBehavior.SequentialAccess
-                | CommandBehavior.CloseConnection)
+                | CommandBehavior.CloseConnection,
+                response.HttpContext.RequestAborted)
                 .ConfigureAwait(false);
 
-            var read = await reader.ReadAsync()
+            var read = await reader.ReadAsync(response.HttpContext.RequestAborted)
                 .ConfigureAwait(false);
 
             if (!read)
@@ -65,9 +64,28 @@ namespace Juniper.HTTP
             }
 
             using var stream = reader.GetStream(0);
+            if (hasRange)
+            {
+                const int FRAME_SIZE = 64 * 1024;
+                if (rangeStart > 0)
+                {
+                    var buffer = new byte[FRAME_SIZE];
+                    var toBurn = rangeStart;
+                    while (toBurn > 0)
+                    {
+                        var shouldBurn = (int)Math.Min(toBurn, buffer.Length);
+                        var wasBurned = await stream.ReadAsync(buffer, 0, shouldBurn, response.HttpContext.RequestAborted);
+                        toBurn -= wasBurned;
+                    }
+                }
 
-            await stream.CopyToAsync(response.Body)
-                .ConfigureAwait(false);
+                await StreamCopyOperation.CopyToAsync(stream, response.Body, RangeLength, FRAME_SIZE, response.HttpContext.RequestAborted);
+            }
+            else
+            {
+                await stream.CopyToAsync(response.Body, response.HttpContext.RequestAborted)
+                    .ConfigureAwait(false);
+            }
         }
     }
 }

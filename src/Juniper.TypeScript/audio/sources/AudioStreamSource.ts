@@ -5,6 +5,6 @@ export type AudioStreamSourceNode = MediaElementAudioSourceNode | MediaStreamAud
 
 export class AudioStreamSource extends BaseAudioSource<AudioStreamSourceNode> {
     constructor(id: string, audioCtx: AudioContext, spatializer: BaseEmitter, ...effectNames: string[]) {
-        super(id, audioCtx, spatializer, false, ...effectNames);
+        super(id, audioCtx, spatializer, ...effectNames);
     }
 }

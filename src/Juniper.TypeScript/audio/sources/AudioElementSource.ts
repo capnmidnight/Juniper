@@ -66,15 +66,15 @@ interface AudioElementSourceEvents {
     stopped: AudioElementSourceStoppedEvent;
 }
 
-type PlaybackState = "playing" | "paused" | "stopped";
+type PlaybackState = "playing" | "paused" | "stopped" | "errored";
 
 export class AudioElementSource extends BaseAudioSource<MediaElementAudioSourceNode, AudioElementSourceEvents> {
     private readonly playEvt: AudioElementSourcePlayedEvent;
     private readonly pauseEvt: AudioElementSourcePausedEvent;
     private readonly stopEvt: AudioElementSourceStoppedEvent;
 
-    constructor(id: string, audioCtx: AudioContext, source: MediaElementAudioSourceNode, randomize: boolean, spatializer: BaseEmitter, ...effectNames: string[]) {
-        super(id, audioCtx, spatializer, randomize, ...effectNames);
+    constructor(id: string, audioCtx: AudioContext, source: MediaElementAudioSourceNode, private readonly randomize: boolean, spatializer: BaseEmitter, ...effectNames: string[]) {
+        super(id, audioCtx, spatializer, ...effectNames);
         inc(this.input = source);
         this.disconnect();
 
@@ -83,19 +83,40 @@ export class AudioElementSource extends BaseAudioSource<MediaElementAudioSourceN
         this.stopEvt = new AudioElementSourceStoppedEvent(this);
     }
 
-    private _playbackState: PlaybackState = "stopped";
     get playbackState(): PlaybackState {
-        return this._playbackState;
+        const elem = this.input.mediaElement;
+        if (elem.error) {
+            return "errored";
+        }
+
+        if (elem.ended || elem.paused && elem.currentTime === 0) {
+            return "stopped";
+        }
+
+        if (elem.paused) {
+            return "paused";
+        }
+
+        return "playing";
     }
 
     async play(): Promise<void> {
         if (this.playbackState !== "playing") {
             try {
+                let startTime = 0;
+                if (this.randomize
+                    && this.playbackState === "stopped"
+                    && this.input.mediaElement.loop
+                    && this.input.mediaElement.duration > 1) {
+                    startTime = this.input.mediaElement.duration * Math.random();
+                }
                 const playTask = this.input.mediaElement.play();
                 this.connect();
-                this._playbackState = "playing";
                 this.dispatchEvent(this.playEvt);
                 await playTask;
+                if (startTime > 0) {
+                    this.input.mediaElement.currentTime = startTime;
+                }
             }
             catch (exp) {
                 console.warn(exp);
@@ -118,7 +139,6 @@ export class AudioElementSource extends BaseAudioSource<MediaElementAudioSourceN
     pause(): void {
         if (this.playbackState === "playing") {
             this.halt();
-            this._playbackState = "paused";
             this.dispatchEvent(this.pauseEvt);
         }
     }
@@ -127,7 +147,6 @@ export class AudioElementSource extends BaseAudioSource<MediaElementAudioSourceN
         if (this.playbackState !== "stopped") {
             this.halt();
             this.input.mediaElement.currentTime = 0;
-            this._playbackState = "stopped";
             this.dispatchEvent(this.stopEvt);
         }
     }

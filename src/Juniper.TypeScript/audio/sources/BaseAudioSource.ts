@@ -1,7 +1,7 @@
 import { arrayClear, isDefined, isDisposable, TypedEvent } from "juniper-tslib";
-import { AudioNodeType, chain, connect, Delay, disconnect, ErsatzAudioNode, removeVertex } from "../nodes";
 import { BaseAudioElement } from "../BaseAudioElement";
 import { effectStore } from "../effects";
+import { AudioNodeType, chain, connect, disconnect, ErsatzAudioNode, removeVertex } from "../nodes";
 import type { BaseEmitter } from "./spatializers/BaseEmitter";
 import { NoSpatializationNode } from "./spatializers/NoSpatializationNode";
 
@@ -20,20 +20,10 @@ export abstract class BaseAudioSource<AudioNodeT extends AudioNode, EventTypeT =
     implements ErsatzAudioNode {
 
     private source: AudioNodeT = null;
-    private readonly delay: DelayNode = null;
     private readonly effects = new Array<AudioNodeType>();
 
-    constructor(id: string, audioCtx: AudioContext, spatializer: BaseEmitter, public readonly randomize: boolean, ...effectNames: string[]) {
+    constructor(id: string, audioCtx: AudioContext, spatializer: BaseEmitter, ...effectNames: string[]) {
         super(id, audioCtx, spatializer);
-
-        if (this.randomize) {
-            this.delay = Delay(
-                `delay-${id}`,
-                audioCtx, {
-                delayTime: Math.random()
-            },
-                this.volumeControl);
-        }
 
         this.setEffects(...effectNames);
     }
@@ -41,10 +31,6 @@ export abstract class BaseAudioSource<AudioNodeT extends AudioNode, EventTypeT =
     private disposed2 = false;
     override dispose(): void {
         if (!this.disposed2) {
-            if (this.delay) {
-                removeVertex(this.delay);
-            }
-
             for (const effect of this.effects) {
                 if (isDisposable(effect)) {
                     effect.dispose();
@@ -93,16 +79,12 @@ export abstract class BaseAudioSource<AudioNodeT extends AudioNode, EventTypeT =
         return this.source;
     }
 
-    private get connectionPoint() {
-        return this.delay || this.volumeControl;
-    }
-
     protected connect(): void {
-        connect(this.source, this.connectionPoint);
+        connect(this.source, this.volumeControl);
     }
 
     protected disconnect(): void {
-        disconnect(this.source, this.connectionPoint);
+        disconnect(this.source, this.volumeControl);
     }
 
     set input(v: AudioNodeT) {
