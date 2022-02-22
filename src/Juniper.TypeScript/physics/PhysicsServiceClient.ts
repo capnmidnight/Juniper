@@ -9,4 +9,8 @@ export class PhysicsServiceClient
     addBody(): Promise<number> {
         return this.callMethod("addBody");
     }
+
+    removeBody(id: number): Promise<void> {
+        return this.callMethod("removeBody", [id]);
+    }
 }

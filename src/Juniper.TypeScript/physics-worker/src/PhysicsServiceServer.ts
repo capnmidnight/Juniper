@@ -13,4 +13,5 @@ export class PhysicsServiceServer extends WorkerServer {
 
 export function addPhysicsMethods(server: WorkerServer, physics: IPhysicsService) {
     server.addMethod("addBody", physics, physics.addBody);
+    server.addMethod("removeBody", physics, physics.removeBody);
 }

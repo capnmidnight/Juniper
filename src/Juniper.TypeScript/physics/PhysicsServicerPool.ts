@@ -17,6 +17,10 @@ export abstract class BasePhysicsServicePool<EventsT, FetcherWorkerClientT exten
     addBody(): Promise<number> {
         return this.physics.addBody();
     }
+
+    removeBody(id: number): Promise<void> {
+        return this.physics.removeBody(id);
+    }
 }
 
 export class PhysicsServicePool
