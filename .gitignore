@@ -110,6 +110,7 @@ tobii_gameintegration_*.dll
 *.blend1.meta
 /src/Unity Asset Store Packages/ShaderControl/Editor/Resources/BuiltShaders.asset
 node_modules/
-/src/Juniper.TypeScript/fetcher-worker/dist/
 /src/Juniper.TypeScript/environment/dist/
+/src/Juniper.TypeScript/fetcher-worker/dist/
+/src/Juniper.TypeScript/physics-worker/dist/
 /src/Juniper.TypeScript/tele/dist/
