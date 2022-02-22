@@ -1,4 +1,4 @@
-import { isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString } from "juniper-tslib";
+import { isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString, once } from "juniper-tslib";
 import { Attr, autoPlay, className, controls, htmlFor, loop, muted, playsInline, type } from "./attrs";
 import { CSSInJSRule, display, margin, styles } from "./css";
 
@@ -134,12 +134,6 @@ export function elementApply(elem: Elements, ...children: ElementChild[]): Eleme
     return elem;
 }
 
-export function mediaElementForwardEvents(from: HTMLMediaElement, to: HTMLMediaElement) {
-    from.addEventListener("play", () => to.play());
-    from.addEventListener("pause", () => to.pause());
-    from.addEventListener("seeked", () => to.currentTime = from.currentTime);
-}
-
 export function getElement<T extends HTMLElement>(selector: string): T {
     return document.querySelector<T>(selector);
 }
@@ -217,6 +211,17 @@ export function elementSetText(elem: Elements, text: string): void {
 export function elementGetText(elem: Elements): string {
     elem = resolveElement(elem);
     return elem.innerText;
+}
+
+export function mediaElementForwardEvents(from: HTMLMediaElement, to: HTMLMediaElement) {
+    from.addEventListener("play", () => to.play());
+    from.addEventListener("pause", () => to.pause());
+    from.addEventListener("seeked", () => to.currentTime = from.currentTime);
+}
+
+export async function mediaElementReady<T extends HTMLMediaElement>(elem: T): Promise<T> {
+    await once<HTMLMediaElementEventMap, "canplay">(elem, "canplay");
+    return elem;
 }
 
 export function A(...rest: ElementChild[]): HTMLAnchorElement { return tag("a", ...rest); }

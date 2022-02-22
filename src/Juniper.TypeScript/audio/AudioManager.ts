@@ -1,12 +1,15 @@
 import type { vec3 } from "gl-matrix";
-import { autoPlay, id, playsInline, srcObject } from "juniper-dom/attrs";
+import { autoPlay, id, playsInline, src, srcObject } from "juniper-dom/attrs";
 import { display, styles } from "juniper-dom/css";
-import type { ErsatzElement } from "juniper-dom/tags";
-import { Audio, BackgroundAudio, elementApply } from "juniper-dom/tags";
+import { Audio, BackgroundAudio, elementApply, ErsatzElement, mediaElementReady } from "juniper-dom/tags";
 import {
     arrayRemove,
-    arraySortedInsert, IDisposable, IProgress, isDefined,
-    isMobileVR, once, stringToName,
+    arraySortedInsert,
+    IDisposable,
+    IProgress,
+    isDefined,
+    isMobileVR,
+    stringToName,
     TypedEvent,
     TypedEventBase
 } from "juniper-tslib";
@@ -355,10 +358,7 @@ export class AudioManager
             prog.report(0, 1, path);
         }
 
-        const elem = BackgroundAudio(autoPlaying, false, looping);
-        const loadTask = once<HTMLMediaElementEventMap, "canplay">(elem, "canplay");
-        elem.src = path;
-        await loadTask;
+        const elem = await mediaElementReady(BackgroundAudio(autoPlaying, false, looping, src(path)));
 
         if (isDefined(prog)) {
             prog.report(1, 1, path);

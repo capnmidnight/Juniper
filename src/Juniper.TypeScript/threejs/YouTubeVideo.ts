@@ -1,12 +1,13 @@
 import { AudioElementSource } from "juniper-audio/sources/AudioElementSource";
-import { BackgroundVideo, mediaElementForwardEvents } from "juniper-dom/tags";
+import { src } from "juniper-dom/attrs";
+import { BackgroundVideo, mediaElementForwardEvents, mediaElementReady } from "juniper-dom/tags";
+import { IFetcher } from "juniper-fetcher";
+import { IProgress, progressSplitWeighted } from "juniper-tslib";
 import { createQuadGeometry } from "./CustomGeometry";
 import { Environment } from "./environment/Environment";
 import { solid } from "./materials";
 import { objGraph } from "./objects";
 import { PlaybackButton } from "./PlaybackButton";
-import { IProgress, once, progressSplitWeighted } from "juniper-tslib";
-import { IFetcher } from "juniper-fetcher";
 
 const I = 1 / 3;
 const J = 2 / 3;
@@ -69,27 +70,23 @@ export class YouTubeVideo extends THREE.Object3D {
         const progs = progressSplitWeighted(prog, [1, 10, 100]);
         const { video, audio } = await this.queryYtDlp(this.pageUrl, this.env.fetcher, progs.pop());
 
-        const vid = BackgroundVideo(false, true, false);
-        const videoTask = once<HTMLMediaElementEventMap, "canplay">(vid, "canplay");
-        vid.src = video.url;
-
         console.log("Getting video and audio");
 
-        const [audioClip, _] = await Promise.all([
-            this.env.audio.createBasicClip("audio", audio.url, 1, progs.pop()),
-            videoTask
+        const [videoClip, audioClip] = await Promise.all([
+            mediaElementReady(BackgroundVideo(false, true, false, src(video.url))),
+            this.env.audio.createBasicClip("audio", audio.url, 1, progs.pop())
         ]);
 
-        console.log("Got video and audio", vid, audioClip);
+        console.log("Got video and audio", videoClip, audioClip);
 
         if (audioClip instanceof AudioElementSource) {
-            mediaElementForwardEvents(audioClip.input.mediaElement, vid);
+            mediaElementForwardEvents(audioClip.input.mediaElement, videoClip);
         }
 
         this._pb = new PlaybackButton(this.env, this.env.uiButtons, "video", null, audioClip);
         this._pb.object.position.set(0, 1, -0.95);
 
-        const vidTex = new THREE.VideoTexture(vid);
+        const vidTex = new THREE.VideoTexture(videoClip);
 
         this._vid = new THREE.Mesh(YouTubeCubeMapGeom, solid({
             name: video.url,
