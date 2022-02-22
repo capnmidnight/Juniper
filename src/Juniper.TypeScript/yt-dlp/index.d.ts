@@ -131,3 +131,14 @@ interface YTMetadata {
     filename: string;
     urls: string
 }
+
+
+interface YTMediaEntry {
+    contentType: string;
+    url: string;
+}
+
+interface YTBasicResult {
+    video?: YTMediaEntry;
+    audio?: YTMediaEntry;
+}

@@ -43,16 +43,7 @@ const YouTubeCubeMapGeom = createQuadGeometry([
     [+K, -K, -K, 0, K]
 ]);
 
-interface MediaEntry {
-    contentType: string;
-    url: string;
-}
-export interface Result {
-    video?: MediaEntry;
-    audio?: MediaEntry;
-}
-
-type YtDlpCallback = (pageUrl: string, fetcher: IFetcher, prog?: IProgress) => Promise<Result>;
+type YtDlpCallback = (pageUrl: string, fetcher: IFetcher, prog?: IProgress) => Promise<YTBasicResult>;
 
 export class YouTubeVideo extends THREE.Object3D {
 
