@@ -14,6 +14,8 @@ export * from "./arrayZip";
 export * from "./LRUCache";
 export * from "./makeLookup";
 export * from "./mapBuild";
+export * from "./mapGroupBy";
 export * from "./mapJoin";
-export * from "./mapMap";;
-export * from "./mapUnderwrite"
+export * from "./mapMap";
+export * from "./mapToObject";
+export * from "./mapUnderwrite";
