@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 
 namespace System.Net.Http
 {
@@ -45,7 +46,7 @@ namespace System.Net.Http
             }
 
             // SendAsync removes chunking from the response. This removes the header so it doesn't expect a chunked response.
-            response.Headers.Remove("transfer-encoding");
+            response.Headers.Remove(HeaderNames.TransferEncoding);
 
             var responseStream = await responseMessage.Content.ReadAsStreamAsync();
             return new FileStreamResult(responseStream, responseMessage.Content.Headers.ContentType.MediaType)

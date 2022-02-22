@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
 
 using System.Reflection;
 
@@ -132,7 +133,7 @@ namespace Juniper.Services
                 services.Configure<CookieAuthenticationOptions>(options =>
                 {
                     options.Cookie.IsEssential = true;
-                    options.Cookie.SameSite = SameSiteMode.Strict;
+                    options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
                     options.Cookie.HttpOnly = true;
 
                     options.ExpireTimeSpan = TimeSpan.FromDays(5);
@@ -165,7 +166,7 @@ namespace Juniper.Services
 
             app.Use(async (context, next) =>
             {
-                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Add(HeaderNames.XContentTypeOptions, "nosniff");
                 await next();
             });
 
@@ -182,7 +183,7 @@ namespace Juniper.Services
                     {
                         if (!env.IsDevelopment())
                         {
-                            context.Context.Response.Headers["Cache-Control"] = $"public,max-age={IConfigurationExt.CACHE_TIME}";
+                            context.Context.Response.Headers[HeaderNames.CacheControl] = $"public,max-age={IConfigurationExt.CACHE_TIME}";
                         }
                     }
                 })

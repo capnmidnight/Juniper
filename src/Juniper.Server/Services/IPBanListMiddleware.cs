@@ -29,7 +29,7 @@ namespace Juniper.Services
             if (remoteIp is null
                 || bannedIPs.Any(remoteIp.Equals))
             {
-                context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                context.Response.StatusCode = StatusCodes.Status403Forbidden;
                 return;
             }
 

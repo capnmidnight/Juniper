@@ -1,3 +1,5 @@
+using Microsoft.Net.Http.Headers;
+
 using System.Net;
 
 namespace Juniper.HTTP
@@ -46,10 +48,10 @@ namespace Juniper.HTTP
             var id = context.GetHashCode();
             if (!sockets.ContainsKey(id))
             {
-                var token = context.Request.Headers["Sec-WebSocket-Protocol"];
+                var token = context.Request.Headers[HeaderNames.SecWebSocketProtocol];
                 if (token is not null && !userNames.ContainsKey(token))
                 {
-                    context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 }
                 else
                 {
@@ -76,10 +78,10 @@ namespace Juniper.HTTP
             var id = context.GetHashCode();
             if (!sockets.ContainsKey(id))
             {
-                var token = context.Request.Headers["Sec-WebSocket-Protocol"];
+                var token = context.Request.Headers[HeaderNames.SecWebSocketProtocol];
                 if (token.Count == 1 && !userNames.ContainsKey(token[0]))
                 {
-                    context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 }
                 else
                 {
