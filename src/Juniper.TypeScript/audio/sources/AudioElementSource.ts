@@ -81,6 +81,11 @@ export class AudioElementSource extends BaseAudioSource<MediaElementAudioSourceN
         this.playEvt = new AudioElementSourcePlayedEvent(this);
         this.pauseEvt = new AudioElementSourcePausedEvent(this);
         this.stopEvt = new AudioElementSourceStoppedEvent(this);
+
+        this.input.mediaElement.addEventListener("ended", () => {
+            this.disconnect();
+            this.dispatchEvent(this.stopEvt);
+        });
     }
 
     get playbackState(): PlaybackState {
