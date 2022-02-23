@@ -134,11 +134,12 @@ interface YTMetadata {
 
 
 interface YTMediaEntry {
-    contentType: string;
+    contentType?: string;
     url: string;
 }
 
 interface YTBasicResult {
+    title: string;
     video?: YTMediaEntry;
     audio?: YTMediaEntry;
 }

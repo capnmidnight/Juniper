@@ -1,6 +1,7 @@
-import { once, TypedEvent } from "juniper-tslib";
+import { once } from "juniper-tslib";
 import { removeVertex } from "../nodes";
 import { BaseAudioSource } from "./BaseAudioSource";
+import { IPlayable, PlaybackState, MediaElementSourceEvents, MediaElementSourcePlayedEvent, MediaElementSourcePausedEvent, MediaElementSourceStoppedEvent, MediaElementSourceProgressEvent } from "./IPlayable";
 import type { BaseEmitter } from "./spatializers/BaseEmitter";
 
 const elementRefCounts = new WeakMap<HTMLMediaElement, number>();
@@ -36,55 +37,33 @@ function dec(source: MediaElementAudioSourceNode) {
     }
 }
 
-class AudioElementSourceEvent<T extends string> extends TypedEvent<T> {
-    constructor(type: T, public readonly source: AudioElementSource) {
-        super(type);
-    }
-}
-
-class AudioElementSourcePlayedEvent extends AudioElementSourceEvent<"played"> {
-    constructor(source: AudioElementSource) {
-        super("played", source);
-    }
-}
-
-class AudioElementSourcePausedEvent extends AudioElementSourceEvent<"paused"> {
-    constructor(source: AudioElementSource) {
-        super("paused", source);
-    }
-}
-
-class AudioElementSourceStoppedEvent extends AudioElementSourceEvent<"stopped"> {
-    constructor(source: AudioElementSource) {
-        super("stopped", source);
-    }
-}
-
-interface AudioElementSourceEvents {
-    played: AudioElementSourcePlayedEvent;
-    paused: AudioElementSourcePausedEvent;
-    stopped: AudioElementSourceStoppedEvent;
-}
-
-type PlaybackState = "playing" | "paused" | "stopped" | "errored";
-
-export class AudioElementSource extends BaseAudioSource<MediaElementAudioSourceNode, AudioElementSourceEvents> {
-    private readonly playEvt: AudioElementSourcePlayedEvent;
-    private readonly pauseEvt: AudioElementSourcePausedEvent;
-    private readonly stopEvt: AudioElementSourceStoppedEvent;
+export class AudioElementSource
+    extends BaseAudioSource<MediaElementAudioSourceNode, MediaElementSourceEvents>
+    implements IPlayable {
+    private readonly playEvt: MediaElementSourcePlayedEvent;
+    private readonly pauseEvt: MediaElementSourcePausedEvent;
+    private readonly stopEvt: MediaElementSourceStoppedEvent;
+    private readonly progEvt: MediaElementSourceProgressEvent;
 
     constructor(id: string, audioCtx: AudioContext, source: MediaElementAudioSourceNode, private readonly randomize: boolean, spatializer: BaseEmitter, ...effectNames: string[]) {
         super(id, audioCtx, spatializer, ...effectNames);
         inc(this.input = source);
         this.disconnect();
 
-        this.playEvt = new AudioElementSourcePlayedEvent(this);
-        this.pauseEvt = new AudioElementSourcePausedEvent(this);
-        this.stopEvt = new AudioElementSourceStoppedEvent(this);
+        this.playEvt = new MediaElementSourcePlayedEvent(this);
+        this.pauseEvt = new MediaElementSourcePausedEvent(this);
+        this.stopEvt = new MediaElementSourceStoppedEvent(this);
+        this.progEvt = new MediaElementSourceProgressEvent(this);
 
         this.input.mediaElement.addEventListener("ended", () => {
             this.disconnect();
-            this.dispatchEvent(this.stopEvt);
+            this.dispatchEvent(this.pauseEvt);
+        });
+
+        this.input.mediaElement.addEventListener("timeupdate", () => {
+            this.progEvt.value = this.input.mediaElement.currentTime;
+            this.progEvt.total = this.input.mediaElement.duration;
+            this.dispatchEvent(this.progEvt);
         });
     }
 
@@ -94,11 +73,11 @@ export class AudioElementSource extends BaseAudioSource<MediaElementAudioSourceN
             return "errored";
         }
 
-        if (elem.ended || elem.paused && elem.currentTime === 0) {
+        if (elem.paused && elem.currentTime === 0) {
             return "stopped";
         }
 
-        if (elem.paused) {
+        if (elem.paused || elem.ended) {
             return "paused";
         }
 
@@ -117,11 +96,11 @@ export class AudioElementSource extends BaseAudioSource<MediaElementAudioSourceN
                 }
                 const playTask = this.input.mediaElement.play();
                 this.connect();
-                this.dispatchEvent(this.playEvt);
                 await playTask;
                 if (startTime > 0) {
                     this.input.mediaElement.currentTime = startTime;
                 }
+                this.dispatchEvent(this.playEvt);
             }
             catch (exp) {
                 console.warn(exp);

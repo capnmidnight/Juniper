@@ -1,10 +1,12 @@
-import type { AudioElementSource } from "juniper-audio/sources/AudioElementSource";
+import { IPlayable } from "juniper-audio/sources/IPlayable";
 import { MouseButtons } from "juniper-dom/eventSystem/MouseButton";
 import { keycapDigits } from "juniper-emoji/numbers";
-import { TypedEvent, TypedEventBase } from "juniper-tslib";
+import { isDefined, TypedEvent, TypedEventBase } from "juniper-tslib";
 import { ButtonFactory } from "./ButtonFactory";
+import { Cube } from "./Cube";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
 import { EventSystemThreeJSEvent } from "./eventSystem/EventSystemEvent";
+import { solidWhite } from "./materials";
 import { MeshButton } from "./MeshButton";
 import { ErsatzObject, obj, objGraph } from "./objects";
 import { TextMeshLabel } from "./TextMeshLabel";
@@ -29,6 +31,7 @@ export class PlaybackButton
     readonly object: THREE.Object3D;
 
     private readonly textLabel: TextMeshLabel;
+    private readonly progressBar: THREE.Object3D;
     private playButton: MeshButton = null;
     private pauseButton: MeshButton = null;
     private stopButton: MeshButton = null;
@@ -39,10 +42,10 @@ export class PlaybackButton
         buttonFactory: ButtonFactory,
         name: string,
         label: string,
-        clip: AudioElementSource) {
+        clip: IPlayable) {
         super();
 
-        label = translations.get(label) || label;
+        label = translations.get(label) || label || "";
 
         this.object = obj(`playback-${name}`);
 
@@ -55,10 +58,27 @@ export class PlaybackButton
             bgFillColor: "#1e4388"
         });
 
+        this.progressBar = new Cube(1, 0.025, 0.01, solidWhite);
+        this.progressBar.position.y = -size / 2;
+        this.progressBar.position.z = 0.01;
+        this.progressBar.visible = false;
+
         this.load(buttonFactory, clip);
     }
 
-    private async load(buttonFactory: ButtonFactory, clip: AudioElementSource) {
+    private get progBarWidth() {
+        return (isDefined(this.label) && this.label.length > 0
+            ? 5
+            : 4) * size;
+    }
+
+    private get progBarOffsetX() {
+        return (isDefined(this.label) && this.label.length > 0
+            ? 1
+            : 0) * size;
+    }
+
+    private async load(buttonFactory: ButtonFactory, clip: IPlayable) {
         const [
             enabledMaterial,
             disabledMaterial,
@@ -110,11 +130,16 @@ export class PlaybackButton
         this.object.children.forEach((child, i, arr) =>
             child.position.x = (i - arr.length / 2) * size);
 
+        this.object.add(this.progressBar);
+
         const refresh = () => {
             this.playButton.disabled = clip.playbackState === "playing";
             this.pauseButton.disabled = clip.playbackState !== "playing";
             this.stopButton.disabled = clip.playbackState === "stopped";
             this.replayButton.disabled = clip.playbackState === "stopped";
+            if (clip.playbackState === "stopped") {
+                this.progressBar.visible = false;
+            }
         }
 
         refresh();
@@ -122,6 +147,13 @@ export class PlaybackButton
         clip.addEventListener("played", refresh);
         clip.addEventListener("paused", refresh);
         clip.addEventListener("stopped", refresh);
+
+        clip.addEventListener("progress", (evt) => {
+            const width = this.progBarWidth * evt.value / evt.total;
+            this.progressBar.position.x = 0.5 * (width - this.progBarWidth - this.progBarOffsetX);
+            this.progressBar.scale.x = width;
+            this.progressBar.visible = evt.value > 0;
+        });
 
         clip.addEventListener("played", () => this.dispatchEvent(playEvt));
         clip.addEventListener("stopped", () => this.dispatchEvent(stopEvt));
@@ -142,7 +174,11 @@ export class PlaybackButton
     }
 
     get label(): string {
-        return this.textLabel.image.value;
+        if (isDefined(this.textLabel.image)) {
+            return this.textLabel.image.value;
+        }
+
+        return null;
     }
 
     set label(v: string) {

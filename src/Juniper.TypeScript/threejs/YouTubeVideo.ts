@@ -1,8 +1,10 @@
 import { AudioElementSource } from "juniper-audio/sources/AudioElementSource";
+import { IPlayable } from "juniper-audio/sources/IPlayable";
+import { PlayableVideo } from "juniper-audio/sources/PlayableVideo";
 import { src } from "juniper-dom/attrs";
 import { BackgroundVideo, mediaElementForwardEvents, mediaElementReady } from "juniper-dom/tags";
 import { IFetcher } from "juniper-fetcher";
-import { IProgress, progressSplitWeighted } from "juniper-tslib";
+import { IProgress, isDefined, isNullOrUndefined, progressSplitWeighted } from "juniper-tslib";
 import { createQuadGeometry } from "./CustomGeometry";
 import { Environment } from "./environment/Environment";
 import { solid } from "./materials";
@@ -11,187 +13,202 @@ import { PlaybackButton } from "./PlaybackButton";
 
 type YtDlpCallback = (pageUrl: string, fetcher: IFetcher, prog?: IProgress) => Promise<YTBasicResult>;
 
+interface VideoMaterialResult {
+    controls: PlaybackButton;
+    material: THREE.MeshBasicMaterial;
+}
+
 interface VideoPlayerResult {
     controls: PlaybackButton;
     video: THREE.Object3D;
 }
 
-const _13 = 1 / 3;
-const _14 = 1 / 4;
-const _12 = 1 / 2;
-const _23 = 2 / 3;
-const _34 = 3 / 4;
+async function loadVideoMaterial(env: Environment, pageUrl: string, queryYtDlp: YtDlpCallback, prog?: IProgress): Promise<VideoMaterialResult> {
+    const progs = progressSplitWeighted(prog, [1.000, 10.000, 100.000]);
+    const { video, audio, title } = await queryYtDlp(pageUrl, env.fetcher, progs.pop());
 
-const YouTube360MonoCubeMapGeom = createQuadGeometry([
-    [-_12, +_12, -_12, _13, 1],
-    [+_12, +_12, -_12, _23, 1],
-    [+_12, -_12, -_12, _23, _12],
-    [-_12, -_12, -_12, _13, _12]
-], [
-    [+_12, +_12, -_12, _23, 1],
-    [+_12, +_12, +_12, 1, 1],
-    [+_12, -_12, +_12, 1, _12],
-    [+_12, -_12, -_12, _23, _12]
-], [
-    [-_12, +_12, +_12, 0, 1],
-    [-_12, +_12, -_12, _13, 1],
-    [-_12, -_12, -_12, _13, _12],
-    [-_12, -_12, +_12, 0, _12]
-], [
-    [+_12, +_12, +_12, _23, _12],
-    [-_12, +_12, +_12, _23, 0],
-    [-_12, -_12, +_12, _13, 0],
-    [+_12, -_12, +_12, _13, _12]
-], [
-    [+_12, +_12, -_12, 1, _12],
-    [-_12, +_12, -_12, 1, 0],
-    [-_12, +_12, +_12, _23, 0],
-    [+_12, +_12, +_12, _23, _12]
-], [
-    [+_12, -_12, +_12, _13, _12],
-    [-_12, -_12, +_12, _13, 0],
-    [-_12, -_12, -_12, 0, 0],
-    [+_12, -_12, -_12, 0, _12]
-]);
-
-export async function loadYouTube360MonoVideo(env: Environment, pageUrl: string, queryYtDlp: YtDlpCallback, prog: IProgress): Promise<VideoPlayerResult> {
-    const progs = progressSplitWeighted(prog, [1, 10, 100]);
-    const { video, audio } = await queryYtDlp(pageUrl, env.fetcher, progs.pop());
-
-    console.log("Getting video and audio");
-
-    const [videoClip, audioClip] = await Promise.all([
-        mediaElementReady(BackgroundVideo(false, true, false, src(video.url))),
-        env.audio.createBasicClip("audio", audio.url, 1, progs.pop())
-    ]);
-
-    console.log("Got video and audio", videoClip, audioClip);
-
-    if (audioClip instanceof AudioElementSource) {
-        mediaElementForwardEvents(audioClip.input.mediaElement, videoClip);
+    if (isNullOrUndefined(video)) {
+        throw new Error("No video found");
     }
 
-    const controls = new PlaybackButton(env, env.uiButtons, "video", null, audioClip);
-    controls.object.position.set(0, 1, -0.95);
+    let vidClip: HTMLVideoElement;
+    let controlClip: IPlayable;
+    if (isDefined(audio)) {
+        const [videoClip, audioClip] = await Promise.all([
+            mediaElementReady(BackgroundVideo(false, true, false, src(video.url))),
+            env.audio.createBasicClip("audio", audio.url, 1.000, progs.pop())
+        ]);
 
-    const videoTexture = new THREE.VideoTexture(videoClip);
+        if (audioClip instanceof AudioElementSource) {
+            mediaElementForwardEvents(audioClip.input.mediaElement, videoClip);
+        }
 
-    const videoMesh = new THREE.Mesh(YouTube360MonoCubeMapGeom, solid({
+        vidClip = videoClip;
+        controlClip = audioClip;
+    }
+    else {
+        const videoClip = await mediaElementReady(BackgroundVideo(false, true, false, src(video.url)));
+        vidClip = videoClip;
+        controlClip = new PlayableVideo(vidClip);
+    }
+
+    const controls = new PlaybackButton(env, env.uiButtons, "video", title.substring(0, 25), controlClip);
+    controls.object.position.set(0.000, 1.000, -0.95);
+
+    const videoTexture = new THREE.VideoTexture(vidClip);
+
+    const material = solid({
         name: video.url,
         map: videoTexture,
         depthWrite: false
-    }));
-    videoMesh.scale.set(100, 100, 100);
+    });
+    return { controls, material };
+}
 
-    return { controls, video: videoMesh };
+function linkControls(video: THREE.Object3D, controls: PlaybackButton) {
+    video.scale.set(100.000, 100.000, 100);
+    video.visible = false;
+    controls.addEventListener("play", () => video.visible = true);
+    controls.addEventListener("stop", () => video.visible = false);
+}
+
+const YouTube360MonoCubeMapGeom = createQuadGeometry([
+    [-1 / 2, +1 / 2, -1 / 2, 1 / 3, 1.000],
+    [+1 / 2, +1 / 2, -1 / 2, 2 / 3, 1.000],
+    [+1 / 2, -1 / 2, -1 / 2, 2 / 3, 1 / 2],
+    [-1 / 2, -1 / 2, -1 / 2, 1 / 3, 1 / 2]
+], [
+    [+1 / 2, +1 / 2, -1 / 2, 2 / 3, 1.000],
+    [+1 / 2, +1 / 2, +1 / 2, 1.000, 1.000],
+    [+1 / 2, -1 / 2, +1 / 2, 1.000, 1 / 2],
+    [+1 / 2, -1 / 2, -1 / 2, 2 / 3, 1 / 2]
+], [
+    [-1 / 2, +1 / 2, +1 / 2, 0.000, 1.000],
+    [-1 / 2, +1 / 2, -1 / 2, 1 / 3, 1.000],
+    [-1 / 2, -1 / 2, -1 / 2, 1 / 3, 1 / 2],
+    [-1 / 2, -1 / 2, +1 / 2, 0.000, 1 / 2]
+], [
+    [+1 / 2, +1 / 2, +1 / 2, 2 / 3, 1 / 2],
+    [-1 / 2, +1 / 2, +1 / 2, 2 / 3, 0.000],
+    [-1 / 2, -1 / 2, +1 / 2, 1 / 3, 0.000],
+    [+1 / 2, -1 / 2, +1 / 2, 1 / 3, 1 / 2]
+], [
+    [+1 / 2, +1 / 2, -1 / 2, 1.000, 1 / 2],
+    [-1 / 2, +1 / 2, -1 / 2, 1.000, 0.000],
+    [-1 / 2, +1 / 2, +1 / 2, 2 / 3, 0.000],
+    [+1 / 2, +1 / 2, +1 / 2, 2 / 3, 1 / 2]
+], [
+    [+1 / 2, -1 / 2, +1 / 2, 1 / 3, 1 / 2],
+    [-1 / 2, -1 / 2, +1 / 2, 1 / 3, 0.000],
+    [-1 / 2, -1 / 2, -1 / 2, 0.000, 0.000],
+    [+1 / 2, -1 / 2, -1 / 2, 0.000, 1 / 2]
+]);
+
+export async function loadYouTube360MonoVideo(env: Environment, pageUrl: string, queryYtDlp: YtDlpCallback, prog: IProgress): Promise<VideoPlayerResult> {
+    const { controls, material } = await loadVideoMaterial(env, pageUrl, queryYtDlp, prog);
+
+    const video = new THREE.Mesh(YouTube360MonoCubeMapGeom, material);
+
+    linkControls(video, controls);
+
+    return { controls, video };
 }
 
 
 
 const YouTube360StereoLeftCubeMapGeom = createQuadGeometry([
-    [-_12, +_12, -_12, 0, _13],
-    [+_12, +_12, -_12, 0, _23],
-    [+_12, -_12, -_12, _14, _23],
-    [-_12, -_12, -_12, _14, _13]
+    [-1 / 2, +1 / 2, -1 / 2, 0.000, 1 / 3],
+    [+1 / 2, +1 / 2, -1 / 2, 0.000, 2 / 3],
+    [+1 / 2, -1 / 2, -1 / 2, 1 / 4, 2 / 3],
+    [-1 / 2, -1 / 2, -1 / 2, 1 / 4, 1 / 3]
 ], [
-    [+_12, +_12, -_12, 0, _23],
-    [+_12, +_12, +_12, 0, 1],
-    [+_12, -_12, +_12, _14, 1],
-    [+_12, -_12, -_12, _14, _23]
+    [+1 / 2, +1 / 2, -1 / 2, 0.000, 2 / 3],
+    [+1 / 2, +1 / 2, +1 / 2, 0.000, 1.000],
+    [+1 / 2, -1 / 2, +1 / 2, 1 / 4, 1.000],
+    [+1 / 2, -1 / 2, -1 / 2, 1 / 4, 2 / 3]
 ], [
-    [-_12, +_12, +_12, 0, 0],
-    [-_12, +_12, -_12, 0, _13],
-    [-_12, -_12, -_12, _14, _13],
-    [-_12, -_12, +_12, _14, 0]
+    [-1 / 2, +1 / 2, +1 / 2, 0.000, 0.000],
+    [-1 / 2, +1 / 2, -1 / 2, 0.000, 1 / 3],
+    [-1 / 2, -1 / 2, -1 / 2, 1 / 4, 1 / 3],
+    [-1 / 2, -1 / 2, +1 / 2, 1 / 4, 0.000]
 ], [
-    [+_12, +_12, +_12, _14, _23],
-    [-_12, +_12, +_12, _12, _23],
-    [-_12, -_12, +_12, _12, _13],
-    [+_12, -_12, +_12, _14, _13]
+    [+1 / 2, +1 / 2, +1 / 2, 1 / 4, 2 / 3],
+    [-1 / 2, +1 / 2, +1 / 2, 1 / 2, 2 / 3],
+    [-1 / 2, -1 / 2, +1 / 2, 1 / 2, 1 / 3],
+    [+1 / 2, -1 / 2, +1 / 2, 1 / 4, 1 / 3]
 ], [
-    [+_12, +_12, -_12, _14, 1],
-    [-_12, +_12, -_12, _12, 1],
-    [-_12, +_12, +_12, _12, _23],
-    [+_12, +_12, +_12, _14, _23]
+    [+1 / 2, +1 / 2, -1 / 2, 1 / 4, 1.000],
+    [-1 / 2, +1 / 2, -1 / 2, 1 / 2, 1.000],
+    [-1 / 2, +1 / 2, +1 / 2, 1 / 2, 2 / 3],
+    [+1 / 2, +1 / 2, +1 / 2, 1 / 4, 2 / 3]
 ], [
-    [+_12, -_12, +_12, _14, _13],
-    [-_12, -_12, +_12, _12, _13],
-    [-_12, -_12, -_12, _12, 0],
-    [+_12, -_12, -_12, _14, 0]
+    [+1 / 2, -1 / 2, +1 / 2, 1 / 4, 1 / 3],
+    [-1 / 2, -1 / 2, +1 / 2, 1 / 2, 1 / 3],
+    [-1 / 2, -1 / 2, -1 / 2, 1 / 2, 0.000],
+    [+1 / 2, -1 / 2, -1 / 2, 1 / 4, 0.000]
 ]
 );
 
 const YouTube360StereoRightCubeMapGeom = createQuadGeometry([
-    [-_12, +_12, -_12, _12, _13],
-    [+_12, +_12, -_12, _12, _23],
-    [+_12, -_12, -_12, _34, _23],
-    [-_12, -_12, -_12, _34, _13]
+    [-1 / 2, +1 / 2, -1 / 2, 1 / 2, 1 / 3],
+    [+1 / 2, +1 / 2, -1 / 2, 1 / 2, 2 / 3],
+    [+1 / 2, -1 / 2, -1 / 2, 3 / 4, 2 / 3],
+    [-1 / 2, -1 / 2, -1 / 2, 3 / 4, 1 / 3]
 ], [
-    [+_12, +_12, -_12, _12, _23],
-    [+_12, +_12, +_12, _12, 1],
-    [+_12, -_12, +_12, _34, 1],
-    [+_12, -_12, -_12, _34, _23]
+    [+1 / 2, +1 / 2, -1 / 2, 1 / 2, 2 / 3],
+    [+1 / 2, +1 / 2, +1 / 2, 1 / 2, 1.000],
+    [+1 / 2, -1 / 2, +1 / 2, 3 / 4, 1.000],
+    [+1 / 2, -1 / 2, -1 / 2, 3 / 4, 2 / 3]
 ], [
-    [-_12, +_12, +_12, _12, 0],
-    [-_12, +_12, -_12, _12, _13],
-    [-_12, -_12, -_12, _34, _13],
-    [-_12, -_12, +_12, _34, 0]
+    [-1 / 2, +1 / 2, +1 / 2, 1 / 2, 0.000],
+    [-1 / 2, +1 / 2, -1 / 2, 1 / 2, 1 / 3],
+    [-1 / 2, -1 / 2, -1 / 2, 3 / 4, 1 / 3],
+    [-1 / 2, -1 / 2, +1 / 2, 3 / 4, 0.000]
 ], [
-    [+_12, +_12, +_12, _34, _23],
-    [-_12, +_12, +_12, 1, _23],
-    [-_12, -_12, +_12, 1, _13],
-    [+_12, -_12, +_12, _34, _13]
+    [+1 / 2, +1 / 2, +1 / 2, 3 / 4, 2 / 3],
+    [-1 / 2, +1 / 2, +1 / 2, 1.000, 2 / 3],
+    [-1 / 2, -1 / 2, +1 / 2, 1.000, 1 / 3],
+    [+1 / 2, -1 / 2, +1 / 2, 3 / 4, 1 / 3]
 ], [
-    [+_12, +_12, -_12, _34, 1],
-    [-_12, +_12, -_12, 1, 1],
-    [-_12, +_12, +_12, 1, _23],
-    [+_12, +_12, +_12, _34, _23]
+    [+1 / 2, +1 / 2, -1 / 2, 3 / 4, 1.000],
+    [-1 / 2, +1 / 2, -1 / 2, 1.000, 1.000],
+    [-1 / 2, +1 / 2, +1 / 2, 1.000, 2 / 3],
+    [+1 / 2, +1 / 2, +1 / 2, 3 / 4, 2 / 3]
 ], [
-    [+_12, -_12, +_12, _34, _13],
-    [-_12, -_12, +_12, 1, _13],
-    [-_12, -_12, -_12, 1, 0],
-    [+_12, -_12, -_12, _34, 0]
+    [+1 / 2, -1 / 2, +1 / 2, 3 / 4, 1 / 3],
+    [-1 / 2, -1 / 2, +1 / 2, 1.000, 1 / 3],
+    [-1 / 2, -1 / 2, -1 / 2, 1.000, 0.000],
+    [+1 / 2, -1 / 2, -1 / 2, 3 / 4, 0.000]
 ]);
 
-export async function loadYouTube360StereoVideo(env: Environment, pageUrl: string, queryYtDlp: YtDlpCallback, prog: IProgress): Promise<VideoPlayerResult> {
-    const progs = progressSplitWeighted(prog, [1, 10, 100]);
-    const { video, audio } = await queryYtDlp(pageUrl, env.fetcher, progs.pop());
+export type StereoFrameLayout = "left-right"
+    | "right-left";
 
-    console.log("Getting video and audio", video, audio);
+export async function loadYouTube360StereoVideo(env: Environment, pageUrl: string, layout: StereoFrameLayout, queryYtDlp: YtDlpCallback, prog?: IProgress): Promise<VideoPlayerResult> {
+    const { controls, material } = await loadVideoMaterial(env, pageUrl, queryYtDlp, prog);
 
-    const [videoClip, audioClip] = await Promise.all([
-        mediaElementReady(BackgroundVideo(false, true, false, src(video.url))),
-        env.audio.createBasicClip("audio", audio.url, 1, progs.pop())
-    ]);
+    const videoMeshLeft = new THREE.Mesh(YouTube360StereoLeftCubeMapGeom, material);
+    videoMeshLeft.layers.enable(0);
 
-    console.log("Got video and audio", videoClip, audioClip);
+    const videoMeshRight = new THREE.Mesh(YouTube360StereoRightCubeMapGeom, material);
+    videoMeshRight.layers.disable(0);
 
-    if (audioClip instanceof AudioElementSource) {
-        mediaElementForwardEvents(audioClip.input.mediaElement, videoClip);
+    if (layout === "left-right") {
+        videoMeshRight.layers.enable(1);
+        videoMeshLeft.layers.enable(2);
+    }
+    else {
+        videoMeshLeft.layers.enable(1);
+        videoMeshRight.layers.enable(2);
     }
 
-    const controls = new PlaybackButton(env, env.uiButtons, "video", null, audioClip);
-    controls.object.position.set(0, 1, -0.95);
-
-    const videoTexture = new THREE.VideoTexture(videoClip);
-    const videoMaterial = solid({
-        name: video.url,
-        map: videoTexture,
-        depthWrite: false
-    });
-    const videoMeshLeft = new THREE.Mesh(YouTube360StereoLeftCubeMapGeom, videoMaterial);
-    videoMeshLeft.layers.set(2);
-    videoMeshLeft.layers.enable(0);
-    videoMeshLeft.scale.set(100, 100, 100);
-
-    const videoMeshRight = new THREE.Mesh(YouTube360StereoRightCubeMapGeom, videoMaterial);
-    videoMeshRight.layers.set(1);
-    videoMeshRight.scale.set(100, 100, 100);
-
-    const videoObject = new THREE.Object3D();
-    objGraph(videoObject,
+    const video = new THREE.Object3D();
+    objGraph(video,
         videoMeshLeft,
         videoMeshRight
     );
-    return { controls, video: videoObject };
+
+    linkControls(video, controls);
+
+    return { controls, video };
 }
