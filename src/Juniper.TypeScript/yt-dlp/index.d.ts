@@ -136,6 +136,7 @@ interface YTMetadata {
 interface YTMediaEntry {
     contentType?: string;
     url: string;
+    size: number;
 }
 
 interface YTBasicResult {

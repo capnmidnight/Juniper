@@ -19,14 +19,16 @@ interface VideoMaterialResult {
     height: number;
 }
 
-interface VideoPlayerResult {
+export interface VideoPlayerResult {
     controls: PlaybackButton;
     video: THREE.Object3D;
 }
 
 async function loadVideoMaterial(env: Environment, pageUrl: string, queryYtDlp: YtDlpCallback, prog?: IProgress): Promise<VideoMaterialResult> {
-    const progs = progressSplitWeighted(prog, [1.000, 10.000, 100.000]);
+    const progs = progressSplitWeighted(prog, [1.000, 10.000]);
     const { video, audio, title, width, height } = await queryYtDlp(pageUrl, env.fetcher, progs.pop());
+
+    prog = progs.pop();
 
     if (isNullOrUndefined(video)) {
         throw new Error("No video found");
@@ -37,7 +39,7 @@ async function loadVideoMaterial(env: Environment, pageUrl: string, queryYtDlp: 
     if (isDefined(audio)) {
         const [videoClip, audioClip] = await Promise.all([
             mediaElementReady(BackgroundVideo(false, true, false, src(video.url))),
-            env.audio.createBasicClip("audio", audio.url, 1.000, progs.pop())
+            env.audio.createBasicClip("audio", audio.url, 1.000, prog)
         ]);
 
         mediaElementForwardEvents(audioClip.input.mediaElement, videoClip);
@@ -49,6 +51,7 @@ async function loadVideoMaterial(env: Environment, pageUrl: string, queryYtDlp: 
         const videoClip = await mediaElementReady(BackgroundVideo(false, true, false, src(video.url)));
         vidClip = videoClip;
         controlClip = new PlayableVideo(vidClip);
+        prog.report(1, 1, video.url);
     }
 
     const controls = new PlaybackButton(env, env.uiButtons, "video", title.substring(0, 25), controlClip);
@@ -73,7 +76,7 @@ function linkControls(video: THREE.Object3D, controls: PlaybackButton, setScale:
     controls.addEventListener("stop", () => video.visible = false);
 }
 
-const YouTube360MonoCubeMapGeom = createQuadGeometry([
+const YouTubeMonoEACGeom = createQuadGeometry([
     [-1 / 2, +1 / 2, -1 / 2, 1 / 3, 1.000],
     [+1 / 2, +1 / 2, -1 / 2, 2 / 3, 1.000],
     [+1 / 2, -1 / 2, -1 / 2, 2 / 3, 1 / 2],
@@ -105,10 +108,10 @@ const YouTube360MonoCubeMapGeom = createQuadGeometry([
     [+1 / 2, -1 / 2, -1 / 2, 0.000, 1 / 2]
 ]);
 
-export async function loadYouTube360MonoVideo(env: Environment, pageUrl: string, queryYtDlp: YtDlpCallback, prog: IProgress): Promise<VideoPlayerResult> {
+export async function loadYouTubeMonoEAC(env: Environment, pageUrl: string, queryYtDlp: YtDlpCallback, prog: IProgress): Promise<VideoPlayerResult> {
     const { controls, material } = await loadVideoMaterial(env, pageUrl, queryYtDlp, prog);
 
-    const video = new THREE.Mesh(YouTube360MonoCubeMapGeom, material);
+    const video = new THREE.Mesh(YouTubeMonoEACGeom, material);
     video.name = "Frame-360";
 
     linkControls(video, controls, true);
@@ -118,7 +121,7 @@ export async function loadYouTube360MonoVideo(env: Environment, pageUrl: string,
 
 
 
-const YouTube360StereoLeftCubeMapGeom = createQuadGeometry([
+const YouTubeStereoEACGeom_Left = createQuadGeometry([
     [-1 / 2, +1 / 2, -1 / 2, 0.000, 1 / 3],
     [+1 / 2, +1 / 2, -1 / 2, 0.000, 2 / 3],
     [+1 / 2, -1 / 2, -1 / 2, 1 / 4, 2 / 3],
@@ -151,7 +154,7 @@ const YouTube360StereoLeftCubeMapGeom = createQuadGeometry([
 ]
 );
 
-const YouTube360StereoRightCubeMapGeom = createQuadGeometry([
+const YouTubeStereoEAC_Right = createQuadGeometry([
     [-1 / 2, +1 / 2, -1 / 2, 1 / 2, 1 / 3],
     [+1 / 2, +1 / 2, -1 / 2, 1 / 2, 2 / 3],
     [+1 / 2, -1 / 2, -1 / 2, 3 / 4, 2 / 3],
@@ -186,16 +189,16 @@ const YouTube360StereoRightCubeMapGeom = createQuadGeometry([
 export type StereoFrameLayout = "left-right"
     | "right-left";
 
-export async function loadYouTube360StereoVideo(env: Environment, pageUrl: string, layout: StereoFrameLayout, queryYtDlp: YtDlpCallback, prog?: IProgress): Promise<VideoPlayerResult> {
+export async function loadYouTubeStereoEAC(env: Environment, pageUrl: string, layout: StereoFrameLayout, queryYtDlp: YtDlpCallback, prog?: IProgress): Promise<VideoPlayerResult> {
     const { controls, material } = await loadVideoMaterial(env, pageUrl, queryYtDlp, prog);
 
     const names = layout.split('-');
 
-    const vidMesh1 = new THREE.Mesh(YouTube360StereoLeftCubeMapGeom, material);
+    const vidMesh1 = new THREE.Mesh(YouTubeStereoEACGeom_Left, material);
     vidMesh1.name = "Frame-360-" + names[0];
     vidMesh1.layers.enable(0);
 
-    const vidMesh2 = new THREE.Mesh(YouTube360StereoRightCubeMapGeom, material);
+    const vidMesh2 = new THREE.Mesh(YouTubeStereoEAC_Right, material);
     vidMesh2.name = "Frame-360-" + names[1];
     vidMesh2.layers.disable(0);
 
@@ -226,7 +229,7 @@ const SquareGeom = createQuadGeometry([
     [-1 / 2, -1 / 2, -1 / 2, 0, 0]
 ]);
 
-export async function loadYouTube2DMonoVideo(env: Environment, pageUrl: string, queryYtDlp: YtDlpCallback, prog?: IProgress): Promise<VideoPlayerResult> {
+export async function loadYouTubeMonoPlane(env: Environment, pageUrl: string, queryYtDlp: YtDlpCallback, prog?: IProgress): Promise<VideoPlayerResult> {
     const { controls, material, width, height } = await loadVideoMaterial(env, pageUrl, queryYtDlp, prog);
 
     const vidMesh = new THREE.Mesh(SquareGeom, material);
@@ -237,4 +240,21 @@ export async function loadYouTube2DMonoVideo(env: Environment, pageUrl: string, 
     linkControls(vidObject, controls, false);
 
     return { controls, video: vidObject };
+}
+
+export class YouTubeProxy {
+    constructor(private readonly env: Environment, private readonly queryYtDlp: YtDlpCallback) {
+    }
+
+    loadMonoPlane(pageUrl: string, prog?: IProgress): Promise<VideoPlayerResult> {
+        return loadYouTubeMonoPlane(this.env, pageUrl, this.queryYtDlp, prog);
+    }
+
+    loadMonoEAC(pageUrl: string, prog?: IProgress): Promise<VideoPlayerResult> {
+        return loadYouTubeMonoEAC(this.env, pageUrl, this.queryYtDlp, prog);
+    }
+
+    loadStereoEAC(pageUrl: string, layout: StereoFrameLayout, prog?: IProgress): Promise<VideoPlayerResult> {
+        return loadYouTubeStereoEAC(this.env, pageUrl, layout, this.queryYtDlp, prog);
+    }
 }
