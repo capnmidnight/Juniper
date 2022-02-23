@@ -1,6 +1,6 @@
 import { IProgress, isArrayBuffer, isArrayBufferView } from "juniper-tslib";
 import { isDefined, isString, mapJoin, progressPopper } from "juniper-tslib";
-import type { IFetchingService, IRequest, IRequestWithBody, IResponse } from "./IFetcher";
+import type { HTTPMethods, IFetchingService, IRequest, IRequestWithBody, IResponse } from "./IFetcher";
 import { ResponseTranslator } from "./ResponseTranslator";
 
 export function isXHRBodyInit(obj: any): obj is XMLHttpRequestBodyInit {
@@ -71,7 +71,7 @@ function trackProgress(name: string, xhr: XMLHttpRequest, target: (XMLHttpReques
     });
 }
 
-function sendRequest(xhr: XMLHttpRequest, xhrType: XMLHttpRequestResponseType, method: string, path: string, timeout: number, headers: Map<string, string>, body?: XMLHttpRequestBodyInit): void {
+function sendRequest(xhr: XMLHttpRequest, xhrType: XMLHttpRequestResponseType, method: HTTPMethods, path: URL, timeout: number, headers: Map<string, string>, body?: XMLHttpRequestBodyInit): void {
     xhr.open(method, path);
     xhr.responseType = xhrType;
     xhr.timeout = timeout;
@@ -157,7 +157,7 @@ export class FetchingServiceImpl
         this.defaultPostHeaders.set("RequestVerificationToken", value);
     }
 
-    private async headOrGetXHR<T>(method: string, xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
+    private async headOrGetXHR<T>(method: HTTPMethods, xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
         const xhr = new XMLHttpRequest();
         const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, progress, true);
 

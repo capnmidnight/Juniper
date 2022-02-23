@@ -1,4 +1,4 @@
-﻿import { IResponse } from "./IFetcher";
+import { IResponse } from "./IFetcher";
 
 export class ResponseTranslator {
     protected async translateResponse<T, U>(responseTask: Promise<IResponse<T>>, translate: (v: T) => U | Promise<U>): Promise<IResponse<U>> {

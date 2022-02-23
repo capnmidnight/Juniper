@@ -1,6 +1,7 @@
 import { type } from "juniper-dom/attrs";
 import { BackgroundAudio, BackgroundVideo, getInput, Img, Script } from "juniper-dom/tags";
 import {
+    HTTPMethods,
     IFetcher,
     IFetcherGetHeadersAndProgressAndTimeoutAndWithCredentials,
     IFetcherGetResult,
@@ -40,8 +41,6 @@ function shouldTry(path: string): boolean {
     return true;
 }
 
-type HTTPMethods = "GET" | "POST" | "HEAD";
-
 class RequestBuilder
     extends ResponseTranslator
     implements
@@ -55,14 +54,8 @@ class RequestBuilder
     private readonly request: IRequestWithBody;
     private prog: IProgress = null;
 
-    constructor(private readonly fetcher: IFetchingService, private readonly useBlobURIs: boolean, private readonly method: HTTPMethods, path: string, handler?: string) {
+    constructor(private readonly fetcher: IFetchingService, private readonly useBlobURIs: boolean, private readonly method: HTTPMethods, path: URL) {
         super();
-
-        if (handler) {
-            const url = new URL(path, location.href);
-            url.searchParams.set("handler", handler);
-            path = url.href;
-        }
 
         this.request = {
             path,
@@ -71,6 +64,11 @@ class RequestBuilder
             timeout: null,
             withCredentials: false
         };
+    }
+
+    query(name: string, value: string) {
+        this.request.path.searchParams.set(name, value);
+        return this;
     }
 
     header(name: string, value: string) {
@@ -232,7 +230,7 @@ class RequestBuilder
         }
     }
 
-    exec(): Promise<IResponse<void>> {
+    exec() {
         if (this.method === "POST") {
             return this.fetcher.postObject(this.request, this.prog);
         }
@@ -249,7 +247,7 @@ class RequestBuilder
 
     private async audioBlob(acceptType: string | MediaType): Promise<IResponse<Blob>> {
         let goodBlob: IResponse<Blob> = null;
-        if (!shouldTry(this.request.path)) {
+        if (!shouldTry(this.request.path.toString())) {
             if (this.prog) {
                 this.prog.report(1, 1, "skip " + this.request.path);
             }
@@ -334,7 +332,7 @@ class RequestBuilder
     }
 
     async module<T>(): Promise<T> {
-        let scriptPath = this.request.path;
+        let scriptPath = this.request.path.toString();
         if (this.useBlobURIs) {
             const { content: file } = await this.file(Application_Javascript);
             scriptPath = file;
@@ -359,7 +357,7 @@ class RequestBuilder
     }
 
     async worker(type: WorkerType = "module"): Promise<Worker> {
-        let path = this.request.path;
+        let path = this.request.path.toString();
 
         if (this.useBlobURIs) {
             const { content } = await this.file(path);
@@ -380,16 +378,20 @@ export class Fetcher implements IFetcher {
         }
     }
 
-    get(path: string, handler?: string) {
-        return new RequestBuilder(this.fetcher, this.useBlobURIs, "GET", path, handler);
+    private createRequest(method: HTTPMethods, path: string, base?: string) {
+        return new RequestBuilder(this.fetcher, this.useBlobURIs, method, new URL(path, base || location.href));
     }
 
-    post(path: string, handler?: string) {
-        return new RequestBuilder(this.fetcher, this.useBlobURIs, "POST", path, handler);
+    get(path: string, base?: string) {
+        return this.createRequest("GET", path, base);
     }
 
-    head(path: string, handler?: string) {
-        return new RequestBuilder(this.fetcher, this.useBlobURIs, "HEAD", path, handler);
+    post(path: string, base?: string) {
+        return this.createRequest("POST", path, base);
+    }
+
+    head(path: string, base?: string) {
+        return this.createRequest("HEAD", path, base);
     }
 }
 

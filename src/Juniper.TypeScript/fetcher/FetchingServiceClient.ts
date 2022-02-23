@@ -65,13 +65,9 @@ function bufferToBlob(response: IResponse<ArrayBuffer>): IResponse<Blob> {
     };
 }
 
-function resolvePath(path: string) {
-    return new URL(path, document.location.href).href;
-}
-
 function cloneRequest(request: IRequest): IRequest {
     request = {
-        path: resolvePath(request.path),
+        path: request.path,
         timeout: request.timeout,
         headers: request.headers,
         withCredentials: request.withCredentials
@@ -81,7 +77,7 @@ function cloneRequest(request: IRequest): IRequest {
 
 function cloneRequestWithBody(request: IRequestWithBody): IRequestWithBody {
     request = {
-        path: resolvePath(request.path),
+        path: request.path,
         body: request.body,
         timeout: request.timeout,
         headers: request.headers,
