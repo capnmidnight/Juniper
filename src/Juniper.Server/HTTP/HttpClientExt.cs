@@ -1,3 +1,5 @@
+using Juniper;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 
@@ -5,55 +7,118 @@ namespace System.Net.Http
 {
     public static class HttpClientExt
     {
-        public static async Task<IActionResult> ProxyAsync(this HttpClient http, string q, HttpRequest request, HttpResponse response)
+        private static readonly Dictionary<string, string[]> DisallowedHeaders = new()
         {
-            var requestMessage = new HttpRequestMessage();
-            var requestMethod = request.Method;
-            if (!HttpMethods.IsGet(requestMethod) &&
-                !HttpMethods.IsHead(requestMethod) &&
-                !HttpMethods.IsDelete(requestMethod) &&
-                !HttpMethods.IsTrace(requestMethod))
+            { HttpProtocol.Http09, Array.Empty<string>() },
+            { HttpProtocol.Http10, Array.Empty<string>() },
+            { HttpProtocol.Http11, Array.Empty<string>() },
             {
-                var streamContent = new StreamContent(request.Body);
-                requestMessage.Content = streamContent;
+                HttpProtocol.Http2,
+                new[]{
+                    HeaderNames.Connection,
+                    HeaderNames.ProxyConnection,
+                    HeaderNames.TransferEncoding,
+                    HeaderNames.KeepAlive,
+                    HeaderNames.Upgrade
+                }
+            },
+            {
+                HttpProtocol.Http3,
+                new[]{
+                    HeaderNames.Connection,
+                    HeaderNames.ProxyConnection,
+                    HeaderNames.TransferEncoding,
+                    HeaderNames.KeepAlive,
+                    HeaderNames.Upgrade
+                }
+            }
+        };
+
+        private static bool ForwardHeader(string protocol, string name)
+        {
+            return !DisallowedHeaders.ContainsKey(protocol)
+                || !DisallowedHeaders[protocol].Contains(name);
+        }
+
+        private static HttpRequestMessage MakeRequest(HttpRequest request, Uri uri)
+        {
+            var requestMethod = request.Method;
+            var requestMessage = new HttpRequestMessage(new HttpMethod(requestMethod), uri);
+            if (HttpMethods.IsConnect(requestMethod)
+                || HttpMethods.IsOptions(requestMethod)
+                || HttpMethods.IsPatch(requestMethod)
+                || HttpMethods.IsPost(requestMethod)
+                || HttpMethods.IsPut(requestMethod))
+            {
+                requestMessage.Content = new StreamContent(request.Body);
             }
 
-            // Copy the request headers
             foreach (var header in request.Headers)
             {
-                if (!requestMessage.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray()) && requestMessage.Content != null)
+                var key = header.Key;
+                if (ForwardHeader(request.Protocol, key))
                 {
-                    requestMessage.Content?.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
+                    var value = header.Value.ToArray();
+                    if (!requestMessage.Headers.TryAddWithoutValidation(key, value)
+                        && requestMessage.Content is not null)
+                    {
+                        requestMessage.Content.Headers.TryAddWithoutValidation(key, value);
+                    }
                 }
             }
 
-            var uri = new Uri(q);
             requestMessage.Headers.Host = uri.Authority;
-            requestMessage.RequestUri = uri;
-            requestMessage.Method = new HttpMethod(request.Method);
 
+            return requestMessage;
+        }
+
+        public static async Task<IActionResult> ProxyAsync(this HttpClient http, string q, HttpRequest request, HttpResponse response)
+        {
+            var uri = new Uri(q);
+            var requestMessage = MakeRequest(request, uri);
             var responseMessage = await http.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, request.HttpContext.RequestAborted);
+            var redirectCount = 3;
+            while (responseMessage.StatusCode == HttpStatusCode.Redirect
+                && redirectCount > 0)
+            {
+                --redirectCount;
+                requestMessage.Dispose();
+                responseMessage.Dispose();
+
+                requestMessage = MakeRequest(request, responseMessage.Headers.Location);
+                responseMessage = await http.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, request.HttpContext.RequestAborted);
+            }
+            requestMessage.Dispose();
+
+            if (redirectCount == 0 && responseMessage.StatusCode == HttpStatusCode.Redirect)
+            {
+                throw new Exception("Too many redirects");
+            }
 
             response.StatusCode = (int)responseMessage.StatusCode;
             foreach (var header in responseMessage.Headers)
             {
-                response.Headers[header.Key] = header.Value.ToArray();
+                var key = header.Key;
+                if (ForwardHeader(request.Protocol, key))
+                {
+                    response.Headers[key] = header.Value.ToArray();
+                }
             }
 
             foreach (var header in responseMessage.Content.Headers)
             {
-                response.Headers[header.Key] = header.Value.ToArray();
+                var key = header.Key;
+                if (ForwardHeader(request.Protocol, key))
+                {
+                    response.Headers[key] = header.Value.ToArray();
+                }
             }
 
-            // SendAsync removes chunking from the response. This removes the header so it doesn't expect a chunked response.
-            response.Headers.Remove(HeaderNames.TransferEncoding);
-
             var responseStream = await responseMessage.Content.ReadAsStreamAsync();
-            return new FileStreamResult(responseStream, responseMessage.Content.Headers.ContentType.MediaType)
+            return new FileStreamResult(responseStream, responseMessage.Content.Headers.ContentType?.MediaType ?? MediaType.Application_Octet_Stream)
             {
-                EnableRangeProcessing = true
+                EnableRangeProcessing = true,
             };
-
         }
     }
 }

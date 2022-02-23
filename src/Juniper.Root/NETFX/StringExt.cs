@@ -421,7 +421,7 @@ namespace System
 #if NETCOREAPP || NETSTANDARD2_1
             return value.Contains(subStr, StringComparison.OrdinalIgnoreCase);
 #else
-            return value.Contains(subStr);
+            return value.ToLower().Contains(subStr.ToLower());
 #endif
         }
 
@@ -441,7 +441,7 @@ namespace System
                     var idn = new IdnMapping();
 
                     // Pull out and process domain name (throws ArgumentException on invalid)
-                    string domainName = idn.GetAscii(match.Groups[2].Value);
+                    var domainName = idn.GetAscii(match.Groups[2].Value);
 
                     return match.Groups[1].Value + domainName;
                 }
