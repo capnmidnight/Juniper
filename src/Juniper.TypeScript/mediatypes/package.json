@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0",
+  "name": "juniper-mediatypes",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "update": "npm install",
+    "inst": "npm ci",
+    "build": "npx tsc --build"
+  },
+  "dependencies": {
+    "juniper-tslib": "file:../tslib"
+  },
+  "devDependencies": {
+    "typescript": "4.5.5"
+  }
+}

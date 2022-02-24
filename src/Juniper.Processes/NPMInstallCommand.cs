@@ -23,27 +23,35 @@ namespace Juniper.Processes
 
         public override async Task RunAsync()
         {
+            var needsInstall = false;
             if (nodeModulesDir.Exists)
             {
                 using var packageStream = packageJson.OpenRead();
                 var package = await JsonSerializer.DeserializeAsync<NPMPackage>(packageStream);
-                var dependencies = (package?.Dependencies ?? new Dictionary<string, string>()).Merge(package?.DevDependencies);
-                var needsInstall = (await Task.WhenAll(dependencies.Select(NeedsInstall))).Any();
-                if (!needsInstall)
+                var dependencies = (package?.dependencies ?? new Dictionary<string, string>()).Merge(package?.devDependencies);
+                foreach (var (name, requiredVersionStr) in dependencies)
                 {
-                    OnInfo("Install not required");
-                    return;
+                    if (await NeedsInstall(name, requiredVersionStr))
+                    {
+                        needsInstall = true;
+                    }
                 }
             }
 
-            OnInfo("Install required");
-            await base.RunAsync();
+            if (needsInstall)
+            {
+                OnInfo("Install required");
+                await base.RunAsync();
+            }
+            else
+            {
+                OnInfo("Install not required");
+            }
         }
 
         private static readonly Regex versionPattern = new(@"(>|<|>=|<=|~|\^|=)?(\d+\.\d+\.\d+)", RegexOptions.Compiled);
-        private async Task<bool> NeedsInstall(KeyValuePair<string, string> kv) {
-            var (name, requiredVersionStr) = kv;
-
+        private async Task<bool> NeedsInstall(string name, string requiredVersionStr)
+        {
             var depDir = nodeModulesDir.CD(name);
             if (!depDir.Exists)
             {
@@ -51,8 +59,8 @@ namespace Juniper.Processes
                 return true;
             }
 
-            var packageJSON = depDir.Touch("package.json");
-            if (!packageJSON.Exists)
+            var depPackageJson = depDir.Touch("package.json");
+            if (!depPackageJson.Exists)
             {
                 OnInfo($"Dependency {name} is missing package.json");
                 return true;
@@ -69,17 +77,7 @@ namespace Juniper.Processes
                 || requiredVersionStr == "*"
                 || requiredVersionStr.StartsWith("file:"))
             {
-                OnInfo($"Dependency {name} is trivially satisfiable");
                 return false;
-            }
-
-            using var packageStream = packageJson.OpenRead();
-            var package = await JsonSerializer.DeserializeAsync<NPMPackage>(packageStream);
-            if(package?.Version is null
-                || !Version.TryParse(package.Version, out var actualVersion))
-            {
-                OnInfo($"Dependency {name} does not have a version value in package.json");
-                return true;
             }
 
             var match = versionPattern.Match(requiredVersionStr);
@@ -89,22 +87,39 @@ namespace Juniper.Processes
                 OnInfo($"Required version of dependency {name} cannot be parsed");
                 return true;
             }
-            
+
+            using var packageStream = depPackageJson.OpenRead();
+            var package = await JsonSerializer.DeserializeAsync<NPMPackage>(packageStream);
+            if (package?.version is null
+                || !Version.TryParse(package.version, out var actualVersion))
+            {
+                OnInfo($"Dependency {name} does not have a version value in package.json");
+                return true;
+            }
+
             var op = match.Groups[1].Value;
-            return !(op == "<" && actualVersion < requiredVersion
+            if (!(op == "<" && actualVersion < requiredVersion
                 || op == "<=" && actualVersion <= requiredVersion
                 || op == ">" && actualVersion > requiredVersion
                 || op == ">=" && actualVersion >= requiredVersion
                 || (op == "=" || op.Length == 0) && actualVersion == requiredVersion
                 || op == "~" && actualVersion.Major == requiredVersion.Major && actualVersion.Minor == requiredVersion.Minor
-                || op == "^" && actualVersion.Major == requiredVersion.Major);
+                || op == "^" && (requiredVersion.Major != 0 && actualVersion.Major == requiredVersion.Major
+                    || requiredVersion.Minor != 0 && actualVersion.Minor == requiredVersion.Minor
+                    || requiredVersion.Build != 0 && actualVersion.Build == requiredVersion.Build)))
+            {
+                OnInfo($"Versions don't match {package.version} {op} {requiredVersionStr[op.Length..]}");
+                return true;
+            }
+
+            return false;
         }
 
         private class NPMPackage
         {
-            public string? Version { get; set; }
-            public Dictionary<string, string>? Dependencies { get; set; }
-            public Dictionary<string, string>? DevDependencies { get; set; }
+            public string? version { get; set; }
+            public Dictionary<string, string>? dependencies { get; set; }
+            public Dictionary<string, string>? devDependencies { get; set; }
         }
     }
 }
