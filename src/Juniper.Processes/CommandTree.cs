@@ -14,7 +14,7 @@ namespace Juniper.Processes
 
         public ICommandTree AddCommands(params ICommand[] commands)
         {
-            commandTree.Add(commands);
+            commandTree.AddRange(commands.Partition(5));
             return this;
         }
 
