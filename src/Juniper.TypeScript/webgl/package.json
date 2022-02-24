@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "name": "juniper-webgl",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "update": "npm install",
+    "inst": "npm ci",
+    "build": "npx tsc --build"
+  },
+  "devDependencies": {
+    "typescript": "4.5.5"
+  },
+  "dependencies": {
+    "@types/glsl-types": "file:../glsl-types",
+    "@types/offscreencanvas-types": "file:../offscreencanvas-types",
+    "@types/webxr-polyfill-types": "file:../webxr-polyfill-types",
+    "@types/webxr-types": "file:../webxr-types",
+    "gl-matrix": "3.4.3",
+    "juniper-2d": "file:../graphics2d",
+    "juniper-dom": "file:../dom",
+    "juniper-timers": "file:../timers",
+    "juniper-tslib": "file:../tslib"
+  }
+}

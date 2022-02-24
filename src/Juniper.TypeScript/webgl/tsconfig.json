@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+
+  "include": [
+    "**/*.ts",
+    "**/*.glsl",
+    "**/*.frag",
+    "**/*.vert"
+  ],
+
+  "exclude": [
+    "node_modules"
+  ]
+}
