@@ -11,6 +11,7 @@ namespace Juniper.HTTP
         private readonly string contentType;
         private readonly string fileName;
         private readonly int cacheTime;
+        private readonly ILogger logger;
         protected readonly long size;
 
         protected readonly bool hasRange;
@@ -29,13 +30,14 @@ namespace Juniper.HTTP
         /// <param name="fileName">The name of the file that will be sent. This should be retrieved separately.</param>
         /// <param name="cacheTime">The number of seconds to tell the client to cache the result.</param>
         /// <param name="range">A range request expression.</param>
-        public FileInfoResult(long size, string contentType, string fileName, int cacheTime, string range)
+        public FileInfoResult(long size, string contentType, string fileName, int cacheTime, string range, ILogger logger = null)
             : base()
         {
             var type = MediaType.Parse(contentType);
             this.contentType = contentType;
             this.fileName = fileName?.AddExtension(type);
             this.cacheTime = cacheTime;
+            this.logger = logger;
             this.size = size;
 
             hasRange = !string.IsNullOrEmpty(range);
@@ -85,9 +87,13 @@ namespace Juniper.HTTP
             {
                 await WriteBody(response);
             }
-            catch (Exception)
+            catch (OperationCanceledException)
             {
-                response.StatusCode = StatusCodes.Status404NotFound;
+
+            }
+            catch(Exception exp)
+            {
+                logger?.LogError(exp, "Download cancelled: {path}", context.HttpContext.Request.Path);
             }
         }
 

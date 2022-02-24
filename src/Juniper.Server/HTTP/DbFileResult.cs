@@ -28,8 +28,8 @@ namespace Juniper.HTTP
         /// <param name="cacheTime">The number of seconds to tell the client to cache the result.</param>
         /// <param name="makeCommand">A callback function to construct the Command that will perform the query to retrieve the file stream.</param>
         /// <param name="range">A range request expression.</param>
-        public DbFileResult(DatabaseFacade db, long size, string contentType, string fileName, int cacheTime, string range, Action<DbCommand> makeCommand)
-            : base(size, contentType, fileName, cacheTime, range)
+        public DbFileResult(DatabaseFacade db, long size, string contentType, string fileName, int cacheTime, string range, ILogger logger, Action<DbCommand> makeCommand)
+            : base(size, contentType, fileName, cacheTime, range, logger)
         {
             this.db = db;
             this.makeCommand = makeCommand;
