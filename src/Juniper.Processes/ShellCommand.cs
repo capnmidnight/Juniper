@@ -3,7 +3,6 @@ using System.Text;
 
 namespace Juniper.Processes
 {
-
     public class ShellCommand : AbstractShellCommand
     {
         private static readonly Dictionary<PlatformID, string[]> exts = new()
@@ -80,7 +79,8 @@ namespace Juniper.Processes
 
         private readonly string command;
         private readonly string[] args;
-        private readonly DirectoryInfo? workingDir;
+        private readonly bool calledFromCurrentDirectory;
+        protected readonly DirectoryInfo workingDir;
 
         private bool running;
 
@@ -112,7 +112,8 @@ namespace Juniper.Processes
                 throw new ArgumentNullException(nameof(command));
             }
 
-            this.workingDir = workingDir;
+            calledFromCurrentDirectory = workingDir is null;
+            this.workingDir = workingDir ?? new DirectoryInfo(Directory.GetCurrentDirectory());
             this.command = command;
             this.args = args;
         }
@@ -133,7 +134,7 @@ namespace Juniper.Processes
 
             var startInfo = new ProcessStartInfo(command)
             {
-                WorkingDirectory = workingDir?.FullName,
+                WorkingDirectory = calledFromCurrentDirectory ? null : workingDir.FullName,
                 Arguments = args.ToArray().Join(' '),
                 StandardErrorEncoding = Encoding,
                 StandardInputEncoding = Encoding,

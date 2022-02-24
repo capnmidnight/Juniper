@@ -86,7 +86,7 @@ namespace Juniper.TSBuild
         }
 
         protected static IEnumerable<ShellCommand> NPM(string cmd, IEnumerable<DirectoryInfo> dirs)
-        { 
+        {
             return from dir in dirs
                    select new ShellCommand(dir, "npm", cmd);
         }
@@ -318,8 +318,7 @@ namespace Juniper.TSBuild
 
                     if (install)
                     {
-                        var cmd = "run " + (init ? "inst" : "update");
-                        commands.AddCommands(NPM(cmd, juniperProjects.Append(clientDir)));
+                        commands.AddCommands(juniperProjects.Append(clientDir).Select(dir => new NPMInstallCommand(dir)));
                     }
 
                     commands.AddCommands(NPM("run build", init ? juniperProjects : juniperBundles))

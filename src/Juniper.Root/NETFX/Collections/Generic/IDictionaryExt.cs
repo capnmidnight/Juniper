@@ -300,5 +300,27 @@ namespace System.Collections.Generic
 
             return dict2;
         }
+
+        public static IDictionary<TKey, TValue> Merge<TKey, TValue>(this IDictionary<TKey, TValue> left, IDictionary<TKey, TValue> right)
+        {
+            var dict = new Dictionary<TKey, TValue>();
+            if (left is not null)
+            {
+                foreach (var kv in left)
+                {
+                    dict[kv.Key] = kv.Value;
+                }
+            }
+
+            if (right is not null)
+            {
+                foreach (var kv in right)
+                {
+                    dict[kv.Key] = kv.Value;
+                }
+            }
+
+            return dict;
+        }
     }
 }
