@@ -205,9 +205,9 @@ export class FetchingServiceImpl
         const progs = progressPopper(prog);
         const xhr = new XMLHttpRequest();        
         const upload = isDefined(body)
-            ? trackProgress("uploading", xhr, xhr.upload, progs.shift(), false)
+            ? trackProgress("uploading", xhr, xhr.upload, progs.pop(), false)
             : Promise.resolve();
-        const download = trackProgress("saving", xhr, xhr, progs.shift(), true, upload);
+        const download = trackProgress("saving", xhr, xhr, progs.pop(), true, upload);
 
         sendRequest(xhr, xhrType, "POST", request.path, request.timeout, headers, body);
 
