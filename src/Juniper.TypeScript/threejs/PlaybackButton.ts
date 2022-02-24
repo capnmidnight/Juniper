@@ -133,7 +133,7 @@ export class PlaybackButton
         this.object.add(this.progressBar);
         
         const refresh = () => {
-            this.playButton.disabled = clip.playbackState === "playing";
+            this.playButton.disabled = clip.playbackState === "playing" || clip.playbackState === "errored";
             this.pauseButton.disabled = clip.playbackState !== "playing";
             this.stopButton.disabled = clip.playbackState === "stopped";
             this.replayButton.disabled = clip.playbackState === "stopped";

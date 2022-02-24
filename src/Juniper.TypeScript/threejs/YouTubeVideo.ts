@@ -26,9 +26,9 @@ export interface VideoPlayerResult {
 
 async function loadVideoMaterial(env: Environment, pageUrl: string, queryYtDlp: YtDlpCallback, prog?: IProgress): Promise<VideoMaterialResult> {
     const progs = progressSplitWeighted(prog, [1.000, 10.000]);
-    const { video, audio, title, width, height } = await queryYtDlp(pageUrl, env.fetcher, progs.pop());
+    const { video, audio, title, width, height } = await queryYtDlp(pageUrl, env.fetcher, progs.shift());
 
-    prog = progs.pop();
+    prog = progs.shift();
 
     if (isNullOrUndefined(video)) {
         throw new Error("No video found");
