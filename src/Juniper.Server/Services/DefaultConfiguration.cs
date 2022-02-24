@@ -102,7 +102,8 @@ namespace Juniper.Services
 
                 if (env.IsDevelopment() && config.LogSQL)
                 {
-                    options.LogTo(Console.WriteLine, LogLevel.Information);
+                    options.LogTo(Console.WriteLine, (_, lvl) => LogLevel.Information <= lvl && lvl < LogLevel.Error);
+                    options.LogTo(Console.Error.WriteLine, LogLevel.Error);
                 }
             });
 

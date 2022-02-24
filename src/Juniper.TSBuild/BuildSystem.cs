@@ -300,25 +300,21 @@ namespace Juniper.TSBuild
         public async Task CheckAsync(bool isDev, Level forceLevel)
         {
             var buildLevel = await GetBuildLevel(isDev, forceLevel);
-            Console.WriteLine(buildLevelMessages[buildLevel]);
 
-            if (buildLevel > Level.Low)
+            await WithCommandTree(commands =>
             {
-                var init = buildLevel >= Level.High;
-                var install = buildLevel >= Level.Medium;
-                await WithCommandTree(commands =>
+                commands.AddCommands(juniperProjects.Append(clientDir).Select(dir => new NPMInstallCommand(dir)))
+                    .AddCommands(new MessageCommand("Build level {0}: {1}", buildLevel, buildLevelMessages[buildLevel]));
+
+                if (buildLevel > Level.Low)
                 {
+                    var init = buildLevel >= Level.High;
                     if (init)
                     {
                         commands.AddCommands(Delete(juniperProjects
                             .Append(clientDir)
                             .Select(d => d
                                 .Touch("tsconfig.tsbuildinfo"))));
-                    }
-
-                    if (install)
-                    {
-                        commands.AddCommands(juniperProjects.Append(clientDir).Select(dir => new NPMInstallCommand(dir)));
                     }
 
                     commands.AddCommands(NPM("run build", init ? juniperProjects : juniperBundles))
@@ -333,8 +329,8 @@ namespace Juniper.TSBuild
                             new CopyJsonValueCommand(
                                 clientPackage, "version",
                                 serverBuildInfo, "Version"));
-                });
-            }
+                }
+            });
         }
 
         public async Task WriteVersion()
