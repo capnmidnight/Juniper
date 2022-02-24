@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Data;
 using System.Data.Common;
 
@@ -42,6 +43,7 @@ namespace Juniper.HTTP
         protected override async Task WriteBody(HttpResponse response)
         {
             using var conn = db.GetDbConnection();
+
             await conn.OpenAsync(response.HttpContext.RequestAborted)
                 .ConfigureAwait(false);
 
@@ -69,12 +71,12 @@ namespace Juniper.HTTP
                 const int FRAME_SIZE = 64 * 1024;
                 if (rangeStart > 0)
                 {
-                    var buffer = new byte[FRAME_SIZE];
+                    using var mem = new PooledMemory(FRAME_SIZE);
                     var toBurn = rangeStart;
                     while (toBurn > 0)
                     {
-                        var shouldBurn = (int)Math.Min(toBurn, buffer.Length);
-                        var wasBurned = await stream.ReadAsync(buffer, 0, shouldBurn, response.HttpContext.RequestAborted);
+                        var shouldBurn = (int)Math.Min(toBurn, FRAME_SIZE);
+                        var wasBurned = await stream.ReadAsync(mem.Mem[..shouldBurn], response.HttpContext.RequestAborted);
                         toBurn -= wasBurned;
                     }
                 }
@@ -85,6 +87,24 @@ namespace Juniper.HTTP
             {
                 await stream.CopyToAsync(response.Body, response.HttpContext.RequestAborted)
                     .ConfigureAwait(false);
+            }
+        }
+
+        private class PooledMemory : IDisposable
+        {
+            private static readonly ArrayPool<byte> arrayPool = ArrayPool<byte>.Create();
+            private readonly byte[] buffer;
+            public Memory<byte> Mem { get; private set; }
+
+            public PooledMemory(int size)
+            {
+                buffer = arrayPool.Rent(size);
+                Mem = new Memory<byte>(buffer);
+            }
+
+            public void Dispose()
+            {
+                arrayPool.Return(buffer);
             }
         }
     }
