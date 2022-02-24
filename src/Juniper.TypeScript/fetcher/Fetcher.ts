@@ -51,14 +51,16 @@ class RequestBuilder
     IFetcherPostResult,
     IFetcherHeadResult {
 
+    private readonly path: URL;
     private readonly request: IRequestWithBody;
     private prog: IProgress = null;
 
     constructor(private readonly fetcher: IFetchingService, private readonly useBlobURIs: boolean, private readonly method: HTTPMethods, path: URL) {
         super();
 
+        this.path = path;
         this.request = {
-            path,
+            path: this.path.toString(),
             body: null,
             headers: null,
             timeout: null,
@@ -67,7 +69,8 @@ class RequestBuilder
     }
 
     query(name: string, value: string) {
-        this.request.path.searchParams.set(name, value);
+        this.path.searchParams.set(name, value);
+        this.request.path = this.path.toString();
         return this;
     }
 

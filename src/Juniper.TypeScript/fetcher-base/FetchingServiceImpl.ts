@@ -71,7 +71,7 @@ function trackProgress(name: string, xhr: XMLHttpRequest, target: (XMLHttpReques
     });
 }
 
-function sendRequest(xhr: XMLHttpRequest, xhrType: XMLHttpRequestResponseType, method: HTTPMethods, path: URL, timeout: number, headers: Map<string, string>, body?: XMLHttpRequestBodyInit): void {
+function sendRequest(xhr: XMLHttpRequest, xhrType: XMLHttpRequestResponseType, method: HTTPMethods, path: string, timeout: number, headers: Map<string, string>, body?: XMLHttpRequestBodyInit): void {
     xhr.open(method, path);
     xhr.responseType = xhrType;
     xhr.timeout = timeout;

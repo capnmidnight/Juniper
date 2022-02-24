@@ -10,7 +10,7 @@ export type HTTPMethods = "GET"
     //| "PUT";
 
 export interface IRequest {
-    path: URL;
+    path: string;
     timeout: number;
     withCredentials: boolean;
     headers: Map<string, string>;
