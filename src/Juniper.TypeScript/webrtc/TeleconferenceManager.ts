@@ -50,7 +50,7 @@ import {
 let loggingEnabled = window.location.hostname === "localhost"
     || /\bdebug\b/.test(window.location.search);
 
-const sockets = singleton("juniper::sockets", () => new Array<WebSocket>());
+const sockets = singleton("Juniper:Sockets", () => new Array<WebSocket>());
 function fakeSocket(...args: any[]): WebSocket {
     console.log("New connection", ...args);
     const socket = new (WebSocket as any)(...args);

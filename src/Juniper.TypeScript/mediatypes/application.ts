@@ -1540,6 +1540,7 @@ export const Application_X_Tex = application("x-tex", "tex");
 export const Application_X_Tex_Tfm = application("x-tex-tfm", "tfm");
 export const Application_X_Texinfo = application("x-texinfo", "texinfo", "texi");
 export const Application_X_Tgif = application("x-tgif", "obj");
+export const Application_X_Url = application("x-url", "url");
 export const Application_X_Ustar = application("x-ustar", "ustar");
 export const Application_X_Virtualbox_Hdd = application("x-virtualbox-hdd", "hdd");
 export const Application_X_Virtualbox_Ova = application("x-virtualbox-ova", "ova");

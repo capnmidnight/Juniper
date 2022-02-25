@@ -13,13 +13,13 @@ namespace Juniper
         public static readonly Message Message_Global_Disposition_Notification = new("global-disposition-notification");
         public static readonly Message Message_Global_Headers = new("global-headers");
         public static readonly Message Message_Http = new("http");
-        public static readonly Message Message_ImdnXml = new("imdn+xml", new string[] { "xml" });
+        public static readonly Message Message_ImdnXml = new("imdn+xml", "xml");
 
         [System.Obsolete("OBSOLETED by RFC5537")]
         public static readonly Message Message_News = new("news");
 
         public static readonly Message Message_Partial = new("partial");
-        public static readonly Message Message_Rfc822 = new("rfc822", new string[] { "eml", "mime" });
+        public static readonly Message Message_Rfc822 = new("rfc822", "eml", "mime");
         public static readonly Message Message_S_Http = new("s-http");
         public static readonly Message Message_Sip = new("sip");
         public static readonly Message Message_Sipfrag = new("sipfrag");
