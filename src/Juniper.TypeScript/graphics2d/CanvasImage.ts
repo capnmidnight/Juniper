@@ -21,7 +21,7 @@ export abstract class CanvasImage
     private _visible = true;
     private wasVisible: boolean = null;
 
-    private redrawnEvt = new TypedEvent("redrawn");
+    protected redrawnEvt = new TypedEvent("redrawn");
     readonly element: HTMLCanvasElement = null;
 
     constructor(width: number, height: number, options?: Partial<CanvasImageOptions>) {

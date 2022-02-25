@@ -14,8 +14,10 @@
     "@types/offscreencanvas-types": "file:../offscreencanvas-types",
     "@types/webxr-types": "file:../webxr-types",
     "gl-matrix": "3.4.3",
+    "pdfjs-dist": "2.12.313",
     "juniper-audio": "file:../audio",
     "juniper-dom": "file:../dom",
+    "juniper-fetcher-base": "file:../fetcher-base",
     "juniper-timers": "file:../timers",
     "juniper-tslib": "file:../tslib"
   },
