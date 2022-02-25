@@ -37,11 +37,7 @@ export function isCanvas(obj: any): obj is CanvasTypes {
         || isOffscreenCanvas(obj);
 }
 
-export interface WebXRWebGLRenderingContext extends WebGLRenderingContext {
-    makeXRCompatible(): Promise<void>;
-}
-
-export function isWebXRWebGLRenderingContext(ctx: any): ctx is WebXRWebGLRenderingContext {
+export function isWebXRWebGLRenderingContext(ctx: any): ctx is XRWebGLRenderingContext {
     return "makeXRCompatible" in ctx
         && ctx.makeXRCompatible instanceof Function;
 }

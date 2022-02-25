@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/gamepad-types": "file:../gamepad-types",
     "@types/offscreencanvas-types": "file:../offscreencanvas-types",
+    "@types/webxr-types": "file:../webxr-types",
     "gl-matrix": "3.4.3",
     "juniper-mediatypes": "file:../mediatypes",
     "juniper-tslib": "file:../tslib"

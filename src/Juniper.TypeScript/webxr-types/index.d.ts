@@ -12,12 +12,30 @@ interface Navigator {
     xr?: XRSystem | undefined;
 }
 
+interface OCULUS_multiview extends OVR_multiview2 {
+    framebufferTextureMultisampleMultiviewOVR(
+        target: GLenum,
+        attachment: GLenum,
+        texture: WebGLTexture | null,
+        level: GLint,
+        samples: GLsizei,
+        baseViewIndex: GLint,
+        numViews: GLsizei): void;
+}
+
 interface XRWebGLRenderingContext {
     makeXRCompatible(): Promise<void>;
 }
 
-interface WebGLRenderingContenxt extends XRWebGLRenderingContext { }
-interface WebGL2RenderingContext extends XRWebGLRenderingContext { }
+interface WebGLRenderingContextBase {
+    getExtension(extensionName: "OCULUS_multiview"): OCULUS_multiview | null;
+}
+
+interface WebGLRenderingContext extends XRWebGLRenderingContext {
+}
+
+interface WebGL2RenderingContext extends XRWebGLRenderingContext {
+}
 
 type XRSessionMode = 'inline' | 'immersive-vr' | 'immersive-ar';
 
