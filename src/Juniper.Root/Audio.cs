@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Juniper
 {
@@ -12,7 +11,7 @@ namespace Juniper
             public static IReadOnlyCollection<Audio> AllAudio => AllAud;
             public static readonly Audio AnyAudio = new("*");
 
-            internal Audio(string value, params string[] extensions) : base("audio", value, extensions)
+            public Audio(string value, params string[] extensions) : base("audio", value, extensions)
             {
                 if (SubType != "*")
                 {

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Juniper
 {
@@ -12,7 +11,7 @@ namespace Juniper
             public static IReadOnlyCollection<Chemical> AllChemical => AllChem;
             public static readonly Chemical AnyChemical = new("*");
 
-            internal Chemical(string value, params string[] extensions) : base("chemical", value, extensions)
+            public Chemical(string value, params string[] extensions) : base("chemical", value, extensions)
             {
                 if (SubType != "*")
                 {

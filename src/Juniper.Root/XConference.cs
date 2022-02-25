@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Juniper
 {
@@ -12,7 +11,7 @@ namespace Juniper
             public static IReadOnlyCollection<XConference> AllXConference => AllXConf;
             public static readonly XConference AnyXConference = new("*");
 
-            internal XConference(string value, params string[] extensions) : base("xconference", value, extensions)
+            public XConference(string value, params string[] extensions) : base("xconference", value, extensions)
             {
                 if (SubType != "*")
                 {

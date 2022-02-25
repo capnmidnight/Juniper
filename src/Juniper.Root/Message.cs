@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Juniper
 {
@@ -12,7 +11,7 @@ namespace Juniper
             public static IReadOnlyCollection<Message> AllMessage => AllMsg;
             public static readonly Message AnyMessage = new("*");
 
-            internal Message(string value, params string[] extensions) : base("message", value, extensions)
+            public Message(string value, params string[] extensions) : base("message", value, extensions)
             {
                 if (SubType != "*")
                 {

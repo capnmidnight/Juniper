@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Juniper
 {
@@ -13,7 +12,7 @@ namespace Juniper
             public static IReadOnlyCollection<Application> AllApplication => AllApp;
             public static readonly Application AnyApplication = new("*");
 
-            internal Application(string value, params string[] extensions) : base("application", value, extensions)
+            public Application(string value, params string[] extensions) : base("application", value, extensions)
             {
                 if (SubType != "*")
                 {

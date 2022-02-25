@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Juniper
 {
@@ -12,7 +11,7 @@ namespace Juniper
             public static IReadOnlyCollection<Font> AllFont => AllFnt;
             public static readonly Font AnyFont = new("*");
 
-            internal Font(string value, params string[] extensions) : base("font", value, extensions)
+            public Font(string value, params string[] extensions) : base("font", value, extensions)
             {
                 if (SubType != "*")
                 {

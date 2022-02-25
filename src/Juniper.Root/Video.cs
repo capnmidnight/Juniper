@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Juniper
 {
@@ -12,7 +11,7 @@ namespace Juniper
             public static IReadOnlyCollection<Video> AllVideo => AllVid;
             public static readonly Video AnyVideo = new("*");
 
-            internal Video(string value, params string[] extensions) : base("video", value, extensions)
+            public Video(string value, params string[] extensions) : base("video", value, extensions)
             {
                 if (SubType != "*")
                 {

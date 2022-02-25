@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Juniper
 {
@@ -12,7 +11,7 @@ namespace Juniper
             public static IReadOnlyCollection<XShader> AllXShader => AllXShad;
             public static readonly XShader AnyXShader = new("*");
 
-            internal XShader(string value, params string[] extensions) : base("x-shader", value, extensions)
+            public XShader(string value, params string[] extensions) : base("x-shader", value, extensions)
             {
                 if (SubType != "*")
                 {

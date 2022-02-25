@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Juniper
 {
@@ -12,7 +11,7 @@ namespace Juniper
             public static IReadOnlyCollection<Model> AllModel => AllMod;
             public static readonly Model AnyModel = new("*");
 
-            internal Model(string value, params string[] extensions) : base("model", value, extensions)
+            public Model(string value, params string[] extensions) : base("model", value, extensions)
             {
                 if (SubType != "*")
                 {
