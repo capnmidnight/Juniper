@@ -71,7 +71,7 @@ Style(
     )
 );
 
-export abstract class BaseEnvironment<Events>
+export class BaseEnvironment<Events = void>
     extends TypedEventBase<Events & BaseEnvironmentEvents> {
 
     private baseLayer: XRProjectionLayer;
