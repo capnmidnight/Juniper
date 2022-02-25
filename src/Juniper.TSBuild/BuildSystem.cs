@@ -262,11 +262,18 @@ namespace Juniper.TSBuild
             Console.WriteLine($"Done in {delta.TotalSeconds:0.00}s");
         }
 
+        private IEnumerable<NPMInstallCommand> GetInstallCommands(Level buildLevel)
+        {
+            return juniperProjects
+                .Append(clientDir)
+                .Select(dir =>
+                    new NPMInstallCommand(dir, buildLevel == Level.High));
+        }
+
         public async Task InstallAsync()
         {
             await WithCommandTree(commands =>
-                commands.AddCommands(NPM("run update", juniperProjects
-                    .Append(clientDir))));
+                commands.AddCommands(GetInstallCommands(Level.High)));
         }
 
         public async Task AuditAsync()
@@ -303,8 +310,9 @@ namespace Juniper.TSBuild
 
             await WithCommandTree(commands =>
             {
-                commands.AddCommands(juniperProjects.Append(clientDir).Select(dir => new NPMInstallCommand(dir)))
-                    .AddCommands(new MessageCommand("Build level {0}: {1}", buildLevel, buildLevelMessages[buildLevel]));
+                commands
+                    .AddCommands(new MessageCommand("Build level {0}: {1}", buildLevel, buildLevelMessages[buildLevel]))
+                    .AddCommands(GetInstallCommands(buildLevel));
 
                 if (buildLevel > Level.Low)
                 {

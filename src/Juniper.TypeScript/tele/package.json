@@ -4,8 +4,6 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "update": "npm install",
-    "inst": "npm ci",
     "build": "node --experimental-modules esbuild.config.js",
     "watch": "node --experimental-modules esbuild.config.js --watch"
   },

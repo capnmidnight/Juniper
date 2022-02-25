@@ -4,8 +4,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "update": "npm install",
-    "inst": "npm ci",
     "build": "npx tsc --build"
   },
   "devDependencies": {

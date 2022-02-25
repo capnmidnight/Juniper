@@ -9,7 +9,7 @@ namespace Juniper.Processes
         private readonly DirectoryInfo nodeModulesDir;
 
 
-        public NPMInstallCommand(DirectoryInfo? workingDir)
+        public NPMInstallCommand(DirectoryInfo? workingDir, bool force)
             : base(workingDir, "npm", "install")
         {
             packageJson = this.workingDir.Touch("package.json");
@@ -19,12 +19,13 @@ namespace Juniper.Processes
             }
 
             nodeModulesDir = workingDir.CD("node_modules");
+            this.force = force;
         }
 
         public override async Task RunAsync()
         {
-            var needsInstall = false;
-            if (nodeModulesDir.Exists)
+            var needsInstall = !nodeModulesDir.Exists || force;
+            if (!force)
             {
                 using var packageStream = packageJson.OpenRead();
                 var package = await JsonSerializer.DeserializeAsync<NPMPackage>(packageStream);
@@ -40,16 +41,13 @@ namespace Juniper.Processes
 
             if (needsInstall)
             {
-                OnInfo("Install required");
                 await base.RunAsync();
-            }
-            else
-            {
-                OnInfo("Install not required");
             }
         }
 
         private static readonly Regex versionPattern = new(@"(>|<|>=|<=|~|\^|=)?(\d+\.\d+\.\d+)", RegexOptions.Compiled);
+        private readonly bool force;
+
         private async Task<bool> NeedsInstall(string name, string requiredVersionStr)
         {
             var depDir = nodeModulesDir.CD(name);
@@ -117,9 +115,11 @@ namespace Juniper.Processes
 
         private class NPMPackage
         {
+#pragma warning disable IDE1006 // Naming Styles
             public string? version { get; set; }
             public Dictionary<string, string>? dependencies { get; set; }
             public Dictionary<string, string>? devDependencies { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
         }
     }
 }
