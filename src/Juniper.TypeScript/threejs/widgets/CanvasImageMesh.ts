@@ -1,5 +1,5 @@
+import type { CanvasImage } from "juniper-2d/CanvasImage";
 import { isHTMLCanvas } from "juniper-dom/canvas";
-import type { ICanvasImage } from "juniper-dom/CanvasImage";
 import { elementIsDisplayed, elementSetDisplay } from "juniper-dom/tags";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { Image2DMesh } from "../Image2DMesh";
@@ -7,7 +7,7 @@ import { objectSetVisible } from "../objects";
 import type { Widget } from "./widgets";
 
 
-export class CanvasImageMesh<T extends ICanvasImage>
+export class CanvasImageMesh<T extends CanvasImage>
     extends Image2DMesh
     implements Widget {
 

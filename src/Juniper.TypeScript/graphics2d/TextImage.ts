@@ -1,14 +1,13 @@
 import { Context2D, createUtilityCanvas, setContextSize } from "juniper-dom/canvas";
-import { CanvasImage, CanvasImageOptions } from "juniper-dom/CanvasImage";
 import { makeFont } from "juniper-dom/fonts";
 import {
     clamp,
     isDefined,
     isNullOrUndefined,
     isNumber,
-    PaddingRect,
-    TypedEvent
+    PaddingRect
 } from "juniper-tslib";
+import { CanvasImage, CanvasImageOptions } from "./CanvasImage";
 
 export type TextDirection = "horizontal" | "vertical";
 
@@ -40,10 +39,7 @@ export interface TextImageOptions extends CanvasImageOptions {
     value: string;
 }
 
-export class TextImage
-    extends CanvasImage<{
-        notready: TypedEvent<"notready">;
-    }> {
+export class TextImage extends CanvasImage {
     private trueWidth: number = null;
     private trueHeight: number = null;
     private trueFontSize: number = null;
@@ -75,8 +71,6 @@ export class TextImage
     private _padding: PaddingRect;
 
     private _value: string = null;
-
-    private notReadyEvt = new TypedEvent("notready");
 
     constructor(options?: Partial<TextImageOptions>) {
         super(10, 10, options);
@@ -641,7 +635,6 @@ export class TextImage
             return true;
         }
         else {
-            this.dispatchEvent(this.notReadyEvt);
             return false;
         }
     }

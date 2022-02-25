@@ -1,7 +1,7 @@
-import { CanvasImage } from "juniper-dom/CanvasImage";
 import { deg2rad } from "juniper-tslib";
+import { CanvasImage } from "./CanvasImage";
 
-export class ArtificialHorizon extends CanvasImage<void> {
+export class ArtificialHorizon extends CanvasImage {
 
     private _pitch = 0;
     private _heading = 0;

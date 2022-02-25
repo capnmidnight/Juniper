@@ -1,5 +1,5 @@
-import { CanvasImage } from "juniper-dom/CanvasImage";
 import { makeFont } from "juniper-dom/fonts";
+import { CanvasImage } from "./CanvasImage";
 
 function isBatteryNavigator(nav: Navigator): nav is BatteryNavigator {
     return "getBattery" in nav;
@@ -11,7 +11,7 @@ const chargeLabels = [
     "charging"
 ];
 
-export class BatteryImage extends CanvasImage<void>{
+export class BatteryImage extends CanvasImage {
     static readonly isAvailable = isBatteryNavigator(navigator);
     private battery: BatteryManager = null;
     private lastChargeDirection: number = null;

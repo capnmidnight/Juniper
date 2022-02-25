@@ -1,33 +1,19 @@
+import type { CanvasTypes, Context2D } from "juniper-dom/canvas";
+import { createUICanvas, isHTMLCanvas } from "juniper-dom/canvas";
+import type { ErsatzElement } from "juniper-dom/tags";
 import { isDefined, TypedEvent, TypedEventBase } from "juniper-tslib";
-import type { CanvasTypes, Context2D } from "./canvas";
-import { createUICanvas, isCanvas, isHTMLCanvas } from "./canvas";
-import type { ErsatzElement } from "./tags";
 
 interface CanvasImageEvents {
     redrawn: TypedEvent<"redrawn">;
-}
-
-export interface ICanvasImage extends TypedEventBase<CanvasImageEvents> {
-    canvas: CanvasTypes;
-    scale: number;
-    width: number;
-    height: number;
-    aspectRatio: number;
-    visible: boolean;
 }
 
 export interface CanvasImageOptions {
     scale: number;
 }
 
-export function isCanvasImage(obj: any): obj is ICanvasImage {
-    return "canvas" in obj
-        && isCanvas(obj.canvas);
-}
-
-export abstract class CanvasImage<T>
-    extends TypedEventBase<CanvasImageEvents & T>
-    implements ICanvasImage, ErsatzElement {
+export abstract class CanvasImage
+    extends TypedEventBase<CanvasImageEvents>
+    implements ErsatzElement {
 
     private _canvas: CanvasTypes;
     private _scale = 250;
