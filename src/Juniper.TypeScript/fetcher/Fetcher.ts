@@ -381,19 +381,19 @@ export class Fetcher implements IFetcher {
         }
     }
 
-    private createRequest(method: HTTPMethods, path: string, base?: string) {
+    private createRequest(method: HTTPMethods, path: string | URL, base?: string | URL) {
         return new RequestBuilder(this.fetcher, this.useBlobURIs, method, new URL(path, base || location.href));
     }
 
-    get(path: string, base?: string) {
+    get(path: string | URL, base?: string | URL) {
         return this.createRequest("GET", path, base);
     }
 
-    post(path: string, base?: string) {
+    post(path: string | URL, base?: string | URL) {
         return this.createRequest("POST", path, base);
     }
 
-    head(path: string, base?: string) {
+    head(path: string | URL, base?: string | URL) {
         return this.createRequest("HEAD", path, base);
     }
 }

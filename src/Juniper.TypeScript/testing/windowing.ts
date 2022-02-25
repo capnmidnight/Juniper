@@ -1,4 +1,4 @@
-import { isNumber, isWorker } from "juniper-tslib";
+import { isNumber, isWorker, URLBuilder } from "juniper-tslib";
 import { getUserNumber } from "./userNumber";
 
 const windows: Window[] = [];
@@ -51,10 +51,12 @@ export function openSideTest() {
         throw new Error("Cannot open a window from a Worker.");
     }
 
-    const loc = new URL(location.href);
-    loc.searchParams.set("testUserNumber", (getUserNumber() + windows.length + 1).toString());
+    const loc = URLBuilder
+        .get(location.href)
+        .query("testUserNumber", (getUserNumber() + windows.length + 1).toString())
+        .toString();
     openWindow(
-        loc.href,
+        loc,
         window.screenLeft + window.outerWidth,
         0,
         window.innerWidth,

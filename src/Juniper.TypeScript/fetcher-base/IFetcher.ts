@@ -55,9 +55,9 @@ export interface IFetchingService {
 }
 
 export interface IFetcher {
-    get(path: string, base?: string): IFetcherGetHeadersAndProgressAndTimeoutAndWithCredentials & IFetcherGetResult;
-    post(path: string, base?: string): IFetcherPostHeadersAndProgressAndBodyAndTimeoutAndWithCredentials & IFetcherPostResult;
-    head(path: string, base?: string): IFetcherHeadHeadersAndTimeoutAndWithCredentials & IFetcherHeadResult;
+    get(path: string | URL, base?: string | URL): IFetcherGetHeadersAndProgressAndTimeoutAndWithCredentials & IFetcherGetResult;
+    post(path: string | URL, base?: string | URL): IFetcherPostHeadersAndProgressAndBodyAndTimeoutAndWithCredentials & IFetcherPostResult;
+    head(path: string | URL, base?: string | URL): IFetcherHeadHeadersAndTimeoutAndWithCredentials & IFetcherHeadResult;
 }
 
 export interface IFetcherGetHeadersAndProgressAndTimeoutAndWithCredentials {
