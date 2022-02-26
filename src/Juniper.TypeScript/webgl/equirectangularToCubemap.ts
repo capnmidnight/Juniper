@@ -4,7 +4,7 @@ import type { IProgress } from "juniper-tslib";
 import { usingAsync } from "juniper-tslib";
 import { Camera } from "./Camera";
 import { Context3D } from "./Context3D";
-import { RenderTargetManager } from "./FramebufferManager";
+import { RenderTargetManager } from "./RenderTargetManager";
 import { Geometry } from "./Geometry";
 import { invCube } from "./geometry/cubes";
 import { TextureImageArray, TextureImageStereo } from "./managed/TextureImage";

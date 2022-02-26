@@ -11,9 +11,28 @@ export class RenderTargetManager implements IDisposable {
     private lastLayer: XRWebGLLayer = null;
     private lastNumViews: number = null;
     private disposed: boolean = false;
+    private mvExtOculus: OCULUS_multiview = null;
+    private mvExtOvr: OVR_multiview2 = null;
 
     constructor(private gl: WebGL2RenderingContext) {
         this.targets.push(new RenderTargetCanvas(gl));
+        this.mvExtOculus = this.gl.getExtension("OCULUS_multiview");
+        if (!this.mvExtOculus) {
+            this.mvExtOvr = this.gl.getExtension("OVR_multiview2");
+        }
+
+        if (this.mvExt) {
+            const numViews = this.gl.getParameter(this.mvExt.MAX_VIEWS_OVR);
+            console.log("NUM VIEWS", numViews);
+        }
+    }
+
+    get mvMsExt() {
+        return this.mvExtOculus;
+    }
+
+    get mvExt() {
+        return this.mvExtOculus || this.mvExtOvr;
     }
 
     dispose() {

@@ -1,13 +1,11 @@
 import { BaseTexture } from "./BaseTexture";
 
-export class BaseTextureFramebuffer extends BaseTexture {
-    constructor(gl: WebGL2RenderingContext, type: GLenum, private _attachment: GLenum, private _fbBind: (fbType: GLenum, handle: WebGLTexture) => void) {
+export abstract class BaseTextureFramebuffer extends BaseTexture {
+    constructor(gl: WebGL2RenderingContext, type: GLenum, private _attachment: GLenum) {
         super(gl, type);
     }
 
-    fbBind(fbType: GLenum) {
-        this._fbBind(fbType, this.handle);
-    }
+    abstract fbBind(fbType: GLenum): void;
 
     get attachment() {
         return this._attachment;
@@ -16,8 +14,7 @@ export class BaseTextureFramebuffer extends BaseTexture {
 
 export class TextureFramebuffer extends BaseTextureFramebuffer {
     constructor(gl: WebGL2RenderingContext, width: number, height: number, attachment: GLenum) {
-        super(gl, gl.TEXTURE_2D, attachment, (fbType: GLenum, handle: WebGLTexture) =>
-            gl.framebufferTexture2D(fbType, attachment, gl.TEXTURE_2D, handle, 0));
+        super(gl, gl.TEXTURE_2D, attachment);
 
         const internalFormat = attachment === gl.DEPTH_ATTACHMENT
             ? gl.DEPTH_COMPONENT16
@@ -37,5 +34,9 @@ export class TextureFramebuffer extends BaseTextureFramebuffer {
         gl.texParameteri(this.type, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 
         gl.texImage2D(this.type, 0, internalFormat, width, height, 0, pixelType, dataType, null);
+    }
+
+    override fbBind(fbType: GLenum): void {
+        this.gl.framebufferTexture2D(fbType, this.attachment, this.gl.TEXTURE_2D, this.handle, 0);
     }
 }
