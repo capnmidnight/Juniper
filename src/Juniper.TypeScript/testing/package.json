@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@types/offscreencanvas-types": "file:../offscreencanvas-types",
+    "@types/webxr-types": "file:../webxr-types",
     "gl-matrix": "3.4.3",
     "juniper-dom": "file:../dom",
     "juniper-mediatypes": "file:../mediatypes",
