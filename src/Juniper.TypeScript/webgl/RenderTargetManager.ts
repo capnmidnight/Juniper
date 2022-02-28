@@ -1,13 +1,18 @@
-import type { IDisposable } from "juniper-tslib";
-import { arrayClear, isDefined, isMobileVR, isNullOrUndefined } from "juniper-tslib";
-import type { IBlitter } from "./Blitter";
-import { Blitter } from "./Blitter";
+import { arrayClear, IDisposable, isDefined, isMobileVR } from "juniper-tslib";
+import { Blitter, IBlitter } from "./Blitter";
 import { ClearBits, FramebufferType } from "./GLEnum";
-import { BaseRenderTarget, RenderTargeFrameBufferTextureMultiviewMultisampled, RenderTargetCanvas, RenderTargetFrameBufferTextureMultiview, RenderTargetRenderBuffer, RenderTargetRenderBufferMultisampled, RenderTargetXRWebGLLayer } from "./RenderTarget";
+import {
+    RenderTarget,
+    RenderTargetCanvas,
+    RenderTargetWebXRMultiview,
+    RenderTargetWebXRMultiviewMultisampled,
+    RenderTargetWebXRMultisampled,
+    RenderTargetWebXR
+} from "./managed/RenderTarget";
 
 export class RenderTargetManager implements IDisposable {
     private blitChain = new Array<IBlitter>();
-    private targets = new Array<BaseRenderTarget>();
+    private targets = new Array<RenderTarget>();
     private lastLayer: XRWebGLLayer = undefined;
     private lastNumViews: number = null;
     private disposed: boolean = false;
@@ -15,15 +20,9 @@ export class RenderTargetManager implements IDisposable {
     private mvExtOvr: OVR_multiview2 = null;
 
     constructor(private gl: WebGL2RenderingContext) {
-        this.targets.unshift(new RenderTargetCanvas(gl));
         this.mvExtOculus = this.gl.getExtension("OCULUS_multiview");
         if (!this.mvExtOculus) {
             this.mvExtOvr = this.gl.getExtension("OVR_multiview2");
-        }
-
-        if (this.mvExt) {
-            const numViews = this.gl.getParameter(this.mvExt.MAX_VIEWS_OVR);
-            console.log("NUM VIEWS", numViews);
         }
 
         this.clearLayers();
@@ -69,6 +68,7 @@ export class RenderTargetManager implements IDisposable {
     }
 
     setLayer(layer: XRWebGLLayer, numViews: number) {
+        console.log("setLayer", layer, numViews, this.lastLayer);
         if (layer !== this.lastLayer) {
             const attrib = this.gl.getContextAttributes();
 
@@ -77,24 +77,26 @@ export class RenderTargetManager implements IDisposable {
 
             this.destroyTargets();
 
-            // effective for resizing the render targets.
             const canvasTarget = new RenderTargetCanvas(this.gl);
             this.targets.unshift(canvasTarget);
 
-            if (isNullOrUndefined(layer)) {
-                console.log("Using canvas render target");
-            }
-            else if (isDefined(layer.framebuffer)) {
-                let target: BaseRenderTarget = null;
+            if (isDefined(layer)
+                && isDefined(layer.framebuffer)) {
+                let target: RenderTarget = null;
                 if (this.mvMsExt && attrib.antialias) {
-                    target = new RenderTargeFrameBufferTextureMultiviewMultisampled(this.gl, layer, numViews)
+                    target = new RenderTargetWebXRMultiviewMultisampled(this.gl, this.mvMsExt, layer, numViews, 4)
                 }
-                else if (this.mvExt && attrib.antialias) {
-                    target = new RenderTargetFrameBufferTextureMultiview(this.gl, layer, numViews);
+                else if (this.mvExt && !attrib.antialias) {
+                    target = new RenderTargetWebXRMultiview(this.gl, this.mvExt, layer, numViews);
+                }
+                else if (attrib.antialias) {
+                    target = new RenderTargetWebXRMultisampled(this.gl, layer, 4);
                 }
                 else {
-                    target = new RenderTargetXRWebGLLayer(this.gl, layer);
+                    target = new RenderTargetWebXR(this.gl, layer);
                 }
+
+                console.log("target", target);
 
                 this.targets.unshift(target);
 
@@ -105,21 +107,6 @@ export class RenderTargetManager implements IDisposable {
                         canvasTarget,
                         [this.gl.BACK]));
                 }
-            }
-            else {
-                let target: BaseRenderTarget = null;
-                if (attrib.antialias) {
-                    target = new RenderTargetRenderBufferMultisampled(this.gl, this.gl.canvas.width, this.gl.canvas.height);
-                }
-                else {
-                    target = new RenderTargetRenderBuffer(this.gl, this.gl.canvas.width, this.gl.canvas.height);
-                }
-                this.targets.unshift(target);
-                this.blitChain.push(new Blitter(
-                    this.gl,
-                    target,
-                    canvasTarget,
-                    [this.gl.BACK]));
             }
         }
     }

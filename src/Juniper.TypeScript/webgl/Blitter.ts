@@ -1,6 +1,6 @@
 import type { IDisposable } from "juniper-tslib";
 import { FramebufferType } from "./GLEnum";
-import { BaseRenderTarget, RenderTargetXRWebGLLayer } from "./RenderTarget";
+import { RenderTarget, RenderTargetWebXR } from "./managed/RenderTarget";
 
 export interface IBlitter extends IDisposable {
     blit(): void;
@@ -21,11 +21,11 @@ export class Blitter implements IBlitter {
 
     constructor(
         private gl: WebGL2RenderingContext,
-        private readTarget: BaseRenderTarget,
-        private drawTarget: BaseRenderTarget,
+        private readTarget: RenderTarget,
+        private drawTarget: RenderTarget,
         private drawBuffers: GLenum[]) {
 
-        const sourceWidth = readTarget instanceof RenderTargetXRWebGLLayer
+        const sourceWidth = readTarget instanceof RenderTargetWebXR
             ? readTarget.width / 2
             : readTarget.width;
         const sourceHeight = readTarget.height;
@@ -65,8 +65,6 @@ export class Blitter implements IBlitter {
 
     blit(): void {
         this.drawTarget.bind(FramebufferType.DRAW_FRAMEBUFFER);
-        this.drawTarget.invalidate();
-
         this.readTarget.bind(FramebufferType.READ_FRAMEBUFFER);
         this.gl.drawBuffers(this.drawBuffers);
         this.gl.readBuffer(this.gl.COLOR_ATTACHMENT0);

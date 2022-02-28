@@ -89,23 +89,30 @@ namespace Juniper.Services
             public bool LogSQL { get; set; }
         }
 
+        public static DbContextOptionsBuilder SetDefaultConnection(this DbContextOptionsBuilder options, string connectionStringName, IWebHostEnvironment env = null, Options config = null)
+        {
+            options.UseNpgsql($"name=ConnectionStrings:{connectionStringName}", opts =>
+                opts.EnableRetryOnFailure()
+                    .UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery));
+
+            if (env?.IsDevelopment() == true
+                && config?.LogSQL == true)
+            {
+                options.LogTo(Console.WriteLine, (_, lvl) => LogLevel.Information <= lvl && lvl < LogLevel.Error);
+                options.LogTo(Console.Error.WriteLine, LogLevel.Error);
+            }
+
+            return options;
+        }
+
         public static IServiceCollection ConfigureDefaultServices<ContextT>(this IServiceCollection services, IWebHostEnvironment env, string connectionStringName, Options config = null)
             where ContextT : IdentityDbContext
         {
             services.ConfigureDefaultServices(env, config);
 
             services.AddDbContext<ContextT>(options =>
-            {
-                options.UseNpgsql($"name=ConnectionStrings:{connectionStringName}", opts =>
-                    opts.EnableRetryOnFailure()
-                        .UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery));
-
-                if (env.IsDevelopment() && config.LogSQL)
-                {
-                    options.LogTo(Console.WriteLine, (_, lvl) => LogLevel.Information <= lvl && lvl < LogLevel.Error);
-                    options.LogTo(Console.Error.WriteLine, LogLevel.Error);
-                }
-            });
+                options.SetDefaultConnection(connectionStringName, env, config));
+            
 
             if (config.UseIdentity)
             {

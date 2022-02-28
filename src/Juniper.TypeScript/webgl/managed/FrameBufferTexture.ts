@@ -1,8 +1,8 @@
 import { isNullOrUndefined } from "juniper-tslib";
-import { IRenderTargetBuffer } from "../RenderTarget";
 import { BaseTexture } from "./BaseTexture";
+import { IRenderTargetAttachment } from "./RenderTarget";
 
-export abstract class BaseFrameBufferTexture extends BaseTexture implements IRenderTargetBuffer {
+export abstract class BaseFrameBufferTexture extends BaseTexture implements IRenderTargetAttachment {
     constructor(gl: WebGL2RenderingContext, type: GLenum, private _attachment: GLenum) {
         super(gl, type);
     }
@@ -16,12 +16,16 @@ export abstract class BaseFrameBufferTexture extends BaseTexture implements IRen
 
 
 export abstract class BaseFrameBufferTextureMultiview<MVExtT extends OVR_multiview2 | OCULUS_multiview> extends BaseFrameBufferTexture {
-    protected readonly ext: MVExtT;
-
-    constructor(gl: WebGL2RenderingContext, extName: "OVR_multiview2" | "OCULUS_multiview", width: number, height: number, protected readonly numViews: number, attachment: GLenum) {
+    constructor(
+        gl: WebGL2RenderingContext,
+        protected readonly ext: MVExtT,
+        width: number,
+        height: number,
+        protected readonly numViews: number,
+        attachment: GLenum
+    ) {
         super(gl, gl.TEXTURE_2D_ARRAY, attachment);
 
-        this.ext = gl.getExtension(extName);
         const internalFormat = attachment === gl.DEPTH_ATTACHMENT
             ? gl.DEPTH_COMPONENT16
             : gl.RGB8;
@@ -63,8 +67,8 @@ export class FrameBufferTexture extends BaseFrameBufferTexture {
 
 
 export class FrameBufferTextureMultiview extends BaseFrameBufferTextureMultiview<OVR_multiview2> {
-    constructor(gl: WebGL2RenderingContext, width: number, height: number, numViews: number, attachment: GLenum) {
-        super(gl, "OVR_multiview2", width, height, numViews, attachment);
+    constructor(gl: WebGL2RenderingContext, ext: OVR_multiview2, width: number, height: number, numViews: number, attachment: GLenum) {
+        super(gl, ext, width, height, numViews, attachment);
     }
 
     override fbBind(fbType: GLenum) {
@@ -76,8 +80,8 @@ export class FrameBufferTextureMultiview extends BaseFrameBufferTextureMultiview
 export class FrameBufferTextureMultiviewMultisampled extends BaseFrameBufferTextureMultiview<OCULUS_multiview> {
     private readonly samples: number;
 
-    constructor(gl: WebGL2RenderingContext, width: number, height: number, numViews: number, attachment: GLenum, samples?: number) {
-        super(gl, "OCULUS_multiview", width, height, numViews, attachment);
+    constructor(gl: WebGL2RenderingContext, ext: OCULUS_multiview, width: number, height: number, numViews: number, attachment: GLenum, samples?: number) {
+        super(gl, ext, width, height, numViews, attachment);
 
         if (isNullOrUndefined(samples)) {
             samples = gl.getParameter(gl.MAX_SAMPLES);

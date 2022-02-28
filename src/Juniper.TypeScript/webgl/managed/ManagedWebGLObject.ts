@@ -1,13 +1,6 @@
 export abstract class ManagedWebGLObject<PointerT> {
-    protected gl: WebGL2RenderingContext;
-    protected handle: PointerT;
-
-    constructor(gl: WebGL2RenderingContext, handle: PointerT) {
-        this.gl = gl;
-        this.handle = handle;
-    }
-
-    getHandle(): PointerT {
-        return this.handle;
+    constructor(
+        protected readonly gl: WebGL2RenderingContext,
+        public readonly handle: PointerT) {
     }
 }
