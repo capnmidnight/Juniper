@@ -22,6 +22,14 @@ namespace Juniper.Processes
             this.force = force;
         }
 
+        protected override void OnInfo(string message)
+        {
+            if (message != "found 0 vulnerabilities")
+            {
+                base.OnInfo(message);
+            }
+        }
+
         public override async Task RunAsync()
         {
             var needsInstall = !nodeModulesDir.Exists || force;
