@@ -1,4 +1,8 @@
+using System.Linq;
+
 using Juniper.Processes;
+
+using Newtonsoft.Json;
 
 namespace Juniper
 {
@@ -22,28 +26,41 @@ namespace Juniper
 
         }
 
-        public static async Task<string> GetJSON(string youtubUrl)
+        public static async Task<YTMetadata?> GetJSON(string youtubUrl)
         {
             var cmd = new YouTubeDLP("-j", youtubUrl);
             var lines = await cmd.RunForStdOutAsync();
-            return lines.Join(Environment.NewLine);
+            var input = lines.Join(Environment.NewLine);
+            var obj = JsonConvert.DeserializeObject<YTMetadata>(input);
+            if (obj is not null)
+            {
+                await Task.WhenAll(obj.formats
+                    .Cast<YTMetadataURL>()
+                    .Union(obj.requested_formats)
+                    .Union(obj.thumbnails)
+                    .Select(AddContentType));
+            }
+
+            return obj;
         }
 
-        public static async Task<Result> GetURLs(string youtubeUrl)
+        private static async Task AddContentType(YTMetadataURL format)
         {
-            var cmd = new YouTubeDLP("--get-url", youtubeUrl);
-            var urls = await cmd.RunForStdOutAsync();
-            var output = await Task.WhenAll(urls.Select(GetURL));
-            var vid = output.FirstOrDefault(v => MediaType.Video.AnyVideo.Matches(v.ContentType));
-            var aud = output.FirstOrDefault(v => MediaType.Audio.AnyAudio.Matches(v.ContentType));
-            return new Result(vid, aud);
+            format.content_type = await GetContentType(format.url);
         }
 
-        private static async Task<MediaEntry> GetURL(string url)
+        public static async Task<string> GetJSONString(string youtubUrl)
+        {
+            var obj = await GetJSON(youtubUrl);
+            var output = JsonConvert.SerializeObject(obj);
+            return output;
+        }
+
+        private static async Task<string?> GetContentType(string url)
         {
             using var request = new HttpRequestMessage(HttpMethod.Head, url);
             using var response = await http.SendAsync(request);
-            return new MediaEntry(response?.Content?.Headers?.ContentType?.MediaType, url);
+            return response?.Content?.Headers?.ContentType?.MediaType;
         }
     }
 }

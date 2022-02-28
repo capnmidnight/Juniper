@@ -11,6 +11,7 @@ interface YTMetadataFormat {
     acodec: string;
     vcodec: string;
     url: string;
+    content_type: string;
     width?: number;
     height?: number;
     fragments: YTMetadataFormatFragment[];
@@ -42,6 +43,7 @@ interface YTMetadataFormat {
 interface YTMetadataThumbnail {
     id: string;
     url: string;
+    content_type: string;
     preference: number;
     width?: number;
     height?: number;

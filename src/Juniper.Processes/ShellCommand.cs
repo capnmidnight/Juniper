@@ -168,15 +168,11 @@ namespace Juniper.Processes
                 TotalStandardOutput = new();
                 TotalStandardError = new();
 
-                void Proc_AccumOutputData(object? sender, StringEventArgs e)
-                {
+                void Proc_AccumOutputData(object? sender, StringEventArgs e) =>
                     TotalStandardOutput.Add(e.Value);
-                }
 
-                void Proc_AccumErrorData(object? sender, StringEventArgs e)
-                {
+                void Proc_AccumErrorData(object? sender, StringEventArgs e) =>
                     TotalStandardError.Add(e.Value);
-                }
 
                 Info += Proc_AccumOutputData;
                 Warning += Proc_AccumErrorData;
@@ -212,10 +208,8 @@ namespace Juniper.Processes
             var syncroot = new object();
             var completer = new TaskCompletionSource();
             var task = completer.Task;
-            void Proc_InputDataReceived(object? sender, StringEventArgs e)
-            {
+            void Proc_InputDataReceived(object? sender, StringEventArgs e) =>
                 proc.StandardInput.WriteLine(e.Value);
-            }
 
             void Proc_KillProc(object? sender, EventArgs e)
             {
