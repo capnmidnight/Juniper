@@ -16,7 +16,7 @@ export class TextureImage extends BaseTexture {
         }
     }
 
-    override onDisposing(): void {
+    protected override onDisposing(): void {
         super.onDisposing();
         if (this.image instanceof ImageBitmap) {
             this.image.close();

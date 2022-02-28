@@ -121,7 +121,7 @@ export class Buffer extends ManagedWebGLResource<WebGLBuffer> {
         gl.bufferData(this.type, data, this.usage);
     }
 
-    onDisposing(): void {
+    protected onDisposing(): void {
         this.gl.deleteBuffer(this.handle);
     }
 

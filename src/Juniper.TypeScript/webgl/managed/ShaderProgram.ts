@@ -33,7 +33,7 @@ export class ShaderProgram extends ManagedWebGLResource<WebGLProgram> {
         }
     }
 
-    onDisposing(): void {
+    protected onDisposing(): void {
         this.vertexShader.removeFrom(this);
         this.fragmentShader.removeFrom(this);
         this.gl.deleteProgram(this.handle);

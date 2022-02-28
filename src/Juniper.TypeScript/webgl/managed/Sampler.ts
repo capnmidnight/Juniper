@@ -9,7 +9,7 @@ export class Sampler extends ManagedWebGLResource<WebGLSampler> {
         this.gl.bindSampler(this.unit, this.handle);
     }
 
-    onDisposing(): void {
+    protected onDisposing(): void {
         this.gl.deleteSampler(this.handle);
     }
 }

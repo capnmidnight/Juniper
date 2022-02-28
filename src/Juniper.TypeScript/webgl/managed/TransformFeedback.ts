@@ -9,7 +9,7 @@ export class TransformFeedback extends ManagedWebGLResource<WebGLTransformFeedba
         this.gl.bindTransformFeedback(this.target, this.handle);
     }
 
-    onDisposing(): void {
+    protected onDisposing(): void {
         this.gl.deleteTransformFeedback(this.handle);
     }
 }

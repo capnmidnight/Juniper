@@ -1,13 +1,14 @@
 import { isNullOrUndefined } from "juniper-tslib";
 import { FrameAndRenderBuffers } from "../GLEnum";
+import { IRenderTargetBuffer } from "../RenderTarget";
 import { ManagedWebGLResource } from "./ManagedWebGLResource";
 
-export class BaseRenderBuffer extends ManagedWebGLResource<WebGLRenderbuffer> {
+export class BaseRenderBuffer extends ManagedWebGLResource<WebGLRenderbuffer> implements IRenderTargetBuffer {
     format: FrameAndRenderBuffers;
-    constructor(gl: WebGL2RenderingContext, private _attachment: GLenum) {
+    constructor(gl: WebGL2RenderingContext, public readonly attachment: GLenum) {
         super(gl, gl.createRenderbuffer());
 
-        this.format = _attachment === gl.DEPTH_ATTACHMENT
+        this.format = this.attachment === gl.DEPTH_ATTACHMENT
             ? FrameAndRenderBuffers.DEPTH_COMPONENT16
             : FrameAndRenderBuffers.RGBA8;
 
@@ -18,15 +19,11 @@ export class BaseRenderBuffer extends ManagedWebGLResource<WebGLRenderbuffer> {
         this.gl.framebufferRenderbuffer(target, this.attachment, this.gl.RENDERBUFFER, this.handle);
     }
 
-    get attachment() {
-        return this._attachment;
-    }
-
     bind() {
         this.gl.bindRenderbuffer(this.gl.RENDERBUFFER, this.handle);
     }
 
-    onDisposing(): void {
+    protected onDisposing(): void {
         this.gl.deleteRenderbuffer(this.handle);
     }
 }

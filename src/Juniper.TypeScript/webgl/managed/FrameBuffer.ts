@@ -1,7 +1,6 @@
 import type { ClearBits, FramebufferTypes } from "../GLEnum";
+import { IRenderTargetBuffer } from "../RenderTarget";
 import { ManagedWebGLResource } from "./ManagedWebGLResource";
-import type { RenderBuffer } from "./RenderBuffer";
-import type { BaseTextureFramebuffer } from "./TextureFramebuffer";
 
 export class FrameBuffer extends ManagedWebGLResource<WebGLFramebuffer> {
     private _isMainWindow = false;
@@ -33,13 +32,13 @@ export class FrameBuffer extends ManagedWebGLResource<WebGLFramebuffer> {
         this.gl.clear(mask);
     }
 
-    onDisposing(): void {
+    protected onDisposing(): void {
         if (this._isMainWindow) {
             this.gl.deleteFramebuffer(this.handle);
         }
     }
 
-    attach(...textures: readonly (BaseTextureFramebuffer | RenderBuffer)[]): void {
+    attach(...textures: readonly IRenderTargetBuffer[]): void {
         this.bind();
         for (const texture of textures) {
             texture.fbBind(this.type);

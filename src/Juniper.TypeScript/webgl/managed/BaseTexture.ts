@@ -21,7 +21,7 @@ export class BaseTexture extends ManagedWebGLResource<WebGLTexture> {
         this.gl.bindTexture(this.type, this.handle);
     }
 
-    onDisposing(): void {
+    protected onDisposing(): void {
         this.gl.deleteTexture(this.handle);
     }
 }

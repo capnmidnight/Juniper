@@ -1,105 +1,83 @@
 import type { IDisposable } from "juniper-tslib";
-import type { ClearBits } from "./GLEnum";
+import type { FramebufferTypes } from "./GLEnum";
 import { FramebufferType } from "./GLEnum";
 import { FrameBuffer } from "./managed/FrameBuffer";
+import { FrameBufferTexture, FrameBufferTextureMultiview, FrameBufferTextureMultiviewMultisampled } from "./managed/FrameBufferTexture";
+import { ManagedWebGLResource } from "./managed/ManagedWebGLResource";
 import { RenderBuffer, RenderBufferMultisampled } from "./managed/RenderBuffer";
 
 
-export abstract class BaseRenderTarget implements IDisposable {
-    private disposed;
+export interface IRenderTargetBuffer extends IDisposable, ManagedWebGLResource<unknown> {
+    attachment: GLenum;
+    fbBind(fbType?: GLenum): void;
+}
 
-    constructor(private buffer: FrameBuffer,
-        private _width: number,
-        private _height: number,
-        public readonly numViews: number) {
-        this.disposed = false;
+
+export abstract class BaseRenderTarget extends FrameBuffer {
+    constructor(gl: WebGL2RenderingContext, type: FramebufferTypes, public readonly width: number, public readonly height: number, buffer?: WebGLFramebuffer) {
+        super(gl, type, buffer);
+    }
+}
+
+export class BaseRenderTargetBuffered<RenderBufferT extends IRenderTargetBuffer> extends BaseRenderTarget {
+    private color: RenderBufferT;
+    private depth: RenderBufferT;
+
+    constructor(gl: WebGL2RenderingContext, width: number, height: number, RenderBufferC: (attachment: GLenum) => RenderBufferT, frameBuffer?: WebGLFramebuffer) {
+        super(gl, FramebufferType.DRAW_FRAMEBUFFER, width, height, frameBuffer);
+
+        this.color = RenderBufferC(gl.COLOR_ATTACHMENT0);
+        this.depth = RenderBufferC(gl.DEPTH_ATTACHMENT);
+        this.attach(this.color, this.depth);
     }
 
-    get width() {
-        return this._width;
+    protected override onDisposing() {
+        super.onDisposing();
+        this.color.dispose();
+        this.color = null;
+        this.depth.dispose();
+        this.depth = null;
     }
-
-    get height() {
-        return this._height;
-    }
-
-    bind(type?: FramebufferType) {
-        this.buffer.bind(type);
-    }
-
-    clear(mask: ClearBits) {
-        this.buffer.clear(mask);
-    }
-
-    invalidate() {
-        this.buffer.invalidate();
-    }
-
-    dispose(): void {
-        if (!this.disposed) {
-            this.onDisposing();
-            this.buffer.dispose();
-            this.buffer = null;
-            this._width = -1;
-            this._height = -1;
-            this.disposed = true;
-        }
-    }
-
-    protected onDisposing() { }
 }
 
 export class RenderTargetCanvas extends BaseRenderTarget {
     constructor(gl: WebGL2RenderingContext) {
-        super(new FrameBuffer(gl, FramebufferType.DRAW_FRAMEBUFFER, null), gl.canvas.width, gl.canvas.height, 1);
+        super(gl, FramebufferType.DRAW_FRAMEBUFFER, gl.canvas.width, gl.canvas.height);
     }
 }
 
 export class RenderTargetXRWebGLLayer extends BaseRenderTarget {
-    constructor(gl: WebGL2RenderingContext, baseLayer: XRWebGLLayer, numViews: number) {
-        super(new FrameBuffer(gl, FramebufferType.DRAW_FRAMEBUFFER, baseLayer.framebuffer), baseLayer.framebufferWidth, baseLayer.framebufferHeight, numViews);
+    constructor(gl: WebGL2RenderingContext, baseLayer: XRWebGLLayer) {
+        super(gl, FramebufferType.DRAW_FRAMEBUFFER, baseLayer.framebufferWidth, baseLayer.framebufferHeight, baseLayer.framebuffer);
     }
 }
 
-export class RenderTargetRenderBuffer extends BaseRenderTarget {
-    private color: RenderBuffer;
-    private depth: RenderBuffer;
-
+export class RenderTargetRenderBuffer extends BaseRenderTargetBuffered<RenderBuffer> {
     constructor(gl: WebGL2RenderingContext, width: number, height: number, frameBuffer?: WebGLFramebuffer) {
-        const buffer = new FrameBuffer(gl, FramebufferType.DRAW_FRAMEBUFFER, frameBuffer);
-        super(buffer, width, height, 1);
-        this.color = new RenderBuffer(gl, width, height, gl.COLOR_ATTACHMENT0);
-        this.depth = new RenderBuffer(gl, width, height, gl.DEPTH_ATTACHMENT);
-        buffer.attach(this.color, this.depth);
-    }
-
-    protected override onDisposing() {
-        super.onDisposing();
-        this.color.dispose();
-        this.color = null;
-        this.depth.dispose();
-        this.depth = null;
+        super(gl, width, height, (attachment) => new RenderBuffer(gl, width, height, attachment), frameBuffer);
     }
 }
 
-export class RenderTargetRenderBufferMultisampled extends BaseRenderTarget {
-    private color: RenderBuffer;
-    private depth: RenderBuffer;
-
-    constructor(gl: WebGL2RenderingContext, width: number, height: number, numViews: number, frameBuffer?: WebGLFramebuffer) {
-        const buffer = new FrameBuffer(gl, FramebufferType.DRAW_FRAMEBUFFER, frameBuffer);
-        super(buffer, width, height, numViews);
-
-        this.color = new RenderBufferMultisampled(gl, width, height, gl.COLOR_ATTACHMENT0);
-        this.depth = new RenderBufferMultisampled(gl, width, height, gl.DEPTH_ATTACHMENT);
-        buffer.attach(this.color, this.depth);
+export class RenderTargetRenderBufferMultisampled extends BaseRenderTargetBuffered<RenderBufferMultisampled> {
+    constructor(gl: WebGL2RenderingContext, width: number, height: number, samples?: number, frameBuffer?: WebGLFramebuffer) {
+        super(gl, width, height, (attachment) => new RenderBufferMultisampled(gl, width, height, attachment, samples), frameBuffer);
     }
+}
 
-    protected override onDisposing() {
-        super.onDisposing();
-        this.color.dispose();
-        this.color = null;
-        this.depth.dispose();
-        this.depth = null;
+export class RenderTargetFrameBufferTexture extends BaseRenderTargetBuffered<FrameBufferTexture> {
+    constructor(gl: WebGL2RenderingContext, width: number, height: number, frameBuffer?: WebGLFramebuffer) {
+        super(gl, width, height, (attachment) => new FrameBufferTexture(gl, width, height, attachment), frameBuffer);
+    }
+}
+
+export class RenderTargetFrameBufferTextureMultiview extends BaseRenderTargetBuffered<FrameBufferTextureMultiview> {
+    constructor(gl: WebGL2RenderingContext, layer: XRWebGLLayer, numViews: number) {
+        super(gl, layer.framebufferWidth, layer.framebufferHeight, (attachment) => new FrameBufferTextureMultiview(gl, layer.framebufferWidth, layer.framebufferHeight, numViews, attachment), layer.framebuffer);
+    }
+}
+
+export class RenderTargeFrameBufferTextureMultiviewMultisampled extends BaseRenderTargetBuffered<FrameBufferTextureMultiviewMultisampled> {
+    constructor(gl: WebGL2RenderingContext, layer: XRWebGLLayer, numViews: number, samples?: number) {
+        super(gl, layer.framebufferWidth, layer.framebufferHeight, (attachment) => new FrameBufferTextureMultiviewMultisampled(gl, layer.framebufferWidth, layer.framebufferHeight, numViews, attachment, samples), layer.framebuffer);
     }
 }

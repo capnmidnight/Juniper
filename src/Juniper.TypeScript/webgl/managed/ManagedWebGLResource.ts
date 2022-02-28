@@ -18,5 +18,5 @@ export abstract class ManagedWebGLResource<PointerT>
         }
     }
 
-    abstract onDisposing(): void;
+    protected abstract onDisposing(): void;
 }

@@ -5,7 +5,7 @@ export class Query extends ManagedWebGLResource<WebGLQuery> {
         super(gl, gl.createQuery());
     }
 
-    onDisposing(): void {
+    protected onDisposing(): void {
         this.gl.deleteQuery(this.handle);
     }
 }

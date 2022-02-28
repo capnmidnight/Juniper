@@ -33,7 +33,7 @@ ${this.getSource()}`;
         }
     }
 
-    onDisposing(): void {
+    protected onDisposing(): void {
         this.gl.deleteShader(this.handle);
     }
 
