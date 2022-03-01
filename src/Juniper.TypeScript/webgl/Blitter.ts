@@ -1,12 +1,7 @@
-import type { IDisposable } from "juniper-tslib";
 import { FramebufferType } from "./GLEnum";
-import { RenderTarget, RenderTargetWebXR } from "./managed/RenderTarget";
+import { BaseFrameBuffer, FrameBufferWebXR } from "./managed/resource/FrameBuffer";
 
-export interface IBlitter extends IDisposable {
-    blit(): void;
-}
-
-export class Blitter implements IBlitter {
+export class Blitter {
 
     private sourceX0: number;
     private sourceX1: number;
@@ -17,15 +12,13 @@ export class Blitter implements IBlitter {
     private destY0: number;
     private destY1: number;
 
-    private disposed: boolean = false;
-
     constructor(
         private gl: WebGL2RenderingContext,
-        private readTarget: RenderTarget,
-        private drawTarget: RenderTarget,
+        private readTarget: BaseFrameBuffer,
+        private drawTarget: BaseFrameBuffer,
         private drawBuffers: GLenum[]) {
 
-        const sourceWidth = readTarget instanceof RenderTargetWebXR
+        const sourceWidth = readTarget instanceof FrameBufferWebXR
             ? readTarget.width / 2
             : readTarget.width;
         const sourceHeight = readTarget.height;
@@ -48,31 +41,15 @@ export class Blitter implements IBlitter {
         this.destY1 = Math.min(destHeight, destYMid + sourceYMid);
     }
 
-    dispose(): void {
-        if (!this.disposed) {
-            if (this.readTarget) {
-                this.readTarget.dispose();
-                this.readTarget = null;
-            }
-
-            if (this.drawTarget) {
-                this.drawTarget.dispose();
-                this.drawTarget = null;
-            }
-            this.disposed = false;
-        }
-    }
-
     blit(): void {
         this.drawTarget.bind(FramebufferType.DRAW_FRAMEBUFFER);
         this.readTarget.bind(FramebufferType.READ_FRAMEBUFFER);
         this.gl.drawBuffers(this.drawBuffers);
         this.gl.readBuffer(this.gl.COLOR_ATTACHMENT0);
-
         this.gl.blitFramebuffer(
             this.sourceX0, this.sourceY0, this.sourceX1, this.sourceY1,
             this.destX0, this.destY0, this.destX1, this.destY1,
             this.gl.COLOR_BUFFER_BIT,
-            this.gl.LINEAR);
+            this.gl.NEAREST);
     }
 }

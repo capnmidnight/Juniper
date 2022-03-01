@@ -1,5 +1,5 @@
 import type { IDisposable } from "juniper-tslib";
-import { ManagedWebGLObject } from "./ManagedWebGLObject";
+import { ManagedWebGLObject } from "../object/ManagedWebGLObject";
 
 export abstract class ManagedWebGLResource<PointerT>
     extends ManagedWebGLObject<PointerT>

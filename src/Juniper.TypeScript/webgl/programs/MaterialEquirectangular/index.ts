@@ -1,8 +1,8 @@
 import type { Geometry } from "../../Geometry";
 import { VertexComponent } from "../../geometry/GeometryDescription";
-import type { Attrib } from "../../managed/Attrib";
-import type { TextureImageArray } from "../../managed/TextureImage";
-import type { Uniform } from "../../managed/Uniform";
+import type { Attrib } from "../../managed/object/Attrib";
+import type { Uniform } from "../../managed/object/Uniform";
+import type { TextureImageArray } from "../../managed/resource/Texture";
 import { Material } from "../../Material";
 import fragSrc from "./fragment.glsl";
 import vertSrc from "./vertex.glsl";

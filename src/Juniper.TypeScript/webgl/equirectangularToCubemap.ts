@@ -4,12 +4,12 @@ import type { IProgress } from "juniper-tslib";
 import { usingAsync } from "juniper-tslib";
 import { Camera } from "./Camera";
 import { Context3D } from "./Context3D";
-import { RenderTargetManager } from "./RenderTargetManager";
 import { Geometry } from "./Geometry";
 import { invCube } from "./geometry/cubes";
-import { TextureImageArray, TextureImageStereo } from "./managed/TextureImage";
+import { TextureImageArray, TextureImageStereo } from "./managed/resource/Texture";
 import { Mesh } from "./Mesh";
 import { MaterialEquirectangular } from "./programs/MaterialEquirectangular";
+import { RenderTargetManager } from "./RenderTargetManager";
 
 interface CaptureOrientation {
     heading: number;

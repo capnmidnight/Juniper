@@ -2,7 +2,7 @@ import { mat4, quat } from "gl-matrix";
 import { isDefined } from "juniper-tslib";
 import type { Camera } from "./Camera";
 import type { Geometry } from "./Geometry";
-import type { BaseTexture } from "./managed/BaseTexture";
+import type { BaseTexture } from "./managed/resource/Texture";
 import type { Material } from "./Material";
 
 const origin = { x: 0, y: 0, z: 0, w: 1 };

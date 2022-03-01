@@ -130,3 +130,17 @@ export class Buffer extends ManagedWebGLResource<WebGLBuffer> {
     }
 
 }
+
+
+export class BufferArray extends Buffer {
+    constructor(gl: WebGL2RenderingContext, usage: string, data: BufferArrayType) {
+        super(gl, "array", usage, data);
+    }
+}
+
+
+export class BufferElementArray extends Buffer {
+    constructor(gl: WebGL2RenderingContext, usage: string, data: BufferArrayType) {
+        super(gl, "element-array", usage, data);
+    }
+}

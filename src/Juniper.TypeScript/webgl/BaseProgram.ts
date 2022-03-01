@@ -1,8 +1,7 @@
 import type { IDisposable } from "juniper-tslib";
 import { isDefined } from "juniper-tslib";
-import { ShaderFragment } from "./managed/ShaderFragment";
-import { ShaderProgram } from "./managed/ShaderProgram";
-import { ShaderVertex } from "./managed/ShaderVertex";
+import { ShaderFragment, ShaderVertex } from "./managed/resource/Shader";
+import { ShaderProgram } from "./managed/resource/ShaderProgram";
 
 
 export abstract class BaseProgram implements IDisposable {

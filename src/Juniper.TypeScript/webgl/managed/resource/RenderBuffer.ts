@@ -1,6 +1,6 @@
 import { isNullOrUndefined } from "juniper-tslib";
-import { FrameAndRenderBuffers, FramebufferType } from "../GLEnum";
-import { IRenderTargetAttachment } from "./RenderTarget";
+import { FrameAndRenderBuffers, FramebufferType } from "../../GLEnum";
+import { IRenderTargetAttachment } from "./FrameBuffer";
 import { ManagedWebGLResource } from "./ManagedWebGLResource";
 
 const defaultFormats = new Map([
@@ -30,7 +30,6 @@ export class BaseRenderBuffer extends ManagedWebGLResource<WebGLRenderbuffer> im
     constructor(gl: WebGL2RenderingContext, public readonly attachment: FrameAndRenderBuffers) {
         super(gl, gl.createRenderbuffer());
         this.format = defaultFormats.get(this.attachment);
-        this.bind();
     }
 
     fbBind(target: FramebufferType) {
@@ -49,6 +48,8 @@ export class BaseRenderBuffer extends ManagedWebGLResource<WebGLRenderbuffer> im
 export class RenderBuffer extends BaseRenderBuffer {
     constructor(gl: WebGL2RenderingContext, width: number, height: number, attachment: GLenum) {
         super(gl, attachment);
+
+        this.bind();
         gl.renderbufferStorage(gl.RENDERBUFFER, this.format, width, height);
     }
 }
@@ -61,6 +62,7 @@ export class RenderBufferMultisampled extends BaseRenderBuffer {
             samples = gl.getParameter(gl.MAX_SAMPLES);
         }
 
+        this.bind();
         gl.renderbufferStorageMultisample(gl.RENDERBUFFER, samples, this.format, width, height);
     }
 }

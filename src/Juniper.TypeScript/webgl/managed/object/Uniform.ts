@@ -1,5 +1,5 @@
 import { ManagedWebGLObject } from "./ManagedWebGLObject";
-import type { BaseTexture } from "./BaseTexture";
+import type { BaseTexture } from "../resource/Texture";
 
 export class Uniform extends ManagedWebGLObject<WebGLUniformLocation> {
     readonly name: string;

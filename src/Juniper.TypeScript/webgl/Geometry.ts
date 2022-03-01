@@ -1,8 +1,7 @@
 import type { IDisposable } from "juniper-tslib";
 import type { GeometryDescription, VertexComponent, VertexComponentDesc } from "./geometry/GeometryDescription";
-import { Attrib } from "./managed/Attrib";
-import { BufferArray } from "./managed/BufferArray";
-import { BufferElementArray } from "./managed/BufferElementArray";
+import { Attrib } from "./managed/object/Attrib";
+import { BufferArray, BufferElementArray } from "./managed/resource/Buffer";
 
 export class Geometry implements IDisposable {
     private vertBuffer: BufferArray;

@@ -1,18 +1,11 @@
 import { arrayClear, IDisposable, isDefined, isMobileVR } from "juniper-tslib";
-import { Blitter, IBlitter } from "./Blitter";
+import { Blitter } from "./Blitter";
 import { ClearBits, FramebufferType } from "./GLEnum";
-import {
-    RenderTarget,
-    RenderTargetCanvas,
-    RenderTargetWebXRMultiview,
-    RenderTargetWebXRMultiviewMultisampled,
-    RenderTargetWebXRMultisampled,
-    RenderTargetWebXR
-} from "./managed/RenderTarget";
+import { BaseFrameBuffer, FrameBufferCanvas, FrameBufferWebXR, FrameBufferWebXRMultisampled, FrameBufferWebXRMultiview, FrameBufferWebXRMultiviewMultisampled } from "./managed/resource/FrameBuffer";
 
 export class RenderTargetManager implements IDisposable {
-    private blitChain = new Array<IBlitter>();
-    private targets = new Array<RenderTarget>();
+    private blitChain = new Array<Blitter>();
+    private targets = new Array<BaseFrameBuffer>();
     private lastLayer: XRWebGLLayer = undefined;
     private lastNumViews: number = null;
     private disposed: boolean = false;
@@ -44,10 +37,6 @@ export class RenderTargetManager implements IDisposable {
     }
 
     private destroyTargets() {
-        for (const blitter of this.blitChain) {
-            blitter.dispose();
-        }
-
         arrayClear(this.blitChain);
 
         for (const target of this.targets) {
@@ -60,50 +49,50 @@ export class RenderTargetManager implements IDisposable {
     resize() {
         const layer = this.lastLayer;
         this.lastLayer = null;
-        this.setLayer(layer, this.lastNumViews);
+        this.setSession(layer, this.lastNumViews);
     }
 
     clearLayers() {
-        this.setLayer(null, 1);
+        this.setSession(null, 1);
     }
 
-    setLayer(layer: XRWebGLLayer, numViews: number) {
-        console.log("setLayer", layer, numViews, this.lastLayer);
+    setSession(layer: XRWebGLLayer, numViews: number) {
         if (layer !== this.lastLayer) {
-            const attrib = this.gl.getContextAttributes();
-
             this.lastLayer = layer;
             this.lastNumViews = numViews;
 
             this.destroyTargets();
 
-            const canvasTarget = new RenderTargetCanvas(this.gl);
+            const canvasTarget = new FrameBufferCanvas(this.gl);
             this.targets.unshift(canvasTarget);
 
             if (isDefined(layer)
                 && isDefined(layer.framebuffer)) {
-                let target: RenderTarget = null;
-                if (this.mvMsExt && attrib.antialias) {
-                    target = new RenderTargetWebXRMultiviewMultisampled(this.gl, this.mvMsExt, layer, numViews, 4)
+                const webXRTarget = new FrameBufferWebXR(this.gl, layer);
+                this.targets.unshift(webXRTarget);
+
+                let target: BaseFrameBuffer = null;
+                if (this.mvMsExt) {
+                    target = new FrameBufferWebXRMultiviewMultisampled(this.gl, this.mvMsExt, layer, numViews)
                 }
-                else if (this.mvExt && !attrib.antialias) {
-                    target = new RenderTargetWebXRMultiview(this.gl, this.mvExt, layer, numViews);
-                }
-                else if (attrib.antialias) {
-                    target = new RenderTargetWebXRMultisampled(this.gl, layer, 4);
+                else if (this.mvExt) {
+                    target = new FrameBufferWebXRMultiview(this.gl, this.mvExt, layer, numViews);
                 }
                 else {
-                    target = new RenderTargetWebXR(this.gl, layer);
+                    target = new FrameBufferWebXRMultisampled(this.gl, layer);
                 }
 
-                console.log("target", target);
-
                 this.targets.unshift(target);
+                this.blitChain.push(new Blitter(
+                    this.gl,
+                    target,
+                    webXRTarget,
+                    [this.gl.COLOR_ATTACHMENT0]));
 
                 if (!isMobileVR()) {
                     this.blitChain.push(new Blitter(
                         this.gl,
-                        target,
+                        webXRTarget,
                         canvasTarget,
                         [this.gl.BACK]));
                 }

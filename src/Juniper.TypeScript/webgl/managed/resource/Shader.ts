@@ -67,3 +67,16 @@ ${this.getSource()}`;
         program.detachShader(this.handle);
     }
 }
+
+
+export class ShaderFragment extends Shader {
+    constructor(gl: WebGL2RenderingContext, src: string) {
+        super("fragment", gl, src);
+    }
+}
+
+export class ShaderVertex extends Shader {
+    constructor(gl: WebGL2RenderingContext, src: string) {
+        super("vertex", gl, src);
+    }
+}

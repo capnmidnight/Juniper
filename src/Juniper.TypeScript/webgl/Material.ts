@@ -2,8 +2,8 @@ import type { mat4 } from "gl-matrix";
 import { assertNever } from "juniper-tslib";
 import { BaseProgram } from "./BaseProgram";
 import type { Geometry } from "./Geometry";
-import type { BaseTexture } from "./managed/BaseTexture";
-import type { Uniform } from "./managed/Uniform";
+import type { BaseTexture } from "./managed/resource/Texture";
+import type { Uniform } from "./managed/object/Uniform";
 
 export abstract class BaseMaterial extends BaseProgram {
     private uGamma: Uniform;

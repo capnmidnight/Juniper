@@ -1,4 +1,4 @@
-import { arrayClear, arrayRemove, deg2rad, Exception, isDefined, isNullOrUndefined, TypedEvent, TypedEventBase } from "juniper-tslib";
+import { arrayRemove, deg2rad, Exception, isDefined, isNullOrUndefined, TypedEvent, TypedEventBase } from "juniper-tslib";
 import type { Camera } from "./Camera";
 
 type TickCallback = (t: number, dt: number, frame: XRFrame) => void;
@@ -15,9 +15,6 @@ export class XRSessionManager extends TypedEventBase<{
 }> {
     private callbacks = new Array<TickCallback>();
     private lt = -1;
-    private tryLayers = true;
-    private supportsLayers: boolean = null;
-    private layers = new Array<XRLayer>();
     private sessionEndedEvt = new TypedEvent("sessionended");
 
     private timerCallback: XRFrameRequestCallback = null;
@@ -26,7 +23,6 @@ export class XRSessionManager extends TypedEventBase<{
     private _sessionType: XRSessionMode = null;
     private _xrSession: XRSession = null;
     private _baseRefSpace: XRReferenceSpace = null;
-    private _layerFactory: XRWebGLBinding = null;
 
     private readonly starter: (t: number, frame?: XRFrame) => void;
     private readonly animator: (t: number, frame?: XRFrame) => void;
@@ -42,7 +38,6 @@ export class XRSessionManager extends TypedEventBase<{
         this.task = new Promise<void>(resolve => this.finished = resolve);
 
         this.starter = (t: number, frame?: XRFrame) => {
-            console.log("Starter", this._sessionType, frame);
             if ((this._sessionType === "immersive-ar"
                 || this._sessionType === "immersive-vr")
                 && (isNullOrUndefined(frame)
@@ -67,16 +62,11 @@ export class XRSessionManager extends TypedEventBase<{
 
         if (navigator.xr) {
             navigator.xr.addEventListener("sessiongranted", (evt: any) => {
-                console.log("Session granted");
                 this.startSession(evt && evt.session && evt.session.mode || "immersive-vr");
             });
         }
 
         (globalThis as any)["xr"] = this;
-    }
-
-    get layerFactory(): XRWebGLBinding {
-        return this._layerFactory;
     }
 
     get inSession(): boolean {
@@ -92,14 +82,6 @@ export class XRSessionManager extends TypedEventBase<{
         this.pauseAnimation();
         this._xrSession = v;
         this.resumeAnimation(callback);
-        if (v) {
-            console.log("GOGOGO", v);
-            const go = (dt: number, frame: XRFrame) => {
-                console.log("go", dt, frame, v);
-                v.requestAnimationFrame(go);
-            }
-            v.requestAnimationFrame(go);
-        }
     }
 
     get sessionType(): XRSessionMode {
@@ -160,39 +142,19 @@ export class XRSessionManager extends TypedEventBase<{
             ]
         };
 
-        if (this.tryLayers) {
-            init.optionalFeatures.push("layers");
-        }
-
-        try {
-            const session = await navigator.xr.requestSession(type, init);
-            this.supportsLayers = this.tryLayers;
-            return session;
-        }
-        catch (err) {
-            this.supportsLayers = false;
-            this.tryLayers = false;
-            return await this.requestSession(type);
-        }
+        return await navigator.xr.requestSession(type, init);
     }
 
     async startSession(type: XRSessionMode): Promise<void> {
         if (!this.inSession) {
             const xrSession = await this.requestSession(type);
 
-            if (this.supportsLayers) {
-                this._layerFactory = new XRWebGLBinding(xrSession, this.gl);
-            }
-
             this._sessionType = type;
 
             xrSession.addEventListener("end", () => {
-                console.log("SESSION ENDED!");
                 this.xrSession = null;
                 this._sessionType = null;
                 this._baseRefSpace = null;
-                this._layerFactory = null;
-                arrayClear(this.layers);
                 this.dispatchEvent(this.sessionEndedEvt);
             });
 
@@ -200,20 +162,16 @@ export class XRSessionManager extends TypedEventBase<{
                 type === "inline"
                     ? "viewer"
                     : "local-floor");
-
-            const layerInit: XRWebGLLayerInit = {
-                antialias: true,
-                alpha: true,
-                depth: true,
-                stencil: false,
-                framebufferScaleFactor: 1
-            };
-
-            const baseLayer = new XRWebGLLayer(xrSession, this.gl, layerInit);
-            this.layers.push(baseLayer);
+            const attrib = this.gl.getContextAttributes();
+            const baseLayer = new XRWebGLLayer(xrSession, this.gl, {
+                alpha: attrib.alpha,
+                antialias: attrib.antialias,
+                depth: attrib.depth,
+                stencil: attrib.stencil
+            });
 
             const renderState: XRRenderStateInit = {
-                layers: this.layers,
+                baseLayer,
                 depthNear: this.cam.near,
                 depthFar: this.cam.far
             }
@@ -223,29 +181,14 @@ export class XRSessionManager extends TypedEventBase<{
             }
 
             await xrSession.updateRenderState(renderState);
-            
-            this.dispatchEvent(new XRSessionStartedEvent(xrSession, baseLayer, 2));
+
             this.xrSession = xrSession;
+            this.dispatchEvent(new XRSessionStartedEvent(xrSession, baseLayer, 2));
         }
-    }
-
-    async addLayer(layer: XRLayer): Promise<void> {
-        this.layers.push(layer);
-        await this.xrSession.updateRenderState({
-            layers: this.layers
-        });
-    }
-
-    async removeLayer(layer: XRLayer): Promise<void> {
-        arrayRemove(this.layers, layer);
-        await this.xrSession.updateRenderState({
-            layers: this.layers
-        });
     }
 
     async endSession(): Promise<void> {
         if (this.inSession) {
-            console.log("Ending session  aaaaaaaaaaaaaaaaaaaaaaa");
             await this.xrSession.end();
         }
     }

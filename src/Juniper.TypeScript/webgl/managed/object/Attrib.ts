@@ -1,4 +1,4 @@
-import type { Buffer } from "./Buffer";
+import type { Buffer } from "../resource/Buffer";
 import { ManagedWebGLObject } from "./ManagedWebGLObject";
 
 export class Attrib extends ManagedWebGLObject<GLintptr> {

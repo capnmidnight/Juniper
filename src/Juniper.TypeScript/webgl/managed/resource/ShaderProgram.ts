@@ -1,8 +1,7 @@
-import { Attrib } from "./Attrib";
+import { Attrib } from "../object/Attrib";
+import { Uniform } from "../object/Uniform";
 import { ManagedWebGLResource } from "./ManagedWebGLResource";
-import type { ShaderFragment } from "./ShaderFragment";
-import type { ShaderVertex } from "./ShaderVertex";
-import { Uniform } from "./Uniform";
+import type { ShaderFragment, ShaderVertex } from "./Shader";
 
 // Manage the shader program
 export class ShaderProgram extends ManagedWebGLResource<WebGLProgram> {
