@@ -28,21 +28,16 @@ export abstract class BaseAudioSource<AudioNodeT extends AudioNode, EventTypeT =
         this.setEffects(...effectNames);
     }
 
-    private disposed2 = false;
-    override dispose(): void {
-        if (!this.disposed2) {
-            for (const effect of this.effects) {
-                if (isDisposable(effect)) {
-                    effect.dispose();
-                }
+    protected override onDisposing(): void {
+        for (const effect of this.effects) {
+            if (isDisposable(effect)) {
+                effect.dispose();
             }
-
-            arrayClear(this.effects);
-
-            this.disposed2 = true;
         }
 
-        super.dispose();
+        arrayClear(this.effects);
+
+        super.onDisposing();
     }
 
     setEffects(...effectNames: string[]) {

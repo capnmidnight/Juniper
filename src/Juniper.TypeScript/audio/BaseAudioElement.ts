@@ -40,11 +40,15 @@ export abstract class BaseAudioElement<SpatializerT extends BaseSpatializer, Eve
     private disposed = false;
     dispose(): void {
         if (!this.disposed) {
-            removeVertex(this.volumeControl);
-            if (isDisposable(this.spatializer)) {
-                this.spatializer.dispose();
-            }
+            this.onDisposing();
             this.disposed = true;
+        }
+    }
+
+    protected onDisposing(): void {
+        removeVertex(this.volumeControl);
+        if (isDisposable(this.spatializer)) {
+            this.spatializer.dispose();
         }
     }
 

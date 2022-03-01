@@ -57,7 +57,7 @@ export class AudioElementSource
 
         this.input.mediaElement.addEventListener("ended", () => {
             this.disconnect();
-            this.dispatchEvent(this.pauseEvt);
+                this.dispatchEvent(this.pauseEvt);
         });
 
         this.input.mediaElement.addEventListener("timeupdate", () => {
@@ -137,19 +137,14 @@ export class AudioElementSource
 
     restart(): void {
         if (this.playbackState !== "stopped") {
-            this.stop();
-            this.play();
-        }
+        this.stop();
+        this.play();
+    }
     }
 
-    private disposed3 = false;
-    override dispose(): void {
-        if (!this.disposed3) {
-            this.halt();
-            dec(this.input);
-            this.disposed3 = false;
-        }
-
-        super.dispose();
+    protected override onDisposing(): void {
+        this.audio.pause();
+        dec(this.input);
+        super.onDisposing();
     }
 }

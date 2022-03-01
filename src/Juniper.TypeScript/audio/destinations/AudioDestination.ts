@@ -44,16 +44,11 @@ export class AudioDestination extends BaseAudioElement<BaseListener, void> {
         connect(this.volumeControl, this._trueDestination);
     }
 
-    private disposed2 = false;
-    override dispose(): void {
-        if (!this.disposed2) {
-            removeVertex(this._remoteUserInput);
-            removeVertex(this._spatializedInput);
-            removeVertex(this._nonSpatializedInput);
-            this.disposed2 = true;
-        }
-
-        super.dispose();
+    protected override onDisposing(): void {
+        removeVertex(this._remoteUserInput);
+        removeVertex(this._spatializedInput);
+        removeVertex(this._nonSpatializedInput);
+        super.onDisposing();
     }
 
     get remoteUserInput() {

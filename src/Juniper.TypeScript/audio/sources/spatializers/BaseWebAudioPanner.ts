@@ -1,4 +1,4 @@
-import { Panner, removeVertex } from "../../nodes";
+import { Panner } from "../../nodes";
 import { Pose } from "../../Pose";
 import { BaseEmitter } from "./BaseEmitter";
 
@@ -23,14 +23,6 @@ export abstract class BaseWebAudioPanner extends BaseEmitter {
             coneOuterAngle: 0,
             coneOuterGain: 0
         });
-    }
-
-    private disposed = false;
-    override dispose(): void {
-        if (!this.disposed) {
-            removeVertex(this.input);
-            this.disposed = true;
-        }
     }
 
     override copyAudioProperties(from: BaseWebAudioPanner) {
