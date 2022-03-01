@@ -1,4 +1,4 @@
-import { IProgress, isArrayBuffer, isArrayBufferView } from "juniper-tslib";
+import { identity, IProgress, isArrayBuffer, isArrayBufferView } from "juniper-tslib";
 import { isDefined, isString, mapJoin, progressPopper } from "juniper-tslib";
 import type { HTTPMethods, IFetchingService, IRequest, IRequestWithBody, IResponse } from "./IFetcher";
 import { ResponseTranslator } from "./ResponseTranslator";
@@ -128,7 +128,7 @@ function readResponse<T>(xhr: XMLHttpRequest) {
     const response: IResponse<T> = {
         status: xhr.status,
         content: xhr.response as T,
-        contentType: readResponseHeader(headers, "content-type", v => v),
+        contentType: readResponseHeader(headers, "content-type", identity),
         contentLength: readResponseHeader(headers, "content-length", parseFloat),
         fileName: readResponseHeader(headers, "content-disposition", v => {
             if (isDefined(v)) {

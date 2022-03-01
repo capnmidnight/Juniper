@@ -6,6 +6,7 @@ export * from "./gis";
 export * from "./graphics2d";
 export * from "./graphs";
 export * from "./hax";
+export * from "./identity";
 export * from "./math";
 export * from "./progress";
 export * from "./singleton";
