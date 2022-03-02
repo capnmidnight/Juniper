@@ -2,7 +2,7 @@ import { src, title } from "juniper-dom/attrs";
 import { CanvasImageTypes, CanvasTypes, createUICanvas } from "juniper-dom/canvas";
 import { Img } from "juniper-dom/tags";
 import type { IFetcher } from "juniper-fetcher";
-import { Exception, IProgress, nextPowerOf2, PoppableParentProgressCallback, progressPopper } from "juniper-tslib";
+import { Exception, IProgress, nextPowerOf2, PoppableParentProgressCallback, PriorityMap, progressPopper } from "juniper-tslib";
 
 interface UVRect {
     u: number;
@@ -11,29 +11,21 @@ interface UVRect {
     dv: number;
 }
 
-async function loadIcons(fetcher: IFetcher, setName: string, iconNames: Map<string, string>, popper: PoppableParentProgressCallback): Promise<[string, Map<string, CanvasImageTypes>]> {
-    return [
-        setName,
-        new Map(await Promise.all(
-            Array.from(iconNames.entries()).map((pair) =>
-                loadIcon(fetcher, pair[0], pair[1], popper))))
-    ];
-}
-
-async function loadIcon(fetcher: IFetcher, iconName: string, iconPath: string, popper: PoppableParentProgressCallback): Promise<[string, CanvasImageTypes]> {
+async function loadIcon(fetcher: IFetcher, setName: string, iconName: string, iconPath: string, popper: PoppableParentProgressCallback): Promise<[string, string, CanvasImageTypes]> {
     const { content } = await fetcher
         .get(iconPath)
         .progress(popper.pop())
         .image();
     return [
+        setName,
         iconName,
         content
     ];
 }
 
 export class ButtonFactory {
-    private readonly uvDescrips = new Map<string, Map<string, UVRect>>();
-    private readonly geoms = new Map<string, Map<string, THREE.BufferGeometry>>();
+    private readonly uvDescrips = new PriorityMap<string, string, UVRect>();
+    private readonly geoms = new PriorityMap<string, string, THREE.BufferGeometry>();
 
     private readonly readyTask: Promise<void>;
 
@@ -43,7 +35,7 @@ export class ButtonFactory {
     private enabledMaterial: THREE.MeshBasicMaterial = null;
     private disabledMaterial: THREE.MeshBasicMaterial = null;
 
-    constructor(private readonly fetcher: IFetcher, private readonly imagePaths: Map<string, Map<string, string>>, private readonly padding: number) {
+    constructor(private readonly fetcher: IFetcher, private readonly imagePaths: PriorityMap<string, string, string>, private readonly padding: number) {
         this.readyTask = new Promise((resolve) => {
             this.onLoadComplete = resolve;
         });
@@ -51,13 +43,11 @@ export class ButtonFactory {
 
     async load(prog?: IProgress) {
         const popper = progressPopper(prog);
-        const imageSets = new Map(await Promise.all(
+        const imageSets = new PriorityMap(await Promise.all(
             Array.from(this.imagePaths.entries())
-                .map((kv) =>
-                    loadIcons(this.fetcher, kv[0], kv[1], popper))));
-        const images = Array.from(imageSets.values())
-            .map(set => Array.from(set.values()))
-            .flat();
+                .map(([setName, iconName, path]) =>
+                    loadIcon(this.fetcher, setName, iconName, path, popper))));
+        const images = Array.from(imageSets.values());
         const iconWidth = Math.max(...images.map(img => img.width));
         const iconHeight = Math.max(...images.map(img => img.height));
         const area = iconWidth * iconHeight * images.length;
@@ -80,26 +70,22 @@ export class ButtonFactory {
         g.fillRect(0, 0, canvWidth, canvHeight);
 
         let i = 0;
-        for (const [name, imgRows] of imageSets) {
-            this.uvDescrips.set(name, new Map<string, UVRect>());
+        for (const [setName, imgName, img] of imageSets.entries()) {
+            const c = i % cols;
+            const r = (i - c) / cols;
+            const u = widthRatio * (c * iconWidth / width);
+            const v = heightRatio * (1 - r / rows) - dv;
+            const x = c * iconWidth;
+            const y = r * iconHeight + canvHeight - height;
+            const w = iconWidth - 2 * this.padding;
+            const h = iconHeight - 2 * this.padding;
 
-            for (const [imgName, img] of imgRows) {
-                const c = i % cols;
-                const r = (i - c) / cols;
-                const u = widthRatio * (c * iconWidth / width);
-                const v = heightRatio * (1 - r / rows) - dv;
-                const x = c * iconWidth;
-                const y = r * iconHeight + canvHeight - height;
-                const w = iconWidth - 2 * this.padding;
-                const h = iconHeight - 2 * this.padding;
+            g.drawImage(img,
+                0, 0, img.width, img.height,
+                x + this.padding, y + this.padding, w, h);
+            this.uvDescrips.add(setName, imgName, { u, v, du, dv });
 
-                g.drawImage(img,
-                    0, 0, img.width, img.height,
-                    x + this.padding, y + this.padding, w, h);
-                this.uvDescrips.get(name).set(imgName, { u, v, du, dv });
-
-                ++i;
-            }
+            ++i;
         }
 
         this.texture = new THREE.CanvasTexture(this.canvas as any);
@@ -145,13 +131,13 @@ export class ButtonFactory {
             throw new Exception(`Button ${setName}/${iconName} does not exist`, this.uvDescrips);
         }
 
-        let geomSet = this.geoms.get(setName);
-        let geom = geomSet && geomSet.get(iconName);
+
+        let geom = this.geoms.get(setName, iconName);
         if (!geom) {
-            if (!geomSet) {
-                this.geoms.set(setName, geomSet = new Map<string, THREE.BufferGeometry>());
-            }
-            geomSet.set(iconName, geom = new THREE.PlaneBufferGeometry(1, 1, 1, 1));
+            geom = new THREE.PlaneBufferGeometry(1, 1, 1, 1)
+            geom.name = `Geometry:${setName}/${iconName}`;
+
+            this.geoms.add(setName, iconName, geom);
 
             const uvBuffer = geom.getAttribute("uv");
             for (let i = 0; i < uvBuffer.count; ++i) {
@@ -161,7 +147,6 @@ export class ButtonFactory {
                 uvBuffer.setY(i, v);
             }
         }
-        geom.name = `Geometry:${setName}/${iconName}`;
         return geom;
     }
 

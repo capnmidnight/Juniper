@@ -7,7 +7,8 @@ import {
     isDefined,
     isDesktop,
     isNullOrUndefined,
-    isOculusBrowser
+    isOculusBrowser,
+    PriorityMap
 } from "juniper-tslib";
 import { XRControllerModelFactory } from "../examples/webxr/XRControllerModelFactory";
 import { XRHandModelFactory } from "../examples/webxr/XRHandModelFactory";
@@ -24,19 +25,15 @@ const riftSCorrection = new THREE.Matrix4().makeRotationX(-7 * Math.PI / 9);
 const newOrigin = new THREE.Vector3();
 const newDirection = new THREE.Vector3();
 const delta = new THREE.Vector3();
-const buttonIndices = new Map<XRHandedness, Map<VirtualButtons, number>>([
-    ["left", new Map<VirtualButtons, number>([
-        [VirtualButtons.Primary, 0],
-        [VirtualButtons.Secondary, 1],
-        [VirtualButtons.Menu, 2],
-        [VirtualButtons.Info, 3],
-    ])],
-    ["right", new Map<VirtualButtons, number>([
-        [VirtualButtons.Primary, 0],
-        [VirtualButtons.Secondary, 1],
-        [VirtualButtons.Menu, 2],
-        [VirtualButtons.Info, 3],
-    ])]
+const buttonIndices = new PriorityMap<XRHandedness, VirtualButtons, number>([
+    ["left", VirtualButtons.Primary, 0],
+    ["left", VirtualButtons.Secondary, 1],
+    ["left", VirtualButtons.Menu, 2],
+    ["left", VirtualButtons.Info, 3],
+    ["right", VirtualButtons.Primary, 0],
+    ["right", VirtualButtons.Secondary, 1],
+    ["right", VirtualButtons.Menu, 2],
+    ["right", VirtualButtons.Info, 3]
 ]);
 
 const pointerNames = new Map<XRHandedness, PointerName>([

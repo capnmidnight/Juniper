@@ -28,24 +28,22 @@ export class TestOutput extends TypedEventBase<TestOutputEvents> {
                 totalIncomplete = 0,
                 totalSucceeded = 0,
                 totalFailed = 0;
-            for (let testCase of results.values()) {
-                for (let test of testCase.values()) {
-                    ++totalFound;
-                    if (test.state & TestStates.started) {
-                        ++totalRan;
-                    }
-                    if (test.state & TestStates.completed) {
-                        ++totalCompleted;
-                    }
-                    else {
-                        ++totalIncomplete;
-                    }
-                    if (test.state & TestStates.succeeded) {
-                        ++totalSucceeded;
-                    }
-                    if (test.state & TestStates.failed) {
-                        ++totalFailed;
-                    }
+            for (let test of results.values()) {
+                ++totalFound;
+                if (test.state & TestStates.started) {
+                    ++totalRan;
+                }
+                if (test.state & TestStates.completed) {
+                    ++totalCompleted;
+                }
+                else {
+                    ++totalIncomplete;
+                }
+                if (test.state & TestStates.succeeded) {
+                    ++totalSucceeded;
+                }
+                if (test.state & TestStates.failed) {
+                    ++totalFailed;
                 }
             }
 

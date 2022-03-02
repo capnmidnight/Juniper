@@ -1,4 +1,4 @@
-import { isFunction, TypedEventBase } from "juniper-tslib";
+import { isFunction, PriorityMap, TypedEventBase } from "juniper-tslib";
 import { CaseClassConstructor } from "./CaseClassConstructor";
 import { TestCaseFailEvent } from "./TestCaseFailEvent";
 import { TestCaseMessageEvent } from "./TestCaseMessageEvent";
@@ -34,14 +34,12 @@ export class TestRunner extends TypedEventBase<TestRunnerEvents> {
     }
 
     async run(testCaseName: string, testName: string) {
-        const results: TestResults = new Map();
+        const results: TestResults = new PriorityMap();
         const onUpdate = () => this.dispatchEvent(new TestRunnerResultsEvent(results));
         for (let CaseClass of this.CaseClasses) {
-            const caseResults = new Map();
-            results.set(CaseClass.name, caseResults);
             for (let name of testNames(CaseClass.prototype)) {
                 if (isTest(CaseClass.prototype, name)) {
-                    caseResults.set(name, new TestScore(name));
+                    results.add(CaseClass.name, name, new TestScore(name));
                     onUpdate();
                 }
             }

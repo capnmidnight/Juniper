@@ -1,7 +1,7 @@
-import { TypedEvent } from "juniper-tslib";
+import { PriorityMap, TypedEvent } from "juniper-tslib";
 import { TestScore } from "./TestScore";
 
-export type TestResults = Map<string, Map<string, TestScore>>;
+export type TestResults = PriorityMap<string, string, TestScore>;
 
 /**
  * An Event that encapsulates a test result.

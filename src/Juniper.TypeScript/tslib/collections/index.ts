@@ -19,3 +19,5 @@ export * from "./mapJoin";
 export * from "./mapMap";
 export * from "./mapToObject";
 export * from "./mapUnderwrite";
+export * from "./PriorityList";
+export * from "./PriorityMap";

@@ -6,7 +6,7 @@ import type { CanvasTypes } from "juniper-dom/canvas";
 import { elementApply } from "juniper-dom/tags";
 import type { IFetcher } from "juniper-fetcher";
 import { TimerTickEvent } from "juniper-timers";
-import type { IProgress } from "juniper-tslib";
+import type { IProgress, PriorityMap } from "juniper-tslib";
 import { hasVR, isDesktop, isMobile, isMobileVR, progressTasks, rad2deg, TypedEvent } from "juniper-tslib";
 import { DEFAULT_LOCAL_USER_ID } from "juniper-webrtc/constants";
 import { ButtonFactory } from "../ButtonFactory";
@@ -70,7 +70,7 @@ export class Environment
     constructor(canvas: CanvasTypes,
         fetcher: IFetcher,
         dialogFontFamily: string,
-        uiImagePaths: Map<string, Map<string, string>>,
+        uiImagePaths: PriorityMap<string, string, string>,
         defaultAvatarHeight: number,
         enableFullResolution: boolean,
         JS_EXT: string = ".js",
