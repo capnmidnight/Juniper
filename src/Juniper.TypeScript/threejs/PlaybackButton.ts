@@ -157,6 +157,7 @@ export class PlaybackButton
 
         clip.addEventListener("played", () => this.dispatchEvent(playEvt));
         clip.addEventListener("stopped", () => this.dispatchEvent(stopEvt));
+        clip.addEventListener("ended", () => this.dispatchEvent(stopEvt));
 
         const onClick = (btn: MeshButton, callback: () => void) => {
             btn.addEventListener("click", async (ev: THREE.Event) => {
