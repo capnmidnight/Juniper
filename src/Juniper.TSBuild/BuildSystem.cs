@@ -6,6 +6,13 @@ using System.Text.RegularExpressions;
 
 namespace Juniper.TSBuild
 {
+    public class BuildSystemProjectRootNotFoundException : DirectoryNotFoundException
+    {
+        public BuildSystemProjectRootNotFoundException(string message)
+            : base(message)
+        {}
+    }
+
     public class BuildSystem
     {
         private static DirectoryInfo ResolveStartDir(ref DirectoryInfo? startDir, string testDirName, params string[] addlTestDirNames)
@@ -28,7 +35,7 @@ namespace Juniper.TSBuild
 
             if (dir is null)
             {
-                throw new FileNotFoundException($"Couldn't find project root from {startDir}");
+                throw new BuildSystemProjectRootNotFoundException($"Couldn't find project root from {startDir}");
             }
 
             return dir;
@@ -124,7 +131,7 @@ namespace Juniper.TSBuild
 
             if (juniper?.Exists != true)
             {
-                throw new FileNotFoundException("Couldn't find Juniper");
+                throw new BuildSystemProjectRootNotFoundException("Couldn't find Juniper");
             }
 
             juniperTsDir = juniper;

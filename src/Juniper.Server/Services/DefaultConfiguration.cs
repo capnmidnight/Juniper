@@ -112,7 +112,7 @@ namespace Juniper.Services
 
             services.AddDbContext<ContextT>(options =>
                 options.SetDefaultConnection(connectionStringName, env, config));
-            
+
 
             if (config.UseIdentity)
             {
@@ -243,15 +243,24 @@ namespace Juniper.Services
             public uint? HttpsPort { get; set; }
         }
 
+#if DEBUG
+        private const string BUILD = "DEBUG";
+#else
+        private const string BUILD = "RELEASE";
+#endif
+
         public static IHostBuilder ConfigureJuniperHost<StartupT>(this IHostBuilder host, PortOptions? ports = null)
             where StartupT : class
         {
             return host.UseSystemd()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                    Console.WriteLine("Environment: {0}:{1}", env, BUILD);
+
                     webBuilder.UseStartup<StartupT>();
 #if DEBUG
-                    if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != Environments.Development)
+                    if (env != Environments.Development)
                     {
                         webBuilder.ConfigureAppConfiguration(app =>
                             app.AddUserSecrets(Assembly.GetEntryAssembly()));
