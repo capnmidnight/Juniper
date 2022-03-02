@@ -132,7 +132,7 @@ export class DeviceDialog extends DialogBox {
                     onClick(async () => {
                         buttonSetEnabled(this.testSpkrButton, false, "secondary");
                         await clipLoaded;
-                        await this.env.audio.playClip("test-audio");
+                        await this.env.audio.playClipThrough("test-audio");
                         buttonSetEnabled(this.testSpkrButton, true, "secondary");
                     }))],
 

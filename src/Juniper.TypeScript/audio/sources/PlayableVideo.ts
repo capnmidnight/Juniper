@@ -1,5 +1,5 @@
 import { once, TypedEventBase } from "juniper-tslib";
-import { IPlayable, PlaybackState, MediaElementSourceEvents, MediaElementSourcePlayedEvent, MediaElementSourcePausedEvent, MediaElementSourceStoppedEvent, MediaElementSourceProgressEvent } from "./IPlayable";
+import { IPlayable, MediaElementSourceEndedEvent, MediaElementSourceEvents, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent, PlaybackState } from "./IPlayable";
 
 export class PlayableVideo
     extends TypedEventBase<MediaElementSourceEvents>
@@ -7,6 +7,7 @@ export class PlayableVideo
     private readonly playEvt: MediaElementSourcePlayedEvent;
     private readonly pauseEvt: MediaElementSourcePausedEvent;
     private readonly stopEvt: MediaElementSourceStoppedEvent;
+    private readonly endEvt: MediaElementSourceEndedEvent;
     private readonly progEvt: MediaElementSourceProgressEvent;
 
     constructor(private readonly video: HTMLVideoElement) {
@@ -15,11 +16,27 @@ export class PlayableVideo
         this.playEvt = new MediaElementSourcePlayedEvent(this);
         this.pauseEvt = new MediaElementSourcePausedEvent(this);
         this.stopEvt = new MediaElementSourceStoppedEvent(this);
+        this.endEvt = new MediaElementSourceEndedEvent(this);
         this.progEvt = new MediaElementSourceProgressEvent(this);
 
-        this.video.addEventListener("ended", () => {
-            this.dispatchEvent(this.stopEvt);
-        });
+        const halt = (evt: Event) => {
+            if (this.video.currentTime === 0) {
+                this.dispatchEvent(this.stopEvt);
+            }
+            else {
+                this.dispatchEvent(this.pauseEvt);
+            }
+
+            if (evt.type === "ended") {
+                this.dispatchEvent(this.endEvt);
+            }
+        };
+
+        this.video.addEventListener("ended", halt);
+        this.video.addEventListener("pause", halt);
+
+        this.video.addEventListener("play", () =>
+            this.dispatchEvent(this.playEvt));
 
         this.video.addEventListener("timeupdate", () => {
             this.progEvt.value = this.video.currentTime;
@@ -44,48 +61,27 @@ export class PlayableVideo
         return "playing";
     }
 
-    async play(): Promise<void> {
-        if (this.playbackState !== "playing") {
-            try {
-                await this.video.play();
-                this.dispatchEvent(this.playEvt);
-            }
-            catch (exp) {
-                console.warn(exp);
-            }
-
-            if (!this.video.loop) {
-                await once<AudioScheduledSourceNodeEventMap, "ended">(this.video, "ended");
-                this.stop();
-            }
-        }
+    play(): Promise<void> {
+        return this.video.play();
     }
 
-    private halt() {
-        if (this.playbackState === "playing") {
-            this.video.pause();
-        }
+    async playThrough(): Promise<void> {
+        const endTask = once(this, "ended");
+        await this.play();
+        await endTask;
     }
 
     pause(): void {
-        if (this.playbackState === "playing") {
-            this.halt();
-            this.dispatchEvent(this.pauseEvt);
-        }
+        this.video.pause();
     }
 
     stop(): void {
-        if (this.playbackState !== "stopped") {
-            this.halt();
-            this.video.currentTime = 0;
-            this.dispatchEvent(this.stopEvt);
-        }
+        this.video.currentTime = 0;
+        this.pause();
     }
 
     restart(): void {
-        if (this.playbackState !== "stopped") {
-            this.stop();
-            this.play();
-        }
+        this.stop();
+        this.play();
     }
 }

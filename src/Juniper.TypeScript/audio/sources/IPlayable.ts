@@ -5,6 +5,7 @@ export type PlaybackState = "playing" | "paused" | "stopped" | "errored";
 export interface IPlayable extends TypedEventBase<MediaElementSourceEvents> {
     playbackState: PlaybackState;
     play(): Promise<void>;
+    playThrough(): Promise<void>;
     pause(): void;
     stop(): void;
     restart(): void;
@@ -34,6 +35,12 @@ export class MediaElementSourceStoppedEvent extends MediaElementSourceEvent<"sto
     }
 }
 
+export class MediaElementSourceEndedEvent extends MediaElementSourceEvent<"ended"> {
+    constructor(source: IPlayable) {
+        super("ended", source);
+    }
+}
+
 export class MediaElementSourceProgressEvent extends MediaElementSourceEvent<"progress"> {
     public value = 0;
     public total = 0;
@@ -47,5 +54,6 @@ export interface MediaElementSourceEvents {
     played: MediaElementSourcePlayedEvent;
     paused: MediaElementSourcePausedEvent;
     stopped: MediaElementSourceStoppedEvent;
+    ended: MediaElementSourceEndedEvent;
     progress: MediaElementSourceProgressEvent;
 }

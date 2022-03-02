@@ -74,12 +74,21 @@ export abstract class BaseAudioSource<AudioNodeT extends AudioNode, EventTypeT =
         return this.source;
     }
 
+    private _connected = false;
+    get connected() {
+        return this._connected;
+    }
+
     protected connect(): void {
-        connect(this.source, this.volumeControl);
+        if (!this.connected) {
+            connect(this.source, this.volumeControl);
+        }
     }
 
     protected disconnect(): void {
-        disconnect(this.source, this.volumeControl);
+        if (this.connected) {
+            disconnect(this.source, this.volumeControl);
+        }
     }
 
     set input(v: AudioNodeT) {

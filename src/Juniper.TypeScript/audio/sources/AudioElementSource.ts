@@ -1,7 +1,7 @@
 import { once } from "juniper-tslib";
 import { removeVertex } from "../nodes";
 import { BaseAudioSource } from "./BaseAudioSource";
-import { IPlayable, PlaybackState, MediaElementSourceEvents, MediaElementSourcePlayedEvent, MediaElementSourcePausedEvent, MediaElementSourceStoppedEvent, MediaElementSourceProgressEvent } from "./IPlayable";
+import { IPlayable, MediaElementSourceEndedEvent, MediaElementSourceEvents, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent, PlaybackState } from "./IPlayable";
 import type { BaseEmitter } from "./spatializers/BaseEmitter";
 
 const elementRefCounts = new WeakMap<HTMLMediaElement, number>();
@@ -43,107 +43,103 @@ export class AudioElementSource
     private readonly playEvt: MediaElementSourcePlayedEvent;
     private readonly pauseEvt: MediaElementSourcePausedEvent;
     private readonly stopEvt: MediaElementSourceStoppedEvent;
+    private readonly endEvt: MediaElementSourceEndedEvent;
     private readonly progEvt: MediaElementSourceProgressEvent;
+    private readonly audio: HTMLAudioElement;
 
     constructor(id: string, audioCtx: AudioContext, source: MediaElementAudioSourceNode, private readonly randomize: boolean, spatializer: BaseEmitter, ...effectNames: string[]) {
         super(id, audioCtx, spatializer, ...effectNames);
         inc(this.input = source);
+        this.audio = source.mediaElement as HTMLAudioElement;
         this.disconnect();
 
         this.playEvt = new MediaElementSourcePlayedEvent(this);
         this.pauseEvt = new MediaElementSourcePausedEvent(this);
         this.stopEvt = new MediaElementSourceStoppedEvent(this);
+        this.endEvt = new MediaElementSourceEndedEvent(this);
         this.progEvt = new MediaElementSourceProgressEvent(this);
 
-        this.input.mediaElement.addEventListener("ended", () => {
+        const halt = (evt: Event) => {
             this.disconnect();
+
+            if (this.audio.currentTime === 0) {
+                this.dispatchEvent(this.stopEvt);
+            }
+            else {
                 this.dispatchEvent(this.pauseEvt);
+            }
+
+            if (evt.type === "ended") {
+                this.dispatchEvent(this.endEvt);
+            }
+        };
+
+        this.audio.addEventListener("ended", halt);
+        this.audio.addEventListener("pause", halt);
+
+        this.audio.addEventListener("play", () => {
+            this.connect();
+
+            if (this.randomize
+                && this.audio.loop
+                && this.audio.duration > 1) {
+                const startTime = this.audio.duration * Math.random();
+                this.audio.currentTime = startTime;
+            }
+
+            this.dispatchEvent(this.playEvt);
         });
 
-        this.input.mediaElement.addEventListener("timeupdate", () => {
-            this.progEvt.value = this.input.mediaElement.currentTime;
-            this.progEvt.total = this.input.mediaElement.duration;
+        this.audio.addEventListener("timeupdate", () => {
+            this.progEvt.value = this.audio.currentTime;
+            this.progEvt.total = this.audio.duration;
             this.dispatchEvent(this.progEvt);
         });
     }
 
     get playbackState(): PlaybackState {
-        const elem = this.input.mediaElement;
-        if (elem.error) {
+        if (this.audio.error) {
             return "errored";
         }
 
-        if (elem.paused && elem.currentTime === 0) {
+        if (this.audio.ended
+            || this.audio.paused && this.audio.currentTime === 0) {
             return "stopped";
         }
 
-        if (elem.paused || elem.ended) {
+        if (this.audio.paused) {
             return "paused";
         }
 
         return "playing";
     }
 
-    async play(): Promise<void> {
-        if (this.playbackState !== "playing") {
-            try {
-                let startTime = 0;
-                if (this.randomize
-                    && this.playbackState === "stopped"
-                    && this.input.mediaElement.loop
-                    && this.input.mediaElement.duration > 1) {
-                    startTime = this.input.mediaElement.duration * Math.random();
-                }
-                const playTask = this.input.mediaElement.play();
-                this.connect();
-                await playTask;
-                if (startTime > 0) {
-                    this.input.mediaElement.currentTime = startTime;
-                }
-                this.dispatchEvent(this.playEvt);
-            }
-            catch (exp) {
-                console.warn(exp);
-            }
-
-            if (!this.input.mediaElement.loop) {
-                await once<AudioScheduledSourceNodeEventMap, "ended">(this.input.mediaElement, "ended");
-                this.stop();
-            }
-        }
+    play(): Promise<void> {
+        return this.audio.play();
     }
 
-    private halt() {
-        if (this.playbackState === "playing") {
-            this.disconnect();
-            this.input.mediaElement.pause();
-        }
+    async playThrough(): Promise<void> {
+        const endTask = once(this, "ended");
+        await this.play();
+        await endTask;
     }
 
     pause(): void {
-        if (this.playbackState === "playing") {
-            this.halt();
-            this.dispatchEvent(this.pauseEvt);
-        }
+        this.audio.pause();
     }
 
     stop(): void {
-        if (this.playbackState !== "stopped") {
-            this.halt();
-            this.input.mediaElement.currentTime = 0;
-            this.dispatchEvent(this.stopEvt);
-        }
+        this.audio.currentTime = 0;
+        this.pause();
     }
 
     restart(): void {
-        if (this.playbackState !== "stopped") {
         this.stop();
         this.play();
     }
-    }
 
     protected override onDisposing(): void {
-        this.audio.pause();
+        this.disconnect();
         dec(this.input);
         super.onDisposing();
     }

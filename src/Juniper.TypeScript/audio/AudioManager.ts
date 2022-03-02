@@ -424,13 +424,24 @@ export class AudioManager
     }
 
     /**
-     * Plays a named sound effect.
+     * Plays a named sound effect, with the returned promise resolving when the clip has started playing.
      * @param id - the name of the effect to play.
      */
     async playClip(id: string): Promise<void> {
         if (this.isReady && this.hasClip(id)) {
             const clip = this.clips.get(id);
             await clip.play();
+        }
+    }
+
+    /**
+     * Plays a named sound effect, with the returned promise resolving when the clip has finished playing.
+     * @param id - the name of the effect to play.
+     */
+    async playClipThrough(id: string): Promise<void> {
+        if (this.isReady && this.hasClip(id)) {
+            const clip = this.clips.get(id);
+            await clip.playThrough();
         }
     }
 
