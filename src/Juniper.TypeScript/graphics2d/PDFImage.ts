@@ -34,7 +34,23 @@ export class PDFImage extends CanvasImage {
 
     public readonly ready: Promise<void>;
     private pdf: pdfJS.PDFDocumentProxy = null;
-    private curPage: number = null;
+
+    private _curPageIndex: number = null;
+    get curPageIndex() {
+        return this._curPageIndex;
+    }
+
+    get curPageNumber() {
+        return this.curPageIndex + 1;
+    }
+
+    get canGoBack() {
+        return this._curPageIndex > 0;
+    }
+
+    get canGoForward() {
+        return this._curPageIndex < this.numPages - 1;
+    }
 
     constructor(filePath: string, private readonly viewportParams: GetViewportParameters) {
         super(1, 1);
@@ -57,8 +73,8 @@ export class PDFImage extends CanvasImage {
         await this.ready;
 
         pageIndex = clamp(pageIndex, 0, this.pdf.numPages - 1);
-        if (pageIndex !== this.curPage) {
-            this.curPage = pageIndex;
+        if (pageIndex !== this._curPageIndex) {
+            this._curPageIndex = pageIndex;
 
             const page = await this.pdf.getPage(pageIndex + 1);
             const viewport = page.getViewport(this.viewportParams);
