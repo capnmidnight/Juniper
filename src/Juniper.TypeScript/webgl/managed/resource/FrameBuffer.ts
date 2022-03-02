@@ -1,22 +1,42 @@
 import { CanvasTypes } from "juniper-dom/canvas";
-import { isDefined, isNullOrUndefined } from "juniper-tslib";
-import type { ClearBits, FramebufferTypes } from "../../GLEnum";
-import { FramebufferType } from "../../GLEnum";
-import { BaseTextureFrameBufferMultiview, TextureFrameBufferMultiview, TextureFrameBufferMultiviewMultisampled } from "./Texture";
+import { arrayClear, isDefined, isNullOrUndefined, singleton } from "juniper-tslib";
+import { ClearBits, FrameAndRenderBuffers, FramebufferType, FramebufferTypes } from "../../GLEnum";
 import { ManagedWebGLResource } from "./ManagedWebGLResource";
-import { RenderBufferMultisampled } from "./RenderBuffer";
+import { RenderBuffer, RenderBufferMultisampled } from "./RenderBuffer";
+import { FrameBufferTexture, FrameBufferTextureMultiview, FrameBufferTextureMultiviewMultisampled } from "./FrameBufferTexture";
+
+export const DefaultRenderBufferFormats = new Map([
+    [FrameAndRenderBuffers.COLOR_ATTACHMENT0, FrameAndRenderBuffers.RGBA8],
+    [FrameAndRenderBuffers.COLOR_ATTACHMENT1, FrameAndRenderBuffers.RGBA8],
+    [FrameAndRenderBuffers.COLOR_ATTACHMENT2, FrameAndRenderBuffers.RGBA8],
+    [FrameAndRenderBuffers.COLOR_ATTACHMENT3, FrameAndRenderBuffers.RGBA8],
+    [FrameAndRenderBuffers.COLOR_ATTACHMENT4, FrameAndRenderBuffers.RGBA8],
+    [FrameAndRenderBuffers.COLOR_ATTACHMENT5, FrameAndRenderBuffers.RGBA8],
+    [FrameAndRenderBuffers.COLOR_ATTACHMENT6, FrameAndRenderBuffers.RGBA8],
+    [FrameAndRenderBuffers.COLOR_ATTACHMENT7, FrameAndRenderBuffers.RGBA8],
+    [FrameAndRenderBuffers.COLOR_ATTACHMENT8, FrameAndRenderBuffers.RGBA8],
+    [FrameAndRenderBuffers.COLOR_ATTACHMENT9, FrameAndRenderBuffers.RGBA8],
+    [FrameAndRenderBuffers.COLOR_ATTACHMENT10, FrameAndRenderBuffers.RGBA8],
+    [FrameAndRenderBuffers.COLOR_ATTACHMENT11, FrameAndRenderBuffers.RGBA8],
+    [FrameAndRenderBuffers.COLOR_ATTACHMENT12, FrameAndRenderBuffers.RGBA8],
+    [FrameAndRenderBuffers.COLOR_ATTACHMENT13, FrameAndRenderBuffers.RGBA8],
+    [FrameAndRenderBuffers.COLOR_ATTACHMENT14, FrameAndRenderBuffers.RGBA8],
+    [FrameAndRenderBuffers.COLOR_ATTACHMENT15, FrameAndRenderBuffers.RGBA8],
+    [FrameAndRenderBuffers.DEPTH_ATTACHMENT, FrameAndRenderBuffers.DEPTH_COMPONENT16],
+    [FrameAndRenderBuffers.DEPTH_STENCIL_ATTACHMENT, FrameAndRenderBuffers.DEPTH24_STENCIL8]
+]);
 
 export interface IRenderTargetAttachment extends ManagedWebGLResource<WebGLRenderbuffer | WebGLTexture> {
-    attachment: GLenum;
-    fbBind(fbType?: GLenum): void;
+    attach(fbType: GLenum, attachment: FrameAndRenderBuffers, format: FrameAndRenderBuffers): void;
 }
 
-export abstract class BaseFrameBuffer extends ManagedWebGLResource<WebGLFramebuffer> {
+const lastBound = singleton("Juniper.WebGL.Bindings.FrameBuffer", () => new Map<FramebufferTypes, BaseRenderTarget>());
+
+export abstract class BaseRenderTarget<ExtType extends OVR_multiview2 = OVR_multiview2> extends ManagedWebGLResource<WebGLFramebuffer> {
     private readonly isOwned: boolean;
-
-
     constructor(
         gl: WebGL2RenderingContext,
+        protected readonly ext: ExtType,
         public readonly width: number,
         public readonly height: number,
         buffer?: WebGLFramebuffer | CanvasTypes) {
@@ -34,7 +54,10 @@ export abstract class BaseFrameBuffer extends ManagedWebGLResource<WebGLFramebuf
     }
 
     bind(asType: FramebufferTypes) {
-        this.gl.bindFramebuffer(asType, this.handle);
+        if (lastBound.get(asType) !== this) {
+            lastBound.set(asType, this);
+            this.gl.bindFramebuffer(asType, this.handle);
+        }
     }
 
     clear(mask: ClearBits): void {
@@ -53,6 +76,10 @@ export abstract class BaseFrameBuffer extends ManagedWebGLResource<WebGLFramebuf
     }
 
     protected translateStatus(code: number): string {
+        if (isDefined(this.ext) && code === this.ext.FRAMEBUFFER_INCOMPLETE_VIEW_TARGETS_OVR) {
+            return "Incomplete view targets";
+        }
+
         switch (code) {
             case this.gl.FRAMEBUFFER_COMPLETE:
                 return "Complete";
@@ -72,102 +99,156 @@ export abstract class BaseFrameBuffer extends ManagedWebGLResource<WebGLFramebuf
     }
 }
 
-export class BaseFrameBufferWithAttachments extends BaseFrameBuffer {
-    private color: IRenderTargetAttachment;
-    private depth: IRenderTargetAttachment;
-    private attachments = new Array<number>();
+export abstract class BaseFrameBuffer<ExtType extends OVR_multiview2 = OVR_multiview2> extends BaseRenderTarget<ExtType> {
+    private readonly attachmentsByLocation = new Map<FrameAndRenderBuffers, IRenderTargetAttachment>();
+    private readonly attachments = new Array<FrameAndRenderBuffers>();
 
-    constructor(gl: WebGL2RenderingContext, width: number, height: number, RenderBufferC: (attachment: GLenum) => IRenderTargetAttachment, frameBuffer?: WebGLFramebuffer | CanvasTypes) {
-        super(gl, width, height, frameBuffer);
+    constructor(
+        gl: WebGL2RenderingContext,
+        ext: ExtType,
+        width: number,
+        height: number,
+        buffer?: WebGLFramebuffer | CanvasTypes) {
+        super(gl, ext, width, height, buffer);
+    }
 
-        this.color = RenderBufferC(gl.COLOR_ATTACHMENT0);
-        this.depth = RenderBufferC(gl.DEPTH_ATTACHMENT);
-        this.attach(this.color, this.depth);
+    override onDisposing() {
+        for (const obj of this.attachmentsByLocation.values()) {
+            obj.dispose();
+        }
+        this.attachmentsByLocation.clear();
+        arrayClear(this.attachments);
+        super.onDisposing();
     }
 
     invalidate(): void {
-        this.gl.invalidateFramebuffer(FramebufferType.DRAW_FRAMEBUFFER, this.attachments);
-    }
-
-    attach(...textures: readonly IRenderTargetAttachment[]): void {
-        this.bind(FramebufferType.DRAW_FRAMEBUFFER);
-        for (const texture of textures) {
-            texture.fbBind(FramebufferType.DRAW_FRAMEBUFFER);
-            this.attachments.push(texture.attachment);
+        if (this.attachments.length > 0) {
+            this.gl.invalidateFramebuffer(FramebufferType.DRAW_FRAMEBUFFER, this.attachments);
         }
     }
 
-    protected override onDisposing() {
-        super.onDisposing();
-        this.color.dispose();
-        this.color = null;
-        this.depth.dispose();
-        this.depth = null;
+    attach(attachment: FrameAndRenderBuffers, object?: IRenderTargetAttachment, format?: FrameAndRenderBuffers): this {
+        format = format || DefaultRenderBufferFormats.get(attachment);
+        this.bind(FramebufferType.DRAW_FRAMEBUFFER);
+        object = object || this.createTextureOrRenderBuffer(attachment);
+        object.attach(FramebufferType.DRAW_FRAMEBUFFER, attachment, format);
+        this.attachmentsByLocation.set(attachment, object);
+        this.attachments.push(attachment);
+        return this;
+    }
+
+    protected createTextureOrRenderBuffer(attachment: FrameAndRenderBuffers): IRenderTargetAttachment {
+        if (FrameAndRenderBuffers.COLOR_ATTACHMENT0 <= attachment && attachment <= FrameAndRenderBuffers.COLOR_ATTACHMENT15) {
+            return new FrameBufferTexture(this.gl, this.width, this.height);
+        }
+        else {
+            return new RenderBuffer(this.gl, this.width, this.height);
+        }
     }
 }
 
-export class FrameBufferCanvas extends BaseFrameBuffer {
+
+export class FrameBuffer extends BaseFrameBuffer {
+    constructor(gl: WebGL2RenderingContext, width: number, height: number) {
+        super(gl, null, width, height);
+    }
+}
+
+export class FrameBufferMultisampled extends BaseFrameBuffer {
+
+    private readonly samples: number;
+
+    constructor(gl: WebGL2RenderingContext, width: number, height: number, samples?: number) {
+        super(gl, null, width, height);
+
+        if (isNullOrUndefined(samples)) {
+            samples = gl.getParameter(gl.MAX_SAMPLES);
+        }
+
+        this.samples = samples;
+    }
+
+    protected override createTextureOrRenderBuffer(_attachment: FrameAndRenderBuffers) {
+        return new RenderBufferMultisampled(this.gl, this.width, this.height, this.samples);
+    }
+}
+
+export class FrameBufferCanvas extends BaseRenderTarget {
     constructor(gl: WebGL2RenderingContext) {
         super(gl,
+            null,
             gl.canvas.width,
             gl.canvas.height,
             gl.canvas);
     }
 }
 
-export class FrameBufferWebXR extends BaseFrameBuffer {
-    constructor(gl: WebGL2RenderingContext, baseLayer: XRWebGLLayer) {
+abstract class BaseFrameBufferWebXR<ExtType extends OVR_multiview2 = OVR_multiview2> extends BaseFrameBuffer<ExtType> {
+    constructor(gl: WebGL2RenderingContext, ext: ExtType, baseLayer: XRWebGLLayer) {
         super(gl,
+            ext,
             baseLayer.framebufferWidth,
             baseLayer.framebufferHeight,
             baseLayer.framebuffer);
     }
 }
 
-export class FrameBufferWebXRMultisampled extends BaseFrameBufferWithAttachments {
+export class FrameBufferWebXR extends BaseFrameBufferWebXR {
+    constructor(gl: WebGL2RenderingContext, baseLayer: XRWebGLLayer) {
+        super(gl, null, baseLayer);
+    }
+}
+
+export class FrameBufferWebXRMultisampled extends BaseFrameBufferWebXR {
+
+    private readonly samples: number;
+
     constructor(gl: WebGL2RenderingContext, baseLayer: XRWebGLLayer, samples?: number) {
-        super(gl,
-            baseLayer.framebufferWidth,
-            baseLayer.framebufferHeight,
-            (attachment) => new RenderBufferMultisampled(gl, baseLayer.framebufferWidth, baseLayer.framebufferHeight, attachment, samples)
-        );
-    }
-}
+        super(gl, null, baseLayer);
 
-class BaseFrameBufferWebXRMultiview<X extends OVR_multiview2 | OCULUS_multiview, T extends BaseTextureFrameBufferMultiview<X>> extends BaseFrameBufferWithAttachments {
-    constructor(gl: WebGL2RenderingContext, private readonly ext: X, baseLayer: XRWebGLLayer, RenderBufferC: (attachment: number) => T) {
-        super(gl,
-            baseLayer.framebufferWidth,
-            baseLayer.framebufferHeight,
-            RenderBufferC);
-    }
-
-    protected override translateStatus(code: number) {
-        switch (code) {
-            case this.ext.FRAMEBUFFER_INCOMPLETE_VIEW_TARGETS_OVR:
-                return "Incomplete view targets";
-            default:
-                return super.translateStatus(code);
+        if (isNullOrUndefined(samples)) {
+            samples = gl.getParameter(gl.MAX_SAMPLES);
         }
+
+        this.samples = samples;
+    }
+
+    protected override createTextureOrRenderBuffer(_attachment: FrameAndRenderBuffers) {
+        return new RenderBufferMultisampled(this.gl, this.width, this.height, this.samples);
     }
 }
 
-export class FrameBufferWebXRMultiview extends BaseFrameBufferWebXRMultiview<OVR_multiview2, TextureFrameBufferMultiview> {
+abstract class BaseFrameBufferWebXRMultiview<ExtType extends OVR_multiview2 = OVR_multiview2> extends BaseFrameBufferWebXR<ExtType> {
+    constructor(gl: WebGL2RenderingContext, ext: ExtType, baseLayer: XRWebGLLayer, protected readonly numViews: number) {
+        super(gl, ext, baseLayer);
+    }
+}
+
+export class FrameBufferWebXRMultiview extends BaseFrameBufferWebXRMultiview {
     constructor(gl: WebGL2RenderingContext, ext: OVR_multiview2, baseLayer: XRWebGLLayer, numViews: number) {
-        super(gl,
-            ext,
-            baseLayer,
-            (attachment) => new TextureFrameBufferMultiview(gl, ext, baseLayer.framebufferWidth, baseLayer.framebufferHeight, numViews, attachment)
-        );
+        super(gl, ext, baseLayer, numViews);
+    }
+
+    protected override createTextureOrRenderBuffer(_attachment: FrameAndRenderBuffers) {
+        return new FrameBufferTextureMultiview(this.gl, this.ext, this.width, this.height, this.numViews)
     }
 }
 
-export class FrameBufferWebXRMultiviewMultisampled extends BaseFrameBufferWebXRMultiview<OCULUS_multiview, TextureFrameBufferMultiviewMultisampled> {
+export class FrameBufferWebXRMultiviewMultisampled extends BaseFrameBufferWebXRMultiview<OCULUS_multiview> {
+
+    private readonly samples: number;
+
     constructor(gl: WebGL2RenderingContext, ext: OCULUS_multiview, baseLayer: XRWebGLLayer, numViews: number, samples?: number) {
-        super(gl,
-            ext,
-            baseLayer,
-            (attachment) => new TextureFrameBufferMultiviewMultisampled(gl, ext, baseLayer.framebufferWidth, baseLayer.framebufferHeight, numViews, attachment, samples)
-        );
+        super(gl, ext, baseLayer, numViews);
+
+        if (isNullOrUndefined(samples)) {
+            samples = gl.getParameter(gl.MAX_SAMPLES);
+        }
+
+        this.samples = samples;
+    }
+
+    protected override createTextureOrRenderBuffer(_attachment: FrameAndRenderBuffers) {
+        return new FrameBufferTextureMultiviewMultisampled(this.gl, this.ext, this.width, this.height, this.numViews, this.samples);
     }
 }

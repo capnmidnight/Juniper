@@ -1,22 +1,23 @@
-import { FramebufferType } from "./GLEnum";
-import { BaseFrameBuffer, FrameBufferWebXR } from "./managed/resource/FrameBuffer";
+import { FrameAndRenderBuffers, FramebufferType } from "./GLEnum";
+import { BaseRenderTarget, FrameBufferWebXR } from "./managed/resource/FrameBuffer";
 
 export class Blitter {
 
-    private sourceX0: number;
-    private sourceX1: number;
-    private sourceY0: number;
-    private sourceY1: number;
-    private destX0: number;
-    private destX1: number;
-    private destY0: number;
-    private destY1: number;
+    private readonly sourceX0: number;
+    private readonly sourceX1: number;
+    private readonly sourceY0: number;
+    private readonly sourceY1: number;
+    private readonly destX0: number;
+    private readonly destX1: number;
+    private readonly destY0: number;
+    private readonly destY1: number;
+    private readonly drawBuffers: FrameAndRenderBuffers[];
 
     constructor(
         private gl: WebGL2RenderingContext,
-        private readTarget: BaseFrameBuffer,
-        private drawTarget: BaseFrameBuffer,
-        private drawBuffers: GLenum[]) {
+        private readTarget: BaseRenderTarget,
+        private drawTarget: BaseRenderTarget,
+        drawBuffer: FrameAndRenderBuffers) {
 
         const sourceWidth = readTarget instanceof FrameBufferWebXR
             ? readTarget.width / 2
@@ -39,17 +40,19 @@ export class Blitter {
         this.destX1 = Math.min(destWidth, destXMid + sourceXMid);
         this.destY0 = Math.max(0, destYMid - sourceYMid);
         this.destY1 = Math.min(destHeight, destYMid + sourceYMid);
+
+        this.drawBuffers = [drawBuffer];
     }
 
     blit(): void {
-        this.drawTarget.bind(FramebufferType.DRAW_FRAMEBUFFER);
         this.readTarget.bind(FramebufferType.READ_FRAMEBUFFER);
-        this.gl.drawBuffers(this.drawBuffers);
         this.gl.readBuffer(this.gl.COLOR_ATTACHMENT0);
+        this.drawTarget.bind(FramebufferType.DRAW_FRAMEBUFFER);
+        this.gl.drawBuffers(this.drawBuffers);
         this.gl.blitFramebuffer(
             this.sourceX0, this.sourceY0, this.sourceX1, this.sourceY1,
             this.destX0, this.destY0, this.destX1, this.destY1,
             this.gl.COLOR_BUFFER_BIT,
-            this.gl.NEAREST);
+            this.gl.LINEAR);
     }
 }

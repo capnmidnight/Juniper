@@ -1,11 +1,11 @@
-import { arrayClear, IDisposable, isDefined, isMobileVR } from "juniper-tslib";
+import { arrayClear, IDisposable, isDefined, isFirefox, isMobileVR } from "juniper-tslib";
 import { Blitter } from "./Blitter";
-import { ClearBits, FramebufferType } from "./GLEnum";
-import { BaseFrameBuffer, FrameBufferCanvas, FrameBufferWebXR, FrameBufferWebXRMultisampled, FrameBufferWebXRMultiview, FrameBufferWebXRMultiviewMultisampled } from "./managed/resource/FrameBuffer";
+import { ClearBits, FrameAndRenderBuffers, FramebufferType } from "./GLEnum";
+import { BaseFrameBuffer, BaseRenderTarget, FrameBufferCanvas, FrameBufferWebXR, FrameBufferWebXRMultisampled, FrameBufferWebXRMultiview, FrameBufferWebXRMultiviewMultisampled } from "./managed/resource/FrameBuffer";
 
 export class RenderTargetManager implements IDisposable {
     private blitChain = new Array<Blitter>();
-    private targets = new Array<BaseFrameBuffer>();
+    private targets = new Array<BaseRenderTarget>();
     private lastLayer: XRWebGLLayer = undefined;
     private lastNumViews: number = null;
     private disposed: boolean = false;
@@ -63,14 +63,13 @@ export class RenderTargetManager implements IDisposable {
 
             this.destroyTargets();
 
-            const canvasTarget = new FrameBufferCanvas(this.gl);
-            this.targets.unshift(canvasTarget);
+            if (!isDefined(layer)
+                || !isMobileVR()) {
+                const target = new FrameBufferCanvas(this.gl);
+                this.targets.unshift(target);
+            }
 
-            if (isDefined(layer)
-                && isDefined(layer.framebuffer)) {
-                const webXRTarget = new FrameBufferWebXR(this.gl, layer);
-                this.targets.unshift(webXRTarget);
-
+            if (isDefined(layer)) {
                 let target: BaseFrameBuffer = null;
                 if (this.mvMsExt) {
                     target = new FrameBufferWebXRMultiviewMultisampled(this.gl, this.mvMsExt, layer, numViews)
@@ -78,24 +77,27 @@ export class RenderTargetManager implements IDisposable {
                 else if (this.mvExt) {
                     target = new FrameBufferWebXRMultiview(this.gl, this.mvExt, layer, numViews);
                 }
-                else {
+                else if (!isFirefox()) {
                     target = new FrameBufferWebXRMultisampled(this.gl, layer);
                 }
+                else {
+                    target = new FrameBufferWebXR(this.gl, layer);
+                }
 
+                target.attach(FrameAndRenderBuffers.COLOR_ATTACHMENT0);
+                target.attach(FrameAndRenderBuffers.DEPTH_ATTACHMENT);
                 this.targets.unshift(target);
+            }
+
+            for (let i = 1; i < this.targets.length; ++i) {
+                const from = this.targets[i - 1];
+                const to = this.targets[i];
                 this.blitChain.push(new Blitter(
                     this.gl,
-                    target,
-                    webXRTarget,
-                    [this.gl.COLOR_ATTACHMENT0]));
-
-                if (!isMobileVR()) {
-                    this.blitChain.push(new Blitter(
-                        this.gl,
-                        webXRTarget,
-                        canvasTarget,
-                        [this.gl.BACK]));
-                }
+                    from,
+                    to,
+                    to instanceof FrameBufferCanvas ? this.gl.BACK : this.gl.COLOR_ATTACHMENT0
+                ));
             }
         }
     }
