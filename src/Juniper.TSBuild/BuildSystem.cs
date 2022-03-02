@@ -10,7 +10,7 @@ namespace Juniper.TSBuild
     {
         public BuildSystemProjectRootNotFoundException(string message)
             : base(message)
-        {}
+        { }
     }
 
     public class BuildSystem
@@ -302,7 +302,8 @@ namespace Juniper.TSBuild
         {
             { Level.High, "Running full install and build" },
             { Level.Medium, "Running update and build" },
-            { Level.Low, "No build" }
+            { Level.Low, "No build" },
+            { Level.None, "No build" }
         };
 
         public BuildSystem Check(bool isDev, Level forceLevel = Level.None)
