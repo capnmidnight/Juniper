@@ -1,4 +1,4 @@
-import { className, title } from "juniper-dom/attrs";
+import { classList, title } from "juniper-dom/attrs";
 import { Button, elementIsDisplayed, elementSetDisplay } from "juniper-dom/tags";
 import { ButtonFactory } from "../ButtonFactory";
 import { MeshButton } from "../MeshButton";
@@ -13,7 +13,10 @@ export class ButtonImageWidget implements Widget, EventTarget {
 
     constructor(buttons: ButtonFactory, setName: string, iconName: string) {
         this.element = Button(
-            className("btn btn-primary"),
+            classList(
+                "btn",
+                "btn-primary"
+            ),
             title(iconName),
             buttons.getImageElement(setName, iconName));
 

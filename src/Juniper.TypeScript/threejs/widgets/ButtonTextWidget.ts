@@ -1,5 +1,5 @@
 import { TextImageOptions } from "juniper-2d/TextImage";
-import { className, title } from "juniper-dom/attrs";
+import { classList, title } from "juniper-dom/attrs";
 import { Button, elementIsDisplayed, elementSetDisplay } from "juniper-dom/tags";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { obj } from "../objects";
@@ -15,7 +15,10 @@ export class ButtonTextWidget implements Widget, EventTarget {
 
     constructor(protected readonly env: BaseEnvironment<unknown>, name: string, text: string, textButtonStyle: Partial<TextImageOptions>) {
         this.element = Button(
-            className("btn btn-primary"),
+            classList(
+                "btn",
+                "btn-primary"
+            ),
             title(name),
             text);
         this.object = obj(`${name}-button`,

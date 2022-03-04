@@ -1,4 +1,4 @@
-import { className } from "juniper-dom/attrs";
+import { classList } from "juniper-dom/attrs";
 import { buttonSetEnabled } from "juniper-dom/buttonSetEnabled";
 import { Button, elementSetDisplay, Img } from "juniper-dom/tags";
 import { ButtonFactory } from "../ButtonFactory";
@@ -46,7 +46,10 @@ export class ToggleButton implements Widget, EventTarget {
         private readonly activeName: string,
         private readonly inactiveName: string) {
         this.element = Button(
-            className("btn btn-primary"),
+            classList(
+                "btn",
+                "btn-primary"
+            ),
             this.btnImage = Img());
 
         this.object = obj(`${this.setName}-button`);

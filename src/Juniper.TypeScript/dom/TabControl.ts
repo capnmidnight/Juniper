@@ -1,5 +1,5 @@
-import { mapBuild, TypedEvent, TypedEventBase } from "juniper-tslib";
-import { className, customData } from "./attrs";
+import { isString, mapBuild, TypedEvent, TypedEventBase } from "juniper-tslib";
+import { classList, className, customData } from "./attrs";
 import { buttonSetEnabled } from "./buttonSetEnabled";
 import { borderBottom, borderBottomColor, borderRadius, boxShadow, display, flexDirection, marginBottom, paddingTop, rule, zIndex } from "./css";
 import { elementSetClass } from "./elementSetClass";
@@ -47,11 +47,19 @@ Style(
 export function TabControl(...tabPanels: ITabPanel[]): TabControlElement {
     const tabButtons = tabPanels.map(panel => {
         return Button(
-            className("btn btn-secondary"),
+            classList(
+                "btn",
+                "btn-secondary"
+            ),
             customData("tabname", panel.tabName),
             panel.buttonLabel
         );
     });
+
+    for (const tabPanel of tabPanels) {
+        tabPanel.element.classList.add("tab-content");
+        tabPanel.element.classList.add(tabPanel.tabName);
+    }
 
     tabButtons[0].className = "btn btn-outline-secondary";
     tabButtons[0].disabled = true;
@@ -124,11 +132,17 @@ export class TabControlElement
             "disabled");
     }
 
-    isSelected(name: string): boolean {
+    isSelected(name: string | ITabPanel): boolean {
+        if (!isString(name)) {
+            name = name.tabName;
+        }
         return this.curTab === name;
     }
 
-    select(name: string): void {
+    select(name: string | ITabPanel): void {
+        if (!isString(name)) {
+            name = name.tabName;
+        }
         const wasEnabled = this.enabled;
         const selector = this.selectors.get(name);
         if (selector) {

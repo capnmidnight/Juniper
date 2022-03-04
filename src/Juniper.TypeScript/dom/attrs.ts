@@ -41,6 +41,10 @@ export class Attr {
         else if (this.key === "style") {
             Object.assign(elem.style, this.value);
         }
+        else if (this.key === "classList") {
+            (this.value as string[])
+                .forEach(v => elem.classList.add(v));
+        }
         else if (this.bySetAttribute) {
             elem.setAttribute(this.key, this.value);
         }
@@ -370,6 +374,11 @@ export function cite(value: string) { return new Attr("cite", value, false, "blo
  * Often used with CSS to style elements with common properties.
   **/
 export function className(value: string) { return new Attr("className", value, false); }
+
+/**
+ * Often used with CSS to style elements with common properties.
+  **/
+export function classList(...values: string[]) { return new Attr("classList", values, false); }
 
 /**
  * Specifies the URL of the applet's class file to be loaded and executed.
