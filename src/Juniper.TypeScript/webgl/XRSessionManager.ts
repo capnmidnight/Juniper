@@ -4,7 +4,7 @@ import type { Camera } from "./Camera";
 type TickCallback = (t: number, dt: number, frame: XRFrame) => void;
 
 export class XRSessionStartedEvent extends TypedEvent<"sessionstarted">{
-    constructor(public session: XRSession, public layer: XRWebGLLayer, public numViews: number) {
+    constructor(public session: XRSession, public views: XRView[]) {
         super("sessionstarted");
     }
 }
@@ -17,7 +17,6 @@ export class XRSessionManager extends TypedEventBase<{
     private lt = -1;
     private sessionEndedEvt = new TypedEvent("sessionended");
 
-    private timerCallback: XRFrameRequestCallback = null;
     private timerSource: (typeof globalThis | XRSession) = globalThis;
     private timer: number = null;
     private _sessionType: XRSessionMode = null;
@@ -28,45 +27,75 @@ export class XRSessionManager extends TypedEventBase<{
     private readonly animator: (t: number, frame?: XRFrame) => void;
 
     private finished: () => void;
-    private task: Promise<void>;
+    private doneTask: Promise<void>;
+
+    fps: number = null;
+
     get done() {
-        return this.task;
+        return this.doneTask;
     }
 
     constructor(private gl: WebGL2RenderingContext, private cam: Camera) {
         super();
-        this.task = new Promise<void>(resolve => this.finished = resolve);
+        this.doneTask = new Promise<void>(resolve => this.finished = resolve);
 
         this.starter = (t: number, frame?: XRFrame) => {
-            if ((this._sessionType === "immersive-ar"
-                || this._sessionType === "immersive-vr")
-                && (isNullOrUndefined(frame)
-                    || isNullOrUndefined(frame.session.renderState.baseLayer.framebuffer))) {
-                this.lt = 0.001 * t;
-                this.resumeAnimation(this.starter);
+            const session = frame && frame.session;
+            const renderState = session && session.renderState;
+            const baseLayer = renderState && renderState.baseLayer;
+            const framebuffer = baseLayer && baseLayer.framebuffer;
+            const ready = isNullOrUndefined(this._sessionType)
+                || (isDefined(frame)
+                    && isDefined(baseLayer)
+                    && (this._sessionType === "inline"
+                        || isDefined(framebuffer)))
+
+            if (ready) {
+                if (this.xrSession) {
+                    const pose = frame.getViewerPose(this.baseRefSpace);
+                    this.dispatchEvent(new XRSessionStartedEvent(this.xrSession, pose.views));
+                }
             }
             else {
-                this.resumeAnimation(this.animator);
+                this.getFrame(this.animator);
+                this.lt = 0.001 * t;
+                this.getFrame(this.starter);
             }
         };
 
         this.animator = (t: number, frame?: XRFrame) => {
             t *= 0.001;
             const dt = t - this.lt;
+            this.fps = 1 / dt;
             this.lt = t;
-            this.resumeAnimation(this.animator);
+            this.getFrame(this.animator);
             for (const callback of this.callbacks) {
                 callback(t, dt, frame);
             }
         };
 
         if (navigator.xr) {
-            navigator.xr.addEventListener("sessiongranted", (evt: any) => {
+            navigator.xr.addEventListener("sessiongranted", (evt) => {
                 this.startSession(evt && evt.session && evt.session.mode || "immersive-vr");
             });
         }
+    }
 
-        (globalThis as any)["xr"] = this;
+    async getSessionModes(): Promise<XRSessionMode[]> {
+        if (!navigator.xr) {
+            return [];
+        }
+
+        const sessionTypes: XRSessionMode[] = [
+            "immersive-vr",
+            "inline",
+            "immersive-ar"
+        ];
+        const supportedSessions = (await Promise.all(sessionTypes.map<Promise<[XRSessionMode, boolean]>>(async type => [type, await navigator.xr.isSessionSupported(type)])))
+            .filter(v => v[1])
+            .map(v => v[0]);
+
+        return supportedSessions;
     }
 
     get inSession(): boolean {
@@ -78,10 +107,9 @@ export class XRSessionManager extends TypedEventBase<{
     }
 
     set xrSession(v) {
-        const callback = this.timerCallback;
         this.pauseAnimation();
         this._xrSession = v;
-        this.resumeAnimation(callback);
+        this.startAnimation();
     }
 
     get sessionType(): XRSessionMode {
@@ -101,7 +129,7 @@ export class XRSessionManager extends TypedEventBase<{
     }
 
     startAnimation(): void {
-        this.resumeAnimation(this.starter);
+        this.getFrame(this.starter);
     }
 
     private pauseAnimation() {
@@ -111,9 +139,8 @@ export class XRSessionManager extends TypedEventBase<{
         }
     }
 
-    private resumeAnimation(func: XRFrameRequestCallback) {
+    private getFrame(func: XRFrameRequestCallback) {
         this.pauseAnimation();
-        this.timerCallback = func;
         this.timerSource = this.xrSession || globalThis;
         this.timer = this.timerSource.requestAnimationFrame((dt, frame?: XRFrame) => {
             this.timer = null;
@@ -124,10 +151,10 @@ export class XRSessionManager extends TypedEventBase<{
     async stopAnimation(): Promise<void> {
         await this.endSession();
         this.pauseAnimation();
-        if (this.task) {
+        if (this.doneTask) {
             this.finished();
             this.finished = null;
-            this.task = null;
+            this.doneTask = null;
         }
     }
 
@@ -148,7 +175,7 @@ export class XRSessionManager extends TypedEventBase<{
     async startSession(type: XRSessionMode): Promise<void> {
         if (!this.inSession) {
             const xrSession = await this.requestSession(type);
-
+            console.log({ xrSession });
             this._sessionType = type;
 
             xrSession.addEventListener("end", () => {
@@ -183,7 +210,6 @@ export class XRSessionManager extends TypedEventBase<{
             await xrSession.updateRenderState(renderState);
 
             this.xrSession = xrSession;
-            this.dispatchEvent(new XRSessionStartedEvent(xrSession, baseLayer, 2));
         }
     }
 

@@ -208,7 +208,7 @@ interface XRProjectionLayerInit extends _ConfigurableTextureType, _ConfigurableP
     scaleFactor?: number;
 }
 
-interface XRProjectionLayer extends XRCompositionLayer {
+declare class XRProjectionLayer extends EventTarget implements XRCompositionLayer {
     readonly textureWidth: number;
     readonly textureHeight: number;
     readonly textureArrayLength: number;
@@ -329,9 +329,35 @@ type XRAnimationLoopCallback = (time: number, frame?: XRFrame) => void;
 
 type XRFrameRequestCallback = (time: number, frame: XRFrame) => void;
 
-interface XRSystem extends EventTarget {
+interface XRSystemDeviceChangeEvent extends Event {
+    type: "devicechange";
+}
+
+interface XRSessionGrant {
+    mode: XRSessionMode;
+}
+
+interface XRSystemSessionGrantedEvent extends Event {
+    type: "sessiongranted";
+    session: XRSessionGrant;
+}
+
+interface XRSystemEventMap extends HTMLMediaElementEventMap {
+    "devicechange": XRSystemDeviceChangeEvent;
+    "sessiongranted": XRSystemSessionGrantedEvent;
+}
+
+interface XRSystem {
     requestSession(mode: XRSessionMode, options?: XRSessionInit): Promise<XRSession>;
     isSessionSupported(mode: XRSessionMode): Promise<boolean>;
+
+    ondevicechange: ((this: XRSystem, ev: XRSystemDeviceChangeEvent) => any) | null;
+    onsessiongranted: ((this: XRSystem, ev: XRSystemSessionGrantedEvent) => any) | null;
+
+    addEventListener<K extends keyof XRSystemEventMap>(type: K, listener: (this: HTMLVideoElement, ev: XRSystemEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+    removeEventListener<K extends keyof XRSystemEventMap>(type: K, listener: (this: HTMLVideoElement, ev: XRSystemEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
 }
 
 interface XRReferenceSpace extends EventTarget {
