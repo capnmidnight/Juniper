@@ -288,9 +288,9 @@ namespace Juniper
             return new MediaType(Type, newSubType, _extensions);
         }
 
-        public bool Matches(string mimeType)
+        public bool Matches(string contentType)
         {
-            return Matches(Parse(mimeType));
+            return Matches(Parse(contentType));
         }
 
         public virtual bool Matches(MediaType value)
