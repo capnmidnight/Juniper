@@ -1,4 +1,5 @@
 import { Application_X_Url } from "juniper-mediatypes/application";
+import { parseInternetShortcut } from "juniper-mediatypes/internetShortcut";
 import { identity, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, progressSplit } from "juniper-tslib";
 import type { HTTPMethods, IFetchingService, IRequest, IRequestWithBody, IResponse } from "./IFetcher";
 import { ResponseTranslator } from "./ResponseTranslator";
@@ -116,10 +117,6 @@ export class FetchingServiceImpl
 
     private readonly defaultPostHeaders = new Map<string, string>();
 
-    constructor(private readonly makeProxyURL?: ProxyResolvingCallback) {
-        super();
-    }
-
     setRequestVerificationToken(value: string): void {
         this.defaultPostHeaders.set("RequestVerificationToken", value);
     }
@@ -134,13 +131,14 @@ export class FetchingServiceImpl
         const parts = xhr
             .getAllResponseHeaders()
             .split(/[\r\n]+/)
+            .map(v => v.trim())
+            .filter(v => v.length > 0)
             .map<[string, string]>(line => {
                 const parts = line.split(": ");
                 const key = parts.shift().toLowerCase();
                 const value = parts.join(": ");
                 return [key, value];
-            })
-            .filter(kv => kv[0].length > 0);
+            });
 
         let content: T = null;
         let headers = new Map<string, string>(parts);
@@ -158,55 +156,63 @@ export class FetchingServiceImpl
             return null;
         });
 
-        if (Application_X_Url.matches(contentType)) {
-            if (isNullOrUndefined(this.makeProxyURL)) {
-                throw new Error("Cannot parse client redirects without a proxy translator defined. The default FetchingServiceImpl does not define one.");
+        if (contentLength > 0) {
+            if (isNullOrUndefined(contentType)) {
+                throw new Error("No content type found in headers: \n  " + parts.map(kv => kv.join(": ")).join("\n  "));
             }
-            else if (depth > 0) {
-                throw new Error("Too many redirects");
-            }
-            else {
-                if (method === "POST") {
-                    method = "GET";
-                }
-                const shortcutText = await blob.text();
-                request.path = this.makeProxyURL(shortcutText);
-                const redirectedResponse = await this.headOrGetXHR<T>(method, xhrType, request, progress, depth + 1);
-                content = redirectedResponse.content;
-                headers = redirectedResponse.headers;
-                contentType = redirectedResponse.contentType;
-                contentLength = redirectedResponse.contentLength;
-                date = redirectedResponse.date;
-                fileName = redirectedResponse.fileName;
-            }
-        }
-        else if (xhrType === "blob") {
-            content = blob as any as T;
-        }
-        else if (xhrType === "arraybuffer") {
-            content = await blob.arrayBuffer() as any as T;
-        }
-        else {
-            const text = await blob.text();
-            if (xhrType === ""
-                || xhrType === "text"
-                || xhrType === "json"
-                || xhrType === "document") {
-                if (xhrType === "json") {
-                    content = JSON.parse(text) as T;
-                }
-                else if (xhrType === "document") {
-                    const parser = new DOMParser();
-                    if (contentType === "application/xhtml+xml"
-                        || contentType === "text/html"
-                        || contentType === "application/xml"
-                        || contentType === "image/svg+xml"
-                        || contentType === "text/xml") {
-                        content = parser.parseFromString(text, contentType) as any as T;
-                    }
+            else if (Application_X_Url.matches(contentType)) {
+                if (depth > 0) {
+                    throw new Error("Too many redirects");
                 }
                 else {
-                    content = text as any as T;
+                    if (method === "POST") {
+                        method = "GET";
+                    }
+                    const shortcutText = await blob.text();
+
+                    const newPath = this.parseInternetShortcut(shortcutText);
+                    request.path = newPath;
+                    if (isDefined(request.headers)) {
+                        request.headers.delete("accept");
+                    }
+
+                    const redirectedResponse = await this.headOrGetXHR<T>(method, xhrType, request, progress, depth + 1);
+                    content = redirectedResponse.content;
+                    headers = redirectedResponse.headers;
+                    contentType = redirectedResponse.contentType;
+                    contentLength = redirectedResponse.contentLength;
+                    date = redirectedResponse.date;
+                    fileName = redirectedResponse.fileName;
+                }
+            }
+            else if (xhrType === "blob") {
+                content = blob as any as T;
+            }
+            else if (xhrType === "arraybuffer") {
+                content = await blob.arrayBuffer() as any as T;
+            }
+            else {
+                const text = await blob.text();
+                if (xhrType === ""
+                    || xhrType === "text"
+                    || xhrType === "json"
+                    || xhrType === "document") {
+                    if (xhrType === "json") {
+                        content = JSON.parse(text) as T;
+                    }
+                    else if (xhrType === "document") {
+                        const parser = new DOMParser();
+                        if (contentType === "application/xhtml+xml"
+                            || contentType === "text/html"
+                            || contentType === "application/xml"
+                            || contentType === "image/svg+xml"
+                            || contentType === "text/xml") {
+                            content = parser.parseFromString(text, contentType) as any as T;
+                        }
+                    }
+                    else {
+                        content = text as any as T;
+                    }
                 }
             }
         }
@@ -222,6 +228,10 @@ export class FetchingServiceImpl
         };
 
         return response;
+    }
+
+    protected parseInternetShortcut(path: string): string {
+        return parseInternetShortcut(path);
     }
 
     private async headOrGetXHR<T>(method: HTTPMethods, xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress, depth?: number): Promise<IResponse<T>> {
