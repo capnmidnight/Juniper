@@ -1,4 +1,4 @@
-import { isFunction, PriorityMap, TypedEventBase } from "juniper-tslib";
+import { isFunction, isNullOrUndefined, PriorityMap, TypedEventBase } from "juniper-tslib";
 import { CaseClassConstructor } from "./CaseClassConstructor";
 import { TestCaseFailEvent } from "./TestCaseFailEvent";
 import { TestCaseMessageEvent } from "./TestCaseMessageEvent";
@@ -13,9 +13,8 @@ function testNames(TestClass: Function) {
 
 function isTest(testCase: any, name: string, testName?: string) {
     return (name === testName
-        || ((testName === undefined || testName === null)
-            && name.startsWith("test_")))
-        && testCase[name] instanceof Function;
+        || (isNullOrUndefined(testName) && name.startsWith("test_")))
+        && isFunction(testCase[name]);
 }
 
 interface TestRunnerEvents {
@@ -55,8 +54,7 @@ export class TestRunner extends TypedEventBase<TestRunnerEvents> {
         for (let CaseClass of this.CaseClasses) {
             const className = CaseClass.name;
             if (className === testCaseName
-                || testCaseName === undefined
-                || testCaseName === null) {
+                || isNullOrUndefined(testCaseName)) {
                 for (let funcName of testNames(CaseClass.prototype)) {
                     if (isTest(CaseClass.prototype, funcName, testName)) {
                         q.push(() => this.runTest(CaseClass, funcName, results, className, onUpdate));
@@ -79,7 +77,7 @@ export class TestRunner extends TypedEventBase<TestRunnerEvents> {
 
     async runTest(CaseClass: CaseClassConstructor, funcName: string, results: TestResults, className: string, onUpdate: Function) {
         const testCase = new CaseClass(),
-            func = testCase[funcName],
+            func = (testCase as any)[funcName],
             caseResults = results.get(className),
             score = caseResults.get(funcName);
 

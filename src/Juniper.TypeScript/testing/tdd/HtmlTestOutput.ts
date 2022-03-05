@@ -96,17 +96,19 @@ export class HtmlTestOutput extends TestOutput implements ErsatzElement {
                     Div(col(2), "Name"),
                     Div(col(3), "Status"));
 
-            for (let [testCaseName, testCase] of evt.results.entries()) {
-                table.append(
-                    Div(col(2, 3), testCaseName),
-                    refresher(() => this.run(testCaseName)));
-                for (let [testName, test] of testCase.entries()) {
+            let lastTestCaseName: string = null;
+            for (let [testCaseName, testName, test] of evt.results.entries()) {
+                if (testCaseName !== lastTestCaseName) {
+                    lastTestCaseName = testCaseName;
                     table.append(
-                        refresher(() => this.run(testCaseName, testName)),
-                        Div(col(2), testName),
-                        Div(col(3), makeStatus(test.state)),
-                        Div(col(4), test.messages.join(", ")));
+                        refresher(() => this.run(testCaseName)),
+                        Div(col(2, 3), testCaseName));
                 }
+                table.append(
+                    refresher(() => this.run(testCaseName, testName)),
+                    Div(col(2), testName),
+                    Div(col(3), makeStatus(test.state)),
+                    Div(col(4), test.messages.join(", ")));
             }
             elementClearChildren(this.element);
             this.element.append(table);

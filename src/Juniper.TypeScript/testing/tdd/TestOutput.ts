@@ -20,7 +20,7 @@ export class TestOutput extends TypedEventBase<TestOutputEvents> {
      */
     async run(caseName?: string, testName?: string) {
         const testRunner = new TestRunner(...this.rest);
-        testRunner.addEventListener("testrunnerresults", (/** @type {TestRunnerResultsEvent} */evt) => {
+        testRunner.addEventListener("testrunnerresults", (evt) => {
             const results = evt.results;
             let totalFound = 0,
                 totalRan = 0,

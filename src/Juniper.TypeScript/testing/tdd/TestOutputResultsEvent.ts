@@ -1,4 +1,5 @@
 import { TypedEvent } from "juniper-tslib";
+import { TestResults } from "./TestRunnerResultsEvent";
 
 export interface TestStats {
     totalFound: number;
@@ -10,12 +11,7 @@ export interface TestStats {
 }
 
 export class TestOutputResultsEvent extends TypedEvent<"testoutputresults"> {
-    /**
-     * 
-     * @param {any} results
-     * @param {TestStats} stats
-     */
-    constructor(public readonly results: any, public readonly stats: TestStats) {
+    constructor(public readonly results: TestResults, public readonly stats: TestStats) {
         super("testoutputresults");
     }
 }
