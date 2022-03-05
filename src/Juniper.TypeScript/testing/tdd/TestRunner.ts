@@ -115,6 +115,7 @@ export class TestRunner extends TypedEventBase<TestRunnerEvents> {
             }
         }
         catch (exp) {
+            console.error(`Test case failed [${className}::${funcName}]`, exp);
             message = exp;
             onFailure(new TestCaseFailEvent(exp));
         }

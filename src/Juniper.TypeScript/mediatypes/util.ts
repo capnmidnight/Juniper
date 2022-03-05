@@ -1,4 +1,4 @@
-import { isDefined, isString, singleton } from "juniper-tslib";
+import { isDefined, isNullOrUndefined, isString, singleton } from "juniper-tslib";
 
 export interface MediaType {
     typeName: string;
@@ -197,6 +197,10 @@ class InternalMediaType implements MediaType {
     }
 
     matches(value: MediaType | string): boolean {
+        if (isNullOrUndefined(value)) {
+            throw new Error("value cannot be null");
+        }
+
         if (isString(value)) {
             value = mediaTypeParse(value);
         }

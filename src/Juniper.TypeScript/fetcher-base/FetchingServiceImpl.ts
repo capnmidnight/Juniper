@@ -136,7 +136,7 @@ export class FetchingServiceImpl
             .split(/[\r\n]+/)
             .map<[string, string]>(line => {
                 const parts = line.split(": ");
-                const key = parts.shift();
+                const key = parts.shift().toLowerCase();
                 const value = parts.join(": ");
                 return [key, value];
             })
