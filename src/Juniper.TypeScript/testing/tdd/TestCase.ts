@@ -93,12 +93,12 @@ export class TestCase extends TypedEventBase<TestCaseEvents> {
         this.twoValueTest(actual, ">=", expected, (a, b) => a >= b, message);
     }
 
-    throws(func: Function, message?: string) {
-        this.throwTest(func, true, message);
+    async throws(func: Function, message?: string) {
+        await this.throwTest(func, true, message);
     }
 
-    doesNotThrow(func: Function, message?: string) {
-        this.throwTest(func, false, message);
+    async doesNotThrow(func: Function, message?: string) {
+        await this.throwTest(func, false, message);
     }
 
     private twoValueTest<T>(actual: T, op: string, expected: T, testFunc: (a: T, b: T) => boolean, message?: string) {
@@ -110,12 +110,15 @@ export class TestCase extends TypedEventBase<TestCaseEvents> {
         }
     }
 
-    private throwTest(func: Function, op: boolean, message?: string) {
+    private async throwTest(func: Function, op: boolean, message?: string) {
         let threw = false;
         try {
-            func();
+            await func();
         }
         catch (exp) {
+            if (!op) {
+                console.error(exp);
+            }
             threw = true;
         }
         const testValue = threw === op,

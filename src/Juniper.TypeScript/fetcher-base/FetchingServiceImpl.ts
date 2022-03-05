@@ -124,7 +124,7 @@ export class FetchingServiceImpl
         this.defaultPostHeaders.set("RequestVerificationToken", value);
     }
 
-    private async readResponse<T>(method: HTTPMethods, xhrType: XMLHttpRequestResponseType, request: IRequest, xhr: XMLHttpRequest, progress: IProgress): Promise<IResponse<T>> {
+    private async readResponse<T>(method: HTTPMethods, xhrType: XMLHttpRequestResponseType, request: IRequest, xhr: XMLHttpRequest, progress: IProgress, depth: number): Promise<IResponse<T>> {
         if (xhr.status >= 400) {
             throw new Error(`Error [${xhr.status}]: ${xhr.responseText}.`);
         }
@@ -162,16 +162,16 @@ export class FetchingServiceImpl
             if (isNullOrUndefined(this.makeProxyURL)) {
                 throw new Error("Cannot parse client redirects without a proxy translator defined. The default FetchingServiceImpl does not define one.");
             }
+            else if (depth > 0) {
+                throw new Error("Too many redirects");
+            }
             else {
                 if (method === "POST") {
                     method = "GET";
                 }
                 const shortcutText = await blob.text();
                 request.path = this.makeProxyURL(shortcutText);
-                const redirectedResponse = await this.headOrGetXHR<T>(method, xhrType, request, progress);
-                if (Application_X_Url.matches(redirectedResponse.contentType)) {
-                    throw new Error("Too many redirects");
-                }
+                const redirectedResponse = await this.headOrGetXHR<T>(method, xhrType, request, progress, depth + 1);
                 content = redirectedResponse.content;
                 headers = redirectedResponse.headers;
                 contentType = redirectedResponse.contentType;
@@ -224,21 +224,21 @@ export class FetchingServiceImpl
         return response;
     }
 
-    private async headOrGetXHR<T>(method: HTTPMethods, xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
+    private async headOrGetXHR<T>(method: HTTPMethods, xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress, depth?: number): Promise<IResponse<T>> {
         const xhr = new XMLHttpRequest();
         const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, progress, true);
 
         sendRequest(xhr, method, request.path, request.timeout, request.headers);
 
         await download;
-        return await this.readResponse(method, xhrType, request, xhr, progress);
+        return await this.readResponse(method, xhrType, request, xhr, progress, depth || 0);
     }
 
     private getXHR<T>(xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
         return this.headOrGetXHR("GET", xhrType, request, progress);
     }
 
-    private async postXHR<T>(xhrType: XMLHttpRequestResponseType, request: IRequestWithBody, prog: IProgress): Promise<IResponse<T>> {
+    private async postXHR<T>(xhrType: XMLHttpRequestResponseType, request: IRequestWithBody, progress: IProgress, depth?: number): Promise<IResponse<T>> {
 
         let body: XMLHttpRequestBodyInit = null;
 
@@ -265,7 +265,7 @@ export class FetchingServiceImpl
             body = JSON.stringify(request.body);
         }
 
-        const progs = progressSplit(prog, 2);
+        const progs = progressSplit(progress, 2);
         const xhr = new XMLHttpRequest();
         const upload = isDefined(body)
             ? trackProgress("uploading", xhr, xhr.upload, progs.shift(), false)
@@ -278,7 +278,7 @@ export class FetchingServiceImpl
         await upload;
         await download;
 
-        return await this.readResponse("POST", xhrType, request, xhr, downloadProg);
+        return await this.readResponse("POST", xhrType, request, xhr, downloadProg, depth || 0);
     }
 
     head(request: IRequest): Promise<IResponse<void>> {
