@@ -5,13 +5,16 @@ import type { FullWorkerClientOptions, WorkerClient, WorkerConstructorT } from "
 import { WorkerPool } from "juniper-worker-client";
 import { FetchingServiceClient } from "./FetchingServiceClient";
 
-export abstract class BaseFetchingServicePool<EventsT, FetcherWorkerClientT extends WorkerClient<EventsT> & IFetchingService>
+export abstract class BaseFetchingServicePool<
+    EventsT,
+    FetcherWorkerClientT extends WorkerClient<EventsT> & IFetchingService>
     extends WorkerPool<EventsT, FetcherWorkerClientT>
     implements IFetchingService {
 
-    private readonly fetcher = new FetchingServiceImpl();
-
-    constructor(options: FullWorkerClientOptions, WorkerClientClass: WorkerConstructorT<EventsT, FetcherWorkerClientT>) {
+    constructor(
+        options: FullWorkerClientOptions,
+        WorkerClientClass: WorkerConstructorT<EventsT, FetcherWorkerClientT>,
+        private readonly fetcher: FetchingServiceImpl) {
         super(options, WorkerClientClass);
     }
 

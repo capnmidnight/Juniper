@@ -3,10 +3,8 @@ import type { IFetchingService, IResponse } from "juniper-fetcher-base/IFetcher"
 import { WorkerServer } from "juniper-worker-server";
 
 export class FetchingServiceServer extends WorkerServer {
-    constructor(self: DedicatedWorkerGlobalScope) {
+    constructor(self: DedicatedWorkerGlobalScope, fetcher: FetchingServiceImpl) {
         super(self);
-
-        const fetcher = new FetchingServiceImpl();
         addFetcherMethods(this, fetcher);
     }
 }

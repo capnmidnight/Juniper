@@ -121,7 +121,7 @@ namespace Juniper.TSBuild
         private readonly DirectoryInfo[] juniperBundles;
         private readonly Dictionary<FileInfo, FileInfo> dependencies = new();
 
-        public BuildSystem(string clientName, string serverName, DirectoryInfo? startDir = null)
+        public BuildSystem(string clientName, string serverName, DirectoryInfo? startDir, params string[] excludeBundles)
         {
             projectDir = ResolveStartDir(ref startDir, clientName, serverName);
             var juniper = projectDir
@@ -149,8 +149,9 @@ namespace Juniper.TSBuild
                 .Where(IsProjectDirectory)
                 .ToArray();
             juniperBundles = juniperProjects
-                .Where(d => d.EnumerateFiles()
-                    .Any(f => f.Name == "esbuild.config.js"))
+                .Where(d => !excludeBundles.Contains(d.Name)
+                    && d.EnumerateFiles()
+                        .Any(f => f.Name == "esbuild.config.js"))
                 .ToArray();
         }
 

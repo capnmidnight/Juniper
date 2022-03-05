@@ -1,7 +1,9 @@
-import { identity, IProgress, isArrayBuffer, isArrayBufferView } from "juniper-tslib";
-import { isDefined, isString, mapJoin, progressPopper } from "juniper-tslib";
+import { Application_X_Url } from "juniper-mediatypes/application";
+import { identity, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, progressSplit } from "juniper-tslib";
 import type { HTTPMethods, IFetchingService, IRequest, IRequestWithBody, IResponse } from "./IFetcher";
 import { ResponseTranslator } from "./ResponseTranslator";
+
+export type ProxyResolvingCallback = (path: string) => string;
 
 export function isXHRBodyInit(obj: any): obj is XMLHttpRequestBodyInit {
     return isString(obj)
@@ -71,9 +73,9 @@ function trackProgress(name: string, xhr: XMLHttpRequest, target: (XMLHttpReques
     });
 }
 
-function sendRequest(xhr: XMLHttpRequest, xhrType: XMLHttpRequestResponseType, method: HTTPMethods, path: string, timeout: number, headers: Map<string, string>, body?: XMLHttpRequestBodyInit): void {
+function sendRequest(xhr: XMLHttpRequest, method: HTTPMethods, path: string, timeout: number, headers: Map<string, string>, body?: XMLHttpRequestBodyInit): void {
     xhr.open(method, path);
-    xhr.responseType = xhrType;
+    xhr.responseType = "blob";
     xhr.timeout = timeout;
     if (headers) {
         for (const [key, value] of headers) {
@@ -107,30 +109,45 @@ function readResponseHeader<T>(headers: Map<string, string>, key: string, transl
 }
 
 const FILE_NAME_PATTERN = /filename=\"(.+)\"(;|$)/;
-function readResponse<T>(xhr: XMLHttpRequest) {
-    const parts = xhr
-        .getAllResponseHeaders()
-        .split(/[\r\n]+/)
-        .map<[string, string]>(line => {
-            const parts = line.split(": ");
-            const key = parts.shift();
-            const value = parts.join(": ");
-            return [key, value];
-        })
-        .filter(kv => kv[0].length > 0);
 
-    const headers = new Map<string, string>(parts);
+export class FetchingServiceImpl
+    extends ResponseTranslator
+    implements IFetchingService {
 
-    if (xhr.status >= 400) {
-        throw new Error(`Error [${xhr.status}]: ${xhr.responseText}.`);
+    private readonly defaultPostHeaders = new Map<string, string>();
+
+    constructor(private readonly makeProxyURL?: ProxyResolvingCallback) {
+        super();
     }
 
-    const response: IResponse<T> = {
-        status: xhr.status,
-        content: xhr.response as T,
-        contentType: readResponseHeader(headers, "content-type", identity),
-        contentLength: readResponseHeader(headers, "content-length", parseFloat),
-        fileName: readResponseHeader(headers, "content-disposition", v => {
+    setRequestVerificationToken(value: string): void {
+        this.defaultPostHeaders.set("RequestVerificationToken", value);
+    }
+
+    private async readResponse<T>(method: HTTPMethods, xhrType: XMLHttpRequestResponseType, request: IRequest, xhr: XMLHttpRequest, progress: IProgress): Promise<IResponse<T>> {
+        if (xhr.status >= 400) {
+            throw new Error(`Error [${xhr.status}]: ${xhr.responseText}.`);
+        }
+
+        const blob = xhr.response as Blob;
+
+        const parts = xhr
+            .getAllResponseHeaders()
+            .split(/[\r\n]+/)
+            .map<[string, string]>(line => {
+                const parts = line.split(": ");
+                const key = parts.shift();
+                const value = parts.join(": ");
+                return [key, value];
+            })
+            .filter(kv => kv[0].length > 0);
+
+        let content: T = null;
+        let headers = new Map<string, string>(parts);
+        let contentType = readResponseHeader(headers, "content-type", identity);
+        let contentLength = readResponseHeader(headers, "content-length", parseFloat);
+        let date = readResponseHeader(headers, "date", v => new Date(v));
+        let fileName = readResponseHeader(headers, "content-disposition", v => {
             if (isDefined(v)) {
                 const match = v.match(FILE_NAME_PATTERN);
                 if (isDefined(match)) {
@@ -139,47 +156,93 @@ function readResponse<T>(xhr: XMLHttpRequest) {
             }
 
             return null;
-        }),
-        date: readResponseHeader(headers, "date", v => new Date(v)),
-        headers
-    };
+        });
 
-    return response;
-}
+        if (Application_X_Url.matches(contentType)) {
+            if (isNullOrUndefined(this.makeProxyURL)) {
+                throw new Error("Cannot parse client redirects without a proxy translator defined. The default FetchingServiceImpl does not define one.");
+            }
+            else {
+                if (method === "POST") {
+                    method = "GET";
+                }
+                const shortcutText = await blob.text();
+                request.path = this.makeProxyURL(shortcutText);
+                const redirectedResponse = await this.headOrGetXHR<T>(method, xhrType, request, progress);
+                if (Application_X_Url.matches(redirectedResponse.contentType)) {
+                    throw new Error("Too many redirects");
+                }
+                content = redirectedResponse.content;
+                headers = redirectedResponse.headers;
+                contentType = redirectedResponse.contentType;
+                contentLength = redirectedResponse.contentLength;
+                date = redirectedResponse.date;
+                fileName = redirectedResponse.fileName;
+            }
+        }
+        else if (xhrType === "blob") {
+            content = blob as any as T;
+        }
+        else if (xhrType === "arraybuffer") {
+            content = await blob.arrayBuffer() as any as T;
+        }
+        else {
+            const text = await blob.text();
+            if (xhrType === ""
+                || xhrType === "text"
+                || xhrType === "json"
+                || xhrType === "document") {
+                if (xhrType === "json") {
+                    content = JSON.parse(text) as T;
+                }
+                else if (xhrType === "document") {
+                    const parser = new DOMParser();
+                    if (contentType === "application/xhtml+xml"
+                        || contentType === "text/html"
+                        || contentType === "application/xml"
+                        || contentType === "image/svg+xml"
+                        || contentType === "text/xml") {
+                        content = parser.parseFromString(text, contentType) as any as T;
+                    }
+                }
+                else {
+                    content = text as any as T;
+                }
+            }
+        }
 
-export class FetchingServiceImpl
-    extends ResponseTranslator
-    implements IFetchingService {
+        const response: IResponse<T> = {
+            status: xhr.status,
+            content,
+            contentType,
+            contentLength,
+            fileName,
+            date,
+            headers
+        };
 
-    private readonly defaultPostHeaders = new Map<string, string>();
-
-    setRequestVerificationToken(value: string): void {
-        this.defaultPostHeaders.set("RequestVerificationToken", value);
+        return response;
     }
 
     private async headOrGetXHR<T>(method: HTTPMethods, xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
         const xhr = new XMLHttpRequest();
         const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, progress, true);
 
-        sendRequest(xhr, xhrType, method, request.path, request.timeout, request.headers);
+        sendRequest(xhr, method, request.path, request.timeout, request.headers);
 
         await download;
-        return readResponse(xhr);
+        return await this.readResponse(method, xhrType, request, xhr, progress);
     }
 
     private getXHR<T>(xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
         return this.headOrGetXHR("GET", xhrType, request, progress);
     }
 
-    head(request: IRequest): Promise<IResponse<void>> {
-        return this.headOrGetXHR("HEAD", "", request, null);
-    }
-
     private async postXHR<T>(xhrType: XMLHttpRequestResponseType, request: IRequestWithBody, prog: IProgress): Promise<IResponse<T>> {
 
         let body: XMLHttpRequestBodyInit = null;
 
-        
+
         const headers = mapJoin(new Map<string, string>(), this.defaultPostHeaders, request.headers);
 
         if (request.body instanceof FormData
@@ -202,18 +265,24 @@ export class FetchingServiceImpl
             body = JSON.stringify(request.body);
         }
 
-        const progs = progressPopper(prog);
-        const xhr = new XMLHttpRequest();        
+        const progs = progressSplit(prog, 2);
+        const xhr = new XMLHttpRequest();
         const upload = isDefined(body)
-            ? trackProgress("uploading", xhr, xhr.upload, progs.pop(), false)
+            ? trackProgress("uploading", xhr, xhr.upload, progs.shift(), false)
             : Promise.resolve();
-        const download = trackProgress("saving", xhr, xhr, progs.pop(), true, upload);
+        const downloadProg = progs.shift();
+        const download = trackProgress("saving", xhr, xhr, downloadProg, true, upload);
 
-        sendRequest(xhr, xhrType, "POST", request.path, request.timeout, headers, body);
+        sendRequest(xhr, "POST", request.path, request.timeout, headers, body);
 
         await upload;
         await download;
-        return readResponse(xhr);
+
+        return await this.readResponse("POST", xhrType, request, xhr, downloadProg);
+    }
+
+    head(request: IRequest): Promise<IResponse<void>> {
+        return this.headOrGetXHR("HEAD", "", request, null);
     }
 
     getBlob(request: IRequest, progress: IProgress): Promise<IResponse<Blob>> {
