@@ -32,6 +32,18 @@ export class TestRunner extends TypedEventBase<TestRunnerEvents> {
         this.CaseClasses = rest.filter(v => isFunction(v));
     }
 
+    scaffold() {
+        const results: TestResults = new PriorityMap();
+        for (let CaseClass of this.CaseClasses) {
+            for (let name of testNames(CaseClass.prototype)) {
+                if (isTest(CaseClass.prototype, name)) {
+                    results.add(CaseClass.name, name, new TestScore(name));
+                }
+            }
+        }
+        this.dispatchEvent(new TestRunnerResultsEvent(results))
+    }
+
     async run(testCaseName: string, testName: string) {
         const results: TestResults = new PriorityMap();
         const onUpdate = () => this.dispatchEvent(new TestRunnerResultsEvent(results));
@@ -44,12 +56,6 @@ export class TestRunner extends TypedEventBase<TestRunnerEvents> {
             }
         }
 
-        /**
-        * @callback testRunCallback
-        * @returns {Promise}
-        */
-
-        /** @type {testRunCallback[]} */
         const q: Array<() => Promise<any>> = [];
         for (let CaseClass of this.CaseClasses) {
             const className = CaseClass.name;

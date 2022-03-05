@@ -21,6 +21,7 @@ import {
     ErsatzElement,
     Span
 } from "juniper-dom/tags";
+import { isDefined } from "juniper-tslib";
 import { CaseClassConstructor } from "./CaseClassConstructor";
 import { TestOutput } from "./TestOutput";
 import { TestOutputResultsEvent } from "./TestOutputResultsEvent";
@@ -70,7 +71,8 @@ export class HtmlTestOutput extends TestOutput implements ErsatzElement {
         super(...CaseClasses);
         this.element = Div(id("testOutput"));
 
-        const draw = (evt: TestOutputResultsEvent) => {
+        let lastTable: HTMLDivElement = null;
+        this.addEventListener("testoutputresults", (evt: TestOutputResultsEvent) => {
             const s = Math.round(100 * evt.stats.totalSucceeded / evt.stats.totalFound),
                 f = Math.round(100 * evt.stats.totalFailed / evt.stats.totalFound),
                 t = Math.round(100 * (evt.stats.totalFound - evt.stats.totalSucceeded - evt.stats.totalFailed) / evt.stats.totalFound),
@@ -110,9 +112,14 @@ export class HtmlTestOutput extends TestOutput implements ErsatzElement {
                     Div(col(3), makeStatus(test.state)),
                     Div(col(4), test.messages.join(", ")));
             }
-            elementClearChildren(this.element);
-            this.element.append(table);
-        };
-        this.addEventListener("testoutputresults", draw);
+
+            if (isDefined(lastTable)) {
+                lastTable.replaceWith(table);
+            }
+            else {
+                this.element.append(table);
+            }
+            lastTable = table;
+        });
     }
 }

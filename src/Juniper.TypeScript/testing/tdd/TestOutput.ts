@@ -13,21 +13,27 @@ export class TestOutput extends TypedEventBase<TestOutputEvents> {
     constructor(...rest: any[]) {
         super();
         this.rest = rest;
+        setTimeout(() => this.scaffold(), 250);
     }
 
     /**
      * Runs a specific test within a test case.
      */
     async run(caseName?: string, testName?: string) {
+        const testRunner = this.createTestRunner();
+        testRunner.run(caseName, testName);
+    }
+
+    private scaffold() {
+        const testRunner = this.createTestRunner();
+        testRunner.scaffold();
+    }
+
+    private createTestRunner() {
         const testRunner = new TestRunner(...this.rest);
         testRunner.addEventListener("testrunnerresults", (evt) => {
             const results = evt.results;
-            let totalFound = 0,
-                totalRan = 0,
-                totalCompleted = 0,
-                totalIncomplete = 0,
-                totalSucceeded = 0,
-                totalFailed = 0;
+            let totalFound = 0, totalRan = 0, totalCompleted = 0, totalIncomplete = 0, totalSucceeded = 0, totalFailed = 0;
             for (let test of results.values()) {
                 ++totalFound;
                 if (test.state & TestStates.started) {
@@ -57,6 +63,6 @@ export class TestOutput extends TypedEventBase<TestOutputEvents> {
             };
             this.dispatchEvent(new TestOutputResultsEvent(results, stats));
         });
-        testRunner.run(caseName, testName);
+        return testRunner;
     }
 }
