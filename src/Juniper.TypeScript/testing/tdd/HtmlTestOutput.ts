@@ -16,9 +16,7 @@ import { col, gridColsDef } from "juniper-dom/grid";
 import {
     Button,
     Div,
-    ElementChild,
-    elementClearChildren,
-    ErsatzElement,
+    ElementChild, ErsatzElement,
     Span
 } from "juniper-dom/tags";
 import { isDefined } from "juniper-tslib";
