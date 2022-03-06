@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 using Juniper.IO;
@@ -11,15 +12,15 @@ namespace Juniper.Speech.Azure.CognitiveServices
     {
         private readonly IAudioDecoder audioDecoder;
 
-        public TextToSpeechClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, IJsonDecoder<Voice[]> voiceListDecoder, IAudioDecoder audioDecoder, CachingStrategy cache)
-            : base(azureRegion, azureSubscriptionKey, azureResourceName, voiceListDecoder, cache)
+        public TextToSpeechClient(HttpClient http, string azureRegion, string azureSubscriptionKey, string azureResourceName, IJsonDecoder<Voice[]> voiceListDecoder, IAudioDecoder audioDecoder, CachingStrategy cache)
+            : base(http, azureRegion, azureSubscriptionKey, azureResourceName, voiceListDecoder, cache)
         {
             this.audioDecoder = audioDecoder
                 ?? throw new ArgumentException("Must provide an audio decoder", nameof(audioDecoder));
         }
 
-        public TextToSpeechClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, IJsonDecoder<Voice[]> voiceListDecoder, IAudioDecoder audioDecoder)
-            : this(azureRegion, azureSubscriptionKey, azureResourceName, voiceListDecoder, audioDecoder, null)
+        public TextToSpeechClient(HttpClient http, string azureRegion, string azureSubscriptionKey, string azureResourceName, IJsonDecoder<Voice[]> voiceListDecoder, IAudioDecoder audioDecoder)
+            : this(http, azureRegion, azureSubscriptionKey, azureResourceName, voiceListDecoder, audioDecoder, null)
         { }
 
         private void CheckAudioFormat(AudioFormat outputFormat)

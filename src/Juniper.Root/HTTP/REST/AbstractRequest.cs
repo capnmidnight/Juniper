@@ -14,8 +14,6 @@ namespace Juniper.HTTP.REST
     public abstract class AbstractRequest<MediaTypeT> : AbstractStreamSource
         where MediaTypeT : MediaType
     {
-        private static readonly HttpClient http = new(new HttpClientHandler { UseCookies = false });
-
         protected static Uri AddPath(Uri baseURI, string path)
         {
             var uriBuilder = new UriBuilder(baseURI);
@@ -23,15 +21,17 @@ namespace Juniper.HTTP.REST
             return uriBuilder.Uri;
         }
 
+        private readonly HttpClient http;
         private readonly HttpMethod method;
         private readonly Uri serviceURI;
 
         private readonly IDictionary<string, List<string>> queryParams =
             new SortedDictionary<string, List<string>>();
 
-        protected AbstractRequest(HttpMethod method, Uri serviceURI, MediaTypeT contentType)
+        protected AbstractRequest(HttpClient http, HttpMethod method, Uri serviceURI, MediaTypeT contentType)
             : base(contentType)
         {
+            this.http = http;
             this.method = method;
             this.serviceURI = serviceURI;
 

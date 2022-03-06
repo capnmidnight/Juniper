@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Juniper.World.GIS.Google
@@ -20,8 +21,8 @@ namespace Juniper.World.GIS.Google
         private readonly Dictionary<string, MetadataResponse> metadataCache = new();
         private readonly List<string> knownImages = new();
 
-        public GoogleMapsClient(string apiKey, string signingKey, IJsonFactory<MetadataResponse> metadataDecoder, IJsonFactory<GeocodingResponse> geocodingDecoder, CachingStrategy cache)
-            : base(apiKey, signingKey, cache)
+        public GoogleMapsClient(HttpClient http, string apiKey, string signingKey, IJsonFactory<MetadataResponse> metadataDecoder, IJsonFactory<GeocodingResponse> geocodingDecoder, CachingStrategy cache)
+            : base(http, apiKey, signingKey, cache)
         {
             this.metadataDecoder = metadataDecoder ?? throw new ArgumentNullException(nameof(metadataDecoder));
             this.geocodingDecoder = geocodingDecoder ?? throw new ArgumentNullException(nameof(geocodingDecoder));
@@ -52,8 +53,8 @@ namespace Juniper.World.GIS.Google
             knownImages.Sort();
         }
 
-        public GoogleMapsClient(string apiKey, string signingKey, IJsonFactory<MetadataResponse> metadataFactory, IJsonFactory<GeocodingResponse> geocodingFactory)
-            : this(apiKey, signingKey, metadataFactory, geocodingFactory, CachingStrategy.GetTempCache())
+        public GoogleMapsClient(HttpClient http, string apiKey, string signingKey, IJsonFactory<MetadataResponse> metadataFactory, IJsonFactory<GeocodingResponse> geocodingFactory)
+            : this(http, apiKey, signingKey, metadataFactory, geocodingFactory, CachingStrategy.GetTempCache())
         { }
 
 
@@ -98,7 +99,7 @@ namespace Juniper.World.GIS.Google
 
         public Task<GeocodingResponse> ReverseGeocodeAsync(LatLngPoint latLng, IProgress prog = null)
         {
-            return LoadAsync(geocodingDecoder, new ReverseGeocodingRequest(ApiKey)
+            return LoadAsync(geocodingDecoder, new ReverseGeocodingRequest(Http, ApiKey)
             {
                 Location = latLng
             }, prog);
@@ -106,7 +107,7 @@ namespace Juniper.World.GIS.Google
 
         public async Task<MetadataResponse> GetMetadataAsync(string pano, int searchRadius = 50, IProgress prog = null)
         {
-            return Encache(await LoadAsync(metadataDecoder, new MetadataRequest(ApiKey, SigningKey)
+            return Encache(await LoadAsync(metadataDecoder, new MetadataRequest(Http, ApiKey, SigningKey)
             {
                 Pano = pano,
                 Radius = searchRadius
@@ -115,7 +116,7 @@ namespace Juniper.World.GIS.Google
 
         public async Task<MetadataResponse> SearchMetadataAsync(string placeName, int searchRadius = 50, IProgress prog = null)
         {
-            return Encache(await LoadAsync(metadataDecoder, new MetadataRequest(ApiKey, SigningKey)
+            return Encache(await LoadAsync(metadataDecoder, new MetadataRequest(Http, ApiKey, SigningKey)
             {
                 Place = placeName,
                 Radius = searchRadius
@@ -124,7 +125,7 @@ namespace Juniper.World.GIS.Google
 
         public async Task<MetadataResponse> GetMetadataAsync(LatLngPoint latLng, int searchRadius = 50, IProgress prog = null)
         {
-            return Encache(await LoadAsync(metadataDecoder, new MetadataRequest(ApiKey, SigningKey)
+            return Encache(await LoadAsync(metadataDecoder, new MetadataRequest(Http, ApiKey, SigningKey)
             {
                 Location = latLng,
                 Radius = searchRadius

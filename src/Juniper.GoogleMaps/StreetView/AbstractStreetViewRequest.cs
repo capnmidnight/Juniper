@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Net.Http;
 
 namespace Juniper.World.GIS.Google.StreetView
 {
@@ -10,8 +11,8 @@ namespace Juniper.World.GIS.Google.StreetView
         private LatLngPoint location;
         private int radius;
 
-        protected AbstractStreetViewRequest(string path, string apiKey, string signingKey, MediaTypeT contentType)
-            : base(path, contentType, apiKey, signingKey)
+        protected AbstractStreetViewRequest(HttpClient http, string path, string apiKey, string signingKey, MediaTypeT contentType)
+            : base(http, path, contentType, apiKey, signingKey)
         { }
 
         public string Pano

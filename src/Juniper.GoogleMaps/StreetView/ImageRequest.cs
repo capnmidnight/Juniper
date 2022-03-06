@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Net.Http;
 
 namespace Juniper.World.GIS.Google.StreetView
 {
@@ -9,8 +10,8 @@ namespace Juniper.World.GIS.Google.StreetView
         private int fov;
         private Size size;
 
-        public ImageRequest(string apiKey, string signingKey, Size size)
-            : base("streetview", apiKey, signingKey, MediaType.Image_Jpeg)
+        public ImageRequest(HttpClient http, string apiKey, string signingKey, Size size)
+            : base(http, "streetview", apiKey, signingKey, MediaType.Image_Jpeg)
         {
             Size = size;
         }

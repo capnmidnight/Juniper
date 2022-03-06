@@ -16,8 +16,8 @@ namespace Juniper.World.GIS.Google
         private readonly string apiKey;
         private readonly string signingKey;
 
-        protected AbstractGoogleMapsRequest(string path, MediaTypeT contentType, string apiKey, string signingKey)
-            : base(HttpMethod.Get, AddPath(gmaps, path), contentType)
+        protected AbstractGoogleMapsRequest(HttpClient http, string path, MediaTypeT contentType, string apiKey, string signingKey)
+            : base(http, HttpMethod.Get, AddPath(gmaps, path), contentType)
         {
             this.apiKey = apiKey;
             this.signingKey = signingKey;

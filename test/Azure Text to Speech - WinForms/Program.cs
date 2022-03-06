@@ -5,6 +5,7 @@ using Juniper.Speech.Azure.CognitiveServices;
 using System;
 using System.IO;
 using System.Media;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -27,12 +28,18 @@ namespace Juniper
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += Application_ThreadException;
 
+            using var http = new HttpClient(new HttpClientHandler
+            {
+                UseCookies = false
+            });
+
             // credentials
             var userProfile = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
             var projectsDir = userProfile.CD("Projects");
             var keyFile = projectsDir.CD("DevKeys").Touch("azure-speech.txt");
             var lines = File.ReadAllLines(keyFile.FullName);
             client = new TextToSpeechClient(
+                http,
                 lines[0],
                 lines[1],
                 lines[2],

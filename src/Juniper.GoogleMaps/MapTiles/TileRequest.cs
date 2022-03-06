@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 
 namespace Juniper.World.GIS.Google.MapTiles
@@ -19,8 +20,8 @@ namespace Juniper.World.GIS.Google.MapTiles
         private LatLngPoint center;
         private Size size;
 
-        public TileRequest(string apiKey, string signingKey, Size size)
-            : base("staticmap", MediaType.Image_Png, apiKey, signingKey)
+        public TileRequest(HttpClient http, string apiKey, string signingKey, Size size)
+            : base(http, "staticmap", MediaType.Image_Png, apiKey, signingKey)
         {
             Size = size;
         }

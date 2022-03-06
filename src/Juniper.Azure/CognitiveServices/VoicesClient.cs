@@ -1,12 +1,14 @@
 using Juniper.IO;
 
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Juniper.Speech.Azure.CognitiveServices
 {
     public class VoicesClient
     {
+        protected HttpClient Http { get; }
         private readonly string azureSubscriptionKey;
         private readonly IJsonDecoder<Voice[]> voiceListDecoder;
 
@@ -16,7 +18,7 @@ namespace Juniper.Speech.Azure.CognitiveServices
         protected string AzureRegion { get; }
         protected CachingStrategy Cache { get; }
 
-        public VoicesClient(string azureRegion, string azureSubscriptionKey, IJsonDecoder<Voice[]> voiceListDecoder, CachingStrategy cache)
+        public VoicesClient(HttpClient http, string azureRegion, string azureSubscriptionKey, IJsonDecoder<Voice[]> voiceListDecoder, CachingStrategy cache)
         {
             if (string.IsNullOrEmpty(azureRegion))
             {
@@ -35,13 +37,14 @@ namespace Juniper.Speech.Azure.CognitiveServices
             }
 
             Cache = cache ?? new CachingStrategy();
+            this.Http = http;
             AzureRegion = azureRegion;
             this.azureSubscriptionKey = azureSubscriptionKey;
             this.voiceListDecoder = voiceListDecoder;
         }
 
-        public VoicesClient(string azureRegion, string azureSubscriptionKey, IJsonDecoder<Voice[]> voiceListDecoder)
-            : this(azureRegion, azureSubscriptionKey, voiceListDecoder, null)
+        public VoicesClient(HttpClient http, string azureRegion, string azureSubscriptionKey, IJsonDecoder<Voice[]> voiceListDecoder)
+            : this(http, azureRegion, azureSubscriptionKey, voiceListDecoder, null)
         { }
 
         public bool IsAvailable { get; protected set; } = true;
@@ -58,7 +61,7 @@ namespace Juniper.Speech.Azure.CognitiveServices
                 if (string.IsNullOrEmpty(authToken))
                 {
                     var plainText = new StringFactory();
-                    var authRequest = new AuthTokenRequest(AzureRegion, azureSubscriptionKey);
+                    var authRequest = new AuthTokenRequest(Http, AzureRegion, azureSubscriptionKey);
                     authToken = await authRequest.DecodeAsync(plainText)
                         .ConfigureAwait(false);
                 }
@@ -78,7 +81,7 @@ namespace Juniper.Speech.Azure.CognitiveServices
             {
                 if (voices is null)
                 {
-                    var voiceListRequest = new VoiceListRequest(AzureRegion);
+                    var voiceListRequest = new VoiceListRequest(Http, AzureRegion);
                     if (!Cache.IsCached(voiceListRequest))
                     {
                         voiceListRequest.AuthToken = await GetAuthTokenAsync()

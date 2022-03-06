@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Net.Http;
 
 namespace Juniper.World.GIS.Google.Geocoding
 {
@@ -12,8 +13,8 @@ namespace Juniper.World.GIS.Google.Geocoding
         private GeometryViewport bounds;
         private string region;
 
-        public GeocodingRequest(string apiKey)
-            : base(apiKey)
+        public GeocodingRequest(HttpClient http, string apiKey)
+            : base(http, apiKey)
         { }
 
         public string Place
