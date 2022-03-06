@@ -7,7 +7,7 @@
     "build": "npx tsc --build"
   },
   "dependencies": {
-    "@microsoft/signalr": "6.0.1",
+    "@microsoft/signalr": "6.0.2",
     "@types/audio-types": "file:../audio-types",
     "@types/offscreencanvas-types": "file:../offscreencanvas-types",
     "@types/webxr-types": "file:../webxr-types",
