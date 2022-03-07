@@ -1,6 +1,6 @@
 import { Application_X_Url } from "juniper-mediatypes/application";
 import { parseInternetShortcut } from "juniper-mediatypes/internetShortcut";
-import { identity, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, progressSplit } from "juniper-tslib";
+import { assertNever, identity, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, progressSplit } from "juniper-tslib";
 import type { HTTPMethods, IFetchingService, IRequest, IRequestWithBody, IResponse } from "./IFetcher";
 import { ResponseTranslator } from "./ResponseTranslator";
 
@@ -126,9 +126,10 @@ export class FetchingServiceImpl
             throw new Error(`Error [${xhr.status}]: ${xhr.responseText}.`);
         }
 
-        const blob = xhr.response as Blob;
+        let content: T = null;
+        const contentBlob = xhr.response as Blob;
 
-        const parts = xhr
+        const headerParts = xhr
             .getAllResponseHeaders()
             .split(/[\r\n]+/)
             .map(v => v.trim())
@@ -140,10 +141,27 @@ export class FetchingServiceImpl
                 return [key, value];
             });
 
-        let content: T = null;
-        let headers = new Map<string, string>(parts);
-        let contentType = readResponseHeader(headers, "content-type", identity);
-        let contentLength = readResponseHeader(headers, "content-length", parseFloat);
+        const pList = new PriorityList<string, string>();
+        for (const [key, value] of headerParts) {
+            pList.add(key, value);
+        }
+
+        const normalizedHeaderParts = Array.from(pList.keys())
+            .map<[string, string]>(key =>
+                [
+                    key,
+                    pList.get(key)
+                        .join(", ")
+                ]);
+
+        let headers = new Map<string, string>(normalizedHeaderParts);
+
+        let contentType = readResponseHeader(headers, "content-type", identity)
+            || contentBlob && contentBlob.type
+            || null;
+        let contentLength = readResponseHeader(headers, "content-length", parseFloat)
+            || contentBlob && contentBlob.size
+            || null;
         let date = readResponseHeader(headers, "date", v => new Date(v));
         let fileName = readResponseHeader(headers, "content-disposition", v => {
             if (isDefined(v)) {
@@ -156,9 +174,12 @@ export class FetchingServiceImpl
             return null;
         });
 
-        if (contentLength > 0) {
+        if (xhrType !== "") {
             if (isNullOrUndefined(contentType)) {
-                throw new Error("No content type found in headers: \n  " + parts.map(kv => kv.join(": ")).join("\n  "));
+                const headerBlock = normalizedHeaderParts
+                    .map(kv => kv.join(": "))
+                    .join("\n  ");
+                throw new Error("No content type found in headers: \n  " + headerBlock);
             }
             else if (Application_X_Url.matches(contentType)) {
                 if (depth > 0) {
@@ -168,7 +189,7 @@ export class FetchingServiceImpl
                     if (method === "POST") {
                         method = "GET";
                     }
-                    const shortcutText = await blob.text();
+                    const shortcutText = await contentBlob.text();
 
                     const newPath = this.parseInternetShortcut(shortcutText);
                     request.path = newPath;
@@ -186,34 +207,29 @@ export class FetchingServiceImpl
                 }
             }
             else if (xhrType === "blob") {
-                content = blob as any as T;
+                content = contentBlob as any as T;
             }
             else if (xhrType === "arraybuffer") {
-                content = await blob.arrayBuffer() as any as T;
+                content = await contentBlob.arrayBuffer() as any as T;
+            }
+            else if (xhrType === "json") {
+                content = JSON.parse(await contentBlob.text()) as T;
+            }
+            else if (xhrType === "document") {
+                const parser = new DOMParser();
+                if (contentType === "application/xhtml+xml"
+                    || contentType === "text/html"
+                    || contentType === "application/xml"
+                    || contentType === "image/svg+xml"
+                    || contentType === "text/xml") {
+                    content = parser.parseFromString(await contentBlob.text(), contentType) as any as T;
+                }
+            }
+            else if (xhrType === "text") {
+                content = (await contentBlob.text()) as any as T;
             }
             else {
-                const text = await blob.text();
-                if (xhrType === ""
-                    || xhrType === "text"
-                    || xhrType === "json"
-                    || xhrType === "document") {
-                    if (xhrType === "json") {
-                        content = JSON.parse(text) as T;
-                    }
-                    else if (xhrType === "document") {
-                        const parser = new DOMParser();
-                        if (contentType === "application/xhtml+xml"
-                            || contentType === "text/html"
-                            || contentType === "application/xml"
-                            || contentType === "image/svg+xml"
-                            || contentType === "text/xml") {
-                            content = parser.parseFromString(text, contentType) as any as T;
-                        }
-                    }
-                    else {
-                        content = text as any as T;
-                    }
-                }
+                assertNever(xhrType);
             }
         }
 
