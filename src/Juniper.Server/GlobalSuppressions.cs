@@ -5,4 +5,5 @@
 
 using System.Diagnostics.CodeAnalysis;
 
+[assembly: SuppressMessage("Style", "IDE0025:Use block body for properties", Justification = "<Pending>")]
 [assembly: SuppressMessage("Style", "IDE0058:Expression value is never used", Justification = "<Pending>")]
