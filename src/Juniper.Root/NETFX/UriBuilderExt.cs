@@ -1,7 +1,14 @@
+using Juniper;
+
 namespace System
 {
     public static class UriBuilderExt
     {
+        public static InternetShortcut ToInternetShortcut(this Uri uri)
+        {
+            return new InternetShortcut(uri);
+        }
+
         public static UriBuilder AddQuery(this UriBuilder builder, string keyValue)
         {
             if (builder is null)
