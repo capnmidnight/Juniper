@@ -321,6 +321,7 @@ namespace Juniper.TSBuild
             {
                 commands
                     .AddCommands(new MessageCommand("Build level {0}: {1}", buildLevel, buildLevelMessages[buildLevel]))
+                    .AddCommands(dependencies.Select(kv => new CopyCommand(kv.Key, kv.Value)))
                     .AddCommands(GetInstallCommands(buildLevel));
 
                 if (buildLevel > Level.Low)
@@ -334,11 +335,10 @@ namespace Juniper.TSBuild
                                 .Touch("tsconfig.tsbuildinfo"))));
                     }
 
-                    commands.AddCommands(NPM("run build", init ? juniperProjects : juniperBundles))
+                    commands 
+                        .AddCommands(NPM("run build", init ? juniperProjects : juniperBundles))
                         .AddCommands(Copy(Por.All, serverJsDir, juniperBundles))
-                        .AddCommands(NPM("run build", clientDir)
-                            .Cast<ICommand>()
-                            .Union(dependencies.Select(kv => new CopyCommand(kv.Key, kv.Value))))
+                        .AddCommands(NPM("run build", clientDir))
                         .AddCommands(
                             new CopyJsonValueCommand(
                                 clientPackage, "version",
