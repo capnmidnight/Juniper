@@ -186,7 +186,10 @@ export class FetchingServiceImpl
                 content = await contentBlob.arrayBuffer() as any as T;
             }
             else if (xhrType === "json") {
-                content = JSON.parse(await contentBlob.text()) as T;
+                const text = await contentBlob.text();
+                if (text.length > 0) {
+                    content = JSON.parse(text) as T;
+                }
             }
             else if (xhrType === "document") {
                 const parser = new DOMParser();
