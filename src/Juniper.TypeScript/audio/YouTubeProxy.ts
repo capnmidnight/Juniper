@@ -3,7 +3,7 @@ import { BackgroundAudio, BackgroundVideo, mediaElementForwardEvents, mediaEleme
 import { IFetcher } from "juniper-fetcher";
 import { IProgress, progressSplitWeighted } from "juniper-tslib";
 
-export type YtDlpCallback = (pageURL: string, fetcher: IFetcher, prog?: IProgress) => Promise<YTBasicResult>;
+export type YtDlpCallback = (pageURL: string, fetcher: IFetcher, metadata?: YTMetadata, prog?: IProgress) => Promise<YTBasicResult>;
 
 export class YouTubeProxy {
     constructor(
@@ -12,30 +12,30 @@ export class YouTubeProxy {
         protected readonly queryYtDlp: YtDlpCallback) {
     }
 
-    protected loadVideoElement(vidLoc: YTMediaEntry): Promise<HTMLVideoElement> {
+    protected loadVideoElement(video: YTMediaEntry): Promise<HTMLVideoElement> {
         return mediaElementReady(
             BackgroundVideo(
                 false,
                 true,
                 false,
-                src(this.makeProxyURL(vidLoc.url))));
+                src(this.makeProxyURL(video.url))));
     }
 
-    protected loadAudioElement(audLoc: YTMediaEntry): Promise<HTMLAudioElement> {
+    protected loadAudioElement(audio: YTMediaEntry): Promise<HTMLAudioElement> {
         return mediaElementReady(
             BackgroundAudio(
                 false,
                 true,
                 false,
-                src(this.makeProxyURL(audLoc.url))));
+                src(this.makeProxyURL(audio.url))));
     }
 
-    async loadElements(pageURL: string, prog?: IProgress): Promise<[HTMLVideoElement, HTMLAudioElement]> {
+    async loadElements(pageURL: string, metadata?: YTMetadata, prog?: IProgress): Promise<[HTMLAudioElement, HTMLVideoElement]> {
         const progs = progressSplitWeighted(prog, [1.000, 10.000]);
-        const { video: vidLoc, audio: audLoc } = await this.queryYtDlp(pageURL, this.fetcher, progs.shift());
+        const basicResult = await this.queryYtDlp(pageURL, this.fetcher, metadata, progs.shift());
         const elements = await Promise.all([
-            this.loadVideoElement(vidLoc),
-            this.loadAudioElement(audLoc)
+            this.loadAudioElement(basicResult.audio),
+            this.loadVideoElement(basicResult.video)
         ]);
         mediaElementForwardEvents(elements[0], elements[1]);
         return elements;

@@ -170,7 +170,7 @@ export class YouTubeProxy3D extends YouTubeProxy {
 
     private async loadVideoMaterial(pageURL: string, label: string, prog?: IProgress): Promise<VideoMaterialResult> {
         const progs = progressSplitWeighted(prog, [1.000, 10.000]);
-        const { video: vidLoc, audio: audLoc, title, width, height, thumbnail: thumb } = await this.queryYtDlp(pageURL, this.fetcher, progs.shift());
+        const { video: vidLoc, audio: audLoc, title, width, height, thumbnail: thumb } = await this.queryYtDlp(pageURL, this.fetcher, null, progs.shift());
 
         prog = progs.shift();
 

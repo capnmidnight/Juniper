@@ -573,7 +573,7 @@ export function high(value: number) { return new Attr("high", value, false, "met
 /**
  * The URL of a linked resource.
   **/
-export function href(value: string) { return new Attr("href", value, false, "a", "area", "base", "link"); }
+export function href(value: string | URL) { return new Attr("href", unpackURL(value), false, "a", "area", "base", "link"); }
 
 /**
  * Specifies the language of the linked resource.
@@ -850,10 +850,20 @@ export function span(value: string) { return new Attr("span", value, false, "col
   **/
 export function spellCheck(value: boolean) { return new Attr("spellcheck", value, false); }
 
+function unpackURL(value: string | URL) {
+    if (value instanceof URL) {
+        value = value.href;
+    }
+
+    return value;
+}
+
 /**
  * The URL of the embeddable content.
   **/
-export function src(value: string) { return new Attr("src", value, false, "audio", "embed", "iframe", "img", "input", "script", "source", "track", "video"); }
+export function src(value: string | URL) {
+    return new Attr("src", unpackURL(value), false, "audio", "embed", "iframe", "img", "input", "script", "source", "track", "video");
+}
 
 /**
  * The srcdoc attribute

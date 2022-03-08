@@ -20,10 +20,10 @@ if (!isWorker) {
  * @param width - the screen size horizontal component
  * @param height - the screen size vertical component
  */
-export function openWindow(href: string): void;
-export function openWindow(href: string, width: number, height: number): void;
-export function openWindow(href: string, x: number, y: number, width: number, height: number): void;
-export function openWindow(href: string, xOrWidth?: number, yOrHeight?: number, width?: number, height?: number): void {
+export function openWindow(href: string | URL): void;
+export function openWindow(href: string | URL, width: number, height: number): void;
+export function openWindow(href: string | URL, x: number, y: number, width: number, height: number): void;
+export function openWindow(url: string | URL, xOrWidth?: number, yOrHeight?: number, width?: number, height?: number): void {
     if (isWorker) {
         throw new Error("Cannot open a window from a Worker.");
     }
@@ -36,7 +36,7 @@ export function openWindow(href: string, xOrWidth?: number, yOrHeight?: number, 
         opts = `width=${xOrWidth},height=${yOrHeight}`;
     }
 
-    const w = window.open(href, "_blank", opts);
+    const w = window.open(url, "_blank", opts);
 
     if (w) {
         windows.push(w);

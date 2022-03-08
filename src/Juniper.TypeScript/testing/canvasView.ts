@@ -1,4 +1,5 @@
 import { CanvasTypes, isOffscreenCanvas } from "juniper-dom/canvas";
+import { makeBlobURL } from "juniper-mediatypes";
 import { Image_Jpeg } from "juniper-mediatypes/image";
 import { isWorker } from "juniper-tslib";
 import { openWindow } from "./windowing";
@@ -19,7 +20,7 @@ export async function canvasView(canvas: CanvasTypes): Promise<void> {
         blob = await new Promise(resolve => canvas.toBlob(resolve, Image_Jpeg.value));
     }
 
-    const url = URL.createObjectURL(blob);
+    const url = makeBlobURL(blob);
 
     openWindow(url, 0, 0, canvas.width + 10, canvas.height + 100);
 }
