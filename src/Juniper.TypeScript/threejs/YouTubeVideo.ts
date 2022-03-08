@@ -1,15 +1,13 @@
 import { PlayableVideo } from "juniper-audio/sources/PlayableVideo";
-import { src } from "juniper-dom/attrs";
-import { BackgroundVideo, mediaElementForwardEvents, mediaElementReady } from "juniper-dom/tags";
-import { IFetcher } from "juniper-fetcher";
+import { YouTubeProxy, YtDlpCallback } from "juniper-audio/YouTubeProxy";
+import { mediaElementForwardEvents } from "juniper-dom/tags";
 import { IProgress, isDefined, isNullOrUndefined, progressSplitWeighted } from "juniper-tslib";
 import { createQuadGeometry } from "./CustomGeometry";
 import { Environment } from "./environment/Environment";
+import { Image2DMesh } from "./Image2DMesh";
 import { solid } from "./materials";
 import { obj } from "./objects";
 import { PlaybackButton } from "./PlaybackButton";
-
-type YtDlpCallback = (pageUrl: string, fetcher: IFetcher, prog?: IProgress) => Promise<YTBasicResult>;
 
 export type StereoFrameLayout = "left-right"
     | "right-left";
@@ -23,10 +21,12 @@ interface VideoMaterialResult extends BaseVideoResult {
     material: THREE.MeshBasicMaterial;
     width: number;
     height: number;
+    thumbnail?: Image2DMesh
 }
 
 export interface VideoPlayerResult extends BaseVideoResult {
     videoRig: THREE.Object3D;
+    thumbnail?: Image2DMesh;
 }
 
 const YouTubeMonoEACGeom = createQuadGeometry([
@@ -141,19 +141,19 @@ function linkControls(video: THREE.Object3D, controls: PlaybackButton, setScale:
     controls.addEventListener("stop", () => video.visible = false);
 }
 
-export class YouTubeProxy {
-    constructor(public readonly env: Environment, private readonly queryYtDlp: YtDlpCallback) {
-    }
+export class YouTubeProxy3D extends YouTubeProxy {
 
-    private loadVideoElement(vidLoc: YTMediaEntry): Promise<HTMLVideoElement> {
-        return mediaElementReady(BackgroundVideo(false, true, false, src(vidLoc.url)));
+    constructor(public readonly env: Environment,
+        makeProxyUrl: (path: string) => string,
+        queryYtDlp: YtDlpCallback) {
+        super(env.fetcher, makeProxyUrl, queryYtDlp)
     }
 
     private async loadMediaElements(audLoc: YTMediaEntry, vidLoc: YTMediaEntry, pageUrl: string, prog?: IProgress): Promise<HTMLVideoElement> {
         if (isDefined(audLoc)) {
             const [videoClip, audioClip] = await Promise.all([
                 this.loadVideoElement(vidLoc),
-                this.env.audio.createBasicClip(pageUrl, audLoc.url, 1.000, prog)
+                this.env.audio.createBasicClip(pageUrl, this.makeProxyUrl(audLoc.url), 1.000, prog)
             ]);
 
             mediaElementForwardEvents(videoClip, audioClip.input.mediaElement);
@@ -162,7 +162,7 @@ export class YouTubeProxy {
         }
         else {
             const videoClip = await this.loadVideoElement(vidLoc);
-            prog.report(1, 1, vidLoc.url);
+            prog.report(1, 1, pageUrl);
 
             return videoClip;
         }
@@ -170,14 +170,14 @@ export class YouTubeProxy {
 
     private async loadVideoMaterial(pageUrl: string, label: string, prog?: IProgress): Promise<VideoMaterialResult> {
         const progs = progressSplitWeighted(prog, [1.000, 10.000]);
-        const { video: vidLoc, audio: audLoc, title, width, height } = await this.queryYtDlp(pageUrl, this.env.fetcher, progs.shift());
+        const { video: vidLoc, audio: audLoc, title, width, height, thumbnail: thumb } = await this.queryYtDlp(pageUrl, this.fetcher, progs.shift());
 
         prog = progs.shift();
 
         if (isNullOrUndefined(vidLoc)) {
             throw new Error("No video found");
         }
-
+        
         const videoElem = await this.loadMediaElements(audLoc, vidLoc, pageUrl, prog);
         const video = new PlayableVideo(videoElem);
         const controls = new PlaybackButton(this.env, this.env.uiButtons, pageUrl, (label || title.substring(0, 25)), video);
@@ -187,11 +187,23 @@ export class YouTubeProxy {
             map: videoTexture,
             depthWrite: false
         });
-        return { controls, material, width, height, video };
+        let thumbnail: Image2DMesh = null;
+        if (isDefined(thumb)) {
+            thumbnail = new Image2DMesh(this.env, "thumb-" + pageUrl, true);
+            await thumbnail.mesh.loadImage(this.makeProxyUrl(thumb));
+        }
+        return {
+            controls,
+            material,
+            width,
+            height,
+            video,
+            thumbnail
+        };
     }
 
     async loadMonoPlane(pageUrl: string, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
-        const { controls, material, width, height, video } = await this.loadVideoMaterial(pageUrl, label, prog);
+        const { controls, material, width, height, video, thumbnail } = await this.loadVideoMaterial(pageUrl, label, prog);
 
         const vidMesh = new THREE.Mesh(SquareGeom, material);
         vidMesh.name = "Frame-2D";
@@ -200,22 +212,22 @@ export class YouTubeProxy {
         const videoRig = obj("VideoContainer", vidMesh);
         linkControls(videoRig, controls, false);
 
-        return { controls, videoRig, video };
+        return { controls, videoRig, video, thumbnail };
     }
 
     async loadMonoEAC(pageUrl: string, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
-        const { controls, material, video } = await this.loadVideoMaterial(pageUrl, label, prog);
+        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageUrl, label, prog);
 
         const videoRig = new THREE.Mesh(YouTubeMonoEACGeom, material);
         videoRig.name = "Frame-360";
 
         linkControls(videoRig, controls, true);
 
-        return { controls, videoRig, video };
+        return { controls, videoRig, video, thumbnail };
     }
 
     async loadStereoEAC(pageUrl: string, layout: StereoFrameLayout, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
-        const { controls, material, video } = await this.loadVideoMaterial(pageUrl, label, prog);
+        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageUrl, label, prog);
 
         const names = layout.split('-');
 
@@ -243,6 +255,6 @@ export class YouTubeProxy {
 
         linkControls(videoRig, controls, true);
 
-        return { controls, videoRig, video };
+        return { controls, videoRig, video, thumbnail };
     }
 }
