@@ -144,16 +144,16 @@ function linkControls(video: THREE.Object3D, controls: PlaybackButton, setScale:
 export class YouTubeProxy3D extends YouTubeProxy {
 
     constructor(public readonly env: Environment,
-        makeProxyUrl: (path: string) => string,
+        makeProxyURL: (path: string) => string,
         queryYtDlp: YtDlpCallback) {
-        super(env.fetcher, makeProxyUrl, queryYtDlp)
+        super(env.fetcher, makeProxyURL, queryYtDlp)
     }
 
-    private async loadMediaElements(audLoc: YTMediaEntry, vidLoc: YTMediaEntry, pageUrl: string, prog?: IProgress): Promise<HTMLVideoElement> {
+    private async loadMediaElements(audLoc: YTMediaEntry, vidLoc: YTMediaEntry, pageURL: string, prog?: IProgress): Promise<HTMLVideoElement> {
         if (isDefined(audLoc)) {
             const [videoClip, audioClip] = await Promise.all([
                 this.loadVideoElement(vidLoc),
-                this.env.audio.createBasicClip(pageUrl, this.makeProxyUrl(audLoc.url), 1.000, prog)
+                this.env.audio.createBasicClip(pageURL, this.makeProxyURL(audLoc.url), 1.000, prog)
             ]);
 
             mediaElementForwardEvents(videoClip, audioClip.input.mediaElement);
@@ -162,15 +162,15 @@ export class YouTubeProxy3D extends YouTubeProxy {
         }
         else {
             const videoClip = await this.loadVideoElement(vidLoc);
-            prog.report(1, 1, pageUrl);
+            prog.report(1, 1, pageURL);
 
             return videoClip;
         }
     }
 
-    private async loadVideoMaterial(pageUrl: string, label: string, prog?: IProgress): Promise<VideoMaterialResult> {
+    private async loadVideoMaterial(pageURL: string, label: string, prog?: IProgress): Promise<VideoMaterialResult> {
         const progs = progressSplitWeighted(prog, [1.000, 10.000]);
-        const { video: vidLoc, audio: audLoc, title, width, height, thumbnail: thumb } = await this.queryYtDlp(pageUrl, this.fetcher, progs.shift());
+        const { video: vidLoc, audio: audLoc, title, width, height, thumbnail: thumb } = await this.queryYtDlp(pageURL, this.fetcher, progs.shift());
 
         prog = progs.shift();
 
@@ -178,19 +178,19 @@ export class YouTubeProxy3D extends YouTubeProxy {
             throw new Error("No video found");
         }
         
-        const videoElem = await this.loadMediaElements(audLoc, vidLoc, pageUrl, prog);
+        const videoElem = await this.loadMediaElements(audLoc, vidLoc, pageURL, prog);
         const video = new PlayableVideo(videoElem);
-        const controls = new PlaybackButton(this.env, this.env.uiButtons, pageUrl, (label || title.substring(0, 25)), video);
+        const controls = new PlaybackButton(this.env, this.env.uiButtons, pageURL, (label || title.substring(0, 25)), video);
         const videoTexture = new THREE.VideoTexture(videoElem);
         const material = solid({
-            name: pageUrl,
+            name: pageURL,
             map: videoTexture,
             depthWrite: false
         });
         let thumbnail: Image2DMesh = null;
         if (isDefined(thumb)) {
-            thumbnail = new Image2DMesh(this.env, "thumb-" + pageUrl, true);
-            await thumbnail.mesh.loadImage(this.makeProxyUrl(thumb));
+            thumbnail = new Image2DMesh(this.env, "thumb-" + pageURL, true);
+            await thumbnail.mesh.loadImage(this.makeProxyURL(thumb));
         }
         return {
             controls,
@@ -202,8 +202,8 @@ export class YouTubeProxy3D extends YouTubeProxy {
         };
     }
 
-    async loadMonoPlane(pageUrl: string, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
-        const { controls, material, width, height, video, thumbnail } = await this.loadVideoMaterial(pageUrl, label, prog);
+    async loadMonoPlane(pageURL: string, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
+        const { controls, material, width, height, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, prog);
 
         const vidMesh = new THREE.Mesh(SquareGeom, material);
         vidMesh.name = "Frame-2D";
@@ -215,8 +215,8 @@ export class YouTubeProxy3D extends YouTubeProxy {
         return { controls, videoRig, video, thumbnail };
     }
 
-    async loadMonoEAC(pageUrl: string, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
-        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageUrl, label, prog);
+    async loadMonoEAC(pageURL: string, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
+        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, prog);
 
         const videoRig = new THREE.Mesh(YouTubeMonoEACGeom, material);
         videoRig.name = "Frame-360";
@@ -226,8 +226,8 @@ export class YouTubeProxy3D extends YouTubeProxy {
         return { controls, videoRig, video, thumbnail };
     }
 
-    async loadStereoEAC(pageUrl: string, layout: StereoFrameLayout, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
-        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageUrl, label, prog);
+    async loadStereoEAC(pageURL: string, layout: StereoFrameLayout, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
+        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, prog);
 
         const names = layout.split('-');
 

@@ -1,5 +1,4 @@
 import { Application_X_Url } from "juniper-mediatypes/application";
-import { parseInternetShortcut } from "juniper-mediatypes/internetShortcut";
 import { assertNever, identity, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, progressSplit } from "juniper-tslib";
 import type { HTTPMethods, IFetchingService, IRequest, IRequestWithBody, IResponse } from "./IFetcher";
 import { ResponseTranslator } from "./ResponseTranslator";
@@ -190,8 +189,7 @@ export class FetchingServiceImpl
                         method = "GET";
                     }
                     const shortcutText = await contentBlob.text();
-
-                    const newPath = this.parseInternetShortcut(shortcutText);
+                    const newPath = this.makeProxyURL(shortcutText);
                     request.path = newPath;
                     if (isDefined(request.headers)) {
                         request.headers.delete("accept");
@@ -246,8 +244,8 @@ export class FetchingServiceImpl
         return response;
     }
 
-    protected parseInternetShortcut(path: string): string {
-        return parseInternetShortcut(path);
+    protected makeProxyURL(path: string): string {
+        return path;
     }
 
     private async headOrGetXHR<T>(method: HTTPMethods, xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress, depth?: number): Promise<IResponse<T>> {

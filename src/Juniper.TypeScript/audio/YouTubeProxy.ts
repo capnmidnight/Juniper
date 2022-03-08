@@ -3,12 +3,12 @@ import { BackgroundAudio, BackgroundVideo, mediaElementForwardEvents, mediaEleme
 import { IFetcher } from "juniper-fetcher";
 import { IProgress, progressSplitWeighted } from "juniper-tslib";
 
-export type YtDlpCallback = (pageUrl: string, fetcher: IFetcher, prog?: IProgress) => Promise<YTBasicResult>;
+export type YtDlpCallback = (pageURL: string, fetcher: IFetcher, prog?: IProgress) => Promise<YTBasicResult>;
 
 export class YouTubeProxy {
     constructor(
         protected fetcher: IFetcher,
-        protected readonly makeProxyUrl: (path: string) => string,
+        protected readonly makeProxyURL: (path: string) => string,
         protected readonly queryYtDlp: YtDlpCallback) {
     }
 
@@ -18,7 +18,7 @@ export class YouTubeProxy {
                 false,
                 true,
                 false,
-                src(this.makeProxyUrl(vidLoc.url))));
+                src(this.makeProxyURL(vidLoc.url))));
     }
 
     protected loadAudioElement(audLoc: YTMediaEntry): Promise<HTMLAudioElement> {
@@ -27,12 +27,12 @@ export class YouTubeProxy {
                 false,
                 true,
                 false,
-                src(this.makeProxyUrl(audLoc.url))));
+                src(this.makeProxyURL(audLoc.url))));
     }
 
-    async loadElements(pageUrl: string, prog?: IProgress): Promise<[HTMLVideoElement, HTMLAudioElement]> {
+    async loadElements(pageURL: string, prog?: IProgress): Promise<[HTMLVideoElement, HTMLAudioElement]> {
         const progs = progressSplitWeighted(prog, [1.000, 10.000]);
-        const { video: vidLoc, audio: audLoc } = await this.queryYtDlp(pageUrl, this.fetcher, progs.shift());
+        const { video: vidLoc, audio: audLoc } = await this.queryYtDlp(pageURL, this.fetcher, progs.shift());
         const elements = await Promise.all([
             this.loadVideoElement(vidLoc),
             this.loadAudioElement(audLoc)

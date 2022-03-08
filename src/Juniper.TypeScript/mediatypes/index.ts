@@ -50,3 +50,7 @@ export const allXConference = Object.values(_allXConference);
 
 export const anyXShader = create("x-shader", "*");
 export const allXShader = Object.values(_allXShader);
+
+export function makeXUrlBlob(url: URL): Blob {
+    return new Blob([url.href], { type: _allApplication.Application_X_Url.value });
+}
