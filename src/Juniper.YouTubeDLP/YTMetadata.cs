@@ -56,7 +56,7 @@ namespace Juniper
         public string protocol { get; set; }
         public string language { get; set; }
         public string format_note { get; set; }
-        public int filesize_approx { get; set; }
+        public float filesize_approx { get; set; }
         public float tbr { get; set; }
         public int width { get; set; }
         public int height { get; set; }
