@@ -86,6 +86,11 @@ export function align(value: string) { return new Attr("align", value, false, "a
 export function allow(value: string) { return new Attr("allow", value, false, "iframe"); }
 
 /**
+ * Whether or not to allow an IFrame to open full screen elements.
+ */
+export function allowFullscreen(value: boolean) { return new Attr("allowfullscreen", value, false, "iframe"); }
+
+/**
  * Alternative text in case an image can't be displayed.
  **/
 export function alt(value: string) { return new Attr("alt", value, false, "applet", "area", "img", "input"); }
@@ -458,7 +463,7 @@ export function decoding(value: string) { return new Attr("decoding", value, fal
 /**
  * Indicates that the track should be enabled unless the user's preferences indicate something different.
   **/
-export function htmlDefault(value: boolean|string) { return new Attr("default", value, false, "track"); }
+export function htmlDefault(value: boolean | string) { return new Attr("default", value, false, "track"); }
 
 /**
  * Indicates that the script should be executed after the page has been parsed.
@@ -539,6 +544,11 @@ export function formNoValidate(value: boolean) { return new Attr("formnovalidate
  * If the button/input is a submit button (type="submit"), this attribute specifies the browsing context (for example, tab, window, or inline frame) in which to display the response that is received after submitting the form. If this attribute is specified, it overrides the target attribute of the button's form owner.
   **/
 export function formTarget(value: string) { return new Attr("formtarget", value, false, "button", "input"); }
+
+/**
+ * Width of the border to put around an IFrame.
+ */
+export function frameBorder(value: string | number) { return new Attr("frameborder", value, false, "iframe"); }
 
 /**
  * IDs of the <th> elements which applies to this element.
@@ -743,7 +753,7 @@ export function poster(value: string) { return new Attr("poster", value, false, 
 /**
  * Indicates whether the whole resource, parts of it or nothing should be preloaded.
   **/
-export function preload(value: boolean|string) { return new Attr("preload", value, false, "audio", "video"); }
+export function preload(value: boolean | string) { return new Attr("preload", value, false, "audio", "video"); }
 
 /**
  * Indicates whether the element can be edited.
