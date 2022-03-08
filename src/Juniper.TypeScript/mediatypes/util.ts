@@ -198,7 +198,7 @@ class InternalMediaType implements MediaType {
 
     matches(value: MediaType | string): boolean {
         if (isNullOrUndefined(value)) {
-            throw new Error("value cannot be null");
+            return false;
         }
 
         if (isString(value)) {
