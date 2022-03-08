@@ -1,4 +1,3 @@
-import { Application_X_Url } from "juniper-mediatypes/application";
 import { assertNever, identity, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, progressSplit } from "juniper-tslib";
 import type { HTTPMethods, IFetchingService, IRequest, IRequestWithBody, IResponse } from "./IFetcher";
 import { ResponseTranslator } from "./ResponseTranslator";
@@ -120,12 +119,11 @@ export class FetchingServiceImpl
         this.defaultPostHeaders.set("RequestVerificationToken", value);
     }
 
-    private async readResponse<T>(method: HTTPMethods, xhrType: XMLHttpRequestResponseType, request: IRequest, xhr: XMLHttpRequest, progress: IProgress, depth: number): Promise<IResponse<T>> {
+    private async readResponse<T>(xhrType: XMLHttpRequestResponseType, xhr: XMLHttpRequest): Promise<IResponse<T>> {
         if (xhr.status >= 400) {
             throw new Error(`Error [${xhr.status}]: ${xhr.responseText}.`);
         }
 
-        let content: T = null;
         const contentBlob = xhr.response as Blob;
 
         const headerParts = xhr
@@ -173,36 +171,13 @@ export class FetchingServiceImpl
             return null;
         });
 
+        let content: T = null;
         if (xhrType !== "") {
             if (isNullOrUndefined(contentType)) {
                 const headerBlock = normalizedHeaderParts
                     .map(kv => kv.join(": "))
                     .join("\n  ");
                 throw new Error("No content type found in headers: \n  " + headerBlock);
-            }
-            else if (Application_X_Url.matches(contentType)) {
-                if (depth > 0) {
-                    throw new Error("Too many redirects");
-                }
-                else {
-                    if (method === "POST") {
-                        method = "GET";
-                    }
-                    const shortcutText = await contentBlob.text();
-                    const newPath = this.makeProxyURL(shortcutText);
-                    request.path = newPath;
-                    if (isDefined(request.headers)) {
-                        request.headers.delete("accept");
-                    }
-
-                    const redirectedResponse = await this.headOrGetXHR<T>(method, xhrType, request, progress, depth + 1);
-                    content = redirectedResponse.content;
-                    headers = redirectedResponse.headers;
-                    contentType = redirectedResponse.contentType;
-                    contentLength = redirectedResponse.contentLength;
-                    date = redirectedResponse.date;
-                    fileName = redirectedResponse.fileName;
-                }
             }
             else if (xhrType === "blob") {
                 content = contentBlob as any as T;
@@ -248,21 +223,21 @@ export class FetchingServiceImpl
         return path;
     }
 
-    private async headOrGetXHR<T>(method: HTTPMethods, xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress, depth?: number): Promise<IResponse<T>> {
+    private async headOrGetXHR<T>(method: HTTPMethods, xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
         const xhr = new XMLHttpRequest();
         const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, progress, true);
 
         sendRequest(xhr, method, request.path, request.timeout, request.headers);
 
         await download;
-        return await this.readResponse(method, xhrType, request, xhr, progress, depth || 0);
+        return await this.readResponse(xhrType, xhr);
     }
 
     private getXHR<T>(xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
         return this.headOrGetXHR("GET", xhrType, request, progress);
     }
 
-    private async postXHR<T>(xhrType: XMLHttpRequestResponseType, request: IRequestWithBody, progress: IProgress, depth?: number): Promise<IResponse<T>> {
+    private async postXHR<T>(xhrType: XMLHttpRequestResponseType, request: IRequestWithBody, progress: IProgress): Promise<IResponse<T>> {
 
         let body: XMLHttpRequestBodyInit = null;
 
@@ -302,7 +277,7 @@ export class FetchingServiceImpl
         await upload;
         await download;
 
-        return await this.readResponse("POST", xhrType, request, xhr, downloadProg, depth || 0);
+        return await this.readResponse(xhrType, xhr);
     }
 
     head(request: IRequest): Promise<IResponse<void>> {
