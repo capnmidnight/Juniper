@@ -269,5 +269,26 @@ namespace Juniper.Collections
                 Parent.Remove(this);
             }
         }
+
+        public NAryTree<T> Find(T value)
+        {
+            return FindByKey(value, Always.Identity);
+        }
+
+        public NAryTree<T> FindByKey<K>(K key1, Func<T, K> getKey)
+        {
+            var isClass = typeof(K).IsClass;
+            foreach (var node in NodesBreadthFirst())
+            {
+                var key2 = getKey(node.Value);
+                if (isClass && ReferenceEquals(key1, key2)
+                    || !isClass && key1.Equals(key2))
+                {
+                    return node;
+                }
+            }
+
+            return null;
+        }
     }
 }

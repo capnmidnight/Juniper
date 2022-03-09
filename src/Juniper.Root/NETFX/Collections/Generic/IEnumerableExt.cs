@@ -56,7 +56,7 @@ namespace System.Collections.Generic
         /// arr.Random(); // --> 2
         /// arr.Random(); // --> 6
         /// ]]></code></example>
-        public static T Random<T>(this IEnumerable<T> collection)
+        public static T RandomItem<T>(this IEnumerable<T> collection)
         {
             var count = collection.Count();
             var skip = r.Next(0, count);
