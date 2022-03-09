@@ -1,5 +1,5 @@
 import { PlayableVideo } from "juniper-audio/sources/PlayableVideo";
-import { YouTubeProxy, YtDlpCallback } from "juniper-audio/YouTubeProxy";
+import { parseYtDlp, YouTubeProxy } from "juniper-audio/YouTubeProxy";
 import { mediaElementForwardEvents } from "juniper-dom/tags";
 import { IProgress, isDefined, isNullOrUndefined, progressSplitWeighted } from "juniper-tslib";
 import { createQuadGeometry } from "./CustomGeometry";
@@ -144,9 +144,8 @@ function linkControls(video: THREE.Object3D, controls: PlaybackButton, setScale:
 export class YouTubeProxy3D extends YouTubeProxy {
 
     constructor(public readonly env: Environment,
-        makeProxyURL: (path: string) => string,
-        queryYtDlp: YtDlpCallback) {
-        super(env.fetcher, makeProxyURL, queryYtDlp)
+        makeProxyURL: (path: string) => string) {
+        super(env.fetcher, makeProxyURL)
     }
 
     private async loadMediaElements(audLoc: YTMediaEntry, vidLoc: YTMediaEntry, pageURL: string, prog?: IProgress): Promise<HTMLVideoElement> {
@@ -170,15 +169,17 @@ export class YouTubeProxy3D extends YouTubeProxy {
 
     private async loadVideoMaterial(pageURL: string, label: string, prog?: IProgress): Promise<VideoMaterialResult> {
         const progs = progressSplitWeighted(prog, [1.000, 10.000]);
-        const { video: vidLoc, audio: audLoc, title, width, height, thumbnail: thumb } = await this.queryYtDlp(pageURL, this.fetcher, null, progs.shift());
-
-        prog = progs.shift();
+        const metadata = await this.fetcher
+            .get(pageURL)
+            .progress(progs.shift())
+            .object<YTMetadata>();
+        const { video: vidLoc, audio: audLoc, title, width, height, thumbnail: thumb } = await parseYtDlp(metadata);
 
         if (isNullOrUndefined(vidLoc)) {
             throw new Error("No video found");
         }
         
-        const videoElem = await this.loadMediaElements(audLoc, vidLoc, pageURL, prog);
+        const videoElem = await this.loadMediaElements(audLoc, vidLoc, pageURL, progs.shift());
         const video = new PlayableVideo(videoElem);
         const controls = new PlaybackButton(this.env, this.env.uiButtons, pageURL, (label || title.substring(0, 25)), video);
         const videoTexture = new THREE.VideoTexture(videoElem);
