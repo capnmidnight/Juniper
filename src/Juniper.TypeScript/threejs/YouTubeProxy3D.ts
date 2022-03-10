@@ -155,7 +155,7 @@ export class YouTubeProxy3D extends YouTubeProxy {
                 this.env.audio.createBasicClip(pageURL, this.makeProxyURL(audLoc.url), 1.000, prog)
             ]);
 
-            mediaElementForwardEvents(videoClip, audioClip.input.mediaElement);
+            mediaElementForwardEvents(audioClip.input.mediaElement, videoClip);
 
             return videoClip;
         }
