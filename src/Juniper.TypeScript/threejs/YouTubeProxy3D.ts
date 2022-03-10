@@ -10,7 +10,9 @@ import { obj } from "./objects";
 import { PlaybackButton } from "./PlaybackButton";
 
 export type StereoFrameLayout = "left-right"
-    | "right-left";
+    | "right-left"
+    | "top-bottom"
+    | "bottom-top";
 
 interface BaseVideoResult {
     controls: PlaybackButton;
@@ -155,7 +157,7 @@ export class YouTubeProxy3D extends YouTubeProxy {
                 this.env.audio.createBasicClip(pageURL, this.makeProxyURL(audLoc.url), 1.000, prog)
             ]);
 
-            mediaElementForwardEvents(audioClip.input.mediaElement, videoClip);
+            mediaElementForwardEvents(videoClip, audioClip.input.mediaElement);
 
             return videoClip;
         }
@@ -178,7 +180,7 @@ export class YouTubeProxy3D extends YouTubeProxy {
         if (isNullOrUndefined(vidLoc)) {
             throw new Error("No video found");
         }
-        
+
         const videoElem = await this.loadMediaElements(audLoc, vidLoc, pageURL, progs.shift());
         const video = new PlayableVideo(videoElem);
         const controls = new PlaybackButton(this.env, this.env.uiButtons, pageURL, (label || title.substring(0, 25)), video);
