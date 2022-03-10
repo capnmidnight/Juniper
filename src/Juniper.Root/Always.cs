@@ -9,7 +9,67 @@ namespace Juniper
             return true;
         }
 
+        public static bool True<T>(T _)
+        {
+            return true;
+        }
+
+        public static bool True<T1, T2>(T1 _1, T2 _2)
+        {
+            return true;
+        }
+
+        public static bool True<T1, T2, T3>(T1 _1, T2 _2, T3 _3)
+        {
+            return true;
+        }
+
+        public static bool True<T1, T2, T3, T4>(T1 _1, T2 _2, T3 _3, T4 _4)
+        {
+            return true;
+        }
+
+        public static bool True<T1, T2, T3, T4, T5>(T1 _1, T2 _2, T3 _3, T4 _4, T5 _5)
+        {
+            return true;
+        }
+
+        public static bool True<T1, T2, T3, T4, T5, T6>(T1 _1, T2 _2, T3 _3, T4 _4, T5 _5, T6 _6)
+        {
+            return true;
+        }
+
         public static bool False()
+        {
+            return false;
+        }
+
+        public static bool False<T>(T _)
+        {
+            return false;
+        }
+
+        public static bool False<T1, T2>(T1 _1, T2 _2)
+        {
+            return false;
+        }
+
+        public static bool False<T1, T2, T3>(T1 _1, T2 _2, T3 _3)
+        {
+            return false;
+        }
+
+        public static bool False<T1, T2, T3, T4>(T1 _1, T2 _2, T3 _3, T4 _4)
+        {
+            return false;
+        }
+
+        public static bool False<T1, T2, T3, T4, T5>(T1 _1, T2 _2, T3 _3, T4 _4, T5 _5)
+        {
+            return false;
+        }
+
+        public static bool False<T1, T2, T3, T4, T5, T6>(T1 _1, T2 _2, T3 _3, T4 _4, T5 _5, T6 _6)
         {
             return false;
         }
