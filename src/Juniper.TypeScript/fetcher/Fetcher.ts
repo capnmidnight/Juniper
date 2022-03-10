@@ -3,12 +3,12 @@ import { BackgroundAudio, BackgroundVideo, getInput, Img, Script } from "juniper
 import {
     HTTPMethods,
     IFetcher,
-    IFetcherGetHeadersAndProgressAndTimeoutAndWithCredentials,
-    IFetcherGetResult,
-    IFetcherHeadHeadersAndTimeoutAndWithCredentials,
-    IFetcherHeadResult,
-    IFetcherPostHeadersAndProgressAndBodyAndTimeoutAndWithCredentials,
-    IFetcherPostResult,
+    IFetcherSendHeadersProgressTimeoutCredentialsGetBody,
+    IFetcherBodiedResult,
+    IFetcherSendHeadersTimeoutCredentials,
+    IFetcherBodilessResult,
+    IFetcherSendHeadersProgressBodyTimeoutCredentialsGetBody,
+    IFetcherResult,
     IFetchingService,
     IRequestWithBody,
     IResponse
@@ -44,12 +44,12 @@ function shouldTry(path: string): boolean {
 class RequestBuilder
     extends ResponseTranslator
     implements
-    IFetcherGetHeadersAndProgressAndTimeoutAndWithCredentials,
-    IFetcherPostHeadersAndProgressAndBodyAndTimeoutAndWithCredentials,
-    IFetcherHeadHeadersAndTimeoutAndWithCredentials,
-    IFetcherGetResult,
-    IFetcherPostResult,
-    IFetcherHeadResult {
+    IFetcherSendHeadersProgressTimeoutCredentialsGetBody,
+    IFetcherSendHeadersProgressBodyTimeoutCredentialsGetBody,
+    IFetcherSendHeadersTimeoutCredentials,
+    IFetcherBodiedResult,
+    IFetcherResult,
+    IFetcherBodilessResult {
 
     private readonly path: URL;
     private readonly request: IRequestWithBody;
@@ -60,6 +60,7 @@ class RequestBuilder
 
         this.path = path;
         this.request = {
+            method,
             path: this.path.toString(),
             body: null,
             headers: null,
@@ -123,14 +124,18 @@ class RequestBuilder
 
     blob(acceptType?: string | MediaType): Promise<IResponse<Blob>> {
         this.accept(acceptType);
-        if (this.method === "POST") {
-            return this.fetcher.postObjectForBlob(this.request, this.prog);
+        if (this.method === "POST"
+            || this.method === "PUT"
+            || this.method === "PATCH"
+            || this.method === "DELETE") {
+            return this.fetcher.sendObjectGetBlob(this.request, this.prog);
         }
         else if (this.method === "GET") {
-            return this.fetcher.getBlob(this.request, this.prog);
+            return this.fetcher.sendNothingGetBlob(this.request, this.prog);
         }
-        else if (this.method === "HEAD") {
-            throw new Error("HEAD responses do not contain bodies");
+        else if (this.method === "HEAD"
+            || this.method === "OPTIONS") {
+            throw new Error(`${this.method} responses do not contain bodies`);
         }
         else {
             assertNever(this.method);
@@ -139,14 +144,18 @@ class RequestBuilder
 
     buffer(acceptType?: string | MediaType): Promise<IResponse<ArrayBuffer>> {
         this.accept(acceptType);
-        if (this.method === "POST") {
-            return this.fetcher.postObjectForBuffer(this.request, this.prog);
+        if (this.method === "POST"
+            || this.method === "PUT"
+            || this.method === "PATCH"
+            || this.method === "DELETE") {
+            return this.fetcher.sendObjectGetBuffer(this.request, this.prog);
         }
         else if (this.method === "GET") {
-            return this.fetcher.getBuffer(this.request, this.prog);
+            return this.fetcher.sendNothingGetBuffer(this.request, this.prog);
         }
-        else if (this.method === "HEAD") {
-            throw new Error("HEAD responses do not contain bodies");
+        else if (this.method === "HEAD"
+            || this.method === "OPTIONS") {
+            throw new Error(`${this.method} responses do not contain bodies`);
         }
         else {
             assertNever(this.method);
@@ -155,14 +164,18 @@ class RequestBuilder
 
     file(acceptType?: string | MediaType): Promise<IResponse<string>> {
         this.accept(acceptType);
-        if (this.method === "POST") {
-            return this.fetcher.postObjectForFile(this.request, this.prog);
+        if (this.method === "POST"
+            || this.method === "PUT"
+            || this.method === "PATCH"
+            || this.method === "DELETE") {
+            return this.fetcher.sendObjectGetFile(this.request, this.prog);
         }
         else if (this.method === "GET") {
-            return this.fetcher.getFile(this.request, this.prog);
+            return this.fetcher.sendNothingGetFile(this.request, this.prog);
         }
-        else if (this.method === "HEAD") {
-            throw new Error("HEAD responses do not contain bodies");
+        else if (this.method === "HEAD"
+            || this.method === "OPTIONS") {
+            throw new Error(`${this.method} responses do not contain bodies`);
         }
         else {
             assertNever(this.method);
@@ -171,14 +184,18 @@ class RequestBuilder
 
     text(acceptType?: string | MediaType): Promise<IResponse<string>> {
         this.accept(acceptType || Text_Plain);
-        if (this.method === "POST") {
-            return this.fetcher.postObjectForText(this.request, this.prog);
+        if (this.method === "POST"
+            || this.method === "PUT"
+            || this.method === "PATCH"
+            || this.method === "DELETE") {
+            return this.fetcher.sendObjectGetText(this.request, this.prog);
         }
         else if (this.method === "GET") {
-            return this.fetcher.getText(this.request, this.prog);
+            return this.fetcher.sendNothingGetText(this.request, this.prog);
         }
-        else if (this.method === "HEAD") {
-            throw new Error("HEAD responses do not contain bodies");
+        else if (this.method === "HEAD"
+            || this.method === "OPTIONS") {
+            throw new Error(`${this.method} responses do not contain bodies`);
         }
         else {
             assertNever(this.method);
@@ -187,14 +204,18 @@ class RequestBuilder
 
     object<T>(acceptType?: string | MediaType): Promise<T> {
         this.accept(acceptType || Application_Json);
-        if (this.method === "POST") {
-            return this.fetcher.postObjectForObject<T>(this.request, this.prog);
+        if (this.method === "POST"
+            || this.method === "PUT"
+            || this.method === "PATCH"
+            || this.method === "DELETE") {
+            return this.fetcher.sendObjectGetObject<T>(this.request, this.prog);
         }
         else if (this.method === "GET") {
-            return this.fetcher.getObject<T>(this.request, this.prog);
+            return this.fetcher.sendNothingGetObject<T>(this.request, this.prog);
         }
-        else if (this.method === "HEAD") {
-            throw new Error("HEAD responses do not contain bodies");
+        else if (this.method === "HEAD"
+            || this.method === "OPTIONS") {
+            throw new Error(`${this.method} responses do not contain bodies`);
         }
         else {
             assertNever(this.method);
@@ -203,14 +224,18 @@ class RequestBuilder
 
     xml(acceptType?: string | MediaType): Promise<IResponse<HTMLElement>> {
         this.accept(acceptType || Text_Xml);
-        if (this.method === "POST") {
-            return this.fetcher.postObjectForXml(this.request, this.prog);
+        if (this.method === "POST"
+            || this.method === "PUT"
+            || this.method === "PATCH"
+            || this.method === "DELETE") {
+            return this.fetcher.sendObjectGetXml(this.request, this.prog);
         }
         else if (this.method === "GET") {
-            return this.fetcher.getXml(this.request, this.prog);
+            return this.fetcher.sendNothingGetXml(this.request, this.prog);
         }
-        else if (this.method === "HEAD") {
-            throw new Error("HEAD responses do not contain bodies");
+        else if (this.method === "HEAD"
+            || this.method === "OPTIONS") {
+            throw new Error(`${this.method} responses do not contain bodies`);
         }
         else {
             assertNever(this.method);
@@ -219,14 +244,18 @@ class RequestBuilder
 
     imageBitmap(acceptType?: string | MediaType): Promise<IResponse<ImageBitmap>> {
         this.accept(acceptType);
-        if (this.method === "POST") {
-            return this.fetcher.postObjectForImageBitmap(this.request, this.prog);
+        if (this.method === "POST"
+            || this.method === "PUT"
+            || this.method === "PATCH"
+            || this.method === "DELETE") {
+            return this.fetcher.sendObjectGetImageBitmap(this.request, this.prog);
         }
         else if (this.method === "GET") {
-            return this.fetcher.getImageBitmap(this.request, this.prog);
+            return this.fetcher.sendNothingGetImageBitmap(this.request, this.prog);
         }
-        else if (this.method === "HEAD") {
-            throw new Error("HEAD responses do not contain bodies");
+        else if (this.method === "HEAD"
+            || this.method === "OPTIONS") {
+            throw new Error(`${this.method} responses do not contain bodies`);
         }
         else {
             assertNever(this.method);
@@ -234,14 +263,18 @@ class RequestBuilder
     }
 
     exec() {
-        if (this.method === "POST") {
-            return this.fetcher.postObject(this.request, this.prog);
-        }
-        else if (this.method === "HEAD") {
-            return this.fetcher.head(this.request);
+        if (this.method === "POST"
+            || this.method === "PUT"
+            || this.method === "PATCH"
+            || this.method === "DELETE") {
+            return this.fetcher.sendObjectGetNothing(this.request, this.prog);
         }
         else if (this.method === "GET") {
             throw new Exception("GET requests should expect a response type");
+        }
+        else if (this.method === "HEAD"
+            || this.method === "OPTIONS") {
+            return this.fetcher.sendNothingGetNothing(this.request);
         }
         else {
             assertNever(this.method);
@@ -385,6 +418,14 @@ export class Fetcher implements IFetcher {
         return new RequestBuilder(this.fetcher, this.useBlobURIs, method, new URL(path, base || location.href));
     }
 
+    head(path: string | URL, base?: string | URL) {
+        return this.createRequest("HEAD", path, base);
+    }
+
+    options(path: string | URL, base?: string | URL) {
+        return this.createRequest("OPTIONS", path, base);
+    }
+
     get(path: string | URL, base?: string | URL) {
         return this.createRequest("GET", path, base);
     }
@@ -393,8 +434,16 @@ export class Fetcher implements IFetcher {
         return this.createRequest("POST", path, base);
     }
 
-    head(path: string | URL, base?: string | URL) {
-        return this.createRequest("HEAD", path, base);
+    put(path: string | URL, base?: string | URL) {
+        return this.createRequest("PUT", path, base);
+    }
+
+    patch(path: string | URL, base?: string | URL) {
+        return this.createRequest("PATCH", path, base);
+    }
+
+    delete(path: string | URL, base?: string | URL) {
+        return this.createRequest("DELETE", path, base);
     }
 }
 

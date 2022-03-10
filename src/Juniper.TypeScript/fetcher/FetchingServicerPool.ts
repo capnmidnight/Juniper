@@ -34,68 +34,68 @@ export abstract class BaseFetchingServicePool<
         }
     }
 
-    head(request: IRequest): Promise<IResponse<void>> {
-        return this.nextWorker().head(request);
+    sendNothingGetNothing(request: IRequest): Promise<IResponse<void>> {
+        return this.nextWorker().sendNothingGetNothing(request);
     }
 
-    getBlob(request: IRequest, progress: IProgress): Promise<IResponse<Blob>> {
-        return this.nextWorker().getBlob(request, progress);
+    sendNothingGetBlob(request: IRequest, progress: IProgress): Promise<IResponse<Blob>> {
+        return this.nextWorker().sendNothingGetBlob(request, progress);
     }
 
-    getBuffer(request: IRequest, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
-        return this.nextWorker().getBuffer(request, progress);
+    sendNothingGetBuffer(request: IRequest, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
+        return this.nextWorker().sendNothingGetBuffer(request, progress);
     }
 
-    getFile(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
-        return this.nextWorker().getFile(request, progress);
+    sendNothingGetFile(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
+        return this.nextWorker().sendNothingGetFile(request, progress);
     }
 
-    getText(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
-        return this.nextWorker().getText(request, progress);
+    sendNothingGetText(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
+        return this.nextWorker().sendNothingGetText(request, progress);
     }
 
-    getObject<T>(request: IRequest, progress: IProgress): Promise<T> {
-        return this.nextWorker().getObject(request, progress);
+    sendNothingGetObject<T>(request: IRequest, progress: IProgress): Promise<T> {
+        return this.nextWorker().sendNothingGetObject(request, progress);
     }
 
-    getXml(request: IRequest, progress: IProgress): Promise<IResponse<HTMLElement>> {
-        return this.nextWorker().getXml(request, progress);
+    sendNothingGetXml(request: IRequest, progress: IProgress): Promise<IResponse<HTMLElement>> {
+        return this.nextWorker().sendNothingGetXml(request, progress);
     }
 
-    getImageBitmap(request: IRequest, progress: IProgress): Promise<IResponse<ImageBitmap>> {
-        return this.nextWorker().getImageBitmap(request, progress);
+    sendNothingGetImageBitmap(request: IRequest, progress: IProgress): Promise<IResponse<ImageBitmap>> {
+        return this.nextWorker().sendNothingGetImageBitmap(request, progress);
     }
 
-    postObjectForBlob(request: IRequestWithBody, progress: IProgress): Promise<IResponse<Blob>> {
-        return this.getFetcher(request.body).postObjectForBlob(request, progress);
+    sendObjectGetBlob(request: IRequestWithBody, progress: IProgress): Promise<IResponse<Blob>> {
+        return this.getFetcher(request.body).sendObjectGetBlob(request, progress);
     }
 
-    postObjectForBuffer(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
-        return this.getFetcher(request.body).postObjectForBuffer(request, progress);
+    sendObjectGetBuffer(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
+        return this.getFetcher(request.body).sendObjectGetBuffer(request, progress);
     }
 
-    postObjectForFile(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
-        return this.getFetcher(request.body).postObjectForFile(request, progress);
+    sendObjectGetFile(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
+        return this.getFetcher(request.body).sendObjectGetFile(request, progress);
     }
 
-    postObjectForText(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
-        return this.getFetcher(request.body).postObjectForText(request, progress);
+    sendObjectGetText(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
+        return this.getFetcher(request.body).sendObjectGetText(request, progress);
     }
 
-    postObject(request: IRequestWithBody, progress: IProgress): Promise<IResponse<void>> {
-        return this.getFetcher(request.body).postObject(request, progress);
+    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IResponse<void>> {
+        return this.getFetcher(request.body).sendObjectGetNothing(request, progress);
     }
 
-    postObjectForObject<T>(request: IRequestWithBody, progress: IProgress): Promise<T> {
-        return this.getFetcher(request.body).postObjectForObject(request, progress);
+    sendObjectGetObject<T>(request: IRequestWithBody, progress: IProgress): Promise<T> {
+        return this.getFetcher(request.body).sendObjectGetObject(request, progress);
     }
 
-    postObjectForXml(request: IRequestWithBody, progress: IProgress): Promise<IResponse<HTMLElement>> {
-        return this.getFetcher(request.body).postObjectForXml(request, progress);
+    sendObjectGetXml(request: IRequestWithBody, progress: IProgress): Promise<IResponse<HTMLElement>> {
+        return this.getFetcher(request.body).sendObjectGetXml(request, progress);
     }
 
-    postObjectForImageBitmap(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ImageBitmap>> {
-        return this.getFetcher(request.body).postObjectForImageBitmap(request, progress);
+    sendObjectGetImageBitmap(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ImageBitmap>> {
+        return this.getFetcher(request.body).sendObjectGetImageBitmap(request, progress);
     }
 }
 

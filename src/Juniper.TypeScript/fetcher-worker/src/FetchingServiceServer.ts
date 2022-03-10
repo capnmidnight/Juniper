@@ -16,18 +16,19 @@ function getContent<T extends Transferable>(response: IResponse<T>): Array<Trans
 export function addFetcherMethods(server: WorkerServer, fetcher: IFetchingService) {
     server.addVoidMethod("setRequestVerificationToken", fetcher, fetcher.setRequestVerificationToken);
 
-    server.addMethod("getBuffer", fetcher, fetcher.getBuffer, getContent);
-    server.addMethod("postObjectForBuffer", fetcher, fetcher.postObjectForBuffer, getContent);
-    server.addMethod("getImageBitmap", fetcher, fetcher.getImageBitmap, getContent);
-    server.addMethod("postObjectForImageBitmap", fetcher, fetcher.postObjectForImageBitmap, getContent);
+    server.addMethod("sendNothingGetNothing", fetcher, fetcher.sendNothingGetNothing);
 
-    server.addMethod("getObject", fetcher, fetcher.getObject);
-    server.addMethod("getFile", fetcher, fetcher.getFile);
-    server.addMethod("getText", fetcher, fetcher.getText);
-    server.addMethod("postObject", fetcher, fetcher.postObject);
-    server.addMethod("postObjectForObject", fetcher, fetcher.postObjectForObject);
-    server.addMethod("postObjectForFile", fetcher, fetcher.postObjectForFile);
-    server.addMethod("postObjectForText", fetcher, fetcher.postObjectForText);
+    server.addMethod("sendNothingGetBuffer", fetcher, fetcher.sendNothingGetBuffer, getContent);
+    server.addMethod("sendNothingGetImageBitmap", fetcher, fetcher.sendNothingGetImageBitmap, getContent);
+    server.addMethod("sendNothingGetObject", fetcher, fetcher.sendNothingGetObject);
+    server.addMethod("sendNothingGetFile", fetcher, fetcher.sendNothingGetFile);
+    server.addMethod("sendNothingGetText", fetcher, fetcher.sendNothingGetText);
 
-    server.addMethod("head", fetcher, fetcher.head);
+    server.addMethod("sendObjectGetNothing", fetcher, fetcher.sendObjectGetNothing);
+
+    server.addMethod("sendObjectGetImageBitmap", fetcher, fetcher.sendObjectGetImageBitmap, getContent);
+    server.addMethod("sendObjectGetBuffer", fetcher, fetcher.sendObjectGetBuffer, getContent);
+    server.addMethod("sendObjectGetObject", fetcher, fetcher.sendObjectGetObject);
+    server.addMethod("sendObjectGetFile", fetcher, fetcher.sendObjectGetFile);
+    server.addMethod("sendObjectGetText", fetcher, fetcher.sendObjectGetText);
 }

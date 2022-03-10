@@ -107,6 +107,111 @@ function readResponseHeader<T>(headers: Map<string, string>, key: string, transl
     return null;
 }
 
+
+function readResponseHeaders<T>(xhr: XMLHttpRequest): IResponse<T> {
+    const headerParts = xhr
+        .getAllResponseHeaders()
+        .split(/[\r\n]+/)
+        .map(v => v.trim())
+        .filter(v => v.length > 0)
+        .map<[string, string]>(line => {
+            const parts = line.split(": ");
+            const key = parts.shift().toLowerCase();
+            const value = parts.join(": ");
+            return [key, value];
+        });
+
+    const pList = new PriorityList<string, string>();
+    for (const [key, value] of headerParts) {
+        pList.add(key, value);
+    }
+
+    const normalizedHeaderParts = Array.from(pList.keys())
+        .map<[string, string]>(key =>
+            [
+                key,
+                pList.get(key)
+                    .join(", ")
+            ]);
+
+    let headers = new Map<string, string>(normalizedHeaderParts);
+
+    let contentType = readResponseHeader(headers, "content-type", identity);
+    let contentLength = readResponseHeader(headers, "content-length", parseFloat);
+    let date = readResponseHeader(headers, "date", v => new Date(v));
+    let fileName = readResponseHeader(headers, "content-disposition", v => {
+        if (isDefined(v)) {
+            const match = v.match(FILE_NAME_PATTERN);
+            if (isDefined(match)) {
+                return match[1];
+            }
+        }
+
+        return null;
+    });
+
+    const response: IResponse<T> = {
+        status: xhr.status,
+        content: null,
+        contentType,
+        contentLength,
+        fileName,
+        date,
+        headers
+    };
+
+    return response;
+}
+
+async function readResponse<T>(xhrType: XMLHttpRequestResponseType, xhr: XMLHttpRequest): Promise<IResponse<T>> {
+    const response = readResponseHeaders<T>(xhr);
+    const contentBlob = xhr.response as Blob;
+
+    if (isDefined(contentBlob)) {
+        response.contentType = response.contentType || contentBlob.type;
+        response.contentLength = response.contentLength || contentBlob.size;
+    }
+
+    if (xhrType !== "") {
+        if (isNullOrUndefined(response.contentType)) {
+            const headerBlock = Array.from(response.headers.entries())
+                .map(kv => kv.join(": "))
+                .join("\n  ");
+            throw new Error("No content type found in headers: \n  " + headerBlock);
+        }
+        else if (xhrType === "blob") {
+            response.content = contentBlob as any as T;
+        }
+        else if (xhrType === "arraybuffer") {
+            response.content = await contentBlob.arrayBuffer() as any as T;
+        }
+        else if (xhrType === "json") {
+            const text = await contentBlob.text();
+            if (text.length > 0) {
+                response.content = JSON.parse(text) as T;
+            }
+        }
+        else if (xhrType === "document") {
+            const parser = new DOMParser();
+            if (response.contentType === "application/xhtml+xml"
+                || response.contentType === "text/html"
+                || response.contentType === "application/xml"
+                || response.contentType === "image/svg+xml"
+                || response.contentType === "text/xml") {
+                response.content = parser.parseFromString(await contentBlob.text(), response.contentType) as any as T;
+            }
+        }
+        else if (xhrType === "text") {
+            response.content = (await contentBlob.text()) as any as T;
+        }
+        else {
+            assertNever(xhrType);
+        }
+    }
+
+    return response;
+}
+
 const FILE_NAME_PATTERN = /filename=\"(.+)\"(;|$)/;
 
 export class FetchingServiceImpl
@@ -119,128 +224,29 @@ export class FetchingServiceImpl
         this.defaultPostHeaders.set("RequestVerificationToken", value);
     }
 
-    private async readResponse<T>(xhrType: XMLHttpRequestResponseType, xhr: XMLHttpRequest): Promise<IResponse<T>> {
-        if (xhr.status >= 400) {
-            throw new Error(`Error [${xhr.status}]: ${xhr.responseText}.`);
-        }
+    async sendNothingGetNothing(request: IRequest): Promise<IResponse<void>> {
+        const xhr = new XMLHttpRequest();
+        const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, null, true);
 
-        const contentBlob = xhr.response as Blob;
+        sendRequest(xhr, request.method, request.path, request.timeout, request.headers);
 
-        const headerParts = xhr
-            .getAllResponseHeaders()
-            .split(/[\r\n]+/)
-            .map(v => v.trim())
-            .filter(v => v.length > 0)
-            .map<[string, string]>(line => {
-                const parts = line.split(": ");
-                const key = parts.shift().toLowerCase();
-                const value = parts.join(": ");
-                return [key, value];
-            });
+        await download;
 
-        const pList = new PriorityList<string, string>();
-        for (const [key, value] of headerParts) {
-            pList.add(key, value);
-        }
-
-        const normalizedHeaderParts = Array.from(pList.keys())
-            .map<[string, string]>(key =>
-                [
-                    key,
-                    pList.get(key)
-                        .join(", ")
-                ]);
-
-        let headers = new Map<string, string>(normalizedHeaderParts);
-
-        let contentType = readResponseHeader(headers, "content-type", identity)
-            || contentBlob && contentBlob.type
-            || null;
-        let contentLength = readResponseHeader(headers, "content-length", parseFloat)
-            || contentBlob && contentBlob.size
-            || null;
-        let date = readResponseHeader(headers, "date", v => new Date(v));
-        let fileName = readResponseHeader(headers, "content-disposition", v => {
-            if (isDefined(v)) {
-                const match = v.match(FILE_NAME_PATTERN);
-                if (isDefined(match)) {
-                    return match[1];
-                }
-            }
-
-            return null;
-        });
-
-        let content: T = null;
-        if (xhrType !== "") {
-            if (isNullOrUndefined(contentType)) {
-                const headerBlock = normalizedHeaderParts
-                    .map(kv => kv.join(": "))
-                    .join("\n  ");
-                throw new Error("No content type found in headers: \n  " + headerBlock);
-            }
-            else if (xhrType === "blob") {
-                content = contentBlob as any as T;
-            }
-            else if (xhrType === "arraybuffer") {
-                content = await contentBlob.arrayBuffer() as any as T;
-            }
-            else if (xhrType === "json") {
-                const text = await contentBlob.text();
-                if (text.length > 0) {
-                    content = JSON.parse(text) as T;
-                }
-            }
-            else if (xhrType === "document") {
-                const parser = new DOMParser();
-                if (contentType === "application/xhtml+xml"
-                    || contentType === "text/html"
-                    || contentType === "application/xml"
-                    || contentType === "image/svg+xml"
-                    || contentType === "text/xml") {
-                    content = parser.parseFromString(await contentBlob.text(), contentType) as any as T;
-                }
-            }
-            else if (xhrType === "text") {
-                content = (await contentBlob.text()) as any as T;
-            }
-            else {
-                assertNever(xhrType);
-            }
-        }
-
-        const response: IResponse<T> = {
-            status: xhr.status,
-            content,
-            contentType,
-            contentLength,
-            fileName,
-            date,
-            headers
-        };
-
-        return response;
+        return readResponseHeaders(xhr);
     }
 
-    protected makeProxyURL(path: string): string {
-        return path;
-    }
-
-    private async headOrGetXHR<T>(method: HTTPMethods, xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
+    private async sendNothingGetSomething<T>(xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
         const xhr = new XMLHttpRequest();
         const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, progress, true);
 
-        sendRequest(xhr, method, request.path, request.timeout, request.headers);
+        sendRequest(xhr, request.method, request.path, request.timeout, request.headers);
 
         await download;
-        return await this.readResponse(xhrType, xhr);
+
+        return await readResponse(xhrType, xhr);
     }
 
-    private getXHR<T>(xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
-        return this.headOrGetXHR("GET", xhrType, request, progress);
-    }
-
-    private async postXHR<T>(xhrType: XMLHttpRequestResponseType, request: IRequestWithBody, progress: IProgress): Promise<IResponse<T>> {
+    private async sendSomethingGetSomething<T>(xhrType: XMLHttpRequestResponseType, request: IRequestWithBody, progress: IProgress): Promise<IResponse<T>> {
 
         let body: XMLHttpRequestBodyInit = null;
 
@@ -275,89 +281,85 @@ export class FetchingServiceImpl
         const downloadProg = progs.shift();
         const download = trackProgress("saving", xhr, xhr, downloadProg, true, upload);
 
-        sendRequest(xhr, "POST", request.path, request.timeout, headers, body);
+        sendRequest(xhr, request.method, request.path, request.timeout, headers, body);
 
         await upload;
         await download;
 
-        return await this.readResponse(xhrType, xhr);
+        return await readResponse(xhrType, xhr);
     }
 
-    head(request: IRequest): Promise<IResponse<void>> {
-        return this.headOrGetXHR("HEAD", "", request, null);
+    sendNothingGetBlob(request: IRequest, progress: IProgress): Promise<IResponse<Blob>> {
+        return this.sendNothingGetSomething<Blob>("blob", request, progress);
     }
 
-    getBlob(request: IRequest, progress: IProgress): Promise<IResponse<Blob>> {
-        return this.getXHR<Blob>("blob", request, progress);
+    sendObjectGetBlob(request: IRequestWithBody, progress: IProgress): Promise<IResponse<Blob>> {
+        return this.sendSomethingGetSomething<Blob>("blob", request, progress);
     }
 
-    postObjectForBlob(request: IRequestWithBody, progress: IProgress): Promise<IResponse<Blob>> {
-        return this.postXHR<Blob>("blob", request, progress);
+    sendNothingGetBuffer(request: IRequest, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
+        return this.sendNothingGetSomething<ArrayBuffer>("arraybuffer", request, progress);
     }
 
-    getBuffer(request: IRequest, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
-        return this.getXHR<ArrayBuffer>("arraybuffer", request, progress);
+    sendObjectGetBuffer(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
+        return this.sendSomethingGetSomething<ArrayBuffer>("arraybuffer", request, progress);
     }
 
-    postObjectForBuffer(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
-        return this.postXHR<ArrayBuffer>("arraybuffer", request, progress);
+    sendNothingGetText(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
+        return this.sendNothingGetSomething<string>("text", request, progress);
     }
 
-    getText(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
-        return this.getXHR<string>("text", request, progress);
+    sendObjectGetText(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
+        return this.sendSomethingGetSomething<string>("text", request, progress);
     }
 
-    postObjectForText(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
-        return this.postXHR<string>("text", request, progress);
-    }
-
-    async getObject<T>(request: IRequest, progress: IProgress): Promise<T> {
-        const response = await this.getXHR<T>("json", request, progress);
+    async sendNothingGetObject<T>(request: IRequest, progress: IProgress): Promise<T> {
+        const response = await this.sendNothingGetSomething<T>("json", request, progress);
         return response.content;
     }
 
-    async postObjectForObject<T>(request: IRequestWithBody, progress: IProgress): Promise<T> {
-        const response = await this.postXHR<T>("json", request, progress);
+    async sendObjectGetObject<T>(request: IRequestWithBody, progress: IProgress): Promise<T> {
+        const response = await this.sendSomethingGetSomething<T>("json", request, progress);
         return response.content;
     }
 
-    postObject(request: IRequestWithBody, progress: IProgress): Promise<IResponse<void>> {
-        return this.postXHR<void>("", request, progress);
+    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IResponse<void>> {
+        return this.sendSomethingGetSomething<void>("", request, progress);
     }
 
-    getFile(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
+    sendNothingGetFile(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
         return this.translateResponse(
-            this.getBlob(request, progress),
+            this.sendNothingGetBlob(request, progress),
             URL.createObjectURL);
     }
 
-    postObjectForFile(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
+    sendObjectGetFile(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
         return this.translateResponse(
-            this.postObjectForBlob(request, progress),
+            this.sendObjectGetBlob(request, progress),
             URL.createObjectURL);
     }
 
-    getXml(request: IRequest, progress: IProgress): Promise<IResponse<HTMLElement>> {
+    sendNothingGetXml(request: IRequest, progress: IProgress): Promise<IResponse<HTMLElement>> {
         return this.translateResponse(
-            this.getXHR<Document>("document", request, progress),
+            this.sendNothingGetSomething<Document>("document", request, progress),
             doc => doc.documentElement);
     }
 
-    postObjectForXml(request: IRequestWithBody, progress: IProgress): Promise<IResponse<HTMLElement>> {
+    sendObjectGetXml(request: IRequestWithBody, progress: IProgress): Promise<IResponse<HTMLElement>> {
         return this.translateResponse(
-            this.postXHR<Document>("document", request, progress),
+            this.sendSomethingGetSomething<Document>("document", request, progress),
             doc => doc.documentElement);
     }
 
-    getImageBitmap(request: IRequest, progress: IProgress): Promise<IResponse<ImageBitmap>> {
+    sendNothingGetImageBitmap(request: IRequest, progress: IProgress): Promise<IResponse<ImageBitmap>> {
         return this.translateResponse(
-            this.getBlob(request, progress),
+            this.sendNothingGetBlob(request, progress),
             createImageBitmap)
     }
 
-    async postObjectForImageBitmap(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ImageBitmap>> {
+    async sendObjectGetImageBitmap(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ImageBitmap>> {
         return this.translateResponse(
-            this.postObjectForBlob(request, progress),
+            this.sendObjectGetBlob(request, progress),
             createImageBitmap);
     }
 }

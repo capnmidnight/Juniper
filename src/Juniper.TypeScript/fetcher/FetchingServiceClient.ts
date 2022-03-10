@@ -67,6 +67,7 @@ function bufferToBlob(response: IResponse<ArrayBuffer>): IResponse<Blob> {
 
 function cloneRequest(request: IRequest): IRequest {
     request = {
+        method: request.method,
         path: request.path,
         timeout: request.timeout,
         headers: request.headers,
@@ -77,6 +78,7 @@ function cloneRequest(request: IRequest): IRequest {
 
 function cloneRequestWithBody(request: IRequestWithBody): IRequestWithBody {
     request = {
+        method: request.method,
         path: request.path,
         body: request.body,
         timeout: request.timeout,
@@ -103,71 +105,71 @@ export class FetchingServiceClient
         return this.callMethod(methodName, [cloneRequestWithBody(request)], progress);
     }
 
-    head(request: IRequest): Promise<IResponse<void>> {
-        return this.makeRequest("head", request, null);
+    sendNothingGetNothing(request: IRequest): Promise<IResponse<void>> {
+        return this.makeRequest("sendNothingGetNothing", request, null);
     }        
 
-    getBuffer(request: IRequest, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
-        return this.makeRequest("getBuffer", request, progress);
+    sendNothingGetBuffer(request: IRequest, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
+        return this.makeRequest("sendNothingGetBuffer", request, progress);
     }
 
-    getText(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
-        return this.makeRequest("getText", request, progress);
+    sendNothingGetText(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
+        return this.makeRequest("sendNothingGetText", request, progress);
     }
 
-    getObject<T>(request: IRequest, progress: IProgress): Promise<T> {
-        return this.makeRequest("getObject", request, progress);
+    sendNothingGetObject<T>(request: IRequest, progress: IProgress): Promise<T> {
+        return this.makeRequest("sendNothingGetObject", request, progress);
     }
 
-    getFile(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
-        return this.makeRequest("getFile", request, progress);
+    sendNothingGetFile(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
+        return this.makeRequest("sendNothingGetFile", request, progress);
     }
 
-    getImageBitmap(request: IRequest, progress: IProgress): Promise<IResponse<ImageBitmap>> {
-        return this.makeRequest("getImageBitmap", request, progress);
+    sendNothingGetImageBitmap(request: IRequest, progress: IProgress): Promise<IResponse<ImageBitmap>> {
+        return this.makeRequest("sendNothingGetImageBitmap", request, progress);
     }
 
-    postObject(request: IRequestWithBody, progress: IProgress): Promise<IResponse<void>> {
-        return this.makeRequestWithBody("postObject", request, progress);
+    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IResponse<void>> {
+        return this.makeRequestWithBody("sendObjectGetNothing", request, progress);
     }
 
-    postObjectForBuffer(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
-        return this.makeRequestWithBody("postObjectForBuffer", request, progress);
+    sendObjectGetBuffer(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
+        return this.makeRequestWithBody("sendObjectGetBuffer", request, progress);
     }
 
-    postObjectForText(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
-        return this.makeRequestWithBody("postObjectForText", request, progress);
+    sendObjectGetText(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
+        return this.makeRequestWithBody("sendObjectGetText", request, progress);
     }
 
-    postObjectForObject<T>(request: IRequestWithBody, progress: IProgress): Promise<T> {
-        return this.makeRequestWithBody("postObjectForObject", request, progress);
+    sendObjectGetObject<T>(request: IRequestWithBody, progress: IProgress): Promise<T> {
+        return this.makeRequestWithBody("sendObjectGetObject", request, progress);
     }
 
-    postObjectForFile(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
-        return this.makeRequestWithBody("postObjectForFile", request, progress);
+    sendObjectGetFile(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
+        return this.makeRequestWithBody("sendObjectGetFile", request, progress);
     }
 
-    postObjectForImageBitmap(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ImageBitmap>> {
-        return this.makeRequestWithBody("postObjectForImageBitmap", request, progress);
+    sendObjectGetImageBitmap(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ImageBitmap>> {
+        return this.makeRequestWithBody("sendObjectGetImageBitmap", request, progress);
     }
 
-    async getBlob(request: IRequest, progress: IProgress): Promise<IResponse<Blob>> {
-        const response = await this.getBuffer(request, progress);
+    async sendNothingGetBlob(request: IRequest, progress: IProgress): Promise<IResponse<Blob>> {
+        const response = await this.sendNothingGetBuffer(request, progress);
         return bufferToBlob(response);
     }
 
-    async getXml(request: IRequest, progress: IProgress): Promise<IResponse<HTMLElement>> {
-        const response = await this.getBuffer(request, progress);
+    async sendNothingGetXml(request: IRequest, progress: IProgress): Promise<IResponse<HTMLElement>> {
+        const response = await this.sendNothingGetBuffer(request, progress);
         return bufferToXml(response);
     }
 
-    async postObjectForBlob(request: IRequestWithBody, progress: IProgress): Promise<IResponse<Blob>> {
-        const response = await this.postObjectForBuffer(request, progress);
+    async sendObjectGetBlob(request: IRequestWithBody, progress: IProgress): Promise<IResponse<Blob>> {
+        const response = await this.sendObjectGetBuffer(request, progress);
         return bufferToBlob(response);
     }
 
-    async postObjectForXml(request: IRequestWithBody, progress: IProgress): Promise<IResponse<HTMLElement>> {
-        const response = await this.postObjectForBuffer(request, progress);
+    async sendObjectGetXml(request: IRequestWithBody, progress: IProgress): Promise<IResponse<HTMLElement>> {
+        const response = await this.sendObjectGetBuffer(request, progress);
         return bufferToXml(response);
     }
 }
