@@ -3,11 +3,15 @@ import { arrayClear } from "./arrayClear";
 import { arrayRemove } from "./arrayRemove";
 
 export class PriorityList<KeyT, ValueT> {
-    private readonly items;
+    private readonly items = new Map<KeyT, ValueT[]>();
     private readonly defaultItems = new Array<ValueT>();
 
-    constructor(init?: [KeyT, ValueT[]][]) {
-        this.items = new Map(init);
+    constructor(init?: [KeyT, ValueT][]) {
+        if (isDefined(init)) {
+            for (const [key, value] of init) {
+                this.add(key, value);
+            }
+        }
     }
 
     add(key: KeyT, value: ValueT): this {
