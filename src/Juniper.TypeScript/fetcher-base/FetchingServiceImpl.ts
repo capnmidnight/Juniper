@@ -121,11 +121,7 @@ function readResponseHeaders<T>(xhr: XMLHttpRequest): IResponse<T> {
             return [key, value];
         });
 
-    const pList = new PriorityList<string, string>();
-    for (const [key, value] of headerParts) {
-        pList.add(key, value);
-    }
-
+    const pList = new PriorityList<string, string>(headerParts);
     const normalizedHeaderParts = Array.from(pList.keys())
         .map<[string, string]>(key =>
             [

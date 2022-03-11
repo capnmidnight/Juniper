@@ -3,9 +3,6 @@
   "name": "juniper-emoji",
   "private": true,
   "type": "module",
-  "scripts": {
-    "build": "npx tsc --build"
-  },
   "devDependencies": {
     "typescript": "4.5.5"
   }

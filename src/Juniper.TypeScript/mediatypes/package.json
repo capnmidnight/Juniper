@@ -3,9 +3,6 @@
   "name": "juniper-mediatypes",
   "private": true,
   "type": "module",
-  "scripts": {
-    "build": "npx tsc --build"
-  },
   "dependencies": {
     "juniper-tslib": "file:../tslib"
   },

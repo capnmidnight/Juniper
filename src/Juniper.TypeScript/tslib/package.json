@@ -3,9 +3,6 @@
   "name": "juniper-tslib",
   "private": true,
   "type": "module",
-  "scripts": {
-    "build": "npx tsc --build"
-  },
   "dependencies": {
     "gl-matrix": "3.4.3"
   },

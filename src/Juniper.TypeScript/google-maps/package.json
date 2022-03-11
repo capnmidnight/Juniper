@@ -3,9 +3,6 @@
   "name": "juniper-google-maps",
   "private": true,
   "type": "module",
-  "scripts": {
-    "build": "npx tsc --build"
-  },
   "dependencies": {
     "@googlemaps/js-api-loader": "1.13.7",
     "@types/google.maps": "3.48.2",

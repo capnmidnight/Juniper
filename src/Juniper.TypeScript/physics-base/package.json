@@ -3,9 +3,6 @@
   "name": "juniper-physics-base",
   "private": true,
   "type": "module",
-  "scripts": {
-    "build": "npx tsc --build"
-  },
   "dependencies": {
     "@types/webxr-types": "file:../webxr-types",
     "cannon-es": "0.19.0",

@@ -3,9 +3,6 @@
   "name": "juniper-2d",
   "private": true,
   "type": "module",
-  "scripts": {
-    "build": "npx tsc --build"
-  },
   "dependencies": {
     "@types/audio-types": "file:../audio-types",
     "@types/battery-types": "file:../battery-types",

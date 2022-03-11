@@ -3,9 +3,6 @@
   "name": "juniper-fetcher-base",
   "private": true,
   "type": "module",
-  "scripts": {
-    "build": "npx tsc --build"
-  },
   "dependencies": {
     "@types/offscreencanvas-types": "file:../offscreencanvas-types",
     "juniper-dom": "file:../dom",

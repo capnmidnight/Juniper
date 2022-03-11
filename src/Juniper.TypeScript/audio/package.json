@@ -3,9 +3,6 @@
   "name": "juniper-audio",
   "private": true,
   "type": "module",
-  "scripts": {
-    "build": "npx tsc --build"
-  },
   "dependencies": {
     "@types/audio-types": "file:../audio-types",
     "@types/offscreencanvas-types": "file:../offscreencanvas-types",

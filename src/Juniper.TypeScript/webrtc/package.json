@@ -3,9 +3,6 @@
   "name": "juniper-webrtc",
   "private": true,
   "type": "module",
-  "scripts": {
-    "build": "npx tsc --build"
-  },
   "dependencies": {
     "@microsoft/signalr": "6.0.2",
     "@types/audio-types": "file:../audio-types",
