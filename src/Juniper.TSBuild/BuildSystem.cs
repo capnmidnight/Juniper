@@ -2,6 +2,7 @@ using Juniper.Processes;
 using Juniper.TSWatcher;
 using Juniper.Units;
 
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace Juniper.TSBuild
@@ -118,10 +119,11 @@ namespace Juniper.TSBuild
         private readonly FileInfo serverBuildInfo;
         private readonly FileInfo serverAppSettings;
         private readonly DirectoryInfo[] juniperProjects;
+        private readonly DirectoryInfo[] juniperBuildables;
         private readonly DirectoryInfo[] juniperBundles;
         private readonly Dictionary<FileInfo, FileInfo> dependencies = new();
 
-        public BuildSystem(string clientName, string serverName, DirectoryInfo? startDir, params string[] excludeBundles)
+        public BuildSystem(string clientName, string serverName, DirectoryInfo? startDir)
         {
             projectDir = ResolveStartDir(ref startDir, clientName, serverName);
             var juniper = projectDir
@@ -148,19 +150,37 @@ namespace Juniper.TSBuild
                 .EnumerateDirectories()
                 .Where(IsProjectDirectory)
                 .ToArray();
+            juniperBuildables = juniperProjects
+                .Where(IsBuildableDirectory)
+                .ToArray();
             juniperBundles = juniperProjects
-                .Where(d => !excludeBundles.Contains(d.Name)
-                    && d.EnumerateFiles()
-                        .Any(f => f.Name == "esbuild.config.js"))
+                .Where(IsBundleDirectory)
                 .ToArray();
         }
 
         private static bool IsProjectDirectory(DirectoryInfo d)
         {
-            var pkg = d.Touch("package.json");
-            var types = CopyJsonValueCommand.ReadJsonValueAsync(pkg, "types").Result;
-            return pkg.Exists
-                && types is null;
+            return d.Touch("package.json").Exists;
+        }
+
+        private static bool IsBuildableDirectory(DirectoryInfo d)
+        {
+            var pkgFile = d.Touch("package.json");
+            if (!pkgFile.Exists)
+            {
+                return false;
+            }
+
+            using var pkgStream = pkgFile.OpenRead();
+            var pkg = JsonSerializer.Deserialize<NPMPackage>(pkgStream);
+            return pkg?.scripts is not null
+                && pkg.scripts.ContainsKey("build");
+        }
+
+        private static bool IsBundleDirectory(DirectoryInfo d)
+        {
+            return d.EnumerateFiles()
+                .Any(f => f.Name == "esbuild.config.js");
         }
 
         public BuildSystem AddDependency(FileInfo from, FileInfo to)
@@ -326,17 +346,11 @@ namespace Juniper.TSBuild
 
                 if (buildLevel > Level.Low)
                 {
-                    var init = buildLevel >= Level.High;
-                    if (init)
-                    {
-                        commands.AddCommands(Delete(juniperProjects
+                    commands
+                        .AddCommands(Delete(juniperProjects
                             .Append(clientDir)
-                            .Select(d => d
-                                .Touch("tsconfig.tsbuildinfo"))));
-                    }
-
-                    commands 
-                        .AddCommands(NPM("run build", init ? juniperProjects : juniperBundles))
+                            .Select(d => d.Touch("tsconfig.tsbuildinfo"))))
+                        .AddCommands(NPM("run build", juniperBuildables))
                         .AddCommands(Copy(Por.All, serverJsDir, juniperBundles))
                         .AddCommands(NPM("run build", clientDir))
                         .AddCommands(
