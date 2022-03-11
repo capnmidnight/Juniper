@@ -144,8 +144,8 @@ interface YTMediaEntry {
 interface YTBasicResult {
     title: string;
     thumbnail: string;
-    video?: YTMediaEntry;
-    audio?: YTMediaEntry;
+    videos: YTMediaEntry[];
+    audios: YTMediaEntry[];
     width?: number;
     height?: number;
 }
