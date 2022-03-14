@@ -58,7 +58,7 @@ export class PriorityList<KeyT, ValueT> {
         }
     }
 
-    get(key: KeyT): readonly ValueT[] {
+    get(key: KeyT): ValueT[] {
         if (isNullOrUndefined(key)) {
             return this.defaultItems;
         }

@@ -7,9 +7,12 @@ export interface ErsatzElement {
 }
 
 export function isErsatzElement(obj: any): obj is ErsatzElement {
-    return isObject(obj)
-        && "element" in obj
-        && (obj as any).element instanceof Node;
+    if (!isObject(obj)) {
+        return false;
+    }
+
+    const elem = obj as ErsatzElement;
+    return elem.element instanceof Node;
 }
 
 export type Elements = HTMLElement | ErsatzElement;
@@ -211,12 +214,6 @@ export function elementSetText(elem: Elements, text: string): void {
 export function elementGetText(elem: Elements): string {
     elem = resolveElement(elem);
     return elem.innerText;
-}
-
-export function mediaElementForwardEvents(from: HTMLMediaElement, to: HTMLMediaElement) {
-    from.addEventListener("play", () => to.play());
-    from.addEventListener("pause", () => to.pause());
-    from.addEventListener("seeked", () => to.currentTime = from.currentTime);
 }
 
 export async function mediaElementReady<T extends HTMLMediaElement>(elem: T): Promise<T> {

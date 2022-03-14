@@ -45,6 +45,14 @@ export class PlayableVideo
         });
     }
 
+    get width() {
+        return this.video.videoWidth;
+    }
+
+    get height() {
+        return this.video.videoHeight;
+    }
+
     get playbackState(): PlaybackState {
         if (this.video.error) {
             return "errored";

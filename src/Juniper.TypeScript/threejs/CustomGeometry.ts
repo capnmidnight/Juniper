@@ -70,11 +70,55 @@ function createGeometry(nFaces: ITrianglePosUVNormal[]) {
 }
 
 export function createTriGeometry(...trias: TrianglePosUV[]) {
-    const nFaces = normalizeTriangles(trias);
-    return createGeometry(nFaces);
+    const faces = normalizeTriangles(trias);
+    return createGeometry(faces);
 }
 
 export function createQuadGeometry(...quads: QuadPosUV[]) {
-    const nFaces = normalizeQuads(quads);
-    return createGeometry(nFaces);
+    const faces = normalizeQuads(quads);
+    return createGeometry(faces);
+}
+
+export function mapEACUV(uv: number): number {
+    return 2 * Math.atan(2 * uv) / Math.PI;
+}
+
+function midpoint(from: v5, to: v5): v5 {
+    const delta = new Array<number>(5);
+    for (let i = 0; i < delta.length; ++i) {
+        delta[i] = to[i] - from[i];
+    }
+
+    return from.map((v, i) => v + 0.5 * delta[i]) as v5;
+}
+
+export function createEACGeometry(subDivs: number, ...quads: QuadPosUV[]) {
+    for (let i = 0; i < subDivs; ++i) {
+        quads = subdivide(quads);
+    }
+    const faces = normalizeQuads(quads);
+    for (const face of faces) {
+        for (const uv of face.uvs) {
+            uv[0] = mapEACUV(uv[0]);
+            uv[1] = mapEACUV(uv[1]);
+        }
+    }
+    return createGeometry(faces);
+}
+
+function subdivide(quads: QuadPosUV[]) {
+    const quads2 = new Array<QuadPosUV>(quads.length * 4);
+    for (let i = 0; i < quads.length; ++i) {
+        const quad = quads[i];
+        const midU1 = midpoint(quad[0], quad[1]);
+        const midU2 = midpoint(quad[2], quad[3]);
+        const midV1 = midpoint(quad[0], quad[3]);
+        const midV2 = midpoint(quad[1], quad[2]);
+        const mid = midpoint(midU1, midU2);
+        quads2[i * 4 + 0] = [quad[0], midU1, mid, midV1];
+        quads2[i * 4 + 1] = [midU1, quad[1], midV2, mid];
+        quads2[i * 4 + 2] = [mid, midV2, quad[2], midU2];
+        quads2[i * 4 + 3] = [midV1, mid, midU2, quad[3]];
+    }
+    return quads2;
 }

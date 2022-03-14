@@ -1,6 +1,9 @@
 import { TypedEvent, TypedEventBase } from "juniper-tslib";
 
-export type PlaybackState = "playing" | "paused" | "stopped" | "errored";
+export type PlaybackState = "errored"
+    | "stopped"
+    | "paused"
+    | "playing";
 
 export interface IPlayable extends TypedEventBase<MediaElementSourceEvents> {
     playbackState: PlaybackState;

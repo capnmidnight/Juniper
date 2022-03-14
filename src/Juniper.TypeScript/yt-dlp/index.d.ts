@@ -134,18 +134,21 @@ interface YTMetadata {
     urls: string
 }
 
-
-interface YTMediaEntry {
-    contentType?: string;
+interface YTImageEntry {
+    content_type?: string;
+    width?: number;
+    height?: number;
+    resolution?: number;
     url: string;
+}
+
+interface YTMediaEntry extends YTImageEntry {
     size: number;
 }
 
 interface YTBasicResult {
     title: string;
-    thumbnail: string;
+    thumbnail: YTImageEntry;
     videos: YTMediaEntry[];
     audios: YTMediaEntry[];
-    width?: number;
-    height?: number;
 }

@@ -9,6 +9,8 @@ import {
     IProgress,
     isDefined,
     isMobileVR,
+    isNullOrUndefined,
+    isString,
     stringToName,
     TypedEvent,
     TypedEventBase
@@ -294,8 +296,8 @@ export class AudioManager
         return this.audioDestination;
     }
 
-    createBasicClip(id: string, path: string, vol: number, onProgress?: IProgress): Promise<AudioElementSource> {
-        return this.createClip(id, path, false, false, false, false, vol, [], onProgress);
+    createBasicClip(id: string, pathOrElment: string | HTMLAudioElement, vol: number, onProgress?: IProgress): Promise<AudioElementSource> {
+        return this.createClip(id, pathOrElment, false, false, false, false, vol, [], onProgress);
     }
 
     /**
@@ -307,12 +309,12 @@ export class AudioManager
      * @param spatialize - whether or not the sound effect should be spatialized.
      * @param vol - the volume at which to set the clip.
      * @param effectNames - names of pre-canned effects to load on the control.
-     * @param path - a path for loading the media of the sound effect.
+     * @param pathOrElement - a path for loading the media of the sound effect, or the sound effect that has already been loaded.
      * @param prog - an optional callback function to use for tracking progress of loading the clip.
      */
     async createClip(
         id: string,
-        path: string,
+        pathOrElement: string | HTMLAudioElement,
         looping: boolean,
         autoPlaying: boolean,
         spatialize: boolean,
@@ -320,52 +322,60 @@ export class AudioManager
         vol: number,
         effectNames: string[],
         prog?: IProgress): Promise<AudioElementSource> {
-        if (path == null || path.length === 0) {
+        if (isNullOrUndefined(pathOrElement)
+            || isString(pathOrElement)
+                && pathOrElement.length === 0) {
             throw new Error("No clip source path provided");
         }
 
+        const curPath = isString(pathOrElement)
+            ? pathOrElement
+            : pathOrElement.currentSrc;
+
         if (isDefined(prog)) {
-            prog.report(0, 1, path);
+            prog.report(0, 1, curPath);
         }
 
-        const source = await this.getSourceTask(id, path, looping, autoPlaying, prog);
-        const clip = this.makeClip(source, id, path, spatialize, randomize, autoPlaying, vol, ...effectNames);
+        const source = await this.getSourceTask(id, curPath, pathOrElement, looping, autoPlaying, prog);
+        const clip = this.makeClip(source, id, curPath, spatialize, randomize, autoPlaying, vol, ...effectNames);
         this.clips.set(id, clip);
 
         if (isDefined(prog)) {
-            prog.report(1, 1, path);
+            prog.report(1, 1, curPath);
         }
 
         return clip;
     }
 
-    private getSourceTask(id: string, path: string, looping: boolean, autoPlaying: boolean, onProgress: IProgress): Promise<MediaElementAudioSourceNode> {
-        this.clipPaths.set(id, path);
-        let sourceTask = this.pathSources.get(path);
+    private getSourceTask(id: string, curPath: string, pathOrElement: string | HTMLAudioElement, looping: boolean, autoPlaying: boolean, onProgress: IProgress): Promise<MediaElementAudioSourceNode> {
+        this.clipPaths.set(id, curPath);
+        let sourceTask = this.pathSources.get(curPath);
         if (isDefined(sourceTask)) {
-            this.pathCounts.set(path, this.pathCounts.get(path) + 1);
+            this.pathCounts.set(curPath, this.pathCounts.get(curPath) + 1);
         }
         else {
-            sourceTask = this.createSourceFromFile(id, path, looping, autoPlaying, onProgress);
-            this.pathSources.set(path, sourceTask);
-            this.pathCounts.set(path, 1);
+            sourceTask = this.createSourceFromFileOrElement(id, pathOrElement, looping, autoPlaying, onProgress);
+            this.pathSources.set(curPath, sourceTask);
+            this.pathCounts.set(curPath, 1);
         }
         return sourceTask;
     }
 
-    private async createSourceFromFile(id: string, path: string, looping: boolean, autoPlaying: boolean, prog?: IProgress): Promise<MediaElementAudioSourceNode> {
+    private async createSourceFromFileOrElement(id: string, pathOrElement: string | HTMLAudioElement, looping: boolean, autoPlaying: boolean, prog?: IProgress): Promise<MediaElementAudioSourceNode> {
         if (isDefined(prog)) {
-            prog.report(0, 1, path);
+            prog.report(0, 1, id);
         }
 
-        const elem = await mediaElementReady(BackgroundAudio(autoPlaying, false, looping, src(path)));
+        const elem = isString(pathOrElement)
+            ? await mediaElementReady(BackgroundAudio(autoPlaying, false, looping, src(pathOrElement)))
+            : pathOrElement;
 
         if (isDefined(prog)) {
-            prog.report(1, 1, path);
+            prog.report(1, 1, id);
         }
 
         return MediaElementSource(
-            stringToName("audio-element-source", id, path),
+            stringToName("audio-element-source", id),
             this.audioCtx,
             elem);
     }

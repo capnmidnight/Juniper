@@ -1,8 +1,7 @@
 import { PlayableVideo } from "juniper-audio/sources/PlayableVideo";
-import { parseYtDlp, YouTubeProxy } from "juniper-audio/YouTubeProxy";
-import { mediaElementForwardEvents } from "juniper-dom/tags";
-import { IProgress, isDefined, isNullOrUndefined, progressSplitWeighted } from "juniper-tslib";
-import { createQuadGeometry } from "./CustomGeometry";
+import { YouTubeProxy } from "juniper-audio/YouTubeProxy";
+import { IProgress } from "juniper-tslib";
+import { createEACGeometry, createQuadGeometry } from "./CustomGeometry";
 import { Environment } from "./environment/Environment";
 import { Image2DMesh } from "./Image2DMesh";
 import { solid } from "./materials";
@@ -21,8 +20,6 @@ interface BaseVideoResult {
 
 interface VideoMaterialResult extends BaseVideoResult {
     material: THREE.MeshBasicMaterial;
-    width: number;
-    height: number;
     thumbnail?: Image2DMesh
 }
 
@@ -63,7 +60,7 @@ const YouTubeMonoEACGeom = createQuadGeometry([
     [+1 / 2, -1 / 2, -1 / 2, 0.000, 1 / 2]
 ]);
 
-const YouTubeStereoEACGeom_Left = createQuadGeometry([
+const YouTubeStereoEACGeom_Left = createEACGeometry(1, [
     [-1 / 2, +1 / 2, -1 / 2, 0.000, 1 / 3],
     [+1 / 2, +1 / 2, -1 / 2, 0.000, 2 / 3],
     [+1 / 2, -1 / 2, -1 / 2, 1 / 4, 2 / 3],
@@ -150,67 +147,36 @@ export class YouTubeProxy3D extends YouTubeProxy {
         super(env.fetcher, makeProxyURL)
     }
 
-    private async loadMediaElements(audLocs: YTMediaEntry[], vidLocs: YTMediaEntry[], pageURL: string, prog?: IProgress): Promise<HTMLVideoElement> {
-        if (audLocs.length > 0) {
-            const [videoClip, audioClip] = await Promise.all([
-                this.loadVideoElement(vidLocs),
-                this.env.audio.createBasicClip(pageURL, this.makeProxyURL(audLocs[0].url), 1.000, prog)
-            ]);
-
-            mediaElementForwardEvents(videoClip, audioClip.input.mediaElement);
-
-            return videoClip;
-        }
-        else {
-            const videoClip = await this.loadVideoElement(vidLocs);
-            prog.report(1, 1, pageURL);
-
-            return videoClip;
-        }
-    }
-
     private async loadVideoMaterial(pageURL: string, label: string, prog?: IProgress): Promise<VideoMaterialResult> {
-        const progs = progressSplitWeighted(prog, [1.000, 10.000]);
-        const metadata = await this.fetcher
-            .get(pageURL)
-            .progress(progs.shift())
-            .object<YTMetadata>();
-        const { videos: vidLocs, audios: audLocs, title, width, height, thumbnail: thumb } = await parseYtDlp(metadata);
+        const [audioElem, videoElem, thumbnailElem] = await this.loadElements(pageURL, prog);
 
-        if (isNullOrUndefined(vidLocs)) {
-            throw new Error("No video found");
-        }
-
-        const videoElem = await this.loadMediaElements(audLocs, vidLocs, pageURL, progs.shift());
+        const audioClip = await this.env.audio.createBasicClip(pageURL, audioElem, 1);
+        const title = (label || thumbnailElem.title.substring(0, 25));
         const video = new PlayableVideo(videoElem);
-        const controls = new PlaybackButton(this.env, this.env.uiButtons, pageURL, (label || title.substring(0, 25)), video);
+        const controls = new PlaybackButton(this.env, this.env.uiButtons, pageURL, title, audioClip);
         const videoTexture = new THREE.VideoTexture(videoElem);
         const material = solid({
             name: pageURL,
             map: videoTexture,
             depthWrite: false
         });
-        let thumbnail: Image2DMesh = null;
-        if (isDefined(thumb)) {
-            thumbnail = new Image2DMesh(this.env, "thumb-" + pageURL, true);
-            await thumbnail.mesh.loadImage(this.makeProxyURL(thumb));
-        }
+        const thumbnail = new Image2DMesh(this.env, "thumb-" + pageURL, true);
+        thumbnail.mesh.setImage(thumbnailElem);
+        thumbnail.mesh.objectHeight = 1 / thumbnail.mesh.imageAspectRatio;
         return {
             controls,
             material,
-            width,
-            height,
             video,
             thumbnail
         };
     }
 
     async loadMonoPlane(pageURL: string, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
-        const { controls, material, width, height, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, prog);
+        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, prog);
 
         const vidMesh = new THREE.Mesh(SquareGeom, material);
         vidMesh.name = "Frame-2D";
-        vidMesh.scale.set(1, height / width, 1);
+        vidMesh.scale.set(1, video.height / video.width, 1);
 
         const videoRig = obj("VideoContainer", vidMesh);
         linkControls(videoRig, controls, false);
