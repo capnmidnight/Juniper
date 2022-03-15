@@ -5,7 +5,7 @@ export class CssProp implements IElementAppliable {
     public readonly name: string;
     constructor(
         public readonly key: string,
-        public readonly value: string | 0) {
+        public readonly value: string | number) {
         this.name = key.replace(/[A-Z]/g, (m) => `-${m.toLocaleLowerCase()}`);
     }
 
@@ -50,6 +50,7 @@ type CSSGlobalValues = "inherit"
     | "unset";
 
 type CSSPercentage = `${number}%`;
+
 type CSSFontRelativeLength = `${number}cap`
     | `${number}ch`
     | `${number}em`
@@ -58,12 +59,14 @@ type CSSFontRelativeLength = `${number}cap`
     | `${number}lh`
     | `${number}rem`
     | `${number}rlh`;
+
 type CSSViewportPercentageLength = `${number}vh`
     | `${number}vw`
     | `${number}vi`
     | `${number}vb`
     | `${number}vmin`
     | `${number}vmax`;
+
 type CSSAbsoluteLength = `${number}px`
     | `${number}cm`
     | `${number}mm`
@@ -71,13 +74,17 @@ type CSSAbsoluteLength = `${number}px`
     | `${number}in`
     | `${number}pc`
     | `${number}pt`;
+
 type CSSLength = CSSFontRelativeLength
     | CSSViewportPercentageLength
     | CSSAbsoluteLength;
+
 type CSSLengthPercentage = CSSLength
     | CSSPercentage;
+
 type CSSCalcStatement = `calc(${string})`;
-export type CSSSizePropertyValue = CSSGlobalValues
+
+type CSSSizePropertyValue = CSSGlobalValues
     | 0
     | "0"
     | CSSLengthPercentage
@@ -87,11 +94,36 @@ export type CSSSizePropertyValue = CSSGlobalValues
     | `fit-content(${CSSLengthPercentage})`
     | CSSCalcStatement;
 
-export function alignContent(v: string) { return new CssProp("alignContent", v); }
-export function alignItems(v: string) { return new CssProp("alignItems", v); }
-export function alignSelf(v: string) { return new CssProp("alignSelf", v); }
+type CSSAlignItemsValue = CSSGlobalValues
+    | "center"
+    | "start"
+    | "end"
+    | "flex-start"
+    | "flex-end"
+    | "normal"
+    | "baseline"
+    | "first baseline"
+    | "last baseline"
+    | "stretch"
+    | "safe center"
+    | "unsafe center";
+
+type CSSAlignContentValue = CSSAlignItemsValue
+    | "space-between"
+    | "space-around"
+    | "space-evenly";
+
+type CSSAlignSelfValue = CSSAlignItemsValue
+    | "auto"
+    | "self-start"
+    | "self-end";
+
+export function alignContent(v: CSSAlignContentValue) { return new CssProp("alignContent", v); }
+export function alignItems(v: CSSAlignItemsValue) { return new CssProp("alignItems", v); }
+export function alignSelf(v: CSSAlignSelfValue) { return new CssProp("alignSelf", v); }
 export function alignmentBaseline(v: string) { return new CssProp("alignmentBaseline", v); }
-export function all(v: string) { return new CssProp("all", v); }
+export function all(v: CSSGlobalValues) { return new CssProp("all", v); }
+
 export function animation(v: string) { return new CssProp("animation", v); }
 export function animationDelay(v: string) { return new CssProp("animationDelay", v); }
 export function animationDirection(v: string) { return new CssProp("animationDirection", v); }
@@ -302,10 +334,10 @@ export function gridColumn(vOrColStart: string | number, colEnd?: number): CssPr
     return new CssProp("gridColumn", vOrColStart);
 }
 
-export function gridColumnEnd(v: string) { return new CssProp("gridColumnEnd", v); }
-export function gridColumnGap(v: string) { return new CssProp("gridColumnGap", v); }
-export function gridColumnStart(v: string) { return new CssProp("gridColumnStart", v); }
-export function gridGap(v: string) { return new CssProp("gridGap", v); }
+export function gridColumnEnd(v: string | number) { return new CssProp("gridColumnEnd", v); }
+export function gridColumnGap(v: CSSLengthPercentage) { return new CssProp("gridColumnGap", v); }
+export function gridColumnStart(v: string | number) { return new CssProp("gridColumnStart", v); }
+export function gridGap(v: CSSLengthPercentage) { return new CssProp("gridGap", v); }
 
 export function gridRow(v: string): CssProp
 export function gridRow(rowStart: number, rowEnd?: number): CssProp
@@ -318,9 +350,9 @@ export function gridRow(vOrRowStart: string | number, rowEnd?: number): CssProp 
     return new CssProp("gridRow", vOrRowStart);
 }
 
-export function gridRowEnd(v: string) { return new CssProp("gridRowEnd", v); }
-export function gridRowGap(v: string) { return new CssProp("gridRowGap", v); }
-export function gridRowStart(v: string) { return new CssProp("gridRowStart", v); }
+export function gridRowEnd(v: string | number) { return new CssProp("gridRowEnd", v); }
+export function gridRowGap(v: CSSLengthPercentage) { return new CssProp("gridRowGap", v); }
+export function gridRowStart(v: string | number) { return new CssProp("gridRowStart", v); }
 export function gridTemplate(v: string) { return new CssProp("gridTemplate", v); }
 
 export function gridTemplateAreas(...v: string[]) { return new CssProp("gridTemplateAreas", v.map(r => '"' + r + '"').join('\n')); }

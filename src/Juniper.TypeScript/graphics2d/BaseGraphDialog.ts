@@ -96,7 +96,7 @@ export class BaseGraphDialog<T> extends DialogBox {
                     gridAutoFlow("column"),
                     gridTemplateColumns("repeat(9, auto) 1fr"),
                     columnGap("5px"),
-                    alignItems("middle")
+                    alignItems("center")
                 ),
 
                 ...PreLabeled(
