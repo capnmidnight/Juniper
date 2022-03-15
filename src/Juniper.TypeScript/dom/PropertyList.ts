@@ -29,14 +29,14 @@ Style(
     ),
 
     rule("dt",
-        gridColumn(1, 2),
+        gridColumn(1),
         textAlign("right"),
         paddingRight("1em")
     ),
 
     rule("dd",
         textAlign("left"),
-        gridColumn(2, 3),
+        gridColumn(2),
         marginInlineStart("0")
     ),
 
