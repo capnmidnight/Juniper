@@ -1,9 +1,9 @@
 import { isString, mapBuild, TypedEvent, TypedEventBase } from "juniper-tslib";
-import { classList, className, customData } from "./attrs";
+import { className, customData } from "./attrs";
 import { buttonSetEnabled } from "./buttonSetEnabled";
 import { borderBottom, borderBottomColor, borderRadius, boxShadow, display, flexDirection, marginBottom, paddingTop, rule, zIndex } from "./css";
 import { elementSetClass } from "./elementSetClass";
-import { Button, Div, Elements, elementSetDisplay, ErsatzElement, ErsatzElements, Style } from "./tags";
+import { ButtonSecondary, Div, Elements, elementSetDisplay, ErsatzElement, ErsatzElements, Style } from "./tags";
 
 export class TabControlTabSelectedEvent extends TypedEvent<"tabselected">{
     constructor(public tabname: string) {
@@ -46,11 +46,7 @@ Style(
 
 export function TabControl(...tabPanels: ITabPanel[]): TabControlElement {
     const tabButtons = tabPanels.map(panel => {
-        return Button(
-            classList(
-                "btn",
-                "btn-secondary"
-            ),
+        return ButtonSecondary(
             customData("tabname", panel.tabName),
             panel.buttonLabel
         );

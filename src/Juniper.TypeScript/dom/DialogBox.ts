@@ -1,7 +1,7 @@
 import { once, TypedEvent, TypedEventBase } from "juniper-tslib";
-import { className, customData } from "./attrs";
+import { classList, className, customData } from "./attrs";
 import { backgroundColor, boxShadow, display, float, gridArea, gridTemplateColumns, gridTemplateRows, height, left, maxHeight, maxWidth, overflow, padding, position, rule, styles, textAlign, top, transform, width, zIndex } from "./css";
-import { Button, Div, elementApply, elementSetText, ErsatzElement, H1, Style } from "./tags";
+import { ButtonPrimary, ButtonSecondary, Div, elementApply, elementSetText, ErsatzElement, H1, Style } from "./tags";
 
 Style(
     rule(".dialog, .dialog-container",
@@ -69,10 +69,8 @@ export abstract class DialogBox
                 this.titleElement = H1(className("title-bar"), title),
                 this.contentArea = Div(className("dialog-content")),
                 Div(className("dialog-controls"),
-                    this.confirmButton = Button("Confirm",
-                        className("btn btn-primary confirm-button")),
-                    this.cancelButton = Button("Cancel",
-                        className("btn btn-secondary cancel-button")))));
+                    this.confirmButton = ButtonPrimary("Confirm", classList("confirm-button")),
+                    this.cancelButton = ButtonSecondary("Cancel", classList("cancel-button")))));
 
         this.confirmButton.addEventListener("click", () => this.subEventer.dispatchEvent(new TypedEvent("confirm")));
 

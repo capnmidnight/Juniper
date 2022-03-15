@@ -1,6 +1,5 @@
-import { classList } from "juniper-dom/attrs";
 import { buttonSetEnabled } from "juniper-dom/buttonSetEnabled";
-import { Button, elementSetDisplay, Img } from "juniper-dom/tags";
+import { ButtonPrimary, elementSetDisplay, Img } from "juniper-dom/tags";
 import { ButtonFactory } from "../ButtonFactory";
 import { MeshButton } from "../MeshButton";
 import { obj, objectSetEnabled, objectSetVisible, objGraph } from "../objects";
@@ -45,11 +44,7 @@ export class ToggleButton implements Widget, EventTarget {
         private readonly setName: string,
         private readonly activeName: string,
         private readonly inactiveName: string) {
-        this.element = Button(
-            classList(
-                "btn",
-                "btn-primary"
-            ),
+        this.element = ButtonPrimary(
             this.btnImage = Img());
 
         this.object = obj(`${this.setName}-button`);

@@ -1,6 +1,6 @@
 import { TextImageOptions } from "juniper-2d/TextImage";
-import { classList, title } from "juniper-dom/attrs";
-import { Button, elementIsDisplayed, elementSetDisplay } from "juniper-dom/tags";
+import { title } from "juniper-dom/attrs";
+import { ButtonPrimary, elementIsDisplayed, elementSetDisplay } from "juniper-dom/tags";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { obj } from "../objects";
 import { TextMeshButton } from "../TextMeshButton";
@@ -14,11 +14,7 @@ export class ButtonTextWidget implements Widget, EventTarget {
     readonly mesh: TextMeshButton;
 
     constructor(protected readonly env: BaseEnvironment<unknown>, name: string, text: string, textButtonStyle: Partial<TextImageOptions>) {
-        this.element = Button(
-            classList(
-                "btn",
-                "btn-primary"
-            ),
+        this.element = ButtonPrimary(
             title(name),
             text);
         this.object = obj(`${name}-button`,

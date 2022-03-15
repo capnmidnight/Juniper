@@ -1,7 +1,6 @@
 import { canChangeAudioOutput } from "juniper-audio/DeviceManager";
 import { connect } from "juniper-audio/nodes";
 import {
-    classList,
     className,
     max,
     min,
@@ -16,7 +15,7 @@ import { onClick, onInput } from "juniper-dom/evts";
 import { InputRangeWithNumber, InputRangeWithNumberElement } from "juniper-dom/InputRangeWithNumber";
 import { group, PropertyList } from "juniper-dom/PropertyList";
 import {
-    Button,
+    ButtonSecondary,
     Div,
     elementApply,
     elementSetDisplay,
@@ -124,12 +123,8 @@ export class DeviceDialog extends DialogBox {
                     })
                 ),
 
-                this.testSpkrButton = Button("Test",
+                this.testSpkrButton = ButtonSecondary("Test",
                     title("Test audio"),
-                    classList(
-                        "btn",
-                        "btn-secondary"
-                    ),
                     styles(
                         marginLeft("0.5em")
                     ),

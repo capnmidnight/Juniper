@@ -1,5 +1,5 @@
-import { classList, title } from "juniper-dom/attrs";
-import { Button, elementIsDisplayed, elementSetDisplay } from "juniper-dom/tags";
+import { title } from "juniper-dom/attrs";
+import { ButtonPrimary, elementIsDisplayed, elementSetDisplay } from "juniper-dom/tags";
 import { ButtonFactory } from "../ButtonFactory";
 import { MeshButton } from "../MeshButton";
 import { obj } from "../objects";
@@ -12,11 +12,7 @@ export class ButtonImageWidget implements Widget, EventTarget {
     private mesh: THREE.Object3D = null;
 
     constructor(buttons: ButtonFactory, setName: string, iconName: string) {
-        this.element = Button(
-            classList(
-                "btn",
-                "btn-primary"
-            ),
+        this.element = ButtonPrimary(
             title(iconName),
             buttons.getImageElement(setName, iconName));
 
