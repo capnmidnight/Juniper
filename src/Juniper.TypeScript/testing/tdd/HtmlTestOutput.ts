@@ -5,6 +5,8 @@ import {
     columnGap,
     display,
     getMonospaceFamily,
+    gridColumn,
+    gridTemplateColumns,
     height,
     overflow,
     styles,
@@ -12,7 +14,6 @@ import {
     width
 } from "juniper-dom/css";
 import { onClick } from "juniper-dom/evts";
-import { col, gridColsDef } from "juniper-dom/grid";
 import {
     Button,
     Div,
@@ -39,7 +40,7 @@ function bar(c: string, w: number) {
 function refresher(thunk: (evt: Event) => void, ...rest: ElementChild[]) {
     return Button(
         onClick(thunk),
-        col(1),
+        gridColumn(1),
         "\u{1F504}\u{FE0F}",
         ...rest);
 }
@@ -79,22 +80,25 @@ export class HtmlTestOutput extends TestOutput implements ErsatzElement {
                     overflow("hidden"),
                     height("1em")),
                 table = Div(
-                    gridColsDef("auto", "auto", "auto", "1fr"),
+                    styles(
+                        display("grid"),
+                        gridTemplateColumns("auto auto auto 1fr")
+                    ),
                     getMonospaceFamily(),
                     width("100%"),
                     columnGap("1em"),
                     refresher(() => this.run()),
                     Div(
-                        col(2, 3),
+                        gridColumn(2, 5),
                         height("2em"),
                         whiteSpace("nowrap"),
                         overflow("hidden"),
                         Span(basicStyle, bar("green", s)),
                         Span(basicStyle, bar("red", f)),
                         Span(basicStyle, bar("grey", t))),
-                    Div(col(1), "Rerun"),
-                    Div(col(2), "Name"),
-                    Div(col(3), "Status"));
+                    Div(gridColumn(1), "Rerun"),
+                    Div(gridColumn(2), "Name"),
+                    Div(gridColumn(3), "Status"));
 
             let lastTestCaseName: string = null;
             for (let [testCaseName, testName, test] of evt.results.entries()) {
@@ -102,13 +106,13 @@ export class HtmlTestOutput extends TestOutput implements ErsatzElement {
                     lastTestCaseName = testCaseName;
                     table.append(
                         refresher(() => this.run(testCaseName)),
-                        Div(col(2, 3), testCaseName));
+                        Div(gridColumn(2, 5), testCaseName));
                 }
                 table.append(
                     refresher(() => this.run(testCaseName, testName)),
-                    Div(col(2), testName),
-                    Div(col(3), makeStatus(test.state)),
-                    Div(col(4), test.messages.join(", ")));
+                    Div(gridColumn(2), testName),
+                    Div(gridColumn(3), makeStatus(test.state)),
+                    Div(gridColumn(4), test.messages.join(", ")));
             }
 
             if (isDefined(lastTable)) {

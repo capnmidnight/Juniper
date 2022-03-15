@@ -1,4 +1,4 @@
-import { isNumber } from "juniper-tslib";
+import { isDefined, isNumber, isString } from "juniper-tslib";
 import { IElementAppliable } from "./tags";
 
 export class CssProp implements IElementAppliable {
@@ -267,7 +267,18 @@ export function fontWeight(v: string) { return new CssProp("fontWeight", v); }
 export function forcedColorAdjust(v: string) { return new CssProp("forcedColorAdjust", v); }
 export function gap(v: string) { return new CssProp("gap", v); }
 export function grid(v: string) { return new CssProp("grid", v); }
-export function gridArea(v: string) { return new CssProp("gridArea", v); }
+
+export function gridArea(v: string): CssProp;
+export function gridArea(rowStart: number, colStart?: number, rowEnd?: number, colEnd?: number): CssProp;
+export function gridArea(vOrRowStart: string | number, colStart?: number, rowEnd?: number, colEnd?: number): CssProp {
+    if (!isString(vOrRowStart)) {
+        vOrRowStart = [vOrRowStart, colStart, rowEnd, colEnd]
+            .filter(isDefined)
+            .join('/');
+    }
+
+    return new CssProp("gridArea", vOrRowStart);
+}
 export function gridAutoColumns(v: string) { return new CssProp("gridAutoColumns", v); }
 
 type CSSGridAutoFlowValues = CSSGlobalValues
@@ -279,12 +290,34 @@ type CSSGridAutoFlowValues = CSSGlobalValues
 export function gridAutoFlow(v: CSSGridAutoFlowValues) { return new CssProp("gridAutoFlow", v); }
 
 export function gridAutoRows(v: string) { return new CssProp("gridAutoRows", v); }
-export function gridColumn(v: string) { return new CssProp("gridColumn", v); }
+
+export function gridColumn(v: string): CssProp
+export function gridColumn(colStart: number, colEnd?: number): CssProp
+export function gridColumn(vOrColStart: string | number, colEnd?: number): CssProp {
+    if (!isString(vOrColStart)) {
+        vOrColStart = [vOrColStart, colEnd]
+            .filter(isDefined)
+            .join('/');
+    }
+    return new CssProp("gridColumn", vOrColStart);
+}
+
 export function gridColumnEnd(v: string) { return new CssProp("gridColumnEnd", v); }
 export function gridColumnGap(v: string) { return new CssProp("gridColumnGap", v); }
 export function gridColumnStart(v: string) { return new CssProp("gridColumnStart", v); }
 export function gridGap(v: string) { return new CssProp("gridGap", v); }
-export function gridRow(v: string) { return new CssProp("gridRow", v); }
+
+export function gridRow(v: string): CssProp
+export function gridRow(rowStart: number, rowEnd?: number): CssProp
+export function gridRow(vOrRowStart: string | number, rowEnd?: number): CssProp {
+    if (!isString(vOrRowStart)) {
+        vOrRowStart = [vOrRowStart, rowEnd]
+            .filter(isDefined)
+            .join('/');
+    }
+    return new CssProp("gridRow", vOrRowStart);
+}
+
 export function gridRowEnd(v: string) { return new CssProp("gridRowEnd", v); }
 export function gridRowGap(v: string) { return new CssProp("gridRowGap", v); }
 export function gridRowStart(v: string) { return new CssProp("gridRowStart", v); }

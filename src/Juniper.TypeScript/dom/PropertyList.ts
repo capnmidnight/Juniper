@@ -29,19 +29,19 @@ Style(
     ),
 
     rule("dt",
-        gridColumn("1/2"),
+        gridColumn(1, 2),
         textAlign("right"),
         paddingRight("1em")
     ),
 
     rule("dd",
         textAlign("left"),
-        gridColumn("2/3"),
+        gridColumn(2, 3),
         marginInlineStart("0")
     ),
 
     rule("dl > span, dl > div",
-        gridColumn("1/3")
+        gridColumn(1, 3)
     ),
 
     rule("dl .alert",

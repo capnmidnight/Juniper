@@ -4,9 +4,7 @@ import {
     columnGap,
     display,
     getMonospaceFamily,
-    gridAutoFlow,
-    gridColumn,
-    height,
+    gridAutoFlow, gridColumn, height,
     left,
     opacity,
     overflow,
@@ -33,7 +31,7 @@ import { ILogger, isWorkerLoggerMessageData } from "./models";
 
 function track(a: number, b: number) {
     return styles(
-        gridColumn(`${a}/${b}`),
+        gridColumn(a, b),
         getMonospaceFamily());
 }
 

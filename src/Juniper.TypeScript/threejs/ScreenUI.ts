@@ -4,9 +4,7 @@ import {
     borderRadius,
     display,
     flexFlow,
-    fontSize,
-    gridColumn,
-    gridRow,
+    fontSize, gridColumn, gridRow,
     gridTemplateColumns,
     gridTemplateRows,
     height,
@@ -51,15 +49,15 @@ Style(
     ),
 
     rule("#controls > .row.top",
-        gridRow("1/2")
+        gridRow(1)
     ),
 
     rule("#controls > .row.middle",
-        gridRow("2/-2")
+        gridRow(2, -2)
     ),
 
     rule("#controls > .row.bottom",
-        gridRow("-2/-1")
+        gridRow(-2)
     ),
 
     rule("#controls > .row > .cell",
@@ -67,11 +65,11 @@ Style(
     ),
 
     rule("#controls > .row > .cell.left",
-        gridColumn("1/2")
+        gridColumn(1)
     ),
 
     rule("#controls > .row > .cell.right",
-        gridColumn("-2/-1"),
+        gridColumn(-2),
         flexFlow("row-reverse")
     ),
 
