@@ -49,7 +49,16 @@ type CSSGlobalValues = "inherit"
     | "revert"
     | "unset";
 
+type CSSUrl = `url(${string})`;
+
 type CSSPercentage = `${number}%`;
+type CSSNumberPercentage = number | CSSPercentage;
+
+type CSSAngle = number
+    | `${number}deg`
+    | `${number}rad`
+    | `${number}grad`
+    | `${number}turn`;
 
 type CSSFontRelativeLength = `${number}cap`
     | `${number}ch`
@@ -107,49 +116,234 @@ type CSSAlignItemsValue = CSSGlobalValues
     | "stretch"
     | "safe center"
     | "unsafe center";
+export function alignItems(v: CSSAlignItemsValue) { return new CssProp("alignItems", v); }
 
 type CSSAlignContentValue = CSSAlignItemsValue
     | "space-between"
     | "space-around"
     | "space-evenly";
+export function alignContent(v: CSSAlignContentValue) { return new CssProp("alignContent", v); }
 
 type CSSAlignSelfValue = CSSAlignItemsValue
     | "auto"
     | "self-start"
     | "self-end";
-
-export function alignContent(v: CSSAlignContentValue) { return new CssProp("alignContent", v); }
-export function alignItems(v: CSSAlignItemsValue) { return new CssProp("alignItems", v); }
 export function alignSelf(v: CSSAlignSelfValue) { return new CssProp("alignSelf", v); }
-export function alignmentBaseline(v: string) { return new CssProp("alignmentBaseline", v); }
+
 export function all(v: CSSGlobalValues) { return new CssProp("all", v); }
 
+export function alignmentBaseline(v: string) { return new CssProp("alignmentBaseline", v); }
+
 export function animation(v: string) { return new CssProp("animation", v); }
-export function animationDelay(v: string) { return new CssProp("animationDelay", v); }
-export function animationDirection(v: string) { return new CssProp("animationDirection", v); }
-export function animationDuration(v: string) { return new CssProp("animationDuration", v); }
-export function animationFillMode(v: string) { return new CssProp("animationFillMode", v); }
-export function animationIterationCount(v: string) { return new CssProp("animationIterationCount", v); }
-export function animationName(v: string) { return new CssProp("animationName", v); }
-export function animationPlayState(v: string) { return new CssProp("animationPlayState", v); }
+
+type CSSTimeSecondsValue = `${number}s`;
+type CSSTimeMillisecondsValue = `${number}ms`;
+type CSSTimeValue = CSSTimeSecondsValue | CSSTimeMillisecondsValue;
+export function animationDelay(v: CSSGlobalValues): CssProp;
+export function animationDelay(...v: CSSTimeValue[]): CssProp;
+export function animationDelay(...v: string[]) { return new CssProp("animationDelay", v.join(", ")); }
+
+export function animationDuration(v: CSSGlobalValues): CssProp;
+export function animationDuration(...v: CSSTimeValue[]): CssProp;
+export function animationDuration(...v: string[]) { return new CssProp("animationDuration", v.join(", ")); }
+
+type CSSAnimationDirectionValue = "normal"
+    | "reverse"
+    | "alternate"
+    | "alternate-reverse";
+export function animationDirection(v: CSSGlobalValues): CssProp;
+export function animationDirection(...v: CSSAnimationDirectionValue[]): CssProp;
+export function animationDirection(...v: string[]): CssProp { return new CssProp("animationDirection", v.join(", ")); }
+
+type CSSFillModeValue = "none"
+    | "forwards"
+    | "backwards"
+    | "both";
+export function animationFillMode(v: CSSGlobalValues): CssProp;
+export function animationFillMode(...v: CSSFillModeValue[]): CssProp;
+export function animationFillMode(...v: string[]): CssProp { return new CssProp("animationFillMode", v.join(", ")); }
+
+type CSSIterationCountValue = number | "infinite"
+export function animationIterationCount(v: CSSGlobalValues): CssProp;
+export function animationIterationCount(...v: CSSIterationCountValue[]): CssProp;
+export function animationIterationCount(...v: (number | string)[]): CssProp { return new CssProp("animationIterationCount", v.join(", ")); }
+
+export function animationName(v: CSSGlobalValues): CssProp;
+export function animationName(...v: string[]): CssProp;
+export function animationName(...v: string[]) { return new CssProp("animationName", v.join(", ")); }
+
+type CSSPlayStateValue = "running" | "paused";
+export function animationPlayState(v: CSSGlobalValues): CssProp;
+export function animationPlayState(...v: CSSPlayStateValue[]): CssProp;
+export function animationPlayState(...v: string[]) { return new CssProp("animationPlayState", v.join(", ")); }
+
+type CSSTimingFunctionKeyword = "ease"
+    | "ease-in"
+    | "ease-out"
+    | "ease-in-out"
+    | "linear"
+    | "step-start"
+    | "step-end";
+type CSSTimingFunctionCubicBezier = `cubic-bezier(${number}, ${number}, ${number}, ${number})`;
+type CSSTimingFunctionSteps = `steps(${number}, ${CSSTimingFunctionKeyword})`;
+type CSSTimingFunctionValue = CSSTimingFunctionKeyword
+    | CSSTimingFunctionCubicBezier
+    | CSSTimingFunctionSteps;
+export function animationTimingFunction(v: CSSGlobalValues): CssProp;
+export function animationTimingFunction(...v: CSSTimingFunctionValue[]): CssProp;
 export function animationTimingFunction(v: string) { return new CssProp("animationTimingFunction", v); }
-export function appearance(v: string) { return new CssProp("appearance", v); }
-export function backdropFilter(v: string) { return new CssProp("backdropFilter", v); }
-export function backfaceVisibility(v: string) { return new CssProp("backfaceVisibility", v); }
+
+type CSSAppearanceValue = CSSGlobalValues
+    | "none"
+    | "auto"
+    | "menulist-button"
+    | "textfield"
+    | "button"
+    | "checkbox"
+    | "listbox"
+    | "menulist"
+    | "meter"
+    | "progress-bar"
+    | "push-button"
+    | "radio"
+    | "searchfield"
+    | "slider-horizontal"
+    | "square-button"
+    | "textarea";
+
+export function appearance(v: CSSAppearanceValue) { return new CssProp("appearance", v); }
+
+type CSSFilterFunction = `blur(${CSSLength})`
+    | `brightness(${CSSNumberPercentage})`
+    | `contrast(${CSSNumberPercentage})`
+    | `drop-shadow(${CSSLength} ${CSSLength})`
+    | `drop-shadow(${CSSLength} ${CSSLength} ${string})`
+    | `drop-shadow(${CSSLength} ${CSSLength} ${CSSLength} ${string})`
+    | `grayscale(${CSSNumberPercentage})`
+    | `hue-rotate(${CSSAngle})`
+    | `invert(${CSSNumberPercentage})`
+    | `opacity(${CSSNumberPercentage})`
+    | `saturate(${CSSNumberPercentage})`
+    | `sepia(${CSSNumberPercentage})`
+    | CSSUrl;
+export function backdropFilter(v: "none" | CSSGlobalValues): CssProp;
+export function backdropFilter(...v: CSSFilterFunction[]): CssProp;
+export function backdropFilter(...v: string[]): CssProp { return new CssProp("backdropFilter", v.join(' ')); }
+
+type CSSBackfaceVisibilityValue = CSSGlobalValues
+    | "visible"
+    | "hiden";
+export function backfaceVisibility(v: CSSBackfaceVisibilityValue) { return new CssProp("backfaceVisibility", v); }
+
 export function background(v: string) { return new CssProp("background", v); }
-export function backgroundAttachment(v: string) { return new CssProp("backgroundAttachment", v); }
-export function backgroundBlendMode(v: string) { return new CssProp("backgroundBlendMode", v); }
-export function backgroundClip(v: string) { return new CssProp("backgroundClip", v); }
+
+type CSSBackgroundAttachmentValue = CSSGlobalValues
+    | "scroll"
+    | "fixed"
+    | "local";
+export function backgroundAttachment(v: CSSBackgroundAttachmentValue) { return new CssProp("backgroundAttachment", v); }
+
+type CSSBlendModeValue = "normal"
+    | "multiply"
+    | "screen"
+    | "overlay"
+    | "darken"
+    | "lighten"
+    | "color-dodge"
+    | "color-burn"
+    | "hard-light"
+    | "soft-light"
+    | "difference"
+    | "exclusion"
+    | "hue"
+    | "saturation"
+    | "color"
+    | "luminosity";
+export function backgroundBlendMode(v: CSSGlobalValues): CssProp;
+export function backgroundBlendMode(...v: CSSBlendModeValue[]): CssProp;
+export function backgroundBlendMode(...v: string[]): CssProp { return new CssProp("backgroundBlendMode", v.join(", ")); }
+
+type CSSBoxType = CSSGlobalValues
+    | "border-box"
+    | "padding-box"
+    | "content-box";
+
+type CSSClipValue = CSSBoxType
+    | "text";
+export function backgroundClip(v: CSSClipValue): CssProp { return new CssProp("backgroundClip", v); }
+
 export function backgroundColor(v: string) { return new CssProp("backgroundColor", v); }
-export function backgroundImage(v: string) { return new CssProp("backgroundImage", v); }
-export function backgroundOrigin(v: string) { return new CssProp("backgroundOrigin", v); }
-export function backgroundPosition(v: string) { return new CssProp("backgroundPosition", v); }
-export function backgroundPositionX(v: string) { return new CssProp("backgroundPositionX", v); }
-export function backgroundPositionY(v: string) { return new CssProp("backgroundPositionY", v); }
-export function backgroundRepeat(v: string) { return new CssProp("backgroundRepeat", v); }
-export function backgroundRepeatX(v: string) { return new CssProp("backgroundRepeatX", v); }
-export function backgroundRepeatY(v: string) { return new CssProp("backgroundRepeatY", v); }
-export function backgroundSize(v: string) { return new CssProp("backgroundSize", v); }
+
+type CSSGradient = `linear-gradient(${string})`
+    | `radial-gradient(${string})`
+    | `repeating-linear-gradient(${string})`
+    | `repeating-radial-gradient(${string})`
+    | `conic-gradient(${string})`;
+
+type CSSImage = CSSUrl
+    | CSSGradient
+    | `element(${string})`
+    | `cross-fade(${string})`
+    | `image-set(${string})`;
+export function backgroundImage(v: CSSGlobalValues): CssProp;
+export function backgroundImage(...v: CSSImage[]): CssProp;
+export function backgroundImage(...v: string[]): CssProp { return new CssProp("backgroundImage", v.join(", ")); }
+
+export function backgroundOrigin(v: CSSBoxType): CssProp { return new CssProp("backgroundOrigin", v); }
+
+type CSSPositionKeyword = "top"
+    | "bottom"
+    | "left"
+    | "right"
+    | "center";
+type CSSPosition = CSSPositionKeyword
+    | CSSLengthPercentage;
+
+type CSSPositionValue = CSSPosition
+    | `${CSSPosition} ${CSSPosition}`
+    | `${CSSPositionKeyword} ${CSSPositionKeyword} ${CSSLengthPercentage}`
+    | `${CSSPositionKeyword} ${CSSLengthPercentage} ${CSSPositionKeyword} ${CSSLengthPercentage}`;
+export function backgroundPosition(v: CSSGlobalValues): CssProp;
+export function backgroundPosition(...v: CSSPositionValue[]): CssProp;
+export function backgroundPosition(...v: string[]): CssProp { return new CssProp("backgroundPosition", v.join(", ")); }
+
+type CSSPositionXYValue = CSSPosition
+    | `${CSSPositionKeyword} ${CSSLengthPercentage}`;
+export function backgroundPositionX(v: CSSGlobalValues): CssProp;
+export function backgroundPositionX(...v: CSSPositionXYValue[]): CssProp;
+export function backgroundPositionX(...v: string[]): CssProp { return new CssProp("backgroundPositionX", v.join(", ")); }
+
+export function backgroundPositionY(v: CSSGlobalValues): CssProp;
+export function backgroundPositionY(...v: CSSPositionXYValue[]): CssProp;
+export function backgroundPositionY(...v: string[]): CssProp { return new CssProp("backgroundPositionY", v.join(", ")); }
+
+type CSSBasicRepeat = "repeat"
+    | "space"
+    | "round"
+    | "no-repeat";
+
+type CSSRepeatValue = CSSGlobalValues
+    | "repeat-x"
+    | "repeat-y"
+    | CSSBasicRepeat
+    | `${CSSBasicRepeat} ${CSSBasicRepeat}`;
+export function backgroundRepeat(v: CSSRepeatValue) { return new CssProp("backgroundRepeat", v); }
+
+export function backgroundRepeatX(v: CSSGlobalValues | CSSBasicRepeat) { return new CssProp("backgroundRepeatX", v); }
+export function backgroundRepeatY(v: CSSGlobalValues | CSSBasicRepeat) { return new CssProp("backgroundRepeatY", v); }
+
+type CSSBackgroundSizeValue = "contain"
+    | "cover"
+    | "auto"
+    | CSSLengthPercentage
+    | "auto auto"
+    | `${CSSLengthPercentage} auto`
+    | `auto ${CSSLengthPercentage}`
+    | `${CSSLengthPercentage} ${CSSLengthPercentage}`
+export function backgroundSize(v: CSSGlobalValues): CssProp;
+export function backgroundSize(...v: CSSBackgroundSizeValue[]): CssProp;
+export function backgroundSize(...v: string[]): CssProp { return new CssProp("backgroundSize", v.join(", ")); }
+
 export function baselineShift(v: string) { return new CssProp("baselineShift", v); }
 export function blockSize(v: string) { return new CssProp("blockSize", v); }
 export function border(v: string | 0) { return new CssProp("border", v); }
@@ -201,7 +395,12 @@ export function borderTopRightRadius(v: string) { return new CssProp("borderTopR
 export function borderTopStyle(v: string) { return new CssProp("borderTopStyle", v); }
 export function borderTopWidth(v: string) { return new CssProp("borderTopWidth", v); }
 export function borderWidth(v: string | 0) { return new CssProp("borderWidth", v); }
-export function bottom(v: string | 0) { return new CssProp("bottom", v); }
+
+type CSSElementPositionValue = CSSGlobalValues
+    | 0
+    | "auto"
+    | CSSLengthPercentage;
+export function bottom(v: CSSElementPositionValue) { return new CssProp("bottom", v); }
 export function boxShadow(v: string) { return new CssProp("boxShadow", v); }
 export function boxSizing(v: string) { return new CssProp("boxSizing", v); }
 export function breakAfter(v: string) { return new CssProp("breakAfter", v); }
@@ -240,28 +439,27 @@ export function d(v: string) { return new CssProp("d", v); }
 export function direction(v: string) { return new CssProp("direction", v); }
 
 export type CSSDisplayValues = CSSGlobalValues
+    | "none"
+    | "contents"
     | "block"
     | "inline"
     | "inline-block"
     | "flex"
     | "inline-flex"
+    | "inline flex"
+    | "block flex"
     | "grid"
     | "inline-grid"
+    | "inline grid"
+    | "block grid"
     | "flow-root"
-    | "none"
-    | "contents"
+    | "inline flow-root"
+    | "block flow-root"
     | "block flow"
     | "inline flow"
-    | "inline flow-root"
-    | "block flex"
-    | "inline flex"
-    | "block grid"
-    | "inline grid"
-    | "block flow-root"
     | "table"
     | "table-row"
     | "list-item";
-
 export function display(v: CSSImportant<CSSDisplayValues>) { return new CssProp("display", v); }
 
 export function dominantBaseline(v: string) { return new CssProp("dominantBaseline", v); }
@@ -368,7 +566,7 @@ export function isolation(v: string) { return new CssProp("isolation", v); }
 export function justifyContent(v: string) { return new CssProp("justifyContent", v); }
 export function justifyItems(v: string) { return new CssProp("justifyItems", v); }
 export function justifySelf(v: string) { return new CssProp("justifySelf", v); }
-export function left(v: string | 0) { return new CssProp("left", v); }
+export function left(v: CSSElementPositionValue) { return new CssProp("left", v); }
 export function letterSpacing(v: string) { return new CssProp("letterSpacing", v); }
 export function lightingColor(v: string) { return new CssProp("lightingColor", v); }
 export function lineBreak(v: string) { return new CssProp("lineBreak", v); }
@@ -459,7 +657,7 @@ export function position(v: CSSImportant<CSSPositionValues>) { return new CssPro
 export function quotes(v: string) { return new CssProp("quotes", v); }
 export function r(v: string) { return new CssProp("r", v); }
 export function resize(v: string) { return new CssProp("resize", v); }
-export function right(v: string | 0) { return new CssProp("right", v); }
+export function right(v: CSSElementPositionValue) { return new CssProp("right", v); }
 export function rowGap(v: string | 0) { return new CssProp("rowGap", v); }
 export function rubyPosition(v: string) { return new CssProp("rubyPosition", v); }
 export function rx(v: string) { return new CssProp("rx", v); }
@@ -524,7 +722,7 @@ export function textShadow(v: string) { return new CssProp("textShadow", v); }
 export function textSizeAdjust(v: string) { return new CssProp("textSizeAdjust", v); }
 export function textTransform(v: string) { return new CssProp("textTransform", v); }
 export function textUnderlinePosition(v: string) { return new CssProp("textUnderlinePosition", v); }
-export function top(v: string | 0) { return new CssProp("top", v); }
+export function top(v: CSSElementPositionValue) { return new CssProp("top", v); }
 
 type CSSTouchActionValues = CSSGlobalValues
     | "auto"
