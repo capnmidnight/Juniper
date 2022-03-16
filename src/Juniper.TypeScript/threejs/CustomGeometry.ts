@@ -1,9 +1,19 @@
 type v2 = [number, number];
 type v3 = [number, number, number];
 type v5 = [number, number, number, number, number];
+type v7 = {
+    pos: v3;
+    uv: v2;
+    pUV: v2;
+}
 
 export type TrianglePosUV = [v5, v5, v5];
 export type QuadPosUV = [v5, v5, v5, v5];
+export type QuadPosUVBounds = {
+    minUV: v2;
+    deltaUV: v2;
+    verts: [v7, v7, v7, v7];
+}
 
 interface ITrianglePosUVNormal {
     positions: [v3, v3, v3];
@@ -79,46 +89,128 @@ export function createQuadGeometry(...quads: QuadPosUV[]) {
     return createGeometry(faces);
 }
 
-export function mapEACUV(uv: number): number {
-    return 2 * Math.atan(2 * uv) / Math.PI;
-}
-
-function midpoint(from: v5, to: v5): v5 {
-    const delta = new Array<number>(5);
-    for (let i = 0; i < delta.length; ++i) {
-        delta[i] = to[i] - from[i];
-    }
-
-    return from.map((v, i) => v + 0.5 * delta[i]) as v5;
-}
-
 export function createEACGeometry(subDivs: number, ...quads: QuadPosUV[]) {
+    let remappingQuads = mapEACSubdivision(quads);
     for (let i = 0; i < subDivs; ++i) {
-        quads = subdivide(quads);
+        remappingQuads = subdivide(remappingQuads);
     }
+    quads = unmapEACSubdivision(remappingQuads)
     const faces = normalizeQuads(quads);
-    for (const face of faces) {
-        for (const uv of face.uvs) {
-            uv[0] = mapEACUV(uv[0]);
-            uv[1] = mapEACUV(uv[1]);
-        }
-    }
     return createGeometry(faces);
 }
 
-function subdivide(quads: QuadPosUV[]) {
-    const quads2 = new Array<QuadPosUV>(quads.length * 4);
-    for (let i = 0; i < quads.length; ++i) {
-        const quad = quads[i];
-        const midU1 = midpoint(quad[0], quad[1]);
-        const midU2 = midpoint(quad[2], quad[3]);
-        const midV1 = midpoint(quad[0], quad[3]);
-        const midV2 = midpoint(quad[1], quad[2]);
-        const mid = midpoint(midU1, midU2);
-        quads2[i * 4 + 0] = [quad[0], midU1, mid, midV1];
-        quads2[i * 4 + 1] = [midU1, quad[1], midV2, mid];
-        quads2[i * 4 + 2] = [mid, midV2, quad[2], midU2];
-        quads2[i * 4 + 3] = [midV1, mid, midU2, quad[3]];
+function mapEACSubdivision(quads: QuadPosUV[]): QuadPosUVBounds[] {
+    return quads.map(quad => {
+        let minU = Number.MAX_VALUE;
+        let maxU = Number.MIN_VALUE;
+        let minV = Number.MAX_VALUE;
+        let maxV = Number.MIN_VALUE;
+        for (const vert of quad) {
+            const u = vert[3];
+            const v = vert[4];
+            minU = Math.min(minU, u);
+            maxU = Math.max(maxU, u);
+            minV = Math.min(minV, v);
+            maxV = Math.max(maxV, v);
+        }
+
+        const minUV: v2 = [minU, minV];
+        const deltaUV: v2 = [maxU - minU, maxV - minV];
+        return {
+            minUV,
+            deltaUV,
+            verts: [
+                mapEACSubdivVert(minUV, deltaUV, quad[0]),
+                mapEACSubdivVert(minUV, deltaUV, quad[1]),
+                mapEACSubdivVert(minUV, deltaUV, quad[2]),
+                mapEACSubdivVert(minUV, deltaUV, quad[3])
+            ]
+        }
+    });
+}
+
+function mapEACSubdivVert(minUV: v2, deltaUV: v2, vert: v5): v7 {
+    return {
+        pos: [vert[0], vert[1], vert[2]],
+        uv: [vert[3], vert[4]],
+        pUV: [
+            (vert[3] - minUV[0]) / deltaUV[0],
+            (vert[4] - minUV[1]) / deltaUV[1]
+        ]
+    };
+}
+
+function unmapEACSubdivision(quadsx: QuadPosUVBounds[]): QuadPosUV[] {
+    return quadsx.map(quadx => [
+        unmapEACSubdivVert(quadx, 0),
+        unmapEACSubdivVert(quadx, 1),
+        unmapEACSubdivVert(quadx, 2),
+        unmapEACSubdivVert(quadx, 3)
+    ]);
+}
+
+function unmapEACSubdivVert(quadx: QuadPosUVBounds, i: number): v5 {
+    const vert = quadx.verts[i];
+    return [
+        vert.pos[0],
+        vert.pos[1],
+        vert.pos[2],
+        vert.uv[0],
+        vert.uv[1],
+    ]
+}
+
+function subdivide(quadsx: QuadPosUVBounds[]): QuadPosUVBounds[] {
+    return quadsx.flatMap(quadx => {
+        const midU1 = midpoint(quadx, quadx.verts[0], quadx.verts[1]);
+        const midU2 = midpoint(quadx, quadx.verts[2], quadx.verts[3]);
+        const midV1 = midpoint(quadx, quadx.verts[0], quadx.verts[3]);
+        const midV2 = midpoint(quadx, quadx.verts[1], quadx.verts[2]);
+        const mid = midpoint(quadx, midU1, midU2);
+        return [{
+            minUV: quadx.minUV,
+            deltaUV: quadx.deltaUV,
+            verts: [quadx.verts[0], midU1, mid, midV1]
+        }, {
+            minUV: quadx.minUV,
+            deltaUV: quadx.deltaUV,
+            verts: [midU1, quadx.verts[1], midV2, mid]
+        }, {
+            minUV: quadx.minUV,
+            deltaUV: quadx.deltaUV,
+            verts: [mid, midV2, quadx.verts[2], midU2]
+        }, {
+            minUV: quadx.minUV,
+            deltaUV: quadx.deltaUV,
+            verts: [midV1, mid, midU2, quadx.verts[3]]
+        }];
+    });
+}
+
+function midpoint(quadx: QuadPosUVBounds, from: v7, to: v7): v7 {
+    const dx = to.pos[0] - from.pos[0];
+    const dy = to.pos[1] - from.pos[1];
+    const dz = to.pos[2] - from.pos[2];
+    const x = from.pos[0] + 0.5 * dx;
+    const y = from.pos[1] + 0.5 * dy;
+    const z = from.pos[2] + 0.5 * dz;
+
+    const dpu = to.pUV[0] - from.pUV[0];
+    const dpv = to.pUV[1] - from.pUV[1];
+    const pu = from.pUV[0] + 0.5 * dpu;
+    const pv = from.pUV[1] + 0.5 * dpv;
+    const mu = mapEACUV(pu - 0.5) + 0.5;
+    const mv = mapEACUV(pv - 0.5) + 0.5;
+    const u = mu * quadx.deltaUV[0] + quadx.minUV[0];
+    const v = mv * quadx.deltaUV[1] + quadx.minUV[1];
+    
+    return {
+        pos: [x, y, z],
+        pUV: [pu, pv],
+        uv: [u, v]
     }
-    return quads2;
+}
+
+function mapEACUV(uv: number): number {
+    return 2 * Math.atan(2 * uv) / Math.PI;
 }

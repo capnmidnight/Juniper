@@ -54,7 +54,9 @@ export interface VideoPlayerResult extends BaseVideoResult {
     thumbnail?: Image2DMesh;
 }
 
-const YouTubeMonoEACGeom = createQuadGeometry([
+const YouTubeEACSubDivisions = 4;
+
+const YouTubeMonoEACGeom = createEACGeometry(YouTubeEACSubDivisions, [
     [-1 / 2, +1 / 2, -1 / 2, 1 / 3, 1.000],
     [+1 / 2, +1 / 2, -1 / 2, 2 / 3, 1.000],
     [+1 / 2, -1 / 2, -1 / 2, 2 / 3, 1 / 2],
@@ -86,7 +88,7 @@ const YouTubeMonoEACGeom = createQuadGeometry([
     [+1 / 2, -1 / 2, -1 / 2, 0.000, 1 / 2]
 ]);
 
-const YouTubeStereoEACGeom_Left = createEACGeometry(1, [
+const YouTubeStereoEACGeom_Left = createEACGeometry(YouTubeEACSubDivisions, [
     [-1 / 2, +1 / 2, -1 / 2, 0.000, 1 / 3],
     [+1 / 2, +1 / 2, -1 / 2, 0.000, 2 / 3],
     [+1 / 2, -1 / 2, -1 / 2, 1 / 4, 2 / 3],
@@ -118,7 +120,7 @@ const YouTubeStereoEACGeom_Left = createEACGeometry(1, [
     [+1 / 2, -1 / 2, -1 / 2, 1 / 4, 0.000]
 ]);
 
-const YouTubeStereoEACGeom_Right = createQuadGeometry([
+const YouTubeStereoEACGeom_Right = createEACGeometry(YouTubeEACSubDivisions, [
     [-1 / 2, +1 / 2, -1 / 2, 1 / 2, 1 / 3],
     [+1 / 2, +1 / 2, -1 / 2, 1 / 2, 2 / 3],
     [+1 / 2, -1 / 2, -1 / 2, 3 / 4, 2 / 3],
@@ -190,7 +192,7 @@ const StereoPlaneGeom_Bottom = createQuadGeometry([
     [-1 / 2, -1 / 2, -1 / 2, 0, 0]
 ]);
 
-const StereoPlanGeoms = new Map([
+const StereoPlaneGeoms = new Map([
     ["left", StereoPlaneGeom_Left],
     ["right", StereoPlaneGeom_Right],
     ["top", StereoPlaneGeom_Top],
@@ -220,7 +222,8 @@ export class YouTubeProxy3D extends YouTubeProxy {
         const title = (label || thumbnailElem.title.substring(0, 25));
         const video = new PlayableVideo(videoElem);
         const controls = new PlaybackButton(this.env, this.env.uiButtons, pageURL, title, audioClip);
-        const videoTexture = new THREE.VideoTexture(videoElem);
+        const videoTexture = new THREE.VideoTexture(videoElem, THREE.UVMapping, THREE.RepeatWrapping, THREE.RepeatWrapping);
+
         const material = solid({
             name: pageURL,
             map: videoTexture,
@@ -266,11 +269,11 @@ export class YouTubeProxy3D extends YouTubeProxy {
 
         const names = layout.split('-');
 
-        const vidMesh1 = new THREE.Mesh(StereoPlanGeoms.get(names[0]), material);
+        const vidMesh1 = new THREE.Mesh(StereoPlaneGeoms.get(names[0]), material);
         vidMesh1.name = "Frame-2D-" + names[0];
         vidMesh1.layers.enable(0);
 
-        const vidMesh2 = new THREE.Mesh(StereoPlanGeoms.get(names[1]), material);
+        const vidMesh2 = new THREE.Mesh(StereoPlaneGeoms.get(names[1]), material);
         vidMesh2.name = "Frame-2D-" + names[1];
         vidMesh2.layers.disable(0);
 
