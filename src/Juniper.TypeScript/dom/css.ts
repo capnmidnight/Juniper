@@ -89,7 +89,9 @@ type CSSLength = CSSFontRelativeLength
     | CSSAbsoluteLength;
 
 type CSSLengthPercentage = CSSLength
-    | CSSPercentage;
+    | CSSPercentage
+    | 0
+    | "0";
 
 type CSSCalcStatement = `calc(${string})`;
 
@@ -305,17 +307,17 @@ type CSSPositionValue = CSSPosition
     | `${CSSPositionKeyword} ${CSSLengthPercentage} ${CSSPositionKeyword} ${CSSLengthPercentage}`;
 export function backgroundPosition(v: CSSGlobalValues): CssProp;
 export function backgroundPosition(...v: CSSPositionValue[]): CssProp;
-export function backgroundPosition(...v: string[]): CssProp { return new CssProp("backgroundPosition", v.join(", ")); }
+export function backgroundPosition(...v: (string|number)[]): CssProp { return new CssProp("backgroundPosition", v.join(", ")); }
 
 type CSSPositionXYValue = CSSPosition
     | `${CSSPositionKeyword} ${CSSLengthPercentage}`;
 export function backgroundPositionX(v: CSSGlobalValues): CssProp;
 export function backgroundPositionX(...v: CSSPositionXYValue[]): CssProp;
-export function backgroundPositionX(...v: string[]): CssProp { return new CssProp("backgroundPositionX", v.join(", ")); }
+export function backgroundPositionX(...v: (string | number)[]): CssProp { return new CssProp("backgroundPositionX", v.join(", ")); }
 
 export function backgroundPositionY(v: CSSGlobalValues): CssProp;
 export function backgroundPositionY(...v: CSSPositionXYValue[]): CssProp;
-export function backgroundPositionY(...v: string[]): CssProp { return new CssProp("backgroundPositionY", v.join(", ")); }
+export function backgroundPositionY(...v: (string | number)[]): CssProp { return new CssProp("backgroundPositionY", v.join(", ")); }
 
 type CSSBasicRepeat = "repeat"
     | "space"
@@ -342,7 +344,7 @@ type CSSBackgroundSizeValue = "contain"
     | `${CSSLengthPercentage} ${CSSLengthPercentage}`
 export function backgroundSize(v: CSSGlobalValues): CssProp;
 export function backgroundSize(...v: CSSBackgroundSizeValue[]): CssProp;
-export function backgroundSize(...v: string[]): CssProp { return new CssProp("backgroundSize", v.join(", ")); }
+export function backgroundSize(...v: (string | number)[]): CssProp { return new CssProp("backgroundSize", v.join(", ")); }
 
 export function baselineShift(v: string) { return new CssProp("baselineShift", v); }
 export function blockSize(v: string) { return new CssProp("blockSize", v); }
@@ -397,7 +399,6 @@ export function borderTopWidth(v: string) { return new CssProp("borderTopWidth",
 export function borderWidth(v: string | 0) { return new CssProp("borderWidth", v); }
 
 type CSSElementPositionValue = CSSGlobalValues
-    | 0
     | "auto"
     | CSSLengthPercentage;
 export function bottom(v: CSSElementPositionValue) { return new CssProp("bottom", v); }
