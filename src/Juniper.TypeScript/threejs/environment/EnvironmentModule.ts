@@ -1,7 +1,7 @@
 import type { CanvasTypes } from "juniper-dom/canvas";
 import type { IFetcher } from "juniper-fetcher";
 import type { PriorityMap } from "juniper-tslib";
-import type { Environment } from "./Environment";
+import type { Environment, EnvironmentOptions } from "./Environment";
 
 export interface EnvironmentConstructor {
     new(canvas: CanvasTypes,
@@ -10,8 +10,7 @@ export interface EnvironmentConstructor {
         uiImagePaths: PriorityMap<string, string, string>,
         defaultAvatarHeight: number,
         enableFullResolution: boolean,
-        JS_EXT?: string,
-        DEBUG?: boolean): Environment;
+        options?: Partial<EnvironmentOptions>): Environment;
 }
 
 export interface EnvironmentModule {

@@ -36,6 +36,11 @@ export interface EnvironmentEvents {
     roomjoined: EnvironmentRoomJoinedEvent;
 }
 
+export interface EnvironmentOptions {
+    JS_EXT: string;
+    DEBUG: boolean;
+}
+
 export class Environment
     extends BaseEnvironment<EnvironmentEvents> {
 
@@ -67,15 +72,20 @@ export class Environment
         return this._currentRoom;
     }
 
+    readonly DEBUG: boolean;
+
     constructor(canvas: CanvasTypes,
         fetcher: IFetcher,
         dialogFontFamily: string,
         uiImagePaths: PriorityMap<string, string, string>,
         defaultAvatarHeight: number,
         enableFullResolution: boolean,
-        JS_EXT: string = ".js",
-        public readonly DEBUG: boolean = false) {
+        options?: Partial<EnvironmentOptions>) {
         super(canvas, fetcher, defaultAvatarHeight, enableFullResolution);
+
+        options = options || {};
+        const JS_EXT = options.JS_EXT || ".js";
+        this.DEBUG = options.DEBUG || false;
 
         this.apps = new ApplicationLoader(this, JS_EXT);
         this.apps.addEventListener("apploading", (evt) => {
