@@ -1,9 +1,9 @@
 import { autoPlay, controls, loop, muted, playsInline, src, title, type } from "juniper-dom/attrs";
-import { Audio, Source, Video } from "juniper-dom/tags";
+import { Audio, ElementChild, Source, Video } from "juniper-dom/tags";
 import { IFetcher } from "juniper-fetcher";
 import { anyAudio, anyVideo, mediaTypeParse } from "juniper-mediatypes";
 import { Video_Vendor_Mpeg_Dash_Mpd } from "juniper-mediatypes/video";
-import { arraySortByKeyInPlace, IProgress, isNullOrUndefined, isString, once, PriorityList, progressSplit } from "juniper-tslib";
+import { arraySortByKeyInPlace, IProgress, isDefined, isNullOrUndefined, isString, once, PriorityList, progressSplit } from "juniper-tslib";
 
 function makeBasicFormat(f: YTMetadataFormat): [string, YTMediaEntry] {
     const { content_type, acodec, vcodec } = f;
@@ -34,13 +34,16 @@ function isVideoXorAudio(f: YTMetadataFormat): boolean {
         || f.vcodec === "none";
 }
 
+export type MediaEventForwardingDirection = "audio-to-video"
+    | "video-to-audio";
+
 export class YouTubeProxy {
     constructor(
         protected fetcher: IFetcher,
         protected readonly makeProxyURL: (path: string) => string) {
     }
 
-    async loadElements(pageURLOrMetadata: string | YTMetadata, prog?: IProgress): Promise<[HTMLAudioElement, HTMLVideoElement, HTMLImageElement]> {
+    async loadElements(pageURLOrMetadata: string | YTMetadata, fwdDir: MediaEventForwardingDirection = "audio-to-video", prog?: IProgress): Promise<[HTMLAudioElement, HTMLVideoElement, HTMLImageElement]> {
 
         if (isNullOrUndefined(pageURLOrMetadata)) {
             throw new Error("must provide a YouTube URL or a YTMetadata object");
@@ -64,29 +67,45 @@ export class YouTubeProxy {
         arraySortByKeyInPlace(videos, f => -f.resolution);
         arraySortByKeyInPlace(audios, f => -f.resolution);
 
+        const showVideoControls = fwdDir === "video-to-audio";
+
         const [audio, video, thumbnail] = await Promise.all([
-            this.loadAudio(audios, metadata.title, progs.shift()),
-            this.loadVideo(videos, metadata.title, progs.shift()),
+            this.loadAudio(audios, metadata.title, !showVideoControls, progs.shift()),
+            this.loadVideo(videos, metadata.title, showVideoControls, progs.shift()),
             this.loadImage(metadata.thumbnail, metadata.title, progs.shift())
         ]);
 
-        const play = () => {
-            video.currentTime = audio.currentTime;
-            video.play();
-        }
-        const pause = () => video.pause();
-        const copyCurrentTime = () => video.currentTime = audio.currentTime;
-        const updateTime = () => {
-            const delta = video.currentTime - audio.currentTime;
-            if (Math.abs(delta) > 0.25) {
-                video.currentTime = audio.currentTime;
-            }
-        };
+        if (isDefined(audio)) {
+            const from = showVideoControls
+                ? video
+                : audio;
+            const to = showVideoControls
+                ? audio
+                : video;
 
-        audio.addEventListener("play", play);
-        audio.addEventListener("pause", pause);
-        audio.addEventListener("seeked", copyCurrentTime);
-        audio.addEventListener("timeupdate", updateTime);
+            const play = () => {
+                to.currentTime = from.currentTime;
+                to.play();
+            };
+
+            const pause = () =>
+                to.pause();
+
+            const copyCurrentTime = () =>
+                to.currentTime = from.currentTime;
+
+            const updateTime = () => {
+                const delta = to.currentTime - from.currentTime;
+                if (Math.abs(delta) > 0.25) {
+                    to.currentTime = from.currentTime;
+                }
+            };
+
+            from.addEventListener("play", play);
+            from.addEventListener("pause", pause);
+            from.addEventListener("seeked", copyCurrentTime);
+            from.addEventListener("timeupdate", updateTime);
+        }
 
         return [audio, video, thumbnail];
     }
@@ -106,52 +125,44 @@ export class YouTubeProxy {
         return metadata;
     }
 
-    private async loadAudio(audios: YTMediaEntry[], t: string, prog?: IProgress): Promise<HTMLAudioElement> {
-
+    private async loadMediaElement<T extends HTMLMediaElement>(thunk: (...rest: ElementChild[]) => T, sources: YTMediaEntry[], t: string, showControls: boolean, muteAudio: boolean, prog?: IProgress): Promise<T> {
         prog.report(0, 1, t);
 
-        const audio = Audio(
+        const element = thunk(
             title(t),
             playsInline(true),
-            controls(true),
-            muted(false),
+            controls(showControls),
+            muted(muteAudio),
             autoPlay(false),
             loop(false),
-            ...audios.map(f => Source(
-                type(f.content_type),
-                src(this.makeProxyURL(f.url))
-            ))
-        )
-
-        await once<HTMLMediaElementEventMap, "canplay">(audio, "canplay");
-
-        prog.report(1, 1, t);
-
-        return audio;
-    }
-
-    private async loadVideo(videos: YTMediaEntry[], t: string, prog?: IProgress): Promise<HTMLVideoElement> {
-
-        prog.report(0, 1, t);
-
-        const video = Video(
-            title(t),
-            playsInline(true),
-            controls(false),
-            muted(true),
-            autoPlay(false),
-            loop(false),
-            ...videos.map(f => Source(
+            ...sources.map(f => Source(
                 type(f.content_type),
                 src(this.makeProxyURL(f.url))
             ))
         );
 
-        await once<HTMLMediaElementEventMap, "canplay">(video, "canplay");
+        await once<HTMLMediaElementEventMap, "canplay">(element, "canplay");
 
         prog.report(1, 1, t);
 
-        return video;
+        return element;
+    }
+
+    private loadAudio(sources: YTMediaEntry[], t: string, showControls: boolean, prog?: IProgress): Promise<HTMLAudioElement> {
+        prog.report(0, 1, t);
+
+        if (sources.length === 0) {
+            prog.report(1, 1, t);
+            return null;
+        }
+
+        return this.loadMediaElement(Audio, sources, t, showControls, false, prog);
+    }
+
+    private async loadVideo(sources: YTMediaEntry[], t: string, showControls: boolean, prog?: IProgress): Promise<HTMLVideoElement> {
+        prog.report(0, 1, t);
+
+        return this.loadMediaElement(Video, sources, t, showControls, true, prog);
     }
 
     private async loadImage(url: string, title: string, prog?: IProgress): Promise<HTMLImageElement> {

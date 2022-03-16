@@ -1,6 +1,6 @@
 import { PlayableVideo } from "juniper-audio/sources/PlayableVideo";
-import { YouTubeProxy } from "juniper-audio/YouTubeProxy";
-import { IProgress } from "juniper-tslib";
+import { MediaEventForwardingDirection, YouTubeProxy } from "juniper-audio/YouTubeProxy";
+import { IProgress, isDefined } from "juniper-tslib";
 import { createEACGeometry, createQuadGeometry } from "./CustomGeometry";
 import { Environment } from "./environment/Environment";
 import { Image2DMesh } from "./Image2DMesh";
@@ -8,6 +8,7 @@ import { solid } from "./materials";
 import { obj } from "./objects";
 import { PlaybackButton } from "./PlaybackButton";
 
+const fwdDir: MediaEventForwardingDirection = "video-to-audio";
 
 export type SphereEncodingName = "N/A"
     | "Cubemap"
@@ -216,22 +217,29 @@ export class YouTubeProxy3D extends YouTubeProxy {
     }
 
     private async loadVideoMaterial(pageURL: string, label: string, prog?: IProgress): Promise<VideoMaterialResult> {
-        const [audioElem, videoElem, thumbnailElem] = await this.loadElements(pageURL, prog);
-
-        const audioClip = await this.env.audio.createBasicClip(pageURL, audioElem, 1);
+        const [audioElem, videoElem, thumbnailElem] = await this.loadElements(pageURL, fwdDir, prog);
         const title = (label || thumbnailElem.title.substring(0, 25));
         const video = new PlayableVideo(videoElem);
-        const controls = new PlaybackButton(this.env, this.env.uiButtons, pageURL, title, audioClip);
-        const videoTexture = new THREE.VideoTexture(videoElem, THREE.UVMapping, THREE.RepeatWrapping, THREE.RepeatWrapping);
+
+        const playable = isDefined(audioElem) && fwdDir === "audio-to-video"
+            ? await this.env.audio.createBasicClip(pageURL, audioElem, 1)
+            : video;
+
+        const controls = new PlaybackButton(this.env, this.env.uiButtons, pageURL, title, playable);
+        controls.object.renderOrder = 5;
+
+        const videoTexture = new THREE.VideoTexture(videoElem);
 
         const material = solid({
             name: pageURL,
             map: videoTexture,
             depthWrite: false
         });
+
         const thumbnail = new Image2DMesh(this.env, "thumb-" + pageURL, true);
         thumbnail.mesh.setImage(thumbnailElem);
         thumbnail.mesh.objectHeight = 1 / thumbnail.mesh.imageAspectRatio;
+
         return {
             controls,
             material,
