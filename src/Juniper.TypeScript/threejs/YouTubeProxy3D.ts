@@ -8,10 +8,36 @@ import { solid } from "./materials";
 import { obj } from "./objects";
 import { PlaybackButton } from "./PlaybackButton";
 
-export type StereoFrameLayout = "left-right"
+
+export type SphereEncodingName = "N/A"
+    | "Cubemap"
+    | "Equi-Angular Cubemap (YouTube)"
+    | "Equirectangular"
+    | "Half Equirectangular"
+    | "Panoramic";
+
+export const SphereEncodingNames: SphereEncodingName[] = [
+    "N/A",
+    "Cubemap",
+    "Equi-Angular Cubemap (YouTube)",
+    "Equirectangular",
+    "Half Equirectangular",
+    "Panoramic"
+];
+
+export type StereoLayoutName = "mono"
+    | "left-right"
     | "right-left"
     | "top-bottom"
     | "bottom-top";
+
+export const StereoLayoutNames: StereoLayoutName[] = [
+    "mono",
+    "left-right",
+    "right-left",
+    "top-bottom",
+    "bottom-top"
+];
 
 interface BaseVideoResult {
     controls: PlaybackButton;
@@ -92,7 +118,7 @@ const YouTubeStereoEACGeom_Left = createEACGeometry(1, [
     [+1 / 2, -1 / 2, -1 / 2, 1 / 4, 0.000]
 ]);
 
-const YouTubeStereoEAC_Right = createQuadGeometry([
+const YouTubeStereoEACGeom_Right = createQuadGeometry([
     [-1 / 2, +1 / 2, -1 / 2, 1 / 2, 1 / 3],
     [+1 / 2, +1 / 2, -1 / 2, 1 / 2, 2 / 3],
     [+1 / 2, -1 / 2, -1 / 2, 3 / 4, 2 / 3],
@@ -124,11 +150,51 @@ const YouTubeStereoEAC_Right = createQuadGeometry([
     [+1 / 2, -1 / 2, -1 / 2, 3 / 4, 0.000]
 ]);
 
-const SquareGeom = createQuadGeometry([
+const YouTubeStereoEACGeoms = new Map([
+    ["left", YouTubeStereoEACGeom_Left],
+    ["right", YouTubeStereoEACGeom_Right]
+]);
+
+const MonoPlaneGeom = createQuadGeometry([
     [-1 / 2, +1 / 2, -1 / 2, 0, 1],
     [+1 / 2, +1 / 2, -1 / 2, 1, 1],
     [+1 / 2, -1 / 2, -1 / 2, 1, 0],
     [-1 / 2, -1 / 2, -1 / 2, 0, 0]
+]);
+
+const StereoPlaneGeom_Left = createQuadGeometry([
+    [-1 / 2, +1 / 2, -1 / 2, 0, 1],
+    [+1 / 2, +1 / 2, -1 / 2, 0.5, 1],
+    [+1 / 2, -1 / 2, -1 / 2, 0.5, 0],
+    [-1 / 2, -1 / 2, -1 / 2, 0, 0]
+]);
+
+const StereoPlaneGeom_Right = createQuadGeometry([
+    [-1 / 2, +1 / 2, -1 / 2, 0.5, 1],
+    [+1 / 2, +1 / 2, -1 / 2, 1, 1],
+    [+1 / 2, -1 / 2, -1 / 2, 1, 0],
+    [-1 / 2, -1 / 2, -1 / 2, 0.5, 0]
+]);
+
+const StereoPlaneGeom_Top = createQuadGeometry([
+    [-1 / 2, +1 / 2, -1 / 2, 0, 1],
+    [+1 / 2, +1 / 2, -1 / 2, 1, 1],
+    [+1 / 2, -1 / 2, -1 / 2, 1, 0.5],
+    [-1 / 2, -1 / 2, -1 / 2, 0, 0.5]
+]);
+
+const StereoPlaneGeom_Bottom = createQuadGeometry([
+    [-1 / 2, +1 / 2, -1 / 2, 0, 0.5],
+    [+1 / 2, +1 / 2, -1 / 2, 1, 0.5],
+    [+1 / 2, -1 / 2, -1 / 2, 1, 0],
+    [-1 / 2, -1 / 2, -1 / 2, 0, 0]
+]);
+
+const StereoPlanGeoms = new Map([
+    ["left", StereoPlaneGeom_Left],
+    ["right", StereoPlaneGeom_Right],
+    ["top", StereoPlaneGeom_Top],
+    ["bottom", StereoPlaneGeom_Bottom]
 ]);
 
 function linkControls(video: THREE.Object3D, controls: PlaybackButton, setScale: boolean) {
@@ -174,7 +240,7 @@ export class YouTubeProxy3D extends YouTubeProxy {
     async loadMonoPlane(pageURL: string, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
         const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, prog);
 
-        const vidMesh = new THREE.Mesh(SquareGeom, material);
+        const vidMesh = new THREE.Mesh(MonoPlaneGeom, material);
         vidMesh.name = "Frame-2D";
         vidMesh.scale.set(1, video.height / video.width, 1);
 
@@ -195,20 +261,31 @@ export class YouTubeProxy3D extends YouTubeProxy {
         return { controls, videoRig, video, thumbnail };
     }
 
-    async loadStereoEAC(pageURL: string, layout: StereoFrameLayout, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
+    async loadStereoPlane(pageURL: string, layout: StereoLayoutName, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
         const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, prog);
 
         const names = layout.split('-');
 
-        const vidMesh1 = new THREE.Mesh(YouTubeStereoEACGeom_Left, material);
-        vidMesh1.name = "Frame-360-" + names[0];
+        const vidMesh1 = new THREE.Mesh(StereoPlanGeoms.get(names[0]), material);
+        vidMesh1.name = "Frame-2D-" + names[0];
         vidMesh1.layers.enable(0);
 
-        const vidMesh2 = new THREE.Mesh(YouTubeStereoEAC_Right, material);
-        vidMesh2.name = "Frame-360-" + names[1];
+        const vidMesh2 = new THREE.Mesh(StereoPlanGeoms.get(names[1]), material);
+        vidMesh2.name = "Frame-2D-" + names[1];
         vidMesh2.layers.disable(0);
 
-        if (layout === "left-right") {
+        if (layout === "left-right"
+            || layout === "right-left") {
+            vidMesh1.scale.set(1, 2 * video.height / video.width, 1);
+            vidMesh2.scale.set(1, 2 * video.height / video.width, 1);
+        }
+        else {
+            vidMesh1.scale.set(1, 0.5 * video.height / video.width, 1);
+            vidMesh2.scale.set(1, 0.5 * video.height / video.width, 1);
+        }
+
+        if (layout === "left-right"
+            || layout === "top-bottom") {
             vidMesh1.layers.enable(2);
             vidMesh2.layers.enable(1);
         }
@@ -225,5 +302,69 @@ export class YouTubeProxy3D extends YouTubeProxy {
         linkControls(videoRig, controls, true);
 
         return { controls, videoRig, video, thumbnail };
+    }
+
+    async loadStereoEAC(pageURL: string, layout: StereoLayoutName, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
+        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, prog);
+
+        const names = layout.split('-');
+
+        const vidMesh1 = new THREE.Mesh(YouTubeStereoEACGeoms.get(names[0]), material);
+        vidMesh1.name = "Frame-360-" + names[0];
+        vidMesh1.layers.enable(0);
+
+        const vidMesh2 = new THREE.Mesh(YouTubeStereoEACGeoms.get(names[1]), material);
+        vidMesh2.name = "Frame-360-" + names[1];
+        vidMesh2.layers.disable(0);
+
+        if (layout === "left-right"
+            || layout === "top-bottom") {
+            vidMesh1.layers.enable(2);
+            vidMesh2.layers.enable(1);
+        }
+        else {
+            vidMesh1.layers.enable(1);
+            vidMesh2.layers.enable(2);
+        }
+
+        const videoRig = obj("VideoContainer",
+            vidMesh1,
+            vidMesh2
+        );
+
+        linkControls(videoRig, controls, true);
+
+        return { controls, videoRig, video, thumbnail };
+    }
+
+    isSupported(encoding: SphereEncodingName, layout: StereoLayoutName): boolean {
+        return encoding === "N/A"
+            || encoding === "Equi-Angular Cubemap (YouTube)"
+                && layout !== "top-bottom"
+                && layout !== "bottom-top";
+    }
+
+    load(pageURL: string, encoding: SphereEncodingName, layout: StereoLayoutName, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
+        if (encoding === "N/A") {
+            if (layout === "mono") {
+                return this.loadMonoPlane(pageURL, label, prog);
+            }
+            else {
+                return this.loadStereoPlane(pageURL, layout, label, prog);
+            }
+        }
+        else if (encoding === "Equi-Angular Cubemap (YouTube)"
+            && layout !== "top-bottom"
+            && layout !== "bottom-top") {
+            if (layout === "mono") {
+                return this.loadMonoEAC(pageURL, label, prog);
+            }
+            else {
+                return this.loadStereoEAC(pageURL, layout, label, prog);
+            }
+        }
+        else {
+            throw new Error(`Not supported [encoding: ${encoding}, layout: ${layout}]`);
+        }
     }
 }
