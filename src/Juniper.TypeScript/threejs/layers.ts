@@ -15,3 +15,4 @@ export function deepEnableLayer(obj: Objects, level: number) {
     obj = objectResolve(obj);
     obj.traverse(o => o.layers.enable(level));
 }
+

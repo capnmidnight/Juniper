@@ -1,8 +1,11 @@
 import { scaleOnHover } from "../animation/scaleOnHover";
 import { Image2DMesh } from "../Image2DMesh";
+import { IUpdatable } from "../IUpdatable";
 import { PlaneCollider } from "../Plane";
 
-export class MenuItem extends THREE.Object3D {
+export class MenuItem
+    extends THREE.Object3D
+    implements IUpdatable {
     disabled: boolean;
     collider: PlaneCollider;
 
@@ -47,14 +50,14 @@ export class MenuItem extends THREE.Object3D {
         }
     }
 
-    update(frame: XRFrame) {
+    update(dt: number, frame: XRFrame) {
         if (this.useWebXRLayers) {
             if (this.back instanceof Image2DMesh) {
-                this.back.checkLayer(frame);
+                this.back.update(dt, frame);
             }
 
             if (this.front instanceof Image2DMesh) {
-                this.front.checkLayer(frame);
+                this.front.update(dt, frame);
             }
         }
     }

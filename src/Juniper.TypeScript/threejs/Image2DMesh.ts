@@ -1,6 +1,7 @@
 import { arrayCompare, IDisposable, isDefined, isNullOrUndefined } from "juniper-tslib";
 import { cleanup } from "./cleanup";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
+import { IUpdatable } from "./IUpdatable";
 import { solidTransparent } from "./materials";
 import { objectGetRelativePose } from "./objectGetRelativePose";
 import { objectIsFullyVisible } from "./objects";
@@ -13,7 +14,9 @@ const S = new THREE.Vector3();
 
 let copyCounter = 0;
 
-export class Image2DMesh extends THREE.Object3D implements IDisposable {
+export class Image2DMesh
+    extends THREE.Object3D
+    implements IDisposable, IUpdatable {
     private readonly lastMatrixWorld = new THREE.Matrix4();
     private layer: XRQuadLayer = null;
     private wasVisible = false;
@@ -66,7 +69,7 @@ export class Image2DMesh extends THREE.Object3D implements IDisposable {
         return this;
     }
 
-    checkLayer(frame: XRFrame): void {
+    update(_dt: number, frame: XRFrame): void {
         if (this.mesh.material.map.image) {
             const isVisible = objectIsFullyVisible(this);
             const isLayersAvailable = this.webXRLayerEnabled
