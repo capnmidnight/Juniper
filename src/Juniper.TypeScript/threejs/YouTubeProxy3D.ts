@@ -222,7 +222,7 @@ export class YouTubeProxy3D extends YouTubeProxy {
         const video = new PlayableVideo(videoElem);
 
         const playable = isDefined(audioElem) && fwdDir === "audio-to-video"
-            ? await this.env.audio.createBasicClip(pageURL, audioElem, 1)
+            ? this.env.audio.createBasicClip(pageURL, audioElem, 1)
             : video;
 
         const controls = new PlaybackButton(this.env, this.env.uiButtons, pageURL, title, playable);

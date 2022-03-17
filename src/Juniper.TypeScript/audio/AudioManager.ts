@@ -296,8 +296,12 @@ export class AudioManager
         return this.audioDestination;
     }
 
-    createBasicClip(id: string, pathOrElment: string | HTMLAudioElement, vol: number, onProgress?: IProgress): Promise<AudioElementSource> {
-        return this.createClip(id, pathOrElment, false, false, false, false, vol, [], onProgress);
+    loadBasicClip(id: string, path: string, vol: number, onProgress?: IProgress): Promise<AudioElementSource> {
+        return this.loadClip(id, path, false, false, false, false, vol, [], onProgress);
+    }
+
+    createBasicClip(id: string, element: HTMLAudioElement, vol: number): AudioElementSource {
+        return this.createClip(id, element, false, false, false, vol, []);
     }
 
     /**
@@ -309,12 +313,12 @@ export class AudioManager
      * @param spatialize - whether or not the sound effect should be spatialized.
      * @param vol - the volume at which to set the clip.
      * @param effectNames - names of pre-canned effects to load on the control.
-     * @param pathOrElement - a path for loading the media of the sound effect, or the sound effect that has already been loaded.
+     * @param path - a path for loading the media of the sound effect, or the sound effect that has already been loaded.
      * @param prog - an optional callback function to use for tracking progress of loading the clip.
      */
-    async createClip(
+    async loadClip(
         id: string,
-        pathOrElement: string | HTMLAudioElement,
+        path: string,
         looping: boolean,
         autoPlaying: boolean,
         spatialize: boolean,
@@ -322,62 +326,77 @@ export class AudioManager
         vol: number,
         effectNames: string[],
         prog?: IProgress): Promise<AudioElementSource> {
-        if (isNullOrUndefined(pathOrElement)
-            || isString(pathOrElement)
-                && pathOrElement.length === 0) {
+        if (isNullOrUndefined(path)
+            || isString(path)
+            && path.length === 0) {
             throw new Error("No clip source path provided");
         }
 
-        const curPath = isString(pathOrElement)
-            ? pathOrElement
-            : pathOrElement.currentSrc;
-
         if (isDefined(prog)) {
-            prog.report(0, 1, curPath);
+            prog.report(0, 1, path);
         }
 
-        const source = await this.getSourceTask(id, curPath, pathOrElement, looping, autoPlaying, prog);
-        const clip = this.makeClip(source, id, curPath, spatialize, randomize, autoPlaying, vol, ...effectNames);
+        const source = await this.getSourceTask(id, path, path, looping, autoPlaying, prog);
+        const clip = this.makeClip(source, id, path, spatialize, randomize, autoPlaying, vol, ...effectNames);
         this.clips.set(id, clip);
 
         if (isDefined(prog)) {
-            prog.report(1, 1, curPath);
+            prog.report(1, 1, path);
         }
 
         return clip;
     }
 
-    private getSourceTask(id: string, curPath: string, pathOrElement: string | HTMLAudioElement, looping: boolean, autoPlaying: boolean, onProgress: IProgress): Promise<MediaElementAudioSourceNode> {
+    createClip(
+        id: string,
+        element: HTMLAudioElement,
+        autoPlaying: boolean,
+        spatialize: boolean,
+        randomize: boolean,
+        vol: number,
+        effectNames: string[]): AudioElementSource {
+        if (isNullOrUndefined(element)
+            || isString(element)
+            && element.length === 0) {
+            throw new Error("No clip source path provided");
+        }
+
+        const curPath = element.currentSrc;
+        const source = this.createSourceFromElement(id, element);
+        const clip = this.makeClip(source, id, curPath, spatialize, randomize, autoPlaying, vol, ...effectNames);
+        this.clips.set(id, clip);
+
+        return clip;
+    }
+
+    private getSourceTask(id: string, curPath: string, path: string, looping: boolean, autoPlaying: boolean, onProgress: IProgress): Promise<MediaElementAudioSourceNode> {
         this.clipPaths.set(id, curPath);
         let sourceTask = this.pathSources.get(curPath);
         if (isDefined(sourceTask)) {
             this.pathCounts.set(curPath, this.pathCounts.get(curPath) + 1);
         }
         else {
-            sourceTask = this.createSourceFromFileOrElement(id, pathOrElement, looping, autoPlaying, onProgress);
+            sourceTask = this.createSourceFromFile(id, path, looping, autoPlaying, onProgress);
             this.pathSources.set(curPath, sourceTask);
             this.pathCounts.set(curPath, 1);
         }
         return sourceTask;
     }
 
-    private async createSourceFromFileOrElement(id: string, pathOrElement: string | HTMLAudioElement, looping: boolean, autoPlaying: boolean, prog?: IProgress): Promise<MediaElementAudioSourceNode> {
+    private async createSourceFromFile(id: string, path: string, looping: boolean, autoPlaying: boolean, prog?: IProgress): Promise<MediaElementAudioSourceNode> {
         if (isDefined(prog)) {
             prog.report(0, 1, id);
         }
 
-        const elem = isString(pathOrElement)
-            ? await mediaElementReady(BackgroundAudio(autoPlaying, false, looping, src(pathOrElement)))
-            : pathOrElement;
+        const elem = isString(path)
+            ? await mediaElementReady(BackgroundAudio(autoPlaying, false, looping, src(path)))
+            : path;
 
         if (isDefined(prog)) {
             prog.report(1, 1, id);
         }
 
-        return MediaElementSource(
-            stringToName("audio-element-source", id),
-            this.audioCtx,
-            elem);
+        return this.createSourceFromElement(id, elem);
     }
 
     private createSourceFromStream(id: string, stream: MediaStream): AudioStreamSourceNode {
@@ -388,10 +407,7 @@ export class AudioManager
             srcObject(stream));
 
         if (useElementSourceForUsers) {
-            return MediaElementSource(
-                stringToName("media-element-source", id, stream.id),
-                this.audioCtx,
-                elem);
+            return this.createSourceFromElement(id, elem);
         }
         else {
             return MediaStreamSource(
@@ -399,6 +415,13 @@ export class AudioManager
                 this.audioCtx,
                 stream);
         }
+    }
+
+    private createSourceFromElement(id: string, elem: HTMLMediaElement) {
+        return MediaElementSource(
+            stringToName("media-element-source", id),
+            this.audioCtx,
+            elem);
     }
 
     private makeClip(

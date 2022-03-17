@@ -42,6 +42,6 @@ export class InteractionAudio {
     }
 
     async load(type: string, path: string, volume: number, onProgress?: IProgress) {
-        return await this.audio.createClip(makeClipName(type, false), path, false, false, true, false, volume, [], onProgress);
+        return await this.audio.loadClip(makeClipName(type, false), path, false, false, true, false, volume, [], onProgress);
     }
 }

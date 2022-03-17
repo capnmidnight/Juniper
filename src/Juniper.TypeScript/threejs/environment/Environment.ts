@@ -292,7 +292,7 @@ export class Environment
         await progressTasks(onProgress,
             prog => super.load(prog),
             prog => this.uiButtons.load(prog),
-            prog => this.audio.createBasicClip("footsteps", "/audio/TransitionFootstepAudio.mp3", 0.5, prog),
+            prog => this.audio.loadBasicClip("footsteps", "/audio/TransitionFootstepAudio.mp3", 0.5, prog),
             prog => this.interactionAudio.load("enter", "/audio/basic_enter.mp3", 0.25, prog),
             prog => this.interactionAudio.load("exit", "/audio/basic_exit.mp3", 0.25, prog),
             prog => this.interactionAudio.load("error", "/audio/basic_error.mp3", 0.25, prog),

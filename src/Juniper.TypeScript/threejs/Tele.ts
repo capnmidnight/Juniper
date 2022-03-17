@@ -188,8 +188,8 @@ export class Tele
 
     async load(onProgress?: IProgress) {
         await progressTasks(onProgress,
-            prog => this.env.audio.createBasicClip("join", "/audio/door_open.mp3", 0.25, prog),
-            prog => this.env.audio.createBasicClip("leave", "/audio/door_close.mp3", 0.25, prog),
+            prog => this.env.audio.loadBasicClip("join", "/audio/door_open.mp3", 0.25, prog),
+            prog => this.env.audio.loadBasicClip("leave", "/audio/door_close.mp3", 0.25, prog),
             prog => this.loadAvatar("/models/Avatar.glb", prog));
     }
 

@@ -54,7 +54,7 @@ export class DeviceDialog extends DialogBox {
 
         this.cancelButton.style.display = "none";
 
-        const clipLoaded = this.env.audio.createBasicClip("test-audio", "/audio/test-clip.mp3", 0.5);
+        const clipLoaded = this.env.audio.loadBasicClip("test-audio", "/audio/test-clip.mp3", 0.5);
 
         elementApply(this.container,
             styles(
