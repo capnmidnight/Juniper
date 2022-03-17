@@ -216,7 +216,7 @@ export class YouTubeProxy3D extends YouTubeProxy {
         super(env.fetcher, makeProxyURL)
     }
 
-    private async loadVideoMaterial(pageURL: string, label: string, prog?: IProgress): Promise<VideoMaterialResult> {
+    private async loadVideoMaterial(pageURL: string, label: string, volume: number, prog?: IProgress): Promise<VideoMaterialResult> {
         const [audioElem, videoElem, thumbnailElem] = await this.loadElements(pageURL, fwdDir, prog);
         const title = (label || thumbnailElem.title.substring(0, 25));
         const video = new PlayableVideo(videoElem);
@@ -248,8 +248,8 @@ export class YouTubeProxy3D extends YouTubeProxy {
         };
     }
 
-    async loadMonoPlane(pageURL: string, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
-        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, prog);
+    async loadMonoPlane(pageURL: string, label?: string, volume: number = 1, prog?: IProgress): Promise<VideoPlayerResult> {
+        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, volume, prog);
 
         const vidMesh = new THREE.Mesh(MonoPlaneGeom, material);
         vidMesh.name = "Frame-2D";
@@ -261,8 +261,8 @@ export class YouTubeProxy3D extends YouTubeProxy {
         return { controls, videoRig, video, thumbnail };
     }
 
-    async loadMonoEAC(pageURL: string, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
-        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, prog);
+    async loadMonoEAC(pageURL: string, label?: string, volume: number = 1, prog?: IProgress): Promise<VideoPlayerResult> {
+        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, volume, prog);
 
         const videoRig = new THREE.Mesh(YouTubeMonoEACGeom, material);
         videoRig.name = "Frame-360";
@@ -272,8 +272,8 @@ export class YouTubeProxy3D extends YouTubeProxy {
         return { controls, videoRig, video, thumbnail };
     }
 
-    async loadStereoPlane(pageURL: string, layout: StereoLayoutName, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
-        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, prog);
+    async loadStereoPlane(pageURL: string, layout: StereoLayoutName, label?: string, volume: number = 1, prog?: IProgress): Promise<VideoPlayerResult> {
+        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, volume, prog);
 
         const names = layout.split('-');
 
@@ -315,8 +315,8 @@ export class YouTubeProxy3D extends YouTubeProxy {
         return { controls, videoRig, video, thumbnail };
     }
 
-    async loadStereoEAC(pageURL: string, layout: StereoLayoutName, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
-        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, prog);
+    async loadStereoEAC(pageURL: string, layout: StereoLayoutName, label?: string, volume: number = 1, prog?: IProgress): Promise<VideoPlayerResult> {
+        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, volume, prog);
 
         const names = layout.split('-');
 
@@ -355,23 +355,23 @@ export class YouTubeProxy3D extends YouTubeProxy {
                 && layout !== "bottom-top";
     }
 
-    load(pageURL: string, encoding: SphereEncodingName, layout: StereoLayoutName, label?: string, prog?: IProgress): Promise<VideoPlayerResult> {
+    load(pageURL: string, encoding: SphereEncodingName, layout: StereoLayoutName, label?: string, volume: number = 1, prog?: IProgress): Promise<VideoPlayerResult> {
         if (encoding === "N/A") {
             if (layout === "mono") {
-                return this.loadMonoPlane(pageURL, label, prog);
+                return this.loadMonoPlane(pageURL, label, volume, prog);
             }
             else {
-                return this.loadStereoPlane(pageURL, layout, label, prog);
+                return this.loadStereoPlane(pageURL, layout, label, volume, prog);
             }
         }
         else if (encoding === "Equi-Angular Cubemap (YouTube)"
             && layout !== "top-bottom"
             && layout !== "bottom-top") {
             if (layout === "mono") {
-                return this.loadMonoEAC(pageURL, label, prog);
+                return this.loadMonoEAC(pageURL, label, volume, prog);
             }
             else {
-                return this.loadStereoEAC(pageURL, layout, label, prog);
+                return this.loadStereoEAC(pageURL, layout, label, volume, prog);
             }
         }
         else {
