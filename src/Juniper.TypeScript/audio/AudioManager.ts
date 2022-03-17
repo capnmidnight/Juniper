@@ -506,8 +506,10 @@ export class AudioManager
      **/
     private removeSource<T extends IDisposable>(sources: Map<string, T>, id: string): T {
         const source = sources.get(id);
-        sources.delete(id);
-        source.dispose();
+        if (isDefined(source)) {
+            sources.delete(id);
+            source.dispose();
+        }
         return source;
     }
 
