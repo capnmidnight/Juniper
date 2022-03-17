@@ -196,9 +196,10 @@ export class BaseEnvironment<Events = void>
 
             this._xrBinding = (this.renderer.xr as any).getBinding() as XRWebGLBinding
 
-            if (this.hasXRMediaLayers && (this._xrMediaBinding === null) !== this.renderer.xr.isPresenting) {
-                if (this._xrMediaBinding === null) {
+            if (this.hasXRMediaLayers && (this._xrMediaBinding === null) === this.renderer.xr.isPresenting) {
+                if (this._xrMediaBinding === null && isDefined(session)) {
                     this._xrMediaBinding = new XRMediaBinding(session);
+                    console.log("Media binding created");
                 }
                 else {
                     this._xrMediaBinding = null;
