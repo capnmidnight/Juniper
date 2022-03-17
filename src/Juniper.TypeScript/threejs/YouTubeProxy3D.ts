@@ -200,13 +200,19 @@ const StereoPlaneGeoms = new Map([
     ["bottom", StereoPlaneGeom_Bottom]
 ]);
 
-function linkControls(video: THREE.Object3D, controls: PlaybackButton, setScale: boolean) {
+function linkControls(video: THREE.Object3D, thumbnail: THREE.Object3D, controls: PlaybackButton, setScale: boolean) {
     if (setScale) {
         video.scale.set(100, 100, 100);
     }
-    video.visible = false;
-    controls.addEventListener("play", () => video.visible = true);
-    controls.addEventListener("stop", () => video.visible = false);
+    const showVideo = (v: boolean) => {
+        video.visible = v;
+        thumbnail.visible = !v;
+    }
+
+    controls.addEventListener("play", () => showVideo(true));
+    controls.addEventListener("stop", () => showVideo(false));
+
+    showVideo(false);
 }
 
 export class YouTubeProxy3D extends YouTubeProxy {
@@ -256,7 +262,7 @@ export class YouTubeProxy3D extends YouTubeProxy {
         vidMesh.scale.set(1, video.height / video.width, 1);
 
         const videoRig = obj("VideoContainer", vidMesh);
-        linkControls(videoRig, controls, false);
+        linkControls(videoRig, thumbnail, controls, false);
 
         return { controls, videoRig, video, thumbnail };
     }
@@ -267,7 +273,7 @@ export class YouTubeProxy3D extends YouTubeProxy {
         const videoRig = new THREE.Mesh(YouTubeMonoEACGeom, material);
         videoRig.name = "Frame-360";
 
-        linkControls(videoRig, controls, true);
+        linkControls(videoRig, thumbnail, controls, true);
 
         return { controls, videoRig, video, thumbnail };
     }
@@ -310,7 +316,7 @@ export class YouTubeProxy3D extends YouTubeProxy {
             vidMesh2
         );
 
-        linkControls(videoRig, controls, true);
+        linkControls(videoRig, thumbnail, controls, true);
 
         return { controls, videoRig, video, thumbnail };
     }
@@ -343,7 +349,7 @@ export class YouTubeProxy3D extends YouTubeProxy {
             vidMesh2
         );
 
-        linkControls(videoRig, controls, true);
+        linkControls(videoRig, thumbnail, controls, true);
 
         return { controls, videoRig, video, thumbnail };
     }

@@ -1,16 +1,18 @@
+import { ErsatzElement } from "juniper-dom/tags";
 import { once, TypedEventBase } from "juniper-tslib";
 import { IPlayable, MediaElementSourceEndedEvent, MediaElementSourceEvents, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent, PlaybackState } from "./IPlayable";
 
 export class PlayableVideo
     extends TypedEventBase<MediaElementSourceEvents>
-    implements IPlayable {
+    implements ErsatzElement, IPlayable {
+
     private readonly playEvt: MediaElementSourcePlayedEvent;
     private readonly pauseEvt: MediaElementSourcePausedEvent;
     private readonly stopEvt: MediaElementSourceStoppedEvent;
     private readonly endEvt: MediaElementSourceEndedEvent;
     private readonly progEvt: MediaElementSourceProgressEvent;
 
-    constructor(private readonly video: HTMLVideoElement) {
+    constructor(public readonly element: HTMLVideoElement) {
         super();
 
         this.playEvt = new MediaElementSourcePlayedEvent(this);
@@ -20,7 +22,7 @@ export class PlayableVideo
         this.progEvt = new MediaElementSourceProgressEvent(this);
 
         const halt = (evt: Event) => {
-            if (this.video.currentTime === 0) {
+            if (this.element.currentTime === 0) {
                 this.dispatchEvent(this.stopEvt);
             }
             else {
@@ -32,37 +34,37 @@ export class PlayableVideo
             }
         };
 
-        this.video.addEventListener("ended", halt);
-        this.video.addEventListener("pause", halt);
+        this.element.addEventListener("ended", halt);
+        this.element.addEventListener("pause", halt);
 
-        this.video.addEventListener("play", () =>
+        this.element.addEventListener("play", () =>
             this.dispatchEvent(this.playEvt));
 
-        this.video.addEventListener("timeupdate", () => {
-            this.progEvt.value = this.video.currentTime;
-            this.progEvt.total = this.video.duration;
+        this.element.addEventListener("timeupdate", () => {
+            this.progEvt.value = this.element.currentTime;
+            this.progEvt.total = this.element.duration;
             this.dispatchEvent(this.progEvt);
         });
     }
 
     get width() {
-        return this.video.videoWidth;
+        return this.element.videoWidth;
     }
 
     get height() {
-        return this.video.videoHeight;
+        return this.element.videoHeight;
     }
 
     get playbackState(): PlaybackState {
-        if (this.video.error) {
+        if (this.element.error) {
             return "errored";
         }
 
-        if (this.video.ended || this.video.paused && this.video.currentTime === 0) {
+        if (this.element.ended || this.element.paused && this.element.currentTime === 0) {
             return "stopped";
         }
 
-        if (this.video.paused) {
+        if (this.element.paused) {
             return "paused";
         }
 
@@ -70,7 +72,7 @@ export class PlayableVideo
     }
 
     play(): Promise<void> {
-        return this.video.play();
+        return this.element.play();
     }
 
     async playThrough(): Promise<void> {
@@ -80,11 +82,11 @@ export class PlayableVideo
     }
 
     pause(): void {
-        this.video.pause();
+        this.element.pause();
     }
 
     stop(): void {
-        this.video.currentTime = 0;
+        this.element.currentTime = 0;
         this.pause();
     }
 
