@@ -315,23 +315,15 @@ export class YouTubeProxy3D extends YouTubeProxy {
 
         const names = layout.split('-');
 
-        const vidMesh1 = new THREE.Mesh(YouTubeStereoEACGeoms.get(names[0]), material);
-        vidMesh1.name = "Frame-360-" + names[0];
+        const vidMesh1 = new THREE.Mesh(YouTubeStereoEACGeoms.get(names[1]), material);
+        vidMesh1.name = "Frame-360-" + names[1];
         vidMesh1.layers.enable(0);
+        vidMesh1.layers.enable(1);
 
-        const vidMesh2 = new THREE.Mesh(YouTubeStereoEACGeoms.get(names[1]), material);
-        vidMesh2.name = "Frame-360-" + names[1];
+        const vidMesh2 = new THREE.Mesh(YouTubeStereoEACGeoms.get(names[0]), material);
+        vidMesh2.name = "Frame-360-" + names[0];
         vidMesh2.layers.disable(0);
-
-        if (layout === "left-right"
-            || layout === "top-bottom") {
-            vidMesh1.layers.enable(2);
-            vidMesh2.layers.enable(1);
-        }
-        else {
-            vidMesh1.layers.enable(1);
-            vidMesh2.layers.enable(2);
-        }
+        vidMesh2.layers.enable(2);
 
         const videoRig = obj("VideoContainer",
             vidMesh1,
@@ -341,7 +333,7 @@ export class YouTubeProxy3D extends YouTubeProxy {
 
         linkControls(video, videoRig, thumbnail);
 
-        return { videoRig, video, thumbnail, videoMeshes: [vidMesh1, vidMesh2] };
+        return { videoRig, video, thumbnail, videoMeshes: [vidMesh2, vidMesh1] };
     }
 
     isSupported(encoding: SphereEncodingName, layout: StereoLayoutName): boolean {
