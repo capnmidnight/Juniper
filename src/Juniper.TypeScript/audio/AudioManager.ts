@@ -1,7 +1,7 @@
 import type { vec3 } from "gl-matrix";
 import { autoPlay, id, playsInline, src, srcObject } from "juniper-dom/attrs";
 import { display, styles } from "juniper-dom/css";
-import { Audio, BackgroundAudio, elementApply, ErsatzElement, mediaElementReady } from "juniper-dom/tags";
+import { Audio, BackgroundAudio, elementApply, ErsatzElement, mediaElementCanPlay } from "juniper-dom/tags";
 import {
     arrayRemove,
     arraySortedInsert,
@@ -389,7 +389,7 @@ export class AudioManager
         }
 
         const elem = isString(path)
-            ? await mediaElementReady(BackgroundAudio(autoPlaying, false, looping, src(path)))
+            ? await mediaElementCanPlay(BackgroundAudio(autoPlaying, false, looping, src(path)))
             : path;
 
         if (isDefined(prog)) {

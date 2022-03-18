@@ -216,11 +216,22 @@ export function elementGetText(elem: Elements): string {
     return elem.innerText;
 }
 
-export async function mediaElementReady<T extends HTMLMediaElement>(elem: T, prog?: IProgress): Promise<T> {
+export async function mediaElementCanPlay<T extends HTMLMediaElement>(elem: T, prog?: IProgress): Promise<T> {
     if (isDefined(prog)) {
         prog.report(0, 1);
     }
     await once<HTMLMediaElementEventMap, "canplay">(elem, "canplay");
+    if (isDefined(prog)) {
+        prog.end();
+    }
+    return elem;
+}
+
+export async function mediaElementCanPlayThrough<T extends HTMLMediaElement>(elem: T, prog?: IProgress): Promise<T> {
+    if (isDefined(prog)) {
+        prog.report(0, 1);
+    }
+    await once<HTMLMediaElementEventMap, "canplaythrough">(elem, "canplaythrough");
     if (isDefined(prog)) {
         prog.end();
     }

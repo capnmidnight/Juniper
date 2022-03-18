@@ -1,6 +1,6 @@
 import { autoPlay, controls, loop, playsInline, src, title, type } from "juniper-dom/attrs";
 import { cursor, display, styles } from "juniper-dom/css";
-import { Audio, Div, elementApply, ElementChild, elementSetDisplay, ErsatzElement, Img, mediaElementReady, Source, Video } from "juniper-dom/tags";
+import { Audio, Div, elementApply, ElementChild, elementSetDisplay, ErsatzElement, Img, mediaElementCanPlayThrough, Source, Video } from "juniper-dom/tags";
 import { mediaTypeParse } from "juniper-mediatypes";
 import { arraySortByKeyInPlace, BaseProgress, identity, IProgress, isDefined, once, PriorityList, progressSplit, TypedEventBase } from "juniper-tslib";
 import { IPlayable, MediaElementSourceEvents, MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent, PlaybackState } from "./IPlayable";
@@ -143,6 +143,21 @@ export class PlayableVideo
             onPause(evt);
         });
 
+        let wasWaiting = false;
+        this.video.addEventListener("waiting", () => {
+            wasWaiting = true;
+            this.audio.pause();
+        });
+
+        this.video.addEventListener("canplay", () => {
+            if (wasWaiting) {
+                wasWaiting = false;
+                this.audio.play();
+            }
+        });
+
+        
+
         this.video.addEventListener("timeupdate", async () => {
             const quality = this.video.getVideoPlaybackQuality();
             if (quality.totalVideoFrames === 0) {
@@ -251,14 +266,12 @@ export class PlayableVideo
     }
 
     private async loadMediaElement(type: string, elem: HTMLMediaElement, prog?: IProgress): Promise<void> {
-        const task = mediaElementReady(elem, prog);
+        const task = mediaElementCanPlayThrough(elem, prog);
         const formats = (await Promise.all(
             this.formatsByType
                 .get(type)
                 .map(checkMediaType)))
             .filter(identity);
-        console.log(formats.map(f => f.content_type)
-            .join("\n"));
         const sources = formats.map(f =>
             this.sourcesBySrc.get(f.url));
         elementApply(elem, ...sources);
@@ -273,18 +286,10 @@ export class PlayableVideo
         return this.loadMediaElement("video", this.video, prog);
     }
 
-    get currentVideoFormat() {
-        return this.formatsBySrc.get(this.video.currentSrc);
-    }
-
     get audioSource(): HTMLMediaElement {
         return this.formatsByType.get("audio").length > 0
             ? this.audio
             : this.video;
-    }
-
-    get currentAudioFormat() {
-        return this.formatsBySrc.get(this.audioSource.currentSrc);
     }
 
     get width() {
