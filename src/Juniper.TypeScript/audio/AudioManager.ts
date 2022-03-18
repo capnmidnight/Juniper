@@ -300,7 +300,7 @@ export class AudioManager
         return this.loadClip(id, path, false, false, false, false, vol, [], onProgress);
     }
 
-    createBasicClip(id: string, element: HTMLAudioElement, vol: number): AudioElementSource {
+    createBasicClip(id: string, element: HTMLMediaElement, vol: number): AudioElementSource {
         return this.createClip(id, element, false, false, false, vol, []);
     }
 
@@ -349,7 +349,7 @@ export class AudioManager
 
     createClip(
         id: string,
-        element: HTMLAudioElement,
+        element: HTMLMediaElement,
         autoPlaying: boolean,
         spatialize: boolean,
         randomize: boolean,

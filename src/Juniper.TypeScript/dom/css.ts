@@ -307,7 +307,7 @@ type CSSPositionValue = CSSPosition
     | `${CSSPositionKeyword} ${CSSLengthPercentage} ${CSSPositionKeyword} ${CSSLengthPercentage}`;
 export function backgroundPosition(v: CSSGlobalValues): CssProp;
 export function backgroundPosition(...v: CSSPositionValue[]): CssProp;
-export function backgroundPosition(...v: (string|number)[]): CssProp { return new CssProp("backgroundPosition", v.join(", ")); }
+export function backgroundPosition(...v: (string | number)[]): CssProp { return new CssProp("backgroundPosition", v.join(", ")); }
 
 type CSSPositionXYValue = CSSPosition
     | `${CSSPositionKeyword} ${CSSLengthPercentage}`;
@@ -433,7 +433,46 @@ export function contain(v: string) { return new CssProp("contain", v); }
 export function containIntrinsicSize(v: string) { return new CssProp("containIntrinsicSize", v); }
 export function counterIncrement(v: string) { return new CssProp("counterIncrement", v); }
 export function counterReset(v: string) { return new CssProp("counterReset", v); }
-export function cursor(v: string) { return new CssProp("cursor", v); }
+
+type CSSCursorValue = CSSGlobalValues
+    | "auto"
+    | "default"
+    | "none"
+    | "context-menu"
+    | "help"
+    | "pointer"
+    | "progress"
+    | "wait"
+    | "cell"
+    | "crosshair"
+    | "text"
+    | "vertical-text"
+    | "alias"
+    | "copy"
+    | "move"
+    | "no-drop"
+    | "not-allowed"
+    | "grab"
+    | "grabbing"
+    | "all-scroll"
+    | "col-resize"
+    | "row-resize"
+    | "n-resize"
+    | "e-resize"
+    | "s-resize"
+    | "w-resize"
+    | "ne-resize"
+    | "nw-resize"
+    | "se-resize"
+    | "sw-resize"
+    | "ew-resize"
+    | "ns-resize"
+    | "nesw-resize"
+    | "nwse-resize"
+    | "zoom-in"
+    | "zoom-out";
+export function cursor(v: CSSCursorValue) { return new CssProp("cursor", v); }
+
 export function cx(v: string) { return new CssProp("cx", v); }
 export function cy(v: string) { return new CssProp("cy", v); }
 export function d(v: string) { return new CssProp("d", v); }

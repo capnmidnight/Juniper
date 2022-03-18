@@ -144,6 +144,7 @@ interface YTImageEntry {
 
 interface YTMediaEntry extends YTImageEntry {
     size: number;
+    data: YTMetadataFormat;
 }
 
 interface YTBasicResult {

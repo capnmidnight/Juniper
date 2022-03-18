@@ -1,14 +1,11 @@
 import { PlayableVideo } from "juniper-audio/sources/PlayableVideo";
-import { MediaEventForwardingDirection, YouTubeProxy } from "juniper-audio/YouTubeProxy";
-import { IProgress, isDefined } from "juniper-tslib";
+import { YouTubeProxy } from "juniper-audio/YouTubeProxy";
+import { IProgress, progressSplit } from "juniper-tslib";
 import { createEACGeometry, createQuadGeometry } from "./CustomGeometry";
 import { Environment } from "./environment/Environment";
 import { Image2DMesh } from "./Image2DMesh";
 import { solid } from "./materials";
 import { obj } from "./objects";
-import { PlaybackButton } from "./PlaybackButton";
-
-const fwdDir: MediaEventForwardingDirection = "video-to-audio";
 
 export type SphereEncodingName = "N/A"
     | "Cubemap"
@@ -40,18 +37,16 @@ export const StereoLayoutNames: StereoLayoutName[] = [
     "bottom-top"
 ];
 
-interface BaseVideoResult {
-    controls: PlaybackButton;
+interface VideoMaterialResult {
     video: PlayableVideo;
-}
-
-interface VideoMaterialResult extends BaseVideoResult {
     material: THREE.MeshBasicMaterial;
     thumbnail?: Image2DMesh
 }
 
-export interface VideoPlayerResult extends BaseVideoResult {
+export interface VideoPlayerResult {
+    video: PlayableVideo;
     videoRig: THREE.Object3D;
+    videoMeshes: THREE.Mesh[];
     thumbnail?: Image2DMesh;
 }
 
@@ -200,17 +195,14 @@ const StereoPlaneGeoms = new Map([
     ["bottom", StereoPlaneGeom_Bottom]
 ]);
 
-function linkControls(video: THREE.Object3D, thumbnail: THREE.Object3D, controls: PlaybackButton, setScale: boolean) {
-    if (setScale) {
-        video.scale.set(100, 100, 100);
-    }
+function linkControls(video: PlayableVideo, videoRig: THREE.Object3D, thumbnail: THREE.Object3D) {
     const showVideo = (v: boolean) => {
-        video.visible = v;
+        videoRig.visible = v;
         thumbnail.visible = !v;
     }
 
-    controls.addEventListener("play", () => showVideo(true));
-    controls.addEventListener("stop", () => showVideo(false));
+    video.addEventListener("played", () => showVideo(true));
+    video.addEventListener("stopped", () => showVideo(false));
 
     showVideo(false);
 }
@@ -222,19 +214,14 @@ export class YouTubeProxy3D extends YouTubeProxy {
         super(env.fetcher, makeProxyURL)
     }
 
-    private async loadVideoMaterial(pageURL: string, label: string, volume: number, prog?: IProgress): Promise<VideoMaterialResult> {
-        const [audioElem, videoElem, thumbnailElem] = await this.loadElements(pageURL, fwdDir, prog);
-        const title = (label || thumbnailElem.title.substring(0, 25));
-        const video = new PlayableVideo(videoElem);
+    private async loadVideoMaterial(pageURL: string, volume: number, prog?: IProgress): Promise<VideoMaterialResult> {
+        const progs = progressSplit(prog, 2);
+        const video = await this.load(pageURL, progs.shift());
+        await video.load(progs.shift());
 
-        const playable = isDefined(audioElem) && fwdDir === "audio-to-video"
-            ? this.env.audio.createBasicClip(pageURL, audioElem, volume)
-            : video;
+        this.env.audio.createBasicClip(pageURL, video.audioSource, volume);
 
-        const controls = new PlaybackButton(this.env, this.env.uiButtons, pageURL, title, playable);
-        controls.object.renderOrder = 5;
-
-        const videoTexture = new THREE.VideoTexture(videoElem);
+        const videoTexture = new THREE.VideoTexture(video.video);
 
         const material = solid({
             name: pageURL,
@@ -242,44 +229,45 @@ export class YouTubeProxy3D extends YouTubeProxy {
             depthWrite: false
         });
 
-        const thumbnail = new Image2DMesh(this.env, "thumb-" + pageURL, true);
-        thumbnail.mesh.setImage(thumbnailElem);
+        const thumbnail = new Image2DMesh(this.fetcher, this.env, "thumb-" + pageURL, true);
+        thumbnail.mesh.setImage(video.thumbnail);
         thumbnail.mesh.objectHeight = 1 / thumbnail.mesh.imageAspectRatio;
 
         return {
-            controls,
             material,
             video,
             thumbnail
         };
     }
 
-    async loadMonoPlane(pageURL: string, label?: string, volume: number = 1, prog?: IProgress): Promise<VideoPlayerResult> {
-        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, volume, prog);
+    async loadMonoPlane(pageURL: string, volume: number = 1, prog?: IProgress): Promise<VideoPlayerResult> {
+        const { material, video, thumbnail } = await this.loadVideoMaterial(pageURL, volume, prog);
 
-        const vidMesh = new THREE.Mesh(MonoPlaneGeom, material);
-        vidMesh.name = "Frame-2D";
-        vidMesh.scale.set(1, video.height / video.width, 1);
+        const videoMesh = new THREE.Mesh(MonoPlaneGeom, material);
+        videoMesh.name = "Frame-2D";
+        videoMesh.scale.set(1, video.height / video.width, 1);
 
-        const videoRig = obj("VideoContainer", vidMesh);
-        linkControls(videoRig, thumbnail, controls, false);
+        const videoRig = obj("VideoContainer", videoMesh);
+        linkControls(video, videoRig, thumbnail);
 
-        return { controls, videoRig, video, thumbnail };
+        return { videoRig, video, thumbnail, videoMeshes: [videoMesh] };
     }
 
-    async loadMonoEAC(pageURL: string, label?: string, volume: number = 1, prog?: IProgress): Promise<VideoPlayerResult> {
-        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, volume, prog);
+    async loadMonoEAC(pageURL: string, volume: number = 1, prog?: IProgress): Promise<VideoPlayerResult> {
+        const { material, video, thumbnail } = await this.loadVideoMaterial(pageURL, volume, prog);
 
-        const videoRig = new THREE.Mesh(YouTubeMonoEACGeom, material);
-        videoRig.name = "Frame-360";
+        const videoMesh = new THREE.Mesh(YouTubeMonoEACGeom, material);
+        videoMesh.name = "Frame-360";
 
-        linkControls(videoRig, thumbnail, controls, true);
+        const videoRig = obj("VideoContainer", videoMesh);
+        videoRig.scale.set(100, 100, 100);
+        linkControls(video, videoRig, thumbnail);
 
-        return { controls, videoRig, video, thumbnail };
+        return { videoRig, video, thumbnail, videoMeshes: [videoMesh] };
     }
 
-    async loadStereoPlane(pageURL: string, layout: StereoLayoutName, label?: string, volume: number = 1, prog?: IProgress): Promise<VideoPlayerResult> {
-        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, volume, prog);
+    async loadStereoPlane(pageURL: string, layout: StereoLayoutName, volume: number = 1, prog?: IProgress): Promise<VideoPlayerResult> {
+        const { material, video, thumbnail } = await this.loadVideoMaterial(pageURL, volume, prog);
 
         const names = layout.split('-');
 
@@ -315,14 +303,15 @@ export class YouTubeProxy3D extends YouTubeProxy {
             vidMesh1,
             vidMesh2
         );
+        videoRig.scale.set(100, 100, 100);
 
-        linkControls(videoRig, thumbnail, controls, true);
+        linkControls(video, videoRig, thumbnail);
 
-        return { controls, videoRig, video, thumbnail };
+        return { videoRig, video, thumbnail, videoMeshes: [vidMesh1, vidMesh2] };
     }
 
-    async loadStereoEAC(pageURL: string, layout: StereoLayoutName, label?: string, volume: number = 1, prog?: IProgress): Promise<VideoPlayerResult> {
-        const { controls, material, video, thumbnail } = await this.loadVideoMaterial(pageURL, label, volume, prog);
+    async loadStereoEAC(pageURL: string, layout: StereoLayoutName, volume: number = 1, prog?: IProgress): Promise<VideoPlayerResult> {
+        const { material, video, thumbnail } = await this.loadVideoMaterial(pageURL, volume, prog);
 
         const names = layout.split('-');
 
@@ -348,36 +337,37 @@ export class YouTubeProxy3D extends YouTubeProxy {
             vidMesh1,
             vidMesh2
         );
+        videoRig.scale.set(100, 100, 100);
 
-        linkControls(videoRig, thumbnail, controls, true);
+        linkControls(video, videoRig, thumbnail);
 
-        return { controls, videoRig, video, thumbnail };
+        return { videoRig, video, thumbnail, videoMeshes: [vidMesh1, vidMesh2] };
     }
 
     isSupported(encoding: SphereEncodingName, layout: StereoLayoutName): boolean {
         return encoding === "N/A"
             || encoding === "Equi-Angular Cubemap (YouTube)"
-                && layout !== "top-bottom"
-                && layout !== "bottom-top";
+            && layout !== "top-bottom"
+            && layout !== "bottom-top";
     }
 
-    load(pageURL: string, encoding: SphereEncodingName, layout: StereoLayoutName, label?: string, volume: number = 1, prog?: IProgress): Promise<VideoPlayerResult> {
+    load3D(pageURL: string, encoding: SphereEncodingName, layout: StereoLayoutName, volume: number = 1, prog?: IProgress): Promise<VideoPlayerResult> {
         if (encoding === "N/A") {
             if (layout === "mono") {
-                return this.loadMonoPlane(pageURL, label, volume, prog);
+                return this.loadMonoPlane(pageURL, volume, prog);
             }
             else {
-                return this.loadStereoPlane(pageURL, layout, label, volume, prog);
+                return this.loadStereoPlane(pageURL, layout, volume, prog);
             }
         }
         else if (encoding === "Equi-Angular Cubemap (YouTube)"
             && layout !== "top-bottom"
             && layout !== "bottom-top") {
             if (layout === "mono") {
-                return this.loadMonoEAC(pageURL, label, volume, prog);
+                return this.loadMonoEAC(pageURL, volume, prog);
             }
             else {
-                return this.loadStereoEAC(pageURL, layout, label, volume, prog);
+                return this.loadStereoEAC(pageURL, layout, volume, prog);
             }
         }
         else {

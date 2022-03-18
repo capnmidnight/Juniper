@@ -1,7 +1,7 @@
 import { once } from "juniper-tslib";
 import { removeVertex } from "../nodes";
 import { BaseAudioSource } from "./BaseAudioSource";
-import { IPlayable, MediaElementSourceEndedEvent, MediaElementSourceEvents, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent, PlaybackState } from "./IPlayable";
+import { IPlayable, MediaElementSourceEvents, MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent, PlaybackState } from "./IPlayable";
 import type { BaseEmitter } from "./spatializers/BaseEmitter";
 
 const elementRefCounts = new WeakMap<HTMLMediaElement, number>();
@@ -40,39 +40,39 @@ function dec(source: MediaElementAudioSourceNode) {
 export class AudioElementSource
     extends BaseAudioSource<MediaElementAudioSourceNode, MediaElementSourceEvents>
     implements IPlayable {
+    private readonly loadEvt: MediaElementSourceLoadedEvent;
     private readonly playEvt: MediaElementSourcePlayedEvent;
     private readonly pauseEvt: MediaElementSourcePausedEvent;
     private readonly stopEvt: MediaElementSourceStoppedEvent;
-    private readonly endEvt: MediaElementSourceEndedEvent;
     private readonly progEvt: MediaElementSourceProgressEvent;
-    private readonly audio: HTMLAudioElement;
+    private readonly audio: HTMLMediaElement;
 
     constructor(id: string, audioCtx: AudioContext, source: MediaElementAudioSourceNode, private readonly randomize: boolean, spatializer: BaseEmitter, ...effectNames: string[]) {
         super(id, audioCtx, spatializer, ...effectNames);
         inc(this.input = source);
-        this.audio = source.mediaElement as HTMLAudioElement;
+        this.audio = source.mediaElement;
         this.disconnect();
 
+        this.loadEvt = new MediaElementSourceLoadedEvent(this);
         this.playEvt = new MediaElementSourcePlayedEvent(this);
         this.pauseEvt = new MediaElementSourcePausedEvent(this);
         this.stopEvt = new MediaElementSourceStoppedEvent(this);
-        this.endEvt = new MediaElementSourceEndedEvent(this);
         this.progEvt = new MediaElementSourceProgressEvent(this);
 
         const halt = (evt: Event) => {
             this.disconnect();
 
-            if (this.audio.currentTime === 0) {
+            if (this.audio.currentTime === 0 || evt.type === "ended") {
                 this.dispatchEvent(this.stopEvt);
             }
             else {
                 this.dispatchEvent(this.pauseEvt);
             }
-
-            if (evt.type === "ended") {
-                this.dispatchEvent(this.endEvt);
-            }
         };
+
+        this.audio.addEventListener("canplay", () => {
+            this.dispatchEvent(this.loadEvt);
+        });
 
         this.audio.addEventListener("ended", halt);
         this.audio.addEventListener("pause", halt);
@@ -119,7 +119,7 @@ export class AudioElementSource
     }
 
     async playThrough(): Promise<void> {
-        const endTask = once(this, "ended");
+        const endTask = once(this, "stopped");
         await this.play();
         await endTask;
     }

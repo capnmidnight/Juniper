@@ -7,4 +7,6 @@ interface HTMLVideoElement {
     mozHasAudio?: boolean;
     webkitAudioDecodedByteCount?: number;
     audioTracks?: unknown[];
+    mozPreservesPitch?: boolean;
+    webkitPreservesPitch?: boolean;
 }

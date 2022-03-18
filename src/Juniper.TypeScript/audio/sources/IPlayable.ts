@@ -1,6 +1,7 @@
 import { TypedEvent, TypedEventBase } from "juniper-tslib";
 
-export type PlaybackState = "errored"
+export type PlaybackState = "loading"
+    | "errored"
     | "stopped"
     | "paused"
     | "playing";
@@ -17,6 +18,12 @@ export interface IPlayable extends TypedEventBase<MediaElementSourceEvents> {
 class MediaElementSourceEvent<T extends string> extends TypedEvent<T> {
     constructor(type: T, public readonly source: IPlayable) {
         super(type);
+    }
+}
+
+export class MediaElementSourceLoadedEvent extends MediaElementSourceEvent<"loaded"> {
+    constructor(source: IPlayable) {
+        super("loaded", source);
     }
 }
 
@@ -38,12 +45,6 @@ export class MediaElementSourceStoppedEvent extends MediaElementSourceEvent<"sto
     }
 }
 
-export class MediaElementSourceEndedEvent extends MediaElementSourceEvent<"ended"> {
-    constructor(source: IPlayable) {
-        super("ended", source);
-    }
-}
-
 export class MediaElementSourceProgressEvent extends MediaElementSourceEvent<"progress"> {
     public value = 0;
     public total = 0;
@@ -54,9 +55,9 @@ export class MediaElementSourceProgressEvent extends MediaElementSourceEvent<"pr
 }
 
 export interface MediaElementSourceEvents {
+    loaded: MediaElementSourceLoadedEvent;
     played: MediaElementSourcePlayedEvent;
     paused: MediaElementSourcePausedEvent;
     stopped: MediaElementSourceStoppedEvent;
-    ended: MediaElementSourceEndedEvent;
     progress: MediaElementSourceProgressEvent;
 }

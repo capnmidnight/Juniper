@@ -1,4 +1,4 @@
-import { isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString, once } from "juniper-tslib";
+import { IProgress, isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString, once } from "juniper-tslib";
 import { Attr, autoPlay, classList, className, controls, htmlFor, loop, muted, playsInline, type } from "./attrs";
 import { CSSInJSRule, display, margin, styles } from "./css";
 
@@ -216,8 +216,14 @@ export function elementGetText(elem: Elements): string {
     return elem.innerText;
 }
 
-export async function mediaElementReady<T extends HTMLMediaElement>(elem: T): Promise<T> {
+export async function mediaElementReady<T extends HTMLMediaElement>(elem: T, prog?: IProgress): Promise<T> {
+    if (isDefined(prog)) {
+        prog.report(0, 1);
+    }
     await once<HTMLMediaElementEventMap, "canplay">(elem, "canplay");
+    if (isDefined(prog)) {
+        prog.end();
+    }
     return elem;
 }
 
