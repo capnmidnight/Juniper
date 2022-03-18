@@ -1,11 +1,12 @@
 import { IPlayable } from "juniper-audio/sources/IPlayable";
 import { MouseButtons } from "juniper-dom/eventSystem/MouseButton";
 import { keycapDigits } from "juniper-emoji/numbers";
+import { IFetcher } from "juniper-fetcher";
 import { isDefined, TypedEvent, TypedEventBase } from "juniper-tslib";
 import { ButtonFactory } from "./ButtonFactory";
 import { Cube } from "./Cube";
-import type { BaseEnvironment } from "./environment/BaseEnvironment";
 import { EventSystemThreeJSEvent } from "./eventSystem/EventSystemEvent";
+import { IWebXRLayerManager } from "./IWebXRLayerManager";
 import { solidWhite } from "./materials";
 import { MeshButton } from "./MeshButton";
 import { ErsatzObject, obj, objGraph } from "./objects";
@@ -38,7 +39,8 @@ export class PlaybackButton
     private replayButton: MeshButton = null;
 
     constructor(
-        env: BaseEnvironment<unknown>,
+        fetcher: IFetcher,
+        env: IWebXRLayerManager,
         buttonFactory: ButtonFactory,
         name: string,
         label: string,
@@ -49,7 +51,7 @@ export class PlaybackButton
 
         this.object = obj(`playback-${name}`);
 
-        this.textLabel = new TextMeshLabel(env, `playback-${name}-label`, label, {
+        this.textLabel = new TextMeshLabel(fetcher, env, `playback-${name}-label`, label, {
             minHeight: size,
             maxHeight: size,
             minWidth: size,
@@ -131,19 +133,28 @@ export class PlaybackButton
             child.position.x = (i - arr.length / 2) * size);
 
         this.object.add(this.progressBar);
-        
+
         const refresh = () => {
-            this.playButton.disabled = clip.playbackState === "playing" || clip.playbackState === "errored";
-            this.pauseButton.disabled = clip.playbackState !== "playing";
-            this.stopButton.disabled = clip.playbackState === "stopped";
-            this.replayButton.disabled = clip.playbackState === "stopped";
-            if (clip.playbackState === "stopped") {
+            this.playButton.disabled = clip.playbackState === "loading"
+                || clip.playbackState === "playing"
+                || clip.playbackState === "errored";
+            this.pauseButton.disabled = clip.playbackState === "loading"
+                || clip.playbackState !== "playing";
+            this.replayButton.disabled
+                = this.stopButton.disabled
+                = clip.playbackState === "loading"
+                || clip.playbackState === "stopped"
+                || clip.playbackState === "errored";
+
+            if (clip.playbackState === "loading"
+                || clip.playbackState === "stopped") {
                 this.progressBar.visible = false;
             }
         }
 
         refresh();
 
+        clip.addEventListener("loaded", refresh);
         clip.addEventListener("played", refresh);
         clip.addEventListener("paused", refresh);
         clip.addEventListener("stopped", refresh);
@@ -157,7 +168,6 @@ export class PlaybackButton
 
         clip.addEventListener("played", () => this.dispatchEvent(playEvt));
         clip.addEventListener("stopped", () => this.dispatchEvent(stopEvt));
-        clip.addEventListener("ended", () => this.dispatchEvent(stopEvt));
 
         const onClick = (btn: MeshButton, callback: () => void) => {
             btn.addEventListener("click", async (ev: THREE.Event) => {

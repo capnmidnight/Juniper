@@ -1,7 +1,8 @@
 import type { TextImageOptions } from "juniper-2d/TextImage";
 import { TextImage } from "juniper-2d/TextImage";
+import { IFetcher } from "juniper-fetcher";
 import { isDefined, stringRandom } from "juniper-tslib";
-import type { BaseEnvironment } from "./environment/BaseEnvironment";
+import { IWebXRLayerManager } from "./IWebXRLayerManager";
 import { TextMesh } from "./TextMesh";
 
 export class TextMeshLabel extends THREE.Object3D {
@@ -11,7 +12,11 @@ export class TextMeshLabel extends THREE.Object3D {
     readonly enabledImage: TextMesh;
     readonly disabledImage: TextMesh;
 
-    constructor(protected readonly env: BaseEnvironment<unknown>, name: string, value: string, textImageOptions?: Partial<TextImageOptions>) {
+    constructor(protected readonly fetcher: IFetcher,
+        protected readonly env: IWebXRLayerManager,
+        name: string,
+        value: string,
+        textImageOptions?: Partial<TextImageOptions>) {
         super();
 
         if (isDefined(value)) {
@@ -40,6 +45,7 @@ export class TextMeshLabel extends THREE.Object3D {
 
     private createImage(id: string, opacity: number) {
         const image = new TextMesh(
+            this.fetcher,
             this.env,
             `text-${id}`, {
                 side: THREE.FrontSide,

@@ -75,24 +75,24 @@ export class Menu extends THREE.Object3D {
 
         this.name = "Menu";
 
-        this.defaultButtonImage = new Image2DMesh(this.env, "DefaultButton", true);
+        this.defaultButtonImage = new Image2DMesh(this.env.fetcher, this.env, "DefaultButton", true);
 
         this.logo = {
             name: "Logo",
             noLabel: true,
-            back: new Image2DMesh(this.env, "LogoBack", true),
+            back: new Image2DMesh(this.env.fetcher, this.env, "LogoBack", true),
             width: 1,
             clickable: false
         };
 
         this.backButton = {
             name: "Back",
-            back: new Image2DMesh(this.env, "BackButton", true)
+            back: new Image2DMesh(this.env.fetcher, this.env, "BackButton", true)
         };
 
         this.nextButton = {
             name: "Next",
-            back: new Image2DMesh(this.env, "NextButton", true),
+            back: new Image2DMesh(this.env.fetcher, this.env, "NextButton", true),
             width: 0.25,
             textDirection: "vertical",
             textPosition: "middle",
@@ -102,7 +102,7 @@ export class Menu extends THREE.Object3D {
 
         this.prevButton = {
             name: "Previous",
-            back: new Image2DMesh(this.env, "PrevButton", true),
+            back: new Image2DMesh(this.env.fetcher, this.env, "PrevButton", true),
             width: 0.25,
             height: 1,
             textDirection: "vertical",
@@ -113,7 +113,7 @@ export class Menu extends THREE.Object3D {
 
         this.menuTitle = {
             name: "Menu",
-            back: new Image2DMesh(this.env, "MenuTitle", true),
+            back: new Image2DMesh(this.env.fetcher, this.env, "MenuTitle", true),
             width: 0.25,
             textDirection: "vertical",
             textPosition: "top",
@@ -138,7 +138,7 @@ export class Menu extends THREE.Object3D {
         ];
 
         if (imgs.logo.front) {
-            this.logo.front = new Image2DMesh(this.env, "LogoFront", true, { transparent: true });
+            this.logo.front = new Image2DMesh(this.env.fetcher, this.env, "LogoFront", true, { transparent: true });
             tasks.push([1, (prog) => this.logo.front.mesh.loadImage(imgs.logo.front, prog)]);
         }
 
@@ -320,7 +320,7 @@ export class Menu extends THREE.Object3D {
 
         if (!item.back) {
             if (item.filePath) {
-                item.back = new Image2DMesh(this.env, `${item.name}-Background`, true);
+                item.back = new Image2DMesh(this.env.fetcher, this.env, `${item.name}-Background`, true);
                 await item.back.mesh.loadImage(item.filePath, onProgress);
             }
             else {
@@ -374,7 +374,7 @@ export class Menu extends THREE.Object3D {
                     maxWidth: item.width,
                     maxHeight: item.height
                 };
-                const img = new TextMesh(this.env, item.text);
+                const img = new TextMesh(this.env.fetcher, this.env, item.text);
                 img.mesh.renderOrder = 1;
 
                 img.addEventListener("redrawn", () => {

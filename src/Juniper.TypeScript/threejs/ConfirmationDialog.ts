@@ -85,14 +85,14 @@ export class ConfirmationDialog extends DialogBox implements Widget {
         this.confirmButton.innerText = "Yes";
         this.cancelButton.innerText = "No";
 
-        this.mesh = new TextMeshLabel(this.env, "confirmationDialogLabel", "", newStyle(textLabelStyle, fontFamily));
+        this.mesh = new TextMeshLabel(this.env.fetcher, this.env, "confirmationDialogLabel", "", newStyle(textLabelStyle, fontFamily));
 
-        this.confirmButton3D = new TextMeshButton(this.env, "confirmationDialogConfirmButton", "Yes", newStyle(confirmButton3DStyle, fontFamily));
+        this.confirmButton3D = new TextMeshButton(this.env.fetcher, this.env, "confirmationDialogConfirmButton", "Yes", newStyle(confirmButton3DStyle, fontFamily));
         this.confirmButton3D.addEventListener("click", () =>
             this.confirmButton.click());
         this.confirmButton3D.position.set(1, -0.5, 0.5);
 
-        this.cancelButton3D = new TextMeshButton(this.env, "confirmationDialogCancelButton", "No", newStyle(cancelButton3DStyle, fontFamily));
+        this.cancelButton3D = new TextMeshButton(this.env.fetcher, this.env, "confirmationDialogCancelButton", "No", newStyle(cancelButton3DStyle, fontFamily));
         this.cancelButton3D.addEventListener("click", () =>
             this.cancelButton.click());
 

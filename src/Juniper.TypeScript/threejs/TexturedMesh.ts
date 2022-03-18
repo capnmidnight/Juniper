@@ -1,6 +1,6 @@
 import { CanvasImageTypes, createCanvasFromImageBitmap, isImageBitmap, isOffscreenCanvas } from "juniper-dom/canvas";
+import { IFetcher } from "juniper-fetcher";
 import { IProgress, isNumber } from "juniper-tslib";
-import type { BaseEnvironment } from "./environment/BaseEnvironment";
 import { isTexture } from "./typeChecks";
 
 const inchesPerMeter = 39.3701;
@@ -14,7 +14,7 @@ export class TexturedMesh extends THREE.Mesh<THREE.BufferGeometry, Material> {
     private _imageWidth: number = 0;
     private _imageHeight: number = 0;
 
-    constructor(protected env: BaseEnvironment<unknown>, geom: THREE.BufferGeometry, mat: Material) {
+    constructor(protected fetcher: IFetcher, geom: THREE.BufferGeometry, mat: Material) {
         super(geom, mat);
 
         this.isVideo = false;
@@ -28,7 +28,7 @@ export class TexturedMesh extends THREE.Mesh<THREE.BufferGeometry, Material> {
 
     override copy(source: this, recursive = true): this {
         super.copy(source, recursive);
-        this.env = source.env;
+        this.fetcher = source.fetcher;
         this.isVideo = source.isVideo;
         this._imageWidth = source.imageWidth;
         this._imageHeight = source.imageHeight;
@@ -110,7 +110,7 @@ export class TexturedMesh extends THREE.Mesh<THREE.BufferGeometry, Material> {
     }
 
     async loadImage(path: string, onProgress?: IProgress): Promise<void> {
-        let { content: img } = await this.env.fetcher
+        let { content: img } = await this.fetcher
             .get(path)
             .progress(onProgress)
             .image();

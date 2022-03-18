@@ -1,7 +1,8 @@
+import { IFetcher } from "juniper-fetcher";
 import { arrayCompare, IDisposable, isDefined, isNullOrUndefined } from "juniper-tslib";
 import { cleanup } from "./cleanup";
-import type { BaseEnvironment } from "./environment/BaseEnvironment";
 import { IUpdatable } from "./IUpdatable";
+import { IWebXRLayerManager } from "./IWebXRLayerManager";
 import { solidTransparent } from "./materials";
 import { objectGetRelativePose } from "./objectGetRelativePose";
 import { objectIsFullyVisible } from "./objects";
@@ -25,15 +26,16 @@ export class Image2DMesh
     private lastImage: unknown = null;
     private lastWidth: number = null;
     private lastHeight: number = null;
-    protected env: BaseEnvironment<unknown> = null;
+    protected fetcher: IFetcher = null;
+    protected env: IWebXRLayerManager = null;
     mesh: TexturedMesh = null;
 
-    constructor(env: BaseEnvironment<unknown>, name: string, private readonly isStatic: boolean, materialOptions: THREE.MeshBasicMaterialParameters = null) {
+    constructor(fetcher: IFetcher, env: IWebXRLayerManager, name: string, private readonly isStatic: boolean, materialOptions: THREE.MeshBasicMaterialParameters = null) {
         super();
 
         if (env) {
-            this.setEnvAndName(env, name);
-            this.mesh = new TexturedMesh(this.env, plane, solidTransparent(Object.assign(
+            this.setEnvAndName(fetcher, env, name);
+            this.mesh = new TexturedMesh(fetcher, plane, solidTransparent(Object.assign(
                 {},
                 materialOptions,
                 { name: this.name })));
@@ -45,21 +47,22 @@ export class Image2DMesh
         cleanup(this.layer);
     }
 
-    private setEnvAndName(env: BaseEnvironment<unknown>, name: string) {
+    private setEnvAndName(fetcher: IFetcher, env: IWebXRLayerManager, name: string) {
+        this.fetcher = fetcher;
         this.env = env;
         this.name = name;
-        this.webXRLayerEnabled &&= this.env.hasXRCompositionLayers;
+        this.webXRLayerEnabled &&= this.env && this.env.hasXRCompositionLayers;
     }
 
     override copy(source: this, recursive = true) {
         super.copy(source, recursive);
-        this.setEnvAndName(source.env, source.name + (++copyCounter));
+        this.setEnvAndName(source.fetcher, source.env, source.name + (++copyCounter));
         for (let i = this.children.length - 1; i >= 0; --i) {
             const child = this.children[i];
             if (child.parent instanceof Image2DMesh
                 && child instanceof TexturedMesh) {
                 child.removeFromParent();
-                this.mesh = new TexturedMesh(source.env, child.geometry, child.material as THREE.MeshBasicMaterial);
+                this.mesh = new TexturedMesh(source.fetcher, child.geometry, child.material as THREE.MeshBasicMaterial);
             }
         }
         if (isNullOrUndefined(this.mesh)) {
@@ -73,7 +76,6 @@ export class Image2DMesh
         if (this.mesh.material.map.image) {
             const isVisible = objectIsFullyVisible(this);
             const isLayersAvailable = this.webXRLayerEnabled
-                && this.env.renderer.xr.isPresenting
                 && isDefined(frame)
                 && isDefined(this.env.xrBinding);
             const useLayer = isLayersAvailable && isVisible;
@@ -105,7 +107,10 @@ export class Image2DMesh
                 }
 
                 if (useLayer) {
-                    const space = this.env.renderer.xr.getReferenceSpace();
+                    const space = this.env.referenceSpace;
+
+                    objectGetRelativePose(this.env.stage, this.mesh, P, Q, S);
+                    this.lastMatrixWorld.copy(this.matrixWorld);
 
                     this.layer = this.env.xrBinding.createQuadLayer({
                         space,
@@ -113,7 +118,10 @@ export class Image2DMesh
                         textureType: "texture",
                         isStatic: this.isStatic,
                         viewPixelWidth: this.mesh.imageWidth,
-                        viewPixelHeight: this.mesh.imageHeight
+                        viewPixelHeight: this.mesh.imageHeight,
+                        transform: new XRRigidTransform(P, Q),
+                        width: S.x / 2,
+                        height: S.y / 2
                     });
 
                     this.env.addWebXRLayer(this.layer, 500);
@@ -123,7 +131,7 @@ export class Image2DMesh
 
             if (this.layer) {
                 if (imageChanged || this.layer.needsRedraw) {
-                    const gl = this.env.renderer.getContext();
+                    const gl = this.env.gl;
                     const gLayer = this.env.xrBinding.getSubImage(this.layer, frame);
 
                     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
@@ -142,6 +150,7 @@ export class Image2DMesh
 
                 if (arrayCompare(this.matrixWorld.elements, this.lastMatrixWorld.elements) >= 0) {
                     objectGetRelativePose(this.env.stage, this.mesh, P, Q, S);
+                    this.lastMatrixWorld.copy(this.matrixWorld);
                     this.layer.transform = new XRRigidTransform(P, Q);
                     this.layer.width = S.x / 2;
                     this.layer.height = S.y / 2;

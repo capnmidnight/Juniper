@@ -33,6 +33,7 @@ import { EventSystem } from "../eventSystem/EventSystem";
 import type { InteractiveObject3D } from "../eventSystem/InteractiveObject3D";
 import { GLTFLoader } from "../examples/loaders/GLTFLoader";
 import { Fader } from "../Fader";
+import { IWebXRLayerManager } from "../IWebXRLayerManager";
 import { FOREGROUND, PURGATORY } from "../layers";
 import { LoadingBar } from "../LoadingBar";
 import { obj, objGraph } from "../objects";
@@ -72,7 +73,8 @@ Style(
 );
 
 export class BaseEnvironment<Events = void>
-    extends TypedEventBase<Events & BaseEnvironmentEvents> {
+    extends TypedEventBase<Events & BaseEnvironmentEvents>
+    implements IWebXRLayerManager {
 
     private baseLayer: XRProjectionLayer;
     private readonly layers = new Array<XRLayer>();
@@ -188,6 +190,14 @@ export class BaseEnvironment<Events = void>
         this.timer.start();
 
         (globalThis as any).env = this;
+    }
+
+    get gl(): WebGLRenderingContext {
+        return this.renderer.getContext();
+    }
+
+    get referenceSpace(): XRReferenceSpace {
+        return this.renderer.xr.getReferenceSpace();
     }
 
     private update(evt: TimerTickEvent): void {
