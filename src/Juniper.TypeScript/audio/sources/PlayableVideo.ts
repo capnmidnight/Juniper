@@ -1,11 +1,11 @@
 import { autoPlay, controls, loop, playsInline, src, title, type } from "juniper-dom/attrs";
 import { cursor, display, styles } from "juniper-dom/css";
 import { Audio, Div, elementApply, ElementChild, elementSetDisplay, ErsatzElement, Img, mediaElementCanPlayThrough, Source, Video } from "juniper-dom/tags";
-import { mediaTypeParse } from "juniper-mediatypes";
-import { arraySortByKeyInPlace, BaseProgress, identity, IProgress, isDefined, once, PriorityList, progressSplit, TypedEventBase } from "juniper-tslib";
+import { arrayRemove, arrayScan, arraySortByKeyInPlace, BaseProgress, identity, IProgress, isDefined, once, progressSplit, TypedEventBase } from "juniper-tslib";
+import { MediaRecord } from "../YouTubeProxy";
 import { IPlayable, MediaElementSourceEvents, MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent, PlaybackState } from "./IPlayable";
 
-async function checkMediaType(f: YTMediaEntry): Promise<YTMediaEntry> {
+async function checkMediaType(f: MediaRecord): Promise<MediaRecord> {
     const config: MediaDecodingConfiguration = {
         type: "file"
     };
@@ -14,8 +14,8 @@ async function checkMediaType(f: YTMediaEntry): Promise<YTMediaEntry> {
         if (f.data.vcodec !== "none") {
             config.video = {
                 contentType: f.content_type,
-                framerate: f.data.fps,
                 bitrate: f.data.vbr * 1024,
+                framerate: f.data.fps,
                 width: f.width,
                 height: f.height
             }
@@ -41,6 +41,8 @@ async function checkMediaType(f: YTMediaEntry): Promise<YTMediaEntry> {
     return null;
 }
 
+function byResolution(f: MediaRecord) { return -f.resolution; }
+
 export class PlayableVideo
     extends TypedEventBase<MediaElementSourceEvents>
     implements ErsatzElement, IPlayable {
@@ -57,6 +59,16 @@ export class PlayableVideo
 
     readonly element: HTMLElement;
 
+    private readonly onPlay: () => void;
+    private readonly onSeeked: () => void;
+    private readonly onCanPlay: () => void;
+    private readonly onWaiting: () => void;
+    private readonly onEnded: (evt: Event) => void;
+    private readonly onPause: (evt: Event) => void;
+    private readonly onAudioError: () => Promise<void>;
+    private readonly onVideoError: () => Promise<void>;
+    private readonly onTimeUpdate: () => Promise<void>;
+
     private _video: HTMLVideoElement;
     get video() { return this._video; }
 
@@ -64,12 +76,13 @@ export class PlayableVideo
     get audio() { return this._audio; }
 
     readonly thumbnail: HTMLImageElement;
-    readonly formatsByType = new PriorityList<string, YTMediaEntry>();
-    readonly formatsBySrc = new Map<string, YTMediaEntry>();
-    readonly sourcesBySrc = new Map<string, HTMLSourceElement>();
+
+    private videoSources: HTMLSourceElement[] = null;
+    private audioSources: HTMLSourceElement[] = null;
 
     constructor(t: string,
-        formats: YTMediaEntry[],
+        private readonly videoFormats: MediaRecord[],
+        private readonly audioFormats: MediaRecord[],
         private readonly thumbnailSrc: string) {
         super();
 
@@ -79,25 +92,8 @@ export class PlayableVideo
         this.stopEvt = new MediaElementSourceStoppedEvent(this);
         this.progEvt = new MediaElementSourceProgressEvent(this);
 
-        for (const f of formats) {
-            const t = mediaTypeParse(f.content_type).typeName;
-            const source = Source(
-                type(f.content_type),
-                src(f.url)
-            );
-            this.formatsByType.add(t, f);
-            this.formatsBySrc.set(f.url, f);
-            this.sourcesBySrc.set(f.url, source);
-        }
-
-        const byResolution = (f: YTMediaEntry) => -f.resolution;
-
-        arraySortByKeyInPlace(
-            this.formatsByType.get("video"),
-            byResolution);
-        arraySortByKeyInPlace(
-            this.formatsByType.get("audio"),
-            byResolution);
+        arraySortByKeyInPlace(videoFormats, byResolution);
+        arraySortByKeyInPlace(audioFormats, byResolution);
 
         this.element = Div(
             styles(display("inline-block")),
@@ -112,22 +108,19 @@ export class PlayableVideo
             elementSetDisplay(this.thumbnail, !v, "inline-block");
         };
 
-        showVideo(false);
-
-        const onSeeked = () => {
+        this.onSeeked = () => {
             this.audio.currentTime = this.video.currentTime;
         };
-        this.video.addEventListener("seeked", onSeeked);
 
-        this.video.addEventListener("play", () => {
+        this.onPlay = () => {
             showVideo(true);
-            onSeeked();
+            this.onSeeked();
             this.audio.play();
             this.dispatchEvent(this.playEvt)
-        });
+        };
 
-        const onPause = (evt: Event) => {
-            onSeeked();
+        this.onPause = (evt: Event) => {
+            this.onSeeked();
             this.audio.pause();
             if (this.video.currentTime === 0 || evt.type === "ended") {
                 this.dispatchEvent(this.stopEvt);
@@ -136,47 +129,54 @@ export class PlayableVideo
                 this.dispatchEvent(this.pauseEvt);
             }
         };
-        this.video.addEventListener("pause", onPause);
 
-        this.video.addEventListener("ended", (evt: Event) => {
+        this.onEnded = (evt: Event) => {
             showVideo(false);
-            onPause(evt);
-        });
+            this.onPause(evt);
+        };
 
         let wasWaiting = false;
-        this.video.addEventListener("waiting", () => {
+        this.onWaiting = () => {
             wasWaiting = true;
             this.audio.pause();
-        });
+        };
 
-        this.video.addEventListener("canplay", () => {
+        this.onCanPlay = () => {
             if (wasWaiting) {
                 wasWaiting = false;
                 this.audio.play();
             }
-        });
+        };
 
-        
-
-        this.video.addEventListener("timeupdate", async () => {
-            const quality = this.video.getVideoPlaybackQuality();
-            if (quality.totalVideoFrames === 0) {
-                await this.removeCurrentSource(this.video);
-            }
-            else {
-                const delta = this.video.currentTime - this.audio.currentTime;
-                if (Math.abs(delta) > 0.25) {
-                    this.audio.currentTime = this.video.currentTime;
+        let errorCorrecting = false;
+        this.onTimeUpdate = async () => {
+            if (!errorCorrecting) {
+                const quality = this.video.getVideoPlaybackQuality();
+                if (quality.totalVideoFrames === 0) {
+                    errorCorrecting = true;
+                    await this.removeCurrentSource(this.video, this.videoFormats, this.videoSources);
+                    errorCorrecting = false;
                 }
+                else {
+                    const delta = this.video.currentTime - this.audio.currentTime;
+                    if (Math.abs(delta) > 0.25) {
+                        this.audio.currentTime = this.video.currentTime;
+                    }
+                }
+                this.progEvt.value = this.video.currentTime;
+                this.progEvt.total = this.video.duration;
+                this.dispatchEvent(this.progEvt);
             }
-            this.progEvt.value = this.video.currentTime;
-            this.progEvt.total = this.video.duration;
-            this.dispatchEvent(this.progEvt);
-        });
+        };
 
-        this.video.addEventListener("error", () => this.removeCurrentSource(this.video));
-        this.audio.addEventListener("error", () => this.removeCurrentSource(this.audio));
+        this.onVideoError = () => this.removeCurrentSource(this.video, this.videoFormats, this.videoSources);
+        this.onAudioError = () => this.removeCurrentSource(this.audio, this.audioFormats, this.audioSources);
+
         this.thumbnail.addEventListener("click", () => this.play());
+        this.bindVideoEvents();
+        this.bindAudioEvents();
+
+        showVideo(false);
 
         this.progress = new BaseProgress();
         const progs = progressSplit(this.progress, 3);
@@ -191,6 +191,16 @@ export class PlayableVideo
         });
     }
 
+    private async createSources(formats: MediaRecord[]): Promise<HTMLSourceElement[]> {
+        return (await Promise.all(formats
+            .map(checkMediaType)))
+            .filter(identity)
+            .map(f => Source(
+                type(f.content_type),
+                src(f.url)
+            ));
+    }
+
     load(prog?: IProgress): Promise<this> {
         if (isDefined(prog)) {
             this.progress.attach(prog);
@@ -199,27 +209,38 @@ export class PlayableVideo
         return this.loadingTask;
     }
 
-    private async removeCurrentSource(element: HTMLMediaElement): Promise<void> {
-        const format = this.formatsBySrc.get(element.currentSrc);
-        const source = this.sourcesBySrc.get(element.currentSrc);
+    private async removeCurrentSource(element: HTMLMediaElement, formats: MediaRecord[], sources: HTMLSourceElement[]): Promise<void> {
+        const format = arrayScan(formats, f => f.url === element.currentSrc);
+        const source = arrayScan(sources, s => s.src === element.currentSrc);
         if (format && source) {
             const currentTime = element.currentTime;
             this.pause();
-            const type = element.tagName.toLowerCase();
-            this.formatsByType.remove(type, format);
-            this.formatsBySrc.delete(element.currentSrc);
-            this.sourcesBySrc.delete(element.currentSrc);
 
-            const isVideo = element === this.video
+            const isVideo = element === this.video;
             const newElement = isVideo
                 ? this.createVideo(element.title)
                 : this.createAudio(element.title);
 
-            element.replaceWith(newElement);
+            arrayRemove(formats, format);
+            arrayRemove(sources, source);
+            source.remove();
 
             await (isVideo ? this.loadVideo() : this.loadAudio());
 
-            element.currentTime = currentTime;
+            if (isVideo) {
+                this.unbindVideoEvents();
+                this._video = newElement as HTMLVideoElement;
+                this.bindVideoEvents();
+            }
+            else {
+                this.unbindAudioEvents();
+                this._audio = newElement as HTMLAudioElement;
+                this.bindAudioEvents();
+            }
+
+            element.replaceWith(newElement);
+            newElement.currentTime = currentTime;
+
             await this.play();
         }
     }
@@ -253,6 +274,36 @@ export class PlayableVideo
         return this.createMediaElement(Video, t, controls(true));
     }
 
+    private bindAudioEvents() {
+        this.audio.addEventListener("error", this.onAudioError);
+    }
+
+    private unbindAudioEvents() {
+        this.audio.removeEventListener("error", this.onAudioError);
+    }
+
+    private bindVideoEvents() {
+        this.video.addEventListener("seeked", this.onSeeked);
+        this.video.addEventListener("play", this.onPlay);
+        this.video.addEventListener("pause", this.onPause);
+        this.video.addEventListener("ended", this.onEnded);
+        this.video.addEventListener("waiting", this.onWaiting);
+        this.video.addEventListener("canplay", this.onCanPlay);
+        this.video.addEventListener("timeupdate", this.onTimeUpdate);
+        this.video.addEventListener("error", this.onVideoError);
+    }
+
+    private unbindVideoEvents() {
+        this.video.removeEventListener("seeked", this.onSeeked);
+        this.video.removeEventListener("play", this.onPlay);
+        this.video.removeEventListener("pause", this.onPause);
+        this.video.removeEventListener("ended", this.onEnded);
+        this.video.removeEventListener("waiting", this.onWaiting);
+        this.video.removeEventListener("canplay", this.onCanPlay);
+        this.video.removeEventListener("timeupdate", this.onTimeUpdate);
+        this.video.removeEventListener("error", this.onVideoError);
+    }
+
     private async loadThumbnail(prog?: IProgress): Promise<void> {
         if (isDefined(prog)) {
             prog.report(0, 1);
@@ -265,29 +316,24 @@ export class PlayableVideo
         }
     }
 
-    private async loadMediaElement(type: string, elem: HTMLMediaElement, prog?: IProgress): Promise<void> {
+    private async loadMediaElement(elem: HTMLMediaElement, sources: HTMLSourceElement[], prog?: IProgress): Promise<void> {
         const task = mediaElementCanPlayThrough(elem, prog);
-        const formats = (await Promise.all(
-            this.formatsByType
-                .get(type)
-                .map(checkMediaType)))
-            .filter(identity);
-        const sources = formats.map(f =>
-            this.sourcesBySrc.get(f.url));
         elementApply(elem, ...sources);
         await task;
     }
 
-    private loadAudio(prog?: IProgress): Promise<void> {
-        return this.loadMediaElement("audio", this.audio, prog);
+    private async loadAudio(prog?: IProgress): Promise<void> {
+        this.videoSources = await this.createSources(this.videoFormats);
+        return await this.loadMediaElement(this.audio, this.audioSources, prog);
     }
 
-    private loadVideo(prog?: IProgress): Promise<void> {
-        return this.loadMediaElement("video", this.video, prog);
+    private async loadVideo(prog?: IProgress): Promise<void> {
+        this.videoSources = await this.createSources(this.videoFormats);
+        return await this.loadMediaElement(this.video, this.videoSources, prog);
     }
 
     get audioSource(): HTMLMediaElement {
-        return this.formatsByType.get("audio").length > 0
+        return this.audioFormats.length > 0
             ? this.audio
             : this.video;
     }

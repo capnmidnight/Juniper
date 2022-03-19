@@ -1,11 +1,21 @@
 import { IFetcher } from "juniper-fetcher";
-import { anyAudio, anyVideo } from "juniper-mediatypes";
-import { IProgress, isNullOrUndefined, isString } from "juniper-tslib";
+import { anyAudio, anyVideo, mediaTypeParse } from "juniper-mediatypes";
+import { IProgress, isNullOrUndefined, isString, PriorityList } from "juniper-tslib";
 import { PlayableVideo } from "./sources/PlayableVideo";
 
 function isVideoOrAudio(f: YTMetadataFormat): boolean {
     return anyAudio.matches(f.content_type)
         || anyVideo.matches(f.content_type);
+}
+
+export interface MediaRecord {
+    url: string;
+    size: number;
+    content_type: string;
+    resolution: number;
+    width?: number;
+    height?: number;
+    data?: YTMetadataFormat;
 }
 
 export function combineContentTypeAndCodecs(content_type: string, ...codecs: string[]): string {
@@ -29,7 +39,7 @@ export class YouTubeProxy {
         protected readonly makeProxyURL: (path: string) => string) {
     }
 
-    private makeBasicFormat(f: YTMetadataFormat): YTMediaEntry {
+    private makeBasicFormat(f: YTMetadataFormat): MediaRecord {
         const { content_type, acodec, vcodec } = f;
         const fullContentType = combineContentTypeAndCodecs(content_type, vcodec, acodec);
         return {
@@ -51,12 +61,17 @@ export class YouTubeProxy {
 
         const metadata = await this.loadMetadata(pageURLOrMetadata, prog);
 
-        const formats = metadata
+        const formats = new PriorityList((await Promise.all(metadata
             .formats
             .filter(isVideoOrAudio)
-            .map((f) => this.makeBasicFormat(f));
+            .map(f => this.makeBasicFormat(f))))
+            .map(f => [mediaTypeParse(f.content_type).typeName, f]));
 
-        return new PlayableVideo(metadata.title, formats, this.makeProxyURL(metadata.thumbnail));
+        return new PlayableVideo(
+            metadata.title,
+            formats.get("video"),
+            formats.get("audio"),
+            this.makeProxyURL(metadata.thumbnail));
     }
 
     private async loadMetadata(pageURLOrMetadata: string | YTMetadata, prog?: IProgress) {
