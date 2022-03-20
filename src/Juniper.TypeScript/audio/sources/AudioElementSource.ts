@@ -1,3 +1,4 @@
+import { mediaElementCanPlay } from "juniper-dom/tags";
 import { once } from "juniper-tslib";
 import { removeVertex } from "../nodes";
 import { BaseAudioSource } from "./BaseAudioSource";
@@ -70,9 +71,8 @@ export class AudioElementSource
             }
         };
 
-        this.audio.addEventListener("canplay", () => {
-            this.dispatchEvent(this.loadEvt);
-        });
+        mediaElementCanPlay(this.audio).then(() =>
+            this.dispatchEvent(this.loadEvt));
 
         this.audio.addEventListener("ended", halt);
         this.audio.addEventListener("pause", halt);

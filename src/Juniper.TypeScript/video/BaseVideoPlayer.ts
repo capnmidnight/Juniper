@@ -1,42 +1,8 @@
 import { IPlayable, MediaElementSourceEvents, MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent, PlaybackState } from "juniper-audio/sources/IPlayable";
-import { autoPlay, controls, loop, playsInline, title } from "juniper-dom/attrs";
+import { autoPlay, controls, loop, playsInline } from "juniper-dom/attrs";
 import { Audio, ElementChild, mediaElementCanPlayThrough, Video } from "juniper-dom/tags";
-import { arrayReplace, arraySortByKeyInPlace, identity, IProgress, isString, once, progressOfArray, progressSplit, TypedEventBase } from "juniper-tslib";
-
-
-export interface MediaRecord {
-    url: string;
-    contentType: string;
-    resolution: number;
-}
-
-export interface ImageRecord extends MediaRecord {
-    width: number;
-    height: number;
-}
-
-export interface AudioRecord extends MediaRecord {
-    acodec: string;
-    abr: number;
-    asr: number;
-}
-
-export interface VideoRecord extends AudioRecord, ImageRecord {
-    vcodec: string;
-    fps: number;
-    vbr: number;
-}
-
-export interface FullVideoRecord {
-    title: string;
-    thumbnail: ImageRecord;
-    audios: AudioRecord[];
-    videos: VideoRecord[];
-}
-
-function isVideoRecord(obj: MediaRecord): obj is VideoRecord {
-    return isString((obj as VideoRecord).vcodec);
-}
+import { arrayReplace, arraySortByKeyInPlace, identity, IProgress, once, progressOfArray, progressSplit, TypedEventBase } from "juniper-tslib";
+import { AudioRecord, FullVideoRecord, isVideoRecord, VideoRecord } from "./data";
 
 export abstract class BaseVideoPlayer
     extends TypedEventBase<MediaElementSourceEvents>
@@ -62,9 +28,13 @@ export abstract class BaseVideoPlayer
     readonly video: HTMLVideoElement;
     readonly audio: HTMLAudioElement;
 
-    private _title: string = null;
     get title() {
-        return this._title;
+        return this.video.title;
+    }
+
+    protected setTitle(v: string): void {
+        this.video.title = v;
+        this.audio.title = v;
     }
 
     private readonly videoFormats = new Array<VideoRecord>();
@@ -117,13 +87,26 @@ export abstract class BaseVideoPlayer
         };
 
         let errorCorrecting = false;
+
+        this.onVideoError = async () => {
+            errorCorrecting = true;
+            this.videoFormats.shift();
+            await this.loadVideo();
+            errorCorrecting = false;
+        };
+
+        this.onAudioError = async () => {
+            errorCorrecting = true;
+            this.audioFormats.shift();
+            await this.loadAudio();
+            errorCorrecting = false;
+        };
+
         this.onTimeUpdate = async () => {
             if (!errorCorrecting) {
                 const quality = this.video.getVideoPlaybackQuality();
                 if (quality.totalVideoFrames === 0) {
-                    errorCorrecting = true;
-                    await this.loadVideo();
-                    errorCorrecting = false;
+                    await this.onVideoError();
                 }
                 else {
                     const delta = this.video.currentTime - this.audio.currentTime;
@@ -136,9 +119,6 @@ export abstract class BaseVideoPlayer
                 this.dispatchEvent(this.progEvt);
             }
         };
-
-        this.onVideoError = () => this.loadVideo();
-        this.onAudioError = () => this.loadAudio();
 
         this.audio.addEventListener("error", this.onAudioError);
         this.video.addEventListener("seeked", this.onSeeked);
@@ -193,40 +173,29 @@ export abstract class BaseVideoPlayer
     }
 
     async load(data: FullVideoRecord, prog?: IProgress): Promise<this> {
-        this._title = data.title;
-
+        this.loaded = false;
         this.stop();
+
+        this.setTitle(data.title);
 
         arrayReplace(this.videoFormats, ...data.videos);
         arrayReplace(this.audioFormats, ...data.audios);
 
-        const progs = progressSplit(prog, 5);
+        const progs = progressSplit(prog, 4);
         await Promise.all([
-            this.checkSources(this.audioFormats, progs.shift()),
+            this.checkSources(this.audioFormats, progs.shift())
+                .then(() => this.loadAudio(progs.shift())),
             this.checkSources(this.videoFormats, progs.shift())
+                .then(() => this.loadVideo(progs.shift()))
         ]);
 
-        await Promise.all([
-            this.loadThumbnail(data.thumbnail, progs.shift()),
-            this.loadVideo(progs.shift()),
-            this.loadAudio(progs.shift())
-        ])
-
+        this.loaded = true;
         this.dispatchEvent(this.loadEvt);
         return this;
     }
 
-    protected abstract loadThumbnail(thumbnailFormat: ImageRecord, prog?: IProgress): Promise<void>;
-
-    protected createElement<T extends HTMLElement>(Element: (...rest: ElementChild[]) => T, ...rest: ElementChild[]): T {
-        return Element(
-            title(this.title),
-            ...rest);
-    }
-
     private createMediaElement<T extends HTMLMediaElement>(MediaElement: (...rest: ElementChild[]) => T, ...rest: ElementChild[]): T {
-        return this.createElement(
-            MediaElement,
+        return MediaElement(
             playsInline(true),
             autoPlay(false),
             loop(false),
@@ -244,8 +213,7 @@ export abstract class BaseVideoPlayer
             throw new Error("No audio sources");
         }
 
-        const nextAudio = this.audioFormats.shift();
-        return await this.loadMediaElement(this.audio, nextAudio, prog);
+        return await this.loadMediaElement(this.audio, this.audioFormats[0], prog);
     }
 
     private async loadVideo(prog?: IProgress): Promise<void> {
@@ -253,8 +221,7 @@ export abstract class BaseVideoPlayer
             throw new Error("No video sources");
         }
 
-        const nextVideo = this.videoFormats.shift();
-        return await this.loadMediaElement(this.video, nextVideo, prog);
+        return await this.loadMediaElement(this.video, this.videoFormats[0], prog);
     }
 
     get audioSource(): HTMLMediaElement {

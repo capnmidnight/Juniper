@@ -1,5 +1,5 @@
 import { IProgress, progressSplit } from "juniper-tslib";
-import { PlayableVideo } from "juniper-video/PlayableVideo";
+import { VideoPlayer } from "juniper-video/VideoPlayer";
 import { YouTubeProxy } from "juniper-video/YouTubeProxy";
 import { createEACGeometry, createQuadGeometry } from "./CustomGeometry";
 import { Environment } from "./environment/Environment";
@@ -38,13 +38,13 @@ export const StereoLayoutNames: StereoLayoutName[] = [
 ];
 
 interface VideoMaterialResult {
-    video: PlayableVideo;
+    video: VideoPlayer;
     material: THREE.MeshBasicMaterial;
     thumbnail?: Image2DMesh
 }
 
 export interface VideoPlayerResult {
-    video: PlayableVideo;
+    video: VideoPlayer;
     videoRig: THREE.Object3D;
     videoMeshes: THREE.Mesh[];
     thumbnail?: Image2DMesh;
@@ -195,7 +195,7 @@ const StereoPlaneGeoms = new Map([
     ["bottom", StereoPlaneGeom_Bottom]
 ]);
 
-function linkControls(video: PlayableVideo, videoRig: THREE.Object3D, thumbnail: THREE.Object3D) {
+function linkControls(video: VideoPlayer, videoRig: THREE.Object3D, thumbnail: THREE.Object3D) {
     const showVideo = (v: boolean) => {
         videoRig.visible = v;
         thumbnail.visible = !v;
@@ -217,7 +217,7 @@ export class YouTubeProxy3D extends YouTubeProxy {
     private async loadVideoMaterial(pageURL: string, volume: number, prog?: IProgress): Promise<VideoMaterialResult> {
         const progs = progressSplit(prog, 2);
         const data = await this.loadData(pageURL, progs.shift());
-        const video = new PlayableVideo();
+        const video = new VideoPlayer();
         await video.load(data, progs.shift());
 
         this.env.audio.createBasicClip(pageURL, video.audioSource, volume);

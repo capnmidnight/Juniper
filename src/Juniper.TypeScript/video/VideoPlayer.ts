@@ -1,9 +1,10 @@
 import { cursor, display, styles } from "juniper-dom/css";
 import { Div, elementSetDisplay, ErsatzElement, Img } from "juniper-dom/tags";
-import { IProgress, isDefined, once } from "juniper-tslib";
-import { BaseVideoPlayer, ImageRecord } from "./BaseVideoPlayer";
+import { IProgress, isDefined, once, progressSplitWeighted } from "juniper-tslib";
+import { BaseVideoPlayer } from "./BaseVideoPlayer";
+import { FullVideoRecord, ImageRecord } from "./data";
 
-export class PlayableVideo
+export class VideoPlayer
     extends BaseVideoPlayer
     implements ErsatzElement {
 
@@ -15,7 +16,7 @@ export class PlayableVideo
 
         this.element = Div(
             styles(display("inline-block")),
-            this.thumbnail = this.createElement(Img, styles(cursor("pointer"))),
+            this.thumbnail = Img(styles(cursor("pointer"))),
             this.video,
             this.audio
         );
@@ -30,6 +31,20 @@ export class PlayableVideo
     private showVideo(v: boolean) {
         elementSetDisplay(this.video, v, "inline-block");
         elementSetDisplay(this.thumbnail, !v, "inline-block");
+    }
+
+    override async load(data: FullVideoRecord, prog?: IProgress): Promise<this> {
+        const progs = progressSplitWeighted(prog, [1, 10]);
+        await Promise.all([
+            this.loadThumbnail(data.thumbnail, progs.shift()),
+            super.load(data, progs.shift())
+        ]);
+        return this;
+    }
+
+    protected override setTitle(v: string): void {
+        super.setTitle(v);
+        this.thumbnail.title = v;
     }
 
     protected async loadThumbnail(thumbnailFormat: ImageRecord, prog?: IProgress): Promise<void> {

@@ -216,26 +216,23 @@ export function elementGetText(elem: Elements): string {
     return elem.innerText;
 }
 
-export async function mediaElementCanPlay<T extends HTMLMediaElement>(elem: T, prog?: IProgress): Promise<T> {
+async function mediaElementCan<T extends HTMLMediaElement>(type: "canplay" | "canplaythrough", elem: T, prog?: IProgress): Promise<T> {
     if (isDefined(prog)) {
         prog.start();
     }
-    await once<HTMLMediaElementEventMap, "canplay">(elem, "canplay");
+    await once<HTMLMediaElementEventMap, "canplay" | "canplaythrough">(elem, type, "error");
     if (isDefined(prog)) {
         prog.end();
     }
     return elem;
 }
 
-export async function mediaElementCanPlayThrough<T extends HTMLMediaElement>(elem: T, prog?: IProgress): Promise<T> {
-    if (isDefined(prog)) {
-        prog.start();
-    }
-    await once<HTMLMediaElementEventMap, "canplaythrough">(elem, "canplaythrough");
-    if (isDefined(prog)) {
-        prog.end();
-    }
-    return elem;
+export function mediaElementCanPlay<T extends HTMLMediaElement>(elem: T, prog?: IProgress): Promise<T> {
+    return mediaElementCan("canplay", elem, prog);
+}
+
+export function mediaElementCanPlayThrough<T extends HTMLMediaElement>(elem: T, prog?: IProgress): Promise<T> {
+    return mediaElementCan("canplaythrough", elem, prog);
 }
 
 export function A(...rest: ElementChild[]): HTMLAnchorElement { return tag("a", ...rest); }

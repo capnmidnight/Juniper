@@ -1,7 +1,7 @@
 import { IFetcher } from "juniper-fetcher";
 import { anyAudio, anyVideo, mediaTypeParse } from "juniper-mediatypes";
 import { arrayScan, IProgress, isNullOrUndefined, isString, PriorityList } from "juniper-tslib";
-import { AudioRecord, FullVideoRecord, ImageRecord, VideoRecord } from "./BaseVideoPlayer";
+import { AudioRecord, FullVideoRecord, ImageRecord, VideoRecord } from "./data";
 
 function isVideoOrAudio(f: YTMetadataFormat): boolean {
     return anyAudio.matches(f.content_type)
@@ -35,10 +35,10 @@ export abstract class BaseYouTubeProxy {
         return {
             contentType: fullContentType,
             url: this.makeProxyURL(f.url),
-            acodec: f.acodec,
+            acodec,
             abr: f.abr * 1024,
             asr: f.asr,
-            vcodec: f.vcodec,
+            vcodec,
             vbr: f.vbr * 1024,
             fps: f.fps,
             width: f.width,
@@ -53,7 +53,7 @@ export abstract class BaseYouTubeProxy {
         return {
             contentType: fullContentType,
             url: this.makeProxyURL(f.url),
-            acodec: f.acodec,
+            acodec,
             abr: f.abr * 1024,
             asr: f.asr,
             resolution: f.abr

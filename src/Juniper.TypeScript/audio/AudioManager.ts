@@ -388,9 +388,7 @@ export class AudioManager
             prog.start(id);
         }
 
-        const elem = isString(path)
-            ? await mediaElementCanPlay(BackgroundAudio(autoPlaying, false, looping, src(path)))
-            : path;
+        const elem = await mediaElementCanPlay(BackgroundAudio(autoPlaying, false, looping, src(path)));
 
         if (isDefined(prog)) {
             prog.end(id);
