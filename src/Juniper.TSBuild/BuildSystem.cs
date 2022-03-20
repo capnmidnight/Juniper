@@ -341,8 +341,8 @@ namespace Juniper.TSBuild
             {
                 commands
                     .AddCommands(new MessageCommand("Build level {0}: {1}", buildLevel, buildLevelMessages[buildLevel]))
-                    .AddCommands(dependencies.Select(kv => new CopyCommand(kv.Key, kv.Value)))
-                    .AddCommands(GetInstallCommands(buildLevel));
+                    .AddCommands(GetInstallCommands(buildLevel))
+                    .AddCommands(dependencies.Select(kv => new CopyCommand(kv.Key, kv.Value)));
 
                 if (buildLevel > Level.Low)
                 {
