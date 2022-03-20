@@ -1,6 +1,6 @@
-import { PlayableVideo } from "juniper-audio/sources/PlayableVideo";
-import { YouTubeProxy } from "juniper-audio/YouTubeProxy";
 import { IProgress, progressSplit } from "juniper-tslib";
+import { PlayableVideo } from "juniper-video/PlayableVideo";
+import { YouTubeProxy } from "juniper-video/YouTubeProxy";
 import { createEACGeometry, createQuadGeometry } from "./CustomGeometry";
 import { Environment } from "./environment/Environment";
 import { Image2DMesh } from "./Image2DMesh";
@@ -216,8 +216,9 @@ export class YouTubeProxy3D extends YouTubeProxy {
 
     private async loadVideoMaterial(pageURL: string, volume: number, prog?: IProgress): Promise<VideoMaterialResult> {
         const progs = progressSplit(prog, 2);
-        const video = await this.load(pageURL, progs.shift());
-        await video.load(progs.shift());
+        const data = await this.loadData(pageURL, progs.shift());
+        const video = new PlayableVideo();
+        await video.load(data, progs.shift());
 
         this.env.audio.createBasicClip(pageURL, video.audioSource, volume);
 

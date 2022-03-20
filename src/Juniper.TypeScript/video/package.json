@@ -1,12 +1,14 @@
 {
   "version": "1.0.0",
-  "name": "juniper-audio",
+  "name": "juniper-video",
   "private": true,
   "type": "module",
   "dependencies": {
     "@types/audio-types": "file:../audio-types",
     "@types/offscreencanvas-types": "file:../offscreencanvas-types",
+    "@types/yt-dlp": "file:../yt-dlp",
     "gl-matrix": "3.4.3",
+    "juniper-audio": "file:../audio",
     "juniper-dom": "file:../dom",
     "juniper-fetcher": "file:../fetcher",
     "juniper-mediatypes": "file:../mediatypes",

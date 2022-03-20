@@ -1,21 +1,11 @@
 import { IFetcher } from "juniper-fetcher";
 import { anyAudio, anyVideo, mediaTypeParse } from "juniper-mediatypes";
-import { IProgress, isNullOrUndefined, isString, PriorityList } from "juniper-tslib";
-import { PlayableVideo } from "./sources/PlayableVideo";
+import { arrayScan, IProgress, isNullOrUndefined, isString, PriorityList } from "juniper-tslib";
+import { AudioRecord, FullVideoRecord, ImageRecord, VideoRecord } from "./BaseVideoPlayer";
 
 function isVideoOrAudio(f: YTMetadataFormat): boolean {
     return anyAudio.matches(f.content_type)
         || anyVideo.matches(f.content_type);
-}
-
-export interface MediaRecord {
-    url: string;
-    size: number;
-    content_type: string;
-    resolution: number;
-    width?: number;
-    height?: number;
-    data?: YTMetadataFormat;
 }
 
 export function combineContentTypeAndCodecs(content_type: string, ...codecs: string[]): string {
@@ -33,28 +23,55 @@ export function combineContentTypeAndCodecs(content_type: string, ...codecs: str
     return parts.join(";");
 }
 
-export class YouTubeProxy {
+export abstract class BaseYouTubeProxy {
     constructor(
         protected fetcher: IFetcher,
         protected readonly makeProxyURL: (path: string) => string) {
     }
 
-    private makeBasicFormat(f: YTMetadataFormat): MediaRecord {
+    private makeVideoRecord(f: YTMetadataFormat): VideoRecord {
         const { content_type, acodec, vcodec } = f;
         const fullContentType = combineContentTypeAndCodecs(content_type, vcodec, acodec);
         return {
-            data: f,
-            content_type: fullContentType,
+            contentType: fullContentType,
+            url: this.makeProxyURL(f.url),
+            acodec: f.acodec,
+            abr: f.abr * 1024,
+            asr: f.asr,
+            vcodec: f.vcodec,
+            vbr: f.vbr * 1024,
+            fps: f.fps,
             width: f.width,
             height: f.height,
-            resolution: (f.width * f.height) || f.abr,
-            size: f.filesize || f.filesize_approx,
-            url: this.makeProxyURL(f.url)
+            resolution: f.width * f.height
         };
     }
 
-    async load(pageURLOrMetadata: string | YTMetadata, prog?: IProgress): Promise<PlayableVideo> {
+    private makeAudioRecord(f: YTMetadataFormat): AudioRecord {
+        const { content_type, acodec, vcodec } = f;
+        const fullContentType = combineContentTypeAndCodecs(content_type, vcodec, acodec);
+        return {
+            contentType: fullContentType,
+            url: this.makeProxyURL(f.url),
+            acodec: f.acodec,
+            abr: f.abr * 1024,
+            asr: f.asr,
+            resolution: f.abr
+        };
+    }
 
+    private makeImageRecord(f: YTMetadataThumbnail): ImageRecord {
+        const { content_type, url, width, height } = f;
+        return {
+            contentType: content_type,
+            url: this.makeProxyURL(url),
+            width,
+            height,
+            resolution: width * height
+        };
+    }
+
+    async loadData(pageURLOrMetadata: string | YTMetadata, prog?: IProgress): Promise<FullVideoRecord> {
         if (isNullOrUndefined(pageURLOrMetadata)) {
             throw new Error("must provide a YouTube URL or a YTMetadata object");
         }
@@ -63,21 +80,21 @@ export class YouTubeProxy {
 
         const formats = new PriorityList((await Promise.all(metadata
             .formats
-            .filter(isVideoOrAudio)
-            .map(f => this.makeBasicFormat(f))))
+            .filter(isVideoOrAudio)))
             .map(f => [mediaTypeParse(f.content_type).typeName, f]));
 
-        return new PlayableVideo(
-            metadata.title,
-            formats.get("video"),
-            formats.get("audio"),
-            this.makeProxyURL(metadata.thumbnail));
+        return {
+            title: metadata.title,
+            thumbnail: this.makeImageRecord(arrayScan(metadata.thumbnails, (t) => t.url === metadata.thumbnail)),
+            videos: formats.get("video").map((f) => this.makeVideoRecord(f)),
+            audios: formats.get("audio").map((f) => this.makeAudioRecord(f))
+        };
     }
 
     private async loadMetadata(pageURLOrMetadata: string | YTMetadata, prog?: IProgress) {
         let metadata: YTMetadata = null;
         if (!isString(pageURLOrMetadata)) {
-            prog.report(1, 1, pageURLOrMetadata.title);
+            prog.end(pageURLOrMetadata.title);
             metadata = pageURLOrMetadata;
         }
         else {
@@ -89,3 +106,4 @@ export class YouTubeProxy {
         return metadata;
     }
 }
+

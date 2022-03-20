@@ -8,6 +8,7 @@ import { objectGetRelativePose } from "./objectGetRelativePose";
 import { objectIsFullyVisible } from "./objects";
 import { plane } from "./Plane";
 import { TexturedMesh } from "./TexturedMesh";
+import { StereoLayoutName } from "./YouTubeProxy3D";
 
 const P = new THREE.Vector4();
 const Q = new THREE.Quaternion();
@@ -26,6 +27,7 @@ export class Image2DMesh
     private lastImage: unknown = null;
     private lastWidth: number = null;
     private lastHeight: number = null;
+    stereoLayoutName: StereoLayoutName = "mono";
     protected fetcher: IFetcher = null;
     protected env: IWebXRLayerManager = null;
     mesh: TexturedMesh = null;
@@ -77,7 +79,10 @@ export class Image2DMesh
             const isVisible = objectIsFullyVisible(this);
             const isLayersAvailable = this.webXRLayerEnabled
                 && isDefined(frame)
-                && isDefined(this.env.xrBinding);
+                && (this.mesh.isVideo
+                    && isDefined(this.env.xrMediaBinding)
+                    || !this.mesh.isVideo
+                    && isDefined(this.env.xrBinding));
             const useLayer = isLayersAvailable && isVisible;
 
             const layersAvailableChanged = isLayersAvailable !== this.wasLayersAvailable;
@@ -88,22 +93,22 @@ export class Image2DMesh
             const sizeChanged = this.mesh.imageWidth !== this.lastWidth
                 || this.mesh.imageHeight !== this.lastHeight;
 
-
             this.wasLayersAvailable = isLayersAvailable;
             this.wasVisible = isVisible;
             this.lastImage = this.mesh.material.map.image;
             this.lastWidth = this.mesh.imageWidth;
             this.lastHeight = this.mesh.imageHeight;
 
-
             if (layersAvailableChanged || visibleChanged || sizeChanged) {
                 if ((!useLayer || sizeChanged) && this.layer) {
                     this.env.removeWebXRLayer(this.layer);
-                    this.layer.destroy();
+                    const layer = this.layer;
                     this.layer = null;
-                    if (this.visible) {
+
+                    setTimeout(() => {
+                        layer.destroy();
                         this.mesh.visible = true;
-                    }
+                    }, 100);
                 }
 
                 if (useLayer) {
@@ -111,18 +116,41 @@ export class Image2DMesh
 
                     objectGetRelativePose(this.env.stage, this.mesh, P, Q, S);
                     this.lastMatrixWorld.copy(this.matrixWorld);
+                    const transform = new XRRigidTransform(P, Q);
+                    const width = S.x / 2;
+                    const height = S.y / 2;
+                    const layout = this.stereoLayoutName === "mono"
+                        ? "mono"
+                        : this.stereoLayoutName === "left-right" || this.stereoLayoutName === "right-left"
+                            ? "stereo-left-right"
+                            : "stereo-top-bottom";
 
-                    this.layer = this.env.xrBinding.createQuadLayer({
-                        space,
-                        layout: "mono",
-                        textureType: "texture",
-                        isStatic: this.isStatic,
-                        viewPixelWidth: this.mesh.imageWidth,
-                        viewPixelHeight: this.mesh.imageHeight,
-                        transform: new XRRigidTransform(P, Q),
-                        width: S.x / 2,
-                        height: S.y / 2
-                    });
+                    if (this.mesh.isVideo) {
+                        const invertStereo = this.stereoLayoutName === "right-left"
+                            || this.stereoLayoutName === "bottom-top";
+
+                        this.layer = this.env.xrMediaBinding.createQuadLayer(this.mesh.material.map.image, {
+                            space,
+                            layout,
+                            invertStereo,
+                            transform,
+                            width,
+                            height
+                        });
+                    }
+                    else {
+                        this.layer = this.env.xrBinding.createQuadLayer({
+                            space,
+                            layout,
+                            textureType: "texture",
+                            isStatic: this.isStatic,
+                            viewPixelWidth: this.mesh.imageWidth,
+                            viewPixelHeight: this.mesh.imageHeight,
+                            transform,
+                            width,
+                            height
+                        });
+                    }
 
                     this.env.addWebXRLayer(this.layer, 500);
                     this.mesh.visible = false;

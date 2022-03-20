@@ -23,6 +23,7 @@
     "juniper-timers": "file:../timers",
     "juniper-tslib": "file:../tslib",
     "juniper-units": "file:../units",
+    "juniper-video": "file:../video",
     "juniper-webrtc": "file:../webrtc",
     "three": "0.137.5",
     "webxr-polyfill": "2.0.3"
