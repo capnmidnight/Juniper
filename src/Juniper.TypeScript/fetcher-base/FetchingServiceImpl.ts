@@ -14,7 +14,7 @@ export function isXHRBodyInit(obj: any): obj is XMLHttpRequestBodyInit {
         || "Document" in globalThis && obj instanceof Document;
 }
 
-function trackProgress(name: string, xhr: XMLHttpRequest, target: (XMLHttpRequest | XMLHttpRequestUpload), onProgress: IProgress, skipLoading: boolean, prevTask?: Promise<void>): Promise<void> {
+function trackProgress(name: string, xhr: XMLHttpRequest, target: (XMLHttpRequest | XMLHttpRequestUpload), prog: IProgress, skipLoading: boolean, prevTask?: Promise<void>): Promise<void> {
     return new Promise((resolve: () => void, reject: (msg: string) => void) => {
         let prevDone = !prevTask;
         if (prevTask) {
@@ -38,16 +38,16 @@ function trackProgress(name: string, xhr: XMLHttpRequest, target: (XMLHttpReques
         }
 
         target.addEventListener("loadstart", () => {
-            if (prevDone && !done && onProgress) {
-                onProgress.report(0, 1, name);
+            if (prevDone && !done && prog) {
+                prog.start(name);
             }
         });
 
         target.addEventListener("progress", (ev: Event) => {
             if (prevDone && !done) {
                 const evt = ev as ProgressEvent<XMLHttpRequestEventTarget>;
-                if (onProgress) {
-                    onProgress.report(evt.loaded, Math.max(evt.loaded, evt.total), name);
+                if (prog) {
+                    prog.report(evt.loaded, Math.max(evt.loaded, evt.total), name);
                 }
                 if (evt.loaded === evt.total) {
                     loaded = true;
@@ -58,8 +58,8 @@ function trackProgress(name: string, xhr: XMLHttpRequest, target: (XMLHttpReques
 
         target.addEventListener("load", () => {
             if (prevDone && !done) {
-                if (onProgress) {
-                    onProgress.report(1, 1, name);
+                if (prog) {
+                    prog.end(name);
                 }
                 done = true;
                 maybeResolve();

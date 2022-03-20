@@ -147,8 +147,8 @@ export class Tele
         this.env.foreground.remove(this.remoteUsers);
     }
 
-    async loadAvatar(path: string, onProgress?: IProgress) {
-        this.avatarModel = await this.env.loadModel(path, onProgress);
+    async loadAvatar(path: string, prog?: IProgress) {
+        this.avatarModel = await this.env.loadModel(path, prog);
         this.avatarModel = this.avatarModel.children[0];
         for (const id of this.users.keys()) {
             const user = this.users.get(id);
@@ -186,8 +186,8 @@ export class Tele
         }
     }
 
-    async load(onProgress?: IProgress) {
-        await progressTasks(onProgress,
+    async load(prog?: IProgress) {
+        await progressTasks(prog,
             prog => this.env.audio.loadBasicClip("join", "/audio/door_open.mp3", 0.25, prog),
             prog => this.env.audio.loadBasicClip("leave", "/audio/door_close.mp3", 0.25, prog),
             prog => this.loadAvatar("/models/Avatar.glb", prog));

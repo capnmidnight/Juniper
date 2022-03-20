@@ -1,9 +1,14 @@
 import { IProgress } from "./IProgress";
 import { progressSplitWeighted } from "./progressSplit";
 
-export async function progressOfArray<T, U>(onProgress: IProgress | undefined, items: T[], callback: (val: T, prog: IProgress, i?: number) => Promise<U>) {
+export function progressOfArray<T, U>(prog: IProgress, items: T[], callback: (val: T, prog: IProgress, i?: number) => Promise<U>): Promise<U[]> {
     const weights = items.map(() => 1);
-    const progs = progressSplitWeighted(onProgress, weights);
-    const tasks = items.map((item, i) => callback(item, progs[i], i));
-    return await Promise.all(tasks);
+    const progs = progressSplitWeighted(prog, weights);
+    return Promise.all(items.map(async (item, i) => {
+        const prog = progs[i];
+        prog.start();
+        const value = await callback(item, prog, i);
+        prog.end();
+        return value;
+    }));
 }

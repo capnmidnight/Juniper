@@ -76,35 +76,35 @@ export class WorkerPool<EventsT, WorkerClientT extends WorkerClient<EventsT>>
     /**
      * Execute a method on a round-robin selected worker thread.
      * @param methodName - the name of the method to execute.
-     * @param onProgress - a callback for receiving progress reports on long-running invocations.
+     * @param prog - a callback for receiving progress reports on long-running invocations.
      */
-    protected callMethod<T>(methodName: string, onProgress?: IProgress): Promise<T>;
+    protected callMethod<T>(methodName: string, prog?: IProgress): Promise<T>;
 
     /**
      * Execute a method on a round-robin selected worker thread.
      * @param methodName - the name of the method to execute.
      * @param params - the parameters to pass to the method.
-     * @param onProgress - a callback for receiving progress reports on long-running invocations.
+     * @param prog - a callback for receiving progress reports on long-running invocations.
      */
-    protected callMethod<T>(methodName: string, params: any[], onProgress?: IProgress): Promise<T>;
-
-    /**
-     * Execute a method on a round-robin selected worker thread.
-     * @param methodName - the name of the method to execute.
-     * @param params - the parameters to pass to the method.
-     * @param transferables - any values in any of the parameters that should be transfered instead of copied to the worker thread.
-     * @param onProgress - a callback for receiving progress reports on long-running invocations.
-     */
-    protected callMethod<T>(methodName: string, params: any[], transferables: Transferable[], onProgress?: IProgress): Promise<T>;
+    protected callMethod<T>(methodName: string, params: any[], prog?: IProgress): Promise<T>;
 
     /**
      * Execute a method on a round-robin selected worker thread.
      * @param methodName - the name of the method to execute.
      * @param params - the parameters to pass to the method.
      * @param transferables - any values in any of the parameters that should be transfered instead of copied to the worker thread.
-     * @param onProgress - a callback for receiving progress reports on long-running invocations.
+     * @param prog - a callback for receiving progress reports on long-running invocations.
      */
-    protected callMethod<T>(methodName: string, params?: any[] | IProgress, transferables?: Transferable[] | IProgress, onProgress?: IProgress): Promise<T | undefined> {
+    protected callMethod<T>(methodName: string, params: any[], transferables: Transferable[], prog?: IProgress): Promise<T>;
+
+    /**
+     * Execute a method on a round-robin selected worker thread.
+     * @param methodName - the name of the method to execute.
+     * @param params - the parameters to pass to the method.
+     * @param transferables - any values in any of the parameters that should be transfered instead of copied to the worker thread.
+     * @param prog - a callback for receiving progress reports on long-running invocations.
+     */
+    protected callMethod<T>(methodName: string, params?: any[] | IProgress, transferables?: Transferable[] | IProgress, prog?: IProgress): Promise<T | undefined> {
         if (!WorkerClient.isSupported) {
             return Promise.reject(new Error("Workers are not supported on this system."));
         }
@@ -114,14 +114,14 @@ export class WorkerPool<EventsT, WorkerClientT extends WorkerClient<EventsT>>
         let tfers: Transferable[] = null;
 
         if (isProgressCallback(params)) {
-            onProgress = params;
+            prog = params;
             params = null;
             transferables = null;
         }
 
         if (isProgressCallback(transferables)
-            && !onProgress) {
-            onProgress = transferables;
+            && !prog) {
+            prog = transferables;
             transferables = null;
         }
 
@@ -135,7 +135,7 @@ export class WorkerPool<EventsT, WorkerClientT extends WorkerClient<EventsT>>
 
         const worker = this.nextWorker();
 
-        return worker.callMethod<T>(methodName, parameters, tfers, onProgress);
+        return worker.callMethod<T>(methodName, parameters, tfers, prog);
     }
 
     protected nextWorker() {

@@ -285,7 +285,7 @@ class RequestBuilder
         let goodBlob: IResponse<Blob> = null;
         if (!shouldTry(this.request.path.toString())) {
             if (this.prog) {
-                this.prog.report(1, 1, "skip " + this.request.path);
+                this.prog.end("skip " + this.request.path);
             }
         }
         else {
@@ -376,7 +376,7 @@ class RequestBuilder
 
         const value = await import(scriptPath);
         if (this.prog) {
-            this.prog.report(1, 1, scriptPath);
+            this.prog.end(scriptPath);
         }
         return value;
     }

@@ -291,8 +291,8 @@ export class Environment
         widgetSetEnabled(this.lobbyButton, !showing, "primary");
     }
 
-    override async load(onProgress?: IProgress) {
-        await progressTasks(onProgress,
+    override async load(prog?: IProgress) {
+        await progressTasks(prog,
             prog => super.load(prog),
             prog => this.uiButtons.load(prog),
             prog => this.audio.loadBasicClip("footsteps", "/audio/TransitionFootstepAudio.mp3", 0.5, prog),

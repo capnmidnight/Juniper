@@ -33,19 +33,19 @@ export function makeFont(style: FontDescription): string {
     return fontParts.join(" ");
 }
 
-export async function loadFont(font: string | FontDescription, testString: string | null = null, onProgress?: IProgress) {
+export async function loadFont(font: string | FontDescription, testString: string | null = null, prog?: IProgress) {
     if (!isString(font)) {
         font = makeFont(font);
     }
 
     if (loadedFonts.indexOf(font) === -1) {
         testString = testString || DEFAULT_TEST_TEXT;
-        if (onProgress) {
-            onProgress.report(0, 1, font);
+        if (prog) {
+            prog.start(font);
         }
         const fonts = await document.fonts.load(font, testString);
-        if (onProgress) {
-            onProgress.report(1, 1, font);
+        if (prog) {
+            prog.end(font);
         }
         if (fonts.length === 0) {
             console.warn(`Failed to load font "${font}". If this is a system font, just set the object's \`value\` property, instead of calling \`loadFontAndSetText\`.`);

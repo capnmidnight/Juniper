@@ -3,7 +3,9 @@ import { isDefined, isFunction } from "../typeChecks";
 export interface IProgress {
     report(soFar: number, total: number, message?: string, est?: number): void;
     attach(prog: IProgress): void;
-    end(): void;
+    clear(): void;
+    start(msg?: string): void;
+    end(msg?: string): void;
 }
 
 export function isProgressCallback(obj: any): obj is IProgress {

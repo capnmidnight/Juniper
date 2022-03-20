@@ -296,8 +296,8 @@ export class AudioManager
         return this.audioDestination;
     }
 
-    loadBasicClip(id: string, path: string, vol: number, onProgress?: IProgress): Promise<AudioElementSource> {
-        return this.loadClip(id, path, false, false, false, false, vol, [], onProgress);
+    loadBasicClip(id: string, path: string, vol: number, prog?: IProgress): Promise<AudioElementSource> {
+        return this.loadClip(id, path, false, false, false, false, vol, [], prog);
     }
 
     createBasicClip(id: string, element: HTMLMediaElement, vol: number): AudioElementSource {
@@ -333,7 +333,7 @@ export class AudioManager
         }
 
         if (isDefined(prog)) {
-            prog.report(0, 1, path);
+            prog.start(path);
         }
 
         const source = await this.getSourceTask(id, path, path, looping, autoPlaying, prog);
@@ -341,7 +341,7 @@ export class AudioManager
         this.clips.set(id, clip);
 
         if (isDefined(prog)) {
-            prog.report(1, 1, path);
+            prog.end(path);
         }
 
         return clip;
@@ -369,14 +369,14 @@ export class AudioManager
         return clip;
     }
 
-    private getSourceTask(id: string, curPath: string, path: string, looping: boolean, autoPlaying: boolean, onProgress: IProgress): Promise<MediaElementAudioSourceNode> {
+    private getSourceTask(id: string, curPath: string, path: string, looping: boolean, autoPlaying: boolean, prog: IProgress): Promise<MediaElementAudioSourceNode> {
         this.clipPaths.set(id, curPath);
         let sourceTask = this.pathSources.get(curPath);
         if (isDefined(sourceTask)) {
             this.pathCounts.set(curPath, this.pathCounts.get(curPath) + 1);
         }
         else {
-            sourceTask = this.createSourceFromFile(id, path, looping, autoPlaying, onProgress);
+            sourceTask = this.createSourceFromFile(id, path, looping, autoPlaying, prog);
             this.pathSources.set(curPath, sourceTask);
             this.pathCounts.set(curPath, 1);
         }
@@ -385,7 +385,7 @@ export class AudioManager
 
     private async createSourceFromFile(id: string, path: string, looping: boolean, autoPlaying: boolean, prog?: IProgress): Promise<MediaElementAudioSourceNode> {
         if (isDefined(prog)) {
-            prog.report(0, 1, id);
+            prog.start(id);
         }
 
         const elem = isString(path)
@@ -393,7 +393,7 @@ export class AudioManager
             : path;
 
         if (isDefined(prog)) {
-            prog.report(1, 1, id);
+            prog.end(id);
         }
 
         return this.createSourceFromElement(id, elem);

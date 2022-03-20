@@ -248,8 +248,8 @@ export function applyFakeProgress(file: string, elem: HTMLElement, prog: IProgre
     if (prog) {
         elementApply(elem,
             onProgressCallback(prog),
-            onLoadStart(() => prog.report(0, 1, `${file} loading`)),
-            onLoad(() => prog.report(1, 1, `${file} loaded`))
+            onLoadStart(() => prog.start(`${file} loading`)),
+            onLoad(() => prog.end(`${file} loaded`))
         );
     }
 }

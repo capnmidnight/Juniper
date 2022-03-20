@@ -366,7 +366,7 @@ export class BaseEnvironment<Events = void>
             await this.fader.fadeOut();
             this.skybox.visible = false;
             this.camera.layers.set(PURGATORY);
-            this.loadingBar.report(0, 1);
+            this.loadingBar.start();
             await this.fader.fadeIn();
         }
     }
@@ -381,10 +381,10 @@ export class BaseEnvironment<Events = void>
         }
     }
 
-    async loadModel(path: string, onProgress?: IProgress): Promise<THREE.Group> {
+    async loadModel(path: string, prog?: IProgress): Promise<THREE.Group> {
         const loader = new GLTFLoader();
         const model = await loader.loadAsync(path, (evt) => {
-            onProgress.report(evt.loaded, evt.total, path);
+            prog.report(evt.loaded, evt.total, path);
         });
         model.scene.traverse((m: THREE.Object3D) => {
             if (isMesh(m)) {
@@ -397,8 +397,8 @@ export class BaseEnvironment<Events = void>
         return model.scene;
     }
 
-    async load3DCursor(path: string, onProgress?: IProgress) {
-        const model = await this.loadModel(path, onProgress);
+    async load3DCursor(path: string, prog?: IProgress) {
+        const model = await this.loadModel(path, prog);
         const children = model.children.slice(0);
         for (const child of children) {
             this.cursor3D.add(child.name, child);
@@ -407,7 +407,7 @@ export class BaseEnvironment<Events = void>
         this.dispatchEvent(new TypedEvent("newcursorloaded"));
     }
 
-    async load(onProgress?: IProgress) {
-        await this.load3DCursor("/models/Cursors.glb", onProgress);
+    async load(prog?: IProgress) {
+        await this.load3DCursor("/models/Cursors.glb", prog);
     }
 }

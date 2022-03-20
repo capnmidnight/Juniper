@@ -109,10 +109,10 @@ export class TexturedMesh extends THREE.Mesh<THREE.BufferGeometry, Material> {
         return img;
     }
 
-    async loadImage(path: string, onProgress?: IProgress): Promise<void> {
+    async loadImage(path: string, prog?: IProgress): Promise<void> {
         let { content: img } = await this.fetcher
             .get(path)
-            .progress(onProgress)
+            .progress(prog)
             .image();
         const texture = this.setImage(img);
         texture.name = path;

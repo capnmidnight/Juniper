@@ -13,7 +13,7 @@ import type {
 } from "juniper-workers/WorkerMessages";
 
 interface WorkerInvocation {
-    onProgress: IProgress;
+    prog: IProgress;
     resolve: (value: any) => void;
     reject: (reason?: any) => void;
     methodName: string;
@@ -81,9 +81,9 @@ export class WorkerClient<EventsT> extends TypedEventBase<EventsT> implements ID
 
     private progressReport(data: WorkerServerProgressMessage) {
         const invocation = this.invocations.get(data.taskID);
-        const { onProgress } = invocation;
-        if (onProgress) {
-            onProgress.report(data.soFar, data.total, data.msg, data.est);
+        const { prog } = invocation;
+        if (prog) {
+            prog.report(data.soFar, data.total, data.msg, data.est);
         }
     }
 
@@ -113,35 +113,35 @@ export class WorkerClient<EventsT> extends TypedEventBase<EventsT> implements ID
     /**
      * Execute a method on a round-robin selected worker thread.
      * @param methodName - the name of the method to execute.
-     * @param onProgress - a callback for receiving progress reports on long-running invocations.
+     * @param prog - a callback for receiving progress reports on long-running invocations.
      */
-    callMethod<T>(methodName: string, onProgress?: IProgress): Promise<T>;
+    callMethod<T>(methodName: string, prog?: IProgress): Promise<T>;
 
     /**
      * Execute a method on a round-robin selected worker thread.
      * @param methodName - the name of the method to execute.
      * @param params - the parameters to pass to the method.
-     * @param onProgress - a callback for receiving progress reports on long-running invocations.
+     * @param prog - a callback for receiving progress reports on long-running invocations.
      */
-    callMethod<T>(methodName: string, params: any[], onProgress?: IProgress): Promise<T>;
+    callMethod<T>(methodName: string, params: any[], prog?: IProgress): Promise<T>;
 
     /**
      * Execute a method on a round-robin selected worker thread.
      * @param methodName - the name of the method to execute.
      * @param params - the parameters to pass to the method.
      * @param transferables - any values in any of the parameters that should be transfered instead of copied to the worker thread.
-     * @param onProgress - a callback for receiving progress reports on long-running invocations.
+     * @param prog - a callback for receiving progress reports on long-running invocations.
      */
-    callMethod<T>(methodName: string, params: any[], transferables: Transferable[], onProgress?: IProgress): Promise<T>;
+    callMethod<T>(methodName: string, params: any[], transferables: Transferable[], prog?: IProgress): Promise<T>;
 
     /**
      * Execute a method on a round-robin selected worker thread.
      * @param methodName - the name of the method to execute.
      * @param parameters - the parameters to pass to the method.
      * @param transferables - any values in any of the parameters that should be transfered instead of copied to the worker thread.
-     * @param onProgress - a callback for receiving progress reports on long-running invocations.
+     * @param prog - a callback for receiving progress reports on long-running invocations.
      */
-    callMethod<T>(methodName: string, parameters?: any[] | IProgress, transferables?: Transferable[] | IProgress, onProgress?: IProgress): Promise<T | undefined> {
+    callMethod<T>(methodName: string, parameters?: any[] | IProgress, transferables?: Transferable[] | IProgress, prog?: IProgress): Promise<T | undefined> {
         if (!WorkerClient.isSupported) {
             return Promise.reject(new Error("Workers are not supported on this system."));
         }
@@ -151,14 +151,14 @@ export class WorkerClient<EventsT> extends TypedEventBase<EventsT> implements ID
         let tfers: Transferable[] = null;
 
         if (isProgressCallback(parameters)) {
-            onProgress = parameters;
+            prog = parameters;
             parameters = null;
             transferables = null;
         }
 
         if (isProgressCallback(transferables)
-            && !onProgress) {
-            onProgress = transferables;
+            && !prog) {
+            prog = transferables;
             transferables = null;
         }
 
@@ -175,7 +175,7 @@ export class WorkerClient<EventsT> extends TypedEventBase<EventsT> implements ID
 
         return new Promise((resolve, reject) => {
             const invocation: WorkerInvocation = {
-                onProgress,
+                prog,
                 resolve,
                 reject,
                 methodName

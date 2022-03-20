@@ -1,7 +1,7 @@
 import { IProgress } from "./IProgress";
 import { progressSplitWeighted } from "./progressSplit";
 
-export type subProgressCallback = (onProgress: IProgress) => Promise<any>;
+export type subProgressCallback = (prog: IProgress) => Promise<any>;
 
 export type TaskDef = [weight: number, task: subProgressCallback];
 

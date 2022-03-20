@@ -122,7 +122,7 @@ export class Menu extends THREE.Object3D {
         };
     }
 
-    async load(description: MenuDescription, onProgress?: IProgress) {
+    async load(description: MenuDescription, prog?: IProgress) {
         this.menuFont = description.font;
 
         let imgs = description.images;
@@ -142,7 +142,7 @@ export class Menu extends THREE.Object3D {
             tasks.push([1, (prog) => this.logo.front.mesh.loadImage(imgs.logo.front, prog)]);
         }
 
-        await progressTasksWeighted(onProgress, tasks);
+        await progressTasksWeighted(prog, tasks);
 
         if (imgs.logo.front) {
             this.logo.front.width = 1;
@@ -155,7 +155,7 @@ export class Menu extends THREE.Object3D {
         items: MenuItemDescription[],
         onClick: menuItemCallback<T>,
         onBack: () => void,
-        onProgress?: IProgress) {
+        prog?: IProgress) {
 
         let pageSize = PAGE_SIZE;
         do {
@@ -172,7 +172,7 @@ export class Menu extends THREE.Object3D {
 
         const index = this.lastMenuIndex.get(menuID) || 0;
 
-        await this.showMenuInternal(menuID, title, items, pageSize, index, onClick, onBack, onProgress);
+        await this.showMenuInternal(menuID, title, items, pageSize, index, onClick, onBack, prog);
     }
 
 
@@ -192,7 +192,7 @@ export class Menu extends THREE.Object3D {
         index: number,
         onClick: menuItemCallback<T>,
         onBack: () => void,
-        onProgress?: IProgress) {
+        prog?: IProgress) {
 
         this.lastMenuIndex.set(menuID, index);
 
@@ -244,18 +244,18 @@ export class Menu extends THREE.Object3D {
             button.update(0, null);
         }
 
-        const buttons = await progressOfArray(onProgress, displayItems, (item: MenuItemDescription, onProgress: IProgress) => {
+        const buttons = await progressOfArray(prog, displayItems, (item: MenuItemDescription, prog: IProgress) => {
             if (item === this.backButton) {
-                return this.createMenuItem(item, onBack, onProgress);
+                return this.createMenuItem(item, onBack, prog);
             }
             else if (item === this.prevButton) {
-                return this.createMenuItem(item, onPrev, onProgress);
+                return this.createMenuItem(item, onPrev, prog);
             }
             else if (item === this.nextButton) {
-                return this.createMenuItem(item, onNext, onProgress);
+                return this.createMenuItem(item, onNext, prog);
             }
             else {
-                return this.createMenuItem(item, onClick, onProgress);
+                return this.createMenuItem(item, onClick, prog);
             }
         });
 
@@ -316,12 +316,12 @@ export class Menu extends THREE.Object3D {
         button.position.x = x - 10;
     }
 
-    private async createMenuItem(item: MenuItemDescription, onClick?: menuItemCallback<MenuItemDescription> | Function, onProgress?: IProgress): Promise<MenuItem> {
+    private async createMenuItem(item: MenuItemDescription, onClick?: menuItemCallback<MenuItemDescription> | Function, prog?: IProgress): Promise<MenuItem> {
 
         if (!item.back) {
             if (item.filePath) {
                 item.back = new Image2DMesh(this.env.fetcher, this.env, `${item.name}-Background`, true);
-                await item.back.mesh.loadImage(item.filePath, onProgress);
+                await item.back.mesh.loadImage(item.filePath, prog);
             }
             else {
                 item.back = this.defaultButtonImage.clone() as Image2DMesh;
@@ -419,8 +419,8 @@ export class Menu extends THREE.Object3D {
             });
         }
 
-        if (onProgress) {
-            onProgress.report(1, 1, "button loaded");
+        if (prog) {
+            prog.end("button loaded");
         }
 
         return button;

@@ -23,8 +23,21 @@ export class BaseProgress implements IProgress {
         prog.report(this.soFar, this.total, this.msg, this.est);
     }
 
-    end() {
-        this.report(1, 1, "done");
+    clear() {
+        this.report(0, 0);
+        this._clear();
+    }
+
+    start(msg?: string) {
+        this.report(0, 1, msg || "starting");
+    }
+
+    end(msg?: string) {
+        this.report(1, 1, msg || "done");
+        this._clear();
+    }
+
+    private _clear() {
         this.soFar = null;
         this.total = null;
         this.msg = null;

@@ -1,19 +1,19 @@
 import { BaseParentProgressCallback } from "./BaseParentProgressCallback";
 import { IProgress } from "./IProgress";
 
-export function progressSplitWeighted(onProgress: IProgress | undefined, subProgressWeights: number[]) {
-    const prog = new WeightedParentProgressCallback(subProgressWeights, onProgress);
-    return prog.subProgressCallbacks;
+export function progressSplitWeighted(prog: IProgress, subProgressWeights: number[]) {
+    const subProg = new WeightedParentProgressCallback(subProgressWeights, prog);
+    return subProg.subProgressCallbacks;
 }
 
 
-export function progressSplit(onProgress: IProgress, taskCount: number) {
+export function progressSplit(prog: IProgress, taskCount: number) {
     const subProgressWeights = new Array<number>(taskCount);
     for (let i = 0; i < taskCount; ++i) {
         subProgressWeights[i] = 1;
     }
 
-    return progressSplitWeighted(onProgress, subProgressWeights);
+    return progressSplitWeighted(prog, subProgressWeights);
 }
 
 class WeightedParentProgressCallback extends BaseParentProgressCallback {

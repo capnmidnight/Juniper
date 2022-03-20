@@ -127,16 +127,16 @@ export class Skybox {
         Object.seal(this);
     }
 
-    async prefetch(path: string, onProgress: IProgress): Promise<void> {
+    async prefetch(path: string, prog: IProgress): Promise<void> {
         if (!this.imgCache.has(path)) {
-            await this.getImage(path, onProgress);
+            await this.getImage(path, prog);
         }
-        else if (onProgress) {
-            onProgress.report(1, 1, "skip");
+        else if (prog) {
+            prog.end("skip");
         }
     }
 
-    private getImage(path: string, onProgress: IProgress): Promise<CanvasImageTypes> {
+    private getImage(path: string, prog: IProgress): Promise<CanvasImageTypes> {
         if (this.imgCache.has(path)) {
             return Promise.resolve(this.imgCache.get(path));
         }
@@ -147,7 +147,7 @@ export class Skybox {
 
         const task = this.env.fetcher
             .get(path)
-            .progress(onProgress)
+            .progress(prog)
             .image()
             .then(response => {
                 this.imgCache.set(path, response.content);
@@ -167,7 +167,7 @@ export class Skybox {
         this.imgCache.clear();
     }
 
-    async setImagePath(path: string, onProgress?: IProgress) {
+    async setImagePath(path: string, prog?: IProgress) {
         if (!isString(path)) {
             throw new Exception("path must be defined");
         }
@@ -175,7 +175,7 @@ export class Skybox {
         if (path !== this.curImagePath) {
             this.curImagePath = path;
 
-            const image = await this.getImage(path, onProgress);
+            const image = await this.getImage(path, prog);
             const width = image.width / CUBEMAP_PATTERN.columns;
             const height = image.height / CUBEMAP_PATTERN.rows;
             for (let row = 0; row < CUBEMAP_PATTERN.rows; ++row) {
@@ -197,8 +197,8 @@ export class Skybox {
             this.cube.needsUpdate = true;
             this.imageNeedsUpdate = true;
         }
-        else if (onProgress) {
-            onProgress.report(1, 1);
+        else if (prog) {
+            prog.end();
         }
     }
 

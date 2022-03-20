@@ -29,6 +29,10 @@ export class BootstrapProgressBarElement
         this.progress = new BootstrapProgressBarCallback(inner);
     }
 
+    clear() {
+        this.progress.clear();
+    }
+
     report(soFar: number, total: number, message?: string, est?: number): void {
         this.progress.report(soFar, total, message, est);
     }
@@ -37,8 +41,12 @@ export class BootstrapProgressBarElement
         this.progress.attach(prog);
     }
 
-    end(): void {
-        this.progress.end();
+    start(msg?: string) {
+        this.progress.start(msg);
+    }
+
+    end(msg?: string): void {
+        this.progress.end(msg);
     }
 
 }
@@ -56,7 +64,7 @@ export class BootstrapProgressBarCallback extends BaseProgress {
             this.progressBar.setAttribute("aria-valuenow", "0");
         }
         else {
-            const percent = (100 * soFar / total).toFixed(1);
+            const percent = total <= 0 ? "0" : (100 * soFar / total).toFixed(1);
             this.progressBar.style.width = `${percent}%`;
             this.progressBar.setAttribute("aria-valuenow", percent);
         }

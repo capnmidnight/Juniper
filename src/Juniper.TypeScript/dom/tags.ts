@@ -218,7 +218,7 @@ export function elementGetText(elem: Elements): string {
 
 export async function mediaElementCanPlay<T extends HTMLMediaElement>(elem: T, prog?: IProgress): Promise<T> {
     if (isDefined(prog)) {
-        prog.report(0, 1);
+        prog.start();
     }
     await once<HTMLMediaElementEventMap, "canplay">(elem, "canplay");
     if (isDefined(prog)) {
@@ -229,7 +229,7 @@ export async function mediaElementCanPlay<T extends HTMLMediaElement>(elem: T, p
 
 export async function mediaElementCanPlayThrough<T extends HTMLMediaElement>(elem: T, prog?: IProgress): Promise<T> {
     if (isDefined(prog)) {
-        prog.report(0, 1);
+        prog.start();
     }
     await once<HTMLMediaElementEventMap, "canplaythrough">(elem, "canplaythrough");
     if (isDefined(prog)) {

@@ -161,12 +161,12 @@ export class WorkerServer {
         }
 
         this.methods.set(methodName, async (taskID: number, ...params: any[]) => {
-            const onProgress = new WorkerServerProgress(this, taskID);
+            const prog = new WorkerServerProgress(this, taskID);
 
             try {
                 // Even functions returning void and functions returning bare, unPromised values, can be awaited.
                 // This creates a convenient fallback where we don't have to consider the exact return type of the function.
-                const returnValue = await asyncFunc(...params, onProgress);
+                const returnValue = await asyncFunc(...params, prog);
                 this.onReturn(taskID, returnValue, transferReturnValue);
             }
             catch (exp) {

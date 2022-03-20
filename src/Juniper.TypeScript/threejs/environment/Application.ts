@@ -10,8 +10,8 @@ export interface ApplicationEvents {
 
 export interface Application extends IDisposable, TypedEventBase<ApplicationEvents> {
     init(params: Map<string, unknown>): Promise<void>;
-    load(onProgress?: IProgress): Promise<void>;
-    show(onProgress?: IProgress): Promise<void>;
+    load(prog?: IProgress): Promise<void>;
+    show(prog?: IProgress): Promise<void>;
     update(evt: TimerTickEvent): void;
 }
 
