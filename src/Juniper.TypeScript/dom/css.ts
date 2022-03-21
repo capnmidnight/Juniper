@@ -434,7 +434,7 @@ export function containIntrinsicSize(v: string) { return new CssProp("containInt
 export function counterIncrement(v: string) { return new CssProp("counterIncrement", v); }
 export function counterReset(v: string) { return new CssProp("counterReset", v); }
 
-type CSSCursorValue = CSSGlobalValues
+export type CSSCursorValue = CSSGlobalValues
     | "auto"
     | "default"
     | "none"
@@ -647,7 +647,9 @@ export function offset(v: string) { return new CssProp("offset", v); }
 export function offsetDistance(v: string) { return new CssProp("offsetDistance", v); }
 export function offsetPath(v: string) { return new CssProp("offsetPath", v); }
 export function offsetRotate(v: string) { return new CssProp("offsetRotate", v); }
-export function opacity(v: string) { return new CssProp("opacity", v); }
+
+export function opacity(v: CSSGlobalValues | CSSNumberPercentage) { return new CssProp("opacity", v); }
+
 export function order(v: string) { return new CssProp("order", v); }
 export function orientation(v: string) { return new CssProp("orientation", v); }
 export function orphans(v: string) { return new CssProp("orphans", v); }

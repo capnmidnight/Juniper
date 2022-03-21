@@ -40,7 +40,7 @@ Style(
     rule(".SelectBoxRow:hover",
         backgroundColor("#eee")),
     rule(".SelectBoxRow.disabled",
-        opacity("0.5"),
+        opacity(0.5),
         cursor("not-allowed")),
     rule(".SelectBoxRow.disabled:hover",
         backgroundColor("unset")),

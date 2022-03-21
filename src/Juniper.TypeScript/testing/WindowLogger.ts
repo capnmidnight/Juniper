@@ -53,7 +53,7 @@ export class WindowLogger implements ILogger, ErsatzElement {
                 height("100%"),
                 zIndex(9001),
                 padding("1em"),
-                opacity("0.5"),
+                opacity(0.5),
                 backgroundColor("black"),
                 color("white"),
                 overflow("hidden"),
