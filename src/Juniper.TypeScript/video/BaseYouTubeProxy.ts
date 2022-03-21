@@ -23,7 +23,7 @@ export function combineContentTypeAndCodecs(content_type: string, ...codecs: str
     return parts.join(";");
 }
 
-export abstract class BaseYouTubeProxy {
+export class YouTubeProxy {
     constructor(
         protected fetcher: IFetcher,
         protected readonly makeProxyURL: (path: string) => string) {

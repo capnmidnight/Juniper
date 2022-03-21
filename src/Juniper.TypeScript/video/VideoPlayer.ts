@@ -1,6 +1,6 @@
 import { cursor, display, styles } from "juniper-dom/css";
 import { Div, elementSetDisplay, ErsatzElement, Img } from "juniper-dom/tags";
-import { IProgress, isDefined, once, progressSplitWeighted } from "juniper-tslib";
+import { IProgress, isDefined, isNullOrUndefined, once, progressSplitWeighted } from "juniper-tslib";
 import { BaseVideoPlayer } from "./BaseVideoPlayer";
 import { FullVideoRecord, ImageRecord } from "./data";
 
@@ -34,12 +34,24 @@ export class VideoPlayer
     }
 
     override async load(data: FullVideoRecord, prog?: IProgress): Promise<this> {
-        const progs = progressSplitWeighted(prog, [1, 10]);
-        await Promise.all([
-            this.loadThumbnail(data.thumbnail, progs.shift()),
-            super.load(data, progs.shift())
-        ]);
+        if (isNullOrUndefined(data)) {
+            this.clear();
+        }
+        else {
+            const progs = progressSplitWeighted(prog, [1, 10]);
+            await Promise.all([
+                this.loadThumbnail(data.thumbnail, progs.shift()),
+                super.load(data, progs.shift())
+            ]);
+        }
+
         return this;
+    }
+
+    clear(): void {
+        this.stop();
+        this.video.src = "";
+        this.audio.src = "";
     }
 
     protected override setTitle(v: string): void {
