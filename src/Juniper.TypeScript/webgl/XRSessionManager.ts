@@ -1,4 +1,4 @@
-import { arrayRemove, deg2rad, Exception, isDefined, isNullOrUndefined, TypedEvent, TypedEventBase } from "juniper-tslib";
+import { arrayRemove, deg2rad, Exception, isDefined, isNullOrUndefined, Task, TypedEvent, TypedEventBase } from "juniper-tslib";
 import type { Camera } from "./Camera";
 
 type TickCallback = (t: number, dt: number, frame: XRFrame) => void;
@@ -26,8 +26,7 @@ export class XRSessionManager extends TypedEventBase<{
     private readonly starter: (t: number, frame?: XRFrame) => void;
     private readonly animator: (t: number, frame?: XRFrame) => void;
 
-    private finished: () => void;
-    private doneTask: Promise<void>;
+    private doneTask: Task<void>;
 
     fps: number = null;
 
@@ -37,7 +36,7 @@ export class XRSessionManager extends TypedEventBase<{
 
     constructor(private gl: WebGL2RenderingContext, private cam: Camera) {
         super();
-        this.doneTask = new Promise<void>(resolve => this.finished = resolve);
+        this.doneTask = new Task();
 
         this.starter = (t: number, frame?: XRFrame) => {
             const session = frame && frame.session;
@@ -152,8 +151,7 @@ export class XRSessionManager extends TypedEventBase<{
         await this.endSession();
         this.pauseAnimation();
         if (this.doneTask) {
-            this.finished();
-            this.finished = null;
+            this.doneTask.resolve();
             this.doneTask = null;
         }
     }

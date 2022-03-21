@@ -1,4 +1,4 @@
-import { isDefined, isNullOrUndefined } from "juniper-tslib";
+import { isDefined, isNullOrUndefined, Task } from "juniper-tslib";
 import { htmlHeight, htmlWidth } from "./attrs";
 import { Canvas } from "./tags";
 
@@ -266,14 +266,14 @@ export function resizeContext(ctx: CanvasRenderingContext2D, superscale = 1) {
         superscale);
 }
 
-export async function canvasToBlob(canvas: CanvasTypes, type?: string, quality?: number): Promise<Blob> {
+export function canvasToBlob(canvas: CanvasTypes, type?: string, quality?: number): Promise<Blob> {
     if (isOffscreenCanvas(canvas)) {
-        return await canvas.convertToBlob({ type, quality });
+        return canvas.convertToBlob({ type, quality });
     }
     else {
-        return await new Promise((resolve: (blob: Blob | null) => void) => {
-            canvas.toBlob(resolve, type, quality);
-        });
+        const blobCreated = new Task<Blob>();
+        canvas.toBlob(blobCreated.resolve, type, quality);
+        return blobCreated;
     }
 }
 

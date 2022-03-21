@@ -1,6 +1,6 @@
 import { Exception } from "../Exception";
-import { isDefined, isGoodNumber, isString } from "../typeChecks";
-import { add } from "./add";
+import { Task } from "../Promises";
+import { isGoodNumber, isNumber, isString } from "../typeChecks";
 import { TypedEventBase } from "./EventBase";
 
 function targetValidateEvent(target: EventTarget, type: string) {
@@ -24,11 +24,11 @@ export function once<
     (target: TypedEventBase<EventsT> | EventTarget, resolveEvt: ResolveEventKeyT, timeout?: number): Promise<EventsT[ResolveEventKeyT]>;
 export function once<
     EventsT,
-    ResolveEventKeyT extends keyof EventsT & string>
-    (target: TypedEventBase<EventsT> | EventTarget, resolveEvt: ResolveEventKeyT, rejectEvt?: (keyof EventsT & string) | number, timeout?: number): Promise<EventsT[ResolveEventKeyT]> {
+    ResolveEventKeyT extends keyof EventsT & string,
+    RejectEventKeyT extends keyof EventsT & string>
+    (target: EventTarget, resolveEvt: ResolveEventKeyT, rejectEvt?: RejectEventKeyT | number, timeout?: number): Promise<EventsT[ResolveEventKeyT]> {
 
-    if (timeout == null
-        && isGoodNumber(rejectEvt)) {
+    if (isGoodNumber(rejectEvt)) {
         timeout = rejectEvt;
         rejectEvt = undefined;
     }
@@ -42,36 +42,23 @@ export function once<
         }
     }
 
-    return new Promise((resolve: (value: any) => void, reject) => {
-        const remove = () => {
-            target.removeEventListener(resolveEvt, resolve);
-        };
-        resolve = add(remove, resolve);
-        reject = add(remove, reject);
+    const task = new Task<EventsT[ResolveEventKeyT]>();
 
-        if (isString(rejectEvt)) {
-            const rejectEvt2 = rejectEvt;
-            const remove = () => {
-                target.removeEventListener(rejectEvt2, reject);
-            };
+    if (isNumber(timeout)) {
+        const timeoutHandle = setTimeout(task.reject, timeout, `'${resolveEvt}' has timed out.`);
+        task.finally(clearTimeout.bind(globalThis, timeoutHandle));
+    }
 
-            resolve = add(remove, resolve);
-            reject = add(remove, reject);
-        }
+    const register = (evt: RejectEventKeyT | ResolveEventKeyT, callback: any) => {
+        target.addEventListener(evt, callback);
+        task.finally(() => target.removeEventListener(evt, callback));
+    }
 
-        if (isDefined(timeout)) {
-            const timer = setTimeout(reject, timeout, `'${resolveEvt}' has timed out.`),
-                cancel = () => clearTimeout(timer);
-            resolve = add(cancel, resolve);
-            reject = add(cancel, reject);
-        }
+    if (isString(rejectEvt)) {
+        register(rejectEvt, task.reject);
+    }
 
-        target.addEventListener(resolveEvt, resolve);
+    register(resolveEvt, task.resolve);
 
-        if (isString(rejectEvt)) {
-            target.addEventListener(rejectEvt, () => {
-                reject("Rejection event found");
-            });
-        }
-    });
+    return task;
 };

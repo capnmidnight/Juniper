@@ -5,6 +5,7 @@ import {
     arrayScan,
     IDisposable,
     isArrayBuffer,
+    Task,
     TypedEvent,
     TypedEventBase
 } from "juniper-tslib";
@@ -349,14 +350,13 @@ export class RemoteUser extends TypedEventBase<RemoteUserEvents> implements IDis
                     this.channel.send(buffer);
                 }
                 else {
-                    const task = new Promise<void>((resolve, reject) => {
-                        const timeout = setTimeout(reject, 100, "timeout");
-                        const onComplete = () => {
-                            clearTimeout(timeout);
-                            resolve();
-                        };
-                        this.invocations.set(invocationID, onComplete);
-                    });
+                    const task = new Task();
+                    const timeout = setTimeout(task.reject, 100, "timeout");
+                    const onComplete = () => {
+                        clearTimeout(timeout);
+                        task.resolve();
+                    };
+                    this.invocations.set(invocationID, onComplete);
 
                     this.channel.send(buffer);
                     try {

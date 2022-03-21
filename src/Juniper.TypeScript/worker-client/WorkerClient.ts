@@ -1,3 +1,4 @@
+import { Task } from "juniper-tslib";
 import { TypedEvent, TypedEventBase } from "juniper-tslib/events/EventBase";
 import type { IProgress } from "juniper-tslib/progress/IProgress";
 import { isProgressCallback } from "juniper-tslib/progress/IProgress";
@@ -172,35 +173,34 @@ export class WorkerClient<EventsT> extends TypedEventBase<EventsT> implements ID
 
         // taskIDs help us keep track of return values.
         const taskID = this.taskCounter++;
+        const task = new Task<T>();
+        const invocation: WorkerInvocation = {
+            prog,
+            resolve: task.resolve,
+            reject: task.reject,
+            methodName
+        };
 
-        return new Promise((resolve, reject) => {
-            const invocation: WorkerInvocation = {
-                prog,
-                resolve,
-                reject,
+        this.invocations.set(taskID, invocation);
+
+        let message: WorkerClientMethodCallMessage = null;
+        if (isDefined(parameters)) {
+            message = {
+                type: "methodCall",
+                taskID,
+                methodName,
+                params
+            };
+        }
+        else {
+            message = {
+                type: "methodCall",
+                taskID,
                 methodName
             };
+        }
 
-            this.invocations.set(taskID, invocation);
-
-            let message: WorkerClientMethodCallMessage = null;
-            if (isDefined(parameters)) {
-                message = {
-                    type: "methodCall",
-                    taskID,
-                    methodName,
-                    params
-                };
-            }
-            else {
-                message = {
-                    type: "methodCall",
-                    taskID,
-                    methodName
-                };
-            }
-
-            this.postMessage(message, tfers);
-        });
+        this.postMessage(message, tfers);
+        return task;
     }
 }

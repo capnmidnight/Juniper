@@ -1,4 +1,4 @@
-import { assertNever, identity, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, progressSplit } from "juniper-tslib";
+import { assertNever, identity, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, progressSplit, Task } from "juniper-tslib";
 import type { HTTPMethods, IFetchingService, IRequest, IRequestWithBody, IResponse } from "./IFetcher";
 import { ResponseTranslator } from "./ResponseTranslator";
 
@@ -15,61 +15,55 @@ export function isXHRBodyInit(obj: any): obj is XMLHttpRequestBodyInit {
 }
 
 function trackProgress(name: string, xhr: XMLHttpRequest, target: (XMLHttpRequest | XMLHttpRequestUpload), prog: IProgress, skipLoading: boolean, prevTask?: Promise<void>): Promise<void> {
-    return new Promise((resolve: () => void, reject: (msg: string) => void) => {
-        let prevDone = !prevTask;
-        if (prevTask) {
-            prevTask.then(() => prevDone = true);
+
+    let prevDone = !prevTask;
+    if (prevTask) {
+        prevTask.then(() => prevDone = true);
+    }
+
+    let done = false;
+    let loaded = skipLoading;
+
+    const requestComplete = new Task(
+        () => loaded && done,
+        () => prevDone);
+
+    target.addEventListener("loadstart", () => {
+        if (prevDone && !done && prog) {
+            prog.start(name);
         }
-
-        let done = false;
-        let loaded = skipLoading;
-        function maybeResolve() {
-            if (loaded && done) {
-                resolve();
-            }
-        }
-
-        function onError(msg: string) {
-            return () => {
-                if (prevDone) {
-                    reject(`${msg} (${xhr.status})`);
-                }
-            }
-        }
-
-        target.addEventListener("loadstart", () => {
-            if (prevDone && !done && prog) {
-                prog.start(name);
-            }
-        });
-
-        target.addEventListener("progress", (ev: Event) => {
-            if (prevDone && !done) {
-                const evt = ev as ProgressEvent<XMLHttpRequestEventTarget>;
-                if (prog) {
-                    prog.report(evt.loaded, Math.max(evt.loaded, evt.total), name);
-                }
-                if (evt.loaded === evt.total) {
-                    loaded = true;
-                    maybeResolve();
-                }
-            }
-        });
-
-        target.addEventListener("load", () => {
-            if (prevDone && !done) {
-                if (prog) {
-                    prog.end(name);
-                }
-                done = true;
-                maybeResolve();
-            }
-        });
-
-        target.addEventListener("error", onError("error"));
-        target.addEventListener("abort", onError("abort"));
-        target.addEventListener("timeout", onError("timeout"));
     });
+
+    target.addEventListener("progress", (ev: Event) => {
+        if (prevDone && !done) {
+            const evt = ev as ProgressEvent<XMLHttpRequestEventTarget>;
+            if (prog) {
+                prog.report(evt.loaded, Math.max(evt.loaded, evt.total), name);
+            }
+            if (evt.loaded === evt.total) {
+                loaded = true;
+                requestComplete.resolve();
+            }
+        }
+    });
+
+    target.addEventListener("load", () => {
+        if (prevDone && !done) {
+            if (prog) {
+                prog.end(name);
+            }
+            done = true;
+            requestComplete.resolve();
+        }
+    });
+
+    const onError = (msg: string) => () => requestComplete.reject(`${msg} (${xhr.status})`);
+
+    target.addEventListener("error", onError("error"));
+    target.addEventListener("abort", onError("abort"));
+    target.addEventListener("timeout", onError("timeout"));
+
+    return requestComplete;
 }
 
 function sendRequest(xhr: XMLHttpRequest, method: HTTPMethods, path: string, timeout: number, headers: Map<string, string>, body?: XMLHttpRequestBodyInit): void {

@@ -2,7 +2,7 @@ import { src, title } from "juniper-dom/attrs";
 import { CanvasImageTypes, CanvasTypes, createUICanvas } from "juniper-dom/canvas";
 import { Img } from "juniper-dom/tags";
 import type { IFetcher } from "juniper-fetcher";
-import { Exception, IProgress, nextPowerOf2, PoppableParentProgressCallback, PriorityMap, progressPopper } from "juniper-tslib";
+import { Exception, IProgress, nextPowerOf2, PoppableParentProgressCallback, PriorityMap, progressPopper, Task } from "juniper-tslib";
 
 interface UVRect {
     u: number;
@@ -27,18 +27,15 @@ export class ButtonFactory {
     private readonly uvDescrips = new PriorityMap<string, string, UVRect>();
     private readonly geoms = new PriorityMap<string, string, THREE.BufferGeometry>();
 
-    private readonly readyTask: Promise<void>;
+    private readonly readyTask: Task<void>;
 
-    private onLoadComplete: () => void = null;
     private canvas: CanvasTypes = null;
     private texture: THREE.Texture = null;
     private enabledMaterial: THREE.MeshBasicMaterial = null;
     private disabledMaterial: THREE.MeshBasicMaterial = null;
 
     constructor(private readonly fetcher: IFetcher, private readonly imagePaths: PriorityMap<string, string, string>, private readonly padding: number) {
-        this.readyTask = new Promise((resolve) => {
-            this.onLoadComplete = resolve;
-        });
+        this.readyTask = new Task();
     }
 
     async load(prog?: IProgress) {
@@ -100,8 +97,7 @@ export class ButtonFactory {
         });
         this.disabledMaterial.needsUpdate = true;
 
-        this.onLoadComplete();
-        this.onLoadComplete = null;
+        this.readyTask.resolve();
     }
 
     getSets() {

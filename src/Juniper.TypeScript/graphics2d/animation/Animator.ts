@@ -1,4 +1,4 @@
-import { arrayClear } from "juniper-tslib";
+import { arrayClear, Task } from "juniper-tslib";
 
 export class Animator {
     private animations = new Array<(dt: number) => void>();
@@ -17,17 +17,17 @@ export class Animator {
     start(delay: number, duration: number, update: (t: number) => void): Promise<void> {
         let time = -delay;
         update(0);
-        return new Promise<void>((resolve) => {
-            this.animations.push((dt: number) => {
-                time += dt / duration;
-                if (time >= 1) {
-                    update(1);
-                    resolve();
-                }
-                else if (time >= 0) {
-                    update(time);
-                }
-            });
+        const animationComplete = new Task();
+        this.animations.push((dt: number) => {
+            time += dt / duration;
+            if (time >= 1) {
+                update(1);
+                animationComplete.resolve();
+            }
+            else if (time >= 0) {
+                update(time);
+            }
         });
+        return animationComplete;
     }
 }

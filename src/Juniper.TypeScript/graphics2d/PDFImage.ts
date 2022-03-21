@@ -1,33 +1,25 @@
 import { setContextSize } from "juniper-dom/canvas";
 import { IFetcher } from "juniper-fetcher-base/IFetcher";
-import { clamp, IProgress, singleton } from "juniper-tslib";
+import { clamp, IProgress, singleton, Task } from "juniper-tslib";
 import pdfJS from "pdfjs-dist";
 import { version as pdfjsVersion } from "pdfjs-dist/package.json";
 import { GetViewportParameters } from "pdfjs-dist/types/src/display/api";
 import { CanvasImage } from "./CanvasImage";
 
-let onReady: () => void = null;
-const pdfReady = singleton("Juniper:PdfReady", () =>
-    new Promise<void>((resolve) =>
-        onReady = singleton("Juniper:PdfReadySignal", () =>
-            resolve)));
+const pdfReady = singleton("Juniper:PdfReady", () => new Task());
 
 export class PDFImage extends CanvasImage {
 
     static async prepare(workerPath: string, fetcher: IFetcher, prog?: IProgress) {
-        if (onReady) {
+        console.info(`PDF.js v${pdfjsVersion}`);
 
-            console.info(`PDF.js v${pdfjsVersion}`);
-
-            const { content: workerSrc } = await fetcher
-                .get(workerPath)
-                .query("v", pdfjsVersion)
-                .progress(prog)
-                .file();
-            pdfJS.GlobalWorkerOptions.workerSrc = workerSrc;
-            onReady();
-            onReady = null;
-        }
+        const { content: workerSrc } = await fetcher
+            .get(workerPath)
+            .query("v", pdfjsVersion)
+            .progress(prog)
+            .file();
+        pdfJS.GlobalWorkerOptions.workerSrc = workerSrc;
+        pdfReady.resolve()
 
         await pdfReady;
     }
