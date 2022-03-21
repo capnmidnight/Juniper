@@ -1,4 +1,4 @@
-import { isFunction, isNullOrUndefined, PriorityMap, TypedEventBase } from "juniper-tslib";
+import { isFunction, isNullOrUndefined, nothing, PriorityMap, TypedEventBase } from "juniper-tslib";
 import { CaseClassConstructor } from "./CaseClassConstructor";
 import { TestCaseFailEvent } from "./TestCaseFailEvent";
 import { TestCaseMessageEvent } from "./TestCaseMessageEvent";
@@ -45,40 +45,32 @@ export class TestRunner extends TypedEventBase<TestRunnerEvents> {
     }
 
     async run(testCaseName: string, testName: string) {
-        const results: TestResults = new PriorityMap();
         const onUpdate = () => this.dispatchEvent(new TestRunnerResultsEvent(results));
-        for (let CaseClass of this.CaseClasses) {
-            for (let name of testNames(CaseClass.prototype)) {
-                if (isTest(CaseClass.prototype, name)) {
-                    results.add(CaseClass.name, name, new TestScore(name));
-                    onUpdate();
-                }
-            }
-        }
 
-        const q: Array<() => Promise<any>> = [];
-        for (let CaseClass of this.CaseClasses) {
-            const className = CaseClass.name;
-            if (className === testCaseName
-                || isNullOrUndefined(testCaseName)) {
-                for (let funcName of testNames(CaseClass.prototype)) {
-                    if (isTest(CaseClass.prototype, funcName, testName)) {
-                        q.push(() => this.runTest(CaseClass, funcName, results, className, onUpdate));
+        const results: TestResults = new PriorityMap();
+        const q = new Array<() => Promise<void>>();
+        for (const CaseClass of this.CaseClasses) {
+            for (const funcName of testNames(CaseClass.prototype)) {
+                if (isTest(CaseClass.prototype, funcName, testName)) {
+                    results.add(CaseClass.name, funcName, new TestScore(funcName));
+
+                    if (CaseClass.name === testCaseName
+                        || isNullOrUndefined(testCaseName)) {
+                        q.push(() => this.runTest(CaseClass, funcName, results, CaseClass.name, onUpdate));
                     }
                 }
             }
         }
 
-        const restart = () => setTimeout(update, 0),
-            update = () => {
-                if (q.length > 0) {
-                    const test = q.shift();
-                    const run = test();
-                    run.then(restart)
-                        .catch(restart);
-                }
-            };
-        restart();
+        const update = async () => {
+            onUpdate();
+            if (q.length > 0) {
+                const test = q.shift();
+                await test().finally(nothing);
+                setTimeout(update, 0);
+            }
+        };
+        update();
     }
 
     async runTest(CaseClass: CaseClassConstructor, funcName: string, results: TestResults, className: string, onUpdate: Function) {
@@ -115,10 +107,7 @@ export class TestRunner extends TypedEventBase<TestRunnerEvents> {
             score.start();
             onUpdate();
             testCase.setup();
-            message = func.call(testCase);
-            if (message instanceof Promise) {
-                message = await message;
-            }
+            message = await func.call(testCase);
         }
         catch (exp) {
             console.error(`Test case failed [${className}::${funcName}]`, exp);
