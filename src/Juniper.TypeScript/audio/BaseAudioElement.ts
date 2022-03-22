@@ -7,7 +7,7 @@ import { Pose } from "./Pose";
 export interface AudioElement
     extends IDisposable, IPoseable {
     volume: number;
-    update(t: number): void;
+    audioTick(t: number): void;
 }
 
 export abstract class BaseAudioElement<SpatializerT extends BaseSpatializer, EventT>
@@ -54,9 +54,8 @@ export abstract class BaseAudioElement<SpatializerT extends BaseSpatializer, Eve
 
     /**
      * Update the user.
-     * @param t - the current update time.
      */
-    update(t: number): void {
-        this.spatializer.update(this.pose, t);
+    audioTick(t: number): void {
+        this.spatializer.setPose(this.pose, t);
     }
 }

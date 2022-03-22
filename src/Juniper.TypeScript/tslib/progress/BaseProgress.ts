@@ -1,12 +1,21 @@
 import { arrayClear } from "../collections/arrayClear";
+import { TypedEventBase } from "../events";
 import type { IProgress } from "./IProgress";
 
-export class BaseProgress implements IProgress {
+export class BaseProgress<T = void>
+    extends TypedEventBase<T>
+    implements IProgress {
     private readonly attached = new Array<IProgress>();
     private soFar: number = null;
     private total: number = null;
     private msg: string = null;
     private est: number = null;
+
+    protected get p() {
+        return this.total > 0
+            ? this.soFar / this.total
+            : 0;
+    }
 
     report(soFar: number, total: number, msg?: string, est?: number): void {
         this.soFar = soFar;

@@ -1,6 +1,5 @@
 import { BaseSpatializer } from "../../BaseSpatializer";
 import type { BaseEmitter } from "../../sources/spatializers/BaseEmitter";
-import { NoSpatializationNode } from "../../sources/spatializers/NoSpatializationNode";
 
 /**
  * Base class providing functionality for audio listeners.
@@ -21,16 +20,10 @@ export abstract class BaseListener
     /**
      * Creates a spatialzer for an audio source.
      */
-    createSpatializer(idPostfix: string, spatialize: boolean): BaseEmitter {
-        const id = `spatializer-${this.counter++}-${idPostfix}`;
-        if (spatialize) {
-            return this.newSpatializer(id);
-        }
-        else {
-            return new NoSpatializationNode(`no-${id}`, this.audioCtx);
-        }
+    createSpatializer(idPostfix: string): BaseEmitter {
+        return this.newSpatializer(`spatializer-${this.counter++}-${idPostfix}`);
     }
 
-    abstract newSpatializer(id: string): BaseEmitter;
+    protected abstract newSpatializer(id: string): BaseEmitter;
 }
 

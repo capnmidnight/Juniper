@@ -59,7 +59,7 @@ export abstract class BaseWebAudioPanner extends BaseEmitter {
     /**
      * Performs the spatialization operation for the audio source's latest location.
      */
-    update(loc: Pose, t: number): void {
+    setPose(loc: Pose, t: number): void {
         const { p, f } = loc;
         const [px, py, pz] = p;
         const [ox, oy, oz] = f;

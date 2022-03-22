@@ -1,8 +1,9 @@
-import { IPlayable } from "juniper-audio/sources/IPlayable";
+import { FullAudioRecord } from "juniper-audio/data";
+import { IPlayer } from "juniper-audio/sources/IPlayable";
 import { MouseButtons } from "juniper-dom/eventSystem/MouseButton";
 import { keycapDigits } from "juniper-emoji/numbers";
 import { IFetcher } from "juniper-fetcher";
-import { IDisposable, isDefined, TypedEvent, TypedEventBase } from "juniper-tslib";
+import { BaseProgress, IDisposable, isDefined, TypedEvent } from "juniper-tslib";
 import { ButtonFactory } from "./ButtonFactory";
 import { cleanup } from "./cleanup";
 import { Cube } from "./Cube";
@@ -26,8 +27,8 @@ const translations = new Map(
     keycapDigits.alts.map((m, i) => [m.value, i.toString()])
 );
 
-export class PlaybackButton
-    extends TypedEventBase<PlaybackButtonEvents>
+export class PlaybackButton<T extends FullAudioRecord>
+    extends BaseProgress<PlaybackButtonEvents>
     implements ErsatzObject, IDisposable {
 
     readonly object: THREE.Object3D;
@@ -43,9 +44,10 @@ export class PlaybackButton
         fetcher: IFetcher,
         env: IWebXRLayerManager,
         buttonFactory: ButtonFactory,
+        private readonly data: T,
         name: string,
         label: string,
-        clip: IPlayable) {
+        player: IPlayer<T>) {
         super();
 
         label = translations.get(label) || label || "";
@@ -66,7 +68,7 @@ export class PlaybackButton
         this.progressBar.position.z = 0.01;
         this.progressBar.visible = false;
 
-        this.load(buttonFactory, clip);
+        this.load(buttonFactory, player);
     }
 
     private disposed = false;
@@ -89,7 +91,7 @@ export class PlaybackButton
             : 0) * size;
     }
 
-    private async load(buttonFactory: ButtonFactory, clip: IPlayable) {
+    private async load(buttonFactory: ButtonFactory, player: IPlayer<T>) {
         const [
             enabledMaterial,
             disabledMaterial,
@@ -144,39 +146,41 @@ export class PlaybackButton
         this.object.add(this.progressBar);
 
         const refresh = () => {
-            this.playButton.disabled = clip.playbackState === "loading"
-                || clip.playbackState === "playing"
-                || clip.playbackState === "errored";
-            this.pauseButton.disabled = clip.playbackState === "loading"
-                || clip.playbackState !== "playing";
+            const hasMyData = player.data === this.data;
+            this.playButton.disabled = hasMyData
+                && (player.playbackState === "loading"
+                    || player.playbackState === "playing"
+                    || player.playbackState === "errored")
+                || !hasMyData
+                    && player.playbackState === "loading";
+            this.pauseButton.disabled = !hasMyData
+                || player.playbackState === "loading"
+                || player.playbackState !== "playing";
             this.replayButton.disabled
                 = this.stopButton.disabled
-                = clip.playbackState === "loading"
-                || clip.playbackState === "stopped"
-                || clip.playbackState === "errored";
+                = !hasMyData
+                || player.playbackState === "loading"
+                || player.playbackState === "stopped"
+                || player.playbackState === "errored";
 
-            if (clip.playbackState === "loading"
-                || clip.playbackState === "stopped") {
+            if (!hasMyData
+                || player.playbackState === "loading"
+                || player.playbackState === "stopped") {
                 this.progressBar.visible = false;
             }
         }
 
         refresh();
 
-        clip.addEventListener("loaded", refresh);
-        clip.addEventListener("played", refresh);
-        clip.addEventListener("paused", refresh);
-        clip.addEventListener("stopped", refresh);
+        player.addEventListener("loading", refresh);
+        player.addEventListener("loaded", refresh);
+        player.addEventListener("played", refresh);
+        player.addEventListener("paused", refresh);
+        player.addEventListener("stopped", refresh);
 
-        clip.addEventListener("progress", (evt) => {
-            const width = this.progBarWidth * evt.value / evt.total;
-            this.progressBar.position.x = 0.5 * (width - this.progBarWidth - this.progBarOffsetX);
-            this.progressBar.scale.x = width;
-            this.progressBar.visible = evt.value > 0;
-        });
-
-        clip.addEventListener("played", () => this.dispatchEvent(playEvt));
-        clip.addEventListener("stopped", () => this.dispatchEvent(stopEvt));
+        player.addEventListener("progress", (evt) => this.report(evt.value, evt.total));
+        player.addEventListener("played", () => this.dispatchEvent(playEvt));
+        player.addEventListener("stopped", () => this.dispatchEvent(stopEvt));
 
         const onClick = (btn: MeshButton, callback: () => void) => {
             btn.addEventListener("click", async (ev: THREE.Event) => {
@@ -187,10 +191,15 @@ export class PlaybackButton
             });
         }
 
-        onClick(this.playButton, () => clip.play());
-        onClick(this.pauseButton, () => clip.pause());
-        onClick(this.stopButton, () => clip.stop());
-        onClick(this.replayButton, () => clip.restart());
+        onClick(this.playButton, async () => {
+            if (player.data !== this.data) {
+                await player.load(this.data, this);
+            }
+            await player.play();
+        });
+        onClick(this.pauseButton, () => player.pause());
+        onClick(this.stopButton, () => player.stop());
+        onClick(this.replayButton, () => player.restart());
     }
 
     get label(): string {
@@ -204,5 +213,13 @@ export class PlaybackButton
     set label(v: string) {
         v = translations.get(v) || v;
         this.textLabel.image.value = v;
+    }
+
+    override report(soFar: number, total: number, msg?: string, est?: number) {
+        super.report(soFar, total, msg, est);
+        const width = this.p * this.progBarWidth;
+        this.progressBar.position.x = 0.5 * (width - this.progBarWidth - this.progBarOffsetX);
+        this.progressBar.scale.x = width;
+        this.progressBar.visible = soFar > 0;
     }
 }

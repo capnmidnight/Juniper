@@ -83,10 +83,7 @@ export class BaseEnvironment<Events = void>
     private readonly fader: Fader;
     private fadeDepth = 0;
 
-    readonly cursor3D: Cursor3D = new Cursor3D();
-
-    readonly renderer: THREE.WebGLRenderer;
-    readonly timer: ThreeJSTimer;
+    readonly cursor3D = new Cursor3D();
     readonly camera = new THREE.PerspectiveCamera(50, 1, 0.01, 1000);
     readonly scene = new THREE.Scene();
     readonly stage = obj("Stage");
@@ -94,9 +91,11 @@ export class BaseEnvironment<Events = void>
     readonly sun = new THREE.DirectionalLight(0xffffff, 0.75);
     readonly ground = new THREE.GridHelper(gridSize, gridWidth, 0xc0c0c0, 0x808080);
     readonly foreground = obj("Foreground");
-    readonly worldUISpace: BodyFollower;
     readonly loadingBar = new LoadingBar();
 
+    readonly renderer: THREE.WebGLRenderer;
+    readonly timer: ThreeJSTimer;
+    readonly worldUISpace: BodyFollower;
     readonly skybox: Skybox;
     readonly avatar: AvatarLocal;
     readonly cameraControl: CameraControl;

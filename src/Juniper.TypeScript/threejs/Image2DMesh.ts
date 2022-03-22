@@ -81,7 +81,7 @@ export class Image2DMesh
     }
 
     update(_dt: number, frame?: XRFrame): void {
-        if (this.mesh.material.map.image) {
+        if (this.mesh.material.map && this.mesh.material.map.image) {
             const isVisible = objectIsFullyVisible(this);
             const isLayersAvailable = this.webXRLayerEnabled
                 && isDefined(frame)

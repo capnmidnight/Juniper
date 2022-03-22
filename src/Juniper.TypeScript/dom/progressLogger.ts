@@ -8,7 +8,7 @@ class ConsoleProgressCallback extends BaseProgress {
     override report(soFar: number, total: number, msg?: string, est?: number) {
         super.report(soFar, total, msg, est);
 
-        console.log(this.name, (100 * soFar / total).toFixed(1), msg);
+        console.log(this.name, (100 * this.p).toFixed(1), msg);
         if (this.prog) {
             this.prog.report(soFar, total, msg, est);
         }

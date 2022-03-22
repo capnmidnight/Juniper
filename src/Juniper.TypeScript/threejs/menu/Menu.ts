@@ -298,6 +298,10 @@ export class Menu extends THREE.Object3D {
         }
 
         await this.blowOut(false);
+
+        for (const button of this.buttons) {
+            button.back.frustumCulled = true;
+        }
     }
 
     update(dt: number, frame: XRFrame): void {

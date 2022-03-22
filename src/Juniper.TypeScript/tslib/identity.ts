@@ -20,3 +20,5 @@ export function alwaysFalse(): false {
 export function invert(value: boolean) {
     return !value;
 }
+
+export type AsyncCallback = () => Promise<void>;

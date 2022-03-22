@@ -1,20 +1,9 @@
+import { AudioRecord, FullAudioRecord, MediaRecord } from "juniper-audio/data";
 import { isString } from "juniper-tslib";
-
-export interface MediaRecord {
-    url: string;
-    contentType: string;
-    resolution: number;
-}
 
 export interface ImageRecord extends MediaRecord {
     width: number;
     height: number;
-}
-
-export interface AudioRecord extends MediaRecord {
-    acodec: string;
-    abr: number;
-    asr: number;
 }
 
 export interface VideoRecord extends AudioRecord, ImageRecord {
@@ -23,10 +12,8 @@ export interface VideoRecord extends AudioRecord, ImageRecord {
     vbr: number;
 }
 
-export interface FullVideoRecord {
-    title: string;
+export interface FullVideoRecord extends FullAudioRecord {
     thumbnail: ImageRecord;
-    audios: AudioRecord[];
     videos: VideoRecord[];
 }
 

@@ -1,6 +1,8 @@
-import { TypedEvent, TypedEventBase } from "juniper-tslib";
+import { IProgress, TypedEvent, TypedEventBase } from "juniper-tslib";
+import { FullAudioRecord } from "../data";
 
-export type PlaybackState = "loading"
+export type PlaybackState = "empty"
+    | "loading"
     | "errored"
     | "stopped"
     | "paused"
@@ -15,9 +17,22 @@ export interface IPlayable extends TypedEventBase<MediaElementSourceEvents> {
     restart(): void;
 }
 
+export interface IPlayer<T extends FullAudioRecord> extends IPlayable {
+    title: string;
+    data: T;
+    clear(): void;
+    load(data: T, prog?: IProgress): Promise<this>;
+}
+
 class MediaElementSourceEvent<T extends string> extends TypedEvent<T> {
     constructor(type: T, public readonly source: IPlayable) {
         super(type);
+    }
+}
+
+export class MediaElementSourceLoadingEvent extends MediaElementSourceEvent<"loading"> {
+    constructor(source: IPlayable) {
+        super("loading", source);
     }
 }
 
@@ -55,6 +70,7 @@ export class MediaElementSourceProgressEvent extends MediaElementSourceEvent<"pr
 }
 
 export interface MediaElementSourceEvents {
+    loading: MediaElementSourceLoadingEvent;
     loaded: MediaElementSourceLoadedEvent;
     played: MediaElementSourcePlayedEvent;
     paused: MediaElementSourcePausedEvent;

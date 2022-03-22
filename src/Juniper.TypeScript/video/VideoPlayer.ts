@@ -16,8 +16,8 @@ export class VideoPlayer
     readonly element: HTMLElement;
     readonly thumbnail: HTMLImageElement;
 
-    constructor() {
-        super();
+    constructor(audioCtx: AudioContext) {
+        super(audioCtx);
 
         this.element = Div(
             styles(display("inline-block")),

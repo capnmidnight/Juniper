@@ -48,8 +48,14 @@ export class AudioElementSource
     private readonly progEvt: MediaElementSourceProgressEvent;
     private readonly audio: HTMLMediaElement;
 
-    constructor(id: string, audioCtx: AudioContext, source: MediaElementAudioSourceNode, private readonly randomize: boolean, spatializer: BaseEmitter, ...effectNames: string[]) {
+    constructor(id: string,
+        audioCtx: AudioContext,
+        source: MediaElementAudioSourceNode,
+        private readonly randomize: boolean,
+        spatializer: BaseEmitter,
+        ...effectNames: string[]) {
         super(id, audioCtx, spatializer, ...effectNames);
+
         inc(this.input = source);
         this.audio = source.mediaElement;
         this.disconnect();

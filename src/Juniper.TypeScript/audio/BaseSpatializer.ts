@@ -24,5 +24,5 @@ export abstract class BaseSpatializer {
     /**
      * Performs the spatialization operation for the audio source's latest location.
      */
-    abstract update(loc: Pose, t: number): void;
+    abstract setPose(loc: Pose, t: number): void;
 }

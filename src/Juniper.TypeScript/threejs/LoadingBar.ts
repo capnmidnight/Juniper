@@ -62,7 +62,7 @@ export class LoadingBar
 
     override report(soFar: number, total: number, msg?: string) {
         super.report(soFar, total, msg);
-        this.targetValue = soFar / total;
+        this.targetValue = this.p;
     }
 
     update(dt: number) {

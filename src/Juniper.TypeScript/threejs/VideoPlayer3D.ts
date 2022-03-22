@@ -48,15 +48,17 @@ export class VideoPlayer3D
 
     readonly object: THREE.Object3D;
 
-    constructor(fetcher: IFetcher, layerMgr: IWebXRLayerManager) {
-        super();
+    constructor(fetcher: IFetcher, layerMgr: IWebXRLayerManager, audioCtx: AudioContext) {
+        super(audioCtx);
 
         this.material = solidTransparent({ name: "videoPlayer-material" });
         this.vidMesh1 = new Image2DMesh(fetcher, layerMgr, "videoPlayer-leftEye", false, this.material);
+        this.vidMesh1.renderOrder = 4;
         this.vidMesh1.layers.enable(0);
 
 
         this.vidMesh2 = new Image2DMesh(fetcher, layerMgr, "videoPlayer-rightEye", false, this.material);
+        this.vidMesh2.renderOrder = 4;
         this.vidMesh2.layers.disable(0);
 
         this.object = obj("videoPlayer",

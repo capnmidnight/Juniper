@@ -2,6 +2,7 @@ import { ArtificialHorizon } from "juniper-2d/ArtificialHorizon";
 import { BatteryImage } from "juniper-2d/BatteryImage";
 import { ClockImage } from "juniper-2d/ClockImage";
 import { AudioManager } from "juniper-audio/AudioManager";
+import { AudioPlayer } from "juniper-audio/sources/AudioPlayer";
 import type { CanvasTypes } from "juniper-dom/canvas";
 import { elementApply } from "juniper-dom/tags";
 import type { IFetcher } from "juniper-fetcher";
@@ -15,6 +16,7 @@ import { InteractionAudio } from "../eventSystem/InteractionAudio";
 import { ScreenMode } from "../ScreenMode";
 import { ScreenUI } from "../ScreenUI";
 import { SpaceUI } from "../SpaceUI";
+import { VideoPlayer3D } from "../VideoPlayer3D";
 import { ButtonImageWidget } from "../widgets/ButtonImageWidget";
 import { CanvasImageMesh } from "../widgets/CanvasImageMesh";
 import { ScreenModeToggleButton } from "../widgets/ScreenModeToggleButton";
@@ -64,6 +66,8 @@ export class Environment
     readonly devicesDialog: DeviceDialog;
     readonly apps: ApplicationLoader;
     readonly uiButtons: ButtonFactory;
+    readonly audioPlayer: AudioPlayer;
+    readonly videoPlayer: VideoPlayer3D;
 
     private readonly envAudioToggleEvt = new TypedEvent("environmentaudiotoggled");
 
@@ -115,6 +119,9 @@ export class Environment
 
         this.audio = new AudioManager(DEFAULT_LOCAL_USER_ID);
         this.audio.setAudioProperties(1, 4, "exponential");
+
+        this.audioPlayer = new AudioPlayer(this.audio.audioCtx);
+        this.videoPlayer = new VideoPlayer3D(this.fetcher, this, this.audio.audioCtx);
 
         this.interactionAudio = new InteractionAudio(this.audio, this.eventSystem);
 
@@ -247,6 +254,7 @@ export class Environment
         super.preRender(evt);
 
         this.audio.update();
+        this.videoPlayer.update(evt.dt, evt.frame);
 
         this.compassImage.image.setPitchAndHeading(
             rad2deg(this.avatar.worldPitch),

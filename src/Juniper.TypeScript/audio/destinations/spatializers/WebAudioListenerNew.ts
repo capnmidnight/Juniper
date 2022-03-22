@@ -24,9 +24,8 @@ export class WebAudioListenerNew extends BaseListener {
     /**
      * Performs the spatialization operation for the audio source's latest location.
      */
-    update(loc: Pose, t: number): void {
+    setPose(loc: Pose, t: number): void {
         const { p, f, u } = loc;
-
         this.listener.positionX.setValueAtTime(p[0], t);
         this.listener.positionY.setValueAtTime(p[1], t);
         this.listener.positionZ.setValueAtTime(p[2], t);
@@ -41,7 +40,7 @@ export class WebAudioListenerNew extends BaseListener {
     /**
      * Creates a spatialzer for an audio source.
      */
-    newSpatializer(id: string): BaseEmitter {
+    protected newSpatializer(id: string): BaseEmitter {
         return new WebAudioPannerNew(id, this.audioCtx);
     }
 }

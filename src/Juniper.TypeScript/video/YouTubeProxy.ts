@@ -1,8 +1,9 @@
+import { AudioRecord } from "juniper-audio/data";
 import { IFetcher } from "juniper-fetcher";
 import { anyAudio, anyVideo, mediaTypeParse } from "juniper-mediatypes";
 import { Video_Vendor_Mpeg_Dash_Mpd } from "juniper-mediatypes/video";
 import { arrayScan, IProgress, isDefined, isNullOrUndefined, isString, PriorityList } from "juniper-tslib";
-import { AudioRecord, FullVideoRecord, ImageRecord, VideoRecord } from "./data";
+import { FullVideoRecord, ImageRecord, VideoRecord } from "./data";
 
 function isVideoOrAudio(f: YTMetadataFormat): boolean {
     return (anyAudio.matches(f.content_type)

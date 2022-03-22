@@ -1,15 +1,18 @@
-import { IPlayable, MediaElementSourceEvents, MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent, PlaybackState } from "juniper-audio/sources/IPlayable";
+import { AudioRecord } from "juniper-audio/data";
+import { Gain, MediaElementSource, removeVertex } from "juniper-audio/nodes";
+import { BaseAudioSource } from "juniper-audio/sources/BaseAudioSource";
+import { IPlayer, MediaElementSourceEvents, MediaElementSourceLoadedEvent, MediaElementSourceLoadingEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent, PlaybackState } from "juniper-audio/sources/IPlayable";
+import { NoSpatializationNode } from "juniper-audio/sources/spatializers/NoSpatializationNode";
 import { autoPlay, controls, loop, playsInline } from "juniper-dom/attrs";
 import { Audio, ElementChild, Video } from "juniper-dom/tags";
-import { arraySortByKeyInPlace, IDisposable, IProgress, isDefined, once, PriorityList, progressSplit, success, TypedEventBase } from "juniper-tslib";
-import { AudioRecord, FullVideoRecord, isVideoRecord } from "./data";
-
-type AsyncCallback = () => Promise<void>;
+import { arraySortByKeyInPlace, AsyncCallback, IDisposable, IProgress, isDefined, isNullOrUndefined, once, PriorityList, progressSplit, success } from "juniper-tslib";
+import { FullVideoRecord, isVideoRecord } from "./data";
 
 export abstract class BaseVideoPlayer
-    extends TypedEventBase<MediaElementSourceEvents>
-    implements IPlayable, IDisposable {
+    extends BaseAudioSource<GainNode, MediaElementSourceEvents>
+    implements IPlayer<FullVideoRecord>, IDisposable {
 
+    private readonly loadingEvt: MediaElementSourceLoadingEvent;
     private readonly loadEvt: MediaElementSourceLoadedEvent;
     private readonly playEvt: MediaElementSourcePlayedEvent;
     private readonly pauseEvt: MediaElementSourcePausedEvent;
@@ -25,6 +28,11 @@ export abstract class BaseVideoPlayer
 
     private videoHadAudio: boolean = false;
 
+    private _data: FullVideoRecord = null;
+    get data(): FullVideoRecord {
+        return this._data;
+    }
+
     private _loaded = false;
     public get loaded() {
         return this._loaded;
@@ -32,6 +40,8 @@ export abstract class BaseVideoPlayer
 
     protected readonly video: HTMLVideoElement;
     protected readonly audio: HTMLAudioElement;
+    private readonly videoSource: MediaElementAudioSourceNode;
+    private readonly audioSource: MediaElementAudioSourceNode;
 
     get title() {
         return this.video.title;
@@ -47,12 +57,27 @@ export abstract class BaseVideoPlayer
     private readonly sources = new PriorityList<HTMLMediaElement, AudioRecord>();
     private readonly potato = new PriorityList<HTMLMediaElement, AudioRecord>();
 
-    constructor() {
-        super();
+    constructor(audioCtx: AudioContext) {
+        super("JuniperVideoPlayer", audioCtx, NoSpatializationNode.instance(audioCtx));
 
         this.video = this.createMediaElement(Video, controls(true));
         this.audio = this.createMediaElement(Audio, controls(false));
 
+        this.input = Gain("JuniperVideoPlayer-combiner", audioCtx);
+
+        this.videoSource = MediaElementSource(
+            "JuniperVideoPlayer-VideoNode",
+            audioCtx,
+            this.video,
+            this.input);
+
+        this.audioSource = MediaElementSource(
+            "JuniperVideoPlayer-AudioNode",
+            audioCtx,
+            this.audio,
+            this.input);
+
+        this.loadingEvt = new MediaElementSourceLoadingEvent(this);
         this.loadEvt = new MediaElementSourceLoadedEvent(this);
         this.playEvt = new MediaElementSourcePlayedEvent(this);
         this.pauseEvt = new MediaElementSourcePausedEvent(this);
@@ -66,6 +91,8 @@ export abstract class BaseVideoPlayer
         };
 
         this.onPlay = async () => {
+            this.connect();
+
             this.onSeeked();
             if (!this.videoHasAudio) {
                 await this.audio.play();
@@ -74,6 +101,8 @@ export abstract class BaseVideoPlayer
         };
 
         this.onPause = (evt: Event) => {
+            this.disconnect();
+
             if (!this.videoHasAudio) {
                 this.onSeeked();
                 this.audio.pause();
@@ -134,7 +163,7 @@ export abstract class BaseVideoPlayer
         this.video.addEventListener("timeupdate", this.onTimeUpdate);
 
 
-        Object.assign(window, { player: this });
+        Object.assign(window, { videoPlayer: this });
     }
 
     private elementHasAudio(elem: HTMLMediaElement): boolean {
@@ -164,16 +193,20 @@ export abstract class BaseVideoPlayer
             : this.audio;
     }
 
-    private disposed = false;
-    dispose() {
-        if (!this.disposed) {
-            this.disposed = true;
-            this.onDisposing();
-        }
-    }
-
-    protected onDisposing(): void {
+    protected override onDisposing(): void {
+        super.onDisposing();
         this.clear();
+        removeVertex(this.input);
+        removeVertex(this.videoSource);
+        removeVertex(this.audioSource);
+
+        this.video.removeEventListener("seeked", this.onSeeked);
+        this.video.removeEventListener("play", this.onPlay);
+        this.video.removeEventListener("pause", this.onPause);
+        this.video.removeEventListener("ended", this.onPause);
+        this.video.removeEventListener("waiting", this.onWaiting);
+        this.video.removeEventListener("canplay", this.onCanPlay);
+        this.video.removeEventListener("timeupdate", this.onTimeUpdate);
     }
 
     clear(): void {
@@ -191,11 +224,14 @@ export abstract class BaseVideoPlayer
         this.video.src = "";
         this.audio.src = "";
         this.videoHadAudio = false;
+        this._data = null;
+        this._loaded = false;
     }
 
     async load(data: FullVideoRecord, prog?: IProgress): Promise<this> {
-        this._loaded = false;
         this.clear();
+
+        this._data = data;
 
         this.setTitle(data.title);
 
@@ -212,12 +248,12 @@ export abstract class BaseVideoPlayer
             this.sourcesByURL.set(audio.url, audio);
         }
 
+        this.dispatchEvent(this.loadingEvt);
         const progs = progressSplit(prog, 4);
         await Promise.all([
             this.loadMediaElement(this.audio, progs.shift()),
             this.loadMediaElement(this.video, progs.shift())
         ]);
-
         this._loaded = true;
         this.dispatchEvent(this.loadEvt);
         return this;
@@ -336,7 +372,11 @@ export abstract class BaseVideoPlayer
     }
 
     get playbackState(): PlaybackState {
-        if (!this._loaded) {
+        if (isNullOrUndefined(this.data)) {
+            return "empty";
+        }
+
+        if (!this.loaded) {
             return "loading";
         }
 

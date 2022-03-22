@@ -243,15 +243,14 @@ export class AudioManager
 
     update(): void {
         const t = this.currentTime;
-
-        this.audioDestination.update(t);
+        this.audioDestination.audioTick(t);
 
         for (const clip of this.clips.values()) {
-            clip.update(t);
+            clip.audioTick(t);
         }
 
         for (const user of this.users.values()) {
-            user.update(t);
+            user.audioTick(t);
         }
     }
 

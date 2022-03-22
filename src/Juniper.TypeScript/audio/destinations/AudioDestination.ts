@@ -4,6 +4,7 @@ import type { BaseEmitter } from "../sources/spatializers/BaseEmitter";
 import type { BaseListener } from "./spatializers/BaseListener";
 import { WebAudioListenerNew } from "./spatializers/WebAudioListenerNew";
 import { WebAudioListenerOld } from "./spatializers/WebAudioListenerOld";
+import { NoSpatializationNode } from "../sources/spatializers/NoSpatializationNode";
 
 export type DestinationNode = AudioDestinationNode | MediaStreamAudioDestinationNode;
 
@@ -42,6 +43,7 @@ export class AudioDestination extends BaseAudioElement<BaseListener, void> {
             this.volumeControl);
 
         connect(this.volumeControl, this._trueDestination);
+        connect(NoSpatializationNode.instance(this.audioCtx), this.nonSpatializedInput);
     }
 
     protected override onDisposing(): void {
@@ -73,16 +75,21 @@ export class AudioDestination extends BaseAudioElement<BaseListener, void> {
      * @param isRemoteStream - whether or not the audio stream is coming from a remote user.
      */
     createSpatializer(id: string, spatialize: boolean, isRemoteStream: boolean): BaseEmitter {
-        const destination = spatialize
-            ? isRemoteStream
+        if (spatialize) {
+            const destination = isRemoteStream
                 ? this.remoteUserInput
-                : this.spatializedInput
-            : this.nonSpatializedInput;
+                : this.spatializedInput;
 
-        const spatializer = this.spatializer.createSpatializer(id, spatialize);
+            const spatializer = this.spatializer.createSpatializer(id);
 
-        connect(spatializer, destination);
+            if (!(spatializer instanceof NoSpatializationNode)) {
+                connect(spatializer, destination);
+            }
 
-        return spatializer;
+            return spatializer;
+        }
+        else {
+            return NoSpatializationNode.instance(this.audioCtx);
+        }
     }
 }
