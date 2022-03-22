@@ -1,8 +1,13 @@
-import { cursor, display, styles } from "juniper-dom/css";
-import { Div, elementSetDisplay, ErsatzElement, Img } from "juniper-dom/tags";
-import { IProgress, isDefined, isNullOrUndefined, once, progressSplitWeighted } from "juniper-tslib";
+import { src } from "juniper-dom/attrs";
+import { CSSCursorValue, cursor, display, opacity, styles } from "juniper-dom/css";
+import { Div, elementApply, elementSetDisplay, ErsatzElement, Img } from "juniper-dom/tags";
+import { IProgress, isDefined, once, progressSplitWeighted } from "juniper-tslib";
 import { BaseVideoPlayer } from "./BaseVideoPlayer";
-import { FullVideoRecord, ImageRecord } from "./data";
+import { FullVideoRecord } from "./data";
+
+const loadingCursor: CSSCursorValue = "wait";
+const loadedCursor: CSSCursorValue = "pointer";
+const errorCursor: CSSCursorValue = "not-allowed";
 
 export class VideoPlayer
     extends BaseVideoPlayer
@@ -16,16 +21,28 @@ export class VideoPlayer
 
         this.element = Div(
             styles(display("inline-block")),
-            this.thumbnail = Img(styles(cursor("pointer"))),
+            this.thumbnail = Img(styles(cursor(loadingCursor))),
             this.video,
-            this.audio
+            this.audio,
         );
 
-        this.thumbnail.addEventListener("click", () => this.play());
+        this.thumbnail.addEventListener("click", () => {
+            if (this.loaded) {
+                this.play();
+            }
+        });
+
         this.addEventListener("played", () => this.showVideo(true));
         this.addEventListener("stopped", () => this.showVideo(false));
 
         this.showVideo(false);
+    }
+
+    protected override onDisposing(): void {
+        super.onDisposing();
+        if (isDefined(this.element.parentElement)) {
+            this.element.remove();
+        }
     }
 
     private showVideo(v: boolean) {
@@ -34,24 +51,33 @@ export class VideoPlayer
     }
 
     override async load(data: FullVideoRecord, prog?: IProgress): Promise<this> {
-        if (isNullOrUndefined(data)) {
-            this.clear();
-        }
-        else {
+        try {
+            elementApply(this.thumbnail,
+                opacity(0.5),
+                cursor(loadingCursor)
+            );
+
             const progs = progressSplitWeighted(prog, [1, 10]);
             await Promise.all([
-                this.loadThumbnail(data.thumbnail, progs.shift()),
-                super.load(data, progs.shift())
+                super.load(data, progs.shift()),
+                this.loadThumbnail(data, progs.shift())
             ]);
-        }
 
-        return this;
+            return this;
+        }
+        finally {
+            elementApply(this.thumbnail,
+                opacity(1),
+                cursor(this.loaded
+                    ? loadedCursor
+                    : errorCursor)
+            );
+        }
     }
 
-    clear(): void {
-        this.stop();
-        this.video.src = "";
-        this.audio.src = "";
+    override clear() {
+        super.clear();
+        this.thumbnail.src = "";
     }
 
     protected override setTitle(v: string): void {
@@ -59,14 +85,18 @@ export class VideoPlayer
         this.thumbnail.title = v;
     }
 
-    protected async loadThumbnail(thumbnailFormat: ImageRecord, prog?: IProgress): Promise<void> {
-        if (isDefined(prog)) {
+    protected async loadThumbnail(data: FullVideoRecord, prog?: IProgress): Promise<void> {
+        try {
             prog.start();
+            if (isDefined(data)) {
+                elementApply(this.thumbnail,
+                    src(data.thumbnail.url),
+                    opacity(0.5)
+                );
+                await once<GlobalEventHandlersEventMap, "load">(this.thumbnail, "load");
+            }
         }
-        const task = once<GlobalEventHandlersEventMap, "load">(this.thumbnail, "load");
-        this.thumbnail.src = thumbnailFormat.url;
-        await task;
-        if (isDefined(prog)) {
+        finally {
             prog.end();
         }
     }

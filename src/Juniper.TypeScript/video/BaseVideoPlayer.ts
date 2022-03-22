@@ -1,12 +1,14 @@
 import { IPlayable, MediaElementSourceEvents, MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent, PlaybackState } from "juniper-audio/sources/IPlayable";
 import { autoPlay, controls, loop, playsInline } from "juniper-dom/attrs";
-import { Audio, ElementChild, mediaElementCanPlayThrough, Video } from "juniper-dom/tags";
-import { arrayReplace, arraySortByKeyInPlace, identity, IProgress, once, progressOfArray, progressSplit, TypedEventBase } from "juniper-tslib";
-import { AudioRecord, FullVideoRecord, isVideoRecord, VideoRecord } from "./data";
+import { Audio, ElementChild, Video } from "juniper-dom/tags";
+import { arraySortByKeyInPlace, IDisposable, IProgress, isDefined, once, PriorityList, progressSplit, success, TypedEventBase } from "juniper-tslib";
+import { AudioRecord, FullVideoRecord, isVideoRecord } from "./data";
+
+type AsyncCallback = () => Promise<void>;
 
 export abstract class BaseVideoPlayer
     extends TypedEventBase<MediaElementSourceEvents>
-    implements IPlayable {
+    implements IPlayable, IDisposable {
 
     private readonly loadEvt: MediaElementSourceLoadedEvent;
     private readonly playEvt: MediaElementSourcePlayedEvent;
@@ -19,14 +21,17 @@ export abstract class BaseVideoPlayer
     private readonly onCanPlay: () => void;
     private readonly onWaiting: () => void;
     private readonly onPause: (evt: Event) => void;
-    private readonly onAudioError: () => Promise<void>;
-    private readonly onVideoError: () => Promise<void>;
-    private readonly onTimeUpdate: () => Promise<void>;
+    private readonly onTimeUpdate: () => Promise<void> = null;
 
-    private loaded = false;
+    private videoHadAudio: boolean = false;
 
-    readonly video: HTMLVideoElement;
-    readonly audio: HTMLAudioElement;
+    private _loaded = false;
+    public get loaded() {
+        return this._loaded;
+    }
+
+    protected readonly video: HTMLVideoElement;
+    protected readonly audio: HTMLAudioElement;
 
     get title() {
         return this.video.title;
@@ -37,8 +42,10 @@ export abstract class BaseVideoPlayer
         this.audio.title = v;
     }
 
-    private readonly videoFormats = new Array<VideoRecord>();
-    private readonly audioFormats = new Array<AudioRecord>();
+    private readonly onError = new Map<HTMLMediaElement, AsyncCallback>();
+    private readonly sourcesByURL = new Map<string, AudioRecord>();
+    private readonly sources = new PriorityList<HTMLMediaElement, AudioRecord>();
+    private readonly potato = new PriorityList<HTMLMediaElement, AudioRecord>();
 
     constructor() {
         super();
@@ -53,18 +60,24 @@ export abstract class BaseVideoPlayer
         this.progEvt = new MediaElementSourceProgressEvent(this);
 
         this.onSeeked = () => {
-            this.audio.currentTime = this.video.currentTime;
+            if (!this.videoHasAudio) {
+                this.audio.currentTime = this.video.currentTime;
+            }
         };
 
-        this.onPlay = () => {
+        this.onPlay = async () => {
             this.onSeeked();
-            this.audio.play();
+            if (!this.videoHasAudio) {
+                await this.audio.play();
+            }
             this.dispatchEvent(this.playEvt)
         };
 
         this.onPause = (evt: Event) => {
-            this.onSeeked();
-            this.audio.pause();
+            if (!this.videoHasAudio) {
+                this.onSeeked();
+                this.audio.pause();
+            }
             if (this.video.currentTime === 0 || evt.type === "ended") {
                 this.dispatchEvent(this.stopEvt);
             }
@@ -75,52 +88,43 @@ export abstract class BaseVideoPlayer
 
         let wasWaiting = false;
         this.onWaiting = () => {
-            wasWaiting = true;
-            this.audio.pause();
+            if (!this.videoHasAudio) {
+                wasWaiting = true;
+                this.audio.pause();
+            }
         };
 
-        this.onCanPlay = () => {
-            if (wasWaiting) {
+        this.onCanPlay = async () => {
+            if (!this.videoHasAudio && wasWaiting) {
+                await this.audio.play();
                 wasWaiting = false;
-                this.audio.play();
             }
         };
 
-        let errorCorrecting = false;
-
-        this.onVideoError = async () => {
-            errorCorrecting = true;
-            this.videoFormats.shift();
-            await this.loadVideo();
-            errorCorrecting = false;
-        };
-
-        this.onAudioError = async () => {
-            errorCorrecting = true;
-            this.audioFormats.shift();
-            await this.loadAudio();
-            errorCorrecting = false;
-        };
-
+        this.videoHadAudio = false;
         this.onTimeUpdate = async () => {
-            if (!errorCorrecting) {
-                const quality = this.video.getVideoPlaybackQuality();
-                if (quality.totalVideoFrames === 0) {
-                    await this.onVideoError();
+            const quality = this.video.getVideoPlaybackQuality();
+            if (quality.totalVideoFrames === 0) {
+                const onError = this.onError.get(this.video);
+                if (isDefined(onError)) {
+                    await onError();
                 }
-                else {
-                    const delta = this.video.currentTime - this.audio.currentTime;
-                    if (Math.abs(delta) > 0.25) {
-                        this.audio.currentTime = this.video.currentTime;
-                    }
-                }
-                this.progEvt.value = this.video.currentTime;
-                this.progEvt.total = this.video.duration;
-                this.dispatchEvent(this.progEvt);
             }
+            else if (!this.videoHasAudio) {
+                const delta = this.video.currentTime - this.audio.currentTime;
+                if (Math.abs(delta) > 0.25) {
+                    this.audio.currentTime = this.video.currentTime;
+                }
+            }
+            else if (!this.videoHadAudio) {
+                this.videoHadAudio = true;
+                this.audio.pause();
+            }
+            this.progEvt.value = this.video.currentTime;
+            this.progEvt.total = this.video.duration;
+            this.dispatchEvent(this.progEvt);
         };
 
-        this.audio.addEventListener("error", this.onAudioError);
         this.video.addEventListener("seeked", this.onSeeked);
         this.video.addEventListener("play", this.onPlay);
         this.video.addEventListener("pause", this.onPause);
@@ -128,68 +132,93 @@ export abstract class BaseVideoPlayer
         this.video.addEventListener("waiting", this.onWaiting);
         this.video.addEventListener("canplay", this.onCanPlay);
         this.video.addEventListener("timeupdate", this.onTimeUpdate);
-        this.video.addEventListener("error", this.onVideoError);
+
+
+        Object.assign(window, { player: this });
     }
 
-    private async checkSources<T extends AudioRecord>(formats: T[], prog: IProgress): Promise<void> {
-        const good = (await progressOfArray(prog, formats, async (f) => {
-            const config: MediaDecodingConfiguration = {
-                type: "file"
-            };
+    private elementHasAudio(elem: HTMLMediaElement): boolean {
+        const source = this.sourcesByURL.get(elem.src);
+        return isDefined(source) && source.acodec !== "none"
+            || isDefined(elem.audioTracks) && elem.audioTracks.length > 0
+            || isDefined(elem.webkitAudioDecodedByteCount) && elem.webkitAudioDecodedByteCount > 0
+            || isDefined(elem.mozHasAudio) && elem.mozHasAudio;
+    }
 
-            try {
-                if (isVideoRecord(f)) {
-                    config.video = {
-                        contentType: f.contentType,
-                        bitrate: f.vbr * 1024,
-                        framerate: f.fps,
-                        width: f.width,
-                        height: f.height
-                    }
-                }
-                else if (f.acodec !== "none") {
-                    config.audio = {
-                        contentType: f.contentType,
-                        bitrate: f.abr * 1024,
-                        samplerate: f.asr
-                    };
-                }
+    private get videoHasAudio(): boolean {
+        return this.elementHasAudio(this.video);
+    }
 
-                const info = await navigator.mediaCapabilities.decodingInfo(config);
+    private get audioHasAudio(): boolean {
+        return this.elementHasAudio(this.audio);
+    }
 
-                if (info.smooth) {
-                    return f;
-                }
-            }
-            catch (exp) {
-                console.warn({ config, f, exp });
-            }
+    get hasAudio() {
+        return this.audioHasAudio
+            || this.videoHasAudio;
+    }
 
-            return null;
-        }))
-            .filter(identity);
-        arrayReplace(formats, ...good);
-        arraySortByKeyInPlace(formats, (f) => -f.resolution);
+    get audibleElement(): HTMLMediaElement {
+        return this.videoHasAudio
+            ? this.video
+            : this.audio;
+    }
+
+    private disposed = false;
+    dispose() {
+        if (!this.disposed) {
+            this.disposed = true;
+            this.onDisposing();
+        }
+    }
+
+    protected onDisposing(): void {
+        this.clear();
+    }
+
+    clear(): void {
+        this.stop();
+
+        for (const [elem, onError] of this.onError) {
+            elem.removeEventListener("error", onError);
+        }
+
+        this.onError.clear();
+        this.sourcesByURL.clear();
+        this.sources.clear();
+        this.potato.clear();
+
+        this.video.src = "";
+        this.audio.src = "";
+        this.videoHadAudio = false;
     }
 
     async load(data: FullVideoRecord, prog?: IProgress): Promise<this> {
-        this.loaded = false;
-        this.stop();
+        this._loaded = false;
+        this.clear();
 
         this.setTitle(data.title);
 
-        arrayReplace(this.videoFormats, ...data.videos);
-        arrayReplace(this.audioFormats, ...data.audios);
+        arraySortByKeyInPlace(data.videos, (f) => -f.resolution);
+        arraySortByKeyInPlace(data.audios, (f) => -f.resolution);
+
+        for (const video of data.videos) {
+            this.sources.add(this.video, video);
+            this.sourcesByURL.set(video.url, video);
+        }
+
+        for (const audio of data.audios) {
+            this.sources.add(this.audio, audio);
+            this.sourcesByURL.set(audio.url, audio);
+        }
 
         const progs = progressSplit(prog, 4);
         await Promise.all([
-            this.checkSources(this.audioFormats, progs.shift())
-                .then(() => this.loadAudio(progs.shift())),
-            this.checkSources(this.videoFormats, progs.shift())
-                .then(() => this.loadVideo(progs.shift()))
+            this.loadMediaElement(this.audio, progs.shift()),
+            this.loadMediaElement(this.video, progs.shift())
         ]);
 
-        this.loaded = true;
+        this._loaded = true;
         this.dispatchEvent(this.loadEvt);
         return this;
     }
@@ -203,31 +232,99 @@ export abstract class BaseVideoPlayer
         );
     }
 
-    private async loadMediaElement(elem: HTMLMediaElement, format: AudioRecord, prog?: IProgress): Promise<void> {
-        elem.src = format.url;
-        await mediaElementCanPlayThrough(elem, prog);;
-    }
+    private async getMediaCapabilities<T extends AudioRecord>(source: T): Promise<MediaCapabilitiesDecodingInfo> {
+        const config: MediaDecodingConfiguration = {
+            type: "file"
+        };
 
-    private async loadAudio(prog?: IProgress): Promise<void> {
-        if (this.audioFormats.length === 0) {
-            throw new Error("No audio sources");
+        if (isVideoRecord(source)) {
+            config.video = {
+                contentType: source.contentType,
+                bitrate: source.vbr * 1024,
+                framerate: source.fps,
+                width: source.width,
+                height: source.height
+            }
+        }
+        else if (source.acodec !== "none") {
+            config.audio = {
+                contentType: source.contentType,
+                bitrate: source.abr * 1024,
+                samplerate: source.asr
+            };
         }
 
-        return await this.loadMediaElement(this.audio, this.audioFormats[0], prog);
+        try {
+            return await navigator.mediaCapabilities.decodingInfo(config)
+        }
+        catch {
+            return {
+                supported: true,
+                powerEfficient: false,
+                smooth: false,
+                configuration: config
+            };
+        }
     }
 
-    private async loadVideo(prog?: IProgress): Promise<void> {
-        if (this.videoFormats.length === 0) {
-            throw new Error("No video sources");
+    private hasSources(elem: HTMLMediaElement): boolean {
+        return this.sources.get(elem).length > 0
+            || this.potato.count(elem) > 0;
+    }
+
+    private consumeSource(elem: HTMLMediaElement): AudioRecord {
+        const primary = this.sources.get(elem);
+        const sources = primary.length > 0 ? primary : this.potato.get(elem);
+        return sources.shift();
+    }
+
+    private async loadMediaElement(elem: HTMLMediaElement, prog?: IProgress): Promise<void> {
+        if (isDefined(prog)) {
+            prog.start();
         }
 
-        return await this.loadMediaElement(this.video, this.videoFormats[0], prog);
-    }
+        if (this.onError.has(elem)) {
+            elem.removeEventListener("error", this.onError.get(elem));
+            this.onError.delete(elem);
+        }
 
-    get audioSource(): HTMLMediaElement {
-        return this.audioFormats.length > 0
-            ? this.audio
-            : this.video;
+        while (this.hasSources(elem)) {
+            const untested = this.sources.get(elem).length > 0;
+            const source = this.consumeSource(elem);
+            if (untested) {
+                const caps = await this.getMediaCapabilities(source);
+                if (!caps.smooth || !caps.powerEfficient) {
+                    this.potato.add(elem, source);
+                    continue;
+                }
+            }
+
+            elem.src = source.url;
+            const task = success<HTMLMediaElementEventMap>(elem, "canplaythrough", "error");
+            elem.load();
+            if (await task) {
+                this.sources.get(elem).unshift(source);
+
+                const onError = () => this.loadMediaElement(elem, prog);
+                elem.addEventListener("error", onError);
+                this.onError.set(elem, onError);
+                this.videoHadAudio = this.videoHadAudio;
+
+                if (isDefined(prog)) {
+                    prog.end();
+                }
+
+                return;
+            }
+        }
+
+        if (!this.hasSources(elem)) {
+            const message = `No ${elem.tagName.toLowerCase()} sources`;
+            if (isDefined(prog)) {
+                prog.end(message);
+            }
+            throw new Error(message);
+        }
     }
 
     get width() {
@@ -239,7 +336,7 @@ export abstract class BaseVideoPlayer
     }
 
     get playbackState(): PlaybackState {
-        if (!this.loaded) {
+        if (!this._loaded) {
             return "loading";
         }
 
@@ -279,9 +376,9 @@ export abstract class BaseVideoPlayer
         this.video.currentTime = 0;
     }
 
-    restart(): void {
+    restart(): Promise<void> {
         this.stop();
-        this.play();
+        return this.play();
     }
 }
 

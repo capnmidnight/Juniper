@@ -1,12 +1,18 @@
-interface HTMLAudioElement {
+interface HTMLMediaElement {
     sinkId: string;
     setSinkId(id: string): Promise<void>;
-}
-
-interface HTMLVideoElement {
     mozHasAudio?: boolean;
     webkitAudioDecodedByteCount?: number;
     audioTracks?: unknown[];
+    preservesPitch?: boolean;
     mozPreservesPitch?: boolean;
     webkitPreservesPitch?: boolean;
+    captureStream?: () => MediaStream;
+    mozCaptureStream?: () => MediaStream;
 }
+
+//interface HTMLAudioElement {
+//}
+
+//interface HTMLVideoElement {
+//}

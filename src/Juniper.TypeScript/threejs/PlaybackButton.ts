@@ -2,8 +2,9 @@ import { IPlayable } from "juniper-audio/sources/IPlayable";
 import { MouseButtons } from "juniper-dom/eventSystem/MouseButton";
 import { keycapDigits } from "juniper-emoji/numbers";
 import { IFetcher } from "juniper-fetcher";
-import { isDefined, TypedEvent, TypedEventBase } from "juniper-tslib";
+import { IDisposable, isDefined, TypedEvent, TypedEventBase } from "juniper-tslib";
 import { ButtonFactory } from "./ButtonFactory";
+import { cleanup } from "./cleanup";
 import { Cube } from "./Cube";
 import { EventSystemThreeJSEvent } from "./eventSystem/EventSystemEvent";
 import { IWebXRLayerManager } from "./IWebXRLayerManager";
@@ -27,7 +28,7 @@ const translations = new Map(
 
 export class PlaybackButton
     extends TypedEventBase<PlaybackButtonEvents>
-    implements ErsatzObject {
+    implements ErsatzObject, IDisposable {
 
     readonly object: THREE.Object3D;
 
@@ -66,6 +67,14 @@ export class PlaybackButton
         this.progressBar.visible = false;
 
         this.load(buttonFactory, clip);
+    }
+
+    private disposed = false;
+    dispose(): void {
+        if (!this.disposed) {
+            cleanup(this.object);
+            this.disposed = true;
+        }
     }
 
     private get progBarWidth() {

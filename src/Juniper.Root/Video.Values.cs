@@ -85,7 +85,10 @@ namespace Juniper
         public static readonly Video Video_Vendor_UvvuMp4 = new("vnd.uvvu.mp4", "uvu", "uvvu");
         public static readonly Video Video_Vendor_Vivo = new("vnd.vivo", "viv");
         public static readonly Video Video_Vendor_YoutubeYt = new("vnd.youtube.yt");
-        public static readonly Video Video_Vendor_Mpeg_Dash_Mpd = new("vnd.mpeg.dash.mpd", "webm");
+        public static readonly Video Video_Vendor_Mpeg_Dash_Mpd = new("vnd.mpeg.dash.mpd", "mpd")
+        {
+            Comment = "This is actually an XML file format that describes adaptive media playback"
+        };
         public static readonly Video Video_VP8 = new("vp8");
         public static readonly Video Video_Webm = new("webm", "webm");
         public static readonly Video Video_X_F4v = new("x-f4v", "f4v");

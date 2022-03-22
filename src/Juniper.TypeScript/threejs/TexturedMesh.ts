@@ -1,7 +1,6 @@
 import { CanvasImageTypes, createCanvasFromImageBitmap, isImageBitmap, isOffscreenCanvas } from "juniper-dom/canvas";
 import { IFetcher } from "juniper-fetcher";
 import { IProgress, isNumber } from "juniper-tslib";
-import { isTexture } from "./typeChecks";
 
 const inchesPerMeter = 39.3701;
 
@@ -76,37 +75,28 @@ export class TexturedMesh extends THREE.Mesh<THREE.BufferGeometry, Material> {
         this.objectWidth = this.imageWidth / ppm;
     }
 
-    setImage(img: CanvasImageTypes | THREE.Texture): THREE.Texture {
-        if (isTexture(img)) {
-            if (isNumber(img.image.width)
-                && isNumber(img.image.height)) {
-                this._imageWidth = img.image.width;
-                this._imageHeight = img.image.height;
-            }
-            this.isVideo = img.image instanceof HTMLVideoElement;
-        }
-        else {
-            this._imageWidth = img.width;
-            this._imageHeight = img.height;
+    setImage(img: CanvasImageTypes): THREE.Texture {
+        this._imageWidth = img.width;
+        this._imageHeight = img.height;
 
-            if (isImageBitmap(img)) {
-                img = createCanvasFromImageBitmap(img);
-            }
-
-            if (isOffscreenCanvas(img)) {
-                img = img as any as HTMLCanvasElement;
-            }
-
-            img = new THREE.Texture(img);
-            img.needsUpdate = true;
-
-            this.isVideo = img instanceof HTMLVideoElement;
+        if (isImageBitmap(img)) {
+            img = createCanvasFromImageBitmap(img);
         }
 
-        this.material.map = img;
+        if (isOffscreenCanvas(img)) {
+            img = img as any as HTMLCanvasElement;
+        }
+
+        this.isVideo = img instanceof HTMLVideoElement;
+
+        this.material.map = img instanceof HTMLVideoElement
+            ? new THREE.VideoTexture(img)
+            : new THREE.Texture(img);
+
+        this.material.map.needsUpdate = true;
         this.material.needsUpdate = true;
 
-        return img;
+        return this.material.map;
     }
 
     async loadImage(path: string, prog?: IProgress): Promise<void> {

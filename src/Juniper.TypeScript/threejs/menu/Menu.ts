@@ -241,7 +241,7 @@ export class Menu extends THREE.Object3D {
         };
 
         for (const button of this.buttons) {
-            button.update(0, null);
+            button.update(0);
         }
 
         const buttons = await progressOfArray(prog, displayItems, (item: MenuItemDescription, prog: IProgress) => {

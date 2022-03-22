@@ -62,3 +62,44 @@ export function once<
 
     return task;
 };
+
+
+/**
+ * Wait for a specific event, one time.
+ * @param target - the event target.
+ * @param resolveEvt - the name of the event that will resolve the Promise this method creates.
+ * @param rejectEvt - the name of the event that could reject the Promise this method creates.
+ * @param [timeout] - the number of milliseconds to wait for the resolveEvt, before rejecting.
+ */
+export function success<EventsT>(
+    target: TypedEventBase<EventsT> | EventTarget,
+    resolveEvt: keyof EventsT & string,
+    rejectEvt: keyof EventsT & string,
+    timeout?: number): Promise<boolean> {
+
+    if (target instanceof EventTarget) {
+        if (!targetValidateEvent(target, resolveEvt)) {
+            throw new Exception(`Target does not have a ${resolveEvt} resolution event`);
+        }
+        if (isString(rejectEvt) && !targetValidateEvent(target, rejectEvt)) {
+            throw new Exception(`Target does not have a ${rejectEvt} rejection event`);
+        }
+    }
+
+    const task = new Task<boolean>();
+
+    if (isNumber(timeout)) {
+        const timeoutHandle = setTimeout(task.reject, timeout, `'${resolveEvt}' has timed out.`);
+        task.finally(clearTimeout.bind(globalThis, timeoutHandle));
+    }
+
+    const register = (evt: keyof EventsT & string, callback: any) => {
+        target.addEventListener(evt, callback);
+        task.finally(() => target.removeEventListener(evt, callback));
+    }
+
+    register(rejectEvt, () => task.resolve(false));
+    register(resolveEvt, () => task.resolve(true));
+
+    return task;
+};

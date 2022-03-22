@@ -1,4 +1,4 @@
-import { specialize } from "./util";
+import { comment, specialize } from "./util";
 
 const video = specialize("video");
 
@@ -85,7 +85,7 @@ export const Video_Vendor_SealedSwf = video("vnd.sealed.swf");
 export const Video_Vendor_UvvuMp4 = video("vnd.uvvu.mp4", "uvu", "uvvu");
 export const Video_Vendor_Vivo = video("vnd.vivo", "viv");
 export const Video_Vendor_YoutubeYt = video("vnd.youtube.yt");
-export const Video_Vendor_Mpeg_Dash_Mpd = video("vnd.mpeg.dash.mpd", "webm");
+export const Video_Vendor_Mpeg_Dash_Mpd = comment(video("vnd.mpeg.dash.mpd", "mpd"), "This is actually an XML file format that describes adaptive media playback");
 export const Video_VP8 = video("vp8");
 export const Video_Webm = video("webm", "webm");
 export const Video_X_F4v = video("x-f4v", "f4v");

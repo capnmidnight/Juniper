@@ -8,7 +8,8 @@ import { objectGetRelativePose } from "./objectGetRelativePose";
 import { objectIsFullyVisible } from "./objects";
 import { plane } from "./Plane";
 import { TexturedMesh } from "./TexturedMesh";
-import { StereoLayoutName } from "./YouTubeProxy3D";
+import { isMeshBasicMaterial } from "./typeChecks";
+import { StereoLayoutName } from "./VideoPlayer3D";
 
 const P = new THREE.Vector4();
 const Q = new THREE.Quaternion();
@@ -32,15 +33,20 @@ export class Image2DMesh
     protected env: IWebXRLayerManager = null;
     mesh: TexturedMesh = null;
 
-    constructor(fetcher: IFetcher, env: IWebXRLayerManager, name: string, private readonly isStatic: boolean, materialOptions: THREE.MeshBasicMaterialParameters = null) {
+    constructor(fetcher: IFetcher, env: IWebXRLayerManager, name: string, private readonly isStatic: boolean, materialOrOptions: THREE.MeshBasicMaterialParameters | THREE.MeshBasicMaterial = null) {
         super();
 
         if (env) {
             this.setEnvAndName(fetcher, env, name);
-            this.mesh = new TexturedMesh(fetcher, plane, solidTransparent(Object.assign(
-                {},
-                materialOptions,
-                { name: this.name })));
+
+            let material = isMeshBasicMaterial(materialOrOptions)
+                ? materialOrOptions
+                : solidTransparent(Object.assign(
+                    {},
+                    materialOrOptions,
+                    { name: this.name }));
+
+            this.mesh = new TexturedMesh(fetcher, plane, material);
             this.add(this.mesh);
         }
     }
@@ -74,7 +80,7 @@ export class Image2DMesh
         return this;
     }
 
-    update(_dt: number, frame: XRFrame): void {
+    update(_dt: number, frame?: XRFrame): void {
         if (this.mesh.material.map.image) {
             const isVisible = objectIsFullyVisible(this);
             const isLayersAvailable = this.webXRLayerEnabled

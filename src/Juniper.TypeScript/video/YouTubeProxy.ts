@@ -1,23 +1,37 @@
 import { IFetcher } from "juniper-fetcher";
 import { anyAudio, anyVideo, mediaTypeParse } from "juniper-mediatypes";
-import { arrayScan, IProgress, isNullOrUndefined, isString, PriorityList } from "juniper-tslib";
+import { Video_Vendor_Mpeg_Dash_Mpd } from "juniper-mediatypes/video";
+import { arrayScan, IProgress, isDefined, isNullOrUndefined, isString, PriorityList } from "juniper-tslib";
 import { AudioRecord, FullVideoRecord, ImageRecord, VideoRecord } from "./data";
 
 function isVideoOrAudio(f: YTMetadataFormat): boolean {
-    return anyAudio.matches(f.content_type)
-        || anyVideo.matches(f.content_type);
+    return (anyAudio.matches(f.content_type)
+        || anyVideo.matches(f.content_type))
+        && !Video_Vendor_Mpeg_Dash_Mpd.matches(f.content_type);
 }
 
-export function combineContentTypeAndCodecs(content_type: string, ...codecs: string[]): string {
+const codecReplaces = new Map([
+    ["vp9", "vp09.00.10.08"]
+]);
+
+export function combineContentTypeAndCodec(content_type: string, codec: string): string {
     const parts = [content_type];
 
-    codecs = codecs.filter(c => c !== "none");
+    if (isDefined(codec)
+        && codec.length > 0
+        && codec !== "none") {
+        codec = codecReplaces.get(codec) || codec;
+    }
 
-    if (codecs.length > 0) {
-        const asterisk = codecs.filter(c => encodeURI(c) !== c).length > 0
+
+    if (isDefined(codec)
+        && codec.length > 0
+        && codec !== "none") {
+        const asterisk = encodeURI(codec) !== codec
             ? "*"
             : "";
-        parts.push(`codecs${asterisk}="${codecs.map(encodeURI).join(',')}"`);
+
+        parts.push(`codecs${asterisk}="${codec}"`);
     }
 
     return parts.join(";");
@@ -31,7 +45,7 @@ export class YouTubeProxy {
 
     private makeVideoRecord(f: YTMetadataFormat): VideoRecord {
         const { content_type, acodec, vcodec } = f;
-        const fullContentType = combineContentTypeAndCodecs(content_type, vcodec, acodec);
+        const fullContentType = combineContentTypeAndCodec(content_type, vcodec);
         return {
             contentType: fullContentType,
             url: this.makeProxyURL(f.url),
@@ -48,8 +62,8 @@ export class YouTubeProxy {
     }
 
     private makeAudioRecord(f: YTMetadataFormat): AudioRecord {
-        const { content_type, acodec, vcodec } = f;
-        const fullContentType = combineContentTypeAndCodecs(content_type, vcodec, acodec);
+        const { content_type, acodec } = f;
+        const fullContentType = combineContentTypeAndCodec(content_type, acodec);
         return {
             contentType: fullContentType,
             url: this.makeProxyURL(f.url),
@@ -76,7 +90,17 @@ export class YouTubeProxy {
             throw new Error("must provide a YouTube URL or a YTMetadata object");
         }
 
-        const metadata = await this.loadMetadata(pageURLOrMetadata, prog);
+        let metadata: YTMetadata = null;
+        if (isString(pageURLOrMetadata)) {
+            metadata = await this.fetcher
+                .get(pageURLOrMetadata)
+                .progress(prog)
+                .object<YTMetadata>();
+        }
+        else {
+            prog.end(pageURLOrMetadata.title);
+            metadata = pageURLOrMetadata;
+        }
 
         const formats = new PriorityList((await Promise.all(metadata
             .formats
@@ -89,21 +113,6 @@ export class YouTubeProxy {
             videos: formats.get("video").map((f) => this.makeVideoRecord(f)),
             audios: formats.get("audio").map((f) => this.makeAudioRecord(f))
         };
-    }
-
-    private async loadMetadata(pageURLOrMetadata: string | YTMetadata, prog?: IProgress) {
-        let metadata: YTMetadata = null;
-        if (!isString(pageURLOrMetadata)) {
-            prog.end(pageURLOrMetadata.title);
-            metadata = pageURLOrMetadata;
-        }
-        else {
-            metadata = await this.fetcher
-                .get(pageURLOrMetadata)
-                .progress(prog)
-                .object<YTMetadata>();
-        }
-        return metadata;
     }
 }
 

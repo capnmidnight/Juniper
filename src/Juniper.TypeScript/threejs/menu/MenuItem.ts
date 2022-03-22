@@ -50,7 +50,7 @@ export class MenuItem
         }
     }
 
-    update(dt: number, frame: XRFrame) {
+    update(dt: number, frame?: XRFrame) {
         if (this.useWebXRLayers) {
             if (this.back instanceof Image2DMesh) {
                 this.back.update(dt, frame);

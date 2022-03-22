@@ -133,9 +133,9 @@ export class AudioElementSource
         this.pause();
     }
 
-    restart(): void {
+    restart(): Promise<void> {
         this.stop();
-        this.play();
+        return this.play();
     }
 
     protected override onDisposing(): void {

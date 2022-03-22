@@ -20,6 +20,7 @@ export interface MediaType {
 const byValue = singleton("Juniper:MediaTypes:byValue", () => new Map<string, MediaType>());
 const byExtension = singleton("Juniper:MediaTypes:byExtension", () => new Map<string, MediaType[]>());
 const depMessages = singleton("Juniper:MediaTypes:depMessages", () => new WeakMap<MediaType, string>());
+const comments = singleton("Juniper:MediaTypes:comments", () => new WeakMap<MediaType, string>());
 
 function register(type: MediaType): MediaType {
     let isNew = false;
@@ -48,6 +49,11 @@ function register(type: MediaType): MediaType {
 
 export function deprecate(type: MediaType, msg: string): MediaType {
     depMessages.set(type, msg);
+    return type;
+}
+
+export function comment(type: MediaType, msg: string): MediaType {
+    comments.set(type, msg);
     return type;
 }
 
@@ -222,6 +228,10 @@ class InternalMediaType implements MediaType {
         }
 
         return false;
+    }
+
+    get comment() {
+        return comments.get(this);
     }
 }
 

@@ -201,6 +201,7 @@ namespace Juniper
 
         public string Value { get; }
         public string FullValue { get; }
+        public string Comment { get; set; }
 
         private readonly string[] _extensions;
         public IReadOnlyCollection<string> Extensions => _extensions;

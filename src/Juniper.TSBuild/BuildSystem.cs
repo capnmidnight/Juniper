@@ -118,7 +118,6 @@ namespace Juniper.TSBuild
         private readonly FileInfo clientPackage;
         private readonly FileInfo serverBuildInfo;
         private readonly FileInfo serverAppSettings;
-        private readonly DirectoryInfo[] juniperProjects;
         private readonly DirectoryInfo[] juniperBuildables;
         private readonly DirectoryInfo[] juniperBundles;
         private readonly Dictionary<FileInfo, FileInfo> dependencies = new();
@@ -146,10 +145,9 @@ namespace Juniper.TSBuild
             serverBuildInfo = serverDir.Touch("buildinfo.json");
             serverAppSettings = serverDir.Touch("appsettings.json");
 
-            juniperProjects = juniperTsDir
+            var juniperProjects = juniperTsDir
                 .EnumerateDirectories()
-                .Where(IsProjectDirectory)
-                .ToArray();
+                .Where(IsProjectDirectory);
             juniperBuildables = juniperProjects
                 .Where(IsBuildableDirectory)
                 .ToArray();
@@ -292,7 +290,7 @@ namespace Juniper.TSBuild
 
         private IEnumerable<NPMInstallCommand> GetInstallCommands(Level buildLevel)
         {
-            return juniperProjects
+            return juniperBuildables
                 .Append(clientDir)
                 .Select(dir =>
                     new NPMInstallCommand(dir, buildLevel == Level.High));
@@ -307,14 +305,14 @@ namespace Juniper.TSBuild
         public async Task AuditAsync()
         {
             await WithCommandTree(commands =>
-                commands.AddCommands(NPM("audit", juniperProjects
+                commands.AddCommands(NPM("audit", juniperBuildables
                     .Append(clientDir))));
         }
 
         public async Task AuditFixAsync()
         {
             await WithCommandTree(commands =>
-                commands.AddCommands(NPM("audit fix", juniperProjects
+                commands.AddCommands(NPM("audit fix", juniperBuildables
                     .Append(clientDir))));
         }
 
@@ -347,7 +345,7 @@ namespace Juniper.TSBuild
                 if (buildLevel > Level.Low)
                 {
                     commands
-                        .AddCommands(Delete(juniperProjects
+                        .AddCommands(Delete(juniperBuildables
                             .Append(clientDir)
                             .Select(d => d.Touch("tsconfig.tsbuildinfo"))))
                         .AddCommands(NPM("run build", juniperBuildables))
