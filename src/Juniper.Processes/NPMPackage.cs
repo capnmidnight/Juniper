@@ -5,6 +5,7 @@ namespace Juniper.Processes
 #pragma warning disable IDE1006 // Naming Styles
         public string? version { get; set; }
         public string? name { get; set; }
+        public string? types { get; set; }
         public Dictionary<string, string>? scripts { get; set; }
         public Dictionary<string, string>? dependencies { get; set; }
         public Dictionary<string, string>? devDependencies { get; set; }

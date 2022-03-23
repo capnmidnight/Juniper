@@ -63,6 +63,11 @@ namespace Juniper.TSBuild
 
         protected static IEnumerable<ICommand> Copy(Por por, DirectoryInfo outputDir, params DirectoryInfo[] inputDirs)
         {
+            return Copy(por, outputDir, inputDirs.AsEnumerable());
+        }
+
+        protected static IEnumerable<ICommand> Copy(Por por, DirectoryInfo outputDir, IEnumerable<DirectoryInfo> inputDirs)
+        {
             var fileNames = por == Por.Basic
                 ? basicFileNames
                 : por == Por.Minified
@@ -118,8 +123,9 @@ namespace Juniper.TSBuild
         private readonly FileInfo clientPackage;
         private readonly FileInfo serverBuildInfo;
         private readonly FileInfo serverAppSettings;
-        private readonly DirectoryInfo[] juniperBuildables;
-        private readonly DirectoryInfo[] juniperBundles;
+        private readonly List<DirectoryInfo> juniperInstallables = new();
+        private readonly List<DirectoryInfo> juniperBuildables = new();
+        private readonly List<DirectoryInfo> juniperBundles = new();
         private readonly Dictionary<FileInfo, FileInfo> dependencies = new();
 
         public BuildSystem(string clientName, string serverName, DirectoryInfo? startDir)
@@ -145,40 +151,30 @@ namespace Juniper.TSBuild
             serverBuildInfo = serverDir.Touch("buildinfo.json");
             serverAppSettings = serverDir.Touch("appsettings.json");
 
-            var juniperProjects = juniperTsDir
+            var projects = juniperTsDir
                 .EnumerateDirectories()
-                .Where(IsProjectDirectory);
-            juniperBuildables = juniperProjects
-                .Where(IsBuildableDirectory)
-                .ToArray();
-            juniperBundles = juniperProjects
-                .Where(IsBundleDirectory)
-                .ToArray();
-        }
+                .Where(d => d.Touch("package.json").Exists);
 
-        private static bool IsProjectDirectory(DirectoryInfo d)
-        {
-            return d.Touch("package.json").Exists;
-        }
-
-        private static bool IsBuildableDirectory(DirectoryInfo d)
-        {
-            var pkgFile = d.Touch("package.json");
-            if (!pkgFile.Exists)
+            foreach(var project in projects)
             {
-                return false;
+                var pkgFile = project.Touch("package.json");
+                using var pkgStream = pkgFile.OpenRead();
+                var pkg = JsonSerializer.Deserialize<NPMPackage>(pkgStream);
+                if(pkg?.types is null)
+                {
+                    juniperInstallables.Add(project);
+                }
+
+                if(pkg?.scripts?.ContainsKey("build") == true)
+                {
+                    juniperBuildables.Add(project);
+                }
+
+                if(project.EnumerateFiles().Any(f => f.Name == "esbuild.config.js"))
+                {
+                    juniperBundles.Add(project);
+                }
             }
-
-            using var pkgStream = pkgFile.OpenRead();
-            var pkg = JsonSerializer.Deserialize<NPMPackage>(pkgStream);
-            return pkg?.scripts is not null
-                && pkg.scripts.ContainsKey("build");
-        }
-
-        private static bool IsBundleDirectory(DirectoryInfo d)
-        {
-            return d.EnumerateFiles()
-                .Any(f => f.Name == "esbuild.config.js");
         }
 
         public BuildSystem AddDependency(FileInfo from, FileInfo to)
@@ -290,7 +286,11 @@ namespace Juniper.TSBuild
 
         private IEnumerable<NPMInstallCommand> GetInstallCommands(Level buildLevel)
         {
-            return juniperBuildables
+            var projects = buildLevel == Level.High
+                ? juniperInstallables
+                : juniperBuildables;
+
+            return projects
                 .Append(clientDir)
                 .Select(dir =>
                     new NPMInstallCommand(dir, buildLevel == Level.High));
