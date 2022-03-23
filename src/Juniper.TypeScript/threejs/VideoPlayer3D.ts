@@ -52,6 +52,8 @@ export class VideoPlayer3D
         super(audioCtx);
 
         this.material = solidTransparent({ name: "videoPlayer-material" });
+        this.material.map = new THREE.VideoTexture(this.video);
+
         this.vidMesh1 = new Image2DMesh(fetcher, layerMgr, "videoPlayer-leftEye", false, this.material);
         this.vidMesh1.renderOrder = 4;
         this.vidMesh1.layers.enable(0);
