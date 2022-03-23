@@ -22,9 +22,8 @@ export class Image2DMesh
     implements IDisposable, IUpdatable {
     private readonly lastMatrixWorld = new THREE.Matrix4();
     private layer: XRQuadLayer = null;
-    private wasVisible = false;
-    private webXRLayerEnabled = true;
-    private wasLayersAvailable: boolean = null;
+    private tryWebXRLayers = true;
+    private wasUsingLayer = false;
     private lastImage: unknown = null;
     private lastWidth: number = null;
     private lastHeight: number = null;
@@ -32,6 +31,8 @@ export class Image2DMesh
     protected fetcher: IFetcher = null;
     protected env: IWebXRLayerManager = null;
     mesh: TexturedMesh = null;
+
+    webXRLayersEnabled = true;
 
     constructor(fetcher: IFetcher, env: IWebXRLayerManager, name: string, private readonly isStatic: boolean, materialOrOptions: THREE.MeshBasicMaterialParameters | THREE.MeshBasicMaterial = null) {
         super();
@@ -59,7 +60,7 @@ export class Image2DMesh
         this.fetcher = fetcher;
         this.env = env;
         this.name = name;
-        this.webXRLayerEnabled &&= this.env && this.env.hasXRCompositionLayers;
+        this.tryWebXRLayers &&= this.env && this.env.hasXRCompositionLayers;
     }
 
     override copy(source: this, recursive = true) {
@@ -80,41 +81,60 @@ export class Image2DMesh
         return this;
     }
 
+    private get needsLayer(): boolean {
+        if (!objectIsFullyVisible(this)
+            || isNullOrUndefined(this.mesh.material.map)
+            || isNullOrUndefined(this.mesh.material.map.image)) {
+            return false;
+        }
+
+        const img = this.mesh.material.map.image;
+        if (!(img instanceof HTMLVideoElement)) {
+            return true;
+        }
+
+        return !img.paused || img.currentTime > 0;
+    }
+
+    removeWebXRLayer() {
+        if (isDefined(this.layer)) {
+            this.wasUsingLayer = false;
+            this.env.removeWebXRLayer(this.layer);
+            const layer = this.layer;
+            this.layer = null;
+
+            setTimeout(() => {
+                layer.destroy();
+                this.mesh.visible = true;
+            }, 100);
+        }
+    }
+
     update(_dt: number, frame?: XRFrame): void {
         if (this.mesh.material.map && this.mesh.material.map.image) {
-            const isVisible = objectIsFullyVisible(this);
-            const isLayersAvailable = this.webXRLayerEnabled
+            const isVideo = this.mesh.material.map instanceof THREE.VideoTexture;
+            const isLayersAvailable = this.tryWebXRLayers
+                && this.webXRLayersEnabled
                 && isDefined(frame)
-                && (this.mesh.isVideo
-                    && isDefined(this.env.xrMediaBinding)
-                    || !this.mesh.isVideo
-                    && isDefined(this.env.xrBinding));
-            const useLayer = isLayersAvailable && isVisible;
+                && (isVideo && isDefined(this.env.xrMediaBinding)
+                    || !isVideo && isDefined(this.env.xrBinding));
+            const useLayer = isLayersAvailable && this.needsLayer;
 
-            const layersAvailableChanged = isLayersAvailable !== this.wasLayersAvailable;
-            const visibleChanged = isVisible != this.wasVisible;
+            const useLayerChanged = useLayer !== this.wasUsingLayer;
             const imageChanged = this.mesh.material.map.image !== this.lastImage
                 || this.mesh.material.needsUpdate
                 || this.mesh.material.map.needsUpdate;
             const sizeChanged = this.mesh.imageWidth !== this.lastWidth
                 || this.mesh.imageHeight !== this.lastHeight;
 
-            this.wasLayersAvailable = isLayersAvailable;
-            this.wasVisible = isVisible;
+            this.wasUsingLayer = useLayer;
             this.lastImage = this.mesh.material.map.image;
             this.lastWidth = this.mesh.imageWidth;
             this.lastHeight = this.mesh.imageHeight;
 
-            if (layersAvailableChanged || visibleChanged || sizeChanged) {
+            if (useLayerChanged || sizeChanged) {
                 if ((!useLayer || sizeChanged) && this.layer) {
-                    this.env.removeWebXRLayer(this.layer);
-                    const layer = this.layer;
-                    this.layer = null;
-
-                    setTimeout(() => {
-                        layer.destroy();
-                        this.mesh.visible = true;
-                    }, 100);
+                    this.removeWebXRLayer();
                 }
 
                 if (useLayer) {
@@ -131,7 +151,7 @@ export class Image2DMesh
                             ? "stereo-left-right"
                             : "stereo-top-bottom";
 
-                    if (this.mesh.isVideo) {
+                    if (isVideo) {
                         const invertStereo = this.stereoLayoutName === "right-left"
                             || this.stereoLayoutName === "bottom-top";
 

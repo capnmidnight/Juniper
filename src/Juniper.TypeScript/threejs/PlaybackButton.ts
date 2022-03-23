@@ -4,7 +4,7 @@ import { IPlayer } from "juniper-audio/sources/IPlayer";
 import { MouseButtons } from "juniper-dom/eventSystem/MouseButton";
 import { keycapDigits } from "juniper-emoji/numbers";
 import { IFetcher } from "juniper-fetcher";
-import { BaseProgress, IDisposable, isDefined, TypedEvent } from "juniper-tslib";
+import { AsyncCallback, BaseProgress, IDisposable, isDefined, TypedEvent } from "juniper-tslib";
 import { ButtonFactory } from "./ButtonFactory";
 import { cleanup } from "./cleanup";
 import { Cube } from "./Cube";
@@ -40,6 +40,8 @@ export class PlaybackButton<T extends FullAudioRecord>
     private pauseButton: MeshButton = null;
     private stopButton: MeshButton = null;
     private replayButton: MeshButton = null;
+
+    clickPlay: AsyncCallback = null;
 
     constructor(
         fetcher: IFetcher,
@@ -200,12 +202,14 @@ export class PlaybackButton<T extends FullAudioRecord>
             });
         }
 
-        onClick(this.playButton, async () => {
+        this.clickPlay = async () => {
             if (player.data !== this.data) {
                 await player.load(this.data, this);
             }
             await player.play();
-        });
+        };
+
+        onClick(this.playButton, this.clickPlay);
         onClick(this.pauseButton, () => player.pause());
         onClick(this.stopButton, () => player.stop());
         onClick(this.replayButton, () => player.restart());

@@ -9,26 +9,16 @@ type Material = THREE.Material & {
 };
 
 export class TexturedMesh extends THREE.Mesh<THREE.BufferGeometry, Material> {
-    isVideo: boolean;
     private _imageWidth: number = 0;
     private _imageHeight: number = 0;
 
     constructor(protected fetcher: IFetcher, geom: THREE.BufferGeometry, mat: Material) {
         super(geom, mat);
-
-        this.isVideo = false;
-
-        this.onBeforeRender = () => {
-            if (this.isVideo) {
-                this.updateTexture();
-            }
-        };
     }
 
     override copy(source: this, recursive = true): this {
         super.copy(source, recursive);
         this.fetcher = source.fetcher;
-        this.isVideo = source.isVideo;
         this._imageWidth = source.imageWidth;
         this._imageHeight = source.imageHeight;
         return this;
@@ -75,10 +65,7 @@ export class TexturedMesh extends THREE.Mesh<THREE.BufferGeometry, Material> {
         this.objectWidth = this.imageWidth / ppm;
     }
 
-    setImage(img: CanvasImageTypes): THREE.Texture {
-        this._imageWidth = img.width;
-        this._imageHeight = img.height;
-
+    setImage(img: CanvasImageTypes | HTMLVideoElement): THREE.Texture {
         if (isImageBitmap(img)) {
             img = createCanvasFromImageBitmap(img);
         }
@@ -87,13 +74,18 @@ export class TexturedMesh extends THREE.Mesh<THREE.BufferGeometry, Material> {
             img = img as any as HTMLCanvasElement;
         }
 
-        this.isVideo = img instanceof HTMLVideoElement;
+        if (img instanceof HTMLVideoElement) {
+            this.material.map = new THREE.VideoTexture(img);
+            this._imageWidth = img.videoWidth;
+            this._imageHeight = img.videoHeight;
+        }
+        else {
+            this.material.map = new THREE.Texture(img);
+            this._imageWidth = img.width;
+            this._imageHeight = img.height;
+            this.material.map.needsUpdate = true;
+        }
 
-        this.material.map = img instanceof HTMLVideoElement
-            ? new THREE.VideoTexture(img)
-            : new THREE.Texture(img);
-
-        this.material.map.needsUpdate = true;
         this.material.needsUpdate = true;
 
         return this.material.map;

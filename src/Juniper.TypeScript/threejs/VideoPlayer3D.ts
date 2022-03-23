@@ -52,14 +52,15 @@ export class VideoPlayer3D
         super(audioCtx);
 
         this.material = solidTransparent({ name: "videoPlayer-material" });
-        this.material.map = new THREE.VideoTexture(this.video);
 
         this.vidMesh1 = new Image2DMesh(fetcher, layerMgr, "videoPlayer-leftEye", false, this.material);
+        this.vidMesh1.mesh.setImage(this.video);
         this.vidMesh1.renderOrder = 4;
         this.vidMesh1.mesh.layers.enable(0);
 
 
         this.vidMesh2 = new Image2DMesh(fetcher, layerMgr, "videoPlayer-rightEye", false, this.material);
+        this.vidMesh2.mesh.setImage(this.video);
         this.vidMesh2.renderOrder = 4;
         this.vidMesh2.mesh.layers.disable(0);
 
@@ -87,9 +88,12 @@ export class VideoPlayer3D
     }
 
     setStereoParameters(encoding: SphereEncodingName, layout: StereoLayoutName) {
+        this.vidMesh1.webXRLayersEnabled = false;
         this.vidMesh1.mesh.layers.disable(1);
-        this.vidMesh2.mesh.layers.disable(1);
         this.vidMesh1.mesh.layers.disable(2);
+
+        this.vidMesh2.webXRLayersEnabled = false;
+        this.vidMesh2.mesh.layers.disable(1);
         this.vidMesh2.mesh.layers.disable(2);
 
         if (layout === "left-right"
@@ -109,7 +113,10 @@ export class VideoPlayer3D
 
         if (encoding === "N/A") {
             this.object.scale.set(1, 1, 1);
+            this.vidMesh1.webXRLayersEnabled = true;
             this.vidMesh1.visible = true;
+
+            this.vidMesh2.webXRLayersEnabled = true;
             this.vidMesh2.visible = layout !== "mono";
 
             if (layout !== "mono") {

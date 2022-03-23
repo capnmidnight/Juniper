@@ -88,7 +88,10 @@ export class Environment
         super(canvas, fetcher, defaultAvatarHeight, enableFullResolution);
 
         this.compassImage = new CanvasImageMesh(this.fetcher, this, "Horizon", new ArtificialHorizon());
+        this.compassImage.mesh.renderOrder = 5;
+
         this.clockImage = new CanvasImageMesh(this.fetcher, this, "Clock", new ClockImage());
+        this.clockImage.mesh.renderOrder = 5;
 
         options = options || {};
         const JS_EXT = options.JS_EXT || ".js";
@@ -121,7 +124,9 @@ export class Environment
         this.audio.setAudioProperties(1, 4, "exponential");
 
         this.audioPlayer = new AudioPlayer(this.audio.audioCtx);
+
         this.videoPlayer = new VideoPlayer3D(this.fetcher, this, this.audio.audioCtx);
+        this.videoPlayer.object.visible = false;
 
         this.interactionAudio = new InteractionAudio(this.audio, this.eventSystem);
 
