@@ -4,19 +4,21 @@ import { arrayClear, arrayReplace, arraySortByKeyInPlace, AsyncCallback, IDispos
 import { AudioRecord, FullAudioRecord } from "../data";
 import { MediaElementSource, removeVertex } from "../nodes";
 import { BaseAudioSource } from "./BaseAudioSource";
-import { IPlayer, MediaElementSourceEvents, MediaElementSourceLoadedEvent, MediaElementSourceLoadingEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent, PlaybackState } from "./IPlayable";
+import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "./IPlayable";
+import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "./IPlayer";
+import { PlaybackState } from "./PlaybackState";
 import { NoSpatializationNode } from "./spatializers/NoSpatializationNode";
 
 export class AudioPlayer
-    extends BaseAudioSource<MediaElementAudioSourceNode, MediaElementSourceEvents>
-    implements ErsatzElement, IPlayer<FullAudioRecord>, IDisposable {
+    extends BaseAudioSource<MediaElementAudioSourceNode, MediaPlayerEvents>
+    implements ErsatzElement, IPlayer, IDisposable {
 
-    private readonly loadingEvt: MediaElementSourceLoadingEvent;
-    private readonly loadEvt: MediaElementSourceLoadedEvent;
-    private readonly playEvt: MediaElementSourcePlayedEvent;
-    private readonly pauseEvt: MediaElementSourcePausedEvent;
-    private readonly stopEvt: MediaElementSourceStoppedEvent;
-    private readonly progEvt: MediaElementSourceProgressEvent;
+    private readonly loadingEvt: MediaPlayerLoadingEvent;
+    private readonly loadEvt: MediaElementSourceLoadedEvent<IPlayer>;
+    private readonly playEvt: MediaElementSourcePlayedEvent<IPlayer>;
+    private readonly pauseEvt: MediaElementSourcePausedEvent<IPlayer>;
+    private readonly stopEvt: MediaElementSourceStoppedEvent<IPlayer>;
+    private readonly progEvt: MediaElementSourceProgressEvent<IPlayer>;
 
     private readonly onError: AsyncCallback;
     private readonly onPlay: () => void;
@@ -65,7 +67,7 @@ export class AudioPlayer
             audioCtx,
             this.element);
 
-        this.loadingEvt = new MediaElementSourceLoadingEvent(this);
+        this.loadingEvt = new MediaPlayerLoadingEvent(this);
         this.loadEvt = new MediaElementSourceLoadedEvent(this);
         this.playEvt = new MediaElementSourcePlayedEvent(this);
         this.pauseEvt = new MediaElementSourcePausedEvent(this);

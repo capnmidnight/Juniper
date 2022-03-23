@@ -1,14 +1,7 @@
-import { IProgress, TypedEvent, TypedEventBase } from "juniper-tslib";
-import { FullAudioRecord } from "../data";
+import { TypedEvent, TypedEventBase } from "juniper-tslib";
+import { PlaybackState } from "./PlaybackState";
 
-export type PlaybackState = "empty"
-    | "loading"
-    | "errored"
-    | "stopped"
-    | "paused"
-    | "playing";
-
-export interface IPlayable extends TypedEventBase<MediaElementSourceEvents> {
+export interface IBasePlayable<T extends MediaElementSourceEvents> extends TypedEventBase<T> {
     playbackState: PlaybackState;
     play(): Promise<void>;
     playThrough(): Promise<void>;
@@ -17,63 +10,55 @@ export interface IPlayable extends TypedEventBase<MediaElementSourceEvents> {
     restart(): void;
 }
 
-export interface IPlayer<T extends FullAudioRecord> extends IPlayable {
-    title: string;
-    data: T;
-    clear(): void;
-    load(data: T, prog?: IProgress): Promise<this>;
+export interface IPlayable extends IBasePlayable<MediaElementSourceEvents> {
 }
 
-class MediaElementSourceEvent<T extends string> extends TypedEvent<T> {
-    constructor(type: T, public readonly source: IPlayable) {
+export class MediaElementSourceEvent<T extends string, P> extends TypedEvent<T> {
+    constructor(type: T, public readonly source: P) {
         super(type);
     }
 }
 
-export class MediaElementSourceLoadingEvent extends MediaElementSourceEvent<"loading"> {
-    constructor(source: IPlayable) {
-        super("loading", source);
-    }
-}
-
-export class MediaElementSourceLoadedEvent extends MediaElementSourceEvent<"loaded"> {
-    constructor(source: IPlayable) {
+export class MediaElementSourceLoadedEvent<T> extends MediaElementSourceEvent<"loaded", T> {
+    constructor(source: T) {
         super("loaded", source);
     }
 }
 
-export class MediaElementSourcePlayedEvent extends MediaElementSourceEvent<"played"> {
-    constructor(source: IPlayable) {
+export class MediaElementSourcePlayedEvent<T> extends MediaElementSourceEvent<"played", T> {
+    constructor(source: T) {
         super("played", source);
     }
 }
 
-export class MediaElementSourcePausedEvent extends MediaElementSourceEvent<"paused"> {
-    constructor(source: IPlayable) {
+export class MediaElementSourcePausedEvent<T> extends MediaElementSourceEvent<"paused", T> {
+    constructor(source: T) {
         super("paused", source);
     }
 }
 
-export class MediaElementSourceStoppedEvent extends MediaElementSourceEvent<"stopped"> {
-    constructor(source: IPlayable) {
+export class MediaElementSourceStoppedEvent<T> extends MediaElementSourceEvent<"stopped", T> {
+    constructor(source: T) {
         super("stopped", source);
     }
 }
 
-export class MediaElementSourceProgressEvent extends MediaElementSourceEvent<"progress"> {
+export class MediaElementSourceProgressEvent<T> extends MediaElementSourceEvent<"progress", T> {
     public value = 0;
     public total = 0;
 
-    constructor(source: IPlayable) {
+    constructor(source: T) {
         super("progress", source);
     }
 }
 
-export interface MediaElementSourceEvents {
-    loading: MediaElementSourceLoadingEvent;
-    loaded: MediaElementSourceLoadedEvent;
-    played: MediaElementSourcePlayedEvent;
-    paused: MediaElementSourcePausedEvent;
-    stopped: MediaElementSourceStoppedEvent;
-    progress: MediaElementSourceProgressEvent;
+export interface BaseMediaElementSourceEvents<T extends IPlayable> {
+    loaded: MediaElementSourceLoadedEvent<T>;
+    played: MediaElementSourcePlayedEvent<T>;
+    paused: MediaElementSourcePausedEvent<T>;
+    stopped: MediaElementSourceStoppedEvent<T>;
+    progress: MediaElementSourceProgressEvent<T>;
+}
+
+export interface MediaElementSourceEvents extends BaseMediaElementSourceEvents<IPlayable> {
 }

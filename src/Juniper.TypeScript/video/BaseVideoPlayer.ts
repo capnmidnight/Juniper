@@ -1,7 +1,9 @@
 import { AudioRecord } from "juniper-audio/data";
 import { Gain, MediaElementSource, removeVertex } from "juniper-audio/nodes";
 import { BaseAudioSource } from "juniper-audio/sources/BaseAudioSource";
-import { IPlayer, MediaElementSourceEvents, MediaElementSourceLoadedEvent, MediaElementSourceLoadingEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent, PlaybackState } from "juniper-audio/sources/IPlayable";
+import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "juniper-audio/sources/IPlayable";
+import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "juniper-audio/sources/IPlayer";
+import { PlaybackState } from "juniper-audio/sources/PlaybackState";
 import { NoSpatializationNode } from "juniper-audio/sources/spatializers/NoSpatializationNode";
 import { autoPlay, controls, loop, playsInline } from "juniper-dom/attrs";
 import { Audio, ElementChild, Video } from "juniper-dom/tags";
@@ -9,15 +11,15 @@ import { arraySortByKeyInPlace, AsyncCallback, IDisposable, IProgress, isDefined
 import { FullVideoRecord, isVideoRecord } from "./data";
 
 export abstract class BaseVideoPlayer
-    extends BaseAudioSource<GainNode, MediaElementSourceEvents>
-    implements IPlayer<FullVideoRecord>, IDisposable {
+    extends BaseAudioSource<GainNode, MediaPlayerEvents>
+    implements IPlayer, IDisposable {
 
-    private readonly loadingEvt: MediaElementSourceLoadingEvent;
-    private readonly loadEvt: MediaElementSourceLoadedEvent;
-    private readonly playEvt: MediaElementSourcePlayedEvent;
-    private readonly pauseEvt: MediaElementSourcePausedEvent;
-    private readonly stopEvt: MediaElementSourceStoppedEvent;
-    private readonly progEvt: MediaElementSourceProgressEvent;
+    private readonly loadingEvt: MediaPlayerLoadingEvent;
+    private readonly loadEvt: MediaElementSourceLoadedEvent<IPlayer>;
+    private readonly playEvt: MediaElementSourcePlayedEvent<IPlayer>;
+    private readonly pauseEvt: MediaElementSourcePausedEvent<IPlayer>;
+    private readonly stopEvt: MediaElementSourceStoppedEvent<IPlayer>;
+    private readonly progEvt: MediaElementSourceProgressEvent<IPlayer>;
 
     private readonly onPlay: () => void;
     private readonly onSeeked: () => void;
@@ -77,7 +79,7 @@ export abstract class BaseVideoPlayer
             this.audio,
             this.input);
 
-        this.loadingEvt = new MediaElementSourceLoadingEvent(this);
+        this.loadingEvt = new MediaPlayerLoadingEvent(this);
         this.loadEvt = new MediaElementSourceLoadedEvent(this);
         this.playEvt = new MediaElementSourcePlayedEvent(this);
         this.pauseEvt = new MediaElementSourcePausedEvent(this);

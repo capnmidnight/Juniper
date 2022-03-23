@@ -56,12 +56,12 @@ export class VideoPlayer3D
 
         this.vidMesh1 = new Image2DMesh(fetcher, layerMgr, "videoPlayer-leftEye", false, this.material);
         this.vidMesh1.renderOrder = 4;
-        this.vidMesh1.layers.enable(0);
+        this.vidMesh1.mesh.layers.enable(0);
 
 
         this.vidMesh2 = new Image2DMesh(fetcher, layerMgr, "videoPlayer-rightEye", false, this.material);
         this.vidMesh2.renderOrder = 4;
-        this.vidMesh2.layers.disable(0);
+        this.vidMesh2.mesh.layers.disable(0);
 
         this.object = obj("videoPlayer",
             this.vidMesh1,
@@ -87,19 +87,19 @@ export class VideoPlayer3D
     }
 
     setStereoParameters(encoding: SphereEncodingName, layout: StereoLayoutName) {
-        this.vidMesh1.layers.disable(1);
-        this.vidMesh2.layers.disable(1);
-        this.vidMesh1.layers.disable(2);
-        this.vidMesh2.layers.disable(2);
+        this.vidMesh1.mesh.layers.disable(1);
+        this.vidMesh2.mesh.layers.disable(1);
+        this.vidMesh1.mesh.layers.disable(2);
+        this.vidMesh2.mesh.layers.disable(2);
 
         if (layout === "left-right"
             || layout === "top-bottom") {
-            this.vidMesh1.layers.enable(2);
-            this.vidMesh2.layers.enable(1);
+            this.vidMesh1.mesh.layers.enable(2);
+            this.vidMesh2.mesh.layers.enable(1);
         }
         else if (layout !== "mono") {
-            this.vidMesh1.layers.enable(1);
-            this.vidMesh2.layers.enable(2);
+            this.vidMesh1.mesh.layers.enable(1);
+            this.vidMesh2.mesh.layers.enable(2);
         }
 
         this.vidMesh1.mesh.geometry.dispose();
@@ -257,38 +257,38 @@ const StereoEACGeoms = new Map([
 ]);
 
 const MonoPlaneGeom = createQuadGeometry([
-    [-1 / 2, +1 / 2, -1 / 2, 0, 1],
-    [+1 / 2, +1 / 2, -1 / 2, 1, 1],
-    [+1 / 2, -1 / 2, -1 / 2, 1, 0],
-    [-1 / 2, -1 / 2, -1 / 2, 0, 0]
+    [-1 / 2, +1 / 2, -1 / 2, 0.0, 1.0],
+    [+1 / 2, +1 / 2, -1 / 2, 1.0, 1.0],
+    [+1 / 2, -1 / 2, -1 / 2, 1.0, 0.0],
+    [-1 / 2, -1 / 2, -1 / 2, 0.0, 0.0]
 ]);
 
 const StereoPlaneGeom_Left = createQuadGeometry([
-    [-1 / 2, +1 / 2, -1 / 2, 0, 1],
-    [+1 / 2, +1 / 2, -1 / 2, 0.5, 1],
-    [+1 / 2, -1 / 2, -1 / 2, 0.5, 0],
-    [-1 / 2, -1 / 2, -1 / 2, 0, 0]
+    [-1 / 2, +1 / 2, 0, 0.0, 1.0],
+    [+1 / 2, +1 / 2, 0, 0.5, 1.0],
+    [+1 / 2, -1 / 2, 0, 0.5, 0.0],
+    [-1 / 2, -1 / 2, 0, 0.0, 0.0]
 ]);
 
 const StereoPlaneGeom_Right = createQuadGeometry([
-    [-1 / 2, +1 / 2, -1 / 2, 0.5, 1],
-    [+1 / 2, +1 / 2, -1 / 2, 1, 1],
-    [+1 / 2, -1 / 2, -1 / 2, 1, 0],
-    [-1 / 2, -1 / 2, -1 / 2, 0.5, 0]
+    [-1 / 2, +1 / 2, 0, 0.5, 1.0],
+    [+1 / 2, +1 / 2, 0, 1.0, 1.0],
+    [+1 / 2, -1 / 2, 0, 1.0, 0.0],
+    [-1 / 2, -1 / 2, 0, 0.5, 0.0]
 ]);
 
 const StereoPlaneGeom_Top = createQuadGeometry([
-    [-1 / 2, +1 / 2, -1 / 2, 0, 1],
-    [+1 / 2, +1 / 2, -1 / 2, 1, 1],
-    [+1 / 2, -1 / 2, -1 / 2, 1, 0.5],
-    [-1 / 2, -1 / 2, -1 / 2, 0, 0.5]
+    [-1 / 2, +1 / 2, 0, 0.0, 1.0],
+    [+1 / 2, +1 / 2, 0, 1.0, 1.0],
+    [+1 / 2, -1 / 2, 0, 1.0, 0.5],
+    [-1 / 2, -1 / 2, 0, 0.0, 0.5]
 ]);
 
 const StereoPlaneGeom_Bottom = createQuadGeometry([
-    [-1 / 2, +1 / 2, -1 / 2, 0, 0.5],
-    [+1 / 2, +1 / 2, -1 / 2, 1, 0.5],
-    [+1 / 2, -1 / 2, -1 / 2, 1, 0],
-    [-1 / 2, -1 / 2, -1 / 2, 0, 0]
+    [-1 / 2, +1 / 2, 0, 0.0, 0.5],
+    [+1 / 2, +1 / 2, 0, 1.0, 0.5],
+    [+1 / 2, -1 / 2, 0, 1.0, 0.0],
+    [-1 / 2, -1 / 2, 0, 0.0, 0.0]
 ]);
 
 const StereoPlaneGeoms = new Map([

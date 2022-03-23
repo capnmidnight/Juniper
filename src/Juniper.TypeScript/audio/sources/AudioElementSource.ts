@@ -2,7 +2,8 @@ import { mediaElementCanPlay } from "juniper-dom/tags";
 import { once } from "juniper-tslib";
 import { removeVertex } from "../nodes";
 import { BaseAudioSource } from "./BaseAudioSource";
-import { IPlayable, MediaElementSourceEvents, MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent, PlaybackState } from "./IPlayable";
+import { IPlayable, MediaElementSourceEvents, MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "./IPlayable";
+import { PlaybackState } from "./PlaybackState";
 import type { BaseEmitter } from "./spatializers/BaseEmitter";
 
 const elementRefCounts = new WeakMap<HTMLMediaElement, number>();
@@ -41,11 +42,11 @@ function dec(source: MediaElementAudioSourceNode) {
 export class AudioElementSource
     extends BaseAudioSource<MediaElementAudioSourceNode, MediaElementSourceEvents>
     implements IPlayable {
-    private readonly loadEvt: MediaElementSourceLoadedEvent;
-    private readonly playEvt: MediaElementSourcePlayedEvent;
-    private readonly pauseEvt: MediaElementSourcePausedEvent;
-    private readonly stopEvt: MediaElementSourceStoppedEvent;
-    private readonly progEvt: MediaElementSourceProgressEvent;
+    private readonly loadEvt: MediaElementSourceLoadedEvent<IPlayable>;
+    private readonly playEvt: MediaElementSourcePlayedEvent<IPlayable>;
+    private readonly pauseEvt: MediaElementSourcePausedEvent<IPlayable>;
+    private readonly stopEvt: MediaElementSourceStoppedEvent<IPlayable>;
+    private readonly progEvt: MediaElementSourceProgressEvent<IPlayable>;
     private readonly audio: HTMLMediaElement;
 
     constructor(id: string,

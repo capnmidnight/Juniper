@@ -1,5 +1,6 @@
 import { FullAudioRecord } from "juniper-audio/data";
-import { IPlayer } from "juniper-audio/sources/IPlayable";
+import { MediaElementSourceEvent } from "juniper-audio/sources/IPlayable";
+import { IPlayer } from "juniper-audio/sources/IPlayer";
 import { MouseButtons } from "juniper-dom/eventSystem/MouseButton";
 import { keycapDigits } from "juniper-emoji/numbers";
 import { IFetcher } from "juniper-fetcher";
@@ -47,7 +48,7 @@ export class PlaybackButton<T extends FullAudioRecord>
         private readonly data: T,
         name: string,
         label: string,
-        player: IPlayer<T>) {
+        player: IPlayer) {
         super();
 
         label = translations.get(label) || label || "";
@@ -91,7 +92,7 @@ export class PlaybackButton<T extends FullAudioRecord>
             : 0) * size;
     }
 
-    private async load(buttonFactory: ButtonFactory, player: IPlayer<T>) {
+    private async load(buttonFactory: ButtonFactory, player: IPlayer) {
         const [
             enabledMaterial,
             disabledMaterial,
@@ -172,15 +173,23 @@ export class PlaybackButton<T extends FullAudioRecord>
 
         refresh();
 
+        const local = <T extends MediaElementSourceEvent<string, IPlayer>>(callback: (evt: T) => void) => (evt: T) => {
+            if (evt.source.data === this.data) {
+                callback(evt);
+            }
+        };
+
+        const localRefresh = local(refresh);
+
         player.addEventListener("loading", refresh);
-        player.addEventListener("loaded", refresh);
-        player.addEventListener("played", refresh);
-        player.addEventListener("paused", refresh);
+        player.addEventListener("loaded", localRefresh);
+        player.addEventListener("played", localRefresh);
+        player.addEventListener("paused", localRefresh);
         player.addEventListener("stopped", refresh);
 
-        player.addEventListener("progress", (evt) => this.report(evt.value, evt.total));
-        player.addEventListener("played", () => this.dispatchEvent(playEvt));
-        player.addEventListener("stopped", () => this.dispatchEvent(stopEvt));
+        player.addEventListener("progress", local((evt) => this.report(evt.value, evt.total)));
+        player.addEventListener("played", local(() => this.dispatchEvent(playEvt)));
+        player.addEventListener("stopped", local(() => this.dispatchEvent(stopEvt)));
 
         const onClick = (btn: MeshButton, callback: () => void) => {
             btn.addEventListener("click", async (ev: THREE.Event) => {
