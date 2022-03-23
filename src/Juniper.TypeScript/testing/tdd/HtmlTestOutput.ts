@@ -17,7 +17,7 @@ import { onClick } from "juniper-dom/evts";
 import {
     Button,
     Div,
-    ElementChild, ErsatzElement,
+    ElementChild, elementReplace, ErsatzElement,
     Span
 } from "juniper-dom/tags";
 import { isDefined } from "juniper-tslib";
@@ -116,7 +116,7 @@ export class HtmlTestOutput extends TestOutput implements ErsatzElement {
             }
 
             if (isDefined(lastTable)) {
-                lastTable.replaceWith(table);
+                elementReplace(lastTable, table);
             }
             else {
                 this.element.append(table);

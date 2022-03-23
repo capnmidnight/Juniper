@@ -114,7 +114,7 @@ export function elementGetIndexInParent(elem: Elements): number {
 export function elementApply(elem: Elements, ...children: ElementChild[]): Elements {
     elem = resolveElement(elem);
 
-    for (let child of children) {
+    for (const child of children) {
         if (isDefined(child)) {
             if (child instanceof Node) {
                 elem.append(child);
@@ -135,6 +135,17 @@ export function elementApply(elem: Elements, ...children: ElementChild[]): Eleme
     }
 
     return elem;
+}
+
+export function elementReplace(elem: Elements, ...elems: Elements[]): Elements {
+    elem = resolveElement(elem);
+    elem.replaceWith(...elems.map(resolveElement));
+    return elem;
+}
+
+export function elementSwap(elem: Elements, withPlaceholder: (placeholder: Elements) => Elements) {
+    const placeholder = Div();
+    elementReplace(placeholder, elementReplace(elem, withPlaceholder(placeholder)));
 }
 
 export function getElement<T extends HTMLElement>(selector: string): T {

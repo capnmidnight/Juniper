@@ -1,7 +1,7 @@
 import { TypedEventBase } from "juniper-tslib";
 import { className } from "./attrs";
 import { display, gridAutoFlow, gridTemplateColumns, rule } from "./css";
-import { Div, InputNumber, Style } from "./tags";
+import { Div, elementSwap, InputNumber, Style } from "./tags";
 
 Style(
     rule(".input-range-with-text",
@@ -22,16 +22,11 @@ export class InputRangeWithText extends TypedEventBase<InputRangeWithTextEvents>
     constructor(private rangeInput: HTMLInputElement) {
         super();
 
-        const placeHolder = Div();
-
-
-        this.rangeInput.replaceWith(
+        elementSwap(this.rangeInput, placeholder =>
             Div(
                 className("input-range-with-text"),
-                placeHolder,
+                placeholder,
                 this.numberInput = InputNumber()));
-
-        placeHolder.replaceWith(this.rangeInput);
 
         this.numberInput.min = this.rangeInput.min;
         this.numberInput.max = this.rangeInput.max;
