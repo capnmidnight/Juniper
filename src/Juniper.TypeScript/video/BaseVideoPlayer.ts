@@ -7,7 +7,8 @@ import { PlaybackState } from "juniper-audio/sources/PlaybackState";
 import { NoSpatializationNode } from "juniper-audio/sources/spatializers/NoSpatializationNode";
 import { autoPlay, controls, loop, playsInline } from "juniper-dom/attrs";
 import { Audio, ElementChild, Video } from "juniper-dom/tags";
-import { arraySortByKeyInPlace, AsyncCallback, IDisposable, IProgress, isDefined, isNullOrUndefined, once, PriorityList, progressSplit, success } from "juniper-tslib";
+import { Video_Vendor_Mpeg_Dash_Mpd } from "juniper-mediatypes/video";
+import { arraySortByKeyInPlace, AsyncCallback, IDisposable, IProgress, isDefined, isNullOrUndefined, once, PriorityList, progressTasks, success } from "juniper-tslib";
 import { FullVideoRecord, isVideoRecord } from "./data";
 
 export abstract class BaseVideoPlayer
@@ -237,28 +238,28 @@ export abstract class BaseVideoPlayer
 
         this.setTitle(data.title);
 
-        arraySortByKeyInPlace(data.videos, (f) => -f.resolution);
-        arraySortByKeyInPlace(data.audios, (f) => -f.resolution);
-
-        for (const video of data.videos) {
-            this.sources.add(this.video, video);
-            this.sourcesByURL.set(video.url, video);
-        }
-
-        for (const audio of data.audios) {
-            this.sources.add(this.audio, audio);
-            this.sourcesByURL.set(audio.url, audio);
-        }
+        this.fillSources(this.video, data.videos);
+        this.fillSources(this.audio, data.audios);
 
         this.dispatchEvent(this.loadingEvt);
-        const progs = progressSplit(prog, 4);
-        await Promise.all([
-            this.loadMediaElement(this.audio, progs.shift()),
-            this.loadMediaElement(this.video, progs.shift())
-        ]);
+
+        await progressTasks(prog,
+            (prog) => this.loadMediaElement(this.audio, prog),
+            (prog) => this.loadMediaElement(this.video, prog));
         this._loaded = true;
+
         this.dispatchEvent(this.loadEvt);
         return this;
+    }
+
+    private fillSources(elem: HTMLMediaElement, formats: AudioRecord[]) {
+        arraySortByKeyInPlace(formats, (f) => -f.resolution);
+        for (const format of formats) {
+            if (!Video_Vendor_Mpeg_Dash_Mpd.matches(format.contentType)) {
+                this.sources.add(elem, format);
+                this.sourcesByURL.set(format.url, format);
+            }
+        }
     }
 
     private createMediaElement<T extends HTMLMediaElement>(MediaElement: (...rest: ElementChild[]) => T, ...rest: ElementChild[]): T {

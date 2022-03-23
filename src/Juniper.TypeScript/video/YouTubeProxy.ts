@@ -1,19 +1,19 @@
 import { AudioRecord } from "juniper-audio/data";
 import { IFetcher } from "juniper-fetcher";
-import { anyAudio, anyVideo, mediaTypeParse } from "juniper-mediatypes";
-import { Video_Vendor_Mpeg_Dash_Mpd } from "juniper-mediatypes/video";
 import { arrayScan, IProgress, isDefined, isNullOrUndefined, isString, PriorityList } from "juniper-tslib";
 import { FullVideoRecord, ImageRecord, VideoRecord } from "./data";
-
-function isVideoOrAudio(f: YTMetadataFormat): boolean {
-    return (anyAudio.matches(f.content_type)
-        || anyVideo.matches(f.content_type))
-        && !Video_Vendor_Mpeg_Dash_Mpd.matches(f.content_type);
-}
 
 const codecReplaces = new Map([
     ["vp9", "vp09.00.10.08"]
 ]);
+
+function classifyFormat(f: YTMetadataFormat) {
+    if (f.vcodec === "none") {
+        return "audio";
+    }
+
+    return "video";
+}
 
 export function combineContentTypeAndCodec(content_type: string, codec: string): string {
     const parts = [content_type];
@@ -104,9 +104,8 @@ export class YouTubeProxy {
         }
 
         const formats = new PriorityList((await Promise.all(metadata
-            .formats
-            .filter(isVideoOrAudio)))
-            .map(f => [mediaTypeParse(f.content_type).typeName, f]));
+            .formats))
+            .map(f => [classifyFormat(f), f]));
 
         return {
             title: metadata.title,
