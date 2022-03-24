@@ -1,4 +1,4 @@
-import type { CanvasTypes } from "juniper-dom/canvas";
+import { CanvasTypes, isHTMLCanvas } from "juniper-dom/canvas";
 import {
     border,
     height,
@@ -104,6 +104,10 @@ export class BaseEnvironment<Events = void>
 
     constructor(canvas: CanvasTypes, public readonly fetcher: IFetcher, public readonly defaultAvatarHeight: number, enableFullResolution: boolean) {
         super();
+
+        if (isHTMLCanvas(canvas)) {
+            canvas.style.backgroundColor = "black";
+        }
 
         this.renderer = new THREE.WebGLRenderer({
             canvas,
