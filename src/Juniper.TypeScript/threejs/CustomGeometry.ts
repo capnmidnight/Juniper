@@ -1,24 +1,24 @@
-type v2 = [number, number];
-type v3 = [number, number, number];
-type v5 = [number, number, number, number, number];
-type v7 = {
-    pos: v3;
-    uv: v2;
-    pUV: v2;
+type UV = [number, number];
+type Pos = [number, number, number];
+export type PosUV = [number, number, number, number, number];
+type PosUVBounds = {
+    pos: Pos;
+    uv: UV;
+    pUV: UV;
 }
 
-export type TrianglePosUV = [v5, v5, v5];
-export type QuadPosUV = [v5, v5, v5, v5];
+export type TrianglePosUV = [PosUV, PosUV, PosUV];
+export type QuadPosUV = [PosUV, PosUV, PosUV, PosUV];
 export type QuadPosUVBounds = {
-    minUV: v2;
-    deltaUV: v2;
-    verts: [v7, v7, v7, v7];
+    minUV: UV;
+    deltaUV: UV;
+    verts: [PosUVBounds, PosUVBounds, PosUVBounds, PosUVBounds];
 }
 
 interface ITrianglePosUVNormal {
-    positions: [v3, v3, v3];
-    uvs: [v2, v2, v2];
-    normal: v3;
+    positions: [Pos, Pos, Pos];
+    uvs: [UV, UV, UV];
+    normal: Pos;
 }
 
 function normalizeTriangles(trias: TrianglePosUV[]): ITrianglePosUVNormal[] {
@@ -41,12 +41,12 @@ const B = new THREE.Vector3();
 const C = new THREE.Vector3();
 
 function normalizeTriangle(tria: TrianglePosUV): ITrianglePosUVNormal {
-    const positions: [v3, v3, v3] = [
+    const positions: [Pos, Pos, Pos] = [
         [tria[0][0], tria[0][1], tria[0][2]],
         [tria[1][0], tria[1][1], tria[1][2]],
         [tria[2][0], tria[2][1], tria[2][2]]
     ];
-    const uvs: [v2, v2, v2] = [
+    const uvs: [UV, UV, UV] = [
         [tria[0][3], tria[0][4]],
         [tria[1][3], tria[1][4]],
         [tria[2][3], tria[2][4]]
@@ -114,8 +114,8 @@ function mapEACSubdivision(quads: QuadPosUV[]): QuadPosUVBounds[] {
             maxV = Math.max(maxV, v);
         }
 
-        const minUV: v2 = [minU, minV];
-        const deltaUV: v2 = [maxU - minU, maxV - minV];
+        const minUV: UV = [minU, minV];
+        const deltaUV: UV = [maxU - minU, maxV - minV];
         return {
             minUV,
             deltaUV,
@@ -129,7 +129,7 @@ function mapEACSubdivision(quads: QuadPosUV[]): QuadPosUVBounds[] {
     });
 }
 
-function mapEACSubdivVert(minUV: v2, deltaUV: v2, vert: v5): v7 {
+function mapEACSubdivVert(minUV: UV, deltaUV: UV, vert: PosUV): PosUVBounds {
     return {
         pos: [vert[0], vert[1], vert[2]],
         uv: [vert[3], vert[4]],
@@ -149,7 +149,7 @@ function unmapEACSubdivision(quadsx: QuadPosUVBounds[]): QuadPosUV[] {
     ]);
 }
 
-function unmapEACSubdivVert(quadx: QuadPosUVBounds, i: number): v5 {
+function unmapEACSubdivVert(quadx: QuadPosUVBounds, i: number): PosUV {
     const vert = quadx.verts[i];
     return [
         vert.pos[0],
@@ -187,7 +187,7 @@ function subdivide(quadsx: QuadPosUVBounds[]): QuadPosUVBounds[] {
     });
 }
 
-function midpoint(quadx: QuadPosUVBounds, from: v7, to: v7): v7 {
+function midpoint(quadx: QuadPosUVBounds, from: PosUVBounds, to: PosUVBounds): PosUVBounds {
     const dx = to.pos[0] - from.pos[0];
     const dy = to.pos[1] - from.pos[1];
     const dz = to.pos[2] - from.pos[2];

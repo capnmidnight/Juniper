@@ -1,7 +1,8 @@
 import { IFetcher } from "juniper-fetcher";
+import { and, arrayClear, PriorityMap } from "juniper-tslib";
 import { BaseVideoPlayer } from "juniper-video/BaseVideoPlayer";
 import { cleanup } from "./cleanup";
-import { createEACGeometry, createQuadGeometry } from "./CustomGeometry";
+import { createEACGeometry, createQuadGeometry, QuadPosUV, PosUV } from "./CustomGeometry";
 import { Image2DMesh } from "./Image2DMesh";
 import { IUpdatable } from "./IUpdatable";
 import { IWebXRLayerManager } from "./IWebXRLayerManager";
@@ -10,6 +11,7 @@ import { ErsatzObject, obj } from "./objects";
 
 export type SphereEncodingName = "N/A"
     | "Cubemap"
+    | "Cubemap Strips"
     | "Equi-Angular Cubemap (YouTube)"
     | "Equirectangular"
     | "Half Equirectangular"
@@ -18,6 +20,7 @@ export type SphereEncodingName = "N/A"
 export const SphereEncodingNames: SphereEncodingName[] = [
     "N/A",
     "Cubemap",
+    "Cubemap Strips",
     "Equi-Angular Cubemap (YouTube)",
     "Equirectangular",
     "Half Equirectangular",
@@ -43,8 +46,7 @@ export class VideoPlayer3D
     implements ErsatzObject, IUpdatable {
 
     private readonly material: THREE.MeshBasicMaterial;
-    private readonly vidMesh1: Image2DMesh;
-    private readonly vidMesh2: Image2DMesh;
+    private readonly vidMeshes: Image2DMesh[];
 
     readonly object: THREE.Object3D;
 
@@ -53,116 +55,121 @@ export class VideoPlayer3D
 
         this.material = solidTransparent({ name: "videoPlayer-material" });
 
-        this.vidMesh1 = new Image2DMesh(fetcher, layerMgr, "videoPlayer-leftEye", false, this.material);
-        this.vidMesh1.mesh.setImage(this.video);
-        this.vidMesh1.renderOrder = 4;
-        this.vidMesh1.mesh.layers.enable(0);
+        this.vidMeshes = [];
+        for (let i = 0; i < 2; ++i) {
+            const vidMesh = new Image2DMesh(fetcher, layerMgr, `videoPlayer-view${i + 1}`, false, this.material);
+            vidMesh.mesh.setImage(this.video);
+            vidMesh.renderOrder = 4;
+            if (i > 0) {
+                vidMesh.mesh.layers.disable(0);
+            }
+            else {
+                vidMesh.mesh.layers.enable(0);
+            }
 
-
-        this.vidMesh2 = new Image2DMesh(fetcher, layerMgr, "videoPlayer-rightEye", false, this.material);
-        this.vidMesh2.mesh.setImage(this.video);
-        this.vidMesh2.renderOrder = 4;
-        this.vidMesh2.mesh.layers.disable(0);
+            this.vidMeshes.push(vidMesh);
+        }
 
         this.object = obj("videoPlayer",
-            this.vidMesh1,
-            this.vidMesh2
+            ...this.vidMeshes
         );
     }
 
     protected override onDisposing(): void {
         super.onDisposing();
         cleanup(this.object);
+        arrayClear(this.vidMeshes);
     }
 
     update(dt: number, frame?: XRFrame) {
-        this.vidMesh1.update(dt, frame);
-        this.vidMesh2.update(dt, frame);
+        for (const vidMesh of this.vidMeshes) {
+            vidMesh.update(dt, frame);
+        }
     }
 
     isSupported(encoding: SphereEncodingName, layout: StereoLayoutName): boolean {
-        return encoding === "N/A"
-            || encoding === "Equi-Angular Cubemap (YouTube)"
-            && layout !== "top-bottom"
-            && layout !== "bottom-top";
+        return layout
+            .split('-')
+            .map(name =>
+                GeomPacks.has(encoding, name))
+            .reduce(and, true);
     }
 
     setStereoParameters(encoding: SphereEncodingName, layout: StereoLayoutName) {
-        this.vidMesh1.webXRLayersEnabled = false;
-        this.vidMesh1.mesh.layers.disable(1);
-        this.vidMesh1.mesh.layers.disable(2);
-
-        this.vidMesh2.webXRLayersEnabled = false;
-        this.vidMesh2.mesh.layers.disable(1);
-        this.vidMesh2.mesh.layers.disable(2);
-
-        if (layout === "left-right"
-            || layout === "top-bottom") {
-            this.vidMesh1.mesh.layers.enable(2);
-            this.vidMesh2.mesh.layers.enable(1);
-        }
-        else if (layout !== "mono") {
-            this.vidMesh1.mesh.layers.enable(1);
-            this.vidMesh2.mesh.layers.enable(2);
-        }
-
-        this.vidMesh1.mesh.geometry.dispose();
-        this.vidMesh1.mesh.geometry = MonoPlaneGeom;
-        this.vidMesh2.mesh.geometry.dispose();
-        this.vidMesh2.mesh.geometry = MonoPlaneGeom;
-
-        if (encoding === "N/A") {
-            this.object.scale.set(1, 1, 1);
-            this.vidMesh1.webXRLayersEnabled = true;
-            this.vidMesh1.visible = true;
-
-            this.vidMesh2.webXRLayersEnabled = true;
-            this.vidMesh2.visible = layout !== "mono";
-
-            if (layout !== "mono") {
-                const names = layout.split('-');
-                this.vidMesh1.mesh.geometry = StereoPlaneGeoms.get(names[0]);
-                this.vidMesh2.mesh.geometry = StereoPlaneGeoms.get(names[1]);
-            }
-
-            const aspect = this.height / this.width;
-            if (layout === "mono") {
-                this.vidMesh1.scale.set(1, aspect, 1);
-            }
-            else if (layout === "left-right"
-                || layout === "right-left") {
-                this.vidMesh1.scale.set(1, 2 * aspect, 1);
-            }
-            else {
-                this.vidMesh1.scale.set(1, 0.5 * aspect, 1);
-            }
-        }
-        else if (encoding === "Equi-Angular Cubemap (YouTube)"
-            && layout !== "top-bottom"
-            && layout !== "bottom-top") {
-
-            this.vidMesh1.scale.set(100, 100, 100);
-
-            if (layout === "mono") {
-                this.vidMesh1.mesh.geometry = MonoEACGeom;
-            }
-            else {
-                const names = layout.split('-');
-                this.vidMesh1.mesh.geometry = StereoEACGeoms.get(names[0]);
-                this.vidMesh2.mesh.geometry = StereoEACGeoms.get(names[1]);
-            }
-        }
-        else {
+        if (!this.isSupported(encoding, layout)) {
             throw new Error(`Not supported [encoding: ${encoding}, layout: ${layout}]`);
         }
 
-        this.vidMesh2.scale.copy(this.vidMesh1.scale);
+        for (let i = 0; i < this.vidMeshes.length; ++i) {
+            const vidMesh = this.vidMeshes[i];
+            vidMesh.webXRLayersEnabled = false;
+            vidMesh.mesh.layers.disable(1);
+            vidMesh.mesh.layers.disable(2);
+            if (layout === "left-right"
+                || layout === "top-bottom") {
+                vidMesh.mesh.layers.enable(this.vidMeshes.length - i);
+            }
+            else if (layout !== "mono") {
+                vidMesh.mesh.layers.enable(i + 1);
+            }
+        }
+
+        const aspect = this.height / this.width;
+        if (encoding !== "N/A") {
+            this.vidMeshes[0].scale.set(100, 100, 100);
+        }
+        else if (layout === "mono") {
+            this.vidMeshes[0].scale.set(1, aspect, 1);
+        }
+        else if (layout === "left-right"
+            || layout === "right-left") {
+            this.vidMeshes[0].scale.set(1, 2 * aspect, 1);
+        }
+        else {
+            this.vidMeshes[0].scale.set(1, 0.5 * aspect, 1);
+        }
+
+        for (let i = 1; i < this.vidMeshes.length; ++i) {
+            this.vidMeshes[i].scale.copy(this.vidMeshes[0].scale);
+        }
+
+        const names = layout.split('-');
+        for (let i = 0; i < names.length; ++i) {
+            const name = names[i];
+            const geom = GeomPacks.get(encoding, name);
+            const vidMesh = this.vidMeshes[i];
+            vidMesh.webXRLayersEnabled = true;
+            vidMesh.visible = true;
+            if (vidMesh.mesh.geometry !== geom) {
+                vidMesh.mesh.geometry.dispose();
+                vidMesh.mesh.geometry = geom;
+            }
+        }
     }
 }
 
-const EACSubDivisions = 4;
+const PlaneGeom_Mono = createQuadGeometry([
+    [-1 / 2, +1 / 2, 0, 0.0, 1.0],
+    [+1 / 2, +1 / 2, 0, 1.0, 1.0],
+    [+1 / 2, -1 / 2, 0, 1.0, 0.0],
+    [-1 / 2, -1 / 2, 0, 0.0, 0.0]
+]);
 
-const MonoEACGeom = createEACGeometry(EACSubDivisions, [
+const PlaneDef_Left: QuadPosUV = [
+    [-1 / 2, +1 / 2, 0, 0.0, 1.0],
+    [+1 / 2, +1 / 2, 0, 0.5, 1.0],
+    [+1 / 2, -1 / 2, 0, 0.5, 0.0],
+    [-1 / 2, -1 / 2, 0, 0.0, 0.0]
+];
+
+const PlanDef_Right: QuadPosUV = [
+    [-1 / 2, +1 / 2, 0, 0.5, 1.0],
+    [+1 / 2, +1 / 2, 0, 1.0, 1.0],
+    [+1 / 2, -1 / 2, 0, 1.0, 0.0],
+    [-1 / 2, -1 / 2, 0, 0.5, 0.0]
+]
+
+const CubeStripDef_Mono: QuadPosUV[] = [[
     [-1 / 2, +1 / 2, -1 / 2, 1 / 3, 1.000],
     [+1 / 2, +1 / 2, -1 / 2, 2 / 3, 1.000],
     [+1 / 2, -1 / 2, -1 / 2, 2 / 3, 1 / 2],
@@ -192,9 +199,9 @@ const MonoEACGeom = createEACGeometry(EACSubDivisions, [
     [-1 / 2, -1 / 2, +1 / 2, 1 / 3, 0.000],
     [-1 / 2, -1 / 2, -1 / 2, 0.000, 0.000],
     [+1 / 2, -1 / 2, -1 / 2, 0.000, 1 / 2]
-]);
+]];
 
-const StereoEACGeom_Left = createEACGeometry(EACSubDivisions, [
+const CubeStripDef_Left: QuadPosUV[] = [[
     [-1 / 2, +1 / 2, -1 / 2, 0.000, 1 / 3],
     [+1 / 2, +1 / 2, -1 / 2, 0.000, 2 / 3],
     [+1 / 2, -1 / 2, -1 / 2, 1 / 4, 2 / 3],
@@ -224,9 +231,9 @@ const StereoEACGeom_Left = createEACGeometry(EACSubDivisions, [
     [-1 / 2, -1 / 2, +1 / 2, 1 / 2, 1 / 3],
     [-1 / 2, -1 / 2, -1 / 2, 1 / 2, 0.000],
     [+1 / 2, -1 / 2, -1 / 2, 1 / 4, 0.000]
-]);
+]];
 
-const StereoEACGeom_Right = createEACGeometry(EACSubDivisions, [
+const CubeStripDef_Right: QuadPosUV[] = [[
     [-1 / 2, +1 / 2, -1 / 2, 1 / 2, 1 / 3],
     [+1 / 2, +1 / 2, -1 / 2, 1 / 2, 2 / 3],
     [+1 / 2, -1 / 2, -1 / 2, 3 / 4, 2 / 3],
@@ -256,51 +263,60 @@ const StereoEACGeom_Right = createEACGeometry(EACSubDivisions, [
     [-1 / 2, -1 / 2, +1 / 2, 1.000, 1 / 3],
     [-1 / 2, -1 / 2, -1 / 2, 1.000, 0.000],
     [+1 / 2, -1 / 2, -1 / 2, 3 / 4, 0.000]
+]];
+
+const PlaneGeom_Left = createQuadGeometry(PlaneDef_Left);
+const PlaneGeom_Right = createQuadGeometry(PlanDef_Right);
+const PlaneGeom_Top = createQuadGeometry(rotQuad(PlaneDef_Left));
+const PlaneGeom_Bottom = createQuadGeometry(rotQuad(PlanDef_Right));
+
+const CubeStripDef_Top: QuadPosUV[] = rot(CubeStripDef_Left);
+const CubeStripDef_Bottom: QuadPosUV[] = rot(CubeStripDef_Right);
+
+const CubeStripGeom_Mono = createQuadGeometry(...CubeStripDef_Mono);
+const CubeStripGeom_Left = createQuadGeometry(...CubeStripDef_Left);
+const CubeStripGeom_Right = createQuadGeometry(...CubeStripDef_Right);
+const CubeStripGeom_Top = createQuadGeometry(...CubeStripDef_Top);
+const CubeStripGeom_Bottom = createQuadGeometry(...CubeStripDef_Bottom);
+
+const EACSubDivisions = 4;
+const EACGeom_Mono = createEACGeometry(EACSubDivisions, ...CubeStripDef_Mono);
+const EACGeom_Left = createEACGeometry(EACSubDivisions, ...CubeStripDef_Left);
+const EACGeom_Right = createEACGeometry(EACSubDivisions, ...CubeStripDef_Right);
+const EACGeom_Top = createEACGeometry(EACSubDivisions, ...CubeStripDef_Top);
+const EACGeom_Bottom = createEACGeometry(EACSubDivisions, ...CubeStripDef_Bottom);
+
+const GeomPacks = new PriorityMap<SphereEncodingName, string, THREE.BufferGeometry>([
+    ["N/A", "mono", PlaneGeom_Mono],
+    ["N/A", "left", PlaneGeom_Left],
+    ["N/A", "right", PlaneGeom_Right],
+    ["N/A", "top", PlaneGeom_Top],
+    ["N/A", "bottom", PlaneGeom_Bottom],
+    ["Cubemap Strips", "mono", CubeStripGeom_Mono],
+    ["Cubemap Strips", "left", CubeStripGeom_Left],
+    ["Cubemap Strips", "right", CubeStripGeom_Right],
+    ["Cubemap Strips", "top", CubeStripGeom_Top],
+    ["Cubemap Strips", "bottom", CubeStripGeom_Bottom],
+    ["Equi-Angular Cubemap (YouTube)", "mono", EACGeom_Mono],
+    ["Equi-Angular Cubemap (YouTube)", "left", EACGeom_Left],
+    ["Equi-Angular Cubemap (YouTube)", "right", EACGeom_Right],
+    ["Equi-Angular Cubemap (YouTube)", "top", EACGeom_Top],
+    ["Equi-Angular Cubemap (YouTube)", "bottom", EACGeom_Bottom]
 ]);
 
-const StereoEACGeoms = new Map([
-    ["left", StereoEACGeom_Left],
-    ["right", StereoEACGeom_Right]
-]);
+function rotVert(vert: PosUV): PosUV {
+    return [vert[0], vert[1], vert[2], vert[4], 1 - vert[3]];
+}
 
-const MonoPlaneGeom = createQuadGeometry([
-    [-1 / 2, +1 / 2, 0, 0.0, 1.0],
-    [+1 / 2, +1 / 2, 0, 1.0, 1.0],
-    [+1 / 2, -1 / 2, 0, 1.0, 0.0],
-    [-1 / 2, -1 / 2, 0, 0.0, 0.0]
-]);
+function rotQuad(quad: QuadPosUV): QuadPosUV {
+    return [
+        rotVert(quad[0]),
+        rotVert(quad[1]),
+        rotVert(quad[2]),
+        rotVert(quad[3])
+    ];
+}
 
-const StereoPlaneGeom_Left = createQuadGeometry([
-    [-1 / 2, +1 / 2, 0, 0.0, 1.0],
-    [+1 / 2, +1 / 2, 0, 0.5, 1.0],
-    [+1 / 2, -1 / 2, 0, 0.5, 0.0],
-    [-1 / 2, -1 / 2, 0, 0.0, 0.0]
-]);
-
-const StereoPlaneGeom_Right = createQuadGeometry([
-    [-1 / 2, +1 / 2, 0, 0.5, 1.0],
-    [+1 / 2, +1 / 2, 0, 1.0, 1.0],
-    [+1 / 2, -1 / 2, 0, 1.0, 0.0],
-    [-1 / 2, -1 / 2, 0, 0.5, 0.0]
-]);
-
-const StereoPlaneGeom_Top = createQuadGeometry([
-    [-1 / 2, +1 / 2, 0, 0.0, 1.0],
-    [+1 / 2, +1 / 2, 0, 1.0, 1.0],
-    [+1 / 2, -1 / 2, 0, 1.0, 0.5],
-    [-1 / 2, -1 / 2, 0, 0.0, 0.5]
-]);
-
-const StereoPlaneGeom_Bottom = createQuadGeometry([
-    [-1 / 2, +1 / 2, 0, 0.0, 0.5],
-    [+1 / 2, +1 / 2, 0, 1.0, 0.5],
-    [+1 / 2, -1 / 2, 0, 1.0, 0.0],
-    [-1 / 2, -1 / 2, 0, 0.0, 0.0]
-]);
-
-const StereoPlaneGeoms = new Map([
-    ["left", StereoPlaneGeom_Left],
-    ["right", StereoPlaneGeom_Right],
-    ["top", StereoPlaneGeom_Top],
-    ["bottom", StereoPlaneGeom_Bottom]
-]);
+function rot(def: QuadPosUV[]): QuadPosUV[] {
+    return def.map<QuadPosUV>(rotQuad);
+}
