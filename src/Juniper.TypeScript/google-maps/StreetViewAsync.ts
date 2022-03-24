@@ -23,7 +23,7 @@ export class StreetViewAsync extends TypedEventBase<StreetViewAsyncEvents> {
     }
 
     private async hasChanged(pano: string): Promise<void> {
-        const task = once(this, "_positionchanged", null, 3000);
+        const task = once(this, "_positionchanged", 3000);
         this.streetView.setPano(pano);
         await task;
     }
