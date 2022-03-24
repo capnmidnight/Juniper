@@ -8,7 +8,8 @@ const codecReplaces = new Map([
 ]);
 
 function classifyFormat(f: YTMetadataFormat) {
-    if (f.vcodec === "none") {
+    if (isNullOrUndefined(f.vcodec)
+        || f.vcodec === "none") {
         return "audio";
     }
 
@@ -91,6 +92,10 @@ export class YouTubeProxy {
             throw new Error("must provide a YouTube URL or a YTMetadata object");
         }
 
+        if (isDefined(prog)) {
+            prog.start();
+        }
+
         let metadata: YTMetadata = null;
         if (isString(pageURLOrMetadata)) {
             metadata = await this.fetcher
@@ -99,7 +104,9 @@ export class YouTubeProxy {
                 .object<YTMetadata>();
         }
         else {
-            prog.end(pageURLOrMetadata.title);
+            if (isDefined(prog)) {
+                prog.end(pageURLOrMetadata.title);
+            }
             metadata = pageURLOrMetadata;
         }
 
@@ -107,12 +114,20 @@ export class YouTubeProxy {
             .formats))
             .map(f => [classifyFormat(f), f]));
 
-        return {
-            title: metadata.title,
-            thumbnail: this.makeImageRecord(arrayScan(metadata.thumbnails, (t) => t.url === metadata.thumbnail)),
-            videos: formats.get("video").map((f) => this.makeVideoRecord(f)),
-            audios: formats.get("audio").map((f) => this.makeAudioRecord(f))
+        const title = metadata.title;
+        const thumbnails = metadata.thumbnails || [];
+        const thumbnail = metadata.thumbnail && this.makeImageRecord(arrayScan(thumbnails, (t) => t.url === metadata.thumbnail));
+        const videos = formats.get("video").map((f) => this.makeVideoRecord(f));
+        const audios = formats.get("audio").map((f) => this.makeAudioRecord(f));
+
+        const data: FullVideoRecord = {
+            title,
+            thumbnail,
+            videos,
+            audios
         };
+
+        return data;
     }
 }
 

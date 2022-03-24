@@ -1,7 +1,7 @@
-import { once, TypedEvent, TypedEventBase } from "juniper-tslib";
+import { once, success, TypedEvent, TypedEventBase } from "juniper-tslib";
 import { classList, className, customData } from "./attrs";
 import { backgroundColor, boxShadow, display, float, gridArea, gridTemplateColumns, gridTemplateRows, height, left, maxHeight, maxWidth, overflow, padding, position, rule, styles, textAlign, top, transform, width, zIndex } from "./css";
-import { ButtonPrimary, ButtonSecondary, Div, elementApply, elementSetText, ErsatzElement, H1, Style } from "./tags";
+import { ButtonPrimary, ButtonSecondary, Div, elementApply, elementIsDisplayed, elementSetDisplay, elementSetText, ErsatzElement, H1, Style } from "./tags";
 
 Style(
     rule(".dialog, .dialog-container",
@@ -111,23 +111,31 @@ export abstract class DialogBox
         // nothing to do in the base case.
     }
 
+    private show(v: boolean) {
+        elementSetDisplay(this, v, "block");
+    }
+
+    get isOpen() {
+        return elementIsDisplayed(this);
+    }
+
     async showDialog(): Promise<boolean> {
         await this.onShowing();
-        this.element.style.display = "block";
+        this.show(true);
         this.onShown();
-        try {
-            await once(this.subEventer, "confirm", "cancel");
+
+        const confirmed = await success(this.subEventer, "confirm", "cancel");
+        if (confirmed) {
             await this.onConfirm();
-            return true;
         }
-        catch {
+        else {
             this.onCancel();
-            return false;
         }
-        finally {
-            await this.onClosing();
-            this.element.style.display = "none";
-            this.onClosed();
-        }
+
+        await this.onClosing();
+        this.show(false);
+        this.onClosed();
+
+        return confirmed;
     }
 }

@@ -32,8 +32,8 @@ namespace Juniper
             {
                 await Task.WhenAll(obj.formats
                     .Cast<YTMetadataURL>()
-                    .Union(obj.requested_formats)
-                    .Union(obj.thumbnails)
+                    .Union(obj.requested_formats ?? Array.Empty<YTMetadataFormat>())
+                    .Union(obj.thumbnails ?? Array.Empty<YTMetadataThumbnail>())
                     .Select(v => AddContentType(http, v)));
             }
 

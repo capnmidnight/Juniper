@@ -59,7 +59,7 @@ export class AudioPlayer
             playsInline(true),
             autoPlay(false),
             loop(false),
-            controls(false)
+            controls(true)
         );
 
         this.input = MediaElementSource(
@@ -107,7 +107,7 @@ export class AudioPlayer
         this.element.addEventListener("timeupdate", this.onTimeUpdate);
 
 
-        Object.assign(window, { player: this });
+        Object.assign(window, { audioPlayer: this });
     }
 
     get hasAudio() {
@@ -234,6 +234,7 @@ export class AudioPlayer
             }
 
             this.element.src = url;
+
             const task = success<HTMLMediaElementEventMap>(this.element, "canplaythrough", "error");
             this.element.load();
             if (await task) {
