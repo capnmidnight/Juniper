@@ -228,14 +228,26 @@ export function elementGetText(elem: Elements): string {
 }
 
 async function mediaElementCan<T extends HTMLMediaElement>(type: "canplay" | "canplaythrough", elem: T, prog?: IProgress): Promise<T> {
-    if (isDefined(prog)) {
-        prog.start();
+    try {
+        if (isDefined(prog)) {
+            prog.start();
+        }
+
+        const expectedState = type === "canplay"
+            ? elem.HAVE_CURRENT_DATA
+            : elem.HAVE_ENOUGH_DATA;
+
+        if (elem.readyState < expectedState) {
+            await once<HTMLMediaElementEventMap, "canplay" | "canplaythrough">(elem, type, "error");
+        }
+
+        return elem;
     }
-    await once<HTMLMediaElementEventMap, "canplay" | "canplaythrough">(elem, type, "error");
-    if (isDefined(prog)) {
-        prog.end();
+    finally {
+        if (isDefined(prog)) {
+            prog.end();
+        }
     }
-    return elem;
 }
 
 export function mediaElementCanPlay<T extends HTMLMediaElement>(elem: T, prog?: IProgress): Promise<T> {
