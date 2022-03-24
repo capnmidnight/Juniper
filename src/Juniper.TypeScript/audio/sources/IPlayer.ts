@@ -4,9 +4,9 @@ import { BaseMediaElementSourceEvents, IBasePlayable, MediaElementSourceEvent } 
 
 
 export interface IPlayer extends IBasePlayable<MediaPlayerEvents> {
-    data: FullAudioRecord;
+    data: FullAudioRecord | string;
     clear(): void;
-    load(data: FullAudioRecord, prog?: IProgress): Promise<this>;
+    load(data: FullAudioRecord | string, prog?: IProgress): Promise<this>;
 }
 
 class MediaPlayerEvent<T extends string> extends MediaElementSourceEvent<T, IPlayer> {

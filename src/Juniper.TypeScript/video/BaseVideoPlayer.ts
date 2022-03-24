@@ -8,7 +8,7 @@ import { NoSpatializationNode } from "juniper-audio/sources/spatializers/NoSpati
 import { autoPlay, controls, loop, playsInline } from "juniper-dom/attrs";
 import { Audio, ElementChild, Video } from "juniper-dom/tags";
 import { Video_Vendor_Mpeg_Dash_Mpd } from "juniper-mediatypes/video";
-import { arraySortByKeyInPlace, AsyncCallback, IDisposable, IProgress, isDefined, isNullOrUndefined, once, PriorityList, progressTasks, success } from "juniper-tslib";
+import { arraySortByKeyInPlace, AsyncCallback, IDisposable, IProgress, isDefined, isNullOrUndefined, isString, once, PriorityList, progressTasks, success } from "juniper-tslib";
 import { FullVideoRecord, isVideoRecord } from "./data";
 
 export abstract class BaseVideoPlayer
@@ -29,10 +29,10 @@ export abstract class BaseVideoPlayer
     private readonly onPause: (evt: Event) => void;
     private readonly onTimeUpdate: () => Promise<void> = null;
 
-    private videoHadAudio: boolean = false;
+    private wasUsingAudioElement: boolean = false;
 
-    private _data: FullVideoRecord = null;
-    get data(): FullVideoRecord {
+    private _data: FullVideoRecord | string = null;
+    get data(): FullVideoRecord | string {
         return this._data;
     }
 
@@ -58,7 +58,7 @@ export abstract class BaseVideoPlayer
     private readonly onError = new Map<HTMLMediaElement, AsyncCallback>();
     private readonly sourcesByURL = new Map<string, AudioRecord>();
     private readonly sources = new PriorityList<HTMLMediaElement, AudioRecord>();
-    private readonly potato = new PriorityList<HTMLMediaElement, AudioRecord>();
+    private readonly potatoes = new PriorityList<HTMLMediaElement, string>();
 
     constructor(audioCtx: AudioContext) {
         super("JuniperVideoPlayer", audioCtx, NoSpatializationNode.instance(audioCtx));
@@ -88,7 +88,7 @@ export abstract class BaseVideoPlayer
         this.progEvt = new MediaElementSourceProgressEvent(this);
 
         this.onSeeked = () => {
-            if (!this.videoHasAudio) {
+            if (this.useAudioElement) {
                 this.audio.currentTime = this.video.currentTime;
             }
         };
@@ -97,7 +97,7 @@ export abstract class BaseVideoPlayer
             this.connect();
 
             this.onSeeked();
-            if (!this.videoHasAudio) {
+            if (this.useAudioElement) {
                 await this.audio.play();
             }
             this.dispatchEvent(this.playEvt)
@@ -106,7 +106,7 @@ export abstract class BaseVideoPlayer
         this.onPause = (evt: Event) => {
             this.disconnect();
 
-            if (!this.videoHasAudio) {
+            if (this.useAudioElement) {
                 this.onSeeked();
                 this.audio.pause();
             }
@@ -120,20 +120,20 @@ export abstract class BaseVideoPlayer
 
         let wasWaiting = false;
         this.onWaiting = () => {
-            if (!this.videoHasAudio) {
+            if (this.useAudioElement) {
                 wasWaiting = true;
                 this.audio.pause();
             }
         };
 
         this.onCanPlay = async () => {
-            if (!this.videoHasAudio && wasWaiting) {
+            if (this.useAudioElement && wasWaiting) {
                 await this.audio.play();
                 wasWaiting = false;
             }
         };
 
-        this.videoHadAudio = false;
+        this.wasUsingAudioElement = false;
         this.onTimeUpdate = async () => {
             const quality = this.video.getVideoPlaybackQuality();
             if (quality.totalVideoFrames === 0) {
@@ -142,14 +142,15 @@ export abstract class BaseVideoPlayer
                     await onError();
                 }
             }
-            else if (!this.videoHasAudio) {
+            else if (this.useAudioElement) {
+                this.wasUsingAudioElement = false;
                 const delta = this.video.currentTime - this.audio.currentTime;
                 if (Math.abs(delta) > 0.25) {
                     this.audio.currentTime = this.video.currentTime;
                 }
             }
-            else if (!this.videoHadAudio) {
-                this.videoHadAudio = true;
+            else if (!this.wasUsingAudioElement) {
+                this.wasUsingAudioElement = true;
                 this.audio.pause();
             }
             this.progEvt.value = this.video.currentTime;
@@ -177,23 +178,9 @@ export abstract class BaseVideoPlayer
             || isDefined(elem.mozHasAudio) && elem.mozHasAudio;
     }
 
-    private get videoHasAudio(): boolean {
-        return this.elementHasAudio(this.video);
-    }
-
-    private get audioHasAudio(): boolean {
-        return this.elementHasAudio(this.audio);
-    }
-
-    get hasAudio() {
-        return this.audioHasAudio
-            || this.videoHasAudio;
-    }
-
-    get audibleElement(): HTMLMediaElement {
-        return this.videoHasAudio
-            ? this.video
-            : this.audio;
+    private get useAudioElement(): boolean {
+        return !this.elementHasAudio(this.video)
+            && this.elementHasAudio(this.audio);
     }
 
     protected override onDisposing(): void {
@@ -222,30 +209,44 @@ export abstract class BaseVideoPlayer
         this.onError.clear();
         this.sourcesByURL.clear();
         this.sources.clear();
-        this.potato.clear();
+        this.potatoes.clear();
 
         this.video.src = "";
         this.audio.src = "";
-        this.videoHadAudio = false;
+        this.wasUsingAudioElement = false;
         this._data = null;
         this._loaded = false;
     }
 
-    async load(data: FullVideoRecord, prog?: IProgress): Promise<this> {
+    async load(data: FullVideoRecord | string, prog?: IProgress): Promise<this> {
         this.clear();
 
         this._data = data;
 
-        this.setTitle(data.title);
+        if (isString(data)) {
+            this.setTitle(data);
+            this.potatoes.add(this.video, data);
+        }
+        else {
+            this.setTitle(data.title);
+            this.fillSources(this.video, data.videos);
+            this.fillSources(this.audio, data.audios);
+        }
 
-        this.fillSources(this.video, data.videos);
-        this.fillSources(this.audio, data.audios);
+        if (!this.hasSources(this.video)) {
+            throw new Error("No video sources");
+        }
 
         this.dispatchEvent(this.loadingEvt);
 
         await progressTasks(prog,
             (prog) => this.loadMediaElement(this.audio, prog),
             (prog) => this.loadMediaElement(this.video, prog));
+
+        if (!this.hasSources(this.video)) {
+            throw new Error("No video sources");
+        }
+
         this._loaded = true;
 
         this.dispatchEvent(this.loadEvt);
@@ -308,13 +309,7 @@ export abstract class BaseVideoPlayer
 
     private hasSources(elem: HTMLMediaElement): boolean {
         return this.sources.get(elem).length > 0
-            || this.potato.count(elem) > 0;
-    }
-
-    private consumeSource(elem: HTMLMediaElement): AudioRecord {
-        const primary = this.sources.get(elem);
-        const sources = primary.length > 0 ? primary : this.potato.get(elem);
-        return sources.shift();
+            || this.potatoes.count(elem) > 0;
     }
 
     private async loadMediaElement(elem: HTMLMediaElement, prog?: IProgress): Promise<void> {
@@ -328,26 +323,37 @@ export abstract class BaseVideoPlayer
         }
 
         while (this.hasSources(elem)) {
-            const untested = this.sources.get(elem).length > 0;
-            const source = this.consumeSource(elem);
-            if (untested) {
+            let url: string = null;
+            const source = this.sources.get(elem).shift();
+            if (isDefined(source)) {
                 const caps = await this.getMediaCapabilities(source);
                 if (!caps.smooth || !caps.powerEfficient) {
-                    this.potato.add(elem, source);
+                    this.potatoes.add(elem, source.url);
                     continue;
                 }
+                else {
+                    url = source.url;
+                }
+            }
+            else {
+                url = this.potatoes.get(elem).shift();
             }
 
-            elem.src = source.url;
+            elem.src = url;
             const task = success<HTMLMediaElementEventMap>(elem, "canplaythrough", "error");
             elem.load();
             if (await task) {
-                this.sources.get(elem).unshift(source);
+                if (isDefined(source)) {
+                    this.sources.get(elem).unshift(source);
+                }
+                else {
+                    this.potatoes.get(elem).unshift(url);
+                }
 
                 const onError = () => this.loadMediaElement(elem, prog);
                 elem.addEventListener("error", onError);
                 this.onError.set(elem, onError);
-                this.videoHadAudio = this.videoHadAudio;
+                this.wasUsingAudioElement = this.wasUsingAudioElement;
 
                 if (isDefined(prog)) {
                     prog.end();
@@ -355,14 +361,6 @@ export abstract class BaseVideoPlayer
 
                 return;
             }
-        }
-
-        if (!this.hasSources(elem)) {
-            const message = `No ${elem.tagName.toLowerCase()} sources`;
-            if (isDefined(prog)) {
-                prog.end(message);
-            }
-            throw new Error(message);
         }
     }
 

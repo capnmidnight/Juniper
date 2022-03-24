@@ -1,6 +1,6 @@
 import { autoPlay, controls, loop, playsInline } from "juniper-dom/attrs";
 import { Audio, ErsatzElement } from "juniper-dom/tags";
-import { arrayClear, arrayReplace, arraySortByKeyInPlace, AsyncCallback, IDisposable, IProgress, isDefined, isNullOrUndefined, once, success } from "juniper-tslib";
+import { arrayClear, arrayReplace, arraySortByKeyInPlace, AsyncCallback, IDisposable, IProgress, isDefined, isNullOrUndefined, isString, once, success } from "juniper-tslib";
 import { AudioRecord, FullAudioRecord } from "../data";
 import { MediaElementSource, removeVertex } from "../nodes";
 import { BaseAudioSource } from "./BaseAudioSource";
@@ -27,8 +27,8 @@ export class AudioPlayer
     private readonly onPause: (evt: Event) => void;
     private readonly onTimeUpdate: AsyncCallback;
 
-    private _data: FullAudioRecord = null;
-    get data(): FullAudioRecord {
+    private _data: FullAudioRecord | string = null;
+    get data(): FullAudioRecord | string {
         return this._data;
     }
 
@@ -50,7 +50,7 @@ export class AudioPlayer
 
     private readonly sourcesByURL = new Map<string, AudioRecord>();
     private readonly sources = new Array<AudioRecord>();
-    private readonly potato = new Array<AudioRecord>();
+    private readonly potatoes = new Array<string>();
 
     constructor(audioCtx: AudioContext) {
         super("JuniperAudioPlayer", audioCtx, NoSpatializationNode.instance(audioCtx));
@@ -138,29 +138,44 @@ export class AudioPlayer
 
         this.sourcesByURL.clear();
         arrayClear(this.sources);
-        arrayClear(this.potato);
+        arrayClear(this.potatoes);
 
         this.element.src = "";
         this._data = null;
         this._loaded = false;
     }
 
-    async load(data: FullAudioRecord, prog?: IProgress): Promise<this> {
+    async load(data: FullAudioRecord | string, prog?: IProgress): Promise<this> {
         this.clear();
 
         this._data = data;
 
-        this.setTitle(data.title);
+        if (isString(data)) {
+            this.setTitle(data);
+            this.potatoes.push(data);
+        }
+        else {
+            this.setTitle(data.title);
+            arraySortByKeyInPlace(data.audios, (f) => -f.resolution);
+            arrayReplace(this.sources, ...data.audios);
+        }
 
-        arraySortByKeyInPlace(data.audios, (f) => -f.resolution);
-
-        arrayReplace(this.sources, ...data.audios);
-        for (const audio of data.audios) {
+        for (const audio of this.sources) {
             this.sourcesByURL.set(audio.url, audio);
         }
 
+        if (!this.hasSources) {
+            throw new Error("No audio sources");
+        }
+
         this.dispatchEvent(this.loadingEvt);
+
         await this.loadAudio(prog);
+
+        if (!this.hasSources) {
+            throw new Error("No audio sources");
+        }
+
         this._loaded = true;
         this.dispatchEvent(this.loadEvt);
         return this;
@@ -191,14 +206,7 @@ export class AudioPlayer
 
     private get hasSources(): boolean {
         return this.sources.length > 0
-            || this.potato.length > 0;
-    }
-
-    private consumeSource(): AudioRecord {
-        const sources = this.sources.length > 0
-            ? this.sources
-            : this.potato;
-        return sources.shift();
+            || this.potatoes.length > 0;
     }
 
     private async loadAudio(prog?: IProgress): Promise<void> {
@@ -209,21 +217,32 @@ export class AudioPlayer
         this.element.removeEventListener("error", this.onError);
 
         while (this.hasSources) {
-            const untested = this.sources.length > 0;
-            const source = this.consumeSource();
-            if (untested) {
+            let url: string = null;
+            const source = this.sources.shift();
+            if (isDefined(source)) {
                 const caps = await this.getMediaCapabilities(source);
                 if (!caps.smooth || !caps.powerEfficient) {
-                    this.potato.push(source);
+                    this.potatoes.push(source.url);
                     continue;
                 }
+                else {
+                    url = source.url;
+                }
+            }
+            else {
+                url = this.potatoes.shift();
             }
 
-            this.element.src = source.url;
+            this.element.src = url;
             const task = success<HTMLMediaElementEventMap>(this.element, "canplaythrough", "error");
             this.element.load();
             if (await task) {
-                this.sources.unshift(source);
+                if (isDefined(source)) {
+                    this.sources.unshift(source);
+                }
+                else {
+                    this.potatoes.unshift(url);
+                }
 
                 this.element.addEventListener("error", this.onError);
 
@@ -233,14 +252,6 @@ export class AudioPlayer
 
                 return;
             }
-        }
-
-        if (!this.hasSources) {
-            const message = `No ${this.element.tagName.toLowerCase()} sources`;
-            if (isDefined(prog)) {
-                prog.end(message);
-            }
-            throw new Error(message);
         }
     }
 
@@ -259,7 +270,7 @@ export class AudioPlayer
 
         if (this.element.ended
             || this.element.paused
-        && this.element.currentTime === 0) {
+            && this.element.currentTime === 0) {
             return "stopped";
         }
 

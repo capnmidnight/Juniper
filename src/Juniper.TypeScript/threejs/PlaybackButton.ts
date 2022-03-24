@@ -47,7 +47,7 @@ export class PlaybackButton<T extends FullAudioRecord>
         fetcher: IFetcher,
         env: IWebXRLayerManager,
         buttonFactory: ButtonFactory,
-        private readonly data: T,
+        private readonly data: T | string,
         name: string,
         label: string,
         player: IPlayer) {
