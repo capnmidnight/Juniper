@@ -33,6 +33,7 @@ import { EventSystem } from "../eventSystem/EventSystem";
 import type { InteractiveObject3D } from "../eventSystem/InteractiveObject3D";
 import { GLTFLoader } from "../examples/loaders/GLTFLoader";
 import { Fader } from "../Fader";
+import { IModelLoader } from "../IModelLoader";
 import { IWebXRLayerManager } from "../IWebXRLayerManager";
 import { FOREGROUND, PURGATORY } from "../layers";
 import { LoadingBar } from "../LoadingBar";
@@ -74,7 +75,7 @@ Style(
 
 export class BaseEnvironment<Events = void>
     extends TypedEventBase<Events & BaseEnvironmentEvents>
-    implements IWebXRLayerManager {
+    implements IWebXRLayerManager, IModelLoader {
 
     private baseLayer: XRProjectionLayer;
     private readonly layers = new Array<XRLayer>();
