@@ -64,14 +64,6 @@ interface AudioManagerEvents {
 export class AudioManager
     extends TypedEventBase<AudioManagerEvents>
     implements ErsatzElement, ErsatzAudioNode {
-    private _minDistance = 1;
-    private _maxDistance = 10;
-
-    private _algorithm: DistanceModelType = "inverse";
-    get algorithm(): DistanceModelType { return this._algorithm; }
-
-    private _offsetRadius = 0;
-    private _useHeadphones = false;
 
     private readonly sortedUserIDs = new Array<string>();
     private readonly users = new Map<string, AudioStreamSource>();
@@ -80,19 +72,28 @@ export class AudioManager
     private readonly pathSources = new Map<string, Promise<MediaElementAudioSourceNode>>();
     private readonly pathCounts = new Map<string, number>();
 
-
-    readonly element: HTMLAudioElement = null;
-    readonly devices: DeviceManager;
-    public localUserID: string = null;
-    readonly input: GainNode;
-    readonly localAutoControlledGain: GainNode;
     private readonly localFilter: BiquadFilterNode;
     private readonly localCompressor: DynamicsCompressorNode;
-    readonly output: MediaStreamAudioDestinationNode;
+
+    private _minDistance = 1;
+    private _maxDistance = 10;
+    private _offsetRadius = 0;
+    private _useHeadphones = false;
+
+    private _algorithm: DistanceModelType = "inverse";
+    get algorithm(): DistanceModelType { return this._algorithm; }
+
+    readonly element: HTMLAudioElement = null;
     readonly audioDestination: AudioDestination = null;
 
+    readonly devices: DeviceManager;
+    readonly input: GainNode;
+    readonly localAutoControlledGain: GainNode;
+    readonly output: MediaStreamAudioDestinationNode;
     readonly audioCtx: AudioContext;
     readonly ready: Promise<void>;
+
+    localUserID: string = null;
 
     /**
      * Creates a new manager of audio sources, destinations, and their spatialization.
@@ -387,7 +388,10 @@ export class AudioManager
             prog.start(id);
         }
 
-        const elem = await mediaElementCanPlay(BackgroundAudio(autoPlaying, false, looping, src(path)));
+        const elem = BackgroundAudio(autoPlaying, false, looping, src(path));
+        if (!await mediaElementCanPlay(elem)) {
+            throw elem.error;
+        }
 
         if (isDefined(prog)) {
             prog.end(id);

@@ -25,6 +25,12 @@ export class MediaElementSourceLoadedEvent<T> extends MediaElementSourceEvent<"l
     }
 }
 
+export class MediaElementSourceErroredEvent<T> extends MediaElementSourceEvent<"errored", T> {
+    constructor(source: T, public error: unknown) {
+        super("errored", source);
+    }
+}
+
 export class MediaElementSourcePlayedEvent<T> extends MediaElementSourceEvent<"played", T> {
     constructor(source: T) {
         super("played", source);
@@ -53,6 +59,7 @@ export class MediaElementSourceProgressEvent<T> extends MediaElementSourceEvent<
 }
 
 export interface BaseMediaElementSourceEvents<T extends IPlayable> {
+    errored: MediaElementSourceErroredEvent<T>;
     loaded: MediaElementSourceLoadedEvent<T>;
     played: MediaElementSourcePlayedEvent<T>;
     paused: MediaElementSourcePausedEvent<T>;

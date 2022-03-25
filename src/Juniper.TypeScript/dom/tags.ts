@@ -1,4 +1,4 @@
-import { IProgress, isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString, once } from "juniper-tslib";
+import { IProgress, isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString, success } from "juniper-tslib";
 import { Attr, autoPlay, classList, className, controls, htmlFor, loop, muted, playsInline, type } from "./attrs";
 import { CSSInJSRule, display, margin, styles } from "./css";
 
@@ -227,34 +227,31 @@ export function elementGetText(elem: Elements): string {
     return elem.innerText;
 }
 
-async function mediaElementCan<T extends HTMLMediaElement>(type: "canplay" | "canplaythrough", elem: T, prog?: IProgress): Promise<T> {
-    try {
-        if (isDefined(prog)) {
-            prog.start();
-        }
-
-        const expectedState = type === "canplay"
-            ? elem.HAVE_CURRENT_DATA
-            : elem.HAVE_ENOUGH_DATA;
-
-        if (elem.readyState < expectedState) {
-            await once<HTMLMediaElementEventMap, "canplay" | "canplaythrough">(elem, type, "error");
-        }
-
-        return elem;
+async function mediaElementCan(type: "canplay" | "canplaythrough", elem: HTMLMediaElement, prog?: IProgress): Promise<boolean> {
+    if (isDefined(prog)) {
+        prog.start();
     }
-    finally {
-        if (isDefined(prog)) {
-            prog.end();
-        }
+
+    const expectedState = type === "canplay"
+        ? elem.HAVE_CURRENT_DATA
+        : elem.HAVE_ENOUGH_DATA;
+
+    if (elem.readyState >= expectedState) {
+        return true;
     }
+
+    const good = await success<HTMLMediaElementEventMap>(elem, type, "error");
+    if (isDefined(prog)) {
+        prog.end();
+    }
+    return good;
 }
 
-export function mediaElementCanPlay<T extends HTMLMediaElement>(elem: T, prog?: IProgress): Promise<T> {
+export function mediaElementCanPlay(elem: HTMLMediaElement, prog?: IProgress): Promise<boolean> {
     return mediaElementCan("canplay", elem, prog);
 }
 
-export function mediaElementCanPlayThrough<T extends HTMLMediaElement>(elem: T, prog?: IProgress): Promise<T> {
+export function mediaElementCanPlayThrough(elem: HTMLMediaElement, prog?: IProgress): Promise<boolean> {
     return mediaElementCan("canplaythrough", elem, prog);
 }
 

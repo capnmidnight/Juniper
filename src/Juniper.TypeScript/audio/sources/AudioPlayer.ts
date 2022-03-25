@@ -1,6 +1,6 @@
 import { autoPlay, controls, loop, playsInline } from "juniper-dom/attrs";
-import { Audio, ErsatzElement } from "juniper-dom/tags";
-import { arrayClear, arrayReplace, arraySortByKeyInPlace, AsyncCallback, IDisposable, IProgress, isDefined, isNullOrUndefined, isString, once, success } from "juniper-tslib";
+import { Audio, ErsatzElement, mediaElementCanPlayThrough } from "juniper-dom/tags";
+import { arrayClear, arrayReplace, arraySortByKeyInPlace, AsyncCallback, IDisposable, IProgress, isDefined, isNullOrUndefined, isString, once } from "juniper-tslib";
 import { AudioRecord, FullAudioRecord } from "../data";
 import { MediaElementSource, removeVertex } from "../nodes";
 import { BaseAudioSource } from "./BaseAudioSource";
@@ -234,10 +234,8 @@ export class AudioPlayer
             }
 
             this.element.src = url;
-
-            const task = success<HTMLMediaElementEventMap>(this.element, "canplaythrough", "error");
             this.element.load();
-            if (await task) {
+            if (await mediaElementCanPlayThrough(this.element)) {
                 if (isDefined(source)) {
                     this.sources.unshift(source);
                 }

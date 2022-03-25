@@ -2,7 +2,7 @@ import { mediaElementCanPlay } from "juniper-dom/tags";
 import { once } from "juniper-tslib";
 import { removeVertex } from "../nodes";
 import { BaseAudioSource } from "./BaseAudioSource";
-import { IPlayable, MediaElementSourceEvents, MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "./IPlayable";
+import { IPlayable, MediaElementSourceErroredEvent, MediaElementSourceEvents, MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "./IPlayable";
 import { PlaybackState } from "./PlaybackState";
 import type { BaseEmitter } from "./spatializers/BaseEmitter";
 
@@ -78,9 +78,6 @@ export class AudioElementSource
             }
         };
 
-        mediaElementCanPlay(this.audio).then(() =>
-            this.dispatchEvent(this.loadEvt));
-
         this.audio.addEventListener("ended", halt);
         this.audio.addEventListener("pause", halt);
 
@@ -102,6 +99,11 @@ export class AudioElementSource
             this.progEvt.total = this.audio.duration;
             this.dispatchEvent(this.progEvt);
         });
+
+        mediaElementCanPlay(this.audio)
+            .then((success) => this.dispatchEvent(success
+                ? this.loadEvt
+                : new MediaElementSourceErroredEvent(this, this.audio.error)));
     }
 
     get playbackState(): PlaybackState {

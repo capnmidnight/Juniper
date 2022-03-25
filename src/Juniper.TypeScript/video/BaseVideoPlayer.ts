@@ -6,9 +6,9 @@ import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "juniper-aud
 import { PlaybackState } from "juniper-audio/sources/PlaybackState";
 import { NoSpatializationNode } from "juniper-audio/sources/spatializers/NoSpatializationNode";
 import { autoPlay, controls, loop, playsInline } from "juniper-dom/attrs";
-import { Audio, ElementChild, Video } from "juniper-dom/tags";
+import { Audio, ElementChild, mediaElementCanPlayThrough, Video } from "juniper-dom/tags";
 import { Video_Vendor_Mpeg_Dash_Mpd } from "juniper-mediatypes/video";
-import { arraySortByKeyInPlace, AsyncCallback, IDisposable, IProgress, isDefined, isNullOrUndefined, isString, once, PriorityList, progressTasks, success } from "juniper-tslib";
+import { arraySortByKeyInPlace, AsyncCallback, IDisposable, IProgress, isDefined, isNullOrUndefined, isString, once, PriorityList, progressTasks } from "juniper-tslib";
 import { FullVideoRecord, isVideoRecord } from "./data";
 
 export abstract class BaseVideoPlayer
@@ -340,9 +340,8 @@ export abstract class BaseVideoPlayer
             }
 
             elem.src = url;
-            const task = success<HTMLMediaElementEventMap>(elem, "canplaythrough", "error");
             elem.load();
-            if (await task) {
+            if (await mediaElementCanPlayThrough(elem)) {
                 if (isDefined(source)) {
                     this.sources.get(elem).unshift(source);
                 }
