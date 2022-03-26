@@ -1,4 +1,4 @@
-import { once, success, TypedEvent, TypedEventBase } from "juniper-tslib";
+import { success, TypedEvent, TypedEventBase } from "juniper-tslib";
 import { classList, className, customData } from "./attrs";
 import { backgroundColor, boxShadow, display, float, gridArea, gridTemplateColumns, gridTemplateRows, height, left, maxHeight, maxWidth, overflow, padding, position, rule, styles, textAlign, top, transform, width, zIndex } from "./css";
 import { ButtonPrimary, ButtonSecondary, Div, elementApply, elementIsDisplayed, elementSetDisplay, elementSetText, ErsatzElement, H1, Style } from "./tags";
