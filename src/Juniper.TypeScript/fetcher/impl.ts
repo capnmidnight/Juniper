@@ -1,5 +1,5 @@
-export * from "juniper-fetcher-base/FetchingServiceImpl";
-export * from "juniper-fetcher-base/ResponseTranslator";
+export * from "juniper-fetcher-base/FetchingService";
+export * from "juniper-fetcher-base/FetchingServiceImplXHR";
 export * from "./Fetcher";
 export * from "./FetchingServiceClient";
 export * from "./FetchingServicerPool";

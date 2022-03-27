@@ -1,10 +1,10 @@
 import { assertNever, identity, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, progressSplit, Task } from "juniper-tslib";
-import type { HTTPMethods, IFetchingService, IRequest, IRequestWithBody, IResponse } from "./IFetcher";
-import { ResponseTranslator } from "./ResponseTranslator";
+import { HTTPMethods } from "./HTTPMethods";
+import { IFetchingServiceImpl } from "./IFetchingServiceImpl";
+import { IRequest, IRequestWithBody } from "./IRequest";
+import { IResponse } from "./IResponse";
 
-export type ProxyResolvingCallback = (path: string) => string;
-
-export function isXHRBodyInit(obj: any): obj is XMLHttpRequestBodyInit {
+function isXHRBodyInit(obj: any): obj is XMLHttpRequestBodyInit {
     return isString(obj)
         || isArrayBufferView(obj)
         || obj instanceof Blob
@@ -204,15 +204,7 @@ async function readResponse<T>(xhrType: XMLHttpRequestResponseType, xhr: XMLHttp
 
 const FILE_NAME_PATTERN = /filename=\"(.+)\"(;|$)/;
 
-export class FetchingServiceImpl
-    extends ResponseTranslator
-    implements IFetchingService {
-
-    private readonly defaultPostHeaders = new Map<string, string>();
-
-    setRequestVerificationToken(value: string): void {
-        this.defaultPostHeaders.set("RequestVerificationToken", value);
-    }
+export class FetchingServiceImplXHR implements IFetchingServiceImpl {
 
     async sendNothingGetNothing(request: IRequest): Promise<IResponse<void>> {
         const xhr = new XMLHttpRequest();
@@ -225,7 +217,7 @@ export class FetchingServiceImpl
         return readResponseHeaders(xhr);
     }
 
-    private async sendNothingGetSomething<T>(xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
+    async sendNothingGetSomething<T>(xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
         const xhr = new XMLHttpRequest();
         const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, progress, true);
 
@@ -236,12 +228,12 @@ export class FetchingServiceImpl
         return await readResponse(xhrType, xhr);
     }
 
-    private async sendSomethingGetSomething<T>(xhrType: XMLHttpRequestResponseType, request: IRequestWithBody, progress: IProgress): Promise<IResponse<T>> {
+    async sendSomethingGetSomething<T>(xhrType: XMLHttpRequestResponseType, request: IRequestWithBody, defaultPostHeaders: Map<string, string>, progress: IProgress): Promise<IResponse<T>> {
 
         let body: XMLHttpRequestBodyInit = null;
 
 
-        const headers = mapJoin(new Map<string, string>(), this.defaultPostHeaders, request.headers);
+        const headers = mapJoin(new Map<string, string>(), defaultPostHeaders, request.headers);
 
         if (request.body instanceof FormData
             && isDefined(headers)) {
@@ -277,79 +269,5 @@ export class FetchingServiceImpl
         await download;
 
         return await readResponse(xhrType, xhr);
-    }
-
-    sendNothingGetBlob(request: IRequest, progress: IProgress): Promise<IResponse<Blob>> {
-        return this.sendNothingGetSomething<Blob>("blob", request, progress);
-    }
-
-    sendObjectGetBlob(request: IRequestWithBody, progress: IProgress): Promise<IResponse<Blob>> {
-        return this.sendSomethingGetSomething<Blob>("blob", request, progress);
-    }
-
-    sendNothingGetBuffer(request: IRequest, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
-        return this.sendNothingGetSomething<ArrayBuffer>("arraybuffer", request, progress);
-    }
-
-    sendObjectGetBuffer(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
-        return this.sendSomethingGetSomething<ArrayBuffer>("arraybuffer", request, progress);
-    }
-
-    sendNothingGetText(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
-        return this.sendNothingGetSomething<string>("text", request, progress);
-    }
-
-    sendObjectGetText(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
-        return this.sendSomethingGetSomething<string>("text", request, progress);
-    }
-
-    async sendNothingGetObject<T>(request: IRequest, progress: IProgress): Promise<T> {
-        const response = await this.sendNothingGetSomething<T>("json", request, progress);
-        return response.content;
-    }
-
-    async sendObjectGetObject<T>(request: IRequestWithBody, progress: IProgress): Promise<T> {
-        const response = await this.sendSomethingGetSomething<T>("json", request, progress);
-        return response.content;
-    }
-
-    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IResponse<void>> {
-        return this.sendSomethingGetSomething<void>("", request, progress);
-    }
-
-    sendNothingGetFile(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
-        return this.translateResponse(
-            this.sendNothingGetBlob(request, progress),
-            URL.createObjectURL);
-    }
-
-    sendObjectGetFile(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
-        return this.translateResponse(
-            this.sendObjectGetBlob(request, progress),
-            URL.createObjectURL);
-    }
-
-    sendNothingGetXml(request: IRequest, progress: IProgress): Promise<IResponse<HTMLElement>> {
-        return this.translateResponse(
-            this.sendNothingGetSomething<Document>("document", request, progress),
-            doc => doc.documentElement);
-    }
-
-    sendObjectGetXml(request: IRequestWithBody, progress: IProgress): Promise<IResponse<HTMLElement>> {
-        return this.translateResponse(
-            this.sendSomethingGetSomething<Document>("document", request, progress),
-            doc => doc.documentElement);
-    }
-
-    sendNothingGetImageBitmap(request: IRequest, progress: IProgress): Promise<IResponse<ImageBitmap>> {
-        return this.translateResponse(
-            this.sendNothingGetBlob(request, progress),
-            createImageBitmap)
-    }
-
-    async sendObjectGetImageBitmap(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ImageBitmap>> {
-        return this.translateResponse(
-            this.sendObjectGetBlob(request, progress),
-            createImageBitmap);
     }
 }

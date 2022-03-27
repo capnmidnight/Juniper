@@ -1,10 +1,12 @@
-import { FetchingServiceImpl } from "juniper-fetcher-base/FetchingServiceImpl";
-import type { IFetchingService, IResponse } from "juniper-fetcher-base/IFetcher";
+import { FetchingService } from "juniper-fetcher-base/FetchingService";
+import { IFetchingServiceImpl } from "juniper-fetcher-base/IFetchingServiceImpl";
+import { IResponse } from "juniper-fetcher-base/IResponse";
 import { WorkerServer } from "juniper-worker-server";
 
 export class FetchingServiceServer extends WorkerServer {
-    constructor(self: DedicatedWorkerGlobalScope, fetcher: FetchingServiceImpl) {
+    constructor(self: DedicatedWorkerGlobalScope, impl: IFetchingServiceImpl) {
         super(self);
+        const fetcher = new FetchingService(impl);
         addFetcherMethods(this, fetcher);
     }
 }

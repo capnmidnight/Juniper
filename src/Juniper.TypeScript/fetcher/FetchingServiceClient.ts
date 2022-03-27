@@ -1,4 +1,6 @@
-import type { IFetchingService, IRequest, IRequestWithBody, IResponse } from "juniper-fetcher-base/IFetcher";
+import { IFetchingService } from "juniper-fetcher-base/IFetchingService";
+import { IRequest, IRequestWithBody } from "juniper-fetcher-base/IRequest";
+import { IResponse } from "juniper-fetcher-base/IResponse";
 import { IProgress } from "juniper-tslib";
 import { WorkerClient } from "juniper-worker-client";
 
