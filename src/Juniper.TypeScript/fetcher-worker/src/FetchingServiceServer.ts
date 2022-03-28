@@ -1,4 +1,5 @@
 import { FetchingService } from "juniper-fetcher-base/FetchingService";
+import { IFetchingService } from "juniper-fetcher-base/IFetchingService";
 import { IFetchingServiceImpl } from "juniper-fetcher-base/IFetchingServiceImpl";
 import { IResponse } from "juniper-fetcher-base/IResponse";
 import { WorkerServer } from "juniper-worker-server";

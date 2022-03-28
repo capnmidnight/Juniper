@@ -1,10 +1,64 @@
 import { Exception } from "../Exception";
-import { Task } from "../Promises";
-import { isGoodNumber, isNumber, isString } from "../typeChecks";
-import { TypedEventBase } from "./EventBase";
+import { Task } from "../events/Promises";
+import { isNullOrUndefined, isNumber, isString } from "../typeChecks";
+import { EventBase, TypedEventBase } from "./EventBase";
 
 function targetValidateEvent(target: EventTarget, type: string) {
     return ("on" + type) in target;
+}
+
+function firstEventTask<EventsT, ResultT>(
+    target: EventTarget,
+    rejectEvtOrTimeout: number | (keyof EventsT & string),
+    resolveEvt: keyof EventsT & string,
+    rejectEvts: (keyof EventsT & string)[],
+    onResolve: (task: Task<ResultT>, evt: Event) => void,
+    onReject: (task: Task<ResultT>, evt: Event) => void): Promise<ResultT> {
+
+    if (isNullOrUndefined(rejectEvts)) {
+        rejectEvts = [];
+    }
+
+    let timeout: number = undefined;
+    if (isString(rejectEvtOrTimeout)) {
+        rejectEvts.unshift(rejectEvtOrTimeout);
+    }
+    else if (isNumber(rejectEvtOrTimeout)) {
+        timeout = rejectEvtOrTimeout;
+    }
+
+    if (!(target instanceof EventBase)) {
+        if (!targetValidateEvent(target, resolveEvt)) {
+            throw new Exception(`Target does not have a ${resolveEvt} rejection event`);
+        }
+
+        for (const evt of rejectEvts) {
+            if (!targetValidateEvent(target, evt)) {
+                throw new Exception(`Target does not have a ${evt} rejection event`);
+            }
+        }
+    }
+
+    const task = new Task<ResultT>();
+
+    if (isNumber(timeout)) {
+        const timeoutHandle = setTimeout(task.reject, timeout, `'${resolveEvt}' has timed out.`);
+        task.finally(clearTimeout.bind(globalThis, timeoutHandle));
+    }
+
+    const register = (evt: keyof EventsT & string, callback: (evt: Event) => void) => {
+        target.addEventListener(evt, callback);
+        task.finally(() => target.removeEventListener(evt, callback));
+    }
+
+    register(resolveEvt, (evt) => onResolve(task, evt));
+
+    for (const rejectEvt of rejectEvts) {
+        register(rejectEvt, (evt) => onReject(task, evt));
+    }
+
+    return task;
+
 }
 
 /**
@@ -17,51 +71,19 @@ function targetValidateEvent(target: EventTarget, type: string) {
 export function once<
     EventsT,
     ResolveEventKeyT extends keyof EventsT & string>
-    (target: TypedEventBase<EventsT> | EventTarget, resolveEvt: ResolveEventKeyT, rejectEvt?: keyof EventsT & string, timeout?: number): Promise<EventsT[ResolveEventKeyT]>;
+    (target: TypedEventBase<EventsT> | EventTarget, resolveEvt: ResolveEventKeyT, timeout: number, ...rejectEvts: (keyof EventsT & string)[]): Promise<EventsT[ResolveEventKeyT]>;
 export function once<
     EventsT,
     ResolveEventKeyT extends keyof EventsT & string>
-    (target: TypedEventBase<EventsT> | EventTarget, resolveEvt: ResolveEventKeyT, timeout?: number): Promise<EventsT[ResolveEventKeyT]>;
+    (target: TypedEventBase<EventsT> | EventTarget, resolveEvt: ResolveEventKeyT, ...rejectEvts: (keyof EventsT & string)[]): Promise<EventsT[ResolveEventKeyT]>;
 export function once<
     EventsT,
-    ResolveEventKeyT extends keyof EventsT & string,
-    RejectEventKeyT extends keyof EventsT & string>
-    (target: EventTarget, resolveEvt: ResolveEventKeyT, rejectEvt?: RejectEventKeyT | number, timeout?: number): Promise<EventsT[ResolveEventKeyT]> {
-
-    if (isGoodNumber(rejectEvt)) {
-        timeout = rejectEvt;
-        rejectEvt = undefined;
-    }
-
-    if (target instanceof EventTarget) {
-        if (!targetValidateEvent(target, resolveEvt)) {
-            throw new Exception(`Target does not have a ${resolveEvt} resolution event`);
-        }
-        if (isString(rejectEvt) && !targetValidateEvent(target, rejectEvt)) {
-            throw new Exception(`Target does not have a ${rejectEvt} rejection event`);
-        }
-    }
-
-    const task = new Task<EventsT[ResolveEventKeyT]>();
-
-    if (isNumber(timeout)) {
-        const timeoutHandle = setTimeout(task.reject, timeout, `'${resolveEvt}' has timed out.`);
-        task.finally(clearTimeout.bind(globalThis, timeoutHandle));
-    }
-
-    const register = (evt: RejectEventKeyT | ResolveEventKeyT, callback: any) => {
-        target.addEventListener(evt, callback);
-        task.finally(() => target.removeEventListener(evt, callback));
-    }
-
-    if (isString(rejectEvt)) {
-        register(rejectEvt, task.reject);
-    }
-
-    register(resolveEvt, task.resolve);
-
-    return task;
-};
+    ResolveEventKeyT extends keyof EventsT & string>
+    (target: EventTarget, resolveEvt: ResolveEventKeyT, rejectEvtOrTimeout?: number | (keyof EventsT & string), ...rejectEvts: (keyof EventsT & string)[]): Promise<EventsT[ResolveEventKeyT]> {
+    return firstEventTask<EventsT, EventsT[ResolveEventKeyT]>(target, rejectEvtOrTimeout, resolveEvt, rejectEvts,
+        (task, evt) => task.resolve(evt as any as EventsT[ResolveEventKeyT]),
+        (task, evt) => task.reject(evt))
+}
 
 
 /**
@@ -71,35 +93,14 @@ export function once<
  * @param rejectEvt - the name of the event that could reject the Promise this method creates.
  * @param [timeout] - the number of milliseconds to wait for the resolveEvt, before rejecting.
  */
+export function success<EventsT>(target: TypedEventBase<EventsT> | EventTarget, resolveEvt: keyof EventsT & string, timeout: number, ...rejectEvts: (keyof EventsT & string)[]): Promise<boolean>;
+export function success<EventsT>(target: TypedEventBase<EventsT> | EventTarget, resolveEvt: keyof EventsT & string, ...rejectEvts: (keyof EventsT & string)[]): Promise<boolean>;
 export function success<EventsT>(
-    target: TypedEventBase<EventsT> | EventTarget,
+    target: EventTarget,
     resolveEvt: keyof EventsT & string,
-    rejectEvt: keyof EventsT & string,
-    timeout?: number): Promise<boolean> {
-
-    if (target instanceof EventTarget) {
-        if (!targetValidateEvent(target, resolveEvt)) {
-            throw new Exception(`Target does not have a ${resolveEvt} resolution event`);
-        }
-        if (isString(rejectEvt) && !targetValidateEvent(target, rejectEvt)) {
-            throw new Exception(`Target does not have a ${rejectEvt} rejection event`);
-        }
-    }
-
-    const task = new Task<boolean>();
-
-    if (isNumber(timeout)) {
-        const timeoutHandle = setTimeout(task.reject, timeout, `'${resolveEvt}' has timed out.`);
-        task.finally(clearTimeout.bind(globalThis, timeoutHandle));
-    }
-
-    const register = (evt: keyof EventsT & string, callback: any) => {
-        target.addEventListener(evt, callback);
-        task.finally(() => target.removeEventListener(evt, callback));
-    }
-
-    register(rejectEvt, () => task.resolve(false));
-    register(resolveEvt, () => task.resolve(true));
-
-    return task;
+    rejectEvtOrTimeout: keyof EventsT & string | number,
+    ...rejectEvts: (keyof EventsT & string)[]): Promise<boolean> {
+    return firstEventTask<EventsT, boolean>(target, rejectEvtOrTimeout, resolveEvt, rejectEvts,
+        (task) => task.resolve(true),
+        (task) => task.resolve(false));
 };

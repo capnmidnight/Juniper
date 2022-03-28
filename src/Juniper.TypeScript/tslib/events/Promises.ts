@@ -1,56 +1,58 @@
-import { isDefined } from "./typeChecks";
+import { isDefined } from "../typeChecks";
 
 export class Task<T = void> implements Promise<T> {
 
     private readonly promise: Promise<T>;
 
-    resolve: (value: T) => void = null;
-    reject: (reason: any) => void = null;
+    private _resolve: (value: T) => void = null;
+    private _reject: (reason: any) => void = null;
+    private _error: unknown = null;
+
+    get error() {
+        return this._error;
+    }
+
+    readonly resolve: (value: T) => void = null;
+    readonly reject: (reason: any) => void = null;
 
     constructor(resolveTest?: (value: T) => boolean, rejectTest?: (reason: any) => boolean) {
-        if (isDefined(resolveTest) && isDefined(rejectTest)) {
-            this.promise = new Promise((resolve, reject) => {
-                this.resolve = (value: T) => {
+
+        this.resolve = (value: T): void => {
+            if (isDefined(this._resolve)) {
+                this._resolve(value);
+            }
+        };
+
+        this.reject = (reason: unknown): void => {
+            if (isDefined(this._reject)) {
+                this._reject(reason);
+            }
+        };
+
+        this.promise = new Promise((resolve, reject) => {
+            if (isDefined(resolveTest)) {
+                this._resolve = (value: T) => {
                     if (resolveTest(value)) {
                         resolve(value);
                     }
                 };
+            }
+            else {
+                this._resolve = resolve;
+            }
 
-                this.reject = (reason: any) => {
+            if (isDefined(rejectTest)) {
+                this._reject = (reason: any) => {
                     if (rejectTest(reason)) {
+                        this._error = reason;
                         reject(reason);
                     }
                 };
-            });
-        }
-        else if (isDefined(resolveTest)) {
-            this.promise = new Promise((resolve, reject) => {
-                this.resolve = (value: T) => {
-                    if (resolveTest(value)) {
-                        resolve(value);
-                    }
-                };
-
-                this.reject = reject;
-            });
-        }
-        else if (isDefined(rejectTest)) {
-            this.promise = new Promise((resolve, reject) => {
-                this.resolve = resolve;
-                this.reject = (reason: any) => {
-                    if (rejectTest(reason)) {
-                        reject(reason);
-                    }
-                };
-            });
-        }
-        else {
-            this.promise = new Promise((resolve, reject) => {
-                this.resolve = resolve;
-                this.reject = reject;
-            });
-        }
-
+            }
+            else {
+                this._reject = reject;
+            }
+        });
     }
 
     get [Symbol.toStringTag](): string {

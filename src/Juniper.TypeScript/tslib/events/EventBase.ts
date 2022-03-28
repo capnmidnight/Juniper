@@ -2,21 +2,17 @@ import { arrayClear } from "../collections/arrayClear";
 import { arrayRemoveAt } from "../collections/arrayRemoveAt";
 import { isBoolean, isDefined, isFunction, isNullOrUndefined } from "../typeChecks";
 
-const allListeners = new WeakMap<EventBase, Map<string, Function[]>>();
+type EventCallback = (evt: Event) => any;
 
 export class EventBase implements EventTarget {
-    private readonly listeners = new Map<string, Function[]>();
-    private readonly listenerOptions = new Map<Function, boolean | AddEventListenerOptions>();
-
-    constructor() {
-        allListeners.set(this, this.listeners);
-    }
+    private readonly listeners = new Map<string, EventCallback[]>();
+    private readonly listenerOptions = new Map<EventCallback, boolean | AddEventListenerOptions>();
 
     addEventListener(type: string, callback: (evt: Event) => any, options?: boolean | AddEventListenerOptions): void {
         if (isFunction(callback)) {
             let listeners = this.listeners.get(type);
             if (!listeners) {
-                listeners = new Array<Function>();
+                listeners = new Array<EventCallback>();
                 this.listeners.set(type, listeners);
             }
 
@@ -39,7 +35,19 @@ export class EventBase implements EventTarget {
         }
     }
 
-    private removeListener(listeners: Function[], callback: Function) {
+    clearEventListeners(type?: string) {
+        for (const [evtName, handlers] of this.listeners) {
+            if (isNullOrUndefined(type) || type === evtName) {
+                for (const handler of handlers) {
+                    this.removeEventListener(type, handler);
+                }
+                arrayClear(handlers);
+                this.listeners.delete(evtName);
+            }
+        }
+    }
+
+    private removeListener(listeners: EventCallback[], callback: EventCallback) {
         const idx = listeners.findIndex(c => c === callback);
         if (idx >= 0) {
             arrayRemoveAt(listeners, idx);
@@ -98,6 +106,10 @@ export class TypedEventBase<EventsT> extends EventBase {
         super.removeEventListener(type, callback as any);
     }
 
+    override clearEventListeners<K extends keyof EventsT & string>(type?: K): void {
+        return super.clearEventListeners(type);
+    }
+
     addScopedEventListener<K extends keyof EventsT & string>(scope: object, type: K, callback: (evt: TypedEvent<K> & EventsT[K]) => any, options?: boolean | AddEventListenerOptions): void {
         if (!this.scopes.has(scope)) {
             this.scopes.set(scope, []);
@@ -112,16 +124,6 @@ export class TypedEventBase<EventsT> extends EventBase {
             this.scopes.delete(scope);
             for (const [type, listener] of listeners) {
                 this.removeEventListener(type as K, listener);
-            }
-        }
-    }
-
-    clearEventListeners<K extends keyof EventsT & string>(type?: K) {
-        const listeners = allListeners.get(this);
-        for (const [evtName, handlers] of listeners) {
-            if (isNullOrUndefined(type) || type === evtName) {
-                arrayClear(handlers);
-                listeners.delete(evtName);
             }
         }
     }

@@ -117,9 +117,7 @@ export class TestRunner extends TypedEventBase<TestRunnerEvents> {
         score.finish(message);
         onUpdate();
         testCase.teardown();
-        testCase.removeEventListener("testcasefail", onFailure);
-        testCase.removeEventListener("testcasesuccess", onSuccess);
-        testCase.removeEventListener("testcasemessage", onMessage);
+        testCase.clearEventListeners();
         onUpdate();
     }
 }

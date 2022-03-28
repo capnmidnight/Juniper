@@ -31,7 +31,7 @@ export class TextMesh extends Image2DMesh {
     set textImage(v) {
         if (v !== this.textImage) {
             if (this.textImage) {
-                this.textImage.removeEventListener("redrawn", this._onRedrawn);
+                this.textImage.clearEventListeners();
             }
 
             this._textImage = v;

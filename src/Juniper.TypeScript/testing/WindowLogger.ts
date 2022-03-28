@@ -22,6 +22,7 @@ import {
     Div,
     elementApply,
     elementClearChildren,
+    elementSetDisplay,
     elementToggleDisplay,
     ErsatzElement,
     TextNode
@@ -69,9 +70,21 @@ export class WindowLogger implements ILogger, ErsatzElement {
 
         window.addEventListener("keypress", (evt) => {
             if (isModifierless(evt) && evt.key === '`') {
-                elementToggleDisplay(this);
+                this.toggle();
             }
         });
+    }
+
+    toggle() {
+        elementToggleDisplay(this);
+    }
+
+    open() {
+        elementSetDisplay(this, true);
+    }
+
+    close() {
+        elementSetDisplay(this, false);
     }
 
     private render(): void {

@@ -1,4 +1,4 @@
-import { Task } from "../Promises";
+import { Task } from "../events/Promises";
 
 export function sleep(milliseconds: number): Promise<void> {
     const task = new Task();

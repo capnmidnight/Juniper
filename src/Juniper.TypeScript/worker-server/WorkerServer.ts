@@ -1,4 +1,3 @@
-import { EventBase } from "juniper-tslib/events/EventBase";
 import { BaseProgress } from "juniper-tslib/progress/BaseProgress";
 import { isArray, isDefined } from "juniper-tslib/typeChecks";
 import { WorkerClientMethodCallMessage, WorkerServerErrorMessage, WorkerServerEventMessage, WorkerServerMessages, WorkerServerProgressMessage, WorkerServerReturnMessage } from "juniper-workers/WorkerMessages";
@@ -230,7 +229,7 @@ export class WorkerServer {
     }
 
 
-    addEvent<U extends EventBase, T>(object: U, type: string, makePayload?: (evt: Event) => T, transferReturnValue?: createTransferableCallback<T>): void {
+    addEvent<U extends EventTarget, T>(object: U, type: string, makePayload?: (evt: Event) => T, transferReturnValue?: createTransferableCallback<T>): void {
         object.addEventListener(type, (evt: Event) =>
             this.onEvent(type, evt, makePayload, transferReturnValue));
     }

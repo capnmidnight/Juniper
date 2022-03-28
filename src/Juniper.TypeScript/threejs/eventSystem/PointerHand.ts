@@ -159,9 +159,9 @@ export class PointerHand
     private useHaptics = true;
 
     private async _vibrate(): Promise<void> {
-        if (this.gamepad && this.useHaptics) {
+        if (this._gamepad && this.useHaptics) {
             try {
-                await Promise.all(this.gamepad.hapticActuators.map(actuator =>
+                await Promise.all(this._gamepad.hapticActuators.map(actuator =>
                     actuator.pulse(0.25, 125)));
             }
             catch {
@@ -171,18 +171,18 @@ export class PointerHand
     }
 
     private setGamepad(pad: Gamepad) {
-        if (isDefined(this.gamepad) && isNullOrUndefined(pad)) {
-            this.gamepad.removeEventListener("gamepadaxismaxed", this.onAxisMaxed);
+        if (isDefined(this._gamepad) && isNullOrUndefined(pad)) {
+            this._gamepad.clearEventListeners();
             this._gamepad = null;
         }
 
         if (isDefined(pad)) {
-            if (isNullOrUndefined(this.gamepad)) {
-                this._gamepad = new EventedGamepad(pad);
-                this._gamepad.addEventListener("gamepadaxismaxed", this.onAxisMaxed);
+            if (isDefined(this._gamepad)) {
+                this._gamepad.setPad(pad);
             }
             else {
-                this._gamepad.setPad(pad);
+                this._gamepad = new EventedGamepad(pad);
+                this._gamepad.addEventListener("gamepadaxismaxed", this.onAxisMaxed);
             }
         }
     }
@@ -245,7 +245,7 @@ export class PointerHand
 
             this.state.moveDistance += 0.001 * delta.length();
 
-            if (isDefined(this.gamepad)
+            if (isDefined(this._gamepad)
                 && isDefined(this.inputSource)) {
                 this.setGamepad(this.inputSource.gamepad);
             }
@@ -260,6 +260,6 @@ export class PointerHand
         }
 
         const index = buttonIndices.get(this.handedness).get(button);
-        return this.gamepad.buttons[index].pressed;
+        return this._gamepad.buttons[index].pressed;
     }
 }
