@@ -133,11 +133,11 @@ export class PropertyList
                 for (const elem of row) {
                     if (isErsatzElements(elem)) {
                         for (const e of elem.elements) {
-                            elementSetDisplay(e, v, "block");
+                            elementSetDisplay(e, v);
                         }
                     }
                     else if (isErsatzElement(elem) || elem instanceof HTMLElement) {
-                        elementSetDisplay(elem, v, "block");
+                        elementSetDisplay(elem, v);
                     }
                 }
             }

@@ -112,7 +112,7 @@ export abstract class DialogBox
     }
 
     private show(v: boolean) {
-        elementSetDisplay(this, v, "block");
+        elementSetDisplay(this, v);
     }
 
     get isOpen() {
