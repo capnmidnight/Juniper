@@ -25,15 +25,6 @@ export abstract class BaseWebAudioPanner extends BaseEmitter {
         });
     }
 
-    override copyAudioProperties(from: BaseWebAudioPanner) {
-        super.copyAudioProperties(from);
-        this.panner.panningModel = from.panner.panningModel;
-        this.panner.distanceModel = from.panner.distanceModel;
-        this.panner.coneInnerAngle = from.panner.coneInnerAngle;
-        this.panner.coneOuterAngle = from.panner.coneOuterAngle;
-        this.panner.coneOuterGain = from.panner.coneOuterGain;
-    }
-
     /**
      * Sets parameters that alter spatialization.
      **/

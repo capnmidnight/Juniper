@@ -33,10 +33,6 @@ export abstract class BaseAudioElement<SpatializerT extends BaseSpatializer, Eve
         this.volumeControl.gain.value = v;
     }
 
-    setAudioProperties(minDistance: number, maxDistance: number, algorithm: DistanceModelType): void {
-        this.spatializer.setAudioProperties(minDistance, maxDistance, algorithm);
-    }
-
     private disposed = false;
     dispose(): void {
         if (!this.disposed) {

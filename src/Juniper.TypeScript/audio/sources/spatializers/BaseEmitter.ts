@@ -22,12 +22,5 @@ export abstract class BaseEmitter
     protected onDisposing() {
         removeVertex(this.input);
     }
-
-    protected copyAudioProperties(from: BaseEmitter) {
-        this.setAudioProperties(
-            from.minDistance,
-            from.maxDistance,
-            from.algorithm);
-    }
 }
 

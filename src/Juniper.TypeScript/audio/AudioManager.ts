@@ -17,16 +17,14 @@ import {
 } from "juniper-tslib";
 import type { DestinationNode } from "./destinations/AudioDestination";
 import { AudioDestination } from "./destinations/AudioDestination";
+import { WebAudioListenerNew } from "./destinations/spatializers/WebAudioListenerNew";
+import { WebAudioListenerOld } from "./destinations/spatializers/WebAudioListenerOld";
 import { canChangeAudioOutput, DeviceManager } from "./DeviceManager";
 import type { IPoseable } from "./IPoseable";
-import type { ErsatzAudioNode } from "./nodes";
 import {
     audioReady,
-    BiquadFilter,
-    disconnect,
-    DynamicsCompressor,
-    Gain,
-    MediaElementSource,
+    BiquadFilter, connect, disconnect,
+    DynamicsCompressor, ErsatzAudioNode, Gain, hasNewAudioListener, MediaElementSource,
     MediaStreamDestination,
     MediaStreamSource
 } from "./nodes";
@@ -35,6 +33,9 @@ import { AudioElementSource } from "./sources/AudioElementSource";
 import type { AudioStreamSourceNode } from "./sources/AudioStreamSource";
 import { AudioStreamSource } from "./sources/AudioStreamSource";
 import { BaseEmitter } from "./sources/spatializers/BaseEmitter";
+import { NoSpatializationNode } from "./sources/spatializers/NoSpatializationNode";
+import { WebAudioPannerNew } from "./sources/spatializers/WebAudioPannerNew";
+import { WebAudioPannerOld } from "./sources/spatializers/WebAudioPannerOld";
 
 if (!("AudioContext" in globalThis) && "webkitAudioContext" in globalThis) {
     globalThis.AudioContext = (globalThis as any).webkitAudioContext;
@@ -150,7 +151,10 @@ export class AudioManager
                             "local-mic-destination",
                             this.audioCtx)))));
 
-        this.audioDestination = new AudioDestination(this.audioCtx, destination);
+        this.audioDestination = new AudioDestination(this.audioCtx, destination, hasNewAudioListener
+            ? new WebAudioListenerNew(this.audioCtx)
+            : new WebAudioListenerOld(this.audioCtx));
+        NoSpatializationNode.instance(this.audioCtx).setAudioProperties(this._minDistance, this._maxDistance, this.algorithm);
 
         this.setLocalUserID(defaultLocalUserID);
 
@@ -255,13 +259,41 @@ export class AudioManager
         }
     }
 
+    private counter = 0;
+
+    /**
+     * Creates a spatialzer for an audio source.
+     * @param spatialize - whether or not the audio stream should be spatialized. Stereo audio streams that are spatialized will get down-mixed to a single channel.
+     * @param isRemoteStream - whether or not the audio stream is coming from a remote user.
+     */
+    newSpatializer(id: string, spatialize: boolean, isRemoteStream: boolean): BaseEmitter {
+        if (spatialize) {
+            const destination = isRemoteStream
+                ? this.audioDestination.remoteUserInput
+                : this.audioDestination.spatializedInput;
+
+            const slug = `spatializer-${++this.counter}-${id}`;
+
+            const spatializer = hasNewAudioListener
+                ? new WebAudioPannerNew(slug + "-new-wa", this.audioCtx)
+                : new WebAudioPannerOld(id + "-old-wa", this.audioCtx);
+
+            connect(spatializer, destination);
+
+            return spatializer;
+        }
+        else {
+            return NoSpatializationNode.instance(this.audioCtx);
+        }
+    }
+
     /**
      * Creates a spatialzer for an audio source.
      * @param spatialize - whether or not the audio stream should be spatialized. Stereo audio streams that are spatialized will get down-mixed to a single channel.
      * @param isRemoteStream - whether or not the audio stream is coming from a remote user.
      */
     private createSpatializer(id: string, spatialize: boolean, isRemoteStream: boolean): BaseEmitter {
-        const spatializer = this.audioDestination.createSpatializer(id, spatialize, isRemoteStream);
+        const spatializer = this.newSpatializer(id, spatialize, isRemoteStream);
         spatializer.setAudioProperties(this._minDistance, this._maxDistance, this._algorithm);
         return spatializer;
     }
@@ -435,13 +467,13 @@ export class AudioManager
         vol: number,
         ...effectNames: string[]): AudioElementSource {
         const nodeID = stringToName(id, path);
-
+        const spatializer = this.createSpatializer(nodeID, spatialize, false);
         const clip = new AudioElementSource(
             stringToName("audio-clip-element", nodeID),
             this.audioCtx,
             source,
             randomize,
-            this.createSpatializer(nodeID, spatialize, false),
+            spatializer,
             ...effectNames);
 
         if (autoPlaying) {
@@ -579,8 +611,14 @@ export class AudioManager
         this._maxDistance = maxDistance;
         this._algorithm = algorithm;
 
+        NoSpatializationNode.instance(this.audioCtx).setAudioProperties(this._minDistance, this._maxDistance, this.algorithm);
+
         for (const user of this.users.values()) {
-            user.setAudioProperties(this._minDistance, this._maxDistance, this.algorithm);
+            user.spatializer.setAudioProperties(this._minDistance, this._maxDistance, this.algorithm);
+        }
+
+        for (const clip of this.clips.values()) {
+            clip.spatializer.setAudioProperties(clip.spatializer.minDistance, clip.spatializer.maxDistance, this.algorithm);
         }
     }
 

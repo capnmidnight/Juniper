@@ -1,7 +1,5 @@
 import { hasOldAudioListener } from "../../nodes";
 import type { Pose } from "../../Pose";
-import type { BaseEmitter } from "../../sources/spatializers/BaseEmitter";
-import { WebAudioPannerOld } from "../../sources/spatializers/WebAudioPannerOld";
 import { BaseListener } from "./BaseListener";
 
 /**
@@ -28,12 +26,5 @@ export class WebAudioListenerOld extends BaseListener {
         const { p, f, u } = loc;
         this.listener.setPosition(p[0], p[1], p[2]);
         this.listener.setOrientation(f[0], f[1], f[2], u[0], u[1], u[2]);
-    }
-
-    /**
-     * Creates a spatialzer for an audio source.
-     */
-    protected newSpatializer(id: string): BaseEmitter {
-        return new WebAudioPannerOld(id, this.audioCtx);
     }
 }

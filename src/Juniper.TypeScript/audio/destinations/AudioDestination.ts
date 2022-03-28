@@ -1,30 +1,17 @@
-import { connect, Gain, removeVertex } from "../nodes";
 import { BaseAudioElement } from "../BaseAudioElement";
-import type { BaseEmitter } from "../sources/spatializers/BaseEmitter";
-import type { BaseListener } from "./spatializers/BaseListener";
-import { WebAudioListenerNew } from "./spatializers/WebAudioListenerNew";
-import { WebAudioListenerOld } from "./spatializers/WebAudioListenerOld";
+import { connect, Gain, removeVertex } from "../nodes";
 import { NoSpatializationNode } from "../sources/spatializers/NoSpatializationNode";
+import type { BaseListener } from "./spatializers/BaseListener";
 
 export type DestinationNode = AudioDestinationNode | MediaStreamAudioDestinationNode;
-
-function createSpatializer(audioCtx: AudioContext): BaseListener {
-    try {
-        return new WebAudioListenerNew(audioCtx);
-    }
-    catch (exp) {
-        console.warn("No AudioListener.positionX property!", exp);
-        return new WebAudioListenerOld(audioCtx);
-    }
-}
 
 export class AudioDestination extends BaseAudioElement<BaseListener, void> {
     private _remoteUserInput: AudioNode;
     private _spatializedInput: AudioNode;
     private _nonSpatializedInput: AudioNode;
 
-    constructor(audioCtx: AudioContext, private _trueDestination: DestinationNode) {
-        super("final", audioCtx, createSpatializer(audioCtx));
+    constructor(audioCtx: AudioContext, private _trueDestination: DestinationNode, listener: BaseListener) {
+        super("final", audioCtx, listener);
 
         this._remoteUserInput = Gain(
             "remote-user-input",
@@ -67,29 +54,5 @@ export class AudioDestination extends BaseAudioElement<BaseListener, void> {
 
     get trueDestination() {
         return this._trueDestination;
-    }
-
-    /**
-     * Creates a spatialzer for an audio source.
-     * @param spatialize - whether or not the audio stream should be spatialized. Stereo audio streams that are spatialized will get down-mixed to a single channel.
-     * @param isRemoteStream - whether or not the audio stream is coming from a remote user.
-     */
-    createSpatializer(id: string, spatialize: boolean, isRemoteStream: boolean): BaseEmitter {
-        if (spatialize) {
-            const destination = isRemoteStream
-                ? this.remoteUserInput
-                : this.spatializedInput;
-
-            const spatializer = this.spatializer.createSpatializer(id);
-
-            if (!(spatializer instanceof NoSpatializationNode)) {
-                connect(spatializer, destination);
-            }
-
-            return spatializer;
-        }
-        else {
-            return NoSpatializationNode.instance(this.audioCtx);
-        }
     }
 }
