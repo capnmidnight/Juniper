@@ -26,7 +26,7 @@ namespace Juniper.Processes
         public static async Task<string?> ReadJsonValueAsync(FileInfo file, string field)
         {
             var doc = await ReadJsonAsync(file);
-            if(doc is null)
+            if (doc is null)
             {
                 return null;
             }
@@ -38,7 +38,7 @@ namespace Juniper.Processes
         {
             var doc = await ReadJsonAsync(file);
             doc ??= JsonNode.Parse("{}");
-            if(doc is null)
+            if (doc is null)
             {
                 throw new FileNotFoundException(file.FullName);
             }
@@ -73,18 +73,18 @@ namespace Juniper.Processes
                 return;
             }
 
-            var toJson = await ReadJsonAsync(writeFile);
-
-            if (toJson is null)
-            {
-                OnError(new FileNotFoundException($"Couldn't find {writeFile}"));
-                return;
-            }
-
             var value = fromJson[readField]?.GetValue<string>();
             if (value is null)
             {
                 OnError(new FieldAccessException($"{readFile} had no {readField}"));
+                return;
+            }
+
+            var toJson = (await ReadJsonAsync(writeFile))
+                ?? JsonNode.Parse("{}");
+            if (toJson is null)
+            {
+                OnError(new InvalidOperationException("How did this happen?"));
                 return;
             }
 
