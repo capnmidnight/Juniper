@@ -16,11 +16,18 @@ namespace Juniper.Processes
 
         public override Task RunAsync()
         {
-            to.Directory?.Create();
-            File.Copy(from.FullName, to.FullName, overwrite);
             var fromRel = PathExt.Abs2Rel(from.FullName, Environment.CurrentDirectory);
-            var toRel = PathExt.Abs2Rel(to.FullName, Environment.CurrentDirectory);
-            OnInfo($"Copied! {fromRel} -> {toRel}");
+            if (!from.Exists)
+            {
+                OnWarning($"File does not exist! {fromRel}");
+            }
+            else
+            {
+                to.Directory?.Create();
+                File.Copy(from.FullName, to.FullName, overwrite);
+                var toRel = PathExt.Abs2Rel(to.FullName, Environment.CurrentDirectory);
+                OnInfo($"Copied! {fromRel} -> {toRel}");
+            }
             return Task.CompletedTask;
         }
     }
