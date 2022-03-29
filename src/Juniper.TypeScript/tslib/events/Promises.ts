@@ -1,5 +1,5 @@
 import { alwaysTrue } from "../identity";
-import { isDefined, isNullOrUndefined } from "../typeChecks";
+import { isDefined } from "../typeChecks";
 
 export class Task<T = void> implements Promise<T> {
 
