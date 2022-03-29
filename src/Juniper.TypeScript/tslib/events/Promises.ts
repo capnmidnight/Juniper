@@ -1,4 +1,5 @@
-import { isDefined } from "../typeChecks";
+import { alwaysTrue } from "../identity";
+import { isDefined, isNullOrUndefined } from "../typeChecks";
 
 export class Task<T = void> implements Promise<T> {
 
@@ -6,9 +7,18 @@ export class Task<T = void> implements Promise<T> {
 
     private _resolve: (value: T) => void = null;
     private _reject: (reason: any) => void = null;
+    private _result: T = null;
     private _error: unknown = null;
 
-    get error() {
+    get result(): T {
+        if (isDefined(this.error)) {
+            throw this.error;
+        }
+
+        return this._result;
+    }
+
+    get error(): unknown {
         return this._error;
     }
 
@@ -16,6 +26,9 @@ export class Task<T = void> implements Promise<T> {
     readonly reject: (reason: any) => void = null;
 
     constructor(resolveTest?: (value: T) => boolean, rejectTest?: (reason: any) => boolean) {
+
+        resolveTest = resolveTest || alwaysTrue;
+        rejectTest = rejectTest || alwaysTrue;
 
         this.resolve = (value: T): void => {
             if (isDefined(this._resolve)) {
@@ -30,28 +43,19 @@ export class Task<T = void> implements Promise<T> {
         };
 
         this.promise = new Promise((resolve, reject) => {
-            if (isDefined(resolveTest)) {
-                this._resolve = (value: T) => {
-                    if (resolveTest(value)) {
-                        resolve(value);
-                    }
-                };
-            }
-            else {
-                this._resolve = resolve;
-            }
+            this._resolve = (value: T) => {
+                if (resolveTest(value)) {
+                    this._result = value;
+                    resolve(value);
+                }
+            };
 
-            if (isDefined(rejectTest)) {
-                this._reject = (reason: any) => {
-                    if (rejectTest(reason)) {
-                        this._error = reason;
-                        reject(reason);
-                    }
-                };
-            }
-            else {
-                this._reject = reject;
-            }
+            this._reject = (reason: any) => {
+                if (rejectTest(reason)) {
+                    this._error = reason;
+                    reject(reason);
+                }
+            };
         });
     }
 
