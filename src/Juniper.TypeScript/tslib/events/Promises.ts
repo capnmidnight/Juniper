@@ -1,5 +1,7 @@
 import { alwaysTrue } from "../identity";
-import { isDefined } from "../typeChecks";
+import { isBoolean, isDefined, isFunction } from "../typeChecks";
+
+type Predicate<T> = (value: T) => boolean;
 
 export class Task<T = void> implements Promise<T> {
 
@@ -9,6 +11,8 @@ export class Task<T = void> implements Promise<T> {
     private _reject: (reason: any) => void = null;
     private _result: T = null;
     private _error: unknown = null;
+    private _started = false;
+    private _finished = false;
 
     get result(): T {
         if (isDefined(this.error)) {
@@ -22,13 +26,38 @@ export class Task<T = void> implements Promise<T> {
         return this._error;
     }
 
+    get started(): boolean {
+        return this._started;
+    }
+
+    get finished(): boolean {
+        return this._finished;
+    }
+
     readonly resolve: (value: T) => void = null;
     readonly reject: (reason: any) => void = null;
 
-    constructor(resolveTest?: (value: T) => boolean, rejectTest?: (reason: any) => boolean) {
+    constructor(autoStart?: boolean);
+    constructor(resolveTest: Predicate<T>, autoStart?: boolean)
+    constructor(resolveTest: Predicate<T>, rejectTest: Predicate<any>, autoStart?: boolean);
+    constructor(resolveTestOrAutoStart?: boolean | Predicate<T>, rejectTestOrAutoStart?: boolean | Predicate<any>, autoStart = true) {
+        let resolveTest: Predicate<T> = alwaysTrue;
+        let rejectTest: Predicate<any> = alwaysTrue;
 
-        resolveTest = resolveTest || alwaysTrue;
-        rejectTest = rejectTest || alwaysTrue;
+        if (isFunction(resolveTestOrAutoStart)) {
+            resolveTest = resolveTestOrAutoStart;
+        }
+
+        if (isFunction(rejectTestOrAutoStart)) {
+            rejectTest = rejectTestOrAutoStart;
+        }
+
+        if (isBoolean(resolveTestOrAutoStart)) {
+            autoStart = resolveTestOrAutoStart;
+        }
+        else if (isBoolean(rejectTestOrAutoStart)) {
+            autoStart = rejectTestOrAutoStart;
+        }
 
         this.resolve = (value: T): void => {
             if (isDefined(this._resolve)) {
@@ -46,6 +75,7 @@ export class Task<T = void> implements Promise<T> {
             this._resolve = (value: T) => {
                 if (resolveTest(value)) {
                     this._result = value;
+                    this._finished = true;
                     resolve(value);
                 }
             };
@@ -53,10 +83,19 @@ export class Task<T = void> implements Promise<T> {
             this._reject = (reason: any) => {
                 if (rejectTest(reason)) {
                     this._error = reason;
+                    this._finished = true;
                     reject(reason);
                 }
             };
         });
+
+        if (autoStart) {
+            this.start();
+        }
+    }
+
+    start() {
+        this._started = true;
     }
 
     get [Symbol.toStringTag](): string {

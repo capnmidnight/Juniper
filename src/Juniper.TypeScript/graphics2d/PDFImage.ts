@@ -6,20 +6,24 @@ import { version as pdfjsVersion } from "pdfjs-dist/package.json";
 import { GetViewportParameters } from "pdfjs-dist/types/src/display/api";
 import { CanvasImage } from "./CanvasImage";
 
-const pdfReady = singleton("Juniper:PdfReady", () => new Task());
+const pdfReady = singleton("Juniper:PdfReady", () => new Task(false));
 
 export class PDFImage extends CanvasImage {
 
     static async prepare(workerPath: string, fetcher: IFetcher, prog?: IProgress) {
-        console.info(`PDF.js v${pdfjsVersion}`);
+        if (!pdfReady.started) {
+            pdfReady.start();
+            console.info(`PDF.js v${pdfjsVersion}`);
 
-        const { content: workerSrc } = await fetcher
-            .get(workerPath)
-            .query("v", pdfjsVersion)
-            .progress(prog)
-            .file();
-        pdfJS.GlobalWorkerOptions.workerSrc = workerSrc;
-        pdfReady.resolve()
+            const { content: workerSrc } = await fetcher
+                .get(workerPath)
+                .query("v", pdfjsVersion)
+                .progress(prog)
+                .file();
+
+            pdfJS.GlobalWorkerOptions.workerSrc = workerSrc;
+            pdfReady.resolve();
+        }
 
         await pdfReady;
     }
