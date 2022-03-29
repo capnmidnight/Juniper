@@ -42,7 +42,7 @@ export function combineContentTypeAndCodec(content_type: string, codec: string):
 export class YouTubeProxy {
     constructor(
         protected fetcher: IFetcher,
-        protected readonly makeProxyURL: (path: string) => string) {
+        protected readonly makeProxyURL: (path: string | URL) => URL) {
     }
 
     private makeVideoRecord(f: YTMetadataFormat): VideoRecord {
@@ -50,7 +50,7 @@ export class YouTubeProxy {
         const fullContentType = combineContentTypeAndCodec(content_type, vcodec);
         return {
             contentType: fullContentType,
-            url: this.makeProxyURL(f.url),
+            url: this.makeProxyURL(f.url).href,
             acodec,
             abr: f.abr * 1024,
             asr: f.asr,
@@ -68,7 +68,7 @@ export class YouTubeProxy {
         const fullContentType = combineContentTypeAndCodec(content_type, acodec);
         return {
             contentType: fullContentType,
-            url: this.makeProxyURL(f.url),
+            url: this.makeProxyURL(f.url).href,
             acodec,
             abr: f.abr * 1024,
             asr: f.asr,
@@ -80,7 +80,7 @@ export class YouTubeProxy {
         const { content_type, url, width, height } = f;
         return {
             contentType: content_type,
-            url: this.makeProxyURL(url),
+            url: this.makeProxyURL(url).href,
             width,
             height,
             resolution: width * height

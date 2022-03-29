@@ -60,7 +60,7 @@ export class RequestBuilder
         this.path = path;
         this.request = {
             method,
-            path: this.path.toString(),
+            path: this.path.href,
             body: null,
             headers: null,
             timeout: null,
@@ -70,7 +70,7 @@ export class RequestBuilder
 
     query(name: string, value: string) {
         this.path.searchParams.set(name, value);
-        this.request.path = this.path.toString();
+        this.request.path = this.path.href;
         return this;
     }
 

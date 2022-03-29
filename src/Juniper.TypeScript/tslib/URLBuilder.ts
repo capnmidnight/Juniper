@@ -67,11 +67,11 @@ export class URLBuilder {
         return this;
     }
 
-    get url() {
+    toURL() {
         return this._url;
     }
 
     toString() {
-        return this._url.toString();
+        return this._url.href;
     }
 }
