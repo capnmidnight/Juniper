@@ -52,7 +52,8 @@ export class PriorityMap<Key1T, Key2T, ValueT> {
 
     has(key1: Key1T, key2?: Key2T): boolean {
         return this.items.has(key1)
-            && this.items.get(key1).has(key2);
+            && (isNullOrUndefined(key2)
+                || this.items.get(key1).has(key2));
     }
 
     get(key1: Key1T): Map<Key2T, ValueT>;
