@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "name": "@types/idexdb-types",
+  "description": "TypeScript definitions for IndexedDB",
+  "private": true,
+  "main": "",
+  "types": "index.d.ts",
+  "typeScriptVersion": "4.5"
+}
