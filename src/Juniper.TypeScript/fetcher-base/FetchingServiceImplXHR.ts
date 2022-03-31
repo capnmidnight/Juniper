@@ -102,7 +102,7 @@ function readResponseHeader<T>(headers: Map<string, string>, key: string, transl
 }
 
 
-function readResponseHeaders<T>(xhr: XMLHttpRequest): IResponse<T> {
+function readResponseHeaders<T>(path: string, xhr: XMLHttpRequest): IResponse<T> {
     const headerParts = xhr
         .getAllResponseHeaders()
         .split(/[\r\n]+/)
@@ -142,6 +142,7 @@ function readResponseHeaders<T>(xhr: XMLHttpRequest): IResponse<T> {
 
     const response: IResponse<T> = {
         status: xhr.status,
+        path,
         content: null,
         contentType,
         contentLength,
@@ -153,8 +154,8 @@ function readResponseHeaders<T>(xhr: XMLHttpRequest): IResponse<T> {
     return response;
 }
 
-async function readResponse<T>(xhrType: XMLHttpRequestResponseType, xhr: XMLHttpRequest): Promise<IResponse<T>> {
-    const response = readResponseHeaders<T>(xhr);
+async function readResponse<T>(path: string, xhrType: XMLHttpRequestResponseType, xhr: XMLHttpRequest): Promise<IResponse<T>> {
+    const response = readResponseHeaders<T>(path, xhr);
     const contentBlob = xhr.response as Blob;
 
     if (isDefined(contentBlob)) {
@@ -214,7 +215,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
 
         await download;
 
-        return readResponseHeaders(xhr);
+        return readResponseHeaders(request.path, xhr);
     }
 
     async sendNothingGetSomething<T>(xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
@@ -225,7 +226,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
 
         await download;
 
-        return await readResponse(xhrType, xhr);
+        return await readResponse(request.path, xhrType, xhr);
     }
 
     async sendSomethingGetSomething<T>(xhrType: XMLHttpRequestResponseType, request: IRequestWithBody, defaultPostHeaders: Map<string, string>, progress: IProgress): Promise<IResponse<T>> {
@@ -268,6 +269,6 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         await upload;
         await download;
 
-        return await readResponse(xhrType, xhr);
+        return await readResponse(request.path, xhrType, xhr);
     }
 }

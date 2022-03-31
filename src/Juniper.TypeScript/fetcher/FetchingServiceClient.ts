@@ -15,6 +15,7 @@ function isDOMParsersSupportedType(type: string): type is DOMParserSupportedType
 function bufferToXml(response: IResponse<ArrayBuffer>): IResponse<HTMLElement> {
     const {
         status,
+        path,
         content: buffer,
         contentType,
         contentLength,
@@ -33,6 +34,7 @@ function bufferToXml(response: IResponse<ArrayBuffer>): IResponse<HTMLElement> {
 
     return {
         status,
+        path,
         content: doc.documentElement,
         contentType,
         contentLength,
@@ -45,6 +47,7 @@ function bufferToXml(response: IResponse<ArrayBuffer>): IResponse<HTMLElement> {
 function bufferToBlob(response: IResponse<ArrayBuffer>): IResponse<Blob> {
     const {
         status,
+        path,
         content: buffer,
         contentType,
         contentLength,
@@ -58,6 +61,7 @@ function bufferToBlob(response: IResponse<ArrayBuffer>): IResponse<Blob> {
 
     return {
         status,
+        path,
         content: blob,
         contentType,
         contentLength,

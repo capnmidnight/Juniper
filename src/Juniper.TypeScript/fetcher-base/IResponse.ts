@@ -1,5 +1,6 @@
 export interface IResponse<T> {
     status: number;
+    path: string;
     content: T;
     contentType: string;
     contentLength: number;
