@@ -124,7 +124,8 @@ export abstract class DialogBox
         this.show(true);
         this.onShown();
 
-        const confirmed = await success(once(this.subEventer, "confirm", "cancel"));
+        const confirming = once(this.subEventer, "confirm", "cancel");
+        const confirmed = await success(confirming);
         if (confirmed) {
             await this.onConfirm();
         }

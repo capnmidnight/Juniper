@@ -230,22 +230,21 @@ export function getAudioGraph(): Array<GraphNode<AudioNode | AudioParam>> {
 
 (globalThis as any).getAudioGraph = getAudioGraph;
 
-export function audioReady(audioCtx: AudioContext) {
+export async function audioReady(audioCtx: AudioContext) {
     nameVertex("speakers", audioCtx.destination);
-    return new Promise<void>((resolve) => {
-        if (audioCtx.state === "running") {
-            resolve();
-        }
-        else if (audioCtx.state === "closed") {
-            audioCtx.resume().then(resolve);
+    if (audioCtx.state !== "running") {
+        if (audioCtx.state === "closed") {
+            await audioCtx.resume();
         }
         else if (audioCtx.state === "suspended") {
-            once<BaseAudioContextEventMap>(audioCtx, "statechange")
-                .then(() => resolve());
-
+            const stateChange = once<BaseAudioContextEventMap>(audioCtx, "statechange");
             onUserGesture(() => audioCtx.resume());
+            await stateChange;
         }
-    });
+        else {
+            assertNever(audioCtx.state);
+        }
+    }
 }
 
 export function initAudio<NodeT extends AudioNode>(name: string, left: NodeT, ...rest: AudioConnection[]) {

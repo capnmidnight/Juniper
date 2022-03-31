@@ -92,7 +92,8 @@ export class VideoPlayer
                 src(data.thumbnail.url),
                 opacity(0.5)
             );
-            await success(once<GlobalEventHandlersEventMap>(this.thumbnail, "load", "error"));
+            const loading = once<GlobalEventHandlersEventMap>(this.thumbnail, "load", "error");
+            await success(loading);
         }
         prog.end();
     }
