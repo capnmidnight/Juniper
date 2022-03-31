@@ -21,11 +21,9 @@ import { isModifierless } from "juniper-dom/isModifierless";
 import {
     Div,
     elementApply,
-    elementClearChildren,
     elementSetDisplay,
     elementToggleDisplay,
-    ErsatzElement,
-    TextNode
+    ErsatzElement
 } from "juniper-dom/tags";
 import { assertNever } from "juniper-tslib";
 import { ILogger, isWorkerLoggerMessageData } from "./models";
@@ -110,26 +108,41 @@ export class WindowLogger implements ILogger, ErsatzElement {
         this.grid.style.gridTemplateColumns = `auto repeat(${maxWidth}, 1fr)`;
 
         for (const [id, values] of this.logs) {
-            let row = this.rows.get(id);
-            if (!row) {
-                row = [
-                    Div(id, track(1, 2)),
-                    ...values.map((_, i) => {
-                        const isLast = i === values.length - 1;
-                        const endTrack = isLast ? -1 : i + 3;
-                        const cell = Div(track(i + 2, endTrack));
-                        return cell;
-                    })
-                ];
-                this.rows.set(id, row);
-                this.grid.append(...row);
+            const newRow = [
+                Div(id),
+                ...values.map(value => Div(JSON.stringify(value)))
+            ];
+
+            for (let i = 0; i < newRow.length; ++i) {
+                track(i + 1, i + 2).applyToElement(newRow[i]);
             }
 
-            for (let i = 0; i < values.length; ++i) {
-                const value = values[i];
-                const cell = row[i + 1] as HTMLElement;
-                elementClearChildren(cell);
-                cell.append(TextNode(JSON.stringify(value)));
+            newRow[newRow.length - 1].style.gridColumnEnd = "-1";
+
+            const oldRow = this.rows.get(id) || [];
+            this.rows.set(id, newRow);
+            let lastCell: HTMLElement = null;
+            for (const newCell of newRow) {
+                if (oldRow.length > 0) {
+                    const oldCell = oldRow.shift();
+                    oldCell.replaceWith(newCell);
+                }
+                else if (lastCell) {
+                    lastCell.insertAdjacentElement("afterend", newCell);
+                }
+                else {
+                    this.grid.append(newCell);
+                }
+                lastCell = newCell;
+            }
+
+            while (oldRow.length > 0) {
+                oldRow.pop().remove();
+            }
+
+            while (oldRow.length > values.length + 1) {
+                const cell = oldRow.pop();
+                cell.remove();
             }
         }
     }
