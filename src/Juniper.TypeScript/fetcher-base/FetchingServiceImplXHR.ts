@@ -117,7 +117,6 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
     }
 
     private async openCache(): Promise<void> {
-        await IDexDB.delete(DB_NAME);
         this.cache = await IDexDB.open(DB_NAME, {
             name: "files",
             options: {
