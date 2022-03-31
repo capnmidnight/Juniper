@@ -1,4 +1,4 @@
-import { and, arrayCompare, assertNever, identity, IDisposable, isArray, isDefined, isNullOrUndefined, isNumber, isString, mapMap, once, PriorityList, PriorityMap, success, Task } from "juniper-tslib";
+import { arrayCompare, identity, IDisposable, isArray, isDefined, isNullOrUndefined, isString, mapMap, once, PriorityList, PriorityMap, success, Task } from "juniper-tslib";
 
 interface IndexDef {
     name: string;
