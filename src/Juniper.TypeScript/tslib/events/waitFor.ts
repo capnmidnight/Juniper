@@ -1,4 +1,4 @@
-import { Task } from "../events/Promises";
+import { Task } from "../events/Task";
 
 export function waitFor(test: () => boolean): Promise<void> {
     const task = new Task<void>(test);

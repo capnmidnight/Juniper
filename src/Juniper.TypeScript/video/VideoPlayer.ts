@@ -1,7 +1,7 @@
 import { src } from "juniper-dom/attrs";
 import { CSSCursorValue, cursor, display, opacity, styles } from "juniper-dom/css";
 import { Div, elementApply, elementSetDisplay, ErsatzElement, Img } from "juniper-dom/tags";
-import { IProgress, isDefined, once, progressSplitWeighted } from "juniper-tslib";
+import { IProgress, isDefined, once, progressSplitWeighted, success } from "juniper-tslib";
 import { BaseVideoPlayer } from "./BaseVideoPlayer";
 import { FullVideoRecord } from "./data";
 
@@ -86,18 +86,14 @@ export class VideoPlayer
     }
 
     protected async loadThumbnail(data: FullVideoRecord, prog?: IProgress): Promise<void> {
-        try {
-            prog.start();
-            if (isDefined(data)) {
-                elementApply(this.thumbnail,
-                    src(data.thumbnail.url),
-                    opacity(0.5)
-                );
-                await once<GlobalEventHandlersEventMap, "load">(this.thumbnail, "load");
-            }
+        prog.start();
+        if (isDefined(data)) {
+            elementApply(this.thumbnail,
+                src(data.thumbnail.url),
+                opacity(0.5)
+            );
+            await success(once<GlobalEventHandlersEventMap>(this.thumbnail, "load", "error"));
         }
-        finally {
-            prog.end();
-        }
+        prog.end();
     }
 }

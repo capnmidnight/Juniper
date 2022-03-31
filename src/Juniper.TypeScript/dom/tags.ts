@@ -1,4 +1,4 @@
-import { IProgress, isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString, success } from "juniper-tslib";
+import { IProgress, isBoolean, isDate, isDefined, isFunction, isNumber, isObject, isString, once, success } from "juniper-tslib";
 import { Attr, autoPlay, classList, className, controls, htmlFor, loop, muted, playsInline, type } from "./attrs";
 import { CSSInJSRule, display, margin, styles } from "./css";
 
@@ -240,7 +240,7 @@ async function mediaElementCan(type: "canplay" | "canplaythrough", elem: HTMLMed
         return true;
     }
 
-    const good = await success<HTMLMediaElementEventMap>(elem, type, "error");
+    const good = await success(once<HTMLMediaElementEventMap>(elem, type, "error"));
     if (isDefined(prog)) {
         prog.end();
     }

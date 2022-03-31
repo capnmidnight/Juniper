@@ -1,4 +1,4 @@
-import { success, TypedEvent, TypedEventBase } from "juniper-tslib";
+import { once, success, TypedEvent, TypedEventBase } from "juniper-tslib";
 import { classList, className, customData } from "./attrs";
 import { backgroundColor, boxShadow, display, float, gridArea, gridTemplateColumns, gridTemplateRows, height, left, maxHeight, maxWidth, overflow, padding, position, rule, styles, textAlign, top, transform, width, zIndex } from "./css";
 import { ButtonPrimary, ButtonSecondary, Div, elementApply, elementIsDisplayed, elementSetDisplay, elementSetText, ErsatzElement, H1, Style } from "./tags";
@@ -124,7 +124,7 @@ export abstract class DialogBox
         this.show(true);
         this.onShown();
 
-        const confirmed = await success(this.subEventer, "confirm", "cancel");
+        const confirmed = await success(once(this.subEventer, "confirm", "cancel"));
         if (confirmed) {
             await this.onConfirm();
         }

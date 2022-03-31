@@ -309,13 +309,12 @@ export class RequestBuilder
 
     private async htmlElement<
         ElementT extends HTMLAudioElement | HTMLVideoElement | HTMLImageElement | HTMLScriptElement,
-        EventsT extends HTMLElementEventMap,
-        ResolveEventKeyT extends keyof EventsT & string>(
+        EventsT extends HTMLElementEventMap>(
             element: ElementT,
-            resolveEvt: ResolveEventKeyT,
+            resolveEvt: keyof EventsT & string,
             acceptType: string | MediaType): Promise<IResponse<ElementT>> {
         const response = await this.file(acceptType);
-        const task = once<EventsT, ResolveEventKeyT>(element, resolveEvt, "error");
+        const task = once<EventsT>(element, resolveEvt, "error");
         element.src = response.content;
         await task;
 

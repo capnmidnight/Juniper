@@ -240,7 +240,7 @@ export function audioReady(audioCtx: AudioContext) {
             audioCtx.resume().then(resolve);
         }
         else if (audioCtx.state === "suspended") {
-            once<BaseAudioContextEventMap, "statechange">(audioCtx, "statechange")
+            once<BaseAudioContextEventMap>(audioCtx, "statechange")
                 .then(() => resolve());
 
             onUserGesture(() => audioCtx.resume());

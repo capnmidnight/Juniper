@@ -1,19 +1,23 @@
 import { Exception } from "../Exception";
-import { Task } from "../events/Promises";
+import { Task } from "../events/Task";
 import { isNullOrUndefined, isNumber, isString } from "../typeChecks";
 import { EventBase, TypedEventBase } from "./EventBase";
+import { alwaysFalse, alwaysTrue } from "../identity";
 
 function targetValidateEvent(target: EventTarget, type: string) {
     return ("on" + type) in target;
 }
 
-function firstEventTask<EventsT, ResultT>(
-    target: EventTarget,
-    rejectEvtOrTimeout: number | (keyof EventsT & string),
-    resolveEvt: keyof EventsT & string,
-    rejectEvts: (keyof EventsT & string)[],
-    onResolve: (task: Task<ResultT>, evt: Event) => void,
-    onReject: (task: Task<ResultT>, evt: Event) => void): Task<ResultT> {
+/**
+ * Wait for a specific event, one time.
+ * @param target - the event target.
+ * @param resolveEvt - the name of the event that will resolve the Promise this method creates.
+ * @param [rejectEvt] - the name of the event that could reject the Promise this method creates.
+ * @param [timeout] - the number of milliseconds to wait for the resolveEvt, before rejecting.
+ */
+export function once<EventsT>(target: TypedEventBase<EventsT> | EventTarget, resolveEvt: keyof EventsT & string, timeout: number, ...rejectEvts: (keyof EventsT & string)[]): Task<EventsT[typeof resolveEvt], EventsT[keyof EventsT]>;
+export function once<EventsT>(target: TypedEventBase<EventsT> | EventTarget, resolveEvt: keyof EventsT & string, ...rejectEvts: (keyof EventsT & string)[]): Task<EventsT[typeof resolveEvt], EventsT[keyof EventsT]>;
+export function once<EventsT>(target: EventTarget, resolveEvt: keyof EventsT & string, rejectEvtOrTimeout?: number | (keyof EventsT & string), ...rejectEvts: (keyof EventsT & string)[]): Task<EventsT[typeof resolveEvt], EventsT[keyof EventsT]> {
 
     if (isNullOrUndefined(rejectEvts)) {
         rejectEvts = [];
@@ -39,7 +43,7 @@ function firstEventTask<EventsT, ResultT>(
         }
     }
 
-    const task = new Task<ResultT>();
+    const task = new Task<EventsT[typeof resolveEvt], EventsT[keyof EventsT]>();
 
     if (isNumber(timeout)) {
         const timeoutHandle = setTimeout(task.reject, timeout, `'${resolveEvt}' has timed out.`);
@@ -51,56 +55,18 @@ function firstEventTask<EventsT, ResultT>(
         task.finally(() => target.removeEventListener(evt, callback));
     }
 
-    register(resolveEvt, (evt) => onResolve(task, evt));
+    const onResolve = (evt: Event) => task.resolve(evt as any as EventsT[typeof resolveEvt]);
+    const onReject = (evt: Event) => task.reject(evt as any as EventsT[keyof EventsT]);
+    register(resolveEvt, onResolve);
 
     for (const rejectEvt of rejectEvts) {
-        register(rejectEvt, (evt) => onReject(task, evt));
+        register(rejectEvt, onReject);
     }
 
     return task;
-
 }
 
-/**
- * Wait for a specific event, one time.
- * @param target - the event target.
- * @param resolveEvt - the name of the event that will resolve the Promise this method creates.
- * @param [rejectEvt] - the name of the event that could reject the Promise this method creates.
- * @param [timeout] - the number of milliseconds to wait for the resolveEvt, before rejecting.
- */
-export function once<
-    EventsT,
-    ResolveEventKeyT extends keyof EventsT & string>
-    (target: TypedEventBase<EventsT> | EventTarget, resolveEvt: ResolveEventKeyT, timeout: number, ...rejectEvts: (keyof EventsT & string)[]): Task<EventsT[ResolveEventKeyT]>;
-export function once<
-    EventsT,
-    ResolveEventKeyT extends keyof EventsT & string>
-    (target: TypedEventBase<EventsT> | EventTarget, resolveEvt: ResolveEventKeyT, ...rejectEvts: (keyof EventsT & string)[]): Task<EventsT[ResolveEventKeyT]>;
-export function once<
-    EventsT,
-    ResolveEventKeyT extends keyof EventsT & string>
-    (target: EventTarget, resolveEvt: ResolveEventKeyT, rejectEvtOrTimeout?: number | (keyof EventsT & string), ...rejectEvts: (keyof EventsT & string)[]): Task<EventsT[ResolveEventKeyT]> {
-    return firstEventTask<EventsT, EventsT[ResolveEventKeyT]>(target, rejectEvtOrTimeout, resolveEvt, rejectEvts,
-        (task, evt) => task.resolve(evt as any as EventsT[ResolveEventKeyT]),
-        (task, evt) => task.reject(evt))
-}
-
-
-/**
- * Wait for a specific event, one time.
- * @param target - the event target.
- * @param resolveEvt - the name of the event that will resolve the Promise this method creates.
- * @param rejectEvt - the name of the event that could reject the Promise this method creates.
- * @param [timeout] - the number of milliseconds to wait for the resolveEvt, before rejecting.
- */
-export function success<EventsT>(target: TypedEventBase<EventsT> | EventTarget, resolveEvt: keyof EventsT & string, timeout: number, ...rejectEvts: (keyof EventsT & string)[]): Task<boolean>;
-export function success<EventsT>(target: TypedEventBase<EventsT> | EventTarget, resolveEvt: keyof EventsT & string, ...rejectEvts: (keyof EventsT & string)[]): Task<boolean>;
-export function success<EventsT>(
-    target: EventTarget,
-    resolveEvt: keyof EventsT & string,
-    rejectEvtOrTimeout: keyof EventsT & string | number,
-    ...rejectEvts: (keyof EventsT & string)[]): Task<boolean> {
-    return firstEventTask<EventsT, boolean>(target, rejectEvtOrTimeout, resolveEvt, rejectEvts,
-        (task) => task.resolve(true),
-        (task) => task.resolve(false));
+export function success<T, E>(task: Task<T, E>): Promise<boolean> {
+    return task.then(alwaysTrue)
+        .catch(alwaysFalse);
 };
