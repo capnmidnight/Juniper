@@ -34,7 +34,6 @@ export class Image2DMeshButton extends TextMeshButton {
 
     private createSubImage(id: string, opacity: number, path: string) {
         const image = new Image2DMesh(
-            this.fetcher,
             this.env,
             `text-${id}`,
             false, {
@@ -45,7 +44,7 @@ export class Image2DMeshButton extends TextMeshButton {
         image.position.z = 0.01;
         image.scale.setScalar(0.75);
 
-        image.mesh.loadImage(path);
+        image.mesh.loadImage(this.fetcher, path);
 
         return image;
     }

@@ -75,7 +75,7 @@ export class AvatarRemote extends THREE.Object3D implements IDisposable {
         this.height = this.defaultAvatarHeight;
 
         this.name = user.userName;
-        this.nameTag = new TextMesh(this.env.fetcher, this.env, `nameTag-${user.userName}-${user.userID}`);
+        this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`);
         this.nameTag.createTextImage(Object.assign({}, nameTagFont, font));
         this.nameTag.position.y = 0.25;
         this.userName = user.userName;

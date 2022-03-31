@@ -1,8 +1,7 @@
-import { IFetcher } from "juniper-fetcher";
 import { and, arrayClear, PriorityMap } from "juniper-tslib";
 import { BaseVideoPlayer } from "juniper-video/BaseVideoPlayer";
 import { cleanup } from "./cleanup";
-import { createEACGeometry, createQuadGeometry, QuadPosUV, PosUV } from "./CustomGeometry";
+import { createEACGeometry, createQuadGeometry, PosUV, QuadPosUV } from "./CustomGeometry";
 import { Image2DMesh } from "./Image2DMesh";
 import { IUpdatable } from "./IUpdatable";
 import { IWebXRLayerManager } from "./IWebXRLayerManager";
@@ -50,14 +49,14 @@ export class VideoPlayer3D
 
     readonly object: THREE.Object3D;
 
-    constructor(fetcher: IFetcher, layerMgr: IWebXRLayerManager, audioCtx: AudioContext) {
+    constructor(layerMgr: IWebXRLayerManager, audioCtx: AudioContext) {
         super(audioCtx);
 
         this.material = solidTransparent({ name: "videoPlayer-material" });
 
         this.vidMeshes = [];
         for (let i = 0; i < 2; ++i) {
-            const vidMesh = new Image2DMesh(fetcher, layerMgr, `videoPlayer-view${i + 1}`, false, this.material);
+            const vidMesh = new Image2DMesh(layerMgr, `videoPlayer-view${i + 1}`, false, this.material);
             vidMesh.mesh.setImage(this.video);
             vidMesh.renderOrder = 4;
             if (i > 0) {

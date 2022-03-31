@@ -12,13 +12,12 @@ export class TexturedMesh extends THREE.Mesh<THREE.BufferGeometry, Material> {
     private _imageWidth: number = 0;
     private _imageHeight: number = 0;
 
-    constructor(protected fetcher: IFetcher, geom: THREE.BufferGeometry, mat: Material) {
+    constructor(geom: THREE.BufferGeometry, mat: Material) {
         super(geom, mat);
     }
 
     override copy(source: this, recursive = true): this {
         super.copy(source, recursive);
-        this.fetcher = source.fetcher;
         this._imageWidth = source.imageWidth;
         this._imageHeight = source.imageHeight;
         return this;
@@ -91,8 +90,8 @@ export class TexturedMesh extends THREE.Mesh<THREE.BufferGeometry, Material> {
         return this.material.map;
     }
 
-    async loadImage(path: string, prog?: IProgress): Promise<void> {
-        let { content: img } = await this.fetcher
+    async loadImage(fetcher: IFetcher, path: string, prog?: IProgress): Promise<void> {
+        let { content: img } = await fetcher
             .get(path)
             .progress(prog)
             .image();

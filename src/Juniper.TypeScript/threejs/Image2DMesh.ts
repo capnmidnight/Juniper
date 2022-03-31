@@ -1,4 +1,3 @@
-import { IFetcher } from "juniper-fetcher";
 import { arrayCompare, IDisposable, isDefined, isNullOrUndefined } from "juniper-tslib";
 import { cleanup } from "./cleanup";
 import { IUpdatable } from "./IUpdatable";
@@ -28,17 +27,16 @@ export class Image2DMesh
     private lastWidth: number = null;
     private lastHeight: number = null;
     stereoLayoutName: StereoLayoutName = "mono";
-    protected fetcher: IFetcher = null;
     protected env: IWebXRLayerManager = null;
     mesh: TexturedMesh = null;
 
     webXRLayersEnabled = true;
 
-    constructor(fetcher: IFetcher, env: IWebXRLayerManager, name: string, private readonly isStatic: boolean, materialOrOptions: THREE.MeshBasicMaterialParameters | THREE.MeshBasicMaterial = null) {
+    constructor(env: IWebXRLayerManager, name: string, private readonly isStatic: boolean, materialOrOptions: THREE.MeshBasicMaterialParameters | THREE.MeshBasicMaterial = null) {
         super();
 
         if (env) {
-            this.setEnvAndName(fetcher, env, name);
+            this.setEnvAndName(env, name);
 
             let material = isMeshBasicMaterial(materialOrOptions)
                 ? materialOrOptions
@@ -47,7 +45,7 @@ export class Image2DMesh
                     materialOrOptions,
                     { name: this.name }));
 
-            this.mesh = new TexturedMesh(fetcher, plane, material);
+            this.mesh = new TexturedMesh(plane, material);
             this.add(this.mesh);
         }
     }
@@ -56,8 +54,7 @@ export class Image2DMesh
         cleanup(this.layer);
     }
 
-    private setEnvAndName(fetcher: IFetcher, env: IWebXRLayerManager, name: string) {
-        this.fetcher = fetcher;
+    private setEnvAndName(env: IWebXRLayerManager, name: string) {
         this.env = env;
         this.name = name;
         this.tryWebXRLayers &&= this.env && this.env.hasXRCompositionLayers;
@@ -65,13 +62,13 @@ export class Image2DMesh
 
     override copy(source: this, recursive = true) {
         super.copy(source, recursive);
-        this.setEnvAndName(source.fetcher, source.env, source.name + (++copyCounter));
+        this.setEnvAndName(source.env, source.name + (++copyCounter));
         for (let i = this.children.length - 1; i >= 0; --i) {
             const child = this.children[i];
             if (child.parent instanceof Image2DMesh
                 && child instanceof TexturedMesh) {
                 child.removeFromParent();
-                this.mesh = new TexturedMesh(source.fetcher, child.geometry, child.material as THREE.MeshBasicMaterial);
+                this.mesh = new TexturedMesh(child.geometry, child.material as THREE.MeshBasicMaterial);
             }
         }
         if (isNullOrUndefined(this.mesh)) {

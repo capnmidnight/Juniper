@@ -87,10 +87,10 @@ export class Environment
         options?: Partial<EnvironmentOptions>) {
         super(canvas, fetcher, defaultAvatarHeight, enableFullResolution);
 
-        this.compassImage = new CanvasImageMesh(this.fetcher, this, "Horizon", new ArtificialHorizon());
+        this.compassImage = new CanvasImageMesh(this, "Horizon", new ArtificialHorizon());
         this.compassImage.mesh.renderOrder = 5;
 
-        this.clockImage = new CanvasImageMesh(this.fetcher, this, "Clock", new ClockImage());
+        this.clockImage = new CanvasImageMesh(this, "Clock", new ClockImage());
         this.clockImage.mesh.renderOrder = 5;
 
         options = options || {};
@@ -125,7 +125,7 @@ export class Environment
 
         this.audioPlayer = new AudioPlayer(this.audio.audioCtx);
 
-        this.videoPlayer = new VideoPlayer3D(this.fetcher, this, this.audio.audioCtx);
+        this.videoPlayer = new VideoPlayer3D(this, this.audio.audioCtx);
         this.videoPlayer.object.visible = false;
 
         this.interactionAudio = new InteractionAudio(this.audio, this.eventSystem);
@@ -171,7 +171,7 @@ export class Environment
         elementApply(this.screenUISpace.bottomRowRight, this.fullscreenButton, this.vrButton); //, this.arButton);
 
         if (BatteryImage.isAvailable && isMobile()) {
-            this.batteryImage = new CanvasImageMesh(this.fetcher, this, "Battery", new BatteryImage());
+            this.batteryImage = new CanvasImageMesh(this, "Battery", new BatteryImage());
             this.xrUI.addItem(this.batteryImage, { x: 0.75, y: -1, scale: 1 });
             elementApply(this.screenUISpace.topRowRight, this.batteryImage);
         }

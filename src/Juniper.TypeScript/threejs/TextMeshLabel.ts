@@ -45,7 +45,6 @@ export class TextMeshLabel extends THREE.Object3D {
 
     private createImage(id: string, opacity: number) {
         const image = new TextMesh(
-            this.fetcher,
             this.env,
             `text-${id}`, {
                 side: THREE.FrontSide,

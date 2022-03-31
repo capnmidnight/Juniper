@@ -63,9 +63,9 @@ export class PhotosphereRig {
             const halfFOV = 0.5 * deg2rad(fov);
             const dist = 0.5 * size / Math.tan(halfFOV);
             const path = getImagePath(fov, heading, pitch);
-            const frame = new Image2DMesh(this.env.fetcher, this.env, path, true, { transparent: false, side: THREE.DoubleSide });
+            const frame = new Image2DMesh(this.env, path, true, { transparent: false, side: THREE.DoubleSide });
             deepSetLayer(frame, PHOTOSPHERE_CAPTURE);
-            await frame.mesh.loadImage(path, prog);
+            await frame.mesh.loadImage(this.env.fetcher, path, prog);
             const euler = new THREE.Euler(deg2rad(pitch), -deg2rad(heading), 0, "YXZ");
             const quat = new THREE.Quaternion().setFromEuler(euler);
             const pos = new THREE.Vector3(0, 0, -dist)

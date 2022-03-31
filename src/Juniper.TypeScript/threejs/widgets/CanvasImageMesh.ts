@@ -1,7 +1,6 @@
 import type { CanvasImage } from "juniper-2d/CanvasImage";
 import { isHTMLCanvas } from "juniper-dom/canvas";
 import { elementIsDisplayed, elementSetDisplay } from "juniper-dom/tags";
-import { IFetcher } from "juniper-fetcher";
 import { Image2DMesh } from "../Image2DMesh";
 import { IWebXRLayerManager } from "../IWebXRLayerManager";
 import { objectSetVisible } from "../objects";
@@ -16,8 +15,8 @@ export class CanvasImageMesh<T extends CanvasImage>
         return this;
     }
 
-    constructor(fetcher: IFetcher, env: IWebXRLayerManager, name: string, public image: T) {
-        super(fetcher, env, name, false);
+    constructor(env: IWebXRLayerManager, name: string, public image: T) {
+        super(env, name, false);
 
         if (this.mesh) {
             this.setImage(image);
