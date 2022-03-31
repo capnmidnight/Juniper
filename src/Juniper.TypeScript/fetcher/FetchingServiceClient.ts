@@ -77,7 +77,8 @@ function cloneRequest(request: IRequest): IRequest {
         path: request.path,
         timeout: request.timeout,
         headers: request.headers,
-        withCredentials: request.withCredentials
+        withCredentials: request.withCredentials,
+        useCache: request.useCache
     };
     return request;
 }
@@ -89,7 +90,8 @@ function cloneRequestWithBody(request: IRequestWithBody): IRequestWithBody {
         body: request.body,
         timeout: request.timeout,
         headers: request.headers,
-        withCredentials: request.withCredentials
+        withCredentials: request.withCredentials,
+        useCache: request.useCache
     };
     return request;
 }

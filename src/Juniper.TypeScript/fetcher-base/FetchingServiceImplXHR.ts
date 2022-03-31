@@ -1,8 +1,10 @@
+import { IDexDB, IDexStore } from "juniper-idexdb";
 import { assertNever, identity, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, progressSplit, Task } from "juniper-tslib";
 import { HTTPMethods } from "./HTTPMethods";
 import { IFetchingServiceImpl } from "./IFetchingServiceImpl";
 import { IRequest, IRequestWithBody } from "./IRequest";
 import { IResponse } from "./IResponse";
+import { translateResponse } from "./ResponseTranslator";
 
 function isXHRBodyInit(obj: any): obj is XMLHttpRequestBodyInit {
     return isString(obj)
@@ -101,113 +103,160 @@ function readResponseHeader<T>(headers: Map<string, string>, key: string, transl
     return null;
 }
 
-
-function readResponseHeaders<T>(path: string, xhr: XMLHttpRequest): IResponse<T> {
-    const headerParts = xhr
-        .getAllResponseHeaders()
-        .split(/[\r\n]+/)
-        .map(v => v.trim())
-        .filter(v => v.length > 0)
-        .map<[string, string]>(line => {
-            const parts = line.split(": ");
-            const key = parts.shift().toLowerCase();
-            const value = parts.join(": ");
-            return [key, value];
-        });
-
-    const pList = new PriorityList<string, string>(headerParts);
-    const normalizedHeaderParts = Array.from(pList.keys())
-        .map<[string, string]>(key =>
-            [
-                key,
-                pList.get(key)
-                    .join(", ")
-            ]);
-
-    let headers = new Map<string, string>(normalizedHeaderParts);
-
-    let contentType = readResponseHeader(headers, "content-type", identity);
-    let contentLength = readResponseHeader(headers, "content-length", parseFloat);
-    let date = readResponseHeader(headers, "date", v => new Date(v));
-    let fileName = readResponseHeader(headers, "content-disposition", v => {
-        if (isDefined(v)) {
-            const match = v.match(FILE_NAME_PATTERN);
-            if (isDefined(match)) {
-                return match[1];
-            }
-        }
-
-        return null;
-    });
-
-    const response: IResponse<T> = {
-        status: xhr.status,
-        path,
-        content: null,
-        contentType,
-        contentLength,
-        fileName,
-        date,
-        headers
-    };
-
-    return response;
-}
-
-async function readResponse<T>(path: string, xhrType: XMLHttpRequestResponseType, xhr: XMLHttpRequest): Promise<IResponse<T>> {
-    const response = readResponseHeaders<T>(path, xhr);
-    const contentBlob = xhr.response as Blob;
-
-    if (isDefined(contentBlob)) {
-        response.contentType = response.contentType || contentBlob.type;
-        response.contentLength = response.contentLength || contentBlob.size;
-    }
-
-    if (xhrType !== "") {
-        if (isNullOrUndefined(response.contentType)) {
-            const headerBlock = Array.from(response.headers.entries())
-                .map(kv => kv.join(": "))
-                .join("\n  ");
-            throw new Error("No content type found in headers: \n  " + headerBlock);
-        }
-        else if (xhrType === "blob") {
-            response.content = contentBlob as any as T;
-        }
-        else if (xhrType === "arraybuffer") {
-            response.content = await contentBlob.arrayBuffer() as any as T;
-        }
-        else if (xhrType === "json") {
-            const text = await contentBlob.text();
-            if (text.length > 0) {
-                response.content = JSON.parse(text) as T;
-            }
-        }
-        else if (xhrType === "document") {
-            const parser = new DOMParser();
-            if (response.contentType === "application/xhtml+xml"
-                || response.contentType === "text/html"
-                || response.contentType === "application/xml"
-                || response.contentType === "image/svg+xml"
-                || response.contentType === "text/xml") {
-                response.content = parser.parseFromString(await contentBlob.text(), response.contentType) as any as T;
-            }
-        }
-        else if (xhrType === "text") {
-            response.content = (await contentBlob.text()) as any as T;
-        }
-        else {
-            assertNever(xhrType);
-        }
-    }
-
-    return response;
-}
-
 const FILE_NAME_PATTERN = /filename=\"(.+)\"(;|$)/;
+const DB_NAME = "Juniper:Fetcher:Cache";
 
 export class FetchingServiceImplXHR implements IFetchingServiceImpl {
 
+    private readonly cacheReady: Promise<void>;
+    private cache: IDexDB = null;
+    private store: IDexStore<IResponse<Blob>> = null;
+
+    constructor() {
+        this.cacheReady = this.openCache();
+    }
+
+    private async openCache(): Promise<void> {
+        await IDexDB.delete(DB_NAME);
+        this.cache = await IDexDB.open(DB_NAME, {
+            name: "files",
+            options: {
+                keyPath: "path"
+            }
+        });
+
+        this.store = await this.cache.getStore("files");
+    }
+
+    private async readResponseHeaders<T>(path: string, useCache: boolean, xhr: XMLHttpRequest): Promise<IResponse<T>> {
+        const headerParts = xhr
+            .getAllResponseHeaders()
+            .split(/[\r\n]+/)
+            .map(v => v.trim())
+            .filter(v => v.length > 0)
+            .map<[string, string]>(line => {
+                const parts = line.split(": ");
+                const key = parts.shift().toLowerCase();
+                const value = parts.join(": ");
+                return [key, value];
+            });
+
+        const pList = new PriorityList<string, string>(headerParts);
+        const normalizedHeaderParts = Array.from(pList.keys())
+            .map<[string, string]>(key =>
+                [
+                    key,
+                    pList.get(key)
+                        .join(", ")
+                ]);
+
+        let headers = new Map<string, string>(normalizedHeaderParts);
+
+        let contentType = readResponseHeader(headers, "content-type", identity);
+        let contentLength = readResponseHeader(headers, "content-length", parseFloat);
+        let date = readResponseHeader(headers, "date", v => new Date(v));
+        let fileName = readResponseHeader(headers, "content-disposition", v => {
+            if (isDefined(v)) {
+                const match = v.match(FILE_NAME_PATTERN);
+                if (isDefined(match)) {
+                    return match[1];
+                }
+            }
+
+            return null;
+        });
+
+        const response: IResponse<T> = {
+            status: xhr.status,
+            path,
+            content: null,
+            contentType,
+            contentLength,
+            fileName,
+            date,
+            headers
+        };
+
+        if (useCache) {
+            await this.store.add(response);
+        }
+
+        return response;
+    }
+
+    private async readResponse<T>(path: string, useCache: boolean, xhrType: XMLHttpRequestResponseType, xhr: XMLHttpRequest): Promise<IResponse<T>> {
+        const response = await this.readResponseHeaders<Blob>(path, useCache, xhr);
+        response.content = xhr.response as Blob;
+
+        if (isDefined(response.content)) {
+            response.contentType = response.contentType || response.content.type;
+            response.contentLength = response.contentLength || response.content.size;
+        }
+
+        if (useCache) {
+            await this.store.put(response);
+        }
+
+        return await this.decodeContent<T>(xhrType, response);
+    }
+
+    private async decodeContent<T>(xhrType: XMLHttpRequestResponseType, response: IResponse<Blob>) {
+        return translateResponse<Blob, T>(response, async (contentBlob) => {
+            if (xhrType === "") {
+                return null;
+            }
+            else if (isNullOrUndefined(response.contentType)) {
+                const headerBlock = Array.from(response.headers.entries())
+                    .map(kv => kv.join(": "))
+                    .join("\n  ");
+                throw new Error("No content type found in headers: \n  " + headerBlock);
+            }
+            else if (xhrType === "blob") {
+                return contentBlob as any as T;
+            }
+            else if (xhrType === "arraybuffer") {
+                return (await contentBlob.arrayBuffer()) as any as T;
+            }
+            else if (xhrType === "json") {
+                const text = await contentBlob.text();
+                if (text.length > 0) {
+                    return JSON.parse(text) as T;
+                }
+                else {
+                    return null;
+                }
+            }
+            else if (xhrType === "document") {
+                const parser = new DOMParser();
+                if (response.contentType === "application/xhtml+xml"
+                    || response.contentType === "text/html"
+                    || response.contentType === "application/xml"
+                    || response.contentType === "image/svg+xml"
+                    || response.contentType === "text/xml") {
+                    return parser.parseFromString(await contentBlob.text(), response.contentType) as any as T;
+                }
+                else {
+                    throw new Error("Couldn't parse document");
+                }
+            }
+            else if (xhrType === "text") {
+                return (await contentBlob.text()) as any as T;
+            }
+            else {
+                assertNever(xhrType);
+            }
+        });
+    }
+
     async sendNothingGetNothing(request: IRequest): Promise<IResponse<void>> {
+        if (request.useCache) {
+            await this.cacheReady;
+            const result = await this.store.get(request.path);
+            if (isDefined(result)) {
+                return this.decodeContent("", result);
+            }
+        }
+
         const xhr = new XMLHttpRequest();
         const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, null, true);
 
@@ -215,10 +264,18 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
 
         await download;
 
-        return readResponseHeaders(request.path, xhr);
+        return await this.readResponseHeaders<void>(request.path, request.useCache, xhr);
     }
 
     async sendNothingGetSomething<T>(xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
+        if (request.useCache) {
+            await this.cacheReady;
+            const result = await this.store.get(request.path);
+            if (isDefined(result)) {
+                return this.decodeContent(xhrType, result);
+            }
+        }
+
         const xhr = new XMLHttpRequest();
         const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, progress, true);
 
@@ -226,7 +283,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
 
         await download;
 
-        return await readResponse(request.path, xhrType, xhr);
+        return await this.readResponse<T>(request.path, request.useCache, xhrType, xhr);
     }
 
     async sendSomethingGetSomething<T>(xhrType: XMLHttpRequestResponseType, request: IRequestWithBody, defaultPostHeaders: Map<string, string>, progress: IProgress): Promise<IResponse<T>> {
@@ -269,6 +326,6 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         await upload;
         await download;
 
-        return await readResponse(request.path, xhrType, xhr);
+        return await this.readResponse(request.path, false, xhrType, xhr);
     }
 }

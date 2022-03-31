@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@types/idexdb-types": "file:../idexdb-types",
     "@types/offscreencanvas-types": "file:../offscreencanvas-types",
     "juniper-dom": "file:../dom",
     "juniper-fetcher-base": "file:../fetcher-base",

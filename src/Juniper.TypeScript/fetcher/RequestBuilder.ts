@@ -2,17 +2,17 @@ import { type } from "juniper-dom/attrs";
 import { BackgroundAudio, BackgroundVideo, Img, Script } from "juniper-dom/tags";
 import { HTTPMethods } from "juniper-fetcher-base/HTTPMethods";
 import {
+    IFetcherBasic,
     IFetcherBodiedResult,
     IFetcherBodilessResult,
     IFetcherResult,
-    IFetcherSendHeadersProgressBodyTimeoutCredentialsGetBody,
-    IFetcherSendHeadersProgressTimeoutCredentialsGetBody,
-    IFetcherSendHeadersTimeoutCredentials
+    IFetcherSendProgressBodyTimeoutCredentialsGetBody,
+    IFetcherSendProgressTimeoutCredentialsCacheGetBody
 } from "juniper-fetcher-base/IFetcher";
 import { IFetchingService } from "juniper-fetcher-base/IFetchingService";
 import { IRequestWithBody } from "juniper-fetcher-base/IRequest";
 import { IResponse } from "juniper-fetcher-base/IResponse";
-import { ResponseTranslator } from "juniper-fetcher-base/ResponseTranslator";
+import { translateResponse } from "juniper-fetcher-base/ResponseTranslator";
 import { MediaType, mediaTypeGuessByFileName } from "juniper-mediatypes";
 import { Application_Javascript, Application_Json, Application_Wasm } from "juniper-mediatypes/application";
 import { Text_Plain, Text_Xml } from "juniper-mediatypes/text";
@@ -40,12 +40,10 @@ function shouldTry(path: string): boolean {
     return true;
 }
 
-export class RequestBuilder
-    extends ResponseTranslator
-    implements
-    IFetcherSendHeadersProgressTimeoutCredentialsGetBody,
-    IFetcherSendHeadersProgressBodyTimeoutCredentialsGetBody,
-    IFetcherSendHeadersTimeoutCredentials,
+export class RequestBuilder implements
+    IFetcherSendProgressTimeoutCredentialsCacheGetBody,
+    IFetcherSendProgressBodyTimeoutCredentialsGetBody,
+    IFetcherBasic,
     IFetcherBodiedResult,
     IFetcherResult,
     IFetcherBodilessResult {
@@ -55,8 +53,6 @@ export class RequestBuilder
     private prog: IProgress = null;
 
     constructor(private readonly fetcher: IFetchingService, private readonly method: HTTPMethods, path: URL) {
-        super();
-
         this.path = path;
         this.request = {
             method,
@@ -64,7 +60,8 @@ export class RequestBuilder
             body: null,
             headers: null,
             timeout: null,
-            withCredentials: false
+            withCredentials: false,
+            useCache: false
         };
     }
 
@@ -101,6 +98,11 @@ export class RequestBuilder
 
     withCredentials() {
         this.request.withCredentials = true;
+        return this;
+    }
+
+    useCache(enabled = true) {
+        this.request.useCache = enabled;
         return this;
     }
 
@@ -301,9 +303,9 @@ export class RequestBuilder
         return goodBlob;
     }
 
-    audioBuffer(audioCtx: BaseAudioContext, acceptType?: string | MediaType): Promise<IResponse<AudioBuffer>> {
-        return this.translateResponse(
-            this.audioBlob(acceptType),
+    async audioBuffer(audioCtx: BaseAudioContext, acceptType?: string | MediaType): Promise<IResponse<AudioBuffer>> {
+        return translateResponse(
+            await this.audioBlob(acceptType),
             async (blob) => await audioCtx.decodeAudioData(await blob.arrayBuffer()));
     }
 
@@ -318,7 +320,7 @@ export class RequestBuilder
         element.src = response.content;
         await task;
 
-        return this.translateResponse(Promise.resolve(response), () => element);
+        return await translateResponse(response, () => element);
     }
 
     image(acceptType?: string | MediaType): Promise<IResponse<HTMLImageElement>> {

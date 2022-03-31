@@ -2,13 +2,12 @@ import { IProgress } from "juniper-tslib";
 import { IFetchingServiceImpl } from "./IFetchingServiceImpl";
 import { IRequest, IRequestWithBody } from "./IRequest";
 import { IResponse } from "./IResponse";
-import { ResponseTranslator } from "./ResponseTranslator";
+import { translateResponse } from "./ResponseTranslator";
 
 
-export class FetchingService extends ResponseTranslator {
+export class FetchingService {
 
     constructor(private readonly impl: IFetchingServiceImpl) {
-        super();
     }
 
     protected readonly defaultPostHeaders = new Map<string, string>();
@@ -59,39 +58,39 @@ export class FetchingService extends ResponseTranslator {
         return this.impl.sendSomethingGetSomething<void>("", request, this.defaultPostHeaders, progress);
     }
 
-    sendNothingGetFile(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
-        return this.translateResponse(
-            this.sendNothingGetBlob(request, progress),
+    async sendNothingGetFile(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
+        return translateResponse(
+            await this.sendNothingGetBlob(request, progress),
             URL.createObjectURL);
     }
 
-    sendObjectGetFile(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
-        return this.translateResponse(
-            this.sendObjectGetBlob(request, progress),
+    async sendObjectGetFile(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
+        return translateResponse(
+            await this.sendObjectGetBlob(request, progress),
             URL.createObjectURL);
     }
 
-    sendNothingGetXml(request: IRequest, progress: IProgress): Promise<IResponse<HTMLElement>> {
-        return this.translateResponse(
-            this.impl.sendNothingGetSomething<Document>("document", request, progress),
+    async sendNothingGetXml(request: IRequest, progress: IProgress): Promise<IResponse<HTMLElement>> {
+        return translateResponse(
+            await this.impl.sendNothingGetSomething<Document>("document", request, progress),
             doc => doc.documentElement);
     }
 
-    sendObjectGetXml(request: IRequestWithBody, progress: IProgress): Promise<IResponse<HTMLElement>> {
-        return this.translateResponse(
-            this.impl.sendSomethingGetSomething<Document>("document", request, this.defaultPostHeaders, progress),
+    async sendObjectGetXml(request: IRequestWithBody, progress: IProgress): Promise<IResponse<HTMLElement>> {
+        return translateResponse(
+            await this.impl.sendSomethingGetSomething<Document>("document", request, this.defaultPostHeaders, progress),
             doc => doc.documentElement);
     }
 
-    sendNothingGetImageBitmap(request: IRequest, progress: IProgress): Promise<IResponse<ImageBitmap>> {
-        return this.translateResponse(
-            this.sendNothingGetBlob(request, progress),
+    async sendNothingGetImageBitmap(request: IRequest, progress: IProgress): Promise<IResponse<ImageBitmap>> {
+        return translateResponse(
+            await this.sendNothingGetBlob(request, progress),
             createImageBitmap)
     }
 
     async sendObjectGetImageBitmap(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ImageBitmap>> {
-        return this.translateResponse(
-            this.sendObjectGetBlob(request, progress),
+        return translateResponse(
+            await this.sendObjectGetBlob(request, progress),
             createImageBitmap);
     }
 }

@@ -2,7 +2,7 @@ import { arrayCompare, identity, IDisposable, isArray, isDefined, isNullOrUndefi
 
 interface IndexDef {
     name: string;
-    keyPath: string | Iterable<string>;
+    keyPath: string | string[];
     options?: IDBIndexParameters;
 }
 
@@ -66,7 +66,7 @@ export class IDexDB implements IDisposable {
 
                 const storesToScrutinize = new Array<string>();
 
-                for (const storeName of db.objectStoreNames) {
+                for (const storeName of Array.from(db.objectStoreNames)) {
                     if (!storesByName.has(storeName)) {
                         storesToRemove.push(storeName);
                     }
@@ -87,7 +87,7 @@ export class IDexDB implements IDisposable {
 
                     for (const storeName of storesToScrutinize) {
                         const store = transaction.objectStore(storeName);
-                        for (const indexName of store.indexNames) {
+                        for (const indexName of Array.from(store.indexNames)) {
                             if (!indexesByName.has(storeName, indexName)) {
                                 if (storesToChange.indexOf(storeName) === -1) {
                                     storesToChange.push(storeName);

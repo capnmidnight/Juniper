@@ -5,6 +5,7 @@ export interface IRequest {
     path: string;
     timeout: number;
     withCredentials: boolean;
+    useCache: boolean;
     headers: Map<string, string>;
 }
 

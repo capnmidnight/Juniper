@@ -16,8 +16,8 @@ export class PDFImage extends CanvasImage {
             console.info(`PDF.js v${pdfjsVersion}`);
 
             const { content: workerSrc } = await fetcher
-                .get(workerPath)
-                .query("v", pdfjsVersion)
+                .get(workerPath + "#" + pdfjsVersion)
+                .useCache()
                 .progress(prog)
                 .file();
 

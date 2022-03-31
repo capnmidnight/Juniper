@@ -86,7 +86,7 @@ export class ApplicationLoader
 
             let url = `/js/${name}/index${this.JS_EXT}`;
             if (isDefined(this.cacheBustString)) {
-                url += "?" + this.cacheBustString;
+                url += "#" + this.cacheBustString;
             }
 
             this.loadedModules.set(

@@ -9,6 +9,7 @@
     "watch": "node --experimental-modules esbuild.config.js --watch"
   },
   "dependencies": {
+    "@types/idexdb-types": "file:../idexdb-types",
     "@types/offscreencanvas-types": "file:../offscreencanvas-types",
     "juniper-dom": "file:../dom",
     "juniper-fetcher-base": "file:../fetcher-base",

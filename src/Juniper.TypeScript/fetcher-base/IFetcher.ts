@@ -2,202 +2,250 @@ import type { MediaType } from "juniper-mediatypes";
 import { IProgress } from "juniper-tslib";
 import { IResponse } from "./IResponse";
 
+export interface IFetcherBasic {
+    query(name: string, value: string): this;
+    header(name: string, value: string): this;
+}
+
 export interface IFetcher {
-    head(path: string | URL, base?: string | URL): IFetcherSendHeadersTimeoutCredentials & IFetcherBodilessResult;
-    options(path: string | URL, base?: string | URL): IFetcherSendHeadersTimeoutCredentials & IFetcherBodilessResult;
-    get(path: string | URL, base?: string | URL): IFetcherSendHeadersProgressTimeoutCredentialsGetBody & IFetcherBodiedResult;
-    post(path: string | URL, base?: string | URL): IFetcherSendHeadersProgressBodyTimeoutCredentialsGetBody & IFetcherResult;
-    put(path: string | URL, base?: string | URL): IFetcherSendHeadersProgressBodyTimeoutCredentialsGetBody & IFetcherResult;
-    patch(path: string | URL, base?: string | URL): IFetcherSendHeadersProgressBodyTimeoutCredentialsGetBody & IFetcherResult;
-    delete(path: string | URL, base?: string | URL): IFetcherSendHeadersProgressBodyTimeoutCredentialsGetBody & IFetcherResult;
+    head(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendTimeoutCredentialsCache & IFetcherBodilessResult;
+    options(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendTimeoutCredentialsCache & IFetcherBodilessResult;
+    get(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendProgressTimeoutCredentialsCacheGetBody & IFetcherBodiedResult;
+    post(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendProgressBodyTimeoutCredentialsGetBody & IFetcherResult;
+    put(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendProgressBodyTimeoutCredentialsGetBody & IFetcherResult;
+    patch(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendProgressBodyTimeoutCredentialsGetBody & IFetcherResult;
+    delete(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendProgressBodyTimeoutCredentialsGetBody & IFetcherResult;
 }
 
-export interface IFetcherSendHeadersProgressTimeoutCredentialsGetBody {
-    query(name: string, value: string): IFetcherSendHeadersProgressTimeoutCredentialsGetBody & IFetcherBodiedResult;
-    header(name: string, value: string): IFetcherSendHeadersProgressTimeoutCredentialsGetBody & IFetcherBodiedResult;
-    progress(prog: IProgress): IFetcherSendHeadersTimeoutCredentialsGetBody & IFetcherBodiedResult;
-    timeout(value: number): IFetcherSendHeadersProgressCredentialsGetBody & IFetcherBodiedResult;
-    withCredentials(): IFetcherSendHeadersProgressTimeoutGetBody & IFetcherBodiedResult;
+export interface IFetcherSendProgressTimeoutCredentialsCacheGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherSendTimeoutCredentialsCacheGetBody & IFetcherBodiedResult;
+    timeout(value: number): IFetcherBasic & IFetcherSendProgressCredentialsCacheGetBody & IFetcherBodiedResult;
+    withCredentials(): IFetcherBasic & IFetcherSendProgressTimeoutCacheGetBody & IFetcherBodiedResult;
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherSendProgressTimeoutCredentialsGetBody & IFetcherBodiedResult;
 }
 
-export interface IFetcherSendHeadersProgressTimeoutGetBody {
-    query(name: string, value: string): IFetcherSendHeadersProgressTimeoutGetBody & IFetcherBodiedResult;
-    header(name: string, value: string): IFetcherSendHeadersProgressTimeoutGetBody & IFetcherBodiedResult;
-    progress(prog: IProgress): IFetcherSendHeadersTimeoutGetBody & IFetcherBodiedResult;
-    timeout(value: number): IFetcherSendHeadersProgressGetBody & IFetcherBodiedResult;
+export interface IFetcherSendProgressTimeoutCredentialsGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherSendTimeoutCredentialsGetBody & IFetcherBodiedResult;
+    timeout(value: number): IFetcherBasic & IFetcherSendProgressCredentialsGetBody & IFetcherBodiedResult;
+    withCredentials(): IFetcherBasic & IFetcherSendProgressTimeoutGetBody & IFetcherBodiedResult;
 }
 
-export interface IFetcherSendHeadersProgressCredentialsGetBody {
-    query(name: string, value: string): IFetcherSendHeadersProgressCredentialsGetBody & IFetcherBodiedResult;
-    header(name: string, value: string): IFetcherSendHeadersProgressCredentialsGetBody & IFetcherBodiedResult;
-    progress(prog: IProgress): IFetcherSendHeadersCredentialsGetBody & IFetcherBodiedResult;
-    withCredentials(): IFetcherSendHeadersProgressGetBody & IFetcherBodiedResult;
+export interface IFetcherSendProgressTimeoutCacheGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherSendTimeoutCacheGetBody & IFetcherBodiedResult;
+    timeout(value: number): IFetcherBasic & IFetcherSendProgressCacheGetBody & IFetcherBodiedResult;
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherSendProgressTimeoutGetBody & IFetcherBodiedResult;
 }
 
-export interface IFetcherSendHeadersTimeoutCredentialsGetBody {
-    query(name: string, value: string): IFetcherSendHeadersTimeoutCredentialsGetBody & IFetcherBodiedResult;
-    header(name: string, value: string): IFetcherSendHeadersTimeoutCredentialsGetBody & IFetcherBodiedResult;
-    timeout(value: number): IFetcherSendHeadersCredentialsGetBody & IFetcherBodiedResult;
-    withCredentials(): IFetcherSendHeadersTimeoutGetBody & IFetcherBodiedResult;
+export interface IFetcherSendProgressTimeoutGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherSendTimeoutGetBody & IFetcherBodiedResult;
+    timeout(value: number): IFetcherBasic & IFetcherSendProgressGetBody & IFetcherBodiedResult;
 }
 
-export interface IFetcherSendHeadersProgressGetBody {
-    query(name: string, value: string): IFetcherSendHeadersProgressGetBody & IFetcherBodiedResult;
-    header(name: string, value: string): IFetcherSendHeadersProgressGetBody & IFetcherBodiedResult;
-    progress(prog: IProgress): IFetcherSendHeadersGetBody & IFetcherBodiedResult;
+export interface IFetcherSendProgressCredentialsCacheGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherSendCredentialsCacheGetBody & IFetcherBodiedResult;
+    withCredentials(): IFetcherBasic & IFetcherSendProgressCacheGetBody & IFetcherBodiedResult;
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherSendProgressCredentialsGetBody & IFetcherBodiedResult;
 }
 
-export interface IFetcherSendHeadersTimeoutGetBody {
-    query(name: string, value: string): IFetcherSendHeadersTimeoutGetBody & IFetcherBodiedResult;
-    header(name: string, value: string): IFetcherSendHeadersTimeoutGetBody & IFetcherBodiedResult;
-    timeout(value: number): IFetcherSendHeadersGetBody & IFetcherBodiedResult;
+export interface IFetcherSendProgressCredentialsGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherSendCredentialsGetBody & IFetcherBodiedResult;
+    withCredentials(): IFetcherBasic & IFetcherSendProgressGetBody & IFetcherBodiedResult;
 }
 
-export interface IFetcherSendHeadersCredentialsGetBody {
-    query(name: string, value: string): IFetcherSendHeadersCredentialsGetBody & IFetcherBodiedResult;
-    header(name: string, value: string): IFetcherSendHeadersCredentialsGetBody & IFetcherBodiedResult;
-    withCredentials(): IFetcherSendHeadersGetBody & IFetcherBodiedResult;
+export interface IFetcherSendTimeoutCredentialsCacheGetBody {
+    timeout(value: number): IFetcherBasic & IFetcherSendCredentialsCacheGetBody & IFetcherBodiedResult;
+    withCredentials(): IFetcherBasic & IFetcherSendTimeoutCacheGetBody & IFetcherBodiedResult;
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherSendTimeoutCredentialsGetBody & IFetcherBodiedResult;
 }
 
-export interface IFetcherSendHeadersGetBody {
-    query(name: string, value: string): IFetcherSendHeadersGetBody & IFetcherBodiedResult;
-    header(name: string, value: string): IFetcherSendHeadersGetBody & IFetcherBodiedResult;
+export interface IFetcherSendTimeoutCredentialsGetBody {
+    timeout(value: number): IFetcherBasic & IFetcherSendCredentialsGetBody & IFetcherBodiedResult;
+    withCredentials(): IFetcherBasic & IFetcherSendTimeoutGetBody & IFetcherBodiedResult;
 }
 
-export interface IFetcherSendHeadersProgressBodyTimeoutCredentialsGetBody {
-    query(name: string, value: string): IFetcherSendHeadersProgressBodyTimeoutCredentialsGetBody & IFetcherResult;
-    header(name: string, value: string): IFetcherSendHeadersProgressBodyTimeoutCredentialsGetBody & IFetcherResult;
-    progress(prog: IProgress): IFetcherSendHeadersBodyTimeoutCredentialsGetBody & IFetcherResult;
-    body<T>(body: T, contentType?: string | MediaType): IFetcherSendHeadersProgressTimeoutCredentialsGetBody & IFetcherResult;
-    timeout(value: number): IFetcherSendHeadersProgressBodyCredentialsGetBody & IFetcherResult;
-    withCredentials(): IFetcherSendHeadersProgressBodyTimeoutGetBody & IFetcherResult;
+export interface IFetcherSendProgressCacheGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherSendCacheGetBody & IFetcherBodiedResult;
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherSendProgressGetBody & IFetcherBodiedResult;
 }
 
-export interface IFetcherSendHeadersProgressBodyTimeoutGetBody {
-    query(name: string, value: string): IFetcherSendHeadersProgressBodyTimeoutGetBody & IFetcherResult;
-    header(name: string, value: string): IFetcherSendHeadersProgressBodyTimeoutGetBody & IFetcherResult;
-    progress(prog: IProgress): IFetcherSendHeadersBodyTimeoutGetBody & IFetcherResult;
-    body<T>(body: T, contentType?: string | MediaType): IFetcherSendHeadersProgressTimeoutGetBody & IFetcherResult;
-    timeout(value: number): IFetcherSendHeadersProgressBodyGetBody & IFetcherResult;
+export interface IFetcherSendProgressGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherBodiedResult;
 }
 
-export interface IFetcherSendHeadersProgressBodyCredentialsGetBody {
-    query(name: string, value: string): IFetcherSendHeadersProgressBodyCredentialsGetBody & IFetcherResult;
-    header(name: string, value: string): IFetcherSendHeadersProgressBodyCredentialsGetBody & IFetcherResult;
-    progress(prog: IProgress): IFetcherSendHeadersBodyCredentialsGetBody & IFetcherResult;
-    body<T>(body: T, contentType?: string | MediaType): IFetcherSendHeadersProgressCredentialsGetBody & IFetcherResult;
-    withCredentials(): IFetcherSendHeadersProgressBodyGetBody & IFetcherResult;
+export interface IFetcherSendTimeoutCacheGetBody {
+    timeout(value: number): IFetcherBasic & IFetcherSendCacheGetBody & IFetcherBodiedResult;
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherSendTimeoutGetBody & IFetcherBodiedResult;
 }
 
-export interface IFetcherSendHeadersProgressTimeoutCredentialsGetBody {
-    query(name: string, value: string): IFetcherSendHeadersProgressTimeoutCredentialsGetBody & IFetcherResult;
-    header(name: string, value: string): IFetcherSendHeadersProgressTimeoutCredentialsGetBody & IFetcherResult;
-    progress(prog: IProgress): IFetcherSendHeadersTimeoutCredentialsGetBody & IFetcherResult;
-    timeout(value: number): IFetcherSendHeadersProgressCredentialsGetBody & IFetcherResult;
-    withCredentials(): IFetcherSendHeadersProgressTimeoutGetBody & IFetcherResult;
+export interface IFetcherSendTimeoutGetBody {
+    timeout(value: number): IFetcherBasic & IFetcherBodiedResult;
 }
 
-export interface IFetcherSendHeadersBodyTimeoutCredentialsGetBody {
-    query(name: string, value: string): IFetcherSendHeadersBodyTimeoutCredentialsGetBody & IFetcherResult;
-    header(name: string, value: string): IFetcherSendHeadersBodyTimeoutCredentialsGetBody & IFetcherResult;
-    body<T>(body: T, contentType?: string | MediaType): IFetcherSendHeadersTimeoutCredentialsGetBody & IFetcherResult;
-    timeout(value: number): IFetcherSendHeadersBodyCredentialsGetBody & IFetcherResult;
-    withCredentials(): IFetcherSendHeadersBodyTimeoutGetBody & IFetcherResult;
+export interface IFetcherSendCredentialsCacheGetBody {
+    withCredentials(): IFetcherBasic & IFetcherSendCacheGetBody & IFetcherBodiedResult;
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherSendCredentialsGetBody & IFetcherBodiedResult;
 }
 
-export interface IFetcherSendHeadersProgressBodyGetBody {
-    query(name: string, value: string): IFetcherSendHeadersProgressBodyGetBody & IFetcherResult;
-    header(name: string, value: string): IFetcherSendHeadersProgressBodyGetBody & IFetcherResult;
-    progress(prog: IProgress): IFetcherSendHeadersBodyGetBody & IFetcherResult;
-    body<T>(body: T, contentType?: string | MediaType): IFetcherSendHeadersProgressGetBody & IFetcherResult;
+export interface IFetcherSendCredentialsGetBody {
+    withCredentials(): IFetcherBasic & IFetcherBodiedResult;
 }
 
-export interface IFetcherSendHeadersProgressTimeoutGetBody {
-    query(name: string, value: string): IFetcherSendHeadersProgressTimeoutGetBody & IFetcherResult;
-    header(name: string, value: string): IFetcherSendHeadersProgressTimeoutGetBody & IFetcherResult;
-    progress(prog: IProgress): IFetcherSendHeadersTimeoutGetBody & IFetcherResult;
-    timeout(value: number): IFetcherSendHeadersProgressGetBody & IFetcherResult;
+export interface IFetcherSendCacheGetBody {
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherBodiedResult;
 }
 
-export interface IFetcherSendHeadersBodyTimeoutGetBody {
-    query(name: string, value: string): IFetcherSendHeadersBodyTimeoutGetBody & IFetcherResult;
-    header(name: string, value: string): IFetcherSendHeadersBodyTimeoutGetBody & IFetcherResult;
-    body<T>(body: T, contentType?: string | MediaType): IFetcherSendHeadersTimeoutGetBody & IFetcherResult;
-    timeout(value: number): IFetcherSendHeadersBodyGetBody & IFetcherResult;
+export interface IFetcherSendProgressBodyTimeoutCredentialsGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherSendBodyTimeoutCredentialsGetBody & IFetcherResult;
+    body<T>(body: T, contentType?: string | MediaType): IFetcherBasic & IFetcherSendProgressTimeoutCredentialsGetBody & IFetcherResult;
+    timeout(value: number): IFetcherBasic & IFetcherSendProgressBodyCredentialsGetBody & IFetcherResult;
+    withCredentials(): IFetcherBasic & IFetcherSendProgressBodyTimeoutGetBody & IFetcherResult;
 }
 
-export interface IFetcherSendHeadersProgressCredentialsGetBody {
-    query(name: string, value: string): IFetcherSendHeadersProgressCredentialsGetBody & IFetcherResult;
-    header(name: string, value: string): IFetcherSendHeadersProgressCredentialsGetBody & IFetcherResult;
-    progress(prog: IProgress): IFetcherSendHeadersCredentialsGetBody & IFetcherResult;
-    withCredentials(): IFetcherSendHeadersProgressGetBody & IFetcherResult;
+export interface IFetcherSendProgressBodyTimeoutGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherSendBodyTimeoutGetBody & IFetcherResult;
+    body<T>(body: T, contentType?: string | MediaType): IFetcherBasic & IFetcherSendProgressTimeoutGetBody & IFetcherResult;
+    timeout(value: number): IFetcherBasic & IFetcherSendProgressBodyGetBody & IFetcherResult;
 }
 
-export interface IFetcherSendHeadersBodyCredentialsGetBody {
-    query(name: string, value: string): IFetcherSendHeadersBodyCredentialsGetBody & IFetcherResult;
-    header(name: string, value: string): IFetcherSendHeadersBodyCredentialsGetBody & IFetcherResult;
-    body<T>(body: T, contentType?: string | MediaType): IFetcherSendHeadersCredentialsGetBody & IFetcherResult;
-    withCredentials(): IFetcherSendHeadersBodyGetBody & IFetcherResult;
+export interface IFetcherSendProgressBodyCredentialsGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherSendBodyCredentialsGetBody & IFetcherResult;
+    body<T>(body: T, contentType?: string | MediaType): IFetcherBasic & IFetcherSendProgressCredentialsGetBody & IFetcherResult;
+    withCredentials(): IFetcherBasic & IFetcherSendProgressBodyGetBody & IFetcherResult;
 }
 
-export interface IFetcherSendHeadersTimeoutCredentialsGetBody {
-    query(name: string, value: string): IFetcherSendHeadersTimeoutCredentialsGetBody & IFetcherResult;
-    header(name: string, value: string): IFetcherSendHeadersTimeoutCredentialsGetBody & IFetcherResult;
-    timeout(value: number): IFetcherSendHeadersCredentialsGetBody & IFetcherResult;
-    withCredentials(): IFetcherSendHeadersTimeoutGetBody & IFetcherResult;
+export interface IFetcherSendProgressTimeoutCredentialsCacheGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherSendTimeoutCredentialsCacheGetBody & IFetcherResult;
+    timeout(value: number): IFetcherBasic & IFetcherSendProgressCredentialsCacheGetBody & IFetcherResult;
+    withCredentials(): IFetcherBasic & IFetcherSendProgressTimeoutCacheGetBody & IFetcherResult;
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherSendProgressTimeoutCredentialsGetBody & IFetcherResult;
 }
 
-export interface IFetcherSendHeadersProgressGetBody {
-    query(name: string, value: string): IFetcherSendHeadersProgressGetBody & IFetcherResult;
-    header(name: string, value: string): IFetcherSendHeadersProgressGetBody & IFetcherResult;
-    progress(prog: IProgress): IFetcherSendHeadersGetBody & IFetcherResult;
+export interface IFetcherSendProgressTimeoutCredentialsGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherSendTimeoutCredentialsGetBody & IFetcherResult;
+    timeout(value: number): IFetcherBasic & IFetcherSendProgressCredentialsGetBody & IFetcherResult;
+    withCredentials(): IFetcherBasic & IFetcherSendProgressTimeoutGetBody & IFetcherResult;
 }
 
-export interface IFetcherSendHeadersBodyGetBody {
-    query(name: string, value: string): IFetcherSendHeadersBodyGetBody & IFetcherResult;
-    header(name: string, value: string): IFetcherSendHeadersBodyGetBody & IFetcherResult;
-    body<T>(body: T, contentType?: string | MediaType): IFetcherSendHeadersGetBody & IFetcherResult;
+export interface IFetcherSendBodyTimeoutCredentialsGetBody {
+    body<T>(body: T, contentType?: string | MediaType): IFetcherBasic & IFetcherSendTimeoutCredentialsGetBody & IFetcherResult;
+    timeout(value: number): IFetcherBasic & IFetcherSendBodyCredentialsGetBody & IFetcherResult;
+    withCredentials(): IFetcherBasic & IFetcherSendBodyTimeoutGetBody & IFetcherResult;
 }
 
-export interface IFetcherSendHeadersTimeoutGetBody {
-    query(name: string, value: string): IFetcherSendHeadersTimeoutGetBody & IFetcherResult;
-    header(name: string, value: string): IFetcherSendHeadersTimeoutGetBody & IFetcherResult;
-    timeout(value: number): IFetcherSendHeadersGetBody & IFetcherResult;
+export interface IFetcherSendProgressBodyGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherSendBodyGetBody & IFetcherResult;
+    body<T>(body: T, contentType?: string | MediaType): IFetcherBasic & IFetcherSendProgressGetBody & IFetcherResult;
 }
 
-export interface IFetcherSendHeadersCredentialsGetBody {
-    query(name: string, value: string): IFetcherSendHeadersCredentialsGetBody & IFetcherResult;
-    header(name: string, value: string): IFetcherSendHeadersCredentialsGetBody & IFetcherResult;
-    withCredentials(): IFetcherSendHeadersGetBody & IFetcherResult;
+export interface IFetcherSendProgressTimeoutCacheGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherSendTimeoutCacheGetBody & IFetcherResult;
+    timeout(value: number): IFetcherBasic & IFetcherSendProgressCacheGetBody & IFetcherResult;
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherSendProgressTimeoutGetBody & IFetcherResult;
 }
 
-export interface IFetcherSendHeadersGetBody {
-    query(name: string, value: string): IFetcherSendHeadersGetBody & IFetcherResult;
-    header(name: string, value: string): IFetcherSendHeadersGetBody & IFetcherResult;
+export interface IFetcherSendProgressTimeoutGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherSendTimeoutGetBody & IFetcherResult;
+    timeout(value: number): IFetcherBasic & IFetcherSendProgressGetBody & IFetcherResult;
 }
 
-export interface IFetcherSendHeadersTimeoutCredentials {
-    query(name: string, value: string): IFetcherSendHeadersTimeoutCredentials & IFetcherBodilessResult;
-    header(name: string, value: string): IFetcherSendHeadersTimeoutCredentials & IFetcherBodilessResult;
-    timeout(value: number): IFetcherSendHeadersCredentials & IFetcherBodilessResult;
-    withCredentials(): IFetcherSendHeadersTimeout & IFetcherBodilessResult;
+export interface IFetcherSendBodyTimeoutGetBody {
+    body<T>(body: T, contentType?: string | MediaType): IFetcherBasic & IFetcherSendTimeoutGetBody & IFetcherResult;
+    timeout(value: number): IFetcherBasic & IFetcherSendBodyGetBody & IFetcherResult;
 }
 
-export interface IFetcherSendHeadersTimeout {
-    query(name: string, value: string): IFetcherSendHeadersTimeout & IFetcherBodilessResult;
-    header(name: string, value: string): IFetcherSendHeadersTimeout & IFetcherBodilessResult;
-    timeout(value: number): IFetcherSendHeaders & IFetcherBodilessResult;
+export interface IFetcherSendProgressCredentialsCacheGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherSendCredentialsCacheGetBody & IFetcherResult;
+    withCredentials(): IFetcherBasic & IFetcherSendProgressCacheGetBody & IFetcherResult;
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherSendProgressCredentialsGetBody & IFetcherResult;
 }
 
-export interface IFetcherSendHeadersCredentials {
-    query(name: string, value: string): IFetcherSendHeadersCredentials & IFetcherBodilessResult;
-    header(name: string, value: string): IFetcherSendHeadersCredentials & IFetcherBodilessResult;
-    withCredentials(): IFetcherSendHeaders & IFetcherBodilessResult;
+export interface IFetcherSendProgressCredentialsGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherSendCredentialsGetBody & IFetcherResult;
+    withCredentials(): IFetcherBasic & IFetcherSendProgressGetBody & IFetcherResult;
 }
 
-export interface IFetcherSendHeaders {
-    query(name: string, value: string): IFetcherSendHeaders & IFetcherBodilessResult;
-    header(name: string, value: string): IFetcherSendHeaders & IFetcherBodilessResult;
+export interface IFetcherSendBodyCredentialsGetBody {
+    body<T>(body: T, contentType?: string | MediaType): IFetcherBasic & IFetcherSendCredentialsGetBody & IFetcherResult;
+    withCredentials(): IFetcherBasic & IFetcherSendBodyGetBody & IFetcherResult;
+}
+
+export interface IFetcherSendTimeoutCredentialsCacheGetBody {
+    timeout(value: number): IFetcherBasic & IFetcherSendCredentialsCacheGetBody & IFetcherResult;
+    withCredentials(): IFetcherBasic & IFetcherSendTimeoutCacheGetBody & IFetcherResult;
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherSendTimeoutCredentialsGetBody & IFetcherResult;
+}
+
+export interface IFetcherSendTimeoutCredentialsGetBody {
+    timeout(value: number): IFetcherBasic & IFetcherSendCredentialsGetBody & IFetcherResult;
+    withCredentials(): IFetcherBasic & IFetcherSendTimeoutGetBody & IFetcherResult;
+}
+
+export interface IFetcherSendProgressCacheGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherSendCacheGetBody & IFetcherResult;
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherSendProgressGetBody & IFetcherResult;
+}
+
+export interface IFetcherSendProgressGetBody {
+    progress(prog: IProgress): IFetcherBasic & IFetcherResult;
+}
+
+export interface IFetcherSendBodyGetBody {
+    body<T>(body: T, contentType?: string | MediaType): IFetcherBasic & IFetcherResult;
+}
+
+export interface IFetcherSendTimeoutCacheGetBody {
+    timeout(value: number): IFetcherBasic & IFetcherSendCacheGetBody & IFetcherResult;
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherSendTimeoutGetBody & IFetcherResult;
+}
+
+export interface IFetcherSendTimeoutGetBody {
+    timeout(value: number): IFetcherBasic & IFetcherResult;
+}
+
+export interface IFetcherSendCredentialsCacheGetBody {
+    withCredentials(): IFetcherBasic & IFetcherSendCacheGetBody & IFetcherResult;
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherSendCredentialsGetBody & IFetcherResult;
+}
+
+export interface IFetcherSendCredentialsGetBody {
+    withCredentials(): IFetcherBasic & IFetcherResult;
+}
+
+export interface IFetcherSendCacheGetBody {
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherResult;
+}
+
+export interface IFetcherSendTimeoutCredentialsCache {
+    timeout(value: number): IFetcherBasic & IFetcherSendCredentialsCache & IFetcherBodilessResult;
+    withCredentials(): IFetcherBasic & IFetcherSendTimeoutCache & IFetcherBodilessResult;
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherSendTimeoutCredentials & IFetcherBodilessResult;
+}
+
+export interface IFetcherSendTimeoutCredentials {
+    timeout(value: number): IFetcherBasic & IFetcherSendCredentials & IFetcherBodilessResult;
+    withCredentials(): IFetcherBasic & IFetcherSendTimeout & IFetcherBodilessResult;
+}
+
+export interface IFetcherSendTimeoutCache {
+    timeout(value: number): IFetcherBasic & IFetcherSendCache & IFetcherBodilessResult;
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherSendTimeout & IFetcherBodilessResult;
+}
+
+export interface IFetcherSendTimeout {
+    timeout(value: number): IFetcherBasic & IFetcherBodilessResult;
+}
+
+export interface IFetcherSendCredentialsCache {
+    withCredentials(): IFetcherBasic & IFetcherSendCache & IFetcherBodilessResult;
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherSendCredentials & IFetcherBodilessResult;
+}
+
+export interface IFetcherSendCredentials {
+    withCredentials(): IFetcherBasic & IFetcherBasic & IFetcherBodilessResult;
+}
+
+export interface IFetcherSendCache {
+    useCache(enabled?: boolean): IFetcherBasic & IFetcherBasic & IFetcherBodilessResult;
 }
 
 export interface IFetcherBodilessResult {
