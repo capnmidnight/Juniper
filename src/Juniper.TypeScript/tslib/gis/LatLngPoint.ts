@@ -1,7 +1,7 @@
 import { rad2deg } from "../math/rad2deg";
 import { isNullOrUndefined, isObject } from "../typeChecks";
 import { DatumWGS_84 } from "./Datum";
-import { GlobeHemisphere, IUTMPoint, UTMPoint } from "./UTMPoint";
+import { IUTMPoint, UTMPoint } from "./UTMPoint";
 
 export interface ILatLngPoint {
     lat: number;
@@ -21,7 +21,7 @@ export class LatLngPoint implements ILatLngPoint {
     get alt() {
         return this._alt;
     }
-    private _alt: number|undefined;
+    private _alt: number | undefined;
 
 
 
@@ -240,7 +240,7 @@ export class LatLngPoint implements ILatLngPoint {
      * reference: http://www.uwgb.edu/dutchs/usefuldata/utmformulas.htm
      **/
     fromUTM(utm: IUTMPoint): LatLngPoint {
-        const N0 = utm.hemisphere == GlobeHemisphere.Northern ? 0.0 : DatumWGS_84.FalseNorthing;
+        const N0 = utm.hemisphere == "northern" ? 0.0 : DatumWGS_84.FalseNorthing;
         const xi = (utm.northing - N0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
         const eta = (utm.easting - DatumWGS_84.E0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
         let xiPrime = xi;
@@ -275,7 +275,15 @@ export class LatLngPoint implements ILatLngPoint {
         const lng = Math.atan(Math.sinh(etaPrime) / Math.cos(xiPrime));
 
         this._lat = rad2deg(lat);
+
         this._lng = long0 + rad2deg(lng);
+        while (this._lng < -180) {
+            this._lng += 360;
+        }
+        while (this._lng > 180) {
+            this._lng -= 360;
+        }
+
         this._alt = utm.altitude;
 
         return this;

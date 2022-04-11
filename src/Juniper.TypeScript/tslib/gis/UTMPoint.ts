@@ -7,10 +7,7 @@ import { ILatLngPoint, LatLngPoint } from "./LatLngPoint";
 /**
  * The globe hemispheres in which the UTM point could sit.
  **/
-export enum GlobeHemisphere {
-    Northern,
-    Southern
-}
+export type GlobeHemisphere = "northern" | "southern";
 
 export interface IUTMPoint {
     easting: number;
@@ -105,7 +102,7 @@ export class UTMPoint implements IUTMPoint {
             this._northing = northing || 0;
             this._altitude = altitude || 0;
             this._zone = zone || 0;
-            this._hemisphere = hemisphere || GlobeHemisphere.Northern;
+            this._hemisphere = hemisphere || "northern";
         }
     }
 
@@ -140,8 +137,8 @@ export class UTMPoint implements IUTMPoint {
      **/
     fromLatLng(latLng: ILatLngPoint): UTMPoint {
         const hemisphere = latLng.lat < 0
-            ? GlobeHemisphere.Southern
-            : GlobeHemisphere.Northern;
+            ? "southern"
+            : "northern";
 
         const phi = deg2rad(latLng.lat);
         const sinPhi = Math.sin(phi);
@@ -179,7 +176,7 @@ export class UTMPoint implements IUTMPoint {
 
         // Northing
         let northing = DatumWGS_84.pointScaleFactor * (M + (N * tanPhi * (Asqr * (0.5 + (Asqr * (((5 - T + (9 * C) + (4 * C * C)) / 24) + (Asqr * (61 - (58 * T) + Tsqr + (600 * C) - (330 * DatumWGS_84.e0sq)) / 720)))))));
-        if (hemisphere == GlobeHemisphere.Southern) {
+        if (hemisphere == "southern") {
             northing += DatumWGS_84.FalseNorthing;
         }
 
