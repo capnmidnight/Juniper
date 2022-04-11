@@ -1,4 +1,4 @@
-import { isFunction, isObject } from "./typeChecks";
+import { isDefined, isFunction, isObject } from "./typeChecks";
 
 export interface IDisposable {
     dispose(): void;
@@ -29,7 +29,7 @@ function interfaceSigCheck<T>(obj: any, ...funcNames: string[]): obj is T {
         }
 
         const func = obj[funcName];
-        if(!isFunction(func)) {
+        if (!isFunction(func)) {
             return false;
         }
     }
@@ -67,7 +67,9 @@ export function dispose(val: any): void {
     }
 }
 
-export function using<T extends IDisposable | IClosable, U>(val: T, thunk: (val: T) => U): U {
+type Cleanupable = IDisposable | IClosable | IDestroyable;
+
+export function using<T extends Cleanupable, U>(val: T, thunk: (val: T) => U): U {
     try {
         return thunk(val);
     } finally {
@@ -75,17 +77,19 @@ export function using<T extends IDisposable | IClosable, U>(val: T, thunk: (val:
     }
 }
 
-export function usingArray<T extends IDisposable | IClosable, U>(vals: T[], thunk: (val: T[]) => U): U {
+export function usingArray<T extends Cleanupable, U>(vals: T[], thunk: (val: T[]) => U): U {
     try {
         return thunk(vals);
     } finally {
-        for (const val of vals) {
-            dispose(val);
+        if (isDefined(vals)) {
+            for (const val of vals) {
+                dispose(val);
+            }
         }
     }
 }
 
-export async function usingAsync<T extends IDisposable | IClosable, U>(val: T, thunk: (val: T) => Promise<U>): Promise<U> {
+export async function usingAsync<T extends Cleanupable, U>(val: T, thunk: (val: T) => Promise<U>): Promise<U> {
     try {
         return await thunk(val);
     } finally {
@@ -94,12 +98,14 @@ export async function usingAsync<T extends IDisposable | IClosable, U>(val: T, t
 }
 
 
-export async function usingArrayAsync<T extends IDisposable | IClosable, U>(vals: T[], thunk: (val: T[]) => Promise<U>): Promise<U> {
+export async function usingArrayAsync<T extends Cleanupable, U>(vals: T[], thunk: (val: T[]) => Promise<U>): Promise<U> {
     try {
         return await thunk(vals);
     } finally {
-        for (const val of vals) {
-            dispose(val);
+        if (isDefined(vals)) {
+            for (const val of vals) {
+                dispose(val);
+            }
         }
     }
 }

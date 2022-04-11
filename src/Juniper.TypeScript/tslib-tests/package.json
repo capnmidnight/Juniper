@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "name": "@juniper/tslib-tests",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "juniper-tdd": "file:../testing",
+    "juniper-tslib": "file:../tslib"
+  }
+}
