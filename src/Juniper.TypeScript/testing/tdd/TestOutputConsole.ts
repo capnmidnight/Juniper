@@ -5,7 +5,7 @@ import { TestOutputResultsEvent } from "./TestOutputResultsEvent";
 /**
  * A test outputer that runs in the console.
  **/
-export class ConsoleTestOutput extends TestOutput {
+export class TestOutputConsole extends TestOutput {
     /**
      * Creates a new test outputer that runs in the console.
      */

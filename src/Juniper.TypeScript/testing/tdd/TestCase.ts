@@ -1,4 +1,4 @@
-import { TypedEventBase } from "juniper-tslib";
+import { isNumber, isString, TypedEventBase } from "juniper-tslib";
 import { TestCaseFailEvent } from "./TestCaseFailEvent";
 import { TestCaseMessageEvent } from "./TestCaseMessageEvent";
 import { TestCaseSuccessEvent } from "./TestCaseSuccessEvent";
@@ -10,7 +10,11 @@ interface TestCaseEvents {
 }
 
 export class TestCase extends TypedEventBase<TestCaseEvents> {
+
+    protected defaultError = 0.001;
+
     setup() { }
+
     teardown() { }
 
     message(msg: string) {
@@ -27,12 +31,28 @@ export class TestCase extends TypedEventBase<TestCaseEvents> {
         this.dispatchEvent(new TestCaseFailEvent(msg));
     }
 
-    isEqualTo<T>(actual: T, expected: T, message?: string) {
+    areSame(actual: any, expected: any, message?: string) {
+        this.twoValueTest(actual, "==", expected, (a, b) => a == b, message);
+    }
+
+    areExact<T>(actual: T, expected: T, message?: string) {
         this.twoValueTest(actual, "===", expected, (a, b) => a === b, message);
     }
 
+    areApprox(actual: number, expected: number, error?: number): void;
+    areApprox(actual: number, expected: number, message: string, error?: number): void;
+    areApprox(actual: number, expected: number, messageOrError?: (string | number), maybeError?: number): void {
+        const error = isNumber(maybeError) && maybeError
+            || isNumber(messageOrError) && messageOrError
+            || this.defaultError;
+        const message = isString(messageOrError) && messageOrError
+            || null;
+
+        this.twoValueTest(actual, "~==", expected, (a, b) => Math.abs(b - a) <= error, message);
+    }
+
     isNull(value: any, message?: string) {
-        this.isEqualTo(value, null, message);
+        this.areExact(value, null, message);
     }
 
     isNotNull(value: any, message?: string) {
@@ -40,7 +60,7 @@ export class TestCase extends TypedEventBase<TestCaseEvents> {
     }
 
     isUndefined(value: any, message?: string) {
-        this.isEqualTo(value, undefined, message);
+        this.areExact(value, undefined, message);
     }
 
     isNotUndefined(value: any, message?: string) {
@@ -48,15 +68,23 @@ export class TestCase extends TypedEventBase<TestCaseEvents> {
     }
 
     isTrue(value: boolean, message?: string) {
-        this.isEqualTo(value, true, message);
+        this.areExact(value, true, message);
+    }
+
+    isTruthy(value: any, message?: string) {
+        this.isTrue(!!value, message);
     }
 
     isFalse(value: boolean, message?: string) {
-        this.isEqualTo(value, false, message);
+        this.areExact(value, false, message);
+    }
+
+    isFalsey(value: any, message?: string) {
+        this.isFalse(!!value, message);
     }
 
     isBoolean(value: unknown, message?: string) {
-        this.isEqualTo(value === true || value === false, true, message);
+        this.areExact(value === true || value === false, true, message);
     }
 
     hasValue(value: any, message?: string) {
@@ -70,9 +98,9 @@ export class TestCase extends TypedEventBase<TestCaseEvents> {
 
     isEmpty(value: string, message?: string) {
         message = message || `${value} is empty`;
-        this.isEqualTo(value.length, 0, message);
+        this.areExact(value.length, 0, message);
     }
-    
+
     isNotEqualTo<T>(actual: T, expected: T, message?: string) {
         this.twoValueTest(actual, "!==", expected, (a, b) => a !== b, message);
     }

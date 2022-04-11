@@ -9,6 +9,7 @@ import {
     gridTemplateColumns,
     height,
     overflow,
+    paddingTop,
     styles,
     whiteSpace,
     width
@@ -62,7 +63,7 @@ function makeStatus(id: TestStates) {
     }
 }
 
-export class HtmlTestOutput extends TestOutput implements ErsatzElement {
+export class TestOutputHTML extends TestOutput implements ErsatzElement {
 
     readonly element: HTMLElement;
 
@@ -106,7 +107,10 @@ export class HtmlTestOutput extends TestOutput implements ErsatzElement {
                     lastTestCaseName = testCaseName;
                     table.append(
                         refresher(() => this.run(testCaseName)),
-                        Div(gridColumn(2, 5), testCaseName));
+                        Div(
+                            gridColumn(2, 5),
+                            paddingTop("20px"),
+                            testCaseName));
                 }
                 table.append(
                     refresher(() => this.run(testCaseName, testName)),
