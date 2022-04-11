@@ -70,7 +70,6 @@ export class TestOutputHTML extends TestOutput implements ErsatzElement {
     constructor(...CaseClasses: CaseClassConstructor[]) {
         super(...CaseClasses);
         this.element = Div(id("testOutput"));
-
         let lastTable: HTMLDivElement = null;
         this.addEventListener("testoutputresults", (evt: TestOutputResultsEvent) => {
             const s = Math.round(100 * evt.stats.totalSucceeded / evt.stats.totalFound),
@@ -127,5 +126,6 @@ export class TestOutputHTML extends TestOutput implements ErsatzElement {
             }
             lastTable = table;
         });
+        this.scaffold();
     }
 }

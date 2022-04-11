@@ -13,7 +13,6 @@ export class TestOutput extends TypedEventBase<TestOutputEvents> {
     constructor(...rest: any[]) {
         super();
         this.rest = rest;
-        setTimeout(() => this.scaffold(), 250);
     }
 
     /**
@@ -24,7 +23,7 @@ export class TestOutput extends TypedEventBase<TestOutputEvents> {
         testRunner.run(caseName, testName);
     }
 
-    private scaffold() {
+    protected scaffold() {
         const testRunner = this.createTestRunner();
         testRunner.scaffold();
     }
