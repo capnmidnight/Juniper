@@ -16,32 +16,6 @@ namespace Juniper.TSBuild
 
     public class BuildSystem
     {
-        private static DirectoryInfo ResolveStartDir(ref DirectoryInfo? startDir, string testDirName, params string[] addlTestDirNames)
-        {
-            var testDirNames = addlTestDirNames
-                .Prepend(testDirName)
-                .ToArray();
-
-            startDir ??= new DirectoryInfo(Environment.CurrentDirectory);
-            var dir = startDir;
-
-            while (dir != null
-                && dir.GetDirectories()
-                    .Select(x => x.Name)
-                    .Where(name => testDirNames.Contains(name))
-                    .Count() != testDirNames.Length)
-            {
-                dir = dir.Parent;
-            }
-
-            if (dir is null)
-            {
-                throw new BuildSystemProjectRootNotFoundException($"Couldn't find project root from {startDir}");
-            }
-
-            return dir;
-        }
-
         protected enum Por
         {
             All,
@@ -115,41 +89,54 @@ namespace Juniper.TSBuild
         }
 
         private readonly DirectoryInfo projectDir;
-        private readonly DirectoryInfo serverDir;
-        private readonly DirectoryInfo serverJsDir;
-        private readonly DirectoryInfo clientDir;
-        private readonly DirectoryInfo clientNodeModules;
+        private readonly DirectoryInfo projectJsDir;
+        private readonly DirectoryInfo projectNodeModules;
         private readonly DirectoryInfo juniperTsDir;
-        private readonly FileInfo clientPackage;
-        private readonly FileInfo serverBuildInfo;
-        private readonly FileInfo serverAppSettings;
+        private readonly FileInfo projectPackage;
+        private readonly FileInfo projectBuildInfo;
+        private readonly FileInfo projectAppSettings;
         private readonly List<DirectoryInfo> juniperInstallables = new();
         private readonly List<DirectoryInfo> juniperBuildables = new();
         private readonly List<DirectoryInfo> juniperBundles = new();
         private readonly Dictionary<FileInfo, FileInfo> dependencies = new();
 
-        public BuildSystem(string clientName, string serverName, DirectoryInfo? startDir)
+        private DirectoryInfo TestDir(string message, DirectoryInfo? dir)
         {
-            projectDir = ResolveStartDir(ref startDir, clientName, serverName);
-            var juniper = projectDir
-                .EnumerateDirectories()
-                .FirstOrDefault(n => n.Name == "Juniper")
-                ?.CD("src", "Juniper.TypeScript");
-
-            if (juniper?.Exists != true)
+            if(dir?.Exists != true)
             {
-                throw new BuildSystemProjectRootNotFoundException("Couldn't find Juniper");
+                throw new BuildSystemProjectRootNotFoundException(message);
             }
 
-            juniperTsDir = juniper;
-            clientDir = projectDir.CD(clientName);
-            clientNodeModules = clientDir.MkDir("node_modules");
-            serverDir = projectDir.CD(serverName);
-            serverJsDir = serverDir.MkDir("wwwroot", "js");
+            return dir;
+        }
 
-            clientPackage = clientDir.Touch("package.json");
-            serverBuildInfo = serverDir.Touch("buildinfo.json");
-            serverAppSettings = serverDir.Touch("appsettings.json");
+        public BuildSystem(string projectName, DirectoryInfo? startDir)
+        {
+            var originalStartDir = startDir;
+            startDir ??= new DirectoryInfo(Environment.CurrentDirectory);
+
+            while (startDir != null
+                && !startDir.GetDirectories()
+                    .Select(x => x.Name)
+                    .Contains(projectName))
+            {
+                startDir = startDir.Parent;
+            }
+
+            startDir = TestDir($"Couldn't find project root from {originalStartDir}", startDir);
+
+            var juniperDir = TestDir("Couldn't find Juniper", startDir
+                .EnumerateDirectories()
+                .FirstOrDefault(n => n.Name == "Juniper"));
+
+            juniperTsDir = TestDir("Couldn't find Juniper TypeScript", juniperDir.CD("src", "Juniper.TypeScript"));
+            projectDir = TestDir($"Couldn't find project {projectName} from {startDir}", startDir.CD(projectName));
+            projectJsDir = TestDir("Couldn't find project TypeScript", projectDir.MkDir("wwwroot", "js"));
+
+            projectNodeModules = projectDir.MkDir("node_modules");
+            projectPackage = projectDir.Touch("package.json");
+            projectBuildInfo = projectDir.Touch("buildinfo.json");
+            projectAppSettings = projectDir.Touch("appsettings.json");
 
             var projects = juniperTsDir
                 .EnumerateDirectories()
@@ -183,18 +170,19 @@ namespace Juniper.TSBuild
             return this;
         }
 
+        private FileInfo R(DirectoryInfo dir, params string[] parts)
+        {
+            return dir.MkDir(parts[0..^1]).Touch(parts[^1]);
+        }
+
         public FileInfo From(params string[] parts)
         {
-            var file = parts.Last();
-            var dirParts = parts.Reverse().Skip(1).Reverse();
-            return clientNodeModules.MkDir(dirParts.ToArray()).Touch(file);
+            return R(projectNodeModules, parts);
         }
 
         public FileInfo To(params string[] parts)
         {
-            var file = parts.Last();
-            var dirParts = parts.Reverse().Skip(1).Reverse();
-            return serverJsDir.MkDir(dirParts.ToArray()).Touch(file);
+            return R(projectJsDir, parts);
         }
 
         public BuildSystem AddThreeJS()
@@ -233,14 +221,15 @@ namespace Juniper.TSBuild
                 return forceLevel;
             }
 
-            if (!serverBuildInfo.Exists)
+            if (!projectBuildInfo.Exists
+                || !projectNodeModules.Exists)
             {
                 return Level.High;
             }
 
             var v = await Task.WhenAll(
-                CopyJsonValueCommand.ReadJsonValueAsync(clientPackage, "version"),
-                CopyJsonValueCommand.ReadJsonValueAsync(serverBuildInfo, "Version"));
+                CopyJsonValueCommand.ReadJsonValueAsync(projectPackage, "version"),
+                CopyJsonValueCommand.ReadJsonValueAsync(projectBuildInfo, "Version"));
 
             return v[0] != v[1]
                 ? isDev ? Level.Medium : Level.High
@@ -291,7 +280,7 @@ namespace Juniper.TSBuild
                 : juniperBuildables;
 
             return projects
-                .Append(clientDir)
+                .Append(projectDir)
                 .Select(dir =>
                     new NPMInstallCommand(dir, buildLevel == Level.High));
         }
@@ -306,14 +295,14 @@ namespace Juniper.TSBuild
         {
             await WithCommandTree(commands =>
                 commands.AddCommands(NPM("audit", juniperBuildables
-                    .Append(clientDir))));
+                    .Append(projectDir))));
         }
 
         public async Task AuditFixAsync()
         {
             await WithCommandTree(commands =>
                 commands.AddCommands(NPM("audit fix", juniperBuildables
-                    .Append(clientDir))));
+                    .Append(projectDir))));
         }
 
 
@@ -346,28 +335,28 @@ namespace Juniper.TSBuild
                 {
                     commands
                         .AddCommands(Delete(juniperBuildables
-                            .Append(clientDir)
+                            .Append(projectDir)
                             .Select(d => d.Touch("tsconfig.tsbuildinfo"))))
                         .AddCommands(NPM("run build", juniperBuildables))
-                        .AddCommands(Copy(Por.All, serverJsDir, juniperBundles))
-                        .AddCommands(NPM("run build", clientDir))
+                        .AddCommands(Copy(Por.All, projectJsDir, juniperBundles))
+                        .AddCommands(NPM("run build", projectDir))
                         .AddCommands(
                             new CopyJsonValueCommand(
-                                clientPackage, "version",
-                                serverAppSettings, "Version"),
+                                projectPackage, "version",
+                                projectAppSettings, "Version"),
                             new CopyJsonValueCommand(
-                                clientPackage, "version",
-                                serverBuildInfo, "Version"));
+                                projectPackage, "version",
+                                projectBuildInfo, "Version"));
                 }
             });
         }
 
         public async Task WriteVersion()
         {
-            var version = await CopyJsonValueCommand.ReadJsonValueAsync(clientPackage, "version");
+            var version = await CopyJsonValueCommand.ReadJsonValueAsync(projectPackage, "version");
             if (!string.IsNullOrEmpty(version))
             {
-                await CopyJsonValueCommand.WriteJsonValueAsync(serverAppSettings, "Version", version);
+                await CopyJsonValueCommand.WriteJsonValueAsync(projectAppSettings, "Version", version);
                 Console.WriteLine("Wrote v" + version);
             }
         }
@@ -384,34 +373,36 @@ namespace Juniper.TSBuild
                 .Select(dir => ProxiedNPM(proxy, pathParts.Append(dir.Name).ToArray())
                     .OnStandardOutput(
                         watchAllDonePattern,
-                        Copy(Por.All, serverJsDir, dir))
+                        Copy(Por.All, projectJsDir, dir))
                     .OnStandardOutput(
                         watchBasicDonePattern,
-                        Copy(Por.Basic, serverJsDir, dir))
+                        Copy(Por.Basic, projectJsDir, dir))
                     .OnStandardOutput(
                         watchMinifiedDonePattern,
-                        Copy(Por.Minified, serverJsDir, dir)))
-                .Append(new ProxiedWatchCommand(proxy, clientDir.Name));
+                        Copy(Por.Minified, projectJsDir, dir)))
+                .Append(new ProxiedWatchCommand(proxy, projectDir.Name));
         }
 
         public Task Watch(out ICommand[] watchCommands)
         {
             var proxy = new CommandProxier(projectDir);
 
-            var relPath = PathExt.Abs2Rel(juniperTsDir.FullName, proxy.Root.FullName);
-            var pathParts = relPath.SplitX(Path.DirectorySeparatorChar);
+            var juniperRelPath = PathExt.Abs2Rel(juniperTsDir.FullName, proxy.Root.FullName);
+            var juniperPathParts = juniperRelPath.SplitX(Path.DirectorySeparatorChar);
+            var projectRelPath = PathExt.Abs2Rel(projectDir.FullName, proxy.Root.FullName);
+            var projectPathParts = projectRelPath.SplitX(Path.DirectorySeparatorChar);
             var cmds = juniperBundles
-                .Select(dir => ProxiedNPM(proxy, pathParts.Append(dir.Name).ToArray())
+                .Select(dir => ProxiedNPM(proxy, juniperPathParts.Append(dir.Name).ToArray())
                     .OnStandardOutput(
                         watchAllDonePattern,
-                        Copy(Por.All, serverJsDir, dir))
+                        Copy(Por.All, projectJsDir, dir))
                     .OnStandardOutput(
                         watchBasicDonePattern,
-                        Copy(Por.Basic, serverJsDir, dir))
+                        Copy(Por.Basic, projectJsDir, dir))
                     .OnStandardOutput(
                         watchMinifiedDonePattern,
-                        Copy(Por.Minified, serverJsDir, dir)))
-                .Append(new ProxiedWatchCommand(proxy, clientDir.Name))
+                        Copy(Por.Minified, projectJsDir, dir)))
+                .Append(new ProxiedWatchCommand(proxy, projectPathParts))
                 .ToArray();
 
             watchCommands = cmds;

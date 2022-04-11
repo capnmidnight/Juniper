@@ -238,9 +238,16 @@ namespace Juniper.Processes
             proc.ErrorDataReceived += Proc_ErrorDataReceived;
             proc.Exited += Proc_Exited;
 
-            if (!proc.Start())
+            try
             {
-                throw new InvalidOperationException("Could not start process.");
+                if (!proc.Start())
+                {
+                    throw new ProcessStartException("Could not start process.");
+                }
+            }
+            catch(Exception exp)
+            {
+                throw new ProcessStartException("Could not start process.", exp);
             }
 
             proc.BeginOutputReadLine();
