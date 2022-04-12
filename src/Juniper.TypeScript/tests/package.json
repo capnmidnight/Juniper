@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@types/idexdb-types": "file:../idexdb-types",
+    "gl-matrix": "^3.4.3",
     "juniper-fetcher": "file:../fetcher",
     "juniper-mediatypes": "file:../mediatypes",
     "juniper-tdd": "file:../testing",
