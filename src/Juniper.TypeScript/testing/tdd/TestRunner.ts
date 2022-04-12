@@ -64,10 +64,13 @@ export class TestRunner extends TypedEventBase<TestRunnerEvents> {
 
         const update = async () => {
             onUpdate();
-            if (q.length > 0) {
+            const N = 10;
+            for (let i = 0; i < N && q.length > 0; ++i) {
                 const test = q.shift();
                 await test().finally(nothing);
-                setTimeout(update, 0);
+                if (i === N - 1) {
+                    setTimeout(update, 0);
+                }
             }
         };
         update();

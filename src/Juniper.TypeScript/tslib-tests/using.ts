@@ -269,29 +269,6 @@ export class UsingTests extends TestCase {
                     this.isUndefined(obj))));
     }
 
-    async test_UsingArrayIsFasterThanUsingArrayAsync() {
-        const arr = arrayGen(1000, makeIDisposable);
-        arr.forEach((obj) =>
-            this.isFalse(obj.disposed));
-
-        let start = performance.now();
-        usingArray(arr, identity);
-        let end = performance.now();
-        const deltaNoAsync = end - start;
-
-        arr.forEach((obj) =>
-            obj.disposed = false);
-        start = performance.now();
-        await usingArrayAsync(arr, async (obj) =>
-            obj);
-        end = performance.now();
-        const deltaAsync = end - start;
-
-        this.isLessThan(deltaNoAsync, deltaAsync);
-    }
-
-
-
     async test_UsingArrayAsyncIDisposable() {
         const arr = [
             makeIDisposable(),
