@@ -34,6 +34,10 @@ export class PriorityList<KeyT, ValueT> {
         return this.items.entries();
     }
 
+    [Symbol.iterator]() {
+        return this.entries();
+    }
+
     keys(): IterableIterator<KeyT> {
         return this.items.keys();
     }

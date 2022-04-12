@@ -39,16 +39,21 @@ export class TestCase extends TypedEventBase<TestCaseEvents> {
         this.twoValueTest(actual, "===", expected, (a, b) => a === b, message);
     }
 
-    areApprox(actual: number, expected: number, error?: number): void;
-    areApprox(actual: number, expected: number, message: string, error?: number): void;
-    areApprox(actual: number, expected: number, messageOrError?: (string | number), maybeError?: number): void {
-        const error = isNumber(maybeError) && maybeError
-            || isNumber(messageOrError) && messageOrError
+    areApprox(actual: number, expected: number, expectedError?: number): void;
+    areApprox(actual: number, expected: number, message: string, expectedError?: number): void;
+    areApprox(actual: number, expected: number, messageOrExpectedError?: (string | number), expectedError?: number): void {
+        expectedError = isNumber(expectedError) && expectedError
+            || isNumber(messageOrExpectedError) && messageOrExpectedError
             || this.defaultError;
-        const message = isString(messageOrError) && messageOrError
-            || null;
 
-        this.twoValueTest(actual, "~==", expected, (a, b) => Math.abs(b - a) <= error, message);
+        const actualError = Math.abs(actual - expected);
+
+        const pre = isString(messageOrExpectedError) && messageOrExpectedError
+            || "";
+
+        const message = `(${actualError}) ${pre}`;
+
+        this.twoValueTest(actual, "~==", expected, (a, b) => Math.abs(a - b) <= expectedError, message);
     }
 
     isNull(value: any, message?: string) {

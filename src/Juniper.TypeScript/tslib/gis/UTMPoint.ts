@@ -17,6 +17,8 @@ export interface IUTMPoint {
     hemisphere: GlobeHemisphere;
 }
 
+const LL = new LatLngPoint();
+
 /**
  * The Universal Transverse Mercator (UTM) conformal projection uses a 2-dimensional Cartesian
  * coordinate system to give locations on the surface of the Earth. Like the traditional method
@@ -129,6 +131,19 @@ export class UTMPoint implements IUTMPoint {
             && this.zone == other.zone;
     }
 
+    private static A(cosPhi: number, lng: number, utmz: number) {
+        const zcm = 3 + (6 * (utmz - 1)) - 180;
+        return deg2rad(lng - zcm) * cosPhi
+    }
+
+    private static E(N: number, x0: number, x1: number, A: number) {
+        const Asqr = A * A;
+        const x2 = Asqr * x1 / 120;
+        const x3 = (x0 / 6) + x2;
+        const x4 = 1 + (Asqr * x3);
+        return DatumWGS_84.pointScaleFactor * N * A * x4 + DatumWGS_84.E0;
+    }
+
     /**
      * Converts this UTMPoint to a Latitude/Longitude point using the WGS-84 datum. The
      * coordinate pair's units will be in meters, and should be usable to make distance
@@ -151,16 +166,14 @@ export class UTMPoint implements IUTMPoint {
         const tanPhi = sinPhi / cosPhi;
         const ePhi = DatumWGS_84.e * sinPhi;
         const N = DatumWGS_84.equatorialRadius / Math.sqrt(1 - (ePhi * ePhi));
-
-        const utmz = 1 + ((latLng.lng + 180) / 6) | 0;
-        const zcm = 3 + (6 * (utmz - 1)) - 180;
-        const A = deg2rad(latLng.lng - zcm) * cosPhi;
-
         const M = DatumWGS_84.equatorialRadius * (
             (phi * DatumWGS_84.alpha1)
             - (sin2Phi * DatumWGS_84.alpha2)
             + (sin4Phi * DatumWGS_84.alpha3)
             - (sin6Phi * DatumWGS_84.alpha4));
+
+        const utmz = 1 + ((latLng.lng + 180) / 6) | 0;
+        const A = UTMPoint.A(cosPhi, latLng.lng, utmz);
 
         // Easting
         const T = tanPhi * tanPhi;
@@ -187,6 +200,42 @@ export class UTMPoint implements IUTMPoint {
         this._hemisphere = hemisphere;
 
         return this;
+    }
+
+    private static getZoneWidthAtLatitude(lat: number) {
+        const phi = deg2rad(lat);
+        const sinPhi = Math.sin(phi);
+        const cosPhi = Math.cos(phi);
+        const tanPhi = sinPhi / cosPhi;
+        const ePhi = DatumWGS_84.e * sinPhi;
+        const N = DatumWGS_84.equatorialRadius / Math.sqrt(1 - (ePhi * ePhi));
+
+
+        // Easting
+        const T = tanPhi * tanPhi;
+        const C = DatumWGS_84.e0sq * cosPhi * cosPhi;
+        const Tsqr = T * T;
+        const x0 = 1 - T + C;
+        const x1 = 5 - (18 * T) + Tsqr + (72 * C) - (58 * DatumWGS_84.e0sq);
+
+        const A0 = this.A(cosPhi, 0, 31);
+        const A1 = this.A(cosPhi, 6, 31);
+        const easting0 = this.E(N, x0, x1, A0);
+        const easting1 = this.E(N, x0, x1, A1);
+        return easting1 - easting0;
+    }
+
+    stretchToZone(newZone: number): void {
+        const deltaZone = newZone - this.zone;
+        if (Math.abs(deltaZone) > 0) {
+            LL.fromUTM(this);
+            const width = UTMPoint.getZoneWidthAtLatitude(LL.lat);
+            const dir = Math.sign(deltaZone);
+            while (this.zone !== newZone) {
+                this._zone += dir;
+                this._easting -= width * dir;
+            }
+        }
     }
 
     /**
