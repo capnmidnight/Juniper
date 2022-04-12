@@ -2,7 +2,7 @@
     return Array.from(iterableGen(count, thunk));
 }
 
-export function* iterableGen(count: number, thunk: (i: number) => T) {
+export function* iterableGen<T>(count: number, thunk: (i: number) => T) {
     for (let i = 0; i < count; ++i) {
         yield thunk(i);
     }
