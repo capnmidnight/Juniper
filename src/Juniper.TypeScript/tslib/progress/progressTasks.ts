@@ -24,6 +24,6 @@ export async function progressTasksWeighted(prog: IProgress, taskDefs: TaskDef[]
 }
 
 export function progressTasks(prog: IProgress, ...subTaskDef: subProgressCallback[]) {
-    const taskDefs = subTaskDef.map<TaskDef>(t => [1, t]);
+    const taskDefs = subTaskDef.map<TaskDef>((t) => [1, t]);
     return progressTasksWeighted(prog, taskDefs);
 }

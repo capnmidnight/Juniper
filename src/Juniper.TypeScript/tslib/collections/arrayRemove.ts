@@ -24,5 +24,5 @@ export function arrayFilter<T>(arr: T[], predicate: (v: T) => boolean): T {
 }
 
 export function arrayRemoveByKey<T, K>(arr: T[], key: K, getKey: (v: T) => K): T {
-    return arrayFilter(arr, v => getKey(v) === key);
+    return arrayFilter(arr, (v) => getKey(v) === key);
 }

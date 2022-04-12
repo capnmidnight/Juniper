@@ -22,7 +22,7 @@ export class InputRangeWithText extends TypedEventBase<InputRangeWithTextEvents>
     constructor(private rangeInput: HTMLInputElement) {
         super();
 
-        elementSwap(this.rangeInput, placeholder =>
+        elementSwap(this.rangeInput, (placeholder) =>
             Div(
                 className("input-range-with-text"),
                 placeholder,

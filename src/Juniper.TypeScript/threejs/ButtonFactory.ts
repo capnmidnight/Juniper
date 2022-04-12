@@ -45,8 +45,8 @@ export class ButtonFactory {
                 .map(([setName, iconName, path]) =>
                     loadIcon(this.fetcher, setName, iconName, path, popper))));
         const images = Array.from(imageSets.values());
-        const iconWidth = Math.max(...images.map(img => img.width));
-        const iconHeight = Math.max(...images.map(img => img.height));
+        const iconWidth = Math.max(...images.map((img) => img.width));
+        const iconHeight = Math.max(...images.map((img) => img.height));
         const area = iconWidth * iconHeight * images.length;
         const squareDim = Math.sqrt(area);
         const cols = Math.floor(squareDim / iconWidth);

@@ -70,7 +70,7 @@ export class RenderTargetManager implements IDisposable {
         const projLayer = renderState
             && isArray(renderState.layers)
             && arrayScan(renderState.layers,
-                l => l instanceof XRProjectionLayer) as XRProjectionLayer
+                (l) => l instanceof XRProjectionLayer) as XRProjectionLayer
             || null;
 
         if (session !== this.session

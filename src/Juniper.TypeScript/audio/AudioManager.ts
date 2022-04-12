@@ -672,7 +672,7 @@ export class AudioManager
      * @param id - the id of the user for which to set the offset.
      */
     public getUserOffset(id: string): vec3 {
-        return this.withUser(id, pose => pose.o);
+        return this.withUser(id, (pose) => pose.o);
     }
 
     /**

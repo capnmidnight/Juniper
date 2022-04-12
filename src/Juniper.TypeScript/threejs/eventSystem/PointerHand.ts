@@ -161,7 +161,7 @@ export class PointerHand
     private async _vibrate(): Promise<void> {
         if (this._gamepad && this.useHaptics) {
             try {
-                await Promise.all(this._gamepad.hapticActuators.map(actuator =>
+                await Promise.all(this._gamepad.hapticActuators.map((actuator) =>
                     actuator.pulse(0.25, 125)));
             }
             catch {

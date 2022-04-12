@@ -92,15 +92,15 @@ export class TreeNode<ValueT> extends BaseGraphNode<ValueT> {
     }
 
     breadthFirst() {
-        return this.traverse(queue => queue.shift());
+        return this.traverse((queue) => queue.shift());
     }
 
     depthFirst() {
-        return this.traverse(queue => queue.pop());
+        return this.traverse((queue) => queue.pop());
     }
 
     find(v: ValueT) {
-        return this.search(n => n.value === v);
+        return this.search((n) => n.value === v);
     }
 
     search(predicate: (n: TreeNode<ValueT>) => boolean): TreeNode<ValueT> {

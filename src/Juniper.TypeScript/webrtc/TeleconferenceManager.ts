@@ -563,7 +563,7 @@ export class TeleconferenceManager
         if (this.conferenceState === ConnectionState.Connected) {
             await Promise.all(
                 Array.from(this.users.values())
-                    .map(user =>
+                    .map((user) =>
                         user.sendPose(px, py, pz, fx, fy, fz, ux, uy, uz, height)));
         }
     }
@@ -572,7 +572,7 @@ export class TeleconferenceManager
         if (this.conferenceState === ConnectionState.Connected) {
             await Promise.all(
                 Array.from(this.users.values())
-                    .map(user =>
+                    .map((user) =>
                         user.sendPointer(name, px, py, pz, fx, fy, fz, ux, uy, uz)));
         }
     }
@@ -596,7 +596,7 @@ export class TeleconferenceManager
 
     getUserNames(): [string, string][] {
         return Array.from(this.users.values())
-            .map(u => [u.userID, u.userName]);
+            .map((u) => [u.userID, u.userName]);
     }
 
     protected async onAudioInputChanged(evt: DeviceManagerAudioInputChangedEvent): Promise<void> {

@@ -99,9 +99,9 @@ class InternalMediaType implements MediaType {
 
         if (isDefined(paramStr)) {
             const pairs = paramStr.split(';')
-                .map(p => p.trim())
-                .filter(p => p.length > 0)
-                .map(p => p.split('='));
+                .map((p) => p.trim())
+                .filter((p) => p.length > 0)
+                .map((p) => p.split('='));
             for (const [key, ...values] of pairs) {
                 const value = values.join("=");
                 parameters.set(key, value);

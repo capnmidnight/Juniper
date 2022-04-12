@@ -8,11 +8,11 @@ export const PHOTOSPHERE_CAPTURE = 31;
 
 export function deepSetLayer(obj: Objects, level: number) {
     obj = objectResolve(obj);
-    obj.traverse(o => o.layers.set(level));
+    obj.traverse((o) => o.layers.set(level));
 }
 
 export function deepEnableLayer(obj: Objects, level: number) {
     obj = objectResolve(obj);
-    obj.traverse(o => o.layers.enable(level));
+    obj.traverse((o) => o.layers.enable(level));
 }
 

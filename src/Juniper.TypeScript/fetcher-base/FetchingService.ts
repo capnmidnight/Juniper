@@ -73,13 +73,13 @@ export class FetchingService {
     async sendNothingGetXml(request: IRequest, progress: IProgress): Promise<IResponse<HTMLElement>> {
         return translateResponse(
             await this.impl.sendNothingGetSomething<Document>("document", request, progress),
-            doc => doc.documentElement);
+            (doc) => doc.documentElement);
     }
 
     async sendObjectGetXml(request: IRequestWithBody, progress: IProgress): Promise<IResponse<HTMLElement>> {
         return translateResponse(
             await this.impl.sendSomethingGetSomething<Document>("document", request, this.defaultPostHeaders, progress),
-            doc => doc.documentElement);
+            (doc) => doc.documentElement);
     }
 
     async sendNothingGetImageBitmap(request: IRequest, progress: IProgress): Promise<IResponse<ImageBitmap>> {

@@ -4,7 +4,7 @@ import type { BaseEnvironment } from "./BaseEnvironment";
 
 export class SceneGraphDialog extends BaseGraphDialog<THREE.Object3D> {
     constructor(private readonly env: BaseEnvironment<unknown>) {
-        super("Scene graph", obj => obj.name);
+        super("Scene graph", (obj) => obj.name);
 
         window.addEventListener("keypress", (evt) => {
             if (evt.key === '~') {
@@ -16,7 +16,7 @@ export class SceneGraphDialog extends BaseGraphDialog<THREE.Object3D> {
     override onShown() {
         const nodes = new Map<THREE.Object3D, GraphNode<THREE.Object3D>>();
 
-        this.env.scene.traverse(obj => {
+        this.env.scene.traverse((obj) => {
             nodes.set(obj, new GraphNode(obj));
         });
 

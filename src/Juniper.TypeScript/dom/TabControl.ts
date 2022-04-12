@@ -45,7 +45,7 @@ Style(
 );
 
 export function TabControl(...tabPanels: ITabPanel[]): TabControlElement {
-    const tabButtons = tabPanels.map(panel => {
+    const tabButtons = tabPanels.map((panel) => {
         return ButtonSecondary(
             customData("tabname", panel.tabName),
             panel.buttonLabel
@@ -104,7 +104,7 @@ export class TabControlElement
             }
         }
 
-        this.displayTypes = mapBuild(this.views, v => v.style.display);
+        this.displayTypes = mapBuild(this.views, (v) => v.style.display);
 
         if (firstViewSelector) {
             firstViewSelector();

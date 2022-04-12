@@ -112,7 +112,7 @@ export class YouTubeProxy {
 
         const formats = new PriorityList((await Promise.all(metadata
             .formats))
-            .map(f => [classifyFormat(f), f]));
+            .map((f) => [classifyFormat(f), f]));
 
         const title = metadata.title;
         const thumbnails = metadata.thumbnails || [];

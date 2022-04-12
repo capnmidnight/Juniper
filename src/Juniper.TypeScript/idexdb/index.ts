@@ -33,12 +33,12 @@ export class IDexDB implements IDisposable {
 
     static async open(name: string, ...storeDefs: StoreDef[]): Promise<IDexDB> {
 
-        const storesByName = mapMap(storeDefs, v => v.name, identity);
+        const storesByName = mapMap(storeDefs, (v) => v.name, identity);
         const indexesByName = new PriorityMap<string, string, IndexDef>(
             storeDefs
-                .filter(storeDef => isDefined(storeDef.indexes))
-                .flatMap<[string, string, IndexDef]>(storeDef =>
-                    storeDef.indexes.map<[string, string, IndexDef]>(indexDef =>
+                .filter((storeDef) => isDefined(storeDef.indexes))
+                .flatMap<[string, string, IndexDef]>((storeDef) =>
+                    storeDef.indexes.map<[string, string, IndexDef]>((indexDef) =>
                         [storeDef.name, indexDef.name, indexDef])));
 
         const storesToAdd = new Array<string>();
@@ -248,46 +248,46 @@ export class IDexStore<T> {
     }
 
     add<T>(value: T, key?: IDBValidKey): Promise<IDBValidKey> {
-        return this.request(store => store.add(value, key), "readwrite");
+        return this.request((store) => store.add(value, key), "readwrite");
     }
 
     clear() {
-        return this.request(store => store.clear(), "readwrite");
+        return this.request((store) => store.clear(), "readwrite");
     }
 
     getCount(query?: IDBValidKey | IDBKeyRange): Promise<number> {
-        return this.request(store => store.count(query), "readonly");
+        return this.request((store) => store.count(query), "readonly");
     }
 
     delete(query: IDBValidKey | IDBKeyRange) {
-        return this.request(store => store.delete(query), "readwrite");
+        return this.request((store) => store.delete(query), "readwrite");
     }
 
     get(key: IDBValidKey): Promise<T> {
-        return this.request(store => store.get<T>(key), "readonly");
+        return this.request((store) => store.get<T>(key), "readonly");
     }
 
     getAll<T>(): Promise<T[]> {
-        return this.request(store => store.getAll<T>(), "readonly")
+        return this.request((store) => store.getAll<T>(), "readonly")
     }
 
     getAllKeys(): Promise<IDBValidKey[]> {
-        return this.request(store => store.getAllKeys(), "readonly")
+        return this.request((store) => store.getAllKeys(), "readonly")
     }
 
     getKey(query: IDBValidKey | IDBKeyRange): Promise<IDBValidKey | undefined> {
-        return this.request(store => store.getKey(query), "readonly");
+        return this.request((store) => store.getKey(query), "readonly");
     }
 
     openCursor(query?: IDBValidKey | IDBKeyRange | null, direction?: IDBCursorDirection): Promise<IDBCursorWithValue | null> {
-        return this.request(store => store.openCursor(query, direction), "readonly");
+        return this.request((store) => store.openCursor(query, direction), "readonly");
     }
 
     openKeyCursor(query?: IDBValidKey | IDBKeyRange | null, direction?: IDBCursorDirection): Promise<IDBCursor | null> {
-        return this.request(store => store.openKeyCursor(query, direction), "readonly");
+        return this.request((store) => store.openKeyCursor(query, direction), "readonly");
     }
 
     put(value: T, key?: IDBValidKey): Promise<IDBValidKey> {
-        return this.request(store => store.put(value, key), "readwrite");
+        return this.request((store) => store.put(value, key), "readwrite");
     }
 }

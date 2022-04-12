@@ -6,8 +6,8 @@ import { Emoji } from "./Emoji";
  */
 export function G(v: string, d: string, o: any, ...r: Emoji[]) {
     const emojis = Object.values(o)
-        .filter(oo => oo instanceof Emoji)
-        .map(oo => oo as Emoji)
+        .filter((oo) => oo instanceof Emoji)
+        .map((oo) => oo as Emoji)
         .concat(...r);
     return Object.assign(
         new EmojiGroup(
@@ -19,14 +19,14 @@ export function G(v: string, d: string, o: any, ...r: Emoji[]) {
 
 export function C(a: any, b: any, altDesc: string | null = null): any {
     if (a instanceof Array) {
-        return a.map(c => C(c, b));
+        return a.map((c) => C(c, b));
     }
     else if (a instanceof EmojiGroup) {
         const { value, desc } = C(new Emoji(a.value, a.desc), b);
         return new EmojiGroup(value, desc, ...C(a.alts, b));
     }
     else if (b instanceof Array) {
-        return b.map(c => C(a, c));
+        return b.map((c) => C(a, c));
     }
     else {
         return new Emoji(a.value + b.value, altDesc || `${a.desc}: ${b.desc}`);
@@ -35,14 +35,14 @@ export function C(a: any, b: any, altDesc: string | null = null): any {
 
 export function J(a: any, b: any, altDesc: string | null = null): any {
     if (a instanceof Array) {
-        return a.map(c => J(c, b));
+        return a.map((c) => J(c, b));
     }
     else if (a instanceof EmojiGroup) {
         const { value, desc } = J(new Emoji(a.value, a.desc), b);
         return new EmojiGroup(value, desc, ...J(a.alts, b));
     }
     else if (b instanceof Array) {
-        return b.map(c => J(a, c));
+        return b.map((c) => J(a, c));
     }
     else {
         return new Emoji(`${a.value}‍${b.value}`, altDesc || `${a.desc}: ${b.desc}`);

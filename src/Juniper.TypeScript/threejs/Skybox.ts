@@ -149,7 +149,7 @@ export class Skybox {
             .get(path)
             .progress(prog)
             .image()
-            .then(response => {
+            .then((response) => {
                 this.imgCache.set(path, response.content);
                 this.imgTasks.delete(path);
                 return response.content;

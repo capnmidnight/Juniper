@@ -15,7 +15,7 @@ function makeMaterial<MaterialT extends THREE.Material, OptionsT extends THREE.M
 
     const key = `${slug}_${Object
         .keys(options)
-        .map(k => `${k}:${(options as any)[k]}`)
+        .map((k) => `${k}:${(options as any)[k]}`)
         .join(",")}`;
 
     if (!materials.has(key)) {

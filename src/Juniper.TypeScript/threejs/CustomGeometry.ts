@@ -67,9 +67,9 @@ function normalizeTriangle(tria: TrianglePosUV): ITrianglePosUVNormal {
 }
 
 function createGeometry(nFaces: ITrianglePosUVNormal[]) {
-    const positions = nFaces.map(f => f.positions).flat(2);
-    const uvs = nFaces.map(f => f.uvs).flat(2);
-    const normals = nFaces.flatMap(f => f.normal);
+    const positions = nFaces.map((f) => f.positions).flat(2);
+    const uvs = nFaces.map((f) => f.uvs).flat(2);
+    const normals = nFaces.flatMap((f) => f.normal);
     const geom = new THREE.BufferGeometry();
 
     geom.setAttribute("position", new THREE.BufferAttribute(new Float32Array(positions), 3, false));
@@ -100,7 +100,7 @@ export function createEACGeometry(subDivs: number, ...quads: QuadPosUV[]) {
 }
 
 function mapEACSubdivision(quads: QuadPosUV[]): QuadPosUVBounds[] {
-    return quads.map(quad => {
+    return quads.map((quad) => {
         let minU = Number.MAX_VALUE;
         let maxU = Number.MIN_VALUE;
         let minV = Number.MAX_VALUE;
@@ -141,7 +141,7 @@ function mapEACSubdivVert(minUV: UV, deltaUV: UV, vert: PosUV): PosUVBounds {
 }
 
 function unmapEACSubdivision(quadsx: QuadPosUVBounds[]): QuadPosUV[] {
-    return quadsx.map(quadx => [
+    return quadsx.map((quadx) => [
         unmapEACSubdivVert(quadx, 0),
         unmapEACSubdivVert(quadx, 1),
         unmapEACSubdivVert(quadx, 2),
@@ -161,7 +161,7 @@ function unmapEACSubdivVert(quadx: QuadPosUVBounds, i: number): PosUV {
 }
 
 function subdivide(quadsx: QuadPosUVBounds[]): QuadPosUVBounds[] {
-    return quadsx.flatMap(quadx => {
+    return quadsx.flatMap((quadx) => {
         const midU1 = midpoint(quadx, quadx.verts[0], quadx.verts[1]);
         const midU2 = midpoint(quadx, quadx.verts[2], quadx.verts[3]);
         const midV1 = midpoint(quadx, quadx.verts[0], quadx.verts[3]);

@@ -17,7 +17,7 @@ export class Attr {
         public readonly value: any,
         private readonly bySetAttribute: boolean,
         ...tags: string[]) {
-        this.tags = tags.map(t => t.toLocaleUpperCase());
+        this.tags = tags.map((t) => t.toLocaleUpperCase());
         Object.freeze(this);
     }
 
@@ -43,7 +43,7 @@ export class Attr {
         }
         else if (this.key === "classList") {
             (this.value as string[])
-                .forEach(v => elem.classList.add(v));
+                .forEach((v) => elem.classList.add(v));
         }
         else if (this.bySetAttribute) {
             elem.setAttribute(this.key, this.value);

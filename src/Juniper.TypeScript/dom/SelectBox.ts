@@ -429,7 +429,7 @@ export class SelectBox<T>
     removeByKey(id: string): T {
         let found: T = null;
 
-        this.values = this.values.filter(item => {
+        this.values = this.values.filter((item) => {
             if (this.makeID(item) === id) {
                 found = item;
                 return false;

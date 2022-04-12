@@ -10,7 +10,7 @@ export class AudioGraphDialog extends BaseGraphDialog<AudioNode | AudioParam>{
     override onShown() {
         const graph = getAudioGraph();
         this.setGraph(graph);
-        this.setOrigin(arrayScan(graph, g => getVertexName(g.value) === "final-destination"));
+        this.setOrigin(arrayScan(graph, (g) => getVertexName(g.value) === "final-destination"));
         super.onShown();
     }
 }

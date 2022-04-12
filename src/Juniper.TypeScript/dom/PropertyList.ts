@@ -76,7 +76,7 @@ export class PropertyList
 
         if (entry instanceof PropertyGroup) {
             name = entry.name;
-            group.push(...entry.properties.map(e => this.createRow(e)));
+            group.push(...entry.properties.map((e) => this.createRow(e)));
         }
         else {
             group.push(this.createRow(entry));

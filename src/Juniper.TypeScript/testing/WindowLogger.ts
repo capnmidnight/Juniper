@@ -110,7 +110,7 @@ export class WindowLogger implements ILogger, ErsatzElement {
         for (const [id, values] of this.logs) {
             const newRow = [
                 Div(id),
-                ...values.map(value => Div(JSON.stringify(value)))
+                ...values.map((value) => Div(JSON.stringify(value)))
             ];
 
             for (let i = 0; i < newRow.length; ++i) {

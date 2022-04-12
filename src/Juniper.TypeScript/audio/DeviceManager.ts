@@ -169,7 +169,7 @@ export class DeviceManager
 
         const devices = await this.getAudioOutputDevices(),
             device = arrayScan(devices,
-                d => d.deviceId === curId);
+                (d) => d.deviceId === curId);
 
         return device;
     }
@@ -188,7 +188,7 @@ export class DeviceManager
         const testTrack = curTracks[0];
         const devices = await this.getAudioInputDevices();
         const device = arrayScan(devices,
-            d => testTrack.label === d.label);
+            (d) => testTrack.label === d.label);
 
         return device;
     }
@@ -207,7 +207,7 @@ export class DeviceManager
         const testTrack = curTracks[0];
         const devices = await this.getVideoInputDevices();
         const device = arrayScan(devices,
-            d => testTrack.label === d.label);
+            (d) => testTrack.label === d.label);
 
         return device;
     }
@@ -297,9 +297,9 @@ export class DeviceManager
         }
 
         return {
-            audioOutput: canChangeAudioOutput ? devices.filter(d => d.kind === "audiooutput") : [],
-            audioInput: devices.filter(d => d.kind === "audioinput"),
-            videoInput: devices.filter(d => d.kind === "videoinput")
+            audioOutput: canChangeAudioOutput ? devices.filter((d) => d.kind === "audiooutput") : [],
+            audioInput: devices.filter((d) => d.kind === "audioinput"),
+            videoInput: devices.filter((d) => d.kind === "videoinput")
         };
     }
 
@@ -345,7 +345,7 @@ export class DeviceManager
             }
         }
 
-        devices = arraySortByKey(devices || [], d => d.label);
+        devices = arraySortByKey(devices || [], (d) => d.label);
         return devices;
     }
 

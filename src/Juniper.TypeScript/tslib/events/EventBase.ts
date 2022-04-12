@@ -16,7 +16,7 @@ export class EventBase implements EventTarget {
                 this.listeners.set(type, listeners);
             }
 
-            if (!listeners.find(c => c === callback)) {
+            if (!listeners.find((c) => c === callback)) {
                 listeners.push(callback);
 
                 if (options) {
@@ -48,7 +48,7 @@ export class EventBase implements EventTarget {
     }
 
     private removeListener(listeners: EventCallback[], callback: EventCallback) {
-        const idx = listeners.findIndex(c => c === callback);
+        const idx = listeners.findIndex((c) => c === callback);
         if (idx >= 0) {
             arrayRemoveAt(listeners, idx);
             if (this.listenerOptions.has(callback)) {

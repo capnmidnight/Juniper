@@ -173,12 +173,14 @@ export class UsingTests extends TestCase {
 
     test_UsingAsyncNull() {
         this.doesNotThrow(() =>
-            usingAsync(null, async obj => this.isNull(obj)));
+            usingAsync(null, async (obj) =>
+                this.isNull(obj)));
     }
 
     test_UsingAsyncUndefined() {
         this.doesNotThrow(() =>
-            usingAsync(undefined, async obj => this.isUndefined(obj)));
+            usingAsync(undefined, async (obj) =>
+                this.isUndefined(obj)));
     }
 
 
@@ -190,14 +192,17 @@ export class UsingTests extends TestCase {
             makeIDisposable()
         ];
 
-        arr.forEach(obj => this.isFalse(obj.disposed, "Before"));
+        arr.forEach((obj) =>
+            this.isFalse(obj.disposed, "Before"));
 
         usingArray(arr, (a) => {
             this.areExact(arr, a);
-            arr.forEach(obj => this.isFalse(obj.disposed, "Inside"));
+            arr.forEach((obj) =>
+                this.isFalse(obj.disposed, "Inside"));
         });
 
-        arr.forEach(obj => this.isTrue(obj.disposed, "After"));
+        arr.forEach((obj) =>
+            this.isTrue(obj.disposed, "After"));
     }
 
     test_UsingArrayIClosable() {
@@ -207,14 +212,17 @@ export class UsingTests extends TestCase {
             makeIClosable()
         ];
 
-        arr.forEach(obj => this.isFalse(obj.closed, "Before"));
+        arr.forEach((obj) =>
+            this.isFalse(obj.closed, "Before"));
 
         usingArray(arr, (a) => {
             this.areExact(arr, a);
-            arr.forEach(obj => this.isFalse(obj.closed, "Inside"));
+            arr.forEach((obj) =>
+                this.isFalse(obj.closed, "Inside"));
         });
 
-        arr.forEach(obj => this.isTrue(obj.closed, "After"));
+        arr.forEach((obj) =>
+            this.isTrue(obj.closed, "After"));
     }
 
     test_UsingArrayIDestroyable() {
@@ -224,14 +232,17 @@ export class UsingTests extends TestCase {
             makeIDestroyable()
         ];
 
-        arr.forEach(obj => this.isFalse(obj.destroyed, "Before"));
+        arr.forEach((obj) =>
+            this.isFalse(obj.destroyed, "Before"));
 
         usingArray(arr, (a) => {
             this.areExact(arr, a);
-            arr.forEach(obj => this.isFalse(obj.destroyed, "Inside"));
+            arr.forEach((obj) =>
+                this.isFalse(obj.destroyed, "Inside"));
         });
 
-        arr.forEach(obj => this.isTrue(obj.destroyed, "After"));
+        arr.forEach((obj) =>
+            this.isTrue(obj.destroyed, "After"));
     }
 
     test_UsingArrayNull() {
@@ -241,8 +252,9 @@ export class UsingTests extends TestCase {
 
     test_UsingArrayOfNulls() {
         this.doesNotThrow(() =>
-            usingArray([null, null, null], arr =>
-                arr.forEach(obj => this.isNull(obj))));
+            usingArray([null, null, null], (arr) =>
+                arr.forEach((obj) =>
+                    this.isNull(obj))));
     }
 
     test_UsingArrayUndefined() {
@@ -252,22 +264,26 @@ export class UsingTests extends TestCase {
 
     test_UsingArrayOfUndefineds() {
         this.doesNotThrow(() =>
-            usingArray([undefined, undefined, undefined], arr =>
-                arr.forEach(obj => this.isUndefined(obj))));
+            usingArray([undefined, undefined, undefined], (arr) =>
+                arr.forEach((obj) =>
+                    this.isUndefined(obj))));
     }
 
     async test_UsingArrayIsFasterThanUsingArrayAsync() {
         const arr = arrayGen(1000, makeIDisposable);
-        arr.forEach(obj => this.isFalse(obj.disposed));
+        arr.forEach((obj) =>
+            this.isFalse(obj.disposed));
 
         let start = performance.now();
         usingArray(arr, identity);
         let end = performance.now();
         const deltaNoAsync = end - start;
 
-        arr.forEach(obj => obj.disposed = false);
+        arr.forEach((obj) =>
+            obj.disposed = false);
         start = performance.now();
-        await usingArrayAsync(arr, async (obj) => obj);
+        await usingArrayAsync(arr, async (obj) =>
+            obj);
         end = performance.now();
         const deltaAsync = end - start;
 
@@ -283,14 +299,17 @@ export class UsingTests extends TestCase {
             makeIDisposable()
         ];
 
-        arr.forEach(obj => this.isFalse(obj.disposed, "Before"));
+        arr.forEach((obj) =>
+            this.isFalse(obj.disposed, "Before"));
 
         await usingArrayAsync(arr, async (a) => {
             this.areExact(arr, a);
-            arr.forEach(obj => this.isFalse(obj.disposed, "Inside"));
+            arr.forEach((obj) =>
+                this.isFalse(obj.disposed, "Inside"));
         });
 
-        arr.forEach(obj => this.isTrue(obj.disposed, "After"));
+        arr.forEach((obj) =>
+            this.isTrue(obj.disposed, "After"));
     }
 
     async test_UsingArrayAsyncIClosable() {
@@ -300,14 +319,17 @@ export class UsingTests extends TestCase {
             makeIClosable()
         ];
 
-        arr.forEach(obj => this.isFalse(obj.closed, "Before"));
+        arr.forEach((obj) =>
+            this.isFalse(obj.closed, "Before"));
 
         await usingArrayAsync(arr, async (a) => {
             this.areExact(arr, a);
-            arr.forEach(obj => this.isFalse(obj.closed, "Inside"));
+            arr.forEach((obj) =>
+                this.isFalse(obj.closed, "Inside"));
         });
 
-        arr.forEach(obj => this.isTrue(obj.closed, "After"));
+        arr.forEach((obj) =>
+            this.isTrue(obj.closed, "After"));
     }
 
     async test_UsingArrayAsyncIDestroyable() {
@@ -317,35 +339,42 @@ export class UsingTests extends TestCase {
             makeIDestroyable()
         ];
 
-        arr.forEach(obj => this.isFalse(obj.destroyed, "Before"));
+        arr.forEach((obj) =>
+            this.isFalse(obj.destroyed, "Before"));
 
         await usingArrayAsync(arr, async (a) => {
             this.areExact(arr, a);
-            arr.forEach(obj => this.isFalse(obj.destroyed, "Inside"));
+            arr.forEach((obj) =>
+                this.isFalse(obj.destroyed, "Inside"));
         });
 
-        arr.forEach(obj => this.isTrue(obj.destroyed, "After"));
+        arr.forEach((obj) =>
+            this.isTrue(obj.destroyed, "After"));
     }
 
     test_UsingArrayAsyncNull() {
         this.doesNotThrow(() =>
-            usingArrayAsync(null, async (arr) => this.isNull(arr)));
+            usingArrayAsync(null, async (arr) =>
+                this.isNull(arr)));
     }
 
-    async test_UsingArrayAsyncOfNulls() {
+    test_UsingArrayAsyncOfNulls() {
         this.doesNotThrow(() =>
-            usingArrayAsync([null, null, null], async arr =>
-                arr.forEach(obj => this.isNull(obj))));
+            usingArrayAsync([null, null, null], async (arr) =>
+                arr.forEach((obj) =>
+                    this.isNull(obj))));
     }
 
-    async test_UsingArrayAsyncUndefined() {
+    test_UsingArrayAsyncUndefined() {
         this.doesNotThrow(() =>
-            usingArrayAsync(undefined, async arr => this.isUndefined(arr)));
+            usingArrayAsync(undefined, async (arr) =>
+                this.isUndefined(arr)));
     }
 
-    async test_UsingArrayAsyncOfUndefineds() {
+    test_UsingArrayAsyncOfUndefineds() {
         this.doesNotThrow(() =>
-            usingArrayAsync([undefined, undefined, undefined], async arr =>
-                arr.forEach(obj => this.isUndefined(obj))));
+            usingArrayAsync([undefined, undefined, undefined], async (arr) =>
+                arr.forEach((obj) =>
+                    this.isUndefined(obj))));
     }
 }

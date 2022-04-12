@@ -593,7 +593,7 @@ export function gridRowGap(v: CSSLengthPercentage) { return new CssProp("gridRow
 export function gridRowStart(v: string | number) { return new CssProp("gridRowStart", v); }
 export function gridTemplate(v: string) { return new CssProp("gridTemplate", v); }
 
-export function gridTemplateAreas(...v: string[]) { return new CssProp("gridTemplateAreas", v.map(r => '"' + r + '"').join('\n')); }
+export function gridTemplateAreas(...v: string[]) { return new CssProp("gridTemplateAreas", v.map((r) => '"' + r + '"').join('\n')); }
 
 export function gridTemplateColumns(v: string) { return new CssProp("gridTemplateColumns", v); }
 export function gridTemplateRows(v: string) { return new CssProp("gridTemplateRows", v); }
@@ -855,7 +855,7 @@ export class CSSInJSRule {
 
     apply(sheet: CSSStyleSheet) {
         const style = this.props
-            .map(prop => `${prop.name}: ${prop.value};`)
+            .map((prop) => `${prop.name}: ${prop.value};`)
             .join("");
         sheet.insertRule(
             `${this.selector} {${style}}`,

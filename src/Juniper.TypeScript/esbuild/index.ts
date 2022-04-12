@@ -106,7 +106,7 @@ export class Build {
             define,
             minify,
             external: this.externals,
-            plugins: this.plugins.map(p => p(minify)),
+            plugins: this.plugins.map((p) => p(minify)),
             incremental: this.isWatch,
             legalComments: "none",
             watch: this.isWatch && {

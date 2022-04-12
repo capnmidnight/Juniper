@@ -90,9 +90,9 @@ export class XRSessionManager extends TypedEventBase<{
             "inline",
             "immersive-ar"
         ];
-        const supportedSessions = (await Promise.all(sessionTypes.map<Promise<[XRSessionMode, boolean]>>(async type => [type, await navigator.xr.isSessionSupported(type)])))
-            .filter(v => v[1])
-            .map(v => v[0]);
+        const supportedSessions = (await Promise.all(sessionTypes.map<Promise<[XRSessionMode, boolean]>>(async (type) => [type, await navigator.xr.isSessionSupported(type)])))
+            .filter((v) => v[1])
+            .map((v) => v[0]);
 
         return supportedSessions;
     }

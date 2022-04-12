@@ -188,9 +188,9 @@ export class Tele
 
     async load(prog?: IProgress) {
         await progressTasks(prog,
-            prog => this.env.audio.loadBasicClip("join", "/audio/door_open.mp3", 0.25, prog),
-            prog => this.env.audio.loadBasicClip("leave", "/audio/door_close.mp3", 0.25, prog),
-            prog => this.loadAvatar("/models/Avatar.glb", prog));
+            (prog) => this.env.audio.loadBasicClip("join", "/audio/door_open.mp3", 0.25, prog),
+            (prog) => this.env.audio.loadBasicClip("leave", "/audio/door_close.mp3", 0.25, prog),
+            (prog) => this.loadAvatar("/models/Avatar.glb", prog));
     }
 
     update(evt: TimerTickEvent) {

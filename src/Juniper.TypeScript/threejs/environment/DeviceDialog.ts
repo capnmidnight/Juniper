@@ -164,7 +164,7 @@ export class DeviceDialog extends DialogBox {
         await this.env.audio.devices.ready;
 
         const mics = await this.env.audio.devices.getAudioInputDevices();
-        this.micLookup = makeLookup(mics, m => m.deviceId);
+        this.micLookup = makeLookup(mics, (m) => m.deviceId);
 
         elementApply(this.microphones,
             Option(value(""), "NONE"),
@@ -178,7 +178,7 @@ export class DeviceDialog extends DialogBox {
 
         if (canChangeAudioOutput) {
             const spkrs = await this.env.audio.devices.getAudioOutputDevices();
-            this.spkrLookup = makeLookup(spkrs, device => device.deviceId);
+            this.spkrLookup = makeLookup(spkrs, (device) => device.deviceId);
 
             elementApply(this.speakers,
                 ...spkrs.map((device) =>

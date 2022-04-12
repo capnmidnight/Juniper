@@ -28,8 +28,8 @@ export class TestRunner extends TypedEventBase<TestRunnerEvents> {
 
     constructor(...rest: any[]) {
         super();
-        this.props = rest.filter(v => !isFunction(v));
-        this.CaseClasses = rest.filter(v => isFunction(v));
+        this.props = rest.filter((v) => !isFunction(v));
+        this.CaseClasses = rest.filter((v) => isFunction(v));
     }
 
     scaffold() {

@@ -89,7 +89,7 @@ export class VideoPlayer3D
     isSupported(encoding: SphereEncodingName, layout: StereoLayoutName): boolean {
         return layout
             .split('-')
-            .map(name =>
+            .map((name) =>
                 GeomPacks.has(encoding, name))
             .reduce(and, true);
     }

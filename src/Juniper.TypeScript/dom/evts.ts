@@ -190,7 +190,7 @@ export function onPlaying(callback: (evt: Event) => void, opts?: EventListenerOp
 export function onPopstate(callback: (evt: Event) => void, opts?: EventListenerOpts) { return new HtmlEvt("popstate", callback, opts); }
 export function onProgress(callback: (evt: ProgressEvent) => void, opts?: EventListenerOpts) { return new HtmlEvt("progress", (evt) => callback(evt as ProgressEvent), opts); }
 export function onProgressCallback(prog: IProgress) {
-    return onProgress(evt => prog.report(evt.loaded || 0, evt.total || 1));
+    return onProgress((evt) => prog.report(evt.loaded || 0, evt.total || 1));
 }
 export function onPush(callback: (evt: Event) => void, opts?: EventListenerOpts) { return new HtmlEvt("push", callback, opts); }
 export function onPushSubscriptionChange(callback: (evt: Event) => void, opts?: EventListenerOpts) { return new HtmlEvt("pushsubscriptionchange", callback, opts); }

@@ -131,9 +131,9 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         const headerParts = xhr
             .getAllResponseHeaders()
             .split(/[\r\n]+/)
-            .map(v => v.trim())
-            .filter(v => v.length > 0)
-            .map<[string, string]>(line => {
+            .map((v) => v.trim())
+            .filter((v) => v.length > 0)
+            .map<[string, string]>((line) => {
                 const parts = line.split(": ");
                 const key = parts.shift().toLowerCase();
                 const value = parts.join(": ");
@@ -142,7 +142,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
 
         const pList = new PriorityList<string, string>(headerParts);
         const normalizedHeaderParts = Array.from(pList.keys())
-            .map<[string, string]>(key =>
+            .map<[string, string]>((key) =>
                 [
                     key,
                     pList.get(key)
@@ -153,8 +153,8 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
 
         let contentType = readResponseHeader(headers, "content-type", identity);
         let contentLength = readResponseHeader(headers, "content-length", parseFloat);
-        let date = readResponseHeader(headers, "date", v => new Date(v));
-        let fileName = readResponseHeader(headers, "content-disposition", v => {
+        let date = readResponseHeader(headers, "date", (v) => new Date(v));
+        let fileName = readResponseHeader(headers, "content-disposition", (v) => {
             if (isDefined(v)) {
                 const match = v.match(FILE_NAME_PATTERN);
                 if (isDefined(match)) {
@@ -206,7 +206,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
             }
             else if (isNullOrUndefined(response.contentType)) {
                 const headerBlock = Array.from(response.headers.entries())
-                    .map(kv => kv.join(": "))
+                    .map((kv) => kv.join(": "))
                     .join("\n  ");
                 throw new Error("No content type found in headers: \n  " + headerBlock);
             }
