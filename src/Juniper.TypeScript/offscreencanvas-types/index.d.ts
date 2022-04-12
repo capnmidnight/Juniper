@@ -4,6 +4,7 @@
 //                        Oleg Varaksin <https://github.com/ova2>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 4.3
+// Updated with some jazz by: Sean T. McBeth <https://github.com/capnmidnight>
 
 // https://html.spec.whatwg.org/multipage/canvas.html#dom-canvas-transfercontroltooffscreen
 interface HTMLCanvasElement {
