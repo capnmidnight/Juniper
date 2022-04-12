@@ -267,7 +267,7 @@ export class IDexStore<T> {
         return this.request((store) => store.get<T>(key), "readonly");
     }
 
-    getAll<T>(): Promise<T[]> {
+    getAll(): Promise<T[]> {
         return this.request((store) => store.getAll<T>(), "readonly")
     }
 

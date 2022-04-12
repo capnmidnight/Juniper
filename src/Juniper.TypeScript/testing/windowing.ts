@@ -51,8 +51,7 @@ export function openSideTest() {
         throw new Error("Cannot open a window from a Worker.");
     }
 
-    const loc = URLBuilder
-        .get(location.href)
+    const loc = new URLBuilder(location.href)
         .query("testUserNumber", (getUserNumber() + windows.length + 1).toString())
         .toString();
     openWindow(
