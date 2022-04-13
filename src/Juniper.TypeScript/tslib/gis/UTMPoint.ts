@@ -52,7 +52,11 @@ export class UTMPoint implements IUTMPoint, ICloneable {
             .reduce((a, b) =>
                 vec3.scaleAndAdd(a, a, b, scale), vec3.create());
 
-        return new UTMPoint().fromVec3(vec, maxZone);
+        return new UTMPoint()
+            .fromVec3(vec, maxZone)
+            // reset the zone
+            .toLatLng()
+            .toUTM();
     }
 
     /**
