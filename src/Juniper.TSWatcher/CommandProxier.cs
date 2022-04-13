@@ -17,13 +17,8 @@ namespace Juniper.TSWatcher
         public event EventHandler<StringEventArgs>? Warning;
         public event EventHandler<ErrorEventArgs>? Err;
 
-        public CommandProxier(DirectoryInfo? rootDir)
+        public CommandProxier(DirectoryInfo rootDir)
         {
-            if(rootDir is null)
-            {
-                throw new ArgumentNullException(nameof(rootDir));
-            }
-
             Root = rootDir;
 
 
@@ -41,9 +36,10 @@ namespace Juniper.TSWatcher
                         switch (cmd.Command)
                         {
                             case "info": pcmd.ProxyInfo(cmd.Args.Join(" ")); break;
-                            case "warning": pcmd.ProxyWarning(cmd.Args.Join(" ")); break;
+                            case "warn": pcmd.ProxyWarning(cmd.Args.Join(" ")); break;
                             case "error": pcmd.ProxyError(new Exception(cmd.Args.Join(Environment.NewLine))); break;
                             case "ended": EndTask(cmd.TaskID); break;
+                            default: Warning?.Invoke(this, e); break;
                         }
                     }
                     else if (cmd.Command == "ready")
@@ -76,12 +72,12 @@ namespace Juniper.TSWatcher
             }
         }
 
-        internal async Task Watch(ProxiedWatchCommand pcmd, params string[] pathParts)
+        internal async Task Exec(ProxiedWatchCommand pcmd, DirectoryInfo? workingDir, params string[] args)
         {
             var taskID = ++taskCounter;
             proxies.Add(taskID, pcmd);
             await startup;
-            var cmd = cmdFactory.ToString(new CommandProxyDescription(taskID, Root.CD(pathParts), "exec", "npm", "run", "watch"));
+            var cmd = cmdFactory.ToString(new CommandProxyDescription(taskID, workingDir, "exec", args));
             processManager.Send(cmd);
         }
     }

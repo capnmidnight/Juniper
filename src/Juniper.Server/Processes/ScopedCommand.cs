@@ -15,14 +15,27 @@ namespace Juniper.Processes
             {
                 logger.LogInformation("({LastCommand}): {Message}", proc.CommandName, e.Value);
             }
+            else
+            {
+                logger.LogInformation("{Message}", e.Value);
+            }
         }
 
         private void Command_Warning(object sender, StringEventArgs e)
         {
+            var color = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+
             if (sender is ICommand proc)
             {
-                logger.LogWarning("({LastCommand}): {Message}", proc.CommandName, e.Value);
+                Console.WriteLine("WARN ({0}): {1}", proc.CommandName, e.Value);
             }
+            else
+            {
+                Console.WriteLine("WARN {0}", e.Value);
+            }
+
+            Console.ForegroundColor = color;
         }
 
         private void Command_Error(object sender, ErrorEventArgs e)
@@ -30,6 +43,10 @@ namespace Juniper.Processes
             if (sender is ICommand proc)
             {
                 logger.LogError(e.Value, "({LastCommand}): {Message}", proc.CommandName, e.Value.Message);
+            }
+            else
+            {
+                logger.LogError(e.Value, "{Message}", e.Value.Message);
             }
         }
 

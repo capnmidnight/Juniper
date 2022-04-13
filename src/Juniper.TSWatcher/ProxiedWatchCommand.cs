@@ -17,7 +17,7 @@ namespace Juniper.TSWatcher
 
         public override async Task RunAsync()
         {
-            await proxy.Watch(this, pathParts);
+            await proxy.Exec(this, proxy.Root.CD(pathParts), "npm", "run", "watch");
             await completer.Task;
         }
 

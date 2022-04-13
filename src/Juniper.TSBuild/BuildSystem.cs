@@ -1,3 +1,4 @@
+using Juniper.Logging;
 using Juniper.Processes;
 using Juniper.TSWatcher;
 using Juniper.Units;
@@ -14,7 +15,7 @@ namespace Juniper.TSBuild
         { }
     }
 
-    public class BuildSystem
+    public class BuildSystem : ILoggingSource
     {
         protected enum Por
         {
@@ -102,7 +103,7 @@ namespace Juniper.TSBuild
 
         private DirectoryInfo TestDir(string message, DirectoryInfo? dir)
         {
-            if(dir?.Exists != true)
+            if (dir?.Exists != true)
             {
                 throw new BuildSystemProjectRootNotFoundException(message);
             }
@@ -142,22 +143,22 @@ namespace Juniper.TSBuild
                 .EnumerateDirectories()
                 .Where(d => d.Touch("package.json").Exists);
 
-            foreach(var project in projects)
+            foreach (var project in projects)
             {
                 var pkgFile = project.Touch("package.json");
                 using var pkgStream = pkgFile.OpenRead();
                 var pkg = JsonSerializer.Deserialize<NPMPackage>(pkgStream);
-                if(pkg?.types is null)
+                if (pkg?.types is null)
                 {
                     juniperInstallables.Add(project);
                 }
 
-                if(pkg?.scripts?.ContainsKey("build") == true)
+                if (pkg?.scripts?.ContainsKey("build") == true)
                 {
                     juniperBuildables.Add(project);
                 }
 
-                if(project.EnumerateFiles().Any(f => f.Name == "esbuild.config.js"))
+                if (project.EnumerateFiles().Any(f => f.Name == "esbuild.config.js"))
                 {
                     juniperBundles.Add(project);
                 }
@@ -245,6 +246,10 @@ namespace Juniper.TSBuild
                 {
                     Console.WriteLine($"Info [{command.CommandName}]: {e.Value}");
                 }
+                else
+                {
+                    Console.WriteLine($"Info: {e.Value}");
+                }
             };
 
             commands.Warning += (sender, e) =>
@@ -253,6 +258,10 @@ namespace Juniper.TSBuild
                 {
                     Console.WriteLine($"Warning [{command.CommandName}]: {e.Value}");
                 }
+                else
+                {
+                    Console.WriteLine($"Warning: {e.Value}");
+                }
             };
 
             commands.Err += (sender, e) =>
@@ -260,6 +269,10 @@ namespace Juniper.TSBuild
                 if (sender is ICommand command)
                 {
                     Console.Error.WriteLine($"Err [{command.CommandName}]: {e.Value.Unroll()}");
+                }
+                else
+                {
+                    Console.Error.WriteLine($"Err: {e.Value.Unroll()}");
                 }
             };
 
@@ -383,9 +396,25 @@ namespace Juniper.TSBuild
                 .Append(new ProxiedWatchCommand(proxy, projectDir.Name));
         }
 
+        public event EventHandler<StringEventArgs>? Info;
+        public event EventHandler<StringEventArgs>? Warning;
+        public event EventHandler<ErrorEventArgs>? Err;
+
+        private void Proxy_Info(object? sender, StringEventArgs e) =>
+            Info?.Invoke(this, new StringEventArgs(e.Value));
+
+        private void Proxy_Warning(object? sender, StringEventArgs e) =>
+            Warning?.Invoke(this, new StringEventArgs(e.Value));
+
+        private void Proxy_Err(object? sender, ErrorEventArgs e) => 
+            Err?.Invoke(this, new ErrorEventArgs(e.Value));
+
         public Task Watch(out ICommand[] watchCommands)
         {
             var proxy = new CommandProxier(projectDir);
+            proxy.Info += Proxy_Info;
+            proxy.Warning += Proxy_Warning;
+            proxy.Err += Proxy_Err;
 
             var juniperRelPath = PathExt.Abs2Rel(juniperTsDir.FullName, proxy.Root.FullName);
             var juniperPathParts = juniperRelPath.SplitX(Path.DirectorySeparatorChar);
@@ -408,7 +437,13 @@ namespace Juniper.TSBuild
             watchCommands = cmds;
 
             return Task.WhenAll(cmds.Select(cmd =>
-                   cmd.ContinueAfter(watchAllDonePattern)));
+                   cmd.ContinueAfter(watchAllDonePattern)))
+                .ContinueWith((task) =>
+                {
+                    proxy.Info -= Proxy_Info;
+                    proxy.Warning -= Proxy_Warning;
+                    proxy.Err -= Proxy_Err;
+                });
         }
     }
 }
