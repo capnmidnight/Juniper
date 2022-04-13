@@ -134,12 +134,36 @@ export class UTMPoint implements IUTMPoint {
         return deg2rad(lng - zcm) * cosPhi
     }
 
-    private static E(N: number, x0: number, x1: number, A: number) {
+    private static getZoneWidthAtLatitude(lat: number) {
+        const phi = deg2rad(lat);
+        const sinPhi = Math.sin(phi);
+        const cosPhi = Math.cos(phi);
+        const tanPhi = sinPhi / cosPhi;
+        const ePhi = DatumWGS_84.e * sinPhi;
+        const N = DatumWGS_84.equatorialRadius / Math.sqrt(1 - (ePhi * ePhi));
+
+        // Easting
+        const T = tanPhi * tanPhi;
+        const C = DatumWGS_84.e0sq * cosPhi * cosPhi;
+        const Tsqr = T * T;
+        const A = deg2rad(3) * cosPhi;
         const Asqr = A * A;
-        const x2 = Asqr * x1 / 120;
-        const x3 = (x0 / 6) + x2;
-        const x4 = 1 + (Asqr * x3);
-        return DatumWGS_84.pointScaleFactor * N * A * x4 + DatumWGS_84.E0;
+
+        const x0 = 1
+            - T
+            + C;
+        const x1 = 5
+            - 18 * T
+            + Tsqr + 72 * C
+            - 58 * DatumWGS_84.e0sq;
+        const x2 = x0 / 6
+            + Asqr * x1 / 120;
+        const x3 = 1
+            + Asqr * x2;
+
+        const width = 2 * DatumWGS_84.pointScaleFactor * N * A * x3;
+
+        return width;
     }
 
     /**
@@ -156,76 +180,80 @@ export class UTMPoint implements IUTMPoint {
         const phi = deg2rad(latLng.lat);
         const sinPhi = Math.sin(phi);
         const cosPhi = Math.cos(phi);
-        const sin2Phi = 2 * sinPhi * cosPhi;
-        const cos2Phi = (2 * cosPhi * cosPhi) - 1;
-        const sin4Phi = 2 * sin2Phi * cos2Phi;
-        const cos4Phi = (2 * cos2Phi * cos2Phi) - 1;
-        const sin6Phi = (sin4Phi * cos2Phi) + (cos4Phi * sin2Phi);
+        const cosPhi2 = 2 * cosPhi;
+        const sin2Phi = cosPhi2 * sinPhi;
+        const cos2Phi = cosPhi2 * cosPhi - 1;
+        const cos2Phi2 = 2 * cos2Phi;
+        const sin4Phi = cos2Phi2 * sin2Phi;
+        const cos4Phi = cos2Phi2 * cos2Phi - 1;
+        const sin6Phi = sin4Phi * cos2Phi
+            + cos4Phi * sin2Phi;
         const tanPhi = sinPhi / cosPhi;
         const ePhi = DatumWGS_84.e * sinPhi;
         const N = DatumWGS_84.equatorialRadius / Math.sqrt(1 - (ePhi * ePhi));
         const M = DatumWGS_84.equatorialRadius * (
-            (phi * DatumWGS_84.alpha1)
-            - (sin2Phi * DatumWGS_84.alpha2)
-            + (sin4Phi * DatumWGS_84.alpha3)
-            - (sin6Phi * DatumWGS_84.alpha4));
+            phi * DatumWGS_84.alpha1
+            - sin2Phi * DatumWGS_84.alpha2
+            + sin4Phi * DatumWGS_84.alpha3
+            - sin6Phi * DatumWGS_84.alpha4);
 
         const utmz = 1 + ((latLng.lng + 180) / 6) | 0;
         const A = UTMPoint.A(cosPhi, latLng.lng, utmz);
+        const Asqr = A * A;
 
         // Easting
         const T = tanPhi * tanPhi;
         const C = DatumWGS_84.e0sq * cosPhi * cosPhi;
-        const Asqr = A * A;
         const Tsqr = T * T;
-        const x0 = 1 - T + C;
-        const x1 = 5 - (18 * T) + Tsqr + (72 * C) - (58 * DatumWGS_84.e0sq);
+        const x0 = 1
+            - T
+            + C;
+        const x1 = 5
+            - 18 * T
+            + Tsqr
+            + 72 * C
+            - 58 * DatumWGS_84.e0sq;
         const x2 = Asqr * x1 / 120;
-        const x3 = (x0 / 6) + x2;
-        const x4 = 1 + (Asqr * x3);
-        const easting = DatumWGS_84.pointScaleFactor * N * A * x4 + DatumWGS_84.E0;
+        const x3 = x0 / 6
+            + x2;
+        const x4 = 1
+            + Asqr * x3;
+        const easting = DatumWGS_84.pointScaleFactor * N * A * x4
+            + DatumWGS_84.E0;
 
         // Northing
-        let northing = DatumWGS_84.pointScaleFactor * (M + (N * tanPhi * (Asqr * (0.5 + (Asqr * (((5 - T + (9 * C) + (4 * C * C)) / 24) + (Asqr * (61 - (58 * T) + Tsqr + (600 * C) - (330 * DatumWGS_84.e0sq)) / 720)))))));
+        const y0 = 5
+            - T
+            + 9 * C
+            + 4 * C * C;
+        const y1 = 61
+            - 58 * T
+            + Tsqr
+            + 600 * C
+            - 330 * DatumWGS_84.e0sq;
+        const y2 = y0 / 24
+            + Asqr * y1 / 720;
+        const y3 = 0.5
+            + Asqr * y2;
+        const y4 = M
+            + N * tanPhi * Asqr * y3;
+        const northing = DatumWGS_84.pointScaleFactor * y4;
 
         this._easting = easting;
         this._northing = northing;
-        this._altitude = latLng.alt || 0;
+        this._altitude = latLng.alt;
         this._zone = utmz;
         this._hemisphere = hemisphere;
 
         return this;
     }
 
-    private static getZoneWidthAtLatitude(lat: number) {
-        const phi = deg2rad(lat);
-        const sinPhi = Math.sin(phi);
-        const cosPhi = Math.cos(phi);
-        const tanPhi = sinPhi / cosPhi;
-        const ePhi = DatumWGS_84.e * sinPhi;
-        const N = DatumWGS_84.equatorialRadius / Math.sqrt(1 - (ePhi * ePhi));
-
-
-        // Easting
-        const T = tanPhi * tanPhi;
-        const C = DatumWGS_84.e0sq * cosPhi * cosPhi;
-        const Tsqr = T * T;
-        const x0 = 1 - T + C;
-        const x1 = 5 - (18 * T) + Tsqr + (72 * C) - (58 * DatumWGS_84.e0sq);
-
-        const A0 = this.A(cosPhi, 0, 31);
-        const A1 = this.A(cosPhi, 6, 31);
-        const easting0 = this.E(N, x0, x1, A0);
-        const easting1 = this.E(N, x0, x1, A1);
-        return easting1 - easting0;
-    }
-
     stretchToZone(newZone: number): void {
-        const deltaZone = newZone - this.zone;
-        if (Math.abs(deltaZone) > 0) {
+        if (1 <= newZone && newZone <= 60 && newZone !== this.zone) {
+            const deltaZone = newZone - this.zone;
+            const dir = Math.sign(deltaZone);
             const ll = this.toLatLng();
             const width = UTMPoint.getZoneWidthAtLatitude(ll.lat);
-            const dir = Math.sign(deltaZone);
             while (this.zone !== newZone) {
                 this._zone += dir;
                 this._easting -= width * dir;
