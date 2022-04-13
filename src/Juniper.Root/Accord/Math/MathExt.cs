@@ -1,3 +1,5 @@
+using Juniper.World.GIS;
+
 using System;
 using System.Collections.Generic;
 
@@ -72,7 +74,7 @@ namespace Accord.Math
         /// <returns>The utm.</returns>
         /// <param name="v">      Value.</param>
         /// <param name="donatedZone">Donated zone.</param>
-        public static Juniper.World.GIS.UTMPoint ToUTM(this Vector3 v, int donatedZone, Juniper.World.GIS.UTMPoint.GlobeHemisphere hemisphere)
+        public static Juniper.World.GIS.UTMPoint ToUTM(this Vector3 v, int donatedZone, GlobeHemisphere hemisphere)
         {
             return new Juniper.World.GIS.UTMPoint(v.X, v.Z, v.Y, donatedZone, hemisphere);
         }

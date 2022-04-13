@@ -222,7 +222,7 @@ namespace System.Numerics
         /// <returns>The utm.</returns>
         /// <param name="v">      Value.</param>
         /// <param name="donatedZone">Donated zone.</param>
-        public static UTMPoint ToUTM(this Vector3 v, int donatedZone, UTMPoint.GlobeHemisphere hemisphere)
+        public static UTMPoint ToUTM(this Vector3 v, int donatedZone, GlobeHemisphere hemisphere)
         {
             return new UTMPoint(v.X, v.Z, v.Y, donatedZone, hemisphere);
         }
@@ -240,7 +240,7 @@ namespace System.Numerics
                 throw new ArgumentNullException(nameof(v));
             }
 
-            return new Vector3(v.X, v.Z, v.Y);
+            return new Vector3(v.Easting, v.Altitude, v.Northing);
         }
 
         /// <summary>

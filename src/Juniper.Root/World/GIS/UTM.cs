@@ -22,9 +22,11 @@ namespace Juniper.Units
                 throw new ArgumentNullException(nameof(utm));
             }
 
-            var N0 = utm.Hemisphere == UTMPoint.GlobeHemisphere.Northern ? 0.0 : DatumWGS_84.FalseNorthing;
-            var xi = (utm.Y - N0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
-            var eta = (utm.X - DatumWGS_84.E0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
+            var N0 = (utm.Hemisphere == GlobeHemisphere.Northern || utm.Northing < 0)
+                ? 0.0 
+                : DatumWGS_84.FalseNorthing;
+            var xi = (utm.Northing - N0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
+            var eta = (utm.Easting - DatumWGS_84.E0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
             var xiPrime = xi;
             var etaPrime = eta;
             double sigmaPrime = 1;
@@ -61,7 +63,7 @@ namespace Juniper.Units
             return new LatLngPoint(
                 Radians.Degrees((float)lat),
                 long0 + Radians.Degrees((float)lng),
-                utm.Z);
+                utm.Altitude);
         }
     }
 }

@@ -36,7 +36,15 @@ export class UTMPointTests extends TestCase {
         for (let lat = 0; lat <= 90; ++lat) {
             const ll = new LatLngPoint(lat, 0);
             const utm = ll.toUTM();
-            this.isGreaterThan(utm.northing, 0, `Latitude ${lat}`);
+            this.isGreaterThanEqual(utm.northing, 0, `Latitude ${lat}`);
+        }
+    }
+
+    test_SouthernHemisphereIsAllNegativeNorthings() {
+        for (let lat = 0; lat >= -90; --lat) {
+            const ll = new LatLngPoint(lat, 0);
+            const utm = ll.toUTM();
+            this.isLessThanEqual(utm.northing, 0, `Latitude ${lat}`);
         }
     }
 

@@ -17,8 +17,8 @@ namespace Juniper.Units
         {
             var a = A.ToUTM();
             var b = B.ToUTM();
-            var dx = b.X - a.X;
-            var dy = b.Y - a.Y;
+            var dx = b.Easting - a.Easting;
+            var dy = b.Northing - a.Northing;
             return (float)Sqrt((dx * dx) + (dy * dy));
         }
 
@@ -53,8 +53,8 @@ namespace Juniper.Units
             }
 
             var hemisphere = latlng.Lat < 0
-                    ? UTMPoint.GlobeHemisphere.Southern
-                    : UTMPoint.GlobeHemisphere.Northern;
+                    ? GlobeHemisphere.Southern
+                    : GlobeHemisphere.Northern;
 
             const double k0 = 0.9996;
 
@@ -95,10 +95,6 @@ namespace Juniper.Units
 
             // Northing
             var northing = k0 * (M + (N * tanPhi * (Asqr * ((1 / 2.0) + (Asqr * (((5 - T + (9 * C) + (4 * C * C)) / 24.0) + (Asqr * (61 - (58 * T) + Tsqr + (600 * C) - (330 * DatumWGS_84.e0sq)) / 720.0)))))));
-            if (hemisphere == UTMPoint.GlobeHemisphere.Southern)
-            {
-                northing += DatumWGS_84.FalseNorthing;
-            }
 
             return new UTMPoint(
                 (float)easting,

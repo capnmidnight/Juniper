@@ -240,13 +240,13 @@ export class LatLngPoint implements ILatLngPoint {
      * reference: http://www.uwgb.edu/dutchs/usefuldata/utmformulas.htm
      **/
     fromUTM(utm: IUTMPoint): LatLngPoint {
-        const N0 = utm.hemisphere == "northern" ? 0.0 : DatumWGS_84.FalseNorthing;
+        const N0 = (utm.hemisphere == "northern" || utm.northing < 0)
+            ? 0.0
+            : DatumWGS_84.FalseNorthing;
         const xi = (utm.northing - N0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
         const eta = (utm.easting - DatumWGS_84.E0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
         let xiPrime = xi;
         let etaPrime = eta;
-        //let sigmaPrime = 1;
-        //let tauPrime = 0;
 
         for (let j = 1; j <= 3; ++j) {
             const beta = DatumWGS_84.beta[j - 1];
@@ -259,8 +259,6 @@ export class LatLngPoint implements ILatLngPoint {
 
             xiPrime -= beta * sinje2 * coshjn2;
             etaPrime -= beta * cosje2 * sinhjn2;
-            //sigmaPrime -= 2 * j * beta * cosje2 * coshjn2;
-            //tauPrime -= 2 * j * beta * sinje2 * sinhjn2;
         }
 
         const chi = Math.asin(Math.sin(xiPrime) / Math.cosh(etaPrime));

@@ -17,8 +17,6 @@ export interface IUTMPoint {
     hemisphere: GlobeHemisphere;
 }
 
-const LL = new LatLngPoint();
-
 /**
  * The Universal Transverse Mercator (UTM) conformal projection uses a 2-dimensional Cartesian
  * coordinate system to give locations on the surface of the Earth. Like the traditional method
@@ -189,9 +187,6 @@ export class UTMPoint implements IUTMPoint {
 
         // Northing
         let northing = DatumWGS_84.pointScaleFactor * (M + (N * tanPhi * (Asqr * (0.5 + (Asqr * (((5 - T + (9 * C) + (4 * C * C)) / 24) + (Asqr * (61 - (58 * T) + Tsqr + (600 * C) - (330 * DatumWGS_84.e0sq)) / 720)))))));
-        if (hemisphere == "southern") {
-            northing += DatumWGS_84.FalseNorthing;
-        }
 
         this._easting = easting;
         this._northing = northing;
@@ -228,8 +223,8 @@ export class UTMPoint implements IUTMPoint {
     stretchToZone(newZone: number): void {
         const deltaZone = newZone - this.zone;
         if (Math.abs(deltaZone) > 0) {
-            LL.fromUTM(this);
-            const width = UTMPoint.getZoneWidthAtLatitude(LL.lat);
+            const ll = this.toLatLng();
+            const width = UTMPoint.getZoneWidthAtLatitude(ll.lat);
             const dir = Math.sign(deltaZone);
             while (this.zone !== newZone) {
                 this._zone += dir;

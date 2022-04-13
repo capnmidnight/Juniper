@@ -19,32 +19,22 @@ namespace Juniper.World.GIS
         /// <summary>
         /// The east/west component of the coordinate.
         /// </summary>
-        public float X { get; }
+        public float Easting { get; }
 
         /// <summary>
         /// The north/south component of the coordinate.
         /// </summary>
-        public float Y { get; }
+        public float Northing { get; }
 
         /// <summary>
         /// An altitude component.
         /// </summary>
-        public float Z { get; }
+        public float Altitude { get; }
 
         /// <summary>
         /// The UTM Zone for which this coordinate represents.
         /// </summary>
         public int Zone { get; }
-
-
-        /// <summary>
-        /// The globe hemispheres in which the UTM point could sit.
-        /// </summary>
-        public enum GlobeHemisphere
-        {
-            Northern,
-            Southern
-        }
 
         /// <summary>
         /// The hemisphere in which the UTM point sits.
@@ -61,9 +51,9 @@ namespace Juniper.World.GIS
         /// <param name="hemisphere">The hemisphere in which the UTM point sits</param>
         public UTMPoint(float x, float y, float z, int zone, GlobeHemisphere hemisphere)
         {
-            X = x;
-            Y = y;
-            Z = z;
+            Easting = x;
+            Northing = y;
+            Altitude = z;
             Zone = zone;
             Hemisphere = hemisphere;
         }
@@ -80,9 +70,9 @@ namespace Juniper.World.GIS
                 throw new ArgumentNullException(nameof(info));
             }
 
-            X = info.GetSingle(nameof(X));
-            Y = info.GetSingle(nameof(Y));
-            Z = info.GetSingle(nameof(Z));
+            Easting = info.GetSingle(nameof(Easting));
+            Northing = info.GetSingle(nameof(Northing));
+            Altitude = info.GetSingle(nameof(Altitude));
             Zone = info.GetInt32(nameof(Zone));
             Hemisphere = info.GetEnumFromString<GlobeHemisphere>(nameof(Hemisphere));
         }
@@ -99,9 +89,9 @@ namespace Juniper.World.GIS
                 throw new ArgumentNullException(nameof(info));
             }
 
-            info.AddValue(nameof(X), X);
-            info.AddValue(nameof(Y), Y);
-            info.AddValue(nameof(Z), Z);
+            info.AddValue(nameof(Easting), Easting);
+            info.AddValue(nameof(Northing), Northing);
+            info.AddValue(nameof(Altitude), Altitude);
             info.AddValue(nameof(Zone), Zone);
             info.SetEnumAsString(nameof(Hemisphere), Hemisphere);
         }
@@ -117,7 +107,7 @@ namespace Juniper.World.GIS
 
         private string ToString(IFormatProvider provider)
         {
-            return $"({X.ToString(provider)}, {Y.ToString(provider)}, {Z.ToString(provider)}) zone {Zone.ToString(provider)}";
+            return $"({Easting.ToString(provider)}, {Northing.ToString(provider)}, {Altitude.ToString(provider)}) zone {Zone.ToString(provider)}";
         }
 
         public static explicit operator string(UTMPoint value)
@@ -127,7 +117,7 @@ namespace Juniper.World.GIS
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Hemisphere, X, Y, Z, Zone);
+            return HashCode.Combine(Hemisphere, Easting, Northing, Altitude, Zone);
         }
 
         public override bool Equals(object obj)
@@ -139,9 +129,9 @@ namespace Juniper.World.GIS
         {
             return other is not null
                 && Hemisphere == other.Hemisphere
-                && X == other.X
-                && Y == other.Y
-                && Z == other.Z
+                && Easting == other.Easting
+                && Northing == other.Northing
+                && Altitude == other.Altitude
                 && Zone == other.Zone;
         }
 
