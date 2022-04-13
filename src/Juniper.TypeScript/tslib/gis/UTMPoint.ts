@@ -274,13 +274,10 @@ export class UTMPoint implements IUTMPoint, ICloneable {
     stretchToZone(newZone: number) {
         if (1 <= newZone && newZone <= 60 && newZone !== this.zone) {
             const deltaZone = newZone - this.zone;
-            const dir = Math.sign(deltaZone);
             const ll = this.toLatLng();
             const width = UTMPoint.getZoneWidthAtLatitude(ll.lat);
-            while (this.zone !== newZone) {
-                this._zone += dir;
-                this._easting -= width * dir;
-            }
+            this._zone = newZone;
+            this._easting -= width * deltaZone;
         }
 
         return this;
