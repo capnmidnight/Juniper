@@ -1,6 +1,7 @@
 import { vec2, vec3 } from "gl-matrix";
 import { deg2rad } from "../math/deg2rad";
 import { isDefined, isObject } from "../typeChecks";
+import { ICloneable } from "../using";
 import { DatumWGS_84 } from "./Datum";
 import { ILatLngPoint, LatLngPoint } from "./LatLngPoint";
 
@@ -28,7 +29,31 @@ export interface IUTMPoint {
  * zones, each being a six-degree band of longitude, and uses a secant transverse Mercator
  * projection in each zone.
  **/
-export class UTMPoint implements IUTMPoint {
+export class UTMPoint implements IUTMPoint, ICloneable {
+
+    static centroid(points: UTMPoint[]): UTMPoint {
+        const zoneCounts = new Map<number, number>();
+        points.forEach((p) => zoneCounts.set(p.zone, (zoneCounts.get(p.zone) || 0) + 1));
+        let maxZone = 0;
+        let maxZoneCount = 0;
+        for (const [zone, count] of zoneCounts) {
+            if (count > maxZoneCount) {
+                maxZone = zone;
+                maxZoneCount = count;
+            }
+        }
+
+        const scale = 1 / points.length;
+        const vec = points
+            .map((p) => p
+                .clone()
+                .stretchToZone(maxZone)
+                .toVec3())
+            .reduce((a, b) =>
+                vec3.scaleAndAdd(a, a, b, scale), vec3.create());
+
+        return new UTMPoint().fromVec3(vec, maxZone);
+    }
 
     /**
      * The east/west component of the coordinate.
@@ -66,9 +91,10 @@ export class UTMPoint implements IUTMPoint {
      * The hemisphere in which the UTM point sits.
      **/
     get hemisphere() {
-        return this._hemisphere;
+        return this.northing >= 0
+            ? "northern"
+            : "southern";
     }
-    private _hemisphere: GlobeHemisphere;
 
 
     /**
@@ -88,21 +114,19 @@ export class UTMPoint implements IUTMPoint {
      * @param zone
      * @param hemisphere
      */
-    constructor(easting: number, northing: number, altitude: number, zone: number, hemisphere: GlobeHemisphere);
-    constructor(eastingOrCopy?: number | IUTMPoint, northing?: number, altitude?: number, zone?: number, hemisphere?: GlobeHemisphere) {
+    constructor(easting: number, northing: number, altitude: number, zone: number);
+    constructor(eastingOrCopy?: number | IUTMPoint, northing?: number, altitude?: number, zone?: number) {
         if (isObject(eastingOrCopy)) {
             this._easting = eastingOrCopy.easting;
             this._northing = eastingOrCopy.northing;
             this._altitude = eastingOrCopy.altitude;
             this._zone = eastingOrCopy.zone;
-            this._hemisphere = eastingOrCopy.hemisphere;
         }
         else {
             this._easting = eastingOrCopy || 0;
             this._northing = northing || 0;
             this._altitude = altitude || 0;
             this._zone = zone || 0;
-            this._hemisphere = hemisphere || "northern";
         }
     }
 
@@ -173,10 +197,6 @@ export class UTMPoint implements IUTMPoint {
      * reference: http://www.uwgb.edu/dutchs/usefuldata/utmformulas.htm
      **/
     fromLatLng(latLng: ILatLngPoint): UTMPoint {
-        const hemisphere = latLng.lat < 0
-            ? "southern"
-            : "northern";
-
         const phi = deg2rad(latLng.lat);
         const sinPhi = Math.sin(phi);
         const cosPhi = Math.cos(phi);
@@ -243,12 +263,11 @@ export class UTMPoint implements IUTMPoint {
         this._northing = northing;
         this._altitude = latLng.alt;
         this._zone = utmz;
-        this._hemisphere = hemisphere;
 
         return this;
     }
 
-    stretchToZone(newZone: number): void {
+    stretchToZone(newZone: number) {
         if (1 <= newZone && newZone <= 60 && newZone !== this.zone) {
             const deltaZone = newZone - this.zone;
             const dir = Math.sign(deltaZone);
@@ -259,6 +278,8 @@ export class UTMPoint implements IUTMPoint {
                 this._easting -= width * dir;
             }
         }
+
+        return this;
     }
 
     /**
@@ -282,7 +303,6 @@ export class UTMPoint implements IUTMPoint {
         this._northing = -arr[1];
         this._altitude = 0;
         this._zone = zone;
-        this._hemisphere = this._northing >= 0 ? "northern" : "southern";
         return this;
     }
 
@@ -297,7 +317,6 @@ export class UTMPoint implements IUTMPoint {
         this._altitude = arr[1];
         this._northing = -arr[2];
         this._zone = zone;
-        this._hemisphere = this._northing >= 0 ? "northern" : "southern";
         return this;
     }
 
@@ -306,7 +325,10 @@ export class UTMPoint implements IUTMPoint {
         this._northing = other.northing;
         this._altitude = other.altitude;
         this._zone = other.zone;
-        this._hemisphere = other.hemisphere;
         return this;
+    }
+
+    clone(): UTMPoint {
+        return new UTMPoint(this);
     }
 }

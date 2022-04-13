@@ -22,26 +22,28 @@ export class TestCase extends TypedEventBase<TestCaseEvents> {
         this.dispatchEvent(new TestCaseMessageEvent(msg));
     }
 
-    success() {
+    success(): true {
         this.dispatchEvent(new TestCaseSuccessEvent());
+        return true;
     }
 
-    fail(msg: string) {
+    fail(msg: string): false {
         msg = msg || "Fail";
         this.dispatchEvent(new TestCaseFailEvent(msg));
+        return false;
     }
 
-    areSame(actual: any, expected: any, message?: string) {
-        this.twoValueTest(actual, "==", expected, (a, b) => a == b, message);
+    areSame(actual: any, expected: any, message?: string): boolean {
+        return this.twoValueTest(actual, "==", expected, (a, b) => a == b, message);
     }
 
-    areExact<T>(actual: T, expected: T, message?: string) {
-        this.twoValueTest(actual, "===", expected, (a, b) => a === b, message);
+    areExact<T>(actual: T, expected: T, message?: string): boolean {
+        return this.twoValueTest(actual, "===", expected, (a, b) => a === b, message);
     }
 
-    areApprox(actual: number, expected: number, expectedError?: number): void;
-    areApprox(actual: number, expected: number, message: string, expectedError?: number): void;
-    areApprox(actual: number, expected: number, messageOrExpectedError?: (string | number), expectedError?: number): void {
+    areApprox(actual: number, expected: number, expectedError?: number): boolean;
+    areApprox(actual: number, expected: number, message: string, expectedError?: number): boolean;
+    areApprox(actual: number, expected: number, messageOrExpectedError?: (string | number), expectedError?: number): boolean {
         expectedError = isNumber(expectedError) && expectedError
             || isNumber(messageOrExpectedError) && messageOrExpectedError
             || this.defaultError;
@@ -53,97 +55,97 @@ export class TestCase extends TypedEventBase<TestCaseEvents> {
 
         const message = `(${actualError}) ${pre}`;
 
-        this.twoValueTest(actual, "~==", expected, (a, b) => Math.abs(a - b) <= expectedError, message);
+        return this.twoValueTest(actual, "~==", expected, (a, b) => Math.abs(a - b) <= expectedError, message);
     }
 
-    isNull(value: any, message?: string) {
-        this.areExact(value, null, message);
+    isNull(value: any, message?: string): boolean {
+        return this.areExact(value, null, message);
     }
 
-    isNotNull(value: any, message?: string) {
-        this.isNotEqualTo(value, null, message);
+    isNotNull(value: any, message?: string): boolean {
+        return this.isNotEqualTo(value, null, message);
     }
 
-    isUndefined(value: any, message?: string) {
-        this.areExact(value, undefined, message);
+    isUndefined(value: any, message?: string): boolean {
+        return this.areExact(value, undefined, message);
     }
 
-    isNotUndefined(value: any, message?: string) {
-        this.isNotEqualTo(value, undefined, message);
+    isNotUndefined(value: any, message?: string): boolean {
+        return this.isNotEqualTo(value, undefined, message);
     }
 
-    isTrue(value: boolean, message?: string) {
-        this.areExact(value, true, message);
+    isTrue(value: boolean, message?: string): boolean {
+        return this.areExact(value, true, message);
     }
 
-    isTruthy(value: any, message?: string) {
-        this.isTrue(!!value, message);
+    isTruthy(value: any, message?: string): boolean {
+        return this.isTrue(!!value, message);
     }
 
-    isFalse(value: boolean, message?: string) {
-        this.areExact(value, false, message);
+    isFalse(value: boolean, message?: string): boolean {
+        return this.areExact(value, false, message);
     }
 
-    isFalsey(value: any, message?: string) {
-        this.isFalse(!!value, message);
+    isFalsey(value: any, message?: string): boolean {
+        return this.isFalse(!!value, message);
     }
 
-    isBoolean(value: unknown, message?: string) {
-        this.areExact(value === true || value === false, true, message);
+    isBoolean(value: unknown, message?: string): boolean {
+        return this.areExact(value === true || value === false, true, message);
     }
 
-    hasValue(value: any, message?: string) {
+    hasValue(value: any, message?: string): boolean {
         message = message || value;
         const goodMessage = `${message} is a value`,
             badMessage = `${message} is not a value`,
             isValue = value !== null
                 && value !== undefined;
-        this.isTrue(isValue, isValue ? goodMessage : badMessage);
+        return this.isTrue(isValue, isValue ? goodMessage : badMessage);
     }
 
-    isEmpty(value: string, message?: string) {
+    isEmpty(value: string, message?: string): boolean {
         message = message || `${value} is empty`;
-        this.areExact(value.length, 0, message);
+        return this.areExact(value.length, 0, message);
     }
 
-    isNotEqualTo<T>(actual: T, expected: T, message?: string) {
-        this.twoValueTest(actual, "!==", expected, (a, b) => a !== b, message);
+    isNotEqualTo<T>(actual: T, expected: T, message?: string): boolean {
+        return this.twoValueTest(actual, "!==", expected, (a, b) => a !== b, message);
     }
 
-    isLessThan<T>(actual: T, expected: T, message?: string) {
-        this.twoValueTest(actual, "<", expected, (a, b) => a < b, message);
+    isLessThan<T>(actual: T, expected: T, message?: string): boolean {
+        return this.twoValueTest(actual, "<", expected, (a, b) => a < b, message);
     }
 
-    isLessThanEqual<T>(actual: T, expected: T, message?: string) {
-        this.twoValueTest(actual, "<=", expected, (a, b) => a <= b, message);
+    isLessThanEqual<T>(actual: T, expected: T, message?: string): boolean {
+        return this.twoValueTest(actual, "<=", expected, (a, b) => a <= b, message);
     }
 
-    isGreaterThan<T>(actual: T, expected: T, message?: string) {
-        this.twoValueTest(actual, ">", expected, (a, b) => a > b, message);
+    isGreaterThan<T>(actual: T, expected: T, message?: string): boolean {
+        return this.twoValueTest(actual, ">", expected, (a, b) => a > b, message);
     }
 
-    isGreaterThanEqual<T>(actual: T, expected: T, message?: string) {
-        this.twoValueTest(actual, ">=", expected, (a, b) => a >= b, message);
+    isGreaterThanEqual<T>(actual: T, expected: T, message?: string): boolean {
+        return this.twoValueTest(actual, ">=", expected, (a, b) => a >= b, message);
     }
 
-    async throws(func: Function, message?: string) {
-        await this.throwTest(func, true, message);
+    throws(func: Function, message?: string): Promise<boolean> {
+        return this.throwTest(func, true, message);
     }
 
-    async doesNotThrow(func: Function, message?: string) {
-        await this.throwTest(func, false, message);
+    doesNotThrow(func: Function, message?: string): Promise<boolean> {
+        return this.throwTest(func, false, message);
     }
 
-    private twoValueTest<T>(actual: T, op: string, expected: T, testFunc: (a: T, b: T) => boolean, message?: string) {
+    private twoValueTest<T>(actual: T, op: string, expected: T, testFunc: (a: T, b: T) => boolean, message?: string): boolean {
         if (testFunc(actual, expected)) {
-            this.success();
+            return this.success();
         }
         else {
-            this.fail(`${message || ""} [Actual: ${actual}] ${op} [Expected: ${expected}]`);
+            return this.fail(`${message || ""} [Actual: ${actual}] ${op} [Expected: ${expected}]`);
         }
     }
 
-    private async throwTest(func: Function, op: boolean, message?: string) {
+    private async throwTest(func: Function, op: boolean, message?: string): Promise<boolean> {
         let threw = false;
         try {
             await func();
@@ -160,10 +162,10 @@ export class TestCase extends TypedEventBase<TestCaseEvents> {
             testMessage = `Expected function to ${throwMessage} -> ${testString}`;
         message = ((message && message + ". ") || "") + testMessage;
         if (testValue) {
-            this.success();
+            return this.success();
         }
         else {
-            this.fail(message);
+            return this.fail(message);
         }
     }
 }

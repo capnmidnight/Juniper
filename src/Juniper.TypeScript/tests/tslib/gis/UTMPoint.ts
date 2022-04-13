@@ -1,6 +1,5 @@
 import { TestCase } from "juniper-tdd/tdd";
 import { GlobeHemisphere, LatLngPoint, UTMPoint } from "juniper-tslib";
-import { vec2 } from "gl-matrix";
 
 const K = 0.00000001;
 
@@ -12,14 +11,15 @@ export class UTMPointTests extends TestCase {
     private conversionTest(lat: number, lng: number, alt: number, easting: number, northing: number, zone: number, hemisphere: GlobeHemisphere) {
         const llExpected = new LatLngPoint(lat, lng, alt);
         const utmActual = llExpected.toUTM();
-        const utmExpected = new UTMPoint(easting, northing, alt, zone, hemisphere);
+        const utmExpected = new UTMPoint(easting, northing, alt, zone);
         const llActual = utmExpected.toLatLng();
 
         this.areApprox(utmActual.easting, utmExpected.easting, "Easting");
         this.areApprox(utmActual.northing, utmExpected.northing, "Northing");
         this.areApprox(utmActual.altitude, utmExpected.altitude, "Altitude");
         this.areApprox(utmActual.zone, utmExpected.zone, "Zone");
-        this.areExact(utmActual.hemisphere, utmExpected.hemisphere, "Hemisphere");
+        this.areExact(utmActual.hemisphere, utmExpected.hemisphere, "Hemisphere 1");
+        this.areExact(utmActual.hemisphere, hemisphere, "Hemisphere 2");
         this.areApprox(llActual.lat, llExpected.lat, "Latitude");
         this.areApprox(llActual.lng, llExpected.lng, "Longitude");
         this.areApprox(llActual.alt, llExpected.alt, "Altitude");
@@ -78,31 +78,42 @@ export class UTMPointTests extends TestCase {
         this.areApprox(dEasting3, dEasting4, "F", 0.01);
     }
 
-    test_Centroid1() {
-        const r = 5;
+    private centroidTest(r: number, dy: number) {
         const numPoints = 4;
         const lls = new Array<LatLngPoint>();
         for (let i = 0; i < numPoints; ++i) {
             const a = i * Math.PI / 2
             const x = r * Math.cos(a);
             const y = r * Math.sin(a);
-            lls.push(new LatLngPoint(y - 2.5, x + 0.5))
+            lls.push(new LatLngPoint(y + dy, x + 3))
         }
+
+        const centLL = LatLngPoint.centroid(lls);
 
         const utms = lls.map((ll) => ll.toUTM());
-        const utmVecs = utms.map((utm) => utm.toVec2());
-        const llVecs = lls.map((ll) => ll.toVec2());
 
-        function cent(vecs: vec2[]): vec2 {
-            return vecs.reduce((a, b) => vec2.scaleAndAdd(a, a, b, 1 / numPoints), vec2.create());
-        }
-
-        const centLLVec = cent(llVecs);
-        const centUTMVec = cent(utmVecs);
-
-        const centUTM = new UTMPoint().fromVec2(centUTMVec, utms[0].zone);
+        const centUTM = UTMPoint.centroid(utms);
         const centUTMll = centUTM.toLatLng();
-        const centLL = new LatLngPoint().fromVec2(centLLVec);
-        this.isTrue(centLL.equals(centUTMll));
+
+        if (!this.areApprox(centUTMll.lat, centLL.lat, "Latitude", 0.01)
+            || !this.areApprox(centUTMll.lng, centLL.lng, "Longitude", 0.01)) {
+            console.log({ centUTMll, centUTM, centLL })
+        }
+    }
+
+    test_Centroid_InOneZone_InOneHemisphere() {
+        this.centroidTest(2.5, 3);
+    }
+
+    test_Centroid_InOneZone_SpanningHemispheres() {
+        this.centroidTest(2.5, 0);
+    }
+
+    test_Centroid_SpanningZones_InOneHemisphere() {
+        this.centroidTest(3.5, 4);
+    }
+
+    test_Centroid_SpanningZones_SpanningHemispheres() {
+        this.centroidTest(3.5, 0);
     }
 }

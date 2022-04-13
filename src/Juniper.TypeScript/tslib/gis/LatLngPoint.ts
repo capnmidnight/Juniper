@@ -1,6 +1,7 @@
 import { vec2, vec3 } from "gl-matrix";
 import { rad2deg } from "../math/rad2deg";
 import { isNullOrUndefined, isObject } from "../typeChecks";
+import { ICloneable } from "../using";
 import { DatumWGS_84 } from "./Datum";
 import { IUTMPoint, UTMPoint } from "./UTMPoint";
 
@@ -13,7 +14,14 @@ export interface ILatLngPoint {
 /**
  * A point in geographic space on a radial coordinate system.
  **/
-export class LatLngPoint implements ILatLngPoint {
+export class LatLngPoint implements ILatLngPoint, ICloneable {
+
+    static centroid(points: LatLngPoint[]): LatLngPoint {
+        const scale = 1 / points.length;
+        const vec = points.map((p) => p.toVec3())
+            .reduce((a, b) => vec3.scaleAndAdd(a, a, b, scale), vec3.create());
+        return new LatLngPoint().fromVec3(vec);
+    }
 
     /**
      * An altitude value thrown in just for kicks. It makes some calculations and conversions
@@ -241,9 +249,9 @@ export class LatLngPoint implements ILatLngPoint {
      * reference: http://www.uwgb.edu/dutchs/usefuldata/utmformulas.htm
      **/
     fromUTM(utm: IUTMPoint): LatLngPoint {
-        const N0 = (utm.hemisphere == "northern" || utm.northing < 0)
-            ? 0.0
-            : DatumWGS_84.FalseNorthing;
+        const N0 = (utm.hemisphere === "southern" && utm.northing >= 0)
+            ? DatumWGS_84.FalseNorthing
+            : 0.0;
         const xi = (utm.northing - N0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
         const eta = (utm.easting - DatumWGS_84.E0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
         let xiPrime = xi;
@@ -330,5 +338,9 @@ export class LatLngPoint implements ILatLngPoint {
         this._lng = other.lng;
         this._alt = other.alt;
         return this;
+    }
+
+    clone(): LatLngPoint {
+        return new LatLngPoint(this);
     }
 }
