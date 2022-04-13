@@ -271,21 +271,33 @@ export class UTMPoint implements IUTMPoint {
         return new LatLngPoint().fromUTM(this);
     }
 
-    fromVec2(arr: vec2, zone: number, hemisphere: GlobeHemisphere): UTMPoint {
+    toVec2(): vec2 {
+        const v = vec2.create();
+        vec2.set(v, this.easting, -this.northing);
+        return v;
+    }
+
+    fromVec2(arr: vec2, zone: number): UTMPoint {
         this._easting = arr[0];
         this._northing = -arr[1];
         this._altitude = 0;
         this._zone = zone;
-        this._hemisphere = hemisphere;
+        this._hemisphere = this._northing >= 0 ? "northern" : "southern";
         return this;
     }
 
-    fromVec3(arr: vec3, zone: number, hemisphere: GlobeHemisphere): UTMPoint {
+    toVec3(): vec3 {
+        const v = vec3.create();
+        vec3.set(v, this.easting, this.altitude, -this.northing);
+        return v;
+    }
+
+    fromVec3(arr: vec3, zone: number): UTMPoint {
         this._easting = arr[0];
         this._altitude = arr[1];
         this._northing = -arr[2];
         this._zone = zone;
-        this._hemisphere = hemisphere;
+        this._hemisphere = this._northing >= 0 ? "northern" : "southern";
         return this;
     }
 
@@ -296,17 +308,5 @@ export class UTMPoint implements IUTMPoint {
         this._zone = other.zone;
         this._hemisphere = other.hemisphere;
         return this;
-    }
-
-    toVec2(): vec2 {
-        const v = vec2.create();
-        vec2.set(v, this.easting, -this.northing);
-        return v;
-    }
-
-    toVec3(): vec3 {
-        const v = vec3.create();
-        vec3.set(v, this.easting, this.altitude, -this.northing);
-        return v;
     }
 }

@@ -1,3 +1,4 @@
+import { vec2, vec3 } from "gl-matrix";
 import { rad2deg } from "../math/rad2deg";
 import { isNullOrUndefined, isObject } from "../typeChecks";
 import { DatumWGS_84 } from "./Datum";
@@ -296,6 +297,32 @@ export class LatLngPoint implements ILatLngPoint {
      **/
     toUTM(): UTMPoint {
         return new UTMPoint().fromLatLng(this);
+    }
+
+    toVec2(): vec2 {
+        const v = vec2.create();
+        vec2.set(v, this.lng, this.lat);
+        return v;
+    }
+
+    fromVec2(v: vec2) {
+        this._lng = v[0];
+        this._lat = v[1];
+        this._alt = undefined;
+        return this;
+    }
+
+    toVec3(): vec3 {
+        const v = vec3.create();
+        vec3.set(v, this.lng, this.alt, this.lat);
+        return v;
+    }
+
+    fromVec3(v: vec3) {
+        this._lng = v[0];
+        this._alt = v[1];
+        this._lat = v[2];
+        return this;
     }
 
     copy(other: ILatLngPoint): LatLngPoint {

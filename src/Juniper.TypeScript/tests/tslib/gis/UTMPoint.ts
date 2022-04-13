@@ -1,5 +1,6 @@
 import { TestCase } from "juniper-tdd/tdd";
 import { GlobeHemisphere, LatLngPoint, UTMPoint } from "juniper-tslib";
+import { vec2 } from "gl-matrix";
 
 const K = 0.00000001;
 
@@ -75,5 +76,33 @@ export class UTMPointTests extends TestCase {
         this.areApprox(dEasting2, dEasting3, "D", 0.01);
         this.areApprox(dEasting2, dEasting4, "E", 0.01);
         this.areApprox(dEasting3, dEasting4, "F", 0.01);
+    }
+
+    test_Centroid1() {
+        const r = 5;
+        const numPoints = 4;
+        const lls = new Array<LatLngPoint>();
+        for (let i = 0; i < numPoints; ++i) {
+            const a = i * Math.PI / 2
+            const x = r * Math.cos(a);
+            const y = r * Math.sin(a);
+            lls.push(new LatLngPoint(y - 2.5, x + 0.5))
+        }
+
+        const utms = lls.map((ll) => ll.toUTM());
+        const utmVecs = utms.map((utm) => utm.toVec2());
+        const llVecs = lls.map((ll) => ll.toVec2());
+
+        function cent(vecs: vec2[]): vec2 {
+            return vecs.reduce((a, b) => vec2.scaleAndAdd(a, a, b, 1 / numPoints), vec2.create());
+        }
+
+        const centLLVec = cent(llVecs);
+        const centUTMVec = cent(utmVecs);
+
+        const centUTM = new UTMPoint().fromVec2(centUTMVec, utms[0].zone);
+        const centUTMll = centUTM.toLatLng();
+        const centLL = new LatLngPoint().fromVec2(centLLVec);
+        this.isTrue(centLL.equals(centUTMll));
     }
 }
