@@ -236,7 +236,8 @@ export class LatLngPoint implements ILatLngPoint, ICloneable {
      */
     distance(other: LatLngPoint): number {
         const a = this.toUTM();
-        const b = other.toUTM();
+        const b = other.toUTM()
+            .rezone(a.zone);
         const dx = b.easting - a.easting;
         const dy = b.northing - a.northing;
         return Math.sqrt((dx * dx) + (dy * dy));

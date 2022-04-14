@@ -63,8 +63,8 @@ export class UTMPointTests extends TestCase {
         const utm5 = ll5.toUTM();
         const utm6 = ll6.toUTM();
 
-        utm1.stretchToZone(utm2.zone);
-        utm6.stretchToZone(utm5.zone);
+        utm1.rezone(utm2.zone);
+        utm6.rezone(utm5.zone);
 
         const dEasting1 = utm2.easting - utm1.easting;
         const dEasting2 = utm3.easting - utm2.easting;

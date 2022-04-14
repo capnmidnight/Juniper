@@ -46,8 +46,7 @@ export class UTMPoint implements IUTMPoint, ICloneable {
         const scale = 1 / points.length;
         const vec = points
             .map((p) => p
-                .clone()
-                .stretchToZone(maxZone)
+                .rezone(maxZone)
                 .toVec3())
             .reduce((a, b) =>
                 vec3.scaleAndAdd(a, a, b, scale), vec3.create());
@@ -271,16 +270,24 @@ export class UTMPoint implements IUTMPoint, ICloneable {
         return this;
     }
 
-    stretchToZone(newZone: number) {
-        if (1 <= newZone && newZone <= 60 && newZone !== this.zone) {
+    rezone(newZone: number) {
+        if (!(1 <= newZone && newZone <= 60)) {
+            throw new Error(`Zones must be on the range [1, 60]. Given: ${newZone}`);
+        }
+
+        if (newZone !== this.zone) {
             const deltaZone = newZone - this.zone;
             const ll = this.toLatLng();
             const width = UTMPoint.getZoneWidthAtLatitude(ll.lat);
-            this._zone = newZone;
-            this._easting -= width * deltaZone;
+            return new UTMPoint(
+                this.easting - width * deltaZone,
+                this.northing,
+                this.altitude,
+                newZone);
         }
-
-        return this;
+        else {
+            return this;
+        }
     }
 
     /**
