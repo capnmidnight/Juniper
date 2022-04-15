@@ -112,8 +112,7 @@ export class YouTubeProxy {
             metadata = pageURLOrMetadata;
         }
 
-        const formats = new PriorityList((await Promise.all(metadata
-            .formats))
+        const formats = new PriorityList((await Promise.all(metadata.formats))
             .map((f) => [classifyFormat(f), f]));
 
         const title = metadata.title;

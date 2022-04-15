@@ -1,8 +1,7 @@
 import { arrayClear } from "@juniper/collections";
 import { TypedEventBase } from "@juniper/events";
 import { IProgress, isProgressCallback } from "@juniper/progress";
-import type { IDisposable } from "@juniper/tslib";
-import { isArray, isDefined, isNullOrUndefined, isNumber } from "@juniper/tslib";
+import { IDisposable, isArray, isDefined, isNullOrUndefined, isNumber } from "@juniper/tslib";
 import { WorkerClient } from "./WorkerClient";
 import type { FullWorkerClientOptions } from "./WorkerClientOptions";
 
