@@ -8,7 +8,7 @@ export function haxMethod<T, K extends keyof T, V extends T[K] & Function>(obj: 
 
     (obj as any)[name] = function (...params: any[]) {
         hax.apply(obj2, params);
-        method.apply(obj, params);
+        return method.apply(obj, params);
     };
 
     copyProps(method, obj[name]);
