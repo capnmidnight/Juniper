@@ -113,6 +113,10 @@ export class TestCase extends TypedEventBase<TestCaseEvents> {
         return this.twoValueTest(actual, "!==", expected, (a, b) => a !== b, message);
     }
 
+    areDifferent<T>(actual: T, expected: T, message?: string): boolean {
+        return this.twoValueTest(actual, "!=", expected, (a, b) => a != b, message);
+    }
+
     isLessThan<T>(actual: T, expected: T, message?: string): boolean {
         return this.twoValueTest(actual, "<", expected, (a, b) => a < b, message);
     }

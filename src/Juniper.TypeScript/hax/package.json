@@ -1,9 +1,10 @@
 {
   "version": "1.0.0",
-  "name": "@juniper/tslib",
+  "name": "@juniper/hax",
   "private": true,
   "type": "module",
   "dependencies": {
+    "@juniper/tslib": "file:../tslib"
   },
   "devDependencies": {
     "typescript": "4.5.5"

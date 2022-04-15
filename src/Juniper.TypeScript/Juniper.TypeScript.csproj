@@ -8,8 +8,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="hax\copyProps.ts" />
+    <None Remove="hax\Hax.ts" />
+    <None Remove="hax\haxClass.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
     <ProjectReference Include="..\Juniper.TSBuild\Juniper.TSBuild.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="hax\copyProps.ts" />
+    <TypeScriptCompile Include="hax\Hax.ts" />
+    <TypeScriptCompile Include="hax\haxClass.ts" />
   </ItemGroup>
 
 </Project>

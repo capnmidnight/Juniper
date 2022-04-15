@@ -7,6 +7,7 @@
     "@juniper/events": "file:../events",
     "@juniper/fetcher": "file:../fetcher",
     "@juniper/gis": "file:../gis",
+    "@juniper/hax": "file:../hax",
     "@juniper/mediatypes": "file:../mediatypes",
     "@juniper/tdd": "file:../testing",
     "@juniper/tslib": "file:../tslib",
