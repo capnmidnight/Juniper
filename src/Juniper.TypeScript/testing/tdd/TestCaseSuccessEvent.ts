@@ -1,4 +1,4 @@
-import { TypedEvent } from "juniper-tslib";
+import { TypedEvent } from "@juniper/events";
 
 export class TestCaseSuccessEvent extends TypedEvent<"testcasesuccess"> {
     constructor() {

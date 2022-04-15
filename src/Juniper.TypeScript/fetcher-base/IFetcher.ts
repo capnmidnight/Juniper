@@ -1,6 +1,6 @@
-import type { MediaType } from "juniper-mediatypes";
-import { IProgress } from "juniper-tslib";
-import { IResponse } from "./IResponse";
+import type { MediaType } from "@juniper/mediatypes";
+import type { IProgress } from "@juniper/progress";
+import type { IResponse } from "./IResponse";
 
 export interface IFetcherBasic {
     query(name: string, value: string): this;

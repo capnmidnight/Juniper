@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "juniper-tslib",
+  "name": "@juniper/tslib",
   "private": true,
   "type": "module",
   "dependencies": {

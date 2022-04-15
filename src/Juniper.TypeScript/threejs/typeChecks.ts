@@ -1,4 +1,4 @@
-import { isDefined } from "juniper-tslib";
+import { isDefined } from "@juniper/tslib";
 
 export function isMesh(obj: any): obj is THREE.Mesh {
     return isDefined(obj)

@@ -1,6 +1,6 @@
-import { IProgress } from "juniper-tslib";
-import { IRequest, IRequestWithBody } from "./IRequest";
-import { IResponse } from "./IResponse";
+import type { IProgress } from "@juniper/progress";
+import type { IRequest, IRequestWithBody } from "./IRequest";
+import type { IResponse } from "./IResponse";
 
 
 export interface IFetchingService {

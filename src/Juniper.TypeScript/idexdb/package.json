@@ -1,11 +1,13 @@
 {
   "version": "1.0.0",
-  "name": "juniper-idexdb",
+  "name": "@juniper/idexdb",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@types/idexdb-types": "file:../idexdb-types",
-    "juniper-tslib": "file:../tslib"
+    "@juniper/collections": "file:../collections",
+    "@juniper/events": "file:../events",
+    "@juniper/tslib": "file:../tslib",
+    "@types/idexdb-types": "file:../idexdb-types"
   },
   "devDependencies": {
     "typescript": "4.5.5"

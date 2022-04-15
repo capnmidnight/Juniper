@@ -1,7 +1,9 @@
-import { src } from "juniper-dom/attrs";
-import { CSSCursorValue, cursor, display, opacity, styles } from "juniper-dom/css";
-import { Div, elementApply, elementSetDisplay, ErsatzElement, Img } from "juniper-dom/tags";
-import { IProgress, isDefined, once, progressSplitWeighted, success } from "juniper-tslib";
+import { src } from "@juniper/dom/attrs";
+import { CSSCursorValue, cursor, display, opacity, styles } from "@juniper/dom/css";
+import { Div, elementApply, elementSetDisplay, ErsatzElement, Img } from "@juniper/dom/tags";
+import { once, success } from "@juniper/events";
+import { IProgress, progressSplitWeighted } from "@juniper/progress";
+import { isDefined } from "@juniper/tslib";
 import { BaseVideoPlayer } from "./BaseVideoPlayer";
 import { FullVideoRecord } from "./data";
 

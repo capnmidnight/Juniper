@@ -1,11 +1,11 @@
-import { vec2 } from "gl-matrix";
+import { GraphNode, mapBuild } from "@juniper/collections";
 import {
     max,
     min,
     step,
     value
-} from "juniper-dom/attrs";
-import { resizeCanvas } from "juniper-dom/canvas";
+} from "@juniper/dom/attrs";
+import { resizeCanvas } from "@juniper/dom/canvas";
 import {
     alignItems,
     columnGap,
@@ -15,18 +15,18 @@ import {
     height,
     styles,
     width
-} from "juniper-dom/css";
-import { DialogBox } from "juniper-dom/DialogBox";
+} from "@juniper/dom/css";
+import { DialogBox } from "@juniper/dom/DialogBox";
 import {
     Canvas,
     Div,
     elementApply,
     InputCheckbox,
     InputNumber, PreLabeled
-} from "juniper-dom/tags";
-import { RequestAnimationFrameTimer } from "juniper-timers";
-import { GraphNode, mapBuild, stringRandom } from "juniper-tslib";
-
+} from "@juniper/dom/tags";
+import { stringRandom } from "@juniper/strings";
+import { RequestAnimationFrameTimer } from "@juniper/timers";
+import { vec2 } from "gl-matrix";
 
 const size = 20;
 const mid = size / 2;

@@ -1,4 +1,4 @@
-import { isNumber, isWorker, URLBuilder } from "juniper-tslib";
+import { isNumber, isWorker, URLBuilder } from "@juniper/tslib";
 import { getUserNumber } from "./userNumber";
 
 const windows: Window[] = [];

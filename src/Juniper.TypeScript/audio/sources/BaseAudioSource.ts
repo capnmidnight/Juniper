@@ -1,4 +1,6 @@
-import { arrayClear, isDefined, isDisposable, TypedEvent } from "juniper-tslib";
+import { arrayClear } from "@juniper/collections";
+import { TypedEvent } from "@juniper/events";
+import { isDefined, isDisposable } from "@juniper/tslib";
 import { BaseAudioElement } from "../BaseAudioElement";
 import { effectStore } from "../effects";
 import { AudioNodeType, chain, connect, disconnect, ErsatzAudioNode, removeVertex } from "../nodes";

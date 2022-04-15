@@ -1,6 +1,9 @@
-import { setContextSize } from "juniper-dom/canvas";
-import { IFetcher } from "juniper-fetcher-base/IFetcher";
-import { clamp, IProgress, singleton, Task } from "juniper-tslib";
+import { setContextSize } from "@juniper/dom/canvas";
+import { Task } from "@juniper/events";
+import { IFetcher } from "@juniper/fetcher-base/IFetcher";
+import { clamp } from "@juniper/math";
+import { IProgress } from "@juniper/progress";
+import { singleton } from "@juniper/tslib";
 import pdfJS from "pdfjs-dist";
 import { version as pdfjsVersion } from "pdfjs-dist/package.json";
 import { GetViewportParameters } from "pdfjs-dist/types/src/display/api";

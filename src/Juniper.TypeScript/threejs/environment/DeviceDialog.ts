@@ -1,5 +1,6 @@
-import { canChangeAudioOutput } from "juniper-audio/DeviceManager";
-import { connect } from "juniper-audio/nodes";
+import { canChangeAudioOutput } from "@juniper/audio/DeviceManager";
+import { connect } from "@juniper/audio/nodes";
+import { makeLookup } from "@juniper/collections";
 import {
     className,
     max,
@@ -7,13 +8,13 @@ import {
     step,
     title,
     value
-} from "juniper-dom/attrs";
-import { buttonSetEnabled } from "juniper-dom/buttonSetEnabled";
-import { marginLeft, minWidth, styles } from "juniper-dom/css";
-import { DialogBox } from "juniper-dom/DialogBox";
-import { onClick, onInput } from "juniper-dom/evts";
-import { InputRangeWithNumber, InputRangeWithNumberElement } from "juniper-dom/InputRangeWithNumber";
-import { group, PropertyList } from "juniper-dom/PropertyList";
+} from "@juniper/dom/attrs";
+import { buttonSetEnabled } from "@juniper/dom/buttonSetEnabled";
+import { marginLeft, minWidth, styles } from "@juniper/dom/css";
+import { DialogBox } from "@juniper/dom/DialogBox";
+import { onClick, onInput } from "@juniper/dom/evts";
+import { InputRangeWithNumber, InputRangeWithNumberElement } from "@juniper/dom/InputRangeWithNumber";
+import { group, PropertyList } from "@juniper/dom/PropertyList";
 import {
     ButtonSecondary,
     Div,
@@ -23,10 +24,10 @@ import {
     Meter,
     Option,
     Select
-} from "juniper-dom/tags";
-import { SetTimeoutTimer } from "juniper-timers";
-import { makeLookup, stringRandom } from "juniper-tslib";
-import { ActivityDetector } from "juniper-webrtc/ActivityDetector";
+} from "@juniper/dom/tags";
+import { stringRandom } from "@juniper/strings";
+import { SetTimeoutTimer } from "@juniper/timers";
+import { ActivityDetector } from "@juniper/webrtc/ActivityDetector";
 import type { Environment } from "./Environment";
 
 const MIC_GROUP = "micFields" + stringRandom(8);

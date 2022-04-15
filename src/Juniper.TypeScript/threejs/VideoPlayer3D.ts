@@ -1,5 +1,6 @@
-import { and, arrayClear, PriorityMap } from "juniper-tslib";
-import { BaseVideoPlayer } from "juniper-video/BaseVideoPlayer";
+import { arrayClear, PriorityMap } from "@juniper/collections";
+import { and } from "@juniper/tslib";
+import { BaseVideoPlayer } from "@juniper/video/BaseVideoPlayer";
 import { cleanup } from "./cleanup";
 import { createEACGeometry, createQuadGeometry, PosUV, QuadPosUV } from "./CustomGeometry";
 import { Image2DMesh } from "./Image2DMesh";

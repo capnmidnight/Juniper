@@ -1,4 +1,4 @@
-import { isWorker } from "juniper-tslib";
+import { isWorker } from "@juniper/tslib";
 import { ILogger } from "./models";
 import { WindowLogger } from "./WindowLogger";
 import { WorkerLogger } from "./WorkerLogger";

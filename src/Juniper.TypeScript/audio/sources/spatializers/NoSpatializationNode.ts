@@ -1,4 +1,5 @@
-import { singleton, stringRandom } from "juniper-tslib";
+import { stringRandom } from "@juniper/strings";
+import { singleton } from "@juniper/tslib";
 import { Gain } from "../../nodes";
 import type { Pose } from "../../Pose";
 import { BaseEmitter } from "./BaseEmitter";

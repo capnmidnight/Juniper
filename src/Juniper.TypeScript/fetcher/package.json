@@ -1,19 +1,21 @@
 {
   "version": "1.0.0",
-  "name": "juniper-fetcher",
+  "name": "@juniper/fetcher",
   "private": true,
   "type": "module",
   "dependencies": {
+    "@juniper/dom": "file:../dom",
+    "@juniper/events": "file:../events",
+    "@juniper/fetcher-base": "file:../fetcher-base",
+    "@juniper/mediatypes": "file:../mediatypes",
+    "@juniper/progress": "file:../progress",
+    "@juniper/tslib": "file:../tslib",
+    "@juniper/worker-client": "file:../worker-client",
     "@types/idexdb-types": "file:../idexdb-types",
-    "@types/offscreencanvas-types": "file:../offscreencanvas-types",
-    "juniper-dom": "file:../dom",
-    "juniper-fetcher-base": "file:../fetcher-base",
-    "juniper-mediatypes": "file:../mediatypes",
-    "juniper-tslib": "file:../tslib",
-    "juniper-worker-client": "file:../worker-client"
+    "@types/offscreencanvas-types": "file:../offscreencanvas-types"
   },
   "devDependencies": {
-    "juniper-esbuild": "file:../esbuild",
+    "@juniper/esbuild": "file:../esbuild",
     "typescript": "4.5.5"
   }
 }

@@ -1,7 +1,8 @@
-import type { IProgress } from "juniper-tslib";
-import { isDefined, progressPopper, progressSplitWeighted, TypedEvent, TypedEventBase } from "juniper-tslib";
-import type { Environment } from "./Environment";
+import { TypedEvent, TypedEventBase } from "@juniper/events";
+import { IProgress, progressPopper, progressSplitWeighted } from "@juniper/progress";
+import { isDefined } from "@juniper/tslib";
 import type { Application, ApplicationConstructor, ApplicationModule } from "./Application";
+import type { Environment } from "./Environment";
 
 class ApplicationLoaderEvent<T extends string> extends TypedEvent<T> {
     constructor(type: T, public readonly appName: string) {

@@ -1,2 +1,2 @@
-export * from "juniper-fetcher-base/IFetcher";
-export * from "juniper-fetcher-base/IResponse";
+export * from "@juniper/fetcher-base/IFetcher";
+export * from "@juniper/fetcher-base/IResponse";

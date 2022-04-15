@@ -1,6 +1,6 @@
-import { canvasToBlob, CanvasTypes } from "juniper-dom/canvas";
-import { makeBlobURL } from "juniper-mediatypes";
-import { isWorker } from "juniper-tslib";
+import { canvasToBlob, CanvasTypes } from "@juniper/dom/canvas";
+import { makeBlobURL } from "@juniper/mediatypes";
+import { isWorker } from "@juniper/tslib";
 import { openWindow } from "./windowing";
 
 

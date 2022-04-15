@@ -1,6 +1,6 @@
-import type { TextImageOptions } from "juniper-2d/TextImage";
-import { IFetcher } from "juniper-fetcher";
-import { isDefined } from "juniper-tslib";
+import type { TextImageOptions } from "@juniper/2d/TextImage";
+import { IFetcher } from "@juniper/fetcher";
+import { isDefined } from "@juniper/tslib";
 import { scaleOnHover } from "./animation/scaleOnHover";
 import { IWebXRLayerManager } from "./IWebXRLayerManager";
 import { PlaneCollider } from "./Plane";

@@ -1,6 +1,7 @@
-import { CanvasImageTypes, createCanvasFromImageBitmap, isImageBitmap, isOffscreenCanvas } from "juniper-dom/canvas";
-import { IFetcher } from "juniper-fetcher";
-import { IProgress, isNumber } from "juniper-tslib";
+import { CanvasImageTypes, createCanvasFromImageBitmap, isImageBitmap, isOffscreenCanvas } from "@juniper/dom/canvas";
+import { IFetcher } from "@juniper/fetcher";
+import { IProgress } from "@juniper/progress";
+import { isNumber } from "@juniper/tslib";
 
 const inchesPerMeter = 39.3701;
 

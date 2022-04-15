@@ -16,16 +16,16 @@ import {
     top,
     width,
     zIndex
-} from "juniper-dom/css";
-import { isModifierless } from "juniper-dom/isModifierless";
+} from "@juniper/dom/css";
+import { isModifierless } from "@juniper/dom/isModifierless";
 import {
     Div,
     elementApply,
     elementSetDisplay,
     elementToggleDisplay,
     ErsatzElement
-} from "juniper-dom/tags";
-import { assertNever } from "juniper-tslib";
+} from "@juniper/dom/tags";
+import { assertNever } from "@juniper/tslib";
 import { ILogger, isWorkerLoggerMessageData } from "./models";
 
 function track(a: number, b: number) {

@@ -1,4 +1,4 @@
-import { getMonospaceFonts } from "juniper-dom/css";
+import { getMonospaceFonts } from "@juniper/dom/css";
 import { TextImage } from "./TextImage";
 
 export class ClockImage extends TextImage {

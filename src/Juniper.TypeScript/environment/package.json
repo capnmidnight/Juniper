@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "juniper-environment",
+  "name": "@juniper/environment",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,7 +8,7 @@
     "watch": "node --experimental-modules esbuild.config.js --watch"
   },
   "devDependencies": {
-    "juniper-esbuild": "file:../esbuild",
+    "@juniper/esbuild": "file:../esbuild",
     "typescript": "4.5.5"
   },
   "dependencies": {
@@ -19,18 +19,7 @@
     "@types/three": "0.137.0",
     "@types/webxr-polyfill-types": "file:../webxr-polyfill-types",
     "@types/webxr-types": "file:../webxr-types",
-    "@types/yt-dlp": "file:../yt-dlp",
-    "juniper-2d": "file:../graphics2d",
-    "juniper-audio": "file:../audio",
-    "juniper-dom": "file:../dom",
-    "juniper-emoji": "file:../emoji",
-    "juniper-fetcher": "file:../fetcher",
-    "juniper-threejs": "file:../threejs",
-    "juniper-timers": "file:../timers",
-    "juniper-tslib": "file:../tslib",
-    "juniper-units": "file:../units",
-    "juniper-webrtc": "file:../webrtc",
-    "three": "0.137.5",
-    "webxr-polyfill": "2.0.3"
+    "@types/yt-dlp": "file:../yt-dlp-types",
+    "@juniper/threejs": "file:../threejs"
   }
 }

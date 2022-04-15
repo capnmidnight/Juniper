@@ -1,4 +1,5 @@
-import { isDefined, isNullOrUndefined, Task } from "juniper-tslib";
+import { Task } from "@juniper/events";
+import { isDefined, isNullOrUndefined } from "@juniper/tslib";
 import { htmlHeight, htmlWidth } from "./attrs";
 import { Canvas } from "./tags";
 

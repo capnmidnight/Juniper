@@ -1,15 +1,17 @@
 {
   "version": "1.0.0",
-  "name": "juniper-tdd",
+  "name": "@juniper/tdd",
   "private": true,
   "type": "module",
   "dependencies": {
+    "@juniper/collections": "file:../collections",
+    "@juniper/dom": "file:../dom",
+    "@juniper/events": "file:../events",
+    "@juniper/mediatypes": "file:../mediatypes",
+    "@juniper/tslib": "file:../tslib",
     "@types/offscreencanvas-types": "file:../offscreencanvas-types",
     "@types/webxr-types": "file:../webxr-types",
-    "gl-matrix": "3.4.3",
-    "juniper-dom": "file:../dom",
-    "juniper-mediatypes": "file:../mediatypes",
-    "juniper-tslib": "file:../tslib"
+    "gl-matrix": "3.4.3"
   },
   "devDependencies": {
     "typescript": "4.5.5"

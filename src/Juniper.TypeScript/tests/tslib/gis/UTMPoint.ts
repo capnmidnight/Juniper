@@ -1,5 +1,5 @@
-import { TestCase } from "juniper-tdd/tdd";
-import { GlobeHemisphere, LatLngPoint, UTMPoint } from "juniper-tslib";
+import { TestCase } from "@juniper/tdd/tdd";
+import { GlobeHemisphere, LatLngPoint, UTMPoint } from "@juniper/gis";
 
 const K = 0.00000001;
 
@@ -56,15 +56,12 @@ export class UTMPointTests extends TestCase {
         const ll4 = new LatLngPoint(0, 6 - 2 * K, 0);
         const ll5 = new LatLngPoint(0, 6 - K, 0);
         const ll6 = new LatLngPoint(0, 6, 0);
-        const utm1 = ll1.toUTM();
         const utm2 = ll2.toUTM();
+        const utm1 = ll1.toUTM().rezone(utm2.zone);
         const utm3 = ll3.toUTM();
         const utm4 = ll4.toUTM();
         const utm5 = ll5.toUTM();
-        const utm6 = ll6.toUTM();
-
-        utm1.rezone(utm2.zone);
-        utm6.rezone(utm5.zone);
+        const utm6 = ll6.toUTM().rezone(utm5.zone);
 
         const dEasting1 = utm2.easting - utm1.easting;
         const dEasting2 = utm3.easting - utm2.easting;

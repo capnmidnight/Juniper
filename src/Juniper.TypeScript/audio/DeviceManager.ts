@@ -1,4 +1,6 @@
-import { arrayScan, arraySortByKey, isDefined, isFunction, isNullOrUndefined, TypedEvent, TypedEventBase } from "juniper-tslib";
+import { arrayScan, arraySortByKey } from "@juniper/collections";
+import { TypedEvent, TypedEventBase } from "@juniper/events";
+import { isDefined, isFunction, isNullOrUndefined } from "@juniper/tslib";
 import type { MediaDeviceSet } from "./MediaDeviceSet";
 import type { MediaPermissionSet } from "./MediaPermissionSet";
 

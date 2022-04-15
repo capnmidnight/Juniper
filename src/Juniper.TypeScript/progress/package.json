@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "name": "@juniper/progress",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@juniper/collections": "file:../collections",
+    "@juniper/events": "file:../events",
+    "@juniper/tslib": "file:../tslib"
+  },
+  "devDependencies": {
+    "typescript": "4.5.5"
+  }
+}

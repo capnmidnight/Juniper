@@ -1,11 +1,14 @@
 {
   "version": "1.0.0",
-  "name": "juniper-worker-client",
+  "name": "@juniper/worker-client",
   "private": true,
   "type": "module",
   "dependencies": {
-    "juniper-tslib": "file:../tslib",
-    "juniper-workers": "file:../workers"
+    "@juniper/collections": "file:../collections",
+    "@juniper/events": "file:../events",
+    "@juniper/progress": "file:../progress",
+    "@juniper/tslib": "file:../tslib",
+    "@juniper/workers": "file:../workers"
   },
   "devDependencies": {
     "typescript": "4.5.5"

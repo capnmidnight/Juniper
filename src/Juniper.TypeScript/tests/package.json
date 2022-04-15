@@ -4,11 +4,13 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@juniper/events": "file:../events",
+    "@juniper/fetcher": "file:../fetcher",
+    "@juniper/gis": "file:../gis",
+    "@juniper/mediatypes": "file:../mediatypes",
+    "@juniper/tdd": "file:../testing",
+    "@juniper/tslib": "file:../tslib",
     "@types/idexdb-types": "file:../idexdb-types",
-    "gl-matrix": "^3.4.3",
-    "juniper-fetcher": "file:../fetcher",
-    "juniper-mediatypes": "file:../mediatypes",
-    "juniper-tdd": "file:../testing",
-    "juniper-tslib": "file:../tslib"
+    "gl-matrix": "^3.4.3"
   }
 }

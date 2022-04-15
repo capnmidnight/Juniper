@@ -1,6 +1,6 @@
-import type { CanvasTypes } from "juniper-dom/canvas";
-import type { IFetcher } from "juniper-fetcher";
-import type { PriorityMap } from "juniper-tslib";
+import type { PriorityMap } from "@juniper/collections";
+import type { CanvasTypes } from "@juniper/dom/canvas";
+import type { IFetcher } from "@juniper/fetcher";
 import type { Environment, EnvironmentOptions } from "./Environment";
 
 export interface EnvironmentConstructor {

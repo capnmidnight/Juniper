@@ -1,4 +1,4 @@
-import { waitFor } from "juniper-tslib";
+import { waitFor } from "@juniper/events";
 
 export enum ConnectionState {
     Disconnected = "Disconnected",

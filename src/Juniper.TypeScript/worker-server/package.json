@@ -1,11 +1,12 @@
 {
   "version": "1.0.0",
-  "name": "juniper-worker-server",
+  "name": "@juniper/worker-server",
   "private": true,
   "type": "module",
   "dependencies": {
-    "juniper-tslib": "file:../tslib",
-    "juniper-workers": "file:../workers"
+    "@juniper/progress": "file:../progress",
+    "@juniper/tslib": "file:../tslib",
+    "@juniper/workers": "file:../workers"
   },
   "devDependencies": {
     "typescript": "4.5.5"

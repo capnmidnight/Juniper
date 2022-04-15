@@ -1,4 +1,5 @@
-import { clamp, once, TypedEvent, TypedEventBase } from "juniper-tslib";
+import { once, TypedEvent, TypedEventBase } from "@juniper/events";
+import { clamp } from "@juniper/math";
 import { cube as geom } from "./Cube";
 import { solidTransparent } from "./materials";
 import { ErsatzObject } from "./objects";

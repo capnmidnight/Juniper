@@ -1,4 +1,4 @@
-import { arrayRemove } from "juniper-tslib/collections/arrayRemove";
+import { arrayRemove } from "@juniper/collections";
 import { ITimer, TimerTickEvent } from "./ITimer";
 
 export abstract class BaseTimer<TimerT>

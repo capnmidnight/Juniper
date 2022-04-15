@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "juniper-fetcher-worker",
+  "name": "@juniper/fetcher-worker",
   "private": true,
   "type": "module",
   "main": "dist/index.js",
@@ -11,14 +11,14 @@
   "dependencies": {
     "@types/idexdb-types": "file:../idexdb-types",
     "@types/offscreencanvas-types": "file:../offscreencanvas-types",
-    "juniper-dom": "file:../dom",
-    "juniper-fetcher-base": "file:../fetcher-base",
-    "juniper-mediatypes": "file:../mediatypes",
-    "juniper-tslib": "file:../tslib",
-    "juniper-worker-server": "file:../worker-server"
+    "@juniper/dom": "file:../dom",
+    "@juniper/fetcher-base": "file:../fetcher-base",
+    "@juniper/mediatypes": "file:../mediatypes",
+    "@juniper/tslib": "file:../tslib",
+    "@juniper/worker-server": "file:../worker-server"
   },
   "devDependencies": {
-    "juniper-esbuild": "file:../esbuild",
+    "@juniper/esbuild": "file:../esbuild",
     "typescript": "4.5.5"
   }
 }

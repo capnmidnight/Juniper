@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "juniper-units",
+  "name": "@juniper/units",
   "private": true,
   "type": "module",
   "devDependencies": {

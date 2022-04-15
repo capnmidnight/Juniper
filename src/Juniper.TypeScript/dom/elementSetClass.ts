@@ -1,4 +1,4 @@
-import { isDefined } from "juniper-tslib";
+import { isDefined } from "@juniper/tslib";
 
 export function elementSetClass(elem: HTMLElement, enabled: boolean, className: string) {
     const canEnable = isDefined(className);

@@ -1,5 +1,6 @@
+import { deg2rad, rad2deg } from "@juniper/math";
+import { isNumber } from "@juniper/tslib";
 import { glMatrix, mat4, quat, vec3 } from "gl-matrix";
-import { deg2rad, isNumber, rad2deg } from "juniper-tslib";
 import type { Context3D, ResizeEvent } from "./Context3D";
 
 

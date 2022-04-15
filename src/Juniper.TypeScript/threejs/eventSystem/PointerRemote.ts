@@ -1,5 +1,5 @@
-import { PointerName } from "juniper-dom/eventSystem/PointerName";
-import type { VirtualButtons } from "juniper-dom/eventSystem/VirtualButtons";
+import { PointerName } from "@juniper/event-system/PointerName";
+import type { VirtualButtons } from "@juniper/event-system/VirtualButtons";
 import { Cube } from "../Cube";
 import { green, litGrey, yellow } from "../materials";
 import { ErsatzObject, obj } from "../objects";

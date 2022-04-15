@@ -1,4 +1,4 @@
-import { isDefined, isNullOrUndefined, isString, singleton } from "juniper-tslib";
+import { isDefined, isNullOrUndefined, isString, singleton } from "@juniper/tslib";
 
 export interface MediaType {
     typeName: string;

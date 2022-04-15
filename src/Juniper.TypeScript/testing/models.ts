@@ -1,4 +1,4 @@
-import { isDefined } from "juniper-tslib";
+import { isDefined } from "@juniper/tslib";
 
 export interface ILogger {
     log(id: string, ...values: any[]): void;

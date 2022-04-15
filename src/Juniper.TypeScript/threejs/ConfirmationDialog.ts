@@ -1,6 +1,6 @@
-import { Animator } from "juniper-2d/animation/Animator";
-import { jump } from "juniper-2d/animation/tween";
-import type { TextImageOptions } from "juniper-2d/TextImage";
+import { Animator } from "@juniper/2d/animation/Animator";
+import { jump } from "@juniper/2d/animation/tween";
+import type { TextImageOptions } from "@juniper/2d/TextImage";
 import {
     fontSize,
     maxWidth,
@@ -8,14 +8,14 @@ import {
     styles,
     textAlign,
     width
-} from "juniper-dom/css";
-import { DialogBox } from "juniper-dom/DialogBox";
+} from "@juniper/dom/css";
+import { DialogBox } from "@juniper/dom/DialogBox";
 import {
     elementApply,
     elementIsDisplayed,
     elementSetDisplay,
     elementSetText
-} from "juniper-dom/tags";
+} from "@juniper/dom/tags";
 import type { Environment } from "./environment/Environment";
 import { objectSetVisible, objGraph } from "./objects";
 import { TextMeshButton } from "./TextMeshButton";

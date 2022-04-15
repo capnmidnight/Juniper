@@ -1,4 +1,4 @@
-﻿import { IProgress } from "juniper-tslib";
+﻿import { IProgress } from "@juniper/progress";
 
 
 export interface IModelLoader {

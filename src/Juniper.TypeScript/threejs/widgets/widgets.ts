@@ -1,11 +1,11 @@
-import { buttonSetEnabled } from "juniper-dom/buttonSetEnabled";
-import type { ElementChild, ErsatzElement } from "juniper-dom/tags";
+import { buttonSetEnabled } from "@juniper/dom/buttonSetEnabled";
+import type { ElementChild, ErsatzElement } from "@juniper/dom/tags";
 import {
     elementApply,
     elementClearChildren,
     isElementChild,
     isErsatzElement
-} from "juniper-dom/tags";
+} from "@juniper/dom/tags";
 import type { ErsatzObject, Objects } from "../objects";
 import {
     isErsatzObject,

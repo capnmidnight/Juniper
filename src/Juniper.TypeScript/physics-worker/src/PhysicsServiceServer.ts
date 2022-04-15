@@ -1,6 +1,6 @@
-import { IPhysicsService } from "juniper-physics-base/IPhysicsService";
-import { PhysicsServiceImpl } from "juniper-physics-base/PhysicsServiceImpl";
-import { WorkerServer } from "juniper-worker-server";
+import { IPhysicsService } from "@juniper/physics-base/IPhysicsService";
+import { PhysicsServiceImpl } from "@juniper/physics-base/PhysicsServiceImpl";
+import { WorkerServer } from "@juniper/worker-server";
 
 export class PhysicsServiceServer extends WorkerServer {
     constructor(self: DedicatedWorkerGlobalScope) {

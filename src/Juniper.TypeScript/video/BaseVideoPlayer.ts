@@ -1,14 +1,17 @@
-import { AudioRecord } from "juniper-audio/data";
-import { Gain, MediaElementSource, removeVertex } from "juniper-audio/nodes";
-import { BaseAudioSource } from "juniper-audio/sources/BaseAudioSource";
-import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "juniper-audio/sources/IPlayable";
-import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "juniper-audio/sources/IPlayer";
-import { PlaybackState } from "juniper-audio/sources/PlaybackState";
-import { NoSpatializationNode } from "juniper-audio/sources/spatializers/NoSpatializationNode";
-import { autoPlay, controls, loop, playsInline } from "juniper-dom/attrs";
-import { Audio, ElementChild, mediaElementCanPlayThrough, Video } from "juniper-dom/tags";
-import { Video_Vendor_Mpeg_Dash_Mpd } from "juniper-mediatypes/video";
-import { arraySortByKeyInPlace, AsyncCallback, IDisposable, IProgress, isDefined, isNullOrUndefined, isString, once, PriorityList, progressTasks } from "juniper-tslib";
+import { AudioRecord } from "@juniper/audio/data";
+import { Gain, MediaElementSource, removeVertex } from "@juniper/audio/nodes";
+import { BaseAudioSource } from "@juniper/audio/sources/BaseAudioSource";
+import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "@juniper/audio/sources/IPlayable";
+import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "@juniper/audio/sources/IPlayer";
+import { PlaybackState } from "@juniper/audio/sources/PlaybackState";
+import { NoSpatializationNode } from "@juniper/audio/sources/spatializers/NoSpatializationNode";
+import { arraySortByKeyInPlace, PriorityList } from "@juniper/collections";
+import { autoPlay, controls, loop, playsInline } from "@juniper/dom/attrs";
+import { Audio, ElementChild, mediaElementCanPlayThrough, Video } from "@juniper/dom/tags";
+import { once } from "@juniper/events";
+import { Video_Vendor_Mpeg_Dash_Mpd } from "@juniper/mediatypes/video";
+import { IProgress, progressTasks } from "@juniper/progress";
+import { AsyncCallback, IDisposable, isDefined, isNullOrUndefined, isString } from "@juniper/tslib";
 import { FullVideoRecord, isVideoRecord } from "./data";
 
 export abstract class BaseVideoPlayer

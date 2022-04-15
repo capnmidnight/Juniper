@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "name": "@juniper/collections",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@juniper/tslib": "file:../tslib"
+  },
+  "devDependencies": {
+    "typescript": "4.5.5"
+  }
+}

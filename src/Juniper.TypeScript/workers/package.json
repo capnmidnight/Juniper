@@ -1,10 +1,10 @@
 {
   "version": "1.0.0",
-  "name": "juniper-workers",
+  "name": "@juniper/workers",
   "private": true,
   "type": "module",
   "dependencies": {
-    "juniper-tslib": "file:../tslib"
+    "@juniper/tslib": "file:../tslib"
   },
   "devDependencies": {
     "typescript": "4.5.5"

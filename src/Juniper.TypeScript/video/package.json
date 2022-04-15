@@ -1,18 +1,21 @@
 {
   "version": "1.0.0",
-  "name": "juniper-video",
+  "name": "@juniper/video",
   "private": true,
   "type": "module",
   "dependencies": {
+    "@juniper/audio": "file:../audio",
+    "@juniper/collections": "file:../collections",
+    "@juniper/dom": "file:../dom",
+    "@juniper/events": "file:../events",
+    "@juniper/fetcher": "file:../fetcher",
+    "@juniper/mediatypes": "file:../mediatypes",
+    "@juniper/progress": "file:../progress",
+    "@juniper/tslib": "file:../tslib",
     "@types/audio-types": "file:../audio-types",
     "@types/offscreencanvas-types": "file:../offscreencanvas-types",
-    "@types/yt-dlp": "file:../yt-dlp",
-    "gl-matrix": "3.4.3",
-    "juniper-audio": "file:../audio",
-    "juniper-dom": "file:../dom",
-    "juniper-fetcher": "file:../fetcher",
-    "juniper-mediatypes": "file:../mediatypes",
-    "juniper-tslib": "file:../tslib"
+    "@types/yt-dlp": "file:../yt-dlp-types",
+    "gl-matrix": "3.4.3"
   },
   "devDependencies": {
     "typescript": "4.5.5"

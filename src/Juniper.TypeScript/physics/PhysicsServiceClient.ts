@@ -1,5 +1,5 @@
-import type { IPhysicsService } from "juniper-physics-base/IPhysicsService";
-import { WorkerClient } from "juniper-worker-client";
+import type { IPhysicsService } from "@juniper/physics-base/IPhysicsService";
+import { WorkerClient } from "@juniper/worker-client";
 
 
 export class PhysicsServiceClient

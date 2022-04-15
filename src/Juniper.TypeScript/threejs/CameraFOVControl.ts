@@ -1,4 +1,4 @@
-import { clamp, truncate } from "juniper-tslib";
+import { clamp, truncate } from "@juniper/math";
 import type { EventSystemEvent } from "./eventSystem/EventSystemEvent";
 
 export class CameraControl {

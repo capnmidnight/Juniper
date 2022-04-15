@@ -1,20 +1,24 @@
 {
   "version": "1.0.0",
-  "name": "juniper-webgl",
+  "name": "@juniper/webgl",
   "private": true,
   "type": "module",
   "devDependencies": {
     "typescript": "4.5.5"
   },
   "dependencies": {
+    "@juniper/2d": "file:../graphics2d",
+    "@juniper/collections": "file:../collections",
+    "@juniper/dom": "file:../dom",
+    "@juniper/events": "file:../events",
+    "@juniper/math": "file:../math",
+    "@juniper/progress": "file:../progress",
+    "@juniper/timers": "file:../timers",
+    "@juniper/tslib": "file:../tslib",
     "@types/glsl-types": "file:../glsl-types",
     "@types/offscreencanvas-types": "file:../offscreencanvas-types",
     "@types/webxr-polyfill-types": "file:../webxr-polyfill-types",
     "@types/webxr-types": "file:../webxr-types",
-    "gl-matrix": "3.4.3",
-    "juniper-2d": "file:../graphics2d",
-    "juniper-dom": "file:../dom",
-    "juniper-timers": "file:../timers",
-    "juniper-tslib": "file:../tslib"
+    "gl-matrix": "3.4.3"
   }
 }

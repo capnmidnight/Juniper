@@ -1,6 +1,6 @@
-import { PointerName } from "juniper-dom/eventSystem/PointerName";
-import { PointerState } from "juniper-dom/eventSystem/PointerState";
-import { VirtualButtons } from "juniper-dom/eventSystem/VirtualButtons";
+import { PointerName } from "@juniper/event-system/PointerName";
+import { PointerState } from "@juniper/event-system/PointerState";
+import { VirtualButtons } from "@juniper/event-system/VirtualButtons";
 import { resolveCamera } from "../resolveCamera";
 import { BasePointer } from "./BasePointer";
 import type { EventSystem } from "./EventSystem";

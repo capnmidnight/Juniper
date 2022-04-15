@@ -1,7 +1,7 @@
-import { getInput } from "juniper-dom/tags";
-import { HTTPMethods } from "juniper-fetcher-base/HTTPMethods";
-import { IFetcher } from "juniper-fetcher-base/IFetcher";
-import { IFetchingService } from "juniper-fetcher-base/IFetchingService";
+import { getInput } from "@juniper/dom/tags";
+import { HTTPMethods } from "@juniper/fetcher-base/HTTPMethods";
+import { IFetcher } from "@juniper/fetcher-base/IFetcher";
+import { IFetchingService } from "@juniper/fetcher-base/IFetchingService";
 import { RequestBuilder } from "./RequestBuilder";
 
 export class Fetcher implements IFetcher {

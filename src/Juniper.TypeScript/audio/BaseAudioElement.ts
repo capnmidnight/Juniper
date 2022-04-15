@@ -1,7 +1,8 @@
-import { IDisposable, isDisposable, TypedEventBase } from "juniper-tslib";
-import { Gain, removeVertex } from "./nodes";
+import { TypedEventBase } from "@juniper/events";
+import { IDisposable, isDisposable } from "@juniper/tslib";
 import type { BaseSpatializer } from "./BaseSpatializer";
 import type { IPoseable } from "./IPoseable";
+import { Gain, removeVertex } from "./nodes";
 import { Pose } from "./Pose";
 
 export interface AudioElement

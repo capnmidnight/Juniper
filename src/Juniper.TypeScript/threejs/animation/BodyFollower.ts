@@ -1,4 +1,4 @@
-import { deg2rad } from "juniper-tslib";
+import { deg2rad } from "@juniper/math";
 import { getLookHeading } from "./lookAngles";
 
 const targetPos = new THREE.Vector3();

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "juniper-phsyics",
+  "name": "@juniper/phsyics",
   "private": true,
   "type": "module",
   "devDependencies": {
@@ -8,8 +8,8 @@
   },
   "dependencies": {
     "@types/webxr-types": "file:../webxr-types",
-    "juniper-physics-base": "file:../physics-base",
-    "juniper-tslib": "file:../tslib",
-    "juniper-worker-client": "file:../worker-client"
+    "@juniper/physics-base": "file:../physics-base",
+    "@juniper/tslib": "file:../tslib",
+    "@juniper/worker-client": "file:../worker-client"
   }
 }

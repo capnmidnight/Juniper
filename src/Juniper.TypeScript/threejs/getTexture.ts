@@ -1,4 +1,4 @@
-import { CanvasImageTypes, createCanvasFromOffscreenCanvas, isOffscreenCanvas } from "juniper-dom/canvas";
+import { CanvasImageTypes, createCanvasFromOffscreenCanvas, isOffscreenCanvas } from "@juniper/dom/canvas";
 
 export function canvases2CubeTexture(canvs: CanvasImageTypes[]) {
     const texture = new THREE.CubeTexture(canvs);

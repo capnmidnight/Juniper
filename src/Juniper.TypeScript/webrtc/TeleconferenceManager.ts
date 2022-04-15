@@ -1,15 +1,15 @@
+import type { AudioManager } from "@juniper/audio/AudioManager";
+import type { DeviceManagerAudioInputChangedEvent } from "@juniper/audio/DeviceManager";
+import { MediaStreamSource, removeVertex } from "@juniper/audio/nodes";
+import { PointerName } from "@juniper/event-system/PointerName";
+import { TypedEventBase } from "@juniper/events";
+import { assertNever, IDisposable, singleton } from "@juniper/tslib";
 import {
     HttpTransportType,
     HubConnection,
     HubConnectionBuilder,
     HubConnectionState
 } from "@microsoft/signalr";
-import type { AudioManager } from "juniper-audio/AudioManager";
-import type { DeviceManagerAudioInputChangedEvent } from "juniper-audio/DeviceManager";
-import { MediaStreamSource, removeVertex } from "juniper-audio/nodes";
-import { PointerName } from "juniper-dom/eventSystem/PointerName";
-import { IDisposable, singleton } from "juniper-tslib";
-import { assertNever, TypedEventBase } from "juniper-tslib";
 import adapter from 'webrtc-adapter';
 import {
     ConferenceErrorEvent,

@@ -1,7 +1,7 @@
+import { TypedEventBase } from "@juniper/events";
+import { ITimer, RequestAnimationFrameTimer } from "@juniper/timers";
 import { Body, Vec3, World } from "cannon-es";
-import { ITimer, RequestAnimationFrameTimer } from "juniper-timers";
 import { IPhysicsService } from "./IPhysicsService";
-import { TypedEventBase } from "juniper-tslib";
 
 export type PhysicsServiceEvents = void;
 

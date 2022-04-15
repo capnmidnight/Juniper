@@ -1,6 +1,6 @@
-import { PointerEventTypes } from "juniper-dom/eventSystem/PointerEventTypes";
-import { PointerName } from "juniper-dom/eventSystem/PointerName";
-import { arrayScan } from "juniper-tslib";
+import { PointerEventTypes } from "@juniper/event-system/PointerEventTypes";
+import { PointerName } from "@juniper/event-system/PointerName";
+import { arrayScan } from "@juniper/collections";
 import { BaseScreenPointer } from "./BaseScreenPointer";
 import type { EventSystem } from "./EventSystem";
 import type { PointerMultiTouch } from "./PointerMultiTouch";

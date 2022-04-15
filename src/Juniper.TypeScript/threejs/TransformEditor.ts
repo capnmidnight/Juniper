@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventBase } from "juniper-tslib";
+import { TypedEvent, TypedEventBase } from "@juniper/events";
 import { solidBlue, solidGreen, solidRed } from "./materials";
 import { ErsatzObject, objectIsVisible, objectSetVisible, objGraph } from "./objects";
 import { Translator } from "./Translator";

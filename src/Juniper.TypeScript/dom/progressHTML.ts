@@ -1,4 +1,4 @@
-import { BaseProgress, IProgress } from "juniper-tslib";
+import { BaseProgress, IProgress } from "@juniper/progress";
 
 
 export function progressHTML(prog: HTMLProgressElement): IProgress {

@@ -1,4 +1,4 @@
-import { isDefined } from "juniper-tslib";
+import { isDefined } from "@juniper/tslib";
 import { Cube } from "./Cube";
 import { lit, solidBlue, solidGreen, solidRed } from "./materials";
 

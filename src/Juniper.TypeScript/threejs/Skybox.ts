@@ -1,16 +1,9 @@
-import { CubeMapFaceIndex } from "juniper-2d/CubeMapFaceIndex";
-import type { CanvasImageTypes, CanvasTypes, Context2D } from "juniper-dom/canvas";
-import { createUtilityCanvas, isImageBitmap } from "juniper-dom/canvas";
-import {
-    Exception,
-    IProgress,
-    isArray,
-    isDefined,
-    isGoodNumber,
-    isNumber,
-    isString,
-    LRUCache
-} from "juniper-tslib";
+import { CubeMapFaceIndex } from "@juniper/2d/CubeMapFaceIndex";
+import { LRUCache } from "@juniper/collections";
+import type { CanvasImageTypes, CanvasTypes, Context2D } from "@juniper/dom/canvas";
+import { createUtilityCanvas, isImageBitmap } from "@juniper/dom/canvas";
+import { IProgress } from "@juniper/progress";
+import { Exception, isArray, isDefined, isGoodNumber, isNumber, isString } from "@juniper/tslib";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
 import { isEuler, isQuaternion } from "./typeChecks";
 

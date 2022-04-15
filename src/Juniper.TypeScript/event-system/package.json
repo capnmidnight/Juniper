@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "name": "@juniper/event-system",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@juniper/events": "file:../events"
+  },
+  "devDependencies": {
+    "typescript": "4.5.5"
+  }
+}

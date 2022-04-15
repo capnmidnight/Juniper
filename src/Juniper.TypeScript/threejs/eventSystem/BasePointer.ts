@@ -1,9 +1,9 @@
-import { MouseButtons } from "juniper-dom/eventSystem/MouseButton";
-import { PointerEventTypes } from "juniper-dom/eventSystem/PointerEventTypes";
-import { PointerName } from "juniper-dom/eventSystem/PointerName";
-import { PointerState } from "juniper-dom/eventSystem/PointerState";
-import { VirtualButtons } from "juniper-dom/eventSystem/VirtualButtons";
-import { isNullOrUndefined } from "juniper-tslib";
+import { MouseButtons } from "@juniper/event-system/MouseButton";
+import { PointerEventTypes } from "@juniper/event-system/PointerEventTypes";
+import { PointerName } from "@juniper/event-system/PointerName";
+import { PointerState } from "@juniper/event-system/PointerState";
+import { VirtualButtons } from "@juniper/event-system/VirtualButtons";
+import { isNullOrUndefined } from "@juniper/tslib";
 import { objGraph } from "../objects";
 import type { BaseCursor } from "./BaseCursor";
 import { CursorXRMouse } from "./CursorXRMouse";

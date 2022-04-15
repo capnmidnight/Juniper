@@ -1,9 +1,7 @@
-import { Task } from "juniper-tslib";
-import { TypedEvent, TypedEventBase } from "juniper-tslib/events/EventBase";
-import type { IProgress } from "juniper-tslib/progress/IProgress";
-import { isProgressCallback } from "juniper-tslib/progress/IProgress";
-import { assertNever, isArray, isDefined } from "juniper-tslib/typeChecks";
-import type { IDisposable } from "juniper-tslib/using";
+import { Task, TypedEvent, TypedEventBase } from "@juniper/events";
+import { IProgress, isProgressCallback } from "@juniper/progress";
+import { assertNever, isArray, isDefined } from "@juniper/tslib/typeChecks";
+import type { IDisposable } from "@juniper/tslib/using";
 import type {
     WorkerClientMethodCallMessage,
     WorkerServerErrorMessage,
@@ -11,7 +9,7 @@ import type {
     WorkerServerMessages,
     WorkerServerProgressMessage,
     WorkerServerReturnMessage
-} from "juniper-workers/WorkerMessages";
+} from "@juniper/workers/WorkerMessages";
 
 interface WorkerInvocation {
     prog: IProgress;

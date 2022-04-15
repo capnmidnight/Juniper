@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "juniper-physics-worker",
+  "name": "@juniper/physics-worker",
   "private": true,
   "type": "module",
   "main": "dist/index.js",
@@ -10,12 +10,12 @@
   },
   "dependencies": {
     "@types/webxr-types": "file:../webxr-types",
-    "juniper-physics-base": "file:../physics-base",
-    "juniper-tslib": "file:../tslib",
-    "juniper-worker-server": "file:../worker-server"
+    "@juniper/physics-base": "file:../physics-base",
+    "@juniper/tslib": "file:../tslib",
+    "@juniper/worker-server": "file:../worker-server"
   },
   "devDependencies": {
-    "juniper-esbuild": "file:../esbuild",
+    "@juniper/esbuild": "file:../esbuild",
     "typescript": "4.5.5"
   }
 }

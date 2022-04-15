@@ -1,4 +1,4 @@
-import { PointerName } from "juniper-dom/eventSystem/PointerName";
+import { PointerName } from "@juniper/event-system/PointerName";
 import { BaseScreenPointer } from "./BaseScreenPointer";
 import { CursorXRMouse } from "./CursorXRMouse";
 import type { EventSystem } from "./EventSystem";

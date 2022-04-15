@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "name": "@juniper/gis",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@juniper/math": "file:../math",
+    "@juniper/tslib": "file:../tslib",
+    "gl-matrix": "3.4.3"
+  },
+  "devDependencies": {
+    "typescript": "4.5.5"
+  }
+}

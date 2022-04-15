@@ -1,7 +1,9 @@
-import { arrayClear, arrayReplace, arrayScan, IDisposable, isArray, isDefined, isFirefox, isMobileVR, isNullOrUndefined } from "juniper-tslib";
+import { arrayClear, arrayReplace, arrayScan } from "@juniper/collections";
+import { IDisposable, isArray, isDefined, isFirefox, isMobileVR, isNullOrUndefined } from "@juniper/tslib";
 import { Blitter } from "./Blitter";
 import { ClearBits, FrameAndRenderBuffers, FramebufferType } from "./GLEnum";
 import { BaseFrameBuffer, BaseRenderTarget, FrameBufferCanvas, FrameBufferWebXR, FrameBufferWebXRMultisampled, FrameBufferWebXRMultiview, FrameBufferWebXRMultiviewMultisampled } from "./managed/resource/FrameBuffer";
+
 
 export class RenderTargetManager implements IDisposable {
     private blitChain = new Array<Blitter>();

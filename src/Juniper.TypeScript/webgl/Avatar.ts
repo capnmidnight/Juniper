@@ -1,5 +1,5 @@
+import { deg2rad } from "@juniper/math";
 import { quat, vec3 } from "gl-matrix";
-import { deg2rad } from "juniper-tslib";
 
 export class Avatar {
     private motion = vec3.create();

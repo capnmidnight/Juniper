@@ -1,8 +1,7 @@
-import { IPhysicsService } from "juniper-physics-base/IPhysicsService";
-import type { FullWorkerClientOptions, WorkerClient, WorkerConstructorT } from "juniper-worker-client";
-import { WorkerPool } from "juniper-worker-client";
-import { isDefined } from "../worker-client/node_modules/juniper-tslib";
-import { isNumber } from "../worker-client/node_modules/juniper-tslib/typeChecks";
+import { IPhysicsService } from "@juniper/physics-base/IPhysicsService";
+import { isDefined, isNumber } from "@juniper/tslib";
+import type { FullWorkerClientOptions, WorkerClient, WorkerConstructorT } from "@juniper/worker-client";
+import { WorkerPool } from "@juniper/worker-client";
 import { PhysicsServiceClient } from "./PhysicsServiceClient";
 
 export abstract class BasePhysicsServicePool<EventsT, FetcherWorkerClientT extends WorkerClient<EventsT> & IPhysicsService>

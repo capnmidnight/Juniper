@@ -1,6 +1,6 @@
-import { Pose } from "juniper-audio/Pose";
-import { AudioStreamSource } from "juniper-audio/sources/AudioStreamSource";
-import { PointerName } from "juniper-dom/eventSystem/PointerName";
+import { Pose } from "@juniper/audio/Pose";
+import { AudioStreamSource } from "@juniper/audio/sources/AudioStreamSource";
+import { PointerName } from "@juniper/event-system/PointerName";
 import { RemoteUser } from "./RemoteUser";
 
 export type ConferenceEventTypes = "error"

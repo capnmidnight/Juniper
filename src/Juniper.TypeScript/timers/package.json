@@ -1,12 +1,14 @@
 {
   "version": "1.0.0",
-  "name": "juniper-timers",
+  "name": "@juniper/timers",
   "private": true,
   "type": "module",
   "dependencies": {
+    "@juniper/collections": "file:../collections",
+    "@juniper/math": "file:../math",
+    "@juniper/tslib": "file:../tslib",
     "@types/webxr-types": "file:../webxr-types",
-    "gl-matrix": "3.4.3",
-    "juniper-tslib": "file:../tslib"
+    "gl-matrix": "3.4.3"
   },
   "devDependencies": {
     "typescript": "4.5.5"

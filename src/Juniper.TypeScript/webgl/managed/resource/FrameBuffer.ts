@@ -1,5 +1,6 @@
-import { CanvasTypes } from "juniper-dom/canvas";
-import { arrayClear, isDefined, isFunction, isNullOrUndefined, singleton } from "juniper-tslib";
+import { CanvasTypes } from "@juniper/dom/canvas";
+import { isDefined, isFunction, isNullOrUndefined, singleton } from "@juniper/tslib";
+import { arrayClear } from "../../../collections";
 import { ClearBits, FrameAndRenderBuffers, FramebufferType, FramebufferTypes } from "../../GLEnum";
 import { FrameBufferTexture, FrameBufferTextureMultiview, FrameBufferTextureMultiviewMultisampled } from "./FrameBufferTexture";
 import { ManagedWebGLResource } from "./ManagedWebGLResource";
