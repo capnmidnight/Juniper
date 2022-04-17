@@ -3,9 +3,6 @@
   "name": "@juniper/threejs",
   "private": true,
   "type": "module",
-  "devDependencies": {
-    "typescript": "4.5.5"
-  },
   "dependencies": {
     "@juniper/2d": "file:../graphics2d",
     "@juniper/audio": "file:../audio",
@@ -23,15 +20,23 @@
     "@juniper/units": "file:../units",
     "@juniper/video": "file:../video",
     "@juniper/webrtc": "file:../webrtc",
+    "three": "0.137.5",
+    "webxr-polyfill": "2.0.3"
+  },
+  "devDependencies": {
     "@types/audio-types": "file:../audio-types",
     "@types/battery-types": "file:../battery-types",
+    "@types/dom-mediacapture-record": "1.0.11",
     "@types/gamepad-types": "file:../gamepad-types",
+    "@types/glsl-types": "file:../glsl-types",
+    "@types/google.maps": "3.48.2",
+    "@types/idexdb-types": "file:../idexdb-types",
     "@types/offscreencanvas-types": "file:../offscreencanvas-types",
     "@types/three": "0.137.0",
+    "@types/web-bluetooth": "0.0.14",
     "@types/webxr-polyfill-types": "file:../webxr-polyfill-types",
     "@types/webxr-types": "file:../webxr-types",
     "@types/yt-dlp": "file:../yt-dlp-types",
-    "three": "0.137.5",
-    "webxr-polyfill": "2.0.3"
+    "typescript": "4.5.5"
   }
 }

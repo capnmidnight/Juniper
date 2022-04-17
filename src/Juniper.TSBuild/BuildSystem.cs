@@ -304,6 +304,20 @@ namespace Juniper.TSBuild
                 commands.AddCommands(GetInstallCommands(Level.High)));
         }
 
+        private IEnumerable<TSBuildCommand> GetTSBuildCommands()
+        {
+            return juniperInstallables
+                .Append(projectDir)
+                .Select(dir =>
+                    new TSBuildCommand(dir));
+        }
+
+        public async Task TSBuildAsync()
+        {
+            await WithCommandTree(commands =>
+                commands.AddCommands(GetTSBuildCommands()));
+        }
+
         public async Task AuditAsync()
         {
             await WithCommandTree(commands =>
@@ -406,7 +420,7 @@ namespace Juniper.TSBuild
         private void Proxy_Warning(object? sender, StringEventArgs e) =>
             Warning?.Invoke(this, new StringEventArgs(e.Value));
 
-        private void Proxy_Err(object? sender, ErrorEventArgs e) => 
+        private void Proxy_Err(object? sender, ErrorEventArgs e) =>
             Err?.Invoke(this, new ErrorEventArgs(e.Value));
 
         public Task Watch(out ICommand[] watchCommands)

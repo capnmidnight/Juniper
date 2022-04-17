@@ -10,7 +10,7 @@ namespace Juniper.Processes
 
 
         public NPMInstallCommand(DirectoryInfo? workingDir, bool force)
-            : base(workingDir, "npm", "install")
+            : base(workingDir, "npm", force ? "ci" : "install")
         {
             packageJson = this.workingDir.Touch("package.json");
             if (!packageJson.Exists)
@@ -33,7 +33,7 @@ namespace Juniper.Processes
         public override async Task RunAsync()
         {
             var needsInstall = !nodeModulesDir.Exists || force;
-            if (!force)
+            if (!needsInstall)
             {
                 using var packageStream = packageJson.OpenRead();
                 var package = await JsonSerializer.DeserializeAsync<NPMPackage>(packageStream);
@@ -114,7 +114,7 @@ namespace Juniper.Processes
                     || requiredVersion.Minor != 0 && actualVersion.Minor == requiredVersion.Minor
                     || requiredVersion.Build != 0 && actualVersion.Build == requiredVersion.Build)))
             {
-                OnInfo($"Versions don't match {package.version} {op} {requiredVersionStr[op.Length..]}");
+                OnInfo($"Versions don't match {package.name}: {package.version} {op} {requiredVersionStr[op.Length..]}");
                 return true;
             }
 

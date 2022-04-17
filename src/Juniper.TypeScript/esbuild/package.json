@@ -7,11 +7,24 @@
   "scripts": {
     "build": "npx tsc --build"
   },
-  "devDependencies": {
-    "typescript": "4.5.5"
-  },
   "dependencies": {
-    "@types/node": "17.0.21",
     "esbuild": "0.14.25"
+  },
+  "devDependencies": {
+    "@types/audio-types": "file:../audio-types",
+    "@types/battery-types": "file:../battery-types",
+    "@types/dom-mediacapture-record": "1.0.11",
+    "@types/gamepad-types": "file:../gamepad-types",
+    "@types/glsl-types": "file:../glsl-types",
+    "@types/google.maps": "3.48.2",
+    "@types/idexdb-types": "file:../idexdb-types",
+    "@types/node": "17.0.21",
+    "@types/offscreencanvas-types": "file:../offscreencanvas-types",
+    "@types/three": "0.137.0",
+    "@types/web-bluetooth": "0.0.14",
+    "@types/webxr-polyfill-types": "file:../webxr-polyfill-types",
+    "@types/webxr-types": "file:../webxr-types",
+    "@types/yt-dlp": "file:../yt-dlp-types",
+    "typescript": "4.5.5"
   }
 }
