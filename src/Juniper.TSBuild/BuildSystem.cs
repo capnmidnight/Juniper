@@ -17,6 +17,94 @@ namespace Juniper.TSBuild
 
     public class BuildSystem : ILoggingSource
     {
+        public static async Task Run(string projectName, string[] args)
+        {
+            var opts = new Options(args);
+
+            var build = new BuildSystem(
+                projectName,
+                opts.workingDir);
+
+            build.Info += (sender, e) =>
+            {
+                if (sender is ICommand command)
+                {
+                    Console.WriteLine($"Build Info [{command.CommandName}]: {e.Value}");
+                }
+                else
+                {
+                    Console.WriteLine($"Build Info: {e.Value}");
+                }
+            };
+
+            build.Warning += (sender, e) =>
+            {
+                if (sender is ICommand command)
+                {
+                    Console.WriteLine($"Build Warning [{command.CommandName}]: {e.Value}");
+                }
+                else
+                {
+                    Console.WriteLine($"Build Warning: {e.Value}");
+                }
+            };
+
+            build.Err += (sender, e) =>
+            {
+                if (sender is ICommand command)
+                {
+                    Console.Error.WriteLine($"Build Err [{command.CommandName}]: {e.Value.Unroll()}");
+                }
+                else
+                {
+                    Console.Error.WriteLine($"Build Err: {e.Value.Unroll()}");
+                }
+            };
+
+            do
+            {
+                try
+                {
+                    if (opts.interactive)
+                    {
+                        opts.REPL();
+                    }
+
+                    if (opts.versionOnly)
+                    {
+                        await build.WriteVersion();
+                    }
+                    else if (opts.installOnly)
+                    {
+                        await build.InstallAsync();
+                    }
+                    else if (opts.checkOnly)
+                    {
+                        await build.TSBuildAsync();
+                    }
+                    else if (opts.auditOnly)
+                    {
+                        await build.AuditAsync();
+                    }
+                    else if (opts.auditFixOnly)
+                    {
+                        await build.AuditFixAsync();
+                    }
+                    else if (opts.level > Juniper.Units.Level.None)
+                    {
+                        await build
+                            .AddDefaultDependencies()
+                            .CheckAsync(false, opts.level);
+                    }
+                }
+                catch (Exception exp)
+                {
+                    Console.Error.WriteLine("ERR: {0}\r\n{1}", exp.Message, exp.Unroll());
+                }
+            } while (!opts.complete);
+
+        }
+
         protected enum Por
         {
             All,
