@@ -1,10 +1,10 @@
 import { CubeMapFaceIndex } from "@juniper/2d/CubeMapFaceIndex";
-import { LRUCache } from "@juniper/collections";
 import type { CanvasImageTypes, CanvasTypes, Context2D } from "@juniper/dom/canvas";
 import { createUtilityCanvas, isImageBitmap } from "@juniper/dom/canvas";
 import { IProgress } from "@juniper/progress";
 import { Exception, isArray, isDefined, isGoodNumber, isNumber, isString } from "@juniper/tslib";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
+import { LRUCache } from "./LRUCache";
 import { isEuler, isQuaternion } from "./typeChecks";
 
 type SkyboxRotation = THREE.Quaternion | THREE.Euler | number[] | number;

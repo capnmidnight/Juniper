@@ -1,7 +1,6 @@
+import { arrayClear, arrayRemove } from "@juniper/collections";
+import { TypedEvent, TypedEventBase } from "@juniper/events";
 import { isDefined } from "@juniper/tslib";
-import { TypedEvent, TypedEventBase } from "../events/EventBase";
-import { arrayClear } from "./arrayClear";
-import { arrayRemove } from "./arrayRemove";
 
 export class LRUCacheItemEvicted<KeyT, ValueT> extends TypedEvent<"itemevicted">
 {

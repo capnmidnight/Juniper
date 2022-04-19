@@ -14,7 +14,6 @@ export * from "./arraySortedInsert";
 export * from "./arrayZip";
 export * from "./BaseGraphNode";
 export * from "./GraphNode";
-export * from "./LRUCache";
 export * from "./makeLookup";
 export * from "./mapBuild";
 export * from "./mapGroupBy";
