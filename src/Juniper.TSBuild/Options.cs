@@ -20,26 +20,27 @@ namespace Juniper.TSBuild
         public bool checkOnly = false;
         public bool auditOnly = false;
         public bool auditFixOnly = false;
+        public bool cleanOnly = false;
         public Level level = Level.None;
 
         private readonly Command[] interactiveCommands;
         private readonly Command[] flagCommands;
 
-
         public Options(string[] args)
         {
             var commands = new[]
             {
-            new Command("--version", null, (set) => versionOnly = set),
-            new Command("--install", "Install NPM packages", (set) => installOnly = set),
-            new Command("--audit", "Audit NPM packages", (set) => auditOnly = set),
-            new Command("--audit-fix", "Audit and auto-fix NPM packages", (set) => auditFixOnly = set),
-            new Command("--check", "Run TypeScript check", (set) => checkOnly = set),
-            new Command(null, "Build (level: Low)", (_) => level = Level.Low),
-            new Command(null, "Build (level: Med)", (_) => level = Level.Medium),
-            new Command(null, "Build (level: High)", (_) => level = Level.High),
-            new Command(null, "Quit", (set) => complete = set)
-        };
+                new Command("--clean", "Clean", (set) => cleanOnly = set),
+                new Command("--install", "Install NPM packages", (set) => installOnly = set),
+                new Command("--audit", "Audit NPM packages", (set) => auditOnly = set),
+                new Command("--audit-fix", "Audit and auto-fix NPM packages", (set) => auditFixOnly = set),
+                new Command("--check", "Run TypeScript check", (set) => checkOnly = set),
+                new Command(null, "Build (level: Low)", (_) => level = Level.Low),
+                new Command(null, "Build (level: Med)", (_) => level = Level.Medium),
+                new Command(null, "Build (level: High)", (_) => level = Level.High),
+                new Command("--version", null, (set) => versionOnly = set),
+                new Command(null, "Quit", (set) => complete = set)
+            };
 
             interactiveCommands = commands
                 .Where(cmd => cmd.Description is not null)
@@ -121,6 +122,7 @@ namespace Juniper.TSBuild
             checkOnly = false;
             auditOnly = false;
             auditFixOnly = false;
+            cleanOnly = false;
             level = Level.None;
 
             Console.WriteLine("Enter command:");

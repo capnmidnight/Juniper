@@ -1,4 +1,4 @@
-using Juniper.Logging;
+ using Juniper.Logging;
 using Juniper.Processes;
 using Juniper.TSWatcher;
 using Juniper.Units;
@@ -70,9 +70,9 @@ namespace Juniper.TSBuild
                         opts.REPL();
                     }
 
-                    if (opts.versionOnly)
+                    if (opts.cleanOnly)
                     {
-                        await build.WriteVersion();
+                        await build.CleanAsync();
                     }
                     else if (opts.installOnly)
                     {
@@ -90,7 +90,11 @@ namespace Juniper.TSBuild
                     {
                         await build.AuditFixAsync();
                     }
-                    else if (opts.level > Juniper.Units.Level.None)
+                    else if (opts.versionOnly)
+                    {
+                        await build.WriteVersion();
+                    }
+                    else if (opts.level > Level.None)
                     {
                         await build
                             .AddDefaultDependencies()
@@ -198,6 +202,12 @@ namespace Juniper.TSBuild
 
             return dir;
         }
+
+
+        private IEnumerable<DirectoryInfo> CleanableDirs =>
+            juniperTsDir.RecurseDirectories()
+                .Union(projectDir.RecurseDirectories())
+                .Where(d => d.Name == "node_modules");
 
         public BuildSystem(string projectName, DirectoryInfo? startDir)
         {
@@ -374,6 +384,29 @@ namespace Juniper.TSBuild
             Console.WriteLine($"Done in {delta.TotalSeconds:0.00}s");
         }
 
+        public async Task CleanAsync()
+        {
+            foreach (var dir in CleanableDirs)
+            {
+                OnInfo($"Trying to delete: {dir.FullName}");
+                if (dir.TryDelete())
+                {
+                    OnInfo($"{dir.FullName} deleted");
+                }
+                else
+                {
+                    OnWarning($"Could not delete {dir.FullName}");
+                }
+
+                if (!dir.Exists)
+                {
+                    OnWarning($"Directory does not exist: {dir.FullName}");
+                }
+
+                await Task.Yield();
+            }
+        }
+
         private IEnumerable<NPMInstallCommand> GetInstallCommands(Level buildLevel)
         {
             var projects = buildLevel == Level.High
@@ -502,14 +535,12 @@ namespace Juniper.TSBuild
         public event EventHandler<StringEventArgs>? Warning;
         public event EventHandler<ErrorEventArgs>? Err;
 
-        private void Proxy_Info(object? sender, StringEventArgs e) =>
-            Info?.Invoke(this, new StringEventArgs(e.Value));
-
-        private void Proxy_Warning(object? sender, StringEventArgs e) =>
-            Warning?.Invoke(this, new StringEventArgs(e.Value));
-
-        private void Proxy_Err(object? sender, ErrorEventArgs e) =>
-            Err?.Invoke(this, new ErrorEventArgs(e.Value));
+        private void OnInfo(string message) => Info?.Invoke(this, new StringEventArgs(message));
+        private void Proxy_Info(object? sender, StringEventArgs e) => OnInfo(e.Value);
+        private void OnWarning(string message) => Warning?.Invoke(this, new StringEventArgs(message));
+        private void Proxy_Warning(object? sender, StringEventArgs e) => OnWarning(e.Value);
+        private void OnError(Exception exp) => Err?.Invoke(this, new ErrorEventArgs(exp));
+        private void Proxy_Err(object? sender, ErrorEventArgs e) => OnError(e.Value);
 
         public Task Watch(out ICommand[] watchCommands)
         {
