@@ -1,9 +1,9 @@
+using NUnit.Framework;
+
 using System.Collections.Generic;
 using System.IO;
 
-using NUnit.Framework;
-
-namespace Juniper.IO.Tests
+namespace Juniper.IO
 {
     [TestFixture]
     public class SerializationTests

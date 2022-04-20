@@ -1,4 +1,5 @@
- using Juniper.Logging;
+using Juniper.Collections;
+using Juniper.Logging;
 using Juniper.Processes;
 using Juniper.TSWatcher;
 using Juniper.Units;
@@ -70,27 +71,31 @@ namespace Juniper.TSBuild
                         opts.REPL();
                     }
 
-                    if (opts.cleanOnly)
+                    if (opts.CleanOnly)
                     {
-                        await build.CleanAsync();
+                        build.DeleteNodeModules();
                     }
-                    else if (opts.installOnly)
+                    else if (opts.DetectCyclesOnly)
+                    {
+                        await build.DetectCyclesAsync();
+                    }
+                    else if (opts.InstallOnly)
                     {
                         await build.InstallAsync();
                     }
-                    else if (opts.checkOnly)
+                    else if (opts.CheckOnly)
                     {
                         await build.TSBuildAsync();
                     }
-                    else if (opts.auditOnly)
+                    else if (opts.AuditOnly)
                     {
                         await build.AuditAsync();
                     }
-                    else if (opts.auditFixOnly)
+                    else if (opts.AuditFixOnly)
                     {
                         await build.AuditFixAsync();
                     }
-                    else if (opts.versionOnly)
+                    else if (opts.VersionOnly)
                     {
                         await build.WriteVersion();
                     }
@@ -203,12 +208,6 @@ namespace Juniper.TSBuild
             return dir;
         }
 
-
-        private IEnumerable<DirectoryInfo> CleanableDirs =>
-            juniperTsDir.RecurseDirectories()
-                .Union(projectDir.RecurseDirectories())
-                .Where(d => d.Name == "node_modules");
-
         public BuildSystem(string projectName, DirectoryInfo? startDir)
         {
             var originalStartDir = startDir;
@@ -269,7 +268,7 @@ namespace Juniper.TSBuild
             return this;
         }
 
-        private FileInfo R(DirectoryInfo dir, params string[] parts)
+        private static FileInfo R(DirectoryInfo dir, params string[] parts)
         {
             return dir.MkDir(parts[0..^1]).Touch(parts[^1]);
         }
@@ -384,26 +383,99 @@ namespace Juniper.TSBuild
             Console.WriteLine($"Done in {delta.TotalSeconds:0.00}s");
         }
 
-        public async Task CleanAsync()
+        private IEnumerable<DirectoryInfo> FirstLevelNodeModules
         {
-            foreach (var dir in CleanableDirs)
+            get
             {
-                OnInfo($"Trying to delete: {dir.FullName}");
-                if (dir.TryDelete())
+                var q = new Queue<DirectoryInfo>
                 {
+                    juniperTsDir, projectDir
+                };
+
+                while (q.Count > 0)
+                {
+                    var dir = q.Dequeue();
+                    dir.Refresh();
+                    if (dir.Exists)
+                    {
+                        if (dir.Name == "node_modules")
+                        {
+                            yield return dir;
+                        }
+                        else
+                        {
+                            q.AddRange(dir.GetDirectories());
+                        }
+                    }
+                }
+            }
+        }
+
+        public void DeleteNodeModules()
+        {
+            foreach (var dir in FirstLevelNodeModules)
+            {
+                try
+                {
+                    dir.Delete(true);
                     OnInfo($"{dir.FullName} deleted");
                 }
-                else
+                catch(Exception ex)
                 {
-                    OnWarning($"Could not delete {dir.FullName}");
+                    OnWarning($"Could not delete {dir.FullName}. Reason: {ex.Message}.");
                 }
+            }
+        }
 
-                if (!dir.Exists)
+        public async Task DetectCyclesAsync()
+        {
+            var graph = new Graph<string>(true);
+            var dirs = juniperTsDir
+                .EnumerateDirectories()
+                .Append(projectDir);
+            foreach (var dir in dirs)
+            {
+                var pkgFile = dir.Touch("package.json");
+                var pkgExists = pkgFile.Exists;
+                if (pkgExists)
                 {
-                    OnWarning($"Directory does not exist: {dir.FullName}");
-                }
+                    using var pkgStream = pkgFile.OpenRead();
+                    var pkg = await JsonSerializer.DeserializeAsync<NPMPackage>(pkgStream);
+                    if (pkg?.name is not null)
+                    {
+                        if (pkg.dependencies is not null)
+                        {
+                            foreach (var dep in pkg.dependencies)
+                            {
+                                graph.SetConnection(pkg.name, dep.Key, 0);
+                            }
+                        }
 
-                await Task.Yield();
+                        if (pkg.devDependencies is not null)
+                        {
+                            foreach (var dep in pkg.devDependencies)
+                            {
+                                graph.SetConnection(pkg.name, dep.Key, 0);
+                            }
+                        }
+                    }
+                }
+            }
+
+            graph.Solve();
+
+            var cycles = graph.GetCycles();
+            if(cycles.Length > 0)
+            {
+                OnWarning("Package cycles found!");
+                foreach(var cycle in cycles)
+                {
+                    OnWarning("\t" + string.Join(" -> ", cycle));
+                }
+            }
+            else
+            {
+                OnInfo("No cycles found");
             }
         }
 

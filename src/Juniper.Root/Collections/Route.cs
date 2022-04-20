@@ -14,43 +14,38 @@ namespace Juniper.Collections
         IEquatable<Route<ValueT>>
         where ValueT : IComparable<ValueT>
     {
-        public static Route<ValueT> operator +(Route<ValueT> left, Route<ValueT> right)
+        public Route<ValueT> Join(Route<ValueT> right, bool directed)
         {
-            if (left is null)
-            {
-                throw new ArgumentNullException(nameof(left));
-            }
-
             if (right is null)
             {
                 throw new ArgumentNullException(nameof(right));
             }
 
-            if (!left.CanConnectTo(right))
+            if (!CanConnectTo(right, directed))
             {
-                if (left.Intersects(right))
+                if (Intersects(right))
                 {
-                    throw new InvalidOperationException($"The provided routes overlap:\n\t{left}\n\t{right}");
+                    throw new InvalidOperationException($"The provided routes overlap:\n\t{this}\n\t{right}");
                 }
-                else if (left.Parallels(right))
+                else if (Parallels(right))
                 {
-                    throw new InvalidOperationException($"The provided routes start and end at the same location:\n\t{left}\n\t{right}");
+                    throw new InvalidOperationException($"The provided routes start and end at the same location:\n\t{this}\n\t{right}");
                 }
                 else
                 {
-                    throw new InvalidOperationException($"The ends of the provided routes do not match:\n\t{left}\n\t{right}");
+                    throw new InvalidOperationException($"The ends of the provided routes do not match:\n\t{this}\n\t{right}");
                 }
             }
 
-            var newNodes = new ValueT[left.Count + right.Count - 1];
-            var reverseNodes = left.Start.Equals(right.Start) || left.Start.Equals(right.End);
-            var reverseExtra = left.Start.Equals(right.Start) || left.End.Equals(right.End);
+            var newNodes = new ValueT[Count + right.Count - 1];
+            var reverseNodes = Start.Equals(right.Start) || Start.Equals(right.End);
+            var reverseExtra = Start.Equals(right.Start) || End.Equals(right.End);
             reverseExtra = reverseExtra != reverseNodes;
 
-            Array.Copy(left.nodes, newNodes, left.Count);
+            Array.Copy(nodes, newNodes, Count);
             if (reverseNodes)
             {
-                Array.Reverse(newNodes, 0, left.Count);
+                Array.Reverse(newNodes, 0, Count);
             }
 
             Array.Copy(
@@ -59,15 +54,15 @@ namespace Juniper.Collections
                     ? 0
                     : 1,
                 newNodes,
-                left.Count,
+                Count,
                 right.Count - 1);
 
             if (reverseExtra)
             {
-                Array.Reverse(newNodes, left.Count, right.Count - 1);
+                Array.Reverse(newNodes, Count, right.Count - 1);
             }
 
-            return new Route<ValueT>(false, newNodes, left.Cost + right.Cost);
+            return new Route<ValueT>(false, newNodes, Cost + right.Cost);
         }
 
         public static Route<ValueT> operator ~(Route<ValueT> path)
@@ -278,13 +273,14 @@ namespace Juniper.Collections
             return true;
         }
 
-        public bool CanConnectTo(Route<ValueT> other)
+        public bool CanConnectTo(Route<ValueT> other, bool directed)
         {
             return other is not null
-                && (Start.Equals(other.Start)
-                    || Start.Equals(other.End)
-                    || End.Equals(other.Start)
-                    || End.Equals(other.End))
+                && (End.Equals(other.Start)
+                    || (!directed
+                        && (Start.Equals(other.Start)
+                            || Start.Equals(other.End)
+                            || End.Equals(other.End))))
                 && !Parallels(other)
                 && !Intersects(other);
         }
@@ -325,6 +321,15 @@ namespace Juniper.Collections
             }
         }
 
+        public bool Ordered(ValueT a, ValueT b)
+        {
+            var x = Array.IndexOf(nodes, a);
+            var y = Array.IndexOf(nodes, b);
+            return x != -1
+                && y != -1
+                && x < y;
+        }
+
         public override int GetHashCode()
         {
             var hash = new HashCode();
@@ -335,7 +340,7 @@ namespace Juniper.Collections
             {
                 nodes = nodes.Reverse();
             }
-            foreach(var node in nodes)
+            foreach (var node in nodes)
             {
                 hash.Add(node);
             }

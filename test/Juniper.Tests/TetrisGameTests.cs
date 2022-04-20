@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Juniper.Puzzles.Test
+namespace Juniper.Puzzles
 {
     [TestFixture]
     public class TetrisGameTests

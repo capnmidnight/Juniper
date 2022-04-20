@@ -4,7 +4,7 @@ using System.Linq;
 
 using NUnit.Framework;
 
-namespace Juniper.Compression.Tests
+namespace Juniper.Compression
 {
     [TestFixture]
     public class FileTreeTests

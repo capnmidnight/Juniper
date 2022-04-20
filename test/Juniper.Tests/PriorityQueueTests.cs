@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 using NUnit.Framework;
 
-namespace Juniper.Collections.Tests
+namespace Juniper.Collections
 {
     /// <summary>
     /// Unit tests for PriorityQueue class.

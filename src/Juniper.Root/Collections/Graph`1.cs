@@ -7,41 +7,38 @@ using System.Runtime.Serialization;
 
 namespace Juniper.Collections
 {
-
     [Serializable]
     public class Graph<NodeT> : ISaveable<Graph<NodeT>>
         where NodeT : IComparable<NodeT>
     {
-        private readonly Dictionary<NodeT, int> nodes;
         private readonly List<Route<NodeT>> connections;
-        private Route<NodeT>[,] network;
+        private readonly SparseMatrix<NodeT, Route<NodeT>> network;
 
         private readonly Dictionary<string, NodeT> namedNodes;
         private readonly Dictionary<NodeT, string> nodeNames;
 
+        private readonly bool directed;
+
         private bool dirty;
 
-        public Graph()
+        public Graph(bool directed = false)
         {
+            this.directed = directed;
             dirty = false;
-            nodes = new Dictionary<NodeT, int>();
-            connections = new List<Route<NodeT>>();
-            namedNodes = new Dictionary<string, NodeT>();
-            nodeNames = new Dictionary<NodeT, string>();
-            network = new Route<NodeT>[0, 0];
+            connections = new();
+            namedNodes = new();
+            nodeNames = new();
+            network = new();
         }
 
         public Graph<NodeT> Clone()
         {
-            var graph = new Graph<NodeT>();
-
-            foreach (var node in Nodes)
-            {
-                graph.AddNode(node);
-            }
-
+            var graph = new Graph<NodeT>(directed);
             graph.connections.AddRange(Connections.Distinct());
-            graph.network = new Route<NodeT>[nodes.Count, nodes.Count];
+            foreach (var (x, y, value) in network.Entries)
+            {
+                graph.network.Add(x, y, value);
+            }
 
             foreach (var route in Routes)
             {
@@ -66,22 +63,11 @@ namespace Juniper.Collections
                 throw new ArgumentNullException(nameof(info));
             }
 
-            var routes = info.GetValue<Route<NodeT>[]>(nameof(network));
-
-            nodes = new Dictionary<NodeT, int>();
-
-            foreach (var node in (from route in routes
-                                  from node in route.Nodes
-                                  select node)
-                        .Distinct())
-            {
-                AddNode(node);
-            }
-
-            network = new Route<NodeT>[nodes.Count, nodes.Count];
+            directed = info.GetBoolean(nameof(directed));
+            network = info.GetValue<SparseMatrix<NodeT, Route<NodeT>>>(nameof(network));
             connections = new List<Route<NodeT>>();
 
-            foreach (var route in routes)
+            foreach (var route in network.Values)
             {
                 if (route.IsValid)
                 {
@@ -131,32 +117,17 @@ namespace Juniper.Collections
 
             // Serialize only the minimal information that we need to restore
             // the graph.
+            info.AddValue(nameof(directed), directed);
             info.AddValue(nameof(dirty), dirty);
             info.AddValue(nameof(namedNodes), namedNodes);
-            info.AddValue(nameof(network), Routes.Distinct().ToArray());
+            info.AddValue(nameof(network), network);
         }
 
-        public IEnumerable<NodeT> Nodes => nodes.Keys;
+        public bool IsDirected => directed;
 
-        public IEnumerable<Route<NodeT>> Routes
-        {
-            get
-            {
-                if (network is not null)
-                {
-                    for (var x = 0; x < network.GetLength(0); ++x)
-                    {
-                        for (var y = 0; y < network.GetLength(1); ++y)
-                        {
-                            if (network[x, y] is not null)
-                            {
-                                yield return network[x, y];
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        public IEnumerable<NodeT> Nodes => network.Keys;
+
+        public IEnumerable<Route<NodeT>> Routes => network.Values;
 
         public IEnumerable<Route<NodeT>> Connections => connections;
 
@@ -164,21 +135,15 @@ namespace Juniper.Collections
                                                   where route.IsPath
                                                   select route;
 
-        public bool HasContent => nodes.Count > 0
-                    && connections.Count > 0;
-
-        private void AddNode(NodeT node)
-        {
-            _ = nodes.Default(node, nodes.Count);
-        }
+        public bool HasContent => connections.Count > 0;
 
         private void ResetNetwork()
         {
-            network = new Route<NodeT>[nodes.Count, nodes.Count];
+            network.Clear();
 
-            foreach (var route in Connections)
+            foreach (var conn in Connections)
             {
-                SetRoute(route);
+                SetRoute(conn);
             }
 
             dirty = true;
@@ -186,17 +151,16 @@ namespace Juniper.Collections
 
         private void AddConnection(NodeT start, NodeT end, float cost)
         {
-            AddNode(start);
-            AddNode(end);
-
             _ = connections.RemoveAll(connect =>
                 connect.Contains(start)
-                && connect.Contains(end));
+                && connect.Contains(end)
+                && (!directed
+                    || connect.Ordered(start, end)));
 
             connections.Add(new Route<NodeT>(cost, start, end));
         }
 
-        public void SetConnection(NodeT start, NodeT end, float cost)
+        public void SetConnection(NodeT start, NodeT end, float cost = 1)
         {
             if (!start.Equals(end))
             {
@@ -211,6 +175,16 @@ namespace Juniper.Collections
             foreach ((var start, var end, var cost) in connections)
             {
                 AddConnection(start, end, cost);
+            }
+
+            ResetNetwork();
+        }
+
+        public void SetConnections(params (NodeT start, NodeT end)[] connections)
+        {
+            foreach ((var start, var end) in connections)
+            {
+                AddConnection(start, end, 1);
             }
 
             ResetNetwork();
@@ -233,17 +207,10 @@ namespace Juniper.Collections
                     }
                 }
 
-                var index = nodes[node];
-                _ = nodes.Remove(node);
-                foreach (var key in nodes.Keys.ToArray())
-                {
-                    if (nodes[key] > index)
-                    {
-                        --nodes[key];
-                    }
-                }
+                network.RemoveColumn(node);
+                network.RemoveRow(node);
 
-                ResetNetwork();
+                dirty = true;
             }
         }
 
@@ -282,7 +249,7 @@ namespace Juniper.Collections
                 {
                     if (Exists(r.Start, r.End))
                     {
-                        network[nodes[r.Start], nodes[r.End]] = null;
+                        network[r.Start, r.End] = null;
                     }
                 }
             }
@@ -290,7 +257,8 @@ namespace Juniper.Collections
 
         public bool Exists(NodeT node)
         {
-            return nodes.ContainsKey(node);
+            return network.ContainsColumn(node)
+                || network.ContainsRow(node);
         }
 
         public bool Exists(NodeT startPoint, NodeT endPoint)
@@ -298,32 +266,28 @@ namespace Juniper.Collections
             return !startPoint.Equals(endPoint)
                 && Exists(startPoint)
                 && Exists(endPoint)
-                && network[nodes[startPoint], nodes[endPoint]] is not null;
+                && network[startPoint, endPoint] is not null;
         }
 
-        public IEnumerable<Route<NodeT>> FindConnections(NodeT node)
+        public IEnumerable<Route<NodeT>> FindConnectionsContaining(NodeT node)
         {
-            return from connect in Connections
-                   where connect.Contains(node)
-                   select connect;
+            return from conn in Connections
+                   where conn.Contains(node)
+                   select conn;
         }
 
-        public IEnumerable<Route<NodeT>> FindConnections(Route<NodeT> route)
+        public IEnumerable<Route<NodeT>> FindConnectables(Route<NodeT> route)
         {
-            if (route is not null)
-            {
-                return Connections.Where(route.CanConnectTo);
-            }
-            else
-            {
-                return Array.Empty<Route<NodeT>>();
-            }
+            return from conn in Connections
+                   where route.CanConnectTo(conn, directed)
+                   select conn;
         }
 
         public IEnumerable<NodeT> FindExits(NodeT node)
         {
-            return (from route in FindConnections(node)
+            return (from route in FindConnectionsContaining(node)
                     let isReverse = route.End.Equals(node)
+                    where !directed || !isReverse
                     select isReverse
                      ? route.Start
                      : route.End)
@@ -334,14 +298,9 @@ namespace Juniper.Collections
         {
             if (Exists(node))
             {
-                var x = nodes[node];
-                for (var y = 0; y < network.GetLength(1); ++y)
+                foreach (var y in network.Cells(node))
                 {
-                    var route = network[x, y];
-                    if (route is not null)
-                    {
-                        yield return route;
-                    }
+                    yield return network[node, y];
                 }
             }
         }
@@ -349,16 +308,17 @@ namespace Juniper.Collections
         public Route<NodeT> FindRoute(NodeT startPoint, NodeT endPoint)
         {
             return Exists(startPoint, endPoint)
-                ? network[nodes[startPoint], nodes[endPoint]]
+                ? network[startPoint, endPoint]
                 : default;
         }
 
         private void SetRoute(Route<NodeT> route)
         {
-            var x = nodes[route.Start];
-            var y = nodes[route.End];
-            network[x, y] = route;
-            network[y, x] = ~route;
+            network[route.Start, route.End] = route;
+            if (!directed)
+            {
+                network[route.End, route.Start] = ~route;
+            }
         }
 
         public IReadOnlyDictionary<string, NodeT> NamedNodes => namedNodes;
@@ -414,30 +374,54 @@ namespace Juniper.Collections
 
         public bool Solve()
         {
-            var wasDirty = dirty;
-
-            if (dirty)
+            if (!dirty)
             {
-                var q = new Queue<Route<NodeT>>(connections);
-                while (q.Count > 0)
-                {
-                    var route = q.Dequeue();
-                    foreach (var extension in FindConnections(route))
-                    {
-                        var next = route + extension;
-                        var cur = FindRoute(next.Start, next.End);
-                        if (next < cur)
-                        {
-                            SetRoute(next);
-                            q.Add(next);
-                        }
-                    }
-                }
-
-                dirty = false;
+                return false;
             }
 
-            return wasDirty;
+            var q = new Queue<Route<NodeT>>(connections);
+            while (q.Count > 0)
+            {
+                var route = q.Dequeue();
+                foreach (var extension in FindConnectables(route))
+                {
+                    var next = route.Join(extension, directed);
+                    var cur = FindRoute(next.Start, next.End);
+                    if (next < cur)
+                    {
+                        SetRoute(next);
+                        q.Add(next);
+                    }
+                }
+            }
+
+            dirty = false;
+            return true;
+        }
+
+        public NodeT[][] GetCycles()
+        {
+            var cycles = new List<NodeT[]>();
+            foreach (var node in network.Keys)
+            {
+                foreach (var subNode in FindExits(node))
+                {
+                    var route = FindRoute(subNode, node);
+                    if (route is not null
+                        && !route.Start.Equals(node))
+                    {
+                        var cycle = new List<NodeT>();
+                        for (var i = 0; i < route.Count; ++i)
+                        {
+                            cycle.Add(route.Nodes[(i + 1) % route.Count]);
+                        }
+
+                        cycles.Add(cycle.ToArray());
+                    }
+                }
+            }
+
+            return cycles.ToArray();
         }
     }
 }

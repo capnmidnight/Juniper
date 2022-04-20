@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using NUnit.Framework;
 
-namespace Juniper.Collections.Tests
+namespace Juniper.Collections
 {
     /// <summary>
     /// These tests are taken from the Examples section of <see cref="https://developer.mozilla.org/en-US/docs/web/javascript/reference/global_objects/array/Splice"/>

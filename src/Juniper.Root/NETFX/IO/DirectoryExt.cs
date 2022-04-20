@@ -30,13 +30,13 @@ namespace System.IO
             return false;
         }
 
-        public static bool TryDelete(this DirectoryInfo directory)
+        public static bool TryDelete(this DirectoryInfo directory, bool recursive = false)
         {
             if (directory?.Exists == true)
             {
                 try
                 {
-                    directory.Delete();
+                    directory.Delete(recursive);
                     return true;
                 }
                 catch

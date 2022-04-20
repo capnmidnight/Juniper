@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="nunit" Version="3.13.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0">
+    <PackageReference Include="nunit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -20,7 +20,7 @@
     <ProjectReference Include="..\..\src\Juniper.Sound\Juniper.Sound.csproj" />
     <ProjectReference Include="..\..\src\Juniper.Azure\Juniper.Azure.csproj" />
     <ProjectReference Include="..\..\src\Juniper.GoogleMaps\Juniper.GoogleMaps.csproj" />
-    <ProjectReference Include="..\..\src\Juniper.OpenWeatherMap\Juniper.OpenWeatherMap.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.YouTubeDLP\Juniper.YouTubeDLP.csproj" />
   </ItemGroup>
 
   <ItemGroup>

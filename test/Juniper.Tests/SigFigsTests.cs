@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace System.Tests
+namespace System
 {
     [TestFixture]
     public class SigFigsTests

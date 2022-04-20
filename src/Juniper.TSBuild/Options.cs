@@ -9,19 +9,43 @@ namespace Juniper.TSBuild
         private string? curAnyArg;
         private bool AnyOnly => curAnyArg is not null;
 
+        private readonly HashSet<string> flags = new();
+
+        private void SetFlag(string name, bool value)
+        {
+            if (value != flags.Contains(name))
+            {
+                if (value)
+                {
+                    flags.Add(name);
+                }
+                else
+                {
+                    flags.Remove(name);
+                }
+            }
+        }
+
+        private Action<bool> FlagSetter(string name)
+        {
+            return (value) => SetFlag(name, value);
+        }
+
         public DirectoryInfo? workingDir = null;
 
-        public bool interactive = false;
+        public bool interactive;
         public bool complete = true;
-        private bool parseLevel = false;
-
-        public bool versionOnly = false;
-        public bool installOnly = false;
-        public bool checkOnly = false;
-        public bool auditOnly = false;
-        public bool auditFixOnly = false;
-        public bool cleanOnly = false;
+        private bool parseLevel;
         public Level level = Level.None;
+
+        public bool VersionOnly => flags.Contains(nameof(VersionOnly));
+        public bool InstallOnly => flags.Contains(nameof(InstallOnly));
+        public bool DetectCyclesOnly => flags.Contains(nameof(DetectCyclesOnly));
+        public bool CheckOnly => flags.Contains(nameof(CheckOnly));
+        public bool AuditOnly => flags.Contains(nameof(AuditOnly));
+        public bool AuditFixOnly => flags.Contains(nameof(AuditFixOnly));
+        public bool CleanOnly => flags.Contains(nameof(CleanOnly));
+
 
         private readonly Command[] interactiveCommands;
         private readonly Command[] flagCommands;
@@ -30,15 +54,16 @@ namespace Juniper.TSBuild
         {
             var commands = new[]
             {
-                new Command("--clean", "Clean", (set) => cleanOnly = set),
-                new Command("--install", "Install NPM packages", (set) => installOnly = set),
-                new Command("--audit", "Audit NPM packages", (set) => auditOnly = set),
-                new Command("--audit-fix", "Audit and auto-fix NPM packages", (set) => auditFixOnly = set),
-                new Command("--check", "Run TypeScript check", (set) => checkOnly = set),
+                new Command("--install", "Install NPM packages", FlagSetter(nameof(InstallOnly))),
+                new Command("--detect-cycles", "Detect NPM package cycles", FlagSetter(nameof(DetectCyclesOnly))),
+                new Command("--clean", "Delete NPM Pacakges", FlagSetter(nameof(CleanOnly))),
+                new Command("--audit", "Audit NPM packages", FlagSetter(nameof(AuditOnly))),
+                new Command("--audit-fix", "Audit and auto-fix NPM packages", FlagSetter(nameof(AuditFixOnly))),
+                new Command("--check", "Run TypeScript check", FlagSetter(nameof(CheckOnly))),
                 new Command(null, "Build (level: Low)", (_) => level = Level.Low),
                 new Command(null, "Build (level: Med)", (_) => level = Level.Medium),
                 new Command(null, "Build (level: High)", (_) => level = Level.High),
-                new Command("--version", null, (set) => versionOnly = set),
+                new Command("--version", null, FlagSetter(nameof(VersionOnly))),
                 new Command(null, "Quit", (set) => complete = set)
             };
 
@@ -117,12 +142,7 @@ namespace Juniper.TSBuild
 
         public void REPL()
         {
-            versionOnly = false;
-            installOnly = false;
-            checkOnly = false;
-            auditOnly = false;
-            auditFixOnly = false;
-            cleanOnly = false;
+            flags.Clear();
             level = Level.None;
 
             Console.WriteLine("Enter command:");

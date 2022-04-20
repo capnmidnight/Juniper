@@ -1,21 +1,39 @@
+using Juniper.Imaging;
+using Juniper.IO;
+using Juniper.World.GIS.Google.Geocoding;
+
+using NUnit.Framework;
+
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
-using Juniper.Imaging;
-using Juniper.IO;
-using Juniper.World.GIS.Google.Geocoding;
-using Juniper.World.GIS.Google.Tests;
-
-using NUnit.Framework;
-
-namespace Juniper.World.GIS.Google.StreetView.Tests
+namespace Juniper.World.GIS.Google.StreetView
 {
     [TestFixture]
     public class StreetViewTests : ServicesTests
     {
+        private HttpClient http;
+
+        [SetUp]
+        public void Setup()
+        {
+            http = new(new HttpClientHandler
+            {
+                UseCookies = false
+            });
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            http?.Dispose();
+            http = null;
+        }
+
         private const string UnityProjectDir = @"C:\Users\smcbeth.DLS-INC\Projects\Yarrow\src\Yarrow - AndroidOculus";
         private const string ProjectName = "Yarrow";
         private static readonly string UnityProjectStreamingAssetsDir = Path.Combine(UnityProjectDir, "Assets", "StreamingAssets");
@@ -42,7 +60,7 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
         [Test]
         public async Task JPEGImageSizeAsync()
         {
-            var imageRequest = new ImageRequest(apiKey, signingKey, new Size(640, 640))
+            var imageRequest = new ImageRequest(http, apiKey, signingKey, new Size(640, 640))
             {
                 Place = "Alexandria, VA"
             };
@@ -58,7 +76,7 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
         [Test]
         public async Task PNGImageSizeAsync()
         {
-            var imageRequest = new ImageRequest(apiKey, signingKey, new Size(640, 640))
+            var imageRequest = new ImageRequest(http, apiKey, signingKey, new Size(640, 640))
             {
                 Place = "Alexandria, VA"
             };
@@ -75,7 +93,7 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
         [Test]
         public async Task GetMetadataAsync()
         {
-            var metadataRequest = new MetadataRequest(apiKey, signingKey)
+            var metadataRequest = new MetadataRequest(http, apiKey, signingKey)
             {
                 Place = "Washington, DC"
             };
@@ -92,7 +110,7 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
         [Test]
         public async Task GetImageAsync()
         {
-            var imageRequest = new ImageRequest(apiKey, signingKey, new Size(4096, 4096))
+            var imageRequest = new ImageRequest(http, apiKey, signingKey, new Size(4096, 4096))
             {
                 Place = "Alexandria, VA"
             };
@@ -107,7 +125,7 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
         [Test]
         public async Task GetImageWithoutCachingAsync()
         {
-            var imageRequest = new ImageRequest(apiKey, signingKey, new Size(640, 640))
+            var imageRequest = new ImageRequest(http, apiKey, signingKey, new Size(640, 640))
             {
                 Place = "Alexandria, VA"
             };
@@ -127,7 +145,7 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
                 new FileCacheLayer(GmapsStreamingAssetsDir)
             };
 
-            var gmaps = new GoogleMapsClient(apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
+            var gmaps = new GoogleMapsClient(http, apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
             var files = gmaps.CachedMetadata.ToArray();
             Assert.AreNotEqual(0, files.Length);
         }
@@ -140,7 +158,7 @@ namespace Juniper.World.GIS.Google.StreetView.Tests
                 new FileCacheLayer(GmapsStreamingAssetsDir)
             };
 
-            var gmaps = new GoogleMapsClient(apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
+            var gmaps = new GoogleMapsClient(http, apiKey, signingKey, metadataDecoder, geocodingDecoder, cache);
             var metadata = gmaps.CachedMetadata.FirstOrDefault();
             var pano = metadata.Pano_id;
             var fileRef = new ContentReference(pano, MediaType.Application_Json);

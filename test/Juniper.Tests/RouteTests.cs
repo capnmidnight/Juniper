@@ -1,10 +1,10 @@
+using NUnit.Framework;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using NUnit.Framework;
-
-namespace Juniper.Collections.Tests
+namespace Juniper.Collections
 {
     [TestFixture]
     public class RouteTests
@@ -69,6 +69,31 @@ namespace Juniper.Collections.Tests
         }
 
         [Test]
+        public void IsOrdered()
+        {
+            var route = new Route<string>(1, "A", "B", "C", "D");
+            Assert.IsFalse(route.Ordered("nothing", "A"));
+            Assert.IsFalse(route.Ordered("A", "nothing"));
+            Assert.IsFalse(route.Ordered("nothing", "nothing"));
+            Assert.IsFalse(route.Ordered("A", "A"));
+            Assert.IsTrue(route.Ordered("A", "B"));
+            Assert.IsTrue(route.Ordered("A", "C"));
+            Assert.IsTrue(route.Ordered("A", "D"));
+            Assert.IsFalse(route.Ordered("B", "A"));
+            Assert.IsFalse(route.Ordered("B", "B"));
+            Assert.IsTrue(route.Ordered("B", "C"));
+            Assert.IsTrue(route.Ordered("B", "D"));
+            Assert.IsFalse(route.Ordered("C", "A"));
+            Assert.IsFalse(route.Ordered("C", "B"));
+            Assert.IsFalse(route.Ordered("C", "C"));
+            Assert.IsTrue(route.Ordered("C", "D"));
+            Assert.IsFalse(route.Ordered("D", "A"));
+            Assert.IsFalse(route.Ordered("D", "B"));
+            Assert.IsFalse(route.Ordered("D", "C"));
+            Assert.IsFalse(route.Ordered("D", "D"));
+        }
+
+        [Test]
         public void ListContainsReversedRoute()
         {
             var list = new List<Route<int>>();
@@ -115,10 +140,10 @@ namespace Juniper.Collections.Tests
             var routeC = ~routeA;
             var routeD = ~routeB;
 
-            var a = routeA + routeB;
-            var b = routeA + routeD;
-            var c = routeB + routeA;
-            var d = routeB + routeC;
+            var a = routeA.Join(routeB, false);
+            var b = routeA.Join(routeD, false);
+            var c = routeB.Join(routeA, false);
+            var d = routeB.Join(routeC, false);
 
             Assert.AreEqual(a, b);
             Assert.AreEqual(a, c);
@@ -129,6 +154,33 @@ namespace Juniper.Collections.Tests
         }
 
         [Test]
+        public void CanConcatDirected1()
+        {
+            var routeA = new Route<int>(1, 0xbad, 0xbeef);
+            var routeB = new Route<int>(1, 0xbeef, 0xdead);
+
+            Assert.IsFalse(routeA.CanConnectTo(routeA, true));
+            Assert.IsTrue(routeA.CanConnectTo(routeB, true));
+            Assert.IsFalse(routeB.CanConnectTo(routeA, true));
+            Assert.IsFalse(routeB.CanConnectTo(routeB, true));
+        }
+
+        [Test]
+        public void CanConcatDirected2()
+        {
+            var routeA = new Route<string>(1, "A", "B", "C");
+            var routeB = new Route<string>(1, "C", "D", "F");
+            var routeC = new Route<string>(1, "B", "G");
+
+            Assert.IsFalse(routeA.CanConnectTo(routeA, true));
+            Assert.IsTrue(routeA.CanConnectTo(routeB, true));
+            Assert.IsFalse(routeB.CanConnectTo(routeA, true));
+            Assert.IsFalse(routeB.CanConnectTo(routeB, true));
+            Assert.IsFalse(routeA.CanConnectTo(routeC, true));
+            Assert.IsFalse(routeC.CanConnectTo(routeA, true));
+        }
+
+        [Test]
         public void ConcatMediumRoutes()
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef, 0xdead);
@@ -136,10 +188,10 @@ namespace Juniper.Collections.Tests
             var routeC = ~routeA;
             var routeD = ~routeB;
 
-            var a = routeA + routeB;
-            var b = routeA + routeD;
-            var c = routeB + routeA;
-            var d = routeB + routeC;
+            var a = routeA.Join(routeB, false);
+            var b = routeA.Join(routeD, false);
+            var c = routeB.Join(routeA, false);
+            var d = routeB.Join(routeC, false);
 
             Assert.AreEqual(a, b);
             Assert.AreEqual(a, c);
@@ -157,10 +209,10 @@ namespace Juniper.Collections.Tests
             var routeC = ~routeA;
             var routeD = ~routeB;
 
-            var a = routeA + routeB;
-            var b = routeA + routeD;
-            var c = routeB + routeA;
-            var d = routeB + routeC;
+            var a = routeA.Join(routeB, false);
+            var b = routeA.Join(routeD, false);
+            var c = routeB.Join(routeA, false);
+            var d = routeB.Join(routeC, false);
 
             Assert.AreEqual(a, b);
             Assert.AreEqual(a, c);

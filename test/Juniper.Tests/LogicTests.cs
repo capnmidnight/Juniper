@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 using static Juniper.Logic.LogicConstructor;
 
-namespace Juniper.Logic.Tests
+namespace Juniper.Logic
 {
     [TestFixture]
     public class LogicTests

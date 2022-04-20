@@ -1,10 +1,10 @@
+using NUnit.Framework;
+
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using NUnit.Framework;
-
-namespace Juniper.Compression.Zip.Tests
+namespace Juniper.Compression.Zip
 {
     [TestFixture]
     public class ZipTest

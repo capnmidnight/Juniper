@@ -1,22 +1,40 @@
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-
 using Juniper.IO;
-using Juniper.World.GIS.Google.Tests;
 
 using NUnit.Framework;
 
-namespace Juniper.World.GIS.Google.Geocoding.Tests
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace Juniper.World.GIS.Google.Geocoding
 {
     [TestFixture]
     public class GoogleReverseGeocodingTests : ServicesTests
     {
+        private HttpClient http;
+
+        [SetUp]
+        public void Setup()
+        {
+            http = new(new HttpClientHandler
+            {
+                UseCookies = false
+            });
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            http?.Dispose();
+            http = null;
+        }
+
         [Test]
         public async Task BasicReverseGeocodingAsync()
         {
             var searchDecoder = new JsonFactory<GeocodingResponse>();
-            var searchRequest = new ReverseGeocodingRequest(apiKey)
+            var searchRequest = new ReverseGeocodingRequest(http, apiKey)
             {
                 Location = new LatLngPoint(36.080811f, -75.721568f)
             };

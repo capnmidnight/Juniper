@@ -1,12 +1,10 @@
-using System;
-using System.IO;
-
 using Juniper.IO;
-using Juniper.IO.Tests;
 
 using NUnit.Framework;
 
-namespace Juniper.World.GIS.Google.Tests
+using System.IO;
+
+namespace Juniper.World.GIS.Google
 {
     public abstract class ServicesTests
     {

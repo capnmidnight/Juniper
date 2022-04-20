@@ -1,8 +1,3 @@
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-
 using Juniper.IO;
 using Juniper.Sound;
 using Juniper.Speech.Azure;
@@ -10,20 +5,27 @@ using Juniper.Speech.Azure.CognitiveServices;
 
 using NUnit.Framework;
 
-namespace Juniper.Azure.Tests
+using System;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace Juniper.Azure
 {
     [TestFixture]
     public class APITests
     {
-        private readonly IJsonDecoder<Voice[]> voiceListDecoder = new JsonFactory<Voice[]>();
-        private string subscriptionKey;
-        private string region;
-        private string resourceName;
-        private CachingStrategy cache;
+        private HttpClient http;
 
         [SetUp]
         public void Setup()
         {
+            http = new(new HttpClientHandler
+            {
+                UseCookies = false
+            });
+
             var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var assetsRoot = Path.Combine(userProfile, "Box", "VR Initiatives", "Engineering", "Assets");
             var keyFile = Path.Combine(assetsRoot, "DevKeys", "azure-speech.txt");
@@ -39,16 +41,29 @@ namespace Juniper.Azure.Tests
             };
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            http?.Dispose();
+            http = null;
+        }
+
+        private readonly IJsonDecoder<Voice[]> voiceListDecoder = new JsonFactory<Voice[]>();
+        private string subscriptionKey;
+        private string region;
+        private string resourceName;
+        private CachingStrategy cache;
+
         private Task<string> GetTokenAsync()
         {
-            var tokenRequest = new AuthTokenRequest(region, subscriptionKey);
+            var tokenRequest = new AuthTokenRequest(http, region, subscriptionKey);
             return tokenRequest
                 .DecodeAsync(new StringFactory());
         }
 
         private async Task<Voice[]> GetVoicesAsync()
         {
-            var voiceListRequest = new VoiceListRequest(region);
+            var voiceListRequest = new VoiceListRequest(http, region);
             if (!cache.IsCached(voiceListRequest))
             {
                 voiceListRequest.AuthToken = await GetTokenAsync().ConfigureAwait(false);
@@ -72,7 +87,7 @@ namespace Juniper.Azure.Tests
                 && f.Channels == 1
                 && f.SampleRate == 16000
                 && f.BitsPerSample == 32);
-            var audioRequest = new TextToSpeechRequest(region, resourceName, format)
+            var audioRequest = new TextToSpeechRequest(http, region, resourceName, format)
             {
                 Text = "Hello, world",
                 VoiceName = voice.ShortName,
@@ -108,7 +123,7 @@ namespace Juniper.Azure.Tests
         [Test]
         public async Task GetVoiceListClientAsync()
         {
-            var voicesClient = new VoicesClient(region, subscriptionKey, new JsonFactory<Voice[]>());
+            var voicesClient = new VoicesClient(http, region, subscriptionKey, new JsonFactory<Voice[]>());
             var voices = await voicesClient
                 .GetVoicesAsync()
                 .ConfigureAwait(false);

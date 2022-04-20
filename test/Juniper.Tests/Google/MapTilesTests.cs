@@ -1,18 +1,36 @@
-using System;
-using System.Text;
-using System.Threading.Tasks;
-
 using Juniper.Imaging;
 using Juniper.IO;
-using Juniper.World.GIS.Google.Tests;
 
 using NUnit.Framework;
 
-namespace Juniper.World.GIS.Google.MapTiles.Tests
+using System;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Juniper.World.GIS.Google.MapTiles
 {
     [TestFixture]
     public class MapTilesTests : ServicesTests
     {
+        private HttpClient http;
+
+        [SetUp]
+        public void Setup()
+        {
+            http = new(new HttpClientHandler
+            {
+                UseCookies = false
+            });
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            http?.Dispose();
+            http = null;
+        }
+
         [Test]
         public void EncodeOnePart()
         {
@@ -49,7 +67,7 @@ namespace Juniper.World.GIS.Google.MapTiles.Tests
         [Test]
         public async Task GetImageAsync()
         {
-            var search = new TileRequest(apiKey, signingKey, new Size(640, 640))
+            var search = new TileRequest(http, apiKey, signingKey, new Size(640, 640))
             {
                 Zoom = 20,
                 Address = "4909 Rutland Pl, Alexandria, VA, 22304"

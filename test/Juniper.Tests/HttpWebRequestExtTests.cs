@@ -1,19 +1,37 @@
-using System;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
-
 using Juniper.HTTP.REST;
 using Juniper.Imaging;
 using Juniper.IO;
 
 using NUnit.Framework;
 
-namespace Juniper.HTTP.Tests
+using System;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace Juniper.HTTP
 {
     [TestFixture]
     public class HttpWebRequestExtTests
     {
+        private HttpClient http;
+
+        [SetUp]
+        public void Setup()
+        {
+            http = new(new HttpClientHandler
+            {
+                UseCookies = false
+            });
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            http?.Dispose();
+            http = null;
+        }
+
         [Test]
         public async Task TestGettingAsync()
         {
@@ -29,14 +47,14 @@ namespace Juniper.HTTP.Tests
 
         private sealed class ImageRequest : AbstractRequest<MediaType.Image>
         {
-            public ImageRequest(Uri baseURI, string path)
-                : base(HttpMethod.Get, AddPath(baseURI, path), MediaType.Image_Jpeg) { }
+            public ImageRequest(HttpClient http, Uri baseURI, string path)
+                : base(http, HttpMethod.Get, AddPath(baseURI, path), MediaType.Image_Jpeg) { }
 
             protected override string InternalCacheID =>
                 StandardRequestCacheID;
         }
 
-        private static async Task<ImageData> RunFileTestAsync(string imageFileName, bool deleteFile, bool runTest)
+        private async Task<ImageData> RunFileTestAsync(string imageFileName, bool deleteFile, bool runTest)
         {
             if (imageFileName is null)
             {
@@ -63,8 +81,9 @@ namespace Juniper.HTTP.Tests
             };
 
             var imageRequest = new ImageRequest(
-                    new Uri("https://www.seanmcbeth.com"),
-                    "2015-05.min.jpg");
+                http,
+                new Uri("https://www.seanmcbeth.com"),
+                "2015-05.min.jpg");
 
             var imageDecoder = new JpegFactory(80).Pipe(new JpegCodec());
 

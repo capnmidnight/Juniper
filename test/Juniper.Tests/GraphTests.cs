@@ -8,7 +8,7 @@ using Juniper.IO;
 
 using NUnit.Framework;
 
-namespace Juniper.Collections.Tests
+namespace Juniper.Collections
 {
     [TestFixture]
     public class GraphTests
@@ -36,7 +36,7 @@ namespace Juniper.Collections.Tests
         public void OneConnection()
         {
             var graph = new Graph<string>();
-            graph.SetConnection("a", "b", 1);
+            graph.SetConnection("a", "b");
             graph.Solve();
 
             var route = graph.FindRoute("a", "b");
@@ -56,8 +56,8 @@ namespace Juniper.Collections.Tests
         {
             var graph = new Graph<string>();
             graph.SetConnections(
-                ("a", "b", 1),
-                ("b", "c", 1));
+                ("a", "b"),
+                ("b", "c"));
             graph.Solve();
 
             var route = graph.FindRoute("a", "c");
@@ -74,8 +74,8 @@ namespace Juniper.Collections.Tests
         {
             var graph = new Graph<string>();
             graph.SetConnections(
-                ("b", "c", 1),
-                ("a", "b", 1));
+                ("b", "c"),
+                ("a", "b"));
             graph.Solve();
 
             var route = graph.FindRoute("a", "c");
@@ -92,16 +92,16 @@ namespace Juniper.Collections.Tests
         {
             var graph = new Graph<string>();
             graph.SetConnections(
-                ("j", "k", 1),
-                ("i", "j", 1),
-                ("h", "i", 1),
-                ("g", "h", 1),
-                ("f", "g", 1),
-                ("e", "f", 1),
-                ("d", "e", 1),
-                ("c", "d", 1),
-                ("b", "c", 1),
-                ("a", "b", 1));
+                ("j", "k"),
+                ("i", "j"),
+                ("h", "i"),
+                ("g", "h"),
+                ("f", "g"),
+                ("e", "f"),
+                ("d", "e"),
+                ("c", "d"),
+                ("b", "c"),
+                ("a", "b"));
             graph.Solve();
 
             var route = graph.FindRoute("a", "k");
@@ -115,8 +115,8 @@ namespace Juniper.Collections.Tests
         {
             var graph = new Graph<string>();
             graph.SetConnections(
-                ("a", "b", 1),
-                ("c", "d", 1));
+                ("a", "b"),
+                ("c", "d"));
             graph.Solve();
 
             var route = graph.FindRoute("a", "d");
@@ -129,9 +129,9 @@ namespace Juniper.Collections.Tests
         {
             var graph = new Graph<string>();
             graph.SetConnections(
-                ("a", "b", 1),
-                ("b", "c", 1),
-                ("c", "d", 1));
+                ("a", "b"),
+                ("b", "c"),
+                ("c", "d"));
             graph.Solve();
 
             var routeA = graph.FindRoute("a", "d");
@@ -150,10 +150,10 @@ namespace Juniper.Collections.Tests
         {
             var graph = new Graph<string>();
             graph.SetConnections(
-                ("a", "b", 1),
-                ("b", "c", 1),
-                ("c", "d", 1),
-                ("a", "d", 1));
+                ("a", "b"),
+                ("b", "c"),
+                ("c", "d"),
+                ("a", "d"));
             graph.Solve();
 
             var route = graph.FindRoute("a", "d");
@@ -167,10 +167,10 @@ namespace Juniper.Collections.Tests
         {
             var graph = new Graph<string>();
             graph.SetConnections(
-                ("a", "b", 1),
-                ("b", "c", 1),
-                ("c", "d", 1),
-                ("a", "d", 1));
+                ("a", "b"),
+                ("b", "c"),
+                ("c", "d"),
+                ("a", "d"));
 
             graph.Solve();
             var routeA = graph.FindRoute("a", "d");
@@ -191,20 +191,20 @@ namespace Juniper.Collections.Tests
             const int start = 7216;
             const int end = 5666;
             graph.SetConnections(
-                (start, 4673, 1),
-                (4673, 3416, 1),
-                (4673, 4756, 1),
-                (4673, 9713, 1),
-                (4756, 1371, 1),
-                (9713, 1371, 1),
-                (1371, 3464, 1),
-                (3464, 2656, 1),
-                (3464, end, 1));
+                (start, 4673),
+                (4673, 3416),
+                (4673, 4756),
+                (4673, 9713),
+                (4756, 1371),
+                (9713, 1371),
+                (1371, 3464),
+                (3464, 2656),
+                (3464, end));
             graph.Solve();
 
             var routeA = graph.FindRoute(start, end);
 
-            graph.SetConnection(4673, 1371, 1);
+            graph.SetConnection(4673, 1371);
             graph.Solve();
 
             var routeB = graph.FindRoute(start, end);
@@ -222,15 +222,15 @@ namespace Juniper.Collections.Tests
             const int start = 7216;
             const int end = 5666;
             graph.SetConnections(
-                (start, 4673, 1),
-                (4673, 3416, 1),
-                (4673, 4756, 1),
-                (4673, 9713, 1),
-                (4756, 1371, 1),
-                (9713, 1371, 1),
-                (1371, 3464, 1),
-                (3464, 2656, 1),
-                (3464, end, 1));
+                (start, 4673),
+                (4673, 3416),
+                (4673, 4756),
+                (4673, 9713),
+                (4756, 1371),
+                (9713, 1371),
+                (1371, 3464),
+                (3464, 2656),
+                (3464, end));
             graph.Solve();
 
             var routeA = graph.FindRoute(start, end);
@@ -251,10 +251,10 @@ namespace Juniper.Collections.Tests
         {
             var graph = new Graph<int>();
             graph.SetConnections(
-                (0, 1, 1),
-                (1, 2, 1),
-                (2, 3, 1),
-                (3, 0, 1));
+                (0, 1),
+                (1, 2),
+                (2, 3),
+                (3, 0));
             graph.Solve();
 
             var routeA = graph.FindRoute(0, 1);
@@ -267,6 +267,70 @@ namespace Juniper.Collections.Tests
             Assert.AreEqual(1, routeA.Cost);
             Assert.AreEqual(2, routeB.Cost);
             Assert.AreEqual(1, routeC.Cost);
+        }
+
+        [Test]
+        public void FindTrivialCycle()
+        {
+            var graph = new Graph<int>(true);
+            graph.SetConnections(
+                (0, 1),
+                (1, 0));
+            graph.Solve();
+
+            var cycles = graph.GetCycles();
+
+            Assert.AreEqual(2, cycles.Length);
+            var cycleA = cycles[0];
+            var cycleB = cycles[1];
+
+            Assert.AreEqual(2, cycleA.Length);
+            Assert.AreEqual(2, cycleB.Length);
+
+            Assert.AreEqual(0, cycleA[0]);
+            Assert.AreEqual(1, cycleA[1]);
+
+            Assert.AreEqual(1, cycleB[0]);
+            Assert.AreEqual(0, cycleB[1]);
+        }
+
+        [Test]
+        public void FindShortCycle()
+        {
+            var graph = new Graph<int>(true);
+            graph.SetConnections(
+                (0, 1),
+                (1, 2),
+                (2, 0));
+            graph.Solve();
+
+            var cycles = graph.GetCycles();
+
+            Assert.AreEqual(3, cycles.Length);
+            foreach (var cycle in cycles)
+            {
+                Assert.AreEqual(3, cycle.Length);
+            }
+        }
+
+        [Test]
+        public void FindShortCycle2()
+        {
+            var graph = new Graph<int>(true);
+            graph.SetConnections(
+                (0, 1),
+                (1, 2),
+                (2, 0),
+                (1, 3));
+            graph.Solve();
+
+            var cycles = graph.GetCycles();
+
+            Assert.AreEqual(3, cycles.Length);
+            foreach (var cycle in cycles)
+            {
+                Assert.AreEqual(3, cycle.Length);
+            }
         }
 
         [Test]
@@ -290,10 +354,10 @@ namespace Juniper.Collections.Tests
         {
             var graph1 = new Graph<string>();
             graph1.SetConnections(
-                ("a", "b", 1),
-                ("b", "c", 1),
-                ("c", "d", 1),
-                ("a", "d", 1));
+                ("a", "b"),
+                ("b", "c"),
+                ("c", "d"),
+                ("a", "d"));
             graph1.Solve();
 
             var graph2 = graph1.Clone();
@@ -301,23 +365,23 @@ namespace Juniper.Collections.Tests
             CheckGraphs("Clone", graph1, graph2);
         }
 
-        private static void SerializationTest<FactoryT>()
-            where FactoryT : IFactory<Graph<int>, MediaType.Application>, new()
+        [Test]
+        public void Serialization()
         {
-            var factory = new FactoryT();
+            var factory = new JsonFactory<Graph<int>>();
             var graph = new Graph<int>();
             const int start = 7216;
             const int end = 5666;
             graph.SetConnections(
-                (start, 4673, 1),
-                (4673, 3416, 1),
-                (4673, 4756, 1),
-                (4673, 9713, 1),
-                (4756, 1371, 1),
-                (9713, 1371, 1),
-                (1371, 3464, 1),
-                (3464, 2656, 1),
-                (3464, end, 1));
+                (start, 4673),
+                (4673, 3416),
+                (4673, 4756),
+                (4673, 9713),
+                (4756, 1371),
+                (9713, 1371),
+                (1371, 3464),
+                (3464, 2656),
+                (3464, end));
             graph.Solve();
 
             var routeA = graph.FindRoute(start, end);
@@ -335,78 +399,6 @@ namespace Juniper.Collections.Tests
             Assert.AreEqual(routeA.Cost, routeB.Cost);
             Assert.AreEqual(routeA.Count, routeB.Count);
             Assert.AreEqual(routeA.ToString(), routeB.ToString());
-        }
-
-        [Test]
-        public void SerializationJson()
-        {
-            SerializationTest<JsonFactory<Graph<int>>>();
-        }
-
-        private static void DeserializationTest<FactoryT>(string ext)
-            where FactoryT : IFactory<Graph<string>, MediaType.Application>, new()
-        {
-            var factory = new FactoryT();
-            var bytes = ext switch
-            {
-                "json" => Juniper.Tests.Properties.Resources.test_json_graph1,
-                _ => throw new NotSupportedException("Cannot load from file type " + ext)
-            };
-            Assert.IsTrue(factory.TryDeserialize(bytes, out var graph));
-            graph.Solve();
-            Assert.IsTrue(graph.Nodes.Any());
-        }
-
-        [Test]
-        public void DeserializationJson()
-        {
-            DeserializationTest<JsonFactory<Graph<string>>>("json");
-        }
-
-        private static void DeserializationTest(string ext)
-        {
-            var outPath = "test2." + ext;
-
-            var data = ext switch
-            {
-                "json" => Juniper.Tests.Properties.Resources.test_json_graph1,
-                _ => throw new NotSupportedException("Cannot load from file type " + ext)
-            };
-
-            using var mem = new MemoryStream(data);
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            var graph1 = ext switch
-            {
-                "json" => Graph.LoadJSON<string>(mem),
-                _ => throw new NotSupportedException("Cannot load from file type " + ext)
-            };
-
-            graph1.Solve();
-            stopwatch.Stop();
-            var time1 = stopwatch.Elapsed;
-            graph1.Save(outPath);
-
-            stopwatch.Restart();
-            var graph2 = Graph.Load<string>(outPath);
-            stopwatch.Stop();
-            var time2 = stopwatch.Elapsed;
-
-            CheckGraphs("Bin", graph1, graph2);
-
-            Assert.IsTrue(time2 < time1, $"{time2.TotalMilliseconds.ToString(CultureInfo.CurrentCulture)} > {time1.TotalMilliseconds.ToString(CultureInfo.CurrentCulture)}");
-        }
-
-        [Test]
-        public void DeserializationJsonExactlyDuplicatesGraph()
-        {
-            DeserializationTest("json");
-        }
-
-        [Test]
-        public void DeserializationBinaryExactlyDuplicatesGraph()
-        {
-            DeserializationTest("bin");
         }
     }
 }

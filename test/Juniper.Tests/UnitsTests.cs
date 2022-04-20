@@ -1,12 +1,12 @@
-using System.Globalization;
-
 using Juniper.World.GIS;
 
 using NUnit.Framework;
 
+using System.Globalization;
+
 using static System.Math;
 
-namespace Juniper.Units.Tests
+namespace Juniper.Units
 {
     [TestFixture]
     public class UnitsTests
@@ -21,8 +21,9 @@ namespace Juniper.Units.Tests
             Assert.AreEqual(latLng.Alt, latLng2.Alt, 0.0001);
             Assert.AreEqual(latLng.Lng, latLng2.Lng, 0.0001);
             Assert.AreEqual(latLng.Lat, latLng2.Lat, 0.0001);
-            Assert.AreEqual(utm.X, utm2.X, 0.5);
-            Assert.AreEqual(utm.Y, utm2.Y, 0.5);
+            Assert.AreEqual(utm.Easting, utm2.Easting, 0.5);
+            Assert.AreEqual(utm.Northing, utm2.Northing, 0.5);
+            Assert.AreEqual(utm.Altitude, utm2.Altitude, 0.0001);
             Assert.AreEqual(utm.Zone, utm2.Zone);
         }
 

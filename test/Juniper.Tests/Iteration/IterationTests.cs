@@ -1,11 +1,11 @@
+using NUnit.Framework;
+
 using System;
 using System.Collections;
 using System.Diagnostics;
 using System.Globalization;
 
-using NUnit.Framework;
-
-namespace Juniper.Iteration.Tests
+namespace Juniper.Iteration
 {
     [TestFixture]
     public class IterationTests : IComparer

@@ -6,7 +6,7 @@
 
 using System.Collections.Generic;
 
-namespace Juniper.Collections.Tests
+namespace Juniper.Collections
 {
 
     internal class MockComparer : IComparer<int>

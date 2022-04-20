@@ -1,9 +1,9 @@
+using NUnit.Framework;
+
 using System;
 using System.Globalization;
 
-using NUnit.Framework;
-
-namespace Juniper.Puzzles.Test
+namespace Juniper.Puzzles
 {
     [TestFixture]
     public class PuzzleTests

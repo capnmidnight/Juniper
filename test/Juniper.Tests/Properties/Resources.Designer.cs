@@ -63,26 +63,6 @@ namespace Juniper.Tests.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] test_json_graph1 {
-            get {
-                object obj = ResourceManager.GetObject("test_json_graph1", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] test_json_graph2 {
-            get {
-                object obj = ResourceManager.GetObject("test_json_graph2", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
         internal static byte[] test_zip {
             get {
                 object obj = ResourceManager.GetObject("test_zip", resourceCulture);

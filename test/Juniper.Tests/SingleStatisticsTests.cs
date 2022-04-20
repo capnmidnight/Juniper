@@ -1,10 +1,10 @@
-using System;
-
 using NUnit.Framework;
+
+using System;
 
 using static System.Math;
 
-namespace Juniper.Mathematics.Tests
+namespace Juniper.Mathematics
 {
     [TestFixture]
     public class SingleStatisticsTests

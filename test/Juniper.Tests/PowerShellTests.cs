@@ -3,7 +3,7 @@
 
 //using NUnit.Framework;
 
-//namespace Juniper.HTTP.Server.Administration.PowerShell.Tests
+//namespace Juniper.HTTP.Server.Administration.PowerShell
 //{
 //    [TestFixture]
 //    public class PowerShellTests

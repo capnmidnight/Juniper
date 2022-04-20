@@ -1,10 +1,10 @@
+using NUnit.Framework;
+
 using System;
 using System.IO;
 using System.Linq;
 
-using NUnit.Framework;
-
-namespace Juniper.IO.Tests
+namespace Juniper.IO
 {
     [TestFixture]
     public class CachingTests
