@@ -93,3 +93,13 @@ export function objectSetEnabled(obj: Objects, enabled: boolean) {
         obj.disabled = !enabled;
     }
 }
+
+export function objectSetWorldPosition(obj: Objects, pos: THREE.Vector3) {
+    obj = objectResolve(obj);
+    const parent = obj.parent;
+    obj.removeFromParent();
+    obj.position.copy(pos);
+    if (isDefined(parent)) {
+        parent.attach(obj);
+    }
+}
