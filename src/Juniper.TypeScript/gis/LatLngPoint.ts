@@ -333,6 +333,14 @@ export class LatLngPoint implements ILatLngPoint, ICloneable {
         return this;
     }
 
+    toArray() {
+        return [this._lng, this._alt, this._lat];
+    }
+
+    fromArray(arr: [number, number, number]) {
+        return this.fromVec3(arr);
+    }
+
     copy(other: ILatLngPoint): LatLngPoint {
         this._lat = other.lat;
         this._lng = other.lng;
