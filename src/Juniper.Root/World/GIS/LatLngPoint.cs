@@ -39,14 +39,12 @@ namespace Juniper.World.GIS
         /// <param name="lat">The latitude</param>
         /// <param name="lng">The longitude</param>
         /// <param name="alt">The altitude</param>
-        public LatLngPoint(float lat, float lng, float alt)
+        public LatLngPoint(float lat, float lng, float? alt = null)
         {
             Lat = lat;
             Lng = lng;
-            Alt = alt;
+            Alt = alt ?? 0;
         }
-
-        public LatLngPoint(float lat, float lng) : this(lat, lng, 0) { }
 
         public LatLngPoint() : this(0, 0, 0) { }
 
