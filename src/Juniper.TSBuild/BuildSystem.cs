@@ -420,7 +420,7 @@ namespace Juniper.TSBuild
                     dir.Delete(true);
                     OnInfo($"{dir.FullName} deleted");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     OnWarning($"Could not delete {dir.FullName}. Reason: {ex.Message}.");
                 }
@@ -429,7 +429,7 @@ namespace Juniper.TSBuild
 
         public async Task DetectCyclesAsync()
         {
-            var graph = new Graph<string>(true);
+            var deps = new Dictionary<string, HashSet<string>>();
             var dirs = juniperTsDir
                 .EnumerateDirectories()
                 .Append(projectDir);
@@ -443,11 +443,12 @@ namespace Juniper.TSBuild
                     var pkg = await JsonSerializer.DeserializeAsync<NPMPackage>(pkgStream);
                     if (pkg?.name is not null)
                     {
+                        deps.Add(pkg.name, new HashSet<string>());
                         if (pkg.dependencies is not null)
                         {
                             foreach (var dep in pkg.dependencies)
                             {
-                                graph.SetConnection(pkg.name, dep.Key, 0);
+                                deps[pkg.name].Add(dep.Key);
                             }
                         }
 
@@ -455,20 +456,41 @@ namespace Juniper.TSBuild
                         {
                             foreach (var dep in pkg.devDependencies)
                             {
-                                graph.SetConnection(pkg.name, dep.Key, 0);
+                                deps[pkg.name].Add(dep.Key);
                             }
                         }
                     }
                 }
             }
 
-            graph.Solve();
+            var cycles = new List<List<string>>();
+            foreach (var pkg in deps.Keys)
+            {
+                var queue = new Queue<(string, List<string>)> { (pkg, new List<string>()) };
+                while (queue.Count > 0)
+                {
+                    var (here, cycle) = queue.Dequeue();
+                    if (cycle.Contains(here))
+                    {
+                        cycle.Add(here);
+                        cycles.Add(cycle);
+                        break;
+                    }
+                    else if (deps.ContainsKey(here))
+                    {
+                        cycle.Add(here);
+                        foreach (var dep in deps[here])
+                        {
+                            queue.Enqueue((dep, cycle.ToList()));
+                        }
+                    }
+                }
+            }
 
-            var cycles = graph.GetCycles();
-            if(cycles.Length > 0)
+            if (cycles.Count > 0)
             {
                 OnWarning("Package cycles found!");
-                foreach(var cycle in cycles)
+                foreach (var cycle in cycles)
                 {
                     OnWarning("\t" + string.Join(" -> ", cycle));
                 }
