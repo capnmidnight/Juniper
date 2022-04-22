@@ -22,7 +22,7 @@ import {
     isFirefox, isFunction, isOculusBrowser, oculusBrowserVersion
 } from "@juniper/tslib";
 import { feet2Meters } from "@juniper/units/length";
-import { arrayRemove, arraySortByKeyInPlace } from "../../events/node_modules/@juniper/collections";
+import { arrayRemove, arraySortByKeyInPlace } from "@juniper/collections";
 import { BodyFollower } from "../animation/BodyFollower";
 import { updateScalings } from "../animation/scaleOnHover";
 import { AvatarLocal } from "../AvatarLocal";
