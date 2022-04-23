@@ -45,6 +45,7 @@ namespace Juniper.TSBuild
         public bool AuditOnly => flags.Contains(nameof(AuditOnly));
         public bool AuditFixOnly => flags.Contains(nameof(AuditFixOnly));
         public bool CleanOnly => flags.Contains(nameof(CleanOnly));
+        public bool PrintDependencyTreeOnly => flags.Contains(nameof(PrintDependencyTreeOnly));
 
 
         private readonly Command[] interactiveCommands;
@@ -56,6 +57,7 @@ namespace Juniper.TSBuild
             {
                 new Command("--install", "Install NPM packages", FlagSetter(nameof(InstallOnly))),
                 new Command("--detect-cycles", "Detect NPM package cycles", FlagSetter(nameof(DetectCyclesOnly))),
+                new Command("--dep-tree", "Print NPM package tree", FlagSetter(nameof(PrintDependencyTreeOnly))),
                 new Command("--clean", "Delete NPM Pacakges", FlagSetter(nameof(CleanOnly))),
                 new Command("--audit", "Audit NPM packages", FlagSetter(nameof(AuditOnly))),
                 new Command("--audit-fix", "Audit and auto-fix NPM packages", FlagSetter(nameof(AuditFixOnly))),
@@ -63,8 +65,7 @@ namespace Juniper.TSBuild
                 new Command(null, "Build (level: Low)", (_) => level = Level.Low),
                 new Command(null, "Build (level: Med)", (_) => level = Level.Medium),
                 new Command(null, "Build (level: High)", (_) => level = Level.High),
-                new Command("--version", null, FlagSetter(nameof(VersionOnly))),
-                new Command(null, "Quit", (set) => complete = set)
+                new Command("--version", null, FlagSetter(nameof(VersionOnly)))
             };
 
             interactiveCommands = commands
@@ -151,6 +152,8 @@ namespace Juniper.TSBuild
                 Console.WriteLine("\t{0}: {1}", i + 1, interactiveCommands[i].Description);
             }
 
+            Console.WriteLine("\tX: Quit");
+
             var good = false;
             while (!good)
             {
@@ -162,6 +165,15 @@ namespace Juniper.TSBuild
                 {
                     good = true;
                     interactiveCommands[choice - 1].Action(true);
+                }
+                else
+                {
+                    entry = entry?.ToLowerInvariant();
+                    good = complete
+                        = entry == "x"
+                        || entry == "q"
+                        || entry == "exit"
+                        || entry == "quit";
                 }
             }
         }

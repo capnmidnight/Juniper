@@ -343,6 +343,30 @@ namespace System.Collections.Generic
         }
 
         /// <summary>
+        /// Add an entire collection to a stack.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the stack.</typeparam>
+        /// <param name="q">The stack to which to add items.</param>
+        /// <param name="e">The items to add to the stack, in order.</param>
+        public static void AddRange<T>(this Stack<T> q, IEnumerable<T> e)
+        {
+            if (q is null)
+            {
+                throw new ArgumentNullException(nameof(q));
+            }
+
+            if (e is null)
+            {
+                throw new ArgumentNullException(nameof(e));
+            }
+
+            foreach (var o in e)
+            {
+                q.Push(o);
+            }
+        }
+
+        /// <summary>
         /// Add an entire collection to a queue.
         /// </summary>
         /// <typeparam name="T">The type of elements in the queue.</typeparam>
@@ -380,6 +404,22 @@ namespace System.Collections.Generic
             }
 
             q.Enqueue(value);
+        }
+
+        /// <summary>
+        /// Make Stacks usable with collection initializer syntax.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of the stack</typeparam>
+        /// <param name="q">The stack to which to add the item.</param>
+        /// <param name="value">The item to add to the stack.</param>
+        public static void Add<T>(this Stack<T> q, T value)
+        {
+            if (q is null)
+            {
+                throw new ArgumentNullException(nameof(q));
+            }
+
+            q.Push(value);
         }
 
         public static string ToString(this IEnumerable<string> enumer, string sep)

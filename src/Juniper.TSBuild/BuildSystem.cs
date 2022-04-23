@@ -1,4 +1,3 @@
-using Juniper.Collections;
 using Juniper.Logging;
 using Juniper.Processes;
 using Juniper.TSWatcher;
@@ -78,6 +77,10 @@ namespace Juniper.TSBuild
                     else if (opts.DetectCyclesOnly)
                     {
                         await build.DetectCyclesAsync();
+                    }
+                    else if (opts.PrintDependencyTreeOnly)
+                    {
+                        await build.PrintDependencyTreeAsync();
                     }
                     else if (opts.InstallOnly)
                     {
@@ -427,7 +430,7 @@ namespace Juniper.TSBuild
             }
         }
 
-        public async Task DetectCyclesAsync()
+        private async Task<Dictionary<string, HashSet<string>>> GetDependecyTree()
         {
             var deps = new Dictionary<string, HashSet<string>>();
             var dirs = juniperTsDir
@@ -463,10 +466,50 @@ namespace Juniper.TSBuild
                 }
             }
 
-            var cycles = new List<List<string>>();
+            return deps;
+        }
+
+        public async Task PrintDependencyTreeAsync()
+        {
+            var deps = await GetDependecyTree();
+
             foreach (var pkg in deps.Keys)
             {
-                var queue = new Queue<(string, List<string>)> { (pkg, new List<string>()) };
+                var stack = new Stack<(string, string, List<string>)> { (pkg, "", new List<string>()) };
+                while (stack.Count > 0)
+                {
+                    var (here, tabs, cycle) = stack.Pop();
+                    OnInfo(tabs + here);
+                    if (cycle.Contains(here))
+                    {
+                        cycle.Add(here);
+                        cycle.Add(tabs + "Cycle!");
+                        break;
+                    }
+                    else if (deps.ContainsKey(here))
+                    {
+                        cycle.Add(here);
+                        foreach (var dep in deps[here])
+                        {
+                            stack.Push((dep, tabs + '\t', cycle.ToList()));
+                        }
+                    }
+                }
+                OnInfo("");
+            }
+        }
+
+        public async Task DetectCyclesAsync()
+        {
+            var deps = await GetDependecyTree();
+
+            var cycles = new List<List<string>>();
+            var trees = new List<List<string>>();
+            foreach (var pkg in deps.Keys)
+            {
+                var pkgStart = new List<string>();
+                trees.Add(pkgStart);
+                var queue = new Queue<(string, List<string>)> { (pkg, pkgStart) };
                 while (queue.Count > 0)
                 {
                     var (here, cycle) = queue.Dequeue();
@@ -481,7 +524,10 @@ namespace Juniper.TSBuild
                         cycle.Add(here);
                         foreach (var dep in deps[here])
                         {
-                            queue.Enqueue((dep, cycle.ToList()));
+                            var cycle2 = cycle.ToList();
+                            trees.Remove(cycle);
+                            trees.Add(cycle2);
+                            queue.Enqueue((dep, cycle2));
                         }
                     }
                 }
@@ -498,6 +544,12 @@ namespace Juniper.TSBuild
             else
             {
                 OnInfo("No cycles found");
+                trees.Sort((a, b) => b.Count - a.Count);
+                var longest = trees.FirstOrDefault();
+                if (longest is not null)
+                {
+                    OnInfo("Longest dependency tree: " + string.Join(" -> ", longest));
+                }
             }
         }
 
