@@ -1,6 +1,5 @@
 import { CanvasTypes, createUtilityCanvas } from "@juniper/dom/canvas";
-import { deg2rad } from "@juniper/math";
-import { IProgress, progressOfArray } from "@juniper/progress";
+import { deg2rad, IProgress, progressOfArray } from "@juniper/tslib";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
 import { Image2DMesh } from "./Image2DMesh";
 import { deepSetLayer, FOREGROUND, PHOTOSPHERE_CAPTURE } from "./layers";

@@ -1,6 +1,5 @@
 import { canChangeAudioOutput } from "@juniper/audio/DeviceManager";
 import { connect } from "@juniper/audio/nodes";
-import { makeLookup } from "@juniper/collections";
 import {
     className,
     max,
@@ -25,8 +24,7 @@ import {
     Option,
     Select
 } from "@juniper/dom/tags";
-import { stringRandom } from "@juniper/strings";
-import { SetTimeoutTimer } from "@juniper/timers";
+import { makeLookup, SetTimeoutTimer, stringRandom } from "@juniper/tslib";
 import { ActivityDetector } from "@juniper/webrtc/ActivityDetector";
 import type { Environment } from "./Environment";
 

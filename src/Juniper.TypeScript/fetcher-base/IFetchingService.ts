@@ -1,4 +1,4 @@
-import type { IProgress } from "@juniper/progress";
+import type { IProgress } from "@juniper/tslib";
 import type { IRequest, IRequestWithBody } from "./IRequest";
 import type { IResponse } from "./IResponse";
 

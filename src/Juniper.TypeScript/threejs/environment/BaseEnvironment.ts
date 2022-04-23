@@ -12,17 +12,13 @@ import {
     width
 } from "@juniper/dom/css";
 import { Style } from "@juniper/dom/tags";
-import { TypedEvent, TypedEventBase } from "@juniper/events";
 import type { IFetcher } from "@juniper/fetcher";
-import { IProgress } from "@juniper/progress";
-import { TimerTickEvent } from "@juniper/timers";
 import {
-    isDefined,
+    arrayRemove, arraySortByKeyInPlace, IProgress, isDefined,
     isDesktop,
-    isFirefox, isFunction, isOculusBrowser, oculusBrowserVersion
+    isFirefox, isFunction, isOculusBrowser, oculusBrowserVersion, TimerTickEvent, TypedEvent, TypedEventBase
 } from "@juniper/tslib";
-import { feet2Meters } from "@juniper/units/length";
-import { arrayRemove, arraySortByKeyInPlace } from "@juniper/collections";
+import { feet2Meters } from "@juniper/tslib/units/length";
 import { BodyFollower } from "../animation/BodyFollower";
 import { updateScalings } from "../animation/scaleOnHover";
 import { AvatarLocal } from "../AvatarLocal";

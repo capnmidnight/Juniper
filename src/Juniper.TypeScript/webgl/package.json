@@ -5,12 +5,7 @@
   "type": "module",
   "dependencies": {
     "@juniper/2d": "file:../graphics2d",
-    "@juniper/collections": "file:../collections",
     "@juniper/dom": "file:../dom",
-    "@juniper/events": "file:../events",
-    "@juniper/math": "file:../math",
-    "@juniper/progress": "file:../progress",
-    "@juniper/timers": "file:../timers",
     "@juniper/tslib": "file:../tslib",
     "gl-matrix": "3.4.3"
   },

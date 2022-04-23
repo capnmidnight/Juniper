@@ -13,12 +13,9 @@ import { IFetchingService } from "@juniper/fetcher-base/IFetchingService";
 import { IRequestWithBody } from "@juniper/fetcher-base/IRequest";
 import { IResponse } from "@juniper/fetcher-base/IResponse";
 import { translateResponse } from "@juniper/fetcher-base/ResponseTranslator";
-import { MediaType, mediaTypeGuessByFileName } from "@juniper/mediatypes";
-import { Application_Javascript, Application_Json, Application_Wasm } from "@juniper/mediatypes/application";
-import { Text_Plain, Text_Xml } from "@juniper/mediatypes/text";
-import { IProgress } from "@juniper/progress";
-import { assertNever, Exception, isDefined, isString } from "@juniper/tslib";
-import { once, waitFor } from "@juniper/events";
+import { assertNever, Exception, IProgress, isDefined, isString, MediaType, mediaTypeGuessByFileName, once, waitFor } from "@juniper/tslib";
+import { Application_Javascript, Application_Json, Application_Wasm } from "@juniper/tslib/mediatypes/application";
+import { Text_Plain, Text_Xml } from "@juniper/tslib/mediatypes/text";
 
 
 let testAudio: HTMLAudioElement = null;

@@ -4,7 +4,7 @@ import {
     clamp,
     project,
     unproject
-} from "@juniper/math";
+} from "@juniper/tslib";
 import { resolveCamera } from "../resolveCamera";
 import type { BaseCursor } from "./BaseCursor";
 import { BasePointer } from "./BasePointer";

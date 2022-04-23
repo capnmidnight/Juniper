@@ -1,5 +1,4 @@
-import { Task, TypedEvent, TypedEventBase } from "@juniper/events";
-import { IProgress, isProgressCallback } from "@juniper/progress";
+import { IProgress, isProgressCallback, Task, TypedEvent, TypedEventBase } from "@juniper/tslib";
 import { assertNever, isArray, isDefined } from "@juniper/tslib/typeChecks";
 import type { IDisposable } from "@juniper/tslib/using";
 import type {

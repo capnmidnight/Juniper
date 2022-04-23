@@ -1,6 +1,4 @@
-import { arrayClear, arrayInsertAt, arrayRemove, arraySortNumericByKey } from "@juniper/collections";
-import { TypedEvent, TypedEventBase } from "@juniper/events";
-import { isDefined, isFunction, isNullOrUndefined, isString } from "@juniper/tslib";
+import { arrayClear, arrayInsertAt, arrayRemove, arraySortNumericByKey, isDefined, isFunction, isNullOrUndefined, isString, TypedEvent, TypedEventBase } from "@juniper/tslib";
 import { className } from "./attrs";
 import { backgroundColor, border, color, cursor, height, margin, opacity, overflowWrap, overflowX, overflowY, padding, rule, whiteSpace } from "./css";
 import { Div, elementApply, ElementChild, elementClearChildren, ErsatzElement, Select, Style } from "./tags";

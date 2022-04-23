@@ -1,4 +1,3 @@
-import { GraphNode, mapBuild } from "@juniper/collections";
 import {
     max,
     min,
@@ -24,8 +23,7 @@ import {
     InputCheckbox,
     InputNumber, PreLabeled
 } from "@juniper/dom/tags";
-import { stringRandom } from "@juniper/strings";
-import { RequestAnimationFrameTimer } from "@juniper/timers";
+import { GraphNode, mapBuild, RequestAnimationFrameTimer, stringRandom } from "@juniper/tslib";
 import { vec2 } from "gl-matrix";
 
 const size = 20;

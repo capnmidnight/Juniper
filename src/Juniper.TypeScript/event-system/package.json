@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@juniper/events": "file:../events"
+    "@juniper/tslib": "file:../tslib"
   },
   "devDependencies": {
     "@types/audio-types": "file:../audio-types",

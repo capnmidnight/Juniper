@@ -4,9 +4,6 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@juniper/collections": "file:../collections",
-    "@juniper/events": "file:../events",
-    "@juniper/progress": "file:../progress",
     "@juniper/tslib": "file:../tslib",
     "@juniper/workers": "file:../workers"
   },

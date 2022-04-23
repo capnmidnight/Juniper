@@ -86,6 +86,10 @@ namespace Juniper.TSBuild
                     {
                         await build.InstallAsync();
                     }
+                    else if (opts.InstallCIOnly)
+                    {
+                        await build.InstallCIAsync();
+                    }
                     else if (opts.CheckOnly)
                     {
                         await build.TSBuildAsync();
@@ -553,6 +557,24 @@ namespace Juniper.TSBuild
             }
         }
 
+        private IEnumerable<NPMInstallCommand> GetInstallCICommands(Level buildLevel)
+        {
+            var projects = buildLevel == Level.High
+                ? juniperInstallables
+                : juniperBuildables;
+
+            return projects
+                .Append(projectDir)
+                .Select(dir =>
+                    new NPMInstallCommand(dir, false, buildLevel == Level.High));
+        }
+
+        public async Task InstallCIAsync()
+        {
+            await WithCommandTree(commands =>
+                commands.AddCommands(GetInstallCICommands(Level.High)));
+        }
+
         private IEnumerable<NPMInstallCommand> GetInstallCommands(Level buildLevel)
         {
             var projects = buildLevel == Level.High
@@ -562,7 +584,7 @@ namespace Juniper.TSBuild
             return projects
                 .Append(projectDir)
                 .Select(dir =>
-                    new NPMInstallCommand(dir, buildLevel == Level.High));
+                    new NPMInstallCommand(dir, true, false));
         }
 
         public async Task InstallAsync()
@@ -622,7 +644,7 @@ namespace Juniper.TSBuild
             {
                 commands
                     .AddCommands(new MessageCommand("Build level {0}: {1}", buildLevel, buildLevelMessages[buildLevel]))
-                    .AddCommands(GetInstallCommands(buildLevel))
+                    .AddCommands(GetInstallCICommands(buildLevel))
                     .AddCommands(dependencies.Select(kv => new CopyCommand(kv.Key, kv.Value)));
 
                 if (buildLevel > Level.Low)

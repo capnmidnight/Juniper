@@ -1,8 +1,5 @@
 import type { TextImageOptions } from "@juniper/2d/TextImage";
-import { TypedEventBase } from "@juniper/events";
-import { IProgress, progressTasks } from "@juniper/progress";
-import { TimerTickEvent } from "@juniper/timers";
-import { isDefined } from "@juniper/tslib";
+import { IProgress, isDefined, progressTasks, TimerTickEvent, TypedEventBase } from "@juniper/tslib";
 import { RoomJoinedEvent, RoomLeftEvent, UserJoinedEvent, UserLeftEvent, UserNameChangedEvent } from "@juniper/webrtc/ConferenceEvents";
 import { TeleconferenceManager } from "@juniper/webrtc/TeleconferenceManager";
 import { AvatarRemote } from "./AvatarRemote";

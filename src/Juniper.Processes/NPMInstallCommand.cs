@@ -9,8 +9,8 @@ namespace Juniper.Processes
         private readonly DirectoryInfo nodeModulesDir;
 
 
-        public NPMInstallCommand(DirectoryInfo? workingDir, bool force)
-            : base(workingDir, "npm", force ? "ci" : "install")
+        public NPMInstallCommand(DirectoryInfo? workingDir, bool force, bool useCI)
+            : base(workingDir, "npm", useCI ? "ci" : "install")
         {
             packageJson = this.workingDir.Touch("package.json");
             if (!packageJson.Exists)

@@ -1,5 +1,5 @@
 import type { AudioManager } from "@juniper/audio/AudioManager";
-import type { IProgress } from "@juniper/progress";
+import type { IProgress } from "@juniper/tslib";
 import type { EventSystem } from "./EventSystem";
 import type { EventSystemEvent } from "./EventSystemEvent";
 import { isInteractiveObject3D } from "./InteractiveObject3D";

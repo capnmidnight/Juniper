@@ -1,4 +1,3 @@
-import { PriorityMap } from "@juniper/collections";
 import { EventedGamepad, GamepadAxisMaxedEvent } from "@juniper/dom/EventedGamepad";
 import { MouseButtons } from "@juniper/event-system/MouseButton";
 import { PointerName } from "@juniper/event-system/PointerName";
@@ -8,7 +7,7 @@ import {
     isDefined,
     isDesktop,
     isNullOrUndefined,
-    isOculusBrowser
+    isOculusBrowser, PriorityMap
 } from "@juniper/tslib";
 import { XRControllerModelFactory } from "../examples/webxr/XRControllerModelFactory";
 import { XRHandModelFactory } from "../examples/webxr/XRHandModelFactory";

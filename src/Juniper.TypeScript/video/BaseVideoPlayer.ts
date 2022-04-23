@@ -5,13 +5,10 @@ import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElem
 import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "@juniper/audio/sources/IPlayer";
 import { PlaybackState } from "@juniper/audio/sources/PlaybackState";
 import { NoSpatializationNode } from "@juniper/audio/sources/spatializers/NoSpatializationNode";
-import { arraySortByKeyInPlace, PriorityList } from "@juniper/collections";
 import { autoPlay, controls, loop, playsInline } from "@juniper/dom/attrs";
 import { Audio, ElementChild, mediaElementCanPlayThrough, Video } from "@juniper/dom/tags";
-import { once } from "@juniper/events";
-import { Video_Vendor_Mpeg_Dash_Mpd } from "@juniper/mediatypes/video";
-import { IProgress, progressTasks } from "@juniper/progress";
-import { AsyncCallback, IDisposable, isDefined, isNullOrUndefined, isString } from "@juniper/tslib";
+import { arraySortByKeyInPlace, AsyncCallback, IDisposable, IProgress, isDefined, isNullOrUndefined, isString, once, PriorityList, progressTasks } from "@juniper/tslib";
+import { Video_Vendor_Mpeg_Dash_Mpd } from "@juniper/tslib/mediatypes/video";
 import { FullVideoRecord, isVideoRecord } from "./data";
 
 export abstract class BaseVideoPlayer

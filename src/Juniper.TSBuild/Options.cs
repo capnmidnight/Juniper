@@ -40,6 +40,7 @@ namespace Juniper.TSBuild
 
         public bool VersionOnly => flags.Contains(nameof(VersionOnly));
         public bool InstallOnly => flags.Contains(nameof(InstallOnly));
+        public bool InstallCIOnly => flags.Contains(nameof(InstallCIOnly));
         public bool DetectCyclesOnly => flags.Contains(nameof(DetectCyclesOnly));
         public bool CheckOnly => flags.Contains(nameof(CheckOnly));
         public bool AuditOnly => flags.Contains(nameof(AuditOnly));
@@ -56,6 +57,7 @@ namespace Juniper.TSBuild
             var commands = new[]
             {
                 new Command("--install", "Install NPM packages", FlagSetter(nameof(InstallOnly))),
+                new Command("--ci", "Install NPM packages with CI", FlagSetter(nameof(InstallCIOnly))),
                 new Command("--detect-cycles", "Detect NPM package cycles", FlagSetter(nameof(DetectCyclesOnly))),
                 new Command("--dep-tree", "Print NPM package tree", FlagSetter(nameof(PrintDependencyTreeOnly))),
                 new Command("--clean", "Delete NPM Pacakges", FlagSetter(nameof(CleanOnly))),

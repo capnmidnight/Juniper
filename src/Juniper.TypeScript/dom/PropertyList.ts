@@ -1,5 +1,4 @@
-import { identity, isArray, isBoolean, isDate, isNumber, isString } from "@juniper/tslib";
-import { stringRandom } from "@juniper/strings";
+import { identity, isArray, isBoolean, isDate, isNumber, isString, stringRandom } from "@juniper/tslib";
 import { display, gridAutoFlow, gridColumn, gridTemplateColumns, margin, marginInlineStart, paddingRight, rule, textAlign, width } from "./css";
 import { DD, Div, DL, DT, elementApply, ElementChild, elementSetDisplay, ErsatzElement, H2, isErsatzElement, isErsatzElements, Label, Style } from "./tags";
 

@@ -1,8 +1,7 @@
 import type { TextImageOptions } from "@juniper/2d/TextImage";
 import { TextImage } from "@juniper/2d/TextImage";
 import { IFetcher } from "@juniper/fetcher";
-import { stringRandom } from "@juniper/strings";
-import { isDefined } from "@juniper/tslib";
+import { isDefined, stringRandom } from "@juniper/tslib";
 import { IWebXRLayerManager } from "./IWebXRLayerManager";
 import { TextMesh } from "./TextMesh";
 

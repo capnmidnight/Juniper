@@ -1,8 +1,6 @@
 import { AudioRecord } from "@juniper/audio/data";
-import { arrayScan, PriorityList } from "@juniper/collections";
 import { IFetcher } from "@juniper/fetcher";
-import { IProgress } from "@juniper/progress";
-import { isDefined, isNullOrUndefined, isString } from "@juniper/tslib";
+import { arrayScan, IProgress, isDefined, isNullOrUndefined, isString, PriorityList } from "@juniper/tslib";
 import { FullVideoRecord, ImageRecord, VideoRecord } from "./data";
 
 const codecReplaces = new Map([

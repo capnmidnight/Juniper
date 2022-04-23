@@ -1,8 +1,7 @@
 import { isWebXRWebGLRenderingContext } from "@juniper/dom/canvas";
 import { hasFullscreenAPI } from "@juniper/dom/fullscreen";
 import { elementIsDisplayed, elementSetDisplay } from "@juniper/dom/tags";
-import { TypedEvent, TypedEventBase } from "@juniper/events";
-import { hasVR, hasWebVR, hasWebXR, isDefined, isMobileVR } from "@juniper/tslib";
+import { hasVR, hasWebVR, hasWebXR, isDefined, isMobileVR, TypedEvent, TypedEventBase } from "@juniper/tslib";
 import WebXRPolyfill from "webxr-polyfill/src/WebXRPolyfill";
 import { ScreenMode } from "./ScreenMode";
 import type { ScreenUI } from "./ScreenUI";

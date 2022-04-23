@@ -1,4 +1,4 @@
-import { BaseProgress, IProgress } from "@juniper/progress";
+import { BaseProgress, IProgress } from "@juniper/tslib";
 import { ariaValueMax, ariaValueMin, ariaValueNow, className, role } from "./attrs";
 import { styles, width } from "./css";
 import { Div, elementSetText, ErsatzElement } from "./tags";

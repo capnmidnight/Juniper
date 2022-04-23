@@ -5,14 +5,8 @@
   "type": "module",
   "dependencies": {
     "@juniper/audio": "file:../audio",
-    "@juniper/collections": "file:../collections",
     "@juniper/dom": "file:../dom",
-    "@juniper/events": "file:../events",
     "@juniper/fetcher-base": "file:../fetcher-base",
-    "@juniper/math": "file:../math",
-    "@juniper/progress": "file:../progress",
-    "@juniper/strings": "file:../strings",
-    "@juniper/timers": "file:../timers",
     "@juniper/tslib": "file:../tslib",
     "gl-matrix": "3.4.3",
     "pdfjs-dist": "2.13.216"

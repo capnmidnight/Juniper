@@ -1,4 +1,4 @@
-import { BaseProgress, IProgress } from "@juniper/progress";
+import { BaseProgress, IProgress } from "@juniper/tslib";
 import { Cube } from "./Cube";
 import { deepSetLayer, PURGATORY } from "./layers";
 import { litGrey, litWhite } from "./materials";

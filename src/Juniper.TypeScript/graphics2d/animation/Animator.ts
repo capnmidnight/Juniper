@@ -1,5 +1,4 @@
-import { arrayClear } from "@juniper/collections";
-import { Task } from "@juniper/events";
+import { arrayClear, Task } from "@juniper/tslib";
 
 export class Animator {
     private animations = new Array<(dt: number) => void>();

@@ -1,4 +1,4 @@
-import type { IProgress } from "@juniper/progress";
+import type { IProgress } from "@juniper/tslib";
 import { isString, singleton } from "@juniper/tslib";
 
 const DEFAULT_TEST_TEXT = "The quick brown fox jumps over the lazy dog";

@@ -4,8 +4,6 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@juniper/events": "file:../events",
-    "@juniper/timers": "file:../timers",
     "@juniper/tslib": "file:../tslib",
     "cannon-es": "0.19.0"
   },

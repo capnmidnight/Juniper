@@ -1,5 +1,4 @@
-import type { MediaType } from "@juniper/mediatypes";
-import type { IProgress } from "@juniper/progress";
+import type { IProgress, MediaType } from "@juniper/tslib";
 import type { IResponse } from "./IResponse";
 
 export interface IFetcherBasic {

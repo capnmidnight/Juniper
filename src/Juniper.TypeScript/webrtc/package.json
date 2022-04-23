@@ -5,12 +5,8 @@
   "type": "module",
   "dependencies": {
     "@juniper/audio": "file:../audio",
-    "@juniper/collections": "file:../collections",
     "@juniper/dom": "file:../dom",
     "@juniper/event-system": "file:../event-system",
-    "@juniper/events": "file:../events",
-    "@juniper/math": "file:../math",
-    "@juniper/timers": "file:../timers",
     "@juniper/tslib": "file:../tslib",
     "@microsoft/signalr": "6.0.2",
     "@types/audio-types": "file:../audio-types",

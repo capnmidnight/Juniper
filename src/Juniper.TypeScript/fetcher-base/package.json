@@ -4,12 +4,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@juniper/collections": "file:../collections",
     "@juniper/dom": "file:../dom",
-    "@juniper/events": "file:../events",
-    "@juniper/idexdb": "file:../idexdb",
-    "@juniper/mediatypes": "file:../mediatypes",
-    "@juniper/progress": "file:../progress",
     "@juniper/tslib": "file:../tslib"
   },
   "devDependencies": {

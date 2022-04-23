@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventBase } from "@juniper/events";
+import { TypedEvent, TypedEventBase } from "@juniper/tslib";
 
 class GamepadButtonEvent<T extends string> extends TypedEvent<T> {
     constructor(type: T, public button: number) {

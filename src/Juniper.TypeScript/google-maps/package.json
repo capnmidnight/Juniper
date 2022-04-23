@@ -5,8 +5,6 @@
   "type": "module",
   "dependencies": {
     "@googlemaps/js-api-loader": "1.13.7",
-    "@juniper/events": "file:../events",
-    "@juniper/gis": "file:../gis",
     "@juniper/tslib": "file:../tslib",
     "gl-matrix": "3.4.3"
   },

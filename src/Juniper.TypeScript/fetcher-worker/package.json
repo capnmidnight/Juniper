@@ -11,7 +11,6 @@
   "dependencies": {
     "@juniper/dom": "file:../dom",
     "@juniper/fetcher-base": "file:../fetcher-base",
-    "@juniper/mediatypes": "file:../mediatypes",
     "@juniper/tslib": "file:../tslib",
     "@juniper/worker-server": "file:../worker-server"
   },

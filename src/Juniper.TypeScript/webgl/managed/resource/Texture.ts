@@ -1,4 +1,4 @@
-import { isPowerOf2 } from "@juniper/math";
+import { isPowerOf2 } from "@juniper/tslib";
 import { ManagedWebGLResource } from "./ManagedWebGLResource";
 
 export class BaseTexture extends ManagedWebGLResource<WebGLTexture> {

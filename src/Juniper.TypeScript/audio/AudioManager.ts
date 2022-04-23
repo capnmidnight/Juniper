@@ -1,16 +1,11 @@
-import { arrayRemove, arraySortedInsert } from "@juniper/collections";
 import { autoPlay, id, playsInline, src, srcObject } from "@juniper/dom/attrs";
 import { display, styles } from "@juniper/dom/css";
 import { Audio, BackgroundAudio, elementApply, ErsatzElement, mediaElementCanPlay } from "@juniper/dom/tags";
-import { TypedEvent, TypedEventBase } from "@juniper/events";
-import { IProgress } from "@juniper/progress";
-import { stringToName } from "@juniper/strings";
 import {
-    IDisposable,
-    isDefined,
+    arrayRemove, arraySortedInsert, IDisposable, IProgress, isDefined,
     isMobileVR,
     isNullOrUndefined,
-    isString
+    isString, stringToName, TypedEvent, TypedEventBase
 } from "@juniper/tslib";
 import type { vec3 } from "gl-matrix";
 import type { DestinationNode } from "./destinations/AudioDestination";

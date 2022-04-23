@@ -1,4 +1,4 @@
-import { deg2rad } from "@juniper/math";
+import { deg2rad } from "@juniper/tslib";
 import { objectResolve, Objects, objGraph } from "./objects";
 
 interface Point2D {

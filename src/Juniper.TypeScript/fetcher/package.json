@@ -5,10 +5,7 @@
   "type": "module",
   "dependencies": {
     "@juniper/dom": "file:../dom",
-    "@juniper/events": "file:../events",
     "@juniper/fetcher-base": "file:../fetcher-base",
-    "@juniper/mediatypes": "file:../mediatypes",
-    "@juniper/progress": "file:../progress",
     "@juniper/tslib": "file:../tslib",
     "@juniper/worker-client": "file:../worker-client"
   },

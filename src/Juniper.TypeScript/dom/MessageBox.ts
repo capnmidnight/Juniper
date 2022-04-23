@@ -1,4 +1,4 @@
-import { once, TypedEvent, TypedEventBase } from "@juniper/events";
+import { once, TypedEvent, TypedEventBase } from "@juniper/tslib";
 
 
 export class MessageBoxConfirmationEvent extends TypedEvent<"confirmed"> {

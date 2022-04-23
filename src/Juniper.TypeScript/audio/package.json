@@ -4,13 +4,8 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@juniper/collections": "file:../collections",
     "@juniper/dom": "file:../dom",
-    "@juniper/events": "file:../events",
     "@juniper/fetcher": "file:../fetcher",
-    "@juniper/mediatypes": "file:../mediatypes",
-    "@juniper/progress": "file:../progress",
-    "@juniper/strings": "file:../strings",
     "@juniper/tslib": "file:../tslib",
     "gl-matrix": "3.4.3"
   },

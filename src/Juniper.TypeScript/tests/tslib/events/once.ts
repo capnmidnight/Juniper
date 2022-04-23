@@ -1,5 +1,5 @@
 import { TestCase } from "@juniper/tdd/tdd/TestCase";
-import { once, success, TypedEvent, TypedEventBase } from "@juniper/events";
+import { once, success, TypedEvent, TypedEventBase } from "@juniper/tslib";
 
 class WithValueEvent<T extends string> extends TypedEvent<T> {
     constructor(type: T, public readonly value: number) {
