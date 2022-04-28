@@ -21,41 +21,41 @@ export class FetchingService {
     }
 
     sendNothingGetBlob(request: IRequest, progress: IProgress): Promise<IResponse<Blob>> {
-        return this.impl.sendNothingGetSomething<Blob>("blob", request, progress);
+        return this.impl.sendNothingGetSomething("blob", request, progress);
     }
 
     sendObjectGetBlob(request: IRequestWithBody, progress: IProgress): Promise<IResponse<Blob>> {
-        return this.impl.sendSomethingGetSomething<Blob>("blob", request, this.defaultPostHeaders, progress);
+        return this.impl.sendSomethingGetSomething("blob", request, this.defaultPostHeaders, progress);
     }
 
     sendNothingGetBuffer(request: IRequest, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
-        return this.impl.sendNothingGetSomething<ArrayBuffer>("arraybuffer", request, progress);
+        return this.impl.sendNothingGetSomething("arraybuffer", request, progress);
     }
 
     sendObjectGetBuffer(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ArrayBuffer>> {
-        return this.impl.sendSomethingGetSomething<ArrayBuffer>("arraybuffer", request, this.defaultPostHeaders, progress);
+        return this.impl.sendSomethingGetSomething("arraybuffer", request, this.defaultPostHeaders, progress);
     }
 
     sendNothingGetText(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
-        return this.impl.sendNothingGetSomething<string>("text", request, progress);
+        return this.impl.sendNothingGetSomething("text", request, progress);
     }
 
     sendObjectGetText(request: IRequestWithBody, progress: IProgress): Promise<IResponse<string>> {
-        return this.impl.sendSomethingGetSomething<string>("text", request, this.defaultPostHeaders, progress);
+        return this.impl.sendSomethingGetSomething("text", request, this.defaultPostHeaders, progress);
     }
 
     async sendNothingGetObject<T>(request: IRequest, progress: IProgress): Promise<T> {
-        const response = await this.impl.sendNothingGetSomething<T>("json", request, progress);
+        const response = await this.impl.sendNothingGetSomething<"json", T>("json", request, progress);
         return response.content;
     }
 
     async sendObjectGetObject<T>(request: IRequestWithBody, progress: IProgress): Promise<T> {
-        const response = await this.impl.sendSomethingGetSomething<T>("json", request, this.defaultPostHeaders, progress);
+        const response = await this.impl.sendSomethingGetSomething<"json", T>("json", request, this.defaultPostHeaders, progress);
         return response.content;
     }
 
     sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IResponse<void>> {
-        return this.impl.sendSomethingGetSomething<void>("", request, this.defaultPostHeaders, progress);
+        return this.impl.sendSomethingGetSomething("", request, this.defaultPostHeaders, progress);
     }
 
     async sendNothingGetFile(request: IRequest, progress: IProgress): Promise<IResponse<string>> {
@@ -72,13 +72,13 @@ export class FetchingService {
 
     async sendNothingGetXml(request: IRequest, progress: IProgress): Promise<IResponse<HTMLElement>> {
         return translateResponse(
-            await this.impl.sendNothingGetSomething<Document>("document", request, progress),
+            await this.impl.sendNothingGetSomething("document", request, progress),
             (doc) => doc.documentElement);
     }
 
     async sendObjectGetXml(request: IRequestWithBody, progress: IProgress): Promise<IResponse<HTMLElement>> {
         return translateResponse(
-            await this.impl.sendSomethingGetSomething<Document>("document", request, this.defaultPostHeaders, progress),
+            await this.impl.sendSomethingGetSomething("document", request, this.defaultPostHeaders, progress),
             (doc) => doc.documentElement);
     }
 

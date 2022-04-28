@@ -3,8 +3,17 @@ import type { IRequest, IRequestWithBody } from "./IRequest";
 import type { IResponse } from "./IResponse";
 
 
+export interface XMLHttpRequestResponseTypeMap {
+    "": void;
+    "json": unknown;
+    "arraybuffer": ArrayBuffer;
+    "blob": Blob;
+    "document": Document;
+    "text": string;
+}
+
 export interface IFetchingServiceImpl {
     sendNothingGetNothing(request: IRequest): Promise<IResponse<void>>;
-    sendNothingGetSomething<T>(xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress): Promise<IResponse<T>>;
-    sendSomethingGetSomething<T>(xhrType: XMLHttpRequestResponseType, request: IRequestWithBody, defaultPostHeaders: Map<string, string>, progress: IProgress): Promise<IResponse<T>>;
+    sendNothingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequest, progress: IProgress): Promise<IResponse<T>>;
+    sendSomethingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequestWithBody, defaultPostHeaders: Map<string, string>, progress: IProgress): Promise<IResponse<T>>;
 }

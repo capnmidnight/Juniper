@@ -1,6 +1,6 @@
 import { assertNever, identity, IDexDB, IDexStore, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, progressSplit, Task } from "@juniper/tslib";
 import { HTTPMethods } from "./HTTPMethods";
-import { IFetchingServiceImpl } from "./IFetchingServiceImpl";
+import { IFetchingServiceImpl, XMLHttpRequestResponseTypeMap } from "./IFetchingServiceImpl";
 import { IRequest, IRequestWithBody } from "./IRequest";
 import { IResponse } from "./IResponse";
 import { translateResponse } from "./ResponseTranslator";
@@ -182,7 +182,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         return response;
     }
 
-    private async readResponse<T>(path: string, useCache: boolean, xhrType: XMLHttpRequestResponseType, xhr: XMLHttpRequest): Promise<IResponse<T>> {
+    private async readResponse<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(path: string, useCache: boolean, xhrType: K, xhr: XMLHttpRequest): Promise<IResponse<T>> {
         const response = await this.readResponseHeaders<Blob>(path, useCache, xhr);
         response.content = xhr.response as Blob;
 
@@ -195,10 +195,10 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
             await this.store.put(response);
         }
 
-        return await this.decodeContent<T>(xhrType, response);
+        return await this.decodeContent(xhrType, response);
     }
 
-    private async decodeContent<T>(xhrType: XMLHttpRequestResponseType, response: IResponse<Blob>) {
+    private async decodeContent<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, response: IResponse<Blob>): Promise<IResponse<T>> {
         return translateResponse<Blob, T>(response, async (contentBlob) => {
             if (xhrType === "") {
                 return null;
@@ -265,7 +265,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         return await this.readResponseHeaders<void>(request.path, request.useCache, xhr);
     }
 
-    async sendNothingGetSomething<T>(xhrType: XMLHttpRequestResponseType, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
+    async sendNothingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
         if (request.useCache) {
             await this.cacheReady;
             const result = await this.store.get(request.path);
@@ -281,10 +281,10 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
 
         await download;
 
-        return await this.readResponse<T>(request.path, request.useCache, xhrType, xhr);
+        return await this.readResponse(request.path, request.useCache, xhrType, xhr);
     }
 
-    async sendSomethingGetSomething<T>(xhrType: XMLHttpRequestResponseType, request: IRequestWithBody, defaultPostHeaders: Map<string, string>, progress: IProgress): Promise<IResponse<T>> {
+    async sendSomethingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequestWithBody, defaultPostHeaders: Map<string, string>, progress: IProgress): Promise<IResponse<T>> {
 
         let body: XMLHttpRequestBodyInit = null;
 
