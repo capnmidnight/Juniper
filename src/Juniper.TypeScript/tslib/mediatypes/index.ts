@@ -58,7 +58,3 @@ export function makeXUrlBlob(url: URL): Blob {
 export function makeTextBlob(text: string): Blob {
     return new Blob([text], { type: _allText.Text_Plain.value });
 }
-
-export function makeBlobURL(obj: Blob | MediaSource): URL {
-    return new URL(URL.createObjectURL(obj));
-}

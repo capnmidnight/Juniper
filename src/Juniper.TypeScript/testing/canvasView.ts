@@ -1,7 +1,7 @@
 import { canvasToBlob, CanvasTypes } from "@juniper/dom/canvas";
-import { isWorker, makeBlobURL } from "@juniper/tslib";
+import { makeBlobURL } from "@juniper/dom/makeBlobURL";
+import { isWorker } from "@juniper/tslib";
 import { openWindow } from "./windowing";
-
 
 export async function canvasView(canvas: CanvasTypes): Promise<void> {
     if (isWorker) {

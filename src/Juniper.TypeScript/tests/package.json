@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
+    "@juniper/dom": "file:../dom",
     "@juniper/fetcher": "file:../fetcher",
     "@juniper/hax": "file:../hax",
     "@juniper/tdd": "file:../testing",
