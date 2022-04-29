@@ -8,6 +8,7 @@ export * from "./idexdb";
 export * from "./math";
 export * from "./mediatypes";
 export * from "./progress";
+export * from "./Result";
 export * from "./singleton";
 export * from "./strings";
 export * from "./timers";

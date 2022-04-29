@@ -13,8 +13,9 @@ import { IFetchingService } from "@juniper/fetcher-base/IFetchingService";
 import { IRequestWithBody } from "@juniper/fetcher-base/IRequest";
 import { IResponse } from "@juniper/fetcher-base/IResponse";
 import { translateResponse } from "@juniper/fetcher-base/ResponseTranslator";
-import { assertNever, Exception, IProgress, isDefined, isString, MediaType, mediaTypeGuessByFileName, once, waitFor } from "@juniper/tslib";
+import { assertNever, Exception, IProgress, isDefined, isString, MediaType, once, waitFor } from "@juniper/tslib";
 import { Application_Javascript, Application_Json, Application_Wasm } from "@juniper/tslib/mediatypes/application";
+import { MediaTypeDB } from "@juniper/tslib/mediatypes/db";
 import { Text_Plain, Text_Xml } from "@juniper/tslib/mediatypes/text";
 
 
@@ -26,7 +27,7 @@ function shouldTry(path: string): boolean {
 
     const idx = path.lastIndexOf(".");
     if (idx > -1) {
-        const types = mediaTypeGuessByFileName(path);
+        const types = MediaTypeDB.guessByFileName(path);
         for (const type of types) {
             if (testAudio.canPlayType(type.value)) {
                 return true;

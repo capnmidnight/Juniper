@@ -1,5 +1,5 @@
 import { specialize } from "./util";
 
-const xConference = specialize("xconference");
+const xConference = /*@__PURE__*/ specialize("xconference");
 
-export const XConference_XCooltalk = xConference("x-cooltalk", "ice");
+export const XConference_XCooltalk = /*@__PURE__*/ xConference("x-cooltalk", "ice");

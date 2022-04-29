@@ -234,7 +234,7 @@ export abstract class BaseVideoPlayer
         }
 
         if (!this.hasSources(this.video)) {
-            throw new Error("No video sources");
+            throw new Error("No video sources found");
         }
 
         this.dispatchEvent(this.loadingEvt);
@@ -244,7 +244,7 @@ export abstract class BaseVideoPlayer
             (prog) => this.loadMediaElement(this.video, prog));
 
         if (!this.hasSources(this.video)) {
-            throw new Error("No video sources");
+            throw new Error("No video playable sources");
         }
 
         this._loaded = true;

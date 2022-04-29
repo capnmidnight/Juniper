@@ -1,64 +1,10 @@
-import { isDefined, isNullOrUndefined, isString, singleton } from "../";
+import { isDefined } from "../";
+import { isNullOrUndefined, isString } from "../typeChecks";
 
-export interface MediaType {
-    typeName: string;
-    subTypeName: string;
-    value: string;
-    fullValue: string;
-    extensions: ReadonlyArray<string>;
-    primaryExtension: string;
-
-    withParameter(key: string, value: string): MediaType;
-
-    toString(): string;
-    addExtension(fileName: string): string;
-    matches(value: MediaType | string): boolean;
-    matchesFileName(fileName: string): boolean;
-}
-
-
-const byValue = singleton("Juniper:MediaTypes:byValue", () => new Map<string, MediaType>());
-const byExtension = singleton("Juniper:MediaTypes:byExtension", () => new Map<string, MediaType[]>());
-const depMessages = singleton("Juniper:MediaTypes:depMessages", () => new WeakMap<MediaType, string>());
-const comments = singleton("Juniper:MediaTypes:comments", () => new WeakMap<MediaType, string>());
-
-function register(type: MediaType): MediaType {
-    let isNew = false;
-    type = singleton("Juniper.MediaTypes:" + type.value, () => {
-        isNew = true;
-        return type;
-    });
-
-    if (isNew) {
-        byValue.set(type.value, type);
-
-        for (const ext of type.extensions) {
-            if (!byExtension.has(ext)) {
-                byExtension.set(ext, new Array<MediaType>());
-            }
-
-            const byExts = byExtension.get(ext);
-            if (byExts.indexOf(type) < 0) {
-                byExts.push(type);
-            }
-        }
-    }
-
-    return type;
-}
-
-export function deprecate(type: MediaType, msg: string): MediaType {
-    depMessages.set(type, msg);
-    return type;
-}
-
-export function comment(type: MediaType, msg: string): MediaType {
-    comments.set(type, msg);
-    return type;
-}
-
+export const typePattern = /([^\/]+)\/(.+)/;
 const subTypePattern = /(?:([^\.]+)\.)?([^\+;]+)(?:\+([^;]+))?((?:; *([^=]+)=([^;]+))*)/;
-class InternalMediaType implements MediaType {
+
+export class MediaType {
     private readonly _tree: string;
     private readonly _subType: string;
     private readonly _suffix: string;
@@ -69,6 +15,8 @@ class InternalMediaType implements MediaType {
 
     private readonly _extensions: ReadonlyArray<string>;
     private readonly _primaryExtension: string = null;
+
+    private depMessage: string = null;
 
 
     constructor(
@@ -117,16 +65,45 @@ class InternalMediaType implements MediaType {
         this._primaryExtension = this._extensions[0] || null;
     }
 
+    deprecate(message: string): this {
+        this.depMessage = message;
+        return this;
+    }
+
     private check() {
-        const msg = depMessages.get(this);
-        if (msg) {
-            console.warn(`${this._value} is deprecated ${msg}`);
+        if (isDefined(this.depMessage)) {
+            console.warn(`${this._value} is deprecated ${this.depMessage}`);
         }
+    }
+
+    matches(value: MediaType | string): boolean {
+        if (isNullOrUndefined(value)) {
+            return false;
+        }
+
+        let typeName: string = null;
+        let subTypeName: string = null;
+        if (isString(value)) {
+            const match = value.match(typePattern);
+            if (!match) {
+                return false;
+            }
+
+            typeName = match[1];
+            subTypeName = match[2];
+        }
+        else {
+            typeName = value.typeName;
+            subTypeName = value.subTypeName;
+        }
+
+        return (this.typeName === "*" && this.subTypeName === "*")
+            || (this.typeName === typeName && (this.subTypeName === "*" || this.subTypeName === subTypeName));
     }
 
     withParameter(key: string, value: string): MediaType {
         const newSubType = `${this._fullSubType}; ${key}=${value}`;
-        return new InternalMediaType(this.typeName, newSubType, this.extensions);
+        return new MediaType(this.typeName, newSubType, this.extensions);
     }
 
     get typeName(): string {
@@ -153,6 +130,10 @@ class InternalMediaType implements MediaType {
         return this._value;
     }
 
+    __getValueUnsafe() {
+        return this._value;
+    }
+
     get fullValue(): string {
         this.check();
         return this._fullValue;
@@ -165,6 +146,10 @@ class InternalMediaType implements MediaType {
 
     get extensions(): ReadonlyArray<string> {
         this.check();
+        return this._extensions;
+    }
+
+    __getExtensionsUnsafe() {
         return this._extensions;
     }
 
@@ -201,127 +186,12 @@ class InternalMediaType implements MediaType {
 
         return fileName;
     }
-
-    matches(value: MediaType | string): boolean {
-        if (isNullOrUndefined(value)) {
-            return false;
-        }
-
-        if (isString(value)) {
-            value = mediaTypeParse(value);
-        }
-
-        return (this.typeName === "*" && this.subTypeName === "*")
-            || (this.typeName === value.typeName && (this.subTypeName === "*" || this.subTypeName === value.subTypeName));
-    }
-
-    matchesFileName(fileName: string): boolean {
-        if (!fileName) {
-            return false;
-        }
-
-        const types = mediaTypeGuessByFileName(fileName);
-        for (const type of types) {
-            if (mediaTypesMatch(type, this)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    get comment() {
-        return comments.get(this);
-    }
-}
-
-const typePattern = /([^\/]+)\/(.+)/;
-export function mediaTypeParse(value: string): MediaType {
-    if (!value) {
-        return null;
-    }
-
-    const match = value.match(typePattern);
-    if (!match) {
-        return null;
-    }
-
-    const type = match[1];
-    const subType = match[2];
-    const parsedType = new InternalMediaType(type, subType);
-    const weight = parsedType.parameters.get("q");
-    const basicType = byValue.get(parsedType.value)
-        || parsedType;
-
-    if (isDefined(weight)) {
-        return basicType.withParameter("q", weight);
-    }
-    else {
-        return basicType;
-    }
-}
-
-export function mediaTypesMatch(value: string | MediaType, pattern: string | MediaType): boolean {
-    if (isString(value)) {
-        value = mediaTypeParse(value);
-    }
-
-    if (isString(pattern)) {
-        pattern = mediaTypeParse(pattern);
-    }
-
-    return pattern.matches(value);
-}
-
-export function mediaTypeGuessByFileName(fileName: string): MediaType[] {
-    if (!fileName) {
-        console.warn("Couldn't guess media type. Must provide a valid fileName.");
-        return [];
-    }
-
-    const idx = fileName.lastIndexOf(".");
-    if (idx === -1) {
-        console.warn("Couldn't guess media type. FileName has no extension.");
-        return [];
-    }
-
-    const ext = fileName.substring(idx);
-    return mediaTypeGuessByExtension(ext);
-}
-
-export function mediaTypeGuessByExtension(ext: string): MediaType[] {
-    if (!ext) {
-        ext = "unknown";
-    }
-    else if (ext[0] == '.') {
-        ext = ext.substring(1);
-    }
-
-    if (byExtension.has(ext)) {
-        return byExtension.get(ext);
-    }
-    else {
-        return [new InternalMediaType("unknown", ext, [ext])];
-    }
-}
-
-export function mediaTypeNormalizeFileName(fileName: string, fileType: string): string {
-    if (!fileType && fileName.indexOf(".") > -1) {
-        const guesses = mediaTypeGuessByFileName(fileName);
-        if (guesses.length > 0) {
-            fileType = guesses[0].value;
-        }
-    }
-
-    return fileType;
 }
 
 export function create(group: string, value: string, ...extensions: string[]): MediaType {
-    return register(new InternalMediaType(group, value, extensions))
+    return new MediaType(group, value, extensions);
 }
 
 export function specialize(group: string) {
-    return function (value: string, ...extensions: string[]): MediaType {
-        return create(group, value, ...extensions);
-    };
+    return create.bind(null, group);
 }

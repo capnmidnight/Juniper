@@ -1,6 +1,6 @@
 import { specialize } from "./util";
 
-const xShader = specialize("x-shader");
+const xShader = /*@__PURE__*/ specialize("x-shader");
 
-export const XShader_XVertex = xShader("x-vertex", "vert", "vs", "glsl");
-export const XShader_XFragment = xShader("x-fragment", "frag", "fs", "glsl");
+export const XShader_XVertex = /*@__PURE__*/ xShader("x-vertex", "vert", "vs", "glsl");
+export const XShader_XFragment = /*@__PURE__*/ xShader("x-fragment", "frag", "fs", "glsl");
