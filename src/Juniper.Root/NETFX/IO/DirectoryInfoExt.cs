@@ -64,46 +64,6 @@ namespace System.IO
         }
 
         /// <summary>
-        /// Recurses through all subdirectories in a given directory to find all
-        /// files contained within.
-        /// </summary>
-        /// <param name="dir">The parent directory to recurse.</param>
-        /// <returns>A lazy collection of filenames in both <paramref name="path"/> and all subdirectories of <paramref name="path"/>.</returns>
-        public static IEnumerable<FileInfo> RecurseFiles(this DirectoryInfo dir)
-        {
-            var q = new Queue<DirectoryInfo> { dir };
-            while (q.Count > 0)
-            {
-                var here = q.Dequeue();
-                q.AddRange(here.GetDirectories());
-                foreach (var file in here.GetFiles())
-                {
-                    yield return file;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Recurses through all subdirectories in a given directory to find all
-        /// subdirectories contained within.
-        /// </summary>
-        /// <param name="dir">The parent directory to recurse.</param>
-        /// <returns>A lazy collection of directory names in both <paramref name="dir"/> and all subdirectories of <paramref name="dir"/>.</returns>
-        public static IEnumerable<DirectoryInfo> RecurseDirectories(this DirectoryInfo dir)
-        {
-            var q = new Queue<DirectoryInfo> { dir };
-            while (q.Count > 0)
-            {
-                var here = q.Dequeue();
-                foreach (var subDir in here.GetDirectories())
-                {
-                    q.Enqueue(subDir);
-                    yield return subDir;
-                }
-            }
-        }
-
-        /// <summary>
         /// Recursively deletes all files and subdirectories within a given directory, accumulating a list of
         /// errors along the way.
         /// </summary>
@@ -117,7 +77,7 @@ namespace System.IO
             }
 
             var allErrors = new List<string>(10);
-            foreach (var file in dir.RecurseFiles())
+            foreach (var file in dir.EnumerateFiles("*", SearchOption.AllDirectories))
             {
                 try
                 {
