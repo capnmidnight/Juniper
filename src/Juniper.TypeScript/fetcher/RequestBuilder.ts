@@ -15,29 +15,17 @@ import { IResponse } from "@juniper/fetcher-base/IResponse";
 import { translateResponse } from "@juniper/fetcher-base/ResponseTranslator";
 import { assertNever, Exception, IProgress, isDefined, isString, MediaType, once, waitFor } from "@juniper/tslib";
 import { Application_Javascript, Application_Json, Application_Wasm } from "@juniper/tslib/mediatypes/application";
-import { MediaTypeDB } from "@juniper/tslib/mediatypes/db";
 import { Text_Plain, Text_Xml } from "@juniper/tslib/mediatypes/text";
 
 
 let testAudio: HTMLAudioElement = null;
-function shouldTry(path: string): boolean {
+function canPlay(type: string): boolean {
+
     if (testAudio === null) {
         testAudio = new Audio();
     }
 
-    const idx = path.lastIndexOf(".");
-    if (idx > -1) {
-        const types = MediaTypeDB.guessByFileName(path);
-        for (const type of types) {
-            if (testAudio.canPlayType(type.value)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    return true;
+    return testAudio.canPlayType(type) !== "";
 }
 
 export class RequestBuilder implements
@@ -283,24 +271,22 @@ export class RequestBuilder implements
     }
 
     private async audioBlob(acceptType: string | MediaType): Promise<IResponse<Blob>> {
-        let goodBlob: IResponse<Blob> = null;
-        if (!shouldTry(this.request.path.toString())) {
-            if (this.prog) {
-                this.prog.end("skip " + this.request.path);
+        if (isDefined(acceptType)) {
+            if (!isString(acceptType)) {
+                acceptType = acceptType.value;
             }
-        }
-        else {
-            const response = await this.blob(acceptType);
-            if (testAudio.canPlayType(response.contentType)) {
-                goodBlob = response;
+
+            if (!canPlay(acceptType)) {
+                throw new Error(`Probably can't play file of type "${acceptType}" at path: ${this.request.path}`);
             }
         }
 
-        if (!goodBlob) {
-            throw new Error(`Cannot play file: ${this.request.path}`);
+        const response = await this.blob(acceptType);
+        if (canPlay(response.contentType)) {
+            return response;
         }
 
-        return goodBlob;
+        throw new Error(`Cannot play file of type "${response.contentType}" at path: ${this.request.path}`);
     }
 
     async audioBuffer(audioCtx: BaseAudioContext, acceptType?: string | MediaType): Promise<IResponse<AudioBuffer>> {
@@ -308,6 +294,7 @@ export class RequestBuilder implements
             await this.audioBlob(acceptType),
             async (blob) => await audioCtx.decodeAudioData(await blob.arrayBuffer()));
     }
+
 
     private async htmlElement<
         ElementT extends HTMLAudioElement | HTMLVideoElement | HTMLImageElement | HTMLScriptElement,
