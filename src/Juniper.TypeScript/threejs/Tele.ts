@@ -24,8 +24,8 @@ export class Tele extends Application {
     private meetingID: string = null;
     private roomName: string = null;
 
-    constructor(private readonly env: Environment) {
-        super();
+    constructor(env: Environment) {
+        super(env);
     }
 
     get ready() {

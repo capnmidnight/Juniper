@@ -12,6 +12,10 @@ export abstract class Application<EventsT extends ApplicationEvents = Applicatio
     extends TypedEventBase<EventsT>
     implements IDisposable {
 
+    constructor(public readonly env: Environment) {
+        super();
+    }
+
     abstract init(params: Map<string, unknown>): Promise<void>;
     abstract load(prog?: IProgress): Promise<void>;
     abstract show(prog?: IProgress): Promise<void>;
