@@ -327,8 +327,6 @@ declare class XRMediaBinding {
 
 type XRAnimationLoopCallback = (time: number, frame?: XRFrame) => void;
 
-type XRFrameRequestCallback = (time: number, frame: XRFrame) => void;
-
 interface XRSystemDeviceChangeEvent extends Event {
     type: "devicechange";
 }

@@ -1,9 +1,0 @@
-{
-  "version": "1.0.0",
-  "name": "@types/gamepad-types",
-  "description": "TypeScript definitions for Gamepad API",
-  "private": true,
-  "main": "",
-  "types": "index.d.ts",
-  "typeScriptVersion": "4.5"
-}

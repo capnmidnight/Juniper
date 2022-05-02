@@ -1,9 +1,0 @@
-{
-  "version": "1.0.0",
-  "name": "@types/yt-dlp",
-  "description": "TypeScript definitions for yt-dlp",
-  "private": true,
-  "main": "",
-  "types": "index.d.ts",
-  "typeScriptVersion": "4.5"
-}
