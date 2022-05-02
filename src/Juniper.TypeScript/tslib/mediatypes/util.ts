@@ -65,6 +65,21 @@ export class MediaType {
         this._primaryExtension = this._extensions[0] || null;
     }
 
+    static parse(value: string): MediaType {
+        if (!value) {
+            return null;
+        }
+
+        const match = value.match(typePattern);
+        if (!match) {
+            return null;
+        }
+
+        const type = match[1];
+        const subType = match[2];
+        return new MediaType(type, subType);
+    }
+
     deprecate(message: string): this {
         this.depMessage = message;
         return this;

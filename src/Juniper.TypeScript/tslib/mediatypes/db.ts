@@ -1,5 +1,4 @@
 import { singleton } from "../singleton";
-import { isDefined, isString } from "../typeChecks";
 import * as _allApplication from "./application";
 import * as _allAudio from "./audio";
 import * as _allChemical from "./chemical";
@@ -9,68 +8,14 @@ import * as _allMessage from "./message";
 import * as _allModel from "./model";
 import * as _allMultipart from "./multipart";
 import * as _allText from "./text";
-import { MediaType, typePattern } from "./util";
+import { MediaType } from "./util";
 import * as _allVideo from "./video";
 import * as _allXConference from "./xConference";
 import * as _allXShader from "./xShader";
 
 export const MediaTypeDB = singleton("Juniper:TSLib:MediaTypeDB", () => {
 
-    const byValue = new Map<string, MediaType>();
     const byExtension = new Map<string, MediaType[]>();
-
-
-    function parse(value: string): MediaType {
-        if (!value) {
-            return null;
-        }
-
-        const match = value.match(typePattern);
-        if (!match) {
-            return null;
-        }
-
-        const type = match[1];
-        const subType = match[2];
-        const parsedType = new MediaType(type, subType);
-        const weight = parsedType.parameters.get("q");
-        const basicType = byValue.get(parsedType.value)
-            || parsedType;
-
-        if (isDefined(weight)) {
-            return basicType.withParameter("q", weight);
-        }
-        else {
-            return basicType;
-        }
-    }
-
-    function matches(pattern: string | MediaType, value: string | MediaType): boolean {
-        if (isString(pattern)) {
-            pattern = parse(pattern);
-        }
-
-        return pattern.matches(value);
-    }
-
-    function matchesFileName(pattern: string | MediaType, fileName: string): boolean {
-        if (!fileName) {
-            return false;
-        }
-
-        if (isString(pattern)) {
-            pattern = parse(pattern);
-        }
-
-        const types = guessByFileName(fileName);
-        for (const type of types) {
-            if (pattern.matches(type)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     function guessByFileName(fileName: string): MediaType[] {
         if (!fileName) {
@@ -84,11 +29,7 @@ export const MediaTypeDB = singleton("Juniper:TSLib:MediaTypeDB", () => {
             return [];
         }
 
-        const ext = fileName.substring(idx);
-        return guessByExtension(ext);
-    }
-
-    function guessByExtension(ext: string): MediaType[] {
+        let ext = fileName.substring(idx);
         if (!ext) {
             ext = "unknown";
         }
@@ -124,8 +65,6 @@ export const MediaTypeDB = singleton("Juniper:TSLib:MediaTypeDB", () => {
         });
 
         if (isNew) {
-            byValue.set(value, type);
-
             for (const ext of type.__getExtensionsUnsafe()) {
                 if (!byExtension.has(ext)) {
                     byExtension.set(ext, new Array<MediaType>());
@@ -142,18 +81,12 @@ export const MediaTypeDB = singleton("Juniper:TSLib:MediaTypeDB", () => {
     }
 
     const db = {
-        parse,
-        matches,
-        matchesFileName,
-        guessByFileName,
-        guessByExtension,
-        normalizeFileType,
-        register
+        normalizeFileType
     };
 
     function regAll(values: any) {
         Object.values<MediaType>(values)
-            .forEach(v => db.register(v));
+            .forEach(register);
     }
 
     regAll(_allApplication);
