@@ -173,3 +173,5 @@ export class TestCase extends TypedEventBase<TestCaseEvents> {
         }
     }
 }
+
+export interface TestCaseConstructor extends Constructor<TestCase, typeof TestCase> { }

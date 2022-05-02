@@ -1,4 +1,4 @@
-import { CaseClassConstructor } from "./CaseClassConstructor";
+import { TestCaseConstructor } from "./TestCase";
 import { TestOutput } from "./TestOutput";
 import { TestOutputResultsEvent } from "./TestOutputResultsEvent";
 
@@ -9,7 +9,7 @@ export class TestOutputConsole extends TestOutput {
     /**
      * Creates a new test outputer that runs in the console.
      */
-    constructor(...CaseClasses: CaseClassConstructor[]) {
+    constructor(...CaseClasses: TestCaseConstructor[]) {
         super(...CaseClasses);
 
         const onResults = (evt: TestOutputResultsEvent) => {

@@ -22,7 +22,7 @@ import {
     Span
 } from "@juniper/dom/tags";
 import { isDefined } from "@juniper/tslib";
-import { CaseClassConstructor } from "./CaseClassConstructor";
+import { TestCaseConstructor } from "./TestCase";
 import { TestOutput } from "./TestOutput";
 import { TestOutputResultsEvent } from "./TestOutputResultsEvent";
 import { TestStates } from "./TestStates";
@@ -67,7 +67,7 @@ export class TestOutputHTML extends TestOutput implements ErsatzElement {
 
     readonly element: HTMLElement;
 
-    constructor(...CaseClasses: CaseClassConstructor[]) {
+    constructor(...CaseClasses: TestCaseConstructor[]) {
         super(...CaseClasses);
         this.element = Div(id("testOutput"));
         let lastTable: HTMLDivElement = null;

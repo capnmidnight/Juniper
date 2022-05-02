@@ -1,4 +1,5 @@
 import { TypedEventBase } from "@juniper/tslib";
+import { TestCaseConstructor } from "./TestCase";
 import { TestOutputResultsEvent, TestStats } from "./TestOutputResultsEvent";
 import { TestRunner } from "./TestRunner";
 import { TestStates } from "./TestStates";
@@ -8,11 +9,11 @@ interface TestOutputEvents {
 }
 
 export class TestOutput extends TypedEventBase<TestOutputEvents> {
-    private readonly rest: any[];
+    private readonly CaseClasses: any[];
 
-    constructor(...rest: any[]) {
+    constructor(...CaseClasses: TestCaseConstructor[]) {
         super();
-        this.rest = rest;
+        this.CaseClasses = CaseClasses;
     }
 
     /**
@@ -29,7 +30,7 @@ export class TestOutput extends TypedEventBase<TestOutputEvents> {
     }
 
     private createTestRunner() {
-        const testRunner = new TestRunner(...this.rest);
+        const testRunner = new TestRunner(...this.CaseClasses);
         testRunner.addEventListener("testrunnerresults", (evt) => {
             const results = evt.results;
             let totalFound = 0, totalRan = 0, totalCompleted = 0, totalIncomplete = 0, totalSucceeded = 0, totalFailed = 0;

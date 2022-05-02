@@ -1,17 +1,17 @@
 import { isFunction, isNullOrUndefined, nothing, PriorityMap, TypedEventBase } from "@juniper/tslib";
-import { CaseClassConstructor } from "./CaseClassConstructor";
+import type { TestCase, TestCaseConstructor } from "./TestCase";
 import { TestCaseFailEvent } from "./TestCaseFailEvent";
 import { TestCaseMessageEvent } from "./TestCaseMessageEvent";
 import { TestResults, TestRunnerResultsEvent } from "./TestRunnerResultsEvent";
 import { TestScore } from "./TestScore";
 
-function testNames(TestClass: Function) {
+function testNames(TestClass: TestCase): (keyof TestCase)[] {
     const names = Object.getOwnPropertyNames(TestClass);
     names.sort();
-    return names;
+    return names as (keyof TestCase)[];
 }
 
-function isTest(testCase: any, name: string, testName?: string) {
+function isTest(testCase: TestCase, name: keyof TestCase, testName?: string) {
     return (name === testName
         || (isNullOrUndefined(testName) && name.startsWith("test_")))
         && isFunction(testCase[name]);
@@ -24,9 +24,9 @@ interface TestRunnerEvents {
 export class TestRunner extends TypedEventBase<TestRunnerEvents> {
 
     private readonly props: any[];
-    private readonly CaseClasses: CaseClassConstructor[];
+    private readonly CaseClasses: TestCaseConstructor[];
 
-    constructor(...rest: any[]) {
+    constructor(...rest: TestCaseConstructor[]) {
         super();
         this.props = rest.filter((v) => !isFunction(v));
         this.CaseClasses = rest.filter((v) => isFunction(v));
@@ -76,7 +76,7 @@ export class TestRunner extends TypedEventBase<TestRunnerEvents> {
         update();
     }
 
-    async runTest(CaseClass: CaseClassConstructor, funcName: string, results: TestResults, className: string, onUpdate: Function) {
+    async runTest(CaseClass: TestCaseConstructor, funcName: string, results: TestResults, className: string, onUpdate: Function) {
         const testCase = new CaseClass(),
             func = (testCase as any)[funcName],
             caseResults = results.get(className),

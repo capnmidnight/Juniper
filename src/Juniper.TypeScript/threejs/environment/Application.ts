@@ -24,9 +24,7 @@ export abstract class Application<EventsT extends ApplicationEvents = Applicatio
 
 }
 
-export interface ApplicationConstructor {
-    new(environment: Environment): Application;
-}
+export interface ApplicationConstructor extends Constructor<Application, typeof Application> { }
 
 export interface ApplicationModule {
     default: ApplicationConstructor;

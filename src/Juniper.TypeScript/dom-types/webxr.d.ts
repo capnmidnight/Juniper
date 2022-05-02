@@ -1,13 +1,3 @@
-interface Constructor<T = object> {
-    new(...args: any[]): T;
-    prototype: T;
-}
-
-interface Window {
-    XRSession?: Constructor<XRSession> | undefined;
-    XR?: Constructor<XRSystem> | undefined;
-}
-
 interface Navigator {
     xr?: XRSystem | undefined;
 }

@@ -1,4 +1,3 @@
-export * from "./CaseClassConstructor";
 export * from "./TestCase";
 export * from "./TestCaseFailEvent";
 export * from "./TestCaseMessageEvent";

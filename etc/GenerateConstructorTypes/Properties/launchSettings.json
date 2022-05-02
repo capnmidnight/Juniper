@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "GenerateConstructorTypes": {
-      "commandName": "Project",
-      "workingDirectory": "C:\\Users\\sean\\source\\repos\\work\\Yarrow\\src\\Juniper\\etc\\three-ts-types"
-    }
-  }
-}
