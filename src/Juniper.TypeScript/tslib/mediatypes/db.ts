@@ -104,7 +104,7 @@ export const MediaTypeDB = singleton("Juniper:TSLib:MediaTypeDB", () => {
         }
     }
 
-    function normalizeFileName(fileName: string, fileType: string): string {
+    function normalizeFileType(fileName: string, fileType: string): string {
         if (!fileType && fileName.indexOf(".") > -1) {
             const guesses = guessByFileName(fileName);
             if (guesses.length > 0) {
@@ -147,7 +147,7 @@ export const MediaTypeDB = singleton("Juniper:TSLib:MediaTypeDB", () => {
         matchesFileName,
         guessByFileName,
         guessByExtension,
-        normalizeFileName,
+        normalizeFileType,
         register
     };
 
