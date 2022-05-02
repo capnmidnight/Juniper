@@ -1,16 +1,14 @@
 import type { TextImageOptions } from "@juniper/2d/TextImage";
-import { IProgress, isDefined, progressTasks, TimerTickEvent, TypedEventBase } from "@juniper/tslib";
+import { IProgress, isDefined, progressTasks, TimerTickEvent } from "@juniper/tslib";
 import { RoomJoinedEvent, RoomLeftEvent, UserJoinedEvent, UserLeftEvent, UserNameChangedEvent } from "@juniper/webrtc/ConferenceEvents";
 import { TeleconferenceManager } from "@juniper/webrtc/TeleconferenceManager";
 import { AvatarRemote } from "./AvatarRemote";
 import { cleanup } from "./cleanup";
 import { DebugObject } from "./DebugObject";
-import type { Application, ApplicationEvents } from "./environment/Application";
+import { Application } from "./environment/Application";
 import type { Environment } from "./environment/Environment";
 
-export class Tele
-    extends TypedEventBase<ApplicationEvents>
-    implements Application {
+export class Tele extends Application {
 
     readonly users = new Map<string, AvatarRemote>();
     readonly remoteUsers = new THREE.Object3D();

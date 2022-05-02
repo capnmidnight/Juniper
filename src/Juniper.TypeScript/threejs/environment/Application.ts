@@ -1,4 +1,5 @@
-import type { IDisposable, IProgress, TimerTickEvent, TypedEventBase } from "@juniper/tslib";
+import type { IDisposable, IProgress, TimerTickEvent } from "@juniper/tslib";
+import { TypedEventBase } from "@juniper/tslib";
 import type { ApplicationJoinRoomEvent, ApplicationQuitEvent } from "./ApplicationEvents";
 import type { Environment } from "./Environment";
 
@@ -7,11 +8,16 @@ export interface ApplicationEvents {
     quit: ApplicationQuitEvent;
 }
 
-export interface Application extends IDisposable, TypedEventBase<ApplicationEvents> {
-    init(params: Map<string, unknown>): Promise<void>;
-    load(prog?: IProgress): Promise<void>;
-    show(prog?: IProgress): Promise<void>;
-    update(evt: TimerTickEvent): void;
+export abstract class Application<EventsT extends ApplicationEvents = ApplicationEvents>
+    extends TypedEventBase<EventsT>
+    implements IDisposable {
+
+    abstract init(params: Map<string, unknown>): Promise<void>;
+    abstract load(prog?: IProgress): Promise<void>;
+    abstract show(prog?: IProgress): Promise<void>;
+    abstract update(evt: TimerTickEvent): void;
+    abstract dispose(): void;
+
 }
 
 export interface ApplicationConstructor {
