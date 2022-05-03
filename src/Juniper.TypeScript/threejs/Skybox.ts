@@ -165,33 +165,36 @@ export class Skybox {
         }
 
         if (path !== this.curImagePath) {
-            this.curImagePath = path;
-
             const image = await this.getImage(path, prog);
-            const width = image.width / CUBEMAP_PATTERN.columns;
-            const height = image.height / CUBEMAP_PATTERN.rows;
-            for (let row = 0; row < CUBEMAP_PATTERN.rows; ++row) {
-                const indices = CUBEMAP_PATTERN.indices[row];
-                for (let column = 0; column < CUBEMAP_PATTERN.columns; ++column) {
-                    const i = indices[column];
-                    if (i > -1) {
-                        const g = this.frameContexts[i];
-                        g.drawImage(
-                            image,
-                            column * width, row * height,
-                            width, height,
-                            0, 0,
-                            FACE_SIZE, FACE_SIZE);
-                    }
-                }
-            }
-
-            this.cube.needsUpdate = true;
-            this.imageNeedsUpdate = true;
+            this.setImage(path, image);
         }
         else if (prog) {
             prog.end();
         }
+    }
+
+    setImage(imageID: string, image: CanvasImageTypes) {
+        this.curImagePath = imageID;
+        const width = image.width / CUBEMAP_PATTERN.columns;
+        const height = image.height / CUBEMAP_PATTERN.rows;
+        for (let row = 0; row < CUBEMAP_PATTERN.rows; ++row) {
+            const indices = CUBEMAP_PATTERN.indices[row];
+            for (let column = 0; column < CUBEMAP_PATTERN.columns; ++column) {
+                const i = indices[column];
+                if (i > -1) {
+                    const g = this.frameContexts[i];
+                    g.drawImage(
+                        image,
+                        column * width, row * height,
+                        width, height,
+                        0, 0,
+                        FACE_SIZE, FACE_SIZE);
+                }
+            }
+        }
+
+        this.cube.needsUpdate = true;
+        this.imageNeedsUpdate = true;
     }
 
     get rotation(): THREE.Quaternion {

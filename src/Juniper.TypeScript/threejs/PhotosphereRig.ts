@@ -1,5 +1,6 @@
 import { CanvasTypes, createUtilityCanvas } from "@juniper/dom/canvas";
-import { deg2rad, IProgress, progressOfArray } from "@juniper/tslib";
+import { arrayClear, deg2rad, IProgress, isNullOrUndefined, progressOfArray } from "@juniper/tslib";
+import { cleanup } from "./cleanup";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
 import { Image2DMesh } from "./Image2DMesh";
 import { deepSetLayer, FOREGROUND, PHOTOSPHERE_CAPTURE } from "./layers";
@@ -14,67 +15,89 @@ const FOVOffsets = new Map<PhotosphereCaptureResolution, number>([
 ]);
 
 export class PhotosphereRig {
+    private readonly levels: PhotosphereCaptureResolution[];
 
-    constructor(private readonly env: BaseEnvironment<unknown>) {
+    constructor(private readonly env: BaseEnvironment<unknown>, ...levels: PhotosphereCaptureResolution[]) {
+        if (isNullOrUndefined(levels)) {
+            levels = [];
+        }
 
+        if (levels.length === 0) {
+            levels.push(PhotosphereCaptureResolution.Fine);
+        }
+
+        this.levels = levels;
     }
 
-    async constructPhotosphere(quality: PhotosphereCaptureResolution, fixWatermarks: boolean, getImagePath: (fov: number, heading: number, pitch: number) => string, downloadProg: IProgress): Promise<THREE.Object3D> {
+    async constructPhotosphere(fixWatermarks: boolean, getImagePath: (fov: number, heading: number, pitch: number) => string, downloadProg: IProgress): Promise<THREE.Object3D> {
         this.env.avatar.reset();
+        this.env.camera.layers.set(PHOTOSPHERE_CAPTURE);
 
         const photosphere = obj("Photosphere");
         photosphere.layers.set(PHOTOSPHERE_CAPTURE);
         objGraph(this.env.foreground, photosphere);
 
-        const FOV = quality as number;
-
-        // Overlap images to crop copyright notices out of
-        // most of the images...
-        const dFOV = fixWatermarks
-            ? FOVOffsets.get(FOV)
-            : 0;
-
         photosphere.position.y = this.env.camera.getWorldPosition(new THREE.Vector3()).y;
-        const size = 2;
 
-        const angles = new Array<[number, number, number, number]>();
+        let lastToRemove: Image2DMesh[] = null;
+        for (const level of this.levels) {
+            const angles = new Array<[number, number, number, number]>();
+            const FOV = level as number;
+            const size = level * level * level / 4000;
 
-        for (let pitch = -90 + FOV; pitch < 90; pitch += FOV) {
-            for (let heading = -180; heading < 180; heading += FOV) {
-                angles.push([heading, pitch, FOV + dFOV, size]);
+            // Overlap images to crop copyright notices out of
+            // most of the images...
+            const dFOV = fixWatermarks
+                ? FOVOffsets.get(FOV)
+                : 0;
+
+            for (let pitch = -90 + FOV; pitch < 90; pitch += FOV) {
+                for (let heading = -180; heading < 180; heading += FOV) {
+                    angles.push([heading, pitch, FOV + dFOV, size]);
+                }
             }
+
+            // Include the top and the bottom
+            angles.push([0, -90, FOV + dFOV, size]);
+            angles.push([0, 90, FOV + dFOV, size]);
+
+            if (fixWatermarks) {
+                // Include an uncropped image so that
+                // at least one of the copyright notices is visible.
+                angles.push([0, -90, FOV, 0.5 * size]);
+                angles.push([0, 90, FOV, 0.5 * size]);
+            }
+
+            const toRemove = await progressOfArray(downloadProg, angles, async (set, prog) => {
+                const [heading, pitch, fov, size] = set;
+                const halfFOV = 0.5 * deg2rad(fov);
+                const k = Math.tan(halfFOV);
+                const dist = 0.5 * size / k;
+                const path = getImagePath(fov, heading, pitch);
+                const frame = new Image2DMesh(this.env, path, true, { transparent: false, side: THREE.DoubleSide });
+                deepSetLayer(frame, PHOTOSPHERE_CAPTURE);
+                await frame.mesh.loadImage(this.env.fetcher, path, prog);
+                const euler = new THREE.Euler(deg2rad(pitch), -deg2rad(heading), 0, "YXZ");
+                const quat = new THREE.Quaternion().setFromEuler(euler);
+                const pos = new THREE.Vector3(0, 0, -dist)
+                    .applyQuaternion(quat);
+                frame.scale.setScalar(size);
+                frame.quaternion.copy(quat);
+                frame.position.copy(pos);
+                photosphere.add(frame);
+                return frame;
+            });
+
+            if (lastToRemove) {
+                for (const frame of lastToRemove) {
+                    frame.removeFromParent();
+                    cleanup(frame);
+                }
+                arrayClear(lastToRemove);
+            }
+
+            lastToRemove = toRemove;
         }
-
-        // Include the top and the bottom
-        angles.push([0, -90, FOV + dFOV, size]);
-        angles.push([0, 90, FOV + dFOV, size]);
-
-        if (fixWatermarks) {
-            // Include an uncropped image so that
-            // at least one of the copyright notices is visible.
-            angles.push([0, -90, FOV, 0.5 * size]);
-            angles.push([0, 90, FOV, 0.5 * size]);
-        }
-
-        this.env.camera.layers.set(PHOTOSPHERE_CAPTURE);
-
-        await progressOfArray(downloadProg, angles, async (set, prog) => {
-            const [heading, pitch, fov, size] = set;
-            const halfFOV = 0.5 * deg2rad(fov);
-            const dist = 0.5 * size / Math.tan(halfFOV);
-            const path = getImagePath(fov, heading, pitch);
-            const frame = new Image2DMesh(this.env, path, true, { transparent: false, side: THREE.DoubleSide });
-            deepSetLayer(frame, PHOTOSPHERE_CAPTURE);
-            await frame.mesh.loadImage(this.env.fetcher, path, prog);
-            const euler = new THREE.Euler(deg2rad(pitch), -deg2rad(heading), 0, "YXZ");
-            const quat = new THREE.Quaternion().setFromEuler(euler);
-            const pos = new THREE.Vector3(0, 0, -dist)
-                .applyQuaternion(quat);
-            frame.scale.setScalar(size);
-            frame.quaternion.copy(quat);
-            frame.position.copy(pos);
-            photosphere.add(frame);
-        });
 
         this.env.camera.layers.set(FOREGROUND);
 
