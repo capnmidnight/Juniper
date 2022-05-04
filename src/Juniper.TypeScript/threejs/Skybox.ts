@@ -1,9 +1,9 @@
 import { CubeMapFaceIndex } from "@juniper/2d/CubeMapFaceIndex";
 import type { CanvasImageTypes, CanvasTypes, Context2D } from "@juniper/dom/canvas";
-import { createUtilityCanvas, isImageBitmap } from "@juniper/dom/canvas";
-import { Exception, IProgress, isArray, isDefined, isGoodNumber, isNumber, isString } from "@juniper/tslib";
+import { createUtilityCanvas } from "@juniper/dom/canvas";
+import { isArray, isDefined, isGoodNumber, isNumber } from "@juniper/tslib";
+import { cleanup } from "./cleanup";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
-import { LRUCache } from "./LRUCache";
 import { isEuler, isQuaternion } from "./typeChecks";
 
 type SkyboxRotation = THREE.Quaternion | THREE.Euler | number[] | number;
@@ -19,7 +19,7 @@ const FACES = [1,
     5
 ];
 
-const CUBEMAP_PATTERN = {
+export const CUBEMAP_PATTERN = {
     rows: 3,
     columns: 4,
     indices: [
@@ -44,12 +44,12 @@ export class Skybox {
     private readonly _rotation = new THREE.Quaternion();
     private readonly layerRotation = new THREE.Quaternion().identity();
     private readonly stageRotation = new THREE.Quaternion().identity();
-    private readonly imgCache = new LRUCache<string, CanvasImageTypes>(10);
-    private readonly imgTasks = new Map<string, Promise<CanvasImageTypes>>();
-    private readonly frames = new Array<CanvasTypes>(6);
-    private readonly frameContexts = new Array<Context2D>(6);
 
-    private readonly cube: THREE.CubeTexture;
+    private images: CanvasImageTypes[] = null;
+    private readonly canvases = new Array<CanvasTypes>(6);
+    private readonly contexts = new Array<Context2D>(6);
+
+    private cube: THREE.CubeTexture;
     private readonly flipped: CanvasTypes;
     private readonly flipper: Context2D;
     
@@ -70,15 +70,9 @@ export class Skybox {
 
         this.env.scene.background = black;
 
-        this.imgCache.addEventListener("itemevicted", (evt) => {
-            if (isImageBitmap(evt.value)) {
-                evt.value.close();
-            }
-        });
-
-        for (let i = 0; i < this.frames.length; ++i) {
-            const f = this.frames[i] = createUtilityCanvas(FACE_SIZE, FACE_SIZE);
-            this.frameContexts[i] = f.getContext("2d");
+        for (let i = 0; i < this.canvases.length; ++i) {
+            const f = this.canvases[i] = createUtilityCanvas(FACE_SIZE, FACE_SIZE);
+            this.contexts[i] = f.getContext("2d");
         }
 
         for (let row = 0; row < CUBEMAP_PATTERN.rows; ++row) {
@@ -87,7 +81,7 @@ export class Skybox {
             for (let column = 0; column < CUBEMAP_PATTERN.columns; ++column) {
                 const i = indices[column];
                 if (i > -1) {
-                    const g = this.frameContexts[i];
+                    const g = this.contexts[i];
                     const rotation = rotations[column];
                     if (rotation > 0) {
                         if ((rotation % 2) === 0) {
@@ -103,12 +97,8 @@ export class Skybox {
             }
         }
 
-        this.cube = new THREE.CubeTexture(this.frames);
-        this.cube.name = "SkyboxInput";
-
         this.rt.texture.name = "SkyboxOutput";
         this.rtScene.add(this.rtCamera);
-        this.rtScene.background = this.cube;
 
         this.flipped = createUtilityCanvas(FACE_SIZE, FACE_SIZE);
         this.flipper = this.flipped.getContext("2d");
@@ -116,83 +106,57 @@ export class Skybox {
         this.flipper.scale(-1, 1);
         this.flipper.translate(-FACE_SIZE, 0);
 
+        this.setImages("", this.canvases);
+
         Object.seal(this);
     }
 
-    async prefetch(path: string, prog: IProgress): Promise<void> {
-        if (!this.imgCache.has(path)) {
-            await this.getImage(path, prog);
-        }
-        else if (prog) {
-            prog.end("skip");
-        }
-    }
-
-    private getImage(path: string, prog: IProgress): Promise<CanvasImageTypes> {
-        if (this.imgCache.has(path)) {
-            return Promise.resolve(this.imgCache.get(path));
-        }
-
-        if (this.imgTasks.has(path)) {
-            return this.imgTasks.get(path);
-        }
-
-        const task = this.env.fetcher
-            .get(path)
-            .progress(prog)
-            .image()
-            .then((response) => {
-                this.imgCache.set(path, response.content);
-                this.imgTasks.delete(path);
-                return response.content;
-            });
-
-        this.imgTasks.set(path, task);
-        return task;
-    }
-
-    async isCached(path: string): Promise<boolean> {
-        return await this.imgCache.has(path);
-    }
-
-    clearCache(): void {
-        this.imgCache.clear();
-    }
-
-    async setImagePath(path: string, prog?: IProgress) {
-        if (!isString(path)) {
-            throw new Exception("path must be defined");
-        }
-
-        if (path !== this.curImagePath) {
-            const image = await this.getImage(path, prog);
-            this.setImage(path, image);
-        }
-        else if (prog) {
-            prog.end();
-        }
-    }
-
     setImage(imageID: string, image: CanvasImageTypes) {
-        this.curImagePath = imageID;
-        const width = image.width / CUBEMAP_PATTERN.columns;
-        const height = image.height / CUBEMAP_PATTERN.rows;
-        for (let row = 0; row < CUBEMAP_PATTERN.rows; ++row) {
-            const indices = CUBEMAP_PATTERN.indices[row];
-            for (let column = 0; column < CUBEMAP_PATTERN.columns; ++column) {
-                const i = indices[column];
-                if (i > -1) {
-                    const g = this.frameContexts[i];
-                    g.drawImage(
-                        image,
-                        column * width, row * height,
-                        width, height,
-                        0, 0,
-                        FACE_SIZE, FACE_SIZE);
+        if (imageID !== this.curImagePath) {
+            const width = image.width / CUBEMAP_PATTERN.columns;
+            const height = image.height / CUBEMAP_PATTERN.rows;
+            for (let row = 0; row < CUBEMAP_PATTERN.rows; ++row) {
+                const indices = CUBEMAP_PATTERN.indices[row];
+                for (let column = 0; column < CUBEMAP_PATTERN.columns; ++column) {
+                    const i = indices[column];
+                    if (i > -1) {
+                        const g = this.contexts[i];
+                        g.drawImage(
+                            image,
+                            column * width, row * height,
+                            width, height,
+                            0, 0,
+                            FACE_SIZE, FACE_SIZE);
+                    }
                 }
             }
-        }
 
+            this.setImages(imageID, this.canvases);
+        }
+    }
+
+    setImages(imageID: string, images: CanvasImageTypes[]) {
+        if (imageID !== this.curImagePath
+            || images !== this.images) {
+
+            this.curImagePath = imageID;
+
+            if (images !== this.images) {
+                if (isDefined(this.cube)) {
+                    cleanup(this.cube);
+                }
+
+                this.images = images;
+
+                this.rtScene.background = this.cube = new THREE.CubeTexture(this.images);
+                this.cube.name = "SkyboxInput";
+            }
+
+            this.updateImages();
+        }
+    }
+
+    updateImages() {
         this.cube.needsUpdate = true;
         this.imageNeedsUpdate = true;
     }
