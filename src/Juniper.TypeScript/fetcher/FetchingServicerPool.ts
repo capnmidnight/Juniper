@@ -1,6 +1,6 @@
 import { IFetchingService } from "@juniper/fetcher-base/IFetchingService";
 import { IRequest, IRequestWithBody } from "@juniper/fetcher-base/IRequest";
-import { IResponse } from "@juniper/fetcher-base/IResponse";
+import { IBodilessResponse, IResponse } from "@juniper/fetcher-base/IResponse";
 import { IProgress } from "@juniper/tslib";
 import type { FullWorkerClientOptions, WorkerClient, WorkerConstructorT } from "@juniper/worker-client";
 import { WorkerPool } from "@juniper/worker-client";
@@ -35,7 +35,7 @@ export abstract class BaseFetchingServicePool<
         }
     }
 
-    sendNothingGetNothing(request: IRequest): Promise<IResponse<void>> {
+    sendNothingGetNothing(request: IRequest): Promise<IBodilessResponse> {
         return this.nextWorker().sendNothingGetNothing(request);
     }
 
@@ -83,7 +83,7 @@ export abstract class BaseFetchingServicePool<
         return this.getFetcher(request.body).sendObjectGetText(request, progress);
     }
 
-    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IResponse<void>> {
+    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IBodilessResponse> {
         return this.getFetcher(request.body).sendObjectGetNothing(request, progress);
     }
 

@@ -2,7 +2,7 @@ import { assertNever, identity, IDexDB, IDexStore, IProgress, isArrayBuffer, isA
 import { HTTPMethods } from "./HTTPMethods";
 import { IFetchingServiceImpl, XMLHttpRequestResponseTypeMap } from "./IFetchingServiceImpl";
 import { IRequest, IRequestWithBody } from "./IRequest";
-import { IResponse } from "./IResponse";
+import { IBodilessResponse, IResponse } from "./IResponse";
 import { translateResponse } from "./ResponseTranslator";
 
 function isXHRBodyInit(obj: any): obj is XMLHttpRequestBodyInit {
@@ -126,7 +126,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         this.store = await this.cache.getStore("files");
     }
 
-    private async readResponseHeaders<T>(path: string, useCache: boolean, xhr: XMLHttpRequest): Promise<IResponse<T>> {
+    private async readResponseHeaders(path: string, xhr: XMLHttpRequest): Promise<IBodilessResponse> {
         const headerParts = xhr
             .getAllResponseHeaders()
             .split(/[\r\n]+/)
@@ -164,10 +164,9 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
             return null;
         });
 
-        const response: IResponse<T> = {
+        const response: IBodilessResponse = {
             status: xhr.status,
             path,
-            content: null,
             contentType,
             contentLength,
             fileName,
@@ -183,8 +182,25 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
     }
 
     private async readResponse<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(path: string, useCache: boolean, xhrType: K, xhr: XMLHttpRequest): Promise<IResponse<T>> {
-        const response = await this.readResponseHeaders<Blob>(path, useCache, xhr);
-        response.content = xhr.response as Blob;
+        const {
+            status,
+            contentType,
+            contentLength,
+            fileName,
+            date,
+            headers
+        } = await this.readResponseHeaders(path, xhr);
+
+        const response: IResponse<Blob> = {
+            path,
+            status,
+            contentType,
+            contentLength,
+            fileName,
+            date,
+            headers,
+            content: xhr.response as Blob
+        }
 
         if (isDefined(response.content)) {
             response.contentType = response.contentType || response.content.type;
@@ -246,7 +262,6 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         });
     }
 
-    async sendNothingGetNothing(request: IRequest): Promise<IResponse<void>> {
         if (request.useCache) {
             await this.cacheReady;
             const result = await this.store.get(request.path);
@@ -255,6 +270,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
             }
         }
 
+    async sendNothingGetNothing(request: IRequest): Promise<IBodilessResponse> {
         const xhr = new XMLHttpRequest();
         const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, null, true);
 

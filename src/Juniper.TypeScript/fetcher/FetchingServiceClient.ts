@@ -1,6 +1,6 @@
 import { IFetchingService } from "@juniper/fetcher-base/IFetchingService";
 import { IRequest, IRequestWithBody } from "@juniper/fetcher-base/IRequest";
-import { IResponse } from "@juniper/fetcher-base/IResponse";
+import { IBodilessResponse, IResponse } from "@juniper/fetcher-base/IResponse";
 import { IProgress } from "@juniper/tslib";
 import { WorkerClient } from "@juniper/worker-client";
 
@@ -113,7 +113,7 @@ export class FetchingServiceClient
         return this.callMethod(methodName, [cloneRequestWithBody(request)], progress);
     }
 
-    sendNothingGetNothing(request: IRequest): Promise<IResponse<void>> {
+    sendNothingGetNothing(request: IRequest): Promise<IBodilessResponse> {
         return this.makeRequest("sendNothingGetNothing", request, null);
     }        
 
@@ -137,7 +137,7 @@ export class FetchingServiceClient
         return this.makeRequest("sendNothingGetImageBitmap", request, progress);
     }
 
-    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IResponse<void>> {
+    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IBodilessResponse> {
         return this.makeRequestWithBody("sendObjectGetNothing", request, progress);
     }
 

@@ -1,13 +1,13 @@
 import type { IProgress } from "@juniper/tslib";
 import type { IRequest, IRequestWithBody } from "./IRequest";
-import type { IResponse } from "./IResponse";
+import type { IBodilessResponse, IResponse } from "./IResponse";
 
 
 export interface IFetchingService {
 
     setRequestVerificationToken(value: string): void;
 
-    sendNothingGetNothing(request: IRequest): Promise<IResponse<void>>;
+    sendNothingGetNothing(request: IRequest): Promise<IBodilessResponse>;
 
     sendNothingGetBlob(request: IRequest, progress: IProgress): Promise<IResponse<Blob>>;
     sendNothingGetBuffer(request: IRequest, progress: IProgress): Promise<IResponse<ArrayBuffer>>;
@@ -17,7 +17,7 @@ export interface IFetchingService {
     sendNothingGetXml(request: IRequest, progress: IProgress): Promise<IResponse<HTMLElement>>;
     sendNothingGetImageBitmap(request: IRequest, progress: IProgress): Promise<IResponse<ImageBitmap>>;
 
-    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IResponse<void>>;
+    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IBodilessResponse>;
 
     sendObjectGetBlob(request: IRequestWithBody, progress: IProgress): Promise<IResponse<Blob>>;
     sendObjectGetBuffer(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ArrayBuffer>>;

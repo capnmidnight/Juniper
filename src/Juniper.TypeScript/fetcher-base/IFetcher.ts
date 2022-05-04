@@ -1,5 +1,5 @@
 import type { IProgress, MediaType } from "@juniper/tslib";
-import type { IResponse } from "./IResponse";
+import type { IBodilessResponse, IResponse } from "./IResponse";
 
 export interface IFetcherBasic {
     query(name: string, value: string): this;
@@ -248,7 +248,7 @@ export interface IFetcherSendCache {
 }
 
 export interface IFetcherBodilessResult {
-    exec(): Promise<IResponse<void>>;
+    exec(): Promise<IBodilessResponse>;
 }
 
 export interface IFetcherBodiedResult {

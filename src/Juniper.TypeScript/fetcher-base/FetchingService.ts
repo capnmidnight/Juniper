@@ -1,7 +1,7 @@
 import { IProgress } from "@juniper/tslib";
 import { IFetchingServiceImpl } from "./IFetchingServiceImpl";
 import { IRequest, IRequestWithBody } from "./IRequest";
-import { IResponse } from "./IResponse";
+import { IBodilessResponse, IResponse } from "./IResponse";
 import { translateResponse } from "./ResponseTranslator";
 
 
@@ -16,7 +16,7 @@ export class FetchingService {
         this.defaultPostHeaders.set("RequestVerificationToken", value);
     }
 
-    sendNothingGetNothing(request: IRequest): Promise<IResponse<void>> {
+    sendNothingGetNothing(request: IRequest): Promise<IBodilessResponse> {
         return this.impl.sendNothingGetNothing(request);
     }
 
@@ -54,7 +54,7 @@ export class FetchingService {
         return response.content;
     }
 
-    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IResponse<void>> {
+    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IBodilessResponse> {
         return this.impl.sendSomethingGetSomething("", request, this.defaultPostHeaders, progress);
     }
 

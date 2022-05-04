@@ -1,6 +1,6 @@
 import type { IProgress } from "@juniper/tslib";
 import type { IRequest, IRequestWithBody } from "./IRequest";
-import type { IResponse } from "./IResponse";
+import type { IBodilessResponse, IResponse } from "./IResponse";
 
 
 export interface XMLHttpRequestResponseTypeMap {
@@ -13,7 +13,7 @@ export interface XMLHttpRequestResponseTypeMap {
 }
 
 export interface IFetchingServiceImpl {
-    sendNothingGetNothing(request: IRequest): Promise<IResponse<void>>;
+    sendNothingGetNothing(request: IRequest): Promise<IBodilessResponse>;
     sendNothingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequest, progress: IProgress): Promise<IResponse<T>>;
     sendSomethingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequestWithBody, defaultPostHeaders: Map<string, string>, progress: IProgress): Promise<IResponse<T>>;
 }

@@ -88,12 +88,12 @@ export class ApplicationLoader
                 url += "#" + this.cacheBustString;
             }
 
-            this.loadedModules.set(
-                name,
-                this.env.fetcher
-                    .get(url)
-                    .progress(prog)
-                    .module<ApplicationModule>());
+            const task = this.env.fetcher
+                .get(url)
+                .progress(prog)
+                .module<ApplicationModule>();
+
+            this.loadedModules.set(name, task);
         }
         else if (isDefined(prog)) {
             prog.end();
