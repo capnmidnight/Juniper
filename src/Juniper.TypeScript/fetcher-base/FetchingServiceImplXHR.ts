@@ -179,14 +179,10 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
             headers
         };
 
-        if (useCache) {
-            await this.store.add(response);
-        }
-
         return response;
     }
 
-    private async readResponse<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(path: string, useCache: boolean, xhrType: K, xhr: XMLHttpRequest): Promise<IResponse<T>> {
+    private async readResponse(path: string, xhr: XMLHttpRequest): Promise<IResponse<Blob>> {
         const {
             status,
             contentType,
@@ -212,11 +208,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
             response.contentLength = response.contentLength || response.content.size;
         }
 
-        if (useCache) {
-            await this.store.put(response);
-        }
-
-        return await this.decodeContent(xhrType, response);
+        return response;
     }
 
     private async decodeContent<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, response: IResponse<Blob>): Promise<IResponse<T>> {
@@ -267,14 +259,6 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         });
     }
 
-        if (request.useCache) {
-            await this.cacheReady;
-            const result = await this.store.get(request.path);
-            if (isDefined(result)) {
-                return this.decodeContent("", result);
-            }
-        }
-
     async sendNothingGetNothing(request: IRequest): Promise<IBodilessResponse> {
         const xhr = new XMLHttpRequest();
         const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, null, true);
@@ -283,18 +267,37 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
 
         await download;
 
-        return await this.readResponseHeaders<void>(request.path, request.useCache, xhr);
+        return await this.readResponseHeaders(request.path, xhr);
     }
 
-    async sendNothingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
-        if (request.useCache) {
-            await this.cacheReady;
-            const result = await this.store.get(request.path);
-            if (isDefined(result)) {
-                return this.decodeContent(xhrType, result);
-            }
+    private readonly getTasks = new Map<string, Promise<IResponse<any>>>();
+
+    sendNothingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
+        if (request.method !== "GET"
+            || !request.useCache) {
+            return this.sendNothingGetSomethingRaw(xhrType, request, progress);
         }
 
+        if (!this.getTasks.has(request.path)) {
+            this.getTasks.set(
+                request.path,
+                this.sendNothingGetSomethingRaw(xhrType, request, progress)
+                    .finally(() =>
+                        this.getTasks.delete(request.path)));
+        }
+
+        return this.getTasks.get(request.path);
+    }
+
+    private async sendNothingGetSomethingRaw<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
+        let response: IResponse<Blob> = null;
+
+        if (request.useCache) {
+            await this.cacheReady;
+            response = await this.store.get(request.path);
+        }
+
+        if (isNullOrUndefined(response)) {
             const xhr = new XMLHttpRequest();
             const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, progress, true);
 
@@ -302,13 +305,18 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
 
             await download;
 
-        return await this.readResponse(request.path, request.useCache, xhrType, xhr);
+            response = await this.readResponse(request.path, xhr);
+
+            if (request.useCache) {
+                await this.store.add(response);
+            }
         }
 
+        return await this.decodeContent(xhrType, response);
+    }
+
     async sendSomethingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequestWithBody, defaultPostHeaders: Map<string, string>, progress: IProgress): Promise<IResponse<T>> {
-
         let body: XMLHttpRequestBodyInit = null;
-
 
         const headers = mapJoin(new Map<string, string>(), defaultPostHeaders, request.headers);
 
@@ -345,6 +353,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         await upload;
         await download;
 
-        return await this.readResponse(request.path, false, xhrType, xhr);
+        const response = await this.readResponse(request.path, xhr);
+        return await this.decodeContent(xhrType, response);
     }
 }
