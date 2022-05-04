@@ -5,15 +5,15 @@ import { IFetchingService } from "@juniper/fetcher-base/IFetchingService";
 import { RequestBuilder } from "./RequestBuilder";
 
 export class Fetcher implements IFetcher {
-    constructor(private readonly fetcher: IFetchingService) {
+    constructor(private readonly service: IFetchingService) {
         const antiforgeryToken = getInput("input[name=__RequestVerificationToken]");
         if (antiforgeryToken) {
-            this.fetcher.setRequestVerificationToken(antiforgeryToken.value);
+            this.service.setRequestVerificationToken(antiforgeryToken.value);
         }
     }
 
     private createRequest(method: HTTPMethods, path: string | URL, base?: string | URL) {
-        return new RequestBuilder(this.fetcher, method, new URL(path, base || location.href));
+        return new RequestBuilder(this.service, method, new URL(path, base || location.href));
     }
 
     head(path: string | URL, base?: string | URL) {
