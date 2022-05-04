@@ -6,7 +6,7 @@ import {
     IFetcherBodiedResult,
     IFetcherBodilessResult,
     IFetcherResult,
-    IFetcherSendProgressBodyTimeoutCredentialsGetBody,
+    IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec,
     IFetcherSendProgressTimeoutCredentialsCacheGetBody
 } from "@juniper/fetcher-base/IFetcher";
 import { IFetchingService } from "@juniper/fetcher-base/IFetchingService";
@@ -30,7 +30,7 @@ function canPlay(type: string): boolean {
 
 export class RequestBuilder implements
     IFetcherSendProgressTimeoutCredentialsCacheGetBody,
-    IFetcherSendProgressBodyTimeoutCredentialsGetBody,
+    IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec,
     IFetcherBasic,
     IFetcherBodiedResult,
     IFetcherResult,

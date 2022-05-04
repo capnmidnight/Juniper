@@ -16,6 +16,10 @@ export class FetchingService {
         this.defaultPostHeaders.set("RequestVerificationToken", value);
     }
 
+    clearCache(): Promise<void> {
+        return this.impl.clearCache();
+    }
+
     sendNothingGetNothing(request: IRequest): Promise<IBodilessResponse> {
         return this.impl.sendNothingGetNothing(request);
     }

@@ -126,6 +126,11 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         this.store = await this.cache.getStore("files");
     }
 
+    async clearCache(): Promise<void> {
+        await this.cacheReady;
+        await this.store.clear();
+    }
+
     private async readResponseHeaders(path: string, xhr: XMLHttpRequest): Promise<IBodilessResponse> {
         const headerParts = xhr
             .getAllResponseHeaders()
@@ -290,15 +295,15 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
             }
         }
 
-        const xhr = new XMLHttpRequest();
-        const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, progress, true);
+            const xhr = new XMLHttpRequest();
+            const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, progress, true);
 
-        sendRequest(xhr, request.method, request.path, request.timeout, request.headers);
+            sendRequest(xhr, request.method, request.path, request.timeout, request.headers);
 
-        await download;
+            await download;
 
         return await this.readResponse(request.path, request.useCache, xhrType, xhr);
-    }
+        }
 
     async sendSomethingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequestWithBody, defaultPostHeaders: Map<string, string>, progress: IProgress): Promise<IResponse<T>> {
 

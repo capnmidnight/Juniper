@@ -105,6 +105,10 @@ export class FetchingServiceClient
         this.callMethod("setRequestVerificationToken", [value]);
     }
 
+    clearCache(): Promise<void> {
+        return this.callMethod("clearCache");
+    }
+
     private makeRequest<T>(methodName: string, request: IRequest, progress: IProgress): Promise<T> {
         return this.callMethod(methodName, [cloneRequest(request)], progress);
     }

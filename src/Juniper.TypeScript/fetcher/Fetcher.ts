@@ -16,6 +16,10 @@ export class Fetcher implements IFetcher {
         return new RequestBuilder(this.service, method, new URL(path, base || location.href));
     }
 
+    clearCache(): Promise<void> {
+        return this.service.clearCache();
+    }
+
     head(path: string | URL, base?: string | URL) {
         return this.createRequest("HEAD", path, base);
     }

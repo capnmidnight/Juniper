@@ -19,6 +19,8 @@ function getContent<T extends Transferable>(response: IResponse<T>): Array<Trans
 export function addFetcherMethods(server: WorkerServer, fetcher: IFetchingService) {
     server.addVoidMethod("setRequestVerificationToken", fetcher, fetcher.setRequestVerificationToken);
 
+    server.addMethod("clearCache", fetcher, fetcher.clearCache);
+
     server.addMethod("sendNothingGetNothing", fetcher, fetcher.sendNothingGetNothing);
 
     server.addMethod("sendNothingGetBuffer", fetcher, fetcher.sendNothingGetBuffer, getContent);

@@ -5,6 +5,8 @@ import type { IBodilessResponse, IResponse } from "./IResponse";
 
 export interface IFetchingService {
 
+    clearCache(): Promise<void>;
+
     setRequestVerificationToken(value: string): void;
 
     sendNothingGetNothing(request: IRequest): Promise<IBodilessResponse>;

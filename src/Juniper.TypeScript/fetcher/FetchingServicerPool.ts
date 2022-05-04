@@ -35,6 +35,10 @@ export abstract class BaseFetchingServicePool<
         }
     }
 
+    async clearCache(): Promise<void> {
+        await Promise.all(this.workers.map(w => w.clearCache()));
+    }
+
     sendNothingGetNothing(request: IRequest): Promise<IBodilessResponse> {
         return this.nextWorker().sendNothingGetNothing(request);
     }
