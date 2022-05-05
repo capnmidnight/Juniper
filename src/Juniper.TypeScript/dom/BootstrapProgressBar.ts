@@ -15,7 +15,7 @@ export class BootstrapProgressBarElement
             role("progressbar"),
             ariaValueNow(0),
             ariaValueMin(0),
-            ariaValueMax(0),
+            ariaValueMax(1),
             styles(
                 width(0)
             )
@@ -64,7 +64,8 @@ export class BootstrapProgressBarCallback extends BaseProgress {
             this.progressBar.setAttribute("aria-valuenow", "0");
         }
         else {
-            const percent = this.p.toFixed(1);
+            const percent = (100 * this.p).toFixed(1);
+            console.log(percent);
             this.progressBar.style.width = `${percent}%`;
             this.progressBar.setAttribute("aria-valuenow", percent);
         }
