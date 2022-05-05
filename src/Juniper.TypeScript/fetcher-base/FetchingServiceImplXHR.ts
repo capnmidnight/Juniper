@@ -1,4 +1,4 @@
-import { assertNever, identity, IDexDB, IDexStore, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, progressSplit, Task } from "@juniper/tslib";
+import { assertNever, identity, IDexDB, IDexStore, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, PriorityMap, progressSplit, Task } from "@juniper/tslib";
 import { HTTPMethods } from "./HTTPMethods";
 import { IFetchingServiceImpl, XMLHttpRequestResponseTypeMap } from "./IFetchingServiceImpl";
 import { IRequest, IRequestWithBody } from "./IRequest";
@@ -153,12 +153,11 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
                         .join(", ")
                 ]);
 
-        let headers = new Map<string, string>(normalizedHeaderParts);
-
-        let contentType = readResponseHeader(headers, "content-type", identity);
-        let contentLength = readResponseHeader(headers, "content-length", parseFloat);
-        let date = readResponseHeader(headers, "date", (v) => new Date(v));
-        let fileName = readResponseHeader(headers, "content-disposition", (v) => {
+        const headers = new Map<string, string>(normalizedHeaderParts);
+        const contentType = readResponseHeader(headers, "content-type", identity);
+        const contentLength = readResponseHeader(headers, "content-length", parseFloat);
+        const date = readResponseHeader(headers, "date", (v) => new Date(v));
+        const fileName = readResponseHeader(headers, "content-disposition", (v) => {
             if (isDefined(v)) {
                 const match = v.match(FILE_NAME_PATTERN);
                 if (isDefined(match)) {
@@ -259,60 +258,78 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         });
     }
 
-    async sendNothingGetNothing(request: IRequest): Promise<IBodilessResponse> {
-        const xhr = new XMLHttpRequest();
-        const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, null, true);
+    private readonly tasks = new PriorityMap<HTTPMethods, string, Promise<any>>();
 
-        sendRequest(xhr, request.method, request.path, request.timeout, request.headers);
-
-        await download;
-
-        return await this.readResponseHeaders(request.path, xhr);
-    }
-
-    private readonly getTasks = new Map<string, Promise<IResponse<any>>>();
-
-    sendNothingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
+    private async withCachedTask<T extends IBodilessResponse>(request: IRequest, action: () => Promise<T>): Promise<T> {
         if (request.method !== "GET"
-            || !request.useCache) {
-            return this.sendNothingGetSomethingRaw(xhrType, request, progress);
+            && request.method !== "HEAD"
+            && request.method !== "OPTIONS") {
+            return await action();
         }
 
-        if (!this.getTasks.has(request.path)) {
-            this.getTasks.set(
+        if (!this.tasks.has(request.method, request.path)) {
+            this.tasks.add(
+                request.method,
                 request.path,
-                this.sendNothingGetSomethingRaw(xhrType, request, progress)
-                    .finally(() =>
-                        this.getTasks.delete(request.path)));
+                action().finally(() =>
+                    this.tasks.delete(request.method, request.path)));
         }
 
-        return this.getTasks.get(request.path);
+        return this.tasks.get(request.method, request.path);
     }
 
-    private async sendNothingGetSomethingRaw<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
-        let response: IResponse<Blob> = null;
-
-        if (request.useCache) {
-            await this.cacheReady;
-            response = await this.store.get(request.path);
-        }
-
-        if (isNullOrUndefined(response)) {
+    sendNothingGetNothing(request: IRequest): Promise<IBodilessResponse> {
+        return this.withCachedTask(request, async () => {
             const xhr = new XMLHttpRequest();
-            const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, progress, true);
+            const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, null, true);
 
             sendRequest(xhr, request.method, request.path, request.timeout, request.headers);
 
             await download;
 
-            response = await this.readResponse(request.path, xhr);
+            return await this.readResponseHeaders(request.path, xhr);
+        });
+    }
 
-            if (request.useCache) {
-                await this.store.add(response);
+    sendNothingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequest, progress: IProgress): Promise<IResponse<T>> {
+        return this.withCachedTask(request, async () => {
+            let response: IResponse<Blob> = null;
+
+            const useCache = request.useCache && request.method === "GET";
+
+            if (useCache) {
+                if (isDefined(progress)) {
+                    progress.start();
+                }
+                await this.cacheReady;
+                response = await this.store.get(request.path);
             }
-        }
 
-        return await this.decodeContent(xhrType, response);
+            const hadCachedResponse = isNullOrUndefined(response);
+
+            if (hadCachedResponse) {
+                const xhr = new XMLHttpRequest();
+                const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, progress, true);
+
+                sendRequest(xhr, request.method, request.path, request.timeout, request.headers);
+
+                await download;
+
+                response = await this.readResponse(request.path, xhr);
+
+                if (useCache) {
+                    await this.store.add(response);
+                }
+            }
+
+            const value = await this.decodeContent<K, T>(xhrType, response);
+
+            if (hadCachedResponse && isDefined(progress)) {
+                progress.end();
+            }
+
+            return value;
+        });
     }
 
     async sendSomethingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequestWithBody, defaultPostHeaders: Map<string, string>, progress: IProgress): Promise<IResponse<T>> {

@@ -1,6 +1,6 @@
 import { CanvasTypes, Context2D, createUtilityCanvas } from "@juniper/dom/canvas";
 import { IFetcher } from "@juniper/fetcher";
-import { arrayClear, deg2rad, IDisposable, IProgress, isNullOrUndefined, progressOfArray, progressSplit, TypedEvent, TypedEventBase } from "@juniper/tslib";
+import { arrayClear, deg2rad, IDisposable, IProgress, isNullOrUndefined, progressOfArray, TypedEvent, TypedEventBase } from "@juniper/tslib";
 import { cleanup } from "./cleanup";
 import { PhotosphereCaptureResolution } from "./PhotosphereCaptureResolution";
 import { CUBEMAP_PATTERN } from "./Skybox";
@@ -42,7 +42,7 @@ export abstract class PhotosphereRig extends TypedEventBase<{
 
     private disposed = false;
 
-    constructor(private readonly fetcher: IFetcher, private progressInitOnly: boolean, private readonly fixWatermarks: boolean, ...levels: PhotosphereCaptureResolution[]) {
+    constructor(private readonly fetcher: IFetcher, private readonly fixWatermarks: boolean, ...levels: PhotosphereCaptureResolution[]) {
         super();
 
         if (isNullOrUndefined(levels)) {
@@ -129,9 +129,7 @@ export abstract class PhotosphereRig extends TypedEventBase<{
 
     protected async constructPhotosphere(getImagePath: (fov: number, heading: number, pitch: number) => string, downloadProg: IProgress): Promise<void> {
         let lastToRemove: THREE.Mesh[] = null;
-        const progs = this.progressInitOnly
-            ? [downloadProg]
-            : progressSplit(downloadProg, this.levels.length);
+        const progs = [downloadProg];
         for (let levelIndex = 0; levelIndex < this.levels.length; ++levelIndex) {
             const level = this.levels[levelIndex];
             const angles = new Array<[number, number, number, number]>();
