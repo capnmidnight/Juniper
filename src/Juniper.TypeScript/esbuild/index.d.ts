@@ -8,6 +8,7 @@ export declare class Build {
     private readonly plugins;
     private readonly defines;
     private readonly externals;
+    private readonly globalExternals;
     private readonly isWatch;
     private rootDirName;
     private outDirName;
@@ -17,6 +18,7 @@ export declare class Build {
     plugin(pgn: PluginFactory): this;
     define(def: DefineFactory): this;
     external(extern: string): this;
+    globalExternal(packageName: string, globalName: string): this;
     bundle(name: string): this;
     run(): Promise<void>;
     private makeBundle;

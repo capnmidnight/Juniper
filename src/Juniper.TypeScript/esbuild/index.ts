@@ -1,4 +1,5 @@
 import { build as esbuild, Plugin } from "esbuild";
+import { globalExternals } from "@fal-works/esbuild-plugin-global-externals";
 
 type Define = [string, string];
 type DefineFactory = (minify: boolean) => Define;
@@ -19,6 +20,7 @@ export class Build {
     private readonly plugins = new Array<PluginFactory>();
     private readonly defines = new Array<DefineFactory>();
     private readonly externals = new Array<string>();
+    private readonly globalExternals = new Array<[string, string]>();
 
     private readonly isWatch: boolean;
 
@@ -52,6 +54,11 @@ export class Build {
 
     external(extern: string) {
         this.externals.push(extern);
+        return this;
+    }
+
+    globalExternal(packageName: string, globalName: string) {
+        this.globalExternals.push([packageName, globalName]);
         return this;
     }
 
@@ -91,6 +98,15 @@ export class Build {
             define[key] = value;
         }
 
+        const plugins = this.plugins.map((p) => p(minify));
+        if (this.globalExternals.length > 0) {
+            const config: Record<string, string> = {};
+            for (const [packageName, globalName] of this.globalExternals) {
+                config[packageName] = globalName;
+            }
+            plugins.unshift(globalExternals(config));
+        }
+
         return esbuild({
             platform: "browser",
             color: true,
@@ -106,7 +122,7 @@ export class Build {
             define,
             minify,
             external: this.externals,
-            plugins: this.plugins.map((p) => p(minify)),
+            plugins,
             incremental: this.isWatch,
             legalComments: "none",
             watch: this.isWatch && {

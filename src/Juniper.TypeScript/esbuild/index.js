@@ -1,4 +1,5 @@
 import { build as esbuild } from "esbuild";
+import { globalExternals } from "@fal-works/esbuild-plugin-global-externals";
 function normalizeDirName(dirName) {
     if (!dirName.endsWith('/')) {
         dirName += '/';
@@ -11,6 +12,7 @@ export class Build {
     plugins = new Array();
     defines = new Array();
     externals = new Array();
+    globalExternals = new Array();
     isWatch;
     rootDirName = "src/";
     outDirName = "wwwroot/js/";
@@ -36,6 +38,10 @@ export class Build {
     }
     external(extern) {
         this.externals.push(extern);
+        return this;
+    }
+    globalExternal(packageName, globalName) {
+        this.globalExternals.push([packageName, globalName]);
         return this;
     }
     bundle(name) {
@@ -68,6 +74,14 @@ export class Build {
             const [key, value] = def(minify);
             define[key] = value;
         }
+        const plugins = this.plugins.map((p) => p(minify));
+        if (this.globalExternals.length > 0) {
+            const config = {};
+            for (const [packageName, globalName] of this.globalExternals) {
+                config[packageName] = globalName;
+            }
+            plugins.unshift(globalExternals(config));
+        }
         return esbuild({
             platform: "browser",
             color: true,
@@ -83,7 +97,7 @@ export class Build {
             define,
             minify,
             external: this.externals,
-            plugins: this.plugins.map((p) => p(minify)),
+            plugins,
             incremental: this.isWatch,
             legalComments: "none",
             watch: this.isWatch && {
