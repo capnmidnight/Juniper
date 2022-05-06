@@ -1,5 +1,5 @@
-import { build as esbuild } from "esbuild";
 import { globalExternals } from "@fal-works/esbuild-plugin-global-externals";
+import { build as esbuild } from "esbuild";
 function normalizeDirName(dirName) {
     if (!dirName.endsWith('/')) {
         dirName += '/';

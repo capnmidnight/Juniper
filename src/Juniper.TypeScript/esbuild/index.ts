@@ -1,5 +1,5 @@
-import { build as esbuild, Plugin } from "esbuild";
 import { globalExternals } from "@fal-works/esbuild-plugin-global-externals";
+import { build as esbuild, Plugin } from "esbuild";
 
 type Define = [string, string];
 type DefineFactory = (minify: boolean) => Define;
