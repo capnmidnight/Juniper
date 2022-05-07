@@ -2,13 +2,16 @@ import { getInput } from "@juniper/dom/tags";
 import { HTTPMethods } from "@juniper/fetcher-base/HTTPMethods";
 import { IFetcher } from "@juniper/fetcher-base/IFetcher";
 import { IFetchingService } from "@juniper/fetcher-base/IFetchingService";
+import { isWorker } from "@juniper/tslib";
 import { RequestBuilder } from "./RequestBuilder";
 
 export class Fetcher implements IFetcher {
     constructor(private readonly service: IFetchingService) {
-        const antiforgeryToken = getInput("input[name=__RequestVerificationToken]");
-        if (antiforgeryToken) {
-            this.service.setRequestVerificationToken(antiforgeryToken.value);
+        if (!isWorker) {
+            const antiforgeryToken = getInput("input[name=__RequestVerificationToken]");
+            if (antiforgeryToken) {
+                this.service.setRequestVerificationToken(antiforgeryToken.value);
+            }
         }
     }
 

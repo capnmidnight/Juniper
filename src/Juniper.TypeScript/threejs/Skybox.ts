@@ -151,9 +151,9 @@ export class Skybox {
                 this.rtScene.background = this.cube = new THREE.CubeTexture(this.images);
                 this.cube.name = "SkyboxInput";
             }
-
-            this.updateImages();
         }
+
+        this.updateImages();
     }
 
     updateImages() {

@@ -1,4 +1,5 @@
 import { type } from "@juniper/dom/attrs";
+import { createUtilityCanvas, drawImageToCanvas } from "@juniper/dom/canvas";
 import { BackgroundAudio, BackgroundVideo, Img, Script } from "@juniper/dom/tags";
 import { HTTPMethods } from "@juniper/fetcher-base/HTTPMethods";
 import {
@@ -13,7 +14,7 @@ import { IFetchingService } from "@juniper/fetcher-base/IFetchingService";
 import { IRequestWithBody } from "@juniper/fetcher-base/IRequest";
 import { IResponse } from "@juniper/fetcher-base/IResponse";
 import { translateResponse } from "@juniper/fetcher-base/ResponseTranslator";
-import { assertNever, Exception, IProgress, isDefined, isString, MediaType, once, waitFor } from "@juniper/tslib";
+import { assertNever, dispose, Exception, IProgress, isDefined, isString, isWorker, MediaType, once, waitFor } from "@juniper/tslib";
 import { Application_Javascript, Application_Json, Application_Wasm } from "@juniper/tslib/mediatypes/application";
 import { Text_Plain, Text_Xml } from "@juniper/tslib/mediatypes/text";
 
@@ -316,6 +317,19 @@ export class RequestBuilder implements
             "load",
             acceptType
         );
+    }
+
+    async canvas(acceptType?: string | MediaType): Promise<IResponse<HTMLCanvasElement | OffscreenCanvas>> {
+        const response: IResponse<HTMLImageElement | ImageBitmap> = await (isWorker
+            ? this.imageBitmap(acceptType)
+            : this.image(acceptType));
+
+        return await translateResponse(response, (img) => {
+            const canvas = createUtilityCanvas(img.width, img.height);
+            drawImageToCanvas(canvas, img);
+            dispose(img);
+            return canvas;
+        });
     }
 
     audio(autoPlaying: boolean, looping: boolean, acceptType?: string | MediaType): Promise<IResponse<HTMLAudioElement>> {

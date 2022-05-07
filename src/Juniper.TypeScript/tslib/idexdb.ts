@@ -15,10 +15,12 @@ interface StoreDef {
 export class IDexDB implements IDisposable {
 
     static async getCurrentVersion(dbName: string) {
-        const databases = await indexedDB.databases();
-        for (const { name, version } of databases) {
-            if (name === dbName) {
-                return version;
+        if (isDefined(indexedDB.databases)) {
+            const databases = await indexedDB.databases();
+            for (const { name, version } of databases) {
+                if (name === dbName) {
+                    return version;
+                }
             }
         }
 

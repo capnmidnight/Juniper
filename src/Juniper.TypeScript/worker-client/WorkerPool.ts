@@ -1,4 +1,4 @@
-import { arrayClear, IDisposable, IProgress, isArray, isDefined, isNullOrUndefined, isNumber, isProgressCallback, TypedEventBase } from "@juniper/tslib";
+import { arrayClear, IDisposable, isDefined, isNullOrUndefined, isNumber, TypedEventBase } from "@juniper/tslib";
 import { WorkerClient } from "./WorkerClient";
 import type { FullWorkerClientOptions } from "./WorkerClientOptions";
 
@@ -68,76 +68,15 @@ export class WorkerPool<EventsT, WorkerClientT extends WorkerClient<EventsT>>
         arrayClear(this.workers);
     }
 
-    /**
-     * Execute a method on a round-robin selected worker thread.
-     * @param methodName - the name of the method to execute.
-     * @param prog - a callback for receiving progress reports on long-running invocations.
-     */
-    protected callMethod<T>(methodName: string, prog?: IProgress): Promise<T>;
-
-    /**
-     * Execute a method on a round-robin selected worker thread.
-     * @param methodName - the name of the method to execute.
-     * @param params - the parameters to pass to the method.
-     * @param prog - a callback for receiving progress reports on long-running invocations.
-     */
-    protected callMethod<T>(methodName: string, params: any[], prog?: IProgress): Promise<T>;
-
-    /**
-     * Execute a method on a round-robin selected worker thread.
-     * @param methodName - the name of the method to execute.
-     * @param params - the parameters to pass to the method.
-     * @param transferables - any values in any of the parameters that should be transfered instead of copied to the worker thread.
-     * @param prog - a callback for receiving progress reports on long-running invocations.
-     */
-    protected callMethod<T>(methodName: string, params: any[], transferables: Transferable[], prog?: IProgress): Promise<T>;
-
-    /**
-     * Execute a method on a round-robin selected worker thread.
-     * @param methodName - the name of the method to execute.
-     * @param params - the parameters to pass to the method.
-     * @param transferables - any values in any of the parameters that should be transfered instead of copied to the worker thread.
-     * @param prog - a callback for receiving progress reports on long-running invocations.
-     */
-    protected callMethod<T>(methodName: string, params?: any[] | IProgress, transferables?: Transferable[] | IProgress, prog?: IProgress): Promise<T | undefined> {
-        if (!WorkerClient.isSupported) {
-            return Promise.reject(new Error("Workers are not supported on this system."));
-        }
-
-        // Normalize method parameters.
-        let parameters: any[] = null;
-        let tfers: Transferable[] = null;
-
-        if (isProgressCallback(params)) {
-            prog = params;
-            params = null;
-            transferables = null;
-        }
-
-        if (isProgressCallback(transferables)
-            && !prog) {
-            prog = transferables;
-            transferables = null;
-        }
-
-        if (isArray(params)) {
-            parameters = params;
-        }
-
-        if (isArray(transferables)) {
-            tfers = transferables;
-        }
-
-        const worker = this.nextWorker();
-
-        return worker.callMethod<T>(methodName, parameters, tfers, prog);
+    protected nextWorker() {
+        const worker = this.peekWorker();
+        this.taskCounter++;
+        return worker;
     }
 
-    protected nextWorker() {
+    protected peekWorker() {
         // taskIDs help us keep track of return values.
         // The modulus selects them in a round-robin fashion.
-        const taskID = this.taskCounter++;
-        const workerID = taskID % this.workers.length;
-        return this.workers[workerID];
+        return this.workers[this.taskCounter % this.workers.length];
     }
 }

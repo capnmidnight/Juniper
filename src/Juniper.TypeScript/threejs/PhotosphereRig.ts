@@ -1,11 +1,12 @@
-import { CanvasTypes, Context2D, createUtilityCanvas } from "@juniper/dom/canvas";
+import { canvasToBlob, CanvasTypes, Context2D, createUtilityCanvas } from "@juniper/dom/canvas";
 import { IFetcher } from "@juniper/fetcher";
-import { deg2rad, IDisposable, IProgress, isNullOrUndefined, progressOfArray, TypedEvent, TypedEventBase } from "@juniper/tslib";
+import { deg2rad, IDisposable, IProgress, progressOfArray } from "@juniper/tslib";
+import { Image_Jpeg } from "@juniper/tslib/mediatypes/image";
 import { cleanup } from "./cleanup";
 import { CUBEMAP_PATTERN } from "./Skybox";
 
 const QUAD_SIZE = 2;
-const FACE_SIZE = 2048;
+export const FACE_SIZE = 2048;
 const E = new THREE.Euler();
 
 export enum PhotosphereCaptureResolution {
@@ -23,45 +24,30 @@ const FOVOffsets = new Map<PhotosphereCaptureResolution, number>([
 ]);
 
 const captureParams = [
-    [0, Math.PI / 2, 1, 0],
     [Math.PI / 2, 0, 0, 1],
-    [0, 0, 1, 1],
     [-Math.PI / 2, 0, 2, 1],
+    [0, Math.PI / 2, 1, 0],
+    [0, -Math.PI / 2, 1, 2],
     [Math.PI, 0, 3, 1],
-    [0, -Math.PI / 2, 1, 2]
+    [0, 0, 1, 1]
 ];
 
-export abstract class PhotosphereRig extends TypedEventBase<{
-    "framesinitialized": TypedEvent<"framesinitialized">;
-    "framesupdated": TypedEvent<"framesupdated">;
-}> implements IDisposable {
-    private readonly levels: PhotosphereCaptureResolution[];
+export abstract class PhotosphereRig
+    implements IDisposable {
+    private baseURL: string = null;
+
+    private readonly canvases: CanvasTypes[];
+    private readonly contexts: Context2D[];
     private readonly canvas: CanvasTypes;
     private readonly renderer: THREE.WebGLRenderer;
     private readonly camera: THREE.PerspectiveCamera;
     private readonly photosphere: THREE.Group;
     private readonly scene: THREE.Scene;
     private readonly geometry: THREE.PlaneGeometry;
-    public readonly frames: [CanvasTypes, CanvasTypes, CanvasTypes, CanvasTypes, CanvasTypes, CanvasTypes];
-    private readonly contexts: Context2D[];
-    private readonly framesInitializedEvt = new TypedEvent("framesinitialized");
-    private readonly framesUpdatedEvt = new TypedEvent("framesupdated");
 
     private disposed = false;
 
-    constructor(private readonly fetcher: IFetcher, private readonly fixWatermarks: boolean, ...levels: PhotosphereCaptureResolution[]) {
-        super();
-
-        if (isNullOrUndefined(levels)) {
-            levels = [];
-        }
-
-        if (levels.length === 0) {
-            levels.push(PhotosphereCaptureResolution.Fine);
-        }
-
-        this.levels = levels;
-
+    constructor(private readonly fetcher: IFetcher, private readonly fixWatermarks: boolean) {
         this.canvas = createUtilityCanvas(FACE_SIZE, FACE_SIZE);
         this.renderer = new THREE.WebGLRenderer({
             canvas: this.canvas,
@@ -82,7 +68,8 @@ export abstract class PhotosphereRig extends TypedEventBase<{
         this.scene.add(new THREE.AmbientLight(0xffffff, 1));
         this.scene.add(this.camera, this.photosphere);
         this.geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
-        this.frames = [
+
+        this.canvases = [
             createUtilityCanvas(FACE_SIZE, FACE_SIZE),
             createUtilityCanvas(FACE_SIZE, FACE_SIZE),
             createUtilityCanvas(FACE_SIZE, FACE_SIZE),
@@ -91,7 +78,12 @@ export abstract class PhotosphereRig extends TypedEventBase<{
             createUtilityCanvas(FACE_SIZE, FACE_SIZE)
         ];
 
-        this.contexts = this.frames.map(f => f.getContext("2d"));
+
+        this.contexts = this.canvases.map(f => f.getContext("2d"));
+    }
+
+    init(baseURL: string): void {
+        this.baseURL = baseURL;
     }
 
     dispose() {
@@ -108,47 +100,42 @@ export abstract class PhotosphereRig extends TypedEventBase<{
         this.renderer.dispose();
     }
 
-    async constructPhotosphere(getImagePath: (fov: number, heading: number, pitch: number) => string, progress: IProgress): Promise<void> {
-        for (let levelIndex = 0; levelIndex < this.levels.length; ++levelIndex) {
-            await this.renderLevel(getImagePath, this.levels[levelIndex], progress);
-            progress = null;
-
-            if (levelIndex > 0) {
-                this.dispatchEvent(this.framesUpdatedEvt);
-            }
-            else {
-                this.dispatchEvent(this.framesInitializedEvt);
-            }
-        }
-    }
-
-    private async renderLevel(getImagePath: (fov: number, heading: number, pitch: number) => string, level: PhotosphereCaptureResolution, progress: IProgress) {
+    protected async renderFaces(getImagePath: (fov: number, heading: number, pitch: number) => string, level: PhotosphereCaptureResolution, progress: IProgress): Promise<string[]> {
         this.clear();
 
-        await this.loadImages(level, progress, getImagePath);
+        await this.loadFrames(level, progress, getImagePath);
 
-        for (let i = 0; i < captureParams.length; ++i) {
-            const [heading, pitch, dx, dy] = captureParams[i];
-            const faceIndex = CUBEMAP_PATTERN.indices[dy][dx];
+        const files = await Promise.all(captureParams.map(async ([heading, pitch, dx, dy], i) => {
             const roll = CUBEMAP_PATTERN.rotations[dy][dx];
-            const g = this.contexts[faceIndex];
+            const g = this.contexts[i];
             this.drawFrame(g, heading, pitch, roll, 0, 0);
-        }
+            const blob = await canvasToBlob(g.canvas, Image_Jpeg.value, 1);
+            return URL.createObjectURL(blob);
+        }));
+
+        this.clear();
+
+        return files;
     }
 
-    capturePhotosphere(): CanvasTypes {
+    protected async renderCubeMap(getImagePath: (fov: number, heading: number, pitch: number) => string, level: PhotosphereCaptureResolution, progress: IProgress): Promise<string> {
+        this.clear();
 
         const canv = createUtilityCanvas(FACE_SIZE * 4, FACE_SIZE * 3);
         const g = canv.getContext("2d");
 
-        for (let i = 0; i < captureParams.length; ++i) {
-            const [heading, pitch, dx, dy] = captureParams[i];
+        await this.loadFrames(level, progress, getImagePath);
+
+        for (const [heading, pitch, dx, dy] of captureParams) {
             this.drawFrame(g, heading, pitch, 0, dx, dy);
         }
 
+        const blob = await canvasToBlob(canv, Image_Jpeg.value, 1);
+        const file = URL.createObjectURL(blob);;
+
         this.clear();
 
-        return canv;
+        return file;
     }
 
     private drawFrame(g: Context2D, heading: number, pitch: number, roll: number, dx: number, dy: number) {
@@ -156,12 +143,6 @@ export abstract class PhotosphereRig extends TypedEventBase<{
         this.camera.setRotationFromEuler(E);
         this.renderer.render(this.scene, this.camera);
         g.drawImage(this.renderer.domElement, dx * FACE_SIZE, dy * FACE_SIZE);
-    }
-
-    private async loadImages(level: PhotosphereCaptureResolution, progress: IProgress, getImagePath: (fov: number, heading: number, pitch: number) => string) {
-        const angles = this.getImageAngles(level);
-
-        await progressOfArray(progress, angles, (set, prog) => this.loadImage(getImagePath, ...set, prog));
     }
 
     private getImageAngles(level: PhotosphereCaptureResolution) {
@@ -193,18 +174,24 @@ export abstract class PhotosphereRig extends TypedEventBase<{
         return angles;
     }
 
-    private async loadImage(getImagePath: (fov: number, heading: number, pitch: number) => string, heading: number, pitch: number, fov: number, size: number, prog: IProgress) {
+    private async loadFrames(level: PhotosphereCaptureResolution, progress: IProgress, getImagePath: (fov: number, heading: number, pitch: number) => string) {
+        const angles = this.getImageAngles(level);
+
+        await progressOfArray(progress, angles, (set, prog) => this.loadFrame(getImagePath, ...set, prog));
+    }
+
+    private async loadFrame(getImagePath: (fov: number, heading: number, pitch: number) => string, heading: number, pitch: number, fov: number, size: number, prog: IProgress) {
         const halfFOV = 0.5 * deg2rad(fov);
         const k = Math.tan(halfFOV);
         const dist = 0.5 * size / k;
         const path = getImagePath(fov, heading, pitch);
-        const response = await this.fetcher
-            .get(path)
+        const { content: canvas } = await this.fetcher
+            .get(path, this.baseURL)
             .progress(prog)
             .useCache()
-            .image();
+            .canvas();
 
-        const texture = new THREE.Texture(response.content);
+        const texture = new THREE.Texture(canvas as any);
         const material = new THREE.MeshBasicMaterial({
             map: texture,
             side: THREE.DoubleSide

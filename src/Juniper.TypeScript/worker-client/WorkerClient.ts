@@ -17,7 +17,7 @@ interface WorkerInvocation {
     methodName: string;
 }
 
-export class WorkerClient<EventsT> extends TypedEventBase<EventsT> implements IDisposable {
+export class WorkerClient<EventsT = void> extends TypedEventBase<EventsT> implements IDisposable {
     static isSupported = "Worker" in globalThis;
 
     private taskCounter = 0;

@@ -3,7 +3,7 @@ import { WorkerClient } from "@juniper/worker-client";
 
 
 export class PhysicsServiceClient
-    extends WorkerClient<void>
+    extends WorkerClient
     implements IPhysicsService {
 
     addBody(): Promise<number> {

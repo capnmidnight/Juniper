@@ -53,7 +53,8 @@ function bufferToBlob(response: IResponse<ArrayBuffer>): IResponse<Blob> {
         contentLength,
         fileName,
         headers,
-        date } = response;
+        date
+    } = response;
 
     const blob = new Blob([buffer], {
         type: contentType
@@ -98,7 +99,7 @@ function cloneRequestWithBody(request: IRequestWithBody): IRequestWithBody {
 
 
 export class FetchingServiceClient
-    extends WorkerClient<void>
+    extends WorkerClient
     implements IFetchingService {
 
     setRequestVerificationToken(value: string): void {

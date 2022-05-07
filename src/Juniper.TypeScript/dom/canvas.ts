@@ -1,6 +1,6 @@
-import { isDefined, isNullOrUndefined, Task } from "@juniper/tslib";
-import { htmlHeight, htmlWidth } from "./attrs";
-import { Canvas } from "./tags";
+import { isDefined, isNullOrUndefined, once, Task } from "@juniper/tslib";
+import { htmlHeight, htmlWidth, src } from "./attrs";
+import { Canvas, Img } from "./tags";
 
 export type CanvasTypes = HTMLCanvasElement | OffscreenCanvas;
 export type CanvasImageTypes = HTMLImageElement | HTMLCanvasElement | OffscreenCanvas | ImageBitmap;
@@ -35,6 +35,12 @@ export function isImageBitmap(img: any): img is ImageBitmap {
 export function isCanvas(obj: any): obj is CanvasTypes {
     return isHTMLCanvas(obj)
         || isOffscreenCanvas(obj);
+}
+
+export function isCanvasArray(arr: any): arr is CanvasTypes[] {
+    return isDefined(arr)
+        && arr.length > 0
+        && isCanvas(arr[0]);
 }
 
 export function isWebXRWebGLRenderingContext(ctx: any): ctx is XRWebGLRenderingContext {
@@ -167,6 +173,12 @@ export const createUtilityCanvasFromImage = hasOffscreenCanvasRenderingContext2D
     || hasHTMLCanvas && createCanvasFromImage
     || null;
 
+export async function createImageFromFile(file: string): Promise<HTMLImageElement> {
+    const img = Img(src(file));
+    await once<HTMLElementEventMap>(img, "load", "error");
+    return img;
+}
+
 /**
  * Resizes a canvas element
  * @param canv
@@ -270,10 +282,13 @@ export function canvasToBlob(canvas: CanvasTypes, type?: string, quality?: numbe
     if (isOffscreenCanvas(canvas)) {
         return canvas.convertToBlob({ type, quality });
     }
-    else {
+    else if (isHTMLCanvas(canvas)) {
         const blobCreated = new Task<Blob>();
         canvas.toBlob(blobCreated.resolve, type, quality);
         return blobCreated;
+    }
+    else {
+        throw new Error("Cannot save image from canvas");
     }
 }
 
