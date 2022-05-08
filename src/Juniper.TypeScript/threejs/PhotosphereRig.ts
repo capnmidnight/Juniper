@@ -1,4 +1,4 @@
-import { canvasToBlob, CanvasTypes, Context2D, createUtilityCanvas } from "@juniper/dom/canvas";
+import { canvasToBlob, CanvasTypes, createUtilityCanvas } from "@juniper/dom/canvas";
 import { IFetcher } from "@juniper/fetcher";
 import { deg2rad, IDisposable, IProgress, progressOfArray } from "@juniper/tslib";
 import { Image_Jpeg } from "@juniper/tslib/mediatypes/image";
@@ -6,7 +6,7 @@ import { cleanup } from "./cleanup";
 import { CUBEMAP_PATTERN } from "./Skybox";
 
 const QUAD_SIZE = 2;
-export const FACE_SIZE = 2048;
+export const FACE_SIZE = 1 << 11;
 const E = new THREE.Euler();
 
 export enum PhotosphereCaptureResolution {
@@ -36,8 +36,6 @@ export abstract class PhotosphereRig
     implements IDisposable {
     private baseURL: string = null;
 
-    private readonly canvases: CanvasTypes[];
-    private readonly contexts: Context2D[];
     private readonly canvas: CanvasTypes;
     private readonly renderer: THREE.WebGLRenderer;
     private readonly camera: THREE.PerspectiveCamera;
@@ -68,18 +66,6 @@ export abstract class PhotosphereRig
         this.scene.add(new THREE.AmbientLight(0xffffff, 1));
         this.scene.add(this.camera, this.photosphere);
         this.geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
-
-        this.canvases = [
-            createUtilityCanvas(FACE_SIZE, FACE_SIZE),
-            createUtilityCanvas(FACE_SIZE, FACE_SIZE),
-            createUtilityCanvas(FACE_SIZE, FACE_SIZE),
-            createUtilityCanvas(FACE_SIZE, FACE_SIZE),
-            createUtilityCanvas(FACE_SIZE, FACE_SIZE),
-            createUtilityCanvas(FACE_SIZE, FACE_SIZE)
-        ];
-
-
-        this.contexts = this.canvases.map(f => f.getContext("2d"));
     }
 
     init(baseURL: string): void {
@@ -105,11 +91,12 @@ export abstract class PhotosphereRig
 
         await this.loadFrames(level, progress, getImagePath);
 
-        const files = await Promise.all(captureParams.map(async ([heading, pitch, dx, dy], i) => {
+        const files = await Promise.all(captureParams.map(async ([heading, pitch, dx, dy]) => {
             const roll = CUBEMAP_PATTERN.rotations[dy][dx];
-            const g = this.contexts[i];
-            this.drawFrame(g, heading, pitch, roll, 0, 0);
-            const blob = await canvasToBlob(g.canvas, Image_Jpeg.value, 1);
+            E.set(pitch, heading, roll, "YXZ");
+            this.camera.setRotationFromEuler(E);
+            this.renderer.render(this.scene, this.camera);
+            const blob = await canvasToBlob(this.renderer.domElement, Image_Jpeg.value, 1);
             return URL.createObjectURL(blob);
         }));
 
@@ -127,7 +114,10 @@ export abstract class PhotosphereRig
         await this.loadFrames(level, progress, getImagePath);
 
         for (const [heading, pitch, dx, dy] of captureParams) {
-            this.drawFrame(g, heading, pitch, 0, dx, dy);
+            E.set(pitch, heading, 0, "YXZ");
+            this.camera.setRotationFromEuler(E);
+            this.renderer.render(this.scene, this.camera);
+            g.drawImage(this.renderer.domElement, dx * FACE_SIZE, dy * FACE_SIZE);
         }
 
         const blob = await canvasToBlob(canv, Image_Jpeg.value, 1);
@@ -136,13 +126,6 @@ export abstract class PhotosphereRig
         this.clear();
 
         return file;
-    }
-
-    private drawFrame(g: Context2D, heading: number, pitch: number, roll: number, dx: number, dy: number) {
-        E.set(pitch, heading, roll, "YXZ");
-        this.camera.setRotationFromEuler(E);
-        this.renderer.render(this.scene, this.camera);
-        g.drawImage(this.renderer.domElement, dx * FACE_SIZE, dy * FACE_SIZE);
     }
 
     private getImageAngles(level: PhotosphereCaptureResolution) {
