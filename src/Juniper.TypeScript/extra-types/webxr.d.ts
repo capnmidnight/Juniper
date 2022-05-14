@@ -1,4 +1,4 @@
-type XRFrameRequestCallback = (time: number, frame: XRFrame) => void;
+type XRFrameRequestCallback = (time: DOMHighResTimeStamp, frame: XRFrame) => void;
 
 interface XRSession extends EventTarget {
     requestAnimationFrame(callback: XRFrameRequestCallback): number;

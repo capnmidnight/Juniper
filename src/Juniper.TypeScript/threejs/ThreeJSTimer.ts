@@ -1,12 +1,12 @@
 import { BaseTimer } from "@juniper/tslib";
 
-export class ThreeJSTimer extends BaseTimer<XRAnimationLoopCallback> {
+export class ThreeJSTimer extends BaseTimer<XRFrameRequestCallback> {
 
     constructor(private readonly renderer: THREE.WebGLRenderer) {
         super(120);
     }
 
-    private setAnimationLoop(loop: XRAnimationLoopCallback) {
+    private setAnimationLoop(loop: XRFrameRequestCallback) {
         this._timer = loop;
         this.renderer.setAnimationLoop(this._timer as any);
     }
