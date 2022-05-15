@@ -7,14 +7,14 @@ export class SetIntervalTimer extends BaseTimer<number> {
     }
 
     start() {
-        this._timer = setInterval(
-            () => this._onTick(performance.now()),
-            this._targetFrameTime);
+        this.timer = setInterval(
+            () => this.onTick(performance.now()),
+            this.targetFrameTime);
     }
 
     override stop() {
-        if (this._timer) {
-            clearInterval(this._timer);
+        if (this.timer) {
+            clearInterval(this.timer);
             super.stop();
         }
     }

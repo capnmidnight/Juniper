@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "name": "@types/glsl-types",
-  "description": "TypeScript definitions for importing GLSL shaders as text",
+  "name": "@types/extra-types",
+  "description": "TypeScript definitions for extensions available in pages and workers",
   "private": true,
   "main": "",
   "types": "index.d.ts",

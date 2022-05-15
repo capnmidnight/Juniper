@@ -3,22 +3,20 @@ import { ITimer, TimerTickEvent } from "./ITimer";
 
 export abstract class BaseTimer<TimerT>
     implements ITimer {
-    protected _timer: TimerT = null;
-    protected _onTick: (t: number, frame?: XRFrame) => void;
-    protected _targetFrameTime = Number.MAX_VALUE;
-    private _targetFPS = 0;
+    protected timer: TimerT = null;
+    protected onTick: (t: number) => void;
+    protected targetFPS: number = null;
     private lt: number = -1;
     private tickHandlers = new Array<(evt: TimerTickEvent) => void>();
 
-    constructor(targetFrameRate: number) {
-
+    constructor(targetFrameRate?: number) {
         this.targetFPS = targetFrameRate;
         const tickEvt = new TimerTickEvent();
         let dt = 0;
-        this._onTick = (t: number, frame?: XRFrame) => {
+        this.onTick = (t: number) => {
             if (this.lt >= 0) {
                 dt = t - this.lt;
-                tickEvt.set(t, dt, frame);
+                tickEvt.set(t, dt);
                 this.tick(tickEvt);
             }
             this.lt = t;
@@ -45,26 +43,17 @@ export abstract class BaseTimer<TimerT>
     }
 
     get isRunning() {
-        return this._timer != null;
+        return this.timer != null;
     }
 
     abstract start(): void;
 
     stop() {
-        this._timer = null;
+        this.timer = null;
         this.lt = -1;
     }
 
-    get targetFPS() {
-        return this._targetFPS;
-    }
-
-    set targetFPS(fps: number) {
-        this._targetFPS = fps;
-        this._targetFrameTime = 1000 / fps;
-    }
-
-    get targetFrameTime() {
-        return this._targetFrameTime;
+    protected get targetFrameTime() {
+        return 1000 / this.targetFPS;
     }
 }

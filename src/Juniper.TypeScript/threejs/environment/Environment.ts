@@ -6,7 +6,7 @@ import { AudioPlayer } from "@juniper/audio/sources/AudioPlayer";
 import type { CanvasTypes } from "@juniper/dom/canvas";
 import { elementApply } from "@juniper/dom/tags";
 import type { IFetcher } from "@juniper/fetcher";
-import { hasVR, IProgress, isDesktop, isMobile, isMobileVR, PriorityMap, progressTasks, rad2deg, TimerTickEvent, TypedEvent } from "@juniper/tslib";
+import { hasVR, IProgress, isDesktop, isMobile, isMobileVR, PriorityMap, progressTasks, rad2deg, TypedEvent } from "@juniper/tslib";
 import { DEFAULT_LOCAL_USER_ID } from "@juniper/webrtc/constants";
 import { ButtonFactory } from "../ButtonFactory";
 import { ConfirmationDialog } from "../ConfirmationDialog";
@@ -23,6 +23,7 @@ import { widgetSetEnabled } from "../widgets/widgets";
 import { ApplicationLoader } from "./ApplicationLoader";
 import { BaseEnvironment } from "./BaseEnvironment";
 import { DeviceDialog } from "./DeviceDialog";
+import { XRTimerTickEvent } from "./XRTimer";
 
 export class EnvironmentRoomJoinedEvent extends TypedEvent<"roomjoined"> {
     constructor(public readonly roomName: string) {
@@ -253,7 +254,7 @@ export class Environment
     private fpses = new Array<number>();
     private avgFPS = 0;
 
-    override preRender(evt: TimerTickEvent) {
+    override preRender(evt: XRTimerTickEvent) {
         super.preRender(evt);
 
         this.audio.update();

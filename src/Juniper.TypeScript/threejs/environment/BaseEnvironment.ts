@@ -37,8 +37,8 @@ import { obj, objGraph } from "../objects";
 import { resolveCamera } from "../resolveCamera";
 import { ScreenControl } from "../ScreenControl";
 import { Skybox } from "../Skybox";
-import { ThreeJSTimer } from "../ThreeJSTimer";
 import { isMesh } from "../typeChecks";
+import { XRTimer, XRTimerTickEvent } from "./XRTimer";
 
 
 const spectator = new THREE.PerspectiveCamera();
@@ -91,7 +91,7 @@ export class BaseEnvironment<Events = void>
     readonly loadingBar = new LoadingBar();
 
     readonly renderer: THREE.WebGLRenderer;
-    readonly timer: ThreeJSTimer;
+    readonly timer: XRTimer;
     readonly worldUISpace: BodyFollower;
     readonly skybox: Skybox;
     readonly avatar: AvatarLocal;
@@ -145,7 +145,7 @@ export class BaseEnvironment<Events = void>
 
         this.skybox = new Skybox(this);
 
-        this.timer = new ThreeJSTimer(this.renderer);
+        this.timer = new XRTimer(this.renderer);
 
         this.renderer.xr.enabled = true;
         this.sun.name = "Sun";
@@ -200,7 +200,7 @@ export class BaseEnvironment<Events = void>
         return this.renderer.xr.getReferenceSpace();
     }
 
-    private update(evt: TimerTickEvent): void {
+    private update(evt: XRTimerTickEvent): void {
         if (this.screenControl.visible) {
             const session = this.xrSession;
 

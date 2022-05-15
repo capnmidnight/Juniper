@@ -1,31 +1,30 @@
 import { lerp } from "../";
 
-export class TimerTickEvent {
+export abstract class BaseTimerTickEvent {
     t = 0;
     dt = 0;
     sdt = 0;
     fps: number = 0;
 
-    frame: XRFrame = null;
-
-    constructor() {
-        Object.seal(this);
-    }
-
-    set(t: number, dt: number, frame: XRFrame) {
+    set(t: number, dt: number) {
         this.t = t;
         this.dt = dt;
         this.sdt = lerp(this.sdt, dt, 0.01);
-        this.frame = frame;
         if (dt > 0) {
             this.fps = 1000 / dt;
         }
     }
 }
 
+export class TimerTickEvent extends BaseTimerTickEvent {
+    constructor() {
+        super();
+        Object.seal(this);
+    }
+}
+
 export interface ITimer {
     isRunning: boolean;
-    targetFPS: number;
     start(): void;
     stop(): void;
     restart(): void;
