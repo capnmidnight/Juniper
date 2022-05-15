@@ -47,6 +47,7 @@ namespace Juniper.TSBuild
         public bool AuditFixOnly => flags.Contains(nameof(AuditFixOnly));
         public bool CleanOnly => flags.Contains(nameof(CleanOnly));
         public bool PrintDependencyTreeOnly => flags.Contains(nameof(PrintDependencyTreeOnly));
+        public bool DeletePackageLockOnly => flags.Contains(nameof(DeletePackageLockOnly));
 
 
         private readonly Command[] interactiveCommands;
@@ -56,14 +57,14 @@ namespace Juniper.TSBuild
         {
             var commands = new[]
             {
+                new Command("--clean", "Delete NPM Packages", FlagSetter(nameof(CleanOnly))),
                 new Command("--install", "Install NPM packages", FlagSetter(nameof(InstallOnly))),
-                new Command("--ci", "Install NPM packages with CI", FlagSetter(nameof(InstallCIOnly))),
-                new Command("--detect-cycles", "Detect NPM package cycles", FlagSetter(nameof(DetectCyclesOnly))),
-                new Command("--dep-tree", "Print NPM package tree", FlagSetter(nameof(PrintDependencyTreeOnly))),
-                new Command("--clean", "Delete NPM Pacakges", FlagSetter(nameof(CleanOnly))),
+                new Command("--check", "Run TypeScript check", FlagSetter(nameof(CheckOnly))),
+                new Command(null, "Delete package-lock.json", FlagSetter(nameof(DeletePackageLockOnly))),
                 new Command("--audit", "Audit NPM packages", FlagSetter(nameof(AuditOnly))),
                 new Command("--audit-fix", "Audit and auto-fix NPM packages", FlagSetter(nameof(AuditFixOnly))),
-                new Command("--check", "Run TypeScript check", FlagSetter(nameof(CheckOnly))),
+                new Command("--detect-cycles", "Detect NPM package cycles", FlagSetter(nameof(DetectCyclesOnly))),
+                new Command("--dep-tree", "Print NPM package tree", FlagSetter(nameof(PrintDependencyTreeOnly))),
                 new Command(null, "Build (level: Low)", (_) => level = Level.Low),
                 new Command(null, "Build (level: Med)", (_) => level = Level.Medium),
                 new Command(null, "Build (level: High)", (_) => level = Level.High),

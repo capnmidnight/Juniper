@@ -74,6 +74,10 @@ namespace Juniper.TSBuild
                     {
                         build.DeleteNodeModules();
                     }
+                    else if (opts.DeletePackageLockOnly)
+                    {
+                        build.DeletePackageLocks();
+                    }
                     else if (opts.DetectCyclesOnly)
                     {
                         await build.DetectCyclesAsync();
@@ -422,14 +426,51 @@ namespace Juniper.TSBuild
         {
             foreach (var dir in FirstLevelNodeModules)
             {
-                try
+                for (int attempts = 2; attempts > 0; attempts--)
                 {
-                    dir.Delete(true);
-                    OnInfo($"{dir.FullName} deleted");
+                    try
+                    {
+                        dir.Delete(true);
+                        OnInfo($"{dir.FullName} deleted");
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        if (attempts == 1)
+                        {
+                            OnWarning($"Could not delete {dir.FullName}. Reason: {ex.Message}.");
+                        }
+                    }
                 }
-                catch (Exception ex)
+            }
+        }
+
+        public void DeletePackageLocks()
+        {
+            foreach (var dir in FirstLevelNodeModules)
+            {
+                var lockfile = dir.Parent
+                    ?.GetFiles("*.json")
+                    ?.Where(f => f.Name == "package-lock.json")
+                    ?.FirstOrDefault();
+                if (lockfile is not null)
                 {
-                    OnWarning($"Could not delete {dir.FullName}. Reason: {ex.Message}.");
+                    for (int attempts = 2; attempts > 0; attempts--)
+                    {
+                        try
+                        {
+                            lockfile.Delete();
+                            OnInfo($"{lockfile.FullName} deleted");
+                            break;
+                        }
+                        catch (Exception ex)
+                        {
+                            if (attempts == 1)
+                            {
+                                OnWarning($"Could not delete {lockfile.FullName}. Reason: {ex.Message}.");
+                            }
+                        }
+                    }
                 }
             }
         }

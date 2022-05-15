@@ -114,3 +114,4 @@ node_modules/
 /src/Juniper.TypeScript/fetcher-worker/dist/
 /src/Juniper.TypeScript/physics-worker/dist/
 /src/Juniper.TypeScript/tele/dist/
+package-lock.json
