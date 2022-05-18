@@ -43,11 +43,6 @@ export function isCanvasArray(arr: any): arr is CanvasTypes[] {
         && isCanvas(arr[0]);
 }
 
-export function isWebXRWebGLRenderingContext(ctx: any): ctx is XRWebGLRenderingContext {
-    return "makeXRCompatible" in ctx
-        && ctx.makeXRCompatible instanceof Function;
-}
-
 export function drawImageBitmapToCanvas2D(canv: CanvasTypes, img: ImageBitmap): void {
     const g = canv.getContext("2d");
     if (isNullOrUndefined(g)) {

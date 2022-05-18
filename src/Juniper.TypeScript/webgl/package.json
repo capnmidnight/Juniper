@@ -7,6 +7,7 @@
     "@juniper/2d": "file:../graphics2d",
     "@juniper/dom": "file:../dom",
     "@juniper/tslib": "file:../tslib",
+    "@types/webxr": "^0.4.0",
     "gl-matrix": "3.4.3"
   },
   "devDependencies": {

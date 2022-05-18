@@ -4,7 +4,7 @@ import type { Camera } from "./Camera";
 type TickCallback = (t: number, dt: number, frame: XRFrame) => void;
 
 export class XRSessionStartedEvent extends TypedEvent<"sessionstarted">{
-    constructor(public session: XRSession, public views: XRView[]) {
+    constructor(public session: XRSession, public views: ReadonlyArray<XRView>) {
         super("sessionstarted");
     }
 }

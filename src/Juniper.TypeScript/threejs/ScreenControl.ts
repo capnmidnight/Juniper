@@ -1,7 +1,6 @@
-import { isWebXRWebGLRenderingContext } from "@juniper/dom/canvas";
 import { hasFullscreenAPI } from "@juniper/dom/fullscreen";
 import { elementIsDisplayed, elementSetDisplay } from "@juniper/dom/tags";
-import { hasVR, hasWebVR, hasWebXR, isDefined, isMobileVR, TypedEvent, TypedEventBase } from "@juniper/tslib";
+import { hasVR, hasWebVR, hasWebXR, isDefined, isFunction, isMobileVR, TypedEvent, TypedEventBase } from "@juniper/tslib";
 import WebXRPolyfill from "webxr-polyfill/src/WebXRPolyfill";
 import { ScreenMode } from "./ScreenMode";
 import type { ScreenUI } from "./ScreenUI";
@@ -165,7 +164,7 @@ export class ScreenControl
         try {
             if (hasWebXR()) {
                 const ctx = this.renderer.getContext();
-                if (isWebXRWebGLRenderingContext(ctx)) {
+                if (isFunction(ctx.makeXRCompatible)) {
                     await ctx.makeXRCompatible();
                     webXRAvailable = true;
                 }

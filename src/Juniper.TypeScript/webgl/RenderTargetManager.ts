@@ -57,8 +57,8 @@ export class RenderTargetManager implements IDisposable {
     }
 
     setSession(session: null): void;
-    setSession(session: XRSession, views: XRView[]): void;
-    setSession(session: XRSession | null, views?: XRView[]): void {
+    setSession(session: XRSession, views: ReadonlyArray<XRView>): void;
+    setSession(session: XRSession | null, views?: ReadonlyArray<XRView>): void {
         if (isNullOrUndefined(session)) {
             views = [];
         }
