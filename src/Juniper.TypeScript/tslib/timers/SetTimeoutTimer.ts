@@ -11,12 +11,12 @@ export class SetTimeoutTimer extends BaseTimer<number> {
             this.timer = setTimeout(updater, this.targetFrameTime);
             this.onTick(performance.now());
         };
-        this._timer= setTimeout(updater, this.targetFrameTime);
+        this.timer = setTimeout(updater, this.targetFrameTime);
     }
 
     override stop() {
-        if (this._timer {
-            clearTimeout(this._timer;
+        if (this.isRunning) {
+            clearTimeout(this.timer);
             super.stop();
         }
     }

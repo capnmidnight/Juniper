@@ -5,7 +5,6 @@ export abstract class BaseTimer<TimerT>
     implements ITimer {
     protected timer: TimerT = null;
     protected onTick: (t: number) => void;
-    protected targetFPS: number = null;
     private lt: number = -1;
     private tickHandlers = new Array<(evt: TimerTickEvent) => void>();
 
@@ -21,6 +20,16 @@ export abstract class BaseTimer<TimerT>
             }
             this.lt = t;
         };
+    }
+
+
+    #targetFPS: number = null;
+    get targetFPS() {
+        return this.#targetFPS;
+    }
+
+    set targetFPS(v: number) {
+        this.#targetFPS = v;
     }
 
     addTickHandler(onTick: (evt: TimerTickEvent) => void): void {

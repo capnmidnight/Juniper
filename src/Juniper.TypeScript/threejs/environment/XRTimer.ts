@@ -1,4 +1,4 @@
-import { arrayRemove, ITimer, BaseTimerTickEvent } from "@juniper/tslib";
+import { arrayRemove, BaseTimerTickEvent, isDefined, ITimer } from "@juniper/tslib";
 
 export class XRTimerTickEvent extends BaseTimerTickEvent {
     frame?: XRFrame = null;
@@ -14,12 +14,9 @@ export class XRTimerTickEvent extends BaseTimerTickEvent {
     }
 }
 
-type TimerSource = typeof globalThis | XRSession;
 type TimerTickCallback = (evt: XRTimerTickEvent) => void;
 
 export class XRTimer implements ITimer {
-    private _timerSource: TimerSource = null;
-    private _timer: XRFrameRequestCallback = null;
     private tickHandlers = new Array<TimerTickCallback>();
     private _onTick: (t: number, frame?: XRFrame) => void;
     private lt = -1;
@@ -37,20 +34,9 @@ export class XRTimer implements ITimer {
         };
     }
 
-    get timerSource(): TimerSource {
-        return this._timerSource;
-    }
-
-    set timerSource(v: TimerSource) {
-        if (v !== this.timerSource) {
-            this.stop();
-            this._timerSource = v;
-            this.start();
-        }
-    }
-
+    #isRunning = false;
     get isRunning() {
-        return this._timer != null;
+        return this.#isRunning;
     }
 
     restart() {
@@ -67,8 +53,8 @@ export class XRTimer implements ITimer {
     }
 
     private setAnimationLoop(loop: XRFrameRequestCallback) {
-        this._timer = loop;
-        this.renderer.setAnimationLoop(this._timer as any);
+        this.renderer.setAnimationLoop(loop as any);
+        this.#isRunning = isDefined(loop);
     }
 
     start() {
@@ -80,7 +66,6 @@ export class XRTimer implements ITimer {
     stop() {
         if (this.isRunning) {
             this.setAnimationLoop(null);
-            this._timer = null;
             this.lt = -1;
         }
     }
