@@ -227,6 +227,11 @@ export function elementGetText(elem: Elements): string {
     return elem.innerText;
 }
 
+export function elementSetTitle(elem: Elements, text: string): void {
+    elem = resolveElement(elem);
+    elem.title = text;
+}
+
 async function mediaElementCan(type: "canplay" | "canplaythrough", elem: HTMLMediaElement, prog?: IProgress): Promise<boolean> {
     if (isDefined(prog)) {
         prog.start();
