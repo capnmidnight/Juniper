@@ -43,9 +43,12 @@ export abstract class PhotosphereRig
     private readonly scene: THREE.Scene;
     private readonly geometry: THREE.PlaneGeometry;
 
+    private isDebug = false;
     private disposed = false;
 
-    constructor(private readonly fetcher: IFetcher, private readonly fixWatermarks: boolean) {
+    constructor(
+        private readonly fetcher: IFetcher,
+        private readonly fixWatermarks: boolean) {
         this.canvas = createUtilityCanvas(FACE_SIZE, FACE_SIZE);
         this.renderer = new THREE.WebGLRenderer({
             canvas: this.canvas,
@@ -68,8 +71,9 @@ export abstract class PhotosphereRig
         this.geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
     }
 
-    init(baseURL: string): void {
+    init(baseURL: string, isDebug: boolean): void {
         this.baseURL = baseURL;
+        this.isDebug = isDebug;
     }
 
     dispose() {
@@ -171,7 +175,7 @@ export abstract class PhotosphereRig
         const { content: canvas } = await this.fetcher
             .get(path, this.baseURL)
             .progress(prog)
-            .useCache()
+            .useCache(this.isDebug)
             .canvas();
 
         const texture = new THREE.Texture(canvas as any);
