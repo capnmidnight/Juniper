@@ -96,6 +96,10 @@ export class MediaType {
             return false;
         }
 
+        if (this.typeName === "*" && this.subTypeName === "*") {
+            return true;
+        }
+
         let typeName: string = null;
         let subTypeName: string = null;
         if (isString(value)) {
@@ -109,11 +113,11 @@ export class MediaType {
         }
         else {
             typeName = value.typeName;
-            subTypeName = value.subTypeName;
+            subTypeName = value._fullSubType;
         }
 
-        return (this.typeName === "*" && this.subTypeName === "*")
-            || (this.typeName === typeName && (this.subTypeName === "*" || this.subTypeName === subTypeName));
+        return this.typeName === typeName
+            && (this._fullSubType === "*" || this._fullSubType === subTypeName);
     }
 
     withParameter(key: string, value: string): MediaType {
