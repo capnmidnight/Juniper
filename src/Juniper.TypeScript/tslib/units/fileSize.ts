@@ -70,7 +70,9 @@ export function formatBytes(value: number, base: 2 | 10 = 10) {
         label = levels.get(size);
         value /= divisor;
     }
-    const str = `${isNegative ? "-" : ""}${value.toFixed(2)} ${label}`;
+
+    const isExact = (value % 1) === 0;
+    const str = `${isNegative ? "-" : ""}${value.toFixed(isExact ? 0 : 2)} ${label}`;
 
     return str;
 }
