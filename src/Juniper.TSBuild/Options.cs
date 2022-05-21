@@ -40,7 +40,6 @@ namespace Juniper.TSBuild
 
         public bool VersionOnly => flags.Contains(nameof(VersionOnly));
         public bool InstallOnly => flags.Contains(nameof(InstallOnly));
-        public bool InstallCIOnly => flags.Contains(nameof(InstallCIOnly));
         public bool DetectCyclesOnly => flags.Contains(nameof(DetectCyclesOnly));
         public bool CheckOnly => flags.Contains(nameof(CheckOnly));
         public bool AuditOnly => flags.Contains(nameof(AuditOnly));

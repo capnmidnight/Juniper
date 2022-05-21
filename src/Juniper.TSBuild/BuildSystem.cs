@@ -90,10 +90,6 @@ namespace Juniper.TSBuild
                     {
                         await build.InstallAsync();
                     }
-                    else if (opts.InstallCIOnly)
-                    {
-                        await build.InstallCIAsync();
-                    }
                     else if (opts.CheckOnly)
                     {
                         await build.TSBuildAsync();
@@ -205,6 +201,7 @@ namespace Juniper.TSBuild
         private readonly FileInfo projectBuildInfo;
         private readonly FileInfo projectAppSettings;
         private readonly List<DirectoryInfo> juniperInstallables = new();
+        private readonly List<DirectoryInfo> juniperTSProjects = new();
         private readonly List<DirectoryInfo> juniperBuildables = new();
         private readonly List<DirectoryInfo> juniperBundles = new();
         private readonly Dictionary<FileInfo, FileInfo> dependencies = new();
@@ -225,7 +222,7 @@ namespace Juniper.TSBuild
             startDir ??= new DirectoryInfo(Environment.CurrentDirectory);
 
             while (startDir != null
-                && !startDir.GetDirectories()
+                && !startDir.EnumerateDirectories()
                     .Select(x => x.Name)
                     .Contains(projectName))
             {
@@ -247,28 +244,41 @@ namespace Juniper.TSBuild
             projectBuildInfo = projectDir.Touch("buildinfo.json");
             projectAppSettings = projectDir.Touch("appsettings.json");
 
-            var projects = juniperTsDir
-                .EnumerateDirectories()
-                .Where(d => d.Touch("package.json").Exists);
+            var projects = juniperTsDir.EnumerateDirectories();
 
             foreach (var project in projects)
             {
                 var pkgFile = project.Touch("package.json");
-                using var pkgStream = pkgFile.OpenRead();
-                var pkg = JsonSerializer.Deserialize<NPMPackage>(pkgStream);
-                if (pkg?.types is null)
+                if (pkgFile.Exists)
                 {
-                    juniperInstallables.Add(project);
+                    using var pkgStream = pkgFile.OpenRead();
+                    var pkg = JsonSerializer.Deserialize<NPMPackage>(pkgStream);
+                    if (pkg is null)
+                    {
+                        continue;
+                    }
+
+                    if ((pkg.dependencies?.Count ?? 0) > 0
+                        || (pkg.devDependencies?.Count ?? 0) > 0)
+                    {
+                        juniperInstallables.Add(project);
+                    }
+
+                    if (pkg.scripts?.ContainsKey("build") == true)
+                    {
+                        juniperBuildables.Add(project);
+                    }
+
+                    if (project.EnumerateFiles().Any(f => f.Name == "esbuild.config.js"))
+                    {
+                        juniperBundles.Add(project);
+                    }
                 }
 
-                if (pkg?.scripts?.ContainsKey("build") == true)
+                var tsConfigFile = project.Touch("tsconfig.json");
+                if (tsConfigFile.Exists)
                 {
-                    juniperBuildables.Add(project);
-                }
-
-                if (project.EnumerateFiles().Any(f => f.Name == "esbuild.config.js"))
-                {
-                    juniperBundles.Add(project);
+                    juniperTSProjects.Add(project);
                 }
             }
         }
@@ -394,37 +404,19 @@ namespace Juniper.TSBuild
             Console.WriteLine($"Done in {delta.TotalSeconds:0.00}s");
         }
 
-        private IEnumerable<DirectoryInfo> FirstLevelNodeModules
+        private IEnumerable<T> FSInfo<T>(Func<DirectoryInfo, T> selector)
+            where T : FileSystemInfo
         {
-            get
-            {
-                var q = new Queue<DirectoryInfo>
-                {
-                    juniperTsDir, projectDir
-                };
-
-                while (q.Count > 0)
-                {
-                    var dir = q.Dequeue();
-                    dir.Refresh();
-                    if (dir.Exists)
-                    {
-                        if (dir.Name == "node_modules")
-                        {
-                            yield return dir;
-                        }
-                        else
-                        {
-                            q.AddRange(dir.GetDirectories());
-                        }
-                    }
-                }
-            }
+            return juniperTsDir
+                .EnumerateDirectories()
+                .Append(projectDir)
+                .Select(selector)
+                .Where(v => v.Exists);
         }
 
         public void DeleteNodeModules()
         {
-            foreach (var dir in FirstLevelNodeModules)
+            foreach (var dir in FSInfo(dir => dir.CD("node_modules")))
             {
                 for (int attempts = 2; attempts > 0; attempts--)
                 {
@@ -447,28 +439,21 @@ namespace Juniper.TSBuild
 
         public void DeletePackageLocks()
         {
-            foreach (var dir in FirstLevelNodeModules)
+            foreach (var lockFile in FSInfo(dir => dir.Touch("package-lock.json")))
             {
-                var lockfile = dir.Parent
-                    ?.GetFiles("*.json")
-                    ?.Where(f => f.Name == "package-lock.json")
-                    ?.FirstOrDefault();
-                if (lockfile is not null)
+                for (int attempts = 2; attempts > 0; attempts--)
                 {
-                    for (int attempts = 2; attempts > 0; attempts--)
+                    try
                     {
-                        try
+                        lockFile.Delete();
+                        OnInfo($"{lockFile.FullName} deleted");
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        if (attempts == 1)
                         {
-                            lockfile.Delete();
-                            OnInfo($"{lockfile.FullName} deleted");
-                            break;
-                        }
-                        catch (Exception ex)
-                        {
-                            if (attempts == 1)
-                            {
-                                OnWarning($"Could not delete {lockfile.FullName}. Reason: {ex.Message}.");
-                            }
+                            OnWarning($"Could not delete {lockFile.FullName}. Reason: {ex.Message}.");
                         }
                     }
                 }
@@ -478,34 +463,26 @@ namespace Juniper.TSBuild
         private async Task<Dictionary<string, HashSet<string>>> GetDependecyTree()
         {
             var deps = new Dictionary<string, HashSet<string>>();
-            var dirs = juniperTsDir
-                .EnumerateDirectories()
-                .Append(projectDir);
-            foreach (var dir in dirs)
+            foreach (var pkgFile in FSInfo(dir => dir.Touch("package.json")))
             {
-                var pkgFile = dir.Touch("package.json");
-                var pkgExists = pkgFile.Exists;
-                if (pkgExists)
+                using var pkgStream = pkgFile.OpenRead();
+                var pkg = await JsonSerializer.DeserializeAsync<NPMPackage>(pkgStream);
+                if (pkg?.name is not null)
                 {
-                    using var pkgStream = pkgFile.OpenRead();
-                    var pkg = await JsonSerializer.DeserializeAsync<NPMPackage>(pkgStream);
-                    if (pkg?.name is not null)
+                    deps.Add(pkg.name, new HashSet<string>());
+                    if (pkg.dependencies is not null)
                     {
-                        deps.Add(pkg.name, new HashSet<string>());
-                        if (pkg.dependencies is not null)
+                        foreach (var dep in pkg.dependencies)
                         {
-                            foreach (var dep in pkg.dependencies)
-                            {
-                                deps[pkg.name].Add(dep.Key);
-                            }
+                            deps[pkg.name].Add(dep.Key);
                         }
+                    }
 
-                        if (pkg.devDependencies is not null)
+                    if (pkg.devDependencies is not null)
+                    {
+                        foreach (var dep in pkg.devDependencies)
                         {
-                            foreach (var dep in pkg.devDependencies)
-                            {
-                                deps[pkg.name].Add(dep.Key);
-                            }
+                            deps[pkg.name].Add(dep.Key);
                         }
                     }
                 }
@@ -598,34 +575,19 @@ namespace Juniper.TSBuild
             }
         }
 
-        private IEnumerable<NPMInstallCommand> GetInstallCICommands(Level buildLevel)
-        {
-            var projects = buildLevel == Level.High
-                ? juniperInstallables
-                : juniperBuildables;
-
-            return projects
-                .Append(projectDir)
-                .Select(dir =>
-                    new NPMInstallCommand(dir, false, buildLevel == Level.High));
-        }
-
-        public async Task InstallCIAsync()
-        {
-            await WithCommandTree(commands =>
-                commands.AddCommands(GetInstallCICommands(Level.High)));
-        }
-
         private IEnumerable<NPMInstallCommand> GetInstallCommands(Level buildLevel)
         {
-            var projects = buildLevel == Level.High
+            IEnumerable<DirectoryInfo> projects = buildLevel == Level.High
                 ? juniperInstallables
                 : juniperBuildables;
 
-            return projects
-                .Append(projectDir)
-                .Select(dir =>
-                    new NPMInstallCommand(dir, true, false));
+            if (projectDir.Touch("package.json").Exists)
+            {
+                projects = projects.Append(projectDir);
+            }
+
+            return projects.Select(dir =>
+                new NPMInstallCommand(dir, buildLevel == Level.High));
         }
 
         public async Task InstallAsync()
@@ -636,10 +598,8 @@ namespace Juniper.TSBuild
 
         private IEnumerable<TSBuildCommand> GetTSBuildCommands()
         {
-            return juniperInstallables
-                .Append(projectDir)
-                .Select(dir =>
-                    new TSBuildCommand(dir));
+            return FSInfo(dir => dir.Touch("tsconfig.json"))
+                .Select(f => new TSBuildCommand(f.Directory));
         }
 
         public async Task TSBuildAsync()
@@ -685,7 +645,7 @@ namespace Juniper.TSBuild
             {
                 commands
                     .AddCommands(new MessageCommand("Build level {0}: {1}", buildLevel, buildLevelMessages[buildLevel]))
-                    .AddCommands(GetInstallCICommands(buildLevel))
+                    .AddCommands(GetInstallCommands(buildLevel))
                     .AddCommands(dependencies.Select(kv => new CopyCommand(kv.Key, kv.Value)));
 
                 if (buildLevel > Level.Low)

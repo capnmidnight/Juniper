@@ -5,5 +5,8 @@
   "private": true,
   "main": "",
   "types": "index.d.ts",
-  "typeScriptVersion": "4.5"
+  "typeScriptVersion": "4.6",
+  "devDependencies": {
+    "typescript": "4.6.4"
+  }
 }
