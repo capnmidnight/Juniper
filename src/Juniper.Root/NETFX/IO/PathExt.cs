@@ -108,7 +108,14 @@ namespace System.IO
 
                     Array.Copy(partsB, counter, parts, aLen, bLen);
 
-                    return Path.Combine(parts);
+                    if (parts.Length > 0)
+                    {
+                        return Path.Combine(parts);
+                    }
+                    else
+                    {
+                        return "./";
+                    }
                 }
             }
         }
