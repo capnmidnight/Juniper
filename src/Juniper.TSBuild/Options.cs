@@ -40,12 +40,10 @@ namespace Juniper.TSBuild
 
         public bool VersionOnly => flags.Contains(nameof(VersionOnly));
         public bool InstallOnly => flags.Contains(nameof(InstallOnly));
-        public bool DetectCyclesOnly => flags.Contains(nameof(DetectCyclesOnly));
         public bool CheckOnly => flags.Contains(nameof(CheckOnly));
         public bool AuditOnly => flags.Contains(nameof(AuditOnly));
         public bool AuditFixOnly => flags.Contains(nameof(AuditFixOnly));
         public bool CleanOnly => flags.Contains(nameof(CleanOnly));
-        public bool PrintDependencyTreeOnly => flags.Contains(nameof(PrintDependencyTreeOnly));
         public bool DeletePackageLockOnly => flags.Contains(nameof(DeletePackageLockOnly));
 
 
@@ -62,8 +60,6 @@ namespace Juniper.TSBuild
                 new Command(null, "Delete package-lock.json", FlagSetter(nameof(DeletePackageLockOnly))),
                 new Command("--audit", "Audit NPM packages", FlagSetter(nameof(AuditOnly))),
                 new Command("--audit-fix", "Audit and auto-fix NPM packages", FlagSetter(nameof(AuditFixOnly))),
-                new Command("--detect-cycles", "Detect NPM package cycles", FlagSetter(nameof(DetectCyclesOnly))),
-                new Command("--dep-tree", "Print NPM package tree", FlagSetter(nameof(PrintDependencyTreeOnly))),
                 new Command(null, "Build (level: Low)", (_) => level = Level.Low),
                 new Command(null, "Build (level: Med)", (_) => level = Level.Medium),
                 new Command(null, "Build (level: High)", (_) => level = Level.High),

@@ -78,14 +78,6 @@ namespace Juniper.TSBuild
                     {
                         build.DeletePackageLocks();
                     }
-                    else if (opts.DetectCyclesOnly)
-                    {
-                        await build.DetectCyclesAsync();
-                    }
-                    else if (opts.PrintDependencyTreeOnly)
-                    {
-                        await build.PrintDependencyTreeAsync();
-                    }
                     else if (opts.InstallOnly)
                     {
                         await build.InstallAsync();
@@ -460,120 +452,6 @@ namespace Juniper.TSBuild
             }
         }
 
-        private async Task<Dictionary<string, HashSet<string>>> GetDependecyTree()
-        {
-            var deps = new Dictionary<string, HashSet<string>>();
-            foreach (var pkgFile in FSInfo(dir => dir.Touch("package.json")))
-            {
-                using var pkgStream = pkgFile.OpenRead();
-                var pkg = await JsonSerializer.DeserializeAsync<NPMPackage>(pkgStream);
-                if (pkg?.name is not null)
-                {
-                    deps.Add(pkg.name, new HashSet<string>());
-                    if (pkg.dependencies is not null)
-                    {
-                        foreach (var dep in pkg.dependencies)
-                        {
-                            deps[pkg.name].Add(dep.Key);
-                        }
-                    }
-
-                    if (pkg.devDependencies is not null)
-                    {
-                        foreach (var dep in pkg.devDependencies)
-                        {
-                            deps[pkg.name].Add(dep.Key);
-                        }
-                    }
-                }
-            }
-
-            return deps;
-        }
-
-        public async Task PrintDependencyTreeAsync()
-        {
-            var deps = await GetDependecyTree();
-
-            foreach (var pkg in deps.Keys)
-            {
-                var stack = new Stack<(string, string, List<string>)> { (pkg, "", new List<string>()) };
-                while (stack.Count > 0)
-                {
-                    var (here, tabs, cycle) = stack.Pop();
-                    OnInfo(tabs + here);
-                    if (cycle.Contains(here))
-                    {
-                        cycle.Add(here);
-                        cycle.Add(tabs + "Cycle!");
-                        break;
-                    }
-                    else if (deps.ContainsKey(here))
-                    {
-                        cycle.Add(here);
-                        foreach (var dep in deps[here])
-                        {
-                            stack.Push((dep, tabs + '\t', cycle.ToList()));
-                        }
-                    }
-                }
-                OnInfo("");
-            }
-        }
-
-        public async Task DetectCyclesAsync()
-        {
-            var deps = await GetDependecyTree();
-
-            var cycles = new List<List<string>>();
-            var trees = new List<List<string>>();
-            foreach (var pkg in deps.Keys)
-            {
-                var pkgStart = new List<string>();
-                trees.Add(pkgStart);
-                var queue = new Queue<(string, List<string>)> { (pkg, pkgStart) };
-                while (queue.Count > 0)
-                {
-                    var (here, cycle) = queue.Dequeue();
-                    if (cycle.Contains(here))
-                    {
-                        cycle.Add(here);
-                        cycles.Add(cycle);
-                        break;
-                    }
-                    else if (deps.ContainsKey(here))
-                    {
-                        cycle.Add(here);
-                        foreach (var dep in deps[here])
-                        {
-                            var cycle2 = cycle.ToList();
-                            trees.Remove(cycle);
-                            trees.Add(cycle2);
-                            queue.Enqueue((dep, cycle2));
-                        }
-                    }
-                }
-            }
-
-            if (cycles.Count > 0)
-            {
-                OnWarning("Package cycles found!");
-                foreach (var cycle in cycles)
-                {
-                    OnWarning("\t" + string.Join(" -> ", cycle));
-                }
-            }
-            else
-            {
-                OnInfo("No cycles found");
-                trees.Sort((a, b) => b.Count - a.Count);
-                var longest = trees.FirstOrDefault();
-                if (longest is not null)
-                {
-                    OnInfo("Longest dependency tree: " + string.Join(" -> ", longest));
-                }
-            }
-        }
 
         private IEnumerable<NPMInstallCommand> GetInstallCommands(Level buildLevel)
         {
