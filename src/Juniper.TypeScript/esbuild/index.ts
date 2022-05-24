@@ -24,12 +24,18 @@ export class Build {
 
     private readonly isWatch: boolean;
 
+    private entryNames = "[dir]/[name]";
+    private outbase = "src";
     private rootDirName = "src/";
     private outDirName = "wwwroot/js/";
 
     constructor(args: string[]) {
-        args.sort();
         this.isWatch = args.indexOf("--watch") !== -1;
+    }
+
+    entryName(name: string) {
+        this.entryNames = name;
+        return this;
     }
 
     rootDir(name: string) {
@@ -39,6 +45,11 @@ export class Build {
 
     outDir(name: string) {
         this.outDirName = normalizeDirName(name);
+        return this;
+    }
+
+    outBase(name: string) {
+        this.outbase = name;
         return this;
     }
 
@@ -87,7 +98,7 @@ export class Build {
 
     private makeBundle(entryPoints: string[], name: string, minify: boolean) {
         const JS_EXT = minify ? ".min" : "";
-        const entryNames = `[dir]/[name]${JS_EXT}`;
+        const entryNames = this.entryNames + JS_EXT;
         const define: DefMap = {
             DEBUG: JSON.stringify(!minify),
             JS_EXT: JSON.stringify(JS_EXT + ".js")
@@ -110,13 +121,13 @@ export class Build {
         return esbuild({
             platform: "browser",
             color: true,
-            outbase: "src",
             logLevel: "warning",
             format: "esm",
             target: "es2019",
             bundle: true,
             sourcemap: true,
             entryPoints,
+            outbase: this.outbase,
             outdir: this.outDirName,
             entryNames,
             define,

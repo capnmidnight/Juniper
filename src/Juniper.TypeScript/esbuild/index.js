@@ -14,11 +14,16 @@ export class Build {
     externals = new Array();
     globalExternals = new Array();
     isWatch;
+    entryNames = "[dir]/[name]";
+    outbase = "src";
     rootDirName = "src/";
     outDirName = "wwwroot/js/";
     constructor(args) {
-        args.sort();
         this.isWatch = args.indexOf("--watch") !== -1;
+    }
+    entryName(name) {
+        this.entryNames = name;
+        return this;
     }
     rootDir(name) {
         this.rootDirName = normalizeDirName(name);
@@ -26,6 +31,10 @@ export class Build {
     }
     outDir(name) {
         this.outDirName = normalizeDirName(name);
+        return this;
+    }
+    outBase(name) {
+        this.outbase = name;
         return this;
     }
     plugin(pgn) {
@@ -65,7 +74,7 @@ export class Build {
     }
     makeBundle(entryPoints, name, minify) {
         const JS_EXT = minify ? ".min" : "";
-        const entryNames = `[dir]/[name]${JS_EXT}`;
+        const entryNames = this.entryNames + JS_EXT;
         const define = {
             DEBUG: JSON.stringify(!minify),
             JS_EXT: JSON.stringify(JS_EXT + ".js")
@@ -85,13 +94,13 @@ export class Build {
         return esbuild({
             platform: "browser",
             color: true,
-            outbase: "src",
             logLevel: "warning",
             format: "esm",
             target: "es2019",
             bundle: true,
             sourcemap: true,
             entryPoints,
+            outbase: this.outbase,
             outdir: this.outDirName,
             entryNames,
             define,
