@@ -2,7 +2,7 @@ using Juniper.IO;
 using Juniper.Logging;
 using Juniper.Processes;
 
-namespace Juniper.TSWatcher
+namespace Juniper.TSBuild
 {
     public class CommandProxier : ILoggingSource
     {

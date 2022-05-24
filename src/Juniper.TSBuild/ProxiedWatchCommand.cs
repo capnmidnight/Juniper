@@ -1,6 +1,6 @@
 using Juniper.Processes;
 
-namespace Juniper.TSWatcher
+namespace Juniper.TSBuild
 {
     public class ProxiedWatchCommand : AbstractShellCommand
     {
