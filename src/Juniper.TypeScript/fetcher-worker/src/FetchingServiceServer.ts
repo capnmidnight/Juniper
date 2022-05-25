@@ -12,7 +12,7 @@ export class FetchingServiceServer extends WorkerServer {
     }
 }
 
-function getContent<T extends Transferable>(response: IResponse<T>): Array<Transferable> {
+function getContent<T extends Transferable | OffscreenCanvas>(response: IResponse<T>): Array<Transferable | OffscreenCanvas> {
     return [response.content];
 }
 

@@ -55,7 +55,7 @@ export class WorkerClient<EventsT = void> extends TypedEventBase<EventsT> implem
         });
     }
 
-    private postMessage(message: WorkerClientMethodCallMessage, transferables?: Transferable[]) {
+    private postMessage(message: WorkerClientMethodCallMessage, transferables?: (Transferable | OffscreenCanvas)[]) {
         if (message.type !== "methodCall") {
             assertNever(message.type);
         }
@@ -130,7 +130,7 @@ export class WorkerClient<EventsT = void> extends TypedEventBase<EventsT> implem
      * @param transferables - any values in any of the parameters that should be transfered instead of copied to the worker thread.
      * @param prog - a callback for receiving progress reports on long-running invocations.
      */
-    callMethod<T>(methodName: string, params: any[], transferables: Transferable[], prog?: IProgress): Promise<T>;
+    callMethod<T>(methodName: string, params: any[], transferables: (Transferable | OffscreenCanvas)[], prog?: IProgress): Promise<T>;
 
     /**
      * Execute a method on a round-robin selected worker thread.
@@ -139,14 +139,14 @@ export class WorkerClient<EventsT = void> extends TypedEventBase<EventsT> implem
      * @param transferables - any values in any of the parameters that should be transfered instead of copied to the worker thread.
      * @param prog - a callback for receiving progress reports on long-running invocations.
      */
-    callMethod<T>(methodName: string, parameters?: any[] | IProgress, transferables?: Transferable[] | IProgress, prog?: IProgress): Promise<T | undefined> {
+    callMethod<T>(methodName: string, parameters?: any[] | IProgress, transferables?: (Transferable | OffscreenCanvas)[] | IProgress, prog?: IProgress): Promise<T | undefined> {
         if (!WorkerClient.isSupported) {
             return Promise.reject(new Error("Workers are not supported on this system."));
         }
 
         // Normalize method parameters.
         let params: any[] = null;
-        let tfers: Transferable[] = null;
+        let tfers: (Transferable | OffscreenCanvas)[] = null;
 
         if (isProgressCallback(parameters)) {
             prog = parameters;

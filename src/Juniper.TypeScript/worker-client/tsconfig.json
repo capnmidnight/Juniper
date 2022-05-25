@@ -10,6 +10,10 @@
   ],
 
   "compilerOptions": {
-    "lib": [ "ESNext", "DOM" ]
+    "lib": [ "ESNext", "DOM" ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/@juniper-types"
+    ]
   }
 }

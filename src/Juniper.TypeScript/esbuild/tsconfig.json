@@ -15,6 +15,10 @@
   "compilerOptions": {
     "lib": [ "ESNext", "ESNext.Array" ],
     "noEmit": false,
-    "sourceMap": true
+    "sourceMap": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/@juniper-types"
+    ]
   }
 }

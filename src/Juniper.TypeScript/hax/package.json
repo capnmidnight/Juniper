@@ -7,7 +7,7 @@
     "@juniper/tslib": "file:../tslib"
   },
   "devDependencies": {
-    "@types/extra-types": "file:../extra-types",
+    "@juniper-types/extra-types": "1.0.2",
     "typescript": "4.6.4"
   }
 }

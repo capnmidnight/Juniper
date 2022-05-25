@@ -3,7 +3,7 @@ import { WorkerClientMethodCallMessage, WorkerServerErrorMessage, WorkerServerEv
 
 type workerServerMethod = (taskID: number, ...params: any[]) => Promise<void>;
 
-type createTransferableCallback<T> = (returnValue: T) => Transferable[];
+type createTransferableCallback<T> = (returnValue: T) => (Transferable | OffscreenCanvas)[];
 
 type Executor<T> = (...params: any[]) => Promise<T>;
 
@@ -50,7 +50,7 @@ export class WorkerServer {
         });
     }
 
-    postMessage(message: WorkerServerMessages, transferables?: Transferable[]): void {
+    postMessage(message: WorkerServerMessages, transferables?: (Transferable | OffscreenCanvas)[]): void {
         if (isDefined(transferables)) {
             this.self.postMessage(message, transferables);
         }

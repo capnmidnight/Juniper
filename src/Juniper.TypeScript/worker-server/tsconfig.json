@@ -10,6 +10,10 @@
   ],
 
   "compilerOptions": {
-    "lib": [ "ESNext", "WebWorker" ]
+    "lib": [ "ESNext", "WebWorker" ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/@juniper-types"
+    ]
   }
 }

@@ -1,8 +1,8 @@
 {
-  "version": "1.0.0",
-  "name": "@types/extra-types",
+  "version": "1.0.2",
+  "name": "@juniper-types/extra-types",
   "description": "TypeScript definitions for extensions available in pages and workers",
-  "private": true,
+  "private": false,
   "main": "",
   "types": "index.d.ts",
   "typeScriptVersion": "4.6",
