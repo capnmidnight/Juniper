@@ -12,7 +12,7 @@
   "devDependencies": {
     "@types/dom-mediacapture-record": "1.0.11",
     "@types/dom-types": "file:../dom-types",
-    "@juniper-types/extra-types": "1.0.2",
+    "@juniper-types/extra-types": "file:../extra-types",
     "typescript": "4.6.4"
   }
 }
