@@ -17,7 +17,7 @@
     "webxr-polyfill": "2.0.3"
   },
   "devDependencies": {
-    "@types/dom-types": "file:../dom-types",
+    "@juniper-types/dom-types": "file:../dom-types",
     "@juniper-types/extra-types": "file:../extra-types",
     "@types/three": "0.140.0",
     "@types/webxr": "0.4.0",

@@ -10,9 +10,3 @@ interface HTMLMediaElement {
     captureStream?: () => MediaStream;
     mozCaptureStream?: () => MediaStream;
 }
-
-//interface HTMLAudioElement {
-//}
-
-//interface HTMLVideoElement {
-//}

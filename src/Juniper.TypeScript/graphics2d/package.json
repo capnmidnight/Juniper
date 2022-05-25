@@ -12,7 +12,7 @@
     "pdfjs-dist": "2.13.216"
   },
   "devDependencies": {
-    "@types/dom-types": "file:../dom-types",
+    "@juniper-types/dom-types": "file:../dom-types",
     "@juniper-types/extra-types": "file:../extra-types",
     "typescript": "4.6.4"
   }

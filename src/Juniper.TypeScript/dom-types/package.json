@@ -1,12 +1,17 @@
 {
+  "name": "@juniper-types/dom-types",
   "version": "1.0.0",
-  "name": "@types/audio-types",
-  "description": "TypeScript definitions for HTMLAudioElement setSinkId",
-  "private": true,
-  "main": "",
-  "types": "index.d.ts",
-  "typeScriptVersion": "4.6",
-  "devDependencies": {
+  "description": "Extra DOM-related types that aren't likely to end up in DefinitelyTyped",
+  "dependencies": {
     "typescript": "4.6.4"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "github.com/capnmidnight/Juniper"
+  },
+  "author": "Sean T. McBeth <sean.mcbeth@gmail.com>",
+  "license": "MIT",
+  "types": "./index.d.ts",
+  "typeScriptVersion": "4.6"
 }

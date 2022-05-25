@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@juniper/esbuild": "file:../esbuild",
-    "@types/dom-types": "file:../dom-types",
+    "@juniper-types/dom-types": "file:../dom-types",
     "@juniper-types/extra-types": "file:../extra-types",
     "typescript": "4.6.4"
   }
