@@ -17,6 +17,8 @@ namespace Juniper.TSBuild
         public event EventHandler<StringEventArgs>? Warning;
         public event EventHandler<ErrorEventArgs>? Err;
 
+        private bool ready;
+
         public CommandProxier(DirectoryInfo rootDir)
         {
             Root = rootDir;
@@ -40,7 +42,11 @@ namespace Juniper.TSBuild
                     }
                     else if (cmd.Command == "ready")
                     {
-                        startup.SetResult();
+                        if (!ready)
+                        {
+                            ready = true;
+                            startup.SetResult();
+                        }
                     }
                     else
                     {
@@ -68,12 +74,12 @@ namespace Juniper.TSBuild
             if (proxies.ContainsKey(taskID))
             {
                 var pcmd = proxies[taskID];
-                pcmd.ProxyEnd();
                 proxies.Remove(taskID);
+                pcmd.ProxyEnd();
             }
         }
 
-        internal async Task Exec(ProxiedWatchCommand pcmd, DirectoryInfo? workingDir, params string[] args)
+        internal void Exec(ProxiedWatchCommand pcmd, DirectoryInfo? workingDir, params string[] args)
         {
             var taskID = ++taskCounter;
             proxies.Add(taskID, pcmd);

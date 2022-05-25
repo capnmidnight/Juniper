@@ -6,7 +6,7 @@ namespace Juniper.TSBuild
     {
         private readonly CommandProxier proxy;
         private readonly string[] pathParts;
-        private readonly TaskCompletionSource completer = new();
+        private readonly TaskCompletionSource completer = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
         public ProxiedWatchCommand(CommandProxier proxy, params string[] pathParts)
             : base("watch " + pathParts.Join(Path.DirectorySeparatorChar))
@@ -17,7 +17,7 @@ namespace Juniper.TSBuild
 
         public override async Task RunAsync()
         {
-            await proxy.Exec(this, proxy.Root.CD(pathParts), "npm", "run", "watch");
+            proxy.Exec(this, proxy.Root.CD(pathParts), "npm", "run", "watch");
             await completer.Task;
         }
 

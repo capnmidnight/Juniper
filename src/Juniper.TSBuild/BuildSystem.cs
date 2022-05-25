@@ -498,7 +498,8 @@ namespace Juniper.TSBuild
                     var taskCompleter = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
                     bundle.OnStandardOutput(watchAllDonePattern, () =>
                     {
-                        taskCompleter.SetResult();
+                        taskCompleter?.SetResult();
+                        taskCompleter = null;
                     });
                     return taskCompleter.Task;
                 })
