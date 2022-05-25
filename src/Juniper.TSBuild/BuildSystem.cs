@@ -1,8 +1,8 @@
 using Juniper.Logging;
 using Juniper.Processes;
+using Juniper.Terminal;
 using Juniper.Units;
 
-using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace Juniper.TSBuild
@@ -27,6 +27,28 @@ namespace Juniper.TSBuild
 
     public class BuildSystem : ILoggingSource
     {
+        delegate void Writer(string format, params object[] args);
+
+        static string Colorize(string tag, int color, string format, params object[] args)
+        {
+            return string.Format("\u001b[{0}m{1}:\u001b[0m {2}", color, tag, string.Format(format, args));
+        }
+
+        static void WriteError(string format, params object[] values)
+        {
+            Console.Error.WriteLine(Colorize("error", 31, format, values));
+        }
+
+        static void WriteInfo(string format, params object[] values)
+        {
+            Console.WriteLine(Colorize("info", 32, format, values));
+        }
+
+        static void WriteWarning(string format, params object[] values)
+        {
+            Console.WriteLine(Colorize("warn", 33, format, values));
+        }
+
         public static async Task Run(string projectName, BuildSystemOptions options, string[] args)
         {
             var opts = new Options(args);
@@ -79,7 +101,7 @@ namespace Juniper.TSBuild
                 }
                 catch (Exception exp)
                 {
-                    Console.Error.WriteLine("ERR: {0}\r\n{1}", exp.Message, exp.Unroll());
+                    WriteError("{0}\r\n{1}", exp.Message, exp.Unroll());
                 }
             } while (!opts.complete);
 
@@ -138,7 +160,7 @@ namespace Juniper.TSBuild
         private readonly List<DirectoryInfo> ESBuildProjects = new();
         private readonly List<DirectoryInfo> NPMProjects = new();
 
-        private DirectoryInfo TestDir(string message, DirectoryInfo? dir)
+        private static DirectoryInfo TestDir(string message, DirectoryInfo? dir)
         {
             if (dir?.Exists != true)
             {
@@ -197,29 +219,18 @@ namespace Juniper.TSBuild
                 AddDependency(From("jquery", "dist", "jquery.min.js"), To("jquery", "index.min.js"));
             }
 
-            Info += (sender, e) =>
-            {
-                Console.WriteLine($"Build Info: {e.Value}");
-            };
-
-            Warning += (sender, e) =>
-            {
-                Console.WriteLine($"Build Warning: {e.Value}");
-            };
-
-            Err += (sender, e) =>
-            {
-                Console.Error.WriteLine($"Build Err: {e.Value.Unroll()}");
-            };
+            Info += (sender, e) => WriteInfo(e.Value);
+            Warning += (sender, e) => WriteWarning(e.Value);
+            Err += (sender, e) => WriteError(e.Value.Unroll());
         }
 
         private void CheckProject(DirectoryInfo project, BuildSystemOptions options)
         {
             var includeInBuild = project == projectDir
-                    || project.Name == "environment" && options.IncludEnvironment
-                    || project.Name == "fetcher-worker" && options.IncludeFetcher
-                    || project.Name == "physics-worker" && options.IncludePhysics
-                    || project.Name == "tele" && options.IncludeTeleconferencing;
+                    || (project.Name == "environment" && options.IncludEnvironment)
+                    || (project.Name == "fetcher-worker" && options.IncludeFetcher)
+                    || (project.Name == "physics-worker" && options.IncludePhysics)
+                    || (project.Name == "tele" && options.IncludeTeleconferencing);
 
             var pkgFile = project.Touch("package.json");
             if (pkgFile.Exists)
@@ -243,7 +254,7 @@ namespace Juniper.TSBuild
             }
         }
 
-        private DirectoryInfo FindJuniperDir(DirectoryInfo? startDir)
+        private static DirectoryInfo FindJuniperDir(DirectoryInfo? startDir)
         {
             while (startDir is not null)
             {
@@ -302,18 +313,18 @@ namespace Juniper.TSBuild
                 : Level.Low;
         }
 
-        private static async Task WithCommandTree(Action<CommandTree> buildTree)
+        private async Task WithCommandTree(Action<CommandTree> buildTree)
         {
             var commands = new CommandTree();
             commands.Info += (sender, e) =>
             {
                 if (sender is ICommand command)
                 {
-                    Console.WriteLine($"Info [{command.CommandName}]: {e.Value}");
+                    OnInfo($"[{command.CommandName}]: {e.Value}");
                 }
                 else
                 {
-                    Console.WriteLine($"Info: {e.Value}");
+                    OnInfo(e.Value);
                 }
             };
 
@@ -321,11 +332,11 @@ namespace Juniper.TSBuild
             {
                 if (sender is ICommand command)
                 {
-                    Console.WriteLine($"Warning [{command.CommandName}]: {e.Value}");
+                    OnWarning($"[{command.CommandName}]: {e.Value}");
                 }
                 else
                 {
-                    Console.WriteLine($"Warning: {e.Value}");
+                    OnWarning(e.Value);
                 }
             };
 
@@ -333,11 +344,11 @@ namespace Juniper.TSBuild
             {
                 if (sender is ICommand command)
                 {
-                    Console.Error.WriteLine($"Err [{command.CommandName}]: {e.Value.Unroll()}");
+                    OnError(new Exception(command.CommandName, e.Value));
                 }
                 else
                 {
-                    Console.Error.WriteLine($"Err: {e.Value.Unroll()}");
+                    OnError(e.Value);
                 }
             };
 
@@ -348,7 +359,7 @@ namespace Juniper.TSBuild
             var end = DateTime.Now;
             var delta = end - start;
 
-            Console.WriteLine($"Build finished in {delta.TotalSeconds:0.00}s");
+            OnInfo($"Build finished in {delta.TotalSeconds:0.00}s");
         }
 
         public void DeleteNodeModules()
@@ -540,7 +551,7 @@ namespace Juniper.TSBuild
             if (!string.IsNullOrEmpty(version))
             {
                 await CopyJsonValueCommand.WriteJsonValueAsync(projectAppSettings, "Version", version);
-                Console.WriteLine("Wrote v" + version);
+                OnInfo("Wrote v" + version);
             }
         }
 
