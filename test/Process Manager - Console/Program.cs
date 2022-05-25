@@ -1,5 +1,5 @@
 using Juniper.Processes;
-using Juniper.TSWatcher;
+using Juniper.TSBuild;
 
 using static System.Console;
 

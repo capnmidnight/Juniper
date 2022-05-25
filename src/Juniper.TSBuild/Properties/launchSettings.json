@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Juniper.TSBuild": {
+      "commandName": "Project",
+      "commandLineArgs": "--interactive"
+    }
+  }
+}

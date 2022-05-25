@@ -10,7 +10,7 @@ namespace Juniper.TSBuild
         private readonly ShellCommand processManager;
         private readonly JsonFactory<CommandProxyDescription> cmdFactory = new() { Formatting = Newtonsoft.Json.Formatting.None };
         private readonly Dictionary<int, ProxiedWatchCommand> proxies = new();
-        private readonly Task startup;
+        private readonly TaskCompletionSource startup = new (TaskCreationOptions.RunContinuationsAsynchronously);
         private int taskCounter = 0;
 
         public event EventHandler<StringEventArgs>? Info;
@@ -20,10 +20,6 @@ namespace Juniper.TSBuild
         public CommandProxier(DirectoryInfo rootDir)
         {
             Root = rootDir;
-
-
-            var starter = new TaskCompletionSource();
-            startup = starter.Task;
 
             processManager = new ShellCommand("Juniper.ProcessManager", Environment.ProcessId.ToString());
             processManager.Info += (_, e) =>
@@ -44,7 +40,7 @@ namespace Juniper.TSBuild
                     }
                     else if (cmd.Command == "ready")
                     {
-                        starter.SetResult();
+                        startup.SetResult();
                     }
                     else
                     {
@@ -59,7 +55,12 @@ namespace Juniper.TSBuild
 
             processManager.Warning += (_, e) => Warning?.Invoke(this, e);
             processManager.Err += (_, e) => Err?.Invoke(this, e);
-            _ = processManager.RunAsync();
+        }
+
+        public Task Start()
+        {
+            processManager.RunAsync();
+            return startup.Task;
         }
 
         private void EndTask(int taskID)
@@ -76,7 +77,6 @@ namespace Juniper.TSBuild
         {
             var taskID = ++taskCounter;
             proxies.Add(taskID, pcmd);
-            await startup;
             var cmd = cmdFactory.ToString(new CommandProxyDescription(taskID, workingDir, "exec", args));
             processManager.Send(cmd);
         }

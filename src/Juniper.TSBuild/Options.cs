@@ -31,8 +31,6 @@ namespace Juniper.TSBuild
             return (value) => SetFlag(name, value);
         }
 
-        public DirectoryInfo? workingDir = null;
-
         public bool interactive;
         public bool complete = true;
         private bool parseLevel;
@@ -74,29 +72,25 @@ namespace Juniper.TSBuild
                 .Where(cmd => cmd.Flag is not null)
                 .ToArray();
 
-            var lastOpt = args
-                .Where(ProcessArg)
-                .FirstOrDefault();
-
-            if (!string.IsNullOrEmpty(lastOpt))
+            foreach (var arg in args)
             {
-                workingDir = new DirectoryInfo(lastOpt);
+                ProcessArg(arg);
             }
         }
 
-        private bool ProcessArg(string arg)
+        private void ProcessArg(string arg)
         {
             if (arg == "--interactive")
             {
                 interactive = true;
                 complete = false;
-                return false;
+                return;
             }
 
             if (arg == "--level")
             {
                 parseLevel = true;
-                return false;
+                return;
             }
 
             if (parseLevel)
@@ -110,7 +104,7 @@ namespace Juniper.TSBuild
                     level = Enum.Parse<Level>(arg);
                 }
                 parseLevel = false;
-                return false;
+                return;
             }
 
             foreach (var cmd in flagCommands)
@@ -118,11 +112,11 @@ namespace Juniper.TSBuild
                 if (cmd.Flag == arg)
                 {
                     cmd.Action(WarnIfAnyOnly(arg));
-                    return false;
+                    return;
                 }
             }
 
-            return true;
+            return;
         }
 
         private bool WarnIfAnyOnly(string arg)

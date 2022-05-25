@@ -1,15 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Juniper.Processes\Juniper.Processes.csproj" />
-    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Juniper.Processes\Juniper.Processes.csproj" />
+		<ProjectReference Include="..\Juniper.ProcessManager\Juniper.ProcessManager.csproj">
+			<ReferenceOutputAssembly>True</ReferenceOutputAssembly>
+		</ProjectReference>
+		<ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+	</ItemGroup>
 
 
 </Project>

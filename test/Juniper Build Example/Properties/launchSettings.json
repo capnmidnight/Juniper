@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Juniper Build Example": {
+      "commandName": "Project",
+      "commandLineArgs": "--interactive"
+    }
+  }
+}

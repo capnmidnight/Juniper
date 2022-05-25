@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+	  <TargetFramework>net6.0</TargetFramework>
+	  <RuntimeIdentifiers>win-x86;win-x64;linux-x64;osx-x64;osx-arm64</RuntimeIdentifiers>
+	  <RootNamespace>Juniper.Examples</RootNamespace>
+	  <UserSecretsId>6dce2b4c-ea2e-47c8-9a46-1c9f0ab49ba0</UserSecretsId>
+	  <AssemblyName>Juniper.Examples - Web</AssemblyName>
+	  <StartupObject>Juniper.Examples.Program</StartupObject>
+	  <ImplicitUsings>true</ImplicitUsings>
+	  <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+	  <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.ASPNetCore.Hosting.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.4" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Systemd" Version="6.0.0" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.3" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Juniper.Root\Juniper.Root.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.Server\Juniper.Server.csproj" />
+    <ProjectReference Include="..\..\src\Juniper.TSBuild\Juniper.TSBuild.csproj" />
+  </ItemGroup>
+
+</Project>

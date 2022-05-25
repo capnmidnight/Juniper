@@ -14,51 +14,26 @@ namespace Juniper.TSBuild
         { }
     }
 
+    public struct BuildSystemOptions
+    {
+        public bool IncludeThreeJS { get; set; }
+        public bool IncludEnvironment { get; set; }
+        public bool IncludePDFJS { get; set; }
+        public bool IncludeJQuery { get; set; }
+        public bool IncludeFetcher { get; set; }
+        public bool IncludePhysics { get; set; }
+        public bool IncludeTeleconferencing { get; set; }
+    }
+
     public class BuildSystem : ILoggingSource
     {
-        public static async Task Run(string projectName, string[] args)
+        public static async Task Run(string projectName, BuildSystemOptions options, string[] args)
         {
             var opts = new Options(args);
 
             var build = new BuildSystem(
                 projectName,
-                opts.workingDir);
-
-            build.Info += (sender, e) =>
-            {
-                if (sender is ICommand command)
-                {
-                    Console.WriteLine($"Build Info [{command.CommandName}]: {e.Value}");
-                }
-                else
-                {
-                    Console.WriteLine($"Build Info: {e.Value}");
-                }
-            };
-
-            build.Warning += (sender, e) =>
-            {
-                if (sender is ICommand command)
-                {
-                    Console.WriteLine($"Build Warning [{command.CommandName}]: {e.Value}");
-                }
-                else
-                {
-                    Console.WriteLine($"Build Warning: {e.Value}");
-                }
-            };
-
-            build.Err += (sender, e) =>
-            {
-                if (sender is ICommand command)
-                {
-                    Console.Error.WriteLine($"Build Err [{command.CommandName}]: {e.Value.Unroll()}");
-                }
-                else
-                {
-                    Console.Error.WriteLine($"Build Err: {e.Value.Unroll()}");
-                }
-            };
+                options);
 
             do
             {
@@ -99,9 +74,7 @@ namespace Juniper.TSBuild
                     }
                     else if (opts.level > Level.None)
                     {
-                        await build
-                            .AddDefaultDependencies()
-                            .CheckAsync(false, opts.level);
+                        await build.CheckAsync(false, opts.level);
                     }
                 }
                 catch (Exception exp)
@@ -129,7 +102,8 @@ namespace Juniper.TSBuild
             "index.min.js.map"
         };
 
-        private static string[] AllFileNames => basicFileNames.Union(minifiedFileNames).ToArray();
+        private static string[] AllFileNames =>
+            basicFileNames.Union(minifiedFileNames).ToArray();
 
         protected static IEnumerable<ICommand> Copy(Por por, DirectoryInfo outputDir, params DirectoryInfo[] inputDirs)
         {
@@ -151,39 +125,6 @@ namespace Juniper.TSBuild
                    select new CopyCommand(fromDir.Touch(file), toDir.Touch(file));
         }
 
-        protected static IEnumerable<ICommand> Delete(params FileInfo[] files)
-        {
-            return Delete(files.AsEnumerable());
-        }
-
-        protected static IEnumerable<ICommand> Delete(IEnumerable<FileInfo> files)
-        {
-            return from file in files
-                   where file.Exists
-                   select new DeleteCommand(file);
-        }
-
-        protected static IEnumerable<ShellCommand> NPM(string cmd, params DirectoryInfo[] dirs)
-        {
-            return NPM(cmd, dirs.AsEnumerable());
-        }
-
-        protected static IEnumerable<ShellCommand> NPM(string cmd, IEnumerable<DirectoryInfo> dirs)
-        {
-            return from dir in dirs
-                   select new ShellCommand(dir, "npm", cmd);
-        }
-
-        protected static ProxiedWatchCommand ProxiedNPM(CommandProxier proxy, params string[] pathParts)
-        {
-            return new ProxiedWatchCommand(proxy, pathParts);
-        }
-
-        protected static ProxiedWatchCommand ProxiedNPM(CommandProxier proxy, IEnumerable<string> pathParts)
-        {
-            return ProxiedNPM(proxy, pathParts.ToArray());
-        }
-
         private readonly DirectoryInfo projectDir;
         private readonly DirectoryInfo projectJsDir;
         private readonly DirectoryInfo projectNodeModules;
@@ -191,11 +132,11 @@ namespace Juniper.TSBuild
         private readonly FileInfo projectPackage;
         private readonly FileInfo projectBuildInfo;
         private readonly FileInfo projectAppSettings;
-        private readonly List<DirectoryInfo> juniperInstallables = new();
-        private readonly List<DirectoryInfo> juniperTSProjects = new();
-        private readonly List<DirectoryInfo> juniperBuildables = new();
-        private readonly List<DirectoryInfo> juniperBundles = new();
         private readonly Dictionary<FileInfo, FileInfo> dependencies = new();
+
+        private readonly List<DirectoryInfo> TSProjects = new();
+        private readonly List<DirectoryInfo> ESBuildProjects = new();
+        private readonly List<DirectoryInfo> NPMProjects = new();
 
         private DirectoryInfo TestDir(string message, DirectoryInfo? dir)
         {
@@ -207,24 +148,19 @@ namespace Juniper.TSBuild
             return dir;
         }
 
-        public BuildSystem(string projectName, DirectoryInfo? startDir)
+        public BuildSystem(string projectName, BuildSystemOptions options)
         {
-            var originalStartDir = startDir;
-            startDir ??= new DirectoryInfo(Environment.CurrentDirectory);
+            var startDir = new DirectoryInfo(Environment.CurrentDirectory);
 
             while (startDir != null
-                && !startDir.EnumerateDirectories()
-                    .Select(x => x.Name)
-                    .Contains(projectName))
+                && !startDir.CD(projectName).Exists)
             {
                 startDir = startDir.Parent;
             }
 
-            startDir = TestDir($"Couldn't find project root from {originalStartDir}", startDir);
+            startDir = TestDir($"Couldn't find project root from {Environment.CurrentDirectory}", startDir);
 
-            var juniperDir = TestDir("Couldn't find Juniper", startDir
-                .EnumerateDirectories()
-                .FirstOrDefault(n => n.Name == "Juniper"));
+            var juniperDir = FindJuniperDir(startDir);
 
             juniperTsDir = TestDir("Couldn't find Juniper TypeScript", juniperDir.CD("src", "Juniper.TypeScript"));
             projectDir = TestDir($"Couldn't find project {projectName} from {startDir}", startDir.CD(projectName));
@@ -235,43 +171,92 @@ namespace Juniper.TSBuild
             projectBuildInfo = projectDir.Touch("buildinfo.json");
             projectAppSettings = projectDir.Touch("appsettings.json");
 
-            var projects = juniperTsDir.EnumerateDirectories();
+            var projects = juniperTsDir.EnumerateDirectories()
+                .Append(projectDir);
 
             foreach (var project in projects)
             {
-                var pkgFile = project.Touch("package.json");
-                if (pkgFile.Exists)
+                CheckProject(project, options);
+            }
+
+            if (options.IncludeThreeJS)
+            {
+                AddDependency(From("three", "build", "three.js"), To("three", "index.js"));
+                AddDependency(From("three", "build", "three.min.js"), To("three", "index.min.js"));
+            }
+
+            if (options.IncludePDFJS)
+            {
+                AddDependency(From("pdfjs-dist", "build", "pdf.worker.js"), To("pdfjs", "index.js"));
+                AddDependency(From("pdfjs-dist", "build", "pdf.worker.min.js"), To("pdfjs", "index.min.js"));
+            }
+
+            if (options.IncludeJQuery)
+            {
+                AddDependency(From("jquery", "dist", "jquery.js"), To("jquery", "index.js"));
+                AddDependency(From("jquery", "dist", "jquery.min.js"), To("jquery", "index.min.js"));
+            }
+
+            Info += (sender, e) =>
+            {
+                Console.WriteLine($"Build Info: {e.Value}");
+            };
+
+            Warning += (sender, e) =>
+            {
+                Console.WriteLine($"Build Warning: {e.Value}");
+            };
+
+            Err += (sender, e) =>
+            {
+                Console.Error.WriteLine($"Build Err: {e.Value.Unroll()}");
+            };
+        }
+
+        private void CheckProject(DirectoryInfo project, BuildSystemOptions options)
+        {
+            var includeInBuild = project == projectDir
+                    || project.Name == "environment" && options.IncludEnvironment
+                    || project.Name == "fetcher-worker" && options.IncludeFetcher
+                    || project.Name == "physics-worker" && options.IncludePhysics
+                    || project.Name == "tele" && options.IncludeTeleconferencing;
+
+            var pkgFile = project.Touch("package.json");
+            if (pkgFile.Exists)
+            {
+                NPMProjects.Add(project);
+            }
+
+            var tsConfigFile = project.Touch("tsconfig.json");
+            if (tsConfigFile.Exists)
+            {
+                TSProjects.Add(project);
+            }
+
+            if (includeInBuild)
+            {
+                var esbuildFile = project.Touch("esbuild.config.js");
+                if (esbuildFile.Exists)
                 {
-                    using var pkgStream = pkgFile.OpenRead();
-                    var pkg = JsonSerializer.Deserialize<NPMPackage>(pkgStream);
-                    if (pkg is null)
-                    {
-                        continue;
-                    }
-
-                    if ((pkg.dependencies?.Count ?? 0) > 0
-                        || (pkg.devDependencies?.Count ?? 0) > 0)
-                    {
-                        juniperInstallables.Add(project);
-                    }
-
-                    if (pkg.scripts?.ContainsKey("build") == true)
-                    {
-                        juniperBuildables.Add(project);
-                    }
-
-                    if (project.EnumerateFiles().Any(f => f.Name == "esbuild.config.js"))
-                    {
-                        juniperBundles.Add(project);
-                    }
-                }
-
-                var tsConfigFile = project.Touch("tsconfig.json");
-                if (tsConfigFile.Exists)
-                {
-                    juniperTSProjects.Add(project);
+                    ESBuildProjects.Add(project);
                 }
             }
+        }
+
+        private DirectoryInfo FindJuniperDir(DirectoryInfo? startDir)
+        {
+            while (startDir is not null)
+            {
+                var test = startDir.CD("Juniper");
+                if (test.Exists)
+                {
+                    return test;
+                }
+
+                startDir = startDir.Parent;
+            }
+
+            throw new Exception("Couldn't find Juniper");
         }
 
         public BuildSystem AddDependency(FileInfo from, FileInfo to)
@@ -293,35 +278,6 @@ namespace Juniper.TSBuild
         public FileInfo To(params string[] parts)
         {
             return R(projectJsDir, parts);
-        }
-
-        public BuildSystem AddThreeJS()
-        {
-            AddDependency(From("three", "build", "three.js"), To("three", "index.js"));
-            AddDependency(From("three", "build", "three.min.js"), To("three", "index.min.js"));
-            return this;
-        }
-
-        public BuildSystem AddJQuery()
-        {
-            AddDependency(From("jquery", "dist", "jquery.js"), To("jquery", "index.js"));
-            AddDependency(From("jquery", "dist", "jquery.min.js"), To("jquery", "index.min.js"));
-            return this;
-        }
-
-        public BuildSystem AddPDFJS()
-        {
-            AddDependency(From("pdfjs-dist", "build", "pdf.worker.js"), To("pdfjs", "index.js"));
-            AddDependency(From("pdfjs-dist", "build", "pdf.worker.min.js"), To("pdfjs", "index.min.js"));
-            return this;
-        }
-
-        public BuildSystem AddDefaultDependencies()
-        {
-            AddThreeJS();
-            AddJQuery();
-            AddPDFJS();
-            return this;
         }
 
         private async Task<Level> GetBuildLevel(bool isDev, Level forceLevel)
@@ -392,22 +348,12 @@ namespace Juniper.TSBuild
             var end = DateTime.Now;
             var delta = end - start;
 
-            Console.WriteLine($"Done in {delta.TotalSeconds:0.00}s");
-        }
-
-        private IEnumerable<T> FSInfo<T>(Func<DirectoryInfo, T> selector)
-            where T : FileSystemInfo
-        {
-            return juniperTsDir
-                .EnumerateDirectories()
-                .Append(projectDir)
-                .Select(selector)
-                .Where(v => v.Exists);
+            Console.WriteLine($"Build finished in {delta.TotalSeconds:0.00}s");
         }
 
         public void DeleteNodeModules()
         {
-            foreach (var dir in FSInfo(dir => dir.CD("node_modules")))
+            foreach (var dir in NPMProjects)
             {
                 for (int attempts = 2; attempts > 0; attempts--)
                 {
@@ -430,7 +376,9 @@ namespace Juniper.TSBuild
 
         public void DeletePackageLocks()
         {
-            foreach (var lockFile in FSInfo(dir => dir.Touch("package-lock.json")))
+            foreach (var lockFile in NPMProjects
+                .Select(dir => dir.Touch("package-lock.json"))
+                .Where(f => f.Exists))
             {
                 for (int attempts = 2; attempts > 0; attempts--)
                 {
@@ -451,19 +399,9 @@ namespace Juniper.TSBuild
             }
         }
 
-
         private IEnumerable<NPMInstallCommand> GetInstallCommands(Level buildLevel)
         {
-            IEnumerable<DirectoryInfo> projects = buildLevel == Level.High
-                ? juniperInstallables
-                : juniperBuildables;
-
-            if (projectDir.Touch("package.json").Exists)
-            {
-                projects = projects.Append(projectDir);
-            }
-
-            return projects.Select(dir =>
+            return NPMProjects.Select(dir =>
                 new NPMInstallCommand(dir, buildLevel == Level.High));
         }
 
@@ -473,30 +411,25 @@ namespace Juniper.TSBuild
                 commands.AddCommands(GetInstallCommands(Level.High)));
         }
 
-        private IEnumerable<TSBuildCommand> GetTSBuildCommands()
-        {
-            return FSInfo(dir => dir.Touch("tsconfig.json"))
-                .Select(f => new TSBuildCommand(f.Directory));
-        }
-
         public async Task TSBuildAsync()
         {
             await WithCommandTree(commands =>
-                commands.AddCommands(GetTSBuildCommands()));
+                commands.AddCommands(TSProjects.Select(dir =>
+                    new TSBuildCommand(dir))));
         }
 
         public async Task AuditAsync()
         {
             await WithCommandTree(commands =>
-                commands.AddCommands(NPM("audit", juniperBuildables
-                    .Append(projectDir))));
+                commands.AddCommands(NPMProjects.Select(dir =>
+                    new ShellCommand(dir, "npm", "audit"))));
         }
 
         public async Task AuditFixAsync()
         {
             await WithCommandTree(commands =>
-                commands.AddCommands(NPM("audit fix", juniperBuildables
-                    .Append(projectDir))));
+                commands.AddCommands(NPMProjects.Select(dir =>
+                    new ShellCommand(dir, "npm", "audit fix"))));
         }
 
 
@@ -507,12 +440,6 @@ namespace Juniper.TSBuild
             { Level.Low, "No build" },
             { Level.None, "No build" }
         };
-
-        public BuildSystem Check(bool isDev, Level forceLevel = Level.None)
-        {
-            CheckAsync(isDev, forceLevel).Wait();
-            return this;
-        }
 
         public async Task CheckAsync(bool isDev, Level forceLevel)
         {
@@ -527,22 +454,83 @@ namespace Juniper.TSBuild
 
                 if (buildLevel > Level.Low)
                 {
+                    var juniperBundles = ESBuildProjects
+                            .Where(dir => dir.FullName != projectDir.FullName)
+                            .ToList();
                     commands
-                        .AddCommands(Delete(juniperBuildables
-                            .Append(projectDir)
-                            .Select(d => d.Touch("tsconfig.tsbuildinfo"))))
-                        .AddCommands(NPM("run build", juniperBuildables))
-                        .AddCommands(Copy(Por.All, projectJsDir, juniperBundles))
-                        .AddCommands(NPM("run build", projectDir))
-                        .AddCommands(
-                            new CopyJsonValueCommand(
-                                projectPackage, "version",
-                                projectAppSettings, "Version"),
-                            new CopyJsonValueCommand(
-                                projectPackage, "version",
-                                projectBuildInfo, "Version"));
+                        .AddCommands(juniperBundles
+                            .Select(dir => new ShellCommand(dir, "npm", "run build")))
+                        .AddCommands(Copy(Por.All, projectJsDir, juniperBundles));
+
+                    if (projectDir.Touch("package.json").Exists)
+                    {
+                        commands.AddCommands(new ShellCommand(projectDir, "npm", "run build"));
+                    }
+
+                    commands.AddCommands(
+                        new CopyJsonValueCommand(
+                            projectPackage, "version",
+                            projectAppSettings, "Version"),
+                        new CopyJsonValueCommand(
+                            projectPackage, "version",
+                            projectBuildInfo, "Version"));
                 }
             });
+        }
+
+        public async Task Watch()
+        {
+            var proxy = new CommandProxier(projectDir);
+            proxy.Info += Proxy_Info;
+            proxy.Warning += Proxy_Warning;
+            proxy.Err += Proxy_Err;
+            await proxy.Start();
+
+            await CheckAsync(true, Level.None);
+
+            var bundles = ESBuildProjects
+                .Select(dir => MakeWatchCommand(proxy, dir))
+                .ToArray();
+
+            var tasks = bundles
+                .Select(bundle =>
+                {
+                    var taskCompleter = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                    bundle.OnStandardOutput(watchAllDonePattern, () =>
+                    {
+                        taskCompleter.SetResult();
+                    });
+                    return taskCompleter.Task;
+                })
+                .ToArray();
+
+            var runAll = Task.WhenAll(bundles
+                .Select(b => b.RunSafeAsync())
+                .ToArray());
+
+            await Task.WhenAll(tasks);
+        }
+
+        private AbstractShellCommand MakeWatchCommand(CommandProxier proxy, DirectoryInfo dir)
+        {
+            var parts = PathExt.Abs2Rel(dir.FullName, proxy.Root.FullName);
+            var cmd = new ProxiedWatchCommand(proxy, parts);
+            cmd.Info += Proxy_Info;
+            cmd.Err += Proxy_Err;
+            cmd.Warning += Proxy_Warning;
+            if (dir != projectDir)
+            {
+                cmd.OnStandardOutput(
+                    watchAllDonePattern,
+                    Copy(Por.All, projectJsDir, dir))
+                .OnStandardOutput(
+                    watchBasicDonePattern,
+                    Copy(Por.Basic, projectJsDir, dir))
+                .OnStandardOutput(
+                    watchMinifiedDonePattern,
+                    Copy(Por.Minified, projectJsDir, dir));
+            }
+            return cmd;
         }
 
         public async Task WriteVersion()
@@ -559,70 +547,47 @@ namespace Juniper.TSBuild
         private static readonly Regex watchBasicDonePattern = new("^browser bundles rebuilt$", RegexOptions.Compiled);
         private static readonly Regex watchMinifiedDonePattern = new("^minified browser bundles rebuilt$", RegexOptions.Compiled);
 
-        public IEnumerable<AbstractShellCommand> GetJuniperProxiedWatchCommands(CommandProxier proxy)
-        {
-            var relPath = PathExt.Abs2Rel(juniperTsDir.FullName, proxy.Root.FullName);
-            var pathParts = relPath.SplitX(Path.DirectorySeparatorChar);
-            return juniperBundles
-                .Select(dir => ProxiedNPM(proxy, pathParts.Append(dir.Name).ToArray())
-                    .OnStandardOutput(
-                        watchAllDonePattern,
-                        Copy(Por.All, projectJsDir, dir))
-                    .OnStandardOutput(
-                        watchBasicDonePattern,
-                        Copy(Por.Basic, projectJsDir, dir))
-                    .OnStandardOutput(
-                        watchMinifiedDonePattern,
-                        Copy(Por.Minified, projectJsDir, dir)))
-                .Append(new ProxiedWatchCommand(proxy, projectDir.Name));
-        }
-
         public event EventHandler<StringEventArgs>? Info;
         public event EventHandler<StringEventArgs>? Warning;
         public event EventHandler<ErrorEventArgs>? Err;
 
         private void OnInfo(string message) => Info?.Invoke(this, new StringEventArgs(message));
-        private void Proxy_Info(object? sender, StringEventArgs e) => OnInfo(e.Value);
-        private void OnWarning(string message) => Warning?.Invoke(this, new StringEventArgs(message));
-        private void Proxy_Warning(object? sender, StringEventArgs e) => OnWarning(e.Value);
-        private void OnError(Exception exp) => Err?.Invoke(this, new ErrorEventArgs(exp));
-        private void Proxy_Err(object? sender, ErrorEventArgs e) => OnError(e.Value);
-
-        public Task Watch(out ICommand[] watchCommands)
+        private void Proxy_Info(object? sender, StringEventArgs e)
         {
-            var proxy = new CommandProxier(projectDir);
-            proxy.Info += Proxy_Info;
-            proxy.Warning += Proxy_Warning;
-            proxy.Err += Proxy_Err;
+            if (sender is ICommand command)
+            {
+                OnInfo($"[{command.CommandName}]: {e.Value}");
+            }
+            else
+            {
+                OnInfo(e.Value);
+            }
+        }
 
-            var juniperRelPath = PathExt.Abs2Rel(juniperTsDir.FullName, proxy.Root.FullName);
-            var juniperPathParts = juniperRelPath.SplitX(Path.DirectorySeparatorChar);
-            var projectRelPath = PathExt.Abs2Rel(projectDir.FullName, proxy.Root.FullName);
-            var projectPathParts = projectRelPath.SplitX(Path.DirectorySeparatorChar);
-            var cmds = juniperBundles
-                .Select(dir => ProxiedNPM(proxy, juniperPathParts.Append(dir.Name).ToArray())
-                    .OnStandardOutput(
-                        watchAllDonePattern,
-                        Copy(Por.All, projectJsDir, dir))
-                    .OnStandardOutput(
-                        watchBasicDonePattern,
-                        Copy(Por.Basic, projectJsDir, dir))
-                    .OnStandardOutput(
-                        watchMinifiedDonePattern,
-                        Copy(Por.Minified, projectJsDir, dir)))
-                .Append(new ProxiedWatchCommand(proxy, projectPathParts))
-                .ToArray();
+        private void OnWarning(string message) => Warning?.Invoke(this, new StringEventArgs(message));
+        private void Proxy_Warning(object? sender, StringEventArgs e)
+        {
+            if (sender is ICommand command)
+            {
+                OnWarning($"[{command.CommandName}]: {e.Value}");
+            }
+            else
+            {
+                OnWarning(e.Value);
+            }
+        }
 
-            watchCommands = cmds;
-
-            return Task.WhenAll(cmds.Select(cmd =>
-                   cmd.ContinueAfter(watchAllDonePattern)))
-                .ContinueWith((task) =>
-                {
-                    proxy.Info -= Proxy_Info;
-                    proxy.Warning -= Proxy_Warning;
-                    proxy.Err -= Proxy_Err;
-                });
+        private void OnError(Exception exp) => Err?.Invoke(this, new ErrorEventArgs(exp));
+        private void Proxy_Err(object? sender, ErrorEventArgs e)
+        {
+            if (sender is ICommand command)
+            {
+                OnError(new Exception($"[{command.CommandName}]:", e.Value));
+            }
+            else
+            {
+                OnError(e.Value);
+            }
         }
     }
 }

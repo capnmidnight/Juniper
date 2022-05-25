@@ -1,0 +1,44 @@
+{
+  "version": "1.0.0",
+  "name": "@juniper/web-examples",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node --experimental-modules esbuild.config.js",
+    "watch": "node --experimental-modules esbuild.config.js --watch"
+  },
+  "devDependencies": {
+    "@juniper/esbuild": "file:../../src/Juniper.TypeScript/esbuild",
+    "@juniper/tdd": "file:../../src/Juniper.TypeScript/testing",
+    "@types/dom-mediacapture-record": "1.0.11",
+    "@types/dom-types": "file:../../src/Juniper.TypeScript/dom-types",
+    "@types/extra-types": "file:../../src/Juniper.TypeScript/extra-types",
+    "@types/three": "0.140.0",
+    "@types/web-bluetooth": "0.0.14",
+    "@types/webxr": "0.4.0",
+    "@typescript/analyze-trace": "0.9.0",
+    "esbuild": "0.14.38",
+    "esbuild-plugin-glsl": "1.1.0",
+    "typescript": "4.6.4"
+  },
+  "dependencies": {
+    "@juniper/2d": "file:../../src/Juniper.TypeScript/graphics2d",
+    "@juniper/audio": "file:../../src/Juniper.TypeScript/audio",
+    "@juniper/ble": "file:../../src/Juniper.TypeScript/ble",
+    "@juniper/dom": "file:../../src/Juniper.TypeScript/dom",
+    "@juniper/emoji": "file:../../src/Juniper.TypeScript/emoji",
+    "@juniper/fetcher": "file:../../src/Juniper.TypeScript/fetcher",
+    "@juniper/fetcher-worker": "file:../../src/Juniper.TypeScript/fetcher-worker",
+    "@juniper/physics": "file:../../src/Juniper.TypeScript/physics",
+    "@juniper/physics-worker": "file:../../src/Juniper.TypeScript/physics-worker",
+    "@juniper/tests": "file:../../src/Juniper.TypeScript/tests",
+    "@juniper/threejs": "file:../../src/Juniper.TypeScript/threejs",
+    "@juniper/tslib": "file:../../src/Juniper.TypeScript/tslib",
+    "@juniper/webrtc": "file:../../src/Juniper.TypeScript/webrtc",
+    "@juniper/worker-client": "file:../../src/Juniper.TypeScript/worker-client",
+    "@juniper/worker-server": "file:../../src/Juniper.TypeScript/worker-server",
+    "gl-matrix": "3.4.3",
+    "pdfjs-dist": "2.13.216",
+    "three": "0.140.2"
+  }
+}

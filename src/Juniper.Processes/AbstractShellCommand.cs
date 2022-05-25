@@ -10,7 +10,7 @@ namespace Juniper.Processes
         public bool AccumulateOutput { get; set; }
 
         protected AbstractShellCommand(string commandName)
-                    : base(commandName)
+            : base(commandName)
         {
 
         }
@@ -34,13 +34,6 @@ namespace Juniper.Processes
         public AbstractShellCommand OnStandardOutput(Regex pattern, Action act)
         {
             return OnStandardOutput(pattern, new CallbackCommand(act));
-        }
-
-        public Task ContinueAfter(Regex pattern)
-        {
-            var taskCompleter = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-            OnStandardOutput(pattern, taskCompleter.SetResult);
-            return taskCompleter.Task;
         }
 
         public AbstractShellCommand OnStandardError(Regex pattern, params ICommand[] commands)
