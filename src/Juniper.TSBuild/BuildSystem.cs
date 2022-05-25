@@ -364,7 +364,9 @@ namespace Juniper.TSBuild
 
         public void DeleteNodeModules()
         {
-            foreach (var dir in NPMProjects)
+            foreach (var dir in NPMProjects
+                .Select(dir => dir.CD("node_modules"))
+                .Where(dir => dir.Exists))
             {
                 for (int attempts = 2; attempts > 0; attempts--)
                 {
