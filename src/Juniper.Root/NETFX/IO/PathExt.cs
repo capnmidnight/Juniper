@@ -114,7 +114,7 @@ namespace System.IO
                     }
                     else
                     {
-                        return "./";
+                        return ".";
                     }
                 }
             }
