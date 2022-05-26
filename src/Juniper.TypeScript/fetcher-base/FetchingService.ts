@@ -1,11 +1,12 @@
 import { IProgress } from "@juniper-lib/tslib";
+import { IFetchingService } from "./IFetchingService";
 import { IFetchingServiceImpl } from "./IFetchingServiceImpl";
 import { IRequest, IRequestWithBody } from "./IRequest";
 import { IBodilessResponse, IResponse } from "./IResponse";
 import { translateResponse } from "./ResponseTranslator";
 
 
-export class FetchingService {
+export class FetchingService implements IFetchingService {
 
     constructor(private readonly impl: IFetchingServiceImpl) {
     }
@@ -60,6 +61,10 @@ export class FetchingService {
 
     sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IBodilessResponse> {
         return this.impl.sendSomethingGetSomething("", request, this.defaultPostHeaders, progress);
+    }
+
+    drawImageToCanvas(request: IRequest, canvas: OffscreenCanvas, progress: IProgress): Promise<IBodilessResponse> {
+        return this.impl.drawImageToCanvas(request, canvas, progress);
     }
 
     async sendNothingGetFile(request: IRequest, progress: IProgress): Promise<IResponse<string>> {

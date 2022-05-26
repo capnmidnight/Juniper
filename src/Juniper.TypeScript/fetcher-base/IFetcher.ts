@@ -203,6 +203,8 @@ export interface IFetcherBodiedResult {
     audio(autoPlaying: boolean, looping: boolean, acceptType?: string | MediaType): Promise<IResponse<HTMLAudioElement>>;
     audioBuffer(audioCtx: BaseAudioContext, acceptType?: string | MediaType): Promise<IResponse<AudioBuffer>>;
 
+    drawToCanvas(canvas: HTMLCanvasElement, acceptType?: string | MediaType): Promise<IBodilessResponse>;
+
     video(autoPlaying: boolean, looping: boolean, acceptType?: string | MediaType): Promise<IResponse<HTMLVideoElement>>;
 
     script(test: () => boolean): Promise<void>;

@@ -166,6 +166,10 @@ export class FetchingServiceClient
         return this.makeRequestWithBody("sendObjectGetImageBitmap", request, progress);
     }
 
+    drawImageToCanvas(request: IRequest, canvas: OffscreenCanvas, progress: IProgress): Promise<IBodilessResponse> {
+        return this.callMethod("drawImageToCanvas", [cloneRequest(request), canvas], [canvas], progress);
+    }
+
     async sendNothingGetBlob(request: IRequest, progress: IProgress): Promise<IResponse<Blob>> {
         const response = await this.sendNothingGetBuffer(request, progress);
         return bufferToBlob(response);

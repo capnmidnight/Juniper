@@ -1,4 +1,4 @@
-import { assertNever, identity, IDexDB, IDexStore, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, PriorityMap, progressSplit, Task } from "@juniper-lib/tslib";
+import { assertNever, identity, IDexDB, IDexStore, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, PriorityMap, progressSplit, Task, using } from "@juniper-lib/tslib";
 import { HTTPMethods } from "./HTTPMethods";
 import { IFetchingServiceImpl, XMLHttpRequestResponseTypeMap } from "./IFetchingServiceImpl";
 import { IRequest, IRequestWithBody } from "./IRequest";
@@ -113,6 +113,20 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
 
     constructor() {
         this.cacheReady = this.openCache();
+    }
+
+    async drawImageToCanvas(request: IRequest, canvas: OffscreenCanvas, progress: IProgress): Promise<IResponse<IBodilessResponse>> {
+        const response = await this.sendNothingGetSomething("blob", request, progress);
+        const blob = response.content;
+        return using(await createImageBitmap(blob, {
+            imageOrientation: "none"
+        }), (img) => {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const g = canvas.getContext("2d");
+            g.drawImage(img, 0, 0);
+            return translateResponse(response, () => null);
+        });
     }
 
     private async openCache(): Promise<void> {

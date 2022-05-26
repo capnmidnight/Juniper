@@ -28,4 +28,6 @@ export interface IFetchingService {
     sendObjectGetObject<T>(request: IRequestWithBody, progress: IProgress): Promise<T>;
     sendObjectGetXml(request: IRequestWithBody, progress: IProgress): Promise<IResponse<HTMLElement>>;
     sendObjectGetImageBitmap(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ImageBitmap>>;
+
+    drawImageToCanvas(request: IRequest, canvas: OffscreenCanvas, progress: IProgress): Promise<IBodilessResponse>;
 }

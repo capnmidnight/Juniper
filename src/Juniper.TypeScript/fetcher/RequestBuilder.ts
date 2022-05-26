@@ -12,7 +12,7 @@ import {
 } from "@juniper-lib/fetcher-base/IFetcher";
 import { IFetchingService } from "@juniper-lib/fetcher-base/IFetchingService";
 import { IRequestWithBody } from "@juniper-lib/fetcher-base/IRequest";
-import { IResponse } from "@juniper-lib/fetcher-base/IResponse";
+import { IBodilessResponse, IResponse } from "@juniper-lib/fetcher-base/IResponse";
 import { translateResponse } from "@juniper-lib/fetcher-base/ResponseTranslator";
 import { assertNever, dispose, Exception, IProgress, isDefined, isString, isWorker, MediaType, once, waitFor } from "@juniper-lib/tslib";
 import { Application_Javascript, Application_Json, Application_Wasm } from "@juniper-lib/tslib/mediatypes/application";
@@ -244,6 +244,24 @@ export class RequestBuilder implements
             return this.fetcher.sendNothingGetImageBitmap(this.request, this.prog);
         }
         else if (this.method === "HEAD"
+            || this.method === "OPTIONS") {
+            throw new Error(`${this.method} responses do not contain bodies`);
+        }
+        else {
+            assertNever(this.method);
+        }
+    }
+
+    drawToCanvas(canvas: HTMLCanvasElement, acceptType?: string | MediaType): Promise<IBodilessResponse> {
+        this.accept(acceptType);
+        if (this.method === "GET") {
+            return this.fetcher.drawImageToCanvas(this.request, canvas.transferControlToOffscreen(), this.prog);
+        }
+        else if (this.method === "POST"
+            || this.method === "PUT"
+            || this.method === "PATCH"
+            || this.method === "DELETE"
+            || this.method === "HEAD"
             || this.method === "OPTIONS") {
             throw new Error(`${this.method} responses do not contain bodies`);
         }

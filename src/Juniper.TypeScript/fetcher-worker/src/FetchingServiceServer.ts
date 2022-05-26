@@ -36,4 +36,6 @@ export function addFetcherMethods(server: WorkerServer, fetcher: IFetchingServic
     server.addMethod(fetcher, "sendObjectGetObject", fetcher.sendObjectGetObject);
     server.addMethod(fetcher, "sendObjectGetFile", fetcher.sendObjectGetFile);
     server.addMethod(fetcher, "sendObjectGetText", fetcher.sendObjectGetText);
+
+    server.addMethod(fetcher, "drawImageToCanvas", fetcher.drawImageToCanvas);
 }

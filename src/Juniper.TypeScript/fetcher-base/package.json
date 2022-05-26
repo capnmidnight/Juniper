@@ -9,6 +9,7 @@
   "devDependencies": {
     "@juniper-lib/esbuild": "file:../esbuild",
     "@juniper-types/extra-types": "file:../extra-types",
+    "@types/offscreencanvas": "2019.7.0",
     "typescript": "4.7.2"
   }
 }

@@ -71,6 +71,10 @@ export abstract class BaseFetchingServicePool<
         return this.nextWorker().sendNothingGetImageBitmap(request, progress);
     }
 
+    drawImageToCanvas(request: IRequest, canvas: OffscreenCanvas, progress: IProgress): Promise<IBodilessResponse> {
+        return this.nextWorker().drawImageToCanvas(request, canvas, progress);
+    }
+
     sendObjectGetBlob(request: IRequestWithBody, progress: IProgress): Promise<IResponse<Blob>> {
         return this.getFetcher(request.body).sendObjectGetBlob(request, progress);
     }
