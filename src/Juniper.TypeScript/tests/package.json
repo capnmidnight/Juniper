@@ -9,12 +9,12 @@
     "@juniper-lib/fetcher": "file:../fetcher",
     "@juniper-lib/hax": "file:../hax",
     "@juniper-lib/tdd": "file:../testing",
-    "gl-matrix": "^3.4.3"
+    "gl-matrix": "3.4.3"
   },
   "devDependencies": {
     "@juniper-types/dom-types": "file:../dom-types",
     "@juniper-types/extra-types": "file:../extra-types",
     "@types/offscreencanvas": "2019.7.0",
-    "typescript": "4.6.4"
+    "typescript": "4.7.2"
   }
 }

@@ -36,13 +36,14 @@ namespace Juniper.TSBuild
         private bool parseLevel;
         public Level level = Level.None;
 
-        public bool VersionOnly => flags.Contains(nameof(VersionOnly));
-        public bool InstallOnly => flags.Contains(nameof(InstallOnly));
-        public bool CheckOnly => flags.Contains(nameof(CheckOnly));
-        public bool AuditOnly => flags.Contains(nameof(AuditOnly));
-        public bool AuditFixOnly => flags.Contains(nameof(AuditFixOnly));
-        public bool CleanOnly => flags.Contains(nameof(CleanOnly));
-        public bool DeletePackageLockOnly => flags.Contains(nameof(DeletePackageLockOnly));
+        public bool WriteVersion => flags.Contains(nameof(WriteVersion));
+        public bool NPMInstalls => flags.Contains(nameof(NPMInstalls));
+        public bool TSChecks => flags.Contains(nameof(TSChecks));
+        public bool NPMAudits => flags.Contains(nameof(NPMAudits));
+        public bool NPMAuditFixes => flags.Contains(nameof(NPMAuditFixes));
+        public bool DeleteNodeModuleDirs => flags.Contains(nameof(DeleteNodeModuleDirs));
+        public bool OpenPackageJsons => flags.Contains(nameof(OpenPackageJsons));
+        public bool DeletePackageLockJsons => flags.Contains(nameof(DeletePackageLockJsons));
 
 
         private readonly Command[] interactiveCommands;
@@ -52,16 +53,17 @@ namespace Juniper.TSBuild
         {
             var commands = new[]
             {
-                new Command("--clean", "Delete NPM Packages", FlagSetter(nameof(CleanOnly))),
-                new Command("--install", "Install NPM packages", FlagSetter(nameof(InstallOnly))),
-                new Command("--check", "Run TypeScript check", FlagSetter(nameof(CheckOnly))),
-                new Command(null, "Delete package-lock.json", FlagSetter(nameof(DeletePackageLockOnly))),
-                new Command("--audit", "Audit NPM packages", FlagSetter(nameof(AuditOnly))),
-                new Command("--audit-fix", "Audit and auto-fix NPM packages", FlagSetter(nameof(AuditFixOnly))),
+                new Command("--clean", "Delete NPM Packages", FlagSetter(nameof(DeleteNodeModuleDirs))),
+                new Command("--install", "Install NPM packages", FlagSetter(nameof(NPMInstalls))),
+                new Command("--check", "Run TypeScript check", FlagSetter(nameof(TSChecks))),
+                new Command(null, "Delete package-lock.json", FlagSetter(nameof(DeletePackageLockJsons))),
+                new Command("--audit", "Audit NPM packages", FlagSetter(nameof(NPMAudits))),
+                new Command("--audit-fix", "Audit and auto-fix NPM packages", FlagSetter(nameof(NPMAuditFixes))),
+                new Command(null, "Open package.json files", FlagSetter(nameof(OpenPackageJsons))),
                 new Command(null, "Build (level: Low)", (_) => level = Level.Low),
                 new Command(null, "Build (level: Med)", (_) => level = Level.Medium),
                 new Command(null, "Build (level: High)", (_) => level = Level.High),
-                new Command("--version", null, FlagSetter(nameof(VersionOnly)))
+                new Command("--version", null, FlagSetter(nameof(WriteVersion)))
             };
 
             interactiveCommands = commands

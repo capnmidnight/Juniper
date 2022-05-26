@@ -9,6 +9,6 @@
   "devDependencies": {
     "@juniper-lib/esbuild": "file:../esbuild",
     "@juniper-types/extra-types": "file:../extra-types",
-    "typescript": "4.6.4"
+    "typescript": "4.7.2"
   }
 }

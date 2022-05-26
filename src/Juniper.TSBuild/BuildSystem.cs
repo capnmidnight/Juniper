@@ -68,33 +68,37 @@ namespace Juniper.TSBuild
                         opts.REPL();
                     }
 
-                    if (opts.CleanOnly)
+                    if (opts.DeleteNodeModuleDirs)
                     {
-                        build.DeleteNodeModules();
+                        build.DeleteNodeModuleDirs();
                     }
-                    else if (opts.DeletePackageLockOnly)
+                    else if (opts.DeletePackageLockJsons)
                     {
-                        build.DeletePackageLocks();
+                        build.DeletePackageLockJsons();
                     }
-                    else if (opts.InstallOnly)
+                    else if (opts.NPMInstalls)
                     {
-                        await build.InstallAsync();
+                        await build.NPMInstallsAsync();
                     }
-                    else if (opts.CheckOnly)
+                    else if (opts.TSChecks)
                     {
-                        await build.TSBuildAsync();
+                        await build.TSChecksAsync();
                     }
-                    else if (opts.AuditOnly)
+                    else if (opts.NPMAudits)
                     {
-                        await build.AuditAsync();
+                        await build.NPMAuditsAsync();
                     }
-                    else if (opts.AuditFixOnly)
+                    else if (opts.NPMAuditFixes)
                     {
-                        await build.AuditFixAsync();
+                        await build.NPMAuditFixesAsync();
                     }
-                    else if (opts.VersionOnly)
+                    else if (opts.WriteVersion)
                     {
                         await build.WriteVersion();
+                    }
+                    else if (opts.OpenPackageJsons)
+                    {
+                        await build.OpenPackageJsonsAsync();
                     }
                     else if (opts.level > Level.None)
                     {
@@ -106,7 +110,6 @@ namespace Juniper.TSBuild
                     WriteError("{0}\r\n{1}", exp.Message, exp.Unroll());
                 }
             } while (!opts.complete);
-
         }
 
         protected enum Por
@@ -416,7 +419,7 @@ namespace Juniper.TSBuild
             OnInfo($"Build finished in {delta.TotalSeconds:0.00}s");
         }
 
-        public void DeleteNodeModules()
+        public void DeleteNodeModuleDirs()
         {
             foreach (var dir in NPMProjects
                 .Select(dir => dir.CD("node_modules"))
@@ -441,7 +444,7 @@ namespace Juniper.TSBuild
             }
         }
 
-        public void DeletePackageLocks()
+        public void DeletePackageLockJsons()
         {
             foreach (var lockFile in NPMProjects
                 .Select(dir => dir.Touch("package-lock.json"))
@@ -472,31 +475,41 @@ namespace Juniper.TSBuild
                 new NPMInstallCommand(dir, buildLevel == Level.High));
         }
 
-        public async Task InstallAsync()
+        public async Task NPMInstallsAsync()
         {
             await WithCommandTree(commands =>
                 commands.AddCommands(GetInstallCommands(Level.High)));
         }
 
-        public async Task TSBuildAsync()
+        public async Task TSChecksAsync()
         {
             await WithCommandTree(commands =>
                 commands.AddCommands(TSProjects.Select(dir =>
                     new TSBuildCommand(dir))));
         }
 
-        public async Task AuditAsync()
+        public async Task NPMAuditsAsync()
         {
             await WithCommandTree(commands =>
                 commands.AddCommands(NPMProjects.Select(dir =>
                     new ShellCommand(dir, "npm", "audit"))));
         }
 
-        public async Task AuditFixAsync()
+        public async Task NPMAuditFixesAsync()
         {
             await WithCommandTree(commands =>
                 commands.AddCommands(NPMProjects.Select(dir =>
                     new ShellCommand(dir, "npm", "audit fix"))));
+        }
+
+        public async Task OpenPackageJsonsAsync()
+        {
+            await WithCommandTree(commands =>
+                commands.AddCommands(NPMProjects
+                .Select(dir =>  dir.Touch("package.json"))
+                .Where(f => f.Exists)
+                .Select(f =>
+                    new ShellCommand(f.Directory, "explorer", f.Name))));
         }
 
 

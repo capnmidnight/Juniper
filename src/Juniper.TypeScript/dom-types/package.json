@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Extra DOM-related types that aren't likely to end up in DefinitelyTyped",
   "dependencies": {
-    "typescript": "4.6.4"
+    "typescript": "4.7.2"
   },
   "devDependencies": {},
   "repository": {
@@ -13,5 +13,5 @@
   "author": "Sean T. McBeth <sean.mcbeth@gmail.com>",
   "license": "MIT",
   "types": "./index.d.ts",
-  "typeScriptVersion": "4.6"
+  "typeScriptVersion": "4.7"
 }

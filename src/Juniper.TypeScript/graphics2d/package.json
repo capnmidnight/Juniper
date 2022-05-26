@@ -9,12 +9,12 @@
     "@juniper-lib/dom": "file:../dom",
     "@juniper-lib/fetcher-base": "file:../fetcher-base",
     "gl-matrix": "3.4.3",
-    "pdfjs-dist": "2.13.216"
+    "pdfjs-dist": "2.14.305"
   },
   "devDependencies": {
     "@juniper-types/dom-types": "file:../dom-types",
     "@juniper-types/extra-types": "file:../extra-types",
     "@types/offscreencanvas": "2019.7.0",
-    "typescript": "4.6.4"
+    "typescript": "4.7.2"
   }
 }

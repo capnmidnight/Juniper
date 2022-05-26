@@ -6,7 +6,7 @@ interface Constructor<T = object> {
     prototype: T;
 }
 
-export function haxClass<T, K extends keyof T, V, C extends T[K] & Constructor<V>>(obj: T, constructor: C, name: K, hax: (...args: ConstructorParameters<C>) => any, obj2: any = null) {
+export function haxClass<T, K extends keyof T & string, V, C extends T[K] & Constructor<V>>(obj: T, constructor: C, name: K, hax: (...args: ConstructorParameters<C>) => any, obj2: any = null) {
     if (constructor !== obj[name]) {
         throw new Error(`The provided class constructor is not the same object as the field "${name}" in the provided object.`);
     }
