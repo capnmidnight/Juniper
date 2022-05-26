@@ -1,6 +1,6 @@
-import { autoPlay, controls, loop, playsInline } from "@juniper/dom/attrs";
-import { Audio, ErsatzElement, mediaElementCanPlayThrough } from "@juniper/dom/tags";
-import { arrayClear, arrayReplace, arraySortByKeyInPlace, AsyncCallback, IDisposable, IProgress, isDefined, isNullOrUndefined, isString, once } from "@juniper/tslib";
+import { autoPlay, controls, loop, playsInline } from "@juniper-lib/dom/attrs";
+import { Audio, ErsatzElement, mediaElementCanPlayThrough } from "@juniper-lib/dom/tags";
+import { arrayClear, arrayReplace, arraySortByKeyInPlace, AsyncCallback, IDisposable, IProgress, isDefined, isNullOrUndefined, isString, once } from "@juniper-lib/tslib";
 import { AudioRecord, FullAudioRecord } from "../data";
 import { MediaElementSource, removeVertex } from "../nodes";
 import { BaseAudioSource } from "./BaseAudioSource";

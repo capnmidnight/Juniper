@@ -1,7 +1,7 @@
-import { type } from "@juniper/dom/attrs";
-import { createUtilityCanvas, drawImageToCanvas } from "@juniper/dom/canvas";
-import { BackgroundAudio, BackgroundVideo, Img, Script } from "@juniper/dom/tags";
-import { HTTPMethods } from "@juniper/fetcher-base/HTTPMethods";
+import { type } from "@juniper-lib/dom/attrs";
+import { createUtilityCanvas, drawImageToCanvas } from "@juniper-lib/dom/canvas";
+import { BackgroundAudio, BackgroundVideo, Img, Script } from "@juniper-lib/dom/tags";
+import { HTTPMethods } from "@juniper-lib/fetcher-base/HTTPMethods";
 import {
     IFetcherBasic,
     IFetcherBodiedResult,
@@ -9,14 +9,14 @@ import {
     IFetcherResult,
     IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec,
     IFetcherSendProgressTimeoutCredentialsCacheGetBody
-} from "@juniper/fetcher-base/IFetcher";
-import { IFetchingService } from "@juniper/fetcher-base/IFetchingService";
-import { IRequestWithBody } from "@juniper/fetcher-base/IRequest";
-import { IResponse } from "@juniper/fetcher-base/IResponse";
-import { translateResponse } from "@juniper/fetcher-base/ResponseTranslator";
-import { assertNever, dispose, Exception, IProgress, isDefined, isString, isWorker, MediaType, once, waitFor } from "@juniper/tslib";
-import { Application_Javascript, Application_Json, Application_Wasm } from "@juniper/tslib/mediatypes/application";
-import { Text_Plain, Text_Xml } from "@juniper/tslib/mediatypes/text";
+} from "@juniper-lib/fetcher-base/IFetcher";
+import { IFetchingService } from "@juniper-lib/fetcher-base/IFetchingService";
+import { IRequestWithBody } from "@juniper-lib/fetcher-base/IRequest";
+import { IResponse } from "@juniper-lib/fetcher-base/IResponse";
+import { translateResponse } from "@juniper-lib/fetcher-base/ResponseTranslator";
+import { assertNever, dispose, Exception, IProgress, isDefined, isString, isWorker, MediaType, once, waitFor } from "@juniper-lib/tslib";
+import { Application_Javascript, Application_Json, Application_Wasm } from "@juniper-lib/tslib/mediatypes/application";
+import { Text_Plain, Text_Xml } from "@juniper-lib/tslib/mediatypes/text";
 
 
 let testAudio: HTMLAudioElement = null;

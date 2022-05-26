@@ -1,9 +1,9 @@
-import { Animator } from "@juniper/2d/animation/Animator";
-import { bump } from "@juniper/2d/animation/tween";
-import { TextDirection, TextImageOptions } from "@juniper/2d/TextImage";
-import type { FontDescription } from "@juniper/dom/fonts";
-import { loadFont } from "@juniper/dom/fonts";
-import { arrayReplace, clamp, IProgress, isFunction, isGoodNumber, isString, progressOfArray, progressTasksWeighted, TaskDef } from "@juniper/tslib";
+import { Animator } from "@juniper-lib/2d/animation/Animator";
+import { bump } from "@juniper-lib/2d/animation/tween";
+import { TextDirection, TextImageOptions } from "@juniper-lib/2d/TextImage";
+import type { FontDescription } from "@juniper-lib/dom/fonts";
+import { loadFont } from "@juniper-lib/dom/fonts";
+import { arrayReplace, clamp, IProgress, isFunction, isGoodNumber, isString, progressOfArray, progressTasksWeighted, TaskDef } from "@juniper-lib/tslib";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { Image2DMesh } from "../Image2DMesh";
 import { TextMesh } from "../TextMesh";

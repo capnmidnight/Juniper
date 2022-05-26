@@ -1,4 +1,4 @@
-import { className, id } from "@juniper/dom/attrs";
+import { className, id } from "@juniper-lib/dom/attrs";
 import {
     backgroundColor,
     borderRadius,
@@ -16,8 +16,8 @@ import {
     rule,
     top,
     width
-} from "@juniper/dom/css";
-import { Div, ErsatzElement, Style } from "@juniper/dom/tags";
+} from "@juniper-lib/dom/css";
+import { Div, ErsatzElement, Style } from "@juniper-lib/dom/tags";
 
 Style(
     rule("#controls",

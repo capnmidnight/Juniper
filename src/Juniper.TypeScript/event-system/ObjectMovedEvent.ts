@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper/tslib";
+import { TypedEvent } from "@juniper-lib/tslib";
 import { PointerName } from "./PointerName";
 
 export class ObjectMovedEvent extends TypedEvent<"objectMoved"> {

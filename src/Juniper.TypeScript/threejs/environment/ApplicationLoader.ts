@@ -1,4 +1,4 @@
-import { IProgress, isDefined, progressPopper, progressSplitWeighted, TypedEvent, TypedEventBase } from "@juniper/tslib";
+import { IProgress, isDefined, progressPopper, progressSplitWeighted, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 import type { Application, ApplicationConstructor, ApplicationModule } from "./Application";
 import type { Environment } from "./Environment";
 

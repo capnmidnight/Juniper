@@ -1,5 +1,5 @@
-import type { IProgress } from "@juniper/tslib";
-import { isString, singleton } from "@juniper/tslib";
+import type { IProgress } from "@juniper-lib/tslib";
+import { isString, singleton } from "@juniper-lib/tslib";
 
 const DEFAULT_TEST_TEXT = "The quick brown fox jumps over the lazy dog";
 const loadedFonts = singleton<string[]>("juniper::loadedFonts", () => []);

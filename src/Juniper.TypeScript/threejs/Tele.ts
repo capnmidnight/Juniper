@@ -1,7 +1,7 @@
-import type { TextImageOptions } from "@juniper/2d/TextImage";
-import { IProgress, isDefined, progressTasks, TimerTickEvent } from "@juniper/tslib";
-import { RoomJoinedEvent, RoomLeftEvent, UserJoinedEvent, UserLeftEvent, UserNameChangedEvent } from "@juniper/webrtc/ConferenceEvents";
-import { TeleconferenceManager } from "@juniper/webrtc/TeleconferenceManager";
+import type { TextImageOptions } from "@juniper-lib/2d/TextImage";
+import { IProgress, isDefined, progressTasks, TimerTickEvent } from "@juniper-lib/tslib";
+import { RoomJoinedEvent, RoomLeftEvent, UserJoinedEvent, UserLeftEvent, UserNameChangedEvent } from "@juniper-lib/webrtc/ConferenceEvents";
+import { TeleconferenceManager } from "@juniper-lib/webrtc/TeleconferenceManager";
 import { AvatarRemote } from "./AvatarRemote";
 import { cleanup } from "./cleanup";
 import { DebugObject } from "./DebugObject";

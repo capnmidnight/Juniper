@@ -1,4 +1,4 @@
-import { isFunction, isNullOrUndefined, nothing, PriorityMap, TypedEventBase } from "@juniper/tslib";
+import { isFunction, isNullOrUndefined, nothing, PriorityMap, TypedEventBase } from "@juniper-lib/tslib";
 import type { TestCase, TestCaseConstructor } from "./TestCase";
 import { TestCaseFailEvent } from "./TestCaseFailEvent";
 import { TestCaseMessageEvent } from "./TestCaseMessageEvent";

@@ -1,5 +1,5 @@
-import { isDisableable } from "@juniper/dom/tags";
-import { isDefined } from "@juniper/tslib";
+import { isDisableable } from "@juniper-lib/dom/tags";
+import { isDefined } from "@juniper-lib/tslib";
 import { isObject3D } from "./typeChecks";
 
 export interface ErsatzObject {

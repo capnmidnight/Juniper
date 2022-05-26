@@ -1,13 +1,13 @@
 {
   "version": "1.0.0",
-  "name": "@juniper/fetcher-base",
+  "name": "@juniper-lib/fetcher-base",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@juniper/tslib": "file:../tslib"
+    "@juniper-lib/tslib": "file:../tslib"
   },
   "devDependencies": {
-    "@juniper/esbuild": "file:../esbuild",
+    "@juniper-lib/esbuild": "file:../esbuild",
     "@juniper-types/extra-types": "file:../extra-types",
     "typescript": "4.6.4"
   }

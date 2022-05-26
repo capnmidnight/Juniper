@@ -1,4 +1,4 @@
-import { ITimer, RequestAnimationFrameTimer, TypedEventBase } from "@juniper/tslib";
+import { ITimer, RequestAnimationFrameTimer, TypedEventBase } from "@juniper-lib/tslib";
 import { Body, Vec3, World } from "cannon-es";
 import { IPhysicsService } from "./IPhysicsService";
 

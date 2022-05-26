@@ -1,4 +1,4 @@
-import { BaseProgress, IProgress, isFunction } from "@juniper/tslib";
+import { BaseProgress, IProgress, isFunction } from "@juniper-lib/tslib";
 import { elementApply, IElementAppliable } from "./tags";
 
 type EventListenerOpts = boolean | AddEventListenerOptions;

@@ -1,4 +1,4 @@
-import { assertNever, identity, IDexDB, IDexStore, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, PriorityMap, progressSplit, Task } from "@juniper/tslib";
+import { assertNever, identity, IDexDB, IDexStore, IProgress, isArrayBuffer, isArrayBufferView, isDefined, isNullOrUndefined, isString, mapJoin, PriorityList, PriorityMap, progressSplit, Task } from "@juniper-lib/tslib";
 import { HTTPMethods } from "./HTTPMethods";
 import { IFetchingServiceImpl, XMLHttpRequestResponseTypeMap } from "./IFetchingServiceImpl";
 import { IRequest, IRequestWithBody } from "./IRequest";

@@ -1,9 +1,9 @@
-import { isModifierless } from "@juniper/dom/isModifierless";
-import { FlickEvent } from "@juniper/event-system/FlickEvent";
-import { ObjectMovedEvent } from "@juniper/event-system/ObjectMovedEvent";
-import { PointerEventTypes } from "@juniper/event-system/PointerEventTypes";
-import { VirtualButtons } from "@juniper/event-system/VirtualButtons";
-import { arrayClear, assertNever, isDefined, TypedEventBase } from "@juniper/tslib";
+import { isModifierless } from "@juniper-lib/dom/isModifierless";
+import { FlickEvent } from "@juniper-lib/event-system/FlickEvent";
+import { ObjectMovedEvent } from "@juniper-lib/event-system/ObjectMovedEvent";
+import { PointerEventTypes } from "@juniper-lib/event-system/PointerEventTypes";
+import { VirtualButtons } from "@juniper-lib/event-system/VirtualButtons";
+import { arrayClear, assertNever, isDefined, TypedEventBase } from "@juniper-lib/tslib";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { FOREGROUND } from "../layers";
 import { objGraph } from "../objects";

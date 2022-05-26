@@ -1,4 +1,4 @@
-import { PriorityMap, TypedEvent } from "@juniper/tslib";
+import { PriorityMap, TypedEvent } from "@juniper-lib/tslib";
 import { TestScore } from "./TestScore";
 
 export type TestResults = PriorityMap<string, string, TestScore>;

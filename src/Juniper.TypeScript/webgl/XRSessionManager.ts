@@ -1,4 +1,4 @@
-import { arrayRemove, deg2rad, Exception, isDefined, isNullOrUndefined, Task, TypedEvent, TypedEventBase } from "@juniper/tslib";
+import { arrayRemove, deg2rad, Exception, isDefined, isNullOrUndefined, Task, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 import type { Camera } from "./Camera";
 
 type TickCallback = (t: number, dt: number, frame: XRFrame) => void;

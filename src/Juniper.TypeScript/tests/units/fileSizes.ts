@@ -1,5 +1,5 @@
-import { TestCase } from "@juniper/tdd/tdd";
-import { formatBytes, toBytes } from "@juniper/tslib";
+import { TestCase } from "@juniper-lib/tdd/tdd";
+import { formatBytes, toBytes } from "@juniper-lib/tslib";
 
 export class FileSizeTests extends TestCase {
     test_FormatBytes1() {

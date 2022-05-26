@@ -1,7 +1,7 @@
-import { canvasToBlob, CanvasTypes, createUtilityCanvas } from "@juniper/dom/canvas";
-import { IFetcher } from "@juniper/fetcher";
-import { deg2rad, IDisposable, IProgress, progressOfArray } from "@juniper/tslib";
-import { Image_Jpeg } from "@juniper/tslib/mediatypes/image";
+import { canvasToBlob, CanvasTypes, createUtilityCanvas } from "@juniper-lib/dom/canvas";
+import { IFetcher } from "@juniper-lib/fetcher";
+import { deg2rad, IDisposable, IProgress, progressOfArray } from "@juniper-lib/tslib";
+import { Image_Jpeg } from "@juniper-lib/tslib/mediatypes/image";
 import { cleanup } from "./cleanup";
 import { CUBEMAP_PATTERN } from "./Skybox";
 

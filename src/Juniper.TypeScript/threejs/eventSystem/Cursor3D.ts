@@ -1,4 +1,4 @@
-import { arrayScan } from "@juniper/tslib";
+import { arrayScan } from "@juniper-lib/tslib";
 import { deepEnableLayer, PURGATORY } from "../layers";
 import { ErsatzObject, objectIsVisible, objectSetVisible } from "../objects";
 import { BaseCursor } from "./BaseCursor";

@@ -1,4 +1,4 @@
-import { isString } from "@juniper/tslib";
+import { isString } from "@juniper-lib/tslib";
 import { elementSetClass } from "./elementSetClass";
 import { Elements, elementSetText, isDisableable, isErsatzElement } from "./tags";
 

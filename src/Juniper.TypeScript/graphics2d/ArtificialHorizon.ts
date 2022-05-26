@@ -1,4 +1,4 @@
-import { deg2rad } from "@juniper/tslib";
+import { deg2rad } from "@juniper-lib/tslib";
 import { CanvasImage } from "./CanvasImage";
 
 export class ArtificialHorizon extends CanvasImage {

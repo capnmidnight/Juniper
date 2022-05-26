@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper/tslib";
+import { TypedEvent } from "@juniper-lib/tslib";
 import { TestResults } from "./TestRunnerResultsEvent";
 
 export interface TestStats {

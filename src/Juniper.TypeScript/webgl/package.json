@@ -1,12 +1,12 @@
 {
   "version": "1.0.0",
-  "name": "@juniper/webgl",
+  "name": "@juniper-lib/webgl",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@juniper/2d": "file:../graphics2d",
-    "@juniper/dom": "file:../dom",
-    "@juniper/tslib": "file:../tslib",
+    "@juniper-lib/tslib": "file:../tslib",
+    "@juniper-lib/2d": "file:../graphics2d",
+    "@juniper-lib/dom": "file:../dom",
     "@types/webxr": "0.4.0",
     "gl-matrix": "3.4.3"
   },

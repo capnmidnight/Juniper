@@ -1,4 +1,4 @@
-import { arrayClear, arrayReplace, arrayScan, IDisposable, isArray, isDefined, isFirefox, isMobileVR, isNullOrUndefined } from "@juniper/tslib";
+import { arrayClear, arrayReplace, arrayScan, IDisposable, isArray, isDefined, isFirefox, isMobileVR, isNullOrUndefined } from "@juniper-lib/tslib";
 import { Blitter } from "./Blitter";
 import { ClearBits, FrameAndRenderBuffers, FramebufferType } from "./GLEnum";
 import { BaseFrameBuffer, BaseRenderTarget, FrameBufferCanvas, FrameBufferWebXR, FrameBufferWebXRMultisampled, FrameBufferWebXRMultiview, FrameBufferWebXRMultiviewMultisampled } from "./managed/resource/FrameBuffer";

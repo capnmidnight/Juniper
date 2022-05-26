@@ -1,4 +1,4 @@
-import { id } from "@juniper/dom/attrs";
+import { id } from "@juniper-lib/dom/attrs";
 import {
     backgroundColor,
     color,
@@ -13,15 +13,15 @@ import {
     styles,
     whiteSpace,
     width
-} from "@juniper/dom/css";
-import { onClick } from "@juniper/dom/evts";
+} from "@juniper-lib/dom/css";
+import { onClick } from "@juniper-lib/dom/evts";
 import {
     Button,
     Div,
     ElementChild, elementReplace, ErsatzElement,
     Span
-} from "@juniper/dom/tags";
-import { isDefined } from "@juniper/tslib";
+} from "@juniper-lib/dom/tags";
+import { isDefined } from "@juniper-lib/tslib";
 import { TestCaseConstructor } from "./TestCase";
 import { TestOutput } from "./TestOutput";
 import { TestOutputResultsEvent } from "./TestOutputResultsEvent";

@@ -1,7 +1,7 @@
-import { CubeMapFaceIndex } from "@juniper/2d/CubeMapFaceIndex";
-import type { CanvasImageTypes, CanvasTypes, Context2D } from "@juniper/dom/canvas";
-import { createUtilityCanvas } from "@juniper/dom/canvas";
-import { isArray, isDefined, isGoodNumber, isNumber } from "@juniper/tslib";
+import { CubeMapFaceIndex } from "@juniper-lib/2d/CubeMapFaceIndex";
+import type { CanvasImageTypes, CanvasTypes, Context2D } from "@juniper-lib/dom/canvas";
+import { createUtilityCanvas } from "@juniper-lib/dom/canvas";
+import { isArray, isDefined, isGoodNumber, isNumber } from "@juniper-lib/tslib";
 import { cleanup } from "./cleanup";
 import type { BaseEnvironment } from "./environment/BaseEnvironment";
 import { isEuler, isQuaternion } from "./typeChecks";

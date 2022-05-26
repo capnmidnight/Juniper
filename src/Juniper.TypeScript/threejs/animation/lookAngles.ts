@@ -1,4 +1,4 @@
-import { angleClamp } from "@juniper/tslib";
+import { angleClamp } from "@juniper-lib/tslib";
 
 const D = new THREE.Vector3();
 

@@ -1,5 +1,5 @@
-import { title } from "@juniper/dom/attrs";
-import { ButtonPrimary, elementIsDisplayed, elementSetDisplay } from "@juniper/dom/tags";
+import { title } from "@juniper-lib/dom/attrs";
+import { ButtonPrimary, elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
 import { ButtonFactory } from "../ButtonFactory";
 import { MeshButton } from "../MeshButton";
 import { obj } from "../objects";

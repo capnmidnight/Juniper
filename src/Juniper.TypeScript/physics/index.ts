@@ -1,1 +1,1 @@
-export * from "@juniper/physics-base/IPhysicsService";
+export * from "@juniper-lib/physics-base/IPhysicsService";

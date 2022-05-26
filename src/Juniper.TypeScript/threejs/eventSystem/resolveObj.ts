@@ -1,4 +1,4 @@
-import { isDefined } from "@juniper/tslib";
+import { isDefined } from "@juniper-lib/tslib";
 import { InteractiveObject3D, isCollider, isInteractiveObject3D } from "./InteractiveObject3D";
 
 export function resolveObj(hit: THREE.Intersection): InteractiveObject3D{

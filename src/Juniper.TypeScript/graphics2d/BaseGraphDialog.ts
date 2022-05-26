@@ -3,8 +3,8 @@ import {
     min,
     step,
     value
-} from "@juniper/dom/attrs";
-import { resizeCanvas } from "@juniper/dom/canvas";
+} from "@juniper-lib/dom/attrs";
+import { resizeCanvas } from "@juniper-lib/dom/canvas";
 import {
     alignItems,
     columnGap,
@@ -14,16 +14,16 @@ import {
     height,
     styles,
     width
-} from "@juniper/dom/css";
-import { DialogBox } from "@juniper/dom/DialogBox";
+} from "@juniper-lib/dom/css";
+import { DialogBox } from "@juniper-lib/dom/DialogBox";
 import {
     Canvas,
     Div,
     elementApply,
     InputCheckbox,
     InputNumber, PreLabeled
-} from "@juniper/dom/tags";
-import { GraphNode, mapBuild, RequestAnimationFrameTimer, stringRandom } from "@juniper/tslib";
+} from "@juniper-lib/dom/tags";
+import { GraphNode, mapBuild, RequestAnimationFrameTimer, stringRandom } from "@juniper-lib/tslib";
 import { vec2 } from "gl-matrix";
 
 const size = 20;

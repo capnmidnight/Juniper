@@ -1,8 +1,8 @@
-import { src, title } from "@juniper/dom/attrs";
-import { CanvasImageTypes, CanvasTypes, createUICanvas } from "@juniper/dom/canvas";
-import { Img } from "@juniper/dom/tags";
-import type { IFetcher } from "@juniper/fetcher";
-import { Exception, IProgress, nextPowerOf2, PoppableParentProgressCallback, PriorityMap, progressPopper, Task } from "@juniper/tslib";
+import { src, title } from "@juniper-lib/dom/attrs";
+import { CanvasImageTypes, CanvasTypes, createUICanvas } from "@juniper-lib/dom/canvas";
+import { Img } from "@juniper-lib/dom/tags";
+import type { IFetcher } from "@juniper-lib/fetcher";
+import { Exception, IProgress, nextPowerOf2, PoppableParentProgressCallback, PriorityMap, progressPopper, Task } from "@juniper-lib/tslib";
 
 interface UVRect {
     u: number;

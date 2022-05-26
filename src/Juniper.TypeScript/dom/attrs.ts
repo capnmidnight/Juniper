@@ -1,5 +1,5 @@
-import type { MediaType } from "@juniper/tslib";
-import { isBoolean, isString } from "@juniper/tslib";
+import type { MediaType } from "@juniper-lib/tslib";
+import { isBoolean, isString } from "@juniper-lib/tslib";
 
 /**
  * A setter functor for HTML attributes.

@@ -1,6 +1,6 @@
-import type { CanvasImage } from "@juniper/2d/CanvasImage";
-import { isHTMLCanvas } from "@juniper/dom/canvas";
-import { elementIsDisplayed, elementSetDisplay } from "@juniper/dom/tags";
+import type { CanvasImage } from "@juniper-lib/2d/CanvasImage";
+import { isHTMLCanvas } from "@juniper-lib/dom/canvas";
+import { elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
 import { Image2DMesh } from "../Image2DMesh";
 import { IWebXRLayerManager } from "../IWebXRLayerManager";
 import { objectSetVisible } from "../objects";

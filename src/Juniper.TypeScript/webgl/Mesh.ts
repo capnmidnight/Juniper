@@ -1,5 +1,5 @@
 import { mat4, quat } from "gl-matrix";
-import { isDefined } from "@juniper/tslib";
+import { isDefined } from "@juniper-lib/tslib";
 import type { Camera } from "./Camera";
 import type { Geometry } from "./Geometry";
 import type { BaseTexture } from "./managed/resource/Texture";

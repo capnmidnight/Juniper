@@ -1,8 +1,8 @@
-import { getInput } from "@juniper/dom/tags";
-import { HTTPMethods } from "@juniper/fetcher-base/HTTPMethods";
-import { IFetcher } from "@juniper/fetcher-base/IFetcher";
-import { IFetchingService } from "@juniper/fetcher-base/IFetchingService";
-import { isWorker } from "@juniper/tslib";
+import { getInput } from "@juniper-lib/dom/tags";
+import { HTTPMethods } from "@juniper-lib/fetcher-base/HTTPMethods";
+import { IFetcher } from "@juniper-lib/fetcher-base/IFetcher";
+import { IFetchingService } from "@juniper-lib/fetcher-base/IFetchingService";
+import { isWorker } from "@juniper-lib/tslib";
 import { RequestBuilder } from "./RequestBuilder";
 
 export class Fetcher implements IFetcher {

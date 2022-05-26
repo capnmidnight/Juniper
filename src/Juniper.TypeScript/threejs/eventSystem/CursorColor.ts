@@ -1,4 +1,4 @@
-import { isArray } from "@juniper/tslib";
+import { isArray } from "@juniper-lib/tslib";
 import { Cube } from "../Cube";
 import { solid } from "../materials";
 import { objectIsVisible, objectSetVisible } from "../objects";

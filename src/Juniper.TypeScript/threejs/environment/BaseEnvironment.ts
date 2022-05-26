@@ -1,4 +1,4 @@
-import { CanvasTypes, isHTMLCanvas } from "@juniper/dom/canvas";
+import { CanvasTypes, isHTMLCanvas } from "@juniper-lib/dom/canvas";
 import {
     border,
     height,
@@ -10,15 +10,15 @@ import {
     top,
     touchAction,
     width
-} from "@juniper/dom/css";
-import { Style } from "@juniper/dom/tags";
-import type { IFetcher } from "@juniper/fetcher";
+} from "@juniper-lib/dom/css";
+import { Style } from "@juniper-lib/dom/tags";
+import type { IFetcher } from "@juniper-lib/fetcher";
 import {
     arrayRemove, arraySortByKeyInPlace, IProgress, isDefined,
     isDesktop,
     isFirefox, isFunction, isOculusBrowser, oculusBrowserVersion, TimerTickEvent, TypedEvent, TypedEventBase
-} from "@juniper/tslib";
-import { feet2Meters } from "@juniper/tslib/units/length";
+} from "@juniper-lib/tslib";
+import { feet2Meters } from "@juniper-lib/tslib/units/length";
 import { BodyFollower } from "../animation/BodyFollower";
 import { updateScalings } from "../animation/scaleOnHover";
 import { AvatarLocal } from "../AvatarLocal";

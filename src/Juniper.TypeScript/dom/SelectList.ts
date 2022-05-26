@@ -1,4 +1,4 @@
-import { arraySortByKey, isNullOrUndefined, TypedEvent, TypedEventBase } from "@juniper/tslib";
+import { arraySortByKey, isNullOrUndefined, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 import { value } from "./attrs";
 import type { makeItemCallback } from "./SelectBox";
 import { withDefault } from "./SelectBox";

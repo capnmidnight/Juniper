@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "@juniper/physics-worker",
+  "name": "@juniper-lib/physics-worker",
   "private": true,
   "type": "module",
   "main": "dist/index.js",
@@ -9,13 +9,13 @@
     "watch": "node --experimental-modules esbuild.config.js --watch"
   },
   "dependencies": {
-    "@juniper/physics-base": "file:../physics-base",
-    "@juniper/tslib": "file:../tslib",
-    "@juniper/worker-server": "file:../worker-server"
+    "@juniper-lib/tslib": "file:../tslib",
+    "@juniper-lib/physics-base": "file:../physics-base",
+    "@juniper-lib/worker-server": "file:../worker-server"
   },
   "devDependencies": {
     "@juniper-types/extra-types": "file:../extra-types",
-    "@juniper/esbuild": "file:../esbuild",
+    "@juniper-lib/esbuild": "file:../esbuild",
     "@types/offscreencanvas": "2019.7.0",
     "typescript": "4.6.4"
   }

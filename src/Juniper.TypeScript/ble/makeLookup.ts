@@ -1,4 +1,4 @@
-import { isString } from "@juniper/tslib";
+import { isString } from "@juniper-lib/tslib";
 
 export function makeLookup(descriptions: { [key: string]: string }) {
     const idLookup: { [key: string]: number } = {},

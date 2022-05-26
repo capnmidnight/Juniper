@@ -1,4 +1,4 @@
-import { IProgress } from "@juniper/tslib";
+import { IProgress } from "@juniper-lib/tslib";
 import { IFetchingServiceImpl } from "./IFetchingServiceImpl";
 import { IRequest, IRequestWithBody } from "./IRequest";
 import { IBodilessResponse, IResponse } from "./IResponse";

@@ -1,4 +1,4 @@
-import { once, TypedEvent, TypedEventBase } from "@juniper/tslib";
+import { once, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 
 interface StreetViewAsyncEvents {
     positionchanged: TypedEvent<"positionchanged">;

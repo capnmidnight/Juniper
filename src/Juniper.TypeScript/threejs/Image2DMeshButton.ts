@@ -1,6 +1,6 @@
-import { TextImageOptions } from "@juniper/2d/TextImage";
-import { IFetcher } from "@juniper/fetcher";
-import { isNullOrUndefined, stringRandom } from "@juniper/tslib";
+import { TextImageOptions } from "@juniper-lib/2d/TextImage";
+import { IFetcher } from "@juniper-lib/fetcher";
+import { isNullOrUndefined, stringRandom } from "@juniper-lib/tslib";
 import { scaleOnHover } from "./animation/scaleOnHover";
 import { Image2DMesh } from "./Image2DMesh";
 import { IWebXRLayerManager } from "./IWebXRLayerManager";

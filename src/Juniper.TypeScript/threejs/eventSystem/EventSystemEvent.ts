@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper/tslib";
+import { TypedEvent } from "@juniper-lib/tslib";
 import type { IPointer } from "./IPointer";
 import { resolveObj } from "./resolveObj";
 

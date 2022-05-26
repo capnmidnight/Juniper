@@ -1,11 +1,11 @@
 {
   "version": "1.0.0",
-  "name": "@juniper/worker-server",
+  "name": "@juniper-lib/worker-server",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@juniper/tslib": "file:../tslib",
-    "@juniper/workers": "file:../workers"
+    "@juniper-lib/tslib": "file:../tslib",
+    "@juniper-lib/workers": "file:../workers"
   },
   "devDependencies": {
     "@juniper-types/extra-types": "file:../extra-types",

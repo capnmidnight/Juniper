@@ -1,5 +1,5 @@
-import { BaseProgress, isArray, isDefined, TypedEventBase } from "@juniper/tslib";
-import { WorkerClientMethodCallMessage, WorkerServerErrorMessage, WorkerServerEventMessage, WorkerServerMessages, WorkerServerProgressMessage, WorkerServerReturnMessage } from "@juniper/workers/WorkerMessages";
+import { BaseProgress, isArray, isDefined, TypedEventBase } from "@juniper-lib/tslib";
+import { WorkerClientMethodCallMessage, WorkerServerErrorMessage, WorkerServerEventMessage, WorkerServerMessages, WorkerServerProgressMessage, WorkerServerReturnMessage } from "@juniper-lib/workers/WorkerMessages";
 
 type workerServerMethod = (taskID: number, ...params: any[]) => Promise<void>;
 

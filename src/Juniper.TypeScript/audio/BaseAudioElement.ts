@@ -1,4 +1,4 @@
-import { IDisposable, isDisposable, TypedEventBase } from "@juniper/tslib";
+import { IDisposable, isDisposable, TypedEventBase } from "@juniper-lib/tslib";
 import type { BaseSpatializer } from "./BaseSpatializer";
 import type { IPoseable } from "./IPoseable";
 import { Gain, removeVertex } from "./nodes";

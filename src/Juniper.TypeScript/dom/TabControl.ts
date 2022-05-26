@@ -1,4 +1,4 @@
-import { isString, mapBuild, TypedEvent, TypedEventBase } from "@juniper/tslib";
+import { isString, mapBuild, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 import { className, customData } from "./attrs";
 import { buttonSetEnabled } from "./buttonSetEnabled";
 import { borderBottom, borderBottomColor, borderRadius, boxShadow, display, flexDirection, marginBottom, paddingTop, rule, zIndex } from "./css";

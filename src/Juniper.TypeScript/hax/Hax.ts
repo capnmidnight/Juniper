@@ -1,4 +1,4 @@
-import { IDisposable } from "@juniper/tslib"
+import { IDisposable } from "@juniper-lib/tslib"
 
 export class Hax<T, K extends keyof T, V extends T[K]> implements IDisposable {
 

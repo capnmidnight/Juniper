@@ -1,11 +1,11 @@
 {
   "version": "1.0.0",
-  "name": "@juniper/tdd",
+  "name": "@juniper-lib/tdd",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@juniper/dom": "file:../dom",
-    "@juniper/tslib": "file:../tslib",
+    "@juniper-lib/tslib": "file:../tslib",
+    "@juniper-lib/dom": "file:../dom",
     "gl-matrix": "3.4.3"
   },
   "devDependencies": {

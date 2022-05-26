@@ -1,4 +1,4 @@
-import { Build } from "@juniper/esbuild";
+import { Build } from "@juniper-lib/esbuild";
 
 await new Build(process.argv.slice(2))
     .external("three")

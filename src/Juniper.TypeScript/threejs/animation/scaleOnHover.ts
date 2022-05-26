@@ -1,5 +1,5 @@
-import { bump } from "@juniper/2d/animation/tween";
-import { IDisposable, singleton } from "@juniper/tslib";
+import { bump } from "@juniper-lib/2d/animation/tween";
+import { IDisposable, singleton } from "@juniper-lib/tslib";
 import { InteractiveObject3D } from "../eventSystem/InteractiveObject3D";
 
 /**

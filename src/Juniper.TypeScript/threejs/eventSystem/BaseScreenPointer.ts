@@ -1,10 +1,10 @@
-import { PointerName } from "@juniper/event-system/PointerName";
-import { VirtualButtons } from "@juniper/event-system/VirtualButtons";
+import { PointerName } from "@juniper-lib/event-system/PointerName";
+import { VirtualButtons } from "@juniper-lib/event-system/VirtualButtons";
 import {
     clamp,
     project,
     unproject
-} from "@juniper/tslib";
+} from "@juniper-lib/tslib";
 import { resolveCamera } from "../resolveCamera";
 import type { BaseCursor } from "./BaseCursor";
 import { BasePointer } from "./BasePointer";

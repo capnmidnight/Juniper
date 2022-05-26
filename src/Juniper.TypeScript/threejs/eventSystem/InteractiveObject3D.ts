@@ -1,4 +1,4 @@
-import { isBoolean, isDefined } from "@juniper/tslib";
+import { isBoolean, isDefined } from "@juniper-lib/tslib";
 import { isVisible } from "../isVisible";
 import { isObject3D } from "../typeChecks";
 

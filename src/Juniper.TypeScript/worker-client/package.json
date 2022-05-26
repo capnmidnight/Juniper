@@ -1,11 +1,11 @@
 {
   "version": "1.0.0",
-  "name": "@juniper/worker-client",
+  "name": "@juniper-lib/worker-client",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@juniper/tslib": "file:../tslib",
-    "@juniper/workers": "file:../workers"
+    "@juniper-lib/tslib": "file:../tslib",
+    "@juniper-lib/workers": "file:../workers"
   },
   "devDependencies": {
     "@juniper-types/dom-types": "file:../dom-types",

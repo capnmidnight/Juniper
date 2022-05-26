@@ -1,10 +1,10 @@
-import { FullAudioRecord } from "@juniper/audio/data";
-import { MediaElementSourceEvent } from "@juniper/audio/sources/IPlayable";
-import { IPlayer } from "@juniper/audio/sources/IPlayer";
-import { keycapDigits } from "@juniper/emoji/numbers";
-import { MouseButtons } from "@juniper/event-system/MouseButton";
-import { IFetcher } from "@juniper/fetcher";
-import { AsyncCallback, BaseProgress, IDisposable, isDefined, TypedEvent } from "@juniper/tslib";
+import { FullAudioRecord } from "@juniper-lib/audio/data";
+import { MediaElementSourceEvent } from "@juniper-lib/audio/sources/IPlayable";
+import { IPlayer } from "@juniper-lib/audio/sources/IPlayer";
+import { keycapDigits } from "@juniper-lib/emoji/numbers";
+import { MouseButtons } from "@juniper-lib/event-system/MouseButton";
+import { IFetcher } from "@juniper-lib/fetcher";
+import { AsyncCallback, BaseProgress, IDisposable, isDefined, TypedEvent } from "@juniper-lib/tslib";
 import { ButtonFactory } from "./ButtonFactory";
 import { cleanup } from "./cleanup";
 import { Cube } from "./Cube";

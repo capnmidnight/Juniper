@@ -1,7 +1,7 @@
-import { TextImageOptions } from "@juniper/2d/TextImage";
-import { title } from "@juniper/dom/attrs";
-import { ButtonPrimary, elementIsDisplayed, elementSetDisplay } from "@juniper/dom/tags";
-import { IFetcher } from "@juniper/fetcher";
+import { TextImageOptions } from "@juniper-lib/2d/TextImage";
+import { title } from "@juniper-lib/dom/attrs";
+import { ButtonPrimary, elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
+import { IFetcher } from "@juniper-lib/fetcher";
 import { IWebXRLayerManager } from "../IWebXRLayerManager";
 import { obj } from "../objects";
 import { TextMeshButton } from "../TextMeshButton";

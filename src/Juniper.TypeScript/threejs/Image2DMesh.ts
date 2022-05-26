@@ -1,4 +1,4 @@
-import { arrayCompare, IDisposable, isDefined, isNullOrUndefined } from "@juniper/tslib";
+import { arrayCompare, IDisposable, isDefined, isNullOrUndefined } from "@juniper-lib/tslib";
 import { cleanup } from "./cleanup";
 import { IUpdatable } from "./IUpdatable";
 import { IWebXRLayerManager } from "./IWebXRLayerManager";

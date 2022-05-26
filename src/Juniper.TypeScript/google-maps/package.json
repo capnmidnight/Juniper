@@ -1,11 +1,11 @@
 {
   "version": "1.0.0",
-  "name": "@juniper/google-maps",
+  "name": "@juniper-lib/google-maps",
   "private": true,
   "type": "module",
   "dependencies": {
     "@googlemaps/js-api-loader": "1.14.1",
-    "@juniper/tslib": "file:../tslib",
+    "@juniper-lib/tslib": "file:../tslib",
     "gl-matrix": "3.4.3"
   },
   "devDependencies": {

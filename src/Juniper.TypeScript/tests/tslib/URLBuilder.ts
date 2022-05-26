@@ -1,5 +1,5 @@
-import { TestCase } from "@juniper/tdd/tdd";
-import { URLBuilder } from "@juniper/tslib";
+import { TestCase } from "@juniper-lib/tdd/tdd";
+import { URLBuilder } from "@juniper-lib/tslib";
 
 export class URLBuilderTests extends TestCase {
 

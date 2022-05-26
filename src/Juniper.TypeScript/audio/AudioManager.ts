@@ -1,12 +1,12 @@
-import { autoPlay, id, playsInline, src, srcObject } from "@juniper/dom/attrs";
-import { display, styles } from "@juniper/dom/css";
-import { Audio, BackgroundAudio, elementApply, ErsatzElement, mediaElementCanPlay } from "@juniper/dom/tags";
+import { autoPlay, id, playsInline, src, srcObject } from "@juniper-lib/dom/attrs";
+import { display, styles } from "@juniper-lib/dom/css";
+import { Audio, BackgroundAudio, elementApply, ErsatzElement, mediaElementCanPlay } from "@juniper-lib/dom/tags";
 import {
     arrayRemove, arraySortedInsert, IDisposable, IProgress, isDefined,
     isMobileVR,
     isNullOrUndefined,
     isString, stringToName, TypedEvent, TypedEventBase
-} from "@juniper/tslib";
+} from "@juniper-lib/tslib";
 import type { vec3 } from "gl-matrix";
 import type { DestinationNode } from "./destinations/AudioDestination";
 import { AudioDestination } from "./destinations/AudioDestination";

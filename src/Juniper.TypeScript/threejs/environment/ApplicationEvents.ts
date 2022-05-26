@@ -1,4 +1,4 @@
-import { TypedEvent } from "@juniper/tslib";
+import { TypedEvent } from "@juniper-lib/tslib";
 import type { Application } from "./Application";
 
 class ApplicationEvent<T extends string> extends TypedEvent<T> {

@@ -1,5 +1,5 @@
-import type { TextImageOptions } from "@juniper/2d/TextImage";
-import { TextImage } from "@juniper/2d/TextImage";
+import type { TextImageOptions } from "@juniper-lib/2d/TextImage";
+import { TextImage } from "@juniper-lib/2d/TextImage";
 import { Image2DMesh } from "./Image2DMesh";
 import { IWebXRLayerManager } from "./IWebXRLayerManager";
 

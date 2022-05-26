@@ -1,2 +1,2 @@
-import { Tele } from "@juniper/threejs/Tele";
+import { Tele } from "@juniper-lib/threejs/Tele";
 export default Tele;

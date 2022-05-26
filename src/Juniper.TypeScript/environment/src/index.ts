@@ -1,2 +1,2 @@
-import { Environment } from "@juniper/threejs/environment/Environment";
+import { Environment } from "@juniper-lib/threejs/environment/Environment";
 export default Environment;

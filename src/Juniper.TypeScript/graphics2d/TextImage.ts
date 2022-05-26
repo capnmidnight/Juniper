@@ -1,6 +1,6 @@
-import { Context2D, createUtilityCanvas, setContextSize } from "@juniper/dom/canvas";
-import { makeFont } from "@juniper/dom/fonts";
-import { clamp, isDefined, isNullOrUndefined, isNumber, PaddingRect } from "@juniper/tslib";
+import { Context2D, createUtilityCanvas, setContextSize } from "@juniper-lib/dom/canvas";
+import { makeFont } from "@juniper-lib/dom/fonts";
+import { clamp, isDefined, isNullOrUndefined, isNumber, PaddingRect } from "@juniper-lib/tslib";
 import { CanvasImage, CanvasImageOptions } from "./CanvasImage";
 
 export type TextDirection = "horizontal" | "vertical";

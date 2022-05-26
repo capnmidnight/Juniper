@@ -1,4 +1,4 @@
-import { TypedEvent, TypedEventBase } from "@juniper/tslib";
+import { TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 import { className } from "./attrs";
 import { columnGap, display, gridAutoFlow, gridTemplateColumns, rule } from "./css";
 import { Div, ElementChild, ErsatzElement, InputNumber, InputRange, Style } from "./tags";

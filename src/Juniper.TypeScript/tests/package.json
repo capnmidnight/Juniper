@@ -1,14 +1,14 @@
 {
   "version": "1.0.0",
-  "name": "@juniper/tests",
+  "name": "@juniper-lib/tests",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@juniper/dom": "file:../dom",
-    "@juniper/fetcher": "file:../fetcher",
-    "@juniper/hax": "file:../hax",
-    "@juniper/tdd": "file:../testing",
-    "@juniper/tslib": "file:../tslib",
+    "@juniper-lib/tslib": "file:../tslib",
+    "@juniper-lib/dom": "file:../dom",
+    "@juniper-lib/fetcher": "file:../fetcher",
+    "@juniper-lib/hax": "file:../hax",
+    "@juniper-lib/tdd": "file:../testing",
     "gl-matrix": "^3.4.3"
   },
   "devDependencies": {

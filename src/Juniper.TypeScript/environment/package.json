@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "@juniper/environment",
+  "name": "@juniper-lib/environment",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,12 +8,12 @@
     "watch": "node --experimental-modules esbuild.config.js --watch"
   },
   "dependencies": {
-    "@juniper/threejs": "file:../threejs"
+    "@juniper-lib/threejs": "file:../threejs"
   },
   "devDependencies": {
     "@juniper-types/dom-types": "file:../dom-types",
     "@juniper-types/extra-types": "file:../extra-types",
-    "@juniper/esbuild": "file:../esbuild",
+    "@juniper-lib/esbuild": "file:../esbuild",
     "@types/offscreencanvas": "2019.7.0",
     "@types/three": "0.140.0",
     "@types/webxr": "0.4.0",

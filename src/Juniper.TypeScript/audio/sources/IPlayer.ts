@@ -1,4 +1,4 @@
-import { IProgress } from "@juniper/tslib";
+import { IProgress } from "@juniper-lib/tslib";
 import { FullAudioRecord } from "../data";
 import { BaseMediaElementSourceEvents, IBasePlayable, MediaElementSourceEvent } from "./IPlayable";
 

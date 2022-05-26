@@ -1,4 +1,4 @@
-import { arrayRemove, BaseTimerTickEvent, isDefined, ITimer } from "@juniper/tslib";
+import { arrayRemove, BaseTimerTickEvent, isDefined, ITimer } from "@juniper-lib/tslib";
 
 export class XRTimerTickEvent extends BaseTimerTickEvent {
     frame?: XRFrame = null;

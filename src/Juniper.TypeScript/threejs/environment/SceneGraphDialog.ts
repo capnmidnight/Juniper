@@ -1,5 +1,5 @@
-import { BaseGraphDialog } from "@juniper/2d/BaseGraphDialog";
-import { GraphNode, isDefined } from "@juniper/tslib";
+import { BaseGraphDialog } from "@juniper-lib/2d/BaseGraphDialog";
+import { GraphNode, isDefined } from "@juniper-lib/tslib";
 import type { BaseEnvironment } from "./BaseEnvironment";
 
 export class SceneGraphDialog extends BaseGraphDialog<THREE.Object3D> {

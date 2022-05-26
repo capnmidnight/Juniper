@@ -1,5 +1,5 @@
-import { onUserGesture } from "@juniper/dom/onUserGesture";
-import { assertNever, GraphNode, IDisposable, isArray, isDefined, isFunction, isNullOrUndefined, once, singleton } from "@juniper/tslib";
+import { onUserGesture } from "@juniper-lib/dom/onUserGesture";
+import { assertNever, GraphNode, IDisposable, isArray, isDefined, isFunction, isNullOrUndefined, once, singleton } from "@juniper-lib/tslib";
 
 export const hasAudioContext = "AudioContext" in globalThis;
 export const hasAudioListener = hasAudioContext && "AudioListener" in globalThis;

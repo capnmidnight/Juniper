@@ -1,10 +1,10 @@
 {
   "version": "1.0.0",
-  "name": "@juniper/physics-base",
+  "name": "@juniper-lib/physics-base",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@juniper/tslib": "file:../tslib",
+    "@juniper-lib/tslib": "file:../tslib",
     "cannon-es": "0.19.0"
   },
   "devDependencies": {

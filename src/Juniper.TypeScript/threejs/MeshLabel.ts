@@ -1,4 +1,4 @@
-import { stringRandom } from "@juniper/tslib";
+import { stringRandom } from "@juniper-lib/tslib";
 
 export class MeshLabel extends THREE.Object3D {
     private _disabled = false;

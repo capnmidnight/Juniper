@@ -1,5 +1,5 @@
-import { getAudioGraph, getVertexName } from "@juniper/audio/nodes";
-import { arrayScan } from "@juniper/tslib";
+import { getAudioGraph, getVertexName } from "@juniper-lib/audio/nodes";
+import { arrayScan } from "@juniper-lib/tslib";
 import { BaseGraphDialog } from "./BaseGraphDialog";
 
 export class AudioGraphDialog extends BaseGraphDialog<AudioNode | AudioParam>{

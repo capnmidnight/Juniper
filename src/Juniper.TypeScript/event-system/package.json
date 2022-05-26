@@ -1,10 +1,10 @@
 {
   "version": "1.0.0",
-  "name": "@juniper/event-system",
+  "name": "@juniper-lib/event-system",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@juniper/tslib": "file:../tslib"
+    "@juniper-lib/tslib": "file:../tslib"
   },
   "devDependencies": {
     "@juniper-types/dom-types": "file:../dom-types",
