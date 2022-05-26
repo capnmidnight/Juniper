@@ -60,6 +60,8 @@ namespace Juniper.TSBuild
                 false,
                 opts.workingDir);
 
+            opts.level = await build.GetBuildLevel(opts.level);
+
             do
             {
                 try
@@ -528,9 +530,8 @@ namespace Juniper.TSBuild
                 .Select(kv => new CopyCommand(kv.Value.Item1, kv.Key, kv.Value.Item2))
                 .ToArray();
 
-        public async Task CheckAsync(Level forceLevel)
+        public async Task CheckAsync(Level buildLevel)
         {
-            var buildLevel = await GetBuildLevel(forceLevel);
             var copyCommands = GetDependecies();
 
             await WithCommandTree(commands =>

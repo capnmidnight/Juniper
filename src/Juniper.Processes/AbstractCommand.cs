@@ -1,5 +1,3 @@
-using System.Runtime.CompilerServices;
-
 namespace Juniper.Processes
 {
     public abstract class AbstractCommand : ICommand
