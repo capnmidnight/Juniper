@@ -57,7 +57,8 @@ namespace Juniper.TSBuild
             using var build = new BuildSystem(
                 projectName,
                 options,
-                false);
+                false,
+                opts.workingDir);
 
             do
             {
@@ -158,12 +159,13 @@ namespace Juniper.TSBuild
             return dir;
         }
 
-        public BuildSystem(string projectName, BuildSystemOptions options, bool isDev)
+        public BuildSystem(string projectName, BuildSystemOptions options, bool isDev, DirectoryInfo? workingDir)
         {
             this.isDev = isDev;
             this.sourceBuildTS = options.SourceBuildJuniperTS;
 
-            var startDir = new DirectoryInfo(Environment.CurrentDirectory);
+            workingDir ??= new DirectoryInfo(Environment.CurrentDirectory);
+            var startDir = workingDir;
 
             while (startDir != null
                 && !startDir.CD(projectName).Exists)
@@ -171,7 +173,7 @@ namespace Juniper.TSBuild
                 startDir = startDir.Parent;
             }
 
-            startDir = TestDir($"Couldn't find project root from {Environment.CurrentDirectory}", startDir);
+            startDir = TestDir($"Couldn't find project root from {workingDir.FullName}", startDir);
 
             var juniperDir = FindJuniperDir(startDir);
 

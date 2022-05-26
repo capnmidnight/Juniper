@@ -35,6 +35,7 @@ namespace Juniper.TSBuild
         public bool complete = true;
         private bool parseLevel;
         public Level level = Level.None;
+        public DirectoryInfo? workingDir;
 
         public bool WriteVersion => flags.Contains(nameof(WriteVersion));
         public bool NPMInstalls => flags.Contains(nameof(NPMInstalls));
@@ -74,25 +75,34 @@ namespace Juniper.TSBuild
                 .Where(cmd => cmd.Flag is not null)
                 .ToArray();
 
+            var lastOpt = args
+                .Where(ProcessArg)
+                .FirstOrDefault();
+
+            if (!string.IsNullOrEmpty(lastOpt))
+            {
+                workingDir = new DirectoryInfo(lastOpt);
+            }
+
             foreach (var arg in args)
             {
                 ProcessArg(arg);
             }
         }
 
-        private void ProcessArg(string arg)
+        private bool ProcessArg(string arg)
         {
             if (arg == "--interactive")
             {
                 interactive = true;
                 complete = false;
-                return;
+                return false;
             }
 
             if (arg == "--level")
             {
                 parseLevel = true;
-                return;
+                return false;
             }
 
             if (parseLevel)
@@ -106,7 +116,7 @@ namespace Juniper.TSBuild
                     level = Enum.Parse<Level>(arg);
                 }
                 parseLevel = false;
-                return;
+                return false;
             }
 
             foreach (var cmd in flagCommands)
@@ -114,11 +124,11 @@ namespace Juniper.TSBuild
                 if (cmd.Flag == arg)
                 {
                     cmd.Action(WarnIfAnyOnly(arg));
-                    return;
+                    return false;
                 }
             }
 
-            return;
+            return true;
         }
 
         private bool WarnIfAnyOnly(string arg)
