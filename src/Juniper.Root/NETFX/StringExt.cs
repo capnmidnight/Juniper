@@ -240,6 +240,11 @@ namespace System
             return matrix[a.Length, b.Length];
         }
 
+        public static string ToTitleCase(this string val)
+        {
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(val);
+        }
+
         public static float WagnerFischer_Damerau_Levenshtein_Similarity(this string a, string b)
         {
             if (a is null)
