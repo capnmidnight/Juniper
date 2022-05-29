@@ -122,16 +122,6 @@ namespace Juniper.TSBuild
             Minified
         }
 
-        private static readonly string[] basicFileNames = {
-            "index.js",
-            "index.js.map"
-        };
-
-        private static readonly string[] minifiedFileNames = {
-            "index.min.js",
-            "index.min.js.map"
-        };
-
         private readonly DirectoryInfo projectDir;
         private readonly DirectoryInfo projectJsDir;
         private readonly DirectoryInfo projectNodeModules;
@@ -332,7 +322,7 @@ namespace Juniper.TSBuild
             return dir.MkDir(parts[0..^1]).Touch(parts[^1]);
         }
 
-        public FileInfo From(DirectoryInfo root, params string[] parts)
+        public static FileInfo From(DirectoryInfo root, params string[] parts)
         {
             return R(root, parts);
         }
@@ -342,7 +332,7 @@ namespace Juniper.TSBuild
             return From(projectNodeModules, parts);
         }
 
-        public FileInfo To(DirectoryInfo root, params string[] parts)
+        public static FileInfo To(DirectoryInfo root, params string[] parts)
         {
             return R(root, parts);
         }
@@ -621,10 +611,6 @@ namespace Juniper.TSBuild
                 OnInfo("Wrote v" + version);
             }
         }
-
-        private static readonly Regex watchAllDonePattern = new("^done in \\d+(\\.\\d+)?s$", RegexOptions.Compiled);
-        private static readonly Regex watchBasicDonePattern = new("^browser bundles rebuilt$", RegexOptions.Compiled);
-        private static readonly Regex watchMinifiedDonePattern = new("^minified browser bundles rebuilt$", RegexOptions.Compiled);
 
         public event EventHandler<StringEventArgs>? Info;
         public event EventHandler<StringEventArgs>? Warning;
