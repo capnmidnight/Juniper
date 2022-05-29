@@ -30,7 +30,7 @@ namespace Juniper.Services
             public bool UseSignalR { get; set; } = true;
         }
 
-        public static IServiceCollection ConfigureDefaultServices(this IServiceCollection services, IWebHostEnvironment env, BasicOptions config = null)
+        public static IServiceCollection ConfigureDefaultServices(this IServiceCollection services, IWebHostEnvironment env, BasicOptions? config = null)
         {
             config ??= new();
 
@@ -89,7 +89,7 @@ namespace Juniper.Services
             public bool LogSQL { get; set; }
         }
 
-        public static DbContextOptionsBuilder SetDefaultConnection(this DbContextOptionsBuilder options, string connectionStringName, IWebHostEnvironment env = null, Options config = null)
+        public static DbContextOptionsBuilder SetDefaultConnection(this DbContextOptionsBuilder options, string connectionStringName, IWebHostEnvironment? env = null, Options? config = null)
         {
             options.UseNpgsql($"name=ConnectionStrings:{connectionStringName}", opts =>
                 opts.EnableRetryOnFailure()
@@ -105,9 +105,11 @@ namespace Juniper.Services
             return options;
         }
 
-        public static IServiceCollection ConfigureDefaultServices<ContextT>(this IServiceCollection services, IWebHostEnvironment env, string connectionStringName, Options config = null)
+        public static IServiceCollection ConfigureDefaultServices<ContextT>(this IServiceCollection services, IWebHostEnvironment env, string connectionStringName, Options? config = null)
             where ContextT : IdentityDbContext
         {
+            config ??= new();
+
             services.ConfigureDefaultServices(env, config);
 
             services.AddDbContext<ContextT>(options =>
@@ -156,7 +158,7 @@ namespace Juniper.Services
             return services;
         }
 
-        private static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, PortOptions? ports, bool withAuth, bool withWebSockets, Action<IEndpointRouteBuilder> configEndPoint)
+        private static IApplicationBuilder ConfigureRequestPipeline(this IApplicationBuilder app, IWebHostEnvironment env, IConfiguration config, PortOptions? ports, bool withAuth, bool withWebSockets, Action<IEndpointRouteBuilder>? configEndPoint)
         {
             if (env.IsDevelopment())
             {
@@ -183,10 +185,16 @@ namespace Juniper.Services
                 app.UseHttpsRedirection();
             }
 
-            var defaultFileOpts = new DefaultFilesOptions
+            var defaultFileList = config.GetDefaultFiles();
+            if (defaultFileList is not null)
             {
-                DefaultFileNames = config.GetDefaultFiles()
-            };
+                var defaultFileOpts = new DefaultFilesOptions
+                {
+                    DefaultFileNames = defaultFileList
+                };
+
+                app.UseDefaultFiles(defaultFileOpts);
+            }
 
             var staticFileOpts = new StaticFileOptions
             {
@@ -200,8 +208,7 @@ namespace Juniper.Services
                 }
             };
 
-            app.UseDefaultFiles(defaultFileOpts)
-                .UseStaticFiles(staticFileOpts)
+            app.UseStaticFiles(staticFileOpts)
                 .UseStatusCodePagesWithRedirects("/status/{0}")
                 .UseRouting();
 

@@ -6,7 +6,7 @@ namespace Juniper.Configuration
     {
         public const int CACHE_TIME = 24 * 60 * 60;
 
-        public static IList<string> GetDefaultFiles(this IConfiguration config)
+        public static IList<string>? GetDefaultFiles(this IConfiguration config)
         {
             return config.GetSection("DefaultFiles")
                 ?.GetChildren()
@@ -30,7 +30,7 @@ namespace Juniper.Configuration
             return extTypes;
         }
 
-        public static Version GetVersion(this IConfiguration config, IWebHostEnvironment env)
+        public static Version? GetVersion(this IConfiguration config, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {

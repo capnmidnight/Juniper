@@ -7,6 +7,6 @@ namespace Juniper.HTTP
     {
         [Required]
         [Display(Name = "File")]
-        public IFormFile FormFile { get; set; }
+        public IFormFile? FormFile { get; set; }
     }
 }

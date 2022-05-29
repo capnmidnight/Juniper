@@ -6,7 +6,7 @@ namespace Juniper.HTTP
 {
     public class WebSocketPool
     {
-        protected static readonly Dictionary<string, string> userNames = new
+        protected static readonly Dictionary<string, string?> userNames = new
 ();
         public static void SetUserToken(string userName, string token)
         {
@@ -20,7 +20,7 @@ namespace Juniper.HTTP
 
         public IReadOnlyCollection<ServerWebSocketConnection> Sockets => sockets.Values;
 
-        protected void Socket_Closed(object sender, EventArgs e)
+        protected void Socket_Closed(object? sender, EventArgs e)
         {
             if (sender is ServerWebSocketConnection socket)
             {
@@ -49,19 +49,22 @@ namespace Juniper.HTTP
             if (!sockets.ContainsKey(id))
             {
                 var token = context.Request.Headers[HeaderNames.SecWebSocketProtocol];
-                if (token is not null && !userNames.ContainsKey(token))
-                {
-                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                }
-                else
+                if (token is not null && userNames.ContainsKey(token))
                 {
                     var wsContext = await context.AcceptWebSocketAsync(token)
                         .ConfigureAwait(false);
 
-                    var socket = new ServerWebSocketConnection(context, wsContext.WebSocket, userNames.Get(token));
-
-                    socket.Closed += Socket_Closed;
-                    sockets.Add(id, socket);
+                    var userName = userNames.Get(token);
+                    if (userName is not null)
+                    {
+                        var socket = new ServerWebSocketConnection(context, wsContext.WebSocket, userName);
+                        socket.Closed += Socket_Closed;
+                        sockets.Add(id, socket);
+                    }
+                }
+                else
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 }
             }
 
@@ -90,10 +93,14 @@ namespace Juniper.HTTP
                         .AcceptWebSocketAsync(token)
                         .ConfigureAwait(false);
 
-                    var socket = new ServerWebSocketConnection(webSocket, userNames.Get(token));
+                    var userName = userNames.Get(token);
+                    if (userName is not null)
+                    {
+                        var socket = new ServerWebSocketConnection(webSocket, userName);
 
-                    socket.Closed += Socket_Closed;
-                    sockets.Add(id, socket);
+                        socket.Closed += Socket_Closed;
+                        sockets.Add(id, socket);
+                    }
                 }
             }
 

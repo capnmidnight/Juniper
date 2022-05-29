@@ -9,6 +9,7 @@ namespace Juniper.TagHelpers
         private readonly IWebHostEnvironment env;
         private readonly IConfiguration config;
         private readonly string tagName;
+        private readonly string type;
         private readonly string srcAttr;
         private readonly string root;
         private readonly string ext;
@@ -18,17 +19,15 @@ namespace Juniper.TagHelpers
             this.env = env;
             this.config = config;
             this.tagName = tagName;
-            Type = type;
+            this.type = type;
             this.srcAttr = srcAttr;
             this.root = root;
             this.ext = ext;
         }
 
-        public string Type { get; set; }
+        public string? Name { get; set; }
 
-        public string Name { get; set; }
-
-        public string Version { get; set; }
+        public string? Version { get; set; }
 
         public bool Versioned { get; set; }
 
@@ -42,30 +41,33 @@ namespace Juniper.TagHelpers
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.TagMode = TagMode.StartTagAndEndTag;
-            output.TagName = tagName;
-            var src = ext == ".js"
-                ? $"/{root}/{Name}/index{Extension}"
-                : $"/{root}/{Name}{Extension}";
-
-            if (Inlined)
+            if (Name is not null)
             {
-                output.Content.AppendHtml(System.IO.File.ReadAllText("wwwroot" + src));
-            }
-            else
-            {
-                output.Attributes.SetAttribute("type", Type);
-                if (Versioned && string.IsNullOrEmpty(Version))
-                {
-                    Version = config.GetVersion(env).ToString();
-                }
+                output.TagMode = TagMode.StartTagAndEndTag;
+                output.TagName = tagName;
+                var src = ext == ".js"
+                    ? $"/{root}/{Name}/index{Extension}"
+                    : $"/{root}/{Name}{Extension}";
 
-                if (!string.IsNullOrEmpty(Version))
+                if (Inlined)
                 {
-                    src += "?v=" + Version;
+                    output.Content.AppendHtml(File.ReadAllText("wwwroot" + src));
                 }
+                else
+                {
+                    output.Attributes.SetAttribute("type", type);
+                    if (Versioned && string.IsNullOrEmpty(Version))
+                    {
+                        Version = config.GetVersion(env)?.ToString();
+                    }
 
-                output.Attributes.SetAttribute(srcAttr, src);
+                    if (!string.IsNullOrEmpty(Version))
+                    {
+                        src += "?v=" + Version;
+                    }
+
+                    output.Attributes.SetAttribute(srcAttr, src);
+                }
             }
         }
     }

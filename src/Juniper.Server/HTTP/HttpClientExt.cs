@@ -85,6 +85,11 @@ namespace System.Net.Http
                 requestMessage.Dispose();
                 responseMessage.Dispose();
 
+                if(responseMessage.Headers.Location is null)
+                {
+                    throw new Exception("Couldn't find redirect location");
+                }
+
                 requestMessage = MakeRequest(request, responseMessage.Headers.Location);
                 responseMessage = await http.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, request.HttpContext.RequestAborted);
             }

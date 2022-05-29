@@ -5,11 +5,11 @@ namespace Juniper.HTTP
 {
     public class ServerWebSocketConnection : WebSocketConnection<WebSocket>
     {
-        private readonly HttpListenerContext context;
+        private HttpListenerContext? context;
 
         public string UserName { get; set; }
 
-        public string Token => Socket.SubProtocol;
+        public string? Token => Socket.SubProtocol;
 
         public ServerWebSocketConnection(HttpListenerContext httpContext, WebSocket socket, string userName, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
             : base(rxBufferSize, dataBufferSize)
@@ -38,7 +38,8 @@ namespace Juniper.HTTP
             {
                 if (disposing)
                 {
-                    context.Response.Close();
+                    context?.Response?.Close();
+                    context = null;
                 }
 
                 disposedValue = true;
