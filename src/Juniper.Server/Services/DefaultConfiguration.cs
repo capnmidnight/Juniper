@@ -183,22 +183,26 @@ namespace Juniper.Services
                 app.UseHttpsRedirection();
             }
 
-            app.UseStatusCodePagesWithRedirects("/status/{0}")
-                .UseStaticFiles(new StaticFileOptions
+            var defaultFileOpts = new DefaultFilesOptions
+            {
+                DefaultFileNames = config.GetDefaultFiles()
+            };
+
+            var staticFileOpts = new StaticFileOptions
+            {
+                ContentTypeProvider = config.GetContentTypes(),
+                OnPrepareResponse = (context) =>
                 {
-                    ContentTypeProvider = config.GetContentTypes(),
-                    OnPrepareResponse = (context) =>
+                    if (!env.IsDevelopment())
                     {
-                        if (!env.IsDevelopment())
-                        {
-                            context.Context.Response.Headers[HeaderNames.CacheControl] = $"public,max-age={IConfigurationExt.CACHE_TIME}";
-                        }
+                        context.Context.Response.Headers[HeaderNames.CacheControl] = $"public,max-age={IConfigurationExt.CACHE_TIME}";
                     }
-                })
-                .UseDefaultFiles(new DefaultFilesOptions
-                {
-                    DefaultFileNames = config.GetDefaultFiles()
-                })
+                }
+            };
+
+            app.UseDefaultFiles(defaultFileOpts)
+                .UseStaticFiles(staticFileOpts)
+                .UseStatusCodePagesWithRedirects("/status/{0}")
                 .UseRouting();
 
             if (withAuth)

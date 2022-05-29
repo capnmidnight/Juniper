@@ -29,6 +29,7 @@ namespace Juniper.Configuration
 
             return extTypes;
         }
+
         public static Version GetVersion(this IConfiguration config, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
