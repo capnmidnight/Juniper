@@ -104,15 +104,20 @@ namespace Juniper.Processes
             }
 
             var op = match.Groups[1].Value;
-            if (!(op == "<" && actualVersion < requiredVersion
-                || op == "<=" && actualVersion <= requiredVersion
-                || op == ">" && actualVersion > requiredVersion
-                || op == ">=" && actualVersion >= requiredVersion
-                || (op == "=" || op.Length == 0) && actualVersion == requiredVersion
-                || op == "~" && actualVersion.Major == requiredVersion.Major && actualVersion.Minor == requiredVersion.Minor
-                || op == "^" && (requiredVersion.Major != 0 && actualVersion.Major == requiredVersion.Major
-                    || requiredVersion.Minor != 0 && actualVersion.Minor == requiredVersion.Minor
-                    || requiredVersion.Build != 0 && actualVersion.Build == requiredVersion.Build)))
+            var isGood = op switch
+            {
+                "<" => actualVersion < requiredVersion,
+                "<=" => actualVersion <= requiredVersion,
+                ">" => actualVersion > requiredVersion,
+                ">=" => actualVersion >= requiredVersion,
+                "=" or "" => actualVersion == requiredVersion,
+                "~" => actualVersion.Major == requiredVersion.Major && actualVersion.Minor == requiredVersion.Minor,
+                "^" => (requiredVersion.Major != 0 && actualVersion.Major == requiredVersion.Major)
+                   || (requiredVersion.Minor != 0 && actualVersion.Minor == requiredVersion.Minor)
+                   || (requiredVersion.Build != 0 && actualVersion.Build == requiredVersion.Build),
+                _ => throw new InvalidOperationException(op)
+            };
+            if (!isGood)
             {
                 OnInfo($"Versions don't match {package.name}: {package.version} {op} {requiredVersionStr[op.Length..]}");
                 return true;
