@@ -1,9 +1,6 @@
 using Juniper.Logging;
 using Juniper.Processes;
-using Juniper.Terminal;
 using Juniper.Units;
-
-using System.Text.RegularExpressions;
 
 namespace Juniper.TSBuild
 {
@@ -319,7 +316,7 @@ namespace Juniper.TSBuild
 
         private static FileInfo R(DirectoryInfo dir, params string[] parts)
         {
-            return dir.MkDir(parts[0..^1]).Touch(parts[^1]);
+            return dir.CD(parts[0..^1]).Touch(parts[^1]);
         }
 
         public static FileInfo From(DirectoryInfo root, params string[] parts)
