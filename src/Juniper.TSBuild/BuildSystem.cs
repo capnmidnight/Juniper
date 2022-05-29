@@ -168,9 +168,9 @@ namespace Juniper.TSBuild
 
             juniperTsDir = TestDir("Couldn't find Juniper TypeScript", juniperDir.CD("src", "Juniper.TypeScript"));
             projectDir = TestDir($"Couldn't find project {projectName} from {startDir}", startDir.CD(projectName));
-            projectJsDir = TestDir("Couldn't find project TypeScript", projectDir.MkDir("wwwroot", "js"));
-
-            projectNodeModules = projectDir.MkDir("node_modules");
+            
+            projectJsDir = projectDir.MkDir("wwwroot", "js");
+            projectNodeModules = projectDir.CD("node_modules");
             projectPackage = projectDir.Touch("package.json");
             projectBuildInfo = projectDir.Touch("buildinfo.json");
             projectAppSettings = projectDir.Touch("appsettings.json");
