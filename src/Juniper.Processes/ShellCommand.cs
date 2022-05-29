@@ -3,6 +3,13 @@ using System.Text;
 
 namespace Juniper.Processes
 {
+    public class ShellCommandNotFoundException : Exception
+    {
+        public ShellCommandNotFoundException(string message)
+            : base(message) { 
+        }
+    }
+
     public class ShellCommand : AbstractShellCommand
     {
         private static readonly Dictionary<PlatformID, string[]> exts = new()
@@ -54,11 +61,12 @@ namespace Juniper.Processes
 
         private static string MakeCommandName(DirectoryInfo? workingDir, ref string? command, ref string[] args)
         {
+            var originalCommandName = command;
             command = FindCommandPath(command);
 
             if (command is null)
             {
-                throw new ArgumentNullException(nameof(command));
+                throw new ShellCommandNotFoundException($"Could not find command: {originalCommandName}");
             }
 
             if (command.Length == 0)

@@ -463,10 +463,33 @@ namespace Juniper.TSBuild
             }
         }
 
+        private T? TryMake<T>(Func<T> make) where T : class
+        {
+            try
+            {
+                return make();
+            }
+            catch (ShellCommandNotFoundException err)
+            {
+                OnError(err);
+                return null;
+            }
+        }
+
+        public IEnumerable<T> TryMake<V, T>(IEnumerable<V> collection, Func<V, T> make) where T : class
+        {
+            return collection
+                .Select(dir => TryMake(() => make(dir)))
+                .Where(t => t is not null)
+                .Cast<T>();
+        }
+
         private IEnumerable<NPMInstallCommand> GetInstallCommands(Level buildLevel)
         {
-            return NPMProjects.Select(dir =>
-                new NPMInstallCommand(dir, buildLevel == Level.High));
+            return TryMake(
+                NPMProjects, 
+                dir => new NPMInstallCommand(dir, buildLevel == Level.High)
+            );
         }
 
         public async Task NPMInstallsAsync()
@@ -478,32 +501,37 @@ namespace Juniper.TSBuild
         public async Task TSChecksAsync()
         {
             await WithCommandTree(commands =>
-                commands.AddCommands(TSProjects.Select(dir =>
-                    new TSBuildCommand(dir))));
+                commands.AddCommands(TryMake(
+                    TSProjects, 
+                    dir => new TSBuildCommand(dir)
+                )));
         }
 
         public async Task NPMAuditsAsync()
         {
             await WithCommandTree(commands =>
-                commands.AddCommands(NPMProjects.Select(dir =>
-                    new ShellCommand(dir, "npm", "audit"))));
+                commands.AddCommands(TryMake(
+                    NPMProjects, 
+                    dir => new ShellCommand(dir, "npm", "audit")
+                )));
         }
 
         public async Task NPMAuditFixesAsync()
         {
             await WithCommandTree(commands =>
-                commands.AddCommands(NPMProjects.Select(dir =>
-                    new ShellCommand(dir, "npm", "audit fix"))));
+                commands.AddCommands(TryMake(
+                    NPMProjects, 
+                    dir => new ShellCommand(dir, "npm", "audit fix")
+                )));
         }
 
         public async Task OpenPackageJsonsAsync()
         {
             await WithCommandTree(commands =>
-                commands.AddCommands(NPMProjects
-                .Select(dir =>  dir.Touch("package.json"))
-                .Where(f => f.Exists)
-                .Select(f =>
-                    new ShellCommand(f.Directory, "explorer", f.Name))));
+                commands.AddCommands(TryMake(
+                    NPMProjects.Select(dir => dir.Touch("package.json")).Where(f => f.Exists),
+                    f => new ShellCommand(f.Directory, "explorer", f.Name)
+                )));
         }
 
 
@@ -534,8 +562,10 @@ namespace Juniper.TSBuild
                 if (buildLevel > Level.Low)
                 {
                     commands
-                        .AddCommands(ESBuildProjects
-                            .Select(dir => new ShellCommand(dir, "npm", "run build")))
+                        .AddCommands(TryMake(
+                            ESBuildProjects, 
+                            dir => new ShellCommand(dir, "npm", "run build")
+                        ))
                         .AddCommands(
                             new CopyJsonValueCommand(
                                 projectPackage, "version",
@@ -562,10 +592,10 @@ namespace Juniper.TSBuild
 
             var buildLevel = await GetBuildLevel(Level.None);
             var copyCommands = GetDependecies();
-            var bundles = ESBuildProjects
-                .Where(dir => dir==projectDir || sourceBuildTS)
-                .Select(dir => MakeWatchCommand(proxy, dir))
-                .ToArray();
+            var bundles = TryMake(
+                ESBuildProjects.Where(dir => dir == projectDir || sourceBuildTS),
+                dir => MakeWatchCommand(proxy, dir)
+            ).ToArray();
 
             await WithCommandTree(commands =>
             {
@@ -577,12 +607,12 @@ namespace Juniper.TSBuild
 
             foreach (var b in bundles)
             {
-                b.RunSafeAsync();
+                _ = b.RunSafeAsync();
             }
 
             timer = new Timer(new TimerCallback((_) =>
             {
-                foreach(var dep in copyCommands)
+                foreach (var dep in copyCommands)
                 {
                     if (dep.Recheck())
                     {

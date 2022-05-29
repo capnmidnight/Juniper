@@ -47,14 +47,21 @@ stdInEventer.Line += (_, e) =>
             return;
         }
 
-        var cmd = new ShellCommand(
-            desc.WorkingDir,
-            desc.Args.First(),
-            desc.Args.Skip(1).ToArray());
+        try
+        {
+            var cmd = new ShellCommand(
+                desc.WorkingDir,
+                desc.Args.First(),
+                desc.Args.Skip(1).ToArray());
 
-        commands.Add(desc.TaskID, cmd);
+            commands.Add(desc.TaskID, cmd);
 
-        Run(desc, cmd);
+            Run(desc, cmd);
+        }
+        catch(ShellCommandNotFoundException exp)
+        {
+            Error(desc, exp.Unroll());
+        }
     }
 };
 

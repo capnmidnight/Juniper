@@ -10,7 +10,6 @@ namespace Juniper.TSBuild
         private readonly ShellCommand processManager;
         private readonly JsonFactory<CommandProxyDescription> cmdFactory = new() { Formatting = Newtonsoft.Json.Formatting.None };
         private readonly Dictionary<int, ProxiedWatchCommand> proxies = new();
-        private readonly TaskCompletionSource startup = new (TaskCreationOptions.RunContinuationsAsynchronously);
         private int taskCounter = 0;
 
         public event EventHandler<StringEventArgs>? Info;
@@ -24,7 +23,14 @@ namespace Juniper.TSBuild
             Root = rootDir;
 
             processManager = new ShellCommand("Juniper.ProcessManager", Environment.ProcessId.ToString());
-            processManager.Info += (_, e) =>
+            processManager.Warning += (_, e) => Warning?.Invoke(this, e);
+            processManager.Err += (_, e) => Err?.Invoke(this, e);
+        }
+
+        public async Task Start()
+        {
+            var startup = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            EventHandler<StringEventArgs> onInfo = (_, e) =>
             {
                 if (cmdFactory.TryParse(e.Value, out var cmd))
                 {
@@ -58,15 +64,10 @@ namespace Juniper.TSBuild
                     Info?.Invoke(this, e);
                 }
             };
-
-            processManager.Warning += (_, e) => Warning?.Invoke(this, e);
-            processManager.Err += (_, e) => Err?.Invoke(this, e);
-        }
-
-        public Task Start()
-        {
-            processManager.RunAsync();
-            return startup.Task;
+            processManager.Info += onInfo;
+            _ = processManager.RunAsync();
+            await startup.Task;
+            processManager.Info -= onInfo;
         }
 
         private void EndTask(int taskID)
