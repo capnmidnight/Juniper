@@ -1,5 +1,5 @@
 import { type } from "@juniper-lib/dom/attrs";
-import { createUtilityCanvas, drawImageToCanvas } from "@juniper-lib/dom/canvas";
+import { createCanvas, drawImageToCanvas, hasOffscreenCanvas } from "@juniper-lib/dom/canvas";
 import { BackgroundAudio, BackgroundVideo, Img, Script } from "@juniper-lib/dom/tags";
 import { HTTPMethods } from "@juniper-lib/fetcher-base/HTTPMethods";
 import {
@@ -12,7 +12,7 @@ import {
 } from "@juniper-lib/fetcher-base/IFetcher";
 import { IFetchingService } from "@juniper-lib/fetcher-base/IFetchingService";
 import { IRequestWithBody } from "@juniper-lib/fetcher-base/IRequest";
-import { IBodilessResponse, IResponse } from "@juniper-lib/fetcher-base/IResponse";
+import { IResponse } from "@juniper-lib/fetcher-base/IResponse";
 import { translateResponse } from "@juniper-lib/fetcher-base/ResponseTranslator";
 import { assertNever, dispose, Exception, IProgress, isDefined, isString, isWorker, MediaType, once, waitFor } from "@juniper-lib/tslib";
 import { Application_Javascript, Application_Json, Application_Wasm } from "@juniper-lib/tslib/mediatypes/application";
@@ -252,24 +252,6 @@ export class RequestBuilder implements
         }
     }
 
-    drawToCanvas(canvas: HTMLCanvasElement, acceptType?: string | MediaType): Promise<IBodilessResponse> {
-        this.accept(acceptType);
-        if (this.method === "GET") {
-            return this.fetcher.drawImageToCanvas(this.request, canvas.transferControlToOffscreen(), this.prog);
-        }
-        else if (this.method === "POST"
-            || this.method === "PUT"
-            || this.method === "PATCH"
-            || this.method === "DELETE"
-            || this.method === "HEAD"
-            || this.method === "OPTIONS") {
-            throw new Error(`${this.method} responses do not contain bodies`);
-        }
-        else {
-            assertNever(this.method);
-        }
-    }
-
     exec() {
         if (this.method === "POST"
             || this.method === "PUT"
@@ -337,17 +319,38 @@ export class RequestBuilder implements
         );
     }
 
-    async canvas(acceptType?: string | MediaType): Promise<IResponse<HTMLCanvasElement | OffscreenCanvas>> {
-        const response: IResponse<HTMLImageElement | ImageBitmap> = await (isWorker
-            ? this.imageBitmap(acceptType)
-            : this.image(acceptType));
+    async canvas(acceptType?: string | MediaType): Promise<IResponse<HTMLCanvasElement>> {
+        const canvas = createCanvas(1, 1);
 
-        return await translateResponse(response, (img) => {
-            const canvas = createUtilityCanvas(img.width, img.height);
-            drawImageToCanvas(canvas, img);
-            dispose(img);
-            return canvas;
-        });
+        if (!hasOffscreenCanvas) {
+            const response: IResponse<HTMLImageElement | ImageBitmap> = await (isWorker
+                ? this.imageBitmap(acceptType)
+                : this.image(acceptType));
+
+            return await translateResponse(response, (img) => {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                drawImageToCanvas(canvas, img);
+                dispose(img);
+                return canvas;
+            });
+        }
+        else if (this.method === "GET") {
+            this.accept(acceptType);
+            const response = await this.fetcher.drawImageToCanvas(this.request, canvas.transferControlToOffscreen(), this.prog);
+            return await translateResponse<void, HTMLCanvasElement>(response, () => canvas);
+        }
+        else if (this.method === "POST"
+            || this.method === "PUT"
+            || this.method === "PATCH"
+            || this.method === "DELETE"
+            || this.method === "HEAD"
+            || this.method === "OPTIONS") {
+            throw new Error(`${this.method} responses do not contain bodies`);
+        }
+        else {
+            assertNever(this.method);
+        }
     }
 
     audio(autoPlaying: boolean, looping: boolean, acceptType?: string | MediaType): Promise<IResponse<HTMLAudioElement>> {

@@ -2,7 +2,7 @@ import { assertNever, identity, IDexDB, IDexStore, IProgress, isArrayBuffer, isA
 import { HTTPMethods } from "./HTTPMethods";
 import { IFetchingServiceImpl, XMLHttpRequestResponseTypeMap } from "./IFetchingServiceImpl";
 import { IRequest, IRequestWithBody } from "./IRequest";
-import { IBodilessResponse, IResponse } from "./IResponse";
+import { IResponse } from "./IResponse";
 import { translateResponse } from "./ResponseTranslator";
 
 function isXHRBodyInit(obj: any): obj is XMLHttpRequestBodyInit {
@@ -115,7 +115,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         this.cacheReady = this.openCache();
     }
 
-    async drawImageToCanvas(request: IRequest, canvas: OffscreenCanvas, progress: IProgress): Promise<IResponse<IBodilessResponse>> {
+    async drawImageToCanvas(request: IRequest, canvas: OffscreenCanvas, progress: IProgress): Promise<IResponse> {
         const response = await this.sendNothingGetSomething("blob", request, progress);
         const blob = response.content;
         return using(await createImageBitmap(blob, {
@@ -145,7 +145,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         await this.store.clear();
     }
 
-    private async readResponseHeaders(path: string, xhr: XMLHttpRequest): Promise<IBodilessResponse> {
+    private async readResponseHeaders(path: string, xhr: XMLHttpRequest): Promise<IResponse> {
         const headerParts = xhr
             .getAllResponseHeaders()
             .split(/[\r\n]+/)
@@ -182,9 +182,10 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
             return null;
         });
 
-        const response: IBodilessResponse = {
+        const response: IResponse = {
             status: xhr.status,
             path,
+            content: undefined,
             contentType,
             contentLength,
             fileName,
@@ -274,7 +275,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
 
     private readonly tasks = new PriorityMap<HTTPMethods, string, Promise<any>>();
 
-    private async withCachedTask<T extends IBodilessResponse>(request: IRequest, action: () => Promise<T>): Promise<T> {
+    private async withCachedTask<T>(request: IRequest, action: () => Promise<IResponse<T>>): Promise<IResponse<T>> {
         if (request.method !== "GET"
             && request.method !== "HEAD"
             && request.method !== "OPTIONS") {
@@ -292,7 +293,7 @@ export class FetchingServiceImplXHR implements IFetchingServiceImpl {
         return this.tasks.get(request.method, request.path);
     }
 
-    sendNothingGetNothing(request: IRequest): Promise<IBodilessResponse> {
+    sendNothingGetNothing(request: IRequest): Promise<IResponse> {
         return this.withCachedTask(request, async () => {
             const xhr = new XMLHttpRequest();
             const download = trackProgress(`requesting: ${request.path}`, xhr, xhr, null, true);

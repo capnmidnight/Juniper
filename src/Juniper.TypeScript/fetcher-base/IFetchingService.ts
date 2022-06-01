@@ -1,6 +1,6 @@
 import type { IProgress } from "@juniper-lib/tslib";
 import type { IRequest, IRequestWithBody } from "./IRequest";
-import type { IBodilessResponse, IResponse } from "./IResponse";
+import type { IResponse } from "./IResponse";
 
 
 export interface IFetchingService {
@@ -9,7 +9,7 @@ export interface IFetchingService {
 
     setRequestVerificationToken(value: string): void;
 
-    sendNothingGetNothing(request: IRequest): Promise<IBodilessResponse>;
+    sendNothingGetNothing(request: IRequest): Promise<IResponse>;
 
     sendNothingGetBlob(request: IRequest, progress: IProgress): Promise<IResponse<Blob>>;
     sendNothingGetBuffer(request: IRequest, progress: IProgress): Promise<IResponse<ArrayBuffer>>;
@@ -19,7 +19,7 @@ export interface IFetchingService {
     sendNothingGetXml(request: IRequest, progress: IProgress): Promise<IResponse<HTMLElement>>;
     sendNothingGetImageBitmap(request: IRequest, progress: IProgress): Promise<IResponse<ImageBitmap>>;
 
-    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IBodilessResponse>;
+    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IResponse>;
 
     sendObjectGetBlob(request: IRequestWithBody, progress: IProgress): Promise<IResponse<Blob>>;
     sendObjectGetBuffer(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ArrayBuffer>>;
@@ -29,5 +29,5 @@ export interface IFetchingService {
     sendObjectGetXml(request: IRequestWithBody, progress: IProgress): Promise<IResponse<HTMLElement>>;
     sendObjectGetImageBitmap(request: IRequestWithBody, progress: IProgress): Promise<IResponse<ImageBitmap>>;
 
-    drawImageToCanvas(request: IRequest, canvas: OffscreenCanvas, progress: IProgress): Promise<IBodilessResponse>;
+    drawImageToCanvas(request: IRequest, canvas: OffscreenCanvas, progress: IProgress): Promise<IResponse>;
 }

@@ -1,13 +1,10 @@
-export interface IBodilessResponse {
+export interface IResponse<T = void> {
     status: number;
     path: string;
-    date: Date;
     headers: Map<string, string>;
+    date: Date;
+    fileName: string;
     contentType: string;
     contentLength: number;
-    fileName: string;
-}
-
-export interface IResponse<T> extends IBodilessResponse {
     content: T;
 }

@@ -1,5 +1,5 @@
 import type { IProgress, MediaType } from "@juniper-lib/tslib";
-import type { IBodilessResponse, IResponse } from "./IResponse";
+import type { IResponse } from "./IResponse";
 
 export interface IFetcherBasic {
     query(name: string, value: string): this;
@@ -185,7 +185,7 @@ export interface IFetcherSendCredentials {
 }
 
 export interface IFetcherBodilessResult {
-    exec(): Promise<IBodilessResponse>;
+    exec(): Promise<IResponse>;
 }
 
 export interface IFetcherBodiedResult {
@@ -198,12 +198,10 @@ export interface IFetcherBodiedResult {
 
     image(acceptType?: string | MediaType): Promise<IResponse<HTMLImageElement>>;
     imageBitmap(acceptType?: string | MediaType): Promise<IResponse<ImageBitmap>>;
-    canvas(acceptType?: string | MediaType): Promise<IResponse<HTMLCanvasElement | OffscreenCanvas>>;
+    canvas(acceptType?: string | MediaType): Promise<IResponse<HTMLCanvasElement>>;
 
     audio(autoPlaying: boolean, looping: boolean, acceptType?: string | MediaType): Promise<IResponse<HTMLAudioElement>>;
     audioBuffer(audioCtx: BaseAudioContext, acceptType?: string | MediaType): Promise<IResponse<AudioBuffer>>;
-
-    drawToCanvas(canvas: HTMLCanvasElement, acceptType?: string | MediaType): Promise<IBodilessResponse>;
 
     video(autoPlaying: boolean, looping: boolean, acceptType?: string | MediaType): Promise<IResponse<HTMLVideoElement>>;
 

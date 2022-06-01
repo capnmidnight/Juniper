@@ -1,6 +1,6 @@
 import type { IProgress } from "@juniper-lib/tslib";
 import type { IRequest, IRequestWithBody } from "./IRequest";
-import type { IBodilessResponse, IResponse } from "./IResponse";
+import type { IResponse } from "./IResponse";
 
 
 export interface XMLHttpRequestResponseTypeMap {
@@ -14,8 +14,8 @@ export interface XMLHttpRequestResponseTypeMap {
 
 export interface IFetchingServiceImpl {
     clearCache(): Promise<void>;
-    sendNothingGetNothing(request: IRequest): Promise<IBodilessResponse>;
+    sendNothingGetNothing(request: IRequest): Promise<IResponse>;
     sendNothingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequest, progress: IProgress): Promise<IResponse<T>>;
     sendSomethingGetSomething<K extends keyof (XMLHttpRequestResponseTypeMap), T extends XMLHttpRequestResponseTypeMap[K]>(xhrType: K, request: IRequestWithBody, defaultPostHeaders: Map<string, string>, progress: IProgress): Promise<IResponse<T>>;
-    drawImageToCanvas(request: IRequest, canvas: OffscreenCanvas, progress: IProgress): Promise<IResponse<IBodilessResponse>>;
+    drawImageToCanvas(request: IRequest, canvas: OffscreenCanvas, progress: IProgress): Promise<IResponse>;
 }

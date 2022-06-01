@@ -2,7 +2,7 @@ import { IProgress } from "@juniper-lib/tslib";
 import { IFetchingService } from "./IFetchingService";
 import { IFetchingServiceImpl } from "./IFetchingServiceImpl";
 import { IRequest, IRequestWithBody } from "./IRequest";
-import { IBodilessResponse, IResponse } from "./IResponse";
+import { IResponse } from "./IResponse";
 import { translateResponse } from "./ResponseTranslator";
 
 
@@ -21,7 +21,7 @@ export class FetchingService implements IFetchingService {
         return this.impl.clearCache();
     }
 
-    sendNothingGetNothing(request: IRequest): Promise<IBodilessResponse> {
+    sendNothingGetNothing(request: IRequest): Promise<IResponse> {
         return this.impl.sendNothingGetNothing(request);
     }
 
@@ -59,11 +59,11 @@ export class FetchingService implements IFetchingService {
         return response.content;
     }
 
-    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IBodilessResponse> {
+    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IResponse> {
         return this.impl.sendSomethingGetSomething("", request, this.defaultPostHeaders, progress);
     }
 
-    drawImageToCanvas(request: IRequest, canvas: OffscreenCanvas, progress: IProgress): Promise<IBodilessResponse> {
+    drawImageToCanvas(request: IRequest, canvas: OffscreenCanvas, progress: IProgress): Promise<IResponse> {
         return this.impl.drawImageToCanvas(request, canvas, progress);
     }
 

@@ -1,6 +1,6 @@
 import { IFetchingService } from "@juniper-lib/fetcher-base/IFetchingService";
 import { IRequest, IRequestWithBody } from "@juniper-lib/fetcher-base/IRequest";
-import { IBodilessResponse, IResponse } from "@juniper-lib/fetcher-base/IResponse";
+import { IResponse } from "@juniper-lib/fetcher-base/IResponse";
 import { IProgress } from "@juniper-lib/tslib";
 import { WorkerClient } from "@juniper-lib/worker-client";
 
@@ -118,7 +118,7 @@ export class FetchingServiceClient
         return this.callMethod(methodName, [cloneRequestWithBody(request)], progress);
     }
 
-    sendNothingGetNothing(request: IRequest): Promise<IBodilessResponse> {
+    sendNothingGetNothing(request: IRequest): Promise<IResponse> {
         return this.makeRequest("sendNothingGetNothing", request, null);
     }        
 
@@ -142,7 +142,7 @@ export class FetchingServiceClient
         return this.makeRequest("sendNothingGetImageBitmap", request, progress);
     }
 
-    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IBodilessResponse> {
+    sendObjectGetNothing(request: IRequestWithBody, progress: IProgress): Promise<IResponse> {
         return this.makeRequestWithBody("sendObjectGetNothing", request, progress);
     }
 
@@ -166,7 +166,7 @@ export class FetchingServiceClient
         return this.makeRequestWithBody("sendObjectGetImageBitmap", request, progress);
     }
 
-    drawImageToCanvas(request: IRequest, canvas: OffscreenCanvas, progress: IProgress): Promise<IBodilessResponse> {
+    drawImageToCanvas(request: IRequest, canvas: OffscreenCanvas, progress: IProgress): Promise<IResponse> {
         return this.callMethod("drawImageToCanvas", [cloneRequest(request), canvas], [canvas], progress);
     }
 
