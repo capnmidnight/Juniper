@@ -102,7 +102,7 @@ namespace Juniper.TSBuild
                     }
                     else if (opts.level > Level.None)
                     {
-                        await build.CheckAsync(opts.level, options.SourceBuildJuniperTS);
+                        await build.CheckAsync(opts.level);
                     }
                 }
                 catch (Exception exp)
@@ -195,6 +195,7 @@ namespace Juniper.TSBuild
                 if (options.IncludePDFJS)
                 {
                     AddDependency("PDFJS", From("pdfjs-dist", "build", "pdf.worker.js"), To("pdfjs", "index.js"));
+                    AddDependency("PDFJS", From("pdfjs-dist", "build", "pdf.worker.js.map"), To("pdfjs", "index.js.map"));
                     AddDependency("PDFJS min", From("pdfjs-dist", "build", "pdf.worker.min.js"), To("pdfjs", "index.min.js"));
                 }
 
@@ -204,59 +205,30 @@ namespace Juniper.TSBuild
                     AddDependency("JQuery min", From("jquery", "dist", "jquery.min.js"), To("jquery", "index.min.js"));
                 }
 
-                if (options.IncludeEnvironment)
-                {
-                    if (isDev && options.SourceBuildJuniperTS)
-                    {
-                        AddDependency("Juniper Environment", From(juniperTsDir, "environment", "dist", "index.js"), To("environment", "index.js"));
-                        AddDependency("Juniper Environment min", From(juniperTsDir, "environment", "dist", "index.min.js"), To("environment", "index.min.js"));
-                    }
-                    else
-                    {
-                        AddDependency("Juniper Environment", From("@juniper-lib", "environment", "dist", "index.js"), To("environment", "index.js"));
-                        AddDependency("Juniper Environment min", From("@juniper-lib", "environment", "dist", "index.min.js"), To("environment", "index.min.js"));
-                    }
-                }
+                var sourceDir = (isDev && options.SourceBuildJuniperTS)
+                    ? juniperTsDir
+                    : projectNodeModules.CD("@juniper-lib");
 
-                if (options.IncludeFetcher)
+                if (sourceDir.Exists)
                 {
-                    if (isDev && options.SourceBuildJuniperTS)
+                    if (options.IncludeEnvironment)
                     {
-                        AddDependency("Juniper Fetcher", From(juniperTsDir, "fetcher-worker", "dist", "index.js"), To("fetcher-worker", "index.js"));
-                        AddDependency("Juniper Fetcher min", From(juniperTsDir, "fetcher-worker", "dist", "index.min.js"), To("fetcher-worker", "index.min.js"));
+                        AddJuniperDependency(sourceDir, "environment");
                     }
-                    else
-                    {
-                        AddDependency("Juniper Fetcher", From("@juniper-lib", "fetcher-worker", "dist", "index.js"), To("fetcher-worker", "index.js"));
-                        AddDependency("Juniper Fetcher min", From("@juniper-lib", "fetcher-worker", "dist", "index.min.js"), To("fetcher-worker", "index.min.js"));
-                    }
-                }
 
-                if (options.IncludePhysics)
-                {
-                    if (isDev && options.SourceBuildJuniperTS)
+                    if (options.IncludeFetcher)
                     {
-                        AddDependency("Juniper Physics", From(juniperTsDir, "physics-worker", "dist", "index.js"), To("physics-worker", "index.js"));
-                        AddDependency("Juniper Physics min", From(juniperTsDir, "physics-worker", "dist", "index.min.js"), To("physics-worker", "index.min.js"));
+                        AddJuniperDependency(sourceDir, "fetcher-worker");
                     }
-                    else
-                    {
-                        AddDependency("Juniper Physics", From("@juniper-lib", "physics-worker", "dist", "index.js"), To("physics-worker", "index.js"));
-                        AddDependency("Juniper Physics min", From("@juniper-lib", "physics-worker", "dist", "index.min.js"), To("physics-worker", "index.min.js"));
-                    }
-                }
 
-                if (options.IncludeTeleconferencing)
-                {
-                    if (isDev && options.SourceBuildJuniperTS)
+                    if (options.IncludePhysics)
                     {
-                        AddDependency("Juniper Teleconferencing", From(juniperTsDir, "tele", "dist", "index.js"), To("tele", "index.js"));
-                        AddDependency("Juniper Teleconferencing min", From(juniperTsDir, "tele", "dist", "index.min.js"), To("tele", "index.min.js"));
+                        AddJuniperDependency(sourceDir, "physics-worker");
                     }
-                    else
+
+                    if (options.IncludeTeleconferencing)
                     {
-                        AddDependency("Juniper Teleconferencing", From("@juniper-lib", "tele", "dist", "index.js"), To("tele", "index.js"));
-                        AddDependency("Juniper Teleconferencing min", From("@juniper-lib", "tele", "dist", "index.min.js"), To("tele", "index.min.js"));
+                        AddJuniperDependency(sourceDir, "tele");
                     }
                 }
             }
@@ -316,6 +288,18 @@ namespace Juniper.TSBuild
         public BuildSystem AddDependency(string name, FileInfo from, FileInfo to)
         {
             dependencies.Add(from, (name, to));
+            return this;
+        }
+
+        public BuildSystem AddJuniperDependency(DirectoryInfo sourceDir, string name)
+        {
+            var from = sourceDir.CD(name, "dist");
+            var to = projectJsDir.CD(name);
+            var msg = "Juniper " + name;
+            AddDependency(msg, from.Touch("index.js"), to.Touch("index.js"));
+            AddDependency(msg + " map", from.Touch("index.js.map"), to.Touch("index.js.map"));
+            AddDependency(msg + " min", from.Touch("index.min.js"), to.Touch("index.min.js"));
+            AddDependency(msg + " min map", from.Touch("index.min.js.map"), to.Touch("index.min.js.map"));
             return this;
         }
 
@@ -550,21 +534,37 @@ namespace Juniper.TSBuild
                 .Select(kv => new CopyCommand(kv.Value.Item1, kv.Key, kv.Value.Item2))
                 .ToArray();
 
-        private async Task CheckAsync(Level buildLevel, bool sourceBuildTS)
+        private async Task CheckAsync(Level buildLevel)
         {
             var copyCommands = GetDependecies();
 
             await WithCommandTree(commands =>
             {
+                var junES = ESBuildProjects.Where(dir => dir != projectDir).ToArray();
+                var projES = ESBuildProjects.Where(dir => dir == projectDir).ToArray();
+
                 commands
                     .AddCommands(new MessageCommand("Build level {0}: {1}", buildLevel, buildLevelMessages[buildLevel]))
-                    .AddCommands(GetInstallCommands(buildLevel))
-                    .AddCommands(copyCommands)
-                    .AddCommands(TryMake(
-                        ESBuildProjects,
+                    .AddCommands(GetInstallCommands(buildLevel));
+
+                if (junES.Length > 0)
+                {
+                    commands.AddCommands(TryMake(
+                        junES,
+                        dir => new ShellCommand(dir, "npm", "run build")));
+                }
+
+                commands.AddCommands(copyCommands);
+
+                if (projES.Length > 0)
+                {
+                    commands.AddCommands(TryMake(
+                        projES,
                         dir => new ShellCommand(dir, "npm", "run build")
-                    ))
-                    .AddCommands(
+                    ));
+                }
+
+                commands.AddCommands(
                         new CopyJsonValueCommand(
                             projectPackage, "version",
                             projectAppSettings, "Version"),
