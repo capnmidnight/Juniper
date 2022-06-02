@@ -76,6 +76,10 @@ namespace Juniper.TSBuild
                     {
                         build.DeletePackageLockJsons();
                     }
+                    else if (opts.DeleteTSBuildInfos)
+                    {
+                        build.DeleteTSBuildInfos();
+                    }
                     else if (opts.NPMInstalls)
                     {
                         await build.NPMInstallsAsync();
@@ -403,54 +407,72 @@ namespace Juniper.TSBuild
             OnInfo($"Build finished in {delta.TotalSeconds:0.00}s");
         }
 
+        private void DeleteDir(DirectoryInfo dir)
+        {
+            for (int attempts = 2; attempts > 0; attempts--)
+            {
+                try
+                {
+                    dir.Delete(true);
+                    OnInfo($"{dir.FullName} deleted");
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    if (attempts == 1)
+                    {
+                        OnWarning($"Could not delete {dir.FullName}. Reason: {ex.Message}.");
+                    }
+                }
+            }
+        }
+
+        private void DeleteFile(FileInfo lockFile)
+        {
+            for (int attempts = 2; attempts > 0; attempts--)
+            {
+                try
+                {
+                    lockFile.Delete();
+                    OnInfo($"{lockFile.FullName} deleted");
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    if (attempts == 1)
+                    {
+                        OnWarning($"Could not delete {lockFile.FullName}. Reason: {ex.Message}.");
+                    }
+                }
+            }
+        }
+
+        private void DeleteFiles(IEnumerable<FileInfo> files)
+        {
+            foreach (var file in files.Where(f => f.Exists))
+            {
+                DeleteFile(file);
+            }
+        }
+
         public void DeleteNodeModuleDirs()
         {
             foreach (var dir in NPMProjects
                 .Select(dir => dir.CD("node_modules"))
                 .Where(dir => dir.Exists))
             {
-                for (int attempts = 2; attempts > 0; attempts--)
-                {
-                    try
-                    {
-                        dir.Delete(true);
-                        OnInfo($"{dir.FullName} deleted");
-                        break;
-                    }
-                    catch (Exception ex)
-                    {
-                        if (attempts == 1)
-                        {
-                            OnWarning($"Could not delete {dir.FullName}. Reason: {ex.Message}.");
-                        }
-                    }
-                }
+                DeleteDir(dir);
             }
         }
 
         public void DeletePackageLockJsons()
         {
-            foreach (var lockFile in NPMProjects
-                .Select(dir => dir.Touch("package-lock.json"))
-                .Where(f => f.Exists))
-            {
-                for (int attempts = 2; attempts > 0; attempts--)
-                {
-                    try
-                    {
-                        lockFile.Delete();
-                        OnInfo($"{lockFile.FullName} deleted");
-                        break;
-                    }
-                    catch (Exception ex)
-                    {
-                        if (attempts == 1)
-                        {
-                            OnWarning($"Could not delete {lockFile.FullName}. Reason: {ex.Message}.");
-                        }
-                    }
-                }
-            }
+            DeleteFiles(NPMProjects.Select(dir => dir.Touch("package-lock.json")));
+        }
+
+        public void DeleteTSBuildInfos()
+        {
+            DeleteFiles(TSProjects.Select(dir => dir.Touch("tsconfig.tsbuildinfo")));
         }
 
         private T? TryMake<T>(Func<T> make) where T : class

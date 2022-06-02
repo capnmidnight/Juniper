@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@juniper-lib/tslib": "file:../tslib",
+    "@juniper-lib/tslib": "1.1.0",
     "@juniper-lib/workers": "file:../workers"
   },
   "devDependencies": {

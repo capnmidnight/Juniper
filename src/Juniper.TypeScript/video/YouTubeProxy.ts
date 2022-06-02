@@ -2,6 +2,7 @@ import { AudioRecord } from "@juniper-lib/audio/data";
 import { IFetcher } from "@juniper-lib/fetcher";
 import { arrayScan, IProgress, isDefined, isNullOrUndefined, isString, PriorityList } from "@juniper-lib/tslib";
 import { FullVideoRecord, ImageRecord, VideoRecord } from "./data";
+import { YTMetadata, YTMetadataFormat, YTMetadataThumbnail } from "./yt-dlp";
 
 const codecReplaces = new Map([
     ["vp9", "vp09.00.10.08"]

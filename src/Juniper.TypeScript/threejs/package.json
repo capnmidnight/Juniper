@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@juniper-lib/tslib": "file:../tslib",
+    "@juniper-lib/tslib": "1.1.0",
     "@juniper-lib/2d": "file:../graphics2d",
     "@juniper-lib/audio": "file:../audio",
     "@juniper-lib/dom": "file:../dom",
@@ -17,8 +17,8 @@
     "webxr-polyfill": "2.0.3"
   },
   "devDependencies": {
-    "@juniper-types/dom-types": "file:../dom-types",
-    "@juniper-types/extra-types": "file:../extra-types",
+    "@juniper-types/dom-types": "1.1.0",
+    "@juniper-types/extra-types": "1.2.0",
     "@types/offscreencanvas": "2019.7.0",
     "@types/three": "0.141.0",
     "@types/webxr": "0.4.0",

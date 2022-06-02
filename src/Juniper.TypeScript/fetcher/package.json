@@ -6,7 +6,7 @@
   "dependencies": {
     "@juniper-lib/dom": "file:../dom",
     "@juniper-lib/fetcher-base": "file:../fetcher-base",
-    "@juniper-lib/tslib": "file:../tslib",
+    "@juniper-lib/tslib": "1.1.0",
     "@juniper-lib/worker-client": "file:../worker-client"
   },
   "devDependencies": {

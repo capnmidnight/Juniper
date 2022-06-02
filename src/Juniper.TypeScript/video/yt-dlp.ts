@@ -1,9 +1,9 @@
-interface YTMetadataFormatFragment {
+export interface YTMetadataFormatFragment {
     path: string;
     duration: number;
 }
 
-interface YTMetadataFormat {
+export interface YTMetadataFormat {
     format_id: string;
     format_note: string;
     ext: string;
@@ -40,7 +40,7 @@ interface YTMetadataFormat {
     filesize_approx?: number;
 }
 
-interface YTMetadataThumbnail {
+export interface YTMetadataThumbnail {
     id: string;
     url: string;
     content_type: string;
@@ -50,7 +50,7 @@ interface YTMetadataThumbnail {
     resolution?: string;
 }
 
-interface YTMetadataPlaylist {
+export interface YTMetadataPlaylist {
     id: string;
     ext: string;
     title: string;
@@ -62,7 +62,7 @@ interface YTMetadataPlaylist {
     uploader_url: string;
 }
 
-interface YTMetadata {
+export interface YTMetadata {
     id: string;
     title: string;
     formats: YTMetadataFormat[];

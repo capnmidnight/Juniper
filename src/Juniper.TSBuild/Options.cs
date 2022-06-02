@@ -43,8 +43,9 @@ namespace Juniper.TSBuild
         public bool NPMAudits => flags.Contains(nameof(NPMAudits));
         public bool NPMAuditFixes => flags.Contains(nameof(NPMAuditFixes));
         public bool DeleteNodeModuleDirs => flags.Contains(nameof(DeleteNodeModuleDirs));
-        public bool OpenPackageJsons => flags.Contains(nameof(OpenPackageJsons));
         public bool DeletePackageLockJsons => flags.Contains(nameof(DeletePackageLockJsons));
+        public bool DeleteTSBuildInfos => flags.Contains(nameof(DeleteTSBuildInfos));
+        public bool OpenPackageJsons => flags.Contains(nameof(OpenPackageJsons));
 
 
         private readonly Command[] interactiveCommands;
@@ -58,6 +59,7 @@ namespace Juniper.TSBuild
                 new Command("--install", "Install NPM packages", FlagSetter(nameof(NPMInstalls))),
                 new Command("--check", "Run TypeScript check", FlagSetter(nameof(TSChecks))),
                 new Command(null, "Delete package-lock.json", FlagSetter(nameof(DeletePackageLockJsons))),
+                new Command(null, "Delete tsconfig.tsbuildinfo", FlagSetter(nameof(DeleteTSBuildInfos))),
                 new Command("--audit", "Audit NPM packages", FlagSetter(nameof(NPMAudits))),
                 new Command("--audit-fix", "Audit and auto-fix NPM packages", FlagSetter(nameof(NPMAuditFixes))),
                 new Command(null, "Open package.json files", FlagSetter(nameof(OpenPackageJsons))),
