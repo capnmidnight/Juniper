@@ -1,4 +1,4 @@
-import type { MediaType } from "@juniper-lib/tslib";
+import type { MediaType } from "@juniper-lib/mediatypes";
 import { isBoolean, isString } from "@juniper-lib/tslib";
 
 /**

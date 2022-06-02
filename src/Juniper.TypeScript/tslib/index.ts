@@ -5,7 +5,6 @@ export * from "./flags";
 export * from "./gis";
 export * from "./identity";
 export * from "./math";
-export * from "./mediatypes";
 export * from "./progress";
 export * from "./Result";
 export * from "./singleton";

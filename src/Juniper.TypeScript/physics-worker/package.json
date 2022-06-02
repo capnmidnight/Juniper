@@ -9,7 +9,7 @@
     "watch": "node --experimental-modules esbuild.config.js --watch"
   },
   "dependencies": {
-    "@juniper-lib/tslib": "1.1.0",
+    "@juniper-lib/tslib": "file:../tslib",
     "@juniper-lib/physics-base": "file:../physics-base",
     "@juniper-lib/worker-server": "file:../worker-server"
   },

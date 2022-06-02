@@ -7,7 +7,7 @@
     "@juniper-lib/audio": "file:../audio",
     "@juniper-lib/dom": "file:../dom",
     "@juniper-lib/event-system": "file:../event-system",
-    "@juniper-lib/tslib": "1.1.0",
+    "@juniper-lib/tslib": "file:../tslib",
     "@microsoft/signalr": "6.0.5",
     "webrtc-adapter": "8.1.1"
   },

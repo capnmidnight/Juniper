@@ -5,7 +5,8 @@
   "type": "module",
   "dependencies": {
     "@juniper-lib/indexdb": "file:../indexdb",
-    "@juniper-lib/tslib": "1.1.0"
+    "@juniper-lib/mediatypes": "file:../mediatypes",
+    "@juniper-lib/tslib": "file:../tslib"
   },
   "devDependencies": {
     "@juniper-types/indexdb-types": "file:../indexdb-types",

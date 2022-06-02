@@ -1,11 +1,11 @@
 {
-  "name": "@juniper-lib/tslib",
-  "version": "1.1.0",
+  "name": "@juniper-lib/mediatypes",
+  "version": "1.0.0",
   "type": "module",
-  "description": "A kitchen sink of features usefull in TypeScript projects",
+  "description": "Media types",
   "main": "index.ts",
   "dependencies": {
-    "gl-matrix": "3.4.3"
+    "@juniper-lib/tslib": "file:../tslib"
   },
   "devDependencies": {
     "typescript": "4.7.2"

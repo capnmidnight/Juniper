@@ -6,7 +6,7 @@
   "dependencies": {
     "@juniper-lib/dom": "file:../dom",
     "@juniper-lib/fetcher": "file:../fetcher",
-    "@juniper-lib/tslib": "1.1.0",
+    "@juniper-lib/tslib": "file:../tslib",
     "gl-matrix": "3.4.3"
   },
   "devDependencies": {
