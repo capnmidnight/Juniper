@@ -28,7 +28,7 @@ export function arraySortedInsert<T, V>(arr: T[], item: T, keySelector?: ((obj: 
     return arraySortedInsertInternal<T, V>(arr, item, ks, allowDuplicates);
 }
 
-function arraySortedInsertInternal<T, V>(arr: T[], item: T, ks: (obj: T) => V, allowDuplicates: boolean) {
+function arraySortedInsertInternal<T, V>(arr: T[], item: T, ks: ((obj: T) => V) | undefined, allowDuplicates: boolean) {
     let idx = arrayBinarySearch(arr, item, ks);
     const found = (idx % 1) === 0;
     idx = idx | 0;

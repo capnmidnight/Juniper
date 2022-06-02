@@ -13,14 +13,14 @@
     "@juniper-lib/fetcher": "file:../fetcher",
     "@juniper-lib/video": "file:../video",
     "@juniper-lib/webrtc": "file:../webrtc",
-    "three": "0.140.2",
+    "three": "0.141.0",
     "webxr-polyfill": "2.0.3"
   },
   "devDependencies": {
     "@juniper-types/dom-types": "file:../dom-types",
     "@juniper-types/extra-types": "file:../extra-types",
     "@types/offscreencanvas": "2019.7.0",
-    "@types/three": "0.140.0",
+    "@types/three": "0.141.0",
     "@types/webxr": "0.4.0",
     "typescript": "4.7.2"
   }

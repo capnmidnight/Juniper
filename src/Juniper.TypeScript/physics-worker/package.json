@@ -14,7 +14,6 @@
     "@juniper-lib/worker-server": "file:../worker-server"
   },
   "devDependencies": {
-    "@juniper-types/extra-types": "file:../extra-types",
     "@juniper-lib/esbuild": "file:../esbuild",
     "@types/offscreencanvas": "2019.7.0",
     "typescript": "4.7.2"

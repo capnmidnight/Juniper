@@ -30,7 +30,7 @@ namespace Juniper.TSBuild
         public async Task Start()
         {
             var startup = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-            EventHandler<StringEventArgs> onInfo = (_, e) =>
+            void onInfo(object? _, StringEventArgs e)
             {
                 if (cmdFactory.TryParse(e.Value, out var cmd))
                 {
@@ -63,7 +63,7 @@ namespace Juniper.TSBuild
                 {
                     Info?.Invoke(this, e);
                 }
-            };
+            }
             processManager.Info += onInfo;
             _ = processManager.RunAsync();
             await startup.Task;

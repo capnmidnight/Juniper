@@ -4,7 +4,6 @@ export * from "./Exception";
 export * from "./flags";
 export * from "./gis";
 export * from "./identity";
-export * from "./idexdb";
 export * from "./math";
 export * from "./mediatypes";
 export * from "./progress";

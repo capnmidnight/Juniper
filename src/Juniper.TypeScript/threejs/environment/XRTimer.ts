@@ -53,7 +53,7 @@ export class XRTimer implements ITimer {
     }
 
     private setAnimationLoop(loop: XRFrameRequestCallback) {
-        this.renderer.setAnimationLoop(loop as any);
+        this.renderer.setAnimationLoop(loop);
         this.#isRunning = isDefined(loop);
     }
 

@@ -80,7 +80,7 @@ export class PriorityList<KeyT, ValueT> {
             return list.length;
         }
 
-        return null;
+        return 0;
     }
 
     get size(): number {

@@ -1,4 +1,4 @@
-import { arrayCompare, identity, IDisposable, isArray, isDefined, isNullOrUndefined, isString, mapMap, once, PriorityList, PriorityMap, success, Task } from "./";
+import { arrayCompare, identity, IDisposable, isArray, isDefined, isNullOrUndefined, isString, mapMap, once, PriorityList, PriorityMap, success, Task } from "@juniper-lib/tslib";
 
 interface IndexDef {
     name: string;
@@ -50,7 +50,7 @@ export class IDexDB implements IDisposable {
         const indexesToRemove = new PriorityList<string, string>();
 
         let version = await this.getCurrentVersion(name);
-         
+
         if (isNullOrUndefined(version)) {
             storesToAdd.push(...storesByName.keys());
             for (const storeDef of storeDefs) {

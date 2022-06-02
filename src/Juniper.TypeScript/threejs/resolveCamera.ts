@@ -1,6 +1,6 @@
-export function resolveCamera(renderer: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera) {
+export function resolveCamera(renderer: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera): THREE.Camera {
     if (renderer.xr.isPresenting) {
-        return renderer.xr.getCamera(camera);
+        return renderer.xr.getCamera();
     }
     else {
         return camera;

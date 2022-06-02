@@ -5,7 +5,7 @@ import type { MediaPermissionSet } from "./MediaPermissionSet";
 /**
  * Indicates whether or not the current browser can change the destination device for audio output.
  **/
-export const canChangeAudioOutput = isFunction((HTMLAudioElement.prototype as any).setSinkId);
+export const canChangeAudioOutput = isFunction(HTMLAudioElement.prototype.setSinkId);
 
 
 function filterDeviceDuplicates(devices: MediaDeviceInfo[]) {

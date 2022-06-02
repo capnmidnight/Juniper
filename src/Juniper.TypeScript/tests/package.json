@@ -4,16 +4,17 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@juniper-lib/tslib": "file:../tslib",
     "@juniper-lib/dom": "file:../dom",
     "@juniper-lib/fetcher": "file:../fetcher",
     "@juniper-lib/hax": "file:../hax",
     "@juniper-lib/tdd": "file:../testing",
+    "@juniper-lib/tslib": "file:../tslib",
     "gl-matrix": "3.4.3"
   },
   "devDependencies": {
     "@juniper-types/dom-types": "file:../dom-types",
     "@juniper-types/extra-types": "file:../extra-types",
+    "@juniper-types/indexdb-types": "file:../indexdb-types",
     "@types/offscreencanvas": "2019.7.0",
     "typescript": "4.7.2"
   }

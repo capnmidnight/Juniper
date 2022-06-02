@@ -73,7 +73,7 @@ export class BaseEnvironment<Events = void>
     extends TypedEventBase<Events & BaseEnvironmentEvents>
     implements IWebXRLayerManager, IModelLoader {
 
-    private baseLayer: XRProjectionLayer;
+    private baseLayer: XRWebGLLayer | XRProjectionLayer;
     private readonly layers = new Array<XRLayer>();
     private readonly layerSortOrder = new Map<XRLayer, number>();
 
@@ -204,7 +204,7 @@ export class BaseEnvironment<Events = void>
         if (this.screenControl.visible) {
             const session = this.xrSession;
 
-            this._xrBinding = (this.renderer.xr as any).getBinding() as XRWebGLBinding
+            this._xrBinding = this.renderer.xr.getBinding();
 
             if (this.hasXRMediaLayers && (this._xrMediaBinding === null) === this.renderer.xr.isPresenting) {
                 if (this._xrMediaBinding === null && isDefined(session)) {
@@ -216,7 +216,7 @@ export class BaseEnvironment<Events = void>
                 }
             }
 
-            const baseLayer = session && (this.renderer.xr as any).getBaseLayer() as XRProjectionLayer;
+            const baseLayer = session && this.renderer.xr.getBaseLayer();
             if (baseLayer !== this.baseLayer) {
                 if (isDefined(this.baseLayer)) {
                     this.removeWebXRLayer(this.baseLayer);
@@ -244,7 +244,7 @@ export class BaseEnvironment<Events = void>
 
             const cam = resolveCamera(this.renderer, this.camera);
             if (cam !== this.camera) {
-                const vrCam = cam as THREE.ArrayCamera;
+                const vrCam = cam as THREE.WebXRArrayCamera;
                 vrCam.layers.mask = this.camera.layers.mask;
                 for (let i = 0; i < vrCam.cameras.length; ++i) {
                     const subCam = vrCam.cameras[i];
@@ -291,7 +291,7 @@ export class BaseEnvironment<Events = void>
     }
 
     get xrSession(): XRSession {
-        return this.renderer.xr.getSession() as any as XRSession;
+        return this.renderer.xr.getSession();
     }
 
     private _xrBinding: XRWebGLBinding = null;

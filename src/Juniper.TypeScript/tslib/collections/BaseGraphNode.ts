@@ -45,7 +45,7 @@ export abstract class BaseGraphNode<ValueT> {
         const queue: BaseGraphNode<ValueT>[] = [this];
         while (queue.length > 0) {
             const here = queue.shift();
-            if (!nodes.has(here)) {
+            if (isDefined(here) && !nodes.has(here)) {
                 nodes.add(here);
                 queue.push(...here._forward);
             }

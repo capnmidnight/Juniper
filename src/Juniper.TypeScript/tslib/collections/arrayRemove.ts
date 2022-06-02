@@ -13,7 +13,7 @@ export function arrayRemove<T>(arr: T[], value: T) {
     return false;
 }
 
-export function arrayFilter<T>(arr: T[], predicate: (v: T) => boolean): T {
+export function arrayFilter<T>(arr: T[], predicate: (v: T) => boolean): T | null {
     for (let i = arr.length - 1; i >= 0; --i) {
         if (predicate(arr[i])) {
             return arrayRemoveAt(arr, i);
@@ -23,6 +23,6 @@ export function arrayFilter<T>(arr: T[], predicate: (v: T) => boolean): T {
     return null;
 }
 
-export function arrayRemoveByKey<T, K>(arr: T[], key: K, getKey: (v: T) => K): T {
+export function arrayRemoveByKey<T, K>(arr: T[], key: K, getKey: (v: T) => K): T | null {
     return arrayFilter(arr, (v) => getKey(v) === key);
 }

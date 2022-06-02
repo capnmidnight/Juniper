@@ -95,7 +95,7 @@ export class PointerHand
         this.controller.addEventListener("connected", () => {
             const session = this.renderer.xr.getSession();
 
-            this.inputSource = session.inputSources[index] as any as XRInputSource;
+            this.inputSource = session.inputSources[index];
             this.setGamepad(this.inputSource.gamepad);
             this._isHand = isDefined(this.inputSource.hand);
             this._handedness = this.inputSource.handedness;

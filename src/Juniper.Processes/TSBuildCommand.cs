@@ -3,7 +3,7 @@
     public class TSBuildCommand : ShellCommand
     {
         public TSBuildCommand(DirectoryInfo? workingDir)
-            : base(workingDir, "npx", "tsc --build")
+            : base(workingDir, "npx", "tsc")
         {
         }
     }
