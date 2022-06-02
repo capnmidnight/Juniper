@@ -11,8 +11,8 @@
     "@juniper-lib/threejs": "file:../threejs"
   },
   "devDependencies": {
-    "@juniper-types/dom-types": "1.1.0",
-    "@juniper-types/extra-types": "1.2.0",
+    "@juniper-types/dom-types": "file:../dom-types",
+    "@juniper-types/extra-types": "file:../extra-types",
     "@juniper-lib/esbuild": "file:../esbuild",
     "@types/offscreencanvas": "2019.7.0",
     "@types/webxr": "0.4.0",

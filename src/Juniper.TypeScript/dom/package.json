@@ -8,7 +8,7 @@
     "@juniper-lib/tslib": "file:../tslib"
   },
   "devDependencies": {
-    "@juniper-types/dom-types": "1.1.0",
+    "@juniper-types/dom-types": "file:../dom-types",
     "@types/offscreencanvas": "2019.7.0",
     "typescript": "4.7.2"
   }

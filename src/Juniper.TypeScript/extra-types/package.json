@@ -1,5 +1,6 @@
 {
   "name": "@juniper-types/extra-types",
+  "private": false,
   "version": "1.2.0",
   "description": "TypeScript definitions for extensions available in pages and workers",
   "dependencies": {

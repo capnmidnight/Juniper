@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@juniper-lib/tslib": "1.0.1",
+    "@juniper-lib/tslib": "file:../tslib",
     "@juniper-types/indexdb": "file:../indexdb-types"
   },
   "devDependencies": {
