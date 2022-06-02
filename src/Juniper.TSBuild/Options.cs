@@ -62,7 +62,6 @@ namespace Juniper.TSBuild
                 new Command("--audit-fix", "Audit and auto-fix NPM packages", FlagSetter(nameof(NPMAuditFixes))),
                 new Command(null, "Open package.json files", FlagSetter(nameof(OpenPackageJsons))),
                 new Command(null, "Build (level: Low)", (_) => level = Level.Low),
-                new Command(null, "Build (level: Med)", (_) => level = Level.Medium),
                 new Command(null, "Build (level: High)", (_) => level = Level.High),
                 new Command("--version", null, FlagSetter(nameof(WriteVersion)))
             };

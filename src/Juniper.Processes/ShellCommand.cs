@@ -19,6 +19,11 @@ namespace Juniper.Processes
             { PlatformID.Other, new[] { "" } }
         };
 
+        public static bool IsAvailable(string command)
+        {
+            return FindCommandPath(command) is not null;
+        }
+
         public static string? FindCommandPath(string? command)
         {
             if (command is null)
