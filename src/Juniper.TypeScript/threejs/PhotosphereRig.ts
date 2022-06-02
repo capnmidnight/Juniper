@@ -178,7 +178,7 @@ export abstract class PhotosphereRig
             .useCache(this.isDebug)
             .canvas();
 
-        const texture = new THREE.Texture(canvas);
+        const texture = new THREE.Texture(canvas as any);
         const material = new THREE.MeshBasicMaterial({
             map: texture,
             side: THREE.DoubleSide
