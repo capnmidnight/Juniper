@@ -9,10 +9,10 @@ namespace Juniper.TagHelpers
         private readonly IWebHostEnvironment env;
         private readonly IConfiguration config;
         private readonly string tagName;
-        private readonly string type;
         private readonly string srcAttr;
         private readonly string root;
         private readonly string ext;
+        private string type;
 
         protected Bundle(IWebHostEnvironment env, IConfiguration config, string tagName, string type, string srcAttr, string root, string ext)
         {
@@ -23,6 +23,18 @@ namespace Juniper.TagHelpers
             this.srcAttr = srcAttr;
             this.root = root;
             this.ext = ext;
+        }
+
+        public string Type
+        {
+            get
+            {
+                return type;
+            }
+            set
+            {
+                type = value;
+            }
         }
 
         public string? Name { get; set; }
