@@ -240,7 +240,8 @@ namespace Juniper.TSBuild
 
         private void CheckProject(DirectoryInfo project, BuildSystemOptions options)
         {
-            var includeInBuild = project == projectDir
+            var includeInBuild = project == projectDir || options.SourceBuildJuniperTS;
+            var includeInESBuild = project == projectDir
                     || (options.SourceBuildJuniperTS
                         && ((project.Name == "environment" && options.IncludeEnvironment)
                             || (project.Name == "fetcher-worker" && options.IncludeFetcher)
@@ -261,10 +262,13 @@ namespace Juniper.TSBuild
                     TSProjects.Add(project);
                 }
 
-                var esbuildFile = project.Touch("esbuild.config.js");
-                if (esbuildFile.Exists)
+                if (includeInESBuild)
                 {
-                    ESBuildProjects.Add(project);
+                    var esbuildFile = project.Touch("esbuild.config.js");
+                    if (esbuildFile.Exists)
+                    {
+                        ESBuildProjects.Add(project);
+                    }
                 }
             }
         }
