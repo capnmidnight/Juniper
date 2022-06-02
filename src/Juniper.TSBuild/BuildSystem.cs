@@ -199,7 +199,7 @@ namespace Juniper.TSBuild
                 if (options.IncludePDFJS)
                 {
                     AddDependency("PDFJS", From("pdfjs-dist", "build", "pdf.worker.js"), To("pdfjs", "index.js"));
-                    AddDependency("PDFJS", From("pdfjs-dist", "build", "pdf.worker.js.map"), To("pdfjs", "index.js.map"));
+                    AddDependency("PDFJS map", From("pdfjs-dist", "build", "pdf.worker.js.map"), To("pdfjs", "index.js.map"));
                     AddDependency("PDFJS min", From("pdfjs-dist", "build", "pdf.worker.min.js"), To("pdfjs", "index.min.js"));
                 }
 

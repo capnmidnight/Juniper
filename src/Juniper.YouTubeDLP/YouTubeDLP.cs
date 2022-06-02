@@ -9,7 +9,8 @@ namespace Juniper
     {
         private const string YT_DLP = "yt-dlp";
 
-        public static bool IsAvailable => FindCommandPath(YT_DLP) is not null;
+        public static new bool IsAvailable => ShellCommand.IsAvailable(YT_DLP);
+
         public static IEnumerable<string> AttemptPaths => FindCommandPaths(YT_DLP);
 
         public record MediaEntry(string? ContentType, string Url);
