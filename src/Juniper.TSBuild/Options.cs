@@ -58,6 +58,7 @@ namespace Juniper.TSBuild
             var commands = new[]
             {
                 new Command("--install", "Install NPM packages", FlagSetter(nameof(NPMInstalls))),
+                new Command(null, "Build", FlagSetter(nameof(Build))),
                 new Command("--clean", "Delete NPM Packages", FlagSetter(nameof(DeleteNodeModuleDirs))),
                 new Command(null, "Delete package-lock.json", FlagSetter(nameof(DeletePackageLockJsons))),
                 new Command(null, "Delete tsconfig.tsbuildinfo", FlagSetter(nameof(DeleteTSBuildInfos))),
