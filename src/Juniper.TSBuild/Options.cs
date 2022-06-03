@@ -39,7 +39,6 @@ namespace Juniper.TSBuild
 
         public bool WriteVersion => flags.Contains(nameof(WriteVersion));
         public bool NPMInstalls => flags.Contains(nameof(NPMInstalls));
-        public bool TSChecks => flags.Contains(nameof(TSChecks));
         public bool NPMAudits => flags.Contains(nameof(NPMAudits));
         public bool NPMAuditFixes => flags.Contains(nameof(NPMAuditFixes));
         public bool DeleteNodeModuleDirs => flags.Contains(nameof(DeleteNodeModuleDirs));
@@ -55,9 +54,8 @@ namespace Juniper.TSBuild
         {
             var commands = new[]
             {
-                new Command("--clean", "Delete NPM Packages", FlagSetter(nameof(DeleteNodeModuleDirs))),
                 new Command("--install", "Install NPM packages", FlagSetter(nameof(NPMInstalls))),
-                new Command("--check", "Run TypeScript check", FlagSetter(nameof(TSChecks))),
+                new Command("--clean", "Delete NPM Packages", FlagSetter(nameof(DeleteNodeModuleDirs))),
                 new Command(null, "Delete package-lock.json", FlagSetter(nameof(DeletePackageLockJsons))),
                 new Command(null, "Delete tsconfig.tsbuildinfo", FlagSetter(nameof(DeleteTSBuildInfos))),
                 new Command("--audit", "Audit NPM packages", FlagSetter(nameof(NPMAudits))),

@@ -1,0 +1,24 @@
+{
+  "extends": "../../tsconfig.json",
+
+  "include": [
+    "**/*.ts"
+  ],
+
+  "exclude": [
+    "dist",
+    "node_modules"
+  ],
+
+  "compileOnSave": true,
+
+  "compilerOptions": {
+    "lib": [ "ESNext", "ESNext.Array" ],
+    "noEmit": false,
+    "sourceMap": true,
+    "typeRoots": [
+      "../../node_modules/@types",
+      "../../node_modules/@juniper-types"
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "name": "@juniper-lib/phsyics",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@juniper-lib/tslib": "*",
+    "@juniper-lib/physics-base": "*",
+    "@juniper-lib/worker-client": "*"
+  },
+  "devDependencies": {
+    "@types/offscreencanvas": "2019.7.0",
+    "typescript": "4.7.2"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "@juniper-lib/hax",
+  "private": false,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.ts",
+  "description": "Functionality for injecting and inspecting objects",
+  "dependencies": {
+    "@juniper-lib/tslib": "*"
+  },
+  "devDependencies": {
+    "typescript": "4.7.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/capnmidnight/Juniper"
+  },
+  "author": "Sean T. McBeth <sean.mcbeth@gmail.com>",
+  "license": "MIT"
+}

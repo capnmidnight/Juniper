@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "name": "@juniper-lib/fetcher-base",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@juniper-lib/indexdb": "*",
+    "@juniper-lib/mediatypes": "*",
+    "@juniper-lib/tslib": "*"
+  },
+  "devDependencies": {
+    "@juniper-types/indexdb": "*",
+    "@types/offscreencanvas": "2019.7.0",
+    "typescript": "4.7.2"
+  }
+}

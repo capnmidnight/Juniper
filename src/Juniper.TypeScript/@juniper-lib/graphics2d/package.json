@@ -1,0 +1,19 @@
+{
+  "name": "@juniper-lib/graphics2d",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@juniper-lib/tslib": "*",
+    "@juniper-lib/audio": "*",
+    "@juniper-lib/dom": "*",
+    "@juniper-lib/fetcher": "*",
+    "gl-matrix": "3.4.3",
+    "pdfjs-dist": "2.14.305",
+    "typescript": "4.7.2"
+  },
+  "devDependencies": {
+    "@juniper-types/dom-types": "*",
+    "@types/offscreencanvas": "2019.7.0"
+  }
+}

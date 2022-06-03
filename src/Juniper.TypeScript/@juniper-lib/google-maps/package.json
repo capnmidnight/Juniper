@@ -1,0 +1,21 @@
+{
+  "name": "@juniper-lib/google-maps",
+  "private": false,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Promisified stuff for working with Google Maps",
+  "dependencies": {
+    "@googlemaps/js-api-loader": "1.14.1",
+    "@juniper-lib/tslib": "*",
+    "typescript": "4.7.2"
+  },
+  "devDependencies": {
+    "@types/google.maps": "3.49.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/capnmidnight/Juniper"
+  },
+  "author": "Sean T. McBeth <sean.mcbeth@gmail.com>",
+  "license": "MIT"
+}

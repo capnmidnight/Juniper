@@ -84,10 +84,6 @@ namespace Juniper.TSBuild
                     {
                         await build.NPMInstallsAsync();
                     }
-                    else if (opts.TSChecks)
-                    {
-                        await build.TSChecksAsync();
-                    }
                     else if (opts.NPMAudits)
                     {
                         await build.NPMAuditsAsync();
@@ -182,12 +178,26 @@ namespace Juniper.TSBuild
 
             if (hasNPM)
             {
-                var projects = juniperTsDir.EnumerateDirectories()
+                var npmProjects = new[]
+                {
+                    juniperTsDir,
+                    projectDir
+                };
+
+                foreach (var project in npmProjects)
+                {
+                    CheckNPMProject(project, options);
+                }
+
+                var tsProjects = juniperTsDir
+                    .EnumerateDirectories()
+                    .Where(dir => dir.Name.StartsWith("@juniper"))
+                    .SelectMany(dir => dir.EnumerateDirectories())
                     .Append(projectDir);
 
-                foreach (var project in projects)
+                foreach (var project in tsProjects)
                 {
-                    CheckProject(project, options);
+                    CheckTSProject(project, options);
                 }
 
                 if (options.IncludeThreeJS)
@@ -242,7 +252,20 @@ namespace Juniper.TSBuild
             Err += (sender, e) => WriteError(e.Value.Unroll());
         }
 
-        private void CheckProject(DirectoryInfo project, BuildSystemOptions options)
+        private void CheckNPMProject(DirectoryInfo project, BuildSystemOptions options)
+        {
+            var includeInBuild = project == projectDir || options.SourceBuildJuniperTS;
+            if (includeInBuild)
+            {
+                var pkgFile = project.Touch("package.json");
+                if (pkgFile.Exists)
+                {
+                    NPMProjects.Add(project);
+                }
+            }
+        }
+
+        private void CheckTSProject(DirectoryInfo project, BuildSystemOptions options)
         {
             var includeInBuild = project == projectDir || options.SourceBuildJuniperTS;
             var includeInESBuild = project == projectDir
@@ -254,12 +277,6 @@ namespace Juniper.TSBuild
 
             if (includeInBuild)
             {
-                var pkgFile = project.Touch("package.json");
-                if (pkgFile.Exists)
-                {
-                    NPMProjects.Add(project);
-                }
-
                 var tsConfigFile = project.Touch("tsconfig.json");
                 if (tsConfigFile.Exists)
                 {
@@ -508,15 +525,6 @@ namespace Juniper.TSBuild
         {
             await WithCommandTree(commands =>
                 commands.AddCommands(GetInstallCommands(Level.High)));
-        }
-
-        public async Task TSChecksAsync()
-        {
-            await WithCommandTree(commands =>
-                commands.AddCommands(TryMake(
-                    TSProjects,
-                    dir => new TSBuildCommand(dir)
-                )));
         }
 
         public async Task NPMAuditsAsync()

@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0",
+  "name": "@juniper-lib/tests",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@juniper-lib/dom": "*",
+    "@juniper-lib/fetcher": "*",
+    "@juniper-lib/hax": "*",
+    "@juniper-lib/mediatypes": "*",
+    "@juniper-lib/tdd": "*",
+    "@juniper-lib/tslib": "*",
+    "gl-matrix": "3.4.3"
+  },
+  "devDependencies": {
+    "@juniper-types/dom-types": "*",
+    "@juniper-types/extra-types": "*",
+    "@juniper-types/indexdb": "*",
+    "@types/offscreencanvas": "2019.7.0",
+    "typescript": "4.7.2"
+  }
+}

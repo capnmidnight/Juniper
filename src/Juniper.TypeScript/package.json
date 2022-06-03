@@ -1,0 +1,12 @@
+{
+  "name": "@juniper-lib/base",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "typescript": "4.7.2"
+  },
+  "workspaces": [
+    "@juniper-lib/*",
+    "@juniper-types/*"
+  ]
+}

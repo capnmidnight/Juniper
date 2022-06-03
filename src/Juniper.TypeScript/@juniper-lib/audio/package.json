@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0",
+  "name": "@juniper-lib/audio",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@juniper-lib/dom": "*",
+    "@juniper-lib/fetcher": "*",
+    "@juniper-lib/tslib": "*",
+    "gl-matrix": "3.4.3",
+    "typescript": "4.7.2"
+  },
+  "devDependencies": {
+    "@juniper-types/dom-types": "*",
+    "@types/dom-mediacapture-record": "1.0.11"
+  }
+}

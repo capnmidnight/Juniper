@@ -1,9 +1,0 @@
-{
-  "version": "1.0.0",
-  "name": "@juniper-lib/emoji",
-  "private": true,
-  "type": "module",
-  "devDependencies": {
-    "typescript": "4.7.2"
-  }
-}

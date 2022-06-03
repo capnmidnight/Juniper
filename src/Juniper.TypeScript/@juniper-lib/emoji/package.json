@@ -1,0 +1,17 @@
+{
+  "name": "@juniper-lib/emoji",
+  "private": false,
+  "version": "1.0.1",
+  "type": "module",
+  "description": "A collection of all the UTF-8 Emoji code points that I could find",
+  "main": "index.ts",
+  "dependencies": {
+    "typescript": "4.7.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/capnmidnight/Juniper"
+  },
+  "author": "Sean T. McBeth <sean.mcbeth@gmail.com>",
+  "license": "MIT"
+}

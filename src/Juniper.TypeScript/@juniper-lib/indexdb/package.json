@@ -1,0 +1,19 @@
+{
+  "name": "@juniper-lib/indexdb",
+  "private": false,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Wrappers for simplifying working with IndexDB",
+  "main": "index.ts",
+  "dependencies": {
+    "@juniper-lib/tslib": "*",
+    "@juniper-types/indexdb": "*",
+    "typescript": "4.7.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/capnmidnight/Juniper"
+  },
+  "author": "Sean T. McBeth <sean.mcbeth@gmail.com>",
+  "license": "MIT"
+}

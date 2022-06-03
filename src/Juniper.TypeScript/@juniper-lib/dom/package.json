@@ -1,0 +1,23 @@
+{
+  "name": "@juniper-lib/dom",
+  "private": false,
+  "version": "1.0.2",
+  "type": "module",
+  "description": "Lots of functions for manipulating DOM",
+  "main": "index.ts",
+  "dependencies": {
+    "@juniper-lib/mediatypes": "*",
+    "@juniper-lib/tslib": "*",
+    "typescript": "4.7.2"
+  },
+  "devDependencies": {
+    "@juniper-types/dom-types": "*",
+    "@types/offscreencanvas": "2019.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/capnmidnight/Juniper"
+  },
+  "author": "Sean T. McBeth <sean.mcbeth@gmail.com>",
+  "license": "MIT"
+}

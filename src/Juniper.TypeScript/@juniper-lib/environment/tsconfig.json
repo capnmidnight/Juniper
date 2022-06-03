@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.json",
+
+  "include": [
+    "src/**/*.ts"
+  ],
+
+  "exclude": [
+    "node_modules"
+  ],
+
+  "compilerOptions": {
+    "noEmit": true,
+    "typeRoots": [
+      "../../node_modules/@types",
+      "../../node_modules/@juniper-types"
+    ]
+  }
+}

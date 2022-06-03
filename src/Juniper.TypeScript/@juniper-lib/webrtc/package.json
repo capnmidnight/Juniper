@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0",
+  "name": "@juniper-lib/webrtc",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@juniper-lib/audio": "*",
+    "@juniper-lib/dom": "*",
+    "@juniper-lib/event-system": "*",
+    "@juniper-lib/tslib": "*",
+    "@microsoft/signalr": "6.0.5",
+    "webrtc-adapter": "8.1.1"
+  },
+  "devDependencies": {
+    "@juniper-types/dom-types": "*",
+    "typescript": "4.7.2"
+  }
+}
