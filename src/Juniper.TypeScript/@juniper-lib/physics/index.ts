@@ -1,1 +1,0 @@
-export * from "@juniper-lib/physics-base/IPhysicsService";

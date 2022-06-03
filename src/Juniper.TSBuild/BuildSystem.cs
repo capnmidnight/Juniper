@@ -18,7 +18,6 @@ namespace Juniper.TSBuild
         public bool IncludePDFJS { get; set; }
         public bool IncludeJQuery { get; set; }
         public bool IncludeFetcher { get; set; }
-        public bool IncludePhysics { get; set; }
         public bool IncludeTeleconferencing { get; set; }
         public bool SourceBuildJuniperTS { get; set; }
     }
@@ -235,11 +234,6 @@ namespace Juniper.TSBuild
                         AddJuniperDependency(sourceDir, "fetcher-worker");
                     }
 
-                    if (options.IncludePhysics)
-                    {
-                        AddJuniperDependency(sourceDir, "physics-worker");
-                    }
-
                     if (options.IncludeTeleconferencing)
                     {
                         AddJuniperDependency(sourceDir, "tele");
@@ -272,7 +266,6 @@ namespace Juniper.TSBuild
                     || (options.SourceBuildJuniperTS
                         && ((project.Name == "environment" && options.IncludeEnvironment)
                             || (project.Name == "fetcher-worker" && options.IncludeFetcher)
-                            || (project.Name == "physics-worker" && options.IncludePhysics)
                             || (project.Name == "tele" && options.IncludeTeleconferencing)));
 
             if (includeInBuild)
