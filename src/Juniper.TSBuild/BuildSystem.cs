@@ -28,7 +28,12 @@ namespace Juniper.TSBuild
 
         static string Colorize(string tag, int color, string format, params object[] args)
         {
-            return string.Format("\u001b[{0}m{1}:\u001b[0m {2}", color, tag, string.Format(format, args));
+            if (args.Length > 0)
+            {
+                format = string.Format(format, args);
+            }
+
+            return string.Format("\u001b[{0}m{1}:\u001b[0m {2}", color, tag, format);
         }
 
         static void WriteError(string format, params object[] values)

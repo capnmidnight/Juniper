@@ -24,6 +24,10 @@ export class Build {
 
     private readonly isWatch: boolean;
 
+    public get buildType() {
+        return this.isWatch ? "watch" : "build";
+    }
+
     private entryNames = "[dir]/[name]";
     private outbase = "src";
     private rootDirName = "src/";

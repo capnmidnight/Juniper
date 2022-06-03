@@ -10,6 +10,7 @@ export declare class Build {
     private readonly externals;
     private readonly globalExternals;
     private readonly isWatch;
+    get buildType(): "watch" | "build";
     private entryNames;
     private outbase;
     private rootDirName;

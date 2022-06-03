@@ -14,6 +14,9 @@ export class Build {
     externals = new Array();
     globalExternals = new Array();
     isWatch;
+    get buildType() {
+        return this.isWatch ? "watch" : "build";
+    }
     entryNames = "[dir]/[name]";
     outbase = "src";
     rootDirName = "src/";
