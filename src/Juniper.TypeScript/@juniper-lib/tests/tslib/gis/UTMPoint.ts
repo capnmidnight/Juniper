@@ -1,4 +1,4 @@
-import { TestCase } from "@juniper-lib/tdd/tdd";
+import { TestCase } from "@juniper-lib/testing/tdd";
 import { GlobeHemisphere, LatLngPoint, UTMPoint } from "@juniper-lib/tslib";
 
 const K = 0.00000001;

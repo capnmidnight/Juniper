@@ -8,7 +8,7 @@
     "@juniper-lib/fetcher": "*",
     "@juniper-lib/hax": "*",
     "@juniper-lib/mediatypes": "*",
-    "@juniper-lib/tdd": "*",
+    "@juniper-lib/testing": "*",
     "@juniper-lib/tslib": "*",
     "gl-matrix": "3.4.3"
   },
