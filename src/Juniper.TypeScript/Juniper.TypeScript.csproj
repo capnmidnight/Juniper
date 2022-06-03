@@ -1,16 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
-    <ProjectReference Include="..\Juniper.TSBuild\Juniper.TSBuild.csproj" />
-  </ItemGroup>
+	<PropertyGroup Label="Configuration">
+		<TypeScriptTarget>ESNext</TypeScriptTarget>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
+		<ProjectReference Include="..\Juniper.TSBuild\Juniper.TSBuild.csproj" />
+	</ItemGroup>
 
 </Project>

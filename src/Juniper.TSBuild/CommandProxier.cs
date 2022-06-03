@@ -67,7 +67,6 @@ namespace Juniper.TSBuild
             processManager.Info += onInfo;
             _ = processManager.RunAsync();
             await startup.Task;
-            processManager.Info -= onInfo;
         }
 
         private void EndTask(int taskID)

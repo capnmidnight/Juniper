@@ -31,13 +31,11 @@ namespace Juniper.TSBuild
             return (value) => SetFlag(name, value);
         }
 
-        public bool interactive;
-        public bool complete = true;
-        private bool parseLevel;
-        public Level level = Level.None;
+        public bool Interactive { get; private set; }
+        public bool Finished { get; private set; } = true;
+
         public DirectoryInfo? workingDir;
 
-        public bool WriteVersion => flags.Contains(nameof(WriteVersion));
         public bool NPMInstalls => flags.Contains(nameof(NPMInstalls));
         public bool NPMAudits => flags.Contains(nameof(NPMAudits));
         public bool NPMAuditFixes => flags.Contains(nameof(NPMAuditFixes));
@@ -45,6 +43,11 @@ namespace Juniper.TSBuild
         public bool DeletePackageLockJsons => flags.Contains(nameof(DeletePackageLockJsons));
         public bool DeleteTSBuildInfos => flags.Contains(nameof(DeleteTSBuildInfos));
         public bool OpenPackageJsons => flags.Contains(nameof(OpenPackageJsons));
+        public bool Build
+        {
+            get => flags.Contains(nameof(Build));
+            set => FlagSetter(nameof(Build))(value);
+        }
 
 
         private readonly Command[] interactiveCommands;
@@ -60,10 +63,7 @@ namespace Juniper.TSBuild
                 new Command(null, "Delete tsconfig.tsbuildinfo", FlagSetter(nameof(DeleteTSBuildInfos))),
                 new Command("--audit", "Audit NPM packages", FlagSetter(nameof(NPMAudits))),
                 new Command("--audit-fix", "Audit and auto-fix NPM packages", FlagSetter(nameof(NPMAuditFixes))),
-                new Command(null, "Open package.json files", FlagSetter(nameof(OpenPackageJsons))),
-                new Command(null, "Build (level: Low)", (_) => level = Level.Low),
-                new Command(null, "Build (level: High)", (_) => level = Level.High),
-                new Command("--version", null, FlagSetter(nameof(WriteVersion)))
+                new Command(null, "Open package.json files", FlagSetter(nameof(OpenPackageJsons)))
             };
 
             interactiveCommands = commands
@@ -87,34 +87,19 @@ namespace Juniper.TSBuild
             {
                 ProcessArg(arg);
             }
+
+            if(curAnyArg is null)
+            {
+                Build = true;
+            }
         }
 
         private bool ProcessArg(string arg)
         {
             if (arg == "--interactive")
             {
-                interactive = true;
-                complete = false;
-                return false;
-            }
-
-            if (arg == "--level")
-            {
-                parseLevel = true;
-                return false;
-            }
-
-            if (parseLevel)
-            {
-                if (AnyOnly)
-                {
-                    Console.Error.WriteLine("Can't specify level when running exclusive argument {0}", curAnyArg);
-                }
-                else
-                {
-                    level = Enum.Parse<Level>(arg);
-                }
-                parseLevel = false;
+                Interactive = true;
+                Finished = false;
                 return false;
             }
 
@@ -147,7 +132,6 @@ namespace Juniper.TSBuild
         public void REPL()
         {
             flags.Clear();
-            level = Level.None;
 
             Console.WriteLine("Enter command:");
             for (int i = 0; i < interactiveCommands.Length; i++)
@@ -172,7 +156,7 @@ namespace Juniper.TSBuild
                 else
                 {
                     entry = entry?.ToLowerInvariant();
-                    good = complete
+                    good = Finished
                         = entry == "x"
                         || entry == "q"
                         || entry == "exit"

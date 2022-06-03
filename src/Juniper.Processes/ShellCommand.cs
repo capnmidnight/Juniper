@@ -81,7 +81,8 @@ namespace Juniper.Processes
 
             args ??= Array.Empty<string>();
 
-            var commandName = args.Prepend(command).ToArray().Join(' ');
+            var exeName = new FileInfo(command).GetShortName();
+            var commandName = args.Prepend(exeName).ToArray().Join(' ');
             if (workingDir is not null)
             {
                 commandName = $"({workingDir.Name}) {commandName}";

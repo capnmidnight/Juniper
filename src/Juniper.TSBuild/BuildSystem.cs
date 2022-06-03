@@ -56,13 +56,11 @@ namespace Juniper.TSBuild
                 false,
                 opts.workingDir);
 
-            opts.level = await build.GetBuildLevel(opts.level);
-
             do
             {
                 try
                 {
-                    if (opts.interactive)
+                    if (opts.Interactive)
                     {
                         opts.REPL();
                     }
@@ -91,24 +89,20 @@ namespace Juniper.TSBuild
                     {
                         await build.NPMAuditFixesAsync();
                     }
-                    else if (opts.WriteVersion)
-                    {
-                        await build.WriteVersion();
-                    }
                     else if (opts.OpenPackageJsons)
                     {
                         await build.OpenPackageJsonsAsync();
                     }
-                    else if (opts.level > Level.None)
+                    else if (!opts.Finished || opts.Build)
                     {
-                        await build.CheckAsync(opts.level);
+                        await build.CheckAsync();
                     }
                 }
                 catch (Exception exp)
                 {
                     WriteError("{0}\r\n{1}", exp.Message, exp.Unroll());
                 }
-            } while (!opts.complete);
+            } while (!opts.Finished);
         }
 
         protected enum Por
@@ -123,7 +117,6 @@ namespace Juniper.TSBuild
         private readonly DirectoryInfo projectNodeModules;
         private readonly DirectoryInfo juniperTsDir;
         private readonly FileInfo projectPackage;
-        private readonly FileInfo projectBuildInfo;
         private readonly FileInfo projectAppSettings;
         private readonly Dictionary<FileInfo, (string, FileInfo)> dependencies = new();
 
@@ -170,7 +163,6 @@ namespace Juniper.TSBuild
             projectJsDir = projectDir.MkDir("wwwroot", "js");
             projectNodeModules = projectDir.CD("node_modules");
             projectPackage = projectDir.Touch("package.json");
-            projectBuildInfo = projectDir.Touch("buildinfo.json");
             projectAppSettings = projectDir.Touch("appsettings.json");
 
             hasNPM = ShellCommand.IsAvailable("npm");
@@ -188,11 +180,7 @@ namespace Juniper.TSBuild
                     CheckNPMProject(project, options);
                 }
 
-                var tsProjects = juniperTsDir
-                    .EnumerateDirectories()
-                    .Where(dir => dir.Name.StartsWith("@juniper"))
-                    .SelectMany(dir => dir.EnumerateDirectories())
-                    .Append(projectDir);
+                var tsProjects = JuniperSubNPMProjects.Append(projectDir);
 
                 foreach (var project in tsProjects)
                 {
@@ -309,7 +297,7 @@ namespace Juniper.TSBuild
             return this;
         }
 
-        public BuildSystem AddJuniperDependency(DirectoryInfo sourceDir, string name)
+        private BuildSystem AddJuniperDependency(DirectoryInfo sourceDir, string name)
         {
             var from = sourceDir.CD(name, "dist");
             var to = projectJsDir.CD(name);
@@ -320,6 +308,12 @@ namespace Juniper.TSBuild
             AddDependency(msg + " min map", from.Touch("index.min.js.map"), to.Touch("index.min.js.map"));
             return this;
         }
+
+        private IEnumerable<DirectoryInfo> JuniperSubNPMProjects => juniperTsDir
+            .EnumerateDirectories()
+            .Where(dir => dir.Name.StartsWith("@juniper"))
+            .SelectMany(dir => dir.EnumerateDirectories())
+            .Where(dir => dir.Touch("package.json").Exists);
 
         private static FileInfo R(DirectoryInfo dir, params string[] parts)
         {
@@ -344,28 +338,6 @@ namespace Juniper.TSBuild
         public FileInfo To(params string[] parts)
         {
             return To(projectJsDir, parts);
-        }
-
-        private async Task<Level> GetBuildLevel(Level forceLevel)
-        {
-            if (forceLevel > Level.None)
-            {
-                return forceLevel;
-            }
-
-            if (!projectBuildInfo.Exists
-                || !projectNodeModules.Exists)
-            {
-                return Level.High;
-            }
-
-            var v = await Task.WhenAll(
-                CopyJsonValueCommand.ReadJsonValueAsync(projectPackage, "version"),
-                CopyJsonValueCommand.ReadJsonValueAsync(projectBuildInfo, "Version"));
-
-            return v[0] != v[1]
-                ? Level.High
-                : Level.Low;
         }
 
         private async Task WithCommandTree(Action<CommandTree> buildTree)
@@ -465,7 +437,7 @@ namespace Juniper.TSBuild
             }
         }
 
-        public void DeleteNodeModuleDirs()
+        private void DeleteNodeModuleDirs()
         {
             foreach (var dir in NPMProjects
                 .Select(dir => dir.CD("node_modules"))
@@ -475,12 +447,12 @@ namespace Juniper.TSBuild
             }
         }
 
-        public void DeletePackageLockJsons()
+        private void DeletePackageLockJsons()
         {
             DeleteFiles(NPMProjects.Select(dir => dir.Touch("package-lock.json")));
         }
 
-        public void DeleteTSBuildInfos()
+        private void DeleteTSBuildInfos()
         {
             DeleteFiles(TSProjects.Select(dir => dir.Touch("tsconfig.tsbuildinfo")));
         }
@@ -498,7 +470,7 @@ namespace Juniper.TSBuild
             }
         }
 
-        public IEnumerable<T> TryMake<V, T>(IEnumerable<V> collection, Func<V, T> make) where T : class
+        private IEnumerable<T> TryMake<V, T>(IEnumerable<V> collection, Func<V, T> make) where T : class
         {
             return collection
                 .Select(dir => TryMake(() => make(dir)))
@@ -506,21 +478,21 @@ namespace Juniper.TSBuild
                 .Cast<T>();
         }
 
-        private IEnumerable<NPMInstallCommand> GetInstallCommands(Level buildLevel)
+        private IEnumerable<NPMInstallCommand> GetInstallCommands()
         {
             return TryMake(
                 NPMProjects,
-                dir => new NPMInstallCommand(dir, buildLevel == Level.High)
+                dir => new NPMInstallCommand(dir, true)
             );
         }
 
-        public async Task NPMInstallsAsync()
+        private async Task NPMInstallsAsync()
         {
             await WithCommandTree(commands =>
-                commands.AddCommands(GetInstallCommands(Level.High)));
+                commands.AddCommands(GetInstallCommands()));
         }
 
-        public async Task NPMAuditsAsync()
+        private async Task NPMAuditsAsync()
         {
             await WithCommandTree(commands =>
                 commands.AddCommands(TryMake(
@@ -529,7 +501,7 @@ namespace Juniper.TSBuild
                 )));
         }
 
-        public async Task NPMAuditFixesAsync()
+        private async Task NPMAuditFixesAsync()
         {
             await WithCommandTree(commands =>
                 commands.AddCommands(TryMake(
@@ -538,30 +510,24 @@ namespace Juniper.TSBuild
                 )));
         }
 
-        public async Task OpenPackageJsonsAsync()
+        private async Task OpenPackageJsonsAsync()
         {
             await WithCommandTree(commands =>
                 commands.AddCommands(TryMake(
-                    NPMProjects.Select(dir => dir.Touch("package.json")).Where(f => f.Exists),
+                    NPMProjects
+                        .Union(JuniperSubNPMProjects)
+                        .Select(dir => dir.Touch("package.json"))
+                        .Where(f => f.Exists),
                     f => new ShellCommand(f.Directory, "explorer", f.Name)
                 )));
         }
-
-
-        private static readonly Dictionary<Level, string> buildLevelMessages = new()
-        {
-            { Level.High, "Running full install and build" },
-            { Level.Medium, "Running update and build" },
-            { Level.Low, "No build" },
-            { Level.None, "No build" }
-        };
 
         private CopyCommand[] GetDependecies() =>
             dependencies
                 .Select(kv => new CopyCommand(kv.Value.Item1, kv.Key, kv.Value.Item2))
                 .ToArray();
 
-        private async Task CheckAsync(Level buildLevel)
+        private async Task CheckAsync()
         {
             var copyCommands = GetDependecies();
 
@@ -571,8 +537,8 @@ namespace Juniper.TSBuild
                 var projES = ESBuildProjects.Where(dir => dir == projectDir).ToArray();
 
                 commands
-                    .AddCommands(new MessageCommand("Build level {0}: {1}", buildLevel, buildLevelMessages[buildLevel]))
-                    .AddCommands(GetInstallCommands(buildLevel));
+                    .AddCommands(new MessageCommand("Starting build"))
+                    .AddCommands(GetInstallCommands());
 
                 if (junES.Length > 0)
                 {
@@ -592,12 +558,9 @@ namespace Juniper.TSBuild
                 }
 
                 commands.AddCommands(
-                        new CopyJsonValueCommand(
-                            projectPackage, "version",
-                            projectAppSettings, "Version"),
-                        new CopyJsonValueCommand(
-                            projectPackage, "version",
-                            projectBuildInfo, "Version"));
+                    new CopyJsonValueCommand(
+                        projectPackage, "version",
+                        projectAppSettings, "Version"));
             });
         }
 
@@ -614,7 +577,6 @@ namespace Juniper.TSBuild
             proxy.Err += Proxy_Err;
             await proxy.Start();
 
-            var buildLevel = await GetBuildLevel(Level.None);
             var copyCommands = GetDependecies();
             var bundles = TryMake(
                 ESBuildProjects.Where(dir => dir == projectDir || sourceBuildTS),
@@ -624,8 +586,8 @@ namespace Juniper.TSBuild
             await WithCommandTree(commands =>
             {
                 commands
-                    .AddCommands(new MessageCommand("Build level {0}: {1}", buildLevel, buildLevelMessages[buildLevel]))
-                    .AddCommands(GetInstallCommands(buildLevel))
+                    .AddCommands(new MessageCommand("Starting watch"))
+                    .AddCommands(GetInstallCommands())
                     .AddCommands(copyCommands);
             });
 
@@ -654,16 +616,6 @@ namespace Juniper.TSBuild
             cmd.Err += Proxy_Err;
             cmd.Warning += Proxy_Warning;
             return cmd;
-        }
-
-        public async Task WriteVersion()
-        {
-            var version = await CopyJsonValueCommand.ReadJsonValueAsync(projectPackage, "version");
-            if (!string.IsNullOrEmpty(version))
-            {
-                await CopyJsonValueCommand.WriteJsonValueAsync(projectAppSettings, "Version", version);
-                OnInfo("Wrote v" + version);
-            }
         }
 
         public event EventHandler<StringEventArgs>? Info;

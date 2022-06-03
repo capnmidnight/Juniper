@@ -62,5 +62,10 @@ namespace System.IO
 
             return PathExt.Abs2Rel(file.FullName, dir.FullName);
         }
+
+        public static string GetShortName(this FileInfo file)
+        {
+            return Path.Combine(file.Directory?.Name ?? "", file.Name);
+        }
     }
 }

@@ -55,7 +55,7 @@ namespace Juniper.Processes
         }
 
         public CopyJsonValueCommand(FileInfo readFile, string readField, FileInfo writeFile, string writeField)
-            : base($"Json Copy [{readFile}:{readField} -> {writeFile}:{writeField}]")
+            : base($"Json Copy [{readFile.GetShortName()}:{readField} -> {writeFile.GetShortName()}:{writeField}]")
         {
             this.readFile = readFile;
             this.readField = readField;
