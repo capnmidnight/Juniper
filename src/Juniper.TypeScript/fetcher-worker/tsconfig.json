@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../tsconfig.json",
 
   "include": [
     "src/**/*.ts"
@@ -10,6 +10,7 @@
   ],
 
   "compilerOptions": {
+    "noEmit": true,
     "typeRoots": [
       "./node_modules/@types",
       "./node_modules/@juniper-types"
