@@ -206,9 +206,9 @@ namespace Juniper.TSBuild
                     AddDependency("JQuery min", From("jquery", "dist", "jquery.min.js"), To("jquery", "index.min.js"));
                 }
 
-                var sourceDir = (isDev && options.SourceBuildJuniperTS)
+                var sourceDir = ((isDev && options.SourceBuildJuniperTS)
                     ? juniperTsDir
-                    : projectNodeModules.CD("@juniper-lib");
+                    : projectNodeModules).CD("@juniper-lib");
 
                 if (sourceDir.Exists)
                 {
@@ -533,18 +533,15 @@ namespace Juniper.TSBuild
 
             await WithCommandTree(commands =>
             {
-                var junES = ESBuildProjects.Where(dir => dir != projectDir).ToArray();
                 var projES = ESBuildProjects.Where(dir => dir == projectDir).ToArray();
 
                 commands
                     .AddCommands(new MessageCommand("Starting build"))
                     .AddCommands(GetInstallCommands());
 
-                if (junES.Length > 0)
+                if (sourceBuildTS)
                 {
-                    commands.AddCommands(TryMake(
-                        junES,
-                        dir => new ShellCommand(dir, "npm", "run build")));
+                    commands.AddCommands(new ShellCommand(juniperTsDir, "npm", "run", "build", "--workspaces", "--if-present"));
                 }
 
                 commands.AddCommands(copyCommands);
@@ -553,7 +550,7 @@ namespace Juniper.TSBuild
                 {
                     commands.AddCommands(TryMake(
                         projES,
-                        dir => new ShellCommand(dir, "npm", "run build")
+                        dir => new ShellCommand(dir, "npm", "run", "build")
                     ));
                 }
 
@@ -610,8 +607,20 @@ namespace Juniper.TSBuild
 
         private AbstractShellCommand MakeWatchCommand(CommandProxier proxy, DirectoryInfo dir)
         {
-            var parts = PathExt.Abs2Rel(dir.FullName, proxy.Root.FullName);
-            var cmd = new ProxiedWatchCommand(proxy, parts);
+            var args = new List<string>
+            {
+                "run",
+                "watch"
+            };
+
+            if(dir != projectDir)
+            {
+                args.Add("-w");
+                args.Add(string.Join("/", dir.Parent?.Name, dir.Name));
+                dir = juniperTsDir;
+            }
+
+            var cmd = new ProxiedCommand(proxy, dir, "npm", args.ToArray());
             cmd.Info += Proxy_Info;
             cmd.Err += Proxy_Err;
             cmd.Warning += Proxy_Warning;

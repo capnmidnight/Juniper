@@ -33,6 +33,16 @@ function arrayClear(arr) {
   return arr.splice(0);
 }
 
+// ../tslib/collections/arrayCompare.ts
+function arrayCompare(arr1, arr2) {
+  for (let i = 0; i < arr1.length; ++i) {
+    if (arr1[i] !== arr2[i]) {
+      return i;
+    }
+  }
+  return -1;
+}
+
 // ../tslib/collections/arrayRemove.ts
 function arrayRemove(arr, value) {
   const idx = arr.indexOf(value);
@@ -41,6 +51,11 @@ function arrayRemove(arr, value) {
     return true;
   }
   return false;
+}
+
+// ../tslib/collections/mapMap.ts
+function mapMap(items, makeID, makeValue) {
+  return new Map(items.map((item) => [makeID(item), makeValue(item)]));
 }
 
 // ../tslib/collections/mapJoin.ts
@@ -431,6 +446,51 @@ var Task = class {
   }
 };
 
+// ../tslib/events/once.ts
+function targetValidateEvent(target, type) {
+  return "on" + type in target;
+}
+function once(target, resolveEvt, rejectEvtOrTimeout, ...rejectEvts) {
+  if (isNullOrUndefined(rejectEvts)) {
+    rejectEvts = [];
+  }
+  let timeout = void 0;
+  if (isString(rejectEvtOrTimeout)) {
+    rejectEvts.unshift(rejectEvtOrTimeout);
+  } else if (isNumber(rejectEvtOrTimeout)) {
+    timeout = rejectEvtOrTimeout;
+  }
+  if (!(target instanceof EventBase)) {
+    if (!targetValidateEvent(target, resolveEvt)) {
+      throw new Exception(`Target does not have a ${resolveEvt} rejection event`);
+    }
+    for (const evt of rejectEvts) {
+      if (!targetValidateEvent(target, evt)) {
+        throw new Exception(`Target does not have a ${evt} rejection event`);
+      }
+    }
+  }
+  const task = new Task();
+  if (isNumber(timeout)) {
+    const timeoutHandle = setTimeout(task.reject, timeout, `'${resolveEvt}' has timed out.`);
+    task.finally(clearTimeout.bind(globalThis, timeoutHandle));
+  }
+  const register = (evt, callback) => {
+    target.addEventListener(evt, callback);
+    task.finally(() => target.removeEventListener(evt, callback));
+  };
+  const onResolve = (evt) => task.resolve(evt);
+  const onReject = (evt) => task.reject(evt);
+  register(resolveEvt, onResolve);
+  for (const rejectEvt of rejectEvts) {
+    register(rejectEvt, onReject);
+  }
+  return task;
+}
+function success(task) {
+  return task.then(alwaysTrue).catch(alwaysFalse);
+}
+
 // ../tslib/events/Promisifier.ts
 var Promisifier = class {
   constructor(resolveRejectTest, selectValue, selectRejectionReason) {
@@ -457,6 +517,14 @@ var Promisifier = class {
   }
   finally(onfinally) {
     return this.promise.finally(onfinally);
+  }
+};
+
+// ../tslib/Exception.ts
+var Exception = class extends Error {
+  constructor(message, innerError = null) {
+    super(message);
+    this.innerError = innerError;
   }
 };
 
@@ -506,6 +574,9 @@ function identity(item) {
 function alwaysTrue() {
   return true;
 }
+function alwaysFalse() {
+  return false;
+}
 
 // ../tslib/math/angleClamp.ts
 var Tau = 2 * Math.PI;
@@ -513,41 +584,6 @@ var Tau = 2 * Math.PI;
 // ../tslib/math/lerp.ts
 function lerp(a, b, p) {
   return (1 - p) * a + p * b;
-}
-
-// ../tslib/typeChecks.ts
-function t(o, s, c) {
-  return typeof o === s || o instanceof c;
-}
-function isFunction(obj) {
-  return t(obj, "function", Function);
-}
-function isString(obj) {
-  return t(obj, "string", String);
-}
-function isBoolean(obj) {
-  return t(obj, "boolean", Boolean);
-}
-function isObject(obj) {
-  return isDefined(obj) && t(obj, "object", Object);
-}
-function isArray(obj) {
-  return obj instanceof Array;
-}
-function assertNever(x, msg) {
-  throw new Error((msg || "Unexpected object: ") + x);
-}
-function isNullOrUndefined(obj) {
-  return obj === null || obj === void 0;
-}
-function isDefined(obj) {
-  return !isNullOrUndefined(obj);
-}
-function isArrayBufferView(obj) {
-  return obj instanceof Uint8Array || obj instanceof Uint8ClampedArray || obj instanceof Int8Array || obj instanceof Uint16Array || obj instanceof Int16Array || obj instanceof Uint32Array || obj instanceof Int32Array || obj instanceof Float32Array || obj instanceof Float64Array || "BigUint64Array" in globalThis && obj instanceof globalThis["BigUint64Array"] || "BigInt64Array" in globalThis && obj instanceof globalThis["BigInt64Array"];
-}
-function isArrayBuffer(val) {
-  return val && typeof ArrayBuffer !== "undefined" && (val instanceof ArrayBuffer || val.constructor && val.constructor.name === "ArrayBuffer");
 }
 
 // ../tslib/progress/BaseProgress.ts
@@ -641,8 +677,8 @@ var BaseParentProgressCallback = class {
         soFar += this.subProgressValues[j] * this.subProgressWeights[j];
       }
       const end = performance.now();
-      const delta3 = end - this.start;
-      const est = this.start - end + delta3 * this.weightTotal / soFar;
+      const delta2 = end - this.start;
+      const est = this.start - end + delta2 * this.weightTotal / soFar;
       this.prog.report(soFar, this.weightTotal, msg, est);
     }
   }
@@ -669,6 +705,44 @@ var WeightedParentProgressCallback = class extends BaseParentProgressCallback {
   }
 };
 
+// ../tslib/typeChecks.ts
+function t(o, s, c) {
+  return typeof o === s || o instanceof c;
+}
+function isFunction(obj) {
+  return t(obj, "function", Function);
+}
+function isString(obj) {
+  return t(obj, "string", String);
+}
+function isBoolean(obj) {
+  return t(obj, "boolean", Boolean);
+}
+function isNumber(obj) {
+  return t(obj, "number", Number);
+}
+function isObject(obj) {
+  return isDefined(obj) && t(obj, "object", Object);
+}
+function isArray(obj) {
+  return obj instanceof Array;
+}
+function assertNever(x, msg) {
+  throw new Error((msg || "Unexpected object: ") + x);
+}
+function isNullOrUndefined(obj) {
+  return obj === null || obj === void 0;
+}
+function isDefined(obj) {
+  return !isNullOrUndefined(obj);
+}
+function isArrayBufferView(obj) {
+  return obj instanceof Uint8Array || obj instanceof Uint8ClampedArray || obj instanceof Int8Array || obj instanceof Uint16Array || obj instanceof Int16Array || obj instanceof Uint32Array || obj instanceof Int32Array || obj instanceof Float32Array || obj instanceof Float64Array || "BigUint64Array" in globalThis && obj instanceof globalThis["BigUint64Array"] || "BigInt64Array" in globalThis && obj instanceof globalThis["BigInt64Array"];
+}
+function isArrayBuffer(val) {
+  return val && typeof ArrayBuffer !== "undefined" && (val instanceof ArrayBuffer || val.constructor && val.constructor.name === "ArrayBuffer");
+}
+
 // ../tslib/timers/ITimer.ts
 var BaseTimerTickEvent = class {
   constructor() {
@@ -677,8 +751,8 @@ var BaseTimerTickEvent = class {
     __publicField(this, "sdt", 0);
     __publicField(this, "fps", 0);
   }
-  set(t3, dt) {
-    this.t = t3;
+  set(t2, dt) {
+    this.t = t2;
     this.dt = dt;
     this.sdt = lerp(this.sdt, dt, 0.01);
     if (dt > 0) {
@@ -705,13 +779,13 @@ var BaseTimer = class {
     this.targetFPS = targetFrameRate;
     const tickEvt = new TimerTickEvent();
     let dt = 0;
-    this.onTick = (t3) => {
+    this.onTick = (t2) => {
       if (this.lt >= 0) {
-        dt = t3 - this.lt;
-        tickEvt.set(t3, dt);
+        dt = t2 - this.lt;
+        tickEvt.set(t2, dt);
         this.tick(tickEvt);
       }
-      this.lt = t3;
+      this.lt = t2;
     };
   }
   get targetFPS() {
@@ -1068,892 +1142,13 @@ function using(val, thunk) {
   }
 }
 
-// ../indexdb/node_modules/@juniper-lib/tslib/collections/arrayRemoveAt.ts
-function arrayRemoveAt2(arr, idx) {
-  return arr.splice(idx, 1)[0];
-}
-
-// ../indexdb/node_modules/@juniper-lib/tslib/collections/arrayClear.ts
-function arrayClear2(arr) {
-  return arr.splice(0);
-}
-
-// ../indexdb/node_modules/@juniper-lib/tslib/collections/arrayCompare.ts
-function arrayCompare(arr1, arr2) {
-  for (let i = 0; i < arr1.length; ++i) {
-    if (arr1[i] !== arr2[i]) {
-      return i;
-    }
-  }
-  return -1;
-}
-
-// ../indexdb/node_modules/@juniper-lib/tslib/collections/arrayRemove.ts
-function arrayRemove2(arr, value) {
-  const idx = arr.indexOf(value);
-  if (idx > -1) {
-    arrayRemoveAt2(arr, idx);
-    return true;
-  }
-  return false;
-}
-
-// ../indexdb/node_modules/@juniper-lib/tslib/collections/mapMap.ts
-function mapMap2(items, makeID, makeValue) {
-  return new Map(items.map((item) => [makeID(item), makeValue(item)]));
-}
-
-// ../indexdb/node_modules/@juniper-lib/tslib/collections/PriorityList.ts
-var PriorityList2 = class {
-  constructor(init) {
-    this.items = /* @__PURE__ */ new Map();
-    this.defaultItems = new Array();
-    if (isDefined2(init)) {
-      for (const [key, value] of init) {
-        this.add(key, value);
-      }
-    }
-  }
-  add(key, value) {
-    if (isNullOrUndefined2(key)) {
-      this.defaultItems.push(value);
-    } else {
-      let list = this.items.get(key);
-      if (isNullOrUndefined2(list)) {
-        this.items.set(key, list = []);
-      }
-      list.push(value);
-    }
-    return this;
-  }
-  entries() {
-    return this.items.entries();
-  }
-  [Symbol.iterator]() {
-    return this.entries();
-  }
-  keys() {
-    return this.items.keys();
-  }
-  *values() {
-    for (const item of this.defaultItems) {
-      yield item;
-    }
-    for (const list of this.items.values()) {
-      for (const item of list) {
-        yield item;
-      }
-    }
-  }
-  has(key) {
-    if (isDefined2(key)) {
-      return this.items.has(key);
-    } else {
-      return this.defaultItems.length > 0;
-    }
-  }
-  get(key) {
-    if (isNullOrUndefined2(key)) {
-      return this.defaultItems;
-    }
-    return this.items.get(key) || [];
-  }
-  count(key) {
-    if (isNullOrUndefined2(key)) {
-      return this.defaultItems.length;
-    }
-    const list = this.get(key);
-    if (isDefined2(list)) {
-      return list.length;
-    }
-    return null;
-  }
-  get size() {
-    let size = this.defaultItems.length;
-    for (const list of this.items.values()) {
-      size += list.length;
-    }
-    return size;
-  }
-  delete(key) {
-    if (isNullOrUndefined2(key)) {
-      return arrayClear2(this.defaultItems).length > 0;
-    } else {
-      return this.items.delete(key);
-    }
-  }
-  remove(key, value) {
-    if (isNullOrUndefined2(key)) {
-      arrayRemove2(this.defaultItems, value);
-    } else {
-      const list = this.items.get(key);
-      if (isDefined2(list)) {
-        arrayRemove2(list, value);
-        if (list.length === 0) {
-          this.items.delete(key);
-        }
-      }
-    }
-  }
-  clear() {
-    this.items.clear();
-    arrayClear2(this.defaultItems);
-  }
-};
-
-// ../indexdb/node_modules/@juniper-lib/tslib/collections/PriorityMap.ts
-var PriorityMap2 = class {
-  constructor(init) {
-    this.items = /* @__PURE__ */ new Map();
-    if (isDefined2(init)) {
-      for (const [key1, key2, value] of init) {
-        this.add(key1, key2, value);
-      }
-    }
-  }
-  add(key1, key2, value) {
-    let level1 = this.items.get(key1);
-    if (isNullOrUndefined2(level1)) {
-      this.items.set(key1, level1 = /* @__PURE__ */ new Map());
-    }
-    level1.set(key2, value);
-    return this;
-  }
-  *entries() {
-    for (const [key1, level1] of this.items) {
-      for (const [key2, value] of level1) {
-        yield [key1, key2, value];
-      }
-    }
-  }
-  keys(key1) {
-    if (isNullOrUndefined2(key1)) {
-      return this.items.keys();
-    } else {
-      return this.items.get(key1).keys();
-    }
-  }
-  *values() {
-    for (const level1 of this.items.values()) {
-      for (const value of level1.values()) {
-        yield value;
-      }
-    }
-  }
-  has(key1, key2) {
-    return this.items.has(key1) && (isNullOrUndefined2(key2) || this.items.get(key1).has(key2));
-  }
-  get(key1, key2) {
-    if (isNullOrUndefined2(key2)) {
-      return this.items.get(key1);
-    } else if (this.items.has(key1)) {
-      return this.items.get(key1).get(key2);
-    } else {
-      return null;
-    }
-  }
-  count(key1) {
-    if (this.items.has(key1)) {
-      return this.items.get(key1).size;
-    }
-    return null;
-  }
-  get size() {
-    let size = 0;
-    for (const list of this.items.values()) {
-      size += list.size;
-    }
-    return size;
-  }
-  delete(key1, key2) {
-    if (isNullOrUndefined2(key2)) {
-      return this.items.delete(key1);
-    } else if (this.items.has(key1)) {
-      return this.items.get(key1).delete(key2);
-    } else {
-      return false;
-    }
-  }
-  clear() {
-    this.items.clear();
-  }
-};
-
-// ../indexdb/node_modules/@juniper-lib/tslib/events/EventBase.ts
-var EventBase2 = class {
-  constructor() {
-    this.listeners = /* @__PURE__ */ new Map();
-    this.listenerOptions = /* @__PURE__ */ new Map();
-  }
-  addEventListener(type, callback, options) {
-    if (isFunction2(callback)) {
-      let listeners = this.listeners.get(type);
-      if (!listeners) {
-        listeners = new Array();
-        this.listeners.set(type, listeners);
-      }
-      if (!listeners.find((c) => c === callback)) {
-        listeners.push(callback);
-        if (options) {
-          this.listenerOptions.set(callback, options);
-        }
-      }
-    }
-  }
-  removeEventListener(type, callback) {
-    if (isFunction2(callback)) {
-      const listeners = this.listeners.get(type);
-      if (listeners) {
-        this.removeListener(listeners, callback);
-      }
-    }
-  }
-  clearEventListeners(type) {
-    for (const [evtName, handlers] of this.listeners) {
-      if (isNullOrUndefined2(type) || type === evtName) {
-        for (const handler of handlers) {
-          this.removeEventListener(type, handler);
-        }
-        arrayClear2(handlers);
-        this.listeners.delete(evtName);
-      }
-    }
-  }
-  removeListener(listeners, callback) {
-    const idx = listeners.findIndex((c) => c === callback);
-    if (idx >= 0) {
-      arrayRemoveAt2(listeners, idx);
-      if (this.listenerOptions.has(callback)) {
-        this.listenerOptions.delete(callback);
-      }
-    }
-  }
-  dispatchEvent(evt) {
-    const listeners = this.listeners.get(evt.type);
-    if (listeners) {
-      for (const callback of listeners) {
-        const options = this.listenerOptions.get(callback);
-        if (isDefined2(options) && !isBoolean2(options) && options.once) {
-          this.removeListener(listeners, callback);
-        }
-        callback.call(this, evt);
-      }
-    }
-    return !evt.defaultPrevented;
-  }
-};
-
-// ../indexdb/node_modules/@juniper-lib/tslib/events/Task.ts
-var Task2 = class {
-  constructor(resolveTestOrAutoStart, rejectTestOrAutoStart, autoStart = true) {
-    this._resolve = null;
-    this._reject = null;
-    this._result = null;
-    this._error = null;
-    this._started = false;
-    this._finished = false;
-    this.resolve = null;
-    this.reject = null;
-    let resolveTest = alwaysTrue2;
-    let rejectTest = alwaysTrue2;
-    if (isFunction2(resolveTestOrAutoStart)) {
-      resolveTest = resolveTestOrAutoStart;
-    }
-    if (isFunction2(rejectTestOrAutoStart)) {
-      rejectTest = rejectTestOrAutoStart;
-    }
-    if (isBoolean2(resolveTestOrAutoStart)) {
-      autoStart = resolveTestOrAutoStart;
-    } else if (isBoolean2(rejectTestOrAutoStart)) {
-      autoStart = rejectTestOrAutoStart;
-    }
-    this.resolve = (value) => {
-      if (isDefined2(this._resolve)) {
-        this._resolve(value);
-      }
-    };
-    this.reject = (reason) => {
-      if (isDefined2(this._reject)) {
-        this._reject(reason);
-      }
-    };
-    this.promise = new Promise((resolve, reject) => {
-      this._resolve = (value) => {
-        if (resolveTest(value)) {
-          this._result = value;
-          this._finished = true;
-          resolve(value);
-        }
-      };
-      this._reject = (reason) => {
-        if (rejectTest(reason)) {
-          this._error = reason;
-          this._finished = true;
-          reject(reason);
-        }
-      };
-    });
-    if (autoStart) {
-      this.start();
-    }
-  }
-  get result() {
-    if (isDefined2(this.error)) {
-      throw this.error;
-    }
-    return this._result;
-  }
-  get error() {
-    return this._error;
-  }
-  get started() {
-    return this._started;
-  }
-  get finished() {
-    return this._finished;
-  }
-  start() {
-    this._started = true;
-  }
-  get [Symbol.toStringTag]() {
-    return this.promise.toString();
-  }
-  then(onfulfilled, onrejected) {
-    return this.promise.then(onfulfilled, onrejected);
-  }
-  catch(onrejected) {
-    return this.promise.catch(onrejected);
-  }
-  finally(onfinally) {
-    return this.promise.finally(onfinally);
-  }
-};
-
-// ../indexdb/node_modules/@juniper-lib/tslib/events/once.ts
-function targetValidateEvent(target, type) {
-  return "on" + type in target;
-}
-function once(target, resolveEvt, rejectEvtOrTimeout, ...rejectEvts) {
-  if (isNullOrUndefined2(rejectEvts)) {
-    rejectEvts = [];
-  }
-  let timeout = void 0;
-  if (isString2(rejectEvtOrTimeout)) {
-    rejectEvts.unshift(rejectEvtOrTimeout);
-  } else if (isNumber2(rejectEvtOrTimeout)) {
-    timeout = rejectEvtOrTimeout;
-  }
-  if (!(target instanceof EventBase2)) {
-    if (!targetValidateEvent(target, resolveEvt)) {
-      throw new Exception2(`Target does not have a ${resolveEvt} rejection event`);
-    }
-    for (const evt of rejectEvts) {
-      if (!targetValidateEvent(target, evt)) {
-        throw new Exception2(`Target does not have a ${evt} rejection event`);
-      }
-    }
-  }
-  const task = new Task2();
-  if (isNumber2(timeout)) {
-    const timeoutHandle = setTimeout(task.reject, timeout, `'${resolveEvt}' has timed out.`);
-    task.finally(clearTimeout.bind(globalThis, timeoutHandle));
-  }
-  const register = (evt, callback) => {
-    target.addEventListener(evt, callback);
-    task.finally(() => target.removeEventListener(evt, callback));
-  };
-  const onResolve = (evt) => task.resolve(evt);
-  const onReject = (evt) => task.reject(evt);
-  register(resolveEvt, onResolve);
-  for (const rejectEvt of rejectEvts) {
-    register(rejectEvt, onReject);
-  }
-  return task;
-}
-function success(task) {
-  return task.then(alwaysTrue2).catch(alwaysFalse2);
-}
-
-// ../indexdb/node_modules/@juniper-lib/tslib/events/Promisifier.ts
-var Promisifier2 = class {
-  constructor(resolveRejectTest, selectValue, selectRejectionReason) {
-    this.callback = null;
-    this.promise = new Promise((resolve, reject) => {
-      this.callback = (...args) => {
-        if (resolveRejectTest(...args)) {
-          resolve(selectValue(...args));
-        } else {
-          reject(selectRejectionReason(...args));
-        }
-      };
-    });
-  }
-  get [Symbol.toStringTag]() {
-    return this.promise.toString();
-  }
-  then(onfulfilled, onrejected) {
-    return this.promise.then(onfulfilled, onrejected);
-  }
-  catch(onrejected) {
-    return this.promise.catch(onrejected);
-  }
-  finally(onfinally) {
-    return this.promise.finally(onfinally);
-  }
-};
-
-// ../indexdb/node_modules/@juniper-lib/tslib/Exception.ts
-var Exception2 = class extends Error {
-  constructor(message, innerError = null) {
-    super(message);
-    this.innerError = innerError;
-  }
-};
-
-// ../indexdb/node_modules/@juniper-lib/tslib/flags.ts
-var oculusBrowserPattern2 = /OculusBrowser\/(\d+)\.(\d+)\.(\d+)/i;
-var oculusMatch2 = navigator.userAgent.match(oculusBrowserPattern2);
-var isOculusBrowser2 = !!oculusMatch2;
-var oculusBrowserVersion2 = isOculusBrowser2 && {
-  major: parseFloat(oculusMatch2[1]),
-  minor: parseFloat(oculusMatch2[2]),
-  patch: parseFloat(oculusMatch2[3])
-};
-var isOculusGo2 = isOculusBrowser2 && /pacific/i.test(navigator.userAgent);
-var isOculusQuest3 = isOculusBrowser2 && /quest/i.test(navigator.userAgent);
-var isOculusQuest22 = isOculusBrowser2 && /quest 2/i.test(navigator.userAgent);
-var isWorker2 = !("Document" in globalThis);
-
-// ../indexdb/node_modules/@juniper-lib/tslib/gis/Datum.ts
-var invF2 = 298.257223563;
-var equatorialRadius2 = 6378137;
-var flattening2 = 1 / invF2;
-var flatteningComp2 = 1 - flattening2;
-var n2 = flattening2 / (2 - flattening2);
-var A2 = equatorialRadius2 / (1 + n2) * (1 + n2 * n2 / 4 + n2 * n2 * n2 * n2 / 64);
-var e2 = Math.sqrt(1 - flatteningComp2 * flatteningComp2);
-var esq2 = 1 - flatteningComp2 * flatteningComp2;
-var e0sq2 = e2 * e2 / (1 - e2 * e2);
-var alpha12 = 1 - esq2 * (0.25 + esq2 * (3 / 64 + 5 * esq2 / 256));
-var alpha22 = esq2 * (3 / 8 + esq2 * (3 / 32 + 45 * esq2 / 1024));
-var alpha32 = esq2 * esq2 * (15 / 256 + esq2 * 45 / 1024);
-var alpha42 = esq2 * esq2 * esq2 * (35 / 3072);
-var beta2 = [
-  n2 / 2 - 2 * n2 * n2 / 3 + 37 * n2 * n2 * n2 / 96,
-  n2 * n2 / 48 + n2 * n2 * n2 / 15,
-  17 * n2 * n2 * n2 / 480
-];
-var delta2 = [
-  2 * n2 - 2 * n2 * n2 / 3,
-  7 * n2 * n2 / 3 - 8 * n2 * n2 * n2 / 5,
-  56 * n2 * n2 * n2 / 15
-];
-
-// ../indexdb/node_modules/@juniper-lib/tslib/identity.ts
-function identity2(item) {
-  return item;
-}
-function alwaysTrue2() {
-  return true;
-}
-function alwaysFalse2() {
-  return false;
-}
-
-// ../indexdb/node_modules/@juniper-lib/tslib/math/angleClamp.ts
-var Tau2 = 2 * Math.PI;
-
-// ../indexdb/node_modules/@juniper-lib/tslib/math/lerp.ts
-function lerp2(a, b, p) {
-  return (1 - p) * a + p * b;
-}
-
-// ../indexdb/node_modules/@juniper-lib/tslib/typeChecks.ts
-function t2(o, s, c) {
-  return typeof o === s || o instanceof c;
-}
-function isFunction2(obj) {
-  return t2(obj, "function", Function);
-}
-function isString2(obj) {
-  return t2(obj, "string", String);
-}
-function isBoolean2(obj) {
-  return t2(obj, "boolean", Boolean);
-}
-function isNumber2(obj) {
-  return t2(obj, "number", Number);
-}
-function isArray2(obj) {
-  return obj instanceof Array;
-}
-function isNullOrUndefined2(obj) {
-  return obj === null || obj === void 0;
-}
-function isDefined2(obj) {
-  return !isNullOrUndefined2(obj);
-}
-
-// ../indexdb/node_modules/@juniper-lib/tslib/timers/ITimer.ts
-var BaseTimerTickEvent2 = class {
-  constructor() {
-    this.t = 0;
-    this.dt = 0;
-    this.sdt = 0;
-    this.fps = 0;
-  }
-  set(t3, dt) {
-    this.t = t3;
-    this.dt = dt;
-    this.sdt = lerp2(this.sdt, dt, 0.01);
-    if (dt > 0) {
-      this.fps = 1e3 / dt;
-    }
-  }
-};
-var TimerTickEvent2 = class extends BaseTimerTickEvent2 {
-  constructor() {
-    super();
-    Object.seal(this);
-  }
-};
-
-// ../indexdb/node_modules/@juniper-lib/tslib/timers/BaseTimer.ts
-var _targetFPS2;
-var BaseTimer2 = class {
-  constructor(targetFrameRate) {
-    this.timer = null;
-    this.lt = -1;
-    this.tickHandlers = new Array();
-    __privateAdd(this, _targetFPS2, null);
-    this.targetFPS = targetFrameRate;
-    const tickEvt = new TimerTickEvent2();
-    let dt = 0;
-    this.onTick = (t3) => {
-      if (this.lt >= 0) {
-        dt = t3 - this.lt;
-        tickEvt.set(t3, dt);
-        this.tick(tickEvt);
-      }
-      this.lt = t3;
-    };
-  }
-  get targetFPS() {
-    return __privateGet(this, _targetFPS2);
-  }
-  set targetFPS(v) {
-    __privateSet(this, _targetFPS2, v);
-  }
-  addTickHandler(onTick) {
-    this.tickHandlers.push(onTick);
-  }
-  removeTickHandler(onTick) {
-    arrayRemove2(this.tickHandlers, onTick);
-  }
-  tick(evt) {
-    for (const handler of this.tickHandlers) {
-      handler(evt);
-    }
-  }
-  restart() {
-    this.stop();
-    this.start();
-  }
-  get isRunning() {
-    return this.timer != null;
-  }
-  stop() {
-    this.timer = null;
-    this.lt = -1;
-  }
-  get targetFrameTime() {
-    return 1e3 / this.targetFPS;
-  }
-};
-_targetFPS2 = new WeakMap();
-
-// ../indexdb/node_modules/@juniper-lib/tslib/URLBuilder.ts
-function parsePort2(portString) {
-  if (isDefined2(portString) && portString.length > 0) {
-    return parseFloat(portString);
-  }
-  return null;
-}
-var URLBuilder2 = class {
-  constructor(url, base) {
-    this._url = null;
-    this._base = void 0;
-    this._protocol = null;
-    this._host = null;
-    this._hostName = null;
-    this._userName = null;
-    this._password = null;
-    this._port = null;
-    this._pathName = null;
-    this._hash = null;
-    this._query = /* @__PURE__ */ new Map();
-    if (url !== void 0) {
-      this._url = new URL(url, base);
-      this.rehydrate();
-    }
-  }
-  rehydrate() {
-    if (isDefined2(this._protocol) && this._protocol !== this._url.protocol) {
-      this._url.protocol = this._protocol;
-    }
-    if (isDefined2(this._host) && this._host !== this._url.host) {
-      this._url.host = this._host;
-    }
-    if (isDefined2(this._hostName) && this._hostName !== this._url.hostname) {
-      this._url.hostname = this._hostName;
-    }
-    if (isDefined2(this._userName) && this._userName !== this._url.username) {
-      this._url.username = this._userName;
-    }
-    if (isDefined2(this._password) && this._password !== this._url.password) {
-      this._url.password = this._password;
-    }
-    if (isDefined2(this._port) && this._port.toFixed(0) !== this._url.port) {
-      this._url.port = this._port.toFixed(0);
-    }
-    if (isDefined2(this._pathName) && this._pathName !== this._url.pathname) {
-      this._url.pathname = this._pathName;
-    }
-    if (isDefined2(this._hash) && this._hash !== this._url.hash) {
-      this._url.hash = this._hash;
-    }
-    for (const [k, v] of this._query) {
-      this._url.searchParams.set(k, v);
-    }
-    this._protocol = this._url.protocol;
-    this._host = this._url.host;
-    this._hostName = this._url.hostname;
-    this._userName = this._url.username;
-    this._password = this._url.password;
-    this._port = parsePort2(this._url.port);
-    this._pathName = this._url.pathname;
-    this._hash = this._url.hash;
-    this._url.searchParams.forEach((v, k) => this._query.set(k, v));
-  }
-  refresh() {
-    if (this._url === null) {
-      if (isDefined2(this._protocol) && (isDefined2(this._host) || isDefined2(this._hostName))) {
-        if (isDefined2(this._host)) {
-          this._url = new URL(`${this._protocol}//${this._host}`, this._base);
-          this._port = parsePort2(this._url.port);
-          this.rehydrate();
-          return false;
-        } else if (isDefined2(this._hostName)) {
-          this._url = new URL(`${this._protocol}//${this._hostName}`, this._base);
-          this.rehydrate();
-          return false;
-        }
-      } else if (isDefined2(this._pathName) && isDefined2(this._base)) {
-        this._url = new URL(this._pathName, this._base);
-        this.rehydrate();
-        return false;
-      }
-    }
-    return isDefined2(this._url);
-  }
-  base(base) {
-    if (this._url !== null) {
-      throw new Error("Cannot redefine base after defining the protocol and domain");
-    }
-    this._base = base;
-    this.refresh();
-    return this;
-  }
-  protocol(protocol) {
-    this._protocol = protocol;
-    if (this.refresh()) {
-      this._url.protocol = protocol;
-    }
-    return this;
-  }
-  host(host) {
-    this._host = host;
-    if (this.refresh()) {
-      this._url.host = host;
-      this._hostName = this._url.hostname;
-      this._port = parsePort2(this._url.port);
-    }
-    return this;
-  }
-  hostName(hostName) {
-    this._hostName = hostName;
-    if (this.refresh()) {
-      this._url.hostname = hostName;
-      this._host = `${this._url.hostname}:${this._url.port}`;
-    }
-    return this;
-  }
-  port(port) {
-    this._port = port;
-    if (this.refresh()) {
-      this._url.port = port.toFixed(0);
-      this._host = `${this._url.hostname}:${this._url.port}`;
-    }
-    return this;
-  }
-  userName(userName) {
-    this._userName = userName;
-    if (this.refresh()) {
-      this._url.username = userName;
-    }
-    return this;
-  }
-  password(password) {
-    this._password = password;
-    if (this.refresh()) {
-      this._url.password = password;
-    }
-    return this;
-  }
-  path(path) {
-    this._pathName = path;
-    if (this.refresh()) {
-      this._url.pathname = path;
-    }
-    return this;
-  }
-  pathPop(pattern) {
-    pattern = pattern || /\/[^\/]+\/?$/;
-    return this.path(this._pathName.replace(pattern, ""));
-  }
-  pathPush(part) {
-    let path = this._pathName;
-    if (!path.endsWith("/")) {
-      path += "/";
-    }
-    path += part;
-    return this.path(path);
-  }
-  query(name, value) {
-    this._query.set(name, value);
-    if (this.refresh()) {
-      this._url.searchParams.set(name, value);
-    }
-    return this;
-  }
-  hash(hash) {
-    this._hash = hash;
-    if (this.refresh()) {
-      this._url.hash = hash;
-    }
-    return this;
-  }
-  toURL() {
-    return this._url;
-  }
-  toString() {
-    return this._url.href;
-  }
-  [Symbol.toStringTag]() {
-    return this.toString();
-  }
-};
-
-// ../indexdb/node_modules/@juniper-lib/tslib/collections/mapInvert.ts
-function mapInvert2(map) {
-  const mapOut = /* @__PURE__ */ new Map();
-  for (const [key, value] of map) {
-    mapOut.set(value, key);
-  }
-  return mapOut;
-}
-
-// ../indexdb/node_modules/@juniper-lib/tslib/units/fileSize.ts
-var base2Labels2 = /* @__PURE__ */ new Map([
-  [1, "KiB"],
-  [2, "MiB"],
-  [3, "GiB"],
-  [4, "TiB"]
-]);
-var base10Labels2 = /* @__PURE__ */ new Map([
-  [1, "KB"],
-  [2, "MB"],
-  [3, "GB"],
-  [4, "TB"]
-]);
-var base2Sizes2 = mapInvert2(base2Labels2);
-var base10Sizes2 = mapInvert2(base10Labels2);
-
-// ../indexdb/node_modules/@juniper-lib/tslib/units/length.ts
-var MICROMETERS_PER_MILLIMETER2 = 1e3;
-var MILLIMETERS_PER_CENTIMETER2 = 10;
-var CENTIMETERS_PER_INCH2 = 2.54;
-var CENTIMETERS_PER_METER2 = 100;
-var INCHES_PER_HAND2 = 4;
-var HANDS_PER_FOOT2 = 3;
-var FEET_PER_YARD2 = 3;
-var FEET_PER_ROD2 = 16.5;
-var METERS_PER_KILOMETER2 = 1e3;
-var RODS_PER_FURLONG2 = 40;
-var FURLONGS_PER_MILE2 = 8;
-var MICROMETERS_PER_CENTIMETER2 = MICROMETERS_PER_MILLIMETER2 * MILLIMETERS_PER_CENTIMETER2;
-var MICROMETERS_PER_INCH2 = MICROMETERS_PER_CENTIMETER2 * CENTIMETERS_PER_INCH2;
-var MICROMETERS_PER_HAND2 = MICROMETERS_PER_INCH2 * INCHES_PER_HAND2;
-var MICROMETERS_PER_FOOT2 = MICROMETERS_PER_HAND2 * HANDS_PER_FOOT2;
-var MICROMETERS_PER_YARD2 = MICROMETERS_PER_FOOT2 * FEET_PER_YARD2;
-var MICROMETERS_PER_METER2 = MICROMETERS_PER_CENTIMETER2 * CENTIMETERS_PER_METER2;
-var MICROMETERS_PER_ROD2 = MICROMETERS_PER_FOOT2 * FEET_PER_ROD2;
-var MICROMETERS_PER_FURLONG2 = MICROMETERS_PER_ROD2 * RODS_PER_FURLONG2;
-var MICROMETERS_PER_KILOMETER2 = MICROMETERS_PER_METER2 * METERS_PER_KILOMETER2;
-var MICROMETERS_PER_MILE2 = MICROMETERS_PER_FURLONG2 * FURLONGS_PER_MILE2;
-var MILLIMETERS_PER_INCH2 = MILLIMETERS_PER_CENTIMETER2 * CENTIMETERS_PER_INCH2;
-var MILLIMETERS_PER_HAND2 = MILLIMETERS_PER_INCH2 * INCHES_PER_HAND2;
-var MILLIMETERS_PER_FOOT2 = MILLIMETERS_PER_HAND2 * HANDS_PER_FOOT2;
-var MILLIMETERS_PER_YARD2 = MILLIMETERS_PER_FOOT2 * FEET_PER_YARD2;
-var MILLIMETERS_PER_METER2 = MILLIMETERS_PER_CENTIMETER2 * CENTIMETERS_PER_METER2;
-var MILLIMETERS_PER_ROD2 = MILLIMETERS_PER_FOOT2 * FEET_PER_ROD2;
-var MILLIMETERS_PER_FURLONG2 = MILLIMETERS_PER_ROD2 * RODS_PER_FURLONG2;
-var MILLIMETERS_PER_KILOMETER2 = MILLIMETERS_PER_METER2 * METERS_PER_KILOMETER2;
-var MILLIMETERS_PER_MILE2 = MILLIMETERS_PER_FURLONG2 * FURLONGS_PER_MILE2;
-var CENTIMETERS_PER_HAND2 = CENTIMETERS_PER_INCH2 * INCHES_PER_HAND2;
-var CENTIMETERS_PER_FOOT2 = CENTIMETERS_PER_HAND2 * HANDS_PER_FOOT2;
-var CENTIMETERS_PER_YARD2 = CENTIMETERS_PER_FOOT2 * FEET_PER_YARD2;
-var CENTIMETERS_PER_ROD2 = CENTIMETERS_PER_FOOT2 * FEET_PER_ROD2;
-var CENTIMETERS_PER_FURLONG2 = CENTIMETERS_PER_ROD2 * RODS_PER_FURLONG2;
-var CENTIMETERS_PER_KILOMETER2 = CENTIMETERS_PER_METER2 * METERS_PER_KILOMETER2;
-var CENTIMETERS_PER_MILE2 = CENTIMETERS_PER_FURLONG2 * FURLONGS_PER_MILE2;
-var INCHES_PER_FOOT2 = INCHES_PER_HAND2 * HANDS_PER_FOOT2;
-var INCHES_PER_YARD2 = INCHES_PER_FOOT2 * FEET_PER_YARD2;
-var INCHES_PER_METER2 = CENTIMETERS_PER_METER2 / CENTIMETERS_PER_INCH2;
-var INCHES_PER_ROD2 = INCHES_PER_FOOT2 * FEET_PER_ROD2;
-var INCHES_PER_FURLONG2 = INCHES_PER_ROD2 * RODS_PER_FURLONG2;
-var INCHES_PER_KILOMETER2 = INCHES_PER_METER2 * METERS_PER_KILOMETER2;
-var INCHES_PER_MILE2 = INCHES_PER_FURLONG2 * FURLONGS_PER_MILE2;
-var HANDS_PER_YARD2 = HANDS_PER_FOOT2 * FEET_PER_YARD2;
-var HANDS_PER_METER2 = CENTIMETERS_PER_METER2 / CENTIMETERS_PER_HAND2;
-var HANDS_PER_ROD2 = HANDS_PER_FOOT2 * FEET_PER_ROD2;
-var HANDS_PER_FURLONG2 = HANDS_PER_ROD2 * RODS_PER_FURLONG2;
-var HANDS_PER_KILOMETER2 = HANDS_PER_METER2 * METERS_PER_KILOMETER2;
-var HANDS_PER_MILE2 = HANDS_PER_FURLONG2 * FURLONGS_PER_MILE2;
-var FEET_PER_METER2 = INCHES_PER_METER2 / INCHES_PER_FOOT2;
-var FEET_PER_FURLONG2 = FEET_PER_ROD2 * RODS_PER_FURLONG2;
-var FEET_PER_KILOMETER2 = FEET_PER_METER2 * METERS_PER_KILOMETER2;
-var FEET_PER_MILE2 = FEET_PER_FURLONG2 * FURLONGS_PER_MILE2;
-var YARDS_PER_METER2 = INCHES_PER_METER2 / INCHES_PER_YARD2;
-var YARDS_PER_ROD2 = FEET_PER_ROD2 / FEET_PER_YARD2;
-var YARDS_PER_FURLONG2 = YARDS_PER_ROD2 * RODS_PER_FURLONG2;
-var YARDS_PER_KILOMETER2 = YARDS_PER_METER2 * METERS_PER_KILOMETER2;
-var YARDS_PER_MILE2 = YARDS_PER_FURLONG2 * FURLONGS_PER_MILE2;
-var METERS_PER_ROD2 = FEET_PER_ROD2 / FEET_PER_METER2;
-var METERS_PER_FURLONG2 = METERS_PER_ROD2 * RODS_PER_FURLONG2;
-var METERS_PER_MILE2 = METERS_PER_FURLONG2 * FURLONGS_PER_MILE2;
-var RODS_PER_KILOMETER2 = METERS_PER_KILOMETER2 / METERS_PER_ROD2;
-var RODS_PER_MILE2 = RODS_PER_FURLONG2 * FURLONGS_PER_MILE2;
-var FURLONGS_PER_KILOMETER2 = METERS_PER_KILOMETER2 / METERS_PER_FURLONG2;
-var KILOMETERS_PER_MILE2 = FURLONGS_PER_MILE2 / FURLONGS_PER_KILOMETER2;
-
 // ../indexdb/index.ts
 var IDexDB = class {
   constructor(db) {
     this.db = db;
   }
   static async getCurrentVersion(dbName) {
-    if (isDefined2(indexedDB.databases)) {
+    if (isDefined(indexedDB.databases)) {
       const databases = await indexedDB.databases();
       for (const { name, version } of databases) {
         if (name === dbName) {
@@ -1969,18 +1164,18 @@ var IDexDB = class {
     return success(task);
   }
   static async open(name, ...storeDefs) {
-    const storesByName = mapMap2(storeDefs, (v) => v.name, identity2);
-    const indexesByName = new PriorityMap2(storeDefs.filter((storeDef) => isDefined2(storeDef.indexes)).flatMap((storeDef) => storeDef.indexes.map((indexDef) => [storeDef.name, indexDef.name, indexDef])));
+    const storesByName = mapMap(storeDefs, (v) => v.name, identity);
+    const indexesByName = new PriorityMap(storeDefs.filter((storeDef) => isDefined(storeDef.indexes)).flatMap((storeDef) => storeDef.indexes.map((indexDef) => [storeDef.name, indexDef.name, indexDef])));
     const storesToAdd = new Array();
     const storesToRemove = new Array();
     const storesToChange = new Array();
-    const indexesToAdd = new PriorityList2();
-    const indexesToRemove = new PriorityList2();
+    const indexesToAdd = new PriorityList();
+    const indexesToRemove = new PriorityList();
     let version = await this.getCurrentVersion(name);
-    if (isNullOrUndefined2(version)) {
+    if (isNullOrUndefined(version)) {
       storesToAdd.push(...storesByName.keys());
       for (const storeDef of storeDefs) {
-        if (isDefined2(storeDef.indexes)) {
+        if (isDefined(storeDef.indexes)) {
           for (const indexDef of storeDef.indexes) {
             indexesToAdd.add(storeDef.name, indexDef.name);
           }
@@ -2027,7 +1222,7 @@ var IDexDB = class {
                 } else {
                   const indexDef = indexesByName.get(storeName, indexName);
                   const index = store.index(indexName);
-                  if (isString2(indexDef.keyPath) !== isString2(index.keyPath) || isString2(indexDef.keyPath) && isString2(index.keyPath) && indexDef.keyPath !== index.keyPath || isArray2(indexDef.keyPath) && isArray2(index.keyPath) && arrayCompare(indexDef.keyPath, index.keyPath)) {
+                  if (isString(indexDef.keyPath) !== isString(index.keyPath) || isString(indexDef.keyPath) && isString(index.keyPath) && indexDef.keyPath !== index.keyPath || isArray(indexDef.keyPath) && isArray(index.keyPath) && arrayCompare(indexDef.keyPath, index.keyPath)) {
                     if (storesToChange.indexOf(storeName) === -1) {
                       storesToChange.push(storeName);
                     }
@@ -2047,8 +1242,8 @@ var IDexDB = class {
         ++version;
       }
     }
-    const upgrading = new Task2();
-    const openRequest = isDefined2(version) ? indexedDB.open(name, version) : indexedDB.open(name);
+    const upgrading = new Task();
+    const openRequest = isDefined(version) ? indexedDB.open(name, version) : indexedDB.open(name);
     const opening = once(openRequest, "success", "error", "blocked");
     const upgraded = success(upgrading);
     const opened = success(opening);

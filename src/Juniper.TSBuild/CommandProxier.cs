@@ -9,7 +9,7 @@ namespace Juniper.TSBuild
         public DirectoryInfo Root { get; private set; }
         private readonly ShellCommand processManager;
         private readonly JsonFactory<CommandProxyDescription> cmdFactory = new() { Formatting = Newtonsoft.Json.Formatting.None };
-        private readonly Dictionary<int, ProxiedWatchCommand> proxies = new();
+        private readonly Dictionary<int, ProxiedCommand> proxies = new();
         private int taskCounter = 0;
 
         public event EventHandler<StringEventArgs>? Info;
@@ -79,7 +79,7 @@ namespace Juniper.TSBuild
             }
         }
 
-        internal void Exec(ProxiedWatchCommand pcmd, DirectoryInfo? workingDir, params string[] args)
+        internal void Exec(ProxiedCommand pcmd, DirectoryInfo? workingDir, params string[] args)
         {
             var taskID = ++taskCounter;
             proxies.Add(taskID, pcmd);
