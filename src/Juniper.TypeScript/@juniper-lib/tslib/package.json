@@ -1,7 +1,7 @@
 {
   "name": "@juniper-lib/tslib",
   "private": false,
-  "version": "1.2.0",
+  "version": "1.2.1",
   "type": "module",
   "description": "A kitchen sink of features usefull in TypeScript projects",
   "main": "index.ts",

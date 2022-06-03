@@ -4,10 +4,9 @@
   "version": "1.0.0",
   "description": "Convenient type stuff for working with IndexDB",
   "types": "./index.d.ts",
-  "dependencies": {
+  "devDependencies": {
     "typescript": "4.7.2"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "github.com/capnmidnight/Juniper"

@@ -6,7 +6,9 @@
   "description": "Useful records of Bluetooth Low Energy objects",
   "main": "index.ts",
   "dependencies": {
-    "@juniper-lib/tslib": "*",
+    "@juniper-lib/tslib": "*"
+  },
+  "devDependencies": {
     "typescript": "4.7.2"
   },
   "repository": {

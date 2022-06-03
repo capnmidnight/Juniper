@@ -7,7 +7,9 @@
   "main": "index.ts",
   "dependencies": {
     "@juniper-lib/tslib": "*",
-    "@juniper-types/indexdb": "*",
+    "@juniper-types/indexdb": "*"
+  },
+  "devDependencies": {
     "typescript": "4.7.2"
   },
   "repository": {
