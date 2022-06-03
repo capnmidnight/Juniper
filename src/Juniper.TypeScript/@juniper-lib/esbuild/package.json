@@ -6,7 +6,7 @@
   "description": "A shortcut system for using ESBuild in my projects",
   "main": "index.js",
   "scripts": {
-    "build": "npx tsc --build"
+    "build": "tsc --build"
   },
   "dependencies": {
     "@fal-works/esbuild-plugin-global-externals": "2.1.2",
