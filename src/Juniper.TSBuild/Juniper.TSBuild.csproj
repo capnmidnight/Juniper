@@ -7,7 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Juniper.Processes\Juniper.Processes.csproj" />
 		<ProjectReference Include="..\Juniper.ProcessManager\Juniper.ProcessManager.csproj">
 			<ReferenceOutputAssembly>True</ReferenceOutputAssembly>
 		</ProjectReference>

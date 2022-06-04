@@ -1,4 +1,5 @@
-﻿namespace Juniper.Processes
+﻿#nullable enable
+namespace Juniper.Processes
 {
     public class ProcessStartException : Exception
     {

@@ -12,9 +12,4 @@
 		<TypeScriptTarget>ESNext</TypeScriptTarget>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
-		<ProjectReference Include="..\Juniper.TSBuild\Juniper.TSBuild.csproj" />
-	</ItemGroup>
-
 </Project>

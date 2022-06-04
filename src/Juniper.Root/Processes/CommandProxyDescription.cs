@@ -1,3 +1,4 @@
+#nullable enable
 using System.Runtime.Serialization;
 
 namespace Juniper.Processes

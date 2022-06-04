@@ -1,3 +1,4 @@
+#nullable enable
 namespace Juniper.Processes
 {
     public abstract class AbstractCommand : ICommand

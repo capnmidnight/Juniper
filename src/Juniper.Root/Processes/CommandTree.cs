@@ -1,3 +1,4 @@
+#nullable enable
 using Juniper.Logging;
 
 namespace Juniper.Processes
