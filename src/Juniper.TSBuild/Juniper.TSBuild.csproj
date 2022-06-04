@@ -10,8 +10,10 @@
 		<ProjectReference Include="..\Juniper.ProcessManager\Juniper.ProcessManager.csproj">
 			<ReferenceOutputAssembly>True</ReferenceOutputAssembly>
 		</ProjectReference>
-		<ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<PackageReference Include="SeanMcBeth.Juniper" Version="1.0.0" />
+	</ItemGroup>
 
 </Project>
