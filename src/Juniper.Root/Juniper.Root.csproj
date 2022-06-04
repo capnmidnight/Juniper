@@ -8,9 +8,24 @@
 		<LangVersion>10.0</LangVersion>
 		<Authors>Sean T. McBeth</Authors>
 		<Copyright>Copyright © Sean T. McBeth 2019</Copyright>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Description>General purpose code</Description>
+		<PackageProjectUrl>https://github.com/capnmidnight/Juniper</PackageProjectUrl>
+		<PackageIcon>logo_juniper.min.png</PackageIcon>
+		<RepositoryUrl>https://github.com/capnmidnight/Juniper</RepositoryUrl>
+		<PackageId>SeanMcBeth.Juniper</PackageId>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 		<ImplicitUsings>True</ImplicitUsings>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<None Include="LICENSE.md" Pack="true" PackagePath="">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="logo_juniper.min.png" Pack="true" PackagePath="">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Accord.Math" Version="3.8.0" />
