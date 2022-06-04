@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace System.Collections.Specialized
 {
     public static class NameValueCollectionExt

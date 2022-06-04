@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Juniper.Logic
 {
     public interface IExpression<ItemT>

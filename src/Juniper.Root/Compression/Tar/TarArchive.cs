@@ -1,8 +1,5 @@
 using Juniper.Progress;
 
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Text;
 
 namespace Juniper.Compression.Tar

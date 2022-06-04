@@ -1,7 +1,4 @@
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 using static System.Math;
@@ -259,9 +256,7 @@ namespace System
 
             if (a.Length < b.Length)
             {
-                var c = a;
-                a = b;
-                b = c;
+                (b, a) = (a, b);
             }
 
             var distance = a.WagnerFischer_Damerau_Levenshtein_Distance(b);

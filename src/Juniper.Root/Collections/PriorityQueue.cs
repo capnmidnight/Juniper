@@ -4,9 +4,7 @@
  * DATE: JAN-25-2007
  */
 
-using System;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace Juniper.Collections
 {

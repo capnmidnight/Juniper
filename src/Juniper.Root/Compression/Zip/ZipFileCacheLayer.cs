@@ -2,11 +2,6 @@ using Juniper.Compression;
 using Juniper.Compression.Zip;
 using Juniper.Progress;
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-
 namespace Juniper.IO
 {
     public class ZipFileCacheLayer : ICacheSourceLayer

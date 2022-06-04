@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace System.IO
 {
     public static class StreamExt

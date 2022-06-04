@@ -1,8 +1,6 @@
 using Juniper.Puzzles;
 using Juniper.Unicode;
 
-using System;
-
 namespace Juniper.Terminal
 {
     public static class IConsoleBufferExt

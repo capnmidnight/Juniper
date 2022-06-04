@@ -20,8 +20,8 @@ var typeScriptDir = juniperDir.CD("src", "Juniper.TypeScript");
 var proxier = new CommandProxier(typeScriptDir);
 var commandTree = new CommandTree();
 commandTree.AddCommands(
-    new ProxiedWatchCommand(proxier, "environment"),
-    new ProxiedWatchCommand(proxier, "fetcher-worker")
+    new ProxiedCommand(proxier, typeScriptDir, "npm", "-w", "@juniper-lib/environment", "run", "watch"),
+    new ProxiedCommand(proxier, typeScriptDir, "npm", "-w", "@juniper-lib/fetcher-worker", "run", "watch")
 );
 
 proxier.Info += (_, e) => WriteLine("Proxy Info: " + e.Value);

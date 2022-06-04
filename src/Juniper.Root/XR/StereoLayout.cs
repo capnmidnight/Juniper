@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Juniper.XR
 {
     public static class StereoLayout

@@ -1,8 +1,6 @@
 using Juniper.Progress;
 using Juniper.World.GIS;
 
-using System.Threading.Tasks;
-
 namespace Juniper.Climate
 {
     public interface IWeatherAPI

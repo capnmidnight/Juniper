@@ -1,5 +1,3 @@
-using System;
-
 namespace Juniper.Terminal
 {
     public class ColorScope : IDisposable

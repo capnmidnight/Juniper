@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Juniper
+﻿namespace Juniper
 {
     public class NamedAction<T1, T2, T3, T4> : AbstractNamedAction<Action<T1, T2, T3, T4>>
     {

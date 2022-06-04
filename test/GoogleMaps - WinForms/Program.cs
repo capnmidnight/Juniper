@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -45,7 +46,9 @@ namespace Juniper
             var lines = File.ReadAllLines(keyFileName);
             var apiKey = lines[0];
             var signingKey = lines[1];
+            using var http = new HttpClient();
             gmaps = new GoogleMapsClient(
+                http,
                 apiKey, signingKey,
                 metadataDecoder, geocodingDecoder,
                 cache);

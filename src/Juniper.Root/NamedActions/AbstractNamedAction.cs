@@ -1,5 +1,3 @@
-using System;
-
 namespace Juniper
 {
     public interface INamedAction

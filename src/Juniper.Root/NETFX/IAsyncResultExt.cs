@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace System
 {
     public static class IAsyncResultExt

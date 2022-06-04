@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Juniper
+﻿namespace Juniper
 {
     public class NamedFunc<T, TResult> : AbstractNamedAction<Func<T, TResult>>
     {

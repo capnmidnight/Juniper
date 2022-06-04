@@ -1,5 +1,3 @@
-using System;
-
 namespace Juniper.Progress
 {
     /// <summary>
@@ -72,7 +70,7 @@ namespace Juniper.Progress
         public void ReportWithStatus(float progress, string status)
         {
             Progress = progress;
-            var prog = start + progress * length;
+            var prog = start + (progress * length);
             if (prefix is not null && status is not null)
             {
                 Status = prefix + " " + status;

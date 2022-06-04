@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Juniper
 {
     public class BufferEventArgs : EventArgs<IReadOnlyCollection<byte>>

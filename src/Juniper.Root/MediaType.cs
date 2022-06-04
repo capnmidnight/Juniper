@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text.RegularExpressions;
-
 using Accord.Math;
 
 using Juniper.IO;
+
+using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 
 namespace Juniper
 {

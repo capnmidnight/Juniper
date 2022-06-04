@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.IO;
-
 namespace Juniper.IO
 {
     public class ForkedStream : Stream

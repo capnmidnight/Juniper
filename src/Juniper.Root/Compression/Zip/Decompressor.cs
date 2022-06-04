@@ -1,9 +1,6 @@
 using Juniper.IO;
 using Juniper.Progress;
 
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.IO.Compression;
 
 namespace Juniper.Compression.Zip

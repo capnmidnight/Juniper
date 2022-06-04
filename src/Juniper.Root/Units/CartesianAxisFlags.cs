@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Juniper.Units
+﻿namespace Juniper.Units
 {
 
     /// <summary>

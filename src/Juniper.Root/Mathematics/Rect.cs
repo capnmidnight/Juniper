@@ -1,5 +1,3 @@
-using System;
-
 namespace Juniper.Mathematics
 {
     public struct Rect : IEquatable<Rect>

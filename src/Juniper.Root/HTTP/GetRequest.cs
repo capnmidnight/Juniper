@@ -1,8 +1,5 @@
 using Juniper.HTTP.REST;
 
-using System;
-using System.Net.Http;
-
 namespace Juniper.HTTP
 {
     public class GetRequest : AbstractRequest<MediaType>

@@ -1,5 +1,3 @@
-using System;
-
 namespace Juniper.Logic
 {
     internal class OrExpression<ItemT> :

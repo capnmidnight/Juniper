@@ -1,5 +1,3 @@
-using Juniper;
-
 namespace System
 {
     public static class UriBuilderExt

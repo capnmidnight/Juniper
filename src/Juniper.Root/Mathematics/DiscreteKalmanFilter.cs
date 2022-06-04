@@ -1,8 +1,6 @@
 using Accord.Math;
 using Accord.Statistics.Distributions.Univariate;
 
-using System;
-
 using static System.Math;
 
 namespace Juniper.Mathematics

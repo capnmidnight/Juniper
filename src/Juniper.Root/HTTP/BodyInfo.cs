@@ -1,5 +1,3 @@
-using System;
-
 namespace Juniper.HTTP
 {
     public sealed class BodyInfo : IEquatable<BodyInfo>

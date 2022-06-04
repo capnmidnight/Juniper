@@ -1,5 +1,3 @@
-using System;
-
 namespace Juniper.Puzzles
 {
     public struct Tile : IEquatable<Tile>

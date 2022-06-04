@@ -1,5 +1,3 @@
-using System;
-
 namespace Juniper.Logging
 {
     public interface IErrorSource

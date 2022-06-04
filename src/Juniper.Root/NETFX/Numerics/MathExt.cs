@@ -1,8 +1,6 @@
 using Juniper.Units;
 using Juniper.World.GIS;
 
-using System.Collections.Generic;
-
 namespace System.Numerics
 {
     public static class MathExt
@@ -286,7 +284,7 @@ namespace System.Numerics
             var lat = Degrees.Radians(value.Lat);
             var lng = Degrees.Radians(value.Lng);
             var x = DatumWGS_84.equatorialRadius * lng;
-            var y = DatumWGS_84.equatorialRadius * Math.Log(Math.Tan(Math.PI / 4 + lat / 2));
+            var y = DatumWGS_84.equatorialRadius * Math.Log(Math.Tan((0.25 * Math.PI) + (0.5 * lat)));
             return new Vector3((float)x, (float)y, value.Alt);
         }
 

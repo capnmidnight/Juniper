@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 using Juniper.IO;
@@ -39,8 +40,9 @@ namespace Juniper
             var voiceListDecoder = new JsonFactory<Voice[]>();
 
             var audioDecoder = new NAudioAudioDataDecoder();
-
+            using var http = new HttpClient();
             var ttsClient = new TextToSpeechClient(
+                http,
                 region,
                 subscriptionKey,
                 resourceName,

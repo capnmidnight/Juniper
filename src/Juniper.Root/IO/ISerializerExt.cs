@@ -1,12 +1,7 @@
 using Juniper.HTTP;
-using Juniper.Progress;
 
-using System;
-using System.IO;
-using System.Net.Http;
 using System.Net.WebSockets;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Juniper.IO
 {

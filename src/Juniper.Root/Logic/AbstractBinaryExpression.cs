@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Juniper.Logic
 {
     internal abstract class AbstractBinaryExpression<ItemT> :

@@ -1,5 +1,3 @@
-using System.IO;
-
 namespace Juniper.IO
 {
     public interface ISerializer<in T, out M> where M : MediaType

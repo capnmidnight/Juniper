@@ -1,5 +1,3 @@
-using System.IO;
-
 namespace Juniper.IO
 {
     public interface ICacheDestinationLayer : ICacheSourceLayer

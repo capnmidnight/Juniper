@@ -1,5 +1,3 @@
-using System;
-
 namespace Juniper
 {
     public class EventArgs<T> : EventArgs

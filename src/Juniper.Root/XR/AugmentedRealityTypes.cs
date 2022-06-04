@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Juniper.XR
+﻿namespace Juniper.XR
 {
 
     /// <summary>

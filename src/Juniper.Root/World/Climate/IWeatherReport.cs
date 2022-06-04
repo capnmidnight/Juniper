@@ -1,7 +1,5 @@
 using Juniper.World.GIS;
 
-using System;
-
 namespace Juniper.Climate
 {
     public interface IWeatherReport

@@ -1,7 +1,5 @@
 using Juniper.Mathematics;
 
-using System.Collections.Generic;
-
 namespace System.Runtime.Serialization
 {
     public static class SerializationInfoExt

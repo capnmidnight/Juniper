@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Juniper.XR
+﻿namespace Juniper.XR
 {
     /// <summary>
     /// Roughly correlates to Operating System plus Window Manager.

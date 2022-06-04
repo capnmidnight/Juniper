@@ -1,8 +1,5 @@
 using Juniper.World.GIS;
 
-using System;
-using System.Collections.Generic;
-
 namespace Accord.Math
 {
     public static class MathExt
