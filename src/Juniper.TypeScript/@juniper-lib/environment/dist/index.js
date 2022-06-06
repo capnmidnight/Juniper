@@ -4,7 +4,6 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __defNormalProp = (obj2, key, value2) => key in obj2 ? __defProp(obj2, key, { enumerable: true, configurable: true, writable: true, value: value2 }) : obj2[key] = value2;
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
@@ -21,28 +20,6 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
-var __publicField = (obj2, key, value2) => {
-  __defNormalProp(obj2, typeof key !== "symbol" ? key + "" : key, value2);
-  return value2;
-};
-var __accessCheck = (obj2, member, msg) => {
-  if (!member.has(obj2))
-    throw TypeError("Cannot " + msg);
-};
-var __privateGet = (obj2, member, getter) => {
-  __accessCheck(obj2, member, "read from private field");
-  return getter ? getter.call(obj2) : member.get(obj2);
-};
-var __privateAdd = (obj2, member, value2) => {
-  if (member.has(obj2))
-    throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj2) : member.set(obj2, value2);
-};
-var __privateSet = (obj2, member, value2, setter) => {
-  __accessCheck(obj2, member, "write to private field");
-  setter ? setter.call(obj2, value2) : member.set(obj2, value2);
-  return value2;
-};
 
 // ../../node_modules/cardboard-vr-display/dist/cardboard-vr-display.js
 var require_cardboard_vr_display = __commonJS({
@@ -3465,8 +3442,8 @@ function arraySortByKeyInPlace(newArr, keySelector) {
 var BaseGraphNode = class {
   constructor(value2) {
     this.value = value2;
-    __publicField(this, "_forward", new Array());
-    __publicField(this, "_reverse", new Array());
+    this._forward = new Array();
+    this._reverse = new Array();
   }
   connectSorted(child, keySelector) {
     if (isDefined(keySelector)) {
@@ -3566,8 +3543,8 @@ function makeLookup(items, makeID) {
 // ../tslib/collections/PriorityList.ts
 var PriorityList = class {
   constructor(init) {
-    __publicField(this, "items", /* @__PURE__ */ new Map());
-    __publicField(this, "defaultItems", new Array());
+    this.items = /* @__PURE__ */ new Map();
+    this.defaultItems = new Array();
     if (isDefined(init)) {
       for (const [key, value2] of init) {
         this.add(key, value2);
@@ -3664,7 +3641,7 @@ var PriorityList = class {
 // ../tslib/collections/PriorityMap.ts
 var PriorityMap = class {
   constructor(init) {
-    __publicField(this, "items", /* @__PURE__ */ new Map());
+    this.items = /* @__PURE__ */ new Map();
     if (isDefined(init)) {
       for (const [key1, key2, value2] of init) {
         this.add(key1, key2, value2);
@@ -3742,8 +3719,8 @@ var PriorityMap = class {
 // ../tslib/events/EventBase.ts
 var EventBase = class {
   constructor() {
-    __publicField(this, "listeners", /* @__PURE__ */ new Map());
-    __publicField(this, "listenerOptions", /* @__PURE__ */ new Map());
+    this.listeners = /* @__PURE__ */ new Map();
+    this.listenerOptions = /* @__PURE__ */ new Map();
   }
   addEventListener(type2, callback, options) {
     if (isFunction(callback)) {
@@ -3813,8 +3790,8 @@ var TypedEvent = class extends Event {
 var TypedEventBase = class extends EventBase {
   constructor() {
     super(...arguments);
-    __publicField(this, "bubblers", /* @__PURE__ */ new Set());
-    __publicField(this, "scopes", /* @__PURE__ */ new WeakMap());
+    this.bubblers = /* @__PURE__ */ new Set();
+    this.scopes = /* @__PURE__ */ new WeakMap();
   }
   addBubbler(bubbler) {
     this.bubblers.add(bubbler);
@@ -3863,15 +3840,14 @@ var TypedEventBase = class extends EventBase {
 // ../tslib/events/Task.ts
 var Task = class {
   constructor(resolveTestOrAutoStart, rejectTestOrAutoStart, autoStart = true) {
-    __publicField(this, "promise");
-    __publicField(this, "_resolve", null);
-    __publicField(this, "_reject", null);
-    __publicField(this, "_result", null);
-    __publicField(this, "_error", null);
-    __publicField(this, "_started", false);
-    __publicField(this, "_finished", false);
-    __publicField(this, "resolve", null);
-    __publicField(this, "reject", null);
+    this._resolve = null;
+    this._reject = null;
+    this._result = null;
+    this._error = null;
+    this._started = false;
+    this._finished = false;
+    this.resolve = null;
+    this.reject = null;
     let resolveTest = alwaysTrue;
     let rejectTest = alwaysTrue;
     if (isFunction(resolveTestOrAutoStart)) {
@@ -3995,8 +3971,7 @@ function success(task) {
 // ../tslib/events/Promisifier.ts
 var Promisifier = class {
   constructor(resolveRejectTest, selectValue, selectRejectionReason) {
-    __publicField(this, "promise");
-    __publicField(this, "callback", null);
+    this.callback = null;
     this.promise = new Promise((resolve, reject) => {
       this.callback = (...args) => {
         if (resolveRejectTest(...args)) {
@@ -4568,11 +4543,11 @@ function truncate(v) {
 var BaseProgress = class extends TypedEventBase {
   constructor() {
     super(...arguments);
-    __publicField(this, "attached", new Array());
-    __publicField(this, "soFar", null);
-    __publicField(this, "total", null);
-    __publicField(this, "msg", null);
-    __publicField(this, "est", null);
+    this.attached = new Array();
+    this.soFar = null;
+    this.total = null;
+    this.msg = null;
+    this.est = null;
   }
   get p() {
     return this.total > 0 ? this.soFar / this.total : 0;
@@ -4627,11 +4602,10 @@ var ChildProgressCallback = class extends BaseProgress {
 var BaseParentProgressCallback = class {
   constructor(prog) {
     this.prog = prog;
-    __publicField(this, "weightTotal", 0);
-    __publicField(this, "start");
-    __publicField(this, "subProgressCallbacks", new Array());
-    __publicField(this, "subProgressWeights", new Array());
-    __publicField(this, "subProgressValues", new Array());
+    this.weightTotal = 0;
+    this.subProgressCallbacks = new Array();
+    this.subProgressWeights = new Array();
+    this.subProgressValues = new Array();
     this.start = performance.now();
     for (let i = 0; i < this.subProgressWeights.length; ++i) {
       this.subProgressValues[i] = 0;
@@ -4790,10 +4764,10 @@ function stringToName(...parts) {
 // ../tslib/timers/ITimer.ts
 var BaseTimerTickEvent = class {
   constructor() {
-    __publicField(this, "t", 0);
-    __publicField(this, "dt", 0);
-    __publicField(this, "sdt", 0);
-    __publicField(this, "fps", 0);
+    this.t = 0;
+    this.dt = 0;
+    this.sdt = 0;
+    this.fps = 0;
   }
   set(t2, dt) {
     this.t = t2;
@@ -4812,14 +4786,12 @@ var TimerTickEvent = class extends BaseTimerTickEvent {
 };
 
 // ../tslib/timers/BaseTimer.ts
-var _targetFPS;
 var BaseTimer = class {
   constructor(targetFrameRate) {
-    __publicField(this, "timer", null);
-    __publicField(this, "onTick");
-    __publicField(this, "lt", -1);
-    __publicField(this, "tickHandlers", new Array());
-    __privateAdd(this, _targetFPS, null);
+    this.timer = null;
+    this.lt = -1;
+    this.tickHandlers = new Array();
+    this._targetFPS = null;
     this.targetFPS = targetFrameRate;
     const tickEvt = new TimerTickEvent();
     let dt = 0;
@@ -4833,10 +4805,10 @@ var BaseTimer = class {
     };
   }
   get targetFPS() {
-    return __privateGet(this, _targetFPS);
+    return this._targetFPS;
   }
   set targetFPS(v) {
-    __privateSet(this, _targetFPS, v);
+    this._targetFPS = v;
   }
   addTickHandler(onTick) {
     this.tickHandlers.push(onTick);
@@ -4864,7 +4836,6 @@ var BaseTimer = class {
     return 1e3 / this.targetFPS;
   }
 };
-_targetFPS = new WeakMap();
 
 // ../tslib/timers/SetTimeoutTimer.ts
 var SetTimeoutTimer = class extends BaseTimer {
@@ -4895,17 +4866,17 @@ function parsePort(portString) {
 }
 var URLBuilder = class {
   constructor(url, base) {
-    __publicField(this, "_url", null);
-    __publicField(this, "_base");
-    __publicField(this, "_protocol", null);
-    __publicField(this, "_host", null);
-    __publicField(this, "_hostName", null);
-    __publicField(this, "_userName", null);
-    __publicField(this, "_password", null);
-    __publicField(this, "_port", null);
-    __publicField(this, "_pathName", null);
-    __publicField(this, "_hash", null);
-    __publicField(this, "_query", /* @__PURE__ */ new Map());
+    this._url = null;
+    this._base = void 0;
+    this._protocol = null;
+    this._host = null;
+    this._hostName = null;
+    this._userName = null;
+    this._password = null;
+    this._port = null;
+    this._pathName = null;
+    this._hash = null;
+    this._query = /* @__PURE__ */ new Map();
     if (url !== void 0) {
       this._url = new URL(url, base);
       this.rehydrate();
@@ -5740,13 +5711,11 @@ function setContextSize(ctx, w, h, superscale = 1) {
 var CanvasImage = class extends TypedEventBase {
   constructor(width2, height2, options) {
     super();
-    __publicField(this, "_canvas");
-    __publicField(this, "_scale", 250);
-    __publicField(this, "_g");
-    __publicField(this, "_visible", true);
-    __publicField(this, "wasVisible", null);
-    __publicField(this, "redrawnEvt", new TypedEvent("redrawn"));
-    __publicField(this, "element", null);
+    this._scale = 250;
+    this._visible = true;
+    this.wasVisible = null;
+    this.redrawnEvt = new TypedEvent("redrawn");
+    this.element = null;
     if (isDefined(options)) {
       if (isDefined(options.scale)) {
         this._scale = options.scale;
@@ -6024,31 +5993,30 @@ BatteryImage.isAvailable = isBatteryNavigator(navigator);
 var TextImage = class extends CanvasImage {
   constructor(options) {
     super(10, 10, options);
-    __publicField(this, "trueWidth", null);
-    __publicField(this, "trueHeight", null);
-    __publicField(this, "trueFontSize", null);
-    __publicField(this, "dx", null);
-    __publicField(this, "_minWidth", null);
-    __publicField(this, "_maxWidth", null);
-    __publicField(this, "_minHeight", null);
-    __publicField(this, "_maxHeight", null);
-    __publicField(this, "_freezeDimensions", false);
-    __publicField(this, "_dimensionsFrozen", false);
-    __publicField(this, "_bgFillColor", null);
-    __publicField(this, "_bgStrokeColor", null);
-    __publicField(this, "_bgStrokeSize", null);
-    __publicField(this, "_textStrokeColor", null);
-    __publicField(this, "_textStrokeSize", null);
-    __publicField(this, "_textFillColor", "black");
-    __publicField(this, "_textDirection", "horizontal");
-    __publicField(this, "_wrapWords", true);
-    __publicField(this, "_fontStyle", "normal");
-    __publicField(this, "_fontVariant", "normal");
-    __publicField(this, "_fontWeight", "normal");
-    __publicField(this, "_fontFamily", "sans-serif");
-    __publicField(this, "_fontSize", 20);
-    __publicField(this, "_padding");
-    __publicField(this, "_value", null);
+    this.trueWidth = null;
+    this.trueHeight = null;
+    this.trueFontSize = null;
+    this.dx = null;
+    this._minWidth = null;
+    this._maxWidth = null;
+    this._minHeight = null;
+    this._maxHeight = null;
+    this._freezeDimensions = false;
+    this._dimensionsFrozen = false;
+    this._bgFillColor = null;
+    this._bgStrokeColor = null;
+    this._bgStrokeSize = null;
+    this._textStrokeColor = null;
+    this._textStrokeSize = null;
+    this._textFillColor = "black";
+    this._textDirection = "horizontal";
+    this._wrapWords = true;
+    this._fontStyle = "normal";
+    this._fontVariant = "normal";
+    this._fontWeight = "normal";
+    this._fontFamily = "sans-serif";
+    this._fontSize = 20;
+    this._value = null;
     if (isDefined(options)) {
       if (isDefined(options.minWidth)) {
         this._minWidth = options.minWidth;
@@ -6750,11 +6718,11 @@ function Panner(name2, audioCtx, options, ...rest) {
 // ../audio/Pose.ts
 var Pose = class {
   constructor() {
-    __publicField(this, "t", 0);
-    __publicField(this, "p", vec3_exports.create());
-    __publicField(this, "f", vec3_exports.set(vec3_exports.create(), 0, 0, -1));
-    __publicField(this, "u", vec3_exports.set(vec3_exports.create(), 0, 1, 0));
-    __publicField(this, "o", vec3_exports.create());
+    this.t = 0;
+    this.p = vec3_exports.create();
+    this.f = vec3_exports.set(vec3_exports.create(), 0, 0, -1);
+    this.u = vec3_exports.set(vec3_exports.create(), 0, 1, 0);
+    this.o = vec3_exports.create();
     Object.seal(this);
   }
   set(px, py, pz, fx, fy, fz, ux, uy, uz) {
@@ -6786,9 +6754,8 @@ var BaseAudioElement = class extends TypedEventBase {
     this.id = id2;
     this.audioCtx = audioCtx;
     this.spatializer = spatializer;
-    __publicField(this, "pose", new Pose());
-    __publicField(this, "volumeControl");
-    __publicField(this, "disposed", false);
+    this.pose = new Pose();
+    this.disposed = false;
     this.volumeControl = Gain(`volume-control-${this.id}`, audioCtx);
   }
   get volume() {
@@ -6818,9 +6785,9 @@ var BaseAudioElement = class extends TypedEventBase {
 var BaseSpatializer = class {
   constructor(id2) {
     this.id = id2;
-    __publicField(this, "minDistance", 1);
-    __publicField(this, "maxDistance", 10);
-    __publicField(this, "algorithm", "inverse");
+    this.minDistance = 1;
+    this.maxDistance = 10;
+    this.algorithm = "inverse";
   }
   setAudioProperties(minDistance, maxDistance, algorithm) {
     this.minDistance = minDistance;
@@ -6833,9 +6800,7 @@ var BaseSpatializer = class {
 var BaseEmitter = class extends BaseSpatializer {
   constructor() {
     super(...arguments);
-    __publicField(this, "input");
-    __publicField(this, "output");
-    __publicField(this, "disposed", false);
+    this.disposed = false;
   }
   dispose() {
     if (!this.disposed) {
@@ -6872,9 +6837,6 @@ var AudioDestination = class extends BaseAudioElement {
   constructor(audioCtx, _trueDestination, listener) {
     super("final", audioCtx, listener);
     this._trueDestination = _trueDestination;
-    __publicField(this, "_remoteUserInput");
-    __publicField(this, "_spatializedInput");
-    __publicField(this, "_nonSpatializedInput");
     this._remoteUserInput = Gain("remote-user-input", this.audioCtx, null, this._spatializedInput = Gain("spatialized-input", this.audioCtx, null, this.volumeControl));
     this._nonSpatializedInput = Gain("non-spatialized-input", this.audioCtx, null, this.volumeControl);
     connect(this.volumeControl, this._trueDestination);
@@ -7236,8 +7198,6 @@ function EchoEffect(name2, audioCtx, connectTo) {
 }
 var EchoEffectLayerNode = class {
   constructor(name2, audioCtx, volume, delay, connectTo) {
-    __publicField(this, "input");
-    __publicField(this, "output");
     this.input = Gain(`${name2}-input`, audioCtx, {
       gain: volume
     }, this.output = Delay(`${name2}-delay`, audioCtx, {
@@ -7252,9 +7212,6 @@ var EchoEffectLayerNode = class {
 };
 var EchoEffectNode = class {
   constructor(name2, audioCtx, numLayers, connectTo) {
-    __publicField(this, "input");
-    __publicField(this, "layers");
-    __publicField(this, "output");
     this.output = Gain(`${name2}-output`, audioCtx, null, connectTo);
     const delays = Array.from(fibGen(1, 2, numLayers));
     this.layers = delays.map((delay) => new EchoEffectLayerNode(`${name2}-echo-layer-${delay}`, audioCtx, 0.5 / delay, delay, this.output));
@@ -7276,7 +7233,6 @@ function RadioEffect(name2, audioCtx, connectTo) {
 }
 var RadioEffectNode = class {
   constructor(name2, audioCtx, connectTo) {
-    __publicField(this, "node");
     this.node = BiquadFilter(`${name2}-biquad-filter`, audioCtx, {
       type: "bandpass",
       frequency: 2500,
@@ -7294,7 +7250,6 @@ function WallEffect(name2, audioCtx, connectTo) {
 }
 var WallEffectNode = class {
   constructor(name2, audioCtx, connectTo) {
-    __publicField(this, "node");
     this.node = BiquadFilter(`${name2}-biquad-filter`, audioCtx, {
       type: "bandpass",
       frequency: 400,
@@ -7323,9 +7278,9 @@ var AudioSourceAddedEvent = class extends TypedEvent {
 var BaseAudioSource = class extends BaseAudioElement {
   constructor(id2, audioCtx, spatializer, ...effectNames) {
     super(id2, audioCtx, spatializer);
-    __publicField(this, "source", null);
-    __publicField(this, "effects", new Array());
-    __publicField(this, "_connected", false);
+    this.source = null;
+    this.effects = new Array();
+    this._connected = false;
     this.setEffects(...effectNames);
   }
   onDisposing() {
@@ -7427,8 +7382,8 @@ var MediaElementSourceStoppedEvent = class extends MediaElementSourceEvent {
 var MediaElementSourceProgressEvent = class extends MediaElementSourceEvent {
   constructor(source) {
     super("progress", source);
-    __publicField(this, "value", 0);
-    __publicField(this, "total", 0);
+    this.value = 0;
+    this.total = 0;
   }
 };
 
@@ -7463,12 +7418,6 @@ var AudioElementSource = class extends BaseAudioSource {
   constructor(id2, audioCtx, source, randomize, spatializer, ...effectNames) {
     super(id2, audioCtx, spatializer, ...effectNames);
     this.randomize = randomize;
-    __publicField(this, "loadEvt");
-    __publicField(this, "playEvt");
-    __publicField(this, "pauseEvt");
-    __publicField(this, "stopEvt");
-    __publicField(this, "progEvt");
-    __publicField(this, "audio");
     inc(this.input = source);
     this.audio = source.mediaElement;
     this.disconnect();
@@ -7551,13 +7500,12 @@ var AudioStreamSource = class extends BaseAudioSource {
 var BaseWebAudioPanner = class extends BaseEmitter {
   constructor(id2, audioCtx) {
     super(id2);
-    __publicField(this, "panner");
-    __publicField(this, "lpx", 0);
-    __publicField(this, "lpy", 0);
-    __publicField(this, "lpz", 0);
-    __publicField(this, "lox", 0);
-    __publicField(this, "loy", 0);
-    __publicField(this, "loz", 0);
+    this.lpx = 0;
+    this.lpy = 0;
+    this.lpz = 0;
+    this.lox = 0;
+    this.loy = 0;
+    this.loz = 0;
     this.input = this.output = this.panner = Panner(this.id, audioCtx, {
       panningModel: "HRTF",
       distanceModel: "inverse",
@@ -8243,13 +8191,12 @@ var ButtonFactory = class {
     this.fetcher = fetcher;
     this.imagePaths = imagePaths;
     this.padding = padding2;
-    __publicField(this, "uvDescrips", new PriorityMap());
-    __publicField(this, "geoms", new PriorityMap());
-    __publicField(this, "readyTask");
-    __publicField(this, "canvas", null);
-    __publicField(this, "texture", null);
-    __publicField(this, "enabledMaterial", null);
-    __publicField(this, "disabledMaterial", null);
+    this.uvDescrips = new PriorityMap();
+    this.geoms = new PriorityMap();
+    this.canvas = null;
+    this.texture = null;
+    this.enabledMaterial = null;
+    this.disabledMaterial = null;
     this.readyTask = new Task();
   }
   async load(prog) {
@@ -8537,13 +8484,6 @@ var timeScale = 5e-3;
 var ScaleState = class {
   constructor(obj2) {
     this.obj = obj2;
-    __publicField(this, "base");
-    __publicField(this, "onEnter");
-    __publicField(this, "onExit");
-    __publicField(this, "p");
-    __publicField(this, "dir");
-    __publicField(this, "running");
-    __publicField(this, "wasDisabled");
     this.base = obj2.scale.clone();
     this.p = 0;
     this.dir = 0;
@@ -9292,8 +9232,8 @@ var inchesPerMeter = 39.3701;
 var TexturedMesh = class extends THREE.Mesh {
   constructor(geom2, mat) {
     super(geom2, mat);
-    __publicField(this, "_imageWidth", 0);
-    __publicField(this, "_imageHeight", 0);
+    this._imageWidth = 0;
+    this._imageHeight = 0;
   }
   copy(source, recursive = true) {
     super.copy(source, recursive);
@@ -9380,17 +9320,17 @@ var Image2DMesh = class extends THREE.Object3D {
   constructor(env, name2, isStatic, materialOrOptions = null) {
     super();
     this.isStatic = isStatic;
-    __publicField(this, "lastMatrixWorld", new THREE.Matrix4());
-    __publicField(this, "layer", null);
-    __publicField(this, "tryWebXRLayers", true);
-    __publicField(this, "wasUsingLayer", false);
-    __publicField(this, "lastImage", null);
-    __publicField(this, "lastWidth", null);
-    __publicField(this, "lastHeight", null);
-    __publicField(this, "stereoLayoutName", "mono");
-    __publicField(this, "env", null);
-    __publicField(this, "mesh", null);
-    __publicField(this, "webXRLayersEnabled", true);
+    this.lastMatrixWorld = new THREE.Matrix4();
+    this.layer = null;
+    this.tryWebXRLayers = true;
+    this.wasUsingLayer = false;
+    this.lastImage = null;
+    this.lastWidth = null;
+    this.lastHeight = null;
+    this.stereoLayoutName = "mono";
+    this.env = null;
+    this.mesh = null;
+    this.webXRLayersEnabled = true;
     if (env) {
       this.setEnvAndName(env, name2);
       let material = isMeshBasicMaterial(materialOrOptions) ? materialOrOptions : solidTransparent(Object.assign({}, materialOrOptions, { name: this.name }));
@@ -9522,8 +9462,7 @@ var redrawnEvt = { type: "redrawn" };
 var TextMesh = class extends Image2DMesh {
   constructor(env, name2, materialOptions) {
     super(env, name2, false, materialOptions);
-    __publicField(this, "_textImage", null);
-    __publicField(this, "_onRedrawn");
+    this._textImage = null;
     this._onRedrawn = this.onRedrawn.bind(this);
   }
   onRedrawn() {
@@ -9672,10 +9611,7 @@ var TextMeshLabel = class extends THREE.Object3D {
     super();
     this.fetcher = fetcher;
     this.env = env;
-    __publicField(this, "_disabled", false);
-    __publicField(this, "image");
-    __publicField(this, "enabledImage");
-    __publicField(this, "disabledImage");
+    this._disabled = false;
     if (isDefined(value2)) {
       this.name = name2;
       textImageOptions = Object.assign({
@@ -9719,8 +9655,8 @@ var TextMeshLabel = class extends THREE.Object3D {
 var TextMeshButton = class extends TextMeshLabel {
   constructor(fetcher, env, name2, value2, textImageOptions) {
     super(fetcher, env, name2, value2, textImageOptions);
-    __publicField(this, "collider", null);
-    __publicField(this, "isClickable", true);
+    this.collider = null;
+    this.isClickable = true;
     if (isDefined(value2)) {
       this.image.addEventListener("redrawn", () => {
         this.collider.scale.x = this.image.width;
@@ -9780,13 +9716,10 @@ var ConfirmationDialog = class extends DialogBox {
   constructor(env, fontFamily) {
     super("Confirm action");
     this.env = env;
-    __publicField(this, "object", new THREE.Object3D());
-    __publicField(this, "name", "ConfirmationDialog");
-    __publicField(this, "root", new THREE.Object3D());
-    __publicField(this, "mesh");
-    __publicField(this, "confirmButton3D");
-    __publicField(this, "cancelButton3D");
-    __publicField(this, "animator", new Animator());
+    this.object = new THREE.Object3D();
+    this.name = "ConfirmationDialog";
+    this.root = new THREE.Object3D();
+    this.animator = new Animator();
     this.confirmButton.innerText = "Yes";
     this.cancelButton.innerText = "No";
     this.mesh = new TextMeshLabel(this.env.fetcher, this.env, "confirmationDialogLabel", "", newStyle(textLabelStyle, fontFamily));
@@ -9900,9 +9833,6 @@ function makeClipName(type2, isDisabled2) {
 }
 var InteractionAudio = class {
   constructor(audio, eventSys) {
-    __publicField(this, "audio");
-    __publicField(this, "eventSys");
-    __publicField(this, "enabled");
     this.audio = audio;
     this.eventSys = eventSys;
     this.enabled = true;
@@ -9939,14 +9869,6 @@ var ScreenMode = /* @__PURE__ */ ((ScreenMode2) => {
 Style(rule("#controls", position("absolute"), left(0), top(0), width("100%"), height("100%")), rule("#controls", display("grid"), fontSize("20pt"), gridTemplateRows("auto 1fr auto")), rule("#controls, #controls *", pointerEvents("none")), rule("#controls canvas", height("58px")), rule("#controls > .row", display("grid"), margin("10px 5px"), gridTemplateColumns("repeat(2, auto)")), rule("#controls > .row.top", gridRow(1)), rule("#controls > .row.middle", gridRow(2, -2)), rule("#controls > .row.bottom", gridRow(-2)), rule("#controls > .row > .cell", display("flex")), rule("#controls > .row > .cell.left", gridColumn(1)), rule("#controls > .row > .cell.right", gridColumn(-2), flexFlow("row-reverse")), rule("#controls > .row > .cell > .btn", borderRadius(0), backgroundColor("#1e4388"), height("58px !important"), width("58px"), padding("0.25em"), margin("0 5px"), pointerEvents("initial")), rule("#controls .btn-primary img", height("calc(100% - 0.5em)")));
 var ScreenUI = class {
   constructor() {
-    __publicField(this, "element");
-    __publicField(this, "topRowLeft");
-    __publicField(this, "topRowRight");
-    __publicField(this, "middleRowLeft");
-    __publicField(this, "middleRowRight");
-    __publicField(this, "bottomRowLeft");
-    __publicField(this, "bottomRowRight");
-    __publicField(this, "cells");
     this.element = Div(id("controls"), Div(className("row top"), this.topRowLeft = Div(className("cell left")), this.topRowRight = Div(className("cell right"))), Div(className("row middle"), this.middleRowLeft = Div(className("cell left")), this.middleRowRight = Div(className("cell right"))), Div(className("row bottom"), this.bottomRowLeft = Div(className("cell left")), this.bottomRowRight = Div(className("cell right"))));
     this.cells = [
       [this.topRowLeft, this.topRowRight],
@@ -9986,15 +9908,8 @@ var MediaType = class {
   constructor(_type, _fullSubType, extensions) {
     this._type = _type;
     this._fullSubType = _fullSubType;
-    __publicField(this, "_tree");
-    __publicField(this, "_subType");
-    __publicField(this, "_suffix");
-    __publicField(this, "_parameters");
-    __publicField(this, "_value");
-    __publicField(this, "_fullValue");
-    __publicField(this, "_extensions");
-    __publicField(this, "_primaryExtension", null);
-    __publicField(this, "depMessage", null);
+    this._primaryExtension = null;
+    this.depMessage = null;
     const parameters = /* @__PURE__ */ new Map();
     this._parameters = parameters;
     const subTypeParts = this._fullSubType.match(subTypePattern);
@@ -10623,9 +10538,6 @@ function mapEACUV(uv) {
 var VideoPlayer3D = class extends BaseVideoPlayer {
   constructor(layerMgr, audioCtx) {
     super(audioCtx);
-    __publicField(this, "material");
-    __publicField(this, "vidMeshes");
-    __publicField(this, "object");
     this.material = solidTransparent({ name: "videoPlayer-material" });
     this.vidMeshes = [];
     for (let i = 0; i < 2; ++i) {
@@ -10860,7 +10772,7 @@ function rot(def) {
 var Collider = class extends THREE.Mesh {
   constructor(geometry) {
     super(geometry, solidTransparentBlack(0));
-    __publicField(this, "isCollider", true);
+    this.isCollider = true;
     this.visible = false;
   }
 };
@@ -10869,9 +10781,7 @@ var Collider = class extends THREE.Mesh {
 var MeshLabel = class extends THREE.Object3D {
   constructor(name2, geometry, enabledMaterial, disabledMaterial, size) {
     super();
-    __publicField(this, "_disabled", false);
-    __publicField(this, "enabledMesh");
-    __publicField(this, "disabledMesh");
+    this._disabled = false;
     const id2 = stringRandom(16);
     this.name = name2 + id2;
     this.enabledMesh = this.createMesh(`${this.name}-enabled`, geometry, enabledMaterial);
@@ -10908,9 +10818,8 @@ var MeshLabel = class extends THREE.Object3D {
 var MeshButton = class extends MeshLabel {
   constructor(name2, geometry, enabledMaterial, disabledMaterial, size) {
     super(name2, geometry, enabledMaterial, disabledMaterial, size);
-    __publicField(this, "collider");
-    __publicField(this, "isDraggable", false);
-    __publicField(this, "isClickable", true);
+    this.isDraggable = false;
+    this.isClickable = true;
     this.collider = new Collider(geometry);
     this.collider.name = `Collider-${this.name}`;
     this.size = size;
@@ -10928,9 +10837,7 @@ var MeshButton = class extends MeshLabel {
 // ../threejs/widgets/ButtonImageWidget.ts
 var ButtonImageWidget = class {
   constructor(buttons, setName, iconName) {
-    __publicField(this, "element");
-    __publicField(this, "object");
-    __publicField(this, "mesh", null);
+    this.mesh = null;
     this.element = ButtonPrimary(title(iconName), buttons.getImageElement(setName, iconName));
     this.object = obj(`${name}-button`);
     this.load(buttons, setName, iconName);
@@ -11060,15 +10967,12 @@ var ToggleButton = class {
     this.setName = setName;
     this.activeName = activeName;
     this.inactiveName = inactiveName;
-    __publicField(this, "element");
-    __publicField(this, "object");
-    __publicField(this, "enterButton", null);
-    __publicField(this, "exitButton", null);
-    __publicField(this, "btnImage");
-    __publicField(this, "_isAvailable", true);
-    __publicField(this, "_isEnabled", true);
-    __publicField(this, "_isVisible", true);
-    __publicField(this, "_isActive", false);
+    this.enterButton = null;
+    this.exitButton = null;
+    this._isAvailable = true;
+    this._isEnabled = true;
+    this._isVisible = true;
+    this._isActive = false;
     this.element = ButtonPrimary(this.btnImage = Img());
     this.object = obj(`${this.setName}-button`);
     this.load();
@@ -11173,7 +11077,7 @@ var ApplicationLoaderAppLoadingEvent = class extends ApplicationLoaderEvent {
   constructor(appName, appLoadParams) {
     super("apploading", appName);
     this.appLoadParams = appLoadParams;
-    __publicField(this, "preLoadTask", null);
+    this.preLoadTask = null;
   }
 };
 var ApplicationLoaderAppLoadedEvent = class extends ApplicationLoaderEvent {
@@ -11192,7 +11096,7 @@ var ApplicationLoadRequest = class {
   constructor(loader, name2) {
     this.loader = loader;
     this.name = name2;
-    __publicField(this, "params", /* @__PURE__ */ new Map());
+    this.params = /* @__PURE__ */ new Map();
   }
   param(name2, value2) {
     this.params.set(name2, value2);
@@ -11207,10 +11111,10 @@ var ApplicationLoader = class extends TypedEventBase {
     super();
     this.env = env;
     this.JS_EXT = JS_EXT;
-    __publicField(this, "loadedModules", /* @__PURE__ */ new Map());
-    __publicField(this, "loadingApps", /* @__PURE__ */ new Map());
-    __publicField(this, "currentApps", /* @__PURE__ */ new Map());
-    __publicField(this, "cacheBustString", null);
+    this.loadedModules = /* @__PURE__ */ new Map();
+    this.loadingApps = /* @__PURE__ */ new Map();
+    this.currentApps = /* @__PURE__ */ new Map();
+    this.cacheBustString = null;
   }
   [Symbol.iterator]() {
     return this.currentApps.values();
@@ -11331,10 +11235,6 @@ var BodyFollower = class extends THREE.Object3D {
     this.minDistance = minDistance;
     this.heightOffset = heightOffset;
     this.speed = speed;
-    __publicField(this, "lerp");
-    __publicField(this, "maxDistance");
-    __publicField(this, "minAngle");
-    __publicField(this, "maxAngle");
     this.name = name2;
     this.lerp = this.minAngle > 0 || this.minDistance > 0;
     this.maxDistance = this.minDistance * 5;
@@ -11482,58 +11382,54 @@ var AvatarLocal = class extends TypedEventBase {
     super();
     this.renderer = renderer;
     this.camera = camera;
-    __publicField(this, "controlMode", "none" /* None */);
-    __publicField(this, "requiredMouseButton", /* @__PURE__ */ new Map([
+    this.controlMode = "none" /* None */;
+    this.requiredMouseButton = /* @__PURE__ */ new Map([
       ["mousedrag" /* MouseDrag */, 1 /* Mouse0 */],
       ["touchswipe" /* Touch */, 1 /* Mouse0 */]
-    ]));
-    __publicField(this, "_heading", 0);
-    __publicField(this, "_pitch", 0);
-    __publicField(this, "_roll", 0);
-    __publicField(this, "fwrd", false);
-    __publicField(this, "back", false);
-    __publicField(this, "left", false);
-    __publicField(this, "rgth", false);
-    __publicField(this, "up", false);
-    __publicField(this, "down", false);
-    __publicField(this, "grow", false);
-    __publicField(this, "shrk", false);
-    __publicField(this, "viewEuler", new THREE.Euler());
-    __publicField(this, "move", new THREE.Vector3());
-    __publicField(this, "followers", new Array());
-    __publicField(this, "head");
-    __publicField(this, "worldPos", new THREE.Vector3());
-    __publicField(this, "_worldHeading", 0);
-    __publicField(this, "_worldPitch", 0);
-    __publicField(this, "evtSys", null);
-    __publicField(this, "requiredTouchCount", 1);
-    __publicField(this, "disableHorizontal", false);
-    __publicField(this, "disableVertical", false);
-    __publicField(this, "invertHorizontal", false);
-    __publicField(this, "invertVertical", true);
-    __publicField(this, "minimumX", -85 * Math.PI / 180);
-    __publicField(this, "maximumX", 85 * Math.PI / 180);
-    __publicField(this, "target", new THREE.Quaternion(0, 0, 0, 1));
-    __publicField(this, "edgeFactor", 1 / 3);
-    __publicField(this, "accelerationX", 2);
-    __publicField(this, "accelerationY", 2);
-    __publicField(this, "speedX", 3);
-    __publicField(this, "speedY", 2);
-    __publicField(this, "deviceQ", new THREE.Quaternion().identity());
-    __publicField(this, "_height");
-    __publicField(this, "u", 0);
-    __publicField(this, "v", 0);
-    __publicField(this, "du", 0);
-    __publicField(this, "dv", 0);
-    __publicField(this, "_keyboardControlEnabled", false);
-    __publicField(this, "onKeyDown");
-    __publicField(this, "onKeyUp");
-    __publicField(this, "deviceOrientation", null);
-    __publicField(this, "screenOrientation", 0);
-    __publicField(this, "alphaOffset", 0);
-    __publicField(this, "onDeviceOrientationChangeEvent", null);
-    __publicField(this, "onScreenOrientationChangeEvent", null);
-    __publicField(this, "motionEnabled", false);
+    ]);
+    this._heading = 0;
+    this._pitch = 0;
+    this._roll = 0;
+    this.fwrd = false;
+    this.back = false;
+    this.left = false;
+    this.rgth = false;
+    this.up = false;
+    this.down = false;
+    this.grow = false;
+    this.shrk = false;
+    this.viewEuler = new THREE.Euler();
+    this.move = new THREE.Vector3();
+    this.followers = new Array();
+    this.worldPos = new THREE.Vector3();
+    this._worldHeading = 0;
+    this._worldPitch = 0;
+    this.evtSys = null;
+    this.requiredTouchCount = 1;
+    this.disableHorizontal = false;
+    this.disableVertical = false;
+    this.invertHorizontal = false;
+    this.invertVertical = true;
+    this.minimumX = -85 * Math.PI / 180;
+    this.maximumX = 85 * Math.PI / 180;
+    this.target = new THREE.Quaternion(0, 0, 0, 1);
+    this.edgeFactor = 1 / 3;
+    this.accelerationX = 2;
+    this.accelerationY = 2;
+    this.speedX = 3;
+    this.speedY = 2;
+    this.deviceQ = new THREE.Quaternion().identity();
+    this.u = 0;
+    this.v = 0;
+    this.du = 0;
+    this.dv = 0;
+    this._keyboardControlEnabled = false;
+    this.deviceOrientation = null;
+    this.screenOrientation = 0;
+    this.alphaOffset = 0;
+    this.onDeviceOrientationChangeEvent = null;
+    this.onScreenOrientationChangeEvent = null;
+    this.motionEnabled = false;
     this._height = defaultAvatarHeight;
     this.head = obj("Head", fader);
     this.onKeyDown = (evt) => {
@@ -11893,10 +11789,10 @@ var AvatarLocal = class extends TypedEventBase {
 var CameraControl = class {
   constructor(camera) {
     this.camera = camera;
-    __publicField(this, "fovZoomEnabled", true);
-    __publicField(this, "minFOV", 15);
-    __publicField(this, "maxFOV", 120);
-    __publicField(this, "dz", 0);
+    this.fovZoomEnabled = true;
+    this.minFOV = 15;
+    this.maxFOV = 120;
+    this.dz = 0;
   }
   onMove(evt) {
     if (evt.pointer.enabled && evt.pointer.canMoveView && evt.pointer.state.dz !== 0) {
@@ -11939,9 +11835,9 @@ var V = new THREE.Vector3();
 var Q4 = new THREE.Quaternion();
 var BaseCursor = class {
   constructor() {
-    __publicField(this, "_object", null);
-    __publicField(this, "_visible", true);
-    __publicField(this, "_style", "default");
+    this._object = null;
+    this._visible = true;
+    this._style = "default";
   }
   get object() {
     return this._object;
@@ -11985,7 +11881,7 @@ var BaseCursor = class {
 var Cursor3D = class extends BaseCursor {
   constructor(cursorSystem) {
     super();
-    __publicField(this, "cursorSystem", null);
+    this.cursorSystem = null;
     this.object = new THREE.Object3D();
     this.cursorSystem = cursorSystem;
   }
@@ -12082,10 +11978,10 @@ var EventSystemEvent = class extends TypedEvent {
   constructor(type2, pointer) {
     super(type2);
     this.pointer = pointer;
-    __publicField(this, "_hit", null);
-    __publicField(this, "_point", null);
-    __publicField(this, "_distance", Number.POSITIVE_INFINITY);
-    __publicField(this, "_object", null);
+    this._hit = null;
+    this._point = null;
+    this._distance = Number.POSITIVE_INFINITY;
+    this._object = null;
     Object.seal(this);
   }
   get hit() {
@@ -12122,9 +12018,6 @@ var EventSystemThreeJSEvent = class {
     this.type = type2;
     this.hit = hit;
     this.buttons = buttons;
-    __publicField(this, "_point");
-    __publicField(this, "_distance");
-    __publicField(this, "_object");
     this._point = this.hit && this.hit.point;
     this._distance = this.hit && this.hit.distance || Number.POSITIVE_INFINITY;
     this._object = resolveObj(this.hit);
@@ -15279,7 +15172,7 @@ var BaseCube = class extends THREE.Mesh {
 var Cube = class extends BaseCube {
   constructor(sx, sy, sz, material) {
     super(sx, sy, sz, material, false);
-    __publicField(this, "isDraggable", false);
+    this.isDraggable = false;
   }
 };
 
@@ -15287,8 +15180,6 @@ var Cube = class extends BaseCube {
 var CursorColor = class extends BaseCursor {
   constructor() {
     super();
-    __publicField(this, "_currentStyle");
-    __publicField(this, "material");
     this.material = solid({
       name: "CursorMat",
       color: 16776960
@@ -15346,7 +15237,7 @@ var CursorSystem = class extends BaseCursor {
   constructor(element) {
     super();
     this.element = element;
-    __publicField(this, "_hidden", false);
+    this._hidden = false;
     this.visible = true;
     this.style = "default";
     document.addEventListener("pointerlockchange", () => {
@@ -15381,8 +15272,7 @@ var CursorXRMouse = class extends BaseCursor {
   constructor(renderer) {
     super();
     this.renderer = renderer;
-    __publicField(this, "system");
-    __publicField(this, "xr", new CursorColor());
+    this.xr = new CursorColor();
     this.system = new CursorSystem(this.renderer.domElement);
     this.visible = false;
   }
@@ -15429,19 +15319,18 @@ var BasePointer = class {
     this.type = type2;
     this.name = name2;
     this.evtSys = evtSys;
-    __publicField(this, "_cursor");
-    __publicField(this, "_canMoveView", false);
-    __publicField(this, "_enabled", false);
-    __publicField(this, "isActive", false);
-    __publicField(this, "movementDragThreshold", MAX_DRAG_DISTANCE);
-    __publicField(this, "state", new PointerState());
-    __publicField(this, "lastState", null);
-    __publicField(this, "origin", new THREE.Vector3());
-    __publicField(this, "direction", new THREE.Vector3());
-    __publicField(this, "curHit", null);
-    __publicField(this, "hoveredHit", null);
-    __publicField(this, "_pressedHit", null);
-    __publicField(this, "draggedHit", null);
+    this._canMoveView = false;
+    this._enabled = false;
+    this.isActive = false;
+    this.movementDragThreshold = MAX_DRAG_DISTANCE;
+    this.state = new PointerState();
+    this.lastState = null;
+    this.origin = new THREE.Vector3();
+    this.direction = new THREE.Vector3();
+    this.curHit = null;
+    this.hoveredHit = null;
+    this._pressedHit = null;
+    this.draggedHit = null;
     this._cursor = cursor;
     this.enabled = false;
     this.canMoveView = false;
@@ -15928,8 +15817,7 @@ geom.setPositions([
 var Laser = class extends THREE.Object3D {
   constructor(color, linewidth = 1) {
     super();
-    __publicField(this, "line");
-    __publicField(this, "_length", 1);
+    this._length = 1;
     this.line = new Line2(geom, line2({
       color,
       linewidth
@@ -15972,17 +15860,13 @@ var PointerHand = class extends BasePointer {
   constructor(evtSys, renderer, index) {
     super("hand", 15 /* MotionController */, evtSys, new CursorColor());
     this.renderer = renderer;
-    __publicField(this, "laser", new Laser(white, 2e-3));
-    __publicField(this, "object", new THREE.Object3D());
-    __publicField(this, "_handedness", "none");
-    __publicField(this, "_isHand", false);
-    __publicField(this, "inputSource", null);
-    __publicField(this, "_gamepad", null);
-    __publicField(this, "controller");
-    __publicField(this, "grip");
-    __publicField(this, "hand");
-    __publicField(this, "onAxisMaxed");
-    __publicField(this, "useHaptics", true);
+    this.laser = new Laser(white, 2e-3);
+    this.object = new THREE.Object3D();
+    this._handedness = "none";
+    this._isHand = false;
+    this.inputSource = null;
+    this._gamepad = null;
+    this.useHaptics = true;
     this.object.add(this.controller = this.renderer.xr.getController(index), this.grip = this.renderer.xr.getControllerGrip(index), this.hand = this.renderer.xr.getHand(index));
     if (isDesktop() && isChrome() && !isOculusBrowser) {
       let maybeOculusRiftS = false;
@@ -16136,9 +16020,8 @@ var BaseScreenPointer = class extends BasePointer {
     super(type2, name2, evtSys, cursor);
     this.renderer = renderer;
     this.camera = camera;
-    __publicField(this, "id", null);
-    __publicField(this, "element");
-    __publicField(this, "moveOnUpdate", false);
+    this.id = null;
+    this.moveOnUpdate = false;
     const onPointerDown = (evt) => {
       if (this.checkEvent(evt)) {
         this.readEvent(evt);
@@ -16229,7 +16112,6 @@ var PointerMouse = class extends BaseScreenPointer {
     element.addEventListener("pointerdown", onPrep);
     element.addEventListener("pointermove", onPrep);
     super("mouse", 1 /* Mouse */, evtSys, renderer, camera, new CursorXRMouse(renderer));
-    __publicField(this, "allowPointerLock");
     this.element.addEventListener("wheel", (evt) => {
       evt.preventDefault();
       const dz = -evt.deltaY * 0.5;
@@ -16309,7 +16191,7 @@ var PointerSingleTouch = class extends BaseScreenPointer {
       renderer.domElement.addEventListener("pointerdown", onPrePointerDown);
     }
     super("touch", pointerNames2.get(idx), evtSys, renderer, camera, null);
-    __publicField(this, "parent", null);
+    this.parent = null;
     if (touches.length === 0) {
       renderer.domElement.addEventListener("pointerup", onPostPointerUp);
     }
@@ -16350,9 +16232,9 @@ var PointerMultiTouch = class extends BasePointer {
     super("touch", 14 /* Touches */, evtSys, null);
     this.renderer = renderer;
     this.camera = camera;
-    __publicField(this, "touches", new Array(10));
-    __publicField(this, "lastPinchDist", 0);
-    __publicField(this, "lastPressCount", 0);
+    this.touches = new Array(10);
+    this.lastPinchDist = 0;
+    this.lastPressCount = 0;
     for (let i = 0; i < this.touches.length; ++i) {
       this.touches[i] = new PointerSingleTouch(evtSys, renderer, i, camera, this);
     }
@@ -16510,17 +16392,13 @@ var EventSystem = class extends TypedEventBase {
   constructor(env) {
     super();
     this.env = env;
-    __publicField(this, "raycaster", new THREE.Raycaster());
-    __publicField(this, "mouse");
-    __publicField(this, "pen");
-    __publicField(this, "touches");
-    __publicField(this, "hands", new Array());
-    __publicField(this, "pointers");
-    __publicField(this, "localPointerMovedEvt", new ObjectMovedEvent());
-    __publicField(this, "hits", new Array());
-    __publicField(this, "infoPressed", false);
-    __publicField(this, "menuPressed", false);
-    __publicField(this, "pointerEvents", /* @__PURE__ */ new Map());
+    this.raycaster = new THREE.Raycaster();
+    this.hands = new Array();
+    this.localPointerMovedEvt = new ObjectMovedEvent();
+    this.hits = new Array();
+    this.infoPressed = false;
+    this.menuPressed = false;
+    this.pointerEvents = /* @__PURE__ */ new Map();
     this.raycaster.camera = this.env.camera;
     this.raycaster.layers.set(FOREGROUND);
     this.mouse = new PointerMouse(this, this.env.renderer, this.env.camera);
@@ -16783,11 +16661,8 @@ var completeEvt = new TypedEvent("fadecomplete");
 var Fader = class extends TypedEventBase {
   constructor(name2, t2 = 0.15) {
     super();
-    __publicField(this, "opacity", 1);
-    __publicField(this, "direction", 0);
-    __publicField(this, "speed");
-    __publicField(this, "object");
-    __publicField(this, "material");
+    this.opacity = 1;
+    this.direction = 0;
     this.material = solidTransparent({
       name: "FaderMaterial",
       color: 0,
@@ -16839,11 +16714,10 @@ var velocity = 0.1;
 var LoadingBar = class extends BaseProgress {
   constructor() {
     super();
-    __publicField(this, "valueBar");
-    __publicField(this, "value", 0);
-    __publicField(this, "targetValue", 0);
-    __publicField(this, "object", new THREE.Object3D());
-    __publicField(this, "_enabled", true);
+    this.value = 0;
+    this.targetValue = 0;
+    this.object = new THREE.Object3D();
+    this._enabled = true;
     this.valueBar = new Cube(0, 1, 1, litGrey);
     this.valueBar.scale.set(0, 1, 1);
     const valueBarContainer = new THREE.Object3D();
@@ -19872,13 +19746,13 @@ var ScreenControl = class extends TypedEventBase {
     this.camera = camera;
     this.fullscreenElement = fullscreenElement;
     this.enableFullResolution = enableFullResolution;
-    __publicField(this, "_currentMode", "None" /* None */);
-    __publicField(this, "buttons", /* @__PURE__ */ new Map());
-    __publicField(this, "currentSession", null);
-    __publicField(this, "screenUI", null);
-    __publicField(this, "wasVisible", /* @__PURE__ */ new Map());
-    __publicField(this, "lastWidth", 0);
-    __publicField(this, "lastHeight", 0);
+    this._currentMode = "None" /* None */;
+    this.buttons = /* @__PURE__ */ new Map();
+    this.currentSession = null;
+    this.screenUI = null;
+    this.wasVisible = /* @__PURE__ */ new Map();
+    this.lastWidth = 0;
+    this.lastHeight = 0;
     this.addEventListener("sessionstarted", (evt) => {
       if (evt.sessionMode === "inline") {
         this.camera.fov = evt.session.renderState.inlineVerticalFieldOfView * 180 / Math.PI;
@@ -20092,27 +19966,24 @@ var black2 = new THREE.Color(0);
 var Skybox = class {
   constructor(env) {
     this.env = env;
-    __publicField(this, "rt", new THREE.WebGLCubeRenderTarget(FACE_SIZE));
-    __publicField(this, "rtScene", new THREE.Scene());
-    __publicField(this, "rtCamera", new THREE.CubeCamera(0.01, 10, this.rt));
-    __publicField(this, "_rotation", new THREE.Quaternion());
-    __publicField(this, "layerRotation", new THREE.Quaternion().identity());
-    __publicField(this, "stageRotation", new THREE.Quaternion().identity());
-    __publicField(this, "images", null);
-    __publicField(this, "canvases", new Array(6));
-    __publicField(this, "contexts", new Array(6));
-    __publicField(this, "cube");
-    __publicField(this, "flipped");
-    __publicField(this, "flipper");
-    __publicField(this, "curImagePath", null);
-    __publicField(this, "layer", null);
-    __publicField(this, "wasVisible", false);
-    __publicField(this, "wasWebXRLayerAvailable", null);
-    __publicField(this, "stageHeading", 0);
-    __publicField(this, "rotationNeedsUpdate", false);
-    __publicField(this, "imageNeedsUpdate", false);
-    __publicField(this, "webXRLayerEnabled", true);
-    __publicField(this, "visible", true);
+    this.rt = new THREE.WebGLCubeRenderTarget(FACE_SIZE);
+    this.rtScene = new THREE.Scene();
+    this.rtCamera = new THREE.CubeCamera(0.01, 10, this.rt);
+    this._rotation = new THREE.Quaternion();
+    this.layerRotation = new THREE.Quaternion().identity();
+    this.stageRotation = new THREE.Quaternion().identity();
+    this.images = null;
+    this.canvases = new Array(6);
+    this.contexts = new Array(6);
+    this.curImagePath = null;
+    this.layer = null;
+    this.wasVisible = false;
+    this.wasWebXRLayerAvailable = null;
+    this.stageHeading = 0;
+    this.rotationNeedsUpdate = false;
+    this.imageNeedsUpdate = false;
+    this.webXRLayerEnabled = true;
+    this.visible = true;
     this.webXRLayerEnabled && (this.webXRLayerEnabled = this.env.hasXRCompositionLayers);
     this.env.scene.background = black2;
     for (let i = 0; i < this.canvases.length; ++i) {
@@ -20284,7 +20155,7 @@ var Skybox = class {
 var XRTimerTickEvent = class extends BaseTimerTickEvent {
   constructor() {
     super();
-    __publicField(this, "frame", null);
+    this.frame = null;
     Object.seal(this);
   }
   set(t2, dt, frame) {
@@ -20292,14 +20163,12 @@ var XRTimerTickEvent = class extends BaseTimerTickEvent {
     this.frame = frame;
   }
 };
-var _isRunning;
 var XRTimer = class {
   constructor(renderer) {
     this.renderer = renderer;
-    __publicField(this, "tickHandlers", new Array());
-    __publicField(this, "_onTick");
-    __publicField(this, "lt", -1);
-    __privateAdd(this, _isRunning, false);
+    this.tickHandlers = new Array();
+    this.lt = -1;
+    this._isRunning = false;
     const tickEvt = new XRTimerTickEvent();
     let dt = 0;
     this._onTick = (t2, frame) => {
@@ -20312,7 +20181,7 @@ var XRTimer = class {
     };
   }
   get isRunning() {
-    return __privateGet(this, _isRunning);
+    return this._isRunning;
   }
   restart() {
     this.stop();
@@ -20326,7 +20195,7 @@ var XRTimer = class {
   }
   setAnimationLoop(loop2) {
     this.renderer.setAnimationLoop(loop2);
-    __privateSet(this, _isRunning, isDefined(loop2));
+    this._isRunning = isDefined(loop2);
   }
   start() {
     if (!this.isRunning) {
@@ -20345,7 +20214,6 @@ var XRTimer = class {
     }
   }
 };
-_isRunning = new WeakMap();
 
 // ../threejs/environment/BaseEnvironment.ts
 var spectator = new THREE.PerspectiveCamera();
@@ -20359,32 +20227,22 @@ var BaseEnvironment = class extends TypedEventBase {
     super();
     this.fetcher = fetcher;
     this.defaultAvatarHeight = defaultAvatarHeight;
-    __publicField(this, "baseLayer");
-    __publicField(this, "layers", new Array());
-    __publicField(this, "layerSortOrder", /* @__PURE__ */ new Map());
-    __publicField(this, "fader");
-    __publicField(this, "fadeDepth", 0);
-    __publicField(this, "cursor3D", new Cursor3D());
-    __publicField(this, "camera", new THREE.PerspectiveCamera(50, 1, 0.01, 1e3));
-    __publicField(this, "scene", new THREE.Scene());
-    __publicField(this, "stage", obj("Stage"));
-    __publicField(this, "ambient", new THREE.AmbientLight(16777215, 0.5));
-    __publicField(this, "sun", new THREE.DirectionalLight(16777215, 0.75));
-    __publicField(this, "ground", new THREE.GridHelper(gridSize, gridWidth, 12632256, 8421504));
-    __publicField(this, "foreground", obj("Foreground"));
-    __publicField(this, "loadingBar", new LoadingBar());
-    __publicField(this, "renderer");
-    __publicField(this, "timer");
-    __publicField(this, "worldUISpace");
-    __publicField(this, "skybox");
-    __publicField(this, "avatar");
-    __publicField(this, "cameraControl");
-    __publicField(this, "screenControl");
-    __publicField(this, "eventSystem");
-    __publicField(this, "_xrBinding", null);
-    __publicField(this, "_xrMediaBinding", null);
-    __publicField(this, "_hasXRMediaLayers", null);
-    __publicField(this, "_hasXRCompositionLayers", null);
+    this.layers = new Array();
+    this.layerSortOrder = /* @__PURE__ */ new Map();
+    this.fadeDepth = 0;
+    this.cursor3D = new Cursor3D();
+    this.camera = new THREE.PerspectiveCamera(50, 1, 0.01, 1e3);
+    this.scene = new THREE.Scene();
+    this.stage = obj("Stage");
+    this.ambient = new THREE.AmbientLight(16777215, 0.5);
+    this.sun = new THREE.DirectionalLight(16777215, 0.75);
+    this.ground = new THREE.GridHelper(gridSize, gridWidth, 12632256, 8421504);
+    this.foreground = obj("Foreground");
+    this.loadingBar = new LoadingBar();
+    this._xrBinding = null;
+    this._xrMediaBinding = null;
+    this._hasXRMediaLayers = null;
+    this._hasXRCompositionLayers = null;
     if (isHTMLCanvas(canvas)) {
       canvas.style.backgroundColor = "black";
     }
@@ -20802,21 +20660,13 @@ var DeviceDialog = class extends DialogBox {
   constructor(env) {
     super("Configure devices");
     this.env = env;
-    __publicField(this, "micLookup", null);
-    __publicField(this, "spkrLookup", null);
-    __publicField(this, "microphones");
-    __publicField(this, "micScenario");
-    __publicField(this, "activity");
-    __publicField(this, "micVolumeControl");
-    __publicField(this, "spkrVolumeControl", null);
-    __publicField(this, "ready", null);
-    __publicField(this, "speakers", null);
-    __publicField(this, "properties");
-    __publicField(this, "testSpkrButton");
-    __publicField(this, "useHeadphones");
-    __publicField(this, "headphoneWarning");
-    __publicField(this, "timer", new SetTimeoutTimer(30));
-    __publicField(this, "_showMic", true);
+    this.micLookup = null;
+    this.spkrLookup = null;
+    this.spkrVolumeControl = null;
+    this.ready = null;
+    this.speakers = null;
+    this.timer = new SetTimeoutTimer(30);
+    this._showMic = true;
     this.cancelButton.style.display = "none";
     const clipLoaded = this.env.audio.loadBasicClip("test-audio", "/audio/test-clip.mp3", 0.5);
     elementApply(this.container, styles(minWidth("max-content")));

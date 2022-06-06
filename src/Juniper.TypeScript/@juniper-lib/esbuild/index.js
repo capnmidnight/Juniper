@@ -7,22 +7,21 @@ function normalizeDirName(dirName) {
     return dirName;
 }
 export class Build {
-    browserEntries = new Array();
-    minBrowserEntries = new Array();
-    plugins = new Array();
-    defines = new Array();
-    externals = new Array();
-    globalExternals = new Array();
-    isWatch;
+    constructor(args) {
+        this.browserEntries = new Array();
+        this.minBrowserEntries = new Array();
+        this.plugins = new Array();
+        this.defines = new Array();
+        this.externals = new Array();
+        this.globalExternals = new Array();
+        this.entryNames = "[dir]/[name]";
+        this.outbase = "src";
+        this.rootDirName = "src/";
+        this.outDirName = "wwwroot/js/";
+        this.isWatch = args.indexOf("--watch") !== -1;
+    }
     get buildType() {
         return this.isWatch ? "watch" : "build";
-    }
-    entryNames = "[dir]/[name]";
-    outbase = "src";
-    rootDirName = "src/";
-    outDirName = "wwwroot/js/";
-    constructor(args) {
-        this.isWatch = args.indexOf("--watch") !== -1;
     }
     entryName(name) {
         this.entryNames = name;

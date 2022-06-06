@@ -34,9 +34,9 @@ export class XRTimer implements ITimer {
         };
     }
 
-    #isRunning = false;
+    private _isRunning = false;
     get isRunning() {
-        return this.#isRunning;
+        return this._isRunning;
     }
 
     restart() {
@@ -54,7 +54,7 @@ export class XRTimer implements ITimer {
 
     private setAnimationLoop(loop: XRFrameRequestCallback) {
         this.renderer.setAnimationLoop(loop);
-        this.#isRunning = isDefined(loop);
+        this._isRunning = isDefined(loop);
     }
 
     start() {

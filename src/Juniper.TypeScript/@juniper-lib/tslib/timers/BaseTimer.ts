@@ -23,13 +23,13 @@ export abstract class BaseTimer<TimerT>
     }
 
 
-    #targetFPS: number = null;
+    private _targetFPS: number = null;
     get targetFPS() {
-        return this.#targetFPS;
+        return this._targetFPS;
     }
 
     set targetFPS(v: number) {
-        this.#targetFPS = v;
+        this._targetFPS = v;
     }
 
     addTickHandler(onTick: (evt: TimerTickEvent) => void): void {

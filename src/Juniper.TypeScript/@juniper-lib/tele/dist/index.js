@@ -4,7 +4,6 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __defNormalProp = (obj2, key, value) => key in obj2 ? __defProp(obj2, key, { enumerable: true, configurable: true, writable: true, value }) : obj2[key] = value;
 var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require : typeof Proxy !== "undefined" ? new Proxy(x, {
   get: (a, b) => (typeof require !== "undefined" ? require : a)[b]
 }) : x)(function(x) {
@@ -28,28 +27,6 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
-var __publicField = (obj2, key, value) => {
-  __defNormalProp(obj2, typeof key !== "symbol" ? key + "" : key, value);
-  return value;
-};
-var __accessCheck = (obj2, member, msg) => {
-  if (!member.has(obj2))
-    throw TypeError("Cannot " + msg);
-};
-var __privateGet = (obj2, member, getter) => {
-  __accessCheck(obj2, member, "read from private field");
-  return getter ? getter.call(obj2) : member.get(obj2);
-};
-var __privateAdd = (obj2, member, value) => {
-  if (member.has(obj2))
-    throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj2) : member.set(obj2, value);
-};
-var __privateSet = (obj2, member, value, setter) => {
-  __accessCheck(obj2, member, "write to private field");
-  setter ? setter.call(obj2, value) : member.set(obj2, value);
-  return value;
-};
 
 // ../../node_modules/sdp/sdp.js
 var require_sdp = __commonJS({
@@ -731,8 +708,8 @@ function arraySortedInsertInternal(arr, item, ks, allowDuplicates) {
 var BaseGraphNode = class {
   constructor(value) {
     this.value = value;
-    __publicField(this, "_forward", new Array());
-    __publicField(this, "_reverse", new Array());
+    this._forward = new Array();
+    this._reverse = new Array();
   }
   connectSorted(child, keySelector) {
     if (isDefined(keySelector)) {
@@ -822,8 +799,8 @@ var GraphNode = class extends BaseGraphNode {
 // ../tslib/collections/PriorityList.ts
 var PriorityList = class {
   constructor(init) {
-    __publicField(this, "items", /* @__PURE__ */ new Map());
-    __publicField(this, "defaultItems", new Array());
+    this.items = /* @__PURE__ */ new Map();
+    this.defaultItems = new Array();
     if (isDefined(init)) {
       for (const [key, value] of init) {
         this.add(key, value);
@@ -920,8 +897,8 @@ var PriorityList = class {
 // ../tslib/events/EventBase.ts
 var EventBase = class {
   constructor() {
-    __publicField(this, "listeners", /* @__PURE__ */ new Map());
-    __publicField(this, "listenerOptions", /* @__PURE__ */ new Map());
+    this.listeners = /* @__PURE__ */ new Map();
+    this.listenerOptions = /* @__PURE__ */ new Map();
   }
   addEventListener(type2, callback, options) {
     if (isFunction(callback)) {
@@ -991,8 +968,8 @@ var TypedEvent = class extends Event {
 var TypedEventBase = class extends EventBase {
   constructor() {
     super(...arguments);
-    __publicField(this, "bubblers", /* @__PURE__ */ new Set());
-    __publicField(this, "scopes", /* @__PURE__ */ new WeakMap());
+    this.bubblers = /* @__PURE__ */ new Set();
+    this.scopes = /* @__PURE__ */ new WeakMap();
   }
   addBubbler(bubbler) {
     this.bubblers.add(bubbler);
@@ -1041,15 +1018,14 @@ var TypedEventBase = class extends EventBase {
 // ../tslib/events/Task.ts
 var Task = class {
   constructor(resolveTestOrAutoStart, rejectTestOrAutoStart, autoStart = true) {
-    __publicField(this, "promise");
-    __publicField(this, "_resolve", null);
-    __publicField(this, "_reject", null);
-    __publicField(this, "_result", null);
-    __publicField(this, "_error", null);
-    __publicField(this, "_started", false);
-    __publicField(this, "_finished", false);
-    __publicField(this, "resolve", null);
-    __publicField(this, "reject", null);
+    this._resolve = null;
+    this._reject = null;
+    this._result = null;
+    this._error = null;
+    this._started = false;
+    this._finished = false;
+    this.resolve = null;
+    this.reject = null;
     let resolveTest = alwaysTrue;
     let rejectTest = alwaysTrue;
     if (isFunction(resolveTestOrAutoStart)) {
@@ -1128,8 +1104,7 @@ var Task = class {
 // ../tslib/events/Promisifier.ts
 var Promisifier = class {
   constructor(resolveRejectTest, selectValue, selectRejectionReason) {
-    __publicField(this, "promise");
-    __publicField(this, "callback", null);
+    this.callback = null;
     this.promise = new Promise((resolve, reject) => {
       this.callback = (...args) => {
         if (resolveRejectTest(...args)) {
@@ -1638,11 +1613,11 @@ function lerp2(a, b, p) {
 var BaseProgress = class extends TypedEventBase {
   constructor() {
     super(...arguments);
-    __publicField(this, "attached", new Array());
-    __publicField(this, "soFar", null);
-    __publicField(this, "total", null);
-    __publicField(this, "msg", null);
-    __publicField(this, "est", null);
+    this.attached = new Array();
+    this.soFar = null;
+    this.total = null;
+    this.msg = null;
+    this.est = null;
   }
   get p() {
     return this.total > 0 ? this.soFar / this.total : 0;
@@ -1697,11 +1672,10 @@ var ChildProgressCallback = class extends BaseProgress {
 var BaseParentProgressCallback = class {
   constructor(prog) {
     this.prog = prog;
-    __publicField(this, "weightTotal", 0);
-    __publicField(this, "start");
-    __publicField(this, "subProgressCallbacks", new Array());
-    __publicField(this, "subProgressWeights", new Array());
-    __publicField(this, "subProgressValues", new Array());
+    this.weightTotal = 0;
+    this.subProgressCallbacks = new Array();
+    this.subProgressWeights = new Array();
+    this.subProgressValues = new Array();
     this.start = performance.now();
     for (let i = 0; i < this.subProgressWeights.length; ++i) {
       this.subProgressValues[i] = 0;
@@ -1816,10 +1790,10 @@ function singleton(name, create2) {
 // ../tslib/timers/ITimer.ts
 var BaseTimerTickEvent = class {
   constructor() {
-    __publicField(this, "t", 0);
-    __publicField(this, "dt", 0);
-    __publicField(this, "sdt", 0);
-    __publicField(this, "fps", 0);
+    this.t = 0;
+    this.dt = 0;
+    this.sdt = 0;
+    this.fps = 0;
   }
   set(t2, dt) {
     this.t = t2;
@@ -1838,14 +1812,12 @@ var TimerTickEvent = class extends BaseTimerTickEvent {
 };
 
 // ../tslib/timers/BaseTimer.ts
-var _targetFPS;
 var BaseTimer = class {
   constructor(targetFrameRate) {
-    __publicField(this, "timer", null);
-    __publicField(this, "onTick");
-    __publicField(this, "lt", -1);
-    __publicField(this, "tickHandlers", new Array());
-    __privateAdd(this, _targetFPS, null);
+    this.timer = null;
+    this.lt = -1;
+    this.tickHandlers = new Array();
+    this._targetFPS = null;
     this.targetFPS = targetFrameRate;
     const tickEvt = new TimerTickEvent();
     let dt = 0;
@@ -1859,10 +1831,10 @@ var BaseTimer = class {
     };
   }
   get targetFPS() {
-    return __privateGet(this, _targetFPS);
+    return this._targetFPS;
   }
   set targetFPS(v) {
-    __privateSet(this, _targetFPS, v);
+    this._targetFPS = v;
   }
   addTickHandler(onTick) {
     this.tickHandlers.push(onTick);
@@ -1890,7 +1862,6 @@ var BaseTimer = class {
     return 1e3 / this.targetFPS;
   }
 };
-_targetFPS = new WeakMap();
 
 // ../tslib/timers/SetIntervalTimer.ts
 var SetIntervalTimer = class extends BaseTimer {
@@ -1926,17 +1897,17 @@ function parsePort(portString) {
 }
 var URLBuilder = class {
   constructor(url, base) {
-    __publicField(this, "_url", null);
-    __publicField(this, "_base");
-    __publicField(this, "_protocol", null);
-    __publicField(this, "_host", null);
-    __publicField(this, "_hostName", null);
-    __publicField(this, "_userName", null);
-    __publicField(this, "_password", null);
-    __publicField(this, "_port", null);
-    __publicField(this, "_pathName", null);
-    __publicField(this, "_hash", null);
-    __publicField(this, "_query", /* @__PURE__ */ new Map());
+    this._url = null;
+    this._base = void 0;
+    this._protocol = null;
+    this._host = null;
+    this._hostName = null;
+    this._userName = null;
+    this._password = null;
+    this._port = null;
+    this._pathName = null;
+    this._hash = null;
+    this._query = /* @__PURE__ */ new Map();
     if (url !== void 0) {
       this._url = new URL(url, base);
       this.rehydrate();
@@ -6848,19 +6819,19 @@ var UserVideoStreamRemovedEvent = class extends UserStreamRemovedEvent {
 var UserPoseEvent = class extends RemoteUserEvent {
   constructor(type2, user) {
     super(type2, user);
-    __publicField(this, "pose", new Pose());
+    this.pose = new Pose();
   }
 };
 var UserPosedEvent = class extends UserPoseEvent {
   constructor(user) {
     super("userPosed", user);
-    __publicField(this, "height", 0);
+    this.height = 0;
   }
 };
 var UserPointerEvent = class extends UserPoseEvent {
   constructor(user) {
     super("userPointer", user);
-    __publicField(this, "name", 18 /* RemoteUser */);
+    this.name = 18 /* RemoteUser */;
   }
 };
 var UserChatEvent = class extends RemoteUserEvent {
@@ -6940,11 +6911,10 @@ var DecayingGain = class {
     this.sustain = sustain;
     this.hold = hold;
     this.release = release;
-    __publicField(this, "activity");
-    __publicField(this, "curLength", 0);
-    __publicField(this, "timer", null);
-    __publicField(this, "_enabled", true);
-    __publicField(this, "shouldRun", false);
+    this.curLength = 0;
+    this.timer = null;
+    this._enabled = true;
+    this.shouldRun = false;
     this.activity = new ActivityDetector("remote-audio-activity", audioCtx);
     connect(this.input, this.activity);
     this.timer = new SetIntervalTimer(30);
@@ -7069,7 +7039,7 @@ var DecayingGain = class {
 // ../webrtc/RemoteUser.ts
 var Locker = class {
   constructor() {
-    __publicField(this, "locks", /* @__PURE__ */ new Set());
+    this.locks = /* @__PURE__ */ new Set();
   }
   isLocked(name) {
     return this.locks.has(name);
@@ -7103,11 +7073,6 @@ var RemoteUserEvent2 = class extends TypedEvent {
 var RemoteUserIceErrorEvent = class extends RemoteUserEvent2 {
   constructor(user, evt) {
     super("iceError", user);
-    __publicField(this, "address");
-    __publicField(this, "errorCode");
-    __publicField(this, "errorText");
-    __publicField(this, "port");
-    __publicField(this, "url");
     this.address = evt.address;
     this.errorCode = evt.errorCode;
     this.errorText = evt.errorText;
@@ -7166,20 +7131,19 @@ var RemoteUser = class extends TypedEventBase {
     this.userID = userID;
     this.userName = userName;
     this.confirmReceipt = confirmReceipt;
-    __publicField(this, "userPosedEvt", new UserPosedEvent(this));
-    __publicField(this, "userPointerEvt", new UserPointerEvent(this));
-    __publicField(this, "sendPoseBuffer", new Float32Array(12));
-    __publicField(this, "sendPointerBuffer", new Float32Array(12));
-    __publicField(this, "sendInvocationCompleteBuffer", new Float32Array(2));
-    __publicField(this, "transceivers", new Array());
-    __publicField(this, "invocationCount", 0);
-    __publicField(this, "invocations", /* @__PURE__ */ new Map());
-    __publicField(this, "locks", new Locker());
-    __publicField(this, "connection");
-    __publicField(this, "channel", null);
-    __publicField(this, "gotOffer", false);
-    __publicField(this, "disposed", false);
-    __publicField(this, "trackSent", false);
+    this.userPosedEvt = new UserPosedEvent(this);
+    this.userPointerEvt = new UserPointerEvent(this);
+    this.sendPoseBuffer = new Float32Array(12);
+    this.sendPointerBuffer = new Float32Array(12);
+    this.sendInvocationCompleteBuffer = new Float32Array(2);
+    this.transceivers = new Array();
+    this.invocationCount = 0;
+    this.invocations = /* @__PURE__ */ new Map();
+    this.locks = new Locker();
+    this.channel = null;
+    this.gotOffer = false;
+    this.disposed = false;
+    this.trackSent = false;
     this.sendPoseBuffer[0] = 2 /* Pose */;
     this.sendPointerBuffer[0] = 1 /* Pointer */;
     this.sendInvocationCompleteBuffer[0] = 3 /* InvocationComplete */;
@@ -7869,7 +7833,6 @@ var Emoji = class {
   constructor(value, desc, props = null) {
     this.value = value;
     this.desc = desc;
-    __publicField(this, "props");
     this.value = value;
     this.desc = desc;
     this.props = props || {};
@@ -7925,10 +7888,6 @@ var BodyFollower = class extends THREE.Object3D {
     this.minDistance = minDistance;
     this.heightOffset = heightOffset;
     this.speed = speed;
-    __publicField(this, "lerp");
-    __publicField(this, "maxDistance");
-    __publicField(this, "minAngle");
-    __publicField(this, "maxAngle");
     this.name = name;
     this.lerp = this.minAngle > 0 || this.minDistance > 0;
     this.maxDistance = this.minDistance * 5;
@@ -8709,7 +8668,7 @@ var BaseCube = class extends THREE.Mesh {
 var Cube = class extends BaseCube {
   constructor(sx, sy, sz, material) {
     super(sx, sy, sz, material, false);
-    __publicField(this, "isDraggable", false);
+    this.isDraggable = false;
   }
 };
 
@@ -8719,7 +8678,6 @@ var Attr = class {
     this.key = key;
     this.value = value;
     this.bySetAttribute = bySetAttribute;
-    __publicField(this, "tags");
     this.tags = tags.map((t2) => t2.toLocaleUpperCase());
     Object.freeze(this);
   }
@@ -8972,9 +8930,9 @@ var V = new THREE.Vector3();
 var Q = new THREE.Quaternion();
 var BaseCursor = class {
   constructor() {
-    __publicField(this, "_object", null);
-    __publicField(this, "_visible", true);
-    __publicField(this, "_style", "default");
+    this._object = null;
+    this._visible = true;
+    this._style = "default";
   }
   get object() {
     return this._object;
@@ -9018,8 +8976,6 @@ var BaseCursor = class {
 var CursorColor = class extends BaseCursor {
   constructor() {
     super();
-    __publicField(this, "_currentStyle");
-    __publicField(this, "material");
     this.material = solid({
       name: "CursorMat",
       color: 16776960
@@ -9077,7 +9033,7 @@ var CursorSystem = class extends BaseCursor {
   constructor(element) {
     super();
     this.element = element;
-    __publicField(this, "_hidden", false);
+    this._hidden = false;
     this.visible = true;
     this.style = "default";
     document.addEventListener("pointerlockchange", () => {
@@ -9112,8 +9068,7 @@ var CursorXRMouse = class extends BaseCursor {
   constructor(renderer) {
     super();
     this.renderer = renderer;
-    __publicField(this, "system");
-    __publicField(this, "xr", new CursorColor());
+    this.xr = new CursorColor();
     this.system = new CursorSystem(this.renderer.domElement);
     this.visible = false;
   }
@@ -9160,19 +9115,18 @@ var BasePointer = class {
     this.type = type2;
     this.name = name;
     this.evtSys = evtSys;
-    __publicField(this, "_cursor");
-    __publicField(this, "_canMoveView", false);
-    __publicField(this, "_enabled", false);
-    __publicField(this, "isActive", false);
-    __publicField(this, "movementDragThreshold", MAX_DRAG_DISTANCE);
-    __publicField(this, "state", new PointerState());
-    __publicField(this, "lastState", null);
-    __publicField(this, "origin", new THREE.Vector3());
-    __publicField(this, "direction", new THREE.Vector3());
-    __publicField(this, "curHit", null);
-    __publicField(this, "hoveredHit", null);
-    __publicField(this, "_pressedHit", null);
-    __publicField(this, "draggedHit", null);
+    this._canMoveView = false;
+    this._enabled = false;
+    this.isActive = false;
+    this.movementDragThreshold = MAX_DRAG_DISTANCE;
+    this.state = new PointerState();
+    this.lastState = null;
+    this.origin = new THREE.Vector3();
+    this.direction = new THREE.Vector3();
+    this.curHit = null;
+    this.hoveredHit = null;
+    this._pressedHit = null;
+    this.draggedHit = null;
     this._cursor = cursor;
     this.enabled = false;
     this.canMoveView = false;
@@ -9659,8 +9613,7 @@ geom.setPositions([
 var Laser = class extends THREE.Object3D {
   constructor(color, linewidth = 1) {
     super();
-    __publicField(this, "line");
-    __publicField(this, "_length", 1);
+    this._length = 1;
     this.line = new Line2(geom, line2({
       color,
       linewidth
@@ -9681,10 +9634,8 @@ var Laser = class extends THREE.Object3D {
 var PointerRemote = class extends BasePointer {
   constructor(evtSys, userName, isInstructor, pointerName, cursor) {
     super("remote", 18 /* RemoteUser */, evtSys, cursor || new CursorColor());
-    __publicField(this, "object");
-    __publicField(this, "laser");
-    __publicField(this, "pTarget", new THREE.Vector3());
-    __publicField(this, "qTarget", new THREE.Quaternion().identity());
+    this.pTarget = new THREE.Vector3();
+    this.qTarget = new THREE.Quaternion().identity();
     this.laser = new Laser(isInstructor ? green : yellow, 2e-3);
     this.laser.length = 30;
     const hand = new Cube(0.05, 0.05, 0.05, litGrey);
@@ -9847,13 +9798,11 @@ function makeFont(style) {
 var CanvasImage = class extends TypedEventBase {
   constructor(width, height, options) {
     super();
-    __publicField(this, "_canvas");
-    __publicField(this, "_scale", 250);
-    __publicField(this, "_g");
-    __publicField(this, "_visible", true);
-    __publicField(this, "wasVisible", null);
-    __publicField(this, "redrawnEvt", new TypedEvent("redrawn"));
-    __publicField(this, "element", null);
+    this._scale = 250;
+    this._visible = true;
+    this.wasVisible = null;
+    this.redrawnEvt = new TypedEvent("redrawn");
+    this.element = null;
     if (isDefined(options)) {
       if (isDefined(options.scale)) {
         this._scale = options.scale;
@@ -10437,8 +10386,8 @@ var inchesPerMeter = 39.3701;
 var TexturedMesh = class extends THREE.Mesh {
   constructor(geom2, mat) {
     super(geom2, mat);
-    __publicField(this, "_imageWidth", 0);
-    __publicField(this, "_imageHeight", 0);
+    this._imageWidth = 0;
+    this._imageHeight = 0;
   }
   copy(source, recursive = true) {
     super.copy(source, recursive);
@@ -10525,17 +10474,17 @@ var Image2DMesh = class extends THREE.Object3D {
   constructor(env, name, isStatic, materialOrOptions = null) {
     super();
     this.isStatic = isStatic;
-    __publicField(this, "lastMatrixWorld", new THREE.Matrix4());
-    __publicField(this, "layer", null);
-    __publicField(this, "tryWebXRLayers", true);
-    __publicField(this, "wasUsingLayer", false);
-    __publicField(this, "lastImage", null);
-    __publicField(this, "lastWidth", null);
-    __publicField(this, "lastHeight", null);
-    __publicField(this, "stereoLayoutName", "mono");
-    __publicField(this, "env", null);
-    __publicField(this, "mesh", null);
-    __publicField(this, "webXRLayersEnabled", true);
+    this.lastMatrixWorld = new THREE.Matrix4();
+    this.layer = null;
+    this.tryWebXRLayers = true;
+    this.wasUsingLayer = false;
+    this.lastImage = null;
+    this.lastWidth = null;
+    this.lastHeight = null;
+    this.stereoLayoutName = "mono";
+    this.env = null;
+    this.mesh = null;
+    this.webXRLayersEnabled = true;
     if (env) {
       this.setEnvAndName(env, name);
       let material = isMeshBasicMaterial(materialOrOptions) ? materialOrOptions : solidTransparent(Object.assign({}, materialOrOptions, { name: this.name }));
@@ -10667,8 +10616,7 @@ var redrawnEvt = { type: "redrawn" };
 var TextMesh = class extends Image2DMesh {
   constructor(env, name, materialOptions) {
     super(env, name, false, materialOptions);
-    __publicField(this, "_textImage", null);
-    __publicField(this, "_onRedrawn");
+    this._textImage = null;
     this._onRedrawn = this.onRedrawn.bind(this);
   }
   onRedrawn() {
@@ -10840,21 +10788,18 @@ var AvatarRemote = class extends THREE.Object3D {
     super();
     this.env = env;
     this.defaultAvatarHeight = defaultAvatarHeight;
-    __publicField(this, "avatar", null);
-    __publicField(this, "isInstructor", false);
-    __publicField(this, "pointers", /* @__PURE__ */ new Map());
-    __publicField(this, "head", null);
-    __publicField(this, "body", null);
-    __publicField(this, "height");
-    __publicField(this, "nameTag");
-    __publicField(this, "activity");
-    __publicField(this, "pTarget", new THREE.Vector3());
-    __publicField(this, "pEnd", new THREE.Vector3());
-    __publicField(this, "qTarget", new THREE.Quaternion().identity());
-    __publicField(this, "qEnd", new THREE.Quaternion().identity());
-    __publicField(this, "headFollower", null);
-    __publicField(this, "_headSize", 1);
-    __publicField(this, "_headPulse", 1);
+    this.avatar = null;
+    this.isInstructor = false;
+    this.pointers = /* @__PURE__ */ new Map();
+    this.head = null;
+    this.body = null;
+    this.pTarget = new THREE.Vector3();
+    this.pEnd = new THREE.Vector3();
+    this.qTarget = new THREE.Quaternion().identity();
+    this.qEnd = new THREE.Quaternion().identity();
+    this.headFollower = null;
+    this._headSize = 1;
+    this._headPulse = 1;
     this.height = this.defaultAvatarHeight;
     this.name = user.userName;
     this.nameTag = new TextMesh(this.env, `nameTag-${user.userName}-${user.userID}`);
@@ -11046,10 +10991,7 @@ var DebugObject = class extends THREE.Object3D {
   constructor(color) {
     super();
     this.color = color;
-    __publicField(this, "center", null);
-    __publicField(this, "xp");
-    __publicField(this, "yp");
-    __publicField(this, "zn");
+    this.center = null;
     if (isDefined(this.color)) {
       this.center = new Cube(0.5, 0.5, 0.5, lit({ color: this.color }));
       this.add(this.center);
