@@ -1,15 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
+		<AssemblyName>Juniper.ProcessManager</AssemblyName>
 		<OutputType>Exe</OutputType>
+		<LangVersion>10.0</LangVersion>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<RootNamespace>Juniper.Processes</RootNamespace>
+		<Authors>Sean T. McBeth</Authors>
+		<Copyright>Copyright © Sean T. McBeth 2019</Copyright>
+		<IsPublishable>False</IsPublishable>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="SeanMcBeth.Juniper" Version="1.0.0" />
+	  <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
 	</ItemGroup>
 
 </Project>

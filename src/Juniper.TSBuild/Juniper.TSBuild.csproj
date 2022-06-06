@@ -1,19 +1,36 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
+		<AssemblyName>Juniper.TSBuild</AssemblyName>
+		<RootNamespace>Juniper</RootNamespace>
+		<OutputType>Library</OutputType>
 		<TargetFramework>net6.0</TargetFramework>
+		<LangVersion>10.0</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<Authors>Sean T. McBeth</Authors>
+		<Copyright>Copyright © Sean T. McBeth 2019</Copyright>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<Description>General purpose server code</Description>
+		<PackageProjectUrl>https://github.com/capnmidnight/Juniper</PackageProjectUrl>
+		<PackageIcon>logo_juniper.min.png</PackageIcon>
+		<RepositoryUrl>https://github.com/capnmidnight/Juniper</RepositoryUrl>
+		<PackageId>SeanMcBeth.Juniper.TSBuild</PackageId>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<Version>1.0.2</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Juniper.ProcessManager\Juniper.ProcessManager.csproj">
-			<ReferenceOutputAssembly>True</ReferenceOutputAssembly>
-		</ProjectReference>
+		<None Include="LICENSE.md" Pack="true" PackagePath="">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="logo_juniper.min.png" Pack="true" PackagePath="">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="SeanMcBeth.Juniper" Version="1.0.0" />
+	  <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -15,7 +15,7 @@
 		<RepositoryUrl>https://github.com/capnmidnight/Juniper</RepositoryUrl>
 		<PackageId>SeanMcBeth.Juniper</PackageId>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-		<ImplicitUsings>True</ImplicitUsings>
+		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
 	<ItemGroup>
