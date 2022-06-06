@@ -6897,10 +6897,8 @@ var DEFAULT_LOCAL_USER_ID = "local-user";
 var ActivityDetector = class {
   constructor(name, audioCtx) {
     this.name = name;
-    __publicField(this, "_level", 0);
-    __publicField(this, "maxLevel", 0);
-    __publicField(this, "analyzer");
-    __publicField(this, "buffer");
+    this._level = 0;
+    this.maxLevel = 0;
     this.analyzer = Analyser(this.name, audioCtx, {
       fftSize: 32,
       minDecibels: -70

@@ -6993,10 +6993,9 @@ var DeviceManager = class extends TypedEventBase {
     super();
     this.element = element;
     this.needsVideoDevice = needsVideoDevice;
-    __publicField(this, "_hasAudioPermission", false);
-    __publicField(this, "_hasVideoPermission", false);
-    __publicField(this, "_currentStream", null);
-    __publicField(this, "ready");
+    this._hasAudioPermission = false;
+    this._hasVideoPermission = false;
+    this._currentStream = null;
     this.ready = this.start();
     Object.seal(this);
   }
@@ -19950,23 +19949,11 @@ var ScreenControl = class extends TypedEventBase {
     this.camera.updateProjectionMatrix();
   }
   async refresh() {
-    let webXRAvailable = false;
-    try {
-      if (hasWebXR()) {
-        const ctx = this.renderer.getContext();
-        if (isFunction(ctx.makeXRCompatible)) {
-          await ctx.makeXRCompatible();
-          webXRAvailable = true;
-        }
-      }
-    } catch (exp) {
-      console.warn("WebXR is not available on this system.");
-    }
     await Promise.all(Array.from(this.buttons.values()).filter((btn) => btn.available && btn.mode !== "Fullscreen" /* Fullscreen */).map(async (btn) => {
       const xrMode = xrModes.get(btn.mode);
       btn.available = isDefined(xrMode);
       if (btn.available) {
-        const typeSupported = webXRAvailable && navigator.xr && await navigator.xr.isSessionSupported(xrMode.sessionMode);
+        const typeSupported = navigator.xr && await navigator.xr.isSessionSupported(xrMode.sessionMode);
         const webVROverride = !hasWebXR() && hasWebVR() && xrMode.sessionMode === "immersive-vr" && xrMode.referenceSpaceType === "local-floor";
         btn.available = typeSupported || webVROverride;
       }

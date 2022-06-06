@@ -1,6 +1,6 @@
 import { hasFullscreenAPI } from "@juniper-lib/dom/fullscreen";
 import { elementIsDisplayed, elementSetDisplay } from "@juniper-lib/dom/tags";
-import { hasVR, hasWebVR, hasWebXR, isDefined, isFunction, isMobileVR, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
+import { hasVR, hasWebVR, hasWebXR, isDefined, isMobileVR, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 import WebXRPolyfill from "webxr-polyfill/src/WebXRPolyfill";
 import { ScreenMode } from "./ScreenMode";
 import type { ScreenUI } from "./ScreenUI";
@@ -160,20 +160,6 @@ export class ScreenControl
     }
 
     async refresh(): Promise<void> {
-        let webXRAvailable = false;
-        try {
-            if (hasWebXR()) {
-                const ctx = this.renderer.getContext();
-                if (isFunction(ctx.makeXRCompatible)) {
-                    await ctx.makeXRCompatible();
-                    webXRAvailable = true;
-                }
-            }
-        }
-        catch (exp) {
-            console.warn("WebXR is not available on this system.");
-        }
-
         await Promise.all(
             Array.from(this.buttons.values())
                 .filter((btn) =>
@@ -183,8 +169,7 @@ export class ScreenControl
                     const xrMode = xrModes.get(btn.mode);
                     btn.available = isDefined(xrMode);
                     if (btn.available) {
-                        const typeSupported = webXRAvailable
-                            && navigator.xr
+                        const typeSupported = navigator.xr
                             && await navigator.xr.isSessionSupported(xrMode.sessionMode);
                         const webVROverride = !hasWebXR()
                             && hasWebVR()
