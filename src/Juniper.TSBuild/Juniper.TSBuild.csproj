@@ -21,15 +21,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="LICENSE.md" Pack="true" PackagePath="">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="logo_juniper.min.png" Pack="true" PackagePath="">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Juniper.ProcessManager\Juniper.ProcessManager.csproj">
       <ReferenceOutputAssembly>True</ReferenceOutputAssembly>
       <Private>True</Private>

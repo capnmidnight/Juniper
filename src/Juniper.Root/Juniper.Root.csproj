@@ -19,15 +19,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="LICENSE.md" Pack="true" PackagePath="">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Include="logo_juniper.min.png" Pack="true" PackagePath="">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Accord.Math" Version="3.8.0" />
 		<PackageReference Include="Accord.Statistics" Version="3.8.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
