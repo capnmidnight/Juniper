@@ -17,6 +17,6 @@
     "@juniper-types/extra-types": "*",
     "@juniper-types/indexdb": "*",
     "@types/offscreencanvas": "2019.7.0",
-    "typescript": "4.7.2"
+    "typescript": "4.7.3"
   }
 }

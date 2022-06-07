@@ -4,7 +4,7 @@
   "version": "1.2.0",
   "description": "TypeScript definitions for extensions available in pages and workers",
   "devDependencies": {
-    "typescript": "4.7.2"
+    "typescript": "4.7.3"
   },
   "repository": {
     "type": "git",
@@ -13,5 +13,5 @@
   "author": "Sean T. McBeth <sean.mcbeth@gmail.com>",
   "license": "MIT",
   "types": "./index.d.ts",
-  "typeScriptVersion": "4.6"
+  "typeScriptVersion": "4.7"
 }

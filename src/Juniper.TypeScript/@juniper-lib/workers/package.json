@@ -7,6 +7,6 @@
     "@juniper-lib/tslib": "*"
   },
   "devDependencies": {
-    "typescript": "4.7.2"
+    "typescript": "4.7.3"
   }
 }

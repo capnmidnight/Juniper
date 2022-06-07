@@ -15,8 +15,8 @@
     "@juniper-types/extra-types": "*",
     "@juniper-lib/esbuild": "*",
     "@types/offscreencanvas": "2019.7.0",
-    "@types/three": "0.140.0",
+    "@types/three": "0.141.0",
     "@types/webxr": "0.4.0",
-    "typescript": "4.7.2"
+    "typescript": "4.7.3"
   }
 }

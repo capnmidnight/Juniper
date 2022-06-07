@@ -6,7 +6,7 @@
   "description": "A collection of all the UTF-8 Emoji code points that I could find",
   "main": "index.ts",
   "devDependencies": {
-    "typescript": "4.7.2"
+    "typescript": "4.7.3"
   },
   "repository": {
     "type": "git",
