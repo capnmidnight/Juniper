@@ -30,6 +30,7 @@ export function isApple() {
 
 export function isMobileVR() {
     return /Mobile VR/.test(navigator.userAgent)
+        || /Pico Neo 3 Link/.test(navigator.userAgent)
         || isOculusBrowser;
 }
 

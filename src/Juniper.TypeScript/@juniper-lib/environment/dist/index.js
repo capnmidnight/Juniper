@@ -4018,7 +4018,7 @@ function isIOS() {
   return /iP(ad|hone|od)/.test(navigator.platform) || /Macintosh(.*?) FxiOS(.*?)\//.test(navigator.platform) || isMacOS() && "maxTouchPoints" in navigator && navigator.maxTouchPoints > 2;
 }
 function isMobileVR() {
-  return /Mobile VR/.test(navigator.userAgent) || isOculusBrowser;
+  return /Mobile VR/.test(navigator.userAgent) || /Pico Neo 3 Link/.test(navigator.userAgent) || isOculusBrowser;
 }
 function hasWebXR() {
   return "xr" in navigator && "isSessionSupported" in navigator.xr;
