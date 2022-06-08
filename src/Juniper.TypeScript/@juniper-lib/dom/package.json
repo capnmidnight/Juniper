@@ -6,6 +6,7 @@
   "description": "Lots of functions for manipulating DOM",
   "main": "index.ts",
   "dependencies": {
+    "@juniper-lib/emoji": "*",
     "@juniper-lib/mediatypes": "*",
     "@juniper-lib/tslib": "*"
   },
