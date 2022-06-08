@@ -13,20 +13,29 @@ namespace Juniper.Services
         private bool disposedValue;
 
         public EmailSender(IConfiguration config)
+            : this("dlsdc-com.mail.protection.outlook.com", //config.GetValue<string>("Mail:Host"),
+                  25, //config.GetValue<int>("Mail:Port"),
+                  config.GetValue<string>("Mail:From"),
+                  config.GetValue<string>("Mail:User"),
+                  config.GetValue<string>("Mail:Password"))
+        {
+        }
+
+        public EmailSender(string host, int port, string fromUser, string authUser, string password)
         {
             mailClient = new SmtpClient
             {
-                Host = config.GetValue<string>("Mail:Host"),
-                Port = config.GetValue<int>("Mail:Port"),
+                Host = host,
+                Port = port,
                 Credentials = new NetworkCredential(
-                    config.GetValue<string>("Mail:User"),
-                    config.GetValue<string>("Mail:Password")),
+                    authUser,
+                    password),
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 EnableSsl = true,
                 UseDefaultCredentials = false
             };
 
-            from = new MailAddress(config.GetValue<string>("Mail:From"));
+            from = new MailAddress(fromUser);
         }
 
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
