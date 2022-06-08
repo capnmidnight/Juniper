@@ -1,4 +1,4 @@
-import { fadeOut } from "./fadeOut";
+import { fadeOut } from "@juniper-lib/dom/fadeOut";
 
 export function makeAlerts() {
     const alerts = Array.from(document.querySelectorAll<HTMLElement>(".alert"));

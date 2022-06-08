@@ -1,5 +1,5 @@
+import { getButton, getElement } from "@juniper-lib/dom/tags";
 import { MessageBox } from "./MessageBox";
-import { getButton, getElement } from "./tags";
 
 export function makeAction(buttonID: string, msgBoxID: string, action: string): void {
     const button = getButton(buttonID);

@@ -1,8 +1,6 @@
-import { plus } from "@juniper-lib/emoji";
-import { isFunction, isNullOrUndefined, Task, TreeNode, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
-import { className, draggable, title } from "./attrs";
-import { buttonSetEnabled } from "./buttonSetEnabled";
-import { onClick, onDblClick } from "./evts";
+import { className, draggable, title } from "@juniper-lib/dom/attrs";
+import { buttonSetEnabled } from "@juniper-lib/dom/buttonSetEnabled";
+import { onClick, onDblClick } from "@juniper-lib/dom/evts";
 import {
     ButtonSmall,
     Div,
@@ -12,7 +10,9 @@ import {
     elementSetTitle,
     ErsatzElement,
     Span
-} from "./tags";
+} from "@juniper-lib/dom/tags";
+import { plus } from "@juniper-lib/emoji";
+import { isFunction, isNullOrUndefined, Task, TreeNode, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 import { TreeView } from "./TreeView";
 
 export class TreeViewNodeClickedEvent<T> extends TypedEvent<"click"> {

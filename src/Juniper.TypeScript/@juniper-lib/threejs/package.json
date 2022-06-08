@@ -14,6 +14,7 @@
     "@juniper-lib/tslib": "*",
     "@juniper-lib/video": "*",
     "@juniper-lib/webrtc": "*",
+    "@juniper-lib/widgets": "*",
     "three": "0.141.0",
     "webxr-polyfill": "2.0.3"
   },

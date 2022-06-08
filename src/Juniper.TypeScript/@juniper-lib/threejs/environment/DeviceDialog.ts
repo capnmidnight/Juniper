@@ -10,10 +10,7 @@ import {
 } from "@juniper-lib/dom/attrs";
 import { buttonSetEnabled } from "@juniper-lib/dom/buttonSetEnabled";
 import { marginLeft, minWidth, styles } from "@juniper-lib/dom/css";
-import { DialogBox } from "@juniper-lib/dom/DialogBox";
 import { onClick, onInput } from "@juniper-lib/dom/evts";
-import { InputRangeWithNumber, InputRangeWithNumberElement } from "@juniper-lib/dom/InputRangeWithNumber";
-import { group, PropertyList } from "@juniper-lib/dom/PropertyList";
 import {
     ButtonSecondary,
     Div,
@@ -26,6 +23,9 @@ import {
 } from "@juniper-lib/dom/tags";
 import { makeLookup, SetTimeoutTimer, stringRandom } from "@juniper-lib/tslib";
 import { ActivityDetector } from "@juniper-lib/webrtc/ActivityDetector";
+import { DialogBox } from "@juniper-lib/widgets/DialogBox";
+import { InputRangeWithNumber, InputRangeWithNumberElement } from "@juniper-lib/widgets/InputRangeWithNumber";
+import { group, PropertyList } from "@juniper-lib/widgets/PropertyList";
 import type { Environment } from "./Environment";
 
 const MIC_GROUP = "micFields" + stringRandom(8);

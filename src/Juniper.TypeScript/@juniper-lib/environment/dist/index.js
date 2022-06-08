@@ -8355,7 +8355,7 @@ function jump(t2, k) {
   return t2 * t2 + k * Math.cos(a);
 }
 
-// ../dom/DialogBox.ts
+// ../widgets/DialogBox.ts
 Style(rule(".dialog, .dialog-container", position("fixed")), rule(".dialog", top(0), left(0), width("100%"), height("100%"), backgroundColor("rgba(0, 0, 0, 0.5)"), zIndex(100)), rule(".dialog-container", top("50%"), left("50%"), maxWidth("100%"), maxHeight("100%"), transform("translateX(-50%) translateY(-50%)"), backgroundColor("white"), boxShadow("rgba(0,0,0,0.5) 0px 5px 30px"), display("grid"), gridTemplateColumns("2em auto 2em"), gridTemplateRows("auto 1fr auto 2em")), rule(".dialog .title-bar", gridArea(1, 1, 2, -1), padding("0.25em")), rule(".dialog-content", gridArea(2, 2, -4, -2), overflow("auto")), rule(".dialog-controls", gridArea(-2, 2, -3, -2)), rule(".dialog .confirm-button", float("right")), rule(".dialog h1, .dialog h2, .dialog h3, .dialog h4, .dialog h5, .dialog h6", textAlign("left")), rule(".dialog select", maxWidth("10em")));
 var DialogBox = class {
   constructor(title2) {
@@ -12033,7 +12033,7 @@ var EventSystemThreeJSEvent = class {
   }
 };
 
-// ../dom/EventedGamepad.ts
+// ../widgets/EventedGamepad.ts
 var GamepadButtonEvent = class extends TypedEvent {
   constructor(type2, button) {
     super(type2);
@@ -20493,7 +20493,41 @@ function onInput(callback, opts) {
   return new HtmlEvt("input", callback, opts);
 }
 
-// ../dom/InputRangeWithNumber.ts
+// ../webrtc/ActivityDetector.ts
+var ActivityDetector = class {
+  constructor(name2, audioCtx) {
+    this.name = name2;
+    this._level = 0;
+    this.maxLevel = 0;
+    this.analyzer = Analyser(this.name, audioCtx, {
+      fftSize: 32,
+      minDecibels: -70
+    });
+    this.buffer = new Uint8Array(this.analyzer.frequencyBinCount);
+  }
+  dispose() {
+    removeVertex(this.analyzer);
+  }
+  get level() {
+    this.analyzer.getByteFrequencyData(this.buffer);
+    this._level = Math.max(...this.buffer);
+    if (isFinite(this._level)) {
+      this.maxLevel = Math.max(this.maxLevel, this._level);
+      if (this.maxLevel > 0) {
+        this._level /= this.maxLevel;
+      }
+    }
+    return this._level;
+  }
+  get input() {
+    return this.analyzer;
+  }
+  get output() {
+    return this.analyzer;
+  }
+};
+
+// ../widgets/InputRangeWithNumber.ts
 Style(rule(".input-range-with-number", display("grid"), gridAutoFlow("column"), columnGap("5px"), gridTemplateColumns("1fr auto")));
 var InputRangeWithNumberElement = class extends TypedEventBase {
   constructor(...rest) {
@@ -20537,7 +20571,7 @@ function InputRangeWithNumber(...rest) {
   return new InputRangeWithNumberElement(...rest);
 }
 
-// ../dom/PropertyList.ts
+// ../widgets/PropertyList.ts
 var PropertyGroup = class {
   constructor(name2, ...properties) {
     this.name = name2;
@@ -20617,40 +20651,6 @@ var PropertyList = class {
         }
       }
     }
-  }
-};
-
-// ../webrtc/ActivityDetector.ts
-var ActivityDetector = class {
-  constructor(name2, audioCtx) {
-    this.name = name2;
-    this._level = 0;
-    this.maxLevel = 0;
-    this.analyzer = Analyser(this.name, audioCtx, {
-      fftSize: 32,
-      minDecibels: -70
-    });
-    this.buffer = new Uint8Array(this.analyzer.frequencyBinCount);
-  }
-  dispose() {
-    removeVertex(this.analyzer);
-  }
-  get level() {
-    this.analyzer.getByteFrequencyData(this.buffer);
-    this._level = Math.max(...this.buffer);
-    if (isFinite(this._level)) {
-      this.maxLevel = Math.max(this.maxLevel, this._level);
-      if (this.maxLevel > 0) {
-        this._level /= this.maxLevel;
-      }
-    }
-    return this._level;
-  }
-  get input() {
-    return this.analyzer;
-  }
-  get output() {
-    return this.analyzer;
   }
 };
 

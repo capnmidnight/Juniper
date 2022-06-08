@@ -1,9 +1,9 @@
+import { value } from "@juniper-lib/dom/attrs";
+import type { ErsatzElement } from "@juniper-lib/dom/tags";
+import { elementClearChildren, Option } from "@juniper-lib/dom/tags";
 import { arraySortByKey, isNullOrUndefined, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
-import { value } from "./attrs";
 import type { makeItemCallback } from "./SelectBox";
 import { withDefault } from "./SelectBox";
-import type { ErsatzElement } from "./tags";
-import { elementClearChildren, Option } from "./tags";
 
 export class SelectListItemSelectedEvent<T> extends TypedEvent<"itemselected"> {
     constructor(public item: T) {

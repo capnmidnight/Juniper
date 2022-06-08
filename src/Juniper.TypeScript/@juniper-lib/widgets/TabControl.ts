@@ -1,9 +1,9 @@
+import { className, customData } from "@juniper-lib/dom/attrs";
+import { buttonSetEnabled } from "@juniper-lib/dom/buttonSetEnabled";
+import { borderBottom, borderBottomColor, borderRadius, boxShadow, display, flexDirection, marginBottom, paddingTop, rule, zIndex } from "@juniper-lib/dom/css";
+import { elementSetClass } from "@juniper-lib/dom/elementSetClass";
+import { ButtonSecondary, Div, Elements, elementSetDisplay, ErsatzElement, ErsatzElements, Style } from "@juniper-lib/dom/tags";
 import { isString, mapBuild, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
-import { className, customData } from "./attrs";
-import { buttonSetEnabled } from "./buttonSetEnabled";
-import { borderBottom, borderBottomColor, borderRadius, boxShadow, display, flexDirection, marginBottom, paddingTop, rule, zIndex } from "./css";
-import { elementSetClass } from "./elementSetClass";
-import { ButtonSecondary, Div, Elements, elementSetDisplay, ErsatzElement, ErsatzElements, Style } from "./tags";
 
 export class TabControlTabSelectedEvent extends TypedEvent<"tabselected">{
     constructor(public tabname: string) {

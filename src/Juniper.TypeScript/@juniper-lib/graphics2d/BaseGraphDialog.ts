@@ -15,7 +15,6 @@ import {
     styles,
     width
 } from "@juniper-lib/dom/css";
-import { DialogBox } from "@juniper-lib/dom/DialogBox";
 import {
     Canvas,
     Div,
@@ -24,6 +23,7 @@ import {
     InputNumber, PreLabeled
 } from "@juniper-lib/dom/tags";
 import { GraphNode, mapBuild, RequestAnimationFrameTimer, stringRandom } from "@juniper-lib/tslib";
+import { DialogBox } from "@juniper-lib/widgets/DialogBox";
 import { vec2 } from "gl-matrix";
 
 const size = 20;

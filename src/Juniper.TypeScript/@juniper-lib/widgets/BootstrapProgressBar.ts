@@ -1,7 +1,7 @@
 import { BaseProgress, IProgress } from "@juniper-lib/tslib";
-import { ariaValueMax, ariaValueMin, ariaValueNow, className, role } from "./attrs";
-import { styles, width } from "./css";
-import { Div, elementSetText, ErsatzElement } from "./tags";
+import { ariaValueMax, ariaValueMin, ariaValueNow, className, role } from "@juniper-lib/dom/attrs";
+import { styles, width } from "@juniper-lib/dom/css";
+import { Div, elementSetText, ErsatzElement } from "@juniper-lib/dom/tags";
 
 export class BootstrapProgressBarElement
     implements ErsatzElement, IProgress {

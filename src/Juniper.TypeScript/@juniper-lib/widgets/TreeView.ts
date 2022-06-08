@@ -1,6 +1,4 @@
-import { fileFolder, label, openFileFolder } from "@juniper-lib/emoji";
-import { arrayClear, arrayRemove, buildTree, isDefined, isFunction, TreeNode, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
-import { className, tabIndex } from "./attrs";
+import { className, tabIndex } from "@juniper-lib/dom/attrs";
 import {
     backgroundColor,
     border,
@@ -21,7 +19,7 @@ import {
     top,
     whiteSpace,
     width
-} from "./css";
+} from "@juniper-lib/dom/css";
 import {
     onClick,
     onDragEnd,
@@ -29,8 +27,8 @@ import {
     onDragStart,
     onDrop,
     onKeyDown
-} from "./evts";
-import { isModifierless } from "./isModifierless";
+} from "@juniper-lib/dom/evts";
+import { isModifierless } from "@juniper-lib/dom/isModifierless";
 import {
     Div,
     elementApply,
@@ -40,7 +38,9 @@ import {
     elementReplace,
     ErsatzElement,
     Style
-} from "./tags";
+} from "@juniper-lib/dom/tags";
+import { fileFolder, label, openFileFolder } from "@juniper-lib/emoji";
+import { arrayClear, arrayRemove, buildTree, isDefined, isFunction, TreeNode, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
 import { TreeViewNode, TreeViewNodeEvents, TreeViewNodeSelectedEvent } from "./TreeViewNode";
 
 Style(

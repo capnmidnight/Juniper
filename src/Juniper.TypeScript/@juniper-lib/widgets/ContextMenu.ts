@@ -1,8 +1,8 @@
+import { className } from "@juniper-lib/dom/attrs";
+import { backgroundColor, border, left, padding, position, rule, styles, top } from "@juniper-lib/dom/css";
+import { onClick } from "@juniper-lib/dom/evts";
+import { Button, elementApply, elementClearChildren, elementSetDisplay, ErsatzElement, LI, Style, UL } from "@juniper-lib/dom/tags";
 import { isDefined, Task } from "@juniper-lib/tslib";
-import { className } from "./attrs";
-import { backgroundColor, border, left, padding, position, rule, styles, top } from "./css";
-import { onClick } from "./evts";
-import { Button, elementApply, elementClearChildren, elementSetDisplay, ErsatzElement, LI, Style, UL } from "./tags";
 
 Style(
     rule(".context-menu",

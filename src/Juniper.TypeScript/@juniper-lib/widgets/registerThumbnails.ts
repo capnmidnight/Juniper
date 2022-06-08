@@ -1,6 +1,6 @@
-import { className, id, title } from "./attrs";
-import { backgroundColor, border, cursor, display, height, left, margin, padding, position, rule, styles, textAlign, top, transform, width, zIndex } from "./css";
-import { Div, IFrame, Img, Style } from "./tags";
+import { className, id, title } from "@juniper-lib/dom/attrs";
+import { backgroundColor, border, cursor, display, height, left, margin, padding, position, rule, styles, textAlign, top, transform, width, zIndex } from "@juniper-lib/dom/css";
+import { Div, IFrame, Img, Style } from "@juniper-lib/dom/tags";
 
 Style(
     rule(".thumbnail-view",

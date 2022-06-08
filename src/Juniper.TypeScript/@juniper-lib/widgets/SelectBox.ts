@@ -1,7 +1,7 @@
+import { className } from "@juniper-lib/dom/attrs";
+import { backgroundColor, border, color, cursor, height, margin, opacity, overflowWrap, overflowX, overflowY, padding, rule, whiteSpace } from "@juniper-lib/dom/css";
+import { Div, elementApply, ElementChild, elementClearChildren, ErsatzElement, Select, Style } from "@juniper-lib/dom/tags";
 import { arrayClear, arrayInsertAt, arrayRemove, arraySortNumericByKey, isDefined, isFunction, isNullOrUndefined, isString, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
-import { className } from "./attrs";
-import { backgroundColor, border, color, cursor, height, margin, opacity, overflowWrap, overflowX, overflowY, padding, rule, whiteSpace } from "./css";
-import { Div, elementApply, ElementChild, elementClearChildren, ErsatzElement, Select, Style } from "./tags";
 
 /**
  * Creates a string from a list item to use as the item's ID or label in a select box.

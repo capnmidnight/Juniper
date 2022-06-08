@@ -1,7 +1,7 @@
+import { classList, className, customData } from "@juniper-lib/dom/attrs";
+import { backgroundColor, boxShadow, display, float, gridArea, gridTemplateColumns, gridTemplateRows, height, left, maxHeight, maxWidth, overflow, padding, position, rule, styles, textAlign, top, transform, width, zIndex } from "@juniper-lib/dom/css";
+import { ButtonPrimary, ButtonSecondary, Div, elementApply, elementIsDisplayed, elementSetDisplay, elementSetText, ErsatzElement, H1, Style } from "@juniper-lib/dom/tags";
 import { once, success, TypedEvent, TypedEventBase } from "@juniper-lib/tslib";
-import { classList, className, customData } from "./attrs";
-import { backgroundColor, boxShadow, display, float, gridArea, gridTemplateColumns, gridTemplateRows, height, left, maxHeight, maxWidth, overflow, padding, position, rule, styles, textAlign, top, transform, width, zIndex } from "./css";
-import { ButtonPrimary, ButtonSecondary, Div, elementApply, elementIsDisplayed, elementSetDisplay, elementSetText, ErsatzElement, H1, Style } from "./tags";
 
 Style(
     rule(".dialog, .dialog-container",

@@ -1,12 +1,12 @@
 {
-  "name": "@juniper-lib/dom",
+  "name": "@juniper-lib/widgets",
   "private": false,
-  "version": "1.0.2",
+  "version": "1.0.0",
   "type": "module",
-  "description": "Lots of functions for manipulating DOM",
-  "main": "index.ts",
+  "description": "DOM Widgets",
   "dependencies": {
-    "@juniper-lib/mediatypes": "*",
+    "@juniper-lib/dom": "*",
+    "@juniper-lib/emoji": "*",
     "@juniper-lib/tslib": "*"
   },
   "devDependencies": {
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "github.com/capnmidnight/Juniper"
+    "url": "git+https://github.com/capnmidnight/Juniper.git"
   },
   "author": "Sean T. McBeth <sean.mcbeth@gmail.com>",
   "license": "MIT",
