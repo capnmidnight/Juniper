@@ -1,4 +1,4 @@
-import { isModifierless } from "@juniper-lib/dom/isModifierless";
+import { isModifierless } from "@juniper-lib/dom/evts";
 import { AvatarMovedEvent } from "@juniper-lib/event-system/AvatarMovedEvent";
 import { MouseButtons } from "@juniper-lib/event-system/MouseButton";
 import { angleClamp, assertNever, clamp, deg2rad, IDisposable, isFunction, isMobile, isMobileVR, isNullOrUndefined, isString, truncate, TypedEventBase } from "@juniper-lib/tslib";

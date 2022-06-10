@@ -21,6 +21,7 @@ import {
     width
 } from "@juniper-lib/dom/css";
 import {
+    isModifierless,
     onClick,
     onDragEnd,
     onDragOver,
@@ -28,7 +29,6 @@ import {
     onDrop,
     onKeyDown
 } from "@juniper-lib/dom/evts";
-import { isModifierless } from "@juniper-lib/dom/isModifierless";
 import {
     Div,
     elementApply,

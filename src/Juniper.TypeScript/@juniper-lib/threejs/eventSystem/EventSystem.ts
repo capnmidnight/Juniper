@@ -1,4 +1,4 @@
-import { isModifierless } from "@juniper-lib/dom/isModifierless";
+import { isModifierless } from "@juniper-lib/dom/evts";
 import { FlickEvent } from "@juniper-lib/event-system/FlickEvent";
 import { ObjectMovedEvent } from "@juniper-lib/event-system/ObjectMovedEvent";
 import { PointerEventTypes } from "@juniper-lib/event-system/PointerEventTypes";

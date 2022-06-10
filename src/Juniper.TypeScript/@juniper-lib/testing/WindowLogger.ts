@@ -17,7 +17,7 @@ import {
     width,
     zIndex
 } from "@juniper-lib/dom/css";
-import { isModifierless } from "@juniper-lib/dom/isModifierless";
+import { isModifierless } from "@juniper-lib/dom/evts";
 import {
     Div,
     elementApply,

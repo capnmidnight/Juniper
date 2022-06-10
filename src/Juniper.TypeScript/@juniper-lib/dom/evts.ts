@@ -3,13 +3,14 @@ import { elementApply, IElementAppliable } from "./tags";
 
 type EventListenerOpts = boolean | AddEventListenerOptions;
 
+export function isModifierless(evt: KeyboardEvent | MouseEvent | PointerEvent) {
+    return !(evt.shiftKey || evt.altKey || evt.ctrlKey || evt.metaKey);
+}
+
 export function makeEnterKeyEventHandler(callback: (evt: KeyboardEvent) => void) {
     return (ev: Event) => {
         const evt = ev as KeyboardEvent;
-        if (!evt.shiftKey
-            && !evt.ctrlKey
-            && !evt.altKey
-            && !evt.metaKey
+        if (isModifierless(evt)
             && evt.key === "Enter") {
             callback(evt);
         }
