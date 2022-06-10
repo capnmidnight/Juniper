@@ -18,11 +18,11 @@ interface LevelChangedEvent extends Event {
     level: number;
 }
 
-interface BatteryManagerEvents {
-    chargingchange: ChargingChangedEvent;
-    chargingtimechange: ChargingTimeChangedEvent;
-    dischargingtimechange: DischargingTimeChangedEvent;
-    levelchange: LevelChangedEvent;
+interface BatteryManagerEventMap {
+    "chargingchange": ChargingChangedEvent;
+    "chargingtimechange": ChargingTimeChangedEvent;
+    "dischargingtimechange": DischargingTimeChangedEvent;
+    "levelchange": LevelChangedEvent;
 }
 
 interface BatteryManager extends EventTarget {
