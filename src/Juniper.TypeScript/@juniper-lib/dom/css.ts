@@ -686,7 +686,11 @@ export function perspectiveOrigin(v: string) { return new CssProp("perspectiveOr
 export function placeContent(v: string) { return new CssProp("placeContent", v); }
 export function placeItems(v: string) { return new CssProp("placeItems", v); }
 export function placeSelf(v: string) { return new CssProp("placeSelf", v); }
-export function pointerEvents(v: string) { return new CssProp("pointerEvents", v); }
+
+type CSSPointerEventsValue = CSSGlobalValues
+    | "auto"
+    | "none";
+export function pointerEvents(v: CSSPointerEventsValue) { return new CssProp("pointerEvents", v); }
 
 type CSSPositionValues = CSSGlobalValues
     | "static"
