@@ -98,7 +98,7 @@ export class Build {
             color: true,
             logLevel: "warning",
             format: "esm",
-            target: "es2019",
+            target: "esnext",
             bundle: true,
             sourcemap: true,
             entryPoints,
