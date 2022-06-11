@@ -1344,10 +1344,10 @@ function readResponseHeader(headers, key, translate) {
 var FILE_NAME_PATTERN = /filename=\"(.+)\"(;|$)/;
 var DB_NAME = "Juniper:Fetcher:Cache";
 var FetchingServiceImplXHR = class {
+  cacheReady;
+  cache = null;
+  store = null;
   constructor() {
-    this.cache = null;
-    this.store = null;
-    this.tasks = new PriorityMap();
     this.cacheReady = this.openCache();
   }
   async drawImageToCanvas(request, canvas, progress) {
@@ -1470,6 +1470,7 @@ var FetchingServiceImplXHR = class {
       }
     });
   }
+  tasks = new PriorityMap();
   async withCachedTask(request, action) {
     if (request.method !== "GET" && request.method !== "HEAD" && request.method !== "OPTIONS") {
       return await action();
@@ -1553,8 +1554,8 @@ var FetchingServiceImplXHR = class {
 var FetchingService = class {
   constructor(impl) {
     this.impl = impl;
-    this.defaultPostHeaders = /* @__PURE__ */ new Map();
   }
+  defaultPostHeaders = /* @__PURE__ */ new Map();
   setRequestVerificationToken(value) {
     this.defaultPostHeaders.set("RequestVerificationToken", value);
   }

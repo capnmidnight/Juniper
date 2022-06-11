@@ -4,6 +4,7 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __defNormalProp = (obj2, key, value2) => key in obj2 ? __defProp(obj2, key, { enumerable: true, configurable: true, writable: true, value: value2 }) : obj2[key] = value2;
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
@@ -20,6 +21,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
+var __publicField = (obj2, key, value2) => {
+  __defNormalProp(obj2, typeof key !== "symbol" ? key + "" : key, value2);
+  return value2;
+};
 
 // ../../node_modules/cardboard-vr-display/dist/cardboard-vr-display.js
 var require_cardboard_vr_display = __commonJS({
@@ -5182,6 +5187,7 @@ var Attr = class {
     this.tags = tags.map((t2) => t2.toLocaleUpperCase());
     Object.freeze(this);
   }
+  tags;
   applyToElement(elem) {
     const isDataSet = this.key.startsWith("data-");
     const isValid = this.tags.length === 0 || this.tags.indexOf(elem.tagName) > -1 || isDataSet;
@@ -5281,11 +5287,13 @@ var CssProp = class {
     this.value = value2;
     this.name = key.replace(/[A-Z]/g, (m) => `-${m.toLocaleLowerCase()}`);
   }
+  name;
   applyToElement(elem) {
     elem.style[this.key] = this.value;
   }
 };
 var CssPropSet = class {
+  rest;
   constructor(...rest) {
     this.rest = rest;
   }
@@ -5786,10 +5794,10 @@ var CanvasImage = class extends TypedEventBase {
 
 // ../graphics2d/ArtificialHorizon.ts
 var ArtificialHorizon = class extends CanvasImage {
+  _pitch = 0;
+  _heading = 0;
   constructor() {
     super(128, 128);
-    this._pitch = 0;
-    this._heading = 0;
     this.redraw();
   }
   get pitch() {
@@ -5914,13 +5922,13 @@ var chargeLabels = [
   "charging"
 ];
 var BatteryImage = class extends CanvasImage {
+  battery = null;
+  lastChargeDirection = null;
+  lastLevel = null;
+  chargeDirection = 0;
+  level = 0.5;
   constructor() {
     super(256, 128);
-    this.battery = null;
-    this.lastChargeDirection = null;
-    this.lastLevel = null;
-    this.chargeDirection = 0;
-    this.level = 0.5;
     if (isBatteryNavigator(navigator)) {
       this.readBattery(navigator);
     } else {
@@ -5987,7 +5995,7 @@ var BatteryImage = class extends CanvasImage {
     redraw();
   }
 };
-BatteryImage.isAvailable = isBatteryNavigator(navigator);
+__publicField(BatteryImage, "isAvailable", isBatteryNavigator(navigator));
 
 // ../graphics2d/TextImage.ts
 var TextImage = class extends CanvasImage {
@@ -6320,8 +6328,8 @@ var TextImage = class extends CanvasImage {
           this.g.font = font;
           this.trueWidth = 0;
           this.trueHeight = 0;
-          for (const line3 of lines) {
-            const metrics = this.g.measureText(line3);
+          for (const line of lines) {
+            const metrics = this.g.measureText(line);
             this.trueWidth = Math.max(this.trueWidth, metrics.width);
             this.trueHeight += this.trueFontSize;
             if (isNumber(metrics.actualBoundingBoxLeft) && isNumber(metrics.actualBoundingBoxRight) && isNumber(metrics.actualBoundingBoxAscent) && isNumber(metrics.actualBoundingBoxDescent)) {
@@ -6399,15 +6407,15 @@ var TextImage = class extends CanvasImage {
       }
       const di = 0.5 * (lines.length - 1);
       for (let i = 0; i < lines.length; ++i) {
-        const line3 = lines[i];
+        const line = lines[i];
         const dy = (i - di) * this.trueFontSize;
         const x = this.dx + this.trueWidth / 2 + this.scale * this.padding.left;
         const y = dy + this.trueHeight / 2 + this.scale * this.padding.top;
         if (this.textStrokeColor && this.textStrokeSize) {
-          this.g.strokeText(line3, x, y);
+          this.g.strokeText(line, x, y);
         }
         if (this.textFillColor) {
-          this.g.fillText(line3, x, y);
+          this.g.fillText(line, x, y);
         }
       }
       if (this.bgStrokeColor && this.bgStrokeSize) {
@@ -6456,12 +6464,11 @@ var ClockImage = class extends TextImage {
       wrapWords: false,
       freezeDimensions: true
     });
-    this._fps = null;
-    this.lastLen = 0;
     const updater = this.update.bind(this);
     setInterval(updater, 500);
     updater();
   }
+  _fps = null;
   get fps() {
     return this._fps;
   }
@@ -6471,6 +6478,7 @@ var ClockImage = class extends TextImage {
       this.update();
     }
   }
+  lastLen = 0;
   update() {
     const time = new Date();
     let value2 = time.toLocaleTimeString();
@@ -7380,10 +7388,10 @@ var MediaElementSourceStoppedEvent = class extends MediaElementSourceEvent {
   }
 };
 var MediaElementSourceProgressEvent = class extends MediaElementSourceEvent {
+  value = 0;
+  total = 0;
   constructor(source) {
     super("progress", source);
-    this.value = 0;
-    this.total = 0;
   }
 };
 
@@ -7587,23 +7595,33 @@ var useHeadphonesToggledEvt = new TypedEvent("useheadphonestoggled");
 var hasStreamSources = "createMediaStreamSource" in AudioContext.prototype;
 var useElementSourceForUsers = !hasStreamSources;
 var AudioManager = class extends TypedEventBase {
+  sortedUserIDs = new Array();
+  users = /* @__PURE__ */ new Map();
+  clips = /* @__PURE__ */ new Map();
+  clipPaths = /* @__PURE__ */ new Map();
+  pathSources = /* @__PURE__ */ new Map();
+  pathCounts = /* @__PURE__ */ new Map();
+  localFilter;
+  localCompressor;
+  _minDistance = 1;
+  _maxDistance = 10;
+  _offsetRadius = 0;
+  _useHeadphones = false;
+  _algorithm = "inverse";
+  get algorithm() {
+    return this._algorithm;
+  }
+  element = null;
+  audioDestination = null;
+  devices;
+  input;
+  localAutoControlledGain;
+  output;
+  audioCtx;
+  ready;
+  localUserID = null;
   constructor(defaultLocalUserID) {
     super();
-    this.sortedUserIDs = new Array();
-    this.users = /* @__PURE__ */ new Map();
-    this.clips = /* @__PURE__ */ new Map();
-    this.clipPaths = /* @__PURE__ */ new Map();
-    this.pathSources = /* @__PURE__ */ new Map();
-    this.pathCounts = /* @__PURE__ */ new Map();
-    this._minDistance = 1;
-    this._maxDistance = 10;
-    this._offsetRadius = 0;
-    this._useHeadphones = false;
-    this._algorithm = "inverse";
-    this.element = null;
-    this.audioDestination = null;
-    this.localUserID = null;
-    this.counter = 0;
     this.audioCtx = new AudioContext();
     let destination = null;
     if (canChangeAudioOutput) {
@@ -7634,9 +7652,6 @@ var AudioManager = class extends TypedEventBase {
     }
     this.ready = this.start();
     Object.seal(this);
-  }
-  get algorithm() {
-    return this._algorithm;
   }
   get useHeadphones() {
     return this._useHeadphones;
@@ -7705,6 +7720,7 @@ var AudioManager = class extends TypedEventBase {
       user.audioTick(t2);
     }
   }
+  counter = 0;
   newSpatializer(id2, spatialize, isRemoteStream) {
     if (spatialize) {
       const destination = isRemoteStream ? this.audioDestination.remoteUserInput : this.audioDestination.spatializedInput;
@@ -7971,13 +7987,39 @@ var MediaPlayerLoadingEvent = class extends MediaPlayerEvent {
 
 // ../audio/sources/AudioPlayer.ts
 var AudioPlayer = class extends BaseAudioSource {
+  loadingEvt;
+  loadEvt;
+  playEvt;
+  pauseEvt;
+  stopEvt;
+  progEvt;
+  onError;
+  onPlay;
+  onCanPlay;
+  onWaiting;
+  onPause;
+  onTimeUpdate;
+  _data = null;
+  get data() {
+    return this._data;
+  }
+  _loaded = false;
+  get loaded() {
+    return this._loaded;
+  }
+  element;
+  audioSource;
+  get title() {
+    return this.element.title;
+  }
+  setTitle(v) {
+    this.element.title = v;
+  }
+  sourcesByURL = /* @__PURE__ */ new Map();
+  sources = new Array();
+  potatoes = new Array();
   constructor(audioCtx) {
     super("JuniperAudioPlayer", audioCtx, NoSpatializationNode.instance(audioCtx));
-    this._data = null;
-    this._loaded = false;
-    this.sourcesByURL = /* @__PURE__ */ new Map();
-    this.sources = new Array();
-    this.potatoes = new Array();
     this.element = Audio(playsInline(true), autoPlay(false), loop(false), controls(true));
     this.input = MediaElementSource("JuniperAudioPlayer-Input", audioCtx, this.element);
     this.loadingEvt = new MediaPlayerLoadingEvent(this);
@@ -8012,18 +8054,6 @@ var AudioPlayer = class extends BaseAudioSource {
     this.element.addEventListener("canplay", this.onCanPlay);
     this.element.addEventListener("timeupdate", this.onTimeUpdate);
     Object.assign(window, { audioPlayer: this });
-  }
-  get data() {
-    return this._data;
-  }
-  get loaded() {
-    return this._loaded;
-  }
-  get title() {
-    return this.element.title;
-  }
-  setTitle(v) {
-    this.element.title = v;
   }
   get hasAudio() {
     const source = this.sourcesByURL.get(this.element.src);
@@ -8316,9 +8346,7 @@ var ButtonFactory = class {
 
 // ../graphics2d/animation/Animator.ts
 var Animator = class {
-  constructor() {
-    this.animations = new Array();
-  }
+  animations = new Array();
   update(dt) {
     dt = 1e-3 * dt;
     for (const animation of this.animations) {
@@ -8358,8 +8386,15 @@ function jump(t2, k) {
 // ../widgets/DialogBox.ts
 Style(rule(".dialog, .dialog-container", position("fixed")), rule(".dialog", top(0), left(0), width("100%"), height("100%"), backgroundColor("rgba(0, 0, 0, 0.5)"), zIndex(100)), rule(".dialog-container", top("50%"), left("50%"), maxWidth("100%"), maxHeight("100%"), transform("translateX(-50%) translateY(-50%)"), backgroundColor("white"), boxShadow("rgba(0,0,0,0.5) 0px 5px 30px"), display("grid"), gridTemplateColumns("2em auto 2em"), gridTemplateRows("auto 1fr auto 2em")), rule(".dialog .title-bar", gridArea(1, 1, 2, -1), padding("0.25em")), rule(".dialog-content", gridArea(2, 2, -4, -2), overflow("auto")), rule(".dialog-controls", gridArea(-2, 2, -3, -2)), rule(".dialog .confirm-button", float("right")), rule(".dialog h1, .dialog h2, .dialog h3, .dialog h4, .dialog h5, .dialog h6", textAlign("left")), rule(".dialog select", maxWidth("10em")));
 var DialogBox = class {
+  element;
+  subEventer = new TypedEventBase();
+  _title;
+  titleElement;
+  container;
+  contentArea;
+  confirmButton;
+  cancelButton;
   constructor(title2) {
-    this.subEventer = new TypedEventBase();
     this.element = Div(className("dialog"), customData("dialogname", title2), styles(display("none")), this.container = Div(className("dialog-container"), this.titleElement = H1(className("title-bar"), title2), this.contentArea = Div(className("dialog-content")), Div(className("dialog-controls"), this.confirmButton = ButtonPrimary("Confirm", classList("confirm-button")), this.cancelButton = ButtonSecondary("Cancel", classList("cancel-button")))));
     this.confirmButton.addEventListener("click", () => this.subEventer.dispatchEvent(new TypedEvent("confirm")));
     this.cancelButton.addEventListener("click", () => this.subEventer.dispatchEvent(new TypedEvent("cancel")));
@@ -9087,7 +9122,7 @@ var LineMaterial = class extends THREE.ShaderMaterial {
 LineMaterial.prototype.isLineMaterial = true;
 
 // ../threejs/materials.ts
-var materials = /* @__PURE__ */ new Map();
+var materials = singleton("Juniper:Three:Materials", () => /* @__PURE__ */ new Map());
 function del(obj2, name2) {
   if (name2 in obj2) {
     delete obj2[name2];
@@ -9115,63 +9150,17 @@ function solidTransparent(options) {
 function lit(options) {
   return makeMaterial("lit", THREE.MeshStandardMaterial, options);
 }
-function line(options) {
-  return makeMaterial("line", THREE.LineBasicMaterial, options);
-}
 function line2(options) {
   return makeMaterial("line2", LineMaterial, options);
 }
-function sprite(options) {
-  return makeMaterial("sprite", THREE.SpriteMaterial, options);
-}
 var black = 0;
-var blue = 255;
-var green = 65280;
-var cyan = 65535;
-var red = 16711680;
-var magenta = 16711935;
-var yellow = 16776960;
 var grey = 12632256;
 var white = 16777215;
-var solidBlack = solid({ color: black });
-var solidBlue = solid({ color: blue });
-var solidGreen = solid({ color: green });
-var solidCyan = solid({ color: cyan });
-var solidRed = solid({ color: red });
-var solidMagenta = solid({ color: magenta });
-var solidYellow = solid({ color: yellow });
-var solidGrey = solid({ color: grey });
-var solidWhite = solid({ color: white });
 function solidTransparentBlack(opacity) {
   return solidTransparent({ color: black, opacity });
 }
-var litBlack = lit({ color: black });
-var litBlue = lit({ color: blue });
-var litGreen = lit({ color: green });
-var litCyan = lit({ color: cyan });
-var litRed = lit({ color: red });
-var litMagenta = lit({ color: magenta });
-var litYellow = lit({ color: yellow });
-var litGrey = lit({ color: grey });
-var litWhite = lit({ color: white });
-var lineBlack = line({ color: black });
-var lineBlue = line({ color: blue });
-var lineGreen = line({ color: green });
-var lineCyan = line({ color: cyan });
-var lineRed = line({ color: red });
-var lineMagenta = line({ color: magenta });
-var lineYellow = line({ color: yellow });
-var lineGrey = line({ color: grey });
-var lineWhite = line({ color: white });
-var spriteBlack = sprite({ color: black });
-var spriteBlue = sprite({ color: blue });
-var spriteGreen = sprite({ color: green });
-var spriteCyan = sprite({ color: cyan });
-var spriteRed = sprite({ color: red });
-var spriteMagenta = sprite({ color: magenta });
-var spriteYellow = sprite({ color: yellow });
-var spriteGrey = sprite({ color: grey });
-var spriteWhite = sprite({ color: white });
+var litGrey = /* @__PURE__ */ lit({ color: grey });
+var litWhite = /* @__PURE__ */ lit({ color: white });
 
 // ../threejs/Plane.ts
 var plane = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
@@ -9344,7 +9333,7 @@ var Image2DMesh = class extends THREE.Object3D {
   setEnvAndName(env, name2) {
     this.env = env;
     this.name = name2;
-    this.tryWebXRLayers && (this.tryWebXRLayers = this.env && this.env.hasXRCompositionLayers);
+    this.tryWebXRLayers &&= this.env && this.env.hasXRCompositionLayers;
   }
   copy(source, recursive = true) {
     super.copy(source, recursive);
@@ -10075,16 +10064,44 @@ function isVideoRecord(obj2) {
 
 // ../video/BaseVideoPlayer.ts
 var BaseVideoPlayer = class extends BaseAudioSource {
+  loadingEvt;
+  loadEvt;
+  playEvt;
+  pauseEvt;
+  stopEvt;
+  progEvt;
+  onPlay;
+  onSeeked;
+  onCanPlay;
+  onWaiting;
+  onPause;
+  onTimeUpdate = null;
+  wasUsingAudioElement = false;
+  _data = null;
+  get data() {
+    return this._data;
+  }
+  _loaded = false;
+  get loaded() {
+    return this._loaded;
+  }
+  video;
+  audio;
+  videoSource;
+  audioSource;
+  get title() {
+    return this.video.title;
+  }
+  setTitle(v) {
+    this.video.title = v;
+    this.audio.title = v;
+  }
+  onError = /* @__PURE__ */ new Map();
+  sourcesByURL = /* @__PURE__ */ new Map();
+  sources = new PriorityList();
+  potatoes = new PriorityList();
   constructor(audioCtx) {
     super("JuniperVideoPlayer", audioCtx, NoSpatializationNode.instance(audioCtx));
-    this.onTimeUpdate = null;
-    this.wasUsingAudioElement = false;
-    this._data = null;
-    this._loaded = false;
-    this.onError = /* @__PURE__ */ new Map();
-    this.sourcesByURL = /* @__PURE__ */ new Map();
-    this.sources = new PriorityList();
-    this.potatoes = new PriorityList();
     this.video = this.createMediaElement(Video, controls(true));
     this.audio = this.createMediaElement(Audio, controls(false));
     this.input = Gain("JuniperVideoPlayer-combiner", audioCtx);
@@ -10164,19 +10181,6 @@ var BaseVideoPlayer = class extends BaseAudioSource {
     this.video.addEventListener("canplay", this.onCanPlay);
     this.video.addEventListener("timeupdate", this.onTimeUpdate);
     Object.assign(window, { videoPlayer: this });
-  }
-  get data() {
-    return this._data;
-  }
-  get loaded() {
-    return this._loaded;
-  }
-  get title() {
-    return this.video.title;
-  }
-  setTitle(v) {
-    this.video.title = v;
-    this.audio.title = v;
   }
   elementHasAudio(elem) {
     const source = this.sourcesByURL.get(elem.src);
@@ -11298,26 +11302,53 @@ var BodyFollower = class extends THREE.Object3D {
   }
 };
 
-// ../dom/isModifierless.ts
+// ../dom/evts.ts
 function isModifierless(evt) {
   return !(evt.shiftKey || evt.altKey || evt.ctrlKey || evt.metaKey);
+}
+var HtmlEvt = class {
+  constructor(name2, callback, opts) {
+    this.name = name2;
+    this.callback = callback;
+    if (!isFunction(callback)) {
+      throw new Error("A function instance is required for this parameter");
+    }
+    this.opts = opts;
+    Object.freeze(this);
+  }
+  opts;
+  applyToElement(elem) {
+    this.add(elem);
+  }
+  add(elem) {
+    elem.addEventListener(this.name, this.callback, this.opts);
+  }
+  remove(elem) {
+    elem.removeEventListener(this.name, this.callback);
+  }
+};
+function onClick(callback, opts) {
+  return new HtmlEvt("click", callback, opts);
+}
+function onInput(callback, opts) {
+  return new HtmlEvt("input", callback, opts);
 }
 
 // ../event-system/AvatarMovedEvent.ts
 var AvatarMovedEvent = class extends TypedEvent {
+  px = 0;
+  py = 0;
+  pz = 0;
+  fx = 0;
+  fy = 0;
+  fz = 0;
+  ux = 0;
+  uy = 0;
+  uz = 0;
+  height = 0;
+  name = 0 /* LocalUser */;
   constructor() {
     super("avatarmoved");
-    this.px = 0;
-    this.py = 0;
-    this.pz = 0;
-    this.fx = 0;
-    this.fy = 0;
-    this.fz = 0;
-    this.ux = 0;
-    this.uy = 0;
-    this.uz = 0;
-    this.height = 0;
-    this.name = 0 /* LocalUser */;
   }
   set(px, py, pz, fx, fy, fz, ux, uy, uz, height2) {
     this.px = px;
@@ -11938,16 +11969,16 @@ var ObjectMovedEvent = class extends TypedEvent {
   constructor(name2 = null) {
     super("objectMoved");
     this.name = name2;
-    this.px = 0;
-    this.py = 0;
-    this.pz = 0;
-    this.fx = 0;
-    this.fy = 0;
-    this.fz = 0;
-    this.ux = 0;
-    this.uy = 0;
-    this.uz = 0;
   }
+  px = 0;
+  py = 0;
+  pz = 0;
+  fx = 0;
+  fy = 0;
+  fz = 0;
+  ux = 0;
+  uy = 0;
+  uz = 0;
   set(px, py, pz, fx, fy, fz, ux, uy, uz) {
     this.px = px;
     this.py = py;
@@ -12066,15 +12097,6 @@ var EventedGamepad = class extends TypedEventBase {
   constructor(pad) {
     super();
     this.pad = pad;
-    this.lastAxisValues = new Array();
-    this.btnDownEvts = new Array();
-    this.btnUpEvts = new Array();
-    this.wasPressed = new Array();
-    this.axisThresholdMax = 0.9;
-    this.axisThresholdMin = 0.1;
-    this.axisMaxEvts = new Array();
-    this.wasAxisMaxed = new Array();
-    this.sticks = new Array();
     this._isStick = (a) => a % 2 === 0 && a < pad.axes.length - 1;
     for (let b = 0; b < pad.buttons.length; ++b) {
       this.btnDownEvts[b] = new GamepadButtonDownEvent(b);
@@ -12091,6 +12113,16 @@ var EventedGamepad = class extends TypedEventBase {
     }
     Object.seal(this);
   }
+  lastAxisValues = new Array();
+  _isStick;
+  btnDownEvts = new Array();
+  btnUpEvts = new Array();
+  wasPressed = new Array();
+  axisThresholdMax = 0.9;
+  axisThresholdMin = 0.1;
+  axisMaxEvts = new Array();
+  wasAxisMaxed = new Array();
+  sticks = new Array();
   setPad(pad) {
     this.pad = pad;
     this.update();
@@ -15025,25 +15057,25 @@ var XRHandModelFactory = class {
 
 // ../event-system/PointerState.ts
 var PointerState = class {
+  buttons = 0;
+  moveDistance = 0;
+  dragDistance = 0;
+  x = 0;
+  y = 0;
+  dx = 0;
+  dy = 0;
+  dz = 0;
+  u = 0;
+  v = 0;
+  du = 0;
+  dv = 0;
+  canClick = false;
+  dragging = false;
+  ctrl = false;
+  alt = false;
+  shift = false;
+  meta = false;
   constructor() {
-    this.buttons = 0;
-    this.moveDistance = 0;
-    this.dragDistance = 0;
-    this.x = 0;
-    this.y = 0;
-    this.dx = 0;
-    this.dy = 0;
-    this.dz = 0;
-    this.u = 0;
-    this.v = 0;
-    this.du = 0;
-    this.dv = 0;
-    this.canClick = false;
-    this.dragging = false;
-    this.ctrl = false;
-    this.alt = false;
-    this.shift = false;
-    this.meta = false;
     Object.seal(this);
   }
   copy(ptr) {
@@ -15782,8 +15814,8 @@ var LineGeometry = class extends LineSegmentsGeometry {
     super.setColors(colors);
     return this;
   }
-  fromLine(line3) {
-    var geometry = line3.geometry;
+  fromLine(line) {
+    var geometry = line.geometry;
     if (geometry.isGeometry) {
       console.error("THREE.LineGeometry no longer supports Geometry. Use THREE.BufferGeometry instead.");
       return;
@@ -19984,7 +20016,7 @@ var Skybox = class {
     this.imageNeedsUpdate = false;
     this.webXRLayerEnabled = true;
     this.visible = true;
-    this.webXRLayerEnabled && (this.webXRLayerEnabled = this.env.hasXRCompositionLayers);
+    this.webXRLayerEnabled &&= this.env.hasXRCompositionLayers;
     this.env.scene.background = black2;
     for (let i = 0; i < this.canvases.length; ++i) {
       const f = this.canvases[i] = createUtilityCanvas(FACE_SIZE, FACE_SIZE);
@@ -20465,46 +20497,20 @@ var BaseEnvironment = class extends TypedEventBase {
   }
 };
 
-// ../dom/evts.ts
-var HtmlEvt = class {
-  constructor(name2, callback, opts) {
-    this.name = name2;
-    this.callback = callback;
-    if (!isFunction(callback)) {
-      throw new Error("A function instance is required for this parameter");
-    }
-    this.opts = opts;
-    Object.freeze(this);
-  }
-  applyToElement(elem) {
-    this.add(elem);
-  }
-  add(elem) {
-    elem.addEventListener(this.name, this.callback, this.opts);
-  }
-  remove(elem) {
-    elem.removeEventListener(this.name, this.callback);
-  }
-};
-function onClick(callback, opts) {
-  return new HtmlEvt("click", callback, opts);
-}
-function onInput(callback, opts) {
-  return new HtmlEvt("input", callback, opts);
-}
-
 // ../webrtc/ActivityDetector.ts
 var ActivityDetector = class {
   constructor(name2, audioCtx) {
     this.name = name2;
-    this._level = 0;
-    this.maxLevel = 0;
     this.analyzer = Analyser(this.name, audioCtx, {
       fftSize: 32,
       minDecibels: -70
     });
     this.buffer = new Uint8Array(this.analyzer.frequencyBinCount);
   }
+  _level = 0;
+  maxLevel = 0;
+  analyzer;
+  buffer;
   dispose() {
     removeVertex(this.analyzer);
   }
@@ -20530,6 +20536,9 @@ var ActivityDetector = class {
 // ../widgets/InputRangeWithNumber.ts
 Style(rule(".input-range-with-number", display("grid"), gridAutoFlow("column"), columnGap("5px"), gridTemplateColumns("1fr auto")));
 var InputRangeWithNumberElement = class extends TypedEventBase {
+  element;
+  rangeInput;
+  numberInput;
   constructor(...rest) {
     super();
     this.element = Div(className("input-range-with-number"), this.rangeInput = InputRange(...rest), this.numberInput = InputNumber());
@@ -20577,6 +20586,7 @@ var PropertyGroup = class {
     this.name = name2;
     this.properties = properties;
   }
+  properties;
 };
 function group(name2, ...properties) {
   return new PropertyGroup(name2, ...properties);
@@ -20584,8 +20594,9 @@ function group(name2, ...properties) {
 Style(rule("dl", display("grid"), gridAutoFlow("row"), gridTemplateColumns("auto 1fr"), margin("1em")), rule("dt", gridColumn(1), textAlign("right"), paddingRight("1em")), rule("dd", textAlign("left"), gridColumn(2), marginInlineStart("0")), rule("dl > span, dl > div", gridColumn(1, 3)), rule("dl .alert", width("20em")));
 var DEFAULT_PROPERTY_GROUP = "DefaultPropertyGroup" + stringRandom(16);
 var PropertyList = class {
+  element;
+  rowGroups = /* @__PURE__ */ new Map();
   constructor(...rest) {
-    this.rowGroups = /* @__PURE__ */ new Map();
     this.element = DL(...this.createElements(rest));
   }
   append(...rest) {
@@ -20774,15 +20785,34 @@ var EnvironmentRoomJoinedEvent = class extends TypedEvent {
   }
 };
 var Environment = class extends BaseEnvironment {
+  audio;
+  interactionAudio;
+  xrUI;
+  screenUISpace = new ScreenUI();
+  confirmationDialog;
+  compassImage;
+  clockImage;
+  batteryImage;
+  settingsButton;
+  muteMicButton;
+  muteEnvAudioButton;
+  quitButton;
+  lobbyButton;
+  vrButton;
+  fullscreenButton;
+  devicesDialog;
+  apps;
+  uiButtons;
+  audioPlayer;
+  videoPlayer;
+  envAudioToggleEvt = new TypedEvent("environmentaudiotoggled");
+  _currentRoom = null;
+  get currentRoom() {
+    return this._currentRoom;
+  }
+  DEBUG;
   constructor(canvas, fetcher, dialogFontFamily, uiImagePaths, defaultAvatarHeight, enableFullResolution, options) {
     super(canvas, fetcher, defaultAvatarHeight, enableFullResolution);
-    this.screenUISpace = new ScreenUI();
-    this.envAudioToggleEvt = new TypedEvent("environmentaudiotoggled");
-    this._currentRoom = null;
-    this._testSpaceLayout = false;
-    this.countTick = 0;
-    this.fpses = new Array();
-    this.avgFPS = 0;
     this.compassImage = new CanvasImageMesh(this, "Horizon", new ArtificialHorizon());
     this.compassImage.mesh.renderOrder = 5;
     this.clockImage = new CanvasImageMesh(this, "Clock", new ClockImage());
@@ -20878,13 +20908,11 @@ var Environment = class extends BaseEnvironment {
     });
     this.avatar.addEventListener("avatarmoved", (evt) => this.audio.setUserPose(this.audio.localUserID, evt.px, evt.py, evt.pz, evt.fx, evt.fy, evt.fz, evt.ux, evt.uy, evt.uz));
   }
-  get currentRoom() {
-    return this._currentRoom;
-  }
   refreshSpaceUI() {
     this.xrUI.visible = this.renderer.xr.isPresenting || this.testSpaceLayout;
     this.clockImage.isVisible = this.xrUI.visible || this.DEBUG;
   }
+  _testSpaceLayout = false;
   get testSpaceLayout() {
     return this._testSpaceLayout;
   }
@@ -20894,6 +20922,9 @@ var Environment = class extends BaseEnvironment {
       this.refreshSpaceUI();
     }
   }
+  countTick = 0;
+  fpses = new Array();
+  avgFPS = 0;
   preRender(evt) {
     super.preRender(evt);
     this.audio.update();

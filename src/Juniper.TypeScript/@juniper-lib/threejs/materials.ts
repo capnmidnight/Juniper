@@ -1,6 +1,7 @@
+import { singleton } from "@juniper-lib/tslib";
 import { LineMaterial, LineMaterialParameters } from "./examples/lines/LineMaterial";
 
-const materials = new Map<string, THREE.Material>();
+const materials = singleton("Juniper:Three:Materials", () => new Map<string, THREE.Material>());
 
 function del(obj: any, name: string) {
     if (name in obj) {
@@ -70,25 +71,25 @@ export function spriteTransparent(options: THREE.SpriteMaterialParameters): THRE
 
 export type ColorOpts = (THREE.Color | number | string);
 
-export const black = 0x000000;
-export const blue = 0x0000ff;
-export const green = 0x00ff00;
-export const cyan = 0x00ffff;
-export const red = 0xff0000;
-export const magenta = 0xff00ff;
-export const yellow = 0xffff00;
-export const grey = 0xc0c0c0;
-export const white = 0xffffff;
+export const black = /*@__PURE__*/ 0x000000;
+export const blue = /*@__PURE__*/ 0x0000ff;
+export const green = /*@__PURE__*/ 0x00ff00;
+export const cyan = /*@__PURE__*/ 0x00ffff;
+export const red = /*@__PURE__*/ 0xff0000;
+export const magenta = /*@__PURE__*/ 0xff00ff;
+export const yellow = /*@__PURE__*/ 0xffff00;
+export const grey = /*@__PURE__*/ 0xc0c0c0;
+export const white = /*@__PURE__*/ 0xffffff;
 
-export const solidBlack = solid({ color: black });
-export const solidBlue = solid({ color: blue });
-export const solidGreen = solid({ color: green });
-export const solidCyan = solid({ color: cyan });
-export const solidRed = solid({ color: red });
-export const solidMagenta = solid({ color: magenta });
-export const solidYellow = solid({ color: yellow });
-export const solidGrey = solid({ color: grey });
-export const solidWhite = solid({ color: white });
+export const solidBlack = /*@__PURE__*/ solid({ color: black });
+export const solidBlue = /*@__PURE__*/ solid({ color: blue });
+export const solidGreen = /*@__PURE__*/ solid({ color: green });
+export const solidCyan = /*@__PURE__*/ solid({ color: cyan });
+export const solidRed = /*@__PURE__*/ solid({ color: red });
+export const solidMagenta = /*@__PURE__*/ solid({ color: magenta });
+export const solidYellow = /*@__PURE__*/ solid({ color: yellow });
+export const solidGrey = /*@__PURE__*/ solid({ color: grey });
+export const solidWhite = /*@__PURE__*/ solid({ color: white });
 export function solidTransparentBlack(opacity: number) { return solidTransparent({ color: black, opacity }); }
 export function solidTransparentBlue(opacity: number) { return solidTransparent({ color: blue, opacity }); }
 export function solidTransparentGreen(opacity: number) { return solidTransparent({ color: green, opacity }); }
@@ -99,15 +100,15 @@ export function solidTransparentYellow(opacity: number) { return solidTransparen
 export function solidTransparentGrey(opacity: number) { return solidTransparent({ color: grey, opacity }); }
 export function solidTransparentWhite(opacity: number) { return solidTransparent({ color: white, opacity }); }
 
-export const litBlack = lit({ color: black });
-export const litBlue = lit({ color: blue });
-export const litGreen = lit({ color: green });
-export const litCyan = lit({ color: cyan });
-export const litRed = lit({ color: red });
-export const litMagenta = lit({ color: magenta });
-export const litYellow = lit({ color: yellow });
-export const litGrey = lit({ color: grey });
-export const litWhite = lit({ color: white });
+export const litBlack = /*@__PURE__*/ lit({ color: black });
+export const litBlue = /*@__PURE__*/ lit({ color: blue });
+export const litGreen = /*@__PURE__*/ lit({ color: green });
+export const litCyan = /*@__PURE__*/ lit({ color: cyan });
+export const litRed = /*@__PURE__*/ lit({ color: red });
+export const litMagenta = /*@__PURE__*/ lit({ color: magenta });
+export const litYellow = /*@__PURE__*/ lit({ color: yellow });
+export const litGrey = /*@__PURE__*/ lit({ color: grey });
+export const litWhite = /*@__PURE__*/ lit({ color: white });
 export function litTransparentBlack(opacity: number) { return litTransparent({ color: black, opacity }); }
 export function litTransparentBlue(opacity: number) { return litTransparent({ color: blue, opacity }); }
 export function litTransparentGreen(opacity: number) { return litTransparent({ color: green, opacity }); }
@@ -118,15 +119,15 @@ export function litTransparentYellow(opacity: number) { return litTransparent({ 
 export function litTransparentGrey(opacity: number) { return litTransparent({ color: grey, opacity }); }
 export function litTransparentWhite(opacity: number) { return litTransparent({ color: white, opacity }); }
 
-export const lineBlack = line({ color: black });
-export const lineBlue = line({ color: blue });
-export const lineGreen = line({ color: green });
-export const lineCyan = line({ color: cyan });
-export const lineRed = line({ color: red });
-export const lineMagenta = line({ color: magenta });
-export const lineYellow = line({ color: yellow });
-export const lineGrey = line({ color: grey });
-export const lineWhite = line({ color: white });
+export const lineBlack = /*@__PURE__*/ line({ color: black });
+export const lineBlue = /*@__PURE__*/ line({ color: blue });
+export const lineGreen = /*@__PURE__*/ line({ color: green });
+export const lineCyan = /*@__PURE__*/ line({ color: cyan });
+export const lineRed = /*@__PURE__*/ line({ color: red });
+export const lineMagenta = /*@__PURE__*/ line({ color: magenta });
+export const lineYellow = /*@__PURE__*/ line({ color: yellow });
+export const lineGrey = /*@__PURE__*/ line({ color: grey });
+export const lineWhite = /*@__PURE__*/ line({ color: white });
 export function lineTransparentBlack(opacity: number) { return lineTransparent({ color: black, opacity }); }
 export function lineTransparentBlue(opacity: number) { return lineTransparent({ color: blue, opacity }); }
 export function lineTransparentGreen(opacity: number) { return lineTransparent({ color: green, opacity }); }
@@ -137,15 +138,15 @@ export function lineTransparentYellow(opacity: number) { return lineTransparent(
 export function lineTransparentGrey(opacity: number) { return lineTransparent({ color: grey, opacity }); }
 export function lineTransparentWhite(opacity: number) { return lineTransparent({ color: white, opacity }); }
 
-export const spriteBlack = sprite({ color: black });
-export const spriteBlue = sprite({ color: blue });
-export const spriteGreen = sprite({ color: green });
-export const spriteCyan = sprite({ color: cyan });
-export const spriteRed = sprite({ color: red });
-export const spriteMagenta = sprite({ color: magenta });
-export const spriteYellow = sprite({ color: yellow });
-export const spriteGrey = sprite({ color: grey });
-export const spriteWhite = sprite({ color: white });
+export const spriteBlack = /*@__PURE__*/ sprite({ color: black });
+export const spriteBlue = /*@__PURE__*/ sprite({ color: blue });
+export const spriteGreen = /*@__PURE__*/ sprite({ color: green });
+export const spriteCyan = /*@__PURE__*/ sprite({ color: cyan });
+export const spriteRed = /*@__PURE__*/ sprite({ color: red });
+export const spriteMagenta = /*@__PURE__*/ sprite({ color: magenta });
+export const spriteYellow = /*@__PURE__*/ sprite({ color: yellow });
+export const spriteGrey = /*@__PURE__*/ sprite({ color: grey });
+export const spriteWhite = /*@__PURE__*/ sprite({ color: white });
 export function spriteTransparentBlack(opacity: number) { return spriteTransparent({ color: black, opacity }); }
 export function spriteTransparentBlue(opacity: number) { return spriteTransparent({ color: blue, opacity }); }
 export function spriteTransparentGreen(opacity: number) { return spriteTransparent({ color: green, opacity }); }
