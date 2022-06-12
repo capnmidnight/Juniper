@@ -43,14 +43,13 @@ export class Dirt
     private readonly _update: () => void;
     private readonly updateEvt = new TypedEvent("update");
 
-    private pointerId: number | string;
-    private x: number;
-    private y: number;
-    private lx: number;
-    private ly: number;
-    private pressed: boolean;
-
-    private timer: number;
+    private pressed = false;
+    private pointerId: number | string = null;
+    private x: number = null;
+    private y: number = null;
+    private lx: number = null;
+    private ly: number = null;
+    private timer: number = null;
 
     constructor(width: number, height: number) {
         super();
