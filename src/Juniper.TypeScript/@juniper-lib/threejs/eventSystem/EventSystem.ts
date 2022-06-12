@@ -3,7 +3,7 @@ import { FlickEvent } from "@juniper-lib/event-system/FlickEvent";
 import { ObjectMovedEvent } from "@juniper-lib/event-system/ObjectMovedEvent";
 import { PointerEventTypes } from "@juniper-lib/event-system/PointerEventTypes";
 import { VirtualButtons } from "@juniper-lib/event-system/VirtualButtons";
-import { arrayClear, assertNever, isDefined, TypedEventBase } from "@juniper-lib/tslib";
+import { arrayClear, arrayScan, assertNever, isDefined, TypedEventBase } from "@juniper-lib/tslib";
 import type { BaseEnvironment } from "../environment/BaseEnvironment";
 import { FOREGROUND } from "../layers";
 import { objGraph } from "../objects";
@@ -221,7 +221,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
 
             case "dragstart":
                 {
-                    const dragStartEvt = this.getEvent(pointer, "dragstart", pressedHit || curHit);
+                    const dragStartEvt = this.getEvent(pointer, "dragstart", pressedHit, curHit);
                     this.dispatchEvent(dragStartEvt);
 
                     if (isDefined(pressedHit)) {
@@ -233,7 +233,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
 
             case "drag":
                 {
-                    const dragEvt = this.getEvent(pointer, "drag", draggedHit || curHit);
+                    const dragEvt = this.getEvent(pointer, "drag", draggedHit, curHit);
                     this.dispatchEvent(dragEvt);
 
                     if (isDefined(draggedHit)) {
@@ -244,7 +244,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
 
             case "dragcancel":
                 {
-                    const dragCancelEvt = this.getEvent(pointer, "dragcancel", draggedHit || curHit);
+                    const dragCancelEvt = this.getEvent(pointer, "dragcancel", draggedHit, curHit);
                     this.dispatchEvent(dragCancelEvt);
 
                     if (isDefined(draggedHit)) {
@@ -256,7 +256,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
 
             case "dragend":
                 {
-                    const dragEndEvt = this.getEvent(pointer, "dragend", draggedHit || curHit);
+                    const dragEndEvt = this.getEvent(pointer, "dragend", draggedHit, curHit);
                     this.dispatchEvent(dragEndEvt);
 
                     if (isDefined(draggedHit)) {
@@ -276,7 +276,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
             2);
     }
 
-    private getEvent<T extends string>(pointer: IPointer, type: T, hit: THREE.Intersection): EventSystemEvent<T> {
+    private getEvent<T extends string>(pointer: IPointer, type: T, ...hits: THREE.Intersection[]): EventSystemEvent<T> {
         if (!this.pointerEvents.has(pointer)) {
             const evts = new Map<string, EventSystemEvent<string>>([
                 ["move", new EventSystemEvent("move", pointer)],
@@ -294,7 +294,13 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
 
         const pointerEvents = this.pointerEvents.get(pointer);
         const evt = pointerEvents.get(type) as EventSystemEvent<T>
-        evt.hit = hit;
+        if (hits.length > 0) {
+            evt.hit = arrayScan(hits, isDefined);
+            const lastHit = arrayScan(hits, (h) => isDefined(h) && h !== evt.hit);
+            if (isDefined(lastHit)) {
+                evt.hit.uv = lastHit.uv;
+            }
+        }
         return evt;
     }
 
