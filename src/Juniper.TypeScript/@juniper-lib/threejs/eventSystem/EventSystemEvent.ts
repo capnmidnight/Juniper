@@ -47,7 +47,7 @@ export class EventSystemEvent<T extends string> extends TypedEvent<T> {
     }
 
     to3(altHit: THREE.Intersection): EventSystemThreeJSEvent<T> {
-        return new EventSystemThreeJSEvent(this.type, altHit, this.pointer.state.buttons);
+        return new EventSystemThreeJSEvent(this.type, this.pointer, altHit, this.pointer.state.buttons);
     }
 }
 
@@ -57,6 +57,7 @@ export class EventSystemThreeJSEvent<T extends string> implements THREE.Event {
     private _object: THREE.Object3D;
 
     constructor(public readonly type: T,
+        public readonly pointer: IPointer,
         public readonly hit: THREE.Intersection,
         public readonly buttons: number) {
         this._point = this.hit && this.hit.point;
