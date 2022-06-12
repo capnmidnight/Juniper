@@ -56,7 +56,7 @@ export class Dirt
     private ly: number = null;
     private timer: number = null;
 
-    constructor(width: number, height: number) {
+    constructor(width: number, height: number, private readonly fingerScale = 1) {
         super();
         this.element = createCanvas(width, height);
 
@@ -94,7 +94,9 @@ ZAGkADoAEAAZ5QkTf/PN/ACV4rJ9AdCf3AAAAAElFTkSuQmCC"));
             this.bg.rotate(a);
             this.bg.translate(-0.5 * this.finger.width, -0.5 * this.finger.height);
             for (let i = 0; i <= d; ++i) {
-                this.bg.drawImage(this.finger, i, 0);
+                this.bg.drawImage(this.finger,
+                    0, 0, this.finger.width, this.finger.height,
+                    i, 0, this.finger.width * this.fingerScale, this.finger.height * this.fingerScale);
             }
             this.bg.restore();
         }
