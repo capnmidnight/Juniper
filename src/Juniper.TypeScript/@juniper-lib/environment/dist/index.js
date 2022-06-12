@@ -7388,10 +7388,10 @@ var MediaElementSourceStoppedEvent = class extends MediaElementSourceEvent {
   }
 };
 var MediaElementSourceProgressEvent = class extends MediaElementSourceEvent {
-  value = 0;
-  total = 0;
   constructor(source) {
     super("progress", source);
+    this.value = 0;
+    this.total = 0;
   }
 };
 
@@ -12041,12 +12041,13 @@ var EventSystemEvent = class extends TypedEvent {
     return this._distance;
   }
   to3(altHit) {
-    return new EventSystemThreeJSEvent(this.type, altHit, this.pointer.state.buttons);
+    return new EventSystemThreeJSEvent(this.type, this.pointer, altHit, this.pointer.state.buttons);
   }
 };
 var EventSystemThreeJSEvent = class {
-  constructor(type2, hit, buttons) {
+  constructor(type2, pointer, hit, buttons) {
     this.type = type2;
+    this.pointer = pointer;
     this.hit = hit;
     this.buttons = buttons;
     this._point = this.hit && this.hit.point;
@@ -16558,7 +16559,7 @@ var EventSystem = class extends TypedEventBase {
         break;
       case "dragstart":
         {
-          const dragStartEvt = this.getEvent(pointer, "dragstart", pressedHit || curHit);
+          const dragStartEvt = this.getEvent(pointer, "dragstart", pressedHit, curHit);
           this.dispatchEvent(dragStartEvt);
           if (isDefined(pressedHit)) {
             pointer.draggedHit = pressedHit;
@@ -16568,7 +16569,7 @@ var EventSystem = class extends TypedEventBase {
         break;
       case "drag":
         {
-          const dragEvt = this.getEvent(pointer, "drag", draggedHit || curHit);
+          const dragEvt = this.getEvent(pointer, "drag", draggedHit, curHit);
           this.dispatchEvent(dragEvt);
           if (isDefined(draggedHit)) {
             draggedObj.dispatchEvent(dragEvt.to3(draggedHit));
@@ -16577,7 +16578,7 @@ var EventSystem = class extends TypedEventBase {
         break;
       case "dragcancel":
         {
-          const dragCancelEvt = this.getEvent(pointer, "dragcancel", draggedHit || curHit);
+          const dragCancelEvt = this.getEvent(pointer, "dragcancel", draggedHit, curHit);
           this.dispatchEvent(dragCancelEvt);
           if (isDefined(draggedHit)) {
             pointer.draggedHit = null;
@@ -16587,7 +16588,7 @@ var EventSystem = class extends TypedEventBase {
         break;
       case "dragend":
         {
-          const dragEndEvt = this.getEvent(pointer, "dragend", draggedHit || curHit);
+          const dragEndEvt = this.getEvent(pointer, "dragend", draggedHit, curHit);
           this.dispatchEvent(dragEndEvt);
           if (isDefined(draggedHit)) {
             pointer.draggedHit = null;
@@ -16600,7 +16601,7 @@ var EventSystem = class extends TypedEventBase {
     }
     pointer.updateCursor(this.env.avatar.worldPos, draggedHit || pressedHit || hoveredHit || curHit, 2);
   }
-  getEvent(pointer, type2, hit) {
+  getEvent(pointer, type2, ...hits) {
     if (!this.pointerEvents.has(pointer)) {
       const evts = /* @__PURE__ */ new Map([
         ["move", new EventSystemEvent("move", pointer)],
@@ -16617,7 +16618,13 @@ var EventSystem = class extends TypedEventBase {
     }
     const pointerEvents2 = this.pointerEvents.get(pointer);
     const evt = pointerEvents2.get(type2);
-    evt.hit = hit;
+    if (hits.length > 0) {
+      evt.hit = arrayScan(hits, isDefined);
+      const lastHit = arrayScan(hits, (h) => isDefined(h) && h !== evt.hit);
+      if (isDefined(lastHit)) {
+        evt.hit.uv = lastHit.uv;
+      }
+    }
     return evt;
   }
   checkExit(curHit, hoveredHit, pointer) {
