@@ -1,9 +1,12 @@
 import { getInput } from "@juniper-lib/dom/tags";
+import { Asset } from "@juniper-lib/fetcher-base/Asset";
 import { HTTPMethods } from "@juniper-lib/fetcher-base/HTTPMethods";
 import { IFetcher } from "@juniper-lib/fetcher-base/IFetcher";
 import { IFetchingService } from "@juniper-lib/fetcher-base/IFetchingService";
-import { isWorker } from "@juniper-lib/tslib";
+import { IProgress, isWorker, progressTasksWeighted } from "@juniper-lib/tslib";
 import { RequestBuilder } from "./RequestBuilder";
+
+
 
 export class Fetcher implements IFetcher {
     constructor(private readonly service: IFetchingService) {
@@ -49,6 +52,14 @@ export class Fetcher implements IFetcher {
 
     delete(path: string | URL, base?: string | URL) {
         return this.createRequest("DELETE", path, base);
+    }
+
+    async assets(progress: IProgress, ...assets: Asset<any, any>[]): Promise<void> {
+        const assetSizes = new Map(await Promise.all(assets.map((asset) => asset.getSize(this))));
+        await progressTasksWeighted(
+            progress,
+            assets.map((asset) => [assetSizes.get(asset), (prog) => asset.getContent(prog)])
+        );
     }
 }
 

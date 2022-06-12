@@ -1,5 +1,6 @@
 import type { MediaType } from "@juniper-lib/mediatypes";
 import type { IProgress } from "@juniper-lib/tslib";
+import type { Asset } from "./Asset";
 import type { IResponse } from "./IResponse";
 
 export interface IFetcherBasic {
@@ -16,6 +17,7 @@ export interface IFetcher {
     put(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec & IFetcherResult;
     patch(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec & IFetcherResult;
     delete(path: string | URL, base?: string | URL): IFetcherBasic & IFetcherSendProgressBodyTimeoutCredentialsGetBodyOrExec & IFetcherResult;
+    assets(progress: IProgress, ...assets: Asset<any, any>[]): Promise<void>;
 }
 
 export interface IFetcherSendProgressTimeoutCredentialsCacheGetBody {
