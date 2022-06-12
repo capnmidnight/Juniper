@@ -38,7 +38,7 @@ var require_sdp = __commonJS({
     };
     SDPUtils2.localCName = SDPUtils2.generateIdentifier();
     SDPUtils2.splitLines = function(blob) {
-      return blob.trim().split("\n").map((line3) => line3.trim());
+      return blob.trim().split("\n").map((line) => line.trim());
     };
     SDPUtils2.splitSections = function(blob) {
       const parts = blob.split("\nm=");
@@ -54,14 +54,14 @@ var require_sdp = __commonJS({
       return sections;
     };
     SDPUtils2.matchPrefix = function(blob, prefix) {
-      return SDPUtils2.splitLines(blob).filter((line3) => line3.indexOf(prefix) === 0);
+      return SDPUtils2.splitLines(blob).filter((line) => line.indexOf(prefix) === 0);
     };
-    SDPUtils2.parseCandidate = function(line3) {
+    SDPUtils2.parseCandidate = function(line) {
       let parts;
-      if (line3.indexOf("a=candidate:") === 0) {
-        parts = line3.substring(12).split(" ");
+      if (line.indexOf("a=candidate:") === 0) {
+        parts = line.substring(12).split(" ");
       } else {
-        parts = line3.substring(10).split(" ");
+        parts = line.substring(10).split(" ");
       }
       const candidate = {
         foundation: parts[0],
@@ -131,11 +131,11 @@ var require_sdp = __commonJS({
       }
       return "candidate:" + sdp2.join(" ");
     };
-    SDPUtils2.parseIceOptions = function(line3) {
-      return line3.substr(14).split(" ");
+    SDPUtils2.parseIceOptions = function(line) {
+      return line.substr(14).split(" ");
     };
-    SDPUtils2.parseRtpMap = function(line3) {
-      let parts = line3.substr(9).split(" ");
+    SDPUtils2.parseRtpMap = function(line) {
+      let parts = line.substr(9).split(" ");
       const parsed = {
         payloadType: parseInt(parts.shift(), 10)
       };
@@ -154,8 +154,8 @@ var require_sdp = __commonJS({
       const channels = codec.channels || codec.numChannels || 1;
       return "a=rtpmap:" + pt + " " + codec.name + "/" + codec.clockRate + (channels !== 1 ? "/" + channels : "") + "\r\n";
     };
-    SDPUtils2.parseExtmap = function(line3) {
-      const parts = line3.substr(9).split(" ");
+    SDPUtils2.parseExtmap = function(line) {
+      const parts = line.substr(9).split(" ");
       return {
         id: parseInt(parts[0], 10),
         direction: parts[0].indexOf("/") > 0 ? parts[0].split("/")[1] : "sendrecv",
@@ -165,10 +165,10 @@ var require_sdp = __commonJS({
     SDPUtils2.writeExtmap = function(headerExtension) {
       return "a=extmap:" + (headerExtension.id || headerExtension.preferredId) + (headerExtension.direction && headerExtension.direction !== "sendrecv" ? "/" + headerExtension.direction : "") + " " + headerExtension.uri + "\r\n";
     };
-    SDPUtils2.parseFmtp = function(line3) {
+    SDPUtils2.parseFmtp = function(line) {
       const parsed = {};
       let kv;
-      const parts = line3.substr(line3.indexOf(" ") + 1).split(";");
+      const parts = line.substr(line.indexOf(" ") + 1).split(";");
       for (let j = 0; j < parts.length; j++) {
         kv = parts[j].trim().split("=");
         parsed[kv[0].trim()] = kv[1];
@@ -176,7 +176,7 @@ var require_sdp = __commonJS({
       return parsed;
     };
     SDPUtils2.writeFmtp = function(codec) {
-      let line3 = "";
+      let line = "";
       let pt = codec.payloadType;
       if (codec.preferredPayloadType !== void 0) {
         pt = codec.preferredPayloadType;
@@ -190,12 +190,12 @@ var require_sdp = __commonJS({
             params.push(param);
           }
         });
-        line3 += "a=fmtp:" + pt + " " + params.join(";") + "\r\n";
+        line += "a=fmtp:" + pt + " " + params.join(";") + "\r\n";
       }
-      return line3;
+      return line;
     };
-    SDPUtils2.parseRtcpFb = function(line3) {
-      const parts = line3.substr(line3.indexOf(" ") + 1).split(" ");
+    SDPUtils2.parseRtcpFb = function(line) {
+      const parts = line.substr(line.indexOf(" ") + 1).split(" ");
       return {
         type: parts.shift(),
         parameter: parts.join(" ")
@@ -214,22 +214,22 @@ var require_sdp = __commonJS({
       }
       return lines;
     };
-    SDPUtils2.parseSsrcMedia = function(line3) {
-      const sp = line3.indexOf(" ");
+    SDPUtils2.parseSsrcMedia = function(line) {
+      const sp = line.indexOf(" ");
       const parts = {
-        ssrc: parseInt(line3.substr(7, sp - 7), 10)
+        ssrc: parseInt(line.substr(7, sp - 7), 10)
       };
-      const colon = line3.indexOf(":", sp);
+      const colon = line.indexOf(":", sp);
       if (colon > -1) {
-        parts.attribute = line3.substr(sp + 1, colon - sp - 1);
-        parts.value = line3.substr(colon + 1);
+        parts.attribute = line.substr(sp + 1, colon - sp - 1);
+        parts.value = line.substr(colon + 1);
       } else {
-        parts.attribute = line3.substr(sp + 1);
+        parts.attribute = line.substr(sp + 1);
       }
       return parts;
     };
-    SDPUtils2.parseSsrcGroup = function(line3) {
-      const parts = line3.substr(13).split(" ");
+    SDPUtils2.parseSsrcGroup = function(line) {
+      const parts = line.substr(13).split(" ");
       return {
         semantics: parts.shift(),
         ssrcs: parts.map((ssrc) => parseInt(ssrc, 10))
@@ -241,8 +241,8 @@ var require_sdp = __commonJS({
         return mid.substr(6);
       }
     };
-    SDPUtils2.parseFingerprint = function(line3) {
-      const parts = line3.substr(14).split(" ");
+    SDPUtils2.parseFingerprint = function(line) {
+      const parts = line.substr(14).split(" ");
       return {
         algorithm: parts[0].toLowerCase(),
         value: parts[1].toUpperCase()
@@ -262,8 +262,8 @@ var require_sdp = __commonJS({
       });
       return sdp2;
     };
-    SDPUtils2.parseCryptoLine = function(line3) {
-      const parts = line3.substr(9).split(" ");
+    SDPUtils2.parseCryptoLine = function(line) {
+      const parts = line.substr(9).split(" ");
       return {
         tag: parseInt(parts[0], 10),
         cryptoSuite: parts[1],
@@ -340,8 +340,8 @@ var require_sdp = __commonJS({
           }
         }
       }
-      SDPUtils2.matchPrefix(mediaSection, "a=extmap:").forEach((line3) => {
-        description.headerExtensions.push(SDPUtils2.parseExtmap(line3));
+      SDPUtils2.matchPrefix(mediaSection, "a=extmap:").forEach((line) => {
+        description.headerExtensions.push(SDPUtils2.parseExtmap(line));
       });
       return description;
     };
@@ -384,11 +384,11 @@ var require_sdp = __commonJS({
       const description = SDPUtils2.parseRtpParameters(mediaSection);
       const hasRed = description.fecMechanisms.indexOf("RED") !== -1;
       const hasUlpfec = description.fecMechanisms.indexOf("ULPFEC") !== -1;
-      const ssrcs = SDPUtils2.matchPrefix(mediaSection, "a=ssrc:").map((line3) => SDPUtils2.parseSsrcMedia(line3)).filter((parts) => parts.attribute === "cname");
+      const ssrcs = SDPUtils2.matchPrefix(mediaSection, "a=ssrc:").map((line) => SDPUtils2.parseSsrcMedia(line)).filter((parts) => parts.attribute === "cname");
       const primarySsrc = ssrcs.length > 0 && ssrcs[0].ssrc;
       let secondarySsrc;
-      const flows = SDPUtils2.matchPrefix(mediaSection, "a=ssrc-group:FID").map((line3) => {
-        const parts = line3.substr(17).split(" ");
+      const flows = SDPUtils2.matchPrefix(mediaSection, "a=ssrc-group:FID").map((line) => {
+        const parts = line.substr(17).split(" ");
         return parts.map((part) => parseInt(part, 10));
       });
       if (flows.length > 0 && flows[0].length > 1 && flows[0][0] === primarySsrc) {
@@ -436,7 +436,7 @@ var require_sdp = __commonJS({
     };
     SDPUtils2.parseRtcpParameters = function(mediaSection) {
       const rtcpParameters = {};
-      const remoteSsrc = SDPUtils2.matchPrefix(mediaSection, "a=ssrc:").map((line3) => SDPUtils2.parseSsrcMedia(line3)).filter((obj2) => obj2.attribute === "cname")[0];
+      const remoteSsrc = SDPUtils2.matchPrefix(mediaSection, "a=ssrc:").map((line) => SDPUtils2.parseSsrcMedia(line)).filter((obj2) => obj2.attribute === "cname")[0];
       if (remoteSsrc) {
         rtcpParameters.cname = remoteSsrc.value;
         rtcpParameters.ssrc = remoteSsrc.ssrc;
@@ -468,7 +468,7 @@ var require_sdp = __commonJS({
         parts = spec[0].substr(7).split(" ");
         return { stream: parts[0], track: parts[1] };
       }
-      const planB = SDPUtils2.matchPrefix(mediaSection, "a=ssrc:").map((line3) => SDPUtils2.parseSsrcMedia(line3)).filter((msidParts) => msidParts.attribute === "msid");
+      const planB = SDPUtils2.matchPrefix(mediaSection, "a=ssrc:").map((line) => SDPUtils2.parseSsrcMedia(line)).filter((msidParts) => msidParts.attribute === "msid");
       if (planB.length > 0) {
         parts = planB[0].value.split(" ");
         return { stream: parts[0], track: parts[1] };
@@ -572,8 +572,8 @@ var require_sdp = __commonJS({
       };
     };
     SDPUtils2.parseOLine = function(mediaSection) {
-      const line3 = SDPUtils2.matchPrefix(mediaSection, "o=")[0];
-      const parts = line3.substr(2).split(" ");
+      const line = SDPUtils2.matchPrefix(mediaSection, "o=")[0];
+      const parts = line.substr(2).split(" ");
       return {
         username: parts[0],
         sessionId: parts[1],
@@ -6475,8 +6475,8 @@ function removeExtmapAllowMixed(window2, browserDetails) {
   const nativeSRD = window2.RTCPeerConnection.prototype.setRemoteDescription;
   window2.RTCPeerConnection.prototype.setRemoteDescription = function setRemoteDescription(desc) {
     if (desc && desc.sdp && desc.sdp.indexOf("\na=extmap-allow-mixed") !== -1) {
-      const sdp2 = desc.sdp.split("\n").filter((line3) => {
-        return line3.trim() !== "a=extmap-allow-mixed";
+      const sdp2 = desc.sdp.split("\n").filter((line) => {
+        return line.trim() !== "a=extmap-allow-mixed";
       }).join("\n");
       if (window2.RTCSessionDescription && desc instanceof window2.RTCSessionDescription) {
         arguments[0] = new window2.RTCSessionDescription({
@@ -6651,12 +6651,12 @@ var adapter_core_default = adapter;
 
 // ../audio/Pose.ts
 var Pose = class {
+  t = 0;
+  p = vec3_exports.create();
+  f = vec3_exports.set(vec3_exports.create(), 0, 0, -1);
+  u = vec3_exports.set(vec3_exports.create(), 0, 1, 0);
+  o = vec3_exports.create();
   constructor() {
-    this.t = 0;
-    this.p = vec3_exports.create();
-    this.f = vec3_exports.set(vec3_exports.create(), 0, 0, -1);
-    this.u = vec3_exports.set(vec3_exports.create(), 0, 1, 0);
-    this.o = vec3_exports.create();
     Object.seal(this);
   }
   set(px, py, pz, fx, fy, fz, ux, uy, uz) {
@@ -6868,14 +6868,16 @@ var DEFAULT_LOCAL_USER_ID = "local-user";
 var ActivityDetector = class {
   constructor(name, audioCtx) {
     this.name = name;
-    this._level = 0;
-    this.maxLevel = 0;
     this.analyzer = Analyser(this.name, audioCtx, {
       fftSize: 32,
       minDecibels: -70
     });
     this.buffer = new Uint8Array(this.analyzer.frequencyBinCount);
   }
+  _level = 0;
+  maxLevel = 0;
+  analyzer;
+  buffer;
   dispose() {
     removeVertex(this.analyzer);
   }
@@ -7379,20 +7381,6 @@ var TeleconferenceManager = class extends TypedEventBase {
     this.signalRPath = signalRPath;
     this.autoSetPosition = autoSetPosition;
     this.needsVideoDevice = needsVideoDevice;
-    this._isAudioMuted = null;
-    this._isVideoMuted = null;
-    this._localUserID = DEFAULT_LOCAL_USER_ID;
-    this._localUserName = null;
-    this._roomName = null;
-    this._conferenceState = "Disconnected" /* Disconnected */;
-    this._hasAudioPermission = false;
-    this._hasVideoPermission = false;
-    this.lastRoom = null;
-    this.lastUserID = null;
-    this.users = /* @__PURE__ */ new Map();
-    this.localStreamIn = null;
-    this._ready = null;
-    this.disposed = false;
     if (loggingEnabled) {
       console.log(adapter_core_default);
     }
@@ -7463,27 +7451,42 @@ var TeleconferenceManager = class extends TypedEventBase {
   toggleLogging() {
     loggingEnabled = !loggingEnabled;
   }
+  _isAudioMuted = null;
   get isAudioMuted() {
     return this._isAudioMuted;
   }
+  _isVideoMuted = null;
   get isVideoMuted() {
     return this._isVideoMuted;
   }
+  _localUserID = DEFAULT_LOCAL_USER_ID;
   get localUserID() {
     return this._localUserID;
   }
+  _localUserName = null;
   get localUserName() {
     return this._localUserName;
   }
+  _roomName = null;
   get roomName() {
     return this._roomName;
   }
+  _conferenceState = "Disconnected" /* Disconnected */;
+  _hasAudioPermission = false;
   get hasAudioPermission() {
     return this._hasAudioPermission;
   }
+  _hasVideoPermission = false;
   get hasVideoPermission() {
     return this._hasVideoPermission;
   }
+  lastRoom = null;
+  lastUserID = null;
+  users = /* @__PURE__ */ new Map();
+  localStreamIn = null;
+  hub;
+  remoteGainDecay;
+  _ready = null;
   get ready() {
     if (this._ready === null) {
       this._ready = this.startInternal();
@@ -7525,6 +7528,7 @@ var TeleconferenceManager = class extends TypedEventBase {
   setConferenceState(state) {
     this._conferenceState = state;
   }
+  disposed = false;
   dispose() {
     if (!this.disposed) {
       this.leave();
@@ -8493,7 +8497,7 @@ var LineMaterial = class extends THREE.ShaderMaterial {
 LineMaterial.prototype.isLineMaterial = true;
 
 // ../threejs/materials.ts
-var materials = /* @__PURE__ */ new Map();
+var materials = singleton("Juniper:Three:Materials", () => /* @__PURE__ */ new Map());
 function del(obj2, name) {
   if (name in obj2) {
     delete obj2[name];
@@ -8521,60 +8525,18 @@ function solidTransparent(options) {
 function lit(options) {
   return makeMaterial("lit", THREE.MeshStandardMaterial, options);
 }
-function line(options) {
-  return makeMaterial("line", THREE.LineBasicMaterial, options);
-}
 function line2(options) {
   return makeMaterial("line2", LineMaterial, options);
 }
-function sprite(options) {
-  return makeMaterial("sprite", THREE.SpriteMaterial, options);
-}
-var black = 0;
 var blue = 255;
 var green = 65280;
-var cyan = 65535;
 var red = 16711680;
-var magenta = 16711935;
 var yellow = 16776960;
 var grey = 12632256;
-var white = 16777215;
-var solidBlack = solid({ color: black });
-var solidBlue = solid({ color: blue });
-var solidGreen = solid({ color: green });
-var solidCyan = solid({ color: cyan });
-var solidRed = solid({ color: red });
-var solidMagenta = solid({ color: magenta });
-var solidYellow = solid({ color: yellow });
-var solidGrey = solid({ color: grey });
-var solidWhite = solid({ color: white });
-var litBlack = lit({ color: black });
-var litBlue = lit({ color: blue });
-var litGreen = lit({ color: green });
-var litCyan = lit({ color: cyan });
-var litRed = lit({ color: red });
-var litMagenta = lit({ color: magenta });
-var litYellow = lit({ color: yellow });
-var litGrey = lit({ color: grey });
-var litWhite = lit({ color: white });
-var lineBlack = line({ color: black });
-var lineBlue = line({ color: blue });
-var lineGreen = line({ color: green });
-var lineCyan = line({ color: cyan });
-var lineRed = line({ color: red });
-var lineMagenta = line({ color: magenta });
-var lineYellow = line({ color: yellow });
-var lineGrey = line({ color: grey });
-var lineWhite = line({ color: white });
-var spriteBlack = sprite({ color: black });
-var spriteBlue = sprite({ color: blue });
-var spriteGreen = sprite({ color: green });
-var spriteCyan = sprite({ color: cyan });
-var spriteRed = sprite({ color: red });
-var spriteMagenta = sprite({ color: magenta });
-var spriteYellow = sprite({ color: yellow });
-var spriteGrey = sprite({ color: grey });
-var spriteWhite = sprite({ color: white });
+var solidBlue = /* @__PURE__ */ solid({ color: blue });
+var solidGreen = /* @__PURE__ */ solid({ color: green });
+var solidRed = /* @__PURE__ */ solid({ color: red });
+var litGrey = /* @__PURE__ */ lit({ color: grey });
 
 // ../threejs/setGeometryUVsForCubemaps.ts
 function setGeometryUVsForCubemaps(geom2) {
@@ -8840,25 +8802,25 @@ function setMatrixFromUpFwdPos(U2, F2, P4, matrix) {
 
 // ../event-system/PointerState.ts
 var PointerState = class {
+  buttons = 0;
+  moveDistance = 0;
+  dragDistance = 0;
+  x = 0;
+  y = 0;
+  dx = 0;
+  dy = 0;
+  dz = 0;
+  u = 0;
+  v = 0;
+  du = 0;
+  dv = 0;
+  canClick = false;
+  dragging = false;
+  ctrl = false;
+  alt = false;
+  shift = false;
+  meta = false;
   constructor() {
-    this.buttons = 0;
-    this.moveDistance = 0;
-    this.dragDistance = 0;
-    this.x = 0;
-    this.y = 0;
-    this.dx = 0;
-    this.dy = 0;
-    this.dz = 0;
-    this.u = 0;
-    this.v = 0;
-    this.du = 0;
-    this.dv = 0;
-    this.canClick = false;
-    this.dragging = false;
-    this.ctrl = false;
-    this.alt = false;
-    this.shift = false;
-    this.meta = false;
     Object.seal(this);
   }
   copy(ptr) {
@@ -9578,8 +9540,8 @@ var LineGeometry = class extends LineSegmentsGeometry {
     super.setColors(colors);
     return this;
   }
-  fromLine(line3) {
-    var geometry = line3.geometry;
+  fromLine(line) {
+    var geometry = line.geometry;
     if (geometry.isGeometry) {
       console.error("THREE.LineGeometry no longer supports Geometry. Use THREE.BufferGeometry instead.");
       return;
@@ -9873,32 +9835,33 @@ var CanvasImage = class extends TypedEventBase {
 
 // ../graphics2d/TextImage.ts
 var TextImage = class extends CanvasImage {
+  trueWidth = null;
+  trueHeight = null;
+  trueFontSize = null;
+  dx = null;
+  _minWidth = null;
+  _maxWidth = null;
+  _minHeight = null;
+  _maxHeight = null;
+  _freezeDimensions = false;
+  _dimensionsFrozen = false;
+  _bgFillColor = null;
+  _bgStrokeColor = null;
+  _bgStrokeSize = null;
+  _textStrokeColor = null;
+  _textStrokeSize = null;
+  _textFillColor = "black";
+  _textDirection = "horizontal";
+  _wrapWords = true;
+  _fontStyle = "normal";
+  _fontVariant = "normal";
+  _fontWeight = "normal";
+  _fontFamily = "sans-serif";
+  _fontSize = 20;
+  _padding;
+  _value = null;
   constructor(options) {
     super(10, 10, options);
-    this.trueWidth = null;
-    this.trueHeight = null;
-    this.trueFontSize = null;
-    this.dx = null;
-    this._minWidth = null;
-    this._maxWidth = null;
-    this._minHeight = null;
-    this._maxHeight = null;
-    this._freezeDimensions = false;
-    this._dimensionsFrozen = false;
-    this._bgFillColor = null;
-    this._bgStrokeColor = null;
-    this._bgStrokeSize = null;
-    this._textStrokeColor = null;
-    this._textStrokeSize = null;
-    this._textFillColor = "black";
-    this._textDirection = "horizontal";
-    this._wrapWords = true;
-    this._fontStyle = "normal";
-    this._fontVariant = "normal";
-    this._fontWeight = "normal";
-    this._fontFamily = "sans-serif";
-    this._fontSize = 20;
-    this._value = null;
     if (isDefined(options)) {
       if (isDefined(options.minWidth)) {
         this._minWidth = options.minWidth;
@@ -10202,8 +10165,8 @@ var TextImage = class extends CanvasImage {
           this.g.font = font;
           this.trueWidth = 0;
           this.trueHeight = 0;
-          for (const line3 of lines) {
-            const metrics = this.g.measureText(line3);
+          for (const line of lines) {
+            const metrics = this.g.measureText(line);
             this.trueWidth = Math.max(this.trueWidth, metrics.width);
             this.trueHeight += this.trueFontSize;
             if (isNumber(metrics.actualBoundingBoxLeft) && isNumber(metrics.actualBoundingBoxRight) && isNumber(metrics.actualBoundingBoxAscent) && isNumber(metrics.actualBoundingBoxDescent)) {
@@ -10281,15 +10244,15 @@ var TextImage = class extends CanvasImage {
       }
       const di = 0.5 * (lines.length - 1);
       for (let i = 0; i < lines.length; ++i) {
-        const line3 = lines[i];
+        const line = lines[i];
         const dy = (i - di) * this.trueFontSize;
         const x = this.dx + this.trueWidth / 2 + this.scale * this.padding.left;
         const y = dy + this.trueHeight / 2 + this.scale * this.padding.top;
         if (this.textStrokeColor && this.textStrokeSize) {
-          this.g.strokeText(line3, x, y);
+          this.g.strokeText(line, x, y);
         }
         if (this.textFillColor) {
-          this.g.fillText(line3, x, y);
+          this.g.fillText(line, x, y);
         }
       }
       if (this.bgStrokeColor && this.bgStrokeSize) {
@@ -10498,7 +10461,7 @@ var Image2DMesh = class extends THREE.Object3D {
   setEnvAndName(env, name) {
     this.env = env;
     this.name = name;
-    this.tryWebXRLayers && (this.tryWebXRLayers = this.env && this.env.hasXRCompositionLayers);
+    this.tryWebXRLayers &&= this.env && this.env.hasXRCompositionLayers;
   }
   copy(source, recursive = true) {
     super.copy(source, recursive);
@@ -11036,19 +10999,19 @@ var Application = class extends TypedEventBase {
 
 // ../threejs/Tele.ts
 var Tele = class extends Application {
+  users = /* @__PURE__ */ new Map();
+  remoteUsers = new THREE.Object3D();
+  conference = null;
+  defaultAvatarHeight = 1.75;
+  avatarModel = null;
+  avatarNameTagFont = null;
+  hubName = null;
+  userType = null;
+  userName = null;
+  meetingID = null;
+  roomName = null;
   constructor(env) {
     super(env);
-    this.users = /* @__PURE__ */ new Map();
-    this.remoteUsers = new THREE.Object3D();
-    this.conference = null;
-    this.defaultAvatarHeight = 1.75;
-    this.avatarModel = null;
-    this.avatarNameTagFont = null;
-    this.hubName = null;
-    this.userType = null;
-    this.userName = null;
-    this.meetingID = null;
-    this.roomName = null;
   }
   get ready() {
     return this.conference && this.conference.ready;

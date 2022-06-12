@@ -127,7 +127,7 @@ export class Build {
             color: true,
             logLevel: "warning",
             format: "esm",
-            target: "exnext",
+            target: "esnext",
             bundle: true,
             sourcemap: true,
             entryPoints,
