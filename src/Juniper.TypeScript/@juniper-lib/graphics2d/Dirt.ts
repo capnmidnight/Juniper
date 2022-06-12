@@ -5,6 +5,11 @@ import { isDefined, singleton, TypedEvent, TypedEventBase } from "@juniper-lib/t
 
 type ActionTypes = "down" | "move" | "up";
 const actionTypes = singleton("Juniper:Graphics2D:Dirt:StopTypes", () => new Map<string, ActionTypes>([
+    ["drag", "move"],
+    ["dragcancel", "up"],
+    ["dragend", "up"],
+    ["dragstart", "down"],
+
     ["mousedown", "down"],
     ["mouseenter", "move"],
     ["mouseleave", "up"],
