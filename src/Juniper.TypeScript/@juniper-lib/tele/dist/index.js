@@ -6868,16 +6868,14 @@ var DEFAULT_LOCAL_USER_ID = "local-user";
 var ActivityDetector = class {
   constructor(name, audioCtx) {
     this.name = name;
+    this._level = 0;
+    this.maxLevel = 0;
     this.analyzer = Analyser(this.name, audioCtx, {
       fftSize: 32,
       minDecibels: -70
     });
     this.buffer = new Uint8Array(this.analyzer.frequencyBinCount);
   }
-  _level = 0;
-  maxLevel = 0;
-  analyzer;
-  buffer;
   dispose() {
     removeVertex(this.analyzer);
   }
@@ -8843,18 +8841,6 @@ var PointerState = class {
     this.shift = ptr.shift;
     this.meta = ptr.meta;
   }
-  read(evt) {
-    this.buttons = evt.buttons;
-    this.x = evt.offsetX;
-    this.y = evt.offsetY;
-    this.dx = evt.movementX;
-    this.dy = evt.movementY;
-    this.dz = 0;
-    this.ctrl = evt.ctrlKey;
-    this.alt = evt.altKey;
-    this.shift = evt.shiftKey;
-    this.meta = evt.metaKey;
-  }
 };
 
 // ../threejs/eventSystem/InteractiveObject3D.ts
@@ -9158,24 +9144,22 @@ var BasePointer = class {
   setEventState(type2) {
     this.evtSys.checkPointer(this, type2);
   }
+  update() {
+    this.onUpdate();
+    if (!this.lastState) {
+      this.lastState = new PointerState();
+    }
+    this.lastState.copy(this.state);
+  }
+  onUpdate() {
+  }
   updateCursor(avatarHeadPos, curHit, defaultDistance) {
     if (this.cursor) {
       this.cursor.update(avatarHeadPos, curHit, defaultDistance, this.canMoveView, this.state, this.origin, this.direction);
     }
   }
-  lastStateUpdate(updater) {
-    if (this.lastState) {
-      this.lastState.copy(this.state);
-      updater();
-      this.state.dragDistance = this.lastState.dragDistance;
-    } else {
-      updater();
-      this.lastState = new PointerState();
-      this.lastState.copy(this.state);
-    }
-  }
   onZoom(dz) {
-    this.lastStateUpdate(() => this.state.dz = dz);
+    this.state.dz = dz;
     this.setEventState("move");
   }
   onPointerDown() {
@@ -9188,7 +9172,7 @@ var BasePointer = class {
     if (this.state.buttons !== 0 /* None */) {
       const canDrag = isNullOrUndefined(this.pressedHit) || isDraggable(this.pressedHit);
       if (canDrag) {
-        if (this.lastState.buttons === this.state.buttons) {
+        if (this.lastState && this.lastState.buttons === this.state.buttons) {
           this.state.dragDistance += this.state.moveDistance;
           if (this.state.dragDistance > this.movementDragThreshold) {
             this.onDragStart();
@@ -9201,16 +9185,15 @@ var BasePointer = class {
     }
   }
   onDragStart() {
-    const wasDragging = this.state.dragging;
     this.state.dragging = true;
-    if (!wasDragging) {
+    if (this.lastState && !this.lastState.dragging) {
       this.setEventState("dragstart");
     }
     this.state.canClick = false;
     this.setEventState("drag");
   }
   onPointerUp() {
-    if (this.state.canClick) {
+    if (this.state.canClick && this.lastState) {
       const lastButtons = this.state.buttons;
       this.state.buttons = this.lastState.buttons;
       this.setEventState("click");
@@ -9218,9 +9201,8 @@ var BasePointer = class {
     }
     this.setEventState("up");
     this.state.dragDistance = 0;
-    const wasDragging = this.state.dragging;
     this.state.dragging = false;
-    if (wasDragging) {
+    if (this.lastState && this.lastState.dragging) {
       this.setEventState("dragend");
     }
   }
@@ -9627,8 +9609,6 @@ var PointerRemote = class extends BasePointer {
   animate(dt) {
     this.object.position.lerp(this.pTarget, dt * 0.01);
     this.object.quaternion.slerp(this.qTarget, dt * 0.01);
-  }
-  update() {
   }
   isPressed(_button) {
     return false;
