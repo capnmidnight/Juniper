@@ -384,7 +384,9 @@ export class BaseEnvironment<Events = void>
     async loadModel(path: string, prog?: IProgress): Promise<THREE.Group> {
         const loader = new GLTFLoader();
         const model = await loader.loadAsync(path, (evt) => {
-            prog.report(evt.loaded, evt.total, path);
+            if (isDefined(prog)) {
+                prog.report(evt.loaded, evt.total, path);
+            }
         });
         model.scene.traverse((m: THREE.Object3D) => {
             if (isMesh(m)) {
