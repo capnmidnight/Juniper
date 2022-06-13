@@ -1,9 +1,11 @@
 export type PointerEventTypes
-    = "move"
+    = "click"
     | "down"
-    | "up"
-    | "click"
-    | "dragstart"
     | "drag"
     | "dragcancel"
-    | "dragend";
+    | "dragend"
+    | "dragstart"
+    | "enter"
+    | "exit"
+    | "move"
+    | "up";

@@ -1,8 +1,9 @@
+import { PointerEventTypes } from "@juniper-lib/event-system/PointerEventTypes";
 import { TypedEvent } from "@juniper-lib/tslib";
 import type { IPointer } from "./IPointer";
 import { resolveObj } from "./resolveObj";
 
-export class EventSystemEvent<T extends string> extends TypedEvent<T> {
+export class EventSystemEvent<T extends PointerEventTypes> extends TypedEvent<T> {
     private _hit: THREE.Intersection = null;
     private _point: THREE.Vector3 = null;
     private _distance: number = Number.POSITIVE_INFINITY;

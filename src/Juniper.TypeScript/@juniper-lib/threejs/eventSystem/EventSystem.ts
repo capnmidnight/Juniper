@@ -55,7 +55,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
     private infoPressed = false;
     private menuPressed = false;
 
-    private readonly pointerEvents = new Map<IPointer, Map<string, EventSystemEvent<string>>>();
+    private readonly pointerEvents = new Map<IPointer, Map<string, EventSystemEvent<PointerEventTypes>>>();
 
     constructor(
         private readonly env: BaseEnvironment<unknown>) {
@@ -266,6 +266,10 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                 }
                 break;
 
+            case "enter": case "exit":
+                console.log(pointer, eventType);
+                break;
+
             default:
                 assertNever(eventType);
         }
@@ -276,23 +280,16 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
             2);
     }
 
-    private getEvent<T extends string>(pointer: IPointer, type: T, ...hits: THREE.Intersection[]): EventSystemEvent<T> {
+    private getEvent<T extends PointerEventTypes>(pointer: IPointer, type: T, ...hits: THREE.Intersection[]): EventSystemEvent<T> {
         if (!this.pointerEvents.has(pointer)) {
-            const evts = new Map<string, EventSystemEvent<string>>([
-                ["move", new EventSystemEvent("move", pointer)],
-                ["enter", new EventSystemEvent("enter", pointer)],
-                ["exit", new EventSystemEvent("exit", pointer)],
-                ["up", new EventSystemEvent("up", pointer)],
-                ["down", new EventSystemEvent("down", pointer)],
-                ["click", new EventSystemEvent("click", pointer)],
-                ["dragstart", new EventSystemEvent("dragstart", pointer)],
-                ["drag", new EventSystemEvent("drag", pointer)],
-                ["dragend", new EventSystemEvent("dragend", pointer)]
-            ]);
-            this.pointerEvents.set(pointer, evts);
+            this.pointerEvents.set(pointer, new Map<PointerEventTypes, EventSystemEvent<PointerEventTypes>>());
         }
 
         const pointerEvents = this.pointerEvents.get(pointer);
+        if (!pointerEvents.has(type)) {
+            pointerEvents.set(type, new EventSystemEvent(type, pointer));
+        }
+
         const evt = pointerEvents.get(type) as EventSystemEvent<T>
         if (hits.length > 0) {
             evt.hit = arrayScan(hits, isDefined);

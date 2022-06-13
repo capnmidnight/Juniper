@@ -1,6 +1,7 @@
 import { isModifierless } from "@juniper-lib/dom/evts";
 import { AvatarMovedEvent } from "@juniper-lib/event-system/AvatarMovedEvent";
 import { MouseButtons } from "@juniper-lib/event-system/MouseButton";
+import { PointerEventTypes } from "@juniper-lib/event-system/PointerEventTypes";
 import { angleClamp, assertNever, clamp, deg2rad, IDisposable, isFunction, isMobile, isMobileVR, isNullOrUndefined, isString, truncate, TypedEventBase } from "@juniper-lib/tslib";
 import type { BodyFollower } from "./animation/BodyFollower";
 import { getLookHeading, getLookPitch } from "./animation/lookAngles";
@@ -255,7 +256,6 @@ export class AvatarLocal
     onMove(evt: EventSystemEvent<"move">) {
         if (evt.pointer.enabled) {
             this.setMode(evt);
-
             if (evt.pointer.canMoveView
                 && this.checkMode(this.controlMode, evt)) {
                 this.u = evt.pointer.state.u;
@@ -266,7 +266,7 @@ export class AvatarLocal
         }
     }
 
-    private setMode(evt: EventSystemEvent<string>) {
+    private setMode(evt: EventSystemEvent<PointerEventTypes>) {
         if (evt.pointer.type === "touch" || evt.pointer.type === "pen") {
             this.controlMode = CameraControlMode.Touch;
         }
@@ -290,13 +290,13 @@ export class AvatarLocal
         }
     }
 
-    private checkMode(mode: CameraControlMode, evt: EventSystemEvent<string>) {
+    private checkMode(mode: CameraControlMode, evt: EventSystemEvent<PointerEventTypes>) {
         return mode !== CameraControlMode.None
             && this.gestureSatisfied(mode, evt)
             && this.dragSatisfied(mode, evt);
     }
 
-    private gestureSatisfied(mode: CameraControlMode, evt: EventSystemEvent<string>) {
+    private gestureSatisfied(mode: CameraControlMode, evt: EventSystemEvent<PointerEventTypes>) {
         const button = this.requiredMouseButton.get(mode);
         if (isNullOrUndefined(button)) {
             return mode === CameraControlMode.MouseScreenEdge
@@ -309,7 +309,7 @@ export class AvatarLocal
         }
     }
 
-    private dragSatisfied(mode: CameraControlMode, evt: EventSystemEvent<string>) {
+    private dragSatisfied(mode: CameraControlMode, evt: EventSystemEvent<PointerEventTypes>) {
         return !this.requiredMouseButton.has(mode)
             || this.requiredMouseButton.get(mode) == MouseButtons.None
             || evt.pointer.state.dragging;
