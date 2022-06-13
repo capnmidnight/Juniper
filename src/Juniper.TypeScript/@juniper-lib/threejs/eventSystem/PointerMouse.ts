@@ -4,7 +4,7 @@ import { CursorXRMouse } from "./CursorXRMouse";
 import type { EventSystem } from "./EventSystem";
 
 export class PointerMouse extends BaseScreenPointer {
-    allowPointerLock: boolean;
+    allowPointerLock: boolean = false;
 
     constructor(evtSys: EventSystem, renderer: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera) {
 
@@ -40,8 +40,6 @@ export class PointerMouse extends BaseScreenPointer {
 
         this.element.addEventListener("pointerup", unPrep);
         this.element.addEventListener("pointercancel", unPrep);
-
-        this.allowPointerLock = false;
 
         this.element.addEventListener("pointerdown", () => {
             if (this.allowPointerLock

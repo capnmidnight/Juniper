@@ -124,7 +124,17 @@ export abstract class BasePointer
         this.evtSys.checkPointer(this, type);
     }
 
-    abstract update(): void;
+    update(): void {
+        this.onUpdate();
+        if (!this.lastState) {
+            this.lastState = new PointerState();
+        }
+        this.lastState.copy(this.state);
+    }
+
+    protected onUpdate(): void {
+
+    }
 
     updateCursor(avatarHeadPos: THREE.Vector3, curHit: THREE.Intersection, defaultDistance: number) {
         if (this.cursor) {
@@ -132,21 +142,8 @@ export abstract class BasePointer
         }
     }
 
-    protected lastStateUpdate(updater: () => void): void {
-        if (this.lastState) {
-            this.lastState.copy(this.state);
-            updater();
-            this.state.dragDistance = this.lastState.dragDistance;
-        }
-        else {
-            updater();
-            this.lastState = new PointerState();
-            this.lastState.copy(this.state);
-        }
-    }
-
     protected onZoom(dz: number): void {
-        this.lastStateUpdate(() => this.state.dz = dz);
+        this.state.dz = dz;
         this.setEventState("move");
     }
 
@@ -158,12 +155,11 @@ export abstract class BasePointer
 
     protected onPointerMove() {
         this.setEventState("move");
-
         if (this.state.buttons !== MouseButtons.None) {
             const canDrag = isNullOrUndefined(this.pressedHit)
                 || isDraggable(this.pressedHit);
             if (canDrag) {
-                if (this.lastState.buttons === this.state.buttons) {
+                if (this.lastState && this.lastState.buttons === this.state.buttons) {
                     this.state.dragDistance += this.state.moveDistance;
                     if (this.state.dragDistance > this.movementDragThreshold) {
                         this.onDragStart();
@@ -178,10 +174,9 @@ export abstract class BasePointer
     }
 
     private onDragStart() {
-        const wasDragging = this.state.dragging;
         this.state.dragging = true;
 
-        if (!wasDragging) {
+        if (this.lastState && !this.lastState.dragging) {
             this.setEventState("dragstart");
         }
 
@@ -190,7 +185,7 @@ export abstract class BasePointer
     }
 
     protected onPointerUp() {
-        if (this.state.canClick) {
+        if (this.state.canClick && this.lastState) {
             const lastButtons = this.state.buttons;
             this.state.buttons = this.lastState.buttons;
             this.setEventState("click");
@@ -200,9 +195,8 @@ export abstract class BasePointer
         this.setEventState("up");
 
         this.state.dragDistance = 0;
-        const wasDragging = this.state.dragging;
         this.state.dragging = false;
-        if (wasDragging) {
+        if (this.lastState && this.lastState.dragging) {
             this.setEventState("dragend");
         }
     }

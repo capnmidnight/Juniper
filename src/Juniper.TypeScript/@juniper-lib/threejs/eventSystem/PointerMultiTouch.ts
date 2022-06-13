@@ -1,172 +1,72 @@
 import { PointerName } from "@juniper-lib/event-system/PointerName";
-import { PointerState } from "@juniper-lib/event-system/PointerState";
-import { VirtualButtons } from "@juniper-lib/event-system/VirtualButtons";
-import { resolveCamera } from "../resolveCamera";
-import { BasePointer } from "./BasePointer";
+import { BaseScreenPointer } from "./BaseScreenPointer";
 import type { EventSystem } from "./EventSystem";
-import { countPresses, PointerSingleTouch } from "./PointerSingleTouch";
 
-function dist(a: PointerState, b: PointerState) {
-    const dx = b.x - a.x;
-    const dy = b.y - a.y;
+function dist(a: PointerEvent, b: PointerEvent) {
+    const dx = b.offsetX - a.offsetY;
+    const dy = b.offsetY - a.offsetY;
     return Math.sqrt(dx * dx + dy * dy);
 }
 
-export class PointerMultiTouch extends BasePointer {
-    private touches = new Array<PointerSingleTouch>(10);
+export class PointerMultiTouch extends BaseScreenPointer {
     private lastPinchDist = 0;
-    private lastPressCount = 0;
+    private readonly points = new Map<number, PointerEvent>();
 
-    constructor(evtSys: EventSystem, private readonly renderer: THREE.WebGLRenderer, private readonly camera: THREE.PerspectiveCamera) {
-        super("touch", PointerName.Touches, evtSys, null);
-
-        for (let i = 0; i < this.touches.length; ++i) {
-            this.touches[i] = new PointerSingleTouch(evtSys, renderer, i, camera, this);
-        }
-
+    constructor(evtSys: EventSystem, renderer: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera) {
+        super("touch", PointerName.Touches, evtSys, renderer, camera, null);
         this.canMoveView = true;
-
         Object.seal(this);
     }
 
-    onDown() {
-        this.updateState();
-        this.onPointerDown();
+    protected override checkEvent(evt: PointerEvent) {
+        return evt.pointerType === this.type;
     }
 
-    onUp() {
-        this.updateState();
-        this.onPointerUp();
-    }
-
-    onMove() {
-        this.updateState();
-        this.onPointerMove();
-
-        const pressCount = countPresses();
-        if (pressCount === 2) {
-            let a: PointerSingleTouch = null;
-            let b: PointerSingleTouch = null;
-            for (const touch of this.touches) {
-                if (touch.isTracking) {
-                    if (!a) {
-                        a = touch;
-                    }
-                    else if (!b) {
-                        b = touch;
-                        break;
-                    }
-                }
+    protected override readEvent(evt: PointerEvent) {
+        if (this.checkEvent(evt)) {
+            this.basicReadEvent(evt);
+            console.log(evt.pointerId, evt.type, evt.x, evt.offsetX);
+            if (evt.type === "pointerdown" || evt.type === "pointermove") {
+                this.points.set(evt.pointerId, evt);
+            }
+            else if (this.points.has(evt.pointerId)
+                && (evt.type === "pointerup" || evt.type === "pointercancel")) {
+                this.points.delete(evt.pointerId);
             }
 
-            const pinchDist = dist(a.state, b.state);
-            const dz = (pinchDist - this.lastPinchDist) * 2.5;
-            if (this.lastPressCount === 2) {
-                this.onZoom(dz);
-            }
-
-            this.lastPinchDist = pinchDist;
-        }
-
-        this.lastPressCount = pressCount;
-    }
-
-    override vibrate() {
-        navigator.vibrate(125);
-    }
-
-    private updateState(): void {
-        this.lastStateUpdate(() => {
             this.state.buttons = 0;
-
-            this.state.alt = false;
-            this.state.ctrl = false;
-            this.state.shift = false;
-            this.state.meta = false;
-            this.state.canClick = false;
-            this.state.dragging = false;
-
-            this.state.dragDistance = 0;
-            this.state.moveDistance = 0;
             this.state.x = 0;
             this.state.y = 0;
             this.state.dx = 0;
             this.state.dy = 0;
-            this.state.u = 0;
-            this.state.v = 0;
-            this.state.du = 0;
-            this.state.dv = 0;
+            this.state.dz = 0;
 
-            const K = 1 / countPresses();
-            for (const touch of this.touches) {
-                if (touch.isTracking) {
-                    this.state.buttons = Math.max(this.state.buttons, touch.state.buttons);
+            if (this.points.size > 0) {
+                this.state.buttons = 1 << (this.points.size - 1);
+                const K = 1 / this.points.size;
+                for (const point of this.points.values()) {
+                    this.state.x += K * point.offsetX;
+                    this.state.y += K * point.offsetY;
+                    this.state.dx += K * point.movementX;
+                    this.state.dy += K * point.movementY;
+                }
 
-                    this.state.alt = this.state.alt || touch.state.alt;
-                    this.state.ctrl = this.state.ctrl || touch.state.ctrl;
-                    this.state.shift = this.state.shift || touch.state.shift;
-                    this.state.meta = this.state.meta || touch.state.meta;
-                    this.state.canClick = this.state.canClick || touch.state.canClick;
-                    this.state.dragging = this.state.dragging || touch.state.dragging;
+                if (this.points.size === 2) {
+                    const [a, b] = Array.from(this.points.values());
+                    const pinchDist = dist(a, b);
+                    if (this.lastState && this.lastState.buttons === 2) {
+                        this.state.dz = (pinchDist - this.lastPinchDist) * 2.5;
+                    }
 
-                    this.state.dragDistance += K * touch.state.dragDistance;
-                    this.state.moveDistance += K * touch.state.moveDistance;
-                    this.state.x += K * touch.state.x;
-                    this.state.y += K * touch.state.y;
-                    this.state.dx += K * touch.state.dx;
-                    this.state.dy += K * touch.state.dy;
-                    this.state.u += K * touch.state.u;
-                    this.state.v += K * touch.state.v;
-                    this.state.du += K * touch.state.du;
-                    this.state.dv += K * touch.state.dv;
+                    this.lastPinchDist = pinchDist;
                 }
             }
-        });
-    }
 
-    override get canMoveView() {
-        return super.canMoveView;
-    }
-
-    override set canMoveView(v) {
-        if (this.touches) {
-            for (const touch of this.touches) {
-                touch.canMoveView = v;
-            }
-            super.canMoveView = v;
+            this.stateDelta(evt.type);
         }
     }
 
-    override get enabled() {
-        return super.enabled;
-    }
-
-    override set enabled(v) {
-        if (this.touches) {
-            for (const touch of this.touches) {
-                touch.enabled = v;
-            }
-        }
-        super.enabled = v;
-    }
-
-    update() {
-        const cam = resolveCamera(this.renderer, this.camera);
-
-        this.origin.setFromMatrixPosition(cam.matrixWorld);
-        this.direction.set(this.state.u, -this.state.v, 0.5)
-            .unproject(cam)
-            .sub(this.origin)
-            .normalize();
-    }
-
-    isPressed(button: VirtualButtons) {
-        for (const touch of this.touches) {
-            if (touch.isPressed(button)) {
-                return true;
-            }
-        }
-
-        return false;
+    override vibrate() {
+        navigator.vibrate(125);
     }
 }

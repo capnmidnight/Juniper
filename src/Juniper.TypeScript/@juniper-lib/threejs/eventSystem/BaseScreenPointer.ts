@@ -57,45 +57,65 @@ export abstract class BaseScreenPointer extends BasePointer {
         return this.id != null;
     }
 
-    checkEvent(evt: PointerEvent) {
+    protected checkEvent(evt: PointerEvent) {
         return evt.pointerType === this.type
             && evt.pointerId === this.id;
     }
 
-    readEvent(evt: PointerEvent) {
+    protected readEvent(evt: PointerEvent) {
         if (this.checkEvent(evt)) {
-            this.lastStateUpdate(() => this.state.read(evt));
+            this.basicReadEvent(evt);
 
-            if (evt.type === "pointermove") {
-                if (document.pointerLockElement) {
-                    this.state.x = this.lastState.x + this.state.dx;
-                    this.state.y = this.lastState.y + this.state.dy;
-                }
-                else {
-                    this.state.dx = this.state.x - this.lastState.x;
-                    this.state.dy = this.state.y - this.lastState.y;
-                }
-            }
+            this.state.buttons = evt.buttons;
+            this.state.x = evt.offsetX;
+            this.state.y = evt.offsetY;
+            this.state.dx = evt.movementX;
+            this.state.dy = evt.movementY;
 
-            this.state.moveDistance = Math.sqrt(
-                this.state.dx * this.state.dx
-                + this.state.dy * this.state.dy);
-
-            this.state.u = unproject(project(this.state.x, 0, this.element.clientWidth), -1, 1);
-            this.state.v = unproject(project(this.state.y, 0, this.element.clientHeight), -1, 1);
-
-            this.state.du = 2 * this.state.dx / this.element.clientWidth;
-            this.state.dv = 2 * this.state.dy / this.element.clientHeight;
+            this.stateDelta(evt.type);
         }
     }
 
+    protected basicReadEvent(evt: PointerEvent) {
+        this.state.ctrl = evt.ctrlKey;
+        this.state.alt = evt.altKey;
+        this.state.shift = evt.shiftKey;
+        this.state.meta = evt.metaKey;
+        this.state.dz = 0;
+    }
+
+    protected stateDelta(type: string) {
+        if (type === "pointermove" && this.lastState) {
+            if (document.pointerLockElement) {
+                this.state.x = this.lastState.x + this.state.dx;
+                this.state.y = this.lastState.y + this.state.dy;
+            }
+            else {
+                this.state.dx = this.state.x - this.lastState.x;
+                this.state.dy = this.state.y - this.lastState.y;
+            }
+        }
+
+        this.state.moveDistance = Math.sqrt(
+            this.state.dx * this.state.dx
+            + this.state.dy * this.state.dy);
+
+        this.state.u = unproject(project(this.state.x, 0, this.element.clientWidth), -1, 1);
+        this.state.v = unproject(project(this.state.y, 0, this.element.clientHeight), -1, 1);
+
+        this.state.du = 2 * this.state.dx / this.element.clientWidth;
+        this.state.dv = 2 * this.state.dy / this.element.clientHeight;
+    }
+
     private moveOnUpdate = false;
+
     override recheck(): void {
         this.moveOnUpdate = true;
         super.recheck();
     }
 
-    update() {
+    protected override onUpdate() {
+        super.onUpdate();
         const cam = resolveCamera(this.renderer, this.camera);
 
         this.origin.setFromMatrixPosition(cam.matrixWorld);
@@ -107,6 +127,12 @@ export abstract class BaseScreenPointer extends BasePointer {
         if (this.moveOnUpdate) {
             this.onPointerMove();
         }
+
+        this.origin.setFromMatrixPosition(cam.matrixWorld);
+        this.direction.set(this.state.u, -this.state.v, 0.5)
+            .unproject(cam)
+            .sub(this.origin)
+            .normalize();
     }
 
     protected override onPointerMove() {

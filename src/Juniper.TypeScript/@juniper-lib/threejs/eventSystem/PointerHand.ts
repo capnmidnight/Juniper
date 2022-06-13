@@ -219,7 +219,8 @@ export class PointerHand
         }
     }
 
-    update() {
+    protected override onUpdate() {
+        super.onUpdate();
         if (this.enabled) {
             this.updateState();
             this.onPointerMove();
@@ -227,28 +228,26 @@ export class PointerHand
     }
 
     private updateState() {
-        this.lastStateUpdate(() => {
-            this.laser.getWorldPosition(newOrigin);
-            this.laser.getWorldDirection(newDirection)
-                .multiplyScalar(-1);
+        this.laser.getWorldPosition(newOrigin);
+        this.laser.getWorldDirection(newDirection)
+            .multiplyScalar(-1);
 
-            delta.copy(this.origin)
-                .add(this.direction);
+        delta.copy(this.origin)
+            .add(this.direction);
 
-            this.origin.lerp(newOrigin, 0.9);
-            this.direction.lerp(newDirection, 0.9)
-                .normalize();
+        this.origin.lerp(newOrigin, 0.9);
+        this.direction.lerp(newDirection, 0.9)
+            .normalize();
 
-            delta.sub(this.origin)
-                .sub(this.direction);
+        delta.sub(this.origin)
+            .sub(this.direction);
 
-            this.state.moveDistance += 0.001 * delta.length();
+        this.state.moveDistance += 0.001 * delta.length();
 
-            if (isDefined(this._gamepad)
-                && isDefined(this.inputSource)) {
-                this.setGamepad(this.inputSource.gamepad);
-            }
-        });
+        if (isDefined(this._gamepad)
+            && isDefined(this.inputSource)) {
+            this.setGamepad(this.inputSource.gamepad);
+        }
     }
 
     isPressed(button: VirtualButtons): boolean {

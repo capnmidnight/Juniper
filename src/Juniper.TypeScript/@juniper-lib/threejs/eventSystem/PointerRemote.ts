@@ -89,10 +89,6 @@ export class PointerRemote
         this.object.quaternion.slerp(this.qTarget, dt * 0.01);
     }
 
-    update() {
-        // do nothing
-    }
-
     isPressed(_button: VirtualButtons): boolean {
         return false;
     }

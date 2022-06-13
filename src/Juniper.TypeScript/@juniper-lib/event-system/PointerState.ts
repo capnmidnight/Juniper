@@ -42,17 +42,4 @@ export class PointerState {
         this.shift = ptr.shift;
         this.meta = ptr.meta;
     }
-
-    read(evt: PointerEvent) {
-        this.buttons = evt.buttons;
-        this.x = evt.offsetX;
-        this.y = evt.offsetY;
-        this.dx = evt.movementX;
-        this.dy = evt.movementY;
-        this.dz = 0;
-        this.ctrl = evt.ctrlKey;
-        this.alt = evt.altKey;
-        this.shift = evt.shiftKey;
-        this.meta = evt.metaKey;
-    }
 }
