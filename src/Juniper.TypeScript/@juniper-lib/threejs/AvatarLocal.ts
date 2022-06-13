@@ -104,6 +104,7 @@ export class AvatarLocal
 
     private _worldHeading: number = 0;
     private _worldPitch: number = 0;
+    private lastTouchInputTime: number = Number.MIN_SAFE_INTEGER;
 
     get worldHeading() {
         return this._worldHeading;
@@ -207,7 +208,10 @@ export class AvatarLocal
                 if (event
                     && (event.alpha || event.beta || event.gamma)
                     && this.motionEnabled) {
-                    this.controlMode = CameraControlMode.MagicWindow;
+                    const dt = performance.now() - this.lastTouchInputTime;
+                    if (dt > 1000) {
+                        this.controlMode = CameraControlMode.MagicWindow;
+                    }
                 }
             };
 
@@ -268,6 +272,7 @@ export class AvatarLocal
 
     private setMode(evt: EventSystemEvent<PointerEventTypes>) {
         if (evt.pointer.type === "touch" || evt.pointer.type === "pen") {
+            this.lastTouchInputTime = performance.now();
             this.controlMode = CameraControlMode.Touch;
         }
         else if (evt.pointer.type === "gamepad") {
