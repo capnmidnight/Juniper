@@ -92,7 +92,7 @@ ZAGkADoAEAAZ5QkTf/PN/ACV4rJ9AdCf3AAAAAElFTkSuQmCC"));
             this.bg.save();
             this.bg.translate(this.lx, this.ly);
             this.bg.rotate(a);
-            this.bg.translate(-0.5 * this.finger.width, -0.5 * this.finger.height);
+            this.bg.translate(-0.5 * this.finger.width * this.fingerScale, -0.5 * this.finger.height * this.fingerScale);
             for (let i = 0; i <= d; ++i) {
                 this.bg.drawImage(this.finger,
                     0, 0, this.finger.width, this.finger.height,
