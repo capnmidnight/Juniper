@@ -49,9 +49,9 @@ export class PointerMultiTouch extends BaseScreenPointer {
                 this.state.dx = 0;
                 this.state.dy = 0;
 
-                this.state.buttons = 1 << (this.points.size - 1);
                 const K = 1 / this.points.size;
                 for (const point of this.points.values()) {
+                    this.state.buttons |= point.buttons << (this.points.size - 1);
                     this.state.x += K * point.offsetX;
                     this.state.y += K * point.offsetY;
                     this.state.dx += K * point.movementX;
