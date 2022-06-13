@@ -2,7 +2,7 @@ import { autoPlay, controls, loop, playsInline } from "@juniper-lib/dom/attrs";
 import { Audio, ErsatzElement, mediaElementCanPlayThrough } from "@juniper-lib/dom/tags";
 import { arrayClear, arrayReplace, arraySortByKeyInPlace, AsyncCallback, IDisposable, IProgress, isDefined, isNullOrUndefined, isString, once } from "@juniper-lib/tslib";
 import { AudioRecord, FullAudioRecord } from "../data";
-import { MediaElementSource, removeVertex } from "../nodes";
+import { audioReady, MediaElementSource, removeVertex } from "../nodes";
 import { BaseAudioSource } from "./BaseAudioSource";
 import { MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "./IPlayable";
 import { IPlayer, MediaPlayerEvents, MediaPlayerLoadingEvent } from "./IPlayer";
@@ -280,8 +280,9 @@ export class AudioPlayer
         return "playing";
     }
 
-    play(): Promise<void> {
-        return this.element.play();
+    async play(): Promise<void> {
+        await audioReady(this.audioCtx);
+        await this.element.play();
     }
 
     async playThrough(): Promise<void> {

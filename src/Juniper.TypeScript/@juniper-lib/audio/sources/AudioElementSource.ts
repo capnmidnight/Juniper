@@ -1,6 +1,6 @@
 import { mediaElementCanPlay } from "@juniper-lib/dom/tags";
 import { once } from "@juniper-lib/tslib";
-import { removeVertex } from "../nodes";
+import { audioReady, removeVertex } from "../nodes";
 import { BaseAudioSource } from "./BaseAudioSource";
 import { IPlayable, MediaElementSourceErroredEvent, MediaElementSourceEvents, MediaElementSourceLoadedEvent, MediaElementSourcePausedEvent, MediaElementSourcePlayedEvent, MediaElementSourceProgressEvent, MediaElementSourceStoppedEvent } from "./IPlayable";
 import { PlaybackState } from "./PlaybackState";
@@ -123,8 +123,9 @@ export class AudioElementSource
         return "playing";
     }
 
-    play(): Promise<void> {
-        return this.audio.play();
+    async play(): Promise<void> {
+        await audioReady(this.audioCtx);
+        await this.audio.play();
     }
 
     async playThrough(): Promise<void> {
