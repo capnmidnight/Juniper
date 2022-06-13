@@ -1,7 +1,7 @@
 import { IFetcher } from "@juniper-lib/fetcher-base/IFetcher";
 import { IProgress, isDefined } from "@juniper-lib/tslib";
 
-export class Asset<PathT extends string | URL, ResultT, ErrorT = unknown> implements Promise<ResultT> {
+export class Asset<ResultT, ErrorT = unknown> implements Promise<ResultT> {
 
     private readonly promise: Promise<ResultT>;
 
@@ -33,7 +33,7 @@ export class Asset<PathT extends string | URL, ResultT, ErrorT = unknown> implem
     private resolve: (value: ResultT) => void = null;
     private reject: (reason: ErrorT) => void = null;
 
-    constructor(private readonly path: PathT, private readonly getter: (path: PathT, prog?: IProgress) => Promise<ResultT>) {
+    constructor(private readonly path: string, private readonly getter: (path: string, prog?: IProgress) => Promise<ResultT>) {
         this.promise = new Promise((resolve, reject) => {
             this.resolve = (value: ResultT) => {
                 this._result = value;
