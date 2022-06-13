@@ -95,7 +95,7 @@ export class BaseEnvironment<Events = void>
     readonly worldUISpace: BodyFollower;
     readonly skybox: Skybox;
     readonly avatar: AvatarLocal;
-    readonly cameraControl: CameraControl;
+    readonly fovControl: CameraControl;
     readonly screenControl: ScreenControl;
     readonly eventSystem: EventSystem;
 
@@ -121,7 +121,7 @@ export class BaseEnvironment<Events = void>
 
         this.renderer.domElement.tabIndex = 1;
 
-        this.cameraControl = new CameraControl(this.camera);
+        this.fovControl = new CameraControl(this.camera);
 
         this.screenControl = new ScreenControl(
             this.renderer,
@@ -231,7 +231,7 @@ export class BaseEnvironment<Events = void>
 
             this.screenControl.resize();
             this.eventSystem.update();
-            this.cameraControl.update(evt.dt);
+            this.fovControl.update(evt.dt);
             this.avatar.update(evt.dt);
             this.worldUISpace.update(this.avatar.height, this.avatar.worldPos, this.avatar.worldHeading, evt.dt);
             this.fader.update(evt.dt);

@@ -150,7 +150,7 @@ export class EventSystem extends TypedEventBase<EventSystemEvents> {
                 {
                     const moveEvt = this.getEvent(pointer, "move", curHit);
                     this.env.avatar.onMove(moveEvt);
-                    this.env.cameraControl.onMove(moveEvt);
+                    this.env.fovControl.onMove(moveEvt);
 
                     if (isDefined(draggedHit)) {
                         draggedObj.dispatchEvent(moveEvt.to3(draggedHit));
