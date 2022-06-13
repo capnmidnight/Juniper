@@ -25,7 +25,7 @@ export class PointerMultiTouch extends BaseScreenPointer {
     protected override readEvent(evt: PointerEvent) {
         if (this.checkEvent(evt)) {
             this.basicReadEvent(evt);
-            console.log(evt.pointerId, evt.type, evt.x, evt.offsetX);
+
             if (evt.type === "pointerdown" || evt.type === "pointermove") {
                 this.points.set(evt.pointerId, evt);
             }
@@ -35,13 +35,20 @@ export class PointerMultiTouch extends BaseScreenPointer {
             }
 
             this.state.buttons = 0;
-            this.state.x = 0;
-            this.state.y = 0;
-            this.state.dx = 0;
-            this.state.dy = 0;
-            this.state.dz = 0;
+            this.state.dz *= .9;
 
-            if (this.points.size > 0) {
+            if (this.points.size === 0) {
+                this.state.x *= .9;
+                this.state.y *= .9;
+                this.state.dx *= .9;
+                this.state.dy *= .9;
+            }
+            else {
+                this.state.x = 0;
+                this.state.y = 0;
+                this.state.dx = 0;
+                this.state.dy = 0;
+
                 this.state.buttons = 1 << (this.points.size - 1);
                 const K = 1 / this.points.size;
                 for (const point of this.points.values()) {
