@@ -150,7 +150,7 @@ export class AvatarLocal
     private readonly onKeyDown: (evt: any) => void;
     private readonly onKeyUp: (evt: any) => void;
 
-    private get stage() {
+    get stage() {
         return this.head.parent;
     }
 
