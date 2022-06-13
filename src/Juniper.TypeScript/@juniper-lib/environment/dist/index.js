@@ -11438,6 +11438,7 @@ var AvatarLocal = class extends TypedEventBase {
     this.worldPos = new THREE.Vector3();
     this._worldHeading = 0;
     this._worldPitch = 0;
+    this.lastTouchInputTime = Number.MIN_SAFE_INTEGER;
     this.evtSys = null;
     this.requiredTouchCount = 1;
     this.disableHorizontal = false;
@@ -11515,7 +11516,10 @@ var AvatarLocal = class extends TypedEventBase {
       this.onDeviceOrientationChangeEvent = (event) => {
         this.deviceOrientation = event;
         if (event && (event.alpha || event.beta || event.gamma) && this.motionEnabled) {
-          this.controlMode = "magicwindow" /* MagicWindow */;
+          const dt = performance.now() - this.lastTouchInputTime;
+          if (dt > 1e3) {
+            this.controlMode = "magicwindow" /* MagicWindow */;
+          }
         }
       };
       this.onScreenOrientationChangeEvent = () => {
@@ -11580,6 +11584,7 @@ var AvatarLocal = class extends TypedEventBase {
   }
   setMode(evt) {
     if (evt.pointer.type === "touch" || evt.pointer.type === "pen") {
+      this.lastTouchInputTime = performance.now();
       this.controlMode = "touchswipe" /* Touch */;
     } else if (evt.pointer.type === "gamepad") {
       this.controlMode = "gamepad" /* Gamepad */;
@@ -15078,18 +15083,6 @@ var PointerState = class {
     this.shift = ptr.shift;
     this.meta = ptr.meta;
   }
-  read(evt) {
-    this.buttons = evt.buttons;
-    this.x = evt.offsetX;
-    this.y = evt.offsetY;
-    this.dx = evt.movementX;
-    this.dy = evt.movementY;
-    this.dz = 0;
-    this.ctrl = evt.ctrlKey;
-    this.alt = evt.altKey;
-    this.shift = evt.shiftKey;
-    this.meta = evt.metaKey;
-  }
 };
 
 // ../threejs/setGeometryUVsForCubemaps.ts
@@ -15412,24 +15405,22 @@ var BasePointer = class {
   setEventState(type2) {
     this.evtSys.checkPointer(this, type2);
   }
+  update() {
+    this.onUpdate();
+    if (!this.lastState) {
+      this.lastState = new PointerState();
+    }
+    this.lastState.copy(this.state);
+  }
+  onUpdate() {
+  }
   updateCursor(avatarHeadPos, curHit, defaultDistance) {
     if (this.cursor) {
       this.cursor.update(avatarHeadPos, curHit, defaultDistance, this.canMoveView, this.state, this.origin, this.direction);
     }
   }
-  lastStateUpdate(updater) {
-    if (this.lastState) {
-      this.lastState.copy(this.state);
-      updater();
-      this.state.dragDistance = this.lastState.dragDistance;
-    } else {
-      updater();
-      this.lastState = new PointerState();
-      this.lastState.copy(this.state);
-    }
-  }
   onZoom(dz) {
-    this.lastStateUpdate(() => this.state.dz = dz);
+    this.state.dz = dz;
     this.setEventState("move");
   }
   onPointerDown() {
@@ -15442,7 +15433,7 @@ var BasePointer = class {
     if (this.state.buttons !== 0 /* None */) {
       const canDrag = isNullOrUndefined(this.pressedHit) || isDraggable(this.pressedHit);
       if (canDrag) {
-        if (this.lastState.buttons === this.state.buttons) {
+        if (this.lastState && this.lastState.buttons === this.state.buttons) {
           this.state.dragDistance += this.state.moveDistance;
           if (this.state.dragDistance > this.movementDragThreshold) {
             this.onDragStart();
@@ -15455,16 +15446,15 @@ var BasePointer = class {
     }
   }
   onDragStart() {
-    const wasDragging = this.state.dragging;
     this.state.dragging = true;
-    if (!wasDragging) {
+    if (this.lastState && !this.lastState.dragging) {
       this.setEventState("dragstart");
     }
     this.state.canClick = false;
     this.setEventState("drag");
   }
   onPointerUp() {
-    if (this.state.canClick) {
+    if (this.state.canClick && this.lastState) {
       const lastButtons = this.state.buttons;
       this.state.buttons = this.lastState.buttons;
       this.setEventState("click");
@@ -15472,9 +15462,8 @@ var BasePointer = class {
     }
     this.setEventState("up");
     this.state.dragDistance = 0;
-    const wasDragging = this.state.dragging;
     this.state.dragging = false;
-    if (wasDragging) {
+    if (this.lastState && this.lastState.dragging) {
       this.setEventState("dragend");
     }
   }
@@ -15996,25 +15985,24 @@ var PointerHand = class extends BasePointer {
       obj2.scale.set(sx, 1, 1);
     }
   }
-  update() {
+  onUpdate() {
+    super.onUpdate();
     if (this.enabled) {
       this.updateState();
       this.onPointerMove();
     }
   }
   updateState() {
-    this.lastStateUpdate(() => {
-      this.laser.getWorldPosition(newOrigin);
-      this.laser.getWorldDirection(newDirection).multiplyScalar(-1);
-      delta2.copy(this.origin).add(this.direction);
-      this.origin.lerp(newOrigin, 0.9);
-      this.direction.lerp(newDirection, 0.9).normalize();
-      delta2.sub(this.origin).sub(this.direction);
-      this.state.moveDistance += 1e-3 * delta2.length();
-      if (isDefined(this._gamepad) && isDefined(this.inputSource)) {
-        this.setGamepad(this.inputSource.gamepad);
-      }
-    });
+    this.laser.getWorldPosition(newOrigin);
+    this.laser.getWorldDirection(newDirection).multiplyScalar(-1);
+    delta2.copy(this.origin).add(this.direction);
+    this.origin.lerp(newOrigin, 0.9);
+    this.direction.lerp(newDirection, 0.9).normalize();
+    delta2.sub(this.origin).sub(this.direction);
+    this.state.moveDistance += 1e-3 * delta2.length();
+    if (isDefined(this._gamepad) && isDefined(this.inputSource)) {
+      this.setGamepad(this.inputSource.gamepad);
+    }
   }
   isPressed(button) {
     if (!this._gamepad || !buttonIndices.has(this.handedness) || !buttonIndices.get(this.handedness).has(button)) {
@@ -16064,34 +16052,52 @@ var BaseScreenPointer = class extends BasePointer {
   }
   readEvent(evt) {
     if (this.checkEvent(evt)) {
-      this.lastStateUpdate(() => this.state.read(evt));
-      if (evt.type === "pointermove") {
-        if (document.pointerLockElement) {
-          this.state.x = this.lastState.x + this.state.dx;
-          this.state.y = this.lastState.y + this.state.dy;
-        } else {
-          this.state.dx = this.state.x - this.lastState.x;
-          this.state.dy = this.state.y - this.lastState.y;
-        }
-      }
-      this.state.moveDistance = Math.sqrt(this.state.dx * this.state.dx + this.state.dy * this.state.dy);
-      this.state.u = unproject(project(this.state.x, 0, this.element.clientWidth), -1, 1);
-      this.state.v = unproject(project(this.state.y, 0, this.element.clientHeight), -1, 1);
-      this.state.du = 2 * this.state.dx / this.element.clientWidth;
-      this.state.dv = 2 * this.state.dy / this.element.clientHeight;
+      this.basicReadEvent(evt);
+      this.state.buttons = evt.buttons;
+      this.state.x = evt.offsetX;
+      this.state.y = evt.offsetY;
+      this.state.dx = evt.movementX;
+      this.state.dy = evt.movementY;
+      this.stateDelta(evt.type);
     }
+  }
+  basicReadEvent(evt) {
+    this.state.ctrl = evt.ctrlKey;
+    this.state.alt = evt.altKey;
+    this.state.shift = evt.shiftKey;
+    this.state.meta = evt.metaKey;
+    this.state.dz = 0;
+  }
+  stateDelta(type2) {
+    if (type2 === "pointermove" && this.lastState) {
+      if (document.pointerLockElement) {
+        this.state.x = this.lastState.x + this.state.dx;
+        this.state.y = this.lastState.y + this.state.dy;
+      } else {
+        this.state.dx = this.state.x - this.lastState.x;
+        this.state.dy = this.state.y - this.lastState.y;
+      }
+    }
+    this.state.moveDistance = Math.sqrt(this.state.dx * this.state.dx + this.state.dy * this.state.dy);
+    this.state.u = unproject(project(this.state.x, 0, this.element.clientWidth), -1, 1);
+    this.state.v = unproject(project(this.state.y, 0, this.element.clientHeight), -1, 1);
+    this.state.du = 2 * this.state.dx / this.element.clientWidth;
+    this.state.dv = 2 * this.state.dy / this.element.clientHeight;
   }
   recheck() {
     this.moveOnUpdate = true;
     super.recheck();
   }
-  update() {
+  onUpdate() {
+    super.onUpdate();
     const cam = resolveCamera(this.renderer, this.camera);
     this.origin.setFromMatrixPosition(cam.matrixWorld);
     this.direction.set(this.state.u, -this.state.v, 0.5).unproject(cam).sub(this.origin).normalize();
     if (this.moveOnUpdate) {
       this.onPointerMove();
     }
+    this.origin.setFromMatrixPosition(cam.matrixWorld);
+    this.direction.set(this.state.u, -this.state.v, 0.5).unproject(cam).sub(this.origin).normalize();
   }
   onPointerMove() {
     this.moveOnUpdate = false;
@@ -16120,6 +16126,7 @@ var PointerMouse = class extends BaseScreenPointer {
     element.addEventListener("pointerdown", onPrep);
     element.addEventListener("pointermove", onPrep);
     super("mouse", 1 /* Mouse */, evtSys, renderer, camera, new CursorXRMouse(renderer));
+    this.allowPointerLock = false;
     this.element.addEventListener("wheel", (evt) => {
       evt.preventDefault();
       const dz = -evt.deltaY * 0.5;
@@ -16130,7 +16137,6 @@ var PointerMouse = class extends BaseScreenPointer {
     });
     this.element.addEventListener("pointerup", unPrep);
     this.element.addEventListener("pointercancel", unPrep);
-    this.allowPointerLock = false;
     this.element.addEventListener("pointerdown", () => {
       if (this.allowPointerLock && !this.isPointerLocked) {
         this.lockPointer();
@@ -16150,219 +16156,65 @@ var PointerMouse = class extends BaseScreenPointer {
   }
 };
 
-// ../threejs/eventSystem/PointerSingleTouch.ts
-var touches = new Array();
-var onPrePointerDown = (evt) => {
-  if (evt.pointerType === "touch") {
-    const pressCount = countPresses();
-    let touch = arrayScan(touches, (t2) => t2.id === evt.pointerId);
-    if (!touch) {
-      touch = arrayScan(touches, (t2) => t2.id == null);
-      touch.id = evt.pointerId;
-      touch.state.buttons = 1 << pressCount;
-    }
-  }
-};
-var onPostPointerUp = (evt) => {
-  if (evt.pointerType === "touch") {
-    let touch = arrayScan(touches, (t2) => t2.id === evt.pointerId);
-    if (touch) {
-      touch.id = null;
-    }
-  }
-};
-function countPresses() {
-  let count2 = 0;
-  for (const touch of touches) {
-    if (touch.isTracking) {
-      ++count2;
-    }
-  }
-  return count2;
+// ../threejs/eventSystem/PointerMultiTouch.ts
+function dist2(a, b) {
+  const dx = b.offsetX - a.offsetY;
+  const dy = b.offsetY - a.offsetY;
+  return Math.sqrt(dx * dx + dy * dy);
 }
-var pointerNames2 = /* @__PURE__ */ new Map([
-  [0, 3 /* Touch0 */],
-  [1, 4 /* Touch1 */],
-  [2, 5 /* Touch2 */],
-  [3, 6 /* Touch3 */],
-  [4, 7 /* Touch4 */],
-  [5, 8 /* Touch5 */],
-  [6, 9 /* Touch6 */],
-  [7, 10 /* Touch7 */],
-  [8, 11 /* Touch8 */],
-  [9, 12 /* Touch9 */],
-  [10, 13 /* Touch10 */]
-]);
-var PointerSingleTouch = class extends BaseScreenPointer {
-  constructor(evtSys, renderer, idx, camera, parent) {
-    if (touches.length === 0) {
-      renderer.domElement.addEventListener("pointerdown", onPrePointerDown);
-    }
-    super("touch", pointerNames2.get(idx), evtSys, renderer, camera, null);
-    this.parent = null;
-    if (touches.length === 0) {
-      renderer.domElement.addEventListener("pointerup", onPostPointerUp);
-    }
-    this.parent = parent;
+var PointerMultiTouch = class extends BaseScreenPointer {
+  constructor(evtSys, renderer, camera) {
+    super("touch", 14 /* Touches */, evtSys, renderer, camera, null);
+    this.lastPinchDist = 0;
+    this.points = /* @__PURE__ */ new Map();
     this.canMoveView = true;
     Object.seal(this);
-    touches.push(this);
   }
-  setEventState(type2) {
-    super.setEventState(type2);
-    if (this.parent) {
-      if (type2 === "down") {
-        this.parent.onDown();
-      } else if (type2 === "up") {
-        this.parent.onUp();
-      } else if (type2 === "move") {
-        this.parent.onMove();
-      }
-    }
+  checkEvent(evt) {
+    return evt.pointerType === this.type;
   }
   readEvent(evt) {
     if (this.checkEvent(evt)) {
-      const lastButtons = this.state.buttons;
-      super.readEvent(evt);
-      this.state.buttons = lastButtons;
-    }
-  }
-};
-
-// ../threejs/eventSystem/PointerMultiTouch.ts
-function dist2(a, b) {
-  const dx = b.x - a.x;
-  const dy = b.y - a.y;
-  return Math.sqrt(dx * dx + dy * dy);
-}
-var PointerMultiTouch = class extends BasePointer {
-  constructor(evtSys, renderer, camera) {
-    super("touch", 14 /* Touches */, evtSys, null);
-    this.renderer = renderer;
-    this.camera = camera;
-    this.touches = new Array(10);
-    this.lastPinchDist = 0;
-    this.lastPressCount = 0;
-    for (let i = 0; i < this.touches.length; ++i) {
-      this.touches[i] = new PointerSingleTouch(evtSys, renderer, i, camera, this);
-    }
-    this.canMoveView = true;
-    Object.seal(this);
-  }
-  onDown() {
-    this.updateState();
-    this.onPointerDown();
-  }
-  onUp() {
-    this.updateState();
-    this.onPointerUp();
-  }
-  onMove() {
-    this.updateState();
-    this.onPointerMove();
-    const pressCount = countPresses();
-    if (pressCount === 2) {
-      let a = null;
-      let b = null;
-      for (const touch of this.touches) {
-        if (touch.isTracking) {
-          if (!a) {
-            a = touch;
-          } else if (!b) {
-            b = touch;
-            break;
+      this.basicReadEvent(evt);
+      if (evt.type === "pointerdown" || evt.type === "pointermove") {
+        this.points.set(evt.pointerId, evt);
+      } else if (this.points.has(evt.pointerId) && (evt.type === "pointerup" || evt.type === "pointercancel")) {
+        this.points.delete(evt.pointerId);
+      }
+      this.state.buttons = 0;
+      this.state.dz *= 0.9;
+      if (this.points.size === 0) {
+        this.state.x *= 0.9;
+        this.state.y *= 0.9;
+        this.state.dx *= 0.9;
+        this.state.dy *= 0.9;
+      } else {
+        this.state.x = 0;
+        this.state.y = 0;
+        this.state.dx = 0;
+        this.state.dy = 0;
+        const K = 1 / this.points.size;
+        for (const point of this.points.values()) {
+          this.state.buttons |= point.buttons << this.points.size - 1;
+          this.state.x += K * point.offsetX;
+          this.state.y += K * point.offsetY;
+          this.state.dx += K * point.movementX;
+          this.state.dy += K * point.movementY;
+        }
+        if (this.points.size === 2) {
+          const [a, b] = Array.from(this.points.values());
+          const pinchDist = dist2(a, b);
+          if (this.lastState && this.lastState.buttons === 2) {
+            this.state.dz = (pinchDist - this.lastPinchDist) * 2.5;
           }
+          this.lastPinchDist = pinchDist;
         }
       }
-      const pinchDist = dist2(a.state, b.state);
-      const dz = (pinchDist - this.lastPinchDist) * 2.5;
-      if (this.lastPressCount === 2) {
-        this.onZoom(dz);
-      }
-      this.lastPinchDist = pinchDist;
+      this.stateDelta(evt.type);
     }
-    this.lastPressCount = pressCount;
   }
   vibrate() {
     navigator.vibrate(125);
-  }
-  updateState() {
-    this.lastStateUpdate(() => {
-      this.state.buttons = 0;
-      this.state.alt = false;
-      this.state.ctrl = false;
-      this.state.shift = false;
-      this.state.meta = false;
-      this.state.canClick = false;
-      this.state.dragging = false;
-      this.state.dragDistance = 0;
-      this.state.moveDistance = 0;
-      this.state.x = 0;
-      this.state.y = 0;
-      this.state.dx = 0;
-      this.state.dy = 0;
-      this.state.u = 0;
-      this.state.v = 0;
-      this.state.du = 0;
-      this.state.dv = 0;
-      const K = 1 / countPresses();
-      for (const touch of this.touches) {
-        if (touch.isTracking) {
-          this.state.buttons = Math.max(this.state.buttons, touch.state.buttons);
-          this.state.alt = this.state.alt || touch.state.alt;
-          this.state.ctrl = this.state.ctrl || touch.state.ctrl;
-          this.state.shift = this.state.shift || touch.state.shift;
-          this.state.meta = this.state.meta || touch.state.meta;
-          this.state.canClick = this.state.canClick || touch.state.canClick;
-          this.state.dragging = this.state.dragging || touch.state.dragging;
-          this.state.dragDistance += K * touch.state.dragDistance;
-          this.state.moveDistance += K * touch.state.moveDistance;
-          this.state.x += K * touch.state.x;
-          this.state.y += K * touch.state.y;
-          this.state.dx += K * touch.state.dx;
-          this.state.dy += K * touch.state.dy;
-          this.state.u += K * touch.state.u;
-          this.state.v += K * touch.state.v;
-          this.state.du += K * touch.state.du;
-          this.state.dv += K * touch.state.dv;
-        }
-      }
-    });
-  }
-  get canMoveView() {
-    return super.canMoveView;
-  }
-  set canMoveView(v) {
-    if (this.touches) {
-      for (const touch of this.touches) {
-        touch.canMoveView = v;
-      }
-      super.canMoveView = v;
-    }
-  }
-  get enabled() {
-    return super.enabled;
-  }
-  set enabled(v) {
-    if (this.touches) {
-      for (const touch of this.touches) {
-        touch.enabled = v;
-      }
-    }
-    super.enabled = v;
-  }
-  update() {
-    const cam = resolveCamera(this.renderer, this.camera);
-    this.origin.setFromMatrixPosition(cam.matrixWorld);
-    this.direction.set(this.state.u, -this.state.v, 0.5).unproject(cam).sub(this.origin).normalize();
-  }
-  isPressed(button) {
-    for (const touch of this.touches) {
-      if (touch.isPressed(button)) {
-        return true;
-      }
-    }
-    return false;
   }
 };
 
@@ -16481,7 +16333,7 @@ var EventSystem = class extends TypedEventBase {
         {
           const moveEvt = this.getEvent(pointer, "move", curHit);
           this.env.avatar.onMove(moveEvt);
-          this.env.cameraControl.onMove(moveEvt);
+          this.env.fovControl.onMove(moveEvt);
           if (isDefined(draggedHit)) {
             draggedObj.dispatchEvent(moveEvt.to3(draggedHit));
           } else if (isDefined(pressedHit)) {
@@ -16571,6 +16423,10 @@ var EventSystem = class extends TypedEventBase {
           }
         }
         break;
+      case "enter":
+      case "exit":
+        console.log(pointer, eventType);
+        break;
       default:
         assertNever(eventType);
     }
@@ -16578,20 +16434,12 @@ var EventSystem = class extends TypedEventBase {
   }
   getEvent(pointer, type2, ...hits) {
     if (!this.pointerEvents.has(pointer)) {
-      const evts = /* @__PURE__ */ new Map([
-        ["move", new EventSystemEvent("move", pointer)],
-        ["enter", new EventSystemEvent("enter", pointer)],
-        ["exit", new EventSystemEvent("exit", pointer)],
-        ["up", new EventSystemEvent("up", pointer)],
-        ["down", new EventSystemEvent("down", pointer)],
-        ["click", new EventSystemEvent("click", pointer)],
-        ["dragstart", new EventSystemEvent("dragstart", pointer)],
-        ["drag", new EventSystemEvent("drag", pointer)],
-        ["dragend", new EventSystemEvent("dragend", pointer)]
-      ]);
-      this.pointerEvents.set(pointer, evts);
+      this.pointerEvents.set(pointer, /* @__PURE__ */ new Map());
     }
     const pointerEvents2 = this.pointerEvents.get(pointer);
+    if (!pointerEvents2.has(type2)) {
+      pointerEvents2.set(type2, new EventSystemEvent(type2, pointer));
+    }
     const evt = pointerEvents2.get(type2);
     if (hits.length > 0) {
       evt.hit = arrayScan(hits, isDefined);
@@ -20273,7 +20121,7 @@ var BaseEnvironment = class extends TypedEventBase {
       preserveDrawingBuffer: false
     });
     this.renderer.domElement.tabIndex = 1;
-    this.cameraControl = new CameraControl(this.camera);
+    this.fovControl = new CameraControl(this.camera);
     this.screenControl = new ScreenControl(this.renderer, this.camera, this.renderer.domElement.parentElement, enableFullResolution);
     this.fader = new Fader("ViewFader");
     this.worldUISpace = new BodyFollower("WorldUISpace", 0.2, 20, 0.125);
@@ -20334,7 +20182,7 @@ var BaseEnvironment = class extends TypedEventBase {
       }
       this.screenControl.resize();
       this.eventSystem.update();
-      this.cameraControl.update(evt.dt);
+      this.fovControl.update(evt.dt);
       this.avatar.update(evt.dt);
       this.worldUISpace.update(this.avatar.height, this.avatar.worldPos, this.avatar.worldHeading, evt.dt);
       this.fader.update(evt.dt);
@@ -20453,7 +20301,9 @@ var BaseEnvironment = class extends TypedEventBase {
   async loadModel(path, prog) {
     const loader = new GLTFLoader();
     const model = await loader.loadAsync(path, (evt) => {
-      prog.report(evt.loaded, evt.total, path);
+      if (isDefined(prog)) {
+        prog.report(evt.loaded, evt.total, path);
+      }
     });
     model.scene.traverse((m) => {
       if (isMesh(m)) {
